@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="一锅出" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<link rel="apple-touch-icon" href="icon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png" />
 <link rel="icon" href="icon.svg" />
 <style>
   * { box-sizing: border-box; }
@@ -519,6 +519,22 @@ const FOODS = [
   { id:'v-19', name:'菜籽油', category:'调味品', kcal:884, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:9.1 },
   { id:'v-20', name:'大豆油', category:'调味品', kcal:884, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:6.8 },
   { id:'v-21', name:'花生油', category:'调味品', kcal:884, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:0.3 },
+  // ===== V9 新增: 实测高频未命中的常见主料。来源「LLM填充·待成分表复核」——标准量级估填, 非逐条权威核对 =====
+  // 主食(生态, 每100g 生粮; 生米≠熟饭, 单列避免错配)
+  { id:'g-17', name:'大米（生）', category:'主食谷物', kcal:346, p:7.1, mg:34,  k:103, ca:8,  fe:1.1, zn:1.5, na:2,  vc:0, vd:0, fb:0.7, w3:0.03 },
+  { id:'g-18', name:'糙米（生）', category:'主食谷物', kcal:370, p:7.7, mg:143, k:223, ca:12, fe:2.2, zn:2.0, na:4,  vc:0, vd:0, fb:3.4, w3:0.05 },
+  { id:'g-19', name:'薏米（生）', category:'主食谷物', kcal:361, p:12.8,mg:88,  k:238, ca:42, fe:3.6, zn:1.7, na:3,  vc:0, vd:0, fb:2.0, w3:0.05 },
+  // 蔬菜 / 菌菇
+  { id:'s-50', name:'洋葱', category:'蔬菜', kcal:40, p:1.1, mg:10, k:146, ca:23, fe:0.2, zn:0.17, na:4, vc:7.4, vd:0,   fb:1.7, w3:0.01 },
+  { id:'s-51', name:'口蘑', category:'蔬菜', kcal:22, p:3.1, mg:9,  k:318, ca:3,  fe:0.5, zn:0.52, na:5, vc:2.1, vd:0.2, fb:1.0, w3:0 },
+  // 肉禽
+  { id:'m-13', name:'猪排骨', category:'肉禽', kcal:278, p:17, mg:18, k:230, ca:8, fe:0.9, zn:2.0, na:58, vc:0, vd:0.7, fb:0, w3:0.08 },
+  { id:'m-14', name:'牛里脊', category:'肉禽', kcal:122, p:20, mg:22, k:330, ca:5, fe:2.6, zn:3.7, na:55, vc:0, vd:0.1, fb:0, w3:0.03 },
+  // 水产 (虾仁: 基名「虾仁」可覆盖「虾仁(鲜)」等变体)
+  { id:'f-18', name:'虾仁', category:'水产', kcal:85, p:18, mg:34, k:180, ca:54, fe:1.8, zn:1.3, na:120, vc:0, vd:0.1, fb:0, w3:0.3 },
+  // 调味/其他 (有热量, 不归零)
+  { id:'v-22', name:'椰浆', category:'调味品', kcal:230, p:2.3, mg:37, k:263, ca:18, fe:3.3, zn:0.6, na:15, vc:1, vd:0, fb:2.2, w3:0 },
+  { id:'v-23', name:'植物油', category:'调味品', kcal:884, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:1.0 },
 ];
 
 function normFoodName(s) {
@@ -540,10 +556,36 @@ const FOOD_ALIAS = {
   '土豆丝':'s-13', '土豆片':'s-13', '马铃薯':'s-13', '洋芋':'s-13',
   '豆腐':'d-4', '老豆腐':'d-4', '北豆腐':'d-4', '嫩豆腐':'d-14', '南豆腐':'d-14',
   '圆白菜':'s-29', '卷心菜':'s-29', '包菜':'s-29',
+  // V9 主食生/熟钉死(alias 优先级最高, 防生米错配成熟饭)
+  '大米':'g-17', '生大米':'g-17', '稻米':'g-17',
+  '糙米':'g-18', '糙米(熟)':'g-2', '糙米饭':'g-2',
+  '薏米':'g-19', '薏仁':'g-19', '薏苡仁':'g-19',
+  // V9 常见变体 → 已有/新增条目(基名 alias 可顺带覆盖带括号写法)
+  '香菇':'s-15', '鲜香菇':'s-15',
+  '青菜':'s-22', '小白菜':'s-22', '小油菜':'s-22', '上海青':'s-22', '鸡毛菜':'s-22',
+  '玉米粒':'s-42', '甜玉米':'s-42', '甜玉米粒':'s-42',
+  '毛豆':'d-9', '毛豆米':'d-9', '毛豆仁':'d-9',
+  '青豆':'s-43', '青豌豆':'s-43', '豌豆粒':'s-43',
+  '甜椒':'s-11', '红甜椒':'s-11', '彩椒':'s-11', '灯笼椒':'s-11', '柿子椒':'s-11',
+  '肉末':'m-1', '猪肉末':'m-1', '猪瘦肉末':'m-1', '猪绞肉':'m-1', '猪肉馅':'m-1', '肉馅':'m-1',
+  '排骨':'m-13', '猪肋排':'m-13', '肋排':'m-13', '猪小排':'m-13', '小排':'m-13',
+  '牛里脊肉':'m-14', '牛柳':'m-14',
+  '基围虾仁':'f-18', '青虾仁':'f-18', '河虾仁':'f-18',
+  '洋葱碎':'s-50', '洋葱丁':'s-50',
+  '椰奶':'v-22', '椰汁':'v-22',
+  '食用油':'v-23', '色拉油':'v-23', '调和油':'v-23',
+  // V9 回测后补: 长尾近似映射(菌菇/豆腐就近归类)
+  '内酯豆腐':'d-14', '鸡腿菇':'s-46', '杏鲍菇':'s-46',
 };
+// V9 调味料归零: 用量小、营养可忽略的辅料统一按 0 贡献(不计入估算、不污染总营养)。油/盐另有处理思路, 见 task。
+const SEASONINGS = new Set(['盐','食盐','酱油','生抽','老抽','蒸鱼豉油','蚝油','料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','姜蓉','葱','葱花','香葱','小葱','大葱','葱段','葱姜','蒜','蒜末','蒜蓉','蒜泥','蒜瓣','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','小米辣','花椒','八角','桂皮','香叶','孜然','糖','白糖','冰糖','红糖','味精','鸡精','淀粉','生粉','玉米淀粉','水淀粉','芡粉','香油','芝麻油','枸杞','香菜','豆瓣酱','郫县豆瓣','番茄酱','沙拉酱','柠檬汁','鱼露','咖喱酱','青咖喱酱','红咖喱酱','青柠','柠檬','茶叶','普洱']);
+const SEASONING_STUB = { id:'_seasoning', name:'调味料', category:'调味品', seasoning:true, kcal:0, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:0 };
+function isSeasoning(name) { return SEASONINGS.has(normFoodName(name)) || SEASONINGS.has(baseFoodName(name)); }
 function lookupFoodNutrition(name) {
   const q = normFoodName(name);
   if (!q) return null;
+  // V9: 调味料 → 零贡献 stub(视为命中, 不算 AI 估算)
+  if (isSeasoning(name)) return SEASONING_STUB;
   // 0. 人工 alias (用 id, 不会因中文名细节而错)
   const aliasId = FOOD_ALIAS[q] || FOOD_ALIAS[baseFoodName(name)];
   if (aliasId) { const f = FOODS.find(x => x.id === aliasId); if (f) return f; }
@@ -564,18 +606,43 @@ function lookupFoodNutrition(name) {
 const STORE = (function () {
   const KEY = 'yiguochu_v1';
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
-  const save = (o) => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
+  const save = (o) => { try { localStorage.setItem(KEY, JSON.stringify(o)); return true; } catch (e) { return false; } };
   const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
+  const num = (v, fallback) => { const n = Number(v); return Number.isFinite(n) ? Math.round(n * 10) / 10 : (fallback || 0); };
+  const cleanNut = (o) => {
+    const out = {}; NUTRIENTS.forEach(n => { out[n.key] = num(o && o[n.key], 0); }); return out;
+  };
+  const dishSnapshot = (dish, ts) => {
+    const d = dish || {};
+    const ingredients = (d.ingredients || []).map(it => ({
+      name: String(it.name || '').trim(),
+      grams: num(it.grams, 0),
+      est: !!it.est,
+      nut: cleanNut(it.nut || {}),
+    })).filter(it => it.name && it.grams > 0);
+    return {
+      schema: 1, savedAt: ts, id: String(d.id || ''), name: String(d.name || '').trim(),
+      form: String(d.form || '').trim(), flavor: Array.isArray(d.flavor) ? d.flavor.map(String).slice(0, 5) : [],
+      minutes: num(d.minutes, 0), difficulty: num(d.difficulty, 0),
+      taste: String(d.taste || '').trim(), why: String(d.why || '').trim(),
+      hasFish: !!d.hasFish, vegCount: num(d.vegCount, 0), kcal: num(d.kcal, 0), protein: num(d.protein, 0),
+      targets: d._targets ? { ...d._targets } : null,
+      nutrients: cleanNut(d.nutrients || {}),
+      ingredients,
+      steps: Array.isArray(d.steps) ? d.steps.map(String).map(s => s.trim()).filter(Boolean).slice(0, 8) : [],
+    };
+  };
   return {
     getProfile: () => load().profile || null,
     saveProfile: (p) => { const s = load(); s.profile = p; save(s); },
-    recordChoice: (dish) => { const s = load(); s.choices = s.choices || []; s.choices.push({ date: today(), name: dish.name, hasFish: !!dish.hasFish, ings: (dish.ingredients || []).map(x => x.name) }); s.choices = s.choices.slice(-30); s.pending = { date: today(), name: dish.name }; s.lastFeedback = null; save(s); },
+    recordChoice: (dish) => { const s = load(); const ts = Date.now(); const snap = dishSnapshot(dish, ts); s.schemaVersion = 2; s.choices = s.choices || []; s.choices.push({ date: today(), ts, name: snap.name, hasFish: !!snap.hasFish, ings: snap.ingredients.map(x => x.name), snapshot: snap }); s.choices = s.choices.slice(-90); s.pending = { date: today(), name: snap.name }; s.lastFeedback = null; s.updatedAt = ts; if (!save(s)) { s.choices = s.choices.slice(-30).map(c => c.snapshot ? { ...c, snapshot: { ...c.snapshot, ingredients: c.snapshot.ingredients.map(i => ({ name: i.name, grams: i.grams, est: i.est })), nutrients: {}, targets: null } } : c); save(s); } },
     feedbackHint: () => { const fb = load().lastFeedback; if (!fb || fb.ate || !fb.reason) return ''; const m = { '食材不好买':'上次用户嫌食材不好买，这次只用常见、超市好买的食材。', '做起来太麻烦':'上次嫌太麻烦，这次更简单：步骤更少、食材更少、时间更短。', '临时不想吃':'上次那道没胃口，这次换个菜系和口味。', '步骤没看懂':'上次觉得步骤没看懂，这次每步写得更短更明确。' }; return m[fb.reason] || ''; },
     recordFeedback: (ate, reason) => { const s = load(); s.lastFeedback = { date: today(), ate: !!ate, reason: reason || null }; s.pending = null; save(s); },
     recentNames: (n) => { const c = (load().choices || []).map(x => x.name); const u = []; for (let i = c.length-1; i >= 0 && u.length < (n||6); i--) if (!u.includes(c[i])) u.push(c[i]); return u; },
     pendingFeedback: () => { const s = load(); return (s.pending && s.pending.date !== today()) ? s.pending : null; },
     recordNutritionChoice: (dish) => { const s = load(); s.nutriLog = s.nutriLog || []; s.nutriLog.push({ ts: Date.now(), n: dish.nutrients || {}, fish: !!dish.hasFish }); s.nutriLog = s.nutriLog.slice(-60); save(s); },
     getNutriLog: () => load().nutriLog || [],
+    exportForMigration: () => { const s = load(); return { key: KEY, schemaVersion: s.schemaVersion || 1, exportedAt: Date.now(), profile: s.profile || null, choices: s.choices || [], nutriLog: s.nutriLog || [], lastFeedback: s.lastFeedback || null }; },
     today,
   };
 })();
@@ -666,7 +733,7 @@ function ingredients() {
     const right = state.editing ?
       '<span class="ing-edit"><button class="stepper" data-bump="' + i + '" data-delta="-10">' + icon('minus',{size:14,sw:2.2}) + '</button><span class="ing-grams-ed">' + it.grams + 'g</span><button class="stepper" data-bump="' + i + '" data-delta="10">' + icon('plus',{size:14,sw:2.2}) + '</button><button class="del" data-del="' + i + '">' + icon('close',{size:14,sw:2}) + '</button></span>' :
       '<span class="ing-grams">' + it.grams + ' g</span>';
-    return '<li class="ing-row"><span class="ing-bullet"></span><span class="ing-name">' + esc(it.name) + (it.est ? '<span class="est-tag" title="AI 估算克数">估</span>' : '') + '</span>' + right + '</li>';
+    return '<li class="ing-row"><span class="ing-bullet"></span><span class="ing-name">' + esc(it.name) + (it.est ? '<span class="est-tag" title="此食材未收录营养库，营养值为 AI 估算，仅供参考">估</span>' : '') + '</span>' + right + '</li>';
   }).join('');
   return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3>' +
     '<button class="link-btn" data-act="toggle-edit">' + icon(state.editing ? 'check' : 'edit',{size:14,sw:1.9}) + (state.editing ? '完成' : '调整') + '</button></div>' +
@@ -697,7 +764,9 @@ function nutritionPanel(d) {
   const body = state.nutriOpen ?
     '<ul class="nutri-rows">' + rows.map(r => '<li class="nutri-row"><span class="nutri-dot status-' + r.status + '"></span><span class="nutri-label">' + esc(r.label) + '</span><span class="nutri-note">' + esc(r.note) + '</span><span class="nutri-status status-' + r.status + '">' + esc(TONE_TEXT[r.status]) + '</span></li>').join('') + '</ul>' :
     '<div class="nutri-summary">' + rows.slice(0,4).map(r => '<span class="nutri-mini status-' + r.status + '">' + esc(r.label) + ' <b>' + esc(r.value) + '</b></span>').join('') + '</div>';
-  return '<section class="block nutri-block">' + head + body + '</section>';
+  const estN = (d.ingredients || []).filter(i => i.est).length;
+  const estNote = estN ? '<p class="nutri-est-note" style="font-size:11px;color:var(--muted);margin:6px 14px 2px;line-height:1.5;">本餐 ' + estN + ' 项食材未收录营养库，数值为 AI 估算，仅供参考。</p>' : '';
+  return '<section class="block nutri-block">' + head + estNote + body + '</section>';
 }
 function resultScreen(fallback) {
   const d = state.dish;
@@ -751,7 +820,7 @@ function render() {
 }
 
 // ============ 流程 ============
-// 后端代理地址：本地用 localhost:8765；上线改成你的代理域名(https://...)，或在页面里设 window.YIGUOCHU_PROXY
+// 后端代理地址：本地用 localhost:8765；线上发布目录会改成同源空字符串，或在页面里设 window.YIGUOCHU_PROXY
 const PROXY_BASE = (typeof window !== 'undefined' && window.YIGUOCHU_PROXY) || 'http://localhost:8765';
 // 换一换意图 → 给模型的方向（照搬设计 generate.js 的 SWAP_HINT）
 const SWAP_HINT = {
@@ -847,7 +916,7 @@ function buildWeek() {
     takeaway: doneN ? ('这周做了 ' + doneN + ' 顿，吃到 ' + wk.size + ' 种食材，挺杂的，节奏不错。') : '这周还没开火——今天就从这一锅开始吧。' };
 }
 
-// 真实生成：POST 到本地 proxy /generate-meal，解析后映射
+// 真实生成：POST 到 proxy /generate-meal，解析后映射
 function scoreDish(d) {
   const t = d._targets || {}; let fails = 0;
   if ((d.steps || []).length > 4) fails++;
