@@ -22,7 +22,7 @@ for i in 1 2 3 4 5 6 7 8 9 10; do
 done
 
 # 默认浏览器打开 HTML
-open "今天吃什么-redesign.html"
+open "index.html"
 
 echo ""
 echo "✅ 启动完成。Terminal 窗口可以关掉, proxy 在后台跑。"
