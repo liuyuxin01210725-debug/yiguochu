@@ -1,0 +1,16 @@
+# Render 一键部署(Blueprint)：连仓库 → New > Blueprint → 选本仓库 → 填 DEEPSEEK_API_KEY → Apply
+services:
+  - type: web
+    name: yiguochu-proxy
+    runtime: python
+    plan: free
+    startCommand: python3 ai_proxy.py
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false          # 部署时在 Render 面板手动粘贴(不进仓库/不进代码)
+      - key: HOST
+        value: "0.0.0.0"
+      - key: ALLOW_ORIGIN
+        value: "*"           # 上线后改成你的前端域名, 如 https://yiguochu.pages.dev
+      - key: RATE_LIMIT
+        value: "50"          # 每 IP 每天上限, 按你愿付的 AI 账单调

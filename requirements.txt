@@ -1,0 +1,2 @@
+# ai_proxy.py 只用 Python 标准库，无需第三方依赖。
+# 此文件存在仅为让 Render / Railway 等平台把它识别为 Python 服务。

@@ -1,0 +1,19 @@
+{
+  "name": "一锅出 · 今天吃什么",
+  "short_name": "一锅出",
+  "description": "今天做一锅什么 — 30 秒给你一道愿意做的家常单品",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f2ea",
+  "theme_color": "#b5613a",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
