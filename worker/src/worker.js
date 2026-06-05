@@ -1,6 +1,49 @@
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 const RATE_BUCKETS = new Map();
 
+// ===== 第二层兜底: 台湾食药署食品营养成分库(权威, OGDL-Taiwan-1.0)。模型生成的食材做高置信匹配, 命中即覆盖为权威值。=====
+let TW_CACHE = null;
+function twNorm(s) { return String(s || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/\s+/g, ''); }
+function twBase(s) { return twNorm(s).replace(/\(.*$/, ''); }
+async function getTwLib(env, request) {
+  if (TW_CACHE) return TW_CACHE;
+  TW_CACHE = { idx: new Map(), size: 0 };
+  try {
+    if (!env.ASSETS) return TW_CACHE;
+    const u = new URL('/foods-tw.json', request.url);
+    const r = await env.ASSETS.fetch(new Request(u.toString()));
+    if (r && r.ok) {
+      const arr = await r.json();
+      for (const rec of arr) {
+        if (rec.n) { const k = twNorm(rec.n); if (!TW_CACHE.idx.has(k)) TW_CACHE.idx.set(k, rec); }
+        if (rec.a) for (const a of String(rec.a).split(/[,;、，]/)) { const t = twNorm(a); if (t && !TW_CACHE.idx.has(t)) TW_CACHE.idx.set(t, rec); }
+      }
+      TW_CACHE.size = arr.length;
+    }
+  } catch (_e) { /* 库不可用则跳过, 不影响生成 */ }
+  return TW_CACHE;
+}
+function twLookup(lib, name) {
+  const q = twNorm(name); if (!q || !lib.idx.size) return null;
+  let h = lib.idx.get(q); if (h) return h;                 // 1. 全名精确
+  const qb = twBase(name);                                 // 2. 去括号基名精确(且库项基名也相等)
+  if (qb.length >= 2) { h = lib.idx.get(qb); if (h && twBase(h.n) === qb) return h; }
+  return null;
+}
+async function enrichWithTw(meal, env, request) {
+  const lib = await getTwLib(env, request);
+  if (!lib.idx.size) return meal;
+  let matched = 0;
+  for (const ing of meal.ingredients) {
+    const hit = twLookup(lib, ing.name);
+    if (!hit) continue;
+    for (const key of NUTRIENT_KEYS) if (hit[key] != null) ing[key] = hit[key];
+    ing.auth = 'tw'; ing.authCode = hit.code; matched++;
+  }
+  meal._twMatched = matched;
+  return meal;
+}
+
 const RECIPE_SYSTEM = `你是家常菜专家+营养师, 熟悉《中国居民膳食指南(2022)》。
 你的任务: 生成一道【一日量】的简单家常单品(一锅/一碗即可吃完, 可分 1-2 顿), 一份基本覆盖全天营养主结构(主食+蛋白+多种蔬菜)。
 核心要求:
@@ -264,6 +307,7 @@ async function handleGenerate(request, env) {
   const data = JSON.parse(raw);
   const content = data?.choices?.[0]?.message?.content;
   const meal = normalizeMeal(parseModelJson(content), data.usage);
+  await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
   return jsonResponse(meal, 200, env);
 }
 
