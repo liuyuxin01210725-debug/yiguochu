@@ -770,7 +770,8 @@ function nutritionPanel(d) {
     '<div class="nutri-summary">' + rows.slice(0,4).map(r => '<span class="nutri-mini status-' + r.status + '">' + esc(r.label) + ' <b>' + esc(r.value) + '</b></span>').join('') + '</div>';
   const estN = (d.ingredients || []).filter(i => i.est).length;
   const estNote = estN ? '<p class="nutri-est-note" style="font-size:11px;color:var(--muted);margin:6px 14px 2px;line-height:1.5;">本餐 ' + estN + ' 项食材未收录营养库，数值为 AI 估算，仅供参考。</p>' : '';
-  return '<section class="block nutri-block">' + head + estNote + body + '</section>';
+  const srcNote = '<p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px 0;line-height:1.5;opacity:.75;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）</p>';
+  return '<section class="block nutri-block">' + head + estNote + body + srcNote + '</section>';
 }
 function resultScreen(fallback) {
   const d = state.dish;
