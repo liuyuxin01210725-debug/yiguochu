@@ -826,7 +826,8 @@ function render() {
 
 // ============ 流程 ============
 // 后端代理地址：本地用 localhost:8765；线上发布目录会改成同源空字符串，或在页面里设 window.YIGUOCHU_PROXY
-const PROXY_BASE = (typeof window !== 'undefined' && window.YIGUOCHU_PROXY) || 'http://localhost:8765';
+const PROXY_BASE = (typeof window !== 'undefined' && window.YIGUOCHU_PROXY)
+  || ((typeof location !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) ? 'http://localhost:8765' : '');
 // 换一换意图 → 给模型的方向（照搬设计 generate.js 的 SWAP_HINT）
 const SWAP_HINT = {
   flavor:'用户想换个口味：和当前这道明显不同的口味，难度和省事程度保持差不多。',

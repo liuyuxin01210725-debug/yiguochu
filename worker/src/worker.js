@@ -1,4 +1,6 @@
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
+// 每 100g 合理上限(防模型把"整道菜总量"误当每100g, 乘 grams 后营养暴涨)
+const NUTRIENT_MAX = { kcal: 900, p: 100, fb: 100, mg: 1200, k: 5000, ca: 1500, fe: 50, zn: 50, na: 40000, vc: 2000, vd: 50, w3: 60 };
 const RATE_BUCKETS = new Map();
 
 // ===== 第二层兜底: 台湾食药署食品营养成分库(权威, OGDL-Taiwan-1.0)。模型生成的食材做高置信匹配, 命中即覆盖为权威值。=====
@@ -121,9 +123,11 @@ function jsonResponse(data, status, env) {
 }
 
 function asList(value) {
-  if (Array.isArray(value)) return value.map(x => String(x).trim()).filter(Boolean);
-  if (typeof value === 'string') return value.replace(/[，、]/g, ',').split(',').map(x => x.trim()).filter(Boolean);
-  return [];
+  let arr = [];
+  if (Array.isArray(value)) arr = value.map(x => String(x).trim());
+  else if (typeof value === 'string') arr = value.replace(/[，、]/g, ',').split(',').map(x => x.trim());
+  // #12: 每项去换行 + 限长, 列表限项数, 防用户输入注入 prompt
+  return arr.map(x => x.replace(/[\r\n]+/g, ' ').slice(0, 20)).filter(Boolean).slice(0, 20);
 }
 
 function safeInt(value, fallback) {
@@ -238,7 +242,7 @@ function normalizeMeal(meal, usage) {
     const out = { name: String(item?.name || '').trim(), grams: safeInt(item?.grams, 0) };
     for (const key of NUTRIENT_KEYS) {
       const n = Number(item?.[key]);
-      out[key] = Number.isFinite(n) ? n : 0;
+      out[key] = Number.isFinite(n) ? Math.min(Math.max(n, 0), NUTRIENT_MAX[key] ?? n) : 0;
     }
     return out;
   }).filter(item => item.name && item.grams > 0);
@@ -306,7 +310,8 @@ async function handleGenerate(request, env) {
 
   const raw = await upstream.text();
   if (!upstream.ok) {
-    return jsonResponse({ error: `DeepSeek API HTTP ${upstream.status}`, detail: raw.slice(0, 500) }, 502, env);
+    console.error('DeepSeek upstream error', upstream.status, raw.slice(0, 300));
+    return jsonResponse({ error: '生成失败，请稍后再试' }, 502, env);
   }
 
   const data = JSON.parse(raw);
