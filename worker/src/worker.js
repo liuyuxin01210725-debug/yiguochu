@@ -186,7 +186,10 @@ function buildPrompt(mealName, targets, constraints) {
   if (constraints.balance_high_na) {
     constraintNote += '最近几餐钠偏高, 这一锅请少油少盐、少用腌制/酱料/加工肉。';
   }
-  if (constraints.swap_hint) constraintNote += String(constraints.swap_hint);
+  if (constraints.swap_hint) {
+    constraintNote += String(constraints.swap_hint);
+    if (pantry.length) constraintNote += `（换做法/菜系时，仍要保留并用上家里的食材：${pantry.join('、')}）`;
+  }
   if (constraints.feedback_hint) constraintNote += String(constraints.feedback_hint);
 
   let excludeNote = '';

@@ -185,6 +185,16 @@
   .field { display: flex; flex-direction: column; gap: 8px; }
   .field-label { font-size: 13px; font-weight: 600; color: var(--ink); }
   .field-hint { font-size: 12px; color: var(--muted); }
+  /* V10: 首页常见食材 chips + 换一换食材条 */
+  .field-label-aside { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .pantry-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; }
+  .pantry-chip { border: 1px solid var(--line); background: #fff; color: var(--ink-2); border-radius: 999px; padding: 5px 11px; font-size: 12.5px; cursor: pointer; font-family: inherit; transition: all 0.12s; }
+  .pantry-chip.on { background: var(--clay); color: #fff; border-color: var(--clay); }
+  .swap-pantry { display: flex; align-items: center; gap: 7px; margin: 9px 0 11px; padding: 8px 11px; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
+  .swap-pantry-lbl { font-size: 12px; color: var(--muted); font-weight: 500; flex-shrink: 0; }
+  .swap-pantry-val { flex: 1; font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .swap-pantry-btn { flex-shrink: 0; border: none; background: var(--surface-2); color: var(--clay); border-radius: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .swap-pantry.editing .text-input { flex: 1; padding: 8px 11px; font-size: 13.5px; }
   .segmented { display: flex; gap: 4px; background: var(--surface-2); border-radius: 11px; padding: 3px; }
   .seg { flex: 1; border: none; background: none; padding: 8px 6px; border-radius: 8px; font-size: 13.5px; color: var(--ink-2); font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.12s; white-space: nowrap; }
   .seg.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
@@ -682,6 +692,7 @@ const GOAL_TEXT = { normal:'普通健康', cut:'减脂', bulk:'增肌' };
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
 const TONE_TEXT = { enough:'够了', soft:'偏少 · 看一周', week:'看习惯' };
 const DEFAULT_PROFILE = { goal:'normal', sex:'female', age:'31', weight:'58', pantry:'', dislikes:'' };
+const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','青椒','茄子','菠菜','玉米','金针菇'];
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
 
 // 营养行（示意；下一步换成后端真实计算）
@@ -702,7 +713,7 @@ function nutriFor(d) {
 // ---- 视图状态 ----
 const state = {
   view:'profile', dish:DISHES[0], week:JSON.parse(JSON.stringify(WEEK)),
-  chosen:false, swapOpen:false, editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
+  chosen:false, swapOpen:false, swapPantryEdit:false, editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
   genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'',
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
@@ -711,7 +722,11 @@ const state = {
 function photoSlot() { return '<div class="photo-slot" role="img"><div class="photo-stripes"></div><span class="photo-cap">菜品照 · 之后替换</span></div>'; }
 function dishHeader(d, fallback) {
   const intents = [['flavor','换个口味'],['cuisine','换个菜系'],['lighter','清淡点'],['easier','想省事'],['protein','换种蛋白']];
-  const tray = state.swapOpen ? ('<div class="swap-tray"><div class="swap-cap">想换成什么样的？</div><div class="swap-chips">' +
+  const pantryItems = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
+  const pantryBar = state.swapPantryEdit
+    ? '<div class="swap-pantry editing"><input class="text-input" id="swap-pantry-input" value="' + esc(state.profile.pantry || '') + '" placeholder="家里有/想用掉，逗号分隔"><button class="swap-pantry-btn" data-act="save-swap-pantry">存</button></div>'
+    : '<div class="swap-pantry"><span class="swap-pantry-lbl">用掉</span><span class="swap-pantry-val">' + (pantryItems.length ? esc(pantryItems.join(' / ')) : '随便，没指定') + '</span><button class="swap-pantry-btn" data-act="edit-swap-pantry">改</button></div>';
+  const tray = state.swapOpen ? ('<div class="swap-tray"><div class="swap-cap">想换成什么样的？换菜会一直带着家里的食材。</div>' + pantryBar + '<div class="swap-chips">' +
     intents.map(it => '<button class="swap-chip" data-swap="' + it[0] + '">' + esc(it[1]) + '</button>').join('') +
     '<button class="swap-chip swap-any" data-swap="any">' + icon('refresh',{size:13,sw:1.9}) + '随便换一个</button></div></div>') : '';
   const actions = fallback ? '' : (
@@ -783,6 +798,7 @@ function resultScreen(fallback) {
 }
 function profileScreen() {
   const p = state.profile;
+  const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
   const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">做一锅 / 一碗主餐，再配两样，少想一点。</p></header>';
   const seg = (field, opts) => '<div class="segmented">' + opts.map(o => '<button class="seg' + (p[field]===o[0] ? ' on' : '') + '" data-seg="' + field + '" data-val="' + o[0] + '">' + esc(o[1]) + '</button>').join('') + '</div>';
   let body;
@@ -796,7 +812,7 @@ function profileScreen() {
       '<div class="field"><label class="field-label">关于你</label><div class="mini-row">' + seg('sex',[['female','女'],['male','男']]) +
       '<div class="num-field"><input class="num-input" id="pf-age" inputmode="numeric" value="' + esc(p.age) + '"><span class="num-unit">岁</span></div>' +
       '<div class="num-field"><input class="num-input" id="pf-weight" inputmode="numeric" value="' + esc(p.weight) + '"><span class="num-unit">kg</span></div></div></div>' +
-      '<div class="field"><label class="field-label">家里有 / 想用掉</label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">点麦克风说出来也行，比如「香菇 鸡腿 剩米饭」。</span></div>' +
+      '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">点一下就加，换菜时一直带着</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + COMMON_PANTRY.map(f => '<button class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '+ ') + esc(f) + '</button>').join('') + '</div><span class="field-hint">点麦克风说出来也行；或点上面常见食材一键加。</span></div>' +
       '<div class="field"><label class="field-label">不吃</label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="留空 = 不排除"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div></div></section>';
   }
   const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>生成今天这顿</span></button><p class="privacy-note">档案存在你这台设备本地。生成时只把<strong>营养目标、食材和偏好</strong>交给 AI，年龄体重不直接传出。</p></div>';
@@ -952,7 +968,9 @@ async function fetchRealDish(opts) {
   });
   if (state.dish && Array.isArray(state.dish.ingredients)) collectProteins(state.dish.ingredients);
   try { ((JSON.parse(localStorage.getItem('yiguochu_v1') || '{}').choices) || []).slice(-4).forEach(c => collectProteins(c.snapshot && c.snapshot.ingredients)); } catch (e) {}
-  const recentProteins = [...proteinSet].slice(0, 10);
+  // pantry(想用掉)的食材绝不进"轮换排除"名单, 否则换一换会把你想用掉的食材也避开
+  const pantryNorm = new Set(splitC(p.pantry).map(x => normFoodName(x)));
+  const recentProteins = [...proteinSet].filter(x => !pantryNorm.has(normFoodName(x))).slice(0, 10);
   const cookedAny = !!(state.week && state.week.days && state.week.days.some(d => d.cooked === true));
   const body = { meal_name: '今日推荐 (一日量, 可分 1-2 顿吃)', targets, constraints: {
     diet: 'omnivore', pantry: splitC(p.pantry), dislikes: splitW(p.dislikes),
@@ -1054,11 +1072,12 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (state.feedbackOpen) {
     if ((e.target.classList && e.target.classList.contains('modal-scrim')) || e.target.closest('.fb-skip')) { state.feedbackOpen = false; render(); return; }
   }
-  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-supp],[data-seg],[data-fbreason],[data-mic]');
+  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-supp],[data-seg],[data-fbreason],[data-mic],[data-pantry-chip]');
   if (!t) return;
   if (t.dataset.mic) { startVoice(t.dataset.mic); return; }
   const act = t.dataset.act;
   if (t.dataset.seg) { syncProfileInputs(); state.profile[t.dataset.seg] = t.dataset.val; render(); return; }
+  if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
   if (t.dataset.fbreason) { state.feedbackPicked = t.dataset.fbreason; STORE.recordFeedback(false, t.dataset.fbreason); render(); setTimeout(() => { state.feedbackOpen = false; render(); }, 500); return; }
   if (t.dataset.swap) { state.swapOpen = false; runGenerate({ swap: t.dataset.swap }); return; }
   if (t.dataset.bump != null) { const i = +t.dataset.bump; state.items[i].grams = Math.max(0, state.items[i].grams + (+t.dataset.delta)); syncDishFromItems(); render(); return; }
@@ -1067,7 +1086,9 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (act === 'edit-profile') { state.profileEditing = true; render(); }
   else if (act === 'collapse-profile') { syncProfileInputs(); state.profileEditing = false; render(); }
   else if (act === 'generate') { syncProfileInputs(); STORE.saveProfile(state.profile); runGenerate({ profile: state.profile }); }
-  else if (act === 'swap') { state.swapOpen = !state.swapOpen; render(); }
+  else if (act === 'swap') { state.swapOpen = !state.swapOpen; state.swapPantryEdit = false; render(); }
+  else if (act === 'edit-swap-pantry') { state.swapPantryEdit = true; render(); }
+  else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
   else if (act === 'choose') choose();
   else if (act === 'toggle-edit') { state.editing = !state.editing; render(); }
   else if (act === 'add-ing') { state.items.push({ name:'新食材', grams:50, est:true, nut:{} }); syncDishFromItems(); render(); }
