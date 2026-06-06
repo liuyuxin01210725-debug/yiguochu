@@ -188,8 +188,15 @@
   /* V10: 首页常见食材 chips + 换一换食材条 */
   .field-label-aside { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 4px; }
   .pantry-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; }
-  .pantry-chip { border: 1px solid var(--line); background: #fff; color: var(--ink-2); border-radius: 999px; padding: 5px 11px; font-size: 12.5px; cursor: pointer; font-family: inherit; transition: all 0.12s; }
+  .pantry-chip { display: inline-flex; align-items: center; border: 1px solid var(--line); background: #fff; color: var(--ink-2); border-radius: 999px; font-size: 12.5px; font-family: inherit; transition: all 0.12s; }
   .pantry-chip.on { background: var(--clay); color: #fff; border-color: var(--clay); }
+  .pchip-sel { border: none; background: none; color: inherit; font: inherit; padding: 5px 4px 5px 11px; cursor: pointer; }
+  .pchip-del { border: none; background: none; color: inherit; opacity: .45; font-size: 14px; line-height: 1; padding: 5px 9px 5px 3px; cursor: pointer; }
+  .pchip-del:hover { opacity: .95; }
+  button.pantry-chip.pchip-add { color: var(--clay); border-style: dashed; padding: 5px 13px; cursor: pointer; }
+  .pantry-chip.adding { padding: 1px 3px 1px 9px; }
+  .pchip-input { border: none; outline: none; font: inherit; width: 66px; background: none; color: var(--ink); }
+  .pchip-addbtn { color: var(--clay); font-weight: 600; padding: 5px 10px; }
   .swap-pantry { display: flex; align-items: center; gap: 7px; margin: 9px 0 11px; padding: 8px 11px; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
   .swap-pantry-lbl { font-size: 12px; color: var(--muted); font-weight: 500; flex-shrink: 0; }
   .swap-pantry-val { flex: 1; font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -713,7 +720,7 @@ function nutriFor(d) {
 // ---- 视图状态 ----
 const state = {
   view:'profile', dish:DISHES[0], week:JSON.parse(JSON.stringify(WEEK)),
-  chosen:false, swapOpen:false, swapPantryEdit:false, editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
+  chosen:false, swapOpen:false, swapPantryEdit:false, addingFood:false, editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
   genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'',
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
@@ -799,6 +806,7 @@ function resultScreen(fallback) {
 function profileScreen() {
   const p = state.profile;
   const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
+  const myFoods = (Array.isArray(p.myFoods) && p.myFoods.length) ? p.myFoods : COMMON_PANTRY;
   const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">做一锅 / 一碗主餐，再配两样，少想一点。</p></header>';
   const seg = (field, opts) => '<div class="segmented">' + opts.map(o => '<button class="seg' + (p[field]===o[0] ? ' on' : '') + '" data-seg="' + field + '" data-val="' + o[0] + '">' + esc(o[1]) + '</button>').join('') + '</div>';
   let body;
@@ -812,7 +820,7 @@ function profileScreen() {
       '<div class="field"><label class="field-label">关于你</label><div class="mini-row">' + seg('sex',[['female','女'],['male','男']]) +
       '<div class="num-field"><input class="num-input" id="pf-age" inputmode="numeric" value="' + esc(p.age) + '"><span class="num-unit">岁</span></div>' +
       '<div class="num-field"><input class="num-input" id="pf-weight" inputmode="numeric" value="' + esc(p.weight) + '"><span class="num-unit">kg</span></div></div></div>' +
-      '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">点一下就加，换菜时一直带着</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + COMMON_PANTRY.map(f => '<button class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '+ ') + esc(f) + '</button>').join('') + '</div><span class="field-hint">点麦克风说出来也行；或点上面常见食材一键加。</span></div>' +
+      '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">点一下就加，换菜时一直带着</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button><button class="pchip-del" data-del-myfood="' + esc(f) + '" title="从常用删掉">×</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">点麦克风说出来也行；或点上面常见食材一键加。</span></div>' +
       '<div class="field"><label class="field-label">不吃</label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="留空 = 不排除"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div></div></section>';
   }
   const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>生成今天这顿</span></button><p class="privacy-note">档案存在你这台设备本地。生成时只把<strong>营养目标、食材和偏好</strong>交给 AI，年龄体重不直接传出。</p></div>';
@@ -1072,12 +1080,13 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (state.feedbackOpen) {
     if ((e.target.classList && e.target.classList.contains('modal-scrim')) || e.target.closest('.fb-skip')) { state.feedbackOpen = false; render(); return; }
   }
-  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-supp],[data-seg],[data-fbreason],[data-mic],[data-pantry-chip]');
+  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-supp],[data-seg],[data-fbreason],[data-mic],[data-pantry-chip],[data-del-myfood]');
   if (!t) return;
   if (t.dataset.mic) { startVoice(t.dataset.mic); return; }
   const act = t.dataset.act;
   if (t.dataset.seg) { syncProfileInputs(); state.profile[t.dataset.seg] = t.dataset.val; render(); return; }
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
+  if (t.dataset.delMyfood) { syncProfileInputs(); const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods : COMMON_PANTRY; state.profile.myFoods = base.filter(x => x !== t.dataset.delMyfood); STORE.saveProfile(state.profile); render(); return; }
   if (t.dataset.fbreason) { state.feedbackPicked = t.dataset.fbreason; STORE.recordFeedback(false, t.dataset.fbreason); render(); setTimeout(() => { state.feedbackOpen = false; render(); }, 500); return; }
   if (t.dataset.swap) { state.swapOpen = false; runGenerate({ swap: t.dataset.swap }); return; }
   if (t.dataset.bump != null) { const i = +t.dataset.bump; state.items[i].grams = Math.max(0, state.items[i].grams + (+t.dataset.delta)); syncDishFromItems(); render(); return; }
@@ -1089,6 +1098,8 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'swap') { state.swapOpen = !state.swapOpen; state.swapPantryEdit = false; render(); }
   else if (act === 'edit-swap-pantry') { state.swapPantryEdit = true; render(); }
   else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
+  else if (act === 'add-myfood') { syncProfileInputs(); state.addingFood = true; render(); setTimeout(() => { const el = document.getElementById('add-food-input'); if (el) el.focus(); }, 0); }
+  else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
   else if (act === 'choose') choose();
   else if (act === 'toggle-edit') { state.editing = !state.editing; render(); }
   else if (act === 'add-ing') { state.items.push({ name:'新食材', grams:50, est:true, nut:{} }); syncDishFromItems(); render(); }
