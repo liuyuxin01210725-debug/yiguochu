@@ -52,6 +52,7 @@ const RECIPE_SYSTEM = `你是家常菜专家+营养师, 熟悉《中国居民膳
 - 一锅煮 OR 电饭锅 OR 简单炒制 OR 蒸; 烹饪要简单可行。
 - 硬约束: 总时长 <= 40 分钟, 做法 <= 4 步, 难度 <= 2; 优先电饭锅/一锅出, 不要另起锅做第二道菜。
 - 营养尽量贴近全天目标; 蛋白/纤维/钙优先; 不要奇葩组合。
+- **主蛋白必须轮换**: 在 鱼/虾/鸡/鸭/猪/牛/蛋/豆制品 之间换着来, 不要连续几次或总是同一种, **尤其不要默认三文鱼**; 一道菜主蛋白选 1-2 种即可。
 - 食材至少 8-10 种, 含主食 + 蛋白 + 3-5 种不同颜色/类型的蔬菜。
 - 蔬菜总量尽量 >= 300g, 含绿叶菜、浅色蔬菜、根茎、菌菇、豆荚等不同类型。
 - 一道菜总重 800-1500g, 用户可分 1-2 顿吃。
@@ -167,7 +168,7 @@ function buildPrompt(mealName, targets, constraints) {
   if (dislikes.length) constraintNote += `不吃: ${dislikes.join(',')}。`;
 
   if (constraints.week_fish_short) {
-    constraintNote += '本周吃鱼偏少, 这一锅请优先安排一道含鱼或海鲜的菜饭(挑一种最近没吃过的)。';
+    constraintNote += '本周可安排一次鱼或海鲜即可(膳食指南建议每周≥2次, 但不必每餐都安排鱼); 若这餐安排鱼, 挑一种最近没吃过的鱼虾贝, 不要默认三文鱼。';
   }
 
   const balanceLow = asList(constraints.balance_low);

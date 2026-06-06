@@ -941,9 +941,22 @@ async function fetchRealDish(opts) {
   const recent = STORE.recentNames(6);
   if (swap && state.dish && state.dish.name) recent.unshift(state.dish.name);
   const bh = balancingHints(targets);
+  // V10: 收集最近用过的主蛋白(当前菜 + 本地历史最近几道), 传后台让它轮换避开, 防止总是同一种(如三文鱼)
+  const PROTEIN_RE = /鱼|虾|蟹|贝|蛤|蚝|鱿|鸡|鸭|鹅|猪|牛|羊|蛋|豆腐|腐竹|豆干|豆皮|毛豆/;
+  const proteinSet = new Set();
+  const collectProteins = items => (items || []).forEach(it => {
+    const nm = (it && it.name) || ''; if (!nm) return;
+    const f = lookupFoodNutrition(nm); const cat = f && f.category;
+    if (cat === '肉禽' || cat === '水产' || cat === '蛋类' || PROTEIN_RE.test(nm)) proteinSet.add(nm);
+  });
+  if (state.dish && Array.isArray(state.dish.ingredients)) collectProteins(state.dish.ingredients);
+  try { ((JSON.parse(localStorage.getItem('yiguochu_v1') || '{}').choices) || []).slice(-4).forEach(c => collectProteins(c.snapshot && c.snapshot.ingredients)); } catch (e) {}
+  const recentProteins = [...proteinSet].slice(0, 10);
+  const cookedAny = !!(state.week && state.week.days && state.week.days.some(d => d.cooked === true));
   const body = { meal_name: '今日推荐 (一日量, 可分 1-2 顿吃)', targets, constraints: {
     diet: 'omnivore', pantry: splitC(p.pantry), dislikes: splitW(p.dislikes),
-    recent_dishes: recent, week_fish_short: state.week.fishDone < state.week.fishTarget,
+    recent_dishes: recent, week_fish_short: cookedAny && state.week.fishDone < state.week.fishTarget,
+    recent_ingredients: recentProteins.length ? { recent_proteins: recentProteins, window_size: recentProteins.length } : undefined,
     swap_hint: swap ? SWAP_HINT[swap] : '',
     feedback_hint: STORE.feedbackHint(),
     balance_low: bh ? bh.low.map(x => x.name + '(可用' + x.foods + ')') : [],
