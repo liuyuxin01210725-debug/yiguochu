@@ -59,7 +59,7 @@
 ## 部署（详见 `部署说明.md`）
 
 Cloudflare Pages 同源部署。简版：
-1. 重建 `dist/`：复制前端文件 + `worker/src/worker.js`→`dist/_worker.js`，并把 `dist/index.html` 的 `PROXY_BASE` 改成同源 `''`。
+1. 重建 `dist/`：复制前端文件 + `tools/data/foods-tw.json`(worker 第二层库, 不复制会丢台湾库兜底) + `worker/src/worker.js`→`dist/_worker.js`；给 `dist/sw.js` 缓存版本注入时间戳(自动清旧缓存)。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
 2. `npx wrangler pages deploy dist --project-name yiguochu --branch main --commit-dirty=true --commit-message "..."`
 3. ⚠️ `--commit-message` 必须用 **ASCII**——git 历史里有中文，wrangler 自动读取会触发 Cloudflare 的 "Invalid commit message, must be valid UTF-8" 报错。
 4. `dist/` 和 `worker/.wrangler/` 已 gitignore，不提交。
