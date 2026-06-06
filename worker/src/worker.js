@@ -352,7 +352,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env) });
     if (request.method === 'GET' && url.pathname === '/health') {
-      return jsonResponse({ status: 'ok', provider: 'deepseek', model: env.MODEL_NAME || 'deepseek-chat' }, 200, env);
+      return jsonResponse({ status: 'ok', provider: 'deepseek', model: env.MODEL_NAME || 'deepseek-chat', budget: env.RATE_KV ? 'kv' : 'memory' }, 200, env);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {
       try {
