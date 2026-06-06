@@ -999,7 +999,12 @@ async function fetchRealDish(opts) {
     if (res._error || !Array.isArray(res.ingredients) || res.ingredients.length < 3) throw new Error(res._error || 'bad-shape');
     return mapDish(res, targets);
   };
-  const first = await once();
+  // 大陆网络到 Cloudflare 偶发不稳: first 失败自动重试(共最多3次)再退兜底, 把网络抖动吃掉
+  let first = null, lastErr;
+  for (let a = 0; a < 3 && !first; a++) {
+    try { first = await once(); } catch (e) { lastErr = e; if (a < 2) await new Promise(r => setTimeout(r, 700)); }
+  }
+  if (!first) throw lastErr;
   const s1 = scoreDish(first);
   if (s1.ok) return first;
   let second; try { second = await once(); } catch (e) { return first; }
