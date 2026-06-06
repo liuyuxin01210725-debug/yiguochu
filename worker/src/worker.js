@@ -177,7 +177,7 @@ function buildPrompt(mealName, targets, constraints) {
   }
 
   const dislikes = asList(constraints.dislikes);
-  if (dislikes.length) constraintNote += `不吃: ${dislikes.join(',')}。`;
+  if (dislikes.length) constraintNote += `不吃/过敏(务必严格避开, 含同类与微量也不要用): ${dislikes.join('、')}。`;
 
   if (constraints.week_fish_short) {
     constraintNote += '本周可安排一次鱼或海鲜即可(膳食指南建议每周≥2次, 但不必每餐都安排鱼); 若这餐安排鱼, 挑一种最近没吃过的鱼虾贝, 不要默认三文鱼。';
@@ -287,9 +287,27 @@ function rateOk(request, env) {
   return true;
 }
 
+// 全局每日预算熔断(跨实例真熔断, 需在 Cloudflare Pages 绑 KV namespace 为 RATE_KV)。
+// 无 KV binding 时降级返回 ok(靠 rateOk 内存限流), KV 异常也不阻断生成。
+async function budgetConsume(env) {
+  if (!env.RATE_KV) return { ok: true, degraded: true };
+  try {
+    const day = shanghaiParts(new Date()).day;
+    const key = 'budget:' + day;
+    const cap = safeInt(env.DAILY_BUDGET, 300);
+    const used = parseInt((await env.RATE_KV.get(key)) || '0', 10) || 0;
+    if (used >= cap) return { ok: false };
+    await env.RATE_KV.put(key, String(used + 1), { expirationTtl: 172800 });
+    return { ok: true };
+  } catch (_e) { return { ok: true, degraded: true }; }
+}
+
 async function handleGenerate(request, env) {
+  const t0 = Date.now();
   if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env);
   if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env);
+  const budget = await budgetConsume(env);
+  if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env);
 
   const req = await request.json().catch(() => ({}));
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
@@ -325,6 +343,7 @@ async function handleGenerate(request, env) {
   const content = data?.choices?.[0]?.message?.content;
   const meal = normalizeMeal(parseModelJson(content), data.usage);
   await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
+  console.log(JSON.stringify({ evt: 'gen', ok: true, tokens: meal._tokens || 0, tw: meal._twMatched || 0, n: (meal.ingredients || []).length, ms: Date.now() - t0 }));
   return jsonResponse(meal, 200, env);
 }
 
