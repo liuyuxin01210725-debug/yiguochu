@@ -799,7 +799,7 @@ function resultScreen(fallback) {
   const d = state.dish;
   const notice = state.notice ? '<div class="gen-notice">' + icon('pin',{size:15,sw:1.7,stroke:'#c08a3e'}) + '<span>' + esc(state.notice) + '</span></div>' : '';
   if (fallback) {
-    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">' + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">现在是兜底清单，不是 AI 菜谱</div><p class="fb-banner-text">本地 AI 没启动，下面只是把营养凑齐的食材搭配，未必好吃。想要真正的菜谱，启动一下本地小助手再试。</p></div></div><button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>启动后再试一次</span></button></section>' + dishHeader(d, true) + ingredients() + supplementBlock(state.week) + nutritionPanel(d) + '</div>';
+    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">' + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">这次没生成出来</div><p class="fb-banner-text">可能网络不稳或服务繁忙。下面先给一个营养凑齐的应急搭配；点下面「再试一次」，通常就好了。</p></div></div><button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>再试一次</span></button></section>' + dishHeader(d, true) + ingredients() + supplementBlock(state.week) + nutritionPanel(d) + '</div>';
   }
   return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + whyFits(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + supplementBlock(state.week) + nutritionPanel(d) + '</div><div class="result-foot">数据都存在你这台设备上，没有账号，也不上传。</div></div>';
 }
@@ -990,7 +990,7 @@ async function fetchRealDish(opts) {
     balance_high_na: bh ? bh.highNa : false,
   } };
   const once = async () => {
-    const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 30000);
+    const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 45000);
     let r;
     try { r = await fetch(PROXY_BASE + '/generate-meal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal }); }
     finally { clearTimeout(tid); }
