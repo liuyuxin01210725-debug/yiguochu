@@ -852,7 +852,7 @@ function mapDish(res, targets) {
   let vegMatched = 0, fishMatched = false;
   const ings = (res.ingredients || []).filter(x => x && x.name).slice(0, 12).map(x => {
     const g = +x.grams || 0;
-    const auth = x.auth === 'tw';                 // worker 已用台湾权威库(OGDL)覆盖营养
+    const auth = x.auth === 'tw' && !isSeasoning(x.name);  // 台湾权威覆盖; 但调味料强制走归零, 不被高钠权威值(酱油/蚝油/味精)污染
     const db = lookupFoodNutrition(x.name);       // 本地库: 提供分类 + 离线兜底
     if (db) { if (db.category === '蔬菜' && db.form !== 'dry') vegMatched++; if (db.category === '水产') fishMatched = true; }
     else if (auth && FISH_RE.test(x.name)) fishMatched = true;

@@ -30,11 +30,15 @@ function twLookup(lib, name) {
   if (qb.length >= 2) { h = lib.idx.get(qb); if (h && twBase(h.n) === qb) return h; }
   return null;
 }
+// 调味料集合: 这些即使台湾库命中也不覆盖(其高钠权威值不应计入营养, 与前端 isSeasoning 归零一致)
+const TW_SEASONING = new Set(['盐','食盐','酱油','生抽','老抽','蒸鱼豉油','蚝油','料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','葱','葱花','香葱','小葱','大葱','蒜','蒜末','蒜蓉','蒜泥','蒜头','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','花椒','八角','桂皮','香叶','孜然','糖','白糖','冰糖','红糖','味精','鸡精','淀粉','生粉','玉米淀粉','水淀粉','香油','芝麻油','豆瓣酱','郫县豆瓣','番茄酱','鱼露','咖喱酱','油','食用油','色拉油','调和油']);
+function twIsSeasoning(name) { return TW_SEASONING.has(twNorm(name)) || TW_SEASONING.has(twBase(name)); }
 async function enrichWithTw(meal, env, request) {
   const lib = await getTwLib(env, request);
   if (!lib.idx.size) return meal;
   let matched = 0;
   for (const ing of meal.ingredients) {
+    if (twIsSeasoning(ing.name)) continue; // 调味料不覆盖: 避免酱油/蚝油/味精的高钠权威值漏进营养
     const hit = twLookup(lib, ing.name);
     if (!hit) continue;
     for (const key of NUTRIENT_KEYS) if (hit[key] != null) ing[key] = hit[key];
@@ -97,7 +101,7 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
 
 function corsHeaders(env) {
   return {
-    'Access-Control-Allow-Origin': env.ALLOW_ORIGIN || '*',
+    'Access-Control-Allow-Origin': env.ALLOW_ORIGIN || 'https://yiguochu.pages.dev',
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
