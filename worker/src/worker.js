@@ -122,6 +122,10 @@ function jsonResponse(data, status, env) {
   });
 }
 
+function errorResponse(code, message, status, env, extra = {}) {
+  return jsonResponse({ error: message, code, ...extra }, status, env);
+}
+
 function asList(value) {
   let arr = [];
   if (Array.isArray(value)) arr = value.map(x => String(x).trim());
@@ -267,7 +271,7 @@ function normalizeMeal(meal, usage) {
 }
 
 function rateOk(request, env) {
-  const limit = safeInt(env.RATE_LIMIT, 50);
+  const limit = safeInt(env.RATE_LIMIT, 300);
   if (limit <= 0) return true;
   const ip = request.headers.get('CF-Connecting-IP') || request.headers.get('X-Forwarded-For') || 'unknown';
   const day = shanghaiParts(new Date()).day;
@@ -284,8 +288,8 @@ function rateOk(request, env) {
 }
 
 async function handleGenerate(request, env) {
-  if (!env.DEEPSEEK_API_KEY) return jsonResponse({ error: 'DEEPSEEK_API_KEY 未配置' }, 500, env);
-  if (!rateOk(request, env)) return jsonResponse({ error: '今天生成次数到上限了，明天再来～' }, 429, env);
+  if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env);
+  if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env);
 
   const req = await request.json().catch(() => ({}));
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
@@ -314,7 +318,7 @@ async function handleGenerate(request, env) {
   const raw = await upstream.text();
   if (!upstream.ok) {
     console.error('DeepSeek upstream error', upstream.status, raw.slice(0, 300));
-    return jsonResponse({ error: '生成失败，请稍后再试' }, 502, env);
+    return errorResponse('upstream_http', '生成服务临时失败，请稍后再试', 502, env, { upstreamStatus: upstream.status });
   }
 
   const data = JSON.parse(raw);
@@ -335,7 +339,8 @@ export default {
       try {
         return await handleGenerate(request, env);
       } catch (err) {
-        return jsonResponse({ error: err?.message || String(err) }, 500, env);
+        console.error('generate worker error', err?.message || String(err));
+        return errorResponse('worker_error', '生成服务临时异常，请稍后再试', 500, env);
       }
     }
     if (env.ASSETS) return env.ASSETS.fetch(request);

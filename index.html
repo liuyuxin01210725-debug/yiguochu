@@ -721,7 +721,7 @@ function nutriFor(d) {
 const state = {
   view:'profile', dish:DISHES[0], week:JSON.parse(JSON.stringify(WEEK)),
   chosen:false, swapOpen:false, swapPantryEdit:false, addingFood:false, editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
-  genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'',
+  genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'', lastGenError:null,
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
 
@@ -799,7 +799,8 @@ function resultScreen(fallback) {
   const d = state.dish;
   const notice = state.notice ? '<div class="gen-notice">' + icon('pin',{size:15,sw:1.7,stroke:'#c08a3e'}) + '<span>' + esc(state.notice) + '</span></div>' : '';
   if (fallback) {
-    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">' + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">这次没生成出来</div><p class="fb-banner-text">可能网络不稳或服务繁忙。下面先给一个营养凑齐的应急搭配；点下面「再试一次」，通常就好了。</p></div></div><button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>再试一次</span></button></section>' + dishHeader(d, true) + ingredients() + supplementBlock(state.week) + nutritionPanel(d) + '</div>';
+    const fb = fallbackCopy(state.lastGenError);
+    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">' + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(fb.title) + '</div><p class="fb-banner-text">' + esc(fb.text) + '</p></div></div><button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>再试一次</span></button></section>' + dishHeader(d, true) + ingredients() + supplementBlock(state.week) + nutritionPanel(d) + '</div>';
   }
   return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + whyFits(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + supplementBlock(state.week) + nutritionPanel(d) + '</div><div class="result-foot">数据都存在你这台设备上，没有账号，也不上传。</div></div>';
 }
@@ -958,6 +959,24 @@ function scoreDish(d) {
   const ratio = t.kcal ? Math.min(d.kcal / t.kcal, 1.1) : 1;
   return { ok: fails === 0, score: (3 - fails) * 10 + ratio * 5 };
 }
+function genError(code, message, retryable) {
+  const e = new Error(message || code || 'generate_failed');
+  e.code = code || 'generate_failed';
+  e.retryable = retryable !== false;
+  return e;
+}
+function normalizeGenError(err) {
+  if (!err) return { code:'generate_failed', message:'生成失败' };
+  return { code: err.code || err.name || 'generate_failed', message: err.message || String(err) };
+}
+function fallbackCopy(err) {
+  const code = err && err.code;
+  if (code === 'rate_limited') return { title:'今天生成次数太多了', text:'刚才可能已经触发每日保护额度。下面先给一个应急搭配；晚点再试会更稳。' };
+  if (code === 'timeout') return { title:'这次等太久了', text:'生成服务没有在限定时间内返回。下面先给一个应急搭配；点「再试一次」会重新生成。' };
+  if (code === 'network') return { title:'这次网络没接上', text:'手机到云端接口这一下没有连稳。下面先给一个应急搭配；点「再试一次」通常就好了。' };
+  if (code === 'bad_shape' || code === 'bad_json' || code === 'map_failed') return { title:'这次返回格式不稳', text:'AI 返回了菜谱，但格式没法安全读取。下面先给一个应急搭配；再试一次会换一版。' };
+  return { title:'这次没生成出来', text:'可能服务临时繁忙。下面先给一个应急搭配；点「再试一次」，通常就好了。' };
+}
 async function fetchRealDish(opts) {
   const p = state.profile, targets = computeTargets(p);
   const swap = (opts.swap && opts.swap !== 'any') ? opts.swap : null;
@@ -990,19 +1009,30 @@ async function fetchRealDish(opts) {
     balance_high_na: bh ? bh.highNa : false,
   } };
   const once = async () => {
-    const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 45000);
+    const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 75000);
     let r;
     try { r = await fetch(PROXY_BASE + '/generate-meal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal }); }
+    catch (e) { throw genError(e && e.name === 'AbortError' ? 'timeout' : 'network', e && e.name === 'AbortError' ? 'request timeout' : 'network error', true); }
     finally { clearTimeout(tid); }
-    if (!r.ok) throw new Error('http ' + r.status);
-    const res = await r.json();
-    if (res._error || !Array.isArray(res.ingredients) || res.ingredients.length < 3) throw new Error(res._error || 'bad-shape');
-    return mapDish(res, targets);
+    let res;
+    try { res = await r.json(); } catch (e) { throw genError('bad_json', 'bad json', r.status >= 500); }
+    if (!r.ok) {
+      const code = res && res.code ? String(res.code) : ('http_' + r.status);
+      throw genError(code, (res && res.error) || ('http ' + r.status), r.status >= 500);
+    }
+    if (res._error || !Array.isArray(res.ingredients) || res.ingredients.length < 3) throw genError('bad_shape', res._error || 'bad shape', true);
+    try { return mapDish(res, targets); }
+    catch (e) { throw genError('map_failed', e && e.message ? e.message : 'map failed', false); }
   };
-  // 大陆网络到 Cloudflare 偶发不稳: first 失败自动重试(共最多3次)再退兜底, 把网络抖动吃掉
+  // 网络/服务临时错误才重试; 429/映射错误不盲目重试, 避免越重试越触发限流
   let first = null, lastErr;
   for (let a = 0; a < 3 && !first; a++) {
-    try { first = await once(); } catch (e) { lastErr = e; if (a < 2) await new Promise(r => setTimeout(r, 700)); }
+    try { first = await once(); }
+    catch (e) {
+      lastErr = e;
+      if (e && e.retryable === false) break;
+      if (a < 2) await new Promise(r => setTimeout(r, 700 * (a + 1)));
+    }
   }
   if (!first) throw lastErr;
   const s1 = scoreDish(first);
@@ -1015,7 +1045,7 @@ let genTimers = [], genId = 0;
 const clearGen = () => { genTimers.forEach(clearTimeout); genTimers = []; };
 function showResult(d, notice) {
   state.dish = d; state.items = d.ingredients.map(x => ({ ...x }));
-  state.notice = notice || ''; state.chosen = false; state.editing = false;
+  state.notice = notice || ''; state.lastGenError = null; state.chosen = false; state.editing = false;
   state.swapOpen = false; state.weekOpen = false; state.nutriOpen = false; state.suppDone = {};
   state.week = buildWeek();
   state.view = 'result'; window.scrollTo(0, 0); render();
@@ -1036,6 +1066,7 @@ async function runGenerate(opts) {
   clearGen();
   const myId = ++genId;
   state.notice = '';
+  state.lastGenError = null;
   state.view = 'generating'; state.genStage = 0; render();
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
@@ -1047,6 +1078,7 @@ async function runGenerate(opts) {
     genTimers.push(setTimeout(() => { if (myId === genId) showResult(dish); }, wait));
   } catch (err) {
     if (myId !== genId) return;
+    state.lastGenError = normalizeGenError(err);
     genTimers.push(setTimeout(() => {
       if (myId !== genId) return;
       // 生成失败一律走兜底屏(无"就吃这个", 不会把假数据写进历史)；不再展示可点的示意菜
