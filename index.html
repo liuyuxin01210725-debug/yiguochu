@@ -959,7 +959,7 @@ function scoreDish(d) {
   const t = d._targets || {}; let fails = 0;
   if ((d.steps || []).length > 4) fails++;
   if (d.minutes > 45) fails++;
-  if (t.kcal && d.kcal < t.kcal * 0.5) fails++; // 0.75→0.5: DeepSeek 普遍低交付热量, 0.75 会让几乎每次点击都触发二次生成(双倍成本); prompt 已加热量硬要求
+  if (t.kcal && d.kcal < t.kcal * 0.35) fails++; // 仅拦真垃圾输出: DeepSeek 系统性交付 43-67% 目标热量, 二次生成治不了系统性偏差, 只会双倍烧钱; 诚实文案(三档)负责向用户说明
   const ratio = t.kcal ? Math.min(d.kcal / t.kcal, 1.1) : 1;
   return { ok: fails === 0, score: (3 - fails) * 10 + ratio * 5 };
 }
