@@ -214,6 +214,7 @@
   .text-input:focus { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(181,97,58,0.12); }
   .text-input::placeholder { color: #b7b3a4; }
   .profile-cta { display: flex; flex-direction: column; gap: 11px; padding: 0 2px; }
+  .fb-thanks { display: flex; align-items: center; gap: 8px; background: #eef0e4; border: 1px solid #d9ddc6; border-radius: 11px; padding: 10px 13px; margin-bottom: 10px; font-size: 13.5px; color: #4f5a3e; line-height: 1.5; }
   .privacy-note { margin: 0; font-size: 12px; line-height: 1.55; color: var(--muted); }
   .privacy-note strong { color: var(--ink-2); font-weight: 600; }
   .pref-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; cursor: pointer; }
@@ -709,7 +710,7 @@ function nutriFor(d) {
   const n = d.nutrients || {}, t = d._targets || {};
   const pc = k => (t[k] ? (n[k] || 0) / t[k] : 1);
   const rows = [];
-  rows.push({ label:'热量', value: Math.round(n.kcal != null ? n.kcal : d.kcal) + '', note: pc('kcal') >= 0.85 ? '今天够一天的量' : '比一天目标略少，没关系', status: pc('kcal') >= 0.7 ? 'enough' : 'soft' });
+  rows.push({ label:'热量', value: Math.round(n.kcal != null ? n.kcal : d.kcal) + '', note: pc('kcal') >= 0.85 ? '今天够一天的量' : (pc('kcal') >= 0.6 ? '比一天目标略少，没关系' : '这锅约小半天的量，今天记得再吃一顿'), status: pc('kcal') >= 0.7 ? 'enough' : 'soft' });
   rows.push({ label:'蛋白', value: Math.round(n.p != null ? n.p : d.protein) + 'g', note: pc('p') >= 0.85 ? '充足' : '稍欠，明天补点', status: pc('p') >= 0.7 ? 'enough' : 'soft' });
   rows.push({ label:'纤维', value: Math.round(n.fb || 0) + 'g', note: pc('fb') >= 0.7 ? '杂粮和蔬菜带来的' : '多来点蔬菜杂粮', status: pc('fb') >= 0.6 ? 'enough' : 'soft' });
   rows.push({ label:'钙', value: Math.round(n.ca || 0) + 'mg', note: pc('ca') >= 0.7 ? '这锅钙不少' : '一锅难凑齐，配杯奶就好', status: pc('ca') >= 0.7 ? 'enough' : 'soft' });
@@ -722,7 +723,7 @@ function nutriFor(d) {
 // ---- 视图状态 ----
 const state = {
   view:'profile', dish:DISHES[0], week:JSON.parse(JSON.stringify(WEEK)),
-  chosen:false, swapOpen:false, swapPantryEdit:false, addingFood:false, editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
+  chosen:false, swapOpen:false, swapPantryEdit:false, addingFood:false, fbThanks:'', editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
   genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'', lastGenError:null,
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
@@ -743,7 +744,7 @@ function dishHeader(d, fallback) {
     '<button class="btn ' + (state.swapOpen ? 'btn-ghost-on' : 'btn-ghost') + '" data-act="swap">' + icon('refresh',{size:18,sw:1.9}) + '<span>换一换</span></button></div>' + tray +
     (state.chosen ? '<p class="chosen-hint">记下了。明天打开会问你「' + esc(d.name) + '」最后吃了吗。</p>' : ''));
   return '<section class="dish-card">' + (SHOW_PHOTO ? photoSlot() : '') + '<div class="dish-body">' +
-    '<div class="dish-eyebrow"><span>今天做这个</span><span class="chip chip-form">' + esc(d.form) + '</span></div>' +
+    '<div class="dish-eyebrow"><span>' + (fallback ? '应急参考 · 未按你的偏好定制' : '今天做这个') + '</span><span class="chip chip-form">' + esc(d.form) + '</span></div>' +
     '<h1 class="dish-name">' + esc(d.name) + '</h1>' +
     '<div class="dish-flavor">' + (d.flavor||[]).map(f => '<span class="chip chip-flavor">' + esc(f) + '</span>').join('') + '</div>' +
     '<div class="dish-meta"><span class="meta">' + icon('clock',{size:15,sw:1.7}) + '<span>' + d.minutes + ' 分钟</span></span><span class="meta-dot"></span>' +
@@ -766,7 +767,7 @@ function ingredients() {
   return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3>' +
     '<button class="link-btn" data-act="toggle-edit">' + icon(state.editing ? 'check' : 'edit',{size:14,sw:1.9}) + (state.editing ? '完成' : '调整') + '</button></div>' +
     '<div class="ing-sub">' + state.items.length + ' 样 · 整锅量，可分 1-2 顿</div><ul class="ing-list">' + rows + '</ul>' +
-    (state.editing ? '<button class="add-ing" data-act="add-ing">' + icon('plus',{size:15,sw:2}) + '加一样</button>' : '') + '</section>';
+    '</section>'; // 「加一样」已移除: 加出的"新食材"无法改名, 半成品比没有更伤信任; 调整克数+删除已够 pilot 用
 }
 function stepsBlock(d) {
   const rows = d.steps.map((s, i) => '<li class="step-row"><span class="step-num">' + (i+1) + '</span><span class="step-text">' + esc(s) + '</span></li>').join('');
@@ -826,7 +827,8 @@ function profileScreen() {
       '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">点一下就加，换菜时一直带着</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button><button class="pchip-del" data-del-myfood="' + esc(f) + '" title="从常用删掉">×</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">点麦克风说出来也行；或点上面常见食材一键加。</span></div>' +
       '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">过敏食材务必填，会严格避开</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div></div></section>';
   }
-  const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>生成今天这顿</span></button><p class="privacy-note"><strong>仅供日常饮食灵感，非医疗 / 营养诊疗建议</strong>——孕期、儿童、慢性病、食物过敏或服药期间请咨询医生 / 注册营养师。<br>档案存在你这台设备本地；生成时只把由年龄体重<strong>算出的营养目标</strong>和食材偏好交给 AI，原始年龄体重不上传。</p></div>';
+  const thanks = state.fbThanks ? '<div class="fb-thanks">' + icon('check',{size:15,sw:2.2,stroke:'#6f8a52'}) + '<span>' + esc(state.fbThanks) + '</span></div>' : '';
+  const cta = '<div class="profile-cta">' + thanks + '<button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>生成今天这顿</span></button><p class="privacy-note"><strong>仅供日常饮食灵感，非医疗 / 营养诊疗建议</strong>——孕期、儿童、慢性病、食物过敏或服药期间请咨询医生 / 注册营养师。<br>档案存在你这台设备本地；生成时只把由年龄体重<strong>算出的营养目标</strong>和食材偏好交给 AI，原始年龄体重不上传。</p></div>';
   return '<div class="screen profile-screen">' + head + body + cta + '</div>';
 }
 function generatingScreen() {
@@ -957,7 +959,7 @@ function scoreDish(d) {
   const t = d._targets || {}; let fails = 0;
   if ((d.steps || []).length > 4) fails++;
   if (d.minutes > 45) fails++;
-  if (t.kcal && d.kcal < t.kcal * 0.75) fails++;
+  if (t.kcal && d.kcal < t.kcal * 0.5) fails++; // 0.75→0.5: DeepSeek 普遍低交付热量, 0.75 会让几乎每次点击都触发二次生成(双倍成本); prompt 已加热量硬要求
   const ratio = t.kcal ? Math.min(d.kcal / t.kcal, 1.1) : 1;
   return { ok: fails === 0, score: (3 - fails) * 10 + ratio * 5 };
 }
@@ -1088,7 +1090,7 @@ async function runGenerate(opts) {
     genTimers.push(setTimeout(() => {
       if (myId !== genId) return;
       // 生成失败一律走兜底屏(无"就吃这个", 不会把假数据写进历史)；不再展示可点的示意菜
-      state.dish = DISHES[0]; state.items = DISHES[0].ingredients.map(x => ({ ...x }));
+      state.dish = DISHES[2]; state.items = DISHES[2].ingredients.map(x => ({ ...x })); // d3 照烧鸡腿杂粮拌饭: 季节中性, 无腊肠/春笋(d1 六月看到春笋很出戏)
       state.notice = ''; state.view = 'fallback'; window.scrollTo(0, 0); render();
     }, 400));
   }
@@ -1097,7 +1099,7 @@ function choose() {
   STORE.bumpStat('choose');
   STORE.recordChoice(state.dish);
   STORE.recordNutritionChoice(state.dish);
-  if (state.dish.hasFish && state.week.fishDone < state.week.fishTarget) state.week.fishDone++;
+  state.week = buildWeek(); // 重建周数据: 今天的点立刻亮、吃鱼计数同步(buildWeek 从刚写入的 choices 算, 不再手动++)
   state.chosen = true; render();
 }
 // 语音输入：Web Speech API(zh-CN)。需 https 或 localhost + Chrome/Safari；file:// 或不支持时提示手打。
@@ -1131,7 +1133,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (t.dataset.seg) { syncProfileInputs(); state.profile[t.dataset.seg] = t.dataset.val; render(); return; }
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
   if (t.dataset.delMyfood) { syncProfileInputs(); const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods : COMMON_PANTRY; state.profile.myFoods = base.filter(x => x !== t.dataset.delMyfood); STORE.saveProfile(state.profile); render(); return; }
-  if (t.dataset.fbreason) { state.feedbackPicked = t.dataset.fbreason; STORE.recordFeedback(false, t.dataset.fbreason); render(); setTimeout(() => { state.feedbackOpen = false; render(); }, 500); return; }
+  if (t.dataset.fbreason) { state.feedbackPicked = t.dataset.fbreason; STORE.recordFeedback(false, t.dataset.fbreason); render(); setTimeout(() => { state.feedbackOpen = false; state.fbThanks = '记下了，下次会避开这个问题。今天再试一锅？'; render(); }, 500); return; }
   if (t.dataset.swap) { state.swapOpen = false; runGenerate({ swap: t.dataset.swap }); return; }
   if (t.dataset.bump != null) { const i = +t.dataset.bump; state.items[i].grams = Math.max(0, state.items[i].grams + (+t.dataset.delta)); syncDishFromItems(); render(); return; }
   if (t.dataset.del != null) { state.items.splice(+t.dataset.del, 1); syncDishFromItems(); render(); return; }
@@ -1146,11 +1148,10 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
   else if (act === 'choose') choose();
   else if (act === 'toggle-edit') { state.editing = !state.editing; render(); }
-  else if (act === 'add-ing') { state.items.push({ name:'新食材', grams:50, est:true, nut:{} }); syncDishFromItems(); render(); }
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
   else if (act === 'toggle-week') { state.weekOpen = !state.weekOpen; render(); }
   else if (act === 'retry') runGenerate({ profile: state.profile });
-  else if (act === 'fb-ate') { STORE.recordFeedback(true); state.feedbackOpen = false; render(); }
+  else if (act === 'fb-ate') { STORE.recordFeedback(true); state.feedbackOpen = false; state.fbThanks = '昨天那顿记下了，本周节奏没断。今天继续，一锅就好。'; render(); }
 });
 
 // ============ 初始化 ============
