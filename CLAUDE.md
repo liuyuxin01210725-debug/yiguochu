@@ -4,7 +4,7 @@
 - 前端：`index.html`（单文件，含本地 `FOODS` 库 + 三层取值逻辑）
 - 云端代理：`worker/src/worker.js`（Cloudflare Pages Functions，持 DeepSeek key + 第二层台湾库兜底 `enrichWithTw`）
 - 权威数据底座：`tools/data/foods-tw.json`（台湾食药署库简体版 2181 条，部署时复制进 `dist/` 供 worker `ASSETS.fetch` 读取）；构建脚本 `tools/build-foods-tw.mjs`
-- 本地调试代理：`ai_proxy.py`（localhost:8765）
+- 本地调试代理：`ai_proxy.py`（localhost:8765）。⚠️ 它自带一份**独立的旧 `RECIPE_SYSTEM`**，已与 worker 漂移——**生成/菜系逻辑的权威源是 `worker/src/worker.js`，改 prompt 只动它**；本地经 ai_proxy 调试看到的菜系/形式行为可能与线上不一致。
 - 线上：https://yiguochu.pages.dev
 
 ---
