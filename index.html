@@ -854,9 +854,25 @@ function render() {
 }
 
 // ============ 流程 ============
-// 后端代理地址：本地用 localhost:8765；线上发布目录会改成同源空字符串，或在页面里设 window.YIGUOCHU_PROXY
+// 后端代理地址：本地优先 localhost:8765；线上同源。若本地代理/异常来源不可达，再尝试线上 API。
+const PROD_ORIGIN = 'https://yiguochu.pages.dev';
+function cleanProxyBase(base) { return String(base || '').replace(/\/+$/, ''); }
 const PROXY_BASE = (typeof window !== 'undefined' && window.YIGUOCHU_PROXY)
   || ((typeof location !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) ? 'http://localhost:8765' : '');
+function apiCandidates(path) {
+  const out = [];
+  const add = base => {
+    const b = cleanProxyBase(base);
+    const url = b ? (b + path) : path;
+    if (!out.includes(url)) out.push(url);
+  };
+  const loc = (typeof location !== 'undefined') ? location : null;
+  if (typeof window !== 'undefined' && window.YIGUOCHU_PROXY) add(window.YIGUOCHU_PROXY);
+  else if (loc && loc.protocol === 'file:') add(PROD_ORIGIN);
+  else if (loc && (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1')) { add(PROXY_BASE); add(PROD_ORIGIN); }
+  else { add(PROXY_BASE); if (loc && loc.origin && loc.origin !== PROD_ORIGIN) add(PROD_ORIGIN); }
+  return out;
+}
 // 换一换意图 → 给模型的方向（照搬设计 generate.js 的 SWAP_HINT）
 const SWAP_HINT = {
   flavor:'用户想换个口味：和当前这道明显不同的口味，难度和省事程度保持差不多。',
@@ -1014,11 +1030,19 @@ async function fetchRealDish(opts) {
     balance_high_na: bh ? bh.highNa : false,
   } };
   const once = async () => {
-    const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 75000);
-    let r;
-    try { r = await fetch(PROXY_BASE + '/generate-meal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal }); }
-    catch (e) { throw genError(e && e.name === 'AbortError' ? 'timeout' : 'network', e && e.name === 'AbortError' ? 'request timeout' : 'network error', true); }
-    finally { clearTimeout(tid); }
+    const endpoints = apiCandidates('/generate-meal');
+    let r, fetchErr;
+    for (let i = 0; i < endpoints.length && !r; i++) {
+      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 75000);
+      try {
+        r = await fetch(endpoints[i], { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal, cache:'no-store' });
+      } catch (e) {
+        fetchErr = e;
+      } finally {
+        clearTimeout(tid);
+      }
+    }
+    if (!r) throw genError(fetchErr && fetchErr.name === 'AbortError' ? 'timeout' : 'network', fetchErr && fetchErr.name === 'AbortError' ? 'request timeout' : 'network error', true);
     let res;
     try { res = await r.json(); } catch (e) { throw genError('bad_json', 'bad json', r.status >= 500); }
     if (!r.ok) {

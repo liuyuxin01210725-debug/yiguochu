@@ -110,9 +110,25 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
 - 营养值取食物成分表标准值, 别按 grams 乘出来。
 - 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。`;
 
-function corsHeaders(env) {
+function corsHeaders(env, request) {
+  const reqOrigin = request?.headers?.get('Origin') || '';
+  const configured = String(env.ALLOW_ORIGIN || 'https://yiguochu.pages.dev')
+    .split(',')
+    .map(x => x.trim())
+    .filter(Boolean);
+  const allowed = new Set(configured.length ? configured : ['https://yiguochu.pages.dev']);
+  let origin = allowed.has('https://yiguochu.pages.dev') ? 'https://yiguochu.pages.dev' : [...allowed][0];
+  if (reqOrigin === 'null') origin = 'null';
+  else if (reqOrigin) {
+    try {
+      const u = new URL(reqOrigin);
+      const isLocal = (u.protocol === 'http:' || u.protocol === 'https:') && (u.hostname === 'localhost' || u.hostname === '127.0.0.1');
+      const isProject = u.protocol === 'https:' && (u.hostname === 'yiguochu.pages.dev' || u.hostname.endsWith('.yiguochu.pages.dev'));
+      if (allowed.has(reqOrigin) || isLocal || isProject) origin = reqOrigin;
+    } catch (_e) {}
+  }
   return {
-    'Access-Control-Allow-Origin': env.ALLOW_ORIGIN || 'https://yiguochu.pages.dev',
+    'Access-Control-Allow-Origin': origin,
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
@@ -120,19 +136,19 @@ function corsHeaders(env) {
   };
 }
 
-function jsonResponse(data, status, env) {
+function jsonResponse(data, status, env, request) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      ...corsHeaders(env),
+      ...corsHeaders(env, request),
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'no-store',
     },
   });
 }
 
-function errorResponse(code, message, status, env, extra = {}) {
-  return jsonResponse({ error: message, code, ...extra }, status, env);
+function errorResponse(code, message, status, env, extra = {}, request) {
+  return jsonResponse({ error: message, code, ...extra }, status, env, request);
 }
 
 function asList(value) {
@@ -313,10 +329,10 @@ async function budgetConsume(env) {
 
 async function handleGenerate(request, env) {
   const t0 = Date.now();
-  if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env);
-  if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env);
+  if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
+  if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
   const budget = await budgetConsume(env);
-  if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env);
+  if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
 
   const req = await request.json().catch(() => ({}));
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
@@ -345,7 +361,7 @@ async function handleGenerate(request, env) {
   const raw = await upstream.text();
   if (!upstream.ok) {
     console.error('DeepSeek upstream error', upstream.status, raw.slice(0, 300));
-    return errorResponse('upstream_http', '生成服务临时失败，请稍后再试', 502, env, { upstreamStatus: upstream.status });
+    return errorResponse('upstream_http', '生成服务临时失败，请稍后再试', 502, env, { upstreamStatus: upstream.status }, request);
   }
 
   const data = JSON.parse(raw);
@@ -353,25 +369,25 @@ async function handleGenerate(request, env) {
   const meal = normalizeMeal(parseModelJson(content), data.usage);
   await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
   console.log(JSON.stringify({ evt: 'gen', ok: true, tokens: meal._tokens || 0, tw: meal._twMatched || 0, n: (meal.ingredients || []).length, ms: Date.now() - t0 }));
-  return jsonResponse(meal, 200, env);
+  return jsonResponse(meal, 200, env, request);
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env) });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env, request) });
     if (request.method === 'GET' && url.pathname === '/health') {
-      return jsonResponse({ status: 'ok', provider: 'deepseek', model: env.MODEL_NAME || 'deepseek-chat', budget: env.RATE_KV ? 'kv' : 'memory' }, 200, env);
+      return jsonResponse({ status: 'ok', provider: 'deepseek', model: env.MODEL_NAME || 'deepseek-chat', budget: env.RATE_KV ? 'kv' : 'memory' }, 200, env, request);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {
       try {
         return await handleGenerate(request, env);
       } catch (err) {
         console.error('generate worker error', err?.message || String(err));
-        return errorResponse('worker_error', '生成服务临时异常，请稍后再试', 500, env);
+        return errorResponse('worker_error', '生成服务临时异常，请稍后再试', 500, env, {}, request);
       }
     }
     if (env.ASSETS) return env.ASSETS.fetch(request);
-    return jsonResponse({ error: 'not found' }, 404, env);
+    return jsonResponse({ error: 'not found' }, 404, env, request);
   },
 };
