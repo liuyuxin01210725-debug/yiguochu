@@ -66,6 +66,14 @@ Cloudflare Pages 同源部署。简版：
 
 ---
 
+## 排查踩坑
+
+- ⚠️ **前端 `network`「网络没接上」是误导性错误码**：被 CORS 拦掉、或 fetch 打到错误 origin 时，浏览器抛 `TypeError: Failed to fetch`，前端 `index.html` 一律归成 `network`，与真断网**同一句文案**。生成失败先验 **CORS/来源**，别先怀疑网络/线路/大陆访问 pages.dev。
+- ⚠️ **`curl` 是这类问题的废证据**：curl 默认不发浏览器 `Origin`、也不执行 CORS（CORS 是浏览器单方面强制）。`curl 200 ≠ 浏览器能用`。验 CORS 要 `curl -H "Origin: ..."` 看响应的 `Access-Control-Allow-Origin` 是否反射。
+- 现状修复（commit `eb5ba6a`）：worker `corsHeaders` 反射 `null`/`localhost`/`*.yiguochu.pages.dev`（非写死单域名）；前端 `apiCandidates` 在 `file:`/预览子域/非同源时回退绝对地址 `https://yiguochu.pages.dev/generate-meal`。PWA 装到主屏、从预览子域打开等场景都靠这两条兜住。
+
+---
+
 ## 营养数据现状（截至 2026-06）
 
 - **两层权威库已上线**：worker 端台湾食药署全量库 2181 条(`tools/data/foods-tw.json`, OGDL-Taiwan-1.0) + 前端本地 `FOODS` 161 条。
