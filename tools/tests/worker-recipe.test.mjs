@@ -2,8 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
+  buildRecipeGrounding,
   canonicalRecipeIngredient,
   selectRecipeCandidates,
+  validateGroundedMeal,
 } from '../../worker/src/worker.js';
 
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
@@ -33,6 +35,108 @@ function fixtureLib(recipes, aliases = {}) {
 function scoreFor(recipeOverrides = {}, constraints = {}) {
   const recipe = fixtureRecipe('score-target', 'family-score', recipeOverrides);
   return selectRecipeCandidates(fixtureLib([recipe]), { dislikes: [], ...constraints })[0].score;
+}
+
+function groundedFixtureRecipe(overrides = {}) {
+  return fixtureRecipe('grounded-pot', 'family-grounded', {
+    name: '可信一锅饭',
+    core_ingredients: ['大米', '鸡肉', '洋葱'],
+    optional_ingredients: ['葡萄干'],
+    substitution_slots: [{ slot: '鸡肉部位', replaces: ['鸡肉'], allowed: ['鸡腿肉', '鸡胸肉'] }],
+    discouraged: [{ ingredients: ['黄瓜'], reason_type: 'texture_water', reason: '会让焖饭过湿。' }],
+    technique: ['炒香洋葱', '鸡肉煎熟', '加盖焖饭'],
+    ratio_rules: ['大米与水约为1:1.2'],
+    safety_rules: ['鸡肉必须完全熟透'],
+    source_refs: [{
+      usage: 'approved',
+      title: 'Trusted recipe',
+      url: 'https://example.test/trusted-recipe',
+      license: 'CC BY-SA 4.0',
+      attribution: 'Trusted contributors',
+      retrieved_at: '2026-07-14',
+    }],
+    ...overrides,
+  });
+}
+
+function generatedMeal(overrides = {}) {
+  return {
+    dish_name: '鸡肉洋葱焖饭',
+    ingredients: [
+      { name: '大米', grams: 200 },
+      { name: '鸡肉', grams: 250 },
+      { name: '洋葱', grams: 120 },
+    ],
+    steps: ['鸡肉煎熟后加入洋葱炒香，再放大米和水加盖焖熟。'],
+    family_id: 'model-forged-family',
+    base_recipe_id: 'model-forged-recipe',
+    basis_level: 'model-forged-level',
+    pairing_basis: 'model forged basis',
+    used_pantry: ['model-forged-used'],
+    unused_pantry: ['model-forged-unused'],
+    source_refs: [{ url: 'https://evil.example/forged-source' }],
+    safety_checks: ['model forged safety'],
+    validation_flags: ['model_forged_flag'],
+    ...overrides,
+  };
+}
+
+let generationImportId = 0;
+async function runGenerateRequest({
+  recipeLib,
+  meal = generatedMeal(),
+  constraints = {},
+  recipeStatus = 200,
+  captureLogs = false,
+}) {
+  generationImportId += 1;
+  const { default: worker } = await import(`../../worker/src/worker.js?generation-${generationImportId}`);
+  const upstreamBodies = [];
+  const logs = [];
+  const originalFetch = globalThis.fetch;
+  const originalLog = console.log;
+  globalThis.fetch = async (_url, options) => {
+    upstreamBodies.push(JSON.parse(String(options?.body || '{}')));
+    return Response.json({
+      choices: [{ message: { content: JSON.stringify(meal) } }],
+      usage: { total_tokens: 321 },
+    });
+  };
+  if (captureLogs) console.log = (...args) => logs.push(args.map(String).join(' '));
+
+  const assets = {
+    async fetch(request) {
+      const pathname = new URL(request.url).pathname;
+      if (pathname === '/recipe-library.json') {
+        return recipeStatus === 200
+          ? Response.json(recipeLib)
+          : new Response('missing', { status: recipeStatus });
+      }
+      if (pathname === '/foods-tw.json') return Response.json([]);
+      return new Response('missing', { status: 404 });
+    },
+  };
+  const request = new Request('https://example.test/generate-meal', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      meal_name: '这次的一锅主餐',
+      targets: { kcal: 1200, p: 50, fb: 16 },
+      constraints: { purpose: 'quick', servings: 2, dislikes: [], ...constraints },
+    }),
+  });
+
+  try {
+    const response = await worker.fetch(request, {
+      ASSETS: assets,
+      DEEPSEEK_API_KEY: 'test-key',
+      RATE_LIMIT: 0,
+    });
+    return { response, body: await response.json(), upstreamBodies, logs };
+  } finally {
+    globalThis.fetch = originalFetch;
+    console.log = originalLog;
+  }
 }
 
 test('canonicalizer applies aliases after removing preference and cut-form noise', () => {
@@ -266,6 +370,178 @@ test('top three never returns the same recipe ID twice across families', () => {
     dislikes: [],
   });
   assert.deepEqual(hits.map(hit => hit.recipe.id), ['duplicate', 'unique']);
+});
+
+test('grounding names the selected base recipe and every trusted adaptation rule', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['鸡肉', '大米', '洋葱', '黄瓜'],
+    purpose: 'quick',
+    dislikes: [],
+  });
+  const text = buildRecipeGrounding(selection);
+  assert.match(text, new RegExp(selection.family.id));
+  assert.match(text, new RegExp(selection.recipe.id));
+  assert.match(text, /固定核心/);
+  assert.match(text, /只允许以下替换/);
+  assert.match(text, /不鼓励/);
+  assert.match(text, /关键技法/);
+  assert.match(text, /比例规则/);
+  assert.match(text, /安全规则/);
+  assert.match(text, /已选库存/);
+  assert.match(text, /舍弃库存/);
+  assert.match(text, /不合适的库存食材不要使用/);
+  assert.match(text, /来源字段由服务器添加，你不要编造来源/);
+  assert.doesNotMatch(text, /Cookbook contributors|Wikibooks contributors/);
+});
+
+test('validator catches listed shrimp that is never cooked', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['虾仁', '大米', '番茄'],
+    purpose: 'quick',
+    dislikes: [],
+  });
+  const flags = validateGroundedMeal({
+    dish_name: '番茄虾仁饭',
+    ingredients: [{ name: '虾仁' }, { name: '大米' }, { name: '番茄' }],
+    steps: ['大米和番茄煮熟后盛出。'],
+  }, selection, { dislikes: [] });
+  assert.ok(flags.includes('ingredient_missing_in_steps:虾仁'));
+  assert.ok(flags.includes('high_risk_not_cooked:虾仁'));
+});
+
+test('validator emits all seven machine-readable validation flag types', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米', '鸡肉'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], { 鸡腿肉: '鸡肉' }), {
+    pantry: ['大米', '黄瓜'],
+    dislikes: [],
+  });
+  const flags = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }, { name: '黄瓜' }, { name: '食用油' }],
+    steps: ['另起锅烧开清水。'],
+  }, selection, { dislikes: ['鸡腿肉过敏'] });
+  assert.ok(flags.includes('allergen_present:鸡肉'));
+  assert.ok(flags.includes('ingredient_missing_in_steps:鸡肉'));
+  assert.ok(flags.includes('used_pantry_missing:大米'));
+  assert.ok(flags.includes('unused_pantry_used:黄瓜'));
+  assert.ok(flags.includes('high_risk_not_cooked:鸡肉'));
+  assert.ok(flags.includes('base_recipe_anchor_missing'));
+  assert.ok(flags.includes('multi_pot_step'));
+});
+
+test('validator exempts only the approved small seasoning list from step mentions', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const flags = validateGroundedMeal({
+    ingredients: [
+      { name: '大米' }, { name: '姜末' }, { name: '葱花' }, { name: '蒜蓉' },
+      { name: '陈醋' }, { name: '料酒' }, { name: '混合香料' },
+      { name: '食用油' }, { name: '白糖' }, { name: '盐' }, { name: '酱油' },
+    ],
+    steps: ['大米煮熟。'],
+  }, selection, { dislikes: [] });
+  for (const exempt of ['姜末', '葱花', '蒜蓉', '陈醋', '料酒', '混合香料']) {
+    assert.equal(flags.includes(`ingredient_missing_in_steps:${exempt}`), false, exempt);
+  }
+  for (const required of ['食用油', '白糖', '盐', '酱油']) {
+    assert.ok(flags.includes(`ingredient_missing_in_steps:${required}`), required);
+  }
+});
+
+test('validator tolerates malformed ingredients and steps without throwing', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  assert.doesNotThrow(() => validateGroundedMeal({ ingredients: { name: '大米' }, steps: 42 }, selection, { dislikes: [] }));
+  const flags = validateGroundedMeal({ ingredients: [null, '大米', { bad: true }], steps: [null, { bad: true }] }, selection, null);
+  assert.ok(Array.isArray(flags));
+});
+
+test('generation overwrites forged grounding metadata and marks fixed-core pantry as classic', async () => {
+  const recipe = groundedFixtureRecipe();
+  const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
+  const { response, body } = await runGenerateRequest({
+    recipeLib,
+    constraints: { pantry: ['鸡腿肉', '大米', '洋葱'] },
+  });
+  assert.equal(response.status, 200);
+  assert.equal(body.family_id, recipe.family_id);
+  assert.equal(body.base_recipe_id, recipe.id);
+  assert.equal(body.basis_level, 'classic');
+  assert.equal(body.pairing_basis, '以「可信一锅饭」为基础，使用鸡腿肉、大米、洋葱。');
+  assert.deepEqual(body.used_pantry, ['鸡腿肉', '大米', '洋葱']);
+  assert.deepEqual(body.unused_pantry, []);
+  assert.deepEqual(body.source_refs, recipe.source_refs);
+  assert.deepEqual(body.safety_checks, recipe.safety_rules);
+  assert.deepEqual(body.validation_flags, []);
+  assert.equal(JSON.stringify(body).includes('evil.example'), false);
+  assert.equal(JSON.stringify(body).includes('model-forged'), false);
+});
+
+test('generation marks allowed or optional pantry adaptations as adapted and keeps server selection', async () => {
+  const recipe = groundedFixtureRecipe();
+  const recipeLib = fixtureLib([recipe]);
+  const { response, body } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [
+        { name: '大米', grams: 200 }, { name: '鸡肉', grams: 250 },
+        { name: '洋葱', grams: 120 }, { name: '葡萄干', grams: 30 },
+      ],
+      steps: ['鸡肉煎熟后加入洋葱和葡萄干炒香，再放大米和水加盖焖熟。'],
+    }),
+    constraints: { pantry: ['大米', '鸡肉', '葡萄干', '黄瓜'] },
+  });
+  assert.equal(response.status, 200);
+  assert.equal(body.basis_level, 'adapted');
+  assert.deepEqual(body.used_pantry, ['大米', '鸡肉', '葡萄干']);
+  assert.deepEqual(body.unused_pantry, ['黄瓜']);
+});
+
+test('one Worker generation request makes one DeepSeek call and sends the grounded prompt', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe()]);
+  const secretPantry = '日志禁记库存';
+  const secretDislike = '日志禁记忌口';
+  const { response, upstreamBodies, logs } = await runGenerateRequest({
+    recipeLib,
+    constraints: {
+      pantry: ['大米', '鸡肉', '洋葱', secretPantry],
+      dislikes: [secretDislike],
+      swap_hint: '换个做法。',
+    },
+    captureLogs: true,
+  });
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  const prompt = upstreamBodies[0].messages.find(message => message.role === 'user').content;
+  assert.match(prompt, /grounded-pot/);
+  assert.match(prompt, /你必须以这张基础菜谱为底稿/);
+  assert.doesNotMatch(prompt, /仍要保留并用上家里的食材/);
+  assert.equal(logs.some(line => line.includes(secretPantry) || line.includes(secretDislike)), false);
+  assert.ok(logs.some(line => line.includes('"base":"grounded-pot"')));
+  assert.ok(logs.some(line => line.includes('"family":"family-grounded"')));
+  assert.ok(logs.some(line => line.includes('"flags":0')));
+});
+
+test('missing recipe library returns 503 without calling DeepSeek', async () => {
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: null,
+    recipeStatus: 404,
+  });
+  assert.equal(response.status, 503);
+  assert.equal(body.code, 'recipe_library_unavailable');
+  assert.equal(upstreamBodies.length, 0);
+});
+
+test('no eligible recipe candidate returns 503 without calling DeepSeek', async () => {
+  const recipeLib = fixtureLib([
+    groundedFixtureRecipe({ core_ingredients: ['鸡肉'], substitution_slots: [] }),
+  ]);
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    constraints: { dislikes: ['鸡肉过敏'] },
+  });
+  assert.equal(response.status, 503);
+  assert.equal(body.code, 'recipe_library_unavailable');
+  assert.equal(upstreamBodies.length, 0);
 });
 
 test('health cache is isolated per assets binding in one module instance', async () => {

@@ -124,6 +124,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
     candidates.push({
       recipe,
       family: familyById.get(recipe.family_id),
+      ingredientAliases: lib?.ingredient_aliases || {},
       score,
       usedPantry,
       unusedPantry,
@@ -148,6 +149,113 @@ function selectRecipeCandidates(lib, constraints = {}) {
     if (selected.length === 3) break;
   }
   return selected;
+}
+
+function compactRecipeList(value, fallback = '无') {
+  const items = Array.isArray(value) ? value.map(item => String(item || '').trim()).filter(Boolean) : [];
+  return items.length ? items.join('、') : fallback;
+}
+
+function buildRecipeGrounding(selection) {
+  const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  const family = selection?.family && typeof selection.family === 'object' ? selection.family : {};
+  const slots = (Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [])
+    .map(slot => `${String(slot?.slot || '替换位')}[${compactRecipeList(slot?.replaces)}→${compactRecipeList(slot?.allowed)}]`);
+  const discouraged = (Array.isArray(recipe.discouraged) ? recipe.discouraged : [])
+    .map(rule => `${compactRecipeList(rule?.ingredients)}(${String(rule?.reason || '不适合基础结构').trim()})`);
+  return [
+    '【可信基础菜谱】',
+    `菜谱家族: ${String(family.id || recipe.family_id || 'unknown')} ${String(family.name || '').trim()}`.trim(),
+    `基础菜谱: ${String(recipe.id || 'unknown')} ${String(recipe.name || '').trim()}`.trim(),
+    `固定核心: ${compactRecipeList(recipe.core_ingredients)}`,
+    `只允许以下替换: ${compactRecipeList(slots)}`,
+    `不鼓励: ${compactRecipeList(discouraged)}`,
+    `关键技法: ${compactRecipeList(recipe.technique)}`,
+    `比例规则: ${compactRecipeList(recipe.ratio_rules)}`,
+    `安全规则: ${compactRecipeList(recipe.safety_rules)}`,
+    `已选库存: ${compactRecipeList(selection?.usedPantry)}`,
+    `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
+    '不合适的库存食材不要使用，并在 why 中简短说明舍弃。',
+    '你必须以这张基础菜谱为底稿，只能在允许替换列表内改动。库存食材不合适时必须舍弃，不得为了全用而改变菜谱结构。来源字段由服务器添加，你不要编造来源。',
+  ].join('\n');
+}
+
+function validationIngredientNames(meal) {
+  if (!Array.isArray(meal?.ingredients)) return [];
+  return meal.ingredients.map(item => {
+    if (typeof item === 'string') return item.trim();
+    if (!item || typeof item !== 'object') return '';
+    return String(item.name || '').trim();
+  }).filter(Boolean);
+}
+
+function validationSteps(meal) {
+  if (!Array.isArray(meal?.steps)) return [];
+  return meal.steps.map(step => typeof step === 'string' ? step.trim() : '').filter(Boolean);
+}
+
+function validationSeasoning(name) {
+  const norm = String(name || '').replace(/\s+/g, '');
+  return /^(?:生?姜(?:末|片|丝)?|[大小香]?葱(?:花|段|末)?|蒜(?:头|末|蓉|泥|片)?|(?:白|陈|香|米|果)?醋|料酒|.*香料)$/.test(norm);
+}
+
+function validationSearchTokens(name, aliases) {
+  const canonical = canonicalRecipeIngredient(name, aliases);
+  const tokens = new Set([baseRecipeIngredient(name), canonical].filter(Boolean));
+  if (aliases && typeof aliases === 'object') {
+    for (const alias of Object.keys(aliases)) {
+      if (canonicalRecipeIngredient(alias, aliases) === canonical) tokens.add(baseRecipeIngredient(alias));
+    }
+  }
+  return [...tokens].filter(Boolean).sort((a, b) => b.length - a.length);
+}
+
+function validationStepMentions(step, name, aliases) {
+  const text = String(step || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/[\s_-]+/g, '');
+  return validationSearchTokens(name, aliases).some(token => text.includes(token));
+}
+
+function validateGroundedMeal(meal, selection, constraints = {}) {
+  const aliases = selection?.ingredientAliases || {};
+  const ingredientNames = validationIngredientNames(meal);
+  const steps = validationSteps(meal);
+  const flags = new Set();
+  const canonicalIngredients = new Set(ingredientNames.map(name => canonicalRecipeIngredient(name, aliases)).filter(Boolean));
+  const dislikes = recipeConstraintList(constraints?.dislikes)
+    .map(name => canonicalRecipeIngredient(name, aliases))
+    .filter(Boolean);
+
+  for (const name of ingredientNames) {
+    const canonical = canonicalRecipeIngredient(name, aliases);
+    if (dislikes.includes(canonical)) flags.add(`allergen_present:${name}`);
+    if (!validationSeasoning(name) && !steps.some(step => validationStepMentions(step, name, aliases))) {
+      flags.add(`ingredient_missing_in_steps:${name}`);
+    }
+    if (/(?:禽|鸡|鸭|猪|虾|蟹|贝|鱼|蛋)/.test(`${name}${canonical}`)) {
+      const cooked = steps.some(step => validationStepMentions(step, name, aliases)
+        && /(?:熟|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开)/.test(step));
+      if (!cooked) flags.add(`high_risk_not_cooked:${name}`);
+    }
+  }
+
+  for (const item of Array.isArray(selection?.usedPantry) ? selection.usedPantry : []) {
+    const canonical = canonicalRecipeIngredient(item, aliases);
+    if (canonical && !canonicalIngredients.has(canonical)) flags.add(`used_pantry_missing:${item}`);
+  }
+  for (const item of Array.isArray(selection?.unusedPantry) ? selection.unusedPantry : []) {
+    const canonical = canonicalRecipeIngredient(item, aliases);
+    if (canonical && canonicalIngredients.has(canonical)) flags.add(`unused_pantry_used:${item}`);
+  }
+
+  const anchors = new Set([
+    ...(Array.isArray(selection?.recipe?.core_ingredients) ? selection.recipe.core_ingredients : []),
+    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ].map(item => canonicalRecipeIngredient(item, aliases)).filter(Boolean));
+  const requiredAnchorHits = Math.min(2, anchors.size);
+  const anchorHits = [...anchors].filter(anchor => canonicalIngredients.has(anchor)).length;
+  if (anchorHits < requiredAnchorHits) flags.add('base_recipe_anchor_missing');
+  if (steps.some(step => /(?:另起锅|另锅|另一口锅|第二口锅|分别焯)/.test(step))) flags.add('multi_pot_step');
+  return [...flags];
 }
 
 async function getRecipeLib(env, request) {
@@ -240,6 +348,8 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
 {season_note}
 
 【强制】食材至少 8 种, 蔬菜至少 3-4 种不同颜色/类型(绿叶/根茎/菌菇/豆荚轮换)。
+
+{recipe_grounding}
 
 返回 JSON:
 {
@@ -350,7 +460,7 @@ function seasonNote(now) {
   return `\n【应季参考】当前 ${month} 月。${found.text}。这是参考清单, 不强制每道菜都用应季, 但平均下来约一半的菜应包含 1-2 种应季食材。优先级低于「不重复最近吃过的」。`;
 }
 
-function buildPrompt(mealName, targets, constraints) {
+function buildPrompt(mealName, targets, constraints, recipeGrounding) {
   let constraintNote = '';
   const diet = constraints.diet;
   if (diet && diet !== 'omnivore') {
@@ -360,7 +470,7 @@ function buildPrompt(mealName, targets, constraints) {
 
   const pantry = asList(constraints.pantry);
   if (pantry.length) {
-    constraintNote += `家里有/想用掉: ${pantry.join(',')}。请优先围绕这些食材设计, 能自然用上的尽量用上; 不合适时少量补充常见食材, 不要为了全用而牺牲可吃性。`;
+    constraintNote += `家里现有库存: ${pantry.join(',')}。是否使用以可信基础菜谱的已选/舍弃清单为准；不合适的库存必须舍弃。`;
   }
 
   const dislikes = asList(constraints.dislikes);
@@ -379,7 +489,6 @@ function buildPrompt(mealName, targets, constraints) {
   }
   if (constraints.swap_hint) {
     constraintNote += String(constraints.swap_hint);
-    if (pantry.length) constraintNote += `（换做法/菜系时，仍要保留并用上家里的食材：${pantry.join('、')}）`;
   }
   if (constraints.feedback_hint) constraintNote += String(constraints.feedback_hint);
 
@@ -411,7 +520,8 @@ function buildPrompt(mealName, targets, constraints) {
     .replace('{ca}', safeInt(targets.ca, 800))
     .replace('{constraint_note}', constraintNote)
     .replace('{exclude_note}', excludeNote)
-    .replace('{season_note}', seasonNote(new Date()));
+    .replace('{season_note}', seasonNote(new Date()))
+    .replace('{recipe_grounding}', String(recipeGrounding || ''));
 }
 
 function parseModelJson(text) {
@@ -454,6 +564,31 @@ function normalizeMeal(meal, usage) {
   meal.has_fish = Boolean(meal.has_fish);
   meal.veg_count = safeInt(meal.veg_count, 3);
   if (usage?.total_tokens) meal._tokens = usage.total_tokens;
+  return meal;
+}
+
+function attachGroundedMetadata(meal, selection, constraints) {
+  const recipe = selection.recipe;
+  const aliases = selection.ingredientAliases || {};
+  const usedPantry = Array.isArray(selection.usedPantry) ? [...selection.usedPantry] : [];
+  const unusedPantry = Array.isArray(selection.unusedPantry) ? [...selection.unusedPantry] : [];
+  const fixedCore = new Set((Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [])
+    .map(item => canonicalRecipeIngredient(item, aliases))
+    .filter(Boolean));
+  const onlyFixedCore = usedPantry.every(item => fixedCore.has(canonicalRecipeIngredient(item, aliases)));
+
+  meal.family_id = String(recipe.family_id || selection.family?.id || '');
+  meal.base_recipe_id = String(recipe.id || '');
+  meal.basis_level = onlyFixedCore ? 'classic' : 'adapted';
+  meal.pairing_basis = usedPantry.length
+    ? `以「${String(recipe.name || recipe.id || '基础菜谱')}」为基础，使用${usedPantry.join('、')}。`
+    : `以「${String(recipe.name || recipe.id || '基础菜谱')}」为基础，按原有结构制作。`;
+  meal.used_pantry = usedPantry;
+  meal.unused_pantry = unusedPantry;
+  meal.source_refs = (Array.isArray(recipe.source_refs) ? recipe.source_refs : [])
+    .map(source => source && typeof source === 'object' ? { ...source } : source);
+  meal.safety_checks = Array.isArray(recipe.safety_rules) ? [...recipe.safety_rules] : [];
+  meal.validation_flags = validateGroundedMeal(meal, selection, constraints);
   return meal;
 }
 
@@ -500,7 +635,15 @@ async function handleGenerate(request, env) {
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
   const constraints = req.constraints && typeof req.constraints === 'object' ? req.constraints : {};
   const mealName = String(req.meal_name || '主餐');
-  const prompt = buildPrompt(mealName, targets, constraints);
+  let recipeLib;
+  try {
+    recipeLib = await getRecipeLib(env, request);
+  } catch (_err) {
+    return errorResponse('recipe_library_unavailable', '可信菜谱库暂时不可用', 503, env, {}, request);
+  }
+  const [selection] = selectRecipeCandidates(recipeLib, constraints);
+  if (!selection) return errorResponse('recipe_library_unavailable', '没有符合本次限制的可信基础菜谱', 503, env, {}, request);
+  const prompt = buildPrompt(mealName, targets, constraints, buildRecipeGrounding(selection));
   const body = {
     model: env.MODEL_NAME || 'deepseek-chat',
     messages: [
@@ -529,12 +672,23 @@ async function handleGenerate(request, env) {
   const data = JSON.parse(raw);
   const content = data?.choices?.[0]?.message?.content;
   const meal = normalizeMeal(parseModelJson(content), data.usage);
+  attachGroundedMetadata(meal, selection, constraints);
   await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
-  console.log(JSON.stringify({ evt: 'gen', ok: true, tokens: meal._tokens || 0, tw: meal._twMatched || 0, n: (meal.ingredients || []).length, ms: Date.now() - t0 }));
+  console.log(JSON.stringify({
+    evt: 'gen',
+    ok: true,
+    base: meal.base_recipe_id,
+    family: meal.family_id,
+    flags: meal.validation_flags.length,
+    tokens: meal._tokens || 0,
+    tw: meal._twMatched || 0,
+    n: (meal.ingredients || []).length,
+    ms: Date.now() - t0,
+  }));
   return jsonResponse(meal, 200, env, request);
 }
 
-export { canonicalRecipeIngredient, selectRecipeCandidates, getRecipeLib };
+export { buildRecipeGrounding, canonicalRecipeIngredient, selectRecipeCandidates, getRecipeLib, validateGroundedMeal };
 
 export default {
   async fetch(request, env) {
