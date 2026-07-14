@@ -1,0 +1,2710 @@
+[
+  {
+    "id": "adversarial-001-shrimp-not-cooked-a",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "虾仁",
+      "椰奶",
+      "红葱头"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "shrimp_not_cooked",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry",
+    "validation_recipe_id": "kari-ayam-coconut-chicken",
+    "meal_fixture": {
+      "dish_name": "未熟虾仁椰奶锅",
+      "ingredients": [
+        {
+          "name": "虾仁",
+          "grams": 100
+        },
+        {
+          "name": "椰奶",
+          "grams": 100
+        },
+        {
+          "name": "红葱头",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "虾仁洗净备用。",
+        "椰奶和红葱头煮熟，出锅后加入虾仁。"
+      ]
+    },
+    "expected_validation_flags": [
+      "high_risk_not_cooked:虾仁"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:虾仁",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-002-shrimp-not-cooked-b",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "水",
+      "虾仁"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "shrimp_not_cooked",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge",
+    "validation_recipe_id": "chinese-congee",
+    "meal_fixture": {
+      "dish_name": "关火加虾粥",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "水",
+          "grams": 100
+        },
+        {
+          "name": "虾仁",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米和水煮熟。",
+        "虾仁放一旁，关火后最后拌入。"
+      ]
+    },
+    "expected_validation_flags": [
+      "high_risk_not_cooked:虾仁",
+      "unused_pantry_used:虾仁"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:虾仁",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-003-raw-poultry-a",
+    "purpose": "quick",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "raw_poultry",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice",
+    "validation_recipe_id": "simple-chicken-biryani",
+    "meal_fixture": {
+      "dish_name": "未熟鸡肉焖饭",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "鸡肉切块备用。",
+        "大米和洋葱煮熟，出锅后加入鸡肉。"
+      ]
+    },
+    "expected_validation_flags": [
+      "high_risk_not_cooked:鸡肉"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:鸡肉",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-004-raw-poultry-b",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "番茄",
+      "火鸡肉",
+      "芹菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "raw_poultry",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice",
+    "validation_recipe_id": "creole-jambalaya",
+    "meal_fixture": {
+      "dish_name": "未熟火鸡什锦饭",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "火鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "芹菜",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "火鸡肉备用。",
+        "大米、番茄和芹菜煮熟，装盘后加入火鸡肉。"
+      ]
+    },
+    "expected_validation_flags": [
+      "high_risk_not_cooked:火鸡肉"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:火鸡肉",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-005-egg-allergy-a",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "水",
+      "鸡蛋"
+    ],
+    "dislikes": [
+      "鸡蛋过敏"
+    ],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "egg_allergy",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge",
+    "validation_recipe_id": "chinese-congee",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "水",
+          "grams": 100
+        },
+        {
+          "name": "鸡蛋",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "水煮熟。",
+        "鸡蛋煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:鸡蛋"
+    ],
+    "forbidden_validation_flags": [
+      "high_risk_not_cooked:鸡蛋",
+      "ingredient_missing_in_steps:鸡蛋"
+    ]
+  },
+  {
+    "id": "adversarial-006-egg-allergy-b",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱",
+      "鸡蛋"
+    ],
+    "dislikes": [
+      "鸡蛋过敏"
+    ],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "egg_allergy",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice",
+    "validation_recipe_id": "jollof-rice",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "甜椒",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        },
+        {
+          "name": "鸡蛋",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "番茄煮熟。",
+        "甜椒煮熟。",
+        "洋葱煮熟。",
+        "鸡蛋煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:鸡蛋"
+    ],
+    "forbidden_validation_flags": [
+      "high_risk_not_cooked:鸡蛋",
+      "ingredient_missing_in_steps:鸡蛋"
+    ]
+  },
+  {
+    "id": "adversarial-007-peanut-allergy-a",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄",
+      "花生"
+    ],
+    "dislikes": [
+      "花生过敏"
+    ],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "peanut_allergy",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew",
+    "validation_recipe_id": "lentil-potato-tomato-curry",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "红扁豆",
+          "grams": 100
+        },
+        {
+          "name": "土豆",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "花生",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "红扁豆煮熟。",
+        "土豆煮熟。",
+        "番茄煮熟。",
+        "花生煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:花生"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:花生",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-008-peanut-allergy-b",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "卷心菜",
+      "高汤",
+      "花生"
+    ],
+    "dislikes": [
+      "花生过敏"
+    ],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "peanut_allergy",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone",
+    "validation_recipe_id": "rice-cabbage-minestrone",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "卷心菜",
+          "grams": 100
+        },
+        {
+          "name": "高汤",
+          "grams": 100
+        },
+        {
+          "name": "花生",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "卷心菜煮熟。",
+        "高汤煮熟。",
+        "花生煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:花生"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:花生",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-009-gluten-free-noodles-a",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "卷心菜",
+      "高汤",
+      "面条"
+    ],
+    "dislikes": [
+      "面条过敏"
+    ],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "gluten_free_noodles",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone",
+    "validation_recipe_id": "rice-cabbage-minestrone",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "卷心菜",
+          "grams": 100
+        },
+        {
+          "name": "高汤",
+          "grams": 100
+        },
+        {
+          "name": "面条",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "卷心菜煮熟。",
+        "高汤煮熟。",
+        "面条煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:面条"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:面条",
+      "multi_pot_step"
+    ],
+    "diet": "gluten-free"
+  },
+  {
+    "id": "adversarial-010-gluten-free-noodles-b",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱",
+      "面条"
+    ],
+    "dislikes": [
+      "面条过敏"
+    ],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "gluten_free_noodles",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice",
+    "validation_recipe_id": "simple-chicken-biryani",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        },
+        {
+          "name": "面条",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "鸡肉煮熟。",
+        "洋葱煮熟。",
+        "面条煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:面条"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:面条",
+      "multi_pot_step"
+    ],
+    "diet": "gluten-free"
+  },
+  {
+    "id": "adversarial-011-vegan-restrictions-a",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄",
+      "鸡肉"
+    ],
+    "dislikes": [
+      "鸡肉过敏"
+    ],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "vegan_restrictions",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew",
+    "validation_recipe_id": "lentil-potato-tomato-curry",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "红扁豆",
+          "grams": 100
+        },
+        {
+          "name": "土豆",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "鸡肉",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "红扁豆煮熟。",
+        "土豆煮熟。",
+        "番茄煮熟。",
+        "鸡肉煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:鸡肉"
+    ],
+    "forbidden_validation_flags": [
+      "high_risk_not_cooked:鸡肉",
+      "ingredient_missing_in_steps:鸡肉"
+    ],
+    "diet": "vegan"
+  },
+  {
+    "id": "adversarial-012-vegan-restrictions-b",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜",
+      "牛肉"
+    ],
+    "dislikes": [
+      "牛肉过敏"
+    ],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "vegan_restrictions",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot",
+    "validation_recipe_id": "mung-bean-brown-rice-curry",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "糙米",
+          "grams": 100
+        },
+        {
+          "name": "绿豆",
+          "grams": 100
+        },
+        {
+          "name": "卷心菜",
+          "grams": 100
+        },
+        {
+          "name": "甜椒",
+          "grams": 100
+        },
+        {
+          "name": "胡萝卜",
+          "grams": 100
+        },
+        {
+          "name": "牛肉",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "糙米煮熟。",
+        "绿豆煮熟。",
+        "卷心菜煮熟。",
+        "甜椒煮熟。",
+        "胡萝卜煮熟。",
+        "牛肉煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "allergen_present:牛肉"
+    ],
+    "forbidden_validation_flags": [
+      "high_risk_not_cooked:牛肉",
+      "ingredient_missing_in_steps:牛肉"
+    ],
+    "diet": "vegan"
+  },
+  {
+    "id": "adversarial-013-leaf-vegetable-water-release-a",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱",
+      "菠菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "leaf_vegetable_water_release",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice",
+    "validation_recipe_id": "simple-chicken-biryani",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        },
+        {
+          "name": "菠菜",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "鸡肉煮熟。",
+        "洋葱煮熟。",
+        "菠菜煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "unused_pantry_used:菠菜"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:菠菜",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-014-leaf-vegetable-water-release-b",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "鸡蛋",
+      "番茄",
+      "甜椒",
+      "油麦菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "leaf_vegetable_water_release",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot",
+    "validation_recipe_id": "shakshuka-tomato-egg",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "鸡蛋",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "甜椒",
+          "grams": 100
+        },
+        {
+          "name": "油麦菜",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "鸡蛋煮熟。",
+        "番茄煮熟。",
+        "甜椒煮熟。",
+        "油麦菜煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "unused_pantry_used:油麦菜"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:油麦菜",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-015-rice-water-mismatch-a",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "水"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "rice_water_mismatch",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge",
+    "validation_recipe_id": "chinese-congee",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "used_pantry_missing:水",
+      "base_recipe_anchor_missing"
+    ],
+    "forbidden_validation_flags": [
+      "multi_pot_step"
+    ],
+    "expected_grounding_tokens": [
+      "比例规则",
+      "1:11"
+    ]
+  },
+  {
+    "id": "adversarial-016-rice-water-mismatch-b",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "rice_water_mismatch",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice",
+    "validation_recipe_id": "jollof-rice",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "甜椒",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "番茄煮熟。",
+        "甜椒煮熟。",
+        "洋葱煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "used_pantry_missing:大米"
+    ],
+    "forbidden_validation_flags": [
+      "multi_pot_step"
+    ],
+    "expected_grounding_tokens": [
+      "比例规则",
+      "1:1"
+    ]
+  },
+  {
+    "id": "adversarial-017-forced-all-pantry-use-a",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱",
+      "黄瓜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "forced_all_pantry_use",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice",
+    "validation_recipe_id": "jollof-rice",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "甜椒",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        },
+        {
+          "name": "黄瓜",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "大米煮熟。",
+        "番茄煮熟。",
+        "甜椒煮熟。",
+        "洋葱煮熟。",
+        "黄瓜煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "unused_pantry_used:黄瓜"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:黄瓜",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-018-forced-all-pantry-use-b",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "意式烩饭米",
+      "洋葱",
+      "高汤",
+      "黄油",
+      "未焯水的大块土豆"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "adversarial",
+    "adversarial_kind": "forced_all_pantry_use",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto",
+    "validation_recipe_id": "basic-risotto",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "意式烩饭米",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        },
+        {
+          "name": "高汤",
+          "grams": 100
+        },
+        {
+          "name": "黄油",
+          "grams": 100
+        },
+        {
+          "name": "未焯水的大块土豆",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "意式烩饭米煮熟。",
+        "洋葱煮熟。",
+        "高汤煮熟。",
+        "黄油煮熟。",
+        "未焯水的大块土豆煮熟。"
+      ]
+    },
+    "expected_validation_flags": [
+      "unused_pantry_used:未焯水的大块土豆"
+    ],
+    "forbidden_validation_flags": [
+      "ingredient_missing_in_steps:未焯水的大块土豆",
+      "multi_pot_step"
+    ]
+  },
+  {
+    "id": "adversarial-019-repeated-swap-a",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "recent_base_recipes": [
+      "simple-chicken-biryani"
+    ],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "case_group": "adversarial",
+    "adversarial_kind": "repeated_swap",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-rice-legume-pot",
+    "validation_recipe_id": "chicken-black-eyed-pea-stew",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "黑眼豆",
+          "grams": 100
+        },
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "黑眼豆煮熟。",
+        "大米煮熟。",
+        "鸡肉煮熟。",
+        "番茄煮熟。",
+        "洋葱煮熟。",
+        "另起一锅烧开清水。"
+      ]
+    },
+    "expected_validation_flags": [
+      "multi_pot_step"
+    ],
+    "forbidden_validation_flags": [
+      "base_recipe_anchor_missing"
+    ]
+  },
+  {
+    "id": "adversarial-020-repeated-swap-b",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄"
+    ],
+    "dislikes": [],
+    "recent_base_recipes": [
+      "lentil-potato-tomato-curry"
+    ],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "case_group": "adversarial",
+    "adversarial_kind": "repeated_swap",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-rice-legume-pot",
+    "validation_recipe_id": "chicken-black-eyed-pea-stew",
+    "meal_fixture": {
+      "dish_name": "回归闸门对抗菜例",
+      "ingredients": [
+        {
+          "name": "黑眼豆",
+          "grams": 100
+        },
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "番茄",
+          "grams": 100
+        },
+        {
+          "name": "洋葱",
+          "grams": 100
+        }
+      ],
+      "steps": [
+        "黑眼豆煮熟。",
+        "大米煮熟。",
+        "鸡肉煮熟。",
+        "番茄煮熟。",
+        "洋葱煮熟。",
+        "另起一锅烧开清水。"
+      ]
+    },
+    "expected_validation_flags": [
+      "multi_pot_step"
+    ],
+    "forbidden_validation_flags": [
+      "base_recipe_anchor_missing"
+    ]
+  },
+  {
+    "id": "base-001-chinese-congee-exact-core",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "水"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge"
+  },
+  {
+    "id": "base-002-chinese-congee-alias-variant",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "白米",
+      "水"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge"
+  },
+  {
+    "id": "base-003-chinese-congee-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "水",
+      "生肉厚片"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge"
+  },
+  {
+    "id": "base-004-chinese-congee-fixed-core-dislike",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "水"
+    ],
+    "dislikes": [
+      "大米过敏"
+    ],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [
+      "chinese-congee"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge",
+    "disliked_fixed_core": "大米"
+  },
+  {
+    "id": "base-005-simple-chicken-biryani-exact-core",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice"
+  },
+  {
+    "id": "base-006-simple-chicken-biryani-alias-variant",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "白米",
+      "鸡胸肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice"
+  },
+  {
+    "id": "base-007-simple-chicken-biryani-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱",
+      "大量叶菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice"
+  },
+  {
+    "id": "base-008-simple-chicken-biryani-fixed-core-dislike",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [
+      "大米过敏"
+    ],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice",
+    "disliked_fixed_core": "大米"
+  },
+  {
+    "id": "base-009-jollof-rice-exact-core",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "base-010-jollof-rice-alias-variant",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "白米",
+      "西红柿",
+      "青椒",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "base-011-jollof-rice-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱",
+      "黄瓜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "base-012-jollof-rice-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "番茄",
+      "甜椒",
+      "洋葱"
+    ],
+    "dislikes": [
+      "大米过敏"
+    ],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [
+      "jollof-rice"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice",
+    "disliked_fixed_core": "大米"
+  },
+  {
+    "id": "base-013-creole-jambalaya-exact-core",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "番茄",
+      "鸡肉",
+      "芹菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "base-014-creole-jambalaya-alias-variant",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "白米",
+      "西红柿",
+      "鸡胸肉",
+      "芹菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "base-015-creole-jambalaya-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "番茄",
+      "鸡肉",
+      "芹菜",
+      "生鸡大块"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "base-016-creole-jambalaya-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "番茄",
+      "鸡肉",
+      "芹菜"
+    ],
+    "dislikes": [
+      "大米过敏"
+    ],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice",
+    "disliked_fixed_core": "大米"
+  },
+  {
+    "id": "base-017-mung-bean-brown-rice-curry-exact-core",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "base-018-mung-bean-brown-rice-curry-alias-variant",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "青椒",
+      "胡萝卜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "base-019-mung-bean-brown-rice-curry-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜",
+      "生土豆大块"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "base-020-mung-bean-brown-rice-curry-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜"
+    ],
+    "dislikes": [
+      "糙米过敏"
+    ],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot",
+    "disliked_fixed_core": "糙米"
+  },
+  {
+    "id": "base-021-chicken-black-eyed-pea-stew-exact-core",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "黑眼豆",
+      "大米",
+      "鸡肉",
+      "番茄",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "base-022-chicken-black-eyed-pea-stew-alias-variant",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "黑眼豆",
+      "白米",
+      "鸡胸肉",
+      "西红柿",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "base-023-chicken-black-eyed-pea-stew-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "黑眼豆",
+      "大米",
+      "鸡肉",
+      "番茄",
+      "洋葱",
+      "未预煮干黑眼豆"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "base-024-chicken-black-eyed-pea-stew-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "番茄",
+      "洋葱"
+    ],
+    "dislikes": [
+      "黑眼豆过敏"
+    ],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot",
+    "disliked_fixed_core": "黑眼豆"
+  },
+  {
+    "id": "base-025-lentil-potato-tomato-curry-exact-core",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "base-026-lentil-potato-tomato-curry-alias-variant",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "西红柿"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "base-027-lentil-potato-tomato-curry-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄",
+      "整粒鹰嘴豆"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "base-028-lentil-potato-tomato-curry-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "土豆",
+      "番茄"
+    ],
+    "dislikes": [
+      "红扁豆过敏"
+    ],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew",
+    "disliked_fixed_core": "红扁豆"
+  },
+  {
+    "id": "base-029-shakshuka-tomato-egg-exact-core",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "鸡蛋",
+      "番茄",
+      "甜椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot"
+  },
+  {
+    "id": "base-030-shakshuka-tomato-egg-alias-variant",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "鸡蛋",
+      "西红柿",
+      "青椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot"
+  },
+  {
+    "id": "base-031-shakshuka-tomato-egg-discouraged-pantry",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "鸡蛋",
+      "番茄",
+      "甜椒",
+      "大量高含水叶菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot"
+  },
+  {
+    "id": "base-032-shakshuka-tomato-egg-fixed-core-dislike",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "番茄",
+      "甜椒"
+    ],
+    "dislikes": [
+      "鸡蛋过敏"
+    ],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot",
+    "disliked_fixed_core": "鸡蛋"
+  },
+  {
+    "id": "base-033-texas-beef-chili-exact-core",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "牛肉",
+      "辣椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "texas-beef-chili"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "texas-beef-chili",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "base-034-texas-beef-chili-alias-variant",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "牛肉",
+      "辣椒（家中现有）"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "texas-beef-chili"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "texas-beef-chili",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "base-035-texas-beef-chili-discouraged-pantry",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "牛肉",
+      "辣椒",
+      "豆类"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "texas-beef-chili"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "texas-beef-chili",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "base-036-texas-beef-chili-fixed-core-dislike",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "牛肉"
+    ],
+    "dislikes": [
+      "辣椒过敏"
+    ],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [
+      "texas-beef-chili"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "texas-beef-chili",
+    "family_id": "family-legume-vegetable-stew",
+    "disliked_fixed_core": "辣椒"
+  },
+  {
+    "id": "base-037-kari-ayam-coconut-chicken-exact-core",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "鸡肉",
+      "椰奶",
+      "红葱头"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry"
+  },
+  {
+    "id": "base-038-kari-ayam-coconut-chicken-alias-variant",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "鸡胸肉",
+      "椰浆",
+      "红葱头"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry"
+  },
+  {
+    "id": "base-039-kari-ayam-coconut-chicken-discouraged-pantry",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "鸡肉",
+      "椰奶",
+      "红葱头",
+      "印度咖喱粉"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry"
+  },
+  {
+    "id": "base-040-kari-ayam-coconut-chicken-fixed-core-dislike",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "鸡肉",
+      "红葱头"
+    ],
+    "dislikes": [
+      "椰奶过敏"
+    ],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry",
+    "disliked_fixed_core": "椰奶"
+  },
+  {
+    "id": "base-041-basic-risotto-exact-core",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "意式烩饭米",
+      "洋葱",
+      "高汤",
+      "黄油"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto"
+  },
+  {
+    "id": "base-042-basic-risotto-alias-variant",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "意式烩饭米",
+      "洋葱",
+      "高汤",
+      "黄油（家中现有）"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto"
+  },
+  {
+    "id": "base-043-basic-risotto-discouraged-pantry",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "意式烩饭米",
+      "洋葱",
+      "高汤",
+      "黄油",
+      "一次倒入全部高汤"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto"
+  },
+  {
+    "id": "base-044-basic-risotto-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "意式烩饭米",
+      "高汤",
+      "黄油"
+    ],
+    "dislikes": [
+      "洋葱过敏"
+    ],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [
+      "basic-risotto"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto",
+    "disliked_fixed_core": "洋葱"
+  },
+  {
+    "id": "base-045-rice-cabbage-minestrone-exact-core",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "卷心菜",
+      "高汤"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "exact-core",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone"
+  },
+  {
+    "id": "base-046-rice-cabbage-minestrone-alias-variant",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "白米",
+      "卷心菜",
+      "高汤"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "alias-variant",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone"
+  },
+  {
+    "id": "base-047-rice-cabbage-minestrone-discouraged-pantry",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "卷心菜",
+      "高汤",
+      "大量生米"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "base",
+    "base_variant": "discouraged-pantry",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone"
+  },
+  {
+    "id": "base-048-rice-cabbage-minestrone-fixed-core-dislike",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "卷心菜",
+      "高汤"
+    ],
+    "dislikes": [
+      "大米过敏"
+    ],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "case_group": "base",
+    "base_variant": "fixed-core-dislike",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone",
+    "disliked_fixed_core": "大米"
+  },
+  {
+    "id": "cycle-001-chinese-congee-quick-1",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "水"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge"
+  },
+  {
+    "id": "cycle-002-simple-chicken-biryani-pantry-2",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice"
+  },
+  {
+    "id": "cycle-003-jollof-rice-fresh-4",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "cycle-004-creole-jambalaya-batch-1",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "番茄",
+      "鸡肉",
+      "芹菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "cycle-005-mung-bean-brown-rice-curry-quick-2",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "cycle-006-chicken-black-eyed-pea-stew-pantry-4",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "黑眼豆",
+      "大米",
+      "鸡肉",
+      "番茄",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "cycle-007-lentil-potato-tomato-curry-fresh-1",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "cycle-008-shakshuka-tomato-egg-batch-2",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "鸡蛋",
+      "番茄",
+      "甜椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot"
+  },
+  {
+    "id": "cycle-009-texas-beef-chili-quick-4",
+    "purpose": "quick",
+    "servings": 4,
+    "pantry": [
+      "牛肉",
+      "辣椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "texas-beef-chili"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "texas-beef-chili",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "cycle-010-kari-ayam-coconut-chicken-pantry-1",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "鸡肉",
+      "椰奶",
+      "红葱头"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry"
+  },
+  {
+    "id": "cycle-011-basic-risotto-fresh-2",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "意式烩饭米",
+      "洋葱",
+      "高汤",
+      "黄油"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto"
+  },
+  {
+    "id": "cycle-012-rice-cabbage-minestrone-batch-4",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "卷心菜",
+      "高汤"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone"
+  },
+  {
+    "id": "cycle-013-chinese-congee-quick-1",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "水"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge"
+  },
+  {
+    "id": "cycle-014-simple-chicken-biryani-pantry-2",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice"
+  },
+  {
+    "id": "cycle-015-jollof-rice-fresh-4",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "cycle-016-creole-jambalaya-batch-1",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "番茄",
+      "鸡肉",
+      "芹菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "cycle-017-mung-bean-brown-rice-curry-quick-2",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "cycle-018-chicken-black-eyed-pea-stew-pantry-4",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "黑眼豆",
+      "大米",
+      "鸡肉",
+      "番茄",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "cycle-019-lentil-potato-tomato-curry-fresh-1",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "cycle-020-shakshuka-tomato-egg-batch-2",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "鸡蛋",
+      "番茄",
+      "甜椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot"
+  },
+  {
+    "id": "cycle-021-texas-beef-chili-quick-4",
+    "purpose": "quick",
+    "servings": 4,
+    "pantry": [
+      "牛肉",
+      "辣椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "texas-beef-chili"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "texas-beef-chili",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "cycle-022-kari-ayam-coconut-chicken-pantry-1",
+    "purpose": "pantry",
+    "servings": 1,
+    "pantry": [
+      "鸡肉",
+      "椰奶",
+      "红葱头"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "kari-ayam-coconut-chicken"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "kari-ayam-coconut-chicken",
+    "family_id": "family-coconut-curry"
+  },
+  {
+    "id": "cycle-023-basic-risotto-fresh-2",
+    "purpose": "fresh",
+    "servings": 2,
+    "pantry": [
+      "意式烩饭米",
+      "洋葱",
+      "高汤",
+      "黄油"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "basic-risotto"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "basic-risotto",
+    "family_id": "family-risotto"
+  },
+  {
+    "id": "cycle-024-rice-cabbage-minestrone-batch-4",
+    "purpose": "batch",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "卷心菜",
+      "高汤"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "rice-cabbage-minestrone"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "rice-cabbage-minestrone",
+    "family_id": "family-minestrone"
+  },
+  {
+    "id": "cycle-025-chinese-congee-quick-1",
+    "purpose": "quick",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "水"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chinese-congee"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "chinese-congee",
+    "family_id": "family-rice-porridge"
+  },
+  {
+    "id": "cycle-026-simple-chicken-biryani-pantry-2",
+    "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "大米",
+      "鸡肉",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "simple-chicken-biryani"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "simple-chicken-biryani",
+    "family_id": "family-spiced-rice"
+  },
+  {
+    "id": "cycle-027-jollof-rice-fresh-4",
+    "purpose": "fresh",
+    "servings": 4,
+    "pantry": [
+      "大米",
+      "番茄",
+      "甜椒",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "jollof-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "jollof-rice",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "cycle-028-creole-jambalaya-batch-1",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "番茄",
+      "鸡肉",
+      "芹菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "creole-jambalaya"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "creole-jambalaya",
+    "family_id": "family-tomato-rice"
+  },
+  {
+    "id": "cycle-029-mung-bean-brown-rice-curry-quick-2",
+    "purpose": "quick",
+    "servings": 2,
+    "pantry": [
+      "糙米",
+      "绿豆",
+      "卷心菜",
+      "甜椒",
+      "胡萝卜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "mung-bean-brown-rice-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "mung-bean-brown-rice-curry",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "cycle-030-chicken-black-eyed-pea-stew-pantry-4",
+    "purpose": "pantry",
+    "servings": 4,
+    "pantry": [
+      "黑眼豆",
+      "大米",
+      "鸡肉",
+      "番茄",
+      "洋葱"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "chicken-black-eyed-pea-stew"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-rice-legume-pot"
+  },
+  {
+    "id": "cycle-031-lentil-potato-tomato-curry-fresh-1",
+    "purpose": "fresh",
+    "servings": 1,
+    "pantry": [
+      "红扁豆",
+      "土豆",
+      "番茄"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "lentil-potato-tomato-curry"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "lentil-potato-tomato-curry",
+    "family_id": "family-legume-vegetable-stew"
+  },
+  {
+    "id": "cycle-032-shakshuka-tomato-egg-batch-2",
+    "purpose": "batch",
+    "servings": 2,
+    "pantry": [
+      "鸡蛋",
+      "番茄",
+      "甜椒"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "shakshuka-tomato-egg"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "shakshuka-tomato-egg",
+    "family_id": "family-tomato-egg-pot"
+  }
+]
