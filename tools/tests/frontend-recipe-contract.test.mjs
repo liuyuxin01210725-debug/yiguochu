@@ -115,10 +115,14 @@ test('safeHttpUrl accepts direct HTTPS and rejects unsafe URL forms', () => {
     safeHttpUrl('javascript:alert(1)'),
     safeHttpUrl('data:text/html,bad'),
     safeHttpUrl('https://user:pass@example.com/path'),
-    safeHttpUrl('https://example.com\\\\@evil.test/path')
+    safeHttpUrl('https://example.com\\\\@evil.test/path'),
+    safeHttpUrl('\\nhttps://example.com/path'),
+    safeHttpUrl('https://example.com/path\\r'),
+    safeHttpUrl('https://example.com/\\u0000path'),
+    safeHttpUrl('https://example.com/\\tpath')
   ])`));
   assert.equal(values[0], 'https://example.com/path?q=1#part');
-  assert.deepEqual(values.slice(1), ['', '', '', '', '', '']);
+  assert.deepEqual(values.slice(1), ['', '', '', '', '', '', '', '', '', '']);
 });
 
 test('mapDish strictly normalizes trusted metadata and bounds source records', () => {
@@ -164,7 +168,7 @@ test('recipe evidence escapes text and href and uses source details', () => {
     basisLevel: 'adapted',
     pairingBasis: '<img src=x onerror=alert(1)>',
     usedPantry: ['<b>鸡蛋</b>'],
-    unusedPantry: ['<script>白菜</script>'],
+    unusedPantry: ['白菜', '<script>土豆</script>'],
     sourceRefs: [{
       title: '<img src=x onerror=alert(2)>',
       url: 'https://example.com/source?a=1&b=2',
@@ -176,9 +180,11 @@ test('recipe evidence escapes text and href and uses source details', () => {
   assert.match(rendered, /<details/);
   assert.match(rendered, /搭配依据/);
   assert.match(rendered, /这次没用/);
+  assert.match(rendered, /白菜、&lt;script&gt;土豆&lt;\/script&gt;。/);
   assert.match(rendered, /&lt;img src=x onerror=alert\(1\)&gt;/);
   assert.match(rendered, /href="https:\/\/example\.com\/source\?a=1&amp;b=2"/);
   assert.doesNotMatch(rendered, /<img|<script>|<b>CC BY|<i>Author/);
+  assert.doesNotMatch(rendered, /它不适合这道基础做法|为了清库存硬加进去/);
 });
 
 test('evidence is hidden without trusted metadata and on emergency fallback', () => {

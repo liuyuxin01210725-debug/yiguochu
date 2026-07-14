@@ -376,8 +376,9 @@ function boundedTextList(value, limit, max) {
   return out;
 }
 function safeHttpUrl(value) {
-  const raw = boundedText(value, 2048);
-  if (!raw || !/^https:\/\//i.test(raw) || /[\\\s\u0000-\u001f\u007f]/.test(raw)) return '';
+  if (typeof value !== 'string') return '';
+  const raw = value;
+  if (!raw || raw.length > 2048 || raw !== raw.trim() || !/^https:\/\//i.test(raw) || /[\\\s\u0000-\u001f\u007f]/.test(raw)) return '';
   try {
     const url = new URL(raw);
     if (url.protocol !== 'https:' || !url.hostname || url.username || url.password) return '';
@@ -815,7 +816,7 @@ function recipeBasisBlock(d) {
   const used = boundedTextList(d.usedPantry, 16, 80);
   const unused = boundedTextList(d.unusedPantry, 16, 80);
   const usedLine = used.length ? '<p class="basis-line"><strong>这次用上：</strong>' + esc(used.join('、')) + '。</p>' : '';
-  const unusedLine = unused.length ? '<p class="basis-line basis-unused"><strong>这次没用：</strong>' + esc(unused.join('、')) + '。它不适合这道基础做法，所以没有为了清库存硬加进去。</p>' : '';
+  const unusedLine = unused.length ? '<p class="basis-line basis-unused"><strong>这次没用：</strong>' + esc(unused.join('、')) + '。</p>' : '';
   const sourceRows = sources.map(source => {
     const title = source.title ? '<div class="basis-source-title">' + esc(source.title) + '</div>' : '';
     const license = source.license ? '<div class="basis-source-meta">授权：' + esc(source.license) + '</div>' : '';
