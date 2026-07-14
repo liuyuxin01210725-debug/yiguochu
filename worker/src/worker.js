@@ -4,15 +4,45 @@ const NUTRIENT_MAX = { kcal: 900, p: 100, fb: 100, mg: 1200, k: 5000, ca: 1500, 
 const RATE_BUCKETS = new Map();
 
 // ===== 菜谱库候选: 只做确定性查表与排序，不额外调用模型。=====
-let RECIPE_CACHE = null;
+const RECIPE_CACHE = new WeakMap();
+const RECIPE_FALLBACK_CACHE = new Map();
 
-function canonicalRecipeIngredient(name, aliases = {}) {
-  const norm = String(name || '').toLowerCase()
+function baseRecipeIngredient(name) {
+  return String(name || '').toLowerCase()
     .replace(/过敏|不吃|忌口|不要/g, '')
     .replace(/（/g, '(').replace(/）/g, ')')
     .replace(/\(.*?\)/g, '').replace(/[\s_-]+/g, '')
     .replace(/丁$|片$|块$|丝$|末$|粒$/g, '');
-  return aliases[norm] || norm;
+}
+
+function normalizeRecipeAliases(aliases) {
+  const normalized = new Map();
+  if (!aliases || typeof aliases !== 'object') return normalized;
+  for (const [rawKey, rawValue] of Object.entries(aliases)) {
+    const key = baseRecipeIngredient(rawKey);
+    const value = baseRecipeIngredient(rawValue);
+    if (key && value && !normalized.has(key)) normalized.set(key, value);
+  }
+  return normalized;
+}
+
+function resolveRecipeAlias(norm, aliases) {
+  const path = [];
+  const firstSeen = new Map();
+  let current = norm;
+  while (aliases.has(current)) {
+    if (firstSeen.has(current)) {
+      return path.slice(firstSeen.get(current)).sort()[0] || current;
+    }
+    firstSeen.set(current, path.length);
+    path.push(current);
+    current = aliases.get(current);
+  }
+  return current;
+}
+
+function canonicalRecipeIngredient(name, aliases = {}) {
+  return resolveRecipeAlias(baseRecipeIngredient(name), normalizeRecipeAliases(aliases));
 }
 
 function recipeConstraintList(value) {
@@ -22,12 +52,11 @@ function recipeConstraintList(value) {
 }
 
 function selectRecipeCandidates(lib, constraints = {}) {
-  const aliases = lib?.ingredient_aliases && typeof lib.ingredient_aliases === 'object'
-    ? lib.ingredient_aliases
-    : {};
+  const aliases = normalizeRecipeAliases(lib?.ingredient_aliases);
+  const canonical = name => resolveRecipeAlias(baseRecipeIngredient(name), aliases);
   const pantry = recipeConstraintList(constraints.pantry);
   const dislikes = new Set(recipeConstraintList(constraints.dislikes)
-    .map(item => canonicalRecipeIngredient(item, aliases))
+    .map(canonical)
     .filter(Boolean));
   const recentFamilies = new Set(recipeConstraintList(constraints.recent_families));
   const recentRecipes = new Set(recipeConstraintList(constraints.recent_base_recipes));
@@ -37,26 +66,26 @@ function selectRecipeCandidates(lib, constraints = {}) {
 
   for (const recipe of Array.isArray(lib?.recipes) ? lib.recipes : []) {
     const core = new Set((recipe.core_ingredients || [])
-      .map(item => canonicalRecipeIngredient(item, aliases))
+      .map(canonical)
       .filter(Boolean));
     const optional = new Set((recipe.optional_ingredients || [])
-      .map(item => canonicalRecipeIngredient(item, aliases))
+      .map(canonical)
       .filter(Boolean));
     const slots = Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [];
     const allowed = new Set(slots.flatMap(slot => slot.allowed || [])
-      .map(item => canonicalRecipeIngredient(item, aliases))
+      .map(canonical)
       .filter(Boolean));
 
     const blockedCore = [...core].some(coreItem => {
       if (!dislikes.has(coreItem)) return false;
       return !slots.some(slot => {
         const replacesCore = (slot.replaces || [])
-          .map(item => canonicalRecipeIngredient(item, aliases))
+          .map(canonical)
           .includes(coreItem);
         if (!replacesCore) return false;
         return (slot.allowed || []).some(item => {
           const raw = String(item || '').trim();
-          const substitute = canonicalRecipeIngredient(raw, aliases);
+          const substitute = canonical(raw);
           return substitute && substitute !== coreItem && !dislikes.has(substitute) && !/^不(?:放|加|用)/.test(raw);
         });
       });
@@ -65,28 +94,28 @@ function selectRecipeCandidates(lib, constraints = {}) {
 
     const discouraged = new Set((recipe.discouraged || [])
       .flatMap(rule => rule.ingredients || [])
-      .map(item => canonicalRecipeIngredient(item, aliases))
+      .map(canonical)
       .filter(Boolean));
     const usedPantry = [];
     const unusedPantry = [];
     let score = 0;
 
     for (const item of pantry) {
-      const canonical = canonicalRecipeIngredient(item, aliases);
-      if (!canonical || dislikes.has(canonical)) {
+      const canonicalItem = canonical(item);
+      if (!canonicalItem || dislikes.has(canonicalItem)) {
         unusedPantry.push(item);
         continue;
       }
-      if (core.has(canonical)) {
+      if (core.has(canonicalItem)) {
         score += 12;
         usedPantry.push(item);
-      } else if (allowed.has(canonical) || optional.has(canonical)) {
+      } else if (allowed.has(canonicalItem) || optional.has(canonicalItem)) {
         score += 5;
         usedPantry.push(item);
       } else {
         unusedPantry.push(item);
       }
-      if (discouraged.has(canonical)) score -= 8;
+      if (discouraged.has(canonicalItem)) score -= 8;
     }
 
     if ((recipe.purposes || []).includes(String(constraints.purpose || ''))) score += 3;
@@ -106,7 +135,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
   const selectedIds = new Set();
   const selectedFamilies = new Set();
   for (const candidate of candidates) {
-    if (selectedFamilies.has(candidate.recipe.family_id)) continue;
+    if (selectedIds.has(candidate.recipe.id) || selectedFamilies.has(candidate.recipe.family_id)) continue;
     selected.push(candidate);
     selectedIds.add(candidate.recipe.id);
     selectedFamilies.add(candidate.recipe.family_id);
@@ -115,21 +144,25 @@ function selectRecipeCandidates(lib, constraints = {}) {
   for (const candidate of candidates) {
     if (selectedIds.has(candidate.recipe.id)) continue;
     selected.push(candidate);
+    selectedIds.add(candidate.recipe.id);
     if (selected.length === 3) break;
   }
   return selected;
 }
 
 async function getRecipeLib(env, request) {
-  if (RECIPE_CACHE) return RECIPE_CACHE;
-  if (!env.ASSETS) throw new Error('recipe_library_unavailable');
+  const assets = env?.ASSETS;
+  if (!assets || typeof assets.fetch !== 'function') throw new Error('recipe_library_unavailable');
+  const isWeakKey = (typeof assets === 'object' && assets !== null) || typeof assets === 'function';
+  const cache = isWeakKey ? RECIPE_CACHE : RECIPE_FALLBACK_CACHE;
+  if (cache.has(assets)) return cache.get(assets);
   const url = new URL('/recipe-library.json', request.url);
-  const response = await env.ASSETS.fetch(new Request(url.toString()));
+  const response = await assets.fetch(new Request(url.toString()));
   if (!response?.ok) throw new Error('recipe_library_unavailable');
   const lib = await response.json();
   if (!Array.isArray(lib.recipes) || !lib.recipes.length) throw new Error('recipe_library_empty');
-  RECIPE_CACHE = lib;
-  return RECIPE_CACHE;
+  cache.set(assets, lib);
+  return lib;
 }
 
 // ===== 第二层兜底: 台湾食药署食品营养成分库(权威, OGDL-Taiwan-1.0)。模型生成的食材做高置信匹配, 命中即覆盖为权威值。=====
