@@ -3,6 +3,135 @@ const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc
 const NUTRIENT_MAX = { kcal: 900, p: 100, fb: 100, mg: 1200, k: 5000, ca: 1500, fe: 50, zn: 50, na: 40000, vc: 2000, vd: 50, w3: 60 };
 const RATE_BUCKETS = new Map();
 
+// ===== 菜谱库候选: 只做确定性查表与排序，不额外调用模型。=====
+let RECIPE_CACHE = null;
+
+function canonicalRecipeIngredient(name, aliases = {}) {
+  const norm = String(name || '').toLowerCase()
+    .replace(/过敏|不吃|忌口|不要/g, '')
+    .replace(/（/g, '(').replace(/）/g, ')')
+    .replace(/\(.*?\)/g, '').replace(/[\s_-]+/g, '')
+    .replace(/丁$|片$|块$|丝$|末$|粒$/g, '');
+  return aliases[norm] || norm;
+}
+
+function recipeConstraintList(value) {
+  if (Array.isArray(value)) return value.map(item => String(item || '').trim()).filter(Boolean);
+  if (typeof value === 'string') return value.replace(/[，、]/g, ',').split(',').map(item => item.trim()).filter(Boolean);
+  return [];
+}
+
+function selectRecipeCandidates(lib, constraints = {}) {
+  const aliases = lib?.ingredient_aliases && typeof lib.ingredient_aliases === 'object'
+    ? lib.ingredient_aliases
+    : {};
+  const pantry = recipeConstraintList(constraints.pantry);
+  const dislikes = new Set(recipeConstraintList(constraints.dislikes)
+    .map(item => canonicalRecipeIngredient(item, aliases))
+    .filter(Boolean));
+  const recentFamilies = new Set(recipeConstraintList(constraints.recent_families));
+  const recentRecipes = new Set(recipeConstraintList(constraints.recent_base_recipes));
+  const familyById = new Map((Array.isArray(lib?.families) ? lib.families : [])
+    .map(family => [family.id, family]));
+  const candidates = [];
+
+  for (const recipe of Array.isArray(lib?.recipes) ? lib.recipes : []) {
+    const core = new Set((recipe.core_ingredients || [])
+      .map(item => canonicalRecipeIngredient(item, aliases))
+      .filter(Boolean));
+    const optional = new Set((recipe.optional_ingredients || [])
+      .map(item => canonicalRecipeIngredient(item, aliases))
+      .filter(Boolean));
+    const slots = Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [];
+    const allowed = new Set(slots.flatMap(slot => slot.allowed || [])
+      .map(item => canonicalRecipeIngredient(item, aliases))
+      .filter(Boolean));
+
+    const blockedCore = [...core].some(coreItem => {
+      if (!dislikes.has(coreItem)) return false;
+      return !slots.some(slot => {
+        const replacesCore = (slot.replaces || [])
+          .map(item => canonicalRecipeIngredient(item, aliases))
+          .includes(coreItem);
+        if (!replacesCore) return false;
+        return (slot.allowed || []).some(item => {
+          const raw = String(item || '').trim();
+          const substitute = canonicalRecipeIngredient(raw, aliases);
+          return substitute && substitute !== coreItem && !dislikes.has(substitute) && !/^不(?:放|加|用)/.test(raw);
+        });
+      });
+    });
+    if (blockedCore) continue;
+
+    const discouraged = new Set((recipe.discouraged || [])
+      .flatMap(rule => rule.ingredients || [])
+      .map(item => canonicalRecipeIngredient(item, aliases))
+      .filter(Boolean));
+    const usedPantry = [];
+    const unusedPantry = [];
+    let score = 0;
+
+    for (const item of pantry) {
+      const canonical = canonicalRecipeIngredient(item, aliases);
+      if (!canonical || dislikes.has(canonical)) {
+        unusedPantry.push(item);
+        continue;
+      }
+      if (core.has(canonical)) {
+        score += 12;
+        usedPantry.push(item);
+      } else if (allowed.has(canonical) || optional.has(canonical)) {
+        score += 5;
+        usedPantry.push(item);
+      } else {
+        unusedPantry.push(item);
+      }
+      if (discouraged.has(canonical)) score -= 8;
+    }
+
+    if ((recipe.purposes || []).includes(String(constraints.purpose || ''))) score += 3;
+    if (recentFamilies.has(recipe.family_id)) score -= 20;
+    if (recentRecipes.has(recipe.id)) score -= 100;
+    candidates.push({
+      recipe,
+      family: familyById.get(recipe.family_id),
+      score,
+      usedPantry,
+      unusedPantry,
+    });
+  }
+
+  candidates.sort((a, b) => b.score - a.score || String(a.recipe.id).localeCompare(String(b.recipe.id)));
+  const selected = [];
+  const selectedIds = new Set();
+  const selectedFamilies = new Set();
+  for (const candidate of candidates) {
+    if (selectedFamilies.has(candidate.recipe.family_id)) continue;
+    selected.push(candidate);
+    selectedIds.add(candidate.recipe.id);
+    selectedFamilies.add(candidate.recipe.family_id);
+    if (selected.length === 3) return selected;
+  }
+  for (const candidate of candidates) {
+    if (selectedIds.has(candidate.recipe.id)) continue;
+    selected.push(candidate);
+    if (selected.length === 3) break;
+  }
+  return selected;
+}
+
+async function getRecipeLib(env, request) {
+  if (RECIPE_CACHE) return RECIPE_CACHE;
+  if (!env.ASSETS) throw new Error('recipe_library_unavailable');
+  const url = new URL('/recipe-library.json', request.url);
+  const response = await env.ASSETS.fetch(new Request(url.toString()));
+  if (!response?.ok) throw new Error('recipe_library_unavailable');
+  const lib = await response.json();
+  if (!Array.isArray(lib.recipes) || !lib.recipes.length) throw new Error('recipe_library_empty');
+  RECIPE_CACHE = lib;
+  return RECIPE_CACHE;
+}
+
 // ===== 第二层兜底: 台湾食药署食品营养成分库(权威, OGDL-Taiwan-1.0)。模型生成的食材做高置信匹配, 命中即覆盖为权威值。=====
 let TW_CACHE = null;
 function twNorm(s) { return String(s || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/\s+/g, ''); }
@@ -372,12 +501,32 @@ async function handleGenerate(request, env) {
   return jsonResponse(meal, 200, env, request);
 }
 
+export { canonicalRecipeIngredient, selectRecipeCandidates, getRecipeLib };
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env, request) });
     if (request.method === 'GET' && url.pathname === '/health') {
-      return jsonResponse({ status: 'ok', provider: 'deepseek', model: env.MODEL_NAME || 'deepseek-chat', budget: env.RATE_KV ? 'kv' : 'memory' }, 200, env, request);
+      let recipeLibrary = 'ok';
+      let recipeFamilies = 0;
+      let baseRecipes = 0;
+      try {
+        const lib = await getRecipeLib(env, request);
+        recipeFamilies = Array.isArray(lib.families) ? lib.families.length : 0;
+        baseRecipes = lib.recipes.length;
+      } catch (_err) {
+        recipeLibrary = 'unavailable';
+      }
+      return jsonResponse({
+        status: 'ok',
+        provider: 'deepseek',
+        model: env.MODEL_NAME || 'deepseek-chat',
+        budget: env.RATE_KV ? 'kv' : 'memory',
+        recipeLibrary,
+        recipeFamilies,
+        baseRecipes,
+      }, 200, env, request);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {
       try {
