@@ -6,6 +6,16 @@ const RATE_BUCKETS = new Map();
 // ===== 菜谱库候选: 只做确定性查表与排序，不额外调用模型。=====
 const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
+const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
+
+function sanitizePromptText(value, maxLength = 160) {
+  return String(value ?? '')
+    .replace(RECIPE_GROUNDING_TOKEN_RE, '')
+    .replace(/[\u0000-\u001f\u007f-\u009f]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength);
+}
 
 function baseRecipeIngredient(name) {
   return String(name || '').toLowerCase()
@@ -46,9 +56,35 @@ function canonicalRecipeIngredient(name, aliases = {}) {
 }
 
 function recipeConstraintList(value) {
-  if (Array.isArray(value)) return value.map(item => String(item || '').trim()).filter(Boolean);
-  if (typeof value === 'string') return value.replace(/[，、]/g, ',').split(',').map(item => item.trim()).filter(Boolean);
+  if (Array.isArray(value)) return value.map(item => sanitizePromptText(item, 80)).filter(Boolean);
+  if (typeof value === 'string') return value.replace(/[，、]/g, ',').split(',').map(item => sanitizePromptText(item, 80)).filter(Boolean);
   return [];
+}
+
+function sanitizeRecipeConstraints(value) {
+  const input = value && typeof value === 'object' ? value : {};
+  const recentIngredients = input.recent_ingredients && typeof input.recent_ingredients === 'object'
+    ? {
+      ...input.recent_ingredients,
+      recent_proteins: recipeConstraintList(input.recent_ingredients.recent_proteins),
+      recent_veggies: recipeConstraintList(input.recent_ingredients.recent_veggies),
+      recent_carbs: recipeConstraintList(input.recent_ingredients.recent_carbs),
+    }
+    : input.recent_ingredients;
+  return {
+    ...input,
+    diet: sanitizePromptText(input.diet, 20),
+    purpose: sanitizePromptText(input.purpose, 20),
+    pantry: recipeConstraintList(input.pantry),
+    dislikes: recipeConstraintList(input.dislikes),
+    recent_dishes: recipeConstraintList(input.recent_dishes),
+    recent_families: recipeConstraintList(input.recent_families),
+    recent_base_recipes: recipeConstraintList(input.recent_base_recipes),
+    balance_low: recipeConstraintList(input.balance_low),
+    swap_hint: sanitizePromptText(input.swap_hint, 160),
+    feedback_hint: sanitizePromptText(input.feedback_hint, 160),
+    recent_ingredients: recentIngredients,
+  };
 }
 
 function selectRecipeCandidates(lib, constraints = {}) {
@@ -152,7 +188,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
 }
 
 function compactRecipeList(value, fallback = '无') {
-  const items = Array.isArray(value) ? value.map(item => String(item || '').trim()).filter(Boolean) : [];
+  const items = Array.isArray(value) ? value.map(item => sanitizePromptText(item, 240)).filter(Boolean) : [];
   return items.length ? items.join('、') : fallback;
 }
 
@@ -160,13 +196,13 @@ function buildRecipeGrounding(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const family = selection?.family && typeof selection.family === 'object' ? selection.family : {};
   const slots = (Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [])
-    .map(slot => `${String(slot?.slot || '替换位')}[${compactRecipeList(slot?.replaces)}→${compactRecipeList(slot?.allowed)}]`);
+    .map(slot => `${sanitizePromptText(slot?.slot || '替换位', 80)}[${compactRecipeList(slot?.replaces)}→${compactRecipeList(slot?.allowed)}]`);
   const discouraged = (Array.isArray(recipe.discouraged) ? recipe.discouraged : [])
-    .map(rule => `${compactRecipeList(rule?.ingredients)}(${String(rule?.reason || '不适合基础结构').trim()})`);
+    .map(rule => `${compactRecipeList(rule?.ingredients)}(${sanitizePromptText(rule?.reason || '不适合基础结构', 240)})`);
   return [
     '【可信基础菜谱】',
-    `菜谱家族: ${String(family.id || recipe.family_id || 'unknown')} ${String(family.name || '').trim()}`.trim(),
-    `基础菜谱: ${String(recipe.id || 'unknown')} ${String(recipe.name || '').trim()}`.trim(),
+    `菜谱家族: ${sanitizePromptText(family.id || recipe.family_id || 'unknown', 100)} ${sanitizePromptText(family.name, 100)}`.trim(),
+    `基础菜谱: ${sanitizePromptText(recipe.id || 'unknown', 100)} ${sanitizePromptText(recipe.name, 100)}`.trim(),
     `固定核心: ${compactRecipeList(recipe.core_ingredients)}`,
     `只允许以下替换: ${compactRecipeList(slots)}`,
     `不鼓励: ${compactRecipeList(discouraged)}`,
@@ -207,12 +243,51 @@ function validationSearchTokens(name, aliases) {
       if (canonicalRecipeIngredient(alias, aliases) === canonical) tokens.add(baseRecipeIngredient(alias));
     }
   }
+  if (tokens.has('鸡蛋')) tokens.add('蛋液');
+  if (tokens.has('蛋液')) tokens.add('鸡蛋');
   return [...tokens].filter(Boolean).sort((a, b) => b.length - a.length);
+}
+
+function validationTokenMentioned(text, token) {
+  let offset = 0;
+  while (offset <= text.length - token.length) {
+    const index = text.indexOf(token, offset);
+    if (index < 0) return false;
+    const prefix = text.slice(Math.max(0, index - 10), index);
+    const negated = /(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$/.test(prefix);
+    const blockedShortForm = token === '米' && text[index - 1] === '玉';
+    if (!negated && !blockedShortForm) return true;
+    offset = index + token.length;
+  }
+  return false;
 }
 
 function validationStepMentions(step, name, aliases) {
   const text = String(step || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/[\s_-]+/g, '');
-  return validationSearchTokens(name, aliases).some(token => text.includes(token));
+  return validationSearchTokens(name, aliases).some(token => validationTokenMentioned(text, token));
+}
+
+const VALIDATION_COOKED_RE = /(?:熟|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开)/;
+const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
+
+function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
+  const target = canonicalRecipeIngredient(name, aliases);
+  const otherIngredients = ingredientNames.filter(other => canonicalRecipeIngredient(other, aliases) !== target);
+  for (const step of steps) {
+    const clauses = String(step).split(/[，,。；;！？!?]+/).map(clause => clause.trim()).filter(Boolean);
+    for (let index = 0; index < clauses.length; index++) {
+      const clause = clauses[index];
+      if (!validationStepMentions(clause, name, aliases)) continue;
+      if (VALIDATION_UNHEATED_RELATION_RE.test(clause)) continue;
+      if (VALIDATION_COOKED_RE.test(clause)) return true;
+      const next = clauses[index + 1] || '';
+      const nextNamesAnotherIngredient = otherIngredients.some(other => validationStepMentions(next, other, aliases));
+      if (next && !nextNamesAnotherIngredient
+        && !VALIDATION_UNHEATED_RELATION_RE.test(next)
+        && VALIDATION_COOKED_RE.test(next)) return true;
+    }
+  }
+  return false;
 }
 
 function validateGroundedMeal(meal, selection, constraints = {}) {
@@ -232,8 +307,7 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
       flags.add(`ingredient_missing_in_steps:${name}`);
     }
     if (/(?:禽|鸡|鸭|猪|虾|蟹|贝|鱼|蛋)/.test(`${name}${canonical}`)) {
-      const cooked = steps.some(step => validationStepMentions(step, name, aliases)
-        && /(?:熟|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开)/.test(step));
+      const cooked = validationHighRiskCooked(name, steps, aliases, ingredientNames);
       if (!cooked) flags.add(`high_risk_not_cooked:${name}`);
     }
   }
@@ -254,7 +328,9 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   const requiredAnchorHits = Math.min(2, anchors.size);
   const anchorHits = [...anchors].filter(anchor => canonicalIngredients.has(anchor)).length;
   if (anchorHits < requiredAnchorHits) flags.add('base_recipe_anchor_missing');
-  if (steps.some(step => /(?:另起锅|另锅|另一口锅|第二口锅|分别焯)/.test(step))) flags.add('multi_pot_step');
+  if (steps.some(step => /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)/.test(step.replace(/\s+/g, '')))) {
+    flags.add('multi_pot_step');
+  }
   return [...flags];
 }
 
@@ -425,10 +501,10 @@ function errorResponse(code, message, status, env, extra = {}, request) {
 
 function asList(value) {
   let arr = [];
-  if (Array.isArray(value)) arr = value.map(x => String(x).trim());
-  else if (typeof value === 'string') arr = value.replace(/[，、]/g, ',').split(',').map(x => x.trim());
+  if (Array.isArray(value)) arr = value;
+  else if (typeof value === 'string') arr = value.replace(/[，、]/g, ',').split(',');
   // #12: 每项去换行 + 限长, 列表限项数, 防用户输入注入 prompt
-  return arr.map(x => x.replace(/[\r\n]+/g, ' ').slice(0, 20)).filter(Boolean).slice(0, 20);
+  return arr.map(x => sanitizePromptText(x, 20)).filter(Boolean).slice(0, 20);
 }
 
 function safeInt(value, fallback) {
@@ -461,6 +537,7 @@ function seasonNote(now) {
 }
 
 function buildPrompt(mealName, targets, constraints, recipeGrounding) {
+  const trustedTemplate = RECIPE_TEMPLATE.replace('{recipe_grounding}', String(recipeGrounding || ''));
   let constraintNote = '';
   const diet = constraints.diet;
   if (diet && diet !== 'omnivore') {
@@ -488,7 +565,7 @@ function buildPrompt(mealName, targets, constraints, recipeGrounding) {
     constraintNote += '最近几餐钠偏高, 这一锅请少油少盐、少用腌制/酱料/加工肉。';
   }
   if (constraints.swap_hint) {
-    constraintNote += String(constraints.swap_hint);
+    constraintNote += sanitizePromptText(constraints.swap_hint, 160);
   }
   if (constraints.feedback_hint) constraintNote += String(constraints.feedback_hint);
 
@@ -512,16 +589,16 @@ function buildPrompt(mealName, targets, constraints, recipeGrounding) {
     }
   }
 
-  return RECIPE_TEMPLATE
-    .replace('{meal_name}', mealName)
+  const prompt = trustedTemplate
+    .replace('{meal_name}', sanitizePromptText(mealName, 80))
     .replace('{kcal}', safeInt(targets.kcal, 1800))
     .replace('{p}', safeInt(targets.p, 60))
     .replace('{fb}', safeInt(targets.fb, 25))
     .replace('{ca}', safeInt(targets.ca, 800))
     .replace('{constraint_note}', constraintNote)
     .replace('{exclude_note}', excludeNote)
-    .replace('{season_note}', seasonNote(new Date()))
-    .replace('{recipe_grounding}', String(recipeGrounding || ''));
+    .replace('{season_note}', seasonNote(new Date()));
+  return prompt.replace(RECIPE_GROUNDING_TOKEN_RE, '');
 }
 
 function parseModelJson(text) {
@@ -585,8 +662,7 @@ function attachGroundedMetadata(meal, selection, constraints) {
     : `以「${String(recipe.name || recipe.id || '基础菜谱')}」为基础，按原有结构制作。`;
   meal.used_pantry = usedPantry;
   meal.unused_pantry = unusedPantry;
-  meal.source_refs = (Array.isArray(recipe.source_refs) ? recipe.source_refs : [])
-    .map(source => source && typeof source === 'object' ? { ...source } : source);
+  meal.source_refs = structuredClone(Array.isArray(recipe.source_refs) ? recipe.source_refs : []);
   meal.safety_checks = Array.isArray(recipe.safety_rules) ? [...recipe.safety_rules] : [];
   meal.validation_flags = validateGroundedMeal(meal, selection, constraints);
   return meal;
@@ -633,7 +709,7 @@ async function handleGenerate(request, env) {
 
   const req = await request.json().catch(() => ({}));
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
-  const constraints = req.constraints && typeof req.constraints === 'object' ? req.constraints : {};
+  const constraints = sanitizeRecipeConstraints(req.constraints);
   const mealName = String(req.meal_name || '主餐');
   let recipeLib;
   try {
