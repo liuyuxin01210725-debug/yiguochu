@@ -561,6 +561,21 @@ test('high-risk cooking evidence belongs to the ingredient action window', () =>
   assert.equal(safeFlags.includes('high_risk_not_cooked:鸡肉'), false);
 });
 
+test('cooking an earlier ingredient before adding chicken is not chicken cooking evidence', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉', '大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉', '大米'], dislikes: [] });
+  const flags = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }, { name: '大米' }],
+    steps: ['大米煮熟后加入鸡肉。'],
+  }, selection, { dislikes: [] });
+  assert.ok(flags.includes('high_risk_not_cooked:鸡肉'));
+  const prefixCookingFlags = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }],
+    steps: ['煮熟鸡肉。'],
+  }, selection, { dislikes: [] });
+  assert.equal(prefixCookingFlags.includes('high_risk_not_cooked:鸡肉'), false);
+});
+
 test('controlled egg word forms count as the same mentioned and cooked ingredient', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡蛋'] });
   const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡蛋'], dislikes: [] });

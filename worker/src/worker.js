@@ -248,18 +248,23 @@ function validationSearchTokens(name, aliases) {
   return [...tokens].filter(Boolean).sort((a, b) => b.length - a.length);
 }
 
-function validationTokenMentioned(text, token) {
+function validationTokenPositions(text, token) {
+  const positions = [];
   let offset = 0;
   while (offset <= text.length - token.length) {
     const index = text.indexOf(token, offset);
-    if (index < 0) return false;
+    if (index < 0) break;
     const prefix = text.slice(Math.max(0, index - 10), index);
     const negated = /(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$/.test(prefix);
     const blockedShortForm = token === '米' && text[index - 1] === '玉';
-    if (!negated && !blockedShortForm) return true;
+    if (!negated && !blockedShortForm) positions.push(index);
     offset = index + token.length;
   }
-  return false;
+  return positions;
+}
+
+function validationTokenMentioned(text, token) {
+  return validationTokenPositions(text, token).length > 0;
 }
 
 function validationStepMentions(step, name, aliases) {
@@ -269,6 +274,23 @@ function validationStepMentions(step, name, aliases) {
 
 const VALIDATION_COOKED_RE = /(?:熟|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开)/;
 const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
+const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
+
+function validationClauseCooksTarget(clause, name, aliases) {
+  const text = String(clause || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/[\s_-]+/g, '');
+  const targetPositions = validationSearchTokens(name, aliases)
+    .flatMap(token => validationTokenPositions(text, token));
+  const cookedRe = new RegExp(VALIDATION_COOKED_RE.source, 'g');
+  for (const cooked of text.matchAll(cookedRe)) {
+    const cookedEnd = cooked.index + cooked[0].length;
+    const belongsToEarlierIngredient = targetPositions.some(targetIndex => (
+      targetIndex >= cookedEnd
+      && VALIDATION_DELAYED_ADD_RE.test(text.slice(cookedEnd, targetIndex))
+    ));
+    if (!belongsToEarlierIngredient) return true;
+  }
+  return false;
+}
 
 function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
   const target = canonicalRecipeIngredient(name, aliases);
@@ -279,7 +301,7 @@ function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
       const clause = clauses[index];
       if (!validationStepMentions(clause, name, aliases)) continue;
       if (VALIDATION_UNHEATED_RELATION_RE.test(clause)) continue;
-      if (VALIDATION_COOKED_RE.test(clause)) return true;
+      if (validationClauseCooksTarget(clause, name, aliases)) return true;
       const next = clauses[index + 1] || '';
       const nextNamesAnotherIngredient = otherIngredients.some(other => validationStepMentions(next, other, aliases));
       if (next && !nextNamesAnotherIngredient
