@@ -1,0 +1,408 @@
+{
+  "schema_version": 1,
+  "ingredient_aliases": {
+    "西红柿": "番茄",
+    "白米": "大米",
+    "鸡腿肉": "鸡肉",
+    "鸡胸肉": "鸡肉",
+    "青椒": "甜椒",
+    "椰浆": "椰奶"
+  },
+  "families": [
+    { "id": "family-rice-porridge", "name": "米粥", "form": "粥" },
+    { "id": "family-spiced-rice", "name": "香料焖饭", "form": "焖饭" },
+    { "id": "family-tomato-rice", "name": "番茄焖饭", "form": "焖饭" },
+    { "id": "family-rice-legume-pot", "name": "谷豆一锅饭", "form": "饭锅" },
+    { "id": "family-legume-vegetable-stew", "name": "豆蔬炖锅", "form": "炖锅" },
+    { "id": "family-tomato-egg-pot", "name": "番茄炖蛋", "form": "炖锅" },
+    { "id": "family-coconut-curry", "name": "椰香咖喱", "form": "咖喱锅" },
+    { "id": "family-risotto", "name": "意式烩饭", "form": "烩饭" },
+    { "id": "family-minestrone", "name": "米粒杂蔬汤", "form": "浓汤" }
+  ],
+  "recipes": [
+    {
+      "id": "chinese-congee",
+      "family_id": "family-rice-porridge",
+      "status": "approved",
+      "name": "中式基础粥",
+      "cuisine": "中式",
+      "form": "粥",
+      "summary": "用充足液体把大米慢煮至绵软，再按口味加入少量咸鲜调味和香味配料。",
+      "purposes": ["quick", "pantry", "batch"],
+      "core_ingredients": ["大米", "水"],
+      "optional_ingredients": ["鸡高汤", "酱油", "芝麻油", "白胡椒", "葱", "香菜", "姜", "芝麻"],
+      "substitution_slots": [
+        { "slot": "煮粥液体", "replaces": ["水"], "allowed": ["鸡高汤"] },
+        { "slot": "收尾香味", "replaces": ["葱"], "allowed": ["香菜", "姜", "芝麻"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["生肉厚片", "大块鱼肉"], "reason_type": "safety", "reason": "不能只靠关火后的粥温把厚块肉或鱼焖熟。" }
+      ],
+      "technique": ["煮沸转小火", "慢熬出胶", "最后调味"],
+      "ratio_rules": ["大米与液体约为1:11（克与毫升）", "液体减少过快时少量补热水"],
+      "safety_rules": ["加入生肉或生鱼时必须继续加热至完全熟透", "冷藏剩粥再次食用前要彻底加热"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Chinese Rice Porridge (Congee)",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Chinese_Rice_Porridge_(Congee)",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Chinese Rice Porridge (Congee)",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "simple-chicken-biryani",
+      "family_id": "family-spiced-rice",
+      "status": "approved",
+      "name": "简化一锅鸡肉香料饭",
+      "cuisine": "南亚风味",
+      "form": "焖饭",
+      "summary": "先用油脂炒香洋葱和整粒香料，再让鸡肉、大米与高汤同锅焖熟并静置吸汁。",
+      "purposes": ["quick", "fresh", "batch"],
+      "core_ingredients": ["大米", "鸡肉", "洋葱"],
+      "optional_ingredients": ["黄油", "月桂叶", "姜黄", "豆蔻", "肉桂", "咖喱酱", "葡萄干", "鸡高汤", "香菜"],
+      "substitution_slots": [
+        { "slot": "鸡肉部位", "replaces": ["鸡肉"], "allowed": ["鸡腿肉", "鸡胸肉"] },
+        { "slot": "果干", "replaces": ["葡萄干"], "allowed": ["杏干", "蔓越莓干"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["大量叶菜", "高含水瓜类"], "reason_type": "texture_water", "reason": "额外出水会破坏焖饭的吸水比例。" }
+      ],
+      "technique": ["炒香洋葱", "鸡肉短煎", "加盖焖饭", "离火静置"],
+      "ratio_rules": ["大米、鸡肉、高汤约为300克:600克:850毫升", "焖好后离火静置再翻松"],
+      "safety_rules": ["鸡肉中心必须完全熟透且不见粉红", "处理生鸡后清洁刀具和案板"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Simple Biryani",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Simple_Biryani",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Simple Biryani",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "jollof-rice",
+      "family_id": "family-tomato-rice",
+      "status": "approved",
+      "name": "西非番茄香料饭",
+      "cuisine": "西非风味",
+      "form": "焖饭",
+      "summary": "把番茄、甜椒和洋葱做成浓稠酱底，再用高汤把大米在酱汁里小火焖熟。",
+      "purposes": ["pantry", "fresh", "batch"],
+      "core_ingredients": ["大米", "番茄", "甜椒", "洋葱"],
+      "optional_ingredients": ["番茄膏", "辣椒", "植物油", "鸡高汤", "咖喱粉", "百里香"],
+      "substitution_slots": [
+        { "slot": "炖饭高汤", "replaces": ["鸡高汤"], "allowed": ["蔬菜高汤", "水"] },
+        { "slot": "辣味", "replaces": ["辣椒"], "allowed": ["辣椒粉", "不放辣"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["黄瓜", "冬瓜", "大量蘑菇"], "reason_type": "texture_water", "reason": "高含水配菜会稀释番茄酱底并让米饭过软。" }
+      ],
+      "technique": ["打碎番茄椒", "炒浓酱底", "小火焖饭", "翻松米粒"],
+      "ratio_rules": ["大米与高汤体积约为1:1", "番茄酱底先收浓再加米"],
+      "safety_rules": ["使用鸡高汤时保持沸腾后再转小火", "剩饭应尽快降温冷藏并彻底复热"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Jollof Rice",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Jollof_Rice",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Jollof Rice",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "creole-jambalaya",
+      "family_id": "family-tomato-rice",
+      "status": "approved",
+      "name": "克里奥尔番茄鸡肉什锦饭",
+      "cuisine": "美国路易斯安那风味",
+      "form": "焖饭",
+      "summary": "用芹菜和香料打底，把番茄、高汤、大米与熟禽肉合锅焖成红色什锦饭。",
+      "purposes": ["pantry", "fresh", "batch"],
+      "core_ingredients": ["大米", "番茄", "鸡肉", "芹菜"],
+      "optional_ingredients": ["黄油", "鸡高汤", "蘑菇", "月桂叶", "罗勒", "百里香", "孜然"],
+      "substitution_slots": [
+        { "slot": "熟禽肉", "replaces": ["鸡肉"], "allowed": ["火鸡肉"] },
+        { "slot": "菌菇", "replaces": ["蘑菇"], "allowed": ["口蘑", "不放菌菇"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["生鸡大块", "带壳海鲜"], "reason_type": "safety", "reason": "这份短时焖饭以熟禽肉为基准，不能直接塞入难熟的大块生食材。" }
+      ],
+      "technique": ["芹菜炒软", "合锅煮沸", "加盖焖饭", "取出月桂叶"],
+      "ratio_rules": ["大米与高汤体积约为1:2.25", "番茄汁计入总液体"],
+      "safety_rules": ["替换为生禽肉时必须先煎熟再合锅", "食用前确认禽肉已彻底加热"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Jambalaya I",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Jambalaya_I",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Jambalaya I",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "mung-bean-brown-rice-curry",
+      "family_id": "family-rice-legume-pot",
+      "status": "approved",
+      "name": "绿豆糙米蔬菜咖喱锅",
+      "cuisine": "素食咖喱风味",
+      "form": "饭锅",
+      "summary": "用香料裹匀糙米和绿豆后加水慢煮，离火再拌入切细蔬菜和酸香调味。",
+      "purposes": ["pantry", "fresh", "batch"],
+      "core_ingredients": ["糙米", "绿豆", "卷心菜", "甜椒", "胡萝卜"],
+      "optional_ingredients": ["芥末籽", "姜黄", "孜然", "咖喱粉", "姜", "柠檬汁", "酱油", "蜂蜜"],
+      "substitution_slots": [
+        { "slot": "脆口蔬菜", "replaces": ["卷心菜", "甜椒", "胡萝卜"], "allowed": ["西兰花", "西葫芦", "芹菜"] },
+        { "slot": "酸味", "replaces": ["柠檬汁"], "allowed": ["米醋", "白醋"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["生土豆大块", "整颗干豆"], "reason_type": "timing", "reason": "与糙米绿豆同锅时难以在既定时间内同步熟透。" }
+      ],
+      "technique": ["爆香芥末籽", "米豆裹香料", "加水慢煮", "离火拌蔬菜"],
+      "ratio_rules": ["糙米与绿豆体积为1:1", "两杯干米豆配约5.5杯水"],
+      "safety_rules": ["绿豆和糙米都要煮至没有生硬芯", "冷藏成品应密封并在食用前彻底复热"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Mung Bean and Brown Rice Curry",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Mung_Bean_and_Brown_Rice_Curry",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Mung Bean and Brown Rice Curry",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "chicken-black-eyed-pea-stew",
+      "family_id": "family-rice-legume-pot",
+      "status": "approved",
+      "name": "鸡肉黑眼豆番茄饭锅",
+      "cuisine": "香辣炖锅风味",
+      "form": "饭锅",
+      "summary": "先把黑眼豆煮至将熟，再与炒香蔬菜、大米、番茄和鸡肉一起慢炖成主餐。",
+      "purposes": ["pantry", "fresh", "batch"],
+      "core_ingredients": ["黑眼豆", "大米", "鸡肉", "番茄", "洋葱"],
+      "optional_ingredients": ["胡萝卜", "芹菜", "蒜", "姜", "辣椒", "咖喱粉", "柠檬汁", "鸡高汤"],
+      "substitution_slots": [
+        { "slot": "鸡肉替代", "replaces": ["鸡肉"], "allowed": ["黑眼豆"] },
+        { "slot": "炖煮液体", "replaces": ["鸡高汤"], "allowed": ["蔬菜高汤", "水"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["未预煮干黑眼豆"], "reason_type": "timing", "reason": "干豆不预煮会与米饭和鸡肉的熟成时间错位。" }
+      ],
+      "technique": ["黑眼豆预煮", "炒香根茎菜", "合锅慢炖", "最后添酸辣"],
+      "ratio_rules": ["干黑眼豆与大米体积约为1:1", "一杯大米配约四杯高汤与番茄液体"],
+      "safety_rules": ["鸡肉必须持续炖至中心完全熟透", "干豆须充分煮熟后食用"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Chicken and Black-eyed Pea Stew",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_and_Black-eyed_Pea_Stew",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Chicken and Black-eyed Pea Stew",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "lentil-potato-tomato-curry",
+      "family_id": "family-legume-vegetable-stew",
+      "status": "approved",
+      "name": "扁豆土豆番茄咖喱",
+      "cuisine": "印度风味",
+      "form": "炖锅",
+      "summary": "把红扁豆煮软，同时煎香土豆和香料，再与番茄合锅炖到土豆绵软。",
+      "purposes": ["pantry", "fresh", "batch"],
+      "core_ingredients": ["红扁豆", "土豆", "番茄"],
+      "optional_ingredients": ["黄油", "橄榄油", "月桂叶", "姜黄", "辣椒粉", "综合香料", "蜂蜜"],
+      "substitution_slots": [
+        { "slot": "煎香油脂", "replaces": ["黄油"], "allowed": ["植物油", "人造黄油"] },
+        { "slot": "微甜平衡", "replaces": ["蜂蜜"], "allowed": ["白糖", "不加甜味"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["整粒鹰嘴豆", "大块南瓜"], "reason_type": "timing", "reason": "硬豆或过大根茎会让成菜时间明显偏离红扁豆基准。" }
+      ],
+      "technique": ["扁豆先煮", "土豆煎香", "番茄合炖", "取出月桂叶"],
+      "ratio_rules": ["一杯红扁豆配约四杯水", "土豆切小块以便与扁豆同步熟成"],
+      "safety_rules": ["土豆要炖至中心无硬芯", "月桂叶整片下锅时食用前取出"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Lentil, Potato, and Tomato Curry",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Lentil,_Potato,_and_Tomato_Curry",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Lentil, Potato, and Tomato Curry",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "shakshuka-tomato-egg",
+      "family_id": "family-tomato-egg-pot",
+      "status": "approved",
+      "name": "番茄甜椒炖蛋",
+      "cuisine": "中东风味",
+      "form": "炖锅",
+      "summary": "先把甜椒和蒜煮软，再用番茄做成酱底，挖窝放入鸡蛋小火煮熟。",
+      "purposes": ["quick", "pantry", "fresh"],
+      "core_ingredients": ["鸡蛋", "番茄", "甜椒"],
+      "optional_ingredients": ["橄榄油", "甜椒粉", "蒜", "辣椒", "黑胡椒", "欧芹"],
+      "substitution_slots": [
+        { "slot": "甜椒颜色", "replaces": ["甜椒"], "allowed": ["红甜椒", "黄甜椒"] },
+        { "slot": "辣味", "replaces": ["辣椒"], "allowed": ["辣椒粉", "不放辣"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["大量高含水叶菜", "冷冻蔬菜未沥水"], "reason_type": "texture_water", "reason": "额外水分会让番茄酱底过稀，鸡蛋难以定型。" }
+      ],
+      "technique": ["甜椒炒软", "番茄收汁", "酱面挖窝", "小火炖蛋"],
+      "ratio_rules": ["六个番茄约配一个大甜椒和六个鸡蛋", "酱底先收浓再放鸡蛋"],
+      "safety_rules": ["鸡蛋至少加热到蛋白完全凝固", "接触生蛋液的器具不要直接接触熟食"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Shakshuka I",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Shakshuka_I",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Shakshuka I",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "texas-beef-chili",
+      "family_id": "family-legume-vegetable-stew",
+      "status": "approved",
+      "name": "德州风味牛肉辣炖锅",
+      "cuisine": "美国德州风味",
+      "form": "炖锅",
+      "summary": "把牛肉煎上色后与辣椒慢炖，分段加入香料，最后用玉米粉轻微收稠。",
+      "purposes": ["fresh", "batch"],
+      "core_ingredients": ["牛肉", "辣椒"],
+      "optional_ingredients": ["牛脂", "牛至", "孜然", "辣椒粉", "蒜", "玉米粉", "辣椒酱"],
+      "substitution_slots": [
+        { "slot": "炖煮肉类", "replaces": ["牛肉"], "allowed": ["鹿肉"] },
+        { "slot": "收稠材料", "replaces": ["玉米粉"], "allowed": ["碎玉米片"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["番茄", "豆类", "大量甜椒"], "reason_type": "taste", "reason": "这条德州风味基线以肉和辣椒为核心，不把番茄或豆类混成另一家族。" }
+      ],
+      "technique": ["牛肉煎上色", "加盖慢炖", "分段调香", "玉米粉收稠"],
+      "ratio_rules": ["约1.3千克牛肉配四个干辣椒和两大勺玉米粉", "只补防止糊底所需的少量水"],
+      "safety_rules": ["牛肉要炖至中心熟透并达到适口软度", "处理辣椒后洗手并避免触碰眼睛"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Original Texas-Style Chili",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Original_Texas-Style_Chili",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Original Texas-Style Chili",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "kari-ayam-coconut-chicken",
+      "family_id": "family-coconut-curry",
+      "status": "approved",
+      "name": "印尼椰香鸡肉咖喱",
+      "cuisine": "印尼风味",
+      "form": "咖喱锅",
+      "summary": "把蒜姜与根茎香料磨成酱后炒香，鸡肉煎上色，再加椰奶小火煮熟。",
+      "purposes": ["fresh", "batch"],
+      "core_ingredients": ["鸡肉", "椰奶", "红葱头"],
+      "optional_ingredients": ["蒜", "姜", "香茅", "石栗", "青柠叶", "姜黄", "南姜", "棕榈糖", "辣椒", "虾酱"],
+      "substitution_slots": [
+        { "slot": "主蛋白", "replaces": ["鸡肉"], "allowed": ["鱼肉", "虾仁", "羊肉"] },
+        { "slot": "葱香", "replaces": ["红葱头"], "allowed": ["洋葱"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["印度咖喱粉", "大量番茄"], "reason_type": "taste", "reason": "这条印尼风味依赖鲜香料酱与椰奶，不以咖喱粉或番茄作主味。" }
+      ],
+      "technique": ["香料磨酱", "炒香料酱", "鸡肉煎色", "椰奶小炖"],
+      "ratio_rules": ["约450克鸡肉配240毫升椰奶", "椰奶加入后保持轻沸而非猛烈翻滚"],
+      "safety_rules": ["鸡肉中心必须完全熟透", "换用鱼虾时按食材调整时间并确保彻底熟透", "含虾酱版本须明确甲壳类过敏原"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Kari Ayam (Indonesian Chicken Curry)",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Kari_Ayam_(Indonesian_Chicken_Curry)",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Kari Ayam (Indonesian Chicken Curry)",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "basic-risotto",
+      "family_id": "family-risotto",
+      "status": "approved",
+      "name": "基础意式烩饭",
+      "cuisine": "意大利风味",
+      "form": "烩饭",
+      "summary": "洋葱轻炒后加入烩饭米，分次添热高汤并持续搅拌，最后拌入黄油收出柔滑口感。",
+      "purposes": ["fresh", "pantry"],
+      "core_ingredients": ["意式烩饭米", "洋葱", "高汤", "黄油"],
+      "optional_ingredients": ["白葡萄酒", "橄榄油", "帕玛森奶酪", "黑胡椒", "香草"],
+      "substitution_slots": [
+        { "slot": "烩饭米", "replaces": ["意式烩饭米"], "allowed": ["阿博里奥米", "卡纳罗利米"] },
+        { "slot": "白葡萄酒", "replaces": ["白葡萄酒"], "allowed": ["高汤"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["一次倒入全部高汤", "未焯水的大块土豆"], "reason_type": "timing", "reason": "液体和难熟配料失控会破坏逐次吸收的烩饭节奏。" }
+      ],
+      "technique": ["洋葱轻炒", "米粒短炒", "分次添汤", "黄油收尾"],
+      "ratio_rules": ["约400克米准备至少1升热高汤", "每次只添少量高汤，吸收后再续"],
+      "safety_rules": ["高汤全程保持热而不过度沸腾", "含酒版本需充分加热挥发并明确不适用人群"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Risotto (Basic)",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Risotto_(Basic)",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Risotto (Basic)",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    },
+    {
+      "id": "rice-cabbage-minestrone",
+      "family_id": "family-minestrone",
+      "status": "approved",
+      "name": "米粒卷心菜杂蔬汤",
+      "cuisine": "意大利风味",
+      "form": "浓汤",
+      "summary": "用高汤把卷心菜煮软，加入少量熟米、火腿和番茄酱，做成有米粒的家常浓汤。",
+      "purposes": ["pantry", "quick", "batch"],
+      "core_ingredients": ["大米", "卷心菜", "高汤"],
+      "optional_ingredients": ["火腿", "番茄酱"],
+      "substitution_slots": [
+        { "slot": "汤底", "replaces": ["高汤"], "allowed": ["蔬菜高汤", "鸡高汤"] },
+        { "slot": "咸鲜配料", "replaces": ["火腿"], "allowed": ["白豆", "不放肉"] }
+      ],
+      "discouraged": [
+        { "ingredients": ["大量生米", "大量面条"], "reason_type": "texture_water", "reason": "淀粉主食过多会吸干汤汁，让汤变成稠饭。" }
+      ],
+      "technique": ["卷心菜煮软", "熟米入汤", "火腿番茄调味", "短时同煮"],
+      "ratio_rules": ["高汤应能没过卷心菜", "熟米只作少量增稠，不占汤体主体"],
+      "safety_rules": ["火腿加入后要再次煮透", "使用隔夜熟米时必须冷藏得当并彻底复热"],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "Cookbook:Rice and Cabbage Minestrone",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Rice_and_Cabbage_Minestrone",
+          "license": "CC BY-SA 4.0",
+          "attribution": "Wikibooks contributors, Cookbook:Rice and Cabbage Minestrone",
+          "retrieved_at": "2026-07-14"
+        }
+      ]
+    }
+  ]
+}
