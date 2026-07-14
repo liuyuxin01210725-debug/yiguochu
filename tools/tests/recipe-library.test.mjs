@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { validateRecipeLibrary } from '../lib/recipe-library-validator.mjs';
 
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
@@ -128,7 +131,7 @@ test('validator rejects invalid identities, references, rules, and source metada
     `${invalid.recipes[7].id} source missing title`,
     `${invalid.recipes[7].id} source missing license`,
     `${invalid.recipes[7].id} source missing attribution`,
-    `${invalid.recipes[7].id} source missing retrieved_at`,
+    `${invalid.recipes[7].id} source retrieved_at must be a valid ISO YYYY-MM-DD date`,
     `${invalid.recipes[7].id} RecipeDB cannot be approved`,
   ]) {
     assert.ok(errors.includes(expected), `missing validation error: ${expected}`);
@@ -145,4 +148,135 @@ test('validator rejects missing ratio rules, discouraged rules, and malformed su
   assert.ok(errors.includes(`${invalid.recipes[0].id} ratio_rules must be non-empty`));
   assert.ok(errors.includes(`${invalid.recipes[1].id} discouraged must be non-empty`));
   assert.ok(errors.includes(`${invalid.recipes[2].id} invalid substitution slot`));
+});
+
+test('validator returns errors for malformed nested containers and objects without throwing', () => {
+  const invalid = structuredClone(lib);
+  invalid.families = [null, []];
+  invalid.recipes[0].substitution_slots = {};
+  invalid.recipes[1].source_refs = [null];
+  invalid.recipes[2].discouraged = [null];
+  invalid.recipes[3].source_refs = {};
+  invalid.recipes[4].discouraged = {};
+  invalid.recipes.push(null);
+
+  let errors;
+  assert.doesNotThrow(() => {
+    errors = validateRecipeLibrary(invalid);
+  });
+  assert.ok(Array.isArray(errors));
+  for (const expected of [
+    'family at index 0 must be an object',
+    'family at index 1 must be an object',
+    `${invalid.recipes[0].id} substitution_slots must be non-empty`,
+    `${invalid.recipes[1].id} source at index 0 must be an object`,
+    `${invalid.recipes[2].id} discouraged rule at index 0 must be an object`,
+    `${invalid.recipes[3].id} source_refs must be non-empty`,
+    `${invalid.recipes[4].id} discouraged must be non-empty`,
+    `recipe at index ${invalid.recipes.length - 1} must be an object`,
+  ]) {
+    assert.ok(errors.includes(expected), `missing validation error: ${expected}`);
+  }
+});
+
+test('validator rejects non-string elements in every recipe string array', () => {
+  const invalid = structuredClone(lib);
+  const mutations = [
+    ['purposes', [null]],
+    ['core_ingredients', [{}]],
+    ['optional_ingredients', ['  ']],
+    ['technique', [42]],
+    ['ratio_rules', [null]],
+    ['safety_rules', [{}]],
+  ];
+  mutations.forEach(([field, value], index) => {
+    invalid.recipes[index][field] = value;
+  });
+
+  const errors = validateRecipeLibrary(invalid);
+  mutations.forEach(([field], index) => {
+    const expected = `${invalid.recipes[index].id} ${field} must contain non-empty strings`;
+    assert.ok(errors.includes(expected), `missing validation error: ${expected}`);
+  });
+});
+
+test('validator deeply validates substitution and discouraged rule elements', () => {
+  const invalid = structuredClone(lib);
+  invalid.recipes[0].substitution_slots = [
+    null,
+    { slot: {}, replaces: [null], allowed: [{}] },
+  ];
+  invalid.recipes[1].discouraged = [
+    null,
+    { ingredients: [null], reason_type: 'taste', reason: {} },
+  ];
+
+  const errors = validateRecipeLibrary(invalid);
+  for (const expected of [
+    `${invalid.recipes[0].id} substitution slot at index 0 must be an object`,
+    `${invalid.recipes[0].id} substitution slot at index 1 missing slot`,
+    `${invalid.recipes[0].id} substitution slot at index 1 replaces must contain non-empty strings`,
+    `${invalid.recipes[0].id} substitution slot at index 1 allowed must contain non-empty strings`,
+    `${invalid.recipes[1].id} discouraged rule at index 0 must be an object`,
+    `${invalid.recipes[1].id} discouraged rule at index 1 ingredients must contain non-empty strings`,
+    `${invalid.recipes[1].id} discouraged rule at index 1 missing reason`,
+  ]) {
+    assert.ok(errors.includes(expected), `missing validation error: ${expected}`);
+  }
+});
+
+test('validator parses HTTPS URLs and validates source strings and real calendar dates', () => {
+  const invalid = structuredClone(lib);
+  const base = invalid.recipes[0].source_refs[0];
+  invalid.recipes[0].source_refs = [
+    null,
+    { ...base, url: 'https://' },
+    { ...base, url: 'http://example.com/recipe' },
+    { ...base, title: {} },
+    { ...base, license: [] },
+    { ...base, attribution: 42 },
+    { ...base, retrieved_at: '2026-02-30' },
+    { ...base, retrieved_at: '2026/07/14' },
+    { ...base, retrieved_at: 20260714 },
+  ];
+
+  const errors = validateRecipeLibrary(invalid);
+  assert.ok(errors.includes(`${invalid.recipes[0].id} source at index 0 must be an object`));
+  assert.equal(errors.filter(error => error === `${invalid.recipes[0].id} source URL must be HTTPS`).length, 2);
+  assert.ok(errors.includes(`${invalid.recipes[0].id} source missing title`));
+  assert.ok(errors.includes(`${invalid.recipes[0].id} source missing license`));
+  assert.ok(errors.includes(`${invalid.recipes[0].id} source missing attribution`));
+  assert.equal(
+    errors.filter(error => error === `${invalid.recipes[0].id} source retrieved_at must be a valid ISO YYYY-MM-DD date`).length,
+    3,
+  );
+
+  const validLeapDay = structuredClone(lib);
+  validLeapDay.recipes[0].source_refs[0].retrieved_at = '2024-02-29';
+  assert.deepEqual(validateRecipeLibrary(validLeapDay), []);
+});
+
+test('offline checker reports zero counts for malformed root containers without crashing', () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'recipe-checker-'));
+  const tempTools = path.join(tempRoot, 'tools');
+  fs.mkdirSync(path.join(tempTools, 'lib'), { recursive: true });
+  fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
+  fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
+  fs.copyFileSync(new URL('../lib/recipe-library-validator.mjs', import.meta.url), path.join(tempTools, 'lib', 'recipe-library-validator.mjs'));
+  fs.writeFileSync(
+    path.join(tempTools, 'data', 'recipe-library.json'),
+    JSON.stringify({ schema_version: 1, ingredient_aliases: {}, families: null, recipes: {} }),
+  );
+
+  try {
+    const result = spawnSync(process.execPath, [path.join(tempTools, 'check-recipes.mjs')], { encoding: 'utf8' });
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /families must be an array/);
+    assert.match(result.stderr, /recipes must be an array/);
+    assert.doesNotMatch(result.stderr, /TypeError/);
+    assert.match(result.stdout, /菜谱家族 0 个 · 基础菜谱 0 道/);
+    assert.match(result.stdout, /菜谱库体检不通过/);
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
 });

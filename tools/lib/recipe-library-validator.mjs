@@ -1,57 +1,192 @@
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const REASON_TYPES = new Set(['taste', 'texture_water', 'timing', 'safety']);
+const STRING_ARRAY_FIELDS = [
+  'purposes',
+  'core_ingredients',
+  'optional_ingredients',
+  'technique',
+  'ratio_rules',
+  'safety_rules',
+];
+const OBJECT_ARRAY_FIELDS = ['substitution_slots', 'discouraged', 'source_refs'];
+
+function isPlainObject(value) {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+function isNonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function validateRequiredArray(value, label, errors) {
+  if (!Array.isArray(value) || value.length === 0) {
+    errors.push(`${label} must be non-empty`);
+    return false;
+  }
+  return true;
+}
+
+function validateStringArray(value, label, errors) {
+  if (!validateRequiredArray(value, label, errors)) return false;
+  for (let index = 0; index < value.length; index += 1) {
+    if (!isNonEmptyString(value[index])) {
+      errors.push(`${label} must contain non-empty strings`);
+      return false;
+    }
+  }
+  return true;
+}
+
+function isHttpsUrl(value) {
+  if (typeof value !== 'string') return false;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'https:' && parsed.hostname.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function isValidIsoDate(value) {
+  if (typeof value !== 'string') return false;
+  const match = ISO_DATE_RE.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (month < 1 || month > 12 || day < 1) return false;
+  const leapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day <= daysInMonth[month - 1];
+}
+
+function safeId(value, fallback) {
+  return isNonEmptyString(value) ? value : fallback;
+}
 
 export function validateRecipeLibrary(lib) {
   const errors = [];
   if (lib?.schema_version !== 1) errors.push('schema_version must be 1');
-  if (!lib?.ingredient_aliases || typeof lib.ingredient_aliases !== 'object' || Array.isArray(lib.ingredient_aliases)) {
+  if (!isPlainObject(lib?.ingredient_aliases)) {
     errors.push('ingredient_aliases must be an object');
   }
   if (!Array.isArray(lib?.families)) errors.push('families must be an array');
   if (!Array.isArray(lib?.recipes)) errors.push('recipes must be an array');
   if (errors.length) return errors;
 
+  for (const [alias, canonical] of Object.entries(lib.ingredient_aliases)) {
+    if (!isNonEmptyString(alias) || !isNonEmptyString(canonical)) {
+      errors.push('ingredient_aliases must map non-empty strings to non-empty strings');
+      break;
+    }
+  }
+
   const familyIds = new Set();
-  for (const family of lib.families) {
-    if (!ID_RE.test(family.id || '')) errors.push(`invalid family id: ${family.id || '<empty>'}`);
-    if (familyIds.has(family.id)) errors.push(`duplicate family id: ${family.id}`);
-    familyIds.add(family.id);
+  for (const [index, family] of lib.families.entries()) {
+    if (!isPlainObject(family)) {
+      errors.push(`family at index ${index} must be an object`);
+      continue;
+    }
+    const id = typeof family.id === 'string' ? family.id : '';
+    if (!ID_RE.test(id)) errors.push(`invalid family id: ${id || '<empty>'}`);
+    if (id && familyIds.has(id)) errors.push(`duplicate family id: ${id}`);
+    if (id) familyIds.add(id);
+    const label = safeId(id, `family at index ${index}`);
     for (const key of ['name', 'form']) {
-      if (!String(family[key] || '').trim()) errors.push(`${family.id} missing ${key}`);
+      if (!isNonEmptyString(family[key])) errors.push(`${label} missing ${key}`);
     }
   }
 
   const recipeIds = new Set();
-  for (const recipe of lib.recipes) {
-    if (!ID_RE.test(recipe.id || '')) errors.push(`invalid recipe id: ${recipe.id || '<empty>'}`);
-    if (recipeIds.has(recipe.id)) errors.push(`duplicate recipe id: ${recipe.id}`);
-    recipeIds.add(recipe.id);
-    if (!familyIds.has(recipe.family_id)) errors.push(`${recipe.id} missing family ${recipe.family_id}`);
-    if (recipe.status !== 'approved') errors.push(`${recipe.id} status must be approved`);
+  for (const [index, recipe] of lib.recipes.entries()) {
+    if (!isPlainObject(recipe)) {
+      errors.push(`recipe at index ${index} must be an object`);
+      continue;
+    }
+    const id = typeof recipe.id === 'string' ? recipe.id : '';
+    const label = safeId(id, `recipe at index ${index}`);
+    if (!ID_RE.test(id)) errors.push(`invalid recipe id: ${id || '<empty>'}`);
+    if (id && recipeIds.has(id)) errors.push(`duplicate recipe id: ${id}`);
+    if (id) recipeIds.add(id);
+    if (typeof recipe.family_id !== 'string' || !familyIds.has(recipe.family_id)) {
+      const familyId = isNonEmptyString(recipe.family_id) ? recipe.family_id : '<invalid>';
+      errors.push(`${label} missing family ${familyId}`);
+    }
+    if (recipe.status !== 'approved') errors.push(`${label} status must be approved`);
     for (const key of ['name', 'cuisine', 'form']) {
-      if (!String(recipe[key] || '').trim()) errors.push(`${recipe.id} missing ${key}`);
+      if (!isNonEmptyString(recipe[key])) errors.push(`${label} missing ${key}`);
     }
-    for (const key of ['purposes', 'core_ingredients', 'optional_ingredients', 'substitution_slots', 'discouraged', 'technique', 'ratio_rules', 'safety_rules', 'source_refs']) {
-      if (!Array.isArray(recipe[key]) || recipe[key].length === 0) errors.push(`${recipe.id} ${key} must be non-empty`);
+    for (const key of STRING_ARRAY_FIELDS) {
+      validateStringArray(recipe[key], `${label} ${key}`, errors);
     }
-    for (const slot of recipe.substitution_slots || []) {
-      if (!String(slot.slot || '').trim() || !Array.isArray(slot.replaces) || !slot.replaces.length || !Array.isArray(slot.allowed) || !slot.allowed.length) {
-        errors.push(`${recipe.id} invalid substitution slot`);
+    for (const key of OBJECT_ARRAY_FIELDS) {
+      validateRequiredArray(recipe[key], `${label} ${key}`, errors);
+    }
+
+    if (Array.isArray(recipe.substitution_slots)) {
+      for (const [slotIndex, slot] of recipe.substitution_slots.entries()) {
+        if (!isPlainObject(slot)) {
+          errors.push(`${label} substitution slot at index ${slotIndex} must be an object`);
+          continue;
+        }
+        let invalidSlot = false;
+        if (!isNonEmptyString(slot.slot)) {
+          errors.push(`${label} substitution slot at index ${slotIndex} missing slot`);
+          invalidSlot = true;
+        }
+        if (!validateStringArray(slot.replaces, `${label} substitution slot at index ${slotIndex} replaces`, errors)) {
+          invalidSlot = true;
+        }
+        if (!validateStringArray(slot.allowed, `${label} substitution slot at index ${slotIndex} allowed`, errors)) {
+          invalidSlot = true;
+        }
+        if (invalidSlot) errors.push(`${label} invalid substitution slot`);
       }
     }
-    for (const item of recipe.discouraged || []) {
-      if (!REASON_TYPES.has(item.reason_type)) errors.push(`${recipe.id} invalid reason_type ${item.reason_type}`);
-      if (!Array.isArray(item.ingredients) || !item.ingredients.length || !String(item.reason || '').trim()) {
-        errors.push(`${recipe.id} invalid discouraged rule`);
+
+    if (Array.isArray(recipe.discouraged)) {
+      for (const [ruleIndex, item] of recipe.discouraged.entries()) {
+        if (!isPlainObject(item)) {
+          errors.push(`${label} discouraged rule at index ${ruleIndex} must be an object`);
+          continue;
+        }
+        if (!REASON_TYPES.has(item.reason_type)) {
+          const reasonType = typeof item.reason_type === 'string' ? item.reason_type : '<invalid>';
+          errors.push(`${label} invalid reason_type ${reasonType}`);
+        }
+        let invalidRule = false;
+        if (!validateStringArray(item.ingredients, `${label} discouraged rule at index ${ruleIndex} ingredients`, errors)) {
+          invalidRule = true;
+        }
+        if (!isNonEmptyString(item.reason)) {
+          errors.push(`${label} discouraged rule at index ${ruleIndex} missing reason`);
+          invalidRule = true;
+        }
+        if (invalidRule) errors.push(`${label} invalid discouraged rule`);
       }
     }
-    for (const source of recipe.source_refs || []) {
-      if (source.usage !== 'approved') errors.push(`${recipe.id} source usage must be approved`);
-      if (!/^https:\/\//.test(source.url || '')) errors.push(`${recipe.id} source URL must be HTTPS`);
-      for (const key of ['title', 'license', 'attribution', 'retrieved_at']) {
-        if (!String(source[key] || '').trim()) errors.push(`${recipe.id} source missing ${key}`);
+
+    if (Array.isArray(recipe.source_refs)) {
+      for (const [sourceIndex, source] of recipe.source_refs.entries()) {
+        if (!isPlainObject(source)) {
+          errors.push(`${label} source at index ${sourceIndex} must be an object`);
+          continue;
+        }
+        if (source.usage !== 'approved') errors.push(`${label} source usage must be approved`);
+        if (!isHttpsUrl(source.url)) errors.push(`${label} source URL must be HTTPS`);
+        for (const key of ['title', 'license', 'attribution']) {
+          if (!isNonEmptyString(source[key])) errors.push(`${label} source missing ${key}`);
+        }
+        if (!isValidIsoDate(source.retrieved_at)) {
+          errors.push(`${label} source retrieved_at must be a valid ISO YYYY-MM-DD date`);
+        }
+        if (typeof source.url === 'string' && /recipedb/i.test(source.url)) {
+          errors.push(`${label} RecipeDB cannot be approved`);
+        }
       }
-      if (/recipedb/i.test(source.url || '')) errors.push(`${recipe.id} RecipeDB cannot be approved`);
     }
   }
   return errors;
