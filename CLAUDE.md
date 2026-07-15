@@ -31,6 +31,23 @@
 
 ---
 
+## 🔴 菜谱来源与 Phase A 红线
+
+1. **RecipeDB 只用于研究**：可用来发现菜名、地域和技法，但不得把其数据、原文或完整做法复制进生产库、线上运行包或生成请求。RecipeDB 的许可带有非商业和相同方式共享限制，不能当作生产授权。
+2. **代码许可不等于菜谱许可**：GitHub 仓库的代码 license 只覆盖该仓库代码，不自动授权仓库抓取、汇总或引用的第三方菜谱内容。每条菜谱必须单独核验原始来源与许可。
+3. **approved 基础菜谱必须可追溯**：每条 `status: "approved"` 的基础菜谱都必须至少有一条 `source_refs[].usage: "approved"`，且同时包含直达原始内容的 HTTPS `url`、`title`、`license`、`attribution` 和 `retrieved_at`；缺一项不得上线。
+4. **替换必须显式**：原料替换只能写进结构化 `substitution_slots`，明确 `replaces` 和 `allowed`；不得让模型自行把未批准食材当作等价替换。
+5. **提交或部署前必跑**：`node tools/check-recipes.mjs`。菜谱库体检不通过时禁止提交和部署。
+6. **Phase A 仅限预览**：只能部署到非 `main` 的 `recipe-validation` preview branch，禁止部署或提升到 production `main`。Wrangler 的 `--commit-message` 必须使用 ASCII。
+
+Phase A 自动闸门通过不等于人工批准：当前 100 例 corpus 仍有 **6 个 known gaps**（4 个 diet 合规 + 2 个任意克数 numeric ratio）必须人工复核；30 例 live smoke 也不能替代 `docs/recipe-validation-review.md` 的逐例人工评审。
+
+### Phase A exit gate
+
+在以下条件全部满足且用户批准前，不得开始 150–200 道菜谱扩展：12/12 基础菜谱通过来源与 schema；100/100 静态回归通过；30/30 本地 live 返回 trusted base recipe ID、pairing basis 且无 validation flags；allergen leak 为 0；未使用却列入成品的非调味食材为 0；禽肉、猪肉、海鲜、鸡蛋均有明确熟制证据；移动端清楚显示搭配依据、这次没用和来源署名；“换一换”得到不同基础菜谱或 family；6 个 known gaps 完成人工复核；用户审阅并批准 30 例人工评审表。
+
+---
+
 ## 加新食材 SOP
 
 1. **先查 `tools/data/foods-tw.json`**(台湾权威库 2181 条)取每 100g 营养值；查不到再联网 USDA FDC / 中国成分表。记下来源(台湾库记 `code`，如 `E6800101`)。**绝不许跳过查证直接填——这是红线。**
@@ -59,10 +76,11 @@
 ## 部署（详见 `部署说明.md`）
 
 Cloudflare Pages 同源部署。简版：
-1. 重建 `dist/`：复制前端文件 + `tools/data/foods-tw.json`(worker 第二层库, 不复制会丢台湾库兜底) + `worker/src/worker.js`→`dist/_worker.js`；给 `dist/sw.js` 缓存版本注入时间戳(自动清旧缓存)。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
-2. `npx wrangler pages deploy dist --project-name yiguochu --branch main --commit-dirty=true --commit-message "..."`
+1. 重建 `dist/`：复制前端文件 + `tools/data/foods-tw.json` + `tools/data/recipe-library.json` + `worker/src/worker.js`→`dist/_worker.js`；给 `dist/sw.js` 缓存版本注入时间戳(自动清旧缓存)。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
+2. Phase A 只允许预览部署：`npx wrangler pages deploy dist --project-name yiguochu --branch recipe-validation --commit-dirty=true --commit-message "recipe validation preview"`；禁止使用 `--branch main` 或提升到 production。
 3. ⚠️ `--commit-message` 必须用 **ASCII**——git 历史里有中文，wrangler 自动读取会触发 Cloudflare 的 "Invalid commit message, must be valid UTF-8" 报错。
-4. `dist/` 和 `worker/.wrangler/` 已 gitignore，不提交。
+4. 部署前必须运行 `node tools/check-recipes.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`recipeFamilies: 9`、`baseRecipes: 12`。
+5. `dist/` 和 `worker/.wrangler/` 已 gitignore，不提交。
 
 ---
 
