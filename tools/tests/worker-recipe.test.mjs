@@ -777,6 +777,68 @@ test('safety tail normalizes explicit unsafe cooking states before prepared mark
   }
 });
 
+test('safety tail classifies only explicit-unsafe alias equality while preserving conservative controls', () => {
+  const repairCases = [
+    ['parenthetical-chicken-self-edge', '鸡肉', { '鸡肉': '鸡肉（未熟）' }, /\u4e2d\u5fc3\u4e0d\u89c1\u7c89\u7ea2/],
+    ['prefix-chicken-equality', '鸡肉', { '鸡肉': '未熟鸡肉' }, /\u4e2d\u5fc3\u4e0d\u89c1\u7c89\u7ea2/],
+    ['parenthetical-fish-self-edge', '鱼片', { '鱼片': '鱼片（半熟）' }, /\u7ee7\u7eed\u5728\u539f\u9505\u52a0\u70ed\u9c7c\u7247\u81f3\u719f\u900f/],
+    ['prefix-egg-equality', '鸡蛋', { '鸡蛋': '半熟鸡蛋' }, /\u86cb\u767d\u548c\u86cb\u9ec4\u5b8c\u5168\u51dd\u56fa.*\u4e0d\u5f97\u6d41\u5fc3/],
+    ['suffix-chicken-equality', '鸡肉', { '鸡肉': '鸡肉尚未熟' }, /\u4e2d\u5fc3\u4e0d\u89c1\u7c89\u7ea2/],
+  ];
+
+  for (const [id, name, aliases, endpoint] of repairCases) {
+    const recipe = groundedFixtureRecipe({
+      id: `unsafe-equality-${id}`,
+      core_ingredients: [name],
+      optional_ingredients: [],
+      substitution_slots: [],
+    });
+    const constraints = { pantry: [name], dislikes: [] };
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), constraints);
+    const originalSteps = [`原锅加热${name}至表面变化。`];
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [...originalSteps] };
+    const flag = `high_risk_not_cooked:${name}`;
+
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, constraints), 1, `${id}: count`);
+    assert.deepEqual(meal.steps.slice(0, -1), originalSteps, `${id}: original steps preserved`);
+    assert.equal(meal.steps.length, originalSteps.length + 1, `${id}: one tail appended`);
+    assert.match(meal.steps.at(-1), endpoint, `${id}: endpoint`);
+    assert.equal(validateGroundedMeal(meal, selection, constraints).includes(flag), false, `${id}: flag cleared`);
+  }
+
+  const conservativeControls = [
+    ['marker-free-self-edge', '鸡肉', { '鸡肉': '鸡肉（切块）' }],
+    ['marker-free-two-node-cycle', '鸡肉', { '鸡肉': '鸭肉', '鸭肉': '鸡肉' }],
+    ['marker-free-multi-hop-cycle', '鸡肉', { '鸡肉': '鸭肉', '鸭肉': '猪肉', '猪肉': '鸭肉' }],
+    [
+      'unsafe-hop-to-prepared-terminal',
+      '鸡肉',
+      { '鸡肉': '未熟中间鸡', '未熟中间鸡': '鸡胸肉（即食）' },
+    ],
+    ['explicit-unsafe-non-raw-terminal', '鸡肉', { '鸡肉': '豆腐（未熟）' }],
+  ];
+
+  for (const [id, name, aliases] of conservativeControls) {
+    const recipe = groundedFixtureRecipe({
+      id: `unsafe-equality-control-${id}`,
+      core_ingredients: [name],
+      optional_ingredients: [],
+      substitution_slots: [],
+    });
+    const constraints = { pantry: [name], dislikes: [] };
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), constraints);
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`原锅加热${name}至表面变化。`] };
+    const stepsBefore = JSON.stringify(meal.steps);
+    const flag = `high_risk_not_cooked:${name}`;
+
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, constraints), 0, `${id}: count`);
+    assert.equal(JSON.stringify(meal.steps), stepsBefore, `${id}: steps byte-equivalent`);
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: flag retained`);
+  }
+});
+
 test('safety tail positive raw-risk classifier routes audited egg variants to the egg endpoint', () => {
   const rawCases = [
     ...['鸡胸', '鸡肉', '火鸡', '猪肉', '猪里脊'].map(name => ({

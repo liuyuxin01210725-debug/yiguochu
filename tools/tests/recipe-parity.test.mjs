@@ -383,6 +383,11 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     unsafeStateRepairCase('unsafe-chinese-doneness', '三分熟猪肉', { '三分熟猪肉': '猪里脊' }, '猪里脊', /中心不见粉红/),
     unsafeStateRepairCase('unsafe-numeric-doneness', '猪肉（7分熟）', { '猪肉（7分熟）': '猪里脊' }, '猪里脊', /中心不见粉红/),
     unsafeStateRepairCase('unsafe-alias-terminal', '库存食材鸡', { '库存食材鸡': '鸡肉（未熟）' }, '库存食材鸡', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-equality-chicken-parenthetical', '鸡肉', { '鸡肉': '鸡肉（未熟）' }, '鸡肉', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-equality-chicken-prefix', '鸡肉', { '鸡肉': '未熟鸡肉' }, '鸡肉', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-equality-fish-parenthetical', '鱼片', { '鱼片': '鱼片（半熟）' }, '鱼片', /继续在原锅加热鱼片至熟透/),
+    unsafeStateRepairCase('unsafe-equality-egg-prefix', '鸡蛋', { '鸡蛋': '半熟鸡蛋' }, '鸡蛋', /蛋白和蛋黄完全凝固.*不得流心/),
+    unsafeStateRepairCase('unsafe-equality-chicken-suffix', '鸡肉', { '鸡肉': '鸡肉尚未熟' }, '鸡肉', /中心不见粉红/),
     unsafeStateRepairCase(
       'unsafe-alias-intermediate',
       '库存食材鱼',
@@ -401,6 +406,15 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
         { '库存食材鸡': '未熟中间鸡', '未熟中间鸡': '鸡胸肉（即食）' },
         '库存食材鸡',
       ],
+      ['unsafe-equality-marker-free-self-edge', '鸡肉', { '鸡肉': '鸡肉（切块）' }, '鸡肉'],
+      ['unsafe-equality-two-node-cycle', '鸡肉', { '鸡肉': '鸭肉', '鸭肉': '鸡肉' }, '鸡肉'],
+      [
+        'unsafe-equality-multi-hop-cycle',
+        '鸡肉',
+        { '鸡肉': '鸭肉', '鸭肉': '猪肉', '猪肉': '鸭肉' },
+        '鸡肉',
+      ],
+      ['unsafe-equality-non-raw-terminal', '鸡肉', { '鸡肉': '豆腐（未熟）' }, '鸡肉'],
     ].map(([id, name, aliases, stepName]) => ({
       id,
       ingredients: [name],

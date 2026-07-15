@@ -1083,24 +1083,55 @@ def _validation_resolve_raw_alias(name, aliases):
         for raw_key, raw_value in aliases.items():
             key = base_recipe_ingredient(raw_key)
             value = base_recipe_ingredient(raw_value)
+            raw_form = _validation_form_name(raw_value)
+            unsafe_form = _validation_unsafe_state_form(raw_value)
             if key and value and key not in normalized:
-                normalized[key] = {'raw_value': raw_value, 'value': value}
+                normalized[key] = {
+                    'raw_value': raw_value,
+                    'value': value,
+                    'unsafe_form': unsafe_form,
+                    'unsafe_value': base_recipe_ingredient(unsafe_form),
+                    'explicit_unsafe': unsafe_form != raw_form,
+                }
 
     bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
     initial = _VALIDATION_CANONICAL_FORMS.get(bare, name)
     first_seen = set()
     current = base_recipe_ingredient(initial)
+    terminal_explicit_unsafe = False
     aliased = base_recipe_ingredient(name) in normalized
     while current in normalized:
         if current in first_seen:
-            return {'canonical': current, 'classifiable': False, 'aliased': aliased}
+            return {
+                'canonical': current,
+                'classifiable': False,
+                'aliased': aliased,
+                'explicit_unsafe': False,
+            }
         first_seen.add(current)
         edge = normalized[current]
-        if _VALIDATION_PREPARED_STATE_MARKER_RE.search(
-                _validation_unsafe_state_form(edge['raw_value'])):
-            return {'canonical': current, 'classifiable': False, 'aliased': aliased}
+        if _VALIDATION_PREPARED_STATE_MARKER_RE.search(edge['unsafe_form']):
+            return {
+                'canonical': current,
+                'classifiable': False,
+                'aliased': aliased,
+                'explicit_unsafe': False,
+            }
+        if edge['value'] == current and edge['explicit_unsafe']:
+            return {
+                'canonical': edge['unsafe_value'],
+                'classifiable': True,
+                'aliased': aliased,
+                'explicit_unsafe': True,
+            }
+        terminal_explicit_unsafe = edge['explicit_unsafe']
         current = edge['value']
-    return {'canonical': current, 'classifiable': True, 'aliased': aliased}
+    return {
+        'canonical': current,
+        'classifiable': True,
+        'aliased': aliased,
+        'explicit_unsafe': terminal_explicit_unsafe,
+    }
 
 
 def _validation_raw_risk_category(name, aliases):
@@ -1124,7 +1155,8 @@ def _validation_raw_risk_category(name, aliases):
     if not canonical_normalized:
         return ''
     canonical = _validation_raw_risk_form(canonical_normalized)
-    if (not canonical or canonical == exact
+    if (not canonical
+            or (canonical == exact and not resolved['explicit_unsafe'])
             or canonical in _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS):
         return ''
     if (_validation_cooking_oil_ingredient(canonical)

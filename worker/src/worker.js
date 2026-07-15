@@ -954,7 +954,17 @@ function validationResolveRawAlias(name, aliases) {
     for (const [rawKey, rawValue] of Object.entries(aliases)) {
       const key = baseRecipeIngredient(rawKey);
       const value = baseRecipeIngredient(rawValue);
-      if (key && value && !normalized.has(key)) normalized.set(key, { rawValue, value });
+      const rawForm = validationFormName(rawValue);
+      const unsafeForm = validationUnsafeStateForm(rawValue);
+      if (key && value && !normalized.has(key)) {
+        normalized.set(key, {
+          rawValue,
+          value,
+          unsafeForm,
+          unsafeValue: baseRecipeIngredient(unsafeForm),
+          explicitUnsafe: unsafeForm !== rawForm,
+        });
+      }
     }
   }
 
@@ -962,17 +972,22 @@ function validationResolveRawAlias(name, aliases) {
   const initial = VALIDATION_CANONICAL_FORMS.get(bare) || name;
   const firstSeen = new Set();
   let current = baseRecipeIngredient(initial);
+  let terminalExplicitUnsafe = false;
   const aliased = normalized.has(baseRecipeIngredient(name));
   while (normalized.has(current)) {
-    if (firstSeen.has(current)) return { canonical: current, classifiable: false, aliased };
+    if (firstSeen.has(current)) return { canonical: current, classifiable: false, aliased, explicitUnsafe: false };
     firstSeen.add(current);
     const edge = normalized.get(current);
-    if (VALIDATION_PREPARED_STATE_MARKER_RE.test(validationUnsafeStateForm(edge.rawValue))) {
-      return { canonical: current, classifiable: false, aliased };
+    if (VALIDATION_PREPARED_STATE_MARKER_RE.test(edge.unsafeForm)) {
+      return { canonical: current, classifiable: false, aliased, explicitUnsafe: false };
     }
+    if (edge.value === current && edge.explicitUnsafe) {
+      return { canonical: edge.unsafeValue, classifiable: true, aliased, explicitUnsafe: true };
+    }
+    terminalExplicitUnsafe = edge.explicitUnsafe;
     current = edge.value;
   }
-  return { canonical: current, classifiable: true, aliased };
+  return { canonical: current, classifiable: true, aliased, explicitUnsafe: terminalExplicitUnsafe };
 }
 
 function validationRawRiskCategory(name, aliases) {
@@ -988,7 +1003,7 @@ function validationRawRiskCategory(name, aliases) {
   const canonicalNormalized = validationUnsafeStateForm(resolved.canonical);
   if (!canonicalNormalized) return '';
   const canonical = validationRawRiskForm(canonicalNormalized);
-  if (!canonical || canonical === exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(canonical)) return '';
+  if (!canonical || (canonical === exact && !resolved.explicitUnsafe) || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(canonical)) return '';
   if (validationCookingOilIngredient(canonical) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(canonical)) return '';
   return validationRawRiskCategoryForForm(canonical);
 }
