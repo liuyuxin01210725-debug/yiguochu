@@ -12,10 +12,10 @@ import worker, {
 } from '../../worker/src/worker.js';
 
 const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
-1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why，也不要在why点名。
-2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋，都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋至少写“蛋白完全凝固”，不得把流心蛋黄写成安全熟透。
-3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名称明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
-4. 过敏复核：逐字重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
+1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存名称不得出现在ingredients、steps或why；why可笼统写“有库存不适合”，但不得点名舍弃食材。
+2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
+3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
+4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
 只返回JSON，禁止JSON外文字。`;
 
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
@@ -696,6 +696,8 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   assert.match(py.prompt, /全程只用一口烹饪容器/);
   assert.match(py.prompt, /返回 JSON 前逐项自查以上跨字段契约/);
   assert.match(py.prompt, /JSON 外不要输出任何文字/);
+  assert.doesNotMatch(py.prompt, /不合适的库存食材不要使用，并在 why 中简短说明舍弃/);
+  assert.match(py.prompt, /不合适的库存食材不要使用；why可笼统写“有库存不适合”，但不得重复或点名任何舍弃食材/);
   for (const field of [
     'family_id', 'base_recipe_id', 'basis_level', 'pairing_basis', 'used_pantry',
     'unused_pantry', 'source_refs', 'safety_checks', 'validation_flags',
