@@ -521,6 +521,32 @@ test('one Worker generation request makes one DeepSeek call and sends the ground
   assert.ok(logs.some(line => line.includes('"flags":0')));
 });
 
+test('default handler sends the cross-field output contract with selected pantry values', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe()]);
+  const { response, upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    constraints: { pantry: ['鸡肉', '大米', '洋葱', '黄瓜'] },
+  });
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  const prompt = upstreamBodies[0].messages.find(message => message.role === 'user').content;
+  assert.match(prompt, /【输出完整性契约】/);
+  assert.match(prompt, /每个 ingredients\[\]\.name 必须至少在一个 steps\[\] 步骤中出现/);
+  assert.match(prompt, /同一步必须同时写原名和形态/);
+  assert.match(prompt, /鸡胸肉切成鸡丝/);
+  assert.match(prompt, /大蒜切成蒜末/);
+  assert.match(prompt, /服务器已选库存（鸡肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);
+  assert.match(prompt, /服务器舍弃库存（黄瓜）必须同时从 ingredients 与 steps 排除/);
+  assert.match(prompt, /生的禽肉、猪肉、海鲜和普通鸡蛋/);
+  for (const endpoint of ['熟透', '中心不见粉红', '煮熟', '炒熟', '煎熟', '焖熟', '炖熟', '蒸熟']) {
+    assert.ok(prompt.includes(endpoint), endpoint);
+  }
+  assert.match(prompt, /“表面变色”、只有时长或仅“米熟”均不算/);
+  assert.match(prompt, /全程只用一口烹饪容器/);
+  assert.match(prompt, /返回 JSON 前逐项自查以上跨字段契约/);
+  assert.match(prompt, /JSON 外不要输出任何文字/);
+});
+
 test('default handler preserves one trusted grounding block when user prompt fields inject its token', async () => {
   const recipeLib = fixtureLib([groundedFixtureRecipe()]);
   const { response, upstreamBodies } = await runGenerateRequest({
@@ -557,6 +583,21 @@ test('high-risk cooking evidence belongs to the ingredient action window', () =>
   const safeFlags = validateGroundedMeal({
     ingredients: [{ name: '鸡肉' }, { name: '大米' }],
     steps: ['鸡肉和大米一起焖熟。'],
+  }, selection, { dislikes: [] });
+  assert.equal(safeFlags.includes('high_risk_not_cooked:鸡肉'), false);
+});
+
+test('raw chicken still requires an ingredient-tied explicit safe endpoint', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉', '大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉', '大米'], dislikes: [] });
+  const unsafeFlags = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }, { name: '大米' }],
+    steps: ['鸡肉翻炒至表面变色，再加入大米焖至米熟。'],
+  }, selection, { dislikes: [] });
+  assert.ok(unsafeFlags.includes('high_risk_not_cooked:鸡肉'));
+  const safeFlags = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }, { name: '大米' }],
+    steps: ['鸡肉炒熟且中心不见粉红，再加入大米焖熟。'],
   }, selection, { dislikes: [] });
   assert.equal(safeFlags.includes('high_risk_not_cooked:鸡肉'), false);
 });

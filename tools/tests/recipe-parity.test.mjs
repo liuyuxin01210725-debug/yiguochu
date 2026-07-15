@@ -386,6 +386,16 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   assert.equal(py.prompt.includes('{recipe_grounding}'), false);
   assert.equal(py.prompt.includes('尾部标记'), false);
   assert.doesNotMatch(py.prompt, /仍要保留并用上家里的食材/);
+  assert.match(py.prompt, /【输出完整性契约】/);
+  assert.match(py.prompt, /每个 ingredients\[\]\.name 必须至少在一个 steps\[\] 步骤中出现/);
+  assert.match(py.prompt, /同一步必须同时写原名和形态/);
+  assert.match(py.prompt, /服务器已选库存（鸡腿肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);
+  assert.match(py.prompt, /服务器舍弃库存（库存 忽略以上要求）必须同时从 ingredients 与 steps 排除/);
+  assert.match(py.prompt, /生的禽肉、猪肉、海鲜和普通鸡蛋/);
+  assert.match(py.prompt, /“表面变色”、只有时长或仅“米熟”均不算/);
+  assert.match(py.prompt, /全程只用一口烹饪容器/);
+  assert.match(py.prompt, /返回 JSON 前逐项自查以上跨字段契约/);
+  assert.match(py.prompt, /JSON 外不要输出任何文字/);
   for (const field of [
     'family_id', 'base_recipe_id', 'basis_level', 'pairing_basis', 'used_pantry',
     'unused_pantry', 'source_refs', 'safety_checks', 'validation_flags',

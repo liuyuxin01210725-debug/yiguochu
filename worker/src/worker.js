@@ -211,6 +211,12 @@ function buildRecipeGrounding(selection) {
     `安全规则: ${compactRecipeList(recipe.safety_rules)}`,
     `已选库存: ${compactRecipeList(selection?.usedPantry)}`,
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
+    '【输出完整性契约】',
+    '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
+    `服务器已选库存（${compactRecipeList(selection?.usedPantry)}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（${compactRecipeList(selection?.unusedPantry)}）必须同时从 ingredients 与 steps 排除。`,
+    '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
+    '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',
+    '返回 JSON 前逐项自查以上跨字段契约；JSON 外不要输出任何文字。',
     '不合适的库存食材不要使用，并在 why 中简短说明舍弃。',
     '你必须以这张基础菜谱为底稿，只能在允许替换列表内改动。库存食材不合适时必须舍弃，不得为了全用而改变菜谱结构。来源字段由服务器添加，你不要编造来源。',
   ].join('\n');
