@@ -901,26 +901,57 @@ function normalizeMeal(meal, usage) {
   return meal;
 }
 
-function groundedSafetyEndpoint(name, aliases) {
-  const canonical = validationCanonicalIngredient(name, aliases);
-  if (validationOrdinaryEggIngredient(name, aliases)) {
+function groundedSafetyEndpoint(name, rawRiskCategory) {
+  if (rawRiskCategory === 'egg') {
     return `继续在原锅加热${name}至熟透并确保蛋白和蛋黄完全凝固且不得流心`;
   }
-  if (/(?:禽|鸡|鸭|鹅|火鸡|猪)/.test(`${name}${canonical}`)) {
+  if (rawRiskCategory === 'poultry_pork') {
     return `继续在原锅加热${name}至熟透，中心不见粉红`;
   }
   return `继续在原锅加热${name}至熟透`;
 }
 
 const VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = /(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$/;
+const VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS = new Set([
+  '炸鸡', '鸡肉松', '鱼丸', '鱼罐头', '虾饺', '蟹棒',
+  '皮蛋', '蛋黄酱', '蛋粉', '茶叶蛋', '咸鸭蛋',
+]);
+const VALIDATION_RAW_EGG_FORMS = new Set([
+  '鸡蛋', '蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液',
+]);
+const VALIDATION_RAW_POULTRY_PORK_FORMS = new Set([
+  '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
+  '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
+  '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
+]);
+const VALIDATION_RAW_SEAFOOD_FORMS = new Set([
+  '鱼', '鱼肉', '鱼片', '鲜鱼', '三文鱼', '鲑鱼', '鳕鱼', '鲈鱼', '鲫鱼', '鲤鱼', '草鱼', '黑鱼',
+  '鳗鱼', '带鱼', '黄花鱼', '鲳鱼', '鲷鱼', '龙利鱼', '巴沙鱼', '金枪鱼', '鲅鱼', '青花鱼', '沙丁鱼', '秋刀鱼',
+  '虾', '虾仁', '鲜虾', '大虾', '蟹', '蟹肉', '螃蟹', '梭子蟹', '大闸蟹',
+  '贝', '贝肉', '贝类', '蛤蜊', '花蛤', '扇贝', '牡蛎', '生蚝', '鱿鱼', '章鱼', '墨鱼',
+]);
 
-function validationRepairableHighRiskIngredient(name, aliases) {
-  const forms = [name, validationCanonicalIngredient(name, aliases)]
-    .map(item => validationFormName(item).replace(/\(.*?\)/g, ''))
-    .filter(Boolean);
-  return !forms.some(item => (
-    validationCookingOilIngredient(item) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(item)
-  ));
+function validationRawRiskForm(name) {
+  return validationFormName(name).replace(/\(.*?\)/g, '');
+}
+
+function validationRawRiskCategoryForForm(form) {
+  if (VALIDATION_RAW_EGG_FORMS.has(form)) return 'egg';
+  if (VALIDATION_RAW_POULTRY_PORK_FORMS.has(form)) return 'poultry_pork';
+  if (VALIDATION_RAW_SEAFOOD_FORMS.has(form)) return 'seafood';
+  return '';
+}
+
+function validationRawRiskCategory(name, aliases) {
+  const exact = validationRawRiskForm(name);
+  if (!exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(exact)) return '';
+  if (validationCookingOilIngredient(exact) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(exact)) return '';
+  const exactCategory = validationRawRiskCategoryForForm(exact);
+  if (exactCategory) return exactCategory;
+  const canonical = validationRawRiskForm(validationCanonicalIngredient(name, aliases));
+  if (!canonical || canonical === exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(canonical)) return '';
+  if (validationCookingOilIngredient(canonical) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(canonical)) return '';
+  return validationRawRiskCategoryForForm(canonical);
 }
 
 function repairGroundedMealSafety(meal, selection, constraints = {}) {
@@ -928,23 +959,24 @@ function repairGroundedMealSafety(meal, selection, constraints = {}) {
   const ingredientNames = validationIngredientNames(meal);
   const steps = validationSteps(meal);
   const prefix = 'high_risk_not_cooked:';
-  const names = [...new Set(validateGroundedMeal(meal, selection, constraints)
+  const candidates = [...new Set(validateGroundedMeal(meal, selection, constraints)
     .filter(flag => flag.startsWith(prefix))
     .map(flag => flag.slice(prefix.length)))]
     .filter(name => ingredientNames.includes(name))
-    .filter(name => validationRepairableHighRiskIngredient(name, aliases))
-    .filter(name => steps.some(step => validationStepMentions(step, name, aliases)));
+    .filter(name => steps.some(step => validationStepMentions(step, name, aliases)))
+    .map(name => ({ name, category: validationRawRiskCategory(name, aliases) }))
+    .filter(candidate => candidate.category);
 
-  if (!names.length) return 0;
-  const instruction = `安全收尾：${names.map(name => groundedSafetyEndpoint(name, aliases)).join('；')}。`;
+  if (!candidates.length) return 0;
+  const instruction = `安全收尾：${candidates.map(({ name, category }) => groundedSafetyEndpoint(name, category)).join('；')}。`;
   if (!Array.isArray(meal.steps)) meal.steps = [];
   if (meal.steps.length < 4) {
     meal.steps.push(instruction);
   } else {
     const last = meal.steps.length - 1;
-    meal.steps[last] = `${String(meal.steps[last] || '').trim()} ${instruction}`.trim();
+    meal.steps[last] = `${String(meal.steps[last] ?? '').trim()} ${instruction}`.trim();
   }
-  return names.length;
+  return candidates.length;
 }
 
 function attachGroundedMetadata(meal, selection, constraints) {

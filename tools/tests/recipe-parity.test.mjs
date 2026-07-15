@@ -263,16 +263,68 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     expectedRepaired: 0,
     retainedHighRisk: name,
   }));
+  const preparedCases = [
+    ['fried-chicken', '炸鸡', {}],
+    ['chicken-floss-canonical-raw', '鸡肉松', { '鸡肉松': '鸡肉' }],
+    ['fish-ball', '鱼丸', {}],
+    ['canned-fish', '鱼罐头', {}],
+    ['shrimp-dumpling', '虾饺', {}],
+    ['crab-stick', '蟹棒', {}],
+    ['mayonnaise', '蛋黄酱', {}],
+    ['egg-powder', '蛋粉', {}],
+    ['tea-egg', '茶叶蛋', {}],
+    ['salted-duck-egg', '咸鸭蛋', {}],
+  ].map(([id, name, aliases]) => ({
+    id,
+    ingredients: [name],
+    aliases,
+    steps: [`原锅加热${name}至表面变化。`],
+    expectedRepaired: 0,
+    retainedHighRisk: name,
+  }));
   const cases = [
     { id: 'chicken', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉炒至表面变色，加入大米焖至米熟。'], expectedRepaired: 1 },
     { id: 'pork', ingredients: ['猪肉'], aliases: {}, steps: ['猪肉炒至表面变色。'], expectedRepaired: 1 },
     { id: 'egg', ingredients: ['鸡蛋'], aliases: {}, steps: ['鸡蛋熟透但蛋黄流心。'], expectedRepaired: 1 },
+    ...['蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液'].map(name => ({
+      id: `raw-egg-${name}`,
+      ingredients: [name],
+      aliases: {},
+      steps: [`${name}炒至表面变色。`],
+      expectedRepaired: 1,
+      endpoint: new RegExp(`原锅.*${name}.*熟透.*蛋白和蛋黄完全凝固.*不得流心`),
+    })),
+    ...['鸡胸', '鸡肉', '火鸡', '猪里脊'].map(name => ({
+      id: `raw-poultry-pork-${name}`,
+      ingredients: [name],
+      aliases: {},
+      steps: [`${name}炒至表面变色。`],
+      expectedRepaired: 1,
+      endpoint: new RegExp(`原锅.*${name}.*熟透.*中心不见粉红`),
+    })),
+    ...['鱼', '鱼片', '虾', '蟹肉', '贝类'].map(name => ({
+      id: `raw-seafood-${name}`,
+      ingredients: [name],
+      aliases: {},
+      steps: [`${name}炒至表面变色。`],
+      expectedRepaired: 1,
+      endpoint: new RegExp(`原锅.*${name}.*熟透`),
+    })),
     { id: 'seafood', ingredients: ['虾仁'], aliases: {}, steps: ['虾仁炒至变色。'], expectedRepaired: 1 },
     { id: 'missing-oil', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['锅中加油，鸡胸肉炒至表面变色，加入大米。'], expectedRepaired: 1 },
     { id: 'absent-mention', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['大米焖至米熟。'], expectedRepaired: 0, retainedHighRisk: '鸡胸肉' },
     { id: 'multiple', ingredients: ['鸡胸肉', '虾仁'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉和虾仁炒至表面变色。'], expectedRepaired: 2 },
     { id: 'four-step', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉切块。', '鸡胸肉炒至表面变色。', '加入大米。', '焖至米熟。'], expectedRepaired: 1 },
     ...excludedCases,
+    ...preparedCases,
+    {
+      id: 'century-egg-validator-exempt',
+      ingredients: ['皮蛋'],
+      aliases: {},
+      steps: ['原锅加热皮蛋至表面变化。'],
+      expectedRepaired: 0,
+      validatorExempt: '皮蛋',
+    },
     {
       id: 'canonical-stock',
       ingredients: ['海鲜底味'],
@@ -322,10 +374,46 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     assert.deepEqual(py.meal.ingredients, jsMeal.ingredients, item.id);
     assert.equal(py.meal.prep_minutes, jsMeal.prep_minutes, item.id);
     assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints), item.id);
+    if (item.endpoint) assert.match(jsMeal.steps.at(-1), item.endpoint, `${item.id}: endpoint`);
     if (item.retainedHighRisk) {
       assert.ok(py.flags.includes(`high_risk_not_cooked:${item.retainedHighRisk}`), `${item.id}: flag retained`);
     }
+    if (item.validatorExempt) {
+      assert.equal(
+        py.flags.includes(`high_risk_not_cooked:${item.validatorExempt}`),
+        false,
+        `${item.id}: validator exemption is N/A`,
+      );
+    }
   }
+});
+
+test('Python malformed four-step numeric zero tail exactly matches Worker without falsey loss', () => {
+  const ingredients = ['鸡胸肉'];
+  const aliases = { '鸡胸肉': '鸡肉' };
+  const library = fixtureLib([
+    fixtureRecipe('repair-malformed-zero', 'family-malformed-zero', {
+      core_ingredients: ingredients,
+      optional_ingredients: [],
+      substitution_slots: [],
+    }),
+  ], aliases);
+  const constraints = { pantry: ingredients, dislikes: [] };
+  const selection = selectRecipeCandidates(library, constraints)[0];
+  const meal = {
+    ingredients: [{ name: '鸡胸肉', grams: 120 }],
+    steps: ['鸡胸肉切块。', '鸡胸肉炒至表面变色。', '翻动鸡胸肉。', 0],
+    prep_minutes: 30,
+  };
+  const jsMeal = structuredClone(meal);
+
+  assert.equal(repairGroundedMealSafety(jsMeal, selection, constraints), 1);
+  const py = pythonCall('repair', { library, constraints, meal });
+
+  assert.equal(py.repaired, 1);
+  assert.match(jsMeal.steps.at(-1), /^0 安全收尾：/);
+  assert.deepEqual(py.meal.steps, jsMeal.steps);
+  assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints));
 });
 
 test('required Python recipe-match CLI works without an API key and matches the Worker', () => {

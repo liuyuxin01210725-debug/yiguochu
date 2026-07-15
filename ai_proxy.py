@@ -1024,11 +1024,10 @@ def normalize_meal(meal, usage=None):
     return meal
 
 
-def _grounded_safety_endpoint(name, aliases):
-    canonical = _validation_canonical_ingredient(name, aliases)
-    if _validation_ordinary_egg_ingredient(name, aliases):
+def _grounded_safety_endpoint(name, raw_risk_category):
+    if raw_risk_category == 'egg':
         return f'继续在原锅加热{name}至熟透并确保蛋白和蛋黄完全凝固且不得流心'
-    if re.search(r'(?:禽|鸡|鸭|鹅|火鸡|猪)', f'{name}{canonical}'):
+    if raw_risk_category == 'poultry_pork':
         return f'继续在原锅加热{name}至熟透，中心不见粉红'
     return f'继续在原锅加热{name}至熟透'
 
@@ -1036,18 +1035,58 @@ def _grounded_safety_endpoint(name, aliases):
 _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = re.compile(
     r'(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$'
 )
+_VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS = {
+    '炸鸡', '鸡肉松', '鱼丸', '鱼罐头', '虾饺', '蟹棒',
+    '皮蛋', '蛋黄酱', '蛋粉', '茶叶蛋', '咸鸭蛋',
+}
+_VALIDATION_RAW_EGG_FORMS = {
+    '鸡蛋', '蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液',
+}
+_VALIDATION_RAW_POULTRY_PORK_FORMS = {
+    '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
+    '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
+    '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
+}
+_VALIDATION_RAW_SEAFOOD_FORMS = {
+    '鱼', '鱼肉', '鱼片', '鲜鱼', '三文鱼', '鲑鱼', '鳕鱼', '鲈鱼', '鲫鱼', '鲤鱼', '草鱼', '黑鱼',
+    '鳗鱼', '带鱼', '黄花鱼', '鲳鱼', '鲷鱼', '龙利鱼', '巴沙鱼', '金枪鱼', '鲅鱼', '青花鱼', '沙丁鱼', '秋刀鱼',
+    '虾', '虾仁', '鲜虾', '大虾', '蟹', '蟹肉', '螃蟹', '梭子蟹', '大闸蟹',
+    '贝', '贝肉', '贝类', '蛤蜊', '花蛤', '扇贝', '牡蛎', '生蚝', '鱿鱼', '章鱼', '墨鱼',
+}
 
 
-def _validation_repairable_high_risk_ingredient(name, aliases):
-    forms = [
-        re.sub(r'\(.*?\)', '', _validation_form_name(item))
-        for item in (name, _validation_canonical_ingredient(name, aliases))
-    ]
-    return not any(
-        _validation_cooking_oil_ingredient(item)
-        or _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.search(item)
-        for item in forms if item
-    )
+def _validation_raw_risk_form(name):
+    return re.sub(r'\(.*?\)', '', _validation_form_name(name))
+
+
+def _validation_raw_risk_category_for_form(form):
+    if form in _VALIDATION_RAW_EGG_FORMS:
+        return 'egg'
+    if form in _VALIDATION_RAW_POULTRY_PORK_FORMS:
+        return 'poultry_pork'
+    if form in _VALIDATION_RAW_SEAFOOD_FORMS:
+        return 'seafood'
+    return ''
+
+
+def _validation_raw_risk_category(name, aliases):
+    exact = _validation_raw_risk_form(name)
+    if not exact or exact in _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS:
+        return ''
+    if (_validation_cooking_oil_ingredient(exact)
+            or _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.search(exact)):
+        return ''
+    exact_category = _validation_raw_risk_category_for_form(exact)
+    if exact_category:
+        return exact_category
+    canonical = _validation_raw_risk_form(_validation_canonical_ingredient(name, aliases))
+    if (not canonical or canonical == exact
+            or canonical in _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS):
+        return ''
+    if (_validation_cooking_oil_ingredient(canonical)
+            or _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.search(canonical)):
+        return ''
+    return _validation_raw_risk_category_for_form(canonical)
 
 
 def repair_grounded_meal_safety(meal, selection, constraints=None):
@@ -1057,20 +1096,22 @@ def repair_grounded_meal_safety(meal, selection, constraints=None):
     ingredient_names = _validation_ingredient_names(meal)
     steps = _validation_steps(meal)
     prefix = 'high_risk_not_cooked:'
-    names = []
+    candidates = []
     for flag in validate_grounded_meal(meal, selection, constraints):
         if not flag.startswith(prefix):
             continue
         name = flag[len(prefix):]
+        category = _validation_raw_risk_category(name, aliases)
         if (name in ingredient_names
-                and _validation_repairable_high_risk_ingredient(name, aliases)
+                and category
                 and any(_validation_step_mentions(step, name, aliases) for step in steps)
-                and name not in names):
-            names.append(name)
-    if not names:
+                and all(candidate['name'] != name for candidate in candidates)):
+            candidates.append({'name': name, 'category': category})
+    if not candidates:
         return 0
     instruction = '安全收尾：' + '；'.join(
-        _grounded_safety_endpoint(name, aliases) for name in names
+        _grounded_safety_endpoint(candidate['name'], candidate['category'])
+        for candidate in candidates
     ) + '。'
     if not isinstance(meal.get('steps'), list):
         meal['steps'] = []
@@ -1078,7 +1119,7 @@ def repair_grounded_meal_safety(meal, selection, constraints=None):
         meal['steps'].append(instruction)
     else:
         meal['steps'][-1] = f'{_js_string(meal["steps"][-1]).strip()} {instruction}'.strip()
-    return len(names)
+    return len(candidates)
 
 
 def attach_grounded_metadata(meal, selection, constraints):

@@ -529,6 +529,82 @@ test('safety tail leaves cooking oils and non-raw high-risk categories byte-equi
   })));
 });
 
+test('safety tail never repairs audited prepared products even when an alias canonicalizes to raw meat', () => {
+  const preparedCases = [
+    { name: '炸鸡' },
+    { name: '鸡肉松', aliases: { '鸡肉松': '鸡肉' } },
+    { name: '鱼丸' },
+    { name: '鱼罐头' },
+    { name: '虾饺' },
+    { name: '蟹棒' },
+  ];
+
+  for (const { name, aliases = {} } of preparedCases) {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`原锅加热${name}至表面变化。`] };
+    const flag = `high_risk_not_cooked:${name}`;
+    const stepsBefore = JSON.stringify(meal.steps);
+
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), `${name}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 0, name);
+    assert.equal(JSON.stringify(meal.steps), stepsBefore, `${name}: steps byte-equivalent`);
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), `${name}: flag retained`);
+  }
+});
+
+test('safety tail positive raw-risk classifier routes audited egg variants to the egg endpoint', () => {
+  const rawCases = [
+    ...['鸡胸', '鸡肉', '火鸡', '猪肉', '猪里脊'].map(name => ({
+      name,
+      endpoint: new RegExp(`原锅.*${name}.*熟透.*中心不见粉红`),
+    })),
+    ...['鱼', '鱼片', '虾', '虾仁', '蟹肉', '贝类'].map(name => ({
+      name,
+      endpoint: new RegExp(`原锅.*${name}.*熟透`),
+    })),
+    ...['鸡蛋', '蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液'].map(name => ({
+      name,
+      endpoint: new RegExp(`原锅.*${name}.*熟透.*蛋白和蛋黄完全凝固.*不得流心`),
+    })),
+  ];
+
+  for (const { name, endpoint } of rawCases) {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`${name}翻炒至表面变色。`] };
+    const flag = `high_risk_not_cooked:${name}`;
+
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), `${name}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 1, name);
+    assert.match(meal.steps.at(-1), endpoint, name);
+    assert.equal(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), false, `${name}: repaired`);
+  }
+});
+
+test('safety tail keeps prepared egg products unchanged and records the validator-exempt century egg as N/A', () => {
+  const preparedEggCases = [
+    { name: '皮蛋', validatorFlag: false },
+    { name: '蛋黄酱', validatorFlag: true },
+    { name: '蛋粉', validatorFlag: true },
+    { name: '茶叶蛋', validatorFlag: true },
+    { name: '咸鸭蛋', validatorFlag: true },
+  ];
+
+  for (const { name, validatorFlag } of preparedEggCases) {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`原锅加热${name}至表面变化。`] };
+    const flag = `high_risk_not_cooked:${name}`;
+    const stepsBefore = JSON.stringify(meal.steps);
+
+    assert.equal(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), validatorFlag, `${name}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 0, name);
+    assert.equal(JSON.stringify(meal.steps), stepsBefore, `${name}: steps byte-equivalent`);
+    assert.equal(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), validatorFlag, `${name}: flag state retained`);
+  }
+});
+
 test('safety tail still repairs raw poultry pork shrimp and ordinary egg', () => {
   const rawCases = [
     { name: '鸡胸肉', aliases: { '鸡胸肉': '鸡肉' } },
