@@ -912,6 +912,7 @@ function groundedSafetyEndpoint(name, rawRiskCategory) {
 }
 
 const VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = /(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$/;
+const VALIDATION_EXPLICIT_UNSAFE_STATE_RE = /(?:(?:尚未|还未|仍未|还没|尚没|仍没|没(?:有)?|不|未)(?:完全|彻底|充分)?(?:预|煮|炒|煎|焖|炖|蒸|烧)?熟|半熟|[0-9零〇一二两三四五六七八九]分熟)/g;
 const VALIDATION_PREPARED_STATE_MARKER_RE = /(?:即食|熟制|预熟|烟熏|罐装|罐头|熟)/;
 const VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS = new Set([
   '炸鸡', '鸡肉松', '鱼丸', '鱼罐头', '虾饺', '蟹棒',
@@ -932,8 +933,12 @@ const VALIDATION_RAW_SEAFOOD_FORMS = new Set([
   '贝', '贝肉', '贝类', '蛤蜊', '花蛤', '扇贝', '牡蛎', '生蚝', '鱿鱼', '章鱼', '墨鱼',
 ]);
 
+function validationUnsafeStateForm(name) {
+  return validationFormName(name).replace(VALIDATION_EXPLICIT_UNSAFE_STATE_RE, '');
+}
+
 function validationRawRiskForm(name) {
-  return validationFormName(name).replace(/\(.*?\)/g, '');
+  return validationUnsafeStateForm(name).replace(/\(.*?\)/g, '');
 }
 
 function validationRawRiskCategoryForForm(form) {
@@ -962,7 +967,7 @@ function validationResolveRawAlias(name, aliases) {
     if (firstSeen.has(current)) return { canonical: current, classifiable: false, aliased };
     firstSeen.add(current);
     const edge = normalized.get(current);
-    if (VALIDATION_PREPARED_STATE_MARKER_RE.test(validationFormName(edge.rawValue))) {
+    if (VALIDATION_PREPARED_STATE_MARKER_RE.test(validationUnsafeStateForm(edge.rawValue))) {
       return { canonical: current, classifiable: false, aliased };
     }
     current = edge.value;
@@ -971,7 +976,7 @@ function validationResolveRawAlias(name, aliases) {
 }
 
 function validationRawRiskCategory(name, aliases) {
-  const exactNormalized = validationFormName(name);
+  const exactNormalized = validationUnsafeStateForm(name);
   if (!exactNormalized || VALIDATION_PREPARED_STATE_MARKER_RE.test(exactNormalized)) return '';
   const exact = validationRawRiskForm(exactNormalized);
   if (!exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(exact)) return '';
@@ -980,7 +985,7 @@ function validationRawRiskCategory(name, aliases) {
   const resolved = validationResolveRawAlias(name, aliases);
   if (exactCategory && !resolved.aliased) return exactCategory;
   if (!resolved.classifiable) return '';
-  const canonicalNormalized = validationFormName(resolved.canonical);
+  const canonicalNormalized = validationUnsafeStateForm(resolved.canonical);
   if (!canonicalNormalized) return '';
   const canonical = validationRawRiskForm(canonicalNormalized);
   if (!canonical || canonical === exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(canonical)) return '';

@@ -695,6 +695,88 @@ test('safety tail gives raw-key alias chains precedence over exact raw fallback'
   }
 });
 
+test('safety tail normalizes explicit unsafe cooking states before prepared markers', () => {
+  const unsafeCases = [
+    ['not-cooked-prefix', '未熟鸡肉', {}, '未熟鸡肉', 'poultry_pork'],
+    ['not-yet-cooked-suffix', '鸡肉尚未熟', {}, '鸡肉尚未熟', 'poultry_pork'],
+    ['still-not-cooked-parenthetical', '鸡肉（还没熟）', {}, '鸡肉（还没熟）', 'poultry_pork'],
+    ['not-cooked-fish', '没熟鱼片', { '没熟鱼片': '鲜鱼' }, '鲜鱼', 'seafood'],
+    ['uncooked-salmon', '不熟三文鱼', { '不熟三文鱼': '鲑鱼' }, '鲑鱼', 'seafood'],
+    ['not-fully-cooked-suffix', '鸡肉未完全熟', {}, '鸡肉未完全熟', 'poultry_pork'],
+    ['not-thoroughly-cooked-parenthetical', '鸡肉（未彻底熟）', {}, '鸡肉（未彻底熟）', 'poultry_pork'],
+    ['not-precooked-prefix', '未预熟鸡肉', { '未预熟鸡肉': '鸡胸肉' }, '鸡胸肉', 'poultry_pork'],
+    ['half-cooked-egg', '半熟鸡蛋', { '半熟鸡蛋': '鸡蛋液' }, '鸡蛋液', 'egg'],
+    ['chinese-doneness', '三分熟猪肉', { '三分熟猪肉': '猪里脊' }, '猪里脊', 'poultry_pork'],
+    ['numeric-doneness-parenthetical', '猪肉（7分熟）', { '猪肉（7分熟）': '猪里脊' }, '猪里脊', 'poultry_pork'],
+    ['unsafe-alias-terminal', '库存食材鸡', { '库存食材鸡': '鸡肉（未熟）' }, '库存食材鸡', 'poultry_pork'],
+    [
+      'unsafe-alias-intermediate',
+      '库存食材鱼',
+      { '库存食材鱼': '未熟中间鱼', '未熟中间鱼': '鱼片' },
+      '库存食材鱼',
+      'seafood',
+    ],
+  ];
+
+  for (const [id, name, aliases, stepName, category] of unsafeCases) {
+    const recipe = groundedFixtureRecipe({
+      id: `unsafe-state-${id}`,
+      core_ingredients: [name],
+      optional_ingredients: [],
+      substitution_slots: [],
+    });
+    const constraints = { pantry: [name], dislikes: [] };
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), constraints);
+    const originalSteps = [`原锅加热${stepName}至表面变化。`];
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [...originalSteps] };
+    const flag = `high_risk_not_cooked:${name}`;
+
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, constraints), 1, `${id}: count`);
+    assert.deepEqual(meal.steps.slice(0, -1), originalSteps, `${id}: original steps preserved`);
+    assert.equal(meal.steps.length, originalSteps.length + 1, `${id}: one tail appended`);
+    assert.ok(meal.steps.at(-1).includes(`继续在原锅加热${name}至熟透`), `${id}: named endpoint`);
+    if (category === 'egg') {
+      assert.match(meal.steps.at(-1), /蛋白和蛋黄完全凝固.*不得流心/, `${id}: egg endpoint`);
+    } else if (category === 'poultry_pork') {
+      assert.match(meal.steps.at(-1), /中心不见粉红/, `${id}: meat endpoint`);
+    }
+    assert.equal(validateGroundedMeal(meal, selection, constraints).includes(flag), false, `${id}: flag cleared`);
+  }
+
+  const preparedControls = [
+    ['cooked-prefix', '熟鸡肉', { '熟鸡肉': '鸡肉' }, '鸡肉'],
+    ['cooked-parenthetical', '鸡肉（熟）', { '鸡肉（熟）': '鸡肉' }, '鸡肉'],
+    ['precooked-prefix', '预熟鸡肉', { '预熟鸡肉': '鸡胸肉' }, '鸡胸肉'],
+    ['prepared-suffix', '鸡肉熟制', { '鸡肉熟制': '鸡肉' }, '鸡肉'],
+    [
+      'unsafe-hop-to-prepared-terminal',
+      '库存食材鸡',
+      { '库存食材鸡': '未熟中间鸡', '未熟中间鸡': '鸡胸肉（即食）' },
+      '库存食材鸡',
+    ],
+  ];
+
+  for (const [id, name, aliases, stepName] of preparedControls) {
+    const recipe = groundedFixtureRecipe({
+      id: `unsafe-control-${id}`,
+      core_ingredients: [name],
+      optional_ingredients: [],
+      substitution_slots: [],
+    });
+    const constraints = { pantry: [name], dislikes: [] };
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), constraints);
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`原锅加热${stepName}至表面变化。`] };
+    const flag = `high_risk_not_cooked:${name}`;
+    const stepsBefore = JSON.stringify(meal.steps);
+
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, constraints), 0, `${id}: count`);
+    assert.equal(JSON.stringify(meal.steps), stepsBefore, `${id}: steps byte-equivalent`);
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: flag retained`);
+  }
+});
+
 test('safety tail positive raw-risk classifier routes audited egg variants to the egg endpoint', () => {
   const rawCases = [
     ...['鸡胸', '鸡肉', '火鸡', '猪肉', '猪里脊'].map(name => ({

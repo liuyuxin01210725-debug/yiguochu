@@ -360,6 +360,57 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
       endpoint: /原锅.*鸡肉.*中心不见粉红/,
     },
   );
+  const unsafeStateRepairCase = (id, name, aliases, stepName, endpoint) => ({
+    id,
+    ingredients: [name],
+    aliases,
+    steps: [`原锅加热${stepName}至表面变化。`],
+    expectedRepaired: 1,
+    clearedHighRisk: name,
+    expectedStepsAppended: true,
+    endpoint,
+  });
+  const unsafeStateCases = [
+    unsafeStateRepairCase('unsafe-not-cooked-prefix', '未熟鸡肉', {}, '未熟鸡肉', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-not-yet-cooked-suffix', '鸡肉尚未熟', {}, '鸡肉尚未熟', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-still-not-cooked-parenthetical', '鸡肉（还没熟）', {}, '鸡肉（还没熟）', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-not-cooked-fish', '没熟鱼片', { '没熟鱼片': '鲜鱼' }, '鲜鱼', /安全收尾：.*至熟透/),
+    unsafeStateRepairCase('unsafe-uncooked-salmon', '不熟三文鱼', { '不熟三文鱼': '鲑鱼' }, '鲑鱼', /安全收尾：.*至熟透/),
+    unsafeStateRepairCase('unsafe-not-fully-cooked', '鸡肉未完全熟', {}, '鸡肉未完全熟', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-not-thoroughly-cooked', '鸡肉（未彻底熟）', {}, '鸡肉（未彻底熟）', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-not-precooked', '未预熟鸡肉', { '未预熟鸡肉': '鸡胸肉' }, '鸡胸肉', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-half-cooked-egg', '半熟鸡蛋', { '半熟鸡蛋': '鸡蛋液' }, '鸡蛋液', /蛋白和蛋黄完全凝固.*不得流心/),
+    unsafeStateRepairCase('unsafe-chinese-doneness', '三分熟猪肉', { '三分熟猪肉': '猪里脊' }, '猪里脊', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-numeric-doneness', '猪肉（7分熟）', { '猪肉（7分熟）': '猪里脊' }, '猪里脊', /中心不见粉红/),
+    unsafeStateRepairCase('unsafe-alias-terminal', '库存食材鸡', { '库存食材鸡': '鸡肉（未熟）' }, '库存食材鸡', /中心不见粉红/),
+    unsafeStateRepairCase(
+      'unsafe-alias-intermediate',
+      '库存食材鱼',
+      { '库存食材鱼': '未熟中间鱼', '未熟中间鱼': '鱼片' },
+      '库存食材鱼',
+      /安全收尾：.*至熟透/,
+    ),
+    ...[
+      ['prepared-cooked-prefix', '熟鸡肉', { '熟鸡肉': '鸡肉' }, '鸡肉'],
+      ['prepared-cooked-parenthetical', '鸡肉（熟）', { '鸡肉（熟）': '鸡肉' }, '鸡肉'],
+      ['prepared-precooked-prefix', '预熟鸡肉', { '预熟鸡肉': '鸡胸肉' }, '鸡胸肉'],
+      ['prepared-made-suffix', '鸡肉熟制', { '鸡肉熟制': '鸡肉' }, '鸡肉'],
+      [
+        'unsafe-hop-to-prepared-terminal',
+        '库存食材鸡',
+        { '库存食材鸡': '未熟中间鸡', '未熟中间鸡': '鸡胸肉（即食）' },
+        '库存食材鸡',
+      ],
+    ].map(([id, name, aliases, stepName]) => ({
+      id,
+      ingredients: [name],
+      aliases,
+      steps: [`原锅加热${stepName}至表面变化。`],
+      expectedRepaired: 0,
+      retainedHighRisk: name,
+      expectedStepsUnchanged: true,
+    })),
+  ];
   const cases = [
     { id: 'chicken', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉炒至表面变色，加入大米焖至米熟。'], expectedRepaired: 1 },
     { id: 'pork', ingredients: ['猪肉'], aliases: {}, steps: ['猪肉炒至表面变色。'], expectedRepaired: 1 },
@@ -398,6 +449,7 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     ...preparedStateCases,
     ...markerAwareAliasCases,
     ...rawKeyAliasCases,
+    ...unsafeStateCases,
     {
       id: 'benign-parenthetical-raw-cut',
       ingredients: ['鸡胸肉（切块）'],
@@ -466,6 +518,10 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints), item.id);
     if (item.expectedStepsUnchanged) {
       assert.equal(JSON.stringify(jsMeal.steps), stepsBefore, `${item.id}: steps byte-equivalent`);
+    }
+    if (item.expectedStepsAppended) {
+      assert.equal(jsMeal.steps.length, item.steps.length + 1, `${item.id}: one tail appended`);
+      assert.deepEqual(jsMeal.steps.slice(0, -1), item.steps, `${item.id}: original steps preserved`);
     }
     if (item.endpoint) assert.match(jsMeal.steps.at(-1), item.endpoint, `${item.id}: endpoint`);
     if (item.retainedHighRisk) {

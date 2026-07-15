@@ -1035,6 +1035,9 @@ def _grounded_safety_endpoint(name, raw_risk_category):
 _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = re.compile(
     r'(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$'
 )
+_VALIDATION_EXPLICIT_UNSAFE_STATE_RE = re.compile(
+    r'(?:(?:尚未|还未|仍未|还没|尚没|仍没|没(?:有)?|不|未)(?:完全|彻底|充分)?(?:预|煮|炒|煎|焖|炖|蒸|烧)?熟|半熟|[0-9零〇一二两三四五六七八九]分熟)'
+)
 _VALIDATION_PREPARED_STATE_MARKER_RE = re.compile(r'(?:即食|熟制|预熟|烟熏|罐装|罐头|熟)')
 _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS = {
     '炸鸡', '鸡肉松', '鱼丸', '鱼罐头', '虾饺', '蟹棒',
@@ -1056,8 +1059,12 @@ _VALIDATION_RAW_SEAFOOD_FORMS = {
 }
 
 
+def _validation_unsafe_state_form(name):
+    return _VALIDATION_EXPLICIT_UNSAFE_STATE_RE.sub('', _validation_form_name(name))
+
+
 def _validation_raw_risk_form(name):
-    return re.sub(r'\(.*?\)', '', _validation_form_name(name))
+    return re.sub(r'\(.*?\)', '', _validation_unsafe_state_form(name))
 
 
 def _validation_raw_risk_category_for_form(form):
@@ -1090,14 +1097,14 @@ def _validation_resolve_raw_alias(name, aliases):
         first_seen.add(current)
         edge = normalized[current]
         if _VALIDATION_PREPARED_STATE_MARKER_RE.search(
-                _validation_form_name(edge['raw_value'])):
+                _validation_unsafe_state_form(edge['raw_value'])):
             return {'canonical': current, 'classifiable': False, 'aliased': aliased}
         current = edge['value']
     return {'canonical': current, 'classifiable': True, 'aliased': aliased}
 
 
 def _validation_raw_risk_category(name, aliases):
-    exact_normalized = _validation_form_name(name)
+    exact_normalized = _validation_unsafe_state_form(name)
     if (not exact_normalized
             or _VALIDATION_PREPARED_STATE_MARKER_RE.search(exact_normalized)):
         return ''
@@ -1113,7 +1120,7 @@ def _validation_raw_risk_category(name, aliases):
         return exact_category
     if not resolved['classifiable']:
         return ''
-    canonical_normalized = _validation_form_name(resolved['canonical'])
+    canonical_normalized = _validation_unsafe_state_form(resolved['canonical'])
     if not canonical_normalized:
         return ''
     canonical = _validation_raw_risk_form(canonical_normalized)
