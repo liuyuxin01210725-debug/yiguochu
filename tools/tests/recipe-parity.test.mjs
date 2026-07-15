@@ -524,6 +524,38 @@ test('Python validator matches review fixes for active actions, species, future 
   }
 });
 
+test('Python validator matches finite generic pork-form boundaries', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['大米'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['大米'], dislikes: [] };
+  const name = '猪瘦肉（里脊）';
+  const cases = [
+    ...[
+      '兔肉丁炒熟。',
+      '鹿肉片炒熟。',
+      '驴肉块炒熟。',
+      '马肉丝炒熟。',
+      '兔肉切成肉丁炒熟。',
+      '将鹿肉改刀成肉片炒熟。',
+    ].map(step => ({
+      step,
+      present: [`ingredient_missing_in_steps:${name}`, `high_risk_not_cooked:${name}`],
+    })),
+    ...['肉丁炒熟。', '将肉片炒熟。', '猪瘦肉切成肉丝，肉丝炒熟。', '放入肉块炖熟。'].map(step => ({
+      step,
+      absent: [`ingredient_missing_in_steps:${name}`, `high_risk_not_cooked:${name}`],
+    })),
+  ];
+  for (const { step, present = [], absent = [] } of cases) {
+    const meal = { ingredients: [{ name }], steps: [step] };
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), `${step}: ${flag}`);
+    for (const flag of absent) assert.equal(py.includes(flag), false, `${step}: ${flag}`);
+  }
+});
+
 test('Python no-network preparation matches Worker prompt and overwrites forged trusted metadata', async () => {
   const recipe = groundedRecipe();
   const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });

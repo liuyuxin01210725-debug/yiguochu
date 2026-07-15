@@ -533,6 +533,26 @@ _VALIDATION_DELAYED_ADD_RE = re.compile(r'(?:后加入|后放入|后拌入|再�
 _VALIDATION_FUTURE_COOKING_SUFFIX_RE = re.compile(r'^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)')
 _VALIDATION_FUTURE_COOKING_MARKER_RE = re.compile(r'(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)')
 _VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)')
+_VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
+_VALIDATION_GENERIC_MEAT_BOUNDARY_RE = re.compile(r'(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$')
+
+
+def _validation_generic_meat_form_allowed(text, index):
+    if index == 0:
+        return True
+    prefix = text[:index]
+    clause_prefix = re.split(r'[，,。；;！？!?]', prefix)[-1]
+    if not clause_prefix:
+        return True
+    boundary = _VALIDATION_GENERIC_MEAT_BOUNDARY_RE.search(clause_prefix)
+    if not boundary:
+        return False
+    source_prefix = clause_prefix[:boundary.start()]
+    for source in re.finditer(r'[\u3400-\u9fff]肉', source_prefix):
+        through_source = source_prefix[:source.end()]
+        if not re.search(r'(?:猪瘦肉|瘦猪肉|猪肉|瘦肉)$', through_source):
+            return False
+    return True
 
 
 def _validation_token_positions(text, token):
@@ -551,11 +571,14 @@ def _validation_token_positions(text, token):
         blocked_garlic_green = token == '蒜' and re.match(r'(?:苗|苔|薹)', text[index + len(token):])
         blocked_chicken_species = (token in ('鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片')
                                    and index > 0 and text[index - 1] == '火')
-        blocked_pork_species = (token in ('猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块')
+        blocked_generic_meat_form = (token in _VALIDATION_GENERIC_MEAT_FORMS
+                                     and not _validation_generic_meat_form_allowed(text, index))
+        blocked_pork_species = (token in ('猪肉', '瘦肉', '里脊')
                                 and index > 0 and text[index - 1] in '牛羊鸡鸭鹅鱼')
         blocked_cooking_oil = token == '油' and index not in active_oil_positions
         if (not negated and not blocked_short_form and not blocked_garlic_green
-                and not blocked_chicken_species and not blocked_pork_species and not blocked_cooking_oil):
+                and not blocked_chicken_species and not blocked_generic_meat_form
+                and not blocked_pork_species and not blocked_cooking_oil):
             positions.append(index)
         offset = index + len(token)
     return positions

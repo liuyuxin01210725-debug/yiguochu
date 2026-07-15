@@ -329,10 +329,12 @@ function validationTokenPositions(text, token) {
     const blockedGarlicGreen = token === '蒜' && /^(?:苗|苔|薹)/.test(text.slice(index + token.length));
     const blockedChickenSpecies = ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'].includes(token)
       && text[index - 1] === '火';
-    const blockedPorkSpecies = ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块'].includes(token)
+    const blockedGenericMeatForm = VALIDATION_GENERIC_MEAT_FORMS.has(token)
+      && !validationGenericMeatFormAllowed(text, index);
+    const blockedPorkSpecies = ['猪肉', '瘦肉', '里脊'].includes(token)
       && /[牛羊鸡鸭鹅鱼]/.test(text[index - 1] || '');
     const blockedCookingOil = token === '油' && !activeOilPositions.has(index);
-    if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies
+    if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies && !blockedGenericMeatForm
       && !blockedPorkSpecies && !blockedCookingOil) positions.push(index);
     offset = index + token.length;
   }
@@ -353,6 +355,26 @@ const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅
 const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
 const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
 const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
+const VALIDATION_GENERIC_MEAT_FORMS = new Set(['肉丝', '肉丁', '肉片', '肉块']);
+const VALIDATION_GENERIC_MEAT_BOUNDARY_RE = /(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$/;
+
+function validationGenericMeatFormAllowed(text, index) {
+  if (index === 0) return true;
+  const prefix = text.slice(0, index);
+  const clausePrefix = prefix.slice(Math.max(
+    prefix.lastIndexOf('，'), prefix.lastIndexOf(','), prefix.lastIndexOf('。'), prefix.lastIndexOf('；'),
+    prefix.lastIndexOf(';'), prefix.lastIndexOf('！'), prefix.lastIndexOf('!'), prefix.lastIndexOf('？'), prefix.lastIndexOf('?'),
+  ) + 1);
+  if (!clausePrefix) return true;
+  const boundary = clausePrefix.match(VALIDATION_GENERIC_MEAT_BOUNDARY_RE);
+  if (!boundary) return false;
+  const sourcePrefix = clausePrefix.slice(0, boundary.index);
+  for (const source of sourcePrefix.matchAll(/[\u3400-\u9fff]肉/g)) {
+    const throughSource = sourcePrefix.slice(0, source.index + source[0].length);
+    if (!/(?:猪瘦肉|瘦猪肉|猪肉|瘦肉)$/.test(throughSource)) return false;
+  }
+  return true;
+}
 
 function validationClauseCooksTarget(clause, name, aliases) {
   const text = String(clause || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/[\s_-]+/g, '');

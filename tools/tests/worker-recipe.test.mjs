@@ -709,6 +709,36 @@ test('controlled meat forms preserve species boundaries and remove explicit whit
   }
 });
 
+test('generic pork forms require a finite cut or action boundary', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const name = '猪瘦肉（里脊）';
+
+  for (const step of [
+    '兔肉丁炒熟。',
+    '鹿肉片炒熟。',
+    '驴肉块炒熟。',
+    '马肉丝炒熟。',
+    '兔肉切成肉丁炒熟。',
+    '将鹿肉改刀成肉片炒熟。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes(`ingredient_missing_in_steps:${name}`), step);
+    assert.ok(flags.includes(`high_risk_not_cooked:${name}`), step);
+  }
+
+  for (const step of [
+    '肉丁炒熟。',
+    '将肉片炒熟。',
+    '猪瘦肉切成肉丝，肉丝炒熟。',
+    '放入肉块炖熟。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, step);
+    assert.equal(flags.includes(`high_risk_not_cooked:${name}`), false, step);
+  }
+});
+
 test('controlled culinary forms reject unrelated compounds, generic beans, and negated mentions', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
   const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
