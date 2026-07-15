@@ -13,6 +13,12 @@ const DEFAULT_CASES_PATH = path.join(TOOLS_DIR, 'data', 'recipe-regression.json'
 const LIBRARY_PATH = path.join(TOOLS_DIR, 'data', 'recipe-library.json');
 const PURPOSES = new Set(['quick', 'pantry', 'fresh', 'batch']);
 const SERVINGS = new Set([1, 2, 4]);
+const ALLOWED_DIETS = new Set(['omnivore', 'ovoLacto', 'vegan', 'glutenFree']);
+const ALLOWED_MANUAL_REVIEWS = new Set(['diet_compliance', 'numeric_ratio']);
+const KNOWN_GAP_SCOPES = new Map([
+  ['diet_constraint_not_validated', new Set(['glutenFree', 'vegan'])],
+  ['numeric_ratio_not_validated', new Set(['rice_water_ratio'])],
+]);
 const REQUIRED_FIELDS = [
   'id',
   'purpose',
@@ -150,8 +156,25 @@ function validateCaseSchema(cases, library) {
         errors.push(`${label} has invalid ${field}`);
       }
     }
-    if (Object.hasOwn(testCase, 'diet') && (typeof testCase.diet !== 'string' || !testCase.diet.trim())) {
-      errors.push(`${label} has invalid diet`);
+    if (Object.hasOwn(testCase, 'diet') && !ALLOWED_DIETS.has(testCase.diet)) {
+      errors.push(`${label} has invalid diet enum: ${String(testCase.diet)}`);
+    }
+    const hasKnownGap = Object.hasOwn(testCase, 'known_gap');
+    const hasManualReview = Object.hasOwn(testCase, 'manual_review_required');
+    if (hasKnownGap !== hasManualReview) errors.push(`${label} known_gap and manual_review_required must appear together`);
+    if (hasKnownGap) {
+      if (!isPlainObject(testCase.known_gap)) {
+        errors.push(`${label} has invalid known_gap`);
+      } else {
+        const { code, scope, note } = testCase.known_gap;
+        if (!KNOWN_GAP_SCOPES.has(code)) errors.push(`${label} has invalid known_gap.code`);
+        else if (!KNOWN_GAP_SCOPES.get(code).has(scope)) errors.push(`${label} has invalid known_gap.scope`);
+        if (typeof note !== 'string' || !note.trim()) errors.push(`${label} has invalid known_gap.note`);
+      }
+      if (!validStringArray(testCase.manual_review_required, { allowEmpty: false })
+        || !testCase.manual_review_required.every(item => ALLOWED_MANUAL_REVIEWS.has(item))) {
+        errors.push(`${label} has invalid manual_review_required`);
+      }
     }
     if (testCase.case_group === 'adversarial') {
       if (typeof testCase.adversarial_kind !== 'string' || !testCase.adversarial_kind) errors.push(`${label} missing adversarial_kind`);
@@ -160,6 +183,49 @@ function validateCaseSchema(cases, library) {
       if (!validStringArray(testCase.forbidden_validation_flags)) errors.push(`${label} has invalid forbidden_validation_flags`);
       if (typeof testCase.validation_recipe_id !== 'string' || !recipeIds.has(testCase.validation_recipe_id)) {
         errors.push(`${label} has invalid validation_recipe_id`);
+      }
+      if (testCase.adversarial_kind === 'gluten_free_noodles') {
+        if (testCase.diet !== 'glutenFree') errors.push(`${label} must use diet glutenFree`);
+        if (testCase.known_gap?.code !== 'diet_constraint_not_validated'
+          || testCase.known_gap?.scope !== 'glutenFree'
+          || !testCase.manual_review_required?.includes('diet_compliance')) {
+          errors.push(`${label} must declare the glutenFree validation gap`);
+        }
+      }
+      if (testCase.adversarial_kind === 'vegan_restrictions') {
+        if (testCase.diet !== 'vegan') errors.push(`${label} must use diet vegan`);
+        if (testCase.known_gap?.code !== 'diet_constraint_not_validated'
+          || testCase.known_gap?.scope !== 'vegan'
+          || !testCase.manual_review_required?.includes('diet_compliance')) {
+          errors.push(`${label} must declare the vegan validation gap`);
+        }
+      }
+      if (['gluten_free_noodles', 'vegan_restrictions'].includes(testCase.adversarial_kind)
+        && testCase.expected_validation_flags?.some(flag => flag.startsWith('allergen_present:'))) {
+        errors.push(`${label} must not represent an allergen flag as diet coverage`);
+      }
+      if (testCase.adversarial_kind === 'rice_water_mismatch'
+        && (testCase.known_gap?.code !== 'numeric_ratio_not_validated'
+          || testCase.known_gap?.scope !== 'rice_water_ratio'
+          || !testCase.manual_review_required?.includes('numeric_ratio'))) {
+        errors.push(`${label} must declare the numeric ratio validation gap`);
+      }
+      if (testCase.adversarial_kind === 'leaf_vegetable_water_release') {
+        const expected = testCase.expected_discouraged;
+        if (!isPlainObject(expected)
+          || typeof expected.ingredient !== 'string' || !expected.ingredient
+          || expected.reason_type !== 'texture_water'
+          || typeof expected.reason !== 'string' || !expected.reason) {
+          errors.push(`${label} has invalid expected_discouraged`);
+        } else {
+          if (!testCase.expected_validation_flags?.includes(`unused_pantry_used:${expected.ingredient}`)) {
+            errors.push(`${label} must expect its discouraged ingredient use flag`);
+          }
+          if (!testCase.expected_grounding_tokens?.includes(expected.ingredient)
+            || !testCase.expected_grounding_tokens?.includes(expected.reason)) {
+            errors.push(`${label} grounding tokens must include the discouraged ingredient and reason`);
+          }
+        }
       }
     }
   }
@@ -211,6 +277,20 @@ function printFamilyTotals(library, familyTotals) {
   for (const family of library.families) {
     console.log(`  ${family.id}: ${familyTotals.get(family.id) || 0}`);
   }
+}
+
+function printKnownGapTotals(cases) {
+  const totals = new Map();
+  for (const testCase of cases) {
+    const code = isPlainObject(testCase?.known_gap) ? testCase.known_gap.code : '';
+    if (typeof code === 'string' && code) totals.set(code, (totals.get(code) || 0) + 1);
+  }
+  const count = [...totals.values()].reduce((sum, value) => sum + value, 0);
+  const details = [...totals.entries()]
+    .sort(([left], [right]) => compareText(left, right))
+    .map(([code, value]) => `${code}=${value}`)
+    .join(', ');
+  console.log(`known gaps: ${count} cases${details ? ` (${details})` : ''}; manual review required`);
 }
 
 function runStatic(cases, library) {
@@ -267,10 +347,29 @@ function runStatic(cases, library) {
         for (const flag of testCase.forbidden_validation_flags) {
           if (flags.includes(flag)) fail(testCase.id, 'validation_forbidden_flag_present', flag);
         }
+        const grounding = buildRecipeGrounding(validationSelection);
         if (testCase.expected_grounding_tokens) {
-          const grounding = buildRecipeGrounding(validationSelection);
           for (const token of testCase.expected_grounding_tokens) {
             if (!grounding.includes(token)) fail(testCase.id, 'grounding_token_missing', token);
+          }
+        }
+        if (testCase.expected_discouraged) {
+          const expected = testCase.expected_discouraged;
+          const matchingRule = (validationSelection.recipe.discouraged || []).find(rule => (
+            rule.reason_type === expected.reason_type
+            && rule.reason === expected.reason
+            && (rule.ingredients || []).includes(expected.ingredient)
+          ));
+          if (!matchingRule) fail(testCase.id, 'discouraged_rule_missing', `${expected.reason_type}:${expected.ingredient}`);
+          if (!validationSelection.unusedPantry.includes(expected.ingredient)) {
+            fail(testCase.id, 'discouraged_not_unused_pantry', expected.ingredient);
+          }
+          const fixtureNames = (testCase.meal_fixture.ingredients || []).map(ingredientName).filter(Boolean);
+          if (!fixtureNames.includes(expected.ingredient)) {
+            fail(testCase.id, 'discouraged_fixture_mismatch', expected.ingredient);
+          }
+          if (!grounding.includes(expected.ingredient) || !grounding.includes(expected.reason)) {
+            fail(testCase.id, 'discouraged_grounding_missing', expected.ingredient);
           }
         }
       }
@@ -285,6 +384,7 @@ function runStatic(cases, library) {
     console.error(`FAIL ${failure.caseId} [${failure.code}] ${failure.message}`);
   }
   printFamilyTotals(library, familyTotals);
+  printKnownGapTotals(Array.isArray(cases) ? cases : []);
   const codeTotals = new Map();
   for (const failure of failures) codeTotals.set(failure.code, (codeTotals.get(failure.code) || 0) + 1);
   console.log(`failure codes: ${codeTotals.size
@@ -292,7 +392,9 @@ function runStatic(cases, library) {
     : 'none'}`);
 
   if (failures.length) {
-    const passed = Math.max(0, cases.length - [...failedCases].filter(id => id !== '<corpus>' && id !== '<families>').length);
+    const passed = schemaErrors.length
+      ? 0
+      : Math.max(0, cases.length - [...failedCases].filter(id => id !== '<corpus>' && id !== '<families>').length);
     console.error(`static cases passed: ${passed}/${cases.length}; failures: ${failures.length}`);
     return false;
   }

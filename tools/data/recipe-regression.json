@@ -435,9 +435,7 @@
       "高汤",
       "面条"
     ],
-    "dislikes": [
-      "面条过敏"
-    ],
+    "dislikes": [],
     "expected_recipe_ids": [
       "rice-cabbage-minestrone"
     ],
@@ -475,13 +473,26 @@
       ]
     },
     "expected_validation_flags": [
-      "allergen_present:面条"
+      "unused_pantry_used:面条"
     ],
     "forbidden_validation_flags": [
+      "allergen_present:面条",
       "ingredient_missing_in_steps:面条",
       "multi_pot_step"
     ],
-    "diet": "gluten-free"
+    "expected_grounding_tokens": [
+      "舍弃库存",
+      "面条"
+    ],
+    "known_gap": {
+      "code": "diet_constraint_not_validated",
+      "scope": "glutenFree",
+      "note": "Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding."
+    },
+    "manual_review_required": [
+      "diet_compliance"
+    ],
+    "diet": "glutenFree"
   },
   {
     "id": "adversarial-010-gluten-free-noodles-b",
@@ -493,9 +504,7 @@
       "洋葱",
       "面条"
     ],
-    "dislikes": [
-      "面条过敏"
-    ],
+    "dislikes": [],
     "expected_recipe_ids": [
       "simple-chicken-biryani"
     ],
@@ -533,13 +542,26 @@
       ]
     },
     "expected_validation_flags": [
-      "allergen_present:面条"
+      "unused_pantry_used:面条"
     ],
     "forbidden_validation_flags": [
+      "allergen_present:面条",
       "ingredient_missing_in_steps:面条",
       "multi_pot_step"
     ],
-    "diet": "gluten-free"
+    "expected_grounding_tokens": [
+      "舍弃库存",
+      "面条"
+    ],
+    "known_gap": {
+      "code": "diet_constraint_not_validated",
+      "scope": "glutenFree",
+      "note": "Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding."
+    },
+    "manual_review_required": [
+      "diet_compliance"
+    ],
+    "diet": "glutenFree"
   },
   {
     "id": "adversarial-011-vegan-restrictions-a",
@@ -551,9 +573,7 @@
       "番茄",
       "鸡肉"
     ],
-    "dislikes": [
-      "鸡肉过敏"
-    ],
+    "dislikes": [],
     "expected_recipe_ids": [
       "lentil-potato-tomato-curry"
     ],
@@ -591,11 +611,24 @@
       ]
     },
     "expected_validation_flags": [
-      "allergen_present:鸡肉"
+      "unused_pantry_used:鸡肉"
     ],
     "forbidden_validation_flags": [
+      "allergen_present:鸡肉",
       "high_risk_not_cooked:鸡肉",
       "ingredient_missing_in_steps:鸡肉"
+    ],
+    "expected_grounding_tokens": [
+      "舍弃库存",
+      "鸡肉"
+    ],
+    "known_gap": {
+      "code": "diet_constraint_not_validated",
+      "scope": "vegan",
+      "note": "Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding."
+    },
+    "manual_review_required": [
+      "diet_compliance"
     ],
     "diet": "vegan"
   },
@@ -611,9 +644,7 @@
       "胡萝卜",
       "牛肉"
     ],
-    "dislikes": [
-      "牛肉过敏"
-    ],
+    "dislikes": [],
     "expected_recipe_ids": [
       "mung-bean-brown-rice-curry"
     ],
@@ -661,11 +692,24 @@
       ]
     },
     "expected_validation_flags": [
-      "allergen_present:牛肉"
+      "unused_pantry_used:牛肉"
     ],
     "forbidden_validation_flags": [
+      "allergen_present:牛肉",
       "high_risk_not_cooked:牛肉",
       "ingredient_missing_in_steps:牛肉"
+    ],
+    "expected_grounding_tokens": [
+      "舍弃库存",
+      "牛肉"
+    ],
+    "known_gap": {
+      "code": "diet_constraint_not_validated",
+      "scope": "vegan",
+      "note": "Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding."
+    },
+    "manual_review_required": [
+      "diet_compliance"
     ],
     "diet": "vegan"
   },
@@ -677,7 +721,7 @@
       "大米",
       "鸡肉",
       "洋葱",
-      "菠菜"
+      "大量叶菜"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
@@ -705,7 +749,7 @@
           "grams": 100
         },
         {
-          "name": "菠菜",
+          "name": "大量叶菜",
           "grams": 100
         }
       ],
@@ -713,16 +757,25 @@
         "大米煮熟。",
         "鸡肉煮熟。",
         "洋葱煮熟。",
-        "菠菜煮熟。"
+        "大量叶菜煮熟。"
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:菠菜"
+      "unused_pantry_used:大量叶菜"
     ],
     "forbidden_validation_flags": [
-      "ingredient_missing_in_steps:菠菜",
+      "ingredient_missing_in_steps:大量叶菜",
       "multi_pot_step"
-    ]
+    ],
+    "expected_grounding_tokens": [
+      "大量叶菜",
+      "额外出水会破坏焖饭的吸水比例。"
+    ],
+    "expected_discouraged": {
+      "ingredient": "大量叶菜",
+      "reason_type": "texture_water",
+      "reason": "额外出水会破坏焖饭的吸水比例。"
+    }
   },
   {
     "id": "adversarial-014-leaf-vegetable-water-release-b",
@@ -732,7 +785,7 @@
       "鸡蛋",
       "番茄",
       "甜椒",
-      "油麦菜"
+      "大量高含水叶菜"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
@@ -760,7 +813,7 @@
           "grams": 100
         },
         {
-          "name": "油麦菜",
+          "name": "大量高含水叶菜",
           "grams": 100
         }
       ],
@@ -768,16 +821,25 @@
         "鸡蛋煮熟。",
         "番茄煮熟。",
         "甜椒煮熟。",
-        "油麦菜煮熟。"
+        "大量高含水叶菜煮熟。"
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:油麦菜"
+      "unused_pantry_used:大量高含水叶菜"
     ],
     "forbidden_validation_flags": [
-      "ingredient_missing_in_steps:油麦菜",
+      "ingredient_missing_in_steps:大量高含水叶菜",
       "multi_pot_step"
-    ]
+    ],
+    "expected_grounding_tokens": [
+      "大量高含水叶菜",
+      "额外水分会让番茄酱底过稀，鸡蛋难以定型。"
+    ],
+    "expected_discouraged": {
+      "ingredient": "大量高含水叶菜",
+      "reason_type": "texture_water",
+      "reason": "额外水分会让番茄酱底过稀，鸡蛋难以定型。"
+    }
   },
   {
     "id": "adversarial-015-rice-water-mismatch-a",
@@ -819,6 +881,14 @@
     "expected_grounding_tokens": [
       "比例规则",
       "1:11"
+    ],
+    "known_gap": {
+      "code": "numeric_ratio_not_validated",
+      "scope": "rice_water_ratio",
+      "note": "Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review."
+    },
+    "manual_review_required": [
+      "numeric_ratio"
     ]
   },
   {
@@ -872,6 +942,14 @@
     "expected_grounding_tokens": [
       "比例规则",
       "1:1"
+    ],
+    "known_gap": {
+      "code": "numeric_ratio_not_validated",
+      "scope": "rice_water_ratio",
+      "note": "Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review."
+    },
+    "manual_review_required": [
+      "numeric_ratio"
     ]
   },
   {

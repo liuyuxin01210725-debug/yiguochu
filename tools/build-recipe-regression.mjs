@@ -19,6 +19,80 @@ const REQUIRED_FIELDS = [
   'expected_recipe_ids',
   'forbidden_recipe_ids',
 ];
+const ALLOWED_DIETS = new Set(['omnivore', 'ovoLacto', 'vegan', 'glutenFree']);
+const FROZEN_ORACLES = Object.freeze({
+  'base-004-chinese-congee-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'chinese-congee', disliked_fixed_core: '大米',
+    expected_recipe_ids: Object.freeze(['shakshuka-tomato-egg']),
+    forbidden_recipe_ids: Object.freeze(['chinese-congee']),
+  }),
+  'base-008-simple-chicken-biryani-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'simple-chicken-biryani', disliked_fixed_core: '大米',
+    expected_recipe_ids: Object.freeze(['kari-ayam-coconut-chicken']),
+    forbidden_recipe_ids: Object.freeze(['simple-chicken-biryani']),
+  }),
+  'base-012-jollof-rice-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'jollof-rice', disliked_fixed_core: '大米',
+    expected_recipe_ids: Object.freeze(['shakshuka-tomato-egg']),
+    forbidden_recipe_ids: Object.freeze(['jollof-rice']),
+  }),
+  'base-016-creole-jambalaya-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'creole-jambalaya', disliked_fixed_core: '大米',
+    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
+    forbidden_recipe_ids: Object.freeze(['creole-jambalaya']),
+  }),
+  'base-020-mung-bean-brown-rice-curry-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'mung-bean-brown-rice-curry', disliked_fixed_core: '糙米',
+    expected_recipe_ids: Object.freeze(['jollof-rice']),
+    forbidden_recipe_ids: Object.freeze(['mung-bean-brown-rice-curry']),
+  }),
+  'base-024-chicken-black-eyed-pea-stew-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'chicken-black-eyed-pea-stew', disliked_fixed_core: '黑眼豆',
+    expected_recipe_ids: Object.freeze(['creole-jambalaya']),
+    forbidden_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+  }),
+  'base-028-lentil-potato-tomato-curry-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'lentil-potato-tomato-curry', disliked_fixed_core: '红扁豆',
+    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    forbidden_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
+  }),
+  'base-032-shakshuka-tomato-egg-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'shakshuka-tomato-egg', disliked_fixed_core: '鸡蛋',
+    expected_recipe_ids: Object.freeze(['jollof-rice']),
+    forbidden_recipe_ids: Object.freeze(['shakshuka-tomato-egg']),
+  }),
+  'base-036-texas-beef-chili-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'texas-beef-chili', disliked_fixed_core: '辣椒',
+    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    forbidden_recipe_ids: Object.freeze(['texas-beef-chili']),
+  }),
+  'base-040-kari-ayam-coconut-chicken-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'kari-ayam-coconut-chicken', disliked_fixed_core: '椰奶',
+    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    forbidden_recipe_ids: Object.freeze(['kari-ayam-coconut-chicken']),
+  }),
+  'base-044-basic-risotto-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'basic-risotto', disliked_fixed_core: '洋葱',
+    expected_recipe_ids: Object.freeze(['rice-cabbage-minestrone']),
+    forbidden_recipe_ids: Object.freeze(['basic-risotto']),
+  }),
+  'base-048-rice-cabbage-minestrone-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'rice-cabbage-minestrone', disliked_fixed_core: '大米',
+    expected_recipe_ids: Object.freeze(['basic-risotto']),
+    forbidden_recipe_ids: Object.freeze(['rice-cabbage-minestrone']),
+  }),
+  'adversarial-019-repeated-swap-a': Object.freeze({
+    base_recipe_id: 'simple-chicken-biryani',
+    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    forbidden_recipe_ids: Object.freeze(['simple-chicken-biryani']),
+  }),
+  'adversarial-020-repeated-swap-b': Object.freeze({
+    base_recipe_id: 'lentil-potato-tomato-curry',
+    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    forbidden_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
+  }),
+});
+const usedFrozenOracleIds = new Set();
 
 const library = JSON.parse(fs.readFileSync(LIBRARY_URL, 'utf8'));
 const recipeById = new Map(library.recipes.map(recipe => [recipe.id, recipe]));
@@ -65,6 +139,31 @@ function canonical(name) {
   return canonicalRecipeIngredient(name, library.ingredient_aliases);
 }
 
+function frozenOracle(caseId, baseRecipeId) {
+  const oracle = FROZEN_ORACLES[caseId];
+  invariant(oracle, `${caseId} missing frozen oracle`);
+  invariant(oracle.base_recipe_id === baseRecipeId, `${caseId} frozen base recipe drift`);
+  usedFrozenOracleIds.add(caseId);
+  return oracle;
+}
+
+function assertFrozenOracle(caseId, candidates, oracle) {
+  const actualIds = candidates.map(candidate => candidate.recipe.id);
+  invariant(actualIds.length > 0, `${caseId} frozen oracle has no candidates`);
+  invariant(
+    actualIds[0] === oracle.expected_recipe_ids[0],
+    `${caseId} frozen oracle drift: expected first ${oracle.expected_recipe_ids[0]}, got ${actualIds.join(',')}`,
+  );
+  invariant(
+    oracle.expected_recipe_ids.every(id => actualIds.includes(id)),
+    `${caseId} frozen expected missing: ${oracle.expected_recipe_ids.join(',')}; got ${actualIds.join(',')}`,
+  );
+  invariant(
+    oracle.forbidden_recipe_ids.every(id => !actualIds.includes(id)),
+    `${caseId} frozen forbidden returned: ${actualIds.join(',')}`,
+  );
+}
+
 function aliasVariant(coreIngredients) {
   const aliases = Object.entries(library.ingredient_aliases)
     .sort(([left], [right]) => compareText(left, right));
@@ -85,22 +184,6 @@ function aliasVariant(coreIngredients) {
   });
   invariant(changed, `could not make an alias variant for ${coreIngredients.join(',')}`);
   return pantry;
-}
-
-function findFixedCoreDislike(baseRecipe, purpose, servings) {
-  for (const dislikedCore of baseRecipe.core_ingredients) {
-    const testCase = {
-      purpose,
-      servings,
-      pantry: baseRecipe.core_ingredients.filter(item => item !== dislikedCore),
-      dislikes: [`${dislikedCore}过敏`],
-    };
-    const candidates = select(testCase);
-    if (candidates.length && !candidates.some(item => item.recipe.id === baseRecipe.id)) {
-      return { dislikedCore, testCase, replacement: candidates[0].recipe.id };
-    }
-  }
-  throw new Error(`${baseRecipe.id} has no fixed core that produces a legal replacement case`);
 }
 
 function findDiscouragedPantry(baseRecipe, purpose, servings) {
@@ -144,15 +227,18 @@ function buildBaseCases() {
     });
 
     const seed = baseCase(baseRecipe, recipeIndex, 3, 'fixed-core-dislike', {});
-    const fixed = findFixedCoreDislike(baseRecipe, seed.purpose, seed.servings);
-    cases.push({
+    const oracle = frozenOracle(seed.id, baseRecipe.id);
+    invariant(baseRecipe.core_ingredients.includes(oracle.disliked_fixed_core), `${seed.id} frozen disliked core is not a core ingredient`);
+    const testCase = {
       ...seed,
-      pantry: fixed.testCase.pantry,
-      dislikes: fixed.testCase.dislikes,
-      expected_recipe_ids: [fixed.replacement],
-      forbidden_recipe_ids: [baseRecipe.id],
-      disliked_fixed_core: fixed.dislikedCore,
-    });
+      pantry: baseRecipe.core_ingredients.filter(item => item !== oracle.disliked_fixed_core),
+      dislikes: [`${oracle.disliked_fixed_core}过敏`],
+      expected_recipe_ids: [...oracle.expected_recipe_ids],
+      forbidden_recipe_ids: [...oracle.forbidden_recipe_ids],
+      disliked_fixed_core: oracle.disliked_fixed_core,
+    };
+    assertFrozenOracle(seed.id, select(testCase), oracle);
+    cases.push(testCase);
   }
   return cases;
 }
@@ -183,6 +269,9 @@ function ordinaryAdversarial({
   expectedFlags,
   forbiddenFlags,
   expectedGroundingTokens = [],
+  expectedDiscouraged,
+  knownGap,
+  manualReviewRequired = [],
 }) {
   const baseRecipe = recipe(baseRecipeId);
   const testCase = {
@@ -202,6 +291,9 @@ function ordinaryAdversarial({
     expected_validation_flags: expectedFlags,
     forbidden_validation_flags: forbiddenFlags,
     ...(expectedGroundingTokens.length ? { expected_grounding_tokens: expectedGroundingTokens } : {}),
+    ...(expectedDiscouraged ? { expected_discouraged: expectedDiscouraged } : {}),
+    ...(knownGap ? { known_gap: knownGap } : {}),
+    ...(manualReviewRequired.length ? { manual_review_required: manualReviewRequired } : {}),
     ...(diet ? { diet } : {}),
   };
   const validationSelection = select(testCase).find(item => item.recipe.id === baseRecipe.id);
@@ -217,11 +309,25 @@ function ordinaryAdversarial({
   for (const token of expectedGroundingTokens) {
     invariant(grounding.includes(token), `${testCase.id} grounding missing ${token}`);
   }
+  if (expectedDiscouraged) {
+    const rule = (validationSelection.recipe.discouraged || []).find(item => (
+      item.reason_type === expectedDiscouraged.reason_type
+      && (item.ingredients || []).includes(expectedDiscouraged.ingredient)
+      && item.reason === expectedDiscouraged.reason
+    ));
+    invariant(rule, `${testCase.id} missing frozen discouraged rule`);
+    invariant(validationSelection.unusedPantry.includes(expectedDiscouraged.ingredient), `${testCase.id} discouraged ingredient is not unused pantry`);
+    const fixtureNames = testCase.meal_fixture.ingredients.map(item => String(item?.name || item || '').trim());
+    invariant(fixtureNames.includes(expectedDiscouraged.ingredient), `${testCase.id} fixture does not use its discouraged ingredient`);
+    invariant(expectedFlags.includes(`unused_pantry_used:${expectedDiscouraged.ingredient}`), `${testCase.id} does not expect the discouraged-use flag`);
+  }
   return testCase;
 }
 
 function repeatedSwapAdversarial(number, suffix, baseRecipeId, purpose, servings) {
   const repeated = recipe(baseRecipeId);
+  const caseId = `adversarial-${String(number).padStart(3, '0')}-repeated-swap-${suffix}`;
+  const oracle = frozenOracle(caseId, baseRecipeId);
   const seed = {
     purpose,
     servings,
@@ -230,19 +336,19 @@ function repeatedSwapAdversarial(number, suffix, baseRecipeId, purpose, servings
     recent_base_recipes: [repeated.id],
   };
   const candidates = select(seed);
-  invariant(candidates.length, `${baseRecipeId} repeated swap has no replacement`);
-  invariant(!candidates.some(item => item.recipe.id === repeated.id), `${baseRecipeId} survived its recent recipe penalty`);
-  const replacement = candidates[0];
+  assertFrozenOracle(caseId, candidates, oracle);
+  const replacement = candidates.find(candidate => candidate.recipe.id === oracle.expected_recipe_ids[0]);
+  invariant(replacement, `${caseId} frozen validation recipe is unavailable`);
   const fixtureNames = unique([
     ...replacement.recipe.core_ingredients,
     ...replacement.usedPantry,
   ]);
   const mealFixture = allCookedFixture(fixtureNames, ['另起一锅烧开清水。']);
   const testCase = {
-    id: `adversarial-${String(number).padStart(3, '0')}-repeated-swap-${suffix}`,
+    id: caseId,
     ...seed,
-    expected_recipe_ids: [replacement.recipe.id],
-    forbidden_recipe_ids: [repeated.id],
+    expected_recipe_ids: [...oracle.expected_recipe_ids],
+    forbidden_recipe_ids: [...oracle.forbidden_recipe_ids],
     case_group: 'adversarial',
     adversarial_kind: 'repeated_swap',
     base_recipe_id: repeated.id,
@@ -347,10 +453,17 @@ function buildAdversarialCases() {
     const baseRecipe = recipe(baseRecipeId);
     add(ordinaryAdversarial({
       number, kind: 'gluten_free_noodles', suffix, baseRecipeId, purpose, servings,
-      pantry: [...baseRecipe.core_ingredients, '面条'], dislikes: ['面条过敏'], diet: 'gluten-free',
+      pantry: [...baseRecipe.core_ingredients, '面条'], diet: 'glutenFree',
       mealFixture: allCookedFixture([...baseRecipe.core_ingredients, '面条']),
-      expectedFlags: ['allergen_present:面条'],
-      forbiddenFlags: ['ingredient_missing_in_steps:面条', 'multi_pot_step'],
+      expectedFlags: ['unused_pantry_used:面条'],
+      forbiddenFlags: ['allergen_present:面条', 'ingredient_missing_in_steps:面条', 'multi_pot_step'],
+      expectedGroundingTokens: ['舍弃库存', '面条'],
+      knownGap: {
+        code: 'diet_constraint_not_validated',
+        scope: 'glutenFree',
+        note: 'Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding.',
+      },
+      manualReviewRequired: ['diet_compliance'],
     }));
   }
 
@@ -361,16 +474,23 @@ function buildAdversarialCases() {
     const baseRecipe = recipe(baseRecipeId);
     add(ordinaryAdversarial({
       number, kind: 'vegan_restrictions', suffix, baseRecipeId, purpose, servings,
-      pantry: [...baseRecipe.core_ingredients, animal], dislikes: [`${animal}过敏`], diet: 'vegan',
+      pantry: [...baseRecipe.core_ingredients, animal], diet: 'vegan',
       mealFixture: allCookedFixture([...baseRecipe.core_ingredients, animal]),
-      expectedFlags: [`allergen_present:${animal}`],
-      forbiddenFlags: [`high_risk_not_cooked:${animal}`, `ingredient_missing_in_steps:${animal}`],
+      expectedFlags: [`unused_pantry_used:${animal}`],
+      forbiddenFlags: [`allergen_present:${animal}`, `high_risk_not_cooked:${animal}`, `ingredient_missing_in_steps:${animal}`],
+      expectedGroundingTokens: ['舍弃库存', animal],
+      knownGap: {
+        code: 'diet_constraint_not_validated',
+        scope: 'vegan',
+        note: 'Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding.',
+      },
+      manualReviewRequired: ['diet_compliance'],
     }));
   }
 
-  for (const [suffix, baseRecipeId, leaf, purpose, servings] of [
-    ['a', 'simple-chicken-biryani', '菠菜', 'quick', 1],
-    ['b', 'shakshuka-tomato-egg', '油麦菜', 'fresh', 2],
+  for (const [suffix, baseRecipeId, leaf, reason, purpose, servings] of [
+    ['a', 'simple-chicken-biryani', '大量叶菜', '额外出水会破坏焖饭的吸水比例。', 'quick', 1],
+    ['b', 'shakshuka-tomato-egg', '大量高含水叶菜', '额外水分会让番茄酱底过稀，鸡蛋难以定型。', 'fresh', 2],
   ]) {
     const baseRecipe = recipe(baseRecipeId);
     add(ordinaryAdversarial({
@@ -379,6 +499,8 @@ function buildAdversarialCases() {
       mealFixture: allCookedFixture([...baseRecipe.core_ingredients, leaf]),
       expectedFlags: [`unused_pantry_used:${leaf}`],
       forbiddenFlags: [`ingredient_missing_in_steps:${leaf}`, 'multi_pot_step'],
+      expectedGroundingTokens: [leaf, reason],
+      expectedDiscouraged: { ingredient: leaf, reason_type: 'texture_water', reason },
     }));
   }
 
@@ -389,6 +511,12 @@ function buildAdversarialCases() {
     expectedFlags: ['used_pantry_missing:水', 'base_recipe_anchor_missing'],
     forbiddenFlags: ['multi_pot_step'],
     expectedGroundingTokens: ['比例规则', '1:11'],
+    knownGap: {
+      code: 'numeric_ratio_not_validated',
+      scope: 'rice_water_ratio',
+      note: 'Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review.',
+    },
+    manualReviewRequired: ['numeric_ratio'],
   }));
   add(ordinaryAdversarial({
     number, kind: 'rice_water_mismatch', suffix: 'b', baseRecipeId: 'jollof-rice',
@@ -397,6 +525,12 @@ function buildAdversarialCases() {
     expectedFlags: ['used_pantry_missing:大米'],
     forbiddenFlags: ['multi_pot_step'],
     expectedGroundingTokens: ['比例规则', '1:1'],
+    knownGap: {
+      code: 'numeric_ratio_not_validated',
+      scope: 'rice_water_ratio',
+      note: 'Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review.',
+    },
+    manualReviewRequired: ['numeric_ratio'],
   }));
 
   for (const [suffix, baseRecipeId, extra, purpose, servings] of [
@@ -452,6 +586,7 @@ function assertCorpus(cases) {
     for (const field of REQUIRED_FIELDS) invariant(Object.hasOwn(testCase, field), `${testCase.id} missing ${field}`);
     invariant(PURPOSES.includes(testCase.purpose), `${testCase.id} has invalid purpose`);
     invariant(SERVINGS.includes(testCase.servings), `${testCase.id} has invalid servings`);
+    invariant(!testCase.diet || ALLOWED_DIETS.has(testCase.diet), `${testCase.id} has invalid diet`);
     for (const field of ['pantry', 'dislikes', 'expected_recipe_ids', 'forbidden_recipe_ids']) {
       invariant(Array.isArray(testCase[field]) && testCase[field].every(item => typeof item === 'string' && item), `${testCase.id} has invalid ${field}`);
     }
@@ -461,6 +596,12 @@ function assertCorpus(cases) {
     invariant(candidateIds.length > 0, `${testCase.id} has no candidates`);
     invariant(testCase.expected_recipe_ids.some(id => candidateIds.includes(id)), `${testCase.id} expected ${testCase.expected_recipe_ids.join(',')} but got ${candidateIds.join(',')}`);
     invariant(!testCase.forbidden_recipe_ids.some(id => candidateIds.includes(id)), `${testCase.id} returned forbidden ${candidateIds.join(',')}`);
+    if (testCase.known_gap) {
+      invariant(typeof testCase.known_gap.code === 'string' && testCase.known_gap.code, `${testCase.id} has invalid known_gap.code`);
+      invariant(typeof testCase.known_gap.scope === 'string' && testCase.known_gap.scope, `${testCase.id} has invalid known_gap.scope`);
+      invariant(typeof testCase.known_gap.note === 'string' && testCase.known_gap.note, `${testCase.id} has invalid known_gap.note`);
+      invariant(Array.isArray(testCase.manual_review_required) && testCase.manual_review_required.length > 0, `${testCase.id} known gap needs manual review`);
+    }
   }
 
   for (const baseRecipe of library.recipes) {
@@ -480,6 +621,24 @@ function assertCorpus(cases) {
   for (const kind of expectedKinds) {
     invariant(adversarialKinds.filter(value => value === kind).length === 2, `${kind} must have two cases`);
   }
+
+  const dietGapCases = cases.filter(testCase => ['gluten_free_noodles', 'vegan_restrictions'].includes(testCase.adversarial_kind));
+  invariant(dietGapCases.length === 4, 'expected four diet known-gap cases');
+  for (const testCase of dietGapCases) {
+    invariant(testCase.known_gap?.code === 'diet_constraint_not_validated', `${testCase.id} missing diet known gap`);
+    invariant(testCase.manual_review_required.includes('diet_compliance'), `${testCase.id} missing diet manual review`);
+    invariant(!testCase.expected_validation_flags.some(flag => flag.startsWith('allergen_present:')), `${testCase.id} must not claim allergen flag as diet coverage`);
+  }
+  const ratioGapCases = cases.filter(testCase => testCase.adversarial_kind === 'rice_water_mismatch');
+  for (const testCase of ratioGapCases) {
+    invariant(testCase.known_gap?.code === 'numeric_ratio_not_validated', `${testCase.id} missing numeric ratio known gap`);
+    invariant(testCase.manual_review_required.includes('numeric_ratio'), `${testCase.id} missing numeric ratio manual review`);
+  }
+
+  const frozenIds = Object.keys(FROZEN_ORACLES);
+  invariant(frozenIds.length === 14, `expected 14 frozen oracles, got ${frozenIds.length}`);
+  invariant(frozenIds.every(id => usedFrozenOracleIds.has(id)), 'every frozen oracle must be consumed');
+  invariant(usedFrozenOracleIds.size === frozenIds.length, 'builder consumed an unexpected frozen oracle');
 
   const representedFamilies = new Set(cases.map(testCase => testCase.family_id));
   invariant(library.families.every(family => representedFamilies.has(family.id)), 'all nine families must be represented');
