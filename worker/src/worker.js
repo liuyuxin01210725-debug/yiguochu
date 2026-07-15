@@ -384,6 +384,11 @@ const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会
 const VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE = /^(?:(?:的)?(?:状态|标准|程度)?(?:仍|还|尚)?(?:未|没)(?:完全|彻底|真正|实际)?(?:达到|达成|确认|实现)?|(?:的)?(?:状态|标准|目标)?(?:仍|还|尚)?(?:预计|预期|计划|准备)(?:达到|达成|确认|实现)?)/;
 const VALIDATION_PLANNED_COOKED_PREFIX_RE = /应(?:当|该)?$/;
 const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?|(?:预计|预期|计划|准备)(?:会|要|将|达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热)?|应(?:当|该)?(?:再)?(?:达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热))/;
+const VALIDATION_EGG_NOT_COAGULATED_RE = /(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然)?(?:未|没)(?:完全|充分|彻底)?凝固/g;
+const VALIDATION_EGG_SOFT_STATE_RE = /(?:流心|溏心|半熟)/g;
+const VALIDATION_EGG_SOFT_STATE_NEGATION_RE = /(?:不|无|非|避免|防止|拒绝|杜绝|不要|不得|不可|不能|切勿|别)(?:做成?|成为|出现|保持|带有|有)?$/;
+const VALIDATION_EGG_SOFT_STATE_SUBJECT_RE = /(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然|略|微|稍|有点|呈|为|保持|处于|达到|至|到)?$/;
+const VALIDATION_EGG_SAFE_FINAL_STATE_RE = /(?:(?:蛋白(?:和|与|及|、)蛋黄)|蛋黄|鸡蛋|蛋液)(?:均|都|已经|已)?(?:完全|充分|彻底)凝固|(?:鸡蛋|蛋液|蛋黄)?(?:不得|不|无)流心/;
 const VALIDATION_GENERIC_MEAT_FORMS = new Set(['肉丝', '肉丁', '肉片', '肉块']);
 const VALIDATION_GENERIC_MEAT_BOUNDARY_RE = /(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$/;
 
@@ -434,7 +439,45 @@ function validationClauseCooksTarget(clause, name, aliases) {
   return false;
 }
 
+function validationOrdinaryEggIngredient(name, aliases) {
+  const bare = validationFormName(name).replace(/\(.*?\)/g, '');
+  const canonical = validationCanonicalIngredient(name, aliases);
+  return bare === '鸡蛋' || bare === '蛋液' || canonical === '鸡蛋' || canonical === '蛋液';
+}
+
+function validationOrdinaryEggIncompleteStates(text) {
+  const states = [...text.matchAll(VALIDATION_EGG_NOT_COAGULATED_RE)]
+    .map(match => ({ index: match.index, end: match.index + match[0].length }));
+  for (const match of text.matchAll(VALIDATION_EGG_SOFT_STATE_RE)) {
+    const prefix = text.slice(Math.max(0, match.index - 16), match.index);
+    const suffix = text.slice(match.index + match[0].length, match.index + match[0].length + 4);
+    if (VALIDATION_EGG_SOFT_STATE_NEGATION_RE.test(prefix)) continue;
+    const standaloneEggState = /^蛋/.test(suffix)
+      || (match[0] === '溏心' && /^(?:状态|程度)/.test(suffix));
+    if (!VALIDATION_EGG_SOFT_STATE_SUBJECT_RE.test(prefix) && !standaloneEggState) continue;
+    states.push({ index: match.index, end: match.index + match[0].length });
+  }
+  return states.sort((a, b) => a.index - b.index);
+}
+
+function validationOrdinaryEggUnsafeFinalState(name, steps, aliases) {
+  if (!validationOrdinaryEggIngredient(name, aliases)) return false;
+  const text = steps.map(step => validationFormName(step)).join('。');
+  const states = validationOrdinaryEggIncompleteStates(text);
+  if (!states.length) return false;
+  const tail = text.slice(states[states.length - 1].end);
+  const clauses = tail.split(/[，,。；;！！？!?]+/).map(clause => clause.trim()).filter(Boolean);
+  for (let index = 0; index < clauses.length; index++) {
+    const window = [clauses[index], clauses[index + 1]].filter(Boolean).join('，');
+    if (validationClauseCooksTarget(window, name, aliases) && VALIDATION_EGG_SAFE_FINAL_STATE_RE.test(window)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
+  if (validationOrdinaryEggUnsafeFinalState(name, steps, aliases)) return false;
   const target = validationCanonicalIngredient(name, aliases);
   const otherIngredients = ingredientNames.filter(other => validationCanonicalIngredient(other, aliases) !== target);
   for (const step of steps) {

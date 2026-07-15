@@ -666,6 +666,54 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
   }
 });
 
+test('Python validator matches ordinary egg contradiction and later-correction rules', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['鸡蛋'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['鸡蛋'], dislikes: [] };
+  const cases = [
+    ...[
+      ['鸡蛋', '鸡蛋熟透、蛋白凝固蛋黄略溏心。'],
+      ['鸡蛋', '鸡蛋熟透，蛋黄仍流心。'],
+      ['鸡蛋', '鸡蛋熟透，蛋黄未凝固。'],
+      ['鸡蛋', '鸡蛋熟透，蛋黄未完全凝固。'],
+      ['鸡蛋', '鸡蛋熟透，蛋黄半熟。'],
+      ['蛋液', '蛋液炒熟，但蛋液仍未完全凝固。'],
+    ].map(([name, step]) => ({
+      meal: { ingredients: [{ name }], steps: [step] },
+      present: [`high_risk_not_cooked:${name}`],
+    })),
+    ...[
+      '鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心。',
+      '鸡蛋煮熟且不流心。',
+      '鸡蛋熟透，蛋黄无流心。',
+      '鸡蛋煮熟，不做流心蛋。',
+      '鸡蛋煮熟，避免流心。',
+      '先到溏心状态，再继续加热至鸡蛋熟透且蛋黄完全凝固。',
+    ].map(step => ({
+      meal: { ingredients: [{ name: '鸡蛋' }], steps: [step] },
+      absent: ['high_risk_not_cooked:鸡蛋'],
+    })),
+    {
+      meal: { ingredients: [{ name: '鸡肉' }], steps: ['鸡肉熟透，蛋黄仍流心。'] },
+      absent: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: {
+        ingredients: [{ name: '鸡蛋' }, { name: '土豆' }],
+        steps: ['鸡蛋煮熟且蛋黄完全凝固，土豆保持半熟状态。'],
+      },
+      absent: ['high_risk_not_cooked:鸡蛋'],
+    },
+  ];
+  for (const { meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), `${JSON.stringify(meal)}: ${flag}`);
+    for (const flag of absent) assert.equal(py.includes(flag), false, `${JSON.stringify(meal)}: ${flag}`);
+  }
+});
+
 test('Python no-network preparation matches Worker prompt and overwrites forged trusted metadata', async () => {
   const recipe = groundedRecipe();
   const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });

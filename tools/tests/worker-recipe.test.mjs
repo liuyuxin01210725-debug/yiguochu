@@ -715,6 +715,47 @@ test('controlled egg word forms count as the same mentioned and cooked ingredien
   assert.equal(flags.includes('high_risk_not_cooked:鸡蛋'), false);
 });
 
+test('ordinary egg contradictions override an earlier cooked word until a later safe endpoint', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡蛋'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡蛋'], dislikes: [] });
+  const unsafeCases = [
+    ['鸡蛋', '鸡蛋熟透、蛋白凝固蛋黄略溏心。'],
+    ['鸡蛋', '鸡蛋熟透，蛋黄仍流心。'],
+    ['鸡蛋', '鸡蛋熟透，蛋黄未凝固。'],
+    ['鸡蛋', '鸡蛋熟透，蛋黄未完全凝固。'],
+    ['鸡蛋', '鸡蛋熟透，蛋黄半熟。'],
+    ['蛋液', '蛋液炒熟，但蛋液仍未完全凝固。'],
+  ];
+  for (const [name, step] of unsafeCases) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes(`high_risk_not_cooked:${name}`), step);
+  }
+
+  for (const step of [
+    '鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心。',
+    '鸡蛋煮熟且不流心。',
+    '鸡蛋熟透，蛋黄无流心。',
+    '鸡蛋煮熟，不做流心蛋。',
+    '鸡蛋煮熟，避免流心。',
+    '先到溏心状态，再继续加热至鸡蛋熟透且蛋黄完全凝固。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '鸡蛋' }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes('high_risk_not_cooked:鸡蛋'), false, step);
+  }
+
+  const chickenFlags = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }],
+    steps: ['鸡肉熟透，蛋黄仍流心。'],
+  }, selection, { dislikes: [] });
+  assert.equal(chickenFlags.includes('high_risk_not_cooked:鸡肉'), false);
+
+  const unrelatedStateFlags = validateGroundedMeal({
+    ingredients: [{ name: '鸡蛋' }, { name: '土豆' }],
+    steps: ['鸡蛋煮熟且蛋黄完全凝固，土豆保持半熟状态。'],
+  }, selection, { dislikes: [] });
+  assert.equal(unrelatedStateFlags.includes('high_risk_not_cooked:鸡蛋'), false);
+});
+
 test('prepared chicken products and century egg are exempt without weakening raw animal hazards', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
   const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });

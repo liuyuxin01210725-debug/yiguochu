@@ -562,6 +562,11 @@ _VALIDATION_FUTURE_COOKING_SUFFIX_RE = re.compile(r'^(?:需(?:要)?后续|稍后
 _VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE = re.compile(r'^(?:(?:的)?(?:状态|标准|程度)?(?:仍|还|尚)?(?:未|没)(?:完全|彻底|真正|实际)?(?:达到|达成|确认|实现)?|(?:的)?(?:状态|标准|目标)?(?:仍|还|尚)?(?:预计|预期|计划|准备)(?:达到|达成|确认|实现)?)')
 _VALIDATION_PLANNED_COOKED_PREFIX_RE = re.compile(r'应(?:当|该)?$')
 _VALIDATION_FUTURE_COOKING_MARKER_RE = re.compile(r'(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?|(?:预计|预期|计划|准备)(?:会|要|将|达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热)?|应(?:当|该)?(?:再)?(?:达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热))')
+_VALIDATION_EGG_NOT_COAGULATED_RE = re.compile(r'(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然)?(?:未|没)(?:完全|充分|彻底)?凝固')
+_VALIDATION_EGG_SOFT_STATE_RE = re.compile(r'(?:流心|溏心|半熟)')
+_VALIDATION_EGG_SOFT_STATE_NEGATION_RE = re.compile(r'(?:不|无|非|避免|防止|拒绝|杜绝|不要|不得|不可|不能|切勿|别)(?:做成?|成为|出现|保持|带有|有)?$')
+_VALIDATION_EGG_SOFT_STATE_SUBJECT_RE = re.compile(r'(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然|略|微|稍|有点|呈|为|保持|处于|达到|至|到)?$')
+_VALIDATION_EGG_SAFE_FINAL_STATE_RE = re.compile(r'(?:(?:蛋白(?:和|与|及|、)蛋黄)|蛋黄|鸡蛋|蛋液)(?:均|都|已经|已)?(?:完全|充分|彻底)凝固|(?:鸡蛋|蛋液|蛋黄)?(?:不得|不|无)流心')
 _VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)')
 _VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
 _VALIDATION_GENERIC_MEAT_BOUNDARY_RE = re.compile(r'(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$')
@@ -666,7 +671,48 @@ def _validation_clause_cooks_target(clause, name, aliases):
     return False
 
 
+def _validation_ordinary_egg_ingredient(name, aliases):
+    bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
+    canonical = _validation_canonical_ingredient(name, aliases)
+    return bare in ('鸡蛋', '蛋液') or canonical in ('鸡蛋', '蛋液')
+
+
+def _validation_ordinary_egg_incomplete_states(text):
+    states = [(match.start(), match.end()) for match in _VALIDATION_EGG_NOT_COAGULATED_RE.finditer(text)]
+    for match in _VALIDATION_EGG_SOFT_STATE_RE.finditer(text):
+        prefix = text[max(0, match.start() - 16):match.start()]
+        suffix = text[match.end():match.end() + 4]
+        if _VALIDATION_EGG_SOFT_STATE_NEGATION_RE.search(prefix):
+            continue
+        standalone_egg_state = (suffix.startswith('蛋')
+                                or (match.group(0) == '溏心' and re.match(r'(?:状态|程度)', suffix)))
+        if (not _VALIDATION_EGG_SOFT_STATE_SUBJECT_RE.search(prefix)
+                and not standalone_egg_state):
+            continue
+        states.append((match.start(), match.end()))
+    return sorted(states)
+
+
+def _validation_ordinary_egg_unsafe_final_state(name, steps, aliases):
+    if not _validation_ordinary_egg_ingredient(name, aliases):
+        return False
+    text = '。'.join(_validation_form_name(step) for step in steps)
+    states = _validation_ordinary_egg_incomplete_states(text)
+    if not states:
+        return False
+    tail = text[states[-1][1]:]
+    clauses = [part.strip() for part in re.split(r'[，,。；;！！？!?]+', tail) if part.strip()]
+    for index, clause in enumerate(clauses):
+        window = '，'.join(part for part in (clause, clauses[index + 1] if index + 1 < len(clauses) else '') if part)
+        if (_validation_clause_cooks_target(window, name, aliases)
+                and _VALIDATION_EGG_SAFE_FINAL_STATE_RE.search(window)):
+            return False
+    return True
+
+
 def _validation_high_risk_cooked(name, steps, aliases, ingredient_names):
+    if _validation_ordinary_egg_unsafe_final_state(name, steps, aliases):
+        return False
     target = _validation_canonical_ingredient(name, aliases)
     other_ingredients = [
         other for other in ingredient_names
