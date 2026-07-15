@@ -628,6 +628,150 @@ test('controlled egg word forms count as the same mentioned and cooked ingredien
   assert.equal(flags.includes('high_risk_not_cooked:鸡蛋'), false);
 });
 
+test('prepared chicken products and century egg are exempt without weakening raw animal hazards', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const prepared = [
+    ['鸡高汤', '加入鸡高汤调味。'],
+    ['高汤（鸡高汤）', '加入高汤调味。'],
+    ['浓缩鸡汤', '加入浓缩鸡汤调味。'],
+    ['皮蛋', '皮蛋切丁后拌入。'],
+  ];
+  for (const [name, step] of prepared) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes(`high_risk_not_cooked:${name}`), false, name);
+  }
+
+  for (const name of [
+    '鸡肉', '鸡胸肉', '去骨鸡腿肉', '火鸡肉', '猪肉', '猪瘦肉（里脊）',
+    '虾仁', '鱼肉', '蟹肉', '贝肉', '鸡蛋', '蛋液',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [`${name}备用。`] }, selection, { dislikes: [] });
+    assert.ok(flags.includes(`high_risk_not_cooked:${name}`), name);
+  }
+});
+
+test('explicit controlled culinary forms count as mentions and meat cooking evidence', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const meatForms = [
+    ...['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'].map(form => ['鸡胸肉', form]),
+    ...['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'].map(form => ['去骨鸡腿肉', form]),
+    ...['猪肉', '瘦肉', '里脊', '肉丝'].map(form => ['猪瘦肉（里脊）', form]),
+  ];
+  for (const [name, form] of meatForms) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [`${form}炒熟。`] }, selection, { dislikes: [] });
+    assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, `${name} -> ${form}`);
+    assert.equal(flags.includes(`high_risk_not_cooked:${name}`), false, `${name} -> ${form}`);
+  }
+
+  for (const [name, step] of [
+    ['大米', '米饭煮熟。'],
+    ['大蒜', '姜蒜末炒香。'],
+    ['大蒜', '加入蒜蓉炒香。'],
+    ['植物油', '锅中加油。'],
+    ['食用油', '热锅后倒入油。'],
+    ['白豆罐头（沥干）', '加入沥干白豆煮熟。'],
+    ['白芸豆（罐装/沥干）', '加入沥干白芸豆煮熟。'],
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, `${name}: ${step}`);
+  }
+});
+
+test('controlled culinary forms reject unrelated compounds, generic beans, and negated mentions', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  for (const step of ['玉米煮熟。', '小米煮熟。', '小米饭煮熟。']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('ingredient_missing_in_steps:大米'), step);
+  }
+  for (const step of ['加入酱油。', '加入蚝油。', '加入香油。', '加入花生油。']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '植物油' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('ingredient_missing_in_steps:植物油'), step);
+  }
+  for (const step of ['加入黄豆。', '加入豆类。']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '白豆罐头（沥干）' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('ingredient_missing_in_steps:白豆罐头（沥干）'), step);
+  }
+  for (const [name, step] of [['大蒜', '全程不加蒜末。'], ['植物油', '锅中不加油。'], ['鸡胸肉', '全程不加鸡丝。']]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes(`ingredient_missing_in_steps:${name}`), `${name}: ${step}`);
+  }
+});
+
+test('rice-only endpoints never prove that chicken is cooked', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉', '大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉', '大米'], dislikes: [] });
+  for (const step of [
+    '大米煮熟后加入鸡肉。',
+    '鸡肉备用，大米煮熟后加入。',
+    '鸡肉翻炒至表面变色，再加入大米焖至米熟。',
+    '鸡肉和大米焖至米熟。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('high_risk_not_cooked:鸡肉'), step);
+  }
+});
+
+test('future cooking obligations do not count until chicken reaches an actual endpoint', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉', '大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉', '大米'], dislikes: [] });
+  for (const future of ['需后续焖熟', '稍后焖熟', '待会焖熟', '之后再焖熟']) {
+    const step = `鸡肉煎至表面变色（中心不见粉红${future}），加入大米焖至米熟。`;
+    const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('high_risk_not_cooked:鸡肉'), future);
+  }
+  for (const step of [
+    '鸡肉焖熟且中心不见粉红，再加入大米。',
+    '鸡肉中心不见粉红，再加入大米。',
+    '鸡肉煎至表面变色（中心不见粉红需后续焖熟），加入大米焖至米熟，最后确认鸡肉熟透且中心不见粉红。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes('high_risk_not_cooked:鸡肉'), false, step);
+  }
+});
+
+test('positive cooking-oil actions require an explicit cooking oil ingredient', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  for (const step of ['厚底锅热油，加入大米。', '锅中加油，加入大米。', '锅中倒油，加入大米。']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('step_ingredient_missing:烹调油'), step);
+  }
+  for (const step of ['加入酱油调味。', '加入蚝油调味。', '加入油菜翻炒。']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes('step_ingredient_missing:烹调油'), false, step);
+  }
+  for (const name of ['植物油', '食用油', '蔬菜油', '菜籽油', '花生油', '橄榄油']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }, { name }], steps: ['厚底锅热油，加入大米。'] }, selection, { dislikes: [] });
+    assert.equal(flags.includes('step_ingredient_missing:烹调油'), false, name);
+    if (name === '植物油' || name === '食用油') {
+      assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, name);
+    }
+  }
+});
+
+test('named cooking-oil actions use the same explicit allowlist as generic hot-oil mentions', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const namedOils = [
+    '橄榄油', '花生油', '香油', '芝麻油', '猪油', '牛油', '黄油', '椰子油', '棕榈油', '葡萄籽油', '亚麻籽油',
+  ];
+  for (const name of namedOils) {
+    const missing = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [`锅中倒入${name}，加入大米。`] }, selection, { dislikes: [] });
+    assert.ok(missing.includes('step_ingredient_missing:烹调油'), name);
+
+    const listed = validateGroundedMeal({ ingredients: [{ name: '大米' }, { name }], steps: ['厚底锅热油，加入大米。'] }, selection, { dislikes: [] });
+    assert.equal(listed.includes('step_ingredient_missing:烹调油'), false, name);
+    assert.equal(listed.includes(`ingredient_missing_in_steps:${name}`), false, name);
+  }
+  for (const step of ['加入酱油。', '加入蚝油。', '倒入鱼油补充剂。', '加入油菜。']) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes('step_ingredient_missing:烹调油'), false, step);
+  }
+});
+
 test('negated salt and a rice substring are not positive ingredient mentions', () => {
   const saltRecipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
   const [saltSelection] = selectRecipeCandidates(fixtureLib([saltRecipe]), { pantry: ['大米'], dislikes: [] });
@@ -667,6 +811,25 @@ test('multi-pot validation distinguishes same-pot sequencing from an explicit se
   for (const wording of ['另起炒锅炒香洋葱', '另起一锅烧水', '另取一口平底锅煎蛋', '另用汤锅烧开水']) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [`大米煮熟，${wording}。`] }, selection, { dislikes: [] });
     assert.ok(flags.includes('multi_pot_step'), wording);
+  }
+
+  for (const steps of [
+    ['用电饭锅煮成米饭。', '取一汤锅煮开高汤。'],
+    ['电饭锅煮饭。', '炒锅中炒香洋葱。'],
+    ['电饭锅煮饭。', '平底锅中煎蛋。'],
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps }, selection, { dislikes: [] });
+    assert.ok(flags.includes('multi_pot_step'), steps.join(' / '));
+  }
+
+  for (const steps of [
+    ['电饭锅煮饭。', '电饭锅中继续焖煮。'],
+    ['电饭锅煮饭。', '锅中加入蔬菜。'],
+    ['可用电饭锅或汤锅煮饭。'],
+    ['用电饭锅煮饭。', '全程不用汤锅。'],
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps }, selection, { dislikes: [] });
+    assert.equal(flags.includes('multi_pot_step'), false, steps.join(' / '));
   }
 });
 

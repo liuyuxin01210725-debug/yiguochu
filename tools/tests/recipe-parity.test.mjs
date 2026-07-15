@@ -356,6 +356,111 @@ test('Python validator matches all seven flags plus variants, negation, action o
   ]) assert.ok(seven.some(flag => flag.startsWith(prefix)), prefix);
 });
 
+test('Python validator matches prepared exemptions, controlled forms, rice safety, and named vessels', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['大米', '鸡肉'], dislikes: [] };
+  const cases = [
+    {
+      meal: { ingredients: [{ name: '鸡高汤' }], steps: ['加入鸡高汤调味。'] },
+      absent: ['high_risk_not_cooked:鸡高汤'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡胸肉' }], steps: ['鸡丝炒熟。'] },
+      absent: ['ingredient_missing_in_steps:鸡胸肉', 'high_risk_not_cooked:鸡胸肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '植物油' }], steps: ['锅中加油。'] },
+      absent: ['ingredient_missing_in_steps:植物油'],
+    },
+    {
+      meal: { ingredients: [{ name: '白豆罐头（沥干）' }], steps: ['加入沥干白豆煮熟。'] },
+      absent: ['ingredient_missing_in_steps:白豆罐头（沥干）'],
+    },
+    {
+      meal: { ingredients: [{ name: '白芸豆（罐装/沥干）' }], steps: ['加入沥干白芸豆煮熟。'] },
+      absent: ['ingredient_missing_in_steps:白芸豆（罐装/沥干）'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['小米饭煮熟。'] },
+      present: ['ingredient_missing_in_steps:大米'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: ['鸡肉和大米焖至米熟。'] },
+      present: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['用电饭锅煮成米饭。', '取一汤锅煮开高汤。'] },
+      present: ['multi_pot_step'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['可用电饭锅或汤锅煮饭。'] },
+      absent: ['multi_pot_step'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['用电饭锅煮饭。', '全程不用汤锅。'] },
+      absent: ['multi_pot_step'],
+    },
+  ];
+  for (const { meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), flag);
+    for (const flag of absent) assert.equal(py.includes(flag), false, flag);
+  }
+});
+
+test('Python validator matches future-endpoint and cooking-oil integrity rules', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['大米', '鸡肉'], dislikes: [] };
+  const cases = [
+    {
+      meal: {
+        ingredients: [{ name: '鸡肉' }, { name: '大米' }],
+        steps: ['鸡肉煎至表面变色（中心不见粉红需后续焖熟），加入大米焖至米熟。'],
+      },
+      present: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡肉' }], steps: ['鸡肉中心不见粉红。'] },
+      absent: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['厚底锅热油，加入大米。'] },
+      present: ['step_ingredient_missing:烹调油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }, { name: '植物油' }], steps: ['厚底锅热油，加入大米。'] },
+      absent: ['step_ingredient_missing:烹调油', 'ingredient_missing_in_steps:植物油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['加入酱油、蚝油和油菜。'] },
+      absent: ['step_ingredient_missing:烹调油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['锅中倒入橄榄油，加入大米。'] },
+      present: ['step_ingredient_missing:烹调油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }, { name: '椰子油' }], steps: ['厚底锅热油，加入大米。'] },
+      absent: ['step_ingredient_missing:烹调油', 'ingredient_missing_in_steps:椰子油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['倒入鱼油补充剂。'] },
+      absent: ['step_ingredient_missing:烹调油'],
+    },
+  ];
+  for (const { meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), flag);
+    for (const flag of absent) assert.equal(py.includes(flag), false, flag);
+  }
+});
+
 test('Python no-network preparation matches Worker prompt and overwrites forged trusted metadata', async () => {
   const recipe = groundedRecipe();
   const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
