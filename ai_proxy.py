@@ -568,6 +568,7 @@ _VALIDATION_EGG_SOFT_STATE_NEGATION_RE = re.compile(r'(?:不是|没有|不再|�
 _VALIDATION_EGG_SOFT_STATE_SUBJECT_RE = re.compile(r'(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然|略|微|稍|有点|呈|为|保持|处于|达到|至|到)?$')
 _VALIDATION_EGG_SAFE_RECOVERY_STATE_RE = re.compile(r'(?:(?:蛋白(?:和|与|及|、)蛋黄)|蛋黄|鸡蛋|蛋液)(?:均|都|已经|已)?(?:完全|充分|彻底)凝固|(?:鸡蛋|蛋液|蛋黄)(?:已经|已)?(?:不再|没有|不是)流心(?:蛋)?')
 _VALIDATION_EGG_HEATING_ACTION_RE = re.compile(r'(?:再(?:继续)?|继续|重新|随后|然后)?(?:加热|煮|焖|蒸|炒|煎)')
+_VALIDATION_EGG_PLANNED_HEATING_PREFIX_RE = re.compile(r'(?:计划|预计|预期|准备)(?:稍后|随后|之后|后续)?(?:要|将|会)?$')
 _VALIDATION_EGG_RECOVERY_WINDOW = 24
 _VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)')
 _VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
@@ -710,14 +711,25 @@ def _validation_ordinary_egg_safe_recovery(tail, name, aliases, ingredient_names
             if not actions:
                 continue
             action = actions[-1]
-            action_end = action_start + action.end()
+            action_index = action_start + action.start()
+            if _validation_action_negated(clause, action_index):
+                continue
+            planned_prefix = clause[max(0, action_index - 16):action_index]
+            if _VALIDATION_EGG_PLANNED_HEATING_PREFIX_RE.search(planned_prefix):
+                continue
+            action_end = action_index + len(action.group(0))
             action_prefix = clause[:action_end]
+            binding_span = clause[action_index:state.end()]
             egg_named_before_action = bool(re.search(r'(?:鸡蛋|蛋液|蛋黄)', action_prefix))
             other_named_before_action = any(
                 _validation_step_mentions(action_prefix, other, aliases)
                 for other in other_ingredients
             )
-            if other_named_before_action and not egg_named_before_action:
+            other_named_in_binding_span = any(
+                _validation_step_mentions(binding_span, other, aliases)
+                for other in other_ingredients
+            )
+            if other_named_in_binding_span or (other_named_before_action and not egg_named_before_action):
                 continue
             return True
     return False

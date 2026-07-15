@@ -745,6 +745,9 @@ test('ordinary egg contradictions override an earlier cooked word until a later 
     '先到溏心状态，再继续加热至鸡蛋熟透且蛋黄完全凝固。',
     '鸡蛋熟透但蛋黄流心。再加热至蛋黄完全凝固。',
     '鸡蛋熟透但蛋黄流心。再加热至蛋黄不再流心。',
+    '鸡蛋熟透但蛋黄流心。再加热鸡蛋至蛋黄完全凝固。',
+    '鸡蛋熟透但蛋黄流心。随后再加热至蛋黄完全凝固。',
+    '鸡蛋熟透但蛋黄流心。继续加热至蛋黄完全凝固。',
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '鸡蛋' }], steps: [step] }, selection, { dislikes: [] });
     assert.equal(flags.includes('high_risk_not_cooked:鸡蛋'), false, step);
@@ -772,9 +775,28 @@ test('ordinary egg contradictions override an earlier cooked word until a later 
       steps: ['鸡蛋熟透但蛋黄流心。随后土豆煮熟且蛋黄完全凝固。'],
     },
     {
+      ingredients: [{ name: '鸡蛋' }, { name: '鸡肉' }],
+      steps: ['鸡蛋熟透但蛋黄流心。再加热鸡肉至蛋黄完全凝固。'],
+    },
+    {
+      ingredients: [{ name: '鸡蛋' }, { name: '土豆' }],
+      steps: ['鸡蛋熟透但蛋黄流心。再加热土豆至蛋黄完全凝固。'],
+    },
+    {
       ingredients: [{ name: '鸡蛋' }],
       steps: ['鸡蛋熟透但蛋黄流心。鸡蛋不得流心。'],
     },
+    ...[
+      '计划再加热至蛋黄完全凝固',
+      '无需再加热至蛋黄完全凝固',
+      '预计继续加热至蛋黄完全凝固',
+      '准备继续加热至蛋黄完全凝固',
+      '不要再加热至蛋黄完全凝固',
+      '不再加热至蛋黄完全凝固',
+    ].map(recovery => ({
+      ingredients: [{ name: '鸡蛋' }],
+      steps: [`鸡蛋熟透但蛋黄流心。${recovery}。`],
+    })),
   ]) {
     const flags = validateGroundedMeal(meal, selection, { dislikes: [] });
     assert.ok(flags.includes('high_risk_not_cooked:鸡蛋'), JSON.stringify(meal));

@@ -696,6 +696,9 @@ test('Python validator matches ordinary egg contradiction and later-correction r
       '先到溏心状态，再继续加热至鸡蛋熟透且蛋黄完全凝固。',
       '鸡蛋熟透但蛋黄流心。再加热至蛋黄完全凝固。',
       '鸡蛋熟透但蛋黄流心。再加热至蛋黄不再流心。',
+      '鸡蛋熟透但蛋黄流心。再加热鸡蛋至蛋黄完全凝固。',
+      '鸡蛋熟透但蛋黄流心。随后再加热至蛋黄完全凝固。',
+      '鸡蛋熟透但蛋黄流心。继续加热至蛋黄完全凝固。',
     ].map(step => ({
       meal: { ingredients: [{ name: '鸡蛋' }], steps: [step] },
       absent: ['high_risk_not_cooked:鸡蛋'],
@@ -721,9 +724,28 @@ test('Python validator matches ordinary egg contradiction and later-correction r
         steps: ['鸡蛋熟透但蛋黄流心。随后土豆煮熟且蛋黄完全凝固。'],
       },
       {
+        ingredients: [{ name: '鸡蛋' }, { name: '鸡肉' }],
+        steps: ['鸡蛋熟透但蛋黄流心。再加热鸡肉至蛋黄完全凝固。'],
+      },
+      {
+        ingredients: [{ name: '鸡蛋' }, { name: '土豆' }],
+        steps: ['鸡蛋熟透但蛋黄流心。再加热土豆至蛋黄完全凝固。'],
+      },
+      {
         ingredients: [{ name: '鸡蛋' }],
         steps: ['鸡蛋熟透但蛋黄流心。鸡蛋不得流心。'],
       },
+      ...[
+        '计划再加热至蛋黄完全凝固',
+        '无需再加热至蛋黄完全凝固',
+        '预计继续加热至蛋黄完全凝固',
+        '准备继续加热至蛋黄完全凝固',
+        '不要再加热至蛋黄完全凝固',
+        '不再加热至蛋黄完全凝固',
+      ].map(recovery => ({
+        ingredients: [{ name: '鸡蛋' }],
+        steps: [`鸡蛋熟透但蛋黄流心。${recovery}。`],
+      })),
     ].map(meal => ({ meal, present: ['high_risk_not_cooked:鸡蛋'] })),
   ];
   for (const { meal, present = [], absent = [] } of cases) {

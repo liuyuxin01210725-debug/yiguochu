@@ -390,6 +390,7 @@ const VALIDATION_EGG_SOFT_STATE_NEGATION_RE = /(?:不是|没有|不再|不|无|�
 const VALIDATION_EGG_SOFT_STATE_SUBJECT_RE = /(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然|略|微|稍|有点|呈|为|保持|处于|达到|至|到)?$/;
 const VALIDATION_EGG_SAFE_RECOVERY_STATE_RE = /(?:(?:蛋白(?:和|与|及|、)蛋黄)|蛋黄|鸡蛋|蛋液)(?:均|都|已经|已)?(?:完全|充分|彻底)凝固|(?:鸡蛋|蛋液|蛋黄)(?:已经|已)?(?:不再|没有|不是)流心(?:蛋)?/;
 const VALIDATION_EGG_HEATING_ACTION_RE = /(?:再(?:继续)?|继续|重新|随后|然后)?(?:加热|煮|焖|蒸|炒|煎)/g;
+const VALIDATION_EGG_PLANNED_HEATING_PREFIX_RE = /(?:计划|预计|预期|准备)(?:稍后|随后|之后|后续)?(?:要|将|会)?$/;
 const VALIDATION_EGG_RECOVERY_WINDOW = 24;
 const VALIDATION_GENERIC_MEAT_FORMS = new Set(['肉丝', '肉丁', '肉片', '肉块']);
 const VALIDATION_GENERIC_MEAT_BOUNDARY_RE = /(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$/;
@@ -475,12 +476,19 @@ function validationOrdinaryEggSafeRecovery(tail, name, aliases, ingredientNames)
       const actions = [...actionWindow.matchAll(VALIDATION_EGG_HEATING_ACTION_RE)];
       if (!actions.length) continue;
       const action = actions[actions.length - 1];
-      const actionEnd = actionStart + action.index + action[0].length;
+      const actionIndex = actionStart + action.index;
+      if (validationActionNegated(clause, actionIndex)) continue;
+      const plannedPrefix = clause.slice(Math.max(0, actionIndex - 16), actionIndex);
+      if (VALIDATION_EGG_PLANNED_HEATING_PREFIX_RE.test(plannedPrefix)) continue;
+      const actionEnd = actionIndex + action[0].length;
       const actionPrefix = clause.slice(0, actionEnd);
+      const bindingSpan = clause.slice(actionIndex, state.index + state[0].length);
       const eggNamedBeforeAction = /(?:鸡蛋|蛋液|蛋黄)/.test(actionPrefix);
       const otherNamedBeforeAction = otherIngredients
         .some(other => validationStepMentions(actionPrefix, other, aliases));
-      if (otherNamedBeforeAction && !eggNamedBeforeAction) continue;
+      const otherNamedInBindingSpan = otherIngredients
+        .some(other => validationStepMentions(bindingSpan, other, aliases));
+      if (otherNamedInBindingSpan || (otherNamedBeforeAction && !eggNamedBeforeAction)) continue;
       return true;
     }
   }
