@@ -1024,7 +1024,65 @@ def normalize_meal(meal, usage=None):
     return meal
 
 
+def _grounded_safety_endpoint(name, aliases):
+    canonical = _validation_canonical_ingredient(name, aliases)
+    if _validation_ordinary_egg_ingredient(name, aliases):
+        return f'继续在原锅加热{name}至熟透并确保蛋白和蛋黄完全凝固且不得流心'
+    if re.search(r'(?:禽|鸡|鸭|鹅|火鸡|猪)', f'{name}{canonical}'):
+        return f'继续在原锅加热{name}至熟透，中心不见粉红'
+    return f'继续在原锅加热{name}至熟透'
+
+
+_VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = re.compile(
+    r'(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$'
+)
+
+
+def _validation_repairable_high_risk_ingredient(name, aliases):
+    forms = [
+        re.sub(r'\(.*?\)', '', _validation_form_name(item))
+        for item in (name, _validation_canonical_ingredient(name, aliases))
+    ]
+    return not any(
+        _validation_cooking_oil_ingredient(item)
+        or _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.search(item)
+        for item in forms if item
+    )
+
+
+def repair_grounded_meal_safety(meal, selection, constraints=None):
+    selection = selection if isinstance(selection, dict) else {}
+    constraints = constraints if isinstance(constraints, dict) else {}
+    aliases = selection.get('ingredient_aliases') or {}
+    ingredient_names = _validation_ingredient_names(meal)
+    steps = _validation_steps(meal)
+    prefix = 'high_risk_not_cooked:'
+    names = []
+    for flag in validate_grounded_meal(meal, selection, constraints):
+        if not flag.startswith(prefix):
+            continue
+        name = flag[len(prefix):]
+        if (name in ingredient_names
+                and _validation_repairable_high_risk_ingredient(name, aliases)
+                and any(_validation_step_mentions(step, name, aliases) for step in steps)
+                and name not in names):
+            names.append(name)
+    if not names:
+        return 0
+    instruction = '安全收尾：' + '；'.join(
+        _grounded_safety_endpoint(name, aliases) for name in names
+    ) + '。'
+    if not isinstance(meal.get('steps'), list):
+        meal['steps'] = []
+    if len(meal['steps']) < 4:
+        meal['steps'].append(instruction)
+    else:
+        meal['steps'][-1] = f'{_js_string(meal["steps"][-1]).strip()} {instruction}'.strip()
+    return len(names)
+
+
 def attach_grounded_metadata(meal, selection, constraints):
+    repair_grounded_meal_safety(meal, selection, constraints)
     recipe = selection['recipe']
     aliases = selection.get('ingredient_aliases') or {}
     used_pantry = list(selection.get('used_pantry') or [])

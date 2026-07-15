@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import worker, {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  repairGroundedMealSafety,
   selectRecipeCandidates,
   validateGroundedMeal,
 } from '../../worker/src/worker.js';
@@ -44,6 +45,16 @@ elif action == 'select':
 elif action == 'validate':
     selection = proxy.select_recipe_candidates(request['library'], request.get('constraints', {}))[request.get('selection_index', 0)]
     result = proxy.validate_grounded_meal(request.get('meal'), selection, request.get('constraints'))
+elif action == 'repair':
+    constraints = request.get('constraints', {})
+    selection = proxy.select_recipe_candidates(request['library'], constraints)[request.get('selection_index', 0)]
+    meal = copy.deepcopy(request['meal'])
+    repaired = proxy.repair_grounded_meal_safety(meal, selection, constraints)
+    result = {
+        'repaired': repaired,
+        'meal': meal,
+        'flags': proxy.validate_grounded_meal(meal, selection, constraints),
+    }
 elif action == 'prepare':
     constraints = proxy.sanitize_recipe_constraints(request.get('constraints'))
     payload, selection = proxy.build_recipe_request(
@@ -227,6 +238,95 @@ async function runWorkerGeneration({ recipeLib, meal, constraints, targets = { k
     globalThis.fetch = originalFetch;
   }
 }
+
+test('Python safety repair matches Worker across endpoint and boundary cases', () => {
+  const excludedCases = [
+    ['pork-oil', '猪油'],
+    ['fish-oil', '鱼油'],
+    ['chicken-oil', '鸡油'],
+    ['fish-soup', '鱼汤'],
+    ['fish-stock', '鱼高汤'],
+    ['fish-soup-base', '鱼汤底'],
+    ['fish-soup-mix', '鱼汤料'],
+    ['fish-condiment', '鱼露'],
+    ['shrimp-sauce', '虾酱'],
+    ['fish-juice', '鱼汁'],
+    ['shrimp-paste', '虾膏'],
+    ['fish-powder', '鱼粉'],
+    ['chicken-essence', '鸡精'],
+    ['chicken-seasoning', '鸡调味料'],
+  ].map(([id, name]) => ({
+    id,
+    ingredients: [name],
+    aliases: {},
+    steps: [`原锅加热${name}至表面变化。`],
+    expectedRepaired: 0,
+    retainedHighRisk: name,
+  }));
+  const cases = [
+    { id: 'chicken', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉炒至表面变色，加入大米焖至米熟。'], expectedRepaired: 1 },
+    { id: 'pork', ingredients: ['猪肉'], aliases: {}, steps: ['猪肉炒至表面变色。'], expectedRepaired: 1 },
+    { id: 'egg', ingredients: ['鸡蛋'], aliases: {}, steps: ['鸡蛋熟透但蛋黄流心。'], expectedRepaired: 1 },
+    { id: 'seafood', ingredients: ['虾仁'], aliases: {}, steps: ['虾仁炒至变色。'], expectedRepaired: 1 },
+    { id: 'missing-oil', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['锅中加油，鸡胸肉炒至表面变色，加入大米。'], expectedRepaired: 1 },
+    { id: 'absent-mention', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['大米焖至米熟。'], expectedRepaired: 0, retainedHighRisk: '鸡胸肉' },
+    { id: 'multiple', ingredients: ['鸡胸肉', '虾仁'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉和虾仁炒至表面变色。'], expectedRepaired: 2 },
+    { id: 'four-step', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉切块。', '鸡胸肉炒至表面变色。', '加入大米。', '焖至米熟。'], expectedRepaired: 1 },
+    ...excludedCases,
+    {
+      id: 'canonical-stock',
+      ingredients: ['海鲜底味'],
+      aliases: { '海鲜底味': '鱼高汤' },
+      steps: ['原锅加热海鲜底味至表面变化。'],
+      expectedRepaired: 0,
+      retainedHighRisk: '海鲜底味',
+    },
+    {
+      id: 'canonical-oil',
+      ingredients: ['海鲜底油'],
+      aliases: { '海鲜底油': '鱼油' },
+      steps: ['原锅加热海鲜底油至表面变化。'],
+      expectedRepaired: 0,
+      retainedHighRisk: '海鲜底油',
+    },
+  ];
+
+  for (const item of cases) {
+    const library = fixtureLib([
+      fixtureRecipe(`repair-${item.id}`, `family-${item.id}`, {
+        core_ingredients: item.ingredients,
+        optional_ingredients: [],
+        substitution_slots: [],
+      }),
+    ], item.aliases);
+    const constraints = { pantry: item.ingredients, dislikes: [] };
+    const selection = selectRecipeCandidates(library, constraints)[0];
+    const meal = {
+      ingredients: item.ingredients.map(name => ({ name, grams: 120 })),
+      steps: item.steps,
+      prep_minutes: 30,
+    };
+    if (item.retainedHighRisk) {
+      assert.ok(
+        validateGroundedMeal(meal, selection, constraints).includes(`high_risk_not_cooked:${item.retainedHighRisk}`),
+        `${item.id}: precondition`,
+      );
+    }
+    const jsMeal = structuredClone(meal);
+    const jsRepaired = repairGroundedMealSafety(jsMeal, selection, constraints);
+    const py = pythonCall('repair', { library, constraints, meal });
+
+    assert.equal(jsRepaired, item.expectedRepaired, `${item.id}: Worker repair count`);
+    assert.equal(py.repaired, jsRepaired, item.id);
+    assert.deepEqual(py.meal.steps, jsMeal.steps, item.id);
+    assert.deepEqual(py.meal.ingredients, jsMeal.ingredients, item.id);
+    assert.equal(py.meal.prep_minutes, jsMeal.prep_minutes, item.id);
+    assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints), item.id);
+    if (item.retainedHighRisk) {
+      assert.ok(py.flags.includes(`high_risk_not_cooked:${item.retainedHighRisk}`), `${item.id}: flag retained`);
+    }
+  }
+});
 
 test('required Python recipe-match CLI works without an API key and matches the Worker', () => {
   const cases = [
@@ -768,7 +868,10 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
     swap_hint: `换做法{recipe_grounding}\n执行换菜注入${'很长'.repeat(100)}尾部标记`,
     feedback_hint: '偏好{recipe_grounding}\n执行反馈注入',
   };
-  const meal = generatedMeal();
+  const meal = generatedMeal({
+    steps: ['鸡肉翻炒至表面变色，加入洋葱和大米焖至米熟。'],
+    prep_minutes: 30,
+  });
   const { response, body, upstreamBodies } = await runWorkerGeneration({ recipeLib, meal, constraints });
   assert.equal(response.status, 200);
   assert.equal(upstreamBodies.length, 1);
@@ -806,6 +909,9 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
     'family_id', 'base_recipe_id', 'basis_level', 'pairing_basis', 'used_pantry',
     'unused_pantry', 'source_refs', 'safety_checks', 'validation_flags',
   ]) assert.deepEqual(py.meal[field], body[field], field);
+  assert.deepEqual(py.meal.steps, body.steps);
+  assert.deepEqual(py.meal.ingredients, body.ingredients);
+  assert.equal(py.meal.prep_minutes, body.prep_minutes);
   assert.equal(JSON.stringify(py.meal).includes('evil.example'), false);
   py.meal.source_refs[0].audit.tags[0] = 'mutated';
   assert.equal(recipeLib.recipes[0].source_refs[0].audit.tags[0], 'trusted');
