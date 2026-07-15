@@ -620,7 +620,14 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
 - grams 是该食材在这道菜里用的克数。
 - 客户端会用 grams/100 × 营养值计算贡献。
 - 营养值取食物成分表标准值, 别按 grams 乘出来。
-- 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。`;
+- 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。
+
+【最终提交自检】
+1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why，也不要在why点名。
+2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋，都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋至少写“蛋白完全凝固”，不得把流心蛋黄写成安全熟透。
+3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名称明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
+4. 过敏复核：逐字重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
+只返回JSON，禁止JSON外文字。`;
 
 function corsHeaders(env, request) {
   const reqOrigin = request?.headers?.get('Origin') || '';
