@@ -676,6 +676,8 @@ test('Python validator matches ordinary egg contradiction and later-correction r
       ['鸡蛋', '鸡蛋熟透，蛋黄仍流心。'],
       ['鸡蛋', '鸡蛋熟透，蛋黄未凝固。'],
       ['鸡蛋', '鸡蛋熟透，蛋黄未完全凝固。'],
+      ['鸡蛋', '鸡蛋熟透，但蛋黄没有凝固。'],
+      ['鸡蛋', '鸡蛋熟透，但蛋黄没有完全凝固。'],
       ['鸡蛋', '鸡蛋熟透，蛋黄半熟。'],
       ['蛋液', '蛋液炒熟，但蛋液仍未完全凝固。'],
     ].map(([name, step]) => ({
@@ -688,7 +690,12 @@ test('Python validator matches ordinary egg contradiction and later-correction r
       '鸡蛋熟透，蛋黄无流心。',
       '鸡蛋煮熟，不做流心蛋。',
       '鸡蛋煮熟，避免流心。',
+      '鸡蛋煮熟，鸡蛋不是流心蛋。',
+      '鸡蛋煮熟，鸡蛋没有流心蛋。',
+      '鸡蛋煮熟，鸡蛋不再流心。',
       '先到溏心状态，再继续加热至鸡蛋熟透且蛋黄完全凝固。',
+      '鸡蛋熟透但蛋黄流心。再加热至蛋黄完全凝固。',
+      '鸡蛋熟透但蛋黄流心。再加热至蛋黄不再流心。',
     ].map(step => ({
       meal: { ingredients: [{ name: '鸡蛋' }], steps: [step] },
       absent: ['high_risk_not_cooked:鸡蛋'],
@@ -704,6 +711,20 @@ test('Python validator matches ordinary egg contradiction and later-correction r
       },
       absent: ['high_risk_not_cooked:鸡蛋'],
     },
+    ...[
+      {
+        ingredients: [{ name: '鸡蛋' }, { name: '鸡肉' }],
+        steps: ['鸡蛋熟透但蛋黄流心。随后鸡肉煮熟。鸡蛋不得流心。'],
+      },
+      {
+        ingredients: [{ name: '鸡蛋' }, { name: '土豆' }],
+        steps: ['鸡蛋熟透但蛋黄流心。随后土豆煮熟且蛋黄完全凝固。'],
+      },
+      {
+        ingredients: [{ name: '鸡蛋' }],
+        steps: ['鸡蛋熟透但蛋黄流心。鸡蛋不得流心。'],
+      },
+    ].map(meal => ({ meal, present: ['high_risk_not_cooked:鸡蛋'] })),
   ];
   for (const { meal, present = [], absent = [] } of cases) {
     const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);

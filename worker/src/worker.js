@@ -384,11 +384,13 @@ const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会
 const VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE = /^(?:(?:的)?(?:状态|标准|程度)?(?:仍|还|尚)?(?:未|没)(?:完全|彻底|真正|实际)?(?:达到|达成|确认|实现)?|(?:的)?(?:状态|标准|目标)?(?:仍|还|尚)?(?:预计|预期|计划|准备)(?:达到|达成|确认|实现)?)/;
 const VALIDATION_PLANNED_COOKED_PREFIX_RE = /应(?:当|该)?$/;
 const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?|(?:预计|预期|计划|准备)(?:会|要|将|达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热)?|应(?:当|该)?(?:再)?(?:达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热))/;
-const VALIDATION_EGG_NOT_COAGULATED_RE = /(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然)?(?:未|没)(?:完全|充分|彻底)?凝固/g;
+const VALIDATION_EGG_NOT_COAGULATED_RE = /(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然)?(?:未|没(?:有)?)(?:完全|充分|彻底)?凝固/g;
 const VALIDATION_EGG_SOFT_STATE_RE = /(?:流心|溏心|半熟)/g;
-const VALIDATION_EGG_SOFT_STATE_NEGATION_RE = /(?:不|无|非|避免|防止|拒绝|杜绝|不要|不得|不可|不能|切勿|别)(?:做成?|成为|出现|保持|带有|有)?$/;
+const VALIDATION_EGG_SOFT_STATE_NEGATION_RE = /(?:不是|没有|不再|不|无|非|避免|防止|拒绝|杜绝|不要|不得|不可|不能|切勿|别)(?:做成?|成为|出现|保持|带有|有)?$/;
 const VALIDATION_EGG_SOFT_STATE_SUBJECT_RE = /(?:鸡蛋|蛋液|蛋黄)(?:仍|还|尚|依然|略|微|稍|有点|呈|为|保持|处于|达到|至|到)?$/;
-const VALIDATION_EGG_SAFE_FINAL_STATE_RE = /(?:(?:蛋白(?:和|与|及|、)蛋黄)|蛋黄|鸡蛋|蛋液)(?:均|都|已经|已)?(?:完全|充分|彻底)凝固|(?:鸡蛋|蛋液|蛋黄)?(?:不得|不|无)流心/;
+const VALIDATION_EGG_SAFE_RECOVERY_STATE_RE = /(?:(?:蛋白(?:和|与|及|、)蛋黄)|蛋黄|鸡蛋|蛋液)(?:均|都|已经|已)?(?:完全|充分|彻底)凝固|(?:鸡蛋|蛋液|蛋黄)(?:已经|已)?(?:不再|没有|不是)流心(?:蛋)?/;
+const VALIDATION_EGG_HEATING_ACTION_RE = /(?:再(?:继续)?|继续|重新|随后|然后)?(?:加热|煮|焖|蒸|炒|煎)/g;
+const VALIDATION_EGG_RECOVERY_WINDOW = 24;
 const VALIDATION_GENERIC_MEAT_FORMS = new Set(['肉丝', '肉丁', '肉片', '肉块']);
 const VALIDATION_GENERIC_MEAT_BOUNDARY_RE = /(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$/;
 
@@ -460,24 +462,42 @@ function validationOrdinaryEggIncompleteStates(text) {
   return states.sort((a, b) => a.index - b.index);
 }
 
-function validationOrdinaryEggUnsafeFinalState(name, steps, aliases) {
+function validationOrdinaryEggSafeRecovery(tail, name, aliases, ingredientNames) {
+  const target = validationCanonicalIngredient(name, aliases);
+  const otherIngredients = ingredientNames
+    .filter(other => validationCanonicalIngredient(other, aliases) !== target);
+  const clauses = tail.split(/[，,。；;！！？!?]+/).map(clause => clause.trim()).filter(Boolean);
+  for (const clause of clauses) {
+    const stateRe = new RegExp(VALIDATION_EGG_SAFE_RECOVERY_STATE_RE.source, 'g');
+    for (const state of clause.matchAll(stateRe)) {
+      const actionStart = Math.max(0, state.index - VALIDATION_EGG_RECOVERY_WINDOW);
+      const actionWindow = clause.slice(actionStart, state.index);
+      const actions = [...actionWindow.matchAll(VALIDATION_EGG_HEATING_ACTION_RE)];
+      if (!actions.length) continue;
+      const action = actions[actions.length - 1];
+      const actionEnd = actionStart + action.index + action[0].length;
+      const actionPrefix = clause.slice(0, actionEnd);
+      const eggNamedBeforeAction = /(?:鸡蛋|蛋液|蛋黄)/.test(actionPrefix);
+      const otherNamedBeforeAction = otherIngredients
+        .some(other => validationStepMentions(actionPrefix, other, aliases));
+      if (otherNamedBeforeAction && !eggNamedBeforeAction) continue;
+      return true;
+    }
+  }
+  return false;
+}
+
+function validationOrdinaryEggUnsafeFinalState(name, steps, aliases, ingredientNames) {
   if (!validationOrdinaryEggIngredient(name, aliases)) return false;
   const text = steps.map(step => validationFormName(step)).join('。');
   const states = validationOrdinaryEggIncompleteStates(text);
   if (!states.length) return false;
   const tail = text.slice(states[states.length - 1].end);
-  const clauses = tail.split(/[，,。；;！！？!?]+/).map(clause => clause.trim()).filter(Boolean);
-  for (let index = 0; index < clauses.length; index++) {
-    const window = [clauses[index], clauses[index + 1]].filter(Boolean).join('，');
-    if (validationClauseCooksTarget(window, name, aliases) && VALIDATION_EGG_SAFE_FINAL_STATE_RE.test(window)) {
-      return false;
-    }
-  }
-  return true;
+  return !validationOrdinaryEggSafeRecovery(tail, name, aliases, ingredientNames);
 }
 
 function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
-  if (validationOrdinaryEggUnsafeFinalState(name, steps, aliases)) return false;
+  if (validationOrdinaryEggUnsafeFinalState(name, steps, aliases, ingredientNames)) return false;
   const target = validationCanonicalIngredient(name, aliases);
   const otherIngredients = ingredientNames.filter(other => validationCanonicalIngredient(other, aliases) !== target);
   for (const step of steps) {

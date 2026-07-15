@@ -723,6 +723,8 @@ test('ordinary egg contradictions override an earlier cooked word until a later 
     ['鸡蛋', '鸡蛋熟透，蛋黄仍流心。'],
     ['鸡蛋', '鸡蛋熟透，蛋黄未凝固。'],
     ['鸡蛋', '鸡蛋熟透，蛋黄未完全凝固。'],
+    ['鸡蛋', '鸡蛋熟透，但蛋黄没有凝固。'],
+    ['鸡蛋', '鸡蛋熟透，但蛋黄没有完全凝固。'],
     ['鸡蛋', '鸡蛋熟透，蛋黄半熟。'],
     ['蛋液', '蛋液炒熟，但蛋液仍未完全凝固。'],
   ];
@@ -737,7 +739,12 @@ test('ordinary egg contradictions override an earlier cooked word until a later 
     '鸡蛋熟透，蛋黄无流心。',
     '鸡蛋煮熟，不做流心蛋。',
     '鸡蛋煮熟，避免流心。',
+    '鸡蛋煮熟，鸡蛋不是流心蛋。',
+    '鸡蛋煮熟，鸡蛋没有流心蛋。',
+    '鸡蛋煮熟，鸡蛋不再流心。',
     '先到溏心状态，再继续加热至鸡蛋熟透且蛋黄完全凝固。',
+    '鸡蛋熟透但蛋黄流心。再加热至蛋黄完全凝固。',
+    '鸡蛋熟透但蛋黄流心。再加热至蛋黄不再流心。',
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '鸡蛋' }], steps: [step] }, selection, { dislikes: [] });
     assert.equal(flags.includes('high_risk_not_cooked:鸡蛋'), false, step);
@@ -754,6 +761,24 @@ test('ordinary egg contradictions override an earlier cooked word until a later 
     steps: ['鸡蛋煮熟且蛋黄完全凝固，土豆保持半熟状态。'],
   }, selection, { dislikes: [] });
   assert.equal(unrelatedStateFlags.includes('high_risk_not_cooked:鸡蛋'), false);
+
+  for (const meal of [
+    {
+      ingredients: [{ name: '鸡蛋' }, { name: '鸡肉' }],
+      steps: ['鸡蛋熟透但蛋黄流心。随后鸡肉煮熟。鸡蛋不得流心。'],
+    },
+    {
+      ingredients: [{ name: '鸡蛋' }, { name: '土豆' }],
+      steps: ['鸡蛋熟透但蛋黄流心。随后土豆煮熟且蛋黄完全凝固。'],
+    },
+    {
+      ingredients: [{ name: '鸡蛋' }],
+      steps: ['鸡蛋熟透但蛋黄流心。鸡蛋不得流心。'],
+    },
+  ]) {
+    const flags = validateGroundedMeal(meal, selection, { dislikes: [] });
+    assert.ok(flags.includes('high_risk_not_cooked:鸡蛋'), JSON.stringify(meal));
+  }
 });
 
 test('prepared chicken products and century egg are exempt without weakening raw animal hazards', () => {
