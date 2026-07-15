@@ -448,6 +448,19 @@ def _validation_form_name(name):
     return re.sub(r'[\s_-]+', '', _js_string(name).lower().replace('（', '(').replace('）', ')'))
 
 
+_VALIDATION_CANONICAL_FORMS = {
+    '鸡腿肉去骨': '鸡腿肉',
+    '白蘑菇': '蘑菇',
+    '干黑眼豆': '黑眼豆',
+    '红甜椒': '甜椒',
+}
+
+
+def _validation_canonical_ingredient(name, aliases):
+    bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
+    return canonical_recipe_ingredient(_VALIDATION_CANONICAL_FORMS.get(bare, name), aliases)
+
+
 _VALIDATION_COOKING_OIL_NAMES = {
     '烹调油', '植物油', '食用油', '食用植物油', '蔬菜油', '菜籽油', '花生油', '大豆油', '玉米油',
     '橄榄油', '葵花籽油', '葵花油', '米糠油', '稻米油', '色拉油', '调和油', '芝麻油', '香油', '猪油', '牛油', '黄油',
@@ -481,8 +494,10 @@ def _validation_active_action_matches(text, pattern):
 def _validation_controlled_tokens(name):
     normalized = _validation_form_name(name)
     bare = re.sub(r'\(.*?\)', '', normalized)
-    if bare in ('鸡胸肉', '去骨鸡腿肉', '鸡腿肉'):
+    if bare == '鸡胸肉':
         return ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片']
+    if bare in ('去骨鸡腿肉', '鸡腿肉', '鸡腿肉去骨'):
+        return ['鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片']
     if bare in ('猪瘦肉', '瘦猪肉'):
         return ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块']
     if bare == '大米':
@@ -513,11 +528,11 @@ def _validation_step_uses_cooking_oil(step):
 
 
 def _validation_search_tokens(name, aliases):
-    canonical = canonical_recipe_ingredient(name, aliases)
+    canonical = _validation_canonical_ingredient(name, aliases)
     tokens = {item for item in (base_recipe_ingredient(name), canonical, *_validation_controlled_tokens(name)) if item}
     if isinstance(aliases, dict):
         for alias in aliases:
-            if canonical_recipe_ingredient(alias, aliases) == canonical:
+            if _validation_canonical_ingredient(alias, aliases) == canonical:
                 tokens.add(base_recipe_ingredient(alias))
     if '鸡蛋' in tokens:
         tokens.add('蛋液')
@@ -527,7 +542,8 @@ def _validation_search_tokens(name, aliases):
 
 
 _VALIDATION_NEGATED_RE = re.compile(r'(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$')
-_VALIDATION_COOKED_RE = re.compile(r'(?:中心不见粉红|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)')
+_VALIDATION_COOKED_RE = re.compile(r'(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)')
+_VALIDATION_COOKED_NEGATION_RE = re.compile(r'(?:并非|不是|尚未|还未|未|没有|没能|不能|无法)(?:已经|已|达到|达|确认|保证)?$')
 _VALIDATION_UNHEATED_RELATION_RE = re.compile(r'(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)')
 _VALIDATION_DELAYED_ADD_RE = re.compile(r'(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$')
 _VALIDATION_FUTURE_COOKING_SUFFIX_RE = re.compile(r'^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)')
@@ -569,16 +585,21 @@ def _validation_token_positions(text, token):
         negated = bool(_VALIDATION_NEGATED_RE.search(prefix))
         blocked_short_form = token in ('米', '米饭') and index > 0 and text[index - 1] in '玉小'
         blocked_garlic_green = token == '蒜' and re.match(r'(?:苗|苔|薹)', text[index + len(token):])
-        blocked_chicken_species = (token in ('鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片')
+        blocked_chicken_species = (token in ('鸡腿肉去骨', '鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片')
                                    and index > 0 and text[index - 1] == '火')
         blocked_generic_meat_form = (token in _VALIDATION_GENERIC_MEAT_FORMS
                                      and not _validation_generic_meat_form_allowed(text, index))
         blocked_pork_species = (token in ('猪肉', '瘦肉', '里脊')
                                 and index > 0 and text[index - 1] in '牛羊鸡鸭鹅鱼')
         blocked_cooking_oil = token == '油' and index not in active_oil_positions
+        token_suffix = text[index + len(token):]
+        blocked_controlled_form = (
+            (token in ('蘑菇', '黑眼豆') and re.match(r'(?:酱|粉|汤料)', token_suffix))
+            or (token == '甜椒' and index > 0 and text[index - 1] in '黄绿橙')
+        )
         if (not negated and not blocked_short_form and not blocked_garlic_green
                 and not blocked_chicken_species and not blocked_generic_meat_form
-                and not blocked_pork_species and not blocked_cooking_oil):
+                and not blocked_pork_species and not blocked_cooking_oil and not blocked_controlled_form):
             positions.append(index)
         offset = index + len(token)
     return positions
@@ -598,13 +619,15 @@ def _validation_clause_cooks_target(clause, name, aliases):
     ]
     for cooked in _VALIDATION_COOKED_RE.finditer(text):
         cooked_end = cooked.end()
-        future_prefix = text[:cooked.start()]
+        cooked_prefix = text[:cooked.start()]
+        future_prefix = cooked_prefix
         future_suffix = text[cooked_end:cooked_end + 10]
         if (_VALIDATION_FUTURE_COOKING_MARKER_RE.search(future_prefix)
                 or _VALIDATION_FUTURE_COOKING_SUFFIX_RE.search(future_suffix)):
             continue
+        if _VALIDATION_COOKED_NEGATION_RE.search(cooked_prefix):
+            continue
         target_is_rice = any(token in ('大米', '米饭', '米') for token in _validation_search_tokens(name, aliases))
-        cooked_prefix = text[:cooked.start()]
         if not target_is_rice and re.search(r'(?:大米|米饭|米|饭)(?:(?:完全|彻底|全部|基本|已经|已))*$', cooked_prefix):
             continue
         belongs_to_earlier = any(
@@ -618,24 +641,23 @@ def _validation_clause_cooks_target(clause, name, aliases):
 
 
 def _validation_high_risk_cooked(name, steps, aliases, ingredient_names):
-    target = canonical_recipe_ingredient(name, aliases)
+    target = _validation_canonical_ingredient(name, aliases)
     other_ingredients = [
         other for other in ingredient_names
-        if canonical_recipe_ingredient(other, aliases) != target
+        if _validation_canonical_ingredient(other, aliases) != target
     ]
     for step in steps:
         clauses = [part.strip() for part in re.split(r'[，,。；;！？!?]+', step) if part.strip()]
         for index, clause in enumerate(clauses):
             if not _validation_step_mentions(clause, name, aliases):
                 continue
-            if _VALIDATION_UNHEATED_RELATION_RE.search(clause):
-                continue
             if _validation_clause_cooks_target(clause, name, aliases):
                 return True
+            if _VALIDATION_UNHEATED_RELATION_RE.search(clause):
+                continue
             next_clause = clauses[index + 1] if index + 1 < len(clauses) else ''
             next_names_other = any(_validation_step_mentions(next_clause, other, aliases) for other in other_ingredients)
             if (next_clause and not next_names_other
-                    and not _VALIDATION_UNHEATED_RELATION_RE.search(next_clause)
                     and _validation_clause_cooks_target(next_clause, name, aliases)):
                 return True
     return False
@@ -656,14 +678,14 @@ def validate_grounded_meal(meal, selection, constraints=None):
             flags.append(flag)
 
     canonical_ingredients = {
-        item for name in ingredient_names if (item := canonical_recipe_ingredient(name, aliases))
+        item for name in ingredient_names if (item := _validation_canonical_ingredient(name, aliases))
     }
     dislikes = [
         item for name in recipe_constraint_list(constraints.get('dislikes'))
-        if (item := canonical_recipe_ingredient(name, aliases))
+        if (item := _validation_canonical_ingredient(name, aliases))
     ]
     for name in ingredient_names:
-        canonical = canonical_recipe_ingredient(name, aliases)
+        canonical = _validation_canonical_ingredient(name, aliases)
         if canonical in dislikes:
             add_flag(f'allergen_present:{name}')
         if not _validation_seasoning(name) and not any(_validation_step_mentions(step, name, aliases) for step in steps):
@@ -678,11 +700,11 @@ def validate_grounded_meal(meal, selection, constraints=None):
         add_flag('step_ingredient_missing:烹调油')
 
     for item in selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []:
-        canonical = canonical_recipe_ingredient(item, aliases)
+        canonical = _validation_canonical_ingredient(item, aliases)
         if canonical and canonical not in canonical_ingredients:
             add_flag(f'used_pantry_missing:{item}')
     for item in selection.get('unused_pantry') if isinstance(selection.get('unused_pantry'), list) else []:
-        canonical = canonical_recipe_ingredient(item, aliases)
+        canonical = _validation_canonical_ingredient(item, aliases)
         if canonical and canonical in canonical_ingredients:
             add_flag(f'unused_pantry_used:{item}')
 
@@ -690,7 +712,7 @@ def validate_grounded_meal(meal, selection, constraints=None):
     anchors = {
         item
         for name in [*(recipe.get('core_ingredients') or []), *(selection.get('used_pantry') or [])]
-        if (item := canonical_recipe_ingredient(name, aliases))
+        if (item := _validation_canonical_ingredient(name, aliases))
     }
     required_anchor_hits = min(2, len(anchors))
     anchor_hits = sum(anchor in canonical_ingredients for anchor in anchors)

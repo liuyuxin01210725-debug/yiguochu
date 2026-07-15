@@ -587,6 +587,41 @@ test('high-risk cooking evidence belongs to the ingredient action window', () =>
   assert.equal(safeFlags.includes('high_risk_not_cooked:鸡肉'), false);
 });
 
+test('an achieved poultry endpoint still counts before the cooked meat is set aside', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['火鸡肉'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['火鸡肉'], dislikes: [] });
+  const achieved = validateGroundedMeal({
+    ingredients: [{ name: '火鸡肉' }],
+    steps: ['火鸡肉炒至表面变色，确保熟透后再盛出备用。'],
+  }, selection, { dislikes: [] });
+  assert.equal(achieved.includes('high_risk_not_cooked:火鸡肉'), false);
+
+  const merelyReserved = validateGroundedMeal({
+    ingredients: [{ name: '火鸡肉' }],
+    steps: ['火鸡肉盛出备用。'],
+  }, selection, { dislikes: [] });
+  assert.ok(merelyReserved.includes('high_risk_not_cooked:火鸡肉'));
+});
+
+test('center-has-no-pink is a finite achieved endpoint, not a future, negated, or surface claim', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉'], dislikes: [] });
+  const achieved = validateGroundedMeal({
+    ingredients: [{ name: '鸡肉' }],
+    steps: ['鸡肉中心无粉红色。'],
+  }, selection, { dislikes: [] });
+  assert.equal(achieved.includes('high_risk_not_cooked:鸡肉'), false);
+
+  for (const step of [
+    '稍后确认鸡肉中心无粉红色。',
+    '鸡肉并非中心无粉红色。',
+    '鸡肉表面无粉红色。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('high_risk_not_cooked:鸡肉'), step);
+  }
+});
+
 test('raw chicken still requires an ingredient-tied explicit safe endpoint', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉', '大米'] });
   const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉', '大米'], dislikes: [] });
@@ -676,6 +711,51 @@ test('explicit controlled culinary forms count as mentions and meat cooking evid
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
     assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, `${name}: ${step}`);
+  }
+});
+
+test('postfixed boneless chicken-thigh wording stays equivalent to chicken without crossing into turkey', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉'] });
+  const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
+  const [selection] = selectRecipeCandidates(recipeLib, { pantry: ['鸡肉'], dislikes: [] });
+  const flags = validateGroundedMeal({
+    ingredients: [{ name: '鸡腿肉去骨' }],
+    steps: ['鸡腿肉切块，鸡肉炖熟且中心不见粉红。'],
+  }, selection, { dislikes: [] });
+  for (const flag of [
+    'ingredient_missing_in_steps:鸡腿肉去骨',
+    'high_risk_not_cooked:鸡腿肉去骨',
+    'used_pantry_missing:鸡肉',
+    'base_recipe_anchor_missing',
+  ]) assert.equal(flags.includes(flag), false, flag);
+
+  const turkeyFlags = validateGroundedMeal({
+    ingredients: [{ name: '鸡腿肉去骨' }],
+    steps: ['火鸡腿肉炒熟。'],
+  }, selection, { dislikes: [] });
+  assert.ok(turkeyFlags.includes('ingredient_missing_in_steps:鸡腿肉去骨'));
+  assert.ok(turkeyFlags.includes('high_risk_not_cooked:鸡腿肉去骨'));
+});
+
+test('finite produce and dry-state forms count without accepting sauces or another pepper color', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  for (const [name, step] of [
+    ['白蘑菇', '蘑菇切片后炒香。'],
+    ['干黑眼豆', '黑眼豆浸泡后煮熟。'],
+    ['红甜椒', '甜椒丁炒香。'],
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, `${name}: ${step}`);
+  }
+
+  for (const [name, step] of [
+    ['白蘑菇', '加入蘑菇酱调味。'],
+    ['干黑眼豆', '加入黑眼豆酱调味。'],
+    ['红甜椒', '黄甜椒丁炒香。'],
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes(`ingredient_missing_in_steps:${name}`), `${name}: ${step}`);
   }
 });
 

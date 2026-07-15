@@ -556,6 +556,73 @@ test('Python validator matches finite generic pork-form boundaries', () => {
   }
 });
 
+test('Python validator matches finite live-smoke false-positive corrections', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['鸡肉'] });
+  const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
+  const constraints = { pantry: ['鸡肉'], dislikes: [] };
+  const cases = [
+    {
+      meal: { ingredients: [{ name: '火鸡肉' }], steps: ['火鸡肉炒至表面变色，确保熟透后再盛出备用。'] },
+      absent: ['high_risk_not_cooked:火鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '火鸡肉' }], steps: ['火鸡肉备用。'] },
+      present: ['high_risk_not_cooked:火鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡肉' }], steps: ['鸡肉中心无粉红色。'] },
+      absent: ['high_risk_not_cooked:鸡肉'],
+    },
+    ...[
+      '稍后确认鸡肉中心无粉红色。',
+      '鸡肉并非中心无粉红色。',
+      '鸡肉表面无粉红色。',
+    ].map(step => ({
+      meal: { ingredients: [{ name: '鸡肉' }], steps: [step] },
+      present: ['high_risk_not_cooked:鸡肉'],
+    })),
+    {
+      meal: {
+        ingredients: [{ name: '鸡腿肉去骨' }],
+        steps: ['鸡腿肉切块，鸡肉炖熟且中心不见粉红。'],
+      },
+      absent: [
+        'ingredient_missing_in_steps:鸡腿肉去骨',
+        'high_risk_not_cooked:鸡腿肉去骨',
+        'used_pantry_missing:鸡肉',
+        'base_recipe_anchor_missing',
+      ],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡腿肉去骨' }], steps: ['火鸡腿肉炒熟。'] },
+      present: ['ingredient_missing_in_steps:鸡腿肉去骨', 'high_risk_not_cooked:鸡腿肉去骨'],
+    },
+    ...[
+      ['白蘑菇', '蘑菇切片后炒香。'],
+      ['干黑眼豆', '黑眼豆浸泡后煮熟。'],
+      ['红甜椒', '甜椒丁炒香。'],
+    ].map(([name, step]) => ({
+      meal: { ingredients: [{ name }], steps: [step] },
+      absent: [`ingredient_missing_in_steps:${name}`],
+    })),
+    ...[
+      ['白蘑菇', '加入蘑菇酱调味。'],
+      ['干黑眼豆', '加入黑眼豆酱调味。'],
+      ['红甜椒', '黄甜椒丁炒香。'],
+    ].map(([name, step]) => ({
+      meal: { ingredients: [{ name }], steps: [step] },
+      present: [`ingredient_missing_in_steps:${name}`],
+    })),
+  ];
+  for (const { meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), `${JSON.stringify(meal)}: ${flag}`);
+    for (const flag of absent) assert.equal(py.includes(flag), false, `${JSON.stringify(meal)}: ${flag}`);
+  }
+});
+
 test('Python no-network preparation matches Worker prompt and overwrites forged trusted metadata', async () => {
   const recipe = groundedRecipe();
   const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });

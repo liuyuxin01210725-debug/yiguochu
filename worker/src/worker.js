@@ -247,6 +247,18 @@ function validationFormName(name) {
     .replace(/[\s_-]+/g, '');
 }
 
+const VALIDATION_CANONICAL_FORMS = new Map([
+  ['鸡腿肉去骨', '鸡腿肉'],
+  ['白蘑菇', '蘑菇'],
+  ['干黑眼豆', '黑眼豆'],
+  ['红甜椒', '甜椒'],
+]);
+
+function validationCanonicalIngredient(name, aliases) {
+  const bare = validationFormName(name).replace(/\(.*?\)/g, '');
+  return canonicalRecipeIngredient(VALIDATION_CANONICAL_FORMS.get(bare) || name, aliases);
+}
+
 const VALIDATION_COOKING_OIL_NAMES = new Set([
   '烹调油', '植物油', '食用油', '食用植物油', '蔬菜油', '菜籽油', '花生油', '大豆油', '玉米油',
   '橄榄油', '葵花籽油', '葵花油', '米糠油', '稻米油', '色拉油', '调和油', '芝麻油', '香油', '猪油', '牛油', '黄油',
@@ -276,8 +288,11 @@ function validationActiveActionMatches(text, pattern) {
 function validationControlledTokens(name) {
   const normalized = validationFormName(name);
   const bare = normalized.replace(/\(.*?\)/g, '');
-  if (['鸡胸肉', '去骨鸡腿肉', '鸡腿肉'].includes(bare)) {
+  if (bare === '鸡胸肉') {
     return ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'];
+  }
+  if (['去骨鸡腿肉', '鸡腿肉', '鸡腿肉去骨'].includes(bare)) {
+    return ['鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'];
   }
   if (['猪瘦肉', '瘦猪肉'].includes(bare)) return ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块'];
   if (bare === '大米') return ['米饭', '米'];
@@ -303,11 +318,11 @@ function validationStepUsesCookingOil(step) {
 }
 
 function validationSearchTokens(name, aliases) {
-  const canonical = canonicalRecipeIngredient(name, aliases);
+  const canonical = validationCanonicalIngredient(name, aliases);
   const tokens = new Set([baseRecipeIngredient(name), canonical, ...validationControlledTokens(name)].filter(Boolean));
   if (aliases && typeof aliases === 'object') {
     for (const alias of Object.keys(aliases)) {
-      if (canonicalRecipeIngredient(alias, aliases) === canonical) tokens.add(baseRecipeIngredient(alias));
+      if (validationCanonicalIngredient(alias, aliases) === canonical) tokens.add(baseRecipeIngredient(alias));
     }
   }
   if (tokens.has('鸡蛋')) tokens.add('蛋液');
@@ -327,15 +342,18 @@ function validationTokenPositions(text, token) {
     const negated = /(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$/.test(prefix);
     const blockedShortForm = (token === '米' || token === '米饭') && /[玉小]/.test(text[index - 1] || '');
     const blockedGarlicGreen = token === '蒜' && /^(?:苗|苔|薹)/.test(text.slice(index + token.length));
-    const blockedChickenSpecies = ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'].includes(token)
+    const blockedChickenSpecies = ['鸡腿肉去骨', '鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'].includes(token)
       && text[index - 1] === '火';
     const blockedGenericMeatForm = VALIDATION_GENERIC_MEAT_FORMS.has(token)
       && !validationGenericMeatFormAllowed(text, index);
     const blockedPorkSpecies = ['猪肉', '瘦肉', '里脊'].includes(token)
       && /[牛羊鸡鸭鹅鱼]/.test(text[index - 1] || '');
     const blockedCookingOil = token === '油' && !activeOilPositions.has(index);
+    const tokenSuffix = text.slice(index + token.length);
+    const blockedControlledForm = ((token === '蘑菇' || token === '黑眼豆') && /^(?:酱|粉|汤料)/.test(tokenSuffix))
+      || (token === '甜椒' && /[黄绿橙]/.test(text[index - 1] || ''));
     if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies && !blockedGenericMeatForm
-      && !blockedPorkSpecies && !blockedCookingOil) positions.push(index);
+      && !blockedPorkSpecies && !blockedCookingOil && !blockedControlledForm) positions.push(index);
     offset = index + token.length;
   }
   return positions;
@@ -350,7 +368,8 @@ function validationStepMentions(step, name, aliases) {
   return validationSearchTokens(name, aliases).some(token => validationTokenMentioned(text, token));
 }
 
-const VALIDATION_COOKED_RE = /(?:中心不见粉红|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)/;
+const VALIDATION_COOKED_RE = /(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)/;
+const VALIDATION_COOKED_NEGATION_RE = /(?:并非|不是|尚未|还未|未|没有|没能|不能|无法)(?:已经|已|达到|达|确认|保证)?$/;
 const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
 const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
 const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
@@ -383,12 +402,13 @@ function validationClauseCooksTarget(clause, name, aliases) {
   const cookedRe = new RegExp(VALIDATION_COOKED_RE.source, 'g');
   for (const cooked of text.matchAll(cookedRe)) {
     const cookedEnd = cooked.index + cooked[0].length;
-    const futurePrefix = text.slice(0, cooked.index);
+    const cookedPrefix = text.slice(0, cooked.index);
+    const futurePrefix = cookedPrefix;
     const futureSuffix = text.slice(cookedEnd, cookedEnd + 10);
     if (VALIDATION_FUTURE_COOKING_MARKER_RE.test(futurePrefix)
       || VALIDATION_FUTURE_COOKING_SUFFIX_RE.test(futureSuffix)) continue;
+    if (VALIDATION_COOKED_NEGATION_RE.test(cookedPrefix)) continue;
     const targetIsRice = validationSearchTokens(name, aliases).some(token => token === '大米' || token === '米饭' || token === '米');
-    const cookedPrefix = text.slice(0, cooked.index);
     if (!targetIsRice && /(?:大米|米饭|米|饭)(?:(?:完全|彻底|全部|基本|已经|已))*$/.test(cookedPrefix)) continue;
     const belongsToEarlierIngredient = targetPositions.some(targetIndex => (
       targetIndex >= cookedEnd
@@ -400,19 +420,18 @@ function validationClauseCooksTarget(clause, name, aliases) {
 }
 
 function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
-  const target = canonicalRecipeIngredient(name, aliases);
-  const otherIngredients = ingredientNames.filter(other => canonicalRecipeIngredient(other, aliases) !== target);
+  const target = validationCanonicalIngredient(name, aliases);
+  const otherIngredients = ingredientNames.filter(other => validationCanonicalIngredient(other, aliases) !== target);
   for (const step of steps) {
     const clauses = String(step).split(/[，,。；;！？!?]+/).map(clause => clause.trim()).filter(Boolean);
     for (let index = 0; index < clauses.length; index++) {
       const clause = clauses[index];
       if (!validationStepMentions(clause, name, aliases)) continue;
-      if (VALIDATION_UNHEATED_RELATION_RE.test(clause)) continue;
       if (validationClauseCooksTarget(clause, name, aliases)) return true;
+      if (VALIDATION_UNHEATED_RELATION_RE.test(clause)) continue;
       const next = clauses[index + 1] || '';
       const nextNamesAnotherIngredient = otherIngredients.some(other => validationStepMentions(next, other, aliases));
       if (next && !nextNamesAnotherIngredient
-        && !VALIDATION_UNHEATED_RELATION_RE.test(next)
         && validationClauseCooksTarget(next, name, aliases)) return true;
     }
   }
@@ -424,13 +443,13 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   const ingredientNames = validationIngredientNames(meal);
   const steps = validationSteps(meal);
   const flags = new Set();
-  const canonicalIngredients = new Set(ingredientNames.map(name => canonicalRecipeIngredient(name, aliases)).filter(Boolean));
+  const canonicalIngredients = new Set(ingredientNames.map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
   const dislikes = recipeConstraintList(constraints?.dislikes)
-    .map(name => canonicalRecipeIngredient(name, aliases))
+    .map(name => validationCanonicalIngredient(name, aliases))
     .filter(Boolean);
 
   for (const name of ingredientNames) {
-    const canonical = canonicalRecipeIngredient(name, aliases);
+    const canonical = validationCanonicalIngredient(name, aliases);
     if (dislikes.includes(canonical)) flags.add(`allergen_present:${name}`);
     if (!validationSeasoning(name) && !steps.some(step => validationStepMentions(step, name, aliases))) {
       flags.add(`ingredient_missing_in_steps:${name}`);
@@ -445,18 +464,18 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   }
 
   for (const item of Array.isArray(selection?.usedPantry) ? selection.usedPantry : []) {
-    const canonical = canonicalRecipeIngredient(item, aliases);
+    const canonical = validationCanonicalIngredient(item, aliases);
     if (canonical && !canonicalIngredients.has(canonical)) flags.add(`used_pantry_missing:${item}`);
   }
   for (const item of Array.isArray(selection?.unusedPantry) ? selection.unusedPantry : []) {
-    const canonical = canonicalRecipeIngredient(item, aliases);
+    const canonical = validationCanonicalIngredient(item, aliases);
     if (canonical && canonicalIngredients.has(canonical)) flags.add(`unused_pantry_used:${item}`);
   }
 
   const anchors = new Set([
     ...(Array.isArray(selection?.recipe?.core_ingredients) ? selection.recipe.core_ingredients : []),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
-  ].map(item => canonicalRecipeIngredient(item, aliases)).filter(Boolean));
+  ].map(item => validationCanonicalIngredient(item, aliases)).filter(Boolean));
   const requiredAnchorHits = Math.min(2, anchors.size);
   const anchorHits = [...anchors].filter(anchor => canonicalIngredients.has(anchor)).length;
   if (anchorHits < requiredAnchorHits) flags.add('base_recipe_anchor_missing');
