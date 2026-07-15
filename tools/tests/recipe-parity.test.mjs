@@ -301,6 +301,29 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     retainedHighRisk: name,
     expectedStepsUnchanged: true,
   }));
+  const markerAwareAliasCases = [
+    ['prepared-alias-value-chicken', '库存食材鸡', { '库存食材鸡': '鸡胸肉（即食）' }, 0, true],
+    ['prepared-alias-value-fish', '库存食材鱼', { '库存食材鱼': '鱼片（罐头）' }, 0, true],
+    ['prepared-alias-value-salmon', '库存食材三', { '库存食材三': '三文鱼（烟熏）' }, 0, true],
+    [
+      'prepared-alias-value-multi-hop-normalized-key',
+      '库存食材鸡',
+      { '库存 食材鸡（别名）': '中间 鸡别名', '中间鸡别名': '鸡胸肉（即食）' },
+      0,
+      true,
+    ],
+    ['marker-free-alias-cycle', '库存食材鸡', { '库存食材鸡': '鸡肉', '鸡肉': '库存食材鸡' }, 0, true],
+    ['benign-alias-value-parenthetical', '库存食材鸡', { '库存食材鸡': '鸡胸肉（切块）' }, 1, false],
+  ].map(([id, name, aliases, expectedRepaired, expectedStepsUnchanged]) => ({
+    id,
+    ingredients: [name],
+    aliases,
+    steps: [`原锅加热${name}至表面变化。`],
+    expectedRepaired,
+    retainedHighRisk: expectedRepaired === 0 ? name : undefined,
+    expectedStepsUnchanged,
+    endpoint: expectedRepaired === 1 ? /原锅.*库存食材鸡.*熟透.*中心不见粉红/ : undefined,
+  }));
   const cases = [
     { id: 'chicken', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉炒至表面变色，加入大米焖至米熟。'], expectedRepaired: 1 },
     { id: 'pork', ingredients: ['猪肉'], aliases: {}, steps: ['猪肉炒至表面变色。'], expectedRepaired: 1 },
@@ -337,6 +360,7 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     ...excludedCases,
     ...preparedCases,
     ...preparedStateCases,
+    ...markerAwareAliasCases,
     {
       id: 'benign-parenthetical-raw-cut',
       ingredients: ['鸡胸肉（切块）'],

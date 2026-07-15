@@ -591,6 +591,56 @@ test('safety tail checks full exact prepared-state markers before stripping beni
   assert.equal(validateGroundedMeal(rawMeal, rawSelection, { dislikes: [] }).includes(rawFlag), false);
 });
 
+test('safety tail traverses raw alias values marker-aware while preserving chains cycles and benign state', () => {
+  const preparedAliasCases = [
+    { name: '库存食材鸡', aliases: { '库存食材鸡': '鸡胸肉（即食）' } },
+    { name: '库存食材鱼', aliases: { '库存食材鱼': '鱼片（罐头）' } },
+    { name: '库存食材三', aliases: { '库存食材三': '三文鱼（烟熏）' } },
+    {
+      name: '库存食材鸡',
+      aliases: { '库存 食材鸡（别名）': '中间 鸡别名', '中间鸡别名': '鸡胸肉（即食）' },
+    },
+  ];
+
+  for (const { name, aliases } of preparedAliasCases) {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`原锅加热${name}至表面变化。`] };
+    const flag = `high_risk_not_cooked:${name}`;
+    const stepsBefore = JSON.stringify(meal.steps);
+
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), `${name}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 0, name);
+    assert.equal(JSON.stringify(meal.steps), stepsBefore, `${name}: steps byte-equivalent`);
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(flag), `${name}: flag retained`);
+  }
+
+  const cycleName = '库存食材鸡';
+  const cycleAliases = { '库存食材鸡': '鸡肉', '鸡肉': '库存食材鸡' };
+  const cycleRecipe = groundedFixtureRecipe({ core_ingredients: [cycleName], optional_ingredients: [], substitution_slots: [] });
+  const [cycleSelection] = selectRecipeCandidates(fixtureLib([cycleRecipe], cycleAliases), { pantry: [cycleName], dislikes: [] });
+  const cycleMeal = { ingredients: [{ name: cycleName, grams: 120 }], steps: [`原锅加热${cycleName}至表面变化。`] };
+  const cycleFlag = `high_risk_not_cooked:${cycleName}`;
+  const cycleStepsBefore = JSON.stringify(cycleMeal.steps);
+
+  assert.ok(validateGroundedMeal(cycleMeal, cycleSelection, { dislikes: [] }).includes(cycleFlag));
+  assert.equal(repairGroundedMealSafety(cycleMeal, cycleSelection, { dislikes: [] }), 0);
+  assert.equal(JSON.stringify(cycleMeal.steps), cycleStepsBefore);
+  assert.ok(validateGroundedMeal(cycleMeal, cycleSelection, { dislikes: [] }).includes(cycleFlag));
+
+  const benignName = '库存食材鸡';
+  const benignAliases = { '库存食材鸡': '鸡胸肉（切块）' };
+  const benignRecipe = groundedFixtureRecipe({ core_ingredients: [benignName], optional_ingredients: [], substitution_slots: [] });
+  const [benignSelection] = selectRecipeCandidates(fixtureLib([benignRecipe], benignAliases), { pantry: [benignName], dislikes: [] });
+  const benignMeal = { ingredients: [{ name: benignName, grams: 120 }], steps: [`${benignName}翻炒至表面变色。`] };
+  const benignFlag = `high_risk_not_cooked:${benignName}`;
+
+  assert.ok(validateGroundedMeal(benignMeal, benignSelection, { dislikes: [] }).includes(benignFlag));
+  assert.equal(repairGroundedMealSafety(benignMeal, benignSelection, { dislikes: [] }), 1);
+  assert.match(benignMeal.steps.at(-1), /原锅.*库存食材鸡.*熟透.*中心不见粉红/);
+  assert.equal(validateGroundedMeal(benignMeal, benignSelection, { dislikes: [] }).includes(benignFlag), false);
+});
+
 test('safety tail positive raw-risk classifier routes audited egg variants to the egg endpoint', () => {
   const rawCases = [
     ...['鸡胸', '鸡肉', '火鸡', '猪肉', '猪里脊'].map(name => ({

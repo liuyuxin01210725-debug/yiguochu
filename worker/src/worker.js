@@ -943,6 +943,32 @@ function validationRawRiskCategoryForForm(form) {
   return '';
 }
 
+function validationResolveRawAlias(name, aliases) {
+  const normalized = new Map();
+  if (aliases && typeof aliases === 'object') {
+    for (const [rawKey, rawValue] of Object.entries(aliases)) {
+      const key = baseRecipeIngredient(rawKey);
+      const value = baseRecipeIngredient(rawValue);
+      if (key && value && !normalized.has(key)) normalized.set(key, { rawValue, value });
+    }
+  }
+
+  const bare = validationFormName(name).replace(/\(.*?\)/g, '');
+  const initial = VALIDATION_CANONICAL_FORMS.get(bare) || name;
+  const firstSeen = new Set();
+  let current = baseRecipeIngredient(initial);
+  while (normalized.has(current)) {
+    if (firstSeen.has(current)) return { canonical: current, classifiable: false };
+    firstSeen.add(current);
+    const edge = normalized.get(current);
+    if (VALIDATION_PREPARED_STATE_MARKER_RE.test(validationFormName(edge.rawValue))) {
+      return { canonical: current, classifiable: false };
+    }
+    current = edge.value;
+  }
+  return { canonical: current, classifiable: true };
+}
+
 function validationRawRiskCategory(name, aliases) {
   const exactNormalized = validationFormName(name);
   if (!exactNormalized || VALIDATION_PREPARED_STATE_MARKER_RE.test(exactNormalized)) return '';
@@ -951,8 +977,10 @@ function validationRawRiskCategory(name, aliases) {
   if (validationCookingOilIngredient(exact) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(exact)) return '';
   const exactCategory = validationRawRiskCategoryForForm(exact);
   if (exactCategory) return exactCategory;
-  const canonicalNormalized = validationFormName(validationCanonicalIngredient(name, aliases));
-  if (!canonicalNormalized || VALIDATION_PREPARED_STATE_MARKER_RE.test(canonicalNormalized)) return '';
+  const resolved = validationResolveRawAlias(name, aliases);
+  if (!resolved.classifiable) return '';
+  const canonicalNormalized = validationFormName(resolved.canonical);
+  if (!canonicalNormalized) return '';
   const canonical = validationRawRiskForm(canonicalNormalized);
   if (!canonical || canonical === exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(canonical)) return '';
   if (validationCookingOilIngredient(canonical) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(canonical)) return '';

@@ -1070,6 +1070,31 @@ def _validation_raw_risk_category_for_form(form):
     return ''
 
 
+def _validation_resolve_raw_alias(name, aliases):
+    normalized = {}
+    if isinstance(aliases, dict):
+        for raw_key, raw_value in aliases.items():
+            key = base_recipe_ingredient(raw_key)
+            value = base_recipe_ingredient(raw_value)
+            if key and value and key not in normalized:
+                normalized[key] = {'raw_value': raw_value, 'value': value}
+
+    bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
+    initial = _VALIDATION_CANONICAL_FORMS.get(bare, name)
+    first_seen = set()
+    current = base_recipe_ingredient(initial)
+    while current in normalized:
+        if current in first_seen:
+            return {'canonical': current, 'classifiable': False}
+        first_seen.add(current)
+        edge = normalized[current]
+        if _VALIDATION_PREPARED_STATE_MARKER_RE.search(
+                _validation_form_name(edge['raw_value'])):
+            return {'canonical': current, 'classifiable': False}
+        current = edge['value']
+    return {'canonical': current, 'classifiable': True}
+
+
 def _validation_raw_risk_category(name, aliases):
     exact_normalized = _validation_form_name(name)
     if (not exact_normalized
@@ -1084,9 +1109,11 @@ def _validation_raw_risk_category(name, aliases):
     exact_category = _validation_raw_risk_category_for_form(exact)
     if exact_category:
         return exact_category
-    canonical_normalized = _validation_form_name(_validation_canonical_ingredient(name, aliases))
-    if (not canonical_normalized
-            or _VALIDATION_PREPARED_STATE_MARKER_RE.search(canonical_normalized)):
+    resolved = _validation_resolve_raw_alias(name, aliases)
+    if not resolved['classifiable']:
+        return ''
+    canonical_normalized = _validation_form_name(resolved['canonical'])
+    if not canonical_normalized:
         return ''
     canonical = _validation_raw_risk_form(canonical_normalized)
     if (not canonical or canonical == exact
