@@ -912,7 +912,7 @@ function groundedSafetyEndpoint(name, aliases) {
   return `继续在原锅加热${name}至熟透`;
 }
 
-const VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = /(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料)$/;
+const VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = /(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$/;
 
 function validationRepairableHighRiskIngredient(name, aliases) {
   const forms = [name, validationCanonicalIngredient(name, aliases)]

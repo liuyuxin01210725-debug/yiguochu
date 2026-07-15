@@ -497,6 +497,8 @@ test('safety tail repairs only mentioned high-risk endpoints and is idempotent',
 test('safety tail leaves cooking oils and non-raw high-risk categories byte-equivalent with flags visible', () => {
   const excludedCases = [
     { name: '猪油' },
+    { name: '鱼油' },
+    { name: '鸡油' },
     { name: '鱼高汤' },
     { name: '鱼露' },
     { name: '虾酱' },
