@@ -253,8 +253,25 @@ const VALIDATION_COOKING_OIL_NAMES = new Set([
   '椰子油', '棕榈油', '葡萄籽油', '亚麻籽油',
 ]);
 const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
-  `(?:热油(?!菜)|(?:加|下|倒入?|放入|淋入)(?:少许|适量|一点|些许)?(?:${[...VALIDATION_COOKING_OIL_NAMES].sort((a, b) => b.length - a.length).join('|')}|油)(?!菜))`,
+  `(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?(?:${[...VALIDATION_COOKING_OIL_NAMES].sort((a, b) => b.length - a.length).join('|')}|油)(?!菜))`,
 );
+const VALIDATION_GENERIC_COOKING_OIL_ACTION_RE = /(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?油(?!菜))/;
+const VALIDATION_ACTION_NEGATION_RE = /(?:不需要|无需|不用|不要|避免|禁止|切勿|不可|未|不)(?:(?:再|另行)?(?:另(?:起|取|用)(?:一口|一只|一个|一)?|使用|用|加|放|下|倒入?|刷上?|抹上?|留底)?)?$/;
+const VALIDATION_EXPLICIT_SECOND_VESSEL_RE = /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)/;
+
+function validationActionNegated(text, actionIndex) {
+  const prefix = String(text || '').slice(Math.max(0, actionIndex - 18), actionIndex);
+  return VALIDATION_ACTION_NEGATION_RE.test(prefix);
+}
+
+function validationActiveActionMatches(text, pattern) {
+  const matches = [];
+  const re = new RegExp(pattern.source, 'g');
+  for (const match of String(text || '').matchAll(re)) {
+    if (!validationActionNegated(text, match.index)) matches.push(match);
+  }
+  return matches;
+}
 
 function validationControlledTokens(name) {
   const normalized = validationFormName(name);
@@ -262,11 +279,12 @@ function validationControlledTokens(name) {
   if (['鸡胸肉', '去骨鸡腿肉', '鸡腿肉'].includes(bare)) {
     return ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'];
   }
-  if (['猪瘦肉', '瘦猪肉'].includes(bare)) return ['猪肉', '瘦肉', '里脊', '肉丝'];
+  if (['猪瘦肉', '瘦猪肉'].includes(bare)) return ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块'];
   if (bare === '大米') return ['米饭', '米'];
   if (bare === '大蒜') return ['蒜蓉', '蒜末', '蒜'];
   if (VALIDATION_COOKING_OIL_NAMES.has(bare)) return ['油'];
-  if (bare.includes('白豆') && /(?:罐头|沥干)/.test(normalized)) return ['白豆'];
+  if (bare.includes('白芸豆') && /(?:罐头|罐装|沥干)/.test(normalized)) return ['白芸豆'];
+  if (bare.includes('白豆') && /(?:罐头|罐装|沥干)/.test(normalized)) return ['白豆'];
   return [];
 }
 
@@ -281,7 +299,7 @@ function validationCookingOilIngredient(name) {
 
 function validationStepUsesCookingOil(step) {
   const text = validationFormName(step);
-  return VALIDATION_COOKING_OIL_ACTION_RE.test(text);
+  return validationActiveActionMatches(text, VALIDATION_COOKING_OIL_ACTION_RE).length > 0;
 }
 
 function validationSearchTokens(name, aliases) {
@@ -299,6 +317,8 @@ function validationSearchTokens(name, aliases) {
 
 function validationTokenPositions(text, token) {
   const positions = [];
+  const activeOilPositions = token === '油' ? new Set(validationActiveActionMatches(text, VALIDATION_GENERIC_COOKING_OIL_ACTION_RE)
+    .map(match => match.index + match[0].lastIndexOf('油'))) : null;
   let offset = 0;
   while (offset <= text.length - token.length) {
     const index = text.indexOf(token, offset);
@@ -307,11 +327,13 @@ function validationTokenPositions(text, token) {
     const negated = /(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$/.test(prefix);
     const blockedShortForm = (token === '米' || token === '米饭') && /[玉小]/.test(text[index - 1] || '');
     const blockedGarlicGreen = token === '蒜' && /^(?:苗|苔|薹)/.test(text.slice(index + token.length));
-    const oilPrefix = text.slice(Math.max(0, index - 10), index);
-    const cookingOilMention = /(?:加|下|倒入|放入|淋入|刷上|抹上)(?:少许|适量|一点|些许)?$/.test(oilPrefix)
-      || (text[index - 1] === '热' && text[index + token.length] !== '菜');
-    const blockedCookingOil = token === '油' && !cookingOilMention;
-    if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedCookingOil) positions.push(index);
+    const blockedChickenSpecies = ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'].includes(token)
+      && text[index - 1] === '火';
+    const blockedPorkSpecies = ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块'].includes(token)
+      && /[牛羊鸡鸭鹅鱼]/.test(text[index - 1] || '');
+    const blockedCookingOil = token === '油' && !activeOilPositions.has(index);
+    if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies
+      && !blockedPorkSpecies && !blockedCookingOil) positions.push(index);
     offset = index + token.length;
   }
   return positions;
@@ -326,11 +348,11 @@ function validationStepMentions(step, name, aliases) {
   return validationSearchTokens(name, aliases).some(token => validationTokenMentioned(text, token));
 }
 
-const VALIDATION_COOKED_RE = /(?:中心不见粉红|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟)/;
+const VALIDATION_COOKED_RE = /(?:中心不见粉红|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)/;
 const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
 const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
-const VALIDATION_FUTURE_COOKING_PREFIX_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)$/;
 const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
+const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
 
 function validationClauseCooksTarget(clause, name, aliases) {
   const text = String(clause || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/[\s_-]+/g, '');
@@ -339,13 +361,13 @@ function validationClauseCooksTarget(clause, name, aliases) {
   const cookedRe = new RegExp(VALIDATION_COOKED_RE.source, 'g');
   for (const cooked of text.matchAll(cookedRe)) {
     const cookedEnd = cooked.index + cooked[0].length;
-    const futurePrefix = text.slice(Math.max(0, cooked.index - 10), cooked.index);
+    const futurePrefix = text.slice(0, cooked.index);
     const futureSuffix = text.slice(cookedEnd, cookedEnd + 10);
-    if (VALIDATION_FUTURE_COOKING_PREFIX_RE.test(futurePrefix)
+    if (VALIDATION_FUTURE_COOKING_MARKER_RE.test(futurePrefix)
       || VALIDATION_FUTURE_COOKING_SUFFIX_RE.test(futureSuffix)) continue;
     const targetIsRice = validationSearchTokens(name, aliases).some(token => token === '大米' || token === '米饭' || token === '米');
-    const cookedPrefix = text.slice(Math.max(0, cooked.index - 3), cooked.index);
-    if (!targetIsRice && /(?:米|米饭)$/.test(cookedPrefix)) continue;
+    const cookedPrefix = text.slice(0, cooked.index);
+    if (!targetIsRice && /(?:大米|米饭|米|饭)(?:(?:完全|彻底|全部|基本|已经|已))*$/.test(cookedPrefix)) continue;
     const belongsToEarlierIngredient = targetPositions.some(targetIndex => (
       targetIndex >= cookedEnd
       && VALIDATION_DELAYED_ADD_RE.test(text.slice(cookedEnd, targetIndex))
@@ -423,13 +445,13 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
       const vessels = [...clause.matchAll(/(?:电饭锅|炒锅|平底锅|汤锅)/g)];
       if (vessels.length > 1 && /(?:或|或者|任选|二选一)/.test(clause)) continue;
       for (const vessel of vessels) {
-        const prefix = clause.slice(Math.max(0, vessel.index - 8), vessel.index);
-        if (/(?:不用|不使用|不要使用|无需使用|未使用|避免使用)$/.test(prefix)) continue;
+        if (validationActionNegated(clause, vessel.index)) continue;
         namedVessels.add(vessel[0]);
       }
     }
   }
-  if (steps.some(step => /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)/.test(step.replace(/\s+/g, ''))) || namedVessels.size > 1) {
+  if (steps.some(step => validationActiveActionMatches(step.replace(/\s+/g, ''), VALIDATION_EXPLICIT_SECOND_VESSEL_RE).length > 0)
+    || namedVessels.size > 1) {
     flags.add('multi_pot_step');
   }
   return [...flags];

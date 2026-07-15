@@ -461,6 +461,69 @@ test('Python validator matches future-endpoint and cooking-oil integrity rules',
   }
 });
 
+test('Python validator matches review fixes for active actions, species, future windows, and vessels', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['大米', '鸡肉'], dislikes: [] };
+  const cases = [
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['大米煮熟，全程不加油。'] },
+      absent: ['step_ingredient_missing:烹调油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['锅底刷油，加入大米。'] },
+      present: ['step_ingredient_missing:烹调油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }, { name: '植物油' }], steps: ['倒入橄榄油，加入大米。'] },
+      present: ['ingredient_missing_in_steps:植物油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }, { name: '植物油' }], steps: ['加入植物油，加入大米。'] },
+      absent: ['ingredient_missing_in_steps:植物油'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['加入橄榄油，加入大米。'] },
+      present: ['step_ingredient_missing:烹调油'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡胸肉' }], steps: ['火鸡肉炒熟。'] },
+      present: ['ingredient_missing_in_steps:鸡胸肉', 'high_risk_not_cooked:鸡胸肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '猪瘦肉（里脊）' }], steps: ['肉丁炒熟。'] },
+      absent: ['ingredient_missing_in_steps:猪瘦肉（里脊）', 'high_risk_not_cooked:猪瘦肉（里脊）'],
+    },
+    {
+      meal: { ingredients: [{ name: '白芸豆罐头（沥干）' }], steps: ['加入沥干白芸豆。'] },
+      absent: ['ingredient_missing_in_steps:白芸豆罐头（沥干）'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡肉' }], steps: ['稍后把鸡肉焖熟。'] },
+      present: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: ['鸡肉和大米焖到米饭完全熟透。'] },
+      present: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['电饭锅煮饭。', '不要另起汤锅。'] },
+      absent: ['multi_pot_step'],
+    },
+    {
+      meal: { ingredients: [{ name: '大米' }], steps: ['电饭锅煮饭。', '另起汤锅煮汤。'] },
+      present: ['multi_pot_step'],
+    },
+  ];
+  for (const { meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), flag);
+    for (const flag of absent) assert.equal(py.includes(flag), false, flag);
+  }
+});
+
 test('Python no-network preparation matches Worker prompt and overwrites forged trusted metadata', async () => {
   const recipe = groundedRecipe();
   const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
