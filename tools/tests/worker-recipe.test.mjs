@@ -494,6 +494,59 @@ test('safety tail repairs only mentioned high-risk endpoints and is idempotent',
   );
 });
 
+test('safety tail leaves cooking oils and non-raw high-risk categories byte-equivalent with flags visible', () => {
+  const excludedCases = [
+    { name: '猪油' },
+    { name: '鱼高汤' },
+    { name: '鱼露' },
+    { name: '虾酱' },
+    { name: '鸡精' },
+    { name: '海鲜底味', aliases: { '海鲜底味': '鱼高汤' } },
+  ];
+
+  const observations = excludedCases.map(({ name, aliases = {} }) => {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 30 }], steps: [`原锅加热${name}至表面变化。`] };
+    const expectedFlag = `high_risk_not_cooked:${name}`;
+    const stepsBefore = JSON.stringify(meal.steps);
+
+    const flagBefore = validateGroundedMeal(meal, selection, { dislikes: [] }).includes(expectedFlag);
+    const repairCount = repairGroundedMealSafety(meal, selection, { dislikes: [] });
+    const stepsByteEquivalent = JSON.stringify(meal.steps) === stepsBefore;
+    const flagAfter = validateGroundedMeal(meal, selection, { dislikes: [] }).includes(expectedFlag);
+    return { name, flagBefore, repairCount, stepsByteEquivalent, flagAfter };
+  });
+
+  assert.deepEqual(observations, excludedCases.map(({ name }) => ({
+    name,
+    flagBefore: true,
+    repairCount: 0,
+    stepsByteEquivalent: true,
+    flagAfter: true,
+  })));
+});
+
+test('safety tail still repairs raw poultry pork shrimp and ordinary egg', () => {
+  const rawCases = [
+    { name: '鸡胸肉', aliases: { '鸡胸肉': '鸡肉' } },
+    { name: '猪肉' },
+    { name: '虾仁' },
+    { name: '鸡蛋' },
+  ];
+
+  for (const { name, aliases = {} } of rawCases) {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`${name}翻炒至表面变色。`] };
+    const expectedFlag = `high_risk_not_cooked:${name}`;
+
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(expectedFlag), name);
+    assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 1, name);
+    assert.equal(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(expectedFlag), false, name);
+  }
+});
+
 test('safety tail uses the exact egg and seafood endpoints', () => {
   const endpointCases = [
     { name: '鸡蛋', unsafe: '鸡蛋熟透但蛋黄流心。', endpoint: /原锅.*鸡蛋.*熟透.*蛋白和蛋黄完全凝固.*不得流心/ },

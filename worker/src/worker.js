@@ -912,6 +912,17 @@ function groundedSafetyEndpoint(name, aliases) {
   return `继续在原锅加热${name}至熟透`;
 }
 
+const VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = /(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料)$/;
+
+function validationRepairableHighRiskIngredient(name, aliases) {
+  const forms = [name, validationCanonicalIngredient(name, aliases)]
+    .map(item => validationFormName(item).replace(/\(.*?\)/g, ''))
+    .filter(Boolean);
+  return !forms.some(item => (
+    validationCookingOilIngredient(item) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(item)
+  ));
+}
+
 function repairGroundedMealSafety(meal, selection, constraints = {}) {
   const aliases = selection?.ingredientAliases || {};
   const ingredientNames = validationIngredientNames(meal);
@@ -921,6 +932,7 @@ function repairGroundedMealSafety(meal, selection, constraints = {}) {
     .filter(flag => flag.startsWith(prefix))
     .map(flag => flag.slice(prefix.length)))]
     .filter(name => ingredientNames.includes(name))
+    .filter(name => validationRepairableHighRiskIngredient(name, aliases))
     .filter(name => steps.some(step => validationStepMentions(step, name, aliases)));
 
   if (!names.length) return 0;
