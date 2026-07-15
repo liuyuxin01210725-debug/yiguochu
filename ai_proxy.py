@@ -536,11 +536,14 @@ def _validation_step_uses_cooking_oil(step):
 
 def _validation_search_tokens(name, aliases):
     canonical = _validation_canonical_ingredient(name, aliases)
+    target_bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
     tokens = {item for item in (base_recipe_ingredient(name), canonical, *_validation_controlled_tokens(name)) if item}
     if isinstance(aliases, dict):
         for alias in aliases:
-            if _validation_canonical_ingredient(alias, aliases) == canonical:
-                tokens.add(base_recipe_ingredient(alias))
+            alias_token = base_recipe_ingredient(alias)
+            conflicting_pepper_color = target_bare == '红甜椒' and re.fullmatch(r'(?:青椒|[黄绿橙]甜椒)', alias_token)
+            if not conflicting_pepper_color and _validation_canonical_ingredient(alias, aliases) == canonical:
+                tokens.add(alias_token)
     if '鸡蛋' in tokens:
         tokens.add('蛋液')
     if '蛋液' in tokens:
@@ -550,11 +553,11 @@ def _validation_search_tokens(name, aliases):
 
 _VALIDATION_NEGATED_RE = re.compile(r'(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$')
 _VALIDATION_COOKED_RE = re.compile(r'(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)')
-_VALIDATION_COOKED_NEGATION_RE = re.compile(r'(?:并非|不是|尚未|还未|未|没有|没能|不能|无法)(?:已经|已|达到|达|确认|保证)?$')
+_VALIDATION_COOKED_NEGATION_RE = re.compile(r'(?:并非|不是|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|真正|实际)*(?:达到|达|确认|保证)?$')
 _VALIDATION_UNHEATED_RELATION_RE = re.compile(r'(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)')
 _VALIDATION_DELAYED_ADD_RE = re.compile(r'(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$')
 _VALIDATION_FUTURE_COOKING_SUFFIX_RE = re.compile(r'^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)')
-_VALIDATION_FUTURE_COOKING_MARKER_RE = re.compile(r'(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)')
+_VALIDATION_FUTURE_COOKING_MARKER_RE = re.compile(r'(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?)')
 _VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)')
 _VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
 _VALIDATION_GENERIC_MEAT_BOUNDARY_RE = re.compile(r'(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$')
@@ -600,9 +603,13 @@ def _validation_token_positions(text, token):
                                 and index > 0 and text[index - 1] in '牛羊鸡鸭鹅鱼')
         blocked_cooking_oil = token == '油' and index not in active_oil_positions
         token_suffix = text[index + len(token):]
+        token_prefix = text[index - 1] if index > 0 else ''
         blocked_controlled_form = (
-            (token in ('蘑菇', '黑眼豆') and re.match(r'(?:酱|粉|汤料)', token_suffix))
-            or (token == '甜椒' and index > 0 and text[index - 1] in '黄绿橙')
+            (token in ('白蘑菇', '干黑眼豆', '红甜椒', '蘑菇', '黑眼豆', '甜椒')
+             and re.match(r'(?:酱|粉|汤料)', token_suffix))
+            or (token == '蘑菇' and bool(token_prefix) and token_prefix in '白毒')
+            or (token == '黑眼豆' and token_prefix == '干')
+            or (token == '甜椒' and bool(token_prefix) and token_prefix in '红青黄绿橙')
         )
         if (not negated and not blocked_short_form and not blocked_garlic_green
                 and not blocked_chicken_species and not blocked_generic_meat_form
@@ -624,6 +631,7 @@ def _validation_clause_cooks_target(clause, name, aliases):
         for token in _validation_search_tokens(name, aliases)
         for position in _validation_token_positions(text, token)
     ]
+    unheated_relation = _VALIDATION_UNHEATED_RELATION_RE.search(text)
     for cooked in _VALIDATION_COOKED_RE.finditer(text):
         cooked_end = cooked.end()
         cooked_prefix = text[:cooked.start()]
@@ -633,6 +641,8 @@ def _validation_clause_cooks_target(clause, name, aliases):
                 or _VALIDATION_FUTURE_COOKING_SUFFIX_RE.search(future_suffix)):
             continue
         if _VALIDATION_COOKED_NEGATION_RE.search(cooked_prefix):
+            continue
+        if unheated_relation and unheated_relation.start() <= cooked.start():
             continue
         target_is_rice = any(token in ('大米', '米饭', '米') for token in _validation_search_tokens(name, aliases))
         if not target_is_rice and re.search(r'(?:大米|米饭|米|饭)(?:(?:完全|彻底|全部|基本|已经|已))*$', cooked_prefix):

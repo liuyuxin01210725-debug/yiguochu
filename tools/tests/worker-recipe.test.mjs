@@ -624,25 +624,35 @@ test('an achieved poultry endpoint still counts before the cooked meat is set as
   }, selection, { dislikes: [] });
   assert.equal(achieved.includes('high_risk_not_cooked:火鸡肉'), false);
 
-  const merelyReserved = validateGroundedMeal({
-    ingredients: [{ name: '火鸡肉' }],
-    steps: ['火鸡肉盛出备用。'],
-  }, selection, { dislikes: [] });
-  assert.ok(merelyReserved.includes('high_risk_not_cooked:火鸡肉'));
+  for (const step of [
+    '火鸡肉盛出备用。',
+    '火鸡肉盛出备用至熟透。',
+    '火鸡肉炒至表面变色，盛出备用至完全熟透。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '火鸡肉' }], steps: [step] }, selection, { dislikes: [] });
+    assert.ok(flags.includes('high_risk_not_cooked:火鸡肉'), step);
+  }
 });
 
 test('center-has-no-pink is a finite achieved endpoint, not a future, negated, or surface claim', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉'] });
   const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉'], dislikes: [] });
-  const achieved = validateGroundedMeal({
-    ingredients: [{ name: '鸡肉' }],
-    steps: ['鸡肉中心无粉红色。'],
-  }, selection, { dislikes: [] });
-  assert.equal(achieved.includes('high_risk_not_cooked:鸡肉'), false);
+  for (const step of [
+    '鸡肉中心无粉红色。',
+    '鸡肉已经达到中心无粉红色。',
+    '鸡肉完全达到中心无粉红色。',
+    '最终确认鸡肉中心无粉红色。',
+  ]) {
+    const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }], steps: [step] }, selection, { dislikes: [] });
+    assert.equal(flags.includes('high_risk_not_cooked:鸡肉'), false, step);
+  }
 
   for (const step of [
     '稍后确认鸡肉中心无粉红色。',
     '鸡肉并非中心无粉红色。',
+    '鸡肉还没达到中心无粉红色。',
+    '鸡肉尚未完全达到中心无粉红色。',
+    '鸡肉未来应达到中心无粉红色。',
     '鸡肉表面无粉红色。',
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }], steps: [step] }, selection, { dislikes: [] });
@@ -767,7 +777,7 @@ test('postfixed boneless chicken-thigh wording stays equivalent to chicken witho
 
 test('finite produce and dry-state forms count without accepting sauces or another pepper color', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
-  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], { 青椒: '甜椒' }), { pantry: ['大米'], dislikes: [] });
   for (const [name, step] of [
     ['白蘑菇', '蘑菇切片后炒香。'],
     ['干黑眼豆', '黑眼豆浸泡后煮熟。'],
@@ -779,8 +789,16 @@ test('finite produce and dry-state forms count without accepting sauces or anoth
 
   for (const [name, step] of [
     ['白蘑菇', '加入蘑菇酱调味。'],
+    ['白蘑菇', '不放白蘑菇。'],
+    ['白蘑菇', '白蘑菇酱调味。'],
+    ['白蘑菇', '毒蘑菇切片。'],
     ['干黑眼豆', '加入黑眼豆酱调味。'],
-    ['红甜椒', '黄甜椒丁炒香。'],
+    ['干黑眼豆', '不放干黑眼豆。'],
+    ['干黑眼豆', '干黑眼豆酱调味。'],
+    ['红甜椒', '不放红甜椒。'],
+    ['红甜椒', '红甜椒酱调味。'],
+    ['红甜椒', '青椒丁炒香。'],
+    ...['青', '黄', '绿', '橙'].map(color => ['红甜椒', `${color}甜椒丁炒香。`]),
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
     assert.ok(flags.includes(`ingredient_missing_in_steps:${name}`), `${name}: ${step}`);

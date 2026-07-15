@@ -319,10 +319,13 @@ function validationStepUsesCookingOil(step) {
 
 function validationSearchTokens(name, aliases) {
   const canonical = validationCanonicalIngredient(name, aliases);
+  const targetBare = validationFormName(name).replace(/\(.*?\)/g, '');
   const tokens = new Set([baseRecipeIngredient(name), canonical, ...validationControlledTokens(name)].filter(Boolean));
   if (aliases && typeof aliases === 'object') {
     for (const alias of Object.keys(aliases)) {
-      if (validationCanonicalIngredient(alias, aliases) === canonical) tokens.add(baseRecipeIngredient(alias));
+      const aliasToken = baseRecipeIngredient(alias);
+      const conflictingPepperColor = targetBare === '红甜椒' && /^(?:青椒|[黄绿橙]甜椒)$/.test(aliasToken);
+      if (!conflictingPepperColor && validationCanonicalIngredient(alias, aliases) === canonical) tokens.add(aliasToken);
     }
   }
   if (tokens.has('鸡蛋')) tokens.add('蛋液');
@@ -350,8 +353,12 @@ function validationTokenPositions(text, token) {
       && /[牛羊鸡鸭鹅鱼]/.test(text[index - 1] || '');
     const blockedCookingOil = token === '油' && !activeOilPositions.has(index);
     const tokenSuffix = text.slice(index + token.length);
-    const blockedControlledForm = ((token === '蘑菇' || token === '黑眼豆') && /^(?:酱|粉|汤料)/.test(tokenSuffix))
-      || (token === '甜椒' && /[黄绿橙]/.test(text[index - 1] || ''));
+    const tokenPrefix = text[index - 1] || '';
+    const blockedControlledForm = (['白蘑菇', '干黑眼豆', '红甜椒', '蘑菇', '黑眼豆', '甜椒'].includes(token)
+      && /^(?:酱|粉|汤料)/.test(tokenSuffix))
+      || (token === '蘑菇' && /[白毒]/.test(tokenPrefix))
+      || (token === '黑眼豆' && tokenPrefix === '干')
+      || (token === '甜椒' && /[红青黄绿橙]/.test(tokenPrefix));
     if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies && !blockedGenericMeatForm
       && !blockedPorkSpecies && !blockedCookingOil && !blockedControlledForm) positions.push(index);
     offset = index + token.length;
@@ -369,11 +376,11 @@ function validationStepMentions(step, name, aliases) {
 }
 
 const VALIDATION_COOKED_RE = /(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)/;
-const VALIDATION_COOKED_NEGATION_RE = /(?:并非|不是|尚未|还未|未|没有|没能|不能|无法)(?:已经|已|达到|达|确认|保证)?$/;
+const VALIDATION_COOKED_NEGATION_RE = /(?:并非|不是|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|真正|实际)*(?:达到|达|确认|保证)?$/;
 const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
 const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
 const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
-const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
+const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?)/;
 const VALIDATION_GENERIC_MEAT_FORMS = new Set(['肉丝', '肉丁', '肉片', '肉块']);
 const VALIDATION_GENERIC_MEAT_BOUNDARY_RE = /(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$/;
 
@@ -399,6 +406,7 @@ function validationClauseCooksTarget(clause, name, aliases) {
   const text = String(clause || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/[\s_-]+/g, '');
   const targetPositions = validationSearchTokens(name, aliases)
     .flatMap(token => validationTokenPositions(text, token));
+  const unheatedRelation = text.match(VALIDATION_UNHEATED_RELATION_RE);
   const cookedRe = new RegExp(VALIDATION_COOKED_RE.source, 'g');
   for (const cooked of text.matchAll(cookedRe)) {
     const cookedEnd = cooked.index + cooked[0].length;
@@ -408,6 +416,7 @@ function validationClauseCooksTarget(clause, name, aliases) {
     if (VALIDATION_FUTURE_COOKING_MARKER_RE.test(futurePrefix)
       || VALIDATION_FUTURE_COOKING_SUFFIX_RE.test(futureSuffix)) continue;
     if (VALIDATION_COOKED_NEGATION_RE.test(cookedPrefix)) continue;
+    if (unheatedRelation && unheatedRelation.index <= cooked.index) continue;
     const targetIsRice = validationSearchTokens(name, aliases).some(token => token === '大米' || token === '米饭' || token === '米');
     if (!targetIsRice && /(?:大米|米饭|米|饭)(?:(?:完全|彻底|全部|基本|已经|已))*$/.test(cookedPrefix)) continue;
     const belongsToEarlierIngredient = targetPositions.some(targetIndex => (

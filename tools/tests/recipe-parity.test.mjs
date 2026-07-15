@@ -565,7 +565,7 @@ test('Python validator matches finite generic pork-form boundaries', () => {
 
 test('Python validator matches finite live-smoke false-positive corrections', () => {
   const recipe = groundedRecipe({ core_ingredients: ['鸡肉'] });
-  const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
+  const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉', 青椒: '甜椒' });
   const constraints = { pantry: ['鸡肉'], dislikes: [] };
   const cases = [
     {
@@ -576,13 +576,28 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
       meal: { ingredients: [{ name: '火鸡肉' }], steps: ['火鸡肉备用。'] },
       present: ['high_risk_not_cooked:火鸡肉'],
     },
-    {
-      meal: { ingredients: [{ name: '鸡肉' }], steps: ['鸡肉中心无粉红色。'] },
+    ...[
+      '火鸡肉盛出备用至熟透。',
+      '火鸡肉炒至表面变色，盛出备用至完全熟透。',
+    ].map(step => ({
+      meal: { ingredients: [{ name: '火鸡肉' }], steps: [step] },
+      present: ['high_risk_not_cooked:火鸡肉'],
+    })),
+    ...[
+      '鸡肉中心无粉红色。',
+      '鸡肉已经达到中心无粉红色。',
+      '鸡肉完全达到中心无粉红色。',
+      '最终确认鸡肉中心无粉红色。',
+    ].map(step => ({
+      meal: { ingredients: [{ name: '鸡肉' }], steps: [step] },
       absent: ['high_risk_not_cooked:鸡肉'],
-    },
+    })),
     ...[
       '稍后确认鸡肉中心无粉红色。',
       '鸡肉并非中心无粉红色。',
+      '鸡肉还没达到中心无粉红色。',
+      '鸡肉尚未完全达到中心无粉红色。',
+      '鸡肉未来应达到中心无粉红色。',
       '鸡肉表面无粉红色。',
     ].map(step => ({
       meal: { ingredients: [{ name: '鸡肉' }], steps: [step] },
@@ -614,8 +629,16 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
     })),
     ...[
       ['白蘑菇', '加入蘑菇酱调味。'],
+      ['白蘑菇', '不放白蘑菇。'],
+      ['白蘑菇', '白蘑菇酱调味。'],
+      ['白蘑菇', '毒蘑菇切片。'],
       ['干黑眼豆', '加入黑眼豆酱调味。'],
-      ['红甜椒', '黄甜椒丁炒香。'],
+      ['干黑眼豆', '不放干黑眼豆。'],
+      ['干黑眼豆', '干黑眼豆酱调味。'],
+      ['红甜椒', '不放红甜椒。'],
+      ['红甜椒', '红甜椒酱调味。'],
+      ['红甜椒', '青椒丁炒香。'],
+      ...['青', '黄', '绿', '橙'].map(color => ['红甜椒', `${color}甜椒丁炒香。`]),
     ].map(([name, step]) => ({
       meal: { ingredients: [{ name }], steps: [step] },
       present: [`ingredient_missing_in_steps:${name}`],
