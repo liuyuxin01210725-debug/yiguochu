@@ -282,6 +282,25 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     expectedRepaired: 0,
     retainedHighRisk: name,
   }));
+  const preparedStateCases = [
+    ['ready-chicken-parenthetical', '鸡胸肉（即食）', '鸡胸肉（即食）', {}],
+    ['ready-fish-parenthetical', '鱼片（即食）', '鱼片（即食）', {}],
+    ['smoked-salmon-parenthetical', '三文鱼（烟熏）', '三文鱼（烟熏）', {}],
+    ['cooked-egg-parenthetical', '鸡蛋（熟）', '鸡蛋', {}],
+    ['cooked-pork-parenthetical', '猪里脊（熟制）', '猪里脊', {}],
+    ['precooked-shrimp-parenthetical', '虾仁（预熟）', '虾仁', {}],
+    ['canned-crab-parenthetical', '蟹肉（罐装）', '蟹肉（罐装）', {}],
+    ['canned-fish-parenthetical', '鱼片（罐头）', '鱼片（罐头）', {}],
+    ['ready-alias-canonical-raw', '鸡肉小食（即食）', '鸡肉小食（即食）', { '鸡肉小食（即食）': '鸡肉' }],
+  ].map(([id, name, stepName, aliases]) => ({
+    id,
+    ingredients: [name],
+    aliases,
+    steps: [`原锅加热${stepName}至表面变化。`],
+    expectedRepaired: 0,
+    retainedHighRisk: name,
+    expectedStepsUnchanged: true,
+  }));
   const cases = [
     { id: 'chicken', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉炒至表面变色，加入大米焖至米熟。'], expectedRepaired: 1 },
     { id: 'pork', ingredients: ['猪肉'], aliases: {}, steps: ['猪肉炒至表面变色。'], expectedRepaired: 1 },
@@ -317,6 +336,15 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     { id: 'four-step', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉切块。', '鸡胸肉炒至表面变色。', '加入大米。', '焖至米熟。'], expectedRepaired: 1 },
     ...excludedCases,
     ...preparedCases,
+    ...preparedStateCases,
+    {
+      id: 'benign-parenthetical-raw-cut',
+      ingredients: ['鸡胸肉（切块）'],
+      aliases: {},
+      steps: ['鸡胸肉（切块）翻炒至表面变色。'],
+      expectedRepaired: 1,
+      endpoint: /原锅.*鸡胸肉（切块）.*熟透.*中心不见粉红/,
+    },
     {
       id: 'century-egg-validator-exempt',
       ingredients: ['皮蛋'],
@@ -365,6 +393,7 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
       );
     }
     const jsMeal = structuredClone(meal);
+    const stepsBefore = JSON.stringify(jsMeal.steps);
     const jsRepaired = repairGroundedMealSafety(jsMeal, selection, constraints);
     const py = pythonCall('repair', { library, constraints, meal });
 
@@ -374,6 +403,9 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     assert.deepEqual(py.meal.ingredients, jsMeal.ingredients, item.id);
     assert.equal(py.meal.prep_minutes, jsMeal.prep_minutes, item.id);
     assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints), item.id);
+    if (item.expectedStepsUnchanged) {
+      assert.equal(JSON.stringify(jsMeal.steps), stepsBefore, `${item.id}: steps byte-equivalent`);
+    }
     if (item.endpoint) assert.match(jsMeal.steps.at(-1), item.endpoint, `${item.id}: endpoint`);
     if (item.retainedHighRisk) {
       assert.ok(py.flags.includes(`high_risk_not_cooked:${item.retainedHighRisk}`), `${item.id}: flag retained`);

@@ -912,6 +912,7 @@ function groundedSafetyEndpoint(name, rawRiskCategory) {
 }
 
 const VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = /(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$/;
+const VALIDATION_PREPARED_STATE_MARKER_RE = /(?:即食|熟制|预熟|烟熏|罐装|罐头|熟)/;
 const VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS = new Set([
   '炸鸡', '鸡肉松', '鱼丸', '鱼罐头', '虾饺', '蟹棒',
   '皮蛋', '蛋黄酱', '蛋粉', '茶叶蛋', '咸鸭蛋',
@@ -943,12 +944,16 @@ function validationRawRiskCategoryForForm(form) {
 }
 
 function validationRawRiskCategory(name, aliases) {
-  const exact = validationRawRiskForm(name);
+  const exactNormalized = validationFormName(name);
+  if (!exactNormalized || VALIDATION_PREPARED_STATE_MARKER_RE.test(exactNormalized)) return '';
+  const exact = validationRawRiskForm(exactNormalized);
   if (!exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(exact)) return '';
   if (validationCookingOilIngredient(exact) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(exact)) return '';
   const exactCategory = validationRawRiskCategoryForForm(exact);
   if (exactCategory) return exactCategory;
-  const canonical = validationRawRiskForm(validationCanonicalIngredient(name, aliases));
+  const canonicalNormalized = validationFormName(validationCanonicalIngredient(name, aliases));
+  if (!canonicalNormalized || VALIDATION_PREPARED_STATE_MARKER_RE.test(canonicalNormalized)) return '';
+  const canonical = validationRawRiskForm(canonicalNormalized);
   if (!canonical || canonical === exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(canonical)) return '';
   if (validationCookingOilIngredient(canonical) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(canonical)) return '';
   return validationRawRiskCategoryForForm(canonical);

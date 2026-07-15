@@ -1035,6 +1035,7 @@ def _grounded_safety_endpoint(name, raw_risk_category):
 _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE = re.compile(
     r'(?:高汤|汤底|汤料|汤|露|酱|汁|膏|粉|精|调味料|油)$'
 )
+_VALIDATION_PREPARED_STATE_MARKER_RE = re.compile(r'(?:即食|熟制|预熟|烟熏|罐装|罐头|熟)')
 _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS = {
     '炸鸡', '鸡肉松', '鱼丸', '鱼罐头', '虾饺', '蟹棒',
     '皮蛋', '蛋黄酱', '蛋粉', '茶叶蛋', '咸鸭蛋',
@@ -1070,7 +1071,11 @@ def _validation_raw_risk_category_for_form(form):
 
 
 def _validation_raw_risk_category(name, aliases):
-    exact = _validation_raw_risk_form(name)
+    exact_normalized = _validation_form_name(name)
+    if (not exact_normalized
+            or _VALIDATION_PREPARED_STATE_MARKER_RE.search(exact_normalized)):
+        return ''
+    exact = _validation_raw_risk_form(exact_normalized)
     if not exact or exact in _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS:
         return ''
     if (_validation_cooking_oil_ingredient(exact)
@@ -1079,7 +1084,11 @@ def _validation_raw_risk_category(name, aliases):
     exact_category = _validation_raw_risk_category_for_form(exact)
     if exact_category:
         return exact_category
-    canonical = _validation_raw_risk_form(_validation_canonical_ingredient(name, aliases))
+    canonical_normalized = _validation_form_name(_validation_canonical_ingredient(name, aliases))
+    if (not canonical_normalized
+            or _VALIDATION_PREPARED_STATE_MARKER_RE.search(canonical_normalized)):
+        return ''
+    canonical = _validation_raw_risk_form(canonical_normalized)
     if (not canonical or canonical == exact
             or canonical in _VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS):
         return ''
