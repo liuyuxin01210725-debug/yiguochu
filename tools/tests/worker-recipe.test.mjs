@@ -641,6 +641,60 @@ test('safety tail traverses raw alias values marker-aware while preserving chain
   assert.equal(validateGroundedMeal(benignMeal, benignSelection, { dislikes: [] }).includes(benignFlag), false);
 });
 
+test('safety tail gives raw-key alias chains precedence over exact raw fallback', () => {
+  const cases = [
+    { id: 'prepared-chicken', name: '鸡肉', aliases: { '鸡肉': '鸡胸肉（即食）' }, expectedRepaired: 0 },
+    { id: 'prepared-fish', name: '鱼片', aliases: { '鱼片': '鱼片（罐头）' }, expectedRepaired: 0 },
+    { id: 'prepared-salmon', name: '三文鱼', aliases: { '三文鱼': '三文鱼（烟熏）' }, expectedRepaired: 0 },
+    {
+      id: 'prepared-multi-hop',
+      name: '鸡肉',
+      aliases: { ' 鸡 肉（别名） ': '中间肉', '中间肉': '鸡胸肉（即食）' },
+      expectedRepaired: 0,
+    },
+    { id: 'cycle', name: '鸡肉', aliases: { '鸡肉': '鸭肉', '鸭肉': '鸡肉' }, expectedRepaired: 0 },
+    { id: 'terminal-non-raw', name: '鸡肉', aliases: { '鸡肉': '豆腐' }, expectedRepaired: 0 },
+    {
+      id: 'terminal-raw',
+      name: '鱼片',
+      aliases: { '鱼片': '鸡蛋' },
+      expectedRepaired: 1,
+      endpoint: /原锅.*鱼片.*蛋白和蛋黄完全凝固.*不得流心/,
+    },
+    {
+      id: 'exact-raw-without-alias',
+      name: '鸡肉',
+      aliases: {},
+      expectedRepaired: 1,
+      endpoint: /原锅.*鸡肉.*中心不见粉红/,
+    },
+  ];
+
+  for (const { id, name, aliases, expectedRepaired, endpoint } of cases) {
+    const recipe = groundedFixtureRecipe({
+      id: `raw-key-${id}`,
+      core_ingredients: [name],
+      optional_ingredients: [],
+      substitution_slots: [],
+    });
+    const constraints = { pantry: [name], dislikes: [] };
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe], aliases), constraints);
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [`原锅加热${name}至表面变化。`] };
+    const flag = `high_risk_not_cooked:${name}`;
+    const stepsBefore = JSON.stringify(meal.steps);
+
+    assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: precondition`);
+    assert.equal(repairGroundedMealSafety(meal, selection, constraints), expectedRepaired, `${id}: count`);
+    if (expectedRepaired === 0) {
+      assert.equal(JSON.stringify(meal.steps), stepsBefore, `${id}: steps byte-equivalent`);
+      assert.ok(validateGroundedMeal(meal, selection, constraints).includes(flag), `${id}: flag retained`);
+    } else {
+      assert.match(meal.steps.at(-1), endpoint, `${id}: terminal category endpoint`);
+      assert.equal(validateGroundedMeal(meal, selection, constraints).includes(flag), false, `${id}: flag cleared`);
+    }
+  }
+});
+
 test('safety tail positive raw-risk classifier routes audited egg variants to the egg endpoint', () => {
   const rawCases = [
     ...['鸡胸', '鸡肉', '火鸡', '猪肉', '猪里脊'].map(name => ({

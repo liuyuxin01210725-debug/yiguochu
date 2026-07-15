@@ -1083,16 +1083,17 @@ def _validation_resolve_raw_alias(name, aliases):
     initial = _VALIDATION_CANONICAL_FORMS.get(bare, name)
     first_seen = set()
     current = base_recipe_ingredient(initial)
+    aliased = base_recipe_ingredient(name) in normalized
     while current in normalized:
         if current in first_seen:
-            return {'canonical': current, 'classifiable': False}
+            return {'canonical': current, 'classifiable': False, 'aliased': aliased}
         first_seen.add(current)
         edge = normalized[current]
         if _VALIDATION_PREPARED_STATE_MARKER_RE.search(
                 _validation_form_name(edge['raw_value'])):
-            return {'canonical': current, 'classifiable': False}
+            return {'canonical': current, 'classifiable': False, 'aliased': aliased}
         current = edge['value']
-    return {'canonical': current, 'classifiable': True}
+    return {'canonical': current, 'classifiable': True, 'aliased': aliased}
 
 
 def _validation_raw_risk_category(name, aliases):
@@ -1107,9 +1108,9 @@ def _validation_raw_risk_category(name, aliases):
             or _VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.search(exact)):
         return ''
     exact_category = _validation_raw_risk_category_for_form(exact)
-    if exact_category:
-        return exact_category
     resolved = _validation_resolve_raw_alias(name, aliases)
+    if exact_category and not resolved['aliased']:
+        return exact_category
     if not resolved['classifiable']:
         return ''
     canonical_normalized = _validation_form_name(resolved['canonical'])

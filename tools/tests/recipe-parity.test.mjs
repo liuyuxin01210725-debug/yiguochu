@@ -324,6 +324,42 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     expectedStepsUnchanged,
     endpoint: expectedRepaired === 1 ? /原锅.*库存食材鸡.*熟透.*中心不见粉红/ : undefined,
   }));
+  const rawKeyAliasCases = [
+    ['raw-key-prepared-chicken', '鸡肉', { '鸡肉': '鸡胸肉（即食）' }],
+    ['raw-key-prepared-fish', '鱼片', { '鱼片': '鱼片（罐头）' }],
+    ['raw-key-prepared-salmon', '三文鱼', { '三文鱼': '三文鱼（烟熏）' }],
+    ['raw-key-prepared-multi-hop', '鸡肉', { ' 鸡 肉（别名） ': '中间肉', '中间肉': '鸡胸肉（即食）' }],
+    ['raw-key-cycle', '鸡肉', { '鸡肉': '鸭肉', '鸭肉': '鸡肉' }],
+    ['raw-key-terminal-non-raw', '鸡肉', { '鸡肉': '豆腐' }],
+  ].map(([id, name, aliases]) => ({
+    id,
+    ingredients: [name],
+    aliases,
+    steps: [`原锅加热${name}至表面变化。`],
+    expectedRepaired: 0,
+    retainedHighRisk: name,
+    expectedStepsUnchanged: true,
+  }));
+  rawKeyAliasCases.push(
+    {
+      id: 'raw-key-terminal-raw',
+      ingredients: ['鱼片'],
+      aliases: { '鱼片': '鸡蛋' },
+      steps: ['原锅加热鱼片至表面变化。'],
+      expectedRepaired: 1,
+      clearedHighRisk: '鱼片',
+      endpoint: /原锅.*鱼片.*蛋白和蛋黄完全凝固.*不得流心/,
+    },
+    {
+      id: 'raw-exact-without-alias',
+      ingredients: ['鸡肉'],
+      aliases: {},
+      steps: ['原锅加热鸡肉至表面变化。'],
+      expectedRepaired: 1,
+      clearedHighRisk: '鸡肉',
+      endpoint: /原锅.*鸡肉.*中心不见粉红/,
+    },
+  );
   const cases = [
     { id: 'chicken', ingredients: ['鸡胸肉', '大米'], aliases: { '鸡胸肉': '鸡肉' }, steps: ['鸡胸肉炒至表面变色，加入大米焖至米熟。'], expectedRepaired: 1 },
     { id: 'pork', ingredients: ['猪肉'], aliases: {}, steps: ['猪肉炒至表面变色。'], expectedRepaired: 1 },
@@ -361,6 +397,7 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     ...preparedCases,
     ...preparedStateCases,
     ...markerAwareAliasCases,
+    ...rawKeyAliasCases,
     {
       id: 'benign-parenthetical-raw-cut',
       ingredients: ['鸡胸肉（切块）'],
@@ -433,6 +470,9 @@ test('Python safety repair matches Worker across endpoint and boundary cases', (
     if (item.endpoint) assert.match(jsMeal.steps.at(-1), item.endpoint, `${item.id}: endpoint`);
     if (item.retainedHighRisk) {
       assert.ok(py.flags.includes(`high_risk_not_cooked:${item.retainedHighRisk}`), `${item.id}: flag retained`);
+    }
+    if (item.clearedHighRisk) {
+      assert.equal(py.flags.includes(`high_risk_not_cooked:${item.clearedHighRisk}`), false, `${item.id}: flag cleared`);
     }
     if (item.validatorExempt) {
       assert.equal(

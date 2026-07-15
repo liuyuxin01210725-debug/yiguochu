@@ -957,16 +957,17 @@ function validationResolveRawAlias(name, aliases) {
   const initial = VALIDATION_CANONICAL_FORMS.get(bare) || name;
   const firstSeen = new Set();
   let current = baseRecipeIngredient(initial);
+  const aliased = normalized.has(baseRecipeIngredient(name));
   while (normalized.has(current)) {
-    if (firstSeen.has(current)) return { canonical: current, classifiable: false };
+    if (firstSeen.has(current)) return { canonical: current, classifiable: false, aliased };
     firstSeen.add(current);
     const edge = normalized.get(current);
     if (VALIDATION_PREPARED_STATE_MARKER_RE.test(validationFormName(edge.rawValue))) {
-      return { canonical: current, classifiable: false };
+      return { canonical: current, classifiable: false, aliased };
     }
     current = edge.value;
   }
-  return { canonical: current, classifiable: true };
+  return { canonical: current, classifiable: true, aliased };
 }
 
 function validationRawRiskCategory(name, aliases) {
@@ -976,8 +977,8 @@ function validationRawRiskCategory(name, aliases) {
   if (!exact || VALIDATION_PREPARED_HIGH_RISK_EXACT_FORMS.has(exact)) return '';
   if (validationCookingOilIngredient(exact) || VALIDATION_NON_RAW_HIGH_RISK_CATEGORY_RE.test(exact)) return '';
   const exactCategory = validationRawRiskCategoryForForm(exact);
-  if (exactCategory) return exactCategory;
   const resolved = validationResolveRawAlias(name, aliases);
+  if (exactCategory && !resolved.aliased) return exactCategory;
   if (!resolved.classifiable) return '';
   const canonicalNormalized = validationFormName(resolved.canonical);
   if (!canonicalNormalized) return '';
