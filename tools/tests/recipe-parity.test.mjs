@@ -565,7 +565,7 @@ test('Python validator matches finite generic pork-form boundaries', () => {
 
 test('Python validator matches finite live-smoke false-positive corrections', () => {
   const recipe = groundedRecipe({ core_ingredients: ['鸡肉'] });
-  const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉', 青椒: '甜椒' });
+  const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉', 青椒: '甜椒', 彩椒: '甜椒' });
   const constraints = { pantry: ['鸡肉'], dislikes: [] };
   const cases = [
     {
@@ -588,6 +588,7 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
       '鸡肉已经达到中心无粉红色。',
       '鸡肉完全达到中心无粉红色。',
       '最终确认鸡肉中心无粉红色。',
+      '鸡肉煮至中心无粉红色。',
     ].map(step => ({
       meal: { ingredients: [{ name: '鸡肉' }], steps: [step] },
       absent: ['high_risk_not_cooked:鸡肉'],
@@ -597,7 +598,16 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
       '鸡肉并非中心无粉红色。',
       '鸡肉还没达到中心无粉红色。',
       '鸡肉尚未完全达到中心无粉红色。',
+      '鸡肉尚未彻底达到中心无粉红色。',
+      '鸡肉中心无粉红色的状态尚未达到。',
+      '鸡肉中心无粉红色的标准仍未达到。',
+      '鸡肉中心无粉红色预计达到。',
       '鸡肉未来应达到中心无粉红色。',
+      '鸡肉预计达到中心无粉红色。',
+      '鸡肉计划煮至中心无粉红色。',
+      '鸡肉仍不熟。',
+      '鸡肉尚未熟透。',
+      '鸡肉应煮熟。',
       '鸡肉表面无粉红色。',
     ].map(step => ({
       meal: { ingredients: [{ name: '鸡肉' }], steps: [step] },
@@ -623,6 +633,8 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
       ['白蘑菇', '蘑菇切片后炒香。'],
       ['干黑眼豆', '黑眼豆浸泡后煮熟。'],
       ['红甜椒', '甜椒丁炒香。'],
+      ['红甜椒', '加入甜椒切丁。'],
+      ['红甜椒', '红甜椒切丁。'],
     ].map(([name, step]) => ({
       meal: { ingredients: [{ name }], steps: [step] },
       absent: [`ingredient_missing_in_steps:${name}`],
@@ -638,7 +650,8 @@ test('Python validator matches finite live-smoke false-positive corrections', ()
       ['红甜椒', '不放红甜椒。'],
       ['红甜椒', '红甜椒酱调味。'],
       ['红甜椒', '青椒丁炒香。'],
-      ...['青', '黄', '绿', '橙'].map(color => ['红甜椒', `${color}甜椒丁炒香。`]),
+      ['红甜椒', '彩椒丁炒香。'],
+      ...['青', '黄', '绿', '橙', '紫', '白', '黑', '蓝', '彩色', '多彩'].map(color => ['红甜椒', `${color}甜椒丁炒香。`]),
     ].map(([name, step]) => ({
       meal: { ingredients: [{ name }], steps: [step] },
       present: [`ingredient_missing_in_steps:${name}`],

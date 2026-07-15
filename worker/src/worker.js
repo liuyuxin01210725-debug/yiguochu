@@ -324,7 +324,8 @@ function validationSearchTokens(name, aliases) {
   if (aliases && typeof aliases === 'object') {
     for (const alias of Object.keys(aliases)) {
       const aliasToken = baseRecipeIngredient(alias);
-      const conflictingPepperColor = targetBare === '红甜椒' && /^(?:青椒|[黄绿橙]甜椒)$/.test(aliasToken);
+      const conflictingPepperColor = targetBare === '红甜椒'
+        && /^(?:青椒|彩椒|(?:[黄绿橙紫白黑蓝]|彩色|多彩|五彩)甜椒)$/.test(aliasToken);
       if (!conflictingPepperColor && validationCanonicalIngredient(alias, aliases) === canonical) tokens.add(aliasToken);
     }
   }
@@ -358,7 +359,7 @@ function validationTokenPositions(text, token) {
       && /^(?:酱|粉|汤料)/.test(tokenSuffix))
       || (token === '蘑菇' && /[白毒]/.test(tokenPrefix))
       || (token === '黑眼豆' && tokenPrefix === '干')
-      || (token === '甜椒' && /[红青黄绿橙]/.test(tokenPrefix));
+      || (token === '甜椒' && /[红青黄绿橙紫白黑蓝彩色]/.test(tokenPrefix));
     if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies && !blockedGenericMeatForm
       && !blockedPorkSpecies && !blockedCookingOil && !blockedControlledForm) positions.push(index);
     offset = index + token.length;
@@ -376,11 +377,13 @@ function validationStepMentions(step, name, aliases) {
 }
 
 const VALIDATION_COOKED_RE = /(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)/;
-const VALIDATION_COOKED_NEGATION_RE = /(?:并非|不是|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|真正|实际)*(?:达到|达|确认|保证)?$/;
+const VALIDATION_COOKED_NEGATION_RE = /(?:并非|不是|仍不|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|彻底|真正|实际)*(?:达到|达|确认|保证)?$/;
 const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
 const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
 const VALIDATION_FUTURE_COOKING_SUFFIX_RE = /^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)/;
-const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?)/;
+const VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE = /^(?:(?:的)?(?:状态|标准|程度)?(?:仍|还|尚)?(?:未|没)(?:完全|彻底|真正|实际)?(?:达到|达成|确认|实现)?|(?:的)?(?:状态|标准|目标)?(?:仍|还|尚)?(?:预计|预期|计划|准备)(?:达到|达成|确认|实现)?)/;
+const VALIDATION_PLANNED_COOKED_PREFIX_RE = /应(?:当|该)?$/;
+const VALIDATION_FUTURE_COOKING_MARKER_RE = /(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?|(?:预计|预期|计划|准备)(?:会|要|将|达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热)?|应(?:当|该)?(?:再)?(?:达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热))/;
 const VALIDATION_GENERIC_MEAT_FORMS = new Set(['肉丝', '肉丁', '肉片', '肉块']);
 const VALIDATION_GENERIC_MEAT_BOUNDARY_RE = /(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$/;
 
@@ -412,9 +415,12 @@ function validationClauseCooksTarget(clause, name, aliases) {
     const cookedEnd = cooked.index + cooked[0].length;
     const cookedPrefix = text.slice(0, cooked.index);
     const futurePrefix = cookedPrefix;
-    const futureSuffix = text.slice(cookedEnd, cookedEnd + 10);
+    const futureSuffix = text.slice(cookedEnd, cookedEnd + 16);
     if (VALIDATION_FUTURE_COOKING_MARKER_RE.test(futurePrefix)
       || VALIDATION_FUTURE_COOKING_SUFFIX_RE.test(futureSuffix)) continue;
+    if (VALIDATION_PLANNED_COOKED_PREFIX_RE.test(futurePrefix)
+      && /^(?:煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|熟透|熟)/.test(cooked[0])) continue;
+    if (VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE.test(futureSuffix)) continue;
     if (VALIDATION_COOKED_NEGATION_RE.test(cookedPrefix)) continue;
     if (unheatedRelation && unheatedRelation.index <= cooked.index) continue;
     const targetIsRice = validationSearchTokens(name, aliases).some(token => token === '大米' || token === '米饭' || token === '米');

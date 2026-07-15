@@ -646,6 +646,7 @@ test('center-has-no-pink is a finite achieved endpoint, not a future, negated, o
     '鸡肉已经达到中心无粉红色。',
     '鸡肉完全达到中心无粉红色。',
     '最终确认鸡肉中心无粉红色。',
+    '鸡肉煮至中心无粉红色。',
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }], steps: [step] }, selection, { dislikes: [] });
     assert.equal(flags.includes('high_risk_not_cooked:鸡肉'), false, step);
@@ -656,7 +657,16 @@ test('center-has-no-pink is a finite achieved endpoint, not a future, negated, o
     '鸡肉并非中心无粉红色。',
     '鸡肉还没达到中心无粉红色。',
     '鸡肉尚未完全达到中心无粉红色。',
+    '鸡肉尚未彻底达到中心无粉红色。',
+    '鸡肉中心无粉红色的状态尚未达到。',
+    '鸡肉中心无粉红色的标准仍未达到。',
+    '鸡肉中心无粉红色预计达到。',
     '鸡肉未来应达到中心无粉红色。',
+    '鸡肉预计达到中心无粉红色。',
+    '鸡肉计划煮至中心无粉红色。',
+    '鸡肉仍不熟。',
+    '鸡肉尚未熟透。',
+    '鸡肉应煮熟。',
     '鸡肉表面无粉红色。',
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '鸡肉' }], steps: [step] }, selection, { dislikes: [] });
@@ -781,11 +791,13 @@ test('postfixed boneless chicken-thigh wording stays equivalent to chicken witho
 
 test('finite produce and dry-state forms count without accepting sauces or another pepper color', () => {
   const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
-  const [selection] = selectRecipeCandidates(fixtureLib([recipe], { 青椒: '甜椒' }), { pantry: ['大米'], dislikes: [] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], { 青椒: '甜椒', 彩椒: '甜椒' }), { pantry: ['大米'], dislikes: [] });
   for (const [name, step] of [
     ['白蘑菇', '蘑菇切片后炒香。'],
     ['干黑眼豆', '黑眼豆浸泡后煮熟。'],
     ['红甜椒', '甜椒丁炒香。'],
+    ['红甜椒', '加入甜椒切丁。'],
+    ['红甜椒', '红甜椒切丁。'],
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
     assert.equal(flags.includes(`ingredient_missing_in_steps:${name}`), false, `${name}: ${step}`);
@@ -802,7 +814,8 @@ test('finite produce and dry-state forms count without accepting sauces or anoth
     ['红甜椒', '不放红甜椒。'],
     ['红甜椒', '红甜椒酱调味。'],
     ['红甜椒', '青椒丁炒香。'],
-    ...['青', '黄', '绿', '橙'].map(color => ['红甜椒', `${color}甜椒丁炒香。`]),
+    ['红甜椒', '彩椒丁炒香。'],
+    ...['青', '黄', '绿', '橙', '紫', '白', '黑', '蓝', '彩色', '多彩'].map(color => ['红甜椒', `${color}甜椒丁炒香。`]),
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name }], steps: [step] }, selection, { dislikes: [] });
     assert.ok(flags.includes(`ingredient_missing_in_steps:${name}`), `${name}: ${step}`);

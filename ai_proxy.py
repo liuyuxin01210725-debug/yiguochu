@@ -541,7 +541,9 @@ def _validation_search_tokens(name, aliases):
     if isinstance(aliases, dict):
         for alias in aliases:
             alias_token = base_recipe_ingredient(alias)
-            conflicting_pepper_color = target_bare == '红甜椒' and re.fullmatch(r'(?:青椒|[黄绿橙]甜椒)', alias_token)
+            conflicting_pepper_color = target_bare == '红甜椒' and re.fullmatch(
+                r'(?:青椒|彩椒|(?:[黄绿橙紫白黑蓝]|彩色|多彩|五彩)甜椒)', alias_token
+            )
             if not conflicting_pepper_color and _validation_canonical_ingredient(alias, aliases) == canonical:
                 tokens.add(alias_token)
     if '鸡蛋' in tokens:
@@ -553,11 +555,13 @@ def _validation_search_tokens(name, aliases):
 
 _VALIDATION_NEGATED_RE = re.compile(r'(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$')
 _VALIDATION_COOKED_RE = re.compile(r'(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)')
-_VALIDATION_COOKED_NEGATION_RE = re.compile(r'(?:并非|不是|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|真正|实际)*(?:达到|达|确认|保证)?$')
+_VALIDATION_COOKED_NEGATION_RE = re.compile(r'(?:并非|不是|仍不|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|彻底|真正|实际)*(?:达到|达|确认|保证)?$')
 _VALIDATION_UNHEATED_RELATION_RE = re.compile(r'(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)')
 _VALIDATION_DELAYED_ADD_RE = re.compile(r'(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$')
 _VALIDATION_FUTURE_COOKING_SUFFIX_RE = re.compile(r'^(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再)')
-_VALIDATION_FUTURE_COOKING_MARKER_RE = re.compile(r'(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?)')
+_VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE = re.compile(r'^(?:(?:的)?(?:状态|标准|程度)?(?:仍|还|尚)?(?:未|没)(?:完全|彻底|真正|实际)?(?:达到|达成|确认|实现)?|(?:的)?(?:状态|标准|目标)?(?:仍|还|尚)?(?:预计|预期|计划|准备)(?:达到|达成|确认|实现)?)')
+_VALIDATION_PLANNED_COOKED_PREFIX_RE = re.compile(r'应(?:当|该)?$')
+_VALIDATION_FUTURE_COOKING_MARKER_RE = re.compile(r'(?:需(?:要)?后续|稍后|待会(?:儿)?|之后再|后续再?|随后再|(?:未来|将来)(?:应|要|会|将|需)?|(?:预计|预期|计划|准备)(?:会|要|将|达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热)?|应(?:当|该)?(?:再)?(?:达到|达成|确认|实现|煮至|煮到|煮|炒|焖|炖|蒸|烧|加热))')
 _VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)')
 _VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
 _VALIDATION_GENERIC_MEAT_BOUNDARY_RE = re.compile(r'(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$')
@@ -609,7 +613,7 @@ def _validation_token_positions(text, token):
              and re.match(r'(?:酱|粉|汤料)', token_suffix))
             or (token == '蘑菇' and bool(token_prefix) and token_prefix in '白毒')
             or (token == '黑眼豆' and token_prefix == '干')
-            or (token == '甜椒' and bool(token_prefix) and token_prefix in '红青黄绿橙')
+            or (token == '甜椒' and bool(token_prefix) and token_prefix in '红青黄绿橙紫白黑蓝彩色')
         )
         if (not negated and not blocked_short_form and not blocked_garlic_green
                 and not blocked_chicken_species and not blocked_generic_meat_form
@@ -636,9 +640,14 @@ def _validation_clause_cooks_target(clause, name, aliases):
         cooked_end = cooked.end()
         cooked_prefix = text[:cooked.start()]
         future_prefix = cooked_prefix
-        future_suffix = text[cooked_end:cooked_end + 10]
+        future_suffix = text[cooked_end:cooked_end + 16]
         if (_VALIDATION_FUTURE_COOKING_MARKER_RE.search(future_prefix)
                 or _VALIDATION_FUTURE_COOKING_SUFFIX_RE.search(future_suffix)):
+            continue
+        if (_VALIDATION_PLANNED_COOKED_PREFIX_RE.search(future_prefix)
+                and re.match(r'(?:煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|熟透|熟)', cooked.group(0))):
+            continue
+        if _VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE.search(future_suffix):
             continue
         if _VALIDATION_COOKED_NEGATION_RE.search(cooked_prefix):
             continue
