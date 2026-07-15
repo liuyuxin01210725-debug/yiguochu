@@ -901,7 +901,42 @@ function normalizeMeal(meal, usage) {
   return meal;
 }
 
+function groundedSafetyEndpoint(name, aliases) {
+  const canonical = validationCanonicalIngredient(name, aliases);
+  if (validationOrdinaryEggIngredient(name, aliases)) {
+    return `继续在原锅加热${name}至熟透并确保蛋白和蛋黄完全凝固且不得流心`;
+  }
+  if (/(?:禽|鸡|鸭|鹅|火鸡|猪)/.test(`${name}${canonical}`)) {
+    return `继续在原锅加热${name}至熟透，中心不见粉红`;
+  }
+  return `继续在原锅加热${name}至熟透`;
+}
+
+function repairGroundedMealSafety(meal, selection, constraints = {}) {
+  const aliases = selection?.ingredientAliases || {};
+  const ingredientNames = validationIngredientNames(meal);
+  const steps = validationSteps(meal);
+  const prefix = 'high_risk_not_cooked:';
+  const names = [...new Set(validateGroundedMeal(meal, selection, constraints)
+    .filter(flag => flag.startsWith(prefix))
+    .map(flag => flag.slice(prefix.length)))]
+    .filter(name => ingredientNames.includes(name))
+    .filter(name => steps.some(step => validationStepMentions(step, name, aliases)));
+
+  if (!names.length) return 0;
+  const instruction = `安全收尾：${names.map(name => groundedSafetyEndpoint(name, aliases)).join('；')}。`;
+  if (!Array.isArray(meal.steps)) meal.steps = [];
+  if (meal.steps.length < 4) {
+    meal.steps.push(instruction);
+  } else {
+    const last = meal.steps.length - 1;
+    meal.steps[last] = `${String(meal.steps[last] || '').trim()} ${instruction}`.trim();
+  }
+  return names.length;
+}
+
 function attachGroundedMetadata(meal, selection, constraints) {
+  repairGroundedMealSafety(meal, selection, constraints);
   const recipe = selection.recipe;
   const aliases = selection.ingredientAliases || {};
   const usedPantry = Array.isArray(selection.usedPantry) ? [...selection.usedPantry] : [];
@@ -1021,7 +1056,14 @@ async function handleGenerate(request, env) {
   return jsonResponse(meal, 200, env, request);
 }
 
-export { buildRecipeGrounding, canonicalRecipeIngredient, selectRecipeCandidates, getRecipeLib, validateGroundedMeal };
+export {
+  buildRecipeGrounding,
+  canonicalRecipeIngredient,
+  selectRecipeCandidates,
+  getRecipeLib,
+  repairGroundedMealSafety,
+  validateGroundedMeal,
+};
 
 export default {
   async fetch(request, env) {

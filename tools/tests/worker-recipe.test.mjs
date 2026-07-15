@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  repairGroundedMealSafety,
   selectRecipeCandidates,
   validateGroundedMeal,
 } from '../../worker/src/worker.js';
@@ -462,6 +463,146 @@ test('validator tolerates malformed ingredients and steps without throwing', () 
   assert.ok(Array.isArray(flags));
 });
 
+test('safety tail repairs only mentioned high-risk endpoints and is idempotent', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡胸肉', '大米'] });
+  const [selection] = selectRecipeCandidates(
+    fixtureLib([recipe], { 鸡胸肉: '鸡肉' }),
+    { pantry: ['鸡胸肉', '大米'], dislikes: [] },
+  );
+  const meal = {
+    ingredients: [
+      { name: '鸡胸肉', grams: 200, kcal: 120 },
+      { name: '大米', grams: 160, kcal: 346 },
+    ],
+    steps: ['鸡胸肉翻炒至表面变色，加入大米焖至米熟。'],
+    prep_minutes: 30,
+  };
+  const ingredientsBefore = structuredClone(meal.ingredients);
+  const first = repairGroundedMealSafety(meal, selection, { dislikes: [] });
+  const second = repairGroundedMealSafety(meal, selection, { dislikes: [] });
+
+  assert.equal(first, 1);
+  assert.equal(second, 0);
+  assert.deepEqual(meal.ingredients, ingredientsBefore);
+  assert.equal(meal.prep_minutes, 30);
+  assert.equal(meal.steps.length, 2);
+  assert.match(meal.steps.at(-1), /原锅.*鸡胸肉.*熟透.*中心不见粉红/);
+  assert.equal((meal.steps.join('\n').match(/安全收尾/g) || []).length, 1);
+  assert.equal(
+    validateGroundedMeal(meal, selection, { dislikes: [] }).includes('high_risk_not_cooked:鸡胸肉'),
+    false,
+  );
+});
+
+test('safety tail uses the exact egg and seafood endpoints', () => {
+  const endpointCases = [
+    { name: '鸡蛋', unsafe: '鸡蛋熟透但蛋黄流心。', endpoint: /原锅.*鸡蛋.*熟透.*蛋白和蛋黄完全凝固.*不得流心/ },
+    { name: '虾仁', unsafe: '虾仁翻炒至变色。', endpoint: /原锅.*虾仁.*熟透/ },
+  ];
+  for (const { name, unsafe, endpoint } of endpointCases) {
+    const recipe = groundedFixtureRecipe({ core_ingredients: [name], optional_ingredients: [], substitution_slots: [] });
+    const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: [name], dislikes: [] });
+    const meal = { ingredients: [{ name, grams: 120 }], steps: [unsafe] };
+
+    assert.ok(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(`high_risk_not_cooked:${name}`));
+    assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 1);
+    assert.equal(meal.steps.length, 2);
+    assert.match(meal.steps.at(-1), endpoint);
+    assert.equal(validateGroundedMeal(meal, selection, { dislikes: [] }).includes(`high_risk_not_cooked:${name}`), false);
+  }
+});
+
+test('safety tail combines multiple high-risk ingredients into one final step', () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['鸡胸肉', '虾仁'],
+    optional_ingredients: [],
+    substitution_slots: [],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], { '鸡胸肉': '鸡肉' }), {
+    pantry: ['鸡胸肉', '虾仁'], dislikes: [],
+  });
+  const meal = {
+    ingredients: [{ name: '鸡胸肉', grams: 180 }, { name: '虾仁', grams: 120 }],
+    steps: ['鸡胸肉和虾仁翻炒至表面变色。'],
+  };
+
+  assert.equal(repairGroundedMealSafety(meal, selection, { dislikes: [] }), 2);
+  assert.equal(meal.steps.length, 2);
+  assert.equal((meal.steps.join('\n').match(/安全收尾/g) || []).length, 1);
+  assert.match(meal.steps.at(-1), /鸡胸肉.*中心不见粉红.*虾仁.*熟透/);
+  assert.equal(validateGroundedMeal(meal, selection, { dislikes: [] }).some(flag => flag.startsWith('high_risk_not_cooked:')), false);
+});
+
+test('safety tail preserves unrelated validation failures and the four-step cap', () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['鸡胸肉', '大米'],
+    optional_ingredients: [],
+    substitution_slots: [],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], { '鸡胸肉': '鸡肉' }), {
+    pantry: ['鸡胸肉', '大米'], dislikes: [],
+  });
+
+  const oilMeal = {
+    ingredients: [{ name: '鸡胸肉', grams: 200 }, { name: '大米', grams: 160 }],
+    steps: ['锅中加油，鸡胸肉炒至表面变色，加入大米焖至米熟。'],
+  };
+  assert.equal(repairGroundedMealSafety(oilMeal, selection, { dislikes: [] }), 1);
+  const oilFlags = validateGroundedMeal(oilMeal, selection, { dislikes: [] });
+  assert.equal(oilFlags.includes('high_risk_not_cooked:鸡胸肉'), false);
+  assert.ok(oilFlags.includes('step_ingredient_missing:烹调油'));
+
+  const absentMeal = {
+    ingredients: [{ name: '鸡胸肉', grams: 200 }, { name: '大米', grams: 160 }],
+    steps: ['大米焖至米熟。'],
+  };
+  const absentBefore = structuredClone(absentMeal);
+  assert.equal(repairGroundedMealSafety(absentMeal, selection, { dislikes: [] }), 0);
+  assert.deepEqual(absentMeal, absentBefore);
+  const absentFlags = validateGroundedMeal(absentMeal, selection, { dislikes: [] });
+  assert.ok(absentFlags.includes('ingredient_missing_in_steps:鸡胸肉'));
+  assert.ok(absentFlags.includes('high_risk_not_cooked:鸡胸肉'));
+
+  const fourStepMeal = {
+    ingredients: [{ name: '鸡胸肉', grams: 200 }, { name: '大米', grams: 160 }],
+    steps: ['鸡胸肉切块。', '鸡胸肉炒至表面变色。', '加入大米。', '焖至米熟。'],
+  };
+  assert.equal(repairGroundedMealSafety(fourStepMeal, selection, { dislikes: [] }), 1);
+  assert.equal(fourStepMeal.steps.length, 4);
+  assert.match(fourStepMeal.steps.at(-1), /焖至米熟。 安全收尾：.*鸡胸肉.*中心不见粉红/);
+  assert.equal(validateGroundedMeal(fourStepMeal, selection, { dislikes: [] }).includes('high_risk_not_cooked:鸡胸肉'), false);
+
+  const safeMeal = {
+    ingredients: [{ name: '鸡胸肉', grams: 200 }, { name: '大米', grams: 160 }],
+    steps: ['鸡胸肉在原锅炒熟且中心不见粉红，加入大米焖熟。'],
+  };
+  const safeBefore = structuredClone(safeMeal);
+  assert.equal(repairGroundedMealSafety(safeMeal, selection, { dislikes: [] }), 0);
+  assert.deepEqual(safeMeal, safeBefore);
+
+  const constrainedSelection = {
+    ...selection,
+    unusedPantry: ['盐'],
+  };
+  const constrainedMeal = {
+    ingredients: [
+      { name: '鸡胸肉', grams: 200 },
+      { name: '大米', grams: 160 },
+      { name: '盐', grams: 2 },
+    ],
+    steps: ['鸡胸肉炒至表面变色，加入大米和盐焖至米熟。'],
+  };
+  assert.equal(repairGroundedMealSafety(constrainedMeal, constrainedSelection, { dislikes: ['鸡胸肉过敏'] }), 1);
+  const constrainedFlags = validateGroundedMeal(
+    constrainedMeal,
+    constrainedSelection,
+    { dislikes: ['鸡胸肉过敏'] },
+  );
+  assert.ok(constrainedFlags.includes('allergen_present:鸡胸肉'));
+  assert.ok(constrainedFlags.includes('unused_pantry_used:盐'));
+  assert.equal(constrainedFlags.includes('high_risk_not_cooked:鸡胸肉'), false);
+});
+
 test('generation overwrites forged grounding metadata and marks fixed-core pantry as classic', async () => {
   const recipe = groundedFixtureRecipe();
   const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
@@ -481,6 +622,39 @@ test('generation overwrites forged grounding metadata and marks fixed-core pantr
   assert.deepEqual(body.validation_flags, []);
   assert.equal(JSON.stringify(body).includes('evil.example'), false);
   assert.equal(JSON.stringify(body).includes('model-forged'), false);
+});
+
+test('generation repairs an undercooked endpoint without a second DeepSeek call or metadata drift', async () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['鸡胸肉', '大米'],
+    optional_ingredients: [],
+    substitution_slots: [],
+  });
+  const recipeLib = fixtureLib([recipe], { '鸡胸肉': '鸡肉' });
+  const modelMeal = generatedMeal({
+    ingredients: [
+      { name: '鸡胸肉', grams: 200, kcal: 120 },
+      { name: '大米', grams: 160, kcal: 346 },
+      { name: '洋葱', grams: 120, kcal: 40 },
+    ],
+    steps: ['鸡胸肉翻炒至表面变色，加入大米和洋葱焖至米熟。'],
+  });
+  const ingredientsBefore = structuredClone(modelMeal.ingredients);
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: modelMeal,
+    constraints: { pantry: ['鸡胸肉', '大米'], dislikes: [] },
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  assert.deepEqual(
+    body.ingredients.map(({ name, grams, kcal }) => ({ name, grams, kcal })),
+    ingredientsBefore,
+  );
+  assert.deepEqual(body.source_refs, recipe.source_refs);
+  assert.equal(body.validation_flags.includes('high_risk_not_cooked:鸡胸肉'), false);
+  assert.match(body.steps.at(-1), /安全收尾：.*鸡胸肉.*熟透.*中心不见粉红/);
 });
 
 test('generation marks allowed or optional pantry adaptations as adapted and keeps server selection', async () => {
