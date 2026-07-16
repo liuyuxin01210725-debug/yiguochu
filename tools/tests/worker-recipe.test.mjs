@@ -90,6 +90,15 @@ function generatedMeal(overrides = {}) {
   };
 }
 
+function riceAllergenSelection() {
+  return {
+    ingredientAliases: { 白米: '大米' },
+    usedPantry: [],
+    unusedPantry: [],
+    recipe: { core_ingredients: [] },
+  };
+}
+
 let generationImportId = 0;
 async function runGenerateRequest({
   recipeLib,
@@ -416,6 +425,137 @@ test('validator catches listed shrimp that is never cooked', () => {
   }, selection, { dislikes: [] });
   assert.ok(flags.includes('ingredient_missing_in_steps:虾仁'));
   assert.ok(flags.includes('high_risk_not_cooked:虾仁'));
+});
+
+test('rice allergy rejects the preserved instant-rice live leak across visible fields', () => {
+  const meal = {
+    dish_name: '椰香鸡肉咖喱盖浇饭',
+    ingredients: [
+      { name: '鸡胸肉', grams: 300 },
+      { name: '米饭（即食）', grams: 400 },
+    ],
+    steps: [
+      '鸡胸肉炖熟。',
+      '将即食米饭加热，盛入碗中，浇上咖喱鸡肉即可。',
+    ],
+  };
+  const flags = validateGroundedMeal(meal, riceAllergenSelection(), { dislikes: ['大米过敏'] });
+  assert.deepEqual(flags.filter(flag => flag.startsWith('allergen_present:')), [
+    'allergen_present:盖浇饭',
+    'allergen_present:米饭（即食）',
+    'allergen_present:即食米饭',
+  ]);
+});
+
+test('rice allergy scans only bounded user-facing fields in stable order', () => {
+  const meal = {
+    dish_name: '鸡肉河粉',
+    ingredients: [{ name: '糙米饭', grams: 200 }],
+    steps: ['最后加入年糕。'],
+    note: '配白粥更顺口。',
+    taste_preview: '有米线的滑爽口感。',
+    form: '焖饭',
+    why: '适合想吃饭团的时候。',
+    flavor_tags: ['米香', '紫米感'],
+    unused_pantry: ['大米'],
+    used_pantry: ['白米'],
+    pairing_basis: '舍弃米饭。',
+    source_refs: [{ title: 'Rice source', url: 'https://example.test/rice' }],
+    safety_checks: ['不使用大米'],
+  };
+  const flags = validateGroundedMeal(meal, riceAllergenSelection(), { dislikes: ['大米过敏'] });
+  assert.deepEqual(flags.filter(flag => flag.startsWith('allergen_present:')), [
+    'allergen_present:河粉',
+    'allergen_present:糙米饭',
+    'allergen_present:年糕',
+    'allergen_present:白粥',
+    'allergen_present:米线',
+    'allergen_present:焖饭',
+    'allergen_present:饭团',
+    'allergen_present:紫米',
+  ]);
+});
+
+test('rice allergy recognizes the approved finite rice-food family', () => {
+  const names = [
+    '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+    '米饭（即食）', '剩米饭', '白米饭', '白粥', '米粥',
+    '糙米粉', '米浆', '米糊', '米线', '河粉', '米皮',
+    '年糕', '糍粑', '饭团', '煲仔饭', '炒饭', '咖喱饭',
+  ];
+  for (const name of names) {
+    const flags = validateGroundedMeal(
+      { ingredients: [{ name, grams: 10 }], steps: [`加入${name}。`] },
+      riceAllergenSelection(),
+      { dislikes: ['大米过敏'] },
+    );
+    assert.ok(flags.some(flag => flag === `allergen_present:${name}`), name);
+  }
+});
+
+test('rice allergy excludes unrelated grains condiments pepper produce and metadata', () => {
+  const controls = [
+    '小米', '小米饭', '玉米', '玉米粒', '玉米粉', '薏米', '高粱米',
+    '小米椒', '糯米椒', '米醋', '糯米醋', '米酒', '紫米酒酿', '料酒', '一锅饭',
+  ];
+  for (const name of controls) {
+    const flags = validateGroundedMeal(
+      { ingredients: [{ name, grams: 10 }], steps: [`加入${name}。`] },
+      riceAllergenSelection(),
+      { dislikes: ['大米过敏'] },
+    );
+    assert.equal(flags.some(flag => flag.startsWith('allergen_present:')), false, name);
+  }
+
+  const metadataOnly = validateGroundedMeal({
+    dish_name: '椰香鸡肉锅',
+    ingredients: [{ name: '鸡胸肉', grams: 300 }],
+    steps: ['鸡胸肉炖熟。'],
+    unused_pantry: ['大米'],
+    used_pantry: ['白米'],
+    pairing_basis: '舍弃米饭。',
+    source_refs: [{ title: 'Rice source', url: 'https://example.test/rice' }],
+    safety_checks: ['不使用大米'],
+  }, riceAllergenSelection(), { dislikes: ['大米过敏'] });
+  assert.equal(metadataOnly.some(flag => flag.startsWith('allergen_present:')), false);
+});
+
+test('rice family activation and negation stay finite', () => {
+  for (const dislike of ['大米过敏', '白米过敏', '米饭过敏', '糙米过敏']) {
+    const flags = validateGroundedMeal(
+      { note: '配白米饭。', ingredients: [], steps: [] },
+      riceAllergenSelection(),
+      { dislikes: [dislike] },
+    );
+    assert.ok(flags.includes('allergen_present:白米饭'), dislike);
+  }
+
+  const unrelated = validateGroundedMeal(
+    { note: '配白米饭。', ingredients: [], steps: [] },
+    riceAllergenSelection(),
+    { dislikes: ['花生过敏'] },
+  );
+  assert.equal(unrelated.includes('allergen_present:白米饭'), false);
+
+  for (const wording of ['不含米饭', '不使用白米饭', '无需搭配米饭', '避免加入年糕', '去掉河粉']) {
+    const flags = validateGroundedMeal(
+      { note: wording, ingredients: [], steps: [] },
+      riceAllergenSelection(),
+      { dislikes: ['大米过敏'] },
+    );
+    assert.equal(flags.some(flag => flag.startsWith('allergen_present:')), false, wording);
+  }
+
+  assert.doesNotThrow(() => validateGroundedMeal(
+    {
+      dish_name: null,
+      ingredients: [null, 0, { name: null }],
+      steps: [null, 0, {}],
+      flavor_tags: [null, 0, {}],
+    },
+    riceAllergenSelection(),
+    { dislikes: ['大米过敏'] },
+  ));
 });
 
 test('validator emits all seven machine-readable validation flag types', () => {
@@ -1040,6 +1180,36 @@ test('generation overwrites forged grounding metadata and marks fixed-core pantr
   assert.deepEqual(body.validation_flags, []);
   assert.equal(JSON.stringify(body).includes('evil.example'), false);
   assert.equal(JSON.stringify(body).includes('model-forged'), false);
+});
+
+test('generation exposes the preserved rice-allergy leak as a hard validation flag', async () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['鸡肉', '洋葱'],
+    optional_ingredients: [],
+  });
+  const recipeLib = fixtureLib([recipe], { 白米: '大米' });
+  const meal = generatedMeal({
+    dish_name: '椰香鸡肉咖喱盖浇饭',
+    ingredients: [
+      { name: '鸡肉', grams: 300 },
+      { name: '洋葱', grams: 150 },
+      { name: '米饭（即食）', grams: 400 },
+    ],
+    steps: ['鸡肉和洋葱炖熟。', '将即食米饭加热后配咖喱鸡肉。'],
+  });
+  const { body } = await runGenerateRequest({
+    recipeLib,
+    meal,
+    constraints: {
+      purpose: 'quick',
+      servings: 2,
+      pantry: ['鸡肉', '洋葱'],
+      dislikes: ['大米过敏'],
+    },
+  });
+  assert.ok(body.validation_flags.includes('allergen_present:盖浇饭'));
+  assert.ok(body.validation_flags.includes('allergen_present:米饭（即食）'));
+  assert.ok(body.validation_flags.includes('allergen_present:即食米饭'));
 });
 
 test('generation repairs an undercooked endpoint without a second DeepSeek call or metadata drift', async () => {

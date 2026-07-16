@@ -260,6 +260,104 @@ function validationCanonicalIngredient(name, aliases) {
   return canonicalRecipeIngredient(VALIDATION_CANONICAL_FORMS.get(bare) || name, aliases);
 }
 
+const VALIDATION_RICE_ALLERGEN_ACTIVATORS = new Set([
+  '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+  '米饭', '白米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭',
+  '剩米饭', '隔夜米饭', '即食米饭',
+]);
+const VALIDATION_RICE_ALLERGEN_TOKENS = [
+  '隔夜米饭', '即食米饭', '剩余米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭', '白米饭', '剩米饭',
+  '大米粥', '糙米粥', '糙米粉',
+  '煲仔饭', '盖浇饭', '咖喱饭', '香料饭', '番茄饭',
+  '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+  '米饭', '白粥', '米粥', '米粉', '米浆', '米糊', '米线', '河粉', '米皮',
+  '年糕', '糍粑', '饭团', '焖饭', '炒饭', '烩饭', '泡饭', '汤饭', '菜饭', '丼饭',
+].sort((a, b) => b.length - a.length);
+const VALIDATION_RICE_GENERIC_PREFIX_BLOCK_RE = /(?:小|玉|薏|粱)$/;
+const VALIDATION_RICE_RAW_TOKEN_SUFFIX_BLOCK_RE = /^(?:椒|醋|酒)/;
+const VALIDATION_RICE_ALLERGEN_NEGATION_RE = /(?:不(?:使用|含|要|放|加|配|吃|选|用)|无需(?:使用|加入|搭配)?|避免(?:使用|选择|加入|搭配)?|去掉|排除|无)(?:任何|额外|所有|全部)?$/;
+const VALIDATION_RICE_GENERIC_TOKENS = new Set(['米饭', '米粥', '米粉', '米浆', '米糊', '米线']);
+const VALIDATION_RICE_RAW_TOKENS = new Set([
+  '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+]);
+
+function validationRiceAllergenActive(dislikes, aliases) {
+  return recipeConstraintList(dislikes).some(name => {
+    const bare = baseRecipeIngredient(name);
+    const canonical = validationCanonicalIngredient(name, aliases);
+    return canonical === '大米' || VALIDATION_RICE_ALLERGEN_ACTIVATORS.has(bare);
+  });
+}
+
+function validationRiceAllergenFields(meal) {
+  const fields = [];
+  const push = (value, display = '') => {
+    if (typeof value !== 'string') return;
+    const text = validationFormName(value);
+    if (text) fields.push({ text, display });
+  };
+  push(meal?.dish_name);
+  if (Array.isArray(meal?.ingredients)) {
+    for (const item of meal.ingredients) {
+      if (typeof item === 'string') push(item, item.trim());
+      else if (item && typeof item === 'object' && typeof item.name === 'string') {
+        push(item.name, item.name.trim());
+      }
+    }
+  }
+  if (Array.isArray(meal?.steps)) for (const step of meal.steps) push(step);
+  push(meal?.note);
+  push(meal?.taste_preview);
+  push(meal?.form);
+  push(meal?.why);
+  if (Array.isArray(meal?.flavor_tags)) for (const tag of meal.flavor_tags) push(tag);
+  return fields;
+}
+
+function validationRiceAllergenTokenBlocked(text, index, token) {
+  const prefix = text.slice(Math.max(0, index - 18), index);
+  const suffix = text.slice(index + token.length);
+  if (VALIDATION_RICE_ALLERGEN_NEGATION_RE.test(prefix)) return true;
+  if (VALIDATION_RICE_GENERIC_TOKENS.has(token)
+    && VALIDATION_RICE_GENERIC_PREFIX_BLOCK_RE.test(prefix)) return true;
+  if (VALIDATION_RICE_RAW_TOKENS.has(token)
+    && VALIDATION_RICE_RAW_TOKEN_SUFFIX_BLOCK_RE.test(suffix)) return true;
+  return false;
+}
+
+function validationRiceAllergenMatches(text) {
+  const matches = [];
+  for (let index = 0; index < text.length;) {
+    const token = VALIDATION_RICE_ALLERGEN_TOKENS.find(candidate => text.startsWith(candidate, index));
+    if (!token) {
+      index += 1;
+      continue;
+    }
+    if (!validationRiceAllergenTokenBlocked(text, index, token)) matches.push(token);
+    index += token.length;
+  }
+  return matches;
+}
+
+function validationRiceAllergenFlags(meal, dislikes, aliases) {
+  if (!validationRiceAllergenActive(dislikes, aliases)) return [];
+  const flags = [];
+  const seen = new Set();
+  for (const field of validationRiceAllergenFields(meal)) {
+    const matches = validationRiceAllergenMatches(field.text);
+    if (!matches.length) continue;
+    const displays = field.display ? [field.display] : matches;
+    for (const display of displays) {
+      const flag = `allergen_present:${display}`;
+      if (!seen.has(flag)) {
+        seen.add(flag);
+        flags.push(flag);
+      }
+    }
+  }
+  return flags;
+}
+
 const VALIDATION_COOKING_OIL_NAMES = new Set([
   '烹调油', '植物油', '食用油', '食用植物油', '蔬菜油', '菜籽油', '花生油', '大豆油', '玉米油',
   '橄榄油', '葵花籽油', '葵花油', '米糠油', '稻米油', '色拉油', '调和油', '芝麻油', '香油', '猪油', '牛油', '黄油',
@@ -581,6 +679,8 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   const ingredientNames = validationIngredientNames(meal);
   const steps = validationSteps(meal);
   const flags = new Set();
+  const riceAllergenActive = validationRiceAllergenActive(constraints?.dislikes, aliases);
+  for (const flag of validationRiceAllergenFlags(meal, constraints?.dislikes, aliases)) flags.add(flag);
   const canonicalIngredients = new Set(ingredientNames.map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
   const dislikes = recipeConstraintList(constraints?.dislikes)
     .map(name => validationCanonicalIngredient(name, aliases))
@@ -588,7 +688,9 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
 
   for (const name of ingredientNames) {
     const canonical = validationCanonicalIngredient(name, aliases);
-    if (dislikes.includes(canonical)) flags.add(`allergen_present:${name}`);
+    const directRiceIngredient = riceAllergenActive
+      && validationRiceAllergenMatches(validationFormName(name)).length > 0;
+    if (dislikes.includes(canonical) && !directRiceIngredient) flags.add(`allergen_present:${name}`);
     if (!validationSeasoning(name) && !steps.some(step => validationStepMentions(step, name, aliases))) {
       flags.add(`ingredient_missing_in_steps:${name}`);
     }
