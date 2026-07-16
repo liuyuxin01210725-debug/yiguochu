@@ -469,6 +469,115 @@ def _validation_canonical_ingredient(name, aliases):
     return canonical_recipe_ingredient(_VALIDATION_CANONICAL_FORMS.get(bare, name), aliases)
 
 
+_VALIDATION_RICE_ALLERGEN_ACTIVATORS = {
+    '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+    '米饭', '白米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭',
+    '剩米饭', '隔夜米饭', '即食米饭',
+}
+_VALIDATION_RICE_ALLERGEN_TOKENS = sorted([
+    '隔夜米饭', '即食米饭', '剩余米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭', '白米饭', '剩米饭',
+    '大米粥', '糙米粥', '糙米粉',
+    '煲仔饭', '盖浇饭', '咖喱饭', '香料饭', '番茄饭',
+    '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+    '米饭', '白粥', '米粥', '米粉', '米浆', '米糊', '米线', '河粉', '米皮',
+    '年糕', '糍粑', '饭团', '焖饭', '炒饭', '烩饭', '泡饭', '汤饭', '菜饭', '丼饭',
+], key=lambda item: -len(item))
+_VALIDATION_RICE_GENERIC_PREFIX_BLOCK_RE = re.compile(r'(?:小|玉|薏|粱)$')
+_VALIDATION_RICE_RAW_TOKEN_SUFFIX_BLOCK_RE = re.compile(r'^(?:椒|醋|酒)')
+_VALIDATION_RICE_ALLERGEN_NEGATION_RE = re.compile(
+    r'(?:不(?:使用|含|要|放|加|配|吃|选|用)|无需(?:使用|加入|搭配)?'
+    r'|避免(?:使用|选择|加入|搭配)?|去掉|排除|无)(?:任何|额外|所有|全部)?$'
+)
+_VALIDATION_RICE_GENERIC_TOKENS = {'米饭', '米粥', '米粉', '米浆', '米糊', '米线'}
+_VALIDATION_RICE_RAW_TOKENS = {'大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米'}
+
+
+def _validation_rice_allergen_active(dislikes, aliases):
+    for name in recipe_constraint_list(dislikes):
+        bare = base_recipe_ingredient(name)
+        canonical = _validation_canonical_ingredient(name, aliases)
+        if canonical == '大米' or bare in _VALIDATION_RICE_ALLERGEN_ACTIVATORS:
+            return True
+    return False
+
+
+def _validation_rice_allergen_fields(meal):
+    meal = meal if isinstance(meal, dict) else {}
+    fields = []
+
+    def push(value, display=''):
+        if not isinstance(value, str):
+            return
+        text = _validation_form_name(value)
+        if text:
+            fields.append({'text': text, 'display': display})
+
+    push(meal.get('dish_name'))
+    for item in meal.get('ingredients') if isinstance(meal.get('ingredients'), list) else []:
+        if isinstance(item, str):
+            push(item, item.strip())
+        elif isinstance(item, dict) and isinstance(item.get('name'), str):
+            push(item['name'], item['name'].strip())
+    for step in meal.get('steps') if isinstance(meal.get('steps'), list) else []:
+        push(step)
+    push(meal.get('note'))
+    push(meal.get('taste_preview'))
+    push(meal.get('form'))
+    push(meal.get('why'))
+    for tag in meal.get('flavor_tags') if isinstance(meal.get('flavor_tags'), list) else []:
+        push(tag)
+    return fields
+
+
+def _validation_rice_allergen_token_blocked(text, index, token):
+    prefix = text[max(0, index - 18):index]
+    suffix = text[index + len(token):]
+    if _VALIDATION_RICE_ALLERGEN_NEGATION_RE.search(prefix):
+        return True
+    if (token in _VALIDATION_RICE_GENERIC_TOKENS
+            and _VALIDATION_RICE_GENERIC_PREFIX_BLOCK_RE.search(prefix)):
+        return True
+    if (token in _VALIDATION_RICE_RAW_TOKENS
+            and _VALIDATION_RICE_RAW_TOKEN_SUFFIX_BLOCK_RE.search(suffix)):
+        return True
+    return False
+
+
+def _validation_rice_allergen_matches(text):
+    matches = []
+    index = 0
+    while index < len(text):
+        token = next((
+            candidate for candidate in _VALIDATION_RICE_ALLERGEN_TOKENS
+            if text.startswith(candidate, index)
+        ), None)
+        if token is None:
+            index += 1
+            continue
+        if not _validation_rice_allergen_token_blocked(text, index, token):
+            matches.append(token)
+        index += len(token)
+    return matches
+
+
+def _validation_rice_allergen_flags(meal, dislikes, aliases):
+    if not _validation_rice_allergen_active(dislikes, aliases):
+        return []
+    flags = []
+    seen = set()
+    for field in _validation_rice_allergen_fields(meal):
+        matches = _validation_rice_allergen_matches(field['text'])
+        if not matches:
+            continue
+        displays = [field['display']] if field['display'] else matches
+        for display in displays:
+            flag = f'allergen_present:{display}'
+            if flag not in seen:
+                seen.add(flag)
+                flags.append(flag)
+    return flags
+
+
 _VALIDATION_COOKING_OIL_NAMES = {
     '烹调油', '植物油', '食用油', '食用植物油', '蔬菜油', '菜籽油', '花生油', '大豆油', '玉米油',
     '橄榄油', '葵花籽油', '葵花油', '米糠油', '稻米油', '色拉油', '调和油', '芝麻油', '香油', '猪油', '牛油', '黄油',
@@ -852,6 +961,10 @@ def validate_grounded_meal(meal, selection, constraints=None):
             seen_flags.add(flag)
             flags.append(flag)
 
+    rice_allergen_active = _validation_rice_allergen_active(constraints.get('dislikes'), aliases)
+    for flag in _validation_rice_allergen_flags(meal, constraints.get('dislikes'), aliases):
+        add_flag(flag)
+
     canonical_ingredients = {
         item for name in ingredient_names if (item := _validation_canonical_ingredient(name, aliases))
     }
@@ -861,7 +974,11 @@ def validate_grounded_meal(meal, selection, constraints=None):
     ]
     for name in ingredient_names:
         canonical = _validation_canonical_ingredient(name, aliases)
-        if canonical in dislikes:
+        direct_rice_ingredient = (
+            rice_allergen_active
+            and bool(_validation_rice_allergen_matches(_validation_form_name(name)))
+        )
+        if canonical in dislikes and not direct_rice_ingredient:
             add_flag(f'allergen_present:{name}')
         if not _validation_seasoning(name) and not any(_validation_step_mentions(step, name, aliases) for step in steps):
             add_flag(f'ingredient_missing_in_steps:{name}')

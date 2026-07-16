@@ -718,6 +718,51 @@ test('Python validator matches all seven flags plus variants, negation, action o
   ]) assert.ok(seven.some(flag => flag.startsWith(prefix)), prefix);
 });
 
+test('Python controlled rice allergen fields exactly match Worker', () => {
+  const recipe = groundedRecipe({ core_ingredients: [] });
+  const library = fixtureLib([recipe], { 白米: '大米' });
+  const constraints = { pantry: [], dislikes: ['大米过敏'] };
+  const cases = [
+    { dish_name: '鸡肉河粉', ingredients: [], steps: [] },
+    { ingredients: [{ name: '米饭（即食）', grams: 100 }], steps: ['加热即食米饭。'] },
+    { ingredients: [], steps: ['配白米饭。'] },
+    { ingredients: [], steps: [], note: '加入年糕。' },
+    { ingredients: [], steps: [], taste_preview: '有米线的滑爽。' },
+    { ingredients: [], steps: [], form: '焖饭' },
+    { ingredients: [], steps: [], why: '适合想吃饭团时。' },
+    { ingredients: [], steps: [], flavor_tags: ['紫米感'] },
+    {
+      ingredients: [{ name: '玉米粒', grams: 100 }],
+      steps: ['加入玉米粒。'],
+      unused_pantry: ['大米'],
+      pairing_basis: '舍弃米饭。',
+      source_refs: [{ title: 'Rice source' }],
+    },
+    { ingredients: [], steps: [], note: '不含米饭。' },
+  ];
+  for (const meal of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js, JSON.stringify(meal));
+  }
+});
+
+test('Python rice allergen activation and preserved live leak match Worker', () => {
+  const recipe = groundedRecipe({ core_ingredients: [] });
+  const library = fixtureLib([recipe], { 白米: '大米' });
+  const meal = {
+    dish_name: '椰香鸡肉咖喱盖浇饭',
+    ingredients: [{ name: '米饭（即食）', grams: 400 }],
+    steps: ['将即食米饭加热后配咖喱鸡肉。'],
+  };
+  for (const dislikes of [['大米过敏'], ['白米过敏'], ['米饭过敏'], ['花生过敏']]) {
+    const constraints = { pantry: [], dislikes };
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js, dislikes[0]);
+  }
+});
+
 test('Python validator matches prepared exemptions, controlled forms, rice safety, and named vessels', () => {
   const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
   const library = fixtureLib([recipe]);
