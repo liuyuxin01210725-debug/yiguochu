@@ -792,7 +792,7 @@ _VALIDATION_EGG_SAFE_RECOVERY_STATE_RE = re.compile(r'(?:(?:蛋白(?:和|与|及
 _VALIDATION_EGG_HEATING_ACTION_RE = re.compile(r'(?:再(?:继续)?|继续|重新|随后|然后)?(?:加热|煮|焖|蒸|炒|煎)')
 _VALIDATION_EGG_PLANNED_HEATING_PREFIX_RE = re.compile(r'(?:计划|预计|预期|准备)(?:稍后|随后|之后|后续)?(?:要|将|会)?$')
 _VALIDATION_EGG_RECOVERY_WINDOW = 24
-_VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)')
+_VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另(?:一口|一只|一个)|第二口)(?:小锅|炒锅|平底锅|汤锅|锅)')
 _VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
 _VALIDATION_GENERIC_MEAT_BOUNDARY_RE = re.compile(r'(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$')
 

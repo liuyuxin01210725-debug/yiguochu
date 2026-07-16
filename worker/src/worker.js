@@ -420,7 +420,7 @@ const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
 );
 const VALIDATION_GENERIC_COOKING_OIL_ACTION_RE = /(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?油(?!菜))/;
 const VALIDATION_ACTION_NEGATION_RE = /(?:不需要|无需|不用|不要|避免|禁止|切勿|不可|未|不)(?:(?:再|另行)?(?:另(?:起|取|用)(?:一口|一只|一个|一)?|使用|用|加|放|下|倒入?|刷上?|抹上?|留底)?)?$/;
-const VALIDATION_EXPLICIT_SECOND_VESSEL_RE = /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另一口|第二口)(?:炒锅|平底锅|汤锅|锅)/;
+const VALIDATION_EXPLICIT_SECOND_VESSEL_RE = /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另(?:一口|一只|一个)|第二口)(?:小锅|炒锅|平底锅|汤锅|锅)/;
 
 function validationActionNegated(text, actionIndex) {
   const prefix = String(text || '').slice(Math.max(0, actionIndex - 18), actionIndex);

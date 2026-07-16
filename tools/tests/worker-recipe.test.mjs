@@ -2382,7 +2382,13 @@ test('multi-pot validation distinguishes same-pot sequencing from an explicit se
   }, selection, { dislikes: [] });
   assert.equal(samePot.includes('multi_pot_step'), false);
 
-  for (const wording of ['另起炒锅炒香洋葱', '另起一锅烧水', '另取一口平底锅煎蛋', '另用汤锅烧开水']) {
+  for (const wording of [
+    '另起炒锅炒香洋葱',
+    '另起一锅烧水',
+    '另取一口平底锅煎蛋',
+    '另用汤锅烧开水',
+    '在另一个小锅中加热芥花籽油',
+  ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps: [`大米煮熟，${wording}。`] }, selection, { dislikes: [] });
     assert.ok(flags.includes('multi_pot_step'), wording);
   }
@@ -2401,6 +2407,7 @@ test('multi-pot validation distinguishes same-pot sequencing from an explicit se
     ['电饭锅煮饭。', '锅中加入蔬菜。'],
     ['可用电饭锅或汤锅煮饭。'],
     ['用电饭锅煮饭。', '全程不用汤锅。'],
+    ['用电饭锅煮饭。', '无需另一个小锅。'],
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps }, selection, { dislikes: [] });
     assert.equal(flags.includes('multi_pot_step'), false, steps.join(' / '));
