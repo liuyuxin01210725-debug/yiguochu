@@ -1,7 +1,7 @@
 # Ingredient-Step Correspondence Design
 
 Date: 2026-07-16
-Status: Approved direction; written specification pending final user review
+Status: Approved by user on 2026-07-16
 
 ## Context
 
