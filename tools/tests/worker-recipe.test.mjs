@@ -108,6 +108,7 @@ let generationImportId = 0;
 async function runGenerateRequest({
   recipeLib,
   meal = generatedMeal(),
+  rawContent,
   constraints = {},
   recipeStatus = 200,
   captureLogs = false,
@@ -122,7 +123,7 @@ async function runGenerateRequest({
   globalThis.fetch = async (_url, options) => {
     upstreamBodies.push(JSON.parse(String(options?.body || '{}')));
     return Response.json({
-      choices: [{ message: { content: JSON.stringify(meal) } }],
+      choices: [{ message: { content: rawContent ?? JSON.stringify(meal) } }],
       usage: { total_tokens: 321 },
     });
   };
@@ -1598,6 +1599,23 @@ test('one Worker generation request makes one DeepSeek call and sends the ground
   assert.ok(logs.some(line => line.includes('"base":"grounded-pot"')));
   assert.ok(logs.some(line => line.includes('"family":"family-grounded"')));
   assert.ok(logs.some(line => line.includes('"flags":0')));
+});
+
+test('generation repairs only trailing JSON commas outside strings', async () => {
+  const meal = generatedMeal({ note: '保留字符串里的,}和,]' });
+  const malformed = JSON.stringify(meal)
+    .replace('],"steps"', ',],"steps"')
+    .replace(/}\s*$/, ',}');
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    meal,
+    rawContent: malformed,
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  assert.equal(body.note, meal.note);
+  assert.equal(body.base_recipe_id, 'grounded-pot');
 });
 
 test('default handler sends the cross-field output contract with selected pantry values', async () => {

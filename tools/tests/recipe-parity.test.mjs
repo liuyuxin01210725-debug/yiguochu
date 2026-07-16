@@ -71,6 +71,8 @@ elif action == 'repair_rice_safe':
         'meal': meal,
         'flags': proxy.validate_grounded_meal(meal, selection, constraints),
     }
+elif action == 'parse':
+    result = proxy.parse_model_json(request['text'])
 elif action == 'prepare':
     constraints = proxy.sanitize_recipe_constraints(request.get('constraints'))
     payload, selection = proxy.build_recipe_request(
@@ -1327,6 +1329,16 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   assert.equal(JSON.stringify(py.meal).includes('evil.example'), false);
   py.meal.source_refs[0].audit.tags[0] = 'mutated';
   assert.equal(recipeLib.recipes[0].source_refs[0].audit.tags[0], 'trusted');
+});
+
+test('Python parser repairs trailing JSON commas without changing string text', () => {
+  const text = '{"note":"保留,}和,]","items":[1,2,],"nested":{"ok":true,},}';
+  const parsed = pythonCall('parse', { text });
+  assert.deepEqual(parsed, {
+    note: '保留,}和,]',
+    items: [1, 2],
+    nested: { ok: true },
+  });
 });
 
 test('Python rice-safe grounding and forged-profile removal match Worker', async () => {

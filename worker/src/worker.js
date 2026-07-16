@@ -1071,6 +1071,34 @@ function buildPrompt(mealName, targets, constraints, recipeGrounding) {
   return prompt.replace(RECIPE_GROUNDING_TOKEN_RE, '');
 }
 
+function stripJsonTrailingCommas(text) {
+  let output = '';
+  let inString = false;
+  let escaped = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    if (inString) {
+      output += char;
+      if (escaped) escaped = false;
+      else if (char === '\\') escaped = true;
+      else if (char === '"') inString = false;
+      continue;
+    }
+    if (char === '"') {
+      inString = true;
+      output += char;
+      continue;
+    }
+    if (char === ',') {
+      let next = index + 1;
+      while (next < text.length && /\s/.test(text[next])) next += 1;
+      if (text[next] === ']' || text[next] === '}') continue;
+    }
+    output += char;
+  }
+  return output;
+}
+
 function parseModelJson(text) {
   const raw = String(text || '').trim()
     .replace(/^```(?:json)?/i, '')
@@ -1078,11 +1106,20 @@ function parseModelJson(text) {
     .trim();
   try {
     return JSON.parse(raw);
-  } catch (_err) {
+  } catch (firstError) {
     const start = raw.indexOf('{');
     const end = raw.lastIndexOf('}');
-    if (start >= 0 && end > start) return JSON.parse(raw.slice(start, end + 1));
-    throw _err;
+    const candidate = start >= 0 && end > start ? raw.slice(start, end + 1) : raw;
+    if (candidate !== raw) {
+      try {
+        return JSON.parse(candidate);
+      } catch {
+        // Fall through to the bounded trailing-comma repair.
+      }
+    }
+    const repaired = stripJsonTrailingCommas(candidate);
+    if (repaired !== candidate) return JSON.parse(repaired);
+    throw firstError;
   }
 }
 

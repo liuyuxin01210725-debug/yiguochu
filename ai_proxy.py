@@ -1245,12 +1245,51 @@ def parse_model_json(text):
     raw = re.sub(r'```$', '', raw).strip()
     try:
         return json.loads(raw)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as first_error:
         start = raw.find('{')
         end = raw.rfind('}')
-        if start >= 0 and end > start:
-            return json.loads(raw[start:end + 1])
-        raise
+        candidate = raw[start:end + 1] if start >= 0 and end > start else raw
+        if candidate != raw:
+            try:
+                return json.loads(candidate)
+            except json.JSONDecodeError:
+                pass
+
+        output = []
+        in_string = False
+        escaped = False
+        index = 0
+        while index < len(candidate):
+            char = candidate[index]
+            if in_string:
+                output.append(char)
+                if escaped:
+                    escaped = False
+                elif char == '\\':
+                    escaped = True
+                elif char == '"':
+                    in_string = False
+                index += 1
+                continue
+            if char == '"':
+                in_string = True
+                output.append(char)
+                index += 1
+                continue
+            if char == ',':
+                next_index = index + 1
+                while next_index < len(candidate) and candidate[next_index].isspace():
+                    next_index += 1
+                if next_index < len(candidate) and candidate[next_index] in ']}':
+                    index += 1
+                    continue
+            output.append(char)
+            index += 1
+
+        repaired = ''.join(output)
+        if repaired != candidate:
+            return json.loads(repaired)
+        raise first_error
 
 
 def normalize_meal(meal, usage=None):
