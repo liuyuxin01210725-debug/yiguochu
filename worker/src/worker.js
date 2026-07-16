@@ -213,6 +213,7 @@ function buildRecipeGrounding(selection) {
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
     '【输出完整性契约】',
     '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
+    '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams；洗、淘、泡后倒掉的水可不列。',
     `服务器已选库存（${compactRecipeList(selection?.usedPantry)}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（${compactRecipeList(selection?.unusedPantry)}）必须同时从 ingredients 与 steps 排除。`,
     '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
     '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',
@@ -264,6 +265,22 @@ const VALIDATION_COOKING_OIL_NAMES = new Set([
   '橄榄油', '葵花籽油', '葵花油', '米糠油', '稻米油', '色拉油', '调和油', '芝麻油', '香油', '猪油', '牛油', '黄油',
   '椰子油', '棕榈油', '葡萄籽油', '亚麻籽油',
 ]);
+const VALIDATION_SALT_NAMES = new Set(['盐', '食盐', '海盐', '低钠盐']);
+const VALIDATION_PEPPER_NAMES = new Set(['胡椒', '胡椒粉', '黑胡椒', '黑胡椒粉', '白胡椒', '白胡椒粉']);
+const VALIDATION_WATER_NAMES = new Set(['水', '清水', '饮用水', '凉开水', '温水', '热水']);
+const VALIDATION_SALT_TOKEN_SOURCE = '(?:食盐|海盐|低钠盐|盐)(?!水)';
+const VALIDATION_PEPPER_TOKEN_SOURCE = '(?:黑胡椒粉|白胡椒粉|胡椒粉|黑胡椒|白胡椒|胡椒)';
+const VALIDATION_SEASONING_TOKEN_SOURCE = `(?:${VALIDATION_SALT_TOKEN_SOURCE}|${VALIDATION_PEPPER_TOKEN_SOURCE})`;
+const VALIDATION_SEASONING_INPUT_RE = new RegExp(
+  `(?:加入?|放入?|撒入?|撒上?|调入?|拌入?|下)(?:根据口味|按口味|少许|适量|一点|些许)?${VALIDATION_SEASONING_TOKEN_SOURCE}`
+  + `(?:(?:和|及|、)${VALIDATION_SEASONING_TOKEN_SOURCE})*(?:调味)?`
+  + `|(?:用)?(?:少许|适量|一点|些许)?${VALIDATION_SEASONING_TOKEN_SOURCE}`
+  + `(?:(?:和|及|、)${VALIDATION_SEASONING_TOKEN_SOURCE})*调味`,
+);
+const VALIDATION_SALT_TOKEN_RE = new RegExp(VALIDATION_SALT_TOKEN_SOURCE);
+const VALIDATION_PEPPER_TOKEN_RE = new RegExp(VALIDATION_PEPPER_TOKEN_SOURCE);
+const VALIDATION_RETAINED_WATER_ACTION_RE = /(?:加入?|倒入?|放入?|添入?|注入?|兑入?|补入?|加)(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)/g;
+const VALIDATION_WATER_DISCARD_RE = /(?:倒掉|弃去|滤掉|沥干|倒出)/;
 const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
   `(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?(?:${[...VALIDATION_COOKING_OIL_NAMES].sort((a, b) => b.length - a.length).join('|')}|油)(?!菜))`,
 );
@@ -309,12 +326,38 @@ function validationPreparedHighRiskExemption(name) {
 
 function validationCookingOilIngredient(name) {
   const bare = validationFormName(name).replace(/\(.*?\)/g, '');
-  return VALIDATION_COOKING_OIL_NAMES.has(bare);
+  return bare === '油' || VALIDATION_COOKING_OIL_NAMES.has(bare);
 }
 
 function validationStepUsesCookingOil(step) {
   const text = validationFormName(step);
   return validationActiveActionMatches(text, VALIDATION_COOKING_OIL_ACTION_RE).length > 0;
+}
+
+function validationIngredientMatchesNames(name, names) {
+  const bare = validationFormName(name).replace(/\(.*?\)/g, '');
+  return names.has(bare);
+}
+
+function validationStepUsesSeasoningGroup(step, tokenRe) {
+  const text = validationFormName(step);
+  for (const match of text.matchAll(new RegExp(VALIDATION_SEASONING_INPUT_RE.source, 'g'))) {
+    if (!validationActionNegated(text, match.index) && tokenRe.test(match[0])) return true;
+  }
+  return false;
+}
+
+function validationStepUsesRetainedWater(step) {
+  const text = validationFormName(step);
+  const clauses = text.split(/[，,。；;！？!?]+/).filter(Boolean);
+  for (const clause of clauses) {
+    for (const match of clause.matchAll(new RegExp(VALIDATION_RETAINED_WATER_ACTION_RE.source, 'g'))) {
+      if (validationActionNegated(clause, match.index)) continue;
+      const waterEnd = match.index + match[0].length;
+      if (!VALIDATION_WATER_DISCARD_RE.test(clause.slice(waterEnd))) return true;
+    }
+  }
+  return false;
 }
 
 function validationSearchTokens(name, aliases) {
@@ -545,8 +588,26 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
       if (!cooked) flags.add(`high_risk_not_cooked:${name}`);
     }
   }
-  if (!ingredientNames.some(validationCookingOilIngredient) && steps.some(validationStepUsesCookingOil)) {
-    flags.add('step_ingredient_missing:烹调油');
+  const consumableGroups = [
+    ['step_ingredient_missing:烹调油', validationCookingOilIngredient, validationStepUsesCookingOil],
+    [
+      'step_ingredient_missing:盐',
+      name => validationIngredientMatchesNames(name, VALIDATION_SALT_NAMES),
+      step => validationStepUsesSeasoningGroup(step, VALIDATION_SALT_TOKEN_RE),
+    ],
+    [
+      'step_ingredient_missing:胡椒',
+      name => validationIngredientMatchesNames(name, VALIDATION_PEPPER_NAMES),
+      step => validationStepUsesSeasoningGroup(step, VALIDATION_PEPPER_TOKEN_RE),
+    ],
+    [
+      'step_ingredient_missing:水',
+      name => validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES),
+      validationStepUsesRetainedWater,
+    ],
+  ];
+  for (const [flag, ingredientMatches, stepUses] of consumableGroups) {
+    if (!ingredientNames.some(ingredientMatches) && steps.some(stepUses)) flags.add(flag);
   }
 
   for (const item of Array.isArray(selection?.usedPantry) ? selection.usedPantry : []) {
@@ -709,7 +770,7 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
 - 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。
 
 【最终提交自检】
-1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存名称不得出现在ingredients、steps或why；why可笼统写“有库存不适合”，但不得点名舍弃食材。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。

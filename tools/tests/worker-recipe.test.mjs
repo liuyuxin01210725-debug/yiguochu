@@ -10,7 +10,7 @@ import {
 } from '../../worker/src/worker.js';
 
 const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
-1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存名称不得出现在ingredients、steps或why；why可笼统写“有库存不适合”，但不得点名舍弃食材。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -74,6 +74,7 @@ function generatedMeal(overrides = {}) {
       { name: '大米', grams: 200 },
       { name: '鸡肉', grams: 250 },
       { name: '洋葱', grams: 120 },
+      { name: '水', grams: 240 },
     ],
     steps: ['鸡肉煎熟后加入洋葱炒香，再放大米和水加盖焖熟。'],
     family_id: 'model-forged-family',
@@ -1082,7 +1083,7 @@ test('generation marks allowed or optional pantry adaptations as adapted and kee
     meal: generatedMeal({
       ingredients: [
         { name: '大米', grams: 200 }, { name: '鸡肉', grams: 250 },
-        { name: '洋葱', grams: 120 }, { name: '葡萄干', grams: 30 },
+        { name: '洋葱', grams: 120 }, { name: '葡萄干', grams: 30 }, { name: '水', grams: 240 },
       ],
       steps: ['鸡肉煎熟后加入洋葱和葡萄干炒香，再放大米和水加盖焖熟。'],
     }),
@@ -1133,6 +1134,8 @@ test('default handler sends the cross-field output contract with selected pantry
   assert.match(prompt, /同一步必须同时写原名和形态/);
   assert.match(prompt, /鸡胸肉切成鸡丝/);
   assert.match(prompt, /大蒜切成蒜末/);
+  assert.match(prompt, /留在成品中的水/);
+  assert.match(prompt, /洗、淘、泡后倒掉的水可不列/);
   assert.match(prompt, /服务器已选库存（鸡肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);
   assert.match(prompt, /服务器舍弃库存（黄瓜）必须同时从 ingredients 与 steps 排除/);
   assert.match(prompt, /生的禽肉、猪肉、海鲜和普通鸡蛋/);
@@ -1162,8 +1165,10 @@ test('default handler ends its single DeepSeek prompt with the concise final pre
   assert.ok(FINAL_RECIPE_PREFLIGHT.length <= 500);
   assert.ok(prompt.endsWith(FINAL_RECIPE_PREFLIGHT));
   assert.ok(prompt.slice(-500).includes(FINAL_RECIPE_PREFLIGHT));
-  assert.match(FINAL_RECIPE_PREFLIGHT, /steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams/);
-  assert.match(FINAL_RECIPE_PREFLIGHT, /ingredients中除获准小量香辛料外，每个name必须在steps逐字出现/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /steps中的投入物都须在ingredients有同义name和数字grams/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /留在成品中的水/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /洗、淘、泡后倒掉的水可不列/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /除获准小量香辛料外，每个ingredient须在steps出现/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /只写蛋白凝固不算/);
   assert.doesNotMatch(FINAL_RECIPE_PREFLIGHT, /普通鸡蛋至少写“蛋白完全凝固”/);
@@ -1711,6 +1716,105 @@ test('cooking-oil joining actions and generic oil positions preserve exact oil i
     steps: ['加入橄榄油，加入大米。'],
   }, selection, { dislikes: [] });
   assert.ok(unlistedOil.includes('step_ingredient_missing:烹调油'));
+});
+
+function correspondenceSelection() {
+  return {
+    ingredientAliases: {},
+    usedPantry: [],
+    unusedPantry: [],
+    recipe: { core_ingredients: [] },
+  };
+}
+
+test('validator reproduces the three live consumable correspondence defects exactly', () => {
+  const cases = [
+    {
+      id: 'case-1',
+      meal: {
+        ingredients: [
+          '大米', '鸡腿肉', '洋葱', '葡萄干', '姜', '大蒜', '姜黄粉', '盐',
+        ].map(name => ({ name, grams: 10 })),
+        steps: [
+          '鸡腿肉切块，洋葱切丝，姜蒜切末。锅加油，炒洋葱，加姜蒜、姜黄粉，放入鸡块。',
+          '加入大米、葡萄干和850毫升水，焖至米饭熟透，鸡肉熟透无粉红。',
+        ],
+      },
+      expected: [
+        'ingredient_missing_in_steps:盐',
+        'step_ingredient_missing:烹调油',
+        'step_ingredient_missing:水',
+      ],
+    },
+    {
+      id: 'case-3',
+      meal: {
+        ingredients: ['大米', '卷心菜', '高汤', '番茄', '白豆', '洋葱', '橄榄油']
+          .map(name => ({ name, grams: 10 })),
+        steps: [
+          '大米洗净，提前用清水浸泡15分钟；番茄切块，洋葱切丁，卷心菜切丝，白豆沥干。',
+          '锅中加橄榄油，炒洋葱，加入番茄、卷心菜、白豆、大米和高汤煮熟。',
+          '关火，根据口味加盐和胡椒调味。',
+        ],
+      },
+      expected: ['step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'],
+    },
+    {
+      id: 'case-4',
+      meal: {
+        ingredients: ['鸡腿肉', '洋葱', '土豆', '椰奶', '玉米粒', '油', '盐']
+          .map(name => ({ name, grams: 10 })),
+        steps: [
+          '鸡腿肉切块；洋葱切丝；土豆切块；玉米粒备用。',
+          '锅中加油，炒洋葱和鸡块，加入土豆块和玉米粒。',
+          '倒入椰奶和盐，加半杯水（约120ml），焖至鸡肉熟透、中心不见粉红。',
+        ],
+      },
+      expected: ['step_ingredient_missing:水'],
+    },
+  ];
+
+  for (const { id, meal, expected } of cases) {
+    assert.deepEqual(validateGroundedMeal(meal, correspondenceSelection(), {}), expected, id);
+  }
+});
+
+test('controlled consumables require rows without matching preparation water or word compounds', () => {
+  const cases = [
+    { ingredients: ['大米'], step: '锅中倒入橄榄油，加入大米。', present: ['step_ingredient_missing:烹调油'] },
+    { ingredients: ['大米', '油'], step: '锅中加油，加入大米。', absent: ['step_ingredient_missing:烹调油'] },
+    { ingredients: ['大米'], step: '加入酱油和油菜。', absent: ['step_ingredient_missing:烹调油'] },
+    { ingredients: ['大米'], step: '不加油、不放盐，加入大米。', absent: ['step_ingredient_missing:烹调油', 'step_ingredient_missing:盐'] },
+    { ingredients: ['大米'], step: '撒少许海盐和黑胡椒调味。', present: ['step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'] },
+    { ingredients: ['大米', '食盐', '白胡椒粉'], step: '加入大米、食盐和白胡椒粉调味。', absent: ['step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'] },
+    { ingredients: ['大米'], step: '加入大米和2杯清水煮熟。', present: ['step_ingredient_missing:水'] },
+    { ingredients: ['大米', '清水'], step: '加入大米和2杯清水煮熟。', absent: ['step_ingredient_missing:水'] },
+    { ingredients: ['大米'], step: '大米用清水洗净并浸泡，沥干后入锅。', absent: ['step_ingredient_missing:水'] },
+    { ingredients: ['大米'], step: '大米加水焯煮后倒掉水并沥干。', absent: ['step_ingredient_missing:水'] },
+  ];
+
+  for (const { ingredients, step, present = [], absent = [] } of cases) {
+    const meal = { ingredients: ingredients.map(name => ({ name, grams: 10 })), steps: [step] };
+    const flags = validateGroundedMeal(meal, correspondenceSelection(), {});
+    for (const flag of present) assert.ok(flags.includes(flag), `${step}: ${flag}`);
+    for (const flag of absent) assert.equal(flags.includes(flag), false, `${step}: ${flag}`);
+  }
+});
+
+test('controlled consumable flags are deduplicated and malformed values do not throw', () => {
+  const repeated = {
+    ingredients: [{ name: '大米', grams: 100 }],
+    steps: ['加盐和胡椒调味，加水煮。', '再次加盐、胡椒和水。'],
+  };
+  const flags = validateGroundedMeal(repeated, correspondenceSelection(), {});
+  assert.equal(flags.filter(flag => flag === 'step_ingredient_missing:盐').length, 1);
+  assert.equal(flags.filter(flag => flag === 'step_ingredient_missing:胡椒').length, 1);
+  assert.equal(flags.filter(flag => flag === 'step_ingredient_missing:水').length, 1);
+  assert.doesNotThrow(() => validateGroundedMeal(
+    { ingredients: [null, 0, { name: null }], steps: [null, 0, {}] },
+    correspondenceSelection(),
+    {},
+  ));
 });
 
 test('negated salt and a rice substring are not positive ingredient mentions', () => {
