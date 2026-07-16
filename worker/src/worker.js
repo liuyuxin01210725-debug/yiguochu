@@ -1227,9 +1227,27 @@ const RICE_SAFE_DESCRIPTION_COPY = {
   taste_preview: '番茄酸甜先开胃，土豆绵软，红扁豆炖至细腻，尾段留有温和香料气息。',
   form: '一锅炖',
 };
+const RICE_SAFE_MULTI_VESSEL_COPY_RE = /(?:(?:[二两三四五六七八九]|[2-9])(?:口|只|个)?锅|多口锅)/;
 
 function joinRecipeNames(names) {
   return names.filter(Boolean).join('、');
+}
+
+function riceSafeDescriptionNeedsRepair(value) {
+  if (typeof value !== 'string') return false;
+  return validationRiceAllergenMatches(validationFormName(value), true).length > 0
+    || RICE_SAFE_MULTI_VESSEL_COPY_RE.test(value);
+}
+
+function explicitRetainedWaterGrams(steps) {
+  const text = steps.join(' ');
+  const amountThenWater = text.match(/(\d+(?:\.\d+)?)\s*(毫升|ml|克|g)\s*(?:的)?(?:清水|水)/i);
+  const waterThenAmount = text.match(/(?:清水|水)\s*(\d+(?:\.\d+)?)\s*(毫升|ml|克|g)/i);
+  const match = amountThenWater || waterThenAmount;
+  if (!match) return 0;
+  const amount = Number(match[1]);
+  if (!Number.isFinite(amount) || amount < 50 || amount > 3000) return 0;
+  return Math.round(amount);
 }
 
 function repairRiceAllergyCompleteMain(meal, selection, constraints = {}) {
@@ -1239,7 +1257,7 @@ function repairRiceAllergyCompleteMain(meal, selection, constraints = {}) {
     return 0;
   }
 
-  const ingredientNames = validationIngredientNames(meal);
+  let ingredientNames = validationIngredientNames(meal);
   const criticalFields = [
     meal.dish_name,
     ...ingredientNames,
@@ -1253,22 +1271,33 @@ function repairRiceAllergyCompleteMain(meal, selection, constraints = {}) {
 
   let repaired = 0;
   for (const [field, replacement] of Object.entries(RICE_SAFE_DESCRIPTION_COPY)) {
-    if (typeof meal[field] !== 'string'
-      || validationRiceAllergenMatches(validationFormName(meal[field]), true).length === 0) {
-      continue;
-    }
+    if (!riceSafeDescriptionNeedsRepair(meal[field])) continue;
     meal[field] = replacement;
     repaired += 1;
   }
   if (Array.isArray(meal.flavor_tags)) {
     const repairedTags = meal.flavor_tags.map(tag => (
-      typeof tag === 'string'
-      && validationRiceAllergenMatches(validationFormName(tag), true).length > 0
+      riceSafeDescriptionNeedsRepair(tag)
         ? '醇厚'
         : tag
     ));
     if (repairedTags.some((tag, index) => tag !== meal.flavor_tags[index])) {
       meal.flavor_tags = repairedTags;
+      repaired += 1;
+    }
+  }
+
+  const beforeStructuralFlags = validateGroundedMeal(meal, selection, constraints);
+  const hasWaterIngredient = ingredientNames.some(name => (
+    validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES)
+  ));
+  if (beforeStructuralFlags.includes('step_ingredient_missing:水') && !hasWaterIngredient) {
+    const grams = explicitRetainedWaterGrams(validationSteps(meal));
+    if (grams > 0 && Array.isArray(meal.ingredients)) {
+      const water = { name: '水', grams };
+      for (const key of NUTRIENT_KEYS) water[key] = 0;
+      meal.ingredients.push(water);
+      ingredientNames = validationIngredientNames(meal);
       repaired += 1;
     }
   }

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
   selectRecipeCandidates,
   validateGroundedMeal,
@@ -1435,6 +1436,90 @@ test('ordinary lentil generation does not receive trusted rice-safe repair', asy
   assert.deepEqual(body.steps, before.steps);
   assert.equal(body.note, before.note);
   assert.ok(body.validation_flags.includes('multi_pot_step'));
+});
+
+test('trusted rice-safe repair appends only explicitly measured retained water', () => {
+  const constraints = { pantry: [], dislikes: ['大米过敏'] };
+  const selection = selectRecipeCandidates(lib, constraints)[0];
+  const meal = {
+    ingredients: [
+      { name: '红扁豆', grams: 200, kcal: 350 },
+      { name: '土豆', grams: 400, kcal: 77 },
+      { name: '番茄', grams: 400, kcal: 18 },
+      { name: '植物油', grams: 15, kcal: 884 },
+      { name: '盐', grams: 3, kcal: 0 },
+      { name: '月桂叶', grams: 1, kcal: 313 },
+    ],
+    steps: [
+      '锅中加入植物油，放入土豆和番茄翻炒。',
+      '加入红扁豆和800毫升水，放入月桂叶，炖至红扁豆熟烂、土豆中心无硬芯，加盐调味。',
+    ],
+    note: '红扁豆、土豆和番茄组成完整主餐。',
+    why: '一锅炖煮省时省力。',
+    form: '一锅炖',
+  };
+  const existingIngredients = structuredClone(meal.ingredients);
+
+  assert.equal(repairRiceAllergyCompleteMain(meal, selection, constraints), 1);
+  assert.deepEqual(meal.ingredients.slice(0, -1), existingIngredients);
+  assert.deepEqual(meal.ingredients.at(-1), {
+    name: '水',
+    grams: 800,
+    kcal: 0,
+    p: 0,
+    fb: 0,
+    mg: 0,
+    k: 0,
+    ca: 0,
+    fe: 0,
+    zn: 0,
+    na: 0,
+    vc: 0,
+    vd: 0,
+    w3: 0,
+  });
+  assert.deepEqual(validateGroundedMeal(meal, selection, constraints), []);
+
+  const unmeasured = {
+    ingredients: structuredClone(existingIngredients),
+    steps: ['锅中加入植物油、土豆、番茄、红扁豆和水，炖至熟烂，加盐和月桂叶。'],
+    note: '红扁豆、土豆和番茄组成完整主餐。',
+    form: '一锅炖',
+  };
+  const before = structuredClone(unmeasured);
+  assert.equal(repairRiceAllergyCompleteMain(unmeasured, selection, constraints), 0);
+  assert.deepEqual(unmeasured, before);
+  assert.ok(validateGroundedMeal(unmeasured, selection, constraints).includes('step_ingredient_missing:水'));
+});
+
+test('trusted rice-safe repair replaces contradictory vessel copy only in descriptions', () => {
+  const constraints = { pantry: [], dislikes: ['大米过敏'] };
+  const selection = selectRecipeCandidates(lib, constraints)[0];
+  const meal = {
+    dish_name: '红扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 200 },
+      { name: '土豆', grams: 400 },
+      { name: '番茄', grams: 300 },
+      { name: '水', grams: 800 },
+    ],
+    steps: ['同一口锅加入红扁豆、土豆、番茄和水，炖至红扁豆熟烂、土豆中心无硬芯。'],
+    why: '仅用三口锅（实际一口锅），25分钟就能吃上。',
+    note: '红扁豆、土豆和番茄组成完整主餐。',
+    form: '一锅炖',
+  };
+  const criticalBefore = {
+    dish_name: meal.dish_name,
+    ingredients: structuredClone(meal.ingredients),
+    steps: structuredClone(meal.steps),
+  };
+
+  assert.equal(repairRiceAllergyCompleteMain(meal, selection, constraints), 1);
+  assert.equal(meal.why, '红扁豆补充蛋白，土豆提供主食感，番茄带来酸甜');
+  assert.equal(meal.dish_name, criticalBefore.dish_name);
+  assert.deepEqual(meal.ingredients, criticalBefore.ingredients);
+  assert.deepEqual(meal.steps, criticalBefore.steps);
+  assert.deepEqual(validateGroundedMeal(meal, selection, constraints), []);
 });
 
 test('generation repairs an undercooked endpoint without a second DeepSeek call or metadata drift', async () => {

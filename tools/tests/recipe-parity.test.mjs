@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import worker, {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
   selectRecipeCandidates,
   validateGroundedMeal,
@@ -55,6 +56,16 @@ elif action == 'repair':
     selection = proxy.select_recipe_candidates(request['library'], constraints)[request.get('selection_index', 0)]
     meal = copy.deepcopy(request['meal'])
     repaired = proxy.repair_grounded_meal_safety(meal, selection, constraints)
+    result = {
+        'repaired': repaired,
+        'meal': meal,
+        'flags': proxy.validate_grounded_meal(meal, selection, constraints),
+    }
+elif action == 'repair_rice_safe':
+    constraints = request.get('constraints', {})
+    selection = proxy.select_recipe_candidates(request['library'], constraints)[request.get('selection_index', 0)]
+    meal = copy.deepcopy(request['meal'])
+    repaired = proxy.repair_rice_allergy_complete_main(meal, selection, constraints)
     result = {
         'repaired': repaired,
         'meal': meal,
@@ -1431,6 +1442,52 @@ test('Python trusted rice-safe live repair exactly matches Worker', async () => 
   assert.deepEqual(py.meal.validation_flags, body.validation_flags);
   assert.deepEqual(body.validation_flags, []);
   assert.doesNotMatch(body.steps.join(''), /另取|另起|另一口|第二口|炒锅|平底锅|汤锅/);
+});
+
+test('Python retained-water and contradictory-vessel repair exactly match Worker', () => {
+  const constraints = { pantry: [], dislikes: ['大米过敏'] };
+  const selection = selectRecipeCandidates(lib, constraints)[0];
+  const cases = [
+    {
+      ingredients: [
+        { name: '红扁豆', grams: 200, kcal: 350 },
+        { name: '土豆', grams: 400, kcal: 77 },
+        { name: '番茄', grams: 400, kcal: 18 },
+        { name: '植物油', grams: 15, kcal: 884 },
+        { name: '盐', grams: 3, kcal: 0 },
+        { name: '月桂叶', grams: 1, kcal: 313 },
+      ],
+      steps: [
+        '锅中加入植物油，放入土豆和番茄翻炒。',
+        '加入红扁豆和800毫升水，放入月桂叶，炖至红扁豆熟烂、土豆中心无硬芯，加盐调味。',
+      ],
+      note: '红扁豆、土豆和番茄组成完整主餐。',
+      form: '一锅炖',
+    },
+    {
+      dish_name: '红扁豆土豆番茄咖喱',
+      ingredients: [
+        { name: '红扁豆', grams: 200 },
+        { name: '土豆', grams: 400 },
+        { name: '番茄', grams: 300 },
+        { name: '水', grams: 800 },
+      ],
+      steps: ['同一口锅加入红扁豆、土豆、番茄和水，炖至红扁豆熟烂、土豆中心无硬芯。'],
+      why: '仅用三口锅（实际一口锅），25分钟就能吃上。',
+      note: '红扁豆、土豆和番茄组成完整主餐。',
+      form: '一锅炖',
+    },
+  ];
+
+  for (const meal of cases) {
+    const jsMeal = structuredClone(meal);
+    const jsRepaired = repairRiceAllergyCompleteMain(jsMeal, selection, constraints);
+    const py = pythonCall('repair_rice_safe', { library: lib, constraints, meal });
+    assert.equal(py.repaired, jsRepaired);
+    assert.deepEqual(py.meal, jsMeal);
+    assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints));
+    assert.deepEqual(py.flags, []);
+  }
 });
 
 test('recipe-match invalid JSON and no candidate fail nonzero with stderr-only diagnostics', () => {

@@ -256,3 +256,60 @@ If any live case fails, do not claim product readiness and do not add unapproved
 - [ ] **Step 5: Final verification**
 
 Repeat the complete offline verification, confirm 8765 ownership is unchanged, owned ports are free, production is untouched, and report the actual readiness verdict.
+
+### Task 4: Close defects discovered by the first hardening live gate
+
+**Files:**
+- Modify: `tools/tests/worker-recipe.test.mjs`
+- Modify: `tools/tests/recipe-parity.test.mjs`
+- Modify: `worker/src/worker.js`
+- Modify: `ai_proxy.py`
+
+**Live evidence:**
+- `/tmp/yiguochu-rice-safe-live-hardening.PQWoyw/02-white-rice-allergy-corn-control.raw.json`
+- `/tmp/yiguochu-rice-safe-live-hardening.PQWoyw/03-cooked-rice-allergy-millet-control.raw.json`
+
+**Interfaces:**
+- Extends `repairRiceAllergyCompleteMain()` / `repair_rice_allergy_complete_main()`.
+- Adds a water row only when a trusted rice-safe response uses retained water with an explicit numeric amount but omits the ingredient row.
+- Replaces contradictory multi-vessel wording only in descriptive fields.
+
+- [ ] **Step 1: Add failing live-regression tests**
+
+Add one fixture with `加入红扁豆和800毫升水` but no water ingredient. Assert:
+
+- one `{name: "水", grams: 800}` row is appended;
+- every nutrient key on that row is `0`;
+- all pre-existing ingredient objects remain byte-equivalent and in the same order;
+- `step_ingredient_missing:水` clears;
+- no water row is invented when the step has no explicit numeric amount.
+
+Add a fixture whose `why` says `仅用三口锅（实际一口锅）`. Assert it becomes the fixed positive `why` copy while dish name, ingredients, and steps remain unchanged.
+
+- [ ] **Step 2: Run Worker tests and verify RED**
+
+Run:
+
+```bash
+node --test tools/tests/worker-recipe.test.mjs
+```
+
+Expected: numeric retained water is still missing and contradictory vessel copy is unchanged.
+
+- [ ] **Step 3: Implement minimal authoritative repair**
+
+Within the trusted profile only:
+
+1. Before the one-pot repair prerequisite check, inspect `step_ingredient_missing:水`.
+2. If no water ingredient exists, extract the first explicit amount from either `800毫升水`, `800克水`, `水800毫升`, or `水800克`.
+3. Accept only `50..3000`, convert millilitres to grams at `1 ml = 1 g`, and append a normalized water row with all 12 nutrient values set to `0`.
+4. If the amount is absent or out of bounds, retain the validation flag.
+5. Treat `(?:[二两三四五六七八九]|[2-9])(?:口|只|个)?锅|多口锅` as contradictory vessel copy in `note`, `taste_preview`, `form`, `why`, or `flavor_tags`, and replace only the affected descriptive field with the existing fixed positive copy.
+
+- [ ] **Step 4: Mirror exactly in Python and add parity**
+
+Assert exact ingredient append order, grams, nutrient keys, copy, and flags.
+
+- [ ] **Step 5: Commit and rerun a second bounded live gate**
+
+Use H/O/A/T isolation, preserve patch-id `cdcd5686ef54d082cb898bf6367dcf2de8db21e4`, rerun the complete offline gate, then run a fresh 04 + exactly three 01–03 no-retry calls. Do not reuse or overwrite the first hardening evidence directory.

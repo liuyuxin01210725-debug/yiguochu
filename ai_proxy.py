@@ -1437,10 +1437,44 @@ _RICE_SAFE_DESCRIPTION_COPY = {
     'taste_preview': '番茄酸甜先开胃，土豆绵软，红扁豆炖至细腻，尾段留有温和香料气息。',
     'form': '一锅炖',
 }
+_RICE_SAFE_MULTI_VESSEL_COPY_RE = re.compile(
+    r'(?:(?:[二两三四五六七八九]|[2-9])(?:口|只|个)?锅|多口锅)'
+)
 
 
 def _join_recipe_names(names):
     return '、'.join(name for name in names if name)
+
+
+def _rice_safe_description_needs_repair(value):
+    return (
+        isinstance(value, str)
+        and (
+            bool(_validation_rice_allergen_matches(_validation_form_name(value), True))
+            or bool(_RICE_SAFE_MULTI_VESSEL_COPY_RE.search(value))
+        )
+    )
+
+
+def _explicit_retained_water_grams(steps):
+    text = ' '.join(steps)
+    amount_then_water = re.search(
+        r'(\d+(?:\.\d+)?)\s*(毫升|ml|克|g)\s*(?:的)?(?:清水|水)',
+        text,
+        re.IGNORECASE,
+    )
+    water_then_amount = re.search(
+        r'(?:清水|水)\s*(\d+(?:\.\d+)?)\s*(毫升|ml|克|g)',
+        text,
+        re.IGNORECASE,
+    )
+    match = amount_then_water or water_then_amount
+    if match is None:
+        return 0
+    amount = float(match.group(1))
+    if not math.isfinite(amount) or amount < 50 or amount > 3000:
+        return 0
+    return math.floor(amount + 0.5)
 
 
 def repair_rice_allergy_complete_main(meal, selection, constraints=None):
@@ -1468,22 +1502,35 @@ def repair_rice_allergy_complete_main(meal, selection, constraints=None):
 
     repaired = 0
     for field, replacement in _RICE_SAFE_DESCRIPTION_COPY.items():
-        value = meal.get(field)
-        if (not isinstance(value, str)
-                or not _validation_rice_allergen_matches(_validation_form_name(value), True)):
+        if not _rice_safe_description_needs_repair(meal.get(field)):
             continue
         meal[field] = replacement
         repaired += 1
     if isinstance(meal.get('flavor_tags'), list):
         repaired_tags = [
             '醇厚'
-            if (isinstance(tag, str)
-                and _validation_rice_allergen_matches(_validation_form_name(tag), True))
+            if _rice_safe_description_needs_repair(tag)
             else tag
             for tag in meal['flavor_tags']
         ]
         if any(tag != meal['flavor_tags'][index] for index, tag in enumerate(repaired_tags)):
             meal['flavor_tags'] = repaired_tags
+            repaired += 1
+
+    before_structural_flags = validate_grounded_meal(meal, selection, constraints)
+    has_water_ingredient = any(
+        _validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES)
+        for name in ingredient_names
+    )
+    if ('step_ingredient_missing:水' in before_structural_flags
+            and not has_water_ingredient):
+        grams = _explicit_retained_water_grams(_validation_steps(meal))
+        if grams > 0 and isinstance(meal.get('ingredients'), list):
+            water = {'name': '水', 'grams': grams}
+            for key in NUTRIENT_KEYS:
+                water[key] = 0
+            meal['ingredients'].append(water)
+            ingredient_names = _validation_ingredient_names(meal)
             repaired += 1
 
     if 'multi_pot_step' not in validate_grounded_meal(meal, selection, constraints):
