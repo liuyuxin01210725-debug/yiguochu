@@ -35,6 +35,8 @@ const EXPECTED_RECIPES = [
   ['rice-cabbage-minestrone', 'family-minestrone', '米粒卷心菜杂蔬汤', 'Cookbook:Rice and Cabbage Minestrone', 'https://en.wikibooks.org/wiki/Cookbook:Rice_and_Cabbage_Minestrone'],
 ];
 
+const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。';
+
 test('Phase A library has 9 families and 12 approved recipes', () => {
   assert.deepEqual(validateRecipeLibrary(lib), []);
   assert.equal(lib.families.length, 9);
@@ -61,7 +63,17 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     鸡胸肉: '鸡肉',
     青椒: '甜椒',
     椰浆: '椰奶',
+    扁豆: '红扁豆',
   });
+});
+
+test('only the lentil curry is approved as a complete rice-allergy main meal', () => {
+  const qualified = lib.recipes.filter(recipe => Array.isArray(recipe.constraint_profiles));
+  assert.deepEqual(qualified.map(recipe => recipe.id), ['lentil-potato-tomato-curry']);
+  assert.deepEqual(qualified[0].constraint_profiles, [{
+    id: 'rice-allergy-complete-main',
+    basis: RICE_SAFE_BASIS,
+  }]);
 });
 
 test('every seed carries explicit adaptation, cooking, safety, and source metadata', () => {
@@ -148,6 +160,30 @@ test('validator rejects missing ratio rules, discouraged rules, and malformed su
   assert.ok(errors.includes(`${invalid.recipes[0].id} ratio_rules must be non-empty`));
   assert.ok(errors.includes(`${invalid.recipes[1].id} discouraged must be non-empty`));
   assert.ok(errors.includes(`${invalid.recipes[2].id} invalid substitution slot`));
+});
+
+test('validator rejects malformed unknown and duplicate constraint profiles', () => {
+  const invalid = structuredClone(lib);
+  invalid.recipes[0].constraint_profiles = {};
+  invalid.recipes[1].constraint_profiles = [
+    null,
+    { id: 'unknown-profile', basis: RICE_SAFE_BASIS },
+    { id: 'rice-allergy-complete-main', basis: '   ' },
+    { id: 'rice-allergy-complete-main', basis: RICE_SAFE_BASIS },
+    { id: 'rice-allergy-complete-main', basis: RICE_SAFE_BASIS, extra: true },
+  ];
+
+  const errors = validateRecipeLibrary(invalid);
+  for (const expected of [
+    `${invalid.recipes[0].id} constraint_profiles must be a non-empty array`,
+    `${invalid.recipes[1].id} constraint profile at index 0 must be an object`,
+    `${invalid.recipes[1].id} constraint profile at index 1 has unknown id unknown-profile`,
+    `${invalid.recipes[1].id} constraint profile at index 2 missing basis`,
+    `${invalid.recipes[1].id} duplicate constraint profile rice-allergy-complete-main`,
+    `${invalid.recipes[1].id} constraint profile at index 4 has unexpected fields`,
+  ]) {
+    assert.ok(errors.includes(expected), expected);
+  }
 });
 
 test('validator returns errors for malformed nested containers and objects without throwing', () => {

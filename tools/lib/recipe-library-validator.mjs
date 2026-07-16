@@ -1,6 +1,8 @@
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const REASON_TYPES = new Set(['taste', 'texture_water', 'timing', 'safety']);
+const CONSTRAINT_PROFILE_IDS = new Set(['rice-allergy-complete-main']);
+const CONSTRAINT_PROFILE_FIELDS = new Set(['id', 'basis']);
 const STRING_ARRAY_FIELDS = [
   'purposes',
   'core_ingredients',
@@ -124,6 +126,34 @@ export function validateRecipeLibrary(lib) {
     }
     for (const key of OBJECT_ARRAY_FIELDS) {
       validateRequiredArray(recipe[key], `${label} ${key}`, errors);
+    }
+
+    if (recipe.constraint_profiles !== undefined) {
+      if (!Array.isArray(recipe.constraint_profiles) || recipe.constraint_profiles.length === 0) {
+        errors.push(`${label} constraint_profiles must be a non-empty array`);
+      } else {
+        const profileIds = new Set();
+        for (const [profileIndex, profile] of recipe.constraint_profiles.entries()) {
+          if (!isPlainObject(profile)) {
+            errors.push(`${label} constraint profile at index ${profileIndex} must be an object`);
+            continue;
+          }
+          const profileId = isNonEmptyString(profile.id) ? profile.id : '<invalid>';
+          if (!CONSTRAINT_PROFILE_IDS.has(profileId)) {
+            errors.push(`${label} constraint profile at index ${profileIndex} has unknown id ${profileId}`);
+          }
+          if (profileIds.has(profileId)) {
+            errors.push(`${label} duplicate constraint profile ${profileId}`);
+          }
+          profileIds.add(profileId);
+          if (!isNonEmptyString(profile.basis)) {
+            errors.push(`${label} constraint profile at index ${profileIndex} missing basis`);
+          }
+          if (Object.keys(profile).some(key => !CONSTRAINT_PROFILE_FIELDS.has(key))) {
+            errors.push(`${label} constraint profile at index ${profileIndex} has unexpected fields`);
+          }
+        }
+      }
     }
 
     if (Array.isArray(recipe.substitution_slots)) {

@@ -6,7 +6,8 @@
     "鸡腿肉": "鸡肉",
     "鸡胸肉": "鸡肉",
     "青椒": "甜椒",
-    "椰浆": "椰奶"
+    "椰浆": "椰奶",
+    "扁豆": "红扁豆"
   },
   "families": [
     { "id": "family-rice-porridge", "name": "米粥", "form": "粥" },
@@ -221,6 +222,12 @@
       "form": "炖锅",
       "summary": "把红扁豆煮软，同时煎香土豆和香料，再与番茄合锅炖到土豆绵软。",
       "purposes": ["pantry", "fresh", "batch"],
+      "constraint_profiles": [
+        {
+          "id": "rice-allergy-complete-main",
+          "basis": "红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。"
+        }
+      ],
       "core_ingredients": ["红扁豆", "土豆", "番茄"],
       "optional_ingredients": ["黄油", "橄榄油", "月桂叶", "姜黄", "辣椒粉", "综合香料", "蜂蜜"],
       "substitution_slots": [
