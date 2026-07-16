@@ -4,8 +4,10 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 
 const html = fs.readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
-const mainScript = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
-assert.ok(mainScript, 'index.html must contain the main inline script');
+const appScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+  .map(match => match[1])
+  .filter(script => !script.includes('serviceWorker'));
+assert.ok(appScripts.length >= 2, 'index.html must contain the main and safety scripts');
 
 function meal(overrides = {}) {
   return {
@@ -87,7 +89,9 @@ function loadFrontend(responses = []) {
       };
     },
   });
-  vm.runInContext(mainScript, context, { filename: 'index-inline.js' });
+  for (const [index, script] of appScripts.entries()) {
+    vm.runInContext(script, context, { filename: `index-inline-${index + 1}.js` });
+  }
   return { context, calls, root };
 }
 
@@ -257,4 +261,75 @@ test('unsafe_recipe maps to the explicit emergency reference message', () => {
   const { context } = loadFrontend();
   const copy = JSON.parse(evaluate(context, `JSON.stringify(fallbackCopy({ code:'unsafe_recipe' }))`));
   assert.equal(copy.text, '这版做法没有通过食材和熟制检查，下面先给一个应急参考。');
+});
+
+test('frontend controlled rice allergy activation stays bounded', () => {
+  const { context } = loadFrontend();
+  const positives = JSON.parse(evaluate(context, `JSON.stringify([
+    hasControlledRiceAllergyInput('大米过敏'),
+    hasControlledRiceAllergyInput('白米过敏'),
+    hasControlledRiceAllergyInput('米饭过敏'),
+    hasControlledRiceAllergyInput('糙米过敏')
+  ])`));
+  assert.deepEqual(positives, [true, true, true, true]);
+  const negatives = JSON.parse(evaluate(context, `JSON.stringify([
+    hasControlledRiceAllergyInput('花生过敏'),
+    hasControlledRiceAllergyInput('小米过敏'),
+    hasControlledRiceAllergyInput('玉米过敏'),
+    hasControlledRiceAllergyInput('米醋过敏')
+  ])`));
+  assert.deepEqual(negatives, [false, false, false, false]);
+});
+
+test('rice allergy generation failure renders a stop-only screen with no recipe content', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile.dislikes = '大米过敏';
+    state.dish = DISHES[2];
+    state.items = DISHES[2].ingredients.map(item => ({...item}));
+    showGenerationFailure({ code:'network', message:'failed' });
+  })()`);
+  assert.equal(evaluate(context, `state.view`), 'safe-stop');
+  assert.match(root.innerHTML, /暂时没有安全的无米方案/);
+  assert.match(root.innerHTML, /调整食材或忌口/);
+  assert.doesNotMatch(root.innerHTML, /照烧鸡腿杂粮拌饭|应急参考|开始做|需要这些|营养参考/);
+});
+
+test('no_safe_recipe is non-retryable and uses one HTTP request', async () => {
+  const { context, calls } = loadFrontend([{
+    status: 422,
+    body: {
+      code: 'no_safe_recipe',
+      error: '暂时没有符合这些过敏或忌口条件的可信无米主餐',
+    },
+  }]);
+  await assert.rejects(
+    evaluate(context, `(() => {
+      state.profile.dislikes = '大米过敏';
+      return fetchRealDish({});
+    })()`),
+    error => error?.code === 'no_safe_recipe' && error?.retryable === false,
+  );
+  assert.equal(calls.length, 1);
+});
+
+test('safe stop returns to the editable profile', () => {
+  const { context } = loadFrontend();
+  const stateView = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.view = 'safe-stop';
+    state.profileEditing = false;
+    openEditableProfile();
+    return { view:state.view, editing:state.profileEditing };
+  })())`));
+  assert.deepEqual(stateView, { view: 'profile', editing: true });
+});
+
+test('non-rice failures preserve the existing static fallback', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile.dislikes = '花生过敏';
+    showGenerationFailure({ code:'network', message:'failed' });
+  })()`);
+  assert.equal(evaluate(context, `state.view`), 'fallback');
+  assert.match(root.innerHTML, /应急参考 · 未按你的偏好定制/);
 });

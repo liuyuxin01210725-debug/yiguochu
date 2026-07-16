@@ -1274,6 +1274,81 @@ document.getElementById('root').addEventListener('click', (e) => {
   render();
 })();
 </script>
+<script>
+// 米类过敏安全增强：无可信无米主餐时只显示停止页，不展示静态应急菜谱。
+const CONTROLLED_RICE_ALLERGY_INPUTS = new Set([
+  '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+  '米饭', '白米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭',
+  '剩米饭', '隔夜米饭', '即食米饭',
+]);
+function hasControlledRiceAllergyInput(value) {
+  return String(value || '').split(/[,，、\s]+/)
+    .map(item => normFoodName(item.replace(/过敏|不吃|忌口|不要/g, '')))
+    .filter(Boolean)
+    .some(item => CONTROLLED_RICE_ALLERGY_INPUTS.has(item));
+}
+function shouldUseRiceSafeStop(error, dislikes) {
+  return (error && error.code === 'no_safe_recipe') || hasControlledRiceAllergyInput(dislikes);
+}
+function safeStopScreen() {
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">暂时没有安全的无米方案</div>'
+    + '<p class="fb-banner-text">为了不把不合适的主食硬塞进菜谱，这次没有展示应急菜谱。可以调整忌口或现有食材后再试。</p>'
+    + '</div></div><button class="btn btn-primary" data-act="edit-safe-profile">'
+    + icon('edit',{size:18,sw:1.9}) + '<span>调整食材或忌口</span></button>'
+    + '</section></div>';
+}
+function openEditableProfile() {
+  state.profileEditing = true;
+  state.view = 'profile';
+  window.scrollTo(0, 0);
+  render();
+}
+function showGenerationFailure(err) {
+  state.lastGenError = normalizeGenError(err);
+  state.notice = '';
+  if (shouldUseRiceSafeStop(state.lastGenError, state.profile.dislikes)) {
+    state.view = 'safe-stop';
+    window.scrollTo(0, 0);
+    document.getElementById('root').innerHTML = safeStopScreen();
+    return;
+  }
+  state.dish = DISHES[2];
+  state.items = DISHES[2].ingredients.map(x => ({ ...x }));
+  state.view = 'fallback';
+  window.scrollTo(0, 0);
+  render();
+}
+runGenerate = async function(opts) {
+  opts = opts || {};
+  clearGen();
+  const myId = ++genId;
+  state.notice = '';
+  state.lastGenError = null;
+  state.view = 'generating'; state.genStage = 0; render();
+  genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
+  genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
+  const started = Date.now();
+  try {
+    const dish = await fetchRealDish(opts);
+    if (myId !== genId) return;
+    const wait = Math.max(0, 2000 - (Date.now() - started));
+    genTimers.push(setTimeout(() => { if (myId === genId) showResult(dish); }, wait));
+  } catch (err) {
+    if (myId !== genId) return;
+    genTimers.push(setTimeout(() => {
+      if (myId !== genId) return;
+      showGenerationFailure(err);
+    }, 400));
+  }
+};
+document.getElementById('root').addEventListener('click', (e) => {
+  const target = e.target.closest('[data-act]');
+  if (target && target.dataset.act === 'edit-safe-profile') openEditableProfile();
+});
+</script>
 <script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过) */
 if ('serviceWorker' in navigator && location.protocol === 'https:') { navigator.serviceWorker.register('sw.js').catch(function(){}); }</script>
 </body>
