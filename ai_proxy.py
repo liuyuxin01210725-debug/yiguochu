@@ -126,7 +126,7 @@ RECIPE_TEMPLATE = '''生成一道【{meal_name}】一日量的简单家常单品
 - 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。
 
 【最终提交自检】
-1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存名称不得出现在ingredients、steps或why；why可笼统写“有库存不适合”，但不得点名舍弃食材。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -415,6 +415,7 @@ def build_recipe_grounding(selection):
         f"舍弃库存: {_compact_recipe_list(selection.get('unused_pantry'))}",
         '【输出完整性契约】',
         '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
+        '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams；洗、淘、泡后倒掉的水可不列。',
         f"服务器已选库存（{_compact_recipe_list(selection.get('used_pantry'))}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（{_compact_recipe_list(selection.get('unused_pantry'))}）必须同时从 ingredients 与 steps 排除。",
         '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
         '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',
@@ -473,6 +474,28 @@ _VALIDATION_COOKING_OIL_NAMES = {
     '橄榄油', '葵花籽油', '葵花油', '米糠油', '稻米油', '色拉油', '调和油', '芝麻油', '香油', '猪油', '牛油', '黄油',
     '椰子油', '棕榈油', '葡萄籽油', '亚麻籽油',
 }
+_VALIDATION_SALT_NAMES = {'盐', '食盐', '海盐', '低钠盐'}
+_VALIDATION_PEPPER_NAMES = {'胡椒', '胡椒粉', '黑胡椒', '黑胡椒粉', '白胡椒', '白胡椒粉'}
+_VALIDATION_WATER_NAMES = {'水', '清水', '饮用水', '凉开水', '温水', '热水'}
+_VALIDATION_SALT_TOKEN_SOURCE = r'(?:食盐|海盐|低钠盐|盐)(?!水)'
+_VALIDATION_PEPPER_TOKEN_SOURCE = r'(?:黑胡椒粉|白胡椒粉|胡椒粉|黑胡椒|白胡椒|胡椒)'
+_VALIDATION_SEASONING_TOKEN_SOURCE = (
+    rf'(?:{_VALIDATION_SALT_TOKEN_SOURCE}|{_VALIDATION_PEPPER_TOKEN_SOURCE})'
+)
+_VALIDATION_SEASONING_INPUT_RE = re.compile(
+    rf'(?:加入?|放入?|撒入?|撒上?|调入?|拌入?|下)'
+    rf'(?:根据口味|按口味|少许|适量|一点|些许)?{_VALIDATION_SEASONING_TOKEN_SOURCE}'
+    rf'(?:(?:和|及|、){_VALIDATION_SEASONING_TOKEN_SOURCE})*(?:调味)?'
+    rf'|(?:用)?(?:少许|适量|一点|些许)?{_VALIDATION_SEASONING_TOKEN_SOURCE}'
+    rf'(?:(?:和|及|、){_VALIDATION_SEASONING_TOKEN_SOURCE})*调味'
+)
+_VALIDATION_SALT_TOKEN_RE = re.compile(_VALIDATION_SALT_TOKEN_SOURCE)
+_VALIDATION_PEPPER_TOKEN_RE = re.compile(_VALIDATION_PEPPER_TOKEN_SOURCE)
+_VALIDATION_RETAINED_WATER_ACTION_RE = re.compile(
+    r'(?:加入?|倒入?|放入?|添入?|注入?|兑入?|补入?|加)'
+    r'(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)'
+)
+_VALIDATION_WATER_DISCARD_RE = re.compile(r'(?:倒掉|弃去|滤掉|沥干|倒出)')
 _VALIDATION_COOKING_OIL_ACTION_RE = re.compile(
     r'(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?(?:'
     + '|'.join(sorted((re.escape(name) for name in _VALIDATION_COOKING_OIL_NAMES), key=len, reverse=True))
@@ -526,7 +549,32 @@ def _validation_prepared_high_risk_exemption(name):
 
 def _validation_cooking_oil_ingredient(name):
     bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
-    return bare in _VALIDATION_COOKING_OIL_NAMES
+    return bare == '油' or bare in _VALIDATION_COOKING_OIL_NAMES
+
+
+def _validation_ingredient_matches_names(name, names):
+    bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
+    return bare in names
+
+
+def _validation_step_uses_seasoning_group(step, token_re):
+    text = _validation_form_name(step)
+    for match in _VALIDATION_SEASONING_INPUT_RE.finditer(text):
+        if not _validation_action_negated(text, match.start()) and token_re.search(match.group(0)):
+            return True
+    return False
+
+
+def _validation_step_uses_retained_water(step):
+    text = _validation_form_name(step)
+    clauses = [clause for clause in re.split(r'[，,。；;！？!?]+', text) if clause]
+    for clause in clauses:
+        for match in _VALIDATION_RETAINED_WATER_ACTION_RE.finditer(clause):
+            if _validation_action_negated(clause, match.start()):
+                continue
+            if not _VALIDATION_WATER_DISCARD_RE.search(clause[match.end():]):
+                return True
+    return False
 
 
 def _validation_step_uses_cooking_oil(step):
@@ -803,9 +851,27 @@ def validate_grounded_meal(meal, selection, constraints=None):
             if not _validation_high_risk_cooked(name, steps, aliases, ingredient_names):
                 add_flag(f'high_risk_not_cooked:{name}')
 
-    if (not any(_validation_cooking_oil_ingredient(name) for name in ingredient_names)
-            and any(_validation_step_uses_cooking_oil(step) for step in steps)):
-        add_flag('step_ingredient_missing:烹调油')
+    consumable_groups = (
+        ('step_ingredient_missing:烹调油', _validation_cooking_oil_ingredient, _validation_step_uses_cooking_oil),
+        (
+            'step_ingredient_missing:盐',
+            lambda name: _validation_ingredient_matches_names(name, _VALIDATION_SALT_NAMES),
+            lambda step: _validation_step_uses_seasoning_group(step, _VALIDATION_SALT_TOKEN_RE),
+        ),
+        (
+            'step_ingredient_missing:胡椒',
+            lambda name: _validation_ingredient_matches_names(name, _VALIDATION_PEPPER_NAMES),
+            lambda step: _validation_step_uses_seasoning_group(step, _VALIDATION_PEPPER_TOKEN_RE),
+        ),
+        (
+            'step_ingredient_missing:水',
+            lambda name: _validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES),
+            _validation_step_uses_retained_water,
+        ),
+    )
+    for flag, ingredient_matches, step_uses in consumable_groups:
+        if not any(ingredient_matches(name) for name in ingredient_names) and any(step_uses(step) for step in steps):
+            add_flag(flag)
 
     for item in selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []:
         canonical = _validation_canonical_ingredient(item, aliases)

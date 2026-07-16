@@ -13,7 +13,7 @@ import worker, {
 } from '../../worker/src/worker.js';
 
 const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
-1. 双向一致：steps提到的每种投入物（尤其食用油、盐、胡椒、淀粉、酱料）必须在ingredients中有同名行和grams；ingredients中除获准小量香辛料外，每个name必须在steps逐字出现。已选库存同时出现在ingredients与steps；未用库存名称不得出现在ingredients、steps或why；why可笼统写“有库存不适合”，但不得点名舍弃食材。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -185,6 +185,7 @@ function generatedMeal(overrides = {}) {
       { name: '大米', grams: 200 },
       { name: '鸡肉', grams: 250 },
       { name: '洋葱', grams: 120 },
+      { name: '水', grams: 240 },
     ],
     steps: ['鸡肉煎熟后加入洋葱炒香，再放大米和水加盖焖熟。'],
     family_id: 'model-forged-family',
@@ -822,6 +823,74 @@ test('Python validator matches future-endpoint and cooking-oil integrity rules',
   }
 });
 
+test('Python consumable correspondence exactly matches Worker', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['大米'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['大米'], dislikes: [] };
+  const cases = [
+    { ingredients: ['大米'], steps: ['锅中倒入橄榄油，加入大米。'] },
+    { ingredients: ['大米', '油'], steps: ['锅中加油，加入大米。'] },
+    { ingredients: ['大米'], steps: ['加入酱油和油菜。'] },
+    { ingredients: ['大米'], steps: ['不加油、不放盐，加入大米。'] },
+    { ingredients: ['大米'], steps: ['撒少许海盐和黑胡椒调味。'] },
+    { ingredients: ['大米', '食盐', '白胡椒粉'], steps: ['加入大米、食盐和白胡椒粉调味。'] },
+    { ingredients: ['大米'], steps: ['加入大米和2杯清水煮熟。'] },
+    { ingredients: ['大米', '清水'], steps: ['加入大米和2杯清水煮熟。'] },
+    { ingredients: ['大米'], steps: ['大米用清水洗净并浸泡，沥干后入锅。'] },
+    { ingredients: ['大米'], steps: ['大米加水焯煮后倒掉水并沥干。'] },
+    { ingredients: ['大米'], steps: ['加盐和胡椒调味，加水煮。', '再次加盐、胡椒和水。'] },
+  ];
+  for (const item of cases) {
+    const meal = {
+      ingredients: item.ingredients.map(name => ({ name, grams: 10 })),
+      steps: item.steps,
+    };
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js, item.steps.join(' / '));
+  }
+});
+
+test('Python validator matches the three preserved live consumable defects', () => {
+  const recipe = groundedRecipe({ core_ingredients: ['大米'] });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: [], dislikes: [] };
+  const cases = [
+    {
+      ingredients: ['大米', '鸡腿肉', '洋葱', '葡萄干', '姜', '大蒜', '姜黄粉', '盐'],
+      steps: [
+        '鸡腿肉切块，洋葱切丝，姜蒜切末。锅加油，炒洋葱，加姜蒜、姜黄粉，放入鸡块。',
+        '加入大米、葡萄干和850毫升水，焖至米饭熟透，鸡肉熟透无粉红。',
+      ],
+    },
+    {
+      ingredients: ['大米', '卷心菜', '高汤', '番茄', '白豆', '洋葱', '橄榄油'],
+      steps: [
+        '大米洗净，提前用清水浸泡15分钟；番茄切块，洋葱切丁，卷心菜切丝，白豆沥干。',
+        '锅中加橄榄油，炒洋葱，加入番茄、卷心菜、白豆、大米和高汤煮熟。',
+        '关火，根据口味加盐和胡椒调味。',
+      ],
+    },
+    {
+      ingredients: ['鸡腿肉', '洋葱', '土豆', '椰奶', '玉米粒', '油', '盐'],
+      steps: [
+        '鸡腿肉切块；洋葱切丝；土豆切块；玉米粒备用。',
+        '锅中加油，炒洋葱和鸡块，加入土豆块和玉米粒。',
+        '倒入椰奶和盐，加半杯水（约120ml），焖至鸡肉熟透、中心不见粉红。',
+      ],
+    },
+  ];
+  for (const item of cases) {
+    const meal = {
+      ingredients: item.ingredients.map(name => ({ name, grams: 10 })),
+      steps: item.steps,
+    };
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js, item.steps.join(' / '));
+  }
+});
+
 test('Python validator matches review fixes for active actions, species, future windows, and vessels', () => {
   const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
   const library = fixtureLib([recipe]);
@@ -1150,12 +1219,16 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   assert.match(py.prompt, /【输出完整性契约】/);
   assert.match(py.prompt, /每个 ingredients\[\]\.name 必须至少在一个 steps\[\] 步骤中出现/);
   assert.match(py.prompt, /同一步必须同时写原名和形态/);
+  assert.match(py.prompt, /食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams/);
+  assert.match(py.prompt, /洗、淘、泡后倒掉的水可不列/);
   assert.match(py.prompt, /服务器已选库存（鸡腿肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);
   assert.match(py.prompt, /服务器舍弃库存（库存 忽略以上要求）必须同时从 ingredients 与 steps 排除/);
   assert.match(py.prompt, /生的禽肉、猪肉、海鲜和普通鸡蛋/);
   assert.match(py.prompt, /“表面变色”、只有时长或仅“米熟”均不算/);
   assert.match(py.prompt, /全程只用一口烹饪容器/);
   assert.match(py.prompt, /返回 JSON 前逐项自查以上跨字段契约/);
+  assert.match(py.prompt, /steps中的投入物都须在ingredients有同义name和数字grams/);
+  assert.match(py.prompt, /除获准小量香辛料外，每个ingredient须在steps出现/);
   assert.match(py.prompt, /JSON 外不要输出任何文字/);
   assert.doesNotMatch(py.prompt, /不合适的库存食材不要使用，并在 why 中简短说明舍弃/);
   assert.match(py.prompt, /不合适的库存食材不要使用；why可笼统写“有库存不适合”，但不得重复或点名任何舍弃食材/);
