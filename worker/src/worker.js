@@ -281,6 +281,7 @@ const VALIDATION_SALT_TOKEN_RE = new RegExp(VALIDATION_SALT_TOKEN_SOURCE);
 const VALIDATION_PEPPER_TOKEN_RE = new RegExp(VALIDATION_PEPPER_TOKEN_SOURCE);
 const VALIDATION_RETAINED_WATER_ACTION_RE = /(?:加入?|倒入?|放入?|添入?|注入?|兑入?|补入?|加)(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)/g;
 const VALIDATION_WATER_DISCARD_RE = /(?:倒掉|弃去|滤掉|沥干|倒出)/;
+const VALIDATION_NEXT_CLAUSE_WATER_DISCARD_RE = /^(?:(?:再|然后|随后|接着))?(?:(?:将|把)(?:焯水|水|汤|汤汁|液体)(?:全部)?(?:倒掉|弃去|滤掉|倒出)|(?:倒掉|弃去|滤掉|倒出)(?:焯水|水|汤|汤汁|液体)|沥干)/;
 const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
   `(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?(?:${[...VALIDATION_COOKING_OIL_NAMES].sort((a, b) => b.length - a.length).join('|')}|油)(?!菜))`,
 );
@@ -315,6 +316,9 @@ function validationControlledTokens(name) {
   if (bare === '大米') return ['米饭', '米'];
   if (bare === '大蒜') return ['蒜蓉', '蒜末', '蒜'];
   if (VALIDATION_COOKING_OIL_NAMES.has(bare)) return ['油'];
+  if (VALIDATION_SALT_NAMES.has(bare)) return [...VALIDATION_SALT_NAMES];
+  if (VALIDATION_PEPPER_NAMES.has(bare)) return [...VALIDATION_PEPPER_NAMES];
+  if (VALIDATION_WATER_NAMES.has(bare)) return [...VALIDATION_WATER_NAMES];
   if (bare.includes('白芸豆') && /(?:罐头|罐装|沥干)/.test(normalized)) return ['白芸豆'];
   if (bare.includes('白豆') && /(?:罐头|罐装|沥干)/.test(normalized)) return ['白豆'];
   return [];
@@ -350,11 +354,14 @@ function validationStepUsesSeasoningGroup(step, tokenRe) {
 function validationStepUsesRetainedWater(step) {
   const text = validationFormName(step);
   const clauses = text.split(/[，,。；;！？!?]+/).filter(Boolean);
-  for (const clause of clauses) {
+  for (let clauseIndex = 0; clauseIndex < clauses.length; clauseIndex += 1) {
+    const clause = clauses[clauseIndex];
     for (const match of clause.matchAll(new RegExp(VALIDATION_RETAINED_WATER_ACTION_RE.source, 'g'))) {
       if (validationActionNegated(clause, match.index)) continue;
       const waterEnd = match.index + match[0].length;
-      if (!VALIDATION_WATER_DISCARD_RE.test(clause.slice(waterEnd))) return true;
+      const discardedInClause = VALIDATION_WATER_DISCARD_RE.test(clause.slice(waterEnd));
+      const discardedNext = VALIDATION_NEXT_CLAUSE_WATER_DISCARD_RE.test(clauses[clauseIndex + 1] || '');
+      if (!discardedInClause && !discardedNext) return true;
     }
   }
   return false;
@@ -398,13 +405,15 @@ function validationTokenPositions(text, token) {
     const blockedCookingOil = token === '油' && !activeOilPositions.has(index);
     const tokenSuffix = text.slice(index + token.length);
     const tokenPrefix = text[index - 1] || '';
+    const blockedConsumableCompound = (token === '盐' && /^水/.test(tokenSuffix))
+      || (token === '水' && /^(?:淀粉|果|油|产)/.test(tokenSuffix));
     const blockedControlledForm = (['白蘑菇', '干黑眼豆', '红甜椒', '蘑菇', '黑眼豆', '甜椒'].includes(token)
       && /^(?:酱|粉|汤料)/.test(tokenSuffix))
       || (token === '蘑菇' && /[白毒]/.test(tokenPrefix))
       || (token === '黑眼豆' && tokenPrefix === '干')
       || (token === '甜椒' && /[红青黄绿橙紫白黑蓝彩色]/.test(tokenPrefix));
     if (!negated && !blockedShortForm && !blockedGarlicGreen && !blockedChickenSpecies && !blockedGenericMeatForm
-      && !blockedPorkSpecies && !blockedCookingOil && !blockedControlledForm) positions.push(index);
+      && !blockedPorkSpecies && !blockedCookingOil && !blockedConsumableCompound && !blockedControlledForm) positions.push(index);
     offset = index + token.length;
   }
   return positions;

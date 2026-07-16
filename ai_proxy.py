@@ -496,6 +496,11 @@ _VALIDATION_RETAINED_WATER_ACTION_RE = re.compile(
     r'(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)'
 )
 _VALIDATION_WATER_DISCARD_RE = re.compile(r'(?:倒掉|弃去|滤掉|沥干|倒出)')
+_VALIDATION_NEXT_CLAUSE_WATER_DISCARD_RE = re.compile(
+    r'^(?:(?:再|然后|随后|接着))?'
+    r'(?:(?:将|把)(?:焯水|水|汤|汤汁|液体)(?:全部)?(?:倒掉|弃去|滤掉|倒出)'
+    r'|(?:倒掉|弃去|滤掉|倒出)(?:焯水|水|汤|汤汁|液体)|沥干)'
+)
 _VALIDATION_COOKING_OIL_ACTION_RE = re.compile(
     r'(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?(?:'
     + '|'.join(sorted((re.escape(name) for name in _VALIDATION_COOKING_OIL_NAMES), key=len, reverse=True))
@@ -536,6 +541,12 @@ def _validation_controlled_tokens(name):
         return ['蒜蓉', '蒜末', '蒜']
     if bare in _VALIDATION_COOKING_OIL_NAMES:
         return ['油']
+    if bare in _VALIDATION_SALT_NAMES:
+        return list(_VALIDATION_SALT_NAMES)
+    if bare in _VALIDATION_PEPPER_NAMES:
+        return list(_VALIDATION_PEPPER_NAMES)
+    if bare in _VALIDATION_WATER_NAMES:
+        return list(_VALIDATION_WATER_NAMES)
     if '白芸豆' in bare and re.search(r'(?:罐头|罐装|沥干)', normalized):
         return ['白芸豆']
     if '白豆' in bare and re.search(r'(?:罐头|罐装|沥干)', normalized):
@@ -568,11 +579,14 @@ def _validation_step_uses_seasoning_group(step, token_re):
 def _validation_step_uses_retained_water(step):
     text = _validation_form_name(step)
     clauses = [clause for clause in re.split(r'[，,。；;！？!?]+', text) if clause]
-    for clause in clauses:
+    for clause_index, clause in enumerate(clauses):
         for match in _VALIDATION_RETAINED_WATER_ACTION_RE.finditer(clause):
             if _validation_action_negated(clause, match.start()):
                 continue
-            if not _VALIDATION_WATER_DISCARD_RE.search(clause[match.end():]):
+            discarded_in_clause = _VALIDATION_WATER_DISCARD_RE.search(clause[match.end():])
+            next_clause = clauses[clause_index + 1] if clause_index + 1 < len(clauses) else ''
+            discarded_next = _VALIDATION_NEXT_CLAUSE_WATER_DISCARD_RE.search(next_clause)
+            if not discarded_in_clause and not discarded_next:
                 return True
     return False
 
@@ -664,6 +678,10 @@ def _validation_token_positions(text, token):
         blocked_cooking_oil = token == '油' and index not in active_oil_positions
         token_suffix = text[index + len(token):]
         token_prefix = text[index - 1] if index > 0 else ''
+        blocked_consumable_compound = (
+            (token == '盐' and re.match(r'水', token_suffix))
+            or (token == '水' and re.match(r'(?:淀粉|果|油|产)', token_suffix))
+        )
         blocked_controlled_form = (
             (token in ('白蘑菇', '干黑眼豆', '红甜椒', '蘑菇', '黑眼豆', '甜椒')
              and re.match(r'(?:酱|粉|汤料)', token_suffix))
@@ -673,7 +691,8 @@ def _validation_token_positions(text, token):
         )
         if (not negated and not blocked_short_form and not blocked_garlic_green
                 and not blocked_chicken_species and not blocked_generic_meat_form
-                and not blocked_pork_species and not blocked_cooking_oil and not blocked_controlled_form):
+                and not blocked_pork_species and not blocked_cooking_oil
+                and not blocked_consumable_compound and not blocked_controlled_form):
             positions.append(index)
         offset = index + len(token)
     return positions

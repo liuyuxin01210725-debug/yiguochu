@@ -838,6 +838,12 @@ test('Python consumable correspondence exactly matches Worker', () => {
     { ingredients: ['大米', '清水'], steps: ['加入大米和2杯清水煮熟。'] },
     { ingredients: ['大米'], steps: ['大米用清水洗净并浸泡，沥干后入锅。'] },
     { ingredients: ['大米'], steps: ['大米加水焯煮后倒掉水并沥干。'] },
+    { ingredients: ['大米'], steps: ['大米加水焯煮，倒掉水并沥干。'] },
+    { ingredients: ['大米'], steps: ['大米加水焯煮；将焯水倒掉并沥干。'] },
+    { ingredients: ['大米'], steps: ['加入清水煮熟，倒出装盘。'] },
+    { ingredients: ['大米', '食盐', '白胡椒粉', '清水'], steps: ['加入大米、盐和胡椒，加水煮熟。'] },
+    { ingredients: ['食盐'], steps: ['加入盐水煮大米。'] },
+    { ingredients: ['清水'], steps: ['加入水淀粉勾芡。'] },
     { ingredients: ['大米'], steps: ['加盐和胡椒调味，加水煮。', '再次加盐、胡椒和水。'] },
   ];
   for (const item of cases) {

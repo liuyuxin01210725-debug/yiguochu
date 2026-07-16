@@ -1791,6 +1791,9 @@ test('controlled consumables require rows without matching preparation water or 
     { ingredients: ['大米', '清水'], step: '加入大米和2杯清水煮熟。', absent: ['step_ingredient_missing:水'] },
     { ingredients: ['大米'], step: '大米用清水洗净并浸泡，沥干后入锅。', absent: ['step_ingredient_missing:水'] },
     { ingredients: ['大米'], step: '大米加水焯煮后倒掉水并沥干。', absent: ['step_ingredient_missing:水'] },
+    { ingredients: ['大米'], step: '大米加水焯煮，倒掉水并沥干。', absent: ['step_ingredient_missing:水'] },
+    { ingredients: ['大米'], step: '大米加水焯煮；将焯水倒掉并沥干。', absent: ['step_ingredient_missing:水'] },
+    { ingredients: ['大米'], step: '加入清水煮熟，倒出装盘。', present: ['step_ingredient_missing:水'] },
   ];
 
   for (const { ingredients, step, present = [], absent = [] } of cases) {
@@ -1815,6 +1818,34 @@ test('controlled consumable flags are deduplicated and malformed values do not t
     correspondenceSelection(),
     {},
   ));
+});
+
+test('controlled salt pepper and water ingredient aliases satisfy generic step wording', () => {
+  const meal = {
+    ingredients: ['大米', '食盐', '白胡椒粉', '清水'].map(name => ({ name, grams: 10 })),
+    steps: ['加入大米、盐和胡椒，加水煮熟。'],
+  };
+  const flags = validateGroundedMeal(meal, correspondenceSelection(), {});
+  for (const flag of [
+    'ingredient_missing_in_steps:食盐',
+    'ingredient_missing_in_steps:白胡椒粉',
+    'ingredient_missing_in_steps:清水',
+    'step_ingredient_missing:盐',
+    'step_ingredient_missing:胡椒',
+    'step_ingredient_missing:水',
+  ]) assert.equal(flags.includes(flag), false, flag);
+
+  for (const [name, step] of [
+    ['食盐', '加入盐水煮大米。'],
+    ['清水', '加入水淀粉勾芡。'],
+  ]) {
+    const compoundFlags = validateGroundedMeal(
+      { ingredients: [{ name, grams: 10 }], steps: [step] },
+      correspondenceSelection(),
+      {},
+    );
+    assert.ok(compoundFlags.includes(`ingredient_missing_in_steps:${name}`), `${name}: ${step}`);
+  }
 });
 
 test('negated salt and a rice substring are not positive ingredient mentions', () => {
