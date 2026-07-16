@@ -21,6 +21,10 @@ const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
 
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+const RICE_SAFE_PROFILE = {
+  id: 'rice-allergy-complete-main',
+  basis: '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。',
+};
 
 const pythonHarness = String.raw`
 import copy
@@ -41,6 +45,7 @@ elif action == 'select':
         'score': item['score'],
         'used_pantry': item['used_pantry'],
         'unused_pantry': item['unused_pantry'],
+        'constraint_profile': item.get('constraint_profile'),
     } for item in selections]
 elif action == 'validate':
     selection = proxy.select_recipe_candidates(request['library'], request.get('constraints', {}))[request.get('selection_index', 0)]
@@ -144,6 +149,7 @@ function jsSelectionView(library, constraints) {
     score: item.score,
     used_pantry: item.usedPantry,
     unused_pantry: item.unusedPantry,
+    constraint_profile: item.constraintProfile,
   }));
 }
 
@@ -680,6 +686,17 @@ test('Python selector matches recent penalties, ID tie-break, family diversity, 
   assert.equal(ties[0].recipe_id, 'alpha');
 });
 
+test('Python rice allergy safe selection exactly matches Worker', () => {
+  const cases = [
+    { pantry: ['鸡肉', '洋葱'], dislikes: ['大米过敏'] },
+    { pantry: ['红扁豆', '土豆', '西红柿', '玉米'], purpose: 'pantry', dislikes: ['白米过敏'] },
+    { pantry: ['鸡肉', '洋葱', '小米'], dislikes: ['米饭过敏'] },
+    { pantry: [], dislikes: ['大米过敏', '扁豆过敏'] },
+    { pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'], purpose: 'quick', dislikes: ['花生过敏'] },
+  ];
+  for (const constraints of cases) assertSelectorParity(lib, constraints);
+});
+
 test('Python validator matches all seven flags plus variants, negation, action order, and multi-pot rules', () => {
   const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
   const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
@@ -719,7 +736,10 @@ test('Python validator matches all seven flags plus variants, negation, action o
 });
 
 test('Python controlled rice allergen fields exactly match Worker', () => {
-  const recipe = groundedRecipe({ core_ingredients: [] });
+  const recipe = groundedRecipe({
+    core_ingredients: [],
+    constraint_profiles: [RICE_SAFE_PROFILE],
+  });
   const library = fixtureLib([recipe], { 白米: '大米' });
   const constraints = { pantry: [], dislikes: ['大米过敏'] };
   const cases = [
@@ -748,7 +768,10 @@ test('Python controlled rice allergen fields exactly match Worker', () => {
 });
 
 test('Python rice allergen activation and preserved live leak match Worker', () => {
-  const recipe = groundedRecipe({ core_ingredients: [] });
+  const recipe = groundedRecipe({
+    core_ingredients: [],
+    constraint_profiles: [RICE_SAFE_PROFILE],
+  });
   const library = fixtureLib([recipe], { 白米: '大米' });
   const meal = {
     dish_name: '椰香鸡肉咖喱盖浇饭',
@@ -1295,6 +1318,47 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   assert.equal(recipeLib.recipes[0].source_refs[0].audit.tags[0], 'trusted');
 });
 
+test('Python rice-safe grounding and forged-profile removal match Worker', async () => {
+  const constraints = {
+    purpose: 'quick',
+    servings: 2,
+    pantry: ['鸡肉', '洋葱'],
+    dislikes: ['大米过敏'],
+  };
+  const meal = generatedMeal({
+    dish_name: '扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 160 },
+      { name: '土豆', grams: 300 },
+      { name: '番茄', grams: 240 },
+    ],
+    steps: ['红扁豆、土豆和番茄在原锅炖熟。'],
+    constraint_profile: { id: 'forged', basis: 'forged' },
+    constraint_profiles: [{ id: 'forged', basis: 'forged' }],
+  });
+  const { response, body, upstreamBodies } = await runWorkerGeneration({
+    recipeLib: lib,
+    meal,
+    constraints,
+  });
+  assert.equal(response.status, 200);
+  const py = pythonCall('prepare', {
+    library: lib,
+    meal_name: '这次的一锅主餐',
+    targets: { kcal: 1200, p: 50, fb: 16 },
+    constraints,
+    meal,
+    usage: { total_tokens: 321 },
+  });
+  assert.equal(py.prompt, upstreamBodies[0].messages[1].content);
+  assert.equal(py.grounding, buildRecipeGrounding(selectRecipeCandidates(lib, constraints)[0]));
+  assert.match(py.grounding, /rice-allergy-complete-main/);
+  assert.match(py.grounding, /不得添加或建议搭配任何额外主食/);
+  assert.equal(Object.hasOwn(py.meal, 'constraint_profile'), false);
+  assert.equal(Object.hasOwn(py.meal, 'constraint_profiles'), false);
+  assert.deepEqual(py.meal.validation_flags, body.validation_flags);
+});
+
 test('recipe-match invalid JSON and no candidate fail nonzero with stderr-only diagnostics', () => {
   const invalid = runPython(['ai_proxy.py', '--recipe-match', '{bad json']);
   assert.notEqual(invalid.status, 0);
@@ -1304,7 +1368,7 @@ test('recipe-match invalid JSON and no candidate fail nonzero with stderr-only d
   const dislikes = [...new Set(lib.recipes.flatMap(recipe => [
     ...(recipe.core_ingredients || []),
     ...(recipe.substitution_slots || []).flatMap(slot => slot.allowed || []),
-  ]))];
+  ]))].filter(item => !String(item).includes('米'));
   const none = runPython(['ai_proxy.py', '--recipe-match', JSON.stringify({ pantry: [], dislikes })]);
   assert.notEqual(none.status, 0);
   assert.equal(none.stdout, '');
@@ -1339,7 +1403,7 @@ test('local generate endpoint returns 503 before any DeepSeek call when no recip
   const dislikes = [...new Set(lib.recipes.flatMap(recipe => [
     ...(recipe.core_ingredients || []),
     ...(recipe.substitution_slots || []).flatMap(slot => slot.allowed || []),
-  ]))];
+  ]))].filter(item => !String(item).includes('米'));
   const response = await fetch(`http://127.0.0.1:${port}/generate-meal`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1348,4 +1412,46 @@ test('local generate endpoint returns 503 before any DeepSeek call when no recip
   const body = await response.json();
   assert.equal(response.status, 503);
   assert.equal(body.code, 'recipe_library_unavailable');
+});
+
+test('local rice-allergy no-safe endpoint returns 422 before any DeepSeek call', async t => {
+  const port = await new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', () => {
+      const { port: openPort } = server.address();
+      server.close(error => error ? reject(error) : resolve(openPort));
+    });
+  });
+  const child = spawn('python3', ['ai_proxy.py'], {
+    cwd: repoRoot,
+    env: cleanPythonEnv({ PORT: String(port), DEEPSEEK_API_KEY: 'test-key' }),
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  t.after(() => child.kill('SIGTERM'));
+  let stderr = '';
+  let ready = false;
+  child.stderr.on('data', chunk => { stderr += chunk; });
+  for (let attempt = 0; attempt < 80; attempt++) {
+    try {
+      const health = await fetch(`http://127.0.0.1:${port}/health`);
+      if (health.ok) {
+        ready = true;
+        break;
+      }
+    } catch {}
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
+  assert.equal(ready, true, stderr);
+  assert.equal(child.exitCode, null, stderr);
+  const response = await fetch(`http://127.0.0.1:${port}/generate-meal`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ constraints: { dislikes: ['大米过敏', '扁豆过敏'] } }),
+  });
+  const body = await response.json();
+  assert.equal(response.status, 422);
+  assert.equal(body.code, 'no_safe_recipe');
+  assert.equal(body.error, '暂时没有符合这些过敏或忌口条件的可信无米主餐');
+  assert.doesNotMatch(stderr, /HTTP|URLError|DeepSeek|Kimi/);
 });

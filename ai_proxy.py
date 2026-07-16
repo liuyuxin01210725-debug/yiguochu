@@ -138,11 +138,16 @@ NUTRIENT_MAX = {
     'fe': 50, 'zn': 50, 'na': 40000, 'vc': 2000, 'vd': 50, 'w3': 60,
 }
 RECIPE_GROUNDING_TOKEN_RE = re.compile(r'\{recipe_grounding\}', re.IGNORECASE)
+RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main'
 _UNDEFINED = object()
 
 
 class RecipeLibraryUnavailable(RuntimeError):
     """The trusted recipe library cannot serve this request."""
+
+
+class NoSafeRecipe(RecipeLibraryUnavailable):
+    """The trusted library has no reviewed rice-free complete main for these constraints."""
 
 
 try:
@@ -252,9 +257,28 @@ def sanitize_recipe_constraints(value):
     return result
 
 
+def recipe_constraint_profile(recipe, profile_id):
+    profiles = recipe.get('constraint_profiles') if isinstance(recipe, dict) else None
+    if not isinstance(profiles, list):
+        return None
+    for profile in profiles:
+        if (isinstance(profile, dict)
+                and profile.get('id') == profile_id
+                and isinstance(profile.get('basis'), str)):
+            return {
+                'id': profile['id'],
+                'basis': profile['basis'].strip(),
+            }
+    return None
+
+
 def select_recipe_candidates(library, constraints=None):
     library = library if isinstance(library, dict) else {}
     constraints = constraints if isinstance(constraints, dict) else {}
+    rice_allergy_active = _validation_rice_allergen_active(
+        constraints.get('dislikes'),
+        library.get('ingredient_aliases') or {},
+    )
     aliases = normalize_recipe_aliases(library.get('ingredient_aliases'))
 
     def canonical(name):
@@ -272,6 +296,13 @@ def select_recipe_candidates(library, constraints=None):
     for recipe in recipes:
         if not isinstance(recipe, dict):
             continue
+        qualified_constraint_profile = recipe_constraint_profile(
+            recipe,
+            RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID,
+        )
+        if rice_allergy_active and qualified_constraint_profile is None:
+            continue
+        constraint_profile = qualified_constraint_profile if rice_allergy_active else None
         core = {item for name in (recipe.get('core_ingredients') or []) if (item := canonical(name))}
         optional = {item for name in (recipe.get('optional_ingredients') or []) if (item := canonical(name))}
         slots = recipe.get('substitution_slots') if isinstance(recipe.get('substitution_slots'), list) else []
@@ -346,6 +377,7 @@ def select_recipe_candidates(library, constraints=None):
             'score': score,
             'used_pantry': used_pantry,
             'unused_pantry': unused_pantry,
+            'constraint_profile': constraint_profile,
         })
 
     candidates.sort(key=lambda item: (-item['score'], _js_string(item['recipe'].get('id'))))
@@ -401,6 +433,14 @@ def build_recipe_grounding(selection):
         )
     family_line = f"菜谱家族: {sanitize_prompt_text(family.get('id') or recipe.get('family_id') or 'unknown', 100)} {sanitize_prompt_text(family.get('name'), 100)}".strip()
     recipe_line = f"基础菜谱: {sanitize_prompt_text(recipe.get('id') or 'unknown', 100)} {sanitize_prompt_text(recipe.get('name'), 100)}".strip()
+    profile = selection.get('constraint_profile') if isinstance(selection.get('constraint_profile'), dict) else None
+    profile_lines = []
+    if profile:
+        profile_lines = [
+            f"受控完整主餐资格: {sanitize_prompt_text(profile.get('id'), 100)}",
+            f"完整性依据: {sanitize_prompt_text(profile.get('basis'), 300)}",
+            '稻米过敏安全模式: 严格沿用这张基础菜谱。不得添加或建议搭配任何额外主食，尤其不得出现大米、米饭、粥、米粉、米线、河粉、年糕、饭团或任何饭类菜名。',
+        ]
     return '\n'.join([
         '【可信基础菜谱】',
         family_line,
@@ -413,6 +453,7 @@ def build_recipe_grounding(selection):
         f"安全规则: {_compact_recipe_list(recipe.get('safety_rules'))}",
         f"已选库存: {_compact_recipe_list(selection.get('used_pantry'))}",
         f"舍弃库存: {_compact_recipe_list(selection.get('unused_pantry'))}",
+        *profile_lines,
         '【输出完整性契约】',
         '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
         '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams；洗、淘、泡后倒掉的水可不列。',
@@ -1161,6 +1202,11 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
     library = library if library is not None else get_recipe_library()
     selections = select_recipe_candidates(library, constraints)
     if not selections:
+        if _validation_rice_allergen_active(
+            constraints.get('dislikes'),
+            library.get('ingredient_aliases') or {},
+        ):
+            raise NoSafeRecipe('暂时没有符合这些过敏或忌口条件的可信无米主餐')
         raise RecipeLibraryUnavailable('没有符合本次限制的可信基础菜谱')
     selection = selections[0]
     payload = {
@@ -1401,6 +1447,9 @@ def repair_grounded_meal_safety(meal, selection, constraints=None):
 
 
 def attach_grounded_metadata(meal, selection, constraints):
+    meal.pop('constraint_profile', None)
+    meal.pop('constraint_profiles', None)
+    meal.pop('active_constraint_profile', None)
     repair_grounded_meal_safety(meal, selection, constraints)
     recipe = selection['recipe']
     aliases = selection.get('ingredient_aliases') or {}
@@ -1758,6 +1807,15 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'application/json; charset=utf-8')
             self.end_headers()
             self.wfile.write(json.dumps(result, ensure_ascii=False).encode('utf-8'))
+        except NoSafeRecipe as e:
+            self.send_response(422)
+            self._send_cors_headers()
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'error': str(e),
+                'code': 'no_safe_recipe',
+            }, ensure_ascii=False).encode('utf-8'))
         except RecipeLibraryUnavailable as e:
             self.send_response(503)
             self._send_cors_headers()
