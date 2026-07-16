@@ -7,6 +7,7 @@ const RATE_BUCKETS = new Map();
 const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
 const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
+const RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main';
 
 function sanitizePromptText(value, maxLength = 160) {
   return String(value ?? '')
@@ -87,7 +88,19 @@ function sanitizeRecipeConstraints(value) {
   };
 }
 
+function recipeConstraintProfile(recipe, profileId) {
+  if (!Array.isArray(recipe?.constraint_profiles)) return null;
+  const profile = recipe.constraint_profiles.find(item => (
+    item && typeof item === 'object' && item.id === profileId && typeof item.basis === 'string'
+  ));
+  return profile ? { id: profile.id, basis: profile.basis.trim() } : null;
+}
+
 function selectRecipeCandidates(lib, constraints = {}) {
+  const riceAllergyActive = validationRiceAllergenActive(
+    constraints.dislikes,
+    lib?.ingredient_aliases || {},
+  );
   const aliases = normalizeRecipeAliases(lib?.ingredient_aliases);
   const canonical = name => resolveRecipeAlias(baseRecipeIngredient(name), aliases);
   const pantry = recipeConstraintList(constraints.pantry);
@@ -101,6 +114,12 @@ function selectRecipeCandidates(lib, constraints = {}) {
   const candidates = [];
 
   for (const recipe of Array.isArray(lib?.recipes) ? lib.recipes : []) {
+    const qualifiedConstraintProfile = recipeConstraintProfile(
+      recipe,
+      RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID,
+    );
+    if (riceAllergyActive && !qualifiedConstraintProfile) continue;
+    const constraintProfile = riceAllergyActive ? qualifiedConstraintProfile : null;
     const core = new Set((recipe.core_ingredients || [])
       .map(canonical)
       .filter(Boolean));
@@ -164,6 +183,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
       score,
       usedPantry,
       unusedPantry,
+      constraintProfile,
     });
   }
 
@@ -199,6 +219,14 @@ function buildRecipeGrounding(selection) {
     .map(slot => `${sanitizePromptText(slot?.slot || '替换位', 80)}[${compactRecipeList(slot?.replaces)}→${compactRecipeList(slot?.allowed)}]`);
   const discouraged = (Array.isArray(recipe.discouraged) ? recipe.discouraged : [])
     .map(rule => `${compactRecipeList(rule?.ingredients)}(${sanitizePromptText(rule?.reason || '不适合基础结构', 240)})`);
+  const profile = selection?.constraintProfile && typeof selection.constraintProfile === 'object'
+    ? selection.constraintProfile
+    : null;
+  const profileLines = profile ? [
+    `受控完整主餐资格: ${sanitizePromptText(profile.id, 100)}`,
+    `完整性依据: ${sanitizePromptText(profile.basis, 300)}`,
+    '稻米过敏安全模式: 严格沿用这张基础菜谱。不得添加或建议搭配任何额外主食，尤其不得出现大米、米饭、粥、米粉、米线、河粉、年糕、饭团或任何饭类菜名。',
+  ] : [];
   return [
     '【可信基础菜谱】',
     `菜谱家族: ${sanitizePromptText(family.id || recipe.family_id || 'unknown', 100)} ${sanitizePromptText(family.name, 100)}`.trim(),
@@ -211,6 +239,7 @@ function buildRecipeGrounding(selection) {
     `安全规则: ${compactRecipeList(recipe.safety_rules)}`,
     `已选库存: ${compactRecipeList(selection?.usedPantry)}`,
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
+    ...profileLines,
     '【输出完整性契约】',
     '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
     '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams；洗、淘、泡后倒掉的水可不列。',
@@ -1206,6 +1235,9 @@ function repairGroundedMealSafety(meal, selection, constraints = {}) {
 }
 
 function attachGroundedMetadata(meal, selection, constraints) {
+  delete meal.constraint_profile;
+  delete meal.constraint_profiles;
+  delete meal.active_constraint_profile;
   repairGroundedMealSafety(meal, selection, constraints);
   const recipe = selection.recipe;
   const aliases = selection.ingredientAliases || {};
@@ -1266,8 +1298,6 @@ async function handleGenerate(request, env) {
   const t0 = Date.now();
   if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
   if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
-  const budget = await budgetConsume(env);
-  if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
 
   const req = await request.json().catch(() => ({}));
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
@@ -1280,7 +1310,22 @@ async function handleGenerate(request, env) {
     return errorResponse('recipe_library_unavailable', '可信菜谱库暂时不可用', 503, env, {}, request);
   }
   const [selection] = selectRecipeCandidates(recipeLib, constraints);
-  if (!selection) return errorResponse('recipe_library_unavailable', '没有符合本次限制的可信基础菜谱', 503, env, {}, request);
+  if (!selection) {
+    if (validationRiceAllergenActive(constraints.dislikes, recipeLib?.ingredient_aliases || {})) {
+      return errorResponse(
+        'no_safe_recipe',
+        '暂时没有符合这些过敏或忌口条件的可信无米主餐',
+        422,
+        env,
+        {},
+        request,
+      );
+    }
+    return errorResponse('recipe_library_unavailable', '没有符合本次限制的可信基础菜谱', 503, env, {}, request);
+  }
+
+  const budget = await budgetConsume(env);
+  if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
   const prompt = buildPrompt(mealName, targets, constraints, buildRecipeGrounding(selection));
   const body = {
     model: env.MODEL_NAME || 'deepseek-chat',

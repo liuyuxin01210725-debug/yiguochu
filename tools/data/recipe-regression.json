@@ -1268,7 +1268,7 @@
       "大米过敏"
     ],
     "expected_recipe_ids": [
-      "shakshuka-tomato-egg"
+      "lentil-potato-tomato-curry"
     ],
     "forbidden_recipe_ids": [
       "chinese-congee"
@@ -1349,7 +1349,7 @@
       "大米过敏"
     ],
     "expected_recipe_ids": [
-      "kari-ayam-coconut-chicken"
+      "lentil-potato-tomato-curry"
     ],
     "forbidden_recipe_ids": [
       "simple-chicken-biryani"
@@ -1434,7 +1434,7 @@
       "大米过敏"
     ],
     "expected_recipe_ids": [
-      "shakshuka-tomato-egg"
+      "lentil-potato-tomato-curry"
     ],
     "forbidden_recipe_ids": [
       "jollof-rice"
@@ -1608,7 +1608,7 @@
       "糙米过敏"
     ],
     "expected_recipe_ids": [
-      "jollof-rice"
+      "lentil-potato-tomato-curry"
     ],
     "forbidden_recipe_ids": [
       "mung-bean-brown-rice-curry"
@@ -1732,7 +1732,7 @@
     "purpose": "fresh",
     "servings": 2,
     "pantry": [
-      "红扁豆",
+      "扁豆",
       "土豆",
       "西红柿"
     ],
@@ -2183,7 +2183,7 @@
       "大米过敏"
     ],
     "expected_recipe_ids": [
-      "basic-risotto"
+      "lentil-potato-tomato-curry"
     ],
     "forbidden_recipe_ids": [
       "rice-cabbage-minestrone"

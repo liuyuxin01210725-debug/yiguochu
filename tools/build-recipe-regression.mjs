@@ -23,17 +23,17 @@ const ALLOWED_DIETS = new Set(['omnivore', 'ovoLacto', 'vegan', 'glutenFree']);
 const FROZEN_ORACLES = Object.freeze({
   'base-004-chinese-congee-fixed-core-dislike': Object.freeze({
     base_recipe_id: 'chinese-congee', disliked_fixed_core: '大米',
-    expected_recipe_ids: Object.freeze(['shakshuka-tomato-egg']),
+    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
     forbidden_recipe_ids: Object.freeze(['chinese-congee']),
   }),
   'base-008-simple-chicken-biryani-fixed-core-dislike': Object.freeze({
     base_recipe_id: 'simple-chicken-biryani', disliked_fixed_core: '大米',
-    expected_recipe_ids: Object.freeze(['kari-ayam-coconut-chicken']),
+    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
     forbidden_recipe_ids: Object.freeze(['simple-chicken-biryani']),
   }),
   'base-012-jollof-rice-fixed-core-dislike': Object.freeze({
     base_recipe_id: 'jollof-rice', disliked_fixed_core: '大米',
-    expected_recipe_ids: Object.freeze(['shakshuka-tomato-egg']),
+    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
     forbidden_recipe_ids: Object.freeze(['jollof-rice']),
   }),
   'base-016-creole-jambalaya-fixed-core-dislike': Object.freeze({
@@ -43,7 +43,7 @@ const FROZEN_ORACLES = Object.freeze({
   }),
   'base-020-mung-bean-brown-rice-curry-fixed-core-dislike': Object.freeze({
     base_recipe_id: 'mung-bean-brown-rice-curry', disliked_fixed_core: '糙米',
-    expected_recipe_ids: Object.freeze(['jollof-rice']),
+    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
     forbidden_recipe_ids: Object.freeze(['mung-bean-brown-rice-curry']),
   }),
   'base-024-chicken-black-eyed-pea-stew-fixed-core-dislike': Object.freeze({
@@ -78,7 +78,7 @@ const FROZEN_ORACLES = Object.freeze({
   }),
   'base-048-rice-cabbage-minestrone-fixed-core-dislike': Object.freeze({
     base_recipe_id: 'rice-cabbage-minestrone', disliked_fixed_core: '大米',
-    expected_recipe_ids: Object.freeze(['basic-risotto']),
+    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
     forbidden_recipe_ids: Object.freeze(['rice-cabbage-minestrone']),
   }),
   'adversarial-019-repeated-swap-a': Object.freeze({

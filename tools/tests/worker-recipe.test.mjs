@@ -17,6 +17,10 @@ const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
 只返回JSON，禁止JSON外文字。`;
 
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+const RICE_SAFE_PROFILE = {
+  id: 'rice-allergy-complete-main',
+  basis: '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。',
+};
 
 function fixtureRecipe(id, familyId, overrides = {}) {
   return {
@@ -106,6 +110,7 @@ async function runGenerateRequest({
   constraints = {},
   recipeStatus = 200,
   captureLogs = false,
+  envOverrides = {},
 }) {
   generationImportId += 1;
   const { default: worker } = await import(`../../worker/src/worker.js?generation-${generationImportId}`);
@@ -149,6 +154,7 @@ async function runGenerateRequest({
       ASSETS: assets,
       DEEPSEEK_API_KEY: 'test-key',
       RATE_LIMIT: 0,
+      ...envOverrides,
     });
     return { response, body: await response.json(), upstreamBodies, logs };
   } finally {
@@ -204,6 +210,63 @@ test('lentil potato tomato selects the grounded lentil curry through an alias', 
     dislikes: [],
   });
   assert.equal(hit.recipe.id, 'lentil-potato-tomato-curry');
+});
+
+test('rice allergy selects only the manually qualified complete main meal', () => {
+  for (const dislike of ['大米过敏', '白米过敏', '米饭过敏', '糙米过敏']) {
+    const hits = selectRecipeCandidates(lib, {
+      pantry: ['鸡肉', '洋葱'],
+      purpose: 'quick',
+      dislikes: [dislike],
+    });
+    assert.deepEqual(hits.map(hit => hit.recipe.id), ['lentil-potato-tomato-curry'], dislike);
+    assert.deepEqual(hits[0].constraintProfile, RICE_SAFE_PROFILE);
+    assert.deepEqual(hits[0].usedPantry, []);
+    assert.deepEqual(hits[0].unusedPantry, ['鸡肉', '洋葱']);
+  }
+});
+
+test('rice allergy uses matching safe-core pantry but never broadens the safe pool', () => {
+  const [hit] = selectRecipeCandidates(lib, {
+    pantry: ['红扁豆', '土豆', '西红柿', '玉米'],
+    purpose: 'pantry',
+    dislikes: ['大米过敏'],
+  });
+  assert.equal(hit.recipe.id, 'lentil-potato-tomato-curry');
+  assert.deepEqual(hit.usedPantry, ['红扁豆', '土豆', '西红柿']);
+  assert.deepEqual(hit.unusedPantry, ['玉米']);
+  assert.deepEqual(hit.constraintProfile, RICE_SAFE_PROFILE);
+});
+
+test('rice allergy safe pool closes when a fixed safe core is disliked', () => {
+  for (const dislike of ['红扁豆过敏', '扁豆过敏', '土豆过敏', '番茄过敏']) {
+    const hits = selectRecipeCandidates(lib, {
+      pantry: [],
+      dislikes: ['大米过敏', dislike],
+    });
+    assert.deepEqual(hits, [], dislike);
+  }
+});
+
+test('unrelated allergy preserves ordinary recipe selection', () => {
+  const [hit] = selectRecipeCandidates(lib, {
+    pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'],
+    purpose: 'quick',
+    dislikes: ['花生过敏'],
+  });
+  assert.equal(hit.recipe.id, 'simple-chicken-biryani');
+  assert.equal(hit.constraintProfile, null);
+});
+
+test('ordinary lentil selection does not activate rice-allergy grounding', () => {
+  const [hit] = selectRecipeCandidates(lib, {
+    pantry: ['红扁豆', '土豆', '番茄'],
+    purpose: 'pantry',
+    dislikes: [],
+  });
+  assert.equal(hit.recipe.id, 'lentil-potato-tomato-curry');
+  assert.equal(hit.constraintProfile, null);
+  assert.doesNotMatch(buildRecipeGrounding(hit), /稻米过敏安全模式/);
 });
 
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {
@@ -410,6 +473,18 @@ test('grounding names the selected base recipe and every trusted adaptation rule
   assert.match(text, /不合适的库存食材不要使用/);
   assert.match(text, /来源字段由服务器添加，你不要编造来源/);
   assert.doesNotMatch(text, /Cookbook contributors|Wikibooks contributors/);
+});
+
+test('rice allergy grounding explains the complete main and forbids extra staples', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['鸡肉', '洋葱'],
+    dislikes: ['大米过敏'],
+  });
+  const grounding = buildRecipeGrounding(selection);
+  assert.match(grounding, /受控完整主餐资格: rice-allergy-complete-main/);
+  assert.match(grounding, /红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜/);
+  assert.match(grounding, /不得添加或建议搭配任何额外主食/);
+  assert.match(grounding, /不得出现大米、米饭、粥、米粉、米线、河粉、年糕、饭团或任何饭类菜名/);
 });
 
 test('validator catches listed shrimp that is never cooked', () => {
@@ -1182,34 +1257,38 @@ test('generation overwrites forged grounding metadata and marks fixed-core pantr
   assert.equal(JSON.stringify(body).includes('model-forged'), false);
 });
 
-test('generation exposes the preserved rice-allergy leak as a hard validation flag', async () => {
+test('a qualified rice-allergy base still flags any model-added rice', async () => {
   const recipe = groundedFixtureRecipe({
-    core_ingredients: ['鸡肉', '洋葱'],
+    name: '可信扁豆土豆咖喱',
+    core_ingredients: ['红扁豆', '土豆', '番茄'],
     optional_ingredients: [],
+    substitution_slots: [],
+    constraint_profiles: [RICE_SAFE_PROFILE],
   });
-  const recipeLib = fixtureLib([recipe], { 白米: '大米' });
+  const recipeLib = fixtureLib([recipe], { 扁豆: '红扁豆', 白米: '大米' });
   const meal = generatedMeal({
-    dish_name: '椰香鸡肉咖喱盖浇饭',
+    dish_name: '扁豆土豆咖喱盖浇饭',
     ingredients: [
-      { name: '鸡肉', grams: 300 },
-      { name: '洋葱', grams: 150 },
+      { name: '红扁豆', grams: 160 },
+      { name: '土豆', grams: 300 },
+      { name: '番茄', grams: 240 },
       { name: '米饭（即食）', grams: 400 },
     ],
-    steps: ['鸡肉和洋葱炖熟。', '将即食米饭加热后配咖喱鸡肉。'],
+    steps: ['红扁豆、土豆和番茄炖熟。', '将即食米饭加热后盛盘。'],
+    constraint_profile: { id: 'model-forged-profile', basis: 'forged' },
+    constraint_profiles: [{ id: 'model-forged-list', basis: 'forged' }],
   });
-  const { body } = await runGenerateRequest({
+  const { response, body } = await runGenerateRequest({
     recipeLib,
     meal,
-    constraints: {
-      purpose: 'quick',
-      servings: 2,
-      pantry: ['鸡肉', '洋葱'],
-      dislikes: ['大米过敏'],
-    },
+    constraints: { dislikes: ['大米过敏'] },
   });
+  assert.equal(response.status, 200);
   assert.ok(body.validation_flags.includes('allergen_present:盖浇饭'));
   assert.ok(body.validation_flags.includes('allergen_present:米饭（即食）'));
   assert.ok(body.validation_flags.includes('allergen_present:即食米饭'));
+  assert.equal(Object.hasOwn(body, 'constraint_profile'), false);
+  assert.equal(Object.hasOwn(body, 'constraint_profiles'), false);
 });
 
 test('generation repairs an undercooked endpoint without a second DeepSeek call or metadata drift', async () => {
@@ -2146,6 +2225,27 @@ test('no eligible recipe candidate returns 503 without calling DeepSeek', async 
   assert.equal(response.status, 503);
   assert.equal(body.code, 'recipe_library_unavailable');
   assert.equal(upstreamBodies.length, 0);
+});
+
+test('rice allergy with no qualified candidate returns 422 before budget or DeepSeek', async () => {
+  let budgetGets = 0;
+  let budgetPuts = 0;
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: lib,
+    constraints: { dislikes: ['大米过敏', '扁豆过敏'] },
+    envOverrides: {
+      RATE_KV: {
+        async get() { budgetGets += 1; return '0'; },
+        async put() { budgetPuts += 1; },
+      },
+    },
+  });
+  assert.equal(response.status, 422);
+  assert.equal(body.code, 'no_safe_recipe');
+  assert.equal(body.error, '暂时没有符合这些过敏或忌口条件的可信无米主餐');
+  assert.equal(upstreamBodies.length, 0);
+  assert.equal(budgetGets, 0);
+  assert.equal(budgetPuts, 0);
 });
 
 test('health cache is isolated per assets binding in one module instance', async () => {
