@@ -1354,9 +1354,83 @@ test('Python rice-safe grounding and forged-profile removal match Worker', async
   assert.equal(py.grounding, buildRecipeGrounding(selectRecipeCandidates(lib, constraints)[0]));
   assert.match(py.grounding, /rice-allergy-complete-main/);
   assert.match(py.grounding, /不得添加或建议搭配任何额外主食/);
+  assert.match(py.grounding, /红扁豆、土豆和番茄已经组成完整主餐/);
+  assert.match(py.grounding, /同一口锅先处理土豆和番茄，再加入红扁豆和水炖熟/);
+  assert.match(py.grounding, /用户可见 JSON 字段只使用正向描述/);
+  assert.doesNotMatch(py.grounding, /不得出现大米、米饭/);
   assert.equal(Object.hasOwn(py.meal, 'constraint_profile'), false);
   assert.equal(Object.hasOwn(py.meal, 'constraint_profiles'), false);
   assert.deepEqual(py.meal.validation_flags, body.validation_flags);
+});
+
+test('Python trusted rice-safe strict visible wording matches Worker', () => {
+  const constraints = { pantry: [], dislikes: ['大米过敏'] };
+  const selection = selectRecipeCandidates(lib, constraints)[0];
+  for (const wording of ['无需大米', '无需搭配米饭', '不含白米饭']) {
+    const meal = { note: wording, ingredients: [], steps: [] };
+    const js = validateGroundedMeal(meal, selection, constraints);
+    const py = pythonCall('validate', { library: lib, constraints, meal });
+    assert.deepEqual(py, js, wording);
+    assert.ok(js.some(flag => flag.startsWith('allergen_present:')), wording);
+  }
+});
+
+test('Python trusted rice-safe live repair exactly matches Worker', async () => {
+  const constraints = {
+    purpose: 'quick',
+    servings: 2,
+    pantry: ['鸡肉', '洋葱', '小米'],
+    dislikes: ['米饭过敏'],
+  };
+  const meal = generatedMeal({
+    dish_name: '红扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 150, kcal: 350 },
+      { name: '土豆', grams: 300, kcal: 77 },
+      { name: '番茄', grams: 250, kcal: 18 },
+      { name: '植物油', grams: 15, kcal: 884 },
+      { name: '盐', grams: 3, kcal: 0 },
+      { name: '咖喱粉', grams: 10, kcal: 325 },
+      { name: '月桂叶', grams: 1, kcal: 313 },
+      { name: '水', grams: 600, kcal: 0 },
+    ],
+    steps: [
+      '红扁豆放入锅中，加水煮10分钟。',
+      '另取一炒锅，加入植物油、土豆、番茄和咖喱粉翻炒。',
+      '把炒好的土豆番茄倒入红扁豆锅中，加入盐和月桂叶炖熟。',
+    ],
+    note: '无需米饭即成完整一餐。',
+    why: '无需大米。',
+    taste_preview: '像白米饭一样饱满，番茄酸甜。',
+    form: '咖喱饭',
+    flavor_tags: ['紫米感', '酸甜', '香浓'],
+  });
+  const { response, body, upstreamBodies } = await runWorkerGeneration({
+    recipeLib: lib,
+    meal,
+    constraints,
+  });
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  const py = pythonCall('prepare', {
+    library: lib,
+    meal_name: '这次的一锅主餐',
+    targets: { kcal: 1200, p: 50, fb: 16 },
+    constraints,
+    meal,
+    usage: { total_tokens: 321 },
+  });
+
+  assert.deepEqual(py.meal.ingredients, body.ingredients);
+  assert.deepEqual(py.meal.steps, body.steps);
+  assert.equal(py.meal.note, body.note);
+  assert.equal(py.meal.why, body.why);
+  assert.equal(py.meal.taste_preview, body.taste_preview);
+  assert.equal(py.meal.form, body.form);
+  assert.deepEqual(py.meal.flavor_tags, body.flavor_tags);
+  assert.deepEqual(py.meal.validation_flags, body.validation_flags);
+  assert.deepEqual(body.validation_flags, []);
+  assert.doesNotMatch(body.steps.join(''), /另取|另起|另一口|第二口|炒锅|平底锅|汤锅/);
 });
 
 test('recipe-match invalid JSON and no candidate fail nonzero with stderr-only diagnostics', () => {

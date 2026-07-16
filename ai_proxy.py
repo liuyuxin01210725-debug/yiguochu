@@ -272,6 +272,14 @@ def recipe_constraint_profile(recipe, profile_id):
     return None
 
 
+def rice_allergy_complete_main_active(selection):
+    return (
+        isinstance(selection, dict)
+        and isinstance(selection.get('constraint_profile'), dict)
+        and selection['constraint_profile'].get('id') == RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID
+    )
+
+
 def select_recipe_candidates(library, constraints=None):
     library = library if isinstance(library, dict) else {}
     constraints = constraints if isinstance(constraints, dict) else {}
@@ -438,8 +446,10 @@ def build_recipe_grounding(selection):
     if profile:
         profile_lines = [
             f"受控完整主餐资格: {sanitize_prompt_text(profile.get('id'), 100)}",
-            f"完整性依据: {sanitize_prompt_text(profile.get('basis'), 300)}",
-            '稻米过敏安全模式: 严格沿用这张基础菜谱。不得添加或建议搭配任何额外主食，尤其不得出现大米、米饭、粥、米粉、米线、河粉、年糕、饭团或任何饭类菜名。',
+            '完整性依据: 红扁豆、土豆和番茄已经组成完整主餐。',
+            '安全生成顺序: 同一口锅先处理土豆和番茄，再加入红扁豆和水炖熟；不得先把红扁豆放入另一口锅预煮，也不得倒锅。',
+            '稻米过敏安全模式: 严格沿用这张基础菜谱，不得添加或建议搭配任何额外主食。',
+            '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
         ]
     return '\n'.join([
         '【可信基础菜谱】',
@@ -570,10 +580,10 @@ def _validation_rice_allergen_fields(meal):
     return fields
 
 
-def _validation_rice_allergen_token_blocked(text, index, token):
+def _validation_rice_allergen_token_blocked(text, index, token, strict_visible=False):
     prefix = text[max(0, index - 18):index]
     suffix = text[index + len(token):]
-    if _VALIDATION_RICE_ALLERGEN_NEGATION_RE.search(prefix):
+    if not strict_visible and _VALIDATION_RICE_ALLERGEN_NEGATION_RE.search(prefix):
         return True
     if (token in _VALIDATION_RICE_GENERIC_TOKENS
             and _VALIDATION_RICE_GENERIC_PREFIX_BLOCK_RE.search(prefix)):
@@ -584,7 +594,7 @@ def _validation_rice_allergen_token_blocked(text, index, token):
     return False
 
 
-def _validation_rice_allergen_matches(text):
+def _validation_rice_allergen_matches(text, strict_visible=False):
     matches = []
     index = 0
     while index < len(text):
@@ -595,19 +605,19 @@ def _validation_rice_allergen_matches(text):
         if token is None:
             index += 1
             continue
-        if not _validation_rice_allergen_token_blocked(text, index, token):
+        if not _validation_rice_allergen_token_blocked(text, index, token, strict_visible):
             matches.append(token)
         index += len(token)
     return matches
 
 
-def _validation_rice_allergen_flags(meal, dislikes, aliases):
+def _validation_rice_allergen_flags(meal, dislikes, aliases, strict_visible=False):
     if not _validation_rice_allergen_active(dislikes, aliases):
         return []
     flags = []
     seen = set()
     for field in _validation_rice_allergen_fields(meal):
-        matches = _validation_rice_allergen_matches(field['text'])
+        matches = _validation_rice_allergen_matches(field['text'], strict_visible)
         if not matches:
             continue
         displays = [field['display']] if field['display'] else matches
@@ -1003,7 +1013,12 @@ def validate_grounded_meal(meal, selection, constraints=None):
             flags.append(flag)
 
     rice_allergen_active = _validation_rice_allergen_active(constraints.get('dislikes'), aliases)
-    for flag in _validation_rice_allergen_flags(meal, constraints.get('dislikes'), aliases):
+    strict_rice_visible = rice_allergy_complete_main_active(selection)
+    for flag in _validation_rice_allergen_flags(
+            meal,
+            constraints.get('dislikes'),
+            aliases,
+            strict_rice_visible):
         add_flag(flag)
 
     canonical_ingredients = {
@@ -1017,7 +1032,10 @@ def validate_grounded_meal(meal, selection, constraints=None):
         canonical = _validation_canonical_ingredient(name, aliases)
         direct_rice_ingredient = (
             rice_allergen_active
-            and bool(_validation_rice_allergen_matches(_validation_form_name(name)))
+            and bool(_validation_rice_allergen_matches(
+                _validation_form_name(name),
+                strict_rice_visible,
+            ))
         )
         if canonical in dislikes and not direct_rice_ingredient:
             add_flag(f'allergen_present:{name}')
@@ -1413,6 +1431,131 @@ def _validation_raw_risk_category(name, aliases):
     return _validation_raw_risk_category_for_form(canonical)
 
 
+_RICE_SAFE_DESCRIPTION_COPY = {
+    'note': '红扁豆、土豆和番茄组成完整主餐',
+    'why': '红扁豆补充蛋白，土豆提供主食感，番茄带来酸甜',
+    'taste_preview': '番茄酸甜先开胃，土豆绵软，红扁豆炖至细腻，尾段留有温和香料气息。',
+    'form': '一锅炖',
+}
+
+
+def _join_recipe_names(names):
+    return '、'.join(name for name in names if name)
+
+
+def repair_rice_allergy_complete_main(meal, selection, constraints=None):
+    selection = selection if isinstance(selection, dict) else {}
+    constraints = constraints if isinstance(constraints, dict) else {}
+    if (not isinstance(meal, dict)
+            or not rice_allergy_complete_main_active(selection)
+            or not _validation_rice_allergen_active(
+                constraints.get('dislikes'),
+                selection.get('ingredient_aliases') or {},
+            )):
+        return 0
+
+    ingredient_names = _validation_ingredient_names(meal)
+    critical_fields = [
+        meal.get('dish_name'),
+        *ingredient_names,
+        *_validation_steps(meal),
+    ]
+    if any(
+        _validation_rice_allergen_matches(_validation_form_name(value), True)
+        for value in critical_fields
+    ):
+        return 0
+
+    repaired = 0
+    for field, replacement in _RICE_SAFE_DESCRIPTION_COPY.items():
+        value = meal.get(field)
+        if (not isinstance(value, str)
+                or not _validation_rice_allergen_matches(_validation_form_name(value), True)):
+            continue
+        meal[field] = replacement
+        repaired += 1
+    if isinstance(meal.get('flavor_tags'), list):
+        repaired_tags = [
+            '醇厚'
+            if (isinstance(tag, str)
+                and _validation_rice_allergen_matches(_validation_form_name(tag), True))
+            else tag
+            for tag in meal['flavor_tags']
+        ]
+        if any(tag != meal['flavor_tags'][index] for index, tag in enumerate(repaired_tags)):
+            meal['flavor_tags'] = repaired_tags
+            repaired += 1
+
+    if 'multi_pot_step' not in validate_grounded_meal(meal, selection, constraints):
+        return repaired
+
+    aliases = selection.get('ingredient_aliases') or {}
+
+    def find_core(canonical):
+        return next((
+            name for name in ingredient_names
+            if _validation_canonical_ingredient(name, aliases) == canonical
+        ), None)
+
+    lentil = find_core('红扁豆')
+    potato = find_core('土豆')
+    tomato = find_core('番茄')
+    waters = [
+        name for name in ingredient_names
+        if _validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES)
+    ]
+    if not lentil or not potato or not tomato or not waters:
+        return repaired
+
+    core_names = {lentil, potato, tomato}
+    fats = [name for name in ingredient_names if _validation_cooking_oil_ingredient(name)]
+    late_seasonings = [
+        name for name in ingredient_names
+        if (name not in core_names
+            and name not in fats
+            and name not in waters
+            and (
+                _validation_ingredient_matches_names(name, _VALIDATION_SALT_NAMES)
+                or _validation_ingredient_matches_names(name, _VALIDATION_PEPPER_NAMES)
+                or re.search(r'(?:糖|蜂蜜|月桂叶)', name)
+            ))
+    ]
+    saute_extras = [
+        name for name in ingredient_names
+        if (name not in core_names
+            and name not in fats
+            and name not in waters
+            and name not in late_seasonings)
+    ]
+    saute_inputs = [potato, tomato, *saute_extras]
+    finish_inputs = [lentil, *waters, *late_seasonings]
+    if fats:
+        saute_step = (
+            f'同一口锅加入{_join_recipe_names(fats)}，中火加热；'
+            f'放入{_join_recipe_names(saute_inputs)}翻炒3分钟。'
+        )
+    else:
+        saute_step = (
+            f'同一口锅放入{_join_recipe_names(saute_inputs)}，'
+            f'加入少量{waters[0]}翻拌加热3分钟。'
+        )
+    bay_leaf_tail = (
+        '；月桂叶食用前取出'
+        if any('月桂叶' in name for name in late_seasonings)
+        else ''
+    )
+    meal['steps'] = [
+        f'{lentil}冲洗干净；{potato}切小块，{tomato}切块。',
+        saute_step,
+        (
+            f'继续在同一口锅加入{_join_recipe_names(finish_inputs)}，'
+            f'煮沸后转小火加盖炖18-22分钟，至{lentil}熟烂、'
+            f'{potato}中心无硬芯{bay_leaf_tail}。'
+        ),
+    ]
+    return repaired + 1
+
+
 def repair_grounded_meal_safety(meal, selection, constraints=None):
     selection = selection if isinstance(selection, dict) else {}
     constraints = constraints if isinstance(constraints, dict) else {}
@@ -1450,6 +1593,7 @@ def attach_grounded_metadata(meal, selection, constraints):
     meal.pop('constraint_profile', None)
     meal.pop('constraint_profiles', None)
     meal.pop('active_constraint_profile', None)
+    repair_rice_allergy_complete_main(meal, selection, constraints)
     repair_grounded_meal_safety(meal, selection, constraints)
     recipe = selection['recipe']
     aliases = selection.get('ingredient_aliases') or {}

@@ -96,6 +96,10 @@ function recipeConstraintProfile(recipe, profileId) {
   return profile ? { id: profile.id, basis: profile.basis.trim() } : null;
 }
 
+function riceAllergyCompleteMainActive(selection) {
+  return selection?.constraintProfile?.id === RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID;
+}
+
 function selectRecipeCandidates(lib, constraints = {}) {
   const riceAllergyActive = validationRiceAllergenActive(
     constraints.dislikes,
@@ -224,8 +228,10 @@ function buildRecipeGrounding(selection) {
     : null;
   const profileLines = profile ? [
     `受控完整主餐资格: ${sanitizePromptText(profile.id, 100)}`,
-    `完整性依据: ${sanitizePromptText(profile.basis, 300)}`,
-    '稻米过敏安全模式: 严格沿用这张基础菜谱。不得添加或建议搭配任何额外主食，尤其不得出现大米、米饭、粥、米粉、米线、河粉、年糕、饭团或任何饭类菜名。',
+    '完整性依据: 红扁豆、土豆和番茄已经组成完整主餐。',
+    '安全生成顺序: 同一口锅先处理土豆和番茄，再加入红扁豆和水炖熟；不得先把红扁豆放入另一口锅预煮，也不得倒锅。',
+    '稻米过敏安全模式: 严格沿用这张基础菜谱，不得添加或建议搭配任何额外主食。',
+    '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
   ] : [];
   return [
     '【可信基础菜谱】',
@@ -343,10 +349,10 @@ function validationRiceAllergenFields(meal) {
   return fields;
 }
 
-function validationRiceAllergenTokenBlocked(text, index, token) {
+function validationRiceAllergenTokenBlocked(text, index, token, strictVisible = false) {
   const prefix = text.slice(Math.max(0, index - 18), index);
   const suffix = text.slice(index + token.length);
-  if (VALIDATION_RICE_ALLERGEN_NEGATION_RE.test(prefix)) return true;
+  if (!strictVisible && VALIDATION_RICE_ALLERGEN_NEGATION_RE.test(prefix)) return true;
   if (VALIDATION_RICE_GENERIC_TOKENS.has(token)
     && VALIDATION_RICE_GENERIC_PREFIX_BLOCK_RE.test(prefix)) return true;
   if (VALIDATION_RICE_RAW_TOKENS.has(token)
@@ -354,7 +360,7 @@ function validationRiceAllergenTokenBlocked(text, index, token) {
   return false;
 }
 
-function validationRiceAllergenMatches(text) {
+function validationRiceAllergenMatches(text, strictVisible = false) {
   const matches = [];
   for (let index = 0; index < text.length;) {
     const token = VALIDATION_RICE_ALLERGEN_TOKENS.find(candidate => text.startsWith(candidate, index));
@@ -362,18 +368,18 @@ function validationRiceAllergenMatches(text) {
       index += 1;
       continue;
     }
-    if (!validationRiceAllergenTokenBlocked(text, index, token)) matches.push(token);
+    if (!validationRiceAllergenTokenBlocked(text, index, token, strictVisible)) matches.push(token);
     index += token.length;
   }
   return matches;
 }
 
-function validationRiceAllergenFlags(meal, dislikes, aliases) {
+function validationRiceAllergenFlags(meal, dislikes, aliases, strictVisible = false) {
   if (!validationRiceAllergenActive(dislikes, aliases)) return [];
   const flags = [];
   const seen = new Set();
   for (const field of validationRiceAllergenFields(meal)) {
-    const matches = validationRiceAllergenMatches(field.text);
+    const matches = validationRiceAllergenMatches(field.text, strictVisible);
     if (!matches.length) continue;
     const displays = field.display ? [field.display] : matches;
     for (const display of displays) {
@@ -709,7 +715,13 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   const steps = validationSteps(meal);
   const flags = new Set();
   const riceAllergenActive = validationRiceAllergenActive(constraints?.dislikes, aliases);
-  for (const flag of validationRiceAllergenFlags(meal, constraints?.dislikes, aliases)) flags.add(flag);
+  const strictRiceVisible = riceAllergyCompleteMainActive(selection);
+  for (const flag of validationRiceAllergenFlags(
+    meal,
+    constraints?.dislikes,
+    aliases,
+    strictRiceVisible,
+  )) flags.add(flag);
   const canonicalIngredients = new Set(ingredientNames.map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
   const dislikes = recipeConstraintList(constraints?.dislikes)
     .map(name => validationCanonicalIngredient(name, aliases))
@@ -718,7 +730,7 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   for (const name of ingredientNames) {
     const canonical = validationCanonicalIngredient(name, aliases);
     const directRiceIngredient = riceAllergenActive
-      && validationRiceAllergenMatches(validationFormName(name)).length > 0;
+      && validationRiceAllergenMatches(validationFormName(name), strictRiceVisible).length > 0;
     if (dislikes.includes(canonical) && !directRiceIngredient) flags.add(`allergen_present:${name}`);
     if (!validationSeasoning(name) && !steps.some(step => validationStepMentions(step, name, aliases))) {
       flags.add(`ingredient_missing_in_steps:${name}`);
@@ -1209,6 +1221,108 @@ function validationRawRiskCategory(name, aliases) {
   return validationRawRiskCategoryForForm(canonical);
 }
 
+const RICE_SAFE_DESCRIPTION_COPY = {
+  note: '红扁豆、土豆和番茄组成完整主餐',
+  why: '红扁豆补充蛋白，土豆提供主食感，番茄带来酸甜',
+  taste_preview: '番茄酸甜先开胃，土豆绵软，红扁豆炖至细腻，尾段留有温和香料气息。',
+  form: '一锅炖',
+};
+
+function joinRecipeNames(names) {
+  return names.filter(Boolean).join('、');
+}
+
+function repairRiceAllergyCompleteMain(meal, selection, constraints = {}) {
+  if (!meal || typeof meal !== 'object'
+    || !riceAllergyCompleteMainActive(selection)
+    || !validationRiceAllergenActive(constraints?.dislikes, selection?.ingredientAliases || {})) {
+    return 0;
+  }
+
+  const ingredientNames = validationIngredientNames(meal);
+  const criticalFields = [
+    meal.dish_name,
+    ...ingredientNames,
+    ...validationSteps(meal),
+  ];
+  if (criticalFields.some(value => (
+    validationRiceAllergenMatches(validationFormName(value), true).length > 0
+  ))) {
+    return 0;
+  }
+
+  let repaired = 0;
+  for (const [field, replacement] of Object.entries(RICE_SAFE_DESCRIPTION_COPY)) {
+    if (typeof meal[field] !== 'string'
+      || validationRiceAllergenMatches(validationFormName(meal[field]), true).length === 0) {
+      continue;
+    }
+    meal[field] = replacement;
+    repaired += 1;
+  }
+  if (Array.isArray(meal.flavor_tags)) {
+    const repairedTags = meal.flavor_tags.map(tag => (
+      typeof tag === 'string'
+      && validationRiceAllergenMatches(validationFormName(tag), true).length > 0
+        ? '醇厚'
+        : tag
+    ));
+    if (repairedTags.some((tag, index) => tag !== meal.flavor_tags[index])) {
+      meal.flavor_tags = repairedTags;
+      repaired += 1;
+    }
+  }
+
+  if (!validateGroundedMeal(meal, selection, constraints).includes('multi_pot_step')) {
+    return repaired;
+  }
+
+  const aliases = selection?.ingredientAliases || {};
+  const findCore = canonical => ingredientNames.find(name => (
+    validationCanonicalIngredient(name, aliases) === canonical
+  ));
+  const lentil = findCore('红扁豆');
+  const potato = findCore('土豆');
+  const tomato = findCore('番茄');
+  const waters = ingredientNames.filter(name => (
+    validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES)
+  ));
+  if (!lentil || !potato || !tomato || waters.length === 0) return repaired;
+
+  const coreNames = new Set([lentil, potato, tomato]);
+  const fats = ingredientNames.filter(name => validationCookingOilIngredient(name));
+  const lateSeasonings = ingredientNames.filter(name => (
+    !coreNames.has(name)
+    && !fats.includes(name)
+    && !waters.includes(name)
+    && (
+      validationIngredientMatchesNames(name, VALIDATION_SALT_NAMES)
+      || validationIngredientMatchesNames(name, VALIDATION_PEPPER_NAMES)
+      || /(?:糖|蜂蜜|月桂叶)/.test(name)
+    )
+  ));
+  const sauteExtras = ingredientNames.filter(name => (
+    !coreNames.has(name)
+    && !fats.includes(name)
+    && !waters.includes(name)
+    && !lateSeasonings.includes(name)
+  ));
+  const sauteInputs = [potato, tomato, ...sauteExtras];
+  const finishInputs = [lentil, ...waters, ...lateSeasonings];
+  const sauteStep = fats.length
+    ? `同一口锅加入${joinRecipeNames(fats)}，中火加热；放入${joinRecipeNames(sauteInputs)}翻炒3分钟。`
+    : `同一口锅放入${joinRecipeNames(sauteInputs)}，加入少量${waters[0]}翻拌加热3分钟。`;
+  const bayLeafTail = lateSeasonings.some(name => name.includes('月桂叶'))
+    ? '；月桂叶食用前取出'
+    : '';
+  meal.steps = [
+    `${lentil}冲洗干净；${potato}切小块，${tomato}切块。`,
+    sauteStep,
+    `继续在同一口锅加入${joinRecipeNames(finishInputs)}，煮沸后转小火加盖炖18-22分钟，至${lentil}熟烂、${potato}中心无硬芯${bayLeafTail}。`,
+  ];
+  return repaired + 1;
+}
+
 function repairGroundedMealSafety(meal, selection, constraints = {}) {
   const aliases = selection?.ingredientAliases || {};
   const ingredientNames = validationIngredientNames(meal);
@@ -1238,6 +1352,7 @@ function attachGroundedMetadata(meal, selection, constraints) {
   delete meal.constraint_profile;
   delete meal.constraint_profiles;
   delete meal.active_constraint_profile;
+  repairRiceAllergyCompleteMain(meal, selection, constraints);
   repairGroundedMealSafety(meal, selection, constraints);
   const recipe = selection.recipe;
   const aliases = selection.ingredientAliases || {};
@@ -1376,6 +1491,7 @@ export {
   canonicalRecipeIngredient,
   selectRecipeCandidates,
   getRecipeLib,
+  repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
   validateGroundedMeal,
 };

@@ -482,9 +482,11 @@ test('rice allergy grounding explains the complete main and forbids extra staple
   });
   const grounding = buildRecipeGrounding(selection);
   assert.match(grounding, /受控完整主餐资格: rice-allergy-complete-main/);
-  assert.match(grounding, /红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜/);
+  assert.match(grounding, /红扁豆、土豆和番茄已经组成完整主餐/);
   assert.match(grounding, /不得添加或建议搭配任何额外主食/);
-  assert.match(grounding, /不得出现大米、米饭、粥、米粉、米线、河粉、年糕、饭团或任何饭类菜名/);
+  assert.match(grounding, /同一口锅先处理土豆和番茄，再加入红扁豆和水炖熟/);
+  assert.match(grounding, /用户可见 JSON 字段只使用正向描述/);
+  assert.doesNotMatch(grounding, /不得出现大米、米饭/);
 });
 
 test('validator catches listed shrimp that is never cooked', () => {
@@ -631,6 +633,30 @@ test('rice family activation and negation stay finite', () => {
     riceAllergenSelection(),
     { dislikes: ['大米过敏'] },
   ));
+});
+
+test('trusted rice-safe mode treats negated visible rice wording as a validation failure', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: [],
+    dislikes: ['大米过敏'],
+  });
+  for (const wording of ['无需大米', '无需搭配米饭', '不含白米饭']) {
+    const flags = validateGroundedMeal(
+      { note: wording, ingredients: [], steps: [] },
+      selection,
+      { dislikes: ['大米过敏'] },
+    );
+    assert.ok(flags.some(flag => flag.startsWith('allergen_present:')), wording);
+  }
+});
+
+test('ordinary rice validation still permits negative safety prose', () => {
+  const flags = validateGroundedMeal(
+    { note: '无需搭配米饭', ingredients: [], steps: [] },
+    riceAllergenSelection(),
+    { dislikes: ['大米过敏'] },
+  );
+  assert.equal(flags.some(flag => flag.startsWith('allergen_present:')), false);
 });
 
 test('validator emits all seven machine-readable validation flag types', () => {
@@ -1289,6 +1315,126 @@ test('a qualified rice-allergy base still flags any model-added rice', async () 
   assert.ok(body.validation_flags.includes('allergen_present:即食米饭'));
   assert.equal(Object.hasOwn(body, 'constraint_profile'), false);
   assert.equal(Object.hasOwn(body, 'constraint_profiles'), false);
+});
+
+test('qualified rice-allergy generation repairs live two-pot wording without changing ingredients', async () => {
+  const modelMeal = generatedMeal({
+    dish_name: '红扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 100, kcal: 350 },
+      { name: '土豆', grams: 300, kcal: 77 },
+      { name: '番茄', grams: 200, kcal: 18 },
+      { name: '植物油', grams: 10, kcal: 884 },
+      { name: '水', grams: 800, kcal: 0 },
+      { name: '盐', grams: 3, kcal: 0 },
+      { name: '月桂叶', grams: 1, kcal: 313 },
+    ],
+    steps: [
+      '红扁豆用清水冲洗后放入锅中，加入800克水，大火煮开后转中小火煮10分钟。',
+      '土豆切块，番茄切块。另取一锅加入植物油，放入土豆煎香，再加入番茄翻炒。',
+      '将红扁豆连同水倒入土豆番茄锅中，加入盐和月桂叶炖熟。',
+    ],
+    note: '无需米饭即成完整一餐。',
+    why: '无需大米。',
+    taste_preview: '比白米饭更绵密，番茄酸甜开胃。',
+    form: '咖喱饭',
+    flavor_tags: ['紫米感', '酸甜', '醇香'],
+  });
+  const ingredientsBefore = structuredClone(modelMeal.ingredients);
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: lib,
+    meal: modelMeal,
+    constraints: { pantry: ['鸡肉', '洋葱', '玉米'], dislikes: ['白米过敏'] },
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  assert.deepEqual(
+    body.ingredients.map(({ name, grams, kcal }) => ({ name, grams, kcal })),
+    ingredientsBefore,
+  );
+  assert.equal(body.steps.length, 3);
+  assert.match(body.steps[1], /^同一口锅/);
+  assert.match(body.steps[2], /^继续在同一口锅/);
+  assert.doesNotMatch(body.steps.join(''), /另取|另起|另一口|第二口|炒锅|平底锅|汤锅/);
+  for (const name of ['红扁豆', '土豆', '番茄', '植物油', '水', '盐', '月桂叶']) {
+    assert.match(body.steps.join(''), new RegExp(name), name);
+  }
+  assert.equal(body.note, '红扁豆、土豆和番茄组成完整主餐');
+  assert.equal(body.why, '红扁豆补充蛋白，土豆提供主食感，番茄带来酸甜');
+  assert.equal(body.taste_preview, '番茄酸甜先开胃，土豆绵软，红扁豆炖至细腻，尾段留有温和香料气息。');
+  assert.equal(body.form, '一锅炖');
+  assert.deepEqual(body.flavor_tags, ['醇厚', '酸甜', '醇香']);
+  assert.deepEqual(body.used_pantry, []);
+  assert.deepEqual(body.unused_pantry, ['鸡肉', '洋葱', '玉米']);
+  assert.deepEqual(body.validation_flags, []);
+});
+
+test('qualified rice-allergy repair never hides rice in critical recipe fields', async () => {
+  const modelMeal = generatedMeal({
+    dish_name: '红扁豆咖喱盖浇饭',
+    ingredients: [
+      { name: '红扁豆', grams: 100 },
+      { name: '土豆', grams: 300 },
+      { name: '番茄', grams: 200 },
+      { name: '米饭（即食）', grams: 400 },
+      { name: '水', grams: 600 },
+    ],
+    steps: [
+      '红扁豆、土豆、番茄和水放入锅中炖熟。',
+      '另取一锅加热米饭（即食），再把咖喱浇在米饭上。',
+    ],
+    note: '无需额外主食。',
+  });
+  const criticalBefore = {
+    dish_name: modelMeal.dish_name,
+    ingredients: modelMeal.ingredients.map(({ name, grams }) => ({ name, grams })),
+    steps: structuredClone(modelMeal.steps),
+  };
+  const { body } = await runGenerateRequest({
+    recipeLib: lib,
+    meal: modelMeal,
+    constraints: { dislikes: ['大米过敏'] },
+  });
+
+  assert.equal(body.dish_name, criticalBefore.dish_name);
+  assert.deepEqual(
+    body.ingredients.map(({ name, grams }) => ({ name, grams })),
+    criticalBefore.ingredients,
+  );
+  assert.deepEqual(body.steps, criticalBefore.steps);
+  assert.ok(body.validation_flags.includes('allergen_present:盖浇饭'));
+  assert.ok(body.validation_flags.includes('allergen_present:米饭（即食）'));
+  assert.ok(body.validation_flags.includes('allergen_present:米饭'));
+  assert.ok(body.validation_flags.includes('multi_pot_step'));
+});
+
+test('ordinary lentil generation does not receive trusted rice-safe repair', async () => {
+  const modelMeal = generatedMeal({
+    dish_name: '红扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 100 },
+      { name: '土豆', grams: 300 },
+      { name: '番茄', grams: 200 },
+      { name: '水', grams: 600 },
+    ],
+    steps: [
+      '红扁豆和水放入锅中煮。',
+      '另取一锅煎土豆和番茄。',
+      '合并后炖熟。',
+    ],
+    note: '无需搭配米饭。',
+  });
+  const before = structuredClone(modelMeal);
+  const { body } = await runGenerateRequest({
+    recipeLib: lib,
+    meal: modelMeal,
+    constraints: { pantry: ['红扁豆', '土豆', '番茄'], dislikes: [] },
+  });
+
+  assert.deepEqual(body.steps, before.steps);
+  assert.equal(body.note, before.note);
+  assert.ok(body.validation_flags.includes('multi_pot_step'));
 });
 
 test('generation repairs an undercooked endpoint without a second DeepSeek call or metadata drift', async () => {
