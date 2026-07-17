@@ -9,8 +9,8 @@ export function validateRecipeCandidateReleaseGate(ledger, production) {
   }
   const families = Array.isArray(production?.families) ? production.families : [];
   const recipes = Array.isArray(production?.recipes) ? production.recipes : [];
-  if (families.length !== 9) errors.push('production library must contain exactly 9 families');
-  if (recipes.length !== 12) errors.push('production library must contain exactly 12 recipes');
+  if (families.length !== 15) errors.push('production library must contain exactly 15 families');
+  if (recipes.length !== 42) errors.push('production library must contain exactly 42 recipes');
   if (recipes.some(recipe => recipe?.status !== 'approved')) {
     errors.push('production library recipes must all be approved');
   }

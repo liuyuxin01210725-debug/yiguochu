@@ -24,8 +24,8 @@ if (draftEntries.length !== 30) {
   errors.push('draft library must contain exactly 30 drafts');
 }
 if (draftEntries.some(draft => draft?.status !== 'draft')) errors.push('draft library must contain only draft entries');
-if (productionFamilies.length !== 9) errors.push('production library must contain exactly 9 families');
-if (productionRecipes.length !== 12) errors.push('production library must contain exactly 12 recipes');
+if (productionFamilies.length !== 15) errors.push('production library must contain exactly 15 families');
+if (productionRecipes.length !== 42) errors.push('production library must contain exactly 42 recipes');
 if (productionRecipes.some(recipe => recipe?.status !== 'approved')) {
   errors.push('production library recipes must all be approved');
 }

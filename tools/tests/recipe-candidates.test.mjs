@@ -38,15 +38,17 @@ test('candidate ledger rejects approved status and copied-source metadata gaps',
   ]);
 });
 
-test('research ledger has exactly 30 non-production candidates and leaves the Phase A library untouched', () => {
+test('research ledger has exactly 30 non-production candidates and locks the promoted production baseline', () => {
   const ledger = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
   assert.deepEqual(validateRecipeCandidateLedger(ledger), []);
   assert.equal(ledger.entries.length, 30);
   assert.ok(ledger.entries.every(entry => entry.status !== 'approved'));
-  assert.equal(production.families.length, 9);
-  assert.equal(production.recipes.length, 12);
-  assert.ok(production.recipes.every(recipe => !ledger.entries.some(entry => entry.id === recipe.id)));
+  assert.equal(production.families.length, 15);
+  assert.equal(production.recipes.length, 42);
+  const promoted = production.recipes.filter(recipe => ledger.entries.some(entry => entry.id === recipe.id));
+  assert.equal(promoted.length, 30);
+  assert.ok(promoted.every(recipe => recipe.origin_candidate_id === recipe.id));
 });
 
 test('candidate checker reports the candidate and production counts', () => {
@@ -100,5 +102,8 @@ test('candidate release gate locks the first batch and production baseline', () 
   assert.ok(validateRecipeCandidateReleaseGate(shortLedger, production).includes('candidate ledger must contain exactly 30 entries'));
   const incompleteProduction = structuredClone(production);
   incompleteProduction.recipes.pop();
-  assert.ok(validateRecipeCandidateReleaseGate(ledger, incompleteProduction).includes('production library must contain exactly 12 recipes'));
+  assert.ok(validateRecipeCandidateReleaseGate(ledger, incompleteProduction).includes('production library must contain exactly 42 recipes'));
+  const missingFamily = structuredClone(production);
+  missingFamily.families.pop();
+  assert.ok(validateRecipeCandidateReleaseGate(ledger, missingFamily).includes('production library must contain exactly 15 families'));
 });
