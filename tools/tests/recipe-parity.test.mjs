@@ -26,6 +26,33 @@ const RICE_SAFE_PROFILE = {
   id: 'rice-allergy-complete-main',
   basis: '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。',
 };
+// Must stay aligned with validationRiceAllergenActive() in worker/src/worker.js.
+// These are complete raw-rice/rice-meal ingredient names, not a broad “contains 米” rule.
+const RICE_ALLERGEN_ACTIVATOR_INGREDIENTS = new Set([
+  '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
+  '米饭', '白米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭',
+  '剩米饭', '隔夜米饭', '即食米饭',
+]);
+
+function fixtureBaseRecipeIngredient(name) {
+  return String(name || '').toLowerCase()
+    .replace(/过敏|不吃|忌口|不要/g, '')
+    .replace(/（/g, '(').replace(/）/g, ')')
+    .replace(/\(.*?\)/g, '').replace(/[\s_-]+/g, '')
+    .replace(/丁$|片$|块$|丝$|末$|粒$/g, '');
+}
+
+function fixtureActivatesRiceAllergy(name, aliases) {
+  return canonicalRecipeIngredient(name, aliases) === '大米'
+    || RICE_ALLERGEN_ACTIVATOR_INGREDIENTS.has(fixtureBaseRecipeIngredient(name));
+}
+
+function noCandidateFixtureDislikes(library) {
+  return [...new Set(library.recipes.flatMap(recipe => [
+    ...(recipe.core_ingredients || []),
+    ...(recipe.substitution_slots || []).flatMap(slot => slot.allowed || []),
+  ]))].filter(item => !fixtureActivatesRiceAllergy(item, library.ingredient_aliases || {}));
+}
 
 const pythonHarness = String.raw`
 import copy
@@ -1837,14 +1864,21 @@ test('recipe-match invalid JSON and no candidate fail nonzero with stderr-only d
   assert.equal(invalid.stdout, '');
   assert.match(invalid.stderr, /JSON|json/i);
 
-  const dislikes = [...new Set(lib.recipes.flatMap(recipe => [
-    ...(recipe.core_ingredients || []),
-    ...(recipe.substitution_slots || []).flatMap(slot => slot.allowed || []),
-  ]))].filter(item => !String(item).includes('米'));
+  const dislikes = noCandidateFixtureDislikes(lib);
   const none = runPython(['ai_proxy.py', '--recipe-match', JSON.stringify({ pantry: [], dislikes })]);
   assert.notEqual(none.status, 0);
   assert.equal(none.stdout, '');
   assert.match(none.stderr, /候选|菜谱/);
+});
+
+test('no-candidate fixture keeps black-rice color as an ordinary exact dislike', () => {
+  const dislikes = noCandidateFixtureDislikes(lib);
+
+  // The selector's rice-allergy mode recognizes raw rice/rice-meal names, not
+  // every ingredient whose descriptive name happens to contain “米”.
+  assert.equal(fixtureActivatesRiceAllergy('食品级黑米色粉', lib.ingredient_aliases), false);
+  assert.ok(dislikes.includes('食品级黑米色粉'));
+  assert.equal(selectRecipeCandidates(lib, { pantry: [], dislikes }).length, 0);
 });
 
 test('local generate endpoint returns 503 before any DeepSeek call when no recipe is eligible', async t => {
@@ -1872,10 +1906,7 @@ test('local generate endpoint returns 503 before any DeepSeek call when no recip
     await new Promise(resolve => setTimeout(resolve, 25));
   }
   assert.equal(child.exitCode, null, stderr);
-  const dislikes = [...new Set(lib.recipes.flatMap(recipe => [
-    ...(recipe.core_ingredients || []),
-    ...(recipe.substitution_slots || []).flatMap(slot => slot.allowed || []),
-  ]))].filter(item => !String(item).includes('米'));
+  const dislikes = noCandidateFixtureDislikes(lib);
   const response = await fetch(`http://127.0.0.1:${port}/generate-meal`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
