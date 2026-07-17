@@ -126,7 +126,7 @@ RECIPE_TEMPLATE = '''生成一道【{meal_name}】一日量的简单家常单品
 - 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。
 
 【最终提交自检】
-1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，留存液体须列入ingredients数字grams；泡发/浸泡液须计入总量，未计量不得保留，倒掉可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -441,6 +441,14 @@ def build_recipe_grounding(selection):
         )
     family_line = f"菜谱家族: {sanitize_prompt_text(family.get('id') or recipe.get('family_id') or 'unknown', 100)} {sanitize_prompt_text(family.get('name'), 100)}".strip()
     recipe_line = f"基础菜谱: {sanitize_prompt_text(recipe.get('id') or 'unknown', 100)} {sanitize_prompt_text(recipe.get('name'), 100)}".strip()
+    time_lines = (
+        [f"总时长基准: {recipe['total_time_minutes']}分钟"]
+        if isinstance(recipe.get('total_time_minutes'), int)
+        and not isinstance(recipe.get('total_time_minutes'), bool)
+        else []
+    )
+    adaptation = sanitize_prompt_text(recipe.get('adaptation_note'), 400)
+    adaptation_lines = [f'改编说明: {adaptation}'] if adaptation else []
     profile = selection.get('constraint_profile') if isinstance(selection.get('constraint_profile'), dict) else None
     profile_lines = []
     if profile:
@@ -455,18 +463,20 @@ def build_recipe_grounding(selection):
         '【可信基础菜谱】',
         family_line,
         recipe_line,
+        *time_lines,
         f"固定核心: {_compact_recipe_list(recipe.get('core_ingredients'))}",
         f"只允许以下替换: {_compact_recipe_list(slots)}",
         f"不鼓励: {_compact_recipe_list(discouraged)}",
         f"关键技法: {_compact_recipe_list(recipe.get('technique'))}",
         f"比例规则: {_compact_recipe_list(recipe.get('ratio_rules'))}",
         f"安全规则: {_compact_recipe_list(recipe.get('safety_rules'))}",
+        *adaptation_lines,
         f"已选库存: {_compact_recipe_list(selection.get('used_pantry'))}",
         f"舍弃库存: {_compact_recipe_list(selection.get('unused_pantry'))}",
         *profile_lines,
         '【输出完整性契约】',
         '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
-        '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams；洗、淘、泡后倒掉的水可不列。',
+        '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams；洗、淘、泡后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
         f"服务器已选库存（{_compact_recipe_list(selection.get('used_pantry'))}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（{_compact_recipe_list(selection.get('unused_pantry'))}）必须同时从 ingredients 与 steps 排除。",
         '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
         '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',
@@ -655,6 +665,9 @@ _VALIDATION_RETAINED_WATER_ACTION_RE = re.compile(
     r'(?:加入?|倒入?|放入?|添入?|注入?|兑入?|补入?|加)'
     r'(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)'
 )
+_VALIDATION_RETAINED_SOAKING_LIQUID_RE = re.compile(
+    r'(?:保留|留用|留下|不(?:要)?倒掉)(?:[^，,。；;！？!?]{0,20}?)(?:泡发水|浸泡水|泡豆水|泡菇水|浸泡液|泡发液)'
+)
 _VALIDATION_WATER_DISCARD_RE = re.compile(r'(?:倒掉|弃去|滤掉|沥干|倒出)')
 _VALIDATION_NEXT_CLAUSE_WATER_DISCARD_RE = re.compile(
     r'^(?:(?:再|然后|随后|接着))?'
@@ -740,6 +753,9 @@ def _validation_step_uses_retained_water(step):
     text = _validation_form_name(step)
     clauses = [clause for clause in re.split(r'[，,。；;！？!?]+', text) if clause]
     for clause_index, clause in enumerate(clauses):
+        for match in _VALIDATION_RETAINED_SOAKING_LIQUID_RE.finditer(clause):
+            if not _validation_action_negated(clause, match.start()):
+                return True
         for match in _VALIDATION_RETAINED_WATER_ACTION_RE.finditer(clause):
             if _validation_action_negated(clause, match.start()):
                 continue
@@ -1213,7 +1229,11 @@ def build_prompt(meal_name, targets, constraints, recipe_grounding):
     prompt = trusted_template
     for token, value in replacements:
         prompt = prompt.replace(token, value, 1)
-    return RECIPE_GROUNDING_TOKEN_RE.sub('', prompt)
+    return RECIPE_GROUNDING_TOKEN_RE.sub('', prompt).replace(
+        '总时长尽量≤25分钟',
+        '总时长尽量≤30分钟',
+        1,
+    )
 
 
 def build_recipe_request(meal_name, targets, constraints, library=None):
@@ -1682,6 +1702,12 @@ def attach_grounded_metadata(meal, selection, constraints):
     repair_rice_allergy_complete_main(meal, selection, constraints)
     repair_grounded_meal_safety(meal, selection, constraints)
     recipe = selection['recipe']
+    adaptation_note = recipe.get('adaptation_note')
+    meal['adaptation_note'] = (
+        adaptation_note.strip()[:400]
+        if isinstance(adaptation_note, str)
+        else ''
+    )
     aliases = selection.get('ingredient_aliases') or {}
     used_pantry = list(selection.get('used_pantry') or [])
     unused_pantry = list(selection.get('unused_pantry') or [])
