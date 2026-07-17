@@ -170,12 +170,16 @@ test('Texas chili and kari ayam lock every retained liquid into the production c
   const chili = lib.recipes.find(item => item.id === 'texas-beef-chili');
   assert.equal(chili.total_time_minutes, 40);
   assert.ok(chili.core_ingredients.includes('牛肉（粗绞）'));
+  assert.ok(chili.core_ingredients.includes('干辣椒'));
   assert.deepEqual(chili.generation_liquid_ingredients, ['水']);
   assert.ok(chili.generation_optional_ingredients.includes('植物油'));
   assert.ok(chili.generation_optional_ingredients.includes('玉米粉'));
   assert.match(chili.adaptation_note, /原始来源.*30分钟.*1小时.*30分钟/);
   assert.match(chili.adaptation_note, /粗绞牛肉/);
+  assert.match(chili.adaptation_note, /每1份.*干辣椒3克/);
   assert.match(chili.adaptation_note, /每1份.*水50克.*留出10克.*玉米粉浆/);
+  assert.match(chili.adaptation_note, /炒散.*5分钟.*快炖20分钟.*收稠5分钟/);
+  assert.match(chili.adaptation_note, /总时长不得超过40分钟/);
   assert.match(chili.ratio_rules.join('。'), /每1份.*粗绞牛肉200克.*玉米粉5克.*水50克/);
   const kari = lib.recipes.find(item => item.id === 'kari-ayam-coconut-chicken');
   assert.deepEqual(kari.generation_liquid_ingredients, ['椰奶']);
@@ -187,6 +191,8 @@ test('shakshuka production ratio keeps egg grams and nest count aligned', () => 
   const recipe = lib.recipes.find(item => item.id === 'shakshuka-tomato-egg');
   assert.match(recipe.adaptation_note, /每1份3个中等鸡蛋/);
   assert.match(recipe.adaptation_note, /每个鸡蛋单独挖窝/);
+  assert.match(recipe.adaptation_note, /鸡蛋.*熟透.*蛋白和蛋黄完全凝固.*不得流心/);
+  assert.match(recipe.safety_rules.join('。'), /蛋白和蛋黄完全凝固.*不得流心/);
   assert.match(recipe.ratio_rules.join('。'), /去壳约150克/);
 });
 
@@ -232,6 +238,7 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     '黑眼豆（罐头沥干）': '黑眼豆',
     '牛肉（粗绞）': '牛肉',
     粗绞牛肉: '牛肉',
+    干辣椒: '辣椒',
   });
 });
 

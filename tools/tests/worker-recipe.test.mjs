@@ -225,7 +225,9 @@ test('trusted grounding exposes the reviewed quick-chili and egg-count adaptatio
   });
   assert.equal(chili.recipe.id, 'texas-beef-chili');
   assert.match(buildRecipeGrounding(chili), /粗绞牛肉200克/);
+  assert.match(buildRecipeGrounding(chili), /干辣椒3克/);
   assert.match(buildRecipeGrounding(chili), /留出10克.*玉米粉浆/);
+  assert.match(buildRecipeGrounding(chili), /炒散.*5分钟.*快炖20分钟.*收稠5分钟/);
 
   const [eggs] = selectRecipeCandidates(lib, {
     pantry: ['鸡蛋', '番茄', '甜椒'], purpose: 'quick', dislikes: [],
@@ -233,6 +235,7 @@ test('trusted grounding exposes the reviewed quick-chili and egg-count adaptatio
   assert.equal(eggs.recipe.id, 'shakshuka-tomato-egg');
   assert.match(buildRecipeGrounding(eggs), /每1份3个中等鸡蛋/);
   assert.match(buildRecipeGrounding(eggs), /每个鸡蛋单独挖窝/);
+  assert.match(buildRecipeGrounding(eggs), /蛋白和蛋黄完全凝固.*不得流心/);
 });
 
 test('pantry chicken rice request prefers the exact biryani base over a larger incomplete core', () => {
