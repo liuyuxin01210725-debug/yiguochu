@@ -356,6 +356,7 @@ def select_recipe_candidates(library, constraints=None):
         score = 0
         used_pantry = []
         unused_pantry = []
+        satisfied_core = set()
         for item in pantry:
             canonical_item = canonical(item)
             if not canonical_item or canonical_item in dislikes:
@@ -364,14 +365,25 @@ def select_recipe_candidates(library, constraints=None):
             if canonical_item in core:
                 score += 12
                 used_pantry.append(item)
+                satisfied_core.add(canonical_item)
             elif canonical_item in allowed or canonical_item in optional:
                 score += 5
                 used_pantry.append(item)
+                for slot in slots:
+                    if not isinstance(slot, dict):
+                        continue
+                    if canonical_item not in [canonical(name) for name in (slot.get('allowed') or [])]:
+                        continue
+                    for replaced in [canonical(name) for name in (slot.get('replaces') or [])]:
+                        if replaced in core:
+                            satisfied_core.add(replaced)
             else:
                 unused_pantry.append(item)
             if canonical_item in discouraged:
                 score -= 8
 
+        if recipe.get('status') == 'approved' and not dislikes:
+            score -= max(0, len(core) - len(satisfied_core))
         if _js_string(constraints.get('purpose')) in (recipe.get('purposes') or []):
             score += 3
         if recipe.get('family_id') in recent_families:
@@ -459,6 +471,21 @@ def build_recipe_grounding(selection):
             '稻米过敏安全模式: 严格沿用这张基础菜谱，不得添加或建议搭配任何额外主食。',
             '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
         ]
+    ingredient_whitelist = []
+    whitelist_candidates = [
+        *(recipe.get('core_ingredients') or []),
+        *(recipe.get('optional_ingredients') or []),
+        *[
+            name
+            for slot in (recipe.get('substitution_slots') or []) if isinstance(slot, dict)
+            for name in (slot.get('allowed') or [])
+        ],
+        *(selection.get('used_pantry') or []),
+    ]
+    for name in whitelist_candidates:
+        if re.match(r'^不(?:放|加|用)', _js_string(name).strip()) or name in ingredient_whitelist:
+            continue
+        ingredient_whitelist.append(name)
     return '\n'.join([
         '【可信基础菜谱】',
         family_line,
@@ -475,6 +502,8 @@ def build_recipe_grounding(selection):
         f"舍弃库存: {_compact_recipe_list(selection.get('unused_pantry'))}",
         *profile_lines,
         '【输出完整性契约】',
+        f"可入锅食材白名单仅由固定核心、可选食材、允许替换、已选库存组成: {_compact_recipe_list(ingredient_whitelist)}；此外只可加入有数字克数的水、食用油、盐、胡椒和小用量香辛料。不得擅自增加白名单外的主食、肉蛋奶、豆类或蔬菜。",
+        '步骤禁止提前、预先、事先、隔夜、过夜准备，也不得假定食材已经是已泡好、已浸泡或已预煮状态；所有处理必须在本次总时长内完成。',
         '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
         '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams；洗、淘、泡后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
         f"服务器已选库存（{_compact_recipe_list(selection.get('used_pantry'))}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（{_compact_recipe_list(selection.get('unused_pantry'))}）必须同时从 ingredients 与 steps 排除。",
@@ -511,6 +540,22 @@ def _validation_steps(meal):
 def _validation_seasoning(name):
     norm = re.sub(r'\s+', '', _js_string(name))
     return bool(re.match(r'^(?:生?姜(?:末|片|丝)?|[大小香]?葱(?:花|段|末)?|蒜(?:头|末|蓉|泥|片)?|(?:白|陈|香|米|果)?醋|料酒|.*香料)$', norm))
+
+
+def _validation_small_seasoning(name):
+    norm = re.sub(r'\(.*?\)', '', _validation_form_name(name))
+    return (_validation_seasoning(name)
+            or bool(re.fullmatch(
+                r'(?:大蒜(?:末|蓉|泥|片)?|咖喱粉|五香粉|孜然粉|花椒粉|辣椒粉|姜黄粉|肉桂粉|豆蔻粉)',
+                norm,
+            )))
+
+
+def _validation_high_risk_ingredient(name, canonical):
+    text = _validation_form_name(name)
+    if re.fullmatch(r'(?:大豆|植物|豌豆|小麦|乳清)蛋白(?:块|粒|粉)?', text):
+        return False
+    return bool(re.search(r'(?:禽|鸡|鸭|猪|虾|蟹|贝|鱼|蛋)', f'{name}{canonical}'))
 
 
 def _validation_form_name(name):
@@ -687,6 +732,14 @@ _VALIDATION_ACTION_NEGATION_RE = re.compile(
     r'(?:不需要|无需|不用|不要|避免|禁止|切勿|不可|未|不)'
     r'(?:(?:再|另行)?(?:另(?:起|取|用)(?:一口|一只|一个|一)?|使用|用|加|放|下|倒入?|刷上?|抹上?|留底)?)?$'
 )
+_VALIDATION_ADVANCE_PREP_RE = re.compile(
+    r'(?:提前|预先|事先|隔夜|过夜|头天|前一(?:天|晚)'
+    r'|已(?:经)?(?:泡好|浸泡好|煮好|预煮好|蒸好|焖好)'
+    r'|(?:浸泡|泡发)[^，,。；;！？!?]{0,12}\d+(?:\.\d+)?\s*小时)'
+)
+_VALIDATION_ADVANCE_PREP_NEGATION_RE = re.compile(
+    r'(?:不需要|无需|不用|不必|不需|不要|避免|禁止|切勿)(?:任何)?$'
+)
 
 
 def _validation_action_negated(text, action_index):
@@ -697,6 +750,15 @@ def _validation_action_negated(text, action_index):
 def _validation_active_action_matches(text, pattern):
     return [match for match in pattern.finditer(_js_string(text))
             if not _validation_action_negated(text, match.start())]
+
+
+def _validation_has_advance_prep(steps):
+    for step in steps:
+        for match in _VALIDATION_ADVANCE_PREP_RE.finditer(_js_string(step)):
+            prefix = _js_string(step)[max(0, match.start() - 12):match.start()]
+            if not _VALIDATION_ADVANCE_PREP_NEGATION_RE.search(prefix):
+                return True
+    return False
 
 
 def _validation_controlled_tokens(name):
@@ -739,6 +801,40 @@ def _validation_cooking_oil_ingredient(name):
 def _validation_ingredient_matches_names(name, names):
     bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
     return bare in names
+
+
+def _validation_approved_ingredient_set(selection, aliases):
+    recipe = selection.get('recipe') if isinstance(selection, dict) else None
+    if not isinstance(recipe, dict) or recipe.get('status') != 'approved':
+        return None
+    names = [
+        *(recipe.get('core_ingredients') or []),
+        *(recipe.get('optional_ingredients') or []),
+        *[
+            name
+            for slot in (recipe.get('substitution_slots') or []) if isinstance(slot, dict)
+            for name in (slot.get('allowed') or [])
+        ],
+        *(selection.get('used_pantry') or []),
+    ]
+    return {
+        item for name in names
+        if (item := _validation_canonical_ingredient(name, aliases))
+    }
+
+
+def _validation_ingredient_outside_approved_boundary(name, approved, aliases):
+    if approved is None:
+        return False
+    if _validation_small_seasoning(name) or _validation_cooking_oil_ingredient(name):
+        return False
+    if (name and (
+            _validation_ingredient_matches_names(name, _VALIDATION_SALT_NAMES)
+            or _validation_ingredient_matches_names(name, _VALIDATION_PEPPER_NAMES)
+            or _validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES))):
+        return False
+    canonical = _validation_canonical_ingredient(name, aliases)
+    return bool(canonical and canonical not in approved)
 
 
 def _validation_step_uses_seasoning_group(step, token_re):
@@ -1044,6 +1140,7 @@ def validate_grounded_meal(meal, selection, constraints=None):
         item for name in recipe_constraint_list(constraints.get('dislikes'))
         if (item := _validation_canonical_ingredient(name, aliases))
     ]
+    approved_ingredients = _validation_approved_ingredient_set(selection, aliases)
     for name in ingredient_names:
         canonical = _validation_canonical_ingredient(name, aliases)
         direct_rice_ingredient = (
@@ -1057,10 +1154,14 @@ def validate_grounded_meal(meal, selection, constraints=None):
             add_flag(f'allergen_present:{name}')
         if not _validation_seasoning(name) and not any(_validation_step_mentions(step, name, aliases) for step in steps):
             add_flag(f'ingredient_missing_in_steps:{name}')
+        if _validation_ingredient_outside_approved_boundary(name, approved_ingredients, aliases):
+            add_flag(f'unapproved_ingredient:{name}')
         if (not _validation_prepared_high_risk_exemption(name)
-                and re.search(r'(?:禽|鸡|鸭|猪|虾|蟹|贝|鱼|蛋)', f'{name}{canonical}')):
+                and _validation_high_risk_ingredient(name, canonical)):
             if not _validation_high_risk_cooked(name, steps, aliases, ingredient_names):
                 add_flag(f'high_risk_not_cooked:{name}')
+    if _validation_has_advance_prep(steps):
+        add_flag('advance_prep_step')
 
     consumable_groups = (
         ('step_ingredient_missing:烹调油', _validation_cooking_oil_ingredient, _validation_step_uses_cooking_oil),

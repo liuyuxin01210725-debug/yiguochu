@@ -1146,7 +1146,7 @@
       "lentil-potato-tomato-curry"
     ],
     "expected_recipe_ids": [
-      "chicken-black-eyed-pea-stew"
+      "creole-jambalaya"
     ],
     "forbidden_recipe_ids": [
       "lentil-potato-tomato-curry"
@@ -1154,21 +1154,13 @@
     "case_group": "adversarial",
     "adversarial_kind": "repeated_swap",
     "base_recipe_id": "lentil-potato-tomato-curry",
-    "family_id": "family-rice-legume-pot",
-    "validation_recipe_id": "chicken-black-eyed-pea-stew",
+    "family_id": "family-tomato-rice",
+    "validation_recipe_id": "creole-jambalaya",
     "meal_fixture": {
       "dish_name": "回归闸门对抗菜例",
       "ingredients": [
         {
-          "name": "黑眼豆",
-          "grams": 100
-        },
-        {
           "name": "大米",
-          "grams": 100
-        },
-        {
-          "name": "鸡肉",
           "grams": 100
         },
         {
@@ -1176,16 +1168,19 @@
           "grams": 100
         },
         {
-          "name": "洋葱",
+          "name": "鸡肉",
+          "grams": 100
+        },
+        {
+          "name": "芹菜",
           "grams": 100
         }
       ],
       "steps": [
-        "黑眼豆煮熟。",
         "大米煮熟。",
-        "鸡肉煮熟。",
         "番茄煮熟。",
-        "洋葱煮熟。",
+        "鸡肉煮熟。",
+        "芹菜煮熟。",
         "另起一锅烧开清水。"
       ]
     },
@@ -1903,7 +1898,7 @@
     "pantry": [
       "牛肉",
       "辣椒",
-      "豆类"
+      "番茄"
     ],
     "dislikes": [],
     "expected_recipe_ids": [

@@ -710,6 +710,61 @@ test('Python rice allergy safe selection exactly matches Worker', () => {
   for (const constraints of cases) assertSelectorParity(lib, constraints);
 });
 
+test('Python matches Worker for the live complete-core tie break', () => {
+  const constraints = {
+    pantry: ['大米', '鸡肉', '洋葱', '面条'],
+    purpose: 'fresh',
+    dislikes: [],
+  };
+  const hits = assertSelectorParity(lib, constraints);
+  assert.equal(hits[0].recipe_id, 'simple-chicken-biryani');
+});
+
+test('Python matches approved ingredient, advance-prep, and soy-protein validation boundaries', () => {
+  const cases = [
+    {
+      constraints: { pantry: ['红扁豆', '土豆', '番茄'], purpose: 'fresh', dislikes: [] },
+      meal: {
+        ingredients: [
+          { name: '红扁豆' }, { name: '土豆' }, { name: '番茄' },
+          { name: '糙米' }, { name: '洋葱' }, { name: '水' }, { name: '盐' }, { name: '姜' }, { name: '大蒜' },
+        ],
+        steps: ['糙米煮熟；红扁豆、土豆、番茄、洋葱、水、盐、姜和大蒜同锅炖熟。'],
+      },
+      present: ['unapproved_ingredient:糙米', 'unapproved_ingredient:洋葱'],
+      absent: ['unapproved_ingredient:水', 'unapproved_ingredient:盐', 'unapproved_ingredient:姜', 'unapproved_ingredient:大蒜'],
+    },
+    {
+      constraints: { pantry: ['红扁豆', '土豆', '番茄'], purpose: 'fresh', dislikes: [] },
+      meal: {
+        ingredients: [{ name: '红扁豆' }, { name: '土豆' }, { name: '番茄' }, { name: '水' }],
+        steps: ['红扁豆提前浸泡2小时，再与土豆、番茄和水同锅炖熟。'],
+      },
+      present: ['advance_prep_step'],
+    },
+    {
+      constraints: { pantry: ['红扁豆', '大豆蛋白块', '西兰花', '红洋葱'], purpose: 'batch', dislikes: [] },
+      meal: {
+        ingredients: [
+          { name: '红扁豆' }, { name: '大豆蛋白块' }, { name: '西兰花' }, { name: '红洋葱' }, { name: '水' },
+        ],
+        steps: [
+          '红洋葱炒香后加入大豆蛋白块，翻炒至表面微黄。',
+          '加入红扁豆和水炖软，再加入西兰花煮熟。',
+        ],
+      },
+      absent: ['high_risk_not_cooked:大豆蛋白块'],
+    },
+  ];
+  for (const { constraints, meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(lib, constraints)[0], constraints);
+    const py = pythonCall('validate', { library: lib, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of present) assert.ok(py.includes(flag), flag);
+    for (const flag of absent) assert.equal(py.includes(flag), false, flag);
+  }
+});
+
 test('Python validator matches all seven flags plus variants, negation, action order, and multi-pot rules', () => {
   const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
   const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });

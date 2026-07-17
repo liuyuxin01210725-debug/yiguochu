@@ -205,6 +205,17 @@ test('chicken rice onion raisins selects simple biryani', () => {
   assert.deepEqual(hit.unusedPantry, []);
 });
 
+test('complete trusted core outranks a partial higher-cardinality recipe in the live fresh case', () => {
+  const [hit] = selectRecipeCandidates(lib, {
+    pantry: ['大米', '鸡肉', '洋葱', '面条'],
+    purpose: 'fresh',
+    dislikes: [],
+  });
+  assert.equal(hit.recipe.id, 'simple-chicken-biryani');
+  assert.deepEqual(hit.usedPantry, ['大米', '鸡肉', '洋葱']);
+  assert.deepEqual(hit.unusedPantry, ['面条']);
+});
+
 test('lentil potato tomato selects the grounded lentil curry through an alias', () => {
   const [hit] = selectRecipeCandidates(lib, {
     pantry: ['红扁豆', '土豆', '西红柿'],
@@ -269,6 +280,19 @@ test('ordinary lentil selection does not activate rice-allergy grounding', () =>
   assert.equal(hit.recipe.id, 'lentil-potato-tomato-curry');
   assert.equal(hit.constraintProfile, null);
   assert.doesNotMatch(buildRecipeGrounding(hit), /稻米过敏安全模式/);
+});
+
+test('trusted grounding makes the ingredient whitelist and no-advance-prep boundary explicit', () => {
+  const [hit] = selectRecipeCandidates(lib, {
+    pantry: ['红扁豆', '土豆', '番茄'],
+    purpose: 'fresh',
+    dislikes: [],
+  });
+  const grounding = buildRecipeGrounding(hit);
+  assert.match(grounding, /可入锅食材白名单/);
+  assert.match(grounding, /固定核心、可选食材、允许替换、已选库存/);
+  assert.match(grounding, /禁止提前、预先、事先、隔夜、过夜/);
+  assert.match(grounding, /已泡好、已浸泡或已预煮/);
 });
 
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {
@@ -504,6 +528,65 @@ test('validator catches listed shrimp that is never cooked', () => {
   }, selection, { dislikes: [] });
   assert.ok(flags.includes('ingredient_missing_in_steps:虾仁'));
   assert.ok(flags.includes('high_risk_not_cooked:虾仁'));
+});
+
+test('validator rejects substantial ingredients outside an approved recipe boundary', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['红扁豆', '土豆', '番茄', '鸡肉'],
+    purpose: 'fresh',
+    dislikes: [],
+  });
+  const flags = validateGroundedMeal({
+    ingredients: [
+      { name: '红扁豆' }, { name: '土豆' }, { name: '番茄' },
+      { name: '糙米' }, { name: '洋葱' }, { name: '水' }, { name: '盐' }, { name: '姜' }, { name: '大蒜' },
+    ],
+    steps: ['糙米煮熟；红扁豆、土豆、番茄、洋葱、水、盐、姜和大蒜同锅炖熟。'],
+  }, selection, { dislikes: [] });
+  assert.ok(flags.includes('unapproved_ingredient:糙米'));
+  assert.ok(flags.includes('unapproved_ingredient:洋葱'));
+  for (const allowed of ['水', '盐', '姜', '大蒜']) {
+    assert.equal(flags.includes(`unapproved_ingredient:${allowed}`), false, allowed);
+  }
+});
+
+test('validator catches hidden advance preparation but not an explicit no-advance instruction', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['红扁豆', '土豆', '番茄'],
+    purpose: 'fresh',
+    dislikes: [],
+  });
+  const baseMeal = {
+    ingredients: [{ name: '红扁豆' }, { name: '土豆' }, { name: '番茄' }, { name: '水' }],
+  };
+  const hidden = validateGroundedMeal({
+    ...baseMeal,
+    steps: ['红扁豆提前浸泡2小时，再与土豆、番茄和水同锅炖熟。'],
+  }, selection, { dislikes: [] });
+  assert.ok(hidden.includes('advance_prep_step'));
+  const negated = validateGroundedMeal({
+    ...baseMeal,
+    steps: ['红扁豆无需提前浸泡，与土豆、番茄和水同锅炖熟。'],
+  }, selection, { dislikes: [] });
+  assert.equal(negated.includes('advance_prep_step'), false);
+});
+
+test('soy protein chunks are not mistaken for raw egg risk', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['红扁豆', '大豆蛋白块', '西兰花', '红洋葱'],
+    purpose: 'batch',
+    dislikes: [],
+  });
+  const flags = validateGroundedMeal({
+    ingredients: [
+      { name: '红扁豆' }, { name: '大豆蛋白块' }, { name: '西兰花' }, { name: '红洋葱' }, { name: '水' },
+    ],
+    steps: [
+      '红洋葱炒香后加入大豆蛋白块，翻炒至表面微黄。',
+      '加入红扁豆和水炖软，再加入西兰花煮熟。',
+    ],
+  }, selection, { dislikes: [] });
+  assert.equal(flags.includes('high_risk_not_cooked:大豆蛋白块'), false);
 });
 
 test('rice allergy rejects the preserved instant-rice live leak across visible fields', () => {
@@ -2258,7 +2341,7 @@ test('validator reproduces the three live consumable correspondence defects exac
           '关火，根据口味加盐和胡椒调味。',
         ],
       },
-      expected: ['step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'],
+      expected: ['advance_prep_step', 'step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'],
     },
     {
       id: 'case-4',

@@ -88,7 +88,7 @@ const FROZEN_ORACLES = Object.freeze({
   }),
   'adversarial-020-repeated-swap-b': Object.freeze({
     base_recipe_id: 'lentil-potato-tomato-curry',
-    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    expected_recipe_ids: Object.freeze(['creole-jambalaya']),
     forbidden_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
   }),
 });

@@ -157,6 +157,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
       .filter(Boolean));
     const usedPantry = [];
     const unusedPantry = [];
+    const satisfiedCore = new Set();
     let score = 0;
 
     for (const item of pantry) {
@@ -168,15 +169,25 @@ function selectRecipeCandidates(lib, constraints = {}) {
       if (core.has(canonicalItem)) {
         score += 12;
         usedPantry.push(item);
+        satisfiedCore.add(canonicalItem);
       } else if (allowed.has(canonicalItem) || optional.has(canonicalItem)) {
         score += 5;
         usedPantry.push(item);
+        for (const slot of slots) {
+          if (!(slot.allowed || []).map(canonical).includes(canonicalItem)) continue;
+          for (const replaced of (slot.replaces || []).map(canonical)) {
+            if (core.has(replaced)) satisfiedCore.add(replaced);
+          }
+        }
       } else {
         unusedPantry.push(item);
       }
       if (discouraged.has(canonicalItem)) score -= 8;
     }
 
+    if (recipe.status === 'approved' && dislikes.size === 0) {
+      score -= Math.max(0, core.size - satisfiedCore.size);
+    }
     if ((recipe.purposes || []).includes(String(constraints.purpose || ''))) score += 3;
     if (recentFamilies.has(recipe.family_id)) score -= 20;
     if (recentRecipes.has(recipe.id)) score -= 100;
@@ -237,6 +248,14 @@ function buildRecipeGrounding(selection) {
     '稻米过敏安全模式: 严格沿用这张基础菜谱，不得添加或建议搭配任何额外主食。',
     '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
   ] : [];
+  const ingredientWhitelist = [
+    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+    ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
+    ...(Array.isArray(recipe.substitution_slots)
+      ? recipe.substitution_slots.flatMap(slot => Array.isArray(slot?.allowed) ? slot.allowed : [])
+      : []),
+    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ].filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim()));
   return [
     '【可信基础菜谱】',
     `菜谱家族: ${sanitizePromptText(family.id || recipe.family_id || 'unknown', 100)} ${sanitizePromptText(family.name, 100)}`.trim(),
@@ -253,6 +272,8 @@ function buildRecipeGrounding(selection) {
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
     ...profileLines,
     '【输出完整性契约】',
+    `可入锅食材白名单仅由固定核心、可选食材、允许替换、已选库存组成: ${compactRecipeList([...new Set(ingredientWhitelist)])}；此外只可加入有数字克数的水、食用油、盐、胡椒和小用量香辛料。不得擅自增加白名单外的主食、肉蛋奶、豆类或蔬菜。`,
+    '步骤禁止提前、预先、事先、隔夜、过夜准备，也不得假定食材已经是已泡好、已浸泡或已预煮状态；所有处理必须在本次总时长内完成。',
     '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
     '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams；洗、淘、泡后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
     `服务器已选库存（${compactRecipeList(selection?.usedPantry)}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（${compactRecipeList(selection?.unusedPantry)}）必须同时从 ingredients 与 steps 排除。`,
@@ -281,6 +302,18 @@ function validationSteps(meal) {
 function validationSeasoning(name) {
   const norm = String(name || '').replace(/\s+/g, '');
   return /^(?:生?姜(?:末|片|丝)?|[大小香]?葱(?:花|段|末)?|蒜(?:头|末|蓉|泥|片)?|(?:白|陈|香|米|果)?醋|料酒|.*香料)$/.test(norm);
+}
+
+function validationSmallSeasoning(name) {
+  const norm = validationFormName(name).replace(/\(.*?\)/g, '');
+  return validationSeasoning(name)
+    || /^(?:大蒜(?:末|蓉|泥|片)?|咖喱粉|五香粉|孜然粉|花椒粉|辣椒粉|姜黄粉|肉桂粉|豆蔻粉)$/.test(norm);
+}
+
+function validationHighRiskIngredient(name, canonical) {
+  const text = validationFormName(name);
+  if (/^(?:大豆|植物|豌豆|小麦|乳清)蛋白(?:块|粒|粉)?$/.test(text)) return false;
+  return /(?:禽|鸡|鸭|猪|虾|蟹|贝|鱼|蛋)/.test(`${name}${canonical}`);
 }
 
 function validationFormName(name) {
@@ -428,6 +461,8 @@ const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
 const VALIDATION_GENERIC_COOKING_OIL_ACTION_RE = /(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?油(?!菜))/;
 const VALIDATION_ACTION_NEGATION_RE = /(?:不需要|无需|不用|不要|避免|禁止|切勿|不可|未|不)(?:(?:再|另行)?(?:另(?:起|取|用)(?:一口|一只|一个|一)?|使用|用|加|放|下|倒入?|刷上?|抹上?|留底)?)?$/;
 const VALIDATION_EXPLICIT_SECOND_VESSEL_RE = /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另(?:一口|一只|一个)|第二口)(?:小锅|炒锅|平底锅|汤锅|锅)/;
+const VALIDATION_ADVANCE_PREP_RE = /(?:提前|预先|事先|隔夜|过夜|头天|前一(?:天|晚)|已(?:经)?(?:泡好|浸泡好|煮好|预煮好|蒸好|焖好)|(?:浸泡|泡发)[^，,。；;！？!?]{0,12}\d+(?:\.\d+)?\s*小时)/g;
+const VALIDATION_ADVANCE_PREP_NEGATION_RE = /(?:不需要|无需|不用|不必|不需|不要|避免|禁止|切勿)(?:任何)?$/;
 
 function validationActionNegated(text, actionIndex) {
   const prefix = String(text || '').slice(Math.max(0, actionIndex - 18), actionIndex);
@@ -441,6 +476,39 @@ function validationActiveActionMatches(text, pattern) {
     if (!validationActionNegated(text, match.index)) matches.push(match);
   }
   return matches;
+}
+
+function validationHasAdvancePrep(steps) {
+  for (const step of steps) {
+    for (const match of String(step || '').matchAll(new RegExp(VALIDATION_ADVANCE_PREP_RE.source, 'g'))) {
+      const prefix = String(step || '').slice(Math.max(0, match.index - 12), match.index);
+      if (!VALIDATION_ADVANCE_PREP_NEGATION_RE.test(prefix)) return true;
+    }
+  }
+  return false;
+}
+
+function validationApprovedIngredientSet(selection, aliases) {
+  const recipe = selection?.recipe;
+  if (!recipe || recipe.status !== 'approved') return null;
+  return new Set([
+    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+    ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
+    ...(Array.isArray(recipe.substitution_slots)
+      ? recipe.substitution_slots.flatMap(slot => Array.isArray(slot?.allowed) ? slot.allowed : [])
+      : []),
+    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ].map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
+}
+
+function validationIngredientOutsideApprovedBoundary(name, approved, aliases) {
+  if (!approved) return false;
+  if (validationSmallSeasoning(name) || validationCookingOilIngredient(name)) return false;
+  if (validationIngredientMatchesNames(name, VALIDATION_SALT_NAMES)
+    || validationIngredientMatchesNames(name, VALIDATION_PEPPER_NAMES)
+    || validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES)) return false;
+  const canonical = validationCanonicalIngredient(name, aliases);
+  return Boolean(canonical && !approved.has(canonical));
 }
 
 function validationControlledTokens(name) {
@@ -736,6 +804,7 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   const dislikes = recipeConstraintList(constraints?.dislikes)
     .map(name => validationCanonicalIngredient(name, aliases))
     .filter(Boolean);
+  const approvedIngredients = validationApprovedIngredientSet(selection, aliases);
 
   for (const name of ingredientNames) {
     const canonical = validationCanonicalIngredient(name, aliases);
@@ -745,11 +814,15 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     if (!validationSeasoning(name) && !steps.some(step => validationStepMentions(step, name, aliases))) {
       flags.add(`ingredient_missing_in_steps:${name}`);
     }
-    if (!validationPreparedHighRiskExemption(name) && /(?:禽|鸡|鸭|猪|虾|蟹|贝|鱼|蛋)/.test(`${name}${canonical}`)) {
+    if (validationIngredientOutsideApprovedBoundary(name, approvedIngredients, aliases)) {
+      flags.add(`unapproved_ingredient:${name}`);
+    }
+    if (!validationPreparedHighRiskExemption(name) && validationHighRiskIngredient(name, canonical)) {
       const cooked = validationHighRiskCooked(name, steps, aliases, ingredientNames);
       if (!cooked) flags.add(`high_risk_not_cooked:${name}`);
     }
   }
+  if (validationHasAdvancePrep(steps)) flags.add('advance_prep_step');
   const consumableGroups = [
     ['step_ingredient_missing:烹调油', validationCookingOilIngredient, validationStepUsesCookingOil],
     [
