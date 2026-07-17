@@ -139,6 +139,96 @@
         {"type": "seasoning", "requirement": "腌肉先试味后再判断是否补盐。"}
       ],
       "trial_requirements": ["记录大米与总液体的实际重量和腌肉咸度。", "记录叶菜来源与是否完成可食性核验。", "记录叶菜加入时机、米粒状态和修订原因。"]
+    },
+    {
+      "id": "jinshan-clay-oven-vegetable-rice-draft", "candidate_id": "jinshan-clay-oven-vegetable-rice", "status": "draft", "name": "叶菜鲜菇焖饭试做框架", "region": "上海金山风味方向", "form": "菜饭",
+      "adaptation_summary": "面向家庭锅具的原创叶菜焖饭试做框架；以米和叶菜为核心，鲜菇只作为可选鲜味来源，不复述外部做法。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "叶菜"], "optional_ingredients": ["新鲜食用菌"],
+      "substitution_slots": [{"slot": "叶菜", "replaces": ["叶菜"], "allowed": ["小白菜", "菜心"]}],
+      "draft_ratio_rules": ["每100克大米先预留120至140克可用总液体，并按叶菜出水情况记录调整。"],
+      "technique_outline": ["米与量好的液体先完成主体焖煮。", "叶菜在后段加入，新鲜食用菌仅在确认可食用且状态良好后使用。"],
+      "safety_and_quality_gates": [{"type": "texture", "requirement": "叶菜必须后段加入，避免长时间受热出水。"}, {"type": "moisture", "requirement": "不得把叶菜出的水另行汇入锅中，起锅前检查无积液。"}],
+      "trial_requirements": ["记录米、预留液体和叶菜的实际重量。", "记录叶菜加入节点、是否使用鲜菇及锅底积液情况。", "记录米粒状态和修订原因。"]
+    },
+    {
+      "id": "taiwan-cabbage-mushroom-rice-draft", "candidate_id": "taiwan-cabbage-mushroom-rice", "status": "draft", "name": "卷心菜鲜菇炊饭试做框架", "region": "台湾家常风味方向", "form": "炊饭",
+      "adaptation_summary": "面向家庭锅具的原创卷心菜与鲜菇炊饭试做框架；可选豆腐补充蛋白质，液体以实际蔬菜含水状态校准。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "卷心菜", "新鲜食用菌"], "optional_ingredients": ["老豆腐"],
+      "substitution_slots": [{"slot": "新鲜食用菌", "replaces": ["新鲜食用菌"], "allowed": ["白玉菇", "平菇"]}],
+      "draft_ratio_rules": ["每100克大米的总液体以120至145克为记录起点，必须在评估卷心菜含水后才最终确定。"],
+      "technique_outline": ["先观察卷心菜与鲜菇的含水状态，再量定锅内液体。", "米饭主体炊煮后，按记录的节点加入蔬菜并焖熟。"],
+      "safety_and_quality_gates": [{"type": "liquid_control", "requirement": "未评估卷心菜出水前不得固定加液量。"}, {"type": "food_safety", "requirement": "若使用豆腐，必须加热至全程热透后再食用。"}],
+      "trial_requirements": ["记录卷心菜和鲜菇的实际重量、表面干湿状态。", "记录最终液体重量及是否加入豆腐。", "记录锅底湿度、米粒状态和修订原因。"]
+    },
+    {
+      "id": "fujian-gai-cai-minced-pork-rice-draft", "candidate_id": "fujian-gai-cai-minced-pork-rice", "status": "draft", "name": "芥菜肉末咸饭试做框架", "region": "福建风味方向", "form": "咸饭",
+      "adaptation_summary": "以米、芥菜和肉末或豆腐为核心的原创家庭试做框架，先保证蛋白质熟制，再根据已尝到的芥菜风味判断调味。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "芥菜", "肉末或老豆腐"], "optional_ingredients": ["香菇"],
+      "substitution_slots": [{"slot": "蛋白质", "replaces": ["肉末"], "allowed": ["老豆腐", "去皮鸡腿肉末"]}],
+      "draft_ratio_rules": ["每100克大米使用125至145克可用总液体。", "芥菜尝味前不设定额外加盐量。"],
+      "technique_outline": ["肉末或豆腐先在锅中加热至适宜熟制状态。", "加入米和量好的液体焖煮，芥菜在后段加入。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "使用猪肉时必须彻底熟制，中心不得留生。"}, {"type": "seasoning", "requirement": "必须先尝芥菜及锅内底味，再决定是否补盐。"}],
+      "trial_requirements": ["记录蛋白质选择、实际重量和熟制检查结果。", "记录芥菜尝味后的补盐决定。", "记录米液比例、叶菜加入节点和修订原因。"]
+    },
+    {
+      "id": "fujian-hyacinth-bean-rice-draft", "candidate_id": "fujian-hyacinth-bean-rice", "status": "draft", "name": "扁豆焖饭试做框架", "region": "福建风味方向", "form": "焖饭",
+      "adaptation_summary": "以米和扁豆为核心的原创试做框架，可选新鲜食用菌；只在豆类身份记录清楚且完全熟制时进入试做。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "扁豆"], "optional_ingredients": ["新鲜食用菌"],
+      "substitution_slots": [{"slot": "新鲜食用菌", "replaces": ["新鲜食用菌"], "allowed": ["平菇", "口蘑"]}],
+      "draft_ratio_rules": ["每100克大米使用125至145克可用总液体，并把豆类预处理产生的水分单独记录。"],
+      "technique_outline": ["先核对并记录扁豆的购买标签或品种说明。", "扁豆先充分加热，再与米和量好的液体同锅完成焖煮。"],
+      "safety_and_quality_gates": [{"type": "ingredient_verification", "requirement": "扁豆品种或商品标识必须留存记录，不明豆类不得替代。"}, {"type": "food_safety", "requirement": "扁豆必须完全熟透后才可食用。"}],
+      "trial_requirements": ["记录扁豆品种、来源和预处理方式。", "记录豆类熟透检查、米液实际重量。", "记录可选鲜菇使用情况和修订原因。"]
+    },
+    {
+      "id": "xinjiang-vegetable-pilaf-draft", "candidate_id": "xinjiang-vegetable-pilaf", "status": "draft", "name": "洋葱胡萝卜素焖饭试做框架", "region": "新疆伊宁风味方向", "form": "焖饭",
+      "adaptation_summary": "以米、洋葱和胡萝卜为核心的原创素焖饭试做框架，鹰嘴豆只作为已熟制的可选补充，不宣称为任何标准抓饭。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "洋葱", "胡萝卜"], "optional_ingredients": ["熟鹰嘴豆"],
+      "substitution_slots": [{"slot": "胡萝卜", "replaces": ["胡萝卜"], "allowed": ["黄胡萝卜", "红萝卜"]}],
+      "draft_ratio_rules": ["每100克大米使用120至145克可用总液体，必须记录洋葱与胡萝卜的实际出水。"],
+      "technique_outline": ["洋葱和胡萝卜先在锅中加热形成底味并观察含水。", "米与量好的液体焖熟，熟鹰嘴豆仅在后段加热透。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "鹰嘴豆只能使用已经完全煮熟的成品，并在锅中再次加热透。"}, {"type": "moisture", "requirement": "最终液体必须在记录洋葱和胡萝卜出水后确定。"}],
+      "trial_requirements": ["记录蔬菜重量、出水观察和最终液体重量。", "记录鹰嘴豆来源及其熟制状态。", "记录米粒状态、锅底湿度和修订原因。"]
+    },
+    {
+      "id": "shaanbei-red-date-cowpea-rice-draft", "candidate_id": "shaanbei-red-date-cowpea-rice", "status": "draft", "name": "红枣豇豆焖饭试做框架", "region": "陕西米脂风味方向", "form": "焖饭",
+      "adaptation_summary": "以米、去核红枣和豇豆为核心的原创家庭试做框架；口感和甜度以真实试做记录校准。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "去核红枣", "豇豆"], "optional_ingredients": ["小米"],
+      "substitution_slots": [{"slot": "主粮", "replaces": ["大米"], "allowed": ["小米", "大米与小米混合"]}],
+      "draft_ratio_rules": ["每100克主粮使用130至155克可用总液体，红枣的浸润水分须计入记录。"],
+      "technique_outline": ["逐颗确认红枣去核，豇豆先加热至安全熟制。", "加入主粮与量好的液体同锅焖至熟透。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "豇豆必须完全熟透后才可食用。"}, {"type": "physical_hazard", "requirement": "红枣必须逐颗确认已去核，发现枣核即停止食用。"}],
+      "trial_requirements": ["记录红枣去核检查、豇豆品种和熟透检查。", "记录主粮、液体及红枣的实际重量。", "记录甜度、米豆口感和修订原因。"]
+    },
+    {
+      "id": "shanxi-potato-rice-draft", "candidate_id": "shanxi-potato-rice", "status": "draft", "name": "土豆杂粮焖饭试做框架", "region": "山西岚县风味方向", "form": "焖饭",
+      "adaptation_summary": "以主粮和土豆为核心的原创家庭焖饭试做框架，可选少量叶菜；通过锅底观察防止粘锅或焦糊。", "serving_range": [2, 4],
+      "core_ingredients": ["大米或杂粮", "土豆"], "optional_ingredients": ["叶菜"],
+      "substitution_slots": [{"slot": "主粮", "replaces": ["大米"], "allowed": ["小米", "燕麦米"]}],
+      "draft_ratio_rules": ["每100克主粮使用130至160克可用总液体，土豆的切块大小须与熟透检查一并记录。"],
+      "technique_outline": ["土豆切成大小一致的块，与主粮及量好的液体同锅焖煮。", "临近完成时检查锅底和土豆中心，叶菜仅在后段加入。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "土豆中心必须完全熟透，不得有硬芯。"}, {"type": "scorch_control", "requirement": "焖煮期间须按锅具特性检查锅底，出现粘锅或焦糊征兆即停止加热并记录。"}],
+      "trial_requirements": ["记录主粮种类、土豆切块大小和实际米液重量。", "记录锅具、锅底状态和土豆中心熟度。", "记录叶菜是否加入及修订原因。"]
+    },
+    {
+      "id": "shanxi-nitun-millet-rice-draft", "candidate_id": "shanxi-nitun-millet-rice", "status": "draft", "name": "小米土豆一锅饭试做框架", "region": "山西太原风味方向", "form": "小米饭",
+      "adaptation_summary": "以小米和土豆为核心的原创一锅试做框架，可选豆类或叶菜；每次只根据记录调整小米与液体关系。", "serving_range": [2, 4],
+      "core_ingredients": ["小米", "土豆"], "optional_ingredients": ["熟豆类", "叶菜"],
+      "substitution_slots": [{"slot": "可选配料", "replaces": ["叶菜"], "allowed": ["熟鹰嘴豆", "小白菜"]}],
+      "draft_ratio_rules": ["每100克小米使用160至200克可用总液体，每轮必须原样记录小米与液体重量。"],
+      "technique_outline": ["小米洗净后与量好的液体和土豆同锅加热。", "可选熟豆类或叶菜只在主体接近熟透时加入并加热透。"],
+      "safety_and_quality_gates": [{"type": "doneness", "requirement": "土豆必须达到可轻易压碎的熟透状态。"}, {"type": "recording", "requirement": "未记录小米重量、液体重量和土豆熟度的试做不得进入下一轮调整。"}],
+      "trial_requirements": ["记录小米与液体的实际重量、锅具和火力档位。", "记录土豆切块大小及中心熟度。", "记录可选豆类或叶菜加入节点和修订原因。"]
+    },
+    {
+      "id": "hainan-cai-bao-rice-draft", "candidate_id": "hainan-cai-bao-rice", "status": "draft", "name": "叶包蔬菜饭试做框架", "region": "海南定安风味方向", "form": "包饭",
+      "adaptation_summary": "以米饭、经核验的可食用叶片和熟制蔬菜馅为核心的原创包饭试做框架；不使用身份或可食性不明的叶片。", "serving_range": [2, 4],
+      "core_ingredients": ["米饭", "经核验可食用叶片", "蔬菜馅"], "optional_ingredients": ["老豆腐"],
+      "substitution_slots": [{"slot": "叶片包材", "replaces": ["经核验可食用叶片"], "allowed": ["生菜", "白菜叶"]}],
+      "draft_ratio_rules": ["每100克生米使用125至145克可用总液体，叶片只作包材且不计入焖煮液体。"],
+      "technique_outline": ["先核对叶片身份、可食性和食品级来源。", "将蔬菜馅完全加热后，与熟米饭包入清洁叶片中。"],
+      "safety_and_quality_gates": [{"type": "ingredient_verification", "requirement": "叶片必须确认物种身份、可食用性和食品级来源；无法确认时不得使用。"}, {"type": "food_safety", "requirement": "蔬菜馅和可选豆腐必须完全加热熟透后再包制。"}],
+      "trial_requirements": ["记录叶片名称、购买来源及可食用核验依据。", "记录米液实际重量、馅料种类和加热完成检查。", "记录包裹完整性、食用口感和修订原因。"]
     }
   ]
 }

@@ -56,12 +56,18 @@ test('expected mapping validator reports a wrong mapping and non-candidate link'
   ]);
 });
 
-test('six traditional drafts are isolated from candidates and production', () => {
+test('draft ledger contains 15 entries after low-risk expansion', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  assert.equal(drafts.drafts.length, 15);
+  assert.ok(drafts.drafts.slice(6).every(draft => draft.status === 'draft'));
+});
+
+test('fifteen traditional drafts are isolated from candidates and production', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
   assert.deepEqual(validateRecipeDraftLibrary(drafts, candidates), []);
-  assert.equal(drafts.drafts.length, 6);
+  assert.equal(drafts.drafts.length, 15);
   assert.ok(drafts.drafts.every(draft => draft.status === 'draft'));
   assert.equal(production.families.length, 9);
   assert.equal(production.recipes.length, 12);
@@ -88,10 +94,10 @@ test('six-draft release gate rejects a linked candidate that is not a candidate'
   ]);
 });
 
-test('draft checker permits the current six drafts during expansion', () => {
+test('draft checker permits the current fifteen drafts during expansion', () => {
   const run = spawnSync('node', ['tools/check-recipe-drafts.mjs'], { encoding: 'utf8' });
   assert.equal(run.status, 0, run.stderr);
-  assert.match(run.stdout, /传统一锅草案 6 道 · 生产可用 0 道/);
+  assert.match(run.stdout, /传统一锅草案 15 道 · 生产可用 0 道/);
 });
 
 test('draft checker permits seven drafts and rejects five or thirty-one drafts', (t) => {
