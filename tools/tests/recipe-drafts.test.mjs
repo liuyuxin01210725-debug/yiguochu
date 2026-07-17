@@ -49,3 +49,11 @@ test('draft checker reports six drafts and zero production entries', () => {
   assert.equal(run.status, 0, run.stderr);
   assert.match(run.stdout, /传统一锅草案 6 道 · 生产可用 0 道/);
 });
+
+test('draft documentation keeps the production promotion boundary explicit', () => {
+  const doc = fs.readFileSync(new URL('../../docs/传统一锅草案说明.md', import.meta.url), 'utf8');
+  assert.match(doc, /不进入运行时/);
+  assert.match(doc, /原创标准配方/);
+  assert.match(doc, /真实试做/);
+  assert.match(doc, /node tools\/check-recipe-drafts\.mjs/);
+});
