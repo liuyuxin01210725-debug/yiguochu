@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { validateRecipeCandidateLedger } from '../lib/recipe-candidate-validator.mjs';
 
 const validLedger = {
@@ -33,4 +35,22 @@ test('candidate ledger rejects approved status and copied-source metadata gaps',
     'sample-rice status must be candidate or research_hold',
     'sample-rice basis ref 0 missing rights_note',
   ]);
+});
+
+test('research ledger has exactly 30 non-production candidates and leaves the Phase A library untouched', () => {
+  const ledger = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validateRecipeCandidateLedger(ledger), []);
+  assert.equal(ledger.entries.length, 30);
+  assert.ok(ledger.entries.every(entry => entry.status !== 'approved'));
+  assert.equal(production.families.length, 9);
+  assert.equal(production.recipes.length, 12);
+  assert.ok(production.recipes.every(recipe => !ledger.entries.some(entry => entry.id === recipe.id)));
+});
+
+test('candidate checker reports the candidate and production counts', () => {
+  const run = spawnSync('node', ['tools/check-recipe-candidates.mjs'], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  assert.match(run.stdout, /传统菜候选 30 道 · 生产可用 0 道/);
+  assert.match(run.stdout, /✅ 传统菜候选册体检通过/);
 });
