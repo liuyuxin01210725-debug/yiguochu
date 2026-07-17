@@ -1,4 +1,4 @@
-const CURRENT_DRAFT_CANDIDATE_IDS = new Map([
+const EXPECTED_THIRTY_CANDIDATE_IDS = new Map([
   ['shanghai-salted-pork-vegetable-rice-draft', 'shanghai-salted-pork-vegetable-rice'],
   ['nanjing-sausage-greens-rice-draft', 'nanjing-sausage-greens-rice'],
   ['quanzhou-oil-rice-draft', 'quanzhou-oil-rice'],
@@ -21,6 +21,14 @@ const CURRENT_DRAFT_CANDIDATE_IDS = new Map([
   ['guangxi-five-color-glutinous-rice-draft', 'guangxi-five-color-glutinous-rice'],
   ['dai-pineapple-purple-rice-draft', 'dai-pineapple-purple-rice'],
   ['daxi-lotus-leaf-oil-rice-draft', 'daxi-lotus-leaf-oil-rice'],
+  ['cantonese-mushroom-chicken-claypot-rice-draft', 'cantonese-mushroom-chicken-claypot-rice'],
+  ['cantonese-black-bean-pork-rib-claypot-rice-draft', 'cantonese-black-bean-pork-rib-claypot-rice'],
+  ['qinghai-hao-fan-draft', 'qinghai-hao-fan'],
+  ['tibetan-savory-congee-draft', 'tibetan-savory-congee'],
+  ['tibetan-gutu-draft', 'tibetan-gutu'],
+  ['tibetan-ginseng-fruit-rice-draft', 'tibetan-ginseng-fruit-rice'],
+  ['she-people-black-rice-draft', 'she-people-black-rice'],
+  ['banshan-wild-rice-draft', 'banshan-wild-rice'],
 ]);
 
 export function validateExpectedDraftMappings(
@@ -66,6 +74,6 @@ export function validateExpectedDraftMappings(
   return errors;
 }
 
-export function validateCurrentDraftReleaseGate(library, candidateLedger) {
-  return validateExpectedDraftMappings(library, candidateLedger, CURRENT_DRAFT_CANDIDATE_IDS, false);
+export function validateThirtyDraftReleaseGate(library, candidateLedger) {
+  return validateExpectedDraftMappings(library, candidateLedger, EXPECTED_THIRTY_CANDIDATE_IDS, true);
 }

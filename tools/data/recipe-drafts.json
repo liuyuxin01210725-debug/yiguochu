@@ -299,6 +299,80 @@
       "technique_outline": ["先核对荷叶的食品级、清洁状态和植物身份；荷叶只作包材与增香。", "猪肉先加热至完全熟制，再与糯米包入荷叶蒸熟并检查湿度。"],
       "safety_and_quality_gates": [{"type": "plant_identity", "requirement": "荷叶必须有明确植物身份、食品级和清洁购买来源；无法确认时不得使用，且仅作香气包材。"}, {"type": "food_safety", "requirement": "猪肉必须完全熟制、中心热透后才可食用。"}, {"type": "seasoning", "requirement": "必须先尝猪肉和锅内底味，再决定是否补盐。"}, {"type": "fat_control", "requirement": "记录猪肉析出脂肪及任何额外油脂，再决定下一轮调整。"}, {"type": "moisture", "requirement": "必须记录糯米吸水、包裹后湿度和成品是否有明显积液。"}],
       "trial_requirements": ["记录荷叶植物身份、食品级与清洁购买来源，并确认其仅作为香气包材。", "记录猪肉来源、完全熟制检查、尝味补盐决定和脂肪析出。", "记录糯米吸水、蒸熟检查、锅内湿度、可选食用菌食品名称及修订原因。"]
+    },
+    {
+      "id": "cantonese-mushroom-chicken-claypot-rice-draft", "candidate_id": "cantonese-mushroom-chicken-claypot-rice", "status": "draft", "name": "鸡肉香菇盖锅饭试做框架", "region": "广东风味方向", "form": "加盖焖饭",
+      "adaptation_summary": "以可追溯鸡肉可食部分和食用香菇为线索的原创家庭试做框架；不宣称复刻砂锅或地方成品。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "可追溯鸡肉可食部分", "食用香菇"], "optional_ingredients": ["叶菜"],
+      "substitution_slots": [{"slot": "食用菌", "replaces": ["食用香菇"], "allowed": ["有明确食品名称的新鲜平菇", "有明确食品名称的新鲜白玉菇"]}],
+      "draft_ratio_rules": ["液体只根据本轮米、鸡肉和食用菌含水记录校准。", "未完成鸡肉与食用菌记录时不得将该轮作为标准。"],
+      "technique_outline": ["先核对鸡肉部位、可食部分和原料状态，再同锅加热。", "米饭完成前加入食用菌，并记录其出水和成品湿度。"],
+      "safety_and_quality_gates": [{"type": "chicken_identity", "requirement": "必须记录鸡肉部位、可食部分、购买来源和原始生熟状态；身份或可食性不明不得使用。"}, {"type": "food_safety", "requirement": "鸡肉中心必须完全熟制、无生肉状态后才可食用，并留存检查记录。"}, {"type": "mushroom_moisture", "requirement": "食用香菇须记录食品名称、来源、原始含水和加热出水；明显积液时不得认定该轮质地合格。"}, {"type": "storage", "requirement": "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"}],
+      "trial_requirements": ["记录鸡肉部位、可食部分、购买来源、原始生熟状态及中心完全熟制检查。", "记录食用香菇食品名称、购买来源、原始状态、出水和成品湿度。", "记录叶菜等可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
+    },
+    {
+      "id": "cantonese-black-bean-pork-rib-claypot-rice-draft", "candidate_id": "cantonese-black-bean-pork-rib-claypot-rice", "status": "draft", "name": "豆豉排骨盖锅饭试做框架", "region": "广东风味方向", "form": "加盖焖饭",
+      "adaptation_summary": "以猪肋排和食品级豆豉为线索的原创家庭试做框架；不复刻任何外部菜谱。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "可追溯猪肋排", "食品级豆豉"], "optional_ingredients": ["有明确食品名称的食用菌"],
+      "substitution_slots": [{"slot": "猪肉", "replaces": ["可追溯猪肋排"], "allowed": ["去骨猪肉可食部分"]}],
+      "draft_ratio_rules": ["豆豉先尝味并记录盐度，再决定是否加入其他咸味配料。", "液体只按本轮排骨、米和配料含水记录调整。"],
+      "technique_outline": ["先逐块检查猪肋排骨片和可食部分，再加热至完全熟制。", "豆豉仅作为经记录的咸味来源加入，起锅前复核锅内湿度。"],
+      "safety_and_quality_gates": [{"type": "bone_safety", "requirement": "必须记录肋排骨片检查和成品复查；发现碎骨、锐骨或不可食部分时不得食用。"}, {"type": "food_safety", "requirement": "猪肉中心必须完全熟制、无生肉状态后才可食用，并留存检查记录。"}, {"type": "fermented_bean_salt", "requirement": "食品级豆豉必须记录来源和尝味结果；未尝味不得补加盐或其他高盐调味料。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],
+      "trial_requirements": ["记录猪肋排购买来源、原始生熟状态、骨片检查、可食部分和中心完全熟制检查。", "记录豆豉食品级标签、来源、过敏原信息、尝味和补盐决定。", "记录食用菌等可选食材的食品名称和过敏原声明，以及成品当餐食用或冷却冷藏与再次加热状态。"]
+    },
+    {
+      "id": "qinghai-hao-fan-draft", "candidate_id": "qinghai-hao-fan", "status": "draft", "name": "谷物土豆熬饭试做框架", "region": "青海河湟风味方向", "form": "熬煮饭", "adaptation_summary": "以常见食品级谷物、土豆和已核验豆类为线索的原创熬煮框架；不使用身份不明的区域植物。", "serving_range": [2, 4],
+      "core_ingredients": ["食品级谷物", "土豆", "已核验豆类"], "optional_ingredients": ["有明确食品名称的叶菜"],
+      "substitution_slots": [{"slot": "豆类", "replaces": ["已核验豆类"], "allowed": ["有食品标签的鹰嘴豆", "有食品标签的白芸豆"]}],
+      "draft_ratio_rules": ["稠度只以本轮谷物、土豆和豆类吸水记录调整。", "首轮不加入任何未经身份与可食性核验的区域植物。"],
+      "technique_outline": ["逐项核对谷物、土豆、豆类和叶菜的食品名称、来源及原始状态。", "持续熬煮至土豆和豆类均无硬芯，再记录稠度。"],
+      "safety_and_quality_gates": [{"type": "ingredient_identity", "requirement": "每种主料必须记录明确食品名称、购买来源和可食用依据；身份不明或未经核验的区域植物不得使用。"}, {"type": "food_safety", "requirement": "土豆必须熟透、无硬芯后才可食用，并留存原始状态与熟制检查。"}, {"type": "allergen_scope", "requirement": "豆类及可选叶菜必须记录过敏原或不耐受声明；未声明不得作为试做对象。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],
+      "trial_requirements": ["记录全部主料的食品名称、购买来源、可食用依据和原始状态。", "记录土豆与豆类的熟制检查、成品稠度和锅具。", "记录豆类及可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
+    },
+    {
+      "id": "tibetan-savory-congee-draft", "candidate_id": "tibetan-savory-congee", "status": "draft", "name": "咸味谷物稀饭试做框架", "region": "西藏风味方向", "form": "稀饭", "adaptation_summary": "以谷物和经声明的乳制品或非乳替代品构成的原创稀饭试做框架；不宣称为地方标准。", "serving_range": [2, 4],
+      "core_ingredients": ["食品级谷物", "经声明的乳制品或非乳替代品"], "optional_ingredients": ["有明确食品名称的熟制肉类"],
+      "substitution_slots": [{"slot": "乳制品", "replaces": ["经声明的乳制品或非乳替代品"], "allowed": ["有明确过敏原标签的牛奶", "有明确成分标签的非乳替代品"]}],
+      "draft_ratio_rules": ["稠度和咸味只依据本轮试做记录调整。", "乳制品或替代品未完成过敏原范围声明时不得加入。"],
+      "technique_outline": ["先核对乳制品或替代品的成分、过敏原和原始状态。", "小火煮至谷物熟软并记录成品状态，不把未记录的留存样品作为评价依据。"],
+      "safety_and_quality_gates": [{"type": "dairy_allergen", "requirement": "使用乳制品时必须明确乳及相关过敏原范围；使用替代品时也必须记录完整成分和过敏原信息。"}, {"type": "simmered_outcome", "requirement": "谷物必须煮熟软、无硬芯并记录成品稠度与原始生熟状态。"}, {"type": "storage", "requirement": "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"}],
+      "trial_requirements": ["记录谷物、乳制品或替代品的食品名称、来源、原始状态、成分和过敏原范围。", "记录谷物熟软检查、稠度、咸味尝味和锅具。", "记录可选肉类的过敏原声明及成品当餐食用或冷却冷藏与再次加热状态和修订原因。"]
+    },
+    {
+      "id": "tibetan-gutu-draft", "candidate_id": "tibetan-gutu", "status": "draft", "name": "蔬菜面团汤试做框架", "region": "西藏风味方向", "form": "面食汤", "adaptation_summary": "以普通食品级面团和已核验蔬菜构成的原创家庭试做框架；不复刻节庆仪式、象征物或传统成品。", "serving_range": [2, 4],
+      "core_ingredients": ["食品级小麦粉面团", "已核验蔬菜", "清水"], "optional_ingredients": ["有明确食品名称的食用菌"],
+      "substitution_slots": [{"slot": "蔬菜", "replaces": ["已核验蔬菜"], "allowed": ["小白菜", "胡萝卜"]}],
+      "draft_ratio_rules": ["面团状态和汤体稠度只按本轮记录调整。", "不加入节庆象征物、隐藏物或任何仪式性替代物。"],
+      "technique_outline": ["先记录面粉、蔬菜和食用菌的来源、原始状态及过敏原。", "将面团煮至内部无生粉后再加入蔬菜，完成后记录食用与留存状态。"],
+      "safety_and_quality_gates": [{"type": "cultural_scope", "requirement": "不得宣称、模拟或复刻节庆仪式、象征物、占卜内容或传统成品；仅作为原创家庭试做。"}, {"type": "dough_cook_through", "requirement": "面团必须煮至内部无生粉、无夹生后才可食用，并记录原始状态与熟制检查。"}, {"type": "allergen_scope", "requirement": "必须记录小麦及可选食用菌等食材的过敏原声明。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],
+      "trial_requirements": ["记录面粉、蔬菜和食用菌的食品名称、来源、原始状态及小麦等过敏原声明。", "记录面团内部无生粉的熟制检查、汤体状态和锅具。", "记录成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
+    },
+    {
+      "id": "tibetan-ginseng-fruit-rice-draft", "candidate_id": "tibetan-ginseng-fruit-rice", "status": "draft", "name": "蕨麻谷物饭试做框架", "region": "西藏山南风味方向", "form": "焖饭", "adaptation_summary": "以食品级蕨麻和谷物构成的原创家庭试做框架；不作任何药用、保健或治疗宣称。", "serving_range": [2, 4],
+      "core_ingredients": ["食品级蕨麻", "食品级谷物"], "optional_ingredients": ["有明确食品名称的干果"],
+      "substitution_slots": [{"slot": "干果", "replaces": ["有明确食品名称的干果"], "allowed": ["有食品标签的红枣", "有食品标签的葡萄干"]}],
+      "draft_ratio_rules": ["蕨麻吸水和谷物熟制只以本轮记录调整。", "食品级蕨麻身份未核实前不得试做。"],
+      "technique_outline": ["先核对蕨麻的准确食品名称、食品级标签、购买来源和原始状态。", "与谷物同锅加热至均熟，再记录口感和湿度。"],
+      "safety_and_quality_gates": [{"type": "food_grade_identity", "requirement": "必须先确认蕨麻的准确食品名称、食品级标签、可食用依据和购买来源；身份不明不得使用。"}, {"type": "claim_boundary", "requirement": "不得出现药用、保健、治疗或功效宣称。"}, {"type": "food_safety", "requirement": "蕨麻与谷物必须熟透、无硬芯后才可食用，并记录原始状态与熟制检查。"}, {"type": "allergen_and_storage", "requirement": "必须记录蕨麻、谷物和可选干果的过敏原声明；成品留存时必须记录冷却、冷藏和再次加热状态。"}],
+      "trial_requirements": ["记录蕨麻的准确食品名称、食品级标签、可食用依据、购买来源和原始状态。", "记录蕨麻与谷物的熟制检查、湿度和锅具。", "记录干果等可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
+    },
+    {
+      "id": "she-people-black-rice-draft", "candidate_id": "she-people-black-rice", "status": "draft", "name": "食品级色源乌米饭试做框架", "region": "华南畲族风味方向", "form": "糯米饭", "adaptation_summary": "以糯米和单一已核验食品级植物色源构成的原创试做框架；不声称传统色源、节俗配方或成品复刻。", "serving_range": [2, 4],
+      "core_ingredients": ["糯米", "单一已核验食品级植物色源"], "optional_ingredients": ["有明确食品名称的坚果或种子"],
+      "substitution_slots": [{"slot": "植物色源", "replaces": ["单一已核验食品级植物色源"], "allowed": ["有食品标签的可食用植物色源"]}],
+      "draft_ratio_rules": ["浸润、漂洗和蒸煮状态只按本轮记录调整。", "不得用装饰染料、身份不明叶片或未核验色源。"],
+      "technique_outline": ["先核对植物色源的植物身份、食品级证明、来源和可食用依据。", "记录糯米浸泡与漂洗状态后蒸熟，检查无硬芯。"],
+      "safety_and_quality_gates": [{"type": "botanical_identity", "requirement": "植物色源必须记录准确植物身份、食品级证明、购买来源和可食用依据；不明叶片或装饰染料不得使用。"}, {"type": "soak_and_rinse", "requirement": "必须记录糯米浸泡、漂洗、原始状态及用水观察；未记录不得评价该轮。"}, {"type": "food_safety", "requirement": "糯米必须蒸熟至无硬芯后才可食用。"}, {"type": "allergen_and_storage", "requirement": "必须记录色源及可选坚果或种子的过敏原声明；成品留存时记录冷却、冷藏和再次加热状态。"}],
+      "trial_requirements": ["记录色源的植物身份、食品级证明、购买来源、可食用依据和原始状态。", "记录糯米浸泡、漂洗、蒸熟检查和成品湿度。", "记录坚果或种子等可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
+    },
+    {
+      "id": "banshan-wild-rice-draft", "candidate_id": "banshan-wild-rice", "status": "draft", "name": "已核验食材野米饭试做框架", "region": "浙江杭州半山风味方向", "form": "焖饭", "adaptation_summary": "以常规食品级米和已核验可食野生食材为线索的原创家庭试做框架；首轮可用明确命名的安全替代食材，不模拟民俗成品。", "serving_range": [2, 4],
+      "core_ingredients": ["食品级大米", "已核验可食野生食材"], "optional_ingredients": ["食品级香菇"],
+      "substitution_slots": [{"slot": "野生食材", "replaces": ["已核验可食野生食材"], "allowed": ["有食品标签的香菇", "有食品标签的平菇"]}],
+      "draft_ratio_rules": ["首轮试做优先使用替代槽中明确命名的安全食材。", "米与食材含水只以本轮记录校准。"],
+      "technique_outline": ["使用野生食材前先核对准确身份、可食用依据、食品级或可靠来源和原始状态。", "同锅加热至米和食材均完全熟制，再记录湿度。"],
+      "safety_and_quality_gates": [{"type": "wild_ingredient_identity", "requirement": "野生食材必须记录准确身份、可食用依据、来源和原始状态；无法确认时不得使用，并改用明确命名的安全替代食材。"}, {"type": "food_safety", "requirement": "米和野生食材或替代食材必须加热至完全熟制、无硬芯或生食状态后才可食用。"}, {"type": "allergen_scope", "requirement": "必须记录野生食材或替代食材及可选香菇的过敏原声明。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],
+      "trial_requirements": ["记录野生食材或安全替代食材的准确食品名称、可食用依据、购买来源和原始状态。", "记录米与食材的完全熟制检查、成品湿度和锅具。", "记录全部可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
     }
   ]
 }

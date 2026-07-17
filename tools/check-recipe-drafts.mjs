@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import { validateRecipeDraftLibrary } from './lib/recipe-draft-validator.mjs';
-import { validateCurrentDraftReleaseGate } from './lib/recipe-draft-release-gate.mjs';
+import { validateThirtyDraftReleaseGate } from './lib/recipe-draft-release-gate.mjs';
 
 function fileArgument(name, defaultFile) {
   const index = process.argv.indexOf(name);
@@ -15,13 +15,13 @@ const drafts = JSON.parse(fs.readFileSync(draftFile, 'utf8'));
 const candidates = JSON.parse(fs.readFileSync(candidateFile, 'utf8'));
 const production = JSON.parse(fs.readFileSync(productionFile, 'utf8'));
 const errors = validateRecipeDraftLibrary(drafts, candidates);
-errors.push(...validateCurrentDraftReleaseGate(drafts, candidates));
+errors.push(...validateThirtyDraftReleaseGate(drafts, candidates));
 const draftEntries = Array.isArray(drafts?.drafts) ? drafts.drafts : [];
 const productionFamilies = Array.isArray(production?.families) ? production.families : [];
 const productionRecipes = Array.isArray(production?.recipes) ? production.recipes : [];
 
-if (draftEntries.length < 6 || draftEntries.length > 30) {
-  errors.push('draft library must contain from 6 to 30 drafts during expansion');
+if (draftEntries.length !== 30) {
+  errors.push('draft library must contain exactly 30 drafts');
 }
 if (draftEntries.some(draft => draft?.status !== 'draft')) errors.push('draft library must contain only draft entries');
 if (productionFamilies.length !== 9) errors.push('production library must contain exactly 9 families');

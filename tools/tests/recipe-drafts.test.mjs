@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
 import {
   validateExpectedDraftMappings,
-  validateCurrentDraftReleaseGate,
+  validateThirtyDraftReleaseGate,
 } from '../lib/recipe-draft-release-gate.mjs';
 
 const candidateLedger = { entries: [{ id: 'candidate-a' }] };
@@ -56,54 +56,60 @@ test('expected mapping validator reports a wrong mapping and non-candidate link'
   ]);
 });
 
-test('draft ledger contains 22 entries after moderate-risk expansion', () => {
+test('draft ledger contains 30 entries after high-risk expansion', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
-  assert.equal(drafts.drafts.length, 22);
-  assert.ok(drafts.drafts.some(draft => draft.id === 'daxi-lotus-leaf-oil-rice-draft'));
+  assert.equal(drafts.drafts.length, 30);
+  assert.ok(drafts.drafts.some(draft => draft.id === 'banshan-wild-rice-draft'));
 });
 
-test('twenty-two traditional drafts are isolated from candidates and production', () => {
+test('thirty-draft release gate accepts the complete fixed mapping', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  assert.equal(drafts.drafts.length, 30);
+  assert.deepEqual(validateThirtyDraftReleaseGate(drafts, candidates), []);
+});
+
+test('thirty traditional drafts are isolated from candidates and production', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
   assert.deepEqual(validateRecipeDraftLibrary(drafts, candidates), []);
-  assert.equal(drafts.drafts.length, 22);
+  assert.equal(drafts.drafts.length, 30);
   assert.ok(drafts.drafts.every(draft => draft.status === 'draft'));
-  assert.deepEqual(validateCurrentDraftReleaseGate(drafts, candidates), []);
   assert.equal(production.families.length, 9);
   assert.equal(production.recipes.length, 12);
   assert.ok(drafts.drafts.every(draft => !production.recipes.some(recipe => recipe.id === draft.id)));
 });
 
-test('twenty-two-draft release gate rejects a moderate-risk draft remapped to another valid candidate', () => {
+test('thirty-draft release gate rejects a high-risk draft remapped to another valid candidate', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
-  const draft = drafts.drafts.find(entry => entry.id === 'daxi-lotus-leaf-oil-rice-draft');
+  const draft = drafts.drafts.find(entry => entry.id === 'banshan-wild-rice-draft');
   draft.candidate_id = 'suzhou-salted-pork-vegetable-rice';
 
-  assert.deepEqual(validateCurrentDraftReleaseGate(drafts, candidates), [
-    'daxi-lotus-leaf-oil-rice-draft must link candidate_id daxi-lotus-leaf-oil-rice',
+  assert.deepEqual(validateThirtyDraftReleaseGate(drafts, candidates), [
+    'banshan-wild-rice-draft must link candidate_id banshan-wild-rice',
   ]);
 });
 
-test('twenty-two-draft release gate rejects a moderate-risk draft linked to a non-candidate', () => {
+test('thirty-draft release gate rejects a high-risk draft linked to a non-candidate', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
-  const draft = drafts.drafts.find(entry => entry.id === 'daxi-lotus-leaf-oil-rice-draft');
+  const draft = drafts.drafts.find(entry => entry.id === 'banshan-wild-rice-draft');
   candidates.entries.find(entry => entry.id === draft.candidate_id).status = 'approved';
 
-  assert.deepEqual(validateCurrentDraftReleaseGate(drafts, candidates), [
-    'daxi-lotus-leaf-oil-rice-draft linked candidate daxi-lotus-leaf-oil-rice must have status candidate',
+  assert.deepEqual(validateThirtyDraftReleaseGate(drafts, candidates), [
+    'banshan-wild-rice-draft linked candidate banshan-wild-rice must have status candidate',
   ]);
 });
 
-test('draft checker permits the current twenty-two drafts during expansion', () => {
+test('draft checker permits exactly thirty mapped drafts', () => {
   const run = spawnSync('node', ['tools/check-recipe-drafts.mjs'], { encoding: 'utf8' });
   assert.equal(run.status, 0, run.stderr);
-  assert.match(run.stdout, /传统一锅草案 22 道 · 生产可用 0 道/);
+  assert.match(run.stdout, /传统一锅草案 30 道 · 生产可用 0 道/);
 });
 
-test('draft checker permits all twenty-two mapped drafts and rejects five or thirty-one drafts', (t) => {
+test('draft checker rejects draft counts other than thirty', (t) => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
@@ -136,14 +142,10 @@ test('draft checker permits all twenty-two mapped drafts and rejects five or thi
     ], { encoding: 'utf8' });
   };
 
-  const twentyTwo = runWithDraftCount(22);
-  assert.equal(twentyTwo.status, 0, twentyTwo.stderr);
-  assert.match(twentyTwo.stdout, /传统一锅草案 22 道 · 生产可用 0 道/);
-
-  for (const count of [5, 31]) {
+  for (const count of [5, 29, 31]) {
     const run = runWithDraftCount(count);
     assert.equal(run.status, 1);
-    assert.match(run.stderr, /draft library must contain from 6 to 30 drafts during expansion/);
+    assert.match(run.stderr, /draft library must contain exactly 30 drafts/);
   }
 });
 
