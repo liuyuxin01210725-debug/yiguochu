@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
-import { validateSixDraftReleaseGate } from '../lib/recipe-draft-release-gate.mjs';
+import {
+  validateExpectedDraftMappings,
+  validateSixDraftReleaseGate,
+} from '../lib/recipe-draft-release-gate.mjs';
 
 const candidateLedger = { entries: [{ id: 'candidate-a' }] };
 const validDraftLibrary = {
@@ -30,6 +33,24 @@ test('draft library rejects production status and a missing safety gate', () => 
   assert.deepEqual(validateRecipeDraftLibrary(invalid, candidateLedger), [
     'sample-draft status must be draft',
     'sample-draft safety_and_quality_gates must be non-empty',
+  ]);
+});
+
+test('expected mapping validator rejects a missing and an extra draft', () => {
+  const library = { drafts: [{ id: 'a-draft', candidate_id: 'a' }, { id: 'extra-draft', candidate_id: 'b' }] };
+  const candidates = { entries: [{ id: 'a', status: 'candidate' }, { id: 'b', status: 'candidate' }] };
+  assert.deepEqual(validateExpectedDraftMappings(library, candidates, new Map([['a-draft', 'a'], ['missing-draft', 'b']]), true), [
+    'expected draft missing-draft is missing',
+    'unexpected draft extra-draft is present',
+  ]);
+});
+
+test('expected mapping validator reports a wrong mapping and non-candidate link', () => {
+  const library = { drafts: [{ id: 'a-draft', candidate_id: 'b' }] };
+  const candidates = { entries: [{ id: 'b', status: 'approved' }] };
+  assert.deepEqual(validateExpectedDraftMappings(library, candidates, new Map([['a-draft', 'a']]), false), [
+    'a-draft must link candidate_id a',
+    'a-draft linked candidate b must have status candidate',
   ]);
 });
 
@@ -65,7 +86,7 @@ test('six-draft release gate rejects a linked candidate that is not a candidate'
   ]);
 });
 
-test('draft checker reports six drafts and zero production entries', () => {
+test('draft checker permits the current six drafts during expansion', () => {
   const run = spawnSync('node', ['tools/check-recipe-drafts.mjs'], { encoding: 'utf8' });
   assert.equal(run.status, 0, run.stderr);
   assert.match(run.stdout, /传统一锅草案 6 道 · 生产可用 0 道/);

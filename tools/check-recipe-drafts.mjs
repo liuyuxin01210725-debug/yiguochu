@@ -15,7 +15,9 @@ const draftEntries = Array.isArray(drafts?.drafts) ? drafts.drafts : [];
 const productionFamilies = Array.isArray(production?.families) ? production.families : [];
 const productionRecipes = Array.isArray(production?.recipes) ? production.recipes : [];
 
-if (draftEntries.length !== 6) errors.push('draft library must contain exactly 6 drafts');
+if (draftEntries.length < 6 || draftEntries.length > 30) {
+  errors.push('draft library must contain from 6 to 30 drafts during expansion');
+}
 if (draftEntries.some(draft => draft?.status !== 'draft')) errors.push('draft library must contain only draft entries');
 if (productionFamilies.length !== 9) errors.push('production library must contain exactly 9 families');
 if (productionRecipes.length !== 12) errors.push('production library must contain exactly 12 recipes');
