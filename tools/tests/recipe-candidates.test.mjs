@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { validateRecipeCandidateLedger } from '../lib/recipe-candidate-validator.mjs';
+import { validateRecipeCandidateReleaseGate } from '../lib/recipe-candidate-release-gate.mjs';
 
 const validLedger = {
   schema_version: 1,
@@ -61,4 +62,29 @@ test('candidate ledger documentation preserves the facts-versus-expression bound
   assert.match(doc, /不复制/);
   assert.match(doc, /原创标准配方/);
   assert.match(doc, /node tools\/check-recipe-candidates\.mjs/);
+});
+
+test('candidate ledger rejects non-factual kinds, unknown fields, and quantified content', () => {
+  const invalid = structuredClone(validLedger);
+  invalid.entries[0].basis_refs[0].kind = 'recipe_copy';
+  invalid.entries[0].basis_refs[0].nutrition = '每份 500 千卡';
+  invalid.entries[0].ingredient_pattern = ['大米 200 克'];
+  invalid.entries[0].steps = ['先炒后焖'];
+  const errors = validateRecipeCandidateLedger(invalid);
+  assert.ok(errors.includes('sample-rice ingredient_pattern must not contain quantities or nutrition claims'));
+  assert.ok(errors.includes('sample-rice has unexpected field steps'));
+  assert.ok(errors.includes('sample-rice basis ref 0 kind must be cultural_fact'));
+  assert.ok(errors.includes('sample-rice basis ref 0 has unexpected field nutrition'));
+});
+
+test('candidate release gate locks the first batch and production baseline', () => {
+  const ledger = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validateRecipeCandidateReleaseGate(ledger, production), []);
+  const shortLedger = structuredClone(ledger);
+  shortLedger.entries.pop();
+  assert.ok(validateRecipeCandidateReleaseGate(shortLedger, production).includes('candidate ledger must contain exactly 30 entries'));
+  const incompleteProduction = structuredClone(production);
+  incompleteProduction.recipes.pop();
+  assert.ok(validateRecipeCandidateReleaseGate(ledger, incompleteProduction).includes('production library must contain exactly 12 recipes'));
 });

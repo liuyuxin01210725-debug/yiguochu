@@ -334,8 +334,124 @@ git add docs/传统菜谱候选册说明.md tools/tests/recipe-candidates.test.m
 git commit -m "docs: define traditional recipe promotion gates"
 ```
 
+### Task 4: Harden the candidate-content and release-count gates
+
+**Files:**
+- Create: `tools/lib/recipe-candidate-release-gate.mjs`
+- Modify: `tools/lib/recipe-candidate-validator.mjs`
+- Modify: `tools/check-recipe-candidates.mjs`
+- Modify: `tools/tests/recipe-candidates.test.mjs`
+
+**Interfaces:**
+- `validateRecipeCandidateLedger(ledger): string[]` rejects anything other than cultural-fact metadata and rejects fields outside the declared schema.
+- `validateRecipeCandidateReleaseGate(ledger, production): string[]` adds the exact first-batch gate: 30 ledger entries, zero `approved` entries, 9 production families, 12 production recipes, and only `approved` production recipes.
+- `node tools/check-recipe-candidates.mjs` calls the release gate and exits non-zero for any of those conditions.
+
+- [x] **Step 1: Write failing hard-boundary tests**
+
+Append these tests before implementation:
+
+```js
+import { validateRecipeCandidateReleaseGate } from '../lib/recipe-candidate-release-gate.mjs';
+
+test('candidate ledger rejects non-factual kinds, unknown fields, and quantified content', () => {
+  const invalid = structuredClone(validLedger);
+  invalid.entries[0].basis_refs[0].kind = 'recipe_copy';
+  invalid.entries[0].basis_refs[0].nutrition = '每份 500 千卡';
+  invalid.entries[0].ingredient_pattern = ['大米 200 克'];
+  invalid.entries[0].steps = ['先炒后焖'];
+  const errors = validateRecipeCandidateLedger(invalid);
+  assert.ok(errors.includes('sample-rice ingredient_pattern must not contain quantities or nutrition claims'));
+  assert.ok(errors.includes('sample-rice has unexpected field steps'));
+  assert.ok(errors.includes('sample-rice basis ref 0 kind must be cultural_fact'));
+  assert.ok(errors.includes('sample-rice basis ref 0 has unexpected field nutrition'));
+});
+
+test('candidate release gate locks the first batch and production baseline', () => {
+  const ledger = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validateRecipeCandidateReleaseGate(ledger, production), []);
+  const shortLedger = structuredClone(ledger);
+  shortLedger.entries.pop();
+  assert.ok(validateRecipeCandidateReleaseGate(shortLedger, production).includes('candidate ledger must contain exactly 30 entries'));
+  const incompleteProduction = structuredClone(production);
+  incompleteProduction.recipes.pop();
+  assert.ok(validateRecipeCandidateReleaseGate(ledger, incompleteProduction).includes('production library must contain exactly 12 recipes'));
+});
+```
+
+- [x] **Step 2: Run the focused test to verify the missing module and assertions fail**
+
+Run: `node --test tools/tests/recipe-candidates.test.mjs`
+Expected: `ERR_MODULE_NOT_FOUND` for `recipe-candidate-release-gate.mjs`.
+
+- [x] **Step 3: Implement strict schema validation and the release gate**
+
+In `tools/lib/recipe-candidate-validator.mjs`, add exact field allowlists:
+
+```js
+const ROOT_FIELDS = new Set(['schema_version', 'purpose', 'entries']);
+const ENTRY_FIELDS = new Set([
+  'id', 'status', 'name', 'region', 'cuisine', 'form', 'traditional_basis',
+  'ingredient_pattern', 'technique_pattern', 'risk_level', 'promotion_requirements', 'basis_refs',
+]);
+const REF_FIELDS = new Set([
+  'kind', 'relationship', 'claim', 'source_type', 'title', 'publisher', 'url',
+  'retrieved_at', 'rights_note', 'evidence_scope', 'excluded_scope',
+]);
+const EVIDENCE_SCOPES = new Set(['dish_name', 'region', 'ingredient_pattern', 'high_level_technique', 'cultural_context']);
+const EXCLUDED_SCOPES = new Set(['exact_quantities', 'step_text', 'nutrition', 'safety']);
+const PROHIBITED_CONTENT_RE = /(?:\d+\s*(?:克|g|毫升|ml|分钟|分|千卡|kcal|卡路里)|营养|热量|蛋白质|脂肪|碳水)/i;
+```
+
+For every object, append `${label} has unexpected field ${key}` for non-allowlisted keys. Require `ref.kind === 'cultural_fact'`; require every scope value to be in its corresponding set; and for each `traditional_basis`, `ingredient_pattern` and `technique_pattern` string that matches `PROHIBITED_CONTENT_RE`, append `${label} ${field} must not contain quantities or nutrition claims`. Keep the current required-field errors and their deterministic order.
+
+Create `tools/lib/recipe-candidate-release-gate.mjs`:
+
+```js
+import { validateRecipeCandidateLedger } from './recipe-candidate-validator.mjs';
+
+export function validateRecipeCandidateReleaseGate(ledger, production) {
+  const errors = [...validateRecipeCandidateLedger(ledger)];
+  const entries = Array.isArray(ledger?.entries) ? ledger.entries : [];
+  if (entries.length !== 30) errors.push('candidate ledger must contain exactly 30 entries');
+  if (entries.filter(entry => entry?.status === 'approved').length !== 0) {
+    errors.push('candidate ledger must contain zero approved entries');
+  }
+  const families = Array.isArray(production?.families) ? production.families : [];
+  const recipes = Array.isArray(production?.recipes) ? production.recipes : [];
+  if (families.length !== 9) errors.push('production library must contain exactly 9 families');
+  if (recipes.length !== 12) errors.push('production library must contain exactly 12 recipes');
+  if (recipes.some(recipe => recipe?.status !== 'approved')) {
+    errors.push('production library recipes must all be approved');
+  }
+  return errors;
+}
+```
+
+Update `tools/check-recipe-candidates.mjs` to read both JSON files, call `validateRecipeCandidateReleaseGate(ledger, productionLibrary)`, and retain its current success output. It must use the actual count only for the printed line; exit status comes from release-gate errors.
+
+- [x] **Step 4: Run focused tests and both checkers**
+
+Run:
+
+```bash
+node --test tools/tests/recipe-candidates.test.mjs
+node tools/check-recipe-candidates.mjs
+node tools/check-recipes.mjs
+```
+
+Expected: 7 candidate tests pass; candidate checker reports 30 / 0 and exits 0; production checker reports 9 families / 12 recipes and exits 0.
+
+- [x] **Step 5: Commit the hardened gates**
+
+```bash
+git add tools/lib/recipe-candidate-validator.mjs tools/lib/recipe-candidate-release-gate.mjs tools/check-recipe-candidates.mjs tools/tests/recipe-candidates.test.mjs docs/superpowers/plans/2026-07-17-traditional-chinese-recipe-candidate-ledger.md
+git commit -m "fix: harden traditional recipe candidate gates"
+```
+
 ## Plan self-review
 
-- Spec coverage: Task 1 makes factual provenance machine-checkable; Task 2 adds exactly 30 non-production Chinese candidates and preserves 9 / 12 production state; Task 3 documents the copyright, provenance and safety promotion boundary.
+- Spec coverage: Task 1 makes factual provenance machine-checkable; Task 2 adds exactly 30 non-production Chinese candidates and preserves 9 / 12 production state; Task 3 documents the copyright, provenance and safety promotion boundary; Task 4 makes cultural-fact-only fields and the 30 / 0 / 9 / 12 release counts independently enforceable from the CLI.
 - Placeholder scan: no TBD/TODO or unspecified code paths remain.
 - Type consistency: all tasks use the exported `validateRecipeCandidateLedger(ledger)` function, the same ledger filename, the same facts-only rights note, and the same two required promotion gates.

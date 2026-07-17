@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
-import { validateRecipeCandidateLedger } from './lib/recipe-candidate-validator.mjs';
+import { validateRecipeCandidateReleaseGate } from './lib/recipe-candidate-release-gate.mjs';
 
 const file = new URL('./data/recipe-candidates.json', import.meta.url);
 const ledger = JSON.parse(fs.readFileSync(file, 'utf8'));
-const errors = validateRecipeCandidateLedger(ledger);
+const productionFile = new URL('./data/recipe-library.json', import.meta.url);
+const productionLibrary = JSON.parse(fs.readFileSync(productionFile, 'utf8'));
+const errors = validateRecipeCandidateReleaseGate(ledger, productionLibrary);
 const total = Array.isArray(ledger?.entries) ? ledger.entries.length : 0;
 const production = Array.isArray(ledger?.entries)
   ? ledger.entries.filter(entry => entry?.status === 'approved').length
