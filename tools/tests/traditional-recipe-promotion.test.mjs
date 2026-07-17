@@ -6,6 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import {
   PROMOTION_MATRIX,
+  hasOnlyExpectedMissingProductionErrors,
   validateTraditionalRecipePromotion,
 } from '../lib/traditional-recipe-promotion-gate.mjs';
 
@@ -147,10 +148,17 @@ test('promotion checker documents the expected pre-Task-3 missing-production tra
   assert.match(run.stdout, /预期在 Task 3 晋升生产菜谱后通过/);
 });
 
-test('promotion checker withholds the transition notice when an error is not a missing-production mapping', () => {
+test('promotion checker reports a bad manifest path alongside missing production recipes', () => {
   const fixture = completeFixture();
   fixture.production = { recipes: [] };
-  fixture.candidates.entries[0].status = 'research_hold';
+  const badPromotion = fixture.promotions[0];
+  badPromotion.canonical_path = '/recipes.html?id=wrong-rice';
+  const expectedPathError = `${badPromotion.recipe_id} canonical_path must equal /recipes.html?id=${badPromotion.recipe_id}`;
+  const expectedMissingProduction = `${badPromotion.recipe_id} missing production recipe`;
+  const errors = validateTraditionalRecipePromotion(fixture);
+  assert.ok(errors.includes(expectedPathError));
+  assert.ok(errors.includes(expectedMissingProduction));
+  assert.equal(hasOnlyExpectedMissingProductionErrors(errors, fixture.promotions), false);
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'traditional-promotion-'));
   const files = {
     candidate: path.join(directory, 'candidates.json'),
@@ -171,6 +179,8 @@ test('promotion checker withholds the transition notice when an error is not a m
       '--promotion-file', files.promotion,
     ], { encoding: 'utf8' });
     assert.equal(run.status, 1);
+    assert.ok(run.stderr.includes(expectedPathError));
+    assert.ok(run.stderr.includes(expectedMissingProduction));
     assert.doesNotMatch(run.stdout, /预期在 Task 3 晋升生产菜谱后通过/);
   } finally {
     fs.rmSync(directory, { recursive: true, force: true });

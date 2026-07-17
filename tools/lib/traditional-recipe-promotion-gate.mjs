@@ -160,6 +160,9 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
       if (draft.status !== 'draft') errors.push(`${recipeId} linked draft ${promotion.draft_id} must have status draft`);
       if (draft.candidate_id !== promotion.candidate_id) errors.push(`${recipeId} draft candidate_id must equal ${promotion.candidate_id}`);
     }
+    if (canonicalPath !== requiredCanonicalPath) {
+      errors.push(`${recipeId} canonical_path must equal ${requiredCanonicalPath}`);
+    }
     if (!recipe) {
       errors.push(`${recipeId} missing production recipe`);
       continue;
@@ -167,9 +170,6 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
     if (recipe.status !== 'approved') errors.push(`${recipeId} production status must be approved`);
     if (recipe.origin_candidate_id !== promotion.candidate_id) {
       errors.push(`${recipeId} origin_candidate_id must equal ${promotion.candidate_id}`);
-    }
-    if (canonicalPath !== requiredCanonicalPath) {
-      errors.push(`${recipeId} canonical_path must equal ${requiredCanonicalPath}`);
     }
     const placeholder = recipeIdentityPlaceholder(recipe);
     if (placeholder) errors.push(`${recipeId} contains identity placeholder ${placeholder}`);
