@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
+import { validateSixDraftReleaseGate } from '../lib/recipe-draft-release-gate.mjs';
 
 const candidateLedger = { entries: [{ id: 'candidate-a' }] };
 const validDraftLibrary = {
@@ -42,6 +43,26 @@ test('six traditional drafts are isolated from candidates and production', () =>
   assert.equal(production.families.length, 9);
   assert.equal(production.recipes.length, 12);
   assert.ok(drafts.drafts.every(draft => !production.recipes.some(recipe => recipe.id === draft.id)));
+});
+
+test('six-draft release gate rejects a valid but incorrectly remapped candidate', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  drafts.drafts[0].candidate_id = 'suzhou-salted-pork-vegetable-rice';
+
+  assert.deepEqual(validateSixDraftReleaseGate(drafts, candidates), [
+    'shanghai-salted-pork-vegetable-rice-draft must link candidate_id shanghai-salted-pork-vegetable-rice',
+  ]);
+});
+
+test('six-draft release gate rejects a linked candidate that is not a candidate', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  candidates.entries.find(entry => entry.id === drafts.drafts[0].candidate_id).status = 'approved';
+
+  assert.deepEqual(validateSixDraftReleaseGate(drafts, candidates), [
+    'shanghai-salted-pork-vegetable-rice-draft linked candidate shanghai-salted-pork-vegetable-rice must have status candidate',
+  ]);
 });
 
 test('draft checker reports six drafts and zero production entries', () => {
