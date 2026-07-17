@@ -31,6 +31,7 @@ function meal(overrides = {}) {
     pairing_basis: '以「可靠焖锅」的基础结构制作。',
     used_pantry: ['测试主料'],
     unused_pantry: [],
+    adaptation_note: '',
     source_refs: [{
       title: 'Trusted recipe',
       url: 'https://example.com/recipe',
@@ -235,6 +236,39 @@ test('an unsafe first generation returns a safe second generation', async () => 
   const result = await evaluate(context, `fetchRealDish({})`);
   assert.equal(result.baseRecipeId, 'safe-two');
   assert.equal(calls.length, 2);
+});
+
+test('frontend bounds and escapes trusted one-pot adaptation evidence', () => {
+  const { context } = loadFrontend();
+  const input = meal({ adaptation_note: '  <img src=x onerror=alert(1)> 单锅改编  ' });
+  const mapped = JSON.parse(evaluate(context,
+    `JSON.stringify((() => { const d = mapDish(${JSON.stringify(input)}, {servings:1}); return ({
+      adaptationNote:d.adaptationNote, html:recipeBasisBlock(d)
+    }); })())`));
+  assert.equal(mapped.adaptationNote, '<img src=x onerror=alert(1)> 单锅改编');
+  assert.match(mapped.html, /单锅改编说明/);
+  assert.match(mapped.html, /&lt;img src=x onerror=alert\(1\)&gt; 单锅改编/);
+  assert.doesNotMatch(mapped.html, /<img/);
+});
+
+test('frontend limits adaptation notes to four hundred characters', () => {
+  const { context } = loadFrontend();
+  const note = '改'.repeat(450);
+  const length = evaluate(context,
+    `mapDish(${JSON.stringify(meal({ adaptation_note: note }))}, {servings:1}).adaptationNote.length`);
+  assert.equal(length, 400);
+});
+
+test('ordinary quick accepts thirty minutes and rejects thirty-one', () => {
+  const { context } = loadFrontend();
+  const values = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.profile = { purpose:'quick', servings:'1', pantry:'', dislikes:'' };
+    const base = { name:'炖菜', form:'炖锅', steps:['同锅煮熟'],
+      ingredients:[{name:'红扁豆'},{name:'西兰花'}], kcal:650, purpose:'quick',
+      _targets:{kcal:650}, validationFlags:[] };
+    return [scoreDish({...base, minutes:30}).ok, scoreDish({...base, minutes:31}).ok];
+  })())`));
+  assert.deepEqual(values, [true, false]);
 });
 
 test('a safe first generation returns immediately after one request', async () => {
