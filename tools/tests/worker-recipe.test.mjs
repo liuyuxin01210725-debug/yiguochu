@@ -299,6 +299,72 @@ test('lentil potato tomato selects the grounded lentil curry through an alias', 
   assert.equal(hit.recipe.id, 'lentil-potato-tomato-curry');
 });
 
+test('promoted Shanghai salted pork vegetable rice returns its approved trusted envelope', async () => {
+  const constraints = {
+    pantry: ['大米', '咸五花肉', '小白菜'],
+    purpose: 'pantry',
+    dislikes: [],
+  };
+  const { response, body } = await runGenerateRequest({
+    recipeLib: lib,
+    constraints,
+    meal: generatedMeal({
+      dish_name: '上海奉贤咸肉菜饭',
+      ingredients: [
+        { name: '大米', grams: 200 },
+        { name: '咸五花肉', grams: 120 },
+        { name: '小白菜', grams: 180 },
+        { name: '水', grams: 270 },
+      ],
+      steps: [
+        '咸五花肉切丁后同锅煸炒至中心彻底熟透。',
+        '加入大米和水加盖焖煮至米粒熟透无硬芯。',
+        '加入小白菜煮熟后盛出。',
+      ],
+    }),
+  });
+  assert.equal(response.status, 200);
+  assert.equal(body.base_recipe_id, 'shanghai-salted-pork-vegetable-rice');
+  assert.equal(body.family_id, 'family-jiangnan-vegetable-rice');
+  assert.match(body.pairing_basis, /上海奉贤咸肉菜饭/);
+  assert.deepEqual(body.used_pantry, constraints.pantry);
+  assert.deepEqual(body.unused_pantry, []);
+  assert.deepEqual(body.validation_flags, []);
+  assert.deepEqual(body.source_refs.map(({ usage, url, attribution }) => ({ usage, url, attribution })), [{
+    usage: 'approved',
+    url: 'https://yiguochu.pages.dev/recipes.html?id=shanghai-salted-pork-vegetable-rice',
+    attribution: '一锅出项目',
+  }]);
+});
+
+test('promoted She black rice keeps the explicit color-source boundary', () => {
+  const constraints = {
+    pantry: ['糯米', '食品级黑米色粉'],
+    purpose: 'pantry',
+    dislikes: [],
+  };
+  const [selection] = selectRecipeCandidates(lib, constraints);
+  assert.equal(selection.recipe.id, 'she-people-black-rice');
+  assert.match(buildRecipeGrounding(selection), /固定核心: 糯米、食品级黑米色粉/);
+  assert.match(buildRecipeGrounding(selection), /可入锅食材白名单.*食品级黑米色粉/);
+
+  const unknownColorSelections = selectRecipeCandidates(lib, {
+    ...constraints,
+    pantry: ['糯米', '不明植物色源'],
+  });
+  assert.equal(unknownColorSelections.some(hit => hit.recipe.id === 'she-people-black-rice'), false);
+
+  const flags = validateGroundedMeal({
+    ingredients: [
+      { name: '糯米', grams: 200 },
+      { name: '不明植物色源', grams: 10 },
+      { name: '水', grams: 220 },
+    ],
+    steps: ['糯米、不明植物色源和水同锅煮至糯米熟透无硬芯。'],
+  }, selection, constraints);
+  assert.ok(flags.includes('unapproved_ingredient:不明植物色源'));
+});
+
 test('rice allergy selects only the manually qualified complete main meal', () => {
   for (const dislike of ['大米过敏', '白米过敏', '米饭过敏', '糙米过敏']) {
     const hits = selectRecipeCandidates(lib, {
@@ -2930,8 +2996,8 @@ test('health cache is isolated per assets binding in one module instance', async
   const okBody = await okResponse.json();
   const missingBody = await missingResponse.json();
   assert.equal(okBody.recipeLibrary, 'ok');
-  assert.equal(okBody.recipeFamilies, 9);
-  assert.equal(okBody.baseRecipes, 12);
+  assert.equal(okBody.recipeFamilies, lib.families.length);
+  assert.equal(okBody.baseRecipes, lib.recipes.length);
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);

@@ -721,6 +721,52 @@ test('Python matches Worker for the live complete-core tie break', () => {
   assert.equal(hits[0].recipe_id, 'simple-chicken-biryani');
 });
 
+test('Python matches Worker for promoted traditional recipe selection and color-source boundary', () => {
+  const shanghaiConstraints = {
+    pantry: ['大米', '咸五花肉', '小白菜'],
+    purpose: 'pantry',
+    dislikes: [],
+  };
+  const shanghai = assertSelectorParity(lib, shanghaiConstraints);
+  assert.equal(shanghai[0].recipe_id, 'shanghai-salted-pork-vegetable-rice');
+
+  const sheConstraints = {
+    pantry: ['糯米', '食品级黑米色粉'],
+    purpose: 'pantry',
+    dislikes: [],
+  };
+  const she = assertSelectorParity(lib, sheConstraints);
+  assert.equal(she[0].recipe_id, 'she-people-black-rice');
+
+  const unknownColorConstraints = {
+    ...sheConstraints,
+    pantry: ['糯米', '不明植物色源'],
+  };
+  const unknownColor = assertSelectorParity(lib, unknownColorConstraints);
+  assert.equal(unknownColor.some(hit => hit.recipe_id === 'she-people-black-rice'), false);
+
+  const invalidColorMeal = {
+    ingredients: [
+      { name: '糯米', grams: 200 },
+      { name: '不明植物色源', grams: 10 },
+      { name: '水', grams: 220 },
+    ],
+    steps: ['糯米、不明植物色源和水同锅煮至糯米熟透无硬芯。'],
+  };
+  const jsFlags = validateGroundedMeal(
+    invalidColorMeal,
+    selectRecipeCandidates(lib, sheConstraints)[0],
+    sheConstraints,
+  );
+  const pyFlags = pythonCall('validate', {
+    library: lib,
+    constraints: sheConstraints,
+    meal: invalidColorMeal,
+  });
+  assert.deepEqual(pyFlags, jsFlags);
+  assert.ok(pyFlags.includes('unapproved_ingredient:不明植物色源'));
+});
+
 test('Python matches approved ingredient, advance-prep, and soy-protein validation boundaries', () => {
   const cases = [
     {

@@ -165,6 +165,43 @@ test('mapDish strictly normalizes trusted metadata and bounds source records', (
   assert.deepEqual(mapped.validationFlags, ['unsafe-step']);
 });
 
+test('frontend preserves trusted evidence for the promoted traditional recipes', () => {
+  const { context } = loadFrontend();
+  const promoted = [
+    {
+      base_recipe_id: 'shanghai-salted-pork-vegetable-rice',
+      pairing_basis: '以「上海奉贤咸肉菜饭」为基础，使用大米、咸五花肉、小白菜。',
+      source_refs: [{
+        title: '一锅出原创标准配方：上海奉贤咸肉菜饭',
+        url: 'https://yiguochu.pages.dev/recipes.html?id=shanghai-salted-pork-vegetable-rice',
+        license: '一锅出项目原创标准配方，保留所有权利',
+        attribution: '一锅出项目',
+      }],
+    },
+    {
+      base_recipe_id: 'she-people-black-rice',
+      pairing_basis: '以「畲族乌饭」为基础，使用糯米、食品级黑米色粉。',
+      source_refs: [{
+        title: '一锅出原创标准配方：畲族乌饭',
+        url: 'https://yiguochu.pages.dev/recipes.html?id=she-people-black-rice',
+        license: '一锅出项目原创标准配方，保留所有权利',
+        attribution: '一锅出项目',
+      }],
+    },
+  ];
+  for (const fixture of promoted) {
+    const mapped = JSON.parse(evaluate(context,
+      `JSON.stringify(mapDish(${JSON.stringify(meal({ ...fixture, validation_flags: [] }))}, { servings: 1 }))`));
+    assert.equal(mapped.baseRecipeId, fixture.base_recipe_id);
+    assert.equal(mapped.pairingBasis, fixture.pairing_basis);
+    assert.deepEqual(mapped.validationFlags, []);
+    assert.equal(mapped.sourceRefs.length, 1);
+    assert.equal(mapped.sourceRefs[0].url, fixture.source_refs[0].url);
+    const rendered = evaluate(context, `recipeBasisBlock(${JSON.stringify(mapped)})`);
+    assert.match(rendered, new RegExp(fixture.base_recipe_id));
+  }
+});
+
 test('recipe evidence escapes text and href and uses source details', () => {
   const { context } = loadFrontend();
   const dish = {
