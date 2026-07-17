@@ -456,10 +456,12 @@ def _trusted_recipe_ingredient_whitelist(selection):
 def build_trusted_recipe_system_override(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    adaptation = sanitize_prompt_text(recipe.get('adaptation_note'), 400)
     return '\n'.join([
         TRUSTED_RECIPE_SYSTEM_OVERRIDE,
         '【本次可信菜谱硬约束】',
         f"基础菜谱 ID: {sanitize_prompt_text(recipe.get('id') or 'unknown', 100)}。",
+        *([f'本次一锅改编（必须执行）: {adaptation}'] if adaptation else []),
         f"本次可入锅主料白名单: {_compact_recipe_list(_trusted_recipe_ingredient_whitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。",
         '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
         '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',

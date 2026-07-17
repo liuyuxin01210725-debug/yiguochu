@@ -97,6 +97,13 @@ test('lentil curry records an explicit one-pot adaptation', () => {
   assert.doesNotMatch(`${recipe.summary}${recipe.technique.join('')}`, /扁豆先煮|土豆煎香/);
 });
 
+test('rice cabbage minestrone records its raw-rice one-pot adaptation', () => {
+  const recipe = lib.recipes.find(item => item.id === 'rice-cabbage-minestrone');
+  assert.match(recipe.adaptation_note, /原始来源使用熟米入汤/);
+  assert.match(recipe.adaptation_note, /少量生米与高汤同煮/);
+  assert.match(recipe.adaptation_note, /不得使用电饭锅、盛出米饭或另起锅/);
+});
+
 test('validator bounds optional recipe time and adaptation metadata', () => {
   const invalid = structuredClone(lib);
   invalid.recipes[0].total_time_minutes = 0;

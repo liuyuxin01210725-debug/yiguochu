@@ -242,10 +242,12 @@ function trustedRecipeIngredientWhitelist(selection) {
 
 function buildTrustedRecipeSystemOverride(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  const adaptation = sanitizePromptText(recipe.adaptation_note, 400);
   return [
     TRUSTED_RECIPE_SYSTEM_OVERRIDE,
     '【本次可信菜谱硬约束】',
     `基础菜谱 ID: ${sanitizePromptText(recipe.id || 'unknown', 100)}。`,
+    ...(adaptation ? [`本次一锅改编（必须执行）: ${adaptation}`] : []),
     `本次可入锅主料白名单: ${compactRecipeList(trustedRecipeIngredientWhitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。`,
     '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
     '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',

@@ -772,6 +772,7 @@ test('Python trusted system priority and joined seasoning validation match Worke
     core_ingredients: ['大米', '水'],
     optional_ingredients: ['盐'],
     substitution_slots: [],
+    adaptation_note: '原始来源使用熟米入汤；同锅将少量生米与高汤同煮。',
   });
   const library = fixtureLib([recipe]);
   const constraints = { pantry: ['大米', '水'], purpose: 'batch', dislikes: [] };
@@ -790,6 +791,7 @@ test('Python trusted system priority and joined seasoning validation match Worke
   assert.match(prepared.system, /任何 ingredients\[\] 行都必须在 steps\[\] 中明确使用/);
   assert.match(prepared.system, /步骤中写入的水、高汤、食用油、盐或胡椒/);
   assert.match(prepared.system, /禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”/);
+  assert.match(prepared.system, /本次一锅改编（必须执行）: 原始来源使用熟米入汤；同锅将少量生米与高汤同煮/);
   assert.match(prepared.system, /ingredients\[\] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料/);
   assert.match(prepared.system, /ingredients\[\]中有“盐”时，steps\[\]必须逐字出现“加盐”/);
   assert.equal(prepared.temperature, 0.3);

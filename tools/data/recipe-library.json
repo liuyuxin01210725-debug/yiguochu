@@ -391,6 +391,7 @@
       "cuisine": "意大利风味",
       "form": "浓汤",
       "summary": "用高汤把卷心菜煮软，加入少量熟米、火腿和番茄酱，做成有米粒的家常浓汤。",
+      "adaptation_note": "原始来源使用熟米入汤；一锅出必须在同一口锅内先炒获准配料，再加入高汤和少量生米与高汤同煮至米熟。不得使用电饭锅、盛出米饭或另起锅。",
       "purposes": ["pantry", "quick", "batch"],
       "core_ingredients": ["大米", "卷心菜", "高汤"],
       "optional_ingredients": ["火腿", "番茄酱"],
