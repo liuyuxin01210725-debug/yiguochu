@@ -24,6 +24,15 @@ const validDraftLibrary = {
   }],
 };
 
+test('draft documentation states the thirty-draft production boundary', () => {
+  const doc = fs.readFileSync(new URL('../../docs/传统一锅草案说明.md', import.meta.url), 'utf8');
+  assert.match(doc, /30 道草案/);
+  assert.match(doc, /不进入运行时/);
+  assert.match(doc, /生产可用 0 道/);
+  assert.match(doc, /尚无完成的真实试做/);
+  assert.match(doc, /high/);
+});
+
 test('draft library accepts an original trial draft linked to a candidate', () => {
   assert.deepEqual(validateRecipeDraftLibrary(validDraftLibrary, candidateLedger), []);
 });
