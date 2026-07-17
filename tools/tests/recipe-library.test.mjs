@@ -78,6 +78,42 @@ test('thirty promoted recipes have canonical first-party approved sources', () =
   }
 });
 
+test('identity-sensitive regional adaptations keep names, ingredients and finished-product claims truthful', () => {
+  const fiveColor = lib.recipes.find(recipe => recipe.id === 'guangxi-five-color-glutinous-rice');
+  assert.deepEqual(fiveColor.core_ingredients, [
+    '糯米',
+    '食品级紫薯粉',
+    '食品级甜菜粉',
+    '食品级菠菜粉',
+    '食品级南瓜粉',
+  ]);
+  assert.match(fiveColor.summary, /原色糯米.*四种明确命名/);
+  assert.deepEqual(fiveColor.substitution_slots, [{
+    slot: '着色方案',
+    replaces: ['食品级紫薯粉', '食品级甜菜粉', '食品级菠菜粉', '食品级南瓜粉'],
+    allowed: ['不加着色粉，改做原味糯米饭'],
+  }]);
+
+  const gutu = lib.recipes.find(recipe => recipe.id === 'tibetan-gutu');
+  assert.equal(gutu.name, '古突风味家庭适配版');
+  assert.match(gutu.summary, /不作为传统古突成品/);
+  assert.equal(gutu.source_refs[0].title, '一锅出原创标准配方：古突风味家庭适配版');
+
+  const banshan = lib.recipes.find(recipe => recipe.id === 'banshan-wild-rice');
+  assert.equal(banshan.name, '半山野米饭风味平菇焖饭');
+  assert.deepEqual(banshan.core_ingredients, ['大米', '平菇']);
+  assert.deepEqual(banshan.substitution_slots, [{
+    slot: '食用菌',
+    replaces: ['平菇'],
+    allowed: ['鲜香菇'],
+  }]);
+  assert.match(banshan.adaptation_note, /不声称是传统成品/);
+  assert.doesNotMatch(
+    [...banshan.technique, ...banshan.ratio_rules, ...banshan.safety_rules].join('。'),
+    /使用野生食材|野生食材必须记录/,
+  );
+});
+
 test('every approved recipe locks generation extras to at most four reviewed ingredients', () => {
   for (const recipe of lib.recipes) {
     assert.ok(Array.isArray(recipe.generation_optional_ingredients), `${recipe.id} missing generation optional lock`);
