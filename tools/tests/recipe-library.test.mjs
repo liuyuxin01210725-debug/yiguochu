@@ -231,6 +231,7 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     扁豆: '红扁豆',
     '黑眼豆（罐头沥干）': '黑眼豆',
     '牛肉（粗绞）': '牛肉',
+    粗绞牛肉: '牛肉',
   });
 });
 

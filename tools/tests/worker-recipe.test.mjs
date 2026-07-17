@@ -11,7 +11,7 @@ import {
 } from '../../worker/src/worker.js';
 
 const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
-1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，留存液体须列入ingredients数字grams；泡发/浸泡液须计入总量，未计量不得保留，倒掉可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，留存液体须列入ingredients数字grams；泡发/浸泡液须计入总量，未计量不得保留，倒掉可不列。除获准小量香辛料外，每个ingredient须在steps出现。ingredients有“盐”时，steps必须逐字写“加盐”；否则删除盐行。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -2025,6 +2025,7 @@ test('default handler ends its single DeepSeek prompt with the concise final pre
   assert.match(FINAL_RECIPE_PREFLIGHT, /泡发\/浸泡液须计入总量/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /未计量不得保留/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /除获准小量香辛料外，每个ingredient须在steps出现/);
+  assert.match(prompt, /【最终提交自检】[\s\S]*ingredients有“盐”时，steps必须逐字写“加盐”；否则删除盐行/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /只写蛋白凝固不算/);
   assert.doesNotMatch(FINAL_RECIPE_PREFLIGHT, /普通鸡蛋至少写“蛋白完全凝固”/);
