@@ -13,7 +13,8 @@ const REF_FIELDS = new Set([
 ]);
 const EVIDENCE_SCOPES = new Set(['dish_name', 'region', 'ingredient_pattern', 'high_level_technique', 'cultural_context']);
 const EXCLUDED_SCOPES = new Set(['exact_quantities', 'step_text', 'nutrition', 'safety']);
-const PROHIBITED_CONTENT_RE = /(?:\d+\s*(?:克|g|毫升|ml|分钟|分|千卡|kcal|卡路里)|营养|热量|蛋白质|脂肪|碳水)/i;
+const PROHIBITED_CONTENT_RE = /(?:(?:\d+|[〇零一二三四五六七八九十百千万两壹贰叁肆伍陆柒捌玖拾佰仟萬億]+)\s*(?:克|g|毫升|ml|分钟|分|千卡|kcal|卡路里)|营养|热量|蛋白质|脂肪|碳水)/i;
+const ORDERED_STEP_SEQUENCE_RE = /(?:先\s*)?(?:将|把)?[^。；;]{0,30}?(?:洗净|浸泡|切(?:好|片|段)?|炒(?:香)?|煎|炸|煮|焖(?:熟)?|蒸|炖|加水|下锅)[^。；;]{0,30}?(?:后|再|然后)[^。；;]{0,30}?(?:加水|下锅|炒(?:香)?|煎|炸|煮|焖(?:熟)?|蒸|炖|调味|出锅)/;
 
 function nonEmpty(value) { return typeof value === 'string' && value.trim().length > 0; }
 function https(value) {
@@ -55,6 +56,9 @@ export function validateRecipeCandidateLedger(ledger) {
       if (values.some(value => typeof value === 'string' && PROHIBITED_CONTENT_RE.test(value))) {
         errors.push(`${label} ${field} must not contain quantities or nutrition claims`);
       }
+      if (values.some(value => typeof value === 'string' && ORDERED_STEP_SEQUENCE_RE.test(value))) {
+        errors.push(`${label} ${field} must not contain ordered step-sequence language`);
+      }
     }
     for (const gate of ['原创标准配方', '安全与适配审核']) {
       if (!entry?.promotion_requirements?.includes(gate)) errors.push(`${label} missing promotion requirement ${gate}`);
@@ -72,6 +76,9 @@ export function validateRecipeCandidateLedger(ledger) {
       }
       if (typeof ref?.claim === 'string' && PROHIBITED_CONTENT_RE.test(ref.claim)) {
         errors.push(`${prefix} claim must not contain quantities or nutrition claims`);
+      }
+      if (typeof ref?.claim === 'string' && ORDERED_STEP_SEQUENCE_RE.test(ref.claim)) {
+        errors.push(`${prefix} claim must not contain ordered step-sequence language`);
       }
       if (ref?.kind !== 'cultural_fact') errors.push(`${prefix} kind must be cultural_fact`);
       if (!https(ref?.url)) errors.push(`${prefix} URL must be HTTPS`);

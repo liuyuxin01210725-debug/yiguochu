@@ -79,6 +79,18 @@ test('candidate ledger rejects non-factual kinds, unknown fields, and quantified
   assert.ok(errors.includes('sample-rice basis ref 0 has unexpected field nutrition'));
 });
 
+test('candidate ledger rejects Chinese-character quantities and ordered source-like steps', () => {
+  const invalid = structuredClone(validLedger);
+  invalid.entries[0].ingredient_pattern = ['大米二百克'];
+  invalid.entries[0].technique_pattern = ['先炒香后焖熟'];
+  invalid.entries[0].basis_refs[0].claim = '将米洗净，炒香咸肉和青菜后加水焖熟。';
+  assert.deepEqual(validateRecipeCandidateLedger(invalid), [
+    'sample-rice ingredient_pattern must not contain quantities or nutrition claims',
+    'sample-rice technique_pattern must not contain ordered step-sequence language',
+    'sample-rice basis ref 0 claim must not contain ordered step-sequence language',
+  ]);
+});
+
 test('candidate release gate locks the first batch and production baseline', () => {
   const ledger = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
