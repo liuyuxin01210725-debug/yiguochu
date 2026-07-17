@@ -161,6 +161,18 @@ test('black-eyed pea production base locks a source-supported cooked state and n
     replaces: ['白葡萄酒'],
     allowed: ['不放白葡萄酒'],
   });
+  assert.ok(stew.discouraged.some(rule => rule.ingredients.includes('大量叶菜')));
+});
+
+test('Texas chili and kari ayam lock every retained liquid into the production contract', () => {
+  const chili = lib.recipes.find(item => item.id === 'texas-beef-chili');
+  assert.deepEqual(chili.generation_liquid_ingredients, ['水']);
+  assert.ok(chili.generation_optional_ingredients.includes('玉米粉'));
+  assert.match(chili.adaptation_note, /水.*数字克数/);
+  const kari = lib.recipes.find(item => item.id === 'kari-ayam-coconut-chicken');
+  assert.deepEqual(kari.generation_liquid_ingredients, ['椰奶']);
+  assert.match(kari.adaptation_note, /部分椰奶/);
+  assert.match(kari.adaptation_note, /不得加水/);
 });
 
 test('validator bounds optional recipe time and adaptation metadata', () => {

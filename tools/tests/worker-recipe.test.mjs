@@ -228,6 +228,17 @@ test('pantry chicken rice request prefers the exact biryani base over a larger i
   assert.equal(selection.recipe.id, 'simple-chicken-biryani');
 });
 
+test('leafy-water adversarial pantry still prefers biryani and discards the unsuitable leaf load', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['大米', '鸡肉', '洋葱', '大量叶菜'],
+    purpose: 'quick',
+    dislikes: [],
+  });
+  assert.equal(selection.recipe.id, 'simple-chicken-biryani');
+  assert.deepEqual(selection.usedPantry, ['大米', '鸡肉', '洋葱']);
+  assert.deepEqual(selection.unusedPantry, ['大量叶菜']);
+});
+
 test('black-eyed pea grounding preserves the reviewed cooked ingredient state without a generic duplicate', () => {
   const recipe = lib.recipes.find(item => item.id === 'chicken-black-eyed-pea-stew');
   const [selection] = selectRecipeCandidates(fixtureLib([recipe], lib.ingredient_aliases), {
@@ -699,6 +710,35 @@ test('validator rejects substantial ingredients outside an approved recipe bound
   for (const allowed of ['水', '盐', '姜', '大蒜']) {
     assert.equal(flags.includes(`unapproved_ingredient:${allowed}`), false, allowed);
   }
+});
+
+test('production validator enforces the generation boundary for optional food liquid and fat', () => {
+  const recipe = groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米'],
+    optional_ingredients: ['黄油', '水', '玉米粉', '蘑菇'],
+    generation_optional_ingredients: ['黄油', '玉米粉'],
+    generation_liquid_ingredients: ['水'],
+    substitution_slots: [],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const flags = validateGroundedMeal({
+    ingredients: ['大米', '黄油', '水', '玉米粉', '蘑菇'].map(name => ({ name })),
+    steps: ['大米、黄油、水、玉米粉和蘑菇同锅煮熟。'],
+  }, selection, {});
+  assert.ok(flags.includes('unapproved_ingredient:蘑菇'));
+  for (const approved of ['黄油', '水', '玉米粉']) {
+    assert.equal(flags.includes(`unapproved_ingredient:${approved}`), false, approved);
+  }
+
+  const lockedRecipe = { ...recipe, generation_optional_ingredients: ['玉米粉'], generation_liquid_ingredients: [] };
+  const [lockedSelection] = selectRecipeCandidates(fixtureLib([lockedRecipe]), { pantry: ['大米'], dislikes: [] });
+  const lockedFlags = validateGroundedMeal({
+    ingredients: ['大米', '黄油', '水', '玉米粉'].map(name => ({ name })),
+    steps: ['大米、黄油、水和玉米粉同锅煮熟。'],
+  }, lockedSelection, {});
+  assert.ok(lockedFlags.includes('unapproved_ingredient:黄油'));
+  assert.ok(lockedFlags.includes('unapproved_ingredient:水'));
 });
 
 test('validator rejects using a replacement together with the ingredient it replaces', () => {

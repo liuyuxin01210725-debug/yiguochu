@@ -791,6 +791,23 @@ test('Python matches approved ingredient, advance-prep, and soy-protein validati
       },
       absent: ['optional_ingredient_limit_exceeded'],
     },
+    {
+      library: fixtureLib([groundedRecipe({
+        status: 'approved',
+        core_ingredients: ['大米'],
+        optional_ingredients: ['黄油', '水', '玉米粉', '蘑菇'],
+        generation_optional_ingredients: ['黄油', '玉米粉'],
+        generation_liquid_ingredients: ['水'],
+        substitution_slots: [],
+      })]),
+      constraints: { pantry: ['大米'], dislikes: [] },
+      meal: {
+        ingredients: ['大米', '黄油', '水', '玉米粉', '蘑菇'].map(name => ({ name })),
+        steps: ['大米、黄油、水、玉米粉和蘑菇同锅煮熟。'],
+      },
+      present: ['unapproved_ingredient:蘑菇'],
+      absent: ['unapproved_ingredient:黄油', 'unapproved_ingredient:水', 'unapproved_ingredient:玉米粉'],
+    },
   ];
   for (const { library = lib, constraints, meal, present = [], absent = [] } of cases) {
     const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);

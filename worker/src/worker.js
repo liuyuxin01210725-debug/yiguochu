@@ -596,20 +596,17 @@ function validationApprovedIngredientSet(selection, aliases) {
   if (!recipe || recipe.status !== 'approved') return null;
   return new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
-    ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
-    ...(Array.isArray(recipe.substitution_slots)
-      ? recipe.substitution_slots.flatMap(slot => Array.isArray(slot?.allowed) ? slot.allowed : [])
-      : []),
+    ...trustedRecipeGenerationOptions(recipe),
+    ...trustedRecipeLiquidOptions(recipe),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
   ].map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
 }
 
 function validationIngredientOutsideApprovedBoundary(name, approved, aliases) {
   if (!approved) return false;
-  if (validationSmallSeasoning(name) || validationCookingOilIngredient(name)) return false;
+  if (validationSmallSeasoning(name)) return false;
   if (validationIngredientMatchesNames(name, VALIDATION_SALT_NAMES)
-    || validationIngredientMatchesNames(name, VALIDATION_PEPPER_NAMES)
-    || validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES)) return false;
+    || validationIngredientMatchesNames(name, VALIDATION_PEPPER_NAMES)) return false;
   const canonical = validationCanonicalIngredient(name, aliases);
   return Boolean(canonical && !approved.has(canonical));
 }

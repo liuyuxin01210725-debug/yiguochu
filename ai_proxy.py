@@ -938,12 +938,8 @@ def _validation_approved_ingredient_set(selection, aliases):
         return None
     names = [
         *(recipe.get('core_ingredients') or []),
-        *(recipe.get('optional_ingredients') or []),
-        *[
-            name
-            for slot in (recipe.get('substitution_slots') or []) if isinstance(slot, dict)
-            for name in (slot.get('allowed') or [])
-        ],
+        *_trusted_recipe_generation_options(recipe),
+        *_trusted_recipe_liquid_options(recipe),
         *(selection.get('used_pantry') or []),
     ]
     return {
@@ -955,12 +951,11 @@ def _validation_approved_ingredient_set(selection, aliases):
 def _validation_ingredient_outside_approved_boundary(name, approved, aliases):
     if approved is None:
         return False
-    if _validation_small_seasoning(name) or _validation_cooking_oil_ingredient(name):
+    if _validation_small_seasoning(name):
         return False
     if (name and (
             _validation_ingredient_matches_names(name, _VALIDATION_SALT_NAMES)
-            or _validation_ingredient_matches_names(name, _VALIDATION_PEPPER_NAMES)
-            or _validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES))):
+            or _validation_ingredient_matches_names(name, _VALIDATION_PEPPER_NAMES))):
         return False
     canonical = _validation_canonical_ingredient(name, aliases)
     return bool(canonical and canonical not in approved)

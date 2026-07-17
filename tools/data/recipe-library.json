@@ -215,7 +215,8 @@
         { "slot": "炖煮液体", "replaces": ["鸡高汤"], "allowed": ["蔬菜高汤", "水"] }
       ],
       "discouraged": [
-        { "ingredients": ["未预煮干黑眼豆"], "reason_type": "timing", "reason": "干豆不预煮会与米饭和鸡肉的熟成时间错位。" }
+        { "ingredients": ["未预煮干黑眼豆"], "reason_type": "timing", "reason": "干豆不预煮会与米饭和鸡肉的熟成时间错位。" },
+        { "ingredients": ["大量叶菜", "高含水瓜类"], "reason_type": "texture_water", "reason": "这道饭锅已按高汤与番茄控制总液体，额外大量出水食材会使米饭过软。" }
       ],
       "technique": ["同锅炒香根茎菜", "加入罐头沥干黑眼豆", "合锅慢炖", "最后调味"],
       "ratio_rules": ["原始来源一杯大米配约两杯罐头黑眼豆", "一杯大米配约四杯高汤与番茄液体"],
@@ -314,11 +315,12 @@
       "cuisine": "美国德州风味",
       "form": "炖锅",
       "summary": "把牛肉煎上色后与辣椒慢炖，分段加入香料，最后用玉米粉轻微收稠。",
+      "adaptation_note": "防糊底的少量水是本菜唯一主烹调液体，必须在 ingredients 列出数字克数并在 steps 使用；不得改用高汤或未计量的水。",
       "purposes": ["fresh", "batch"],
       "core_ingredients": ["牛肉", "辣椒"],
       "optional_ingredients": ["牛脂", "牛至", "孜然", "辣椒粉", "蒜", "玉米粉", "辣椒酱"],
-      "generation_optional_ingredients": ["牛脂", "牛至", "孜然", "蒜"],
-      "generation_liquid_ingredients": [],
+      "generation_optional_ingredients": ["牛脂", "牛至", "孜然", "玉米粉"],
+      "generation_liquid_ingredients": ["水"],
       "substitution_slots": [
         { "slot": "炖煮肉类", "replaces": ["牛肉"], "allowed": ["鹿肉"] },
         { "slot": "收稠材料", "replaces": ["玉米粉"], "allowed": ["碎玉米片"] }
@@ -348,6 +350,7 @@
       "cuisine": "印尼风味",
       "form": "咖喱锅",
       "summary": "把蒜姜与根茎香料磨成酱后炒香，鸡肉煎上色，再加椰奶小火煮熟。",
+      "adaptation_note": "一锅生产版将红葱头、蒜、姜、香茅和姜黄切碎或用部分椰奶打成酱；不得加水打酱，也不得加第二种主液体。",
       "purposes": ["fresh", "batch"],
       "core_ingredients": ["鸡肉", "椰奶", "红葱头"],
       "optional_ingredients": ["蒜", "姜", "香茅", "石栗", "青柠叶", "姜黄", "南姜", "棕榈糖", "辣椒", "虾酱"],
