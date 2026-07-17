@@ -464,9 +464,12 @@ def build_trusted_recipe_system_override(selection):
         *([f'本次一锅改编（必须执行）: {adaptation}'] if adaptation else []),
         f"本次可入锅主料白名单: {_compact_recipe_list(_trusted_recipe_ingredient_whitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。",
         '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
+        '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
+        '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
         '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',
         'ingredients[] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料；可选香辛料最多 3 种。超过上限时必须先删除非必需的可选配料，不得让必需的液体或调味行排在第 12 行之后。',
         'ingredients[]中有“盐”时，steps[]必须逐字出现“加盐”；steps[]中有“盐”时，ingredients[]必须有大于 0 grams 的“盐”。胡椒同理；不使用就必须从两处同时删除。',
+        '盐只有两种合法模式：A是 ingredients[] 列“盐”和数字 grams，steps[] 写“加盐”；B是 ingredients[] 不列盐，且 steps[] 不得出现“盐”字。禁止“加盐（未列入食材、可不加）”这类自相矛盾表述。',
         '禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”等措辞或假定。需要长时泡发、预煮的可选食材必须省略；同次做饭可完成的短时处理必须写成“先处理 N 分钟”并计入总时长。',
         '只能使用一口烹饪容器；主食和其他需熟制食材都必须在本次 steps[] 中完成。',
         '返回 JSON 前逐项检查上述规则；冲突时先删除可选食材，不得新增主料。',
@@ -1186,6 +1189,19 @@ def validate_grounded_meal(meal, selection, constraints=None):
         if (item := _validation_canonical_ingredient(name, aliases))
     ]
     approved_ingredients = _validation_approved_ingredient_set(selection, aliases)
+    recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        alternatives = {
+            canonical
+            for name in [*(slot.get('replaces') or []), *(slot.get('allowed') or [])]
+            if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
+            if (canonical := _validation_canonical_ingredient(name, aliases))
+        }
+        present_alternatives = alternatives.intersection(canonical_ingredients)
+        if len(present_alternatives) > 1:
+            add_flag(f"substitution_slot_conflict:{sanitize_prompt_text(slot.get('slot') or '未命名', 80)}")
     for name in ingredient_names:
         canonical = _validation_canonical_ingredient(name, aliases)
         direct_rice_ingredient = (
@@ -1401,7 +1417,7 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
             {'role': 'system', 'content': f'{RECIPE_SYSTEM}\n\n{build_trusted_recipe_system_override(selection)}'},
             {'role': 'user', 'content': build_prompt(meal_name, targets, constraints, build_recipe_grounding(selection))},
         ],
-        'temperature': 0.3,
+        'temperature': 0,
         'response_format': {'type': 'json_object'},
     }
     return payload, selection

@@ -756,6 +756,14 @@ test('Python matches approved ingredient, advance-prep, and soy-protein validati
       },
       absent: ['high_risk_not_cooked:大豆蛋白块'],
     },
+    {
+      constraints: { pantry: ['大米', '卷心菜', '高汤'], purpose: 'pantry', dislikes: [] },
+      meal: {
+        ingredients: [{ name: '大米' }, { name: '卷心菜' }, { name: '高汤' }, { name: '火腿' }, { name: '白豆' }],
+        steps: ['大米、卷心菜、高汤、火腿和白豆同锅煮熟。'],
+      },
+      present: ['substitution_slot_conflict:咸鲜配料'],
+    },
   ];
   for (const { constraints, meal, present = [], absent = [] } of cases) {
     const js = validateGroundedMeal(meal, selectRecipeCandidates(lib, constraints)[0], constraints);
@@ -794,7 +802,10 @@ test('Python trusted system priority and joined seasoning validation match Worke
   assert.match(prepared.system, /本次一锅改编（必须执行）: 原始来源使用熟米入汤；同锅将少量生米与高汤同煮/);
   assert.match(prepared.system, /ingredients\[\] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料/);
   assert.match(prepared.system, /ingredients\[\]中有“盐”时，steps\[\]必须逐字出现“加盐”/);
-  assert.equal(prepared.temperature, 0.3);
+  assert.match(prepared.system, /固定核心和已选库存之外，可选食材与可选调味合计最多 4 项/);
+  assert.match(prepared.system, /盐只有两种合法模式/);
+  assert.match(prepared.system, /一个替换位只能保留 replaces 原料或一个 allowed 替代项/);
+  assert.equal(prepared.temperature, 0);
 
   for (const meal of [
     {

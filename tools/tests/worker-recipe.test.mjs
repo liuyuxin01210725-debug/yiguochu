@@ -327,7 +327,10 @@ test('trusted recipe priority overrides the generic balanced-main template at sy
   assert.match(system, /可选香辛料最多 3 种/);
   assert.match(system, /ingredients\[\]中有“盐”时，steps\[\]必须逐字出现“加盐”/);
   assert.match(system, /steps\[\]中有“盐”时，ingredients\[\]必须有大于 0 grams 的“盐”/);
-  assert.equal(upstreamBodies[0].temperature, 0.3);
+  assert.match(system, /固定核心和已选库存之外，可选食材与可选调味合计最多 4 项/);
+  assert.match(system, /盐只有两种合法模式/);
+  assert.match(system, /一个替换位只能保留 replaces 原料或一个 allowed 替代项/);
+  assert.equal(upstreamBodies[0].temperature, 0);
 });
 
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {
@@ -583,6 +586,23 @@ test('validator rejects substantial ingredients outside an approved recipe bound
   for (const allowed of ['水', '盐', '姜', '大蒜']) {
     assert.equal(flags.includes(`unapproved_ingredient:${allowed}`), false, allowed);
   }
+});
+
+test('validator rejects using a replacement together with the ingredient it replaces', () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['大米', '火腿'],
+    optional_ingredients: [],
+    substitution_slots: [{ slot: '咸鲜配料', replaces: ['火腿'], allowed: ['白豆', '不放肉'] }],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米', '火腿'], dislikes: [] });
+  const meal = {
+    ingredients: [{ name: '大米' }, { name: '火腿' }, { name: '白豆' }],
+    steps: ['大米、火腿和白豆同锅煮熟。'],
+  };
+  assert.ok(validateGroundedMeal(meal, selection, {}).includes('substitution_slot_conflict:咸鲜配料'));
+  meal.ingredients = [{ name: '大米' }, { name: '白豆' }];
+  meal.steps = ['大米和白豆同锅煮熟。'];
+  assert.equal(validateGroundedMeal(meal, selection, {}).includes('substitution_slot_conflict:咸鲜配料'), false);
 });
 
 test('validator catches hidden advance preparation but not an explicit no-advance instruction', () => {
