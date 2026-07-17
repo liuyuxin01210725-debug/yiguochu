@@ -205,6 +205,20 @@ test('chicken rice onion raisins selects simple biryani', () => {
   assert.deepEqual(hit.unusedPantry, []);
 });
 
+test('trusted rice grounding carries explicit per-serving gram conversions', () => {
+  const [biryani] = selectRecipeCandidates(lib, {
+    pantry: ['大米', '鸡肉', '洋葱'], purpose: 'fresh', dislikes: [],
+  });
+  assert.equal(biryani.recipe.id, 'simple-chicken-biryani');
+  assert.match(buildRecipeGrounding(biryani), /每1份使用大米100克、鸡肉200克、鸡高汤280克/);
+
+  const [jollof] = selectRecipeCandidates(lib, {
+    pantry: ['大米', '番茄', '甜椒', '洋葱'], purpose: 'pantry', dislikes: [],
+  });
+  assert.equal(jollof.recipe.id, 'jollof-rice');
+  assert.match(buildRecipeGrounding(jollof), /每1份使用大米100克、鸡高汤130克/);
+});
+
 test('complete trusted core outranks a partial higher-cardinality recipe in the live fresh case', () => {
   const [hit] = selectRecipeCandidates(lib, {
     pantry: ['大米', '鸡肉', '洋葱', '面条'],

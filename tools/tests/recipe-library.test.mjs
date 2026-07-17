@@ -118,6 +118,15 @@ test('lentil curry records an explicit one-pot adaptation', () => {
   assert.doesNotMatch(`${recipe.summary}${recipe.technique.join('')}`, /扁豆先煮|土豆煎香/);
 });
 
+test('rice recipes convert source ratios into explicit per-serving generation grams', () => {
+  const biryani = lib.recipes.find(item => item.id === 'simple-chicken-biryani');
+  assert.match(biryani.ratio_rules.join('。'), /原始300克:600克:850毫升/);
+  assert.match(biryani.ratio_rules.join('。'), /每1份.*大米100克.*鸡肉200克.*鸡高汤280克/);
+  const jollof = lib.recipes.find(item => item.id === 'jollof-rice');
+  assert.match(jollof.ratio_rules.join('。'), /体积约1:1/);
+  assert.match(jollof.ratio_rules.join('。'), /每1份.*大米100克.*鸡高汤130克/);
+});
+
 test('rice cabbage minestrone records its raw-rice one-pot adaptation', () => {
   const recipe = lib.recipes.find(item => item.id === 'rice-cabbage-minestrone');
   assert.match(recipe.adaptation_note, /原始来源使用熟米入汤/);
