@@ -22,7 +22,13 @@
     { "id": "family-tomato-egg-pot", "name": "番茄炖蛋", "form": "炖锅" },
     { "id": "family-coconut-curry", "name": "椰香咖喱", "form": "咖喱锅" },
     { "id": "family-risotto", "name": "意式烩饭", "form": "烩饭" },
-    { "id": "family-minestrone", "name": "米粒杂蔬汤", "form": "浓汤" }
+{ "id": "family-minestrone", "name": "米粒杂蔬汤", "form": "浓汤" },
+    {"id":"family-jiangnan-vegetable-rice","name":"江南菜饭","form":"焖饭"},
+    {"id":"family-southern-savory-rice","name":"南方咸香饭","form":"焖饭"},
+    {"id":"family-covered-pot-rice","name":"盖锅焖饭","form":"焖饭"},
+    {"id":"family-northwest-grain-rice","name":"西北谷物焖饭","form":"焖饭"},
+    {"id":"family-regional-grain-specialties","name":"地域谷物主食","form":"谷物饭"},
+    {"id":"family-northern-braised-noodles","name":"北方焖面","form":"焖面"}
   ],
   "recipes": [
     {
@@ -451,6 +457,2284 @@
           "retrieved_at": "2026-07-14"
         }
       ]
+    },
+    {
+        "id": "shanghai-salted-pork-vegetable-rice",
+        "origin_candidate_id": "shanghai-salted-pork-vegetable-rice",
+        "family_id": "family-jiangnan-vegetable-rice",
+        "status": "approved",
+        "name": "上海奉贤咸肉菜饭",
+        "cuisine": "上海本帮",
+        "form": "焖饭",
+        "summary": "以大米、咸五花肉、小白菜制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；咸肉、叶菜均采用明确命名的常见食品级食材。 草稿中的笼统或待确认原料已改为大米、咸五花肉、小白菜等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "optional_ingredients": [
+          "香葱"
+        ],
+        "generation_optional_ingredients": [
+          "香葱"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "叶菜",
+            "replaces": [
+              "小白菜"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，咸五花肉、小白菜切成易熟的均匀大小。",
+          "咸五花肉、小白菜按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "咸肉中心必须彻底熟透后才可食用。",
+          "未尝咸肉前不得额外加盐，避免盐度失控。",
+          "叶菜后段加入，避免长时间受热而大量出水。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：上海奉贤咸肉菜饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=shanghai-salted-pork-vegetable-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "suzhou-salted-pork-vegetable-rice",
+        "origin_candidate_id": "suzhou-salted-pork-vegetable-rice",
+        "family_id": "family-jiangnan-vegetable-rice",
+        "status": "approved",
+        "name": "苏州青菜咸肉饭",
+        "cuisine": "苏帮",
+        "form": "焖饭",
+        "summary": "以大米、咸五花肉、小白菜制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；咸肉、青菜均采用明确命名的常见食品级食材。 草稿中的笼统或待确认原料已改为大米、咸五花肉、小白菜等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "叶菜",
+            "replaces": [
+              "小白菜"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，咸五花肉、小白菜切成易熟的均匀大小。",
+          "咸五花肉、小白菜按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "咸肉必须完全熟制、中心热透后才可食用。",
+          "必须先尝咸肉与锅内底味，未尝味不得补盐。",
+          "记录咸肉析出的脂肪，再决定是否添加其他油脂。",
+          "叶菜后段加入；出现明显积液时停止把该轮作为口感依据。",
+          "叶菜和可选食用菌必须有明确食品名称及可食用购买来源。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：苏州青菜咸肉饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=suzhou-salted-pork-vegetable-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "nanjing-cured-pork-greens-rice",
+        "origin_candidate_id": "nanjing-cured-pork-greens-rice",
+        "family_id": "family-jiangnan-vegetable-rice",
+        "status": "approved",
+        "name": "南京矮脚黄腊肉菜饭",
+        "cuisine": "南京菜",
+        "form": "焖饭",
+        "summary": "以大米、腊五花肉、矮脚黄制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；腊肉和矮脚黄均以明确标签的食品级原料为准。 草稿中的笼统或待确认原料已改为大米、腊五花肉、矮脚黄等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "腊五花肉",
+          "矮脚黄"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "青菜",
+            "replaces": [
+              "矮脚黄"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，腊五花肉、矮脚黄切成易熟的均匀大小。",
+          "腊五花肉、矮脚黄按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "腊肉必须完全熟制、中心热透后才可食用。",
+          "必须先尝腊肉和锅内底味，再决定是否补盐。",
+          "先记录腊肉出油，再决定是否补油。",
+          "青菜必须后段加入并记录出水；锅内有明显积液时不得认定该轮合格。",
+          "青菜和可选食用菌须记录明确食品名称与购买来源。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：南京矮脚黄腊肉菜饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=nanjing-cured-pork-greens-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "nanjing-sausage-greens-rice",
+        "origin_candidate_id": "nanjing-sausage-greens-rice",
+        "family_id": "family-jiangnan-vegetable-rice",
+        "status": "approved",
+        "name": "南京矮脚黄香肠菜饭",
+        "cuisine": "南京菜",
+        "form": "焖饭",
+        "summary": "以大米、广式腊肠、矮脚黄制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；香肠和矮脚黄均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为大米、广式腊肠、矮脚黄等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "广式腊肠",
+          "矮脚黄"
+        ],
+        "optional_ingredients": [
+          "白胡椒"
+        ],
+        "generation_optional_ingredients": [
+          "白胡椒"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "青菜",
+            "replaces": [
+              "矮脚黄"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，广式腊肠、矮脚黄切成易熟的均匀大小。",
+          "广式腊肠、矮脚黄按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "香肠中心必须彻底加热后才可食用。",
+          "先观察香肠出油量，再决定是否补油。",
+          "青菜后段加入并保持锅内无明显积水。"
+        ],
+        "total_time_minutes": 35,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：南京矮脚黄香肠菜饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=nanjing-sausage-greens-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "nanjing-duck-greens-rice",
+        "origin_candidate_id": "nanjing-duck-greens-rice",
+        "family_id": "family-jiangnan-vegetable-rice",
+        "status": "approved",
+        "name": "南京矮脚黄板鸭菜饭",
+        "cuisine": "南京菜",
+        "form": "焖饭",
+        "summary": "以大米、包装熟制板鸭（去骨）、矮脚黄制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；使用明确标示熟制状态的板鸭和常见叶菜。 草稿中的笼统或待确认原料已改为大米、包装熟制板鸭（去骨）、矮脚黄等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "包装熟制板鸭（去骨）",
+          "矮脚黄"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "青菜",
+            "replaces": [
+              "矮脚黄"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，包装熟制板鸭（去骨）、矮脚黄切成易熟的均匀大小。",
+          "包装熟制板鸭（去骨）、矮脚黄按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "必须留存熟制鸭可食部分的来源、熟制安全信息和去骨去不可食部分检查；无法证明时不得使用。",
+          "鸭肉必须在同锅中彻底复热、热透后才可食用。",
+          "必须先尝鸭肉和锅内底味，再决定是否补盐。",
+          "记录鸭肉及其附带油脂的析出，再决定是否补油。",
+          "青菜后段加入并记录出水，避免锅内残留明显积液。",
+          "青菜和可选食用菌必须记录食品名称与购买来源。"
+        ],
+        "total_time_minutes": 35,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：南京矮脚黄板鸭菜饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=nanjing-duck-greens-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "jinshan-clay-oven-vegetable-rice",
+        "origin_candidate_id": "jinshan-clay-oven-vegetable-rice",
+        "family_id": "family-jiangnan-vegetable-rice",
+        "status": "approved",
+        "name": "金山土灶菜饭",
+        "cuisine": "上海本帮",
+        "form": "菜饭",
+        "summary": "以大米、小白菜、鲜香菇制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；叶菜和鲜菇均使用明确命名的常见食品级食材。 草稿中的笼统或待确认原料已改为大米、小白菜、鲜香菇等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh"
+        ],
+        "core_ingredients": [
+          "大米",
+          "小白菜",
+          "鲜香菇"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "叶菜",
+            "replaces": [
+              "鲜香菇"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，小白菜、鲜香菇切成易熟的均匀大小。",
+          "小白菜、鲜香菇按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "叶菜必须后段加入，避免长时间受热出水。",
+          "不得把叶菜出的水另行汇入锅中，起锅前检查无积液。"
+        ],
+        "total_time_minutes": 35,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：金山土灶菜饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=jinshan-clay-oven-vegetable-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "taiwan-cabbage-mushroom-rice",
+        "origin_candidate_id": "taiwan-cabbage-mushroom-rice",
+        "family_id": "family-southern-savory-rice",
+        "status": "approved",
+        "name": "高丽菜香菇炊饭",
+        "cuisine": "台湾家常",
+        "form": "炊饭",
+        "summary": "以大米、卷心菜、鲜香菇制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；卷心菜和鲜菇均为明确命名的常见食品级食材。 草稿中的笼统或待确认原料已改为大米、卷心菜、鲜香菇等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "卷心菜",
+          "鲜香菇"
+        ],
+        "optional_ingredients": [
+          "老豆腐"
+        ],
+        "generation_optional_ingredients": [
+          "老豆腐"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "新鲜食用菌",
+            "replaces": [
+              "鲜香菇"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，卷心菜、鲜香菇切成易熟的均匀大小。",
+          "卷心菜、鲜香菇按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "未评估卷心菜出水前不得固定加液量。",
+          "若使用豆腐，必须加热至全程热透后再食用。"
+        ],
+        "total_time_minutes": 35,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：高丽菜香菇炊饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=taiwan-cabbage-mushroom-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "quanzhou-oil-rice",
+        "origin_candidate_id": "quanzhou-oil-rice",
+        "family_id": "family-southern-savory-rice",
+        "status": "approved",
+        "name": "泉州浥饭（油饭）",
+        "cuisine": "闽南",
+        "form": "糯米饭",
+        "summary": "以泡发糯米、猪肉末、鲜香菇制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；猪肉和香菇均使用明确命名的食品级原料，首轮不纳入海产。 草稿中的笼统或待确认原料已改为泡发糯米、猪肉末、鲜香菇等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "泡发糯米",
+          "猪肉末",
+          "鲜香菇"
+        ],
+        "optional_ingredients": [
+          "香葱"
+        ],
+        "generation_optional_ingredients": [
+          "香葱"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "猪肉",
+            "replaces": [
+              "鲜香菇"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "泡发糯米按商品说明预处理，猪肉末、鲜香菇切成易熟的均匀大小。",
+          "猪肉末、鲜香菇按草稿先后顺序同锅加热，加入定量水和泡发糯米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克泡发糯米使用100克水，糯米先泡发再入锅。",
+          "起锅前锅底无游离液体，米粒无硬芯。"
+        ],
+        "safety_rules": [
+          "猪肉必须完全熟制，中心不得留生。",
+          "首轮不得加入干制海产或其他未审核海鲜。",
+          "起锅前检查锅底无游离液体且糯米不夹生。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：泉州浥饭（油饭）",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=quanzhou-oil-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "fujian-gai-cai-minced-pork-rice",
+        "origin_candidate_id": "fujian-gai-cai-minced-pork-rice",
+        "family_id": "family-southern-savory-rice",
+        "status": "approved",
+        "name": "福建盖菜肉末咸饭",
+        "cuisine": "闽菜",
+        "form": "咸饭",
+        "summary": "以大米、芥菜、猪肉末制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；芥菜和猪肉末均采用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为大米、芥菜、猪肉末等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh"
+        ],
+        "core_ingredients": [
+          "大米",
+          "芥菜",
+          "猪肉末"
+        ],
+        "optional_ingredients": [
+          "香菇"
+        ],
+        "generation_optional_ingredients": [
+          "香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "蛋白质",
+            "replaces": [
+              "猪肉末"
+            ],
+            "allowed": [
+              "老豆腐",
+              "去皮鸡腿肉"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，芥菜、猪肉末切成易熟的均匀大小。",
+          "芥菜、猪肉末按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "使用猪肉时必须彻底熟制，中心不得留生。",
+          "必须先尝芥菜及锅内底味，再决定是否补盐。"
+        ],
+        "total_time_minutes": 35,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：福建盖菜肉末咸饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=fujian-gai-cai-minced-pork-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "fujian-hyacinth-bean-rice",
+        "origin_candidate_id": "fujian-hyacinth-bean-rice",
+        "family_id": "family-southern-savory-rice",
+        "status": "approved",
+        "name": "福建扁豆饭",
+        "cuisine": "闽菜",
+        "form": "焖饭",
+        "summary": "以大米、扁豆制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；扁豆使用明确命名、可追溯的食品级原料。 草稿中的笼统或待确认原料已改为大米、扁豆等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "扁豆"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "新鲜食用菌",
+            "replaces": [
+              "扁豆"
+            ],
+            "allowed": [
+              "熟鹰嘴豆",
+              "熟白芸豆"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "夹生豆类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，扁豆切成易熟的均匀大小。",
+          "扁豆按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "扁豆品种或商品标识必须留存记录，不明豆类不得替代。",
+          "扁豆必须完全熟透后才可食用。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：福建扁豆饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=fujian-hyacinth-bean-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "hainan-cai-bao-rice",
+        "origin_candidate_id": "hainan-cai-bao-rice",
+        "family_id": "family-southern-savory-rice",
+        "status": "approved",
+        "name": "海南定安菜包饭",
+        "cuisine": "海南菜",
+        "form": "包饭",
+        "summary": "以大米、生菜、胡萝卜制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；包裹叶材固定为明确命名、可食用的食品级叶菜。 草稿中的笼统或待确认原料已改为大米、生菜、胡萝卜等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "生菜",
+          "胡萝卜"
+        ],
+        "optional_ingredients": [
+          "老豆腐"
+        ],
+        "generation_optional_ingredients": [
+          "老豆腐"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "叶片包材",
+            "replaces": [
+              "胡萝卜"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按比例煮熟，生菜、胡萝卜分别加热至可食用状态。",
+          "用清洁叶片包入熟米和馅料，当餐食用。",
+          "包制前后保持案面和手部清洁。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "叶片必须确认物种身份、可食用性和食品级来源；无法确认时不得使用。",
+          "蔬菜馅和可选豆腐必须完全加热熟透后再包制。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：海南定安菜包饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=hainan-cai-bao-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "daxi-lotus-leaf-oil-rice",
+        "origin_candidate_id": "daxi-lotus-leaf-oil-rice",
+        "family_id": "family-southern-savory-rice",
+        "status": "approved",
+        "name": "大溪荷叶油饭",
+        "cuisine": "台湾客家",
+        "form": "荷叶包糯米饭",
+        "summary": "以泡发糯米、猪肉末、食品级干荷叶制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；荷叶、猪肉和糯米均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为泡发糯米、猪肉末、食品级干荷叶等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "泡发糯米",
+          "猪肉末",
+          "食品级干荷叶"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "荷叶包材",
+            "replaces": [
+              "食品级干荷叶"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "泡发糯米按商品说明预处理，猪肉末、食品级干荷叶切成易熟的均匀大小。",
+          "猪肉末、食品级干荷叶按草稿先后顺序同锅加热，加入定量水和泡发糯米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克泡发糯米使用100克水，糯米先泡发再入锅。",
+          "起锅前锅底无游离液体，米粒无硬芯。"
+        ],
+        "safety_rules": [
+          "荷叶必须有明确植物身份、食品级和清洁购买来源；无法确认时不得使用，且仅作香气包材。",
+          "猪肉必须完全熟制、中心热透后才可食用。",
+          "必须先尝猪肉和锅内底味，再决定是否补盐。",
+          "记录猪肉析出脂肪及任何额外油脂，再决定下一轮调整。",
+          "必须记录糯米吸水、包裹后湿度和成品是否有明显积液。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：大溪荷叶油饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=daxi-lotus-leaf-oil-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "cantonese-cured-meat-claypot-rice",
+        "origin_candidate_id": "cantonese-cured-meat-claypot-rice",
+        "family_id": "family-covered-pot-rice",
+        "status": "approved",
+        "name": "广式腊味煲仔饭",
+        "cuisine": "粤菜",
+        "form": "加盖焖饭",
+        "summary": "以大米、广式腊肠、菜心制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；腊味采用明确标注品类、成分和熟制要求的食品级原料。 草稿中的笼统或待确认原料已改为大米、广式腊肠、菜心等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh"
+        ],
+        "core_ingredients": [
+          "大米",
+          "广式腊肠",
+          "菜心"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "叶菜",
+            "replaces": [
+              "菜心"
+            ],
+            "allowed": [
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，广式腊肠、菜心切成易熟的均匀大小。",
+          "广式腊肠、菜心按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "腊味肉制品必须加热至完全熟透、中心热透后才可食用。",
+          "只使用普通带盖锅，不得宣称或模拟煲仔锅复刻。",
+          "必须先尝腊味和锅内底味，再决定是否补盐。",
+          "先记录腊味出油，再决定是否添加其他油脂。",
+          "叶菜后段加入；锅内有明显游离水时须记录为湿度问题。",
+          "叶菜和可选食用菌必须记录食品名称与购买来源。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：广式腊味煲仔饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=cantonese-cured-meat-claypot-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "cantonese-mushroom-chicken-claypot-rice",
+        "origin_candidate_id": "cantonese-mushroom-chicken-claypot-rice",
+        "family_id": "family-covered-pot-rice",
+        "status": "approved",
+        "name": "广式香菇滑鸡煲仔饭",
+        "cuisine": "粤菜",
+        "form": "加盖焖饭",
+        "summary": "以大米、去皮鸡腿肉、鲜香菇制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；鸡肉和香菇均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为大米、去皮鸡腿肉、鲜香菇等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "去皮鸡腿肉",
+          "鲜香菇"
+        ],
+        "optional_ingredients": [
+          "叶菜"
+        ],
+        "generation_optional_ingredients": [
+          "叶菜"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "食用菌",
+            "replaces": [
+              "鲜香菇"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，去皮鸡腿肉、鲜香菇切成易熟的均匀大小。",
+          "去皮鸡腿肉、鲜香菇按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "必须记录鸡肉部位、可食部分、购买来源和原始生熟状态；身份或可食性不明不得使用。",
+          "鸡肉中心必须完全熟制、无生肉状态后才可食用，并留存检查记录。",
+          "食用香菇须记录食品名称、来源、原始含水和加热出水；明显积液时不得认定该轮质地合格。",
+          "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：广式香菇滑鸡煲仔饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=cantonese-mushroom-chicken-claypot-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "cantonese-black-bean-pork-rib-claypot-rice",
+        "origin_candidate_id": "cantonese-black-bean-pork-rib-claypot-rice",
+        "family_id": "family-covered-pot-rice",
+        "status": "approved",
+        "name": "广式豆豉排骨煲仔饭",
+        "cuisine": "粤菜",
+        "form": "加盖焖饭",
+        "summary": "以大米、猪肋排、豆豉制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；猪肋排和豆豉均使用明确标签的食品级原料。 草稿中的笼统或待确认原料已改为大米、猪肋排、豆豉等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "猪肋排",
+          "豆豉"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "猪肉",
+            "replaces": [
+              "豆豉"
+            ],
+            "allowed": [
+              "熟鹰嘴豆",
+              "熟白芸豆"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，猪肋排、豆豉切成易熟的均匀大小。",
+          "猪肋排、豆豉按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "必须记录肋排骨片检查和成品复查；发现碎骨、锐骨或不可食部分时不得食用。",
+          "猪肉中心必须完全熟制、无生肉状态后才可食用，并留存检查记录。",
+          "食品级豆豉必须记录来源和尝味结果；未尝味不得补加盐或其他高盐调味料。",
+          "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：广式豆豉排骨煲仔饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=cantonese-black-bean-pork-rib-claypot-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "xinjiang-lamb-pilaf",
+        "origin_candidate_id": "xinjiang-lamb-pilaf",
+        "family_id": "family-northwest-grain-rice",
+        "status": "approved",
+        "name": "新疆羊肉抓饭",
+        "cuisine": "新疆菜",
+        "form": "焖饭",
+        "summary": "以羊腿肉、洋葱、胡萝卜、大米制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；羊肉部位、米和蔬菜均采用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为羊腿肉、洋葱、胡萝卜、大米等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "羊腿肉",
+          "洋葱",
+          "胡萝卜",
+          "大米"
+        ],
+        "optional_ingredients": [
+          "孜然"
+        ],
+        "generation_optional_ingredients": [
+          "孜然"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "羊肉部位",
+            "replaces": [
+              "大米"
+            ],
+            "allowed": [
+              "小米",
+              "燕麦米"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，羊腿肉、洋葱、胡萝卜切成易熟的均匀大小。",
+          "羊腿肉、洋葱、胡萝卜按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "试做前记录羊肉部位、可食部分、购买来源和原始生熟状态；身份或状态不明的羊肉不得使用。",
+          "羊肉中心必须完全熟制、无生肉状态，并保留熟制检查记录。",
+          "水果或坚果必须记录完整成分和过敏原信息；未完成审核时不得加入。",
+          "成品仅限当餐食用；需保存时必须记录冷却、冷藏和再次加热处理。",
+          "液体比例以羊肉熟制后的可用余液为基准，不得按生肉阶段估算。"
+        ],
+        "total_time_minutes": 50,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：新疆羊肉抓饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=xinjiang-lamb-pilaf",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "xinjiang-vegetable-pilaf",
+        "origin_candidate_id": "xinjiang-vegetable-pilaf",
+        "family_id": "family-northwest-grain-rice",
+        "status": "approved",
+        "name": "新疆素抓饭",
+        "cuisine": "新疆菜",
+        "form": "焖饭",
+        "summary": "以大米、洋葱、胡萝卜制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；洋葱、胡萝卜和米均为明确命名的常见食品级食材。 草稿中的笼统或待确认原料已改为大米、洋葱、胡萝卜等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "洋葱",
+          "胡萝卜"
+        ],
+        "optional_ingredients": [
+          "熟鹰嘴豆"
+        ],
+        "generation_optional_ingredients": [
+          "熟鹰嘴豆"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "胡萝卜",
+            "replaces": [
+              "胡萝卜"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，洋葱、胡萝卜切成易熟的均匀大小。",
+          "洋葱、胡萝卜按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "鹰嘴豆只能使用已经完全煮熟的成品，并在锅中再次加热透。",
+          "最终液体必须在记录洋葱和胡萝卜出水后确定。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：新疆素抓饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=xinjiang-vegetable-pilaf",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "shaanbei-red-date-cowpea-rice",
+        "origin_candidate_id": "shaanbei-red-date-cowpea-rice",
+        "family_id": "family-northwest-grain-rice",
+        "status": "approved",
+        "name": "陕北红枣豇豆焖饭",
+        "cuisine": "陕北菜",
+        "form": "焖饭",
+        "summary": "以大米、去核红枣、豇豆制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；红枣、豇豆和米均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为大米、去核红枣、豇豆等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "去核红枣",
+          "豇豆"
+        ],
+        "optional_ingredients": [
+          "小米"
+        ],
+        "generation_optional_ingredients": [
+          "小米"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "主粮",
+            "replaces": [
+              "豇豆"
+            ],
+            "allowed": [
+              "熟鹰嘴豆",
+              "熟白芸豆"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "夹生豆类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，去核红枣、豇豆切成易熟的均匀大小。",
+          "去核红枣、豇豆按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "豇豆必须完全熟透后才可食用。",
+          "红枣必须逐颗确认已去核，发现枣核即停止食用。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：陕北红枣豇豆焖饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=shaanbei-red-date-cowpea-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "qinghai-hao-fan",
+        "origin_candidate_id": "qinghai-hao-fan",
+        "family_id": "family-northwest-grain-rice",
+        "status": "approved",
+        "name": "青海熬饭",
+        "cuisine": "河湟饮食",
+        "form": "熬煮饭",
+        "summary": "以小米、土豆、熟鹰嘴豆制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；谷物、土豆、豆类和叶菜均固定为明确命名的食品级食材。 草稿中的笼统或待确认原料已改为小米、土豆、熟鹰嘴豆等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "小米",
+          "土豆",
+          "熟鹰嘴豆"
+        ],
+        "optional_ingredients": [
+          "小白菜"
+        ],
+        "generation_optional_ingredients": [
+          "小白菜"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "豆类",
+            "replaces": [
+              "熟鹰嘴豆"
+            ],
+            "allowed": [
+              "熟白芸豆"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "夹生豆类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "小米按商品说明预处理，土豆、熟鹰嘴豆切成易熟的均匀大小。",
+          "土豆、熟鹰嘴豆按草稿先后顺序同锅加热，加入定量水和小米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克小米使用260克水，土豆切成1.5厘米见方小块。",
+          "熟鹰嘴豆后段加入，土豆和豆类均无硬芯。"
+        ],
+        "safety_rules": [
+          "每种主料必须记录明确食品名称、购买来源和可食用依据；身份或来源不清或未明确标示食品级的区域植物不得使用。",
+          "土豆必须熟透、无硬芯后才可食用，并留存原始状态与熟制检查。",
+          "豆类及可选叶菜必须记录过敏原或不耐受声明；未声明不得作为试做对象。",
+          "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：青海熬饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=qinghai-hao-fan",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "shanxi-potato-rice",
+        "origin_candidate_id": "shanxi-potato-rice",
+        "family_id": "family-northwest-grain-rice",
+        "status": "approved",
+        "name": "山西岚县土豆饭",
+        "cuisine": "晋菜",
+        "form": "焖饭",
+        "summary": "以大米、土豆制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；土豆、杂粮和米均采用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为大米、土豆等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "土豆"
+        ],
+        "optional_ingredients": [
+          "叶菜"
+        ],
+        "generation_optional_ingredients": [
+          "叶菜"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "主粮",
+            "replaces": [
+              "土豆"
+            ],
+            "allowed": [
+              "熟鹰嘴豆",
+              "熟白芸豆"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "夹生豆类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，土豆切成易熟的均匀大小。",
+          "土豆按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "土豆中心必须完全熟透，不得有硬芯。",
+          "焖煮期间须按锅具特性检查锅底，出现粘锅或焦糊征兆即停止加热并记录。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：山西岚县土豆饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=shanxi-potato-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "shanxi-nitun-millet-rice",
+        "origin_candidate_id": "shanxi-nitun-millet-rice",
+        "family_id": "family-northwest-grain-rice",
+        "status": "approved",
+        "name": "山西泥屯小米饭",
+        "cuisine": "晋菜",
+        "form": "小米饭",
+        "summary": "以小米、土豆制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；小米和土豆均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为小米、土豆等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "小米",
+          "土豆"
+        ],
+        "optional_ingredients": [
+          "熟豆类",
+          "叶菜"
+        ],
+        "generation_optional_ingredients": [
+          "熟豆类",
+          "叶菜"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "可选配料",
+            "replaces": [
+              "土豆"
+            ],
+            "allowed": [
+              "熟鹰嘴豆",
+              "熟白芸豆"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "夹生豆类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "小米按商品说明预处理，土豆切成易熟的均匀大小。",
+          "土豆按草稿先后顺序同锅加热，加入定量水和小米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克小米使用180克水，土豆切成1.5厘米见方小块。",
+          "土豆可轻易压碎才起锅。"
+        ],
+        "safety_rules": [
+          "土豆必须达到可轻易压碎的熟透状态。",
+          "未记录小米重量、液体重量和土豆熟度的试做不得进入下一轮调整。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：山西泥屯小米饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=shanxi-nitun-millet-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "tibetan-savory-congee",
+        "origin_candidate_id": "tibetan-savory-congee",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "藏式咸稀饭",
+        "cuisine": "藏族饮食",
+        "form": "稀饭",
+        "summary": "以大米、牛奶制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；谷物与乳制品或明确标注的非乳替代品均为食品级原料。 草稿中的笼统或待确认原料已改为大米、牛奶等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "牛奶"
+        ],
+        "optional_ingredients": [
+          "小白菜"
+        ],
+        "generation_optional_ingredients": [
+          "小白菜"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "乳制品",
+            "replaces": [
+              "牛奶"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，牛奶切成易熟的均匀大小。",
+          "牛奶按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克大米使用700克水和100克牛奶，小火煮至软烂。",
+          "牛奶在米粒软烂后加入，保持微沸。"
+        ],
+        "safety_rules": [
+          "使用乳制品时必须明确乳及相关过敏原范围；使用替代品时也必须记录完整成分和过敏原信息。",
+          "谷物必须煮熟软、无硬芯并记录成品稠度与原始生熟状态。",
+          "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：藏式咸稀饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=tibetan-savory-congee",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "tibetan-gutu",
+        "origin_candidate_id": "tibetan-gutu",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "藏历年古突",
+        "cuisine": "藏族饮食",
+        "form": "面食汤",
+        "summary": "以小麦面团、小白菜、胡萝卜、水制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；面团和蔬菜均使用明确命名的常见食品级食材。 草稿中的笼统或待确认原料已改为小麦面团、小白菜、胡萝卜、水等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh"
+        ],
+        "core_ingredients": [
+          "小麦面团",
+          "小白菜",
+          "胡萝卜",
+          "水"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "蔬菜",
+            "replaces": [
+              "水"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "小麦面团按商品说明预处理，小白菜、胡萝卜切成易熟的均匀大小。",
+          "小白菜、胡萝卜按草稿先后顺序同锅加热，加入定量水和小麦面团后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克小麦粉面团配450克水，煮至内部无生粉。",
+          "蔬菜后段加入，汤面保持可流动但不稀薄。"
+        ],
+        "safety_rules": [
+          "不得宣称、模拟或复刻节庆仪式、象征物、占卜内容或传统成品；仅作为原创家庭试做。",
+          "面团必须煮至内部无生粉、无夹生后才可食用，并记录原始状态与熟制检查。",
+          "必须记录小麦及可选食用菌等食材的过敏原声明。",
+          "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：藏历年古突",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=tibetan-gutu",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "tibetan-ginseng-fruit-rice",
+        "origin_candidate_id": "tibetan-ginseng-fruit-rice",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "西藏人参果饭",
+        "cuisine": "藏族饮食",
+        "form": "焖饭",
+        "summary": "以食品级蕨麻、大米制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；蕨麻仅使用明确标示可食用的食品级原料，不作药用宣称。 草稿中的笼统或待确认原料已改为食品级蕨麻、大米等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "食品级蕨麻",
+          "大米"
+        ],
+        "optional_ingredients": [
+          "红枣"
+        ],
+        "generation_optional_ingredients": [
+          "红枣"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "干果",
+            "replaces": [
+              "大米"
+            ],
+            "allowed": [
+              "小米",
+              "燕麦米"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，食品级蕨麻切成易熟的均匀大小。",
+          "食品级蕨麻按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "必须先确认蕨麻的准确食品名称、食品级标签、可食用依据和购买来源；身份或来源不清不得使用。",
+          "不得出现药用、保健、治疗或功效宣称。",
+          "蕨麻与谷物必须熟透、无硬芯后才可食用，并记录原始状态与熟制检查。",
+          "必须记录蕨麻、谷物和可选干果的过敏原声明；成品留存时必须记录冷却、冷藏和再次加热状态。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：西藏人参果饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=tibetan-ginseng-fruit-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "guangxi-five-color-glutinous-rice",
+        "origin_candidate_id": "guangxi-five-color-glutinous-rice",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "广西壮族五色糯米饭",
+        "cuisine": "壮族饮食",
+        "form": "糯米饭",
+        "summary": "以糯米、食品级紫薯粉制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；糯米与单一明确命名、食品级的着色原料逐项记录。 草稿中的笼统或待确认原料已改为糯米、食品级紫薯粉等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "糯米",
+          "食品级紫薯粉"
+        ],
+        "optional_ingredients": [
+          "椰奶"
+        ],
+        "generation_optional_ingredients": [
+          "椰奶"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "植物色源",
+            "replaces": [
+              "食品级紫薯粉"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "糯米按商品说明预处理，食品级紫薯粉切成易熟的均匀大小。",
+          "食品级紫薯粉按草稿先后顺序同锅加热，加入定量水和糯米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克泡发糯米使用100克水，糯米先泡发再入锅。",
+          "起锅前锅底无游离液体，米粒无硬芯。"
+        ],
+        "safety_rules": [
+          "每一种颜色来源必须逐项识别并确认食品级、可食用和来源可追溯；不得使用装饰染料或身份或来源不清色料。",
+          "每种植物色源及可选植物配料均须记录明确食品名称、购买来源和可食用依据。",
+          "糯米必须蒸熟至无硬芯后才可食用。",
+          "若有咸味配料，必须尝味后才决定是否补盐。",
+          "若使用油脂，必须记录种类和加入决定；未记录不得归为无脂。",
+          "必须分别记录各色糯米的吸水状态和成品干湿，避免以颜色掩盖夹生或过湿。"
+        ],
+        "total_time_minutes": 50,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：广西壮族五色糯米饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=guangxi-five-color-glutinous-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "she-people-black-rice",
+        "origin_candidate_id": "she-people-black-rice",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "畲族乌饭",
+        "cuisine": "畲族饮食",
+        "form": "糯米饭",
+        "summary": "以糯米、食品级黑米色粉制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；糯米与单一明确命名、食品级的色源逐项记录。 草稿中的笼统或待确认原料已改为糯米、食品级黑米色粉等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "batch"
+        ],
+        "core_ingredients": [
+          "糯米",
+          "食品级黑米色粉"
+        ],
+        "optional_ingredients": [
+          "南瓜子"
+        ],
+        "generation_optional_ingredients": [
+          "南瓜子"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "植物色源",
+            "replaces": [
+              "食品级黑米色粉"
+            ],
+            "allowed": [
+              "小米",
+              "燕麦米"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "糯米按商品说明预处理，食品级黑米色粉切成易熟的均匀大小。",
+          "食品级黑米色粉按草稿先后顺序同锅加热，加入定量水和糯米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克泡发糯米使用100克水，糯米先泡发再入锅。",
+          "起锅前锅底无游离液体，米粒无硬芯。"
+        ],
+        "safety_rules": [
+          "植物色源必须记录准确植物身份、食品级证明、购买来源和可食用依据；不明叶片或装饰染料不得使用。",
+          "必须记录糯米浸泡、漂洗、原始状态及用水观察；未记录不得评价该轮。",
+          "糯米必须蒸熟至无硬芯后才可食用。",
+          "必须记录色源及可选坚果或种子的过敏原声明；成品留存时记录冷却、冷藏和再次加热状态。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：畲族乌饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=she-people-black-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "banshan-wild-rice",
+        "origin_candidate_id": "banshan-wild-rice",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "半山烧野米饭",
+        "cuisine": "杭州菜",
+        "form": "焖饭",
+        "summary": "以大米、鲜香菇制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；野米固定为明确命名、可追溯的食品级谷物，不采用身份不清的野生植物。 草稿中的笼统或待确认原料已改为大米、鲜香菇等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh"
+        ],
+        "core_ingredients": [
+          "大米",
+          "鲜香菇"
+        ],
+        "optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_optional_ingredients": [
+          "鲜香菇"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "野生食材",
+            "replaces": [
+              "鲜香菇"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，鲜香菇切成易熟的均匀大小。",
+          "鲜香菇按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "野生食材必须记录准确身份、可食用依据、来源和原始状态；无法确认时不得使用，并改用明确命名的安全替代食材。",
+          "米和野生食材或替代食材必须加热至完全熟制、无硬芯或生食状态后才可食用。",
+          "必须记录野生食材或替代食材及可选香菇的过敏原声明。",
+          "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
+        ],
+        "total_time_minutes": 40,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：半山烧野米饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=banshan-wild-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "dai-pineapple-purple-rice",
+        "origin_candidate_id": "dai-pineapple-purple-rice",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "傣族菠萝紫米饭",
+        "cuisine": "傣族饮食",
+        "form": "紫米饭",
+        "summary": "以紫米、菠萝制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；菠萝、紫米和其他食材均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为紫米、菠萝等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "紫米",
+          "菠萝"
+        ],
+        "optional_ingredients": [
+          "椰奶"
+        ],
+        "generation_optional_ingredients": [
+          "椰奶"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "水果",
+            "replaces": [
+              "菠萝"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未列入标准边界的高含水食材"
+            ],
+            "reason_type": "texture_water",
+            "reason": "额外出水会破坏本配方的定量控湿规则。"
+          }
+        ],
+        "technique": [
+          "紫米按商品说明预处理，菠萝切成易熟的均匀大小。",
+          "菠萝按草稿先后顺序同锅加热，加入定量水和紫米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克紫米使用165克水，先将紫米煮至软熟。",
+          "菠萝后段加入，出现明显积液时不再补水。"
+        ],
+        "safety_rules": [
+          "菠萝必须后段加入并记录出水；出现明显积液时不得把该轮作为质地依据。",
+          "如使用椰浆或其他椰子制品，必须明确声明椰子过敏原；未声明不得加入。",
+          "紫米必须熟透、无硬芯后才可食用。",
+          "菠萝、紫米和可选椰子制品均须记录食品名称与购买来源。",
+          "如使用咸味配料，必须尝味后才决定是否补盐。",
+          "椰浆或其他油脂如有使用，必须记录种类、加入决定和对口感的影响。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：傣族菠萝紫米饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=dai-pineapple-purple-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "guizhou-dong-community-rice",
+        "origin_candidate_id": "guizhou-dong-community-rice",
+        "family_id": "family-regional-grain-specialties",
+        "status": "approved",
+        "name": "贵州侗家社饭",
+        "cuisine": "侗族饮食",
+        "form": "焖饭",
+        "summary": "以大米、腊五花肉、小白菜、姜制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；腌肉和叶菜均固定为明确名称、标签和来源的食品级原料。 草稿中的笼统或待确认原料已改为大米、腊五花肉、小白菜、姜等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh",
+          "batch"
+        ],
+        "core_ingredients": [
+          "大米",
+          "腊五花肉",
+          "小白菜",
+          "姜"
+        ],
+        "optional_ingredients": [
+          "油麦菜"
+        ],
+        "generation_optional_ingredients": [
+          "油麦菜"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "叶菜",
+            "replaces": [
+              "姜"
+            ],
+            "allowed": [
+              "菜心",
+              "小油菜"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "大米按商品说明预处理，腊五花肉、小白菜、姜切成易熟的均匀大小。",
+          "腊五花肉、小白菜、姜按草稿先后顺序同锅加热，加入定量水和大米后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每100克主粮使用135克水；高含水蔬菜在主粮接近熟透时加入。",
+          "关火后焖5分钟，锅底无明显游离液体再盛出。"
+        ],
+        "safety_rules": [
+          "腌肉必须记录准确食品名称、食品级标签、购买来源和原始生熟状态；身份或状态不明不得使用。",
+          "腌肉中心必须完全熟制、无生肉状态，并保留熟制检查记录。",
+          "地方叶菜须记录准确植物身份、食品级证明、购买来源、可食用依据和原始状态；未核验不得用于试做。",
+          "腌肉必须记录完整成分和过敏原信息，叶菜须完成过敏原声明；未完成审核不得加入。",
+          "腌肉须核对食品级标签和来源并先尝味，再决定补加盐；不得忽略高盐风险。",
+          "成品仅限当餐食用；需保存时必须记录冷却、冷藏和再次加热处理。"
+        ],
+        "total_time_minutes": 45,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：贵州侗家社饭",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=guizhou-dong-community-rice",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
+      },
+      {
+        "id": "north-china-green-bean-braised-noodles",
+        "origin_candidate_id": "north-china-green-bean-braised-noodles",
+        "family_id": "family-northern-braised-noodles",
+        "status": "approved",
+        "name": "北方豆角焖面",
+        "cuisine": "北方家常",
+        "form": "焖面",
+        "summary": "以鲜小麦面条、豆角、猪肉末制作的原创家庭一锅标准配方，按草稿的同锅烹煮和后段控湿原则完成。",
+        "adaptation_note": "将项目试做草稿固化为家庭一锅标准；豆角、鲜面和其他主料均使用明确命名的食品级原料。 草稿中的笼统或待确认原料已改为鲜小麦面条、豆角、猪肉末等明确食品级或常见市售食材，不含第三方菜谱正文或配比。",
+        "purposes": [
+          "pantry",
+          "fresh"
+        ],
+        "core_ingredients": [
+          "鲜小麦面条",
+          "豆角",
+          "猪肉末"
+        ],
+        "optional_ingredients": [
+          "蒜末"
+        ],
+        "generation_optional_ingredients": [
+          "蒜末"
+        ],
+        "generation_liquid_ingredients": [
+          "水"
+        ],
+        "substitution_slots": [
+          {
+            "slot": "蛋白质",
+            "replaces": [
+              "猪肉末"
+            ],
+            "allowed": [
+              "老豆腐",
+              "去皮鸡腿肉"
+            ]
+          }
+        ],
+        "discouraged": [
+          {
+            "ingredients": [
+              "未充分加热的肉类"
+            ],
+            "reason_type": "safety",
+            "reason": "会破坏本配方的熟制安全要求。"
+          }
+        ],
+        "technique": [
+          "鲜小麦面条按商品说明预处理，豆角、猪肉末切成易熟的均匀大小。",
+          "豆角、猪肉末按草稿先后顺序同锅加热，加入定量水和鲜小麦面条后加盖烹煮。",
+          "主料全部熟透后关火焖5分钟，确认无大量游离水再盛出。"
+        ],
+        "ratio_rules": [
+          "每200克鲜小麦面条配180克水，分两次加入。",
+          "豆角和猪肉末熟透后再铺面条。"
+        ],
+        "safety_rules": [
+          "豆角与肉类或豆腐必须在面条入锅前达到可安全食用的熟制状态。",
+          "面条蒸焖结束前检查锅底，保持无焦糊且无大量游离液体。",
+          "鲜面条应熟透但不糊断，必要时少量补液。"
+        ],
+        "total_time_minutes": 35,
+        "source_refs": [
+          {
+            "usage": "approved",
+            "title": "一锅出原创标准配方：北方豆角焖面",
+            "url": "https://yiguochu.pages.dev/recipes.html?id=north-china-green-bean-braised-noodles",
+            "license": "一锅出项目原创标准配方，保留所有权利",
+            "attribution": "一锅出项目",
+            "retrieved_at": "2026-07-17"
+          }
+        ]
     }
   ]
 }

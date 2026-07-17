@@ -37,22 +37,38 @@ const EXPECTED_RECIPES = [
 
 const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。';
 
-test('Phase A library has 9 families and 12 approved recipes', () => {
+test('formal library has 15 families and 42 approved recipes', () => {
   assert.deepEqual(validateRecipeLibrary(lib), []);
-  assert.equal(lib.families.length, 9);
-  assert.equal(lib.recipes.length, 12);
+  assert.equal(lib.families.length, 15);
+  assert.equal(lib.recipes.length, 42);
   assert.ok(lib.recipes.every(recipe => recipe.status === 'approved'));
 });
 
-test('Phase A family and recipe identities stay exact', () => {
-  assert.deepEqual(lib.families.map(family => family.id), EXPECTED_FAMILY_IDS);
+test('Phase A family and recipe identities stay exact at the head of the formal library', () => {
+  assert.deepEqual(lib.families.slice(0, 9).map(family => family.id), EXPECTED_FAMILY_IDS);
   assert.deepEqual(
-    lib.recipes.map(recipe => {
+    lib.recipes.slice(0, 12).map(recipe => {
       const source = recipe.source_refs[0];
       return [recipe.id, recipe.family_id, recipe.name, source.title, source.url];
     }),
     EXPECTED_RECIPES,
   );
+});
+
+test('thirty promoted recipes have canonical first-party approved sources', () => {
+  const promoted = lib.recipes.filter(recipe => recipe.origin_candidate_id);
+  assert.equal(promoted.length, 30);
+  for (const recipe of promoted) {
+    const [source] = recipe.source_refs;
+    assert.deepEqual(source, {
+      usage: 'approved',
+      title: `一锅出原创标准配方：${recipe.name}`,
+      url: `https://yiguochu.pages.dev/recipes.html?id=${recipe.id}`,
+      license: '一锅出项目原创标准配方，保留所有权利',
+      attribution: '一锅出项目',
+      retrieved_at: '2026-07-17',
+    });
+  }
 });
 
 test('every approved recipe locks generation extras to at most four reviewed ingredients', () => {
@@ -232,6 +248,28 @@ test('validator rejects generation optional locks outside the reviewed boundary'
   assert.ok(errors.includes(`${invalid.recipes[3].id} generation liquid ingredient is not in the generation boundary: 未审批高汤`));
 });
 
+test('validator requires candidate provenance for canonical project sources and blocks identity placeholders', () => {
+  const missingOrigin = structuredClone(lib);
+  missingOrigin.recipes[0].source_refs[0] = {
+    usage: 'approved',
+    title: '一锅出原创标准配方：测试',
+    url: 'https://yiguochu.pages.dev/recipes.html?id=chinese-congee',
+    license: '一锅出项目原创标准配方，保留所有权利',
+    attribution: '一锅出项目',
+    retrieved_at: '2026-07-17',
+  };
+  assert.ok(validateRecipeLibrary(missingOrigin).includes(
+    'chinese-congee canonical project source requires origin_candidate_id',
+  ));
+
+  const placeholder = structuredClone(missingOrigin);
+  placeholder.recipes[0].origin_candidate_id = 'demo-candidate';
+  placeholder.recipes[0].core_ingredients = ['大米', '地方植物'];
+  assert.ok(validateRecipeLibrary(placeholder).includes(
+    'chinese-congee promoted recipe contains identity placeholder 地方植物',
+  ));
+});
+
 test('canonical ingredient aliases stay stable for later selectors', () => {
   assert.deepEqual(lib.ingredient_aliases, {
     西红柿: '番茄',
@@ -268,7 +306,7 @@ test('only the lentil curry is approved as a complete rice-allergy main meal', (
   }]);
 });
 
-test('every seed carries explicit adaptation, cooking, safety, and source metadata', () => {
+test('every formal recipe carries explicit adaptation, cooking, safety, and source metadata', () => {
   for (const recipe of lib.recipes) {
     for (const key of ['core_ingredients', 'optional_ingredients', 'substitution_slots', 'discouraged', 'technique', 'ratio_rules', 'safety_rules']) {
       assert.ok(Array.isArray(recipe[key]) && recipe[key].length > 0, `${recipe.id} missing ${key}`);
@@ -281,8 +319,13 @@ test('every seed carries explicit adaptation, cooking, safety, and source metada
     const [source] = recipe.source_refs;
     assert.equal(recipe.source_refs.length, 1);
     assert.equal(source.usage, 'approved');
-    assert.equal(source.license, 'CC BY-SA 4.0');
-    assert.equal(source.attribution, `Wikibooks contributors, ${source.title}`);
+    if (recipe.origin_candidate_id) {
+      assert.equal(source.license, '一锅出项目原创标准配方，保留所有权利');
+      assert.equal(source.attribution, '一锅出项目');
+    } else {
+      assert.equal(source.license, 'CC BY-SA 4.0');
+      assert.equal(source.attribution, `Wikibooks contributors, ${source.title}`);
+    }
     assert.match(source.retrieved_at, /^\d{4}-\d{2}-\d{2}$/);
   }
 });

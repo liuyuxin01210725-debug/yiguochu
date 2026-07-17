@@ -140,12 +140,12 @@ test('promotion manifest fixes all thirty candidate, draft and family mappings',
   }
 });
 
-test('promotion checker documents the expected pre-Task-3 missing-production transition', () => {
+test('promotion checker accepts all thirty formal production mappings', () => {
   const run = spawnSync('node', ['tools/check-traditional-recipe-promotion.mjs'], { encoding: 'utf8' });
-  assert.equal(run.status, 1);
+  assert.equal(run.status, 0);
   assert.match(run.stdout, /传统菜晋升清单 30 道/);
-  assert.match(run.stderr, /missing production recipe/);
-  assert.match(run.stdout, /预期在 Task 3 晋升生产菜谱后通过/);
+  assert.equal(run.stderr, '');
+  assert.match(run.stdout, /传统菜晋升闸门通过/);
 });
 
 test('promotion checker reports a bad manifest path alongside missing production recipes', () => {

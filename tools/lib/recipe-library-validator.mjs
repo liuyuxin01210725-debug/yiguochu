@@ -3,6 +3,8 @@ const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const REASON_TYPES = new Set(['taste', 'texture_water', 'timing', 'safety']);
 const CONSTRAINT_PROFILE_IDS = new Set(['rice-allergy-complete-main']);
 const CONSTRAINT_PROFILE_FIELDS = new Set(['id', 'basis']);
+const PROJECT_RECIPE_ORIGIN = 'https://yiguochu.pages.dev';
+const IDENTITY_PLACEHOLDER_RE = /经核验|身份不明|未知野菜|地方植物/u;
 const STRING_ARRAY_FIELDS = [
   'purposes',
   'core_ingredients',
@@ -80,6 +82,15 @@ function canonicalIngredient(name, aliases) {
   return current;
 }
 
+function findIdentityPlaceholder(value) {
+  const match = JSON.stringify(value).match(IDENTITY_PLACEHOLDER_RE);
+  return match?.[0];
+}
+
+function isProjectRecipeSource(source) {
+  return typeof source?.url === 'string' && source.url.startsWith(PROJECT_RECIPE_ORIGIN);
+}
+
 export function validateRecipeLibrary(lib) {
   const errors = [];
   if (lib?.schema_version !== 1) errors.push('schema_version must be 1');
@@ -129,6 +140,10 @@ export function validateRecipeLibrary(lib) {
       errors.push(`${label} missing family ${familyId}`);
     }
     if (recipe.status !== 'approved') errors.push(`${label} status must be approved`);
+    if (recipe.origin_candidate_id !== undefined
+      && (!isNonEmptyString(recipe.origin_candidate_id) || !ID_RE.test(recipe.origin_candidate_id))) {
+      errors.push(`${label} origin_candidate_id must be a non-empty ID`);
+    }
     for (const key of ['name', 'cuisine', 'form']) {
       if (!isNonEmptyString(recipe[key])) errors.push(`${label} missing ${key}`);
     }
@@ -278,6 +293,10 @@ export function validateRecipeLibrary(lib) {
     }
 
     if (Array.isArray(recipe.source_refs)) {
+      const hasProjectSource = recipe.source_refs.some(isProjectRecipeSource);
+      if (hasProjectSource && (!isNonEmptyString(recipe.origin_candidate_id) || !ID_RE.test(recipe.origin_candidate_id))) {
+        errors.push(`${label} canonical project source requires origin_candidate_id`);
+      }
       for (const [sourceIndex, source] of recipe.source_refs.entries()) {
         if (!isPlainObject(source)) {
           errors.push(`${label} source at index ${sourceIndex} must be an object`);
@@ -295,6 +314,16 @@ export function validateRecipeLibrary(lib) {
           errors.push(`${label} RecipeDB cannot be approved`);
         }
       }
+    }
+    if (isNonEmptyString(recipe.origin_candidate_id)) {
+      const placeholder = findIdentityPlaceholder([
+        recipe.core_ingredients,
+        recipe.optional_ingredients,
+        recipe.generation_optional_ingredients,
+        recipe.generation_liquid_ingredients,
+        recipe.substitution_slots,
+      ]);
+      if (placeholder) errors.push(`${label} promoted recipe contains identity placeholder ${placeholder}`);
     }
   }
   return errors;
