@@ -125,6 +125,10 @@ test('rice recipes convert source ratios into explicit per-serving generation gr
   const jollof = lib.recipes.find(item => item.id === 'jollof-rice');
   assert.match(jollof.ratio_rules.join('。'), /体积约1:1/);
   assert.match(jollof.ratio_rules.join('。'), /每1份.*大米100克.*鸡高汤130克/);
+  const risotto = lib.recipes.find(item => item.id === 'basic-risotto');
+  assert.match(risotto.ratio_rules.join('。'), /原始.*400克.*1升/);
+  assert.match(risotto.ratio_rules.join('。'), /每1份.*意式烩饭米100克.*高汤250克/);
+  assert.match(risotto.adaptation_note, /不得把1升原量直接套到2份/);
 });
 
 test('rice cabbage minestrone records its raw-rice one-pot adaptation', () => {

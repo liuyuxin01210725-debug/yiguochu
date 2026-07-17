@@ -217,6 +217,12 @@ test('trusted rice grounding carries explicit per-serving gram conversions', () 
   });
   assert.equal(jollof.recipe.id, 'jollof-rice');
   assert.match(buildRecipeGrounding(jollof), /每1份使用大米100克、鸡高汤130克/);
+
+  const [risotto] = selectRecipeCandidates(lib, {
+    pantry: ['意式烩饭米', '洋葱', '高汤', '黄油'], purpose: 'fresh', dislikes: [],
+  });
+  assert.equal(risotto.recipe.id, 'basic-risotto');
+  assert.match(buildRecipeGrounding(risotto), /每1份使用意式烩饭米100克、高汤250克/);
 });
 
 test('trusted grounding exposes the reviewed quick-chili and egg-count adaptations', () => {
