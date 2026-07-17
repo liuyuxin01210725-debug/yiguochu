@@ -104,6 +104,16 @@ test('rice cabbage minestrone records its raw-rice one-pot adaptation', () => {
   assert.match(recipe.adaptation_note, /不得使用电饭锅、盛出米饭或另起锅/);
 });
 
+test('soy stew and congee record deterministic production adaptations', () => {
+  const soy = lib.recipes.find(item => item.id === 'soy-lentil-vegetable-stew');
+  assert.match(soy.adaptation_note, /只选橄榄油、蒜、姜黄、黑胡椒四项/);
+  assert.match(soy.adaptation_note, /另列有数字克数的水和盐/);
+  const congee = lib.recipes.find(item => item.id === 'chinese-congee');
+  assert.deepEqual(congee.substitution_slots, [{ slot: '煮粥液体', replaces: ['水'], allowed: ['鸡高汤'] }]);
+  assert.match(congee.adaptation_note, /用户已选水时锁定为水/);
+  assert.match(congee.adaptation_note, /葱、香菜、姜、芝麻可并用/);
+});
+
 test('validator bounds optional recipe time and adaptation metadata', () => {
   const invalid = structuredClone(lib);
   invalid.recipes[0].total_time_minutes = 0;

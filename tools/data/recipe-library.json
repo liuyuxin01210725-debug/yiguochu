@@ -29,12 +29,12 @@
       "cuisine": "中式",
       "form": "粥",
       "summary": "用充足液体把大米慢煮至绵软，再按口味加入少量咸鲜调味和香味配料。",
+      "adaptation_note": "用户已选水时锁定为水，不再加鸡高汤。葱、香菜、姜、芝麻可并用，它们是少量可选香味，不属于互相替换。",
       "purposes": ["quick", "pantry", "batch"],
       "core_ingredients": ["大米", "水"],
       "optional_ingredients": ["鸡高汤", "酱油", "芝麻油", "白胡椒", "葱", "香菜", "姜", "芝麻"],
       "substitution_slots": [
-        { "slot": "煮粥液体", "replaces": ["水"], "allowed": ["鸡高汤"] },
-        { "slot": "收尾香味", "replaces": ["葱"], "allowed": ["香菜", "姜", "芝麻"] }
+        { "slot": "煮粥液体", "replaces": ["水"], "allowed": ["鸡高汤"] }
       ],
       "discouraged": [
         { "ingredients": ["生肉厚片", "大块鱼肉"], "reason_type": "safety", "reason": "不能只靠关火后的粥温把厚块肉或鱼焖熟。" }
@@ -157,6 +157,7 @@
       "cuisine": "家常纯素炖锅",
       "form": "炖锅",
       "summary": "用同一口锅炒香洋葱和蒜，再加入大豆蛋白块、红扁豆、西兰花与量化沸水，炖成饱腹纯素主餐。",
+      "adaptation_note": "一锅出基础版在四项固定核心外只选橄榄油、蒜、姜黄、黑胡椒四项，另列有数字克数的水和盐。营养酵母、花生或葵花籽、辣椒、葛缕子和姜不得在同一版本加入。",
       "purposes": ["quick", "pantry", "batch"],
       "total_time_minutes": 30,
       "core_ingredients": ["红扁豆", "大豆蛋白块", "西兰花", "红洋葱"],

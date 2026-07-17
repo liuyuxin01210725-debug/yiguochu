@@ -457,11 +457,42 @@ def build_trusted_recipe_system_override(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     adaptation = sanitize_prompt_text(recipe.get('adaptation_note'), 400)
+    aliases = selection.get('ingredient_aliases') or {}
+    required_ingredients = {
+        canonical
+        for name in [*(recipe.get('core_ingredients') or []), *(selection.get('used_pantry') or [])]
+        if (canonical := canonical_recipe_ingredient(name, aliases))
+    }
+    used_pantry = {
+        canonical
+        for name in (selection.get('used_pantry') or [])
+        if (canonical := canonical_recipe_ingredient(name, aliases))
+    }
+    substitution_locks = []
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        locked = [
+            name for name in (slot.get('replaces') or [])
+            if canonical_recipe_ingredient(name, aliases) in used_pantry
+        ]
+        allowed = [
+            name for name in (slot.get('allowed') or [])
+            if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
+        ]
+        if locked and allowed:
+            substitution_locks.append(
+                f"替换位“{sanitize_prompt_text(slot.get('slot') or '未命名', 80)}”本次已由库存原料"
+                f"“{_compact_recipe_list(locked)}”锁定；禁止再用 allowed 替代项“{_compact_recipe_list(allowed)}”。"
+            )
+    max_ingredient_rows = min(12, len(required_ingredients) + 6)
     return '\n'.join([
         TRUSTED_RECIPE_SYSTEM_OVERRIDE,
         '【本次可信菜谱硬约束】',
         f"基础菜谱 ID: {sanitize_prompt_text(recipe.get('id') or 'unknown', 100)}。",
         *([f'本次一锅改编（必须执行）: {adaptation}'] if adaptation else []),
+        f'本次固定核心和已选库存去重后共 {len(required_ingredients)} 项，ingredients[] 本次最多 {max_ingredient_rows} 行。',
+        *substitution_locks,
         f"本次可入锅主料白名单: {_compact_recipe_list(_trusted_recipe_ingredient_whitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。",
         '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
         '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
@@ -1189,6 +1220,24 @@ def validate_grounded_meal(meal, selection, constraints=None):
         if (item := _validation_canonical_ingredient(name, aliases))
     ]
     approved_ingredients = _validation_approved_ingredient_set(selection, aliases)
+    required_ingredients = {
+        canonical
+        for name in [
+            *(selection.get('recipe', {}).get('core_ingredients') or []),
+            *(selection.get('used_pantry') or []),
+        ]
+        if (canonical := _validation_canonical_ingredient(name, aliases))
+    }
+    optional_ingredients = set()
+    for name in ingredient_names:
+        if (_validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES)
+                or _validation_ingredient_matches_names(name, _VALIDATION_SALT_NAMES)):
+            continue
+        canonical = _validation_canonical_ingredient(name, aliases)
+        if canonical and canonical not in required_ingredients:
+            optional_ingredients.add(canonical)
+    if selection.get('recipe', {}).get('status') == 'approved' and len(optional_ingredients) > 4:
+        add_flag('optional_ingredient_limit_exceeded')
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     for slot in recipe.get('substitution_slots') or []:
         if not isinstance(slot, dict):

@@ -243,11 +243,29 @@ function trustedRecipeIngredientWhitelist(selection) {
 function buildTrustedRecipeSystemOverride(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const adaptation = sanitizePromptText(recipe.adaptation_note, 400);
+  const aliases = selection?.ingredientAliases || {};
+  const requiredIngredients = new Set([
+    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ].map(name => canonicalRecipeIngredient(name, aliases)).filter(Boolean));
+  const usedPantry = new Set((Array.isArray(selection?.usedPantry) ? selection.usedPantry : [])
+    .map(name => canonicalRecipeIngredient(name, aliases)).filter(Boolean));
+  const substitutionLocks = (Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : []).flatMap(slot => {
+    const locked = (Array.isArray(slot?.replaces) ? slot.replaces : [])
+      .filter(name => usedPantry.has(canonicalRecipeIngredient(name, aliases)));
+    const allowed = (Array.isArray(slot?.allowed) ? slot.allowed : [])
+      .filter(name => !/^不(?:放|加|用)/.test(String(name || '').trim()));
+    if (!locked.length || !allowed.length) return [];
+    return [`替换位“${sanitizePromptText(slot?.slot || '未命名', 80)}”本次已由库存原料“${compactRecipeList(locked)}”锁定；禁止再用 allowed 替代项“${compactRecipeList(allowed)}”。`];
+  });
+  const maxIngredientRows = Math.min(12, requiredIngredients.size + 6);
   return [
     TRUSTED_RECIPE_SYSTEM_OVERRIDE,
     '【本次可信菜谱硬约束】',
     `基础菜谱 ID: ${sanitizePromptText(recipe.id || 'unknown', 100)}。`,
     ...(adaptation ? [`本次一锅改编（必须执行）: ${adaptation}`] : []),
+    `本次固定核心和已选库存去重后共 ${requiredIngredients.size} 项，ingredients[] 本次最多 ${maxIngredientRows} 行。`,
+    ...substitutionLocks,
     `本次可入锅主料白名单: ${compactRecipeList(trustedRecipeIngredientWhitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。`,
     '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
     '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
@@ -845,6 +863,20 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     .map(name => validationCanonicalIngredient(name, aliases))
     .filter(Boolean);
   const approvedIngredients = validationApprovedIngredientSet(selection, aliases);
+  const requiredIngredients = new Set([
+    ...(Array.isArray(selection?.recipe?.core_ingredients) ? selection.recipe.core_ingredients : []),
+    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ].map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
+  const optionalIngredients = new Set();
+  for (const name of ingredientNames) {
+    if (validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES)
+      || validationIngredientMatchesNames(name, VALIDATION_SALT_NAMES)) continue;
+    const canonical = validationCanonicalIngredient(name, aliases);
+    if (canonical && !requiredIngredients.has(canonical)) optionalIngredients.add(canonical);
+  }
+  if (selection?.recipe?.status === 'approved' && optionalIngredients.size > 4) {
+    flags.add('optional_ingredient_limit_exceeded');
+  }
   for (const slot of Array.isArray(selection?.recipe?.substitution_slots) ? selection.recipe.substitution_slots : []) {
     const alternatives = new Set([
       ...(Array.isArray(slot?.replaces) ? slot.replaces : []),

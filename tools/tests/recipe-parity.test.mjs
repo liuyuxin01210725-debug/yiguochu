@@ -764,6 +764,17 @@ test('Python matches approved ingredient, advance-prep, and soy-protein validati
       },
       present: ['substitution_slot_conflict:咸鲜配料'],
     },
+    {
+      constraints: { pantry: ['红扁豆', '大豆蛋白块', '西兰花', '红洋葱'], purpose: 'batch', dislikes: [] },
+      meal: {
+        ingredients: [
+          { name: '红扁豆' }, { name: '大豆蛋白块' }, { name: '西兰花' }, { name: '红洋葱' },
+          { name: '橄榄油' }, { name: '蒜' }, { name: '营养酵母' }, { name: '黑胡椒' }, { name: '姜黄' },
+        ],
+        steps: ['红扁豆、大豆蛋白块、西兰花、红洋葱、橄榄油、蒜、营养酵母、黑胡椒和姜黄同锅煮熟。'],
+      },
+      present: ['optional_ingredient_limit_exceeded'],
+    },
   ];
   for (const { constraints, meal, present = [], absent = [] } of cases) {
     const js = validateGroundedMeal(meal, selectRecipeCandidates(lib, constraints)[0], constraints);
@@ -805,7 +816,24 @@ test('Python trusted system priority and joined seasoning validation match Worke
   assert.match(prepared.system, /固定核心和已选库存之外，可选食材与可选调味合计最多 4 项/);
   assert.match(prepared.system, /盐只有两种合法模式/);
   assert.match(prepared.system, /一个替换位只能保留 replaces 原料或一个 allowed 替代项/);
+  assert.match(prepared.system, /本次固定核心和已选库存去重后共 2 项，ingredients\[\] 本次最多 8 行/);
   assert.equal(prepared.temperature, 0);
+
+  const lockedRecipe = groundedRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: ['鸡高汤'],
+    substitution_slots: [{ slot: '煮粥液体', replaces: ['水'], allowed: ['鸡高汤'] }],
+  });
+  const lockedPrepared = pythonCall('prepare', {
+    library: fixtureLib([lockedRecipe]),
+    constraints,
+    meal: {
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 1100 }, { name: '盐', grams: 2 }],
+      steps: ['大米和水煮成粥，加盐调味。'],
+    },
+  });
+  assert.match(lockedPrepared.system, /替换位“煮粥液体”本次已由库存原料“水”锁定/);
 
   for (const meal of [
     {

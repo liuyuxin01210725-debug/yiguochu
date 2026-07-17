@@ -330,7 +330,26 @@ test('trusted recipe priority overrides the generic balanced-main template at sy
   assert.match(system, /固定核心和已选库存之外，可选食材与可选调味合计最多 4 项/);
   assert.match(system, /盐只有两种合法模式/);
   assert.match(system, /一个替换位只能保留 replaces 原料或一个 allowed 替代项/);
+  assert.match(system, /本次固定核心和已选库存去重后共 2 项，ingredients\[\] 本次最多 8 行/);
   assert.equal(upstreamBodies[0].temperature, 0);
+});
+
+test('trusted system locks a substitution slot when its original is selected pantry', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe({
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: ['鸡高汤'],
+    substitution_slots: [{ slot: '煮粥液体', replaces: ['水'], allowed: ['鸡高汤'] }],
+  })]);
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 1100 }, { name: '盐', grams: 2 }],
+      steps: ['大米和水同锅煮成粥，加盐调味。'],
+    }),
+    constraints: { pantry: ['大米', '水'], purpose: 'batch' },
+  });
+  assert.match(upstreamBodies[0].messages[0].content, /替换位“煮粥液体”本次已由库存原料“水”锁定/);
+  assert.match(upstreamBodies[0].messages[0].content, /禁止再用 allowed 替代项“鸡高汤”/);
 });
 
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {
@@ -603,6 +622,22 @@ test('validator rejects using a replacement together with the ingredient it repl
   meal.ingredients = [{ name: '大米' }, { name: '白豆' }];
   meal.steps = ['大米和白豆同锅煮熟。'];
   assert.equal(validateGroundedMeal(meal, selection, {}).includes('substitution_slot_conflict:咸鲜配料'), false);
+});
+
+test('validator rejects more than four non-core optional ingredients', () => {
+  const recipe = groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米'],
+    optional_ingredients: ['橄榄油', '蒜', '姜黄', '黑胡椒', '香菜'],
+    substitution_slots: [],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const makeMeal = optional => ({
+    ingredients: [{ name: '大米' }, ...optional.map(name => ({ name }))],
+    steps: [`大米、${optional.join('、')}同锅煮熟。`],
+  });
+  assert.equal(validateGroundedMeal(makeMeal(recipe.optional_ingredients.slice(0, 4)), selection, {}).includes('optional_ingredient_limit_exceeded'), false);
+  assert.ok(validateGroundedMeal(makeMeal(recipe.optional_ingredients), selection, {}).includes('optional_ingredient_limit_exceeded'));
 });
 
 test('validator catches hidden advance preparation but not an explicit no-advance instruction', () => {
