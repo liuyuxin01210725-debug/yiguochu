@@ -86,6 +86,7 @@ elif action == 'prepare':
     result = {
         'system': payload['messages'][0]['content'],
         'prompt': payload['messages'][1]['content'],
+        'temperature': payload['temperature'],
         'meal': meal,
         'grounding': proxy.build_recipe_grounding(selection),
     }
@@ -784,6 +785,12 @@ test('Python trusted system priority and joined seasoning validation match Worke
   });
   assert.match(prepared.system, /可信菜谱最高优先级/);
   assert.match(prepared.system, /不得为补齐营养或丰富口味擅自添加白名单外/);
+  assert.match(prepared.system, /本次可入锅主料白名单: 大米、水、盐/);
+  assert.match(prepared.system, /白名单外主料即使能补蛋白质或达成营养目标也不得加入/);
+  assert.match(prepared.system, /任何 ingredients\[\] 行都必须在 steps\[\] 中明确使用/);
+  assert.match(prepared.system, /步骤中写入的水、高汤、食用油、盐或胡椒/);
+  assert.match(prepared.system, /禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”/);
+  assert.equal(prepared.temperature, 0.3);
 
   for (const meal of [
     {

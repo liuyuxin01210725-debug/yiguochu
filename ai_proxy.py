@@ -432,6 +432,43 @@ def _compact_recipe_list(value, fallback='无'):
     return '、'.join(items) if items else fallback
 
 
+def _trusted_recipe_ingredient_whitelist(selection):
+    selection = selection if isinstance(selection, dict) else {}
+    recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    candidates = [
+        *(recipe.get('core_ingredients') or []),
+        *(recipe.get('optional_ingredients') or []),
+        *[
+            name
+            for slot in (recipe.get('substitution_slots') or []) if isinstance(slot, dict)
+            for name in (slot.get('allowed') or [])
+        ],
+        *(selection.get('used_pantry') or []),
+    ]
+    result = []
+    for name in candidates:
+        if re.match(r'^不(?:放|加|用)', _js_string(name).strip()) or name in result:
+            continue
+        result.append(name)
+    return result
+
+
+def build_trusted_recipe_system_override(selection):
+    selection = selection if isinstance(selection, dict) else {}
+    recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    return '\n'.join([
+        TRUSTED_RECIPE_SYSTEM_OVERRIDE,
+        '【本次可信菜谱硬约束】',
+        f"基础菜谱 ID: {sanitize_prompt_text(recipe.get('id') or 'unknown', 100)}。",
+        f"本次可入锅主料白名单: {_compact_recipe_list(_trusted_recipe_ingredient_whitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。",
+        '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
+        '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',
+        '禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”等措辞或假定。需要长时泡发、预煮的可选食材必须省略；同次做饭可完成的短时处理必须写成“先处理 N 分钟”并计入总时长。',
+        '只能使用一口烹饪容器；主食和其他需熟制食材都必须在本次 steps[] 中完成。',
+        '返回 JSON 前逐项检查上述规则；冲突时先删除可选食材，不得新增主料。',
+    ])
+
+
 def build_recipe_grounding(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
@@ -472,21 +509,7 @@ def build_recipe_grounding(selection):
             '稻米过敏安全模式: 严格沿用这张基础菜谱，不得添加或建议搭配任何额外主食。',
             '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
         ]
-    ingredient_whitelist = []
-    whitelist_candidates = [
-        *(recipe.get('core_ingredients') or []),
-        *(recipe.get('optional_ingredients') or []),
-        *[
-            name
-            for slot in (recipe.get('substitution_slots') or []) if isinstance(slot, dict)
-            for name in (slot.get('allowed') or [])
-        ],
-        *(selection.get('used_pantry') or []),
-    ]
-    for name in whitelist_candidates:
-        if re.match(r'^不(?:放|加|用)', _js_string(name).strip()) or name in ingredient_whitelist:
-            continue
-        ingredient_whitelist.append(name)
+    ingredient_whitelist = _trusted_recipe_ingredient_whitelist(selection)
     return '\n'.join([
         '【可信基础菜谱】',
         family_line,
@@ -1366,10 +1389,10 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
     payload = {
         'model': MODEL_NAME,
         'messages': [
-            {'role': 'system', 'content': f'{RECIPE_SYSTEM}\n\n{TRUSTED_RECIPE_SYSTEM_OVERRIDE}'},
+            {'role': 'system', 'content': f'{RECIPE_SYSTEM}\n\n{build_trusted_recipe_system_override(selection)}'},
             {'role': 'user', 'content': build_prompt(meal_name, targets, constraints, build_recipe_grounding(selection))},
         ],
-        'temperature': 1.0,
+        'temperature': 0.3,
         'response_format': {'type': 'json_object'},
     }
     return payload, selection

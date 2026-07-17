@@ -315,6 +315,13 @@ test('trusted recipe priority overrides the generic balanced-main template at sy
   assert.match(system, /通用的“主食\+蛋白\+多种蔬菜”/);
   assert.match(system, /不得为补齐营养或丰富口味擅自添加白名单外/);
   assert.match(system, /清粥或素炖锅也可按原结构输出/);
+  assert.match(system, /本次可入锅主料白名单: 大米、水、盐/);
+  assert.match(system, /白名单外主料即使能补蛋白质或达成营养目标也不得加入/);
+  assert.match(system, /任何 ingredients\[\] 行都必须在 steps\[\] 中明确使用/);
+  assert.match(system, /步骤中写入的水、高汤、食用油、盐或胡椒/);
+  assert.match(system, /禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”/);
+  assert.match(system, /同次做饭可完成的短时处理必须写成“先处理 N 分钟”/);
+  assert.equal(upstreamBodies[0].temperature, 0.3);
 });
 
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {

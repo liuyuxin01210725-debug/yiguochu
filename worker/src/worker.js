@@ -228,6 +228,33 @@ function compactRecipeList(value, fallback = '无') {
   return items.length ? items.join('、') : fallback;
 }
 
+function trustedRecipeIngredientWhitelist(selection) {
+  const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  return [...new Set([
+    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+    ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
+    ...(Array.isArray(recipe.substitution_slots)
+      ? recipe.substitution_slots.flatMap(slot => Array.isArray(slot?.allowed) ? slot.allowed : [])
+      : []),
+    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ].filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim())))];
+}
+
+function buildTrustedRecipeSystemOverride(selection) {
+  const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  return [
+    TRUSTED_RECIPE_SYSTEM_OVERRIDE,
+    '【本次可信菜谱硬约束】',
+    `基础菜谱 ID: ${sanitizePromptText(recipe.id || 'unknown', 100)}。`,
+    `本次可入锅主料白名单: ${compactRecipeList(trustedRecipeIngredientWhitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。`,
+    '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
+    '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',
+    '禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”等措辞或假定。需要长时泡发、预煮的可选食材必须省略；同次做饭可完成的短时处理必须写成“先处理 N 分钟”并计入总时长。',
+    '只能使用一口烹饪容器；主食和其他需熟制食材都必须在本次 steps[] 中完成。',
+    '返回 JSON 前逐项检查上述规则；冲突时先删除可选食材，不得新增主料。',
+  ].join('\n');
+}
+
 function buildRecipeGrounding(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const family = selection?.family && typeof selection.family === 'object' ? selection.family : {};
@@ -249,14 +276,7 @@ function buildRecipeGrounding(selection) {
     '稻米过敏安全模式: 严格沿用这张基础菜谱，不得添加或建议搭配任何额外主食。',
     '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
   ] : [];
-  const ingredientWhitelist = [
-    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
-    ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
-    ...(Array.isArray(recipe.substitution_slots)
-      ? recipe.substitution_slots.flatMap(slot => Array.isArray(slot?.allowed) ? slot.allowed : [])
-      : []),
-    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
-  ].filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim()));
+  const ingredientWhitelist = trustedRecipeIngredientWhitelist(selection);
   return [
     '【可信基础菜谱】',
     `菜谱家族: ${sanitizePromptText(family.id || recipe.family_id || 'unknown', 100)} ${sanitizePromptText(family.name, 100)}`.trim(),
@@ -1610,10 +1630,10 @@ async function handleGenerate(request, env) {
   const body = {
     model: env.MODEL_NAME || 'deepseek-chat',
     messages: [
-      { role: 'system', content: `${RECIPE_SYSTEM}\n\n${TRUSTED_RECIPE_SYSTEM_OVERRIDE}` },
+      { role: 'system', content: `${RECIPE_SYSTEM}\n\n${buildTrustedRecipeSystemOverride(selection)}` },
       { role: 'user', content: prompt },
     ],
-    temperature: 1.0,
+    temperature: 0.3,
     response_format: { type: 'json_object' },
   };
 
