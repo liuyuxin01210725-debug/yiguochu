@@ -226,6 +226,10 @@ function buildRecipeGrounding(selection) {
   const profile = selection?.constraintProfile && typeof selection.constraintProfile === 'object'
     ? selection.constraintProfile
     : null;
+  const timeLines = Number.isInteger(recipe.total_time_minutes)
+    ? [`总时长基准: ${recipe.total_time_minutes}分钟`] : [];
+  const adaptationLines = typeof recipe.adaptation_note === 'string' && recipe.adaptation_note.trim()
+    ? [`改编说明: ${sanitizePromptText(recipe.adaptation_note, 400)}`] : [];
   const profileLines = profile ? [
     `受控完整主餐资格: ${sanitizePromptText(profile.id, 100)}`,
     '完整性依据: 红扁豆、土豆和番茄已经组成完整主餐。',
@@ -237,18 +241,20 @@ function buildRecipeGrounding(selection) {
     '【可信基础菜谱】',
     `菜谱家族: ${sanitizePromptText(family.id || recipe.family_id || 'unknown', 100)} ${sanitizePromptText(family.name, 100)}`.trim(),
     `基础菜谱: ${sanitizePromptText(recipe.id || 'unknown', 100)} ${sanitizePromptText(recipe.name, 100)}`.trim(),
+    ...timeLines,
     `固定核心: ${compactRecipeList(recipe.core_ingredients)}`,
     `只允许以下替换: ${compactRecipeList(slots)}`,
     `不鼓励: ${compactRecipeList(discouraged)}`,
     `关键技法: ${compactRecipeList(recipe.technique)}`,
     `比例规则: ${compactRecipeList(recipe.ratio_rules)}`,
     `安全规则: ${compactRecipeList(recipe.safety_rules)}`,
+    ...adaptationLines,
     `已选库存: ${compactRecipeList(selection?.usedPantry)}`,
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
     ...profileLines,
     '【输出完整性契约】',
     '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
-    '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和数字 grams；洗、淘、泡后倒掉的水可不列。',
+    '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams；洗、淘、泡后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
     `服务器已选库存（${compactRecipeList(selection?.usedPantry)}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（${compactRecipeList(selection?.unusedPantry)}）必须同时从 ingredients 与 steps 排除。`,
     '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
     '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',
@@ -413,6 +419,7 @@ const VALIDATION_SEASONING_INPUT_RE = new RegExp(
 const VALIDATION_SALT_TOKEN_RE = new RegExp(VALIDATION_SALT_TOKEN_SOURCE);
 const VALIDATION_PEPPER_TOKEN_RE = new RegExp(VALIDATION_PEPPER_TOKEN_SOURCE);
 const VALIDATION_RETAINED_WATER_ACTION_RE = /(?:加入?|倒入?|放入?|添入?|注入?|兑入?|补入?|加)(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)/g;
+const VALIDATION_RETAINED_SOAKING_LIQUID_RE = /(?:保留|留用|留下|不(?:要)?倒掉)(?:[^，,。；;！？!?]{0,20}?)(?:泡发水|浸泡水|泡豆水|泡菇水|浸泡液|泡发液)/g;
 const VALIDATION_WATER_DISCARD_RE = /(?:倒掉|弃去|滤掉|沥干|倒出)/;
 const VALIDATION_NEXT_CLAUSE_WATER_DISCARD_RE = /^(?:(?:再|然后|随后|接着))?(?:(?:将|把)(?:焯水|水|汤|汤汁|液体)(?:全部)?(?:倒掉|弃去|滤掉|倒出)|(?:倒掉|弃去|滤掉|倒出)(?:焯水|水|汤|汤汁|液体)|沥干)/;
 const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
@@ -489,6 +496,9 @@ function validationStepUsesRetainedWater(step) {
   const clauses = text.split(/[，,。；;！？!?]+/).filter(Boolean);
   for (let clauseIndex = 0; clauseIndex < clauses.length; clauseIndex += 1) {
     const clause = clauses[clauseIndex];
+    for (const match of clause.matchAll(new RegExp(VALIDATION_RETAINED_SOAKING_LIQUID_RE.source, 'g'))) {
+      if (!validationActionNegated(clause, match.index)) return true;
+    }
     for (const match of clause.matchAll(new RegExp(VALIDATION_RETAINED_WATER_ACTION_RE.source, 'g'))) {
       if (validationActionNegated(clause, match.index)) continue;
       const waterEnd = match.index + match[0].length;
@@ -922,7 +932,7 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
 - 单位: kcal=热量, p=蛋白g, fb=纤维g, mg=镁mg, k=钾mg, ca=钙mg, fe=铁mg, zn=锌mg, na=钠mg, vc=维C mg, vd=维D μg, w3=Omega-3 g。
 
 【最终提交自检】
-1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，留存液体须列入ingredients数字grams；泡发/浸泡液须计入总量，未计量不得保留，倒掉可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -1068,7 +1078,9 @@ function buildPrompt(mealName, targets, constraints, recipeGrounding) {
     .replace('{constraint_note}', constraintNote)
     .replace('{exclude_note}', excludeNote)
     .replace('{season_note}', seasonNote(new Date()));
-  return prompt.replace(RECIPE_GROUNDING_TOKEN_RE, '');
+  return prompt
+    .replace(RECIPE_GROUNDING_TOKEN_RE, '')
+    .replace('总时长尽量≤25分钟', '总时长尽量≤30分钟');
 }
 
 function stripJsonTrailingCommas(text) {
@@ -1421,6 +1433,9 @@ function attachGroundedMetadata(meal, selection, constraints) {
   repairRiceAllergyCompleteMain(meal, selection, constraints);
   repairGroundedMealSafety(meal, selection, constraints);
   const recipe = selection.recipe;
+  meal.adaptation_note = typeof recipe.adaptation_note === 'string'
+    ? recipe.adaptation_note.trim().slice(0, 400)
+    : '';
   const aliases = selection.ingredientAliases || {};
   const usedPantry = Array.isArray(selection.usedPantry) ? [...selection.usedPantry] : [];
   const unusedPantry = Array.isArray(selection.unusedPantry) ? [...selection.unusedPantry] : [];

@@ -11,7 +11,7 @@ import {
 } from '../../worker/src/worker.js';
 
 const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
-1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，逐一复查食用油、盐、胡椒和留在成品中的水；洗、淘、泡后倒掉的水可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
+1. 双向一致：steps中的投入物都须在ingredients有同义name和数字grams，留存液体须列入ingredients数字grams；泡发/浸泡液须计入总量，未计量不得保留，倒掉可不列。除获准小量香辛料外，每个ingredient须在steps出现。已选库存同时出现在ingredients与steps；未用库存不得出现在ingredients、steps或why。
 2. 安全终点：每种生禽肉、猪肉、海鲜、普通鸡蛋都必须在含该ingredient原名的步骤写已达到的熟制终点；“表面变色”、只写时长或仅“米熟”不算。普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”；只写蛋白凝固不算。
 3. 一锅限时：全程只用一口烹饪容器；禁止提前、过夜或隐藏预处理。主食必须在steps中完成烹煮，或ingredient名明确写剩饭/即食；所有用时计入prep_minutes，steps≤4且总时长≤40分钟。
 4. 过敏复核：重查忌口/过敏；其直接名称和带前后缀形态不得出现在模型JSON任何字段，例如米过敏时不得写“配米饭”。
@@ -1633,7 +1633,9 @@ test('default handler sends the cross-field output contract with selected pantry
   assert.match(prompt, /鸡胸肉切成鸡丝/);
   assert.match(prompt, /大蒜切成蒜末/);
   assert.match(prompt, /留在成品中的水/);
-  assert.match(prompt, /洗、淘、泡后倒掉的水可不列/);
+  assert.match(prompt, /洗、淘、泡后明确倒掉的水可不列/);
+  assert.match(prompt, /泡发水、浸泡水或浸泡液若保留进成品/);
+  assert.match(prompt, /未计量的泡发水或浸泡液不得保留/);
   assert.match(prompt, /服务器已选库存（鸡肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);
   assert.match(prompt, /服务器舍弃库存（黄瓜）必须同时从 ingredients 与 steps 排除/);
   assert.match(prompt, /生的禽肉、猪肉、海鲜和普通鸡蛋/);
@@ -1664,8 +1666,9 @@ test('default handler ends its single DeepSeek prompt with the concise final pre
   assert.ok(prompt.endsWith(FINAL_RECIPE_PREFLIGHT));
   assert.ok(prompt.slice(-500).includes(FINAL_RECIPE_PREFLIGHT));
   assert.match(FINAL_RECIPE_PREFLIGHT, /steps中的投入物都须在ingredients有同义name和数字grams/);
-  assert.match(FINAL_RECIPE_PREFLIGHT, /留在成品中的水/);
-  assert.match(FINAL_RECIPE_PREFLIGHT, /洗、淘、泡后倒掉的水可不列/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /留存液体须列入ingredients数字grams/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /泡发\/浸泡液须计入总量/);
+  assert.match(FINAL_RECIPE_PREFLIGHT, /未计量不得保留/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /除获准小量香辛料外，每个ingredient须在steps出现/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /普通鸡蛋须写“鸡蛋熟透，蛋白和蛋黄完全凝固，不得流心”/);
   assert.match(FINAL_RECIPE_PREFLIGHT, /只写蛋白凝固不算/);
@@ -2553,4 +2556,60 @@ test('health reuses the recipe cache for the same assets binding', async () => {
   assert.equal((await first.json()).recipeLibrary, 'ok');
   assert.equal((await second.json()).recipeLibrary, 'ok');
   assert.deepEqual(requests, ['https://one.example/recipe-library.json']);
+});
+
+test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {
+  const recipe = lib.recipes.find(item => item.id === 'soy-lentil-vegetable-stew');
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: [...recipe.core_ingredients], purpose: 'quick', dislikes: [],
+  });
+  const grounding = buildRecipeGrounding(selection);
+  assert.match(grounding, /总时长基准: 30分钟/);
+  assert.match(grounding, /40克.*80克.*250克.*500克/);
+  assert.match(grounding, /泡发水.*计入总液体克数/);
+  assert.match(grounding, /未计量的.*浸泡液.*不得保留/);
+});
+
+test('grounded metadata overwrites forged adaptation notes', async () => {
+  const note = '原始来源使用两个烹饪容器；一锅出改为同锅先炒后炖。';
+  const recipe = groundedFixtureRecipe({ adaptation_note: note, total_time_minutes: 30 });
+  const { body } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe]),
+    meal: generatedMeal({ adaptation_note: 'model-forged-adaptation' }),
+  });
+  assert.equal(body.adaptation_note, note);
+  assert.equal(JSON.stringify(body).includes('model-forged-adaptation'), false);
+  const plain = groundedFixtureRecipe({ adaptation_note: undefined });
+  const result = await runGenerateRequest({ recipeLib: fixtureLib([plain]) });
+  assert.equal(result.body.adaptation_note, '');
+});
+
+test('retained soaking liquid requires a measured water ingredient', () => {
+  const selection = correspondenceSelection();
+  const missing = validateGroundedMeal({
+    ingredients: [{ name: '红扁豆', grams: 80 }],
+    steps: ['红扁豆浸泡后，保留泡发水并同锅炖熟。'],
+  }, selection, {});
+  assert.ok(missing.includes('step_ingredient_missing:水'));
+  const measured = validateGroundedMeal({
+    ingredients: [{ name: '红扁豆', grams: 80 }, { name: '水', grams: 500 }],
+    steps: ['红扁豆浸泡后，将泡发水计入500克水并同锅炖熟。'],
+  }, selection, {});
+  assert.equal(measured.includes('step_ingredient_missing:水'), false);
+  for (const step of ['红扁豆浸泡后倒掉泡发水并沥干。', '无需保留泡发水，倒掉并沥干。']) {
+    const flags = validateGroundedMeal({
+      ingredients: [{ name: '红扁豆', grams: 80 }], steps: [step],
+    }, selection, {});
+    assert.equal(flags.includes('step_ingredient_missing:水'), false, step);
+  }
+});
+
+test('ordinary quick prompt uses an honest thirty-minute threshold', async () => {
+  const recipe = groundedFixtureRecipe({ total_time_minutes: 30 });
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe]), constraints: { purpose: 'quick' },
+  });
+  const prompt = upstreamBodies[0].messages[1].content;
+  assert.match(prompt, /总时长尽量≤30分钟/);
+  assert.doesNotMatch(prompt, /总时长尽量≤25分钟/);
 });
