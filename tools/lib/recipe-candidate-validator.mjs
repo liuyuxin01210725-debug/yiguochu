@@ -70,6 +70,9 @@ export function validateRecipeCandidateLedger(ledger) {
       for (const key of ['kind', 'relationship', 'claim', 'source_type', 'title', 'publisher', 'retrieved_at']) {
         if (!nonEmpty(ref?.[key])) errors.push(`${prefix} missing ${key}`);
       }
+      if (typeof ref?.claim === 'string' && PROHIBITED_CONTENT_RE.test(ref.claim)) {
+        errors.push(`${prefix} claim must not contain quantities or nutrition claims`);
+      }
       if (ref?.kind !== 'cultural_fact') errors.push(`${prefix} kind must be cultural_fact`);
       if (!https(ref?.url)) errors.push(`${prefix} URL must be HTTPS`);
       if (!nonEmpty(ref?.rights_note)) errors.push(`${prefix} missing rights_note`);

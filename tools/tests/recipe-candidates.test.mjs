@@ -67,6 +67,7 @@ test('candidate ledger documentation preserves the facts-versus-expression bound
 test('candidate ledger rejects non-factual kinds, unknown fields, and quantified content', () => {
   const invalid = structuredClone(validLedger);
   invalid.entries[0].basis_refs[0].kind = 'recipe_copy';
+  invalid.entries[0].basis_refs[0].claim = '每份 500 千卡';
   invalid.entries[0].basis_refs[0].nutrition = '每份 500 千卡';
   invalid.entries[0].ingredient_pattern = ['大米 200 克'];
   invalid.entries[0].steps = ['先炒后焖'];
@@ -74,6 +75,7 @@ test('candidate ledger rejects non-factual kinds, unknown fields, and quantified
   assert.ok(errors.includes('sample-rice ingredient_pattern must not contain quantities or nutrition claims'));
   assert.ok(errors.includes('sample-rice has unexpected field steps'));
   assert.ok(errors.includes('sample-rice basis ref 0 kind must be cultural_fact'));
+  assert.ok(errors.includes('sample-rice basis ref 0 claim must not contain quantities or nutrition claims'));
   assert.ok(errors.includes('sample-rice basis ref 0 has unexpected field nutrition'));
 });
 
