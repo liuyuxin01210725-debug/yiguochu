@@ -7,7 +7,8 @@
     "鸡胸肉": "鸡肉",
     "青椒": "甜椒",
     "椰浆": "椰奶",
-    "扁豆": "红扁豆"
+    "扁豆": "红扁豆",
+    "黑眼豆（罐头沥干）": "黑眼豆"
   },
   "families": [
     { "id": "family-rice-porridge", "name": "米粥", "form": "粥" },
@@ -63,7 +64,7 @@
       "cuisine": "南亚风味",
       "form": "焖饭",
       "summary": "先用油脂炒香洋葱和整粒香料，再让鸡肉、大米与高汤同锅焖熟并静置吸汁。",
-      "purposes": ["quick", "fresh", "batch"],
+      "purposes": ["quick", "fresh", "pantry", "batch"],
       "core_ingredients": ["大米", "鸡肉", "洋葱"],
       "optional_ingredients": ["黄油", "月桂叶", "姜黄", "豆蔻", "肉桂", "咖喱酱", "葡萄干", "鸡高汤", "香菜"],
       "generation_optional_ingredients": ["黄油", "姜黄", "咖喱酱", "鸡高汤"],
@@ -202,22 +203,23 @@
       "name": "鸡肉黑眼豆番茄饭锅",
       "cuisine": "香辣炖锅风味",
       "form": "饭锅",
-      "summary": "先把黑眼豆煮至将熟，再与炒香蔬菜、大米、番茄和鸡肉一起慢炖成主餐。",
+      "summary": "使用罐头沥干的黑眼豆，与炒香蔬菜、大米、番茄和鸡肉同锅慢炖成主餐。",
+      "adaptation_note": "40分钟一锅生产版只使用罐头沥干或已煮熟的黑眼豆，线上生成时固定写为“黑眼豆（罐头沥干）”；不得另行预煮、浸泡或使用未计量的煮豆水。",
       "purposes": ["pantry", "fresh", "batch"],
-      "core_ingredients": ["黑眼豆", "大米", "鸡肉", "番茄", "洋葱"],
-      "optional_ingredients": ["胡萝卜", "芹菜", "蒜", "姜", "辣椒", "咖喱粉", "柠檬汁", "鸡高汤"],
-      "generation_optional_ingredients": ["胡萝卜", "芹菜", "蒜", "鸡高汤"],
+      "core_ingredients": ["黑眼豆（罐头沥干）", "大米", "鸡肉", "番茄", "洋葱"],
+      "optional_ingredients": ["植物油", "胡萝卜", "芹菜", "蒜", "姜", "辣椒", "咖喱粉", "柠檬汁", "鸡高汤"],
+      "generation_optional_ingredients": ["植物油", "胡萝卜", "蒜", "鸡高汤"],
       "generation_liquid_ingredients": ["鸡高汤"],
       "substitution_slots": [
-        { "slot": "鸡肉替代", "replaces": ["鸡肉"], "allowed": ["黑眼豆"] },
+        { "slot": "鸡肉替代", "replaces": ["鸡肉"], "allowed": ["不放鸡肉"] },
         { "slot": "炖煮液体", "replaces": ["鸡高汤"], "allowed": ["蔬菜高汤", "水"] }
       ],
       "discouraged": [
         { "ingredients": ["未预煮干黑眼豆"], "reason_type": "timing", "reason": "干豆不预煮会与米饭和鸡肉的熟成时间错位。" }
       ],
-      "technique": ["黑眼豆预煮", "炒香根茎菜", "合锅慢炖", "最后添酸辣"],
-      "ratio_rules": ["干黑眼豆与大米体积约为1:1", "一杯大米配约四杯高汤与番茄液体"],
-      "safety_rules": ["鸡肉必须持续炖至中心完全熟透", "干豆须充分煮熟后食用"],
+      "technique": ["同锅炒香根茎菜", "加入罐头沥干黑眼豆", "合锅慢炖", "最后调味"],
+      "ratio_rules": ["原始来源一杯大米配约两杯罐头黑眼豆", "一杯大米配约四杯高汤与番茄液体"],
+      "safety_rules": ["鸡肉必须持续炖至中心完全熟透", "只使用罐头沥干或已充分煮熟的黑眼豆"],
       "source_refs": [
         {
           "usage": "approved",
@@ -387,7 +389,7 @@
       "generation_liquid_ingredients": ["高汤"],
       "substitution_slots": [
         { "slot": "烩饭米", "replaces": ["意式烩饭米"], "allowed": ["阿博里奥米", "卡纳罗利米"] },
-        { "slot": "白葡萄酒", "replaces": ["白葡萄酒"], "allowed": ["高汤"] }
+        { "slot": "白葡萄酒", "replaces": ["白葡萄酒"], "allowed": ["不放白葡萄酒"] }
       ],
       "discouraged": [
         { "ingredients": ["一次倒入全部高汤", "未焯水的大块土豆"], "reason_type": "timing", "reason": "液体和难熟配料失控会破坏逐次吸收的烩饭节奏。" }

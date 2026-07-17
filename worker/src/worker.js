@@ -254,12 +254,20 @@ function trustedRecipeFatOptions(selection) {
 
 function trustedRecipeIngredientWhitelist(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
-  return [...new Set([
+  const aliases = selection?.ingredientAliases || {};
+  const seen = new Set();
+  return [
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
     ...trustedRecipeGenerationOptions(recipe),
     ...trustedRecipeLiquidOptions(recipe),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
-  ].filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim())))];
+  ].filter(item => {
+    if (/^不(?:放|加|用)/.test(String(item || '').trim())) return false;
+    const canonical = canonicalRecipeIngredient(item, aliases);
+    if (!canonical || seen.has(canonical)) return false;
+    seen.add(canonical);
+    return true;
+  });
 }
 
 function buildTrustedRecipeSystemOverride(selection) {
@@ -304,7 +312,7 @@ function buildTrustedRecipeSystemOverride(selection) {
     liquidRule,
     fatRule,
     '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
-    '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
+    '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（已单独锁定的主烹调液体、烹调油脂以及有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
     '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
     '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',
     'ingredients[] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料；可选香辛料最多 3 种。超过上限时必须先删除非必需的可选配料，不得让必需的液体或调味行排在第 12 行之后。',
@@ -920,12 +928,18 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     ...(Array.isArray(selection?.recipe?.core_ingredients) ? selection.recipe.core_ingredients : []),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
   ].map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
+  const structuralConsumables = new Set([
+    ...trustedRecipeLiquidOptions(selection?.recipe || {}),
+    ...trustedRecipeFatOptions(selection),
+  ].map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
   const optionalIngredients = new Set();
   for (const name of ingredientNames) {
     if (validationIngredientMatchesNames(name, VALIDATION_WATER_NAMES)
       || validationIngredientMatchesNames(name, VALIDATION_SALT_NAMES)) continue;
     const canonical = validationCanonicalIngredient(name, aliases);
-    if (canonical && !requiredIngredients.has(canonical)) optionalIngredients.add(canonical);
+    if (canonical && !requiredIngredients.has(canonical) && !structuralConsumables.has(canonical)) {
+      optionalIngredients.add(canonical);
+    }
   }
   if (selection?.recipe?.status === 'approved' && optionalIngredients.size > 4) {
     flags.add('optional_ingredient_limit_exceeded');

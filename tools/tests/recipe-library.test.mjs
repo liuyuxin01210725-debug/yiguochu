@@ -145,6 +145,24 @@ test('soy stew and congee record deterministic production adaptations', () => {
   assert.match(congee.adaptation_note, /只选酱油、芝麻油、葱、姜四项可选配料/);
 });
 
+test('black-eyed pea production base locks a source-supported cooked state and non-conflicting omissions', () => {
+  const stew = lib.recipes.find(item => item.id === 'chicken-black-eyed-pea-stew');
+  assert.ok(stew.core_ingredients.includes('黑眼豆（罐头沥干）'));
+  assert.match(stew.adaptation_note, /罐头沥干或已煮熟/);
+  assert.match(stew.adaptation_note, /不得另行预煮/);
+  assert.deepEqual(stew.substitution_slots[0], {
+    slot: '鸡肉替代',
+    replaces: ['鸡肉'],
+    allowed: ['不放鸡肉'],
+  });
+  const risotto = lib.recipes.find(item => item.id === 'basic-risotto');
+  assert.deepEqual(risotto.substitution_slots.find(slot => slot.slot === '白葡萄酒'), {
+    slot: '白葡萄酒',
+    replaces: ['白葡萄酒'],
+    allowed: ['不放白葡萄酒'],
+  });
+});
+
 test('validator bounds optional recipe time and adaptation metadata', () => {
   const invalid = structuredClone(lib);
   invalid.recipes[0].total_time_minutes = 0;
@@ -184,7 +202,19 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     青椒: '甜椒',
     椰浆: '椰奶',
     扁豆: '红扁豆',
+    '黑眼豆（罐头沥干）': '黑眼豆',
   });
+});
+
+test('validator rejects a substitution alternative that duplicates another fixed core ingredient', () => {
+  const invalid = structuredClone(lib);
+  invalid.recipes[0].substitution_slots[0] = {
+    slot: '冲突替换',
+    replaces: ['水'],
+    allowed: ['大米'],
+  };
+  const errors = validateRecipeLibrary(invalid);
+  assert.ok(errors.includes(`${invalid.recipes[0].id} substitution slot at index 0 allowed ingredient duplicates another core ingredient: 大米`));
 });
 
 test('only the lentil curry is approved as a complete rice-allergy main meal', () => {

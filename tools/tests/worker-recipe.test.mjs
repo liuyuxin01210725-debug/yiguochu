@@ -219,6 +219,29 @@ test('trusted rice grounding carries explicit per-serving gram conversions', () 
   assert.match(buildRecipeGrounding(jollof), /每1份使用大米100克、鸡高汤130克/);
 });
 
+test('pantry chicken rice request prefers the exact biryani base over a larger incomplete core', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['大米', '鸡肉', '洋葱'],
+    purpose: 'pantry',
+    dislikes: [],
+  });
+  assert.equal(selection.recipe.id, 'simple-chicken-biryani');
+});
+
+test('black-eyed pea grounding preserves the reviewed cooked ingredient state without a generic duplicate', () => {
+  const recipe = lib.recipes.find(item => item.id === 'chicken-black-eyed-pea-stew');
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], lib.ingredient_aliases), {
+    pantry: ['黑眼豆', '大米', '鸡肉'],
+    purpose: 'pantry',
+    dislikes: [],
+  });
+  const whitelistLine = buildRecipeGrounding(selection)
+    .split('\n')
+    .find(line => line.startsWith('可入锅食材白名单'));
+  assert.match(whitelistLine, /黑眼豆（罐头沥干）/);
+  assert.doesNotMatch(whitelistLine, /、黑眼豆(?:、|$)/);
+});
+
 test('complete trusted core outranks a partial higher-cardinality recipe in the live fresh case', () => {
   const [hit] = selectRecipeCandidates(lib, {
     pantry: ['大米', '鸡肉', '洋葱', '面条'],
@@ -699,7 +722,7 @@ test('validator rejects more than four non-core optional ingredients', () => {
   const recipe = groundedFixtureRecipe({
     status: 'approved',
     core_ingredients: ['大米'],
-    optional_ingredients: ['橄榄油', '蒜', '姜黄', '黑胡椒', '香菜'],
+    optional_ingredients: ['蘑菇', '蒜', '姜黄', '黑胡椒', '香菜'],
     substitution_slots: [],
   });
   const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
@@ -709,6 +732,25 @@ test('validator rejects more than four non-core optional ingredients', () => {
   });
   assert.equal(validateGroundedMeal(makeMeal(recipe.optional_ingredients.slice(0, 4)), selection, {}).includes('optional_ingredient_limit_exceeded'), false);
   assert.ok(validateGroundedMeal(makeMeal(recipe.optional_ingredients), selection, {}).includes('optional_ingredient_limit_exceeded'));
+});
+
+test('optional ingredient cap excludes the separately locked main liquid and cooking fat', () => {
+  const recipe = groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米'],
+    optional_ingredients: ['黄油', '鸡高汤', '蒜', '姜黄', '黑胡椒', '蘑菇', '香菜'],
+    generation_optional_ingredients: ['黄油', '鸡高汤', '蒜', '姜黄'],
+    generation_liquid_ingredients: ['鸡高汤'],
+    substitution_slots: [],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const makeMeal = extras => ({
+    ingredients: ['大米', '黄油', '鸡高汤', ...extras].map(name => ({ name })),
+    steps: [`大米、黄油、鸡高汤、${extras.join('、')}同锅煮熟。`],
+  });
+  const fourExtras = ['蒜', '姜黄', '黑胡椒', '蘑菇'];
+  assert.equal(validateGroundedMeal(makeMeal(fourExtras), selection, {}).includes('optional_ingredient_limit_exceeded'), false);
+  assert.ok(validateGroundedMeal(makeMeal([...fourExtras, '香菜']), selection, {}).includes('optional_ingredient_limit_exceeded'));
 });
 
 test('validator catches hidden advance preparation but not an explicit no-advance instruction', () => {

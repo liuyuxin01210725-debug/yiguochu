@@ -769,16 +769,32 @@ test('Python matches approved ingredient, advance-prep, and soy-protein validati
       meal: {
         ingredients: [
           { name: '红扁豆' }, { name: '大豆蛋白块' }, { name: '西兰花' }, { name: '红洋葱' },
-          { name: '橄榄油' }, { name: '蒜' }, { name: '营养酵母' }, { name: '黑胡椒' }, { name: '姜黄' },
+          { name: '橄榄油' }, { name: '蒜' }, { name: '营养酵母' }, { name: '黑胡椒' }, { name: '姜黄' }, { name: '姜' },
         ],
-        steps: ['红扁豆、大豆蛋白块、西兰花、红洋葱、橄榄油、蒜、营养酵母、黑胡椒和姜黄同锅煮熟。'],
+        steps: ['红扁豆、大豆蛋白块、西兰花、红洋葱、橄榄油、蒜、营养酵母、黑胡椒、姜黄和姜同锅煮熟。'],
       },
       present: ['optional_ingredient_limit_exceeded'],
     },
+    {
+      library: fixtureLib([groundedRecipe({
+        status: 'approved',
+        core_ingredients: ['大米'],
+        optional_ingredients: ['黄油', '鸡高汤', '蒜', '姜黄', '黑胡椒', '蘑菇'],
+        generation_optional_ingredients: ['黄油', '鸡高汤', '蒜', '姜黄'],
+        generation_liquid_ingredients: ['鸡高汤'],
+        substitution_slots: [],
+      })]),
+      constraints: { pantry: ['大米'], dislikes: [] },
+      meal: {
+        ingredients: ['大米', '黄油', '鸡高汤', '蒜', '姜黄', '黑胡椒', '蘑菇'].map(name => ({ name })),
+        steps: ['大米、黄油、鸡高汤、蒜、姜黄、黑胡椒和蘑菇同锅煮熟。'],
+      },
+      absent: ['optional_ingredient_limit_exceeded'],
+    },
   ];
-  for (const { constraints, meal, present = [], absent = [] } of cases) {
-    const js = validateGroundedMeal(meal, selectRecipeCandidates(lib, constraints)[0], constraints);
-    const py = pythonCall('validate', { library: lib, constraints, meal });
+  for (const { library = lib, constraints, meal, present = [], absent = [] } of cases) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
     assert.deepEqual(py, js);
     for (const flag of present) assert.ok(py.includes(flag), flag);
     for (const flag of absent) assert.equal(py.includes(flag), false, flag);

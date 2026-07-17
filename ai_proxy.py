@@ -468,10 +468,16 @@ def _trusted_recipe_ingredient_whitelist(selection):
         *_trusted_recipe_liquid_options(recipe),
         *(selection.get('used_pantry') or []),
     ]
+    aliases = selection.get('ingredient_aliases') or {}
     result = []
+    seen = set()
     for name in candidates:
-        if re.match(r'^不(?:放|加|用)', _js_string(name).strip()) or name in result:
+        if re.match(r'^不(?:放|加|用)', _js_string(name).strip()):
             continue
+        canonical = canonical_recipe_ingredient(name, aliases)
+        if not canonical or canonical in seen:
+            continue
+        seen.add(canonical)
         result.append(name)
     return result
 
@@ -538,7 +544,7 @@ def build_trusted_recipe_system_override(selection):
         liquid_rule,
         fat_rule,
         '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
-        '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
+        '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（已单独锁定的主烹调液体、烹调油脂以及有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
         '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
         '步骤中写入的水、高汤、食用油、盐或胡椒，都必须在 ingredients[] 中有对应 name 和大于 0 的 grams；反向也必须成立。',
         'ingredients[] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料；可选香辛料最多 3 种。超过上限时必须先删除非必需的可选配料，不得让必需的液体或调味行排在第 12 行之后。',
@@ -1296,13 +1302,22 @@ def validate_grounded_meal(meal, selection, constraints=None):
         ]
         if (canonical := _validation_canonical_ingredient(name, aliases))
     }
+    structural_consumables = {
+        canonical
+        for name in [
+            *_trusted_recipe_liquid_options(selection.get('recipe') or {}),
+            *_trusted_recipe_fat_options(selection),
+        ]
+        if (canonical := _validation_canonical_ingredient(name, aliases))
+    }
     optional_ingredients = set()
     for name in ingredient_names:
         if (_validation_ingredient_matches_names(name, _VALIDATION_WATER_NAMES)
                 or _validation_ingredient_matches_names(name, _VALIDATION_SALT_NAMES)):
             continue
         canonical = _validation_canonical_ingredient(name, aliases)
-        if canonical and canonical not in required_ingredients:
+        if (canonical and canonical not in required_ingredients
+                and canonical not in structural_consumables):
             optional_ingredients.add(canonical)
     if selection.get('recipe', {}).get('status') == 'approved' and len(optional_ingredients) > 4:
         add_flag('optional_ingredient_limit_exceeded')

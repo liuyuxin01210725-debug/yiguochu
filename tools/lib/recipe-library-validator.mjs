@@ -70,6 +70,16 @@ function safeId(value, fallback) {
   return isNonEmptyString(value) ? value : fallback;
 }
 
+function canonicalIngredient(name, aliases) {
+  let current = typeof name === 'string' ? name.trim() : '';
+  const seen = new Set();
+  while (current && isNonEmptyString(aliases?.[current]) && !seen.has(current)) {
+    seen.add(current);
+    current = aliases[current].trim();
+  }
+  return current;
+}
+
 export function validateRecipeLibrary(lib) {
   const errors = [];
   if (lib?.schema_version !== 1) errors.push('schema_version must be 1');
@@ -210,6 +220,9 @@ export function validateRecipeLibrary(lib) {
     }
 
     if (Array.isArray(recipe.substitution_slots)) {
+      const coreIngredients = new Set((Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [])
+        .map(name => canonicalIngredient(name, lib.ingredient_aliases))
+        .filter(Boolean));
       for (const [slotIndex, slot] of recipe.substitution_slots.entries()) {
         if (!isPlainObject(slot)) {
           errors.push(`${label} substitution slot at index ${slotIndex} must be an object`);
@@ -225,6 +238,18 @@ export function validateRecipeLibrary(lib) {
         }
         if (!validateStringArray(slot.allowed, `${label} substitution slot at index ${slotIndex} allowed`, errors)) {
           invalidSlot = true;
+        }
+        if (Array.isArray(slot.replaces) && Array.isArray(slot.allowed)) {
+          const replaced = new Set(slot.replaces
+            .map(name => canonicalIngredient(name, lib.ingredient_aliases))
+            .filter(Boolean));
+          for (const name of slot.allowed) {
+            if (/^不(?:放|加|用)/.test(String(name || '').trim())) continue;
+            const canonical = canonicalIngredient(name, lib.ingredient_aliases);
+            if (canonical && coreIngredients.has(canonical) && !replaced.has(canonical)) {
+              errors.push(`${label} substitution slot at index ${slotIndex} allowed ingredient duplicates another core ingredient: ${name}`);
+            }
+          }
         }
         if (invalidSlot) errors.push(`${label} invalid substitution slot`);
       }
