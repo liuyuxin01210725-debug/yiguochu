@@ -803,6 +803,9 @@ test('Python trusted system priority and joined seasoning validation match Worke
       steps: ['大米和水煮成粥，加盐调味。'],
     },
   });
+  assert.ok(prepared.system.startsWith('你是可信基础菜谱的一锅出编辑。'));
+  assert.doesNotMatch(prepared.system, /食材数量要和份数、场景匹配/);
+  assert.doesNotMatch(prepared.system, /主蛋白必须轮换/);
   assert.match(prepared.system, /可信菜谱最高优先级/);
   assert.match(prepared.system, /不得为补齐营养或丰富口味擅自添加白名单外/);
   assert.match(prepared.system, /本次可入锅主料白名单: 大米、水、盐/);

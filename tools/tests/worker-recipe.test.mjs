@@ -312,6 +312,9 @@ test('trusted recipe priority overrides the generic balanced-main template at sy
     constraints: { pantry: ['大米', '水'], purpose: 'batch' },
   });
   const system = upstreamBodies[0].messages[0].content;
+  assert.ok(system.startsWith('你是可信基础菜谱的一锅出编辑。'));
+  assert.doesNotMatch(system, /食材数量要和份数、场景匹配/);
+  assert.doesNotMatch(system, /主蛋白必须轮换/);
   assert.match(system, /可信菜谱最高优先级/);
   assert.match(system, /通用的“主食\+蛋白\+多种蔬菜”/);
   assert.match(system, /不得为补齐营养或丰富口味擅自添加白名单外/);

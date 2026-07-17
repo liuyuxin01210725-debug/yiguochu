@@ -139,6 +139,7 @@ NUTRIENT_MAX = {
 }
 RECIPE_GROUNDING_TOKEN_RE = re.compile(r'\{recipe_grounding\}', re.IGNORECASE)
 RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main'
+TRUSTED_RECIPE_SYSTEM_ROLE = '你是可信基础菜谱的一锅出编辑。只按本系统消息中的可信菜谱硬约束和用户消息里的对应 grounding 生成；不得套用通用“主食+蛋白+多蔬菜”模板。返回严格 JSON，JSON 外不要输出文字。'
 TRUSTED_RECIPE_SYSTEM_OVERRIDE = '【可信菜谱最高优先级】当可信基础菜谱与通用的“主食+蛋白+多种蔬菜”或食材数量要求冲突时，必须以可信菜谱的固定核心、可选食材、允许替换和白名单为准。不得为补齐营养或丰富口味擅自添加白名单外的主食、肉蛋奶、豆类或蔬菜；清粥或素炖锅也可按原结构输出。'
 _UNDEFINED = object()
 
@@ -1463,7 +1464,7 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
     payload = {
         'model': MODEL_NAME,
         'messages': [
-            {'role': 'system', 'content': f'{RECIPE_SYSTEM}\n\n{build_trusted_recipe_system_override(selection)}'},
+            {'role': 'system', 'content': f'{TRUSTED_RECIPE_SYSTEM_ROLE}\n\n{build_trusted_recipe_system_override(selection)}'},
             {'role': 'user', 'content': build_prompt(meal_name, targets, constraints, build_recipe_grounding(selection))},
         ],
         'temperature': 0,

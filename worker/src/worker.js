@@ -8,6 +8,7 @@ const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
 const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
 const RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main';
+const TRUSTED_RECIPE_SYSTEM_ROLE = '你是可信基础菜谱的一锅出编辑。只按本系统消息中的可信菜谱硬约束和用户消息里的对应 grounding 生成；不得套用通用“主食+蛋白+多蔬菜”模板。返回严格 JSON，JSON 外不要输出文字。';
 const TRUSTED_RECIPE_SYSTEM_OVERRIDE = '【可信菜谱最高优先级】当可信基础菜谱与通用的“主食+蛋白+多种蔬菜”或食材数量要求冲突时，必须以可信菜谱的固定核心、可选食材、允许替换和白名单为准。不得为补齐营养或丰富口味擅自添加白名单外的主食、肉蛋奶、豆类或蔬菜；清粥或素炖锅也可按原结构输出。';
 
 function sanitizePromptText(value, maxLength = 160) {
@@ -1685,7 +1686,7 @@ async function handleGenerate(request, env) {
   const body = {
     model: env.MODEL_NAME || 'deepseek-chat',
     messages: [
-      { role: 'system', content: `${RECIPE_SYSTEM}\n\n${buildTrustedRecipeSystemOverride(selection)}` },
+      { role: 'system', content: `${TRUSTED_RECIPE_SYSTEM_ROLE}\n\n${buildTrustedRecipeSystemOverride(selection)}` },
       { role: 'user', content: prompt },
     ],
     temperature: 0,
