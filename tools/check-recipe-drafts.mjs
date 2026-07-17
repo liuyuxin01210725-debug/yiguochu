@@ -3,9 +3,14 @@ import fs from 'node:fs';
 import { validateRecipeDraftLibrary } from './lib/recipe-draft-validator.mjs';
 import { validateSixDraftReleaseGate } from './lib/recipe-draft-release-gate.mjs';
 
-const draftFile = new URL('./data/recipe-drafts.json', import.meta.url);
-const candidateFile = new URL('./data/recipe-candidates.json', import.meta.url);
-const productionFile = new URL('./data/recipe-library.json', import.meta.url);
+function fileArgument(name, defaultFile) {
+  const index = process.argv.indexOf(name);
+  return index === -1 ? defaultFile : process.argv[index + 1];
+}
+
+const draftFile = fileArgument('--draft-file', new URL('./data/recipe-drafts.json', import.meta.url));
+const candidateFile = fileArgument('--candidate-file', new URL('./data/recipe-candidates.json', import.meta.url));
+const productionFile = fileArgument('--production-file', new URL('./data/recipe-library.json', import.meta.url));
 const drafts = JSON.parse(fs.readFileSync(draftFile, 'utf8'));
 const candidates = JSON.parse(fs.readFileSync(candidateFile, 'utf8'));
 const production = JSON.parse(fs.readFileSync(productionFile, 'utf8'));

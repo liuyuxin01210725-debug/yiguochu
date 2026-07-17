@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
 import {
@@ -90,6 +92,50 @@ test('draft checker permits the current six drafts during expansion', () => {
   const run = spawnSync('node', ['tools/check-recipe-drafts.mjs'], { encoding: 'utf8' });
   assert.equal(run.status, 0, run.stderr);
   assert.match(run.stdout, /传统一锅草案 6 道 · 生产可用 0 道/);
+});
+
+test('draft checker permits seven drafts and rejects five or thirty-one drafts', (t) => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'recipe-drafts-'));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const runWithDraftCount = (count) => {
+    const fixtureDrafts = structuredClone(drafts);
+    const fixtureCandidates = structuredClone(candidates);
+    while (fixtureDrafts.drafts.length < count) {
+      const number = fixtureDrafts.drafts.length + 1;
+      const draft = structuredClone(fixtureDrafts.drafts[0]);
+      draft.id = `fixture-draft-${number}`;
+      draft.candidate_id = `fixture-candidate-${number}`;
+      fixtureDrafts.drafts.push(draft);
+      fixtureCandidates.entries.push({ id: draft.candidate_id, status: 'candidate' });
+    }
+    fixtureDrafts.drafts.length = count;
+    const draftPath = path.join(tempDir, `drafts-${count}.json`);
+    const candidatePath = path.join(tempDir, `candidates-${count}.json`);
+    const productionPath = path.join(tempDir, `production-${count}.json`);
+    fs.writeFileSync(draftPath, JSON.stringify(fixtureDrafts));
+    fs.writeFileSync(candidatePath, JSON.stringify(fixtureCandidates));
+    fs.writeFileSync(productionPath, JSON.stringify(production));
+    return spawnSync('node', [
+      'tools/check-recipe-drafts.mjs',
+      '--draft-file', draftPath,
+      '--candidate-file', candidatePath,
+      '--production-file', productionPath,
+    ], { encoding: 'utf8' });
+  };
+
+  const seven = runWithDraftCount(7);
+  assert.equal(seven.status, 0, seven.stderr);
+  assert.match(seven.stdout, /传统一锅草案 7 道 · 生产可用 0 道/);
+
+  for (const count of [5, 31]) {
+    const run = runWithDraftCount(count);
+    assert.equal(run.status, 1);
+    assert.match(run.stderr, /draft library must contain from 6 to 30 drafts during expansion/);
+  }
 });
 
 test('draft documentation keeps the production promotion boundary explicit', () => {
