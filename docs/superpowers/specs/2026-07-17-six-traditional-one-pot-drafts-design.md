@@ -41,7 +41,7 @@ worker 和本地代理继续只读取 `recipe-library.json`；任何草案 ID �
 - `technique_outline`：仅写原创的高层流程，不复制来源步骤；
 - `safety_and_quality_gates`：每道的熟制、骨刺、腌腊钠、出水或糯米等风险；
 - `trial_requirements`：需记录的锅具、份数、实际用量、时长、成品状态和修订原因；
-- `basis_ref_ids`：只引用候选册内已有文化事实依据，不重复拷贝网页正文。
+- `candidate_id`：关联候选册内已有文化事实依据；运行时或审核时沿该 ID 读取依据，不重复拷贝网页正文。
 
 ## 原创标准化原则
 
