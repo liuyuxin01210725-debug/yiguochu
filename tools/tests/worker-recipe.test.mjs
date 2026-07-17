@@ -2533,6 +2533,7 @@ test('multi-pot validation distinguishes same-pot sequencing from an explicit se
     ['用电饭锅煮成米饭。', '取一汤锅煮开高汤。'],
     ['电饭锅煮饭。', '炒锅中炒香洋葱。'],
     ['电饭锅煮饭。', '平底锅中煎蛋。'],
+    ['用电饭锅煮成米饭。', '大锅中加入高汤煮汤。'],
   ]) {
     const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps }, selection, { dislikes: [] });
     assert.ok(flags.includes('multi_pot_step'), steps.join(' / '));
@@ -2548,6 +2549,20 @@ test('multi-pot validation distinguishes same-pot sequencing from an explicit se
     const flags = validateGroundedMeal({ ingredients: [{ name: '大米' }], steps }, selection, { dislikes: [] });
     assert.equal(flags.includes('multi_pot_step'), false, steps.join(' / '));
   }
+});
+
+test('validator rejects ingredient rows that the mobile UI would hide', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米'], dislikes: [] });
+  const makeMeal = count => ({
+    ingredients: [
+      { name: '大米' },
+      ...Array.from({ length: count - 1 }, (_, index) => ({ name: `香辛料${index + 1}` })),
+    ],
+    steps: ['大米加入同一口锅煮熟。'],
+  });
+  assert.equal(validateGroundedMeal(makeMeal(12), selection, {}).includes('ingredient_count_exceeds_ui_limit'), false);
+  assert.ok(validateGroundedMeal(makeMeal(13), selection, {}).includes('ingredient_count_exceeds_ui_limit'));
 });
 
 test('multi-pot actions share finite negation handling for explicit and named vessels', () => {

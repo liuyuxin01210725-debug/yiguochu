@@ -485,6 +485,7 @@ const VALIDATION_COOKING_OIL_ACTION_RE = new RegExp(
 const VALIDATION_GENERIC_COOKING_OIL_ACTION_RE = /(?:热油(?!菜)|(?:加入?|下|倒入?|放入?|淋入?|刷上?|抹上?|(?<!食)用|留底)(?:少许|适量|一点|些许)?油(?!菜))/;
 const VALIDATION_ACTION_NEGATION_RE = /(?:不需要|无需|不用|不要|避免|禁止|切勿|不可|未|不)(?:(?:再|另行)?(?:另(?:起|取|用)(?:一口|一只|一个|一)?|使用|用|加|放|下|倒入?|刷上?|抹上?|留底)?)?$/;
 const VALIDATION_EXPLICIT_SECOND_VESSEL_RE = /(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另(?:一口|一只|一个)|第二口)(?:小锅|炒锅|平底锅|汤锅|锅)/;
+const VALIDATION_NAMED_VESSEL_NEGATION_RE = /(?:不要|不用|无需|避免|禁止)(?:再|另起|另取|另用|另一口|另一个|另外一个|第二口)?$/;
 const VALIDATION_ADVANCE_PREP_RE = /(?:提前|预先|事先|隔夜|过夜|头天|前一(?:天|晚)|已(?:经)?(?:泡好|浸泡好|煮好|预煮好|蒸好|焖好)|(?:浸泡|泡发)[^，,。；;！？!?]{0,12}\d+(?:\.\d+)?\s*小时)/g;
 const VALIDATION_ADVANCE_PREP_NEGATION_RE = /(?:不需要|无需|不用|不必|不需|不要|避免|禁止|切勿)(?:任何)?$/;
 
@@ -833,6 +834,7 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     aliases,
     strictRiceVisible,
   )) flags.add(flag);
+  if (ingredientNames.length > 12) flags.add('ingredient_count_exceeds_ui_limit');
   const canonicalIngredients = new Set(ingredientNames.map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
   const dislikes = recipeConstraintList(constraints?.dislikes)
     .map(name => validationCanonicalIngredient(name, aliases))
@@ -898,10 +900,11 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   for (const step of steps) {
     const clauses = String(step).replace(/\s+/g, '').split(/[，,。；;！！？?]+/).filter(Boolean);
     for (const clause of clauses) {
-      const vessels = [...clause.matchAll(/(?:电饭锅|炒锅|平底锅|汤锅)/g)];
+      const vessels = [...clause.matchAll(/(?:电饭锅|高压锅|平底锅|炒锅|汤锅|砂锅|蒸锅|大锅|小锅)/g)];
       if (vessels.length > 1 && /(?:或|或者|任选|二选一)/.test(clause)) continue;
       for (const vessel of vessels) {
-        if (validationActionNegated(clause, vessel.index)) continue;
+        const vesselPrefix = clause.slice(Math.max(0, vessel.index - 16), vessel.index);
+        if (validationActionNegated(clause, vessel.index) || VALIDATION_NAMED_VESSEL_NEGATION_RE.test(vesselPrefix)) continue;
         namedVessels.add(vessel[0]);
       }
     }

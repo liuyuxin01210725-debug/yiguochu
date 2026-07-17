@@ -945,6 +945,7 @@ _VALIDATION_EGG_HEATING_ACTION_RE = re.compile(r'(?:再(?:继续)?|继续|重新
 _VALIDATION_EGG_PLANNED_HEATING_PREFIX_RE = re.compile(r'(?:计划|预计|预期|准备)(?:稍后|随后|之后|后续)?(?:要|将|会)?$')
 _VALIDATION_EGG_RECOVERY_WINDOW = 24
 _VALIDATION_MULTI_POT_RE = re.compile(r'(?:另(?:起|取|用)(?:一口|一只|一个|一)?|另(?:一口|一只|一个)|第二口)(?:小锅|炒锅|平底锅|汤锅|锅)')
+_VALIDATION_NAMED_VESSEL_NEGATION_RE = re.compile(r'(?:不要|不用|无需|避免|禁止)(?:再|另起|另取|另用|另一口|另一个|另外一个|第二口)?$')
 _VALIDATION_GENERIC_MEAT_FORMS = {'肉丝', '肉丁', '肉片', '肉块'}
 _VALIDATION_GENERIC_MEAT_BOUNDARY_RE = re.compile(r'(?:切成|切为|改刀成|将|把|放入|加入|下入|倒入|取|成)$')
 
@@ -1172,6 +1173,8 @@ def validate_grounded_meal(meal, selection, constraints=None):
             aliases,
             strict_rice_visible):
         add_flag(flag)
+    if len(ingredient_names) > 12:
+        add_flag('ingredient_count_exceeds_ui_limit')
 
     canonical_ingredients = {
         item for name in ingredient_names if (item := _validation_canonical_ingredient(name, aliases))
@@ -1248,11 +1251,13 @@ def validate_grounded_meal(meal, selection, constraints=None):
     for step in steps:
         clauses = [clause for clause in re.split(r'[，,。；;！!？?]+', re.sub(r'\s+', '', step)) if clause]
         for clause in clauses:
-            vessels = list(re.finditer(r'(?:电饭锅|炒锅|平底锅|汤锅)', clause))
+            vessels = list(re.finditer(r'(?:电饭锅|高压锅|平底锅|炒锅|汤锅|砂锅|蒸锅|大锅|小锅)', clause))
             if len(vessels) > 1 and re.search(r'(?:或|或者|任选|二选一)', clause):
                 continue
             for vessel in vessels:
-                if _validation_action_negated(clause, vessel.start()):
+                vessel_prefix = clause[max(0, vessel.start() - 16):vessel.start()]
+                if (_validation_action_negated(clause, vessel.start())
+                        or _VALIDATION_NAMED_VESSEL_NEGATION_RE.search(vessel_prefix)):
                     continue
                 named_vessels.add(vessel.group(0))
     if (any(_validation_active_action_matches(re.sub(r'\s+', '', step), _VALIDATION_MULTI_POT_RE) for step in steps)

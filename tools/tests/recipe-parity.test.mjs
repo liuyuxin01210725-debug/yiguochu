@@ -941,6 +941,20 @@ test('Python validator matches prepared exemptions, controlled forms, rice safet
       present: ['multi_pot_step'],
     },
     {
+      meal: { ingredients: [{ name: '大米' }], steps: ['用电饭锅煮成米饭。', '大锅中加入高汤煮汤。'] },
+      present: ['multi_pot_step'],
+    },
+    {
+      meal: {
+        ingredients: [
+          { name: '大米' },
+          ...Array.from({ length: 12 }, (_, index) => ({ name: `香辛料${index + 1}` })),
+        ],
+        steps: ['大米加入同一口锅煮熟。'],
+      },
+      present: ['ingredient_count_exceeds_ui_limit'],
+    },
+    {
       meal: { ingredients: [{ name: '大米' }], steps: ['大锅煮米豆。', '在另一个小锅中加热芥花籽油。'] },
       present: ['multi_pot_step'],
     },
