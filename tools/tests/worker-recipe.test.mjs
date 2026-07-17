@@ -290,7 +290,9 @@ test('trusted grounding makes the ingredient whitelist and no-advance-prep bound
   });
   const grounding = buildRecipeGrounding(hit);
   assert.match(grounding, /可入锅食材白名单/);
-  assert.match(grounding, /固定核心、可选食材、允许替换、已选库存/);
+  assert.match(grounding, /固定核心、生产配料锁和已选库存/);
+  assert.match(grounding, /主烹调液体只能使用: 水/);
+  assert.match(grounding, /烹调油脂只有: 植物油/);
   assert.match(grounding, /禁止提前、预先、事先、隔夜、过夜/);
   assert.match(grounding, /已泡好、已浸泡或已预煮/);
 });
@@ -343,6 +345,7 @@ test('trusted recipe system exposes only the reviewed generation optional lock',
     core_ingredients: ['大米', '水'],
     optional_ingredients: ['酱油', '芝麻油', '葱', '姜', '香菜', '芝麻'],
     generation_optional_ingredients: ['酱油', '芝麻油', '葱', '姜'],
+    generation_liquid_ingredients: ['水'],
     substitution_slots: [],
   })]);
   const { upstreamBodies } = await runGenerateRequest({
@@ -358,6 +361,34 @@ test('trusted recipe system exposes only the reviewed generation optional lock',
   assert.match(whitelistLine, /大米、水、酱油、芝麻油、葱、姜/);
   assert.doesNotMatch(whitelistLine, /香菜|、芝麻(?:。|、)/);
   assert.match(system, /白名单中的四项可选配料就是本次唯一允许的可选集合/);
+  assert.match(system, /本次批准的烹调油脂只有: 芝麻油/);
+  assert.match(system, /不得另加食用油/);
+  assert.match(system, /本次留在成品中的主烹调液体只能使用: 水/);
+});
+
+test('trusted recipe locks stock against extra water in both system and grounding', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '鸡肉'],
+    optional_ingredients: ['黄油', '鸡高汤'],
+    generation_optional_ingredients: ['黄油', '鸡高汤'],
+    generation_liquid_ingredients: ['鸡高汤'],
+    substitution_slots: [{ slot: '焖饭高汤', replaces: ['鸡高汤'], allowed: ['水'] }],
+  })]);
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [{ name: '大米', grams: 100 }, { name: '鸡肉', grams: 200 }, { name: '鸡高汤', grams: 250 }],
+      steps: ['鸡肉炒熟，加大米和鸡高汤同锅焖熟。'],
+    }),
+    constraints: { pantry: ['大米', '鸡肉'], purpose: 'fresh' },
+  });
+  const system = upstreamBodies[0].messages[0].content;
+  const prompt = upstreamBodies[0].messages[1].content;
+  assert.match(system, /主烹调液体只能使用: 鸡高汤/);
+  assert.match(system, /不得另加水或第二种高汤/);
+  assert.match(prompt, /主烹调液体只能使用: 鸡高汤/);
+  assert.doesNotMatch(prompt, /此外只可加入有数字克数的水、食用油/);
 });
 
 test('trusted system locks a substitution slot when its original is selected pantry', async () => {
@@ -1844,8 +1875,8 @@ test('default handler sends the cross-field output contract with selected pantry
   assert.match(prompt, /同一步必须同时写原名和形态/);
   assert.match(prompt, /鸡胸肉切成鸡丝/);
   assert.match(prompt, /大蒜切成蒜末/);
-  assert.match(prompt, /留在成品中的水/);
-  assert.match(prompt, /洗、淘、泡后明确倒掉的水可不列/);
+  assert.match(prompt, /白名单内的烹调油脂、主烹调液体/);
+  assert.match(prompt, /洗、淘后明确倒掉的水可不列/);
   assert.match(prompt, /泡发水、浸泡水或浸泡液若保留进成品/);
   assert.match(prompt, /未计量的泡发水或浸泡液不得保留/);
   assert.match(prompt, /服务器已选库存（鸡肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);

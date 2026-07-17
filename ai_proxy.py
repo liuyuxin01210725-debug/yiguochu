@@ -441,12 +441,31 @@ def _trusted_recipe_generation_options(recipe):
     return optional if isinstance(optional, list) else []
 
 
+def _trusted_recipe_liquid_options(recipe):
+    configured = recipe.get('generation_liquid_ingredients')
+    if isinstance(configured, list):
+        return configured
+    candidates = [*(recipe.get('core_ingredients') or []), *_trusted_recipe_generation_options(recipe)]
+    return [
+        name for name in candidates
+        if re.search(r'(?:^|[鸡蔬菜鱼牛猪])高汤$|^水$|^椰奶$', _js_string(name).strip())
+    ]
+
+
+def _trusted_recipe_fat_options(selection):
+    return [
+        name for name in _trusted_recipe_ingredient_whitelist(selection)
+        if re.search(r'(?:黄油|奶油|牛脂|[橄榄植物食用菜籽花生大豆芝麻香]油)$', _js_string(name).strip())
+    ]
+
+
 def _trusted_recipe_ingredient_whitelist(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     candidates = [
         *(recipe.get('core_ingredients') or []),
         *_trusted_recipe_generation_options(recipe),
+        *_trusted_recipe_liquid_options(recipe),
         *(selection.get('used_pantry') or []),
     ]
     result = []
@@ -466,6 +485,18 @@ def build_trusted_recipe_system_override(selection):
         if not re.match(r'^不(?:放|加|用)', _js_string(item).strip())
     ]
     generation_option_count = '四' if len(generation_options) == 4 else str(len(generation_options))
+    liquid_options = _trusted_recipe_liquid_options(recipe)
+    fat_options = _trusted_recipe_fat_options(selection)
+    if liquid_options:
+        liquid_tail = '不得加入任何高汤或第二种主液体。' if '水' in liquid_options else '不得另加水或第二种高汤。'
+        liquid_rule = f'本次留在成品中的主烹调液体只能使用: {_compact_recipe_list(liquid_options)}。{liquid_tail}'
+    else:
+        liquid_rule = '本次未批准额外水或高汤；ingredients[] 和 steps[] 中都不得添加。'
+    fat_rule = (
+        f'本次批准的烹调油脂只有: {_compact_recipe_list(fat_options)}。不得另加食用油或第二种油脂；ingredients[] 列出的油脂必须在 steps[] 逐字出现。'
+        if fat_options else
+        '本次未批准额外烹调油脂；ingredients[] 和 steps[] 中都不得添加食用油或其他油脂。'
+    )
     aliases = selection.get('ingredient_aliases') or {}
     required_ingredients = {
         canonical
@@ -504,6 +535,8 @@ def build_trusted_recipe_system_override(selection):
         *substitution_locks,
         f"本次可入锅主料白名单: {_compact_recipe_list(_trusted_recipe_ingredient_whitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。",
         f'白名单中的{generation_option_count}项可选配料就是本次唯一允许的可选集合: {_compact_recipe_list(generation_options)}。不得使用基础菜谱中其他 optional 或 allowed 项。',
+        liquid_rule,
+        fat_rule,
         '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
         '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
         '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
@@ -559,6 +592,18 @@ def build_recipe_grounding(selection):
             '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
         ]
     ingredient_whitelist = _trusted_recipe_ingredient_whitelist(selection)
+    liquid_options = _trusted_recipe_liquid_options(recipe)
+    fat_options = _trusted_recipe_fat_options(selection)
+    if liquid_options:
+        liquid_tail = '不得加入任何高汤或第二种主液体。' if '水' in liquid_options else '不得另加水或第二种高汤。'
+        liquid_rule = f'本次留在成品中的主烹调液体只能使用: {_compact_recipe_list(liquid_options)}。{liquid_tail}'
+    else:
+        liquid_rule = '本次未批准额外水或高汤，两个字段都不得添加。'
+    fat_rule = (
+        f'本次批准的烹调油脂只有: {_compact_recipe_list(fat_options)}。不得另加食用油或第二种油脂。'
+        if fat_options else
+        '本次未批准额外烹调油脂，两个字段都不得添加食用油或其他油脂。'
+    )
     return '\n'.join([
         '【可信基础菜谱】',
         family_line,
@@ -575,10 +620,12 @@ def build_recipe_grounding(selection):
         f"舍弃库存: {_compact_recipe_list(selection.get('unused_pantry'))}",
         *profile_lines,
         '【输出完整性契约】',
-        f"可入锅食材白名单仅由固定核心、可选食材、允许替换、已选库存组成: {_compact_recipe_list(ingredient_whitelist)}；此外只可加入有数字克数的水、食用油、盐、胡椒和小用量香辛料。不得擅自增加白名单外的主食、肉蛋奶、豆类或蔬菜。",
+        f"可入锅食材白名单仅由固定核心、生产配料锁和已选库存组成: {_compact_recipe_list(ingredient_whitelist)}。白名单外只可加入有数字克数的盐、胡椒和小用量香辛料；水、高汤和烹调油脂必须在白名单内才能使用。",
+        liquid_rule,
+        fat_rule,
         '步骤禁止提前、预先、事先、隔夜、过夜准备，也不得假定食材已经是已泡好、已浸泡或已预煮状态；所有处理必须在本次总时长内完成。',
         '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
-        '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams；洗、淘、泡后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
+        '白名单内的烹调油脂、主烹调液体、盐和胡椒都必须在 ingredients 有同义 name 和大于0的数字 grams，并在 steps 明确使用；洗、淘后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
         f"服务器已选库存（{_compact_recipe_list(selection.get('used_pantry'))}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（{_compact_recipe_list(selection.get('unused_pantry'))}）必须同时从 ingredients 与 steps 排除。",
         '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
         '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',

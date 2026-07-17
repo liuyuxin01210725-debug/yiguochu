@@ -67,6 +67,12 @@ test('every approved recipe locks generation extras to at most four reviewed ing
     for (const name of recipe.generation_optional_ingredients) {
       assert.ok(approved.has(name), `${recipe.id} generation optional is outside approved boundary: ${name}`);
     }
+    assert.ok(Array.isArray(recipe.generation_liquid_ingredients), `${recipe.id} missing generation liquid lock`);
+    assert.ok(recipe.generation_liquid_ingredients.length <= 1, `${recipe.id} generation liquid lock exceeds one`);
+    const generatedBoundary = new Set(['水', ...recipe.core_ingredients, ...recipe.generation_optional_ingredients]);
+    for (const name of recipe.generation_liquid_ingredients) {
+      assert.ok(generatedBoundary.has(name), `${recipe.id} generation liquid is outside generation boundary: ${name}`);
+    }
   }
 });
 
@@ -151,9 +157,13 @@ test('validator rejects generation optional locks outside the reviewed boundary'
   const invalid = structuredClone(lib);
   invalid.recipes[0].generation_optional_ingredients = ['酱油', '芝麻油', '白胡椒', '葱', '姜'];
   invalid.recipes[1].generation_optional_ingredients = ['未审批配料'];
+  invalid.recipes[2].generation_liquid_ingredients = ['鸡高汤', '水'];
+  invalid.recipes[3].generation_liquid_ingredients = ['未审批高汤'];
   const errors = validateRecipeLibrary(invalid);
   assert.ok(errors.includes(`${invalid.recipes[0].id} generation_optional_ingredients must contain 1 to 4 items`));
   assert.ok(errors.includes(`${invalid.recipes[1].id} generation optional ingredient is not approved: 未审批配料`));
+  assert.ok(errors.includes(`${invalid.recipes[2].id} generation_liquid_ingredients must contain at most 1 item`));
+  assert.ok(errors.includes(`${invalid.recipes[3].id} generation liquid ingredient is not in the generation boundary: 未审批高汤`));
 });
 
 test('canonical ingredient aliases stay stable for later selectors', () => {

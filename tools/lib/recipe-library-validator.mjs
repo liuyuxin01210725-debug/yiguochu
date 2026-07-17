@@ -159,6 +159,27 @@ export function validateRecipeLibrary(lib) {
         }
       }
     }
+    if (!Array.isArray(recipe.generation_liquid_ingredients)) {
+      errors.push(`${label} generation_liquid_ingredients must be an array`);
+    } else {
+      if (recipe.generation_liquid_ingredients.length > 1) {
+        errors.push(`${label} generation_liquid_ingredients must contain at most 1 item`);
+      }
+      const generatedBoundary = new Set([
+        '水',
+        ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+        ...(Array.isArray(recipe.generation_optional_ingredients)
+          ? recipe.generation_optional_ingredients
+          : []),
+      ]);
+      for (const name of recipe.generation_liquid_ingredients) {
+        if (!isNonEmptyString(name)) {
+          errors.push(`${label} generation_liquid_ingredients must contain non-empty strings`);
+        } else if (!generatedBoundary.has(name)) {
+          errors.push(`${label} generation liquid ingredient is not in the generation boundary: ${name}`);
+        }
+      }
+    }
 
     if (recipe.constraint_profiles !== undefined) {
       if (!Array.isArray(recipe.constraint_profiles) || recipe.constraint_profiles.length === 0) {

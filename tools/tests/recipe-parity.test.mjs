@@ -827,6 +827,7 @@ test('Python trusted system priority and joined seasoning validation match Worke
     core_ingredients: ['大米', '水'],
     optional_ingredients: ['酱油', '芝麻油', '葱', '姜', '香菜', '芝麻'],
     generation_optional_ingredients: ['酱油', '芝麻油', '葱', '姜'],
+    generation_liquid_ingredients: ['水'],
     substitution_slots: [],
   });
   const optionalLockedPrepared = pythonCall('prepare', {
@@ -842,6 +843,29 @@ test('Python trusted system priority and joined seasoning validation match Worke
   assert.match(optionalLockedWhitelistLine, /大米、水、酱油、芝麻油、葱、姜/);
   assert.doesNotMatch(optionalLockedWhitelistLine, /香菜|、芝麻(?:。|、)/);
   assert.match(optionalLockedPrepared.system, /白名单中的四项可选配料就是本次唯一允许的可选集合/);
+  assert.match(optionalLockedPrepared.system, /本次批准的烹调油脂只有: 芝麻油/);
+  assert.match(optionalLockedPrepared.system, /本次留在成品中的主烹调液体只能使用: 水/);
+
+  const stockLockedRecipe = groundedRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '鸡肉'],
+    optional_ingredients: ['黄油', '鸡高汤'],
+    generation_optional_ingredients: ['黄油', '鸡高汤'],
+    generation_liquid_ingredients: ['鸡高汤'],
+    substitution_slots: [{ slot: '焖饭高汤', replaces: ['鸡高汤'], allowed: ['水'] }],
+  });
+  const stockLockedPrepared = pythonCall('prepare', {
+    library: fixtureLib([stockLockedRecipe]),
+    constraints: { pantry: ['大米', '鸡肉'], purpose: 'fresh', dislikes: [] },
+    meal: {
+      ingredients: [{ name: '大米', grams: 100 }, { name: '鸡肉', grams: 200 }, { name: '鸡高汤', grams: 250 }],
+      steps: ['鸡肉炒熟，加大米和鸡高汤同锅焖熟。'],
+    },
+  });
+  assert.match(stockLockedPrepared.system, /主烹调液体只能使用: 鸡高汤/);
+  assert.match(stockLockedPrepared.system, /不得另加水或第二种高汤/);
+  assert.match(stockLockedPrepared.prompt, /主烹调液体只能使用: 鸡高汤/);
+  assert.doesNotMatch(stockLockedPrepared.prompt, /此外只可加入有数字克数的水、食用油/);
 
   const lockedRecipe = groundedRecipe({
     status: 'approved',
@@ -1508,8 +1532,8 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   assert.match(py.grounding, /总时长基准: 30分钟/);
   assert.match(py.grounding, /改编说明:/);
   assert.match(py.prompt, /总时长尽量≤30分钟/);
-  assert.match(py.prompt, /食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams/);
-  assert.match(py.prompt, /洗、淘、泡后明确倒掉的水可不列/);
+  assert.match(py.prompt, /白名单内的烹调油脂、主烹调液体、盐和胡椒都必须在 ingredients 有同义 name 和大于0的数字 grams/);
+  assert.match(py.prompt, /洗、淘后明确倒掉的水可不列/);
   assert.match(py.prompt, /泡发水、浸泡水或浸泡液若保留进成品/);
   assert.match(py.prompt, /未计量的泡发水或浸泡液不得保留/);
   assert.match(py.prompt, /服务器已选库存（鸡腿肉、大米、洋葱）必须同时出现在 ingredients 与 steps/);

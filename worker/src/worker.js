@@ -237,11 +237,27 @@ function trustedRecipeGenerationOptions(recipe) {
   return Array.isArray(recipe?.optional_ingredients) ? recipe.optional_ingredients : [];
 }
 
+function trustedRecipeLiquidOptions(recipe) {
+  if (Array.isArray(recipe?.generation_liquid_ingredients)) {
+    return recipe.generation_liquid_ingredients;
+  }
+  return [
+    ...(Array.isArray(recipe?.core_ingredients) ? recipe.core_ingredients : []),
+    ...trustedRecipeGenerationOptions(recipe),
+  ].filter(name => /(?:^|[鸡蔬菜鱼牛猪])高汤$|^水$|^椰奶$/.test(String(name || '').trim()));
+}
+
+function trustedRecipeFatOptions(selection) {
+  return trustedRecipeIngredientWhitelist(selection)
+    .filter(name => /(?:黄油|奶油|牛脂|[橄榄植物食用菜籽花生大豆芝麻香]油)$/.test(String(name || '').trim()));
+}
+
 function trustedRecipeIngredientWhitelist(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   return [...new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
     ...trustedRecipeGenerationOptions(recipe),
+    ...trustedRecipeLiquidOptions(recipe),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
   ].filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim())))];
 }
@@ -252,6 +268,14 @@ function buildTrustedRecipeSystemOverride(selection) {
   const generationOptions = trustedRecipeGenerationOptions(recipe)
     .filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim()));
   const generationOptionCount = generationOptions.length === 4 ? '四' : String(generationOptions.length);
+  const liquidOptions = trustedRecipeLiquidOptions(recipe);
+  const fatOptions = trustedRecipeFatOptions(selection);
+  const liquidRule = liquidOptions.length
+    ? `本次留在成品中的主烹调液体只能使用: ${compactRecipeList(liquidOptions)}。${liquidOptions.includes('水') ? '不得加入任何高汤或第二种主液体。' : '不得另加水或第二种高汤。'}`
+    : '本次未批准额外水或高汤；ingredients[] 和 steps[] 中都不得添加。';
+  const fatRule = fatOptions.length
+    ? `本次批准的烹调油脂只有: ${compactRecipeList(fatOptions)}。不得另加食用油或第二种油脂；ingredients[] 列出的油脂必须在 steps[] 逐字出现。`
+    : '本次未批准额外烹调油脂；ingredients[] 和 steps[] 中都不得添加食用油或其他油脂。';
   const aliases = selection?.ingredientAliases || {};
   const requiredIngredients = new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
@@ -277,6 +301,8 @@ function buildTrustedRecipeSystemOverride(selection) {
     ...substitutionLocks,
     `本次可入锅主料白名单: ${compactRecipeList(trustedRecipeIngredientWhitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。`,
     `白名单中的${generationOptionCount}项可选配料就是本次唯一允许的可选集合: ${compactRecipeList(generationOptions)}。不得使用基础菜谱中其他 optional 或 allowed 项。`,
+    liquidRule,
+    fatRule,
     '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
     '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
     '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
@@ -313,6 +339,14 @@ function buildRecipeGrounding(selection) {
     '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
   ] : [];
   const ingredientWhitelist = trustedRecipeIngredientWhitelist(selection);
+  const liquidOptions = trustedRecipeLiquidOptions(recipe);
+  const fatOptions = trustedRecipeFatOptions(selection);
+  const liquidRule = liquidOptions.length
+    ? `本次留在成品中的主烹调液体只能使用: ${compactRecipeList(liquidOptions)}。${liquidOptions.includes('水') ? '不得加入任何高汤或第二种主液体。' : '不得另加水或第二种高汤。'}`
+    : '本次未批准额外水或高汤，两个字段都不得添加。';
+  const fatRule = fatOptions.length
+    ? `本次批准的烹调油脂只有: ${compactRecipeList(fatOptions)}。不得另加食用油或第二种油脂。`
+    : '本次未批准额外烹调油脂，两个字段都不得添加食用油或其他油脂。';
   return [
     '【可信基础菜谱】',
     `菜谱家族: ${sanitizePromptText(family.id || recipe.family_id || 'unknown', 100)} ${sanitizePromptText(family.name, 100)}`.trim(),
@@ -329,10 +363,12 @@ function buildRecipeGrounding(selection) {
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
     ...profileLines,
     '【输出完整性契约】',
-    `可入锅食材白名单仅由固定核心、可选食材、允许替换、已选库存组成: ${compactRecipeList([...new Set(ingredientWhitelist)])}；此外只可加入有数字克数的水、食用油、盐、胡椒和小用量香辛料。不得擅自增加白名单外的主食、肉蛋奶、豆类或蔬菜。`,
+    `可入锅食材白名单仅由固定核心、生产配料锁和已选库存组成: ${compactRecipeList([...new Set(ingredientWhitelist)])}。白名单外只可加入有数字克数的盐、胡椒和小用量香辛料；水、高汤和烹调油脂必须在白名单内才能使用。`,
+    liquidRule,
+    fatRule,
     '步骤禁止提前、预先、事先、隔夜、过夜准备，也不得假定食材已经是已泡好、已浸泡或已预煮状态；所有处理必须在本次总时长内完成。',
     '除获准免提的小用量香辛料外，每个 ingredients[].name 必须至少在一个 steps[] 步骤中出现；优先逐字使用食材表名称。若做法改变形态，同一步必须同时写原名和形态，例如“鸡胸肉切成鸡丝”“大蒜切成蒜末”。',
-    '食用油、盐、胡椒和留在成品中的水都必须在 ingredients 有同义 name 和大于0的数字 grams；洗、淘、泡后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
+    '白名单内的烹调油脂、主烹调液体、盐和胡椒都必须在 ingredients 有同义 name 和大于0的数字 grams，并在 steps 明确使用；洗、淘后明确倒掉的水可不列。泡发水、浸泡水或浸泡液若保留进成品，必须计入总液体克数并列入 ingredients；未计量的泡发水或浸泡液不得保留。',
     `服务器已选库存（${compactRecipeList(selection?.usedPantry)}）必须同时出现在 ingredients 与 steps；服务器舍弃库存（${compactRecipeList(selection?.unusedPantry)}）必须同时从 ingredients 与 steps 排除。`,
     '生的禽肉、猪肉、海鲜和普通鸡蛋必须在相关食材所在步骤写明安全熟制终点，只可用“熟透”“中心不见粉红”“煮熟”“炒熟”“煎熟”“焖熟”“炖熟”或“蒸熟”等明确词；对鸡肉，“表面变色”、只有时长或仅“米熟”均不算。',
     '全程只用一口烹饪容器，不得另起或使用其他锅、平底锅。',
