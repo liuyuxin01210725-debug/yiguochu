@@ -1,13 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import {
   PROMOTION_MATRIX,
   validateTraditionalRecipePromotion,
 } from '../lib/traditional-recipe-promotion-gate.mjs';
 
-const canonicalUrl = id => `https://yiguochu.pages.dev/recipes.html?id=${id}`;
+const canonicalUrl = path => `https://yiguochu.pages.dev${path}`;
 
 function completeFixture(matrix = PROMOTION_MATRIX) {
   const promotions = [...matrix.entries()].map(([recipe_id, expected]) => ({
@@ -34,7 +36,14 @@ function completeFixture(matrix = PROMOTION_MATRIX) {
         generation_optional_ingredients: ['香葱'],
         generation_liquid_ingredients: ['水'],
         substitution_slots: [{ slot: '叶菜', replaces: ['叶菜'], allowed: ['小白菜'] }],
-        source_refs: [{ usage: 'approved', url: canonicalUrl(recipe_id), attribution: '一锅出项目' }],
+        source_refs: [{
+          usage: 'approved',
+          url: canonicalUrl(`/recipes.html?id=${recipe_id}`),
+          title: '一锅出菜谱页',
+          license: '项目自有内容',
+          attribution: '一锅出项目',
+          retrieved_at: '2026-07-17',
+        }],
       })),
     },
   };
@@ -54,6 +63,44 @@ test('promotion gate reports origin, identity and canonical-source failures dete
     'demo-rice contains identity placeholder 经核验野菜',
     'demo-rice canonical source must use https://yiguochu.pages.dev/recipes.html?id=demo-rice',
   ]);
+});
+
+test('promotion gate rejects identity placeholders in optional ingredients', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  const fixture = completeFixture(matrix);
+  fixture.production.recipes[0].optional_ingredients = ['地方植物'];
+
+  assert.deepEqual(validateTraditionalRecipePromotion({ ...fixture, matrix }), [
+    'demo-rice contains identity placeholder 地方植物',
+  ]);
+});
+
+test('promotion gate validates and uses the manifest canonical path', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  const fixture = completeFixture(matrix);
+  fixture.promotions[0].canonical_path = '/recipes.html?id=wrong-rice';
+  fixture.production.recipes[0].source_refs[0].url = canonicalUrl(fixture.promotions[0].canonical_path);
+
+  assert.deepEqual(validateTraditionalRecipePromotion({ ...fixture, matrix }), [
+    'demo-rice canonical_path must equal /recipes.html?id=demo-rice',
+  ]);
+});
+
+test('promotion gate requires complete approved source metadata', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  for (const field of ['title', 'license', 'attribution', 'retrieved_at']) {
+    const fixture = completeFixture(matrix);
+    delete fixture.production.recipes[0].source_refs[0][field];
+    assert.deepEqual(validateTraditionalRecipePromotion({ ...fixture, matrix }), [
+      'demo-rice canonical source must use https://yiguochu.pages.dev/recipes.html?id=demo-rice',
+    ], field);
+  }
 });
 
 test('promotion gate rejects an entry whose linked candidate is no longer a candidate', () => {
@@ -98,4 +145,34 @@ test('promotion checker documents the expected pre-Task-3 missing-production tra
   assert.match(run.stdout, /传统菜晋升清单 30 道/);
   assert.match(run.stderr, /missing production recipe/);
   assert.match(run.stdout, /预期在 Task 3 晋升生产菜谱后通过/);
+});
+
+test('promotion checker withholds the transition notice when an error is not a missing-production mapping', () => {
+  const fixture = completeFixture();
+  fixture.production = { recipes: [] };
+  fixture.candidates.entries[0].status = 'research_hold';
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'traditional-promotion-'));
+  const files = {
+    candidate: path.join(directory, 'candidates.json'),
+    draft: path.join(directory, 'drafts.json'),
+    production: path.join(directory, 'production.json'),
+    promotion: path.join(directory, 'promotions.json'),
+  };
+  try {
+    fs.writeFileSync(files.candidate, JSON.stringify(fixture.candidates));
+    fs.writeFileSync(files.draft, JSON.stringify(fixture.drafts));
+    fs.writeFileSync(files.production, JSON.stringify(fixture.production));
+    fs.writeFileSync(files.promotion, JSON.stringify({ schema_version: 1, promotions: fixture.promotions }));
+    const run = spawnSync('node', [
+      'tools/check-traditional-recipe-promotion.mjs',
+      '--candidate-file', files.candidate,
+      '--draft-file', files.draft,
+      '--production-file', files.production,
+      '--promotion-file', files.promotion,
+    ], { encoding: 'utf8' });
+    assert.equal(run.status, 1);
+    assert.doesNotMatch(run.stdout, /预期在 Task 3 晋升生产菜谱后通过/);
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true });
+  }
 });

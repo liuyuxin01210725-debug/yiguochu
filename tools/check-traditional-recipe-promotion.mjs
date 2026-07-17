@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
-import { validateTraditionalRecipePromotion } from './lib/traditional-recipe-promotion-gate.mjs';
+import {
+  hasOnlyExpectedMissingProductionErrors,
+  validateTraditionalRecipePromotion,
+} from './lib/traditional-recipe-promotion-gate.mjs';
 
 function fileArgument(name, defaultFile) {
   const index = process.argv.indexOf(name);
@@ -21,7 +24,11 @@ const errors = validateTraditionalRecipePromotion({ candidates, drafts, producti
 for (const error of errors) console.error(`❌ ${error}`);
 console.log(`传统菜晋升清单 ${Array.isArray(promotions) ? promotions.length : 0} 道`);
 if (errors.length) {
-  console.log(`⚠️ 晋升闸门暂未通过: ${errors.length} 项；预期在 Task 3 晋升生产菜谱后通过。`);
+  if (hasOnlyExpectedMissingProductionErrors(errors, promotions)) {
+    console.log(`⚠️ 晋升闸门暂未通过: ${errors.length} 项；预期在 Task 3 晋升生产菜谱后通过。`);
+  } else {
+    console.log(`⚠️ 晋升闸门未通过: ${errors.length} 项。`);
+  }
   process.exitCode = 1;
 } else {
   console.log('✅ 传统菜晋升闸门通过');

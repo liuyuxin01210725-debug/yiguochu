@@ -32,6 +32,7 @@ export const PROMOTION_MATRIX = new Map([
 ]);
 
 const IDENTITY_PLACEHOLDER = /经核验|身份不明|未知野菜|地方植物/u;
+const CANONICAL_ORIGIN = 'https://yiguochu.pages.dev';
 const CANONICAL_BASE = 'https://yiguochu.pages.dev/recipes.html?id=';
 
 function entries(value, key) {
@@ -73,6 +74,7 @@ function findIdentityPlaceholder(value) {
 function recipeIdentityPlaceholder(recipe) {
   return findIdentityPlaceholder([
     recipe?.core_ingredients,
+    recipe?.optional_ingredients,
     recipe?.generation_optional_ingredients,
     recipe?.generation_liquid_ingredients,
     recipe?.generation_boundaries,
@@ -80,13 +82,33 @@ function recipeIdentityPlaceholder(recipe) {
   ]);
 }
 
-function hasCanonicalSource(recipe, recipeId) {
-  const expectedUrl = `${CANONICAL_BASE}${recipeId}`;
+function hasNonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function hasCanonicalSource(recipe, canonicalPath) {
+  const expectedUrl = `${CANONICAL_ORIGIN}${canonicalPath}`;
   return entries(recipe, 'source_refs').some(ref => (
     ref?.usage === 'approved'
       && ref?.url === expectedUrl
-      && ref?.attribution === '一锅出项目'
+      && hasNonEmptyString(ref?.title)
+      && hasNonEmptyString(ref?.license)
+      && hasNonEmptyString(ref?.attribution)
+      && hasNonEmptyString(ref?.retrieved_at)
   ));
+}
+
+function expectedCanonicalPath(recipeId) {
+  return `/recipes.html?id=${recipeId}`;
+}
+
+export function hasOnlyExpectedMissingProductionErrors(errors, promotions) {
+  const promotionEntries = Array.isArray(promotions) ? promotions : promotions?.promotions;
+  if (!Array.isArray(errors) || errors.length === 0 || !Array.isArray(promotionEntries)) return false;
+  const expectedErrors = new Set(promotionEntries.map(
+    promotion => `${promotion?.recipe_id} missing production recipe`,
+  ));
+  return errors.every(error => expectedErrors.has(error));
 }
 
 export function validateTraditionalRecipePromotion({ candidates, drafts, production, promotions, matrix = PROMOTION_MATRIX }) {
@@ -125,6 +147,8 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
   const productionById = indexById(productionEntries);
   for (const promotion of actualPromotions) {
     const recipeId = promotion?.recipe_id;
+    const canonicalPath = promotion?.canonical_path;
+    const requiredCanonicalPath = expectedCanonicalPath(recipeId);
     const candidate = candidatesById.get(promotion?.candidate_id);
     const draft = draftsById.get(promotion?.draft_id);
     const recipe = productionById.get(recipeId);
@@ -144,9 +168,12 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
     if (recipe.origin_candidate_id !== promotion.candidate_id) {
       errors.push(`${recipeId} origin_candidate_id must equal ${promotion.candidate_id}`);
     }
+    if (canonicalPath !== requiredCanonicalPath) {
+      errors.push(`${recipeId} canonical_path must equal ${requiredCanonicalPath}`);
+    }
     const placeholder = recipeIdentityPlaceholder(recipe);
     if (placeholder) errors.push(`${recipeId} contains identity placeholder ${placeholder}`);
-    if (!hasCanonicalSource(recipe, recipeId)) {
+    if (canonicalPath === requiredCanonicalPath && !hasCanonicalSource(recipe, canonicalPath)) {
       errors.push(`${recipeId} canonical source must use ${CANONICAL_BASE}${recipeId}`);
     }
   }
