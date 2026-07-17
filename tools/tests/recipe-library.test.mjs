@@ -55,6 +55,21 @@ test('Phase A family and recipe identities stay exact', () => {
   );
 });
 
+test('every approved recipe locks generation extras to at most four reviewed ingredients', () => {
+  for (const recipe of lib.recipes) {
+    assert.ok(Array.isArray(recipe.generation_optional_ingredients), `${recipe.id} missing generation optional lock`);
+    assert.ok(recipe.generation_optional_ingredients.length > 0, `${recipe.id} generation optional lock is empty`);
+    assert.ok(recipe.generation_optional_ingredients.length <= 4, `${recipe.id} generation optional lock exceeds four`);
+    const approved = new Set([
+      ...recipe.optional_ingredients,
+      ...recipe.substitution_slots.flatMap(slot => slot.allowed),
+    ]);
+    for (const name of recipe.generation_optional_ingredients) {
+      assert.ok(approved.has(name), `${recipe.id} generation optional is outside approved boundary: ${name}`);
+    }
+  }
+});
+
 test('fast vegan seed keeps the approved source quantities and animal-free boundary', () => {
   assert.equal(lib.recipes.some(recipe => recipe.id === 'mung-bean-brown-rice-curry'), false);
   const recipe = lib.recipes.find(item => item.id === 'soy-lentil-vegetable-stew');
@@ -108,10 +123,11 @@ test('soy stew and congee record deterministic production adaptations', () => {
   const soy = lib.recipes.find(item => item.id === 'soy-lentil-vegetable-stew');
   assert.match(soy.adaptation_note, /只选橄榄油、蒜、姜黄、黑胡椒四项/);
   assert.match(soy.adaptation_note, /另列有数字克数的水和盐/);
+  assert.match(soy.adaptation_note, /大豆蛋白块不得单独提前泡发或沥干/);
   const congee = lib.recipes.find(item => item.id === 'chinese-congee');
   assert.deepEqual(congee.substitution_slots, [{ slot: '煮粥液体', replaces: ['水'], allowed: ['鸡高汤'] }]);
   assert.match(congee.adaptation_note, /用户已选水时锁定为水/);
-  assert.match(congee.adaptation_note, /葱、香菜、姜、芝麻可并用/);
+  assert.match(congee.adaptation_note, /只选酱油、芝麻油、葱、姜四项可选配料/);
 });
 
 test('validator bounds optional recipe time and adaptation metadata', () => {
@@ -129,6 +145,15 @@ test('validator bounds optional recipe time and adaptation metadata', () => {
   assert.ok(errors.includes(`${invalid.recipes[3].id} adaptation_note must contain 1 to 400 characters`));
   assert.ok(errors.includes(`${invalid.recipes[4].id} adaptation_note must contain 1 to 400 characters`));
   assert.ok(errors.includes(`${invalid.recipes[5].id} adaptation_note must contain 1 to 400 characters`));
+});
+
+test('validator rejects generation optional locks outside the reviewed boundary', () => {
+  const invalid = structuredClone(lib);
+  invalid.recipes[0].generation_optional_ingredients = ['酱油', '芝麻油', '白胡椒', '葱', '姜'];
+  invalid.recipes[1].generation_optional_ingredients = ['未审批配料'];
+  const errors = validateRecipeLibrary(invalid);
+  assert.ok(errors.includes(`${invalid.recipes[0].id} generation_optional_ingredients must contain 1 to 4 items`));
+  assert.ok(errors.includes(`${invalid.recipes[1].id} generation optional ingredient is not approved: 未审批配料`));
 });
 
 test('canonical ingredient aliases stay stable for later selectors', () => {

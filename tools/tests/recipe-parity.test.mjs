@@ -822,6 +822,27 @@ test('Python trusted system priority and joined seasoning validation match Worke
   assert.match(prepared.system, /本次固定核心和已选库存去重后共 2 项，ingredients\[\] 本次最多 8 行/);
   assert.equal(prepared.temperature, 0);
 
+  const optionalLockedRecipe = groundedRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: ['酱油', '芝麻油', '葱', '姜', '香菜', '芝麻'],
+    generation_optional_ingredients: ['酱油', '芝麻油', '葱', '姜'],
+    substitution_slots: [],
+  });
+  const optionalLockedPrepared = pythonCall('prepare', {
+    library: fixtureLib([optionalLockedRecipe]),
+    constraints,
+    meal: {
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 1100 }, { name: '酱油', grams: 5 }],
+      steps: ['大米和水煮熟，加酱油调味。'],
+    },
+  });
+  const optionalLockedWhitelistLine = optionalLockedPrepared.system.split('\n')
+    .find(line => line.startsWith('本次可入锅主料白名单:'));
+  assert.match(optionalLockedWhitelistLine, /大米、水、酱油、芝麻油、葱、姜/);
+  assert.doesNotMatch(optionalLockedWhitelistLine, /香菜|、芝麻(?:。|、)/);
+  assert.match(optionalLockedPrepared.system, /白名单中的四项可选配料就是本次唯一允许的可选集合/);
+
   const lockedRecipe = groundedRecipe({
     status: 'approved',
     core_ingredients: ['大米', '水'],
@@ -1191,6 +1212,10 @@ test('Python validator matches review fixes for active actions, species, future 
     },
     {
       meal: { ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: ['鸡肉和大米焖到米饭完全熟透。'] },
+      present: ['high_risk_not_cooked:鸡肉'],
+    },
+    {
+      meal: { ingredients: [{ name: '鸡肉' }, { name: '大米' }], steps: ['鸡肉切块，中心不见粉红。', '鸡肉煎至表面变色，加大米同锅焖熟。'] },
       present: ['high_risk_not_cooked:鸡肉'],
     },
     {

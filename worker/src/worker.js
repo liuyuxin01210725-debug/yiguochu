@@ -229,14 +229,19 @@ function compactRecipeList(value, fallback = '无') {
   return items.length ? items.join('、') : fallback;
 }
 
+function trustedRecipeGenerationOptions(recipe) {
+  if (Array.isArray(recipe?.generation_optional_ingredients)
+    && recipe.generation_optional_ingredients.length) {
+    return recipe.generation_optional_ingredients;
+  }
+  return Array.isArray(recipe?.optional_ingredients) ? recipe.optional_ingredients : [];
+}
+
 function trustedRecipeIngredientWhitelist(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   return [...new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
-    ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
-    ...(Array.isArray(recipe.substitution_slots)
-      ? recipe.substitution_slots.flatMap(slot => Array.isArray(slot?.allowed) ? slot.allowed : [])
-      : []),
+    ...trustedRecipeGenerationOptions(recipe),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
   ].filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim())))];
 }
@@ -244,6 +249,9 @@ function trustedRecipeIngredientWhitelist(selection) {
 function buildTrustedRecipeSystemOverride(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const adaptation = sanitizePromptText(recipe.adaptation_note, 400);
+  const generationOptions = trustedRecipeGenerationOptions(recipe)
+    .filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim()));
+  const generationOptionCount = generationOptions.length === 4 ? '四' : String(generationOptions.length);
   const aliases = selection?.ingredientAliases || {};
   const requiredIngredients = new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
@@ -268,6 +276,7 @@ function buildTrustedRecipeSystemOverride(selection) {
     `本次固定核心和已选库存去重后共 ${requiredIngredients.size} 项，ingredients[] 本次最多 ${maxIngredientRows} 行。`,
     ...substitutionLocks,
     `本次可入锅主料白名单: ${compactRecipeList(trustedRecipeIngredientWhitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。`,
+    `白名单中的${generationOptionCount}项可选配料就是本次唯一允许的可选集合: ${compactRecipeList(generationOptions)}。不得使用基础菜谱中其他 optional 或 allowed 项。`,
     '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
     '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
     '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
@@ -276,6 +285,7 @@ function buildTrustedRecipeSystemOverride(selection) {
     'ingredients[]中有“盐”时，steps[]必须逐字出现“加盐”；steps[]中有“盐”时，ingredients[]必须有大于 0 grams 的“盐”。胡椒同理；不使用就必须从两处同时删除。',
     '盐只有两种合法模式：A是 ingredients[] 列“盐”和数字 grams，steps[] 写“加盐”；B是 ingredients[] 不列盐，且 steps[] 不得出现“盐”字。禁止“加盐（未列入食材、可不加）”这类自相矛盾表述。',
     '禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”等措辞或假定。需要长时泡发、预煮的可选食材必须省略；同次做饭可完成的短时处理必须写成“先处理 N 分钟”并计入总时长。',
+    '生禽肉、猪肉或海鲜只有在明确加热动作之后才能写“熟透”或“中心不见粉红”；禁止写“切块，中心不见粉红”这种把备料当熟制终点的步骤。',
     '只能使用一口烹饪容器；主食和其他需熟制食材都必须在本次 steps[] 中完成。',
     '返回 JSON 前逐项检查上述规则；冲突时先删除可选食材，不得新增主料。',
   ].join('\n');
@@ -698,6 +708,8 @@ function validationStepMentions(step, name, aliases) {
 }
 
 const VALIDATION_COOKED_RE = /(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)/;
+const VALIDATION_HEATING_ACTION_RE = /(?:加热|煮|炒|煎|焖|炖|蒸|烤|烧|汆|烫)/;
+const VALIDATION_PREP_ONLY_ACTION_RE = /(?:切块|切丁|切片|切丝|切末|改刀|切)/;
 const VALIDATION_COOKED_NEGATION_RE = /(?:并非|不是|仍不|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|彻底|真正|实际)*(?:达到|达|确认|保证)?$/;
 const VALIDATION_UNHEATED_RELATION_RE = /(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)/;
 const VALIDATION_DELAYED_ADD_RE = /(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$/;
@@ -751,6 +763,7 @@ function validationClauseCooksTarget(clause, name, aliases) {
       && /^(?:煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|熟透|熟)/.test(cooked[0])) continue;
     if (VALIDATION_INCOMPLETE_COOKING_SUFFIX_RE.test(futureSuffix)) continue;
     if (VALIDATION_COOKED_NEGATION_RE.test(cookedPrefix)) continue;
+    if (VALIDATION_PREP_ONLY_ACTION_RE.test(text) && !VALIDATION_HEATING_ACTION_RE.test(text)) continue;
     if (unheatedRelation && unheatedRelation.index <= cooked.index) continue;
     const targetIsRice = validationSearchTokens(name, aliases).some(token => token === '大米' || token === '米饭' || token === '米');
     if (!targetIsRice && /(?:大米|米饭|米|饭)(?:(?:完全|彻底|全部|基本|已经|已))*$/.test(cookedPrefix)) continue;
@@ -838,7 +851,10 @@ function validationHighRiskCooked(name, steps, aliases, ingredientNames) {
       if (VALIDATION_UNHEATED_RELATION_RE.test(clause)) continue;
       const next = clauses[index + 1] || '';
       const nextNamesAnotherIngredient = otherIngredients.some(other => validationStepMentions(next, other, aliases));
+      const prepOnlyTargetClause = VALIDATION_PREP_ONLY_ACTION_RE.test(validationFormName(clause))
+        && !VALIDATION_HEATING_ACTION_RE.test(validationFormName(clause));
       if (next && !nextNamesAnotherIngredient
+        && !(prepOnlyTargetClause && !VALIDATION_HEATING_ACTION_RE.test(validationFormName(next)))
         && validationClauseCooksTarget(next, name, aliases)) return true;
     }
   }

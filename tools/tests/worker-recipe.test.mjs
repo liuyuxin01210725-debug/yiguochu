@@ -337,6 +337,29 @@ test('trusted recipe priority overrides the generic balanced-main template at sy
   assert.equal(upstreamBodies[0].temperature, 0);
 });
 
+test('trusted recipe system exposes only the reviewed generation optional lock', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: ['酱油', '芝麻油', '葱', '姜', '香菜', '芝麻'],
+    generation_optional_ingredients: ['酱油', '芝麻油', '葱', '姜'],
+    substitution_slots: [],
+  })]);
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 1100 }, { name: '酱油', grams: 5 }],
+      steps: ['大米和水同锅煮熟，加酱油调味。'],
+    }),
+    constraints: { pantry: ['大米', '水'], purpose: 'batch' },
+  });
+  const system = upstreamBodies[0].messages[0].content;
+  const whitelistLine = system.split('\n').find(line => line.startsWith('本次可入锅主料白名单:'));
+  assert.match(whitelistLine, /大米、水、酱油、芝麻油、葱、姜/);
+  assert.doesNotMatch(whitelistLine, /香菜|、芝麻(?:。|、)/);
+  assert.match(system, /白名单中的四项可选配料就是本次唯一允许的可选集合/);
+});
+
 test('trusted system locks a substitution slot when its original is selected pantry', async () => {
   const recipeLib = fixtureLib([groundedFixtureRecipe({
     core_ingredients: ['大米', '水'],
@@ -912,6 +935,19 @@ test('safety tail repairs only mentioned high-risk endpoints and is idempotent',
     validateGroundedMeal(meal, selection, { dislikes: [] }).includes('high_risk_not_cooked:鸡胸肉'),
     false,
   );
+});
+
+test('a prep-only chicken clause cannot claim a cooked center endpoint', () => {
+  const recipe = groundedFixtureRecipe({ core_ingredients: ['鸡肉', '大米'] });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['鸡肉', '大米'], dislikes: [] });
+  const meal = {
+    ingredients: [{ name: '鸡肉', grams: 200 }, { name: '大米', grams: 150 }],
+    steps: ['鸡肉切块，中心不见粉红。', '鸡肉煎至表面变色，加大米同锅焖熟。'],
+  };
+  assert.ok(validateGroundedMeal(meal, selection, {}).includes('high_risk_not_cooked:鸡肉'));
+  assert.equal(repairGroundedMealSafety(meal, selection, {}), 1);
+  assert.match(meal.steps.at(-1), /鸡肉.*熟透.*中心不见粉红/);
+  assert.equal(validateGroundedMeal(meal, selection, {}).includes('high_risk_not_cooked:鸡肉'), false);
 });
 
 test('safety tail leaves cooking oils and non-raw high-risk categories byte-equivalent with flags visible', () => {

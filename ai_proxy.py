@@ -433,17 +433,20 @@ def _compact_recipe_list(value, fallback='无'):
     return '、'.join(items) if items else fallback
 
 
+def _trusted_recipe_generation_options(recipe):
+    configured = recipe.get('generation_optional_ingredients')
+    if isinstance(configured, list) and configured:
+        return configured
+    optional = recipe.get('optional_ingredients')
+    return optional if isinstance(optional, list) else []
+
+
 def _trusted_recipe_ingredient_whitelist(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     candidates = [
         *(recipe.get('core_ingredients') or []),
-        *(recipe.get('optional_ingredients') or []),
-        *[
-            name
-            for slot in (recipe.get('substitution_slots') or []) if isinstance(slot, dict)
-            for name in (slot.get('allowed') or [])
-        ],
+        *_trusted_recipe_generation_options(recipe),
         *(selection.get('used_pantry') or []),
     ]
     result = []
@@ -458,6 +461,11 @@ def build_trusted_recipe_system_override(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     adaptation = sanitize_prompt_text(recipe.get('adaptation_note'), 400)
+    generation_options = [
+        item for item in _trusted_recipe_generation_options(recipe)
+        if not re.match(r'^不(?:放|加|用)', _js_string(item).strip())
+    ]
+    generation_option_count = '四' if len(generation_options) == 4 else str(len(generation_options))
     aliases = selection.get('ingredient_aliases') or {}
     required_ingredients = {
         canonical
@@ -495,6 +503,7 @@ def build_trusted_recipe_system_override(selection):
         f'本次固定核心和已选库存去重后共 {len(required_ingredients)} 项，ingredients[] 本次最多 {max_ingredient_rows} 行。',
         *substitution_locks,
         f"本次可入锅主料白名单: {_compact_recipe_list(_trusted_recipe_ingredient_whitelist(selection))}。白名单外主料即使能补蛋白质或达成营养目标也不得加入；若基础菜谱是清粥，就不得擅自加肉、蛋或豆类。",
+        f'白名单中的{generation_option_count}项可选配料就是本次唯一允许的可选集合: {_compact_recipe_list(generation_options)}。不得使用基础菜谱中其他 optional 或 allowed 项。',
         '任何 ingredients[] 行都必须在 steps[] 中明确使用；没有步骤操作的可选食材必须从 ingredients[] 删除。',
         '固定核心和已选库存之外，可选食材与可选调味合计最多 4 项（有数字克数的水和盐不计入）；超出时删除可选项，不得删固定核心。',
         '一个替换位只能保留 replaces 原料或一个 allowed 替代项，不得同时使用原料和替代料，也不得同时使用多个替代项。',
@@ -503,6 +512,7 @@ def build_trusted_recipe_system_override(selection):
         'ingredients[]中有“盐”时，steps[]必须逐字出现“加盐”；steps[]中有“盐”时，ingredients[]必须有大于 0 grams 的“盐”。胡椒同理；不使用就必须从两处同时删除。',
         '盐只有两种合法模式：A是 ingredients[] 列“盐”和数字 grams，steps[] 写“加盐”；B是 ingredients[] 不列盐，且 steps[] 不得出现“盐”字。禁止“加盐（未列入食材、可不加）”这类自相矛盾表述。',
         '禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”等措辞或假定。需要长时泡发、预煮的可选食材必须省略；同次做饭可完成的短时处理必须写成“先处理 N 分钟”并计入总时长。',
+        '生禽肉、猪肉或海鲜只有在明确加热动作之后才能写“熟透”或“中心不见粉红”；禁止写“切块，中心不见粉红”这种把备料当熟制终点的步骤。',
         '只能使用一口烹饪容器；主食和其他需熟制食材都必须在本次 steps[] 中完成。',
         '返回 JSON 前逐项检查上述规则；冲突时先删除可选食材，不得新增主料。',
     ])
@@ -966,6 +976,8 @@ def _validation_search_tokens(name, aliases):
 
 _VALIDATION_NEGATED_RE = re.compile(r'(?:不加|不放|不用|不使用|未加|未放|无|免加|无需)(?:任何|额外|一点|少许)?$')
 _VALIDATION_COOKED_RE = re.compile(r'(?:中心(?:不见|无)粉红色?|煮沸|煮熟|煎熟|炒熟|焖熟|炖熟|蒸熟|烧开|熟透|熟)')
+_VALIDATION_HEATING_ACTION_RE = re.compile(r'(?:加热|煮|炒|煎|焖|炖|蒸|烤|烧|汆|烫)')
+_VALIDATION_PREP_ONLY_ACTION_RE = re.compile(r'(?:切块|切丁|切片|切丝|切末|改刀|切)')
 _VALIDATION_COOKED_NEGATION_RE = re.compile(r'(?:并非|不是|仍不|尚未|还未|还没|未|没有|没能|不能|无法)(?:已经|已|完全|彻底|真正|实际)*(?:达到|达|确认|保证)?$')
 _VALIDATION_UNHEATED_RELATION_RE = re.compile(r'(?:备用|放一旁|最后拌入|出锅后加入|盛出后加入|装盘后加入)')
 _VALIDATION_DELAYED_ADD_RE = re.compile(r'(?:后加入|后放入|后拌入|再加入|再放入|再拌入)$')
@@ -1076,6 +1088,8 @@ def _validation_clause_cooks_target(clause, name, aliases):
             continue
         if _VALIDATION_COOKED_NEGATION_RE.search(cooked_prefix):
             continue
+        if _VALIDATION_PREP_ONLY_ACTION_RE.search(text) and not _VALIDATION_HEATING_ACTION_RE.search(text):
+            continue
         if unheated_relation and unheated_relation.start() <= cooked.start():
             continue
         target_is_rice = any(token in ('大米', '米饭', '米') for token in _validation_search_tokens(name, aliases))
@@ -1182,7 +1196,13 @@ def _validation_high_risk_cooked(name, steps, aliases, ingredient_names):
                 continue
             next_clause = clauses[index + 1] if index + 1 < len(clauses) else ''
             next_names_other = any(_validation_step_mentions(next_clause, other, aliases) for other in other_ingredients)
+            prep_only_target_clause = (
+                bool(_VALIDATION_PREP_ONLY_ACTION_RE.search(_validation_form_name(clause)))
+                and not _VALIDATION_HEATING_ACTION_RE.search(_validation_form_name(clause))
+            )
             if (next_clause and not next_names_other
+                    and not (prep_only_target_clause
+                             and not _VALIDATION_HEATING_ACTION_RE.search(_validation_form_name(next_clause)))
                     and _validation_clause_cooks_target(next_clause, name, aliases)):
                 return True
     return False

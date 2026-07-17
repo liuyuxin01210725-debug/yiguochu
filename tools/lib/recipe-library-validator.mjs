@@ -7,6 +7,7 @@ const STRING_ARRAY_FIELDS = [
   'purposes',
   'core_ingredients',
   'optional_ingredients',
+  'generation_optional_ingredients',
   'technique',
   'ratio_rules',
   'safety_rules',
@@ -138,6 +139,25 @@ export function validateRecipeLibrary(lib) {
     }
     for (const key of OBJECT_ARRAY_FIELDS) {
       validateRequiredArray(recipe[key], `${label} ${key}`, errors);
+    }
+    if (Array.isArray(recipe.generation_optional_ingredients)) {
+      if (recipe.generation_optional_ingredients.length < 1
+        || recipe.generation_optional_ingredients.length > 4) {
+        errors.push(`${label} generation_optional_ingredients must contain 1 to 4 items`);
+      }
+      const approvedGenerationIngredients = new Set([
+        ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
+        ...(Array.isArray(recipe.substitution_slots)
+          ? recipe.substitution_slots.flatMap(slot => (
+            isPlainObject(slot) && Array.isArray(slot.allowed) ? slot.allowed : []
+          ))
+          : []),
+      ]);
+      for (const name of recipe.generation_optional_ingredients) {
+        if (isNonEmptyString(name) && !approvedGenerationIngredients.has(name)) {
+          errors.push(`${label} generation optional ingredient is not approved: ${name}`);
+        }
+      }
     }
 
     if (recipe.constraint_profiles !== undefined) {

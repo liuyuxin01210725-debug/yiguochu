@@ -29,10 +29,11 @@
       "cuisine": "中式",
       "form": "粥",
       "summary": "用充足液体把大米慢煮至绵软，再按口味加入少量咸鲜调味和香味配料。",
-      "adaptation_note": "用户已选水时锁定为水，不再加鸡高汤。葱、香菜、姜、芝麻可并用，它们是少量可选香味，不属于互相替换。",
+      "adaptation_note": "用户已选水时锁定为水，不再加鸡高汤。基础生产版只选酱油、芝麻油、葱、姜四项可选配料。",
       "purposes": ["quick", "pantry", "batch"],
       "core_ingredients": ["大米", "水"],
       "optional_ingredients": ["鸡高汤", "酱油", "芝麻油", "白胡椒", "葱", "香菜", "姜", "芝麻"],
+      "generation_optional_ingredients": ["酱油", "芝麻油", "葱", "姜"],
       "substitution_slots": [
         { "slot": "煮粥液体", "replaces": ["水"], "allowed": ["鸡高汤"] }
       ],
@@ -64,6 +65,7 @@
       "purposes": ["quick", "fresh", "batch"],
       "core_ingredients": ["大米", "鸡肉", "洋葱"],
       "optional_ingredients": ["黄油", "月桂叶", "姜黄", "豆蔻", "肉桂", "咖喱酱", "葡萄干", "鸡高汤", "香菜"],
+      "generation_optional_ingredients": ["黄油", "姜黄", "咖喱酱", "鸡高汤"],
       "substitution_slots": [
         { "slot": "鸡肉部位", "replaces": ["鸡肉"], "allowed": ["鸡腿肉", "鸡胸肉"] },
         { "slot": "果干", "replaces": ["葡萄干"], "allowed": ["杏干", "蔓越莓干"] }
@@ -96,6 +98,7 @@
       "purposes": ["pantry", "fresh", "batch"],
       "core_ingredients": ["大米", "番茄", "甜椒", "洋葱"],
       "optional_ingredients": ["番茄膏", "辣椒", "植物油", "鸡高汤", "咖喱粉", "百里香"],
+      "generation_optional_ingredients": ["植物油", "鸡高汤", "咖喱粉", "百里香"],
       "substitution_slots": [
         { "slot": "炖饭高汤", "replaces": ["鸡高汤"], "allowed": ["蔬菜高汤", "水"] },
         { "slot": "辣味", "replaces": ["辣椒"], "allowed": ["辣椒粉", "不放辣"] }
@@ -128,6 +131,7 @@
       "purposes": ["pantry", "fresh", "batch"],
       "core_ingredients": ["大米", "番茄", "鸡肉", "芹菜"],
       "optional_ingredients": ["黄油", "鸡高汤", "蘑菇", "月桂叶", "罗勒", "百里香", "孜然"],
+      "generation_optional_ingredients": ["黄油", "鸡高汤", "蘑菇", "百里香"],
       "substitution_slots": [
         { "slot": "熟禽肉", "replaces": ["鸡肉"], "allowed": ["火鸡肉"] },
         { "slot": "菌菇", "replaces": ["蘑菇"], "allowed": ["口蘑", "不放菌菇"] }
@@ -157,11 +161,12 @@
       "cuisine": "家常纯素炖锅",
       "form": "炖锅",
       "summary": "用同一口锅炒香洋葱和蒜，再加入大豆蛋白块、红扁豆、西兰花与量化沸水，炖成饱腹纯素主餐。",
-      "adaptation_note": "一锅出基础版在四项固定核心外只选橄榄油、蒜、姜黄、黑胡椒四项，另列有数字克数的水和盐。营养酵母、花生或葵花籽、辣椒、葛缕子和姜不得在同一版本加入。",
+      "adaptation_note": "一锅出基础版在四项固定核心外只选橄榄油、蒜、姜黄、黑胡椒四项，另列有数字克数的水和盐。大豆蛋白块不得单独提前泡发或沥干，必须直接随量化水同锅软化。营养酵母、花生或葵花籽、辣椒、葛缕子和姜不得加入。",
       "purposes": ["quick", "pantry", "batch"],
       "total_time_minutes": 30,
       "core_ingredients": ["红扁豆", "大豆蛋白块", "西兰花", "红洋葱"],
       "optional_ingredients": ["橄榄油", "蒜", "营养酵母", "花生", "葵花籽", "黑胡椒", "姜黄", "辣椒", "葛缕子", "姜"],
+      "generation_optional_ingredients": ["橄榄油", "蒜", "姜黄", "黑胡椒"],
       "substitution_slots": [
         { "slot": "坚果或种子", "replaces": ["花生"], "allowed": ["葵花籽", "不加坚果或种子"] }
       ],
@@ -196,6 +201,7 @@
       "purposes": ["pantry", "fresh", "batch"],
       "core_ingredients": ["黑眼豆", "大米", "鸡肉", "番茄", "洋葱"],
       "optional_ingredients": ["胡萝卜", "芹菜", "蒜", "姜", "辣椒", "咖喱粉", "柠檬汁", "鸡高汤"],
+      "generation_optional_ingredients": ["胡萝卜", "芹菜", "蒜", "鸡高汤"],
       "substitution_slots": [
         { "slot": "鸡肉替代", "replaces": ["鸡肉"], "allowed": ["黑眼豆"] },
         { "slot": "炖煮液体", "replaces": ["鸡高汤"], "allowed": ["蔬菜高汤", "水"] }
@@ -234,6 +240,7 @@
       ],
       "core_ingredients": ["红扁豆", "土豆", "番茄"],
       "optional_ingredients": ["黄油", "橄榄油", "月桂叶", "姜黄", "辣椒粉", "综合香料", "蜂蜜"],
+      "generation_optional_ingredients": ["植物油", "月桂叶", "姜黄", "综合香料"],
       "substitution_slots": [
         { "slot": "煎香油脂", "replaces": ["黄油"], "allowed": ["植物油", "人造黄油"] },
         { "slot": "微甜平衡", "replaces": ["蜂蜜"], "allowed": ["白糖", "不加甜味"] }
@@ -267,6 +274,7 @@
       "purposes": ["quick", "pantry", "fresh"],
       "core_ingredients": ["鸡蛋", "番茄", "甜椒"],
       "optional_ingredients": ["橄榄油", "甜椒粉", "蒜", "辣椒", "黑胡椒", "欧芹"],
+      "generation_optional_ingredients": ["橄榄油", "甜椒粉", "蒜", "黑胡椒"],
       "substitution_slots": [
         { "slot": "甜椒颜色", "replaces": ["甜椒"], "allowed": ["红甜椒", "黄甜椒"] },
         { "slot": "辣味", "replaces": ["辣椒"], "allowed": ["辣椒粉", "不放辣"] }
@@ -299,6 +307,7 @@
       "purposes": ["fresh", "batch"],
       "core_ingredients": ["牛肉", "辣椒"],
       "optional_ingredients": ["牛脂", "牛至", "孜然", "辣椒粉", "蒜", "玉米粉", "辣椒酱"],
+      "generation_optional_ingredients": ["牛脂", "牛至", "孜然", "蒜"],
       "substitution_slots": [
         { "slot": "炖煮肉类", "replaces": ["牛肉"], "allowed": ["鹿肉"] },
         { "slot": "收稠材料", "replaces": ["玉米粉"], "allowed": ["碎玉米片"] }
@@ -331,6 +340,7 @@
       "purposes": ["fresh", "batch"],
       "core_ingredients": ["鸡肉", "椰奶", "红葱头"],
       "optional_ingredients": ["蒜", "姜", "香茅", "石栗", "青柠叶", "姜黄", "南姜", "棕榈糖", "辣椒", "虾酱"],
+      "generation_optional_ingredients": ["蒜", "姜", "香茅", "姜黄"],
       "substitution_slots": [
         { "slot": "主蛋白", "replaces": ["鸡肉"], "allowed": ["鱼肉", "虾仁", "羊肉"] },
         { "slot": "葱香", "replaces": ["红葱头"], "allowed": ["洋葱"] }
@@ -363,6 +373,7 @@
       "purposes": ["fresh", "pantry"],
       "core_ingredients": ["意式烩饭米", "洋葱", "高汤", "黄油"],
       "optional_ingredients": ["白葡萄酒", "橄榄油", "帕玛森奶酪", "黑胡椒", "香草"],
+      "generation_optional_ingredients": ["白葡萄酒", "帕玛森奶酪", "黑胡椒", "香草"],
       "substitution_slots": [
         { "slot": "烩饭米", "replaces": ["意式烩饭米"], "allowed": ["阿博里奥米", "卡纳罗利米"] },
         { "slot": "白葡萄酒", "replaces": ["白葡萄酒"], "allowed": ["高汤"] }
@@ -396,6 +407,7 @@
       "purposes": ["pantry", "quick", "batch"],
       "core_ingredients": ["大米", "卷心菜", "高汤"],
       "optional_ingredients": ["火腿", "番茄酱"],
+      "generation_optional_ingredients": ["火腿", "番茄酱"],
       "substitution_slots": [
         { "slot": "汤底", "replaces": ["高汤"], "allowed": ["蔬菜高汤", "鸡高汤"] },
         { "slot": "咸鲜配料", "replaces": ["火腿"], "allowed": ["白豆", "不放肉"] }
