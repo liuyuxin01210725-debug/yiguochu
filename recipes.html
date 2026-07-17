@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一锅出｜公开菜谱</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #24322a; background: #f7f5ef; }
+    body { margin: 0; line-height: 1.6; }
+    main { box-sizing: border-box; width: min(720px, 100%); margin: 0 auto; padding: 28px 20px 48px; }
+    header { margin-bottom: 24px; }
+    h1 { margin: 0; font-size: 1.6rem; }
+    .project { margin: 3px 0 0; color: #617067; font-size: .92rem; }
+    article, .unavailable { background: #fff; border: 1px solid #e4e0d6; border-radius: 14px; padding: 22px; box-shadow: 0 3px 12px rgb(46 61 48 / 5%); }
+    .eyebrow { margin: 0; color: #68776d; font-size: .88rem; }
+    h2 { margin: 3px 0 14px; line-height: 1.3; }
+    h3 { margin: 22px 0 6px; font-size: 1rem; }
+    p { margin: 6px 0; }
+    ul { margin: 6px 0; padding-left: 1.35rem; }
+    a { color: #246b4f; }
+    .unavailable { color: #4c5a51; }
+    [hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>一锅出项目</h1>
+      <p class="project">公开基础菜谱 · 只读页面</p>
+    </header>
+    <section id="unavailable" class="unavailable" aria-live="polite">未找到可公开的菜谱</section>
+    <article id="recipe" hidden>
+      <p id="meta" class="eyebrow"></p>
+      <h2 id="name"></h2>
+      <p id="summary"></p>
+      <h3>核心食材</h3><ul id="ingredients"></ul>
+      <h3>技法</h3><ul id="technique"></ul>
+      <h3>比例规则</h3><ul id="ratios"></ul>
+      <h3>安全规则</h3><ul id="safety"></ul>
+      <h3>文化来源候选编号</h3><p id="origin"></p>
+      <h3>来源署名</h3><ul id="sources"></ul>
+    </article>
+  </main>
+  <script>
+    (() => {
+      const unavailable = document.getElementById('unavailable');
+      const recipeElement = document.getElementById('recipe');
+      const recipeId = new URLSearchParams(window.location.search).get('id');
+
+      function appendTextList(element, values) {
+        element.replaceChildren();
+        for (const value of Array.isArray(values) ? values : []) {
+          const item = document.createElement('li');
+          item.textContent = String(value);
+          element.append(item);
+        }
+      }
+
+      function showUnavailable() {
+        recipeElement.hidden = true;
+        unavailable.hidden = false;
+      }
+
+      function renderRecipe(recipe) {
+        document.getElementById('name').textContent = recipe.name || '未命名菜谱';
+        document.getElementById('meta').textContent = [recipe.cuisine, recipe.form].filter(Boolean).join(' · ');
+        document.getElementById('summary').textContent = recipe.summary || '';
+        document.getElementById('origin').textContent = recipe.origin_candidate_id || '未提供';
+        appendTextList(document.getElementById('ingredients'), recipe.core_ingredients);
+        appendTextList(document.getElementById('technique'), recipe.technique);
+        appendTextList(document.getElementById('ratios'), recipe.ratio_rules);
+        appendTextList(document.getElementById('safety'), recipe.safety_rules);
+
+        const sources = document.getElementById('sources');
+        sources.replaceChildren();
+        for (const source of Array.isArray(recipe.source_refs) ? recipe.source_refs : []) {
+          const item = document.createElement('li');
+          const label = [source.title, source.license, source.attribution].filter(Boolean).join(' · ');
+          if (typeof source.url === 'string' && source.url.startsWith('https://')) {
+            const link = document.createElement('a');
+            link.href = source.url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = label || source.url;
+            item.append(link);
+          } else {
+            item.textContent = label;
+          }
+          sources.append(item);
+        }
+
+        unavailable.hidden = true;
+        recipeElement.hidden = false;
+      }
+
+      if (!recipeId) {
+        showUnavailable();
+        return;
+      }
+
+      fetch('/recipe-library.json')
+        .then(response => response.ok ? response.json() : Promise.reject(new Error('library unavailable')))
+        .then(library => {
+          const recipe = Array.isArray(library.recipes)
+            ? library.recipes.find(recipe => recipe.id === recipeId && recipe.status === 'approved')
+            : undefined;
+          if (!recipe) {
+            showUnavailable();
+            return;
+          }
+          renderRecipe(recipe);
+        })
+        .catch(showUnavailable);
+    })();
+  </script>
+</body>
+</html>
