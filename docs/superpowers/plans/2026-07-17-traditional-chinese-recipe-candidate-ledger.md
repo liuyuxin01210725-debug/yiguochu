@@ -76,7 +76,7 @@ test('candidate ledger rejects approved status and copied-source metadata gaps',
 
 - [ ] **Step 2: Run the test to verify it fails because the module is missing**
 
-Run: `node --test tools/tests/recipe-candidates.test.mjs`  
+Run: `node --test tools/tests/recipe-candidates.test.mjs`
 Expected: failure with `ERR_MODULE_NOT_FOUND` for `recipe-candidate-validator.mjs`.
 
 - [ ] **Step 3: Implement the minimal validator**
@@ -143,7 +143,7 @@ export function validateRecipeCandidateLedger(ledger) {
 
 - [ ] **Step 4: Run the unit test to verify it passes**
 
-Run: `node --test tools/tests/recipe-candidates.test.mjs`  
+Run: `node --test tools/tests/recipe-candidates.test.mjs`
 Expected: 2 passing tests.
 
 - [ ] **Step 5: Commit the validator task**
@@ -193,7 +193,7 @@ test('candidate checker reports the candidate and production counts', () => {
 
 - [ ] **Step 2: Run the integration tests to verify they fail for the missing ledger**
 
-Run: `node --test tools/tests/recipe-candidates.test.mjs`  
+Run: `node --test tools/tests/recipe-candidates.test.mjs`
 Expected: the two new tests fail with `ENOENT` for `recipe-candidates.json`.
 
 - [ ] **Step 3: Create the candidate ledger**
@@ -301,7 +301,7 @@ test('candidate ledger documentation preserves the facts-versus-expression bound
 
 - [ ] **Step 2: Run the test to verify it fails for the missing documentation**
 
-Run: `node --test tools/tests/recipe-candidates.test.mjs`  
+Run: `node --test tools/tests/recipe-candidates.test.mjs`
 Expected: failure with `ENOENT` for `docs/传统菜谱候选册说明.md`.
 
 - [ ] **Step 3: Write the contributor document**
