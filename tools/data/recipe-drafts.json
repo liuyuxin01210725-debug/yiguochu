@@ -331,12 +331,12 @@
     },
     {
       "id": "tibetan-savory-congee-draft", "candidate_id": "tibetan-savory-congee", "status": "draft", "name": "咸味谷物稀饭试做框架", "region": "西藏风味方向", "form": "稀饭", "adaptation_summary": "以谷物和经声明的乳制品或非乳替代品构成的原创稀饭试做框架；不宣称为地方标准。", "serving_range": [2, 4],
-      "core_ingredients": ["食品级谷物", "经声明的乳制品或非乳替代品"], "optional_ingredients": ["有明确食品名称的熟制肉类"],
+      "core_ingredients": ["食品级谷物", "经声明的乳制品或非乳替代品"], "optional_ingredients": ["有明确食品名称的叶菜"],
       "substitution_slots": [{"slot": "乳制品", "replaces": ["经声明的乳制品或非乳替代品"], "allowed": ["有明确过敏原标签的牛奶", "有明确成分标签的非乳替代品"]}],
       "draft_ratio_rules": ["稠度和咸味只依据本轮试做记录调整。", "乳制品或替代品未完成过敏原范围声明时不得加入。"],
       "technique_outline": ["先核对乳制品或替代品的成分、过敏原和原始状态。", "小火煮至谷物熟软并记录成品状态，不把未记录的留存样品作为评价依据。"],
       "safety_and_quality_gates": [{"type": "dairy_allergen", "requirement": "使用乳制品时必须明确乳及相关过敏原范围；使用替代品时也必须记录完整成分和过敏原信息。"}, {"type": "simmered_outcome", "requirement": "谷物必须煮熟软、无硬芯并记录成品稠度与原始生熟状态。"}, {"type": "storage", "requirement": "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"}],
-      "trial_requirements": ["记录谷物、乳制品或替代品的食品名称、来源、原始状态、成分和过敏原范围。", "记录谷物熟软检查、稠度、咸味尝味和锅具。", "记录可选肉类的过敏原声明及成品当餐食用或冷却冷藏与再次加热状态和修订原因。"]
+      "trial_requirements": ["记录谷物、乳制品或替代品的食品名称、来源、原始状态、成分和过敏原范围。", "记录谷物熟软检查、稠度、咸味尝味和锅具。", "记录叶菜等可选食材的食品名称和过敏原声明及成品当餐食用或冷却冷藏与再次加热状态和修订原因。"]
     },
     {
       "id": "tibetan-gutu-draft", "candidate_id": "tibetan-gutu", "status": "draft", "name": "蔬菜面团汤试做框架", "region": "西藏风味方向", "form": "面食汤", "adaptation_summary": "以普通食品级面团和已核验蔬菜构成的原创家庭试做框架；不复刻节庆仪式、象征物或传统成品。", "serving_range": [2, 4],

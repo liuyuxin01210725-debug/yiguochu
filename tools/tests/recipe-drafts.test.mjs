@@ -81,6 +81,146 @@ test('thirty traditional drafts are isolated from candidates and production', ()
   assert.ok(drafts.drafts.every(draft => !production.recipes.some(recipe => recipe.id === draft.id)));
 });
 
+test('all eight Task-4 high-risk drafts retain their specific safety gates and trial records', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const highRiskRequirements = {
+    'cantonese-mushroom-chicken-claypot-rice-draft': {
+      gatePatterns: {
+        chicken_identity: /鸡肉部位.*可食部分.*购买来源.*原始生熟状态/,
+        food_safety: /鸡肉中心.*完全熟制.*无生肉状态.*检查记录/,
+        mushroom_moisture: /食品名称.*来源.*原始含水.*加热出水.*积液.*质地合格/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /鸡肉部位.*可食部分.*购买来源.*原始生熟状态.*中心完全熟制检查/,
+        /香菇食品名称.*购买来源.*原始状态.*出水.*成品湿度/,
+        /叶菜.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+    'cantonese-black-bean-pork-rib-claypot-rice-draft': {
+      gatePatterns: {
+        bone_safety: /肋排骨片检查.*成品复查.*碎骨.*锐骨/,
+        food_safety: /猪肉中心.*完全熟制.*无生肉状态.*检查记录/,
+        fermented_bean_salt: /豆豉.*来源.*尝味.*补加盐.*高盐调味料/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /猪肋排购买来源.*原始生熟状态.*骨片检查.*可食部分.*中心完全熟制检查/,
+        /豆豉食品级标签.*来源.*过敏原信息.*尝味.*补盐决定/,
+        /食用菌.*食品名称.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热/,
+      ],
+    },
+    'qinghai-hao-fan-draft': {
+      gatePatterns: {
+        ingredient_identity: /食品名称.*购买来源.*可食用依据.*身份不明.*区域植物/,
+        food_safety: /土豆.*熟透.*无硬芯.*原始状态.*熟制检查/,
+        allergen_scope: /豆类.*叶菜.*过敏原.*不耐受声明/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /全部主料.*食品名称.*购买来源.*可食用依据.*原始状态/,
+        /土豆.*豆类.*熟制检查.*成品稠度.*锅具/,
+        /豆类.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+    'tibetan-savory-congee-draft': {
+      forbiddenOptionalIngredient: /肉/,
+      gatePatterns: {
+        dairy_allergen: /乳.*过敏原范围.*替代品.*完整成分.*过敏原信息/,
+        simmered_outcome: /谷物.*煮熟软.*无硬芯.*成品稠度.*原始生熟状态/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /谷物、乳制品或替代品.*食品名称.*来源.*原始状态.*成分.*过敏原范围/,
+        /谷物熟软检查.*稠度.*咸味尝味.*锅具/,
+        /叶菜.*食品名称.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+    'tibetan-gutu-draft': {
+      gatePatterns: {
+        cultural_scope: /不得宣称.*模拟.*复刻.*节庆仪式.*象征物.*占卜.*传统成品/,
+        dough_cook_through: /面团.*内部无生粉.*无夹生.*原始状态.*熟制检查/,
+        allergen_scope: /小麦.*食用菌.*过敏原声明/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /面粉.*蔬菜.*食用菌.*食品名称.*来源.*原始状态.*小麦.*过敏原声明/,
+        /面团内部无生粉.*熟制检查.*汤体状态.*锅具/,
+        /当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+    'tibetan-ginseng-fruit-rice-draft': {
+      gatePatterns: {
+        food_grade_identity: /蕨麻.*准确食品名称.*食品级标签.*可食用依据.*购买来源/,
+        claim_boundary: /不得出现.*药用.*保健.*治疗.*功效宣称/,
+        food_safety: /蕨麻.*谷物.*熟透.*无硬芯.*原始状态.*熟制检查/,
+        allergen_and_storage: /蕨麻.*谷物.*干果.*过敏原声明.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /蕨麻.*准确食品名称.*食品级标签.*可食用依据.*购买来源.*原始状态/,
+        /蕨麻.*谷物.*熟制检查.*湿度.*锅具/,
+        /干果.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+    'she-people-black-rice-draft': {
+      gatePatterns: {
+        botanical_identity: /植物色源.*准确植物身份.*食品级证明.*购买来源.*可食用依据/,
+        soak_and_rinse: /糯米浸泡.*漂洗.*原始状态.*用水观察/,
+        food_safety: /糯米.*蒸熟.*无硬芯/,
+        allergen_and_storage: /色源.*坚果.*种子.*过敏原声明.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /色源.*植物身份.*食品级证明.*购买来源.*可食用依据.*原始状态/,
+        /糯米浸泡.*漂洗.*蒸熟检查.*成品湿度/,
+        /坚果.*种子.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+    'banshan-wild-rice-draft': {
+      gatePatterns: {
+        wild_ingredient_identity: /野生食材.*准确身份.*可食用依据.*来源.*原始状态.*安全替代食材/,
+        food_safety: /米.*野生食材.*替代食材.*完全熟制.*无硬芯.*生食状态/,
+        allergen_scope: /野生食材.*替代食材.*香菇.*过敏原声明/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /野生食材.*安全替代食材.*准确食品名称.*可食用依据.*购买来源.*原始状态/,
+        /米.*食材.*完全熟制检查.*成品湿度.*锅具/,
+        /全部可选食材.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+      ],
+    },
+  };
+  const expectedHighRiskIds = [
+    'banshan-wild-rice-draft',
+    'cantonese-black-bean-pork-rib-claypot-rice-draft',
+    'cantonese-mushroom-chicken-claypot-rice-draft',
+    'qinghai-hao-fan-draft',
+    'she-people-black-rice-draft',
+    'tibetan-ginseng-fruit-rice-draft',
+    'tibetan-gutu-draft',
+    'tibetan-savory-congee-draft',
+  ];
+
+  assert.deepEqual(Object.keys(highRiskRequirements).sort(), expectedHighRiskIds);
+  const highRiskDrafts = drafts.drafts.filter(draft => expectedHighRiskIds.includes(draft.id));
+  assert.equal(highRiskDrafts.length, expectedHighRiskIds.length);
+  for (const draft of highRiskDrafts) {
+    const requirements = highRiskRequirements[draft.id];
+    assert.equal(draft.status, 'draft', draft.id);
+    assert.ok(draft.safety_and_quality_gates.length >= 3, `${draft.id} needs at least three gates`);
+    const gatesByType = new Map(draft.safety_and_quality_gates.map(gate => [gate.type, gate.requirement]));
+    for (const [type, pattern] of Object.entries(requirements.gatePatterns)) {
+      assert.match(gatesByType.get(type) || '', pattern, `${draft.id}:${type}`);
+    }
+    if (requirements.forbiddenOptionalIngredient) {
+      assert.doesNotMatch(draft.optional_ingredients.join('\n'), requirements.forbiddenOptionalIngredient, draft.id);
+    }
+    assert.equal(draft.trial_requirements.length, requirements.recordPatterns.length, `${draft.id} record count`);
+    requirements.recordPatterns.forEach((pattern, index) => {
+      assert.match(draft.trial_requirements[index] || '', pattern, `${draft.id} record ${index + 1}`);
+    });
+  }
+});
+
 test('thirty-draft release gate rejects a high-risk draft remapped to another valid candidate', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
