@@ -74,7 +74,7 @@ Expected: `ERR_MODULE_NOT_FOUND` for `recipe-draft-validator.mjs`.
 
 - [ ] **Step 3: Implement the validator**
 
-Implement the exported function with deterministic errors. Require non-empty strings and arrays, unique draft/candidate IDs, `status === 'draft'`, candidate ID membership in `candidateLedger.entries`, integer serving range `[min,max]` where `1 <= min <= max <= 6`, non-empty slots with `slot/replaces/allowed`, safety objects with `type/requirement`, and non-empty `basis_ref_ids`.
+Implement the exported function with deterministic errors. Require non-empty strings and arrays, unique draft/candidate IDs, `status === 'draft'`, candidate ID membership in `candidateLedger.entries`, integer serving range `[min,max]` where `1 <= min <= max <= 6`, non-empty slots with `slot/replaces/allowed`, and safety objects with `type/requirement`.
 
 - [ ] **Step 4: Run focused test**
 
