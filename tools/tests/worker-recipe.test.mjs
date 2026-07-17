@@ -352,7 +352,10 @@ test('promoted She black rice keeps the explicit color-source boundary', () => {
     ...constraints,
     pantry: ['糯米', '不明植物色源'],
   });
-  assert.equal(unknownColorSelections.some(hit => hit.recipe.id === 'she-people-black-rice'), false);
+  const unknownColorSelection = unknownColorSelections.find(hit => hit.recipe.id === 'she-people-black-rice');
+  assert.ok(unknownColorSelection);
+  assert.deepEqual(unknownColorSelection.usedPantry, ['糯米']);
+  assert.deepEqual(unknownColorSelection.unusedPantry, ['不明植物色源']);
 
   const flags = validateGroundedMeal({
     ingredients: [
