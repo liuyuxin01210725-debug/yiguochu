@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "purpose": "六道传统风味一锅主食的原创试做草案；仅供测试与人工审核，不进入运行时或生产菜谱库。",
+  "drafts": [
+    {
+      "id": "shanghai-salted-pork-vegetable-rice-draft",
+      "candidate_id": "shanghai-salted-pork-vegetable-rice",
+      "status": "draft",
+      "name": "咸肉叶菜焖饭试做框架",
+      "region": "上海奉贤风味方向",
+      "form": "焖饭",
+      "adaptation_summary": "面向家庭锅具的原创咸肉叶菜焖饭试做框架，以少量咸肉承担咸香，叶菜在后段加入；不复述或复刻任何外部菜谱。",
+      "serving_range": [2, 4],
+      "core_ingredients": ["精白米", "少量咸肉", "叶菜"],
+      "optional_ingredients": ["香葱"],
+      "substitution_slots": [
+        {"slot": "叶菜", "replaces": ["叶菜"], "allowed": ["小白菜", "菜心"]}
+      ],
+      "draft_ratio_rules": ["每100克精白米使用125至140克可用总液体。", "咸肉先试味，再决定是否补盐。"],
+      "technique_outline": ["咸肉与米同锅起香后加入量好的液体。", "米饭接近熟透时再加入叶菜并焖至软化。"],
+      "safety_and_quality_gates": [
+        {"type": "food_safety", "requirement": "咸肉中心必须彻底熟透后才可食用。"},
+        {"type": "seasoning", "requirement": "未尝咸肉前不得额外加盐，避免盐度失控。"},
+        {"type": "texture", "requirement": "叶菜后段加入，避免长时间受热而大量出水。"}
+      ],
+      "trial_requirements": ["记录米与总液体的实际重量和锅具类型。", "记录咸肉试味后的补盐决定。", "记录叶菜加入时机、米粒状态和修订原因。"]
+    },
+    {
+      "id": "nanjing-sausage-greens-rice-draft",
+      "candidate_id": "nanjing-sausage-greens-rice",
+      "status": "draft",
+      "name": "香肠青菜焖饭试做框架",
+      "region": "江苏南京风味方向",
+      "form": "焖饭",
+      "adaptation_summary": "面向家庭锅具的原创香肠青菜焖饭试做框架，利用香肠本身的脂香完成基础风味，青菜在后段加入；不复述或复刻任何外部菜谱。",
+      "serving_range": [2, 4],
+      "core_ingredients": ["精白米", "切片香肠", "青菜"],
+      "optional_ingredients": ["白胡椒"],
+      "substitution_slots": [
+        {"slot": "青菜", "replaces": ["青菜"], "allowed": ["矮脚黄", "小油菜"]}
+      ],
+      "draft_ratio_rules": ["每100克精白米使用125至140克可用总液体。", "除非香肠明显偏瘦，否则不另加食用油。"],
+      "technique_outline": ["香肠切片后与米同锅加热，使其脂香进入米粒。", "米饭接近熟透时加入青菜并焖至断生。"],
+      "safety_and_quality_gates": [
+        {"type": "food_safety", "requirement": "香肠中心必须彻底加热后才可食用。"},
+        {"type": "fat_control", "requirement": "先观察香肠出油量，再决定是否补油。"},
+        {"type": "texture", "requirement": "青菜后段加入并保持锅内无明显积水。"}
+      ],
+      "trial_requirements": ["记录香肠肥瘦、出油量和是否补油。", "记录米与总液体的实际重量。", "记录青菜加入时机、总时长和修订原因。"]
+    },
+    {
+      "id": "quanzhou-oil-rice-draft",
+      "candidate_id": "quanzhou-oil-rice",
+      "status": "draft",
+      "name": "猪肉香菇糯米饭试做框架",
+      "region": "福建泉州风味方向",
+      "form": "糯米饭",
+      "adaptation_summary": "以泡发糯米、猪肉和香菇构成的原创家庭试做框架，首轮不使用干制海产；不宣称为任何既有油饭的复刻。",
+      "serving_range": [2, 4],
+      "core_ingredients": ["泡发糯米", "猪肉", "香菇"],
+      "optional_ingredients": ["香葱"],
+      "substitution_slots": [
+        {"slot": "猪肉", "replaces": ["猪肉"], "allowed": ["鸡腿肉", "老豆腐"]}
+      ],
+      "draft_ratio_rules": ["每100克泡发糯米使用90至110克高汤或清水。", "首轮试做排除干制海产，待过敏原审核后再单独评估。"],
+      "technique_outline": ["猪肉和香菇先在锅中加热出香。", "加入泡发糯米与量好的液体，焖至米粒软糯。"],
+      "safety_and_quality_gates": [
+        {"type": "food_safety", "requirement": "猪肉必须完全熟制，中心不得留生。"},
+        {"type": "allergen_scope", "requirement": "首轮不得加入干制海产或其他未审核海鲜。"},
+        {"type": "texture", "requirement": "起锅前检查锅底无游离液体且糯米不夹生。"}
+      ],
+      "trial_requirements": ["记录糯米泡发时间、米与液体的实际重量。", "记录猪肉部位、香菇含水状态和锅具类型。", "记录软糯度、锅底状态和修订原因。"]
+    },
+    {
+      "id": "north-china-green-bean-braised-noodles-draft",
+      "candidate_id": "north-china-green-bean-braised-noodles",
+      "status": "draft",
+      "name": "豆角焖鲜面试做框架",
+      "region": "北方家常风味方向",
+      "form": "焖面",
+      "adaptation_summary": "以可量取焖煮液体控制锅内湿度的原创豆角焖鲜面试做框架，先完成豆角与蛋白质的熟制，再以鲜小麦面条吸收余液。",
+      "serving_range": [2, 4],
+      "core_ingredients": ["鲜小麦面条", "修整豆角", "猪肉或老豆腐"],
+      "optional_ingredients": ["蒜末"],
+      "substitution_slots": [
+        {"slot": "蛋白质", "replaces": ["猪肉"], "allowed": ["老豆腐", "去皮鸡腿肉"]}
+      ],
+      "draft_ratio_rules": ["焖煮液体必须先量取，再分段加入。", "面条入锅前保留少量可见液体，避免干锅或面条泡烂。"],
+      "technique_outline": ["先将豆角与蛋白质加热至完全熟制。", "铺入鲜小麦面条后加盖焖制，起锅前检查锅底湿度。"],
+      "safety_and_quality_gates": [
+        {"type": "food_safety", "requirement": "豆角与肉类或豆腐必须在面条入锅前达到可安全食用的熟制状态。"},
+        {"type": "moisture", "requirement": "面条蒸焖结束前检查锅底，保持无焦糊且无大量游离液体。"},
+        {"type": "texture", "requirement": "鲜面条应熟透但不糊断，必要时少量补液。"}
+      ],
+      "trial_requirements": ["记录豆角品种、蛋白质选择和焖煮液体实际用量。", "记录面条重量、锅底湿度和总时长。", "记录面条口感与修订原因。"]
+    },
+    {
+      "id": "xinjiang-lamb-pilaf-draft",
+      "candidate_id": "xinjiang-lamb-pilaf",
+      "status": "draft",
+      "name": "羊肉洋葱胡萝卜焖饭试做框架",
+      "region": "新疆风味方向",
+      "form": "焖饭",
+      "adaptation_summary": "这是一个 inspired by Xinjiang pilaf 的原创家庭焖饭试做框架，以羊肉、洋葱、胡萝卜与米为核心；不宣称为传统抓饭的标准版本。",
+      "serving_range": [2, 4],
+      "core_ingredients": ["羊肉块", "洋葱", "胡萝卜", "大米"],
+      "optional_ingredients": ["经审核的水果或坚果"],
+      "substitution_slots": [
+        {"slot": "羊肉部位", "replaces": ["羊肉块"], "allowed": ["羊腿肉", "羊肩肉"]}
+      ],
+      "draft_ratio_rules": ["羊肉熟制后，每100克大米使用135至150克可用焖煮液体。", "水果或坚果仅可在完成过敏原审核后作为可选项加入。"],
+      "technique_outline": ["羊肉块先加热至熟制，再加入洋葱与胡萝卜形成焖煮底味。", "量取可用焖煮液体后加入大米，焖至米粒熟透。"],
+      "safety_and_quality_gates": [
+        {"type": "food_safety", "requirement": "羊肉必须彻底熟制，中心不得留生。"},
+        {"type": "allergen_scope", "requirement": "未完成过敏原审核时不得加入水果、坚果或其制品。"},
+        {"type": "liquid_control", "requirement": "液体比例以羊肉熟制后的可用余液为基准，不得按生肉阶段估算。"}
+      ],
+      "trial_requirements": ["记录羊肉部位、熟制后的可用液体重量和大米重量。", "记录是否进行了水果或坚果的过敏原审核。", "记录胡萝卜软硬、米粒状态和修订原因。"]
+    },
+    {
+      "id": "guizhou-dong-community-rice-draft",
+      "candidate_id": "guizhou-dong-community-rice",
+      "status": "draft",
+      "name": "腌肉叶菜焖饭试做框架",
+      "region": "贵州侗族地区风味方向",
+      "form": "焖饭",
+      "adaptation_summary": "这是一个 regional-flavor adaptation 的原创家庭焖饭试做框架，首轮以普通叶菜替代未经核验的地方野菜；不把地方饮食名称当作标准配方声明。",
+      "serving_range": [2, 4],
+      "core_ingredients": ["大米", "腌肉", "香辛料", "普通叶菜"],
+      "optional_ingredients": ["经核验可食用的地方叶菜"],
+      "substitution_slots": [
+        {"slot": "叶菜", "replaces": ["普通叶菜"], "allowed": ["小白菜", "油麦菜"]}
+      ],
+      "draft_ratio_rules": ["每100克大米使用125至140克可用总液体。", "首轮只使用普通叶菜，已核验可食用的地方叶菜才可进入后续试做。"],
+      "technique_outline": ["腌肉与香辛料先在锅中加热出香。", "加入米和量好的液体焖制，叶菜在后段加入。"],
+      "safety_and_quality_gates": [
+        {"type": "food_safety", "requirement": "腌肉必须彻底熟制，中心不得留生。"},
+        {"type": "ingredient_verification", "requirement": "未验证可食性的地方野菜不得用于首轮试做。"},
+        {"type": "seasoning", "requirement": "腌肉先试味后再判断是否补盐。"}
+      ],
+      "trial_requirements": ["记录大米与总液体的实际重量和腌肉咸度。", "记录叶菜来源与是否完成可食性核验。", "记录叶菜加入时机、米粒状态和修订原因。"]
+    }
+  ]
+}

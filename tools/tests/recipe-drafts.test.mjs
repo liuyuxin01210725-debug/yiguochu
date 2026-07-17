@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
 
 const candidateLedger = { entries: [{ id: 'candidate-a' }] };
@@ -28,4 +30,22 @@ test('draft library rejects production status and a missing safety gate', () => 
     'sample-draft status must be draft',
     'sample-draft safety_and_quality_gates must be non-empty',
   ]);
+});
+
+test('six traditional drafts are isolated from candidates and production', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validateRecipeDraftLibrary(drafts, candidates), []);
+  assert.equal(drafts.drafts.length, 6);
+  assert.ok(drafts.drafts.every(draft => draft.status === 'draft'));
+  assert.equal(production.families.length, 9);
+  assert.equal(production.recipes.length, 12);
+  assert.ok(drafts.drafts.every(draft => !production.recipes.some(recipe => recipe.id === draft.id)));
+});
+
+test('draft checker reports six drafts and zero production entries', () => {
+  const run = spawnSync('node', ['tools/check-recipe-drafts.mjs'], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  assert.match(run.stdout, /传统一锅草案 6 道 · 生产可用 0 道/);
 });
