@@ -54,3 +54,11 @@ test('candidate checker reports the candidate and production counts', () => {
   assert.match(run.stdout, /传统菜候选 30 道 · 生产可用 0 道/);
   assert.match(run.stdout, /✅ 传统菜候选册体检通过/);
 });
+
+test('candidate ledger documentation preserves the facts-versus-expression boundary', () => {
+  const doc = fs.readFileSync(new URL('../../docs/传统菜谱候选册说明.md', import.meta.url), 'utf8');
+  assert.match(doc, /传统事实/);
+  assert.match(doc, /不复制/);
+  assert.match(doc, /原创标准配方/);
+  assert.match(doc, /node tools\/check-recipe-candidates\.mjs/);
+});
