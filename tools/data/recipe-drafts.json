@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "purpose": "十五道传统风味一锅主食的原创试做草案；仅供测试与人工审核，不进入运行时或生产菜谱库；当前均为草案，生产可用 0 道，尚未完成真实试做。",
+  "purpose": "三十道传统风味一锅主食的原创试做草案；仅供测试与人工审核，不进入运行时或生产菜谱库；当前均为草案，生产可用 0 道，尚未完成真实试做。",
   "drafts": [
     {
       "id": "shanghai-salted-pork-vegetable-rice-draft",
@@ -111,11 +111,13 @@
       "draft_ratio_rules": ["羊肉熟制后，每100克大米使用135至150克可用焖煮液体。", "水果或坚果仅可在完成过敏原审核后作为可选项加入。"],
       "technique_outline": ["羊肉块先加热至熟制，再加入洋葱与胡萝卜形成焖煮底味。", "量取可用焖煮液体后加入大米，焖至米粒熟透。"],
       "safety_and_quality_gates": [
-        {"type": "food_safety", "requirement": "羊肉必须彻底熟制，中心不得留生。"},
-        {"type": "allergen_scope", "requirement": "未完成过敏原审核时不得加入水果、坚果或其制品。"},
+        {"type": "lamb_identity", "requirement": "试做前记录羊肉部位、可食部分、购买来源和原始生熟状态；身份或状态不明的羊肉不得使用。"},
+        {"type": "food_safety", "requirement": "羊肉中心必须完全熟制、无生肉状态，并保留熟制检查记录。"},
+        {"type": "allergen_scope", "requirement": "水果或坚果必须记录完整成分和过敏原信息；未完成审核时不得加入。"},
+        {"type": "storage", "requirement": "成品仅限当餐食用；需保存时必须记录冷却、冷藏和再次加热处理。"},
         {"type": "liquid_control", "requirement": "液体比例以羊肉熟制后的可用余液为基准，不得按生肉阶段估算。"}
       ],
-      "trial_requirements": ["记录羊肉部位、熟制后的可用液体重量和大米重量。", "记录是否进行了水果或坚果的过敏原审核。", "记录胡萝卜软硬、米粒状态和修订原因。"]
+      "trial_requirements": ["记录羊肉部位、可食部分、购买来源、原始生熟状态、中心完全熟制检查、可用液体重量和大米重量。", "记录水果或坚果的完整成分和过敏原信息，或明确本次未加入。", "记录当餐食用或冷却、冷藏、再次加热处理，以及胡萝卜软硬、米粒状态和修订原因。"]
     },
     {
       "id": "guizhou-dong-community-rice-draft",
@@ -134,11 +136,14 @@
       "draft_ratio_rules": ["每100克大米使用125至140克可用总液体。", "首轮只使用普通叶菜，已核验可食用的地方叶菜才可进入后续试做。"],
       "technique_outline": ["腌肉与香辛料先在锅中加热出香。", "加入米和量好的液体焖制，叶菜在后段加入。"],
       "safety_and_quality_gates": [
-        {"type": "food_safety", "requirement": "腌肉必须彻底熟制，中心不得留生。"},
-        {"type": "ingredient_verification", "requirement": "未验证可食性的地方野菜不得用于首轮试做。"},
-        {"type": "seasoning", "requirement": "腌肉先试味后再判断是否补盐。"}
+        {"type": "cured_meat_identity", "requirement": "腌肉必须记录准确食品名称、食品级标签、购买来源和原始生熟状态；身份或状态不明不得使用。"},
+        {"type": "food_safety", "requirement": "腌肉中心必须完全熟制、无生肉状态，并保留熟制检查记录。"},
+        {"type": "plant_identity", "requirement": "地方叶菜须记录准确植物身份、食品级证明、购买来源、可食用依据和原始状态；未核验不得用于试做。"},
+        {"type": "allergen_scope", "requirement": "腌肉必须记录完整成分和过敏原信息，叶菜须完成过敏原声明；未完成审核不得加入。"},
+        {"type": "seasoning", "requirement": "腌肉须核对食品级标签和来源并先尝味，再决定补加盐；不得忽略高盐风险。"},
+        {"type": "storage", "requirement": "成品仅限当餐食用；需保存时必须记录冷却、冷藏和再次加热处理。"}
       ],
-      "trial_requirements": ["记录大米与总液体的实际重量和腌肉咸度。", "记录叶菜来源与是否完成可食性核验。", "记录叶菜加入时机、米粒状态和修订原因。"]
+      "trial_requirements": ["记录腌肉准确食品名称、食品级标签、购买来源、原始生熟状态、中心完全熟制检查、大米与总液体实际重量。", "记录地方叶菜准确植物身份、食品级证明、购买来源、可食用依据和原始状态，或明确本次未使用。", "记录腌肉完整成分和过敏原信息、叶菜过敏原声明、尝味与补盐决定。", "记录当餐食用或冷却、冷藏、再次加热处理、叶菜加入时机、米粒状态和修订原因。"]
     },
     {
       "id": "jinshan-clay-oven-vegetable-rice-draft", "candidate_id": "jinshan-clay-oven-vegetable-rice", "status": "draft", "name": "叶菜鲜菇焖饭试做框架", "region": "上海金山风味方向", "form": "菜饭",

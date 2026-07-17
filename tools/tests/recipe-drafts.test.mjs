@@ -65,9 +65,10 @@ test('expected mapping validator reports a wrong mapping and non-candidate link'
   ]);
 });
 
-test('draft ledger contains 30 entries after high-risk expansion', () => {
+test('draft ledger contains thirty entries and accurate thirty-draft purpose metadata', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
   assert.equal(drafts.drafts.length, 30);
+  assert.match(drafts.purpose, /三十道/);
   assert.ok(drafts.drafts.some(draft => draft.id === 'banshan-wild-rice-draft'));
 });
 
@@ -90,9 +91,39 @@ test('thirty traditional drafts are isolated from candidates and production', ()
   assert.ok(drafts.drafts.every(draft => !production.recipes.some(recipe => recipe.id === draft.id)));
 });
 
-test('all eight Task-4 high-risk drafts retain their specific safety gates and trial records', () => {
+test('all high-risk candidate drafts retain their applicable safety gates and trial records', () => {
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const highRiskRequirements = {
+    'xinjiang-lamb-pilaf-draft': {
+      gatePatterns: {
+        lamb_identity: /羊肉部位.*可食部分.*购买来源.*原始生熟状态/,
+        food_safety: /羊肉中心.*完全熟制.*无生肉状态.*检查记录/,
+        allergen_scope: /水果.*坚果.*完整成分.*过敏原信息/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /羊肉部位.*可食部分.*购买来源.*原始生熟状态.*中心完全熟制检查/,
+        /水果.*坚果.*完整成分.*过敏原信息/,
+        /当餐.*冷却.*冷藏.*再次加热.*胡萝卜.*米粒状态.*修订原因/,
+      ],
+    },
+    'guizhou-dong-community-rice-draft': {
+      gatePatterns: {
+        cured_meat_identity: /腌肉.*准确食品名称.*食品级标签.*购买来源.*原始生熟状态/,
+        food_safety: /腌肉中心.*完全熟制.*无生肉状态.*检查记录/,
+        plant_identity: /地方叶菜.*准确植物身份.*食品级证明.*购买来源.*可食用依据.*原始状态/,
+        allergen_scope: /腌肉.*完整成分.*过敏原信息.*叶菜.*过敏原声明/,
+        seasoning: /腌肉.*食品级标签.*来源.*尝味.*补加盐.*高盐/,
+        storage: /当餐.*冷却.*冷藏.*再次加热/,
+      },
+      recordPatterns: [
+        /腌肉.*准确食品名称.*食品级标签.*购买来源.*原始生熟状态.*中心完全熟制检查/,
+        /地方叶菜.*准确植物身份.*食品级证明.*购买来源.*可食用依据.*原始状态/,
+        /腌肉.*完整成分.*过敏原信息.*叶菜.*过敏原声明.*尝味.*补盐决定/,
+        /当餐.*冷却.*冷藏.*再次加热.*米粒状态.*修订原因/,
+      ],
+    },
     'cantonese-mushroom-chicken-claypot-rice-draft': {
       gatePatterns: {
         chicken_identity: /鸡肉部位.*可食部分.*购买来源.*原始生熟状态/,
@@ -198,18 +229,13 @@ test('all eight Task-4 high-risk drafts retain their specific safety gates and t
       ],
     },
   };
-  const expectedHighRiskIds = [
-    'banshan-wild-rice-draft',
-    'cantonese-black-bean-pork-rib-claypot-rice-draft',
-    'cantonese-mushroom-chicken-claypot-rice-draft',
-    'qinghai-hao-fan-draft',
-    'she-people-black-rice-draft',
-    'tibetan-ginseng-fruit-rice-draft',
-    'tibetan-gutu-draft',
-    'tibetan-savory-congee-draft',
-  ];
+  const candidatesById = new Map(candidates.entries.map(candidate => [candidate.id, candidate]));
+  const expectedHighRiskIds = drafts.drafts
+    .filter(draft => candidatesById.get(draft.candidate_id)?.risk_level === 'high')
+    .map(draft => draft.id)
+    .sort();
 
-  assert.deepEqual(Object.keys(highRiskRequirements).sort(), expectedHighRiskIds);
+  assert.deepEqual(Object.keys(highRiskRequirements).sort(), expectedHighRiskIds, 'every high-risk candidate draft needs explicit evidence requirements');
   const highRiskDrafts = drafts.drafts.filter(draft => expectedHighRiskIds.includes(draft.id));
   assert.equal(highRiskDrafts.length, expectedHighRiskIds.length);
   for (const draft of highRiskDrafts) {
