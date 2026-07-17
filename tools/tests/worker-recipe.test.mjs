@@ -321,6 +321,10 @@ test('trusted recipe priority overrides the generic balanced-main template at sy
   assert.match(system, /步骤中写入的水、高汤、食用油、盐或胡椒/);
   assert.match(system, /禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”/);
   assert.match(system, /同次做饭可完成的短时处理必须写成“先处理 N 分钟”/);
+  assert.match(system, /ingredients\[\] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料/);
+  assert.match(system, /可选香辛料最多 3 种/);
+  assert.match(system, /ingredients\[\]中有“盐”时，steps\[\]必须逐字出现“加盐”/);
+  assert.match(system, /steps\[\]中有“盐”时，ingredients\[\]必须有大于 0 grams 的“盐”/);
   assert.equal(upstreamBodies[0].temperature, 0.3);
 });
 

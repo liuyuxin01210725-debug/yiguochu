@@ -790,6 +790,8 @@ test('Python trusted system priority and joined seasoning validation match Worke
   assert.match(prepared.system, /任何 ingredients\[\] 行都必须在 steps\[\] 中明确使用/);
   assert.match(prepared.system, /步骤中写入的水、高汤、食用油、盐或胡椒/);
   assert.match(prepared.system, /禁止使用“提前”“预先”“事先”“隔夜”“过夜”“已泡好”/);
+  assert.match(prepared.system, /ingredients\[\] 最多 12 行，并且已包含水、高汤、食用油、盐、胡椒和香辛料/);
+  assert.match(prepared.system, /ingredients\[\]中有“盐”时，steps\[\]必须逐字出现“加盐”/);
   assert.equal(prepared.temperature, 0.3);
 
   for (const meal of [
