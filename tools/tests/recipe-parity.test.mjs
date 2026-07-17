@@ -765,6 +765,46 @@ test('Python matches approved ingredient, advance-prep, and soy-protein validati
   }
 });
 
+test('Python trusted system priority and joined seasoning validation match Worker', () => {
+  const recipe = groundedRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: ['盐'],
+    substitution_slots: [],
+  });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry: ['大米', '水'], purpose: 'batch', dislikes: [] };
+  const prepared = pythonCall('prepare', {
+    library,
+    constraints,
+    meal: {
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 1100 }, { name: '盐', grams: 2 }],
+      steps: ['大米和水煮成粥，加盐调味。'],
+    },
+  });
+  assert.match(prepared.system, /可信菜谱最高优先级/);
+  assert.match(prepared.system, /不得为补齐营养或丰富口味擅自添加白名单外/);
+
+  for (const meal of [
+    {
+      ingredients: [{ name: '大米' }, { name: '水' }],
+      steps: ['倒入大米、水和盐，撒黑胡椒后焖熟。'],
+      present: ['step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'],
+    },
+    {
+      ingredients: [{ name: '大米' }, { name: '水' }],
+      steps: ['大米和水焖熟，全程不加盐，不撒胡椒。'],
+      absent: ['step_ingredient_missing:盐', 'step_ingredient_missing:胡椒'],
+    },
+  ]) {
+    const js = validateGroundedMeal(meal, selectRecipeCandidates(library, constraints)[0], constraints);
+    const py = pythonCall('validate', { library, constraints, meal });
+    assert.deepEqual(py, js);
+    for (const flag of meal.present || []) assert.ok(py.includes(flag), flag);
+    for (const flag of meal.absent || []) assert.equal(py.includes(flag), false, flag);
+  }
+});
+
 test('Python validator matches all seven flags plus variants, negation, action order, and multi-pot rules', () => {
   const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
   const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });

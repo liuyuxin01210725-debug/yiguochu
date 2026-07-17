@@ -139,6 +139,7 @@ NUTRIENT_MAX = {
 }
 RECIPE_GROUNDING_TOKEN_RE = re.compile(r'\{recipe_grounding\}', re.IGNORECASE)
 RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main'
+TRUSTED_RECIPE_SYSTEM_OVERRIDE = '【可信菜谱最高优先级】当可信基础菜谱与通用的“主食+蛋白+多种蔬菜”或食材数量要求冲突时，必须以可信菜谱的固定核心、可选食材、允许替换和白名单为准。不得为补齐营养或丰富口味擅自添加白名单外的主食、肉蛋奶、豆类或蔬菜；清粥或素炖锅也可按原结构输出。'
 _UNDEFINED = object()
 
 
@@ -704,6 +705,9 @@ _VALIDATION_SEASONING_INPUT_RE = re.compile(
     rf'|(?:用)?(?:少许|适量|一点|些许)?{_VALIDATION_SEASONING_TOKEN_SOURCE}'
     rf'(?:(?:和|及|、){_VALIDATION_SEASONING_TOKEN_SOURCE})*调味'
 )
+_VALIDATION_SEASONING_NEGATION_RE = re.compile(
+    r'(?:不(?:加|放|撒|用|要)?|无|免)(?:任何|额外|少许|适量)?$'
+)
 _VALIDATION_SALT_TOKEN_RE = re.compile(_VALIDATION_SALT_TOKEN_SOURCE)
 _VALIDATION_PEPPER_TOKEN_RE = re.compile(_VALIDATION_PEPPER_TOKEN_SOURCE)
 _VALIDATION_RETAINED_WATER_ACTION_RE = re.compile(
@@ -841,6 +845,17 @@ def _validation_step_uses_seasoning_group(step, token_re):
     text = _validation_form_name(step)
     for match in _VALIDATION_SEASONING_INPUT_RE.finditer(text):
         if not _validation_action_negated(text, match.start()) and token_re.search(match.group(0)):
+            return True
+    for match in token_re.finditer(text):
+        prefix = text[max(0, match.start() - 48):match.start()]
+        if _VALIDATION_SEASONING_NEGATION_RE.search(prefix):
+            continue
+        clause_start = max(
+            prefix.rfind('，'), prefix.rfind(','), prefix.rfind('。'), prefix.rfind('；'),
+            prefix.rfind(';'), prefix.rfind('！'), prefix.rfind('!'), prefix.rfind('？'), prefix.rfind('?'),
+        ) + 1
+        clause_prefix = prefix[clause_start:]
+        if re.search(r'(?:加入?|倒入?|放入?|撒入?|撒上?|调入?|拌入?|下|用)', clause_prefix):
             return True
     return False
 
@@ -1351,7 +1366,7 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
     payload = {
         'model': MODEL_NAME,
         'messages': [
-            {'role': 'system', 'content': RECIPE_SYSTEM},
+            {'role': 'system', 'content': f'{RECIPE_SYSTEM}\n\n{TRUSTED_RECIPE_SYSTEM_OVERRIDE}'},
             {'role': 'user', 'content': build_prompt(meal_name, targets, constraints, build_recipe_grounding(selection))},
         ],
         'temperature': 1.0,

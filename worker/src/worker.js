@@ -8,6 +8,7 @@ const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
 const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
 const RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main';
+const TRUSTED_RECIPE_SYSTEM_OVERRIDE = '【可信菜谱最高优先级】当可信基础菜谱与通用的“主食+蛋白+多种蔬菜”或食材数量要求冲突时，必须以可信菜谱的固定核心、可选食材、允许替换和白名单为准。不得为补齐营养或丰富口味擅自添加白名单外的主食、肉蛋奶、豆类或蔬菜；清粥或素炖锅也可按原结构输出。';
 
 function sanitizePromptText(value, maxLength = 160) {
   return String(value ?? '')
@@ -449,6 +450,7 @@ const VALIDATION_SEASONING_INPUT_RE = new RegExp(
   + `|(?:用)?(?:少许|适量|一点|些许)?${VALIDATION_SEASONING_TOKEN_SOURCE}`
   + `(?:(?:和|及|、)${VALIDATION_SEASONING_TOKEN_SOURCE})*调味`,
 );
+const VALIDATION_SEASONING_NEGATION_RE = /(?:不(?:加|放|撒|用|要)?|无|免)(?:任何|额外|少许|适量)?$/;
 const VALIDATION_SALT_TOKEN_RE = new RegExp(VALIDATION_SALT_TOKEN_SOURCE);
 const VALIDATION_PEPPER_TOKEN_RE = new RegExp(VALIDATION_PEPPER_TOKEN_SOURCE);
 const VALIDATION_RETAINED_WATER_ACTION_RE = /(?:加入?|倒入?|放入?|添入?|注入?|兑入?|补入?|加)(?:[^，,。；;！？!?]{0,32}?)(?:饮用水|凉开水|温水|热水|清水|水)(?!淀粉|果|油|产)/g;
@@ -555,6 +557,15 @@ function validationStepUsesSeasoningGroup(step, tokenRe) {
   const text = validationFormName(step);
   for (const match of text.matchAll(new RegExp(VALIDATION_SEASONING_INPUT_RE.source, 'g'))) {
     if (!validationActionNegated(text, match.index) && tokenRe.test(match[0])) return true;
+  }
+  for (const match of text.matchAll(new RegExp(tokenRe.source, 'g'))) {
+    const prefix = text.slice(Math.max(0, match.index - 48), match.index);
+    if (VALIDATION_SEASONING_NEGATION_RE.test(prefix)) continue;
+    const clausePrefix = prefix.slice(Math.max(
+      prefix.lastIndexOf('，'), prefix.lastIndexOf(','), prefix.lastIndexOf('。'), prefix.lastIndexOf('；'),
+      prefix.lastIndexOf(';'), prefix.lastIndexOf('！'), prefix.lastIndexOf('!'), prefix.lastIndexOf('？'), prefix.lastIndexOf('?'),
+    ) + 1);
+    if (/(?:加入?|倒入?|放入?|撒入?|撒上?|调入?|拌入?|下|用)/.test(clausePrefix)) return true;
   }
   return false;
 }
@@ -1599,7 +1610,7 @@ async function handleGenerate(request, env) {
   const body = {
     model: env.MODEL_NAME || 'deepseek-chat',
     messages: [
-      { role: 'system', content: RECIPE_SYSTEM },
+      { role: 'system', content: `${RECIPE_SYSTEM}\n\n${TRUSTED_RECIPE_SYSTEM_OVERRIDE}` },
       { role: 'user', content: prompt },
     ],
     temperature: 1.0,

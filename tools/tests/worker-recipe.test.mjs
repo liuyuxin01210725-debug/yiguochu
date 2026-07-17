@@ -295,6 +295,28 @@ test('trusted grounding makes the ingredient whitelist and no-advance-prep bound
   assert.match(grounding, /已泡好、已浸泡或已预煮/);
 });
 
+test('trusted recipe priority overrides the generic balanced-main template at system level', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: ['盐'],
+    substitution_slots: [],
+  })]);
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 1100 }, { name: '盐', grams: 2 }],
+      steps: ['大米和水同锅煮成粥，加盐调味。'],
+    }),
+    constraints: { pantry: ['大米', '水'], purpose: 'batch' },
+  });
+  const system = upstreamBodies[0].messages[0].content;
+  assert.match(system, /可信菜谱最高优先级/);
+  assert.match(system, /通用的“主食\+蛋白\+多种蔬菜”/);
+  assert.match(system, /不得为补齐营养或丰富口味擅自添加白名单外/);
+  assert.match(system, /清粥或素炖锅也可按原结构输出/);
+});
+
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {
   const hits = selectRecipeCandidates(lib, {
     pantry: ['鸡蛋', '番茄', '甜椒'],
@@ -2430,6 +2452,23 @@ test('controlled salt pepper and water ingredient aliases satisfy generic step w
     );
     assert.ok(compoundFlags.includes(`ingredient_missing_in_steps:${name}`), `${name}: ${step}`);
   }
+});
+
+test('joined salt and pepper inputs require ingredient rows while negated mentions stay inactive', () => {
+  const selection = correspondenceSelection();
+  const joined = validateGroundedMeal({
+    ingredients: [{ name: '大米' }, { name: '水' }],
+    steps: ['倒入大米、水和盐，撒黑胡椒后焖熟。'],
+  }, selection, { dislikes: [] });
+  assert.ok(joined.includes('step_ingredient_missing:盐'));
+  assert.ok(joined.includes('step_ingredient_missing:胡椒'));
+
+  const negated = validateGroundedMeal({
+    ingredients: [{ name: '大米' }, { name: '水' }],
+    steps: ['大米和水焖熟，全程不加盐，不撒胡椒。'],
+  }, selection, { dislikes: [] });
+  assert.equal(negated.includes('step_ingredient_missing:盐'), false);
+  assert.equal(negated.includes('step_ingredient_missing:胡椒'), false);
 });
 
 test('negated salt and a rice substring are not positive ingredient mentions', () => {
