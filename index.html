@@ -815,19 +815,15 @@ function recipeBasisBlock(d) {
   if (!d || !boundedText(d.baseRecipeId, 100) || !boundedText(d.pairingBasis, 400) || !sources.length) return '';
   const used = boundedTextList(d.usedPantry, 16, 80);
   const unused = boundedTextList(d.unusedPantry, 16, 80);
-  const adaptation = boundedText(d.adaptationNote, 400);
   const usedLine = used.length ? '<p class="basis-line"><strong>这次用上：</strong>' + esc(used.join('、')) + '。</p>' : '';
   const unusedLine = unused.length ? '<p class="basis-line basis-unused"><strong>这次没用：</strong>' + esc(unused.join('、')) + '。</p>' : '';
-  const adaptationLine = adaptation
-    ? '<p class="basis-line"><strong>单锅改编说明：</strong>' + esc(adaptation) + '</p>'
-    : '';
   const sourceRows = sources.map(source => {
     const title = source.title ? '<div class="basis-source-title">' + esc(source.title) + '</div>' : '';
     const license = source.license ? '<div class="basis-source-meta">授权：' + esc(source.license) + '</div>' : '';
     const attribution = source.attribution ? '<div class="basis-source-meta">署名：' + esc(source.attribution) + '</div>' : '';
     return '<div class="basis-source">' + title + '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">打开原始来源</a>' + license + attribution + '</div>';
   }).join('');
-  return '<section class="recipe-basis"><p class="basis-line"><strong>搭配依据：</strong>' + esc(boundedText(d.pairingBasis, 400)) + '</p>' + usedLine + unusedLine + adaptationLine + '<details class="basis-sources"><summary>参考来源（' + sources.length + '）</summary>' + sourceRows + '</details></section>';
+  return '<section class="recipe-basis"><p class="basis-line"><strong>搭配依据：</strong>' + esc(boundedText(d.pairingBasis, 400)) + '</p>' + usedLine + unusedLine + '<details class="basis-sources"><summary>参考来源（' + sources.length + '）</summary>' + sourceRows + '</details></section>';
 }
 function ingredients() {
   const rows = state.items.map((it, i) => {
@@ -996,7 +992,6 @@ function mapDish(res, targets) {
     familyId: boundedText(res.family_id, 100), baseRecipeId: boundedText(res.base_recipe_id, 100),
     basisLevel: basisLevel === 'classic' || basisLevel === 'adapted' ? basisLevel : '',
     pairingBasis: boundedText(res.pairing_basis, 400),
-    adaptationNote: boundedText(res.adaptation_note, 400),
     usedPantry: boundedTextList(res.used_pantry, 16, 80), unusedPantry: boundedTextList(res.unused_pantry, 16, 80),
     sourceRefs: normalizedSourceRefs(res.source_refs), validationFlags: boundedTextList(res.validation_flags, 20, 160),
   };
@@ -1050,10 +1045,7 @@ function buildWeek() {
 }
 
 // 真实生成：POST 到 proxy /generate-meal，解析后映射
-function scoreDish(inputDish) {
-  const d = inputDish && inputDish.purpose === 'quick' && inputDish.minutes <= 30
-    ? { ...inputDish, minutes: 25 }
-    : inputDish;
+function scoreDish(d) {
   const t = d._targets || {}; let fails = 0;
   if (Array.isArray(d.validationFlags) && d.validationFlags.length) fails += d.validationFlags.length;
   if ((d.steps || []).length > 4) fails++;
@@ -1356,6 +1348,27 @@ document.getElementById('root').addEventListener('click', (e) => {
   const target = e.target.closest('[data-act]');
   if (target && target.dataset.act === 'edit-safe-profile') openEditableProfile();
 });
+
+// 可信菜谱补充字段在独立兼容层处理，避免模型字段直接进入页面 HTML。
+const mapDishWithoutAdaptation = mapDish;
+mapDish = function(res, targets) {
+  const dish = mapDishWithoutAdaptation(res, targets);
+  dish.adaptationNote = boundedText(res && res.adaptation_note, 400);
+  return dish;
+};
+const recipeBasisBlockWithoutAdaptation = recipeBasisBlock;
+recipeBasisBlock = function(d) {
+  const rendered = recipeBasisBlockWithoutAdaptation(d);
+  const adaptation = boundedText(d && d.adaptationNote, 400);
+  if (!rendered || !adaptation) return rendered;
+  const line = '<p class="basis-line"><strong>单锅改编说明：</strong>' + esc(adaptation) + '</p>';
+  return rendered.replace('<details class="basis-sources">', line + '<details class="basis-sources">');
+};
+const scoreDishBeforeThirtyMinuteQuick = scoreDish;
+scoreDish = function(d) {
+  const scored = d && d.purpose === 'quick' && d.minutes <= 30 ? { ...d, minutes: 25 } : d;
+  return scoreDishBeforeThirtyMinuteQuick(scored);
+};
 </script>
 <script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过) */
 if ('serviceWorker' in navigator && location.protocol === 'https:') { navigator.serviceWorker.register('sw.js').catch(function(){}); }</script>
