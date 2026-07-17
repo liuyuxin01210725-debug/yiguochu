@@ -14,6 +14,13 @@ const CURRENT_DRAFT_CANDIDATE_IDS = new Map([
   ['shanxi-potato-rice-draft', 'shanxi-potato-rice'],
   ['shanxi-nitun-millet-rice-draft', 'shanxi-nitun-millet-rice'],
   ['hainan-cai-bao-rice-draft', 'hainan-cai-bao-rice'],
+  ['suzhou-salted-pork-vegetable-rice-draft', 'suzhou-salted-pork-vegetable-rice'],
+  ['nanjing-cured-pork-greens-rice-draft', 'nanjing-cured-pork-greens-rice'],
+  ['nanjing-duck-greens-rice-draft', 'nanjing-duck-greens-rice'],
+  ['cantonese-cured-meat-claypot-rice-draft', 'cantonese-cured-meat-claypot-rice'],
+  ['guangxi-five-color-glutinous-rice-draft', 'guangxi-five-color-glutinous-rice'],
+  ['dai-pineapple-purple-rice-draft', 'dai-pineapple-purple-rice'],
+  ['daxi-lotus-leaf-oil-rice-draft', 'daxi-lotus-leaf-oil-rice'],
 ]);
 
 export function validateExpectedDraftMappings(

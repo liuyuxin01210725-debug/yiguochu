@@ -229,6 +229,76 @@
       "technique_outline": ["先核对叶片身份、可食性和食品级来源。", "将蔬菜馅完全加热后，与熟米饭包入清洁叶片中。"],
       "safety_and_quality_gates": [{"type": "ingredient_verification", "requirement": "叶片必须确认物种身份、可食用性和食品级来源；无法确认时不得使用。"}, {"type": "food_safety", "requirement": "蔬菜馅和可选豆腐必须完全加热熟透后再包制。"}],
       "trial_requirements": ["记录叶片名称、购买来源及可食用核验依据。", "记录米液实际重量、馅料种类和加热完成检查。", "记录包裹完整性、食用口感和修订原因。"]
+    },
+    {
+      "id": "suzhou-salted-pork-vegetable-rice-draft", "candidate_id": "suzhou-salted-pork-vegetable-rice", "status": "draft", "name": "咸肉叶菜焖饭试做框架", "region": "江苏苏州风味方向", "form": "焖饭",
+      "adaptation_summary": "以咸肉和叶菜为风味线索的原创家庭试做框架；只记录试做决策，不复述、复刻或宣称任何既有菜谱。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "咸肉", "叶菜"], "optional_ingredients": ["经核验的新鲜食用菌"],
+      "substitution_slots": [{"slot": "叶菜", "replaces": ["叶菜"], "allowed": ["小白菜", "菜心"]}],
+      "draft_ratio_rules": ["米与可用液体以本轮试做记录校准，不预设公开标准配比。", "咸肉经加热和尝味后才决定是否补盐。"],
+      "technique_outline": ["先将咸肉充分加热，再与米和量定液体同锅完成主体焖煮。", "叶菜在后段加入，并观察其出水对锅内湿度的影响。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "咸肉必须完全熟制、中心热透后才可食用。"}, {"type": "seasoning", "requirement": "必须先尝咸肉与锅内底味，未尝味不得补盐。"}, {"type": "fat_control", "requirement": "记录咸肉析出的脂肪，再决定是否添加其他油脂。"}, {"type": "moisture", "requirement": "叶菜后段加入；出现明显积液时停止把该轮作为口感依据。"}, {"type": "plant_identity", "requirement": "叶菜和可选食用菌必须有明确食品名称及可食用购买来源。"}],
+      "trial_requirements": ["记录咸肉来源、完全熟制检查、盐度尝味和补盐决定。", "记录脂肪析出观察、米与液体实际用量及锅底湿度。", "记录叶菜或食用菌的食品名称、来源、加入节点和修订原因。"]
+    },
+    {
+      "id": "nanjing-cured-pork-greens-rice-draft", "candidate_id": "nanjing-cured-pork-greens-rice", "status": "draft", "name": "腊肉青菜焖饭试做框架", "region": "江苏南京风味方向", "form": "焖饭",
+      "adaptation_summary": "以腊肉和青菜构成的原创家庭试做框架；不作为南京地方菜的标准或复刻声明。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "腊肉", "青菜"], "optional_ingredients": ["经核验的新鲜食用菌"],
+      "substitution_slots": [{"slot": "青菜", "replaces": ["青菜"], "allowed": ["矮脚黄", "小油菜"]}],
+      "draft_ratio_rules": ["液体只以本轮米和青菜含水记录校准。", "腊肉尝味后才决定是否补盐。"],
+      "technique_outline": ["先将腊肉加热至完全熟制，再加入米和量定液体焖煮。", "青菜在后段加入，结束前检查锅内无过量游离水。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "腊肉必须完全熟制、中心热透后才可食用。"}, {"type": "seasoning", "requirement": "必须先尝腊肉和锅内底味，再决定是否补盐。"}, {"type": "fat_control", "requirement": "先记录腊肉出油，再决定是否补油。"}, {"type": "moisture", "requirement": "青菜必须后段加入并记录出水；锅内有明显积液时不得认定该轮合格。"}, {"type": "plant_identity", "requirement": "青菜和可选食用菌须记录明确食品名称与购买来源。"}],
+      "trial_requirements": ["记录腊肉来源、完全熟制检查、尝味结果和补盐决定。", "记录腊肉出油、米液实际用量、青菜出水和锅底湿度。", "记录青菜或食用菌的食品名称、来源、加入节点和修订原因。"]
+    },
+    {
+      "id": "nanjing-duck-greens-rice-draft", "candidate_id": "nanjing-duck-greens-rice", "status": "draft", "name": "熟制鸭肉青菜焖饭试做框架", "region": "江苏南京风味方向", "form": "焖饭",
+      "adaptation_summary": "以已核验熟制鸭肉和青菜为线索的原创家庭试做框架；不宣称为任何板鸭或地方名菜的复刻。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "来源可追溯的熟制鸭可食部分", "青菜"], "optional_ingredients": ["经核验的新鲜食用菌"],
+      "substitution_slots": [{"slot": "青菜", "replaces": ["青菜"], "allowed": ["矮脚黄", "小白菜"]}],
+      "draft_ratio_rules": ["液体以米、鸭肉附带汁液和青菜出水的实际记录确定。", "鸭肉尝味后才决定是否补盐。"],
+      "technique_outline": ["先核对熟制鸭肉的包装或来源记录及可食部分，再将其在锅中彻底复热。", "米饭主体接近熟透时加入青菜，完成后检查锅内湿度。"],
+      "safety_and_quality_gates": [{"type": "duck_provenance", "requirement": "必须留存熟制鸭可食部分的来源、熟制安全信息和去骨去不可食部分检查；无法证明时不得使用。"}, {"type": "food_safety", "requirement": "鸭肉必须在同锅中彻底复热、热透后才可食用。"}, {"type": "seasoning", "requirement": "必须先尝鸭肉和锅内底味，再决定是否补盐。"}, {"type": "fat_control", "requirement": "记录鸭肉及其附带油脂的析出，再决定是否补油。"}, {"type": "moisture", "requirement": "青菜后段加入并记录出水，避免锅内残留明显积液。"}, {"type": "plant_identity", "requirement": "青菜和可选食用菌必须记录食品名称与购买来源。"}],
+      "trial_requirements": ["记录熟制鸭可食部分的来源、包装或供应信息、熟制安全信息及彻底复热检查。", "记录鸭肉尝味、补盐决定、油脂析出、米液实际用量和锅底湿度。", "记录青菜或食用菌的食品名称、来源、出水和加入节点及修订原因。"]
+    },
+    {
+      "id": "cantonese-cured-meat-claypot-rice-draft", "candidate_id": "cantonese-cured-meat-claypot-rice", "status": "draft", "name": "腊味盖锅焖饭试做框架", "region": "广东风味方向", "form": "加盖焖饭",
+      "adaptation_summary": "以腊味为风味线索、使用普通带盖锅的原创家庭试做框架；不使用或宣称任何煲仔锅复刻效果。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "腊味肉制品", "叶菜"], "optional_ingredients": ["经核验的新鲜食用菌"],
+      "substitution_slots": [{"slot": "叶菜", "replaces": ["叶菜"], "allowed": ["菜心", "小白菜"]}],
+      "draft_ratio_rules": ["以普通带盖锅的实际蒸发和食材含水记录校准液体。", "腊味尝味后才决定是否补盐。"],
+      "technique_outline": ["仅使用普通带盖锅；先将腊味肉制品加热透。", "米饭主体完成后加入叶菜，并以锅底湿度记录下一轮调整。"],
+      "safety_and_quality_gates": [{"type": "food_safety", "requirement": "腊味肉制品必须加热至完全熟透、中心热透后才可食用。"}, {"type": "equipment_scope", "requirement": "只使用普通带盖锅，不得宣称或模拟煲仔锅复刻。"}, {"type": "seasoning", "requirement": "必须先尝腊味和锅内底味，再决定是否补盐。"}, {"type": "fat_control", "requirement": "先记录腊味出油，再决定是否添加其他油脂。"}, {"type": "moisture", "requirement": "叶菜后段加入；锅内有明显游离水时须记录为湿度问题。"}, {"type": "plant_identity", "requirement": "叶菜和可选食用菌必须记录食品名称与购买来源。"}],
+      "trial_requirements": ["记录锅具为普通带盖锅、腊味来源、完全加热检查、尝味和补盐决定。", "记录腊味出油、米液实际用量和锅底湿度。", "记录叶菜或食用菌的食品名称、来源、加入节点和修订原因。"]
+    },
+    {
+      "id": "guangxi-five-color-glutinous-rice-draft", "candidate_id": "guangxi-five-color-glutinous-rice", "status": "draft", "name": "多色糯米饭试做框架", "region": "广西壮族风味方向", "form": "糯米饭",
+      "adaptation_summary": "以已识别食品级植物色源制作多色糯米的原创试做框架；不复制、声称或验证任何传统色谱。", "serving_range": [2, 4],
+      "core_ingredients": ["糯米", "已识别的食品级植物色源"], "optional_ingredients": ["经核验的可食用配料"],
+      "substitution_slots": [{"slot": "植物色源", "replaces": ["已识别的食品级植物色源"], "allowed": ["有明确食品标签的可食用色源", "经食品级核验的可食用植物浸提物"]}],
+      "draft_ratio_rules": ["每种颜色的浸润和蒸煮条件只按试做记录校准，不公布或假定传统标准。", "不得用装饰染料替代食品级色源。"],
+      "technique_outline": ["逐一核对每种色源的食品级标签、明确名称和来源。", "分别记录糯米吸水状态后蒸熟，并保留颜色与口感观察。"],
+      "safety_and_quality_gates": [{"type": "food_grade_color", "requirement": "每一种颜色来源必须逐项识别并确认食品级、可食用和来源可追溯；不得使用装饰染料或身份不明色料。"}, {"type": "plant_identity", "requirement": "每种植物色源及可选植物配料均须记录明确食品名称、购买来源和可食用依据。"}, {"type": "food_safety", "requirement": "糯米必须蒸熟至无硬芯后才可食用。"}, {"type": "seasoning", "requirement": "若有咸味配料，必须尝味后才决定是否补盐。"}, {"type": "fat_control", "requirement": "若使用油脂，必须记录种类和加入决定；未记录不得归为无脂。"}, {"type": "moisture", "requirement": "必须分别记录各色糯米的吸水状态和成品干湿，避免以颜色掩盖夹生或过湿。"}],
+      "trial_requirements": ["逐项记录颜色来源的食品名称、食品级标签、购买来源和可食用核验。", "记录各色糯米的吸水、蒸熟检查、锅具和湿度观察。", "记录任何盐味配料的尝味与补盐决定、油脂使用情况和修订原因。"]
+    },
+    {
+      "id": "dai-pineapple-purple-rice-draft", "candidate_id": "dai-pineapple-purple-rice", "status": "draft", "name": "菠萝紫米饭试做框架", "region": "傣族地区风味方向", "form": "紫米饭",
+      "adaptation_summary": "以紫米和菠萝构成的原创家庭试做框架；菠萝只在后段加入，不宣称为地域传统成品。", "serving_range": [2, 4],
+      "core_ingredients": ["紫米", "菠萝"], "optional_ingredients": ["椰浆或其他椰子制品"],
+      "substitution_slots": [{"slot": "水果", "replaces": ["菠萝"], "allowed": ["经核验可食用的新鲜水果"]}],
+      "draft_ratio_rules": ["液体以紫米预处理和菠萝出水的实际记录校准。", "如使用椰浆或椰子制品，必须先完成过敏原声明。"],
+      "technique_outline": ["先完成紫米主体熟制，再在后段加入菠萝并观察出水。", "椰浆或椰子制品仅在已声明椰子过敏原时作为可选项使用。"],
+      "safety_and_quality_gates": [{"type": "moisture", "requirement": "菠萝必须后段加入并记录出水；出现明显积液时不得把该轮作为质地依据。"}, {"type": "allergen_scope", "requirement": "如使用椰浆或其他椰子制品，必须明确声明椰子过敏原；未声明不得加入。"}, {"type": "food_safety", "requirement": "紫米必须熟透、无硬芯后才可食用。"}, {"type": "plant_identity", "requirement": "菠萝、紫米和可选椰子制品均须记录食品名称与购买来源。"}, {"type": "seasoning", "requirement": "如使用咸味配料，必须尝味后才决定是否补盐。"}, {"type": "fat_control", "requirement": "椰浆或其他油脂如有使用，必须记录种类、加入决定和对口感的影响。"}],
+      "trial_requirements": ["记录紫米、菠萝和可选椰子制品的食品名称、来源及椰子过敏原声明。", "记录紫米熟透检查、菠萝后段加入、出水和锅内湿度。", "记录任何盐味配料的尝味补盐决定、脂肪来源和修订原因。"]
+    },
+    {
+      "id": "daxi-lotus-leaf-oil-rice-draft", "candidate_id": "daxi-lotus-leaf-oil-rice", "status": "draft", "name": "荷叶包香猪肉糯米饭试做框架", "region": "台湾大溪风味方向", "form": "荷叶包糯米饭",
+      "adaptation_summary": "以食品级荷叶作香气包材的原创糯米饭试做框架；荷叶仅承担包裹和增香作用，不作为可食用主料或既有油饭复刻。", "serving_range": [2, 4],
+      "core_ingredients": ["糯米", "猪肉", "食品级清洁荷叶"], "optional_ingredients": ["经核验的新鲜食用菌"],
+      "substitution_slots": [{"slot": "荷叶包材", "replaces": ["食品级清洁荷叶"], "allowed": ["经核验可食用的食品级叶片包材"]}],
+      "draft_ratio_rules": ["糯米吸水和蒸煮湿度只依据本轮记录校准。", "猪肉和油脂的盐度须经尝味后再决定是否补盐。"],
+      "technique_outline": ["先核对荷叶的食品级、清洁状态和植物身份；荷叶只作包材与增香。", "猪肉先加热至完全熟制，再与糯米包入荷叶蒸熟并检查湿度。"],
+      "safety_and_quality_gates": [{"type": "plant_identity", "requirement": "荷叶必须有明确植物身份、食品级和清洁购买来源；无法确认时不得使用，且仅作香气包材。"}, {"type": "food_safety", "requirement": "猪肉必须完全熟制、中心热透后才可食用。"}, {"type": "seasoning", "requirement": "必须先尝猪肉和锅内底味，再决定是否补盐。"}, {"type": "fat_control", "requirement": "记录猪肉析出脂肪及任何额外油脂，再决定下一轮调整。"}, {"type": "moisture", "requirement": "必须记录糯米吸水、包裹后湿度和成品是否有明显积液。"}],
+      "trial_requirements": ["记录荷叶植物身份、食品级与清洁购买来源，并确认其仅作为香气包材。", "记录猪肉来源、完全熟制检查、尝味补盐决定和脂肪析出。", "记录糯米吸水、蒸熟检查、锅内湿度、可选食用菌食品名称及修订原因。"]
     }
   ]
 }
