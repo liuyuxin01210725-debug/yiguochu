@@ -60,11 +60,13 @@
 
 **Files:**
 - Modify: `tools/lib/recipe-draft-release-gate.mjs`
+- Modify: `tools/check-recipe-drafts.mjs`
 - Modify: `tools/tests/recipe-drafts.test.mjs`
 
 **Interfaces:**
 - Produce `validateExpectedDraftMappings(library, candidateLedger, expectedMappings, rejectUnexpectedDrafts = false): string[]`.
 - Retain `validateSixDraftReleaseGate(library, candidateLedger)` as a wrapper until all 30 data entries are added.
+- Replace the temporary exact-six count with a growth guard: 6 through 30 draft entries are permitted, while all statuses and production-boundary checks remain mandatory.
 
 - [ ] **Step 1: Write the failing generic-validator test**
 
@@ -88,13 +90,25 @@ Expected: import failure because `validateExpectedDraftMappings` does not exist.
 
 Create maps from `library.drafts` and `candidateLedger.entries`; for every expected pair, report missing drafts, wrong candidate IDs, and non-`candidate` linked status. Only when `rejectUnexpectedDrafts` is `true`, report each actual ID absent from the expected map as `unexpected draft <id> is present`. Make the existing six-draft function delegate with `false`, so the six verified originals remain locked while the draft pool grows.
 
-- [ ] **Step 4: Run and commit**
+- [ ] **Step 4: Make the checker support the growing draft pool**
+
+In `tools/check-recipe-drafts.mjs`, replace the exact-six condition with:
+
+```js
+if (draftEntries.length < 6 || draftEntries.length > 30) {
+  errors.push('draft library must contain from 6 to 30 drafts during expansion');
+}
+```
+
+Add a failing CLI test that invokes the checker with the current six entries and asserts success, then retain it as the regression proving the growth guard is live.
+
+- [ ] **Step 5: Run and commit**
 
 Run: `node --test tools/tests/recipe-drafts.test.mjs`  
 Expected: PASS.
 
 ```bash
-git add tools/lib/recipe-draft-release-gate.mjs tools/tests/recipe-drafts.test.mjs
+git add tools/lib/recipe-draft-release-gate.mjs tools/check-recipe-drafts.mjs tools/tests/recipe-drafts.test.mjs
 git commit -m "refactor: generalize draft mapping validation"
 ```
 
@@ -141,7 +155,7 @@ Every entry must have all schema fields, an explicit substitution slot, at least
 - [ ] **Step 4: Run structural checks and commit**
 
 Run: `node --test tools/tests/recipe-drafts.test.mjs && node tools/check-recipe-drafts.mjs`  
-Expected: schema test passes; checker may still reject the old six-count until Task 4.
+Expected: test and checker both pass; checker reports `传统一锅草案 15 道 · 生产可用 0 道`.
 
 ```bash
 git add tools/data/recipe-drafts.json tools/tests/recipe-drafts.test.mjs
@@ -189,7 +203,7 @@ All seven entries must have the complete schema and trial records for salt, fat,
 - [ ] **Step 4: Run structural checks and commit**
 
 Run: `node --test tools/tests/recipe-drafts.test.mjs && node tools/check-recipe-drafts.mjs`  
-Expected: schema test passes; old count gate may still reject before Task 4.
+Expected: test and checker both pass; checker reports `传统一锅草案 22 道 · 生产可用 0 道`.
 
 ```bash
 git add tools/data/recipe-drafts.json tools/tests/recipe-drafts.test.mjs
