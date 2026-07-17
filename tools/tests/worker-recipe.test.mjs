@@ -233,6 +233,7 @@ test('trusted grounding exposes the reviewed quick-chili and egg-count adaptatio
   assert.match(buildRecipeGrounding(chili), /粗绞牛肉200克/);
   assert.match(buildRecipeGrounding(chili), /干辣椒3克/);
   assert.match(buildRecipeGrounding(chili), /留出10克.*玉米粉浆/);
+  assert.match(buildRecipeGrounding(chili), /4份水200克.*留40克/);
   assert.match(buildRecipeGrounding(chili), /炒散.*5分钟.*快炖20分钟.*收稠5分钟/);
 
   const [eggs] = selectRecipeCandidates(lib, {

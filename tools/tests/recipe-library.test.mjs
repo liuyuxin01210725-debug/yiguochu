@@ -182,9 +182,11 @@ test('Texas chili and kari ayam lock every retained liquid into the production c
   assert.match(chili.adaptation_note, /粗绞牛肉/);
   assert.match(chili.adaptation_note, /每1份.*干辣椒3克/);
   assert.match(chili.adaptation_note, /每1份.*水50克.*留出10克.*玉米粉浆/);
+  assert.match(chili.adaptation_note, /1份水50克.*留10克.*2份水100克.*留20克.*4份水200克.*留40克/);
   assert.match(chili.adaptation_note, /炒散.*5分钟.*快炖20分钟.*收稠5分钟/);
   assert.match(chili.adaptation_note, /总时长不得超过40分钟/);
   assert.match(chili.ratio_rules.join('。'), /每1份.*粗绞牛肉200克.*玉米粉5克.*水50克/);
+  assert.match(chili.ratio_rules.join('。'), /4份.*水200克.*留40克/);
   const kari = lib.recipes.find(item => item.id === 'kari-ayam-coconut-chicken');
   assert.deepEqual(kari.generation_liquid_ingredients, ['椰奶']);
   assert.match(kari.adaptation_note, /部分椰奶/);
