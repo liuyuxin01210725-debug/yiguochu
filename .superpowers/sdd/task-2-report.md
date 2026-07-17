@@ -35,4 +35,11 @@ Result: 11/11 tests passed; checker reported `传统一锅草案 15 道 · 生�
 
 ## Remaining concerns
 
-These remain draft-only trial frameworks and require real kitchen testing plus later human review before any promotion; this task did not expand the release-gate mapping or production library.
+These remain draft-only trial frameworks and require real kitchen testing plus later human review before any promotion; this task did not change the production library.
+
+## Review-fix evidence
+
+- The checker now invokes `validateCurrentDraftReleaseGate`, which locks all 15 current draft ID to candidate ID mappings and requires every linked candidate to remain `status: "candidate"`.
+- Regression coverage mutates the newly added `jinshan-clay-oven-vegetable-rice-draft`: both a remap to another valid candidate and a non-`candidate` linked status fail the gate.
+- The ledger purpose now states that there are 15 current drafts, all remain draft-only, production-ready count is 0, and real kitchen trials are not complete.
+- Re-ran `node --test tools/tests/recipe-drafts.test.mjs && node tools/check-recipe-drafts.mjs`: 11/11 tests passed; checker reported `传统一锅草案 15 道 · 生产可用 0 道` and passed.

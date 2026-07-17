@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import { validateRecipeDraftLibrary } from './lib/recipe-draft-validator.mjs';
-import { validateSixDraftReleaseGate } from './lib/recipe-draft-release-gate.mjs';
+import { validateCurrentDraftReleaseGate } from './lib/recipe-draft-release-gate.mjs';
 
 function fileArgument(name, defaultFile) {
   const index = process.argv.indexOf(name);
@@ -15,7 +15,7 @@ const drafts = JSON.parse(fs.readFileSync(draftFile, 'utf8'));
 const candidates = JSON.parse(fs.readFileSync(candidateFile, 'utf8'));
 const production = JSON.parse(fs.readFileSync(productionFile, 'utf8'));
 const errors = validateRecipeDraftLibrary(drafts, candidates);
-errors.push(...validateSixDraftReleaseGate(drafts, candidates));
+errors.push(...validateCurrentDraftReleaseGate(drafts, candidates));
 const draftEntries = Array.isArray(drafts?.drafts) ? drafts.drafts : [];
 const productionFamilies = Array.isArray(production?.families) ? production.families : [];
 const productionRecipes = Array.isArray(production?.recipes) ? production.recipes : [];

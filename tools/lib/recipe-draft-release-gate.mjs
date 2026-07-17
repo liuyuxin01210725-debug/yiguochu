@@ -1,10 +1,19 @@
-const EXPECTED_CANDIDATE_IDS = new Map([
+const CURRENT_DRAFT_CANDIDATE_IDS = new Map([
   ['shanghai-salted-pork-vegetable-rice-draft', 'shanghai-salted-pork-vegetable-rice'],
   ['nanjing-sausage-greens-rice-draft', 'nanjing-sausage-greens-rice'],
   ['quanzhou-oil-rice-draft', 'quanzhou-oil-rice'],
   ['north-china-green-bean-braised-noodles-draft', 'north-china-green-bean-braised-noodles'],
   ['xinjiang-lamb-pilaf-draft', 'xinjiang-lamb-pilaf'],
   ['guizhou-dong-community-rice-draft', 'guizhou-dong-community-rice'],
+  ['jinshan-clay-oven-vegetable-rice-draft', 'jinshan-clay-oven-vegetable-rice'],
+  ['taiwan-cabbage-mushroom-rice-draft', 'taiwan-cabbage-mushroom-rice'],
+  ['fujian-gai-cai-minced-pork-rice-draft', 'fujian-gai-cai-minced-pork-rice'],
+  ['fujian-hyacinth-bean-rice-draft', 'fujian-hyacinth-bean-rice'],
+  ['xinjiang-vegetable-pilaf-draft', 'xinjiang-vegetable-pilaf'],
+  ['shaanbei-red-date-cowpea-rice-draft', 'shaanbei-red-date-cowpea-rice'],
+  ['shanxi-potato-rice-draft', 'shanxi-potato-rice'],
+  ['shanxi-nitun-millet-rice-draft', 'shanxi-nitun-millet-rice'],
+  ['hainan-cai-bao-rice-draft', 'hainan-cai-bao-rice'],
 ]);
 
 export function validateExpectedDraftMappings(
@@ -50,6 +59,6 @@ export function validateExpectedDraftMappings(
   return errors;
 }
 
-export function validateSixDraftReleaseGate(library, candidateLedger) {
-  return validateExpectedDraftMappings(library, candidateLedger, EXPECTED_CANDIDATE_IDS, false);
+export function validateCurrentDraftReleaseGate(library, candidateLedger) {
+  return validateExpectedDraftMappings(library, candidateLedger, CURRENT_DRAFT_CANDIDATE_IDS, false);
 }
