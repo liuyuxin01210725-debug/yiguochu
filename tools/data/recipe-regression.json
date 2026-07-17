@@ -637,44 +637,39 @@
     "purpose": "batch",
     "servings": 4,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜",
+      "红扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱",
       "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "adversarial",
     "adversarial_kind": "vegan_restrictions",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot",
-    "validation_recipe_id": "mung-bean-brown-rice-curry",
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew",
+    "validation_recipe_id": "soy-lentil-vegetable-stew",
     "meal_fixture": {
       "dish_name": "回归闸门对抗菜例",
       "ingredients": [
         {
-          "name": "糙米",
+          "name": "红扁豆",
           "grams": 100
         },
         {
-          "name": "绿豆",
+          "name": "大豆蛋白块",
           "grams": 100
         },
         {
-          "name": "卷心菜",
+          "name": "西兰花",
           "grams": 100
         },
         {
-          "name": "甜椒",
-          "grams": 100
-        },
-        {
-          "name": "胡萝卜",
+          "name": "红洋葱",
           "grams": 100
         },
         {
@@ -683,11 +678,10 @@
         }
       ],
       "steps": [
-        "糙米煮熟。",
-        "绿豆煮熟。",
-        "卷心菜煮熟。",
-        "甜椒煮熟。",
-        "胡萝卜煮熟。",
+        "红扁豆煮熟。",
+        "大豆蛋白块煮熟。",
+        "西兰花煮熟。",
+        "红洋葱煮熟。",
         "牛肉煮熟。"
       ]
     },
@@ -1531,93 +1525,89 @@
     "disliked_fixed_core": "大米"
   },
   {
-    "id": "base-017-mung-bean-brown-rice-curry-exact-core",
-    "purpose": "pantry",
+    "id": "base-017-soy-lentil-vegetable-stew-exact-core",
+    "purpose": "quick",
     "servings": 2,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜"
+      "红扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "base",
     "base_variant": "exact-core",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew"
   },
   {
-    "id": "base-018-mung-bean-brown-rice-curry-alias-variant",
-    "purpose": "fresh",
+    "id": "base-018-soy-lentil-vegetable-stew-alias-variant",
+    "purpose": "pantry",
     "servings": 4,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "青椒",
-      "胡萝卜"
+      "扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "base",
     "base_variant": "alias-variant",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew"
   },
   {
-    "id": "base-019-mung-bean-brown-rice-curry-discouraged-pantry",
+    "id": "base-019-soy-lentil-vegetable-stew-discouraged-pantry",
     "purpose": "batch",
     "servings": 1,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜",
-      "生土豆大块"
+      "红扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱",
+      "未泡发的整粒干豆"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "base",
     "base_variant": "discouraged-pantry",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew"
   },
   {
-    "id": "base-020-mung-bean-brown-rice-curry-fixed-core-dislike",
-    "purpose": "pantry",
+    "id": "base-020-soy-lentil-vegetable-stew-fixed-core-dislike",
+    "purpose": "quick",
     "servings": 2,
     "pantry": [
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜"
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱"
     ],
     "dislikes": [
-      "糙米过敏"
+      "红扁豆过敏"
     ],
     "expected_recipe_ids": [
-      "lentil-potato-tomato-curry"
+      "chinese-congee"
     ],
     "forbidden_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "case_group": "base",
     "base_variant": "fixed-core-dislike",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot",
-    "disliked_fixed_core": "糙米"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew",
+    "disliked_fixed_core": "红扁豆"
   },
   {
     "id": "base-021-chicken-black-eyed-pea-stew-exact-core",
@@ -2268,24 +2258,23 @@
     "family_id": "family-tomato-rice"
   },
   {
-    "id": "cycle-005-mung-bean-brown-rice-curry-quick-2",
+    "id": "cycle-005-soy-lentil-vegetable-stew-quick-2",
     "purpose": "quick",
     "servings": 2,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜"
+      "红扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew"
   },
   {
     "id": "cycle-006-chicken-black-eyed-pea-stew-pantry-4",
@@ -2489,24 +2478,23 @@
     "family_id": "family-tomato-rice"
   },
   {
-    "id": "cycle-017-mung-bean-brown-rice-curry-quick-2",
+    "id": "cycle-017-soy-lentil-vegetable-stew-quick-2",
     "purpose": "quick",
     "servings": 2,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜"
+      "红扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew"
   },
   {
     "id": "cycle-018-chicken-black-eyed-pea-stew-pantry-4",
@@ -2710,24 +2698,23 @@
     "family_id": "family-tomato-rice"
   },
   {
-    "id": "cycle-029-mung-bean-brown-rice-curry-quick-2",
+    "id": "cycle-029-soy-lentil-vegetable-stew-quick-2",
     "purpose": "quick",
     "servings": 2,
     "pantry": [
-      "糙米",
-      "绿豆",
-      "卷心菜",
-      "甜椒",
-      "胡萝卜"
+      "红扁豆",
+      "大豆蛋白块",
+      "西兰花",
+      "红洋葱"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "mung-bean-brown-rice-curry"
+      "soy-lentil-vegetable-stew"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "mung-bean-brown-rice-curry",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "soy-lentil-vegetable-stew",
+    "family_id": "family-legume-vegetable-stew"
   },
   {
     "id": "cycle-030-chicken-black-eyed-pea-stew-pantry-4",

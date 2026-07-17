@@ -41,10 +41,10 @@ const FROZEN_ORACLES = Object.freeze({
     expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
     forbidden_recipe_ids: Object.freeze(['creole-jambalaya']),
   }),
-  'base-020-mung-bean-brown-rice-curry-fixed-core-dislike': Object.freeze({
-    base_recipe_id: 'mung-bean-brown-rice-curry', disliked_fixed_core: '糙米',
-    expected_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
-    forbidden_recipe_ids: Object.freeze(['mung-bean-brown-rice-curry']),
+  'base-020-soy-lentil-vegetable-stew-fixed-core-dislike': Object.freeze({
+    base_recipe_id: 'soy-lentil-vegetable-stew', disliked_fixed_core: '红扁豆',
+    expected_recipe_ids: Object.freeze(['chinese-congee']),
+    forbidden_recipe_ids: Object.freeze(['soy-lentil-vegetable-stew']),
   }),
   'base-024-chicken-black-eyed-pea-stew-fixed-core-dislike': Object.freeze({
     base_recipe_id: 'chicken-black-eyed-pea-stew', disliked_fixed_core: '黑眼豆',
@@ -469,7 +469,7 @@ function buildAdversarialCases() {
 
   for (const [suffix, baseRecipeId, animal, purpose, servings] of [
     ['a', 'lentil-potato-tomato-curry', '鸡肉', 'fresh', 2],
-    ['b', 'mung-bean-brown-rice-curry', '牛肉', 'batch', 4],
+    ['b', 'soy-lentil-vegetable-stew', '牛肉', 'batch', 4],
   ]) {
     const baseRecipe = recipe(baseRecipeId);
     add(ordinaryAdversarial({
