@@ -27,16 +27,35 @@ function completeFixture(matrix = PROMOTION_MATRIX) {
   return {
     promotions,
     candidates: { entries: promotions.map(({ candidate_id }) => ({ id: candidate_id, status: 'candidate' })) },
-    drafts: { drafts: promotions.map(({ draft_id, candidate_id }) => ({ id: draft_id, candidate_id, status: 'draft' })) },
+    drafts: { drafts: promotions.map(({ draft_id, candidate_id }) => ({
+      id: draft_id,
+      candidate_id,
+      status: 'draft',
+      core_ingredients: ['大米', '叶菜'],
+      optional_ingredients: ['香葱'],
+      substitution_slots: [{ slot: '叶菜', replaces: ['叶菜'], allowed: ['小白菜', '菜心'] }],
+      technique_outline: ['米饭接近熟透时再加入叶菜。'],
+      draft_ratio_rules: ['每100克大米使用130克水。'],
+      safety_and_quality_gates: [{ type: 'texture', requirement: '叶菜后段加入。' }],
+    })) },
     production: {
       recipes: promotions.map(({ recipe_id, candidate_id }) => ({
         id: recipe_id,
+        family_id: promotions.find(item => item.recipe_id === recipe_id).family_id,
+        cuisine: '示例菜系',
+        purposes: ['pantry'],
+        total_time_minutes: 30,
+        adaptation_note: '使用明确命名的食品级食材。',
         status: 'approved',
         origin_candidate_id: candidate_id,
-        core_ingredients: ['大米'],
+        core_ingredients: ['大米', '小白菜'],
+        optional_ingredients: ['香葱'],
         generation_optional_ingredients: ['香葱'],
         generation_liquid_ingredients: ['水'],
-        substitution_slots: [{ slot: '叶菜', replaces: ['叶菜'], allowed: ['小白菜'] }],
+        substitution_slots: [{ slot: '叶菜', replaces: ['小白菜'], allowed: ['菜心'] }],
+        technique: ['米饭接近熟透时再加入叶菜。'],
+        ratio_rules: ['每100克大米使用130克水。'],
+        safety_rules: ['叶菜后段加入。'],
         source_refs: [{
           usage: 'approved',
           url: canonicalUrl(`/recipes.html?id=${recipe_id}`),
@@ -59,11 +78,12 @@ test('promotion gate reports origin, identity and canonical-source failures dete
   bad.production.recipes[0].core_ingredients = ['经核验野菜'];
   bad.production.recipes[0].source_refs[0].url = 'https://example.test/recipes/demo-rice';
 
-  assert.deepEqual(validateTraditionalRecipePromotion({ ...bad, matrix }), [
+  const errors = validateTraditionalRecipePromotion({ ...bad, matrix });
+  for (const expected of [
     'demo-rice origin_candidate_id must equal demo-candidate',
     'demo-rice contains identity placeholder 经核验野菜',
     'demo-rice canonical source must use https://yiguochu.pages.dev/recipes.html?id=demo-rice',
-  ]);
+  ]) assert.ok(errors.includes(expected), expected);
 });
 
 test('promotion gate rejects identity placeholders in optional ingredients', () => {
@@ -73,9 +93,9 @@ test('promotion gate rejects identity placeholders in optional ingredients', () 
   const fixture = completeFixture(matrix);
   fixture.production.recipes[0].optional_ingredients = ['地方植物'];
 
-  assert.deepEqual(validateTraditionalRecipePromotion({ ...fixture, matrix }), [
+  assert.ok(validateTraditionalRecipePromotion({ ...fixture, matrix }).includes(
     'demo-rice contains identity placeholder 地方植物',
-  ]);
+  ));
 });
 
 test('promotion gate validates and uses the manifest canonical path', () => {
@@ -138,6 +158,62 @@ test('promotion manifest fixes all thirty candidate, draft and family mappings',
       'total_time_minutes', 'canonical_path', 'identity_resolution',
     ]);
   }
+});
+
+test('promotion gate locks manifest metadata and concrete production boundaries to every linked draft', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  const fixture = completeFixture(matrix);
+  const recipe = fixture.production.recipes[0];
+  recipe.family_id = 'family-wrong';
+  recipe.cuisine = '错误菜系';
+  recipe.purposes = ['fresh'];
+  recipe.total_time_minutes = 31;
+  recipe.optional_ingredients = ['炼乳'];
+  recipe.generation_optional_ingredients = ['炼乳'];
+  recipe.substitution_slots[0] = { slot: '叶菜', replaces: ['小白菜'], allowed: ['猪肋排'] };
+  recipe.technique = ['把所有食材一起煮熟。'];
+  recipe.ratio_rules = ['随意加水。'];
+  recipe.safety_rules = [];
+
+  const errors = validateTraditionalRecipePromotion({ ...fixture, matrix });
+  for (const expected of [
+    'demo-rice production family_id must equal manifest family-demo',
+    'demo-rice production cuisine must equal manifest 示例菜系',
+    'demo-rice production purposes must equal manifest purposes',
+    'demo-rice production total_time_minutes must equal manifest 30',
+    'demo-rice production optional ingredient is outside draft semantics: 炼乳',
+    'demo-rice substitution slot 叶菜 allows ingredient outside draft semantics: 猪肋排',
+    'demo-rice technique must retain the linked draft technique outline',
+    'demo-rice ratio_rules must retain the linked draft ratio rules',
+    'demo-rice safety_rules missing draft requirement: 叶菜后段加入。',
+  ]) assert.ok(errors.includes(expected), expected);
+});
+
+test('promotion gate rejects impossible ingredient-action combinations', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  const fixture = completeFixture(matrix);
+  fixture.production.recipes[0].technique = [
+    '牛奶切成均匀小块。',
+    '食品级干荷叶切碎后作为主料煮熟。',
+    '食品级紫薯粉切丁后同锅炒香。',
+    '米饭接近熟透时再加入叶菜。',
+  ];
+  const errors = validateTraditionalRecipePromotion({ ...fixture, matrix });
+  assert.ok(errors.includes('demo-rice has impossible ingredient action: 牛奶切成均匀小块。'));
+  assert.ok(errors.includes('demo-rice has impossible ingredient action: 食品级干荷叶切碎后作为主料煮熟。'));
+  assert.ok(errors.includes('demo-rice has impossible ingredient action: 食品级紫薯粉切丁后同锅炒香。'));
+});
+
+test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const promotions = JSON.parse(fs.readFileSync(new URL('../data/traditional-recipe-promotions.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validateTraditionalRecipePromotion({ candidates, drafts, production, promotions }), []);
 });
 
 test('promotion checker accepts all thirty formal production mappings', () => {

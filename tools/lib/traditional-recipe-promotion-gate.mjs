@@ -35,6 +35,78 @@ const IDENTITY_PLACEHOLDER = /经核验|身份不明|未知野菜|地方植物/u
 const CANONICAL_ORIGIN = 'https://yiguochu.pages.dev';
 const CANONICAL_BASE = 'https://yiguochu.pages.dev/recipes.html?id=';
 
+// Drafts deliberately use generic or review-gated ingredient language. A promoted
+// recipe may resolve one of those terms only to these concrete, narrower foods.
+const DRAFT_TERM_NARROWINGS = new Map(Object.entries({
+  '精白米': ['大米'],
+  '食品级大米': ['大米'],
+  '米饭': ['大米'],
+  '大米或杂粮': ['大米', '小米', '燕麦米'],
+  '食品级谷物': ['大米', '小米'],
+  '食品级小麦粉面团': ['小麦面团'],
+  '清水': ['水'],
+  '少量咸肉': ['咸五花肉'],
+  '咸肉': ['咸五花肉'],
+  '腊肉': ['腊五花肉'],
+  '腌肉': ['腊五花肉'],
+  '切片香肠': ['广式腊肠'],
+  '来源可追溯的熟制鸭可食部分': ['包装熟制板鸭（去骨）'],
+  '腊味肉制品': ['广式腊肠'],
+  '可追溯鸡肉可食部分': ['去皮鸡腿肉'],
+  '可追溯猪肋排': ['猪肋排'],
+  '去骨猪肉可食部分': ['去骨猪腿肉'],
+  '羊肉块': ['羊腿肉', '羊肩肉'],
+  '猪肉': ['猪肉末', '去皮鸡腿肉', '老豆腐'],
+  '鸡腿肉': ['去皮鸡腿肉'],
+  '肉末': ['猪肉末'],
+  '肉末或老豆腐': ['猪肉末', '老豆腐'],
+  '猪肉或老豆腐': ['猪肉末', '老豆腐'],
+  '叶菜': ['小白菜', '菜心', '小油菜', '矮脚黄'],
+  '青菜': ['矮脚黄', '小油菜', '小白菜'],
+  '普通叶菜': ['小白菜', '油麦菜'],
+  '有明确食品名称的叶菜': ['小白菜'],
+  '经核验可食用的地方叶菜': ['油麦菜'],
+  '经核验可食用叶片': ['生菜'],
+  '蔬菜馅': ['胡萝卜'],
+  '已核验蔬菜': ['小白菜', '胡萝卜'],
+  '新鲜食用菌': ['鲜香菇', '白玉菇', '平菇', '口蘑'],
+  '经核验的新鲜食用菌': ['鲜香菇'],
+  '食用香菇': ['鲜香菇'],
+  '香菇': ['鲜香菇'],
+  '有明确食品名称的新鲜平菇': ['平菇'],
+  '有明确食品名称的新鲜白玉菇': ['白玉菇'],
+  '有明确食品名称的食用菌': ['鲜香菇'],
+  '食品级香菇': ['鲜香菇'],
+  '有食品标签的香菇': ['鲜香菇'],
+  '有食品标签的平菇': ['平菇'],
+  '已核验豆类': ['熟鹰嘴豆'],
+  '有食品标签的鹰嘴豆': ['熟鹰嘴豆'],
+  '有食品标签的白芸豆': ['熟白芸豆'],
+  '熟豆类': ['熟鹰嘴豆'],
+  '经声明的乳制品或非乳替代品': ['牛奶'],
+  '有明确过敏原标签的牛奶': ['牛奶'],
+  '有明确成分标签的非乳替代品': ['无糖豆浆（有明确成分标签）'],
+  '有明确食品名称的干果': ['红枣'],
+  '有食品标签的红枣': ['红枣'],
+  '有食品标签的葡萄干': ['葡萄干'],
+  '经审核的水果或坚果': ['葡萄干'],
+  '已识别的食品级植物色源': ['食品级紫薯粉'],
+  '单一已核验食品级植物色源': ['食品级黑米色粉'],
+  '有明确食品标签的可食用色源': ['食品级甜菜粉'],
+  '经食品级核验的可食用植物浸提物': ['食品级甜菜粉'],
+  '有食品标签的可食用植物色源': ['食品级紫薯粉'],
+  '经核验的可食用配料': ['椰奶'],
+  '有明确食品名称的坚果或种子': ['南瓜子'],
+  '已核验可食野生食材': ['鲜香菇', '平菇'],
+  '经核验可食用的新鲜水果': ['芒果'],
+  '椰浆或其他椰子制品': ['椰奶'],
+  '香辛料': ['姜'],
+  '修整豆角': ['豆角'],
+  '食品级豆豉': ['豆豉'],
+  '食品级清洁荷叶': ['食品级干荷叶'],
+  '经核验可食用的食品级叶片包材': ['食品级白菜叶'],
+}));
+
 function entries(value, key) {
   return Array.isArray(value?.[key]) ? value[key] : [];
 }
@@ -100,6 +172,97 @@ function hasCanonicalSource(recipe, canonicalPath) {
 
 function expectedCanonicalPath(recipeId) {
   return `/recipes.html?id=${recipeId}`;
+}
+
+function sameArray(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function termIsSameOrNarrower(draftTerm, productionTerm) {
+  return draftTerm === productionTerm
+    || (DRAFT_TERM_NARROWINGS.get(draftTerm) || []).includes(productionTerm);
+}
+
+function productionTermMatchesAny(draftTerms, productionTerm) {
+  return Array.isArray(draftTerms)
+    && draftTerms.some(draftTerm => termIsSameOrNarrower(draftTerm, productionTerm));
+}
+
+function impossibleIngredientActions(technique) {
+  if (!Array.isArray(technique)) return [];
+  const impossible = [
+    /牛奶[^。]*(?:切|切块|切丁)/u,
+    /荷叶[^。]*(?:切|切碎|切丁|作为主料[^。]*(?:煮|焖|炒))/u,
+    /(?:植物色源|色粉|紫薯粉|黑米粉)[^。]*(?:切|切碎|切丁|作为主料[^。]*(?:煮|焖|炒))/u,
+  ];
+  return technique.filter(step => impossible.some(pattern => pattern.test(step)));
+}
+
+function validateDraftSemantics(recipeId, draft, recipe) {
+  const errors = [];
+  for (const field of ['core_ingredients', 'optional_ingredients']) {
+    const draftTerms = Array.isArray(draft?.[field]) ? draft[field] : [];
+    const productionTerms = Array.isArray(recipe?.[field]) ? recipe[field] : [];
+    for (const term of productionTerms) {
+      if (!productionTermMatchesAny(draftTerms, term)) {
+        const label = field === 'core_ingredients' ? 'core' : 'optional';
+        errors.push(`${recipeId} production ${label} ingredient is outside draft semantics: ${term}`);
+      }
+    }
+    for (const term of draftTerms) {
+      if (!productionTerms.some(value => termIsSameOrNarrower(term, value))) {
+        const label = field === 'core_ingredients' ? 'core' : 'optional';
+        errors.push(`${recipeId} production ${label} ingredients do not resolve draft term: ${term}`);
+      }
+    }
+  }
+
+  const draftSlots = Array.isArray(draft?.substitution_slots) ? draft.substitution_slots : [];
+  const recipeSlots = Array.isArray(recipe?.substitution_slots) ? recipe.substitution_slots : [];
+  if (recipeSlots.length !== draftSlots.length) {
+    errors.push(`${recipeId} substitution slot count must equal linked draft`);
+  }
+  for (const draftSlot of draftSlots) {
+    const recipeSlot = recipeSlots.find(slot => slot?.slot === draftSlot?.slot);
+    if (!recipeSlot) {
+      errors.push(`${recipeId} missing draft substitution slot ${draftSlot?.slot}`);
+      continue;
+    }
+    const boundary = [
+      ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+      ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
+    ];
+    for (const term of Array.isArray(recipeSlot.replaces) ? recipeSlot.replaces : []) {
+      if (!productionTermMatchesAny(draftSlot.replaces, term)) {
+        errors.push(`${recipeId} substitution slot ${draftSlot.slot} replaces ingredient outside draft semantics: ${term}`);
+      }
+      if (!boundary.includes(term)) {
+        errors.push(`${recipeId} substitution slot ${draftSlot.slot} replaces ingredient outside production boundary: ${term}`);
+      }
+    }
+    for (const term of Array.isArray(recipeSlot.allowed) ? recipeSlot.allowed : []) {
+      if (!productionTermMatchesAny(draftSlot.allowed, term)) {
+        errors.push(`${recipeId} substitution slot ${draftSlot.slot} allows ingredient outside draft semantics: ${term}`);
+      }
+    }
+  }
+
+  if (!sameArray(recipe?.technique, draft?.technique_outline)) {
+    errors.push(`${recipeId} technique must retain the linked draft technique outline`);
+  }
+  if (!sameArray(recipe?.ratio_rules, draft?.draft_ratio_rules)) {
+    errors.push(`${recipeId} ratio_rules must retain the linked draft ratio rules`);
+  }
+  const safetyRules = Array.isArray(recipe?.safety_rules) ? recipe.safety_rules : [];
+  for (const gate of Array.isArray(draft?.safety_and_quality_gates) ? draft.safety_and_quality_gates : []) {
+    if (hasNonEmptyString(gate?.requirement) && !safetyRules.includes(gate.requirement)) {
+      errors.push(`${recipeId} safety_rules missing draft requirement: ${gate.requirement}`);
+    }
+  }
+  for (const step of impossibleIngredientActions(recipe?.technique)) {
+    errors.push(`${recipeId} has impossible ingredient action: ${step}`);
+  }
+  return errors;
 }
 
 export function hasOnlyExpectedMissingProductionErrors(errors, promotions) {
@@ -168,8 +331,25 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
       continue;
     }
     if (recipe.status !== 'approved') errors.push(`${recipeId} production status must be approved`);
+    if (recipe.family_id !== promotion.family_id) {
+      errors.push(`${recipeId} production family_id must equal manifest ${promotion.family_id}`);
+    }
+    if (recipe.cuisine !== promotion.cuisine) {
+      errors.push(`${recipeId} production cuisine must equal manifest ${promotion.cuisine}`);
+    }
+    if (!sameArray(recipe.purposes, promotion.purposes)) {
+      errors.push(`${recipeId} production purposes must equal manifest purposes`);
+    }
+    if (recipe.total_time_minutes !== promotion.total_time_minutes) {
+      errors.push(`${recipeId} production total_time_minutes must equal manifest ${promotion.total_time_minutes}`);
+    }
     if (recipe.origin_candidate_id !== promotion.candidate_id) {
       errors.push(`${recipeId} origin_candidate_id must equal ${promotion.candidate_id}`);
+    }
+    if (draft) errors.push(...validateDraftSemantics(recipeId, draft, recipe));
+    if (!hasNonEmptyString(recipe.adaptation_note)
+      || !recipe.adaptation_note.includes(promotion.identity_resolution)) {
+      errors.push(`${recipeId} adaptation_note must retain manifest identity resolution`);
     }
     const placeholder = recipeIdentityPlaceholder(recipe);
     if (placeholder) errors.push(`${recipeId} contains identity placeholder ${placeholder}`);

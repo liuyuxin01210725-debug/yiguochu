@@ -7,6 +7,9 @@ import { spawnSync } from 'node:child_process';
 import { validateRecipeLibrary } from '../lib/recipe-library-validator.mjs';
 
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+const originalApprovedRecipes = JSON.parse(
+  fs.readFileSync(new URL('./fixtures/original-approved-recipes.json', import.meta.url), 'utf8'),
+);
 
 const EXPECTED_FAMILY_IDS = [
   'family-rice-porridge',
@@ -53,6 +56,10 @@ test('Phase A family and recipe identities stay exact at the head of the formal 
     }),
     EXPECTED_RECIPES,
   );
+});
+
+test('the original twelve approved recipe objects remain byte-for-byte equivalent to the frozen fixture', () => {
+  assert.deepEqual(lib.recipes.slice(0, 12), originalApprovedRecipes);
 });
 
 test('thirty promoted recipes have canonical first-party approved sources', () => {
