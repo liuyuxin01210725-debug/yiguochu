@@ -131,6 +131,7 @@ test('rice cabbage minestrone records its raw-rice one-pot adaptation', () => {
   const recipe = lib.recipes.find(item => item.id === 'rice-cabbage-minestrone');
   assert.match(recipe.adaptation_note, /原始来源使用熟米入汤/);
   assert.match(recipe.adaptation_note, /少量生米与高汤同煮/);
+  assert.match(recipe.adaptation_note, /米粒半熟后再加卷心菜/);
   assert.match(recipe.adaptation_note, /不得使用电饭锅、盛出米饭或另起锅/);
 });
 
@@ -139,6 +140,7 @@ test('soy stew and congee record deterministic production adaptations', () => {
   assert.match(soy.adaptation_note, /只选橄榄油、蒜、姜黄、黑胡椒四项/);
   assert.match(soy.adaptation_note, /另列有数字克数的水和盐/);
   assert.match(soy.adaptation_note, /大豆蛋白块不得单独提前泡发或沥干/);
+  assert.match(soy.adaptation_note, /西兰花.*最后5分钟/);
   const congee = lib.recipes.find(item => item.id === 'chinese-congee');
   assert.deepEqual(congee.substitution_slots, [{ slot: '煮粥液体', replaces: ['水'], allowed: ['鸡高汤'] }]);
   assert.match(congee.adaptation_note, /用户已选水时锁定为水/);
@@ -166,13 +168,26 @@ test('black-eyed pea production base locks a source-supported cooked state and n
 
 test('Texas chili and kari ayam lock every retained liquid into the production contract', () => {
   const chili = lib.recipes.find(item => item.id === 'texas-beef-chili');
+  assert.equal(chili.total_time_minutes, 40);
+  assert.ok(chili.core_ingredients.includes('牛肉（粗绞）'));
   assert.deepEqual(chili.generation_liquid_ingredients, ['水']);
+  assert.ok(chili.generation_optional_ingredients.includes('植物油'));
   assert.ok(chili.generation_optional_ingredients.includes('玉米粉'));
-  assert.match(chili.adaptation_note, /水.*数字克数/);
+  assert.match(chili.adaptation_note, /原始来源.*30分钟.*1小时.*30分钟/);
+  assert.match(chili.adaptation_note, /粗绞牛肉/);
+  assert.match(chili.adaptation_note, /每1份.*水50克.*留出10克.*玉米粉浆/);
+  assert.match(chili.ratio_rules.join('。'), /每1份.*粗绞牛肉200克.*玉米粉5克.*水50克/);
   const kari = lib.recipes.find(item => item.id === 'kari-ayam-coconut-chicken');
   assert.deepEqual(kari.generation_liquid_ingredients, ['椰奶']);
   assert.match(kari.adaptation_note, /部分椰奶/);
   assert.match(kari.adaptation_note, /不得加水/);
+});
+
+test('shakshuka production ratio keeps egg grams and nest count aligned', () => {
+  const recipe = lib.recipes.find(item => item.id === 'shakshuka-tomato-egg');
+  assert.match(recipe.adaptation_note, /每1份3个中等鸡蛋/);
+  assert.match(recipe.adaptation_note, /每个鸡蛋单独挖窝/);
+  assert.match(recipe.ratio_rules.join('。'), /去壳约150克/);
 });
 
 test('validator bounds optional recipe time and adaptation metadata', () => {
@@ -215,6 +230,7 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     椰浆: '椰奶',
     扁豆: '红扁豆',
     '黑眼豆（罐头沥干）': '黑眼豆',
+    '牛肉（粗绞）': '牛肉',
   });
 });
 
