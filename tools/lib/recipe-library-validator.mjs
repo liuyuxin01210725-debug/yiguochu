@@ -121,6 +121,18 @@ export function validateRecipeLibrary(lib) {
     for (const key of ['name', 'cuisine', 'form']) {
       if (!isNonEmptyString(recipe[key])) errors.push(`${label} missing ${key}`);
     }
+    if (recipe.total_time_minutes !== undefined
+      && (!Number.isInteger(recipe.total_time_minutes)
+        || recipe.total_time_minutes < 1
+        || recipe.total_time_minutes > 60)) {
+      errors.push(`${label} total_time_minutes must be an integer from 1 to 60`);
+    }
+    if (recipe.adaptation_note !== undefined
+      && (typeof recipe.adaptation_note !== 'string'
+        || recipe.adaptation_note.trim().length < 1
+        || recipe.adaptation_note.trim().length > 400)) {
+      errors.push(`${label} adaptation_note must contain 1 to 400 characters`);
+    }
     for (const key of STRING_ARRAY_FIELDS) {
       validateStringArray(recipe[key], `${label} ${key}`, errors);
     }

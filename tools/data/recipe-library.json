@@ -150,34 +150,37 @@
       ]
     },
     {
-      "id": "mung-bean-brown-rice-curry",
-      "family_id": "family-rice-legume-pot",
+      "id": "soy-lentil-vegetable-stew",
+      "family_id": "family-legume-vegetable-stew",
       "status": "approved",
-      "name": "绿豆糙米蔬菜咖喱锅",
-      "cuisine": "素食咖喱风味",
-      "form": "饭锅",
-      "summary": "用香料裹匀糙米和绿豆后加水慢煮，离火再拌入切细蔬菜和酸香调味。",
-      "purposes": ["pantry", "fresh", "batch"],
-      "core_ingredients": ["糙米", "绿豆", "卷心菜", "甜椒", "胡萝卜"],
-      "optional_ingredients": ["芥末籽", "姜黄", "孜然", "咖喱粉", "姜", "柠檬汁", "酱油", "蜂蜜"],
+      "name": "大豆扁豆西兰花炖锅",
+      "cuisine": "家常纯素炖锅",
+      "form": "炖锅",
+      "summary": "用同一口锅炒香洋葱和蒜，再加入大豆蛋白块、红扁豆、西兰花与量化沸水，炖成饱腹纯素主餐。",
+      "purposes": ["quick", "pantry", "batch"],
+      "total_time_minutes": 30,
+      "core_ingredients": ["红扁豆", "大豆蛋白块", "西兰花", "红洋葱"],
+      "optional_ingredients": ["橄榄油", "蒜", "营养酵母", "花生", "葵花籽", "黑胡椒", "姜黄", "辣椒", "葛缕子", "姜"],
       "substitution_slots": [
-        { "slot": "脆口蔬菜", "replaces": ["卷心菜", "甜椒", "胡萝卜"], "allowed": ["西兰花", "西葫芦", "芹菜"] },
-        { "slot": "酸味", "replaces": ["柠檬汁"], "allowed": ["米醋", "白醋"] }
+        { "slot": "坚果或种子", "replaces": ["花生"], "allowed": ["葵花籽", "不加坚果或种子"] }
       ],
       "discouraged": [
-        { "ingredients": ["生土豆大块", "整颗干豆"], "reason_type": "timing", "reason": "与糙米绿豆同锅时难以在既定时间内同步熟透。" }
+        { "ingredients": ["未泡发的整粒干豆", "大块根茎"], "reason_type": "timing", "reason": "会明显延长这道快速炖锅的熟成时间。" }
       ],
-      "technique": ["爆香芥末籽", "米豆裹香料", "加水慢煮", "离火拌蔬菜"],
-      "ratio_rules": ["糙米与绿豆体积为1:1", "两杯干米豆配约5.5杯水"],
-      "safety_rules": ["绿豆和糙米都要煮至没有生硬芯", "冷藏成品应密封并在食用前彻底复热"],
+      "technique": ["同锅炒香洋葱与蒜", "加入大豆蛋白块与红扁豆", "加入量化沸水", "同锅炖至扁豆软烂"],
+      "ratio_rules": [
+        "1大份使用大豆蛋白块40克、红扁豆80克、西兰花250克、沸水500克",
+        "所有留在成品中的液体按份数等比例缩放并列入食材表"
+      ],
+      "safety_rules": ["红扁豆必须煮至软烂无硬芯", "大豆蛋白块必须吸水变软并彻底加热"],
       "source_refs": [
         {
           "usage": "approved",
-          "title": "Cookbook:Mung Bean and Brown Rice Curry",
-          "url": "https://en.wikibooks.org/wiki/Cookbook:Mung_Bean_and_Brown_Rice_Curry",
+          "title": "Cookbook:Soy-Lentil-Vegetable Stew",
+          "url": "https://en.wikibooks.org/wiki/Cookbook%3ASoy-Lentil-Vegetable_Stew",
           "license": "CC BY-SA 4.0",
-          "attribution": "Wikibooks contributors, Cookbook:Mung Bean and Brown Rice Curry",
-          "retrieved_at": "2026-07-14"
+          "attribution": "Wikibooks contributors, Cookbook:Soy-Lentil-Vegetable Stew",
+          "retrieved_at": "2026-07-17"
         }
       ]
     },
@@ -220,7 +223,7 @@
       "name": "扁豆土豆番茄咖喱",
       "cuisine": "印度风味",
       "form": "炖锅",
-      "summary": "把红扁豆煮软，同时煎香土豆和香料，再与番茄合锅炖到土豆绵软。",
+      "summary": "在同一口锅中先炒香土豆和香料，再加入番茄、红扁豆与量化水，炖至扁豆软烂且土豆无硬芯。",
       "purposes": ["pantry", "fresh", "batch"],
       "constraint_profiles": [
         {
@@ -237,8 +240,9 @@
       "discouraged": [
         { "ingredients": ["整粒鹰嘴豆", "大块南瓜"], "reason_type": "timing", "reason": "硬豆或过大根茎会让成菜时间明显偏离红扁豆基准。" }
       ],
-      "technique": ["扁豆先煮", "土豆煎香", "番茄合炖", "取出月桂叶"],
-      "ratio_rules": ["一杯红扁豆配约四杯水", "土豆切小块以便与扁豆同步熟成"],
+      "technique": ["同锅炒香土豆和香料", "加入番茄和红扁豆", "加入量化水同锅炖熟", "取出月桂叶"],
+      "ratio_rules": ["红扁豆与水体积约为1:4，生成时水必须换算成数字克数", "土豆切小块以便与红扁豆同步熟成"],
+      "adaptation_note": "原始来源使用两个烹饪容器；一锅出将其改为同一口锅先炒香土豆和香料，再加入番茄、红扁豆与量化水炖熟。",
       "safety_rules": ["土豆要炖至中心无硬芯", "月桂叶整片下锅时食用前取出"],
       "source_refs": [
         {

@@ -25,7 +25,7 @@ const EXPECTED_RECIPES = [
   ['simple-chicken-biryani', 'family-spiced-rice', '简化一锅鸡肉香料饭', 'Cookbook:Simple Biryani', 'https://en.wikibooks.org/wiki/Cookbook:Simple_Biryani'],
   ['jollof-rice', 'family-tomato-rice', '西非番茄香料饭', 'Cookbook:Jollof Rice', 'https://en.wikibooks.org/wiki/Cookbook:Jollof_Rice'],
   ['creole-jambalaya', 'family-tomato-rice', '克里奥尔番茄鸡肉什锦饭', 'Cookbook:Jambalaya I', 'https://en.wikibooks.org/wiki/Cookbook:Jambalaya_I'],
-  ['mung-bean-brown-rice-curry', 'family-rice-legume-pot', '绿豆糙米蔬菜咖喱锅', 'Cookbook:Mung Bean and Brown Rice Curry', 'https://en.wikibooks.org/wiki/Cookbook:Mung_Bean_and_Brown_Rice_Curry'],
+  ['soy-lentil-vegetable-stew', 'family-legume-vegetable-stew', '大豆扁豆西兰花炖锅', 'Cookbook:Soy-Lentil-Vegetable Stew', 'https://en.wikibooks.org/wiki/Cookbook%3ASoy-Lentil-Vegetable_Stew'],
   ['chicken-black-eyed-pea-stew', 'family-rice-legume-pot', '鸡肉黑眼豆番茄饭锅', 'Cookbook:Chicken and Black-eyed Pea Stew', 'https://en.wikibooks.org/wiki/Cookbook:Chicken_and_Black-eyed_Pea_Stew'],
   ['lentil-potato-tomato-curry', 'family-legume-vegetable-stew', '扁豆土豆番茄咖喱', 'Cookbook:Lentil, Potato, and Tomato Curry', 'https://en.wikibooks.org/wiki/Cookbook:Lentil,_Potato,_and_Tomato_Curry'],
   ['shakshuka-tomato-egg', 'family-tomato-egg-pot', '番茄甜椒炖蛋', 'Cookbook:Shakshuka I', 'https://en.wikibooks.org/wiki/Cookbook:Shakshuka_I'],
@@ -53,6 +53,65 @@ test('Phase A family and recipe identities stay exact', () => {
     }),
     EXPECTED_RECIPES,
   );
+});
+
+test('fast vegan seed keeps the approved source quantities and animal-free boundary', () => {
+  assert.equal(lib.recipes.some(recipe => recipe.id === 'mung-bean-brown-rice-curry'), false);
+  const recipe = lib.recipes.find(item => item.id === 'soy-lentil-vegetable-stew');
+  assert.ok(recipe);
+  assert.equal(recipe.total_time_minutes, 30);
+  assert.deepEqual(recipe.core_ingredients, ['红扁豆', '大豆蛋白块', '西兰花', '红洋葱']);
+  assert.deepEqual(recipe.substitution_slots, [{
+    slot: '坚果或种子',
+    replaces: ['花生'],
+    allowed: ['葵花籽', '不加坚果或种子'],
+  }]);
+  assert.match(recipe.ratio_rules.join('；'), /40克.*80克.*250克.*500克/);
+  assert.equal(recipe.core_ingredients.includes('花生'), false);
+  const animalTerms = ['鸡肉', '鸭肉', '牛肉', '猪肉', '鱼', '虾', '鸡蛋', '牛奶', '奶油', '黄油', '蜂蜜'];
+  assert.equal(
+    [...recipe.core_ingredients, ...recipe.optional_ingredients]
+      .some(name => animalTerms.some(term => name.includes(term))),
+    false,
+  );
+  assert.deepEqual(recipe.source_refs[0], {
+    usage: 'approved',
+    title: 'Cookbook:Soy-Lentil-Vegetable Stew',
+    url: 'https://en.wikibooks.org/wiki/Cookbook%3ASoy-Lentil-Vegetable_Stew',
+    license: 'CC BY-SA 4.0',
+    attribution: 'Wikibooks contributors, Cookbook:Soy-Lentil-Vegetable Stew',
+    retrieved_at: '2026-07-17',
+  });
+});
+
+test('lentil curry records an explicit one-pot adaptation', () => {
+  const recipe = lib.recipes.find(item => item.id === 'lentil-potato-tomato-curry');
+  assert.match(recipe.summary, /同一口锅/);
+  assert.deepEqual(recipe.technique, [
+    '同锅炒香土豆和香料',
+    '加入番茄和红扁豆',
+    '加入量化水同锅炖熟',
+    '取出月桂叶',
+  ]);
+  assert.match(recipe.adaptation_note, /原始来源使用两个烹饪容器/);
+  assert.doesNotMatch(`${recipe.summary}${recipe.technique.join('')}`, /扁豆先煮|土豆煎香/);
+});
+
+test('validator bounds optional recipe time and adaptation metadata', () => {
+  const invalid = structuredClone(lib);
+  invalid.recipes[0].total_time_minutes = 0;
+  invalid.recipes[1].total_time_minutes = 61;
+  invalid.recipes[2].total_time_minutes = 30.5;
+  invalid.recipes[3].adaptation_note = '   ';
+  invalid.recipes[4].adaptation_note = '改'.repeat(401);
+  invalid.recipes[5].adaptation_note = 42;
+  const errors = validateRecipeLibrary(invalid);
+  assert.ok(errors.includes(`${invalid.recipes[0].id} total_time_minutes must be an integer from 1 to 60`));
+  assert.ok(errors.includes(`${invalid.recipes[1].id} total_time_minutes must be an integer from 1 to 60`));
+  assert.ok(errors.includes(`${invalid.recipes[2].id} total_time_minutes must be an integer from 1 to 60`));
+  assert.ok(errors.includes(`${invalid.recipes[3].id} adaptation_note must contain 1 to 400 characters`));
+  assert.ok(errors.includes(`${invalid.recipes[4].id} adaptation_note must contain 1 to 400 characters`));
+  assert.ok(errors.includes(`${invalid.recipes[5].id} adaptation_note must contain 1 to 400 characters`));
 });
 
 test('canonical ingredient aliases stay stable for later selectors', () => {
