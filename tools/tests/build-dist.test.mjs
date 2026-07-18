@@ -4,12 +4,14 @@ import fs from 'node:fs';
 import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const BUILD_SCRIPT = path.join(ROOT, 'tools', 'build-dist.mjs');
 const LIBRARY_PATH = path.join(ROOT, 'tools', 'data', 'recipe-library.json');
+const CHROME = process.env.YIGUOCHU_CHROME_PATH
+  || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const REQUIRED_ASSETS = [
   'index.html',
   'recipes.html',
@@ -25,16 +27,63 @@ const REQUIRED_ASSETS = [
 ];
 
 function makeOutputDir() {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-dist-test-'));
+  return fs.mkdtempSync(path.join(ROOT, 'dist', '.build-test-'));
 }
 
-function build(outputDir) {
-  const result = spawnSync(process.execPath, [
+function runBuild(outputDir) {
+  return spawnSync(process.execPath, [
     BUILD_SCRIPT,
     '--out-dir', outputDir,
     '--build-id', 'canonical-test',
   ], { cwd: ROOT, encoding: 'utf8' });
+}
+
+function build(outputDir) {
+  const result = runBuild(outputDir);
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+}
+
+function dumpDom(url, profileDir) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(CHROME, [
+      '--headless=new',
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-default-browser-check',
+      `--user-data-dir=${profileDir}`,
+      '--virtual-time-budget=1500',
+      '--dump-dom',
+      url,
+    ], { cwd: ROOT });
+    let stdout = '';
+    let stderr = '';
+    let rendered = false;
+    let timedOut = false;
+    const timeout = setTimeout(() => {
+      timedOut = true;
+      child.kill('SIGTERM');
+    }, 15000);
+    child.stdout.setEncoding('utf8');
+    child.stderr.setEncoding('utf8');
+    child.stdout.on('data', chunk => {
+      stdout += chunk;
+      if (!rendered && stdout.includes('</html>')) {
+        rendered = true;
+        child.kill('SIGTERM');
+      }
+    });
+    child.stderr.on('data', chunk => { stderr += chunk; });
+    child.on('error', error => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+    child.on('close', code => {
+      clearTimeout(timeout);
+      if (rendered) resolve(stdout);
+      else if (timedOut) reject(new Error(`Chrome did not render before the timeout: ${stderr}`));
+      else reject(new Error(`Chrome exited ${code}: ${stderr}`));
+    });
+  });
 }
 
 function serveStatic(outputDir) {
@@ -49,6 +98,22 @@ function serveStatic(outputDir) {
   });
   return new Promise(resolve => server.listen(0, '127.0.0.1', () => resolve(server)));
 }
+
+test('distribution build removes stale files before recreating the output', () => {
+  const outputDir = makeOutputDir();
+  try {
+    fs.writeFileSync(path.join(outputDir, 'stale-deployment-asset.txt'), 'must not survive rebuild');
+    build(outputDir);
+
+    assert.equal(fs.existsSync(path.join(outputDir, 'stale-deployment-asset.txt')), false);
+
+    for (const asset of REQUIRED_ASSETS) {
+      assert.equal(fs.existsSync(path.join(outputDir, asset)), true, `${asset} must be built`);
+    }
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
 
 test('distribution build includes canonical recipe assets and refreshes its service worker cache key', () => {
   const outputDir = makeOutputDir();
@@ -79,34 +144,42 @@ test('distribution build includes canonical recipe assets and refreshes its serv
   }
 });
 
-test('generated distribution statically serves the canonical page and its approved recipe data', async () => {
+test('distribution build refuses an output path outside its safe dist directory', () => {
+  const unsafeOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-unsafe-build-'));
+  fs.rmSync(unsafeOutputDir, { recursive: true, force: true });
+  try {
+    const result = runBuild(unsafeOutputDir);
+    assert.notEqual(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    assert.equal(fs.existsSync(unsafeOutputDir), false);
+  } finally {
+    fs.rmSync(unsafeOutputDir, { recursive: true, force: true });
+  }
+});
+
+test('generated canonical page executes and renders approved title and provenance in Chrome', async () => {
   const outputDir = makeOutputDir();
   let server;
+  let browserProfile;
   try {
+    assert.equal(fs.existsSync(CHROME), true, `Chrome executable is required: ${CHROME}`);
     build(outputDir);
     server = await serveStatic(outputDir);
     const { port } = server.address();
     const baseUrl = `http://127.0.0.1:${port}`;
     const recipeId = 'shanghai-salted-pork-vegetable-rice';
 
-    const pageResponse = await fetch(`${baseUrl}/recipes.html?id=${recipeId}`);
-    assert.equal(pageResponse.status, 200);
-    const page = await pageResponse.text();
-    assert.match(page, /recipe-library\.json/);
-    assert.match(page, /recipe\.id\s*===\s*recipeId/);
+    browserProfile = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-chrome-profile-'));
+    const dom = await dumpDom(`${baseUrl}/recipes.html?id=${recipeId}`, browserProfile);
 
-    const libraryResponse = await fetch(`${baseUrl}/recipe-library.json`);
-    assert.equal(libraryResponse.status, 200);
-    const library = await libraryResponse.json();
-    assert.deepEqual(
-      library.recipes.find(recipe => recipe.id === recipeId),
-      JSON.parse(fs.readFileSync(LIBRARY_PATH, 'utf8')).recipes.find(recipe => recipe.id === recipeId),
-    );
-
-    assert.equal((await fetch(`${baseUrl}/foods-tw.json`)).status, 200);
-    assert.equal((await fetch(`${baseUrl}/_worker.js`)).status, 200);
+    assert.match(dom, /<h2 id="name">上海奉贤咸肉菜饭<\/h2>/);
+    assert.match(dom, /文化来源候选编号<\/h3><p id="origin">shanghai-salted-pork-vegetable-rice<\/p>/);
+    assert.match(dom, /一锅出原创标准配方：上海奉贤咸肉菜饭/);
+    assert.match(dom, /一锅出项目原创标准配方，保留所有权利/);
+    assert.match(dom, /一锅出项目/);
+    assert.doesNotMatch(dom, /id="unavailable" class="unavailable" aria-live="polite">未找到可公开的菜谱<\/section>/);
   } finally {
     if (server) await new Promise(resolve => server.close(resolve));
     fs.rmSync(outputDir, { recursive: true, force: true });
+    if (browserProfile) fs.rmSync(browserProfile, { recursive: true, force: true });
   }
 });

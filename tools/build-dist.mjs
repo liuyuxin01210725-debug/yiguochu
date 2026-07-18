@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const DIST_ROOT = path.join(ROOT, 'dist');
 const STATIC_ASSETS = [
   'index.html',
   'recipes.html',
@@ -50,8 +51,13 @@ function parseArgs(argumentsList) {
     return null;
   }
 
-  if (path.resolve(options.outputDir) === ROOT) {
-    usage('Output directory cannot be the project root.');
+  const relativeToDist = path.relative(DIST_ROOT, options.outputDir);
+  const isWithinDist = relativeToDist === ''
+    || (!relativeToDist.startsWith('..') && !path.isAbsolute(relativeToDist));
+  if (!isWithinDist) {
+    // `dist` itself and its descendants are build artifacts. Anything else
+    // could be source code or an unrelated directory, so must never be cleaned.
+    usage('Output directory must be dist or one of its descendants.');
     return null;
   }
   if (!/^[0-9A-Za-z_-]+$/.test(options.buildId)) {
@@ -61,6 +67,18 @@ function parseArgs(argumentsList) {
   return options;
 }
 
+function assertNoSymlinkInOutputPath(outputDir) {
+  const relativeParts = path.relative(ROOT, outputDir).split(path.sep);
+  let current = ROOT;
+  for (const part of relativeParts) {
+    current = path.join(current, part);
+    if (!fs.existsSync(current)) continue;
+    if (fs.lstatSync(current).isSymbolicLink()) {
+      throw new Error(`Output directory cannot traverse a symbolic link: ${current}`);
+    }
+  }
+}
+
 function copy(sourceRelativePath, outputPath) {
   const sourcePath = path.join(ROOT, sourceRelativePath);
   if (!fs.existsSync(sourcePath)) throw new Error(`Required build input is missing: ${sourceRelativePath}`);
@@ -68,6 +86,11 @@ function copy(sourceRelativePath, outputPath) {
 }
 
 function build({ outputDir, buildId }) {
+  assertNoSymlinkInOutputPath(outputDir);
+  if (fs.existsSync(outputDir) && !fs.lstatSync(outputDir).isDirectory()) {
+    throw new Error(`Output path must be a directory: ${outputDir}`);
+  }
+  fs.rmSync(outputDir, { recursive: true, force: true });
   fs.mkdirSync(outputDir, { recursive: true });
 
   for (const asset of STATIC_ASSETS) copy(asset, path.join(outputDir, asset));
