@@ -384,6 +384,98 @@ test('promotion gate rejects false traditional-product claims even when adaptati
   }
 });
 
+function householdAdaptationFixture(recipeId) {
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const promotions = JSON.parse(fs.readFileSync(new URL('../data/traditional-recipe-promotions.json', import.meta.url), 'utf8'));
+  candidates.entries = candidates.entries.filter(entry => entry.id === recipeId);
+  drafts.drafts = drafts.drafts.filter(entry => entry.candidate_id === recipeId);
+  production.recipes = production.recipes.filter(entry => entry.id === recipeId);
+  promotions.promotions = promotions.promotions.filter(entry => entry.recipe_id === recipeId);
+  return {
+    candidates,
+    drafts,
+    production,
+    promotions,
+    matrix: new Map([[recipeId, PROMOTION_MATRIX.get(recipeId)]]),
+  };
+}
+
+function applyHouseholdBoundaryText(fixture, adaptationName, text) {
+  const draft = fixture.drafts.drafts[0];
+  const promotion = fixture.promotions.promotions[0];
+  const recipe = fixture.production.recipes[0];
+  draft.adaptation_summary = text;
+  draft.safety_and_quality_gates = draft.safety_and_quality_gates.map(gate => (
+    gate.type === 'cultural_scope' ? { ...gate, requirement: text } : gate
+  ));
+  promotion.identity_resolution = text;
+  recipe.summary = text;
+  recipe.adaptation_note = text;
+  recipe.safety_rules = recipe.safety_rules.map(rule => (
+    rule.includes(adaptationName) ? text : rule
+  ));
+}
+
+test('promotion gate permits clear negated traditional-product disclaimers', () => {
+  const cases = [
+    {
+      recipeId: 'qinghai-hao-fan',
+      adaptationName: '青海熬饭风味家庭适配版',
+      boundaryClaim: '不声称复刻青海熬饭的传统成品',
+      negation: '不声称完全复刻传统成品',
+    },
+    {
+      recipeId: 'tibetan-savory-congee',
+      adaptationName: '藏式咸稀饭风味家庭适配版',
+      boundaryClaim: '不声称复刻藏式咸稀饭的传统成品',
+      negation: '不声称为正宗传统成品',
+    },
+    {
+      recipeId: 'guizhou-dong-community-rice',
+      adaptationName: '侗家社饭风味家庭适配版',
+      boundaryClaim: '不声称为传统社饭或复刻传统成品',
+      negation: '不是完整复刻传统成品',
+    },
+  ];
+
+  for (const { recipeId, adaptationName, boundaryClaim, negation } of cases) {
+    const fixture = householdAdaptationFixture(recipeId);
+    applyHouseholdBoundaryText(
+      fixture,
+      adaptationName,
+      `${adaptationName}；${boundaryClaim}；${negation}。`,
+    );
+    assert.deepEqual(validateTraditionalRecipePromotion(fixture), [], negation);
+  }
+});
+
+test('promotion gate rejects an affirmative claim that coexists with a boundary disclaimer', () => {
+  const recipeId = 'qinghai-hao-fan';
+  const adaptationName = '青海熬饭风味家庭适配版';
+  const boundaryClaim = '不声称复刻青海熬饭的传统成品';
+  const fixture = householdAdaptationFixture(recipeId);
+  applyHouseholdBoundaryText(
+    fixture,
+    adaptationName,
+    `${adaptationName}；${boundaryClaim}；完全复刻正宗传统成品。`,
+  );
+
+  const errors = validateTraditionalRecipePromotion(fixture);
+  assert.equal(errors.some(error => error.includes(' must state ')), false);
+  for (const field of [
+    'draft adaptation_summary',
+    'draft cultural_scope',
+    'manifest identity_resolution',
+    'production summary',
+    'production adaptation_note',
+    'production cultural safety wording',
+  ]) {
+    assert.ok(errors.includes(`${recipeId} ${field} contains forbidden traditional-product claim`), field);
+  }
+});
+
 test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));

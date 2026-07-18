@@ -54,7 +54,8 @@ const HOUSEHOLD_ADAPTATION_IDENTITIES = new Map([
     boundaryClaim: '不声称为传统社饭或复刻传统成品',
   }],
 ]);
-const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = /(?:完全|完整|原样|忠实|精准|一比一)复刻|正宗传统成品/u;
+const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = /(?:完全|完整|原样|忠实|精准|一比一)复刻|正宗传统成品/gu;
+const CLEAR_TRADITIONAL_PRODUCT_NEGATION = /(?:不声称|不宣称|不是|并非|不代表|不等于)[^。；;！？!?]{0,20}$/u;
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -180,6 +181,26 @@ function hasNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+function hasForbiddenTraditionalProductClaim(value) {
+  if (typeof value !== 'string') return false;
+
+  for (const match of value.matchAll(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM)) {
+    const claimStart = match.index ?? 0;
+    const sentenceStart = Math.max(
+      value.lastIndexOf('。', claimStart - 1),
+      value.lastIndexOf('；', claimStart - 1),
+      value.lastIndexOf(';', claimStart - 1),
+      value.lastIndexOf('！', claimStart - 1),
+      value.lastIndexOf('!', claimStart - 1),
+      value.lastIndexOf('？', claimStart - 1),
+      value.lastIndexOf('?', claimStart - 1),
+    ) + 1;
+    const clauseBeforeClaim = value.slice(sentenceStart, claimStart);
+    if (!CLEAR_TRADITIONAL_PRODUCT_NEGATION.test(clauseBeforeClaim)) return true;
+  }
+  return false;
+}
+
 function hasCanonicalSource(recipe, canonicalPath) {
   const expectedUrl = `${CANONICAL_ORIGIN}${canonicalPath}`;
   return entries(recipe, 'source_refs').some(ref => (
@@ -245,7 +266,7 @@ function validateHouseholdAdaptationIdentity(recipeId, candidate, draft, promoti
     if (!value?.includes(boundaryClaim)) {
       errors.push(`${recipeId} ${label} must state ${boundaryClaim}`);
     }
-    if (FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM.test(value || '')) {
+    if (hasForbiddenTraditionalProductClaim(value)) {
       errors.push(`${recipeId} ${label} contains forbidden traditional-product claim`);
     }
   };
