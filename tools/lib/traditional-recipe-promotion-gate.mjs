@@ -67,6 +67,7 @@ const DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM = new RegExp(
     + ')',
   'gu',
 );
+const OVERRIDING_NEGATOR_BEFORE_DIRECT_NEGATION = /(?:并非|不是|不能|不可|不应|不得|不会|未必|未尝|无|非)$/u;
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -198,7 +199,10 @@ function hasForbiddenTraditionalProductClaim(value) {
   // Strip only a small set of explicit, contiguous negative claim forms. Any
   // forbidden phrase left behind is affirmative regardless of punctuation or
   // connector, so it cannot borrow the earlier disclaimer's negation scope.
-  const remaining = value.replace(DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM, '');
+  const remaining = value.replace(DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM, (match, offset) => {
+    const prefix = value.slice(0, offset);
+    return OVERRIDING_NEGATOR_BEFORE_DIRECT_NEGATION.test(prefix) ? match : '';
+  });
   return remaining.match(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM) !== null;
 }
 
