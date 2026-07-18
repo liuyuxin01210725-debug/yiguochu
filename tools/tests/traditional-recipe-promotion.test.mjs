@@ -238,6 +238,44 @@ test('promotion gate rejects impossible ingredient-action combinations', () => {
   assert.ok(errors.includes('demo-rice has impossible ingredient action: 食品级紫薯粉切丁后同锅炒香。'));
 });
 
+test('promotion gate rejects She black rice entries that omit the household-adaptation identity', () => {
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const promotions = JSON.parse(fs.readFileSync(new URL('../data/traditional-recipe-promotions.json', import.meta.url), 'utf8'));
+  const recipeId = 'she-people-black-rice';
+  const label = '畲族乌饭风味家庭适配版';
+  const matrix = new Map([[recipeId, PROMOTION_MATRIX.get(recipeId)]]);
+  candidates.entries = candidates.entries.filter(entry => entry.id === recipeId);
+  drafts.drafts = drafts.drafts.filter(entry => entry.id === `${recipeId}-draft`);
+  production.recipes = production.recipes.filter(entry => entry.id === recipeId);
+  promotions.promotions = promotions.promotions.filter(entry => entry.recipe_id === recipeId);
+  const draft = drafts.drafts[0];
+  const recipe = production.recipes[0];
+  const promotion = promotions.promotions[0];
+
+  candidates.entries[0].name = label;
+  draft.name = '食品级色源乌米饭试做框架';
+  draft.adaptation_summary = '以食品级色源制作，不披露家庭适配身份。';
+  promotion.identity_resolution = '糯米与食品级色源逐项记录。';
+  recipe.name = '畲族乌饭';
+  recipe.summary = '以食品级黑米色粉制作。';
+  recipe.adaptation_note = promotion.identity_resolution;
+  recipe.source_refs[0].title = '一锅出原创标准配方：畲族乌饭';
+
+  const errors = validateTraditionalRecipePromotion({ candidates, drafts, production, promotions, matrix });
+  for (const expected of [
+    `${recipeId} candidate fact name must remain 畲族乌饭`,
+    `${recipeId} draft name must disclose ${label}`,
+    `${recipeId} draft adaptation_summary must disclose ${label}`,
+    `${recipeId} manifest identity_resolution must disclose ${label}`,
+    `${recipeId} production name must equal ${label}`,
+    `${recipeId} production summary must disclose ${label}`,
+    `${recipeId} production adaptation_note must disclose ${label}`,
+    `${recipeId} canonical source title must disclose ${label}`,
+  ]) assert.ok(errors.includes(expected), expected);
+});
+
 test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));

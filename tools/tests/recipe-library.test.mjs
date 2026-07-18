@@ -99,6 +99,13 @@ test('identity-sensitive regional adaptations keep names, ingredients and finish
   assert.match(gutu.summary, /不作为传统古突成品/);
   assert.equal(gutu.source_refs[0].title, '一锅出原创标准配方：古突风味家庭适配版');
 
+  const sheBlackRice = lib.recipes.find(recipe => recipe.id === 'she-people-black-rice');
+  assert.equal(sheBlackRice.origin_candidate_id, 'she-people-black-rice');
+  assert.equal(sheBlackRice.name, '畲族乌饭风味家庭适配版');
+  assert.match(sheBlackRice.summary, /食品级黑米色粉.*不声称复刻传统成品/);
+  assert.match(sheBlackRice.adaptation_note, /畲族乌饭风味家庭适配版.*不声称复刻传统色源或传统成品/);
+  assert.equal(sheBlackRice.source_refs[0].title, '一锅出原创标准配方：畲族乌饭风味家庭适配版');
+
   const banshan = lib.recipes.find(recipe => recipe.id === 'banshan-wild-rice');
   assert.equal(banshan.name, '半山野米饭风味平菇焖饭');
   assert.deepEqual(banshan.core_ingredients, ['大米', '平菇']);

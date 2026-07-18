@@ -3072,11 +3072,11 @@
       "origin_candidate_id": "she-people-black-rice",
       "family_id": "family-regional-grain-specialties",
       "status": "approved",
-      "name": "畲族乌饭",
+      "name": "畲族乌饭风味家庭适配版",
       "cuisine": "畲族饮食",
       "form": "糯米饭",
-      "summary": "以糯米、食品级黑米色粉制作的原创家庭一锅标准配方，保留对应草案的技法、比例与安全边界。",
-      "adaptation_note": "将项目草案固化为家庭一锅标准；糯米与单一明确命名、食品级的色源逐项记录。 正式条目逐字保留草案的技法、比例和安全要求，并只把泛称解析为上述明确食材。",
+      "summary": "“畲族乌饭风味家庭适配版”以糯米、食品级黑米色粉制作，是项目原创家庭一锅标准配方，不声称复刻传统成品。",
+      "adaptation_note": "本条目明确命名为“畲族乌饭风味家庭适配版”；使用食品级黑米色粉，不声称复刻传统色源或传统成品。正式条目保留草案的技法、比例和安全要求，并只把泛称解析为上述明确食材。",
       "purposes": [
         "pantry",
         "batch"
@@ -3139,7 +3139,7 @@
       "source_refs": [
         {
           "usage": "approved",
-          "title": "一锅出原创标准配方：畲族乌饭",
+          "title": "一锅出原创标准配方：畲族乌饭风味家庭适配版",
           "url": "https://yiguochu.pages.dev/recipes.html?id=she-people-black-rice",
           "license": "一锅出项目原创标准配方，保留所有权利",
           "attribution": "一锅出项目",

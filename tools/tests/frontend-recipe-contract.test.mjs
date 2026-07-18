@@ -180,9 +180,9 @@ test('frontend preserves trusted evidence for the promoted traditional recipes',
     },
     {
       base_recipe_id: 'she-people-black-rice',
-      pairing_basis: '以「畲族乌饭」为基础，使用糯米、食品级黑米色粉。',
+      pairing_basis: '以「畲族乌饭风味家庭适配版」为基础，使用糯米、食品级黑米色粉。',
       source_refs: [{
-        title: '一锅出原创标准配方：畲族乌饭',
+        title: '一锅出原创标准配方：畲族乌饭风味家庭适配版',
         url: 'https://yiguochu.pages.dev/recipes.html?id=she-people-black-rice',
         license: '一锅出项目原创标准配方，保留所有权利',
         attribution: '一锅出项目',
@@ -197,6 +197,7 @@ test('frontend preserves trusted evidence for the promoted traditional recipes',
     assert.deepEqual(mapped.validationFlags, []);
     assert.equal(mapped.sourceRefs.length, 1);
     assert.equal(mapped.sourceRefs[0].url, fixture.source_refs[0].url);
+    assert.equal(mapped.sourceRefs[0].title, fixture.source_refs[0].title);
     const rendered = evaluate(context, `recipeBasisBlock(${JSON.stringify(mapped)})`);
     assert.match(rendered, new RegExp(fixture.base_recipe_id));
   }

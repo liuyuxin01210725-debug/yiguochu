@@ -362,7 +362,7 @@
       "trial_requirements": ["记录蕨麻的准确食品名称、食品级标签、可食用依据、购买来源和原始状态。", "记录蕨麻与谷物的熟制检查、湿度和锅具。", "记录干果等可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
     },
     {
-      "id": "she-people-black-rice-draft", "candidate_id": "she-people-black-rice", "status": "draft", "name": "食品级色源乌米饭试做框架", "region": "华南畲族风味方向", "form": "糯米饭", "adaptation_summary": "以糯米和单一已核验食品级植物色源构成的原创试做框架；不声称传统色源、节俗配方或成品复刻。", "serving_range": [2, 4],
+      "id": "she-people-black-rice-draft", "candidate_id": "she-people-black-rice", "status": "draft", "name": "畲族乌饭风味家庭适配版试做框架", "region": "华南畲族风味方向", "form": "糯米饭", "adaptation_summary": "本草案仅用于“畲族乌饭风味家庭适配版”：以糯米和单一已核验食品级植物色源构成原创试做框架；不声称传统色源、节俗配方或传统成品复刻。", "serving_range": [2, 4],
       "core_ingredients": ["糯米", "单一已核验食品级植物色源"], "optional_ingredients": ["有明确食品名称的坚果或种子"],
       "substitution_slots": [{"slot": "植物色源", "replaces": ["单一已核验食品级植物色源"], "allowed": ["有食品标签的可食用植物色源"]}],
       "draft_ratio_rules": ["浸润、漂洗和蒸煮状态只按本轮记录调整。", "不得用装饰染料、身份不明叶片或未核验色源。"],

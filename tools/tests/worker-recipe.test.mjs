@@ -345,6 +345,7 @@ test('promoted She black rice keeps the explicit color-source boundary', () => {
   };
   const [selection] = selectRecipeCandidates(lib, constraints);
   assert.equal(selection.recipe.id, 'she-people-black-rice');
+  assert.match(buildRecipeGrounding(selection), /基础菜谱: she-people-black-rice 畲族乌饭风味家庭适配版/);
   assert.match(buildRecipeGrounding(selection), /固定核心: 糯米、食品级黑米色粉/);
   assert.match(buildRecipeGrounding(selection), /可入锅食材白名单.*食品级黑米色粉/);
 

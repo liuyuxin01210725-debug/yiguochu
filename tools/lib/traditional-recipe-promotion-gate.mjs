@@ -34,6 +34,9 @@ export const PROMOTION_MATRIX = new Map([
 const IDENTITY_PLACEHOLDER = /经核验|身份不明|未知野菜|地方植物/u;
 const CANONICAL_ORIGIN = 'https://yiguochu.pages.dev';
 const CANONICAL_BASE = 'https://yiguochu.pages.dev/recipes.html?id=';
+const SHE_BLACK_RICE_ID = 'she-people-black-rice';
+const SHE_BLACK_RICE_CANDIDATE_NAME = '畲族乌饭';
+const SHE_BLACK_RICE_ADAPTATION_NAME = '畲族乌饭风味家庭适配版';
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -173,6 +176,45 @@ function hasCanonicalSource(recipe, canonicalPath) {
 
 function expectedCanonicalPath(recipeId) {
   return `/recipes.html?id=${recipeId}`;
+}
+
+function validateSheBlackRiceIdentity(recipeId, candidate, draft, promotion, recipe) {
+  const usesHouseholdColorPowder = recipeId === SHE_BLACK_RICE_ID
+    && entries(recipe, 'core_ingredients').includes('食品级黑米色粉');
+  if (!usesHouseholdColorPowder) return [];
+
+  const errors = [];
+  if (candidate?.name !== SHE_BLACK_RICE_CANDIDATE_NAME) {
+    errors.push(`${recipeId} candidate fact name must remain ${SHE_BLACK_RICE_CANDIDATE_NAME}`);
+  }
+  if (!draft?.name?.includes(SHE_BLACK_RICE_ADAPTATION_NAME)) {
+    errors.push(`${recipeId} draft name must disclose ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  if (!draft?.adaptation_summary?.includes(SHE_BLACK_RICE_ADAPTATION_NAME)) {
+    errors.push(`${recipeId} draft adaptation_summary must disclose ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  if (!promotion?.identity_resolution?.includes(SHE_BLACK_RICE_ADAPTATION_NAME)) {
+    errors.push(`${recipeId} manifest identity_resolution must disclose ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  if (recipe?.name !== SHE_BLACK_RICE_ADAPTATION_NAME) {
+    errors.push(`${recipeId} production name must equal ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  if (!recipe?.summary?.includes(SHE_BLACK_RICE_ADAPTATION_NAME)) {
+    errors.push(`${recipeId} production summary must disclose ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  if (!recipe?.adaptation_note?.includes(SHE_BLACK_RICE_ADAPTATION_NAME)) {
+    errors.push(`${recipeId} production adaptation_note must disclose ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  const canonicalUrl = `${CANONICAL_ORIGIN}${expectedCanonicalPath(recipeId)}`;
+  const sourceDisclosesAdaptation = entries(recipe, 'source_refs').some(ref => (
+    ref?.usage === 'approved'
+      && ref?.url === canonicalUrl
+      && ref?.title?.includes(SHE_BLACK_RICE_ADAPTATION_NAME)
+  ));
+  if (!sourceDisclosesAdaptation) {
+    errors.push(`${recipeId} canonical source title must disclose ${SHE_BLACK_RICE_ADAPTATION_NAME}`);
+  }
+  return errors;
 }
 
 function sameArray(left, right) {
@@ -347,6 +389,7 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
     if (recipe.origin_candidate_id !== promotion.candidate_id) {
       errors.push(`${recipeId} origin_candidate_id must equal ${promotion.candidate_id}`);
     }
+    errors.push(...validateSheBlackRiceIdentity(recipeId, candidate, draft, promotion, recipe));
     if (draft) errors.push(...validateDraftSemantics(recipeId, draft, recipe));
     if (!hasNonEmptyString(recipe.adaptation_note)
       || !recipe.adaptation_note.includes(promotion.identity_resolution)) {
