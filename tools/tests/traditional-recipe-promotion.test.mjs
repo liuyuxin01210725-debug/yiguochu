@@ -205,6 +205,22 @@ test('promotion gate locks manifest metadata and concrete production boundaries 
   ]) assert.ok(errors.includes(expected), expected);
 });
 
+test('promotion gate resolves labelled fresh shiitake from draft to the concrete production ingredient', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  const fixture = completeFixture(matrix);
+  const draft = fixture.drafts.drafts[0];
+  const recipe = fixture.production.recipes[0];
+  draft.optional_ingredients = ['有食品标签的鲜香菇'];
+  draft.substitution_slots = [{ slot: '叶菜', replaces: ['叶菜'], allowed: ['有食品标签的鲜香菇'] }];
+  recipe.optional_ingredients = ['鲜香菇'];
+  recipe.generation_optional_ingredients = ['鲜香菇'];
+  recipe.substitution_slots = [{ slot: '叶菜', replaces: ['小白菜'], allowed: ['鲜香菇'] }];
+
+  assert.deepEqual(validateTraditionalRecipePromotion({ ...fixture, matrix }), []);
+});
+
 test('promotion gate rejects impossible ingredient-action combinations', () => {
   const matrix = new Map([['demo-rice', {
     draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',

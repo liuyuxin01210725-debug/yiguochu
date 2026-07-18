@@ -372,8 +372,8 @@
     },
     {
       "id": "banshan-wild-rice-draft", "candidate_id": "banshan-wild-rice", "status": "draft", "name": "半山野米饭风味平菇焖饭框架", "region": "浙江杭州半山风味方向", "form": "焖饭", "adaptation_summary": "以常见市售大米和平菇构成原创家庭焖饭框架；仅以半山野米饭的地方饭食事实作为风味线索，不使用野采食材，不模拟民俗成品。", "serving_range": [2, 4],
-      "core_ingredients": ["食品级大米", "有食品标签的平菇"], "optional_ingredients": ["食品级香菇"],
-      "substitution_slots": [{"slot": "食用菌", "replaces": ["有食品标签的平菇"], "allowed": ["有食品标签的香菇"]}],
+      "core_ingredients": ["食品级大米", "有食品标签的平菇"], "optional_ingredients": ["有食品标签的鲜香菇"],
+      "substitution_slots": [{"slot": "食用菌", "replaces": ["有食品标签的平菇"], "allowed": ["有食品标签的鲜香菇"]}],
       "draft_ratio_rules": ["标准版使用平菇；只可按替代槽整体改用鲜香菇。", "大米与食用菌的含水只以本轮记录校准。"],
       "technique_outline": ["核对大米、平菇和可选鲜香菇的明确食品名称、购买来源和原始状态。", "大米与平菇同锅加热至米粒无硬芯、食用菌完全熟制，再记录湿度。"],
       "safety_and_quality_gates": [{"type": "market_ingredient_boundary", "requirement": "只可使用明确标示为平菇或鲜香菇的常见市售食用菌；不得采集或使用任何野采菌菇、野菜或其他野采食材。"}, {"type": "food_safety", "requirement": "大米和食用菌必须加热至米粒无硬芯、菌菇完全熟制后才可食用。"}, {"type": "allergen_scope", "requirement": "必须记录平菇或鲜香菇的食品名称、购买来源和过敏原声明。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],

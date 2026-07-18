@@ -29,7 +29,7 @@ test('draft documentation states the thirty-draft production boundary', () => {
   assert.match(doc, /30 道草案/);
   assert.match(doc, /不进入运行时/);
   assert.match(doc, /生产可用 0 道/);
-  assert.match(doc, /尚无完成的真实试做/);
+  assert.match(doc, /项目不伪称已经完成任何真人试做/);
   assert.match(doc, /high/);
 });
 
@@ -70,6 +70,17 @@ test('draft ledger contains thirty entries and accurate thirty-draft purpose met
   assert.equal(drafts.drafts.length, 30);
   assert.match(drafts.purpose, /三十道/);
   assert.ok(drafts.drafts.some(draft => draft.id === 'banshan-wild-rice-draft'));
+});
+
+test('Banshan draft permits only a labelled fresh shiitake replacement', () => {
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const banshan = drafts.drafts.find(draft => draft.id === 'banshan-wild-rice-draft');
+  assert.deepEqual(banshan.optional_ingredients, ['有食品标签的鲜香菇']);
+  assert.deepEqual(banshan.substitution_slots, [{
+    slot: '食用菌',
+    replaces: ['有食品标签的平菇'],
+    allowed: ['有食品标签的鲜香菇'],
+  }]);
 });
 
 test('thirty-draft release gate accepts the complete fixed mapping', () => {
@@ -217,15 +228,15 @@ test('all high-risk candidate drafts retain their applicable safety gates and tr
     },
     'banshan-wild-rice-draft': {
       gatePatterns: {
-        wild_ingredient_identity: /野生食材.*准确身份.*可食用依据.*来源.*原始状态.*安全替代食材/,
-        food_safety: /米.*野生食材.*替代食材.*完全熟制.*无硬芯.*生食状态/,
-        allergen_scope: /野生食材.*替代食材.*香菇.*过敏原声明/,
+        market_ingredient_boundary: /明确标示为平菇或鲜香菇.*常见市售食用菌.*不得采集.*野采菌菇.*野菜.*野采食材/,
+        food_safety: /大米.*食用菌.*米粒无硬芯.*菌菇完全熟制/,
+        allergen_scope: /平菇或鲜香菇.*食品名称.*购买来源.*过敏原声明/,
         storage: /当餐.*冷却.*冷藏.*再次加热/,
       },
       recordPatterns: [
-        /野生食材.*安全替代食材.*准确食品名称.*可食用依据.*购买来源.*原始状态/,
-        /米.*食材.*完全熟制检查.*成品湿度.*锅具/,
-        /全部可选食材.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
+        /大米.*平菇或鲜香菇.*准确食品名称.*购买来源.*原始状态/,
+        /大米.*食用菌.*完全熟制检查.*成品湿度.*锅具/,
+        /食用菌.*过敏原声明.*当餐.*冷却.*冷藏.*再次加热.*修订原因/,
       ],
     },
   };

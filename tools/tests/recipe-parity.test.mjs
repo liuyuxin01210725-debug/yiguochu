@@ -770,7 +770,11 @@ test('Python matches Worker for promoted traditional recipe selection and color-
     pantry: ['糯米', '不明植物色源'],
   };
   const unknownColor = assertSelectorParity(lib, unknownColorConstraints);
-  assert.equal(unknownColor.some(hit => hit.recipe_id === 'she-people-black-rice'), false);
+  const unknownColorSelectionIndex = unknownColor.findIndex(hit => hit.recipe_id === 'she-people-black-rice');
+  assert.notEqual(unknownColorSelectionIndex, -1);
+  const unknownColorSelection = unknownColor[unknownColorSelectionIndex];
+  assert.deepEqual(unknownColorSelection.used_pantry, ['糯米']);
+  assert.deepEqual(unknownColorSelection.unused_pantry, ['不明植物色源']);
 
   const invalidColorMeal = {
     ingredients: [
@@ -782,12 +786,13 @@ test('Python matches Worker for promoted traditional recipe selection and color-
   };
   const jsFlags = validateGroundedMeal(
     invalidColorMeal,
-    selectRecipeCandidates(lib, sheConstraints)[0],
-    sheConstraints,
+    selectRecipeCandidates(lib, unknownColorConstraints)[unknownColorSelectionIndex],
+    unknownColorConstraints,
   );
   const pyFlags = pythonCall('validate', {
     library: lib,
-    constraints: sheConstraints,
+    constraints: unknownColorConstraints,
+    selection_index: unknownColorSelectionIndex,
     meal: invalidColorMeal,
   });
   assert.deepEqual(pyFlags, jsFlags);
