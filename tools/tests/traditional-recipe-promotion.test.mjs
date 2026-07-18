@@ -276,6 +276,56 @@ test('promotion gate rejects She black rice entries that omit the household-adap
   ]) assert.ok(errors.includes(expected), expected);
 });
 
+test('promotion gate keeps cultural fact names but forces household-adaptation identity for mismatched standardized recipes', () => {
+  const identities = new Map([
+    ['qinghai-hao-fan', { candidateName: '青海熬饭', adaptationName: '青海熬饭风味家庭适配版' }],
+    ['tibetan-savory-congee', { candidateName: '藏式咸稀饭', adaptationName: '藏式咸稀饭风味家庭适配版' }],
+    ['guizhou-dong-community-rice', { candidateName: '贵州侗家社饭', adaptationName: '侗家社饭风味家庭适配版' }],
+  ]);
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const promotions = JSON.parse(fs.readFileSync(new URL('../data/traditional-recipe-promotions.json', import.meta.url), 'utf8'));
+  const matrix = new Map([...identities.keys()].map(recipeId => [recipeId, PROMOTION_MATRIX.get(recipeId)]));
+  candidates.entries = candidates.entries.filter(entry => identities.has(entry.id));
+  drafts.drafts = drafts.drafts.filter(entry => identities.has(entry.candidate_id));
+  production.recipes = production.recipes.filter(entry => identities.has(entry.id));
+  promotions.promotions = promotions.promotions.filter(entry => identities.has(entry.recipe_id));
+
+  for (const [recipeId, { adaptationName }] of identities) {
+    const candidate = candidates.entries.find(entry => entry.id === recipeId);
+    const draft = drafts.drafts.find(entry => entry.candidate_id === recipeId);
+    const recipe = production.recipes.find(entry => entry.id === recipeId);
+    const promotion = promotions.promotions.find(entry => entry.recipe_id === recipeId);
+    candidate.name = adaptationName;
+    draft.name = '未披露家庭适配身份的试做框架';
+    draft.adaptation_summary = '只说明原料和技法，不披露家庭适配身份。';
+    draft.safety_and_quality_gates = draft.safety_and_quality_gates.filter(gate => !gate.requirement.includes(adaptationName));
+    promotion.identity_resolution = '只说明原料已固定。';
+    recipe.name = identities.get(recipeId).candidateName;
+    recipe.summary = '原创家庭一锅标准配方。';
+    recipe.adaptation_note = '已固定食品级原料。';
+    recipe.safety_rules = recipe.safety_rules.filter(rule => !rule.includes(adaptationName));
+    recipe.source_refs[0].title = `一锅出原创标准配方：${identities.get(recipeId).candidateName}`;
+  }
+
+  const errors = validateTraditionalRecipePromotion({ candidates, drafts, production, promotions, matrix });
+  for (const [recipeId, { candidateName, adaptationName }] of identities) {
+    for (const expected of [
+      `${recipeId} candidate fact name must remain ${candidateName}`,
+      `${recipeId} draft name must disclose ${adaptationName}`,
+      `${recipeId} draft adaptation_summary must disclose ${adaptationName}`,
+      `${recipeId} draft safety wording must disclose ${adaptationName}`,
+      `${recipeId} manifest identity_resolution must disclose ${adaptationName}`,
+      `${recipeId} production name must equal ${adaptationName}`,
+      `${recipeId} production summary must disclose ${adaptationName}`,
+      `${recipeId} production adaptation_note must disclose ${adaptationName}`,
+      `${recipeId} production safety wording must disclose ${adaptationName}`,
+      `${recipeId} canonical source title must disclose ${adaptationName}`,
+    ]) assert.ok(errors.includes(expected), expected);
+  }
+});
+
 test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));

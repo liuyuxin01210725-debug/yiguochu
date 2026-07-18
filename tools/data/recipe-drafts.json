@@ -123,10 +123,10 @@
       "id": "guizhou-dong-community-rice-draft",
       "candidate_id": "guizhou-dong-community-rice",
       "status": "draft",
-      "name": "腌肉叶菜焖饭试做框架",
+      "name": "侗家社饭风味家庭适配版试做框架",
       "region": "贵州侗族地区风味方向",
       "form": "焖饭",
-      "adaptation_summary": "这是一个 regional-flavor adaptation 的原创家庭焖饭试做框架，首轮以普通叶菜替代未经核验的地方野菜；不把地方饮食名称当作标准配方声明。",
+      "adaptation_summary": "本草案仅用于“侗家社饭风味家庭适配版”：以大米、明确标签的腌肉和普通叶菜构成原创家庭焖饭框架；因未使用候选事实中的身份食材，不声称为传统社饭或复刻传统成品。",
       "serving_range": [2, 4],
       "core_ingredients": ["大米", "腌肉", "香辛料", "普通叶菜"],
       "optional_ingredients": ["经核验可食用的地方叶菜"],
@@ -136,6 +136,7 @@
       "draft_ratio_rules": ["每100克大米使用125至140克可用总液体。", "首轮只使用普通叶菜，已核验可食用的地方叶菜才可进入后续试做。"],
       "technique_outline": ["腌肉与香辛料先在锅中加热出香。", "加入米和量好的液体焖制，叶菜在后段加入。"],
       "safety_and_quality_gates": [
+        {"type": "cultural_scope", "requirement": "条目名称与展示必须明确写为“侗家社饭风味家庭适配版”；不得声称、模拟或复刻传统社饭成品。"},
         {"type": "cured_meat_identity", "requirement": "腌肉必须记录准确食品名称、食品级标签、购买来源和原始生熟状态；身份或状态不明不得使用。"},
         {"type": "food_safety", "requirement": "腌肉中心必须完全熟制、无生肉状态，并保留熟制检查记录。"},
         {"type": "plant_identity", "requirement": "地方叶菜须记录准确植物身份、食品级证明、购买来源、可食用依据和原始状态；未核验不得用于试做。"},
@@ -326,21 +327,21 @@
       "trial_requirements": ["记录猪肋排购买来源、原始生熟状态、骨片检查、可食部分和中心完全熟制检查。", "记录豆豉食品级标签、来源、过敏原信息、尝味和补盐决定。", "记录食用菌等可选食材的食品名称和过敏原声明，以及成品当餐食用或冷却冷藏与再次加热状态。"]
     },
     {
-      "id": "qinghai-hao-fan-draft", "candidate_id": "qinghai-hao-fan", "status": "draft", "name": "谷物土豆熬饭试做框架", "region": "青海河湟风味方向", "form": "熬煮饭", "adaptation_summary": "以常见食品级谷物、土豆和已核验豆类为线索的原创熬煮框架；不使用身份不明的区域植物。", "serving_range": [2, 4],
+      "id": "qinghai-hao-fan-draft", "candidate_id": "qinghai-hao-fan", "status": "draft", "name": "青海熬饭风味家庭适配版试做框架", "region": "青海河湟风味方向", "form": "熬煮饭", "adaptation_summary": "本草案仅用于“青海熬饭风味家庭适配版”：以常见食品级谷物、土豆和已核验豆类构成原创家庭熬煮框架；因标准化食材与候选地方名称下的成品身份未经核验，不声称复刻传统成品。", "serving_range": [2, 4],
       "core_ingredients": ["食品级谷物", "土豆", "已核验豆类"], "optional_ingredients": ["有明确食品名称的叶菜"],
       "substitution_slots": [{"slot": "豆类", "replaces": ["已核验豆类"], "allowed": ["有食品标签的鹰嘴豆", "有食品标签的白芸豆"]}],
       "draft_ratio_rules": ["稠度只以本轮谷物、土豆和豆类吸水记录调整。", "首轮不加入任何未经身份与可食性核验的区域植物。"],
       "technique_outline": ["逐项核对谷物、土豆、豆类和叶菜的食品名称、来源及原始状态。", "持续熬煮至土豆和豆类均无硬芯，再记录稠度。"],
-      "safety_and_quality_gates": [{"type": "ingredient_identity", "requirement": "每种主料必须记录明确食品名称、购买来源和可食用依据；身份不明或未经核验的区域植物不得使用。"}, {"type": "food_safety", "requirement": "土豆必须熟透、无硬芯后才可食用，并留存原始状态与熟制检查。"}, {"type": "allergen_scope", "requirement": "豆类及可选叶菜必须记录过敏原或不耐受声明；未声明不得作为试做对象。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],
+      "safety_and_quality_gates": [{"type": "cultural_scope", "requirement": "条目名称与展示必须明确写为“青海熬饭风味家庭适配版”；不得声称、模拟或复刻青海熬饭的传统成品。"}, {"type": "ingredient_identity", "requirement": "每种主料必须记录明确食品名称、购买来源和可食用依据；身份不明或未经核验的区域植物不得使用。"}, {"type": "food_safety", "requirement": "土豆必须熟透、无硬芯后才可食用，并留存原始状态与熟制检查。"}, {"type": "allergen_scope", "requirement": "豆类及可选叶菜必须记录过敏原或不耐受声明；未声明不得作为试做对象。"}, {"type": "storage", "requirement": "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"}],
       "trial_requirements": ["记录全部主料的食品名称、购买来源、可食用依据和原始状态。", "记录土豆与豆类的熟制检查、成品稠度和锅具。", "记录豆类及可选食材的过敏原声明、成品当餐食用或冷却冷藏与再次加热状态及修订原因。"]
     },
     {
-      "id": "tibetan-savory-congee-draft", "candidate_id": "tibetan-savory-congee", "status": "draft", "name": "咸味谷物稀饭试做框架", "region": "西藏风味方向", "form": "稀饭", "adaptation_summary": "以谷物和经声明的乳制品或非乳替代品构成的原创稀饭试做框架；不宣称为地方标准。", "serving_range": [2, 4],
+      "id": "tibetan-savory-congee-draft", "candidate_id": "tibetan-savory-congee", "status": "draft", "name": "藏式咸稀饭风味家庭适配版试做框架", "region": "西藏风味方向", "form": "稀饭", "adaptation_summary": "本草案仅用于“藏式咸稀饭风味家庭适配版”：以谷物和经声明的乳制品或非乳替代品构成原创家庭稀饭框架；候选事实仅支持菜名与地域，未支持该原料组合，因此不声称复刻传统成品。", "serving_range": [2, 4],
       "core_ingredients": ["食品级谷物", "经声明的乳制品或非乳替代品"], "optional_ingredients": ["有明确食品名称的叶菜"],
       "substitution_slots": [{"slot": "乳制品", "replaces": ["经声明的乳制品或非乳替代品"], "allowed": ["有明确过敏原标签的牛奶", "有明确成分标签的非乳替代品"]}],
       "draft_ratio_rules": ["稠度和咸味只依据本轮试做记录调整。", "乳制品或替代品未完成过敏原范围声明时不得加入。"],
       "technique_outline": ["先核对乳制品或替代品的成分、过敏原和原始状态。", "小火煮至谷物熟软并记录成品状态，不把未记录的留存样品作为评价依据。"],
-      "safety_and_quality_gates": [{"type": "dairy_allergen", "requirement": "使用乳制品时必须明确乳及相关过敏原范围；使用替代品时也必须记录完整成分和过敏原信息。"}, {"type": "simmered_outcome", "requirement": "谷物必须煮熟软、无硬芯并记录成品稠度与原始生熟状态。"}, {"type": "storage", "requirement": "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"}],
+      "safety_and_quality_gates": [{"type": "cultural_scope", "requirement": "条目名称与展示必须明确写为“藏式咸稀饭风味家庭适配版”；不得声称、模拟或复刻藏式咸稀饭的传统成品。"}, {"type": "dairy_allergen", "requirement": "使用乳制品时必须明确乳及相关过敏原范围；使用替代品时也必须记录完整成分和过敏原信息。"}, {"type": "simmered_outcome", "requirement": "谷物必须煮熟软、无硬芯并记录成品稠度与原始生熟状态。"}, {"type": "storage", "requirement": "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"}],
       "trial_requirements": ["记录谷物、乳制品或替代品的食品名称、来源、原始状态、成分和过敏原范围。", "记录谷物熟软检查、稠度、咸味尝味和锅具。", "记录叶菜等可选食材的食品名称和过敏原声明及成品当餐食用或冷却冷藏与再次加热状态和修订原因。"]
     },
     {
