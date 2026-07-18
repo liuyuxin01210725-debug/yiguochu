@@ -67,7 +67,8 @@ const DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM = new RegExp(
     + ')',
   'gu',
 );
-const OVERRIDING_NEGATOR_BEFORE_DIRECT_NEGATION = /(?:并非|不是|不能|不可|不应|不得|不会|未必|未尝|无|非)$/u;
+const OVERRIDING_NEGATOR_BEFORE_DIRECT_NEGATION = /(?:并非|不是|不能|不可|不应当|不应|不得|不会|未必|未尝|无|非)$/u;
+const NEGATION_CONTEXT_SEPARATORS = /[\s([\{（［【｛「『“"']+$/gu;
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -193,6 +194,14 @@ function hasNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+function hasOverridingNegatorBeforeDirectNegation(prefix) {
+  // A direct disclaimer can appear after harmless spacing or an opening paired
+  // punctuation mark, such as “并非（不声称…）”. Those separators do not
+  // break the immediately preceding negator's scope.
+  const normalizedPrefix = prefix.replace(NEGATION_CONTEXT_SEPARATORS, '');
+  return OVERRIDING_NEGATOR_BEFORE_DIRECT_NEGATION.test(normalizedPrefix);
+}
+
 function hasForbiddenTraditionalProductClaim(value) {
   if (typeof value !== 'string') return false;
 
@@ -201,7 +210,7 @@ function hasForbiddenTraditionalProductClaim(value) {
   // connector, so it cannot borrow the earlier disclaimer's negation scope.
   const remaining = value.replace(DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM, (match, offset) => {
     const prefix = value.slice(0, offset);
-    return OVERRIDING_NEGATOR_BEFORE_DIRECT_NEGATION.test(prefix) ? match : '';
+    return hasOverridingNegatorBeforeDirectNegation(prefix) ? match : '';
   });
   return remaining.match(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM) !== null;
 }
