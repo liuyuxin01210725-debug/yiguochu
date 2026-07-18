@@ -160,6 +160,20 @@ test('promotion manifest fixes all thirty candidate, draft and family mappings',
   }
 });
 
+test('mature regional recipe policy documents the approved promotion boundary', () => {
+  const policy = fs.readFileSync(new URL('../../docs/成熟地方菜上线规则.md', import.meta.url), 'utf8');
+  const drafts = fs.readFileSync(new URL('../../docs/传统一锅草案说明.md', import.meta.url), 'utf8');
+
+  assert.match(policy, /不要求逐道真人试做/);
+  assert.match(policy, /传统事实可追溯/);
+  assert.match(policy, /项目原创标准配方/);
+  assert.match(policy, /身份不明/);
+  assert.match(policy, /不伪称已经完成真人试吃/);
+  assert.match(drafts, /草案文件本身生产可用 0 道/);
+  assert.match(drafts, /当前 30 道草案各有一条对应的项目原创标准配方进入正式库/);
+  assert.match(drafts, /尚未通过晋升闸门的草案/);
+});
+
 test('promotion gate locks manifest metadata and concrete production boundaries to every linked draft', () => {
   const matrix = new Map([['demo-rice', {
     draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
