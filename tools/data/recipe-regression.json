@@ -1096,7 +1096,7 @@
       "dish_name": "回归闸门对抗菜例",
       "ingredients": [
         {
-          "name": "黑眼豆",
+          "name": "黑眼豆（罐头沥干）",
           "grams": 100
         },
         {
@@ -1117,7 +1117,7 @@
         }
       ],
       "steps": [
-        "黑眼豆煮熟。",
+        "黑眼豆（罐头沥干）煮熟。",
         "大米煮熟。",
         "鸡肉煮熟。",
         "番茄煮熟。",
@@ -1146,6 +1146,7 @@
       "lentil-potato-tomato-curry"
     ],
     "expected_recipe_ids": [
+      "fujian-hyacinth-bean-rice",
       "creole-jambalaya"
     ],
     "forbidden_recipe_ids": [
@@ -1154,8 +1155,8 @@
     "case_group": "adversarial",
     "adversarial_kind": "repeated_swap",
     "base_recipe_id": "lentil-potato-tomato-curry",
-    "family_id": "family-tomato-rice",
-    "validation_recipe_id": "creole-jambalaya",
+    "family_id": "family-southern-savory-rice",
+    "validation_recipe_id": "fujian-hyacinth-bean-rice",
     "meal_fixture": {
       "dish_name": "回归闸门对抗菜例",
       "ingredients": [
@@ -1164,23 +1165,18 @@
           "grams": 100
         },
         {
-          "name": "番茄",
+          "name": "扁豆",
           "grams": 100
         },
         {
-          "name": "鸡肉",
-          "grams": 100
-        },
-        {
-          "name": "芹菜",
+          "name": "红扁豆",
           "grams": 100
         }
       ],
       "steps": [
         "大米煮熟。",
-        "番茄煮熟。",
-        "鸡肉煮熟。",
-        "芹菜煮熟。",
+        "扁豆煮熟。",
+        "红扁豆煮熟。",
         "另起一锅烧开清水。"
       ]
     },
@@ -1308,7 +1304,7 @@
   },
   {
     "id": "base-007-simple-chicken-biryani-discouraged-pantry",
-    "purpose": "batch",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -1328,7 +1324,7 @@
   },
   {
     "id": "base-008-simple-chicken-biryani-fixed-core-dislike",
-    "purpose": "quick",
+    "purpose": "batch",
     "servings": 2,
     "pantry": [
       "鸡肉",
@@ -1609,7 +1605,7 @@
     "purpose": "pantry",
     "servings": 4,
     "pantry": [
-      "黑眼豆",
+      "黑眼豆（罐头沥干）",
       "大米",
       "鸡肉",
       "番茄",
@@ -1630,7 +1626,7 @@
     "purpose": "fresh",
     "servings": 1,
     "pantry": [
-      "黑眼豆",
+      "黑眼豆（罐头沥干）",
       "白米",
       "鸡胸肉",
       "西红柿",
@@ -1651,7 +1647,7 @@
     "purpose": "batch",
     "servings": 2,
     "pantry": [
-      "黑眼豆",
+      "黑眼豆（罐头沥干）",
       "大米",
       "鸡肉",
       "番茄",
@@ -1679,7 +1675,7 @@
       "洋葱"
     ],
     "dislikes": [
-      "黑眼豆过敏"
+      "黑眼豆（罐头沥干）过敏"
     ],
     "expected_recipe_ids": [
       "creole-jambalaya"
@@ -1691,7 +1687,7 @@
     "base_variant": "fixed-core-dislike",
     "base_recipe_id": "chicken-black-eyed-pea-stew",
     "family_id": "family-rice-legume-pot",
-    "disliked_fixed_core": "黑眼豆"
+    "disliked_fixed_core": "黑眼豆（罐头沥干）"
   },
   {
     "id": "base-025-lentil-potato-tomato-curry-exact-core",
@@ -1860,8 +1856,8 @@
     "purpose": "fresh",
     "servings": 4,
     "pantry": [
-      "牛肉",
-      "辣椒"
+      "牛肉（粗绞）",
+      "干辣椒"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
@@ -1878,8 +1874,8 @@
     "purpose": "batch",
     "servings": 1,
     "pantry": [
-      "牛肉",
-      "辣椒（家中现有）"
+      "牛肉（粗绞）",
+      "干辣椒"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
@@ -1896,8 +1892,8 @@
     "purpose": "fresh",
     "servings": 2,
     "pantry": [
-      "牛肉",
-      "辣椒",
+      "牛肉（粗绞）",
+      "干辣椒",
       "番茄"
     ],
     "dislikes": [],
@@ -1915,12 +1911,13 @@
     "purpose": "batch",
     "servings": 4,
     "pantry": [
-      "牛肉"
+      "牛肉（粗绞）"
     ],
     "dislikes": [
-      "辣椒过敏"
+      "干辣椒过敏"
     ],
     "expected_recipe_ids": [
+      "cantonese-black-bean-pork-rib-claypot-rice",
       "chicken-black-eyed-pea-stew"
     ],
     "forbidden_recipe_ids": [
@@ -1930,7 +1927,7 @@
     "base_variant": "fixed-core-dislike",
     "base_recipe_id": "texas-beef-chili",
     "family_id": "family-legume-vegetable-stew",
-    "disliked_fixed_core": "辣椒"
+    "disliked_fixed_core": "干辣椒"
   },
   {
     "id": "base-037-kari-ayam-coconut-chicken-exact-core",
@@ -2276,7 +2273,7 @@
     "purpose": "pantry",
     "servings": 4,
     "pantry": [
-      "黑眼豆",
+      "黑眼豆（罐头沥干）",
       "大米",
       "鸡肉",
       "番茄",
@@ -2332,8 +2329,8 @@
     "purpose": "quick",
     "servings": 4,
     "pantry": [
-      "牛肉",
-      "辣椒"
+      "牛肉（粗绞）",
+      "干辣椒"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
@@ -2400,116 +2397,112 @@
     "family_id": "family-minestrone"
   },
   {
-    "id": "cycle-013-chinese-congee-quick-1",
-    "purpose": "quick",
+    "id": "cycle-013-shanghai-salted-pork-vegetable-rice-pantry-1",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
-      "水"
+      "咸五花肉",
+      "小白菜"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "chinese-congee"
+      "shanghai-salted-pork-vegetable-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "chinese-congee",
-    "family_id": "family-rice-porridge"
+    "base_recipe_id": "shanghai-salted-pork-vegetable-rice",
+    "family_id": "family-jiangnan-vegetable-rice"
   },
   {
-    "id": "cycle-014-simple-chicken-biryani-pantry-2",
-    "purpose": "pantry",
+    "id": "cycle-014-taiwan-cabbage-mushroom-rice-fresh-2",
+    "purpose": "fresh",
     "servings": 2,
     "pantry": [
       "大米",
-      "鸡肉",
-      "洋葱"
+      "卷心菜",
+      "鲜香菇"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "simple-chicken-biryani"
+      "taiwan-cabbage-mushroom-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "simple-chicken-biryani",
-    "family_id": "family-spiced-rice"
+    "base_recipe_id": "taiwan-cabbage-mushroom-rice",
+    "family_id": "family-southern-savory-rice"
   },
   {
-    "id": "cycle-015-jollof-rice-fresh-4",
-    "purpose": "fresh",
+    "id": "cycle-015-cantonese-cured-meat-claypot-rice-pantry-4",
+    "purpose": "pantry",
     "servings": 4,
     "pantry": [
       "大米",
-      "番茄",
-      "甜椒",
-      "洋葱"
+      "广式腊肠",
+      "菜心"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "jollof-rice"
+      "cantonese-cured-meat-claypot-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "jollof-rice",
-    "family_id": "family-tomato-rice"
+    "base_recipe_id": "cantonese-cured-meat-claypot-rice",
+    "family_id": "family-covered-pot-rice"
   },
   {
-    "id": "cycle-016-creole-jambalaya-batch-1",
+    "id": "cycle-016-xinjiang-lamb-pilaf-batch-1",
     "purpose": "batch",
     "servings": 1,
     "pantry": [
-      "大米",
-      "番茄",
-      "鸡肉",
-      "芹菜"
+      "羊腿肉",
+      "洋葱",
+      "胡萝卜",
+      "大米"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "creole-jambalaya"
+      "xinjiang-lamb-pilaf"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "creole-jambalaya",
-    "family_id": "family-tomato-rice"
+    "base_recipe_id": "xinjiang-lamb-pilaf",
+    "family_id": "family-northwest-grain-rice"
   },
   {
-    "id": "cycle-017-soy-lentil-vegetable-stew-quick-2",
-    "purpose": "quick",
+    "id": "cycle-017-tibetan-savory-congee-pantry-2",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
-      "红扁豆",
-      "大豆蛋白块",
-      "西兰花",
-      "红洋葱"
+      "大米",
+      "牛奶"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "soy-lentil-vegetable-stew"
+      "tibetan-savory-congee"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "soy-lentil-vegetable-stew",
-    "family_id": "family-legume-vegetable-stew"
+    "base_recipe_id": "tibetan-savory-congee",
+    "family_id": "family-regional-grain-specialties"
   },
   {
-    "id": "cycle-018-chicken-black-eyed-pea-stew-pantry-4",
-    "purpose": "pantry",
+    "id": "cycle-018-north-china-green-bean-braised-noodles-fresh-4",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
-      "黑眼豆",
-      "大米",
-      "鸡肉",
-      "番茄",
-      "洋葱"
+      "鲜小麦面条",
+      "豆角",
+      "猪肉末"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "chicken-black-eyed-pea-stew"
+      "north-china-green-bean-braised-noodles"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "chicken-black-eyed-pea-stew",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "north-china-green-bean-braised-noodles",
+    "family_id": "family-northern-braised-noodles"
   },
   {
     "id": "cycle-019-lentil-potato-tomato-curry-fresh-1",
@@ -2552,8 +2545,8 @@
     "purpose": "quick",
     "servings": 4,
     "pantry": [
-      "牛肉",
-      "辣椒"
+      "牛肉（粗绞）",
+      "干辣椒"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
@@ -2716,7 +2709,7 @@
     "purpose": "pantry",
     "servings": 4,
     "pantry": [
-      "黑眼豆",
+      "黑眼豆（罐头沥干）",
       "大米",
       "鸡肉",
       "番茄",

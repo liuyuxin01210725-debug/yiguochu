@@ -47,7 +47,7 @@ const FROZEN_ORACLES = Object.freeze({
     forbidden_recipe_ids: Object.freeze(['soy-lentil-vegetable-stew']),
   }),
   'base-024-chicken-black-eyed-pea-stew-fixed-core-dislike': Object.freeze({
-    base_recipe_id: 'chicken-black-eyed-pea-stew', disliked_fixed_core: '黑眼豆',
+    base_recipe_id: 'chicken-black-eyed-pea-stew', disliked_fixed_core: '黑眼豆（罐头沥干）',
     expected_recipe_ids: Object.freeze(['creole-jambalaya']),
     forbidden_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
   }),
@@ -62,8 +62,8 @@ const FROZEN_ORACLES = Object.freeze({
     forbidden_recipe_ids: Object.freeze(['shakshuka-tomato-egg']),
   }),
   'base-036-texas-beef-chili-fixed-core-dislike': Object.freeze({
-    base_recipe_id: 'texas-beef-chili', disliked_fixed_core: '辣椒',
-    expected_recipe_ids: Object.freeze(['chicken-black-eyed-pea-stew']),
+    base_recipe_id: 'texas-beef-chili', disliked_fixed_core: '干辣椒',
+    expected_recipe_ids: Object.freeze(['cantonese-black-bean-pork-rib-claypot-rice', 'chicken-black-eyed-pea-stew']),
     forbidden_recipe_ids: Object.freeze(['texas-beef-chili']),
   }),
   'base-040-kari-ayam-coconut-chicken-fixed-core-dislike': Object.freeze({
@@ -88,7 +88,7 @@ const FROZEN_ORACLES = Object.freeze({
   }),
   'adversarial-020-repeated-swap-b': Object.freeze({
     base_recipe_id: 'lentil-potato-tomato-curry',
-    expected_recipe_ids: Object.freeze(['creole-jambalaya']),
+    expected_recipe_ids: Object.freeze(['fujian-hyacinth-bean-rice', 'creole-jambalaya']),
     forbidden_recipe_ids: Object.freeze(['lentil-potato-tomato-curry']),
   }),
 });
@@ -96,6 +96,15 @@ const usedFrozenOracleIds = new Set();
 
 const library = JSON.parse(fs.readFileSync(LIBRARY_URL, 'utf8'));
 const recipeById = new Map(library.recipes.map(recipe => [recipe.id, recipe]));
+const legacyApprovedRecipes = library.recipes.filter(recipe => !recipe.origin_candidate_id);
+const promotedCycleRepresentatives = [
+  { recipe_id: 'shanghai-salted-pork-vegetable-rice', purpose: 'pantry', servings: 1 },
+  { recipe_id: 'taiwan-cabbage-mushroom-rice', purpose: 'fresh', servings: 2 },
+  { recipe_id: 'cantonese-cured-meat-claypot-rice', purpose: 'pantry', servings: 4 },
+  { recipe_id: 'xinjiang-lamb-pilaf', purpose: 'batch', servings: 1 },
+  { recipe_id: 'tibetan-savory-congee', purpose: 'pantry', servings: 2 },
+  { recipe_id: 'north-china-green-bean-braised-noodles', purpose: 'fresh', servings: 4 },
+];
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -215,7 +224,7 @@ function baseCase(baseRecipe, recipeIndex, variantIndex, variant, overrides) {
 
 function buildBaseCases() {
   const cases = [];
-  for (const [recipeIndex, baseRecipe] of library.recipes.entries()) {
+  for (const [recipeIndex, baseRecipe] of legacyApprovedRecipes.entries()) {
     cases.push(baseCase(baseRecipe, recipeIndex, 0, 'exact-core', {}));
     cases.push(baseCase(baseRecipe, recipeIndex, 1, 'alias-variant', {
       pantry: aliasVariant(baseRecipe.core_ingredients),
@@ -555,10 +564,21 @@ function buildAdversarialCases() {
 }
 
 function buildCycleCases() {
-  return Array.from({ length: 32 }, (_, index) => {
-    const baseRecipe = library.recipes[index % library.recipes.length];
-    const purpose = PURPOSES[index % PURPOSES.length];
-    const servings = SERVINGS[index % SERVINGS.length];
+  const legacyCycleRecipeIds = Array.from(
+    { length: 32 },
+    (_, index) => legacyApprovedRecipes[index % legacyApprovedRecipes.length].id,
+  );
+  const cycleSpecs = [
+    ...legacyCycleRecipeIds.slice(0, 12).map(recipe_id => ({ recipe_id })),
+    ...promotedCycleRepresentatives,
+    ...legacyCycleRecipeIds.slice(18).map(recipe_id => ({ recipe_id })),
+  ];
+  invariant(cycleSpecs.length === 32, `expected 32 cycle specs, got ${cycleSpecs.length}`);
+
+  return cycleSpecs.map((spec, index) => {
+    const baseRecipe = recipe(spec.recipe_id);
+    const purpose = spec.purpose || PURPOSES[index % PURPOSES.length];
+    const servings = spec.servings || SERVINGS[index % SERVINGS.length];
     return {
       id: `cycle-${String(index + 1).padStart(3, '0')}-${baseRecipe.id}-${purpose}-${servings}`,
       purpose,
@@ -604,7 +624,8 @@ function assertCorpus(cases) {
     }
   }
 
-  for (const baseRecipe of library.recipes) {
+  invariant(legacyApprovedRecipes.length === 12, `expected 12 legacy approved recipes, got ${legacyApprovedRecipes.length}`);
+  for (const baseRecipe of legacyApprovedRecipes) {
     const ownCases = cases.filter(testCase => testCase.case_group === 'base' && testCase.base_recipe_id === baseRecipe.id);
     invariant(ownCases.length === 4, `${baseRecipe.id} must have four base cases`);
     invariant(new Set(ownCases.map(testCase => testCase.base_variant)).size === 4, `${baseRecipe.id} base variants must be unique`);
@@ -641,7 +662,7 @@ function assertCorpus(cases) {
   invariant(usedFrozenOracleIds.size === frozenIds.length, 'builder consumed an unexpected frozen oracle');
 
   const representedFamilies = new Set(cases.map(testCase => testCase.family_id));
-  invariant(library.families.every(family => representedFamilies.has(family.id)), 'all nine families must be represented');
+  invariant(library.families.every(family => representedFamilies.has(family.id)), 'all formal families must be represented');
 }
 
 const cases = [
