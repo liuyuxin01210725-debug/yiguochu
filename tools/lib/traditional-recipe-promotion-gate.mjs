@@ -56,6 +56,7 @@ const HOUSEHOLD_ADAPTATION_IDENTITIES = new Map([
 ]);
 const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = /(?:完全|完整|原样|忠实|精准|一比一)复刻|正宗传统成品/gu;
 const DIRECT_TRADITIONAL_PRODUCT_NEGATION = /(?:不声称|不宣称|不是|并非|不代表|不等于)(?:为|是)?$/u;
+const TRADITIONAL_PRODUCT_CLAUSE_BOUNDARY = /[。；;！？!?]+|[，,]\s*(?:但|却)/u;
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -184,12 +185,15 @@ function hasNonEmptyString(value) {
 function hasForbiddenTraditionalProductClaim(value) {
   if (typeof value !== 'string') return false;
 
-  for (const match of value.matchAll(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM)) {
-    const claimStart = match.index ?? 0;
-    const textImmediatelyBeforeClaim = value.slice(0, claimStart);
-    if (!DIRECT_TRADITIONAL_PRODUCT_NEGATION.test(textImmediatelyBeforeClaim)) return true;
-  }
-  return false;
+  // A direct negation governs every forbidden alternative in its uninterrupted
+  // clause. Delimit terminal punctuation and the explicit “，但/却” turn so a
+  // later affirmative claim cannot borrow a disclaimer from the prior clause.
+  return value.split(TRADITIONAL_PRODUCT_CLAUSE_BOUNDARY).some(clause => {
+    const claims = [...clause.matchAll(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM)];
+    if (!claims.length) return false;
+    const firstClaimStart = claims[0].index ?? 0;
+    return !DIRECT_TRADITIONAL_PRODUCT_NEGATION.test(clause.slice(0, firstClaimStart));
+  });
 }
 
 function hasCanonicalSource(recipe, canonicalPath) {

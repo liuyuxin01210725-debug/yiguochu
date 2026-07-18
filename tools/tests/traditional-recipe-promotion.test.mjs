@@ -419,35 +419,39 @@ function applyHouseholdBoundaryText(fixture, adaptationName, text) {
 }
 
 test('promotion gate permits clear negated traditional-product disclaimers', () => {
-  const cases = [
+  const identities = [
     {
       recipeId: 'qinghai-hao-fan',
       adaptationName: '青海熬饭风味家庭适配版',
       boundaryClaim: '不声称复刻青海熬饭的传统成品',
-      negation: '不声称完全复刻传统成品',
     },
     {
       recipeId: 'tibetan-savory-congee',
       adaptationName: '藏式咸稀饭风味家庭适配版',
       boundaryClaim: '不声称复刻藏式咸稀饭的传统成品',
-      negation: '不声称为正宗传统成品',
     },
     {
       recipeId: 'guizhou-dong-community-rice',
       adaptationName: '侗家社饭风味家庭适配版',
       boundaryClaim: '不声称为传统社饭或复刻传统成品',
-      negation: '不是完整复刻传统成品',
     },
   ];
+  const negations = [
+    '不声称完全复刻正宗传统成品',
+    '不是完整复刻正宗传统成品',
+    '不声称为正宗传统成品或完全复刻',
+  ];
 
-  for (const { recipeId, adaptationName, boundaryClaim, negation } of cases) {
-    const fixture = householdAdaptationFixture(recipeId);
-    applyHouseholdBoundaryText(
-      fixture,
-      adaptationName,
-      `${adaptationName}；${boundaryClaim}；${negation}。`,
-    );
-    assert.deepEqual(validateTraditionalRecipePromotion(fixture), [], negation);
+  for (const negation of negations) {
+    for (const { recipeId, adaptationName, boundaryClaim } of identities) {
+      const fixture = householdAdaptationFixture(recipeId);
+      applyHouseholdBoundaryText(
+        fixture,
+        adaptationName,
+        `${adaptationName}；${boundaryClaim}；${negation}。`,
+      );
+      assert.deepEqual(validateTraditionalRecipePromotion(fixture), [], `${recipeId}: ${negation}`);
+    }
   }
 });
 
