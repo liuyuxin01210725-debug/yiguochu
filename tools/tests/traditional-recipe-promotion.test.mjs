@@ -510,6 +510,42 @@ test('promotion gate rejects adversative affirmative claims after a direct bound
   }
 });
 
+test('promotion gate rejects affirmative claims after a negated phrase regardless of connector or punctuation', () => {
+  const recipeId = 'qinghai-hao-fan';
+  const adaptationName = '青海熬饭风味家庭适配版';
+  const boundaryClaim = '不声称复刻青海熬饭的传统成品';
+  const bypasses = [
+    '不声称完全复刻但正宗传统成品',
+    '不声称完全复刻，实际上是正宗传统成品',
+    '不声称完全复刻不过正宗传统成品',
+  ];
+
+  for (const bypass of bypasses) {
+    const fixture = householdAdaptationFixture(recipeId);
+    applyHouseholdBoundaryText(
+      fixture,
+      adaptationName,
+      `${adaptationName}；${boundaryClaim}；${bypass}。`,
+    );
+
+    const errors = validateTraditionalRecipePromotion(fixture);
+    assert.equal(errors.some(error => error.includes(' must state ')), false, bypass);
+    for (const field of [
+      'draft adaptation_summary',
+      'draft cultural_scope',
+      'manifest identity_resolution',
+      'production summary',
+      'production adaptation_note',
+      'production cultural safety wording',
+    ]) {
+      assert.ok(
+        errors.includes(`${recipeId} ${field} contains forbidden traditional-product claim`),
+        `${bypass}: ${field}`,
+      );
+    }
+  }
+});
+
 test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));

@@ -54,9 +54,19 @@ const HOUSEHOLD_ADAPTATION_IDENTITIES = new Map([
     boundaryClaim: '不声称为传统社饭或复刻传统成品',
   }],
 ]);
-const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = /(?:完全|完整|原样|忠实|精准|一比一)复刻|正宗传统成品/gu;
-const DIRECT_TRADITIONAL_PRODUCT_NEGATION = /(?:不声称|不宣称|不是|并非|不代表|不等于)(?:为|是)?$/u;
-const TRADITIONAL_PRODUCT_CLAUSE_BOUNDARY = /[。；;！？!?]+|[，,]\s*(?:但|却)/u;
+const TRADITIONAL_PRODUCT_REPLICA_CLAIM = '(?:完全|完整|原样|忠实|精准|一比一)复刻';
+const TRADITIONAL_PRODUCT_AUTHENTIC_CLAIM = '正宗传统成品';
+const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = new RegExp(
+  `${TRADITIONAL_PRODUCT_REPLICA_CLAIM}|${TRADITIONAL_PRODUCT_AUTHENTIC_CLAIM}`,
+  'gu',
+);
+const DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM = new RegExp(
+  `(?:不声称|不宣称|不是|并非|不代表|不等于)(?:为|是)?(?:`
+    + `${TRADITIONAL_PRODUCT_REPLICA_CLAIM}(?:${TRADITIONAL_PRODUCT_AUTHENTIC_CLAIM})?`
+    + `|${TRADITIONAL_PRODUCT_AUTHENTIC_CLAIM}(?:或${TRADITIONAL_PRODUCT_REPLICA_CLAIM})?`
+    + ')',
+  'gu',
+);
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -185,15 +195,11 @@ function hasNonEmptyString(value) {
 function hasForbiddenTraditionalProductClaim(value) {
   if (typeof value !== 'string') return false;
 
-  // A direct negation governs every forbidden alternative in its uninterrupted
-  // clause. Delimit terminal punctuation and the explicit “，但/却” turn so a
-  // later affirmative claim cannot borrow a disclaimer from the prior clause.
-  return value.split(TRADITIONAL_PRODUCT_CLAUSE_BOUNDARY).some(clause => {
-    const claims = [...clause.matchAll(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM)];
-    if (!claims.length) return false;
-    const firstClaimStart = claims[0].index ?? 0;
-    return !DIRECT_TRADITIONAL_PRODUCT_NEGATION.test(clause.slice(0, firstClaimStart));
-  });
+  // Strip only a small set of explicit, contiguous negative claim forms. Any
+  // forbidden phrase left behind is affirmative regardless of punctuation or
+  // connector, so it cannot borrow the earlier disclaimer's negation scope.
+  const remaining = value.replace(DIRECT_NEGATED_TRADITIONAL_PRODUCT_CLAIM, '');
+  return remaining.match(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM) !== null;
 }
 
 function hasCanonicalSource(recipe, canonicalPath) {
