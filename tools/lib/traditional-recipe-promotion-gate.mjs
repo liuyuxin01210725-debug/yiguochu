@@ -38,10 +38,23 @@ const SHE_BLACK_RICE_ID = 'she-people-black-rice';
 const SHE_BLACK_RICE_CANDIDATE_NAME = '畲族乌饭';
 const SHE_BLACK_RICE_ADAPTATION_NAME = '畲族乌饭风味家庭适配版';
 const HOUSEHOLD_ADAPTATION_IDENTITIES = new Map([
-  ['qinghai-hao-fan', { candidateName: '青海熬饭', adaptationName: '青海熬饭风味家庭适配版' }],
-  ['tibetan-savory-congee', { candidateName: '藏式咸稀饭', adaptationName: '藏式咸稀饭风味家庭适配版' }],
-  ['guizhou-dong-community-rice', { candidateName: '贵州侗家社饭', adaptationName: '侗家社饭风味家庭适配版' }],
+  ['qinghai-hao-fan', {
+    candidateName: '青海熬饭',
+    adaptationName: '青海熬饭风味家庭适配版',
+    boundaryClaim: '不声称复刻青海熬饭的传统成品',
+  }],
+  ['tibetan-savory-congee', {
+    candidateName: '藏式咸稀饭',
+    adaptationName: '藏式咸稀饭风味家庭适配版',
+    boundaryClaim: '不声称复刻藏式咸稀饭的传统成品',
+  }],
+  ['guizhou-dong-community-rice', {
+    candidateName: '贵州侗家社饭',
+    adaptationName: '侗家社饭风味家庭适配版',
+    boundaryClaim: '不声称为传统社饭或复刻传统成品',
+  }],
 ]);
+const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = /(?:完全|完整|原样|忠实|精准|一比一)复刻|正宗传统成品/u;
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -226,8 +239,16 @@ function validateHouseholdAdaptationIdentity(recipeId, candidate, draft, promoti
   const identity = HOUSEHOLD_ADAPTATION_IDENTITIES.get(recipeId);
   if (!identity) return [];
 
-  const { candidateName, adaptationName } = identity;
+  const { candidateName, adaptationName, boundaryClaim } = identity;
   const errors = [];
+  const validateBoundaryText = (label, value) => {
+    if (!value?.includes(boundaryClaim)) {
+      errors.push(`${recipeId} ${label} must state ${boundaryClaim}`);
+    }
+    if (FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM.test(value || '')) {
+      errors.push(`${recipeId} ${label} contains forbidden traditional-product claim`);
+    }
+  };
   if (candidate?.name !== candidateName) {
     errors.push(`${recipeId} candidate fact name must remain ${candidateName}`);
   }
@@ -266,6 +287,19 @@ function validateHouseholdAdaptationIdentity(recipeId, candidate, draft, promoti
   if (!sourceDisclosesAdaptation) {
     errors.push(`${recipeId} canonical source title must disclose ${adaptationName}`);
   }
+  const draftCulturalScope = entries(draft, 'safety_and_quality_gates')
+    .filter(gate => gate?.type === 'cultural_scope')
+    .map(gate => gate?.requirement || '')
+    .join('\n');
+  const productionCulturalSafety = entries(recipe, 'safety_rules')
+    .filter(rule => rule?.includes(adaptationName))
+    .join('\n');
+  validateBoundaryText('draft adaptation_summary', draft?.adaptation_summary);
+  validateBoundaryText('draft cultural_scope', draftCulturalScope);
+  validateBoundaryText('manifest identity_resolution', promotion?.identity_resolution);
+  validateBoundaryText('production summary', recipe?.summary);
+  validateBoundaryText('production adaptation_note', recipe?.adaptation_note);
+  validateBoundaryText('production cultural safety wording', productionCulturalSafety);
   return errors;
 }
 

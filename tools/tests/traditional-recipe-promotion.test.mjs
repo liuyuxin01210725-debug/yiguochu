@@ -326,6 +326,64 @@ test('promotion gate keeps cultural fact names but forces household-adaptation i
   }
 });
 
+test('promotion gate rejects false traditional-product claims even when adaptation labels remain', () => {
+  const identities = new Map([
+    ['qinghai-hao-fan', {
+      adaptationName: '青海熬饭风味家庭适配版',
+      boundaryClaim: '不声称复刻青海熬饭的传统成品',
+    }],
+    ['tibetan-savory-congee', {
+      adaptationName: '藏式咸稀饭风味家庭适配版',
+      boundaryClaim: '不声称复刻藏式咸稀饭的传统成品',
+    }],
+    ['guizhou-dong-community-rice', {
+      adaptationName: '侗家社饭风味家庭适配版',
+      boundaryClaim: '不声称为传统社饭或复刻传统成品',
+    }],
+  ]);
+  const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
+  const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
+  const production = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const promotions = JSON.parse(fs.readFileSync(new URL('../data/traditional-recipe-promotions.json', import.meta.url), 'utf8'));
+  const matrix = new Map([...identities.keys()].map(recipeId => [recipeId, PROMOTION_MATRIX.get(recipeId)]));
+  candidates.entries = candidates.entries.filter(entry => identities.has(entry.id));
+  drafts.drafts = drafts.drafts.filter(entry => identities.has(entry.candidate_id));
+  production.recipes = production.recipes.filter(entry => identities.has(entry.id));
+  promotions.promotions = promotions.promotions.filter(entry => identities.has(entry.recipe_id));
+
+  for (const [recipeId, { adaptationName }] of identities) {
+    const falseClaim = `${adaptationName}；完全复刻正宗传统成品。`;
+    const draft = drafts.drafts.find(entry => entry.candidate_id === recipeId);
+    const promotion = promotions.promotions.find(entry => entry.recipe_id === recipeId);
+    const recipe = production.recipes.find(entry => entry.id === recipeId);
+    draft.adaptation_summary = falseClaim;
+    draft.safety_and_quality_gates = draft.safety_and_quality_gates.map(gate => (
+      gate.type === 'cultural_scope' ? { ...gate, requirement: falseClaim } : gate
+    ));
+    promotion.identity_resolution = falseClaim;
+    recipe.summary = falseClaim;
+    recipe.adaptation_note = falseClaim;
+    recipe.safety_rules = recipe.safety_rules.map(rule => (
+      rule.includes(adaptationName) ? falseClaim : rule
+    ));
+  }
+
+  const errors = validateTraditionalRecipePromotion({ candidates, drafts, production, promotions, matrix });
+  for (const [recipeId, { boundaryClaim }] of identities) {
+    for (const field of [
+      'draft adaptation_summary',
+      'draft cultural_scope',
+      'manifest identity_resolution',
+      'production summary',
+      'production adaptation_note',
+      'production cultural safety wording',
+    ]) {
+      assert.ok(errors.includes(`${recipeId} ${field} must state ${boundaryClaim}`), `${recipeId} ${field}`);
+      assert.ok(errors.includes(`${recipeId} ${field} contains forbidden traditional-product claim`), `${recipeId} ${field} false claim`);
+    }
+  }
+});
+
 test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
