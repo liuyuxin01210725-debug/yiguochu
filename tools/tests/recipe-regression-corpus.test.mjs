@@ -6,6 +6,10 @@ const corpus = JSON.parse(fs.readFileSync(
   new URL('../data/recipe-regression.json', import.meta.url),
   'utf8',
 ));
+const reviewSheet = fs.readFileSync(
+  new URL('../../docs/recipe-validation-review.md', import.meta.url),
+  'utf8',
+);
 
 const NEW_FAMILY_REPRESENTATIVES = [
   ['family-jiangnan-vegetable-rice', 'shanghai-salted-pork-vegetable-rice'],
@@ -29,4 +33,17 @@ test('100-case static corpus replaces only redundant cycle coverage with each ne
       && testCase.expected_recipe_ids.includes(recipeId)
     )), `${familyId} needs a deterministic cycle representative`);
   }
+});
+
+test('manual review sheet remains unfilled and distinguishes static coverage from human approval', () => {
+  const reviewRows = reviewSheet.match(/^\| `(?:base|adversarial|cycle)-/gm) || [];
+
+  assert.equal(reviewRows.length, 30);
+  assert.equal((reviewSheet.match(/□通过 \/ □不通过/g) || []).length, 180);
+  assert.doesNotMatch(reviewSheet, /☑通过/);
+  assert.doesNotMatch(reviewSheet, /获用户批准|已完成 30 例逐项人工复核/);
+  assert.match(reviewSheet, /## 当前人工评审状态：未完成/);
+  assert.match(reviewSheet, /6 个 known gaps/);
+  assert.match(reviewSheet, /不替代这些人工闸门/);
+  assert.equal((reviewSheet.match(/未评审／未试做/g) || []).length, 6);
 });
