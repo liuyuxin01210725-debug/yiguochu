@@ -55,7 +55,7 @@ const HOUSEHOLD_ADAPTATION_IDENTITIES = new Map([
   }],
 ]);
 const FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM = /(?:完全|完整|原样|忠实|精准|一比一)复刻|正宗传统成品/gu;
-const CLEAR_TRADITIONAL_PRODUCT_NEGATION = /(?:不声称|不宣称|不是|并非|不代表|不等于)[^。；;！？!?]{0,20}$/u;
+const DIRECT_TRADITIONAL_PRODUCT_NEGATION = /(?:不声称|不宣称|不是|并非|不代表|不等于)(?:为|是)?$/u;
 
 // Drafts deliberately use generic or review-gated ingredient language. A promoted
 // recipe may resolve one of those terms only to these concrete, narrower foods.
@@ -186,17 +186,8 @@ function hasForbiddenTraditionalProductClaim(value) {
 
   for (const match of value.matchAll(FORBIDDEN_TRADITIONAL_PRODUCT_CLAIM)) {
     const claimStart = match.index ?? 0;
-    const sentenceStart = Math.max(
-      value.lastIndexOf('。', claimStart - 1),
-      value.lastIndexOf('；', claimStart - 1),
-      value.lastIndexOf(';', claimStart - 1),
-      value.lastIndexOf('！', claimStart - 1),
-      value.lastIndexOf('!', claimStart - 1),
-      value.lastIndexOf('？', claimStart - 1),
-      value.lastIndexOf('?', claimStart - 1),
-    ) + 1;
-    const clauseBeforeClaim = value.slice(sentenceStart, claimStart);
-    if (!CLEAR_TRADITIONAL_PRODUCT_NEGATION.test(clauseBeforeClaim)) return true;
+    const textImmediatelyBeforeClaim = value.slice(0, claimStart);
+    if (!DIRECT_TRADITIONAL_PRODUCT_NEGATION.test(textImmediatelyBeforeClaim)) return true;
   }
   return false;
 }

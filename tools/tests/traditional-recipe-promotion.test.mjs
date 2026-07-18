@@ -476,6 +476,36 @@ test('promotion gate rejects an affirmative claim that coexists with a boundary 
   }
 });
 
+test('promotion gate rejects adversative affirmative claims after a direct boundary disclaimer', () => {
+  const recipeId = 'qinghai-hao-fan';
+  const adaptationName = '青海熬饭风味家庭适配版';
+  const boundaryClaim = '不声称复刻青海熬饭的传统成品';
+  for (const adversative of ['但', '却']) {
+    const fixture = householdAdaptationFixture(recipeId);
+    applyHouseholdBoundaryText(
+      fixture,
+      adaptationName,
+      `${adaptationName}；${boundaryClaim}，${adversative}完全复刻传统成品。`,
+    );
+
+    const errors = validateTraditionalRecipePromotion(fixture);
+    assert.equal(errors.some(error => error.includes(' must state ')), false, adversative);
+    for (const field of [
+      'draft adaptation_summary',
+      'draft cultural_scope',
+      'manifest identity_resolution',
+      'production summary',
+      'production adaptation_note',
+      'production cultural safety wording',
+    ]) {
+      assert.ok(
+        errors.includes(`${recipeId} ${field} contains forbidden traditional-product claim`),
+        `${adversative} ${field}`,
+      );
+    }
+  }
+});
+
 test('all thirty production promotions preserve their linked manifest and draft semantics', () => {
   const candidates = JSON.parse(fs.readFileSync(new URL('../data/recipe-candidates.json', import.meta.url), 'utf8'));
   const drafts = JSON.parse(fs.readFileSync(new URL('../data/recipe-drafts.json', import.meta.url), 'utf8'));
