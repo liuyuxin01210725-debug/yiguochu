@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "families": [
+    { "id": "family-home-fried-rice", "name": "家常炒饭", "form": "炒饭" },
+    { "id": "family-home-braised-rice", "name": "家常焖饭", "form": "焖饭" },
+    { "id": "family-home-stewed-rice", "name": "汤汁烩饭", "form": "烩饭" },
+    { "id": "family-home-soup-staple", "name": "一锅汤主食", "form": "汤饭/汤面" },
+    { "id": "family-home-covered-pot", "name": "加盖饭锅", "form": "饭锅" },
+    { "id": "family-home-vermicelli-pot", "name": "一锅粉丝煲", "form": "粉丝煲" }
+  ],
+  "recipes": []
+}

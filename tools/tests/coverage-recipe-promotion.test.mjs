@@ -235,6 +235,50 @@ test('coverage drafts make leftover rice and high-risk endpoints explicit', () =
   }
 });
 
+test('coverage promotion manifest and staging library lock the thirty mappings and six families', async () => {
+  const gate = await loadGate();
+  assert.ok(gate);
+  const manifestUrl = new URL('../data/coverage-recipe-promotions.json', import.meta.url);
+  const stagingUrl = new URL('../data/coverage-recipe-production.json', import.meta.url);
+  assert.equal(fs.existsSync(manifestUrl), true, 'coverage-recipe-promotions.json must exist');
+  assert.equal(fs.existsSync(stagingUrl), true, 'coverage-recipe-production.json must exist');
+
+  const manifest = JSON.parse(fs.readFileSync(manifestUrl, 'utf8'));
+  const staging = JSON.parse(fs.readFileSync(stagingUrl, 'utf8'));
+  assert.equal(manifest.promotions.length, 30);
+  assert.deepEqual(
+    manifest.promotions.map(item => item.recipe_id),
+    [...gate.COVERAGE_PROMOTION_MATRIX.keys()],
+  );
+  for (const promotion of manifest.promotions) {
+    const expected = gate.COVERAGE_PROMOTION_MATRIX.get(promotion.recipe_id);
+    assert.deepEqual(
+      {
+        candidate_id: promotion.candidate_id,
+        draft_id: promotion.draft_id,
+        family_id: promotion.family_id,
+      },
+      expected,
+      promotion.recipe_id,
+    );
+    assert.equal(promotion.canonical_path, `/recipes.html?id=${promotion.recipe_id}`);
+    assert.equal(promotion.cuisine, '中式家常');
+    assert.ok(Array.isArray(promotion.purposes) && promotion.purposes.length >= 1, promotion.recipe_id);
+    assert.ok(Number.isInteger(promotion.total_time_minutes), promotion.recipe_id);
+    assert.match(promotion.identity_resolution, /项目原创/u, promotion.recipe_id);
+  }
+
+  assert.deepEqual(staging.recipes, []);
+  assert.deepEqual(staging.families, [
+    { id: 'family-home-fried-rice', name: '家常炒饭', form: '炒饭' },
+    { id: 'family-home-braised-rice', name: '家常焖饭', form: '焖饭' },
+    { id: 'family-home-stewed-rice', name: '汤汁烩饭', form: '烩饭' },
+    { id: 'family-home-soup-staple', name: '一锅汤主食', form: '汤饭/汤面' },
+    { id: 'family-home-covered-pot', name: '加盖饭锅', form: '饭锅' },
+    { id: 'family-home-vermicelli-pot', name: '一锅粉丝煲', form: '粉丝煲' },
+  ]);
+});
+
 function gateRecipeIds(groupId) {
   const groups = [
     ['potato-green-bean-ribs', [
