@@ -345,6 +345,49 @@ test('leftover-rice aliases stay cooked and the first five staged recipes fully 
   assert.ok(seenFamilies.size >= 4);
 });
 
+test('broccoli and beef stay fully covered through five real selector rounds', () => {
+  const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
+  const library = {
+    schema_version: 1,
+    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
+    families: [...current.families, ...staging.families],
+    recipes: [...current.recipes, ...staging.recipes],
+  };
+  const expectedIds = [
+    'broccoli-beef-fried-rice',
+    'broccoli-beef-braised-rice',
+    'tomato-broccoli-beef-stewed-rice',
+    'broccoli-beef-soup-noodles',
+    'potato-broccoli-beef-covered-rice',
+  ];
+  assert.deepEqual(staging.recipes.slice(5, 10).map(recipe => recipe.id), expectedIds);
+  assert.deepEqual(validateRecipeLibrary(library), []);
+  for (const recipe of staging.recipes.slice(5, 10)) {
+    assert.deepEqual(recipe.protein_class, ['牛'], recipe.id);
+    assert.match(recipe.safety_rules.join('；'), /牛肉.*74摄氏度/u, recipe.id);
+  }
+
+  const seen = [];
+  const seenFamilies = new Set();
+  for (let round = 0; round < 5; round += 1) {
+    const constraints = {
+      pantry: ['西兰花', '牛肉'],
+      purpose: 'pantry',
+      dislikes: [],
+      recent_base_recipes: [...seen],
+    };
+    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
+    assert.ok(picked, `round ${round + 1}`);
+    assert.deepEqual(picked.usedPantry, ['西兰花', '牛肉'], picked.recipe.id);
+    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
+    seen.push(picked.recipe.id);
+    seenFamilies.add(picked.recipe.family_id);
+  }
+  assert.deepEqual(new Set(seen), new Set(expectedIds));
+  assert.ok(seenFamilies.size >= 4);
+});
+
 function gateRecipeIds(groupId) {
   const groups = [
     ['potato-green-bean-ribs', [
