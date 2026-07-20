@@ -18,6 +18,12 @@ const NEW_FAMILY_REPRESENTATIVES = [
   ['family-northwest-grain-rice', 'xinjiang-lamb-pilaf'],
   ['family-regional-grain-specialties', 'tibetan-savory-congee'],
   ['family-northern-braised-noodles', 'north-china-green-bean-braised-noodles'],
+  ['family-home-fried-rice', 'broccoli-beef-fried-rice'],
+  ['family-home-braised-rice', 'green-bean-pork-rib-braised-rice'],
+  ['family-home-stewed-rice', 'tomato-tofu-stewed-rice'],
+  ['family-home-soup-staple', 'broccoli-beef-soup-noodles'],
+  ['family-home-covered-pot', 'potato-broccoli-beef-covered-rice'],
+  ['family-home-vermicelli-pot', 'greens-tofu-vermicelli-pot'],
 ];
 
 test('100-case static corpus replaces only redundant cycle coverage with each new formal family', () => {
@@ -45,5 +51,23 @@ test('manual review sheet remains unfilled and distinguishes static coverage fro
   assert.match(reviewSheet, /## 当前人工评审状态：未完成/);
   assert.match(reviewSheet, /6 个 known gaps/);
   assert.match(reviewSheet, /不替代这些人工闸门/);
-  assert.equal((reviewSheet.match(/未评审／未试做/g) || []).length, 6);
+  assert.equal((reviewSheet.match(/未评审／未试做/g) || []).length, 12);
+});
+
+test('manual review sheet names the expanded Taiwan rice boundary without claiming approval', () => {
+  const row = reviewSheet.split('\n').find(line => (
+    line.includes('cycle-014-taiwan-cabbage-mushroom-rice-fresh-2')
+  ));
+  assert.ok(row);
+  for (const text of ['高丽菜香菇炊饭', '番茄', '玉米', '虾仁', '未评审／未试做', '未批准']) {
+    assert.match(row, new RegExp(text), text);
+  }
+});
+
+test('manual review sheet lists all thirty targeted recipes as pending and untried', () => {
+  const targetedRows = reviewSheet.match(/^\| `[a-z0-9-]+` \| .+ \| 待人工评审 \| 未试做 \| 未批准 \|$/gm) || [];
+  assert.equal(targetedRows.length, 30);
+  assert.match(reviewSheet, /正式库 72 道菜谱/);
+  assert.match(reviewSheet, /60 道晋升菜谱为 `auto_approved`/);
+  assert.doesNotMatch(reviewSheet, /30 道定向覆盖菜.*已试做/);
 });

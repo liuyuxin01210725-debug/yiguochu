@@ -22,6 +22,12 @@
 | 西北谷物焖饭 | `cycle-016-xinjiang-lamb-pilaf-batch-1` | 新疆羊肉抓饭 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
 | 地域谷物主食 | `cycle-017-tibetan-savory-congee-pantry-2` | 藏式咸粥 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
 | 北方焖面 | `cycle-018-north-china-green-bean-braised-noodles-fresh-4` | 北方豆角焖面 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
+| 家常炒饭 | `cycle-027-home-fried-rice-fresh-4` | 西兰花牛肉炒饭 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
+| 家常焖饭 | `cycle-028-home-braised-rice-batch-1` | 豆角排骨焖饭 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
+| 汤汁烩饭 | `cycle-029-home-stewed-rice-pantry-2` | 番茄青菜豆腐烩饭 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
+| 一锅汤主食 | `cycle-030-home-soup-staple-quick-4` | 西兰花牛肉汤面 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
+| 加盖饭锅 | `cycle-031-home-covered-pot-fresh-1` | 土豆西兰花牛肉饭锅 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
+| 一锅粉丝煲 | `cycle-032-home-vermicelli-pot-pantry-2` | 青菜豆腐粉丝煲 | 已纳入 100 例静态闸门 | 未运行 | 未评审／未试做 | 未批准 |
 
 ## 定向覆盖扩库的 30 道待评审记录
 

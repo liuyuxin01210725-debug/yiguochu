@@ -28,6 +28,17 @@ function baseRecipeIngredient(name) {
     .replace(/丁$|片$|块$|丝$|末$|粒$/g, '');
 }
 
+// FNV-1a 32 位哈希(与 ai_proxy.py 逐位一致, parity 测试锁定): 取 UTF-8 字节流,
+// offset basis 2166136261, FNV prime 16777619, 全程 32 位无符号; init 允许传入起始 hash 做种子串接。
+function fnv1a32(text, init = 2166136261) {
+  let hash = init >>> 0;
+  for (const byte of new TextEncoder().encode(String(text ?? ''))) {
+    hash ^= byte;
+    hash = Math.imul(hash, 16777619) >>> 0;
+  }
+  return hash >>> 0;
+}
+
 function normalizeRecipeAliases(aliases) {
   const normalized = new Map();
   if (!aliases || typeof aliases !== 'object') return normalized;
@@ -58,11 +69,62 @@ function canonicalRecipeIngredient(name, aliases = {}) {
   return resolveRecipeAlias(baseRecipeIngredient(name), normalizeRecipeAliases(aliases));
 }
 
+// ===== 过敏类别表（与 index.html、ai_proxy.py 保持一致，parity 测试锁定）
+const ALLERGEN_GROUPS = {
+  '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+  '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
+  '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
+  '花生': ['花生','花生米','花生酱'],
+  '坚果': ['核桃','杏仁','腰果','开心果','榛子','松子','碧根果','夏威夷果','巴旦木','板栗','芝麻','芝麻酱'],
+  '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
+  '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
+  '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿']
+};
+
+// 忌口/过敏统一匹配: 归一化(去空格、半角括号、去括号基名、alias 归一)后双向子串;
+// 仅当忌口词等于类别名本身时按组扩展(组成员如「虾仁」不反向牵连同组)。
+// 匹配时同时用「原词基名」和「alias 归一名」两路形态: alias(如 豆腐→老豆腐/香菇→鲜香菇)只用于对齐菜谱,
+// 不许收窄忌口保护面(单用归一名会让 豆腐≠豆腐干、香菇≠干香菇)。
+function allergyMatchForms(name, aliases) {
+  const raw = baseRecipeIngredient(name);
+  const resolved = canonicalRecipeIngredient(name, aliases);
+  return [...new Set([raw, resolved].filter(Boolean))];
+}
+function matchAllergy(dislikeTerm, ingredientName, aliases = {}) {
+  const dForms = allergyMatchForms(dislikeTerm, aliases);
+  const iForms = allergyMatchForms(ingredientName, aliases);
+  if (!dForms.length || !iForms.length) return false;
+  const groupNames = dForms.filter(d => ALLERGEN_GROUPS[d]);
+  if (groupNames.length) {
+    if (dForms.some(d => iForms.some(i => i === d || (d.length >= 2 && i.includes(d))))) return true;
+    return groupNames.some(g => ALLERGEN_GROUPS[g].some(member => {
+      const mForms = allergyMatchForms(member, aliases);
+      return mForms.some(m => iForms.some(i => i.includes(m) || m.includes(i)));
+    }));
+  }
+  return dForms.some(d => iForms.some(i => i.includes(d) || d.includes(i)));
+}
+
+// 可信菜谱状态: approved=人工批准, auto_approved=自动闸门晋升; 选菜、grounding 与校验对两档一视同仁。
+function trustedRecipeStatus(status) {
+  return status === 'approved' || status === 'auto_approved';
+}
+
 function recipeConstraintList(value) {
   if (Array.isArray(value)) return value.map(item => sanitizePromptText(item, 80)).filter(Boolean);
   if (typeof value === 'string') return value.replace(/[，、]/g, ',').split(',').map(item => sanitizePromptText(item, 80)).filter(Boolean);
   return [];
 }
+
+// 输入硬上限: pantry/dislikes 各最多 20 项, 超出截断并记录(不整单拒绝, 保持生成可用); 单项 80 字限制不变。
+function capRecipeConstraintList(list, field) {
+  if (!Array.isArray(list) || list.length <= 20) return list;
+  console.warn(JSON.stringify({ evt: 'constraint_cap', field, dropped: list.length - 20 }));
+  return list.slice(0, 20);
+}
+
+// 换一换意图白名单: 前端发送的 swap_intent 只认这几种, 其余丢弃(与 ai_proxy.py 一致)。
+const SWAP_INTENT_KINDS = new Set(['flavor', 'cuisine', 'lighter', 'easier', 'protein', 'any']);
 
 function sanitizeRecipeConstraints(value) {
   const input = value && typeof value === 'object' ? value : {};
@@ -74,17 +136,19 @@ function sanitizeRecipeConstraints(value) {
       recent_carbs: recipeConstraintList(input.recent_ingredients.recent_carbs),
     }
     : input.recent_ingredients;
+  const swapIntent = sanitizePromptText(input.swap_intent, 20);
   return {
     ...input,
     diet: sanitizePromptText(input.diet, 20),
     purpose: sanitizePromptText(input.purpose, 20),
-    pantry: recipeConstraintList(input.pantry),
-    dislikes: recipeConstraintList(input.dislikes),
+    pantry: capRecipeConstraintList(recipeConstraintList(input.pantry), 'pantry'),
+    dislikes: capRecipeConstraintList(recipeConstraintList(input.dislikes), 'dislikes'),
     recent_dishes: recipeConstraintList(input.recent_dishes),
     recent_families: recipeConstraintList(input.recent_families),
     recent_base_recipes: recipeConstraintList(input.recent_base_recipes),
     balance_low: recipeConstraintList(input.balance_low),
     swap_hint: sanitizePromptText(input.swap_hint, 160),
+    swap_intent: SWAP_INTENT_KINDS.has(swapIntent) ? swapIntent : '',
     feedback_hint: sanitizePromptText(input.feedback_hint, 160),
     recent_ingredients: recentIngredients,
   };
@@ -102,6 +166,20 @@ function riceAllergyCompleteMainActive(selection) {
   return selection?.constraintProfile?.id === RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID;
 }
 
+// 选菜短名单上限: 家族去重优先, 不足时再按分补齐(与 ai_proxy.py 一致)。
+const RECIPE_SHORTLIST_SIZE = 5;
+// 换一换意图分(具名权重): 意图只调序、不越过 pantry/安全——库存覆盖层级、忌口拦截与
+// 最近已吃硬排除/近期家族 -20×n 仍是主导, 意图分只在同档候选间换序。判定全部走菜谱结构化字段
+// (cuisine/protein_class/light_level/total_time_minutes), 不再按名称正则猜测。
+const SWAP_INTENT_WEIGHTS = {
+  cuisineNewFamily: 10, // cuisine: recipe.cuisine 不在近期基础菜谱(recent_base_recipes 经 lib 映射)的 cuisine 集合内
+  cuisineSameAsLast: -10, // cuisine: 与最近一道基础菜谱同 cuisine
+  flavorNewFamily: 8, // flavor: 与最近一道不同家族
+  proteinNewClass: 8, // protein: protein_class 与最近一道不相交
+  lighterForm: 8, // lighter: light_level 为「清淡」
+  easierCore: 8, // easier: total_time_minutes ≤25 或核心 ≤5 项
+};
+
 function selectRecipeCandidates(lib, constraints = {}) {
   const riceAllergyActive = validationRiceAllergenActive(
     constraints.dislikes,
@@ -110,16 +188,39 @@ function selectRecipeCandidates(lib, constraints = {}) {
   const aliases = normalizeRecipeAliases(lib?.ingredient_aliases);
   const canonical = name => resolveRecipeAlias(baseRecipeIngredient(name), aliases);
   const pantry = recipeConstraintList(constraints.pantry);
-  const dislikes = new Set(recipeConstraintList(constraints.dislikes)
-    .map(canonical)
-    .filter(Boolean));
-  const recentFamilies = new Set(recipeConstraintList(constraints.recent_families));
+  const pantryCanonical = new Set(pantry.map(canonical).filter(Boolean));
+  // 忌口统一走 matchAllergy(双向子串 + 类别扩展), 不再只做 canonical 精确匹配。
+  const dislikeTerms = recipeConstraintList(constraints.dislikes);
+  const libAliases = lib?.ingredient_aliases || {};
+  const disliked = item => dislikeTerms.some(term => matchAllergy(term, item, libAliases));
   const recentRecipes = new Set(recipeConstraintList(constraints.recent_base_recipes));
   const familyById = new Map((Array.isArray(lib?.families) ? lib.families : [])
     .map(family => [family.id, family]));
+  const libRecipes = Array.isArray(lib?.recipes) ? lib.recipes : [];
+  const recipeById = new Map(libRecipes.map(recipe => [recipe.id, recipe]));
+  // 家族惩罚按 recent_base_recipes 推导: 该家族在最近基础菜谱中每出现一次扣 20(-20×n, n=0 不扣),
+  // 历史越长同家族扣分越重, 不再全家均匀平顶; recent_families 入参保留兼容, 不再参与打分
+  // (cuisine 意图改由 recent_base_recipes 经 lib 映射 cuisine 集合)。
+  const recentIds = recipeConstraintList(constraints.recent_base_recipes);
+  const recentFamilyCounts = new Map();
+  // 换一换意图: 最近基础菜谱经 lib 查回, cuisine 取全部历史映射出的集合, protein/flavor 对比末位一道。
+  const recentCuisines = new Set();
+  for (const id of recentIds) {
+    const recent = recipeById.get(id);
+    if (recent) recentFamilyCounts.set(recent.family_id, (recentFamilyCounts.get(recent.family_id) || 0) + 1);
+    if (typeof recent?.cuisine === 'string' && recent.cuisine) recentCuisines.add(recent.cuisine);
+  }
+  const swapIntent = SWAP_INTENT_KINDS.has(constraints.swap_intent) ? constraints.swap_intent : '';
+  const lastRecentRecipe = recentIds.length ? recipeById.get(recentIds[recentIds.length - 1]) || null : null;
+  const lastCuisine = typeof lastRecentRecipe?.cuisine === 'string' ? lastRecentRecipe.cuisine : '';
+  const lastProteinClasses = new Set(Array.isArray(lastRecentRecipe?.protein_class) ? lastRecentRecipe.protein_class : []);
   const candidates = [];
 
-  for (const recipe of Array.isArray(lib?.recipes) ? lib.recipes : []) {
+  for (const recipe of libRecipes) {
+    // 已经换掉或点过「开始做」的基础菜谱在 7 天冷却窗口内不再候选。
+    // 这必须是资格过滤，不能只靠 -100 软罚：全局库存覆盖优先后，软罚仍可能
+    // 被覆盖层级压过，导致「换一换」原样返回。用户可在候选枯竭页主动清空记录。
+    if (recentRecipes.has(recipe.id)) continue;
     const qualifiedConstraintProfile = recipeConstraintProfile(
       recipe,
       RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID,
@@ -129,6 +230,11 @@ function selectRecipeCandidates(lib, constraints = {}) {
     const core = new Set((recipe.core_ingredients || [])
       .map(canonical)
       .filter(Boolean));
+    // 明确要求“冷藏不超过一天”的专用剩饭菜，只在用户确实提交熟米饭时参与；
+    // 普通熟米饭菜仍可作为需补充即食/现成熟饭的方案，避免误伤目标组合覆盖。
+    const requiresStoredLeftoverRice = (recipe.safety_rules || [])
+      .some(rule => typeof rule === 'string' && /冷藏不超过一天/u.test(rule));
+    if (requiresStoredLeftoverRice && !pantryCanonical.has('熟米饭')) continue;
     const optional = new Set((recipe.optional_ingredients || [])
       .map(canonical)
       .filter(Boolean));
@@ -136,9 +242,12 @@ function selectRecipeCandidates(lib, constraints = {}) {
     const allowed = new Set(slots.flatMap(slot => slot.allowed || [])
       .map(canonical)
       .filter(Boolean));
+    const trustedLiquids = new Set(trustedRecipeLiquidOptions(recipe)
+      .map(canonical)
+      .filter(Boolean));
 
     const blockedCore = [...core].some(coreItem => {
-      if (!dislikes.has(coreItem)) return false;
+      if (!disliked(coreItem)) return false;
       return !slots.some(slot => {
         const replacesCore = (slot.replaces || [])
           .map(canonical)
@@ -147,7 +256,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
         return (slot.allowed || []).some(item => {
           const raw = String(item || '').trim();
           const substitute = canonical(raw);
-          return substitute && substitute !== coreItem && !dislikes.has(substitute) && !/^不(?:放|加|用)/.test(raw);
+          return substitute && substitute !== coreItem && !disliked(substitute) && !/^不(?:放|加|用)/.test(raw);
         });
       });
     });
@@ -164,7 +273,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
 
     for (const item of pantry) {
       const canonicalItem = canonical(item);
-      if (!canonicalItem || dislikes.has(canonicalItem)) {
+      if (!canonicalItem || disliked(canonicalItem)) {
         unusedPantry.push(item);
         continue;
       }
@@ -172,7 +281,7 @@ function selectRecipeCandidates(lib, constraints = {}) {
         score += 12;
         usedPantry.push(item);
         satisfiedCore.add(canonicalItem);
-      } else if (allowed.has(canonicalItem) || optional.has(canonicalItem)) {
+      } else if (allowed.has(canonicalItem) || optional.has(canonicalItem) || trustedLiquids.has(canonicalItem)) {
         score += 5;
         usedPantry.push(item);
         for (const slot of slots) {
@@ -187,12 +296,40 @@ function selectRecipeCandidates(lib, constraints = {}) {
       if (discouraged.has(canonicalItem)) score -= 8;
     }
 
-    if (recipe.status === 'approved' && dislikes.size === 0) {
+    // 没有任何命中库存时，"快点吃上"不能优先落到只有主食的基础粥；
+    // 仍保留用户明确提供粥核心食材时的原始偏好。
+    const hasCoreProtein = [...core].some(item => /(?:鸡|牛|猪|羊|鱼|虾|蟹|贝|蛋|豆腐|豆干|腐竹|扁豆|黄豆|白豆)/.test(item));
+    if (trustedRecipeStatus(recipe.status) && pantry.length === 0
+      && constraints.purpose === 'quick' && satisfiedCore.size === 0 && !hasCoreProtein) score -= 6;
+
+    if (trustedRecipeStatus(recipe.status) && dislikeTerms.length === 0) {
       score -= Math.max(0, core.size - satisfiedCore.size);
     }
     if ((recipe.purposes || []).includes(String(constraints.purpose || ''))) score += 3;
-    if (recentFamilies.has(recipe.family_id)) score -= 20;
-    if (recentRecipes.has(recipe.id)) score -= 100;
+    score -= 20 * (recentFamilyCounts.get(recipe.family_id) || 0);
+    // 换一换意图分: 只调同档候选的序, 不越过 pantry 命中与安全拦截; 全部读结构化字段。
+    if (swapIntent === 'cuisine') {
+      const recipeCuisine = typeof recipe.cuisine === 'string' ? recipe.cuisine : '';
+      if (!recentCuisines.has(recipeCuisine)) score += SWAP_INTENT_WEIGHTS.cuisineNewFamily;
+      if (lastCuisine && recipeCuisine === lastCuisine) score += SWAP_INTENT_WEIGHTS.cuisineSameAsLast;
+    } else if (swapIntent === 'flavor') {
+      if (lastRecentRecipe && lastRecentRecipe.family_id !== recipe.family_id) score += SWAP_INTENT_WEIGHTS.flavorNewFamily;
+    } else if (swapIntent === 'protein') {
+      if (lastRecentRecipe) {
+        const classes = (Array.isArray(recipe.protein_class) ? recipe.protein_class : [])
+          .filter(item => item !== '无');
+        // 「换种蛋白」只奖励真实的新蛋白类；「无」不是一种蛋白，不得因为不相交而加分。
+        if (classes.length && !classes.some(item => lastProteinClasses.has(item))) {
+          score += SWAP_INTENT_WEIGHTS.proteinNewClass;
+        }
+      }
+    } else if (swapIntent === 'lighter') {
+      if (recipe.light_level === '清淡') score += SWAP_INTENT_WEIGHTS.lighterForm;
+    } else if (swapIntent === 'easier') {
+      if ((Number.isFinite(recipe.total_time_minutes) && recipe.total_time_minutes <= 25) || core.size <= 5) {
+        score += SWAP_INTENT_WEIGHTS.easierCore;
+      }
+    }
     candidates.push({
       recipe,
       family: familyById.get(recipe.family_id),
@@ -201,10 +338,16 @@ function selectRecipeCandidates(lib, constraints = {}) {
       usedPantry,
       unusedPantry,
       constraintProfile,
+      dislikes: dislikeTerms,
     });
   }
 
-  candidates.sort((a, b) => b.score - a.score || String(a.recipe.id).localeCompare(String(b.recipe.id)));
+  // 先在全候选池上守住库存覆盖，再截取 5 个家族短名单。如果先按 score 截断，
+  // 一道能同时使用两项库存的菜可能因两项都是 optional(+5+5)，被 5 道只命中
+  // 一项 core(+12) 的菜挤出短名单；后续 pick 再分层也无法救回。
+  candidates.sort((a, b) => (pantry.length ? b.usedPantry.length - a.usedPantry.length : 0)
+    || b.score - a.score
+    || String(a.recipe.id).localeCompare(String(b.recipe.id)));
   const selected = [];
   const selectedIds = new Set();
   const selectedFamilies = new Set();
@@ -213,20 +356,68 @@ function selectRecipeCandidates(lib, constraints = {}) {
     selected.push(candidate);
     selectedIds.add(candidate.recipe.id);
     selectedFamilies.add(candidate.recipe.family_id);
-    if (selected.length === 3) return selected;
+    if (selected.length === RECIPE_SHORTLIST_SIZE) return selected;
   }
   for (const candidate of candidates) {
     if (selectedIds.has(candidate.recipe.id)) continue;
     selected.push(candidate);
     selectedIds.add(candidate.recipe.id);
-    if (selected.length === 3) break;
+    if (selected.length === RECIPE_SHORTLIST_SIZE) break;
   }
   return selected;
+}
+
+// 种子化抖动选取: 种子由库存/忌口/目的/份数/最近基础菜谱/换一换意图决定, 每个候选加
+// fnv1a32(recipe.id, init=seed) % 7 的 0-6 分整数抖动。pantry 非空时先按 usedPantry 覆盖数
+// 降序分层、同层内再按 score+jitter 降序、平手按 recipe.id 升序——抖动只能翻动食材覆盖数相同
+// 的候选, 永远不许为多样性少用一个食材; pantry 为空时维持 score+jitter 降序。同输入+同历史
+// 必出同一道(可复现); 历史或意图一变种子就变、可能换菜。抖动只加在返回后的选取环节, 不改
+// selectRecipeCandidates 内部排序。
+function recipeSelectionSeed(constraints) {
+  return fnv1a32(JSON.stringify([
+    recipeConstraintList(constraints?.pantry),
+    recipeConstraintList(constraints?.dislikes),
+    sanitizePromptText(constraints?.purpose, 20),
+    constraints?.servings ?? null,
+    recipeConstraintList(constraints?.recent_base_recipes),
+    sanitizePromptText(constraints?.swap_intent, 20),
+  ]));
+}
+
+function pickRecipeSelection(selections, constraints, { riceAllergyActive = false } = {}) {
+  const list = Array.isArray(selections) ? selections : [];
+  if (!list.length) return null;
+  const seed = recipeSelectionSeed(constraints);
+  const jittered = list.map(candidate => ({
+    candidate,
+    finalScore: candidate.score + fnv1a32(candidate.recipe?.id, seed) % 7,
+  }));
+  const pantry = recipeConstraintList(constraints?.pantry);
+  if (pantry.length && !riceAllergyActive) {
+    // 分层选取: 库存覆盖数高于多样性, feasible(usedPantry 非空)内先按覆盖数分层。
+    const feasible = jittered.filter(item => item.candidate.usedPantry.length > 0);
+    if (!feasible.length) return null;
+    feasible.sort((a, b) => (b.candidate.usedPantry.length - a.candidate.usedPantry.length)
+      || (b.finalScore - a.finalScore)
+      || String(a.candidate.recipe?.id).localeCompare(String(b.candidate.recipe?.id)));
+    return feasible[0].candidate;
+  }
+  jittered.sort((a, b) => b.finalScore - a.finalScore);
+  return jittered[0].candidate;
 }
 
 function compactRecipeList(value, fallback = '无') {
   const items = Array.isArray(value) ? value.map(item => sanitizePromptText(item, 240)).filter(Boolean) : [];
   return items.length ? items.join('、') : fallback;
+}
+
+// 呈现给模型的可选/替换项按忌口过滤(安全): 命中忌口的可选项不得进入白名单;
+// 固定核心不在此过滤——核心含忌口且不可替换的菜谱已在选菜层被 blockedCore 整菜出局。
+function filterTrustedOptionsByDislikes(items, dislikes, aliases = {}) {
+  const list = Array.isArray(items) ? items : [];
+  const terms = Array.isArray(dislikes) ? dislikes.filter(Boolean) : [];
+  if (!terms.length) return list;
+  return list.filter(item => !terms.some(term => matchAllergy(term, item, aliases)));
 }
 
 function trustedRecipeGenerationOptions(recipe) {
@@ -256,11 +447,16 @@ function trustedRecipeIngredientWhitelist(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const aliases = selection?.ingredientAliases || {};
   const seen = new Set();
-  return [
-    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+  const core = Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [];
+  // 可选/液体/库存部分按忌口过滤(W4); 固定核心保持原样(核心安全由选菜层 blockedCore 保证)。
+  const optionalPool = filterTrustedOptionsByDislikes([
     ...trustedRecipeGenerationOptions(recipe),
     ...trustedRecipeLiquidOptions(recipe),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
+  ], selection?.dislikes, aliases);
+  return [
+    ...core,
+    ...optionalPool,
   ].filter(item => {
     if (/^不(?:放|加|用)/.test(String(item || '').trim())) return false;
     const canonical = canonicalRecipeIngredient(item, aliases);
@@ -272,11 +468,18 @@ function trustedRecipeIngredientWhitelist(selection) {
 
 function buildTrustedRecipeSystemOverride(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  const aliases = selection?.ingredientAliases || {};
+  // W4: 呈现给模型的可选/替换/液体项先按忌口过滤, 命中项不得出现在白名单文本里。
+  const dislikes = selection?.dislikes;
   const adaptation = sanitizePromptText(recipe.adaptation_note, 400);
-  const generationOptions = trustedRecipeGenerationOptions(recipe)
-    .filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim()));
+  const generationOptions = filterTrustedOptionsByDislikes(
+    trustedRecipeGenerationOptions(recipe)
+      .filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim())),
+    dislikes,
+    aliases,
+  );
   const generationOptionCount = generationOptions.length === 4 ? '四' : String(generationOptions.length);
-  const liquidOptions = trustedRecipeLiquidOptions(recipe);
+  const liquidOptions = filterTrustedOptionsByDislikes(trustedRecipeLiquidOptions(recipe), dislikes, aliases);
   const fatOptions = trustedRecipeFatOptions(selection);
   const liquidRule = liquidOptions.length
     ? `本次留在成品中的主烹调液体只能使用: ${compactRecipeList(liquidOptions)}。${liquidOptions.includes('水') ? '不得加入任何高汤或第二种主液体。' : '不得另加水或第二种高汤。'}`
@@ -284,7 +487,6 @@ function buildTrustedRecipeSystemOverride(selection) {
   const fatRule = fatOptions.length
     ? `本次批准的烹调油脂只有: ${compactRecipeList(fatOptions)}。不得另加食用油或第二种油脂；ingredients[] 列出的油脂必须在 steps[] 逐字出现。`
     : '本次未批准额外烹调油脂；ingredients[] 和 steps[] 中都不得添加食用油或其他油脂。';
-  const aliases = selection?.ingredientAliases || {};
   const requiredIngredients = new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
     ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
@@ -294,10 +496,22 @@ function buildTrustedRecipeSystemOverride(selection) {
   const substitutionLocks = (Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : []).flatMap(slot => {
     const locked = (Array.isArray(slot?.replaces) ? slot.replaces : [])
       .filter(name => usedPantry.has(canonicalRecipeIngredient(name, aliases)));
-    const allowed = (Array.isArray(slot?.allowed) ? slot.allowed : [])
-      .filter(name => !/^不(?:放|加|用)/.test(String(name || '').trim()));
-    if (!locked.length || !allowed.length) return [];
-    return [`替换位“${sanitizePromptText(slot?.slot || '未命名', 80)}”本次已由库存原料“${compactRecipeList(locked)}”锁定；禁止再用 allowed 替代项“${compactRecipeList(allowed)}”。`];
+    // allowed 先按忌口过滤; 过滤后全空时按现有空位逻辑处理(不产生锁定消息)。
+    const allowed = filterTrustedOptionsByDislikes(
+      (Array.isArray(slot?.allowed) ? slot.allowed : [])
+        .filter(name => !/^不(?:放|加|用)/.test(String(name || '').trim())),
+      dislikes,
+      aliases,
+    );
+    const selectedAllowed = allowed
+      .filter(name => usedPantry.has(canonicalRecipeIngredient(name, aliases)));
+    if (locked.length && allowed.length) {
+      return [`替换位“${sanitizePromptText(slot?.slot || '未命名', 80)}”本次已由库存原料“${compactRecipeList(locked)}”锁定；禁止再用 allowed 替代项“${compactRecipeList(allowed)}”。`];
+    }
+    if (selectedAllowed.length) {
+      return [`替换位“${sanitizePromptText(slot?.slot || '未命名', 80)}”本次已由库存替代项“${compactRecipeList(selectedAllowed)}”锁定；必须删除原料“${compactRecipeList(slot?.replaces)}”，ingredients[]、steps[] 和菜名中都不得再出现。`];
+    }
+    return [];
   });
   const maxIngredientRows = Math.min(12, requiredIngredients.size + 6);
   return [
@@ -328,8 +542,11 @@ function buildTrustedRecipeSystemOverride(selection) {
 function buildRecipeGrounding(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const family = selection?.family && typeof selection.family === 'object' ? selection.family : {};
+  const aliases = selection?.ingredientAliases || {};
+  // W4: 替换位 allowed 与液体项按忌口过滤, 命中项不进 grounding 文本。
+  const dislikes = selection?.dislikes;
   const slots = (Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [])
-    .map(slot => `${sanitizePromptText(slot?.slot || '替换位', 80)}[${compactRecipeList(slot?.replaces)}→${compactRecipeList(slot?.allowed)}]`);
+    .map(slot => `${sanitizePromptText(slot?.slot || '替换位', 80)}[${compactRecipeList(slot?.replaces)}→${compactRecipeList(filterTrustedOptionsByDislikes(slot?.allowed, dislikes, aliases))}]`);
   const discouraged = (Array.isArray(recipe.discouraged) ? recipe.discouraged : [])
     .map(rule => `${compactRecipeList(rule?.ingredients)}(${sanitizePromptText(rule?.reason || '不适合基础结构', 240)})`);
   const profile = selection?.constraintProfile && typeof selection.constraintProfile === 'object'
@@ -347,7 +564,7 @@ function buildRecipeGrounding(selection) {
     '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
   ] : [];
   const ingredientWhitelist = trustedRecipeIngredientWhitelist(selection);
-  const liquidOptions = trustedRecipeLiquidOptions(recipe);
+  const liquidOptions = filterTrustedOptionsByDislikes(trustedRecipeLiquidOptions(recipe), dislikes, aliases);
   const fatOptions = trustedRecipeFatOptions(selection);
   const liquidRule = liquidOptions.length
     ? `本次留在成品中的主烹调液体只能使用: ${compactRecipeList(liquidOptions)}。${liquidOptions.includes('水') ? '不得加入任何高汤或第二种主液体。' : '不得另加水或第二种高汤。'}`
@@ -593,7 +810,7 @@ function validationHasAdvancePrep(steps) {
 
 function validationApprovedIngredientSet(selection, aliases) {
   const recipe = selection?.recipe;
-  if (!recipe || recipe.status !== 'approved') return null;
+  if (!recipe || !trustedRecipeStatus(recipe.status)) return null;
   return new Set([
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
     ...trustedRecipeGenerationOptions(recipe),
@@ -917,9 +1134,8 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   )) flags.add(flag);
   if (ingredientNames.length > 12) flags.add('ingredient_count_exceeds_ui_limit');
   const canonicalIngredients = new Set(ingredientNames.map(name => validationCanonicalIngredient(name, aliases)).filter(Boolean));
-  const dislikes = recipeConstraintList(constraints?.dislikes)
-    .map(name => validationCanonicalIngredient(name, aliases))
-    .filter(Boolean);
+  // 忌口泄漏检查与选菜共用 matchAllergy(双向子串 + 类别扩展)。
+  const dislikeTerms = recipeConstraintList(constraints?.dislikes);
   const approvedIngredients = validationApprovedIngredientSet(selection, aliases);
   const requiredIngredients = new Set([
     ...(Array.isArray(selection?.recipe?.core_ingredients) ? selection.recipe.core_ingredients : []),
@@ -938,7 +1154,7 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
       optionalIngredients.add(canonical);
     }
   }
-  if (selection?.recipe?.status === 'approved' && optionalIngredients.size > 4) {
+  if (trustedRecipeStatus(selection?.recipe?.status) && optionalIngredients.size > 4) {
     flags.add('optional_ingredient_limit_exceeded');
   }
   for (const slot of Array.isArray(selection?.recipe?.substitution_slots) ? selection.recipe.substitution_slots : []) {
@@ -959,7 +1175,9 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     const canonical = validationCanonicalIngredient(name, aliases);
     const directRiceIngredient = riceAllergenActive
       && validationRiceAllergenMatches(validationFormName(name), strictRiceVisible).length > 0;
-    if (dislikes.includes(canonical) && !directRiceIngredient) flags.add(`allergen_present:${name}`);
+    if (!directRiceIngredient && dislikeTerms.some(term => matchAllergy(term, name, aliases))) {
+      flags.add(`allergen_present:${name}`);
+    }
     if (!validationSeasoning(name) && !steps.some(step => validationStepMentions(step, name, aliases))) {
       flags.add(`ingredient_missing_in_steps:${name}`);
     }
@@ -1074,15 +1292,15 @@ function twLookup(lib, name) {
   if (qb.length >= 2) { h = lib.idx.get(qb); if (h && twBase(h.n) === qb) return h; }
   return null;
 }
-// 调味料集合: 这些即使台湾库命中也不覆盖(其高钠权威值不应计入营养, 与前端 isSeasoning 归零一致)
-const TW_SEASONING = new Set(['盐','食盐','酱油','生抽','老抽','蒸鱼豉油','蚝油','料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','葱','葱花','香葱','小葱','大葱','蒜','蒜末','蒜蓉','蒜泥','蒜头','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','花椒','八角','桂皮','香叶','孜然','糖','白糖','冰糖','红糖','味精','鸡精','淀粉','生粉','玉米淀粉','水淀粉','香油','芝麻油','豆瓣酱','郫县豆瓣','番茄酱','鱼露','咖喱酱','油','食用油','色拉油','调和油']);
+// 只跳过小用量香辛料/酸味料；油糖盐和复合酱料应尽量由权威库覆盖热量与钠。
+const TW_SEASONING = new Set(['料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','葱','葱花','香葱','小葱','大葱','蒜','蒜末','蒜蓉','蒜泥','蒜头','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','花椒','八角','桂皮','香叶','孜然']);
 function twIsSeasoning(name) { return TW_SEASONING.has(twNorm(name)) || TW_SEASONING.has(twBase(name)); }
 async function enrichWithTw(meal, env, request) {
   const lib = await getTwLib(env, request);
   if (!lib.idx.size) return meal;
   let matched = 0;
   for (const ing of meal.ingredients) {
-    if (twIsSeasoning(ing.name)) continue; // 调味料不覆盖: 避免酱油/蚝油/味精的高钠权威值漏进营养
+    if (twIsSeasoning(ing.name)) continue;
     const hit = twLookup(lib, ing.name);
     if (!hit) continue;
     for (const key of NUTRIENT_KEYS) if (hit[key] != null) ing[key] = hit[key];
@@ -1093,33 +1311,32 @@ async function enrichWithTw(meal, env, request) {
 }
 
 const RECIPE_SYSTEM = `你是家常菜专家+营养师, 熟悉《中国居民膳食指南(2022)》。
-你的任务: 生成一道【一日量】的简单家常单品(一锅/一碗即可吃完, 可分 1-2 顿), 一份基本覆盖全天营养主结构(主食+蛋白+多种蔬菜)。
+你的任务: 按用户这一次的做饭场景和份数, 生成一道简单家常主餐(一锅/一碗即可吃完), 主食+蛋白+多种蔬菜基本齐全。
 核心要求:
 - 菜品形式和菜系都要轮换, 别每次都是中式菜饭。形式换着来: 菜饭/煲仔饭/焖饭、盖浇饭、日式丼饭、石锅拌饭、汤面/汤粉/汤米线、一锅炖菜/烩菜/杂烩汤、家庭一锅煮/麻辣烫式、杂粮谷物碗、咖喱烩饭、印尼炒饭式炒饭、泰式椰浆咖喱烩饭、越式/中式凉拌碗(grain bowl)等。
 - 菜系也轮换: 中式家常/泰式/日式/韩式/越南/印尼/粤式 之间换着来——任何国家"一锅或一碗装、多食材、家庭可做"的主餐都符合一锅出。异国成品复合酱(绿咖喱酱/叻沙酱/甜酱油等)钠和热量不可忽略, 一律限1.5勺、其营养标 est 不当权威值现编; 能用"酱油+糖"等基础调味料替代的就替代。
 - 排除真火锅, 以及需要特殊高汤/长时间备料/复杂火候的版本。
 - 一锅煮 OR 电饭锅 OR 简单炒制 OR 蒸 OR 出锅后凉拌(冷制碗); 烹饪要简单可行。
 - 硬约束: 总时长 <= 40 分钟, 做法 <= 4 步, 难度 <= 2; 优先电饭锅/一锅出, 不要另起锅做第二道菜。
-- 营养尽量贴近全天目标; 蛋白/纤维/钙优先; 不要奇葩组合。
-- **热量硬要求(落实到克数)**: 整锅总热量须达到目标的85%以上。具体: 主食给足(熟饭/熟面/熟杂粮合计≥400g, 或生米生面≥180g, 或薯类≥500g), 蛋白食材(肉/鱼/蛋/豆制品)合计≥250g, 烹调油8-15g。常见错误是只给一锅蔬菜的热量(约800kcal)——那只有目标一半, 不合格。
+- 营养按一顿主餐考虑; 蛋白/纤维优先, 不追求用一锅覆盖全天营养, 不要奇葩组合。
+- **份量硬要求(落实到克数)**: 按用户要求的份数给整锅用量。每份主餐约500-750kcal、蛋白质约20-35g; 根据份数同比安排主食、蛋白和蔬菜, 不要生成明显吃不完的全天量。
 - **不得依赖提前准备**: 步骤里禁止出现「提前煮好/提前过夜」; 主食要么把烹煮时间计入总时长, 要么明确写用剩饭或免煮快熟主食(如燕麦/快煮杂粮包)。
 - **主蛋白必须轮换**: 在 鱼/虾/鸡/鸭/猪/牛/蛋/豆制品 之间换着来, 不要连续几次或总是同一种, **尤其不要默认三文鱼**; 一道菜主蛋白选 1-2 种即可。
-- 食材至少 8-10 种, 含主食 + 蛋白 + 3-5 种不同颜色/类型的蔬菜。
-- 蔬菜总量尽量 >= 300g, 含绿叶菜、浅色蔬菜、根茎、菌菇、豆荚等不同类型。
-- 一道菜总重 800-1500g, 用户可分 1-2 顿吃。
+- 食材数量要和份数、场景匹配: 1份约5-7种, 2份约6-9种, 3-4份约7-10种; 都要含主食 + 蛋白 + 至少2-4种蔬菜。
+- 蔬菜按每份约150-250g安排, 在可操作的前提下尽量有不同颜色/类型。
+- 菜名和 form 必须与真实主食、做法一致: 没有面条/米粉就不能叫汤面/汤粉, 用米饭做汤泡饭就明确叫汤饭或泡饭。
 【冷拌/发酵碗(低频形式, 夏季或换口味时偶尔出, 约每5-6次一次)】
-- 冷碗热量天生比热菜低, 但绝不能是"一碗菜叶"(≈800kcal=不合格)。靠三件套把它做成一份扎实正餐: ①熟主食≥400g(现成糙米饭/快煮杂粮包/燕麦/熟荞麦面, 偏轻就加到500g, 干米粉/干面≥120g); ②蛋白≥250g; ③必加一个高热量载体——牛油果半个 或 花生酱/芝麻酱约30g 或 坚果30g, 至少选一样; 主蛋白偏瘦(虾仁/鸡胸)时这条尤其不能省。沙拉汁里的油计入总油8-15g。
-- 热量尽量堆高(靠加主食/牛油果/坚果, 绝不靠加蔬菜); 但即便达不到全天目标也别虚标营养值充数——按真实份量如实给, app 会如实提示"比一天目标略少"。
+- 冷碗也必须是扎实主餐, 不能只有菜叶; 按份数给足主食和蛋白, 可用牛油果/芝麻酱/坚果补充口感与能量, 但不要为堆热量给出夸张用量。
 - 发酵碗(区别于普通沙拉)须含一样发酵食材(辣白菜/纳豆/酸奶/豆豉)作特色; 发酵益生菌食材必须"出锅后/装碗最后一步"拌入, 不得下锅加热(否则活菌失活)。
 - 钠平衡: 用了发酵高钠食材(辣白菜≤120g/豆豉≤15g)时, 额外盐归零、不再加酱油, 用柠檬汁/醋/香料提味; note 里提示"含发酵食材钠偏高, 额外盐请减半或不加"。
 - 凉拌也禁止"提前煮好/过夜", 主食烹煮时间计入总时长或用剩饭/免煮快熟主食。
 严格 JSON 输出, 不要 JSON 外文字。`;
 
-const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常单品(一锅/一碗式, 形式见系统提示、别总是菜饭), 用户全天营养目标约: 热量{kcal}kcal/蛋白{p}g/纤维{fb}g/钙{ca}mg。(整锅总热量须≥目标的85%)
+const RECIPE_TEMPLATE = `生成一道【{meal_name}】简单家常主餐(一锅/一碗式, 形式见系统提示、别总是菜饭), 一共约{servings}份。整锅参考目标: 热量约{kcal}kcal、蛋白约{p}g、纤维约{fb}g。
 {constraint_note}{exclude_note}
 {season_note}
 
-【强制】食材至少 8 种, 蔬菜至少 3-4 种不同颜色/类型(绿叶/根茎/菌菇/豆荚轮换)。
+【强制】食材数量与{servings}份和本次场景相匹配; 每份都应吃到主食、蛋白和蔬菜, 不要为了多样性堆出难操作的配料表。
 
 {recipe_grounding}
 
@@ -1136,7 +1353,7 @@ const RECIPE_TEMPLATE = `生成一道【{meal_name}】一日量的简单家常�
   "difficulty": 1,
   "taste_preview": "<40-70字 美食家口吻, 描述入口和余韵的具体口感, 帮用户决定要不要做>",
   "form": "形式(焖饭/盖浇饭/丼饭/汤面/拌饭/一锅炖/grain bowl/凉拌碗等)",
-  "why": "<一句温和的「今天为什么适合你」, 可提到用上的食材/本周鱼/想吃的口味; 别说教别堆数据>",
+  "why": "<一句温和的「为什么适合这次做」, 可提到用上的食材/省事程度/口味; 别说教别堆数据>",
   "has_fish": true,
   "veg_count": 4
 }
@@ -1215,6 +1432,11 @@ function safeInt(value, fallback) {
   return Number.isFinite(n) ? Math.round(n) : fallback;
 }
 
+// 输入硬上限: 份数与营养目标在 safeInt 之后钳到合理区间, 防异常输入撑爆 prompt。
+function clampInt(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
 function shanghaiParts(now) {
   const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Shanghai',
@@ -1254,24 +1476,19 @@ function buildPrompt(mealName, targets, constraints, recipeGrounding) {
   }
 
   const dislikes = asList(constraints.dislikes);
-  if (dislikes.length) constraintNote += `不吃/过敏(务必严格避开, 含同类与微量也不要用): ${dislikes.join('、')}。`;
+  if (dislikes.length) constraintNote += `不吃/过敏(本菜谱不得出现这些食材或明显同类): ${dislikes.join('、')}。`;
 
-  if (constraints.week_fish_short) {
-    constraintNote += '本周可安排一次鱼或海鲜即可(膳食指南建议每周≥2次, 但不必每餐都安排鱼); 若这餐安排鱼, 挑一种最近没吃过的鱼虾贝, 不要默认三文鱼。';
-  }
-
-  const balanceLow = asList(constraints.balance_low);
-  if (balanceLow.length) {
-    constraintNote += `【最近几餐这些偏少, 这一锅请有意识地多补】${balanceLow.join('; ')}。要自然融进菜里, 别为补而牺牲好吃。`;
-  }
-  if (constraints.balance_high_na) {
-    constraintNote += '最近几餐钠偏高, 这一锅请少油少盐、少用腌制/酱料/加工肉。';
-  }
+  const purpose = String(constraints.purpose || 'quick');
+  const purposeNote = {
+    quick: '本次重点是快点吃上: 步骤≤3、食材≤8、总时长尽量≤25分钟, 少切配、少洗锅。',
+    pantry: '本次重点是清库存: 优先真正用上用户填写的食材, 只补少量常见必需食材。',
+    fresh: '本次重点是换个口味: 在家常可做的前提下, 给一种和平时明显不同的菜系或形式。',
+    batch: '本次重点是多做一些: 选择适合分装、冷藏或冷冻后复热的做法, 避免凉拌、生食和复热后明显变差的食材; note里用一句话给保存和复热方向, 不写绝对保质期。',
+  }[purpose];
+  if (purposeNote) constraintNote += purposeNote;
   if (constraints.swap_hint) {
     constraintNote += sanitizePromptText(constraints.swap_hint, 160);
   }
-  if (constraints.feedback_hint) constraintNote += String(constraints.feedback_hint);
-
   let excludeNote = '';
   const recent = asList(constraints.recent_dishes).slice(-20);
   if (recent.length) {
@@ -1294,10 +1511,10 @@ function buildPrompt(mealName, targets, constraints, recipeGrounding) {
 
   const prompt = trustedTemplate
     .replace('{meal_name}', sanitizePromptText(mealName, 80))
-    .replace('{kcal}', safeInt(targets.kcal, 1800))
-    .replace('{p}', safeInt(targets.p, 60))
-    .replace('{fb}', safeInt(targets.fb, 25))
-    .replace('{ca}', safeInt(targets.ca, 800))
+    .replaceAll('{servings}', clampInt(safeInt(constraints.servings, 2), 1, 8))
+    .replace('{kcal}', clampInt(safeInt(targets.kcal, 1300), 300, 5000))
+    .replace('{p}', clampInt(safeInt(targets.p, 50), 10, 300))
+    .replace('{fb}', clampInt(safeInt(targets.fb, 16), 0, 100))
     .replace('{constraint_note}', constraintNote)
     .replace('{exclude_note}', excludeNote)
     .replace('{season_note}', seasonNote(new Date()));
@@ -1649,10 +1866,82 @@ function repairGroundedMealSafety(meal, selection, constraints = {}) {
   return candidates.length;
 }
 
+const MISSING_SALT_ACTION_RE = /(?:加入|加|放入|放)?(?:少许|适量|一(?:小)?勺|[\d.]+\s*(?:克|g))?(?:食盐|海盐|盐巴|盐)(?:和|、|及|与)?/g;
+
+function repairGroundedMealConsumables(meal, selection, constraints = {}) {
+  if (!meal || typeof meal !== 'object' || !Array.isArray(meal.steps)) return 0;
+  if (!validateGroundedMeal(meal, selection, constraints).includes('step_ingredient_missing:盐')) return 0;
+  const repairedSteps = meal.steps.map(step => String(step || '')
+    .replace(MISSING_SALT_ACTION_RE, '')
+    .replace(/(?:，|,)\s*(?:，|,)/g, '，')
+    .replace(/(?:，|,)\s*(?:。|$)/g, '。')
+    .replace(/调味调味/g, '调味')
+    .trim());
+  const changed = repairedSteps.some((step, index) => step !== String(meal.steps[index] || '').trim());
+  if (!changed) return 0;
+  const originalSteps = meal.steps;
+  meal.steps = repairedSteps;
+  if (validateGroundedMeal(meal, selection, constraints).includes('step_ingredient_missing:盐')) {
+    meal.steps = originalSteps;
+    return 0;
+  }
+  return 1;
+}
+
+function repairSelectedSubstitutionConflicts(meal, selection) {
+  if (!meal || typeof meal !== 'object' || !Array.isArray(meal.ingredients)) return 0;
+  const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  const aliases = selection?.ingredientAliases || {};
+  const usedPantry = Array.isArray(selection?.usedPantry) ? selection.usedPantry : [];
+  const usedCanonical = new Set(usedPantry
+    .map(name => canonicalRecipeIngredient(name, aliases))
+    .filter(Boolean));
+  let repaired = 0;
+
+  for (const slot of Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : []) {
+    const replaces = Array.isArray(slot?.replaces) ? slot.replaces : [];
+    const allowed = Array.isArray(slot?.allowed) ? slot.allowed : [];
+    const selectedOriginal = replaces.some(name => usedCanonical.has(canonicalRecipeIngredient(name, aliases)));
+    const selectedReplacement = usedPantry.find(item => (
+      allowed.some(name => canonicalRecipeIngredient(name, aliases) === canonicalRecipeIngredient(item, aliases))
+    ));
+    if (selectedOriginal || !selectedReplacement) continue;
+
+    const replacedCanonical = new Set(replaces
+      .map(name => canonicalRecipeIngredient(name, aliases))
+      .filter(Boolean));
+    const beforeLength = meal.ingredients.length;
+    meal.ingredients = meal.ingredients.filter(item => (
+      !replacedCanonical.has(canonicalRecipeIngredient(item?.name, aliases))
+    ));
+    repaired += beforeLength - meal.ingredients.length;
+
+    const replaceForms = new Set(replaces.map(name => String(name || '').trim()).filter(Boolean));
+    for (const rawAlias of Object.keys(aliases)) {
+      if (replacedCanonical.has(canonicalRecipeIngredient(rawAlias, aliases))) replaceForms.add(rawAlias);
+    }
+    const orderedForms = [...replaceForms].sort((a, b) => b.length - a.length);
+    const rewrite = value => {
+      let text = String(value || '');
+      for (const form of orderedForms) text = text.split(form).join(selectedReplacement);
+      const duplicate = `${selectedReplacement}、${selectedReplacement}`;
+      while (text.includes(duplicate)) text = text.split(duplicate).join(selectedReplacement);
+      return text;
+    };
+    for (const field of ['dish_name', 'note', 'taste_preview', 'why']) {
+      if (typeof meal[field] === 'string') meal[field] = rewrite(meal[field]);
+    }
+    if (Array.isArray(meal.steps)) meal.steps = meal.steps.map(rewrite);
+  }
+  return repaired;
+}
+
 function attachGroundedMetadata(meal, selection, constraints) {
   delete meal.constraint_profile;
   delete meal.constraint_profiles;
   delete meal.active_constraint_profile;
+  repairSelectedSubstitutionConflicts(meal, selection);
+  repairGroundedMealConsumables(meal, selection, constraints);
   repairRiceAllergyCompleteMain(meal, selection, constraints);
   repairGroundedMealSafety(meal, selection, constraints);
   const recipe = selection.recipe;
@@ -1699,9 +1988,11 @@ function rateOk(request, env) {
 }
 
 // 全局每日预算熔断(跨实例真熔断, 需在 Cloudflare Pages 绑 KV namespace 为 RATE_KV)。
-// 无 KV binding 时降级返回 ok(靠 rateOk 内存限流), KV 异常也不阻断生成。
+// fail-closed: 未绑 KV 或 KV 读写异常一律拒绝生成(503 budget_unavailable), 不静默放行。
+// 残余风险: KV 读-改-写非原子, 并发突发可有限超支, 但单日总量级仍被钉在预算量级。
+// (Cloudflare ratelimit binding 只支持 10s/60s 窗口且按机房本地计数, 不适合日预算, 故保留 KV。)
 async function budgetConsume(env) {
-  if (!env.RATE_KV) return { ok: true, degraded: true };
+  if (!env.RATE_KV) return { ok: false, unavailable: true, reason: 'kv_binding_missing' };
   try {
     const day = shanghaiParts(new Date()).day;
     const key = 'budget:' + day;
@@ -1710,7 +2001,10 @@ async function budgetConsume(env) {
     if (used >= cap) return { ok: false };
     await env.RATE_KV.put(key, String(used + 1), { expirationTtl: 172800 });
     return { ok: true };
-  } catch (_e) { return { ok: true, degraded: true }; }
+  } catch (err) {
+    console.error('budget kv error', err?.message || String(err));
+    return { ok: false, unavailable: true, reason: 'kv_error' };
+  }
 }
 
 async function handleGenerate(request, env) {
@@ -1718,7 +2012,12 @@ async function handleGenerate(request, env) {
   if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
   if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
 
-  const req = await request.json().catch(() => ({}));
+  // 输入硬上限: 请求体超 32KB 直接 400, 不进后续解析与生成。
+  const rawBody = await request.text().catch(() => '');
+  if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
+    return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+  }
+  const req = (() => { try { return JSON.parse(rawBody || '{}'); } catch (_err) { return {}; } })();
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
   const constraints = sanitizeRecipeConstraints(req.constraints);
   const mealName = String(req.meal_name || '主餐');
@@ -1728,12 +2027,28 @@ async function handleGenerate(request, env) {
   } catch (_err) {
     return errorResponse('recipe_library_unavailable', '可信菜谱库暂时不可用', 503, env, {}, request);
   }
-  const [selection] = selectRecipeCandidates(recipeLib, constraints);
+  const selections = selectRecipeCandidates(recipeLib, constraints);
+  const riceAllergyActive = validationRiceAllergenActive(
+    constraints.dislikes,
+    recipeLib?.ingredient_aliases || {},
+  );
+  // 种子化抖动选取(W1): 短名单内按 score+jitter 重排后, 仍按原规则取第一个 feasible。
+  const selection = pickRecipeSelection(selections, constraints, { riceAllergyActive });
   if (!selection) {
-    if (validationRiceAllergenActive(constraints.dislikes, recipeLib?.ingredient_aliases || {})) {
+    if (riceAllergyActive) {
       return errorResponse(
         'no_safe_recipe',
         '暂时没有符合这些过敏或忌口条件的可信无米主餐',
+        422,
+        env,
+        {},
+        request,
+      );
+    }
+    if (constraints.pantry.length) {
+      return errorResponse(
+        'no_compatible_pantry_recipe',
+        '当前可信菜谱还搭不上这些食材',
         422,
         env,
         {},
@@ -1744,6 +2059,9 @@ async function handleGenerate(request, env) {
   }
 
   const budget = await budgetConsume(env);
+  if (!budget.ok && budget.unavailable) {
+    return errorResponse('budget_unavailable', '生成服务暂时不可用，请稍后再试', 503, env, {}, request);
+  }
   if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
   const prompt = buildPrompt(mealName, targets, constraints, buildRecipeGrounding(selection));
   const body = {
@@ -1756,25 +2074,54 @@ async function handleGenerate(request, env) {
     response_format: { type: 'json_object' },
   };
 
-  const upstream = await fetch(env.API_URL || 'https://api.deepseek.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${env.DEEPSEEK_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
+  // DeepSeek 30s 硬超时: 超时 504 upstream_timeout, 网络失败或上游非 2xx 一律 502 upstream_error;
+  // 错误响应只回状态码, 不回传上游原文(脱敏)。预算预扣限制的是调用尝试, 有意不动。
+  let upstream;
+  try {
+    upstream = await fetch(env.API_URL || 'https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.DEEPSEEK_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(30000),
+    });
+  } catch (err) {
+    console.error('DeepSeek fetch failed', err?.name || 'unknown', err?.message || String(err));
+    if (err?.name === 'TimeoutError' || err?.name === 'AbortError') {
+      return errorResponse('upstream_timeout', '生成服务响应超时，请稍后再试', 504, env, {}, request);
+    }
+    return errorResponse('upstream_error', '生成服务临时失败，请稍后再试', 502, env, {}, request);
+  }
 
   const raw = await upstream.text();
   if (!upstream.ok) {
     console.error('DeepSeek upstream error', upstream.status, raw.slice(0, 300));
-    return errorResponse('upstream_http', '生成服务临时失败，请稍后再试', 502, env, { upstreamStatus: upstream.status }, request);
+    return errorResponse('upstream_error', '生成服务临时失败，请稍后再试', 502, env, { upstreamStatus: upstream.status }, request);
   }
 
   const data = JSON.parse(raw);
   const content = data?.choices?.[0]?.message?.content;
   const meal = normalizeMeal(parseModelJson(content), data.usage);
   attachGroundedMetadata(meal, selection, constraints);
+  // 硬校验失败不上桌: attachGroundedMetadata 内确定性 repair 后仍有 validation_flags 的,
+  // 服务端直接 422 unsafe_recipe(前端已有对应停止页), 不再发出去让前端 scoreDish 拦;
+  // 以 repair 后的终态 flags 为准, repair 已修掉的不触发; 不静默重试 DeepSeek。
+  if (meal.validation_flags.length) {
+    console.log(JSON.stringify({
+      evt: 'gen',
+      ok: false,
+      code: 'unsafe_recipe',
+      base: meal.base_recipe_id,
+      family: meal.family_id,
+      flags: meal.validation_flags.length,
+      tokens: meal._tokens || 0,
+      n: (meal.ingredients || []).length,
+      ms: Date.now() - t0,
+    }));
+    return errorResponse('unsafe_recipe', '生成的做法没有通过食材或熟制检查', 422, env, {}, request);
+  }
   await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
   console.log(JSON.stringify({
     evt: 'gen',
@@ -1793,11 +2140,17 @@ async function handleGenerate(request, env) {
 export {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  fnv1a32,
+  matchAllergy,
+  pickRecipeSelection,
+  recipeSelectionSeed,
   selectRecipeCandidates,
   getRecipeLib,
+  repairGroundedMealConsumables,
   repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
   validateGroundedMeal,
+  validationRiceAllergenActive,
 };
 
 export default {

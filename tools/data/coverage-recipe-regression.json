@@ -1,0 +1,9 @@
+[
+  {"id":"broccoli-beef","purpose":"pantry","servings":2,"pantry":["西兰花","牛肉"],"dislikes":[],"rounds":5,"min_families":4},
+  {"id":"chicken-leg-potato","purpose":"pantry","servings":2,"pantry":["鸡腿肉","土豆"],"dislikes":[],"rounds":5,"min_families":4},
+  {"id":"household-leafy-greens","purpose":"pantry","servings":2,"pantry":["青菜"],"dislikes":[],"rounds":5,"min_families":4},
+  {"id":"leftover-rice-egg","purpose":"pantry","servings":2,"pantry":["剩米饭","鸡蛋"],"dislikes":[],"rounds":5,"min_families":4},
+  {"id":"ribs-green-bean","purpose":"pantry","servings":2,"pantry":["排骨","豆角"],"dislikes":[],"rounds":5,"min_families":4},
+  {"id":"ribs-potato","purpose":"pantry","servings":2,"pantry":["排骨","土豆"],"dislikes":[],"rounds":5,"min_families":4},
+  {"id":"tofu-greens","purpose":"pantry","servings":2,"pantry":["豆腐","青菜"],"dislikes":[],"rounds":5,"min_families":4}
+]

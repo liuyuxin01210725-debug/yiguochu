@@ -1589,7 +1589,12 @@
       "红扁豆过敏"
     ],
     "expected_recipe_ids": [
-      "chinese-congee"
+      "chinese-congee",
+      "broccoli-beef-fried-rice",
+      "broccoli-beef-soup-noodles",
+      "broccoli-beef-braised-rice",
+      "potato-broccoli-beef-covered-rice",
+      "tomato-broccoli-beef-stewed-rice"
     ],
     "forbidden_recipe_ids": [
       "soy-lentil-vegetable-stew"
@@ -1918,7 +1923,12 @@
     ],
     "expected_recipe_ids": [
       "cantonese-black-bean-pork-rib-claypot-rice",
-      "chicken-black-eyed-pea-stew"
+      "chicken-black-eyed-pea-stew",
+      "broccoli-beef-braised-rice",
+      "potato-broccoli-beef-covered-rice",
+      "broccoli-beef-fried-rice",
+      "broccoli-beef-soup-noodles",
+      "tomato-broccoli-beef-stewed-rice"
     ],
     "forbidden_recipe_ids": [
       "texas-beef-chili"
@@ -2648,116 +2658,113 @@
     "family_id": "family-spiced-rice"
   },
   {
-    "id": "cycle-027-jollof-rice-fresh-4",
+    "id": "cycle-027-home-fried-rice-fresh-4",
     "purpose": "fresh",
     "servings": 4,
     "pantry": [
-      "大米",
-      "番茄",
-      "甜椒",
-      "洋葱"
-    ],
-    "dislikes": [],
-    "expected_recipe_ids": [
-      "jollof-rice"
-    ],
-    "forbidden_recipe_ids": [],
-    "case_group": "cycle",
-    "base_recipe_id": "jollof-rice",
-    "family_id": "family-tomato-rice"
-  },
-  {
-    "id": "cycle-028-creole-jambalaya-batch-1",
-    "purpose": "batch",
-    "servings": 1,
-    "pantry": [
-      "大米",
-      "番茄",
-      "鸡肉",
-      "芹菜"
-    ],
-    "dislikes": [],
-    "expected_recipe_ids": [
-      "creole-jambalaya"
-    ],
-    "forbidden_recipe_ids": [],
-    "case_group": "cycle",
-    "base_recipe_id": "creole-jambalaya",
-    "family_id": "family-tomato-rice"
-  },
-  {
-    "id": "cycle-029-soy-lentil-vegetable-stew-quick-2",
-    "purpose": "quick",
-    "servings": 2,
-    "pantry": [
-      "红扁豆",
-      "大豆蛋白块",
+      "熟米饭",
       "西兰花",
-      "红洋葱"
+      "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "soy-lentil-vegetable-stew"
+      "broccoli-beef-fried-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "soy-lentil-vegetable-stew",
-    "family_id": "family-legume-vegetable-stew"
+    "base_recipe_id": "broccoli-beef-fried-rice",
+    "family_id": "family-home-fried-rice"
   },
   {
-    "id": "cycle-030-chicken-black-eyed-pea-stew-pantry-4",
+    "id": "cycle-028-home-braised-rice-batch-1",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "排骨",
+      "豆角"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "green-bean-pork-rib-braised-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "green-bean-pork-rib-braised-rice",
+    "family_id": "family-home-braised-rice"
+  },
+  {
+    "id": "cycle-029-home-stewed-rice-pantry-2",
     "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "熟米饭",
+      "番茄",
+      "豆腐",
+      "青菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "tomato-tofu-stewed-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "tomato-tofu-stewed-rice",
+    "family_id": "family-home-stewed-rice"
+  },
+  {
+    "id": "cycle-030-home-soup-staple-quick-4",
+    "purpose": "quick",
     "servings": 4,
     "pantry": [
-      "黑眼豆（罐头沥干）",
-      "大米",
-      "鸡肉",
-      "番茄",
-      "洋葱"
+      "面条",
+      "西兰花",
+      "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "chicken-black-eyed-pea-stew"
+      "broccoli-beef-soup-noodles"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "chicken-black-eyed-pea-stew",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "broccoli-beef-soup-noodles",
+    "family_id": "family-home-soup-staple"
   },
   {
-    "id": "cycle-031-lentil-potato-tomato-curry-fresh-1",
+    "id": "cycle-031-home-covered-pot-fresh-1",
     "purpose": "fresh",
     "servings": 1,
     "pantry": [
-      "红扁豆",
+      "大米",
       "土豆",
-      "番茄"
+      "西兰花",
+      "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "lentil-potato-tomato-curry"
+      "potato-broccoli-beef-covered-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "lentil-potato-tomato-curry",
-    "family_id": "family-legume-vegetable-stew"
+    "base_recipe_id": "potato-broccoli-beef-covered-rice",
+    "family_id": "family-home-covered-pot"
   },
   {
-    "id": "cycle-032-shakshuka-tomato-egg-batch-2",
-    "purpose": "batch",
+    "id": "cycle-032-home-vermicelli-pot-pantry-2",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
-      "鸡蛋",
-      "番茄",
-      "甜椒"
+      "粉丝",
+      "青菜",
+      "豆腐"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "shakshuka-tomato-egg"
+      "greens-tofu-vermicelli-pot"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "shakshuka-tomato-egg",
-    "family_id": "family-tomato-egg-pot"
+    "base_recipe_id": "greens-tofu-vermicelli-pot",
+    "family_id": "family-home-vermicelli-pot"
   }
 ]

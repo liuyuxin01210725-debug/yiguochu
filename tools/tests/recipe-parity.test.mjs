@@ -7,10 +7,15 @@ import { fileURLToPath } from 'node:url';
 import worker, {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  fnv1a32,
+  matchAllergy,
+  pickRecipeSelection,
+  recipeSelectionSeed,
   repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
   selectRecipeCandidates,
   validateGroundedMeal,
+  validationRiceAllergenActive,
 } from '../../worker/src/worker.js';
 
 const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
@@ -48,10 +53,66 @@ function fixtureActivatesRiceAllergy(name, aliases) {
 }
 
 function noCandidateFixtureDislikes(library) {
-  return [...new Set(library.recipes.flatMap(recipe => [
-    ...(recipe.core_ingredients || []),
-    ...(recipe.substitution_slots || []).flatMap(slot => slot.allowed || []),
-  ]))].filter(item => !fixtureActivatesRiceAllergy(item, library.ingredient_aliases || {}));
+  const aliases = library.ingredient_aliases || {};
+  const canonical = name => canonicalRecipeIngredient(name, aliases);
+  const dislikedWith = terms => item => terms.some(term => matchAllergy(term, item, aliases));
+  // 镜像 worker blockedCore: 有不可替换的被忌口核心即整菜出局(类别匹配版)。
+  const blocksRecipe = (recipe, terms) => {
+    const disliked = dislikedWith(terms);
+    const core = new Set((recipe.core_ingredients || []).map(canonical).filter(Boolean));
+    const slots = Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [];
+    return [...core].some(coreItem => {
+      if (!disliked(coreItem)) return false;
+      return !slots.some(slot => {
+        const replacesCore = (slot.replaces || []).map(canonical).includes(coreItem);
+        if (!replacesCore) return false;
+        return (slot.allowed || []).some(item => {
+          const raw = String(item || '').trim();
+          const substitute = canonical(raw);
+          return substitute && substitute !== coreItem && !disliked(substitute) && !/^不(?:放|加|用)/.test(raw);
+        });
+      });
+    });
+  };
+  // 让一个核心出局的词组: 优先只放核心原名(子串/类别匹配往往连 slot 替代项一起盖住);
+  // 单词盖不住(替代项逃脱)才退到 核心原名 + 替换位 allowed 全组。
+  // 米类激活词会触发安全池特判、不属于本 fixture, 统一泛化成非激活子串「米」(任何米名都含「米」)。
+  const nonActivatorTerm = item => (fixtureActivatesRiceAllergy(item, aliases) ? '米' : item);
+  const blockerOptions = recipe => {
+    const slots = Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [];
+    const singles = [];
+    const sets = [];
+    for (const coreRaw of recipe.core_ingredients || []) {
+      singles.push([nonActivatorTerm(coreRaw)]);
+      const replacing = slots.filter(slot => (slot.replaces || []).map(canonical).includes(canonical(coreRaw)));
+      const option = [coreRaw, ...replacing.flatMap(slot => slot.allowed || [])].map(nonActivatorTerm);
+      if (option.length > 1) sets.push([...new Set(option)]);
+    }
+    return [...singles, ...sets];
+  };
+  // 子串/类别匹配一词多盖, 贪心选词组直到所有菜谱出局(同覆盖取新词更少者); dislikes 有 20 项硬上限, 必须收敛在内。
+  const terms = [];
+  let uncovered = [...library.recipes];
+  while (uncovered.length) {
+    let best = null;
+    let bestCovered = [];
+    for (const recipe of uncovered) {
+      for (const option of blockerOptions(recipe)) {
+        const added = option.filter(item => !terms.includes(item));
+        if (terms.length + added.length > 20) continue;
+        const covered = uncovered.filter(item => blocksRecipe(item, [...terms, ...added]));
+        if (covered.length > bestCovered.length
+          || (best && covered.length === bestCovered.length && added.length < best.length)) {
+          best = added;
+          bestCovered = covered;
+        }
+      }
+    }
+    if (!best) throw new Error(`no-candidate fixture cannot cover within the 20-item cap: ${uncovered.map(recipe => recipe.id).join(',')}`);
+    terms.push(...best);
+    uncovered = uncovered.filter(recipe => !bestCovered.includes(recipe));
+  }
+  return terms;
 }
 
 const pythonHarness = String.raw`
@@ -75,6 +136,26 @@ elif action == 'select':
         'unused_pantry': item['unused_pantry'],
         'constraint_profile': item.get('constraint_profile'),
     } for item in selections]
+elif action == 'fnv1a':
+    result = proxy.fnv1a32(request.get('text', ''), request.get('init', 2166136261))
+elif action == 'seed':
+    result = proxy.recipe_selection_seed(request.get('constraints', {}))
+elif action == 'pick':
+    constraints = request.get('constraints', {})
+    selections = proxy.select_recipe_candidates(request['library'], constraints)
+    picked = proxy.pick_recipe_selection(
+        selections,
+        constraints,
+        rice_allergy_active=proxy._validation_rice_allergen_active(
+            constraints.get('dislikes'),
+            request['library'].get('ingredient_aliases') or {},
+        ),
+    )
+    result = None if picked is None else {
+        'recipe_id': picked['recipe'].get('id'),
+        'used_pantry': picked['used_pantry'],
+        'unused_pantry': picked['unused_pantry'],
+    }
 elif action == 'validate':
     selection = proxy.select_recipe_candidates(request['library'], request.get('constraints', {}))[request.get('selection_index', 0)]
     result = proxy.validate_grounded_meal(request.get('meal'), selection, request.get('constraints'))
@@ -117,6 +198,32 @@ elif action == 'prepare':
         'meal': meal,
         'grounding': proxy.build_recipe_grounding(selection),
     }
+elif action == 'prepare_error':
+    try:
+        proxy.build_recipe_request(
+            request.get('meal_name', '主餐'),
+            request.get('targets', {}),
+            proxy.sanitize_recipe_constraints(request.get('constraints')),
+            request['library'],
+        )
+        result = {'type': '', 'message': ''}
+    except Exception as exc:
+        result = {'type': type(exc).__name__, 'message': str(exc)}
+elif action == 'generate_dry':
+    # 镜像 worker handleGenerate 响应位: repair 后终态 flags 非空 → 422 unsafe_recipe, 否则 200。
+    constraints = proxy.sanitize_recipe_constraints(request.get('constraints'))
+    payload, selection = proxy.build_recipe_request(
+        request.get('meal_name', '主餐'),
+        request.get('targets', {}),
+        constraints,
+        request['library'],
+    )
+    meal = proxy.normalize_meal(copy.deepcopy(request['meal']), request.get('usage'))
+    try:
+        proxy.finalize_generated_meal(meal, selection, constraints)
+        result = {'status': 200, 'meal': meal}
+    except proxy.UnsafeRecipe as exc:
+        result = {'status': 422, 'code': 'unsafe_recipe', 'error': str(exc)}
 else:
     raise ValueError('unknown action')
 json.dump(result, sys.stdout, ensure_ascii=False, separators=(',', ':'))
@@ -135,7 +242,9 @@ function runPython(args, { input, env } = {}) {
     encoding: 'utf8',
     input,
     env: env || cleanPythonEnv(),
-    timeout: 1500,
+    // 全量测试会并行启动多个 Node/Python/Chrome 进程；1.5s 在负载下会把
+    // 正常的 parity 子进程误杀。与其他 Python 跨端测试统一使用 15s 上限。
+    timeout: 15000,
   });
 }
 
@@ -280,6 +389,11 @@ async function runWorkerGeneration({ recipeLib, meal, constraints, targets = { k
       ASSETS: assets,
       DEEPSEEK_API_KEY: 'test-key',
       RATE_LIMIT: 0,
+      // 预算熔断已 fail-closed,  parity 生成路径默认配内存 KV。
+      RATE_KV: {
+        async get() { return null; },
+        async put() {},
+      },
     });
     return { response, body: await response.json(), upstreamBodies };
   } finally {
@@ -637,7 +751,8 @@ test('required Python recipe-match CLI works without an API key and matches the 
     { pantry: ['鸡蛋', '番茄', '甜椒'], purpose: 'quick', dislikes: [] },
   ];
   for (const constraints of cases) {
-    const js = selectRecipeCandidates(lib, constraints)[0];
+    // CLI 与线上 handleGenerate 一致走种子化抖动选取(W1), 这里对拍最终选中的 base recipe。
+    const js = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
     const py = pythonMatch(constraints);
     assert.deepEqual(py, {
       base_recipe_id: js.recipe.id,
@@ -645,6 +760,113 @@ test('required Python recipe-match CLI works without an API key and matches the 
       used_pantry: js.usedPantry,
       unused_pantry: js.unusedPantry,
     });
+  }
+});
+
+test('all seven coverage journeys keep Worker and Python aligned through five history rounds', () => {
+  const journeys = JSON.parse(fs.readFileSync(
+    new URL('../data/coverage-recipe-regression.json', import.meta.url),
+    'utf8',
+  ));
+  assert.equal(journeys.length, 7);
+  for (const journey of journeys) {
+    const recent = [];
+    for (let round = 0; round < 5; round += 1) {
+      const constraints = {
+        purpose: journey.purpose,
+        servings: journey.servings,
+        pantry: journey.pantry,
+        dislikes: journey.dislikes,
+        recent_base_recipes: [...recent],
+      };
+      const js = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
+      assert.ok(js, `${journey.id} round ${round + 1}`);
+      const py = pythonMatch(constraints);
+      assert.deepEqual(py, {
+        base_recipe_id: js.recipe.id,
+        family_id: js.family.id,
+        used_pantry: js.usedPantry,
+        unused_pantry: js.unusedPantry,
+      }, `${journey.id} round ${round + 1}`);
+      assert.equal(py.used_pantry.length, js.usedPantry.length, `${journey.id} coverage round ${round + 1}`);
+      recent.push(js.recipe.id);
+    }
+  }
+});
+
+test('Python fnv1a32 matches Worker bit for bit across fixed inputs', () => {
+  const cases = [
+    ['', 2166136261],
+    ['a', 2166136261],
+    ['kari-ayam-coconut-chicken', 1392121723],
+    ['海鲜过敏/换一换:cuisine', 2166136261],
+    ['[[],[],"quick",2,[],""]', 2166136261],
+    ['[["红扁豆","土豆","番茄"],[],"pantry",4,["simple-chicken-biryani"],"protein"]', 2166136261],
+  ];
+  for (const [text, init] of cases) {
+    const expected = fnv1a32(text, init);
+    assert.equal(pythonCall('fnv1a', { text, init }), expected, `${text} @ ${init}`);
+  }
+  // 已知答案锁定: 空串 = offset basis, 'a' = FNV-1a 32 标准值。
+  assert.equal(fnv1a32(''), 2166136261);
+  assert.equal(fnv1a32('a'), 3826002220);
+});
+
+test('Python selection seed matches Worker for identical constraints', () => {
+  const cases = [
+    {},
+    { pantry: ['鸡腿肉', '大米'], dislikes: ['海鲜'], purpose: 'quick', servings: 2 },
+    {
+      pantry: ['红扁豆', '土豆', '番茄'],
+      dislikes: [],
+      purpose: 'pantry',
+      servings: 4,
+      recent_base_recipes: ['simple-chicken-biryani', 'kari-ayam-coconut-chicken'],
+      swap_intent: 'cuisine',
+    },
+    { pantry: ['  多重   空格 ', '鸡蛋'], purpose: 'fresh', servings: 1, swap_intent: 'protein' },
+  ];
+  for (const constraints of cases) {
+    assert.equal(
+      pythonCall('seed', { constraints }),
+      recipeSelectionSeed(constraints),
+      JSON.stringify(constraints),
+    );
+  }
+});
+
+test('Python jittered pick matches Worker for the same constraints', () => {
+  const cases = [
+    { pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'], purpose: 'quick', servings: 2, dislikes: [] },
+    { pantry: [], purpose: 'quick', servings: 2, dislikes: [] },
+    {
+      pantry: ['红扁豆', '土豆', '西红柿'],
+      purpose: 'pantry',
+      servings: 4,
+      dislikes: ['海鲜'],
+      recent_base_recipes: ['simple-chicken-biryani', 'kari-ayam-coconut-chicken'],
+      recent_families: ['family-biryani'],
+      swap_intent: 'cuisine',
+    },
+    { pantry: ['鸡蛋', '番茄'], purpose: 'fresh', servings: 1, dislikes: [], swap_intent: 'protein', recent_base_recipes: ['shakshuka-tomato-egg'] },
+    // 分层选取(codex 反例): 覆盖数高于多样性, 双命中菜谱必须赢过只命中大米的基础粥。
+    { pantry: ['大米', '虾仁'], purpose: 'quick', servings: 2, dislikes: [] },
+    { pantry: ['大米', '番茄酱'], purpose: 'quick', servings: 2, dislikes: [] },
+    // 全局短名单反例: 两项 optional 命中不能被五道单项 core 命中挤出候选池。
+    { pantry: ['番茄', '虾仁', '猪肉'], purpose: 'quick', servings: 2, dislikes: [] },
+    // 稻米过敏安全池: riceAllergyActive 时绕过 pantry-feasible 规则, 仍取抖动后第一位。
+    { pantry: ['鸡肉', '洋葱'], purpose: 'quick', servings: 2, dislikes: ['大米过敏'] },
+  ];
+  for (const constraints of cases) {
+    const js = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints, {
+      riceAllergyActive: validationRiceAllergenActive(constraints.dislikes, lib.ingredient_aliases || {}),
+    });
+    const py = pythonCall('pick', { library: lib, constraints });
+    assert.deepEqual(py, js && {
+      recipe_id: js.recipe.id,
+      used_pantry: js.usedPantry,
+      unused_pantry: js.unusedPantry,
+    }, JSON.stringify(constraints));
   }
 });
 
@@ -682,6 +904,78 @@ test('Python selector matches fixed-core rejection and real dislike replacement'
   assert.deepEqual(hits.map(hit => hit.recipe_id), ['replaceable']);
 });
 
+test('Worker and Python selectors preserve unmatched pantry details for the request boundary', () => {
+  const library = fixtureLib([
+    fixtureRecipe('plain-rice', 'family-rice', { core_ingredients: ['大米', '水'] }),
+  ]);
+  const hits = assertSelectorParity(library, {
+    pantry: ['豆腐', '白菜', '金针菇'],
+    purpose: 'pantry',
+    dislikes: [],
+  });
+  assert.equal(hits.length, 1);
+  assert.deepEqual(hits[0].used_pantry, []);
+  assert.deepEqual(hits[0].unused_pantry, ['豆腐', '白菜', '金针菇']);
+});
+
+test('Worker and Python select the same trusted base for tomato shrimp cabbage and corn', () => {
+  const constraints = {
+    pantry: ['西红柿', '虾仁', '白菜', '玉米'],
+    purpose: 'quick',
+    dislikes: [],
+  };
+  const hits = assertSelectorParity(lib, constraints);
+  assert.equal(hits[0].recipe_id, 'taiwan-cabbage-mushroom-rice');
+  assert.deepEqual(hits[0].used_pantry, constraints.pantry);
+  assert.deepEqual(hits[0].unused_pantry, []);
+});
+
+test('Python request builder distinguishes an unmatched pantry from a missing recipe library', () => {
+  const library = fixtureLib([
+    fixtureRecipe('plain-rice', 'family-rice', { core_ingredients: ['大米', '水'] }),
+  ]);
+  const error = pythonCall('prepare_error', {
+    library,
+    constraints: { pantry: ['豆腐', '白菜', '金针菇'], purpose: 'pantry', dislikes: [] },
+  });
+  assert.deepEqual(error, {
+    type: 'NoCompatiblePantryRecipe',
+    message: '当前可信菜谱还搭不上这些食材',
+  });
+});
+
+test('Worker and Python remove duplicated slot originals when pantry replacements are selected', async () => {
+  const recipe = groundedRecipe({
+    id: 'taiwan-cabbage-mushroom-rice',
+    core_ingredients: ['大米', '卷心菜', '鲜香菇'],
+    optional_ingredients: ['老豆腐'],
+    generation_optional_ingredients: ['老豆腐'],
+    substitution_slots: [
+      { slot: '叶菜', replaces: ['卷心菜'], allowed: ['白菜'] },
+      { slot: '新鲜食用菌', replaces: ['鲜香菇'], allowed: ['金针菇'] },
+    ],
+  });
+  const library = fixtureLib([recipe], { 豆腐: '老豆腐', 高丽菜: '卷心菜', 香菇: '鲜香菇' });
+  const constraints = { pantry: ['豆腐', '白菜', '金针菇'], purpose: 'quick', dislikes: [] };
+  const ingredient = name => ({
+    name, grams: 100, kcal: 100, p: 5, fb: 2, mg: 1, k: 1, ca: 1,
+    fe: 1, zn: 1, na: 1, vc: 1, vd: 0, w3: 0,
+  });
+  const meal = generatedMeal({
+    dish_name: '高丽菜香菇豆腐炊饭',
+    ingredients: ['大米', '卷心菜', '鲜香菇', '老豆腐', '白菜', '金针菇', '水'].map(ingredient),
+    steps: ['大米加水，铺上卷心菜、白菜、鲜香菇、金针菇和老豆腐，同锅焖熟。'],
+  });
+  const js = await runWorkerGeneration({ recipeLib: library, meal, constraints });
+  const py = pythonCall('prepare', { library, meal, constraints, targets: { kcal: 1200, p: 50, fb: 16 } });
+  assert.equal(js.response.status, 200);
+  assert.deepEqual(js.body.validation_flags, []);
+  assert.deepEqual(py.meal.validation_flags, []);
+  assert.deepEqual(py.meal.ingredients, js.body.ingredients);
+  assert.deepEqual(py.meal.steps, js.body.steps);
+  assert.equal(py.meal.dish_name, js.body.dish_name);
+});
+
 test('Python selector matches every score weight and preserves used/unused pantry order', () => {
   const recipe = fixtureRecipe('weighted', 'family-a', {
     purposes: ['pantry'],
@@ -690,17 +984,45 @@ test('Python selector matches every score weight and preserves used/unused pantr
     substitution_slots: [{ replaces: ['旧料'], allowed: ['替代'] }],
     discouraged: [{ ingredients: ['冲突'] }],
   });
+  const old = fixtureRecipe('old', 'family-a');
   const constraints = {
     pantry: ['无关甲', '主料', '可选', '冲突', '替代', '无关乙'],
     purpose: 'pantry',
     dislikes: [],
     recent_families: ['family-a'],
-    recent_base_recipes: ['weighted'],
+    recent_base_recipes: ['old'],
   };
-  const [hit] = assertSelectorParity(fixtureLib([recipe]), constraints);
-  assert.equal(hit.score, -103); // +12 +5 +5 +3 -8 -20 -100
+  const [hit] = assertSelectorParity(fixtureLib([old, recipe]), constraints);
+  assert.equal(hit.score, -3); // +12 +5 +5 +3 -8 -20
   assert.deepEqual(hit.used_pantry, ['主料', '可选', '替代']);
   assert.deepEqual(hit.unused_pantry, ['无关甲', '冲突', '无关乙']);
+});
+
+test('Worker and Python both give no protein-swap bonus to protein_class 无', () => {
+  const library = fixtureLib([
+    fixtureRecipe('last-egg', 'family-a', {
+      core_ingredients: ['鸡蛋', '番茄'],
+      protein_class: ['蛋'],
+    }),
+    fixtureRecipe('chicken-pot', 'family-b', {
+      core_ingredients: ['鸡肉', '大米'],
+      protein_class: ['鸡'],
+    }),
+    fixtureRecipe('no-protein-pot', 'family-c', {
+      core_ingredients: ['大米', '白菜'],
+      protein_class: ['无'],
+    }),
+  ]);
+  const baseline = assertSelectorParity(library, { recent_base_recipes: ['last-egg'] });
+  const swapped = assertSelectorParity(library, {
+    recent_base_recipes: ['last-egg'],
+    swap_intent: 'protein',
+  });
+  const scoreMap = hits => new Map(hits.map(hit => [hit.recipe_id, hit.score]));
+  const before = scoreMap(baseline);
+  const after = scoreMap(swapped);
+  assert.equal(after.get('chicken-pot') - before.get('chicken-pot'), 8);
+  assert.equal(after.get('no-protein-pot') - before.get('no-protein-pot'), 0);
 });
 
 test('Python selector matches recent penalties, ID tie-break, family diversity, and ID de-duplication', () => {
@@ -718,7 +1040,8 @@ test('Python selector matches recent penalties, ID tie-break, family diversity, 
     recent_base_recipes: ['a-duplicate-family'],
   };
   const hits = assertSelectorParity(fixtureLib(recipes), constraints);
-  assert.deepEqual(hits.map(hit => hit.recipe_id), ['z-top', 'c-top', 'b-top']);
+  // recent_base_recipes 是资格过滤：a-duplicate-family 不再进入短名单；两端保持相同。
+  assert.deepEqual(hits.map(hit => hit.recipe_id), ['z-top', 'b-top', 'c-top']);
 
   const ties = assertSelectorParity(fixtureLib([
     fixtureRecipe('zulu', 'family-z'),
@@ -1015,7 +1338,11 @@ test('Python trusted system priority and joined seasoning validation match Worke
 });
 
 test('Python validator matches all seven flags plus variants, negation, action order, and multi-pot rules', () => {
-  const recipe = groundedRecipe({ core_ingredients: ['大米', '鸡肉'] });
+  // 类别匹配下「鸡腿肉过敏」归一到「鸡肉」后会按组拦掉所有鸡部位替代, 替换位需留非鸡安全出口。
+  const recipe = groundedRecipe({
+    core_ingredients: ['大米', '鸡肉'],
+    substitution_slots: [{ slot: '主蛋白', replaces: ['鸡肉'], allowed: ['鸡腿肉', '鸡胸肉', '猪瘦肉'] }],
+  });
   const library = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
   const constraints = { pantry: ['大米', '黄瓜'], dislikes: ['鸡腿肉过敏'] };
   const meals = [
@@ -1613,7 +1940,7 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   };
   const meal = generatedMeal({
     adaptation_note: 'model-forged-adaptation',
-    steps: ['鸡肉翻炒至表面变色，加入洋葱和大米焖至米熟。'],
+    steps: ['鸡肉翻炒至表面变色，加入洋葱、大米和水焖至米熟。'],
     prep_minutes: 30,
   });
   const { response, body, upstreamBodies } = await runWorkerGeneration({ recipeLib, meal, constraints });
@@ -1798,6 +2125,49 @@ test('Python trusted rice-safe live repair exactly matches Worker', async () => 
   assert.doesNotMatch(body.steps.join(''), /另取|另起|另一口|第二口|炒锅|平底锅|汤锅/);
 });
 
+test('Python hard-fails meals with post-repair flags as the same 422 unsafe_recipe as Worker', async () => {
+  const recipe = groundedRecipe();
+  const recipeLib = fixtureLib([recipe], { 鸡腿肉: '鸡肉' });
+  const constraints = { purpose: 'quick', servings: 2, pantry: ['鸡腿肉', '大米', '洋葱'], dislikes: [] };
+  // repair 修不掉的 multi_pot_step: 终态 flags 非空 → 双端 422 明示失败, 不端出、不静默重试。
+  const flaggedMeal = generatedMeal({
+    dish_name: '鸡肉洋葱焖饭',
+    ingredients: [
+      { name: '大米', grams: 200 },
+      { name: '鸡肉', grams: 250 },
+      { name: '洋葱', grams: 120 },
+      { name: '水', grams: 240 },
+    ],
+    steps: ['鸡肉煎熟。', '另取一锅炒洋葱，加入大米和水。', '合并后焖熟。'],
+  });
+  const flagged = await runWorkerGeneration({ recipeLib, meal: flaggedMeal, constraints });
+  assert.equal(flagged.response.status, 422);
+  assert.equal(flagged.body.code, 'unsafe_recipe');
+  assert.equal(flagged.upstreamBodies.length, 1);
+  const pyFlagged = pythonCall('generate_dry', {
+    library: recipeLib,
+    meal: flaggedMeal,
+    constraints,
+    targets: { kcal: 1200, p: 50, fb: 16 },
+  });
+  assert.equal(pyFlagged.status, 422);
+  assert.equal(pyFlagged.code, 'unsafe_recipe');
+
+  // 对照: 终态 flags 为空(default 步骤熟制终点齐全) → 双端 200 正常上桌。
+  const okMeal = generatedMeal();
+  const ok = await runWorkerGeneration({ recipeLib, meal: okMeal, constraints });
+  assert.equal(ok.response.status, 200);
+  assert.deepEqual(ok.body.validation_flags, []);
+  const pyOk = pythonCall('generate_dry', {
+    library: recipeLib,
+    meal: okMeal,
+    constraints,
+    targets: { kcal: 1200, p: 50, fb: 16 },
+  });
+  assert.equal(pyOk.status, 200);
+  assert.deepEqual(pyOk.meal.validation_flags, ok.body.validation_flags);
+});
+
 test('Python retained-water and contradictory-vessel repair exactly match Worker', () => {
   const constraints = { pantry: [], dislikes: ['大米过敏'] };
   const selection = selectRecipeCandidates(lib, constraints)[0];
@@ -1882,7 +2252,8 @@ test('no-candidate fixture keeps black-rice color as an ordinary exact dislike',
   // The selector's rice-allergy mode recognizes raw rice/rice-meal names, not
   // every ingredient whose descriptive name happens to contain “米”.
   assert.equal(fixtureActivatesRiceAllergy('食品级黑米色粉', lib.ingredient_aliases), false);
-  assert.ok(dislikes.includes('食品级黑米色粉'));
+  // 黑色米粉只被当普通忌口词盖住(经 fixture 词组子串命中), 不会因此激活米过敏安全池。
+  assert.ok(dislikes.some(item => matchAllergy(item, '食品级黑米色粉', lib.ingredient_aliases || {})));
   assert.equal(selectRecipeCandidates(lib, { pantry: [], dislikes }).length, 0);
 });
 

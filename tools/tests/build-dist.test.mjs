@@ -131,6 +131,11 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       fs.readFileSync(path.join(outputDir, 'recipe-library.json'), 'utf8'),
       fs.readFileSync(LIBRARY_PATH, 'utf8'),
     );
+    const builtLibrary = JSON.parse(fs.readFileSync(path.join(outputDir, 'recipe-library.json'), 'utf8'));
+    assert.equal(builtLibrary.families.length, 21);
+    assert.equal(builtLibrary.recipes.length, 72);
+    assert.equal(builtLibrary.recipes.filter(recipe => recipe.status === 'approved').length, 12);
+    assert.equal(builtLibrary.recipes.filter(recipe => recipe.status === 'auto_approved').length, 60);
     assert.equal(
       fs.readFileSync(path.join(outputDir, '_worker.js'), 'utf8'),
       fs.readFileSync(path.join(ROOT, 'worker', 'src', 'worker.js'), 'utf8'),
@@ -139,6 +144,10 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
       /const C = 'yiguochu-shell-v4-canonical-test';/,
     );
+    const builtIndex = fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8');
+    assert.doesNotMatch(builtIndex, /__YIGUOCHU_BUILD_ID__/);
+    assert.match(builtIndex, /serviceWorker\.register\('sw\.js\?v=canonical-test', \{ updateViaCache:'none' \}\)/);
+    assert.match(builtIndex, /serviceWorker\.addEventListener\('controllerchange'/);
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
   }

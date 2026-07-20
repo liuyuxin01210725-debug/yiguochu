@@ -4,6 +4,11 @@ import fs from 'node:fs';
 import {
   buildRecipeGrounding,
   canonicalRecipeIngredient,
+  fnv1a32,
+  matchAllergy,
+  pickRecipeSelection,
+  recipeSelectionSeed,
+  repairGroundedMealConsumables,
   repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
   selectRecipeCandidates,
@@ -105,28 +110,42 @@ function riceAllergenSelection() {
 }
 
 let generationImportId = 0;
+// 预算熔断已 fail-closed, 默认给生成请求配一个内存 KV; 传 envOverrides: { RATE_KV: undefined } 可测未绑定的 503 路径。
+function memoryRateKv() {
+  const store = new Map();
+  return {
+    async get(key) { return store.has(key) ? store.get(key) : null; },
+    async put(key, value) { store.set(key, String(value)); },
+  };
+}
+
 async function runGenerateRequest({
   recipeLib,
   meal = generatedMeal(),
   rawContent,
   constraints = {},
+  targets = { kcal: 1200, p: 50, fb: 16 },
   recipeStatus = 200,
   captureLogs = false,
   envOverrides = {},
+  fetchImpl,
+  bodyOverrides = {},
 }) {
   generationImportId += 1;
   const { default: worker } = await import(`../../worker/src/worker.js?generation-${generationImportId}`);
   const upstreamBodies = [];
+  const upstreamSignals = [];
   const logs = [];
   const originalFetch = globalThis.fetch;
   const originalLog = console.log;
-  globalThis.fetch = async (_url, options) => {
+  globalThis.fetch = fetchImpl || (async (_url, options) => {
     upstreamBodies.push(JSON.parse(String(options?.body || '{}')));
+    upstreamSignals.push(options?.signal ?? null);
     return Response.json({
       choices: [{ message: { content: rawContent ?? JSON.stringify(meal) } }],
       usage: { total_tokens: 321 },
     });
-  };
+  });
   if (captureLogs) console.log = (...args) => logs.push(args.map(String).join(' '));
 
   const assets = {
@@ -146,8 +165,9 @@ async function runGenerateRequest({
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       meal_name: '这次的一锅主餐',
-      targets: { kcal: 1200, p: 50, fb: 16 },
+      targets,
       constraints: { purpose: 'quick', servings: 2, dislikes: [], ...constraints },
+      ...bodyOverrides,
     }),
   });
 
@@ -156,9 +176,10 @@ async function runGenerateRequest({
       ASSETS: assets,
       DEEPSEEK_API_KEY: 'test-key',
       RATE_LIMIT: 0,
+      RATE_KV: memoryRateKv(),
       ...envOverrides,
     });
-    return { response, body: await response.json(), upstreamBodies, logs };
+    return { response, body: await response.json(), upstreamBodies, upstreamSignals, logs };
   } finally {
     globalThis.fetch = originalFetch;
     console.log = originalLog;
@@ -252,6 +273,46 @@ test('pantry chicken rice request prefers the exact biryani base over a larger i
     dislikes: [],
   });
   assert.equal(selection.recipe.id, 'simple-chicken-biryani');
+});
+
+test('tofu cabbage and enoki pantry maps every item into the trusted Taiwan rice base', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['豆腐', '白菜', '金针菇'],
+    purpose: 'quick',
+    dislikes: [],
+  });
+  assert.equal(selection.recipe.id, 'taiwan-cabbage-mushroom-rice');
+  assert.deepEqual(selection.usedPantry, ['豆腐', '白菜', '金针菇']);
+  assert.deepEqual(selection.unusedPantry, []);
+});
+
+test('tomato shrimp cabbage and corn pantry maps every item into one trusted rice base', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['西红柿', '虾仁', '白菜', '玉米'],
+    purpose: 'quick',
+    dislikes: [],
+  });
+  assert.equal(selection.recipe.id, 'taiwan-cabbage-mushroom-rice');
+  assert.deepEqual(selection.usedPantry, ['西红柿', '虾仁', '白菜', '玉米']);
+  assert.deepEqual(selection.unusedPantry, []);
+  const grounding = buildRecipeGrounding(selection);
+  assert.match(grounding, /米饭接近熟透.*虾仁.*完全熟透、中心不透明/);
+  assert.doesNotMatch(grounding, /先在同一口锅中将虾仁加热.*再加入大米/);
+});
+
+test('generation rejects a completely unmatched pantry before calling DeepSeek', async () => {
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([
+      fixtureRecipe('plain-rice', 'family-rice', {
+        status: 'approved',
+        core_ingredients: ['大米', '水'],
+      }),
+    ]),
+    constraints: { pantry: ['豆腐', '白菜', '金针菇'], purpose: 'pantry' },
+  });
+  assert.equal(response.status, 422);
+  assert.equal(body.code, 'no_compatible_pantry_recipe');
+  assert.equal(upstreamBodies.length, 0);
 });
 
 test('leafy-water adversarial pantry still prefers biryani and discards the unsuitable leaf load', () => {
@@ -553,6 +614,57 @@ test('trusted system locks a substitution slot when its original is selected pan
   assert.match(upstreamBodies[0].messages[0].content, /禁止再用 allowed 替代项“鸡高汤”/);
 });
 
+test('trusted system locks selected pantry replacements against their original ingredients', async () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['大米', '卷心菜', '鲜香菇'],
+    optional_ingredients: ['老豆腐'],
+    generation_optional_ingredients: ['老豆腐'],
+    substitution_slots: [
+      { slot: '叶菜', replaces: ['卷心菜'], allowed: ['白菜'] },
+      { slot: '新鲜食用菌', replaces: ['鲜香菇'], allowed: ['金针菇'] },
+    ],
+  });
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe], { 豆腐: '老豆腐' }),
+    constraints: { pantry: ['豆腐', '白菜', '金针菇'], purpose: 'quick' },
+  });
+  const system = upstreamBodies[0].messages[0].content;
+  assert.match(system, /替换位“叶菜”本次已由库存替代项“白菜”锁定；必须删除原料“卷心菜”/);
+  assert.match(system, /替换位“新鲜食用菌”本次已由库存替代项“金针菇”锁定；必须删除原料“鲜香菇”/);
+});
+
+test('generation deterministically removes original ingredients duplicated beside selected pantry replacements', async () => {
+  const recipe = groundedFixtureRecipe({
+    id: 'taiwan-cabbage-mushroom-rice',
+    core_ingredients: ['大米', '卷心菜', '鲜香菇'],
+    optional_ingredients: ['老豆腐'],
+    generation_optional_ingredients: ['老豆腐'],
+    substitution_slots: [
+      { slot: '叶菜', replaces: ['卷心菜'], allowed: ['白菜'] },
+      { slot: '新鲜食用菌', replaces: ['鲜香菇'], allowed: ['金针菇'] },
+    ],
+  });
+  const ingredient = name => ({
+    name, grams: 100, kcal: 100, p: 5, fb: 2, mg: 1, k: 1, ca: 1,
+    fe: 1, zn: 1, na: 1, vc: 1, vd: 0, w3: 0,
+  });
+  const { response, body } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe], { 豆腐: '老豆腐', 高丽菜: '卷心菜', 香菇: '鲜香菇' }),
+    constraints: { pantry: ['豆腐', '白菜', '金针菇'], purpose: 'quick' },
+    meal: generatedMeal({
+      dish_name: '高丽菜香菇豆腐炊饭',
+      ingredients: ['大米', '卷心菜', '鲜香菇', '老豆腐', '白菜', '金针菇', '水'].map(ingredient),
+      steps: ['大米加水，铺上卷心菜、白菜、鲜香菇、金针菇和老豆腐，同锅焖熟。'],
+    }),
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(body.validation_flags, []);
+  assert.deepEqual(body.used_pantry, ['豆腐', '白菜', '金针菇']);
+  assert.doesNotMatch(body.dish_name, /高丽菜|香菇/);
+  assert.doesNotMatch(body.steps.join(''), /卷心菜|鲜香菇/);
+  assert.deepEqual(body.ingredients.map(item => item.name), ['大米', '老豆腐', '白菜', '金针菇', '水']);
+});
+
 test('disliked fixed core ingredient without a real replacement excludes a recipe', () => {
   const hits = selectRecipeCandidates(lib, {
     pantry: ['鸡蛋', '番茄', '甜椒'],
@@ -581,21 +693,24 @@ test('an allowed alias of the same disliked core is not a safe replacement', () 
 });
 
 test('scoring uses every specified weight exactly once per matching pantry item', () => {
-  const recipes = [fixtureRecipe('weighted', 'family-a', {
-    purposes: ['pantry'],
-    core_ingredients: ['主料'],
-    optional_ingredients: ['可选'],
-    substitution_slots: [{ replaces: ['旧料'], allowed: ['替代'] }],
-    discouraged: [{ ingredients: ['冲突'] }],
-  })];
+  const recipes = [
+    fixtureRecipe('old', 'family-a'),
+    fixtureRecipe('weighted', 'family-a', {
+      purposes: ['pantry'],
+      core_ingredients: ['主料'],
+      optional_ingredients: ['可选'],
+      substitution_slots: [{ replaces: ['旧料'], allowed: ['替代'] }],
+      discouraged: [{ ingredients: ['冲突'] }],
+    }),
+  ];
   const [hit] = selectRecipeCandidates(fixtureLib(recipes), {
     pantry: ['主料', '可选', '替代', '冲突', '无关'],
     purpose: 'pantry',
     dislikes: [],
     recent_families: ['family-a'],
-    recent_base_recipes: ['weighted'],
+    recent_base_recipes: ['old'],
   });
-  assert.equal(hit.score, -103); // 12 + 5 + 5 - 8 + 3 - 20 - 100
+  assert.equal(hit.score, -3); // 12 + 5 + 5 - 8 + 3 - 20
   assert.deepEqual(hit.usedPantry, ['主料', '可选', '替代']);
   assert.deepEqual(hit.unusedPantry, ['冲突', '无关']);
 });
@@ -623,6 +738,47 @@ test('optional and allowed pantry hits each contribute exactly +5', () => {
   assert.equal(allowed - base, 5);
 });
 
+test('a trusted recipe liquid supplied in pantry is selected instead of contradicted as unused', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['水'],
+    dislikes: ['大米过敏'],
+    purpose: 'quick',
+  });
+  assert.equal(selection.recipe.id, 'lentil-potato-tomato-curry');
+  assert.deepEqual(selection.usedPantry, ['水']);
+  assert.deepEqual(selection.unusedPantry, []);
+});
+
+test('an empty quick request prefers a protein-containing trusted main over plain congee', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: [],
+    dislikes: [],
+    purpose: 'quick',
+  });
+  assert.notEqual(selection.recipe.id, 'chinese-congee');
+  assert.ok(selection.recipe.protein_class.some(item => item !== '无'));
+  assert.ok(selection.recipe.total_time_minutes <= 30);
+  assert.ok(!selection.recipe.safety_rules.some(rule => /冷藏不超过一天/u.test(rule)));
+});
+
+test('stored-leftover recipes require cooked rice in the submitted pantry', () => {
+  const withoutCookedRice = selectRecipeCandidates(lib, {
+    pantry: [],
+    dislikes: [],
+    purpose: 'quick',
+  });
+  assert.ok(withoutCookedRice.every(selection => (
+    !selection.recipe.safety_rules.some(rule => /冷藏不超过一天/u.test(rule))
+  )));
+
+  const withLeftoverRice = selectRecipeCandidates(lib, {
+    pantry: ['剩米饭', '鸡蛋'],
+    dislikes: [],
+    purpose: 'pantry',
+  });
+  assert.ok(withLeftoverRice.some(selection => selection.recipe.id === 'home-egg-fried-leftover-rice'));
+});
+
 test('purpose match contributes exactly +3', () => {
   const base = scoreFor({ purposes: ['pantry'] }, { purpose: 'quick' });
   const hit = scoreFor({ purposes: ['pantry'] }, { purpose: 'pantry' });
@@ -636,16 +792,38 @@ test('discouraged pantry hit contributes exactly -8', () => {
   assert.equal(hit - base, -8);
 });
 
-test('recent family contributes exactly -20', () => {
-  const base = scoreFor();
-  const hit = scoreFor({}, { recent_families: ['family-score'] });
-  assert.equal(hit - base, -20);
+test('recent base recipe family contributes exactly -20 per occurrence', () => {
+  // 家族惩罚只按 recent_base_recipes 推导: 同家族每出现一次 -20(W3 累进制)。
+  const recipes = [
+    fixtureRecipe('old-one', 'family-a'),
+    fixtureRecipe('old-two', 'family-a'),
+    fixtureRecipe('candidate', 'family-a'),
+  ];
+  const library = fixtureLib(recipes);
+  const scoreOf = constraints => selectRecipeCandidates(library, { dislikes: [], ...constraints })
+    .find(hit => hit.recipe.id === 'candidate').score;
+  assert.equal(scoreOf({}), 0);
+  assert.equal(scoreOf({ recent_base_recipes: ['old-one'] }), -20);
+  assert.equal(scoreOf({ recent_base_recipes: ['old-one', 'old-two'] }), -40);
+  // recent_families 入参保留兼容但不再直接扣分(只参与 cuisine 意图判定)。
+  assert.equal(scoreOf({ recent_families: ['family-a'] }), 0);
 });
 
-test('recent base recipe contributes exactly -100', () => {
-  const base = scoreFor();
-  const hit = scoreFor({}, { recent_base_recipes: ['score-target'] });
-  assert.equal(hit - base, -100);
+test('recent base recipes are ineligible until the user clears swap history', () => {
+  const recipes = [
+    fixtureRecipe('already-seen', 'family-a', { core_ingredients: ['番茄', '虾仁'] }),
+    fixtureRecipe('unseen', 'family-b', { core_ingredients: ['番茄'] }),
+  ];
+  const constraints = {
+    pantry: ['番茄', '虾仁'],
+    dislikes: [],
+    recent_base_recipes: ['already-seen'],
+  };
+  const shortlist = selectRecipeCandidates(fixtureLib(recipes), constraints);
+  const pick = pickRecipeSelection(shortlist, constraints);
+
+  assert.deepEqual(shortlist.map(hit => hit.recipe.id), ['unseen']);
+  assert.equal(pick.recipe.id, 'unseen');
 });
 
 test('a disliked optional pantry item stays unused without excluding the recipe', () => {
@@ -662,20 +840,23 @@ test('a disliked optional pantry item stays unused without excluding the recipe'
   assert.deepEqual(hit.unusedPantry, ['花生']);
 });
 
-test('recent family penalty changes the winner', () => {
+test('global pantry coverage outranks a recent-family penalty', () => {
+  // family-a 经 recent_base_recipes 里的 gamma 出现一次会扣 20，但 alpha 全局命中两项库存，
+  // beta 只命中一项；覆盖层级必须先于家族多样性。
   const recipes = [
     fixtureRecipe('alpha', 'family-a', { core_ingredients: ['大米', '番茄'] }),
     fixtureRecipe('beta', 'family-b', { core_ingredients: ['大米'] }),
+    fixtureRecipe('gamma', 'family-a', { core_ingredients: ['小米'] }),
   ];
   const [hit] = selectRecipeCandidates(fixtureLib(recipes), {
     pantry: ['大米', '番茄'],
     dislikes: [],
-    recent_families: ['family-a'],
+    recent_base_recipes: ['gamma'],
   });
-  assert.equal(hit.recipe.id, 'beta');
+  assert.equal(hit.recipe.id, 'alpha');
 });
 
-test('recent base recipe penalty changes the winner', () => {
+test('recent base recipe hard exclusion changes the winner', () => {
   const recipes = [
     fixtureRecipe('alpha', 'family-a', { core_ingredients: ['大米', '番茄'] }),
     fixtureRecipe('beta', 'family-b', { core_ingredients: ['大米'] }),
@@ -697,7 +878,8 @@ test('equal scores use recipe ID ascending as a stable tie-break', () => {
   assert.equal(hit.recipe.id, 'alpha');
 });
 
-test('top three prefer distinct families before a higher-scored family duplicate', () => {
+test('shortlist prefers distinct families before a higher-scored family duplicate', () => {
+  // 短名单上限 5: 先按家族去重取 a/b/c, 再按分补进 family-a 的次高分 a-two。
   const recipes = [
     fixtureRecipe('a-one', 'family-a', { core_ingredients: ['a', 'b', 'c'] }),
     fixtureRecipe('a-two', 'family-a', { core_ingredients: ['a', 'b'] }),
@@ -708,7 +890,16 @@ test('top three prefer distinct families before a higher-scored family duplicate
     pantry: ['a', 'b', 'c'],
     dislikes: [],
   });
-  assert.deepEqual(hits.map(hit => hit.recipe.id), ['a-one', 'b-one', 'c-one']);
+  assert.deepEqual(hits.map(hit => hit.recipe.id), ['a-one', 'b-one', 'c-one', 'a-two']);
+});
+
+test('shortlist caps at five candidates across more than five families', () => {
+  const recipes = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+    .map(tag => fixtureRecipe(`recipe-${tag}`, `family-${tag}`));
+  const hits = selectRecipeCandidates(fixtureLib(recipes), { dislikes: [] });
+  assert.equal(hits.length, 5);
+  // 家族去重优先逻辑不变: 5 个候选来自 5 个不同家族。
+  assert.equal(new Set(hits.map(hit => hit.recipe.family_id)).size, 5);
 });
 
 test('top three fill from remaining candidates when fewer than three families exist', () => {
@@ -736,6 +927,307 @@ test('top three never returns the same recipe ID twice across families', () => {
   });
   assert.deepEqual(hits.map(hit => hit.recipe.id), ['duplicate', 'unique']);
 });
+
+// ===== W1: 种子化抖动选取(pickRecipeSelection) =====
+
+test('seeded jitter pick is deterministic for the same input and history', () => {
+  const constraints = {
+    pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'],
+    purpose: 'quick',
+    servings: 2,
+    dislikes: [],
+  };
+  const first = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
+  const second = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
+  assert.equal(first.recipe.id, second.recipe.id);
+  // 同输入同历史 → 种子相同(可复现); 历史一变 → 种子变。
+  const withHistory = { ...constraints, recent_base_recipes: ['simple-chicken-biryani'] };
+  assert.notEqual(recipeSelectionSeed(withHistory), recipeSelectionSeed(constraints));
+});
+
+test('seeded jitter flips only candidates within a six-point gap', () => {
+  const recipes = [
+    fixtureRecipe('jitter-alpha', 'family-jitter-a', { core_ingredients: ['甲'] }),
+    fixtureRecipe('jitter-beta', 'family-jitter-b', { core_ingredients: ['乙'] }),
+  ];
+  const library = fixtureLib(recipes);
+  // 分差 0(≤6): 同分平手, 抖动决定胜负——本种子下 alphaJ=4 betaJ=0 → alpha。
+  const tied = { pantry: ['甲', '乙'], purpose: 'quick', servings: 2, dislikes: [] };
+  const tiedShortlist = selectRecipeCandidates(library, tied);
+  assert.deepEqual(tiedShortlist.map(hit => hit.score), [12, 12]);
+  assert.equal(pickRecipeSelection(tiedShortlist, tied).recipe.id, 'jitter-alpha');
+  // 同分但历史多两条(不在库中, 不改分只改种子): alphaJ=5 betaJ=6 → 换 beta。
+  const withHistory = { ...tied, recent_base_recipes: ['off-lib-one', 'off-lib-two'] };
+  const historyShortlist = selectRecipeCandidates(library, withHistory);
+  assert.deepEqual(historyShortlist.map(hit => hit.score), [12, 12]);
+  assert.equal(pickRecipeSelection(historyShortlist, withHistory).recipe.id, 'jitter-beta');
+  // 分差 12(>6): 抖动最多 6 分翻不动, 两种种子下都仍是 alpha。
+  const gap = { pantry: ['甲'], purpose: 'quick', servings: 2, dislikes: [] };
+  assert.equal(pickRecipeSelection(selectRecipeCandidates(library, gap), gap).recipe.id, 'jitter-alpha');
+  const gapWithHistory = { ...gap, recent_base_recipes: ['off-lib-one', 'off-lib-two'] };
+  assert.equal(
+    pickRecipeSelection(selectRecipeCandidates(library, gapWithHistory), gapWithHistory).recipe.id,
+    'jitter-alpha',
+  );
+});
+
+test('seeded jitter keeps the pantry-feasible rule after re-ranking', () => {
+  const recipes = [
+    fixtureRecipe('jitter-alpha', 'family-jitter-a', { core_ingredients: ['甲'] }),
+    fixtureRecipe('jitter-beta', 'family-jitter-b', { core_ingredients: ['乙'] }),
+  ];
+  const library = fixtureLib(recipes);
+  // 抖动后 beta 排前, 但 pantry 只命中 alpha → 仍取第一个 usedPantry>0 的。
+  const constraints = {
+    pantry: ['甲', '乙'],
+    purpose: 'quick',
+    servings: 2,
+    dislikes: [],
+    recent_base_recipes: ['off-lib-one', 'off-lib-two'],
+  };
+  const pick = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
+  assert.equal(pick.recipe.id, 'jitter-beta');
+  assert.deepEqual(pick.usedPantry, ['乙']);
+  // pantry 只给甲时: 同一种子下 beta 分高但没用上库存, 回落到 alpha。
+  const alphaOnly = { ...constraints, pantry: ['甲'] };
+  const alphaPick = pickRecipeSelection(selectRecipeCandidates(library, alphaOnly), alphaOnly);
+  assert.equal(alphaPick.recipe.id, 'jitter-alpha');
+});
+
+// ===== W1b: 分层选取——库存覆盖数高于多样性(真实菜谱库回归) =====
+
+test('global pantry coverage is ranked before the five-family shortlist is cut', () => {
+  const recipes = [
+    ...['a', 'b', 'c', 'd', 'e'].map(id => fixtureRecipe(
+      `single-${id}`,
+      `family-single-${id}`,
+      { core_ingredients: ['番茄'] },
+    )),
+    fixtureRecipe('double-match', 'family-double', {
+      optional_ingredients: ['番茄', '虾仁'],
+    }),
+  ];
+  const constraints = {
+    pantry: ['番茄', '虾仁', '猪肉'],
+    purpose: 'quick',
+    servings: 2,
+    dislikes: [],
+  };
+  const shortlist = selectRecipeCandidates(fixtureLib(recipes), constraints);
+  const pick = pickRecipeSelection(shortlist, constraints);
+
+  assert.ok(shortlist.some(hit => hit.recipe.id === 'double-match'));
+  assert.equal(pick.recipe.id, 'double-match');
+  assert.deepEqual(pick.usedPantry, ['番茄', '虾仁']);
+});
+
+test('global coverage keeps the real tomato-shrimp candidate ahead of tomato-only recipes', () => {
+  const constraints = {
+    pantry: ['番茄', '虾仁', '猪肉'],
+    purpose: 'quick',
+    servings: 2,
+    dislikes: [],
+  };
+  const pick = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
+
+  assert.equal(pick.recipe.id, 'taiwan-cabbage-mushroom-rice');
+  assert.deepEqual(pick.usedPantry, ['番茄', '虾仁']);
+});
+
+test('layered pick never trades shortlist pantry coverage for jitter diversity', () => {
+  // 第二层不变量: 进入短名单后，抖动只能在相同库存覆盖层内换序。
+  const fixtures = [
+    { pantry: ['大米', '虾仁'], purpose: 'quick', servings: 2, dislikes: [] },
+    { pantry: ['大米', '番茄酱'], purpose: 'quick', servings: 2, dislikes: [] },
+    // 已在冷却期的菜先硬排除；剩余候选仍按库存覆盖层级选择。
+    { pantry: ['大米', '虾仁'], purpose: 'quick', servings: 2, dislikes: [], recent_base_recipes: ['taiwan-cabbage-mushroom-rice'] },
+    { pantry: ['大米', '番茄酱'], purpose: 'fresh', servings: 4, dislikes: [], swap_intent: 'cuisine', recent_base_recipes: ['chinese-congee'] },
+    { pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'], purpose: 'quick', servings: 2, dislikes: [] },
+    { pantry: ['西红柿', '虾仁', '白菜', '玉米'], purpose: 'quick', servings: 2, dislikes: [] },
+    { pantry: ['鸡蛋', '番茄'], purpose: 'fresh', servings: 1, dislikes: [], swap_intent: 'protein', recent_base_recipes: ['shakshuka-tomato-egg'] },
+  ];
+  for (const constraints of fixtures) {
+    const shortlist = selectRecipeCandidates(lib, constraints);
+    const maxCoverage = shortlist.reduce((max, hit) => Math.max(max, hit.usedPantry.length), 0);
+    const pick = pickRecipeSelection(shortlist, constraints);
+    assert.ok(pick, JSON.stringify(constraints));
+    assert.equal(pick.usedPantry.length, maxCoverage, JSON.stringify(constraints));
+  }
+});
+
+test('layered pick keeps both 大米 and 虾仁 over the rice-only congee (codex 反例)', () => {
+  // 旧逻辑: 0-6 分抖动在短名单内平等施加, 只用大米的基础粥翻过双命中的炊饭。
+  const constraints = { pantry: ['大米', '虾仁'], purpose: 'quick', servings: 2, dislikes: [] };
+  const pick = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
+  assert.equal(pick.recipe.id, 'taiwan-cabbage-mushroom-rice');
+  assert.ok(pick.usedPantry.includes('大米') && pick.usedPantry.includes('虾仁'));
+});
+
+test('layered pick keeps the two-item minestrone over the rice-only congee (codex 反例)', () => {
+  // 旧逻辑: 双命中且原始分更高的杂蔬汤被只用大米的粥翻掉。
+  const constraints = { pantry: ['大米', '番茄酱'], purpose: 'quick', servings: 2, dislikes: [] };
+  const pick = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
+  assert.equal(pick.recipe.id, 'rice-cabbage-minestrone');
+  assert.deepEqual([...pick.usedPantry].sort(), ['大米', '番茄酱']);
+});
+
+// ===== W2: swap_intent 进打分 =====
+
+function intentScores(recipes, constraints) {
+  return new Map(selectRecipeCandidates(fixtureLib(recipes), { dislikes: [], ...constraints })
+    .map(hit => [hit.recipe.id, hit.score]));
+}
+
+test('cuisine intent scores cuisines outside the recent set and demotes the last cuisine', () => {
+  const recipes = [
+    fixtureRecipe('last', 'family-a', { cuisine: '中式' }),
+    fixtureRecipe('same-cuisine', 'family-b', { cuisine: '中式' }),
+    fixtureRecipe('new-cuisine', 'family-c', { cuisine: '意大利风味' }),
+    fixtureRecipe('other-recent', 'family-d', { cuisine: '粤菜' }),
+    fixtureRecipe('same-other-cuisine', 'family-e', { cuisine: '粤菜' }),
+  ];
+  const baseline = intentScores(recipes, { recent_base_recipes: ['last'] });
+  const scored = intentScores(recipes, { recent_base_recipes: ['last'], swap_intent: 'cuisine' });
+  // cuisine 不在近期集合 +10; 与最近一道同 cuisine -10(与家族无关, 家族累进罚独立)。
+  assert.equal(scored.get('new-cuisine') - baseline.get('new-cuisine'), 10);
+  assert.equal(scored.get('same-cuisine') - baseline.get('same-cuisine'), -10);
+  // 近期集合由 recent_base_recipes 全部经 lib 映射: 粤菜也在集合内, 无 +10 也无 -10。
+  const multiRecent = intentScores(recipes, {
+    recent_base_recipes: ['other-recent', 'last'],
+    swap_intent: 'cuisine',
+  });
+  const multiBaseline = intentScores(recipes, { recent_base_recipes: ['other-recent', 'last'] });
+  assert.equal(multiRecent.get('same-other-cuisine') - multiBaseline.get('same-other-cuisine'), 0);
+  // recent_families 入参不再参与 cuisine 判定(覆盖全家也不改 cuisine 分)。
+  const scoredWithFamilies = intentScores(recipes, {
+    recent_base_recipes: ['last'],
+    recent_families: ['family-a', 'family-b', 'family-c', 'family-d'],
+    swap_intent: 'cuisine',
+  });
+  assert.equal(scoredWithFamilies.get('new-cuisine') - baseline.get('new-cuisine'), 10);
+});
+
+test('flavor intent scores a different family than the last recipe', () => {
+  const recipes = [
+    fixtureRecipe('last', 'family-a'),
+    fixtureRecipe('same-family', 'family-a'),
+    fixtureRecipe('new-family', 'family-b'),
+  ];
+  const baseline = intentScores(recipes, { recent_base_recipes: ['last'] });
+  const scored = intentScores(recipes, { recent_base_recipes: ['last'], swap_intent: 'flavor' });
+  assert.equal(scored.get('new-family') - baseline.get('new-family'), 8);
+  assert.equal(scored.get('same-family') - baseline.get('same-family'), 0);
+});
+
+test('protein intent scores a disjoint protein_class', () => {
+  const recipes = [
+    fixtureRecipe('last', 'family-a', { core_ingredients: ['鸡蛋', '番茄'], protein_class: ['蛋'] }),
+    fixtureRecipe('chicken-pot', 'family-b', { core_ingredients: ['鸡肉', '大米'], protein_class: ['鸡'] }),
+    fixtureRecipe('egg-pot', 'family-c', { core_ingredients: ['鸡蛋', '大米'], protein_class: ['蛋'] }),
+    fixtureRecipe('no-protein-pot', 'family-d', { core_ingredients: ['大米', '白菜'], protein_class: ['无'] }),
+  ];
+  const baseline = intentScores(recipes, { recent_base_recipes: ['last'] });
+  const scored = intentScores(recipes, { recent_base_recipes: ['last'], swap_intent: 'protein' });
+  // 走结构化 protein_class: 最近一道是「蛋」, 「鸡」不相交 +8, 「蛋」相交不加。
+  // (旧名称正则在「鸡蛋」里命中「鸡」, 误把鸡和蛋当同类。)
+  assert.equal(scored.get('chicken-pot') - baseline.get('chicken-pot'), 8);
+  assert.equal(scored.get('egg-pot') - baseline.get('egg-pot'), 0);
+  assert.equal(scored.get('no-protein-pot') - baseline.get('no-protein-pot'), 0);
+});
+
+test('lighter intent scores the structured light_level field only', () => {
+  const recipes = [
+    fixtureRecipe('light-stir', 'family-a', { light_level: '清淡', form: '炒锅', name: '清炒时蔬' }),
+    fixtureRecipe('heavy-soup', 'family-b', { light_level: '浓重', form: '蒸锅', name: '番茄汤饭' }),
+    fixtureRecipe('neutral-steam', 'family-c', { light_level: '一般', form: '蒸锅', name: '蒸蛋羹' }),
+  ];
+  const baseline = intentScores(recipes, {});
+  const scored = intentScores(recipes, { swap_intent: 'lighter' });
+  // 只看 light_level=='清淡'; form/name 含 汤/蒸 不再猜测加分。
+  assert.equal(scored.get('light-stir') - baseline.get('light-stir'), 8);
+  assert.equal(scored.get('heavy-soup') - baseline.get('heavy-soup'), 0);
+  assert.equal(scored.get('neutral-steam') - baseline.get('neutral-steam'), 0);
+});
+
+test('easier intent scores a short total time or a small core', () => {
+  const recipes = [
+    fixtureRecipe('small-core', 'family-a', { core_ingredients: ['a', 'b', 'c', 'd', 'e'], total_time_minutes: 40 }),
+    fixtureRecipe('big-core-fast', 'family-b', { core_ingredients: ['a', 'b', 'c', 'd', 'e', 'f'], total_time_minutes: 25 }),
+    fixtureRecipe('big-core-slow-quick', 'family-c', {
+      core_ingredients: ['a', 'b', 'c', 'd', 'e', 'f'],
+      total_time_minutes: 45,
+      purposes: ['quick'],
+    }),
+  ];
+  const baseline = intentScores(recipes, {});
+  const scored = intentScores(recipes, { swap_intent: 'easier' });
+  // total_time_minutes ≤25 或核心 ≤5 项 +8; purposes 含 quick 不再加分。
+  assert.equal(scored.get('small-core') - baseline.get('small-core'), 8);
+  assert.equal(scored.get('big-core-fast') - baseline.get('big-core-fast'), 8);
+  assert.equal(scored.get('big-core-slow-quick') - baseline.get('big-core-slow-quick'), 0);
+});
+
+test('an unknown swap intent is dropped and scores nothing', () => {
+  const recipes = [
+    fixtureRecipe('last', 'family-a'),
+    fixtureRecipe('new-family', 'family-b'),
+  ];
+  const baseline = intentScores(recipes, { recent_base_recipes: ['last'] });
+  const scored = intentScores(recipes, { recent_base_recipes: ['last'], swap_intent: 'bogus-intent' });
+  assert.equal(scored.get('new-family'), baseline.get('new-family'));
+});
+
+// ===== W4: 替换位/可选配料按忌口过滤 =====
+
+test('grounding filters disliked slot options for a seafood-averse kari-ayam selection', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['鸡肉', '椰浆', '红葱头'],
+    purpose: 'fresh',
+    dislikes: ['海鲜'],
+  });
+  assert.equal(selection.recipe.id, 'kari-ayam-coconut-chicken');
+  const grounding = buildRecipeGrounding(selection);
+  const slotLine = grounding.split('\n').find(line => line.startsWith('只允许以下替换'));
+  // 主蛋白替换位的 鱼肉/虾仁 被过滤, 只留 羊肉; 核心行保持原样不过滤。
+  assert.equal(slotLine, '只允许以下替换: 主蛋白[鸡肉→羊肉]、葱香[红葱头→洋葱]');
+  const whitelistLine = grounding.split('\n').find(line => line.startsWith('可入锅食材白名单'));
+  assert.match(whitelistLine, /鸡肉/);
+  assert.doesNotMatch(whitelistLine, /虾仁|鱼肉|虾酱/);
+  // 未过滤固定核心: 核心含忌口且不可替换时整菜早已出局(blockedCore 语义不变)。
+  assert.match(grounding, /固定核心: 鸡肉、椰奶、红葱头/);
+});
+
+test('grounding never presents disliked options while keeping trusted cores intact', () => {
+  const recipes = [fixtureRecipe('kari-ayam-coconut-chicken', 'family-coconut-curry', {
+    name: '印尼椰香鸡肉咖喱',
+    status: 'approved',
+    form: '咖喱锅',
+    core_ingredients: ['鸡肉', '椰奶', '红葱头'],
+    optional_ingredients: ['蒜', '虾酱'],
+    substitution_slots: [
+      { slot: '主蛋白', replaces: ['鸡肉'], allowed: ['鱼肉', '虾仁', '羊肉'] },
+      { slot: '葱香', replaces: ['红葱头'], allowed: ['洋葱'] },
+    ],
+  })];
+  const [selection] = selectRecipeCandidates(fixtureLib(recipes), {
+    pantry: ['鸡肉', '椰奶', '红葱头'],
+    purpose: 'fresh',
+    dislikes: ['海鲜'],
+  });
+  const grounding = buildRecipeGrounding(selection);
+  // 全文明粒度: 海鲜忌口时 虾仁/鱼肉/虾酱 不得出现在 grounding 任何字段。
+  assert.doesNotMatch(grounding, /虾仁|鱼肉|虾酱/);
+  assert.match(grounding, /主蛋白\[鸡肉→羊肉\]/);
+  // 替换位 allowed 全被滤空时按现有空位逻辑呈现, 不崩溃。
+  const [emptySlotSelection] = selectRecipeCandidates(fixtureLib([fixtureRecipe('slot-pot', 'family-slot', {
+    core_ingredients: ['大米'],
+    substitution_slots: [{ slot: '海味', replaces: ['干贝'], allowed: ['虾仁', '鱼肉'] }],
+  })]), { pantry: ['大米'], dislikes: ['海鲜'] });
+  const emptySlotGrounding = buildRecipeGrounding(emptySlotSelection);
+  assert.match(emptySlotGrounding, /只允许以下替换: 海味\[干贝→无\]/);
+});
+
+// ===== 既有用例 =====
 
 test('grounding names the selected base recipe and every trusted adaptation rule', () => {
   const [selection] = selectRecipeCandidates(lib, {
@@ -786,6 +1278,23 @@ test('validator catches listed shrimp that is never cooked', () => {
   }, selection, { dislikes: [] });
   assert.ok(flags.includes('ingredient_missing_in_steps:虾仁'));
   assert.ok(flags.includes('high_risk_not_cooked:虾仁'));
+});
+
+test('consumable repair removes an unlisted salt action instead of inventing nutrition data', () => {
+  const [selection] = selectRecipeCandidates(lib, {
+    pantry: ['大米', '卷心菜', '高汤'],
+    purpose: 'quick',
+    dislikes: [],
+  });
+  assert.equal(selection.recipe.id, 'rice-cabbage-minestrone');
+  const meal = {
+    ingredients: [{ name: '大米' }, { name: '卷心菜' }, { name: '高汤' }],
+    steps: ['大米、卷心菜和高汤同锅煮至熟透，最后加盐调味。'],
+  };
+  assert.ok(validateGroundedMeal(meal, selection, {}).includes('step_ingredient_missing:盐'));
+  assert.equal(repairGroundedMealConsumables(meal, selection, {}), 1);
+  assert.equal(validateGroundedMeal(meal, selection, {}).includes('step_ingredient_missing:盐'), false);
+  assert.doesNotMatch(meal.steps.join(' '), /盐/);
 });
 
 test('validator rejects substantial ingredients outside an approved recipe boundary', () => {
@@ -1720,7 +2229,7 @@ test('generation overwrites forged grounding metadata and marks fixed-core pantr
   assert.equal(JSON.stringify(body).includes('model-forged'), false);
 });
 
-test('a qualified rice-allergy base still flags any model-added rice', async () => {
+test('a qualified rice-allergy base returns 422 unsafe_recipe when the model adds rice', async () => {
   const recipe = groundedFixtureRecipe({
     name: '可信扁豆土豆咖喱',
     core_ingredients: ['红扁豆', '土豆', '番茄'],
@@ -1741,17 +2250,22 @@ test('a qualified rice-allergy base still flags any model-added rice', async () 
     constraint_profile: { id: 'model-forged-profile', basis: 'forged' },
     constraint_profiles: [{ id: 'model-forged-list', basis: 'forged' }],
   });
-  const { response, body } = await runGenerateRequest({
+  const { response, body, upstreamBodies } = await runGenerateRequest({
     recipeLib,
     meal,
     constraints: { dislikes: ['大米过敏'] },
   });
-  assert.equal(response.status, 200);
-  assert.ok(body.validation_flags.includes('allergen_present:盖浇饭'));
-  assert.ok(body.validation_flags.includes('allergen_present:米饭（即食）'));
-  assert.ok(body.validation_flags.includes('allergen_present:即食米饭'));
-  assert.equal(Object.hasOwn(body, 'constraint_profile'), false);
-  assert.equal(Object.hasOwn(body, 'constraint_profiles'), false);
+  // repair 后终态仍带 allergen_present → 服务端 422 明示失败, 不端出、不静默重试。
+  assert.equal(response.status, 422);
+  assert.equal(body.code, 'unsafe_recipe');
+  assert.equal(upstreamBodies.length, 1);
+  // 触发 422 的终态 flags 在校验层确认(模型加米在菜名/食材/步骤三处都拦不住)。
+  const constraints = { purpose: 'quick', servings: 2, dislikes: ['大米过敏'] };
+  const [selection] = selectRecipeCandidates(recipeLib, constraints);
+  const flags = validateGroundedMeal(meal, selection, constraints);
+  assert.ok(flags.includes('allergen_present:盖浇饭'));
+  assert.ok(flags.includes('allergen_present:米饭（即食）'));
+  assert.ok(flags.includes('allergen_present:即食米饭'));
 });
 
 test('qualified rice-allergy generation repairs live two-pot wording without changing ingredients', async () => {
@@ -1807,7 +2321,7 @@ test('qualified rice-allergy generation repairs live two-pot wording without cha
   assert.deepEqual(body.validation_flags, []);
 });
 
-test('qualified rice-allergy repair never hides rice in critical recipe fields', async () => {
+test('qualified rice-allergy generation returns 422 instead of hiding rice in critical fields', async () => {
   const modelMeal = generatedMeal({
     dish_name: '红扁豆咖喱盖浇饭',
     ingredients: [
@@ -1823,30 +2337,31 @@ test('qualified rice-allergy repair never hides rice in critical recipe fields',
     ],
     note: '无需额外主食。',
   });
-  const criticalBefore = {
-    dish_name: modelMeal.dish_name,
-    ingredients: modelMeal.ingredients.map(({ name, grams }) => ({ name, grams })),
-    steps: structuredClone(modelMeal.steps),
-  };
-  const { body } = await runGenerateRequest({
+  const { response, body, upstreamBodies } = await runGenerateRequest({
     recipeLib: lib,
     meal: modelMeal,
     constraints: { dislikes: ['大米过敏'] },
   });
 
-  assert.equal(body.dish_name, criticalBefore.dish_name);
-  assert.deepEqual(
-    body.ingredients.map(({ name, grams }) => ({ name, grams })),
-    criticalBefore.ingredients,
-  );
-  assert.deepEqual(body.steps, criticalBefore.steps);
-  assert.ok(body.validation_flags.includes('allergen_present:盖浇饭'));
-  assert.ok(body.validation_flags.includes('allergen_present:米饭（即食）'));
-  assert.ok(body.validation_flags.includes('allergen_present:米饭'));
-  assert.ok(body.validation_flags.includes('multi_pot_step'));
+  // repair 拒绝改写含米的关键字段(菜名/食材/步骤), 终态 flags 非空 → 422 不上桌。
+  assert.equal(response.status, 422);
+  assert.equal(body.code, 'unsafe_recipe');
+  assert.equal(upstreamBodies.length, 1);
+  // repair 层确认不藏米: 关键字段原样保留、flags 仍在。
+  const constraints = { purpose: 'quick', servings: 2, dislikes: ['大米过敏'] };
+  const [selection] = selectRecipeCandidates(lib, constraints);
+  const repairMeal = structuredClone(modelMeal);
+  repairRiceAllergyCompleteMain(repairMeal, selection, constraints);
+  assert.equal(repairMeal.dish_name, modelMeal.dish_name);
+  assert.deepEqual(repairMeal.steps, modelMeal.steps);
+  const flags = validateGroundedMeal(repairMeal, selection, constraints);
+  assert.ok(flags.includes('allergen_present:盖浇饭'));
+  assert.ok(flags.includes('allergen_present:米饭（即食）'));
+  assert.ok(flags.includes('allergen_present:米饭'));
+  assert.ok(flags.includes('multi_pot_step'));
 });
 
-test('ordinary lentil generation does not receive trusted rice-safe repair', async () => {
+test('ordinary lentil generation skips rice-safe repair and returns 422 on the remaining flag', async () => {
   const modelMeal = generatedMeal({
     dish_name: '红扁豆土豆番茄咖喱',
     ingredients: [
@@ -1862,16 +2377,19 @@ test('ordinary lentil generation does not receive trusted rice-safe repair', asy
     ],
     note: '无需搭配米饭。',
   });
-  const before = structuredClone(modelMeal);
-  const { body } = await runGenerateRequest({
+  const { response, body, upstreamBodies } = await runGenerateRequest({
     recipeLib: lib,
     meal: modelMeal,
     constraints: { pantry: ['红扁豆', '土豆', '番茄'], dislikes: [] },
   });
 
-  assert.deepEqual(body.steps, before.steps);
-  assert.equal(body.note, before.note);
-  assert.ok(body.validation_flags.includes('multi_pot_step'));
+  // 非米过敏不走 rice-safe repair, multi_pot_step 终态仍在 → 422 不上桌、不静默重试。
+  assert.equal(response.status, 422);
+  assert.equal(body.code, 'unsafe_recipe');
+  assert.equal(upstreamBodies.length, 1);
+  const constraints = { purpose: 'quick', servings: 2, pantry: ['红扁豆', '土豆', '番茄'], dislikes: [] };
+  const [selection] = selectRecipeCandidates(lib, constraints);
+  assert.ok(validateGroundedMeal(modelMeal, selection, constraints).includes('multi_pot_step'));
 });
 
 test('trusted rice-safe repair appends only explicitly measured retained water', () => {
@@ -2091,7 +2609,7 @@ test('default handler ends its single DeepSeek prompt with the concise final pre
     recipeLib,
     constraints: {
       pantry: ['鸡肉', '大米', '洋葱', '黄瓜'],
-      dislikes: ['米过敏'],
+      dislikes: ['花生过敏'],
     },
   });
   assert.equal(response.status, 200);
@@ -3080,4 +3598,249 @@ test('ordinary quick prompt uses an honest thirty-minute threshold', async () =>
   const prompt = upstreamBodies[0].messages[1].content;
   assert.match(prompt, /总时长尽量≤30分钟/);
   assert.doesNotMatch(prompt, /总时长尽量≤25分钟/);
+});
+
+
+// ===== W1: 过敏类别统一匹配(matchAllergy 与 index.html、ai_proxy.py 同语义) =====
+test('matchAllergy normalizes terms then matches bidirectional substrings', () => {
+  assert.equal(matchAllergy(' 海鲜（不吃） ', '虾仁'), true);
+  assert.equal(matchAllergy('虾', '虾仁'), true);
+  assert.equal(matchAllergy('虾仁', '虾'), true);
+  assert.equal(matchAllergy('', '虾仁'), false);
+  assert.equal(matchAllergy('海鲜', ''), false);
+  assert.equal(matchAllergy('黄瓜', '虾仁'), false);
+  // alias 归一是匹配的一环: 鸡腿肉→鸡肉 后双向命中
+  assert.equal(matchAllergy('鸡腿肉过敏', '鸡肉', { 鸡腿肉: '鸡肉' }), true);
+});
+
+test('matchAllergy expands only exact category terms to group members', () => {
+  for (const member of ['虾仁', '带鱼', '蛤蜊', '三文鱼', '扇贝']) {
+    assert.equal(matchAllergy('海鲜', member), true, member);
+  }
+  for (const cut of ['鸡腿肉', '鸡胸肉', '鸡翅', '鸡汤']) {
+    assert.equal(matchAllergy('鸡肉', cut), true, cut);
+  }
+  for (const [group, member] of [['蛋', '鸭蛋'], ['蛋', '皮蛋'], ['奶', '酸奶'], ['奶', '奶酪'], ['花生', '花生酱'], ['坚果', '核桃'], ['坚果', '芝麻酱']]) {
+    assert.equal(matchAllergy(group, member), true, `${group}->${member}`);
+  }
+  // 类别不误伤: 「鸡肉」不匹配「鸡蛋」
+  assert.equal(matchAllergy('鸡肉', '鸡蛋'), false);
+  // 组成员不反向扩展: 「虾仁」不匹配「鱼」「鲈鱼」
+  assert.equal(matchAllergy('虾仁', '鱼'), false);
+  assert.equal(matchAllergy('虾仁', '鲈鱼'), false);
+});
+
+test('selector blocks disliked category members without overmatching sibling groups', () => {
+  const shrimp = fixtureRecipe('shrimp-pot', 'family-shrimp', { core_ingredients: ['虾仁', '大米'] });
+  const fish = fixtureRecipe('fish-pot', 'family-fish', { core_ingredients: ['鲈鱼', '大米'] });
+  const egg = fixtureRecipe('egg-pot', 'family-egg', { core_ingredients: ['鸡蛋', '大米'] });
+  const categoryLib = fixtureLib([shrimp, fish, egg]);
+  // 类别名「海鲜」按组扩展: 虾仁/鲈鱼都被拦, 鸡蛋不受影响
+  const seafoodFree = selectRecipeCandidates(categoryLib, { dislikes: ['海鲜过敏'] }).map(s => s.recipe.id);
+  assert.deepEqual(seafoodFree, ['egg-pot']);
+  // 组成员「虾仁」不扩展: 只拦虾仁, 不拦鲈鱼
+  const shrimpOnly = new Set(selectRecipeCandidates(categoryLib, { dislikes: ['虾仁'] }).map(s => s.recipe.id));
+  assert.deepEqual(shrimpOnly, new Set(['fish-pot', 'egg-pot']));
+  // 「鸡肉」拦去皮鸡腿肉(组成员子串), 但不误伤鸡蛋
+  const leg = fixtureRecipe('leg-pot', 'family-leg', { core_ingredients: ['去皮鸡腿肉', '大米'] });
+  const chickenLib = fixtureLib([leg, egg]);
+  const chickenFree = selectRecipeCandidates(chickenLib, { dislikes: ['鸡肉'] }).map(s => s.recipe.id);
+  assert.deepEqual(chickenFree, ['egg-pot']);
+});
+
+test('validator flags category-member allergen leaks without overmatching', () => {
+  const selection = riceAllergenSelection();
+  const leak = validateGroundedMeal({
+    ingredients: [{ name: '虾仁', grams: 100 }],
+    steps: ['虾仁炒熟。'],
+  }, selection, { dislikes: ['海鲜'] });
+  assert.ok(leak.includes('allergen_present:虾仁'));
+  for (const cut of ['鸡腿肉', '鸡胸肉']) {
+    const flags = validateGroundedMeal({
+      ingredients: [{ name: cut, grams: 100 }],
+      steps: [`${cut}炒熟。`],
+    }, selection, { dislikes: ['鸡肉'] });
+    assert.ok(flags.includes(`allergen_present:${cut}`), cut);
+  }
+  // 不误伤: 「鸡肉」不拦鸡蛋, 「虾仁」不拦鲈鱼
+  const egg = validateGroundedMeal({
+    ingredients: [{ name: '鸡蛋', grams: 100 }],
+    steps: ['鸡蛋炒熟，蛋白和蛋黄完全凝固。'],
+  }, selection, { dislikes: ['鸡肉'] });
+  assert.equal(egg.includes('allergen_present:鸡蛋'), false);
+  const fish = validateGroundedMeal({
+    ingredients: [{ name: '鲈鱼', grams: 100 }],
+    steps: ['鲈鱼蒸熟。'],
+  }, selection, { dislikes: ['虾仁'] });
+  assert.equal(fish.includes('allergen_present:鲈鱼'), false);
+});
+
+// ===== W5: auto_approved 与 approved 同档对待 =====
+test('auto_approved trusted recipes keep the approved scoring and boundary treatment', () => {
+  // 空库存 quick 请求下, auto_approved 的白粥同样让位于含蛋白主餐
+  const congee = fixtureRecipe('plain-congee', 'family-congee', {
+    status: 'auto_approved', core_ingredients: ['大米', '水'],
+  });
+  const proteinPot = fixtureRecipe('protein-pot', 'family-protein', {
+    status: 'auto_approved', core_ingredients: ['大米', '鸡肉'],
+  });
+  const [first] = selectRecipeCandidates(fixtureLib([congee, proteinPot]), { purpose: 'quick', dislikes: [] });
+  assert.equal(first.recipe.id, 'protein-pot');
+  // auto_approved 同样启用可信白名单边界校验
+  const recipe = groundedFixtureRecipe({ status: 'auto_approved' });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), { pantry: ['大米', '鸡肉', '洋葱'], dislikes: [] });
+  const flags = validateGroundedMeal({
+    ingredients: [{ name: '大米' }, { name: '鸡肉' }, { name: '洋葱' }, { name: '鹅肝' }],
+    steps: ['大米鸡肉洋葱焖熟。'],
+  }, selection, { dislikes: [] });
+  assert.ok(flags.includes('unapproved_ingredient:鹅肝'));
+});
+
+// ===== W2: DeepSeek 30s 超时与上游错误码 =====
+test('generation passes an AbortSignal to the upstream fetch', async () => {
+  const { response, upstreamSignals } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+  });
+  assert.equal(response.status, 200);
+  assert.equal(upstreamSignals.length, 1);
+  assert.ok(upstreamSignals[0] instanceof AbortSignal);
+});
+
+test('upstream timeout returns 504 upstream_timeout without leaking details', async () => {
+  const signals = [];
+  const { response, body } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    fetchImpl: async (_url, options) => {
+      signals.push(options?.signal ?? null);
+      throw Object.assign(new Error('The operation timed out'), { name: 'TimeoutError' });
+    },
+  });
+  assert.equal(response.status, 504);
+  assert.equal(body.code, 'upstream_timeout');
+  assert.ok(signals[0] instanceof AbortSignal);
+});
+
+test('upstream network failure returns 502 upstream_error', async () => {
+  const { response, body } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    fetchImpl: async () => { throw new TypeError('fetch failed'); },
+  });
+  assert.equal(response.status, 502);
+  assert.equal(body.code, 'upstream_error');
+});
+
+test('upstream 5xx returns 502 upstream_error without the raw upstream body', async () => {
+  const { response, body } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    fetchImpl: async () => new Response('{"error":{"message":"secret upstream detail"}}', { status: 500 }),
+  });
+  assert.equal(response.status, 502);
+  assert.equal(body.code, 'upstream_error');
+  assert.equal(body.upstreamStatus, 500);
+  assert.equal(JSON.stringify(body).includes('secret upstream detail'), false);
+});
+
+// ===== W3: 输入硬上限 =====
+test('pantry and dislikes are capped at 20 items with truncation recorded', async () => {
+  const pantry = ['大米', '鸡肉', '洋葱', ...Array.from({ length: 22 }, (_, i) => `库存${i + 4}`)];
+  const dislikes = Array.from({ length: 23 }, (_, i) => `忌口${i + 1}`);
+  const originalWarn = console.warn;
+  const warnings = [];
+  console.warn = (...args) => warnings.push(args.map(String).join(' '));
+  let result;
+  try {
+    result = await runGenerateRequest({
+      recipeLib: fixtureLib([groundedFixtureRecipe()]),
+      constraints: { pantry, dislikes },
+    });
+  } finally {
+    console.warn = originalWarn;
+  }
+  assert.equal(result.response.status, 200);
+  const prompt = result.upstreamBodies[0].messages[1].content;
+  assert.match(prompt, /库存20/);
+  assert.doesNotMatch(prompt, /库存21/);
+  assert.match(prompt, /忌口20/);
+  assert.doesNotMatch(prompt, /忌口21/);
+  assert.ok(warnings.some(line => line.includes('constraint_cap') && line.includes('pantry')));
+  assert.ok(warnings.some(line => line.includes('constraint_cap') && line.includes('dislikes')));
+});
+
+test('servings and nutrient targets are clamped to hard bounds', async () => {
+  const high = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    constraints: { servings: 99 },
+    targets: { kcal: 99999, p: 1000, fb: 500 },
+  });
+  const highPrompt = high.upstreamBodies[0].messages[1].content;
+  assert.match(highPrompt, /一共约8份/);
+  assert.match(highPrompt, /热量约5000kcal、蛋白约300g、纤维约100g/);
+  const low = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    constraints: { servings: 0 },
+    targets: { kcal: 10, p: 1, fb: -5 },
+  });
+  const lowPrompt = low.upstreamBodies[0].messages[1].content;
+  assert.match(lowPrompt, /一共约1份/);
+  assert.match(lowPrompt, /热量约300kcal、蛋白约10g、纤维约0g/);
+});
+
+test('request body over 32KB returns 400 before any upstream call', async () => {
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    bodyOverrides: { padding: 'x'.repeat(40 * 1024) },
+  });
+  assert.equal(response.status, 400);
+  assert.equal(body.code, 'request_too_large');
+  assert.equal(upstreamBodies.length, 0);
+});
+
+// ===== W4: 预算熔断 fail-closed =====
+test('missing RATE_KV binding fails closed with 503 budget_unavailable', async () => {
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    envOverrides: { RATE_KV: undefined },
+  });
+  assert.equal(response.status, 503);
+  assert.equal(body.code, 'budget_unavailable');
+  assert.equal(upstreamBodies.length, 0);
+});
+
+test('KV failure fails closed with 503 budget_unavailable and logs the error', async () => {
+  const originalError = console.error;
+  const errors = [];
+  console.error = (...args) => errors.push(args.map(String).join(' '));
+  let result;
+  try {
+    result = await runGenerateRequest({
+      recipeLib: fixtureLib([groundedFixtureRecipe()]),
+      envOverrides: {
+        RATE_KV: {
+          async get() { throw new Error('kv down'); },
+          async put() {},
+        },
+      },
+    });
+  } finally {
+    console.error = originalError;
+  }
+  assert.equal(result.response.status, 503);
+  assert.equal(result.body.code, 'budget_unavailable');
+  assert.equal(result.upstreamBodies.length, 0);
+  assert.ok(errors.some(line => line.includes('budget kv error') && line.includes('kv down')));
+});
+
+test('daily budget cap returns 429 budget_exceeded before any upstream call', async () => {
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    envOverrides: {
+      RATE_KV: {
+        async get() { return '300'; },
+        async put() {},
+      },
+    },
+  });
+  assert.equal(response.status, 429);
+  assert.equal(body.code, 'budget_exceeded');
+  assert.equal(upstreamBodies.length, 0);
 });

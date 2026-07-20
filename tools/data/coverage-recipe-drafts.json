@@ -141,8 +141,8 @@
     {
       "id":"cabbage-egg-soup-rice-draft","candidate_id":"cabbage-egg-soup-rice","status":"draft","name":"白菜鸡蛋汤饭一锅草案","region":"中国家庭适配","form":"汤饭","adaptation_summary":"项目原创的白菜鸡蛋熟米饭单锅汤饭框架。","serving_range":[2,4],
       "core_ingredients":["熟米饭","白菜","鸡蛋"],"optional_ingredients":["香葱"],"substitution_slots":[{"slot":"白菜","replaces":["白菜"],"allowed":["娃娃菜","青菜"]}],
-      "draft_ratio_rules":["每100克熟米饭使用约180克汤水。","每100克熟米饭配约35克蛋液和60克白菜或替代叶菜。"],"technique_outline":["同锅把白菜或替代叶菜煮软并加入熟米饭充分复热。","淋入蛋液，煮至鸡蛋完全凝固。"],
-      "safety_and_quality_gates":[{"type":"food_safety","requirement":"鸡蛋必须在滚汤中煮至蛋白与蛋黄全部凝固；熟米饭充分复热，叶菜洗净并煮熟。"}],"trial_requirements":["记录叶菜软化度、鸡蛋凝固状态和汤饭浓度。"]
+      "draft_ratio_rules":["每100克熟米饭使用约180克汤水。","每100克熟米饭配约35克蛋液和60克白菜或替代叶菜。"],"technique_outline":["只使用做熟后及时冷藏且保存状态可靠的熟米饭；同锅把白菜或替代叶菜煮软并加入熟米饭充分复热。","淋入蛋液，煮至鸡蛋完全凝固。"],
+      "safety_and_quality_gates":[{"type":"food_safety","requirement":"只使用做熟后及时冷藏且保存状态可靠的熟米饭，并充分复热；鸡蛋必须在滚汤中煮至蛋白与蛋黄全部凝固，叶菜洗净并煮熟。"}],"trial_requirements":["记录叶菜软化度、鸡蛋凝固状态和汤饭浓度。"]
     },
     {
       "id":"greens-tofu-vermicelli-pot-draft","candidate_id":"greens-tofu-vermicelli-pot","status":"draft","name":"青菜豆腐粉丝煲一锅草案","region":"中国家庭适配","form":"粉丝煲","adaptation_summary":"项目原创的叶菜豆腐单锅粉丝煲框架。","serving_range":[2,4],
