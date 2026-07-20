@@ -341,6 +341,21 @@ test('a trusted pantry match may trade speed for using the supplied foods withou
   assert.deepEqual(values, [true, false]);
 });
 
+test('a trusted pantry quick recipe may use the backend-safe four steps and nine ingredient rows', () => {
+  const { context } = loadFrontend();
+  const accepted = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.profile = { purpose:'quick', servings:'2', pantry:'鸡肉, 大米, 洋葱, 葡萄干, 白菜', dislikes:'' };
+    return scoreDish({
+      name:'简化鸡肉香料焖饭', form:'焖饭', minutes:30, purpose:'quick',
+      steps:['炒香洋葱。','鸡肉煎至变色。','加米和高汤同锅焖熟。','确认鸡肉中心不见粉红。'],
+      ingredients:['大米','鸡肉','洋葱','葡萄干','黄油','姜黄','咖喱酱','鸡高汤','盐'].map(name => ({ name })),
+      kcal:1300, _targets:{kcal:1300}, validationFlags:[],
+      baseRecipeId:'simple-chicken-biryani', usedPantry:['鸡肉','大米','洋葱','葡萄干'],
+    }).ok;
+  })())`));
+  assert.equal(accepted, true);
+});
+
 test('frontend trusts the grounded pantry match when a returned ingredient uses an approved alias', () => {
   const { context } = loadFrontend();
   const score = JSON.parse(evaluate(context, `JSON.stringify((() => {

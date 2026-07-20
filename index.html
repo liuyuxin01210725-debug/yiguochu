@@ -1330,9 +1330,11 @@ scoreDish = function(d) {
     && d.minutes <= 40
     && boundedText(d.baseRecipeId, 100)
     && boundedTextList(d.usedPantry, 16, 80).length > 0;
-  const scored = d && d.purpose === 'quick' && (d.minutes <= 30 || trustedPantryTradeoff)
-    ? { ...d, minutes: 25 }
-    : d;
+  // 后端可信菜谱允许为了覆盖用户库存使用全局安全上限（≤4 步、≤40 分钟、动态食材行上限）。
+  // 这里仅跳过 quick 的软偏好（≤3 步、≤8 行、尽量≤25 分钟），其余硬安全检查仍由原 scoreDish 执行。
+  const scored = trustedPantryTradeoff
+    ? { ...d, purpose: 'pantry' }
+    : (d && d.purpose === 'quick' && d.minutes <= 30 ? { ...d, minutes: 25 } : d);
   return scoreDishBeforeThirtyMinuteQuick(scored);
 };
 </script>
