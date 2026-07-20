@@ -16,7 +16,10 @@ const currentProduction = read('./data/recipe-library.json');
 const stagedProduction = read('./data/coverage-recipe-production.json');
 const production = {
   schema_version: currentProduction.schema_version,
-  ingredient_aliases: currentProduction.ingredient_aliases,
+  ingredient_aliases: {
+    ...currentProduction.ingredient_aliases,
+    ...stagedProduction.ingredient_aliases,
+  },
   families: [...currentProduction.families, ...stagedProduction.families],
   recipes: [...currentProduction.recipes, ...stagedProduction.recipes],
 };

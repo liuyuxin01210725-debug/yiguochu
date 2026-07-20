@@ -5,6 +5,12 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { validateRecipeCandidateLedger } from '../lib/recipe-candidate-validator.mjs';
 import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
+import { validateRecipeLibrary } from '../lib/recipe-library-validator.mjs';
+import {
+  canonicalRecipeIngredient,
+  pickRecipeSelection,
+  selectRecipeCandidates,
+} from '../../worker/src/worker.js';
 
 const gateUrl = new URL('../lib/coverage-recipe-promotion-gate.mjs', import.meta.url);
 
@@ -268,7 +274,7 @@ test('coverage promotion manifest and staging library lock the thirty mappings a
     assert.match(promotion.identity_resolution, /项目原创/u, promotion.recipe_id);
   }
 
-  assert.deepEqual(staging.recipes, []);
+  assert.ok(Array.isArray(staging.recipes));
   assert.deepEqual(staging.families, [
     { id: 'family-home-fried-rice', name: '家常炒饭', form: '炒饭' },
     { id: 'family-home-braised-rice', name: '家常焖饭', form: '焖饭' },
@@ -277,6 +283,66 @@ test('coverage promotion manifest and staging library lock the thirty mappings a
     { id: 'family-home-covered-pot', name: '加盖饭锅', form: '饭锅' },
     { id: 'family-home-vermicelli-pot', name: '一锅粉丝煲', form: '粉丝煲' },
   ]);
+});
+
+test('leftover-rice aliases stay cooked and the first five staged recipes fully cover rice plus egg', () => {
+  const currentUrl = new URL('../data/recipe-library.json', import.meta.url);
+  const stagingUrl = new URL('../data/coverage-recipe-production.json', import.meta.url);
+  const current = JSON.parse(fs.readFileSync(currentUrl, 'utf8'));
+  const staging = JSON.parse(fs.readFileSync(stagingUrl, 'utf8'));
+  const aliases = { ...current.ingredient_aliases, ...staging.ingredient_aliases };
+
+  assert.equal(canonicalRecipeIngredient('剩米饭', aliases), '熟米饭');
+  assert.equal(canonicalRecipeIngredient('隔夜米饭', aliases), '熟米饭');
+  assert.equal(canonicalRecipeIngredient('大米', aliases), '大米');
+
+  const python = spawnSync('python3', ['-c', [
+    'import json, sys',
+    'import ai_proxy',
+    'payload = json.load(sys.stdin)',
+    'print(json.dumps([ai_proxy.canonical_recipe_ingredient(x, payload["aliases"]) for x in payload["items"]], ensure_ascii=False))',
+  ].join('; ')], {
+    cwd: fileURLToPath(new URL('../..', import.meta.url)),
+    encoding: 'utf8',
+    input: JSON.stringify({ aliases, items: ['剩米饭', '隔夜米饭', '大米'] }),
+    timeout: 15000,
+  });
+  assert.equal(python.status, 0, python.stderr);
+  assert.deepEqual(JSON.parse(python.stdout), ['熟米饭', '熟米饭', '大米']);
+
+  const library = {
+    schema_version: 1,
+    ingredient_aliases: aliases,
+    families: [...current.families, ...staging.families],
+    recipes: [...current.recipes, ...staging.recipes],
+  };
+  assert.deepEqual(validateRecipeLibrary(library), []);
+  const expectedIds = [
+    'home-egg-fried-leftover-rice',
+    'tomato-egg-stewed-leftover-rice',
+    'greens-egg-braised-leftover-rice',
+    'mushroom-egg-covered-leftover-rice',
+    'shrimp-egg-fried-leftover-rice',
+  ];
+  assert.deepEqual(staging.recipes.slice(0, 5).map(recipe => recipe.id), expectedIds);
+  const seen = [];
+  const seenFamilies = new Set();
+  for (let round = 0; round < 5; round += 1) {
+    const constraints = {
+      pantry: ['剩米饭', '鸡蛋'],
+      purpose: 'pantry',
+      dislikes: [],
+      recent_base_recipes: [...seen],
+    };
+    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
+    assert.ok(picked, `round ${round + 1}`);
+    assert.equal(picked.usedPantry.length, 2, picked.recipe.id);
+    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
+    seen.push(picked.recipe.id);
+    seenFamilies.add(picked.recipe.family_id);
+  }
+  assert.deepEqual(new Set(seen), new Set(expectedIds));
+  assert.ok(seenFamilies.size >= 4);
 });
 
 function gateRecipeIds(groupId) {
