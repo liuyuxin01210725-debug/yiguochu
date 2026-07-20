@@ -103,15 +103,15 @@
     },
     {
       "id":"chicken-leg-mushroom-stewed-rice-draft","candidate_id":"chicken-leg-mushroom-stewed-rice","status":"draft","name":"鸡腿香菇烩饭一锅草案","region":"中国家庭适配","form":"烩饭","adaptation_summary":"项目原创的鸡腿香菇熟米饭单锅烩制框架。","serving_range":[2,4],
-      "core_ingredients":["熟米饭","鸡腿肉","鲜香菇"],"optional_ingredients":["香葱"],"substitution_slots":[{"slot":"食用菌","replaces":["鲜香菇"],"allowed":["口蘑","平菇"]}],
-      "draft_ratio_rules":["每100克熟米饭使用约70克汤汁。","每100克熟米饭配约50克鸡腿肉和30克鲜食用菌。"],"technique_outline":["同锅把鸡腿肉与鲜香菇煮至肉类达到安全终点。","加入熟米饭烩至全锅滚热并吸收汤汁。"],
-      "safety_and_quality_gates":[{"type":"food_safety","requirement":"鸡腿肉最厚处中心达到74摄氏度且无粉红生肉；鲜香菇彻底熟软。"}],"trial_requirements":["记录鸡腿肉中心温度、香菇出水量和烩饭稠度。"]
+      "core_ingredients":["熟米饭","鸡腿肉","鲜香菇"],"optional_ingredients":["香葱","土豆"],"substitution_slots":[{"slot":"食用菌","replaces":["鲜香菇"],"allowed":["口蘑","平菇"]}],
+      "draft_ratio_rules":["每100克熟米饭使用约70克汤汁。","每100克熟米饭配约50克鸡腿肉和30克鲜食用菌；使用土豆时控制在40至50克并切小块。"],"technique_outline":["同锅把鸡腿肉、鲜香菇和用户提供的土豆小块煮至肉类达到安全终点且土豆熟软。","加入熟米饭烩至全锅滚热并吸收汤汁。"],
+      "safety_and_quality_gates":[{"type":"food_safety","requirement":"鸡腿肉最厚处中心达到74摄氏度且无粉红生肉；鲜香菇彻底熟软，使用土豆时不得夹生且不得使用发芽土豆。"}],"trial_requirements":["记录鸡腿肉中心温度、土豆熟度、香菇出水量和烩饭稠度。"]
     },
     {
       "id":"tomato-chicken-leg-soup-rice-draft","candidate_id":"tomato-chicken-leg-soup-rice","status":"draft","name":"番茄鸡腿汤饭一锅草案","region":"中国家庭适配","form":"汤饭","adaptation_summary":"项目原创的番茄鸡腿熟米饭单锅汤饭框架。","serving_range":[2,4],
-      "core_ingredients":["熟米饭","鸡腿肉","番茄"],"optional_ingredients":["青菜"],"substitution_slots":[{"slot":"叶菜","replaces":["青菜"],"allowed":["小白菜"]}],
-      "draft_ratio_rules":["每100克熟米饭使用约180克汤水。","每100克熟米饭配约50克鸡腿肉和60克番茄。"],"technique_outline":["同锅把鸡腿肉与番茄煮成滚汤并达到肉类安全终点。","加入熟米饭煮至整锅再次滚热。"],
-      "safety_and_quality_gates":[{"type":"food_safety","requirement":"鸡腿肉最厚处中心达到74摄氏度且无粉红生肉；熟米饭充分复热。"}],"trial_requirements":["记录鸡腿肉中心温度、番茄出汁量和汤饭浓度。"]
+      "core_ingredients":["熟米饭","鸡腿肉","番茄"],"optional_ingredients":["青菜","土豆"],"substitution_slots":[{"slot":"叶菜","replaces":["青菜"],"allowed":["小白菜"]}],
+      "draft_ratio_rules":["每100克熟米饭使用约180克汤水。","每100克熟米饭配约50克鸡腿肉和60克番茄；使用土豆时控制在40至50克并切小块。"],"technique_outline":["同锅把鸡腿肉、番茄和用户提供的土豆小块煮成滚汤，并达到肉类安全终点且土豆熟软。","加入熟米饭煮至整锅再次滚热。"],
+      "safety_and_quality_gates":[{"type":"food_safety","requirement":"鸡腿肉最厚处中心达到74摄氏度且无粉红生肉；熟米饭充分复热，使用土豆时不得夹生且不得使用发芽土豆。"}],"trial_requirements":["记录鸡腿肉中心温度、土豆熟度、番茄出汁量和汤饭浓度。"]
     },
     {
       "id":"corn-carrot-chicken-leg-covered-rice-draft","candidate_id":"corn-carrot-chicken-leg-covered-rice","status":"draft","name":"玉米胡萝卜鸡腿饭锅一锅草案","region":"中国家庭适配","form":"饭锅","adaptation_summary":"项目原创的玉米胡萝卜鸡腿加盖饭锅框架。","serving_range":[2,4],

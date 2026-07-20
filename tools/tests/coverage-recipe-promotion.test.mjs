@@ -431,6 +431,49 @@ test('tofu and greens stay fully covered through five real selector rounds', () 
   assert.ok(seenFamilies.size >= 4);
 });
 
+test('chicken leg and potato stay fully covered through five real selector rounds', () => {
+  const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
+  const library = {
+    schema_version: 1,
+    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
+    families: [...current.families, ...staging.families],
+    recipes: [...current.recipes, ...staging.recipes],
+  };
+  const expectedIds = [
+    'chicken-leg-potato-braised-rice',
+    'chicken-leg-mushroom-stewed-rice',
+    'tomato-chicken-leg-soup-rice',
+    'corn-carrot-chicken-leg-covered-rice',
+    'cabbage-potato-chicken-leg-braised-noodles',
+  ];
+  assert.deepEqual(staging.recipes.slice(15, 20).map(recipe => recipe.id), expectedIds);
+  assert.deepEqual(validateRecipeLibrary(library), []);
+  for (const recipe of staging.recipes.slice(15, 20)) {
+    assert.deepEqual(recipe.protein_class, ['鸡'], recipe.id);
+    assert.match(recipe.safety_rules.join('；'), /鸡腿肉.*74摄氏度/u, recipe.id);
+  }
+
+  const seen = [];
+  const seenFamilies = new Set();
+  for (let round = 0; round < 5; round += 1) {
+    const constraints = {
+      pantry: ['鸡腿肉', '土豆'],
+      purpose: 'pantry',
+      dislikes: [],
+      recent_base_recipes: [...seen],
+    };
+    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
+    assert.ok(picked, `round ${round + 1}`);
+    assert.deepEqual(picked.usedPantry, ['鸡腿肉', '土豆'], picked.recipe.id);
+    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
+    seen.push(picked.recipe.id);
+    seenFamilies.add(picked.recipe.family_id);
+  }
+  assert.deepEqual(new Set(seen), new Set(expectedIds));
+  assert.ok(seenFamilies.size >= 4);
+});
+
 function gateRecipeIds(groupId) {
   const groups = [
     ['potato-green-bean-ribs', [
