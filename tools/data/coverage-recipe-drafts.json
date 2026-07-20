@@ -72,15 +72,15 @@
     },
     {
       "id":"cabbage-tofu-braised-rice-draft","candidate_id":"cabbage-tofu-braised-rice","status":"draft","name":"白菜豆腐焖饭一锅草案","region":"中国家庭适配","form":"焖饭","adaptation_summary":"项目原创的白菜豆腐生米同锅焖制框架。","serving_range":[2,4],
-      "core_ingredients":["大米","老豆腐","白菜"],"optional_ingredients":["鲜香菇"],"substitution_slots":[{"slot":"白菜","replaces":["白菜"],"allowed":["娃娃菜"]}],
-      "draft_ratio_rules":["每100克大米使用约130克可用总液体。","每100克大米配约60克老豆腐和50克白菜。"],"technique_outline":["同锅将大米与老豆腐加盖焖煮。","米饭接近熟透时加入白菜，继续焖至全部熟软。"],
-      "safety_and_quality_gates":[{"type":"food_safety","requirement":"米饭不得夹生，老豆腐中心热透，白菜洗净并熟软。"}],"trial_requirements":["记录白菜出水量、大米实际液体和豆腐完整度。"]
+      "core_ingredients":["大米","老豆腐","白菜"],"optional_ingredients":["鲜香菇"],"substitution_slots":[{"slot":"白菜","replaces":["白菜"],"allowed":["娃娃菜","青菜"]}],
+      "draft_ratio_rules":["每100克大米使用约130克可用总液体。","每100克大米配约60克老豆腐和50克白菜或替代叶菜。"],"technique_outline":["同锅将大米与老豆腐加盖焖煮。","米饭接近熟透时加入白菜或替代叶菜，继续焖至全部熟软。"],
+      "safety_and_quality_gates":[{"type":"food_safety","requirement":"米饭不得夹生，老豆腐中心热透，白菜或替代叶菜洗净并熟软。"}],"trial_requirements":["记录叶菜出水量、大米实际液体和豆腐完整度。"]
     },
     {
       "id":"tomato-tofu-stewed-rice-draft","candidate_id":"tomato-tofu-stewed-rice","status":"draft","name":"番茄豆腐烩饭一锅草案","region":"中国家庭适配","form":"烩饭","adaptation_summary":"项目原创的番茄豆腐熟米饭单锅烩制框架。","serving_range":[2,4],
-      "core_ingredients":["熟米饭","番茄","老豆腐"],"optional_ingredients":["香葱"],"substitution_slots":[{"slot":"番茄","replaces":["番茄"],"allowed":["西红柿"]}],
-      "draft_ratio_rules":["每100克熟米饭使用约70克番茄汤汁。","每100克熟米饭配约50克老豆腐。"],"technique_outline":["同锅把番茄煮出汤汁并加入老豆腐热透。","加入熟米饭烩至吸汁且全锅滚热。"],
-      "safety_and_quality_gates":[{"type":"food_safety","requirement":"老豆腐中心热透，整锅持续滚热后食用。"}],"trial_requirements":["记录番茄出汁量、豆腐完整度和烩饭稠度。"]
+      "core_ingredients":["熟米饭","番茄","老豆腐"],"optional_ingredients":["香葱","青菜"],"substitution_slots":[{"slot":"番茄","replaces":["番茄"],"allowed":["西红柿"]}],
+      "draft_ratio_rules":["每100克熟米饭使用约70克番茄汤汁。","每100克熟米饭配约50克老豆腐；使用青菜时控制在30至40克。"],"technique_outline":["同锅把番茄煮出汤汁并加入老豆腐热透。","加入熟米饭烩至吸汁，使用青菜时后段加入并将全锅煮至滚热。"],
+      "safety_and_quality_gates":[{"type":"food_safety","requirement":"老豆腐中心热透；使用青菜时须洗净并煮熟，整锅持续滚热后食用。"}],"trial_requirements":["记录番茄出汁量、青菜出水量、豆腐完整度和烩饭稠度。"]
     },
     {
       "id":"greens-tofu-soup-noodles-draft","candidate_id":"greens-tofu-soup-noodles","status":"draft","name":"青菜豆腐汤面一锅草案","region":"中国家庭适配","form":"汤面","adaptation_summary":"项目原创的叶菜豆腐单锅汤面框架。","serving_range":[2,4],
