@@ -59,10 +59,14 @@ HIT_CASES.forEach(([name, want]) => {
   if (!f || f.id !== want) { console.error(`❌ 匹配回归失败: "${name}" 期望 ${want}, 实得 ${f ? f.id : '未命中'}`); errs++; }
 });
 
-// 5. 调味料必须归零(不算估算、不污染营养)
-['盐', '姜末', '蒜蓉', '料酒', '生抽'].forEach(n => {
+// 5. 小用量香辛料可归零；油糖盐/酱料不能被当成零贡献。
+['姜末', '蒜蓉', '料酒'].forEach(n => {
   const f = lookupFoodNutrition(n);
   if (!f || !f.seasoning) { console.error(`❌ 调味料未归零: "${n}" 实得 ${f ? f.id : '未命中'}`); errs++; }
+});
+['盐', '生抽', '白糖', '香油', '豆瓣酱'].forEach(n => {
+  const f = lookupFoodNutrition(n);
+  if (f && f.seasoning) { console.error(`❌ 重要调味品被错误归零: "${n}"`); errs++; }
 });
 
 console.log(`\nFOODS ${FOODS.length} 条 · alias ${Object.keys(FOOD_ALIAS).length} 条 · 营养素 ${KEYS.length} 项`);

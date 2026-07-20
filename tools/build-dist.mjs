@@ -108,6 +108,14 @@ function build({ outputDir, buildId }) {
   }
   fs.writeFileSync(serviceWorkerPath, generatedServiceWorker, 'utf8');
 
+  const indexPath = path.join(outputDir, 'index.html');
+  const sourceIndex = fs.readFileSync(indexPath, 'utf8');
+  const generatedIndex = sourceIndex.replaceAll('__YIGUOCHU_BUILD_ID__', buildId);
+  if (generatedIndex === sourceIndex) {
+    throw new Error('Cannot inject the frontend build id; update tools/build-dist.mjs for the current index.html format.');
+  }
+  fs.writeFileSync(indexPath, generatedIndex, 'utf8');
+
   console.log(JSON.stringify({ outputDir, buildId, files: STATIC_ASSETS.length + GENERATED_ASSETS.length }));
 }
 

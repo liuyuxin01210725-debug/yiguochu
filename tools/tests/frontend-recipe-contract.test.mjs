@@ -43,12 +43,16 @@ function meal(overrides = {}) {
   };
 }
 
-function loadFrontend(responses = []) {
+function loadFrontend(responses = [], options = {}) {
   const root = { innerHTML: '', addEventListener() {} };
   const calls = [];
   let responseIndex = 0;
-  const location = { protocol: 'https:', hostname: 'app.test', origin: 'https://app.test' };
-  const window = { YIGUOCHU_PROXY: 'https://api.test', scrollTo() {}, location };
+  const location = {
+    protocol: 'https:', hostname: 'app.test', origin: 'https://app.test',
+    ...(options.location || {}),
+  };
+  const window = { scrollTo() {}, location };
+  if (options.proxy !== null) window.YIGUOCHU_PROXY = options.proxy || 'https://api.test';
   const context = vm.createContext({
     console,
     URL,
@@ -72,7 +76,7 @@ function loadFrontend(responses = []) {
     location,
     window,
     alert() {},
-    localStorage: { getItem() { return null; }, setItem() {} },
+    localStorage: options.storage || { getItem() { return null; }, setItem() {} },
     document: {
       getElementById(id) { return id === 'root' ? root : null; },
       querySelector() { return null; },
@@ -100,10 +104,35 @@ function evaluate(context, source) {
   return vm.runInContext(source, context);
 }
 
+// 可共享的 localStorage stub: 同一个实例传给多次 loadFrontend, 即模拟"同一浏览器跨会话"
+function sharedStorage() {
+  const data = new Map();
+  return {
+    getItem(key) { return data.has(key) ? data.get(key) : null; },
+    setItem(key, value) { data.set(key, String(value)); },
+    removeItem(key) { data.delete(key); },
+  };
+}
+
 test('frontend maps and renders trusted recipe evidence', () => {
   for (const token of ['base_recipe_id', 'pairing_basis', 'unused_pantry', 'validation_flags', 'recipeBasisBlock']) {
     assert.match(html, new RegExp(token));
   }
+});
+
+test('preview uses only its same-origin generation endpoint', () => {
+  const { context } = loadFrontend([], {
+    proxy: null,
+    location: {
+      protocol: 'https:',
+      hostname: 'recipe-validation.yiguochu.pages.dev',
+      origin: 'https://recipe-validation.yiguochu.pages.dev',
+    },
+  });
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify(apiCandidates('/generate-meal'))`)),
+    ['/generate-meal'],
+  );
 });
 
 test('swap copy no longer promises every pantry item is used', () => {
@@ -230,17 +259,9 @@ test('recipe evidence escapes text and href and uses source details', () => {
   assert.doesNotMatch(rendered, /它不适合这道基础做法|为了清库存硬加进去/);
 });
 
-test('evidence is hidden without trusted metadata and on emergency fallback', () => {
+test('evidence is hidden without trusted metadata', () => {
   const { context } = loadFrontend();
   assert.equal(evaluate(context, `recipeBasisBlock({ pairingBasis:'untrusted', sourceRefs:[] })`), '');
-  const trusted = meal();
-  const rendered = evaluate(context, `(() => {
-    const d = mapDish(${JSON.stringify(trusted)}, { servings:1 });
-    state.dish = d; state.items = d.ingredients.map(x => ({...x}));
-    return resultScreen(true);
-  })()`);
-  assert.match(rendered, /应急参考 · 未按你的偏好定制/);
-  assert.doesNotMatch(rendered, /recipe-basis|>搭配依据：/);
 });
 
 test('validation flags are a hard score failure', () => {
@@ -254,26 +275,24 @@ test('validation flags are a hard score failure', () => {
   assert.equal(score.ok, false);
 });
 
-test('two unsafe generations throw unsafe_recipe after exactly two requests', async () => {
+test('an unsafe generation throws unsafe_recipe after exactly one request', async () => {
   const { context, calls } = loadFrontend([
     { body: meal({ base_recipe_id: 'unsafe-one', validation_flags: ['flag-one'] }) },
-    { body: meal({ base_recipe_id: 'unsafe-two', validation_flags: ['flag-two'] }) },
   ]);
   await assert.rejects(
     evaluate(context, `fetchRealDish({})`),
     error => error?.code === 'unsafe_recipe',
   );
-  assert.equal(calls.length, 2);
+  assert.equal(calls.length, 1);
 });
 
-test('an unsafe first generation returns a safe second generation', async () => {
-  const { context, calls } = loadFrontend([
-    { body: meal({ base_recipe_id: 'unsafe-one', validation_flags: ['flag-one'] }) },
-    { body: meal({ base_recipe_id: 'safe-two', validation_flags: [] }) },
-  ]);
-  const result = await evaluate(context, `fetchRealDish({})`);
-  assert.equal(result.baseRecipeId, 'safe-two');
-  assert.equal(calls.length, 2);
+test('a network failure is not retried implicitly', async () => {
+  const { context, calls } = loadFrontend([new Error('connection reset')]);
+  await assert.rejects(
+    evaluate(context, `fetchRealDish({})`),
+    error => error?.code === 'network',
+  );
+  assert.equal(calls.length, 1);
 });
 
 test('frontend bounds and escapes trusted one-pot adaptation evidence', () => {
@@ -309,6 +328,31 @@ test('ordinary quick accepts thirty minutes and rejects thirty-one', () => {
   assert.deepEqual(values, [true, false]);
 });
 
+test('a trusted pantry match may trade speed for using the supplied foods without becoming unsafe', () => {
+  const { context } = loadFrontend();
+  const values = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.profile = { purpose:'quick', servings:'2', pantry:'豆腐, 白菜, 金针菇', dislikes:'' };
+    const base = { name:'白菜豆腐菌菇炊饭', form:'炊饭', steps:['同锅焖熟'], minutes:35,
+      ingredients:[{name:'豆腐'},{name:'白菜'},{name:'金针菇'},{name:'大米'}], kcal:1200,
+      purpose:'quick', _targets:{kcal:1200}, validationFlags:[],
+      baseRecipeId:'taiwan-cabbage-mushroom-rice', usedPantry:['豆腐','白菜','金针菇'] };
+    return [scoreDish(base).ok, scoreDish({...base, minutes:41}).ok];
+  })())`));
+  assert.deepEqual(values, [true, false]);
+});
+
+test('frontend trusts the grounded pantry match when a returned ingredient uses an approved alias', () => {
+  const { context } = loadFrontend();
+  const score = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.profile = { purpose:'fresh', servings:'2', pantry:'西红柿', dislikes:'' };
+    return scoreDish({ name:'番茄炖蛋', form:'炖锅', steps:['同锅煮熟'], minutes:25,
+      ingredients:[{name:'番茄'},{name:'鸡蛋'}], kcal:1200, purpose:'fresh',
+      _targets:{kcal:1200}, validationFlags:[], baseRecipeId:'shakshuka-tomato-egg',
+      usedPantry:['西红柿'], unusedPantry:[] });
+  })())`));
+  assert.equal(score.ok, true);
+});
+
 test('a safe first generation returns immediately after one request', async () => {
   const { context, calls } = loadFrontend([{ body: meal({ base_recipe_id: 'safe-one' }) }]);
   const result = await evaluate(context, `fetchRealDish({})`);
@@ -329,10 +373,90 @@ test('generation request includes bounded recent recipe metadata and swap intent
   assert.deepEqual(body.constraints.recent_families, ['family-old']);
 });
 
-test('unsafe_recipe maps to the explicit emergency reference message', () => {
+test('swap request accumulates swap history so backend avoids all seen dishes', async () => {
+  const { context, calls } = loadFrontend([{ body: meal() }]);
+  await evaluate(context, `(() => {
+    state.dish = { name:'菜B', baseRecipeId:'base-b', familyId:'family-b' };
+    state.swapHistory = [{ name:'菜A', base:'base-a', fam:'family-a' }];
+    return fetchRealDish({ swap:'any' });
+  })()`);
+  const body = JSON.parse(calls[0].init.body);
+  assert.deepEqual(body.constraints.recent_dishes, ['菜A', '菜B']);
+  assert.deepEqual(body.constraints.recent_base_recipes, ['base-a', 'base-b']);
+  assert.deepEqual(body.constraints.recent_families, ['family-a', 'family-b']);
+});
+
+test('updateSwapHistory accumulates on swap, dedupes, and keeps history on fresh generation', () => {
   const { context } = loadFrontend();
-  const copy = JSON.parse(evaluate(context, `JSON.stringify(fallbackCopy({ code:'unsafe_recipe' }))`));
-  assert.equal(copy.text, '这版做法没有通过食材和熟制检查，下面先给一个应急参考。');
+  const result = JSON.parse(evaluate(context, `(() => {
+    state.dish = { name:'菜A', baseRecipeId:'base-a', familyId:'family-a' };
+    updateSwapHistory(true);
+    state.dish = { name:'菜B', baseRecipeId:'base-b', familyId:'family-b' };
+    updateSwapHistory(true);
+    updateSwapHistory(true); // 同一道重复换不重复记
+    const afterSwaps = JSON.parse(JSON.stringify(state.swapHistory));
+    updateSwapHistory(false); // 全新生成不再清空(F-A): 跨会话冷却, 上次吃过的继续避开
+    return JSON.stringify({ afterSwaps: afterSwaps, afterFresh: state.swapHistory });
+  })()`));
+  assert.deepEqual(result.afterSwaps.map(h => ({ name: h.name, base: h.base, fam: h.fam })), [
+    { name:'菜A', base:'base-a', fam:'family-a' },
+    { name:'菜B', base:'base-b', fam:'family-b' },
+  ]);
+  assert.ok(result.afterSwaps.every(h => typeof h.ts === 'number'), 'swap history entries carry a timestamp');
+  assert.deepEqual(result.afterFresh, result.afterSwaps);
+});
+
+test('start-cooking records the dish as eaten so cross-session avoidance covers cooked dishes', () => {
+  // codex 指正: 历史不能只记「换掉的」, 「开始做」的菜必须同样进 swapHistory(否则跨会话避开空转)
+  assert.match(html, /act === 'start-cooking'\) \{\s*updateSwapHistory\(true\)/);
+});
+
+test('swap history persists timestamped entries through STORE', () => {
+  const storage = sharedStorage();
+  const { context } = loadFrontend([], { storage });
+  evaluate(context, `(() => {
+    state.dish = { name:'菜A', baseRecipeId:'base-a', familyId:'family-a' };
+    updateSwapHistory(true);
+  })()`);
+  const stored = JSON.parse(evaluate(context, `JSON.stringify(STORE.getSwapHistory())`));
+  assert.equal(stored.length, 1);
+  assert.deepEqual(
+    { name: stored[0].name, base: stored[0].base, fam: stored[0].fam },
+    { name:'菜A', base:'base-a', fam:'family-a' },
+  );
+  assert.equal(typeof stored[0].ts, 'number');
+  assert.deepEqual(JSON.parse(storage.getItem('yiguochu_v1')).swapHistory, stored);
+});
+
+test('swap history reload drops entries older than seven days and caps at twenty', () => {
+  const storage = sharedStorage();
+  const now = Date.now();
+  const seeded = [
+    { name:'过期菜', base:'base-expired', fam:'family-expired', ts: now - 8 * 24 * 3600 * 1000 },
+    ...Array.from({ length: 25 }, (_, i) => ({ name:`菜${i + 1}`, base:`base-${i + 1}`, fam:`family-${i + 1}`, ts: now - (25 - i) * 1000 })),
+  ];
+  storage.setItem('yiguochu_v1', JSON.stringify({ swapHistory: seeded }));
+  const { context } = loadFrontend([], { storage });
+  const restored = JSON.parse(evaluate(context, `JSON.stringify(state.swapHistory)`));
+  assert.equal(restored.length, 20);
+  assert.equal(restored[0].name, '菜6'); // 25 条新鲜条目只留最近 20 条
+  assert.ok(!restored.some(h => h.name === '过期菜'), 'entries older than seven days are dropped');
+  assert.ok(restored.every(h => typeof h.ts === 'number'));
+});
+
+test('swap history survives a frontend reload through shared localStorage', () => {
+  const storage = sharedStorage();
+  const first = loadFrontend([], { storage });
+  evaluate(first.context, `(() => {
+    state.dish = { name:'菜A', baseRecipeId:'base-a', familyId:'family-a' };
+    updateSwapHistory(true);
+    state.dish = { name:'菜B', baseRecipeId:'base-b', familyId:'family-b' };
+    updateSwapHistory(true);
+  })()`);
+  const second = loadFrontend([], { storage }); // 重新加载前端但共享同一 localStorage = 跨"会话"
+  const restored = JSON.parse(evaluate(second.context, `JSON.stringify(state.swapHistory)`));
+  assert.deepEqual(restored.map(h => h.name), ['菜A', '菜B']);
+  assert.ok(restored.every(h => typeof h.ts === 'number'));
 });
 
 test('frontend controlled rice allergy activation stays bounded', () => {
@@ -353,18 +477,29 @@ test('frontend controlled rice allergy activation stays bounded', () => {
   assert.deepEqual(negatives, [false, false, false, false]);
 });
 
-test('rice allergy generation failure renders a stop-only screen with no recipe content', () => {
+test('no_safe_recipe with rice allergy renders the rice stop screen with retry', () => {
   const { context, root } = loadFrontend();
   evaluate(context, `(() => {
     state.profile.dislikes = '大米过敏';
-    state.dish = DISHES[2];
-    state.items = DISHES[2].ingredients.map(item => ({...item}));
-    showGenerationFailure({ code:'network', message:'failed' });
+    showGenerationFailure({ code:'no_safe_recipe', message:'no safe recipe' });
   })()`);
   assert.equal(evaluate(context, `state.view`), 'safe-stop');
   assert.match(root.innerHTML, /暂时没有安全的无米方案/);
+  assert.match(root.innerHTML, /重新生成/);
   assert.match(root.innerHTML, /调整食材或忌口/);
   assert.doesNotMatch(root.innerHTML, /照烧鸡腿杂粮拌饭|应急参考|开始做|需要这些|营养参考/);
+});
+
+test('no_safe_recipe without rice allergy uses the generic stop copy', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile.dislikes = '海鲜过敏';
+    showGenerationFailure({ code:'no_safe_recipe', message:'no safe recipe' });
+  })()`);
+  assert.equal(evaluate(context, `state.view`), 'safe-stop');
+  assert.match(root.innerHTML, /暂时没有安全的一锅方案/);
+  assert.match(root.innerHTML, /重新生成/);
+  assert.doesNotMatch(root.innerHTML, /暂时没有安全的无米方案|应急参考|开始做|营养参考/);
 });
 
 test('no_safe_recipe is non-retryable and uses one HTTP request', async () => {
@@ -385,6 +520,90 @@ test('no_safe_recipe is non-retryable and uses one HTTP request', async () => {
   assert.equal(calls.length, 1);
 });
 
+test('no compatible pantry recipe is non-retryable and uses one HTTP request', async () => {
+  const { context, calls } = loadFrontend([{
+    status: 422,
+    body: {
+      code: 'no_compatible_pantry_recipe',
+      error: '当前可信菜谱还搭不上这些食材',
+    },
+  }]);
+  await assert.rejects(
+    evaluate(context, `fetchRealDish({})`),
+    error => error?.code === 'no_compatible_pantry_recipe' && error?.retryable === false,
+  );
+  assert.equal(calls.length, 1);
+});
+
+test('unmatched pantry failure keeps inputs and never renders an unrelated emergency recipe', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile.pantry = '豆腐, 白菜, 金针菇';
+    showGenerationFailure({ code:'no_compatible_pantry_recipe', message:'no match' });
+  })()`);
+  assert.equal(evaluate(context, `state.view`), 'pantry-stop');
+  assert.match(root.innerHTML, /暂时没有搭配稳妥的菜谱/);
+  assert.match(root.innerHTML, /豆腐.*白菜.*金针菇/);
+  assert.match(root.innerHTML, /调整现有食材/);
+  assert.doesNotMatch(root.innerHTML, /照烧鸡腿杂粮拌饭|应急参考|开始做|营养参考/);
+  assert.doesNotMatch(root.innerHTML, /清掉记录继续换/); // 无换一换历史(初始生成)的 422 不走枯竭屏
+});
+
+test('no_compatible_pantry_recipe with swap history shows the swap exhaustion screen', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile.pantry = '豆腐, 白菜, 金针菇';
+    state.swapHistory = [{ name:'菜A', base:'base-a', fam:'family-a', ts: Date.now() }];
+    showGenerationFailure({ code:'no_compatible_pantry_recipe', message:'no match' });
+  })()`);
+  assert.equal(evaluate(context, `state.view`), 'pantry-stop');
+  assert.match(root.innerHTML, /能搭的菜都换过一遍了/);
+  assert.match(root.innerHTML, /data-act="clear-swap-history"/);
+  assert.match(root.innerHTML, /清掉记录继续换/);
+  assert.match(root.innerHTML, /data-act="edit-safe-profile"/);
+  assert.doesNotMatch(root.innerHTML, /暂时没有搭配稳妥的菜谱/);
+});
+
+test('clear-swap-history empties memory and storage, then regenerates with the last swap intent', async () => {
+  const storage = sharedStorage();
+  const { context, calls } = loadFrontend([{ body: meal() }], { storage });
+  await evaluate(context, `(async () => {
+    state.dish = { name:'当前菜', baseRecipeId:'base-cur', familyId:'family-cur' };
+    state.swapHistory = [
+      { name:'菜A', base:'base-a', fam:'family-a', ts: Date.now() },
+      { name:'菜B', base:'base-b', fam:'family-b', ts: Date.now() },
+    ];
+    state.lastSwapIntent = 'flavor';
+    clearSwapHistoryAndRetry();
+    await new Promise(resolve => setTimeout(resolve, 0));
+  })()`);
+  assert.equal(calls.length, 1);
+  const body = JSON.parse(calls[0].init.body);
+  assert.equal(body.constraints.swap_intent, 'flavor');
+  // 旧记录已清; runGenerate 按普通换一换把当前菜重新记入(本就是要换掉它), 所以只剩当前菜
+  assert.deepEqual(body.constraints.recent_dishes, ['当前菜']);
+  assert.deepEqual(body.constraints.recent_base_recipes, ['base-cur']);
+  assert.deepEqual(body.constraints.recent_families, ['family-cur']);
+  const restored = JSON.parse(evaluate(context, `JSON.stringify(state.swapHistory)`));
+  assert.deepEqual(restored.map(h => h.name), ['当前菜']);
+  const persisted = JSON.parse(storage.getItem('yiguochu_v1')).swapHistory;
+  assert.deepEqual(persisted, restored);
+});
+
+test('unsafe pantry generation keeps inputs and never renders an unrelated emergency recipe', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile.pantry = '鸡蛋, 西红柿, 土豆';
+    showGenerationFailure({ code:'unsafe_recipe', message:'validation failed' });
+  })()`);
+  assert.equal(evaluate(context, `state.view`), 'pantry-stop');
+  assert.match(root.innerHTML, /这次菜谱没有通过检查/);
+  assert.match(root.innerHTML, /鸡蛋.*西红柿.*土豆/);
+  assert.match(root.innerHTML, /重新生成/);
+  assert.match(root.innerHTML, /调整现有食材/);
+  assert.doesNotMatch(root.innerHTML, /照烧鸡腿杂粮拌饭|应急参考|开始做|营养参考/);
+});
+
 test('safe stop returns to the editable profile', () => {
   const { context } = loadFrontend();
   const stateView = JSON.parse(evaluate(context, `JSON.stringify((() => {
@@ -396,12 +615,28 @@ test('safe stop returns to the editable profile', () => {
   assert.deepEqual(stateView, { view: 'profile', editing: true });
 });
 
-test('non-rice failures preserve the existing static fallback', () => {
+test('non-stop failures render a reason-only failure screen with retry and edit actions', () => {
   const { context, root } = loadFrontend();
   evaluate(context, `(() => {
-    state.profile.dislikes = '花生过敏';
+    state.profile.dislikes = '大米过敏';
     showGenerationFailure({ code:'network', message:'failed' });
   })()`);
-  assert.equal(evaluate(context, `state.view`), 'fallback');
-  assert.match(root.innerHTML, /应急参考 · 未按你的偏好定制/);
+  // 即使忌口有米, 网络错误也不再误进停止页(F3), 一律走失败屏(F2)
+  assert.equal(evaluate(context, `state.view`), 'gen-failed');
+  assert.match(root.innerHTML, /这次网络没接上/);
+  assert.match(root.innerHTML, /重新生成/);
+  assert.match(root.innerHTML, /修改食材忌口/);
+  assert.doesNotMatch(root.innerHTML, /照烧鸡腿杂粮拌饭|应急参考|开始做|需要这些|营养参考|暂时没有安全的无米方案/);
+});
+
+test('failure screen copy maps error codes to plain-language reasons', () => {
+  const { context } = loadFrontend();
+  const copies = JSON.parse(evaluate(context,
+    `JSON.stringify(['timeout','budget_unavailable','budget_exceeded','rate_limited','http_500'].map(code => genFailureCopy({ code })))`));
+  assert.match(copies[0].text, /等太久了，可能是网络或服务器忙/);
+  assert.match(copies[1].text, /服务暂时不可用，请稍后再试/);
+  assert.match(copies[2].text, /每日总量保护上限/);
+  assert.match(copies[3].text, /每日保护额度/);
+  assert.match(copies[4].text, /生成失败了，再试一次？/);
+  assert.ok(copies.every(copy => !/应急/.test(copy.text)), 'failure copy must not promise an emergency recipe');
 });

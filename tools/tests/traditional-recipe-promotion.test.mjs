@@ -46,7 +46,7 @@ function completeFixture(matrix = PROMOTION_MATRIX) {
         purposes: ['pantry'],
         total_time_minutes: 30,
         adaptation_note: '使用明确命名的食品级食材。',
-        status: 'approved',
+        status: 'auto_approved',
         origin_candidate_id: candidate_id,
         core_ingredients: ['大米', '小白菜'],
         optional_ingredients: ['香葱'],
@@ -124,6 +124,19 @@ test('promotion gate requires complete approved source metadata', () => {
   }
 });
 
+test('promotion gate requires auto_approved production status until human review', () => {
+  const matrix = new Map([['demo-rice', {
+    draft_id: 'demo-rice-draft', candidate_id: 'demo-candidate', family_id: 'family-demo',
+  }]]);
+  for (const status of ['approved', 'draft']) {
+    const fixture = completeFixture(matrix);
+    fixture.production.recipes[0].status = status;
+    assert.ok(validateTraditionalRecipePromotion({ ...fixture, matrix }).includes(
+      'demo-rice production status must be auto_approved (auto-gate passed, pending human review; approved is reserved for human-reviewed recipes)',
+    ), status);
+  }
+});
+
 test('promotion gate rejects an entry whose linked candidate is no longer a candidate', () => {
   const fixture = completeFixture();
   fixture.candidates.entries[0].status = 'research_hold';
@@ -157,6 +170,20 @@ test('promotion manifest fixes all thirty candidate, draft and family mappings',
       'recipe_id', 'draft_id', 'candidate_id', 'family_id', 'cuisine', 'purposes',
       'total_time_minutes', 'canonical_path', 'identity_resolution',
     ]);
+  }
+});
+
+test('Taiwan rice promotion manifest records the expanded reviewed ingredient boundary', () => {
+  const manifest = JSON.parse(fs.readFileSync(
+    new URL('../data/traditional-recipe-promotions.json', import.meta.url),
+    'utf8',
+  ));
+  const promotion = manifest.promotions.find(
+    item => item.recipe_id === 'taiwan-cabbage-mushroom-rice',
+  );
+  assert.ok(promotion);
+  for (const ingredient of ['卷心菜', '鲜菇', '虾仁', '番茄', '玉米']) {
+    assert.match(promotion.identity_resolution, new RegExp(ingredient), ingredient);
   }
 });
 

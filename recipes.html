@@ -102,7 +102,7 @@
         .then(response => response.ok ? response.json() : Promise.reject(new Error('library unavailable')))
         .then(library => {
           const recipe = Array.isArray(library.recipes)
-            ? library.recipes.find(recipe => recipe.id === recipeId && recipe.status === 'approved')
+            ? library.recipes.find(recipe => recipe.id === recipeId && (recipe.status === 'approved' || recipe.status === 'auto_approved'))
             : undefined;
           if (!recipe) {
             showUnavailable();

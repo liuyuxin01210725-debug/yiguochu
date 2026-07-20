@@ -317,16 +317,15 @@
 
    产品纪律 —— 活的拒绝清单，每加一个功能前过一遍这道闸：
 
-   已接受（界面或后台）：填偏好→生成→主餐卡→食材/做法→配两样→是否真吃了；
-     换一换意图、看一周节奏、第二天反馈、语音输入；
-     后台：#0 营养查表纠偏、按周动态调配、吃鱼/营养存档（无感，不在界面长仪表盘）。
+   核心旅程：选这次做饭目的和份数→填现有食材/忌口→生成→食材/做法→可选搭配。
+   这是按需打开的做饭决策工具，不是假设用户每天使用的饮食追踪器。
 
    现在仍然拒绝（要加，先说服自己越过这条）：
-   - 不做每餐卡路里审判 / 红色警报（营养只是参考、看一周）
-   - 不做手动打卡 / 连续天数 streak 压力
+   - 不做全天营养目标、周累计、每日追问或连续天数压力
+   - 不收集用户行为；本地只保存下次还会用到的场景、份数、食材和忌口
    - 不做社交 feed / 晒图 / 排行榜
    - 不开补剂剂量、不做个体化医疗建议（维 D 等只给方向）
-   - 主营养面板营养项封顶 6 个，其余进后台或"展开"
+   - 单次营养只按整锅/每份展示，封顶 6 项，不评价全天是否达标
    - 不做账号必填（本地优先、匿名可用）
    - 不让后台学习在界面冒出新按钮 / 报表（复杂度留后台）
 
@@ -652,14 +651,51 @@ const FOOD_ALIAS = {
   '辣白菜':'s-52', '韩式泡菜':'s-52', '韩国泡菜':'s-52', '泡菜(韩国)':'s-52', '朝鲜泡菜':'s-52',
   '鸡大腿':'m-4', '鸡全腿':'m-4', '油':'v-23',
 };
-// V9 调味料归零: 用量小、营养可忽略的辅料统一按 0 贡献(不计入估算、不污染总营养)。油/盐另有处理思路, 见 task。
-const SEASONINGS = new Set(['盐','食盐','酱油','生抽','老抽','蒸鱼豉油','蚝油','料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','姜蓉','葱','葱花','香葱','小葱','大葱','葱段','葱姜','蒜','蒜末','蒜蓉','蒜泥','蒜瓣','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','小米辣','花椒','八角','桂皮','香叶','孜然','糖','白糖','冰糖','红糖','味精','鸡精','淀粉','生粉','玉米淀粉','水淀粉','芡粉','香油','芝麻油','枸杞','香菜','豆瓣酱','郫县豆瓣','番茄酱','沙拉酱','柠檬汁','鱼露','咖喱酱','青咖喱酱','红咖喱酱','青柠','柠檬','茶叶','普洱','蒜头','豆豉','紫苏','紫苏叶','豆瓣']);
+// ===== 过敏类别表（与 worker/src/worker.js、ai_proxy.py 保持一致，parity 测试锁定）
+const ALLERGEN_GROUPS = {
+  '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+  '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
+  '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
+  '花生': ['花生','花生米','花生酱'],
+  '坚果': ['核桃','杏仁','腰果','开心果','榛子','松子','碧根果','夏威夷果','巴旦木','板栗','芝麻','芝麻酱'],
+  '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
+  '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
+  '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿']
+};
+// 忌口/食材先经 FOOD_ALIAS 归一到基名: 基围虾仁→虾仁, 鸡大腿→鸡腿; 查不到就用自身基名
+function allergyBaseName(s) {
+  const q = normFoodName(s);
+  if (!q) return '';
+  const aliasId = FOOD_ALIAS[q] || FOOD_ALIAS[baseFoodName(s)];
+  if (aliasId) { const f = FOODS.find(x => x.id === aliasId); if (f) return baseFoodName(f.name); }
+  return baseFoodName(s);
+}
+// 忌口匹配: 双向子串 + 仅当忌口词等于 ALLERGEN_GROUPS 类别名本身时按组扩展(组成员如「虾仁」不牵连同组)
+// 同时用「原词基名」和「alias 归一名」两路形态: alias 只用于对齐, 不许收窄保护面(单用归一名会让 豆腐≠豆腐干)
+function allergyMatchForms(s) {
+  return [...new Set([baseFoodName(s), allergyBaseName(s)].filter(Boolean))];
+}
+function matchAllergy(dislikeTerm, ingredientName) {
+  const dForms = allergyMatchForms(dislikeTerm), iForms = allergyMatchForms(ingredientName);
+  if (!dForms.length || !iForms.length) return false;
+  const groupNames = dForms.filter(d => ALLERGEN_GROUPS[d]);
+  if (groupNames.length) {
+    if (dForms.some(d => iForms.some(i => i === d || (d.length >= 2 && i.includes(d))))) return true;
+    return groupNames.some(g => ALLERGEN_GROUPS[g].some(m => {
+      const bForms = allergyMatchForms(m);
+      return bForms.some(b => iForms.some(i => i.includes(b) || b.includes(i)));
+    }));
+  }
+  return dForms.some(d => iForms.some(i => i.includes(d) || d.includes(i)));
+}
+// 只忽略用量很小的香辛料/酸味料。油、糖、盐和复合酱料必须参与热量或钠估算。
+const SEASONINGS = new Set(['料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','姜蓉','葱','葱花','香葱','小葱','大葱','葱段','葱姜','蒜','蒜末','蒜蓉','蒜泥','蒜瓣','蒜头','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','小米辣','花椒','八角','桂皮','香叶','孜然','香菜','柠檬汁','青柠','柠檬','茶叶','普洱','紫苏','紫苏叶']);
 const SEASONING_STUB = { id:'_seasoning', name:'调味料', category:'调味品', seasoning:true, kcal:0, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:0 };
 function isSeasoning(name) { return SEASONINGS.has(normFoodName(name)) || SEASONINGS.has(baseFoodName(name)); }
 function lookupFoodNutrition(name) {
   const q = normFoodName(name);
   if (!q) return null;
-  // V9: 调味料 → 零贡献 stub(视为命中, 不算 AI 估算)
+  // 小用量香辛料/酸味料 → 零贡献 stub；油糖盐和酱料继续查库或标估算。
   if (isSeasoning(name)) return SEASONING_STUB;
   // 0. 人工 alias (用 id, 不会因中文名细节而错)
   const aliasId = FOOD_ALIAS[q] || FOOD_ALIAS[baseFoodName(name)];
@@ -682,108 +718,74 @@ const STORE = (function () {
   const KEY = 'yiguochu_v1';
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
   const save = (o) => { try { localStorage.setItem(KEY, JSON.stringify(o)); return true; } catch (e) { return false; } };
-  const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
-  const num = (v, fallback) => { const n = Number(v); return Number.isFinite(n) ? Math.round(n * 10) / 10 : (fallback || 0); };
-  const cleanNut = (o) => {
-    const out = {}; NUTRIENTS.forEach(n => { out[n.key] = num(o && o[n.key], 0); }); return out;
-  };
-  const dishSnapshot = (dish, ts) => {
-    const d = dish || {};
-    const ingredients = (d.ingredients || []).map(it => ({
-      name: String(it.name || '').trim(),
-      grams: num(it.grams, 0),
-      est: !!it.est,
-      nut: cleanNut(it.nut || {}),
-    })).filter(it => it.name && it.grams > 0);
-    return {
-      schema: 1, savedAt: ts, id: String(d.id || ''), name: String(d.name || '').trim(),
-      form: String(d.form || '').trim(), flavor: Array.isArray(d.flavor) ? d.flavor.map(String).slice(0, 5) : [],
-      minutes: num(d.minutes, 0), difficulty: num(d.difficulty, 0),
-      taste: String(d.taste || '').trim(), why: String(d.why || '').trim(),
-      hasFish: !!d.hasFish, vegCount: num(d.vegCount, 0), kcal: num(d.kcal, 0), protein: num(d.protein, 0),
-      targets: d._targets ? { ...d._targets } : null,
-      nutrients: cleanNut(d.nutrients || {}),
-      ingredients,
-      steps: Array.isArray(d.steps) ? d.steps.map(String).map(s => s.trim()).filter(Boolean).slice(0, 8) : [],
-    };
-  };
   return {
     getProfile: () => load().profile || null,
     saveProfile: (p) => { const s = load(); s.profile = p; save(s); },
-    recordChoice: (dish) => { const s = load(); const ts = Date.now(); const snap = dishSnapshot(dish, ts); s.schemaVersion = 2; s.choices = s.choices || []; s.choices.push({ date: today(), ts, name: snap.name, hasFish: !!snap.hasFish, ings: snap.ingredients.map(x => x.name), snapshot: snap }); s.choices = s.choices.slice(-90); s.pending = { date: today(), name: snap.name }; s.lastFeedback = null; s.updatedAt = ts; if (!save(s)) { s.choices = s.choices.slice(-30).map(c => c.snapshot ? { ...c, snapshot: { ...c.snapshot, ingredients: c.snapshot.ingredients.map(i => ({ name: i.name, grams: i.grams, est: i.est })), nutrients: {}, targets: null } } : c); save(s); } },
-    feedbackHint: () => { const fb = load().lastFeedback; if (!fb || fb.ate || !fb.reason) return ''; const m = { '食材不好买':'上次用户嫌食材不好买，这次只用常见、超市好买的食材。', '做起来太麻烦':'上次嫌太麻烦，这次更简单：步骤更少、食材更少、时间更短。', '临时不想吃':'上次那道没胃口，这次换个菜系和口味。', '步骤没看懂':'上次觉得步骤没看懂，这次每步写得更短更明确。' }; return m[fb.reason] || ''; },
-    recordFeedback: (ate, reason) => { const s = load(); s.lastFeedback = { date: today(), ate: !!ate, reason: reason || null }; s.pending = null; s.stats = s.stats || {}; if (ate) s.stats.feedback_ate = (s.stats.feedback_ate || 0) + 1; else s.stats.feedback_skip = (s.stats.feedback_skip || 0) + 1; save(s); },
-    bumpStat: (k) => { try { const s = load(); s.stats = s.stats || {}; s.stats[k] = (s.stats[k] || 0) + 1; save(s); } catch (e) {} },
-    getStats: () => { const s = load(); return { ...(s.stats || {}), choices_total: (s.choices || []).length }; },
-    recentNames: (n) => { const c = (load().choices || []).map(x => x.name); const u = []; for (let i = c.length-1; i >= 0 && u.length < (n||6); i--) if (!u.includes(c[i])) u.push(c[i]); return u; },
-    pendingFeedback: () => { const s = load(); return (s.pending && s.pending.date !== today()) ? s.pending : null; },
-    recordNutritionChoice: (dish) => { const s = load(); s.nutriLog = s.nutriLog || []; s.nutriLog.push({ ts: Date.now(), n: dish.nutrients || {}, fish: !!dish.hasFish }); s.nutriLog = s.nutriLog.slice(-60); save(s); },
-    getNutriLog: () => load().nutriLog || [],
+    getSwapHistory: () => { const h = load().swapHistory; return Array.isArray(h) ? h : []; },
+    saveSwapHistory: (list) => { const s = load(); s.swapHistory = Array.isArray(list) ? list : []; save(s); },
     exportForMigration: () => { const s = load(); return { key: KEY, schemaVersion: s.schemaVersion || 1, exportedAt: Date.now(), profile: s.profile || null, choices: s.choices || [], nutriLog: s.nutriLog || [], lastFeedback: s.lastFeedback || null }; },
-    today,
   };
 })();
 
-// ---- 示意数据（下一步换成真实生成） ----
-const DISHES = [
-  { id:'d1', name:'腊味春笋焖饭', form:'焖饭', flavor:['咸鲜','锅气','不辣'], minutes:38, difficulty:1, hasFish:false, vegCount:4, kcal:1980, protein:96,
-    taste:'腊味咸香打底，米饭吸足汤汁微甜，春笋脆嫩解腻；油润但不腻口。', why:'用上了你冰箱里的春笋和剩米饭，本周还没吃到笋，今天正应季。',
-    ingredients:[{name:'剩米饭',grams:300},{name:'腊肠',grams:60},{name:'春笋',grams:120,est:true},{name:'香菇（鲜）',grams:80},{name:'胡萝卜',grams:70},{name:'青豆',grams:50,est:true},{name:'鸡蛋',grams:55},{name:'小白菜',grams:100}],
-    steps:['腊肠切片，春笋、香菇、胡萝卜切丁，小白菜切段。','锅下少许油，腊肠煸香，下春笋香菇胡萝卜炒匀。','倒入剩米饭和青豆，沿锅边淋一勺生抽，翻炒至粒粒分开。','打入鸡蛋炒散、铺上小白菜焖 2 分钟即可。'] },
-  { id:'d2', name:'番茄龙利鱼汤面', form:'汤面', flavor:['鲜香','微酸','清爽'], minutes:25, difficulty:1, hasFish:true, vegCount:4, kcal:1620, protein:88,
-    taste:'番茄汤底酸鲜开胃，龙利鱼滑嫩无刺，面条吸饱汤汁，一碗下去暖而不腻。', why:'本周还差一次鱼，这道用龙利鱼正好补上；汤面清爽，25 分钟就能上桌。',
-    ingredients:[{name:'龙利鱼',grams:150},{name:'面条',grams:120},{name:'番茄',grams:160},{name:'鸡蛋',grams:55},{name:'菠菜',grams:100},{name:'金针菇',grams:80,est:true}],
-    steps:['番茄切块炒出沙，加水煮成汤底。','下面条煮软，放入龙利鱼片和金针菇。','打蛋花、下菠菜，加盐调味即可。'] },
-  { id:'d3', name:'照烧鸡腿杂粮拌饭', form:'拌饭', flavor:['咸甜','酱香','下饭'], minutes:35, difficulty:2, hasFish:false, vegCount:5, kcal:2050, protein:102,
-    taste:'照烧鸡腿外焦里嫩、咸甜挂汁，杂粮饭有嚼劲，拌着溏心蛋和脆口蔬菜，丰富又顶饱。', why:'换个口味试试拌饭——杂粮饭纤维足，配色也好看，五种菜一次到位。',
-    ingredients:[{name:'鸡腿肉',grams:150},{name:'糙米饭',grams:280},{name:'西兰花',grams:90},{name:'胡萝卜',grams:60},{name:'黄豆芽',grams:70},{name:'鸡蛋',grams:55},{name:'紫甘蓝',grams:60,est:true}],
-    steps:['鸡腿肉煎熟，刷照烧汁收亮。','西兰花、胡萝卜、豆芽焯熟。','糙米饭打底，铺上鸡腿和各色蔬菜，加一个溏心蛋拌匀。'] },
-];
-const WEEK = {
-  days:[{d:'一',cooked:true,dish:'番茄牛肉汤面',fish:false},{d:'二',cooked:true,dish:'三文鱼杂粮碗',fish:true},{d:'三',cooked:false},{d:'四',cooked:true,dish:'咖喱鸡腿烩饭',fish:false},{d:'五',cooked:null},{d:'六',cooked:null},{d:'日',cooked:null}],
-  fishDone:1, fishTarget:2,
-  variety:{count:14, sample:['牛肉','三文鱼','番茄','西兰花','香菇','胡萝卜']},
-  takeaway:'这周吃得挺杂，蛋白也换着来，节奏不错。鱼再来一次就够了。',
-};
 const SUPPLEMENTS = [
-  { id:'milk', icon:'milk', title:'无糖酸奶 / 牛奶', sub:'一锅菜最缺的钙，靠它补', detail:'一杯 / 一盒' },
-  { id:'fruit', icon:'fruit', title:'一份水果', sub:'维 C 和纤维，随手一个', detail:'苹果 / 橙子等' },
+  { id:'milk', icon:'milk', title:'奶或豆制品', sub:'手边方便时顺手搭配', detail:'一杯 / 一盒' },
+  { id:'fruit', icon:'fruit', title:'一份水果', sub:'饭后想吃再拿一个', detail:'苹果 / 橙子等' },
 ];
 const LOADING_STAGES = ['正在按你家里的食材搭一锅','正在看是不是 40 分钟内能做','第一版有点麻烦，换一版更顺手的'];
-const FEEDBACK_REASONS = ['食材不好买','做起来太麻烦','临时不想吃','步骤没看懂','其他'];
-const GOAL_TEXT = { normal:'普通健康', cut:'减脂', bulk:'增肌' };
+const PURPOSE_TEXT = { quick:'快点吃上', pantry:'清掉现有食材', fresh:'换个口味', batch:'多做一些' };
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
-const TONE_TEXT = { enough:'够了', soft:'偏少 · 看一周', week:'看习惯' };
-const DEFAULT_PROFILE = { goal:'normal', sex:'female', age:'31', weight:'58', pantry:'', dislikes:'' };
+const TONE_TEXT = { week:'每份参考' };
+const DEFAULT_PROFILE = { purpose:'quick', servings:'2', pantry:'', dislikes:'' };
 const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','青椒','茄子','菠菜','玉米','金针菇'];
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
 
-// 营养行（示意；下一步换成后端真实计算）
+function servingCount(profile) {
+  const n = Number(profile && profile.servings);
+  return [1,2,4].includes(n) ? n : 2;
+}
+function servingLabel(value) { return Number(value) === 4 ? '3–4' : String(value || 2); }
+// 单次主餐营养：只展示整锅折算后的每份值，不拿它评价全天是否达标。
 function nutriFor(d) {
-  const n = d.nutrients || {}, t = d._targets || {};
-  const pc = k => (t[k] ? (n[k] || 0) / t[k] : 1);
-  const rows = [];
-  rows.push({ label:'热量', value: Math.round(n.kcal != null ? n.kcal : d.kcal) + '', note: pc('kcal') >= 0.85 ? '今天够一天的量' : (pc('kcal') >= 0.6 ? '比一天目标略少，没关系' : '这锅约小半天的量，今天记得再吃一顿'), status: pc('kcal') >= 0.7 ? 'enough' : 'soft' });
-  rows.push({ label:'蛋白', value: Math.round(n.p != null ? n.p : d.protein) + 'g', note: pc('p') >= 0.85 ? '充足' : '稍欠，明天补点', status: pc('p') >= 0.7 ? 'enough' : 'soft' });
-  rows.push({ label:'纤维', value: Math.round(n.fb || 0) + 'g', note: pc('fb') >= 0.7 ? '杂粮和蔬菜带来的' : '多来点蔬菜杂粮', status: pc('fb') >= 0.6 ? 'enough' : 'soft' });
-  rows.push({ label:'钙', value: Math.round(n.ca || 0) + 'mg', note: pc('ca') >= 0.7 ? '这锅钙不少' : '一锅难凑齐，配杯奶就好', status: pc('ca') >= 0.7 ? 'enough' : 'soft' });
-  const naOver = !!(t.na && (n.na || 0) > t.na);
-  rows.push({ label:'钠', value: Math.round(n.na || 0) + 'mg', note: naOver ? '口味重了点，下次少放盐' : '不算重，挺好', status: naOver ? 'soft' : 'enough' });
-  rows.push({ label:'Omega-3', value: d.hasFish ? '够了' : '看一周', note: d.hasFish ? '这道有鱼' : '本周吃鱼没满，下锅会补', status: d.hasFish ? 'enough' : 'week' });
-  return rows;
+  const n = d.nutrients || {}, servings = d.servings || servingCount(state.profile);
+  const per = k => (n[k] || 0) / servings;
+  return [
+    { label:'热量', value: Math.round(per('kcal')) + ' kcal', note:'按整锅均分估算', status:'week' },
+    { label:'蛋白', value: Math.round(per('p')) + 'g', note:'来自肉蛋豆和主食', status:'week' },
+    { label:'纤维', value: Math.round(per('fb')) + 'g', note:'来自蔬菜、豆类和谷物', status:'week' },
+    { label:'钙', value: Math.round(per('ca')) + 'mg', note:'这一顿的粗略含量', status:'week' },
+    { label:'钠', value: Math.round(per('na')) + 'mg', note:'调味用量会影响较大', status:'week' },
+    { label:'Omega-3', value: per('w3').toFixed(1) + 'g', note:d.hasFish ? '本餐含水产' : '本餐不以鱼类为主', status:'week' },
+  ];
 }
 
 // ---- 视图状态 ----
 const state = {
-  view:'profile', dish:DISHES[0], week:JSON.parse(JSON.stringify(WEEK)),
-  chosen:false, swapOpen:false, swapPantryEdit:false, addingFood:false, fbThanks:'', editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
-  genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'', lastGenError:null,
+  view:'profile', dish:null, // 首屏是表单页, 没有菜品; 静态示意菜已随失败兜底一起移除(F2)
+  swapOpen:false, swapPantryEdit:false, addingFood:false, editing:false, items:[], nutriOpen:false,
+  genStage:0, notice:'', lastGenError:null,
+  swapHistory:[], // 历史=换掉的菜+点过「开始做」的菜(带 ts), 生成时发给后端避开; 与 localStorage 同步, 跨会话保留 7 天, 全新生成不再清空
+  lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
 
+// 换一换历史跨会话冷却(F-A): 读回/落盘前先修剪——丢弃 7 天前的条目, 最多留 20 条
+const SWAP_HISTORY_TTL = 7 * 24 * 60 * 60 * 1000;
+function pruneSwapHistory(list, now) {
+  const t = typeof now === 'number' ? now : Date.now();
+  return (Array.isArray(list) ? list : [])
+    .filter(h => h && typeof h.ts === 'number' && (h.name || h.base) && t - h.ts < SWAP_HISTORY_TTL)
+    .map(h => ({ name: String(h.name || ''), base: String(h.base || ''), fam: String(h.fam || ''), ts: h.ts }))
+    .slice(-20);
+}
+// state.swapHistory 就是持久层在内存的镜像: 修剪后写回 localStorage
+function persistSwapHistory() {
+  state.swapHistory = pruneSwapHistory(state.swapHistory);
+  STORE.saveSwapHistory(state.swapHistory);
+}
+
 // ============ 渲染片段 ============
 function photoSlot() { return '<div class="photo-slot" role="img"><div class="photo-stripes"></div><span class="photo-cap">菜品照 · 之后替换</span></div>'; }
-function dishHeader(d, fallback) {
+function dishHeader(d) {
   const intents = [['flavor','换个口味'],['cuisine','换个菜系'],['lighter','清淡点'],['easier','想省事'],['protein','换种蛋白']];
   const pantryItems = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
   const pantryBar = state.swapPantryEdit
@@ -792,21 +794,23 @@ function dishHeader(d, fallback) {
   const tray = state.swapOpen ? ('<div class="swap-tray"><div class="swap-cap">想换成什么样的？家里的食材会优先使用，搭不上的会说明。</div>' + pantryBar + '<div class="swap-chips">' +
     intents.map(it => '<button class="swap-chip" data-swap="' + it[0] + '">' + esc(it[1]) + '</button>').join('') +
     '<button class="swap-chip swap-any" data-swap="any">' + icon('refresh',{size:13,sw:1.9}) + '随便换一个</button></div></div>') : '';
-  const actions = fallback ? '' : (
-    '<div class="dish-actions"><button class="btn btn-primary btn-full" data-act="choose">' + (state.chosen ? icon('check',{size:18,sw:1.9,stroke:'#fff'}) : '') + '<span>' + (state.chosen ? '已选定 · 明天问你' : '就吃这个') + '</span></button>' +
+  const servings = d.servings || servingCount(state.profile), servingsText = servingLabel(servings);
+  const perKcal = Math.round((d.kcal || 0) / servings);
+  const perProtein = Math.round((d.protein || 0) / servings);
+  const actions = '<div class="dish-actions"><button class="btn btn-primary btn-full" data-act="start-cooking">' + icon('bowl',{size:18,sw:1.9,stroke:'#fff'}) + '<span>开始做</span></button>' +
     '<button class="btn ' + (state.swapOpen ? 'btn-ghost-on' : 'btn-ghost') + '" data-act="swap">' + icon('refresh',{size:18,sw:1.9}) + '<span>换一换</span></button></div>' + tray +
-    (state.chosen ? '<p class="chosen-hint">记下了。明天打开会问你「' + esc(d.name) + '」最后吃了吗。</p>' : ''));
+    '<p class="chosen-hint">不用打卡，照着做就行。</p>';
   return '<section class="dish-card">' + (SHOW_PHOTO ? photoSlot() : '') + '<div class="dish-body">' +
-    '<div class="dish-eyebrow"><span>' + (fallback ? '应急参考 · 未按你的偏好定制' : '今天做这个') + '</span><span class="chip chip-form">' + esc(d.form) + '</span></div>' +
+    '<div class="dish-eyebrow"><span>今天做这个</span><span class="chip chip-form">' + esc(d.form) + '</span></div>' +
     '<h1 class="dish-name">' + esc(d.name) + '</h1>' +
     '<div class="dish-flavor">' + (d.flavor||[]).map(f => '<span class="chip chip-flavor">' + esc(f) + '</span>').join('') + '</div>' +
     '<div class="dish-meta"><span class="meta">' + icon('clock',{size:15,sw:1.7}) + '<span>' + d.minutes + ' 分钟</span></span><span class="meta-dot"></span>' +
     '<span class="meta">' + icon('flame',{size:15,sw:1.7}) + '<span>' + esc(DIFF[d.difficulty]||'') + '</span></span><span class="meta-dot"></span>' +
     '<span class="meta">' + icon('bowl',{size:15,sw:1.7}) + '<span>一锅出</span></span></div>' +
-    (fallback ? '' : '<p class="dish-taste">' + esc(d.taste) + '</p>') +
-    '<div class="dish-quick"><div class="quick-item"><b>' + d.kcal + '</b><span>kcal</span></div>' +
-    '<div class="quick-item"><b>' + d.protein + '</b><span>g 蛋白</span></div>' +
-    '<div class="quick-item"><b>' + d.vegCount + '</b><span>种菜</span></div></div>' + '<div style="font-size:11px;color:var(--muted);margin-top:3px;text-align:center;">数字为整锅总量，可分 1-2 顿</div>' + actions +
+    '<p class="dish-taste">' + esc(d.taste) + '</p>' +
+    '<div class="dish-quick"><div class="quick-item"><b>' + servingsText + '</b><span>份</span></div>' +
+    '<div class="quick-item"><b>' + perKcal + '</b><span>kcal / 份</span></div>' +
+    '<div class="quick-item"><b>' + perProtein + '</b><span>g 蛋白 / 份</span></div></div>' + '<div style="font-size:11px;color:var(--muted);margin-top:3px;text-align:center;">整锅约 ' + d.kcal + ' kcal，按 ' + servingsText + ' 份均分估算</div>' + actions +
     '</div></section>';
 }
 function whyFits(d) { return '<section class="why-card"><span class="why-mark">' + icon('spark',{size:16,sw:1.7,stroke:'#b5613a'}) + '</span><p class="why-text">' + esc(d.why) + '</p></section>'; }
@@ -834,30 +838,20 @@ function ingredients() {
   }).join('');
   return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3>' +
     '<button class="link-btn" data-act="toggle-edit">' + icon(state.editing ? 'check' : 'edit',{size:14,sw:1.9}) + (state.editing ? '完成' : '调整') + '</button></div>' +
-    '<div class="ing-sub">' + state.items.length + ' 样 · 整锅量，可分 1-2 顿</div><ul class="ing-list">' + rows + '</ul>' +
+    '<div class="ing-sub">' + state.items.length + ' 样 · 整锅约 ' + servingLabel(state.dish.servings || servingCount(state.profile)) + ' 份</div><ul class="ing-list">' + rows + '</ul>' +
     '</section>'; // 「加一样」已移除: 加出的"新食材"无法改名, 半成品比没有更伤信任; 调整克数+删除已够 pilot 用
 }
 function stepsBlock(d) {
   const rows = d.steps.map((s, i) => '<li class="step-row"><span class="step-num">' + (i+1) + '</span><span class="step-text">' + esc(s) + '</span></li>').join('');
   return '<section class="block"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3><span class="block-aside">' + d.steps.length + ' 步 · ' + d.minutes + ' 分钟</span></div><ol class="steps">' + rows + '</ol></section>';
 }
-function weekRhythm(w) {
-  const days = w.days.map(d => { const cls = d.cooked===true ? 'done' : d.cooked===false ? 'skip' : 'todo'; return '<div class="week-day"><span class="week-dot ' + cls + '">' + (d.cooked===true ? icon('check',{size:13,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="week-dlabel">' + esc(d.d) + '</span></div>'; }).join('');
-  const pips = Array.from({length:w.fishTarget}).map((_, i) => '<span class="fish-pip' + (i < w.fishDone ? ' on' : '') + '"></span>').join('');
-  let expand = '';
-  if (state.weekOpen) {
-    const log = w.days.map(d => { const cls = d.cooked===true ? 'on' : d.cooked===false ? 'off' : 'wait'; const txt = d.cooked===true ? d.dish : d.cooked===false ? '没做饭，没关系' : '还没到'; return '<li class="wlog ' + cls + '"><span class="wlog-d">' + esc(d.d) + '</span><span class="wlog-dish">' + esc(txt) + '</span>' + (d.fish ? '<span class="wlog-fish">' + icon('fish',{size:13,sw:1.7,stroke:'#6f8a52'}) + '</span>' : '') + '</li>'; }).join('');
-    expand = '<div class="week-expand"><div class="week-sec">这周做过的</div><ul class="week-log">' + log + '</ul><div class="week-sec">吃到的食材</div><div class="variety-line"><span class="variety-count">' + w.variety.count + ' 种</span><span class="variety-note">越杂越好，不用数着吃</span></div><div class="variety-chips">' + w.variety.sample.map(v => '<span class="vchip">' + esc(v) + '</span>').join('') + '<span class="vchip more">…等 ' + w.variety.count + ' 种</span></div><p class="week-takeaway">' + esc(w.takeaway) + '</p></div>';
-  }
-  return '<div class="week-card"><button class="week-top" data-act="toggle-week"><div class="week-top-l"><span class="week-title">这一周的节奏</span><span class="week-sub">看一周，不盯一天</span></div><span class="week-chev' + (state.weekOpen ? ' open' : '') + '">' + icon('down',{size:18,sw:1.8,stroke:'#8b8d7e'}) + '</span></button><div class="week-days">' + days + '</div><div class="week-fish"><span>' + icon('fish',{size:17,sw:1.7,stroke:'#6f8a52'}) + '</span><span class="week-fish-text">本周吃鱼 ' + w.fishDone + '/' + w.fishTarget + ' 次</span><span class="week-fish-pips">' + pips + '</span><span class="week-fish-note">' + (w.fishDone >= w.fishTarget ? '够了' : '下一锅会优先安排鱼') + '</span></div>' + expand + '</div>';
-}
-function supplementBlock(w) {
-  const rows = SUPPLEMENTS.map(s => { const on = !!state.suppDone[s.id]; return '<li class="supp-row' + (on ? ' checked' : '') + '" data-supp="' + s.id + '"><span class="supp-check">' + (on ? icon('check',{size:15,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="supp-icon">' + icon(s.icon,{size:22,sw:1.5,stroke:'#6f8a52'}) + '</span><span class="supp-main"><span class="supp-title">' + esc(s.title) + '</span><span class="supp-sub">' + esc(s.sub) + '</span></span><span class="supp-detail">' + esc(s.detail) + '</span></li>'; }).join('');
-  return '<section class="block supp-block"><div class="step-head"><span class="step-n">3</span><h3 class="step-title">今天再配两样</h3><span class="block-aside">一锅之外，不用想</span></div><p class="supp-lead">这一锅主食、蛋白、蔬菜都齐了。它不太擅长的钙和水果，靠下面两样轻轻补上——勾掉就行。</p><ul class="supp-list">' + rows + '</ul>' + weekRhythm(w) + '<div class="vd-hint">' + icon('sun',{size:17,sw:1.6,stroke:'#c08a3e'}) + '<span>维 D 靠吃很难补足——多晒太阳就好；真担心缺，问问医生或营养师，这里不给剂量。</span></div></section>';
+function pairingBlock() {
+  const rows = SUPPLEMENTS.map(s => '<li class="supp-row"><span class="supp-icon">' + icon(s.icon,{size:22,sw:1.5,stroke:'#6f8a52'}) + '</span><span class="supp-main"><span class="supp-title">' + esc(s.title) + '</span><span class="supp-sub">' + esc(s.sub) + '</span></span><span class="supp-detail">' + esc(s.detail) + '</span></li>').join('');
+  return '<section class="block supp-block"><div class="step-head"><span class="step-n">3</span><h3 class="step-title">想搭得更完整</h3><span class="block-aside">可选，不用打卡</span></div><p class="supp-lead">这一锅已经是一顿主餐。手边方便时，再配一份水果或奶 / 豆制品就行。</p><ul class="supp-list">' + rows + '</ul></section>';
 }
 function nutritionPanel(d) {
   const rows = nutriFor(d);
-  const head = '<button class="nutri-head" data-act="toggle-nutri"><div class="nutri-head-l"><h3 class="nutri-title">营养只是参考</h3><span class="nutri-tag">看一周，不必每天满格</span></div>' + icon(state.nutriOpen ? 'up' : 'down',{size:20,sw:1.8,stroke:'#8c8e80'}) + '</button>';
+  const head = '<button class="nutri-head" data-act="toggle-nutri"><div class="nutri-head-l"><h3 class="nutri-title">这一顿的营养参考</h3><span class="nutri-tag">按每份估算，不评价全天是否达标</span></div>' + icon(state.nutriOpen ? 'up' : 'down',{size:20,sw:1.8,stroke:'#8c8e80'}) + '</button>';
   const body = state.nutriOpen ?
     '<ul class="nutri-rows">' + rows.map(r => '<li class="nutri-row"><span class="nutri-dot status-' + r.status + '"></span><span class="nutri-label">' + esc(r.label) + '</span><span class="nutri-note">' + esc(r.note) + '</span><span class="nutri-status status-' + r.status + '">' + esc(TONE_TEXT[r.status]) + '</span></li>').join('') + '</ul>' :
     '<div class="nutri-summary">' + rows.slice(0,4).map(r => '<span class="nutri-mini status-' + r.status + '">' + esc(r.label) + ' <b>' + esc(r.value) + '</b></span>').join('') + '</div>';
@@ -866,37 +860,30 @@ function nutritionPanel(d) {
   const srcNote = '<p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px 0;line-height:1.5;opacity:.75;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）</p>';
   return '<section class="block nutri-block">' + head + estNote + body + srcNote + '</section>';
 }
-function resultScreen(fallback) {
+function resultScreen() {
   const d = state.dish;
   const notice = state.notice ? '<div class="gen-notice">' + icon('pin',{size:15,sw:1.7,stroke:'#c08a3e'}) + '<span>' + esc(state.notice) + '</span></div>' : '';
-  if (fallback) {
-    const fb = fallbackCopy(state.lastGenError);
-    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">' + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(fb.title) + '</div><p class="fb-banner-text">' + esc(fb.text) + '</p></div></div><button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>再试一次</span></button></section>' + dishHeader(d, true) + ingredients() + supplementBlock(state.week) + nutritionPanel(d) + '</div>';
-  }
-  return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + whyFits(d) + recipeBasisBlock(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + supplementBlock(state.week) + nutritionPanel(d) + '</div><div class="result-foot">营养为粗略参考、非医疗或营养诊疗建议；孕期 / 哺乳 / 儿童 / 慢性病(糖尿病、肾病、高血压等) / 食物过敏 / 服药期间，请遵医嘱或咨询注册营养师。<br>数据都存在你这台设备上，没有账号，也不上传。</div></div>';
+  return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + whyFits(d) + recipeBasisBlock(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + pairingBlock() + nutritionPanel(d) + '</div><div class="result-foot">营养为粗略参考、非医疗或营养诊疗建议；孕期 / 哺乳 / 儿童 / 慢性病 / 严重食物过敏 / 服药期间，请咨询医生或注册营养师。<br>偏好只保存在本机；生成时会将份数、食材和忌口发送给 AI 服务。</div></div>';
 }
 function profileScreen() {
   const p = state.profile;
   const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
   const myFoods = (Array.isArray(p.myFoods) && p.myFoods.length) ? p.myFoods : COMMON_PANTRY;
-  const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">做一锅 / 一碗主餐，再配两样，少想一点。</p></header>';
+  const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">没灵感、赶时间或想清库存时，给你一锅真正能做的主餐。</p></header>';
   const seg = (field, opts) => '<div class="segmented">' + opts.map(o => '<button class="seg' + (p[field]===o[0] ? ' on' : '') + '" data-seg="' + field + '" data-val="' + o[0] + '">' + esc(o[1]) + '</button>').join('') + '</div>';
   let body;
   if (!state.profileEditing) {
     const pantryShort = (p.pantry||'').split(/[,，、\s]+/).filter(Boolean).join(' / ') || '随便';
-    body = '<section class="pref-card" data-act="edit-profile"><div class="pref-summary"><div class="pref-line">' + (p.sex==='male'?'男':'女') + ' · ' + esc(p.age) + '岁 · ' + esc(p.weight) + 'kg · ' + esc(GOAL_TEXT[p.goal]) + '</div><div class="pref-sub">用掉 ' + esc(pantryShort) + (p.dislikes ? ' · 不吃 ' + esc(p.dislikes) : '') + '</div></div><span class="pref-edit">调一下' + icon('chevron',{size:15,sw:2}) + '</span></section>';
+    body = '<section class="pref-card" data-act="edit-profile"><div class="pref-summary"><div class="pref-line">' + esc(PURPOSE_TEXT[p.purpose] || PURPOSE_TEXT.quick) + ' · 约 ' + servingLabel(servingCount(p)) + ' 份</div><div class="pref-sub">用掉 ' + esc(pantryShort) + (p.dislikes ? ' · 不吃 ' + esc(p.dislikes) : '') + '</div></div><span class="pref-edit">调一下' + icon('chevron',{size:15,sw:2}) + '</span></section>';
   } else {
-    const collapse = state.firstTime ? '' : '<div class="form-head"><span class="form-head-t">你的偏好</span><button class="link-btn" data-act="collapse-profile">' + icon('check',{size:14,sw:2}) + '收起</button></div>';
+    const collapse = state.firstTime ? '' : '<div class="form-head"><span class="form-head-t">这次怎么做</span><button class="link-btn" data-act="collapse-profile">' + icon('check',{size:14,sw:2}) + '收起</button></div>';
     body = '<section class="form-card">' + collapse +
-      '<div class="field"><label class="field-label">今天想往哪个方向吃</label>' + seg('goal',[['normal','普通健康'],['cut','减脂'],['bulk','增肌']]) + '</div>' +
-      '<div class="field"><label class="field-label">关于你</label><div class="mini-row">' + seg('sex',[['female','女'],['male','男']]) +
-      '<div class="num-field"><input class="num-input" id="pf-age" inputmode="numeric" value="' + esc(p.age) + '"><span class="num-unit">岁</span></div>' +
-      '<div class="num-field"><input class="num-input" id="pf-weight" inputmode="numeric" value="' + esc(p.weight) + '"><span class="num-unit">kg</span></div></div></div>' +
+      '<div class="field"><label class="field-label">这次为什么做</label>' + seg('purpose',[['quick','快点吃上'],['pantry','清库存'],['fresh','换口味'],['batch','多做一些']]) + '</div>' +
+      '<div class="field"><label class="field-label">这一锅做几份</label>' + seg('servings',[['1','1 份'],['2','2 份'],['4','3–4 份']]) + '<span class="field-hint">按正常一顿的份量计算；“多做一些”会优先给适合分装复热的做法。</span></div>' +
       '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">会优先使用，搭不上的会说明</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button><button class="pchip-del" data-del-myfood="' + esc(f) + '" title="从常用删掉">×</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">点麦克风说出来也行；或点上面常见食材一键加。</span></div>' +
-      '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">过敏食材务必填，会严格避开</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div></div></section>';
+      '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">用于过滤菜谱建议</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>';
   }
-  const thanks = state.fbThanks ? '<div class="fb-thanks">' + icon('check',{size:15,sw:2.2,stroke:'#6f8a52'}) + '<span>' + esc(state.fbThanks) + '</span></div>' : '';
-  const cta = '<div class="profile-cta">' + thanks + '<button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>生成今天这顿</span></button><p class="privacy-note"><strong>仅供日常饮食灵感，非医疗 / 营养诊疗建议</strong>——孕期、儿童、慢性病、食物过敏或服药期间请咨询医生 / 注册营养师。<br>档案存在你这台设备本地；生成时只把由年龄体重<strong>算出的营养目标</strong>和食材偏好交给 AI，原始年龄体重不上传。</p></div>';
+  const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。</p></div>';
   return '<div class="screen profile-screen">' + head + body + cta + '</div>';
 }
 function generatingScreen() {
@@ -904,25 +891,17 @@ function generatingScreen() {
   const stages = LOADING_STAGES.map((s, i) => '<div class="gen-stage' + (i===state.genStage ? ' active' : i < state.genStage ? ' done' : '') + '"><span class="gen-stage-dot">' + (i < state.genStage ? icon('check',{size:13,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="gen-stage-label">' + esc(s) + '</span></div>').join('');
   return '<div class="screen gen-screen"><div class="gen-center"><div class="simmer"><span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span><div class="simmer-bowl">' + icon('bowl',{size:40,sw:1.4,stroke:'#b5613a'}) + '</div></div><div class="gen-stages">' + stages + '</div><p class="gen-note">' + esc(note) + '</p></div></div>';
 }
-function feedbackModal() {
-  const dev = (window.innerWidth >= 900) ? 'desktop' : 'phone';
-  const reasons = FEEDBACK_REASONS.map(r => '<button class="fb-reason' + (state.feedbackPicked===r ? ' on' : '') + '" data-fbreason="' + esc(r) + '">' + esc(r) + '</button>').join('');
-  return '<div class="modal-scrim modal-' + dev + '"><div class="feedback-sheet"><div class="sheet-grip"></div><h2 class="fb-title">昨天那道菜，最后吃了吗？</h2><div class="fb-dish"><span class="fb-thumb">' + icon('bowl',{size:20,sw:1.6,stroke:'#b5613a'}) + '</span><span class="fb-dishname">' + esc(state.feedbackDish || '') + '</span></div><button class="btn btn-primary btn-full" data-act="fb-ate">' + icon('check',{size:18,sw:1.9,stroke:'#fff'}) + '<span>吃了</span></button><p class="fb-soft">没吃也没关系，选一个原因就行，下次会避开。</p><div class="fb-reasons">' + reasons + '</div><button class="fb-skip">跳过</button></div></div>';
-}
-
 // ============ 主渲染 ============
 function render() {
   let html;
   if (state.view === 'profile') html = profileScreen();
   else if (state.view === 'generating') html = generatingScreen();
-  else if (state.view === 'fallback') html = resultScreen(true);
-  else html = resultScreen(false);
-  if (state.feedbackOpen) html += feedbackModal();
+  else html = resultScreen();
   document.getElementById('root').innerHTML = html;
 }
 
 // ============ 流程 ============
-// 后端代理地址：本地优先 localhost:8765；线上同源。若本地代理/异常来源不可达，再尝试线上 API。
+// 后端代理地址：每次生成只打一个端点。本地用 localhost:8765，file: 用正式 API，线上严格同源。
 const PROD_ORIGIN = 'https://yiguochu.pages.dev';
 function cleanProxyBase(base) { return String(base || '').replace(/\/+$/, ''); }
 const PROXY_BASE = (typeof window !== 'undefined' && window.YIGUOCHU_PROXY)
@@ -937,8 +916,8 @@ function apiCandidates(path) {
   const loc = (typeof location !== 'undefined') ? location : null;
   if (typeof window !== 'undefined' && window.YIGUOCHU_PROXY) add(window.YIGUOCHU_PROXY);
   else if (loc && loc.protocol === 'file:') add(PROD_ORIGIN);
-  else if (loc && (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1')) { add(PROXY_BASE); add(PROD_ORIGIN); }
-  else { add(PROXY_BASE); if (loc && loc.origin && loc.origin !== PROD_ORIGIN) add(PROD_ORIGIN); }
+  else if (loc && (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1')) add(PROXY_BASE);
+  else add(PROXY_BASE);
   return out;
 }
 // 换一换意图 → 给模型的方向（照搬设计 generate.js 的 SWAP_HINT）
@@ -949,14 +928,10 @@ const SWAP_HINT = {
   easier:'用户想更省事：步骤≤3、食材≤8、时间≤25分钟，尽量用现成好处理的食材。',
   protein:'用户想换种主要蛋白：把主蛋白换成不同的一种（鸡↔牛↔虾↔鱼↔豆腐/蛋）。',
 };
-// 全天营养目标（Mifflin BMR；新表单没采集身高，用性别估值，够给 AI 当目标参考）
+// 一顿主餐的份量参考，只用于防止模型给出明显过少或过多的整锅用量。
 function computeTargets(p) {
-  const w = +p.weight || 58, a = +p.age || 31, isM = p.sex === 'male';
-  const bmr = isM ? 10*w + 6.25*170 - 5*a + 5 : 10*w + 6.25*160 - 5*a - 161;
-  let kcal = Math.round(bmr * 1.4), pr = Math.round(w * 1.0), fb = isM ? 30 : 25, ca = a < 50 ? 800 : 1000;
-  if (p.goal === 'cut') { kcal = Math.round(kcal * 0.8); pr = Math.round(w * 1.2); }
-  else if (p.goal === 'bulk') { kcal += 200; pr = Math.round(w * 1.6); }
-  return { kcal, p: pr, fb, ca, na: 2000, w3: isM ? 1.6 : 1.1, fe: isM ? 12 : 18, zn: isM ? 12 : 8.5, vc: 100 };
+  const servings = servingCount(p);
+  return { servings, kcal: 650 * servings, p: 25 * servings, fb: 8 * servings, ca: 250 * servings, na: 800 * servings };
 }
 const FISH_RE = /鱼|虾|蟹|贝|蛤|蚝|鱿|海鲜|三文|金枪|鲈|鳕|带鱼|黄花|沙丁|鲐|鲫|龙利|墨鱼/;
 // 把后端 proxy 的返回映射成 dish；#0: 每食材先查本地表，命中用权威值(est=false)、否则用 AI 值(est=true)
@@ -988,7 +963,7 @@ function mapDish(res, targets) {
     hasFish, vegCount, kcal: Math.round(totals.kcal), protein: Math.round(totals.p),
     nutrients: totals,
     ingredients: ings, steps: (Array.isArray(res.steps) ? res.steps : []).map(String).map(s => s.trim()).filter(Boolean).slice(0, 6),
-    _targets: targets,
+    servings: targets.servings || servingCount(state.profile), purpose: state.profile.purpose || 'quick', _targets: targets,
     familyId: boundedText(res.family_id, 100), baseRecipeId: boundedText(res.base_recipe_id, 100),
     basisLevel: basisLevel === 'classic' || basisLevel === 'adapted' ? basisLevel : '',
     pairingBasis: boundedText(res.pairing_basis, 400),
@@ -1004,55 +979,33 @@ function syncDishFromItems() {
   const d = state.dish; d.ingredients = state.items.map(x => ({ ...x }));
   d.nutrients = totals; d.kcal = Math.round(totals.kcal); d.protein = Math.round(totals.p);
 }
-const FIXABLE_LOW = { p:'蛋/瘦肉/鱼虾/豆制品', ca:'奶/酸奶/豆腐/黑芝麻/绿叶菜', fe:'瘦红肉/动物肝/蛤蜊/菠菜', zn:'牡蛎/瘦肉/坚果', fb:'全谷/豆类/菌菇/各种蔬菜', vc:'彩椒/西兰花/柑橘/猕猴桃' };
-function nutritionWindow(days) {
-  const cut = Date.now() - days * 86400000;
-  const log = STORE.getNutriLog().filter(e => (e.ts || 0) >= cut);
-  const sum = {}; NUTRIENTS.forEach(n => sum[n.key] = 0);
-  log.forEach(e => NUTRIENTS.forEach(n => sum[n.key] += (e.n && e.n[n.key]) || 0));
-  return { count: log.length, sum, fish: log.filter(e => e.fish).length };
-}
-function balancingHints(targets) {
-  const w = nutritionWindow(7);
-  if (w.count < 3) return null;
-  const low = [];
-  Object.keys(FIXABLE_LOW).forEach(k => { const exp = (targets[k] || 0) * w.count; if (exp > 0 && w.sum[k] < exp * 0.6) low.push({ k, ratio: w.sum[k] / exp }); });
-  low.sort((a, b) => a.ratio - b.ratio);
-  const pick = low.slice(0, 2).map(x => ({ name: NUTRIENTS.find(n => n.key === x.k).name, foods: FIXABLE_LOW[x.k] }));
-  const naExp = (targets.na || 0) * w.count;
-  const highNa = naExp > 0 && w.sum.na > naExp * 1.2;
-  if (!pick.length && !highNa) return null;
-  return { low: pick, highNa };
-}
-// 看一周：从本地选菜记录算真实节奏（七天点阵 / 吃鱼 / 食材种类）。无记录时为空，用几天自然长出来。
-function buildWeek() {
-  let choices = []; try { choices = (JSON.parse(localStorage.getItem('yiguochu_v1') || '{}').choices) || []; } catch (e) {}
-  const now = new Date(); now.setHours(0,0,0,0);
-  const mon = new Date(now); mon.setDate(now.getDate() - ((now.getDay() + 6) % 7));
-  const L = ['一','二','三','四','五','六','日'];
-  const key = d => d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
-  const days = []; const wk = new Set(); let fish = 0;
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(mon); d.setDate(mon.getDate() + i);
-    const c = choices.find(x => x.date === key(d));
-    let cooked = null; if (c) cooked = true; else if (d < now) cooked = false;
-    days.push({ d: L[i], cooked, dish: c ? c.name : '', fish: c ? !!c.hasFish : false });
-    if (c) { if (c.hasFish) fish++; (c.ings || []).forEach(n => wk.add(n)); }
-  }
-  const doneN = days.filter(x => x.cooked === true).length;
-  return { days, fishDone: Math.min(2, fish), fishTarget: 2, variety: { count: wk.size, sample: [...wk].slice(0, 6) },
-    takeaway: doneN ? ('这周做了 ' + doneN + ' 顿，吃到 ' + wk.size + ' 种食材，挺杂的，节奏不错。') : '这周还没开火——今天就从这一锅开始吧。' };
-}
-
 // 真实生成：POST 到 proxy /generate-meal，解析后映射
 function scoreDish(d) {
   const t = d._targets || {}; let fails = 0;
   if (Array.isArray(d.validationFlags) && d.validationFlags.length) fails += d.validationFlags.length;
   if ((d.steps || []).length > 4) fails++;
   if (d.minutes > 45) fails++;
-  if (t.kcal && d.kcal < t.kcal * 0.35) fails++; // 仅拦真垃圾输出: DeepSeek 系统性交付 43-67% 目标热量, 二次生成治不了系统性偏差, 只会双倍烧钱; 诚实文案(三档)负责向用户说明
+  if (t.kcal && d.kcal < t.kcal * 0.55) fails++;
+  if (d.purpose === 'quick' && ((d.steps || []).length > 3 || (d.ingredients || []).length > 8 || d.minutes > 25)) fails++;
+  const stepText = (d.steps || []).join('');
+  if (/另起锅|分别焯|提前一晚|提前过夜/.test(stepText)) fails++;
+  const title = (d.name || '') + ' ' + (d.form || '');
+  const names = (d.ingredients || []).map(x => x.name || '');
+  const hasNoodles = names.some(x => /面条|挂面|意面|荞麦面|乌冬|拉面|米粉|河粉|米线|粉丝|粉条|方便面/.test(x));
+  const hasRice = names.some(x => /米饭|大米|糙米|小米|藜麦|燕麦|杂粮/.test(x));
+  if (/汤面|拌面|炒面|汤粉|米线/.test(title) && !hasNoodles) fails++;
+  if (/焖饭|炒饭|盖浇饭|丼饭|煲仔饭/.test(title) && !hasRice) fails++;
+  const pantry = (state.profile.pantry || '').split(/[,，、\s]+/).map(normFoodName).filter(x => x.length >= 2);
+  const groundedPantry = boundedTextList(d.usedPantry, 16, 80).map(normFoodName).filter(x => x.length >= 2);
+  const hasPantryMatch = pantry.some(p => (
+    names.some(n => normFoodName(n).includes(p) || p.includes(normFoodName(n)))
+    || groundedPantry.some(item => item === p || item.includes(p) || p.includes(item))
+  ));
+  if (pantry.length && !hasPantryMatch) fails++;
+  const avoided = (state.profile.dislikes || '').split(/[,，、\s]+/).map(x => normFoodName(x.replace(/过敏|不吃|忌口|不要/g,''))).filter(x => x.length >= 2);
+  if (avoided.some(a => names.some(n => matchAllergy(a, n)))) fails++;
   const ratio = t.kcal ? Math.min(d.kcal / t.kcal, 1.1) : 1;
-  return { ok: fails === 0, score: (3 - fails) * 10 + ratio * 5 };
+  return { ok: fails === 0, score: (9 - fails) * 10 + ratio * 5 };
 }
 function genError(code, message, retryable) {
   const e = new Error(message || code || 'generate_failed');
@@ -1064,59 +1017,30 @@ function normalizeGenError(err) {
   if (!err) return { code:'generate_failed', message:'生成失败' };
   return { code: err.code || err.name || 'generate_failed', message: err.message || String(err) };
 }
-function fallbackCopy(err) {
-  const code = err && err.code;
-  if (code === 'unsafe_recipe') return { title:'这版没有通过检查', text:'这版做法没有通过食材和熟制检查，下面先给一个应急参考。' };
-  if (code === 'rate_limited') return { title:'今天生成次数太多了', text:'刚才可能已经触发每日保护额度。下面先给一个应急搭配；晚点再试会更稳。' };
-  if (code === 'budget_exceeded') return { title:'今天大家用得有点多', text:'到了每日总量保护上限。下面先给一个应急搭配；明天再来会更稳。' };
-  if (code === 'timeout') return { title:'这次等太久了', text:'生成服务没有在限定时间内返回。下面先给一个应急搭配；点「再试一次」会重新生成。' };
-  if (code === 'network') return { title:'这次网络没接上', text:'手机到云端接口这一下没有连稳。下面先给一个应急搭配；点「再试一次」通常就好了。' };
-  if (code === 'bad_shape' || code === 'bad_json' || code === 'map_failed') return { title:'这次返回格式不稳', text:'AI 返回了菜谱，但格式没法安全读取。下面先给一个应急搭配；再试一次会换一版。' };
-  return { title:'这次没生成出来', text:'可能服务临时繁忙。下面先给一个应急搭配；点「再试一次」，通常就好了。' };
-}
 async function fetchRealDish(opts) {
   const p = state.profile, targets = computeTargets(p);
   const swapIntent = boundedText(opts.swap, 20);
   const swap = (swapIntent && swapIntent !== 'any') ? swapIntent : null;
   const splitC = s => (s || '').split(/[,，、]+/).map(x => x.trim()).filter(Boolean);
   const splitW = s => (s || '').split(/[,，、\s]+/).map(x => x.trim()).filter(Boolean);
-  let recent = boundedTextList(STORE.recentNames(8), 8, 80);
-  if (swap && state.dish && state.dish.name) recent.unshift(state.dish.name);
-  recent = boundedTextList(recent, 8, 80);
   const hasTrustedRecent = !!(state.dish && boundedText(state.dish.baseRecipeId, 100));
-  const recentBaseRecipes = boundedTextList(hasTrustedRecent ? [state.dish.baseRecipeId] : [], 8, 100);
-  const recentFamilies = boundedTextList(hasTrustedRecent ? [state.dish.familyId] : [], 8, 100);
-  const bh = balancingHints(targets);
-  // V10: 收集最近用过的主蛋白(当前菜 + 本地历史最近几道), 传后台让它轮换避开, 防止总是同一种(如三文鱼)
-  const PROTEIN_RE = /鱼|虾|蟹|贝|蛤|蚝|鱿|鸡|鸭|鹅|猪|牛|羊|蛋|豆腐|腐竹|豆干|豆皮|毛豆/;
-  const proteinSet = new Set();
-  const collectProteins = items => (items || []).forEach(it => {
-    const nm = (it && it.name) || ''; if (!nm) return;
-    const f = lookupFoodNutrition(nm); const cat = f && f.category;
-    if (cat === '肉禽' || cat === '水产' || cat === '蛋类' || PROTEIN_RE.test(nm)) proteinSet.add(nm);
-  });
-  if (state.dish && Array.isArray(state.dish.ingredients)) collectProteins(state.dish.ingredients);
-  try { ((JSON.parse(localStorage.getItem('yiguochu_v1') || '{}').choices) || []).slice(-4).forEach(c => collectProteins(c.snapshot && c.snapshot.ingredients)); } catch (e) {}
-  // pantry(想用掉)的食材绝不进"轮换排除"名单, 否则换一换会把你想用掉的食材也避开
-  const pantryNorm = new Set(splitC(p.pantry).map(x => normFoodName(x)));
-  const recentProteins = [...proteinSet].filter(x => !pantryNorm.has(normFoodName(x))).slice(0, 10);
-  const cookedAny = !!(state.week && state.week.days && state.week.days.some(d => d.cooked === true));
-  const body = { meal_name: '今日推荐 (一日量, 可分 1-2 顿吃)', targets, constraints: {
+  // 换一换历史累计: 换掉或点过「开始做」的菜都发给后端；基础菜在冷却期硬排除，近期家族累进扣分。
+  const hist = Array.isArray(state.swapHistory) ? state.swapHistory : [];
+  const recent = boundedTextList(hist.map(h => h.name).concat(((swap || hasTrustedRecent) && state.dish) ? [state.dish.name] : []), 20, 80);
+  const recentBaseRecipes = boundedTextList(hist.map(h => h.base).concat(hasTrustedRecent ? [state.dish.baseRecipeId] : []), 20, 100);
+  const recentFamilies = boundedTextList(hist.map(h => h.fam).concat(hasTrustedRecent && state.dish.familyId ? [state.dish.familyId] : []), 20, 100);
+  const body = { meal_name: '这次的一锅主餐', targets, constraints: {
     diet: 'omnivore', pantry: splitC(p.pantry), dislikes: splitW(p.dislikes),
-    recent_dishes: recent, recent_base_recipes: recentBaseRecipes, recent_families: recentFamilies, swap_intent: swapIntent,
-    week_fish_short: cookedAny && state.week.fishDone < state.week.fishTarget,
-    recent_ingredients: recentProteins.length ? { recent_proteins: recentProteins, window_size: recentProteins.length } : undefined,
+    purpose: p.purpose || 'quick', servings: targets.servings, recent_dishes: recent,
+    recent_base_recipes: recentBaseRecipes, recent_families: recentFamilies, swap_intent: swapIntent,
     swap_hint: swap ? SWAP_HINT[swap] : '',
-    feedback_hint: STORE.feedbackHint(),
-    balance_low: bh ? bh.low.map(x => x.name + '(可用' + x.foods + ')') : [],
-    balance_high_na: bh ? bh.highNa : false,
   } };
   let requestCount = 0;
   const once = async () => {
     const endpoints = apiCandidates('/generate-meal');
     let r, fetchErr;
     for (let i = 0; i < endpoints.length && !r && requestCount < 2; i++) {
-      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 75000);
+      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 45000); // 单端点 45s 超时(F4): worker 上游 30s, 整体应更快返回
       try {
         requestCount++;
         r = await fetch(endpoints[i], { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal, cache:'no-store' });
@@ -1137,21 +1061,10 @@ async function fetchRealDish(opts) {
     try { return mapDish(res, targets); }
     catch (e) { throw genError('map_failed', e && e.message ? e.message : 'map failed', false); }
   };
-  // 生成和临时错误合计最多发出 2 个请求；任何不安全候选都不会被当作「较不差」结果返回。
-  let lastErr = null;
-  for (let attempt = 0; attempt < 2 && requestCount < 2; attempt++) {
-    let dish;
-    try { dish = await once(); }
-    catch (e) {
-      lastErr = e;
-      if (e && e.retryable === false) throw e;
-      if (requestCount >= 2) throw e;
-      continue;
-    }
-    if (scoreDish(dish).ok) return dish;
-    if (requestCount >= 2 || attempt === 1) throw genError('unsafe_recipe', 'recipe validation failed', false);
-  }
-  if (lastErr) throw lastErr;
+  // 单轮定胜负(F4): 同一轮内 localhost→线上端点回退保留; 不再隐式重试, 是否重来由用户在失败屏点「重新生成」决定。
+  // 任何不安全候选都不会被当作「较不差」结果返回。
+  const dish = await once();
+  if (scoreDish(dish).ok) return dish;
   throw genError('unsafe_recipe', 'recipe validation failed', false);
 }
 
@@ -1159,57 +1072,9 @@ let genTimers = [], genId = 0;
 const clearGen = () => { genTimers.forEach(clearTimeout); genTimers = []; };
 function showResult(d, notice) {
   state.dish = d; state.items = d.ingredients.map(x => ({ ...x }));
-  state.notice = notice || ''; state.lastGenError = null; state.chosen = false; state.editing = false;
-  state.swapOpen = false; state.weekOpen = false; state.nutriOpen = false; state.suppDone = {};
-  state.week = buildWeek();
+  state.notice = notice || ''; state.lastGenError = null; state.editing = false;
+  state.swapOpen = false; state.nutriOpen = false;
   state.view = 'result'; window.scrollTo(0, 0); render();
-}
-function mockPick(swap) {
-  // 示意：按意图尽量挑一道不同的（真实生成在下一步接后端）
-  const others = DISHES.filter(d => d.id !== state.dish.id);
-  let pool = others;
-  if (swap === 'lighter') { const lo = Math.min(...others.map(d => d.kcal)); pool = others.filter(d => d.kcal <= lo + 40); }
-  else if (swap === 'easier') pool = others.filter(d => d.minutes <= 28 && d.difficulty === 1);
-  else if (swap === 'cuisine') pool = others.filter(d => d.form !== state.dish.form);
-  else if (swap === 'protein') pool = others.filter(d => d.hasFish !== state.dish.hasFish);
-  if (!pool.length) pool = others.length ? others : DISHES;
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-window.__yiguochuStats = function () { try { return STORE.getStats(); } catch (e) { return {}; } };
-async function runGenerate(opts) {
-  opts = opts || {};
-  clearGen();
-  STORE.bumpStat('gen'); if (opts.swap) STORE.bumpStat('swap');
-  const myId = ++genId;
-  state.notice = '';
-  state.lastGenError = null;
-  state.view = 'generating'; state.genStage = 0; render();
-  genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
-  genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
-  const started = Date.now();
-  try {
-    const dish = await fetchRealDish(opts);
-    if (myId !== genId) return;
-    STORE.bumpStat('gen_ok');
-    const wait = Math.max(0, 2000 - (Date.now() - started)); // 至少让动画走一会，不闪
-    genTimers.push(setTimeout(() => { if (myId === genId) showResult(dish); }, wait));
-  } catch (err) {
-    if (myId !== genId) return;
-    state.lastGenError = normalizeGenError(err);
-    genTimers.push(setTimeout(() => {
-      if (myId !== genId) return;
-      // 生成失败一律走兜底屏(无"就吃这个", 不会把假数据写进历史)；不再展示可点的示意菜
-      state.dish = DISHES[2]; state.items = DISHES[2].ingredients.map(x => ({ ...x })); // d3 照烧鸡腿杂粮拌饭: 季节中性, 无腊肠/春笋(d1 六月看到春笋很出戏)
-      state.notice = ''; state.view = 'fallback'; window.scrollTo(0, 0); render();
-    }, 400));
-  }
-}
-function choose() {
-  STORE.bumpStat('choose');
-  STORE.recordChoice(state.dish);
-  STORE.recordNutritionChoice(state.dish);
-  state.week = buildWeek(); // 重建周数据: 今天的点立刻亮、吃鱼计数同步(buildWeek 从刚写入的 choices 算, 不再手动++)
-  state.chosen = true; render();
 }
 // 语音输入：Web Speech API(zh-CN)。需 https 或 localhost + Chrome/Safari；file:// 或不支持时提示手打。
 let _rec = null;
@@ -1226,27 +1091,21 @@ function startVoice(id) {
   try { rec.start(); } catch (e) { if (btn) btn.classList.remove('rec'); }
 }
 function syncProfileInputs() {
-  ['age','weight','pantry','dislikes'].forEach(f => { const el = document.getElementById('pf-' + f); if (el) state.profile[f] = el.value; });
+  ['pantry','dislikes'].forEach(f => { const el = document.getElementById('pf-' + f); if (el) state.profile[f] = el.value; });
 }
 
 // ============ 事件 ============
 document.getElementById('root').addEventListener('click', (e) => {
-  // 反馈弹窗：点遮罩背景 或「跳过」→ 关闭；点 sheet 内部空白不关
-  if (state.feedbackOpen) {
-    if ((e.target.classList && e.target.classList.contains('modal-scrim')) || e.target.closest('.fb-skip')) { state.feedbackOpen = false; render(); return; }
-  }
-  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-supp],[data-seg],[data-fbreason],[data-mic],[data-pantry-chip],[data-del-myfood]');
+  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-seg],[data-mic],[data-pantry-chip],[data-del-myfood]');
   if (!t) return;
   if (t.dataset.mic) { startVoice(t.dataset.mic); return; }
   const act = t.dataset.act;
   if (t.dataset.seg) { syncProfileInputs(); state.profile[t.dataset.seg] = t.dataset.val; render(); return; }
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
   if (t.dataset.delMyfood) { syncProfileInputs(); const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods : COMMON_PANTRY; state.profile.myFoods = base.filter(x => x !== t.dataset.delMyfood); STORE.saveProfile(state.profile); render(); return; }
-  if (t.dataset.fbreason) { state.feedbackPicked = t.dataset.fbreason; STORE.recordFeedback(false, t.dataset.fbreason); render(); setTimeout(() => { state.feedbackOpen = false; state.fbThanks = '记下了，下次会避开这个问题。今天再试一锅？'; render(); }, 500); return; }
   if (t.dataset.swap) { state.swapOpen = false; runGenerate({ swap: t.dataset.swap }); return; }
   if (t.dataset.bump != null) { const i = +t.dataset.bump; state.items[i].grams = Math.max(0, state.items[i].grams + (+t.dataset.delta)); syncDishFromItems(); render(); return; }
   if (t.dataset.del != null) { state.items.splice(+t.dataset.del, 1); syncDishFromItems(); render(); return; }
-  if (t.dataset.supp) { state.suppDone[t.dataset.supp] = !state.suppDone[t.dataset.supp]; render(); return; }
   if (act === 'edit-profile') { state.profileEditing = true; render(); }
   else if (act === 'collapse-profile') { syncProfileInputs(); state.profileEditing = false; render(); }
   else if (act === 'generate') { syncProfileInputs(); STORE.saveProfile(state.profile); runGenerate({ profile: state.profile }); }
@@ -1255,12 +1114,10 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
   else if (act === 'add-myfood') { syncProfileInputs(); state.addingFood = true; render(); setTimeout(() => { const el = document.getElementById('add-food-input'); if (el) el.focus(); }, 0); }
   else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
-  else if (act === 'choose') choose();
+  else if (act === 'start-cooking') { updateSwapHistory(true); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); } // 「开始做」=吃过的菜也进历史(codex 指正: 只记换掉的会漏掉做过的, 跨会话避开才不空转)
   else if (act === 'toggle-edit') { state.editing = !state.editing; render(); }
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
-  else if (act === 'toggle-week') { state.weekOpen = !state.weekOpen; render(); }
   else if (act === 'retry') runGenerate({ profile: state.profile });
-  else if (act === 'fb-ate') { STORE.recordFeedback(true); state.feedbackOpen = false; state.fbThanks = '昨天那顿记下了，本周节奏没断。今天继续，一锅就好。'; render(); }
 });
 
 // ============ 初始化 ============
@@ -1268,14 +1125,14 @@ document.getElementById('root').addEventListener('click', (e) => {
   const saved = STORE.getProfile();
   if (saved) { state.profile = Object.assign({}, DEFAULT_PROFILE, saved); state.firstTime = false; state.profileEditing = false; }
   else { state.firstTime = true; state.profileEditing = true; }
-  const pend = STORE.pendingFeedback();
-  if (pend) { state.feedbackOpen = true; state.feedbackDish = pend.name; }
-  state.week = buildWeek();
+  state.swapHistory = pruneSwapHistory(STORE.getSwapHistory()); // 读回跨会话换一换历史: 7 天前的丢弃, 最多 20 条
+  STORE.saveSwapHistory(state.swapHistory); // 修剪结果写回, 别让过期条目一直留在本地
   render();
 })();
 </script>
 <script>
-// 米类过敏安全增强：无可信无米主餐时只显示停止页，不展示静态应急菜谱。
+// 安全停止页与失败屏：确认无安全菜谱(no_safe_recipe/unsafe_recipe)时只显示停止页；其余失败只给真实原因和重试入口。
+// 一律不展示静态应急菜谱(F2/F3): 兜底菜绕过敏检查、且无营养数据, 比没有更伤信任。
 const CONTROLLED_RICE_ALLERGY_INPUTS = new Set([
   '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
   '米饭', '白米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭',
@@ -1287,18 +1144,93 @@ function hasControlledRiceAllergyInput(value) {
     .filter(Boolean)
     .some(item => CONTROLLED_RICE_ALLERGY_INPUTS.has(item));
 }
-function shouldUseRiceSafeStop(error, dislikes) {
-  return (error && error.code === 'no_safe_recipe') || hasControlledRiceAllergyInput(dislikes);
+// 只在后端确认没有安全菜谱时走停止页(F3); 网络抖动等其他错误一律走失败屏, 可重试
+function shouldUseRiceSafeStop(error) {
+  return !!(error && (error.code === 'no_safe_recipe' || error.code === 'unsafe_recipe'));
 }
 function safeStopScreen() {
+  // 米类忌口沿用专属文案; 其他过敏也可能触发 no_safe_recipe(worker 类别匹配变严), 用通用文案
+  const rice = hasControlledRiceAllergyInput(state.profile.dislikes);
+  const title = rice ? '暂时没有安全的无米方案' : '暂时没有安全的一锅方案';
+  const text = rice
+    ? '为了不把不合适的主食硬塞进菜谱，这次没有展示应急菜谱。可以调整忌口或现有食材后再试。'
+    : '按现在的食材和忌口，暂时没有安全的一锅方案。可以调整忌口或现有食材后再试。';
   return '<div class="screen fallback-screen"><section class="fallback-banner">'
     + '<div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
-    + '</span><div><div class="fb-banner-title">暂时没有安全的无米方案</div>'
-    + '<p class="fb-banner-text">为了不把不合适的主食硬塞进菜谱，这次没有展示应急菜谱。可以调整忌口或现有食材后再试。</p>'
+    + '</span><div><div class="fb-banner-title">' + esc(title) + '</div>'
+    + '<p class="fb-banner-text">' + esc(text) + '</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>重新生成</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>调整食材或忌口</span></button>'
+    + '</div></section></div>';
+}
+function pantryStopScreen() {
+  const pantry = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
+  const pantryText = pantry.length ? pantry.join('、') : '这些食材';
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">暂时没有搭配稳妥的菜谱</div>'
+    + '<p class="fb-banner-text">当前可靠菜谱还不能把“' + esc(pantryText) + '”稳妥地搭进同一锅。这次没有硬拼，也没有展示无关的应急菜。</p>'
     + '</div></div><button class="btn btn-primary" data-act="edit-safe-profile">'
-    + icon('edit',{size:18,sw:1.9}) + '<span>调整食材或忌口</span></button>'
+    + icon('edit',{size:18,sw:1.9}) + '<span>调整现有食材</span></button>'
     + '</section></div>';
+}
+// 换一换候选枯竭屏(F-B): 累计历史把可搭候选耗尽(422)时的显式出口——清记录从头轮, 或调整食材; 不自动重试
+function swapExhaustedScreen() {
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">能搭的菜都换过一遍了</div>'
+    + '<p class="fb-banner-text">最近换过的菜都会避开，能搭的候选已经用完。可以清掉最近的记录从头轮，或者调整食材。</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="clear-swap-history">' + icon('refresh',{size:18,sw:1.9}) + '<span>清掉记录继续换</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>调整食材</span></button>'
+    + '</div></section></div>';
+}
+// 「清掉记录继续换」: 用户主动清掉换一换历史(内存+持久层), 再按上次换一换意图重新生成。
+// runGenerate 会像普通换一换一样把当前菜重新记入历史——本就是要换掉它, 从头轮不代表再看一遍当前这道。
+function clearSwapHistoryAndRetry() {
+  state.swapHistory = [];
+  STORE.saveSwapHistory(state.swapHistory);
+  runGenerate({ swap: state.lastSwapIntent || 'any' });
+}
+function unsafePantryStopScreen() {
+  const pantry = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
+  const pantryText = pantry.length ? pantry.join('、') : '这些食材';
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">这次菜谱没有通过检查</div>'
+    + '<p class="fb-banner-text">围绕“' + esc(pantryText) + '”生成的做法没有通过食材或熟制检查，因此没有展示无关的应急菜。你的输入已经保留。</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>重新生成</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>调整现有食材</span></button>'
+    + '</div></section></div>';
+}
+// 失败屏文案(F2/F4 错误码契约): 按 error.code 给真实原因的人话, 不再承诺应急菜
+function genFailureCopy(err) {
+  const code = err && err.code;
+  if (code === 'timeout') return { title:'这次等太久了', text:'等太久了，可能是网络或服务器忙。' };
+  if (code === 'network') return { title:'这次网络没接上', text:'手机到云端接口这一下没有连稳。检查网络后点「重新生成」通常就好了。' };
+  if (code === 'rate_limited') return { title:'今天生成次数太多了', text:'刚才可能已经触发每日保护额度。晚点再试会更稳。' };
+  if (code === 'budget_exceeded') return { title:'今天大家用得有点多', text:'到了每日总量保护上限。明天再来会更稳。' };
+  if (code === 'budget_unavailable') return { title:'服务暂时不可用', text:'服务暂时不可用，请稍后再试。' };
+  return { title:'这次没生成出来', text:'生成失败了，再试一次？' }; // 其他 5xx/上游错误(bad_json/bad_shape/http_5xx 等)
+}
+// 失败屏(F2): 只显示真实错误原因 + 重新生成/修改食材忌口, 不渲染任何菜品和营养区
+function generationFailureScreen(err) {
+  const copy = genFailureCopy(err);
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div>'
+    + '<p class="fb-banner-text">' + esc(copy.text) + '</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>重新生成</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>修改食材忌口</span></button>'
+    + '</div></section></div>';
 }
 function openEditableProfile() {
   state.profileEditing = true;
@@ -1309,24 +1241,49 @@ function openEditableProfile() {
 function showGenerationFailure(err) {
   state.lastGenError = normalizeGenError(err);
   state.notice = '';
-  if (shouldUseRiceSafeStop(state.lastGenError, state.profile.dislikes)) {
+  if (state.lastGenError.code === 'no_compatible_pantry_recipe') {
+    state.view = 'pantry-stop';
+    window.scrollTo(0, 0);
+    // 换过几轮后 422 多半是历史把候选耗尽了(F-B): 给专属屏和恢复路径; 无历史(初始生成)仍走原停止屏
+    document.getElementById('root').innerHTML = state.swapHistory.length ? swapExhaustedScreen() : pantryStopScreen();
+    return;
+  }
+  if (state.lastGenError.code === 'unsafe_recipe' && String(state.profile.pantry || '').trim()) {
+    state.view = 'pantry-stop';
+    window.scrollTo(0, 0);
+    document.getElementById('root').innerHTML = unsafePantryStopScreen();
+    return;
+  }
+  if (shouldUseRiceSafeStop(state.lastGenError)) {
     state.view = 'safe-stop';
     window.scrollTo(0, 0);
     document.getElementById('root').innerHTML = safeStopScreen();
     return;
   }
-  state.dish = DISHES[2];
-  state.items = DISHES[2].ingredients.map(x => ({ ...x }));
-  state.view = 'fallback';
+  // 其余错误一律走失败屏(F2): 真实原因 + 重新生成/修改食材忌口, 不再往 state 里塞静态兜底菜
+  state.view = 'gen-failed';
   window.scrollTo(0, 0);
-  render();
+  document.getElementById('root').innerHTML = generationFailureScreen(state.lastGenError);
 }
-runGenerate = async function(opts) {
+// 换一换历史维护(F-A): 点换一换时把当前菜(带 ts)累计进历史并落盘, 后端据此避开, 能换到第三、四道。
+// 全新生成不再清空——持久层跨会话冷却的意义就是"上次吃过的也避开", 这里只做修剪落盘;
+// session 内刚换掉的菜仍在 state.swapHistory 里, 照常参与当次避开。
+function updateSwapHistory(isSwap) {
+  if (!isSwap) { persistSwapHistory(); return; }
+  if (!state.dish) return;
+  const cur = { name: state.dish.name || '', base: state.dish.baseRecipeId || '', fam: state.dish.familyId || '', ts: Date.now() };
+  const dup = state.swapHistory.some(h => (cur.base && h.base === cur.base) || (!cur.base && h.name === cur.name));
+  if (!dup) state.swapHistory.push(cur);
+  persistSwapHistory();
+}
+async function runGenerate(opts) {
   opts = opts || {};
   clearGen();
   const myId = ++genId;
   state.notice = '';
   state.lastGenError = null;
+  if (opts.swap) state.lastSwapIntent = opts.swap; // 记住最后一次换一换意图(F-B): 枯竭屏「清掉记录继续换」按它重发
+  updateSwapHistory(!!opts.swap);
   state.view = 'generating'; state.genStage = 0; render();
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
@@ -1346,7 +1303,9 @@ runGenerate = async function(opts) {
 };
 document.getElementById('root').addEventListener('click', (e) => {
   const target = e.target.closest('[data-act]');
-  if (target && target.dataset.act === 'edit-safe-profile') openEditableProfile();
+  if (!target) return;
+  if (target.dataset.act === 'edit-safe-profile') openEditableProfile();
+  else if (target.dataset.act === 'clear-swap-history') clearSwapHistoryAndRetry();
 });
 
 // 可信菜谱补充字段在独立兼容层处理，避免模型字段直接进入页面 HTML。
@@ -1366,11 +1325,28 @@ recipeBasisBlock = function(d) {
 };
 const scoreDishBeforeThirtyMinuteQuick = scoreDish;
 scoreDish = function(d) {
-  const scored = d && d.purpose === 'quick' && d.minutes <= 30 ? { ...d, minutes: 25 } : d;
+  const trustedPantryTradeoff = d
+    && d.purpose === 'quick'
+    && d.minutes <= 40
+    && boundedText(d.baseRecipeId, 100)
+    && boundedTextList(d.usedPantry, 16, 80).length > 0;
+  const scored = d && d.purpose === 'quick' && (d.minutes <= 30 || trustedPantryTradeoff)
+    ? { ...d, minutes: 25 }
+    : d;
   return scoreDishBeforeThirtyMinuteQuick(scored);
 };
 </script>
 <script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过) */
-if ('serviceWorker' in navigator && location.protocol === 'https:') { navigator.serviceWorker.register('sw.js').catch(function(){}); }</script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  let swRefreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (swRefreshing) return;
+    swRefreshing = true;
+    location.reload();
+  });
+  navigator.serviceWorker.register('sw.js?v=__YIGUOCHU_BUILD_ID__', { updateViaCache:'none' })
+    .then(function(registration) { return registration.update(); })
+    .catch(function(){});
+}</script>
 </body>
 </html>
