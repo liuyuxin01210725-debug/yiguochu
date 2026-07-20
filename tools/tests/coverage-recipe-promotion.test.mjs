@@ -285,6 +285,44 @@ test('coverage promotion manifest and staging library lock the thirty mappings a
   ]);
 });
 
+function assertTargetRecipesCoverPantry(library, recipeIds, pantry) {
+  const recipeById = new Map(library.recipes.map(recipe => [recipe.id, recipe]));
+  for (const recipeId of recipeIds) {
+    const recipe = recipeById.get(recipeId);
+    assert.ok(recipe, recipeId);
+    const [selection] = selectRecipeCandidates({ ...library, recipes: [recipe] }, {
+      pantry,
+      purpose: 'pantry',
+      dislikes: [],
+      recent_base_recipes: [],
+    });
+    assert.ok(selection, recipeId);
+    assert.deepEqual(selection.usedPantry, pantry, recipeId);
+    assert.deepEqual(selection.unusedPantry, [], recipeId);
+  }
+}
+
+function runFiveRoundJourney(library, pantry) {
+  const seen = [];
+  const picked = [];
+  for (let round = 0; round < 5; round += 1) {
+    const constraints = {
+      pantry,
+      purpose: 'pantry',
+      dislikes: [],
+      recent_base_recipes: [...seen],
+    };
+    const selection = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
+    assert.ok(selection, `round ${round + 1}`);
+    assert.deepEqual(selection.usedPantry, pantry, selection.recipe.id);
+    assert.deepEqual(selection.unusedPantry, [], selection.recipe.id);
+    seen.push(selection.recipe.id);
+    picked.push(selection);
+  }
+  assert.equal(new Set(seen).size, 5);
+  return picked;
+}
+
 test('leftover-rice aliases stay cooked and the first five staged recipes fully cover rice plus egg', () => {
   const currentUrl = new URL('../data/recipe-library.json', import.meta.url);
   const stagingUrl = new URL('../data/coverage-recipe-production.json', import.meta.url);
@@ -325,24 +363,9 @@ test('leftover-rice aliases stay cooked and the first five staged recipes fully 
     'shrimp-egg-fried-leftover-rice',
   ];
   assert.deepEqual(staging.recipes.slice(0, 5).map(recipe => recipe.id), expectedIds);
-  const seen = [];
-  const seenFamilies = new Set();
-  for (let round = 0; round < 5; round += 1) {
-    const constraints = {
-      pantry: ['剩米饭', '鸡蛋'],
-      purpose: 'pantry',
-      dislikes: [],
-      recent_base_recipes: [...seen],
-    };
-    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
-    assert.ok(picked, `round ${round + 1}`);
-    assert.equal(picked.usedPantry.length, 2, picked.recipe.id);
-    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
-    seen.push(picked.recipe.id);
-    seenFamilies.add(picked.recipe.family_id);
-  }
-  assert.deepEqual(new Set(seen), new Set(expectedIds));
-  assert.ok(seenFamilies.size >= 4);
+  assertTargetRecipesCoverPantry(library, expectedIds, ['剩米饭', '鸡蛋']);
+  const journey = runFiveRoundJourney(library, ['剩米饭', '鸡蛋']);
+  assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
 });
 
 test('broccoli and beef stay fully covered through five real selector rounds', () => {
@@ -368,24 +391,9 @@ test('broccoli and beef stay fully covered through five real selector rounds', (
     assert.match(recipe.safety_rules.join('；'), /牛肉.*74摄氏度/u, recipe.id);
   }
 
-  const seen = [];
-  const seenFamilies = new Set();
-  for (let round = 0; round < 5; round += 1) {
-    const constraints = {
-      pantry: ['西兰花', '牛肉'],
-      purpose: 'pantry',
-      dislikes: [],
-      recent_base_recipes: [...seen],
-    };
-    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
-    assert.ok(picked, `round ${round + 1}`);
-    assert.deepEqual(picked.usedPantry, ['西兰花', '牛肉'], picked.recipe.id);
-    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
-    seen.push(picked.recipe.id);
-    seenFamilies.add(picked.recipe.family_id);
-  }
-  assert.deepEqual(new Set(seen), new Set(expectedIds));
-  assert.ok(seenFamilies.size >= 4);
+  assertTargetRecipesCoverPantry(library, expectedIds, ['西兰花', '牛肉']);
+  const journey = runFiveRoundJourney(library, ['西兰花', '牛肉']);
+  assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
 });
 
 test('tofu and greens stay fully covered through five real selector rounds', () => {
@@ -411,24 +419,9 @@ test('tofu and greens stay fully covered through five real selector rounds', () 
     assert.deepEqual(recipe.protein_class, ['豆制品'], recipe.id);
   }
 
-  const seen = [];
-  const seenFamilies = new Set();
-  for (let round = 0; round < 5; round += 1) {
-    const constraints = {
-      pantry: ['豆腐', '青菜'],
-      purpose: 'pantry',
-      dislikes: [],
-      recent_base_recipes: [...seen],
-    };
-    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
-    assert.ok(picked, `round ${round + 1}`);
-    assert.deepEqual(picked.usedPantry, ['豆腐', '青菜'], picked.recipe.id);
-    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
-    seen.push(picked.recipe.id);
-    seenFamilies.add(picked.recipe.family_id);
-  }
-  assert.deepEqual(new Set(seen), new Set(expectedIds));
-  assert.ok(seenFamilies.size >= 4);
+  assertTargetRecipesCoverPantry(library, expectedIds, ['豆腐', '青菜']);
+  const journey = runFiveRoundJourney(library, ['豆腐', '青菜']);
+  assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
 });
 
 test('chicken leg and potato stay fully covered through five real selector rounds', () => {
@@ -454,24 +447,43 @@ test('chicken leg and potato stay fully covered through five real selector round
     assert.match(recipe.safety_rules.join('；'), /鸡腿肉.*74摄氏度/u, recipe.id);
   }
 
-  const seen = [];
-  const seenFamilies = new Set();
-  for (let round = 0; round < 5; round += 1) {
-    const constraints = {
-      pantry: ['鸡腿肉', '土豆'],
-      purpose: 'pantry',
-      dislikes: [],
-      recent_base_recipes: [...seen],
-    };
-    const picked = pickRecipeSelection(selectRecipeCandidates(library, constraints), constraints);
-    assert.ok(picked, `round ${round + 1}`);
-    assert.deepEqual(picked.usedPantry, ['鸡腿肉', '土豆'], picked.recipe.id);
-    assert.ok(expectedIds.includes(picked.recipe.id), picked.recipe.id);
-    seen.push(picked.recipe.id);
-    seenFamilies.add(picked.recipe.family_id);
+  assertTargetRecipesCoverPantry(library, expectedIds, ['鸡腿肉', '土豆']);
+  const journey = runFiveRoundJourney(library, ['鸡腿肉', '土豆']);
+  assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
+});
+
+test('generic greens stay explicitly used through five real selector rounds', () => {
+  const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
+  const library = {
+    schema_version: 1,
+    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
+    families: [...current.families, ...staging.families],
+    recipes: [...current.recipes, ...staging.recipes],
+  };
+  const expectedIds = [
+    'greens-sausage-fried-rice',
+    'greens-minced-pork-braised-rice',
+    'cabbage-egg-soup-rice',
+    'greens-tofu-vermicelli-pot',
+    'greens-chicken-leg-soup-noodles',
+  ];
+  const expectedProtein = new Map([
+    ['greens-sausage-fried-rice', ['猪']],
+    ['greens-minced-pork-braised-rice', ['猪']],
+    ['cabbage-egg-soup-rice', ['蛋']],
+    ['greens-tofu-vermicelli-pot', ['豆制品']],
+    ['greens-chicken-leg-soup-noodles', ['鸡']],
+  ]);
+  assert.deepEqual(staging.recipes.slice(20, 25).map(recipe => recipe.id), expectedIds);
+  assert.deepEqual(validateRecipeLibrary(library), []);
+  for (const recipe of staging.recipes.slice(20, 25)) {
+    assert.deepEqual(recipe.protein_class, expectedProtein.get(recipe.id), recipe.id);
   }
-  assert.deepEqual(new Set(seen), new Set(expectedIds));
-  assert.ok(seenFamilies.size >= 4);
+
+  assertTargetRecipesCoverPantry(library, expectedIds, ['青菜']);
+  const journey = runFiveRoundJourney(library, ['青菜']);
+  assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
 });
 
 function gateRecipeIds(groupId) {
