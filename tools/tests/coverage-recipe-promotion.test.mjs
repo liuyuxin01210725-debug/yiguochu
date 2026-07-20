@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { validateRecipeCandidateLedger } from '../lib/recipe-candidate-validator.mjs';
 
 const gateUrl = new URL('../lib/coverage-recipe-promotion-gate.mjs', import.meta.url);
 
@@ -138,4 +141,44 @@ test('coverage groups each lock five identities across at least four families', 
     ));
     assert.ok(families.size >= 4, `${group.id} only covers ${families.size} families`);
   }
+});
+
+test('coverage candidate ledger locks thirty factual source records', async () => {
+  const gate = await loadGate();
+  assert.ok(gate);
+  const ledgerUrl = new URL('../data/coverage-recipe-candidates.json', import.meta.url);
+  assert.equal(fs.existsSync(ledgerUrl), true, 'coverage-recipe-candidates.json must exist');
+  const ledger = JSON.parse(fs.readFileSync(ledgerUrl, 'utf8'));
+  assert.deepEqual(validateRecipeCandidateLedger(ledger), []);
+  assert.deepEqual(
+    ledger.entries.map(entry => entry.id),
+    [...gate.COVERAGE_PROMOTION_MATRIX.keys()],
+  );
+  assert.equal(ledger.entries.length, 30);
+  assert.ok(ledger.entries.every(entry => entry.status === 'candidate'));
+
+  for (const entry of ledger.entries) {
+    assert.ok(entry.basis_refs.length >= 1, entry.id);
+    for (const ref of entry.basis_refs) {
+      const url = new URL(ref.url);
+      assert.equal(url.protocol, 'https:', `${entry.id}: ${ref.url}`);
+      assert.notEqual(url.hostname, 'yiguochu.pages.dev', entry.id);
+      assert.doesNotMatch(url.hostname, /recipedb/i, entry.id);
+      assert.doesNotMatch(url.pathname, /\/search(?:\/|$)/i, entry.id);
+      assert.notEqual(url.pathname, '/', `${entry.id} must use a direct content URL`);
+      assert.equal(ref.rights_note, '事实溯源；不复制页面文字、图片或完整菜谱。');
+      for (const excluded of ['exact_quantities', 'step_text', 'nutrition', 'safety']) {
+        assert.ok(ref.excluded_scope.includes(excluded), `${entry.id}: ${excluded}`);
+      }
+    }
+  }
+});
+
+test('coverage candidate checker reports thirty research-only entries', () => {
+  const checker = new URL('../check-coverage-recipe-candidates.mjs', import.meta.url);
+  assert.equal(fs.existsSync(checker), true, 'check-coverage-recipe-candidates.mjs must exist');
+  const run = spawnSync(process.execPath, [fileURLToPath(checker)], { encoding: 'utf8' });
+  assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`);
+  assert.match(run.stdout, /覆盖扩库候选 30 道 · 生产可用 0 道/);
+  assert.match(run.stdout, /✅ 覆盖扩库候选册体检通过/);
 });
