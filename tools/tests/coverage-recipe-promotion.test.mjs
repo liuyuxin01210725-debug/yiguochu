@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { validateRecipeCandidateLedger } from '../lib/recipe-candidate-validator.mjs';
+import { validateRecipeDraftLibrary } from '../lib/recipe-draft-validator.mjs';
 
 const gateUrl = new URL('../lib/coverage-recipe-promotion-gate.mjs', import.meta.url);
 
@@ -181,4 +182,77 @@ test('coverage candidate checker reports thirty research-only entries', () => {
   assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`);
   assert.match(run.stdout, /覆盖扩库候选 30 道 · 生产可用 0 道/);
   assert.match(run.stdout, /✅ 覆盖扩库候选册体检通过/);
+});
+
+test('coverage draft library locks thirty original one-pot drafts', async () => {
+  const gate = await loadGate();
+  assert.ok(gate);
+  const candidateUrl = new URL('../data/coverage-recipe-candidates.json', import.meta.url);
+  const draftUrl = new URL('../data/coverage-recipe-drafts.json', import.meta.url);
+  assert.equal(fs.existsSync(draftUrl), true, 'coverage-recipe-drafts.json must exist');
+  const candidates = JSON.parse(fs.readFileSync(candidateUrl, 'utf8'));
+  const drafts = JSON.parse(fs.readFileSync(draftUrl, 'utf8'));
+  assert.deepEqual(validateRecipeDraftLibrary(drafts, candidates), []);
+  assert.deepEqual(
+    drafts.drafts.map(draft => draft.id),
+    [...gate.COVERAGE_PROMOTION_MATRIX.keys()].map(id => `${id}-draft`),
+  );
+  assert.equal(drafts.drafts.length, 30);
+  for (const draft of drafts.drafts) {
+    assert.ok(draft.technique_outline.length >= 1 && draft.technique_outline.length <= 4, draft.id);
+    assert.ok(draft.draft_ratio_rules.some(rule => /米|饭|面|粉丝|水|液体/.test(rule)), draft.id);
+    assert.doesNotMatch(
+      `${draft.name}${draft.adaptation_summary}`,
+      /正宗|原样复刻|一比一复刻|传统成品/u,
+      draft.id,
+    );
+  }
+});
+
+test('coverage drafts make leftover rice and high-risk endpoints explicit', () => {
+  const draftUrl = new URL('../data/coverage-recipe-drafts.json', import.meta.url);
+  if (!fs.existsSync(draftUrl)) return;
+  const drafts = JSON.parse(fs.readFileSync(draftUrl, 'utf8')).drafts;
+  const byId = new Map(drafts.map(draft => [draft.candidate_id, draft]));
+  const requirements = id => byId.get(id).safety_and_quality_gates.map(gate => gate.requirement).join('；');
+
+  for (const id of [...byId.keys()].filter(id => id.includes('leftover-rice'))) {
+    assert.match(requirements(id), /冷藏/, id);
+    assert.match(requirements(id), /充分复热/, id);
+  }
+  for (const [needle, ingredient] of [
+    ['chicken-leg', '鸡腿'], ['beef', '牛肉'], ['pork-rib', '排骨'], ['shrimp', '虾仁'],
+  ]) {
+    for (const id of [...byId.keys()].filter(candidateId => candidateId.includes(needle))) {
+      assert.match(requirements(id), new RegExp(ingredient), id);
+    }
+  }
+  for (const id of [...byId.keys()].filter(candidateId => candidateId.includes('egg'))) {
+    assert.match(requirements(id), /鸡蛋.*凝固|凝固.*鸡蛋/u, id);
+  }
+  for (const id of gateRecipeIds('potato-green-bean-ribs')) {
+    assert.match(requirements(id), /豆角.*熟透/u, id);
+  }
+});
+
+function gateRecipeIds(groupId) {
+  const groups = [
+    ['potato-green-bean-ribs', [
+      'green-bean-pork-rib-braised-rice',
+      'potato-pork-rib-stewed-rice',
+      'tomato-potato-pork-rib-covered-rice',
+      'mushroom-green-bean-pork-rib-braised-rice',
+      'cabbage-potato-pork-rib-soup-rice',
+    ]],
+  ];
+  return new Map(groups).get(groupId) || [];
+}
+
+test('coverage draft checker reports thirty research drafts', () => {
+  const checker = new URL('../check-coverage-recipe-drafts.mjs', import.meta.url);
+  assert.equal(fs.existsSync(checker), true, 'check-coverage-recipe-drafts.mjs must exist');
+  const run = spawnSync(process.execPath, [fileURLToPath(checker)], { encoding: 'utf8' });
+  assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`);
+  assert.match(run.stdout, /覆盖扩库草案 30 道 · 生产可用 0 道/);
+  assert.match(run.stdout, /✅ 覆盖扩库草案体检通过/);
 });
