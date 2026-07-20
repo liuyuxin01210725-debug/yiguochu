@@ -5,6 +5,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { validateRecipeLibrary } from '../lib/recipe-library-validator.mjs';
+import { PROMOTION_MATRIX } from '../lib/traditional-recipe-promotion-gate.mjs';
+import { COVERAGE_PROMOTION_MATRIX } from '../lib/coverage-recipe-promotion-gate.mjs';
 
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
 const originalApprovedRecipes = JSON.parse(
@@ -40,11 +42,15 @@ const EXPECTED_RECIPES = [
 
 const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。';
 
-test('formal library has 15 families and 42 approved recipes', () => {
+test('formal library has 21 families and 72 recipes split into 12 approved plus 60 auto_approved', () => {
   assert.deepEqual(validateRecipeLibrary(lib), []);
-  assert.equal(lib.families.length, 15);
-  assert.equal(lib.recipes.length, 42);
-  assert.ok(lib.recipes.every(recipe => recipe.status === 'approved'));
+  assert.equal(lib.families.length, 21);
+  assert.equal(lib.recipes.length, 72);
+  assert.equal(lib.recipes.filter(recipe => recipe.status === 'approved').length, 12);
+  assert.equal(lib.recipes.filter(recipe => recipe.status === 'auto_approved').length, 60);
+  assert.ok(lib.recipes.every(recipe => (
+    recipe.origin_candidate_id ? recipe.status === 'auto_approved' : recipe.status === 'approved'
+  )));
 });
 
 test('Phase A family and recipe identities stay exact at the head of the formal library', () => {
@@ -62,10 +68,11 @@ test('the original twelve approved recipe objects remain byte-for-byte equivalen
   assert.deepEqual(lib.recipes.slice(0, 12), originalApprovedRecipes);
 });
 
-test('thirty promoted recipes have canonical first-party approved sources', () => {
-  const promoted = lib.recipes.filter(recipe => recipe.origin_candidate_id);
+test('the original thirty promoted recipes remain isolated and canonically sourced', () => {
+  const promoted = lib.recipes.filter(recipe => PROMOTION_MATRIX.has(recipe.id));
   assert.equal(promoted.length, 30);
   for (const recipe of promoted) {
+    assert.equal(recipe.status, 'auto_approved', `${recipe.id} must stay auto_approved until human review`);
     const [source] = recipe.source_refs;
     assert.deepEqual(source, {
       usage: 'approved',
@@ -76,6 +83,25 @@ test('thirty promoted recipes have canonical first-party approved sources', () =
       retrieved_at: '2026-07-17',
     });
   }
+});
+
+test('both promotion batches own exactly the sixty auto-approved recipes', () => {
+  assert.equal(PROMOTION_MATRIX.size, 30);
+  assert.equal(COVERAGE_PROMOTION_MATRIX.size, 30);
+  const traditionalIds = new Set(PROMOTION_MATRIX.keys());
+  const coverageIds = new Set(COVERAGE_PROMOTION_MATRIX.keys());
+  assert.deepEqual([...traditionalIds].filter(id => coverageIds.has(id)), []);
+  const owned = new Set([...traditionalIds, ...coverageIds]);
+  const autoApproved = lib.recipes
+    .filter(recipe => recipe.status === 'auto_approved')
+    .map(recipe => recipe.id);
+  assert.equal(owned.size, 60);
+  assert.deepEqual(new Set(autoApproved), owned);
+  assert.equal(
+    fs.existsSync(new URL('../data/coverage-recipe-production.json', import.meta.url)),
+    false,
+    'temporary coverage production file must be removed after atomic merge',
+  );
 });
 
 test('identity-sensitive regional adaptations keep names, ingredients and finished-product claims truthful', () => {
@@ -268,21 +294,83 @@ test('shakshuka production ratio keeps egg grams and nest count aligned', () => 
   assert.match(recipe.ratio_rules.join('。'), /去壳约150克/);
 });
 
-test('validator bounds optional recipe time and adaptation metadata', () => {
+test('validator bounds required recipe time and adaptation metadata', () => {
   const invalid = structuredClone(lib);
-  invalid.recipes[0].total_time_minutes = 0;
-  invalid.recipes[1].total_time_minutes = 61;
+  invalid.recipes[0].total_time_minutes = 4;
+  invalid.recipes[1].total_time_minutes = 121;
   invalid.recipes[2].total_time_minutes = 30.5;
-  invalid.recipes[3].adaptation_note = '   ';
-  invalid.recipes[4].adaptation_note = '改'.repeat(401);
-  invalid.recipes[5].adaptation_note = 42;
+  delete invalid.recipes[3].total_time_minutes;
+  invalid.recipes[4].adaptation_note = '   ';
+  invalid.recipes[5].adaptation_note = '改'.repeat(401);
+  invalid.recipes[6].adaptation_note = 42;
   const errors = validateRecipeLibrary(invalid);
-  assert.ok(errors.includes(`${invalid.recipes[0].id} total_time_minutes must be an integer from 1 to 60`));
-  assert.ok(errors.includes(`${invalid.recipes[1].id} total_time_minutes must be an integer from 1 to 60`));
-  assert.ok(errors.includes(`${invalid.recipes[2].id} total_time_minutes must be an integer from 1 to 60`));
-  assert.ok(errors.includes(`${invalid.recipes[3].id} adaptation_note must contain 1 to 400 characters`));
+  assert.ok(errors.includes(`${invalid.recipes[0].id} total_time_minutes must be an integer from 5 to 120`));
+  assert.ok(errors.includes(`${invalid.recipes[1].id} total_time_minutes must be an integer from 5 to 120`));
+  assert.ok(errors.includes(`${invalid.recipes[2].id} total_time_minutes must be an integer from 5 to 120`));
+  assert.ok(errors.includes(`${invalid.recipes[3].id} missing total_time_minutes`));
   assert.ok(errors.includes(`${invalid.recipes[4].id} adaptation_note must contain 1 to 400 characters`));
   assert.ok(errors.includes(`${invalid.recipes[5].id} adaptation_note must contain 1 to 400 characters`));
+  assert.ok(errors.includes(`${invalid.recipes[6].id} adaptation_note must contain 1 to 400 characters`));
+});
+
+test('validator requires protein_class and light_level inside their controlled vocabularies', () => {
+  const invalid = structuredClone(lib);
+  delete invalid.recipes[0].protein_class;
+  invalid.recipes[1].protein_class = [];
+  invalid.recipes[2].protein_class = ['火星蛋白'];
+  invalid.recipes[3].protein_class = ['鸡', 42];
+  delete invalid.recipes[4].light_level;
+  invalid.recipes[5].light_level = '超辣';
+  const errors = validateRecipeLibrary(invalid);
+  assert.ok(errors.includes(`${invalid.recipes[0].id} protein_class must be a non-empty array`));
+  assert.ok(errors.includes(`${invalid.recipes[1].id} protein_class must be a non-empty array`));
+  assert.ok(errors.includes(`${invalid.recipes[2].id} protein_class value must be one of 鸡/鸭/牛/猪/羊/鱼/虾/蟹/贝/蛋/豆类/豆制品/无: 火星蛋白`));
+  assert.ok(errors.includes(`${invalid.recipes[3].id} protein_class value must be one of 鸡/鸭/牛/猪/羊/鱼/虾/蟹/贝/蛋/豆类/豆制品/无: 42`));
+  assert.ok(errors.includes(`${invalid.recipes[4].id} light_level must be one of 清淡/一般/浓重`));
+  assert.ok(errors.includes(`${invalid.recipes[5].id} light_level must be one of 清淡/一般/浓重`));
+});
+
+test('validator cross-checks protein_class against fixed core ingredients', () => {
+  const invalid = structuredClone(lib);
+  const duck = invalid.recipes.find(recipe => recipe.id === 'nanjing-duck-greens-rice');
+  const lentil = invalid.recipes.find(recipe => recipe.id === 'lentil-potato-tomato-curry');
+  const congee = invalid.recipes.find(recipe => recipe.id === 'chinese-congee');
+  duck.protein_class = ['鸡'];
+  lentil.protein_class = ['无'];
+  congee.protein_class = ['豆类'];
+
+  const errors = validateRecipeLibrary(invalid);
+  assert.ok(errors.includes(`${duck.id} protein_class must match core ingredients: expected 鸭, got 鸡`));
+  assert.ok(errors.includes(`${lentil.id} protein_class must match core ingredients: expected 豆类, got 无`));
+  assert.ok(errors.includes(`${congee.id} protein_class must match core ingredients: expected 无, got 豆类`));
+});
+
+test('every formal recipe carries controlled protein_class and light_level annotations', () => {
+  const proteinClasses = new Set(['鸡', '鸭', '牛', '猪', '羊', '鱼', '虾', '蟹', '贝', '蛋', '豆类', '豆制品', '无']);
+  const lightLevels = new Set(['清淡', '一般', '浓重']);
+  for (const recipe of lib.recipes) {
+    assert.ok(Array.isArray(recipe.protein_class) && recipe.protein_class.length > 0, `${recipe.id} missing protein_class`);
+    assert.ok(recipe.protein_class.every(value => proteinClasses.has(value)), `${recipe.id} protein_class outside vocabulary`);
+    assert.ok(lightLevels.has(recipe.light_level), `${recipe.id} light_level outside vocabulary`);
+    assert.ok(Number.isInteger(recipe.total_time_minutes), `${recipe.id} missing total_time_minutes`);
+  }
+  // 关键区分：鸡蛋归「蛋」不得污染「鸡」；番茄甜椒炖蛋不含鸡肉。
+  const shakshuka = lib.recipes.find(recipe => recipe.id === 'shakshuka-tomato-egg');
+  assert.deepEqual(shakshuka.protein_class, ['蛋']);
+  const congee = lib.recipes.find(recipe => recipe.id === 'chinese-congee');
+  assert.deepEqual(congee.protein_class, ['无']);
+});
+
+test('formal protein classes distinguish duck and legumes from chicken or no protein', () => {
+  const classes = id => lib.recipes.find(recipe => recipe.id === id).protein_class;
+
+  assert.deepEqual(classes('nanjing-duck-greens-rice'), ['鸭']);
+  assert.deepEqual(classes('lentil-potato-tomato-curry'), ['豆类']);
+  assert.deepEqual(classes('fujian-hyacinth-bean-rice'), ['豆类']);
+  assert.deepEqual(classes('shaanbei-red-date-cowpea-rice'), ['豆类']);
+  assert.deepEqual(classes('qinghai-hao-fan'), ['豆类']);
+  assert.deepEqual(classes('soy-lentil-vegetable-stew'), ['豆类', '豆制品']);
+  assert.deepEqual(classes('chicken-black-eyed-pea-stew'), ['鸡', '豆类']);
 });
 
 test('validator rejects generation optional locks outside the reviewed boundary', () => {
@@ -333,6 +421,12 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     '牛肉（粗绞）': '牛肉',
     粗绞牛肉: '牛肉',
     干辣椒: '辣椒',
+    豆腐: '老豆腐',
+    高丽菜: '卷心菜',
+    香菇: '鲜香菇',
+    剩米饭: '熟米饭',
+    隔夜米饭: '熟米饭',
+    排骨: '猪肋排',
   });
 });
 
@@ -420,7 +514,7 @@ test('validator rejects invalid identities, references, rules, and source metada
     'invalid recipe id: Recipe Bad',
     `duplicate recipe id: ${invalid.recipes[2].id}`,
     `${invalid.recipes[3].id} missing family family-missing`,
-    `${invalid.recipes[4].id} status must be approved`,
+    `${invalid.recipes[4].id} status must be approved (human-approved) or auto_approved (auto-gate passed, pending human review)`,
     `${invalid.recipes[5].id} technique must be non-empty`,
     `${invalid.recipes[6].id} invalid reason_type unknown`,
     `${invalid.recipes[7].id} source usage must be approved`,
@@ -577,6 +671,44 @@ test('validator parses HTTPS URLs and validates source strings and real calendar
   assert.deepEqual(validateRecipeLibrary(validLeapDay), []);
 });
 
+test('validator splits source provenance strictness between approved and auto_approved', () => {
+  const promotedIndex = lib.recipes.findIndex(recipe => recipe.status === 'auto_approved');
+  assert.ok(promotedIndex > -1);
+  const promotedId = lib.recipes[promotedIndex].id;
+
+  // auto_approved：放宽为 url/title/license/attribution 至少一项非空，不要求五要素齐全。
+  const relaxed = structuredClone(lib);
+  relaxed.recipes[promotedIndex].source_refs = [{ usage: 'approved', url: 'https://yiguochu.pages.dev/recipes.html?id=demo' }];
+  assert.deepEqual(validateRecipeLibrary(relaxed), []);
+
+  const relaxedTitleOnly = structuredClone(lib);
+  relaxedTitleOnly.recipes[promotedIndex].source_refs = [{ usage: 'approved', title: '仅标题' }];
+  assert.deepEqual(validateRecipeLibrary(relaxedTitleOnly), []);
+
+  const relaxedEmpty = structuredClone(lib);
+  relaxedEmpty.recipes[promotedIndex].source_refs = [{ usage: 'approved' }];
+  assert.ok(validateRecipeLibrary(relaxedEmpty).includes(
+    `${promotedId} auto_approved source must keep at least one of url/title/license/attribution non-empty (full five-element provenance is required only for approved)`,
+  ));
+
+  const relaxedHttp = structuredClone(lib);
+  relaxedHttp.recipes[promotedIndex].source_refs = [{ usage: 'approved', url: 'http://example.com/recipe' }];
+  assert.ok(validateRecipeLibrary(relaxedHttp).includes(`${promotedId} source URL must be HTTPS`));
+
+  // approved：同一残缺来源仍要求五要素齐全。
+  const strict = structuredClone(lib);
+  strict.recipes[0].source_refs = [{ usage: 'approved', url: 'https://en.wikibooks.org/wiki/Cookbook:Chinese_Rice_Porridge_(Congee)' }];
+  const strictErrors = validateRecipeLibrary(strict);
+  for (const expected of [
+    `${strict.recipes[0].id} source missing title`,
+    `${strict.recipes[0].id} source missing license`,
+    `${strict.recipes[0].id} source missing attribution`,
+    `${strict.recipes[0].id} source retrieved_at must be a valid ISO YYYY-MM-DD date`,
+  ]) {
+    assert.ok(strictErrors.includes(expected), `missing validation error: ${expected}`);
+  }
+});
+
 test('offline checker reports zero counts for malformed root containers without crashing', () => {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'recipe-checker-'));
   const tempTools = path.join(tempRoot, 'tools');
@@ -584,6 +716,14 @@ test('offline checker reports zero counts for malformed root containers without 
   fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
   fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
   fs.copyFileSync(new URL('../lib/recipe-library-validator.mjs', import.meta.url), path.join(tempTools, 'lib', 'recipe-library-validator.mjs'));
+  fs.copyFileSync(new URL('../lib/coverage-recipe-promotion-gate.mjs', import.meta.url), path.join(tempTools, 'lib', 'coverage-recipe-promotion-gate.mjs'));
+  for (const name of [
+    'coverage-recipe-candidates.json',
+    'coverage-recipe-drafts.json',
+    'coverage-recipe-promotions.json',
+  ]) {
+    fs.copyFileSync(new URL(`../data/${name}`, import.meta.url), path.join(tempTools, 'data', name));
+  }
   fs.writeFileSync(
     path.join(tempTools, 'data', 'recipe-library.json'),
     JSON.stringify({ schema_version: 1, ingredient_aliases: {}, families: null, recipes: {} }),

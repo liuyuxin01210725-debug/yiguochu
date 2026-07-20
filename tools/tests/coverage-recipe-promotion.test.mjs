@@ -241,16 +241,16 @@ test('coverage drafts make leftover rice and high-risk endpoints explicit', () =
   }
 });
 
-test('coverage promotion manifest and staging library lock the thirty mappings and six families', async () => {
+test('coverage promotion manifest and merged library lock the thirty mappings and six families', async () => {
   const gate = await loadGate();
   assert.ok(gate);
   const manifestUrl = new URL('../data/coverage-recipe-promotions.json', import.meta.url);
-  const stagingUrl = new URL('../data/coverage-recipe-production.json', import.meta.url);
+  const productionUrl = new URL('../data/recipe-library.json', import.meta.url);
   assert.equal(fs.existsSync(manifestUrl), true, 'coverage-recipe-promotions.json must exist');
-  assert.equal(fs.existsSync(stagingUrl), true, 'coverage-recipe-production.json must exist');
+  assert.equal(fs.existsSync(productionUrl), true, 'recipe-library.json must exist');
 
   const manifest = JSON.parse(fs.readFileSync(manifestUrl, 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(stagingUrl, 'utf8'));
+  const production = JSON.parse(fs.readFileSync(productionUrl, 'utf8'));
   assert.equal(manifest.promotions.length, 30);
   assert.deepEqual(
     manifest.promotions.map(item => item.recipe_id),
@@ -274,8 +274,15 @@ test('coverage promotion manifest and staging library lock the thirty mappings a
     assert.match(promotion.identity_resolution, /项目原创/u, promotion.recipe_id);
   }
 
-  assert.ok(Array.isArray(staging.recipes));
-  assert.deepEqual(staging.families, [
+  const coverageFamilyIds = new Set([
+    'family-home-fried-rice',
+    'family-home-braised-rice',
+    'family-home-stewed-rice',
+    'family-home-soup-staple',
+    'family-home-covered-pot',
+    'family-home-vermicelli-pot',
+  ]);
+  assert.deepEqual(production.families.filter(family => coverageFamilyIds.has(family.id)), [
     { id: 'family-home-fried-rice', name: '家常炒饭', form: '炒饭' },
     { id: 'family-home-braised-rice', name: '家常焖饭', form: '焖饭' },
     { id: 'family-home-stewed-rice', name: '汤汁烩饭', form: '烩饭' },
@@ -323,12 +330,10 @@ function runFiveRoundJourney(library, pantry) {
   return picked;
 }
 
-test('leftover-rice aliases stay cooked and the first five staged recipes fully cover rice plus egg', () => {
+test('leftover-rice aliases stay cooked and the first five merged recipes fully cover rice plus egg', () => {
   const currentUrl = new URL('../data/recipe-library.json', import.meta.url);
-  const stagingUrl = new URL('../data/coverage-recipe-production.json', import.meta.url);
   const current = JSON.parse(fs.readFileSync(currentUrl, 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(stagingUrl, 'utf8'));
-  const aliases = { ...current.ingredient_aliases, ...staging.ingredient_aliases };
+  const aliases = current.ingredient_aliases;
 
   assert.equal(canonicalRecipeIngredient('剩米饭', aliases), '熟米饭');
   assert.equal(canonicalRecipeIngredient('隔夜米饭', aliases), '熟米饭');
@@ -348,12 +353,7 @@ test('leftover-rice aliases stay cooked and the first five staged recipes fully 
   assert.equal(python.status, 0, python.stderr);
   assert.deepEqual(JSON.parse(python.stdout), ['熟米饭', '熟米饭', '大米']);
 
-  const library = {
-    schema_version: 1,
-    ingredient_aliases: aliases,
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const library = current;
   assert.deepEqual(validateRecipeLibrary(library), []);
   const expectedIds = [
     'home-egg-fried-leftover-rice',
@@ -362,7 +362,7 @@ test('leftover-rice aliases stay cooked and the first five staged recipes fully 
     'mushroom-egg-covered-leftover-rice',
     'shrimp-egg-fried-leftover-rice',
   ];
-  assert.deepEqual(staging.recipes.slice(0, 5).map(recipe => recipe.id), expectedIds);
+  assert.deepEqual(library.recipes.filter(recipe => expectedIds.includes(recipe.id)).map(recipe => recipe.id), expectedIds);
   assertTargetRecipesCoverPantry(library, expectedIds, ['剩米饭', '鸡蛋']);
   const journey = runFiveRoundJourney(library, ['剩米饭', '鸡蛋']);
   assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
@@ -370,13 +370,7 @@ test('leftover-rice aliases stay cooked and the first five staged recipes fully 
 
 test('broccoli and beef stay fully covered through five real selector rounds', () => {
   const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
-  const library = {
-    schema_version: 1,
-    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const library = current;
   const expectedIds = [
     'broccoli-beef-fried-rice',
     'broccoli-beef-braised-rice',
@@ -384,9 +378,10 @@ test('broccoli and beef stay fully covered through five real selector rounds', (
     'broccoli-beef-soup-noodles',
     'potato-broccoli-beef-covered-rice',
   ];
-  assert.deepEqual(staging.recipes.slice(5, 10).map(recipe => recipe.id), expectedIds);
+  const targetRecipes = library.recipes.filter(recipe => expectedIds.includes(recipe.id));
+  assert.deepEqual(targetRecipes.map(recipe => recipe.id), expectedIds);
   assert.deepEqual(validateRecipeLibrary(library), []);
-  for (const recipe of staging.recipes.slice(5, 10)) {
+  for (const recipe of targetRecipes) {
     assert.deepEqual(recipe.protein_class, ['牛'], recipe.id);
     assert.match(recipe.safety_rules.join('；'), /牛肉.*74摄氏度/u, recipe.id);
   }
@@ -398,13 +393,7 @@ test('broccoli and beef stay fully covered through five real selector rounds', (
 
 test('tofu and greens stay fully covered through five real selector rounds', () => {
   const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
-  const library = {
-    schema_version: 1,
-    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const library = current;
   const expectedIds = [
     'greens-tofu-fried-rice',
     'cabbage-tofu-braised-rice',
@@ -412,10 +401,11 @@ test('tofu and greens stay fully covered through five real selector rounds', () 
     'greens-tofu-soup-noodles',
     'mushroom-greens-tofu-covered-rice',
   ];
-  assert.deepEqual(staging.recipes.slice(10, 15).map(recipe => recipe.id), expectedIds);
+  const targetRecipes = library.recipes.filter(recipe => expectedIds.includes(recipe.id));
+  assert.deepEqual(targetRecipes.map(recipe => recipe.id), expectedIds);
   assert.equal(canonicalRecipeIngredient('豆腐', library.ingredient_aliases), '老豆腐');
   assert.deepEqual(validateRecipeLibrary(library), []);
-  for (const recipe of staging.recipes.slice(10, 15)) {
+  for (const recipe of targetRecipes) {
     assert.deepEqual(recipe.protein_class, ['豆制品'], recipe.id);
   }
 
@@ -426,13 +416,7 @@ test('tofu and greens stay fully covered through five real selector rounds', () 
 
 test('chicken leg and potato stay fully covered through five real selector rounds', () => {
   const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
-  const library = {
-    schema_version: 1,
-    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const library = current;
   const expectedIds = [
     'chicken-leg-potato-braised-rice',
     'chicken-leg-mushroom-stewed-rice',
@@ -440,9 +424,10 @@ test('chicken leg and potato stay fully covered through five real selector round
     'corn-carrot-chicken-leg-covered-rice',
     'cabbage-potato-chicken-leg-braised-noodles',
   ];
-  assert.deepEqual(staging.recipes.slice(15, 20).map(recipe => recipe.id), expectedIds);
+  const targetRecipes = library.recipes.filter(recipe => expectedIds.includes(recipe.id));
+  assert.deepEqual(targetRecipes.map(recipe => recipe.id), expectedIds);
   assert.deepEqual(validateRecipeLibrary(library), []);
-  for (const recipe of staging.recipes.slice(15, 20)) {
+  for (const recipe of targetRecipes) {
     assert.deepEqual(recipe.protein_class, ['鸡'], recipe.id);
     assert.match(recipe.safety_rules.join('；'), /鸡腿肉.*74摄氏度/u, recipe.id);
   }
@@ -454,13 +439,7 @@ test('chicken leg and potato stay fully covered through five real selector round
 
 test('generic greens stay explicitly used through five real selector rounds', () => {
   const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
-  const library = {
-    schema_version: 1,
-    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const library = current;
   const expectedIds = [
     'greens-sausage-fried-rice',
     'greens-minced-pork-braised-rice',
@@ -475,9 +454,10 @@ test('generic greens stay explicitly used through five real selector rounds', ()
     ['greens-tofu-vermicelli-pot', ['豆制品']],
     ['greens-chicken-leg-soup-noodles', ['鸡']],
   ]);
-  assert.deepEqual(staging.recipes.slice(20, 25).map(recipe => recipe.id), expectedIds);
+  const targetRecipes = library.recipes.filter(recipe => expectedIds.includes(recipe.id));
+  assert.deepEqual(targetRecipes.map(recipe => recipe.id), expectedIds);
   assert.deepEqual(validateRecipeLibrary(library), []);
-  for (const recipe of staging.recipes.slice(20, 25)) {
+  for (const recipe of targetRecipes) {
     assert.deepEqual(recipe.protein_class, expectedProtein.get(recipe.id), recipe.id);
   }
 
@@ -488,13 +468,7 @@ test('generic greens stay explicitly used through five real selector rounds', ()
 
 test('ribs pair with both potato and green beans through two five-round journeys', () => {
   const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
-  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
-  const library = {
-    schema_version: 1,
-    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const library = current;
   const expectedIds = [
     'green-bean-pork-rib-braised-rice',
     'potato-pork-rib-stewed-rice',
@@ -502,10 +476,11 @@ test('ribs pair with both potato and green beans through two five-round journeys
     'mushroom-green-bean-pork-rib-braised-rice',
     'cabbage-potato-pork-rib-soup-rice',
   ];
-  assert.deepEqual(staging.recipes.slice(25, 30).map(recipe => recipe.id), expectedIds);
+  const targetRecipes = library.recipes.filter(recipe => expectedIds.includes(recipe.id));
+  assert.deepEqual(targetRecipes.map(recipe => recipe.id), expectedIds);
   assert.equal(canonicalRecipeIngredient('排骨', library.ingredient_aliases), '猪肋排');
   assert.deepEqual(validateRecipeLibrary(library), []);
-  for (const recipe of staging.recipes.slice(25, 30)) {
+  for (const recipe of targetRecipes) {
     assert.deepEqual(recipe.protein_class, ['猪'], recipe.id);
     assert.match(recipe.safety_rules.join('；'), /排骨.*74摄氏度/u, recipe.id);
     assert.match(recipe.safety_rules.join('；'), /豆角.*熟透/u, recipe.id);
@@ -555,15 +530,7 @@ test('real coverage files pass the complete thirty-recipe promotion gate', async
   const current = JSON.parse(fs.readFileSync(
     new URL('../data/recipe-library.json', import.meta.url), 'utf8',
   ));
-  const staging = JSON.parse(fs.readFileSync(
-    new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8',
-  ));
-  const production = {
-    schema_version: current.schema_version,
-    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
-    families: [...current.families, ...staging.families],
-    recipes: [...current.recipes, ...staging.recipes],
-  };
+  const production = current;
 
   assert.deepEqual(gate.validateCoverageRecipePromotion({
     candidates,

@@ -12,21 +12,11 @@ function read(relativePath) {
 const candidates = read('./data/coverage-recipe-candidates.json');
 const drafts = read('./data/coverage-recipe-drafts.json');
 const promotionManifest = read('./data/coverage-recipe-promotions.json');
-const currentProduction = read('./data/recipe-library.json');
-const stagedProduction = read('./data/coverage-recipe-production.json');
-const production = {
-  schema_version: currentProduction.schema_version,
-  ingredient_aliases: {
-    ...currentProduction.ingredient_aliases,
-    ...stagedProduction.ingredient_aliases,
-  },
-  families: [...currentProduction.families, ...stagedProduction.families],
-  recipes: [...currentProduction.recipes, ...stagedProduction.recipes],
-};
+const production = read('./data/recipe-library.json');
 const promotions = promotionManifest.promotions;
 const errors = validateCoverageRecipePromotion({ candidates, drafts, promotions, production });
-const stagedIds = new Set(stagedProduction.recipes.map(recipe => recipe.id));
-const completed = promotions.filter(promotion => stagedIds.has(promotion.recipe_id)).length;
+const productionIds = new Set(production.recipes.map(recipe => recipe.id));
+const completed = promotions.filter(promotion => productionIds.has(promotion.recipe_id)).length;
 const readyJourneys = completed === promotions.length ? COVERAGE_JOURNEYS.length : 0;
 
 for (const error of errors) console.error(`❌ ${error}`);

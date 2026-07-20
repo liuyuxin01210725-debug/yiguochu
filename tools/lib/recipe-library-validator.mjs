@@ -1,7 +1,16 @@
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const REASON_TYPES = new Set(['taste', 'texture_water', 'timing', 'safety']);
+// approved = 人工批准（要求外部溯源五要素齐全）；auto_approved = 自动闸门通过、待人工评审。
+const RECIPE_STATUSES = new Set(['approved', 'auto_approved']);
+const RELAXED_SOURCE_FIELDS = ['url', 'title', 'license', 'attribution'];
 const CONSTRAINT_PROFILE_IDS = new Set(['rice-allergy-complete-main']);
+// protein_class 受控词表：鸡蛋/鸭蛋归「蛋」，鸡肉和鸭肉分开；整粒豆类与豆制品分开。
+// 「无」只能用于固定核心中没有可识别主蛋白的菜谱，不能和其他类别并存。
+const PROTEIN_CLASS_VALUES = ['鸡', '鸭', '牛', '猪', '羊', '鱼', '虾', '蟹', '贝', '蛋', '豆类', '豆制品', '无'];
+const PROTEIN_CLASSES = new Set(PROTEIN_CLASS_VALUES);
+// light_level 受控词表：汤/粥/蒸/白灼/拌类偏「清淡」，咖喱/辣炖/重酱/椰浆类偏「浓重」，其余「一般」。
+const LIGHT_LEVELS = new Set(['清淡', '一般', '浓重']);
 const CONSTRAINT_PROFILE_FIELDS = new Set(['id', 'basis']);
 const PROJECT_RECIPE_ORIGIN = 'https://yiguochu.pages.dev';
 const IDENTITY_PLACEHOLDER_RE = /经核验|身份不明|未知野菜|地方植物/u;
@@ -24,6 +33,32 @@ function isPlainObject(value) {
 
 function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
+}
+
+function proteinClassesFromCore(coreIngredients) {
+  const detected = new Set();
+  for (const value of Array.isArray(coreIngredients) ? coreIngredients : []) {
+    const item = String(value || '').replace(/[\s（）()_-]+/g, '');
+    if (!item) continue;
+    if (/(?:鸡蛋|鸭蛋|鹌鹑蛋|皮蛋|咸蛋|全蛋液|鸡蛋液|鸭蛋液)/.test(item)) detected.add('蛋');
+    if (/(?:鸡肉|鸡腿|鸡胸|鸡翅|仔鸡|整鸡)/.test(item)) detected.add('鸡');
+    if (/(?:鸭肉|板鸭|鸭腿|鸭胸|烤鸭)/.test(item)) detected.add('鸭');
+    if (/(?:牛肉|牛腩|牛里脊|肥牛)/.test(item)) detected.add('牛');
+    if (/(?:猪肉|猪肋排|排骨|咸肉|腊肉|咸五花肉|腊五花肉|腊肠|香肠|猪肉末)/.test(item)) detected.add('猪');
+    if (/(?:羊肉|羊排|羊腿)/.test(item)) detected.add('羊');
+    if (/(?:鱼|鳕|鲈|鲤|鲫|鳕|鳗)/.test(item)) detected.add('鱼');
+    if (/虾/.test(item)) detected.add('虾');
+    if (/(?:蟹|螃蟹)/.test(item)) detected.add('蟹');
+    if (/(?:贝|蛤蜊|牡蛎|生蚝|干贝|瑶柱)/.test(item)) detected.add('贝');
+
+    const soyProduct = /(?:豆腐|豆干|腐竹|豆浆|大豆蛋白|素鸡)/.test(item);
+    if (soyProduct) detected.add('豆制品');
+    if (!soyProduct && /(?:红扁豆|绿扁豆|黑眼豆|鹰嘴豆|豇豆|黄豆|大豆|白豆|芸豆|红豆|绿豆|扁豆)/.test(item)) {
+      detected.add('豆类');
+    }
+  }
+  if (!detected.size) return ['无'];
+  return PROTEIN_CLASS_VALUES.filter(value => value !== '无' && detected.has(value));
 }
 
 function validateRequiredArray(value, label, errors) {
@@ -139,7 +174,9 @@ export function validateRecipeLibrary(lib) {
       const familyId = isNonEmptyString(recipe.family_id) ? recipe.family_id : '<invalid>';
       errors.push(`${label} missing family ${familyId}`);
     }
-    if (recipe.status !== 'approved') errors.push(`${label} status must be approved`);
+    if (!RECIPE_STATUSES.has(recipe.status)) {
+      errors.push(`${label} status must be approved (human-approved) or auto_approved (auto-gate passed, pending human review)`);
+    }
     if (recipe.origin_candidate_id !== undefined
       && (!isNonEmptyString(recipe.origin_candidate_id) || !ID_RE.test(recipe.origin_candidate_id))) {
       errors.push(`${label} origin_candidate_id must be a non-empty ID`);
@@ -147,11 +184,32 @@ export function validateRecipeLibrary(lib) {
     for (const key of ['name', 'cuisine', 'form']) {
       if (!isNonEmptyString(recipe[key])) errors.push(`${label} missing ${key}`);
     }
-    if (recipe.total_time_minutes !== undefined
-      && (!Number.isInteger(recipe.total_time_minutes)
-        || recipe.total_time_minutes < 1
-        || recipe.total_time_minutes > 60)) {
-      errors.push(`${label} total_time_minutes must be an integer from 1 to 60`);
+    if (!Array.isArray(recipe.protein_class) || recipe.protein_class.length === 0) {
+      errors.push(`${label} protein_class must be a non-empty array`);
+    } else {
+      let vocabularyValid = true;
+      for (const value of recipe.protein_class) {
+        if (!PROTEIN_CLASSES.has(value)) {
+          vocabularyValid = false;
+          errors.push(`${label} protein_class value must be one of ${[...PROTEIN_CLASSES].join('/')}: ${String(value)}`);
+        }
+      }
+      if (vocabularyValid) {
+        const expectedProteinClasses = proteinClassesFromCore(recipe.core_ingredients);
+        if (JSON.stringify(recipe.protein_class) !== JSON.stringify(expectedProteinClasses)) {
+          errors.push(`${label} protein_class must match core ingredients: expected ${expectedProteinClasses.join('+')}, got ${recipe.protein_class.join('+')}`);
+        }
+      }
+    }
+    if (!LIGHT_LEVELS.has(recipe.light_level)) {
+      errors.push(`${label} light_level must be one of ${[...LIGHT_LEVELS].join('/')}`);
+    }
+    if (recipe.total_time_minutes === undefined) {
+      errors.push(`${label} missing total_time_minutes`);
+    } else if (!Number.isInteger(recipe.total_time_minutes)
+      || recipe.total_time_minutes < 5
+      || recipe.total_time_minutes > 120) {
+      errors.push(`${label} total_time_minutes must be an integer from 5 to 120`);
     }
     if (recipe.adaptation_note !== undefined
       && (typeof recipe.adaptation_note !== 'string'
@@ -303,12 +361,24 @@ export function validateRecipeLibrary(lib) {
           continue;
         }
         if (source.usage !== 'approved') errors.push(`${label} source usage must be approved`);
-        if (!isHttpsUrl(source.url)) errors.push(`${label} source URL must be HTTPS`);
-        for (const key of ['title', 'license', 'attribution']) {
-          if (!isNonEmptyString(source[key])) errors.push(`${label} source missing ${key}`);
-        }
-        if (!isValidIsoDate(source.retrieved_at)) {
-          errors.push(`${label} source retrieved_at must be a valid ISO YYYY-MM-DD date`);
+        if (recipe.status === 'auto_approved') {
+          // auto_approved 档：自动闸门通过、待人工评审，不要求外部溯源五要素齐全；
+          // 但每条 source_ref 至少保留 url/title/license/attribution 中一项非空。
+          if (!RELAXED_SOURCE_FIELDS.some(key => isNonEmptyString(source[key]))) {
+            errors.push(`${label} auto_approved source must keep at least one of url/title/license/attribution non-empty (full five-element provenance is required only for approved)`);
+          }
+          if (isNonEmptyString(source.url) && !isHttpsUrl(source.url)) {
+            errors.push(`${label} source URL must be HTTPS`);
+          }
+        } else {
+          // approved 档：人工批准，外部溯源五要素（HTTPS url/title/license/attribution/retrieved_at）缺一不可。
+          if (!isHttpsUrl(source.url)) errors.push(`${label} source URL must be HTTPS`);
+          for (const key of ['title', 'license', 'attribution']) {
+            if (!isNonEmptyString(source[key])) errors.push(`${label} source missing ${key}`);
+          }
+          if (!isValidIsoDate(source.retrieved_at)) {
+            errors.push(`${label} source retrieved_at must be a valid ISO YYYY-MM-DD date`);
+          }
         }
         if (typeof source.url === 'string' && /recipedb/i.test(source.url)) {
           errors.push(`${label} RecipeDB cannot be approved`);

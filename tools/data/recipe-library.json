@@ -11,7 +11,13 @@
     "黑眼豆（罐头沥干）": "黑眼豆",
     "牛肉（粗绞）": "牛肉",
     "粗绞牛肉": "牛肉",
-    "干辣椒": "辣椒"
+    "干辣椒": "辣椒",
+    "豆腐": "老豆腐",
+    "高丽菜": "卷心菜",
+    "香菇": "鲜香菇",
+    "剩米饭": "熟米饭",
+    "隔夜米饭": "熟米饭",
+    "排骨": "猪肋排"
   },
   "families": [
     {
@@ -88,6 +94,36 @@
       "id": "family-northern-braised-noodles",
       "name": "北方焖面",
       "form": "焖面"
+    },
+    {
+      "id": "family-home-fried-rice",
+      "name": "家常炒饭",
+      "form": "炒饭"
+    },
+    {
+      "id": "family-home-braised-rice",
+      "name": "家常焖饭",
+      "form": "焖饭"
+    },
+    {
+      "id": "family-home-stewed-rice",
+      "name": "汤汁烩饭",
+      "form": "烩饭"
+    },
+    {
+      "id": "family-home-soup-staple",
+      "name": "一锅汤主食",
+      "form": "汤饭/汤面"
+    },
+    {
+      "id": "family-home-covered-pot",
+      "name": "加盖饭锅",
+      "form": "饭锅"
+    },
+    {
+      "id": "family-home-vermicelli-pot",
+      "name": "一锅粉丝煲",
+      "form": "粉丝煲"
     }
   ],
   "recipes": [
@@ -105,6 +141,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "水"
@@ -187,6 +228,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "大米",
         "鸡肉",
@@ -282,6 +328,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "番茄",
@@ -376,6 +427,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "大米",
         "番茄",
@@ -470,6 +526,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "豆类",
+        "豆制品"
+      ],
+      "light_level": "清淡",
       "total_time_minutes": 30,
       "core_ingredients": [
         "红扁豆",
@@ -559,6 +620,12 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "鸡",
+        "豆类"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "黑眼豆（罐头沥干）",
         "大米",
@@ -662,6 +729,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "豆类"
+      ],
+      "light_level": "浓重",
+      "total_time_minutes": 30,
       "constraint_profiles": [
         {
           "id": "rice-allergy-complete-main",
@@ -763,6 +835,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "蛋"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
       "core_ingredients": [
         "鸡蛋",
         "番茄",
@@ -853,6 +930,10 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "牛"
+      ],
+      "light_level": "浓重",
       "total_time_minutes": 40,
       "core_ingredients": [
         "牛肉（粗绞）",
@@ -946,6 +1027,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "浓重",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "鸡肉",
         "椰奶",
@@ -1043,6 +1129,11 @@
         "fresh",
         "pantry"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "意式烩饭米",
         "洋葱",
@@ -1135,6 +1226,11 @@
         "quick",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 30,
       "core_ingredients": [
         "大米",
         "卷心菜",
@@ -1212,7 +1308,7 @@
       "id": "shanghai-salted-pork-vegetable-rice",
       "origin_candidate_id": "shanghai-salted-pork-vegetable-rice",
       "family_id": "family-jiangnan-vegetable-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "上海奉贤咸肉菜饭",
       "cuisine": "上海本帮",
       "form": "焖饭",
@@ -1223,6 +1319,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "咸五花肉",
@@ -1270,7 +1371,6 @@
         "未尝咸肉前不得额外加盐，避免盐度失控。",
         "叶菜后段加入，避免长时间受热而大量出水。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -1286,7 +1386,7 @@
       "id": "suzhou-salted-pork-vegetable-rice",
       "origin_candidate_id": "suzhou-salted-pork-vegetable-rice",
       "family_id": "family-jiangnan-vegetable-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "苏州青菜咸肉饭",
       "cuisine": "苏帮",
       "form": "焖饭",
@@ -1297,6 +1397,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "咸五花肉",
@@ -1346,7 +1451,6 @@
         "叶菜后段加入；出现明显积液时停止把该轮作为口感依据。",
         "叶菜和可选食用菌必须有明确食品名称及可食用购买来源。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -1362,7 +1466,7 @@
       "id": "nanjing-cured-pork-greens-rice",
       "origin_candidate_id": "nanjing-cured-pork-greens-rice",
       "family_id": "family-jiangnan-vegetable-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "南京矮脚黄腊肉菜饭",
       "cuisine": "南京菜",
       "form": "焖饭",
@@ -1373,6 +1477,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "腊五花肉",
@@ -1422,7 +1531,6 @@
         "青菜必须后段加入并记录出水；锅内有明显积液时不得认定该轮合格。",
         "青菜和可选食用菌须记录明确食品名称与购买来源。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -1438,7 +1546,7 @@
       "id": "nanjing-sausage-greens-rice",
       "origin_candidate_id": "nanjing-sausage-greens-rice",
       "family_id": "family-jiangnan-vegetable-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "南京矮脚黄香肠菜饭",
       "cuisine": "南京菜",
       "form": "焖饭",
@@ -1449,6 +1557,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "大米",
         "广式腊肠",
@@ -1496,7 +1609,6 @@
         "先观察香肠出油量，再决定是否补油。",
         "青菜后段加入并保持锅内无明显积水。"
       ],
-      "total_time_minutes": 35,
       "source_refs": [
         {
           "usage": "approved",
@@ -1512,7 +1624,7 @@
       "id": "nanjing-duck-greens-rice",
       "origin_candidate_id": "nanjing-duck-greens-rice",
       "family_id": "family-jiangnan-vegetable-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "南京矮脚黄板鸭菜饭",
       "cuisine": "南京菜",
       "form": "焖饭",
@@ -1523,6 +1635,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "鸭"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "大米",
         "包装熟制板鸭（去骨）",
@@ -1573,7 +1690,6 @@
         "青菜后段加入并记录出水，避免锅内残留明显积液。",
         "青菜和可选食用菌必须记录食品名称与购买来源。"
       ],
-      "total_time_minutes": 35,
       "source_refs": [
         {
           "usage": "approved",
@@ -1589,7 +1705,7 @@
       "id": "jinshan-clay-oven-vegetable-rice",
       "origin_candidate_id": "jinshan-clay-oven-vegetable-rice",
       "family_id": "family-jiangnan-vegetable-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "金山土灶菜饭",
       "cuisine": "上海本帮",
       "form": "菜饭",
@@ -1599,6 +1715,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "大米",
         "小白菜"
@@ -1643,7 +1764,6 @@
         "叶菜必须后段加入，避免长时间受热出水。",
         "不得把叶菜出的水另行汇入锅中，起锅前检查无积液。"
       ],
-      "total_time_minutes": 35,
       "source_refs": [
         {
           "usage": "approved",
@@ -1659,40 +1779,63 @@
       "id": "taiwan-cabbage-mushroom-rice",
       "origin_candidate_id": "taiwan-cabbage-mushroom-rice",
       "family_id": "family-southern-savory-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "高丽菜香菇炊饭",
       "cuisine": "台湾家常",
       "form": "炊饭",
-      "summary": "以大米、卷心菜、鲜香菇制作的原创家庭一锅标准配方，保留对应草案的技法、比例与安全边界。",
-      "adaptation_note": "将项目草案固化为家庭一锅标准；卷心菜和鲜菇均为明确命名的常见食品级食材。 正式条目逐字保留草案的技法、比例和安全要求，并只把泛称解析为上述明确食材。",
+      "summary": "以大米、卷心菜和鲜香菇为基础的原创家庭一锅标准配方；可在明确替代边界内改用虾仁，并加入番茄、玉米等已审核配料。",
+      "adaptation_note": "将项目草案固化为家庭一锅标准；卷心菜和鲜菇均为明确命名的常见食品级食材。虾仁、番茄和玉米也只使用明确命名的常见食品级食材；使用虾仁时替代鲜菇并执行彻底熟制要求，番茄版本按专用控水比例制作。",
       "purposes": [
         "pantry",
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "大米",
         "卷心菜",
         "鲜香菇"
       ],
       "optional_ingredients": [
-        "老豆腐"
+        "老豆腐",
+        "番茄",
+        "玉米",
+        "植物油"
       ],
       "generation_optional_ingredients": [
-        "老豆腐"
+        "老豆腐",
+        "番茄",
+        "玉米",
+        "植物油"
       ],
       "generation_liquid_ingredients": [
         "水"
       ],
       "substitution_slots": [
         {
-          "slot": "新鲜食用菌",
+          "slot": "叶菜",
+          "replaces": [
+            "卷心菜"
+          ],
+          "allowed": [
+            "白菜",
+            "大白菜"
+          ]
+        },
+        {
+          "slot": "鲜菇或虾仁",
           "replaces": [
             "鲜香菇"
           ],
           "allowed": [
             "白玉菇",
-            "平菇"
+            "平菇",
+            "金针菇",
+            "虾仁"
           ]
         }
       ],
@@ -1706,17 +1849,18 @@
         }
       ],
       "technique": [
-        "先观察卷心菜与鲜菇的含水状态，再量定锅内液体。",
-        "米饭主体炊煮后，按记录的节点加入蔬菜并焖熟。"
+        "先观察叶菜、番茄与鲜菇或虾仁的含水状态，再量定锅内液体。",
+        "大米、番茄和计量水先同锅炊煮；使用鲜菇时与大米同煮，使用虾仁替代时在米饭接近熟透后加入白菜、玉米和虾仁，加盖焖至虾仁完全熟透、中心不透明且米粒无硬芯。"
       ],
       "ratio_rules": [
-        "每100克大米的总液体以120至145克为记录起点，必须在评估卷心菜含水后才最终确定。"
+        "不使用番茄时，每100克大米的总液体以120至145克为记录起点，必须在评估叶菜和鲜菇含水后才最终确定。",
+        "使用番茄虾仁杂蔬版本时，每100克大米配番茄100克、白菜60克、玉米50克、虾仁80克和水80克，按份数同比缩放，不得再加其他汤水。"
       ],
       "safety_rules": [
-        "未评估卷心菜出水前不得固定加液量。",
-        "若使用豆腐，必须加热至全程热透后再食用。"
+        "未评估叶菜、番茄和鲜菇出水前不得固定加液量。",
+        "若使用豆腐，必须加热至全程热透后再食用。",
+        "若以虾仁替换鲜香菇，必须在米饭接近熟透时加入，并在同一口锅中加热至虾仁完全熟透、中心不透明后才可食用。"
       ],
-      "total_time_minutes": 35,
       "source_refs": [
         {
           "usage": "approved",
@@ -1732,7 +1876,7 @@
       "id": "quanzhou-oil-rice",
       "origin_candidate_id": "quanzhou-oil-rice",
       "family_id": "family-southern-savory-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "泉州浥饭（油饭）",
       "cuisine": "闽南",
       "form": "糯米饭",
@@ -1743,6 +1887,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "泡发糯米",
         "猪肉末",
@@ -1791,7 +1940,6 @@
         "首轮不得加入干制海产或其他未审核海鲜。",
         "起锅前检查锅底无游离液体且糯米不夹生。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -1807,7 +1955,7 @@
       "id": "fujian-gai-cai-minced-pork-rice",
       "origin_candidate_id": "fujian-gai-cai-minced-pork-rice",
       "family_id": "family-southern-savory-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "福建盖菜肉末咸饭",
       "cuisine": "闽菜",
       "form": "咸饭",
@@ -1817,6 +1965,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "大米",
         "芥菜",
@@ -1864,7 +2017,6 @@
         "使用猪肉时必须彻底熟制，中心不得留生。",
         "必须先尝芥菜及锅内底味，再决定是否补盐。"
       ],
-      "total_time_minutes": 35,
       "source_refs": [
         {
           "usage": "approved",
@@ -1880,7 +2032,7 @@
       "id": "fujian-hyacinth-bean-rice",
       "origin_candidate_id": "fujian-hyacinth-bean-rice",
       "family_id": "family-southern-savory-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "福建扁豆饭",
       "cuisine": "闽菜",
       "form": "焖饭",
@@ -1891,6 +2043,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "豆类"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "扁豆"
@@ -1936,7 +2093,6 @@
         "扁豆品种或商品标识必须留存记录，不明豆类不得替代。",
         "扁豆必须完全熟透后才可食用。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -1952,7 +2108,7 @@
       "id": "hainan-cai-bao-rice",
       "origin_candidate_id": "hainan-cai-bao-rice",
       "family_id": "family-southern-savory-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "海南定安菜包饭",
       "cuisine": "海南菜",
       "form": "包饭",
@@ -1962,6 +2118,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "生菜",
@@ -2007,7 +2168,6 @@
         "叶片必须确认物种身份、可食用性和食品级来源；无法确认时不得使用。",
         "蔬菜馅和可选豆腐必须完全加热熟透后再包制。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -2023,7 +2183,7 @@
       "id": "daxi-lotus-leaf-oil-rice",
       "origin_candidate_id": "daxi-lotus-leaf-oil-rice",
       "family_id": "family-southern-savory-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "大溪荷叶油饭",
       "cuisine": "台湾客家",
       "form": "荷叶包糯米饭",
@@ -2034,6 +2194,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "糯米",
         "猪肉末",
@@ -2083,7 +2248,6 @@
         "记录猪肉析出脂肪及任何额外油脂，再决定下一轮调整。",
         "必须记录糯米吸水、包裹后湿度和成品是否有明显积液。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2099,7 +2263,7 @@
       "id": "cantonese-cured-meat-claypot-rice",
       "origin_candidate_id": "cantonese-cured-meat-claypot-rice",
       "family_id": "family-covered-pot-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "广式腊味煲仔饭",
       "cuisine": "粤菜",
       "form": "加盖焖饭",
@@ -2109,6 +2273,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "广式腊肠",
@@ -2159,7 +2328,6 @@
         "叶菜后段加入；锅内有明显游离水时须记录为湿度问题。",
         "叶菜和可选食用菌必须记录食品名称与购买来源。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -2175,7 +2343,7 @@
       "id": "cantonese-mushroom-chicken-claypot-rice",
       "origin_candidate_id": "cantonese-mushroom-chicken-claypot-rice",
       "family_id": "family-covered-pot-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "广式香菇滑鸡煲仔饭",
       "cuisine": "粤菜",
       "form": "加盖焖饭",
@@ -2185,6 +2353,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "去皮鸡腿肉",
@@ -2234,7 +2407,6 @@
         "食用香菇须记录食品名称、来源、原始含水和加热出水；明显积液时不得认定该轮质地合格。",
         "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -2250,7 +2422,7 @@
       "id": "cantonese-black-bean-pork-rib-claypot-rice",
       "origin_candidate_id": "cantonese-black-bean-pork-rib-claypot-rice",
       "family_id": "family-covered-pot-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "广式豆豉排骨煲仔饭",
       "cuisine": "粤菜",
       "form": "加盖焖饭",
@@ -2260,6 +2432,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "大米",
         "猪肋排",
@@ -2308,7 +2485,6 @@
         "食品级豆豉必须记录来源和尝味结果；未尝味不得补加盐或其他高盐调味料。",
         "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2324,7 +2500,7 @@
       "id": "xinjiang-lamb-pilaf",
       "origin_candidate_id": "xinjiang-lamb-pilaf",
       "family_id": "family-northwest-grain-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "新疆羊肉抓饭",
       "cuisine": "新疆菜",
       "form": "焖饭",
@@ -2335,6 +2511,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "羊"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 50,
       "core_ingredients": [
         "羊腿肉",
         "洋葱",
@@ -2385,7 +2566,6 @@
         "成品仅限当餐食用；需保存时必须记录冷却、冷藏和再次加热处理。",
         "液体比例以羊肉熟制后的可用余液为基准，不得按生肉阶段估算。"
       ],
-      "total_time_minutes": 50,
       "source_refs": [
         {
           "usage": "approved",
@@ -2401,7 +2581,7 @@
       "id": "xinjiang-vegetable-pilaf",
       "origin_candidate_id": "xinjiang-vegetable-pilaf",
       "family_id": "family-northwest-grain-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "新疆素抓饭",
       "cuisine": "新疆菜",
       "form": "焖饭",
@@ -2412,6 +2592,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "洋葱",
@@ -2458,7 +2643,6 @@
         "鹰嘴豆只能使用已经完全煮熟的成品，并在锅中再次加热透。",
         "最终液体必须在记录洋葱和胡萝卜出水后确定。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -2474,7 +2658,7 @@
       "id": "shaanbei-red-date-cowpea-rice",
       "origin_candidate_id": "shaanbei-red-date-cowpea-rice",
       "family_id": "family-northwest-grain-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "陕北红枣豇豆焖饭",
       "cuisine": "陕北菜",
       "form": "焖饭",
@@ -2484,6 +2668,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "豆类"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "大米",
         "去核红枣",
@@ -2530,7 +2719,6 @@
         "豇豆必须完全熟透后才可食用。",
         "红枣必须逐颗确认已去核，发现枣核即停止食用。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2546,7 +2734,7 @@
       "id": "qinghai-hao-fan",
       "origin_candidate_id": "qinghai-hao-fan",
       "family_id": "family-northwest-grain-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "青海熬饭风味家庭适配版",
       "cuisine": "河湟饮食",
       "form": "熬煮饭",
@@ -2557,6 +2745,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "豆类"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "小米",
         "土豆",
@@ -2606,7 +2799,6 @@
         "豆类及可选叶菜必须记录过敏原或不耐受声明；未声明不得作为试做对象。",
         "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2622,7 +2814,7 @@
       "id": "shanxi-potato-rice",
       "origin_candidate_id": "shanxi-potato-rice",
       "family_id": "family-northwest-grain-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "山西岚县土豆饭",
       "cuisine": "晋菜",
       "form": "焖饭",
@@ -2632,6 +2824,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "土豆"
@@ -2677,7 +2874,6 @@
         "土豆中心必须完全熟透，不得有硬芯。",
         "焖煮期间须按锅具特性检查锅底，出现粘锅或焦糊征兆即停止加热并记录。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -2693,7 +2889,7 @@
       "id": "shanxi-nitun-millet-rice",
       "origin_candidate_id": "shanxi-nitun-millet-rice",
       "family_id": "family-northwest-grain-rice",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "山西泥屯小米饭",
       "cuisine": "晋菜",
       "form": "小米饭",
@@ -2703,6 +2899,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "小米",
         "土豆"
@@ -2749,7 +2950,6 @@
         "土豆必须达到可轻易压碎的熟透状态。",
         "未记录小米重量、液体重量和土豆熟度的试做不得进入下一轮调整。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -2765,7 +2965,7 @@
       "id": "tibetan-savory-congee",
       "origin_candidate_id": "tibetan-savory-congee",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "藏式咸稀饭风味家庭适配版",
       "cuisine": "藏族饮食",
       "form": "稀饭",
@@ -2775,6 +2975,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "大米",
         "牛奶"
@@ -2822,7 +3027,6 @@
         "谷物必须煮熟软、无硬芯并记录成品稠度与原始生熟状态。",
         "成品仅限当餐食用；如需留存，必须记录冷却、冷藏和再次加热状态，未记录不得留存。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2838,7 +3042,7 @@
       "id": "tibetan-gutu",
       "origin_candidate_id": "tibetan-gutu",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "古突风味家庭适配版",
       "cuisine": "藏族饮食",
       "form": "面食汤",
@@ -2848,6 +3052,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "小麦面团",
         "小白菜",
@@ -2896,7 +3105,6 @@
         "必须记录小麦及可选食用菌等食材的过敏原声明。",
         "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2912,7 +3120,7 @@
       "id": "tibetan-ginseng-fruit-rice",
       "origin_candidate_id": "tibetan-ginseng-fruit-rice",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "西藏人参果饭",
       "cuisine": "藏族饮食",
       "form": "焖饭",
@@ -2922,6 +3130,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "食品级蕨麻",
         "大米"
@@ -2969,7 +3182,6 @@
         "蕨麻与谷物必须熟透、无硬芯后才可食用，并记录原始状态与熟制检查。",
         "必须记录蕨麻、谷物和可选干果的过敏原声明；成品留存时必须记录冷却、冷藏和再次加热状态。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -2985,7 +3197,7 @@
       "id": "guangxi-five-color-glutinous-rice",
       "origin_candidate_id": "guangxi-five-color-glutinous-rice",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "广西壮族五色糯米饭",
       "cuisine": "壮族饮食",
       "form": "糯米饭",
@@ -2995,6 +3207,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 50,
       "core_ingredients": [
         "糯米",
         "食品级紫薯粉",
@@ -3057,7 +3274,6 @@
         "若使用油脂，必须记录种类和加入决定；未记录不得归为无脂。",
         "必须分别记录各色糯米的吸水状态和成品干湿，避免以颜色掩盖夹生或过湿。"
       ],
-      "total_time_minutes": 50,
       "source_refs": [
         {
           "usage": "approved",
@@ -3073,7 +3289,7 @@
       "id": "she-people-black-rice",
       "origin_candidate_id": "she-people-black-rice",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "畲族乌饭风味家庭适配版",
       "cuisine": "畲族饮食",
       "form": "糯米饭",
@@ -3083,6 +3299,11 @@
         "pantry",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "糯米",
         "食品级黑米色粉"
@@ -3137,7 +3358,6 @@
         "糯米必须蒸熟至无硬芯后才可食用。",
         "必须记录色源及可选坚果或种子的过敏原声明；成品留存时记录冷却、冷藏和再次加热状态。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -3153,7 +3373,7 @@
       "id": "banshan-wild-rice",
       "origin_candidate_id": "banshan-wild-rice",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "半山野米饭风味平菇焖饭",
       "cuisine": "杭州菜",
       "form": "焖饭",
@@ -3163,6 +3383,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
       "core_ingredients": [
         "大米",
         "平菇"
@@ -3210,7 +3435,6 @@
         "必须记录平菇或鲜香菇的食品名称、购买来源和过敏原声明。",
         "成品仅限当餐食用；留存必须记录冷却、冷藏和再次加热状态。"
       ],
-      "total_time_minutes": 40,
       "source_refs": [
         {
           "usage": "approved",
@@ -3226,7 +3450,7 @@
       "id": "dai-pineapple-purple-rice",
       "origin_candidate_id": "dai-pineapple-purple-rice",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "傣族菠萝紫米饭",
       "cuisine": "傣族饮食",
       "form": "紫米饭",
@@ -3236,6 +3460,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "无"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "紫米",
         "菠萝"
@@ -3285,7 +3514,6 @@
         "如使用咸味配料，必须尝味后才决定是否补盐。",
         "椰浆或其他油脂如有使用，必须记录种类、加入决定和对口感的影响。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -3301,7 +3529,7 @@
       "id": "guizhou-dong-community-rice",
       "origin_candidate_id": "guizhou-dong-community-rice",
       "family_id": "family-regional-grain-specialties",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "侗家社饭风味家庭适配版",
       "cuisine": "侗族饮食",
       "form": "焖饭",
@@ -3312,6 +3540,11 @@
         "fresh",
         "batch"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
       "core_ingredients": [
         "大米",
         "腊五花肉",
@@ -3364,7 +3597,6 @@
         "腌肉须核对食品级标签和来源并先尝味，再决定补加盐；不得忽略高盐风险。",
         "成品仅限当餐食用；需保存时必须记录冷却、冷藏和再次加热处理。"
       ],
-      "total_time_minutes": 45,
       "source_refs": [
         {
           "usage": "approved",
@@ -3380,7 +3612,7 @@
       "id": "north-china-green-bean-braised-noodles",
       "origin_candidate_id": "north-china-green-bean-braised-noodles",
       "family_id": "family-northern-braised-noodles",
-      "status": "approved",
+      "status": "auto_approved",
       "name": "北方豆角焖面",
       "cuisine": "北方家常",
       "form": "焖面",
@@ -3390,6 +3622,11 @@
         "pantry",
         "fresh"
       ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
       "core_ingredients": [
         "鲜小麦面条",
         "豆角",
@@ -3438,7 +3675,6 @@
         "面条蒸焖结束前检查锅底，保持无焦糊且无大量游离液体。",
         "鲜面条应熟透但不糊断，必要时少量补液。"
       ],
-      "total_time_minutes": 35,
       "source_refs": [
         {
           "usage": "approved",
@@ -3447,6 +3683,2383 @@
           "license": "一锅出项目原创标准配方，保留所有权利",
           "attribution": "一锅出项目",
           "retrieved_at": "2026-07-17"
+        }
+      ]
+    },
+    {
+      "id": "home-egg-fried-leftover-rice",
+      "origin_candidate_id": "home-egg-fried-leftover-rice",
+      "family_id": "family-home-fried-rice",
+      "status": "auto_approved",
+      "name": "家常鸡蛋炒剩饭",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "summary": "用妥善冷藏的熟米饭和鸡蛋做成的项目原创家常一锅炒饭。",
+      "adaptation_note": "按项目原创草案固化熟米饭复热、鸡蛋全凝固和单锅回炒边界；不把剩米饭映射成生大米。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "蛋"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 20,
+      "core_ingredients": [
+        "熟米饭",
+        "鸡蛋"
+      ],
+      "optional_ingredients": [
+        "胡萝卜",
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "胡萝卜",
+        "香葱"
+      ],
+      "generation_liquid_ingredients": [],
+      "substitution_slots": [
+        {
+          "slot": "蔬菜配料",
+          "replaces": [
+            "胡萝卜"
+          ],
+          "allowed": [
+            "玉米",
+            "青菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "室温久放的剩饭"
+          ],
+          "reason_type": "safety",
+          "reason": "保存状态不明的剩饭不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把鸡蛋炒至蛋白和蛋黄完全凝固后暂盛出。",
+        "原锅炒散熟米饭和蔬菜，再回锅鸡蛋并将整锅充分复热。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭配30至40克蛋液。",
+        "每300克熟米饭使用不超过15克食用油。"
+      ],
+      "safety_rules": [
+        "只使用做熟后尽快冷却、一小时内冷藏且冷藏不超过一天的熟米饭。",
+        "熟米饭必须充分复热且全锅中心达到74摄氏度。",
+        "鸡蛋必须熟透，蛋白和蛋黄完全凝固，不得流心。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：家常鸡蛋炒剩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=home-egg-fried-leftover-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "tomato-egg-stewed-leftover-rice",
+      "origin_candidate_id": "tomato-egg-stewed-leftover-rice",
+      "family_id": "family-home-stewed-rice",
+      "status": "auto_approved",
+      "name": "番茄鸡蛋烩剩饭",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "summary": "用番茄汤汁把妥善冷藏的熟米饭充分复热，再将鸡蛋煮至全凝固。",
+      "adaptation_note": "项目原创的单锅烩饭标准；锁定番茄出汁、熟米饭充分复热和鸡蛋全凝固。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "蛋"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "番茄",
+        "鸡蛋"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "番茄",
+          "replaces": [
+            "番茄"
+          ],
+          "allowed": [
+            "西红柿"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "室温久放的剩饭"
+          ],
+          "reason_type": "safety",
+          "reason": "保存状态不明的剩饭不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把番茄煮出汤汁。",
+        "加入熟米饭充分复热，淋入鸡蛋液并煮至蛋白和蛋黄完全凝固。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用60至80克番茄汤汁。",
+        "每100克熟米饭配25至35克蛋液。"
+      ],
+      "safety_rules": [
+        "只使用做熟后尽快冷却、一小时内冷藏且冷藏不超过一天的熟米饭。",
+        "熟米饭必须充分复热且全锅中心达到74摄氏度。",
+        "鸡蛋必须熟透，蛋白和蛋黄完全凝固，不得流心。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：番茄鸡蛋烩剩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=tomato-egg-stewed-leftover-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-egg-braised-leftover-rice",
+      "origin_candidate_id": "greens-egg-braised-leftover-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "青菜鸡蛋焖剩饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "用少量蒸汽把妥善冷藏的熟米饭焖热，再加入青菜和全熟鸡蛋。",
+      "adaptation_note": "项目原创的熟米饭加盖回热标准；叶菜只走明确替换位，不强行加入未提供食材。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "蛋"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "青菜",
+        "鸡蛋"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "室温久放的剩饭"
+          ],
+          "reason_type": "safety",
+          "reason": "保存状态不明的剩饭不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把鸡蛋炒至蛋白和蛋黄完全凝固后暂盛出。",
+        "原锅放熟米饭和少量水加盖充分复热，再加入青菜与鸡蛋焖匀。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用35至50克青菜。",
+        "每100克熟米饭补入约20克水形成短时蒸汽。"
+      ],
+      "safety_rules": [
+        "只使用做熟后尽快冷却、一小时内冷藏且冷藏不超过一天的熟米饭。",
+        "熟米饭必须充分复热且全锅中心达到74摄氏度。",
+        "鸡蛋必须熟透，蛋白和蛋黄完全凝固，不得流心。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜鸡蛋焖剩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-egg-braised-leftover-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "mushroom-egg-covered-leftover-rice",
+      "origin_candidate_id": "mushroom-egg-covered-leftover-rice",
+      "family_id": "family-home-covered-pot",
+      "status": "auto_approved",
+      "name": "香菇鸡蛋焖剩饭",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "summary": "鲜香菇和鸡蛋先在同锅熟制，再与妥善冷藏的熟米饭加盖回热。",
+      "adaptation_note": "项目原创的加盖饭锅标准；食用菌替换位有限，剩饭按熟食安全边界处理。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "蛋"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "鲜香菇",
+        "鸡蛋"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "口蘑",
+        "平菇"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "食用菌",
+          "replaces": [
+            "鲜香菇"
+          ],
+          "allowed": [
+            "口蘑",
+            "平菇"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "室温久放的剩饭"
+          ],
+          "reason_type": "safety",
+          "reason": "保存状态不明的剩饭不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把鲜香菇炒软，并把鸡蛋炒至蛋白和蛋黄完全凝固。",
+        "加入熟米饭和少量水，加盖焖至全锅充分复热。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约35克鲜食用菌。",
+        "每100克熟米饭补入约20克水形成短时蒸汽。"
+      ],
+      "safety_rules": [
+        "只使用做熟后尽快冷却、一小时内冷藏且冷藏不超过一天的熟米饭。",
+        "熟米饭必须充分复热且全锅中心达到74摄氏度。",
+        "鸡蛋必须熟透，蛋白和蛋黄完全凝固，不得流心。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：香菇鸡蛋焖剩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-egg-covered-leftover-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "shrimp-egg-fried-leftover-rice",
+      "origin_candidate_id": "shrimp-egg-fried-leftover-rice",
+      "family_id": "family-home-fried-rice",
+      "status": "auto_approved",
+      "name": "虾仁鸡蛋炒剩饭",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "summary": "虾仁与鸡蛋分别达到安全终点后，与妥善冷藏的熟米饭同锅炒热。",
+      "adaptation_note": "项目原创的虾仁鸡蛋炒饭标准；如用户忌口海鲜，该固定虾仁核心会直接排除本菜谱。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "fresh"
+      ],
+      "protein_class": [
+        "虾",
+        "蛋"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "虾仁",
+        "鸡蛋"
+      ],
+      "optional_ingredients": [
+        "玉米",
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "玉米",
+        "香葱",
+        "胡萝卜",
+        "青豆"
+      ],
+      "generation_liquid_ingredients": [],
+      "substitution_slots": [
+        {
+          "slot": "蔬菜配料",
+          "replaces": [
+            "玉米"
+          ],
+          "allowed": [
+            "胡萝卜",
+            "青豆"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "室温久放的剩饭"
+          ],
+          "reason_type": "safety",
+          "reason": "保存状态不明的剩饭不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把虾仁炒至珠白不透明，并把鸡蛋炒至蛋白和蛋黄完全凝固后暂盛出。",
+        "原锅炒散熟米饭，再回锅虾仁和鸡蛋并将整锅充分复热。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭配约25克虾仁和30克蛋液。",
+        "每300克熟米饭使用不超过15克食用油。"
+      ],
+      "safety_rules": [
+        "只使用做熟后尽快冷却、一小时内冷藏且冷藏不超过一天的熟米饭。",
+        "熟米饭必须充分复热且全锅中心达到74摄氏度。",
+        "虾仁必须由半透明变为珠白不透明；鸡蛋必须熟透，蛋白和蛋黄完全凝固，不得流心。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：虾仁鸡蛋炒剩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=shrimp-egg-fried-leftover-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "broccoli-beef-fried-rice",
+      "origin_candidate_id": "broccoli-beef-fried-rice",
+      "family_id": "family-home-fried-rice",
+      "status": "auto_approved",
+      "name": "西兰花牛肉炒饭",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "summary": "牛肉先达到安全终点，西兰花后段入锅，再与熟米饭同锅炒匀。",
+      "adaptation_note": "项目原创的西兰花牛肉炒饭标准；牛肉先熟、西兰花后入，避免用多样性牺牲两项库存命中。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "fresh"
+      ],
+      "protein_class": [
+        "牛"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 30,
+      "core_ingredients": [
+        "熟米饭",
+        "西兰花",
+        "牛肉"
+      ],
+      "optional_ingredients": [
+        "洋葱"
+      ],
+      "generation_optional_ingredients": [
+        "洋葱",
+        "胡萝卜"
+      ],
+      "generation_liquid_ingredients": [],
+      "substitution_slots": [
+        {
+          "slot": "香味蔬菜",
+          "replaces": [
+            "洋葱"
+          ],
+          "allowed": [
+            "胡萝卜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "大块牛肉"
+          ],
+          "reason_type": "timing",
+          "reason": "过大肉块难以在炒饭时限内均匀达到中心安全终点。"
+        }
+      ],
+      "technique": [
+        "同锅把切小片的牛肉炒至中心达到74摄氏度后暂盛出。",
+        "原锅炒熟西兰花与熟米饭，再回锅牛肉翻匀。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭配约30克牛肉和40克西兰花。",
+        "每300克熟米饭使用不超过15克食用油。"
+      ],
+      "safety_rules": [
+        "牛肉中心必须达到74摄氏度且无生肉色。",
+        "西兰花洗净后彻底受热，冷藏熟米饭使用时必须充分复热。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：西兰花牛肉炒饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-fried-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "broccoli-beef-braised-rice",
+      "origin_candidate_id": "broccoli-beef-braised-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "西兰花牛肉焖饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "大米与牛肉先加盖焖煮，西兰花后段加入以兼顾熟制和口感。",
+      "adaptation_note": "项目原创的生米同锅焖饭标准；液体按大米计量，西兰花不从起锅时长时间焖煮。",
+      "purposes": [
+        "pantry",
+        "fresh",
+        "batch"
+      ],
+      "protein_class": [
+        "牛"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
+      "core_ingredients": [
+        "大米",
+        "西兰花",
+        "牛肉"
+      ],
+      "optional_ingredients": [
+        "胡萝卜"
+      ],
+      "generation_optional_ingredients": [
+        "胡萝卜",
+        "玉米"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "配色蔬菜",
+          "replaces": [
+            "胡萝卜"
+          ],
+          "allowed": [
+            "玉米"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "大块牛肉"
+          ],
+          "reason_type": "timing",
+          "reason": "肉块过大会使米饭熟度与肉类中心终点难以同步。"
+        }
+      ],
+      "technique": [
+        "同锅加入大米、量好的水和切小块牛肉，加盖焖至接近熟透。",
+        "后段加入西兰花，继续加盖至米饭熟透且牛肉中心达到74摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约135克可用总液体。",
+        "每100克大米配约35克牛肉和45克西兰花。"
+      ],
+      "safety_rules": [
+        "牛肉中心必须达到74摄氏度且无生肉色。",
+        "米饭不得夹生，西兰花洗净并彻底受热。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：西兰花牛肉焖饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "tomato-broccoli-beef-stewed-rice",
+      "origin_candidate_id": "tomato-broccoli-beef-stewed-rice",
+      "family_id": "family-home-stewed-rice",
+      "status": "auto_approved",
+      "name": "番茄西兰花牛肉烩饭",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "summary": "番茄形成汤汁并把牛肉煮熟，再加入熟米饭和西兰花完成单锅烩制。",
+      "adaptation_note": "项目原创的番茄汤汁烩饭标准；牛肉先达到安全终点，西兰花后段受热。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "fresh"
+      ],
+      "protein_class": [
+        "牛"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
+      "core_ingredients": [
+        "熟米饭",
+        "番茄",
+        "西兰花",
+        "牛肉"
+      ],
+      "optional_ingredients": [
+        "洋葱"
+      ],
+      "generation_optional_ingredients": [
+        "洋葱",
+        "胡萝卜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "香味蔬菜",
+          "replaces": [
+            "洋葱"
+          ],
+          "allowed": [
+            "胡萝卜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "过量额外汤水"
+          ],
+          "reason_type": "texture_water",
+          "reason": "额外汤水会稀释番茄汤汁并使熟米饭失去烩饭质地。"
+        }
+      ],
+      "technique": [
+        "同锅把番茄、牛肉和量好的水煮至牛肉中心达到74摄氏度。",
+        "加入熟米饭和西兰花，烩至米饭热透且西兰花熟软。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约70克番茄汤汁。",
+        "每100克熟米饭配约30克牛肉和35克西兰花。"
+      ],
+      "safety_rules": [
+        "牛肉中心必须达到74摄氏度且无生肉色。",
+        "整锅持续滚热，西兰花彻底受热后食用。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：番茄西兰花牛肉烩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=tomato-broccoli-beef-stewed-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "broccoli-beef-soup-noodles",
+      "origin_candidate_id": "broccoli-beef-soup-noodles",
+      "family_id": "family-home-soup-staple",
+      "status": "auto_approved",
+      "name": "西兰花牛肉汤面",
+      "cuisine": "中式家常",
+      "form": "汤面",
+      "summary": "牛肉、面条和西兰花按先后顺序在同一口锅中完成的汤主食。",
+      "adaptation_note": "项目原创的一锅汤面标准；先核对牛肉终点，再煮面，西兰花最后加入。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "牛"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 30,
+      "core_ingredients": [
+        "面条",
+        "西兰花",
+        "牛肉"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "挂面"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "面条",
+          "replaces": [
+            "面条"
+          ],
+          "allowed": [
+            "挂面"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "宽厚牛肉块"
+          ],
+          "reason_type": "timing",
+          "reason": "宽厚肉块会延长汤面时间并增加中心未熟风险。"
+        }
+      ],
+      "technique": [
+        "同锅把切小片的牛肉煮至中心达到74摄氏度。",
+        "加入面条煮熟，后段加入西兰花煮至熟软。"
+      ],
+      "ratio_rules": [
+        "每100克干面条使用约550克汤水。",
+        "每100克干面条配约60克牛肉和80克西兰花。"
+      ],
+      "safety_rules": [
+        "牛肉中心必须达到74摄氏度且无生肉色。",
+        "面条无硬芯，西兰花洗净并彻底受热。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：西兰花牛肉汤面",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-soup-noodles",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "potato-broccoli-beef-covered-rice",
+      "origin_candidate_id": "potato-broccoli-beef-covered-rice",
+      "family_id": "family-home-covered-pot",
+      "status": "auto_approved",
+      "name": "土豆西兰花牛肉饭锅",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "summary": "大米、土豆和牛肉先加盖焖熟，西兰花在后段加入。",
+      "adaptation_note": "项目原创的加盖饭锅标准；土豆切小块，西兰花后段入锅，牛肉终点独立核对。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "牛"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
+      "core_ingredients": [
+        "大米",
+        "土豆",
+        "西兰花",
+        "牛肉"
+      ],
+      "optional_ingredients": [
+        "胡萝卜"
+      ],
+      "generation_optional_ingredients": [
+        "胡萝卜",
+        "玉米"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "配色蔬菜",
+          "replaces": [
+            "胡萝卜"
+          ],
+          "allowed": [
+            "玉米"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅加入大米、量好的水、切小块土豆和牛肉，加盖焖煮。",
+        "接近熟透时加入西兰花，继续加盖至米饭、土豆熟透且牛肉中心达到74摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约140克可用总液体。",
+        "土豆切小块并控制在每100克大米约50克。"
+      ],
+      "safety_rules": [
+        "牛肉中心必须达到74摄氏度且无生肉色。",
+        "土豆无硬芯且不得使用发芽或明显变绿的土豆，米饭不得夹生。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：土豆西兰花牛肉饭锅",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=potato-broccoli-beef-covered-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-tofu-fried-rice",
+      "origin_candidate_id": "greens-tofu-fried-rice",
+      "family_id": "family-home-fried-rice",
+      "status": "auto_approved",
+      "name": "青菜豆腐炒饭",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "summary": "老豆腐先在同锅定型，再与青菜和熟米饭完成家常炒饭。",
+      "adaptation_note": "项目原创的豆腐叶菜炒饭标准；豆腐固定归豆制品，叶菜只走明确替换位。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "fresh"
+      ],
+      "protein_class": [
+        "豆制品"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "老豆腐",
+        "青菜"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "嫩豆腐大块"
+          ],
+          "reason_type": "texture_water",
+          "reason": "含水较高且易碎的豆腐不适合本炒饭结构。"
+        }
+      ],
+      "technique": [
+        "同锅把老豆腐煎至表面定型。",
+        "加入熟米饭炒热，后段加入青菜并炒至熟软。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭配约45克老豆腐和35克青菜。",
+        "每300克熟米饭使用不超过15克食用油。"
+      ],
+      "safety_rules": [
+        "老豆腐中心必须热透。",
+        "青菜洗净并炒至熟软，冷藏熟米饭使用时必须充分复热。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜豆腐炒饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-tofu-fried-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "cabbage-tofu-braised-rice",
+      "origin_candidate_id": "cabbage-tofu-braised-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "白菜豆腐焖饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "大米与老豆腐同锅焖煮，白菜或明确替代叶菜在后段加入。",
+      "adaptation_note": "项目原创的豆腐叶菜焖饭标准；青菜作为白菜的明确替换项时同样计入用户库存。",
+      "purposes": [
+        "pantry",
+        "fresh",
+        "batch"
+      ],
+      "protein_class": [
+        "豆制品"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
+      "core_ingredients": [
+        "大米",
+        "老豆腐",
+        "白菜"
+      ],
+      "optional_ingredients": [
+        "鲜香菇"
+      ],
+      "generation_optional_ingredients": [
+        "鲜香菇",
+        "娃娃菜",
+        "青菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "白菜",
+          "replaces": [
+            "白菜"
+          ],
+          "allowed": [
+            "娃娃菜",
+            "青菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "嫩豆腐大块"
+          ],
+          "reason_type": "texture_water",
+          "reason": "含水过高且易碎的豆腐会影响焖饭含水与完整度。"
+        }
+      ],
+      "technique": [
+        "同锅加入大米、量好的水与老豆腐，加盖焖煮。",
+        "米饭接近熟透时加入白菜或用户提供的替代叶菜，继续焖至全部熟软。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约130克可用总液体。",
+        "每100克大米配约60克老豆腐和50克白菜或替代叶菜。"
+      ],
+      "safety_rules": [
+        "米饭不得夹生，老豆腐中心必须热透。",
+        "白菜或替代叶菜须洗净并熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：白菜豆腐焖饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "tomato-tofu-stewed-rice",
+      "origin_candidate_id": "tomato-tofu-stewed-rice",
+      "family_id": "family-home-stewed-rice",
+      "status": "auto_approved",
+      "name": "番茄青菜豆腐烩饭",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "summary": "番茄与老豆腐形成烩饭底，用户提供青菜时在后段加入并明确计入。",
+      "adaptation_note": "项目原创的番茄豆腐烩饭标准；青菜是已审查的可选食材，不会为了凑菜名强制添加。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "豆制品"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "番茄",
+        "老豆腐"
+      ],
+      "optional_ingredients": [
+        "香葱",
+        "青菜"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "青菜",
+        "西红柿"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "番茄",
+          "replaces": [
+            "番茄"
+          ],
+          "allowed": [
+            "西红柿"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "过量额外汤水"
+          ],
+          "reason_type": "texture_water",
+          "reason": "额外液体会使番茄烩饭过稀。"
+        }
+      ],
+      "technique": [
+        "同锅把番茄煮出汤汁并加入老豆腐热透。",
+        "加入熟米饭烩至吸汁，使用青菜时后段加入并将全锅煮至滚热。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约70克番茄汤汁。",
+        "每100克熟米饭配约50克老豆腐；使用青菜时控制在30至40克。"
+      ],
+      "safety_rules": [
+        "老豆腐中心必须热透，整锅持续滚热后食用。",
+        "使用青菜时必须洗净并煮至熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：番茄青菜豆腐烩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=tomato-tofu-stewed-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-tofu-soup-noodles",
+      "origin_candidate_id": "greens-tofu-soup-noodles",
+      "family_id": "family-home-soup-staple",
+      "status": "auto_approved",
+      "name": "青菜豆腐汤面",
+      "cuisine": "中式家常",
+      "form": "汤面",
+      "summary": "老豆腐、面条和青菜在一口锅中按顺序完成的清汤主食。",
+      "adaptation_note": "项目原创的一锅汤面标准；豆腐热透、面条无硬芯、叶菜后段熟软。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "豆制品"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "面条",
+        "老豆腐",
+        "青菜"
+      ],
+      "optional_ingredients": [
+        "鲜香菇"
+      ],
+      "generation_optional_ingredients": [
+        "鲜香菇",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "需预先泡发的干货"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方不使用需要另行提前处理的食材。"
+        }
+      ],
+      "technique": [
+        "同锅煮沸量好的水并加入老豆腐。",
+        "加入面条煮熟，后段加入青菜并煮至熟软。"
+      ],
+      "ratio_rules": [
+        "每100克干面条使用约550克汤水。",
+        "每100克干面条配约70克老豆腐和60克青菜。"
+      ],
+      "safety_rules": [
+        "老豆腐中心必须热透。",
+        "面条无硬芯，青菜洗净并煮至熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜豆腐汤面",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-tofu-soup-noodles",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "mushroom-greens-tofu-covered-rice",
+      "origin_candidate_id": "mushroom-greens-tofu-covered-rice",
+      "family_id": "family-home-covered-pot",
+      "status": "auto_approved",
+      "name": "香菇青菜豆腐饭锅",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "summary": "大米、鲜香菇与老豆腐先加盖焖煮，青菜后段加入。",
+      "adaptation_note": "项目原创的加盖饭锅标准；鲜菇出水计入液体判断，叶菜后段进入。",
+      "purposes": [
+        "pantry",
+        "fresh",
+        "batch"
+      ],
+      "protein_class": [
+        "豆制品"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
+      "core_ingredients": [
+        "大米",
+        "鲜香菇",
+        "老豆腐",
+        "青菜"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "干香菇未泡发"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方锁定鲜食用菌，不引入未计时的提前泡发步骤。"
+        }
+      ],
+      "technique": [
+        "同锅加入大米、量好的水、鲜香菇与老豆腐，加盖焖煮。",
+        "米饭接近熟透时加入青菜，继续加盖至全部熟软。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约135克可用总液体。",
+        "每100克大米配约45克老豆腐和30克鲜香菇。"
+      ],
+      "safety_rules": [
+        "米饭不得夹生，鲜香菇与老豆腐中心必须热透。",
+        "青菜洗净并焖至熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：香菇青菜豆腐饭锅",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-greens-tofu-covered-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "chicken-leg-potato-braised-rice",
+      "origin_candidate_id": "chicken-leg-potato-braised-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "鸡腿土豆焖饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "鸡腿肉、土豆与大米按固定液体比例同锅焖熟。",
+      "adaptation_note": "项目原创的鸡腿土豆焖饭标准；鸡腿块大小、中心温度和米饭熟度分别核对。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
+      "core_ingredients": [
+        "大米",
+        "鸡腿肉",
+        "土豆"
+      ],
+      "optional_ingredients": [
+        "胡萝卜"
+      ],
+      "generation_optional_ingredients": [
+        "胡萝卜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "耐煮蔬菜",
+          "replaces": [
+            "土豆"
+          ],
+          "allowed": [
+            "胡萝卜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "带骨大鸡腿"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方锁定切小块鸡腿肉，避免肉类与米饭熟度不同步。"
+        }
+      ],
+      "technique": [
+        "同锅加入大米、量好的水、鸡腿肉小块与土豆小块，加盖焖煮。",
+        "开盖核对米饭和土豆熟度，并确认鸡腿肉最厚处中心达到74摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约140克可用总液体。",
+        "每100克大米配约60克鸡腿肉和50克土豆。"
+      ],
+      "safety_rules": [
+        "鸡腿肉最厚处中心必须达到74摄氏度且无粉红生肉。",
+        "米饭和土豆不得夹生，不得使用发芽或明显变绿的土豆。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：鸡腿土豆焖饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=chicken-leg-potato-braised-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "chicken-leg-mushroom-stewed-rice",
+      "origin_candidate_id": "chicken-leg-mushroom-stewed-rice",
+      "family_id": "family-home-stewed-rice",
+      "status": "auto_approved",
+      "name": "鸡腿香菇土豆烩饭",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "summary": "鸡腿肉、鲜香菇和用户提供的土豆先煮熟，再加入熟米饭收成烩饭。",
+      "adaptation_note": "项目原创的鸡腿香菇烩饭标准；土豆是明确可选库存项，不提供时不强加。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "fresh"
+      ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 40,
+      "core_ingredients": [
+        "熟米饭",
+        "鸡腿肉",
+        "鲜香菇"
+      ],
+      "optional_ingredients": [
+        "香葱",
+        "土豆"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "土豆",
+        "口蘑",
+        "平菇"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "食用菌",
+          "replaces": [
+            "鲜香菇"
+          ],
+          "allowed": [
+            "口蘑",
+            "平菇"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把鸡腿肉、鲜香菇和用户提供的土豆小块煮至鸡腿肉中心达到74摄氏度且土豆熟软。",
+        "加入熟米饭烩至全锅滚热并吸收汤汁。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约70克汤汁。",
+        "每100克熟米饭配约50克鸡腿肉和30克鲜食用菌；使用土豆时控制在40至50克。"
+      ],
+      "safety_rules": [
+        "鸡腿肉最厚处中心必须达到74摄氏度且无粉红生肉。",
+        "鲜香菇彻底熟软；使用土豆时不得夹生且不得使用发芽土豆。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：鸡腿香菇土豆烩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=chicken-leg-mushroom-stewed-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "tomato-chicken-leg-soup-rice",
+      "origin_candidate_id": "tomato-chicken-leg-soup-rice",
+      "family_id": "family-home-soup-staple",
+      "status": "auto_approved",
+      "name": "番茄鸡腿土豆汤饭",
+      "cuisine": "中式家常",
+      "form": "汤饭",
+      "summary": "番茄、鸡腿肉和用户提供的土豆同锅煮成滚汤，再加入熟米饭。",
+      "adaptation_note": "项目原创的一锅汤饭标准；土豆为明确可选库存项，鸡腿肉先达到安全终点。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 40,
+      "core_ingredients": [
+        "熟米饭",
+        "鸡腿肉",
+        "番茄"
+      ],
+      "optional_ingredients": [
+        "青菜",
+        "土豆"
+      ],
+      "generation_optional_ingredients": [
+        "青菜",
+        "土豆",
+        "小白菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把鸡腿肉、番茄和用户提供的土豆小块煮成滚汤，确认鸡腿肉中心达到74摄氏度且土豆熟软。",
+        "加入熟米饭煮至整锅再次滚热。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约180克汤水。",
+        "每100克熟米饭配约50克鸡腿肉和60克番茄；使用土豆时控制在40至50克。"
+      ],
+      "safety_rules": [
+        "鸡腿肉最厚处中心必须达到74摄氏度且无粉红生肉。",
+        "熟米饭必须充分复热；使用土豆时不得夹生且不得使用发芽土豆。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：番茄鸡腿土豆汤饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=tomato-chicken-leg-soup-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "corn-carrot-chicken-leg-covered-rice",
+      "origin_candidate_id": "corn-carrot-chicken-leg-covered-rice",
+      "family_id": "family-home-covered-pot",
+      "status": "auto_approved",
+      "name": "玉米土豆鸡腿饭锅",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "summary": "玉米、鸡腿肉与大米同锅加盖，用户的土豆可在明确替换位替代胡萝卜。",
+      "adaptation_note": "项目原创的加盖饭锅标准；土豆只替代胡萝卜，不与其同时强制出现。",
+      "purposes": [
+        "pantry",
+        "fresh",
+        "batch"
+      ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
+      "core_ingredients": [
+        "大米",
+        "鸡腿肉",
+        "玉米",
+        "胡萝卜"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "土豆"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "配色蔬菜",
+          "replaces": [
+            "胡萝卜"
+          ],
+          "allowed": [
+            "土豆"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入替换位。"
+        }
+      ],
+      "technique": [
+        "同锅加入大米、量好的水、鸡腿肉、玉米和胡萝卜；用户提供土豆时以土豆替代胡萝卜。",
+        "加盖焖至米饭和蔬菜熟透，并确认鸡腿肉中心达到74摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约140克可用总液体。",
+        "每100克大米配约55克鸡腿肉和合计45克玉米与胡萝卜或土豆。"
+      ],
+      "safety_rules": [
+        "鸡腿肉最厚处中心必须达到74摄氏度且无粉红生肉。",
+        "米饭不得夹生；使用土豆时须熟软且不得使用发芽土豆。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：玉米土豆鸡腿饭锅",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=corn-carrot-chicken-leg-covered-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "cabbage-potato-chicken-leg-braised-noodles",
+      "origin_candidate_id": "cabbage-potato-chicken-leg-braised-noodles",
+      "family_id": "family-northern-braised-noodles",
+      "status": "auto_approved",
+      "name": "白菜土豆鸡腿焖面",
+      "cuisine": "中式家常",
+      "form": "焖面",
+      "summary": "鸡腿肉与土豆先煮，面条铺入同锅焖熟，白菜后段加入。",
+      "adaptation_note": "项目原创的一锅焖面标准；复用既有北方焖面家族，不冒充具体地域传统成品。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "fresh"
+      ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 45,
+      "core_ingredients": [
+        "面条",
+        "鸡腿肉",
+        "白菜",
+        "土豆"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "娃娃菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "白菜",
+          "replaces": [
+            "白菜"
+          ],
+          "allowed": [
+            "娃娃菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把鸡腿肉与土豆煮至接近熟透。",
+        "铺入面条加盖焖至无硬芯，后段加入白菜，并确认鸡腿肉中心达到74摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克干面条使用约180克焖煮液体。",
+        "每100克干面条配约60克鸡腿肉和合计90克白菜土豆。"
+      ],
+      "safety_rules": [
+        "鸡腿肉最厚处中心必须达到74摄氏度且无粉红生肉。",
+        "面条和土豆不得夹生，白菜洗净并熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：白菜土豆鸡腿焖面",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-potato-chicken-leg-braised-noodles",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-sausage-fried-rice",
+      "origin_candidate_id": "greens-sausage-fried-rice",
+      "family_id": "family-home-fried-rice",
+      "status": "auto_approved",
+      "name": "青菜香肠炒饭",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "summary": "香肠充分加热后与熟米饭同锅炒热，青菜在后段加入。",
+      "adaptation_note": "项目原创的叶菜香肠炒饭标准；按香肠标签区分生制与预熟，并控制额外调味。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "fresh"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "青菜",
+        "香肠"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "不明熟制状态的香肠"
+          ],
+          "reason_type": "safety",
+          "reason": "无法确认生制或预熟状态时不得缩短熟制过程。"
+        }
+      ],
+      "technique": [
+        "同锅把香肠充分炒热；生制香肠须确认中心达到71摄氏度。",
+        "加入熟米饭炒热，后段加入青菜并炒至熟软。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭配约25克香肠和35克青菜。",
+        "先核对香肠标签咸度，再决定调味用量。"
+      ],
+      "safety_rules": [
+        "生制香肠中心必须达到71摄氏度，预熟香肠也必须彻底热透。",
+        "青菜洗净并炒至熟软，冷藏熟米饭使用时必须充分复热。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜香肠炒饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-sausage-fried-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-minced-pork-braised-rice",
+      "origin_candidate_id": "greens-minced-pork-braised-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "青菜肉末焖饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "猪肉末炒散后与大米同锅焖煮，青菜后段加入。",
+      "adaptation_note": "项目原创的叶菜肉末焖饭标准；肉末熟制终点与米饭熟度分别核对。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 35,
+      "core_ingredients": [
+        "大米",
+        "青菜",
+        "猪肉末"
+      ],
+      "optional_ingredients": [
+        "鲜香菇"
+      ],
+      "generation_optional_ingredients": [
+        "鲜香菇",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "大块猪肉"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方锁定猪肉末，避免肉块中心熟制与米饭时间失配。"
+        }
+      ],
+      "technique": [
+        "同锅把猪肉末炒散，再加入大米和量好的水加盖焖煮。",
+        "后段加入青菜，继续焖至米饭熟透且猪肉末中心达到71摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约135克可用总液体。",
+        "每100克大米配约45克猪肉末和40克青菜。"
+      ],
+      "safety_rules": [
+        "猪肉末中心必须达到71摄氏度且无粉红生肉。",
+        "米饭不得夹生，青菜洗净并焖至熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜肉末焖饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-minced-pork-braised-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "cabbage-egg-soup-rice",
+      "origin_candidate_id": "cabbage-egg-soup-rice",
+      "family_id": "family-home-soup-staple",
+      "status": "auto_approved",
+      "name": "青菜鸡蛋汤饭",
+      "cuisine": "中式家常",
+      "form": "汤饭",
+      "summary": "白菜或用户提供的青菜煮软后加入熟米饭，最后将鸡蛋煮至全凝固。",
+      "adaptation_note": "项目原创的一锅汤饭标准；青菜是白菜的明确替换项，输入青菜时不会被列为未使用。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "蛋"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 25,
+      "core_ingredients": [
+        "熟米饭",
+        "白菜",
+        "鸡蛋"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "娃娃菜",
+        "青菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "白菜",
+          "replaces": [
+            "白菜"
+          ],
+          "allowed": [
+            "娃娃菜",
+            "青菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "流心鸡蛋"
+          ],
+          "reason_type": "safety",
+          "reason": "本汤饭不提供流心终点。"
+        }
+      ],
+      "technique": [
+        "同锅把白菜或用户提供的青菜煮软，并加入熟米饭充分复热。",
+        "淋入鸡蛋液，在滚汤中煮至蛋白和蛋黄完全凝固。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约180克汤水。",
+        "每100克熟米饭配约35克蛋液和60克白菜或替代青菜。"
+      ],
+      "safety_rules": [
+        "鸡蛋必须熟透，蛋白和蛋黄完全凝固，不得流心。",
+        "熟米饭必须充分复热，青菜等叶菜洗净并煮熟。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜鸡蛋汤饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-egg-soup-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-tofu-vermicelli-pot",
+      "origin_candidate_id": "greens-tofu-vermicelli-pot",
+      "family_id": "family-home-vermicelli-pot",
+      "status": "auto_approved",
+      "name": "青菜豆腐粉丝煲",
+      "cuisine": "中式家常",
+      "form": "粉丝煲",
+      "summary": "老豆腐、粉丝和青菜在同一口锅中完成的汤汁主食。",
+      "adaptation_note": "项目原创的一锅粉丝煲标准；粉丝吸水、豆腐完整度和叶菜熟度分别控制。",
+      "purposes": [
+        "pantry",
+        "quick",
+        "comfort"
+      ],
+      "protein_class": [
+        "豆制品"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 30,
+      "core_ingredients": [
+        "粉丝",
+        "青菜",
+        "老豆腐"
+      ],
+      "optional_ingredients": [
+        "鲜香菇"
+      ],
+      "generation_optional_ingredients": [
+        "鲜香菇",
+        "小白菜",
+        "娃娃菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "娃娃菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "需提前泡发的粉丝"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方不隐藏提前处理，使用可直接入锅的干粉丝。"
+        }
+      ],
+      "technique": [
+        "同锅煮沸量好的水并加入老豆腐热透。",
+        "加入粉丝煮软，后段加入青菜并煮至熟软。"
+      ],
+      "ratio_rules": [
+        "每50克干粉丝使用约450克汤水。",
+        "每50克干粉丝配约100克老豆腐和80克青菜。"
+      ],
+      "safety_rules": [
+        "老豆腐中心必须热透，粉丝无硬芯。",
+        "青菜洗净并煮至熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜豆腐粉丝煲",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-tofu-vermicelli-pot",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "greens-chicken-leg-soup-noodles",
+      "origin_candidate_id": "greens-chicken-leg-soup-noodles",
+      "family_id": "family-home-soup-staple",
+      "status": "auto_approved",
+      "name": "青菜鸡腿汤面",
+      "cuisine": "中式家常",
+      "form": "汤面",
+      "summary": "鸡腿肉先在同锅煮至接近安全终点，再加入面条与青菜。",
+      "adaptation_note": "项目原创的一锅汤面标准；叶菜后段加入，鸡腿肉中心温度独立核对。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "fresh"
+      ],
+      "protein_class": [
+        "鸡"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 35,
+      "core_ingredients": [
+        "面条",
+        "青菜",
+        "鸡腿肉"
+      ],
+      "optional_ingredients": [
+        "鲜香菇"
+      ],
+      "generation_optional_ingredients": [
+        "鲜香菇",
+        "小白菜",
+        "小油菜"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "青菜"
+          ],
+          "allowed": [
+            "小白菜",
+            "小油菜"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "带骨大鸡腿"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方锁定切小块鸡腿肉，以便与面条时限同步。"
+        }
+      ],
+      "technique": [
+        "同锅把鸡腿肉小块煮至接近安全终点。",
+        "加入面条煮熟，后段加入青菜，并确认鸡腿肉最厚处中心达到74摄氏度。"
+      ],
+      "ratio_rules": [
+        "每100克干面条使用约550克汤水。",
+        "每100克干面条配约70克鸡腿肉和70克青菜。"
+      ],
+      "safety_rules": [
+        "鸡腿肉最厚处中心必须达到74摄氏度且无粉红生肉。",
+        "面条无硬芯，青菜洗净并煮至熟软。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：青菜鸡腿汤面",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-chicken-leg-soup-noodles",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "green-bean-pork-rib-braised-rice",
+      "origin_candidate_id": "green-bean-pork-rib-braised-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "豆角排骨焖饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "猪肋排先煮至接近熟透，再与大米和豆角或土豆同锅焖熟。",
+      "adaptation_note": "项目原创的排骨耐煮蔬菜焖饭标准；豆角与土豆使用同一明确替换位。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 55,
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "豆角"
+      ],
+      "optional_ingredients": [
+        "鲜香菇"
+      ],
+      "generation_optional_ingredients": [
+        "鲜香菇",
+        "土豆"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "耐煮蔬菜",
+          "replaces": [
+            "豆角"
+          ],
+          "allowed": [
+            "土豆"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "超大块排骨"
+          ],
+          "reason_type": "timing",
+          "reason": "排骨块过大会使肉类中心终点与米饭熟度不同步。"
+        }
+      ],
+      "technique": [
+        "同锅把猪肋排煮至接近熟透，再加入大米和豆角；用户提供土豆时以土豆替代豆角。",
+        "加入量好的水加盖焖至米饭熟透、排骨中心达到74摄氏度，使用豆角时确认完全熟透。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约145克可用总液体。",
+        "每100克大米配约70克猪肋排和55克豆角或土豆。"
+      ],
+      "safety_rules": [
+        "排骨最厚可食部分中心必须达到74摄氏度。",
+        "豆角必须完全熟透、失去生绿色且无豆腥味；使用土豆时须熟软且不得发芽变绿。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：豆角排骨焖饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "potato-pork-rib-stewed-rice",
+      "origin_candidate_id": "potato-pork-rib-stewed-rice",
+      "family_id": "family-home-stewed-rice",
+      "status": "auto_approved",
+      "name": "土豆排骨烩饭",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "summary": "猪肋排与土豆或豆角炖至安全终点，再加入熟米饭完成烩制。",
+      "adaptation_note": "项目原创的排骨烩饭标准；土豆与豆角双向替换，熟米饭后段充分复热。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 55,
+      "core_ingredients": [
+        "熟米饭",
+        "猪肋排",
+        "土豆"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "豆角"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "耐煮蔬菜",
+          "replaces": [
+            "土豆"
+          ],
+          "allowed": [
+            "豆角"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把猪肋排与土豆炖煮；用户提供豆角时以豆角替代土豆并煮至完全熟透。",
+        "确认排骨中心达到74摄氏度后加入熟米饭，烩至充分复热并吸收汤汁。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约90克排骨汤汁。",
+        "每100克熟米饭配约60克猪肋排和50克土豆或豆角。"
+      ],
+      "safety_rules": [
+        "排骨最厚可食部分中心必须达到74摄氏度。",
+        "豆角必须完全熟透、失去生绿色且无豆腥味；使用土豆时须熟软且不得发芽变绿。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：土豆排骨烩饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=potato-pork-rib-stewed-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "tomato-potato-pork-rib-covered-rice",
+      "origin_candidate_id": "tomato-potato-pork-rib-covered-rice",
+      "family_id": "family-home-covered-pot",
+      "status": "auto_approved",
+      "name": "番茄土豆排骨饭锅",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "summary": "番茄汁计入总液体，猪肋排与大米、土豆或豆角同锅加盖完成。",
+      "adaptation_note": "项目原创的番茄排骨饭锅标准；番茄出汁计入液体，耐煮蔬菜走明确替换。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 60,
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "番茄",
+        "土豆"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "豆角"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "耐煮蔬菜",
+          "replaces": [
+            "土豆"
+          ],
+          "allowed": [
+            "豆角"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "额外番茄汁"
+          ],
+          "reason_type": "texture_water",
+          "reason": "未计入总液体的番茄汁会使米饭过湿。"
+        }
+      ],
+      "technique": [
+        "同锅把猪肋排煮至接近熟透，再加入大米、番茄和土豆；用户提供豆角时以豆角替代土豆。",
+        "计入番茄汁后补足总液体，加盖焖至米饭熟透、排骨中心达到74摄氏度，豆角使用时完全熟透。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用包含番茄汁在内约145克可用总液体。",
+        "每100克大米配约70克猪肋排和50克土豆或豆角。"
+      ],
+      "safety_rules": [
+        "排骨最厚可食部分中心必须达到74摄氏度。",
+        "豆角必须完全熟透、失去生绿色且无豆腥味；使用土豆时须熟软且不得发芽变绿。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：番茄土豆排骨饭锅",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=tomato-potato-pork-rib-covered-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "mushroom-green-bean-pork-rib-braised-rice",
+      "origin_candidate_id": "mushroom-green-bean-pork-rib-braised-rice",
+      "family_id": "family-home-braised-rice",
+      "status": "auto_approved",
+      "name": "香菇豆角排骨焖饭",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "summary": "猪肋排、鲜香菇与豆角或土豆按顺序同锅焖成主餐。",
+      "adaptation_note": "项目原创的香菇排骨焖饭标准；鲜香菇出水纳入液体判断，豆角与土豆双向可达。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "一般",
+      "total_time_minutes": 60,
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "鲜香菇",
+        "豆角"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "土豆"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "耐煮蔬菜",
+          "replaces": [
+            "豆角"
+          ],
+          "allowed": [
+            "土豆"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "干香菇未泡发"
+          ],
+          "reason_type": "timing",
+          "reason": "本配方锁定鲜香菇，不隐藏提前泡发步骤。"
+        }
+      ],
+      "technique": [
+        "同锅把猪肋排煮至接近熟透，再加入大米、鲜香菇和豆角；用户提供土豆时以土豆替代豆角。",
+        "加入量好的水加盖焖至米饭熟透、排骨中心达到74摄氏度，使用豆角时确认完全熟透。"
+      ],
+      "ratio_rules": [
+        "每100克大米使用约145克可用总液体。",
+        "每100克大米配约70克猪肋排和合计65克鲜香菇与豆角或土豆。"
+      ],
+      "safety_rules": [
+        "排骨最厚可食部分中心必须达到74摄氏度。",
+        "豆角必须完全熟透、失去生绿色且无豆腥味；使用土豆时须熟软且不得发芽变绿。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：香菇豆角排骨焖饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
+        }
+      ]
+    },
+    {
+      "id": "cabbage-potato-pork-rib-soup-rice",
+      "origin_candidate_id": "cabbage-potato-pork-rib-soup-rice",
+      "family_id": "family-home-soup-staple",
+      "status": "auto_approved",
+      "name": "白菜土豆排骨汤饭",
+      "cuisine": "中式家常",
+      "form": "汤饭",
+      "summary": "猪肋排与土豆或豆角先炖熟，再加入白菜和熟米饭煮成汤饭。",
+      "adaptation_note": "项目原创的排骨汤饭标准；耐煮蔬菜双向替换，白菜与熟米饭后段加入。",
+      "purposes": [
+        "pantry",
+        "comfort",
+        "batch"
+      ],
+      "protein_class": [
+        "猪"
+      ],
+      "light_level": "清淡",
+      "total_time_minutes": 55,
+      "core_ingredients": [
+        "熟米饭",
+        "猪肋排",
+        "白菜",
+        "土豆"
+      ],
+      "optional_ingredients": [
+        "香葱"
+      ],
+      "generation_optional_ingredients": [
+        "香葱",
+        "豆角"
+      ],
+      "generation_liquid_ingredients": [
+        "水"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "耐煮蔬菜",
+          "replaces": [
+            "土豆"
+          ],
+          "allowed": [
+            "豆角"
+          ]
+        }
+      ],
+      "discouraged": [
+        {
+          "ingredients": [
+            "发芽土豆"
+          ],
+          "reason_type": "safety",
+          "reason": "发芽或明显变绿的土豆不进入本配方。"
+        }
+      ],
+      "technique": [
+        "同锅把猪肋排与土豆炖煮；用户提供豆角时以豆角替代土豆并煮至完全熟透。",
+        "确认排骨中心达到74摄氏度后加入白菜和熟米饭，煮至整锅滚热。"
+      ],
+      "ratio_rules": [
+        "每100克熟米饭使用约200克排骨汤水。",
+        "每100克熟米饭配约60克猪肋排和合计80克白菜与土豆或豆角。"
+      ],
+      "safety_rules": [
+        "排骨最厚可食部分中心必须达到74摄氏度。",
+        "豆角必须完全熟透、失去生绿色且无豆腥味；使用土豆时须熟软且不得发芽变绿。"
+      ],
+      "source_refs": [
+        {
+          "usage": "approved",
+          "title": "一锅出原创标准配方：白菜土豆排骨汤饭",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-potato-pork-rib-soup-rice",
+          "license": "一锅出项目原创标准配方，保留所有权利",
+          "attribution": "一锅出项目",
+          "retrieved_at": "2026-07-20"
         }
       ]
     }

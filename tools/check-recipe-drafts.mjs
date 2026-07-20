@@ -24,10 +24,12 @@ if (draftEntries.length !== 30) {
   errors.push('draft library must contain exactly 30 drafts');
 }
 if (draftEntries.some(draft => draft?.status !== 'draft')) errors.push('draft library must contain only draft entries');
-if (productionFamilies.length !== 15) errors.push('production library must contain exactly 15 families');
-if (productionRecipes.length !== 42) errors.push('production library must contain exactly 42 recipes');
-if (productionRecipes.some(recipe => recipe?.status !== 'approved')) {
-  errors.push('production library recipes must all be approved');
+if (productionFamilies.length !== 21) errors.push('production library must contain exactly 21 families');
+if (productionRecipes.length !== 72) errors.push('production library must contain exactly 72 recipes');
+const approvedCount = productionRecipes.filter(recipe => recipe?.status === 'approved').length;
+const autoApprovedCount = productionRecipes.filter(recipe => recipe?.status === 'auto_approved').length;
+if (approvedCount !== 12 || autoApprovedCount !== 60) {
+  errors.push(`production library must contain exactly 12 approved (human-approved) and 60 auto_approved (auto-gate passed, pending human review) recipes; got ${approvedCount} approved and ${autoApprovedCount} auto_approved`);
 }
 if (draftEntries.some(draft => productionRecipes.some(recipe => recipe?.id === draft?.id))) {
   errors.push('draft ids must not overlap production recipe ids');

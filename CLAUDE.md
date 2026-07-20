@@ -1,10 +1,10 @@
 # 一锅出 — 项目说明（AI agent 与开发者必读）
 
-「今天吃什么」家常菜营养配餐 PWA。菜谱由 LLM(DeepSeek) 生成，营养走**两层权威查表纠偏**：① worker 端用台湾食药署全量库(2181 条)覆盖命中食材 → ② 前端本地 `FOODS` 库兜底 → ③ 都没命中才标 AI 估算。
+按需打开的家常一锅主餐 PWA：用户选择这次做饭目的、份数、现有食材和忌口，快速得到一锅/一碗方案；不做每日打卡、周营养累计或长期饮食追踪。菜谱由 LLM(DeepSeek) 生成，营养走**两层权威查表纠偏**：① worker 端用台湾食药署全量库(2181 条)覆盖命中食材 → ② 前端本地 `FOODS` 库兜底 → ③ 都没命中才标 AI 估算。
 - 前端：`index.html`（单文件，含本地 `FOODS` 库 + 三层取值逻辑）
 - 云端代理：`worker/src/worker.js`（Cloudflare Pages Functions，持 DeepSeek key + 第二层台湾库兜底 `enrichWithTw`）
 - 权威数据底座：`tools/data/foods-tw.json`（台湾食药署库简体版 2181 条，部署时复制进 `dist/` 供 worker `ASSETS.fetch` 读取）；构建脚本 `tools/build-foods-tw.mjs`
-- 本地调试代理：`ai_proxy.py`（localhost:8765）。⚠️ 它自带一份**独立的旧 `RECIPE_SYSTEM`**，已与 worker 漂移——**生成/菜系逻辑的权威源是 `worker/src/worker.js`，改 prompt 只动它**；本地经 ai_proxy 调试看到的菜系/形式行为可能与线上不一致。
+- 本地调试代理：`ai_proxy.py`（localhost:8765）。生成契约的权威源仍是 `worker/src/worker.js`；涉及份数、场景或 prompt 时，需要同步更新本地代理并跑语法检查，避免本地/线上行为漂移。
 - 线上：https://yiguochu.pages.dev
 
 ---
@@ -24,7 +24,7 @@
 2. **逐条标注来源**：在该批条目上方注释写明来源（USDA FDC ID / 成分表版本）。
 3. **基线一致**：中式家常食材优先《中国食物成分表》；中西差异大的项（如大米钙、牛里脊热量）选定一个基线并全库统一，不要混用。
 4. **生/熟、部位分清**：生米≠熟饭（≈3 倍差）。同名不同态要么单列条目、要么用 `FOOD_ALIAS` 精确钉死，严禁让 `baseFoodName` 把生的错配成熟的。
-5. **调味料归零**：盐/酱油/姜/葱/蒜/料酒/油等用量小、营养可忽略的辅料，加进 `SEASONINGS`，不计入营养、不算估算。
+5. **只允许小用量香辛料归零**：姜/葱/蒜/香料/醋/料酒等可放入 `SEASONINGS`；油、糖、盐、酱油、豆瓣酱等必须查库或诚实标估算，不能归零，否则会系统性低估热量和钠。
 6. **查不到就诚实标估算**：长尾/冷僻食材若无权威值，保留 `est=true`，不要伪装成权威值。
 
 > 一句话铁律：**宁可标"估算"，也不许把蒙的数字当权威。**
@@ -35,7 +35,7 @@
 
 1. **RecipeDB 只用于研究**：可用来发现菜名、地域和技法，但不得把其数据、原文或完整做法复制进生产库、线上运行包或生成请求。RecipeDB 的许可带有非商业和相同方式共享限制，不能当作生产授权。
 2. **代码许可不等于菜谱许可**：GitHub 仓库的代码 license 只覆盖该仓库代码，不自动授权仓库抓取、汇总或引用的第三方菜谱内容。每条菜谱必须单独核验原始来源与许可。
-3. **approved 基础菜谱必须可追溯**：每条 `status: "approved"` 的基础菜谱都必须至少有一条 `source_refs[].usage: "approved"`，且同时包含直达原始内容的 HTTPS `url`、`title`、`license`、`attribution` 和 `retrieved_at`；缺一项不得上线。
+3. **approved 基础菜谱必须可追溯**：每条 `status: "approved"` 的基础菜谱都必须至少有一条 `source_refs[].usage: "approved"`，且同时包含直达原始内容的 HTTPS `url`、`title`、`license`、`attribution` 和 `retrieved_at`；缺一项不得上线。`auto_approved` 为自动闸门通过档（传统地方菜晋升产物，待人工评审），不要求外部溯源五要素，但不得对外宣称人工批准。
 4. **替换必须显式**：原料替换只能写进结构化 `substitution_slots`，明确 `replaces` 和 `allowed`；不得让模型自行把未批准食材当作等价替换。
 5. **提交或部署前必跑**：`node tools/check-recipes.mjs`。菜谱库体检不通过时禁止提交和部署。
 6. **Phase A 仅限预览**：只能部署到非 `main` 的 `recipe-validation` preview branch，禁止部署或提升到 production `main`。Wrangler 的 `--commit-message` 必须使用 ASCII。
@@ -79,7 +79,7 @@ Cloudflare Pages 同源部署。简版：
 1. 重建 `dist/`：复制前端文件 + `tools/data/foods-tw.json` + `tools/data/recipe-library.json` + `worker/src/worker.js`→`dist/_worker.js`；给 `dist/sw.js` 缓存版本注入时间戳(自动清旧缓存)。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
 2. Phase A 只允许预览部署：`npx wrangler pages deploy dist --project-name yiguochu --branch recipe-validation --commit-dirty=true --commit-message "recipe validation preview"`；禁止使用 `--branch main` 或提升到 production。
 3. ⚠️ `--commit-message` 必须用 **ASCII**——git 历史里有中文，wrangler 自动读取会触发 Cloudflare 的 "Invalid commit message, must be valid UTF-8" 报错。
-4. 部署前必须运行 `node tools/check-recipes.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`recipeFamilies: 9`、`baseRecipes: 12`。
+4. 部署前必须运行 `node tools/check-recipes.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`recipeFamilies: 21`、`baseRecipes: 72`（72 = 12 道 `approved` 人工批准 + 60 道 `auto_approved` 自动闸门通过待评审，与 `tools/lib/recipe-library-validator.mjs` 口径一致）。
 5. `dist/` 和 `worker/.wrangler/` 已 gitignore，不提交。
 
 ---
@@ -97,7 +97,7 @@ Cloudflare Pages 同源部署。简版：
 - **两层权威库已上线**：worker 端台湾食药署全量库 2181 条(`tools/data/foods-tw.json`, OGDL-Taiwan-1.0) + 前端本地 `FOODS` 161 条。
 - 前端本地库实测命中率 ~93%(按克重 ~95% 权威值)；worker 第二层再覆盖前端没有的长尾食材(实测一道菜可命中 4+ 项台湾权威)。
 - 本地 `FOODS` 新增的 10 条主料 + 辣白菜已联网核对(USDA/中国表)，校正过 5 项偏差。
-- **署名义务(待加到 UI)**：台湾库 OGDL-Taiwan-1.0 要求标注来源——需在 app(关于页/营养面板注脚)写明「营养数据部分采自台湾卫福部食药署 食品营养成分资料库」。
+- **署名义务（已落地 index.html）**：台湾库 OGDL-Taiwan-1.0 要求标注来源——index.html 营养面板注脚已写明「营养数据部分采自 台湾卫生福利部食品药物管理署『食品营养成分资料库』（依政府资料开放授权条款 OGDL-Taiwan-1.0）」，改动营养面板时不得删除。
 - **待办/可优化**：
   - worker 命中靠精确/基名匹配，加「大陆↔台湾别名表」(西红柿→番茄、土豆→马铃薯、大米→白米…)可提升命中率。
   - worker 层暂未做调味料归零(盐等靠前端 `isSeasoning` 兜)，可在 worker 也加一致处理。

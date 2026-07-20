@@ -9,10 +9,12 @@ export function validateRecipeCandidateReleaseGate(ledger, production) {
   }
   const families = Array.isArray(production?.families) ? production.families : [];
   const recipes = Array.isArray(production?.recipes) ? production.recipes : [];
-  if (families.length !== 15) errors.push('production library must contain exactly 15 families');
-  if (recipes.length !== 42) errors.push('production library must contain exactly 42 recipes');
-  if (recipes.some(recipe => recipe?.status !== 'approved')) {
-    errors.push('production library recipes must all be approved');
+  if (families.length !== 21) errors.push('production library must contain exactly 21 families');
+  if (recipes.length !== 72) errors.push('production library must contain exactly 72 recipes');
+  const approvedCount = recipes.filter(recipe => recipe?.status === 'approved').length;
+  const autoApprovedCount = recipes.filter(recipe => recipe?.status === 'auto_approved').length;
+  if (approvedCount !== 12 || autoApprovedCount !== 60) {
+    errors.push(`production library must contain exactly 12 approved (human-approved) and 60 auto_approved (auto-gate passed, pending human review) recipes; got ${approvedCount} approved and ${autoApprovedCount} auto_approved`);
   }
   return errors;
 }
