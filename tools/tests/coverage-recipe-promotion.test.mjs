@@ -486,6 +486,38 @@ test('generic greens stay explicitly used through five real selector rounds', ()
   assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
 });
 
+test('ribs pair with both potato and green beans through two five-round journeys', () => {
+  const current = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const staging = JSON.parse(fs.readFileSync(new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8'));
+  const library = {
+    schema_version: 1,
+    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
+    families: [...current.families, ...staging.families],
+    recipes: [...current.recipes, ...staging.recipes],
+  };
+  const expectedIds = [
+    'green-bean-pork-rib-braised-rice',
+    'potato-pork-rib-stewed-rice',
+    'tomato-potato-pork-rib-covered-rice',
+    'mushroom-green-bean-pork-rib-braised-rice',
+    'cabbage-potato-pork-rib-soup-rice',
+  ];
+  assert.deepEqual(staging.recipes.slice(25, 30).map(recipe => recipe.id), expectedIds);
+  assert.equal(canonicalRecipeIngredient('排骨', library.ingredient_aliases), '猪肋排');
+  assert.deepEqual(validateRecipeLibrary(library), []);
+  for (const recipe of staging.recipes.slice(25, 30)) {
+    assert.deepEqual(recipe.protein_class, ['猪'], recipe.id);
+    assert.match(recipe.safety_rules.join('；'), /排骨.*74摄氏度/u, recipe.id);
+    assert.match(recipe.safety_rules.join('；'), /豆角.*熟透/u, recipe.id);
+  }
+
+  for (const pantry of [['排骨', '土豆'], ['排骨', '豆角']]) {
+    assertTargetRecipesCoverPantry(library, expectedIds, pantry);
+    const journey = runFiveRoundJourney(library, pantry);
+    assert.ok(new Set(journey.map(item => item.recipe.family_id)).size >= 4);
+  }
+});
+
 function gateRecipeIds(groupId) {
   const groups = [
     ['potato-green-bean-ribs', [
@@ -506,4 +538,43 @@ test('coverage draft checker reports thirty research drafts', () => {
   assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`);
   assert.match(run.stdout, /覆盖扩库草案 30 道 · 生产可用 0 道/);
   assert.match(run.stdout, /✅ 覆盖扩库草案体检通过/);
+});
+
+test('real coverage files pass the complete thirty-recipe promotion gate', async () => {
+  const gate = await loadGate();
+  assert.ok(gate);
+  const candidates = JSON.parse(fs.readFileSync(
+    new URL('../data/coverage-recipe-candidates.json', import.meta.url), 'utf8',
+  ));
+  const drafts = JSON.parse(fs.readFileSync(
+    new URL('../data/coverage-recipe-drafts.json', import.meta.url), 'utf8',
+  ));
+  const manifest = JSON.parse(fs.readFileSync(
+    new URL('../data/coverage-recipe-promotions.json', import.meta.url), 'utf8',
+  ));
+  const current = JSON.parse(fs.readFileSync(
+    new URL('../data/recipe-library.json', import.meta.url), 'utf8',
+  ));
+  const staging = JSON.parse(fs.readFileSync(
+    new URL('../data/coverage-recipe-production.json', import.meta.url), 'utf8',
+  ));
+  const production = {
+    schema_version: current.schema_version,
+    ingredient_aliases: { ...current.ingredient_aliases, ...staging.ingredient_aliases },
+    families: [...current.families, ...staging.families],
+    recipes: [...current.recipes, ...staging.recipes],
+  };
+
+  assert.deepEqual(gate.validateCoverageRecipePromotion({
+    candidates,
+    drafts,
+    promotions: manifest.promotions,
+    production,
+  }), []);
+
+  const checker = new URL('../check-coverage-recipe-promotion.mjs', import.meta.url);
+  const run = spawnSync(process.execPath, [fileURLToPath(checker)], { encoding: 'utf8' });
+  assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`);
+  assert.match(run.stdout, /覆盖扩库晋升 30\/30 · 目标旅程 7\/7/);
+  assert.match(run.stdout, /✅ 覆盖扩库晋升闸门通过/);
 });
