@@ -137,7 +137,8 @@ test('preview uses only its same-origin generation endpoint', () => {
 
 test('swap copy no longer promises every pantry item is used', () => {
   assert.doesNotMatch(html, /换菜会一直带着家里的食材|换菜时一直带着/);
-  assert.equal((html.match(/会优先使用，搭不上的会说明/g) || []).length, 2);
+  assert.equal((html.match(/会优先使用，搭不上的会说明/g) || []).length, 1);
+  assert.match(html, /1–6 种会作为本锅必用食材；超过 6 种会先分组，再由你选择这一锅/);
 });
 
 test('safeHttpUrl accepts direct HTTPS and rejects unsafe URL forms', () => {
@@ -273,6 +274,138 @@ test('validation flags are a hard score failure', () => {
       validationFlags:['high_risk_not_cooked'] });
   })())`));
   assert.equal(score.ok, false);
+});
+
+test('an undersized empty-pantry meal is classified as portion_too_small instead of unsafe_recipe', async () => {
+  const tooSmall = meal({
+    base_recipe_id: 'greens-tofu-vermicelli-pot',
+    ingredients: ['粉丝', '青菜', '老豆腐'].map(name => ({
+      name, grams: 100, kcal: 200, p: 8, fb: 2, mg: 1, k: 1, ca: 1,
+      fe: 1, zn: 1, na: 1, vc: 1, vd: 0, w3: 0,
+    })),
+  });
+  const { context } = loadFrontend([{ body: tooSmall }]);
+  await assert.rejects(
+    evaluate(context, `(() => {
+      state.profile = { purpose:'quick', servings:'2', pantry:'', dislikes:'' };
+      return fetchRealDish({});
+    })()`),
+    error => error?.code === 'portion_too_small',
+  );
+});
+
+test('pantry grouping response keeps the structured plan and renders choices', async () => {
+  const pantryPlan = {
+    original: ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜'],
+    groups: [
+      { recipe_id:'a', recipe_name:'番茄鸡蛋焖饭', cuisine:'中式家常', items:['鸡蛋','西红柿','土豆'], leftovers:['鸡胸肉','西兰花','豆腐','胡萝卜'], coverage:3, total:7 },
+      { recipe_id:'b', recipe_name:'西兰花鸡肉饭锅', cuisine:'中式家常', items:['鸡胸肉','西兰花','胡萝卜'], leftovers:['鸡蛋','西红柿','土豆','豆腐'], coverage:3, total:7 },
+    ],
+    unplanned: ['豆腐'],
+  };
+  const { context, root } = loadFrontend([{ status:409, body:{
+    code:'pantry_needs_grouping',
+    error:'这些食材需要先分组',
+    pantry_plan: pantryPlan,
+  } }]);
+  await assert.rejects(
+    evaluate(context, `fetchRealDish({})`),
+    error => error?.code === 'pantry_needs_grouping' && error?.pantryPlan?.groups?.length === 2,
+  );
+  evaluate(context, `showGenerationFailure(Object.assign(new Error('plan'), {
+    code:'pantry_needs_grouping', pantryPlan:${JSON.stringify(pantryPlan)}, retryable:false
+  }))`);
+  assert.equal(evaluate(context, `state.view`), 'pantry-plan');
+  assert.match(root.innerHTML, /先选这一锅用什么/);
+  assert.match(root.innerHTML, /本锅使用 3\/7 种/);
+  assert.match(root.innerHTML, /番茄鸡蛋焖饭/);
+  assert.match(root.innerHTML, /西兰花鸡肉饭锅/);
+  assert.match(root.innerHTML, /data-act="choose-pantry-group"/);
+});
+
+test('more than twenty pantry items are blocked locally without silently truncating or calling the API', async () => {
+  const pantry = Array.from({ length:21 }, (_, index) => `食材${index + 1}`).join(',');
+  const { context, calls, root } = loadFrontend();
+  await evaluate(context, `(async () => {
+    state.profile.pantry = ${JSON.stringify(pantry)};
+    await runGenerate({ profile:state.profile });
+  })()`);
+  assert.equal(calls.length, 0);
+  assert.equal(evaluate(context, `state.view`), 'gen-failed');
+  assert.match(root.innerHTML, /一次最多填写 20 种/);
+  assert.equal(evaluate(context, `state.profile.pantry.split(',').length`), 21);
+});
+
+test('choosing a pantry group sends only that group while preserving the original coverage denominator', async () => {
+  const plan = {
+    original:['鸡蛋','西红柿','土豆','豆腐','白菜','玉米','香菇'],
+    groups:[{ recipe_id:'a', recipe_name:'白菜豆腐饭', cuisine:'中式家常', items:['豆腐','白菜','玉米','香菇'], leftovers:['鸡蛋','西红柿','土豆'], coverage:4, total:7 }],
+    unplanned:[],
+  };
+  const responseMeal = meal({
+    used_pantry:['豆腐','白菜','玉米','香菇'],
+    ingredients:['豆腐','白菜','玉米','香菇','大米'].map(name => ({
+      name, grams:100, kcal:260, p:12, fb:3, mg:1, k:1, ca:1,
+      fe:1, zn:1, na:1, vc:1, vd:0, w3:0,
+    })),
+  });
+  const { context, calls } = loadFrontend([{ body:responseMeal }]);
+  const dish = JSON.parse(await evaluate(context, `(async () => {
+    state.profile.pantry = '鸡蛋, 西红柿, 土豆, 豆腐, 白菜, 玉米, 香菇';
+    return JSON.stringify(await fetchRealDish({
+      pantryOverride:['豆腐','白菜','玉米','香菇'],
+      pantryOriginal:${JSON.stringify(plan.original)},
+      selectedBaseRecipeId:'a'
+    }));
+  })()`));
+  const requestBody = JSON.parse(calls[0].init.body);
+  assert.deepEqual(requestBody.constraints.pantry, ['豆腐','白菜','玉米','香菇']);
+  assert.equal(requestBody.constraints.selected_base_recipe_id, 'a');
+  assert.match(html, /selectedBaseRecipeId:group\.recipeId/);
+  assert.equal(evaluate(context, `state.profile.pantry`), '鸡蛋, 西红柿, 土豆, 豆腐, 白菜, 玉米, 香菇');
+  assert.deepEqual(dish.pantryContext.original, plan.original);
+  assert.deepEqual(dish.pantryContext.remaining, ['鸡蛋','西红柿','土豆']);
+});
+
+test('use leftovers starts the next plan with exactly the remaining foods', async () => {
+  const remaining = ['鸡蛋','土豆','鸡胸肉','西兰花','胡萝卜','洋葱','虾仁','青椒','茄子'];
+  const { context, calls } = loadFrontend([{ status:409, body:{
+    code:'pantry_needs_grouping', error:'需要分组',
+    pantry_plan:{ original:remaining, groups:[{
+      recipe_id:'next', recipe_name:'下一锅', items:['鸡胸肉','胡萝卜','洋葱'],
+      leftovers:remaining.filter(item => !['鸡胸肉','胡萝卜','洋葱'].includes(item)), coverage:3, total:9,
+    }], unplanned:[] },
+  } }]);
+  await evaluate(context, `(async () => {
+    state.dish = { pantryContext:{ remaining:${JSON.stringify(remaining)} } };
+    generateFromPantryLeftovers();
+    await new Promise(resolve => setTimeout(resolve, 0));
+  })()`);
+  assert.equal(evaluate(context, `state.profile.pantry`), remaining.join(', '));
+  assert.deepEqual(JSON.parse(calls[0].init.body).constraints.pantry, remaining);
+});
+
+test('editing a generated dish refreshes used and remaining pantry coverage', () => {
+  const { context } = loadFrontend();
+  const coverage = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.dish = {
+      ingredients:[{name:'豆腐', grams:100, nut:{kcal:80}}, {name:'白菜', grams:100, nut:{kcal:20}}],
+      usedPantry:['豆腐','白菜'],
+      pantryContext:{original:['豆腐','白菜'], remaining:[]}
+    };
+    state.items = [{name:'豆腐', grams:100, nut:{kcal:80}}];
+    syncDishFromItems();
+    return {used:state.dish.usedPantry, remaining:state.dish.pantryContext.remaining};
+  })())`));
+  assert.deepEqual(coverage, { used:['豆腐'], remaining:['白菜'] });
+});
+
+test('frontend counts a canonical food name and its alias only once', () => {
+  const { context } = loadFrontend();
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify(uniquePantryItems(['番茄','西红柿','鸡蛋']))`)),
+    ['番茄','鸡蛋'],
+  );
 });
 
 test('an unsafe generation throws unsafe_recipe after exactly one request', async () => {

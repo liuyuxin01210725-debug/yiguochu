@@ -155,6 +155,14 @@ class NoCompatiblePantryRecipe(RecipeLibraryUnavailable):
     """The trusted library cannot use any of the supplied pantry ingredients."""
 
 
+class PantryNeedsGrouping(RecipeLibraryUnavailable):
+    """The supplied pantry needs an explicit trusted one-pot grouping before generation."""
+
+    def __init__(self, message, pantry_plan):
+        super().__init__(message)
+        self.pantry_plan = pantry_plan
+
+
 class UnsafeRecipe(RuntimeError):
     """repair 后仍带 validation_flags: 服务端明示失败(422 unsafe_recipe), 不端出。"""
 
@@ -239,6 +247,18 @@ def resolve_recipe_alias(norm, aliases):
 
 def canonical_recipe_ingredient(name, aliases=None):
     return resolve_recipe_alias(base_recipe_ingredient(name), normalize_recipe_aliases(aliases or {}))
+
+
+def unique_recipe_pantry(value, aliases=None):
+    seen = set()
+    result = []
+    for item in recipe_constraint_list(value):
+        key = canonical_recipe_ingredient(item, aliases or {}) or base_recipe_ingredient(item)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        result.append(item)
+    return result
 
 
 # ===== 过敏类别表（与 index.html、worker/src/worker.js 保持一致，parity 测试锁定）
@@ -337,6 +357,7 @@ def sanitize_recipe_constraints(value):
         'recent_dishes': recipe_constraint_list(source.get('recent_dishes')),
         'recent_families': recipe_constraint_list(source.get('recent_families')),
         'recent_base_recipes': recipe_constraint_list(source.get('recent_base_recipes')),
+        'selected_base_recipe_id': sanitize_prompt_text(source.get('selected_base_recipe_id'), 100),
         'balance_low': recipe_constraint_list(source.get('balance_low')),
         'swap_hint': sanitize_prompt_text(source.get('swap_hint'), 160),
         'swap_intent': swap_intent if swap_intent in SWAP_INTENT_KINDS else '',
@@ -382,6 +403,26 @@ SWAP_INTENT_WEIGHTS = {
     'easier_core': 8,  # easier: total_time_minutes ≤25 或核心 ≤5 项
 }
 
+DEFAULT_MAIN_STAPLE_RE = re.compile(
+    r'(?:大米|米饭|糙米|糯米|小米|面条|面团|粉丝|粉条|米粉|土豆|红薯|芋头|玉米|燕麦|藜麦|扁豆|豇豆|鹰嘴豆|黑眼豆)'
+)
+
+
+def default_main_meal_eligible(recipe):
+    if not trusted_recipe_status(recipe.get('status')):
+        return True
+    if not isinstance(recipe.get('protein_class'), list) or not isinstance(recipe.get('light_level'), str):
+        return True
+    proteins = [item for item in recipe.get('protein_class') if item != '无']
+    core_text = '、'.join(recipe.get('core_ingredients') or [])
+    undersized_light_tofu_vermicelli = (
+        recipe.get('light_level') == '清淡'
+        and bool(re.search(r'(?:粉丝|粉条)', core_text))
+        and bool(proteins)
+        and all(item == '豆制品' for item in proteins)
+    )
+    return bool(proteins) and bool(DEFAULT_MAIN_STAPLE_RE.search(core_text)) and not undersized_light_tofu_vermicelli
+
 
 def select_recipe_candidates(library, constraints=None):
     library = library if isinstance(library, dict) else {}
@@ -395,7 +436,7 @@ def select_recipe_candidates(library, constraints=None):
     def canonical(name):
         return resolve_recipe_alias(base_recipe_ingredient(name), aliases)
 
-    pantry = recipe_constraint_list(constraints.get('pantry'))
+    pantry = unique_recipe_pantry(constraints.get('pantry'), library.get('ingredient_aliases') or {})
     pantry_canonical = {item for name in pantry if (item := canonical(name))}
     # 忌口统一走 match_allergy(双向子串 + 类别扩展), 不再只做 canonical 精确匹配。
     dislike_terms = recipe_constraint_list(constraints.get('dislikes'))
@@ -439,6 +480,9 @@ def select_recipe_candidates(library, constraints=None):
         # 这必须是资格过滤，不能只靠 -100 软罚：全局库存覆盖优先后，软罚仍可能
         # 被覆盖层级压过，导致「换一换」原样返回。用户可在候选枯竭页主动清空记录。
         if recipe.get('id') in recent_recipes:
+            continue
+        # 空库存默认菜只选结构完整、非清淡小份的主餐，避免汤/粥被当成完整两人餐。
+        if not pantry and not default_main_meal_eligible(recipe):
             continue
         qualified_constraint_profile = recipe_constraint_profile(
             recipe,
@@ -532,6 +576,40 @@ def select_recipe_candidates(library, constraints=None):
             if canonical_item in discouraged:
                 score -= 8
 
+        # replaces 可以是需同时使用的一组原料：全部保留。只排除与原料侧同时出现的 allowed；
+        # 原料侧未命中时，allowed 最多取一个。
+        for slot in slots:
+            if not isinstance(slot, dict):
+                continue
+            replaces = {item for name in (slot.get('replaces') or []) if (item := canonical(name))}
+            alternatives = {item for name in (slot.get('allowed') or []) if (item := canonical(name))}
+            replace_forms = {base_recipe_ingredient(name) for name in (slot.get('replaces') or [])
+                             if base_recipe_ingredient(name)}
+            alternative_forms = {base_recipe_ingredient(name) for name in (slot.get('allowed') or [])
+                                 if base_recipe_ingredient(name)}
+
+            def slot_side(item):
+                form = base_recipe_ingredient(item)
+                if form in replace_forms:
+                    return 'original'
+                if form in alternative_forms:
+                    return 'alternative'
+                value = canonical(item)
+                if value in replaces and value not in alternatives:
+                    return 'original'
+                if value in alternatives and value not in replaces:
+                    return 'alternative'
+                return ''
+
+            originals_used = [item for item in used_pantry if slot_side(item) == 'original']
+            alternatives_used = [item for item in used_pantry if slot_side(item) == 'alternative']
+            remove = alternatives_used if originals_used else alternatives_used[1:]
+            for item in remove:
+                used_pantry.remove(item)
+                score -= 12 if canonical(item) in core else 5
+        final_used = set(used_pantry)
+        unused_pantry = [item for item in pantry if item not in final_used]
+
         # 没有任何命中库存时，"快点吃上"不能优先落到只有主食的基础粥；
         # 仍保留用户明确提供粥核心食材时的原始偏好。
         has_core_protein = any(re.search(
@@ -594,6 +672,13 @@ def select_recipe_candidates(library, constraints=None):
     selected = []
     selected_ids = set()
     selected_families = set()
+    requested_recipe_id = sanitize_prompt_text(constraints.get('selected_base_recipe_id'), 100)
+    requested_candidate = next((candidate for candidate in candidates
+                                if _js_string(candidate['recipe'].get('id')) == requested_recipe_id), None)
+    if requested_candidate is not None:
+        selected.append(requested_candidate)
+        selected_ids.add(requested_candidate['recipe'].get('id'))
+        selected_families.add(requested_candidate['recipe'].get('family_id'))
     for candidate in candidates:
         recipe_id = candidate['recipe'].get('id')
         family_id = candidate['recipe'].get('family_id')
@@ -639,6 +724,16 @@ def pick_recipe_selection(selections, constraints, rice_allergy_active=False):
     ranked_source = selections if isinstance(selections, list) else []
     if not ranked_source:
         return None
+    requested_recipe_id = sanitize_prompt_text(constraints.get('selected_base_recipe_id'), 100)
+    if requested_recipe_id:
+        requested = next((candidate for candidate in ranked_source
+                          if _js_string(candidate['recipe'].get('id')) == requested_recipe_id), None)
+        if requested is None:
+            return None
+        requested_pantry = recipe_constraint_list(constraints.get('pantry'))
+        if requested_pantry and len(requested.get('used_pantry') or []) != len(requested_pantry):
+            return None
+        return requested
     seed = recipe_selection_seed(constraints)
     jittered = [
         (candidate, candidate['score'] + fnv1a32(candidate['recipe'].get('id'), seed) % 7)
@@ -658,6 +753,55 @@ def pick_recipe_selection(selections, constraints, rice_allergy_active=False):
         return feasible[0][0]
     jittered.sort(key=lambda item: -item[1])
     return jittered[0][0]
+
+
+def build_pantry_plan(library, constraints=None):
+    constraints = constraints if isinstance(constraints, dict) else {}
+    original = unique_recipe_pantry(constraints.get('pantry'), library.get('ingredient_aliases') or {})
+    groups = []
+    covered = set()
+    remaining = list(original)
+    recent_base_recipes = recipe_constraint_list(constraints.get('recent_base_recipes'))
+
+    while remaining and len(groups) < 3:
+        group_constraints = {
+            **constraints,
+            'pantry': remaining,
+            'recent_base_recipes': recent_base_recipes + [group['recipe_id'] for group in groups],
+            'swap_intent': '',
+        }
+        selections = select_recipe_candidates(library, group_constraints)
+        selection = pick_recipe_selection(
+            selections,
+            group_constraints,
+            rice_allergy_active=_validation_rice_allergen_active(
+                group_constraints.get('dislikes'),
+                library.get('ingredient_aliases') or {},
+            ),
+        )
+        if selection is None or not selection.get('used_pantry'):
+            break
+        items = list(selection['used_pantry'][:6])
+        item_set = set(items)
+        leftovers = [item for item in original if item not in item_set]
+        covered.update(items)
+        recipe = selection.get('recipe') or {}
+        groups.append({
+            'recipe_id': _js_string(recipe.get('id')),
+            'recipe_name': _js_string(recipe.get('name') or recipe.get('id') or '一锅方案'),
+            'cuisine': _js_string(recipe.get('cuisine')),
+            'items': items,
+            'leftovers': leftovers,
+            'coverage': len(items),
+            'total': len(original),
+        })
+        remaining = [item for item in remaining if item not in item_set]
+
+    return {
+        'original': original,
+        'groups': groups,
+        'unplanned': [item for item in original if item not in covered],
+    }
 
 
 def _compact_recipe_list(value, fallback='无'):
@@ -1584,14 +1728,36 @@ def validate_grounded_meal(meal, selection, constraints=None):
     for slot in recipe.get('substitution_slots') or []:
         if not isinstance(slot, dict):
             continue
-        alternatives = {
-            canonical
-            for name in [*(slot.get('replaces') or []), *(slot.get('allowed') or [])]
-            if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
-            if (canonical := _validation_canonical_ingredient(name, aliases))
+        replaces = slot.get('replaces') or []
+        allowed = [name for name in (slot.get('allowed') or [])
+                   if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())]
+        replace_forms = {base_recipe_ingredient(name) for name in replaces if base_recipe_ingredient(name)}
+        allowed_forms = {base_recipe_ingredient(name) for name in allowed if base_recipe_ingredient(name)}
+        replace_canonical = {
+            value for name in replaces if (value := _validation_canonical_ingredient(name, aliases))
         }
-        present_alternatives = alternatives.intersection(canonical_ingredients)
-        if len(present_alternatives) > 1:
+        allowed_canonical = {
+            value for name in allowed if (value := _validation_canonical_ingredient(name, aliases))
+        }
+
+        def slot_side(name):
+            form = base_recipe_ingredient(name)
+            if form in replace_forms:
+                return 'original'
+            if form in allowed_forms:
+                return 'alternative'
+            value = _validation_canonical_ingredient(name, aliases)
+            if value in replace_canonical and value not in allowed_canonical:
+                return 'original'
+            if value in allowed_canonical and value not in replace_canonical:
+                return 'alternative'
+            return ''
+
+        originals_present = {base_recipe_ingredient(name) for name in ingredient_names
+                             if slot_side(name) == 'original'}
+        alternatives_present = {base_recipe_ingredient(name) for name in ingredient_names
+                                if slot_side(name) == 'alternative'}
+        if ((originals_present and alternatives_present) or len(alternatives_present) > 1):
             add_flag(f"substitution_slot_conflict:{sanitize_prompt_text(slot.get('slot') or '未命名', 80)}")
     for name in ingredient_names:
         canonical = _validation_canonical_ingredient(name, aliases)
@@ -1798,6 +1964,10 @@ def build_prompt(meal_name, targets, constraints, recipe_grounding):
 
 def build_recipe_request(meal_name, targets, constraints, library=None):
     library = library if library is not None else get_recipe_library()
+    constraints = dict(constraints) if isinstance(constraints, dict) else {}
+    constraints['pantry'] = unique_recipe_pantry(
+        constraints.get('pantry'), library.get('ingredient_aliases') or {},
+    )
     selections = select_recipe_candidates(library, constraints)
     rice_allergy_active = _validation_rice_allergen_active(
         constraints.get('dislikes'),
@@ -1812,6 +1982,15 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
         if pantry:
             raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
         raise RecipeLibraryUnavailable('没有符合本次限制的可信基础菜谱')
+    if pantry and not selection.get('used_pantry'):
+        if rice_allergy_active:
+            raise NoSafeRecipe('暂时没有符合这些过敏或忌口条件的可信无米主餐')
+        raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
+    if pantry and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
+        raise PantryNeedsGrouping(
+            '这些食材需要先分成几锅，选定的一锅会全部使用',
+            build_pantry_plan(library, constraints),
+        )
     payload = {
         'model': MODEL_NAME,
         'messages': [
@@ -2774,6 +2953,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({
                 'error': str(e),
                 'code': 'no_compatible_pantry_recipe',
+            }, ensure_ascii=False).encode('utf-8'))
+        except PantryNeedsGrouping as e:
+            self.send_response(409)
+            self._send_cors_headers()
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'error': str(e),
+                'code': 'pantry_needs_grouping',
+                'pantry_plan': e.pantry_plan,
             }, ensure_ascii=False).encode('utf-8'))
         except RecipeLibraryUnavailable as e:
             self.send_response(503)
