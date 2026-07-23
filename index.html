@@ -666,10 +666,20 @@ const FOOD_ALIAS = {
   '辣白菜':'s-52', '韩式泡菜':'s-52', '韩国泡菜':'s-52', '泡菜(韩国)':'s-52', '朝鲜泡菜':'s-52',
   '鸡大腿':'m-4', '鸡全腿':'m-4', '油':'v-23',
 };
+// 与 Worker / ai_proxy.py 同一张受控菜谱匹配表；只决定库存语义去重，不覆盖展示名与营养查表部位。
+const RECIPE_MATCH_NORMALIZATION = {
+  '牛肉':'牛肉', '牛里脊':'牛肉', '牛里脊肉':'牛肉', '牛柳':'牛肉', '牛肉片':'牛肉',
+  '鸡肉':'鸡肉', '鸡胸':'鸡肉', '鸡胸肉':'鸡肉', '鸡腿':'鸡肉', '鸡腿肉':'鸡肉',
+  '猪肉':'猪肉', '猪里脊':'猪肉', '猪里脊肉':'猪肉', '猪肉片':'猪肉',
+  '嫩豆腐':'嫩豆腐', '南豆腐':'嫩豆腐',
+  '老豆腐':'老豆腐', '北豆腐':'老豆腐', '豆腐':'老豆腐',
+};
 function pantryIdentity(name) {
   const q = normFoodName(name);
   if (!q) return '';
   const base = baseFoodName(name);
+  const recipeMatch = RECIPE_MATCH_NORMALIZATION[q] || RECIPE_MATCH_NORMALIZATION[base];
+  if (recipeMatch) return recipeMatch;
   const exactFood = FOODS.find(food => normFoodName(food.name) === q || baseFoodName(food.name) === base);
   return FOOD_ALIAS[q] || FOOD_ALIAS[base] || (exactFood && exactFood.id) || base;
 }
@@ -932,7 +942,7 @@ function profileScreen() {
     body = '<section class="form-card">' + collapse +
       '<div class="field"><label class="field-label">这次为什么做</label>' + seg('purpose',[['quick','快点吃上'],['pantry','清库存'],['fresh','换口味'],['batch','多做一些']]) + '</div>' +
       '<div class="field"><label class="field-label">这一锅做几份</label>' + seg('servings',[['1','1 份'],['2','2 份'],['4','3–4 份']]) + '<span class="field-hint">按正常一顿的份量计算；“多做一些”会优先给适合分装复热的做法。</span></div>' +
-      '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">不会静默丢掉</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button><button class="pchip-del" data-del-myfood="' + esc(f) + '" title="从常用删掉">×</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">一次最多 20 种。1–6 种会作为本锅必用食材；超过 6 种会先分组，再由你选择这一锅。</span></div>' +
+      '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">不会静默丢掉</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button><button class="pchip-del" data-del-myfood="' + esc(f) + '" title="从常用删掉">×</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">一次最多 20 种。1–6 种会给独立完整的本锅方案；超过 6 种会安排成第一锅、第二锅的连续计划。</span></div>' +
       '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">用于过滤菜谱建议</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>';
   }
   const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。</p></div>';
@@ -1070,16 +1080,19 @@ function normalizeGenError(err) {
 function normalizePantryPlan(value) {
   const plan = value && typeof value === 'object' ? value : {};
   const original = boundedTextList(plan.original, 20, 80);
-  const groups = (Array.isArray(plan.groups) ? plan.groups : []).slice(0, 3).map(group => ({
+  const kind = plan.kind === 'sequence' ? 'sequence' : 'alternatives';
+  const groups = (Array.isArray(plan.groups) ? plan.groups : []).slice(0, 3).map((group, index) => ({
     recipeId: boundedText(group && (group.recipe_id || group.recipeId), 100),
     recipeName: boundedText(group && (group.recipe_name || group.recipeName), 100) || '一锅方案',
     cuisine: boundedText(group && group.cuisine, 60),
-    items: boundedTextList(group && group.items, 6, 80),
-    leftovers: boundedTextList(group && group.leftovers, 20, 80),
+    order: Math.max(1, Math.min(3, Math.round(+(group && group.order) || index + 1))),
+    usedItems: boundedTextList(group && (group.used_items || group.usedItems), 6, 80),
+    unusedItems: boundedTextList(group && (group.unused_items || group.unusedItems), 20, 80),
+    requiredExtraItems: boundedTextList(group && (group.required_extra_items || group.requiredExtraItems), 12, 80),
     coverage: Math.max(0, Math.min(20, Math.round(+(group && group.coverage) || 0))),
     total: original.length,
-  })).filter(group => group.items.length);
-  return { original, groups, unplanned: boundedTextList(plan.unplanned, 20, 80) };
+  })).filter(group => group.usedItems.length);
+  return { kind, original, groups, unplanned: boundedTextList(plan.unplanned, 20, 80) };
 }
 async function fetchRealDish(opts) {
   opts = opts || {};
@@ -1270,22 +1283,36 @@ function pantryStopScreen() {
 function pantryPlanScreen() {
   const plan = normalizePantryPlan(state.pantryPlan);
   const total = plan.original.length;
-  const cards = plan.groups.map((group, index) => (
-    '<button class="pantry-plan-card" data-act="choose-pantry-group" data-group-index="' + index + '">'
-      + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(group.recipeName) + '</span>'
-      + '<span class="pantry-plan-count">本锅使用 ' + group.items.length + '/' + total + ' 种</span></span>'
-      + '<span class="pantry-plan-items">' + esc(group.items.join('、')) + '</span>'
-    + '</button>'
-  )).join('');
+  const details = group => (
+    '<span class="pantry-plan-items"><strong>用上：</strong>' + esc(group.usedItems.join('、')) + '</span>'
+    + (group.unusedItems.length ? '<span class="pantry-plan-items"><strong>本锅不用：</strong>' + esc(group.unusedItems.join('、')) + '</span>' : '')
+    + (group.requiredExtraItems.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(group.requiredExtraItems.join('、')) + '</span>' : '')
+  );
+  const sequenceLabels = ['第一锅', '第二锅', '第三锅'];
+  const cards = plan.groups.map((group, index) => {
+    const top = '<span class="pantry-plan-top"><span class="pantry-plan-name">'
+      + (plan.kind === 'sequence' ? sequenceLabels[index] + ' · ' : '') + esc(group.recipeName) + '</span>'
+      + '<span class="pantry-plan-count">用上 ' + group.usedItems.length + '/' + total + ' 种</span></span>';
+    if (plan.kind === 'sequence') return '<div class="pantry-plan-card">' + top + details(group) + '</div>';
+    return '<button class="pantry-plan-card" data-act="choose-pantry-group" data-group-index="' + index + '">'
+      + top + details(group) + '</button>';
+  }).join('');
   const unplanned = plan.unplanned.length
     ? '<p class="pantry-plan-note">暂时没有稳妥搭配：' + esc(plan.unplanned.join('、')) + '。它们会继续保留，不会被假装用掉。</p>'
-    : '<p class="pantry-plan-note">其他食材会保留，做完后可以直接用剩下的再来一锅。</p>';
+    : '<p class="pantry-plan-note">每张方案都按你这次填写的完整食材独立计算。</p>';
+  const title = plan.kind === 'sequence' ? '按顺序分成几锅' : '选一个本锅方案';
+  const text = plan.kind === 'sequence'
+    ? '你选了 ' + total + ' 种食材。下面是连续计划，不是互相替代的选项；先做第一锅，再处理后面的食材。'
+    : '下面每张卡都重新对照你填写的 ' + total + ' 种食材，分别说明本锅用上、暂时不用和还需准备什么。';
+  const sequenceAction = plan.kind === 'sequence' && plan.groups.length
+    ? '<button class="btn btn-primary" data-act="choose-pantry-group" data-group-index="0">先做第一锅</button>'
+    : '';
   return '<div class="screen fallback-screen"><section class="fallback-banner">'
     + '<div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'})
-    + '</span><div><div class="fb-banner-title">先选这一锅用什么</div>'
-    + '<p class="fb-banner-text">你选了 ' + total + ' 种食材，硬塞进同一锅会影响味道和熟度。下面每组都有成熟菜谱依据；选定后，这组食材必须全部用上。</p>'
-    + '</div></div><div class="pantry-plan-list">' + cards + '</div>' + unplanned
+    + '</span><div><div class="fb-banner-title">' + esc(title) + '</div>'
+    + '<p class="fb-banner-text">' + esc(text) + '</p>'
+    + '</div></div><div class="pantry-plan-list">' + cards + '</div>' + unplanned + sequenceAction
     + '<button class="btn btn-ghost" data-act="edit-safe-profile">返回调整食材</button>'
     + '</section></div>';
 }
@@ -1293,7 +1320,7 @@ function choosePantryGroup(index) {
   const plan = normalizePantryPlan(state.pantryPlan);
   const group = plan.groups[index];
   if (!group) return;
-  runGenerate({ pantryOverride:group.items, pantryOriginal:plan.original, selectedBaseRecipeId:group.recipeId });
+  runGenerate({ pantryOverride:group.usedItems, pantryOriginal:plan.original, selectedBaseRecipeId:group.recipeId });
 }
 function generateFromPantryLeftovers() {
   const remaining = boundedTextList(state.dish && state.dish.pantryContext && state.dish.pantryContext.remaining, 20, 80);

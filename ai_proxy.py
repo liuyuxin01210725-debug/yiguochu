@@ -209,6 +209,58 @@ def base_recipe_ingredient(name):
     return re.sub(r'[丁片块丝末粒]$', '', text)
 
 
+# 菜谱匹配专用受控语义：只用于用户库存能否满足菜谱要求，不覆盖展示名、营养名或部位信息。
+RECIPE_MATCH_NORMALIZATION = {
+    '牛肉':'牛肉', '牛里脊':'牛肉', '牛里脊肉':'牛肉', '牛柳':'牛肉', '牛肉片':'牛肉',
+    '鸡肉':'鸡肉', '鸡胸':'鸡肉', '鸡胸肉':'鸡肉', '鸡腿':'鸡肉', '鸡腿肉':'鸡肉',
+    '猪肉':'猪肉', '猪里脊':'猪肉', '猪里脊肉':'猪肉', '猪肉片':'猪肉',
+    '嫩豆腐':'嫩豆腐', '南豆腐':'嫩豆腐',
+    '老豆腐':'老豆腐', '北豆腐':'老豆腐', '豆腐':'老豆腐',
+}
+GENERIC_MEAT_REQUIREMENTS = frozenset(('牛肉', '鸡肉', '猪肉'))
+GENERIC_MEAT_COMPATIBLE_SHAPES = {
+    '牛肉': frozenset(('tenderloin', 'slice')),
+    '鸡肉': frozenset(('leg', 'breast')),
+    '猪肉': frozenset(('tenderloin', 'slice')),
+}
+
+
+def recipe_match_form(name):
+    text = _js_string(name).lower()
+    text = re.sub(r'过敏|不吃|忌口|不要', '', text)
+    text = text.replace('（', '(').replace('）', ')')
+    return re.sub(r'[\s_-]+', '', text)
+
+
+def controlled_meat_family(form):
+    if re.search(r'(?:牛肉|牛腩|牛腱|牛柳|牛里脊|肥牛|牛排|牛仔骨)', form):
+        return '牛肉'
+    if (re.search(r'(?:鸡肉|鸡胸|鸡腿|鸡翅|鸡柳|去皮鸡)', form)
+            and not re.search(r'(?:鸡蛋|蛋鸡)', form)):
+        return '鸡肉'
+    if re.search(r'(?:猪肉|猪里脊|猪排|猪肋排|排骨|五花肉)', form):
+        return '猪肉'
+    return ''
+
+
+def controlled_meat_shape(form):
+    if re.search(r'(?:粗绞|绞肉|肉末|肉馅)', form):
+        return 'ground'
+    if '牛腩' in form:
+        return 'brisket'
+    if re.search(r'(?:猪肋排|排骨)', form):
+        return 'rib'
+    if '鸡腿' in form:
+        return 'leg'
+    if '鸡胸' in form:
+        return 'breast'
+    if re.search(r'(?:牛里脊|牛柳|猪里脊)', form):
+        return 'tenderloin'
+    if re.search(r'(?:牛肉片|猪肉片)', form):
+        return 'slice'
+    return ''
+
+
 # FNV-1a 32 位哈希(与 worker/src/worker.js 逐位一致, parity 测试锁定): 取 UTF-8 字节流,
 # offset basis 2166136261, FNV prime 16777619, 全程 32 位无符号; init 允许传入起始 hash 做种子串接。
 def fnv1a32(text, init=2166136261):
@@ -249,11 +301,53 @@ def canonical_recipe_ingredient(name, aliases=None):
     return resolve_recipe_alias(base_recipe_ingredient(name), normalize_recipe_aliases(aliases or {}))
 
 
+def recipe_match_identity(name, aliases=None):
+    form = recipe_match_form(name)
+    if not form:
+        return ''
+    if form in RECIPE_MATCH_NORMALIZATION:
+        return RECIPE_MATCH_NORMALIZATION[form]
+    if controlled_meat_family(form):
+        return form
+    return canonical_recipe_ingredient(name, aliases or {}) or base_recipe_ingredient(name)
+
+
+def ingredient_matches_recipe_requirement(pantry_name, requirement_name, aliases=None):
+    aliases = aliases or {}
+    pantry_form = recipe_match_form(pantry_name)
+    requirement_form = recipe_match_form(requirement_name)
+    if not pantry_form or not requirement_form:
+        return False
+    if pantry_form == requirement_form:
+        return True
+
+    pantry_controlled = RECIPE_MATCH_NORMALIZATION.get(pantry_form, '')
+    requirement_controlled = RECIPE_MATCH_NORMALIZATION.get(requirement_form, '')
+    if requirement_form in GENERIC_MEAT_REQUIREMENTS:
+        if pantry_controlled == requirement_form:
+            return True
+        if controlled_meat_family(pantry_form) != requirement_form:
+            return False
+        return controlled_meat_shape(pantry_form) in GENERIC_MEAT_COMPATIBLE_SHAPES[requirement_form]
+    if requirement_controlled in ('嫩豆腐', '老豆腐'):
+        return pantry_controlled == requirement_controlled
+
+    pantry_family = controlled_meat_family(pantry_form)
+    requirement_family = controlled_meat_family(requirement_form)
+    if pantry_family or requirement_family:
+        if not pantry_family or pantry_family != requirement_family:
+            return False
+        pantry_shape = controlled_meat_shape(pantry_form)
+        requirement_shape = controlled_meat_shape(requirement_form)
+        return bool(pantry_shape) and pantry_shape == requirement_shape
+    return canonical_recipe_ingredient(pantry_name, aliases) == canonical_recipe_ingredient(requirement_name, aliases)
+
+
 def unique_recipe_pantry(value, aliases=None):
     seen = set()
     result = []
     for item in recipe_constraint_list(value):
-        key = canonical_recipe_ingredient(item, aliases or {}) or base_recipe_ingredient(item)
+        key = recipe_match_identity(item, aliases or {})
         if not key or key in seen:
             continue
         seen.add(key)
@@ -497,7 +591,8 @@ def select_recipe_candidates(library, constraints=None):
         if rice_allergy_active and qualified_constraint_profile is None:
             continue
         constraint_profile = qualified_constraint_profile if rice_allergy_active else None
-        core = {item for name in (recipe.get('core_ingredients') or []) if (item := canonical(name))}
+        core_ingredients = recipe_constraint_list(recipe.get('core_ingredients'))
+        core = {item for name in core_ingredients if (item := canonical(name))}
         # 明确要求“冷藏不超过一天”的专用剩饭菜，只在用户确实提交熟米饭时参与；
         # 普通熟米饭菜仍可作为需补充即食/现成熟饭的方案，避免误伤目标组合覆盖。
         requires_stored_leftover_rice = any(
@@ -506,16 +601,22 @@ def select_recipe_candidates(library, constraints=None):
         )
         if requires_stored_leftover_rice and '熟米饭' not in pantry_canonical:
             continue
-        optional = {item for name in (recipe.get('optional_ingredients') or []) if (item := canonical(name))}
+        optional_ingredients = recipe_constraint_list(recipe.get('optional_ingredients'))
+        optional = {item for name in optional_ingredients if (item := canonical(name))}
         slots = recipe.get('substitution_slots') if isinstance(recipe.get('substitution_slots'), list) else []
+        allowed_ingredients = [
+            name
+            for slot in slots if isinstance(slot, dict)
+            for name in recipe_constraint_list(slot.get('allowed'))
+        ]
         allowed = {
             item
-            for slot in slots if isinstance(slot, dict)
-            for name in (slot.get('allowed') or [])
+            for name in allowed_ingredients
             if (item := canonical(name))
         }
+        trusted_liquid_ingredients = _trusted_recipe_liquid_options(recipe)
         trusted_liquids = {
-            item for name in _trusted_recipe_liquid_options(recipe)
+            item for name in trusted_liquid_ingredients
             if (item := canonical(name))
         }
 
@@ -560,19 +661,28 @@ def select_recipe_candidates(library, constraints=None):
             if not canonical_item or disliked(canonical_item):
                 unused_pantry.append(item)
                 continue
-            if canonical_item in core:
+            core_requirement = next((requirement for requirement in core_ingredients
+                                     if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            allowed_requirement = next((requirement for requirement in allowed_ingredients
+                                        if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            optional_requirement = next((requirement for requirement in optional_ingredients
+                                         if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            liquid_requirement = next((requirement for requirement in trusted_liquid_ingredients
+                                       if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            if core_requirement is not None:
                 score += 12
                 used_pantry.append(item)
-                satisfied_core.add(canonical_item)
-            elif (canonical_item in allowed
-                    or canonical_item in optional
-                    or canonical_item in trusted_liquids):
+                satisfied_core.add(canonical(core_requirement))
+            elif (allowed_requirement is not None
+                    or optional_requirement is not None
+                    or liquid_requirement is not None):
                 score += 5
                 used_pantry.append(item)
                 for slot in slots:
                     if not isinstance(slot, dict):
                         continue
-                    if canonical_item not in [canonical(name) for name in (slot.get('allowed') or [])]:
+                    if not any(ingredient_matches_recipe_requirement(item, requirement, lib_aliases)
+                               for requirement in (slot.get('allowed') or [])):
                         continue
                     for replaced in [canonical(name) for name in (slot.get('replaces') or [])]:
                         if replaced in core:
@@ -599,6 +709,12 @@ def select_recipe_candidates(library, constraints=None):
                 if form in replace_forms:
                     return 'original'
                 if form in alternative_forms:
+                    return 'alternative'
+                if any(ingredient_matches_recipe_requirement(item, requirement, lib_aliases)
+                       for requirement in (slot.get('replaces') or [])):
+                    return 'original'
+                if any(ingredient_matches_recipe_requirement(item, requirement, lib_aliases)
+                       for requirement in (slot.get('allowed') or [])):
                     return 'alternative'
                 value = canonical(item)
                 if value in replaces and value not in alternatives:
@@ -761,9 +877,82 @@ def pick_recipe_selection(selections, constraints, rice_allergy_active=False):
     return jittered[0][0]
 
 
+def pantry_item_satisfies_core_requirement(item, requirement, recipe, aliases):
+    if ingredient_matches_recipe_requirement(item, requirement, aliases):
+        return True
+    slots = recipe.get('substitution_slots') if isinstance(recipe.get('substitution_slots'), list) else []
+    for slot in slots:
+        if not isinstance(slot, dict):
+            continue
+        replaces_requirement = any(
+            recipe_match_form(replaced) == recipe_match_form(requirement)
+            or canonical_recipe_ingredient(replaced, aliases) == canonical_recipe_ingredient(requirement, aliases)
+            for replaced in (slot.get('replaces') or [])
+        )
+        if replaces_requirement and any(
+            ingredient_matches_recipe_requirement(item, allowed, aliases)
+            for allowed in (slot.get('allowed') or [])
+        ):
+            return True
+    return False
+
+
+def required_extra_items(selection, used_items):
+    recipe = selection.get('recipe') if isinstance(selection, dict) else {}
+    recipe = recipe if isinstance(recipe, dict) else {}
+    aliases = selection.get('ingredient_aliases') if isinstance(selection, dict) else {}
+    aliases = aliases if isinstance(aliases, dict) else {}
+    used = recipe_constraint_list(used_items)
+    extras = []
+    for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
+        if any(pantry_item_satisfies_core_requirement(item, requirement, recipe, aliases) for item in used):
+            continue
+        extras.append(requirement)
+    return extras
+
+
+def pantry_plan_group(selection, original, used_items, unused_items, order=None):
+    recipe = selection.get('recipe') if isinstance(selection, dict) else {}
+    recipe = recipe if isinstance(recipe, dict) else {}
+    group = {
+        'recipe_id': _js_string(recipe.get('id')),
+        'recipe_name': _js_string(recipe.get('name') or recipe.get('id') or '一锅方案'),
+        'cuisine': _js_string(recipe.get('cuisine')),
+        'used_items': used_items,
+        'unused_items': unused_items,
+        'required_extra_items': required_extra_items(selection, used_items),
+        'coverage': len(used_items),
+        'total': len(original),
+    }
+    if order:
+        group = {'order': order, **group}
+    return group
+
+
 def build_pantry_plan(library, constraints=None):
     constraints = constraints if isinstance(constraints, dict) else {}
     original = unique_recipe_pantry(constraints.get('pantry'), library.get('ingredient_aliases') or {})
+    if len(original) <= 6:
+        independent_constraints = {**constraints, 'pantry': original, 'swap_intent': ''}
+        selections = [selection for selection in select_recipe_candidates(library, independent_constraints)
+                      if selection.get('used_pantry')][:3]
+        groups = [
+            pantry_plan_group(
+                selection,
+                original,
+                list(selection.get('used_pantry') or []),
+                list(selection.get('unused_pantry') or []),
+            )
+            for selection in selections
+        ]
+        covered = {item for group in groups for item in group['used_items']}
+        return {
+            'kind': 'alternatives',
+            'original': original,
+            'groups': groups,
+            'unplanned': [item for item in original if item not in covered],
+        }
+
     groups = []
     covered = set()
     remaining = list(original)
@@ -787,23 +976,17 @@ def build_pantry_plan(library, constraints=None):
         )
         if selection is None or not selection.get('used_pantry'):
             break
-        items = list(selection['used_pantry'][:6])
-        item_set = set(items)
-        leftovers = [item for item in original if item not in item_set]
-        covered.update(items)
-        recipe = selection.get('recipe') or {}
-        groups.append({
-            'recipe_id': _js_string(recipe.get('id')),
-            'recipe_name': _js_string(recipe.get('name') or recipe.get('id') or '一锅方案'),
-            'cuisine': _js_string(recipe.get('cuisine')),
-            'items': items,
-            'leftovers': leftovers,
-            'coverage': len(items),
-            'total': len(original),
-        })
-        remaining = [item for item in remaining if item not in item_set]
+        used_items = list(selection['used_pantry'][:6])
+        used_set = set(used_items)
+        unused_items = [item for item in remaining if item not in used_set]
+        covered.update(used_items)
+        groups.append(pantry_plan_group(
+            selection, original, used_items, unused_items, len(groups) + 1,
+        ))
+        remaining = unused_items
 
     return {
+        'kind': 'sequence',
         'original': original,
         'groups': groups,
         'unplanned': [item for item in original if item not in covered],
@@ -856,18 +1039,62 @@ def _trusted_recipe_fat_options(selection):
     ]
 
 
+def _pantry_item_should_replace_core_label(item, requirement, recipe, aliases):
+    item_form = recipe_match_form(item)
+    requirement_form = recipe_match_form(requirement)
+    if not item_form or not requirement_form:
+        return False
+    if item_form == requirement_form:
+        return True
+    if requirement_form in GENERIC_MEAT_REQUIREMENTS:
+        return ingredient_matches_recipe_requirement(item, requirement, aliases)
+    requirement_controlled = RECIPE_MATCH_NORMALIZATION.get(requirement_form, '')
+    if requirement_controlled in ('嫩豆腐', '老豆腐'):
+        return ingredient_matches_recipe_requirement(item, requirement, aliases)
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        replaces_requirement = any(
+            recipe_match_form(replaced) == requirement_form
+            or canonical_recipe_ingredient(replaced, aliases) == canonical_recipe_ingredient(requirement, aliases)
+            for replaced in (slot.get('replaces') or [])
+        )
+        if replaces_requirement and any(
+            ingredient_matches_recipe_requirement(item, allowed, aliases)
+            for allowed in (slot.get('allowed') or [])
+        ):
+            return True
+    return False
+
+
 def _trusted_recipe_ingredient_whitelist(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     aliases = selection.get('ingredient_aliases') or {}
     core = recipe.get('core_ingredients') or []
-    # 可选/液体/库存部分按忌口过滤(W4); 固定核心保持原样(核心安全由选菜层 blocked_core 保证)。
+    selected_pantry = selection.get('used_pantry') or []
+    consumed_selected = set()
+    adapted_core = []
+    for requirement in core:
+        selected_index = next((
+            index for index, item in enumerate(selected_pantry)
+            if index not in consumed_selected
+            and _pantry_item_should_replace_core_label(item, requirement, recipe, aliases)
+        ), None)
+        if selected_index is None:
+            adapted_core.append(requirement)
+        else:
+            consumed_selected.add(selected_index)
+            adapted_core.append(selected_pantry[selected_index])
+    remaining_selected = [
+        item for index, item in enumerate(selected_pantry)
+        if index not in consumed_selected
+    ]
     optional_pool = _filter_trusted_options_by_dislikes([
         *_trusted_recipe_generation_options(recipe),
         *_trusted_recipe_liquid_options(recipe),
-        *(selection.get('used_pantry') or []),
     ], selection.get('dislikes'), aliases)
-    candidates = [*core, *optional_pool]
+    candidates = [*adapted_core, *remaining_selected, *optional_pool]
     result = []
     seen = set()
     for name in candidates:
@@ -1810,22 +2037,27 @@ def validate_grounded_meal(meal, selection, constraints=None):
             add_flag(flag)
 
     for item in selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []:
-        canonical = _validation_canonical_ingredient(item, aliases)
-        if canonical and canonical not in canonical_ingredients:
+        if not any(ingredient_matches_recipe_requirement(name, item, aliases) for name in ingredient_names):
             add_flag(f'used_pantry_missing:{item}')
     for item in selection.get('unused_pantry') if isinstance(selection.get('unused_pantry'), list) else []:
-        canonical = _validation_canonical_ingredient(item, aliases)
-        if canonical and canonical in canonical_ingredients:
+        if any(ingredient_matches_recipe_requirement(name, item, aliases) for name in ingredient_names):
             add_flag(f'unused_pantry_used:{item}')
 
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
-    anchors = {
-        item
-        for name in [*(recipe.get('core_ingredients') or []), *(selection.get('used_pantry') or [])]
-        if (item := _validation_canonical_ingredient(name, aliases))
-    }
+    used_pantry = selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []
+    anchors = []
+    for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
+        selected = next((item for item in used_pantry
+                         if pantry_item_satisfies_core_requirement(item, requirement, recipe, aliases)), None)
+        anchors.append(selected or requirement)
+    for item in used_pantry:
+        if not any(ingredient_matches_recipe_requirement(item, anchor, aliases) for anchor in anchors):
+            anchors.append(item)
     required_anchor_hits = min(2, len(anchors))
-    anchor_hits = sum(anchor in canonical_ingredients for anchor in anchors)
+    anchor_hits = sum(
+        any(ingredient_matches_recipe_requirement(name, anchor, aliases) for name in ingredient_names)
+        for anchor in anchors
+    )
     if anchor_hits < required_anchor_hits:
         add_flag('base_recipe_anchor_missing')
     named_vessels = set()
@@ -1994,7 +2226,7 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
         raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
     if pantry and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
         raise PantryNeedsGrouping(
-            '这些食材需要先分成几锅，选定的一锅会全部使用',
+            '这些食材不能稳妥放进同一锅，请先查看本锅方案',
             build_pantry_plan(library, constraints),
         )
     payload = {
@@ -2545,11 +2777,55 @@ def repair_selected_substitution_conflicts(meal, selection):
     return repaired
 
 
+def repair_selected_generic_meat_names(meal, selection):
+    """通用肉类核心命中具体部位时，把模型的通用名改回用户原始名称。"""
+    if not isinstance(meal, dict) or not isinstance(meal.get('ingredients'), list):
+        return 0
+    recipe = selection.get('recipe') if isinstance(selection, dict) and isinstance(selection.get('recipe'), dict) else {}
+    aliases = selection.get('ingredient_aliases') if isinstance(selection, dict) else {}
+    aliases = aliases if isinstance(aliases, dict) else {}
+    used_pantry = selection.get('used_pantry') if isinstance(selection, dict) else []
+    used_pantry = used_pantry if isinstance(used_pantry, list) else []
+    repaired = 0
+
+    for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
+        requirement_form = recipe_match_form(requirement)
+        if requirement_form not in GENERIC_MEAT_REQUIREMENTS:
+            continue
+        selected = next((
+            item for item in used_pantry
+            if recipe_match_form(item) != requirement_form
+            and ingredient_matches_recipe_requirement(item, requirement, aliases)
+        ), None)
+        if not selected:
+            continue
+        replaced_ingredient = False
+        for ingredient in meal['ingredients']:
+            if not isinstance(ingredient, dict) or recipe_match_form(ingredient.get('name')) != requirement_form:
+                continue
+            ingredient['name'] = selected
+            replaced_ingredient = True
+            repaired += 1
+        if not replaced_ingredient:
+            continue
+
+        def rewrite(value):
+            return _js_string(value).replace(requirement, selected)
+
+        for field in ('dish_name', 'note', 'taste_preview', 'why'):
+            if isinstance(meal.get(field), str):
+                meal[field] = rewrite(meal[field])
+        if isinstance(meal.get('steps'), list):
+            meal['steps'] = [rewrite(step) for step in meal['steps']]
+    return repaired
+
+
 def attach_grounded_metadata(meal, selection, constraints):
     meal.pop('constraint_profile', None)
     meal.pop('constraint_profiles', None)
     meal.pop('active_constraint_profile', None)
     repair_selected_substitution_conflicts(meal, selection)
+    repair_selected_generic_meat_names(meal, selection)
     repair_grounded_meal_consumables(meal, selection, constraints)
     repair_rice_allergy_complete_main(meal, selection, constraints)
     repair_grounded_meal_safety(meal, selection, constraints)

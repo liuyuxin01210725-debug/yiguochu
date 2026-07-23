@@ -14,6 +14,12 @@ function extractJsAllergenGroups(source, label) {
   return Function(`"use strict"; return (${match[1]});`)();
 }
 
+function extractJsRecipeMatchNormalization(source, label) {
+  const match = source.match(/const RECIPE_MATCH_NORMALIZATION = (\{[\s\S]*?\});/);
+  assert.ok(match, `${label} 缺少 RECIPE_MATCH_NORMALIZATION 定义`);
+  return Function(`"use strict"; return (${match[1]});`)();
+}
+
 // Python 侧直接 import ai_proxy 取同一张表, 与 JS 文本提取结果深比较。
 function extractPythonAllergenGroups() {
   const result = spawnSync('python3', [
@@ -21,6 +27,15 @@ function extractPythonAllergenGroups() {
     'import json, ai_proxy; print(json.dumps(ai_proxy.ALLERGEN_GROUPS, ensure_ascii=False))',
   ], { cwd: repoRoot, encoding: 'utf8', timeout: 15000 });
   assert.equal(result.status, 0, `ai_proxy.ALLERGEN_GROUPS 提取失败: ${result.stderr}`);
+  return JSON.parse(result.stdout.trim());
+}
+
+function extractPythonRecipeMatchNormalization() {
+  const result = spawnSync('python3', [
+    '-c',
+    'import json, ai_proxy; print(json.dumps(ai_proxy.RECIPE_MATCH_NORMALIZATION, ensure_ascii=False))',
+  ], { cwd: repoRoot, encoding: 'utf8', timeout: 15000 });
+  assert.equal(result.status, 0, `ai_proxy.RECIPE_MATCH_NORMALIZATION 提取失败: ${result.stderr}`);
   return JSON.parse(result.stdout.trim());
 }
 
@@ -53,6 +68,27 @@ test('ALLERGEN_GROUPS is identical across index.html, worker, and ai_proxy', () 
   const proxy = extractPythonAllergenGroups();
   assert.deepEqual(worker, frontend);
   assert.deepEqual(proxy, frontend);
+});
+
+test('RECIPE_MATCH_NORMALIZATION is identical across frontend, Worker, and ai_proxy', () => {
+  const frontend = extractJsRecipeMatchNormalization(
+    fs.readFileSync(new URL('../../index.html', import.meta.url), 'utf8'),
+    'index.html',
+  );
+  const worker = extractJsRecipeMatchNormalization(
+    fs.readFileSync(new URL('../../worker/src/worker.js', import.meta.url), 'utf8'),
+    'worker/src/worker.js',
+  );
+  const proxy = extractPythonRecipeMatchNormalization();
+  assert.deepEqual(worker, frontend);
+  assert.deepEqual(proxy, frontend);
+  assert.deepEqual(frontend, {
+    '牛肉':'牛肉', '牛里脊':'牛肉', '牛里脊肉':'牛肉', '牛柳':'牛肉', '牛肉片':'牛肉',
+    '鸡肉':'鸡肉', '鸡胸':'鸡肉', '鸡胸肉':'鸡肉', '鸡腿':'鸡肉', '鸡腿肉':'鸡肉',
+    '猪肉':'猪肉', '猪里脊':'猪肉', '猪里脊肉':'猪肉', '猪肉片':'猪肉',
+    '嫩豆腐':'嫩豆腐', '南豆腐':'嫩豆腐',
+    '老豆腐':'老豆腐', '北豆腐':'老豆腐', '豆腐':'老豆腐',
+  });
 });
 
 test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {

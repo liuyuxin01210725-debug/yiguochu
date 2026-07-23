@@ -192,7 +192,7 @@ test('production uses only its same-origin generation endpoint', () => {
 test('swap copy no longer promises every pantry item is used', () => {
   assert.doesNotMatch(html, /换菜会一直带着家里的食材|换菜时一直带着/);
   assert.equal((html.match(/会优先使用，搭不上的会说明/g) || []).length, 1);
-  assert.match(html, /1–6 种会作为本锅必用食材；超过 6 种会先分组，再由你选择这一锅/);
+  assert.match(html, /1–6 种会给独立完整的本锅方案；超过 6 种会安排成第一锅、第二锅的连续计划/);
 });
 
 test('safeHttpUrl accepts direct HTTPS and rejects unsafe URL forms', () => {
@@ -376,12 +376,13 @@ test('an undersized empty-pantry meal is classified as portion_too_small instead
   );
 });
 
-test('pantry grouping response keeps the structured plan and renders choices', async () => {
+test('large pantry grouping renders an ordered multi-pot sequence instead of parallel choices', async () => {
   const pantryPlan = {
+    kind: 'sequence',
     original: ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜'],
     groups: [
-      { recipe_id:'a', recipe_name:'番茄鸡蛋焖饭', cuisine:'中式家常', items:['鸡蛋','西红柿','土豆'], leftovers:['鸡胸肉','西兰花','豆腐','胡萝卜'], coverage:3, total:7 },
-      { recipe_id:'b', recipe_name:'西兰花鸡肉饭锅', cuisine:'中式家常', items:['鸡胸肉','西兰花','胡萝卜'], leftovers:['鸡蛋','西红柿','土豆','豆腐'], coverage:3, total:7 },
+      { order:1, recipe_id:'a', recipe_name:'番茄鸡蛋焖饭', cuisine:'中式家常', used_items:['鸡蛋','西红柿','土豆'], unused_items:['鸡胸肉','西兰花','豆腐','胡萝卜'], required_extra_items:['大米'], coverage:3, total:7 },
+      { order:2, recipe_id:'b', recipe_name:'西兰花鸡肉饭锅', cuisine:'中式家常', used_items:['鸡胸肉','西兰花','胡萝卜'], unused_items:['豆腐'], required_extra_items:['大米'], coverage:3, total:7 },
     ],
     unplanned: ['豆腐'],
   };
@@ -398,11 +399,33 @@ test('pantry grouping response keeps the structured plan and renders choices', a
     code:'pantry_needs_grouping', pantryPlan:${JSON.stringify(pantryPlan)}, retryable:false
   }))`);
   assert.equal(evaluate(context, `state.view`), 'pantry-plan');
-  assert.match(root.innerHTML, /先选这一锅用什么/);
-  assert.match(root.innerHTML, /本锅使用 3\/7 种/);
+  assert.match(root.innerHTML, /按顺序分成几锅/);
+  assert.match(root.innerHTML, /第一锅/);
+  assert.match(root.innerHTML, /第二锅/);
   assert.match(root.innerHTML, /番茄鸡蛋焖饭/);
   assert.match(root.innerHTML, /西兰花鸡肉饭锅/);
-  assert.match(root.innerHTML, /data-act="choose-pantry-group"/);
+  assert.equal((root.innerHTML.match(/data-act="choose-pantry-group"/g) || []).length, 1);
+  assert.match(root.innerHTML, /先做第一锅/);
+});
+
+test('small pantry plan renders independent alternatives with used unused and required extras', () => {
+  const pantryPlan = {
+    kind:'alternatives',
+    original:['牛里脊','豆腐','西红柿'],
+    groups:[
+      { recipe_id:'a', recipe_name:'牛肉豆腐饭', used_items:['牛里脊','豆腐'], unused_items:['西红柿'], required_extra_items:['大米'], coverage:2, total:3 },
+      { recipe_id:'b', recipe_name:'番茄豆腐饭', used_items:['豆腐','西红柿'], unused_items:['牛里脊'], required_extra_items:['大米'], coverage:2, total:3 },
+    ],
+    unplanned:[],
+  };
+  const { context, root } = loadFrontend();
+  evaluate(context, `state.pantryPlan=${JSON.stringify(pantryPlan)}; state.view='pantry-plan'; render()`);
+  assert.match(root.innerHTML, /选一个本锅方案/);
+  assert.equal((root.innerHTML.match(/data-act="choose-pantry-group"/g) || []).length, 2);
+  assert.match(root.innerHTML, /用上：<\/strong>牛里脊、豆腐/);
+  assert.match(root.innerHTML, /本锅不用：<\/strong>西红柿/);
+  assert.match(root.innerHTML, /还需准备：<\/strong>大米/);
+  assert.doesNotMatch(root.innerHTML, /豆腐.*未使用/);
 });
 
 test('more than twenty pantry items are blocked locally without silently truncating or calling the API', async () => {
@@ -420,8 +443,9 @@ test('more than twenty pantry items are blocked locally without silently truncat
 
 test('choosing a pantry group sends only that group while preserving the original coverage denominator', async () => {
   const plan = {
+    kind:'alternatives',
     original:['鸡蛋','西红柿','土豆','豆腐','白菜','玉米','香菇'],
-    groups:[{ recipe_id:'a', recipe_name:'白菜豆腐饭', cuisine:'中式家常', items:['豆腐','白菜','玉米','香菇'], leftovers:['鸡蛋','西红柿','土豆'], coverage:4, total:7 }],
+    groups:[{ recipe_id:'a', recipe_name:'白菜豆腐饭', cuisine:'中式家常', used_items:['豆腐','白菜','玉米','香菇'], unused_items:['鸡蛋','西红柿','土豆'], required_extra_items:['大米'], coverage:4, total:7 }],
     unplanned:[],
   };
   const responseMeal = meal({
@@ -453,9 +477,9 @@ test('use leftovers starts the next plan with exactly the remaining foods', asyn
   const remaining = ['鸡蛋','土豆','鸡胸肉','西兰花','胡萝卜','洋葱','虾仁','青椒','茄子'];
   const { context, calls } = loadFrontend([{ status:409, body:{
     code:'pantry_needs_grouping', error:'需要分组',
-    pantry_plan:{ original:remaining, groups:[{
-      recipe_id:'next', recipe_name:'下一锅', items:['鸡胸肉','胡萝卜','洋葱'],
-      leftovers:remaining.filter(item => !['鸡胸肉','胡萝卜','洋葱'].includes(item)), coverage:3, total:9,
+    pantry_plan:{ kind:'sequence', original:remaining, groups:[{
+      order:1, recipe_id:'next', recipe_name:'下一锅', used_items:['鸡胸肉','胡萝卜','洋葱'],
+      unused_items:remaining.filter(item => !['鸡胸肉','胡萝卜','洋葱'].includes(item)), required_extra_items:['大米'], coverage:3, total:9,
     }], unplanned:[] },
   } }]);
   await evaluate(context, `(async () => {
@@ -483,6 +507,26 @@ test('frontend counts a canonical food name and its alias only once', () => {
   assert.deepEqual(
     JSON.parse(evaluate(context, `JSON.stringify(uniquePantryItems(['番茄','西红柿','鸡蛋']))`)),
     ['番茄','鸡蛋'],
+  );
+});
+
+test('frontend pantry identity uses the controlled recipe matching semantics', () => {
+  const { context } = loadFrontend();
+  const identities = JSON.parse(evaluate(context, `JSON.stringify([
+    pantryIdentity('牛里脊'), pantryIdentity('牛里脊肉'), pantryIdentity('牛柳'), pantryIdentity('牛肉片'),
+    pantryIdentity('鸡胸'), pantryIdentity('鸡胸肉'), pantryIdentity('鸡腿'), pantryIdentity('鸡腿肉'),
+    pantryIdentity('猪里脊'), pantryIdentity('猪里脊肉'), pantryIdentity('猪肉片'),
+    pantryIdentity('嫩豆腐'), pantryIdentity('南豆腐'), pantryIdentity('老豆腐'), pantryIdentity('北豆腐'), pantryIdentity('豆腐')
+  ])`));
+  assert.deepEqual(identities, [
+    '牛肉','牛肉','牛肉','牛肉',
+    '鸡肉','鸡肉','鸡肉','鸡肉',
+    '猪肉','猪肉','猪肉',
+    '嫩豆腐','嫩豆腐','老豆腐','老豆腐','老豆腐',
+  ]);
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify(uniquePantryItems(['牛里脊','牛肉片','豆腐','北豆腐']))`)),
+    ['牛里脊','豆腐'],
   );
 });
 

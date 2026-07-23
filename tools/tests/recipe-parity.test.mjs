@@ -907,6 +907,54 @@ test('Python selector matches fixed-core rejection and real dislike replacement'
   assert.deepEqual(hits.map(hit => hit.recipe_id), ['replaceable']);
 });
 
+test('Worker and Python share directional meat-cut compatibility', () => {
+  const library = fixtureLib([
+    fixtureRecipe('generic-beef', 'family-generic', { core_ingredients:['牛肉'] }),
+    fixtureRecipe('brisket-only', 'family-brisket', { core_ingredients:['牛腩'] }),
+    fixtureRecipe('mince-only', 'family-mince', { core_ingredients:['牛肉末'] }),
+    fixtureRecipe('brisket-with-slot', 'family-slot', {
+      core_ingredients:['牛腩'],
+      substitution_slots:[{ slot:'牛肉部位', replaces:['牛腩'], allowed:['牛里脊'] }],
+    }),
+  ]);
+  const hits = assertSelectorParity(library, {
+    pantry:['牛里脊'], purpose:'pantry', dislikes:[],
+  });
+  const byId = new Map(hits.map(hit => [hit.recipe_id, hit]));
+  assert.deepEqual(byId.get('generic-beef').used_pantry, ['牛里脊']);
+  assert.deepEqual(byId.get('brisket-only').used_pantry, []);
+  assert.deepEqual(byId.get('mince-only').used_pantry, []);
+  assert.deepEqual(byId.get('brisket-with-slot').used_pantry, ['牛里脊']);
+});
+
+test('Worker and Python retain a selected generic-meat cut through grounding and validation', () => {
+  const recipe = groundedRecipe({
+    id:'generic-beef', family_id:'family-generic', name:'通用牛肉锅',
+    status:'approved', core_ingredients:['牛肉'], optional_ingredients:[], substitution_slots:[],
+  });
+  const library = fixtureLib([recipe]);
+  const constraints = { pantry:['牛里脊'], purpose:'pantry', dislikes:[] };
+  const selection = selectRecipeCandidates(library, constraints)[0];
+  const meal = { ingredients:[{ name:'牛里脊' }], steps:['牛里脊同锅炒熟。'] };
+  const jsFlags = validateGroundedMeal(meal, selection, constraints);
+  const pyFlags = pythonCall('validate', { library, constraints, meal });
+  assert.deepEqual(pyFlags, jsFlags);
+  assert.equal(jsFlags.includes('base_recipe_anchor_missing'), false);
+  assert.equal(jsFlags.some(flag => flag.startsWith('used_pantry_missing:')), false);
+  const jsGrounding = buildRecipeGrounding(selection);
+  const prepared = pythonCall('prepare', {
+    library,
+    constraints,
+    meal:generatedMeal({
+      ingredients:[{ name:'牛里脊', grams:200 }, { name:'水', grams:100 }, { name:'盐', grams:2 }],
+      steps:['牛里脊与水同锅煮熟，加盐。'],
+    }),
+  });
+  assert.equal(prepared.grounding, jsGrounding);
+  assert.match(jsGrounding, /牛里脊/);
+  assert.doesNotMatch(jsGrounding, /牛肉、牛里脊|牛里脊、牛肉/);
+});
+
 test('Worker and Python selectors preserve unmatched pantry details for the request boundary', () => {
   const library = fixtureLib([
     fixtureRecipe('plain-rice', 'family-rice', { core_ingredients: ['大米', '水'] }),
@@ -942,7 +990,35 @@ test('Worker and Python build the same explicit groups for a fourteen-item pantr
   const js = buildPantryPlan(lib, constraints);
   const py = pythonCall('pantry_plan', { library:lib, constraints });
   assert.deepEqual(py, js);
+  assert.equal(js.kind, 'sequence');
   assert.ok(js.groups.length >= 2);
+});
+
+test('Worker and Python independently score every small-pantry alternative', () => {
+  const library = fixtureLib([
+    fixtureRecipe('beef-tofu-rice', 'family-beef-tofu', {
+      name:'牛肉豆腐饭', core_ingredients:['牛肉', '老豆腐', '大米'],
+    }),
+    fixtureRecipe('tofu-tomato-rice', 'family-tofu-tomato', {
+      name:'番茄豆腐饭', core_ingredients:['老豆腐', '番茄', '大米'],
+    }),
+    fixtureRecipe('beef-tomato-rice', 'family-beef-tomato', {
+      name:'番茄牛肉饭', core_ingredients:['牛肉', '番茄', '大米'],
+    }),
+  ], { 西红柿:'番茄', 豆腐:'老豆腐' });
+  const constraints = {
+    pantry:['牛里脊', '豆腐', '西红柿'], purpose:'pantry', dislikes:[],
+  };
+  const js = buildPantryPlan(library, constraints);
+  const py = pythonCall('pantry_plan', { library, constraints });
+  assert.deepEqual(py, js);
+  assert.equal(js.kind, 'alternatives');
+  assert.equal(js.groups.length, 3);
+  assert.ok(js.groups.every(group => group.used_items.length === 2));
+  assert.deepEqual(pythonCall('prepare_error', { library, constraints }), {
+    type:'PantryNeedsGrouping',
+    message:'这些食材不能稳妥放进同一锅，请先查看本锅方案',
+  });
 });
 
 test('Python request builder distinguishes an unmatched pantry from a missing recipe library', () => {
@@ -1971,6 +2047,9 @@ test('Python no-network preparation matches Worker prompt and overwrites forged 
   });
   const { response, body, upstreamBodies } = await runWorkerGeneration({ recipeLib, meal, constraints });
   assert.equal(response.status, 200);
+  assert.ok(body.ingredients.some(item => item.name === '鸡腿肉'));
+  assert.equal(body.ingredients.some(item => item.name === '鸡肉'), false);
+  assert.match(body.steps.join(''), /鸡腿肉/);
   assert.equal(upstreamBodies.length, 1);
   const py = pythonCall('prepare', {
     library: recipeLib,

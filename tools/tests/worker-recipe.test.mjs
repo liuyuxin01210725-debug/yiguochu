@@ -325,6 +325,92 @@ test('a multi-ingredient replacement side keeps every original and only excludes
   assert.deepEqual(selection.unusedPantry, []);
 });
 
+test('controlled meat semantics accept cuts for generic recipes but protect special forms', () => {
+  const library = fixtureLib([
+    fixtureRecipe('generic-beef', 'family-generic', { name:'通用牛肉锅', core_ingredients:['牛肉'] }),
+    fixtureRecipe('brisket-only', 'family-brisket', { name:'牛腩锅', core_ingredients:['牛腩'] }),
+    fixtureRecipe('mince-only', 'family-mince', { name:'牛肉末锅', core_ingredients:['牛肉末'] }),
+    fixtureRecipe('ribs-only', 'family-ribs', { name:'猪肋排锅', core_ingredients:['猪肋排'] }),
+    fixtureRecipe('brisket-with-slot', 'family-slot', {
+      name:'可替换牛腩锅',
+      core_ingredients:['牛腩'],
+      substitution_slots:[{ slot:'牛肉部位', replaces:['牛腩'], allowed:['牛里脊'] }],
+    }),
+  ]);
+  const byId = new Map(selectRecipeCandidates(library, {
+    pantry:['牛里脊'], purpose:'pantry', dislikes:[],
+  }).map(selection => [selection.recipe.id, selection]));
+  assert.deepEqual(byId.get('generic-beef').usedPantry, ['牛里脊']);
+  assert.deepEqual(byId.get('brisket-only').usedPantry, []);
+  assert.deepEqual(byId.get('mince-only').usedPantry, []);
+  assert.deepEqual(byId.get('brisket-with-slot').usedPantry, ['牛里脊']);
+  const ribs = new Map(selectRecipeCandidates(library, {
+    pantry:['排骨'], purpose:'pantry', dislikes:[],
+  }).map(selection => [selection.recipe.id, selection]));
+  assert.deepEqual(ribs.get('ribs-only').usedPantry, ['排骨']);
+  assert.deepEqual(ribs.get('generic-beef').usedPantry, []);
+});
+
+test('real beef tenderloin pantry reaches a generic beef recipe', () => {
+  const candidates = selectRecipeCandidates(lib, {
+    pantry:['牛里脊'], purpose:'pantry', dislikes:[],
+  });
+  const genericBeef = candidates.find(selection => (
+    (selection.recipe.core_ingredients || []).includes('牛肉')
+    && selection.usedPantry.includes('牛里脊')
+  ));
+  assert.ok(genericBeef, '牛里脊应命中至少一道核心为通用牛肉的真实菜谱');
+});
+
+test('generic meat grounding and validation retain the selected cut without duplicate anchors', () => {
+  const recipe = fixtureRecipe('generic-beef', 'family-generic', {
+    name:'通用牛肉锅', status:'approved', core_ingredients:['牛肉'],
+  });
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe]), {
+    pantry:['牛里脊'], purpose:'pantry', dislikes:[],
+  });
+  const whitelistLine = buildRecipeGrounding(selection).split('\n')
+    .find(line => line.startsWith('可入锅食材白名单'));
+  assert.match(whitelistLine, /牛里脊/);
+  assert.doesNotMatch(whitelistLine, /牛肉、牛里脊|牛里脊、牛肉/);
+  const flags = validateGroundedMeal({
+    ingredients:[{ name:'牛里脊' }],
+    steps:['牛里脊同锅炒熟。'],
+  }, selection, { pantry:['牛里脊'], dislikes:[] });
+  assert.equal(flags.some(flag => flag.startsWith('used_pantry_missing:')), false);
+  assert.equal(flags.includes('base_recipe_anchor_missing'), false);
+  assert.equal(flags.some(flag => flag.startsWith('unapproved_ingredient:')), false);
+});
+
+test('small pantry alternatives each compare against the complete original pantry', () => {
+  const library = fixtureLib([
+    fixtureRecipe('beef-tofu-rice', 'family-beef-tofu', {
+      name:'牛肉豆腐饭', core_ingredients:['牛肉', '老豆腐', '大米'],
+    }),
+    fixtureRecipe('tofu-tomato-rice', 'family-tofu-tomato', {
+      name:'番茄豆腐饭', core_ingredients:['老豆腐', '番茄', '大米'],
+    }),
+    fixtureRecipe('beef-tomato-rice', 'family-beef-tomato', {
+      name:'番茄牛肉饭', core_ingredients:['牛肉', '番茄', '大米'],
+    }),
+  ], { 西红柿:'番茄', 豆腐:'老豆腐' });
+  const original = ['牛里脊', '豆腐', '西红柿'];
+  const plan = buildPantryPlan(library, {
+    pantry:original, purpose:'pantry', dislikes:[],
+  });
+  assert.equal(plan.kind, 'alternatives');
+  assert.deepEqual(plan.original, original);
+  assert.equal(plan.groups.length, 3);
+  for (const group of plan.groups) {
+    assert.deepEqual([...group.used_items, ...group.unused_items].sort(), [...original].sort());
+    assert.deepEqual(group.required_extra_items, ['大米']);
+  }
+  const tofuGroups = plan.groups.filter(group => /豆腐/.test(group.recipe_name));
+  assert.ok(tofuGroups.length >= 2);
+  assert.ok(tofuGroups.every(group => group.used_items.includes('豆腐')));
+  assert.ok(tofuGroups.every(group => !group.unused_items.includes('豆腐')));
+});
+
 test('pantry planner splits a fourteen-item fridge into explicit one-pot groups without silently dropping items', () => {
   const pantry = ['鸡蛋', '西红柿', '土豆', '鸡胸肉', '西兰花', '豆腐', '胡萝卜', '洋葱', '虾仁', '香菇', '白菜', '青椒', '茄子', '玉米'];
   const plan = buildPantryPlan(lib, {
@@ -334,11 +420,14 @@ test('pantry planner splits a fourteen-item fridge into explicit one-pot groups 
     dislikes: [],
   });
   assert.deepEqual(plan.original, pantry);
+  assert.equal(plan.kind, 'sequence');
   assert.ok(plan.groups.length >= 2 && plan.groups.length <= 3);
-  assert.ok(plan.groups.every(group => group.items.length > 0 && group.items.length <= 6));
+  assert.deepEqual(plan.groups.map(group => group.order), plan.groups.map((_, index) => index + 1));
+  assert.ok(plan.groups.every(group => group.used_items.length > 0 && group.used_items.length <= 6));
   assert.ok(plan.groups.every(group => group.total === pantry.length));
-  assert.ok(plan.groups.every(group => group.leftovers.length === pantry.length - group.items.length));
-  assert.ok(plan.groups[0].items.length >= 4, 'the first group should use a meaningful share of common pantry items');
+  assert.ok(plan.groups.every(group => Array.isArray(group.unused_items)));
+  assert.ok(plan.groups.every(group => Array.isArray(group.required_extra_items)));
+  assert.ok(plan.groups[0].used_items.length >= 4, 'the first group should use a meaningful share of common pantry items');
   assert.ok(plan.groups.every(group => group.recipe_id && group.recipe_name));
 });
 
@@ -358,6 +447,7 @@ test('partial pantry coverage returns a plan before spending a DeepSeek call', a
   });
   assert.equal(response.status, 409);
   assert.equal(body.code, 'pantry_needs_grouping');
+  assert.equal(body.error, '这些食材不能稳妥放进同一锅，请先查看本锅方案');
   assert.deepEqual(body.pantry_plan.original, pantry);
   assert.ok(body.pantry_plan.groups.length >= 2);
   assert.equal(upstreamBodies.length, 0);

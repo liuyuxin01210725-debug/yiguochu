@@ -28,6 +28,47 @@ function baseRecipeIngredient(name) {
     .replace(/丁$|片$|块$|丝$|末$|粒$/g, '');
 }
 
+// 菜谱匹配专用受控语义：只用于“用户现有食材能否满足菜谱要求”，不改写展示名、营养查表名或做法部位。
+// 肉类映射是有方向的：这些部位可满足通用肉类要求；特殊部位要求仍由 ingredientMatchesRecipeRequirement 保护。
+const RECIPE_MATCH_NORMALIZATION = {
+  '牛肉':'牛肉', '牛里脊':'牛肉', '牛里脊肉':'牛肉', '牛柳':'牛肉', '牛肉片':'牛肉',
+  '鸡肉':'鸡肉', '鸡胸':'鸡肉', '鸡胸肉':'鸡肉', '鸡腿':'鸡肉', '鸡腿肉':'鸡肉',
+  '猪肉':'猪肉', '猪里脊':'猪肉', '猪里脊肉':'猪肉', '猪肉片':'猪肉',
+  '嫩豆腐':'嫩豆腐', '南豆腐':'嫩豆腐',
+  '老豆腐':'老豆腐', '北豆腐':'老豆腐', '豆腐':'老豆腐',
+};
+const GENERIC_MEAT_REQUIREMENTS = new Set(['牛肉', '鸡肉', '猪肉']);
+const GENERIC_MEAT_COMPATIBLE_SHAPES = {
+  '牛肉': new Set(['tenderloin', 'slice']),
+  '鸡肉': new Set(['leg', 'breast']),
+  '猪肉': new Set(['tenderloin', 'slice']),
+};
+
+function recipeMatchForm(name) {
+  return String(name || '').toLowerCase()
+    .replace(/过敏|不吃|忌口|不要/g, '')
+    .replace(/（/g, '(').replace(/）/g, ')')
+    .replace(/[\s_-]+/g, '');
+}
+
+function controlledMeatFamily(form) {
+  if (/(?:牛肉|牛腩|牛腱|牛柳|牛里脊|肥牛|牛排|牛仔骨)/u.test(form)) return '牛肉';
+  if (/(?:鸡肉|鸡胸|鸡腿|鸡翅|鸡柳|去皮鸡)/u.test(form) && !/(?:鸡蛋|蛋鸡)/u.test(form)) return '鸡肉';
+  if (/(?:猪肉|猪里脊|猪排|猪肋排|排骨|五花肉)/u.test(form)) return '猪肉';
+  return '';
+}
+
+function controlledMeatShape(form) {
+  if (/(?:粗绞|绞肉|肉末|肉馅)/u.test(form)) return 'ground';
+  if (/牛腩/u.test(form)) return 'brisket';
+  if (/(?:猪肋排|排骨)/u.test(form)) return 'rib';
+  if (/鸡腿/u.test(form)) return 'leg';
+  if (/鸡胸/u.test(form)) return 'breast';
+  if (/(?:牛里脊|牛柳|猪里脊)/u.test(form)) return 'tenderloin';
+  if (/(?:牛肉片|猪肉片)/u.test(form)) return 'slice';
+  return '';
+}
+
 // FNV-1a 32 位哈希(与 ai_proxy.py 逐位一致, parity 测试锁定): 取 UTF-8 字节流,
 // offset basis 2166136261, FNV prime 16777619, 全程 32 位无符号; init 允许传入起始 hash 做种子串接。
 function fnv1a32(text, init = 2166136261) {
@@ -69,10 +110,50 @@ function canonicalRecipeIngredient(name, aliases = {}) {
   return resolveRecipeAlias(baseRecipeIngredient(name), normalizeRecipeAliases(aliases));
 }
 
+function recipeMatchIdentity(name, aliases = {}) {
+  const form = recipeMatchForm(name);
+  if (!form) return '';
+  if (RECIPE_MATCH_NORMALIZATION[form]) return RECIPE_MATCH_NORMALIZATION[form];
+  // 特殊肉类形态不能再经过“去片/末”或宽 alias 折叠，否则牛肉末会被误当成通用牛肉。
+  if (controlledMeatFamily(form)) return form;
+  return canonicalRecipeIngredient(name, aliases) || baseRecipeIngredient(name);
+}
+
+// 有方向的菜谱要求匹配：通用牛/鸡/猪肉可接受受控部位；特殊形态只接受同形态，
+// 或由调用方通过 substitution_slots 明确匹配 allowed 项。豆腐按嫩/老两类对齐。
+function ingredientMatchesRecipeRequirement(pantryName, requirementName, aliases = {}) {
+  const pantryForm = recipeMatchForm(pantryName);
+  const requirementForm = recipeMatchForm(requirementName);
+  if (!pantryForm || !requirementForm) return false;
+  if (pantryForm === requirementForm) return true;
+
+  const pantryControlled = RECIPE_MATCH_NORMALIZATION[pantryForm] || '';
+  const requirementControlled = RECIPE_MATCH_NORMALIZATION[requirementForm] || '';
+  if (GENERIC_MEAT_REQUIREMENTS.has(requirementForm)) {
+    if (pantryControlled === requirementForm) return true;
+    if (controlledMeatFamily(pantryForm) !== requirementForm) return false;
+    return GENERIC_MEAT_COMPATIBLE_SHAPES[requirementForm]
+      ?.has(controlledMeatShape(pantryForm)) || false;
+  }
+  if (requirementControlled === '嫩豆腐' || requirementControlled === '老豆腐') {
+    return pantryControlled === requirementControlled;
+  }
+
+  const pantryFamily = controlledMeatFamily(pantryForm);
+  const requirementFamily = controlledMeatFamily(requirementForm);
+  if (pantryFamily || requirementFamily) {
+    if (!pantryFamily || pantryFamily !== requirementFamily) return false;
+    const pantryShape = controlledMeatShape(pantryForm);
+    const requirementShape = controlledMeatShape(requirementForm);
+    return !!pantryShape && pantryShape === requirementShape;
+  }
+  return canonicalRecipeIngredient(pantryName, aliases) === canonicalRecipeIngredient(requirementName, aliases);
+}
+
 function uniqueRecipePantry(value, aliases = {}) {
   const seen = new Set();
   return recipeConstraintList(value).filter(item => {
-    const key = canonicalRecipeIngredient(item, aliases) || baseRecipeIngredient(item);
+    const key = recipeMatchIdentity(item, aliases);
     if (!key || seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -261,7 +342,8 @@ function selectRecipeCandidates(lib, constraints = {}) {
     );
     if (riceAllergyActive && !qualifiedConstraintProfile) continue;
     const constraintProfile = riceAllergyActive ? qualifiedConstraintProfile : null;
-    const core = new Set((recipe.core_ingredients || [])
+    const coreIngredients = recipeConstraintList(recipe.core_ingredients);
+    const core = new Set(coreIngredients
       .map(canonical)
       .filter(Boolean));
     // 明确要求“冷藏不超过一天”的专用剩饭菜，只在用户确实提交熟米饭时参与；
@@ -269,14 +351,17 @@ function selectRecipeCandidates(lib, constraints = {}) {
     const requiresStoredLeftoverRice = (recipe.safety_rules || [])
       .some(rule => typeof rule === 'string' && /冷藏不超过一天/u.test(rule));
     if (requiresStoredLeftoverRice && !pantryCanonical.has('熟米饭')) continue;
-    const optional = new Set((recipe.optional_ingredients || [])
+    const optionalIngredients = recipeConstraintList(recipe.optional_ingredients);
+    const optional = new Set(optionalIngredients
       .map(canonical)
       .filter(Boolean));
     const slots = Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [];
-    const allowed = new Set(slots.flatMap(slot => slot.allowed || [])
+    const allowedIngredients = slots.flatMap(slot => recipeConstraintList(slot?.allowed));
+    const allowed = new Set(allowedIngredients
       .map(canonical)
       .filter(Boolean));
-    const trustedLiquids = new Set(trustedRecipeLiquidOptions(recipe)
+    const trustedLiquidIngredients = trustedRecipeLiquidOptions(recipe);
+    const trustedLiquids = new Set(trustedLiquidIngredients
       .map(canonical)
       .filter(Boolean));
 
@@ -311,15 +396,29 @@ function selectRecipeCandidates(lib, constraints = {}) {
         unusedPantry.push(item);
         continue;
       }
-      if (core.has(canonicalItem)) {
+      const coreRequirement = coreIngredients.find(requirement => (
+        ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+      ));
+      const allowedRequirement = allowedIngredients.find(requirement => (
+        ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+      ));
+      const optionalRequirement = optionalIngredients.find(requirement => (
+        ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+      ));
+      const liquidRequirement = trustedLiquidIngredients.find(requirement => (
+        ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+      ));
+      if (coreRequirement) {
         score += 12;
         usedPantry.push(item);
-        satisfiedCore.add(canonicalItem);
-      } else if (allowed.has(canonicalItem) || optional.has(canonicalItem) || trustedLiquids.has(canonicalItem)) {
+        satisfiedCore.add(canonical(coreRequirement));
+      } else if (allowedRequirement || optionalRequirement || liquidRequirement) {
         score += 5;
         usedPantry.push(item);
         for (const slot of slots) {
-          if (!(slot.allowed || []).map(canonical).includes(canonicalItem)) continue;
+          if (!(slot.allowed || []).some(requirement => (
+            ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+          ))) continue;
           for (const replaced of (slot.replaces || []).map(canonical)) {
             if (core.has(replaced)) satisfiedCore.add(replaced);
           }
@@ -341,6 +440,12 @@ function selectRecipeCandidates(lib, constraints = {}) {
         const form = baseRecipeIngredient(item);
         if (replaceForms.has(form)) return 'original';
         if (alternativeForms.has(form)) return 'alternative';
+        if ((slot.replaces || []).some(requirement => (
+          ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+        ))) return 'original';
+        if ((slot.allowed || []).some(requirement => (
+          ingredientMatchesRecipeRequirement(item, requirement, libAliases)
+        ))) return 'alternative';
         const value = canonical(item);
         if (replaces.has(value) && !alternatives.has(value)) return 'original';
         if (alternatives.has(value) && !replaces.has(value)) return 'alternative';
@@ -438,11 +543,68 @@ function selectRecipeCandidates(lib, constraints = {}) {
   return selected;
 }
 
-// 库存规划先于 DeepSeek 调用执行：每组最多 6 种，最多给 3 组。
-// 每组都来自一条已经通过忌口和可信白名单筛选的基础菜谱；未被任何组覆盖的食材
-// 通过 unplanned 明示，绝不静默丢弃。
+function pantryItemSatisfiesCoreRequirement(item, requirement, recipe, aliases) {
+  if (ingredientMatchesRecipeRequirement(item, requirement, aliases)) return true;
+  const slots = Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : [];
+  return slots.some(slot => {
+    const replacesRequirement = (slot.replaces || []).some(replaced => (
+      recipeMatchForm(replaced) === recipeMatchForm(requirement)
+      || canonicalRecipeIngredient(replaced, aliases) === canonicalRecipeIngredient(requirement, aliases)
+    ));
+    return replacesRequirement && (slot.allowed || []).some(allowed => (
+      ingredientMatchesRecipeRequirement(item, allowed, aliases)
+    ));
+  });
+}
+
+function requiredExtraItems(selection, usedItems) {
+  const recipe = selection?.recipe || {};
+  const aliases = selection?.ingredientAliases || {};
+  const used = recipeConstraintList(usedItems);
+  return recipeConstraintList(recipe.core_ingredients).filter(requirement => {
+    return !used.some(item => pantryItemSatisfiesCoreRequirement(item, requirement, recipe, aliases));
+  });
+}
+
+function pantryPlanGroup(selection, original, usedItems, unusedItems, order) {
+  const recipe = selection?.recipe || {};
+  return {
+    ...(order ? { order } : {}),
+    recipe_id: String(recipe.id || ''),
+    recipe_name: String(recipe.name || recipe.id || '一锅方案'),
+    cuisine: String(recipe.cuisine || ''),
+    used_items: usedItems,
+    unused_items: unusedItems,
+    required_extra_items: requiredExtraItems(selection, usedItems),
+    coverage: usedItems.length,
+    total: original.length,
+  };
+}
+
+// 1–6 种食材返回彼此独立的并列方案，每张卡都与完整 original 比较；超过 6 种才按 remaining
+// 连续规划第一锅、第二锅。两种模式都最多给 3 组，并显式返回 used/unused/required extra。
 function buildPantryPlan(lib, constraints = {}) {
   const original = uniqueRecipePantry(constraints?.pantry, lib?.ingredient_aliases || {});
+  if (original.length <= 6) {
+    const independentConstraints = { ...constraints, pantry: original, swap_intent: '' };
+    const groups = selectRecipeCandidates(lib, independentConstraints)
+      .filter(selection => selection.usedPantry.length)
+      .slice(0, 3)
+      .map(selection => pantryPlanGroup(
+        selection,
+        original,
+        [...selection.usedPantry],
+        [...selection.unusedPantry],
+      ));
+    const covered = new Set(groups.flatMap(group => group.used_items));
+    return {
+      kind: 'alternatives',
+      original,
+      groups,
+      unplanned: original.filter(item => !covered.has(item)),
+    };
+  }
+
   const groups = [];
   const covered = new Set();
   let remaining = [...original];
@@ -463,23 +625,16 @@ function buildPantryPlan(lib, constraints = {}) {
       ),
     });
     if (!selection || !selection.usedPantry.length) break;
-    const items = selection.usedPantry.slice(0, 6);
-    const itemSet = new Set(items);
-    const leftovers = original.filter(item => !itemSet.has(item));
-    for (const item of items) covered.add(item);
-    groups.push({
-      recipe_id: String(selection.recipe?.id || ''),
-      recipe_name: String(selection.recipe?.name || selection.recipe?.id || '一锅方案'),
-      cuisine: String(selection.recipe?.cuisine || ''),
-      items,
-      leftovers,
-      coverage: items.length,
-      total: original.length,
-    });
-    remaining = remaining.filter(item => !itemSet.has(item));
+    const usedItems = selection.usedPantry.slice(0, 6);
+    const usedSet = new Set(usedItems);
+    const unusedItems = remaining.filter(item => !usedSet.has(item));
+    for (const item of usedItems) covered.add(item);
+    groups.push(pantryPlanGroup(selection, original, usedItems, unusedItems, groups.length + 1));
+    remaining = unusedItems;
   }
 
   return {
+    kind: 'sequence',
     original,
     groups,
     unplanned: original.filter(item => !covered.has(item)),
@@ -570,19 +725,52 @@ function trustedRecipeFatOptions(selection) {
     .filter(name => /(?:黄油|奶油|牛脂|[橄榄植物食用菜籽花生大豆芝麻香]油)$/.test(String(name || '').trim()));
 }
 
+function pantryItemShouldReplaceCoreLabel(item, requirement, recipe, aliases) {
+  const itemForm = recipeMatchForm(item);
+  const requirementForm = recipeMatchForm(requirement);
+  if (!itemForm || !requirementForm) return false;
+  if (itemForm === requirementForm) return true;
+  if (GENERIC_MEAT_REQUIREMENTS.has(requirementForm)) {
+    return ingredientMatchesRecipeRequirement(item, requirement, aliases);
+  }
+  const requirementControlled = RECIPE_MATCH_NORMALIZATION[requirementForm] || '';
+  if (requirementControlled === '嫩豆腐' || requirementControlled === '老豆腐') {
+    return ingredientMatchesRecipeRequirement(item, requirement, aliases);
+  }
+  return (Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : []).some(slot => (
+    (slot.replaces || []).some(replaced => (
+      recipeMatchForm(replaced) === requirementForm
+      || canonicalRecipeIngredient(replaced, aliases) === canonicalRecipeIngredient(requirement, aliases)
+    ))
+    && (slot.allowed || []).some(allowed => ingredientMatchesRecipeRequirement(item, allowed, aliases))
+  ));
+}
+
 function trustedRecipeIngredientWhitelist(selection) {
   const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
   const aliases = selection?.ingredientAliases || {};
   const seen = new Set();
   const core = Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [];
+  const selectedPantry = Array.isArray(selection?.usedPantry) ? selection.usedPantry : [];
+  const consumedSelected = new Set();
+  const adaptedCore = core.map(requirement => {
+    const selectedIndex = selectedPantry.findIndex((item, index) => (
+      !consumedSelected.has(index)
+      && pantryItemShouldReplaceCoreLabel(item, requirement, recipe, aliases)
+    ));
+    if (selectedIndex < 0) return requirement;
+    consumedSelected.add(selectedIndex);
+    return selectedPantry[selectedIndex];
+  });
+  const remainingSelected = selectedPantry.filter((_, index) => !consumedSelected.has(index));
   // 可选/液体/库存部分按忌口过滤(W4); 固定核心保持原样(核心安全由选菜层 blockedCore 保证)。
   const optionalPool = filterTrustedOptionsByDislikes([
     ...trustedRecipeGenerationOptions(recipe),
     ...trustedRecipeLiquidOptions(recipe),
-    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
   ], selection?.dislikes, aliases);
   return [
-    ...core,
+    ...adaptedCore,
+    ...remainingSelected,
     ...optionalPool,
   ].filter(item => {
     if (/^不(?:放|加|用)/.test(String(item || '').trim())) return false;
@@ -1350,20 +1538,28 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   }
 
   for (const item of Array.isArray(selection?.usedPantry) ? selection.usedPantry : []) {
-    const canonical = validationCanonicalIngredient(item, aliases);
-    if (canonical && !canonicalIngredients.has(canonical)) flags.add(`used_pantry_missing:${item}`);
+    if (!ingredientNames.some(name => ingredientMatchesRecipeRequirement(name, item, aliases))) {
+      flags.add(`used_pantry_missing:${item}`);
+    }
   }
   for (const item of Array.isArray(selection?.unusedPantry) ? selection.unusedPantry : []) {
-    const canonical = validationCanonicalIngredient(item, aliases);
-    if (canonical && canonicalIngredients.has(canonical)) flags.add(`unused_pantry_used:${item}`);
+    if (ingredientNames.some(name => ingredientMatchesRecipeRequirement(name, item, aliases))) {
+      flags.add(`unused_pantry_used:${item}`);
+    }
   }
 
-  const anchors = new Set([
-    ...(Array.isArray(selection?.recipe?.core_ingredients) ? selection.recipe.core_ingredients : []),
-    ...(Array.isArray(selection?.usedPantry) ? selection.usedPantry : []),
-  ].map(item => validationCanonicalIngredient(item, aliases)).filter(Boolean));
-  const requiredAnchorHits = Math.min(2, anchors.size);
-  const anchorHits = [...anchors].filter(anchor => canonicalIngredients.has(anchor)).length;
+  const recipe = selection?.recipe || {};
+  const usedPantry = Array.isArray(selection?.usedPantry) ? selection.usedPantry : [];
+  const anchors = recipeConstraintList(recipe.core_ingredients).map(requirement => (
+    usedPantry.find(item => pantryItemSatisfiesCoreRequirement(item, requirement, recipe, aliases)) || requirement
+  ));
+  for (const item of usedPantry) {
+    if (!anchors.some(anchor => ingredientMatchesRecipeRequirement(item, anchor, aliases))) anchors.push(item);
+  }
+  const requiredAnchorHits = Math.min(2, anchors.length);
+  const anchorHits = anchors.filter(anchor => (
+    ingredientNames.some(name => ingredientMatchesRecipeRequirement(name, anchor, aliases))
+  )).length;
   if (anchorHits < requiredAnchorHits) flags.add('base_recipe_anchor_missing');
   const namedVessels = new Set();
   for (const step of steps) {
@@ -2073,11 +2269,46 @@ function repairSelectedSubstitutionConflicts(meal, selection) {
   return repaired;
 }
 
+// 通用肉类菜谱命中具体部位后，模型若仍返回“牛肉/鸡肉/猪肉”，确定性改回用户原始名称。
+// 只改写与通用核心逐字相同的 ingredient，特殊部位要求不进入这里。
+function repairSelectedGenericMeatNames(meal, selection) {
+  if (!meal || typeof meal !== 'object' || !Array.isArray(meal.ingredients)) return 0;
+  const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  const aliases = selection?.ingredientAliases || {};
+  const usedPantry = Array.isArray(selection?.usedPantry) ? selection.usedPantry : [];
+  let repaired = 0;
+
+  for (const requirement of recipeConstraintList(recipe.core_ingredients)) {
+    const requirementForm = recipeMatchForm(requirement);
+    if (!GENERIC_MEAT_REQUIREMENTS.has(requirementForm)) continue;
+    const selected = usedPantry.find(item => (
+      recipeMatchForm(item) !== requirementForm
+      && ingredientMatchesRecipeRequirement(item, requirement, aliases)
+    ));
+    if (!selected) continue;
+    let replacedIngredient = false;
+    for (const ingredient of meal.ingredients) {
+      if (recipeMatchForm(ingredient?.name) !== requirementForm) continue;
+      ingredient.name = selected;
+      replacedIngredient = true;
+      repaired += 1;
+    }
+    if (!replacedIngredient) continue;
+    const rewrite = value => String(value || '').split(requirement).join(selected);
+    for (const field of ['dish_name', 'note', 'taste_preview', 'why']) {
+      if (typeof meal[field] === 'string') meal[field] = rewrite(meal[field]);
+    }
+    if (Array.isArray(meal.steps)) meal.steps = meal.steps.map(rewrite);
+  }
+  return repaired;
+}
+
 function attachGroundedMetadata(meal, selection, constraints) {
   delete meal.constraint_profile;
   delete meal.constraint_profiles;
   delete meal.active_constraint_profile;
   repairSelectedSubstitutionConflicts(meal, selection);
+  repairSelectedGenericMeatNames(meal, selection);
   repairGroundedMealConsumables(meal, selection, constraints);
   repairRiceAllergyCompleteMain(meal, selection, constraints);
   repairGroundedMealSafety(meal, selection, constraints);
@@ -2229,7 +2460,7 @@ async function handleGenerate(request, env) {
   if (constraints.pantry.length > 0
     && (constraints.pantry.length > 6 || selection.usedPantry.length !== constraints.pantry.length)) {
     return jsonResponse({
-      error: '这些食材需要先分成几锅，选定的一锅会全部使用',
+      error: '这些食材不能稳妥放进同一锅，请先查看本锅方案',
       code: 'pantry_needs_grouping',
       pantry_plan: buildPantryPlan(recipeLib, constraints),
     }, 409, env, request);
