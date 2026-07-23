@@ -245,9 +245,9 @@ function runPython(args, { input, env } = {}) {
     encoding: 'utf8',
     input,
     env: env || cleanPythonEnv(),
-    // 全量测试会并行启动多个 Node/Python/Chrome 进程；实测高负载下单个
-    // parity 子进程可超过 15s。这里只防死锁，不是产品时延闸门，放宽到 30s 避免假红。
-    timeout: 30000,
+    // 全量测试会并行启动多个 Node/Python/Chrome 进程；负载竞争下单个
+    // parity 子进程可能超过 30s。这里只防死锁，不是产品时延闸门，留 90s 余量避免假红。
+    timeout: 90000,
   });
 }
 
