@@ -921,16 +921,17 @@ test('Worker and Python selectors preserve unmatched pantry details for the requ
   assert.deepEqual(hits[0].unused_pantry, ['豆腐', '白菜', '金针菇']);
 });
 
-test('Worker and Python select the same trusted base for tomato shrimp cabbage and corn', () => {
+test('Worker and Python keep tomato shrimp cabbage and corn inside the quick time gate', () => {
   const constraints = {
     pantry: ['西红柿', '虾仁', '白菜', '玉米'],
     purpose: 'quick',
     dislikes: [],
   };
   const hits = assertSelectorParity(lib, constraints);
-  assert.equal(hits[0].recipe_id, 'taiwan-cabbage-mushroom-rice');
-  assert.deepEqual(hits[0].used_pantry, constraints.pantry);
-  assert.deepEqual(hits[0].unused_pantry, []);
+  assert.equal(hits[0].recipe_id, 'cabbage-egg-soup-rice');
+  assert.ok(lib.recipes.find(recipe => recipe.id === hits[0].recipe_id).total_time_minutes <= 30);
+  assert.deepEqual(hits[0].used_pantry, ['白菜']);
+  assert.deepEqual(hits[0].unused_pantry, ['西红柿', '虾仁', '玉米']);
 });
 
 test('Worker and Python build the same explicit groups for a fourteen-item pantry', () => {
