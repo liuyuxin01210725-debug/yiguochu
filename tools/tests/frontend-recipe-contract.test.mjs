@@ -148,6 +148,47 @@ test('localhost uses only the local proxy endpoint', () => {
   );
 });
 
+test('file protocol never exposes a production generation endpoint', () => {
+  const { context } = loadFrontend([], {
+    proxy: 'https://yiguochu.pages.dev',
+    location: {
+      protocol: 'file:', hostname: '', origin: 'null',
+    },
+  });
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify(apiCandidates('/generate-meal'))`)),
+    [],
+  );
+});
+
+test('file protocol generation asks the user to start the local version without fetching', async () => {
+  const { context, calls, root } = loadFrontend([], {
+    proxy: null,
+    location: {
+      protocol: 'file:', hostname: '', origin: 'null',
+    },
+  });
+  await evaluate(context, `runGenerate({ profile:state.profile })`);
+  assert.equal(calls.length, 0);
+  assert.equal(evaluate(context, `state.view`), 'gen-failed');
+  assert.match(root.innerHTML, /请双击 start\.command 启动本地版本。/);
+});
+
+test('production uses only its same-origin generation endpoint', () => {
+  const { context } = loadFrontend([], {
+    proxy: null,
+    location: {
+      protocol: 'https:',
+      hostname: 'yiguochu.pages.dev',
+      origin: 'https://yiguochu.pages.dev',
+    },
+  });
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify(apiCandidates('/generate-meal'))`)),
+    ['/generate-meal'],
+  );
+});
+
 test('swap copy no longer promises every pantry item is used', () => {
   assert.doesNotMatch(html, /换菜会一直带着家里的食材|换菜时一直带着/);
   assert.equal((html.match(/会优先使用，搭不上的会说明/g) || []).length, 1);
