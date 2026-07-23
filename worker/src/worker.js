@@ -245,6 +245,9 @@ function selectRecipeCandidates(lib, constraints = {}) {
   const candidates = [];
 
   for (const recipe of libRecipes) {
+    if (constraints.purpose === 'quick'
+      && Number.isFinite(recipe.total_time_minutes)
+      && recipe.total_time_minutes > 30) continue;
     // 已经换掉或点过「开始做」的基础菜谱在 7 天冷却窗口内不再候选。
     // 这必须是资格过滤，不能只靠 -100 软罚：全局库存覆盖优先后，软罚仍可能
     // 被覆盖层级压过，导致「换一换」原样返回。用户可在候选枯竭页主动清空记录。
@@ -2143,15 +2146,22 @@ async function budgetConsume(env) {
 
 async function handleGenerate(request, env) {
   const t0 = Date.now();
-  if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
-  if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
-
-  // 输入硬上限: 请求体超 32KB 直接 400, 不进后续解析与生成。
+  // 先校验请求体，再进入限流、菜谱选择和预算扣账。非空非法 JSON 不得消耗生成额度。
   const rawBody = await request.text().catch(() => '');
   if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
     return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
   }
-  const req = (() => { try { return JSON.parse(rawBody || '{}'); } catch (_err) { return {}; } })();
+  let parsed = {};
+  if (rawBody.trim()) {
+    try {
+      parsed = JSON.parse(rawBody);
+    } catch (_err) {
+      return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+    }
+  }
+  const req = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+  if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
+  if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
   const targets = req.targets && typeof req.targets === 'object' ? req.targets : {};
   const constraints = sanitizeRecipeConstraints(req.constraints);
   const mealName = String(req.meal_name || '主餐');

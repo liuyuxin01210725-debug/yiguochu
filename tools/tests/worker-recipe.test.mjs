@@ -131,6 +131,7 @@ async function runGenerateRequest({
   envOverrides = {},
   fetchImpl,
   bodyOverrides = {},
+  rawBody,
 }) {
   generationImportId += 1;
   const { default: worker } = await import(`../../worker/src/worker.js?generation-${generationImportId}`);
@@ -164,7 +165,7 @@ async function runGenerateRequest({
   const request = new Request('https://example.test/generate-meal', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+    body: rawBody ?? JSON.stringify({
       meal_name: '这次的一锅主餐',
       targets,
       constraints: { purpose: 'quick', servings: 2, dislikes: [], ...constraints },
@@ -219,7 +220,7 @@ test('canonicalizer resolves alias cycles to one stable representative', () => {
 test('chicken rice onion raisins selects simple biryani', () => {
   const [hit] = selectRecipeCandidates(lib, {
     pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'],
-    purpose: 'quick',
+    purpose: 'pantry',
     dislikes: [],
   });
   assert.equal(hit.recipe.id, 'simple-chicken-biryani');
@@ -279,7 +280,7 @@ test('pantry chicken rice request prefers the exact biryani base over a larger i
 test('tofu cabbage and enoki pantry maps every item into the trusted Taiwan rice base', () => {
   const [selection] = selectRecipeCandidates(lib, {
     pantry: ['豆腐', '白菜', '金针菇'],
-    purpose: 'quick',
+    purpose: 'pantry',
     dislikes: [],
   });
   assert.equal(selection.recipe.id, 'taiwan-cabbage-mushroom-rice');
@@ -290,7 +291,7 @@ test('tofu cabbage and enoki pantry maps every item into the trusted Taiwan rice
 test('tomato shrimp cabbage and corn pantry maps every item into one trusted rice base', () => {
   const [selection] = selectRecipeCandidates(lib, {
     pantry: ['西红柿', '虾仁', '白菜', '玉米'],
-    purpose: 'quick',
+    purpose: 'pantry',
     dislikes: [],
   });
   assert.equal(selection.recipe.id, 'taiwan-cabbage-mushroom-rice');
@@ -464,7 +465,7 @@ test('generation rejects a completely unmatched pantry before calling DeepSeek',
 test('leafy-water adversarial pantry still prefers biryani and discards the unsuitable leaf load', () => {
   const [selection] = selectRecipeCandidates(lib, {
     pantry: ['大米', '鸡肉', '洋葱', '大量叶菜'],
-    purpose: 'quick',
+    purpose: 'pantry',
     dislikes: [],
   });
   assert.equal(selection.recipe.id, 'simple-chicken-biryani');
@@ -615,7 +616,7 @@ test('rice allergy safe pool closes when a fixed safe core is disliked', () => {
 test('unrelated allergy preserves ordinary recipe selection', () => {
   const [hit] = selectRecipeCandidates(lib, {
     pantry: ['鸡腿肉', '大米', '洋葱', '葡萄干'],
-    purpose: 'quick',
+    purpose: 'pantry',
     dislikes: ['花生过敏'],
   });
   assert.equal(hit.recipe.id, 'simple-chicken-biryani');
@@ -1170,7 +1171,7 @@ test('global pantry coverage is ranked before the five-family shortlist is cut',
 test('global coverage keeps the real tomato-shrimp candidate ahead of tomato-only recipes', () => {
   const constraints = {
     pantry: ['番茄', '虾仁', '猪肉'],
-    purpose: 'quick',
+    purpose: 'pantry',
     servings: 2,
     dislikes: [],
   };
@@ -1203,7 +1204,7 @@ test('layered pick never trades shortlist pantry coverage for jitter diversity',
 
 test('layered pick keeps both 大米 and 虾仁 over the rice-only congee (codex 反例)', () => {
   // 旧逻辑: 0-6 分抖动在短名单内平等施加, 只用大米的基础粥翻过双命中的炊饭。
-  const constraints = { pantry: ['大米', '虾仁'], purpose: 'quick', servings: 2, dislikes: [] };
+  const constraints = { pantry: ['大米', '虾仁'], purpose: 'pantry', servings: 2, dislikes: [] };
   const pick = pickRecipeSelection(selectRecipeCandidates(lib, constraints), constraints);
   assert.equal(pick.recipe.id, 'taiwan-cabbage-mushroom-rice');
   assert.ok(pick.usedPantry.includes('大米') && pick.usedPantry.includes('虾仁'));
@@ -3957,6 +3958,41 @@ test('request body over 32KB returns 400 before any upstream call', async () => 
   assert.equal(response.status, 400);
   assert.equal(body.code, 'request_too_large');
   assert.equal(upstreamBodies.length, 0);
+});
+
+test('non-empty invalid JSON returns 400 before budget or DeepSeek', async () => {
+  let budgetReads = 0;
+  let budgetWrites = 0;
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    rawBody: '{"constraints":',
+    envOverrides: {
+      RATE_KV: {
+        async get() { budgetReads += 1; return null; },
+        async put() { budgetWrites += 1; },
+      },
+    },
+  });
+  assert.equal(response.status, 400);
+  assert.equal(body.code, 'invalid_json');
+  assert.equal(upstreamBodies.length, 0);
+  assert.equal(budgetReads, 0);
+  assert.equal(budgetWrites, 0);
+});
+
+test('quick candidate selection excludes recipes over thirty minutes', () => {
+  const recipes = [
+    fixtureRecipe('quick-thirty', 'family-thirty', {
+      core_ingredients: ['甲'], total_time_minutes: 30,
+    }),
+    fixtureRecipe('quick-thirty-one', 'family-thirty-one', {
+      core_ingredients: ['甲'], total_time_minutes: 31,
+    }),
+  ];
+  const selected = selectRecipeCandidates(fixtureLib(recipes), {
+    pantry: ['甲'], purpose: 'quick', dislikes: [],
+  });
+  assert.deepEqual(selected.map(item => item.recipe.id), ['quick-thirty']);
 });
 
 // ===== W4: 预算熔断 fail-closed =====

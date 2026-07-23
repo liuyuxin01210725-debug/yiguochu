@@ -135,6 +135,19 @@ test('preview uses only its same-origin generation endpoint', () => {
   );
 });
 
+test('localhost uses only the local proxy endpoint', () => {
+  const { context } = loadFrontend([], {
+    proxy: null,
+    location: {
+      protocol: 'http:', hostname: 'localhost', origin: 'http://localhost:8081',
+    },
+  });
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify(apiCandidates('/generate-meal'))`)),
+    ['http://localhost:8765/generate-meal'],
+  );
+});
+
 test('swap copy no longer promises every pantry item is used', () => {
   assert.doesNotMatch(html, /换菜会一直带着家里的食材|换菜时一直带着/);
   assert.equal((html.match(/会优先使用，搭不上的会说明/g) || []).length, 1);
@@ -231,6 +244,34 @@ test('frontend preserves trusted evidence for the promoted traditional recipes',
     const rendered = evaluate(context, `recipeBasisBlock(${JSON.stringify(mapped)})`);
     assert.match(rendered, new RegExp(fixture.base_recipe_id));
   }
+});
+
+test('recipe evidence distinguishes project canonical recipes from external sources', () => {
+  const { context } = loadFrontend();
+  const canonical = evaluate(context, `recipeBasisBlock(${JSON.stringify({
+    baseRecipeId: 'local-recipe',
+    pairingBasis: '项目标准配方。',
+    sourceRefs: [{
+      title: '一锅出原创标准配方',
+      url: 'https://yiguochu.pages.dev/recipes.html?id=local-recipe',
+      license: '保留所有权利',
+      attribution: '一锅出项目',
+    }],
+  })})`);
+  const external = evaluate(context, `recipeBasisBlock(${JSON.stringify({
+    baseRecipeId: 'external-recipe',
+    pairingBasis: '外部资料依据。',
+    sourceRefs: [{
+      title: 'External source',
+      url: 'https://example.com/recipe',
+      license: 'CC BY 4.0',
+      attribution: 'Example',
+    }],
+  })})`);
+  assert.match(canonical, />查看一锅出标准配方<\/a>/);
+  assert.doesNotMatch(canonical, />查看事实来源<\/a>/);
+  assert.match(external, />查看事实来源<\/a>/);
+  assert.doesNotMatch(external, />查看一锅出标准配方<\/a>/);
 });
 
 test('recipe evidence escapes text and href and uses source details', () => {
@@ -385,19 +426,15 @@ test('use leftovers starts the next plan with exactly the remaining foods', asyn
   assert.deepEqual(JSON.parse(calls[0].init.body).constraints.pantry, remaining);
 });
 
-test('editing a generated dish refreshes used and remaining pantry coverage', () => {
+test('generated ingredient rows are read-only and keep the whole-pot serving summary', () => {
   const { context } = loadFrontend();
-  const coverage = JSON.parse(evaluate(context, `JSON.stringify((() => {
-    state.dish = {
-      ingredients:[{name:'豆腐', grams:100, nut:{kcal:80}}, {name:'白菜', grams:100, nut:{kcal:20}}],
-      usedPantry:['豆腐','白菜'],
-      pantryContext:{original:['豆腐','白菜'], remaining:[]}
-    };
-    state.items = [{name:'豆腐', grams:100, nut:{kcal:80}}];
-    syncDishFromItems();
-    return {used:state.dish.usedPantry, remaining:state.dish.pantryContext.remaining};
-  })())`));
-  assert.deepEqual(coverage, { used:['豆腐'], remaining:['白菜'] });
+  const rendered = evaluate(context, `(() => {
+    state.dish = { servings:2 };
+    state.items = [{name:'豆腐', grams:100, est:false}, {name:'白菜', grams:120, est:false}];
+    return ingredients();
+  })()`);
+  assert.match(rendered, /整锅约 2 份/);
+  assert.doesNotMatch(rendered, /data-bump|data-delta|data-del|toggle-edit/);
 });
 
 test('frontend counts a canonical food name and its alias only once', () => {
@@ -461,7 +498,7 @@ test('ordinary quick accepts thirty minutes and rejects thirty-one', () => {
   assert.deepEqual(values, [true, false]);
 });
 
-test('a trusted pantry match may trade speed for using the supplied foods without becoming unsafe', () => {
+test('a trusted pantry match cannot relax quick beyond thirty minutes', () => {
   const { context } = loadFrontend();
   const values = JSON.parse(evaluate(context, `JSON.stringify((() => {
     state.profile = { purpose:'quick', servings:'2', pantry:'豆腐, 白菜, 金针菇', dislikes:'' };
@@ -469,9 +506,9 @@ test('a trusted pantry match may trade speed for using the supplied foods withou
       ingredients:[{name:'豆腐'},{name:'白菜'},{name:'金针菇'},{name:'大米'}], kcal:1200,
       purpose:'quick', _targets:{kcal:1200}, validationFlags:[],
       baseRecipeId:'taiwan-cabbage-mushroom-rice', usedPantry:['豆腐','白菜','金针菇'] };
-    return [scoreDish(base).ok, scoreDish({...base, minutes:41}).ok];
+    return [scoreDish(base).ok, scoreDish({...base, minutes:30}).ok];
   })())`));
-  assert.deepEqual(values, [true, false]);
+  assert.deepEqual(values, [false, true]);
 });
 
 test('a trusted pantry quick recipe may use the backend-safe four steps and nine ingredient rows', () => {
@@ -534,16 +571,16 @@ test('swap request accumulates swap history so backend avoids all seen dishes', 
   assert.deepEqual(body.constraints.recent_families, ['family-a', 'family-b']);
 });
 
-test('updateSwapHistory accumulates on swap, dedupes, and keeps history on fresh generation', () => {
+test('updateSwapHistory records swapped kind, dedupes, and keeps history on fresh generation', () => {
   const { context } = loadFrontend();
   const result = JSON.parse(evaluate(context, `(() => {
     state.dish = { name:'菜A', baseRecipeId:'base-a', familyId:'family-a' };
-    updateSwapHistory(true);
+    updateSwapHistory('swapped');
     state.dish = { name:'菜B', baseRecipeId:'base-b', familyId:'family-b' };
-    updateSwapHistory(true);
-    updateSwapHistory(true); // 同一道重复换不重复记
+    updateSwapHistory('swapped');
+    updateSwapHistory('swapped'); // 同一道重复换不重复记
     const afterSwaps = JSON.parse(JSON.stringify(state.swapHistory));
-    updateSwapHistory(false); // 全新生成不再清空(F-A): 跨会话冷却, 上次吃过的继续避开
+    updateSwapHistory(); // 全新生成不再清空(F-A): 跨会话冷却, 上次吃过的继续避开
     return JSON.stringify({ afterSwaps: afterSwaps, afterFresh: state.swapHistory });
   })()`));
   assert.deepEqual(result.afterSwaps.map(h => ({ name: h.name, base: h.base, fam: h.fam })), [
@@ -551,12 +588,27 @@ test('updateSwapHistory accumulates on swap, dedupes, and keeps history on fresh
     { name:'菜B', base:'base-b', fam:'family-b' },
   ]);
   assert.ok(result.afterSwaps.every(h => typeof h.ts === 'number'), 'swap history entries carry a timestamp');
+  assert.ok(result.afterSwaps.every(h => h.kind === 'swapped'), 'swap history entries carry swapped kind');
   assert.deepEqual(result.afterFresh, result.afterSwaps);
 });
 
 test('start-cooking records the dish as eaten so cross-session avoidance covers cooked dishes', () => {
   // codex 指正: 历史不能只记「换掉的」, 「开始做」的菜必须同样进 swapHistory(否则跨会话避开空转)
-  assert.match(html, /act === 'start-cooking'\) \{\s*updateSwapHistory\(true\)/);
+  assert.match(html, /act === 'start-cooking'\) \{\s*updateSwapHistory\('started'\)/);
+});
+
+test('started and swapped history entries both remain in the seven-day cooldown request', async () => {
+  const { context, calls } = loadFrontend([{ body: meal() }]);
+  await evaluate(context, `(() => {
+    state.swapHistory = [
+      { name:'换掉的菜', base:'base-swapped', fam:'family-a', kind:'swapped', ts:Date.now() },
+      { name:'做过的菜', base:'base-started', fam:'family-b', kind:'started', ts:Date.now() },
+    ];
+    return fetchRealDish({});
+  })()`);
+  const body = JSON.parse(calls[0].init.body);
+  assert.deepEqual(body.constraints.recent_dishes, ['换掉的菜', '做过的菜']);
+  assert.deepEqual(body.constraints.recent_base_recipes, ['base-swapped', 'base-started']);
 });
 
 test('swap history persists timestamped entries through STORE', () => {
@@ -564,7 +616,7 @@ test('swap history persists timestamped entries through STORE', () => {
   const { context } = loadFrontend([], { storage });
   evaluate(context, `(() => {
     state.dish = { name:'菜A', baseRecipeId:'base-a', familyId:'family-a' };
-    updateSwapHistory(true);
+    updateSwapHistory('swapped');
   })()`);
   const stored = JSON.parse(evaluate(context, `JSON.stringify(STORE.getSwapHistory())`));
   assert.equal(stored.length, 1);
@@ -573,6 +625,7 @@ test('swap history persists timestamped entries through STORE', () => {
     { name:'菜A', base:'base-a', fam:'family-a' },
   );
   assert.equal(typeof stored[0].ts, 'number');
+  assert.equal(stored[0].kind, 'swapped');
   assert.deepEqual(JSON.parse(storage.getItem('yiguochu_v1')).swapHistory, stored);
 });
 
@@ -597,9 +650,9 @@ test('swap history survives a frontend reload through shared localStorage', () =
   const first = loadFrontend([], { storage });
   evaluate(first.context, `(() => {
     state.dish = { name:'菜A', baseRecipeId:'base-a', familyId:'family-a' };
-    updateSwapHistory(true);
+    updateSwapHistory('swapped');
     state.dish = { name:'菜B', baseRecipeId:'base-b', familyId:'family-b' };
-    updateSwapHistory(true);
+    updateSwapHistory('swapped');
   })()`);
   const second = loadFrontend([], { storage }); // 重新加载前端但共享同一 localStorage = 跨"会话"
   const restored = JSON.parse(evaluate(second.context, `JSON.stringify(state.swapHistory)`));

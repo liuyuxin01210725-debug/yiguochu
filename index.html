@@ -103,14 +103,6 @@
   .ing-name { flex: 1; font-size: 14.5px; color: var(--ink); display: flex; align-items: center; gap: 6px; }
   .est-tag { font-size: 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 4px; line-height: 15px; }
   .ing-grams { font-size: 13px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; background: var(--surface-2); padding: 3px 9px; border-radius: 8px; white-space: nowrap; }
-  .ing-edit { display: flex; align-items: center; gap: 6px; }
-  .stepper { width: 26px; height: 26px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink-2); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .stepper:active { background: var(--surface-2); }
-  .ing-grams-ed { min-width: 36px; text-align: center; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
-  .del { width: 26px; height: 26px; border-radius: 8px; border: none; background: none; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .del:hover { color: var(--clay); }
-  .add-ing { margin-top: 11px; width: 100%; border: 1.5px dashed var(--line); background: none; color: var(--ink-2); border-radius: 11px; padding: 10px; font-size: 13.5px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
-  .add-ing:hover { border-color: var(--clay); color: var(--clay); }
   .steps { list-style: none; margin: 11px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
   .step-row { display: flex; gap: 11px; }
   .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-variant-numeric: tabular-nums; }
@@ -395,6 +387,18 @@ function safeHttpUrl(value) {
     return url.href;
   } catch (e) {
     return '';
+  }
+}
+function isProjectCanonicalRecipeUrl(value) {
+  const safe = safeHttpUrl(value);
+  if (!safe) return false;
+  try {
+    const url = new URL(safe);
+    return url.hostname === 'yiguochu.pages.dev'
+      && url.pathname === '/recipes.html'
+      && url.searchParams.has('id');
+  } catch (e) {
+    return false;
   }
 }
 function normalizedSourceRefs(value) {
@@ -764,7 +768,7 @@ const SUPPLEMENTS = [
   { id:'milk', icon:'milk', title:'奶或豆制品', sub:'手边方便时顺手搭配', detail:'一杯 / 一盒' },
   { id:'fruit', icon:'fruit', title:'一份水果', sub:'饭后想吃再拿一个', detail:'苹果 / 橙子等' },
 ];
-const LOADING_STAGES = ['正在按你家里的食材搭一锅','正在看是不是 40 分钟内能做','第一版有点麻烦，换一版更顺手的'];
+const LOADING_STAGES = ['选基础菜','检查份量时间','检查步骤安全'];
 const PURPOSE_TEXT = { quick:'快点吃上', pantry:'清掉现有食材', fresh:'换个口味', batch:'多做一些' };
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
 const TONE_TEXT = { week:'每份参考' };
@@ -794,9 +798,9 @@ function nutriFor(d) {
 // ---- 视图状态 ----
 const state = {
   view:'profile', dish:null, // 首屏是表单页, 没有菜品; 静态示意菜已随失败兜底一起移除(F2)
-  swapOpen:false, swapPantryEdit:false, addingFood:false, editing:false, items:[], nutriOpen:false,
+  swapOpen:false, swapPantryEdit:false, addingFood:false, items:[], nutriOpen:false,
   genStage:0, notice:'', lastGenError:null,
-  swapHistory:[], // 历史=换掉的菜+点过「开始做」的菜(带 ts), 生成时发给后端避开; 与 localStorage 同步, 跨会话保留 7 天, 全新生成不再清空
+  swapHistory:[], // 历史=换掉或点过「开始做」的菜(带 kind+ts), 生成时发给后端避开; 与 localStorage 同步, 跨会话保留 7 天
   lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
@@ -808,7 +812,10 @@ function pruneSwapHistory(list, now) {
   const t = typeof now === 'number' ? now : Date.now();
   return (Array.isArray(list) ? list : [])
     .filter(h => h && typeof h.ts === 'number' && (h.name || h.base) && t - h.ts < SWAP_HISTORY_TTL)
-    .map(h => ({ name: String(h.name || ''), base: String(h.base || ''), fam: String(h.fam || ''), ts: h.ts }))
+    .map(h => ({
+      name: String(h.name || ''), base: String(h.base || ''), fam: String(h.fam || ''),
+      kind: h.kind === 'started' ? 'started' : 'swapped', ts: h.ts,
+    }))
     .slice(-20);
 }
 // state.swapHistory 就是持久层在内存的镜像: 修剪后写回 localStorage
@@ -873,21 +880,18 @@ function recipeBasisBlock(d) {
     const title = source.title ? '<div class="basis-source-title">' + esc(source.title) + '</div>' : '';
     const license = source.license ? '<div class="basis-source-meta">授权：' + esc(source.license) + '</div>' : '';
     const attribution = source.attribution ? '<div class="basis-source-meta">署名：' + esc(source.attribution) + '</div>' : '';
-    return '<div class="basis-source">' + title + '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">打开原始来源</a>' + license + attribution + '</div>';
+    const linkText = isProjectCanonicalRecipeUrl(source.url) ? '查看一锅出标准配方' : '查看事实来源';
+    return '<div class="basis-source">' + title + '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + linkText + '</a>' + license + attribution + '</div>';
   }).join('');
   return '<section class="recipe-basis"><p class="basis-line"><strong>搭配依据：</strong>' + esc(boundedText(d.pairingBasis, 400)) + '</p>' + usedLine + unusedLine + '<details class="basis-sources"><summary>参考来源（' + sources.length + '）</summary>' + sourceRows + '</details></section>';
 }
 function ingredients() {
-  const rows = state.items.map((it, i) => {
-    const right = state.editing ?
-      '<span class="ing-edit"><button class="stepper" data-bump="' + i + '" data-delta="-10">' + icon('minus',{size:14,sw:2.2}) + '</button><span class="ing-grams-ed">' + it.grams + 'g</span><button class="stepper" data-bump="' + i + '" data-delta="10">' + icon('plus',{size:14,sw:2.2}) + '</button><button class="del" data-del="' + i + '">' + icon('close',{size:14,sw:2}) + '</button></span>' :
-      '<span class="ing-grams">' + it.grams + ' g</span>';
-    return '<li class="ing-row"><span class="ing-bullet"></span><span class="ing-name">' + esc(it.name) + (it.est ? '<span class="est-tag" title="此食材未收录营养库，营养值为 AI 估算，仅供参考">估</span>' : '') + '</span>' + right + '</li>';
+  const rows = state.items.map(it => {
+    return '<li class="ing-row"><span class="ing-bullet"></span><span class="ing-name">' + esc(it.name) + (it.est ? '<span class="est-tag" title="此食材未收录营养库，营养值为 AI 估算，仅供参考">估</span>' : '') + '</span><span class="ing-grams">' + it.grams + ' g</span></li>';
   }).join('');
-  return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3>' +
-    '<button class="link-btn" data-act="toggle-edit">' + icon(state.editing ? 'check' : 'edit',{size:14,sw:1.9}) + (state.editing ? '完成' : '调整') + '</button></div>' +
+  return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3></div>' +
     '<div class="ing-sub">' + state.items.length + ' 样 · 整锅约 ' + servingLabel(state.dish.servings || servingCount(state.profile)) + ' 份</div><ul class="ing-list">' + rows + '</ul>' +
-    '</section>'; // 「加一样」已移除: 加出的"新食材"无法改名, 半成品比没有更伤信任; 调整克数+删除已够 pilot 用
+    '</section>';
 }
 function stepsBlock(d) {
   const rows = d.steps.map((s, i) => '<li class="step-row"><span class="step-num">' + (i+1) + '</span><span class="step-text">' + esc(s) + '</span></li>').join('');
@@ -935,7 +939,7 @@ function profileScreen() {
   return '<div class="screen profile-screen">' + head + body + cta + '</div>';
 }
 function generatingScreen() {
-  const note = '第一版要是太麻烦，会自动帮你换一版更顺手的，不用等太久。';
+  const note = '正在按你选择的食材、份数和忌口逐项检查。';
   const stages = LOADING_STAGES.map((s, i) => '<div class="gen-stage' + (i===state.genStage ? ' active' : i < state.genStage ? ' done' : '') + '"><span class="gen-stage-dot">' + (i < state.genStage ? icon('check',{size:13,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="gen-stage-label">' + esc(s) + '</span></div>').join('');
   return '<div class="screen gen-screen"><div class="gen-center"><div class="simmer"><span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span><div class="simmer-bowl">' + icon('bowl',{size:40,sw:1.4,stroke:'#b5613a'}) + '</div></div><div class="gen-stages">' + stages + '</div><p class="gen-note">' + esc(note) + '</p></div></div>';
 }
@@ -1019,23 +1023,6 @@ function mapDish(res, targets) {
     usedPantry: boundedTextList(res.used_pantry, 16, 80), unusedPantry: boundedTextList(res.unused_pantry, 16, 80),
     sourceRefs: normalizedSourceRefs(res.source_refs), validationFlags: boundedTextList(res.validation_flags, 20, 160),
   };
-}
-function syncDishFromItems() {
-  const KEYS = NUTRIENTS.map(n => n.key);
-  const totals = {}; KEYS.forEach(k => totals[k] = 0);
-  state.items.forEach(it => { const g = +it.grams || 0; const per = it.nut || {}; KEYS.forEach(k => totals[k] += (+per[k] || 0) * g / 100); });
-  KEYS.forEach(k => totals[k] = Math.round(totals[k] * 10) / 10);
-  const d = state.dish; d.ingredients = state.items.map(x => ({ ...x }));
-  d.nutrients = totals; d.kcal = Math.round(totals.kcal); d.protein = Math.round(totals.p);
-  if (d.pantryContext && Array.isArray(d.pantryContext.original)) {
-    const original = uniquePantryItems(d.pantryContext.original);
-    const names = d.ingredients.map(item => item.name);
-    d.usedPantry = uniquePantryItems(d.usedPantry)
-      .filter(item => names.some(name => pantryItemMatchesIngredient(item, name)));
-    const usedKeys = new Set(d.usedPantry.map(pantryIdentity));
-    d.pantryContext.original = original;
-    d.pantryContext.remaining = original.filter(item => !usedKeys.has(pantryIdentity(item)));
-  }
 }
 // 真实生成：POST 到 proxy /generate-meal，解析后映射
 function scoreDish(d) {
@@ -1177,7 +1164,7 @@ let genTimers = [], genId = 0;
 const clearGen = () => { genTimers.forEach(clearTimeout); genTimers = []; };
 function showResult(d, notice) {
   state.dish = d; state.items = d.ingredients.map(x => ({ ...x }));
-  state.notice = notice || ''; state.lastGenError = null; state.editing = false;
+  state.notice = notice || ''; state.lastGenError = null;
   state.swapOpen = false; state.nutriOpen = false;
   state.view = 'result'; window.scrollTo(0, 0); render();
 }
@@ -1201,7 +1188,7 @@ function syncProfileInputs() {
 
 // ============ 事件 ============
 document.getElementById('root').addEventListener('click', (e) => {
-  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-seg],[data-mic],[data-pantry-chip],[data-del-myfood]');
+  const t = e.target.closest('[data-act],[data-swap],[data-seg],[data-mic],[data-pantry-chip],[data-del-myfood]');
   if (!t) return;
   if (t.dataset.mic) { startVoice(t.dataset.mic); return; }
   const act = t.dataset.act;
@@ -1209,8 +1196,6 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
   if (t.dataset.delMyfood) { syncProfileInputs(); const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods : COMMON_PANTRY; state.profile.myFoods = base.filter(x => x !== t.dataset.delMyfood); STORE.saveProfile(state.profile); render(); return; }
   if (t.dataset.swap) { state.swapOpen = false; runGenerate({ swap: t.dataset.swap }); return; }
-  if (t.dataset.bump != null) { const i = +t.dataset.bump; state.items[i].grams = Math.max(0, state.items[i].grams + (+t.dataset.delta)); syncDishFromItems(); render(); return; }
-  if (t.dataset.del != null) { state.items.splice(+t.dataset.del, 1); syncDishFromItems(); render(); return; }
   if (act === 'edit-profile') { state.profileEditing = true; render(); }
   else if (act === 'collapse-profile') { syncProfileInputs(); state.profileEditing = false; render(); }
   else if (act === 'generate') { syncProfileInputs(); state.pantryPlan = null; STORE.saveProfile(state.profile); runGenerate({ profile: state.profile }); }
@@ -1219,8 +1204,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
   else if (act === 'add-myfood') { syncProfileInputs(); state.addingFood = true; render(); setTimeout(() => { const el = document.getElementById('add-food-input'); if (el) el.focus(); }, 0); }
   else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
-  else if (act === 'start-cooking') { updateSwapHistory(true); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); } // 「开始做」=吃过的菜也进历史(codex 指正: 只记换掉的会漏掉做过的, 跨会话避开才不空转)
-  else if (act === 'toggle-edit') { state.editing = !state.editing; render(); }
+  else if (act === 'start-cooking') { updateSwapHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
   else if (act === 'choose-pantry-group') choosePantryGroup(+t.dataset.groupIndex);
   else if (act === 'use-pantry-leftovers') generateFromPantryLeftovers();
@@ -1422,12 +1406,16 @@ function showGenerationFailure(err) {
 // 换一换历史维护(F-A): 点换一换时把当前菜(带 ts)累计进历史并落盘, 后端据此避开, 能换到第三、四道。
 // 全新生成不再清空——持久层跨会话冷却的意义就是"上次吃过的也避开", 这里只做修剪落盘;
 // session 内刚换掉的菜仍在 state.swapHistory 里, 照常参与当次避开。
-function updateSwapHistory(isSwap) {
-  if (!isSwap) { persistSwapHistory(); return; }
+function updateSwapHistory(kind) {
+  if (kind !== 'swapped' && kind !== 'started') { persistSwapHistory(); return; }
   if (!state.dish) return;
-  const cur = { name: state.dish.name || '', base: state.dish.baseRecipeId || '', fam: state.dish.familyId || '', ts: Date.now() };
-  const dup = state.swapHistory.some(h => (cur.base && h.base === cur.base) || (!cur.base && h.name === cur.name));
-  if (!dup) state.swapHistory.push(cur);
+  const cur = {
+    name: state.dish.name || '', base: state.dish.baseRecipeId || '', fam: state.dish.familyId || '',
+    kind, ts: Date.now(),
+  };
+  const duplicateIndex = state.swapHistory.findIndex(h => (cur.base && h.base === cur.base) || (!cur.base && h.name === cur.name));
+  if (duplicateIndex >= 0) state.swapHistory[duplicateIndex] = cur;
+  else state.swapHistory.push(cur);
   persistSwapHistory();
 }
 async function runGenerate(opts) {
@@ -1442,7 +1430,7 @@ async function runGenerate(opts) {
     return;
   }
   if (opts.swap) state.lastSwapIntent = opts.swap; // 记住最后一次换一换意图(F-B): 枯竭屏「清掉记录继续换」按它重发
-  updateSwapHistory(!!opts.swap);
+  updateSwapHistory(opts.swap ? 'swapped' : undefined);
   state.view = 'generating'; state.genStage = 0; render();
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
@@ -1482,19 +1470,18 @@ recipeBasisBlock = function(d) {
   const line = '<p class="basis-line"><strong>单锅改编说明：</strong>' + esc(adaptation) + '</p>';
   return rendered.replace('<details class="basis-sources">', line + '<details class="basis-sources">');
 };
-const scoreDishBeforeThirtyMinuteQuick = scoreDish;
+const scoreDishBeforeQuickLimit = scoreDish;
 scoreDish = function(d) {
   const trustedPantryTradeoff = d
     && d.purpose === 'quick'
-    && d.minutes <= 40
+    && d.minutes <= 30
     && boundedText(d.baseRecipeId, 100)
     && boundedTextList(d.usedPantry, 16, 80).length > 0;
-  // 后端可信菜谱允许为了覆盖用户库存使用全局安全上限（≤4 步、≤40 分钟、动态食材行上限）。
-  // 这里仅跳过 quick 的软偏好（≤3 步、≤8 行、尽量≤25 分钟），其余硬安全检查仍由原 scoreDish 执行。
+  // 可信库存菜仍可使用后端允许的 4 步与动态食材行数，但 quick 的总时长绝不放宽到 30 分钟以上。
   const scored = trustedPantryTradeoff
     ? { ...d, purpose: 'pantry' }
     : (d && d.purpose === 'quick' && d.minutes <= 30 ? { ...d, minutes: 25 } : d);
-  return scoreDishBeforeThirtyMinuteQuick(scored);
+  return scoreDishBeforeQuickLimit(scored);
 };
 </script>
 <script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过) */

@@ -476,6 +476,12 @@ def select_recipe_candidates(library, constraints=None):
     for recipe in recipes:
         if not isinstance(recipe, dict):
             continue
+        total_time = recipe.get('total_time_minutes')
+        if (constraints.get('purpose') == 'quick'
+                and isinstance(total_time, (int, float))
+                and not isinstance(total_time, bool)
+                and total_time > 30):
+            continue
         # 已经换掉或点过「开始做」的基础菜谱在 7 天冷却窗口内不再候选。
         # 这必须是资格过滤，不能只靠 -100 软罚：全局库存覆盖优先后，软罚仍可能
         # 被覆盖层级压过，导致「换一换」原样返回。用户可在候选枯竭页主动清空记录。
