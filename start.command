@@ -4,6 +4,27 @@
 
 cd "$(dirname "$0")"
 
+# V2 本地规划依赖 Node.js 和共享 Worker bridge。必须在清理旧服务前完成真实预检。
+NODE_BIN="${PLANNER_NODE_EXECUTABLE:-}"
+if [ -z "$NODE_BIN" ]; then
+  NODE_BIN="$(command -v node 2>/dev/null)"
+fi
+BRIDGE_FILE="$(pwd)/tools/planner-v2-local-bridge.mjs"
+if [ -z "$NODE_BIN" ] || [ ! -x "$NODE_BIN" ]; then
+  echo "错误：本地规划组件未就绪，需要 Node.js。" >&2
+  exit 1
+fi
+if [ ! -f "$BRIDGE_FILE" ]; then
+  echo "错误：本地规划组件未就绪，规划 bridge 文件缺失。" >&2
+  exit 1
+fi
+
+PREFLIGHT_REQUEST='{"schema_version":2,"planner_version":"pantry-planner-v2","constraints":{"mode":"recommend","intent":"normal","servings":2,"must_use":[],"prefer_use":["番茄"],"dislikes":[],"current_plan_id":null,"recent_plan_ids":[],"decision":null}}'
+if ! DEEPSEEK_API_KEY='' PLANNER_NODE_EXECUTABLE="$NODE_BIN" python3 ai_proxy.py --plan-meal "$PREFLIGHT_REQUEST" >/dev/null 2>&1; then
+  echo "错误：本地规划组件未就绪，请确认 Node.js 和规划文件完整。" >&2
+  exit 1
+fi
+
 # 杀掉旧的本地服务
 lsof -ti :8765 2>/dev/null | xargs kill -9 2>/dev/null
 lsof -ti :8081 2>/dev/null | xargs kill -9 2>/dev/null

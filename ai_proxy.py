@@ -5,7 +5,7 @@
 启动:  双击 start.command (或 python3 ai_proxy.py)
 停止:  Ctrl+C (或 lsof -ti :8765 | xargs kill -9)
 
-依赖: 只用 Python 标准库 (Mac 自带 Python 3 直接跑)
+依赖: Python 3 标准库 + Node.js（V2 本地规划复用生产 Worker）
 配置: 同目录 .env 文件:
   DEEPSEEK_API_KEY=sk-xxxx    # 默认 provider
   KIMI_API_KEY=sk-xxxx        # fallback
@@ -3091,15 +3091,20 @@ class PlannerBridgeError(RuntimeError):
         self.code = code
 
 
+def _planner_deepseek_api_key():
+    if 'DEEPSEEK_API_KEY' in os.environ:
+        return os.environ.get('DEEPSEEK_API_KEY', '').strip()
+    return (_env.get('DEEPSEEK_API_KEY') or '').strip()
+
+
 def _planner_bridge_env():
     """Only pass settings the reviewed Worker V2 entrypoint is allowed to consume."""
     env = {
         'LANG': 'C.UTF-8',
         'LC_ALL': 'C.UTF-8',
     }
-    key = os.environ.get('DEEPSEEK_API_KEY') or _env.get('DEEPSEEK_API_KEY')
     values = {
-        'DEEPSEEK_API_KEY': key,
+        'DEEPSEEK_API_KEY': _planner_deepseek_api_key(),
         'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
         'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or 'deepseek-chat',
         'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
@@ -3185,6 +3190,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
+        origin = self.headers.get('Origin')
+        if origin is not None and not ALLOW_ALL_ORIGINS and origin not in ALLOWED_ORIGINS:
+            self._send_json(403, {
+                'error': '请求来源不允许',
+                'code': 'origin_forbidden',
+            })
+            return
         if self.path == '/generate-meal':
             return self._handle_generate_meal()
         if self.path == '/plan-meal':
@@ -3334,6 +3346,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
             return
         if planned.get('status') not in ('ready', 'complete', 'partial_accepted') or planned.get('generation_allowed') is not True:
             self._send_json(409, planned)
+            return
+
+        if not _planner_deepseek_api_key():
+            self._send_json(500, {
+                'error': 'DEEPSEEK_API_KEY 未配置',
+                'code': 'missing_api_key',
+            })
             return
 
         ip = (self.headers.get('X-Forwarded-For', '').split(',')[0].strip() or self.client_address[0])

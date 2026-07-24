@@ -194,6 +194,17 @@ async function postJson(base, endpoint, body, rawBody = null) {
   return { response, body: await response.json() };
 }
 
+async function postRaw(base, endpoint, rawBody, { origin, contentType = 'text/plain' } = {}) {
+  const headers = { 'Content-Type': contentType };
+  if (origin !== undefined) headers.Origin = origin;
+  const response = await fetch(`${base}${endpoint}`, {
+    method: 'POST',
+    headers,
+    body: rawBody,
+  });
+  return { response, body: await response.json() };
+}
+
 async function fakeUpstream() {
   const calls = [];
   const server = http.createServer(async (req, res) => {
@@ -434,6 +445,108 @@ test('stale, non-generatable and forged partial requests spend zero rate and zer
   } finally {
     await stopProxy(proxy);
     await upstream.close();
+  }
+});
+
+test('missing DeepSeek key is checked before local rate accounting, then a keyed proxy spends one attempt', async t => {
+  const upstream = await fakeUpstream();
+  t.after(() => upstream.close());
+  const planRequest = request({ must: ['番茄', '鸡蛋'] });
+  const planned = (await workerPlan(planRequest)).body;
+  const submitted = generationEnvelope(planRequest, planned);
+
+  const keyless = await startProxy({ RATE_LIMIT: '1', DEEPSEEK_API_KEY: '', KIMI_API_KEY: '' });
+  try {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const result = await postJson(keyless.base, '/generate-plan', submitted);
+      assert.equal(result.response.status, 500);
+      assert.deepEqual(result.body, {
+        error: 'DEEPSEEK_API_KEY 未配置',
+        code: 'missing_api_key',
+      });
+    }
+    assert.equal(upstream.calls.length, 0);
+  } finally {
+    await stopProxy(keyless);
+  }
+
+  const keyed = await startProxy({
+    RATE_LIMIT: '1',
+    DEEPSEEK_API_KEY: 'test-key',
+    API_URL: upstream.url('/valid'),
+  });
+  try {
+    const valid = await postJson(keyed.base, '/generate-plan', submitted);
+    assert.equal(valid.response.status, 200, JSON.stringify(valid.body));
+    assert.equal(upstream.calls.length, 1);
+    const limited = await postJson(keyed.base, '/generate-plan', submitted);
+    assert.equal(limited.response.status, 429);
+    assert.equal(limited.body.code, 'rate_limited');
+    assert.equal(upstream.calls.length, 1);
+  } finally {
+    await stopProxy(keyed);
+  }
+});
+
+test('forbidden and opaque origins are rejected before planner bridge execution', async () => {
+  const proxy = await startProxy({ PLANNER_NODE_EXECUTABLE: '/definitely/missing/yiguochu-node' });
+  try {
+    for (const origin of ['https://evil.example', 'null']) {
+      const result = await postRaw(proxy.base, '/plan-meal', JSON.stringify(request({ must: ['番茄'] })), { origin });
+      assert.equal(result.response.status, 403);
+      assert.deepEqual(result.body, { error: '请求来源不允许', code: 'origin_forbidden' });
+      assert.equal(result.response.headers.get('access-control-allow-origin'), null);
+    }
+  } finally {
+    await stopProxy(proxy);
+  }
+});
+
+test('evil/null text requests cannot spend rate or reach V2 and legacy generation side effects', async t => {
+  const upstream = await fakeUpstream();
+  t.after(() => upstream.close());
+  const proxy = await startProxy({
+    RATE_LIMIT: '1',
+    DEEPSEEK_API_KEY: 'test-key',
+    API_URL: upstream.url('/valid'),
+  });
+  try {
+    const planRequest = request({ must: ['番茄', '鸡蛋'] });
+    const planned = (await workerPlan(planRequest)).body;
+    const submitted = JSON.stringify(generationEnvelope(planRequest, planned));
+    for (const [endpoint, rawBody] of [
+      ['/generate-plan', submitted],
+      ['/generate-meal', '{broken'],
+    ]) {
+      for (const origin of ['https://evil.example', 'null']) {
+        const rejected = await postRaw(proxy.base, endpoint, rawBody, { origin });
+        assert.equal(rejected.response.status, 403, `${endpoint} ${origin}`);
+        assert.equal(rejected.body.code, 'origin_forbidden');
+      }
+    }
+    assert.equal(upstream.calls.length, 0);
+
+    for (const origin of ['http://localhost:8081', 'http://127.0.0.1:8081']) {
+      const allowedPlan = await postRaw(proxy.base, '/plan-meal', JSON.stringify(planRequest), {
+        origin,
+        contentType: 'application/json',
+      });
+      assert.equal(allowedPlan.response.status, 200);
+    }
+    const curlStyle = await postRaw(proxy.base, '/generate-plan', submitted, {
+      origin: undefined,
+      contentType: 'application/json',
+    });
+    assert.equal(curlStyle.response.status, 200, JSON.stringify(curlStyle.body));
+    assert.equal(upstream.calls.length, 1);
+    const limited = await postRaw(proxy.base, '/generate-plan', submitted, {
+      origin: 'http://localhost:8081',
+      contentType: 'application/json',
+    });
+    assert.equal(limited.response.status, 429);
+    assert.equal(upstream.calls.length, 1);
+  } finally {
+    await stopProxy(proxy);
   }
 });
 
