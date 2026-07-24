@@ -2859,10 +2859,13 @@ export default {
         plannerAssets = 'unavailable';
         try {
           const lib = await getRecipeLib(env, request);
+          if (validateRecipeLibrary(lib).length) throw new Error('recipe_library_invalid');
           recipeFamilies = Array.isArray(lib.families) ? lib.families.length : 0;
           baseRecipes = lib.recipes.length;
         } catch (_recipeError) {
           recipeLibrary = 'unavailable';
+          recipeFamilies = 0;
+          baseRecipes = 0;
         }
       }
       return jsonResponse({

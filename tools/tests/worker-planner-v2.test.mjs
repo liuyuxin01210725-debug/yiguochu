@@ -124,6 +124,24 @@ test('health reports unavailable planner assets without claiming validated versi
   assert.equal(result.body.plannedTemplates, 0);
 });
 
+test('health never reports a semantically invalid recipe library as available', async () => {
+  const invalidRecipes = JSON.parse(SOURCE_ASSETS['/recipe-library.json']);
+  invalidRecipes.recipes[0].source_refs = [];
+  const result = await getHealth(assetBinding({
+    '/recipe-library.json': JSON.stringify(invalidRecipes),
+  }));
+  assert.equal(result.response.status, 200);
+  assert.equal(result.body.recipeLibrary, 'unavailable');
+  assert.equal(result.body.recipeFamilies, 0);
+  assert.equal(result.body.baseRecipes, 0);
+  assert.equal(result.body.plannerAssets, 'unavailable');
+  assert.equal(result.body.plannerVersion, null);
+  assert.equal(result.body.templateCatalogVersion, null);
+  assert.equal(result.body.ingredientTaxonomyVersion, null);
+  assert.equal(result.body.activeTemplates, 0);
+  assert.equal(result.body.plannedTemplates, 0);
+});
+
 test('recommend planning returns a stable identified ready plan with honest used and unused facts', async () => {
   const submitted = plannerBody({ prefer: ['番茄', '鸡蛋', '西兰花', '神秘叶子'] });
   const untouched = structuredClone(submitted);
