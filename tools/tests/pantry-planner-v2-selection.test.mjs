@@ -1,0 +1,247 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { prepareRatioCatalog } from '../../worker/src/ratio-dsl.js';
+import {
+  assignItemsToTemplate,
+  buildPotCandidates,
+  normalizePlannerItems,
+  normalizePlannerRequest,
+  planMeal,
+  rankPotCandidates,
+} from '../../worker/src/planner-v2.js';
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', name), 'utf8'));
+const assets = Object.freeze({
+  taxonomy: readJson('ingredient-taxonomy.v1.json'),
+  templates: readJson('meal-templates.v2.json'),
+  ratios: readJson('ratio-rules.v1.json'),
+  recipes: readJson('recipe-library.json'),
+});
+const activeTemplate = id => assets.templates.templates.find(template => template.template_id === id);
+const request = ({ mode = 'pantry', intent = 'normal', must = [], prefer = [], servings = 2 } = {}) => normalizePlannerRequest({
+  schema_version: 2,
+  planner_version: 'pantry-planner-v2',
+  constraints: { mode, intent, servings, must_use: must, prefer_use: prefer },
+});
+const context = (normalizedItems, overrides = {}) => {
+  const prepared = prepareRatioCatalog(assets.ratios, {
+    taxonomy: assets.taxonomy,
+    templates: assets.templates,
+    recipes: assets.recipes,
+  });
+  assert.equal(prepared.ok, true);
+  return {
+    taxonomy: assets.taxonomy,
+    ratioCatalog: prepared.catalog,
+    mode: 'pantry',
+    intent: 'normal',
+    servings: 2,
+    ...overrides,
+  };
+};
+
+test('four-item pantry never presents a one-item pot and computes coverage against all four', () => {
+  const result = planMeal(assets, request({ must: ['番茄', '金针菇', '鸡蛋', '西兰花'] }));
+  assert.equal(result.status, 'complete');
+  assert.ok(result.plan.pots.every(pot => pot.planned_must_use.length >= 2));
+  assert.equal(result.plan.pots[0].coverage_ratio, 1);
+  assert.equal(result.plan.pots[0].planned_must_use.length, 4);
+});
+
+test('the same pantry enters a composable template without selecting a fixed recipe', () => {
+  const candidates = buildPotCandidates(assets, request({ must: ['番茄', '金针菇', '鸡蛋', '西兰花'] }));
+  const highCoverage = candidates.find(candidate => candidate.coverage_ratio === 1);
+  assert.equal(highCoverage?.template_id, 'acid-staple-pot');
+  assert.equal('recipe_id' in highCoverage, false);
+  assert.deepEqual(highCoverage.planned_must_use.map(item => item.canonical).sort(), ['番茄', '金针菇', '鸡蛋', '西兰花'].sort());
+});
+
+test('recommend chooses a coherent non-empty subset and explains every unused input honestly', () => {
+  const result = planMeal(assets, request({
+    mode: 'recommend',
+    must: [],
+    prefer: ['牛里脊', '番茄', '鸡蛋', '西兰花'],
+  }));
+  assert.equal(result.status, 'ready');
+  assert.ok(result.plan.planned_prefer_use.length >= 1);
+  assert.ok(result.plan.unused_prefer_use.every(item => item.reason_code && item.reason));
+  assert.doesNotMatch(result.commitment, /全部|全都|清空/);
+});
+
+test('generic beef accepts tenderloin while preserving the raw cut and rejects brisket or ground forms', () => {
+  const tenderloin = normalizePlannerItems([
+    { raw: '牛里脊', role: 'must_use' }, { raw: '熟米饭', role: 'must_use' },
+  ], assets.taxonomy);
+  const accepted = assignItemsToTemplate(activeTemplate('beef-staple-pot'), tenderloin, context(tenderloin));
+  assert.equal(accepted.ok, true);
+  const beef = accepted.slot_assignment.protein[0];
+  assert.equal(beef.raw, '牛里脊');
+  assert.equal(beef.canonical, '牛肉');
+  assert.equal(beef.shape_or_cut, 'tenderloin');
+
+  const generic = normalizePlannerItems([
+    { raw: '牛肉', role: 'must_use' }, { raw: '熟米饭', role: 'must_use' },
+  ], assets.taxonomy);
+  assert.equal(assignItemsToTemplate(activeTemplate('beef-staple-pot'), generic, context(generic)).ok, true);
+
+  const beefOnly = normalizePlannerItems([{ raw: '牛里脊', role: 'must_use' }], assets.taxonomy);
+  const insufficient = assignItemsToTemplate(activeTemplate('beef-staple-pot'), beefOnly, context(beefOnly));
+  assert.equal(insufficient.ok, false);
+  assert.equal(insufficient.rejection_reason.reason_code, 'no_compatible_slot');
+
+  for (const raw of ['牛腩', '牛肉末']) {
+    const normalized = normalizePlannerItems([
+      { raw, role: 'must_use' }, { raw: '熟米饭', role: 'must_use' },
+    ], assets.taxonomy);
+    const rejected = assignItemsToTemplate(activeTemplate('beef-staple-pot'), normalized, context(normalized));
+    assert.equal(rejected.ok, false, raw);
+    assert.equal(rejected.rejection_reason.reason_code, 'unsupported_shape_or_cut', raw);
+  }
+});
+
+test('豆腐 and 老豆腐 share one canonical identity that is used once and never also shown unused', () => {
+  const result = planMeal(assets, request({ must: ['豆腐', '老豆腐', '青菜'] }));
+  const used = result.plan.planned_must_use.filter(item => item.canonical === '老豆腐');
+  const unused = result.plan.unplanned_must_use.filter(item => item.canonical === '老豆腐');
+  assert.equal(used.length, 1);
+  assert.equal(unused.length, 0);
+  const tofuRows = result.normalized_items.filter(item => item.canonical === '老豆腐');
+  assert.equal(tofuRows.length, 2);
+  assert.equal(tofuRows.filter(item => item.duplicate_of !== null).length, 1);
+});
+
+test('pantry single-pot display floors are exact for 2, 3, 4-6, and 7+ submitted items', () => {
+  const two = buildPotCandidates(assets, request({ must: ['番茄', '未知A'] })).find(pot => pot.template_id === 'acid-staple-pot');
+  assert.equal(two.coverage_ratio, 0.5);
+  assert.equal(two.single_pot_eligible, false);
+
+  const three = buildPotCandidates(assets, request({ must: ['番茄', '鸡蛋', '未知A'] })).find(pot => pot.template_id === 'acid-staple-pot');
+  assert.equal(three.coverage_ratio, 2 / 3);
+  assert.equal(three.single_pot_eligible, true);
+
+  const four = buildPotCandidates(assets, request({ must: ['番茄', '未知A', '未知B', '未知C'] })).find(pot => pot.template_id === 'acid-staple-pot');
+  assert.equal(four.coverage_ratio, 0.25);
+  assert.equal(four.single_pot_eligible, false);
+
+  const seven = buildPotCandidates(assets, request({ must: ['番茄', '金针菇', '鸡蛋', '西兰花', '青菜', '胡萝卜', '土豆'] }));
+  assert.ok(seven.length > 0);
+  assert.ok(seven.every(pot => pot.single_pot_eligible === false));
+});
+
+test('unknown must-use remains in the denominator and unplanned list and blocks complete', () => {
+  const result = planMeal(assets, request({ must: ['番茄', '神秘叶子'] }));
+  assert.notEqual(result.status, 'complete');
+  assert.equal(result.generation_allowed, false);
+  assert.equal(result.plan.coverage_ratio, 0.5);
+  assert.equal(result.plan.recognition_ratio, 0.5);
+  assert.deepEqual(result.plan.unplanned_must_use.map(item => item.reason_code), ['unrecognized_ingredient']);
+});
+
+test('semantic duplicates never inflate coverage denominators or planned counts', () => {
+  const candidates = buildPotCandidates(assets, request({ must: ['豆腐', '老豆腐', '青菜'] }));
+  const pot = candidates.find(candidate => candidate.template_id === 'egg-tofu-vegetable-pot');
+  assert.equal(pot.coverage_ratio, 1);
+  assert.equal(pot.planned_must_use.length, 2);
+  assert.equal(pot.recognized_coverage_ratio, 1);
+});
+
+test('quick is a hard limit and never admits templates over 30 minutes', () => {
+  for (const mode of ['recommend', 'pantry']) {
+    const candidates = buildPotCandidates(assets, request({
+      mode,
+      intent: 'quick',
+      must: mode === 'pantry' ? ['番茄', '鸡蛋'] : [],
+      prefer: mode === 'recommend' ? ['番茄', '鸡蛋'] : [],
+    }));
+    assert.ok(candidates.every(candidate => candidate.time_range.max_minutes <= 30));
+    assert.ok(candidates.every(candidate => activeTemplate(candidate.template_id).supported_intents.includes('quick')));
+  }
+});
+
+test('forbidden cuts and declared moisture or cook-speed combinations are hard structured rejections', () => {
+  const wet = normalizePlannerItems([
+    { raw: '番茄', role: 'must_use' },
+    { raw: '白菜', role: 'must_use' },
+  ], assets.taxonomy);
+  const forcedWetTemplate = structuredClone(activeTemplate('acid-staple-pot'));
+  const vegetable = forcedWetTemplate.optional_slots.find(slot => slot.slot_id === 'vegetable');
+  forcedWetTemplate.optional_slots = forcedWetTemplate.optional_slots.filter(slot => slot.slot_id !== 'vegetable');
+  forcedWetTemplate.required_slots = [
+    forcedWetTemplate.required_slots[0],
+    { ...forcedWetTemplate.required_slots[1], source_policy: ['basic_extra'], accepts_categories: ['raw_rice'] },
+    { ...vegetable, min_items: 1, max_items: 1 },
+  ];
+  const wetRejected = assignItemsToTemplate(forcedWetTemplate, wet, context(wet));
+  assert.equal(wetRejected.ok, false);
+  assert.equal(wetRejected.rejection_reason.reason_code, 'incompatible_combination');
+
+  const brisket = normalizePlannerItems([{ raw: '牛腩', role: 'must_use' }], assets.taxonomy);
+  const cutRejected = assignItemsToTemplate(activeTemplate('beef-staple-pot'), brisket, context(brisket));
+  assert.equal(cutRejected.rejection_reason.reason_code, 'unsupported_shape_or_cut');
+});
+
+test('an incompatible optional item is left out instead of displacing a compatible must-use staple', () => {
+  const pot = buildPotCandidates(assets, request({ must: ['大米', '番茄', '白菜'] }))
+    .find(candidate => candidate.template_id === 'acid-staple-pot');
+  assert.ok(pot);
+  assert.deepEqual(pot.planned_must_use.map(item => item.canonical).sort(), ['大米', '番茄'].sort());
+  assert.equal(pot.unplanned_must_use.find(item => item.canonical === '白菜')?.reason_code, 'incompatible_combination');
+  assert.equal(pot.required_extra_items.some(item => item.name === '大米'), false);
+});
+
+test('unknown-only pantry remains explainable even when there is no valid pot candidate', () => {
+  const result = planMeal(assets, request({ must: ['神秘叶子'] }));
+  assert.equal(result.status, 'no_valid_plan');
+  assert.equal(result.plan.coverage_ratio, 0);
+  assert.equal(result.plan.recognition_ratio, 0);
+  assert.deepEqual(result.plan.unplanned_must_use.map(item => item.reason_code), ['unrecognized_ingredient']);
+});
+
+test('required basic staple and liquid have positive grams but never increase pantry coverage', () => {
+  const pot = buildPotCandidates(assets, request({ must: ['番茄'] })).find(candidate => candidate.template_id === 'acid-staple-pot');
+  assert.equal(pot.coverage_ratio, 1);
+  assert.equal(pot.planned_must_use.length, 1);
+  assert.ok(pot.required_extra_items.some(item => ['大米', '熟米饭', '面条'].includes(item.name) && item.grams > 0));
+  assert.ok(pot.required_extra_items.some(item => item.name === '水' && item.grams > 0));
+});
+
+test('every assigned optional item receives positive grams and is not silently dropped', () => {
+  const pot = buildPotCandidates(assets, request({ must: ['番茄', '鸡蛋', '西兰花', '金针菇'] }))
+    .find(candidate => candidate.template_id === 'acid-staple-pot');
+  const amounts = new Map(pot.ingredient_amounts.map(item => [item.name, item.grams]));
+  for (const item of Object.values(pot.slot_assignment).flat().filter(item => item.source === 'user')) {
+    assert.ok(amounts.get(item.display_name) > 0, item.raw);
+  }
+});
+
+test('ranking is deterministic, input-order independent, stable, and non-mutating', () => {
+  const forward = buildPotCandidates(assets, request({ must: ['番茄', '鸡蛋', '西兰花'] }));
+  const reverse = buildPotCandidates(assets, request({ must: ['西兰花', '鸡蛋', '番茄'] }));
+  const snapshot = structuredClone(forward);
+  const rankedForward = rankPotCandidates(forward, request({ must: ['番茄', '鸡蛋', '西兰花'] }));
+  const rankedReverse = rankPotCandidates(reverse, request({ must: ['西兰花', '鸡蛋', '番茄'] }));
+  assert.deepEqual(forward, snapshot);
+  assert.deepEqual(rankedForward.map(item => [item.template_id, item.assignment_key]), rankedReverse.map(item => [item.template_id, item.assignment_key]));
+  assert.deepEqual(rankPotCandidates(forward, request({ must: ['番茄', '鸡蛋', '西兰花'] })), rankedForward);
+});
+
+test('planned templates are never emitted as runtime candidates', () => {
+  const candidates = buildPotCandidates(assets, request({ must: ['番茄', '鸡蛋', '西兰花', '金针菇'] }));
+  assert.ok(candidates.length > 0);
+  assert.ok(candidates.every(candidate => activeTemplate(candidate.template_id)));
+  assert.ok(candidates.every(candidate => candidate.template_id !== 'quick-breakfast-pot'));
+});
+
+test('Task-5 planner is pure and cannot make a network or DeepSeek call', () => {
+  const before = globalThis.fetch;
+  globalThis.fetch = () => { throw new Error('network must not be called'); };
+  try {
+    assert.doesNotThrow(() => planMeal(assets, request({ must: ['番茄', '鸡蛋'] })));
+  } finally {
+    globalThis.fetch = before;
+  }
+});

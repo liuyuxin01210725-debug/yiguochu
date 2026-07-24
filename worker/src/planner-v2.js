@@ -1,4 +1,4 @@
-import { preparedRatioCatalogContext } from './ratio-dsl.js';
+import { prepareRatioCatalog, preparedRatioCatalogContext } from './ratio-dsl.js';
 import { resolveBasicExtraIdentity, taxonomyIdentityIndex } from './taxonomy-identity.js';
 
 export const PLANNER_SCHEMA_VERSION = 2;
@@ -159,12 +159,16 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
     return {
       raw,
       canonical,
+      display_name: item.display_name,
       category: item.category,
       shape_or_cut: taxonomyShapeForInput(item, raw),
       cook_speed: item.cook_speed,
       moisture_release: item.moisture_release,
       texture_behavior: item.texture_behavior.behavior_code,
       cooking_risk: item.cooking_risk.risk_code,
+      required_endpoint_codes: [...(item.cooking_risk.required_endpoint_codes || [])],
+      compatible_slot_codes: [...(item.compatible_slot_codes || [])],
+      incompatible_slot_codes: [...(item.incompatible_slot_codes || [])],
       recognized: true,
       role,
       duplicate_of,
@@ -384,4 +388,456 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
   } catch {
     return ratioFailure('ratio_rule_invalid', '份量规则无法安全计算。');
   }
+}
+
+const ACTIVE_TEMPLATE_IDS = new Set([
+  'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
+  'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
+]);
+const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
+const RAW_RISK_CODES = new Set(['raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood']);
+const ENDPOINT_ALIASES = Object.freeze({ poultry_fully_cooked_no_pink: 'poultry_fully_cooked' });
+
+function rejection(reason_code, message, details = {}) {
+  return { ok: false, rejection_reason: { reason_code, message, ...details } };
+}
+
+function stableItemCompare(left, right) {
+  return `${left.canonical || ''}\u0000${left.shape_or_cut || ''}\u0000${left.raw || ''}`
+    .localeCompare(`${right.canonical || ''}\u0000${right.shape_or_cut || ''}\u0000${right.raw || ''}`, 'zh-Hans-CN');
+}
+
+function acceptedCategoryCount(slot, template) {
+  return new Set(template.ingredient_categories?.[slot.slot_id] || slot.accepts_categories || []).size;
+}
+
+function itemFit(slot, item, template) {
+  const categoryAccepted = (slot.accepts_categories || []).includes(item.category);
+  const codeAccepted = (slot.accepts_slot_codes || []).some(code => item.compatible_slot_codes?.includes(code));
+  const requirement = (template.shape_or_cut_requirements || [])
+    .find(entry => entry.slot_id === slot.slot_id && entry.category === item.category);
+  if (requirement && item.shape_or_cut && ((requirement.forbidden_shapes || []).includes(item.shape_or_cut)
+      || ((requirement.allowed_shapes || []).length && !(requirement.allowed_shapes || []).includes(item.shape_or_cut)))) {
+    return { ok: false, reason_code: 'unsupported_shape_or_cut' };
+  }
+  if (!categoryAccepted && !codeAccepted) return { ok: false, reason_code: 'no_compatible_slot' };
+  if ((item.incompatible_slot_codes || []).some(code => (slot.accepts_slot_codes || []).includes(code))) {
+    return { ok: false, reason_code: 'unsupported_shape_or_cut' };
+  }
+  return { ok: true };
+}
+
+function basicSlotChoices(slot, taxonomy) {
+  if (!(slot.source_policy || []).includes('basic_extra')) return [];
+  const accepted = new Set(slot.accepts_categories || []);
+  return (taxonomy?.items || [])
+    .filter(item => BASIC_EXTRA_CATEGORIES.has(item.category) && accepted.has(item.category))
+    .sort((a, b) => a.display_name.localeCompare(b.display_name, 'zh-Hans-CN'))
+    .map(item => ({
+      raw: item.display_name,
+      canonical: item.canonical_name || item.display_name,
+      display_name: item.display_name,
+      category: item.category,
+      shape_or_cut: item.default_shape_or_cut || item.shapes_or_cuts?.[0] || null,
+      cook_speed: item.cook_speed,
+      moisture_release: item.moisture_release,
+      texture_behavior: item.texture_behavior?.behavior_code || null,
+      cooking_risk: item.cooking_risk?.risk_code || 'none',
+      required_endpoint_codes: [...(item.cooking_risk?.required_endpoint_codes || [])],
+      compatible_slot_codes: [...(item.compatible_slot_codes || [])],
+      incompatible_slot_codes: [...(item.incompatible_slot_codes || [])],
+      recognized: true,
+      role: 'basic_extra',
+      duplicate_of: null,
+      source: 'basic_extra',
+    }));
+}
+
+function assignedUserRecord(item) {
+  return { ...item, source: 'user' };
+}
+
+function assignedItems(assignment) {
+  return Object.values(assignment).flat();
+}
+
+function boundedCombinations(items, maxItems) {
+  const output = [];
+  const visit = (start, wanted, current) => {
+    if (current.length === wanted) {
+      output.push([...current]);
+      return;
+    }
+    for (let index = start; index <= items.length - (wanted - current.length); index += 1) {
+      current.push(items[index]);
+      visit(index + 1, wanted, current);
+      current.pop();
+    }
+  };
+  for (let size = Math.min(maxItems, items.length); size >= 0; size -= 1) visit(0, size, []);
+  return output;
+}
+
+function incompatibleReason(template, assignment) {
+  const all = assignedItems(assignment);
+  for (const rule of template.incompatible_rules || []) {
+    const trigger = (assignment[rule.when?.slot_id] || []).some(item => item.category === rule.when?.category);
+    if (!trigger) continue;
+    const constraint = rule.forbids_attribute_count;
+    const count = all.filter(item => item.source === 'user' && item[constraint?.attribute] === constraint?.value).length;
+    if (count > constraint?.greater_than) {
+      return rejection('incompatible_combination', '这组食材的出水或熟制节奏不适合放进同一锅。', {
+        slot_id: rule.when.slot_id,
+        rule_code: rule.rule_code,
+      });
+    }
+  }
+  return null;
+}
+
+function safetyReason(template, assignment) {
+  const endpoints = new Set((template.safety_endpoints || []).map(endpoint => ENDPOINT_ALIASES[endpoint.endpoint_code] || endpoint.endpoint_code));
+  for (const item of assignedItems(assignment)) {
+    if (item.source !== 'user' || !RAW_RISK_CODES.has(item.cooking_risk)) continue;
+    const required = item.required_endpoint_codes || [];
+    if (required.some(endpoint => !endpoints.has(endpoint))) {
+      return rejection('safety_constraint', '这个模板缺少该食材所需的明确熟制终点。', { item: item.raw });
+    }
+  }
+  return null;
+}
+
+function ratioContextFor(assignment, servings) {
+  return {
+    servings,
+    slots: Object.fromEntries(Object.entries(assignment).map(([slotId, items]) => [slotId, items.map(item => ({
+      name: item.display_name,
+      category: item.category,
+      attributes: {
+        cook_speed: item.cook_speed,
+        moisture_release: item.moisture_release,
+        texture_behavior: item.texture_behavior,
+        cooking_risk: item.cooking_risk,
+      },
+    }))])),
+  };
+}
+
+function assignmentKey(assignment) {
+  return Object.keys(assignment).sort().map(slotId => `${slotId}:${assignment[slotId]
+    .map(item => `${item.canonical || item.display_name}/${item.shape_or_cut || ''}/${item.source}`)
+    .sort().join(',')}`).join('|');
+}
+
+function mergeRequiredExtras(compiled, assignment) {
+  const byName = new Map((compiled.required_extra_items || []).map(item => [item.name, { ...item }]));
+  const amountByName = new Map((compiled.ingredient_amounts || []).map(item => [item.name, item.grams]));
+  for (const item of assignedItems(assignment).filter(entry => entry.source === 'basic_extra')) {
+    const grams = amountByName.get(item.display_name);
+    if (!(grams > 0) || byName.has(item.display_name)) continue;
+    byName.set(item.display_name, { name: item.display_name, category: item.category, grams });
+  }
+  return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+export function assignItemsToTemplate(template, normalizedItems, context = {}) {
+  if (!template || template.activation_status !== 'active' || !template.runtime_eligible || !ACTIVE_TEMPLATE_IDS.has(template.template_id)) {
+    return rejection('no_compatible_slot', '这个模板目前不参与规划。');
+  }
+  if (!template.supported_intents?.includes(context.intent)
+      || (context.intent === 'quick' && template.time_range?.max_minutes > 30)) {
+    return rejection('time_constraint', '这个模板无法满足本次时间要求。');
+  }
+  if (!Array.isArray(normalizedItems)) return rejection('no_compatible_slot', '没有可用于规划的食材。');
+  const users = normalizedItems.filter(item => item.recognized && item.duplicate_of === null).sort(stableItemCompare);
+  const required = [...(template.required_slots || [])];
+  const optional = [...(template.optional_slots || [])]
+    .filter(slot => slot.source_policy?.includes('user'))
+    .sort((a, b) => acceptedCategoryCount(a, template) - acceptedCategoryCount(b, template)
+      || a.slot_id.localeCompare(b.slot_id));
+  const requiredAssignments = [];
+  let mostSpecificFailure = null;
+
+  const visitRequired = (index, assignment, used) => {
+    if (index === required.length) {
+      requiredAssignments.push({ assignment, used });
+      return;
+    }
+    const slot = required[index];
+    const choices = [];
+    if (slot.source_policy?.includes('user')) {
+      for (const item of users) {
+        if (used.has(item)) continue;
+        const fit = itemFit(slot, item, template);
+        if (fit.ok) choices.push(assignedUserRecord(item));
+        else if (fit.reason_code === 'unsupported_shape_or_cut') {
+          mostSpecificFailure = rejection('unsupported_shape_or_cut', '这个食材的部位或形态不适合该做法。', {
+            item: item.raw, slot_id: slot.slot_id,
+          });
+        }
+      }
+    }
+    choices.push(...basicSlotChoices(slot, context.taxonomy));
+    for (const choice of choices) {
+      const nextUsed = new Set(used);
+      if (choice.source === 'user') nextUsed.add(users.find(item => item.raw === choice.raw && item.canonical === choice.canonical));
+      visitRequired(index + 1, { ...assignment, [slot.slot_id]: [choice] }, nextUsed);
+    }
+  };
+  visitRequired(0, {}, new Set());
+  if (!requiredAssignments.length) {
+    return mostSpecificFailure || rejection('no_compatible_slot', '缺少模板必需且兼容的食材槽位。');
+  }
+
+  const completed = [];
+  let hardFailure = null;
+  for (const requiredResult of requiredAssignments) {
+    const optionalAssignments = [];
+    const visitOptional = (index, assignment, used) => {
+      if (index === optional.length) {
+        optionalAssignments.push(assignment);
+        return;
+      }
+      const slot = optional[index];
+      const matches = users.filter(item => !used.has(item) && itemFit(slot, item, template).ok);
+      for (const combination of boundedCombinations(matches, slot.max_items)) {
+        const next = Object.fromEntries(Object.entries(assignment).map(([slotId, items]) => [slotId, [...items]]));
+        if (combination.length) next[slot.slot_id] = combination.map(assignedUserRecord);
+        const nextUsed = new Set(used);
+        combination.forEach(item => nextUsed.add(item));
+        visitOptional(index + 1, next, nextUsed);
+      }
+    };
+    visitOptional(0, Object.fromEntries(Object.entries(requiredResult.assignment).map(([slotId, items]) => [slotId, [...items]])), new Set(requiredResult.used));
+
+    for (const assignment of optionalAssignments) {
+      const userCount = assignedItems(assignment).filter(item => item.source === 'user').length;
+      if (userCount < template.slot_limits.total_user_items_min || userCount > template.slot_limits.total_user_items_max) {
+        hardFailure ||= rejection('no_compatible_slot', '现有兼容食材数量不足以组成这个模板。');
+        continue;
+      }
+      const incompatible = incompatibleReason(template, assignment);
+      if (incompatible) { hardFailure ||= incompatible; continue; }
+      const safety = safetyReason(template, assignment);
+      if (safety) { hardFailure ||= safety; continue; }
+      const rule = (context.ratioCatalog?.rules || []).find(candidate => candidate.when?.template_id === template.template_id
+        && template.ratio_constraints?.includes(candidate.rule_id)
+        && (assignment[candidate.when.slot_id] || []).some(item => item.category === candidate.when.category));
+      if (!rule) {
+        hardFailure ||= rejection('would_break_ratio', '这组槽位没有可执行的份量比例。');
+        continue;
+      }
+      const compiled = compileRatioPlan(rule.rule_id, ratioContextFor(assignment, context.servings), context.ratioCatalog);
+      if (!compiled.ok) {
+        hardFailure ||= rejection('would_break_ratio', '这组食材无法通过份量与液体比例检查。', { ratio_code: compiled.code });
+        continue;
+      }
+      completed.push({
+        ok: true,
+        template_id: template.template_id,
+        slot_assignment: assignment,
+        assignment_key: assignmentKey(assignment),
+        servings: context.servings,
+        time_range: { ...template.time_range },
+        safety_endpoints: (template.safety_endpoints || []).map(endpoint => ({ ...endpoint })),
+        safety_complete: true,
+        ingredient_amounts: compiled.ingredient_amounts.map(item => ({ ...item })),
+        required_extra_items: mergeRequiredExtras(compiled, assignment),
+        liquid_constraints: { ...compiled.liquid_constraints },
+        ratio_trace: compiled.ratio_trace.map(entry => ({ ...entry })),
+        rejection_reason: null,
+      });
+    }
+  }
+  if (!completed.length) return hardFailure || rejection('would_break_ratio', '没有可执行的单锅份量方案。');
+  completed.sort((left, right) => {
+    const leftUsers = assignedItems(left.slot_assignment).filter(item => item.source === 'user').length;
+    const rightUsers = assignedItems(right.slot_assignment).filter(item => item.source === 'user').length;
+    return rightUsers - leftUsers || left.required_extra_items.length - right.required_extra_items.length
+      || left.assignment_key.localeCompare(right.assignment_key, 'zh-Hans-CN');
+  });
+  return completed[0];
+}
+
+function uniqueSubmittedItems(normalizedItems) {
+  return normalizedItems.filter(item => item.duplicate_of === null);
+}
+
+function unusedReason(item, assignment, template, role) {
+  if (!item.recognized) return {
+    ...item,
+    reason_code: 'unrecognized_ingredient',
+    reason: '暂时无法识别这种食材，因此不能承诺已经安排。',
+  };
+  const slots = [...(template.required_slots || []), ...(template.optional_slots || [])].filter(slot => slot.source_policy?.includes('user'));
+  const fitSlots = slots.filter(slot => itemFit(slot, item, template).ok);
+  for (const slot of fitSlots) {
+    if ((assignment[slot.slot_id]?.length || 0) >= slot.max_items) continue;
+    const trial = Object.fromEntries(Object.entries(assignment).map(([slotId, items]) => [slotId, [...items]]));
+    trial[slot.slot_id] = [...(trial[slot.slot_id] || []), assignedUserRecord(item)];
+    if (incompatibleReason(template, trial)) {
+      return {
+        ...item,
+        reason_code: role === 'must_use' ? 'incompatible_combination' : 'texture_conflict',
+        reason: '加入这项食材会破坏当前锅的出水或熟制节奏。',
+      };
+    }
+  }
+  const reason_code = fitSlots.length ? 'exceeds_slot_limit' : role === 'must_use' ? 'no_compatible_slot' : 'lower_compatibility';
+  return {
+    ...item,
+    reason_code,
+    reason: fitSlots.length ? '兼容槽位已经由更合适的食材占用。' : '这项食材与当前单锅结构不够匹配。',
+  };
+}
+
+function displayFloor(totalMustUse, plannedMustUse) {
+  if (totalMustUse === 0) return false;
+  if (totalMustUse === 1) return plannedMustUse === 1;
+  if (totalMustUse === 2) return plannedMustUse === 2;
+  if (totalMustUse === 3) return plannedMustUse >= 2;
+  if (totalMustUse <= 6) return plannedMustUse / totalMustUse >= 0.6;
+  return false;
+}
+
+export function buildPotCandidates(assets = {}, request = {}) {
+  const normalizedItems = normalizePlannerItems([
+    ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
+    ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
+  ], assets.taxonomy);
+  const prepared = prepareRatioCatalog(assets.ratios || assets.ratioCatalog, {
+    taxonomy: assets.taxonomy,
+    templates: assets.templates,
+    recipes: assets.recipes,
+  });
+  if (!prepared.ok) return [];
+  const unique = uniqueSubmittedItems(normalizedItems);
+  const must = unique.filter(item => item.role === 'must_use');
+  const prefer = unique.filter(item => item.role === 'prefer_use');
+  const recognizedMust = must.filter(item => item.recognized);
+  const recognizedSubmitted = unique.filter(item => item.recognized);
+  const candidates = [];
+  for (const template of assets.templates?.templates || []) {
+    if (!ACTIVE_TEMPLATE_IDS.has(template.template_id) || template.activation_status !== 'active' || !template.runtime_eligible) continue;
+    const assigned = assignItemsToTemplate(template, normalizedItems, {
+      taxonomy: assets.taxonomy,
+      ratioCatalog: prepared.catalog,
+      mode: request.mode,
+      intent: request.intent,
+      servings: request.servings,
+    });
+    if (!assigned.ok) continue;
+    const planned = assignedItems(assigned.slot_assignment).filter(item => item.source === 'user');
+    const plannedKeys = new Set(planned.map(item => `${item.role}\u0000${item.canonical}`));
+    const plannedMust = must.filter(item => plannedKeys.has(`must_use\u0000${item.canonical}`));
+    const plannedPrefer = prefer.filter(item => plannedKeys.has(`prefer_use\u0000${item.canonical}`));
+    if (request.mode === 'recommend' && recognizedSubmitted.length && plannedPrefer.length === 0) continue;
+    const unplannedMust = must.filter(item => !plannedKeys.has(`must_use\u0000${item.canonical}`))
+      .map(item => unusedReason(item, assigned.slot_assignment, template, 'must_use'));
+    const unusedPrefer = prefer.filter(item => !plannedKeys.has(`prefer_use\u0000${item.canonical}`))
+      .map(item => unusedReason(item, assigned.slot_assignment, template, 'prefer_use'));
+    const coverage_ratio = must.length ? plannedMust.length / must.length : 0;
+    const recognition_ratio = unique.length ? recognizedSubmitted.length / unique.length : 0;
+    const recognized_coverage_ratio = recognizedMust.length ? plannedMust.length / recognizedMust.length : 0;
+    candidates.push({
+      ...assigned,
+      planned_must_use: plannedMust.map(item => ({ ...item })),
+      planned_prefer_use: plannedPrefer.map(item => ({ ...item })),
+      unplanned_must_use: unplannedMust,
+      unused_prefer_use: unusedPrefer,
+      coverage_ratio,
+      recognition_ratio,
+      recognized_coverage_ratio,
+      single_pot_eligible: request.mode === 'recommend' ? plannedPrefer.length > 0 : displayFloor(must.length, plannedMust.length),
+    });
+  }
+  return candidates;
+}
+
+export function rankPotCandidates(candidates = [], request = {}) {
+  return [...candidates].sort((left, right) => {
+    const leftPrimary = request.mode === 'pantry' ? left.planned_must_use.length : left.planned_prefer_use.length;
+    const rightPrimary = request.mode === 'pantry' ? right.planned_must_use.length : right.planned_prefer_use.length;
+    if (leftPrimary !== rightPrimary) return rightPrimary - leftPrimary;
+    const leftSafe = left.safety_complete === true ? 1 : 0;
+    const rightSafe = right.safety_complete === true ? 1 : 0;
+    if (leftSafe !== rightSafe) return rightSafe - leftSafe;
+    if (left.required_extra_items.length !== right.required_extra_items.length) return left.required_extra_items.length - right.required_extra_items.length;
+    return left.template_id.localeCompare(right.template_id)
+      || left.assignment_key.localeCompare(right.assignment_key, 'zh-Hans-CN');
+  });
+}
+
+export function planMeal(assets = {}, request = {}) {
+  const normalized_items = normalizePlannerItems([
+    ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
+    ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
+  ], assets.taxonomy);
+  const ranked = rankPotCandidates(buildPotCandidates(assets, request), request);
+  const chosen = ranked.find(candidate => candidate.single_pot_eligible);
+  if (!chosen) {
+    const explanatory = ranked[0] || null;
+    const unique = uniqueSubmittedItems(normalized_items);
+    const fallbackMust = unique.filter(item => item.role === 'must_use').map(item => ({
+      ...item,
+      reason_code: item.recognized ? 'no_compatible_slot' : 'unrecognized_ingredient',
+      reason: item.recognized ? '当前启用模板没有能可靠接纳这项食材的槽位。' : '暂时无法识别这种食材，因此不能承诺已经安排。',
+    }));
+    const fallbackPrefer = unique.filter(item => item.role === 'prefer_use').map(item => ({
+      ...item,
+      reason_code: item.recognized ? 'lower_compatibility' : 'unrecognized_ingredient',
+      reason: item.recognized ? '当前没有足够可靠的组合来使用这项食材。' : '暂时无法识别这种食材。',
+    }));
+    const recognizedCount = unique.filter(item => item.recognized).length;
+    const recognizedMustCount = unique.filter(item => item.role === 'must_use' && item.recognized).length;
+    return {
+      schema_version: 2,
+      planner_version: PLANNER_VERSION,
+      template_catalog_version: assets.templates?.template_catalog_version || null,
+      status: 'no_valid_plan',
+      generation_allowed: false,
+      mode: request.mode,
+      intent: request.intent,
+      normalized_items,
+      commitment: '当前没有达到承诺门槛的可靠单锅方案。',
+      plan: {
+        pots: [],
+        planned_must_use: explanatory?.planned_must_use.map(item => ({ ...item })) || [],
+        planned_prefer_use: explanatory?.planned_prefer_use.map(item => ({ ...item })) || [],
+        unplanned_must_use: explanatory?.unplanned_must_use.map(item => ({ ...item })) || fallbackMust,
+        unused_prefer_use: explanatory?.unused_prefer_use.map(item => ({ ...item })) || fallbackPrefer,
+        coverage_ratio: explanatory?.coverage_ratio || 0,
+        recognition_ratio: explanatory?.recognition_ratio ?? (unique.length ? recognizedCount / unique.length : 0),
+        recognized_coverage_ratio: explanatory?.recognized_coverage_ratio ?? (recognizedMustCount ? 0 : 0),
+      },
+    };
+  }
+  const complete = request.mode === 'pantry' && chosen.coverage_ratio === 1 && chosen.unplanned_must_use.length === 0;
+  const status = request.mode === 'recommend' ? 'ready' : complete ? 'complete' : 'needs_user_decision';
+  return {
+    schema_version: 2,
+    planner_version: PLANNER_VERSION,
+    template_catalog_version: assets.templates?.template_catalog_version || null,
+    status,
+    generation_allowed: request.mode === 'recommend' || complete,
+    mode: request.mode,
+    intent: request.intent,
+    normalized_items,
+    commitment: request.mode === 'recommend'
+      ? '直接推荐会选择较合适的组合，并如实列出这次未使用的食材。'
+      : complete ? '完整清库存计划。' : '还有食材没有安排，需要你先决定下一步。',
+    plan: {
+      plan_kind: 'single_pot',
+      planned_must_use: chosen.planned_must_use.map(item => ({ ...item })),
+      planned_prefer_use: chosen.planned_prefer_use.map(item => ({ ...item })),
+      unplanned_must_use: chosen.unplanned_must_use.map(item => ({ ...item })),
+      unused_prefer_use: chosen.unused_prefer_use.map(item => ({ ...item })),
+      required_extra_items: chosen.required_extra_items.map(item => ({ ...item })),
+      coverage_ratio: chosen.coverage_ratio,
+      recognition_ratio: chosen.recognition_ratio,
+      recognized_coverage_ratio: chosen.recognized_coverage_ratio,
+      rejection_reason: complete || request.mode === 'recommend' ? null : { reason_code: 'incomplete_coverage', message: '仍有清库存食材没有安排。' },
+      pots: [chosen],
+    },
+  };
 }
