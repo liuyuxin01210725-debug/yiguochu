@@ -37,7 +37,7 @@ const SLOT_CODES = new Set([
 ]);
 
 function isStringArray(value) {
-  return Array.isArray(value) && value.every(item => typeof item === 'string' && item.trim());
+  return Array.isArray(value) && value.length > 0 && value.every(item => typeof item === 'string' && item.trim());
 }
 
 export function validateIngredientTaxonomy(data) {
@@ -110,8 +110,14 @@ export function validateIngredientTaxonomy(data) {
       || !item.cooking_risk.required_endpoint_codes.every(code => ENDPOINT_CODES.has(code))) {
       errors.push(`${label}.cooking_risk.required_endpoint_codes are invalid`);
     }
+    if (item.cooking_risk && RISK_CODES.has(item.cooking_risk.risk_code)
+      && item.cooking_risk.risk_code !== 'none'
+      && item.cooking_risk.required_endpoint_codes?.length === 0) {
+      errors.push(`${label}.cooking_risk.required_endpoint_codes must not be empty for ${item.cooking_risk.risk_code}`);
+    }
     for (const field of ['compatible_slot_codes', 'incompatible_slot_codes']) {
-      if (!Array.isArray(item[field]) || !item[field].every(code => SLOT_CODES.has(code))) {
+      if (!Array.isArray(item[field]) || (field === 'compatible_slot_codes' && item[field].length === 0)
+        || !item[field].every(code => SLOT_CODES.has(code))) {
         errors.push(`${label}.${field} are invalid`);
       }
     }

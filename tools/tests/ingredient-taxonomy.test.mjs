@@ -74,6 +74,23 @@ test('validator rejects codes outside its finite first-stage vocabularies', () =
   ]) assert.ok(errors.some(error => error.includes(field)), field);
 });
 
+test('validator rejects incomplete machine schemas and unsafe risk rows without endpoints', () => {
+  const invalid = structuredClone(catalog);
+  invalid.items[0].states = [];
+  invalid.items[1].shapes_or_cuts = [];
+  invalid.items[2].texture_behavior.best_method_codes = [];
+  invalid.items[3].compatible_slot_codes = [];
+  invalid.items.find(item => item.canonical_id === 'chicken-breast').cooking_risk.required_endpoint_codes = [];
+  const errors = validateIngredientTaxonomy(invalid);
+  for (const field of [
+    'states are invalid',
+    'shapes_or_cuts are invalid',
+    'texture_behavior.best_method_codes are invalid',
+    'compatible_slot_codes are invalid',
+    'cooking_risk.required_endpoint_codes must not be empty for raw_poultry',
+  ]) assert.ok(errors.some(error => error.includes(field)), field);
+});
+
 test('validator rejects canonical names that do not resolve to a compatible base identity', () => {
   const nonexistent = structuredClone(catalog);
   nonexistent.items.find(item => item.canonical_id === 'beef-tenderloin').canonical_name = '不存在的肉';
