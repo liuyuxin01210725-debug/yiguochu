@@ -867,34 +867,6 @@ function canonicalUserKeys(pot) {
   ].map(item => item.canonical || `raw:${item.raw}`));
 }
 
-function disjointPotCombination(pots) {
-  const seen = new Set();
-  for (const pot of pots) {
-    for (const key of canonicalUserKeys(pot)) {
-      if (seen.has(key)) return false;
-      seen.add(key);
-    }
-  }
-  return true;
-}
-
-function boundedPotCombinations(candidates, size) {
-  const combinations = [];
-  const visit = (start, chosen) => {
-    if (chosen.length === size) {
-      if (disjointPotCombination(chosen)) combinations.push([...chosen]);
-      return;
-    }
-    for (let index = start; index <= candidates.length - (size - chosen.length); index += 1) {
-      chosen.push(candidates[index]);
-      visit(index + 1, chosen);
-      chosen.pop();
-    }
-  };
-  visit(0, []);
-  return combinations;
-}
-
 // 完整多锅只搜索最多 3 锅。候选先按“用户食材集合 + must 集合”去重，
 // 然后每层固定选一个尚未覆盖的 must item，枚举所有能覆盖它的已重新校验候选。
 // 因此不会构造 N²/N³ 组合数组，也没有可能截断有效 1–3 锅解的任意 cap。
@@ -908,7 +880,8 @@ function findExactCompletePotCombination(rankedCandidates, mustUse, exactPotCoun
   const targetMask = targetKeys.reduce((mask, key) => mask | (bitByUserKey.get(key) || 0n), 0n);
   const uniqueCandidates = [];
   const seenSignatures = new Set();
-  for (const candidate of rankedCandidates) {
+  for (let candidateRank = 0; candidateRank < rankedCandidates.length; candidateRank += 1) {
+    const candidate = rankedCandidates[candidateRank];
     const mustKeys = [...combinedItemKeys([candidate], 'planned_must_use')].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
     if (!mustKeys.length) continue;
     const userKeys = [...canonicalUserKeys(candidate)].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
@@ -948,10 +921,6 @@ function combinedItemKeys(pots, field) {
   return new Set(pots.flatMap(pot => pot[field] || []).map(item => item.canonical || `raw:${item.raw}`));
 }
 
-function combinationIdentity(pots) {
-  return pots.map(pot => `${pot.template_id}\u0000${pot.assignment_key}`).join('\u0001');
-}
-
 function aggregateRequiredExtras(pots) {
   const aggregated = new Map();
   for (const extra of pots.flatMap(pot => pot.required_extra_items || [])) {
@@ -963,24 +932,96 @@ function aggregateRequiredExtras(pots) {
     || String(left.category || '').localeCompare(String(right.category || '')));
 }
 
-function rankPartialCombinations(combinations, request, preferTwoPots = false) {
-  return [...combinations].sort((left, right) => {
-    const leftMust = combinedItemKeys(left, 'planned_must_use').size;
-    const rightMust = combinedItemKeys(right, 'planned_must_use').size;
-    if (leftMust !== rightMust) return rightMust - leftMust;
-    const leftPrefer = combinedItemKeys(left, 'planned_prefer_use').size;
-    const rightPrefer = combinedItemKeys(right, 'planned_prefer_use').size;
-    if (leftPrefer !== rightPrefer) return rightPrefer - leftPrefer;
-    if (preferTwoPots && left.length !== right.length) return right.length - left.length;
-    if (left.length !== right.length) return left.length - right.length;
-    const leftExtras = left.reduce((sum, pot) => sum + (pot.required_extra_items?.length || 0), 0);
-    const rightExtras = right.reduce((sum, pot) => sum + (pot.required_extra_items?.length || 0), 0);
-    if (leftExtras !== rightExtras) return leftExtras - rightExtras;
-    const leftTime = left.reduce((sum, pot) => sum + (pot.time_range?.max_minutes || 0), 0);
-    const rightTime = right.reduce((sum, pot) => sum + (pot.time_range?.max_minutes || 0), 0);
-    if (request.intent === 'quick' && leftTime !== rightTime) return leftTime - rightTime;
-    return combinationIdentity(left).localeCompare(combinationIdentity(right), 'zh-Hans-CN');
-  });
+function countMaskBits(mask) {
+  let count = 0;
+  for (let remaining = mask; remaining; remaining >>= 1n) count += Number(remaining & 1n);
+  return count;
+}
+
+// 部分计划也使用经完整校验的装槽变体。这里只保留当前最优的单锅/两锅，
+// 不构造候选 pair 数组；相同用户食材集合只保留按合同更优的那个已编译候选。
+function findBestPartialPotCombination(rankedCandidates, request) {
+  if (!rankedCandidates.length) return [];
+  const allKeys = [...new Set(rankedCandidates.flatMap(candidate => [...canonicalUserKeys(candidate)]))]
+    .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+  const bitByKey = new Map(allKeys.map((key, index) => [key, 1n << BigInt(index)]));
+  const entryByUserMask = new Map();
+  for (let candidateRank = 0; candidateRank < rankedCandidates.length; candidateRank += 1) {
+    const candidate = rankedCandidates[candidateRank];
+    const userMask = [...canonicalUserKeys(candidate)].reduce((mask, key) => mask | bitByKey.get(key), 0n);
+    if (userMask === 0n) continue;
+    const entry = {
+      candidate,
+      userMask,
+      mustMask: [...combinedItemKeys([candidate], 'planned_must_use')].reduce((mask, key) => mask | bitByKey.get(key), 0n),
+      preferMask: [...combinedItemKeys([candidate], 'planned_prefer_use')].reduce((mask, key) => mask | bitByKey.get(key), 0n),
+      extras: candidate.required_extra_items?.length || 0,
+      quickTime: candidate.time_range?.max_minutes || 0,
+      identity: `${candidate.template_id}\u0000${candidate.assignment_key}`,
+      rank: candidateRank,
+    };
+    const existing = entryByUserMask.get(userMask);
+    if (!existing || entry.extras < existing.extras
+        || (entry.extras === existing.extras && request.intent === 'quick' && entry.quickTime < existing.quickTime)
+        || (entry.extras === existing.extras && (request.intent !== 'quick' || entry.quickTime === existing.quickTime)
+          && entry.identity.localeCompare(existing.identity, 'zh-Hans-CN') < 0)) {
+      entryByUserMask.set(userMask, entry);
+    }
+  }
+  const entries = [...entryByUserMask.values()];
+  for (const entry of entries) {
+    entry.mustCount = countMaskBits(entry.mustMask);
+    entry.preferCount = countMaskBits(entry.preferMask);
+  }
+  const forceTwo = request.decision?.action === 'force_multi_pot';
+  const identityFor = selected => [...selected].sort((left, right) => left.rank - right.rank)
+    .map(entry => entry.identity).join('\u0001');
+  const better = (metrics, selected) => {
+    if (!best) return true;
+    return metrics.must !== best.metrics.must ? metrics.must > best.metrics.must
+      : metrics.prefer !== best.metrics.prefer ? metrics.prefer > best.metrics.prefer
+        : metrics.force !== best.metrics.force ? metrics.force > best.metrics.force
+          : metrics.pots !== best.metrics.pots ? metrics.pots < best.metrics.pots
+            : metrics.extras !== best.metrics.extras ? metrics.extras < best.metrics.extras
+              : request.intent === 'quick' && metrics.quickTime !== best.metrics.quickTime ? metrics.quickTime < best.metrics.quickTime
+                : identityFor(selected).localeCompare(best.metrics.identity, 'zh-Hans-CN') < 0;
+  };
+  let best = null;
+  for (const entry of entries) {
+    const selected = [entry];
+    const metrics = {
+      must: entry.mustCount,
+      prefer: entry.preferCount,
+      force: 0,
+      pots: 1,
+      extras: entry.extras,
+      quickTime: entry.quickTime,
+    };
+    if (better(metrics, selected)) best = { selected, metrics: { ...metrics, identity: identityFor(selected) } };
+  }
+  const pairEntries = [...entries].sort((left, right) => right.mustCount - left.mustCount
+    || right.preferCount - left.preferCount
+    || left.rank - right.rank);
+  const maxMustPerPot = pairEntries[0]?.mustCount || 0;
+  for (let left = 0; left < pairEntries.length; left += 1) {
+    const bestMust = best?.metrics.must ?? -1;
+    if (pairEntries[left].mustCount + maxMustPerPot < bestMust) break;
+    for (let right = left + 1; right < pairEntries.length; right += 1) {
+      if (pairEntries[left].mustCount + pairEntries[right].mustCount < bestMust) break;
+      if ((pairEntries[left].userMask & pairEntries[right].userMask) !== 0n) continue;
+      const selected = [pairEntries[left], pairEntries[right]];
+      const metrics = {
+        must: pairEntries[left].mustCount + pairEntries[right].mustCount,
+        prefer: pairEntries[left].preferCount + pairEntries[right].preferCount,
+        force: forceTwo ? 1 : 0,
+        pots: 2,
+        extras: pairEntries[left].extras + pairEntries[right].extras,
+        quickTime: pairEntries[left].quickTime + pairEntries[right].quickTime,
+      };
+      if (better(metrics, selected)) best = { selected, metrics: { ...metrics, identity: identityFor(selected) } };
+    }
+  }
+  return [...(best?.selected || [])].sort((left, right) => left.rank - right.rank).map(entry => entry.candidate);
 }
 
 const UNPLANNED_REASON_PRIORITY = Object.freeze({
@@ -1154,19 +1195,6 @@ function maxPlannerUserItemsPerPot(assets, request) {
     .map(template => template.slot_limits?.total_user_items_max || 0));
 }
 
-function individuallyCoverableBySafeCandidate(assets, request, item) {
-  if (!item.recognized) return false;
-  const probe = {
-    ...structuredClone(request),
-    must_use: [item.raw],
-    prefer_use: [],
-    decision: null,
-    allow_third_pot: false,
-  };
-  return buildPotCandidates(assets, probe).some(candidate => candidate.planned_must_use
-    .some(planned => planned.canonical === item.canonical));
-}
-
 function planMealCore(assets, request) {
   const normalized_items = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
@@ -1176,7 +1204,7 @@ function planMealCore(assets, request) {
   const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
   const exceedsAbsoluteThreePotCapacity = request.mode === 'pantry'
     && must.length > maxPlannerUserItemsPerPot(assets, request) * 3;
-  const searchRanked = request.mode === 'pantry' && !exceedsAbsoluteThreePotCapacity
+  const searchRanked = request.mode === 'pantry'
     ? rankPotCandidates(buildPotCandidatesInternal(assets, request, true), request)
     : publicRanked;
   const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
@@ -1210,15 +1238,9 @@ function planMealCore(assets, request) {
     });
   }
 
-  const pairs = boundedPotCombinations(publicRanked, 2);
-  const partials = [
-    ...publicRanked.map(candidate => [candidate]),
-    ...pairs,
-  ];
-  const selected = rankPartialCombinations(partials, request, forceMulti)[0] || [];
-  const allIndividuallyCoverable = must.length > 0 && must.every(item => exceedsAbsoluteThreePotCapacity
-    ? individuallyCoverableBySafeCandidate(assets, request, item)
-    : item.recognized && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
+  const selected = findBestPartialPotCombination(searchRanked, request);
+  const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
+    && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
   const capacityExceeded = allIndividuallyCoverable && selected.length > 0;
   return buildPlannerResponse(assets, request, normalized_items, publicRanked, selected, {
     allergyAliases,

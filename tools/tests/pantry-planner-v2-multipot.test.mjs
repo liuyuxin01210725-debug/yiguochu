@@ -99,9 +99,35 @@ test('a sixteen-item recognized pantry exceeds three-pot capacity without hiding
   assert.ok(result.plan.pots.length > 0 && result.plan.pots.length <= 2);
   assert.equal(result.plan.rejection_reason.reason_code, 'plan_capacity_exceeded');
   assert.ok(result.plan.unplanned_must_use.length > 0);
+  assert.equal(result.plan.pots.length, 2);
+  assert.equal(result.plan.planned_must_use.length, 10);
+  const assigned = result.plan.pots.flatMap(pot => pot.planned_must_use.map(item => item.canonical));
+  assert.equal(new Set(assigned).size, assigned.length);
   assert.ok(result.plan.unplanned_must_use.every(item => item.reason_code === 'plan_capacity_exceeded'
     || ['unsupported_shape_or_cut', 'allergen_conflict', 'time_constraint', 'incompatible_combination', 'safety_constraint'].includes(item.reason_code)));
   assert.equal(action(result, 'allow_third_pot'), undefined);
+});
+
+test('partial-search variants also expose the known disjoint acid-plus-beef two-pot cover', () => {
+  const must = ['大米', '番茄', '鸡蛋', '胡萝卜', '金针菇', '面条', '牛里脊', '白菜'];
+  const result = planMeal(assets, request({ must }));
+
+  assert.equal(result.status, 'complete');
+  assert.equal(result.plan.pots.length, 2);
+  assert.equal(result.plan.coverage_ratio, 1);
+  assert.deepEqual(new Set(plannedCanonicals(result)), new Set(['大米', '番茄', '鸡蛋', '胡萝卜', '金针菇', '面条', '牛肉', '白菜']));
+});
+
+test('bounded partial search remains responsive for the full twenty-item request limit', () => {
+  const must = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '嫩豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆', '金针菇', '香菇'];
+  const started = performance.now();
+  const result = planMeal(assets, request({ must, decision: { action: 'allow_third_pot' } }));
+
+  assert.ok(performance.now() - started < 5000, 'twenty-item bounded partial search should finish within five seconds');
+  assert.equal(result.status, 'needs_user_decision');
+  assert.ok(result.plan.pots.length > 0 && result.plan.pots.length <= 2);
+  assert.equal(new Set(result.plan.pots.flatMap(pot => pot.planned_must_use.map(item => item.canonical))).size,
+    result.plan.planned_must_use.length);
 });
 
 test('aggregate capacity is never blamed for an unsupported cut or an allergen conflict', () => {
