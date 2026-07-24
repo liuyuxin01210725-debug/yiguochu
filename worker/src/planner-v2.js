@@ -841,81 +841,358 @@ export function rankPotCandidates(candidates = [], request = {}) {
   });
 }
 
-export function planMeal(assets = {}, request = {}) {
+function canonicalUserKeys(pot) {
+  return new Set([
+    ...(pot.planned_must_use || []), ...(pot.planned_prefer_use || []),
+  ].map(item => item.canonical || `raw:${item.raw}`));
+}
+
+function disjointPotCombination(pots) {
+  const seen = new Set();
+  for (const pot of pots) {
+    for (const key of canonicalUserKeys(pot)) {
+      if (seen.has(key)) return false;
+      seen.add(key);
+    }
+  }
+  return true;
+}
+
+function boundedPotCombinations(candidates, size) {
+  const combinations = [];
+  const visit = (start, chosen) => {
+    if (chosen.length === size) {
+      if (disjointPotCombination(chosen)) combinations.push([...chosen]);
+      return;
+    }
+    for (let index = start; index <= candidates.length - (size - chosen.length); index += 1) {
+      chosen.push(candidates[index]);
+      visit(index + 1, chosen);
+      chosen.pop();
+    }
+  };
+  visit(0, []);
+  return combinations;
+}
+
+function combinedItemKeys(pots, field) {
+  return new Set(pots.flatMap(pot => pot[field] || []).map(item => item.canonical || `raw:${item.raw}`));
+}
+
+function coversAllMustUse(pots, mustUse) {
+  if (mustUse.some(item => !item.recognized)) return false;
+  const covered = combinedItemKeys(pots, 'planned_must_use');
+  return mustUse.every(item => covered.has(item.canonical || `raw:${item.raw}`));
+}
+
+function combinationIdentity(pots) {
+  return pots.map(pot => `${pot.template_id}\u0000${pot.assignment_key}`).join('\u0001');
+}
+
+function aggregateRequiredExtras(pots) {
+  const aggregated = new Map();
+  for (const extra of pots.flatMap(pot => pot.required_extra_items || [])) {
+    const key = `${extra.name}\u0000${extra.category || ''}`;
+    if (!aggregated.has(key)) aggregated.set(key, { ...structuredClone(extra) });
+    else if (finiteNonNegativeNumber(extra.grams)) aggregated.get(key).grams += extra.grams;
+  }
+  return [...aggregated.values()].sort((left, right) => left.name.localeCompare(right.name, 'zh-Hans-CN')
+    || String(left.category || '').localeCompare(String(right.category || '')));
+}
+
+function rankPartialCombinations(combinations, request, preferTwoPots = false) {
+  return [...combinations].sort((left, right) => {
+    const leftMust = combinedItemKeys(left, 'planned_must_use').size;
+    const rightMust = combinedItemKeys(right, 'planned_must_use').size;
+    if (leftMust !== rightMust) return rightMust - leftMust;
+    const leftPrefer = combinedItemKeys(left, 'planned_prefer_use').size;
+    const rightPrefer = combinedItemKeys(right, 'planned_prefer_use').size;
+    if (leftPrefer !== rightPrefer) return rightPrefer - leftPrefer;
+    if (preferTwoPots && left.length !== right.length) return right.length - left.length;
+    if (left.length !== right.length) return left.length - right.length;
+    const leftExtras = left.reduce((sum, pot) => sum + (pot.required_extra_items?.length || 0), 0);
+    const rightExtras = right.reduce((sum, pot) => sum + (pot.required_extra_items?.length || 0), 0);
+    if (leftExtras !== rightExtras) return leftExtras - rightExtras;
+    const leftTime = left.reduce((sum, pot) => sum + (pot.time_range?.max_minutes || 0), 0);
+    const rightTime = right.reduce((sum, pot) => sum + (pot.time_range?.max_minutes || 0), 0);
+    if (request.intent === 'quick' && leftTime !== rightTime) return leftTime - rightTime;
+    return combinationIdentity(left).localeCompare(combinationIdentity(right), 'zh-Hans-CN');
+  });
+}
+
+const UNPLANNED_REASON_PRIORITY = Object.freeze({
+  allergen_conflict: 0,
+  unsupported_shape_or_cut: 1,
+  unrecognized_ingredient: 2,
+  time_constraint: 3,
+  safety_constraint: 4,
+  incompatible_combination: 5,
+  would_break_ratio: 6,
+  exceeds_slot_limit: 7,
+  no_compatible_slot: 8,
+  lower_compatibility: 9,
+});
+
+function bestExistingReason(item, ranked, field) {
+  const key = item.canonical || `raw:${item.raw}`;
+  return ranked.flatMap(candidate => candidate[field] || [])
+    .filter(entry => (entry.canonical || `raw:${entry.raw}`) === key)
+    .sort((left, right) => (UNPLANNED_REASON_PRIORITY[left.reason_code] ?? 99)
+      - (UNPLANNED_REASON_PRIORITY[right.reason_code] ?? 99))[0] || null;
+}
+
+function fallbackUnplannedReason(item, request, allergyAliases, role) {
+  if (itemMatchesDislikes(item, request.dislikes || [], allergyAliases)) return {
+    ...structuredClone(item),
+    reason_code: 'allergen_conflict',
+    reason: '这项食材与你设置的忌口冲突。',
+  };
+  if (!item.recognized) return {
+    ...structuredClone(item),
+    reason_code: 'unrecognized_ingredient',
+    reason: role === 'must_use' ? '暂时无法识别这种食材，因此不能承诺已经安排。' : '暂时无法识别这种食材。',
+  };
+  return {
+    ...structuredClone(item),
+    reason_code: role === 'must_use' ? 'no_compatible_slot' : 'lower_compatibility',
+    reason: role === 'must_use' ? '当前启用模板没有能可靠接纳这项食材的槽位。' : '当前没有足够可靠的组合来使用这项食材。',
+  };
+}
+
+function reasonForUnplanned(item, ranked, request, allergyAliases, role, overrideCode = null) {
+  const existing = bestExistingReason(item, ranked, role === 'must_use' ? 'unplanned_must_use' : 'unused_prefer_use');
+  const reason = existing ? structuredClone(existing) : fallbackUnplannedReason(item, request, allergyAliases, role);
+  const specific = new Set(['allergen_conflict', 'unsupported_shape_or_cut', 'unrecognized_ingredient', 'time_constraint', 'safety_constraint', 'incompatible_combination']);
+  if (overrideCode && !specific.has(reason.reason_code)) {
+    reason.reason_code = overrideCode;
+    reason.reason = overrideCode === 'third_pot_required'
+      ? '这项食材需要放入第三锅，需要你先确认额外一顿主餐。'
+      : '最多三锅仍无法把这项食材安排进完整计划。';
+  }
+  return reason;
+}
+
+function decoratePots(pots, allMustUse) {
+  const remaining = new Map(allMustUse.map(item => [item.canonical || `raw:${item.raw}`, structuredClone(item)]));
+  const labels = ['第一锅', '第二锅', '第三锅'];
+  return pots.map((pot, index) => {
+    for (const item of pot.planned_must_use || []) remaining.delete(item.canonical || `raw:${item.raw}`);
+    const localPot = structuredClone(pot);
+    delete localPot.unplanned_must_use;
+    delete localPot.unused_prefer_use;
+    return {
+      ...localPot,
+      meal_sequence: index + 1,
+      label: labels[index],
+      remaining_must_use_after: [...remaining.values()].map(item => ({ ...item })),
+    };
+  });
+}
+
+function structuredAction(action, label, unplannedItems, options = {}) {
+  return {
+    action,
+    label,
+    eligible_items: options.eligible_items || [],
+    requires_acknowledgement: options.requires_acknowledgement === true,
+    unplanned_items: [...unplannedItems],
+    ...(options.extra || {}),
+  };
+}
+
+function partialActions(unplanned, includeThirdPot = false) {
+  const identities = unplanned.map(item => item.canonical || item.raw);
+  const actions = [];
+  if (includeThirdPot) actions.push(structuredAction('allow_third_pot', '需要第三锅才能全部安排', identities, {
+    requires_acknowledgement: true,
+    extra: { potential_full_coverage: true, additional_meals: 1 },
+  }));
+  actions.push(structuredAction('relax_item', '放宽一种食材', identities, {
+    eligible_items: identities,
+    requires_acknowledgement: true,
+  }));
+  actions.push(structuredAction('edit_ingredients', '调整食材', identities));
+  actions.push(structuredAction('accept_partial', '接受部分规划', identities, { requires_acknowledgement: true }));
+  return actions;
+}
+
+function buildPlannerResponse(assets, request, normalizedItems, ranked, selectedPots, options = {}) {
+  const unique = uniqueSubmittedItems(normalizedItems);
+  const must = unique.filter(item => item.role === 'must_use');
+  const prefer = unique.filter(item => item.role === 'prefer_use');
+  const plannedMustKeys = combinedItemKeys(selectedPots, 'planned_must_use');
+  const plannedPreferKeys = combinedItemKeys(selectedPots, 'planned_prefer_use');
+  const plannedMust = must.filter(item => plannedMustKeys.has(item.canonical || `raw:${item.raw}`));
+  const plannedPrefer = prefer.filter(item => plannedPreferKeys.has(item.canonical || `raw:${item.raw}`));
+  const thirdPotKeys = options.thirdPot ? canonicalUserKeys(options.thirdPot) : new Set();
+  const unplannedMust = must.filter(item => !plannedMustKeys.has(item.canonical || `raw:${item.raw}`)).map(item => {
+    const key = item.canonical || `raw:${item.raw}`;
+    const override = thirdPotKeys.has(key) ? 'third_pot_required' : options.capacityExceeded ? 'plan_capacity_exceeded' : null;
+    return reasonForUnplanned(item, ranked, request, options.allergyAliases, 'must_use', override);
+  });
+  const unusedPrefer = prefer.filter(item => !plannedPreferKeys.has(item.canonical || `raw:${item.raw}`))
+    .map(item => reasonForUnplanned(item, ranked, request, options.allergyAliases, 'prefer_use'));
+  const recognizedMust = must.filter(item => item.recognized);
+  const recognizedPrefer = prefer.filter(item => item.recognized);
+  const promiseItems = request.mode === 'pantry' ? must : prefer;
+  const plannedPromiseItems = request.mode === 'pantry' ? plannedMust : plannedPrefer;
+  const recognizedPromiseItems = request.mode === 'pantry' ? recognizedMust : recognizedPrefer;
+  const coverageRatio = promiseItems.length ? plannedPromiseItems.length / promiseItems.length : 0;
+  const recognitionRatio = request.mode === 'pantry'
+    ? (must.length ? recognizedMust.length / must.length : 0)
+    : (prefer.length ? recognizedPrefer.length / prefer.length : 0);
+  const recognizedCoverageRatio = recognizedPromiseItems.length ? plannedPromiseItems.length / recognizedPromiseItems.length : 0;
+  const complete = request.mode === 'pantry' && unplannedMust.length === 0 && coverageRatio === 1;
+  const ready = request.mode === 'recommend' && plannedPrefer.length > 0;
+  const status = ready ? 'ready' : complete ? 'complete' : selectedPots.length ? 'needs_user_decision' : 'no_valid_plan';
+  const decoratedPots = decoratePots(selectedPots, must);
+  const rejectionReason = options.capacityExceeded
+    ? { reason_code: 'plan_capacity_exceeded', message: '最多三锅仍无法完整覆盖本次清库存食材。' }
+    : options.thirdPot ? { reason_code: 'third_pot_required', message: '需要第三锅才能完整覆盖。' }
+      : status === 'needs_user_decision' ? { reason_code: 'incomplete_coverage', message: '仍有清库存食材没有安排。' } : null;
+  const result = {
+    schema_version: 2,
+    planner_version: PLANNER_VERSION,
+    template_catalog_version: assets.templates?.template_catalog_version || null,
+    status,
+    generation_allowed: ready || complete,
+    mode: request.mode,
+    intent: request.intent,
+    normalized_items: normalizedItems.map(item => structuredClone(item)),
+    commitment: ready
+      ? '直接推荐会选择较合适的组合，并如实列出这次未使用的食材。'
+      : complete ? '完整清库存计划。' : selectedPots.length ? '还有食材没有安排，需要你先决定下一步。' : '当前没有达到承诺门槛的可靠计划。',
+    plan: {
+      plan_kind: decoratedPots.length > 1 ? 'multi_pot' : 'single_pot',
+      planned_must_use: plannedMust.map(item => structuredClone(item)),
+      planned_prefer_use: plannedPrefer.map(item => structuredClone(item)),
+      unplanned_must_use: unplannedMust,
+      unused_prefer_use: unusedPrefer,
+      required_extra_items: aggregateRequiredExtras(selectedPots),
+      coverage_ratio: coverageRatio,
+      recognition_ratio: recognitionRatio,
+      recognized_coverage_ratio: recognizedCoverageRatio,
+      rejection_reason: rejectionReason,
+      pots: decoratedPots,
+    },
+    unplanned: unplannedMust.map(item => structuredClone(item)),
+    actions: status === 'needs_user_decision' ? partialActions(unplannedMust, Boolean(options.thirdPot)) : [],
+  };
+  return result;
+}
+
+function planMealCore(assets, request) {
   const normalized_items = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
   ], assets.taxonomy);
   const ranked = rankPotCandidates(buildPotCandidates(assets, request), request);
   const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
-  const chosen = ranked.find(candidate => candidate.single_pot_eligible);
-  if (!chosen) {
-    const explanatory = ranked[0] || null;
-    const unique = uniqueSubmittedItems(normalized_items);
-    const fallbackMust = unique.filter(item => item.role === 'must_use').map(item => ({
-      ...item,
-      reason_code: itemMatchesDislikes(item, request.dislikes || [], allergyAliases) ? 'allergen_conflict'
-        : item.recognized ? 'no_compatible_slot' : 'unrecognized_ingredient',
-      reason: itemMatchesDislikes(item, request.dislikes || [], allergyAliases) ? '这项食材与你设置的忌口冲突。'
-        : item.recognized ? '当前启用模板没有能可靠接纳这项食材的槽位。' : '暂时无法识别这种食材，因此不能承诺已经安排。',
-    }));
-    const fallbackPrefer = unique.filter(item => item.role === 'prefer_use').map(item => ({
-      ...item,
-      reason_code: itemMatchesDislikes(item, request.dislikes || [], allergyAliases) ? 'allergen_conflict'
-        : item.recognized ? 'lower_compatibility' : 'unrecognized_ingredient',
-      reason: itemMatchesDislikes(item, request.dislikes || [], allergyAliases) ? '这项食材与你设置的忌口冲突。'
-        : item.recognized ? '当前没有足够可靠的组合来使用这项食材。' : '暂时无法识别这种食材。',
-    }));
-    const promiseItems = unique.filter(item => item.role === (request.mode === 'pantry' ? 'must_use' : 'prefer_use'));
-    const recognizedPromiseCount = promiseItems.filter(item => item.recognized).length;
-    return {
-      schema_version: 2,
-      planner_version: PLANNER_VERSION,
-      template_catalog_version: assets.templates?.template_catalog_version || null,
-      status: 'no_valid_plan',
-      generation_allowed: false,
-      mode: request.mode,
-      intent: request.intent,
-      normalized_items,
-      commitment: '当前没有达到承诺门槛的可靠单锅方案。',
-      plan: {
-        pots: [],
-        planned_must_use: explanatory?.planned_must_use.map(item => ({ ...item })) || [],
-        planned_prefer_use: explanatory?.planned_prefer_use.map(item => ({ ...item })) || [],
-        unplanned_must_use: explanatory?.unplanned_must_use.map(item => ({ ...item })) || fallbackMust,
-        unused_prefer_use: explanatory?.unused_prefer_use.map(item => ({ ...item })) || fallbackPrefer,
-        coverage_ratio: explanatory?.coverage_ratio || 0,
-        recognition_ratio: explanatory?.recognition_ratio ?? (promiseItems.length ? recognizedPromiseCount / promiseItems.length : 0),
-        recognized_coverage_ratio: explanatory?.recognized_coverage_ratio ?? 0,
-      },
-    };
+  if (request.mode === 'recommend') {
+    const chosen = ranked.find(candidate => candidate.single_pot_eligible);
+    return buildPlannerResponse(assets, request, normalized_items, ranked, chosen ? [chosen] : [], { allergyAliases });
   }
-  const complete = request.mode === 'pantry' && chosen.coverage_ratio === 1 && chosen.unplanned_must_use.length === 0;
-  const status = request.mode === 'recommend' ? 'ready' : complete ? 'complete' : 'needs_user_decision';
-  return {
-    schema_version: 2,
-    planner_version: PLANNER_VERSION,
-    template_catalog_version: assets.templates?.template_catalog_version || null,
-    status,
-    generation_allowed: request.mode === 'recommend' || complete,
-    mode: request.mode,
-    intent: request.intent,
-    normalized_items,
-    commitment: request.mode === 'recommend'
-      ? '直接推荐会选择较合适的组合，并如实列出这次未使用的食材。'
-      : complete ? '完整清库存计划。' : '还有食材没有安排，需要你先决定下一步。',
-    plan: {
-      plan_kind: 'single_pot',
-      planned_must_use: chosen.planned_must_use.map(item => ({ ...item })),
-      planned_prefer_use: chosen.planned_prefer_use.map(item => ({ ...item })),
-      unplanned_must_use: chosen.unplanned_must_use.map(item => ({ ...item })),
-      unused_prefer_use: chosen.unused_prefer_use.map(item => ({ ...item })),
-      required_extra_items: chosen.required_extra_items.map(item => ({ ...item })),
-      coverage_ratio: chosen.coverage_ratio,
-      recognition_ratio: chosen.recognition_ratio,
-      recognized_coverage_ratio: chosen.recognized_coverage_ratio,
-      rejection_reason: complete || request.mode === 'recommend' ? null : { reason_code: 'incomplete_coverage', message: '仍有清库存食材没有安排。' },
-      pots: [chosen],
-    },
+
+  const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
+  const completeSingles = ranked.filter(candidate => candidate.single_pot_eligible && coversAllMustUse([candidate], must));
+  const pairs = boundedPotCombinations(ranked, 2);
+  const completePairs = pairs.filter(pair => coversAllMustUse(pair, must));
+  const forceMulti = request.decision?.action === 'force_multi_pot';
+  if (forceMulti && completePairs.length) {
+    return buildPlannerResponse(assets, request, normalized_items, ranked, completePairs[0], { allergyAliases });
+  }
+  if (completeSingles.length) {
+    return buildPlannerResponse(assets, request, normalized_items, ranked, [completeSingles[0]], { allergyAliases });
+  }
+  if (completePairs.length) {
+    return buildPlannerResponse(assets, request, normalized_items, ranked, completePairs[0], { allergyAliases });
+  }
+
+  const triples = boundedPotCombinations(ranked, 3);
+  const completeTriples = triples.filter(triple => coversAllMustUse(triple, must));
+  if (completeTriples.length) {
+    const triple = completeTriples[0];
+    if (request.allow_third_pot) {
+      return buildPlannerResponse(assets, request, normalized_items, ranked, triple, { allergyAliases });
+    }
+    return buildPlannerResponse(assets, request, normalized_items, ranked, triple.slice(0, 2), {
+      allergyAliases,
+      thirdPot: triple[2],
+    });
+  }
+
+  const partials = [
+    ...ranked.map(candidate => [candidate]),
+    ...pairs,
+  ];
+  const selected = rankPartialCombinations(partials, request, forceMulti)[0] || [];
+  const allRecognized = must.length > 0 && must.every(item => item.recognized);
+  const capacityExceeded = allRecognized && selected.length > 0;
+  return buildPlannerResponse(assets, request, normalized_items, ranked, selected, {
+    allergyAliases,
+    capacityExceeded,
+  });
+}
+
+function acknowledgementIdentity(item) {
+  return item.canonical || item.raw;
+}
+
+function exactStringSet(left, right) {
+  if (!Array.isArray(left) || left.some(value => typeof value !== 'string')) return false;
+  const normalize = values => [...new Set(values.map(value => value.trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+  return JSON.stringify(normalize(left)) === JSON.stringify(normalize(right));
+}
+
+export function planMeal(assets = {}, request = {}) {
+  const decision = request.decision;
+  const baseRequest = {
+    ...structuredClone(request),
+    decision: null,
+    allow_third_pot: false,
   };
+  if (!decision) return planMealCore(assets, baseRequest);
+
+  if (decision.action === 'relax_item') {
+    const current = planMealCore(assets, baseRequest);
+    const eligible = current.plan.unplanned_must_use || [];
+    const chosen = typeof decision.item === 'string' ? decision.item.trim() : '';
+    const target = eligible.find(item => chosen && (item.raw === chosen || item.canonical === chosen));
+    if (!target) throw invalidPlannerRequest('relax_item must select one current unplanned item');
+    const normalizedMust = normalizePlannerItems((baseRequest.must_use || []).map(raw => ({ raw, role: 'must_use' })), assets.taxonomy);
+    const movedRaw = normalizedMust.filter(item => item.raw === target.raw || (target.canonical && item.canonical === target.canonical)).map(item => item.raw);
+    const moved = new Set(movedRaw);
+    return planMealCore(assets, {
+      ...baseRequest,
+      must_use: (baseRequest.must_use || []).filter(raw => !moved.has(raw)),
+      prefer_use: [...new Set([...(baseRequest.prefer_use || []), ...movedRaw])],
+    });
+  }
+
+  const decisionRequest = {
+    ...baseRequest,
+    decision: structuredClone(decision),
+    allow_third_pot: decision.action === 'allow_third_pot',
+  };
+  const current = planMealCore(assets, decisionRequest);
+  if (decision.action === 'edit_ingredients') {
+    current.status = current.status === 'no_valid_plan' ? 'no_valid_plan' : 'needs_user_decision';
+    current.generation_allowed = false;
+    current.commitment = '已保留你输入的食材，请返回调整后再规划。';
+    return current;
+  }
+  if (decision.action === 'accept_partial') {
+    const planId = typeof decision.plan_id === 'string' ? decision.plan_id.trim() : '';
+    const expected = (current.plan.unplanned_must_use || []).map(acknowledgementIdentity);
+    if (!planId || planId !== request.current_plan_id || !exactStringSet(decision.acknowledged_unplanned, expected)
+        || current.status !== 'needs_user_decision' || !current.plan.pots.length) {
+      throw invalidPlannerRequest('accept_partial acknowledgement does not match the current partial plan');
+    }
+    current.status = 'partial_accepted';
+    current.generation_allowed = true;
+    current.commitment = '部分处理方案：已为可规划食材保留做法，仍会显示未处理食材。';
+    current.actions = [];
+    return current;
+  }
+  return current;
 }
