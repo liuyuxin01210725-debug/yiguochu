@@ -1,5 +1,6 @@
 import { prepareRatioCatalog, preparedRatioCatalogContext } from './ratio-dsl.js';
 import { resolveBasicExtraIdentity, taxonomyIdentityIndex } from './taxonomy-identity.js';
+import { matchAllergy } from './allergen-semantics.js';
 
 export const PLANNER_SCHEMA_VERSION = 2;
 export const PLANNER_VERSION = 'pantry-planner-v2';
@@ -427,11 +428,17 @@ function itemFit(slot, item, template) {
   return { ok: true };
 }
 
-function basicSlotChoices(slot, taxonomy) {
+function itemMatchesDislikes(item, dislikes = []) {
+  return dislikes.some(dislike => [item.raw, item.display_name, item.canonical]
+    .filter(Boolean).some(name => matchAllergy(dislike, name)));
+}
+
+function basicSlotChoices(slot, taxonomy, dislikes = []) {
   if (!(slot.source_policy || []).includes('basic_extra')) return [];
   const accepted = new Set(slot.accepts_categories || []);
   return (taxonomy?.items || [])
     .filter(item => BASIC_EXTRA_CATEGORIES.has(item.category) && accepted.has(item.category))
+    .filter(item => !dislikes.some(dislike => matchAllergy(dislike, item.display_name)))
     .sort((a, b) => a.display_name.localeCompare(b.display_name, 'zh-Hans-CN'))
     .map(item => ({
       raw: item.display_name,
@@ -454,7 +461,7 @@ function basicSlotChoices(slot, taxonomy) {
 }
 
 function assignedUserRecord(item) {
-  return { ...item, source: 'user' };
+  return { ...structuredClone(item), source: 'user' };
 }
 
 function assignedItems(assignment) {
@@ -549,7 +556,10 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
     return rejection('time_constraint', '这个模板无法满足本次时间要求。');
   }
   if (!Array.isArray(normalizedItems)) return rejection('no_compatible_slot', '没有可用于规划的食材。');
-  const users = normalizedItems.filter(item => item.recognized && item.duplicate_of === null).sort(stableItemCompare);
+  const dislikes = Array.isArray(context.dislikes) ? context.dislikes : [];
+  const uniqueRecognized = normalizedItems.filter(item => item.recognized && item.duplicate_of === null);
+  const dislikedUsers = uniqueRecognized.filter(item => itemMatchesDislikes(item, dislikes));
+  const users = uniqueRecognized.filter(item => !itemMatchesDislikes(item, dislikes)).sort(stableItemCompare);
   const required = [...(template.required_slots || [])];
   const optional = [...(template.optional_slots || [])]
     .filter(slot => slot.source_policy?.includes('user'))
@@ -577,7 +587,7 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
         }
       }
     }
-    choices.push(...basicSlotChoices(slot, context.taxonomy));
+    choices.push(...basicSlotChoices(slot, context.taxonomy, dislikes));
     for (const choice of choices) {
       const nextUsed = new Set(used);
       if (choice.source === 'user') nextUsed.add(users.find(item => item.raw === choice.raw && item.canonical === choice.canonical));
@@ -586,6 +596,9 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
   };
   visitRequired(0, {}, new Set());
   if (!requiredAssignments.length) {
+    if (dislikedUsers.length) {
+      return rejection('allergen_conflict', '忌口食材不能进入这个模板。', { item: dislikedUsers[0].raw });
+    }
     return mostSpecificFailure || rejection('no_compatible_slot', '缺少模板必需且兼容的食材槽位。');
   }
 
@@ -632,6 +645,11 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
         hardFailure ||= rejection('would_break_ratio', '这组食材无法通过份量与液体比例检查。', { ratio_code: compiled.code });
         continue;
       }
+      const conflictingExtra = (compiled.required_extra_items || []).find(item => dislikes.some(dislike => matchAllergy(dislike, item.name)));
+      if (conflictingExtra) {
+        hardFailure ||= rejection('allergen_conflict', '份量规则需要的基础补充项与忌口冲突。', { item: conflictingExtra.name });
+        continue;
+      }
       completed.push({
         ok: true,
         template_id: template.template_id,
@@ -651,9 +669,15 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
   }
   if (!completed.length) return hardFailure || rejection('would_break_ratio', '没有可执行的单锅份量方案。');
   completed.sort((left, right) => {
-    const leftUsers = assignedItems(left.slot_assignment).filter(item => item.source === 'user').length;
-    const rightUsers = assignedItems(right.slot_assignment).filter(item => item.source === 'user').length;
-    return rightUsers - leftUsers || left.required_extra_items.length - right.required_extra_items.length
+    const leftUsers = assignedItems(left.slot_assignment).filter(item => item.source === 'user');
+    const rightUsers = assignedItems(right.slot_assignment).filter(item => item.source === 'user');
+    const leftMust = leftUsers.filter(item => item.role === 'must_use').length;
+    const rightMust = rightUsers.filter(item => item.role === 'must_use').length;
+    const leftPrefer = leftUsers.filter(item => item.role === 'prefer_use').length;
+    const rightPrefer = rightUsers.filter(item => item.role === 'prefer_use').length;
+    return rightMust - leftMust
+      || (context.mode === 'recommend' ? rightPrefer - leftPrefer : rightUsers.length - leftUsers.length)
+      || left.required_extra_items.length - right.required_extra_items.length
       || left.assignment_key.localeCompare(right.assignment_key, 'zh-Hans-CN');
   });
   return completed[0];
@@ -663,21 +687,34 @@ function uniqueSubmittedItems(normalizedItems) {
   return normalizedItems.filter(item => item.duplicate_of === null);
 }
 
-function unusedReason(item, assignment, template, role) {
+function unusedReason(item, assignment, template, role, dislikes = []) {
+  if (itemMatchesDislikes(item, dislikes)) return {
+    ...structuredClone(item),
+    reason_code: 'allergen_conflict',
+    reason: '这项食材与你设置的忌口冲突。',
+  };
   if (!item.recognized) return {
-    ...item,
+    ...structuredClone(item),
     reason_code: 'unrecognized_ingredient',
     reason: '暂时无法识别这种食材，因此不能承诺已经安排。',
   };
   const slots = [...(template.required_slots || []), ...(template.optional_slots || [])].filter(slot => slot.source_policy?.includes('user'));
-  const fitSlots = slots.filter(slot => itemFit(slot, item, template).ok);
+  const fits = slots.map(slot => ({ slot, fit: itemFit(slot, item, template) }));
+  if (fits.some(entry => entry.fit.reason_code === 'unsupported_shape_or_cut')) {
+    return {
+      ...structuredClone(item),
+      reason_code: 'unsupported_shape_or_cut',
+      reason: '这个食材的部位或形态不适合当前做法。',
+    };
+  }
+  const fitSlots = fits.filter(entry => entry.fit.ok).map(entry => entry.slot);
   for (const slot of fitSlots) {
     if ((assignment[slot.slot_id]?.length || 0) >= slot.max_items) continue;
     const trial = Object.fromEntries(Object.entries(assignment).map(([slotId, items]) => [slotId, [...items]]));
     trial[slot.slot_id] = [...(trial[slot.slot_id] || []), assignedUserRecord(item)];
     if (incompatibleReason(template, trial)) {
       return {
-        ...item,
+        ...structuredClone(item),
         reason_code: role === 'must_use' ? 'incompatible_combination' : 'texture_conflict',
         reason: '加入这项食材会破坏当前锅的出水或熟制节奏。',
       };
@@ -685,7 +722,7 @@ function unusedReason(item, assignment, template, role) {
   }
   const reason_code = fitSlots.length ? 'exceeds_slot_limit' : role === 'must_use' ? 'no_compatible_slot' : 'lower_compatibility';
   return {
-    ...item,
+    ...structuredClone(item),
     reason_code,
     reason: fitSlots.length ? '兼容槽位已经由更合适的食材占用。' : '这项食材与当前单锅结构不够匹配。',
   };
@@ -725,6 +762,7 @@ export function buildPotCandidates(assets = {}, request = {}) {
       mode: request.mode,
       intent: request.intent,
       servings: request.servings,
+      dislikes: request.dislikes || [],
     });
     if (!assigned.ok) continue;
     const planned = assignedItems(assigned.slot_assignment).filter(item => item.source === 'user');
@@ -733,11 +771,13 @@ export function buildPotCandidates(assets = {}, request = {}) {
     const plannedPrefer = prefer.filter(item => plannedKeys.has(`prefer_use\u0000${item.canonical}`));
     if (request.mode === 'recommend' && recognizedSubmitted.length && plannedPrefer.length === 0) continue;
     const unplannedMust = must.filter(item => !plannedKeys.has(`must_use\u0000${item.canonical}`))
-      .map(item => unusedReason(item, assigned.slot_assignment, template, 'must_use'));
+      .map(item => unusedReason(item, assigned.slot_assignment, template, 'must_use', request.dislikes || []));
     const unusedPrefer = prefer.filter(item => !plannedKeys.has(`prefer_use\u0000${item.canonical}`))
-      .map(item => unusedReason(item, assigned.slot_assignment, template, 'prefer_use'));
+      .map(item => unusedReason(item, assigned.slot_assignment, template, 'prefer_use', request.dislikes || []));
     const coverage_ratio = must.length ? plannedMust.length / must.length : 0;
-    const recognition_ratio = unique.length ? recognizedSubmitted.length / unique.length : 0;
+    const promiseItems = request.mode === 'pantry' ? must : prefer;
+    const recognizedPromiseItems = promiseItems.filter(item => item.recognized);
+    const recognition_ratio = promiseItems.length ? recognizedPromiseItems.length / promiseItems.length : 0;
     const recognized_coverage_ratio = recognizedMust.length ? plannedMust.length / recognizedMust.length : 0;
     candidates.push({
       ...assigned,
@@ -780,16 +820,20 @@ export function planMeal(assets = {}, request = {}) {
     const unique = uniqueSubmittedItems(normalized_items);
     const fallbackMust = unique.filter(item => item.role === 'must_use').map(item => ({
       ...item,
-      reason_code: item.recognized ? 'no_compatible_slot' : 'unrecognized_ingredient',
-      reason: item.recognized ? '当前启用模板没有能可靠接纳这项食材的槽位。' : '暂时无法识别这种食材，因此不能承诺已经安排。',
+      reason_code: itemMatchesDislikes(item, request.dislikes || []) ? 'allergen_conflict'
+        : item.recognized ? 'no_compatible_slot' : 'unrecognized_ingredient',
+      reason: itemMatchesDislikes(item, request.dislikes || []) ? '这项食材与你设置的忌口冲突。'
+        : item.recognized ? '当前启用模板没有能可靠接纳这项食材的槽位。' : '暂时无法识别这种食材，因此不能承诺已经安排。',
     }));
     const fallbackPrefer = unique.filter(item => item.role === 'prefer_use').map(item => ({
       ...item,
-      reason_code: item.recognized ? 'lower_compatibility' : 'unrecognized_ingredient',
-      reason: item.recognized ? '当前没有足够可靠的组合来使用这项食材。' : '暂时无法识别这种食材。',
+      reason_code: itemMatchesDislikes(item, request.dislikes || []) ? 'allergen_conflict'
+        : item.recognized ? 'lower_compatibility' : 'unrecognized_ingredient',
+      reason: itemMatchesDislikes(item, request.dislikes || []) ? '这项食材与你设置的忌口冲突。'
+        : item.recognized ? '当前没有足够可靠的组合来使用这项食材。' : '暂时无法识别这种食材。',
     }));
-    const recognizedCount = unique.filter(item => item.recognized).length;
-    const recognizedMustCount = unique.filter(item => item.role === 'must_use' && item.recognized).length;
+    const promiseItems = unique.filter(item => item.role === (request.mode === 'pantry' ? 'must_use' : 'prefer_use'));
+    const recognizedPromiseCount = promiseItems.filter(item => item.recognized).length;
     return {
       schema_version: 2,
       planner_version: PLANNER_VERSION,
@@ -807,8 +851,8 @@ export function planMeal(assets = {}, request = {}) {
         unplanned_must_use: explanatory?.unplanned_must_use.map(item => ({ ...item })) || fallbackMust,
         unused_prefer_use: explanatory?.unused_prefer_use.map(item => ({ ...item })) || fallbackPrefer,
         coverage_ratio: explanatory?.coverage_ratio || 0,
-        recognition_ratio: explanatory?.recognition_ratio ?? (unique.length ? recognizedCount / unique.length : 0),
-        recognized_coverage_ratio: explanatory?.recognized_coverage_ratio ?? (recognizedMustCount ? 0 : 0),
+        recognition_ratio: explanatory?.recognition_ratio ?? (promiseItems.length ? recognizedPromiseCount / promiseItems.length : 0),
+        recognized_coverage_ratio: explanatory?.recognized_coverage_ratio ?? 0,
       },
     };
   }

@@ -9,7 +9,7 @@ const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
 
 // 从 JS 源文本提取 ALLERGEN_GROUPS 对象字面量并求值(键为无引号中文字面量, JSON 无法直接解析)。
 function extractJsAllergenGroups(source, label) {
-  const match = source.match(/const ALLERGEN_GROUPS = (\{[\s\S]*?\});/);
+  const match = source.match(/(?:export )?const ALLERGEN_GROUPS = (\{[\s\S]*?\});/);
   assert.ok(match, `${label} 缺少 ALLERGEN_GROUPS 定义`);
   return Function(`"use strict"; return (${match[1]});`)();
 }
@@ -62,8 +62,8 @@ test('ALLERGEN_GROUPS is identical across index.html, worker, and ai_proxy', () 
     'index.html',
   );
   const worker = extractJsAllergenGroups(
-    fs.readFileSync(new URL('../../worker/src/worker.js', import.meta.url), 'utf8'),
-    'worker/src/worker.js',
+    fs.readFileSync(new URL('../../worker/src/allergen-semantics.js', import.meta.url), 'utf8'),
+    'worker/src/allergen-semantics.js',
   );
   const proxy = extractPythonAllergenGroups();
   assert.deepEqual(worker, frontend);

@@ -22,10 +22,10 @@ const assets = Object.freeze({
   recipes: readJson('recipe-library.json'),
 });
 const activeTemplate = id => assets.templates.templates.find(template => template.template_id === id);
-const request = ({ mode = 'pantry', intent = 'normal', must = [], prefer = [], servings = 2 } = {}) => normalizePlannerRequest({
+const request = ({ mode = 'pantry', intent = 'normal', must = [], prefer = [], dislikes = [], servings = 2 } = {}) => normalizePlannerRequest({
   schema_version: 2,
   planner_version: 'pantry-planner-v2',
-  constraints: { mode, intent, servings, must_use: must, prefer_use: prefer },
+  constraints: { mode, intent, servings, must_use: must, prefer_use: prefer, dislikes },
 });
 const context = (normalizedItems, overrides = {}) => {
   const prepared = prepareRatioCatalog(assets.ratios, {
@@ -244,4 +244,93 @@ test('Task-5 planner is pure and cannot make a network or DeepSeek call', () => 
   } finally {
     globalThis.fetch = before;
   }
+});
+
+test('planner enforces controlled allergy semantics for exact, category, and generic-meat dislikes', () => {
+  for (const dislike of ['鸡蛋', '蛋']) {
+    const result = planMeal(assets, request({ must: ['鸡蛋', '西兰花'], dislikes: [dislike], intent: 'quick' }));
+    assert.notEqual(result.status, 'complete', dislike);
+    assert.equal(result.plan.unplanned_must_use.find(item => item.canonical === '鸡蛋')?.reason_code, 'allergen_conflict', dislike);
+  }
+  const onlyEgg = planMeal(assets, request({ must: ['鸡蛋'], dislikes: ['蛋'], intent: 'quick' }));
+  assert.equal(onlyEgg.status, 'no_valid_plan');
+  assert.equal(onlyEgg.plan.unplanned_must_use[0]?.reason_code, 'allergen_conflict');
+
+  const beef = planMeal(assets, request({ must: ['牛里脊', '熟米饭'], dislikes: ['牛肉'], intent: 'quick' }));
+  assert.notEqual(beef.status, 'complete');
+  assert.equal(beef.plan.unplanned_must_use.find(item => item.canonical === '牛肉')?.reason_code, 'allergen_conflict');
+});
+
+test('disliked basic extras are excluded, safe alternatives are tried, and all-conflict produces no pot', () => {
+  const safeAlternate = buildPotCandidates(assets, request({ must: ['番茄'], dislikes: ['大米'] }))
+    .find(candidate => candidate.template_id === 'acid-staple-pot');
+  assert.ok(safeAlternate);
+  assert.equal(safeAlternate.required_extra_items.some(item => item.name === '大米'), false);
+  assert.ok(safeAlternate.required_extra_items.some(item => ['熟米饭', '面条'].includes(item.name)));
+
+  const noStaple = buildPotCandidates(assets, request({
+    must: ['番茄'], dislikes: ['大米', '熟米饭', '面条'],
+  }));
+  assert.equal(noStaple.length, 0);
+
+  const eggTofu = normalizePlannerItems([
+    { raw: '鸡蛋', role: 'must_use' }, { raw: '西兰花', role: 'must_use' },
+  ], assets.taxonomy);
+  const compiledExtraConflict = assignItemsToTemplate(activeTemplate('egg-tofu-vegetable-pot'), eggTofu, context(eggTofu, { dislikes: ['水'] }));
+  assert.equal(compiledExtraConflict.ok, false);
+  assert.equal(compiledExtraConflict.rejection_reason.reason_code, 'allergen_conflict');
+});
+
+test('pantry must-use wins required-slot contention against a lexically earlier prefer item', () => {
+  const result = planMeal(assets, request({
+    mode: 'pantry', intent: 'quick', must: ['老豆腐', '青菜'], prefer: ['鸡蛋'],
+  }));
+  assert.equal(result.status, 'complete');
+  assert.deepEqual(result.plan.planned_must_use.map(item => item.canonical).sort(), ['老豆腐', '青菜'].sort());
+  assert.equal(result.plan.planned_prefer_use.length, 0);
+  assert.equal(result.plan.unused_prefer_use.find(item => item.canonical === '鸡蛋')?.reason_code, 'exceeds_slot_limit');
+});
+
+test('forbidden beef shapes retain unsupported_shape_or_cut in unplanned explanations', () => {
+  for (const raw of ['牛腩', '牛肉末']) {
+    const result = planMeal(assets, request({ must: [raw, '熟米饭'], intent: 'quick' }));
+    assert.notEqual(result.status, 'complete', raw);
+    assert.equal(result.plan.unplanned_must_use.find(item => item.raw === raw)?.reason_code, 'unsupported_shape_or_cut', raw);
+  }
+});
+
+test('recognition ratio uses the active product promise denominator, not unrelated-role inputs', () => {
+  const pantry = planMeal(assets, request({ must: ['番茄'], prefer: ['未知香草'] }));
+  assert.equal(pantry.plan.recognition_ratio, 1);
+  assert.equal(pantry.plan.unused_prefer_use.find(item => item.raw === '未知香草')?.reason_code, 'unrecognized_ingredient');
+
+  const recommend = planMeal(assets, request({ mode: 'recommend', prefer: ['番茄', '未知香草'] }));
+  assert.equal(recommend.plan.recognition_ratio, 0.5);
+
+  const noCandidate = planMeal(assets, request({ must: ['未知根茎'], prefer: ['黄瓜'] }));
+  assert.equal(noCandidate.status, 'no_valid_plan');
+  assert.equal(noCandidate.plan.recognition_ratio, 0);
+});
+
+test('assignment and plan outputs deeply detach nested taxonomy metadata from caller input', () => {
+  const normalized = normalizePlannerItems([
+    { raw: '鸡蛋', role: 'must_use' }, { raw: '西兰花', role: 'must_use' },
+  ], assets.taxonomy);
+  const original = structuredClone(normalized);
+  const assigned = assignItemsToTemplate(activeTemplate('egg-tofu-vegetable-pot'), normalized, context(normalized));
+  assert.equal(assigned.ok, true);
+  assigned.slot_assignment.protein[0].required_endpoint_codes.push('forged_endpoint');
+  assigned.slot_assignment.protein[0].compatible_slot_codes.push('forged_slot');
+  assert.deepEqual(normalized, original);
+
+  const plannerRequest = request({ must: ['鸡蛋', '西兰花'], intent: 'quick' });
+  const requestBefore = structuredClone(plannerRequest);
+  const templateSafetyBefore = structuredClone(activeTemplate('egg-tofu-vegetable-pot').safety_endpoints);
+  const result = planMeal(assets, plannerRequest);
+  result.plan.pots[0].slot_assignment.protein[0].required_endpoint_codes.push('forged_endpoint');
+  result.plan.pots[0].safety_endpoints[0].endpoint_code = 'forged_endpoint';
+  assert.deepEqual(plannerRequest, requestBefore);
+  assert.deepEqual(activeTemplate('egg-tofu-vegetable-pot').safety_endpoints, templateSafetyBefore);
+  const second = planMeal(assets, request({ must: ['鸡蛋', '西兰花'], intent: 'quick' }));
+  assert.equal(second.plan.pots[0].slot_assignment.protein[0].required_endpoint_codes.includes('forged_endpoint'), false);
 });

@@ -2,6 +2,7 @@ import {
   normalizePlannerRequest,
   plannerRequestFromLegacy,
 } from './planner-v2.js';
+import { matchAllergy } from './allergen-semantics.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 // 每 100g 合理上限(防模型把"整道菜总量"误当每100g, 乘 grams 后营养暴涨)
@@ -163,42 +164,6 @@ function uniqueRecipePantry(value, aliases = {}) {
     seen.add(key);
     return true;
   });
-}
-
-// ===== 过敏类别表（与 index.html、ai_proxy.py 保持一致，parity 测试锁定）
-const ALLERGEN_GROUPS = {
-  '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
-  '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
-  '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
-  '花生': ['花生','花生米','花生酱'],
-  '坚果': ['核桃','杏仁','腰果','开心果','榛子','松子','碧根果','夏威夷果','巴旦木','板栗','芝麻','芝麻酱'],
-  '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
-  '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
-  '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿']
-};
-
-// 忌口/过敏统一匹配: 归一化(去空格、半角括号、去括号基名、alias 归一)后双向子串;
-// 仅当忌口词等于类别名本身时按组扩展(组成员如「虾仁」不反向牵连同组)。
-// 匹配时同时用「原词基名」和「alias 归一名」两路形态: alias(如 豆腐→老豆腐/香菇→鲜香菇)只用于对齐菜谱,
-// 不许收窄忌口保护面(单用归一名会让 豆腐≠豆腐干、香菇≠干香菇)。
-function allergyMatchForms(name, aliases) {
-  const raw = baseRecipeIngredient(name);
-  const resolved = canonicalRecipeIngredient(name, aliases);
-  return [...new Set([raw, resolved].filter(Boolean))];
-}
-function matchAllergy(dislikeTerm, ingredientName, aliases = {}) {
-  const dForms = allergyMatchForms(dislikeTerm, aliases);
-  const iForms = allergyMatchForms(ingredientName, aliases);
-  if (!dForms.length || !iForms.length) return false;
-  const groupNames = dForms.filter(d => ALLERGEN_GROUPS[d]);
-  if (groupNames.length) {
-    if (dForms.some(d => iForms.some(i => i === d || (d.length >= 2 && i.includes(d))))) return true;
-    return groupNames.some(g => ALLERGEN_GROUPS[g].some(member => {
-      const mForms = allergyMatchForms(member, aliases);
-      return mForms.some(m => iForms.some(i => i.includes(m) || m.includes(i)));
-    }));
-  }
-  return dForms.some(d => iForms.some(i => i.includes(d) || d.includes(i)));
 }
 
 // 可信菜谱状态: approved=人工批准, auto_approved=自动闸门晋升; 选菜、grounding 与校验对两档一视同仁。
