@@ -255,12 +255,28 @@ test('production uses only its same-origin generation endpoint', () => {
   );
 });
 
-test('planner V2 profile exposes orthogonal user-facing mode and intent controls', () => {
+test('public profile keeps only the simple direct-recommendation controls', () => {
   const { context, root } = loadFrontend();
   assert.deepEqual(
     JSON.parse(evaluate(context, 'JSON.stringify(DEFAULT_PROFILE)')),
     { mode:'recommend', intent:'quick', servings:'2', pantry:'', dislikes:'' },
   );
+  assert.doesNotMatch(root.innerHTML, /这次需要哪种帮助|帮我清库存|清爽些/);
+  assert.doesNotMatch(root.innerHTML, /data-del-myfood/);
+  for (const label of ['正常做', '快点吃上', '多做一些']) assert.match(root.innerHTML, new RegExp(label));
+  assert.match(root.innerHTML, /食材可不填/);
+  assert.match(root.innerHTML, /不会为了用完而硬凑/);
+});
+
+test('localhost planner lab keeps the orthogonal mode and intent controls', () => {
+  const { root } = loadFrontend([], {
+    proxy:null,
+    location:{
+      protocol:'http:', hostname:'localhost', origin:'http://localhost:8081',
+      search:'?planner_v2=1',
+    },
+  });
+  assert.match(root.innerHTML, /这次需要哪种帮助/);
   assert.match(root.innerHTML, /直接推荐/);
   assert.match(root.innerHTML, /帮我清库存/);
   for (const label of ['正常做', '快点吃上', '清爽些', '多做一些']) assert.match(root.innerHTML, new RegExp(label));
@@ -276,12 +292,36 @@ test('legacy purpose profiles migrate without deleting unrelated saved data', ()
       profile:{ purpose, servings:'4', pantry:'番茄', dislikes:'花生' },
       choices:[{ keep:true }], custom_key:'keep-me',
     }));
-    const { context } = loadFrontend([], { storage });
+    const { context } = loadFrontend([], {
+      storage,
+      proxy:null,
+      location:{
+        protocol:'http:', hostname:'localhost', origin:'http://localhost:8081',
+        search:'?planner_v2=1',
+      },
+    });
     assert.deepEqual(JSON.parse(evaluate(context, `JSON.stringify({mode:state.profile.mode,intent:state.profile.intent,servings:state.profile.servings})`)),
       { mode, intent, servings:'4' });
     const persisted = JSON.parse(storage.getItem('yiguochu_v1'));
     assert.deepEqual(persisted.choices, [{ keep:true }]);
     assert.equal(persisted.custom_key, 'keep-me');
+  }
+});
+
+test('public startup neutralizes hidden planner modes and unsupported fresh intent', () => {
+  for (const [profile, expectedIntent] of [
+    [{ mode:'pantry', intent:'normal', servings:'2', pantry:'番茄', dislikes:'' }, 'normal'],
+    [{ mode:'recommend', intent:'fresh', servings:'2', pantry:'番茄', dislikes:'' }, 'normal'],
+    [{ purpose:'pantry', servings:'2', pantry:'番茄', dislikes:'' }, 'normal'],
+    [{ purpose:'batch', servings:'2', pantry:'番茄', dislikes:'' }, 'batch'],
+  ]) {
+    const storage = sharedStorage();
+    storage.setItem('yiguochu_v1', JSON.stringify({ profile }));
+    const { context } = loadFrontend([], { storage });
+    assert.deepEqual(
+      JSON.parse(evaluate(context, 'JSON.stringify({ mode:state.profile.mode, intent:state.profile.intent })')),
+      { mode:'recommend', intent:expectedIntent },
+    );
   }
 });
 
@@ -333,6 +373,56 @@ test('initial ready plan generates once with the exact immutable plan request sn
   assert.deepEqual(generatedBody.plan_request, plannedBody);
   assert.equal(generatedBody.plan_id, planned.plan.plan_id);
   assert.equal(evaluate(context, 'state.view'), 'v2-result');
+});
+
+test('public primary flow uses one legacy generation call with empty or populated pantry', async t => {
+  for (const pantry of ['', '测试主料']) {
+    await t.test(pantry ? 'populated pantry' : 'empty pantry', async () => {
+      const { context, calls } = loadFrontend([{ body:meal({
+        used_pantry: pantry ? ['测试主料'] : [],
+        unused_pantry: [],
+      }) }]);
+      await evaluate(context, `(async () => {
+        state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:${JSON.stringify(pantry)}, dislikes:'' };
+        await runPrimaryFlow();
+      })()`);
+      assert.deepEqual(
+        calls.map(call => new URL(call.url, 'https://app.test').pathname),
+        ['/generate-meal'],
+      );
+      assert.equal(evaluate(context, 'state.view'), 'result');
+    });
+  }
+});
+
+test('localhost planner lab primary flow still uses plan then generate', async () => {
+  const planned = plannerResult();
+  const generated = generatedResult(planned);
+  const { context, calls } = loadFrontend([{ body:planned }, { body:generated }], {
+    proxy:null,
+    location:{
+      protocol:'http:', hostname:'localhost', origin:'http://localhost:8081',
+      search:'?planner_v2=1',
+    },
+  });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'quick', servings:'2', pantry:'番茄, 西兰花', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.deepEqual(
+    calls.map(call => new URL(call.url, 'http://localhost:8081').pathname),
+    ['/plan-meal', '/generate-plan'],
+  );
+});
+
+test('public cooking intent is forwarded to the trusted recipe generator', async () => {
+  const { context, calls } = loadFrontend([{ body:meal() }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'batch', servings:'2', pantry:'', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.equal(JSON.parse(calls[0].init.body).constraints.purpose, 'batch');
+  assert.equal(evaluate(context, 'state.dish.purpose'), 'batch');
 });
 
 test('empty direct recommendation uses the explicitly marked legacy recipe fallback', async () => {

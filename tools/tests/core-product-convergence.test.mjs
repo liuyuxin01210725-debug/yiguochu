@@ -128,6 +128,7 @@ test('frontend result keeps only whole-pot serving controls, not per-ingredient 
   assert.doesNotMatch(html, /data-bump=/);
   assert.doesNotMatch(html, /data-delta=/);
   assert.doesNotMatch(html, /data-del=/);
+  assert.doesNotMatch(html, /data-del-myfood/);
   assert.doesNotMatch(html, /data-act="toggle-edit"/);
 });
 
