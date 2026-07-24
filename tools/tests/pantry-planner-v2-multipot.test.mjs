@@ -273,6 +273,33 @@ test('force_multi_pot never weakens pantry coverage or fabricates a different re
   }
 });
 
+test('ordinary pantry never adds an independent meal only to consume prefer-use', () => {
+  const journeys = [
+    { must: ['熟米饭', '神秘叶子'], prefer: ['大米'] },
+    { must: ['大米', '神秘叶子'], prefer: ['熟米饭'] },
+    { must: ['牛里脊', '神秘叶子'], prefer: ['鸡胸肉'] },
+  ];
+  for (const journey of journeys) {
+    const withoutPrefer = planMeal(assets, request({ must: journey.must }));
+    const withPrefer = planMeal(assets, request(journey));
+    assert.equal(withPrefer.plan.pots.length, withoutPrefer.plan.pots.length, JSON.stringify(journey));
+    assert.equal(withPrefer.plan.pots.length, 1, JSON.stringify(journey));
+    assert.equal(withPrefer.plan.planned_must_use.length, withoutPrefer.plan.planned_must_use.length, JSON.stringify(journey));
+    assert.equal(withPrefer.plan.planned_prefer_use.length, 0, JSON.stringify(journey));
+  }
+});
+
+test('explicit force_multi_pot may choose two meals at equal must coverage', () => {
+  const result = planMeal(assets, request({
+    must: ['熟米饭', '神秘叶子'],
+    prefer: ['大米'],
+    decision: { action: 'force_multi_pot' },
+  }));
+  assert.equal(result.status, 'needs_user_decision');
+  assert.equal(result.plan.pots.length, 2);
+  assert.equal(result.plan.planned_must_use.length, 1);
+});
+
 test('recommend remains honest about partial use and is not forced into pantry completeness', () => {
   const result = planMeal(assets, request({
     mode: 'recommend',

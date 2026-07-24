@@ -979,11 +979,11 @@ function findBestPartialPotCombination(rankedCandidates, request) {
   const better = (metrics, selected) => {
     if (!best) return true;
     return metrics.must !== best.metrics.must ? metrics.must > best.metrics.must
-      : metrics.prefer !== best.metrics.prefer ? metrics.prefer > best.metrics.prefer
-        : metrics.force !== best.metrics.force ? metrics.force > best.metrics.force
-          : metrics.pots !== best.metrics.pots ? metrics.pots < best.metrics.pots
-            : metrics.extras !== best.metrics.extras ? metrics.extras < best.metrics.extras
-              : request.intent === 'quick' && metrics.quickTime !== best.metrics.quickTime ? metrics.quickTime < best.metrics.quickTime
+      : metrics.force !== best.metrics.force ? metrics.force > best.metrics.force
+        : metrics.pots !== best.metrics.pots ? metrics.pots < best.metrics.pots
+          : metrics.extras !== best.metrics.extras ? metrics.extras < best.metrics.extras
+            : request.intent === 'quick' && metrics.quickTime !== best.metrics.quickTime ? metrics.quickTime < best.metrics.quickTime
+              : metrics.prefer !== best.metrics.prefer ? metrics.prefer > best.metrics.prefer
                 : identityFor(selected).localeCompare(best.metrics.identity, 'zh-Hans-CN') < 0;
   };
   let best = null;
