@@ -175,7 +175,7 @@ test('fully coverable pantry returns complete without requiring a model key', as
 });
 
 test('incomplete pantry retains deterministic pots and pauses generation', async () => {
-  const result = await postPlan(plannerBody({ mode: 'pantry', must: ['番茄', '神秘叶子'] }));
+  const result = await postPlan(plannerBody({ mode: 'pantry', must: ['番茄', '鸡蛋', '神秘叶子'] }));
   assert.equal(result.response.status, 200);
   assert.equal(result.body.status, 'needs_user_decision');
   assert.equal(result.body.generation_allowed, false);
@@ -198,7 +198,7 @@ test('swap returns a structural alternative or exact no_alternative_plan, includ
   assertZeroGenerationWork(current);
   assertZeroGenerationWork(swapped);
 
-  const partialRequest = plannerBody({ mode: 'pantry', must: ['番茄', '神秘叶子'] });
+  const partialRequest = plannerBody({ mode: 'pantry', must: ['番茄', '鸡蛋', '神秘叶子'] });
   const partial = await postPlan(partialRequest);
   const acceptance = {
     action: 'accept_partial',
@@ -207,13 +207,13 @@ test('swap returns a structural alternative or exact no_alternative_plan, includ
   };
   const accepted = await postPlan(plannerBody({
     mode: 'pantry',
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     currentPlanId: partial.body.plan.plan_id,
     decision: acceptance,
   }));
   const acceptedSwap = await postPlan(plannerBody({
     mode: 'pantry',
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     currentPlanId: accepted.body.plan.plan_id,
     decision: { ...acceptance, swap_current: true },
   }));

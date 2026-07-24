@@ -181,12 +181,50 @@ async function preparedJourney(request) {
 test('generation contract exposes focused Worker-safe pure builder and validator APIs', () => {
   assert.equal(typeof workerModule.buildLockedPlanContract, 'function');
   assert.equal(typeof workerModule.buildIngredientTermUniverse, 'function');
+  assert.equal(typeof workerModule.lockPlannerOwnedSafetyMetadata, 'function');
   assert.equal(typeof workerModule.validateGeneratedPlan, 'function');
   const universe = ingredientTermUniverse();
   for (const term of ['芝士', '料酒', '糖', '帕玛森奶酪', '鸡腿', '鸡胸肉']) {
     assert.ok(universe.some(entry => entry.term === term), term);
   }
   assert.ok(new Set(universe.map(entry => entry.normalized)).size >= 200);
+});
+
+test('endpoint ignores model-authored safety codes and restores the planner-owned phase metadata', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['大米', '番茄', '牛里脊'] }));
+  const result = await postGenerate({
+    ...journey,
+    modelMutator(output) {
+      for (const meal of output.meals) {
+        for (const step of meal.steps) step.completed_safety_endpoints = ['完全熟透'];
+      }
+    },
+  });
+
+  assert.equal(result.response.status, 200);
+  assert.equal(result.upstreamBodies.length, 1);
+  assert.equal(result.kv.puts, 1);
+  assert.deepEqual(
+    result.body.meals[0].steps.map(step => step.completed_safety_endpoints),
+    [[], [], [], ['beef_fully_cooked']],
+  );
+});
+
+test('planner-owned safety metadata never repairs model-authored unsafe prose', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['大米', '番茄', '牛里脊'] }));
+  const result = await postGenerate({
+    ...journey,
+    modelMutator(output) {
+      const finalStep = output.meals[0].steps.at(-1);
+      finalStep.completed_safety_endpoints = ['完全熟透'];
+      finalStep.text += '但内部仍有粉红。';
+    },
+  });
+
+  assert.equal(result.response.status, 422);
+  assert.equal(result.body.code, 'model_contract_violation');
+  assert.equal(result.upstreamBodies.length, 1);
+  assert.equal(result.kv.puts, 1);
 });
 
 test('valid single-pot generation recomputes the plan and spends exactly one budget attempt and upstream call', async () => {
@@ -254,7 +292,7 @@ test('stale envelope or changed exact request state exits before rate, budget an
 });
 
 test('non-generatable planner states and no-alternative navigation never borrow a retained plan id', async t => {
-  const decisionJourney = await preparedJourney(plannerRequest({ must: ['番茄', '神秘叶子'] }));
+  const decisionJourney = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋', '神秘叶子'] }));
   const invalidJourney = await preparedJourney(plannerRequest({ must: ['神秘叶子'] }));
   const current = await preparedJourney(plannerRequest({ must: ['大米'] }));
   const noAlternativeRequest = plannerRequest({ must: ['大米'], currentPlanId: current.planned.plan.plan_id });
@@ -276,10 +314,10 @@ test('non-generatable planner states and no-alternative navigation never borrow 
 });
 
 test('accepted partial generates only from the exact acknowledged request and retains unplanned facts', async () => {
-  const baseRequest = plannerRequest({ must: ['番茄', '神秘叶子'] });
+  const baseRequest = plannerRequest({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   const base = await preparedJourney(baseRequest);
   const acceptedRequest = plannerRequest({
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     currentPlanId: base.planned.plan.plan_id,
     decision: {
       action: 'accept_partial',
@@ -298,10 +336,10 @@ test('accepted partial generates only from the exact acknowledged request and re
 });
 
 test('a forged accepted-partial id or acknowledgement is rejected before budget', async () => {
-  const baseRequest = plannerRequest({ must: ['番茄', '神秘叶子'] });
+  const baseRequest = plannerRequest({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   const base = await preparedJourney(baseRequest);
   const forgedRequest = plannerRequest({
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     currentPlanId: base.planned.plan.plan_id,
     decision: {
       action: 'accept_partial',

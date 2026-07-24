@@ -1167,6 +1167,23 @@ async function generateDisplayedPlan() {
   try { return await operation; }
   finally { if (v2GenerationInFlight === operation) v2GenerationInFlight = null; }
 }
+function isLegacyRecipeFallback(result) {
+  return !!(result && result.status === 'ready'
+    && result.plan_source === 'legacy_recipe_selector'
+    && result.legacy_fallback === true
+    && result.plan && result.plan.fallback_kind === 'legacy_recipe_selector');
+}
+async function generateLegacyRecipeFallback() {
+  state.displayedPlan = null;
+  state.planRequestSnapshot = null;
+  state.generatedPlan = null;
+  state.noAlternativeResult = null;
+  state.view = 'generating'; state.genStage = 2; render();
+  try {
+    const dish = await fetchRealDish({ profile:state.profile });
+    showResult(dish);
+  } catch (error) { showGenerationFailure(error); }
+}
 async function runPlannerFlow(options) {
   const opts = options || {};
   if (typeof location !== 'undefined' && location.protocol === 'file:') {
@@ -1178,6 +1195,10 @@ async function runPlannerFlow(options) {
   state.view = 'generating'; state.genStage = 0; render();
   try {
     const planned = await fetchPlan(requestSnapshot);
+    if (isLegacyRecipeFallback(planned) && opts.autoGenerate) {
+      await generateLegacyRecipeFallback();
+      return;
+    }
     if (planned.status === 'no_alternative_plan') {
       state.noAlternativeResult = cloneJson(planned); state.view = 'v2-no-alternative'; render(); return;
     }
@@ -1518,7 +1539,12 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (t.dataset.seg) { syncProfileInputs(); state.profile[t.dataset.seg] = t.dataset.val; render(); return; }
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
   if (t.dataset.delMyfood) { syncProfileInputs(); const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods : COMMON_PANTRY; state.profile.myFoods = base.filter(x => x !== t.dataset.delMyfood); STORE.saveProfile(state.profile); render(); return; }
-  if (t.dataset.swap) { state.swapOpen = false; requestAlternativePlan(); return; }
+  if (t.dataset.swap) {
+    state.swapOpen = false;
+    if (state.dish && !state.displayedPlan) runGenerate({ swap:t.dataset.swap });
+    else requestAlternativePlan();
+    return;
+  }
   if (act === 'edit-profile') { state.profileEditing = true; render(); }
   else if (act === 'collapse-profile') { syncProfileInputs(); state.profileEditing = false; render(); }
   else if (act === 'generate') { syncProfileInputs(); state.pantryPlan = null; STORE.saveProfile(state.profile); runPlannerFlow({ autoGenerate:true }); }

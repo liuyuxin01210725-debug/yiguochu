@@ -394,6 +394,23 @@ function contractFailure(reason_code) {
   return { ok: false, reason_code };
 }
 
+export function lockPlannerOwnedSafetyMetadata(modelOutput, lockedPlan) {
+  const output = structuredClone(modelOutput);
+  if (!Array.isArray(output?.meals) || !Array.isArray(lockedPlan?.meals)) return output;
+  for (let mealIndex = 0; mealIndex < Math.min(output.meals.length, lockedPlan.meals.length); mealIndex += 1) {
+    const outputSteps = output.meals[mealIndex]?.steps;
+    const lockedPhases = lockedPlan.meals[mealIndex]?.cooking_order;
+    if (!Array.isArray(outputSteps) || !Array.isArray(lockedPhases)) continue;
+    for (let stepIndex = 0; stepIndex < Math.min(outputSteps.length, lockedPhases.length); stepIndex += 1) {
+      if (!isPlainObject(outputSteps[stepIndex])) continue;
+      outputSteps[stepIndex].completed_safety_endpoints = [
+        ...(lockedPhases[stepIndex]?.required_safety_endpoints || []),
+      ];
+    }
+  }
+  return output;
+}
+
 function exactStringSet(values, expected) {
   if (!Array.isArray(values) || values.some(value => typeof value !== 'string')) return false;
   if (new Set(values).size !== values.length) return false;

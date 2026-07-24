@@ -335,6 +335,29 @@ test('initial ready plan generates once with the exact immutable plan request sn
   assert.equal(evaluate(context, 'state.view'), 'v2-result');
 });
 
+test('empty direct recommendation uses the explicitly marked legacy recipe fallback', async () => {
+  const fallback = plannerResult({
+    generation_allowed:false,
+    plan_source:'legacy_recipe_selector',
+    legacy_fallback:true,
+    fallback_reason:'recommend_no_submitted_ingredients',
+    plan:{
+      plan_id:'pln_v2_legacy-fallback', plan_kind:'legacy_fallback',
+      fallback_kind:'legacy_recipe_selector', planned_prefer_use:[], unused_prefer_use:[],
+      required_extra_items:[], pots:[], coverage_ratio:0, recognition_ratio:0,
+      recognized_coverage_ratio:0,
+    },
+  });
+  const { context, calls } = loadFrontend([{ body:fallback }, { body:meal() }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+    await runPlannerFlow({ autoGenerate:true });
+  })()`);
+  assert.deepEqual(calls.map(call => new URL(call.url, 'https://app.test').pathname), ['/plan-meal', '/generate-meal']);
+  assert.equal(evaluate(context, 'state.view'), 'result');
+  assert.equal(evaluate(context, 'state.dish.baseRecipeId'), 'trusted-stew');
+});
+
 test('paid generation shows the step-safety stage instead of leaving the quantity stage stale', async () => {
   const planned = plannerResult();
   const generated = generatedResult(planned);

@@ -228,8 +228,16 @@ function allReasonCodes(result) {
 }
 function assertNoLegacyMasquerade(body) {
   if (body.status !== 'ready') return;
-  if (body.plan?.fallback_kind) assert.equal(body.plan.fallback_kind, 'legacy_recipe_selector');
-  else assert.ok((body.plan?.pots || []).every(pot => pot.template_id), 'ready response had neither a template nor explicit fallback marker');
+  if (body.plan?.fallback_kind) {
+    assert.equal(body.plan.fallback_kind, 'legacy_recipe_selector');
+    assert.equal(body.plan_source, 'legacy_recipe_selector');
+    assert.equal(body.legacy_fallback, true);
+    assert.equal(typeof body.fallback_reason, 'string');
+    assert.ok(body.fallback_reason.trim());
+  } else {
+    assert.ok((body.plan?.pots || []).length > 0, 'ready response had neither a template nor explicit fallback marker');
+    assert.ok((body.plan?.pots || []).every(pot => pot.template_id), 'template plan has an unmarked pot');
+  }
 }
 function assertNoDuplicateCanonicalAcrossPots(body) {
   const seen = new Set();

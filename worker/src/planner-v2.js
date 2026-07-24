@@ -1207,11 +1207,48 @@ function maxPlannerUserItemsPerPot(assets, request) {
     .map(template => template.slot_limits?.total_user_items_max || 0));
 }
 
+function legacyRecipeFallbackResponse(assets, request, normalizedItems, reason) {
+  return {
+    schema_version: 2,
+    planner_version: PLANNER_VERSION,
+    template_catalog_version: assets.templates?.template_catalog_version || null,
+    status: 'ready',
+    generation_allowed: false,
+    mode: request.mode,
+    intent: request.intent,
+    normalized_items: normalizedItems.map(item => structuredClone(item)),
+    plan_source: 'legacy_recipe_selector',
+    legacy_fallback: true,
+    fallback_reason: reason,
+    commitment: '这次没有指定食材，将从可信基础菜谱中直接推荐一顿主餐。',
+    plan: {
+      plan_kind: 'legacy_fallback',
+      fallback_kind: 'legacy_recipe_selector',
+      planned_must_use: [],
+      planned_prefer_use: [],
+      unplanned_must_use: [],
+      unused_prefer_use: [],
+      required_extra_items: [],
+      coverage_ratio: 0,
+      recognition_ratio: 0,
+      recognized_coverage_ratio: 0,
+      rejection_reason: null,
+      pots: [],
+    },
+    unplanned: [],
+    actions: [],
+  };
+}
+
 function planMealCore(assets, request) {
   const normalized_items = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
   ], assets.taxonomy);
+  if (request.mode === 'recommend'
+      && uniqueSubmittedItems(normalized_items).filter(item => item.role === 'prefer_use').length === 0) {
+    return legacyRecipeFallbackResponse(assets, request, normalized_items, 'recommend_no_submitted_ingredients');
+  }
   const publicRanked = rankPotCandidates(buildPotCandidates(assets, request), request);
   const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
   const recognizedMustCount = must.filter(item => item.recognized).length;
@@ -1252,11 +1289,12 @@ function planMealCore(assets, request) {
   }
 
   const selected = findBestPartialPotCombination(searchRanked, request);
+  const displayableSelected = selected.length === 1 && selected[0].single_pot_eligible !== true ? [] : selected;
   const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
     && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
-  const capacityExceeded = selected.length > 0
+  const capacityExceeded = displayableSelected.length > 0
     && (exceedsAbsoluteThreePotCapacity || allIndividuallyCoverable);
-  return buildPlannerResponse(assets, request, normalized_items, publicRanked, selected, {
+  return buildPlannerResponse(assets, request, normalized_items, publicRanked, displayableSelected, {
     allergyAliases,
     capacityExceeded,
   });

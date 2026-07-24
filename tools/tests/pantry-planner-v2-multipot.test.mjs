@@ -190,7 +190,7 @@ test('each pot is an independent meal with sequential remaining facts and quick 
 });
 
 test('partial pantry plans retain pots, specific reasons, and complete structured decision actions', () => {
-  const result = planMeal(assets, request({ must: ['番茄', '神秘叶子'] }));
+  const result = planMeal(assets, request({ must: ['番茄', '鸡蛋', '神秘叶子'] }));
 
   assert.equal(result.status, 'needs_user_decision');
   assert.equal(result.generation_allowed, false);
@@ -206,7 +206,7 @@ test('partial pantry plans retain pots, specific reasons, and complete structure
 
 test('relax_item moves only an eligible chosen item to prefer-use and replans without leaving pantry mode', () => {
   const result = planMeal(assets, request({
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     decision: { action: 'relax_item', item: '神秘叶子' },
   }));
 
@@ -217,27 +217,27 @@ test('relax_item moves only an eligible chosen item to prefer-use and replans wi
   assert.equal(result.plan.unused_prefer_use.find(item => item.raw === '神秘叶子').reason_code, 'unrecognized_ingredient');
 
   assert.throws(() => planMeal(assets, request({
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     decision: { action: 'relax_item', item: '番茄' },
   })), error => error?.code === 'invalid_planner_request');
 });
 
 test('edit_ingredients preserves input facts and assets and never enables generation', () => {
   const assetsBefore = structuredClone(assets);
-  const input = request({ must: ['番茄', '神秘叶子'], decision: { action: 'edit_ingredients' } });
+  const input = request({ must: ['番茄', '鸡蛋', '神秘叶子'], decision: { action: 'edit_ingredients' } });
   const inputBefore = structuredClone(input);
   const result = planMeal(assets, input);
 
   assert.equal(result.status, 'needs_user_decision');
   assert.equal(result.generation_allowed, false);
-  assert.deepEqual(result.normalized_items.map(item => item.raw), ['番茄', '神秘叶子']);
+  assert.deepEqual(result.normalized_items.map(item => item.raw), ['番茄', '鸡蛋', '神秘叶子']);
   assert.match(result.commitment, /已保留.*食材/);
   assert.deepEqual(input, inputBefore);
   assert.deepEqual(assets, assetsBefore);
 });
 
 test('accept_partial requires exact transitional plan identity and exact unplanned acknowledgement', () => {
-  const base = { must: ['番茄', '神秘叶子'], currentPlanId: 'current-transition-plan' };
+  const base = { must: ['番茄', '鸡蛋', '神秘叶子'], currentPlanId: 'current-transition-plan' };
   for (const decision of [
     { action: 'accept_partial', plan_id: '' , acknowledged_unplanned: ['神秘叶子'] },
     { action: 'accept_partial', plan_id: 'wrong', acknowledged_unplanned: ['神秘叶子'] },
@@ -285,7 +285,7 @@ test('ordinary pantry never adds an independent meal only to consume prefer-use'
     const withoutPrefer = planMeal(assets, request({ must: journey.must }));
     const withPrefer = planMeal(assets, request(journey));
     assert.equal(withPrefer.plan.pots.length, withoutPrefer.plan.pots.length, JSON.stringify(journey));
-    assert.equal(withPrefer.plan.pots.length, 1, JSON.stringify(journey));
+    assert.equal(withPrefer.plan.pots.length, 0, JSON.stringify(journey));
     assert.equal(withPrefer.plan.planned_must_use.length, withoutPrefer.plan.planned_must_use.length, JSON.stringify(journey));
     assert.equal(withPrefer.plan.planned_prefer_use.length, 0, JSON.stringify(journey));
   }

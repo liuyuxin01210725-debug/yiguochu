@@ -248,7 +248,7 @@ async function parityCase(name, body, expectedStatus) {
 }
 
 test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2 journeys', async t => {
-  const basePartialRequest = request({ must: ['番茄', '神秘叶子'] });
+  const basePartialRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   const basePartial = (await workerPlan(basePartialRequest)).body;
   const acceptance = {
     action: 'accept_partial',
@@ -256,7 +256,7 @@ test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2
     acknowledged_unplanned: ['神秘叶子'],
   };
   const acceptedRequest = request({
-    must: ['番茄', '神秘叶子'],
+    must: ['番茄', '鸡蛋', '神秘叶子'],
     currentPlanId: basePartial.plan.plan_id,
     decision: acceptance,
   });
@@ -279,7 +279,7 @@ test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2
     ['third pot decision', request({ must: ['大米', '熟米饭', '面条', '番茄', '洋葱'] }), 'needs_user_decision'],
     ['partial accepted', acceptedRequest, 'partial_accepted'],
     ['accepted partial swap', request({
-      must: ['番茄', '神秘叶子'],
+      must: ['番茄', '鸡蛋', '神秘叶子'],
       currentPlanId: accepted.plan.plan_id,
       decision: { ...acceptance, swap_current: true },
     }), ['partial_accepted', 'no_alternative_plan']],
@@ -414,14 +414,14 @@ test('stale, non-generatable and forged partial requests spend zero rate and zer
     assert.equal(staleResponse.response.status, 409);
     assert.equal(staleResponse.body.code, 'stale_plan');
 
-    const decisionRequest = request({ must: ['番茄', '神秘叶子'] });
+    const decisionRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'] });
     const decisionPlan = (await workerPlan(decisionRequest)).body;
     const decisionResponse = await postJson(proxy.base, '/generate-plan', generationEnvelope(decisionRequest, decisionPlan));
     assert.equal(decisionResponse.response.status, 409);
     assert.equal(decisionResponse.body.status, 'needs_user_decision');
 
     const forgedRequest = request({
-      must: ['番茄', '神秘叶子'],
+      must: ['番茄', '鸡蛋', '神秘叶子'],
       currentPlanId: decisionPlan.plan.plan_id,
       decision: {
         action: 'accept_partial',

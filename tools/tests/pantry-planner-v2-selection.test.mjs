@@ -131,14 +131,23 @@ test('pantry single-pot display floors are exact for 2, 3, 4-6, and 7+ submitted
   const seven = buildPotCandidates(assets, request({ must: ['番茄', '金针菇', '鸡蛋', '西兰花', '青菜', '胡萝卜', '土豆'] }));
   assert.ok(seven.length > 0);
   assert.ok(seven.every(pot => pot.single_pot_eligible === false));
+
+  const lowCoverageFinal = planMeal(assets, request({ must: ['牛腩', '大米'] }));
+  assert.equal(lowCoverageFinal.status, 'no_valid_plan');
+  assert.equal(lowCoverageFinal.plan.pots.length, 0);
+  assert.equal(lowCoverageFinal.plan.planned_must_use.length, 0);
+  assert.deepEqual(
+    lowCoverageFinal.plan.unplanned_must_use.map(item => item.raw).sort(),
+    ['大米', '牛腩'].sort(),
+  );
 });
 
 test('unknown must-use remains in the denominator and unplanned list and blocks complete', () => {
-  const result = planMeal(assets, request({ must: ['番茄', '神秘叶子'] }));
+  const result = planMeal(assets, request({ must: ['番茄', '鸡蛋', '神秘叶子'] }));
   assert.notEqual(result.status, 'complete');
   assert.equal(result.generation_allowed, false);
-  assert.equal(result.plan.coverage_ratio, 0.5);
-  assert.equal(result.plan.recognition_ratio, 0.5);
+  assert.equal(result.plan.coverage_ratio, 2 / 3);
+  assert.equal(result.plan.recognition_ratio, 2 / 3);
   assert.deepEqual(result.plan.unplanned_must_use.map(item => item.reason_code), ['unrecognized_ingredient']);
 });
 
@@ -183,6 +192,16 @@ test('slow rib cuts cannot enter a quick cooked-rice stir pot', () => {
     intent: 'quick', must: ['排骨', '豆角', '大米'],
   }));
   assert.ok(journey.plan.pots.every(pot => pot.planned_must_use.every(item => item.raw !== '排骨')));
+});
+
+test('generic savory rice rejects pork ribs without an explicit compatible cut rule', () => {
+  const result = planMeal(assets, request({ must: ['排骨', '土豆'] }));
+  assert.notEqual(result.status, 'complete');
+  assert.equal(result.plan.planned_must_use.some(item => item.raw === '排骨'), false);
+  assert.equal(
+    result.plan.unplanned_must_use.find(item => item.raw === '排骨')?.reason_code,
+    'unsupported_shape_or_cut',
+  );
 });
 
 test('forbidden cuts and declared moisture or cook-speed combinations are hard structured rejections', () => {

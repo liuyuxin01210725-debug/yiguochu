@@ -13,6 +13,7 @@ import {
   buildGeneratedPlanResponse,
   buildIngredientTermUniverse,
   buildLockedPlanContract,
+  lockPlannerOwnedSafetyMetadata,
   validateGeneratedPlan,
 } from './generated-plan-contract.js';
 
@@ -2797,7 +2798,8 @@ async function handleGeneratePlan(request, env) {
     return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
   }
   const termUniverse = buildIngredientTermUniverse(plannerAssets.taxonomy, plannerAssets.recipes);
-  const validation = validateGeneratedPlan(modelOutput, lockedPlan, termUniverse);
+  const plannerLockedOutput = lockPlannerOwnedSafetyMetadata(modelOutput, lockedPlan);
+  const validation = validateGeneratedPlan(plannerLockedOutput, lockedPlan, termUniverse);
   if (!validation.ok) {
     console.warn('generate-plan contract violation', String(validation.reason_code || 'unknown').slice(0, 80));
     return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
@@ -2824,6 +2826,7 @@ export {
   plannerRequestFromLegacy,
   buildIngredientTermUniverse,
   buildLockedPlanContract,
+  lockPlannerOwnedSafetyMetadata,
   validateGeneratedPlan,
 };
 

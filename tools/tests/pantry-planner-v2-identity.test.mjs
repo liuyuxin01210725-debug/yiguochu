@@ -342,7 +342,7 @@ test('an alternative snapshot is valid membership for the same authoritative inp
 
 test('accept_partial current_plan_id remains a decision acknowledgement rather than being misread as swap', async () => {
   expectIdentityApi();
-  const baseRequest = request({ must: ['番茄', '神秘叶子'] });
+  const baseRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   const current = await planner.planMealWithIdentity(assets, baseRequest);
   assert.equal(current.status, 'needs_user_decision');
   const accepted = await planner.planMealWithIdentity(assets, {
@@ -362,7 +362,7 @@ test('accept_partial current_plan_id remains a decision acknowledgement rather t
 
 test('accept_partial rejects a client-forged self-consistent ID and validates swap_current shape', async () => {
   expectIdentityApi();
-  const baseRequest = request({ must: ['番茄', '神秘叶子'] });
+  const baseRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   await assert.rejects(() => planner.planMealWithIdentity(assets, {
     ...baseRequest,
     current_plan_id: 'pln_v2_forged',
@@ -388,7 +388,7 @@ test('accept_partial rejects a client-forged self-consistent ID and validates sw
 
 test('verifyPlanSnapshot safely verifies an accepted-partial request without trusting cleared current ID', async () => {
   expectIdentityApi();
-  const baseRequest = request({ must: ['番茄', '神秘叶子'] });
+  const baseRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   const current = await planner.planMealWithIdentity(assets, baseRequest);
   const acceptedRequest = {
     ...baseRequest,
@@ -411,7 +411,7 @@ test('verifyPlanSnapshot safely verifies an accepted-partial request without tru
 
 test('accepted-partial active swap returns stale_plan when the acknowledged input has changed', async () => {
   expectIdentityApi();
-  const baseRequest = request({ must: ['番茄', '神秘叶子'], servings: 2 });
+  const baseRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'], servings: 2 });
   const current = await planner.planMealWithIdentity(assets, baseRequest);
   const acceptance = {
     action: 'accept_partial',
@@ -420,7 +420,7 @@ test('accepted-partial active swap returns stale_plan when the acknowledged inpu
     swap_current: true,
   };
 
-  const changedRequest = request({ must: ['番茄', '神秘叶子'], servings: 3 });
+  const changedRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'], servings: 3 });
   const result = await planner.planMealWithIdentity(assets, {
     ...changedRequest,
     current_plan_id: current.plan.plan_id,
