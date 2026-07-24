@@ -32,6 +32,14 @@ test('legacy purpose maps without changing its old meaning', () => {
     plannerRequestFromLegacy({ purpose: 'quick', pantry: ['豆腐'] }),
     { mode: 'recommend', intent: 'quick', must_use: [], prefer_use: ['豆腐'] },
   );
+  assert.deepEqual(
+    plannerRequestFromLegacy({ purpose: 'fresh', pantry: ['豆腐'] }),
+    { mode: 'recommend', intent: 'fresh', must_use: [], prefer_use: ['豆腐'] },
+  );
+  assert.deepEqual(
+    plannerRequestFromLegacy({ purpose: 'batch', pantry: ['豆腐'] }),
+    { mode: 'recommend', intent: 'batch', must_use: [], prefer_use: ['豆腐'] },
+  );
 });
 
 test('V2 trims exact duplicate ingredients and retains planner state', () => {
@@ -61,19 +69,54 @@ test('V2 trims exact duplicate ingredients and retains planner state', () => {
 });
 
 test('V2 rejects invalid contracts instead of guessing', () => {
+  const validConstraints = { mode: 'recommend', intent: 'normal', servings: 2 };
   const invalidRequests = [
-    { constraints: { mode: 'unknown', intent: 'normal', servings: 2 } },
-    { constraints: { mode: 'recommend', intent: 'unknown', servings: 2 } },
-    { constraints: { mode: 'recommend', intent: 'normal', servings: 1.5 } },
-    { constraints: { mode: 'recommend', intent: 'normal', servings: 9 } },
-    { constraints: { mode: 'recommend', intent: 'normal', must_use: Array.from({ length: 21 }, (_, i) => `食材${i}`) } },
-    { constraints: { mode: 'recommend', intent: 'normal', decision: { action: 'invent_action' } } },
+    { constraints: { mode: 'unknown' }, message: 'mode is invalid' },
+    { constraints: { intent: 'unknown' }, message: 'intent is invalid' },
+    { constraints: { servings: 1.5 }, message: 'servings must be an integer from 1 to 8' },
+    { constraints: { servings: 9 }, message: 'servings must be an integer from 1 to 8' },
+    { constraints: { must_use: Array.from({ length: 21 }, (_, i) => `食材${i}`) }, message: 'must_use must contain at most 20 items' },
+    { constraints: { decision: { action: 'invent_action' } }, message: 'decision.action is invalid' },
   ];
 
-  for (const request of invalidRequests) {
+  for (const { constraints, message } of invalidRequests) {
     assert.throws(
-      () => normalizePlannerRequest({ schema_version: 2, planner_version: 'pantry-planner-v2', ...request }),
-      (error) => error?.code === 'invalid_planner_request',
+      () => normalizePlannerRequest({
+        schema_version: 2,
+        planner_version: 'pantry-planner-v2',
+        constraints: { ...validConstraints, ...constraints },
+      }),
+      (error) => error?.code === 'invalid_planner_request' && error.message === message,
     );
   }
+});
+
+test('V2 limits recent plan IDs after trim and exact dedupe', () => {
+  const duplicateHistory = Array.from({ length: 21 }, () => ' prior-plan ');
+  const request = normalizePlannerRequest({
+    schema_version: 2,
+    planner_version: 'pantry-planner-v2',
+    constraints: {
+      mode: 'recommend',
+      intent: 'normal',
+      servings: 2,
+      recent_plan_ids: duplicateHistory,
+    },
+  });
+  assert.deepEqual(request.recent_plan_ids, ['prior-plan']);
+
+  assert.throws(
+    () => normalizePlannerRequest({
+      schema_version: 2,
+      planner_version: 'pantry-planner-v2',
+      constraints: {
+        mode: 'recommend',
+        intent: 'normal',
+        servings: 2,
+        recent_plan_ids: Array.from({ length: 21 }, (_, index) => `plan-${index}`),
+      },
+    }),
+    (error) => error?.code === 'invalid_planner_request'
+      && error.message === 'recent_plan_ids must contain at most 20 items',
+  );
 });

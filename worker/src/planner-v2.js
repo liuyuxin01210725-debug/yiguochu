@@ -18,9 +18,9 @@ function invalidPlannerRequest(message) {
   return error;
 }
 
-function trimmedUniqueStrings(value, field) {
+function trimmedUniqueStrings(value, field, limitSubmittedItems = true) {
   if (value == null) return [];
-  if (!Array.isArray(value) || value.length > MAX_ITEMS) {
+  if (!Array.isArray(value) || (limitSubmittedItems && value.length > MAX_ITEMS)) {
     throw invalidPlannerRequest(`${field} must contain at most ${MAX_ITEMS} items`);
   }
   const values = [];
@@ -32,6 +32,9 @@ function trimmedUniqueStrings(value, field) {
       seen.add(trimmed);
       values.push(trimmed);
     }
+  }
+  if (values.length > MAX_ITEMS) {
+    throw invalidPlannerRequest(`${field} must contain at most ${MAX_ITEMS} items`);
   }
   return values;
 }
@@ -89,7 +92,7 @@ export function normalizePlannerRequest(request = {}) {
     prefer_use: trimmedUniqueStrings(constraints.prefer_use, 'prefer_use'),
     dislikes: trimmedUniqueStrings(constraints.dislikes, 'dislikes'),
     current_plan_id: optionalPlanId(constraints.current_plan_id, 'current_plan_id'),
-    recent_plan_ids: trimmedUniqueStrings(constraints.recent_plan_ids, 'recent_plan_ids'),
+    recent_plan_ids: trimmedUniqueStrings(constraints.recent_plan_ids, 'recent_plan_ids', false),
     decision,
     allow_third_pot: decision?.action === 'allow_third_pot',
   };
