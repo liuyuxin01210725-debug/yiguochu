@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { prepareRatioCatalog } from '../../worker/src/ratio-dsl.js';
 import {
   assignItemsToTemplate,
+  buildPlannerAllergenAliases,
   buildPotCandidates,
   normalizePlannerItems,
   normalizePlannerRequest,
@@ -333,4 +334,29 @@ test('assignment and plan outputs deeply detach nested taxonomy metadata from ca
   assert.deepEqual(activeTemplate('egg-tofu-vegetable-pot').safety_endpoints, templateSafetyBefore);
   const second = planMeal(assets, request({ must: ['鸡蛋', '西兰花'], intent: 'quick' }));
   assert.equal(second.plan.pots[0].slot_assignment.protein[0].required_endpoint_codes.includes('forged_endpoint'), false);
+});
+
+test('planner allergy checks resolve taxonomy and recipe-library aliases in every planning layer', () => {
+  const taxonomyBefore = structuredClone(assets.taxonomy);
+  const recipeAliases = { ...assets.recipes.ingredient_aliases, 西红柿: '黄瓜', 补充别名: '番茄' };
+  const aliases = buildPlannerAllergenAliases(assets.taxonomy, { ...assets.recipes, ingredient_aliases: recipeAliases });
+  assert.equal(Object.getPrototypeOf(aliases), Object.prototype);
+  assert.equal(aliases.西红柿, '番茄');
+  assert.equal(aliases.补充别名, '番茄');
+  assert.deepEqual(assets.taxonomy, taxonomyBefore);
+  assert.deepEqual(aliases, buildPlannerAllergenAliases(assets.taxonomy, { ...assets.recipes, ingredient_aliases: recipeAliases }));
+
+  const tomato = planMeal(assets, request({ must: ['番茄'], dislikes: ['西红柿'] }));
+  assert.notEqual(tomato.status, 'complete');
+  assert.equal(tomato.plan.unplanned_must_use.find(item => item.canonical === '番茄')?.reason_code, 'allergen_conflict');
+
+  const tofu = planMeal(assets, request({ must: ['老豆腐', '青菜'], dislikes: ['北豆腐'], intent: 'quick' }));
+  assert.notEqual(tofu.status, 'complete');
+  assert.equal(tofu.plan.unplanned_must_use.find(item => item.canonical === '老豆腐')?.reason_code, 'allergen_conflict');
+
+  const riceAlias = buildPotCandidates(assets, request({ must: ['番茄'], dislikes: ['白米'] }))
+    .find(candidate => candidate.template_id === 'acid-staple-pot');
+  assert.ok(riceAlias);
+  assert.equal(riceAlias.required_extra_items.some(item => item.name === '大米'), false);
+  assert.ok(riceAlias.required_extra_items.some(item => ['熟米饭', '面条'].includes(item.name)));
 });
