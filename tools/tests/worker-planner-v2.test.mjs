@@ -219,6 +219,59 @@ test('planner asset load and validation failures fail closed with a stable servi
   }
 });
 
+test('runtime catalog validation rejects semantic schema bypasses before planning', async t => {
+  const missingCookSpeed = JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);
+  delete missingCookSpeed.items[0].cook_speed;
+  const unknownTemplateField = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  unknownTemplateField.templates[0].runtime_backdoor = true;
+  const missingSafetyEndpoints = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  delete missingSafetyEndpoints.templates[0].safety_endpoints;
+  const aliasIdentityCollision = JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);
+  aliasIdentityCollision.items.find(item => item.display_name === '大米').aliases.push('番茄');
+  const cases = [
+    ['missing taxonomy cook_speed', { '/ingredient-taxonomy.v1.json': JSON.stringify(missingCookSpeed) }],
+    ['unknown template field', { '/meal-templates.v2.json': JSON.stringify(unknownTemplateField) }],
+    ['missing template safety_endpoints', { '/meal-templates.v2.json': JSON.stringify(missingSafetyEndpoints) }],
+    ['taxonomy alias identity collision', { '/ingredient-taxonomy.v1.json': JSON.stringify(aliasIdentityCollision) }],
+  ];
+  for (const [name, overrides] of cases) {
+    await t.test(name, async () => {
+      const result = await postPlan(plannerBody({ prefer: ['番茄'] }), { assets: assetBinding(overrides) });
+      assert.equal(result.response.status, 503);
+      assert.equal(result.body.code, 'planner_assets_unavailable');
+      assertZeroGenerationWork(result);
+    });
+  }
+});
+
+test('runtime recipe evidence validation rejects malformed non-empty catalogs before planning', async t => {
+  const wrongSchema = JSON.parse(SOURCE_ASSETS['/recipe-library.json']);
+  wrongSchema.schema_version = 999;
+  const malformedFamilies = JSON.parse(SOURCE_ASSETS['/recipe-library.json']);
+  malformedFamilies.families = {};
+  const malformedAliases = JSON.parse(SOURCE_ASSETS['/recipe-library.json']);
+  malformedAliases.ingredient_aliases = [];
+  const missingRecipeCore = JSON.parse(SOURCE_ASSETS['/recipe-library.json']);
+  delete missingRecipeCore.recipes[0].core_ingredients;
+  const cases = [
+    ['wrong recipe schema', wrongSchema],
+    ['malformed recipe families', malformedFamilies],
+    ['malformed ingredient aliases', malformedAliases],
+    ['missing recipe core structure', missingRecipeCore],
+  ];
+  for (const [name, library] of cases) {
+    await t.test(name, async () => {
+      assert.ok(Array.isArray(library.recipes) && library.recipes.length > 0);
+      const result = await postPlan(plannerBody({ prefer: ['番茄'] }), {
+        assets: assetBinding({ '/recipe-library.json': JSON.stringify(library) }),
+      });
+      assert.equal(result.response.status, 503);
+      assert.equal(result.body.code, 'planner_assets_unavailable');
+      assertZeroGenerationWork(result);
+    });
+  }
+});
+
 test('asset caches are scoped to the ASSETS binding and callers cannot poison a later deployment', async () => {
   const healthy = await postPlan(plannerBody({ prefer: ['番茄'] }), { assets: assetBinding() });
   const brokenTaxonomy = JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);

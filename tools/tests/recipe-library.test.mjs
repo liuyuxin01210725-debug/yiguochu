@@ -712,10 +712,12 @@ test('validator splits source provenance strictness between approved and auto_ap
 test('offline checker reports zero counts for malformed root containers without crashing', () => {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'recipe-checker-'));
   const tempTools = path.join(tempRoot, 'tools');
+  fs.mkdirSync(path.join(tempRoot, 'worker', 'src'), { recursive: true });
   fs.mkdirSync(path.join(tempTools, 'lib'), { recursive: true });
   fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
   fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
   fs.copyFileSync(new URL('../lib/recipe-library-validator.mjs', import.meta.url), path.join(tempTools, 'lib', 'recipe-library-validator.mjs'));
+  fs.copyFileSync(new URL('../../worker/src/recipe-library-validator.js', import.meta.url), path.join(tempRoot, 'worker', 'src', 'recipe-library-validator.js'));
   fs.copyFileSync(new URL('../lib/coverage-recipe-promotion-gate.mjs', import.meta.url), path.join(tempTools, 'lib', 'coverage-recipe-promotion-gate.mjs'));
   for (const name of [
     'coverage-recipe-candidates.json',

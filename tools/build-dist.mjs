@@ -27,6 +27,9 @@ const GENERATED_ASSETS = [
   ['worker/src/ratio-dsl.js', 'ratio-dsl.js'],
   ['worker/src/taxonomy-identity.js', 'taxonomy-identity.js'],
   ['worker/src/allergen-semantics.js', 'allergen-semantics.js'],
+  ['worker/src/ingredient-taxonomy-validator.js', 'ingredient-taxonomy-validator.js'],
+  ['worker/src/meal-template-validator.js', 'meal-template-validator.js'],
+  ['worker/src/recipe-library-validator.js', 'recipe-library-validator.js'],
 ];
 
 function usage(message) {

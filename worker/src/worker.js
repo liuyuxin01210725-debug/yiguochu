@@ -4,6 +4,9 @@ import {
   plannerRequestFromLegacy,
 } from './planner-v2.js';
 import { prepareRatioCatalog } from './ratio-dsl.js';
+import { validateIngredientTaxonomy } from './ingredient-taxonomy-validator.js';
+import { validateMealTemplateCatalog } from './meal-template-validator.js';
+import { validateRecipeLibrary } from './recipe-library-validator.js';
 import { matchAllergy } from './allergen-semantics.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
@@ -1575,16 +1578,6 @@ const PLANNER_ASSET_PATHS = Object.freeze({
   ratios: '/ratio-rules.v1.json',
   recipes: '/recipe-library.json',
 });
-const ACTIVE_PLANNER_TEMPLATE_IDS = new Set([
-  'acid-staple-pot',
-  'savory-mixed-rice-pot',
-  'cooked-rice-stir-pot',
-  'broth-noodle-pot',
-  'egg-tofu-vegetable-pot',
-  'mushroom-vegetable-stew-pot',
-  'beef-staple-pot',
-  'poultry-staple-pot',
-]);
 
 function plannerAssetError() {
   const error = new Error('planner_assets_unavailable');
@@ -1612,50 +1605,6 @@ async function readPlannerJsonAsset(assets, request, pathname) {
   }
 }
 
-function validatePlannerAssetEnvelopes(source) {
-  const { taxonomy, templates, ratios, recipes } = source;
-  if (taxonomy.taxonomy_version !== 'taxonomy-v1-20260724'
-      || !Array.isArray(taxonomy.items) || !taxonomy.items.length) throw plannerAssetError();
-  const taxonomyIds = new Set();
-  const taxonomyNames = new Set();
-  for (const item of taxonomy.items) {
-    if (!item || typeof item !== 'object' || Array.isArray(item)
-        || typeof item.canonical_id !== 'string' || !item.canonical_id
-        || typeof item.display_name !== 'string' || !item.display_name
-        || typeof item.category !== 'string' || !item.category
-        || !Array.isArray(item.aliases)
-        || !Array.isArray(item.compatible_slot_codes)
-        || !Array.isArray(item.incompatible_slot_codes)
-        || !item.cooking_risk || typeof item.cooking_risk !== 'object') throw plannerAssetError();
-    if (taxonomyIds.has(item.canonical_id) || taxonomyNames.has(item.display_name)) throw plannerAssetError();
-    taxonomyIds.add(item.canonical_id);
-    taxonomyNames.add(item.display_name);
-  }
-  if (templates.schema_version !== 1
-      || templates.template_catalog_version !== 'templates-v2-20260724'
-      || templates.ingredient_taxonomy_version !== taxonomy.taxonomy_version
-      || !Array.isArray(templates.templates) || !templates.templates.length) throw plannerAssetError();
-  const templateIds = new Set();
-  const activeIds = new Set();
-  for (const template of templates.templates) {
-    if (!template || typeof template !== 'object' || Array.isArray(template)
-        || typeof template.template_id !== 'string' || !template.template_id
-        || templateIds.has(template.template_id)
-        || !Array.isArray(template.required_slots)
-        || !Array.isArray(template.optional_slots)
-        || !Array.isArray(template.ratio_constraints)
-        || !Array.isArray(template.evidence_recipe_ids)) throw plannerAssetError();
-    templateIds.add(template.template_id);
-    if (template.activation_status === 'active' && template.runtime_eligible === true) activeIds.add(template.template_id);
-  }
-  if (activeIds.size !== ACTIVE_PLANNER_TEMPLATE_IDS.size
-      || [...ACTIVE_PLANNER_TEMPLATE_IDS].some(id => !activeIds.has(id))) throw plannerAssetError();
-  if (ratios.ratio_dsl_version !== 1
-      || ratios.ratio_catalog_version !== 'ratio-rules-v1-20260724'
-      || !Array.isArray(ratios.rules) || !ratios.rules.length) throw plannerAssetError();
-  if (!Array.isArray(recipes.recipes) || !recipes.recipes.length) throw plannerAssetError();
-}
-
 async function getPlannerAssets(env, request) {
   const assets = env?.ASSETS;
   if (!assets || (typeof assets !== 'object' && typeof assets !== 'function')
@@ -1670,7 +1619,9 @@ async function getPlannerAssets(env, request) {
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.recipes),
     ]);
     source = { taxonomy, templates, ratios, recipes };
-    validatePlannerAssetEnvelopes(source);
+    if (validateIngredientTaxonomy(taxonomy).length
+        || validateRecipeLibrary(recipes).length
+        || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length) throw plannerAssetError();
     const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
     if (!preparedRatios.ok) throw plannerAssetError();
     source = structuredClone({ taxonomy, templates, ratios: preparedRatios.catalog, recipes });
