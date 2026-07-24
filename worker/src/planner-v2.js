@@ -711,6 +711,9 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
       || left.required_extra_items.length - right.required_extra_items.length
       || left.assignment_key.localeCompare(right.assignment_key, 'zh-Hans-CN');
   });
+  if (context.collect_valid_variants === true) {
+    return { ok: true, variants: completed };
+  }
   return completed[0];
 }
 
@@ -768,7 +771,7 @@ function displayFloor(totalMustUse, plannedMustUse) {
   return false;
 }
 
-export function buildPotCandidates(assets = {}, request = {}) {
+function buildPotCandidatesInternal(assets = {}, request = {}, collectValidVariants = false) {
   const normalizedItems = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
@@ -796,35 +799,52 @@ export function buildPotCandidates(assets = {}, request = {}) {
       servings: request.servings,
       dislikes: request.dislikes || [],
       allergyAliases,
+      collect_valid_variants: collectValidVariants,
     });
     if (!assigned.ok) continue;
-    const planned = assignedItems(assigned.slot_assignment).filter(item => item.source === 'user');
-    const plannedKeys = new Set(planned.map(item => `${item.role}\u0000${item.canonical}`));
-    const plannedMust = must.filter(item => plannedKeys.has(`must_use\u0000${item.canonical}`));
-    const plannedPrefer = prefer.filter(item => plannedKeys.has(`prefer_use\u0000${item.canonical}`));
-    if (request.mode === 'recommend' && recognizedSubmitted.length && plannedPrefer.length === 0) continue;
-    const unplannedMust = must.filter(item => !plannedKeys.has(`must_use\u0000${item.canonical}`))
-      .map(item => unusedReason(item, assigned.slot_assignment, template, 'must_use', request.dislikes || [], allergyAliases));
-    const unusedPrefer = prefer.filter(item => !plannedKeys.has(`prefer_use\u0000${item.canonical}`))
-      .map(item => unusedReason(item, assigned.slot_assignment, template, 'prefer_use', request.dislikes || [], allergyAliases));
-    const coverage_ratio = must.length ? plannedMust.length / must.length : 0;
-    const promiseItems = request.mode === 'pantry' ? must : prefer;
-    const recognizedPromiseItems = promiseItems.filter(item => item.recognized);
-    const recognition_ratio = promiseItems.length ? recognizedPromiseItems.length / promiseItems.length : 0;
-    const recognized_coverage_ratio = recognizedMust.length ? plannedMust.length / recognizedMust.length : 0;
-    candidates.push({
-      ...assigned,
-      planned_must_use: plannedMust.map(item => ({ ...item })),
-      planned_prefer_use: plannedPrefer.map(item => ({ ...item })),
-      unplanned_must_use: unplannedMust,
-      unused_prefer_use: unusedPrefer,
-      coverage_ratio,
-      recognition_ratio,
-      recognized_coverage_ratio,
-      single_pot_eligible: request.mode === 'recommend' ? plannedPrefer.length > 0 : displayFloor(must.length, plannedMust.length),
-    });
+    const variants = collectValidVariants ? (() => {
+      const seenUserSets = new Set();
+      return assigned.variants.filter(variant => {
+        const signature = assignedItems(variant.slot_assignment).filter(item => item.source === 'user')
+          .map(item => `${item.role}\u0000${item.canonical || item.raw}`).sort().join('\u0001');
+        if (seenUserSets.has(signature)) return false;
+        seenUserSets.add(signature);
+        return true;
+      });
+    })() : [assigned];
+    for (const variant of variants) {
+      const planned = assignedItems(variant.slot_assignment).filter(item => item.source === 'user');
+      const plannedKeys = new Set(planned.map(item => `${item.role}\u0000${item.canonical}`));
+      const plannedMust = must.filter(item => plannedKeys.has(`must_use\u0000${item.canonical}`));
+      const plannedPrefer = prefer.filter(item => plannedKeys.has(`prefer_use\u0000${item.canonical}`));
+      if (request.mode === 'recommend' && recognizedSubmitted.length && plannedPrefer.length === 0) continue;
+      const unplannedMust = must.filter(item => !plannedKeys.has(`must_use\u0000${item.canonical}`))
+        .map(item => unusedReason(item, variant.slot_assignment, template, 'must_use', request.dislikes || [], allergyAliases));
+      const unusedPrefer = prefer.filter(item => !plannedKeys.has(`prefer_use\u0000${item.canonical}`))
+        .map(item => unusedReason(item, variant.slot_assignment, template, 'prefer_use', request.dislikes || [], allergyAliases));
+      const coverage_ratio = must.length ? plannedMust.length / must.length : 0;
+      const promiseItems = request.mode === 'pantry' ? must : prefer;
+      const recognizedPromiseItems = promiseItems.filter(item => item.recognized);
+      const recognition_ratio = promiseItems.length ? recognizedPromiseItems.length / promiseItems.length : 0;
+      const recognized_coverage_ratio = recognizedMust.length ? plannedMust.length / recognizedMust.length : 0;
+      candidates.push({
+        ...variant,
+        planned_must_use: plannedMust.map(item => ({ ...item })),
+        planned_prefer_use: plannedPrefer.map(item => ({ ...item })),
+        unplanned_must_use: unplannedMust,
+        unused_prefer_use: unusedPrefer,
+        coverage_ratio,
+        recognition_ratio,
+        recognized_coverage_ratio,
+        single_pot_eligible: request.mode === 'recommend' ? plannedPrefer.length > 0 : displayFloor(must.length, plannedMust.length),
+      });
+    }
   }
   return candidates;
+}
+
+export function buildPotCandidates(assets = {}, request = {}) {
+  return buildPotCandidatesInternal(assets, request, false);
 }
 
 export function rankPotCandidates(candidates = [], request = {}) {
@@ -875,14 +895,57 @@ function boundedPotCombinations(candidates, size) {
   return combinations;
 }
 
-function combinedItemKeys(pots, field) {
-  return new Set(pots.flatMap(pot => pot[field] || []).map(item => item.canonical || `raw:${item.raw}`));
+// 完整多锅只搜索最多 3 锅。候选先按“用户食材集合 + must 集合”去重，
+// 然后每层固定选一个尚未覆盖的 must item，枚举所有能覆盖它的已重新校验候选。
+// 因此不会构造 N²/N³ 组合数组，也没有可能截断有效 1–3 锅解的任意 cap。
+function findExactCompletePotCombination(rankedCandidates, mustUse, exactPotCount) {
+  if (!mustUse.length || mustUse.some(item => !item.recognized)) return null;
+  const targetKeys = [...new Set(mustUse.map(item => item.canonical || `raw:${item.raw}`))]
+    .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+  const allUserKeys = [...new Set([...targetKeys, ...rankedCandidates.flatMap(candidate => [...canonicalUserKeys(candidate)])])]
+    .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+  const bitByUserKey = new Map(allUserKeys.map((key, index) => [key, 1n << BigInt(index)]));
+  const targetMask = targetKeys.reduce((mask, key) => mask | (bitByUserKey.get(key) || 0n), 0n);
+  const uniqueCandidates = [];
+  const seenSignatures = new Set();
+  for (const candidate of rankedCandidates) {
+    const mustKeys = [...combinedItemKeys([candidate], 'planned_must_use')].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+    if (!mustKeys.length) continue;
+    const userKeys = [...canonicalUserKeys(candidate)].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+    const signature = `${mustKeys.join('\u0000')}\u0001${userKeys.join('\u0000')}`;
+    if (seenSignatures.has(signature)) continue;
+    seenSignatures.add(signature);
+    const mustMask = mustKeys.reduce((mask, key) => mask | (bitByUserKey.get(key) || 0n), 0n);
+    const userMask = userKeys.reduce((mask, key) => mask | (bitByUserKey.get(key) || 0n), 0n);
+    uniqueCandidates.push({ candidate, mustMask, userMask });
+  }
+  const byMustKey = new Map(targetKeys.map(key => [key, []]));
+  for (const entry of uniqueCandidates) {
+    for (const key of combinedItemKeys([entry.candidate], 'planned_must_use')) byMustKey.get(key)?.push(entry);
+  }
+  const failed = new Set();
+
+  const search = (selected, coveredMask, usedMask) => {
+    if (coveredMask === targetMask) return selected.length === exactPotCount ? selected : null;
+    if (selected.length === exactPotCount) return null;
+    const state = `${selected.length}:${coveredMask}:${usedMask}`;
+    if (failed.has(state)) return null;
+    const uncovered = targetKeys.filter(key => (coveredMask & bitByUserKey.get(key)) === 0n)
+      .sort((left, right) => (byMustKey.get(left)?.length || 0) - (byMustKey.get(right)?.length || 0)
+        || left.localeCompare(right, 'zh-Hans-CN'))[0];
+    for (const entry of byMustKey.get(uncovered) || []) {
+      if ((entry.userMask & usedMask) !== 0n) continue;
+      const found = search([...selected, entry.candidate], coveredMask | entry.mustMask, usedMask | entry.userMask);
+      if (found) return found;
+    }
+    failed.add(state);
+    return null;
+  };
+  return search([], 0n, 0n);
 }
 
-function coversAllMustUse(pots, mustUse) {
-  if (mustUse.some(item => !item.recognized)) return false;
-  const covered = combinedItemKeys(pots, 'planned_must_use');
-  return mustUse.every(item => covered.has(item.canonical || `raw:${item.raw}`));
+function combinedItemKeys(pots, field) {
+  return new Set(pots.flatMap(pot => pot[field] || []).map(item => item.canonical || `raw:${item.raw}`));
 }
 
 function combinationIdentity(pots) {
@@ -1081,54 +1144,83 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
   return result;
 }
 
+function maxPlannerUserItemsPerPot(assets, request) {
+  return Math.max(0, ...(assets.templates?.templates || [])
+    .filter(template => ACTIVE_TEMPLATE_IDS.has(template.template_id)
+      && template.activation_status === 'active'
+      && template.runtime_eligible
+      && template.supported_intents?.includes(request.intent)
+      && !(request.intent === 'quick' && template.time_range?.max_minutes > 30))
+    .map(template => template.slot_limits?.total_user_items_max || 0));
+}
+
+function individuallyCoverableBySafeCandidate(assets, request, item) {
+  if (!item.recognized) return false;
+  const probe = {
+    ...structuredClone(request),
+    must_use: [item.raw],
+    prefer_use: [],
+    decision: null,
+    allow_third_pot: false,
+  };
+  return buildPotCandidates(assets, probe).some(candidate => candidate.planned_must_use
+    .some(planned => planned.canonical === item.canonical));
+}
+
 function planMealCore(assets, request) {
   const normalized_items = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
   ], assets.taxonomy);
-  const ranked = rankPotCandidates(buildPotCandidates(assets, request), request);
+  const publicRanked = rankPotCandidates(buildPotCandidates(assets, request), request);
+  const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
+  const exceedsAbsoluteThreePotCapacity = request.mode === 'pantry'
+    && must.length > maxPlannerUserItemsPerPot(assets, request) * 3;
+  const searchRanked = request.mode === 'pantry' && !exceedsAbsoluteThreePotCapacity
+    ? rankPotCandidates(buildPotCandidatesInternal(assets, request, true), request)
+    : publicRanked;
   const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
   if (request.mode === 'recommend') {
-    const chosen = ranked.find(candidate => candidate.single_pot_eligible);
-    return buildPlannerResponse(assets, request, normalized_items, ranked, chosen ? [chosen] : [], { allergyAliases });
+    const chosen = publicRanked.find(candidate => candidate.single_pot_eligible);
+    return buildPlannerResponse(assets, request, normalized_items, publicRanked, chosen ? [chosen] : [], { allergyAliases });
   }
 
-  const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
-  const completeSingles = ranked.filter(candidate => candidate.single_pot_eligible && coversAllMustUse([candidate], must));
-  const pairs = boundedPotCombinations(ranked, 2);
-  const completePairs = pairs.filter(pair => coversAllMustUse(pair, must));
+  const completeSingle = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 1);
+  const completePair = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 2);
   const forceMulti = request.decision?.action === 'force_multi_pot';
-  if (forceMulti && completePairs.length) {
-    return buildPlannerResponse(assets, request, normalized_items, ranked, completePairs[0], { allergyAliases });
+  if (forceMulti && completePair) {
+    return buildPlannerResponse(assets, request, normalized_items, publicRanked, completePair, { allergyAliases });
   }
-  if (completeSingles.length) {
-    return buildPlannerResponse(assets, request, normalized_items, ranked, [completeSingles[0]], { allergyAliases });
+  if (completeSingle) {
+    return buildPlannerResponse(assets, request, normalized_items, publicRanked, completeSingle, { allergyAliases });
   }
-  if (completePairs.length) {
-    return buildPlannerResponse(assets, request, normalized_items, ranked, completePairs[0], { allergyAliases });
+  if (completePair) {
+    return buildPlannerResponse(assets, request, normalized_items, publicRanked, completePair, { allergyAliases });
   }
 
-  const triples = boundedPotCombinations(ranked, 3);
-  const completeTriples = triples.filter(triple => coversAllMustUse(triple, must));
-  if (completeTriples.length) {
-    const triple = completeTriples[0];
+  const completeTriple = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 3);
+  if (completeTriple) {
+    const triple = completeTriple;
     if (request.allow_third_pot) {
-      return buildPlannerResponse(assets, request, normalized_items, ranked, triple, { allergyAliases });
+      return buildPlannerResponse(assets, request, normalized_items, publicRanked, triple, { allergyAliases });
     }
-    return buildPlannerResponse(assets, request, normalized_items, ranked, triple.slice(0, 2), {
+    return buildPlannerResponse(assets, request, normalized_items, publicRanked, triple.slice(0, 2), {
       allergyAliases,
       thirdPot: triple[2],
     });
   }
 
+  const pairs = boundedPotCombinations(publicRanked, 2);
   const partials = [
-    ...ranked.map(candidate => [candidate]),
+    ...publicRanked.map(candidate => [candidate]),
     ...pairs,
   ];
   const selected = rankPartialCombinations(partials, request, forceMulti)[0] || [];
-  const allRecognized = must.length > 0 && must.every(item => item.recognized);
-  const capacityExceeded = allRecognized && selected.length > 0;
-  return buildPlannerResponse(assets, request, normalized_items, ranked, selected, {
+  const allIndividuallyCoverable = must.length > 0 && must.every(item => exceedsAbsoluteThreePotCapacity
+    ? individuallyCoverableBySafeCandidate(assets, request, item)
+    : item.recognized && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
+  const capacityExceeded = allIndividuallyCoverable && selected.length > 0;
+  return buildPlannerResponse(assets, request, normalized_items, publicRanked, selected, {
     allergyAliases,
     capacityExceeded,
   });

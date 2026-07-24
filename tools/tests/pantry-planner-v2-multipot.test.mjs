@@ -90,8 +90,10 @@ test('explicit third-pot acknowledgement reruns the same real journey and comple
 
 test('a sixteen-item recognized pantry exceeds three-pot capacity without hiding the partial work', () => {
   const must = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇'];
+  const started = performance.now();
   const result = planMeal(assets, request({ must, decision: { action: 'allow_third_pot' } }));
 
+  assert.ok(performance.now() - started < 5000, 'bounded search should finish a 16-item pantry within five seconds');
   assert.equal(result.status, 'needs_user_decision');
   assert.equal(result.generation_allowed, false);
   assert.ok(result.plan.pots.length > 0 && result.plan.pots.length <= 2);
@@ -100,6 +102,41 @@ test('a sixteen-item recognized pantry exceeds three-pot capacity without hiding
   assert.ok(result.plan.unplanned_must_use.every(item => item.reason_code === 'plan_capacity_exceeded'
     || ['unsupported_shape_or_cut', 'allergen_conflict', 'time_constraint', 'incompatible_combination', 'safety_constraint'].includes(item.reason_code)));
   assert.equal(action(result, 'allow_third_pot'), undefined);
+});
+
+test('aggregate capacity is never blamed for an unsupported cut or an allergen conflict', () => {
+  for (const raw of ['牛腩', '牛肉末']) {
+    const result = planMeal(assets, request({ must: ['番茄', raw] }));
+    assert.notEqual(result.plan.rejection_reason?.reason_code, 'plan_capacity_exceeded', raw);
+    assert.equal(result.plan.unplanned_must_use.find(item => item.raw === raw)?.reason_code, 'unsupported_shape_or_cut', raw);
+  }
+  const allergy = planMeal(assets, request({ must: ['番茄', '鸡蛋'], dislikes: ['鸡蛋'] }));
+  assert.notEqual(allergy.plan.rejection_reason?.reason_code, 'plan_capacity_exceeded');
+  assert.equal(allergy.plan.unplanned_must_use.find(item => item.canonical === '鸡蛋')?.reason_code, 'allergen_conflict');
+});
+
+test('multi-pot search can omit an optional egg from one recompiled candidate to expose a valid two-pot plan', () => {
+  const result = planMeal(assets, request({ must: ['大米', '面条', '鸡蛋'] }));
+
+  assert.equal(result.status, 'complete');
+  assert.equal(result.plan.plan_kind, 'multi_pot');
+  assert.equal(result.plan.pots.length, 2);
+  assert.equal(result.plan.pots.filter(pot => pot.planned_must_use.some(item => item.canonical === '鸡蛋')).length, 1);
+  assert.deepEqual(new Set(plannedCanonicals(result)), new Set(['大米', '面条', '鸡蛋']));
+});
+
+test('three staple meals share an optional egg once and still respect the third-pot decision gate', () => {
+  const must = ['大米', '熟米饭', '面条', '鸡蛋'];
+  const initial = planMeal(assets, request({ must }));
+  assert.equal(initial.status, 'needs_user_decision');
+  assert.equal(initial.plan.pots.length, 2);
+  assert.equal(action(initial, 'allow_third_pot')?.potential_full_coverage, true);
+
+  const accepted = planMeal(assets, request({ must, decision: { action: 'allow_third_pot' } }));
+  assert.equal(accepted.status, 'complete');
+  assert.equal(accepted.plan.pots.length, 3);
+  assert.equal(accepted.plan.pots.filter(pot => pot.planned_must_use.some(item => item.canonical === '鸡蛋')).length, 1);
+  assert.deepEqual(new Set(plannedCanonicals(accepted)), new Set(must));
 });
 
 test('a deduplicated canonical user ingredient belongs to only one pot and basic extras do not count as assignments', () => {
