@@ -163,3 +163,81 @@ test('validator requires the approved taxonomy version and category declarations
     'ingredient_taxonomy_version', 'missing slot',
   ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
+
+test('activation is locked by approved template ID and runtime selection cannot admit an extra template', () => {
+  const invalid = structuredClone(catalog);
+  const quickBreakfast = invalid.templates.find(template => template.template_id === 'quick-breakfast-pot');
+  const acid = invalid.templates.find(template => template.template_id === 'acid-staple-pot');
+  quickBreakfast.activation_status = 'active';
+  quickBreakfast.runtime_eligible = true;
+  acid.activation_status = 'planned';
+  acid.runtime_eligible = false;
+
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  assert.ok(errors.some(error => error.includes('quick-breakfast-pot must be planned and runtime ineligible')));
+  assert.ok(errors.some(error => error.includes('acid-staple-pot must be active and runtime eligible')));
+  assert.deepEqual(
+    new Set(getRuntimeEligibleTemplates(invalid).map(template => template.template_id)),
+    new Set([...ACTIVE].filter(id => id !== 'acid-staple-pot')),
+  );
+});
+
+test('slot acceptance is derived from direct categories and compatible slot codes without drift', () => {
+  const invalid = structuredClone(catalog);
+  const acid = invalid.templates.find(template => template.template_id === 'acid-staple-pot');
+  acid.ingredient_categories.protein = ['egg'];
+  acid.optional_slots.find(slot => slot.slot_id === 'protein').accepts_slot_codes = ['long_braise'];
+  acid.shape_or_cut_requirements[0].category = 'root_vegetable';
+  acid.shape_or_cut_requirements[0].allowed_shapes = ['dice'];
+  acid.shape_or_cut_requirements[0].forbidden_shapes = [];
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  for (const expected of [
+    'unknown compatible slot code', 'ingredient_categories.protein must exactly match',
+    'shape category is not accepted by slot',
+  ]) assert.ok(errors.some(error => error.includes(expected)), expected);
+});
+
+test('validator limits slot-limit keys and rejects unknown keys at every machine schema layer', () => {
+  const invalid = structuredClone(catalog);
+  const acid = invalid.templates.find(template => template.template_id === 'acid-staple-pot');
+  acid.slot_limits.protein_max = 2;
+  acid.slot_limits.invented_max = 1;
+  acid.notes = 'not machine data';
+  acid.required_slots[0].notes = 'not machine data';
+  acid.compatibility_rules[0].notes = 'not machine data';
+  acid.compatibility_rules[0].when.notes = 'not machine data';
+  acid.shape_or_cut_requirements[0].notes = 'not machine data';
+  acid.cooking_order[0].notes = 'not machine data';
+  acid.liquid_constraints.notes = 'not machine data';
+  acid.safety_endpoints[0].notes = 'not machine data';
+  acid.time_range.notes = 'not machine data';
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  for (const expected of ['above slot max_items', 'unknown slot_limits key', 'unknown key']) {
+    assert.ok(errors.some(error => error.includes(expected)), expected);
+  }
+});
+
+test('planned raw-risk slots and safety endpoints are validated against derived slot categories', () => {
+  const invalid = structuredClone(catalog);
+  const pork = invalid.templates.find(template => template.template_id === 'pork-staple-pot');
+  const beef = invalid.templates.find(template => template.template_id === 'beef-staple-pot');
+  pork.safety_endpoints = [];
+  beef.safety_endpoints.push({ applies_to_category:'egg', endpoint_code:'egg_fully_set' });
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  assert.ok(errors.some(error => error.includes('pork-staple-pot missing required safety endpoint for category pork')));
+  assert.ok(errors.some(error => error.includes('safety endpoint category is not accepted by any slot')));
+});
+
+test('validator remains total for malformed nested template containers', () => {
+  const invalid = structuredClone(catalog);
+  const acid = invalid.templates.find(template => template.template_id === 'acid-staple-pot');
+  acid.required_slots = { bad:true };
+  acid.ingredient_categories = [];
+  acid.compatibility_rules = [{ when: [] }];
+  acid.liquid_constraints = [];
+  acid.safety_endpoints = [{}];
+  assert.doesNotThrow(() => validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary));
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  assert.ok(errors.length > 0);
+  assert.ok(errors.every(error => typeof error === 'string'));
+});
