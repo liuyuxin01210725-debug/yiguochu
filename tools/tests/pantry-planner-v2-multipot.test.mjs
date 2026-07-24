@@ -126,6 +126,8 @@ test('bounded partial search remains responsive for the full twenty-item request
   assert.ok(performance.now() - started < 5000, 'twenty-item bounded partial search should finish within five seconds');
   assert.equal(result.status, 'needs_user_decision');
   assert.ok(result.plan.pots.length > 0 && result.plan.pots.length <= 2);
+  assert.equal(result.plan.rejection_reason?.reason_code, 'plan_capacity_exceeded');
+  assert.ok(result.plan.unplanned_must_use.some(item => item.reason_code === 'plan_capacity_exceeded'));
   assert.equal(new Set(result.plan.pots.flatMap(pot => pot.planned_must_use.map(item => item.canonical))).size,
     result.plan.planned_must_use.length);
 });

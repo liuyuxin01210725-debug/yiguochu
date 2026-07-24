@@ -163,6 +163,28 @@ test('quick is a hard limit and never admits templates over 30 minutes', () => {
   }
 });
 
+test('slow rib cuts cannot enter a quick cooked-rice stir pot', () => {
+  const normalized = normalizePlannerItems([
+    { raw: '排骨', role: 'must_use' },
+    { raw: '熟米饭', role: 'must_use' },
+  ], assets.taxonomy);
+  const assigned = assignItemsToTemplate(
+    activeTemplate('cooked-rice-stir-pot'),
+    normalized,
+    context(normalized, { intent: 'quick', collect_valid_variants: true }),
+  );
+
+  assert.equal(assigned.ok, true);
+  assert.ok(assigned.variants.length > 0);
+  assert.ok(assigned.variants.every(variant => Object.values(variant.slot_assignment).flat()
+    .every(item => item.raw !== '排骨')));
+
+  const journey = planMeal(assets, request({
+    intent: 'quick', must: ['排骨', '豆角', '大米'],
+  }));
+  assert.ok(journey.plan.pots.every(pot => pot.planned_must_use.every(item => item.raw !== '排骨')));
+});
+
 test('forbidden cuts and declared moisture or cook-speed combinations are hard structured rejections', () => {
   const wet = normalizePlannerItems([
     { raw: '番茄', role: 'must_use' },

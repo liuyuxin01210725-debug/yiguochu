@@ -519,6 +519,14 @@ function boundedCombinations(items, maxItems) {
 
 function incompatibleReason(template, assignment) {
   const all = assignedItems(assignment);
+  const cookingModes = new Set((template.compatibility_rules || [])
+    .flatMap(rule => rule.requires_cooking_mode || []));
+  if (cookingModes.has('quick_saute')
+      && all.some(item => item.source === 'user' && item.cook_speed === 'slow')) {
+    return rejection('incompatible_combination', '慢熟食材不适合快炒锅的熟制节奏。', {
+      rule_code: 'quick_saute_rejects_slow_items',
+    });
+  }
   for (const rule of template.incompatible_rules || []) {
     const trigger = (assignment[rule.when?.slot_id] || []).some(item => item.category === rule.when?.category);
     if (!trigger) continue;
@@ -1206,8 +1214,9 @@ function planMealCore(assets, request) {
   ], assets.taxonomy);
   const publicRanked = rankPotCandidates(buildPotCandidates(assets, request), request);
   const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
+  const recognizedMustCount = must.filter(item => item.recognized).length;
   const exceedsAbsoluteThreePotCapacity = request.mode === 'pantry'
-    && must.length > maxPlannerUserItemsPerPot(assets, request) * 3;
+    && recognizedMustCount > maxPlannerUserItemsPerPot(assets, request) * 3;
   const searchRanked = request.mode === 'pantry'
     ? rankPotCandidates(buildPotCandidatesInternal(assets, request, true), request)
     : publicRanked;
@@ -1245,7 +1254,8 @@ function planMealCore(assets, request) {
   const selected = findBestPartialPotCombination(searchRanked, request);
   const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
     && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
-  const capacityExceeded = allIndividuallyCoverable && selected.length > 0;
+  const capacityExceeded = selected.length > 0
+    && (exceedsAbsoluteThreePotCapacity || allIndividuallyCoverable);
   return buildPlannerResponse(assets, request, normalized_items, publicRanked, selected, {
     allergyAliases,
     capacityExceeded,
@@ -1727,14 +1737,13 @@ function capacityPartialContext(assets, request) {
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
   ], assets.taxonomy);
   const must = uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'must_use');
-  if (must.length <= maxPlannerUserItemsPerPot(assets, request) * 3) return null;
+  const recognizedMustCount = must.filter(item => item.recognized).length;
+  if (recognizedMustCount <= maxPlannerUserItemsPerPot(assets, request) * 3) return null;
   const context = buildPartialAlternativeContext(assets, request);
   const selected = findBestPartialPotCombination(context.searchRanked, context.planningRequest);
-  const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
-    && context.searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
   const current = buildPlannerResponse(assets, context.planningRequest, context.normalizedItems, context.publicRanked, selected, {
     allergyAliases: context.allergyAliases,
-    capacityExceeded: allIndividuallyCoverable && selected.length > 0,
+    capacityExceeded: selected.length > 0,
   });
   return { ...context, current };
 }
