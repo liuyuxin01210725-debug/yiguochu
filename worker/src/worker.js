@@ -1,3 +1,8 @@
+import {
+  normalizePlannerRequest,
+  plannerRequestFromLegacy,
+} from './planner-v2.js';
+
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 // 每 100g 合理上限(防模型把"整道菜总量"误当每100g, 乘 grams 后营养暴涨)
 const NUTRIENT_MAX = { kcal: 900, p: 100, fb: 100, mg: 1200, k: 5000, ca: 1500, fe: 50, zn: 50, na: 40000, vc: 2000, vd: 50, w3: 60 };
@@ -2560,6 +2565,8 @@ export {
   repairGroundedMealSafety,
   validateGroundedMeal,
   validationRiceAllergenActive,
+  normalizePlannerRequest,
+  plannerRequestFromLegacy,
 };
 
 export default {
