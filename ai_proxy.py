@@ -36,11 +36,12 @@ RECIPE_LIBRARY_FILE = SCRIPT_DIR / 'tools' / 'data' / 'recipe-library.json'
 PLANNER_BRIDGE_FILE = SCRIPT_DIR / 'tools' / 'planner-v2-local-bridge.mjs'
 PLANNER_NODE = os.environ.get('PLANNER_NODE_EXECUTABLE') or shutil.which('node')
 try:
-    PLANNER_BRIDGE_TIMEOUT_S = min(40.0, max(0.1, float(os.environ.get('PLANNER_BRIDGE_TIMEOUT_S', '40'))))
+    PLANNER_BRIDGE_TIMEOUT_S = min(55.0, max(0.1, float(os.environ.get('PLANNER_BRIDGE_TIMEOUT_S', '55'))))
 except ValueError:
-    PLANNER_BRIDGE_TIMEOUT_S = 40.0
+    PLANNER_BRIDGE_TIMEOUT_S = 55.0
 
-TIMEOUT_S = 30
+TIMEOUT_S = 45
+DEFAULT_DEEPSEEK_MODEL = 'deepseek-v4-flash'
 
 
 def load_env():
@@ -62,7 +63,7 @@ PROVIDER = (_env.get('LLM_PROVIDER') or os.environ.get('LLM_PROVIDER') or 'deeps
 if PROVIDER == 'deepseek':
     API_KEY = _env.get('DEEPSEEK_API_KEY') or os.environ.get('DEEPSEEK_API_KEY')
     API_URL = 'https://api.deepseek.com/v1/chat/completions'
-    MODEL_NAME = 'deepseek-chat'
+    MODEL_NAME = os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL
 else:
     API_KEY = _env.get('KIMI_API_KEY') or os.environ.get('KIMI_API_KEY')
     API_URL = 'https://api.moonshot.cn/v1/chat/completions'
@@ -3106,7 +3107,7 @@ def _planner_bridge_env():
     values = {
         'DEEPSEEK_API_KEY': _planner_deepseek_api_key(),
         'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
-        'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or 'deepseek-chat',
+        'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL,
         'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
     }
     env.update({name: str(value) for name, value in values.items() if value})

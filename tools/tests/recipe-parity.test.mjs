@@ -260,6 +260,31 @@ function pythonCall(action, payload = {}) {
   return JSON.parse(run.stdout);
 }
 
+test('local proxy and planner bridge use the supported DeepSeek model by default', () => {
+  const run = runPython(['-c', [
+    'import json',
+    'import ai_proxy as proxy',
+    'print(json.dumps({"proxy": proxy.MODEL_NAME, "bridge": proxy._planner_bridge_env()["MODEL_NAME"]}))',
+  ].join(';')]);
+  assert.equal(run.status, 0, run.stderr);
+  assert.equal(run.stderr, '');
+  assert.deepEqual(JSON.parse(run.stdout), {
+    proxy:'deepseek-v4-flash',
+    bridge:'deepseek-v4-flash',
+  });
+});
+
+test('local proxy time budgets leave room for DeepSeek V4 and its planner bridge', () => {
+  const run = runPython(['-c', [
+    'import json',
+    'import ai_proxy as proxy',
+    'print(json.dumps({"upstream": proxy.TIMEOUT_S, "bridge": proxy.PLANNER_BRIDGE_TIMEOUT_S}))',
+  ].join(';')]);
+  assert.equal(run.status, 0, run.stderr);
+  assert.equal(run.stderr, '');
+  assert.deepEqual(JSON.parse(run.stdout), { upstream:45, bridge:55 });
+});
+
 function pythonMatch(constraints) {
   const run = runPython(['ai_proxy.py', '--recipe-match', JSON.stringify(constraints)]);
   assert.equal(run.status, 0, run.stderr);

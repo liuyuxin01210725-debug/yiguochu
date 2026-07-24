@@ -18,6 +18,8 @@ import {
 } from './generated-plan-contract.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
+const DEFAULT_DEEPSEEK_MODEL = 'deepseek-v4-flash';
+const DEEPSEEK_TIMEOUT_MS = 45000;
 // 每 100g 合理上限(防模型把"整道菜总量"误当每100g, 乘 grams 后营养暴涨)
 const NUTRIENT_MAX = { kcal: 900, p: 100, fb: 100, mg: 1200, k: 5000, ca: 1500, fe: 50, zn: 50, na: 40000, vc: 2000, vd: 50, w3: 60 };
 const RATE_BUCKETS = new Map();
@@ -2518,7 +2520,7 @@ async function handleGenerate(request, env) {
   if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
   const prompt = buildPrompt(mealName, targets, constraints, buildRecipeGrounding(selection));
   const body = {
-    model: env.MODEL_NAME || 'deepseek-chat',
+    model: env.MODEL_NAME || DEFAULT_DEEPSEEK_MODEL,
     messages: [
       { role: 'system', content: `${TRUSTED_RECIPE_SYSTEM_ROLE}\n\n${buildTrustedRecipeSystemOverride(selection)}` },
       { role: 'user', content: prompt },
@@ -2527,7 +2529,7 @@ async function handleGenerate(request, env) {
     response_format: { type: 'json_object' },
   };
 
-  // DeepSeek 30s 硬超时: 超时 504 upstream_timeout, 网络失败或上游非 2xx 一律 502 upstream_error;
+  // DeepSeek V4 完整菜谱输出留 45s 硬上限: 超时 504 upstream_timeout, 网络失败或上游非 2xx 一律 502 upstream_error;
   // 错误响应只回状态码, 不回传上游原文(脱敏)。预算预扣限制的是调用尝试, 有意不动。
   let upstream;
   try {
@@ -2538,7 +2540,7 @@ async function handleGenerate(request, env) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(30000),
+      signal: AbortSignal.timeout(DEEPSEEK_TIMEOUT_MS),
     });
   } catch (err) {
     console.error('DeepSeek fetch failed', err?.name || 'unknown', err?.message || String(err));
@@ -2754,7 +2756,7 @@ async function handleGeneratePlan(request, env) {
   }
   if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
   const upstreamBody = {
-    model: env.MODEL_NAME || 'deepseek-chat',
+    model: env.MODEL_NAME || DEFAULT_DEEPSEEK_MODEL,
     messages: [
       { role: 'system', content: LOCKED_PLAN_SYSTEM_PROMPT },
       { role: 'user', content: lockedPlanUserMessage(lockedPlan) },
@@ -2773,7 +2775,7 @@ async function handleGeneratePlan(request, env) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(upstreamBody),
-      signal: AbortSignal.timeout(30000),
+      signal: AbortSignal.timeout(DEEPSEEK_TIMEOUT_MS),
     });
   } catch (error) {
     console.error('DeepSeek generate-plan failed', error?.name || 'unknown');
@@ -2874,7 +2876,7 @@ export default {
       return jsonResponse({
         status: 'ok',
         provider: 'deepseek',
-        model: env.MODEL_NAME || 'deepseek-chat',
+        model: env.MODEL_NAME || DEFAULT_DEEPSEEK_MODEL,
         budget: env.RATE_KV ? 'kv' : 'memory',
         recipeLibrary,
         recipeFamilies,

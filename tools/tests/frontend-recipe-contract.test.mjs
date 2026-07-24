@@ -9,6 +9,11 @@ const appScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
   .filter(script => !script.includes('serviceWorker'));
 assert.ok(appScripts.length >= 2, 'index.html must contain the main and safety scripts');
 
+test('browser generation timeout stays above the DeepSeek V4 worker timeout', () => {
+  assert.match(html, /const GENERATION_REQUEST_TIMEOUT_MS = 55000;/);
+  assert.match(html, /setTimeout\(\(\) => ctrl\.abort\(\), GENERATION_REQUEST_TIMEOUT_MS\)/);
+});
+
 function meal(overrides = {}) {
   return {
     dish_name: '测试焖锅',

@@ -788,6 +788,7 @@ const TONE_TEXT = { week:'每份参考' };
 const DEFAULT_PROFILE = { mode:'recommend', intent:'quick', servings:'2', pantry:'', dislikes:'' };
 const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','青椒','茄子','菠菜','玉米','金针菇'];
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
+const GENERATION_REQUEST_TIMEOUT_MS = 55000;
 
 function plannerLabEnabled() {
   if (typeof location === 'undefined') return false;
@@ -1026,7 +1027,7 @@ async function postPlannerV2(path, body) {
   const endpoints = apiCandidates(path);
   if (!endpoints.length) throw genError('local_start_required', '请双击 start.command 启动本地版本。', false);
   const ctrl = new AbortController();
-  const tid = setTimeout(() => ctrl.abort(), path === '/generate-plan' ? 45000 : 15000);
+  const tid = setTimeout(() => ctrl.abort(), path === '/generate-plan' ? GENERATION_REQUEST_TIMEOUT_MS : 15000);
   let response;
   try {
     response = await fetch(endpoints[0], {
@@ -1486,7 +1487,7 @@ async function fetchRealDish(opts) {
     const endpoints = apiCandidates('/generate-meal');
     let r, fetchErr;
     for (let i = 0; i < endpoints.length && !r && requestCount < 2; i++) {
-      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 45000); // 单端点 45s 超时(F4): worker 上游 30s, 整体应更快返回
+      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), GENERATION_REQUEST_TIMEOUT_MS); // 浏览器留 55s: worker 上游 45s, 为 V4 完整菜谱输出保留网络余量
       try {
         requestCount++;
         r = await fetch(endpoints[i], { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal, cache:'no-store' });

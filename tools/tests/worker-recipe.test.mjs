@@ -3787,6 +3787,7 @@ test('health cache is isolated per assets binding in one module instance', async
   const okBody = await okResponse.json();
   const missingBody = await missingResponse.json();
   assert.equal(okBody.recipeLibrary, 'ok');
+  assert.equal(okBody.model, 'deepseek-v4-flash');
   assert.equal(okBody.plannerAssets, 'ok');
   assert.equal(okBody.recipeFamilies, lib.families.length);
   assert.equal(okBody.baseRecipes, lib.recipes.length);
@@ -3972,7 +3973,34 @@ test('auto_approved trusted recipes keep the approved scoring and boundary treat
   assert.ok(flags.includes('unapproved_ingredient:鹅肝'));
 });
 
-// ===== W2: DeepSeek 30s 超时与上游错误码 =====
+// ===== W2: DeepSeek V4 超时与上游错误码 =====
+test('generation uses the current supported DeepSeek model by default', async () => {
+  const { response, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([groundedFixtureRecipe()]),
+  });
+  assert.equal(response.status, 200);
+  assert.equal(upstreamBodies.length, 1);
+  assert.equal(upstreamBodies[0].model, 'deepseek-v4-flash');
+});
+
+test('generation gives DeepSeek V4 enough time for a full grounded recipe response', async () => {
+  const originalTimeout = AbortSignal.timeout;
+  const timeoutValues = [];
+  AbortSignal.timeout = milliseconds => {
+    timeoutValues.push(milliseconds);
+    return originalTimeout(milliseconds);
+  };
+  try {
+    const { response } = await runGenerateRequest({
+      recipeLib: fixtureLib([groundedFixtureRecipe()]),
+    });
+    assert.equal(response.status, 200);
+  } finally {
+    AbortSignal.timeout = originalTimeout;
+  }
+  assert.deepEqual(timeoutValues, [45000]);
+});
+
 test('generation passes an AbortSignal to the upstream fetch', async () => {
   const { response, upstreamSignals } = await runGenerateRequest({
     recipeLib: fixtureLib([groundedFixtureRecipe()]),
