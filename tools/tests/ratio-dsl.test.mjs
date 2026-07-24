@@ -9,13 +9,15 @@ import { compileRatioPlan } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', name), 'utf8'));
-const catalog = readJson('ratio-rules.v1.json');
+const rawCatalog = readJson('ratio-rules.v1.json');
 const templates = readJson('meal-templates.v2.json');
 const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const recipes = readJson('recipe-library.json');
 const validationContext = { templates, taxonomy, recipes };
 const item = (name, category, attributes = {}) => ({ name, category, attributes });
-assert.equal(prepareRatioCatalog(catalog, validationContext).ok, true);
+const prepared = prepareRatioCatalog(rawCatalog, validationContext);
+assert.equal(prepared.ok, true);
+const catalog = prepared.catalog;
 
 const ACTIVE = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
@@ -41,6 +43,36 @@ test('Ratio DSL catalog covers every active template with only the five executab
     for (const slot of template.required_slots.filter(slot => slot.source_policy.includes('user'))) {
       assert.equal(rule.operations.filter(operation => operation.operator === 'per_serving' && operation.target.slot_id === slot.slot_id).length, 1, `${rule.rule_id}/${slot.slot_id}`);
     }
+  }
+});
+
+test('raw ratio catalog explicitly quantifies every user slot without prepare-time synthesis', () => {
+  const rawResult = prepareRatioCatalog(rawCatalog, validationContext);
+  assert.equal(rawResult.ok, true);
+  assert.deepEqual(rawResult.catalog.rules, rawCatalog.rules);
+  for (const rule of rawCatalog.rules) {
+    const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
+    const userSlots = [...template.required_slots, ...template.optional_slots]
+      .filter(slot => slot.source_policy.includes('user'))
+      .map(slot => slot.slot_id);
+    for (const slotId of userSlots) {
+      assert.equal(rule.operations.filter(operation => operation.operator === 'per_serving' && operation.target.slot_id === slotId).length, 1, `${rule.rule_id}/${slotId}`);
+    }
+  }
+});
+
+test('strict validator rejects unknown nested shapes and invalid ratio semantics', () => {
+  const invalid = structuredClone(rawCatalog);
+  invalid.rules[0].when.extra = true;
+  invalid.rules[0].operations[0].target.extra = true;
+  invalid.rules[0].operations.at(-1).numerator.resource = 'recipe_prose';
+  invalid.rules[0].operations.at(-1).denominator.measure = 'cups';
+  invalid.rules[0].operations.at(-1).target.extra = true;
+  invalid.rules[0].rounding.extra = true;
+  invalid.rules[0].example_context.extra = true;
+  const errors = validateRatioDslCatalog(invalid, templates, taxonomy, recipes);
+  for (const expected of ['when unknown key', 'target unknown key', 'numerator.resource is invalid', 'denominator must measure', 'rounding unknown key', 'example_context unknown key']) {
+    assert.ok(errors.some(error => error.includes(expected)), expected);
   }
 });
 
@@ -146,11 +178,13 @@ test('ratio compiler safely rejects malformed nested operation data without emit
 test('ratio validator rejects forged basic-extra categories and invalid active rule ordering or liquid coverage', () => {
   const invalid = structuredClone(catalog);
   invalid.rules[3].operations[2].target.name = '豆腐';
-  invalid.rules[2].operations[0] = invalid.rules[2].operations[3];
+  const orderedRule = invalid.rules.find(rule => rule.rule_id === 'acid-staple-raw-rice-liquid-v1');
+  const bounded = orderedRule.operations.find(operation => operation.operator === 'bounded_sum');
+  orderedRule.operations = [bounded, ...orderedRule.operations.filter(operation => operation !== bounded)];
   invalid.rules[3].operations = invalid.rules[3].operations.filter(operation => operation.operator !== 'ratio');
   invalid.rules[4].operations = invalid.rules[4].operations.filter(operation => operation.operator !== 'per_serving');
   const errors = validateRatioDslCatalog(invalid, templates, taxonomy, recipes);
-  for (const expected of ['target name', 'operations must be ordered', 'missing retained liquid operation', 'exactly one per_serving']) {
+  for (const expected of ['operations must be ordered', 'missing retained liquid operation', 'exactly one per_serving']) {
     assert.ok(errors.some(error => error.includes(expected)), expected);
   }
 });
@@ -181,7 +215,7 @@ test('category-specific rules quantify every required staple and reject mismatch
   const beefRice = compileRatioPlan('beef-staple-cooked-rice-portion-v1', {
     servings: 2,
     slots: { protein: [item('牛里脊', 'beef')], staple: [item('熟米饭', 'cooked_rice')] },
-  }, catalog, validationContext);
+  }, catalog);
   assert.equal(beefRice.ok, true);
   assert.deepEqual(beefRice.ingredient_amounts.slice(0, 2), [
     { name: '牛里脊', grams: 200 }, { name: '熟米饭', grams: 360 },
@@ -190,20 +224,20 @@ test('category-specific rules quantify every required staple and reject mismatch
   const poultryRice = compileRatioPlan('poultry-staple-raw-rice-portion-v1', {
     servings: 2,
     slots: { protein: [item('鸡腿肉', 'chicken')], staple: [item('大米', 'raw_rice')] },
-  }, catalog, validationContext);
+  }, catalog);
   assert.equal(poultryRice.ok, true);
   assert.ok(poultryRice.ingredient_amounts.some(row => row.name === '大米' && row.grams > 0));
 
   const wrongRice = compileRatioPlan('acid-staple-raw-rice-liquid-v1', {
     servings: 2,
     slots: { staple: [item('熟米饭', 'cooked_rice')], acid_base: [item('番茄', 'acid_vegetable', { moisture_release: 'high' })] },
-  }, catalog, validationContext);
+  }, catalog);
   assert.equal(wrongRice.code, 'ratio_context_category_mismatch');
 
   const wrongProtein = compileRatioPlan('egg-tofu-vegetable-egg-portion-v1', {
     servings: 2,
     slots: { protein: [item('老豆腐', 'firm_tofu')], vegetable: [item('青菜', 'leafy_vegetable')] },
-  }, catalog, validationContext);
+  }, catalog);
   assert.equal(wrongProtein.code, 'ratio_context_category_mismatch');
 });
 
@@ -211,14 +245,14 @@ test('quantified set prevents bounded_sum double-counting and quantifies every s
   const mushroom = compileRatioPlan('mushroom-vegetable-stew-liquid-v1', {
     servings: 2,
     slots: { mushroom: [item('金针菇', 'mushroom', { moisture_release: 'medium' })], vegetable: [item('白菜', 'leafy_vegetable', { moisture_release: 'medium' })] },
-  }, catalog, validationContext);
+  }, catalog);
   assert.equal(mushroom.ok, true);
   assert.equal(mushroom.ingredient_amounts.find(row => row.name === '金针菇').grams, 200);
 
   const optionalLeak = compileRatioPlan('egg-tofu-vegetable-egg-portion-v1', {
     servings: 2,
     slots: { protein: [item('鸡蛋', 'egg')], vegetable: [item('青菜', 'leafy_vegetable')], mushroom: [item('金针菇', 'mushroom')] },
-  }, catalog, validationContext);
+  }, catalog);
   assert.equal(optionalLeak.ok, true);
   assert.ok(optionalLeak.ingredient_amounts.every(row => row.grams > 0));
   assert.ok(optionalLeak.ingredient_amounts.some(row => row.name === '金针菇'));
@@ -230,7 +264,7 @@ test('direct compilation rejects an unvalidated catalog and never rounds positiv
   const duplicate = compileRatioPlan('acid-staple-raw-rice-liquid-v1', {
     servings: 2,
     slots: { staple: [item('大米', 'raw_rice')], acid_base: [item('番茄', 'acid_vegetable', { moisture_release: 'high' })] },
-  }, invalid, validationContext);
+  }, invalid);
   assert.equal(duplicate.code, 'ratio_rule_invalid');
 
   const tiny = structuredClone(catalog);
@@ -238,7 +272,7 @@ test('direct compilation rejects an unvalidated catalog and never rounds positiv
   const rounded = compileRatioPlan('acid-staple-raw-rice-liquid-v1', {
     servings: 1,
     slots: { staple: [item('大米', 'raw_rice')], acid_base: [item('番茄', 'acid_vegetable', { moisture_release: 'high' })] },
-  }, tiny, validationContext);
+  }, tiny);
   assert.equal(rounded.code, 'ratio_rule_invalid');
 
   for (const mutate of [
@@ -251,7 +285,7 @@ test('direct compilation rejects an unvalidated catalog and never rounds positiv
     const result = compileRatioPlan('acid-staple-raw-rice-liquid-v1', {
       servings: 2,
       slots: { staple: [item('大米', 'raw_rice')], acid_base: [item('番茄', 'acid_vegetable', { moisture_release: 'high' })] },
-    }, unsafe, validationContext);
+    }, unsafe);
     assert.equal(result.code, 'ratio_rule_invalid');
   }
 });
@@ -312,4 +346,26 @@ test('planner runtime dependency graph stays inside worker/src', () => {
       pending.push(next.endsWith('.js') ? next : `${next}.js`);
     }
   }
+});
+
+test('prepare returns a deeply frozen defensive catalog and raw input cannot compile', () => {
+  const raw = structuredClone(rawCatalog);
+  const result = prepareRatioCatalog(raw, validationContext);
+  assert.equal(result.ok, true);
+  assert.notEqual(result.catalog, raw);
+  assert.equal(Object.isFrozen(result.catalog), true);
+  assert.equal(Object.isFrozen(result.catalog.rules[0].operations[0]), true);
+  raw.rules[0].operations.push({ operator:'per_serving', target:{slot_id:'staple'}, grams:{min:80,default:100,max:120} });
+  assert.equal(compileRatioPlan('acid-staple-raw-rice-liquid-v1',{servings:2,slots:{staple:[item('大米','raw_rice')],acid_base:[item('番茄','acid_vegetable',{moisture_release:'high'})]}},raw).ok,false);
+  assert.throws(() => { result.catalog.rules[0].operations.push({}); }, TypeError);
+});
+
+test('high-moisture optional vegetables are quantified once before bounded_sum credit', () => {
+  const result = compileRatioPlan('acid-staple-raw-rice-liquid-v1', { servings:2, slots:{
+    staple:[item('大米','raw_rice')], acid_base:[item('番茄','acid_vegetable',{moisture_release:'high'})],
+    vegetable:[item('白菜','leafy_vegetable',{moisture_release:'high'})], mushroom:[item('金针菇','mushroom',{moisture_release:'high'})],
+  } }, catalog);
+  assert.equal(result.ok,true);
+  assert.equal(result.ingredient_amounts.find(row => row.name === '白菜').grams,240);
+  assert.equal(result.ingredient_amounts.find(row => row.name === '金针菇').grams,200);
 });

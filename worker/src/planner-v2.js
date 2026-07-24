@@ -274,6 +274,8 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     if (slots.get(rule.when.slot_id).some(item => item.category !== rule.when.category)) {
       return ratioFailure('ratio_context_category_mismatch', '食材类别与这条份量规则不匹配。');
     }
+    const template = validationContext.templates?.templates?.find(entry => entry?.template_id === rule.when?.template_id);
+    const optionalSlotIds = new Set((template?.optional_slots || []).filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id));
     const amounts = new Map();
     const extras = new Map();
     const trace = [];
@@ -299,6 +301,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       if (operator === 'per_serving') {
         const items = slots.get(operation.target?.slot_id);
         const grams = defaultBound(operation.grams);
+        if (!items?.length && optionalSlotIds.has(operation.target?.slot_id)) continue;
         if (!items?.length || !finiteNonNegativeNumber(grams)) {
           return ratioFailure('ratio_rule_invalid', '按份数规则无效。');
         }
@@ -351,21 +354,12 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       }
       return ratioFailure('ratio_rule_invalid', '份量规则包含不支持的操作。');
     }
-    const template = validationContext.templates?.templates?.find(entry => entry?.template_id === rule.when?.template_id);
     const acceptedCategories = new Map([
       ...(template?.required_slots || []), ...(template?.optional_slots || []),
     ].map(slot => [slot.slot_id, new Set(template?.ingredient_categories?.[slot.slot_id] || [])]));
     for (const [slotId, items] of slots) {
       const accepted = acceptedCategories.get(slotId);
       if (!accepted || items.some(item => !accepted.has(item.category))) return ratioFailure('ratio_context_category_mismatch', '食材类别与槽位不兼容。');
-    }
-    const optionalSlots = new Set((template?.optional_slots || []).filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id));
-    for (const [slotId, items] of slots) {
-      if (!optionalSlots.has(slotId) || !items.length) continue;
-      const grams = ratioCatalog.optional_per_serving?.[template.template_id]?.[slotId];
-      if (!finiteNonNegativeNumber(grams) || grams <= 0) return ratioFailure('ratio_rule_invalid', '可选食材缺少可执行克数。');
-      for (const item of items) if (!addAmount(item.name, grams * context.servings)) return ratioFailure('ratio_rule_invalid', '可选食材克数无效。');
-      trace.push({ operator:'per_serving', slot_id:slotId, grams_per_serving:grams });
     }
     for (const item of allSlotItems) {
       if (!amounts.has(item.name) || amounts.get(item.name) <= 0) return ratioFailure('ratio_rule_invalid', '已确定食材缺少可执行克数。');
