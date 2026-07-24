@@ -43,6 +43,62 @@ function meal(overrides = {}) {
   };
 }
 
+function plannerResult(overrides = {}) {
+  const plan = {
+    plan_id: 'pln_v2_test-plan',
+    plan_kind: 'single_pot',
+    planned_must_use: [],
+    planned_prefer_use: [{ raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' }],
+    unplanned_must_use: [],
+    unused_prefer_use: [{ raw:'西兰花', canonical:'西兰花', recognized:true, role:'prefer_use', reason_code:'not_selected' }],
+    required_extra_items: [{ name:'大米', grams:160 }],
+    coverage_ratio: 0.5,
+    recognition_ratio: 1,
+    recognized_coverage_ratio: 0.5,
+    rejection_reason: null,
+    pots: [{
+      meal_sequence:1, label:'第一锅', servings:2, template_id:'acid-staple-pot',
+      planned_must_use: [],
+      planned_prefer_use: [{ raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' }],
+      slot_assignment:{ acid_base:['番茄'], staple:['大米'] },
+      required_extra_items:[{ name:'大米', grams:160 }],
+      time_range:{ min:25, max:30 },
+    }],
+    ...(overrides.plan || {}),
+  };
+  return {
+    schema_version:2,
+    planner_version:'pantry-planner-v2',
+    template_catalog_version:'templates-v2-20260724',
+    status:'ready', generation_allowed:true, mode:'recommend', intent:'quick',
+    normalized_items:[
+      { raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' },
+      { raw:'西兰花', canonical:'西兰花', recognized:true, role:'prefer_use' },
+    ],
+    commitment:'直接推荐会选择较合适的组合，并如实列出这次未使用的食材。',
+    plan,
+    unplanned:[], actions:[],
+    ...overrides,
+    plan,
+  };
+}
+
+function generatedResult(planned = plannerResult()) {
+  return {
+    ...structuredClone(planned),
+    meals:[{
+      meal_sequence:1, servings:2, template_id:'acid-staple-pot',
+      locked_ingredients:[
+        { ref:'i1', raw_name:'番茄', planned_grams:200 },
+        { ref:'e1', raw_name:'大米', planned_grams:160 },
+      ],
+      dish_name:'番茄焖饭',
+      steps:[{ phase:'同锅焖煮', text:'番茄和大米同锅焖熟。' }],
+      recommendation_reason:'优先使用番茄，西兰花留到下一顿。',
+    }],
+  };
+}
+
 function loadFrontend(responses = [], options = {}) {
   const root = { innerHTML: '', addEventListener() {} };
   const calls = [];
@@ -174,6 +230,16 @@ test('file protocol generation asks the user to start the local version without 
   assert.match(root.innerHTML, /请双击 start\.command 启动本地版本。/);
 });
 
+test('file protocol planner flow also stays offline and shows the local startup instruction', async () => {
+  const { context, calls, root } = loadFrontend([], {
+    proxy:null, location:{ protocol:'file:', hostname:'', origin:'null' },
+  });
+  await evaluate(context, `runPlannerFlow({ autoGenerate:true })`);
+  assert.equal(calls.length, 0);
+  assert.equal(evaluate(context, 'state.view'), 'gen-failed');
+  assert.match(root.innerHTML, /请双击 start\.command 启动本地版本。/);
+});
+
 test('production uses only its same-origin generation endpoint', () => {
   const { context } = loadFrontend([], {
     proxy: null,
@@ -189,10 +255,256 @@ test('production uses only its same-origin generation endpoint', () => {
   );
 });
 
+test('planner V2 profile exposes orthogonal user-facing mode and intent controls', () => {
+  const { context, root } = loadFrontend();
+  assert.deepEqual(
+    JSON.parse(evaluate(context, 'JSON.stringify(DEFAULT_PROFILE)')),
+    { mode:'recommend', intent:'quick', servings:'2', pantry:'', dislikes:'' },
+  );
+  assert.match(root.innerHTML, /直接推荐/);
+  assert.match(root.innerHTML, /帮我清库存/);
+  for (const label of ['正常做', '快点吃上', '清爽些', '多做一些']) assert.match(root.innerHTML, new RegExp(label));
+});
+
+test('legacy purpose profiles migrate without deleting unrelated saved data', () => {
+  for (const [purpose, mode, intent] of [
+    ['pantry', 'pantry', 'normal'], ['quick', 'recommend', 'quick'],
+    ['fresh', 'recommend', 'fresh'], ['batch', 'recommend', 'batch'],
+  ]) {
+    const storage = sharedStorage();
+    storage.setItem('yiguochu_v1', JSON.stringify({
+      profile:{ purpose, servings:'4', pantry:'番茄', dislikes:'花生' },
+      choices:[{ keep:true }], custom_key:'keep-me',
+    }));
+    const { context } = loadFrontend([], { storage });
+    assert.deepEqual(JSON.parse(evaluate(context, `JSON.stringify({mode:state.profile.mode,intent:state.profile.intent,servings:state.profile.servings})`)),
+      { mode, intent, servings:'4' });
+    const persisted = JSON.parse(storage.getItem('yiguochu_v1'));
+    assert.deepEqual(persisted.choices, [{ keep:true }]);
+    assert.equal(persisted.custom_key, 'keep-me');
+  }
+});
+
+test('planner request maps pantry text to exactly one promise role and carries the V2 envelope', () => {
+  const { context } = loadFrontend();
+  const requests = JSON.parse(evaluate(context, `JSON.stringify((() => {
+    state.profile = { mode:'pantry', intent:'quick', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'花生' };
+    const pantry = buildPlanRequest();
+    state.profile.mode = 'recommend';
+    const recommend = buildPlanRequest();
+    return { pantry, recommend };
+  })())`));
+  assert.equal(requests.pantry.schema_version, 2);
+  assert.equal(requests.pantry.planner_version, 'pantry-planner-v2');
+  assert.deepEqual(requests.pantry.constraints.must_use, ['番茄', '鸡蛋']);
+  assert.deepEqual(requests.pantry.constraints.prefer_use, []);
+  assert.deepEqual(requests.recommend.constraints.must_use, []);
+  assert.deepEqual(requests.recommend.constraints.prefer_use, ['番茄', '鸡蛋']);
+  assert.equal(requests.pantry.constraints.intent, 'quick');
+});
+
+test('initial ready plan generates once with the exact immutable plan request snapshot', async () => {
+  const planned = plannerResult();
+  const generated = generatedResult(planned);
+  const { context, calls } = loadFrontend([{ body:planned }, { body:generated }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'quick', servings:'2', pantry:'番茄, 西兰花', dislikes:'' };
+    await runPlannerFlow({ autoGenerate:true });
+  })()`);
+  assert.deepEqual(calls.map(call => new URL(call.url, 'https://app.test').pathname), ['/plan-meal', '/generate-plan']);
+  const plannedBody = JSON.parse(calls[0].init.body);
+  const generatedBody = JSON.parse(calls[1].init.body);
+  assert.deepEqual(generatedBody.plan_request, plannedBody);
+  assert.equal(generatedBody.plan_id, planned.plan.plan_id);
+  assert.equal(evaluate(context, 'state.view'), 'v2-result');
+});
+
+test('needs_user_decision retains pots and never calls generation', async () => {
+  const planned = plannerResult({
+    status:'needs_user_decision', generation_allowed:false, mode:'pantry',
+    commitment:'还有食材没有安排，需要你先决定下一步。',
+    plan:{
+      planned_must_use:[{raw:'番茄',canonical:'番茄'}], planned_prefer_use:[],
+      unplanned_must_use:[{raw:'神秘叶子',canonical:null,reason_code:'unrecognized_ingredient',reason:'暂时无法识别'}],
+      unused_prefer_use:[], coverage_ratio:0.5,
+    },
+    actions:[
+      { action:'relax_item', label:'放宽一种食材', eligible_items:['神秘叶子'], requires_acknowledgement:true, unplanned_items:['神秘叶子'] },
+      { action:'edit_ingredients', label:'调整食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:['神秘叶子'] },
+      { action:'accept_partial', label:'接受部分规划', eligible_items:[], requires_acknowledgement:true, unplanned_items:['神秘叶子'] },
+    ],
+  });
+  const { context, calls, root } = loadFrontend([{ body:planned }]);
+  await evaluate(context, `runPlannerFlow({ autoGenerate:true })`);
+  assert.equal(calls.length, 1);
+  assert.equal(evaluate(context, 'state.view'), 'v2-plan');
+  assert.match(root.innerHTML, /还有食材没有安排/);
+  assert.match(root.innerHTML, /第一锅/);
+  assert.match(root.innerHTML, /神秘叶子/);
+  assert.doesNotMatch(root.innerHTML, /按这几步做/);
+});
+
+test('swap only replans, preview generation reuses its exact request, and history does not pre-record the preview', async () => {
+  const first = plannerResult();
+  const alternative = plannerResult({ plan:{ plan_id:'pln_v2_alternative', pots:[{ ...plannerResult().plan.pots[0], template_id:'savory-mixed-rice-pot' }] } });
+  const generated = generatedResult(alternative);
+  const { context, calls, root } = loadFrontend([{ body:first }, { body:alternative }, { body:generated }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'quick', servings:'2', pantry:'番茄, 西兰花', dislikes:'' };
+    const initialRequest = buildPlanRequest();
+    setDisplayedPlan(${JSON.stringify(first)}, initialRequest, false);
+    await requestAlternativePlan();
+  })()`);
+  assert.equal(calls.length, 1);
+  assert.equal(new URL(calls[0].url, 'https://app.test').pathname, '/plan-meal');
+  assert.equal(evaluate(context, 'state.view'), 'v2-plan-preview');
+  assert.match(root.innerHTML, /生成这套做法/);
+  assert.equal(evaluate(context, `state.swapHistory.some(h => h.planId === 'pln_v2_alternative')`), false);
+  const exactAlternativeRequest = JSON.parse(calls[0].init.body);
+  await evaluate(context, `generateDisplayedPlan()`);
+  assert.deepEqual(JSON.parse(calls[1].init.body).plan_request, exactAlternativeRequest);
+});
+
+test('no_alternative_plan has its dedicated path and retains the clean current generation snapshot', async () => {
+  const current = plannerResult();
+  const noAlternative = plannerResult({
+    status:'no_alternative_plan', code:'no_alternative_plan', generation_allowed:false,
+    message:'当前组合只有一个可靠的一锅方案',
+    actions:[
+      { action:'relax_item', label:'放宽一种食材', eligible_items:['番茄'], requires_acknowledgement:true, unplanned_items:[] },
+      { action:'force_multi_pot', label:'分成两锅', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
+      { action:'edit_ingredients', label:'返回修改食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
+    ],
+  });
+  const { context, root } = loadFrontend([{ body:noAlternative }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false)`);
+  await evaluate(context, `requestAlternativePlan()`);
+  assert.equal(evaluate(context, 'state.view'), 'v2-no-alternative');
+  assert.match(root.innerHTML, /当前组合只有一个可靠的一锅方案/);
+  assert.match(root.innerHTML, /放宽一种食材/);
+  assert.match(root.innerHTML, /分成两锅/);
+  assert.match(root.innerHTML, /返回修改食材/);
+  assert.equal(evaluate(context, `state.displayedPlan.plan.plan_id`), current.plan.plan_id);
+  assert.equal(evaluate(context, `state.planRequestSnapshot.constraints.current_plan_id`), null);
+});
+
+test('V2 generated multi-meal result is ordered, records started plan history, and never shows fabricated nutrition', () => {
+  const planned = plannerResult({ plan:{
+    plan_id:'pln_v2_two', plan_kind:'multi_pot',
+    pots:[plannerResult().plan.pots[0], { ...plannerResult().plan.pots[0], meal_sequence:2, label:'第二锅', template_id:'broth-noodle-pot' }],
+  } });
+  const generated = generatedResult(planned);
+  generated.meals.push({ ...generated.meals[0], meal_sequence:2, dish_name:'菌菇汤面', template_id:'broth-noodle-pot' });
+  const { context, root } = loadFrontend();
+  evaluate(context, `showGeneratedPlan(${JSON.stringify(generated)}, ${JSON.stringify(planned)}, buildPlanRequest())`);
+  assert.match(root.innerHTML, /第一锅/);
+  assert.match(root.innerHTML, /第二锅/);
+  assert.ok(root.innerHTML.indexOf('番茄焖饭') < root.innerHTML.indexOf('菌菇汤面'));
+  assert.doesNotMatch(root.innerHTML, /kcal|营养参考|蛋白 \/ 份/);
+  evaluate(context, `recordDisplayedPlanHistory('started')`);
+  const history = JSON.parse(evaluate(context, 'JSON.stringify(state.swapHistory)'));
+  assert.equal(history.at(-1).planId, 'pln_v2_two');
+  assert.equal(history.at(-1).kind, 'started');
+});
+
+test('stale_plan has dedicated copy and an explicit replan path', async () => {
+  const stale = { status:'stale_plan', code:'stale_plan', generation_allowed:false, message:'计划规则或输入已经变化，请重新规划。', actions:[{ action:'replan', label:'重新规划' }] };
+  const { context, root, calls } = loadFrontend([{ body:stale }]);
+  await evaluate(context, `runPlannerFlow({ autoGenerate:true })`);
+  assert.equal(calls.length, 1);
+  assert.equal(evaluate(context, 'state.view'), 'v2-plan');
+  assert.match(root.innerHTML, /这份计划已经更新，请重新规划/);
+  assert.match(root.innerHTML, /data-act="replan-v2"/);
+});
+
+test('a stale generation response returns to the dedicated replan state instead of generic failure', async () => {
+  const planned = plannerResult();
+  const stale = { status:'stale_plan', code:'stale_plan', generation_allowed:false, message:'计划规则或输入已经变化，请重新规划。', actions:[{ action:'replan', label:'重新规划' }] };
+  const { context, root, calls } = loadFrontend([{ status:409, body:stale }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(planned)}, buildPlanRequest(), false)`);
+  await evaluate(context, `generateDisplayedPlan()`);
+  assert.equal(calls.length, 1);
+  assert.equal(evaluate(context, 'state.view'), 'v2-plan');
+  assert.match(root.innerHTML, /这份计划已经更新，请重新规划/);
+  assert.doesNotMatch(root.innerHTML, /这次没生成出来/);
+});
+
+test('accept_partial sends the exact plan id and full acknowledgement and keeps unplanned visible', async () => {
+  const current = plannerResult({
+    status:'needs_user_decision', generation_allowed:false, mode:'pantry',
+    plan:{ unplanned_must_use:[
+      {raw:'神秘叶子',canonical:null,reason_code:'unrecognized_ingredient'},
+      {raw:'牛肉末',canonical:'牛肉',reason_code:'unsupported_shape_or_cut'},
+    ] },
+  });
+  current.actions = [{ action:'accept_partial', label:'接受部分规划', eligible_items:[], requires_acknowledgement:true, unplanned_items:['神秘叶子','牛肉末'] }];
+  const accepted = plannerResult({
+    status:'partial_accepted', generation_allowed:false, mode:'pantry',
+    commitment:'部分处理方案：仍会显示未处理食材。',
+    plan:{ plan_id:current.plan.plan_id, unplanned_must_use:current.plan.unplanned_must_use },
+  });
+  const { context, calls, root } = loadFrontend([{ body:accepted }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false)`);
+  await evaluate(context, `applyPlanDecision('accept_partial')`);
+  const request = JSON.parse(calls[0].init.body);
+  assert.deepEqual(request.constraints.decision, {
+    action:'accept_partial', plan_id:current.plan.plan_id,
+    acknowledged_unplanned:['神秘叶子','牛肉末'],
+  });
+  assert.match(root.innerHTML, /部分处理方案/);
+  assert.match(root.innerHTML, /尚未处理/);
+  assert.match(root.innerHTML, /神秘叶子/);
+  assert.match(root.innerHTML, /牛肉末/);
+  assert.doesNotMatch(root.innerHTML, /全部安排完成/);
+});
+
+test('relax_item is restricted to server eligible_items', async () => {
+  const current = plannerResult({ status:'needs_user_decision', generation_allowed:false, mode:'pantry' });
+  current.actions = [{ action:'relax_item', label:'放宽一种食材', eligible_items:['神秘叶子'], requires_acknowledgement:true, unplanned_items:['神秘叶子'] }];
+  current.plan.unplanned_must_use = [{raw:'神秘叶子',canonical:null}];
+  const relaxed = plannerResult({ status:'needs_user_decision', generation_allowed:false, mode:'pantry' });
+  const { context, calls, root } = loadFrontend([{ body:relaxed }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false)`);
+  assert.match(root.innerHTML, /data-item="神秘叶子"/);
+  await evaluate(context, `applyPlanDecision('relax_item', '番茄')`);
+  assert.equal(calls.length, 0);
+  await evaluate(context, `applyPlanDecision('relax_item', '神秘叶子')`);
+  assert.equal(JSON.parse(calls[0].init.body).constraints.decision.item, '神秘叶子');
+});
+
+test('force_multi_pot sends an explicit deterministic planner decision', async () => {
+  const current = plannerResult({ status:'no_alternative_plan', generation_allowed:false, mode:'pantry' });
+  current.actions = [{ action:'force_multi_pot', label:'分成两锅', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] }];
+  const replanned = plannerResult({ status:'needs_user_decision', generation_allowed:false, mode:'pantry' });
+  const { context, calls } = loadFrontend([{ body:replanned }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false)`);
+  await evaluate(context, `applyPlanDecision('force_multi_pot')`);
+  const request = JSON.parse(calls[0].init.body);
+  assert.equal(request.constraints.current_plan_id, null);
+  assert.deepEqual(request.constraints.decision, { action:'force_multi_pot', plan_id:current.plan.plan_id });
+});
+
+test('third pot route states its burden and sends acknowledgement for the exact current plan', async () => {
+  const current = plannerResult({ status:'needs_user_decision', generation_allowed:false, mode:'pantry' });
+  current.actions = [{
+    action:'allow_third_pot', label:'需要第三锅才能全部安排', eligible_items:[],
+    requires_acknowledgement:true, unplanned_items:['鸡蛋'], additional_meals:1,
+  }];
+  const replanned = plannerResult({ status:'needs_user_decision', generation_allowed:false, mode:'pantry' });
+  const { context, calls, root } = loadFrontend([{ body:replanned }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false)`);
+  assert.match(root.innerHTML, /确认增加第三锅并继续/);
+  await evaluate(context, `applyPlanDecision('allow_third_pot')`);
+  assert.equal(JSON.parse(calls[0].init.body).constraints.current_plan_id, null);
+  assert.deepEqual(JSON.parse(calls[0].init.body).constraints.decision, {
+    action:'allow_third_pot', plan_id:current.plan.plan_id,
+  });
+});
+
 test('swap copy no longer promises every pantry item is used', () => {
   assert.doesNotMatch(html, /换菜会一直带着家里的食材|换菜时一直带着/);
   assert.equal((html.match(/会优先使用，搭不上的会说明/g) || []).length, 1);
-  assert.match(html, /1–6 种会给独立完整的本锅方案；超过 6 种会安排成第一锅、第二锅的连续计划/);
+  assert.match(html, /直接推荐会挑合理组合；帮我清库存会完整安排，安排不了时先请你决定/);
 });
 
 test('safeHttpUrl accepts direct HTTPS and rejects unsafe URL forms', () => {
