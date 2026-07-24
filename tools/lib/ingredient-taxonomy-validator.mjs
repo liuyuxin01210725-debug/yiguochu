@@ -55,6 +55,8 @@ export function validateIngredientTaxonomy(data) {
       errors.push(`${label} must be an object`);
       return;
     }
+    const aliases = Array.isArray(item.aliases) ? item.aliases : [];
+    const shapes = Array.isArray(item.shapes_or_cuts) ? item.shapes_or_cuts : [];
     for (const field of ['canonical_id', 'display_name']) {
       if (typeof item[field] !== 'string' || !item[field].trim()) errors.push(`${label}.${field} must be a non-empty string`);
     }
@@ -81,7 +83,7 @@ export function validateIngredientTaxonomy(data) {
     if (!CATEGORIES.has(item.category)) errors.push(`${label}.category is invalid`);
     if (!isStringArray(item.states) || item.states.some(state => !STATES.has(state))) errors.push(`${label}.states are invalid`);
     if (!isStringArray(item.shapes_or_cuts) || item.shapes_or_cuts.some(shape => !SHAPES.has(shape))) errors.push(`${label}.shapes_or_cuts are invalid`);
-    if (item.default_shape_or_cut != null && !item.shapes_or_cuts?.includes(item.default_shape_or_cut)) {
+    if (item.default_shape_or_cut != null && !shapes.includes(item.default_shape_or_cut)) {
       errors.push(`${label}.default_shape_or_cut must be a declared shape`);
     }
     if (!COOK_SPEEDS.has(item.cook_speed)) errors.push(`${label}.cook_speed is invalid`);
@@ -126,7 +128,7 @@ export function validateIngredientTaxonomy(data) {
         errors.push(`${label}.alias_shape_or_cut must be an object`);
       } else {
         for (const [alias, shape] of Object.entries(item.alias_shape_or_cut)) {
-          if (!item.aliases?.includes(alias) || !item.shapes_or_cuts?.includes(shape)) {
+          if (!aliases.includes(alias) || !shapes.includes(shape)) {
             errors.push(`${label}.alias_shape_or_cut must reference an alias and declared shape`);
           }
         }

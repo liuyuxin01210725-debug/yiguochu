@@ -91,6 +91,21 @@ test('validator rejects incomplete machine schemas and unsafe risk rows without 
   ]) assert.ok(errors.some(error => error.includes(field)), field);
 });
 
+test('validator returns string errors for malformed alias-shape containers without throwing', () => {
+  for (const field of ['aliases', 'shapes_or_cuts']) {
+    const invalid = structuredClone(catalog);
+    const item = invalid.items.find(entry => entry.canonical_id === 'beef-generic');
+    item[field] = { bad:1 };
+    item.default_shape_or_cut = 'slice';
+    item.alias_shape_or_cut = { 牛肉片:'slice' };
+    assert.doesNotThrow(() => validateIngredientTaxonomy(invalid), field);
+    const errors = validateIngredientTaxonomy(invalid);
+    assert.ok(errors.length > 0);
+    assert.ok(errors.every(error => typeof error === 'string'));
+    assert.ok(errors.some(error => error.includes(field)), field);
+  }
+});
+
 test('validator rejects canonical names that do not resolve to a compatible base identity', () => {
   const nonexistent = structuredClone(catalog);
   nonexistent.items.find(item => item.canonical_id === 'beef-tenderloin').canonical_name = '不存在的肉';
