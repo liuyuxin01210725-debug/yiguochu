@@ -68,6 +68,84 @@ export function plannerRequestFromLegacy(constraints = {}) {
   };
 }
 
+function plannerItemInput(rawItem) {
+  if (typeof rawItem === 'string') return { raw: rawItem.trim(), role: 'must_use' };
+  if (!rawItem || typeof rawItem !== 'object' || Array.isArray(rawItem) || typeof rawItem.raw !== 'string') {
+    throw invalidPlannerRequest('planner item must be a string or { raw, role } object');
+  }
+  const role = rawItem.role == null ? 'must_use' : rawItem.role;
+  if (role !== 'must_use' && role !== 'prefer_use') {
+    throw invalidPlannerRequest('planner item role is invalid');
+  }
+  return { raw: rawItem.raw.trim(), role };
+}
+
+function plannerItemKey(value) {
+  return String(value || '').trim().toLowerCase().replace(/\s+/g, '');
+}
+
+function taxonomyItemIndex(taxonomy) {
+  const index = new Map();
+  for (const item of taxonomy?.items || []) {
+    for (const name of [item.display_name, ...(item.aliases || [])]) {
+      const key = plannerItemKey(name);
+      if (key && !index.has(key)) index.set(key, item);
+    }
+  }
+  return index;
+}
+
+function taxonomyShapeForInput(item, raw) {
+  const rawKey = plannerItemKey(raw);
+  const mapped = Object.entries(item.alias_shape_or_cut || {}).find(([alias]) => plannerItemKey(alias) === rawKey)?.[1];
+  if (mapped) return mapped;
+  if (item.default_shape_or_cut) return item.default_shape_or_cut;
+  return item.shapes_or_cuts?.length === 1 ? item.shapes_or_cuts[0] : null;
+}
+
+// 只依据受控 taxonomy 做精确身份识别。此处故意不看 recipe evidence，
+// 也不做模糊分类；未知食材保留为 recognized:false，交给后续 planner 解释。
+export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
+  if (!Array.isArray(rawItems)) throw invalidPlannerRequest('planner items must be an array');
+  const index = taxonomyItemIndex(taxonomy);
+  const firstRawForCanonical = new Map();
+  return rawItems.map(rawItem => {
+    const { raw, role } = plannerItemInput(rawItem);
+    const item = index.get(plannerItemKey(raw));
+    if (!item) {
+      return {
+        raw,
+        canonical: null,
+        category: null,
+        shape_or_cut: null,
+        cook_speed: null,
+        moisture_release: null,
+        texture_behavior: null,
+        cooking_risk: 'unknown',
+        recognized: false,
+        role,
+        duplicate_of: null,
+      };
+    }
+    const canonical = item.canonical_name || item.display_name;
+    const duplicate_of = firstRawForCanonical.get(canonical) || null;
+    if (!duplicate_of) firstRawForCanonical.set(canonical, raw);
+    return {
+      raw,
+      canonical,
+      category: item.category,
+      shape_or_cut: taxonomyShapeForInput(item, raw),
+      cook_speed: item.cook_speed,
+      moisture_release: item.moisture_release,
+      texture_behavior: item.texture_behavior.behavior_code,
+      cooking_risk: item.cooking_risk.risk_code,
+      recognized: true,
+      role,
+      duplicate_of,
+    };
+  });
+}
+
 export function normalizePlannerRequest(request = {}) {
   if (!request || typeof request !== 'object' || Array.isArray(request)
     || request.schema_version !== PLANNER_SCHEMA_VERSION
