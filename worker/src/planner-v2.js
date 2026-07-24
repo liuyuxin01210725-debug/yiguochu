@@ -803,12 +803,11 @@ function buildPotCandidatesInternal(assets = {}, request = {}, collectValidVaria
     });
     if (!assigned.ok) continue;
     const variants = collectValidVariants ? (() => {
-      const seenUserSets = new Set();
+      const seenAssignments = new Set();
       return assigned.variants.filter(variant => {
-        const signature = assignedItems(variant.slot_assignment).filter(item => item.source === 'user')
-          .map(item => `${item.role}\u0000${item.canonical || item.raw}`).sort().join('\u0001');
-        if (seenUserSets.has(signature)) return false;
-        seenUserSets.add(signature);
+        const signature = variant.assignment_key;
+        if (seenAssignments.has(signature)) return false;
+        seenAssignments.add(signature);
         return true;
       });
     })() : [assigned];
@@ -1309,4 +1308,566 @@ export function planMeal(assets = {}, request = {}) {
     return current;
   }
   return current;
+}
+
+function identityText(value) {
+  return typeof value === 'string' ? value : value == null ? null : String(value);
+}
+
+function identityStringArray(value) {
+  return [...new Set((Array.isArray(value) ? value : []).map(identityText).filter(value => value !== null))]
+    .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+}
+
+function identityIngredient(item = {}) {
+  return {
+    raw: identityText(item.raw),
+    canonical: identityText(item.canonical),
+    category: identityText(item.category),
+    shape_or_cut: identityText(item.shape_or_cut),
+    cook_speed: identityText(item.cook_speed),
+    moisture_release: identityText(item.moisture_release),
+    texture_behavior: identityText(item.texture_behavior),
+    cooking_risk: identityText(item.cooking_risk),
+    required_endpoint_codes: identityStringArray(item.required_endpoint_codes),
+    compatible_slot_codes: identityStringArray(item.compatible_slot_codes),
+    incompatible_slot_codes: identityStringArray(item.incompatible_slot_codes),
+    recognized: item.recognized === true,
+    role: identityText(item.role),
+    duplicate_of: identityText(item.duplicate_of),
+    source: identityText(item.source),
+  };
+}
+
+function identityIngredientKey(item) {
+  return `${item.canonical || ''}\u0000${item.raw || ''}\u0000${item.shape_or_cut || ''}\u0000${item.role || ''}\u0000${item.source || ''}`;
+}
+
+function identitySlotAssignment(slotAssignment = {}) {
+  return Object.entries(slotAssignment || {})
+    .map(([slotId, items]) => ({
+      slot_id: slotId,
+      ingredients: (Array.isArray(items) ? items : []).map(identityIngredient)
+        .sort((left, right) => identityIngredientKey(left).localeCompare(identityIngredientKey(right), 'zh-Hans-CN')),
+    }))
+    .sort((left, right) => left.slot_id.localeCompare(right.slot_id));
+}
+
+function identityExtra(item = {}) {
+  return {
+    name: identityText(item.name),
+    canonical: identityText(item.canonical || item.name),
+    category: identityText(item.category),
+    grams: finiteNonNegativeNumber(item.grams) ? item.grams : null,
+  };
+}
+
+function identityExtras(items = []) {
+  return (Array.isArray(items) ? items : []).map(identityExtra)
+    .sort((left, right) => `${left.category || ''}\u0000${left.canonical || left.name || ''}`
+      .localeCompare(`${right.category || ''}\u0000${right.canonical || right.name || ''}`, 'zh-Hans-CN'));
+}
+
+function identityAmounts(items = []) {
+  return (Array.isArray(items) ? items : []).map(item => ({
+    name: identityText(item.name),
+    canonical: identityText(item.canonical || item.name),
+    grams: finiteNonNegativeNumber(item.grams) ? item.grams : null,
+  })).sort((left, right) => `${left.canonical || ''}\u0000${left.name || ''}`
+    .localeCompare(`${right.canonical || ''}\u0000${right.name || ''}`, 'zh-Hans-CN'));
+}
+
+function identitySafetyEndpoints(items = []) {
+  return (Array.isArray(items) ? items : []).map(item => ({
+    applies_to_category: identityText(item.applies_to_category),
+    endpoint_code: identityText(item.endpoint_code),
+  })).sort((left, right) => `${left.applies_to_category || ''}\u0000${left.endpoint_code || ''}`
+    .localeCompare(`${right.applies_to_category || ''}\u0000${right.endpoint_code || ''}`));
+}
+
+function identityRatioTrace(items = []) {
+  return (Array.isArray(items) ? items : []).map(item => {
+    const trace = structuredClone(item || {});
+    if (Array.isArray(trace.matched_items)) trace.matched_items = identityStringArray(trace.matched_items);
+    return recursivelySortObjectKeys(trace);
+  });
+}
+
+function identityPot(pot = {}) {
+  return {
+    meal_sequence: Number.isInteger(pot.meal_sequence) ? pot.meal_sequence : null,
+    template_id: identityText(pot.template_id),
+    servings: Number.isInteger(pot.servings) ? pot.servings : null,
+    slot_assignment: identitySlotAssignment(pot.slot_assignment),
+    ingredient_amounts: identityAmounts(pot.ingredient_amounts),
+    ratio_constraints: identityRatioTrace(pot.ratio_trace),
+    required_extra_items: identityExtras(pot.required_extra_items),
+    liquid_constraints: structuredClone(pot.liquid_constraints || {}),
+    safety_endpoints: identitySafetyEndpoints(pot.safety_endpoints),
+    time_range: {
+      min_minutes: finiteNonNegativeNumber(pot.time_range?.min_minutes) ? pot.time_range.min_minutes : null,
+      max_minutes: finiteNonNegativeNumber(pot.time_range?.max_minutes) ? pot.time_range.max_minutes : null,
+    },
+  };
+}
+
+export function canonicalPlanIdentityPayload(result = {}) {
+  const pots = (Array.isArray(result.plan?.pots) ? result.plan.pots : []).map(identityPot)
+    .sort((left, right) => (left.meal_sequence ?? Number.MAX_SAFE_INTEGER) - (right.meal_sequence ?? Number.MAX_SAFE_INTEGER)
+      || String(left.template_id || '').localeCompare(String(right.template_id || '')));
+  const singlePot = pots.length === 1 ? pots[0] : null;
+  return {
+    planner_version: identityText(result.planner_version),
+    template_catalog_version: identityText(result.template_catalog_version),
+    template_id: singlePot?.template_id || null,
+    normalized_items: (Array.isArray(result.normalized_items) ? result.normalized_items : [])
+      .map(identityIngredient)
+      .sort((left, right) => `${left.role || ''}\u0000${identityIngredientKey(left)}`
+        .localeCompare(`${right.role || ''}\u0000${identityIngredientKey(right)}`, 'zh-Hans-CN')),
+    slot_assignment: singlePot?.slot_assignment || [],
+    pots,
+    required_extra_items: identityExtras(result.plan?.required_extra_items),
+    mode: identityText(result.mode),
+    intent: identityText(result.intent),
+  };
+}
+
+function recursivelySortObjectKeys(value) {
+  if (Array.isArray(value)) return value.map(recursivelySortObjectKeys);
+  if (!value || typeof value !== 'object') return value;
+  return Object.fromEntries(Object.keys(value).sort().map(key => [key, recursivelySortObjectKeys(value[key])]));
+}
+
+export function stableCanonicalJson(value) {
+  return JSON.stringify(recursivelySortObjectKeys(structuredClone(value)));
+}
+
+function bytesToBase64Url(bytes) {
+  let binary = '';
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/u, '');
+}
+
+export async function computePlanId(result) {
+  const payload = canonicalPlanIdentityPayload(result);
+  const bytes = new TextEncoder().encode(stableCanonicalJson(payload));
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return `pln_v2_${bytesToBase64Url(new Uint8Array(digest))}`;
+}
+
+async function attachPlanIdentity(result) {
+  const detached = structuredClone(result);
+  detached.plan = detached.plan || {};
+  detached.plan.plan_id = await computePlanId(detached);
+  return detached;
+}
+
+function planStructurePayload(result) {
+  return (result.plan?.pots || []).map(pot => ({
+    meal_sequence: pot.meal_sequence,
+    template_id: pot.template_id,
+    slot_assignment: identitySlotAssignment(pot.slot_assignment),
+  })).sort((left, right) => left.meal_sequence - right.meal_sequence);
+}
+
+function planStructureKey(result) {
+  return stableCanonicalJson({
+    plan_kind: result.plan?.plan_kind || null,
+    pots: planStructurePayload(result),
+  });
+}
+
+function templateSequence(result) {
+  return planStructurePayload(result).map(pot => pot.template_id).join('\u0000');
+}
+
+function requestWithoutSwapHistory(request) {
+  return {
+    ...structuredClone(request),
+    current_plan_id: null,
+    recent_plan_ids: [],
+  };
+}
+
+function completeCombinationEntries(rankedCandidates, mustUse) {
+  if (!mustUse.length || mustUse.some(item => !item.recognized)) return null;
+  const targetKeys = [...new Set(mustUse.map(item => item.canonical || `raw:${item.raw}`))]
+    .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+  const allUserKeys = [...new Set([...targetKeys, ...rankedCandidates.flatMap(candidate => [...canonicalUserKeys(candidate)])])]
+    .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+  const bitByKey = new Map(allUserKeys.map((key, index) => [key, 1n << BigInt(index)]));
+  const targetMask = targetKeys.reduce((mask, key) => mask | bitByKey.get(key), 0n);
+  const entries = rankedCandidates.map((candidate, rank) => {
+    const mustKeys = [...combinedItemKeys([candidate], 'planned_must_use')];
+    const userKeys = [...canonicalUserKeys(candidate)];
+    return {
+      candidate,
+      rank,
+      mustMask: mustKeys.reduce((mask, key) => mask | (bitByKey.get(key) || 0n), 0n),
+      userMask: userKeys.reduce((mask, key) => mask | (bitByKey.get(key) || 0n), 0n),
+    };
+  }).filter(entry => entry.mustMask !== 0n);
+  const byTargetKey = new Map(targetKeys.map(key => [key, []]));
+  for (const entry of entries) {
+    for (const key of combinedItemKeys([entry.candidate], 'planned_must_use')) byTargetKey.get(key)?.push(entry);
+  }
+  return { targetKeys, bitByKey, targetMask, byTargetKey };
+}
+
+// This enumerates only validated pot assignments at an explicit depth of one,
+// two or three. It chooses an uncovered must-use identity at every level, so it
+// never constructs an unconstrained Cartesian product or uses a lossy top-N cap.
+function collectExactCompletePotCombinations(rankedCandidates, mustUse, exactPotCount) {
+  const index = completeCombinationEntries(rankedCandidates, mustUse);
+  if (!index) return [];
+  const results = [];
+  const resultKeys = new Set();
+  const search = (selected, coveredMask, usedMask) => {
+    if (coveredMask === index.targetMask) {
+      if (selected.length !== exactPotCount) return;
+      const ordered = [...selected].sort((left, right) => left.rank - right.rank);
+      const signature = ordered.map(entry => `${entry.candidate.template_id}\u0000${entry.candidate.assignment_key}`).join('\u0001');
+      if (!resultKeys.has(signature)) {
+        resultKeys.add(signature);
+        results.push(ordered.map(entry => entry.candidate));
+      }
+      return;
+    }
+    if (selected.length >= exactPotCount) return;
+    const uncovered = index.targetKeys.filter(key => (coveredMask & index.bitByKey.get(key)) === 0n)
+      .sort((left, right) => (index.byTargetKey.get(left)?.length || 0) - (index.byTargetKey.get(right)?.length || 0)
+        || left.localeCompare(right, 'zh-Hans-CN'))[0];
+    for (const entry of index.byTargetKey.get(uncovered) || []) {
+      if (selected.includes(entry) || (entry.userMask & usedMask) !== 0n) continue;
+      search([...selected, entry], coveredMask | entry.mustMask, usedMask | entry.userMask);
+    }
+  };
+  search([], 0n, 0n);
+  return results;
+}
+
+function makeAlternativePartial(result, reference) {
+  if (reference.status !== 'partial_accepted') return result;
+  const referenceUnplanned = new Set((reference.plan?.unplanned_must_use || []).map(acknowledgementIdentity));
+  const candidateUnplanned = result.plan?.unplanned_must_use || [];
+  if (candidateUnplanned.some(item => !referenceUnplanned.has(acknowledgementIdentity(item)))) return null;
+  result.status = 'partial_accepted';
+  result.generation_allowed = true;
+  result.commitment = '部分处理方案：已为可规划食材保留做法，仍会显示未处理食材。';
+  result.actions = [];
+  return result;
+}
+
+function responsePromiseClass(result) {
+  if (result.status === 'complete') return 'complete';
+  if (result.status === 'ready') return 'ready';
+  if (result.status === 'partial_accepted') return 'partial_accepted';
+  if (result.status === 'needs_user_decision') return 'needs_user_decision';
+  return result.status;
+}
+
+function preservesPromise(candidate, current) {
+  if (responsePromiseClass(candidate) !== responsePromiseClass(current)) return false;
+  if (current.status === 'complete') {
+    return candidate.plan?.coverage_ratio === 1 && (candidate.plan?.unplanned_must_use || []).length === 0;
+  }
+  if (current.status === 'partial_accepted') {
+    const currentUnplanned = new Set((current.plan?.unplanned_must_use || []).map(acknowledgementIdentity));
+    return (candidate.plan?.unplanned_must_use || []).every(item => currentUnplanned.has(acknowledgementIdentity(item)));
+  }
+  if (current.status === 'ready') {
+    return (candidate.plan?.planned_prefer_use || []).some(item => item.recognized)
+      && (candidate.plan?.unused_prefer_use || []).every(item => item.reason_code && item.reason);
+  }
+  return true;
+}
+
+function candidatePlanningRequest(request) {
+  const clean = requestWithoutSwapHistory(request);
+  if (clean.decision?.action === 'accept_partial') {
+    return { ...clean, decision: null, allow_third_pot: false };
+  }
+  return clean;
+}
+
+function enumerateValidatedPlanResults(assets, request) {
+  const planningRequest = candidatePlanningRequest(request);
+  const authoritative = planMeal(assets, requestWithoutSwapHistory(request));
+  const results = [authoritative];
+  const normalizedItems = normalizePlannerItems([
+    ...(planningRequest.must_use || []).map(raw => ({ raw, role: 'must_use' })),
+    ...(planningRequest.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
+  ], assets.taxonomy);
+  const publicRanked = rankPotCandidates(buildPotCandidates(assets, planningRequest), planningRequest);
+  const needsAssignmentVariants = planningRequest.mode === 'recommend' || authoritative.status === 'complete';
+  const searchRanked = needsAssignmentVariants
+    ? rankPotCandidates(buildPotCandidatesInternal(assets, planningRequest, true), planningRequest)
+    : publicRanked;
+  const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
+  if (planningRequest.mode === 'recommend') {
+    for (const candidate of searchRanked) {
+      if (!candidate.single_pot_eligible) continue;
+      results.push(buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked, [candidate], { allergyAliases }));
+    }
+  } else if (authoritative.status === 'complete') {
+    const must = uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'must_use');
+    const maxPots = planningRequest.allow_third_pot ? 3 : 2;
+    for (let potCount = 1; potCount <= maxPots; potCount += 1) {
+      for (const pots of collectExactCompletePotCombinations(searchRanked, must, potCount)) {
+        results.push(buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked, pots, { allergyAliases }));
+      }
+    }
+  } else if (authoritative.status === 'needs_user_decision' || authoritative.status === 'partial_accepted') {
+    for (const candidate of searchRanked) {
+      const partial = buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked, [candidate], { allergyAliases });
+      const adjusted = makeAlternativePartial(partial, authoritative);
+      if (adjusted) results.push(adjusted);
+    }
+  }
+  const unique = new Map();
+  for (const result of results) {
+    const key = planStructureKey(result);
+    if (!unique.has(key)) unique.set(key, result);
+  }
+  return [...unique.values()];
+}
+
+async function identifiedValidPlans(assets, request) {
+  const results = enumerateValidatedPlanResults(assets, request);
+  const identified = [];
+  const seenIds = new Set();
+  for (const result of results) {
+    const withId = await attachPlanIdentity(result);
+    if (seenIds.has(withId.plan.plan_id)) continue;
+    seenIds.add(withId.plan.plan_id);
+    identified.push(withId);
+  }
+  return identified;
+}
+
+function stalePlanResponse() {
+  return {
+    status: 'stale_plan',
+    code: 'stale_plan',
+    generation_allowed: false,
+    message: '计划规则或输入已经变化，请重新规划。',
+    actions: [structuredAction('replan', '重新规划', [])],
+  };
+}
+
+function noAlternativeResponse(current) {
+  const retained = structuredClone(current);
+  const unplannedItems = (retained.plan?.unplanned_must_use || []).map(acknowledgementIdentity);
+  const eligible = retained.mode === 'pantry'
+    ? uniqueSubmittedItems(retained.normalized_items || []).filter(item => item.role === 'must_use').map(acknowledgementIdentity)
+    : [];
+  retained.status = 'no_alternative_plan';
+  retained.code = 'no_alternative_plan';
+  retained.generation_allowed = false;
+  retained.message = '当前组合只有一个可靠的一锅方案';
+  retained.actions = [
+    structuredAction('relax_item', '放宽一种食材', unplannedItems, { eligible_items: eligible, requires_acknowledgement: true }),
+    structuredAction('force_multi_pot', '分成两锅', unplannedItems),
+    structuredAction('edit_ingredients', '返回修改食材', unplannedItems),
+  ];
+  return retained;
+}
+
+function alternativeLevel(candidate, current) {
+  if (templateSequence(candidate) !== templateSequence(current)) return 1;
+  return planStructureKey(candidate) !== planStructureKey(current) ? 2 : 99;
+}
+
+function selectedPotSignature(selected) {
+  return selected.map(entry => `${entry.candidate.template_id}\u0000${entry.candidate.assignment_key}`).join('\u0001');
+}
+
+function selectedTemplateSequence(selected) {
+  return selected.map(entry => entry.candidate.template_id).join('\u0000');
+}
+
+// A decision-state swap must not fall back from the reviewed two-pot partial
+// search to a greedy single pot. Scan the same validated assignment variants at
+// depth <=2, retain only maximum-coverage/equal-promise structures, then hash
+// tied finalists lazily. With at most 20 recent IDs, the first non-recent winner
+// is found after at most 21 hashes without inventing a top-N eligibility cap.
+function buildPartialAlternativeContext(assets, request) {
+  const planningRequest = candidatePlanningRequest(request);
+  const normalizedItems = normalizePlannerItems([
+    ...(planningRequest.must_use || []).map(raw => ({ raw, role: 'must_use' })),
+    ...(planningRequest.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
+  ], assets.taxonomy);
+  const searchRanked = rankPotCandidates(buildPotCandidatesInternal(assets, planningRequest, true), planningRequest);
+  const seenTemplates = new Set();
+  const publicRanked = searchRanked.filter(candidate => {
+    if (seenTemplates.has(candidate.template_id)) return false;
+    seenTemplates.add(candidate.template_id);
+    return true;
+  });
+  const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
+  const must = uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'must_use');
+  const entries = searchRanked.map((candidate, rank) => ({
+    candidate,
+    rank,
+    userKeys: canonicalUserKeys(candidate),
+    mustKeys: combinedItemKeys([candidate], 'planned_must_use'),
+  }));
+  return { planningRequest, normalizedItems, publicRanked, searchRanked, allergyAliases, must, entries };
+}
+
+function capacityPartialContext(assets, request) {
+  if (request.mode !== 'pantry') return null;
+  const normalizedItems = normalizePlannerItems([
+    ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
+    ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
+  ], assets.taxonomy);
+  const must = uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'must_use');
+  if (must.length <= maxPlannerUserItemsPerPot(assets, request) * 3) return null;
+  const context = buildPartialAlternativeContext(assets, request);
+  const selected = findBestPartialPotCombination(context.searchRanked, context.planningRequest);
+  const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
+    && context.searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
+  const current = buildPlannerResponse(assets, context.planningRequest, context.normalizedItems, context.publicRanked, selected, {
+    allergyAliases: context.allergyAliases,
+    capacityExceeded: allIndividuallyCoverable && selected.length > 0,
+  });
+  return { ...context, current };
+}
+
+function maximumCoveragePartialSelections(context) {
+  const { entries, must } = context;
+  let bestCoverageCount = -1;
+  const finalists = new Map();
+  const consider = selected => {
+    const count = new Set(selected.flatMap(entry => [...entry.mustKeys])).size;
+    if (count === must.length) return;
+    if (count > bestCoverageCount) {
+      bestCoverageCount = count;
+      finalists.clear();
+    }
+    if (count === bestCoverageCount) finalists.set(selectedPotSignature(selected), selected);
+  };
+  for (const entry of entries) consider([entry]);
+  for (let left = 0; left < entries.length; left += 1) {
+    for (let right = left + 1; right < entries.length; right += 1) {
+      if ([...entries[left].userKeys].some(key => entries[right].userKeys.has(key))) continue;
+      consider([entries[left], entries[right]]);
+    }
+  }
+  return [...finalists.entries()].sort(([left], [right]) => left.localeCompare(right, 'zh-Hans-CN')).map(([, selected]) => selected);
+}
+
+async function findPartialPlanMembership(assets, context, planId) {
+  for (const selected of maximumCoveragePartialSelections(context)) {
+    const response = buildPlannerResponse(assets, context.planningRequest, context.normalizedItems, context.publicRanked,
+      selected.map(entry => entry.candidate), { allergyAliases: context.allergyAliases });
+    if (response.status !== 'needs_user_decision') continue;
+    const identified = await attachPlanIdentity(response);
+    if (identified.plan.plan_id === planId) return identified;
+  }
+  return null;
+}
+
+async function findBestPartialAlternative(assets, request, current, preparedContext = null) {
+  const context = preparedContext || buildPartialAlternativeContext(assets, request);
+  const {
+    planningRequest, normalizedItems, publicRanked, allergyAliases, must, entries,
+  } = context;
+  const currentCount = current.plan?.planned_must_use?.length || 0;
+  const currentTemplates = templateSequence(current);
+  const currentStructure = planStructureKey(current);
+  let bestCoverageCount = -1;
+  let bestLevel = Number.MAX_SAFE_INTEGER;
+  const finalists = new Map();
+  const consider = selected => {
+    const mustKeys = new Set(selected.flatMap(entry => [...entry.mustKeys]));
+    if (mustKeys.size < currentCount || mustKeys.size === must.length) return;
+    const level = selectedTemplateSequence(selected) === currentTemplates ? 2 : 1;
+    const signature = selectedPotSignature(selected);
+    if (mustKeys.size > bestCoverageCount || (mustKeys.size === bestCoverageCount && level < bestLevel)) {
+      bestCoverageCount = mustKeys.size;
+      bestLevel = level;
+      finalists.clear();
+    }
+    if (mustKeys.size === bestCoverageCount && level === bestLevel) finalists.set(signature, selected);
+  };
+  for (const entry of entries) consider([entry]);
+  for (let left = 0; left < entries.length; left += 1) {
+    for (let right = left + 1; right < entries.length; right += 1) {
+      if ([...entries[left].userKeys].some(key => entries[right].userKeys.has(key))) continue;
+      consider([entries[left], entries[right]]);
+    }
+  }
+  const recent = new Set(request.recent_plan_ids || []);
+  let firstRecent = null;
+  for (const selected of [...finalists.entries()].sort(([left], [right]) => left.localeCompare(right, 'zh-Hans-CN')).map(([, value]) => value)) {
+    const response = buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked,
+      selected.map(entry => entry.candidate), { allergyAliases });
+    if (response.status !== current.status || response.plan.planned_must_use.length < currentCount) continue;
+    const identified = await attachPlanIdentity(response);
+    if (identified.plan.plan_id === current.plan.plan_id || planStructureKey(identified) === currentStructure) continue;
+    if (!recent.has(identified.plan.plan_id)) return identified;
+    if (!firstRecent) firstRecent = identified;
+  }
+  return firstRecent;
+}
+
+export async function planMealWithIdentity(assets = {}, request = {}) {
+  // Task 6 uses current_plan_id as the acknowledgement target for this explicit
+  // state transition. An explicit decision takes precedence over swap semantics.
+  if (request.decision?.action === 'accept_partial') {
+    return attachPlanIdentity(planMeal(assets, request));
+  }
+  if (!request.current_plan_id) {
+    return attachPlanIdentity(planMeal(assets, requestWithoutSwapHistory(request)));
+  }
+  const fastPartial = capacityPartialContext(assets, requestWithoutSwapHistory(request));
+  if (fastPartial) {
+    const current = await attachPlanIdentity(fastPartial.current);
+    if (current.plan.plan_id === request.current_plan_id) {
+      const alternative = await findBestPartialAlternative(assets, request, current, fastPartial);
+      return alternative || noAlternativeResponse(current);
+    }
+    const priorAlternative = await findPartialPlanMembership(assets, fastPartial, request.current_plan_id);
+    if (priorAlternative) {
+      const alternative = await findBestPartialAlternative(assets, request, priorAlternative, fastPartial);
+      return alternative || noAlternativeResponse(priorAlternative);
+    }
+  }
+  const authoritative = await attachPlanIdentity(planMeal(assets, requestWithoutSwapHistory(request)));
+  if (authoritative.plan.plan_id === request.current_plan_id
+      && (authoritative.status === 'needs_user_decision' || authoritative.status === 'partial_accepted')) {
+    const alternative = await findBestPartialAlternative(assets, request, authoritative);
+    return alternative || noAlternativeResponse(authoritative);
+  }
+  const plans = await identifiedValidPlans(assets, request);
+  const current = plans.find(plan => plan.plan.plan_id === request.current_plan_id);
+  if (!current) return stalePlanResponse();
+  const recent = new Set(request.recent_plan_ids || []);
+  const alternatives = plans.filter(candidate => candidate.plan.plan_id !== current.plan.plan_id
+      && planStructureKey(candidate) !== planStructureKey(current)
+      && preservesPromise(candidate, current))
+    .sort((left, right) => {
+      const leftCoverage = left.plan?.coverage_ratio || 0;
+      const rightCoverage = right.plan?.coverage_ratio || 0;
+      if (leftCoverage !== rightCoverage) return rightCoverage - leftCoverage;
+      const levelDifference = alternativeLevel(left, current) - alternativeLevel(right, current);
+      if (levelDifference) return levelDifference;
+      const recentDifference = Number(recent.has(left.plan.plan_id)) - Number(recent.has(right.plan.plan_id));
+      if (recentDifference) return recentDifference;
+      return planStructureKey(left).localeCompare(planStructureKey(right), 'zh-Hans-CN')
+        || left.plan.plan_id.localeCompare(right.plan.plan_id);
+    });
+  return alternatives[0] || noAlternativeResponse(current);
+}
+
+export async function verifyPlanSnapshot(assets = {}, request = {}, snapshot = {}) {
+  if (!snapshot || typeof snapshot !== 'object' || Array.isArray(snapshot)
+      || typeof snapshot.plan_id !== 'string'
+      || snapshot.planner_version !== PLANNER_VERSION
+      || snapshot.template_catalog_version !== assets.templates?.template_catalog_version) {
+    return stalePlanResponse();
+  }
+  const plans = await identifiedValidPlans(assets, requestWithoutSwapHistory(request));
+  return plans.find(plan => plan.plan.plan_id === snapshot.plan_id) || stalePlanResponse();
 }
