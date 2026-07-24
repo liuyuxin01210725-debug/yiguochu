@@ -19,6 +19,8 @@ import math
 import os
 import re
 import socketserver
+import shutil
+import subprocess
 import sys
 import urllib.request
 import urllib.error
@@ -31,6 +33,12 @@ HOST = os.environ.get('HOST', '127.0.0.1')  # 托管时设环境变量 HOST=0.0.
 SCRIPT_DIR = Path(__file__).resolve().parent
 ENV_FILE = SCRIPT_DIR / '.env'
 RECIPE_LIBRARY_FILE = SCRIPT_DIR / 'tools' / 'data' / 'recipe-library.json'
+PLANNER_BRIDGE_FILE = SCRIPT_DIR / 'tools' / 'planner-v2-local-bridge.mjs'
+PLANNER_NODE = os.environ.get('PLANNER_NODE_EXECUTABLE') or shutil.which('node')
+try:
+    PLANNER_BRIDGE_TIMEOUT_S = min(40.0, max(0.1, float(os.environ.get('PLANNER_BRIDGE_TIMEOUT_S', '40'))))
+except ValueError:
+    PLANNER_BRIDGE_TIMEOUT_S = 40.0
 
 TIMEOUT_S = 30
 
@@ -3076,6 +3084,72 @@ def _rate_ok(ip):
     arr.append(now); _rate[ip] = arr
     return True
 
+
+class PlannerBridgeError(RuntimeError):
+    def __init__(self, code='planner_unavailable'):
+        super().__init__(code)
+        self.code = code
+
+
+def _planner_bridge_env():
+    """Only pass settings the reviewed Worker V2 entrypoint is allowed to consume."""
+    env = {
+        'LANG': 'C.UTF-8',
+        'LC_ALL': 'C.UTF-8',
+    }
+    key = os.environ.get('DEEPSEEK_API_KEY') or _env.get('DEEPSEEK_API_KEY')
+    values = {
+        'DEEPSEEK_API_KEY': key,
+        'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
+        'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or 'deepseek-chat',
+        'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
+    }
+    env.update({name: str(value) for name, value in values.items() if value})
+    return env
+
+
+def invoke_planner_bridge(endpoint, body):
+    if endpoint not in ('/plan-meal', '/generate-plan') or not isinstance(body, dict):
+        raise PlannerBridgeError()
+    if not PLANNER_NODE or not PLANNER_BRIDGE_FILE.is_file():
+        raise PlannerBridgeError()
+    try:
+        completed = subprocess.run(
+            [str(Path(PLANNER_NODE).resolve()), str(PLANNER_BRIDGE_FILE.resolve()), endpoint],
+            input=json.dumps(body, ensure_ascii=False, separators=(',', ':')),
+            text=True,
+            capture_output=True,
+            timeout=PLANNER_BRIDGE_TIMEOUT_S,
+            env=_planner_bridge_env(),
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise PlannerBridgeError('upstream_timeout' if endpoint == '/generate-plan' else 'planner_unavailable') from exc
+    except (OSError, ValueError) as exc:
+        raise PlannerBridgeError() from exc
+    if completed.returncode != 0 or len(completed.stdout) > 2 * 1024 * 1024:
+        raise PlannerBridgeError()
+    try:
+        envelope = json.loads(completed.stdout)
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise PlannerBridgeError() from exc
+    if (not isinstance(envelope, dict)
+            or set(envelope) != {'bridge_version', 'status', 'headers', 'body'}
+            or envelope.get('bridge_version') != 1
+            or not isinstance(envelope.get('status'), int)
+            or not 100 <= envelope['status'] <= 599
+            or not isinstance(envelope.get('headers'), dict)
+            or set(envelope['headers']) != {'content-type', 'cache-control'}
+            or not isinstance(envelope.get('body'), (dict, list))):
+        raise PlannerBridgeError()
+    return envelope
+
+
+def _bridge_error_payload(error):
+    if getattr(error, 'code', '') == 'upstream_timeout':
+        return 504, {'error': '生成服务响应超时，请稍后再试', 'code': 'upstream_timeout'}
+    return 503, {'error': '规划服务暂时不可用', 'code': 'planner_unavailable'}
+
 class Handler(http.server.BaseHTTPRequestHandler):
     def _send_cors_headers(self):
         # V6.1: 只允许本地 origin, 不再用 *
@@ -3113,6 +3187,10 @@ class Handler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         if self.path == '/generate-meal':
             return self._handle_generate_meal()
+        if self.path == '/plan-meal':
+            return self._handle_plan_meal()
+        if self.path == '/generate-plan':
+            return self._handle_generate_plan()
         if self.path != '/lookup':
             self.send_response(404)
             self._send_cors_headers()
@@ -3169,6 +3247,103 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
+
+    def _send_json(self, status, payload, content_type='application/json; charset=utf-8'):
+        self.send_response(status)
+        self._send_cors_headers()
+        self.send_header('Content-Type', content_type)
+        self.send_header('Cache-Control', 'no-store')
+        self.end_headers()
+        self.wfile.write(json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode('utf-8'))
+
+    def _read_v2_object(self, invalid_code):
+        invalid_message = ('生成计划请求格式无效'
+                           if invalid_code == 'invalid_generate_plan_request'
+                           else '规划请求格式无效')
+        try:
+            length = int(self.headers.get('Content-Length', 0))
+        except (TypeError, ValueError):
+            return None, (400, {'error': '请求体不是有效的 JSON', 'code': 'invalid_json'})
+        if length > 32 * 1024:
+            return None, (400, {'error': '请求体超过 32KB 上限', 'code': 'request_too_large'})
+        raw = self.rfile.read(max(length, 0)) if length else b''
+        try:
+            text = raw.decode('utf-8')
+            value = json.loads(text)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            code = 'invalid_json' if raw.strip() else invalid_code
+            message = '请求体不是有效的 JSON' if raw.strip() else invalid_message
+            return None, (400, {'error': message, 'code': code})
+        if not isinstance(value, dict):
+            return None, (400, {'error': invalid_message, 'code': invalid_code})
+        return value, None
+
+    def _reflect_bridge(self, envelope):
+        content_type = envelope['headers'].get('content-type') or 'application/json; charset=utf-8'
+        self._send_json(envelope['status'], envelope['body'], content_type)
+
+    def _handle_plan_meal(self):
+        body, failure = self._read_v2_object('invalid_planner_request')
+        if failure:
+            self._send_json(*failure)
+            return
+        try:
+            self._reflect_bridge(invoke_planner_bridge('/plan-meal', body))
+        except PlannerBridgeError as error:
+            self._send_json(*_bridge_error_payload(error))
+
+    def _handle_generate_plan(self):
+        submitted, failure = self._read_v2_object('invalid_generate_plan_request')
+        if failure:
+            self._send_json(*failure)
+            return
+        expected_keys = {
+            'schema_version', 'planner_version', 'template_catalog_version', 'plan_id', 'plan_request',
+        }
+        if (set(submitted) != expected_keys
+                or submitted.get('schema_version') != 2
+                or not isinstance(submitted.get('planner_version'), str)
+                or not isinstance(submitted.get('template_catalog_version'), str)
+                or not isinstance(submitted.get('plan_id'), str)
+                or not isinstance(submitted.get('plan_request'), dict)):
+            self._send_json(400, {
+                'error': '生成计划请求格式无效',
+                'code': 'invalid_generate_plan_request',
+            })
+            return
+        try:
+            preflight = invoke_planner_bridge('/plan-meal', submitted['plan_request'])
+        except PlannerBridgeError as error:
+            self._send_json(*_bridge_error_payload(error))
+            return
+
+        planned = preflight['body'] if isinstance(preflight.get('body'), dict) else {}
+        exact_snapshot = (
+            preflight['status'] == 200
+            and submitted['planner_version'] == planned.get('planner_version')
+            and submitted['template_catalog_version'] == planned.get('template_catalog_version')
+            and submitted['plan_id'] == (planned.get('plan') or {}).get('plan_id')
+        )
+        if preflight['status'] != 200 or not exact_snapshot:
+            # This second deterministic call is still unpaid: Worker rejects the
+            # invalid/stale envelope before key, rate, budget or upstream work.
+            try:
+                self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
+            except PlannerBridgeError as error:
+                self._send_json(*_bridge_error_payload(error))
+            return
+        if planned.get('status') not in ('ready', 'complete', 'partial_accepted') or planned.get('generation_allowed') is not True:
+            self._send_json(409, planned)
+            return
+
+        ip = (self.headers.get('X-Forwarded-For', '').split(',')[0].strip() or self.client_address[0])
+        if not _rate_ok(ip):
+            self._send_json(429, {'error': '今天生成次数到上限了，明天再来～', 'code': 'rate_limited'})
+            return
+        try:
+            self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
+        except PlannerBridgeError as error:
+            self._send_json(*_bridge_error_payload(error))
 
     def _handle_generate_meal(self):
         try:
@@ -3269,13 +3444,10 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 
 def main():
-    if not API_KEY:
-        print(f'ERROR: {PROVIDER.upper()}_API_KEY 没找到。检查 {ENV_FILE}', file=sys.stderr)
-        return 1
     print('=' * 50)
     print(f'LLM proxy 启动 ({PROVIDER})')
     print(f'  监听: http://{HOST}:{PORT}  (托管: HOST=0.0.0.0 / ALLOW_ORIGIN=站点 / RATE_LIMIT=次数; 当前限流={RATE_LIMIT or "off"})')
-    print(f'  API key: sk-...{API_KEY[-6:]} ({len(API_KEY)} 字符)')
+    print(f'  API key: {"configured" if API_KEY else "missing (planning only)"}')
     print(f'  Model: {MODEL_NAME}')
     print(f'  停止: Ctrl+C')
     print('=' * 50)
@@ -3333,10 +3505,34 @@ def recipe_match_cli(raw):
     return 0
 
 
+def plan_meal_cli(raw):
+    try:
+        body = json.loads(raw)
+    except json.JSONDecodeError:
+        print(json.dumps({'error': '请求体不是有效的 JSON', 'code': 'invalid_json'}, ensure_ascii=False, separators=(',', ':')))
+        return 2
+    if not isinstance(body, dict):
+        print(json.dumps({'error': '规划请求格式无效', 'code': 'invalid_planner_request'}, ensure_ascii=False, separators=(',', ':')))
+        return 2
+    try:
+        envelope = invoke_planner_bridge('/plan-meal', body)
+    except PlannerBridgeError as error:
+        _status, payload = _bridge_error_payload(error)
+        print(json.dumps(payload, ensure_ascii=False, separators=(',', ':')))
+        return 3
+    print(json.dumps(envelope['body'], ensure_ascii=False, separators=(',', ':')))
+    return 0
+
+
 if __name__ == '__main__':
     if len(sys.argv) >= 2 and sys.argv[1] == '--recipe-match':
         if len(sys.argv) != 3:
             print('ERROR: 用法: ai_proxy.py --recipe-match <JSON>', file=sys.stderr)
             sys.exit(2)
         sys.exit(recipe_match_cli(sys.argv[2]))
+    if len(sys.argv) >= 2 and sys.argv[1] == '--plan-meal':
+        if len(sys.argv) != 3:
+            print('ERROR: 用法: ai_proxy.py --plan-meal <JSON>', file=sys.stderr)
+            sys.exit(2)
+        sys.exit(plan_meal_cli(sys.argv[2]))
     sys.exit(main())
