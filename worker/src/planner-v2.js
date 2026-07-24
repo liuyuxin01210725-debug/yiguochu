@@ -1,4 +1,4 @@
-import { validateRatioDslCatalog } from '../../tools/lib/ratio-dsl-validator.mjs';
+import { preparedRatioCatalogContext } from './ratio-dsl.js';
 import { resolveBasicExtraIdentity, taxonomyIdentityIndex } from './taxonomy-identity.js';
 
 export const PLANNER_SCHEMA_VERSION = 2;
@@ -234,7 +234,10 @@ function ratioSlots(context, taxonomy) {
         const identity = identities.get(item.trim().toLowerCase().replace(/\s+/g, ''));
         return identity ? { name: identity.name, category: identity.category, attributes: {} } : null;
       })()
-      : item);
+      : (() => {
+        const identity = identities.get(item?.name?.trim?.().toLowerCase().replace(/\s+/g, ''));
+        return identity && identity.category === item?.category ? { name: identity.name, category: identity.category, attributes: item.attributes || {} } : null;
+      })());
     if (normalized.some(item => !item || typeof item !== 'object' || Array.isArray(item)
       || typeof item.name !== 'string' || !item.name.trim() || typeof item.category !== 'string' || !item.category.trim())) return null;
     slots.set(slotId, normalized.map(item => ({ name: item.name.trim(), category: item.category.trim(), attributes: item.attributes || {} })));
@@ -248,13 +251,13 @@ function defaultBound(bounds) {
 
 // Ratio compilation is deliberately a pure interpreter for the five fixed DSL
 // operators. It never reads recipe prose, evaluates expressions, or calls a model.
-export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}, validationContext = {}) {
+export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
   try {
     if (typeof ruleId !== 'string' || !Array.isArray(ratioCatalog?.rules)) {
       return ratioFailure('ratio_rule_not_found', '未找到可执行的份量规则。');
     }
-    const catalogErrors = validateRatioDslCatalog(ratioCatalog, validationContext.templates, validationContext.taxonomy, validationContext.recipes);
-    if (catalogErrors.length) return ratioFailure('ratio_rule_invalid', '份量规则未通过机器校验。');
+    const validationContext = preparedRatioCatalogContext(ratioCatalog);
+    if (!validationContext) return ratioFailure('ratio_rule_invalid', '份量规则未通过机器校验。');
     const rule = ratioCatalog.rules.find(candidate => candidate?.rule_id === ruleId);
     if (!rule) return ratioFailure('ratio_rule_not_found', '未找到可执行的份量规则。');
     if (!Number.isInteger(context?.servings) || context.servings < 1 || context.servings > 8) {
@@ -348,11 +351,27 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}, valida
       }
       return ratioFailure('ratio_rule_invalid', '份量规则包含不支持的操作。');
     }
+    const template = validationContext.templates?.templates?.find(entry => entry?.template_id === rule.when?.template_id);
+    const acceptedCategories = new Map([
+      ...(template?.required_slots || []), ...(template?.optional_slots || []),
+    ].map(slot => [slot.slot_id, new Set(template?.ingredient_categories?.[slot.slot_id] || [])]));
+    for (const [slotId, items] of slots) {
+      const accepted = acceptedCategories.get(slotId);
+      if (!accepted || items.some(item => !accepted.has(item.category))) return ratioFailure('ratio_context_category_mismatch', '食材类别与槽位不兼容。');
+    }
+    const optionalSlots = new Set((template?.optional_slots || []).filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id));
+    for (const [slotId, items] of slots) {
+      if (!optionalSlots.has(slotId) || !items.length) continue;
+      const grams = ratioCatalog.optional_per_serving?.[template.template_id]?.[slotId];
+      if (!finiteNonNegativeNumber(grams) || grams <= 0) return ratioFailure('ratio_rule_invalid', '可选食材缺少可执行克数。');
+      for (const item of items) if (!addAmount(item.name, grams * context.servings)) return ratioFailure('ratio_rule_invalid', '可选食材克数无效。');
+      trace.push({ operator:'per_serving', slot_id:slotId, grams_per_serving:grams });
+    }
     for (const item of allSlotItems) {
       if (!amounts.has(item.name) || amounts.get(item.name) <= 0) return ratioFailure('ratio_rule_invalid', '已确定食材缺少可执行克数。');
     }
-    const ingredient_amounts = [...amounts.entries()].map(([name, grams]) => ({ name, grams }));
-    const required_extra_items = [...extras.values()];
+    const ingredient_amounts = [...amounts.entries()].map(([name, grams]) => ({ name, grams })).sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
+    const required_extra_items = [...extras.values()].sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
     const retainedLiquidGrams = required_extra_items
       .filter(item => item.category === 'liquid')
       .reduce((sum, item) => sum + item.grams, 0);

@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateRatioDslCatalog } from '../lib/ratio-dsl-validator.mjs';
+import { prepareRatioCatalog, validateRatioDslCatalog } from '../lib/ratio-dsl-validator.mjs';
 import { validateMealTemplateCatalog } from '../lib/meal-template-validator.mjs';
-import { compileRatioPlan as rawCompileRatioPlan } from '../../worker/src/planner-v2.js';
+import { compileRatioPlan } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', name), 'utf8'));
@@ -15,9 +15,7 @@ const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const recipes = readJson('recipe-library.json');
 const validationContext = { templates, taxonomy, recipes };
 const item = (name, category, attributes = {}) => ({ name, category, attributes });
-const compileRatioPlan = (ruleId, context, ratioCatalog = catalog, suppliedValidationContext = validationContext) => (
-  rawCompileRatioPlan(ruleId, context, ratioCatalog, suppliedValidationContext)
-);
+assert.equal(prepareRatioCatalog(catalog, validationContext).ok, true);
 
 const ACTIVE = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
@@ -85,8 +83,8 @@ test('fixed additions and serving-scaled additions produce ordered, non-zero bas
   }, catalog);
   assert.equal(result.ok, true);
   assert.deepEqual(result.required_extra_items, [
-    { name: '水', category: 'liquid', grams: 240 },
     { name: '食用油', category: 'oil', grams: 10 },
+    { name: '水', category: 'liquid', grams: 240 },
     { name: '盐', category: 'seasoning', grams: 3 },
   ]);
   assert.deepEqual(result.ratio_trace.map(entry => entry.operator), [
@@ -209,7 +207,7 @@ test('category-specific rules quantify every required staple and reject mismatch
   assert.equal(wrongProtein.code, 'ratio_context_category_mismatch');
 });
 
-test('quantified set prevents bounded_sum double-counting and rejects an unquantified optional item', () => {
+test('quantified set prevents bounded_sum double-counting and quantifies every supplied optional item', () => {
   const mushroom = compileRatioPlan('mushroom-vegetable-stew-liquid-v1', {
     servings: 2,
     slots: { mushroom: [item('金针菇', 'mushroom', { moisture_release: 'medium' })], vegetable: [item('白菜', 'leafy_vegetable', { moisture_release: 'medium' })] },
@@ -221,8 +219,9 @@ test('quantified set prevents bounded_sum double-counting and rejects an unquant
     servings: 2,
     slots: { protein: [item('鸡蛋', 'egg')], vegetable: [item('青菜', 'leafy_vegetable')], mushroom: [item('金针菇', 'mushroom')] },
   }, catalog, validationContext);
-  assert.equal(optionalLeak.ok, false);
-  assert.equal(optionalLeak.code, 'ratio_rule_invalid');
+  assert.equal(optionalLeak.ok, true);
+  assert.ok(optionalLeak.ingredient_amounts.every(row => row.grams > 0));
+  assert.ok(optionalLeak.ingredient_amounts.some(row => row.name === '金针菇'));
 });
 
 test('direct compilation rejects an unvalidated catalog and never rounds positive grams to zero', () => {
@@ -262,4 +261,55 @@ test('validator requires a complete required-slot category variant set for every
   incomplete.rules = incomplete.rules.filter(rule => rule.rule_id !== 'poultry-staple-noodle-portion-v1');
   const errors = validateRatioDslCatalog(incomplete, templates, taxonomy, recipes);
   assert.ok(errors.some(error => error.includes('poultry-staple-pot missing complete required category variant coverage')));
+});
+
+test('runtime resolves taxonomy identities, rejects spoofed or incompatible slots, and has stable output order', () => {
+  for (const slots of [
+    { protein:[item('豆腐','egg')], vegetable:[item('青菜','leafy_vegetable')] },
+    { protein:[item('鸡蛋','egg')], vegetable:[item('鸡蛋','egg')] },
+    { protein:[item('鸡蛋','egg')], vegetable:[item('青菜','leafy_vegetable')], mushroom:[item('牛里脊','beef')] },
+  ]) {
+    assert.equal(compileRatioPlan('egg-tofu-vegetable-egg-portion-v1', { servings:2, slots }, catalog).ok, false);
+  }
+  const forward = compileRatioPlan('acid-staple-raw-rice-liquid-v1', { servings:2, slots:{ staple:[item('大米','raw_rice')], acid_base:[item('番茄','acid_vegetable',{moisture_release:'high'})], protein:[item('鸡腿肉','chicken')] } }, catalog);
+  const reverse = compileRatioPlan('acid-staple-raw-rice-liquid-v1', { servings:2, slots:{ protein:[item('鸡腿肉','chicken')], acid_base:[item('番茄','acid_vegetable',{moisture_release:'high'})], staple:[item('大米','raw_rice')] } }, catalog);
+  assert.deepEqual(reverse.ingredient_amounts, forward.ingredient_amounts);
+  assert.deepEqual(reverse.required_extra_items, forward.required_extra_items);
+});
+
+test('every active template accepts a real optional composition without silently dropping an item', () => {
+  const probes = [
+    ['acid-staple-raw-rice-liquid-v1',{staple:[item('大米','raw_rice')],acid_base:[item('番茄','acid_vegetable',{moisture_release:'high'})],protein:[item('鸡腿肉','chicken')]}],
+    ['savory-mixed-rice-liquid-v1',{staple:[item('大米','raw_rice')],protein:[item('鸡蛋','egg')],vegetable:[item('青菜','leafy_vegetable')]}],
+    ['cooked-rice-stir-portion-v1',{staple:[item('熟米饭','cooked_rice')],vegetable:[item('青菜','leafy_vegetable')]}],
+    ['broth-noodle-liquid-v1',{staple:[item('面条','noodle')],protein:[item('鸡蛋','egg')]}],
+    ['egg-tofu-vegetable-egg-portion-v1',{protein:[item('鸡蛋','egg')],vegetable:[item('青菜','leafy_vegetable')],mushroom:[item('金针菇','mushroom')]}],
+    ['mushroom-vegetable-stew-liquid-v1',{mushroom:[item('金针菇','mushroom')],vegetable:[item('青菜','leafy_vegetable')],protein:[item('老豆腐','firm_tofu')]}],
+    ['beef-staple-cooked-rice-portion-v1',{protein:[item('牛里脊','beef')],staple:[item('熟米饭','cooked_rice')],vegetable:[item('西兰花','cruciferous_vegetable')]}],
+    ['poultry-staple-raw-rice-portion-v1',{protein:[item('鸡腿肉','chicken')],staple:[item('大米','raw_rice')],mushroom:[item('金针菇','mushroom')]}],
+  ];
+  for (const [ruleId, slots] of probes) {
+    const result = compileRatioPlan(ruleId,{servings:2,slots},catalog);
+    assert.equal(result.ok,true,ruleId);
+    for (const rows of Object.values(slots)) for (const supplied of rows) assert.ok(result.ingredient_amounts.some(row => row.name === supplied.name && row.grams > 0), `${ruleId}/${supplied.name}`);
+  }
+});
+
+test('planner runtime dependency graph stays inside worker/src', () => {
+  const root = path.resolve(here, '../../worker/src');
+  const pending = [path.join(root, 'planner-v2.js')];
+  const seen = new Set();
+  while (pending.length) {
+    const file = pending.pop();
+    if (seen.has(file)) continue;
+    seen.add(file);
+    const source = fs.readFileSync(file, 'utf8');
+    for (const match of source.matchAll(/from\s+['"]([^'"]+)['"]/g)) {
+      const specifier = match[1];
+      assert.ok(specifier.startsWith('./'), `${file} escapes runtime source: ${specifier}`);
+      const next = path.resolve(path.dirname(file), specifier);
+      assert.ok(next.startsWith(root), `${file} escapes worker/src: ${specifier}`);
+      pending.push(next.endsWith('.js') ? next : `${next}.js`);
+    }
+  }
 });
