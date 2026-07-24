@@ -360,6 +360,76 @@ test('accept_partial current_plan_id remains a decision acknowledgement rather t
   assert.match(accepted.plan.plan_id, /^pln_v2_[A-Za-z0-9_-]{43}$/);
 });
 
+test('accept_partial rejects a client-forged self-consistent ID and validates swap_current shape', async () => {
+  expectIdentityApi();
+  const baseRequest = request({ must: ['番茄', '神秘叶子'] });
+  await assert.rejects(() => planner.planMealWithIdentity(assets, {
+    ...baseRequest,
+    current_plan_id: 'pln_v2_forged',
+    decision: {
+      action: 'accept_partial',
+      plan_id: 'pln_v2_forged',
+      acknowledged_unplanned: ['神秘叶子'],
+    },
+  }), error => error?.code === 'invalid_planner_request');
+
+  for (const decision of [
+    { action: 'accept_partial', plan_id: 'x', acknowledged_unplanned: [], swap_current: 'yes' },
+    { action: 'edit_ingredients', swap_current: false },
+    { action: 'force_multi_pot', swap_current: true },
+  ]) {
+    assert.throws(() => planner.normalizePlannerRequest({
+      schema_version: 2,
+      planner_version: 'pantry-planner-v2',
+      constraints: { mode: 'pantry', intent: 'normal', servings: 2, must_use: ['番茄'], prefer_use: [], dislikes: [], decision },
+    }), error => error?.code === 'invalid_planner_request');
+  }
+});
+
+test('verifyPlanSnapshot safely verifies an accepted-partial request without trusting cleared current ID', async () => {
+  expectIdentityApi();
+  const baseRequest = request({ must: ['番茄', '神秘叶子'] });
+  const current = await planner.planMealWithIdentity(assets, baseRequest);
+  const acceptedRequest = {
+    ...baseRequest,
+    current_plan_id: current.plan.plan_id,
+    decision: {
+      action: 'accept_partial',
+      plan_id: current.plan.plan_id,
+      acknowledged_unplanned: ['神秘叶子'],
+    },
+  };
+  const accepted = await planner.planMealWithIdentity(assets, acceptedRequest);
+  const verified = await planner.verifyPlanSnapshot(assets, acceptedRequest, {
+    plan_id: accepted.plan.plan_id,
+    planner_version: accepted.planner_version,
+    template_catalog_version: accepted.template_catalog_version,
+  });
+  assert.equal(verified.status, 'partial_accepted');
+  assert.equal(verified.plan.plan_id, accepted.plan.plan_id);
+});
+
+test('accepted-partial active swap returns stale_plan when the acknowledged input has changed', async () => {
+  expectIdentityApi();
+  const baseRequest = request({ must: ['番茄', '神秘叶子'], servings: 2 });
+  const current = await planner.planMealWithIdentity(assets, baseRequest);
+  const acceptance = {
+    action: 'accept_partial',
+    plan_id: current.plan.plan_id,
+    acknowledged_unplanned: ['神秘叶子'],
+    swap_current: true,
+  };
+
+  const changedRequest = request({ must: ['番茄', '神秘叶子'], servings: 3 });
+  const result = await planner.planMealWithIdentity(assets, {
+    ...changedRequest,
+    current_plan_id: current.plan.plan_id,
+    decision: acceptance,
+  });
+  assert.equal(result.status, 'stale_plan');
+  assert.equal(result.code, 'stale_plan');
+});
+
 test('large partial pantry swap keeps the validated two-pot coverage instead of falling back to a greedy single pot', async () => {
   expectIdentityApi();
   const pantry = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇'];
@@ -379,6 +449,95 @@ test('large partial pantry swap keeps the validated two-pot coverage instead of 
   assert.notEqual(swappedAgain.status, 'stale_plan');
   assert.ok(swappedAgain.plan.planned_must_use.length >= swapped.plan.planned_must_use.length);
   assert.notEqual(swappedAgain.plan.plan_id, swapped.plan.plan_id);
+
+  const verifiedAlternative = await planner.verifyPlanSnapshot(assets, baseRequest, {
+    plan_id: swapped.plan.plan_id,
+    planner_version: swapped.planner_version,
+    template_catalog_version: swapped.template_catalog_version,
+  });
+  assert.notEqual(verifiedAlternative.status, 'stale_plan');
+  assert.equal(verifiedAlternative.plan.plan_id, swapped.plan.plan_id);
+});
+
+test('partial acceptance can explicitly swap while preserving its acknowledged unplanned set', async () => {
+  expectIdentityApi();
+  const pantry = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇'];
+  const baseRequest = request({ must: pantry, decision: { action: 'allow_third_pot' } });
+  const current = await planner.planMealWithIdentity(assets, baseRequest);
+  const acknowledged = current.plan.unplanned_must_use.map(item => item.canonical || item.raw);
+  const acceptance = {
+    action: 'accept_partial',
+    plan_id: current.plan.plan_id,
+    acknowledged_unplanned: acknowledged,
+  };
+  const accepted = await planner.planMealWithIdentity(assets, { ...baseRequest, current_plan_id: current.plan.plan_id, decision: acceptance });
+  assert.equal(accepted.status, 'partial_accepted');
+  const swapped = await planner.planMealWithIdentity(assets, {
+    ...baseRequest,
+    current_plan_id: accepted.plan.plan_id,
+    decision: { ...acceptance, swap_current: true },
+  });
+  assert.equal(swapped.status, 'partial_accepted');
+  assert.equal(swapped.generation_allowed, true);
+  assert.notEqual(swapped.plan.plan_id, accepted.plan.plan_id);
+  const originalUnplanned = new Set(acknowledged);
+  assert.ok(swapped.plan.unplanned_must_use.every(item => originalUnplanned.has(item.canonical || item.raw)));
+
+  const swappedAgain = await planner.planMealWithIdentity(assets, {
+    ...baseRequest,
+    current_plan_id: swapped.plan.plan_id,
+    decision: { ...acceptance, swap_current: true },
+  });
+  assert.equal(swappedAgain.status, 'partial_accepted');
+  assert.equal(swappedAgain.generation_allowed, true);
+  assert.notEqual(swappedAgain.plan.plan_id, swapped.plan.plan_id);
+  assert.ok(swappedAgain.plan.unplanned_must_use.every(item => originalUnplanned.has(item.canonical || item.raw)));
+
+  const historyDemoted = await planner.planMealWithIdentity(assets, {
+    ...baseRequest,
+    current_plan_id: accepted.plan.plan_id,
+    recent_plan_ids: [swapped.plan.plan_id],
+    decision: { ...acceptance, swap_current: true },
+  });
+  assert.equal(historyDemoted.status, 'partial_accepted');
+  assert.notEqual(historyDemoted.plan.plan_id, swapped.plan.plan_id);
+});
+
+test('ordinary small two-pot partial alternative is authoritative snapshot membership', async () => {
+  expectIdentityApi();
+  const baseRequest = request({ must: ['大米', '番茄', '神秘叶子'] });
+  const current = await planner.planMealWithIdentity(assets, baseRequest);
+  assert.equal(current.status, 'needs_user_decision');
+  const swapped = await planner.planMealWithIdentity(assets, { ...baseRequest, current_plan_id: current.plan.plan_id });
+  assert.equal(swapped.status, 'needs_user_decision');
+  assert.equal(swapped.plan.pots.length, 2);
+  assert.equal(swapped.plan.planned_must_use.length, current.plan.planned_must_use.length);
+  const verified = await planner.verifyPlanSnapshot(assets, baseRequest, {
+    plan_id: swapped.plan.plan_id,
+    planner_version: swapped.planner_version,
+    template_catalog_version: swapped.template_catalog_version,
+  });
+  assert.notEqual(verified.status, 'stale_plan');
+  assert.equal(verified.plan.plan_id, swapped.plan.plan_id);
+});
+
+test('no-alternative relax_item action can explicitly downgrade a planned must-use item and replan', async () => {
+  expectIdentityApi();
+  const focusedAssets = onlyTemplate(assets, 'beef-staple-pot');
+  const baseRequest = request({ must: ['牛里脊', '熟米饭'] });
+  const current = await planner.planMealWithIdentity(focusedAssets, baseRequest);
+  const noAlternative = await planner.planMealWithIdentity(focusedAssets, { ...baseRequest, current_plan_id: current.plan.plan_id });
+  assert.equal(noAlternative.status, 'no_alternative_plan');
+  assert.ok(noAlternative.actions.find(action => action.action === 'relax_item').eligible_items.includes('牛肉'));
+
+  const replanned = await planner.planMealWithIdentity(focusedAssets, {
+    ...baseRequest,
+    current_plan_id: current.plan.plan_id,
+    decision: { action: 'relax_item', item: '牛肉' },
+  });
+  assert.notEqual(replanned.status, 'stale_plan');
+  assert.equal(replanned.normalized_items.find(item => item.canonical === '牛肉').role, 'prefer_use');
+  assert.equal(replanned.plan.unplanned_must_use.some(item => item.canonical === '牛肉'), false);
 });
 
 test('16/20-item identity planning and active swap are deterministic, bounded, non-mutating and under five seconds per call', async () => {

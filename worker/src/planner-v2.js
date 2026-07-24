@@ -55,6 +55,11 @@ function normalizeDecision(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value) || !DECISION_ACTIONS.has(value.action)) {
     throw invalidPlannerRequest('decision.action is invalid');
   }
+  const hasSwapCurrent = Object.prototype.hasOwnProperty.call(value, 'swap_current');
+  if ((hasSwapCurrent && value.action !== 'accept_partial')
+      || (hasSwapCurrent && typeof value.swap_current !== 'boolean')) {
+    throw invalidPlannerRequest('decision.swap_current is invalid');
+  }
   return { ...value };
 }
 
@@ -1801,8 +1806,10 @@ async function findBestPartialAlternative(assets, request, current, preparedCont
   const recent = new Set(request.recent_plan_ids || []);
   let firstRecent = null;
   for (const selected of [...finalists.entries()].sort(([left], [right]) => left.localeCompare(right, 'zh-Hans-CN')).map(([, value]) => value)) {
-    const response = buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked,
+    let response = buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked,
       selected.map(entry => entry.candidate), { allergyAliases });
+    response = makeAlternativePartial(response, current);
+    if (!response) continue;
     if (response.status !== current.status || response.plan.planned_must_use.length < currentCount) continue;
     const identified = await attachPlanIdentity(response);
     if (identified.plan.plan_id === current.plan.plan_id || planStructureKey(identified) === currentStructure) continue;
@@ -1812,12 +1819,90 @@ async function findBestPartialAlternative(assets, request, current, preparedCont
   return firstRecent;
 }
 
-export async function planMealWithIdentity(assets = {}, request = {}) {
-  // Task 6 uses current_plan_id as the acknowledgement target for this explicit
-  // state transition. An explicit decision takes precedence over swap semantics.
-  if (request.decision?.action === 'accept_partial') {
-    return attachPlanIdentity(planMeal(assets, request));
+async function validatedPartialAcceptance(assets, request) {
+  const baselineRequest = {
+    ...requestWithoutSwapHistory(request),
+    decision: null,
+  };
+  const current = await attachPlanIdentity(planMeal(assets, baselineRequest));
+  const decisionPlanId = typeof request.decision?.plan_id === 'string' ? request.decision.plan_id.trim() : '';
+  const acknowledged = request.decision?.acknowledged_unplanned;
+  const expected = (current.plan?.unplanned_must_use || []).map(acknowledgementIdentity);
+  const swapCurrent = request.decision?.swap_current === true;
+  if (!decisionPlanId || (!swapCurrent && decisionPlanId !== request.current_plan_id) || decisionPlanId !== current.plan.plan_id
+      || current.status !== 'needs_user_decision' || !current.plan?.pots?.length
+      || !exactStringSet(acknowledged, expected)) {
+    throw invalidPlannerRequest('accept_partial acknowledgement does not match the authoritative partial plan');
   }
+  current.status = 'partial_accepted';
+  current.generation_allowed = true;
+  current.commitment = '部分处理方案：已为可规划食材保留做法，仍会显示未处理食材。';
+  current.actions = [];
+  return current;
+}
+
+async function handleExplicitRelaxDecision(assets, request) {
+  const baseRequest = {
+    ...requestWithoutSwapHistory(request),
+    decision: null,
+  };
+  const current = await attachPlanIdentity(planMeal(assets, baseRequest));
+  const chosen = typeof request.decision?.item === 'string' ? request.decision.item.trim() : '';
+  const unplannedTarget = (current.plan?.unplanned_must_use || [])
+    .find(item => chosen && (item.raw === chosen || item.canonical === chosen));
+  if (unplannedTarget) return attachPlanIdentity(planMeal(assets, request));
+
+  if (!request.current_plan_id || request.current_plan_id !== current.plan.plan_id) {
+    throw invalidPlannerRequest('relax_item planned-item decision does not match the authoritative plan');
+  }
+  const swapProbe = await planMealWithIdentity(assets, { ...baseRequest, current_plan_id: current.plan.plan_id });
+  if (swapProbe.status !== 'no_alternative_plan') {
+    throw invalidPlannerRequest('relax_item planned-item decision is only valid after no_alternative_plan');
+  }
+  const eligible = new Set(swapProbe.actions.find(action => action.action === 'relax_item')?.eligible_items || []);
+  if (!chosen || !eligible.has(chosen)) throw invalidPlannerRequest('relax_item must select one eligible current must-use item');
+  const normalizedMust = normalizePlannerItems((baseRequest.must_use || []).map(raw => ({ raw, role: 'must_use' })), assets.taxonomy);
+  const movedRaw = normalizedMust.filter(item => item.raw === chosen || item.canonical === chosen).map(item => item.raw);
+  if (!movedRaw.length) throw invalidPlannerRequest('relax_item must select one eligible current must-use item');
+  const moved = new Set(movedRaw);
+  return attachPlanIdentity(planMeal(assets, {
+    ...baseRequest,
+    must_use: (baseRequest.must_use || []).filter(raw => !moved.has(raw)),
+    prefer_use: [...new Set([...(baseRequest.prefer_use || []), ...movedRaw])],
+  }));
+}
+
+export async function planMealWithIdentity(assets = {}, request = {}) {
+  if (request.decision?.action === 'accept_partial') {
+    let accepted;
+    try {
+      accepted = await validatedPartialAcceptance(assets, request);
+    } catch (error) {
+      // First acceptance is an input-validation boundary and rejects forged
+      // acknowledgements. An explicit accepted-plan swap is active navigation:
+      // if its prior acknowledgement no longer belongs to the recomputed input,
+      // surface the protocol's stale state instead of turning it into a 400.
+      if (request.decision.swap_current === true && error?.code === 'invalid_planner_request') {
+        return stalePlanResponse();
+      }
+      throw error;
+    }
+    // Status is deliberately excluded from plan identity, so this stateless
+    // protocol needs an explicit bit to distinguish first acceptance from a
+    // later swap under the already-acknowledged partial promise.
+    if (request.decision.swap_current !== true) return accepted;
+    const baselineRequest = { ...requestWithoutSwapHistory(request), decision: null };
+    const partialContext = buildPartialAlternativeContext(assets, baselineRequest);
+    let current = accepted;
+    if (request.current_plan_id !== accepted.plan.plan_id) {
+      const member = await findPartialPlanMembership(assets, partialContext, request.current_plan_id);
+      current = member ? makeAlternativePartial(member, accepted) : null;
+      if (!current) return stalePlanResponse();
+    }
+    const alternative = await findBestPartialAlternative(assets, request, current, partialContext);
+    return alternative || noAlternativeResponse(current);
+  }
+  if (request.decision?.action === 'relax_item') return handleExplicitRelaxDecision(assets, request);
   if (!request.current_plan_id) {
     return attachPlanIdentity(planMeal(assets, requestWithoutSwapHistory(request)));
   }
@@ -1835,10 +1920,15 @@ export async function planMealWithIdentity(assets = {}, request = {}) {
     }
   }
   const authoritative = await attachPlanIdentity(planMeal(assets, requestWithoutSwapHistory(request)));
-  if (authoritative.plan.plan_id === request.current_plan_id
-      && (authoritative.status === 'needs_user_decision' || authoritative.status === 'partial_accepted')) {
-    const alternative = await findBestPartialAlternative(assets, request, authoritative);
-    return alternative || noAlternativeResponse(authoritative);
+  if (authoritative.status === 'needs_user_decision' || authoritative.status === 'partial_accepted') {
+    const partialContext = buildPartialAlternativeContext(assets, requestWithoutSwapHistory(request));
+    const current = authoritative.plan.plan_id === request.current_plan_id
+      ? authoritative
+      : await findPartialPlanMembership(assets, partialContext, request.current_plan_id);
+    if (current) {
+      const alternative = await findBestPartialAlternative(assets, request, current, partialContext);
+      return alternative || noAlternativeResponse(current);
+    }
   }
   const plans = await identifiedValidPlans(assets, request);
   const current = plans.find(plan => plan.plan.plan_id === request.current_plan_id);
@@ -1868,6 +1958,27 @@ export async function verifyPlanSnapshot(assets = {}, request = {}, snapshot = {
       || snapshot.template_catalog_version !== assets.templates?.template_catalog_version) {
     return stalePlanResponse();
   }
-  const plans = await identifiedValidPlans(assets, requestWithoutSwapHistory(request));
+  if (request.decision?.action === 'accept_partial') {
+    let accepted;
+    try {
+      accepted = await validatedPartialAcceptance(assets, request);
+    } catch {
+      return stalePlanResponse();
+    }
+    if (snapshot.plan_id === accepted.plan.plan_id) return accepted;
+    const baselineRequest = { ...requestWithoutSwapHistory(request), decision: null };
+    const partialContext = buildPartialAlternativeContext(assets, baselineRequest);
+    const member = await findPartialPlanMembership(assets, partialContext, snapshot.plan_id);
+    return member ? makeAlternativePartial(member, accepted) || stalePlanResponse() : stalePlanResponse();
+  }
+  const cleanRequest = requestWithoutSwapHistory(request);
+  const authoritative = await attachPlanIdentity(planMeal(assets, cleanRequest));
+  if (authoritative.plan.plan_id === snapshot.plan_id) return authoritative;
+  if (authoritative.status === 'needs_user_decision' || authoritative.status === 'partial_accepted') {
+    const partialContext = buildPartialAlternativeContext(assets, cleanRequest);
+    const member = await findPartialPlanMembership(assets, partialContext, snapshot.plan_id);
+    if (member) return member;
+  }
+  const plans = await identifiedValidPlans(assets, cleanRequest);
   return plans.find(plan => plan.plan.plan_id === snapshot.plan_id) || stalePlanResponse();
 }
