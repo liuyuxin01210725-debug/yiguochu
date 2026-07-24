@@ -10,6 +10,7 @@ import { validateRecipeLibrary } from './recipe-library-validator.js';
 import { matchAllergy } from './allergen-semantics.js';
 import {
   buildGeneratedPlanResponse,
+  buildIngredientTermUniverse,
   buildLockedPlanContract,
   validateGeneratedPlan,
 } from './generated-plan-contract.js';
@@ -2638,8 +2639,11 @@ const GENERATE_PLAN_ENVELOPE_KEYS = Object.freeze([
 const GENERATABLE_PLAN_STATUSES = new Set(['ready', 'complete', 'partial_accepted']);
 const LOCKED_PLAN_SYSTEM_PROMPT = `你只负责把服务端已锁定的一锅或多锅计划写成自然中文。
 必须原样保留每锅的 template、meal_sequence、servings、ingredient refs、食材身份和部位、克数、槽位、液体约束、烹饪顺序、时长范围及安全终点。
-不得新增、删除、替换或跨锅移动食材；不得改写部位；不得在菜名、步骤或推荐理由里另写克数、毫升、比例、份数或时长。
-每一步必须逐项复现给定 action_code 和允许的 ingredient_refs；安全终点只能在指定步骤完成。
+不得直接写任何食材名称，只能使用 {{i1}}、{{e1}} 这类 locked_plan 已提供的 ref 占位符；不得新增、删除、替换或跨锅移动食材。
+每个 dish_name、step.text 和 recommendation_reason 必须从对应 generation_text_contract 的有限 options 中原样选择，不得自行增删字词。服务端会在验证后把占位符替换成 locked raw_name，因此 requires_explicit_raw_name 的部位不会丢失。
+不得在菜名、步骤或推荐理由里另写任何数量或温度，包括克数、毫升、比例、份数、时长、个、片、块、斤、两、温度。
+每一步必须逐项复现给定 action_code 和允许的 ingredient_refs；step.text 内的占位符集合必须与 ingredient_refs 精确相同。安全终点只能在指定步骤完成，并且该步骤必须包含 required_safety_ingredient_refs。
+安全终点必须写已达到的事实：禽肉写“完全熟透，内部无粉红”；鸡蛋写“完全凝固”；牛肉和猪肉写“完全熟透”；豆角类写“煮熟软化”。不得写未来、否定、流心、带血或带粉红的状态。
 只返回严格 JSON，不得返回解释、Markdown 或 JSON 以外文字。`;
 
 function exactGeneratePlanEnvelope(value) {
@@ -2679,8 +2683,9 @@ function stalePlanGenerationResponse(recomputed = null) {
 function lockedPlanUserMessage(lockedPlan) {
   return JSON.stringify({
     instructions: `只返回这一种 JSON 结构，禁止增加任何 key：
-{"plan_id":"原样复现","meals":[{"meal_sequence":1,"dish_name":"自然菜名","ingredient_refs":["本锅全部锁定ref，恰好一次"],"steps":[{"order":1,"action_code":"原样复现对应阶段","text":"自然步骤，不写克数、毫升、比例、份数或时长","ingredient_refs":["仅限本阶段allowed refs"],"completed_safety_endpoints":["仅限本阶段required endpoints"]}],"recommendation_reason":"自然推荐理由"}]}。
-meals、steps、action_code 的数量和顺序必须与 locked_plan 完全一致；所有 ingredient ref 必须在本锅步骤中至少出现一次。`,
+{"plan_id":"原样复现","meals":[{"meal_sequence":1,"dish_name":"从dish_name_options原样选择","ingredient_refs":["本锅全部锁定ref，恰好一次"],"steps":[{"order":1,"action_code":"原样复现对应阶段","text":"从本步骤allowed_texts原样选择","ingredient_refs":["与text占位符集合及本阶段allowed refs精确相同"],"completed_safety_endpoints":["仅限本阶段required endpoints"]}],"recommendation_reason":"从recommendation_reason_options原样选择"}]}。
+meals、steps、action_code 的数量和顺序必须与 locked_plan 完全一致；所有 ingredient ref 必须在本锅步骤中至少出现一次。
+required_safety_endpoints 非空时，该步骤必须带齐 required_safety_ingredient_refs，并从已经包含已达成熟制事实的 allowed_texts 中选择；全文只能使用 generation_text_contract 给出的完整短语和 {{ref}} 占位符。`,
     locked_plan: lockedPlan,
   });
 }
@@ -2753,6 +2758,7 @@ async function handleGeneratePlan(request, env) {
       { role: 'user', content: lockedPlanUserMessage(lockedPlan) },
     ],
     temperature: 0,
+    max_tokens: 3000,
     response_format: { type: 'json_object' },
   };
 
@@ -2789,7 +2795,8 @@ async function handleGeneratePlan(request, env) {
     console.warn('generate-plan contract violation', 'malformed_model_json');
     return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
   }
-  const validation = validateGeneratedPlan(modelOutput, lockedPlan, plannerAssets.taxonomy);
+  const termUniverse = buildIngredientTermUniverse(plannerAssets.taxonomy, plannerAssets.recipes);
+  const validation = validateGeneratedPlan(modelOutput, lockedPlan, termUniverse);
   if (!validation.ok) {
     console.warn('generate-plan contract violation', String(validation.reason_code || 'unknown').slice(0, 80));
     return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
@@ -2814,6 +2821,7 @@ export {
   validationRiceAllergenActive,
   normalizePlannerRequest,
   plannerRequestFromLegacy,
+  buildIngredientTermUniverse,
   buildLockedPlanContract,
   validateGeneratedPlan,
 };

@@ -87,6 +87,13 @@ function lockedInputFromUpstreamBody(upstreamBody) {
   return parsed.locked_plan;
 }
 
+function ingredientTermUniverse() {
+  return workerModule.buildIngredientTermUniverse(
+    JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']),
+    JSON.parse(SOURCE_ASSETS['/recipe-library.json']),
+  );
+}
+
 function validModelOutput(lockedPlan) {
   return {
     plan_id: lockedPlan.plan_id,
@@ -94,7 +101,7 @@ function validModelOutput(lockedPlan) {
       const steps = meal.cooking_order.map((phase, index) => ({
         order: index + 1,
         action_code: phase.action_code,
-        text: `按规划完成${phase.action_code}。`,
+        text: meal.generation_text_contract.steps[index].allowed_texts[0],
         ingredient_refs: [...phase.allowed_ingredient_refs],
         completed_safety_endpoints: [...phase.required_safety_endpoints],
       }));
@@ -103,10 +110,10 @@ function validModelOutput(lockedPlan) {
       if (missing.length) steps[0].ingredient_refs.push(...missing);
       return {
         meal_sequence: meal.meal_sequence,
-        dish_name: '按计划完成的一锅主餐',
+        dish_name: meal.generation_text_contract.dish_name_options[0],
         ingredient_refs: meal.locked_ingredients.map(item => item.ingredient_ref),
         steps,
-        recommendation_reason: '食材与顺序均按已确认计划执行。',
+        recommendation_reason: meal.generation_text_contract.recommendation_reason_options[0],
       };
     }),
   };
@@ -173,7 +180,13 @@ async function preparedJourney(request) {
 
 test('generation contract exposes focused Worker-safe pure builder and validator APIs', () => {
   assert.equal(typeof workerModule.buildLockedPlanContract, 'function');
+  assert.equal(typeof workerModule.buildIngredientTermUniverse, 'function');
   assert.equal(typeof workerModule.validateGeneratedPlan, 'function');
+  const universe = ingredientTermUniverse();
+  for (const term of ['芝士', '料酒', '糖', '帕玛森奶酪', '鸡腿', '鸡胸肉']) {
+    assert.ok(universe.some(entry => entry.term === term), term);
+  }
+  assert.ok(new Set(universe.map(entry => entry.normalized)).size >= 200);
 });
 
 test('valid single-pot generation recomputes the plan and spends exactly one budget attempt and upstream call', async () => {
@@ -187,8 +200,17 @@ test('valid single-pot generation recomputes the plan and spends exactly one bud
   assert.equal(result.kv.gets, 1);
   assert.equal(result.kv.puts, 1);
   assert.equal(result.upstreamBodies.length, 1);
+  assert.equal(result.upstreamBodies[0].max_tokens, 3000);
   assert.deepEqual(result.body.plan.planned_must_use, journey.planned.plan.planned_must_use);
   assert.ok(result.body.meals[0].locked_ingredients.every(item => Number.isFinite(item.planned_grams)));
+  const prompt = result.upstreamBodies[0].messages.map(message => message.content).join('\n');
+  assert.match(prompt, /required_safety_ingredient_refs/);
+  assert.match(prompt, /requires_explicit_raw_name/);
+  assert.match(prompt, /完全熟透.*内部无粉红/);
+  assert.match(prompt, /鸡蛋.*完全凝固/);
+  assert.match(prompt, /个、片、块、斤、两、温度/);
+  assert.match(prompt, /\{\{i1\}\}/);
+  assert.doesNotMatch(JSON.stringify(result.body), /\{\{[ie]\d+\}\}/);
 });
 
 test('valid two-pot generation sends the whole plan in one upstream request and one budget write', async () => {
@@ -201,6 +223,7 @@ test('valid two-pot generation sends the whole plan in one upstream request and 
   assert.equal(result.kv.gets, 1);
   assert.equal(result.kv.puts, 1);
   assert.equal(result.upstreamBodies.length, 1);
+  assert.equal(result.upstreamBodies[0].max_tokens, 3000);
   const locked = lockedInputFromUpstreamBody(result.upstreamBodies[0]);
   assert.deepEqual(locked.meals.map(meal => meal.meal_sequence), [1, 2]);
 });
@@ -300,7 +323,7 @@ test('pure validator rejects refs, substitutions, numeric overrides, action and 
   const journey = await preparedJourney(plannerRequest({ must: ['牛里脊', '番茄'] }));
   const locked = workerModule.buildLockedPlanContract(journey.planned, JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']));
   const valid = validModelOutput(locked);
-  assert.equal(workerModule.validateGeneratedPlan(valid, locked, JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json'])).ok, true);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
   const cases = [
     ['wrong plan id', value => { value.plan_id = 'pln_v2_wrong'; }],
     ['missing meal', value => { value.meals = []; }],
@@ -340,7 +363,7 @@ test('pure validator rejects refs, substitutions, numeric overrides, action and 
     await t.test(name, () => {
       const output = structuredClone(valid);
       mutate(output);
-      const checked = workerModule.validateGeneratedPlan(output, locked, JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']));
+      const checked = workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse());
       assert.equal(checked.ok, false);
       assert.equal(typeof checked.reason_code, 'string');
     });
@@ -348,7 +371,7 @@ test('pure validator rejects refs, substitutions, numeric overrides, action and 
 });
 
 test('pure validator rejects chicken and mushroom substitutions plus an unused user item in prose', async () => {
-  const taxonomy = JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);
+  const termUniverse = ingredientTermUniverse();
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const journeys = [
     [plannerRequest({ must: ['鸡腿肉', '熟米饭'] }), '鸡胸肉'],
@@ -360,26 +383,115 @@ test('pure validator rejects chicken and mushroom substitutions plus an unused u
     const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
     const output = validModelOutput(locked);
     output.meals[0].steps[0].text += `加入${forbidden}。`;
-    assert.equal(workerModule.validateGeneratedPlan(output, locked, taxonomy).ok, false, forbidden);
+    assert.equal(workerModule.validateGeneratedPlan(output, locked, termUniverse).ok, false, forbidden);
   }
 });
 
 test('contract builder and validator return detached facts without mutating planner, catalog or model output', async () => {
   const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
-  const taxonomy = JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);
+  const termUniverse = ingredientTermUniverse();
   const plannerBefore = structuredClone(journey.planned);
   const templatesBefore = structuredClone(templates);
   const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
   const output = validModelOutput(locked);
   const outputBefore = structuredClone(output);
-  const checked = workerModule.validateGeneratedPlan(output, locked, taxonomy);
+  const checked = workerModule.validateGeneratedPlan(output, locked, termUniverse);
   assert.equal(checked.ok, true);
   assert.deepEqual(journey.planned, plannerBefore);
   assert.deepEqual(templates, templatesBefore);
   assert.deepEqual(output, outputBefore);
   checked.meals[0].dish_name = 'mutated detached result';
   assert.deepEqual(output, outputBefore);
+});
+
+test('one plan accepts two finite controlled wording variants without changing plan identity', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const first = validModelOutput(locked);
+  const second = structuredClone(first);
+  second.meals.forEach((meal, mealIndex) => {
+    const contract = locked.meals[mealIndex].generation_text_contract;
+    meal.dish_name = contract.dish_name_options[1];
+    meal.recommendation_reason = contract.recommendation_reason_options[1];
+    meal.steps.forEach((step, stepIndex) => { step.text = contract.steps[stepIndex].allowed_texts[1]; });
+  });
+  assert.notDeepEqual(first.meals, second.meals);
+  const firstChecked = workerModule.validateGeneratedPlan(first, locked, ingredientTermUniverse());
+  const secondChecked = workerModule.validateGeneratedPlan(second, locked, ingredientTermUniverse());
+  assert.equal(firstChecked.ok, true);
+  assert.equal(secondChecked.ok, true);
+  assert.equal(first.plan_id, second.plan_id);
+  assert.doesNotMatch(JSON.stringify(firstChecked.meals), /\{\{[ie]\d+\}\}/);
+  assert.doesNotMatch(JSON.stringify(secondChecked.meals), /\{\{[ie]\d+\}\}/);
+});
+
+test('controlled phrases omit empty optional phases and render executable one-pot actions', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['牛里脊', '番茄'] }));
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  assert.ok(locked.meals[0].cooking_order.every(phase => (
+    phase.allowed_ingredient_refs.length > 0 || phase.required_safety_endpoints.length > 0
+  )));
+  assert.equal(locked.meals[0].cooking_order.some(phase => (
+    phase.action_code === 'add_fast_cooking_items' && phase.allowed_ingredient_refs.length === 0
+  )), false);
+  const staplePhaseIndex = locked.meals[0].cooking_order
+    .findIndex(phase => phase.action_code === 'add_staple_and_liquid');
+  assert.ok(staplePhaseIndex >= 0);
+  for (const text of locked.meals[0].generation_text_contract.steps[staplePhaseIndex].allowed_texts) {
+    assert.match(text, /加盖焖煮.*(?:熟软|无硬芯)/);
+  }
+  const output = validModelOutput(locked);
+  const checked = workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse());
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /牛里脊/);
+  assert.match(prose, /牛里脊.*薄片/);
+  assert.match(prose, /(?:放入|翻炒|焖煮|加热|拌匀|热透)/);
+  assert.doesNotMatch(prose, /按规划使用.*完成|完成完成|\{\{/);
+});
+
+test('chicken, egg-tofu-vegetable and multi-pot journeys render complete household steps', async () => {
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const requests = [
+    plannerRequest({ must: ['鸡腿肉', '熟米饭'] }),
+    plannerRequest({ must: ['鸡蛋', '豆腐', '白菜'] }),
+    plannerRequest({ must: ['大米', '熟米饭', '番茄'] }),
+  ];
+  for (const request of requests) {
+    const journey = await preparedJourney(request);
+    const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+    assert.ok(locked.meals.every(meal => meal.cooking_order.every(phase => (
+      phase.allowed_ingredient_refs.length > 0 || phase.required_safety_endpoints.length > 0
+    ))));
+    const checked = workerModule.validateGeneratedPlan(
+      validModelOutput(locked),
+      locked,
+      ingredientTermUniverse(),
+    );
+    assert.equal(checked.ok, true);
+    for (const meal of checked.meals) {
+      const prose = meal.steps.map(step => step.text).join('\n');
+      assert.match(prose, /(?:切|打散|放入|加入|翻炒|翻拌|焖煮|加热|煮至|热透)/);
+      assert.doesNotMatch(prose, /(?:acid_base|staple|protein|action_code|完成完成|\{\{)/);
+    }
+  }
+
+  const chicken = await preparedJourney(requests[0]);
+  const chickenLocked = workerModule.buildLockedPlanContract(chicken.planned, templates);
+  const chickenChecked = workerModule.validateGeneratedPlan(
+    validModelOutput(chickenLocked), chickenLocked, ingredientTermUniverse(),
+  );
+  assert.match(chickenChecked.meals[0].steps.map(step => step.text).join('\n'), /鸡腿肉.*完全熟透，内部无粉红/);
+
+  const egg = await preparedJourney(requests[1]);
+  const eggLocked = workerModule.buildLockedPlanContract(egg.planned, templates);
+  const eggChecked = workerModule.validateGeneratedPlan(
+    validModelOutput(eggLocked), eggLocked, ingredientTermUniverse(),
+  );
+  assert.match(eggChecked.meals.map(meal => meal.steps.map(step => step.text).join('\n')).join('\n'), /鸡蛋.*完全凝固/);
 });
 
 test('locked safety endpoints come from the used template category and do not invent staple or duplicate poultry endpoints', async () => {
@@ -391,6 +503,221 @@ test('locked safety endpoints come from the used template category and do not in
   const chickenJourney = await preparedJourney(plannerRequest({ must: ['鸡胸肉', '熟米饭'] }));
   const chickenLocked = workerModule.buildLockedPlanContract(chickenJourney.planned, templates);
   assert.deepEqual(chickenLocked.meals[0].safety_endpoints, ['poultry_fully_cooked_no_pink']);
+});
+
+test('controlled prose scan rejects finite basic and recipe-only ingredients outside the locked plan', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const cases = [
+    ['step adds cheese alias', output => { output.meals[0].steps[0].text += '加入芝士。'; }],
+    ['step adds cooking wine', output => { output.meals[0].steps[0].text += '淋入料酒。'; }],
+    ['step adds generic sugar', output => { output.meals[0].steps[0].text += '再加糖。'; }],
+    ['step adds unplanned salt', output => { output.meals[0].steps[0].text += '放入盐。'; }],
+    ['step adds unplanned oil', output => { output.meals[0].steps[0].text += '倒入油。'; }],
+    ['step adds recipe-only parmesan', output => { output.meals[0].steps[0].text += '撒帕玛森奶酪。'; }],
+    ['step adds discouraged-only winter melon', output => { output.meals[0].steps[0].text += '加入冬瓜。'; }],
+    ['dish name adds cheese', output => { output.meals[0].dish_name = '芝士番茄鸡蛋锅'; }],
+    ['reason adds cooking wine', output => { output.meals[0].recommendation_reason += '料酒可以增香。'; }],
+  ];
+  for (const [name, mutate] of cases) {
+    await t.test(name, () => {
+      const output = validModelOutput(locked);
+      mutate(output);
+      assert.equal(workerModule.validateGeneratedPlan(output, locked, termUniverse).ok, false);
+    });
+  }
+  const noWaterJourney = await preparedJourney(plannerRequest({ must: ['熟米饭', '鸡蛋'] }));
+  const noWaterLocked = workerModule.buildLockedPlanContract(noWaterJourney.planned, templates);
+  assert.equal(noWaterLocked.meals[0].locked_ingredients.some(item => item.canonical === '水'), false);
+  const addsWater = validModelOutput(noWaterLocked);
+  addsWater.meals[0].steps[0].text += '再加水。';
+  assert.equal(workerModule.validateGeneratedPlan(addsWater, noWaterLocked, termUniverse).ok, false);
+});
+
+test('closed placeholder grammar rejects ingredients absent from every finite term index', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const journey = await preparedJourney(plannerRequest({ must: ['鸡腿肉', '熟米饭'] }));
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const cases = [
+    ['bacon in step', output => { output.meals[0].steps[0].text += '再加入培根。'; }],
+    ['avocado in dish', output => { output.meals[0].dish_name = '牛油果鸡腿饭'; }],
+    ['arbitrary main ingredient in reason', output => { output.meals[0].recommendation_reason += '星云菜也很适合。'; }],
+  ];
+  for (const [name, mutate] of cases) {
+    await t.test(name, () => {
+      const output = validModelOutput(locked);
+      mutate(output);
+      const checked = workerModule.validateGeneratedPlan(output, locked, termUniverse);
+      assert.equal(checked.ok, false);
+      assert.equal(checked.reason_code, 'uncontrolled_prose');
+    });
+  }
+});
+
+test('locked refs cannot conceal deletion or omission language', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const cases = [
+    '番茄不使用，留在冰箱。',
+    '丢弃番茄，不放入锅。',
+    '省略番茄即可。',
+    '去掉番茄。',
+  ];
+  for (const text of cases) {
+    await t.test(text, () => {
+      const output = validModelOutput(locked);
+      const tomatoRef = locked.meals[0].locked_ingredients.find(item => item.raw_name === '番茄').ingredient_ref;
+      const step = output.meals[0].steps.find(entry => entry.ingredient_refs.includes(tomatoRef));
+      step.text = text;
+      const checked = workerModule.validateGeneratedPlan(output, locked, termUniverse);
+      assert.equal(checked.ok, false);
+      assert.equal(checked.reason_code, 'ingredient_deletion_in_prose');
+    });
+  }
+});
+
+test('safety endpoint tags require the risk ingredient ref and achieved doneness evidence', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const journey = await preparedJourney(plannerRequest({ must: ['鸡腿肉', '熟米饭'] }));
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const chickenRef = locked.meals[0].locked_ingredients.find(item => item.raw_name === '鸡腿肉').ingredient_ref;
+  const cases = [
+    ['still pink despite tag', step => { step.text = '鸡腿肉仍然粉红，稍后再煮熟。'; }, 'safety_evidence_invalid'],
+    ['tag without risk ingredient ref', step => {
+      step.text = '鸡腿肉完全熟透，内部无粉红。';
+      step.ingredient_refs = step.ingredient_refs.filter(ref => ref !== chickenRef);
+    }, 'safety_endpoint_ingredient_ref_missing'],
+    ['future doneness claim', step => { step.text = '鸡腿肉稍后会煮熟。'; }, 'safety_evidence_invalid'],
+    ['surface color only', step => { step.text = '鸡腿肉表面已经变色。'; }, 'safety_evidence_invalid'],
+    ['elapsed time only', step => { step.text = '鸡腿肉已经加热。'; }, 'safety_evidence_invalid'],
+    ['negated fully cooked', step => { step.text = '鸡腿肉并未完全熟透，内部无粉红。'; }, 'safety_evidence_invalid'],
+    ['not fully cooked', step => { step.text = '鸡腿肉不是完全熟透，只是内部无粉红。'; }, 'safety_evidence_invalid'],
+    ['not completely cooked', step => { step.text = '鸡腿肉不完全熟透，内部无粉红。'; }, 'safety_evidence_invalid'],
+    ['by no means completely cooked', step => { step.text = '鸡腿肉并非完全熟透，内部无粉红。'; }, 'safety_evidence_invalid'],
+    ['failed to cook completely', step => { step.text = '鸡腿肉未能完全熟透，内部无粉红。'; }, 'safety_evidence_invalid'],
+    ['blood contradicts positive claim', step => { step.text = '鸡腿肉完全熟透，内部无粉红，但中心仍带血。'; }, 'safety_evidence_invalid'],
+    ['pink contradicts positive claim', step => { step.text = '鸡腿肉完全熟透，但切开内部带粉红。'; }, 'safety_evidence_invalid'],
+  ];
+  for (const [name, mutate, reason] of cases) {
+    await t.test(name, () => {
+      const output = validModelOutput(locked);
+      const safetyStep = output.meals[0].steps.find(step => step.completed_safety_endpoints.length);
+      mutate(safetyStep);
+      const checked = workerModule.validateGeneratedPlan(output, locked, termUniverse);
+      assert.equal(checked.ok, false);
+      assert.equal(checked.reason_code, reason);
+    });
+  }
+
+  const eggJourney = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
+  const eggLocked = workerModule.buildLockedPlanContract(eggJourney.planned, templates);
+  for (const text of [
+    '鸡蛋未完全凝固。',
+    '鸡蛋没有完全凝固。',
+    '鸡蛋不算完全凝固。',
+    '鸡蛋不完全凝固。',
+    '鸡蛋并非完全凝固。',
+    '鸡蛋未能完全凝固。',
+    '鸡蛋已经熟透，但蛋黄保持流心。',
+    '鸡蛋完全凝固，但蛋黄仍是溏心。',
+  ]) {
+    await t.test(text, () => {
+      const output = validModelOutput(eggLocked);
+      const safetyStep = output.meals[0].steps.find(step => step.completed_safety_endpoints.length);
+      safetyStep.text = text;
+      const checked = workerModule.validateGeneratedPlan(output, eggLocked, termUniverse);
+      assert.equal(checked.ok, false);
+      assert.equal(checked.reason_code, 'safety_evidence_invalid');
+    });
+  }
+});
+
+test('specific meat cuts must survive in the dish or a relevant referenced step', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const cases = [
+    [plannerRequest({ must: ['牛里脊', '番茄'] }), '牛里脊', '牛肉'],
+    [plannerRequest({ must: ['鸡腿肉', '熟米饭'] }), '鸡腿肉', '鸡肉'],
+    [plannerRequest({ must: ['鸡胸肉', '熟米饭'] }), '鸡胸肉', '鸡肉'],
+  ];
+  for (const [request, rawPart, canonical] of cases) {
+    await t.test(rawPart, async () => {
+      const journey = await preparedJourney(request);
+      const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+      const output = validModelOutput(locked);
+      const special = locked.meals.flatMap(meal => meal.locked_ingredients)
+        .find(item => item.raw_name === rawPart);
+      const token = `{{${special.ingredient_ref}}}`;
+      for (const meal of output.meals) {
+        meal.dish_name = meal.dish_name.replaceAll(token, canonical);
+        meal.recommendation_reason = meal.recommendation_reason.replaceAll(token, canonical);
+        meal.steps.forEach(step => { step.text = step.text.replaceAll(token, canonical); });
+      }
+      assert.equal(workerModule.validateGeneratedPlan(output, locked, termUniverse).ok, false);
+    });
+  }
+
+  await t.test('other chicken part in dish name', async () => {
+    const journey = await preparedJourney(plannerRequest({ must: ['鸡腿肉', '熟米饭'] }));
+    const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+    const output = validModelOutput(locked);
+    output.meals[0].dish_name = '鸡胸肉一锅饭';
+    assert.equal(workerModule.validateGeneratedPlan(output, locked, termUniverse).ok, false);
+  });
+
+  await t.test('other beef part in recommendation reason', async () => {
+    const journey = await preparedJourney(plannerRequest({ must: ['牛里脊', '番茄'] }));
+    const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+    const output = validModelOutput(locked);
+    output.meals[0].recommendation_reason = '牛腩口感更适合这个计划。';
+    assert.equal(workerModule.validateGeneratedPlan(output, locked, termUniverse).ok, false);
+  });
+});
+
+test('colloquial quantities and unplanned appliances are rejected in every prose field', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const cases = [
+    ['half bowl in step', output => { output.meals[0].steps[0].text += '加入半碗水。'; }],
+    ['half spoon in dish', output => { output.meals[0].dish_name = '半勺盐番茄鸡蛋锅'; }],
+    ['quarter hour in reason', output => { output.meals[0].recommendation_reason += '一刻钟就能完成。'; }],
+    ['two quarters in step', output => { output.meals[0].steps[0].text += '烹调两刻钟。'; }],
+    ['half hour in step', output => { output.meals[0].steps[0].text += '再等半小时。'; }],
+    ['half cup in step', output => { output.meals[0].steps[0].text += '加入半杯水。'; }],
+    ['tablespoon in dish', output => { output.meals[0].dish_name = '一汤匙油番茄鸡蛋锅'; }],
+    ['teaspoon in reason', output => { output.meals[0].recommendation_reason += '一茶匙就够。'; }],
+    ['seconds in step', output => { output.meals[0].steps[0].text += '搅拌30秒。'; }],
+    ['egg count in step', output => { output.meals[0].steps[0].text += '打入2个鸡蛋。'; }],
+    ['slice count in step', output => { output.meals[0].steps[0].text += '切3片。'; }],
+    ['half jin in step', output => { output.meals[0].steps[0].text += '加入半斤番茄。'; }],
+    ['two liang in reason', output => { output.meals[0].recommendation_reason += '二两番茄就够。'; }],
+    ['unsafe Celsius symbol', output => { output.meals[0].steps[0].text += '加热到50℃。'; }],
+    ['unsafe Celsius word', output => { output.meals[0].steps[0].text += '中心达到50摄氏度。'; }],
+    ['oven in step', output => { output.meals[0].steps[0].text += '转入烤箱完成。'; }],
+    ['air fryer in dish', output => { output.meals[0].dish_name = '空气炸锅番茄鸡蛋'; }],
+    ['microwave in reason', output => { output.meals[0].recommendation_reason += '微波炉更省事。'; }],
+    ['electric pressure cooker in step', output => { output.meals[0].steps[0].text += '改用电压力锅。'; }],
+  ];
+  for (const [name, mutate] of cases) {
+    await t.test(name, () => {
+      const output = validModelOutput(locked);
+      mutate(output);
+      const checked = workerModule.validateGeneratedPlan(output, locked, termUniverse);
+      assert.equal(checked.ok, false);
+      assert.equal(
+        checked.reason_code,
+        /oven|fryer|microwave|pressure/.test(name) ? 'multiple_vessels' : 'numeric_prose_override',
+      );
+    });
+  }
 });
 
 test('endpoint rejects model contract violations without exposing payload or retrying', async t => {
@@ -425,6 +752,31 @@ test('one meal cannot reference another meal ingredient', async () => {
   assert.equal(result.response.status, 422);
   assert.equal(result.body.code, 'model_contract_violation');
   assert.equal(result.upstreamBodies.length, 1);
+});
+
+test('placeholder refs are exact per phase and cannot cross meals', async t => {
+  const termUniverse = ingredientTermUniverse();
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const single = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
+  const singleLocked = workerModule.buildLockedPlanContract(single.planned, templates);
+
+  await t.test('a phase cannot name another current-meal ref', () => {
+    const output = validModelOutput(singleLocked);
+    const step = output.meals[0].steps.find(entry => entry.ingredient_refs.length === 1);
+    const other = output.meals[0].ingredient_refs.find(ref => !step.ingredient_refs.includes(ref));
+    step.text = step.text.replace(`{{${step.ingredient_refs[0]}}}`, `{{${other}}}`);
+    assert.equal(workerModule.validateGeneratedPlan(output, singleLocked, termUniverse).ok, false);
+  });
+
+  const multi = await preparedJourney(plannerRequest({ must: ['大米', '熟米饭', '番茄'] }));
+  const multiLocked = workerModule.buildLockedPlanContract(multi.planned, templates);
+  await t.test('dish name cannot use another meal placeholder', () => {
+    const output = validModelOutput(multiLocked);
+    const foreignRef = output.meals[1].ingredient_refs[0];
+    const ownRef = output.meals[0].ingredient_refs[0];
+    output.meals[0].dish_name = output.meals[0].dish_name.replace(`{{${ownRef}}}`, `{{${foreignRef}}}`);
+    assert.equal(workerModule.validateGeneratedPlan(output, multiLocked, termUniverse).ok, false);
+  });
 });
 
 test('malformed model JSON and upstream errors fail once with no automatic retry', async t => {
