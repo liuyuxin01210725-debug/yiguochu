@@ -1,3 +1,5 @@
+import { BASIC_EXTRA_CATEGORIES, resolveBasicExtraIdentity } from '../../worker/src/taxonomy-identity.js';
+
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
@@ -8,7 +10,6 @@ const WHEN_KEYS = new Set(['template_id', 'slot_id', 'category']);
 const ROUNDING_KEYS = new Set(['grams_to_nearest']);
 const EXAMPLE_KEYS = new Set(['slot_name']);
 const OPERATORS = new Set(['per_serving', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
-const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
 const MOISTURE_VALUES = new Set(['low', 'medium', 'high']);
 const RULE_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 
@@ -64,14 +65,7 @@ function templateContext(templates, taxonomy, recipeLibrary) {
   const recipeIds = new Set(Array.isArray(recipeLibrary?.recipes)
     ? recipeLibrary.recipes.map(recipe => recipe?.id).filter(isString)
     : []);
-  const taxonomyByName = new Map();
-  for (const item of Array.isArray(taxonomy?.items) ? taxonomy.items : []) {
-    for (const name of [item?.display_name, ...(Array.isArray(item?.aliases) ? item.aliases : [])]) {
-      if (!isString(name) || !isString(item?.category)) continue;
-      taxonomyByName.set(name.trim().toLowerCase().replace(/\s+/g, ''), item.category);
-    }
-  }
-  return { templateById, categories, recipeIds, taxonomyByName };
+  return { templateById, categories, recipeIds, taxonomy };
 }
 
 function slotCategories(template, slotId) {
@@ -105,12 +99,7 @@ function validateTarget(value, label, errors, { basicExtraOnly = false, allowSlo
 }
 
 function validateBasicExtraIdentity(target, label, context, errors) {
-  const actualCategory = context.taxonomyByName.get(String(target?.name || '').trim().toLowerCase().replace(/\s+/g, ''));
-  if (!actualCategory) {
-    errors.push(`${label} target name is unknown to taxonomy`);
-  } else if (actualCategory !== target.category) {
-    errors.push(`${label} target name category does not match taxonomy`);
-  }
+  if (!resolveBasicExtraIdentity(target, context.taxonomy)) errors.push(`${label} target name category does not match taxonomy`);
 }
 
 function validateOperation(operation, label, rule, context, errors) {
@@ -133,7 +122,12 @@ function validateOperation(operation, label, rule, context, errors) {
   assertAllowedKeys(operation, operationKeys[operator], label, errors);
   if (operator === 'per_serving') {
     validateTarget(operation.target, `${label}.target`, errors, { allowSlot: true });
-    if (operation.target?.slot_id !== rule?.when?.slot_id) errors.push(`${label}.target must use rule when.slot_id`);
+    const requiredUserSlots = (context.templateById.get(rule?.when?.template_id)?.required_slots || [])
+      .filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id);
+    if (!requiredUserSlots.includes(operation.target?.slot_id) && !(context.templateById.get(rule?.when?.template_id)?.optional_slots || [])
+      .some(slot => slot?.slot_id === operation.target?.slot_id && slot?.source_policy?.includes('user'))) {
+      errors.push(`${label}.target must be a declared user slot`);
+    }
     validateBounds(operation.grams, `${label}.grams`, errors);
   }
   if (operator === 'bounded_sum') {
@@ -201,9 +195,12 @@ function validateRule(rule, index, context, errors) {
   if (!Array.isArray(rule.operations) || rule.operations.length === 0) errors.push(`${label}.operations must be a non-empty array`);
   else {
     rule.operations.forEach((operation, operationIndex) => validateOperation(operation, `${label}.operations[${operationIndex}]`, rule, context, errors));
-    const perServing = rule.operations.filter(operation => operation?.operator === 'per_serving');
-    if (perServing.length !== 1 || perServing[0]?.target?.slot_id !== rule.when?.slot_id) {
-      errors.push(`${label} requires exactly one per_serving for when.slot_id`);
+    const requiredUserSlots = (context.templateById.get(rule.when?.template_id)?.required_slots || [])
+      .filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id);
+    for (const slotId of requiredUserSlots) {
+      if (rule.operations.filter(operation => operation?.operator === 'per_serving' && operation.target?.slot_id === slotId).length !== 1) {
+        errors.push(`${label} requires exactly one per_serving for required user slot ${slotId}`);
+      }
     }
     const stageByOperator = new Map([
       ['per_serving', 1], ['bounded_sum', 1], ['ratio', 2], ['fixed_addition', 3], ['scale_by_servings', 3],
@@ -227,6 +224,16 @@ function validateRule(rule, index, context, errors) {
     assertAllowedKeys(rule.rounding, ROUNDING_KEYS, `${label}.rounding`, errors);
     if (!Number.isInteger(rule.rounding.grams_to_nearest) || rule.rounding.grams_to_nearest <= 0) {
       errors.push(`${label}.rounding.grams_to_nearest must be a positive integer`);
+    }
+    if (Number.isInteger(rule.rounding.grams_to_nearest) && rule.rounding.grams_to_nearest > 0) {
+      for (const operation of Array.isArray(rule.operations) ? rule.operations : []) {
+        for (const field of ['grams', 'grams_per_serving', 'liquid_credit_grams_per_serving']) {
+          const amount = operation?.[field]?.default;
+          if (finiteNonNegative(amount) && amount > 0 && Math.round(amount / rule.rounding.grams_to_nearest) === 0) {
+            errors.push(`${label}.${field} positive default rounds to 0g`);
+          }
+        }
+      }
     }
   }
   if (!isObject(rule.example_context)) errors.push(`${label}.example_context must be an object`);
@@ -262,6 +269,17 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipeLibr
     }
     for (const ref of activeRefs) if (!ids.has(ref)) errors.push(`active template ratio reference is unresolved: ${ref}`);
     for (const id of ids) if (!activeRefs.has(id)) errors.push(`ratio rule is not an active template reference: ${id}`);
+    for (const template of context.templateById.values()) {
+      if (!ACTIVE_TEMPLATE_IDS.has(template?.template_id)) continue;
+      const rules = catalog.rules.filter(rule => rule?.when?.template_id === template.template_id);
+      const requiredUserSlots = (template.required_slots || []).filter(slot => slot?.source_policy?.includes('user'));
+      const hasCompleteVariantSlot = requiredUserSlots.some(slot => {
+        const expected = slotCategories(template, slot.slot_id);
+        const actual = new Set(rules.filter(rule => rule?.when?.slot_id === slot.slot_id).map(rule => rule.when.category));
+        return expected.size > 0 && expected.size === actual.size && [...expected].every(category => actual.has(category));
+      });
+      if (!hasCompleteVariantSlot) errors.push(`${template.template_id} missing complete required category variant coverage`);
+    }
     return errors;
   } catch (error) {
     return [`ratio DSL validation failed safely: ${error instanceof Error ? error.message : String(error)}`];
