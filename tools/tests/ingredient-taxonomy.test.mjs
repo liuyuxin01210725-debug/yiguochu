@@ -5,9 +5,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   assertIngredientTaxonomy,
+  normalizeIngredientTaxonomyKey,
   validateIngredientTaxonomy,
 } from '../lib/ingredient-taxonomy-validator.mjs';
-import { normalizePlannerItems } from '../../worker/src/planner-v2.js';
+import { normalizePlannerItems, normalizePlannerTaxonomyKey } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const catalog = JSON.parse(fs.readFileSync(
@@ -52,8 +53,56 @@ test('validator rejects duplicate IDs and aliases plus incomplete cooking attrib
   delete invalid.items[3].cooking_risk;
   const errors = validateIngredientTaxonomy(invalid);
   assert.ok(errors.some(error => error.includes('duplicate canonical_id')));
-  assert.ok(errors.some(error => error.includes('duplicate alias')));
+  assert.ok(errors.some(error => error.includes('duplicate normalized alias')));
   assert.ok(errors.some(error => error.includes('cooking_risk')));
+});
+
+test('validator rejects codes outside its finite first-stage vocabularies', () => {
+  const invalid = structuredClone(catalog);
+  invalid.items[0].texture_behavior.best_method_codes = ['invent_method'];
+  invalid.items[0].texture_behavior.failure_mode_codes = ['invent_failure'];
+  invalid.items[0].cooking_risk.required_endpoint_codes = ['invent_endpoint'];
+  invalid.items[0].compatible_slot_codes = ['invent_slot'];
+  invalid.items[0].incompatible_slot_codes = ['invent_incompatible_slot'];
+  const errors = validateIngredientTaxonomy(invalid);
+  for (const field of [
+    'texture_behavior.best_method_codes',
+    'texture_behavior.failure_mode_codes',
+    'cooking_risk.required_endpoint_codes',
+    'compatible_slot_codes',
+    'incompatible_slot_codes',
+  ]) assert.ok(errors.some(error => error.includes(field)), field);
+});
+
+test('validator rejects canonical names that do not resolve to a compatible base identity', () => {
+  const nonexistent = structuredClone(catalog);
+  nonexistent.items.find(item => item.canonical_id === 'beef-tenderloin').canonical_name = '不存在的肉';
+  assert.ok(validateIngredientTaxonomy(nonexistent).some(error => error.includes('canonical_name must name an existing display_name')));
+
+  const incompatible = structuredClone(catalog);
+  incompatible.items.find(item => item.canonical_id === 'beef-tenderloin').canonical_name = '鸡肉';
+  assert.ok(validateIngredientTaxonomy(incompatible).some(error => error.includes('canonical_name category must match')));
+
+  const selfOrChain = structuredClone(catalog);
+  selfOrChain.items.find(item => item.canonical_id === 'beef-tenderloin').canonical_name = '鸡胸肉';
+  assert.ok(validateIngredientTaxonomy(selfOrChain).some(error => error.includes('canonical_name must not point to another canonical alias')));
+
+  const self = structuredClone(catalog);
+  self.items.find(item => item.canonical_id === 'beef-tenderloin').canonical_name = '牛里脊';
+  assert.ok(validateIngredientTaxonomy(self).some(error => error.includes('canonical_name must not point to itself')));
+});
+
+test('validator and planner share a normalized identity key and reject normalized collisions', () => {
+  assert.equal(normalizeIngredientTaxonomyKey(' 牛 里 脊 '), '牛里脊');
+  assert.equal(normalizePlannerTaxonomyKey(' 牛 里 脊 '), '牛里脊');
+
+  const aliasDisplayCollision = structuredClone(catalog);
+  aliasDisplayCollision.items.find(item => item.canonical_id === 'beef-generic').aliases.push(' 牛 里 脊 ');
+  assert.ok(validateIngredientTaxonomy(aliasDisplayCollision).some(error => error.includes('normalized alias conflicts with display_name')));
+
+  const aliasAliasCollision = structuredClone(catalog);
+  aliasAliasCollision.items.find(item => item.canonical_id === 'chicken-generic').aliases.push(' 金 菇 ');
+  assert.ok(validateIngredientTaxonomy(aliasAliasCollision).some(error => error.includes('duplicate normalized alias')));
 });
 
 test('planner normalization preserves cuts while mapping generic beef only where safe', () => {
@@ -118,6 +167,21 @@ test('planner normalization retains unknown and duplicate inputs for explanation
     cook_speed: null, moisture_release: null, texture_behavior: null,
     cooking_risk: 'unknown', recognized: false, role: 'prefer_use', duplicate_of: null,
   });
+});
+
+test('planner normalization rejects blank input and makes must_use the duplicate representative', () => {
+  assert.throws(
+    () => normalizePlannerItems(['  '], catalog),
+    error => error?.code === 'invalid_planner_request' && error.message === 'planner item raw must not be blank',
+  );
+  const [preferFirst, mustSecond] = normalizePlannerItems([
+    { raw:'牛柳', role:'prefer_use' },
+    { raw:'牛里脊', role:'must_use' },
+  ], catalog);
+  assert.equal(preferFirst.raw, '牛柳');
+  assert.equal(preferFirst.duplicate_of, '牛里脊');
+  assert.equal(mustSecond.raw, '牛里脊');
+  assert.equal(mustSecond.duplicate_of, null);
 });
 
 function pickIdentity(item) {

@@ -69,7 +69,11 @@ export function plannerRequestFromLegacy(constraints = {}) {
 }
 
 function plannerItemInput(rawItem) {
-  if (typeof rawItem === 'string') return { raw: rawItem.trim(), role: 'must_use' };
+  if (typeof rawItem === 'string') {
+    const raw = rawItem.trim();
+    if (!raw) throw invalidPlannerRequest('planner item raw must not be blank');
+    return { raw, role: 'must_use' };
+  }
   if (!rawItem || typeof rawItem !== 'object' || Array.isArray(rawItem) || typeof rawItem.raw !== 'string') {
     throw invalidPlannerRequest('planner item must be a string or { raw, role } object');
   }
@@ -77,18 +81,22 @@ function plannerItemInput(rawItem) {
   if (role !== 'must_use' && role !== 'prefer_use') {
     throw invalidPlannerRequest('planner item role is invalid');
   }
-  return { raw: rawItem.raw.trim(), role };
+  const raw = rawItem.raw.trim();
+  if (!raw) throw invalidPlannerRequest('planner item raw must not be blank');
+  return { raw, role };
 }
 
-function plannerItemKey(value) {
+export function normalizeIngredientTaxonomyKey(value) {
   return String(value || '').trim().toLowerCase().replace(/\s+/g, '');
 }
+
+export const normalizePlannerTaxonomyKey = normalizeIngredientTaxonomyKey;
 
 function taxonomyItemIndex(taxonomy) {
   const index = new Map();
   for (const item of taxonomy?.items || []) {
     for (const name of [item.display_name, ...(item.aliases || [])]) {
-      const key = plannerItemKey(name);
+      const key = normalizeIngredientTaxonomyKey(name);
       if (key && !index.has(key)) index.set(key, item);
     }
   }
@@ -96,8 +104,8 @@ function taxonomyItemIndex(taxonomy) {
 }
 
 function taxonomyShapeForInput(item, raw) {
-  const rawKey = plannerItemKey(raw);
-  const mapped = Object.entries(item.alias_shape_or_cut || {}).find(([alias]) => plannerItemKey(alias) === rawKey)?.[1];
+  const rawKey = normalizeIngredientTaxonomyKey(raw);
+  const mapped = Object.entries(item.alias_shape_or_cut || {}).find(([alias]) => normalizeIngredientTaxonomyKey(alias) === rawKey)?.[1];
   if (mapped) return mapped;
   if (item.default_shape_or_cut) return item.default_shape_or_cut;
   return item.shapes_or_cuts?.length === 1 ? item.shapes_or_cuts[0] : null;
@@ -108,10 +116,25 @@ function taxonomyShapeForInput(item, raw) {
 export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
   if (!Array.isArray(rawItems)) throw invalidPlannerRequest('planner items must be an array');
   const index = taxonomyItemIndex(taxonomy);
-  const firstRawForCanonical = new Map();
-  return rawItems.map(rawItem => {
-    const { raw, role } = plannerItemInput(rawItem);
-    const item = index.get(plannerItemKey(raw));
+  const parsed = rawItems.map(plannerItemInput).map(input => ({
+    ...input,
+    item: index.get(normalizeIngredientTaxonomyKey(input.raw)) || null,
+  }));
+  const representativeByCanonical = new Map();
+  for (let indexOfItem = 0; indexOfItem < parsed.length; indexOfItem += 1) {
+    const entry = parsed[indexOfItem];
+    if (!entry.item || entry.role !== 'must_use') continue;
+    const canonical = entry.item.canonical_name || entry.item.display_name;
+    if (!representativeByCanonical.has(canonical)) representativeByCanonical.set(canonical, indexOfItem);
+  }
+  for (let indexOfItem = 0; indexOfItem < parsed.length; indexOfItem += 1) {
+    const entry = parsed[indexOfItem];
+    if (!entry.item) continue;
+    const canonical = entry.item.canonical_name || entry.item.display_name;
+    if (!representativeByCanonical.has(canonical)) representativeByCanonical.set(canonical, indexOfItem);
+  }
+  return parsed.map((entry, indexOfItem) => {
+    const { raw, role, item } = entry;
     if (!item) {
       return {
         raw,
@@ -128,8 +151,8 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
       };
     }
     const canonical = item.canonical_name || item.display_name;
-    const duplicate_of = firstRawForCanonical.get(canonical) || null;
-    if (!duplicate_of) firstRawForCanonical.set(canonical, raw);
+    const representativeIndex = representativeByCanonical.get(canonical);
+    const duplicate_of = representativeIndex === indexOfItem ? null : parsed[representativeIndex].raw;
     return {
       raw,
       canonical,
