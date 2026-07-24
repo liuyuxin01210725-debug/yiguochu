@@ -246,6 +246,14 @@ function checkShapeRequirements(requirements, label, declaredSlots, acceptedCate
         errors.push(`${itemLabel}.${field} conflicts with taxonomy shape`);
       }
     }
+    const allowedShapes = Array.isArray(requirement.allowed_shapes) ? requirement.allowed_shapes : [];
+    const forbiddenShapes = Array.isArray(requirement.forbidden_shapes) ? requirement.forbidden_shapes : [];
+    if (allowedShapes.length === 0 && forbiddenShapes.length === 0) {
+      errors.push(`${itemLabel}.allowed_shapes and forbidden_shapes cannot both be empty`);
+    }
+    if (allowedShapes.some(shape => forbiddenShapes.includes(shape))) {
+      errors.push(`${itemLabel}.allowed_shapes and forbidden_shapes overlap`);
+    }
   });
 }
 
@@ -330,10 +338,27 @@ function checkTemplate(template, index, context, recipeIds, errors) {
       || template.slot_limits.total_user_items_min > template.slot_limits.total_user_items_max) {
       errors.push(`${label}.slot_limits total_user_items bounds are invalid`);
     }
-    const requiredMinimum = requiredSlots.reduce((total, slot) => total + (Number.isInteger(slot?.min_items) ? slot.min_items : 0), 0);
+    const requiredUserMinimum = requiredSlots.reduce((total, slot) => total + (
+      Array.isArray(slot?.source_policy) && !slot.source_policy.includes('basic_extra') && Number.isInteger(slot.min_items)
+        ? slot.min_items
+        : 0
+    ), 0);
+    const userCapacity = [...requiredSlots, ...optionalSlots].reduce((total, slot) => total + (
+      Array.isArray(slot?.source_policy) && slot.source_policy.includes('user') && Number.isInteger(slot.max_items)
+        ? slot.max_items
+        : 0
+    ), 0);
+    if (Number.isInteger(template.slot_limits.total_user_items_min)
+      && template.slot_limits.total_user_items_min < requiredUserMinimum) {
+      errors.push(`${label}.slot_limits.total_user_items_min is below required user slots`);
+    }
     if (Number.isInteger(template.slot_limits.total_user_items_max)
-      && template.slot_limits.total_user_items_max < requiredMinimum) {
-      errors.push(`${label}.slot_limits.total_user_items_max is below required_slots.min_items total`);
+      && template.slot_limits.total_user_items_max > userCapacity) {
+      errors.push(`${label}.slot_limits.total_user_items_max exceeds user-provided capacity`);
+    }
+    if (Number.isInteger(template.slot_limits.total_user_items_min)
+      && template.slot_limits.total_user_items_min > userCapacity) {
+      errors.push(`${label}.slot_limits.total_user_items_min exceeds user-provided capacity`);
     }
   }
 
@@ -358,6 +383,14 @@ function checkTemplate(template, index, context, recipeIds, errors) {
   checkRules(template.incompatible_rules, `${label}.incompatible_rules`, slotIds, acceptedCategoriesBySlot, context, errors, true);
   checkShapeRequirements(template.shape_or_cut_requirements, `${label}.shape_or_cut_requirements`, slotIds, acceptedCategoriesBySlot, context, errors);
   checkCookingOrder(template.cooking_order, `${label}.cooking_order`, slotIds, errors);
+  if (Array.isArray(template.cooking_order)) {
+    const coveredSlots = new Set(template.cooking_order.flatMap(phase => Array.isArray(phase?.slot_ids) ? phase.slot_ids : []));
+    for (const slot of requiredSlots) {
+      if (isString(slot?.slot_id) && !coveredSlots.has(slot.slot_id)) {
+        errors.push(`${label} required slot is missing from cooking_order: ${slot.slot_id}`);
+      }
+    }
+  }
 
   if (!Array.isArray(template.ratio_constraints) || template.ratio_constraints.some(ref => !isString(ref) || !RATIO_REF_RE.test(ref))) {
     errors.push(`${label}.ratio_constraints must be machine Ratio DSL references`);

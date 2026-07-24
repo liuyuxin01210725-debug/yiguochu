@@ -135,7 +135,6 @@ test('validator closes schema bypasses around limits, basic extras, safety, and 
   const invalid = structuredClone(catalog);
   const acid = invalid.templates.find(template => template.template_id === 'acid-staple-pot');
   const cookedRice = invalid.templates.find(template => template.template_id === 'cooked-rice-stir-pot');
-  acid.slot_limits.total_user_items_max = 1;
   acid.required_slots[1].accepts_categories = [];
   acid.required_slots[1].accepts_slot_codes = ['quick_cook_protein'];
   acid.compatibility_rules = [{
@@ -148,7 +147,7 @@ test('validator closes schema bypasses around limits, basic extras, safety, and 
 
   const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
   for (const expected of [
-    'total_user_items_max', 'basic_extra', 'unknown rule operator',
+    'basic_extra', 'unknown rule operator',
     'does not apply to category', 'missing required safety endpoint',
   ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
@@ -240,4 +239,28 @@ test('validator remains total for malformed nested template containers', () => {
   const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
   assert.ok(errors.length > 0);
   assert.ok(errors.every(error => typeof error === 'string'));
+});
+
+test('validator requires reachable user-item bounds, non-empty non-overlapping shapes, and required cooking coverage', () => {
+  const invalid = structuredClone(catalog);
+  const acid = invalid.templates.find(template => template.template_id === 'acid-staple-pot');
+  acid.slot_limits.total_user_items_min = 0;
+  acid.slot_limits.total_user_items_max = 7;
+  acid.shape_or_cut_requirements[0].allowed_shapes = [];
+  acid.shape_or_cut_requirements[0].forbidden_shapes = [];
+  acid.shape_or_cut_requirements.push({
+    slot_id:'protein', category:'beef', allowed_shapes:['tenderloin'], forbidden_shapes:['tenderloin'],
+  });
+  acid.cooking_order = acid.cooking_order.map(phase => ({
+    ...phase,
+    slot_ids: phase.slot_ids.map(slotId => slotId === 'staple' ? 'acid_base' : slotId),
+  }));
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  for (const expected of [
+    'total_user_items_min is below required user slots',
+    'total_user_items_max exceeds user-provided capacity',
+    'allowed_shapes and forbidden_shapes cannot both be empty',
+    'allowed_shapes and forbidden_shapes overlap',
+    'required slot is missing from cooking_order: staple',
+  ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
