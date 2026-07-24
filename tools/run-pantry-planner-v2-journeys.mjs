@@ -18,6 +18,30 @@ const html = readText('../index.html');
 const appScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
   .map(match => match[1]).filter(script => !script.includes('serviceWorker'));
 
+export const HANDLED_EXPECTATION_KEYS = Object.freeze([
+  'allowed_extra_categories', 'code', 'complete_coverage', 'complete_forbidden',
+  'different_plan_id', 'different_template_preferred', 'exercise_statuses',
+  'fallback_must_be_explicit', 'forbidden_copy', 'forbidden_extras',
+  'forbidden_final_ingredients', 'forbidden_raw', 'forbidden_required_extras',
+  'forbidden_shapes', 'forbidden_template_ids', 'forbidden_template_text',
+  'frontend_preserves_profile', 'generate_code', 'generate_http_status',
+  'generate_status', 'generation_allowed', 'generic_failure_forbidden',
+  'legacy_fallback_forbidden', 'locked_structure_stable', 'mapped_intent',
+  'mapped_mode', 'max_minutes_per_pot', 'minimum_items_per_pot',
+  'moisture_release_items_at_least', 'must_plan_raw', 'must_precedence_raw',
+  'must_use', 'no_double_count', 'no_duplicate_canonical_across_pots',
+  'no_retry', 'normalized', 'partial_complete_forbidden',
+  'plan_id_stable_across_wording', 'planned_prefer_min', 'pot_count_max',
+  'pot_count_min', 'pots_retained', 'prefer_use', 'ratio_trace_required',
+  'raw_items_retained', 'reason_codes', 'recent_does_not_exhaust',
+  'recognition_ratio_below', 'relaxed_item_role', 'same_or_better_promise',
+  'same_template_different_slot_assignment', 'semantic_denominator',
+  'sequential_meals', 'servings_per_pot', 'single_item_solution_forbidden',
+  'single_pot_minimum_coverage', 'status', 'structured_actions',
+  'submitted_must_count', 'unplanned_retained', 'unused_reason_codes',
+  'unused_reason_required', 'visible_action', 'visible_copy',
+]);
+
 function assetBinding() {
   return {
     async fetch(request) {
@@ -140,10 +164,11 @@ async function postGenerate(planRequest, planned, mutation) {
   const originalFetch = globalThis.fetch;
   const originalWarn = console.warn;
   const originalError = console.error;
+  const warnings = [];
   // Contract-negative journeys intentionally provoke Worker warnings. Capture
   // them inside the gate so a successful CLI remains a clean machine signal.
-  console.warn = () => {};
-  console.error = () => {};
+  console.warn = (...args) => { warnings.push(args.map(String).join(' ')); };
+  console.error = (...args) => { warnings.push(args.map(String).join(' ')); };
   globalThis.fetch = async (_url, options) => {
     const upstreamBody = JSON.parse(String(options.body || '{}'));
     upstreamBodies.push(upstreamBody);
@@ -159,7 +184,7 @@ async function postGenerate(planRequest, planned, mutation) {
     }), { ASSETS: assetBinding(), DEEPSEEK_API_KEY: 'journey-test-key', RATE_LIMIT: 0, RATE_KV: budget });
     const body = await response.json();
     assert.ok(upstreamBodies.length <= 1, 'generate-plan retried DeepSeek');
-    return { response, body, upstreamBodies, budget, envelope };
+    return { response, body, upstreamBodies, budget, envelope, warnings };
   } finally {
     globalThis.fetch = originalFetch;
     console.warn = originalWarn;
@@ -279,6 +304,7 @@ async function checkFrontend(entry, body, request) {
   const fixture = frontendFixture();
   fixture.eval(`state.profile=${JSON.stringify({ mode: request.constraints.mode, intent: request.constraints.intent, servings: String(request.constraints.servings), pantry: [...request.constraints.must_use, ...request.constraints.prefer_use].join(','), dislikes: request.constraints.dislikes.join(',') })}`);
   fixture.eval(`setDisplayedPlan(${JSON.stringify(body)},${JSON.stringify(request)},false)`);
+  let visibleHtml = fixture.root.innerHTML;
   if (entry.id === 'J09') {
     assert.doesNotMatch(fixture.root.innerHTML, /全部用上|全部安排完成/);
     assert.match(fixture.root.innerHTML, /这次没有使用/);
@@ -287,17 +313,51 @@ async function checkFrontend(entry, body, request) {
     assert.match(fixture.root.innerHTML, /第三锅|还有食材没有安排/);
   } else if (entry.id === 'J16') {
     assert.ok((body.plan?.pots || []).length <= 3);
+    const initialRequest = clone(request);
+    initialRequest.constraints.decision = null;
+    initialRequest.constraints.current_plan_id = null;
+    const initial = await postPlan(initialRequest);
+    const interactive = frontendFixture([{ body }]);
+    interactive.eval(`state.profile=${JSON.stringify({ mode:'pantry', intent:'normal', servings:'2', pantry:initialRequest.constraints.must_use.join(','), dislikes:'' })}`);
+    interactive.eval(`setDisplayedPlan(${JSON.stringify(initial.body)},${JSON.stringify(initialRequest)},false)`);
+    interactive.eval('generateDisplayedPlan=async()=>{}');
+    await interactive.eval("applyPlanDecision('allow_third_pot')");
+    const outbound = JSON.parse(interactive.calls[0].init.body);
+    assert.equal(outbound.constraints.decision.action, 'allow_third_pot');
+    assert.equal(outbound.constraints.decision.plan_id, initial.body.plan.plan_id);
   } else if (entry.id === 'J21') {
     assert.ok(body.normalized_items.some(item => item.raw === '神秘叶子' && item.role === 'prefer_use'));
+    const initialRequest = clone(request);
+    initialRequest.constraints.decision = null;
+    const initial = await postPlan(initialRequest);
+    const interactive = frontendFixture([{ body }]);
+    interactive.eval(`setDisplayedPlan(${JSON.stringify(initial.body)},${JSON.stringify(initialRequest)},false)`);
+    interactive.eval('generateDisplayedPlan=async()=>{}');
+    await interactive.eval("applyPlanDecision('relax_item','神秘叶子')");
+    const outbound = JSON.parse(interactive.calls[0].init.body);
+    assert.deepEqual(outbound.constraints.decision, { action:'relax_item', item:'神秘叶子' });
   } else if (entry.id === 'J22') {
     assert.match(fixture.root.innerHTML, /部分处理方案/);
     assert.match(fixture.root.innerHTML, /尚未处理/);
     assert.doesNotMatch(fixture.root.innerHTML, /全部安排完成/);
+    const initialRequest = clone(request);
+    initialRequest.constraints.current_plan_id = null;
+    initialRequest.constraints.decision = null;
+    const initial = entry._base || (await postPlan(initialRequest)).body;
+    const interactive = frontendFixture([{ body }]);
+    interactive.eval(`setDisplayedPlan(${JSON.stringify(initial)},${JSON.stringify(initialRequest)},false)`);
+    interactive.eval('generateDisplayedPlan=async()=>{}');
+    await interactive.eval("applyPlanDecision('accept_partial')");
+    const outbound = JSON.parse(interactive.calls[0].init.body);
+    assert.equal(outbound.constraints.decision.action, 'accept_partial');
+    assert.equal(outbound.constraints.decision.plan_id, initial.plan.plan_id);
+    assert.deepEqual(outbound.constraints.decision.acknowledged_unplanned, ['神秘叶子']);
   } else if (entry.id === 'J23') {
+    assert.match(visibleHtml, /调整食材/);
     const before = clone(fixture.eval('state.profile'));
     fixture.eval("openEditableProfile()");
     const after = fixture.eval('state.profile');
-    assert.equal(JSON.stringify(after), JSON.stringify(before));
+    if (entry.expect.frontend_preserves_profile) assert.equal(JSON.stringify(after), JSON.stringify(before));
     assert.equal(fixture.eval('state.view'), 'profile');
   } else if (entry.id === 'J29') {
     const cleanRequest = clone(request);
@@ -313,7 +373,12 @@ async function checkFrontend(entry, body, request) {
     assert.equal(interactive.eval('state.view'), 'v2-no-alternative');
     assert.match(interactive.root.innerHTML, /当前组合只有一个可靠的一锅方案/);
     assert.doesNotMatch(interactive.root.innerHTML, /生成失败|网络没接上/);
+    visibleHtml = interactive.root.innerHTML;
   }
+  if (entry.expect.forbidden_copy) for (const copy of entry.expect.forbidden_copy) assert.doesNotMatch(visibleHtml, new RegExp(copy));
+  if (entry.expect.visible_copy) assert.match(visibleHtml, new RegExp(entry.expect.visible_copy));
+  if (entry.expect.visible_action) assert.match(visibleHtml, new RegExp(entry.expect.visible_action));
+  if (entry.expect.generic_failure_forbidden) assert.doesNotMatch(visibleHtml, /生成失败|网络没接上/);
 }
 
 async function runOne(entry) {
@@ -346,7 +411,7 @@ async function runOne(entry) {
   if (entry.expect.normalized) {
     const actual = body.normalized_items.find(item => item.raw === entry.expect.normalized.raw);
     assert.ok(actual, `${entry.id} normalized item missing`);
-    for (const [key, value] of Object.entries(entry.expect.normalized)) if (key !== 'raw') assert.equal(actual[key], value, `${entry.id} normalized ${key}`);
+    for (const [key, value] of Object.entries(entry.expect.normalized)) if (key !== 'raw') assert.deepEqual(actual[key], value, `${entry.id} normalized ${key}`);
   }
   if (entry.expect.reason_codes && body.status !== 'complete') {
     const actual = allReasonCodes(body);
@@ -387,6 +452,40 @@ async function runOne(entry) {
     const selected = [...(body.plan?.planned_must_use || []), ...(body.plan?.planned_prefer_use || [])];
     assert.ok(selected.some(item => item.raw === entry.expect.must_plan_raw), `${entry.expect.must_plan_raw} was not selected`);
   }
+  if (entry.expect.planned_prefer_min != null) assert.ok((body.plan?.planned_prefer_use || []).length >= entry.expect.planned_prefer_min);
+  if (entry.expect.unused_reason_codes) for (const item of body.plan?.unused_prefer_use || []) {
+    assert.ok(entry.expect.unused_reason_codes.includes(item.reason_code), `${entry.id} unexpected unused reason ${item.reason_code}`);
+  }
+  if (entry.expect.forbidden_extras) for (const value of entry.expect.forbidden_extras) {
+    assert.doesNotMatch(JSON.stringify(body.plan?.required_extra_items || []), new RegExp(value));
+  }
+  if (entry.expect.forbidden_template_text) for (const value of entry.expect.forbidden_template_text) assert.doesNotMatch(JSON.stringify(body), new RegExp(value));
+  if (entry.expect.submitted_must_count != null) {
+    assert.equal(body.normalized_items.filter(item => item.role === 'must_use' && !item.duplicate_of).length, entry.expect.submitted_must_count);
+  }
+  if (entry.expect.single_item_solution_forbidden) for (const pot of body.plan?.pots || []) assert.notEqual(potItems(pot).length, 1);
+  if (entry.expect.partial_complete_forbidden && body.status === 'complete') assert.equal(body.plan.coverage_ratio, 1);
+  if (entry.expect.relaxed_item_role) assert.ok(body.normalized_items.some(item => item.role === entry.expect.relaxed_item_role));
+  if (entry.expect.unused_reason_required) {
+    assert.ok((body.plan?.unused_prefer_use || []).length > 0);
+    assert.ok(body.plan.unused_prefer_use.every(item => item.reason_code && item.reason));
+  }
+  if (entry.expect.unplanned_retained) assert.ok((body.plan?.unplanned_must_use || []).length > 0);
+  if (entry.expect.structured_actions) {
+    assert.ok((body.actions || []).length > 0);
+    for (const action of body.actions) {
+      assert.equal(typeof action.action, 'string');
+      assert.ok(Array.isArray(action.eligible_items));
+      assert.equal(typeof action.requires_acknowledgement, 'boolean');
+      assert.ok(Array.isArray(action.unplanned_items));
+    }
+  }
+  if (entry.expect.code) assert.equal(body.code, entry.expect.code);
+  if (entry.expect.legacy_fallback_forbidden) assert.notEqual(body.plan?.fallback_kind, 'legacy_recipe_selector');
+  if (entry.expect.no_double_count) {
+    const canonicals = (body.plan?.planned_must_use || []).map(item => item.canonical || item.raw);
+    assert.equal(canonicals.length, new Set(canonicals).size);
+  }
   if (entry.expect.different_plan_id) assert.notEqual(body.plan.plan_id, entry._base?.plan?.plan_id);
   if (entry.expect.same_template_different_slot_assignment) {
     assert.deepEqual(templates(body), templates(entry._level2Base));
@@ -398,11 +497,13 @@ async function runOne(entry) {
     assert.notEqual(structure(body), structure(entry._base));
     assert.ok(body.plan.coverage_ratio >= entry._base.plan.coverage_ratio);
   }
+  if (entry.expect.different_template_preferred) assert.notDeepEqual(templates(body), templates(entry._base));
+  if (entry.expect.same_or_better_promise) assert.ok(body.plan.coverage_ratio >= entry._base.plan.coverage_ratio);
   if (entry.id === 'J29') {
     assert.equal(body.code, 'no_alternative_plan');
     assert.ok(body.actions.some(action => action.action === 'relax_item'));
   }
-  if (entry.id === 'J30') {
+  if (entry.expect.recent_does_not_exhaust) {
     // First discover a real alternative, then mark it as older history. It may
     // still be returned because history is a preference, never a hard ban.
     const clean = clone(request); clean.constraints.current_plan_id = null; clean.constraints.recent_plan_ids = [];
@@ -426,26 +527,34 @@ async function runOne(entry) {
     const complete = await postPlan(probes[1]);
     const swap = clone(probes[1]); swap.constraints.current_plan_id = complete.body.plan.plan_id;
     const swapped = await postPlan(swap);
-    assert.ok(statuses.includes('ready'));
-    assert.ok(statuses.includes('complete'));
-    assert.ok(statuses.includes('needs_user_decision'));
-    assert.ok(['complete','no_alternative_plan'].includes(swapped.body.status));
+    const exercised = new Set(statuses);
+    exercised.add('swap');
+    for (const expected of entry.expect.exercise_statuses) assert.ok(exercised.has(expected), `${entry.id} did not exercise ${expected}`);
   }
   await checkFrontend(entry, body, request);
 
   if (entry.generate_deepseek_max > 0 || entry.model_mutation === 'stale_catalog') {
     assert.equal(body.generation_allowed, true, `${entry.id} must be generatable before generation boundary test`);
     const generated = await postGenerate(request, body, entry.model_mutation);
-    assert.ok(generated.upstreamBodies.length <= entry.generate_deepseek_max);
-    if (entry.expect.generate_http_status != null) assert.equal(generated.response.status, entry.expect.generate_http_status);
-    if (entry.expect.generate_code) assert.equal(generated.body.code, entry.expect.generate_code);
-    if (entry.expect.generate_status) assert.equal(generated.body.status, entry.expect.generate_status);
+    assert.equal(generated.upstreamBodies.length, entry.generate_deepseek_max, `${entry.id} unexpected DeepSeek call count`);
+    if (entry.expect.generate_http_status != null) assert.equal(generated.response.status, entry.expect.generate_http_status, `${entry.id} generate HTTP status`);
+    if (entry.expect.generate_code) assert.equal(generated.body.code, entry.expect.generate_code, `${entry.id} generate code`);
+    if (entry.expect.generate_status) assert.equal(generated.body.status, entry.expect.generate_status, `${entry.id} generate status`);
     if (entry.expect.forbidden_final_ingredients) for (const ingredient of entry.expect.forbidden_final_ingredients) assert.doesNotMatch(JSON.stringify(generated.body), new RegExp(ingredient));
     if (entry.expect.plan_id_stable_across_wording && generated.response.status === 200) assert.equal(generated.body.plan_id, body.plan.plan_id);
     if (entry.expect.locked_structure_stable && generated.response.status === 200) assert.deepEqual(generated.body.plan.pots, body.plan.pots);
     if (entry.id === 'J04' && generated.response.status === 200) assert.doesNotMatch(JSON.stringify(generated.body.meals), /煎制定型/);
     if (entry.id === 'J07' && generated.response.status === 200) assert.doesNotMatch(JSON.stringify(generated.body.meals), /鸡胸/);
     if (entry.id === 'J38') assert.equal(body.plan.pots.length, 3);
+    if (entry.expect.no_retry && entry.generate_deepseek_max === 1) assert.equal(generated.upstreamBodies.length, 1);
+    const mutationViolation = {
+      add_mushroom:'unplanned_ingredient_in_prose',
+      tenderloin_to_brisket:'unplanned_ingredient_in_prose',
+      delete_mushroom:'ingredient_ref_set_mismatch',
+      reverse_safety_order:'action_order_mismatch',
+      modify_ratio:'uncontrolled_prose',
+    }[entry.model_mutation];
+    if (mutationViolation) assert.ok(generated.warnings.some(message => message.includes(mutationViolation)), `${entry.id} failed for the wrong contract reason: ${generated.warnings}`);
     if (entry.expect.plan_id_stable_across_wording && generated.response.status === 200) {
       const baseline = await postGenerate(request, body, null);
       assert.equal(baseline.response.status, 200);
@@ -471,16 +580,17 @@ function validateCorpus() {
     assert.ok(entry.generate_deepseek_max === 0 || entry.generate_deepseek_max === 1);
     assert.equal(typeof entry.frontend_required, 'boolean');
     assert.ok(Object.hasOwn(entry, 'model_mutation'));
+    for (const key of Object.keys(entry.expect)) assert.ok(HANDLED_EXPECTATION_KEYS.includes(key), `${entry.id} has metadata-only expectation ${key}`);
   }
 }
 
-export async function runPantryPlannerV2Journeys({ printSummary = false } = {}) {
+export async function runPantryPlannerV2Journeys({ printSummary = false, journeys = corpus.journeys } = {}) {
   validateCorpus();
   const started = performance.now();
   const counts = {};
   let passed = 0;
   const failures = [];
-  for (const entry of corpus.journeys) {
+  for (const entry of journeys) {
     try {
       const category = await runOne(entry);
       counts[category] = (counts[category] || 0) + 1;
@@ -490,11 +600,11 @@ export async function runPantryPlannerV2Journeys({ printSummary = false } = {}) 
       failures.push(`${entry.id} ${entry.title}: ${safeMessage}`);
     }
   }
-  if (failures.length) throw new Error(`${passed}/44 journeys passed\n${failures.join('\n')}`);
-  const result = { passed, total: corpus.journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
+  if (failures.length) throw new Error(`${passed}/${journeys.length} journeys passed\n${failures.join('\n')}`);
+  const result = { passed, total: journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
   if (printSummary) {
     console.log(Object.entries(counts).map(([name, count]) => `${name}=${count}`).join(' '));
-    console.log('44/44 planner v2 journeys passed');
+    if (journeys.length === corpus.journeys.length) console.log('44/44 planner v2 journeys passed');
   }
   return result;
 }

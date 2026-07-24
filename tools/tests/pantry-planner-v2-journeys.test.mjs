@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-import { runPantryPlannerV2Journeys } from '../run-pantry-planner-v2-journeys.mjs';
+import { HANDLED_EXPECTATION_KEYS, runPantryPlannerV2Journeys } from '../run-pantry-planner-v2-journeys.mjs';
 
 const corpus = JSON.parse(fs.readFileSync(new URL('../data/pantry-planner-v2-journeys.json', import.meta.url), 'utf8'));
 
@@ -29,6 +29,36 @@ test('corpus maps spec journeys 1-44 exactly once', () => {
       }
     }
   }
+});
+
+test('every corpus expectation is backed by a runner assertion', () => {
+  const declared = new Set(corpus.journeys.flatMap(entry => Object.keys(entry.expect)));
+  assert.deepEqual([...declared].sort(), [...HANDLED_EXPECTATION_KEYS].sort());
+});
+
+test('mutation probes prove planner, generation and frontend assertions are behavioral', async () => {
+  const journey = id => structuredClone(corpus.journeys.find(entry => entry.id === id));
+
+  const plannerMutation = journey('J12');
+  plannerMutation.expect.submitted_must_count = 999;
+  await assert.rejects(
+    runPantryPlannerV2Journeys({ journeys:[plannerMutation] }),
+    /J12[\s\S]*(?:999|submitted)/,
+  );
+
+  const generationMutation = journey('J33');
+  generationMutation.model_mutation = null;
+  await assert.rejects(
+    runPantryPlannerV2Journeys({ journeys:[generationMutation] }),
+    /J33[\s\S]*generate/i,
+  );
+
+  const frontendMutation = journey('J29');
+  frontendMutation.expect.visible_copy = '这句文案不可能出现';
+  await assert.rejects(
+    runPantryPlannerV2Journeys({ journeys:[frontendMutation] }),
+    /J29[\s\S]*regular expression/i,
+  );
 });
 
 test('all 44 planner v2 journeys pass their public-boundary invariants', async () => {
