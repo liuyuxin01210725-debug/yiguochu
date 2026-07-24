@@ -62,7 +62,7 @@ function plannerResult(overrides = {}) {
       planned_prefer_use: [{ raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' }],
       slot_assignment:{ acid_base:['番茄'], staple:['大米'] },
       required_extra_items:[{ name:'大米', grams:160 }],
-      time_range:{ min:25, max:30 },
+      time_range:{ min_minutes:25, max_minutes:30 },
     }],
     ...(overrides.plan || {}),
   };
@@ -285,6 +285,22 @@ test('legacy purpose profiles migrate without deleting unrelated saved data', ()
   }
 });
 
+test('legacy profiles with a missing or unknown purpose migrate to normal intent', () => {
+  for (const profile of [
+    { servings:'2', pantry:'番茄', dislikes:'' },
+    { purpose:'mystery', servings:'2', pantry:'番茄', dislikes:'' },
+  ]) {
+    const storage = sharedStorage();
+    storage.setItem('yiguochu_v1', JSON.stringify({ profile, choices:[{ keep:true }] }));
+    const { context } = loadFrontend([], { storage });
+    assert.deepEqual(
+      JSON.parse(evaluate(context, 'JSON.stringify({ mode:state.profile.mode, intent:state.profile.intent })')),
+      { mode:'recommend', intent:'normal' },
+    );
+    assert.deepEqual(JSON.parse(storage.getItem('yiguochu_v1')).choices, [{ keep:true }]);
+  }
+});
+
 test('planner request maps pantry text to exactly one promise role and carries the V2 envelope', () => {
   const { context } = loadFrontend();
   const requests = JSON.parse(evaluate(context, `JSON.stringify((() => {
@@ -319,6 +335,29 @@ test('initial ready plan generates once with the exact immutable plan request sn
   assert.equal(evaluate(context, 'state.view'), 'v2-result');
 });
 
+test('paid generation shows the step-safety stage instead of leaving the quantity stage stale', async () => {
+  const planned = plannerResult();
+  const generated = generatedResult(planned);
+  const { context, root } = loadFrontend([{ body:generated }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(planned)}, buildPlanRequest(), true)`);
+  const pending = evaluate(context, 'generateDisplayedPlan()');
+  assert.equal(evaluate(context, 'state.view'), 'generating');
+  assert.equal(evaluate(context, 'state.genStage'), 2);
+  assert.match(root.innerHTML, /gen-stage active[^>]*>[\s\S]*检查步骤安全/);
+  await pending;
+});
+
+test('concurrent generate clicks share one paid request', async () => {
+  const planned = plannerResult();
+  const generated = generatedResult(planned);
+  const { context, calls } = loadFrontend([{ body:generated }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(planned)}, buildPlanRequest(), true)`);
+  await evaluate(context, 'Promise.all([generateDisplayedPlan(), generateDisplayedPlan()])');
+  assert.equal(calls.length, 1);
+  assert.equal(new URL(calls[0].url, 'https://app.test').pathname, '/generate-plan');
+  assert.equal(evaluate(context, 'state.view'), 'v2-result');
+});
+
 test('needs_user_decision retains pots and never calls generation', async () => {
   const planned = plannerResult({
     status:'needs_user_decision', generation_allowed:false, mode:'pantry',
@@ -340,6 +379,7 @@ test('needs_user_decision retains pots and never calls generation', async () => 
   assert.equal(evaluate(context, 'state.view'), 'v2-plan');
   assert.match(root.innerHTML, /还有食材没有安排/);
   assert.match(root.innerHTML, /第一锅/);
+  assert.match(root.innerHTML, /最多 30 分钟/);
   assert.match(root.innerHTML, /神秘叶子/);
   assert.doesNotMatch(root.innerHTML, /按这几步做/);
 });
@@ -388,6 +428,46 @@ test('no_alternative_plan has its dedicated path and retains the clean current g
   assert.equal(evaluate(context, `state.planRequestSnapshot.constraints.current_plan_id`), null);
 });
 
+test('no-alternative restores the already-generated current result without another request', async () => {
+  const current = plannerResult();
+  const generated = generatedResult(current);
+  const noAlternative = plannerResult({
+    status:'no_alternative_plan', code:'no_alternative_plan', generation_allowed:false,
+    actions:[
+      { action:'relax_item', label:'放宽一种食材', eligible_items:['番茄'], requires_acknowledgement:true, unplanned_items:[] },
+      { action:'force_multi_pot', label:'分成两锅', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
+      { action:'edit_ingredients', label:'返回修改食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
+    ],
+  });
+  const { context, calls, root } = loadFrontend([{ body:noAlternative }]);
+  evaluate(context, `showGeneratedPlan(${JSON.stringify(generated)}, ${JSON.stringify(current)}, buildPlanRequest())`);
+  await evaluate(context, 'requestAlternativePlan()');
+  assert.equal(evaluate(context, 'state.view'), 'v2-no-alternative');
+  assert.match(root.innerHTML, /data-act="continue-current-plan"/);
+  const before = calls.length;
+  evaluate(context, 'continueCurrentPlan()');
+  assert.equal(calls.length, before);
+  assert.equal(evaluate(context, 'state.view'), 'v2-result');
+  assert.match(root.innerHTML, /番茄焖饭/);
+});
+
+test('no-alternative restores an ungenerated current plan with its clean generation snapshot', async () => {
+  const current = plannerResult();
+  const noAlternative = plannerResult({
+    status:'no_alternative_plan', code:'no_alternative_plan', generation_allowed:false,
+    actions:[{ action:'edit_ingredients', label:'返回修改食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] }],
+  });
+  const { context, calls, root } = loadFrontend([{ body:noAlternative }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), true)`);
+  const cleanSnapshot = evaluate(context, 'JSON.stringify(state.planRequestSnapshot)');
+  await evaluate(context, 'requestAlternativePlan()');
+  evaluate(context, 'continueCurrentPlan()');
+  assert.equal(calls.length, 1);
+  assert.equal(evaluate(context, 'state.view'), 'v2-plan-preview');
+  assert.equal(evaluate(context, 'JSON.stringify(state.planRequestSnapshot)'), cleanSnapshot);
+  assert.match(root.innerHTML, /生成这套做法/);
+});
+
 test('V2 generated multi-meal result is ordered, records started plan history, and never shows fabricated nutrition', () => {
   const planned = plannerResult({ plan:{
     plan_id:'pln_v2_two', plan_kind:'multi_pot',
@@ -415,6 +495,7 @@ test('stale_plan has dedicated copy and an explicit replan path', async () => {
   assert.equal(evaluate(context, 'state.view'), 'v2-plan');
   assert.match(root.innerHTML, /这份计划已经更新，请重新规划/);
   assert.match(root.innerHTML, /data-act="replan-v2"/);
+  assert.doesNotMatch(root.innerHTML, /这次优先用了|这次没有使用|已经安排/);
 });
 
 test('a stale generation response returns to the dedicated replan state instead of generic failure', async () => {
@@ -482,6 +563,24 @@ test('force_multi_pot sends an explicit deterministic planner decision', async (
   const request = JSON.parse(calls[0].init.body);
   assert.equal(request.constraints.current_plan_id, null);
   assert.deepEqual(request.constraints.decision, { action:'force_multi_pot', plan_id:current.plan.plan_id });
+});
+
+test('force_multi_pot does not buy duplicate wording when the planner returns the unchanged current plan', async () => {
+  const current = plannerResult({ status:'complete', generation_allowed:true, mode:'pantry' });
+  const noAlternative = plannerResult({
+    status:'no_alternative_plan', code:'no_alternative_plan', generation_allowed:false, mode:'pantry',
+    plan:current.plan,
+    actions:[{ action:'force_multi_pot', label:'分成两锅', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] }],
+  });
+  const unchanged = plannerResult({ status:'complete', generation_allowed:true, mode:'pantry', plan:current.plan });
+  const { context, calls, root } = loadFrontend([{ body:unchanged }]);
+  evaluate(context, `setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false)`);
+  evaluate(context, `state.noAlternativeResult=${JSON.stringify(noAlternative)}; state.view='v2-no-alternative'; render()`);
+  await evaluate(context, `applyPlanDecision('force_multi_pot')`);
+  assert.equal(calls.length, 1);
+  assert.equal(new URL(calls[0].url, 'https://app.test').pathname, '/plan-meal');
+  assert.equal(evaluate(context, 'state.view'), 'v2-no-alternative');
+  assert.match(root.innerHTML, /当前组合只有一个可靠的一锅方案/);
 });
 
 test('third pot route states its burden and sends acknowledgement for the exact current plan', async () => {

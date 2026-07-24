@@ -964,13 +964,15 @@ function generatingScreen() {
 function cloneJson(value) { return JSON.parse(JSON.stringify(value)); }
 function migrateProfile(value) {
   const saved = value && typeof value === 'object' ? value : {};
+  const hasV2Mode = saved.mode === 'recommend' || saved.mode === 'pantry';
   const next = Object.assign({}, DEFAULT_PROFILE, saved);
-  if (saved.mode !== 'recommend' && saved.mode !== 'pantry') {
+  if (!hasV2Mode) {
     next.mode = saved.purpose === 'pantry' ? 'pantry' : 'recommend';
   }
   if (!['normal','quick','fresh','batch'].includes(saved.intent)) {
-    next.intent = saved.purpose === 'pantry' ? 'normal'
-      : ['quick','fresh','batch'].includes(saved.purpose) ? saved.purpose : 'quick';
+    next.intent = hasV2Mode ? DEFAULT_PROFILE.intent
+      : saved.purpose === 'pantry' ? 'normal'
+        : ['quick','fresh','batch'].includes(saved.purpose) ? saved.purpose : 'normal';
   }
   delete next.purpose;
   return next;
@@ -1034,7 +1036,7 @@ function plannerPotsHtml(result) {
     const label = boundedText(pot.label, 20) || ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
     const used = planItems([...(pot.planned_must_use || []), ...(pot.planned_prefer_use || [])]);
     const extras = planItems(pot.required_extra_items);
-    const time = pot.time_range && Number.isFinite(+pot.time_range.max) ? ' / 最多 ' + Math.round(+pot.time_range.max) + ' 分钟' : '';
+    const time = pot.time_range && Number.isFinite(+pot.time_range.max_minutes) ? ' / 最多 ' + Math.round(+pot.time_range.max_minutes) + ' 分钟' : '';
     return '<section class="pantry-plan-card"><span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(label) + '</span><span class="pantry-plan-count">约 ' + esc(String(pot.servings || servingCount(state.profile))) + ' 份' + esc(time) + '</span></span>'
       + '<span class="pantry-plan-items"><strong>安排：</strong>' + esc(used.join('、') || '基础食材') + '</span>'
       + (extras.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(extras.join('、')) + '</span>' : '')
@@ -1082,17 +1084,21 @@ function plannerStateScreen() {
     ? '<button class="btn btn-primary" data-act="generate-displayed-plan">生成这套做法</button>' : '';
   const swap = result.generation_allowed && state.view !== 'v2-plan-preview'
     ? '<button class="btn btn-ghost" data-act="request-plan-swap">换一换</button>' : '';
+  const hasPlanDetails = result.plan && ['ready','complete','needs_user_decision','partial_accepted'].includes(result.status);
+  const planDetails = hasPlanDetails ? plannerPotsHtml(result) + plannerCoverageHtml(result) + reasons : '';
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(title) + '</div><p class="fb-banner-text">' + esc(boundedText(result.commitment, 240)) + '</p></div></div>'
-    + plannerPotsHtml(result) + plannerCoverageHtml(result) + reasons
+    + planDetails
     + '<div class="dish-actions">' + generate + actions + swap + edit + '</div></section></div>';
 }
 function noAlternativePlanScreen() {
   const result = state.noAlternativeResult || {};
+  const keepCurrent = state.displayedPlan && state.displayedPlan.plan
+    ? '<button class="btn btn-primary" data-act="continue-current-plan">继续用当前方案</button>' : '';
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前组合只有一个可靠的一锅方案</div>'
-    + '<p class="fb-banner-text">当前方案仍然保留。你可以明确放宽一种食材、改成两锅，或者回去调整食材。</p></div></div><div class="dish-actions">'
-    + (result.actions || []).map(plannerActionHtml).join('') + '</div></section></div>';
+    + '<p class="fb-banner-text">当前方案仍然保留。你可以继续用它，或明确放宽一种食材、改成两锅、回去调整食材。</p></div></div><div class="dish-actions">'
+    + keepCurrent + (result.actions || []).map(plannerActionHtml).join('') + '</div></section></div>';
 }
 function generatedPlanScreen() {
   const generated = state.generatedPlan || {}, meals = Array.isArray(generated.meals) ? generated.meals.slice().sort((a,b) => (+a.meal_sequence || 0) - (+b.meal_sequence || 0)) : [];
@@ -1137,19 +1143,29 @@ function showGeneratedPlan(generated, planned, requestSnapshot) {
   state.noAlternativeResult = null;
   state.view = 'v2-result'; window.scrollTo(0, 0); render();
 }
+let v2GenerationInFlight = null;
 async function generateDisplayedPlan() {
+  if (v2GenerationInFlight) return v2GenerationInFlight;
   if (!state.displayedPlan || !state.planRequestSnapshot || !state.displayedPlan.generation_allowed) return;
-  state.view = 'generating'; state.genStage = 1; render();
-  try {
-    const generated = await generateConfirmedPlan(state.displayedPlan, state.planRequestSnapshot);
-    if (!generated.generation_allowed || !Array.isArray(generated.meals)) {
-      if (generated.status === 'no_alternative_plan') {
-        state.noAlternativeResult = cloneJson(generated); state.view = 'v2-no-alternative'; render(); return;
+  const planned = cloneJson(state.displayedPlan);
+  const requestSnapshot = cloneJson(state.planRequestSnapshot);
+  const operation = (async () => {
+    // 规划器已完成选模板、份量与时间检查。付费请求阶段生成步骤并由服务端执行安全校验。
+    state.view = 'generating'; state.genStage = 2; render();
+    try {
+      const generated = await generateConfirmedPlan(planned, requestSnapshot);
+      if (!generated.generation_allowed || !Array.isArray(generated.meals)) {
+        if (generated.status === 'no_alternative_plan') {
+          state.noAlternativeResult = cloneJson(generated); state.view = 'v2-no-alternative'; render(); return;
+        }
+        setDisplayedPlan(generated, requestSnapshot, false); return;
       }
-      setDisplayedPlan(generated, buildPlanRequest(), false); return;
-    }
-    showGeneratedPlan(generated, state.displayedPlan, state.planRequestSnapshot);
-  } catch (error) { showGenerationFailure(error); }
+      showGeneratedPlan(generated, planned, requestSnapshot);
+    } catch (error) { showGenerationFailure(error); }
+  })();
+  v2GenerationInFlight = operation;
+  try { return await operation; }
+  finally { if (v2GenerationInFlight === operation) v2GenerationInFlight = null; }
 }
 async function runPlannerFlow(options) {
   const opts = options || {};
@@ -1164,6 +1180,9 @@ async function runPlannerFlow(options) {
     const planned = await fetchPlan(requestSnapshot);
     if (planned.status === 'no_alternative_plan') {
       state.noAlternativeResult = cloneJson(planned); state.view = 'v2-no-alternative'; render(); return;
+    }
+    if (opts.rejectUnchangedPlanId && planned.plan && planned.plan.plan_id === opts.rejectUnchangedPlanId) {
+      state.view = 'v2-no-alternative'; render(); return;
     }
     setDisplayedPlan(planned, requestSnapshot, opts.preview === true);
     if (opts.autoGenerate && planned.generation_allowed) await generateDisplayedPlan();
@@ -1199,6 +1218,14 @@ async function requestAlternativePlan() {
     setDisplayedPlan(alternative, request, true);
   } catch (error) { showGenerationFailure(error); }
 }
+function continueCurrentPlan() {
+  if (!state.displayedPlan || !state.displayedPlan.plan) return;
+  state.noAlternativeResult = null;
+  state.view = state.generatedPlan && Array.isArray(state.generatedPlan.meals)
+    ? 'v2-result'
+    : state.displayedPlan.generation_allowed ? 'v2-plan-preview' : 'v2-plan';
+  window.scrollTo(0, 0); render();
+}
 function recordDisplayedPlanHistory(kind) {
   if ((kind !== 'swapped' && kind !== 'started') || !state.displayedPlan || !state.displayedPlan.plan) return;
   const planId = boundedText(state.displayedPlan.plan.plan_id, 100);
@@ -1228,7 +1255,11 @@ async function applyPlanDecision(action, item) {
     request.constraints.current_plan_id = null;
     request.constraints.decision = { action, plan_id:planId };
   }
-  await runPlannerFlow({ planRequest:request, autoGenerate:true });
+  await runPlannerFlow({
+    planRequest:request,
+    autoGenerate:true,
+    rejectUnchangedPlanId:action === 'force_multi_pot' ? planId : null,
+  });
 }
 // ============ 主渲染 ============
 function render() {
@@ -1501,6 +1532,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'request-plan-swap') requestAlternativePlan();
   else if (act === 'replan-v2') runPlannerFlow({ autoGenerate:true });
   else if (act === 'generate-displayed-plan') generateDisplayedPlan();
+  else if (act === 'continue-current-plan') continueCurrentPlan();
   else if (act === 'plan-decision') applyPlanDecision(t.dataset.decision, t.dataset.item);
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
   else if (act === 'choose-pantry-group') choosePantryGroup(+t.dataset.groupIndex);
