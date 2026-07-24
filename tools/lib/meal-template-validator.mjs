@@ -1,3 +1,5 @@
+import { validateRatioDslCatalog } from './ratio-dsl-validator.mjs';
+
 const EXPECTED_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
@@ -459,7 +461,7 @@ function checkTemplate(template, index, context, recipeIds, errors) {
   else if (template.evidence_recipe_ids.some(recipeId => !recipeIds.has(recipeId))) errors.push(`${label} has unknown evidence recipe`);
 }
 
-export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary) {
+export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog) {
   try {
     const errors = [];
     if (!isObject(catalog)) return ['template catalog must be an object'];
@@ -498,14 +500,15 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary) {
         errors.push(`${id} must be planned and runtime ineligible`);
       }
     }
+    if (ratioCatalog !== undefined) errors.push(...validateRatioDslCatalog(ratioCatalog, catalog, taxonomy, recipeLibrary));
     return errors;
   } catch (error) {
     return [`template catalog validation failed safely: ${error instanceof Error ? error.message : String(error)}`];
   }
 }
 
-export function assertMealTemplateCatalog(catalog, taxonomy, recipeLibrary) {
-  const errors = validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary);
+export function assertMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog) {
+  const errors = validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog);
   if (errors.length) throw new Error(`invalid meal template catalog:\n${errors.join('\n')}`);
 }
 
