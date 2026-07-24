@@ -8,6 +8,11 @@ import { validateIngredientTaxonomy } from './ingredient-taxonomy-validator.js';
 import { validateMealTemplateCatalog } from './meal-template-validator.js';
 import { validateRecipeLibrary } from './recipe-library-validator.js';
 import { matchAllergy } from './allergen-semantics.js';
+import {
+  buildGeneratedPlanResponse,
+  buildLockedPlanContract,
+  validateGeneratedPlan,
+} from './generated-plan-contract.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 // 每 100g 合理上限(防模型把"整道菜总量"误当每100g, 乘 grams 后营养暴涨)
@@ -2623,6 +2628,175 @@ async function handlePlanMeal(request, env) {
   }
 }
 
+const GENERATE_PLAN_ENVELOPE_KEYS = Object.freeze([
+  'schema_version',
+  'planner_version',
+  'template_catalog_version',
+  'plan_id',
+  'plan_request',
+]);
+const GENERATABLE_PLAN_STATUSES = new Set(['ready', 'complete', 'partial_accepted']);
+const LOCKED_PLAN_SYSTEM_PROMPT = `你只负责把服务端已锁定的一锅或多锅计划写成自然中文。
+必须原样保留每锅的 template、meal_sequence、servings、ingredient refs、食材身份和部位、克数、槽位、液体约束、烹饪顺序、时长范围及安全终点。
+不得新增、删除、替换或跨锅移动食材；不得改写部位；不得在菜名、步骤或推荐理由里另写克数、毫升、比例、份数或时长。
+每一步必须逐项复现给定 action_code 和允许的 ingredient_refs；安全终点只能在指定步骤完成。
+只返回严格 JSON，不得返回解释、Markdown 或 JSON 以外文字。`;
+
+function exactGeneratePlanEnvelope(value) {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    && JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...GENERATE_PLAN_ENVELOPE_KEYS].sort())
+    && value.schema_version === 2
+    && typeof value.planner_version === 'string'
+    && typeof value.template_catalog_version === 'string'
+    && typeof value.plan_id === 'string'
+    && /^pln_v2_[A-Za-z0-9_-]{43}$/u.test(value.plan_id)
+    && value.plan_request && typeof value.plan_request === 'object' && !Array.isArray(value.plan_request);
+}
+
+function stalePlanGenerationResponse(recomputed = null) {
+  return {
+    schema_version: 2,
+    planner_version: 'pantry-planner-v2',
+    template_catalog_version: recomputed?.template_catalog_version || null,
+    status: 'stale_plan',
+    code: 'stale_plan',
+    generation_allowed: false,
+    mode: recomputed?.mode || null,
+    intent: recomputed?.intent || null,
+    commitment: '这份计划已经变化，请重新规划后再生成做法。',
+    plan: recomputed?.plan ? structuredClone(recomputed.plan) : null,
+    unplanned: structuredClone(recomputed?.unplanned || []),
+    actions: [{
+      action: 'replan',
+      label: '重新规划',
+      eligible_items: [],
+      requires_acknowledgement: false,
+      unplanned_items: [],
+    }],
+  };
+}
+
+function lockedPlanUserMessage(lockedPlan) {
+  return JSON.stringify({
+    instructions: `只返回这一种 JSON 结构，禁止增加任何 key：
+{"plan_id":"原样复现","meals":[{"meal_sequence":1,"dish_name":"自然菜名","ingredient_refs":["本锅全部锁定ref，恰好一次"],"steps":[{"order":1,"action_code":"原样复现对应阶段","text":"自然步骤，不写克数、毫升、比例、份数或时长","ingredient_refs":["仅限本阶段allowed refs"],"completed_safety_endpoints":["仅限本阶段required endpoints"]}],"recommendation_reason":"自然推荐理由"}]}。
+meals、steps、action_code 的数量和顺序必须与 locked_plan 完全一致；所有 ingredient ref 必须在本锅步骤中至少出现一次。`,
+    locked_plan: lockedPlan,
+  });
+}
+
+async function handleGeneratePlan(request, env) {
+  const rawBody = await request.text().catch(() => '');
+  if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
+    return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(rawBody);
+  } catch (_error) {
+    if (rawBody.trim()) return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+    return errorResponse('invalid_generate_plan_request', '生成计划请求格式无效', 400, env, {}, request);
+  }
+  if (!exactGeneratePlanEnvelope(parsed)) {
+    return errorResponse('invalid_generate_plan_request', '生成计划请求格式无效', 400, env, {}, request);
+  }
+
+  let plannerRequest;
+  try {
+    plannerRequest = normalizePlannerRequest(parsed.plan_request);
+  } catch (_error) {
+    return errorResponse('invalid_generate_plan_request', '生成计划请求格式无效', 400, env, {}, request);
+  }
+  let plannerAssets;
+  try {
+    plannerAssets = await getPlannerAssets(env, request);
+  } catch (_error) {
+    return errorResponse('planner_assets_unavailable', '规划规则暂时不可用', 503, env, {}, request);
+  }
+  let recomputed;
+  try {
+    recomputed = await planMealWithIdentity(plannerAssets, plannerRequest);
+  } catch (error) {
+    if (error?.code === 'invalid_planner_request') {
+      return jsonResponse(stalePlanGenerationResponse(), 409, env, request);
+    }
+    console.error('generate plan recompute failed', error?.message || String(error));
+    return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
+  }
+
+  if (parsed.planner_version !== recomputed.planner_version
+      || parsed.template_catalog_version !== recomputed.template_catalog_version
+      || parsed.plan_id !== recomputed.plan?.plan_id) {
+    return jsonResponse(stalePlanGenerationResponse(recomputed), 409, env, request);
+  }
+  if (!GENERATABLE_PLAN_STATUSES.has(recomputed.status) || recomputed.generation_allowed !== true) {
+    return jsonResponse(recomputed, 409, env, request);
+  }
+  let lockedPlan;
+  try {
+    lockedPlan = buildLockedPlanContract(recomputed, plannerAssets.templates);
+  } catch (error) {
+    console.error('locked plan contract failed', String(error?.message || 'contract_error').slice(0, 80));
+    return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
+  }
+  if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
+  if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
+  const budget = await budgetConsume(env);
+  if (!budget.ok && budget.unavailable) {
+    return errorResponse('budget_unavailable', '生成服务暂时不可用，请稍后再试', 503, env, {}, request);
+  }
+  if (!budget.ok) return errorResponse('budget_exceeded', '今天大家用得有点多，明天再来～', 429, env, {}, request);
+  const upstreamBody = {
+    model: env.MODEL_NAME || 'deepseek-chat',
+    messages: [
+      { role: 'system', content: LOCKED_PLAN_SYSTEM_PROMPT },
+      { role: 'user', content: lockedPlanUserMessage(lockedPlan) },
+    ],
+    temperature: 0,
+    response_format: { type: 'json_object' },
+  };
+
+  let upstream;
+  try {
+    upstream = await fetch(env.API_URL || 'https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.DEEPSEEK_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(upstreamBody),
+      signal: AbortSignal.timeout(30000),
+    });
+  } catch (error) {
+    console.error('DeepSeek generate-plan failed', error?.name || 'unknown');
+    if (error?.name === 'TimeoutError' || error?.name === 'AbortError') {
+      return errorResponse('upstream_timeout', '生成服务响应超时，请稍后再试', 504, env, {}, request);
+    }
+    return errorResponse('upstream_error', '生成服务临时失败，请稍后再试', 502, env, {}, request);
+  }
+  if (!upstream.ok) {
+    console.error('DeepSeek generate-plan upstream status', upstream.status);
+    return errorResponse('upstream_error', '生成服务临时失败，请稍后再试', 502, env, { upstreamStatus: upstream.status }, request);
+  }
+
+  let modelOutput;
+  try {
+    const upstreamJson = JSON.parse(await upstream.text());
+    const content = upstreamJson?.choices?.[0]?.message?.content;
+    if (typeof content !== 'string') throw new Error('missing_model_content');
+    modelOutput = JSON.parse(content);
+  } catch (_error) {
+    console.warn('generate-plan contract violation', 'malformed_model_json');
+    return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
+  }
+  const validation = validateGeneratedPlan(modelOutput, lockedPlan, plannerAssets.taxonomy);
+  if (!validation.ok) {
+    console.warn('generate-plan contract violation', String(validation.reason_code || 'unknown').slice(0, 80));
+    return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
+  }
+  return jsonResponse(buildGeneratedPlanResponse(recomputed, lockedPlan, validation.meals), 200, env, request);
+}
+
 export {
   buildPantryPlan,
   buildRecipeGrounding,
@@ -2640,6 +2814,8 @@ export {
   validationRiceAllergenActive,
   normalizePlannerRequest,
   plannerRequestFromLegacy,
+  buildLockedPlanContract,
+  validateGeneratedPlan,
 };
 
 export default {
@@ -2677,6 +2853,14 @@ export default {
     }
     if (request.method === 'POST' && url.pathname === '/plan-meal') {
       return handlePlanMeal(request, env);
+    }
+    if (request.method === 'POST' && url.pathname === '/generate-plan') {
+      try {
+        return await handleGeneratePlan(request, env);
+      } catch (error) {
+        console.error('generate plan worker error', error?.message || String(error));
+        return errorResponse('worker_error', '生成服务临时异常，请稍后再试', 500, env, {}, request);
+      }
     }
     if (env.ASSETS) return env.ASSETS.fetch(request);
     return jsonResponse({ error: 'not found' }, 404, env, request);
