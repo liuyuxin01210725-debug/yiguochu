@@ -24,6 +24,19 @@ const FINAL_RECIPE_PREFLIGHT = `【最终提交自检】
 只返回JSON，禁止JSON外文字。`;
 
 const lib = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+const HEALTH_ASSETS = Object.freeze({
+  '/recipe-library.json': JSON.stringify(lib),
+  '/ingredient-taxonomy.v1.json': fs.readFileSync(new URL('../data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'),
+  '/meal-templates.v2.json': fs.readFileSync(new URL('../data/meal-templates.v2.json', import.meta.url), 'utf8'),
+  '/ratio-rules.v1.json': fs.readFileSync(new URL('../data/ratio-rules.v1.json', import.meta.url), 'utf8'),
+});
+
+function healthAssetResponse(request) {
+  const value = HEALTH_ASSETS[new URL(request.url).pathname];
+  return value == null
+    ? new Response('missing', { status: 404 })
+    : new Response(value, { status: 200, headers: { 'Content-Type': 'application/json' } });
+}
 const RICE_SAFE_PROFILE = {
   id: 'rice-allergy-complete-main',
   basis: '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。',
@@ -3755,9 +3768,9 @@ test('health cache is isolated per assets binding in one module instance', async
   let missingFetches = 0;
   const okEnv = {
     ASSETS: {
-      async fetch() {
+      async fetch(request) {
         okFetches++;
-        return Response.json(lib);
+        return healthAssetResponse(request);
       },
     },
   };
@@ -3774,13 +3787,14 @@ test('health cache is isolated per assets binding in one module instance', async
   const okBody = await okResponse.json();
   const missingBody = await missingResponse.json();
   assert.equal(okBody.recipeLibrary, 'ok');
+  assert.equal(okBody.plannerAssets, 'ok');
   assert.equal(okBody.recipeFamilies, lib.families.length);
   assert.equal(okBody.baseRecipes, lib.recipes.length);
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);
-  assert.equal(okFetches, 1);
-  assert.equal(missingFetches, 1);
+  assert.equal(okFetches, 4);
+  assert.equal(missingFetches, 5);
 });
 
 test('health reuses the recipe cache for the same assets binding', async () => {
@@ -3789,7 +3803,7 @@ test('health reuses the recipe cache for the same assets binding', async () => {
   const assets = {
     async fetch(request) {
       requests.push(request.url);
-      return Response.json(lib);
+      return healthAssetResponse(request);
     },
   };
   const env = { ASSETS: assets };
@@ -3797,7 +3811,13 @@ test('health reuses the recipe cache for the same assets binding', async () => {
   const second = await worker.fetch(new Request('https://two.example/health'), env);
   assert.equal((await first.json()).recipeLibrary, 'ok');
   assert.equal((await second.json()).recipeLibrary, 'ok');
-  assert.deepEqual(requests, ['https://one.example/recipe-library.json']);
+  assert.deepEqual(new Set(requests), new Set([
+    'https://one.example/ingredient-taxonomy.v1.json',
+    'https://one.example/meal-templates.v2.json',
+    'https://one.example/ratio-rules.v1.json',
+    'https://one.example/recipe-library.json',
+  ]));
+  assert.equal(requests.length, 4);
 });
 
 test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {

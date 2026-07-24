@@ -89,6 +89,41 @@ function assertZeroGenerationWork(result) {
   assert.equal(result.kvPuts, 0);
 }
 
+async function getHealth(assets = assetBinding()) {
+  const response = await worker.fetch(new Request('https://planner.example/health', {
+    headers: { Origin: 'https://planner.example' },
+  }), { ASSETS: assets });
+  return { response, body: await response.json(), assets };
+}
+
+test('health reports exact validated planner asset versions and catalog counts', async () => {
+  const result = await getHealth();
+  assert.equal(result.response.status, 200);
+  assert.equal(result.body.recipeLibrary, 'ok');
+  assert.equal(result.body.plannerAssets, 'ok');
+  assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
+  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260724');
+  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260724');
+  assert.equal(result.body.activeTemplates, 8);
+  assert.equal(result.body.plannedTemplates, 7);
+  assert.equal(result.body.baseRecipes, 72);
+});
+
+test('health reports unavailable planner assets without claiming validated versions or counts', async () => {
+  const result = await getHealth(assetBinding({
+    '/ingredient-taxonomy.v1.json': new Response('missing', { status: 404 }),
+  }));
+  assert.equal(result.response.status, 200);
+  assert.equal(result.body.recipeLibrary, 'ok');
+  assert.equal(result.body.baseRecipes, 72);
+  assert.equal(result.body.plannerAssets, 'unavailable');
+  assert.equal(result.body.plannerVersion, null);
+  assert.equal(result.body.templateCatalogVersion, null);
+  assert.equal(result.body.ingredientTaxonomyVersion, null);
+  assert.equal(result.body.activeTemplates, 0);
+  assert.equal(result.body.plannedTemplates, 0);
+});
+
 test('recommend planning returns a stable identified ready plan with honest used and unused facts', async () => {
   const submitted = plannerBody({ prefer: ['番茄', '鸡蛋', '西兰花', '神秘叶子'] });
   const untouched = structuredClone(submitted);

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { validateRecipeLibrary } from '../lib/recipe-library-validator.mjs';
 import { PROMOTION_MATRIX } from '../lib/traditional-recipe-promotion-gate.mjs';
 import { COVERAGE_PROMOTION_MATRIX } from '../lib/coverage-recipe-promotion-gate.mjs';
@@ -42,6 +43,32 @@ const EXPECTED_RECIPES = [
 
 const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作为蔬菜；这道菜无需搭配米饭或其他额外主食即可成餐。';
 
+const CHECKER_DATA_FILES = [
+  'recipe-library.json',
+  'coverage-recipe-candidates.json',
+  'coverage-recipe-drafts.json',
+  'coverage-recipe-promotions.json',
+  'ingredient-taxonomy.v1.json',
+  'meal-templates.v2.json',
+  'ratio-rules.v1.json',
+];
+
+function runCheckerWithAssetMutation(mutate) {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-gate-'));
+  const tempTools = path.join(tempRoot, 'tools');
+  fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
+  fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
+  fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempTools, 'lib'), { recursive: true });
+  fs.cpSync(new URL('../../worker/src/', import.meta.url), path.join(tempRoot, 'worker', 'src'), { recursive: true });
+  for (const name of CHECKER_DATA_FILES) {
+    fs.copyFileSync(new URL(`../data/${name}`, import.meta.url), path.join(tempTools, 'data', name));
+  }
+  mutate(path.join(tempTools, 'data'));
+  const result = spawnSync(process.execPath, [path.join(tempTools, 'check-recipes.mjs')], { encoding: 'utf8' });
+  fs.rmSync(tempRoot, { recursive: true, force: true });
+  return result;
+}
+
 test('formal library has 21 families and 72 recipes split into 12 approved plus 60 auto_approved', () => {
   assert.deepEqual(validateRecipeLibrary(lib), []);
   assert.equal(lib.families.length, 21);
@@ -51,6 +78,37 @@ test('formal library has 21 families and 72 recipes split into 12 approved plus 
   assert.ok(lib.recipes.every(recipe => (
     recipe.origin_candidate_id ? recipe.status === 'auto_approved' : recipe.status === 'approved'
   )));
+});
+
+test('aggregate recipe checker reports the validated planner catalog summary', () => {
+  const result = spawnSync(process.execPath, [fileURLToPath(new URL('../check-recipes.mjs', import.meta.url))], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /72 recipes/);
+  assert.match(result.stdout, /8 active templates/);
+  assert.match(result.stdout, /7 planned templates/);
+  assert.match(result.stdout, /taxonomy ok/);
+  assert.match(result.stdout, /ratio DSL ok/);
+});
+
+test('aggregate recipe checker fails closed on malformed planner assets and evidence references', async t => {
+  const cases = [
+    ['taxonomy', 'ingredient-taxonomy.v1.json', data => { data.taxonomy_version = 'taxonomy-broken'; }],
+    ['template', 'meal-templates.v2.json', data => { data.templates[0].activation_status = 'planned'; }],
+    ['ratio DSL', 'ratio-rules.v1.json', data => { data.ratio_catalog_version = 'ratio-broken'; }],
+    ['recipe evidence', 'meal-templates.v2.json', data => { data.templates[0].evidence_recipe_ids[0] = 'missing-recipe'; }],
+  ];
+  for (const [name, file, mutate] of cases) {
+    await t.test(name, () => {
+      const result = runCheckerWithAssetMutation(dataDirectory => {
+        const assetPath = path.join(dataDirectory, file);
+        const data = JSON.parse(fs.readFileSync(assetPath, 'utf8'));
+        mutate(data);
+        fs.writeFileSync(assetPath, JSON.stringify(data));
+      });
+      assert.equal(result.status, 1, `${name} unexpectedly passed:\n${result.stdout}\n${result.stderr}`);
+      assert.match(result.stderr, /❌/);
+    });
+  }
 });
 
 test('Phase A family and recipe identities stay exact at the head of the formal library', () => {
@@ -712,17 +770,17 @@ test('validator splits source provenance strictness between approved and auto_ap
 test('offline checker reports zero counts for malformed root containers without crashing', () => {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'recipe-checker-'));
   const tempTools = path.join(tempRoot, 'tools');
-  fs.mkdirSync(path.join(tempRoot, 'worker', 'src'), { recursive: true });
-  fs.mkdirSync(path.join(tempTools, 'lib'), { recursive: true });
   fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
   fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
-  fs.copyFileSync(new URL('../lib/recipe-library-validator.mjs', import.meta.url), path.join(tempTools, 'lib', 'recipe-library-validator.mjs'));
-  fs.copyFileSync(new URL('../../worker/src/recipe-library-validator.js', import.meta.url), path.join(tempRoot, 'worker', 'src', 'recipe-library-validator.js'));
-  fs.copyFileSync(new URL('../lib/coverage-recipe-promotion-gate.mjs', import.meta.url), path.join(tempTools, 'lib', 'coverage-recipe-promotion-gate.mjs'));
+  fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempTools, 'lib'), { recursive: true });
+  fs.cpSync(new URL('../../worker/src/', import.meta.url), path.join(tempRoot, 'worker', 'src'), { recursive: true });
   for (const name of [
     'coverage-recipe-candidates.json',
     'coverage-recipe-drafts.json',
     'coverage-recipe-promotions.json',
+    'ingredient-taxonomy.v1.json',
+    'meal-templates.v2.json',
+    'ratio-rules.v1.json',
   ]) {
     fs.copyFileSync(new URL(`../data/${name}`, import.meta.url), path.join(tempTools, 'data', name));
   }

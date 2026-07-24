@@ -4,6 +4,7 @@
 - 前端：`index.html`（单文件，含本地 `FOODS` 库 + 三层取值逻辑）
 - 云端代理：`worker/src/worker.js`（Cloudflare Pages Functions，持 DeepSeek key + 第二层台湾库兜底 `enrichWithTw`）
 - 权威数据底座：`tools/data/foods-tw.json`（台湾食药署库简体版 2181 条，部署时复制进 `dist/` 供 worker `ASSETS.fetch` 读取）；构建脚本 `tools/build-foods-tw.mjs`
+- Planner V2 结构化资产：`tools/data/ingredient-taxonomy.v1.json`、`tools/data/meal-templates.v2.json`、`tools/data/ratio-rules.v1.json`。规划器组合能力由 template rules + ingredient taxonomy 决定；72 道 recipe 只提供技法、安全、比例和来源 evidence。
 - 本地调试代理：`ai_proxy.py`（localhost:8765）。生成契约的权威源仍是 `worker/src/worker.js`；涉及份数、场景或 prompt 时，需要同步更新本地代理并跑语法检查，避免本地/线上行为漂移。
 - 线上：https://yiguochu.pages.dev
 
@@ -37,7 +38,7 @@
 2. **代码许可不等于菜谱许可**：GitHub 仓库的代码 license 只覆盖该仓库代码，不自动授权仓库抓取、汇总或引用的第三方菜谱内容。每条菜谱必须单独核验原始来源与许可。
 3. **approved 基础菜谱必须可追溯**：每条 `status: "approved"` 的基础菜谱都必须至少有一条 `source_refs[].usage: "approved"`，且同时包含直达原始内容的 HTTPS `url`、`title`、`license`、`attribution` 和 `retrieved_at`；缺一项不得上线。`auto_approved` 为自动闸门通过档（传统地方菜晋升产物，待人工评审），不要求外部溯源五要素，但不得对外宣称人工批准。
 4. **替换必须显式**：原料替换只能写进结构化 `substitution_slots`，明确 `replaces` 和 `allowed`；不得让模型自行把未批准食材当作等价替换。
-5. **提交或部署前必跑**：`node tools/check-recipes.mjs`。菜谱库体检不通过时禁止提交和部署。
+5. **提交或部署前必跑**：`node tools/check-recipes.mjs`。该聚合门禁保留菜谱/候选/晋升检查，并用现有权威 validator 校验 ingredient taxonomy、meal templates、Ratio DSL 和 evidence recipe IDs；任一项不通过时禁止提交和部署。
 6. **Phase A 仅限预览**：只能部署到非 `main` 的 `recipe-validation` preview branch，禁止部署或提升到 production `main`。Wrangler 的 `--commit-message` 必须使用 ASCII。
 
 Phase A 自动闸门通过不等于人工批准：当前 100 例 corpus 仍有 **6 个 known gaps**（4 个 diet 合规 + 2 个任意克数 numeric ratio）必须人工复核；30 例 live smoke 也不能替代 `docs/recipe-validation-review.md` 的逐例人工评审。
@@ -76,11 +77,13 @@ Phase A 自动闸门通过不等于人工批准：当前 100 例 corpus 仍有 *
 ## 部署（详见 `部署说明.md`）
 
 Cloudflare Pages 同源部署。简版：
-1. 重建 `dist/`：复制前端文件 + `tools/data/foods-tw.json` + `tools/data/recipe-library.json` + `worker/src/worker.js`→`dist/_worker.js`；给 `dist/sw.js` 缓存版本注入时间戳(自动清旧缓存)。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
+1. 重建 `dist/` 只使用 `node tools/build-dist.mjs --out-dir dist --build-id "<ascii-build-id>"`。该脚本统一收集前端、Worker 完整依赖图、营养/菜谱数据和三份 Planner V2 资产，并注入 service worker 缓存版本；不再保留手工 `cp` 流程。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
 2. Phase A 只允许预览部署：`npx wrangler pages deploy dist --project-name yiguochu --branch recipe-validation --commit-dirty=true --commit-message "recipe validation preview"`；禁止使用 `--branch main` 或提升到 production。
 3. ⚠️ `--commit-message` 必须用 **ASCII**——git 历史里有中文，wrangler 自动读取会触发 Cloudflare 的 "Invalid commit message, must be valid UTF-8" 报错。
-4. 部署前必须运行 `node tools/check-recipes.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`recipeFamilies: 21`、`baseRecipes: 72`（72 = 12 道 `approved` 人工批准 + 60 道 `auto_approved` 自动闸门通过待评审，与 `tools/lib/recipe-library-validator.mjs` 口径一致）。
+4. 部署前必须运行 `node tools/check-recipes.mjs` 和 `node tools/run-pantry-planner-v2-journeys.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`plannerAssets: "ok"`、`recipeFamilies: 21`、`baseRecipes: 72`（72 = 12 道 `approved` 人工批准 + 60 道 `auto_approved` 自动闸门通过待评审），并报告 `pantry-planner-v2` / `templates-v2-20260724` / `taxonomy-v1-20260724` 及 8 个 active + 7 个 planned templates。
 5. `dist/` 和 `worker/.wrangler/` 已 gitignore，不提交。
+
+Pantry Planner V2 当前仍只在 Draft PR，未进行真实 DeepSeek live 验证，未部署 Preview 或 production，上述门禁通过也不代表获得 production 发布授权或人工菜谱批准。
 
 ---
 

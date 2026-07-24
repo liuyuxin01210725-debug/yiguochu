@@ -1,4 +1,5 @@
 import {
+  PLANNER_VERSION,
   normalizePlannerRequest,
   planMealWithIdentity,
   plannerRequestFromLegacy,
@@ -2834,12 +2835,35 @@ export default {
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
+      let plannerAssets = 'unavailable';
+      let plannerVersion = null;
+      let templateCatalogVersion = null;
+      let ingredientTaxonomyVersion = null;
+      let activeTemplates = 0;
+      let plannedTemplates = 0;
       try {
-        const lib = await getRecipeLib(env, request);
-        recipeFamilies = Array.isArray(lib.families) ? lib.families.length : 0;
-        baseRecipes = lib.recipes.length;
+        const assets = await getPlannerAssets(env, request);
+        recipeFamilies = Array.isArray(assets.recipes.families) ? assets.recipes.families.length : 0;
+        baseRecipes = assets.recipes.recipes.length;
+        plannerAssets = 'ok';
+        plannerVersion = PLANNER_VERSION;
+        templateCatalogVersion = assets.templates.template_catalog_version;
+        ingredientTaxonomyVersion = assets.taxonomy.taxonomy_version;
+        activeTemplates = assets.templates.templates.filter(template => (
+          template.activation_status === 'active' && template.runtime_eligible === true
+        )).length;
+        plannedTemplates = assets.templates.templates.filter(template => (
+          template.activation_status === 'planned' && template.runtime_eligible === false
+        )).length;
       } catch (_err) {
-        recipeLibrary = 'unavailable';
+        plannerAssets = 'unavailable';
+        try {
+          const lib = await getRecipeLib(env, request);
+          recipeFamilies = Array.isArray(lib.families) ? lib.families.length : 0;
+          baseRecipes = lib.recipes.length;
+        } catch (_recipeError) {
+          recipeLibrary = 'unavailable';
+        }
       }
       return jsonResponse({
         status: 'ok',
@@ -2849,6 +2873,12 @@ export default {
         recipeLibrary,
         recipeFamilies,
         baseRecipes,
+        plannerAssets,
+        plannerVersion,
+        templateCatalogVersion,
+        ingredientTaxonomyVersion,
+        activeTemplates,
+        plannedTemplates,
       }, 200, env, request);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {
