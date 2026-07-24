@@ -6,6 +6,10 @@ const corpus = JSON.parse(fs.readFileSync(
   new URL('../data/recipe-regression.json', import.meta.url),
   'utf8',
 ));
+const library = JSON.parse(fs.readFileSync(
+  new URL('../data/recipe-library.json', import.meta.url),
+  'utf8',
+));
 const reviewSheet = fs.readFileSync(
   new URL('../../docs/recipe-validation-review.md', import.meta.url),
   'utf8',
@@ -38,6 +42,20 @@ test('100-case static corpus replaces only redundant cycle coverage with each ne
       && testCase.family_id === familyId
       && testCase.expected_recipe_ids.includes(recipeId)
     )), `${familyId} needs a deterministic cycle representative`);
+  }
+});
+
+test('quick regression expectations never name recipes over the thirty-minute eligibility limit', () => {
+  const recipesById = new Map(library.recipes.map(recipe => [recipe.id, recipe]));
+  for (const testCase of corpus.filter(testCase => testCase.purpose === 'quick')) {
+    for (const recipeId of testCase.expected_recipe_ids) {
+      const recipe = recipesById.get(recipeId);
+      assert.ok(recipe, `${testCase.id} expects a recipe in the library`);
+      assert.ok(
+        recipe.total_time_minutes <= 30,
+        `${testCase.id} expects quick-ineligible ${recipeId} (${recipe.total_time_minutes} minutes)`,
+      );
+    }
   }
 });
 

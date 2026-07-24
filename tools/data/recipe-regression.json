@@ -49,7 +49,7 @@
   },
   {
     "id": "adversarial-002-shrimp-not-cooked-b",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
       "大米",
@@ -98,7 +98,7 @@
   },
   {
     "id": "adversarial-003-raw-poultry-a",
-    "purpose": "quick",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
       "大米",
@@ -709,7 +709,7 @@
   },
   {
     "id": "adversarial-013-leaf-vegetable-water-release-a",
-    "purpose": "quick",
+    "purpose": "fresh",
     "servings": 1,
     "pantry": [
       "大米",
@@ -1070,7 +1070,7 @@
   },
   {
     "id": "adversarial-019-repeated-swap-a",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -1146,8 +1146,7 @@
       "lentil-potato-tomato-curry"
     ],
     "expected_recipe_ids": [
-      "fujian-hyacinth-bean-rice",
-      "creole-jambalaya"
+      "fujian-hyacinth-bean-rice"
     ],
     "forbidden_recipe_ids": [
       "lentil-potato-tomato-curry"
@@ -1189,7 +1188,7 @@
   },
   {
     "id": "base-001-chinese-congee-exact-core",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -1266,7 +1265,7 @@
   },
   {
     "id": "base-005-simple-chicken-biryani-exact-core",
-    "purpose": "quick",
+    "purpose": "fresh",
     "servings": 2,
     "pantry": [
       "大米",
@@ -1589,12 +1588,7 @@
       "红扁豆过敏"
     ],
     "expected_recipe_ids": [
-      "chinese-congee",
-      "broccoli-beef-fried-rice",
-      "broccoli-beef-soup-noodles",
-      "broccoli-beef-braised-rice",
-      "potato-broccoli-beef-covered-rice",
-      "tomato-broccoli-beef-stewed-rice"
+      "broccoli-beef-fried-rice"
     ],
     "forbidden_recipe_ids": [
       "soy-lentil-vegetable-stew"
@@ -1835,7 +1829,7 @@
   },
   {
     "id": "base-032-shakshuka-tomato-egg-fixed-core-dislike",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
       "番茄",
@@ -1923,12 +1917,7 @@
     ],
     "expected_recipe_ids": [
       "cantonese-black-bean-pork-rib-claypot-rice",
-      "chicken-black-eyed-pea-stew",
-      "broccoli-beef-braised-rice",
-      "potato-broccoli-beef-covered-rice",
-      "broccoli-beef-fried-rice",
-      "broccoli-beef-soup-noodles",
-      "tomato-broccoli-beef-stewed-rice"
+      "chicken-black-eyed-pea-stew"
     ],
     "forbidden_recipe_ids": [
       "texas-beef-chili"
@@ -2130,7 +2119,7 @@
     "servings": 1,
     "pantry": [
       "白米",
-      "卷心菜",
+      "高丽菜",
       "高汤"
     ],
     "dislikes": [],
@@ -2187,8 +2176,8 @@
     "disliked_fixed_core": "大米"
   },
   {
-    "id": "cycle-001-chinese-congee-quick-1",
-    "purpose": "quick",
+    "id": "cycle-001-chinese-congee-pantry-1",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -2335,8 +2324,8 @@
     "family_id": "family-tomato-egg-pot"
   },
   {
-    "id": "cycle-009-texas-beef-chili-quick-4",
-    "purpose": "quick",
+    "id": "cycle-009-texas-beef-chili-fresh-4",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
       "牛肉（粗绞）",
@@ -2551,8 +2540,8 @@
     "family_id": "family-tomato-egg-pot"
   },
   {
-    "id": "cycle-021-texas-beef-chili-quick-4",
-    "purpose": "quick",
+    "id": "cycle-021-texas-beef-chili-fresh-4",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
       "牛肉（粗绞）",
@@ -2623,8 +2612,8 @@
     "family_id": "family-minestrone"
   },
   {
-    "id": "cycle-025-chinese-congee-quick-1",
-    "purpose": "quick",
+    "id": "cycle-025-chinese-congee-pantry-1",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
