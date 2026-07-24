@@ -1,7 +1,9 @@
 import {
   normalizePlannerRequest,
+  planMealWithIdentity,
   plannerRequestFromLegacy,
 } from './planner-v2.js';
+import { prepareRatioCatalog } from './ratio-dsl.js';
 import { matchAllergy } from './allergen-semantics.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
@@ -12,6 +14,7 @@ const RATE_BUCKETS = new Map();
 // ===== 菜谱库候选: 只做确定性查表与排序，不额外调用模型。=====
 const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
+const PLANNER_ASSET_CACHE = new WeakMap();
 const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
 const RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main';
 const TRUSTED_RECIPE_SYSTEM_ROLE = '你是可信基础菜谱的一锅出编辑。只按本系统消息中的可信菜谱硬约束和用户消息里的对应 grounding 生成；不得套用通用“主食+蛋白+多蔬菜”模板。返回严格 JSON，JSON 外不要输出文字。';
@@ -1566,6 +1569,119 @@ async function getRecipeLib(env, request) {
   return lib;
 }
 
+const PLANNER_ASSET_PATHS = Object.freeze({
+  taxonomy: '/ingredient-taxonomy.v1.json',
+  templates: '/meal-templates.v2.json',
+  ratios: '/ratio-rules.v1.json',
+  recipes: '/recipe-library.json',
+});
+const ACTIVE_PLANNER_TEMPLATE_IDS = new Set([
+  'acid-staple-pot',
+  'savory-mixed-rice-pot',
+  'cooked-rice-stir-pot',
+  'broth-noodle-pot',
+  'egg-tofu-vegetable-pot',
+  'mushroom-vegetable-stew-pot',
+  'beef-staple-pot',
+  'poultry-staple-pot',
+]);
+
+function plannerAssetError() {
+  const error = new Error('planner_assets_unavailable');
+  error.code = 'planner_assets_unavailable';
+  return error;
+}
+
+function deepFreeze(value) {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    for (const child of Object.values(value)) deepFreeze(child);
+    Object.freeze(value);
+  }
+  return value;
+}
+
+async function readPlannerJsonAsset(assets, request, pathname) {
+  const response = await assets.fetch(new Request(new URL(pathname, request.url).toString()));
+  if (!response?.ok) throw plannerAssetError();
+  try {
+    const parsed = JSON.parse(await response.text());
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw plannerAssetError();
+    return parsed;
+  } catch (_error) {
+    throw plannerAssetError();
+  }
+}
+
+function validatePlannerAssetEnvelopes(source) {
+  const { taxonomy, templates, ratios, recipes } = source;
+  if (taxonomy.taxonomy_version !== 'taxonomy-v1-20260724'
+      || !Array.isArray(taxonomy.items) || !taxonomy.items.length) throw plannerAssetError();
+  const taxonomyIds = new Set();
+  const taxonomyNames = new Set();
+  for (const item of taxonomy.items) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)
+        || typeof item.canonical_id !== 'string' || !item.canonical_id
+        || typeof item.display_name !== 'string' || !item.display_name
+        || typeof item.category !== 'string' || !item.category
+        || !Array.isArray(item.aliases)
+        || !Array.isArray(item.compatible_slot_codes)
+        || !Array.isArray(item.incompatible_slot_codes)
+        || !item.cooking_risk || typeof item.cooking_risk !== 'object') throw plannerAssetError();
+    if (taxonomyIds.has(item.canonical_id) || taxonomyNames.has(item.display_name)) throw plannerAssetError();
+    taxonomyIds.add(item.canonical_id);
+    taxonomyNames.add(item.display_name);
+  }
+  if (templates.schema_version !== 1
+      || templates.template_catalog_version !== 'templates-v2-20260724'
+      || templates.ingredient_taxonomy_version !== taxonomy.taxonomy_version
+      || !Array.isArray(templates.templates) || !templates.templates.length) throw plannerAssetError();
+  const templateIds = new Set();
+  const activeIds = new Set();
+  for (const template of templates.templates) {
+    if (!template || typeof template !== 'object' || Array.isArray(template)
+        || typeof template.template_id !== 'string' || !template.template_id
+        || templateIds.has(template.template_id)
+        || !Array.isArray(template.required_slots)
+        || !Array.isArray(template.optional_slots)
+        || !Array.isArray(template.ratio_constraints)
+        || !Array.isArray(template.evidence_recipe_ids)) throw plannerAssetError();
+    templateIds.add(template.template_id);
+    if (template.activation_status === 'active' && template.runtime_eligible === true) activeIds.add(template.template_id);
+  }
+  if (activeIds.size !== ACTIVE_PLANNER_TEMPLATE_IDS.size
+      || [...ACTIVE_PLANNER_TEMPLATE_IDS].some(id => !activeIds.has(id))) throw plannerAssetError();
+  if (ratios.ratio_dsl_version !== 1
+      || ratios.ratio_catalog_version !== 'ratio-rules-v1-20260724'
+      || !Array.isArray(ratios.rules) || !ratios.rules.length) throw plannerAssetError();
+  if (!Array.isArray(recipes.recipes) || !recipes.recipes.length) throw plannerAssetError();
+}
+
+async function getPlannerAssets(env, request) {
+  const assets = env?.ASSETS;
+  if (!assets || (typeof assets !== 'object' && typeof assets !== 'function')
+      || typeof assets.fetch !== 'function') throw plannerAssetError();
+  if (PLANNER_ASSET_CACHE.has(assets)) return PLANNER_ASSET_CACHE.get(assets);
+  let source;
+  try {
+    const [taxonomy, templates, ratios, recipes] = await Promise.all([
+      readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.taxonomy),
+      readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.templates),
+      readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.ratios),
+      readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.recipes),
+    ]);
+    source = { taxonomy, templates, ratios, recipes };
+    validatePlannerAssetEnvelopes(source);
+    const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
+    if (!preparedRatios.ok) throw plannerAssetError();
+    source = structuredClone({ taxonomy, templates, ratios: preparedRatios.catalog, recipes });
+  } catch (_error) {
+    throw plannerAssetError();
+  }
+  const validated = deepFreeze(source);
+  PLANNER_ASSET_CACHE.set(assets, validated);
+  return validated;
+}
+
 // ===== 第二层兜底: 台湾食药署食品营养成分库(权威, OGDL-Taiwan-1.0)。模型生成的食材做高置信匹配, 命中即覆盖为权威值。=====
 let TW_CACHE = null;
 function twNorm(s) { return String(s || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/\s+/g, ''); }
@@ -2515,6 +2631,47 @@ async function handleGenerate(request, env) {
   return jsonResponse(meal, 200, env, request);
 }
 
+async function handlePlanMeal(request, env) {
+  const rawBody = await request.text().catch(() => '');
+  if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
+    return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(rawBody);
+  } catch (_error) {
+    if (rawBody.trim()) return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+    return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
+  }
+  let plannerRequest;
+  try {
+    plannerRequest = normalizePlannerRequest(parsed);
+  } catch (error) {
+    if (error?.code === 'invalid_planner_request') {
+      return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
+    }
+    throw error;
+  }
+  let plannerAssets;
+  try {
+    plannerAssets = await getPlannerAssets(env, request);
+  } catch (_error) {
+    return errorResponse('planner_assets_unavailable', '规划规则暂时不可用', 503, env, {}, request);
+  }
+  try {
+    return jsonResponse(await planMealWithIdentity(plannerAssets, plannerRequest), 200, env, request);
+  } catch (error) {
+    if (error?.code === 'invalid_planner_request') {
+      return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
+    }
+    console.error('planner worker error', error?.message || String(error));
+    return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
+  }
+}
+
 export {
   buildPantryPlan,
   buildRecipeGrounding,
@@ -2566,6 +2723,9 @@ export default {
         console.error('generate worker error', err?.message || String(err));
         return errorResponse('worker_error', '生成服务临时异常，请稍后再试', 500, env, {}, request);
       }
+    }
+    if (request.method === 'POST' && url.pathname === '/plan-meal') {
+      return handlePlanMeal(request, env);
     }
     if (env.ASSETS) return env.ASSETS.fetch(request);
     return jsonResponse({ error: 'not found' }, 404, env, request);

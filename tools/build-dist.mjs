@@ -19,7 +19,14 @@ const STATIC_ASSETS = [
 const GENERATED_ASSETS = [
   ['tools/data/foods-tw.json', 'foods-tw.json'],
   ['tools/data/recipe-library.json', 'recipe-library.json'],
+  ['tools/data/ingredient-taxonomy.v1.json', 'ingredient-taxonomy.v1.json'],
+  ['tools/data/meal-templates.v2.json', 'meal-templates.v2.json'],
+  ['tools/data/ratio-rules.v1.json', 'ratio-rules.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
+  ['worker/src/planner-v2.js', 'planner-v2.js'],
+  ['worker/src/ratio-dsl.js', 'ratio-dsl.js'],
+  ['worker/src/taxonomy-identity.js', 'taxonomy-identity.js'],
+  ['worker/src/allergen-semantics.js', 'allergen-semantics.js'],
 ];
 
 function usage(message) {
