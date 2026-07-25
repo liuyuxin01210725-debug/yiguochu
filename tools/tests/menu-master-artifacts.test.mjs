@@ -39,3 +39,12 @@ test('checked-in menu master artifacts are fresh', () => {
   assert.match(result.stdout, /72 production menus/);
   assert.match(result.stdout, /24 research candidates/);
 });
+
+test('aggregate recipe gate includes menu master integrity', () => {
+  const checker = fileURLToPath(new URL('../check-recipes.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [checker], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /menu master ok/);
+  assert.match(result.stdout, /72 production menus/);
+  assert.match(result.stdout, /24 research candidates/);
+});
