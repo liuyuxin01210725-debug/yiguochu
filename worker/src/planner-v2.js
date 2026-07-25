@@ -15,6 +15,31 @@ const DECISION_ACTIONS = new Set([
   'edit_ingredients',
 ]);
 const MAX_ITEMS = 20;
+// This optional sink is intentionally outside the planner response and is never read by planning.
+const PLANNER_DIAGNOSTIC_COUNTERS = Object.freeze([
+  'exact_search_calls',
+  'partial_search_max_depth',
+  'valid_candidate_count',
+  'unique_user_mask_count',
+  'partial_pair_checks',
+]);
+
+function preparePlannerDiagnostics(diagnostics) {
+  if (!diagnostics || typeof diagnostics !== 'object' || Array.isArray(diagnostics)) return null;
+  for (const field of PLANNER_DIAGNOSTIC_COUNTERS) {
+    if (!Number.isInteger(diagnostics[field]) || diagnostics[field] < 0) diagnostics[field] = 0;
+  }
+  if (typeof diagnostics.capacity_short_circuit !== 'boolean') diagnostics.capacity_short_circuit = false;
+  return diagnostics;
+}
+
+function addPlannerDiagnostic(diagnostics, field, amount = 1) {
+  if (diagnostics) diagnostics[field] += amount;
+}
+
+function maxPlannerDiagnostic(diagnostics, field, value) {
+  if (diagnostics) diagnostics[field] = Math.max(diagnostics[field], value);
+}
 
 function invalidPlannerRequest(message) {
   const error = new Error(message);
@@ -882,7 +907,8 @@ function canonicalUserKeys(pot) {
 // 完整多锅只搜索最多 3 锅。候选先按“用户食材集合 + must 集合”去重，
 // 然后每层固定选一个尚未覆盖的 must item，枚举所有能覆盖它的已重新校验候选。
 // 因此不会构造 N²/N³ 组合数组，也没有可能截断有效 1–3 锅解的任意 cap。
-function findExactCompletePotCombination(rankedCandidates, mustUse, exactPotCount) {
+function findExactCompletePotCombination(rankedCandidates, mustUse, exactPotCount, diagnostics) {
+  addPlannerDiagnostic(diagnostics, 'exact_search_calls');
   if (!mustUse.length || mustUse.some(item => !item.recognized)) return null;
   const targetKeys = [...new Set(mustUse.map(item => item.canonical || `raw:${item.raw}`))]
     .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
@@ -952,7 +978,7 @@ function countMaskBits(mask) {
 
 // 部分计划也使用经完整校验的装槽变体。这里只保留当前最优的单锅/两锅，
 // 不构造候选 pair 数组；相同用户食材集合只保留按合同更优的那个已编译候选。
-function findBestPartialPotCombination(rankedCandidates, request) {
+function findBestPartialPotCombination(rankedCandidates, request, diagnostics) {
   if (!rankedCandidates.length) return [];
   const allKeys = [...new Set(rankedCandidates.flatMap(candidate => [...canonicalUserKeys(candidate)]))]
     .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
@@ -981,7 +1007,11 @@ function findBestPartialPotCombination(rankedCandidates, request) {
     }
   }
   const entries = [...entryByUserMask.values()];
+  // One entry remains for every distinct user-ingredient mask after partial-search deduplication.
+  addPlannerDiagnostic(diagnostics, 'unique_user_mask_count', entries.length);
   for (const entry of entries) {
+    // Partial selection evaluates one pot here, and only two-pot pairs below.
+    maxPlannerDiagnostic(diagnostics, 'partial_search_max_depth', 1);
     entry.mustCount = countMaskBits(entry.mustMask);
     entry.preferCount = countMaskBits(entry.preferMask);
   }
@@ -1019,6 +1049,9 @@ function findBestPartialPotCombination(rankedCandidates, request) {
     const bestMust = best?.metrics.must ?? -1;
     if (pairEntries[left].mustCount + maxMustPerPot < bestMust) break;
     for (let right = left + 1; right < pairEntries.length; right += 1) {
+      // Count each pair only once it reaches the actual inner-loop predicate sequence.
+      addPlannerDiagnostic(diagnostics, 'partial_pair_checks');
+      maxPlannerDiagnostic(diagnostics, 'partial_search_max_depth', 2);
       if (pairEntries[left].mustCount + pairEntries[right].mustCount < bestMust) break;
       if ((pairEntries[left].userMask & pairEntries[right].userMask) !== 0n) continue;
       const selected = [pairEntries[left], pairEntries[right]];
@@ -1240,7 +1273,7 @@ function legacyRecipeFallbackResponse(assets, request, normalizedItems, reason) 
   };
 }
 
-function planMealCore(assets, request) {
+function planMealCore(assets, request, diagnostics) {
   const normalized_items = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
@@ -1257,14 +1290,17 @@ function planMealCore(assets, request) {
   const searchRanked = request.mode === 'pantry'
     ? rankPotCandidates(buildPotCandidatesInternal(assets, request, true), request)
     : publicRanked;
+  // Search-ranked candidates have completed candidate validation at this point.
+  addPlannerDiagnostic(diagnostics, 'valid_candidate_count', searchRanked.length);
   const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
   if (request.mode === 'recommend') {
     const chosen = publicRanked.find(candidate => candidate.single_pot_eligible);
     return buildPlannerResponse(assets, request, normalized_items, publicRanked, chosen ? [chosen] : [], { allergyAliases });
   }
 
-  const completeSingle = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 1);
-  const completePair = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 2);
+  if (exceedsAbsoluteThreePotCapacity && diagnostics) diagnostics.capacity_short_circuit = true;
+  const completeSingle = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 1, diagnostics);
+  const completePair = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 2, diagnostics);
   const forceMulti = request.decision?.action === 'force_multi_pot';
   if (forceMulti && completePair) {
     return buildPlannerResponse(assets, request, normalized_items, publicRanked, completePair, { allergyAliases });
@@ -1276,7 +1312,7 @@ function planMealCore(assets, request) {
     return buildPlannerResponse(assets, request, normalized_items, publicRanked, completePair, { allergyAliases });
   }
 
-  const completeTriple = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 3);
+  const completeTriple = exceedsAbsoluteThreePotCapacity ? null : findExactCompletePotCombination(searchRanked, must, 3, diagnostics);
   if (completeTriple) {
     const triple = completeTriple;
     if (request.allow_third_pot) {
@@ -1288,7 +1324,7 @@ function planMealCore(assets, request) {
     });
   }
 
-  const selected = findBestPartialPotCombination(searchRanked, request);
+  const selected = findBestPartialPotCombination(searchRanked, request, diagnostics);
   const displayableSelected = selected.length === 1 && selected[0].single_pot_eligible !== true ? [] : selected;
   const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
     && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
@@ -1310,17 +1346,18 @@ function exactStringSet(left, right) {
   return JSON.stringify(normalize(left)) === JSON.stringify(normalize(right));
 }
 
-export function planMeal(assets = {}, request = {}) {
+export function planMeal(assets = {}, request = {}, diagnostics = null) {
+  const sink = preparePlannerDiagnostics(diagnostics);
   const decision = request.decision;
   const baseRequest = {
     ...structuredClone(request),
     decision: null,
     allow_third_pot: false,
   };
-  if (!decision) return planMealCore(assets, baseRequest);
+  if (!decision) return planMealCore(assets, baseRequest, sink);
 
   if (decision.action === 'relax_item') {
-    const current = planMealCore(assets, baseRequest);
+    const current = planMealCore(assets, baseRequest, sink);
     const eligible = current.plan.unplanned_must_use || [];
     const chosen = typeof decision.item === 'string' ? decision.item.trim() : '';
     const target = eligible.find(item => chosen && (item.raw === chosen || item.canonical === chosen));
@@ -1332,7 +1369,7 @@ export function planMeal(assets = {}, request = {}) {
       ...baseRequest,
       must_use: (baseRequest.must_use || []).filter(raw => !moved.has(raw)),
       prefer_use: [...new Set([...(baseRequest.prefer_use || []), ...movedRaw])],
-    });
+    }, sink);
   }
 
   const decisionRequest = {
@@ -1340,7 +1377,7 @@ export function planMeal(assets = {}, request = {}) {
     decision: structuredClone(decision),
     allow_third_pot: decision.action === 'allow_third_pot',
   };
-  const current = planMealCore(assets, decisionRequest);
+  const current = planMealCore(assets, decisionRequest, sink);
   if (decision.action === 'edit_ingredients') {
     current.status = current.status === 'no_valid_plan' ? 'no_valid_plan' : 'needs_user_decision';
     current.generation_allowed = false;

@@ -90,10 +90,8 @@ test('explicit third-pot acknowledgement reruns the same real journey and comple
 
 test('a sixteen-item recognized pantry exceeds three-pot capacity without hiding the partial work', () => {
   const must = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇'];
-  const started = performance.now();
   const result = planMeal(assets, request({ must, decision: { action: 'allow_third_pot' } }));
 
-  assert.ok(performance.now() - started < 5000, 'bounded search should finish a 16-item pantry within five seconds');
   assert.equal(result.status, 'needs_user_decision');
   assert.equal(result.generation_allowed, false);
   assert.ok(result.plan.pots.length > 0 && result.plan.pots.length <= 2);
@@ -118,18 +116,35 @@ test('partial-search variants also expose the known disjoint acid-plus-beef two-
   assert.deepEqual(new Set(plannedCanonicals(result)), new Set(['大米', '番茄', '鸡蛋', '胡萝卜', '金针菇', '面条', '牛肉', '白菜']));
 });
 
-test('bounded partial search remains responsive for the full twenty-item request limit', () => {
+test('partial planning preserves its capacity response for the full twenty-item request limit', () => {
   const must = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '嫩豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆', '金针菇', '香菇'];
-  const started = performance.now();
   const result = planMeal(assets, request({ must, decision: { action: 'allow_third_pot' } }));
 
-  assert.ok(performance.now() - started < 5000, 'twenty-item bounded partial search should finish within five seconds');
   assert.equal(result.status, 'needs_user_decision');
   assert.ok(result.plan.pots.length > 0 && result.plan.pots.length <= 2);
   assert.equal(result.plan.rejection_reason?.reason_code, 'plan_capacity_exceeded');
   assert.ok(result.plan.unplanned_must_use.some(item => item.reason_code === 'plan_capacity_exceeded'));
   assert.equal(new Set(result.plan.pots.flatMap(pot => pot.planned_must_use.map(item => item.canonical))).size,
     result.plan.planned_must_use.length);
+});
+
+test('the real twenty-item capacity journey exposes deterministic bounded-search diagnostics without changing its plan', () => {
+  const must = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '嫩豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆', '金针菇', '香菇'];
+  const input = request({ must, decision: { action: 'allow_third_pot' } });
+  const withoutDiagnostics = planMeal(assets, input);
+  const diagnostics = {};
+  const withDiagnostics = planMeal(assets, input, diagnostics);
+
+  assert.deepEqual(withDiagnostics, withoutDiagnostics);
+  assert.equal(withDiagnostics.status, 'needs_user_decision');
+  assert.equal(withDiagnostics.plan.rejection_reason?.reason_code, 'plan_capacity_exceeded');
+  assert.ok(withDiagnostics.plan.pots.length > 0 && withDiagnostics.plan.pots.length <= 2);
+  assert.equal(diagnostics.capacity_short_circuit, true);
+  assert.equal(diagnostics.exact_search_calls, 0);
+  assert.equal(diagnostics.partial_search_max_depth, 2);
+  assert.ok(Number.isInteger(diagnostics.valid_candidate_count) && diagnostics.valid_candidate_count > 0 && diagnostics.valid_candidate_count <= 5000);
+  assert.ok(Number.isInteger(diagnostics.unique_user_mask_count) && diagnostics.unique_user_mask_count > 0 && diagnostics.unique_user_mask_count <= 3000);
+  assert.ok(Number.isInteger(diagnostics.partial_pair_checks) && diagnostics.partial_pair_checks > 0 && diagnostics.partial_pair_checks <= 500000);
 });
 
 test('aggregate capacity is never blamed for an unsupported cut or an allergen conflict', () => {
