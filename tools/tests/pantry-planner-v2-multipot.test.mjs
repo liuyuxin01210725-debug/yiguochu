@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { computePlanId, normalizePlannerRequest, planMeal } from '../../worker/src/planner-v2.js';
+import * as planner from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', name), 'utf8'));
@@ -128,12 +129,12 @@ test('partial planning preserves its capacity response for the full twenty-item 
     result.plan.planned_must_use.length);
 });
 
-test('the real twenty-item capacity journey exposes deterministic bounded-search diagnostics without changing its plan', () => {
+test('the real twenty-item capacity journey exposes private deterministic diagnostics without changing its plan', () => {
   const must = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '嫩豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆', '金针菇', '香菇'];
   const input = request({ must, decision: { action: 'allow_third_pot' } });
   const withoutDiagnostics = planMeal(assets, input);
-  const diagnostics = {};
-  const withDiagnostics = planMeal(assets, input, diagnostics);
+  assert.equal(typeof planner.planMealWithDiagnostics, 'function');
+  const { result: withDiagnostics, diagnostics } = planner.planMealWithDiagnostics(assets, input);
 
   assert.deepEqual(withDiagnostics, withoutDiagnostics);
   assert.equal(withDiagnostics.status, 'needs_user_decision');
@@ -147,12 +148,13 @@ test('the real twenty-item capacity journey exposes deterministic bounded-search
   assert.ok(Number.isInteger(diagnostics.partial_pair_checks) && diagnostics.partial_pair_checks > 0 && diagnostics.partial_pair_checks <= 500000);
 });
 
-test('reusing a diagnostics sink resets every counter for the next real planner request', () => {
+test('each diagnostics wrapper call owns fresh counters for its real planner request', () => {
   const capacityMust = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '嫩豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆', '金针菇', '香菇'];
-  const diagnostics = {};
-  planMeal(assets, request({ must: capacityMust, decision: { action: 'allow_third_pot' } }), diagnostics);
-  const result = planMeal(assets, request({ must: ['番茄', '鸡蛋'] }), diagnostics);
+  assert.equal(typeof planner.planMealWithDiagnostics, 'function');
+  const capacity = planner.planMealWithDiagnostics(assets, request({ must: capacityMust, decision: { action: 'allow_third_pot' } }));
+  const { result, diagnostics } = planner.planMealWithDiagnostics(assets, request({ must: ['番茄', '鸡蛋'] }));
 
+  assert.equal(capacity.diagnostics.capacity_short_circuit, true);
   assert.equal(result.status, 'complete');
   assert.deepEqual(diagnostics, {
     exact_search_calls: 2,
@@ -164,47 +166,21 @@ test('reusing a diagnostics sink resets every counter for the next real planner 
   });
 });
 
-test('prepopulated valid diagnostics counters are reset before planning', () => {
-  const diagnostics = {
-    exact_search_calls: 99,
-    partial_search_max_depth: 99,
-    valid_candidate_count: 99,
-    unique_user_mask_count: 99,
-    partial_pair_checks: 99,
-    capacity_short_circuit: true,
-  };
-
-  const result = planMeal(assets, request({ must: ['番茄', '鸡蛋'] }), diagnostics);
-
-  assert.equal(result.status, 'complete');
-  assert.deepEqual(diagnostics, {
-    exact_search_calls: 2,
-    partial_search_max_depth: 0,
-    valid_candidate_count: 10,
-    unique_user_mask_count: 0,
-    partial_pair_checks: 0,
-    capacity_short_circuit: false,
-  });
-});
-
-test('unwritable diagnostics sinks are ignored without changing plan facts or plan identity', async () => {
+test('planMeal ignores a hostile third argument without accessing it or changing plan facts or identity', async () => {
   const input = request({ must: ['番茄', '鸡蛋'] });
   const baseline = planMeal(assets, input);
   const baselinePlanId = await computePlanId(baseline);
-  const fields = ['exact_search_calls', 'partial_search_max_depth', 'valid_candidate_count', 'unique_user_mask_count', 'partial_pair_checks', 'capacity_short_circuit'];
-  const nonWritable = Object.defineProperties({}, Object.fromEntries(fields.map(field => [field, {
-    value: field === 'capacity_short_circuit' ? true : 99,
-    writable: false,
-    configurable: false,
-    enumerable: true,
-  }])));
+  let accesses = 0;
+  const hostile = new Proxy({}, {
+    get() { accesses += 1; throw new Error('third argument must not be read'); },
+    set() { accesses += 1; throw new Error('third argument must not be written'); },
+    ownKeys() { accesses += 1; throw new Error('third argument must not be enumerated'); },
+  });
+  const result = planMeal(assets, input, hostile);
 
-  for (const sink of [Object.freeze({}), Object.seal({}), nonWritable]) {
-    let result;
-    assert.doesNotThrow(() => { result = planMeal(assets, input, sink); });
-    assert.deepEqual(result, baseline);
-    assert.equal(await computePlanId(result), baselinePlanId);
-  }
+  assert.equal(accesses, 0);
+  assert.deepEqual(result, baseline);
+  assert.equal(await computePlanId(result), baselinePlanId);
 });
 
 test('aggregate capacity is never blamed for an unsupported cut or an allergen conflict', () => {

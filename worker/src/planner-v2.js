@@ -15,24 +15,15 @@ const DECISION_ACTIONS = new Set([
   'edit_ingredients',
 ]);
 const MAX_ITEMS = 20;
-// This optional sink is intentionally outside the planner response and is never read by planning.
-const PLANNER_DIAGNOSTIC_COUNTERS = Object.freeze([
-  'exact_search_calls',
-  'partial_search_max_depth',
-  'valid_candidate_count',
-  'unique_user_mask_count',
-  'partial_pair_checks',
-]);
-
-function preparePlannerDiagnostics(diagnostics) {
-  if (!diagnostics || typeof diagnostics !== 'object' || Array.isArray(diagnostics)) return null;
-  try {
-    for (const field of PLANNER_DIAGNOSTIC_COUNTERS) diagnostics[field] = 0;
-    diagnostics.capacity_short_circuit = false;
-    return diagnostics;
-  } catch {
-    return null;
-  }
+function createPlannerDiagnostics() {
+  return {
+    exact_search_calls: 0,
+    partial_search_max_depth: 0,
+    valid_candidate_count: 0,
+    unique_user_mask_count: 0,
+    partial_pair_checks: 0,
+    capacity_short_circuit: false,
+  };
 }
 
 function addPlannerDiagnostic(diagnostics, field, amount = 1) {
@@ -1348,8 +1339,8 @@ function exactStringSet(left, right) {
   return JSON.stringify(normalize(left)) === JSON.stringify(normalize(right));
 }
 
-export function planMeal(assets = {}, request = {}, diagnostics = null) {
-  const sink = preparePlannerDiagnostics(diagnostics);
+function planMealInternal(assets = {}, request = {}, diagnostics = null) {
+  const sink = diagnostics;
   const decision = request.decision;
   const baseRequest = {
     ...structuredClone(request),
@@ -1400,6 +1391,16 @@ export function planMeal(assets = {}, request = {}, diagnostics = null) {
     return current;
   }
   return current;
+}
+
+export function planMeal(assets = {}, request = {}) {
+  return planMealInternal(assets, request);
+}
+
+export function planMealWithDiagnostics(assets = {}, request = {}) {
+  const diagnostics = createPlannerDiagnostics();
+  const result = planMealInternal(assets, request, diagnostics);
+  return { result, diagnostics: structuredClone(diagnostics) };
 }
 
 function identityText(value) {
