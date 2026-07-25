@@ -2,10 +2,24 @@ const CASE_TYPES = new Set(['positive', 'negative', 'cross_menu']);
 const CASE_STATUSES = new Set(['pending', 'pass', 'fail', 'needs_review']);
 const MODES = new Set(['recommend', 'pantry']);
 const INTENTS = new Set(['normal', 'quick', 'fresh', 'batch']);
+const PLAN_STATUSES = new Set([
+  'ready',
+  'complete',
+  'needs_user_decision',
+  'partial_accepted',
+  'no_alternative_plan',
+  'no_valid_plan',
+  'stale_plan',
+]);
+const PLAN_STATUSES_REQUIRING_ITEMS = new Set(['ready', 'complete', 'partial_accepted']);
+
+function hasStrings(value) {
+  return Array.isArray(value)
+    && value.every(item => typeof item === 'string' && item.trim());
+}
 
 function hasNonEmptyStrings(value) {
-  return Array.isArray(value) && value.length > 0
-    && value.every(item => typeof item === 'string' && item.trim());
+  return hasStrings(value) && value.length > 0;
 }
 
 export function validateMenuVerificationCases(catalog, recipeIds, familyIds) {
@@ -74,11 +88,13 @@ export function validateMenuVerificationCases(catalog, recipeIds, familyIds) {
     if (!expected || typeof expected !== 'object' || Array.isArray(expected)) {
       errors.push(`${label} expected must be an object`);
     } else {
-      if (typeof expected.plan_status !== 'string' || !expected.plan_status.trim()) {
-        errors.push(`${label} expected plan_status must be a non-empty string`);
+      if (!PLAN_STATUSES.has(expected.plan_status)) {
+        errors.push(`${label} expected plan_status must be one of ${[...PLAN_STATUSES].join(', ')}`);
       }
-      if (!hasNonEmptyStrings(expected.planned_items)) {
-        errors.push(`${label} expected planned_items must be a non-empty string array`);
+      if (!hasStrings(expected.planned_items)) {
+        errors.push(`${label} expected planned_items must be a string array`);
+      } else if (PLAN_STATUSES_REQUIRING_ITEMS.has(expected.plan_status) && expected.planned_items.length === 0) {
+        errors.push(`${label} expected planned_items must be a non-empty string array for ${expected.plan_status}`);
       }
     }
   }

@@ -9,6 +9,27 @@ const taxonomy = JSON.parse(fs.readFileSync(new URL('../data/ingredient-taxonomy
 const research = JSON.parse(fs.readFileSync(new URL('../data/regional-menu-research.v1.json', import.meta.url), 'utf8'));
 const verification = JSON.parse(fs.readFileSync(new URL('../data/menu-verification-cases.v1.json', import.meta.url), 'utf8'));
 
+function validCase(overrides = {}) {
+  return {
+    case_id: 'valid-case',
+    case_type: 'positive',
+    recipe_ids: ['known-recipe'],
+    family_ids: ['known-family'],
+    input: { mode: 'recommend', intent: 'normal', servings: 2, items: ['番茄'] },
+    expected: { planned_items: ['番茄'], plan_status: 'ready' },
+    status: 'pending',
+    ...overrides,
+  };
+}
+
+function validationErrors(entries) {
+  return validateMenuVerificationCases({
+    schema_version: 1,
+    catalog_version: 'menu-verification-v1-20260725',
+    entries,
+  }, new Set(['known-recipe']), new Set(['known-family']));
+}
+
 test('stage-zero verification ledger is valid and intentionally empty', () => {
   assert.equal(verification.entries.length, 0);
   assert.deepEqual(validateMenuVerificationCases(
@@ -79,4 +100,68 @@ test('menu master exposes the derived verification summary in its audit row', ()
   });
   assert.equal(master.production_menus[0].audit.verification.status, 'covered');
   assert.equal(master.production_menus[0].audit.verification_status, 'covered');
+});
+
+test('verification cases reject duplicate references and invalid request enums', () => {
+  const errors = validationErrors([
+    validCase(),
+    validCase({
+      case_type: 'positve',
+      status: 'approved',
+      recipe_ids: ['known-recipe'],
+      family_ids: ['missing-family'],
+      input: { mode: 'suggest', intent: 'fast', servings: 2, items: ['番茄'] },
+    }),
+  ]).join('\n');
+  assert.match(errors, /duplicate verification case_id valid-case/);
+  assert.match(errors, /unknown family_id missing-family/);
+  assert.match(errors, /invalid case_type/);
+  assert.match(errors, /invalid status/);
+  assert.match(errors, /input mode must be recommend or pantry/);
+  assert.match(errors, /input intent must be normal, quick, fresh, or batch/);
+});
+
+test('verification cases enforce serving and item boundaries', () => {
+  assert.deepEqual(validationErrors([
+    validCase({ case_id: 'one-serving', input: { mode: 'pantry', intent: 'quick', servings: 1, items: ['米'] } }),
+    validCase({ case_id: 'eight-servings', input: { mode: 'recommend', intent: 'batch', servings: 8, items: ['米'] } }),
+  ]), []);
+
+  const errors = validationErrors([
+    validCase({ case_id: 'zero-servings', input: { mode: 'recommend', intent: 'normal', servings: 0, items: ['米'] } }),
+    validCase({ case_id: 'nine-servings', input: { mode: 'recommend', intent: 'normal', servings: 9, items: ['米'] } }),
+    validCase({ case_id: 'empty-items', input: { mode: 'recommend', intent: 'normal', servings: 2, items: [] } }),
+  ]).join('\n');
+  assert.equal((errors.match(/input servings must be an integer from 1 to 8/g) || []).length, 2);
+  assert.match(errors, /input items must be a non-empty string array/);
+});
+
+test('verification cases require structured expected plans and controlled plan statuses', () => {
+  const errors = validationErrors([
+    validCase({ case_id: 'missing-expected', expected: null }),
+    validCase({ case_id: 'typo-status', expected: { planned_items: ['番茄'], plan_status: 'reayd' } }),
+    validCase({ case_id: 'empty-success-plan', expected: { planned_items: [], plan_status: 'complete' } }),
+  ]).join('\n');
+  assert.match(errors, /expected must be an object/);
+  assert.match(errors, /expected plan_status must be one of/);
+  assert.match(errors, /expected planned_items must be a non-empty string array for complete/);
+});
+
+test('negative no-valid-plan cases may record an empty planned item list', () => {
+  assert.deepEqual(validationErrors([
+    validCase({
+      case_id: 'no-valid-plan',
+      case_type: 'negative',
+      expected: { plan_status: 'no_valid_plan', planned_items: [] },
+    }),
+    validCase({
+      case_id: 'no-alternative-plan',
+      case_type: 'negative',
+      expected: { plan_status: 'no_alternative_plan', planned_items: [] },
+    }),
+    validCase({
+      case_id: 'decision-can-retain-planned-items',
+      expected: { plan_status: 'needs_user_decision', planned_items: ['番茄'] },
+    }),
+  ]), []);
 });
