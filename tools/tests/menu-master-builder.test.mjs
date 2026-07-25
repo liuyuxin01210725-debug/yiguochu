@@ -66,6 +66,13 @@ test('taxonomy-unknown core ingredients remain core and are explicitly marked fo
   assert.deepEqual(entry.ingredients.unknown_role, ['意式烩饭米']);
 });
 
+test('low-level production entry builder defaults to an empty taxonomy index', () => {
+  const entry = buildProductionMenuEntry(recipe, 0);
+  assert.deepEqual(entry.ingredients.staples, []);
+  assert.deepEqual(entry.ingredients.core, ['大米', '牛肉']);
+  assert.deepEqual(entry.ingredients.unknown_role, ['大米', '牛肉']);
+});
+
 test('missing source fields remain pending instead of being invented', () => {
   const { source_refs, ...recipeWithoutSourceRefs } = recipe;
   const entry = buildProductionMenuEntry(recipeWithoutSourceRefs, 0, new Map());
@@ -130,6 +137,32 @@ test('versioned phase-zero baseline locks every production ID and status', () =>
   changedStatus.summary.approved_count -= 1;
   changedStatus.summary.auto_approved_count += 1;
   assert.match(validateMenuMasterBaseline(changedStatus, baseline).join('\n'), /production ID\/status set differs from the versioned Phase Zero baseline/);
+});
+
+test('Phase Zero baseline requires exactly six integer expected summary keys', () => {
+  const library = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const realTaxonomy = JSON.parse(fs.readFileSync(new URL('../data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
+  const research = JSON.parse(fs.readFileSync(new URL('../data/regional-menu-research.v1.json', import.meta.url), 'utf8'));
+  const verification = JSON.parse(fs.readFileSync(new URL('../data/menu-verification-cases.v1.json', import.meta.url), 'utf8'));
+  const baseline = JSON.parse(fs.readFileSync(new URL('../data/menu-master-baseline.v1.json', import.meta.url), 'utf8'));
+  const master = buildMenuMaster({ recipeLibrary: library, taxonomy: realTaxonomy, regionalResearch: research, verificationCases: verification });
+  const required = [
+    'production_count', 'approved_count', 'auto_approved_count', 'research_count',
+    'verification_case_count', 'pending_verification_menu_count',
+  ];
+
+  for (const field of required) {
+    const broken = structuredClone(baseline);
+    delete broken.expected_summary[field];
+    assert.match(validateMenuMasterBaseline(master, broken).join('\n'), new RegExp(`expected_summary missing required key ${field}`));
+  }
+  const unknownKey = structuredClone(baseline);
+  unknownKey.expected_summary.unreviewed_count = 0;
+  assert.match(validateMenuMasterBaseline(master, unknownKey).join('\n'), /expected_summary unknown key unreviewed_count is not allowed/);
+
+  const nonInteger = structuredClone(baseline);
+  nonInteger.expected_summary.pending_verification_menu_count = 71.5;
+  assert.match(validateMenuMasterBaseline(master, nonInteger).join('\n'), /expected_summary pending_verification_menu_count must be an integer/);
 });
 
 test('menu master success summaries are derived from the supplied master', () => {

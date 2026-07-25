@@ -12,6 +12,14 @@ const ARRAY_RECIPE_FIELDS = new Set([
   'substitution_slots', 'discouraged', 'technique', 'ratio_rules',
   'safety_rules', 'source_refs', 'purposes',
 ]);
+const BASELINE_SUMMARY_FIELDS = [
+  'production_count',
+  'approved_count',
+  'auto_approved_count',
+  'research_count',
+  'verification_case_count',
+  'pending_verification_menu_count',
+];
 
 const asArray = value => Array.isArray(value) ? value : [];
 const asObject = value => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
@@ -41,17 +49,17 @@ export function summarizeVerificationForMenu(menuId, cases) {
 }
 
 function isStaple(name, taxonomyIndex) {
-  const item = taxonomyIndex.get(name);
+  const item = taxonomyIndex?.get?.(name);
   return Array.isArray(item?.compatible_slot_codes)
     && item.compatible_slot_codes.includes('staple');
 }
 
 function hasProvenTaxonomyRole(name, taxonomyIndex) {
-  const item = taxonomyIndex.get(name);
+  const item = taxonomyIndex?.get?.(name);
   return Array.isArray(item?.compatible_slot_codes) && item.compatible_slot_codes.length > 0;
 }
 
-export function buildProductionMenuEntry(recipe, index, taxonomyIndex, verificationCases = []) {
+export function buildProductionMenuEntry(recipe, index, taxonomyIndex = new Map(), verificationCases = []) {
   const safeRecipe = asObject(recipe);
   const missingFields = REQUIRED_RECIPE_FIELDS.filter(field => {
     const value = safeRecipe[field];
@@ -207,6 +215,20 @@ export function validateMenuMasterBaseline(master, baseline) {
   if (!Array.isArray(safeBaseline.production_menus)) errors.push('menu master baseline production_menus must be an array');
   if (!Array.isArray(safeBaseline.research_atlas_ids)) errors.push('menu master baseline research_atlas_ids must be an array');
   if (!safeBaseline.expected_summary || typeof safeBaseline.expected_summary !== 'object' || Array.isArray(safeBaseline.expected_summary)) errors.push('menu master baseline expected_summary must be an object');
+  if (safeBaseline.expected_summary && typeof safeBaseline.expected_summary === 'object' && !Array.isArray(safeBaseline.expected_summary)) {
+    for (const field of BASELINE_SUMMARY_FIELDS) {
+      if (!(field in safeBaseline.expected_summary)) {
+        errors.push(`menu master baseline expected_summary missing required key ${field}`);
+      } else if (!Number.isInteger(safeBaseline.expected_summary[field])) {
+        errors.push(`menu master baseline expected_summary ${field} must be an integer`);
+      }
+    }
+    for (const field of Object.keys(safeBaseline.expected_summary)) {
+      if (!BASELINE_SUMMARY_FIELDS.includes(field)) {
+        errors.push(`menu master baseline expected_summary unknown key ${field} is not allowed`);
+      }
+    }
+  }
   if (errors.length) return errors;
 
   const actualMenus = asArray(master?.production_menus).map(menu => ({ id: asObject(menu).id, status: asObject(menu).status }));

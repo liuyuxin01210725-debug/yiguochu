@@ -57,16 +57,26 @@ test('Python JSON call cleans its request directory when JSON serialization thro
   assert.deepEqual(after, before);
 });
 
-test('Python JSON call removes the argv file after a child timeout', async () => {
+test('Python JSON call removes a caller-observable request directory after a child timeout', async () => {
   const { runPythonJson } = await import('./helpers/python-json-call.mjs');
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-python-json-timeout-'));
   const run = runPythonJson(['-c', String.raw`
-import sys
 import time
-print(sys.argv[1], flush=True)
 time.sleep(3)
-`], { action: 'timeout-child' }, { timeout: 50 });
-  const requestPath = run.stdout.trim();
+`], { action: 'timeout-child' }, { timeout: 50, tempRoot });
   assert.equal(run.error?.code, 'ETIMEDOUT');
-  assert.equal(fs.existsSync(requestPath), false);
-  assert.equal(fs.existsSync(path.dirname(requestPath)), false);
+  assert.equal(fs.existsSync(tempRoot), false);
+});
+
+test('Python JSON timeout cleanup stays stable under repeated payloads', async () => {
+  const { runPythonJson } = await import('./helpers/python-json-call.mjs');
+  for (let index = 0; index < 5; index += 1) {
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-python-json-timeout-load-'));
+    const run = runPythonJson(['-c', 'import time; time.sleep(3)'], { action: 'timeout-load', index }, {
+      timeout: 40,
+      tempRoot,
+    });
+    assert.equal(run.error?.code, 'ETIMEDOUT');
+    assert.equal(fs.existsSync(tempRoot), false, `timeout request directory ${index} must be removed`);
+  }
 });

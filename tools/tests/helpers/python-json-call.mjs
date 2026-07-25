@@ -4,11 +4,12 @@ import os from 'node:os';
 import path from 'node:path';
 
 export function runPythonJson(args, payload, options = {}) {
-  const requestDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-python-json-'));
+  const { input: _ignoredInput, tempRoot, ...spawnOptions } = options;
+  const requestDir = tempRoot || fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-python-json-'));
   const requestPath = path.join(requestDir, 'request.json');
-  const { input: _ignoredInput, ...spawnOptions } = options;
 
   try {
+    if (tempRoot) fs.mkdirSync(requestDir, { recursive: true });
     fs.writeFileSync(requestPath, JSON.stringify(payload), 'utf8');
     return spawnSync('python3', [...args, requestPath], {
       encoding: 'utf8',
