@@ -34,3 +34,24 @@ test('unverified research requires explicit hypotheses and questions', () => {
   assert.match(message, /ingredient_hypothesis/);
   assert.match(message, /research_questions/);
 });
+
+test('research entries reject nutrition and production-only generation fields', () => {
+  const broken = structuredClone(research);
+  broken.entries[0].nutrition = { kcal: 500 };
+  broken.entries[0].generation_liquid_ingredients = ['水'];
+  const message = validateRegionalMenuResearch(broken).join('\n');
+  assert.match(message, /northeast-ribs-beans-corn-cake: nutrition is not allowed in research entries/);
+  assert.match(message, /northeast-ribs-beans-corn-cake: generation_liquid_ingredients is not allowed in research entries/);
+});
+
+test('research questions require five non-empty strings and hypotheses require non-empty string items', () => {
+  const broken = structuredClone(research);
+  broken.entries[0].research_questions = [null, ' ', '问题三', '问题四'];
+  broken.entries[0].ingredient_hypothesis = ['排骨', null];
+  broken.entries[0].pantry_gap_items = [' '];
+  const message = validateRegionalMenuResearch(broken).join('\n');
+  assert.match(message, /research_questions must contain exactly 5 items/);
+  assert.match(message, /research_questions items must be non-empty strings/);
+  assert.match(message, /ingredient_hypothesis items must be non-empty strings/);
+  assert.match(message, /pantry_gap_items items must be non-empty strings/);
+});

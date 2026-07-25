@@ -13,9 +13,17 @@ const REQUIRED_ARRAY_FIELDS = new Set([
 ]);
 
 const RECIPE_ONLY_FIELDS = new Set([
+  'nutrition',
+  'nutrition_per_serving',
+  'core_ingredients',
+  'optional_ingredients',
   'ratio_rules',
   'safety_rules',
   'generation_optional_ingredients',
+  'generation_liquid_ingredients',
+  'substitution_slots',
+  'discouraged',
+  'technique',
 ]);
 
 const hasText = value => typeof value === 'string' && value.trim().length > 0;
@@ -44,8 +52,17 @@ export function validateRegionalMenuResearch(catalog, productionRecipeIds = new 
         errors.push(`${id}: ${field} is required`);
       } else if (REQUIRED_ARRAY_FIELDS.has(field)) {
         if (!Array.isArray(entry[field])) errors.push(`${id}: ${field} must be an array`);
-        else if (field !== 'source_refs' && entry[field].length === 0) {
+        else if (field === 'research_questions' && entry[field].length !== 5) {
+          errors.push(`${id}: research_questions must contain exactly 5 items`);
+        } else if (field !== 'source_refs' && entry[field].length === 0) {
           errors.push(`${id}: ${field} must be non-empty`);
+        }
+        if (
+          ['research_questions', 'ingredient_hypothesis', 'pantry_gap_items'].includes(field)
+          && Array.isArray(entry[field])
+          && !entry[field].every(hasText)
+        ) {
+          errors.push(`${id}: ${field} items must be non-empty strings`);
         }
       } else if (!hasText(entry[field])) {
         errors.push(`${id}: ${field} must be a non-empty string`);
