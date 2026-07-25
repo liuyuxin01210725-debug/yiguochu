@@ -51,6 +51,8 @@ const CHECKER_DATA_FILES = [
   'ingredient-taxonomy.v1.json',
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
+  'regional-menu-research.v1.json',
+  'menu-verification-cases.v1.json',
 ];
 
 function runCheckerWithAssetMutation(mutate) {
@@ -60,6 +62,8 @@ function runCheckerWithAssetMutation(mutate) {
   fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
   fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempTools, 'lib'), { recursive: true });
   fs.cpSync(new URL('../../worker/src/', import.meta.url), path.join(tempRoot, 'worker', 'src'), { recursive: true });
+  fs.cpSync(new URL('../generated/', import.meta.url), path.join(tempTools, 'generated'), { recursive: true });
+  fs.cpSync(new URL('../../docs/', import.meta.url), path.join(tempRoot, 'docs'), { recursive: true });
   for (const name of CHECKER_DATA_FILES) {
     fs.copyFileSync(new URL(`../data/${name}`, import.meta.url), path.join(tempTools, 'data', name));
   }
@@ -109,6 +113,17 @@ test('aggregate recipe checker fails closed on malformed planner assets and evid
       assert.match(result.stderr, /❌/);
     });
   }
+});
+
+test('aggregate recipe checker withholds menu master success when taxonomy validation fails', () => {
+  const result = runCheckerWithAssetMutation(dataDirectory => {
+    const taxonomyPath = path.join(dataDirectory, 'ingredient-taxonomy.v1.json');
+    const taxonomy = JSON.parse(fs.readFileSync(taxonomyPath, 'utf8'));
+    taxonomy.taxonomy_version = 'taxonomy-broken';
+    fs.writeFileSync(taxonomyPath, JSON.stringify(taxonomy));
+  });
+  assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+  assert.doesNotMatch(result.stdout, /menu master ok/);
 });
 
 test('Phase A family and recipe identities stay exact at the head of the formal library', () => {

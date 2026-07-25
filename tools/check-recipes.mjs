@@ -12,7 +12,8 @@ import { buildMenuMasterArtifacts } from './lib/menu-master-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
-const errors = validateRecipeLibrary(lib);
+const recipeLibraryErrors = validateRecipeLibrary(lib);
+const errors = [...recipeLibraryErrors];
 const menuMasterInputErrors = [];
 function readMenuMasterLedger(relativePath, label) {
   const fileUrl = new URL(relativePath, import.meta.url);
@@ -86,7 +87,7 @@ console.log([
   taxonomyErrors.length ? `taxonomy invalid (${taxonomyErrors.length})` : 'taxonomy ok',
   ratioErrors.length ? `ratio DSL invalid (${ratioErrors.length})` : 'ratio DSL ok',
 ].join(' · '));
-if (menuMasterErrors.length === 0) {
+if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterErrors.length === 0) {
   console.log(`${menuMaster.summary.production_count} production menus · ${menuMaster.summary.research_count} research candidates · menu master ok`);
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
