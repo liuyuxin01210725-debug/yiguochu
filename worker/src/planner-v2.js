@@ -26,11 +26,13 @@ const PLANNER_DIAGNOSTIC_COUNTERS = Object.freeze([
 
 function preparePlannerDiagnostics(diagnostics) {
   if (!diagnostics || typeof diagnostics !== 'object' || Array.isArray(diagnostics)) return null;
-  for (const field of PLANNER_DIAGNOSTIC_COUNTERS) {
-    if (!Number.isInteger(diagnostics[field]) || diagnostics[field] < 0) diagnostics[field] = 0;
+  try {
+    for (const field of PLANNER_DIAGNOSTIC_COUNTERS) diagnostics[field] = 0;
+    diagnostics.capacity_short_circuit = false;
+    return diagnostics;
+  } catch {
+    return null;
   }
-  if (typeof diagnostics.capacity_short_circuit !== 'boolean') diagnostics.capacity_short_circuit = false;
-  return diagnostics;
 }
 
 function addPlannerDiagnostic(diagnostics, field, amount = 1) {
