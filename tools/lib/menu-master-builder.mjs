@@ -37,8 +37,12 @@ export function buildProductionMenuEntry(recipe, index, taxonomyIndex) {
     if (field === 'source_refs' && value.length === 0) return true;
     return false;
   });
-  const staples = recipe.core_ingredients.filter(name => isStaple(name, taxonomyIndex));
-  const core = recipe.core_ingredients.filter(name => !staples.includes(name));
+  const arrays = Object.fromEntries(
+    [...ARRAY_RECIPE_FIELDS].map(field => [field, Array.isArray(recipe[field]) ? recipe[field] : []]),
+  );
+  const proteinClass = Array.isArray(recipe.protein_class) ? recipe.protein_class : [];
+  const staples = arrays.core_ingredients.filter(name => isStaple(name, taxonomyIndex));
+  const core = arrays.core_ingredients.filter(name => !staples.includes(name));
   return {
     library_index: index + 1,
     id: recipe.id,
@@ -54,27 +58,27 @@ export function buildProductionMenuEntry(recipe, index, taxonomyIndex) {
     ingredients: {
       staples,
       core,
-      optional: [...recipe.optional_ingredients],
-      generation_optional: [...recipe.generation_optional_ingredients],
-      liquids: [...recipe.generation_liquid_ingredients],
-      substitutions: structuredClone(recipe.substitution_slots),
-      discouraged: structuredClone(recipe.discouraged),
+      optional: [...arrays.optional_ingredients],
+      generation_optional: [...arrays.generation_optional_ingredients],
+      liquids: [...arrays.generation_liquid_ingredients],
+      substitutions: structuredClone(arrays.substitution_slots),
+      discouraged: structuredClone(arrays.discouraged),
     },
     execution: {
-      technique: [...recipe.technique],
-      ratio_rules: [...recipe.ratio_rules],
-      safety_rules: [...recipe.safety_rules],
+      technique: [...arrays.technique],
+      ratio_rules: [...arrays.ratio_rules],
+      safety_rules: [...arrays.safety_rules],
       total_time_minutes: recipe.total_time_minutes,
-      purposes: [...recipe.purposes],
-      protein_class: [...(recipe.protein_class || [])],
+      purposes: [...arrays.purposes],
+      protein_class: [...proteinClass],
       light_level: recipe.light_level || 'unknown',
     },
     evidence: {
-      source_count: recipe.source_refs.length,
-      source_refs: structuredClone(recipe.source_refs),
+      source_count: arrays.source_refs.length,
+      source_refs: structuredClone(arrays.source_refs),
     },
     audit: {
-      source_status: recipe.source_refs.length ? 'present' : 'pending_review',
+      source_status: arrays.source_refs.length ? 'present' : 'pending_review',
       missing_fields: missingFields,
       static_status: missingFields.length ? 'missing_fields' : 'complete',
       verification_status: 'pending',

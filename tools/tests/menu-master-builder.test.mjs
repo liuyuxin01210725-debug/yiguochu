@@ -55,9 +55,12 @@ test('production menu extraction preserves every declared ingredient boundary', 
 });
 
 test('missing source fields remain pending instead of being invented', () => {
-  const entry = buildProductionMenuEntry({ ...recipe, source_refs: [] }, 0, new Map());
+  const { source_refs, ...recipeWithoutSourceRefs } = recipe;
+  const entry = buildProductionMenuEntry(recipeWithoutSourceRefs, 0, new Map());
   assert.equal(entry.audit.source_status, 'pending_review');
   assert.ok(entry.audit.missing_fields.includes('source_refs'));
+  assert.equal(entry.evidence.source_count, 0);
+  assert.deepEqual(entry.evidence.source_refs, []);
 });
 
 test('production and research counts remain separate', () => {
@@ -86,4 +89,51 @@ test('current production library produces exactly 72 unique menu rows', () => {
   assert.equal(master.summary.auto_approved_count, 60);
   assert.equal(new Set(master.production_menus.map(menu => menu.id)).size, 72);
   assert.deepEqual(validateMenuMaster(master), []);
+});
+
+function makeValidMaster() {
+  return {
+    production_menus: [{ id: 'menu-1', library_index: 1, status: 'approved' }],
+    research_candidates: [{ atlas_id: 'research-1' }],
+    verification_cases: [{}],
+    summary: {
+      approved_count: 1,
+      auto_approved_count: 0,
+      production_count: 1,
+      research_count: 1,
+      verification_case_count: 1,
+    },
+  };
+}
+
+test('menu master validation rejects duplicate production IDs', () => {
+  const master = makeValidMaster();
+  master.production_menus.push({ id: 'menu-1', library_index: 2, status: 'approved' });
+  master.summary.approved_count = 2;
+  master.summary.production_count = 2;
+
+  assert.deepEqual(validateMenuMaster(master), ['duplicate production menu IDs']);
+});
+
+test('menu master validation rejects duplicate library indexes', () => {
+  const master = makeValidMaster();
+  master.production_menus.push({ id: 'menu-2', library_index: 1, status: 'approved' });
+  master.summary.approved_count = 2;
+  master.summary.production_count = 2;
+
+  assert.deepEqual(validateMenuMaster(master), ['duplicate production menu library indexes']);
+});
+
+test('menu master validation rejects mismatched summary counts', () => {
+  const master = makeValidMaster();
+  master.summary.production_count = 2;
+
+  assert.deepEqual(validateMenuMaster(master), ['mismatched summary production_count']);
+});
+
+test('menu master validation rejects production IDs that overlap research atlas IDs', () => {
+  const master = makeValidMaster();
+  master.research_candidates[0].atlas_id = 'menu-1';
+
+  assert.deepEqual(validateMenuMaster(master), ['production menu IDs overlap research atlas IDs']);
 });
