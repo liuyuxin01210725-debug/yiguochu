@@ -53,6 +53,7 @@ const CHECKER_DATA_FILES = [
   'ratio-rules.v1.json',
   'regional-menu-research.v1.json',
   'menu-verification-cases.v1.json',
+  'menu-master-baseline.v1.json',
 ];
 
 function runCheckerWithAssetMutation(mutate) {
@@ -124,6 +125,45 @@ test('aggregate recipe checker withholds menu master success when taxonomy valid
   });
   assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
   assert.doesNotMatch(result.stdout, /menu master ok/);
+});
+
+test('aggregate recipe checker rejects a deleted Phase Zero baseline recipe before it can pass', () => {
+  const result = runCheckerWithAssetMutation(dataDirectory => {
+    const recipePath = path.join(dataDirectory, 'recipe-library.json');
+    const library = JSON.parse(fs.readFileSync(recipePath, 'utf8'));
+    library.recipes.pop();
+    fs.writeFileSync(recipePath, JSON.stringify(library));
+  });
+  assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stderr, /versioned Phase Zero baseline/);
+  assert.doesNotMatch(result.stdout, /menu master ok/);
+});
+
+test('aggregate recipe checker reports null research and verification entries without rendering derived artifacts', () => {
+  const result = runCheckerWithAssetMutation(dataDirectory => {
+    for (const name of ['regional-menu-research.v1.json', 'menu-verification-cases.v1.json']) {
+      const file = path.join(dataDirectory, name);
+      const ledger = JSON.parse(fs.readFileSync(file, 'utf8'));
+      ledger.entries = [null];
+      fs.writeFileSync(file, JSON.stringify(ledger));
+    }
+  });
+  assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stderr, /entry must be an object/);
+  assert.match(result.stderr, /verification entry 0 must be an object/);
+  assert.doesNotMatch(result.stderr, /TypeError|missing or stale/);
+});
+
+test('aggregate recipe checker lets the source validator report a null recipe entry', () => {
+  const result = runCheckerWithAssetMutation(dataDirectory => {
+    const file = path.join(dataDirectory, 'recipe-library.json');
+    const library = JSON.parse(fs.readFileSync(file, 'utf8'));
+    library.recipes = [null];
+    fs.writeFileSync(file, JSON.stringify(library));
+  });
+  assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stderr, /recipe at index 0 must be an object/);
+  assert.doesNotMatch(result.stderr, /TypeError/);
 });
 
 test('Phase A family and recipe identities stay exact at the head of the formal library', () => {

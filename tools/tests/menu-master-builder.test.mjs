@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import {
   buildMenuMaster,
   buildProductionMenuEntry,
+  formatMenuMasterSummary,
+  validateMenuMasterBaseline,
   validateMenuMaster,
 } from '../lib/menu-master-builder.mjs';
 
@@ -54,6 +56,16 @@ test('production menu extraction preserves every declared ingredient boundary', 
   assert.deepEqual(entry.ingredients.discouraged, recipe.discouraged);
 });
 
+test('taxonomy-unknown core ingredients remain core and are explicitly marked for role review', () => {
+  const entry = buildProductionMenuEntry({
+    ...recipe,
+    core_ingredients: ['大米', '意式烩饭米'],
+  }, 0, new Map(taxonomy.items.map(item => [item.display_name, item])));
+  assert.deepEqual(entry.ingredients.staples, ['大米']);
+  assert.deepEqual(entry.ingredients.core, ['意式烩饭米']);
+  assert.deepEqual(entry.ingredients.unknown_role, ['意式烩饭米']);
+});
+
 test('missing source fields remain pending instead of being invented', () => {
   const { source_refs, ...recipeWithoutSourceRefs } = recipe;
   const entry = buildProductionMenuEntry(recipeWithoutSourceRefs, 0, new Map());
@@ -89,6 +101,79 @@ test('current production library produces exactly 72 unique menu rows', () => {
   assert.equal(master.summary.auto_approved_count, 60);
   assert.equal(new Set(master.production_menus.map(menu => menu.id)).size, 72);
   assert.deepEqual(validateMenuMaster(master), []);
+
+  for (const ingredient of ['意式烩饭米', '糯米', '小米', '小麦面团', '紫米', '鲜小麦面条', '粉丝']) {
+    const menu = master.production_menus.find(entry => entry.ingredients.core.includes(ingredient));
+    assert.ok(menu, `${ingredient} must remain in a production core boundary`);
+    assert.ok(menu.ingredients.unknown_role.includes(ingredient), `${ingredient} must be displayed as 待核实角色`);
+  }
+});
+
+test('versioned phase-zero baseline locks every production ID and status', () => {
+  const library = JSON.parse(fs.readFileSync(new URL('../data/recipe-library.json', import.meta.url), 'utf8'));
+  const realTaxonomy = JSON.parse(fs.readFileSync(new URL('../data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
+  const research = JSON.parse(fs.readFileSync(new URL('../data/regional-menu-research.v1.json', import.meta.url), 'utf8'));
+  const verification = JSON.parse(fs.readFileSync(new URL('../data/menu-verification-cases.v1.json', import.meta.url), 'utf8'));
+  const baseline = JSON.parse(fs.readFileSync(new URL('../data/menu-master-baseline.v1.json', import.meta.url), 'utf8'));
+  const master = buildMenuMaster({ recipeLibrary: library, taxonomy: realTaxonomy, regionalResearch: research, verificationCases: verification });
+
+  assert.deepEqual(validateMenuMasterBaseline(master, baseline), []);
+
+  const missingRecipe = structuredClone(master);
+  missingRecipe.production_menus.pop();
+  missingRecipe.summary.production_count -= 1;
+  missingRecipe.summary.auto_approved_count -= 1;
+  assert.match(validateMenuMasterBaseline(missingRecipe, baseline).join('\n'), /intentionally update tools\/data\/menu-master-baseline\.v1\.json/);
+
+  const changedStatus = structuredClone(master);
+  changedStatus.production_menus[0].status = 'auto_approved';
+  changedStatus.summary.approved_count -= 1;
+  changedStatus.summary.auto_approved_count += 1;
+  assert.match(validateMenuMasterBaseline(changedStatus, baseline).join('\n'), /production ID\/status set differs from the versioned Phase Zero baseline/);
+});
+
+test('menu master success summaries are derived from the supplied master', () => {
+  assert.equal(formatMenuMasterSummary({
+    summary: {
+      production_count: 3,
+      research_count: 2,
+      verification_case_count: 1,
+    },
+    production_menus: [{ audit: { verification_status: 'pending' } }, { audit: { verification_status: 'covered' } }, { audit: { verification_status: 'pending' } }],
+  }), '3 production menus · 2 research candidates · 2 pending verification menus');
+});
+
+test('public menu master builder and validator return structured errors for null nested inputs', () => {
+  const master = buildMenuMaster({
+    recipeLibrary: { recipes: [null] },
+    taxonomy: { items: null },
+    regionalResearch: { entries: [null] },
+    verificationCases: { entries: [null] },
+  });
+  assert.doesNotThrow(() => validateMenuMaster(master));
+  assert.match(validateMenuMaster(master).join('\n'), /production menu 0 id must be a non-empty string/);
+  assert.match(validateMenuMaster(master).join('\n'), /research candidate 0 must be an object/);
+  assert.match(validateMenuMaster(master).join('\n'), /verification case 0 must be an object/);
+
+  assert.doesNotThrow(() => validateMenuMaster({
+    production_menus: null,
+    research_candidates: null,
+    verification_cases: null,
+    summary: null,
+  }));
+  assert.match(validateMenuMaster({
+    production_menus: null,
+    research_candidates: null,
+    verification_cases: null,
+    summary: null,
+  }).join('\n'), /production_menus must be an array/);
+
+  assert.doesNotThrow(() => buildMenuMaster({
+    recipeLibrary: { recipes: [] },
+    taxonomy: { items: {} },
+    regionalResearch: { entries: [] },
+    verificationCases: { entries: [] },
+  }));
 });
 
 function makeValidMaster() {

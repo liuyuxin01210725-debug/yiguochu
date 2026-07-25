@@ -165,3 +165,60 @@ test('negative no-valid-plan cases may record an empty planned item list', () =>
     }),
   ]), []);
 });
+
+test('non-pending verification cases reject an expected-only pass without execution evidence', () => {
+  const errors = validationErrors([validCase({ status: 'pass' })]).join('\n');
+  assert.match(errors, /pass actual must be an object/);
+  assert.match(errors, /pass human_review must be an object/);
+});
+
+test('complete execution evidence and matching human pass review are accepted', () => {
+  assert.deepEqual(validationErrors([validCase({
+    status: 'pass',
+    actual: {
+      plan_status: 'ready',
+      planned_items: ['番茄'],
+      planner_version: 'pantry-planner-v2',
+      template_catalog_version: 'templates-v2-20260724',
+      executed_at: '2026-07-25T10:00:00Z',
+      command: 'node tools/run-pantry-planner-v2-journeys.mjs --case valid-case',
+      output_summary: 'returned trusted base recipe and no validation flags',
+    },
+    human_review: {
+      verdict: 'pass',
+      reviewed_at: '2026-07-25T10:05:00Z',
+      reviewer: 'menu-reviewer',
+      notes: '输出与预期一致。',
+      household_reasonableness: '两人份食材、时长和口感均适合家常一锅主餐。',
+    },
+  })]), []);
+});
+
+test('verification evidence rejects mismatched verdicts and undeclared fields', () => {
+  const errors = validationErrors([validCase({
+    status: 'fail',
+    actual: {
+      plan_status: 'ready', planned_items: ['番茄'], planner_version: 'pantry-planner-v2',
+      template_catalog_version: 'templates-v2-20260724', executed_at: '2026-07-25T10:00:00Z',
+      command: 'node run', output_summary: 'failure reproduced', unexpected: true,
+    },
+    human_review: {
+      verdict: 'pass', reviewed_at: '2026-07-25T10:05:00Z', reviewer: 'menu-reviewer',
+      notes: '', household_reasonableness: '',
+    },
+  })]).join('\n');
+  assert.match(errors, /human_review verdict must match status fail/);
+  assert.match(errors, /actual unexpected is not allowed/);
+  assert.match(errors, /human_review notes must be a non-empty string/);
+  assert.match(errors, /human_review household_reasonableness must be a non-empty string/);
+});
+
+test('pending cases may omit evidence but cannot bypass the evidence schema when it is supplied', () => {
+  const errors = validationErrors([validCase({
+    actual: { plan_status: 'not-a-plan', planned_items: '番茄' },
+    human_review: { verdict: 'pass' },
+  })]).join('\n');
+  assert.match(errors, /pending actual plan_status must be one of/);
+  assert.match(errors, /pending actual planned_items must be a string array/);
+  assert.match(errors, /human_review verdict must match status pending/);
+});

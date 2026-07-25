@@ -1,6 +1,6 @@
 const CSV_COLUMNS = [
   'library_index', 'id', 'name', 'status', 'cuisine', 'family_id', 'form',
-  'staples', 'core_ingredients', 'optional_ingredients',
+  'staples', 'core_ingredients', 'unknown_role', 'optional_ingredients',
   'generation_optional_ingredients', 'liquid_ingredients',
   'substitution_slots', 'discouraged', 'technique', 'ratio_rules',
   'safety_rules', 'total_time_minutes', 'purposes', 'source_count',
@@ -45,14 +45,15 @@ export function renderMenuMasterMarkdown(master) {
     `生产菜单：${summary.production_count || 0}（approved：${summary.approved_count || 0}；auto_approved：${summary.auto_approved_count || 0}）`,
     `区域研究候选：${summary.research_count || 0}（仅研究，非生产菜单）`,
     `验证状态：${pending}/${menus.length} 个当前菜单待验证。`,
+    '验证状态（`pending` / `in_progress` / `covered`）仅表示正反案例已登记，不代表通过；通过、失败或待人工判断必须以验证账本中的真实执行证据和人工结论为准。',
     '',
     '## 生产菜单总览',
     '',
-    '| 序号 | 菜名 | 菜系 | 形态 | 主食 | 核心食材 | 可选食材 | 时间（分钟） | 状态 | 验证状态 |',
-    '| ---: | --- | --- | --- | --- | --- | --- | ---: | --- | --- |',
+    '| 序号 | 菜名 | 菜系 | 形态 | 主食 | 核心食材 | 待核实角色 | 可选食材 | 时间（分钟） | 状态 | 验证状态 |',
+    '| ---: | --- | --- | --- | --- | --- | --- | --- | ---: | --- | --- |',
     ...menus.map(menu => [
       menu.library_index, menu.name, menu.identity?.cuisine, menu.identity?.form,
-      list(menu.ingredients?.staples), list(menu.ingredients?.core), list(menu.ingredients?.optional),
+      list(menu.ingredients?.staples), list(menu.ingredients?.core), list(menu.ingredients?.unknown_role), list(menu.ingredients?.optional),
       menu.execution?.total_time_minutes, menu.status, menu.audit?.verification_status,
     ].map(markdownCell).join(' | ').replace(/^/, '| ').replace(/$/, ' |')),
     '',
@@ -70,6 +71,7 @@ export function renderMenuMasterMarkdown(master) {
       '', '#### 食材边界', '',
       `- 主食：${list(menu.ingredients?.staples) || '无'}`,
       `- 核心：${list(menu.ingredients?.core) || '无'}`,
+      `- 待核实角色：${list(menu.ingredients?.unknown_role) || '无'}`,
       `- 可选：${list(menu.ingredients?.optional) || '无'}`,
       `- 生成可选：${list(menu.ingredients?.generation_optional) || '无'}`,
       `- 液体：${list(menu.ingredients?.liquids) || '无'}`,
@@ -90,7 +92,7 @@ export function renderMenuMasterMarkdown(master) {
     entry.region_group, entry.prototype_name, entry.family_id, list(entry.ingredient_hypothesis),
     entry.adaptation_hypothesis, list(entry.research_questions), entry.status,
   ].map(markdownCell).join(' | ').replace(/^/, '| ').replace(/$/, ' |')));
-  lines.push('', '## 验证汇总', '', `当前验证账本包含 ${summary.verification_case_count || 0} 个案例；${pending}/${menus.length} 个生产菜单均为 pending，待加入正反例验证。`, '');
+  lines.push('', '## 验证汇总', '', `当前验证账本包含 ${summary.verification_case_count || 0} 个案例；${pending}/${menus.length} 个生产菜单尚未登记正反案例。coverage / verification_status 仅表示正反案例已登记，不代表通过。`, '');
   return lines.join('\n');
 }
 
@@ -105,6 +107,7 @@ export function renderMenuMasterCsv(master) {
     form: menu.identity?.form,
     staples: list(menu.ingredients?.staples),
     core_ingredients: list(menu.ingredients?.core),
+    unknown_role: list(menu.ingredients?.unknown_role),
     optional_ingredients: list(menu.ingredients?.optional),
     generation_optional_ingredients: list(menu.ingredients?.generation_optional),
     liquid_ingredients: list(menu.ingredients?.liquids),

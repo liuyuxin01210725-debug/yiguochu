@@ -7,7 +7,7 @@ import { validateMealTemplateCatalog } from './lib/meal-template-validator.mjs';
 import { validateRatioDslCatalog } from './lib/ratio-dsl-validator.mjs';
 import { validateRegionalMenuResearch } from './lib/regional-menu-research-validator.mjs';
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
-import { buildMenuMaster, validateMenuMaster } from './lib/menu-master-builder.mjs';
+import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
 import { buildMenuMasterArtifacts } from './lib/menu-master-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
@@ -31,6 +31,7 @@ const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.j
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
 const regionalResearch = readMenuMasterLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
 const verificationCases = readMenuMasterLedger('./data/menu-verification-cases.v1.json', 'menu verification cases ledger');
+const menuMasterBaseline = readMenuMasterLedger('./data/menu-master-baseline.v1.json', 'menu master Phase Zero baseline');
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -43,24 +44,34 @@ const ratioErrors = validateRatioDslCatalog(ratios, templates, taxonomy, lib);
 errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];
 const families = Array.isArray(lib.families) ? lib.families : [];
-const recipeIds = new Set(recipes.map(recipe => recipe.id));
-const familyIds = new Set(families.map(family => family.id));
-const menuMaster = buildMenuMaster({
-  recipeLibrary: { ...lib, recipes, families },
-  taxonomy: { ...taxonomy, items: Array.isArray(taxonomy?.items) ? taxonomy.items : [] },
-  regionalResearch: { ...regionalResearch, entries: Array.isArray(regionalResearch?.entries) ? regionalResearch.entries : [] },
-  verificationCases: { ...verificationCases, entries: Array.isArray(verificationCases?.entries) ? verificationCases.entries : [] },
-});
-const menuMasterErrors = [
+const recipeIds = new Set(recipes.filter(recipe => recipe && typeof recipe === 'object').map(recipe => recipe.id));
+const familyIds = new Set(families.filter(family => family && typeof family === 'object').map(family => family.id));
+const menuMasterSourceErrors = [
   ...menuMasterInputErrors,
   ...validateRegionalMenuResearch(regionalResearch, recipeIds),
   ...validateMenuVerificationCases(verificationCases, recipeIds, familyIds),
-  ...validateMenuMaster(menuMaster),
 ];
-for (const [relativePath, content] of buildMenuMasterArtifacts(menuMaster)) {
-  const artifact = new URL(`../${relativePath}`, import.meta.url);
-  if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
-    menuMasterErrors.push(`${relativePath} is missing or stale; run node tools/build-menu-master.mjs --write intentionally`);
+errors.push(...menuMasterSourceErrors);
+const menuMasterErrors = [];
+let menuMaster;
+if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterSourceErrors.length === 0) {
+  menuMaster = buildMenuMaster({
+    recipeLibrary: { ...lib, recipes, families },
+    taxonomy: { ...taxonomy, items: Array.isArray(taxonomy?.items) ? taxonomy.items : [] },
+    regionalResearch,
+    verificationCases,
+  });
+  menuMasterErrors.push(
+    ...validateMenuMaster(menuMaster),
+    ...validateMenuMasterBaseline(menuMaster, menuMasterBaseline),
+  );
+  if (menuMasterErrors.length === 0) {
+    for (const [relativePath, content] of buildMenuMasterArtifacts(menuMaster)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        menuMasterErrors.push(`${relativePath} is missing or stale; run node tools/build-menu-master.mjs --write intentionally`);
+      }
+    }
   }
 }
 errors.push(...menuMasterErrors);
@@ -87,7 +98,7 @@ console.log([
   taxonomyErrors.length ? `taxonomy invalid (${taxonomyErrors.length})` : 'taxonomy ok',
   ratioErrors.length ? `ratio DSL invalid (${ratioErrors.length})` : 'ratio DSL ok',
 ].join(' · '));
-if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterErrors.length === 0) {
+if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterSourceErrors.length === 0 && menuMasterErrors.length === 0) {
   console.log(`${menuMaster.summary.production_count} production menus · ${menuMaster.summary.research_count} research candidates · menu master ok`);
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
