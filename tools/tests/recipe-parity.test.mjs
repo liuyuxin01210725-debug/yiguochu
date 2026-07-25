@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import net from 'node:net';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { runPythonJson } from './helpers/python-json-call.mjs';
 import worker, {
   buildPantryPlan,
   buildRecipeGrounding,
@@ -122,7 +123,8 @@ import json
 import sys
 import ai_proxy as proxy
 
-request = json.load(sys.stdin)
+with open(sys.argv[1], encoding='utf-8') as request_file:
+    request = json.load(request_file)
 action = request['action']
 if action == 'canonical':
     result = [proxy.canonical_recipe_ingredient(item, request.get('aliases', {})) for item in request['items']]
@@ -253,8 +255,12 @@ function runPython(args, { input, env } = {}) {
 }
 
 function pythonCall(action, payload = {}) {
-  const run = runPython(['-c', pythonHarness], {
-    input: JSON.stringify({ action, ...payload }),
+  const run = runPythonJson(['-c', pythonHarness], { action, ...payload }, {
+    cwd: repoRoot,
+    env: cleanPythonEnv(),
+    // 全量测试会并行启动多个 Node/Python/Chrome 进程；负载竞争下单个
+    // parity 子进程可能超过 30s。这里只防死锁，不是产品时延闸门，留 90s 余量避免假红。
+    timeout: 90000,
   });
   assert.equal(run.status, 0, run.stderr);
   assert.equal(run.stderr, '');
