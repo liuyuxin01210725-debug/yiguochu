@@ -12,19 +12,7 @@ const REQUIRED_ARRAY_FIELDS = new Set([
   'source_refs',
 ]);
 
-const RECIPE_ONLY_FIELDS = new Set([
-  'nutrition',
-  'nutrition_per_serving',
-  'core_ingredients',
-  'optional_ingredients',
-  'ratio_rules',
-  'safety_rules',
-  'generation_optional_ingredients',
-  'generation_liquid_ingredients',
-  'substitution_slots',
-  'discouraged',
-  'technique',
-]);
+const ALLOWED_ENTRY_FIELDS = new Set(REQUIRED_FIELDS);
 
 const hasText = value => typeof value === 'string' && value.trim().length > 0;
 
@@ -81,8 +69,10 @@ export function validateRegionalMenuResearch(catalog, productionRecipeIds = new 
     if (entry.product_destination !== 'undecided') {
       errors.push(`${id}: product_destination must be undecided`);
     }
-    for (const field of RECIPE_ONLY_FIELDS) {
-      if (field in entry) errors.push(`${id}: ${field} is not allowed in research entries`);
+    for (const field of Object.keys(entry)) {
+      if (!ALLOWED_ENTRY_FIELDS.has(field)) {
+        errors.push(`${id}: ${field} is not allowed in research entries`);
+      }
     }
   }
   return errors;

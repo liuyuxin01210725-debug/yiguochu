@@ -44,6 +44,17 @@ test('research entries reject nutrition and production-only generation fields', 
   assert.match(message, /northeast-ribs-beans-corn-cake: generation_liquid_ingredients is not allowed in research entries/);
 });
 
+test('research entries reject every production or unknown field outside the ledger schema', () => {
+  const broken = structuredClone(research);
+  broken.entries[0].form = 'one_pot';
+  broken.entries[0].total_time_minutes = 30;
+  broken.entries[0].unreviewed_metadata = true;
+  const message = validateRegionalMenuResearch(broken).join('\n');
+  assert.match(message, /northeast-ribs-beans-corn-cake: form is not allowed in research entries/);
+  assert.match(message, /northeast-ribs-beans-corn-cake: total_time_minutes is not allowed in research entries/);
+  assert.match(message, /northeast-ribs-beans-corn-cake: unreviewed_metadata is not allowed in research entries/);
+});
+
 test('research questions require five non-empty strings and hypotheses require non-empty string items', () => {
   const broken = structuredClone(research);
   broken.entries[0].research_questions = [null, ' ', '问题三', '问题四'];
