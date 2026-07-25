@@ -22,13 +22,27 @@ export function buildTaxonomyIndex(taxonomy) {
   return index;
 }
 
+export function summarizeVerificationForMenu(menuId, cases) {
+  const owned = (cases || []).filter(entry => entry.recipe_ids.includes(menuId));
+  const positive = owned.filter(entry => entry.case_type === 'positive').length;
+  const negative = owned.filter(entry => entry.case_type === 'negative').length;
+  const crossMenu = owned.filter(entry => entry.case_type === 'cross_menu').length;
+  return {
+    positive_case_count: positive,
+    negative_case_count: negative,
+    cross_menu_case_count: crossMenu,
+    case_ids: owned.map(entry => entry.case_id).sort(),
+    status: positive && negative ? 'covered' : owned.length ? 'in_progress' : 'pending',
+  };
+}
+
 function isStaple(name, taxonomyIndex) {
   const item = taxonomyIndex.get(name);
   return Array.isArray(item?.compatible_slot_codes)
     && item.compatible_slot_codes.includes('staple');
 }
 
-export function buildProductionMenuEntry(recipe, index, taxonomyIndex) {
+export function buildProductionMenuEntry(recipe, index, taxonomyIndex, verificationCases = []) {
   const missingFields = REQUIRED_RECIPE_FIELDS.filter(field => {
     const value = recipe[field];
     if (value === undefined || value === null) return true;
@@ -43,6 +57,7 @@ export function buildProductionMenuEntry(recipe, index, taxonomyIndex) {
   const proteinClass = Array.isArray(recipe.protein_class) ? recipe.protein_class : [];
   const staples = arrays.core_ingredients.filter(name => isStaple(name, taxonomyIndex));
   const core = arrays.core_ingredients.filter(name => !staples.includes(name));
+  const verification = summarizeVerificationForMenu(recipe.id, verificationCases);
   return {
     library_index: index + 1,
     id: recipe.id,
@@ -81,17 +96,18 @@ export function buildProductionMenuEntry(recipe, index, taxonomyIndex) {
       source_status: arrays.source_refs.length ? 'present' : 'pending_review',
       missing_fields: missingFields,
       static_status: missingFields.length ? 'missing_fields' : 'complete',
-      verification_status: 'pending',
+      verification,
+      verification_status: verification.status,
     },
   };
 }
 
 export function buildMenuMaster({ recipeLibrary, taxonomy, regionalResearch, verificationCases }) {
   const taxonomyIndex = buildTaxonomyIndex(taxonomy);
-  const productionMenus = (recipeLibrary.recipes || [])
-    .map((recipe, index) => buildProductionMenuEntry(recipe, index, taxonomyIndex));
-  const researchCandidates = structuredClone(regionalResearch?.entries || []);
   const verificationEntries = structuredClone(verificationCases?.entries || []);
+  const productionMenus = (recipeLibrary.recipes || [])
+    .map((recipe, index) => buildProductionMenuEntry(recipe, index, taxonomyIndex, verificationEntries));
+  const researchCandidates = structuredClone(regionalResearch?.entries || []);
 
   return {
     schema_version: 1,
