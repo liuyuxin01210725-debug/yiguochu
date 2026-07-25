@@ -943,17 +943,27 @@ def build_pantry_plan(library, constraints=None):
     original = unique_recipe_pantry(constraints.get('pantry'), library.get('ingredient_aliases') or {})
     if len(original) <= 6:
         independent_constraints = {**constraints, 'pantry': original, 'swap_intent': ''}
-        selections = [selection for selection in select_recipe_candidates(library, independent_constraints)
-                      if selection.get('used_pantry')][:3]
-        groups = [
-            pantry_plan_group(
+        groups = []
+        seen_coverage = set()
+        for selection in select_recipe_candidates(library, independent_constraints):
+            used_pantry = list(selection.get('used_pantry') or [])
+            if not used_pantry:
+                continue
+            coverage_key = tuple(sorted(
+                recipe_match_identity(item, library.get('ingredient_aliases') or {})
+                for item in used_pantry
+            ))
+            if coverage_key in seen_coverage:
+                continue
+            seen_coverage.add(coverage_key)
+            groups.append(pantry_plan_group(
                 selection,
                 original,
-                list(selection.get('used_pantry') or []),
+                used_pantry,
                 list(selection.get('unused_pantry') or []),
-            )
-            for selection in selections
-        ]
+            ))
+            if len(groups) >= 3:
+                break
         covered = {item for group in groups for item in group['used_items']}
         return {
             'kind': 'alternatives',
@@ -2244,6 +2254,7 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
             {'role': 'system', 'content': f'{TRUSTED_RECIPE_SYSTEM_ROLE}\n\n{build_trusted_recipe_system_override(selection)}'},
             {'role': 'user', 'content': build_prompt(meal_name, targets, constraints, build_recipe_grounding(selection))},
         ],
+        'thinking': {'type': 'disabled'},
         'temperature': 0,
         'response_format': {'type': 'json_object'},
     }

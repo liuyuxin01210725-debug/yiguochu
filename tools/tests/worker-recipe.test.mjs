@@ -424,6 +424,26 @@ test('small pantry alternatives each compare against the complete original pantr
   assert.ok(tofuGroups.every(group => !group.unused_items.includes('豆腐')));
 });
 
+test('small pantry alternatives do not repeat the same used-food subset as fake choices', () => {
+  const library = fixtureLib([
+    fixtureRecipe('chicken-rice-a', 'family-a', {
+      name:'鸡肉焖饭', core_ingredients:['鸡肉', '大米'],
+    }),
+    fixtureRecipe('chicken-rice-b', 'family-b', {
+      name:'鸡肉烩饭', core_ingredients:['鸡肉', '大米'],
+    }),
+    fixtureRecipe('chicken-rice-c', 'family-c', {
+      name:'鸡肉汤饭', core_ingredients:['鸡肉', '大米'],
+    }),
+  ]);
+  const plan = buildPantryPlan(library, {
+    pantry:['鸡胸肉', '神秘叶菜', '神秘块根'], purpose:'pantry', dislikes:[],
+  });
+  assert.equal(plan.kind, 'alternatives');
+  assert.equal(plan.groups.length, 1);
+  assert.deepEqual(plan.groups[0].used_items, ['鸡胸肉']);
+});
+
 test('pantry planner splits a fourteen-item fridge into explicit one-pot groups without silently dropping items', () => {
   const pantry = ['鸡蛋', '西红柿', '土豆', '鸡胸肉', '西兰花', '豆腐', '胡萝卜', '洋葱', '虾仁', '香菇', '白菜', '青椒', '茄子', '玉米'];
   const plan = buildPantryPlan(lib, {
@@ -3981,6 +4001,7 @@ test('generation uses the current supported DeepSeek model by default', async ()
   assert.equal(response.status, 200);
   assert.equal(upstreamBodies.length, 1);
   assert.equal(upstreamBodies[0].model, 'deepseek-v4-flash');
+  assert.deepEqual(upstreamBodies[0].thinking, { type:'disabled' });
 });
 
 test('generation gives DeepSeek V4 enough time for a full grounded recipe response', async () => {

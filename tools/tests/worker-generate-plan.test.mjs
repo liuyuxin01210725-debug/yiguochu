@@ -239,6 +239,7 @@ test('valid single-pot generation recomputes the plan and spends exactly one bud
   assert.equal(result.kv.puts, 1);
   assert.equal(result.upstreamBodies.length, 1);
   assert.equal(result.upstreamBodies[0].max_tokens, 3000);
+  assert.deepEqual(result.upstreamBodies[0].thinking, { type:'disabled' });
   assert.deepEqual(result.body.plan.planned_must_use, journey.planned.plan.planned_must_use);
   assert.ok(result.body.meals[0].locked_ingredients.every(item => Number.isFinite(item.planned_grams)));
   const prompt = result.upstreamBodies[0].messages.map(message => message.content).join('\n');

@@ -573,15 +573,24 @@ function buildPantryPlan(lib, constraints = {}) {
   const original = uniqueRecipePantry(constraints?.pantry, lib?.ingredient_aliases || {});
   if (original.length <= 6) {
     const independentConstraints = { ...constraints, pantry: original, swap_intent: '' };
-    const groups = selectRecipeCandidates(lib, independentConstraints)
-      .filter(selection => selection.usedPantry.length)
-      .slice(0, 3)
-      .map(selection => pantryPlanGroup(
+    const groups = [];
+    const seenCoverage = new Set();
+    for (const selection of selectRecipeCandidates(lib, independentConstraints)) {
+      if (!selection.usedPantry.length) continue;
+      const coverageKey = selection.usedPantry
+        .map(item => recipeMatchIdentity(item, lib?.ingredient_aliases || {}))
+        .sort()
+        .join('|');
+      if (seenCoverage.has(coverageKey)) continue;
+      seenCoverage.add(coverageKey);
+      groups.push(pantryPlanGroup(
         selection,
         original,
         [...selection.usedPantry],
         [...selection.unusedPantry],
       ));
+      if (groups.length >= 3) break;
+    }
     const covered = new Set(groups.flatMap(group => group.used_items));
     return {
       kind: 'alternatives',
@@ -2525,6 +2534,7 @@ async function handleGenerate(request, env) {
       { role: 'system', content: `${TRUSTED_RECIPE_SYSTEM_ROLE}\n\n${buildTrustedRecipeSystemOverride(selection)}` },
       { role: 'user', content: prompt },
     ],
+    thinking: { type: 'disabled' },
     temperature: 0,
     response_format: { type: 'json_object' },
   };
@@ -2761,6 +2771,7 @@ async function handleGeneratePlan(request, env) {
       { role: 'system', content: LOCKED_PLAN_SYSTEM_PROMPT },
       { role: 'user', content: lockedPlanUserMessage(lockedPlan) },
     ],
+    thinking: { type: 'disabled' },
     temperature: 0,
     max_tokens: 3000,
     response_format: { type: 'json_object' },

@@ -198,6 +198,7 @@ elif action == 'prepare':
         'system': payload['messages'][0]['content'],
         'prompt': payload['messages'][1]['content'],
         'temperature': payload['temperature'],
+        'thinking': payload.get('thinking'),
         'meal': meal,
         'grounding': proxy.build_recipe_grounding(selection),
     }
@@ -976,6 +977,7 @@ test('Worker and Python retain a selected generic-meat cut through grounding and
     }),
   });
   assert.equal(prepared.grounding, jsGrounding);
+  assert.deepEqual(prepared.thinking, { type:'disabled' });
   assert.match(jsGrounding, /牛里脊/);
   assert.doesNotMatch(jsGrounding, /牛肉、牛里脊|牛里脊、牛肉/);
 });
@@ -1044,6 +1046,22 @@ test('Worker and Python independently score every small-pantry alternative', () 
     type:'PantryNeedsGrouping',
     message:'这些食材不能稳妥放进同一锅，请先查看本锅方案',
   });
+});
+
+test('Worker and Python both collapse alternatives that use the same pantry subset', () => {
+  const library = fixtureLib([
+    fixtureRecipe('chicken-a', 'family-a', { core_ingredients:['鸡肉', '大米'] }),
+    fixtureRecipe('chicken-b', 'family-b', { core_ingredients:['鸡肉', '大米'] }),
+    fixtureRecipe('chicken-c', 'family-c', { core_ingredients:['鸡肉', '大米'] }),
+  ]);
+  const constraints = {
+    pantry:['鸡胸肉', '神秘叶菜', '神秘块根'], purpose:'pantry', dislikes:[],
+  };
+  const js = buildPantryPlan(library, constraints);
+  const py = pythonCall('pantry_plan', { library, constraints });
+  assert.deepEqual(py, js);
+  assert.equal(js.groups.length, 1);
+  assert.deepEqual(js.groups[0].used_items, ['鸡胸肉']);
 });
 
 test('Python request builder distinguishes an unmatched pantry from a missing recipe library', () => {

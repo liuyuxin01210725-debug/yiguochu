@@ -181,8 +181,9 @@
   .pantry-plan-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
   .pantry-plan-card { width: 100%; text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 14px; font-family: inherit; cursor: pointer; color: var(--ink); }
   .pantry-plan-card:hover, .pantry-plan-card:focus-visible { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(181,97,58,.1); outline: none; }
-  .pantry-plan-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-  .pantry-plan-name { font-size: 15px; font-weight: 700; }
+  .pantry-plan-top { display: flex; justify-content: space-between; gap: 8px 12px; align-items: baseline; flex-wrap: wrap; }
+  .pantry-plan-name { font-size: 15px; font-weight: 700; flex: 1 1 160px; }
+  .pantry-plan-label { padding: 2px 7px; border-radius: 999px; background: var(--clay-soft); color: var(--clay); font-size: 11px; font-weight: 700; white-space: nowrap; }
   .pantry-plan-count { font-size: 12px; color: var(--clay); font-weight: 700; white-space: nowrap; }
   .pantry-plan-items { display: block; margin-top: 7px; font-size: 13px; line-height: 1.55; color: var(--ink-2); }
   .pantry-plan-note { margin: 12px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
@@ -883,13 +884,10 @@ function pantryCoverageBlock(d) {
   if (!original.length) return '';
   const used = boundedTextList(d.usedPantry, 16, 80);
   const remaining = boundedTextList(context && context.remaining, 20, 80);
-  const next = remaining.length
-    ? '<button class="btn btn-ghost" data-act="use-pantry-leftovers">用剩下的 ' + remaining.length + ' 种再来一锅</button>'
-    : '';
   return '<section class="pantry-coverage"><strong>本锅使用 ' + used.length + '/' + original.length + ' 种：</strong>'
     + esc(used.join('、') || '没有指定')
     + (remaining.length ? '<br>剩下：' + esc(remaining.join('、')) : '<br>你为这一锅选的食材已经全部用上。')
-    + next + '</section>';
+    + '</section>';
 }
 function whyFits(d) { return '<section class="why-card"><span class="why-mark">' + icon('spark',{size:16,sw:1.7,stroke:'#b5613a'}) + '</span><p class="why-text">' + esc(d.why) + '</p></section>'; }
 function recipeBasisBlock(d) {
@@ -1570,7 +1568,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
   if (t.dataset.swap) {
     state.swapOpen = false;
-    if (state.dish && !state.displayedPlan) runGenerate({ swap:t.dataset.swap });
+    if (state.dish && !state.displayedPlan) runGenerate(legacySwapOptions(t.dataset.swap));
     else requestAlternativePlan();
     return;
   }
@@ -1591,7 +1589,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'plan-decision') applyPlanDecision(t.dataset.decision, t.dataset.item);
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
   else if (act === 'choose-pantry-group') choosePantryGroup(+t.dataset.groupIndex);
-  else if (act === 'use-pantry-leftovers') generateFromPantryLeftovers();
+  else if (act === 'relax-pantry-time') relaxPantryTime();
   else if (act === 'retry') runPrimaryFlow();
 });
 
@@ -1666,9 +1664,15 @@ function pantryPlanScreen() {
     + (group.requiredExtraItems.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(group.requiredExtraItems.join('、')) + '</span>' : '')
   );
   const sequenceLabels = ['第一锅', '第二锅', '第三锅'];
+  const maxCoverage = Math.max(0, ...plan.groups.map(group => group.usedItems.length));
   const cards = plan.groups.map((group, index) => {
+    const coverageLabel = plan.kind === 'sequence' ? ''
+      : (index === 0
+        ? (group.usedItems.length === total ? '全部用上' : '优先方案')
+        : (group.usedItems.length === maxCoverage ? '同等覆盖' : '覆盖较少'));
     const top = '<span class="pantry-plan-top"><span class="pantry-plan-name">'
       + (plan.kind === 'sequence' ? sequenceLabels[index] + ' · ' : '') + esc(group.recipeName) + '</span>'
+      + (coverageLabel ? '<span class="pantry-plan-label">' + coverageLabel + '</span>' : '')
       + '<span class="pantry-plan-count">用上 ' + group.usedItems.length + '/' + total + ' 种</span></span>';
     if (plan.kind === 'sequence') return '<div class="pantry-plan-card">' + top + details(group) + '</div>';
     return '<button class="pantry-plan-card" data-act="choose-pantry-group" data-group-index="' + index + '">'
@@ -1684,12 +1688,16 @@ function pantryPlanScreen() {
   const sequenceAction = plan.kind === 'sequence' && plan.groups.length
     ? '<button class="btn btn-primary" data-act="choose-pantry-group" data-group-index="0">先做第一锅</button>'
     : '';
+  const quickRelaxation = plan.kind === 'alternatives' && state.profile.intent === 'quick' && maxCoverage < total
+    ? '<div class="pantry-plan-note">快手模式只看 30 分钟内的菜谱。想用上更多食材，可以放宽到正常时长。</div>'
+      + '<button class="btn btn-ghost" data-act="relax-pantry-time">放宽到正常时长</button>'
+    : '';
   return '<div class="screen fallback-screen"><section class="fallback-banner">'
     + '<div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'})
     + '</span><div><div class="fb-banner-title">' + esc(title) + '</div>'
     + '<p class="fb-banner-text">' + esc(text) + '</p>'
-    + '</div></div><div class="pantry-plan-list">' + cards + '</div>' + unplanned + sequenceAction
+    + '</div></div><div class="pantry-plan-list">' + cards + '</div>' + unplanned + quickRelaxation + sequenceAction
     + '<button class="btn btn-ghost" data-act="edit-safe-profile">返回调整食材</button>'
     + '</section></div>';
 }
@@ -1699,13 +1707,28 @@ function choosePantryGroup(index) {
   if (!group) return;
   runGenerate({ pantryOverride:group.usedItems, pantryOriginal:plan.original, selectedBaseRecipeId:group.recipeId });
 }
-function generateFromPantryLeftovers() {
-  const remaining = boundedTextList(state.dish && state.dish.pantryContext && state.dish.pantryContext.remaining, 20, 80);
-  if (!remaining.length) return;
-  state.profile.pantry = remaining.join(', ');
+function samePantryIdentitySet(left, right) {
+  const keys = value => uniquePantryItems(value).map(pantryIdentity).filter(Boolean).sort();
+  const a = keys(left), b = keys(right);
+  return a.length === b.length && a.every((item, index) => item === b[index]);
+}
+function legacySwapOptions(swap) {
+  const result = { swap };
+  const context = state.dish && state.dish.pantryContext;
+  const currentPantry = uniquePantryItems(String(state.profile.pantry || '').split(/[,，、\s]+/));
+  const original = uniquePantryItems(context && context.original);
+  const requested = uniquePantryItems(context && context.requested);
+  if (requested.length && samePantryIdentitySet(currentPantry, original)) {
+    result.pantryOverride = requested;
+    result.pantryOriginal = original;
+  }
+  return result;
+}
+async function relaxPantryTime() {
+  state.profile.intent = 'normal';
   state.pantryPlan = null;
   STORE.saveProfile(state.profile);
-  runGenerate({ profile:state.profile });
+  return runPrimaryFlow();
 }
 // 换一换候选枯竭屏(F-B): 累计历史把可搭候选耗尽(422)时的显式出口——清记录从头轮, 或调整食材; 不自动重试
 function swapExhaustedScreen() {

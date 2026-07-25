@@ -951,6 +951,8 @@ test('small pantry plan renders independent alternatives with used unused and re
   evaluate(context, `state.pantryPlan=${JSON.stringify(pantryPlan)}; state.view='pantry-plan'; render()`);
   assert.match(root.innerHTML, /选一个本锅方案/);
   assert.equal((root.innerHTML.match(/data-act="choose-pantry-group"/g) || []).length, 2);
+  assert.match(root.innerHTML, /优先方案/);
+  assert.match(root.innerHTML, /同等覆盖/);
   assert.match(root.innerHTML, /用上：<\/strong>牛里脊、豆腐/);
   assert.match(root.innerHTML, /本锅不用：<\/strong>西红柿/);
   assert.match(root.innerHTML, /还需准备：<\/strong>大米/);
@@ -1002,22 +1004,69 @@ test('choosing a pantry group sends only that group while preserving the origina
   assert.deepEqual(dish.pantryContext.remaining, ['鸡蛋','西红柿','土豆']);
 });
 
-test('use leftovers starts the next plan with exactly the remaining foods', async () => {
-  const remaining = ['鸡蛋','土豆','鸡胸肉','西兰花','胡萝卜','洋葱','虾仁','青椒','茄子'];
-  const { context, calls } = loadFrontend([{ status:409, body:{
-    code:'pantry_needs_grouping', error:'需要分组',
-    pantry_plan:{ kind:'sequence', original:remaining, groups:[{
-      order:1, recipe_id:'next', recipe_name:'下一锅', used_items:['鸡胸肉','胡萝卜','洋葱'],
-      unused_items:remaining.filter(item => !['鸡胸肉','胡萝卜','洋葱'].includes(item)), required_extra_items:['大米'], coverage:3, total:9,
-    }], unplanned:[] },
-  } }]);
+test('result does not offer an unverified leftovers action', () => {
+  const { context } = loadFrontend();
+  const rendered = evaluate(context, `pantryCoverageBlock({
+    usedPantry:['鸡肉'],
+    pantryContext:{ original:['鸡肉','西兰花','土豆'], remaining:['西兰花','土豆'] }
+  })`);
+  assert.doesNotMatch(rendered, /use-pantry-leftovers|用剩下的.*再来一锅/);
+});
+
+test('legacy swap keeps the chosen pantry subset instead of reopening the same three cards', () => {
+  const { context } = loadFrontend();
+  const options = JSON.parse(evaluate(context, `(() => {
+    state.profile.pantry = '鸡肉, 西兰花, 土豆';
+    state.dish = { pantryContext:{
+      original:['鸡肉','西兰花','土豆'], requested:['鸡肉','西兰花'], remaining:['土豆']
+    }};
+    return JSON.stringify(legacySwapOptions('cuisine'));
+  })()`));
+  assert.deepEqual(options, {
+    swap:'cuisine', pantryOverride:['鸡肉','西兰花'], pantryOriginal:['鸡肉','西兰花','土豆'],
+  });
+});
+
+test('legacy swap discards stale subgroup context after the user edits pantry', () => {
+  const { context } = loadFrontend();
+  const options = JSON.parse(evaluate(context, `(() => {
+    state.profile.pantry = '鸡蛋, 番茄';
+    state.dish = { pantryContext:{
+      original:['鸡肉','西兰花','土豆'], requested:['鸡肉','西兰花'], remaining:['土豆']
+    }};
+    return JSON.stringify(legacySwapOptions('cuisine'));
+  })()`));
+  assert.deepEqual(options, { swap:'cuisine' });
+});
+
+test('quick pantry alternatives explain and execute the normal-time relaxation', async () => {
+  const plan = {
+    kind:'alternatives', original:['鸡胸肉','西兰花'],
+    groups:[{ recipe_id:'a', recipe_name:'鸡肉饭', used_items:['鸡胸肉'], unused_items:['西兰花'], required_extra_items:['大米'], coverage:1, total:2 }],
+    unplanned:['西兰花'],
+  };
+  const { context, calls, root } = loadFrontend([{ body:meal({ used_pantry:['鸡胸肉'] }) }]);
   await evaluate(context, `(async () => {
-    state.dish = { pantryContext:{ remaining:${JSON.stringify(remaining)} } };
-    generateFromPantryLeftovers();
-    await new Promise(resolve => setTimeout(resolve, 0));
+    state.profile.intent='quick'; state.profile.pantry='鸡胸肉, 西兰花';
+    state.pantryPlan=${JSON.stringify(plan)}; state.view='pantry-plan'; render();
+    if (!document.getElementById('root').innerHTML.includes('放宽到正常时长')) throw new Error('missing action');
+    await relaxPantryTime();
   })()`);
-  assert.equal(evaluate(context, `state.profile.pantry`), remaining.join(', '));
-  assert.deepEqual(JSON.parse(calls[0].init.body).constraints.pantry, remaining);
+  assert.equal(evaluate(context, `state.profile.intent`), 'normal');
+  assert.equal(calls.length, 1);
+  assert.equal(JSON.parse(calls[0].init.body).constraints.purpose, 'normal');
+  assert.doesNotMatch(root.innerHTML, /放宽到正常时长/);
+});
+
+test('quick pantry alternatives hide time relaxation after every submitted item is covered', () => {
+  const plan = {
+    kind:'alternatives', original:['鸡胸肉','西红柿'],
+    groups:[{ recipe_id:'a', recipe_name:'番茄鸡肉饭', used_items:['鸡胸肉','西红柿'], unused_items:[], required_extra_items:['大米'], coverage:2, total:2 }],
+    unplanned:[],
+  };
+  const { context, root } = loadFrontend();
+  evaluate(context, `state.profile.intent='quick'; state.pantryPlan=${JSON.stringify(plan)}; state.view='pantry-plan'; render()`);
+  assert.doesNotMatch(root.innerHTML, /放宽到正常时长/);
 });
 
 test('generated ingredient rows are read-only and keep the whole-pot serving summary', () => {
