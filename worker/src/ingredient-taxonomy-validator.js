@@ -55,7 +55,7 @@ function isStringArray(value) {
 export function validateIngredientTaxonomy(data) {
   const errors = [];
   if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
-  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r4') errors.push('taxonomy_version must be taxonomy-v1-20260727-r4');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r5') errors.push('taxonomy_version must be taxonomy-v1-20260727-r5');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];
