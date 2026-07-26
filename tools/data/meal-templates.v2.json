@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "template_catalog_version": "templates-v2-20260726-r1",
-  "ingredient_taxonomy_version": "taxonomy-v1-20260726-r1",
+  "template_catalog_version": "templates-v2-20260727-r2",
+  "ingredient_taxonomy_version": "taxonomy-v1-20260727-r2",
   "templates": [
     {
       "template_id": "acid-staple-pot",

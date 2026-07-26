@@ -122,6 +122,7 @@ export const normalizePlannerTaxonomyKey = normalizeIngredientTaxonomyKey;
 function taxonomyItemIndex(taxonomy) {
   const index = new Map();
   for (const item of taxonomy?.items || []) {
+    if (item.input_scope === 'derived_only') continue;
     for (const name of [item.display_name, ...(item.aliases || [])]) {
       const key = normalizeIngredientTaxonomyKey(name);
       if (key && !index.has(key)) index.set(key, item);

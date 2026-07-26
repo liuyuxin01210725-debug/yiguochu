@@ -80,7 +80,7 @@ Cloudflare Pages 同源部署。简版：
 1. 重建 `dist/` 只使用 `node tools/build-dist.mjs --out-dir dist --build-id "<ascii-build-id>"`。该脚本统一收集前端、Worker 完整依赖图、营养/菜谱数据和三份 Planner V2 资产，并注入 service worker 缓存版本；不再保留手工 `cp` 流程。**PROXY_BASE 已在 index.html 运行时自适应(localhost→本地/线上→同源), 无需替换。**
 2. Phase A 只允许预览部署：`npx wrangler pages deploy dist --project-name yiguochu --branch recipe-validation --commit-dirty=true --commit-message "recipe validation preview"`；禁止使用 `--branch main` 或提升到 production。
 3. ⚠️ `--commit-message` 必须用 **ASCII**——git 历史里有中文，wrangler 自动读取会触发 Cloudflare 的 "Invalid commit message, must be valid UTF-8" 报错。
-4. 部署前必须运行 `node tools/check-recipes.mjs` 和 `node tools/run-pantry-planner-v2-journeys.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`plannerAssets: "ok"`、`recipeFamilies: 21`、`baseRecipes: 72`（72 = 12 道 `approved` 人工批准 + 60 道 `auto_approved` 自动闸门通过待评审），并报告 `pantry-planner-v2` / `templates-v2-20260726-r1` / `taxonomy-v1-20260726-r1` / `ratio-rules-v1-20260726-r1` 及 9 个 active + 7 个 planned templates；真实旅程门禁当前为 64/64。
+4. 部署前必须运行 `node tools/check-recipes.mjs` 和 `node tools/run-pantry-planner-v2-journeys.mjs`；预览 `/health` 必须报告 `recipeLibrary: "ok"`、`plannerAssets: "ok"`、`recipeFamilies: 21`、`baseRecipes: 72`（72 = 12 道 `approved` 人工批准 + 60 道 `auto_approved` 自动闸门通过待评审），并报告 `pantry-planner-v2` / `templates-v2-20260727-r2` / `taxonomy-v1-20260727-r2` / `ratio-rules-v1-20260726-r1` 及 9 个 active + 7 个 planned templates；真实旅程门禁当前为 64/64。
 5. `dist/` 和 `worker/.wrangler/` 已 gitignore，不提交。
 
 Pantry Planner V2 当前仍只在 Draft PR，未进行真实 DeepSeek live 验证，未部署 Preview 或 production，上述门禁通过也不代表获得 production 发布授权或人工菜谱批准。

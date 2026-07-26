@@ -6,7 +6,7 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
   'pork-staple-pot', 'soft-family-rice-pot', 'stew-with-staple-pot', 'quick-breakfast-pot',
 ]);
-const TAXONOMY_VERSION = 'taxonomy-v1-20260726-r1';
+const TAXONOMY_VERSION = 'taxonomy-v1-20260727-r2';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
@@ -471,7 +471,7 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
     if (!isObject(catalog)) return ['template catalog must be an object'];
     assertAllowedKeys(catalog, CATALOG_KEYS, 'template catalog', errors);
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
-    if (catalog.template_catalog_version !== 'templates-v2-20260726-r1') errors.push('template_catalog_version must be templates-v2-20260726-r1');
+    if (catalog.template_catalog_version !== 'templates-v2-20260727-r2') errors.push('template_catalog_version must be templates-v2-20260727-r2');
     if (!isObject(taxonomy) || taxonomy.taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== taxonomy.taxonomy_version) {

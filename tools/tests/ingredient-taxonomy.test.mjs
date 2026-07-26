@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260726-r1');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r2');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -31,9 +31,62 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '大米', '熟米饭', '面条', '番茄', '鸡蛋', '嫩豆腐', '老豆腐',
     '牛肉', '牛肉末', '鸡肉', '鸡胸肉', '鸡腿肉', '猪肉', '排骨',
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
-    '金针菇', '香菇', '咸肉', '腊肠', '玉米面团', '小麦面团',
+    '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
+    '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('cornmeal identities preserve raw prepared derived and ready states', () => {
+  const byId = new Map(catalog.items.map(item => [item.canonical_id, item]));
+  assert.deepEqual(
+    ['cornmeal-flour', 'cornmeal-dough', 'pot-edge-corn-cake', 'ready-corn-cake']
+      .map(id => [id, byId.get(id)?.states, byId.get(id)?.input_scope]),
+    [
+      ['cornmeal-flour', ['raw'], 'pantry_input'],
+      ['cornmeal-dough', ['prepared'], 'pantry_input'],
+      ['pot-edge-corn-cake', ['derived_plan_output'], 'derived_only'],
+      ['ready-corn-cake', ['cooked'], 'pantry_input'],
+    ],
+  );
+});
+
+test('cornmeal aliases preserve coarseness and never collapse cooked or derived forms', () => {
+  const [fine, coarse, unspecified, dough, ready, forgedDerived] = normalizePlannerItems(
+    ['细玉米面', '粗玉米面', '玉米面', '玉米面团', '现成玉米饼', '锅边玉米饼'],
+    catalog,
+  );
+  assert.deepEqual([fine.canonical, fine.shape_or_cut], ['玉米面', 'fine']);
+  assert.deepEqual([coarse.canonical, coarse.shape_or_cut], ['玉米面', 'coarse']);
+  assert.deepEqual([unspecified.canonical, unspecified.shape_or_cut], ['玉米面', 'unspecified']);
+  assert.deepEqual([dough.category, dough.shape_or_cut], ['cornmeal_dough', 'dough_piece']);
+  assert.deepEqual([ready.category, ready.cooking_risk], ['ready_staple', 'none']);
+  assert.equal(forgedDerived.recognized, false);
+});
+
+test('oil beans remain distinct from generic green beans', () => {
+  const [oilBeans, generic] = normalizePlannerItems(['油豆角', '普通豆角'], catalog);
+  assert.equal(oilBeans.display_name, '油豆角');
+  assert.equal(oilBeans.canonical, '油豆角');
+  assert.equal(generic.display_name, '豆角');
+  assert.equal(generic.canonical, '豆角');
+  assert.notEqual(oilBeans.canonical, generic.canonical);
+  assert.deepEqual(oilBeans.required_endpoint_codes, ['bean_fully_cooked']);
+  assert.deepEqual(generic.required_endpoint_codes, ['bean_fully_cooked']);
+});
+
+test('derived-only identities cannot advertise pantry aliases or the wrong state', () => {
+  const aliasLeak = structuredClone(catalog);
+  const aliasLeakItem = aliasLeak.items.find(item => item.canonical_id === 'pot-edge-corn-cake');
+  assert.ok(aliasLeakItem);
+  aliasLeakItem.aliases = ['贴饼子'];
+  assert.match(validateIngredientTaxonomy(aliasLeak).join('\n'), /derived_only identities must not define aliases/);
+
+  const wrongState = structuredClone(catalog);
+  const wrongStateItem = wrongState.items.find(item => item.canonical_id === 'pot-edge-corn-cake');
+  assert.ok(wrongStateItem);
+  wrongStateItem.states = ['cooked'];
+  assert.match(validateIngredientTaxonomy(wrongState).join('\n'), /derived_only identity must use derived_plan_output/);
 });
 
 test('regional ingredients preserve cured-meat and dough cooking identities', () => {

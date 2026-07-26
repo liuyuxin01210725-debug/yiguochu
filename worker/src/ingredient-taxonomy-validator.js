@@ -6,13 +6,16 @@ const CATEGORIES = new Set([
   'raw_rice', 'cooked_rice', 'noodle', 'acid_vegetable', 'egg', 'soft_tofu', 'firm_tofu',
   'beef', 'chicken', 'pork', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
   'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'mushroom', 'cornmeal_dough',
+  'cornmeal_flour', 'cornmeal_cake', 'ready_staple',
   'wheat_dough', 'liquid', 'oil', 'seasoning',
 ]);
-const STATES = new Set(['raw', 'cooked', 'basic', 'cured', 'prepared']);
+const STATES = new Set(['raw', 'cooked', 'basic', 'cured', 'prepared', 'derived_plan_output']);
 const SHAPES = new Set([
   'whole', 'slice', 'dice', 'shred', 'ground', 'tenderloin', 'breast', 'leg', 'rib',
-  'brisket', 'cured_slice', 'sausage', 'dough_piece', 'liquid',
+  'brisket', 'cured_slice', 'sausage', 'dough_piece', 'liquid', 'fine', 'coarse',
+  'unspecified', 'cake',
 ]);
+const INPUT_SCOPES = new Set(['pantry_input', 'derived_only']);
 const COOK_SPEEDS = new Set(['no_cook', 'fast', 'medium', 'slow']);
 const MOISTURE_RELEASE = new Set(['low', 'medium', 'high']);
 const TEXTURE_BEHAVIORS = new Set([
@@ -20,15 +23,17 @@ const TEXTURE_BEHAVIORS = new Set([
   'sets_when_heated', 'delicate_breaks_when_stirred', 'firm_holds_shape', 'tender_when_quick_cooked',
   'tender_after_long_simmer', 'crumbles_when_cooked', 'tender_when_cooked_through', 'wilts_quickly',
   'renders_fat_when_heated', 'steams_above_stew', 'liquid', 'dissolves',
+  'forms_dough_with_water',
 ]);
-const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough', 'unknown']);
-const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam']);
+const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough', 'raw_flour', 'unknown']);
+const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam', 'hydrate']);
 const FAILURE_MODE_CODES = new Set([
   'undercooked_when_liquid_is_short', 'mushy_when_overmixed', 'soft_when_overcooked',
   'watery_when_overloaded', 'rubbery_when_overcooked', 'breaks_when_stirred',
   'dry_when_overcooked', 'tough_when_overcooked', 'tough_when_rushed',
   'chewy_when_undercooked', 'firm_when_undercooked', 'burns_when_unattended', 'smokes_when_overheated',
   'salty_when_overseasoned', 'dense_when_understeamed',
+  'clumps_when_hydration_is_wrong',
 ]);
 const ENDPOINT_CODES = new Set([
   'rice_tender', 'heated_through', 'noodle_tender', 'egg_fully_set', 'beef_fully_cooked',
@@ -40,6 +45,7 @@ const SLOT_CODES = new Set([
   'ground_meat_required', 'generic_poultry', 'generic_pork', 'rib_required',
   'fast_cooking_vegetable', 'aromatic', 'mushroom', 'liquid', 'oil', 'seasoning',
   'hard_stir_fry', 'long_braise', 'cured_pork', 'edge_steamed_staple',
+  'staple_preparation_input', 'derived_staple', 'ready_staple',
 ]);
 
 function isStringArray(value) {
@@ -49,7 +55,7 @@ function isStringArray(value) {
 export function validateIngredientTaxonomy(data) {
   const errors = [];
   if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
-  if (data.taxonomy_version !== 'taxonomy-v1-20260726-r1') errors.push('taxonomy_version must be taxonomy-v1-20260726-r1');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r2') errors.push('taxonomy_version must be taxonomy-v1-20260727-r2');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];
@@ -87,6 +93,7 @@ export function validateIngredientTaxonomy(data) {
       }
     }
     if (!CATEGORIES.has(item.category)) errors.push(`${label}.category is invalid`);
+    if (!INPUT_SCOPES.has(item.input_scope)) errors.push(`${label}.input_scope is invalid`);
     if (!isStringArray(item.states) || item.states.some(state => !STATES.has(state))) errors.push(`${label}.states are invalid`);
     if (!isStringArray(item.shapes_or_cuts) || item.shapes_or_cuts.some(shape => !SHAPES.has(shape))) errors.push(`${label}.shapes_or_cuts are invalid`);
     if (item.default_shape_or_cut != null && !shapes.includes(item.default_shape_or_cut)) {
@@ -128,6 +135,15 @@ export function validateIngredientTaxonomy(data) {
         || !item[field].every(code => SLOT_CODES.has(code))) {
         errors.push(`${label}.${field} are invalid`);
       }
+    }
+    if (item.input_scope === 'derived_only') {
+      if (item.states?.length !== 1 || item.states[0] !== 'derived_plan_output') {
+        errors.push(`${label}: derived_only identity must use derived_plan_output`);
+      }
+      if (aliases.length) errors.push(`${label}: derived_only identities must not define aliases`);
+    }
+    if (item.states?.includes('derived_plan_output') && item.input_scope !== 'derived_only') {
+      errors.push(`${label}: derived_plan_output must be derived_only`);
     }
     if (item.alias_shape_or_cut != null) {
       if (!item.alias_shape_or_cut || typeof item.alias_shape_or_cut !== 'object' || Array.isArray(item.alias_shape_or_cut)) {
