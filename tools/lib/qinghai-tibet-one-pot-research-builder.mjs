@@ -24,7 +24,7 @@ const SUBJECT_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
-const INPUT_DATA_FINGERPRINT = 'a2c2332bdbb37a8f744bb41dfa6b5e5ad24afa499560823e9f5c76fa78a6cf77';
+const INPUT_DATA_FINGERPRINT = '8433a8227bba9f8493b970d7d807383b9e37e235263724ae01145df6535308a5';
 const SOURCE_DATA_FINGERPRINT = 'a6a54b822d74d0a8f3a01abe31ba73cf28b066326c48f05ba58aa13c943639ff';
 const FIXED_REGION_OVERVIEW_SEMANTICS = {
   name: '青藏',
@@ -75,7 +75,6 @@ function canonicalInputPayload(inputs) {
     regionalAtlas: copy(inputs.regionalAtlas),
     regionalMappings: {
       schema_version: regionalMappings.schema_version,
-      mapping_version: regionalMappings.mapping_version,
       production_recipe_mappings: copy(regionalMappings.production_recipe_mappings),
       research_candidate_mappings: copy(regionalMappings.research_candidate_mappings),
     },
