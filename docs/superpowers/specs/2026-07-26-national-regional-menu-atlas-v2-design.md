@@ -2,7 +2,7 @@
 
 日期：2026-07-26
 
-状态：设计已确认，等待用户审阅正式规格
+状态：正式规格已确认；第 0 轮实施计划已编写，等待选择执行方式
 
 替代范围：本规格扩展并取代 `2026-07-25-china-one-pot-regional-atlas-design.md` 中的全国骨架、节点结构、研究顺序与东北首轮方案。原文中关于产品边界、来源许可和研究不等于上线的原则继续有效。
 
@@ -18,7 +18,8 @@
 4. 地方原型先进入研究层，不自动成为生产菜谱；
 5. 全国骨架先完整建立，再按地域逐批研究；
 6. 每批最多研究一个地域、一个主要技法家族和四个原型；
-7. 地域研究可以只产生 evidence、taxonomy、Ratio DSL 或内容结论，不要求新增 recipe。
+7. 地域研究可以只产生 evidence、taxonomy、Ratio DSL 或内容结论，不要求新增 recipe；
+8. 现有 72 道菜单全部进入地图审计，但只有具备中国地域事实的菜单才绑定省级或地域节点；全国性家常菜标记为 `national_household`，域外菜单标记为 `outside_cn_atlas`，禁止为满足计数伪造地域归属。
 
 ## 2. 第一性原理
 
@@ -89,13 +90,14 @@
 
 该表恰好覆盖 34 个省级行政区。地域板块是研究导航，不宣称统一菜系边界。
 
-## 6. 十一个一锅技法家族
+## 6. 十二个一锅技法家族
 
 | family_id | 技法家族 | 主食状态 | 典型产品价值 |
 |---|---|---|---|
 | `raw-rice-braise` | 生米菜肉同焖 | 生米 | 菜饭、咸饭、焖饭、抓饭 |
 | `cooked-rice-stir` | 熟饭翻炒 | 剩米饭 | 快速清库存与炒饭 |
 | `cooked-rice-stew` | 熟饭烩煮或汤饭 | 剩米饭 | 汤饭、烩饭、粥饭 |
+| `grain-porridge` | 生谷物加液体熬煮 | 生米、小米、青稞或杂粮 | 粥、稀饭及地域谷物粥饭 |
 | `noodle-braise` | 面菜同焖 | 生面或半熟面 | 焖面、烀面 |
 | `noodle-steam-braise` | 面菜蒸焖 | 生面或鲜面 | 河南蒸面及家庭单锅适配 |
 | `noodle-broth` | 汤面、面片、粉丝一锅 | 面、面片、米粉或粉丝 | 烩面、卤面、面片锅 |
@@ -151,6 +153,22 @@
 ```
 
 省级骨架节点与地方原型节点使用不同 `node_type`，避免把“黑龙江”误当成一个菜谱候选。
+
+生产菜单与研究候选的地域映射使用独立记录，至少包含：
+
+```json
+{
+  "source_type": "production_recipe",
+  "source_id": "shanghai-salted-pork-vegetable-rice",
+  "regional_scope": "province_specific",
+  "region_ids": ["jiangnan"],
+  "province_codes": ["CN-SH"],
+  "primary_family_id": "raw-rice-braise",
+  "mapping_basis": ["cuisine", "name", "recipe_evidence"]
+}
+```
+
+`regional_scope` 只允许 `province_specific | cross_regional_chinese | national_household | outside_cn_atlas`。`national_household` 与 `outside_cn_atlas` 的 `region_ids`、`province_codes` 必须为空；`outside_cn_atlas` 可以不绑定中国技法家族，但必须保留现有 `legacy_family_id` 和结构化原因。这样“全部审计”不等于“全部宣称属于某个中国地域”。
 
 ## 8. 状态机
 
@@ -245,8 +263,8 @@ skeleton_only
 
 1. 34 个省级行政区恰好各有一个骨架节点；
 2. 13 个地域板块无漏项、无重复归属；
-3. 11 个技法家族均有机器记录；
-4. 现有 72 道生产 recipe 全部映射到地域板块和技法家族；
+3. 12 个技法家族均有机器记录；
+4. 现有 72 道生产 recipe 全部具有 `regional_scope` 审计记录；具备中国地域事实的菜单映射到地域板块与技法家族，全国性家常菜与域外菜单不得被强行绑定省份；
 5. 现有 24 个研究候选全部映射到省份或明确标记地域粒度不足；
 6. 每个空白省份有结构化研究问题或明确的暂不研究原因；
 7. 民族与文化覆盖标签不复制原型节点；
@@ -401,7 +419,7 @@ staple:
 8. 无来源节点不能超过 `research_queue`；
 9. 没有合格候选的省份仍保留 `skeleton_only`；
 10. 24 个现有研究题目全部归位；
-11. 72 道生产 recipe 全部归位；
+11. 72 道生产 recipe 全部完成地域范围审计，且域外或全国性菜单没有伪造省份；
 12. 同一技法的地域变种可以合并为家族；
 13. 一个地方原型可以只产生 `content_only`；
 14. 评分高不能越过来源门槛；
@@ -425,7 +443,7 @@ staple:
 
 下一份实施计划只包含第 0 轮：
 
-1. 结构化 13 地域、34 省级节点和 11 技法家族；
+1. 结构化 13 地域、34 省级节点和 12 技法家族；
 2. 建立 atlas schema 与 validator；
 3. 映射现有 72 道 production recipe；
 4. 映射现有 24 个 research candidate；
