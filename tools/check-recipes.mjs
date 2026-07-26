@@ -543,6 +543,22 @@ if (errors.length === 0) {
     northwestResearchSummary = northwestCheck.stdout.trim();
   }
 }
+let qinghaiTibetResearchSummary = '';
+if (errors.length === 0) {
+  const qinghaiTibetCheck = spawnSync(process.execPath, [
+    fileURLToPath(new URL('./build-qinghai-tibet-one-pot-research.mjs', import.meta.url)),
+    '--check',
+  ], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
+  });
+  if (qinghaiTibetCheck.status !== 0) {
+    const detail = [qinghaiTibetCheck.stdout, qinghaiTibetCheck.stderr].filter(Boolean).join('\n').trim();
+    errors.push(`Qinghai Tibet research artifact check failed${detail ? `: ${detail}` : ''}`);
+  } else {
+    qinghaiTibetResearchSummary = qinghaiTibetCheck.stdout.trim();
+  }
+}
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -601,5 +617,6 @@ if (yunnanGuizhouResearchReport && yunnanGuizhouResearchSourceErrors.length === 
 }
 if (lingnanHkMacaoResearchSummary) console.log(lingnanHkMacaoResearchSummary);
 if (northwestResearchSummary) console.log(northwestResearchSummary);
+if (qinghaiTibetResearchSummary) console.log(qinghaiTibetResearchSummary);
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
