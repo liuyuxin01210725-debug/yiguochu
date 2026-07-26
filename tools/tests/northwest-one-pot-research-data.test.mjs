@@ -77,3 +77,53 @@ test('validator fails closed for baseline drift, claim-direction inflation and m
   assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: directionBroken }).join('\n'), /must be reverse-indexed/);
   assert.deepEqual(validateNorthwestOnePotResearch({ assessment: null }), ['assessment must be an object']);
 });
+
+test('validator rejects orphan source tokens, deleted claims, and verdict inflation even when a source direction is edited too', () => {
+  const orphan = structuredClone(assessment);
+  orphan.source_refs.find(row => row.source_id === 'gs-lanzhou-noodle-2024').proves.push('lead:invented:claim');
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: orphan }).join('\n'), /is not a canonical claim token/);
+
+  const deleted = structuredClone(assessment);
+  delete deleted.production_recipe_audits.find(row => row.recipe_id === 'shaanbei-red-date-cowpea-rice').claims.ordinary_rice_adaptation;
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: deleted }).join('\n'), /has no matching assessment claim/);
+
+  const inflated = structuredClone(assessment);
+  const token = 'production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation';
+  inflated.production_recipe_audits.find(row => row.recipe_id === 'shaanbei-red-date-cowpea-rice').claims.ordinary_rice_adaptation.verdict = 'supported';
+  for (const sourceId of ['sn-mizhi-laba-2017', 'sn-shaanxi-daily-laba-2020', 'sn-samr-broomcorn-millet-undated']) {
+    const source = inflated.source_refs.find(row => row.source_id === sourceId);
+    source.does_not_prove = source.does_not_prove.filter(value => value !== token);
+    source.proves.push(token);
+  }
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: inflated }).join('\n'), /fixed verdict must remain not_proven/);
+});
+
+test('validator fixes entity province ownership, per-province lead distribution, and mapping province scope', () => {
+  const leadBroken = structuredClone(assessment);
+  leadBroken.concrete_research_leads.find(row => row.lead_id === 'xifu-jiaotuan-seasoned-bowl').province_code = 'CN-GS';
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: leadBroken }).join('\n'), /lead province mapping must remain fixed/);
+
+  const auditBroken = structuredClone(assessment);
+  auditBroken.production_recipe_audits.find(row => row.recipe_id === 'shaanbei-red-date-cowpea-rice').province_code = 'CN-XJ';
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: auditBroken }).join('\n'), /production province mapping must remain fixed/);
+
+  const mappingBroken = structuredClone(inputs.regionalMappings);
+  mappingBroken.production_recipe_mappings.find(row => row.source_id === 'shaanbei-red-date-cowpea-rice').province_codes = ['CN-XJ'];
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, regionalMappings: mappingBroken }).join('\n'), /production mapping province scope must remain fixed/);
+});
+
+test('validator fingerprints fixed family, boundary and journey semantics beyond IDs and counts', () => {
+  const familyBroken = structuredClone(assessment);
+  familyBroken.family_model[0].meal_structure = 'generic_rice_cooker_free_slot';
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: familyBroken }).join('\n'), /family_model semantic fingerprint mismatch/);
+
+  const boundaryBroken = structuredClone(assessment);
+  boundaryBroken.adaptation_boundaries[0].notes = '普通大米与软谷物完全等价。';
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /adaptation_boundaries semantic fingerprint mismatch/);
+
+  const journeyBroken = structuredClone(assessment);
+  journeyBroken.journey_cases[0].input_items = ['普通大米'];
+  journeyBroken.journey_cases[1].journey_id = journeyBroken.journey_cases[0].journey_id;
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_cases semantic fingerprint mismatch/);
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_ids must be unique/);
+});
