@@ -144,7 +144,7 @@
 - Consumes: Tasks 1–3 的提交。
 - Produces: 可追踪的全量验证记录与更新后的 Draft PR #1；不产生部署。
 
-- [ ] **Step 1: 运行全量门禁**
+- [x] **Step 1: 运行全量门禁**
 
   Run:
 
@@ -157,11 +157,11 @@
 
   Expected: all commands exit 0; planner reports 44/44.
 
-- [ ] **Step 2: 验证两次确定性构建**
+- [x] **Step 2: 验证两次确定性构建**
 
   使用相同 ASCII build ID 两次运行 `node tools/build-dist.mjs --out-dir <temp-dir> --build-id "qinghai-tibet-verify"`，以 `diff -qr` 验证字节一致；两份构建均不得包含 `qinghai-tibet-one-pot-research` 或 `qinghai-tibet-one-pot-journey-review`。
 
-- [ ] **Step 3: 检查范围**
+- [x] **Step 3: 检查范围**
 
   Run:
 
@@ -172,6 +172,6 @@
 
   Expected: no whitespace errors and no protected-file diff.
 
-- [ ] **Step 4: 推送并更新 Draft PR #1**
+- [x] **Step 4: 推送并更新 Draft PR #1**
 
   推送现有 `codex/targeted-recipe-expansion` 分支，更新 PR #1 正文，确认 PR 仍为 Draft、未合并且没有 Preview/production 部署。
