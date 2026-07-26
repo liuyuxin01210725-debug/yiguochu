@@ -120,6 +120,37 @@ test('audits exactly the locked 72 recipes and preserves current safety boundari
   assert.equal(noodles.unclassified_core_items.some(row => row.raw === '鲜小麦面条'), true);
 });
 
+test('Jiangnan M1 recovers six menu cores without forging two unresolved identities', () => {
+  const report = buildRealReport();
+  const expected = new Map([
+    ['shanghai-salted-pork-vegetable-rice', 'full_single_pot_evidence_aligned'],
+    ['nanjing-sausage-greens-rice', 'full_single_pot_evidence_aligned'],
+    ['suzhou-salted-pork-vegetable-rice', 'full_single_pot_ingredient_compatible'],
+    ['nanjing-cured-pork-greens-rice', 'full_single_pot_ingredient_compatible'],
+    ['jinshan-clay-oven-vegetable-rice', 'full_single_pot_ingredient_compatible'],
+    ['banshan-wild-rice', 'full_single_pot_ingredient_compatible'],
+  ]);
+  for (const [id, status] of expected) {
+    const row = byId(report, id);
+    assert.equal(row.audit_status, status, id);
+    assert.deepEqual(row.unclassified_core_items, [], id);
+    assert.equal(row.raw_core_scenario.end_to_end_core_coverage_ratio, 1, id);
+    assert.equal(row.raw_core_scenario.plan_kind, 'single_pot', id);
+  }
+
+  const duck = byId(report, 'nanjing-duck-greens-rice');
+  assert.equal(duck.audit_status, 'taxonomy_gap');
+  assert.ok(duck.unclassified_core_items.some(item => item.raw === '包装熟制板鸭（去骨）'));
+
+  const blackRice = byId(report, 'she-people-black-rice');
+  assert.notEqual(blackRice.audit_status, 'full_single_pot_evidence_aligned');
+  assert.notEqual(blackRice.audit_status, 'full_single_pot_ingredient_compatible');
+  assert.deepEqual(
+    blackRice.unclassified_core_items.map(item => item.raw).sort(),
+    ['糯米', '食品级黑米色粉'].sort(),
+  );
+});
+
 test('report metadata, summaries, and validation are deterministic', () => {
   const first = buildRealReport();
   const second = buildRealReport();

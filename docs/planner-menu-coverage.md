@@ -7,9 +7,9 @@
 本报告把现有 72 道 recipe 的原始核心食材，原样送入当前 Planner V2 的确定性纯函数。它只回答当前 taxonomy、template 与 Ratio DSL 能否识别和规划这些食材；不会用菜名猜食材，也不会把模板兼容写成地方菜复刻。
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260727-r3`
-- Taxonomy：`taxonomy-v1-20260727-r2`
-- Ratio catalog：`ratio-rules-v1-20260727-r2`
+- Template catalog：`templates-v2-20260727-r4`
+- Taxonomy：`taxonomy-v1-20260727-r3`
+- Ratio catalog：`ratio-rules-v1-20260727-r3`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -17,11 +17,11 @@
 
 | 状态 | 数量 |
 | --- | ---: |
-| full_single_pot_evidence_aligned | 6 |
-| full_single_pot_ingredient_compatible | 17 |
+| full_single_pot_evidence_aligned | 8 |
+| full_single_pot_ingredient_compatible | 21 |
 | full_multi_pot | 1 |
-| taxonomy_gap | 38 |
-| planner_gap | 5 |
+| taxonomy_gap | 31 |
+| planner_gap | 6 |
 | no_recognized_core | 5 |
 | invalid_source_record | 0 |
 
@@ -30,10 +30,10 @@
 | 优先级 | 数量 |
 | --- | ---: |
 | P0 | 5 |
-| P1 | 43 |
+| P1 | 37 |
 | P2 | 1 |
-| P3 | 17 |
-| covered | 6 |
+| P3 | 21 |
+| covered | 8 |
 
 ### P0/P1/P2 机器事实
 
@@ -49,12 +49,7 @@
 | P1 | 印尼椰香鸡肉咖喱 | 无中国地域技法映射 | 鸡肉、椰奶、红葱头 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 基础意式烩饭 | 无中国地域技法映射 | 意式烩饭米、洋葱、高汤、黄油 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 米粒卷心菜杂蔬汤 | 无中国地域技法映射 | 大米、卷心菜、高汤 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
-| P1 | 上海奉贤咸肉菜饭 | raw-rice-braise | 大米、咸五花肉、小白菜 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
-| P1 | 苏州青菜咸肉饭 | raw-rice-braise | 大米、咸五花肉、小白菜 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
-| P1 | 南京矮脚黄腊肉菜饭 | raw-rice-braise | 大米、腊五花肉、矮脚黄 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
-| P1 | 南京矮脚黄香肠菜饭 | raw-rice-braise | 大米、广式腊肠、矮脚黄 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
-| P1 | 南京矮脚黄板鸭菜饭 | raw-rice-braise | 大米、包装熟制板鸭（去骨）、矮脚黄 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
-| P1 | 金山土灶菜饭 | raw-rice-braise | 大米、小白菜 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
+| P1 | 南京矮脚黄板鸭菜饭 | raw-rice-braise | 大米、包装熟制板鸭（去骨）、矮脚黄 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 高丽菜香菇炊饭 | raw-rice-braise | 大米、卷心菜、鲜香菇 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 泉州浥饭（油饭） | glutinous-mixed-rice | 泡发糯米、猪肉末、鲜香菇 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 福建盖菜肉末咸饭 | raw-rice-braise | 大米、芥菜、猪肉末 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
@@ -69,13 +64,12 @@
 | P1 | 青海熬饭风味家庭适配版 | grain-porridge | 小米、土豆、熟鹰嘴豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 山西泥屯小米饭 | raw-rice-braise | 小米、土豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 藏式咸稀饭风味家庭适配版 | grain-porridge | 大米、牛奶 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
-| P1 | 古突风味家庭适配版 | noodle-broth | 小麦面团、小白菜、水 | taxonomy_gap | taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
+| P1 | 古突风味家庭适配版 | noodle-broth | 小麦面团、小白菜、水 | planner_gap | planner_gap | no_valid_plan | no_valid_plan | 0 |
 | P1 | 西藏人参果饭 | raw-rice-braise | 食品级蕨麻、大米 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P0 | 广西壮族五色糯米饭 | glutinous-mixed-rice | 糯米、食品级紫薯粉、食品级甜菜粉、食品级菠菜粉、食品级南瓜粉 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
 | P0 | 畲族乌饭风味家庭适配版 | glutinous-mixed-rice | 糯米、食品级黑米色粉 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
-| P1 | 半山野米饭风味平菇焖饭 | raw-rice-braise | 大米、平菇 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P0 | 傣族菠萝紫米饭 | vessel-adapted-rice | 紫米、菠萝 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
-| P1 | 侗家社饭风味家庭适配版 | raw-rice-braise | 大米、腊五花肉、姜、小白菜 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
+| P1 | 侗家社饭风味家庭适配版 | raw-rice-braise | 大米、腊五花肉、姜、小白菜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 北方豆角焖面 | noodle-braise | 鲜小麦面条、豆角、猪肉末 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 虾仁鸡蛋炒剩饭 | cooked-rice-stir | 熟米饭、虾仁、鸡蛋 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P2 | 番茄鸡腿土豆汤饭 | cooked-rice-stew | 熟米饭、鸡腿肉、番茄 | full_multi_pot | 无 | complete | complete | 2 |
@@ -95,16 +89,12 @@
 
 | 原词 | 涉及菜单数 | 菜单 ID |
 | --- | ---: | --- |
-| 小白菜 | 5 | guizhou-dong-community-rice、jinshan-clay-oven-vegetable-rice、shanghai-salted-pork-vegetable-rice、suzhou-salted-pork-vegetable-rice、tibetan-gutu |
 | 猪肉末 | 5 | daxi-lotus-leaf-oil-rice、fujian-gai-cai-minced-pork-rice、greens-minced-pork-braised-rice、north-china-green-bean-braised-noodles、quanzhou-oil-rice |
-| 矮脚黄 | 3 | nanjing-cured-pork-greens-rice、nanjing-duck-greens-rice、nanjing-sausage-greens-rice |
 | 糯米 | 3 | daxi-lotus-leaf-oil-rice、guangxi-five-color-glutinous-rice、she-people-black-rice |
 | 高汤 | 2 | basic-risotto、rice-cabbage-minestrone |
 | 红扁豆 | 2 | lentil-potato-tomato-curry、soy-lentil-vegetable-stew |
 | 卷心菜 | 2 | rice-cabbage-minestrone、taiwan-cabbage-mushroom-rice |
-| 腊五花肉 | 2 | guizhou-dong-community-rice、nanjing-cured-pork-greens-rice |
 | 甜椒 | 2 | jollof-rice、shakshuka-tomato-egg |
-| 咸五花肉 | 2 | shanghai-salted-pork-vegetable-rice、suzhou-salted-pork-vegetable-rice |
 | 小米 | 2 | qinghai-hao-fan、shanxi-nitun-millet-rice |
 | 包装熟制板鸭（去骨） | 1 | nanjing-duck-greens-rice |
 | 扁豆 | 1 | fujian-hyacinth-bean-rice |
@@ -123,7 +113,6 @@
 | 牛奶 | 1 | tibetan-savory-congee |
 | 牛肉（粗绞） | 1 | texas-beef-chili |
 | 泡发糯米 | 1 | quanzhou-oil-rice |
-| 平菇 | 1 | banshan-wild-rice |
 | 芹菜 | 1 | creole-jambalaya |
 | 去核红枣 | 1 | shaanbei-red-date-cowpea-rice |
 | 去皮鸡腿肉 | 1 | cantonese-mushroom-chicken-claypot-rice |
@@ -150,7 +139,7 @@
 | Template | 被最终计划选中的菜单数 | 直接 evidence 对齐数 |
 | --- | ---: | ---: |
 | `acid-staple-pot` | 10 | 3 |
-| `savory-mixed-rice-pot` | 20 | 3 |
+| `savory-mixed-rice-pot` | 27 | 4 |
 | `cooked-rice-stir-pot` | 4 | 0 |
 | `broth-noodle-pot` | 2 | 0 |
 | `egg-tofu-vegetable-pot` | 0 | 0 |
@@ -171,9 +160,9 @@
 | `glutinous-mixed-rice` | 3 | 0 | 3 | 2 |
 | `grain-porridge` | 3 | 1 | 2 | 0 |
 | `noodle-braise` | 2 | 1 | 1 | 0 |
-| `noodle-broth` | 4 | 3 | 1 | 1 |
+| `noodle-broth` | 4 | 3 | 0 | 1 |
 | `noodle-steam-braise` | 0 | 0 | 0 | 0 |
-| `raw-rice-braise` | 27 | 7 | 17 | 3 |
+| `raw-rice-braise` | 27 | 13 | 11 | 3 |
 | `stew-with-staple` | 0 | 0 | 0 | 0 |
 | `vessel-adapted-rice` | 3 | 0 | 3 | 2 |
 
@@ -183,12 +172,12 @@
 | --- | ---: | ---: | ---: | ---: |
 | `central_plains` | 1 | 0 | 1 | 0 |
 | `fujian_taiwan` | 6 | 0 | 6 | 2 |
-| `jiangnan` | 8 | 0 | 8 | 1 |
+| `jiangnan` | 8 | 6 | 2 | 1 |
 | `jingjinji` | 1 | 0 | 1 | 0 |
 | `jinmeng` | 3 | 1 | 2 | 0 |
 | `lingnan_hk_macao` | 5 | 0 | 5 | 2 |
 | `northwest` | 3 | 1 | 2 | 0 |
-| `qinghai_tibet` | 4 | 0 | 4 | 1 |
+| `qinghai_tibet` | 4 | 0 | 3 | 1 |
 | `shandong` | 1 | 0 | 1 | 0 |
 | `yunnan_guizhou` | 2 | 0 | 2 | 1 |
 
@@ -208,12 +197,12 @@
 | 印尼椰香鸡肉咖喱 | 鸡肉、椰奶、红葱头 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 基础意式烩饭 | 意式烩饭米、洋葱、高汤、黄油 | 25% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 米粒卷心菜杂蔬汤 | 大米、卷心菜、高汤 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 上海奉贤咸肉菜饭 | 大米、咸五花肉、小白菜 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 苏州青菜咸肉饭 | 大米、咸五花肉、小白菜 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 南京矮脚黄腊肉菜饭 | 大米、腊五花肉、矮脚黄 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 南京矮脚黄香肠菜饭 | 大米、广式腊肠、矮脚黄 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 直接对齐 | P1 |
-| 南京矮脚黄板鸭菜饭 | 大米、包装熟制板鸭（去骨）、矮脚黄 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 金山土灶菜饭 | 大米、小白菜 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
+| 上海奉贤咸肉菜饭 | 大米、咸五花肉、小白菜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
+| 苏州青菜咸肉饭 | 大米、咸五花肉、小白菜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
+| 南京矮脚黄腊肉菜饭 | 大米、腊五花肉、矮脚黄 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
+| 南京矮脚黄香肠菜饭 | 大米、广式腊肠、矮脚黄 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
+| 南京矮脚黄板鸭菜饭 | 大米、包装熟制板鸭（去骨）、矮脚黄 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
+| 金山土灶菜饭 | 大米、小白菜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 高丽菜香菇炊饭 | 大米、卷心菜、鲜香菇 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 直接对齐 | P1 |
 | 泉州浥饭（油饭） | 泡发糯米、猪肉末、鲜香菇 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 福建盖菜肉末咸饭 | 大米、芥菜、猪肉末 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
@@ -230,13 +219,13 @@
 | 山西岚县土豆饭 | 大米、土豆 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 山西泥屯小米饭 | 小米、土豆 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 藏式咸稀饭风味家庭适配版 | 大米、牛奶 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 古突风味家庭适配版 | 小麦面团、小白菜、水 | 50% | 0% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
+| 古突风味家庭适配版 | 小麦面团、小白菜、水 | 100% | 0% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 西藏人参果饭 | 食品级蕨麻、大米 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 广西壮族五色糯米饭 | 糯米、食品级紫薯粉、食品级甜菜粉、食品级菠菜粉、食品级南瓜粉 | 0% | 不适用 | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P0 |
 | 畲族乌饭风味家庭适配版 | 糯米、食品级黑米色粉 | 0% | 不适用 | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P0 |
-| 半山野米饭风味平菇焖饭 | 大米、平菇 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
+| 半山野米饭风味平菇焖饭 | 大米、平菇 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 傣族菠萝紫米饭 | 紫米、菠萝 | 0% | 不适用 | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P0 |
-| 侗家社饭风味家庭适配版 | 大米、腊五花肉、姜、小白菜 | 25% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
+| 侗家社饭风味家庭适配版 | 大米、腊五花肉、姜、小白菜 | 75% | 100% | 75% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
 | 北方豆角焖面 | 鲜小麦面条、豆角、猪肉末 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 家常鸡蛋炒剩饭 | 熟米饭、鸡蛋 | 100% | 100% | 100% | single_pot / complete | broth-rice-pot | 仅食材兼容或未规划 | P3 |
 | 番茄鸡蛋烩剩饭 | 熟米饭、番茄、鸡蛋 | 100% | 100% | 100% | single_pot / complete | acid-staple-pot | 直接对齐 | covered |
@@ -271,9 +260,9 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`af525ac1ea12ba8bd5b59290d8b4017a8942804e8224151ffc87d1ebdb680a63`
-- `tools/data/meal-templates.v2.json`：`d2a743bc88e614bd4f0d5d7614f610a4314e2abefe88c57a11ad31312c5bda04`
+- `tools/data/ingredient-taxonomy.v1.json`：`1cca3342a4e9b3a669eec9cc915096c862753be4e746fbc85bb06fa064b4c20e`
+- `tools/data/meal-templates.v2.json`：`ec82f181ec726fed8b438aa47ad0436b35f4b685bce5b41ea5ac9081cfbc1a82`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`4631b22be7377fc6d46ac1d4150d82245d85bc6122a387e48c003c29f7ae8224`
+- `tools/data/ratio-rules.v1.json`：`3e6767f73f29e95e9865336e6c46fef8cc71ceed6383b85d0e23627397928fdb`
 - `tools/data/recipe-library.json`：`69d40f12c3db12fb0d03af20665c33352f4c20b9ad53ad542a4b91c2aec1658e`
 - `tools/data/regional-menu-mappings.v1.json`：`2a9d061f8d2a546749d40f0b93a9792e37f260f10213b9e9800acbe238aeed41`
