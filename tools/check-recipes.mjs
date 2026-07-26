@@ -71,6 +71,13 @@ import {
   validateSichuanChongqingRiceResearchReport,
 } from './lib/sichuan-chongqing-rice-research-builder.mjs';
 import { buildSichuanChongqingRiceResearchArtifacts } from './lib/sichuan-chongqing-rice-research-renderer.mjs';
+import { validateYunnanGuizhouRiceResearch } from './lib/yunnan-guizhou-rice-research-validator.mjs';
+import {
+  buildYunnanGuizhouRiceResearchReport,
+  formatYunnanGuizhouRiceResearchSummary,
+  validateYunnanGuizhouRiceResearchReport,
+} from './lib/yunnan-guizhou-rice-research-builder.mjs';
+import { buildYunnanGuizhouRiceResearchArtifacts } from './lib/yunnan-guizhou-rice-research-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -86,6 +93,7 @@ const middleYangtzeResearchInputErrors = [];
 const fujianTaiwanResearchInputErrors = [];
 const northChinaResearchInputErrors = [];
 const sichuanChongqingResearchInputErrors = [];
+const yunnanGuizhouResearchInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -114,6 +122,7 @@ const middleYangtzeResearch = readReviewLedger('./data/middle-yangtze-main-meal-
 const fujianTaiwanResearch = readReviewLedger('./data/fujian-taiwan-rice-noodle-research.v1.json', 'Fujian-Taiwan rice-noodle research assessment', fujianTaiwanResearchInputErrors);
 const northChinaResearch = readReviewLedger('./data/jingjinji-jinmeng-one-pot-research.v1.json', 'Jingjinji-Jinmeng one-pot research assessment', northChinaResearchInputErrors);
 const sichuanChongqingResearch = readReviewLedger('./data/sichuan-chongqing-rice-research.v1.json', 'Sichuan-Chongqing rice research assessment', sichuanChongqingResearchInputErrors);
+const yunnanGuizhouResearch = readReviewLedger('./data/yunnan-guizhou-rice-research.v1.json', 'Yunnan-Guizhou rice research assessment', yunnanGuizhouResearchInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -463,6 +472,41 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...sichuanChongqingResearchErrors);
+const yunnanGuizhouResearchSourceErrors = [
+  ...yunnanGuizhouResearchInputErrors,
+  ...validateYunnanGuizhouRiceResearch({
+    assessment: yunnanGuizhouResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  }),
+];
+errors.push(...yunnanGuizhouResearchSourceErrors);
+const yunnanGuizhouResearchErrors = [];
+let yunnanGuizhouResearchReport;
+if (recipeLibraryErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && yunnanGuizhouResearchSourceErrors.length === 0) {
+  yunnanGuizhouResearchReport = buildYunnanGuizhouRiceResearchReport({
+    assessment: yunnanGuizhouResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  });
+  yunnanGuizhouResearchErrors.push(...validateYunnanGuizhouRiceResearchReport(yunnanGuizhouResearchReport));
+  if (yunnanGuizhouResearchErrors.length === 0) {
+    for (const [relativePath, content] of buildYunnanGuizhouRiceResearchArtifacts(yunnanGuizhouResearchReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        yunnanGuizhouResearchErrors.push(`${relativePath} is missing or stale; run node tools/build-yunnan-guizhou-rice-research.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...yunnanGuizhouResearchErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -515,6 +559,9 @@ if (northChinaResearchReport && northChinaResearchSourceErrors.length === 0 && n
 }
 if (sichuanChongqingResearchReport && sichuanChongqingResearchSourceErrors.length === 0 && sichuanChongqingResearchErrors.length === 0) {
   console.log(formatSichuanChongqingRiceResearchSummary(sichuanChongqingResearchReport));
+}
+if (yunnanGuizhouResearchReport && yunnanGuizhouResearchSourceErrors.length === 0 && yunnanGuizhouResearchErrors.length === 0) {
+  console.log(formatYunnanGuizhouRiceResearchSummary(yunnanGuizhouResearchReport));
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
