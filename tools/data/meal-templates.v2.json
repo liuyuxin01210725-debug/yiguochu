@@ -44,7 +44,7 @@
       "incompatible_rules":[{"rule_code":"mixed_rice_limits_high_moisture","when":{"slot_id":"staple","category":"raw_rice"},"forbids_attribute_count":{"attribute":"moisture_release","value":"high","greater_than":1}}],
       "shape_or_cut_requirements":[
         {"slot_id":"protein","category":"beef","allowed_shapes":["slice","dice","tenderloin"],"forbidden_shapes":["brisket","ground"]},
-        {"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin","cured_slice","sausage"],"forbidden_shapes":["rib"]}
+        {"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin","ground","cured_slice","sausage"],"forbidden_shapes":["rib"]}
       ],
       "cooking_order":[{"phase":1,"action_code":"cook_aromatics","slot_ids":["aromatic"]},{"phase":2,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":3,"action_code":"add_slow_cooking_items","slot_ids":["slow_vegetable"]},{"phase":4,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":5,"action_code":"add_fast_cooking_items","slot_ids":["fast_vegetable","mushroom"]},{"phase":6,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
       "ratio_constraints":["savory-mixed-rice-liquid-v1"],

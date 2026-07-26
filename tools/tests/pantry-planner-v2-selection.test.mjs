@@ -209,6 +209,32 @@ test('Jiangnan M1 menu cores become complete single-pot plans without losing reg
   }
 });
 
+test('Fujian Taiwan M1 menu cores become complete single-pot generic rice plans', () => {
+  for (const [title, must] of [
+    ['高丽菜香菇炊饭', ['大米', '卷心菜', '鲜香菇']],
+    ['福建盖菜肉末咸饭', ['大米', '芥菜', '猪肉末']],
+  ]) {
+    const result = planMeal(assets, request({ must }));
+    assert.equal(result.status, 'complete', title);
+    assert.equal(result.plan.plan_kind, 'single_pot', title);
+    assert.equal(result.plan.pots[0].template_id, 'savory-mixed-rice-pot', title);
+    assert.deepEqual(new Set(result.plan.pots[0].planned_must_use.map(item => item.raw)), new Set(must), title);
+    assert.deepEqual(result.plan.unplanned_must_use, [], title);
+    assert.equal(result.plan.pots[0].coverage_ratio, 1, title);
+  }
+});
+
+test('ground pork compatibility never leaks to ribs or ambiguous Fujian staples', () => {
+  const ribs = planMeal(assets, request({ must: ['大米', '猪肋排', '芥菜'] }));
+  assert.notEqual(ribs.status, 'complete');
+  assert.equal(ribs.plan.unplanned_must_use.find(item => item.raw === '猪肋排')?.reason_code, 'unsupported_shape_or_cut');
+  for (const must of [
+    ['大米', '扁豆'],
+    ['泡发糯米', '猪肉末', '鲜香菇'],
+    ['糯米', '猪肉末', '食品级干荷叶'],
+  ]) assert.notEqual(planMeal(assets, request({ must })).status, 'complete');
+});
+
 test('Jiangnan cured rice plans omit preset oil and salt but retain measured water', () => {
   for (const must of [
     ['大米', '咸五花肉', '小白菜'],

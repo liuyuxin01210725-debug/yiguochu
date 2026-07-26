@@ -117,6 +117,14 @@ test('northeast M1 keeps stew-with-staple planned and outside runtime selection'
   assert.equal(getRuntimeEligibleTemplates(catalog).includes(stew), false);
 });
 
+test('savory mixed rice accepts ground pork without changing regional evidence', () => {
+  const template = catalog.templates.find(row => row.template_id === 'savory-mixed-rice-pot');
+  const pork = template.shape_or_cut_requirements.find(row => row.slot_id === 'protein' && row.category === 'pork');
+  assert.ok(pork.allowed_shapes.includes('ground'));
+  assert.ok(pork.forbidden_shapes.includes('rib'));
+  assert.equal(template.evidence_recipe_ids.includes('fujian-gai-cai-minced-pork-rice'), false);
+});
+
 test('validator is total and rejects malformed catalog data without throwing', () => {
   const malformed = { schema_version: 1, templates: [{ template_id: null }] };
   assert.doesNotThrow(() => validateMealTemplateCatalog(malformed, null, null));

@@ -831,6 +831,22 @@ test('specific meat cuts must survive in the dish or a relevant referenced step'
   });
 });
 
+test('locked Fujian mustard ground pork rice rejects ingredient substitutions', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['大米', '芥菜', '猪肉末'] }));
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const names = locked.meals.flatMap(meal => meal.locked_ingredients.map(item => item.raw_name));
+  assert.ok(names.includes('芥菜'));
+  assert.ok(names.includes('猪肉末'));
+  const valid = validModelOutput(locked);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+  for (const forbidden of ['白菜', '猪肉片', '排骨']) {
+    const output = structuredClone(valid);
+    output.meals[0].steps[0].text += `加入${forbidden}。`;
+    assert.equal(workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse()).ok, false, forbidden);
+  }
+});
+
 test('colloquial quantities and unplanned appliances are rejected in every prose field', async t => {
   const termUniverse = ingredientTermUniverse();
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
