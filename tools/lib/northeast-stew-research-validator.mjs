@@ -88,7 +88,9 @@ const REVIEW_FIELDS = new Set([
 ]);
 const CALIBRATION_FIELDS = new Set([
   'calibration_id', 'servings', 'status', 'operator', 'performed_at',
-  'cornmeal_shape_or_cut', 'equipment', 'measurements', 'acceptance_checks', 'notes',
+  'cornmeal_shape_or_cut', 'cornmeal_brand', 'preparation_water_temperature_c',
+  'wheat_flour_added', 'fermentation_used', 'stew_liquid_level_at_paste',
+  'equipment', 'measurements', 'acceptance_checks', 'notes',
 ]);
 const EQUIPMENT_FIELDS = new Set(['pot_diameter_cm', 'pot_depth_cm', 'lid_fit_confirmed']);
 const MEASUREMENT_FIELDS = new Set([
@@ -408,7 +410,10 @@ function validateCalibrationCases(value, errors) {
     unknownFields(measurements, MEASUREMENT_FIELDS, `${label}.measurements`, errors);
     unknownFields(checks, ACCEPTANCE_FIELDS, `${label}.acceptance_checks`, errors);
     if (calibration.operator !== null || calibration.performed_at !== null
-      || calibration.cornmeal_shape_or_cut !== null || calibration.notes !== ''
+      || calibration.cornmeal_shape_or_cut !== null || calibration.cornmeal_brand !== null
+      || calibration.preparation_water_temperature_c !== null || calibration.wheat_flour_added !== null
+      || calibration.fermentation_used !== null || calibration.stew_liquid_level_at_paste !== null
+      || calibration.notes !== ''
       || !valuesAreNull(equipment, EQUIPMENT_FIELDS)
       || !valuesAreNull(measurements, MEASUREMENT_FIELDS)
       || !valuesAreNull(checks, ACCEPTANCE_FIELDS)) {

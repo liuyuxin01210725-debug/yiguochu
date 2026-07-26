@@ -134,6 +134,11 @@ test('calibration ledger reserves exactly 2 3 and 4 servings without fabricating
     assert.equal(row.operator, null);
     assert.equal(row.performed_at, null);
     assert.equal(row.cornmeal_shape_or_cut, null);
+    assert.equal(row.cornmeal_brand, null);
+    assert.equal(row.preparation_water_temperature_c, null);
+    assert.equal(row.wheat_flour_added, null);
+    assert.equal(row.fermentation_used, null);
+    assert.equal(row.stew_liquid_level_at_paste, null);
     assert.ok(Object.values(row.equipment).every(value => value === null));
     assert.ok(Object.values(row.measurements).every(value => value === null));
     assert.ok(Object.values(row.acceptance_checks).every(value => value === null));
@@ -184,6 +189,13 @@ test('pending calibration records cannot contain results or skip the 3-serving c
   assert.match(
     validateNortheastStewResearch({ ...inputs, assessment: missingThree }).join('\n'),
     /calibration cases must be exactly ne-cal-2 ne-cal-3 and ne-cal-4/,
+  );
+
+  const missingStateContext = structuredClone(assessment);
+  delete missingStateContext.calibration_cases[0].cornmeal_brand;
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: missingStateContext }).join('\n'),
+    /pending calibration must remain unfilled/,
   );
 });
 

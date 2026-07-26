@@ -83,6 +83,11 @@ test('M1 audit exposes blockers without claiming runnable ratios', () => {
   assert.ok(report.completion_status.blocking_gaps.includes('calibration_2_3_4_servings_incomplete'));
 });
 
+test('M1 audit preserves every pending calibration context field', () => {
+  const markdown = renderNortheastStewResearchMarkdown(fixedReport());
+  for (const label of ['玉米面品牌', '和面水温', '混粉', '发酵', '贴饼时液位']) assert.match(markdown, new RegExp(label));
+});
+
 test('markdown distinguishes structural evidence from numeric evidence and staged journeys', () => {
   const report = fixedReport();
   const markdown = renderNortheastStewResearchMarkdown(report);

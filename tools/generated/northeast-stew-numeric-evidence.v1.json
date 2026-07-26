@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "ledger_version": "northeast-stew-numeric-evidence-v1-20260727-m2",
+  "scope": "research_only",
+  "conclusion": "公开证据只用于界定后续记录字段与证据缺口，不能解除 M2 阻塞，也不能转写为生产参数；安全终点获批前不得执行实厨校准。",
+  "sources": [
+    {
+      "source_id": "jiang-2025-whole-cornmeal-paper",
+      "title": "不同和面水温对全玉米粉、全玉米面团及全玉米饼品质的影响",
+      "url": "https://www.spgykj.com/cn/article/doi/10.13386/j.issn1002-0306.2024110136",
+      "doi": "10.13386/j.issn1002-0306.2024110136",
+      "publisher": "食品工业科技",
+      "author": "姜淙允、余锦志、杨成等",
+      "published_at": "2025",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "受版权保护；仅保留必要的可核对事实与引文信息",
+      "source_type": "paper",
+      "classification": "calibration_start_only",
+      "independence_group": "food-industry-science-2025",
+      "ingredient_state": {
+        "cornmeal": "100-mesh whole corn flour",
+        "wheat_flour": "none",
+        "fermentation": "none",
+        "cooking_method": "molded_and_steamed"
+      },
+      "numeric_observations": [
+        {
+          "metric": "water_per_100g_cornmeal_ml",
+          "value": 120,
+          "min": 120,
+          "max": 120,
+          "unit": "mL water per 100 g cornmeal",
+          "basis": "200 g 100-mesh whole corn flour plus 240 mL water; no density conversion claimed"
+        },
+        {
+          "metric": "water_temperature_c",
+          "value": null,
+          "min": 80,
+          "max": 100,
+          "unit": "C",
+          "basis": "80-100 C groups had the better reported handling and sensory results"
+        }
+      ],
+      "cannot_prove": [
+        "锅边炖焖成品",
+        "锅边蒸制时间",
+        "零售玉米面无需实测即可复用"
+      ]
+    },
+    {
+      "source_id": "jessica-hot-water-cornbread-2024",
+      "title": "Hot Water Cornbread",
+      "url": "https://blackpeoplesrecipes.com/hot-water-cornbread/",
+      "doi": null,
+      "publisher": "Black People's Recipes",
+      "author": "Jessica Hylton",
+      "published_at": "2024-02-15",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "All rights reserved；仅保留必要的可核对事实与引文信息",
+      "source_type": "recipe_page",
+      "classification": "boundary_only",
+      "independence_group": "black-peoples-recipes-jessica-2024",
+      "ingredient_state": {
+        "cornmeal": "fine_or_medium",
+        "wheat_flour": "none",
+        "fermentation": "none",
+        "cooking_method": "shallow_fried_with_fat"
+      },
+      "numeric_observations": [
+        {
+          "metric": "water_per_100g_cornmeal_ml",
+          "value": 77.8,
+          "min": 77.8,
+          "max": 116.7,
+          "unit": "mL water per 100 g cornmeal",
+          "basis": "152 g cornmeal; US cups converted to 118-177 mL volume; no water-mass claim"
+        }
+      ],
+      "cannot_prove": [
+        "锅边炖焖成品",
+        "无油锅边饼",
+        "生产默认值"
+      ]
+    },
+    {
+      "source_id": "xiachufang-pot-edge-2021",
+      "title": "冬日美食|东北铁锅炖豆角排骨土豆（贴饼子一锅出）",
+      "url": "https://m.xiachufang.com/recipe/106078527/",
+      "doi": null,
+      "publisher": "下厨房",
+      "author": "可能是颗人参吧",
+      "published_at": "2021-01-13",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "用户食谱页面；仅保留必要的可核对事实与引文信息",
+      "source_type": "recipe_page",
+      "classification": "boundary_only",
+      "independence_group": "xiachufang",
+      "ingredient_state": {
+        "cornmeal": "20g mixed with 150g wheat flour",
+        "wheat_flour": "mixed",
+        "fermentation": "none",
+        "cooking_method": "pot_edge_unspecified_duration"
+      },
+      "numeric_observations": [
+        {
+          "metric": "dough_water_g",
+          "value": 85,
+          "min": 85,
+          "max": 85,
+          "unit": "g",
+          "basis": "150 g wheat flour plus 20 g cornmeal; not pure cornmeal"
+        },
+        {
+          "metric": "main_braise_minutes",
+          "value": null,
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "basis": "covered braise before opening the pot and adding corn"
+        },
+        {
+          "metric": "pre_paste_additional_braise_minutes",
+          "value": 5,
+          "min": 5,
+          "max": 5,
+          "unit": "min",
+          "basis": "additional boil after adding corn and before preparing to paste the cakes"
+        }
+      ],
+      "cannot_prove": [
+        "纯玉米面和面比例",
+        "炖锅固定水量",
+        "贴饼后蒸制分钟数"
+      ]
+    },
+    {
+      "source_id": "xiachufang-ribs-beans-2020",
+      "title": "排骨炖豆角",
+      "url": "https://m.xiachufang.com/recipe/104432998/",
+      "doi": null,
+      "publisher": "下厨房",
+      "author": "菀菀菀菀菀子酱",
+      "published_at": "2020-03-13",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "用户食谱页面；仅保留必要的可核对事实与引文信息",
+      "source_type": "recipe_page",
+      "classification": "boundary_only",
+      "independence_group": "xiachufang",
+      "ingredient_state": {
+        "cornmeal": "not_present",
+        "wheat_flour": "not_present",
+        "fermentation": "not_applicable",
+        "cooking_method": "ribs_and_beans_braise"
+      },
+      "numeric_observations": [
+        {
+          "metric": "total_water_g",
+          "value": null,
+          "min": 600,
+          "max": 800,
+          "unit": "g",
+          "basis": "published total; author notes approximately 500 g initially then 100 g later, not a paste-cake stage rule"
+        }
+      ],
+      "cannot_prove": [
+        "起始炖锅水量",
+        "贴饼阶段补水",
+        "锅边饼时间"
+      ]
+    },
+    {
+      "source_id": "meishichina-ribs-beans-2016",
+      "title": "东北排骨炖豆角",
+      "url": "https://home.meishichina.com/recipe-289741.html",
+      "doi": null,
+      "publisher": "美食天下",
+      "author": "FC美食煮意",
+      "published_at": "2016-09-21",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "用户食谱页面；仅保留必要的可核对事实与引文信息",
+      "source_type": "recipe_page",
+      "classification": "boundary_only",
+      "independence_group": "meishichina-fc-food-2016",
+      "ingredient_state": {
+        "cornmeal": "not_present",
+        "wheat_flour": "not_present",
+        "fermentation": "not_applicable",
+        "cooking_method": "pressure_then_braise"
+      },
+      "numeric_observations": [
+        {
+          "metric": "braise_minutes",
+          "value": null,
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "basis": "post-pressure braise; page uses an unquantified liquid level"
+        }
+      ],
+      "cannot_prove": [
+        "固定液体克数",
+        "锅边饼",
+        "贴饼后蒸制时间"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "cornmeal-flour-to-dough-v1",
+      "decision_status": "blocked",
+      "candidate_source_ids": [
+        "jiang-2025-whole-cornmeal-paper",
+        "jessica-hot-water-cornbread-2024"
+      ],
+      "qualified_source_ids": [],
+      "blocking_reasons": [
+        "no_qualified_same_state_source",
+        "calibration_2_3_4_servings_pending"
+      ]
+    },
+    {
+      "rule_id": "stew-with-corn-cake-liquid-v1",
+      "decision_status": "blocked",
+      "candidate_source_ids": [
+        "xiachufang-pot-edge-2021",
+        "xiachufang-ribs-beans-2020",
+        "meishichina-ribs-beans-2016"
+      ],
+      "qualified_source_ids": [],
+      "blocking_reasons": [
+        "no_qualified_same_state_source",
+        "cross_source_liquid_and_time_synthesis_forbidden",
+        "calibration_2_3_4_servings_pending"
+      ]
+    }
+  ],
+  "calibration_case_ids": [
+    "ne-cal-2",
+    "ne-cal-3",
+    "ne-cal-4"
+  ],
+  "calibration_cases": [
+    {
+      "calibration_id": "ne-cal-2",
+      "servings": 2,
+      "status": "pending",
+      "operator": null,
+      "performed_at": null,
+      "cornmeal_shape_or_cut": null,
+      "cornmeal_brand": null,
+      "preparation_water_temperature_c": null,
+      "wheat_flour_added": null,
+      "fermentation_used": null,
+      "stew_liquid_level_at_paste": null,
+      "equipment": {
+        "pot_diameter_cm": null,
+        "pot_depth_cm": null,
+        "lid_fit_confirmed": null
+      },
+      "measurements": {
+        "cornmeal_grams": null,
+        "preparation_water_grams": null,
+        "stew_water_grams": null,
+        "steam_minutes": null
+      },
+      "acceptance_checks": {
+        "dough_holds_shape": null,
+        "center_cooked_through": null,
+        "cake_above_liquid": null,
+        "cake_holds_together": null,
+        "pot_not_scorched": null,
+        "pork_endpoint_reached": null,
+        "beans_endpoint_reached": null
+      },
+      "notes": ""
+    },
+    {
+      "calibration_id": "ne-cal-3",
+      "servings": 3,
+      "status": "pending",
+      "operator": null,
+      "performed_at": null,
+      "cornmeal_shape_or_cut": null,
+      "cornmeal_brand": null,
+      "preparation_water_temperature_c": null,
+      "wheat_flour_added": null,
+      "fermentation_used": null,
+      "stew_liquid_level_at_paste": null,
+      "equipment": {
+        "pot_diameter_cm": null,
+        "pot_depth_cm": null,
+        "lid_fit_confirmed": null
+      },
+      "measurements": {
+        "cornmeal_grams": null,
+        "preparation_water_grams": null,
+        "stew_water_grams": null,
+        "steam_minutes": null
+      },
+      "acceptance_checks": {
+        "dough_holds_shape": null,
+        "center_cooked_through": null,
+        "cake_above_liquid": null,
+        "cake_holds_together": null,
+        "pot_not_scorched": null,
+        "pork_endpoint_reached": null,
+        "beans_endpoint_reached": null
+      },
+      "notes": ""
+    },
+    {
+      "calibration_id": "ne-cal-4",
+      "servings": 4,
+      "status": "pending",
+      "operator": null,
+      "performed_at": null,
+      "cornmeal_shape_or_cut": null,
+      "cornmeal_brand": null,
+      "preparation_water_temperature_c": null,
+      "wheat_flour_added": null,
+      "fermentation_used": null,
+      "stew_liquid_level_at_paste": null,
+      "equipment": {
+        "pot_diameter_cm": null,
+        "pot_depth_cm": null,
+        "lid_fit_confirmed": null
+      },
+      "measurements": {
+        "cornmeal_grams": null,
+        "preparation_water_grams": null,
+        "stew_water_grams": null,
+        "steam_minutes": null
+      },
+      "acceptance_checks": {
+        "dough_holds_shape": null,
+        "center_cooked_through": null,
+        "cake_above_liquid": null,
+        "cake_holds_together": null,
+        "pot_not_scorched": null,
+        "pork_endpoint_reached": null,
+        "beans_endpoint_reached": null
+      },
+      "notes": ""
+    }
+  ],
+  "summary": {
+    "source_count": 5,
+    "qualified_source_count": 0,
+    "blocked_rule_count": 2,
+    "pending_calibration_count": 3,
+    "production_defaults_written": 0
+  }
+}
