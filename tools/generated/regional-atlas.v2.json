@@ -881,10 +881,11 @@
       "family_id": "noodle-braise",
       "name": "面菜同焖",
       "staple_states": [
-        "生面",
-        "半熟面"
+        "dry_raw_noodle",
+        "fresh_raw_noodle",
+        "presteamed_noodle"
       ],
-      "research_question": "建立面条含水、铺面顺序和底菜液体的边界。",
+      "research_question": "建立干生面、鲜生面与预蒸面各自的含水、铺面顺序和底菜液体边界。",
       "status": "skeleton_only",
       "production_recipe_ids": [
         "cabbage-potato-chicken-leg-braised-noodles",
@@ -1225,13 +1226,15 @@
       ],
       "candidate_template_ids": [],
       "covered_staple_states": [
-        "生面"
+        "dry_raw_noodle",
+        "fresh_raw_noodle"
       ],
       "uncovered_staple_states": [
-        "半熟面"
+        "presteamed_noodle"
       ],
       "coverage_boundary_codes": [
-        "raw_noodle_only"
+        "fresh_dry_ratio_split",
+        "presteamed_noodle_uncovered"
       ],
       "promotion_status": "preview_candidate",
       "evidence_recipe_ids": [
@@ -1242,13 +1245,16 @@
         "north-pork-bean-braised-noodles"
       ],
       "required_ratio_rule_ids": [
-        "braised-noodle-liquid-v1"
+        "braised-noodle-liquid-v1",
+        "braised-fresh-wheat-noodle-liquid-v1"
       ],
       "resolved_ratio_rule_ids": [
-        "braised-noodle-liquid-v1"
+        "braised-noodle-liquid-v1",
+        "braised-fresh-wheat-noodle-liquid-v1"
       ],
       "taxonomy_item_ids": [
         "noodle",
+        "fresh-wheat-noodle",
         "green-beans",
         "potato",
         "napa-cabbage",
@@ -1256,7 +1262,7 @@
         "pork-generic"
       ],
       "blocker_codes": [],
-      "scope_note": "当前可预览能力只覆盖生面焖制，半熟面不被静默并入同一吸液规则。",
+      "scope_note": "干生面与鲜生面已用独立比例规则分流；预蒸面仍未覆盖，不得静默并入任一分支。",
       "name": "面菜同焖"
     },
     {

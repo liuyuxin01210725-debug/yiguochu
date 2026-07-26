@@ -36,7 +36,7 @@ export const HANDLED_EXPECTATION_KEYS = Object.freeze([
   'pot_count_min', 'pots_retained', 'prefer_use', 'ratio_trace_required',
   'raw_items_retained', 'reason_codes', 'recent_does_not_exhaust',
   'recognition_ratio_below', 'relaxed_item_role', 'same_or_better_promise',
-  'required_template_ids', 'required_unplanned_raw',
+  'required_ratio_rule_ids', 'required_template_ids', 'required_unplanned_raw',
   'same_template_different_slot_assignment', 'semantic_denominator',
   'sequential_meals', 'servings_per_pot', 'single_item_solution_forbidden',
   'single_pot_complete_forbidden', 'single_pot_minimum_coverage', 'status', 'structured_actions',
@@ -449,6 +449,13 @@ async function runOne(entry) {
     const actual = new Set(templates(body));
     for (const id of entry.expect.required_template_ids) assert.ok(actual.has(id), `${entry.id} missing template ${id}`);
   }
+  if (entry.expect.required_ratio_rule_ids) {
+    const selected = new Set((body.plan?.pots || []).flatMap(pot =>
+      (pot.ratio_trace || []).map(row => row.rule_id).filter(Boolean)));
+    for (const id of entry.expect.required_ratio_rule_ids) {
+      assert.ok(selected.has(id), `${entry.id} missing ratio rule ${id}`);
+    }
+  }
   if (entry.expect.excluded_template_ids) {
     const actual = new Set(templates(body));
     for (const id of entry.expect.excluded_template_ids) assert.equal(actual.has(id), false, `${entry.id} unexpectedly used ${id}`);
@@ -599,9 +606,9 @@ async function runOne(entry) {
 }
 
 function validateCorpus() {
-  assert.equal(corpus.journeys.length, 92);
-  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 92 }, (_, index) => index + 1));
-  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 92);
+  assert.equal(corpus.journeys.length, 100);
+  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 100 }, (_, index) => index + 1));
+  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 100);
   assert.equal(JSON.parse(sourceAssets['/recipe-library.json']).recipes.length, 72, 'journey gate must retain the 72-recipe evidence base');
   for (const entry of corpus.journeys) {
     assert.ok(entry.request && entry.expect && entry.category);
@@ -633,7 +640,7 @@ export async function runPantryPlannerV2Journeys({ printSummary = false, journey
   const result = { passed, total: journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
   if (printSummary) {
     console.log(Object.entries(counts).map(([name, count]) => `${name}=${count}`).join(' '));
-    if (journeys.length === corpus.journeys.length) console.log('92/92 planner v2 journeys passed');
+    if (journeys.length === corpus.journeys.length) console.log('100/100 planner v2 journeys passed');
   }
   return result;
 }

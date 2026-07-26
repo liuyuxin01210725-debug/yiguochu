@@ -83,7 +83,7 @@
 | 熟饭翻炒（cooked-rice-stir） | 剩米饭 | 5 | 0 | production_only | 建立剩米饭含水、打散与快速熟制配料的容量边界。 |
 | 熟饭烩煮或汤饭（cooked-rice-stew） | 剩米饭 | 10 | 0 | production_only | 建立熟饭吸液与汤饭、烩饭浓度的机器规则。 |
 | 生谷物加液体熬煮（grain-porridge） | 生米、小米、青稞、杂粮 | 3 | 0 | production_only | 区分谷物种类、浸泡状态与粥稀饭液体比例。 |
-| 面菜同焖（noodle-braise） | 生面、半熟面 | 2 | 5 | production_and_research | 建立面条含水、铺面顺序和底菜液体的边界。 |
+| 面菜同焖（noodle-braise） | dry_raw_noodle、fresh_raw_noodle、presteamed_noodle | 2 | 5 | production_and_research | 建立干生面、鲜生面与预蒸面各自的含水、铺面顺序和底菜液体边界。 |
 | 面菜蒸焖（noodle-steam-braise） | 生面、鲜面 | 0 | 4 | research_only | 建立蒸面回拌、二次蒸焖与单锅家庭化的结构。 |
 | 汤面面片粉丝一锅（noodle-broth） | 面条、面片、米粉、粉丝 | 4 | 0 | production_only | 区分面、米粉和粉丝的入锅时间、吸液与耐煮性。 |
 | 炖菜带锅边主食（stew-with-staple） | 玉米面团、小麦面团 | 0 | 5 | research_only | 建立炖菜液位、蒸汽空间、锅边饼花卷和粘卷子的分离规则。 |
@@ -102,7 +102,7 @@
 | 熟饭翻炒（cooked-rice-stir） | full | cooked-rice-stir-pot | 无 | covered_by_active_template | 无 | 无 | 熟饭翻炒按全国性家庭结构覆盖，不绑定不存在的单一地域。 |
 | 熟饭烩煮或汤饭（cooked-rice-stew） | full | acid-staple-pot、broth-rice-pot | 无 | covered_by_active_template | 无 | 无 | 熟饭烩煮由酸味主食锅和普通汤饭锅共同覆盖；组合仍受槽位、部位、时间与安全规则约束。 |
 | 生谷物加液体熬煮（grain-porridge） | none | 无 | soft-family-rice-pot | blocked_by_ratio | 生米、小米、青稞、杂粮 | ratio_rule_missing:soft-family-rice-liquid-v1、taxonomy_missing:millet、taxonomy_missing:highland_barley、taxonomy_missing:mixed_grain | 粥类证据存在，但谷物身份、浸泡和逐类液体比例尚未形成可执行能力。 |
-| 面菜同焖（noodle-braise） | partial | braised-noodle-pot | 无 | preview_candidate | 半熟面 | 无 | 当前可预览能力只覆盖生面焖制，半熟面不被静默并入同一吸液规则。 |
+| 面菜同焖（noodle-braise） | partial | braised-noodle-pot | 无 | preview_candidate | presteamed_noodle | 无 | 干生面与鲜生面已用独立比例规则分流；预蒸面仍未覆盖，不得静默并入任一分支。 |
 | 面菜蒸焖（noodle-steam-braise） | none | 无 | 无 | blocked_by_taxonomy | 生面、鲜面 | taxonomy_missing:steamed_noodle_state、template_missing:noodle-steam-braise | 河南蒸面研究题目已归位，但回拌与二次蒸焖所需面条状态仍未受控。 |
 | 汤面面片粉丝一锅（noodle-broth） | partial | broth-noodle-pot | 无 | blocked_by_taxonomy | 面片、米粉、粉丝 | taxonomy_missing:noodle_sheet、taxonomy_missing:rice_noodle、taxonomy_missing:vermicelli | 运行时只覆盖普通面条，面片、米粉和粉丝需要独立吸液与入锅规则。 |
 | 炖菜带锅边主食（stew-with-staple） | none | 无 | stew-with-staple-pot | blocked_by_ratio | 玉米面团、小麦面团 | ratio_rule_missing:stew-with-staple-liquid-v1 | 同锅炖菜带锅边主食的结构有据，但家庭液体、面团含水与蒸汽空间仍未机器化。 |

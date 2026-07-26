@@ -64,6 +64,20 @@ test('capability ledger distinguishes full partial and no coverage', () => {
     'acid-staple-cooked-rice-liquid-v1', 'broth-rice-liquid-v1',
   ]);
   assert.deepEqual(cookedRiceStew?.blocker_codes, []);
+  const noodleBraise = byFamily.get('noodle-braise');
+  assert.deepEqual(noodleBraise?.region_ids, ['jingjinji', 'jinmeng', 'shandong', 'central_plains']);
+  assert.deepEqual(noodleBraise?.covered_staple_states, ['dry_raw_noodle', 'fresh_raw_noodle']);
+  assert.deepEqual(noodleBraise?.uncovered_staple_states, ['presteamed_noodle']);
+  assert.deepEqual(noodleBraise?.coverage_boundary_codes, [
+    'fresh_dry_ratio_split', 'presteamed_noodle_uncovered',
+  ]);
+  assert.deepEqual(noodleBraise?.required_ratio_rule_ids, [
+    'braised-noodle-liquid-v1', 'braised-fresh-wheat-noodle-liquid-v1',
+  ]);
+  assert.deepEqual(noodleBraise?.resolved_ratio_rule_ids, [
+    'braised-noodle-liquid-v1', 'braised-fresh-wheat-noodle-liquid-v1',
+  ]);
+  assert.ok(noodleBraise?.taxonomy_item_ids.includes('fresh-wheat-noodle'));
   assert.equal(byFamily.get('stew-with-staple')?.coverage_level, 'none');
   assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_ratio');
   assert.deepEqual(byFamily.get('stew-with-staple')?.resolved_ratio_rule_ids, []);
@@ -76,8 +90,8 @@ test('capability ledger distinguishes full partial and no coverage', () => {
 test('capability coverage partitions the atlas staple states without overlap', () => {
   const broken = structuredClone(mappings);
   const row = broken.template_capability_mappings.find(item => item.family_id === 'noodle-braise');
-  row.covered_staple_states = ['生面', '半熟面'];
-  row.uncovered_staple_states = ['半熟面'];
+  row.covered_staple_states = ['dry_raw_noodle', 'fresh_raw_noodle', 'presteamed_noodle'];
+  row.uncovered_staple_states = ['presteamed_noodle'];
   assert.match(validate(broken).join('\n'), /covered and uncovered staple states must be disjoint/);
 });
 

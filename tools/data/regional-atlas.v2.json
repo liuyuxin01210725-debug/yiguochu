@@ -57,7 +57,7 @@
     {"family_id":"cooked-rice-stir","name":"熟饭翻炒","staple_states":["剩米饭"],"research_question":"建立剩米饭含水、打散与快速熟制配料的容量边界。","status":"skeleton_only"},
     {"family_id":"cooked-rice-stew","name":"熟饭烩煮或汤饭","staple_states":["剩米饭"],"research_question":"建立熟饭吸液与汤饭、烩饭浓度的机器规则。","status":"skeleton_only"},
     {"family_id":"grain-porridge","name":"生谷物加液体熬煮","staple_states":["生米","小米","青稞","杂粮"],"research_question":"区分谷物种类、浸泡状态与粥稀饭液体比例。","status":"skeleton_only"},
-    {"family_id":"noodle-braise","name":"面菜同焖","staple_states":["生面","半熟面"],"research_question":"建立面条含水、铺面顺序和底菜液体的边界。","status":"skeleton_only"},
+    {"family_id":"noodle-braise","name":"面菜同焖","staple_states":["dry_raw_noodle","fresh_raw_noodle","presteamed_noodle"],"research_question":"建立干生面、鲜生面与预蒸面各自的含水、铺面顺序和底菜液体边界。","status":"skeleton_only"},
     {"family_id":"noodle-steam-braise","name":"面菜蒸焖","staple_states":["生面","鲜面"],"research_question":"建立蒸面回拌、二次蒸焖与单锅家庭化的结构。","status":"skeleton_only"},
     {"family_id":"noodle-broth","name":"汤面面片粉丝一锅","staple_states":["面条","面片","米粉","粉丝"],"research_question":"区分面、米粉和粉丝的入锅时间、吸液与耐煮性。","status":"skeleton_only"},
     {"family_id":"stew-with-staple","name":"炖菜带锅边主食","staple_states":["玉米面团","小麦面团"],"research_question":"建立炖菜液位、蒸汽空间、锅边饼花卷和粘卷子的分离规则。","status":"skeleton_only"},

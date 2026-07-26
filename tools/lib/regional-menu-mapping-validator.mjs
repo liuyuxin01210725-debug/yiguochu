@@ -21,6 +21,7 @@ const CAPABILITY_SCOPES = new Set(['regional', 'national_household', 'mixed']);
 const COVERAGE_LEVELS = new Set(['full', 'partial', 'none']);
 const COVERAGE_BOUNDARY_CODES = new Set([
   'requires_acid_base', 'raw_noodle_only', 'plain_noodle_only',
+  'fresh_dry_ratio_split', 'presteamed_noodle_uncovered',
 ]);
 const CAPABILITY_FIELDS = new Set([
   'family_id', 'regional_scope', 'region_ids', 'coverage_level',

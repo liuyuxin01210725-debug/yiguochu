@@ -24,7 +24,7 @@ const SUBJECT_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
-const INPUT_DATA_FINGERPRINT = '8433a8227bba9f8493b970d7d807383b9e37e235263724ae01145df6535308a5';
+const INPUT_DATA_FINGERPRINT = '4fd74781110ac529141abbb09a450c0a457d711771a3ed5c6d8eb25c4cd22214';
 const SOURCE_DATA_FINGERPRINT = 'a6a54b822d74d0a8f3a01abe31ba73cf28b066326c48f05ba58aa13c943639ff';
 const FIXED_REGION_OVERVIEW_SEMANTICS = {
   name: '青藏',

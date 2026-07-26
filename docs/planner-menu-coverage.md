@@ -7,9 +7,9 @@
 本报告把现有 72 道 recipe 的原始核心食材，原样送入当前 Planner V2 的确定性纯函数。它只回答当前 taxonomy、template 与 Ratio DSL 能否识别和规划这些食材；不会用菜名猜食材，也不会把模板兼容写成地方菜复刻。
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260727-r6`
-- Taxonomy：`taxonomy-v1-20260727-r5`
-- Ratio catalog：`ratio-rules-v1-20260727-r3`
+- Template catalog：`templates-v2-20260727-r7`
+- Taxonomy：`taxonomy-v1-20260727-r6`
+- Ratio catalog：`ratio-rules-v1-20260727-r4`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -17,10 +17,10 @@
 
 | 状态 | 数量 |
 | --- | ---: |
-| full_single_pot_evidence_aligned | 9 |
+| full_single_pot_evidence_aligned | 10 |
 | full_single_pot_ingredient_compatible | 25 |
 | full_multi_pot | 1 |
-| taxonomy_gap | 27 |
+| taxonomy_gap | 26 |
 | planner_gap | 6 |
 | no_recognized_core | 4 |
 | invalid_source_record | 0 |
@@ -30,10 +30,10 @@
 | 优先级 | 数量 |
 | --- | ---: |
 | P0 | 4 |
-| P1 | 33 |
+| P1 | 32 |
 | P2 | 1 |
 | P3 | 25 |
-| covered | 9 |
+| covered | 10 |
 
 ### P0/P1/P2 机器事实
 
@@ -66,7 +66,6 @@
 | P0 | 畲族乌饭风味家庭适配版 | glutinous-mixed-rice | 糯米、食品级黑米色粉 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
 | P0 | 傣族菠萝紫米饭 | vessel-adapted-rice | 紫米、菠萝 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
 | P1 | 侗家社饭风味家庭适配版 | raw-rice-braise | 大米、腊五花肉、姜、小白菜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
-| P1 | 北方豆角焖面 | noodle-braise | 鲜小麦面条、豆角、猪肉末 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 虾仁鸡蛋炒剩饭 | cooked-rice-stir | 熟米饭、虾仁、鸡蛋 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P2 | 番茄鸡腿土豆汤饭 | cooked-rice-stew | 熟米饭、鸡腿肉、番茄 | full_multi_pot | 无 | complete | complete | 2 |
 | P1 | 玉米土豆鸡腿饭锅 | raw-rice-braise | 大米、鸡腿肉、玉米、胡萝卜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
@@ -116,7 +115,6 @@
 | 食品级紫薯粉 | 1 | guangxi-five-color-glutinous-rice |
 | 熟鹰嘴豆 | 1 | qinghai-hao-fan |
 | 虾仁 | 1 | shrimp-egg-fried-leftover-rice |
-| 鲜小麦面条 | 1 | north-china-green-bean-braised-noodles |
 | 香肠 | 1 | greens-sausage-fried-rice |
 | 羊腿肉 | 1 | xinjiang-lamb-pilaf |
 | 椰奶 | 1 | kari-ayam-coconut-chicken |
@@ -129,7 +127,7 @@
 | Template | 被最终计划选中的菜单数 | 直接 evidence 对齐数 |
 | --- | ---: | ---: |
 | `acid-staple-pot` | 10 | 3 |
-| `savory-mixed-rice-pot` | 31 | 4 |
+| `savory-mixed-rice-pot` | 30 | 4 |
 | `cooked-rice-stir-pot` | 4 | 0 |
 | `broth-noodle-pot` | 2 | 0 |
 | `egg-tofu-vegetable-pot` | 0 | 0 |
@@ -137,7 +135,7 @@
 | `beef-staple-pot` | 2 | 1 |
 | `poultry-staple-pot` | 1 | 0 |
 | `broth-rice-pot` | 7 | 1 |
-| `braised-noodle-pot` | 4 | 1 |
+| `braised-noodle-pot` | 5 | 2 |
 
 ## 技法家族覆盖
 
@@ -149,7 +147,7 @@
 | `family-pot-with-absorbent-staple` | 1 | 0 | 1 | 0 |
 | `glutinous-mixed-rice` | 3 | 0 | 3 | 2 |
 | `grain-porridge` | 3 | 1 | 2 | 0 |
-| `noodle-braise` | 2 | 1 | 1 | 0 |
+| `noodle-braise` | 2 | 2 | 0 | 0 |
 | `noodle-broth` | 4 | 3 | 0 | 1 |
 | `noodle-steam-braise` | 0 | 0 | 0 | 0 |
 | `raw-rice-braise` | 27 | 16 | 8 | 3 |
@@ -160,15 +158,15 @@
 
 | 地域 | 菜单数 | 单锅完整覆盖 | taxonomy gap | Planner gap |
 | --- | ---: | ---: | ---: | ---: |
-| `central_plains` | 1 | 0 | 1 | 0 |
+| `central_plains` | 1 | 1 | 0 | 0 |
 | `fujian_taiwan` | 6 | 2 | 4 | 1 |
 | `jiangnan` | 8 | 6 | 2 | 1 |
-| `jingjinji` | 1 | 0 | 1 | 0 |
-| `jinmeng` | 3 | 1 | 2 | 0 |
+| `jingjinji` | 1 | 1 | 0 | 0 |
+| `jinmeng` | 3 | 2 | 1 | 0 |
 | `lingnan_hk_macao` | 5 | 2 | 3 | 2 |
 | `northwest` | 3 | 1 | 2 | 0 |
 | `qinghai_tibet` | 4 | 0 | 3 | 1 |
-| `shandong` | 1 | 0 | 1 | 0 |
+| `shandong` | 1 | 1 | 0 | 0 |
 | `yunnan_guizhou` | 2 | 0 | 2 | 1 |
 
 ## 72 道菜单逐项结果
@@ -216,7 +214,7 @@
 | 半山野米饭风味平菇焖饭 | 大米、平菇 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 傣族菠萝紫米饭 | 紫米、菠萝 | 0% | 不适用 | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P0 |
 | 侗家社饭风味家庭适配版 | 大米、腊五花肉、姜、小白菜 | 75% | 100% | 75% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
-| 北方豆角焖面 | 鲜小麦面条、豆角、猪肉末 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
+| 北方豆角焖面 | 鲜小麦面条、豆角、猪肉末 | 100% | 100% | 100% | single_pot / complete | braised-noodle-pot | 直接对齐 | covered |
 | 家常鸡蛋炒剩饭 | 熟米饭、鸡蛋 | 100% | 100% | 100% | single_pot / complete | broth-rice-pot | 仅食材兼容或未规划 | P3 |
 | 番茄鸡蛋烩剩饭 | 熟米饭、番茄、鸡蛋 | 100% | 100% | 100% | single_pot / complete | acid-staple-pot | 直接对齐 | covered |
 | 青菜鸡蛋焖剩饭 | 熟米饭、青菜、鸡蛋 | 100% | 100% | 100% | single_pot / complete | broth-rice-pot | 仅食材兼容或未规划 | P3 |
@@ -250,9 +248,9 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`1bba2fcdd52b9bda32e471f516fc044fd6d5cbe56f0c63ea99b71832bd9b8f6f`
-- `tools/data/meal-templates.v2.json`：`236e33ef10554d1e42a4f5a9aa866aa5d818d3fd19064300b3e3db3272952765`
+- `tools/data/ingredient-taxonomy.v1.json`：`982cd92f19c93175f3abc5f0e1604c89371434d8c549f3e535ccd97a4a912290`
+- `tools/data/meal-templates.v2.json`：`3c674e942c47ccb54cdb320fcf404dd7ccfea2dfe5af911ef07fbff5de701b70`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`3e6767f73f29e95e9865336e6c46fef8cc71ceed6383b85d0e23627397928fdb`
+- `tools/data/ratio-rules.v1.json`：`4e8ba6b0036e7d2cba2554445ea5f852c6eac8dc608b9da3652cfc605734e65f`
 - `tools/data/recipe-library.json`：`69d40f12c3db12fb0d03af20665c33352f4c20b9ad53ad542a4b91c2aec1658e`
-- `tools/data/regional-menu-mappings.v1.json`：`d642f30e012bde90d655e52ee54faedf098aafe3b8a268d473a5fbde2f1d8203`
+- `tools/data/regional-menu-mappings.v1.json`：`a180593d9f844dbe8fb4c9f209fcce86bbae2d1eed5ddd24ef0551eec96df1a6`

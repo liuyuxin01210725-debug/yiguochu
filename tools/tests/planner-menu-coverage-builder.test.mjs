@@ -116,8 +116,11 @@ test('audits exactly the locked 72 recipes and preserves current safety boundari
   }
 
   const noodles = byId(report, 'north-china-green-bean-braised-noodles');
-  assert.equal(noodles.audit_status, 'taxonomy_gap');
-  assert.equal(noodles.unclassified_core_items.some(row => row.raw === '鲜小麦面条'), true);
+  assert.equal(noodles.audit_status, 'full_single_pot_evidence_aligned');
+  assert.deepEqual(noodles.unclassified_core_items, []);
+  assert.equal(noodles.raw_core_scenario.end_to_end_core_coverage_ratio, 1);
+  assert.equal(noodles.raw_core_scenario.plan_kind, 'single_pot');
+  assert.ok(noodles.raw_core_scenario.selected_template_ids.includes('braised-noodle-pot'));
 });
 
 test('Jiangnan M1 recovers six menu cores without forging two unresolved identities', () => {
