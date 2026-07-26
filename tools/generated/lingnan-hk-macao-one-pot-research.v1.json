@@ -1,0 +1,2554 @@
+{
+  "schema_version": 1,
+  "assessment_version": "lingnan-hk-macao-one-pot-research-v1-20260726",
+  "region_overview": {
+    "region_id": "lingnan_hk_macao",
+    "name": "岭南与港澳",
+    "province_codes": [
+      "CN-GD",
+      "CN-GX",
+      "CN-HI",
+      "CN-HK",
+      "CN-MO"
+    ],
+    "research_focus": [
+      "煲仔饭",
+      "砂锅饭",
+      "糯米饭与菜包饭"
+    ],
+    "production_recipe_count": 5,
+    "candidate_count": 0,
+    "concrete_research_lead_count": 5
+  },
+  "province_coverage_audits": [
+    {
+      "province_code": "CN-GD",
+      "province_name": "广东",
+      "atlas_status": "skeleton_only",
+      "research_question": "整理广东煲仔饭、砂锅饭与腊味鸡肉排骨变种的共享技法。",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ],
+      "context_lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ]
+    },
+    {
+      "province_code": "CN-GX",
+      "province_name": "广西",
+      "atlas_status": "skeleton_only",
+      "research_question": "核实广西糯米饭、菠萝饭与壮族家庭主餐的地域和技法边界。",
+      "production_recipe_ids": [
+        "guangxi-five-color-glutinous-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "guangxi-natural-dye-five-color-glutinous-rice"
+      ],
+      "context_lead_ids": [
+        "guangxi-natural-dye-five-color-glutinous-rice"
+      ]
+    },
+    {
+      "province_code": "CN-HI",
+      "province_name": "海南",
+      "atlas_status": "skeleton_only",
+      "research_question": "核实海南菜包饭、椰香饭与家庭一锅适配的主食结构。",
+      "production_recipe_ids": [
+        "hainan-cai-bao-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-coconut-shredded-rice",
+        "hainan-dingan-cai-bao-finished-rice"
+      ],
+      "context_lead_ids": [
+        "hainan-coconut-shredded-rice",
+        "hainan-dingan-cai-bao-finished-rice"
+      ]
+    },
+    {
+      "province_code": "CN-HK",
+      "province_name": "香港",
+      "atlas_status": "skeleton_only",
+      "research_question": "核实香港煲仔饭及家庭砂锅主餐的地方变种与来源。",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "context_lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ]
+    },
+    {
+      "province_code": "CN-MO",
+      "province_name": "澳门",
+      "atlas_status": "skeleton_only",
+      "research_question": "核实澳门砂锅饭和葡式影响下可归入家庭一锅主餐的地方原型。",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "macao-portuguese-style-seafood-rice"
+      ],
+      "context_lead_ids": [
+        "macao-portuguese-style-seafood-rice"
+      ]
+    }
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "guangzhou_claypot_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "来源支持广州煲仔饭类别身份。"
+        },
+        "named_branch_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "来源明确列豆豉排骨为具名种类。"
+        },
+        "ordinary_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "瓦煲过程不能自动成为普通锅等价做法。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated",
+            "zs-market-food-safety-2026"
+          ],
+          "reason": "排骨熟透原则不能证明项目比例与时间。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "pork_rib_pieces",
+        "fermented_black_beans",
+        "claypot",
+        "late_topping"
+      ],
+      "forbidden_claims": [
+        "claypot_equals_ordinary_covered_pot",
+        "pork_rib_as_free_protein_slot",
+        "published_ratio_claim"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "豆豉排骨是具名分支，不能以泛猪肉或普通锅替换后仍宣称原型。",
+      "recipe_name": "广式豆豉排骨煲仔饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "粤菜",
+      "recipe_core_ingredients": [
+        "大米",
+        "猪肋排",
+        "豆豉"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "猪肉",
+          "replaces": [
+            "猪肋排"
+          ],
+          "allowed": [
+            "去骨猪腿肉"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-GD"
+      ],
+      "atlas_primary_family_id": "claypot-rice",
+      "atlas_secondary_family_ids": []
+    },
+    {
+      "recipe_id": "cantonese-cured-meat-claypot-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "guangzhou_claypot_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "广东政府托管征求意见稿将煲仔饭列为广州特色名菜。"
+        },
+        "named_branch_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "来源明确列出腊味作为具名种类。"
+        },
+        "ordinary_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "瓦煲和锅巴过程不证明普通带盖锅或电饭煲等价。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated",
+            "cq-cured-meat-safety-2026"
+          ],
+          "reason": "传统描述和腊味安全原则都不提供项目机器比例。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "named_cured_meat",
+        "claypot",
+        "late_topping"
+      ],
+      "forbidden_claims": [
+        "claypot_equals_ordinary_covered_pot",
+        "named_topping_as_free_slot",
+        "published_ratio_claim"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "可保留广式风味审计，但不得把普通锅家庭适配称为瓦煲复刻。",
+      "recipe_name": "广式腊味煲仔饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "粤菜",
+      "recipe_core_ingredients": [
+        "大米",
+        "广式腊肠",
+        "菜心"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "叶菜",
+          "replaces": [
+            "菜心"
+          ],
+          "allowed": [
+            "小白菜"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-GD"
+      ],
+      "atlas_primary_family_id": "claypot-rice",
+      "atlas_secondary_family_ids": []
+    },
+    {
+      "recipe_id": "cantonese-mushroom-chicken-claypot-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "guangzhou_claypot_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "来源支持广州煲仔饭的类别身份。"
+        },
+        "named_branch_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "来源明确列香菇滑鸡为具名种类。"
+        },
+        "ordinary_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "瓦煲熟制过程不能直接迁移到普通锅。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated",
+            "zs-market-food-safety-2026"
+          ],
+          "reason": "鸡肉熟透原则不构成生米液体或时间规则。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "chicken_pieces",
+        "mushroom",
+        "claypot",
+        "late_topping"
+      ],
+      "forbidden_claims": [
+        "claypot_equals_ordinary_covered_pot",
+        "chicken_cut_as_free_substitution",
+        "published_ratio_claim"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "具名香菇滑鸡分支可以审计，部位、锅具和比例仍需独立验证。",
+      "recipe_name": "广式香菇滑鸡煲仔饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "粤菜",
+      "recipe_core_ingredients": [
+        "大米",
+        "去皮鸡腿肉",
+        "鲜香菇"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "食用菌",
+          "replaces": [
+            "鲜香菇"
+          ],
+          "allowed": [
+            "平菇",
+            "白玉菇"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-GD"
+      ],
+      "atlas_primary_family_id": "claypot-rice",
+      "atlas_secondary_family_ids": []
+    },
+    {
+      "recipe_id": "guangxi-five-color-glutinous-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "guangxi_natural_dye_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021",
+            "gx-baise-tax-five-color-rice-2024"
+          ],
+          "reason": "两份广西官方资料共同支持天然植物汁分色浸泡糯米再蒸制。"
+        },
+        "food_powder_as_traditional_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021",
+            "gx-baise-tax-five-color-rice-2024"
+          ],
+          "reason": "天然植物浸米不证明食品粉版本为传统等价。"
+        },
+        "guangxi_pineapple_rice_regional_identity": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021"
+          ],
+          "reason": "本轮广西资料不支持把菠萝饭写为广西传统家族。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021",
+            "gx-baise-tax-five-color-rice-2024"
+          ],
+          "reason": "来源不提供项目可执行的浸泡和蒸制机器比例。"
+        }
+      },
+      "ingredient_shapes": [
+        "glutinous_rice",
+        "natural_plant_dye_liquids",
+        "separately_colored_rice"
+      ],
+      "forbidden_claims": [
+        "food_powders_as_traditional_natural_dyes",
+        "guangxi_traditional_pineapple_rice_claim",
+        "published_ratio_claim"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "保留家庭食品粉适配的诚实标注，但不得回写为传统天然染色复刻。",
+      "recipe_name": "广西壮族五色糯米饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "壮族饮食",
+      "recipe_core_ingredients": [
+        "糯米",
+        "食品级紫薯粉",
+        "食品级甜菜粉",
+        "食品级菠菜粉",
+        "食品级南瓜粉"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "着色方案",
+          "replaces": [
+            "食品级紫薯粉",
+            "食品级甜菜粉",
+            "食品级菠菜粉",
+            "食品级南瓜粉"
+          ],
+          "allowed": [
+            "不加着色粉，改做原味糯米饭"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-GX"
+      ],
+      "atlas_primary_family_id": "glutinous-mixed-rice",
+      "atlas_secondary_family_ids": []
+    },
+    {
+      "recipe_id": "hainan-cai-bao-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "dingan_cai_bao_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hi-agri-dingan-ich-2024"
+          ],
+          "reason": "海南省农业农村厅资料支持定安菜包饭烹制技艺的非遗身份。"
+        },
+        "finished_rice_and_cooked_filling_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hi-gov-dingan-cai-bao-2026"
+          ],
+          "reason": "来源记录炒熟米饭和熟馅，出锅后再用生菜与酱汁包裹。"
+        },
+        "single_vessel_one_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-gov-dingan-cai-bao-2026"
+          ],
+          "reason": "出锅包裹结构不能写成全部原料单锅焖熟。"
+        },
+        "project_fixed_ingredient_core": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-agri-dingan-ich-2024",
+            "hi-gov-dingan-cai-bao-2026",
+            "zs-market-food-safety-2026"
+          ],
+          "reason": "非遗身份、一次现场配料和通用安全原则都不能证明项目固定核心或比例。"
+        }
+      },
+      "ingredient_shapes": [
+        "cooked_rice",
+        "cooked_filling",
+        "fresh_lettuce_leaf",
+        "sauce_final"
+      ],
+      "forbidden_claims": [
+        "raw_rice_all_ingredients_single_vessel",
+        "lettuce_as_cooked_pot_ingredient",
+        "one_field_example_as_fixed_recipe"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "research_only"
+      ],
+      "decision_reason": "菜包饭应保留多阶段结构；当前项目轻量版本不得冒充完整传统配方。",
+      "recipe_name": "海南定安菜包饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "海南菜",
+      "recipe_core_ingredients": [
+        "大米",
+        "生菜",
+        "胡萝卜"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "叶片包材",
+          "replaces": [
+            "生菜"
+          ],
+          "allowed": [
+            "白菜叶"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-HI"
+      ],
+      "atlas_primary_family_id": "vessel-adapted-rice",
+      "atlas_secondary_family_ids": []
+    }
+  ],
+  "candidate_audits": [],
+  "concrete_research_leads": [
+    {
+      "lead_id": "cantonese-claypot-rice-technique",
+      "name": "广式煲仔饭具名浇头工艺",
+      "province_code": "CN-GD",
+      "family_id": "raw-rice-claypot-late-named-topping",
+      "meal_structure": "raw_rice_in_claypot_then_late_named_topping_low_heat_finish",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "gd-cantonese-standard-undated",
+        "gd-xiguan-draft-claypot-rice-undated",
+        "hk-tourism-claypot-food-map-undated"
+      ],
+      "claims": {
+        "cantonese_claypot_rice_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-cantonese-standard-undated",
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "正式标准身份线索与政府托管工艺稿分别支持类别身份。"
+        },
+        "late_named_topping_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "征求意见稿明确饭七成熟加腊味、香菇滑鸡或豆豉排骨等具名浇头。"
+        },
+        "hong_kong_current_presence": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hk-tourism-claypot-food-map-undated"
+          ],
+          "reason": "香港旅游发展局指南支持香港当前煲仔饭消费与变体。"
+        },
+        "hong_kong_exclusive_origin": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hk-tourism-claypot-food-map-undated"
+          ],
+          "reason": "在地消费不等于香港独创或排他来源。"
+        },
+        "household_vessel_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-cantonese-standard-undated",
+            "gd-xiguan-draft-claypot-rice-undated",
+            "hk-tourism-claypot-food-map-undated"
+          ],
+          "reason": "现有资料不能证明普通带盖锅、电饭煲可保留瓦煲受热和锅巴。"
+        },
+        "named_toppings_as_free_protein_slot": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-xiguan-draft-claypot-rice-undated"
+          ],
+          "reason": "具名分支不能抽象为任意蛋白槽。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gd-cantonese-standard-undated",
+            "gd-xiguan-draft-claypot-rice-undated",
+            "hk-tourism-claypot-food-map-undated"
+          ],
+          "reason": "资料没有项目锅径、火力、米水和时间 DSL。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "claypot",
+        "named_late_topping",
+        "low_heat_finish",
+        "pot_crust"
+      ],
+      "known_structure": [
+        "raw_rice",
+        "partial_rice_cook_before_named_topping",
+        "low_heat_finish"
+      ],
+      "forbidden_shortcuts": [
+        "claypot_equals_ordinary_covered_pot",
+        "hong_kong_exclusive_origin",
+        "named_toppings_as_free_protein_slot",
+        "published_ratio_claim"
+      ],
+      "open_questions": [
+        "家用锅具适配",
+        "锅巴可重复性",
+        "具名分支的营养和安全终点"
+      ],
+      "product_destinations": [
+        "template_evidence",
+        "new_family_research",
+        "ratio_rule"
+      ],
+      "decision_reason": "用于定义边界，不新增生产菜谱，也不把香港消费线索改写为独创结论。"
+    },
+    {
+      "lead_id": "guangxi-natural-dye-five-color-glutinous-rice",
+      "name": "广西天然植物染色五色糯米饭",
+      "province_code": "CN-GX",
+      "family_id": "natural-dye-steamed-glutinous-rice",
+      "meal_structure": "separately_natural_dye_soaked_glutinous_rice_then_steam",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021",
+        "gx-baise-tax-five-color-rice-2024"
+      ],
+      "claims": {
+        "natural_dye_steamed_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021",
+            "gx-baise-tax-five-color-rice-2024"
+          ],
+          "reason": "广西官方资料支持天然植物汁分色浸米和蒸制。"
+        },
+        "food_powder_as_traditional_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021"
+          ],
+          "reason": "传统天然汁浸米不能证明食品粉适配为传统等价。"
+        },
+        "guangxi_pineapple_rice_regional_identity": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021"
+          ],
+          "reason": "本轮广西来源未支持该地域归属。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gx-foreign-affairs-five-color-rice-2021",
+            "gx-baise-tax-five-color-rice-2024"
+          ],
+          "reason": "无机器可执行的染液、浸泡和蒸制比例。"
+        }
+      },
+      "ingredient_shapes": [
+        "glutinous_rice",
+        "natural_plant_dye_liquids",
+        "separately_colored_rice"
+      ],
+      "known_structure": [
+        "natural_plant_dye",
+        "separate_color_batches",
+        "steam_finish"
+      ],
+      "forbidden_shortcuts": [
+        "food_powders_as_traditional_natural_dyes",
+        "guangxi_traditional_pineapple_rice_claim",
+        "free_colorant_substitution",
+        "published_ratio_claim"
+      ],
+      "open_questions": [
+        "可食天然染料的食品安全与比例",
+        "家庭蒸制批次一致性"
+      ],
+      "product_destinations": [
+        "template_evidence",
+        "ratio_rule",
+        "research_only"
+      ],
+      "decision_reason": "保留传统结构和家庭适配的明确差异，不以地域标签替代工艺核验。"
+    },
+    {
+      "lead_id": "hainan-coconut-shredded-rice",
+      "name": "海南椰丝饭主食结构",
+      "province_code": "CN-HI",
+      "family_id": "coconut-shredded-rice-staple",
+      "meal_structure": "raw_rice_and_fresh_coconut_shred_simmered_as_staple",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "hi-gov-coconut-shredded-rice-2024"
+      ],
+      "claims": {
+        "coconut_rice_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hi-gov-coconut-shredded-rice-2024"
+          ],
+          "reason": "海南政府转载资料支持椰丝、大米、油和水焖熟结构。"
+        },
+        "complete_main_meal_sufficiency": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-gov-coconut-shredded-rice-2024"
+          ],
+          "reason": "主食结构不自动证明其为含蛋白的完整一餐。"
+        },
+        "coconut_milk_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-gov-coconut-shredded-rice-2024"
+          ],
+          "reason": "椰肉刨丝不证明可用椰浆或椰奶无条件替代。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-gov-coconut-shredded-rice-2024"
+          ],
+          "reason": "资料无可执行液体、油脂和熟制 DSL。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "fresh_coconut_shred",
+        "cooking_oil",
+        "water"
+      ],
+      "known_structure": [
+        "staple_only",
+        "simmered_rice"
+      ],
+      "forbidden_shortcuts": [
+        "coconut_milk_equals_fresh_coconut_shred",
+        "automatic_protein_slot",
+        "complete_one_pot_main_meal_claim"
+      ],
+      "open_questions": [
+        "蛋白搭配的来源与安全证据",
+        "椰丝水分的机器比例"
+      ],
+      "product_destinations": [
+        "template_evidence",
+        "research_only",
+        "ratio_rule"
+      ],
+      "decision_reason": "只保留海南风味主食组件，不能单独承诺一锅完成完整主餐。"
+    },
+    {
+      "lead_id": "hainan-dingan-cai-bao-finished-rice",
+      "name": "海南定安菜包饭熟饭熟馅包裹结构",
+      "province_code": "CN-HI",
+      "family_id": "finished-rice-cooked-filling-lettuce-wrap",
+      "meal_structure": "cooked_rice_stir_fry_then_fresh_lettuce_wrap_after_heat",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "hi-agri-dingan-ich-2024",
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "claims": {
+        "dingan_cai_bao_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hi-agri-dingan-ich-2024"
+          ],
+          "reason": "海南农业农村厅资料支持定安菜包饭技艺身份。"
+        },
+        "finished_rice_and_cooked_filling_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hi-gov-dingan-cai-bao-2026"
+          ],
+          "reason": "现场结构为熟饭熟馅炒制后，再用生菜和酱汁包裹。"
+        },
+        "single_vessel_one_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-gov-dingan-cai-bao-2026"
+          ],
+          "reason": "菜叶包裹发生在出锅后，不证明全部原料一锅焖熟。"
+        },
+        "fixed_ingredient_core": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-agri-dingan-ich-2024",
+            "hi-gov-dingan-cai-bao-2026"
+          ],
+          "reason": "非遗身份与一次现场展示不等于永久固定食材表。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hi-agri-dingan-ich-2024",
+            "hi-gov-dingan-cai-bao-2026"
+          ],
+          "reason": "资料无适用于项目的肉、海味和熟饭处理比例。"
+        }
+      },
+      "ingredient_shapes": [
+        "cooked_rice",
+        "cooked_filling",
+        "fresh_lettuce_leaf",
+        "sauce_final"
+      ],
+      "known_structure": [
+        "stir_fried_finished_rice",
+        "fresh_wrapper_after_heat"
+      ],
+      "forbidden_shortcuts": [
+        "raw_rice_all_ingredients_single_vessel",
+        "lettuce_as_cooked_pot_ingredient",
+        "one_field_example_as_fixed_recipe"
+      ],
+      "open_questions": [
+        "海味和猪肉的显式替换",
+        "熟饭批量安全与营养"
+      ],
+      "product_destinations": [
+        "template_evidence",
+        "research_only"
+      ],
+      "decision_reason": "适合作为多阶段熟饭结构证据，不直接升为单锅主餐。"
+    },
+    {
+      "lead_id": "macao-portuguese-style-seafood-rice",
+      "name": "澳门葡式海鲜饭菜单线索",
+      "province_code": "CN-MO",
+      "family_id": "macao-portuguese-style-seafood-rice-unresolved",
+      "meal_structure": "portuguese_style_seafood_rice_menu_presence_process_unresolved",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "mo-tourism-portuguese-seafood-rice-undated"
+      ],
+      "claims": {
+        "macao_portuguese_style_seafood_rice_presence": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "mo-tourism-portuguese-seafood-rice-undated"
+          ],
+          "reason": "澳门旅游推广资料提供在地菜单线索。"
+        },
+        "single_pot_process": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "mo-tourism-portuguese-seafood-rice-undated"
+          ],
+          "reason": "菜单线索不写明完整烹饪过程。"
+        },
+        "portuguese_chicken_as_rice_pot": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "mo-tourism-portuguese-seafood-rice-undated"
+          ],
+          "reason": "该线索不能把葡国鸡或焗猪扒饭重写成海鲜饭锅。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "mo-tourism-portuguese-seafood-rice-undated"
+          ],
+          "reason": "没有米、水、海鲜形态与熟制终点的机器规则。"
+        }
+      },
+      "ingredient_shapes": [
+        "seafood_form_unresolved",
+        "rice_state_unresolved",
+        "portuguese_style_seasoning_unresolved"
+      ],
+      "known_structure": [
+        "menu_presence_only"
+      ],
+      "forbidden_shortcuts": [
+        "menu_presence_as_one_pot_process",
+        "portuguese_chicken_as_seafood_rice_equivalent",
+        "generic_macao_menu_as_family_evidence"
+      ],
+      "open_questions": [
+        "一手做法与许可",
+        "海鲜形态和熟制",
+        "米饭是否同锅"
+      ],
+      "product_destinations": [
+        "research_only",
+        "new_family_research"
+      ],
+      "decision_reason": "澳门线索保持研究状态，绝不以菜单名补写同锅过程。"
+    }
+  ],
+  "family_model": [
+    {
+      "family_id": "raw-rice-claypot-late-named-topping",
+      "name": "广式瓦煲晚加具名浇头饭",
+      "meal_structure": "raw_rice_then_late_named_topping_low_heat_finish",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "natural-dye-steamed-glutinous-rice",
+      "name": "天然染色分批蒸糯米",
+      "meal_structure": "natural_dye_soak_then_steam",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "finished-rice-cooked-filling-lettuce-wrap",
+      "name": "熟饭熟馅生菜包裹",
+      "meal_structure": "stir_fry_finished_rice_then_wrap_after_heat",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "coconut-shredded-rice-staple",
+      "name": "椰丝焖饭主食",
+      "meal_structure": "raw_rice_coconut_shred_staple",
+      "evidence_status": "supported_as_staple_only"
+    },
+    {
+      "family_id": "macao-portuguese-style-seafood-rice-unresolved",
+      "name": "澳门葡式海鲜饭待核工艺",
+      "meal_structure": "menu_presence_process_unresolved",
+      "evidence_status": "research_only"
+    }
+  ],
+  "claim_matrix": [
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "cantonese_claypot_rice_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-cantonese-standard-undated",
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "正式标准身份线索与政府托管工艺稿分别支持类别身份。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "hong_kong_current_presence",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "hk-tourism-claypot-food-map-undated"
+      ],
+      "reason": "香港旅游发展局指南支持香港当前煲仔饭消费与变体。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "hong_kong_exclusive_origin",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hk-tourism-claypot-food-map-undated"
+      ],
+      "reason": "在地消费不等于香港独创或排他来源。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "household_vessel_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-cantonese-standard-undated",
+        "gd-xiguan-draft-claypot-rice-undated",
+        "hk-tourism-claypot-food-map-undated"
+      ],
+      "reason": "现有资料不能证明普通带盖锅、电饭煲可保留瓦煲受热和锅巴。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "late_named_topping_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "征求意见稿明确饭七成熟加腊味、香菇滑鸡或豆豉排骨等具名浇头。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "named_toppings_as_free_protein_slot",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "具名分支不能抽象为任意蛋白槽。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-cantonese-standard-undated",
+        "gd-xiguan-draft-claypot-rice-undated",
+        "hk-tourism-claypot-food-map-undated"
+      ],
+      "reason": "资料没有项目锅径、火力、米水和时间 DSL。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "guangxi-natural-dye-five-color-glutinous-rice",
+      "claim_id": "food_powder_as_traditional_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021"
+      ],
+      "reason": "传统天然汁浸米不能证明食品粉适配为传统等价。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "guangxi-natural-dye-five-color-glutinous-rice",
+      "claim_id": "guangxi_pineapple_rice_regional_identity",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021"
+      ],
+      "reason": "本轮广西来源未支持该地域归属。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "guangxi-natural-dye-five-color-glutinous-rice",
+      "claim_id": "natural_dye_steamed_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021",
+        "gx-baise-tax-five-color-rice-2024"
+      ],
+      "reason": "广西官方资料支持天然植物汁分色浸米和蒸制。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "guangxi-natural-dye-five-color-glutinous-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021",
+        "gx-baise-tax-five-color-rice-2024"
+      ],
+      "reason": "无机器可执行的染液、浸泡和蒸制比例。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-coconut-shredded-rice",
+      "claim_id": "coconut_milk_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-gov-coconut-shredded-rice-2024"
+      ],
+      "reason": "椰肉刨丝不证明可用椰浆或椰奶无条件替代。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-coconut-shredded-rice",
+      "claim_id": "coconut_rice_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "hi-gov-coconut-shredded-rice-2024"
+      ],
+      "reason": "海南政府转载资料支持椰丝、大米、油和水焖熟结构。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-coconut-shredded-rice",
+      "claim_id": "complete_main_meal_sufficiency",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-gov-coconut-shredded-rice-2024"
+      ],
+      "reason": "主食结构不自动证明其为含蛋白的完整一餐。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-coconut-shredded-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-gov-coconut-shredded-rice-2024"
+      ],
+      "reason": "资料无可执行液体、油脂和熟制 DSL。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-dingan-cai-bao-finished-rice",
+      "claim_id": "dingan_cai_bao_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "hi-agri-dingan-ich-2024"
+      ],
+      "reason": "海南农业农村厅资料支持定安菜包饭技艺身份。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-dingan-cai-bao-finished-rice",
+      "claim_id": "finished_rice_and_cooked_filling_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "reason": "现场结构为熟饭熟馅炒制后，再用生菜和酱汁包裹。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-dingan-cai-bao-finished-rice",
+      "claim_id": "fixed_ingredient_core",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-agri-dingan-ich-2024",
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "reason": "非遗身份与一次现场展示不等于永久固定食材表。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-dingan-cai-bao-finished-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-agri-dingan-ich-2024",
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "reason": "资料无适用于项目的肉、海味和熟饭处理比例。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-dingan-cai-bao-finished-rice",
+      "claim_id": "single_vessel_one_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "reason": "菜叶包裹发生在出锅后，不证明全部原料一锅焖熟。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "macao-portuguese-style-seafood-rice",
+      "claim_id": "macao_portuguese_style_seafood_rice_presence",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "mo-tourism-portuguese-seafood-rice-undated"
+      ],
+      "reason": "澳门旅游推广资料提供在地菜单线索。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "macao-portuguese-style-seafood-rice",
+      "claim_id": "portuguese_chicken_as_rice_pot",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "mo-tourism-portuguese-seafood-rice-undated"
+      ],
+      "reason": "该线索不能把葡国鸡或焗猪扒饭重写成海鲜饭锅。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "macao-portuguese-style-seafood-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "mo-tourism-portuguese-seafood-rice-undated"
+      ],
+      "reason": "没有米、水、海鲜形态与熟制终点的机器规则。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "macao-portuguese-style-seafood-rice",
+      "claim_id": "single_pot_process",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "mo-tourism-portuguese-seafood-rice-undated"
+      ],
+      "reason": "菜单线索不写明完整烹饪过程。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "claim_id": "guangzhou_claypot_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "来源支持广州煲仔饭类别身份。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "claim_id": "named_branch_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "来源明确列豆豉排骨为具名种类。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "claim_id": "ordinary_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "瓦煲过程不能自动成为普通锅等价做法。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated",
+        "zs-market-food-safety-2026"
+      ],
+      "reason": "排骨熟透原则不能证明项目比例与时间。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-cured-meat-claypot-rice",
+      "claim_id": "guangzhou_claypot_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "广东政府托管征求意见稿将煲仔饭列为广州特色名菜。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-cured-meat-claypot-rice",
+      "claim_id": "named_branch_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "来源明确列出腊味作为具名种类。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-cured-meat-claypot-rice",
+      "claim_id": "ordinary_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "瓦煲和锅巴过程不证明普通带盖锅或电饭煲等价。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-cured-meat-claypot-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated",
+        "cq-cured-meat-safety-2026"
+      ],
+      "reason": "传统描述和腊味安全原则都不提供项目机器比例。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-mushroom-chicken-claypot-rice",
+      "claim_id": "guangzhou_claypot_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "来源支持广州煲仔饭的类别身份。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-mushroom-chicken-claypot-rice",
+      "claim_id": "named_branch_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "来源明确列香菇滑鸡为具名种类。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-mushroom-chicken-claypot-rice",
+      "claim_id": "ordinary_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated"
+      ],
+      "reason": "瓦煲熟制过程不能直接迁移到普通锅。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-mushroom-chicken-claypot-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gd-xiguan-draft-claypot-rice-undated",
+        "zs-market-food-safety-2026"
+      ],
+      "reason": "鸡肉熟透原则不构成生米液体或时间规则。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "guangxi-five-color-glutinous-rice",
+      "claim_id": "food_powder_as_traditional_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021",
+        "gx-baise-tax-five-color-rice-2024"
+      ],
+      "reason": "天然植物浸米不证明食品粉版本为传统等价。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "guangxi-five-color-glutinous-rice",
+      "claim_id": "guangxi_natural_dye_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021",
+        "gx-baise-tax-five-color-rice-2024"
+      ],
+      "reason": "两份广西官方资料共同支持天然植物汁分色浸泡糯米再蒸制。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "guangxi-five-color-glutinous-rice",
+      "claim_id": "guangxi_pineapple_rice_regional_identity",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021"
+      ],
+      "reason": "本轮广西资料不支持把菠萝饭写为广西传统家族。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "guangxi-five-color-glutinous-rice",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gx-foreign-affairs-five-color-rice-2021",
+        "gx-baise-tax-five-color-rice-2024"
+      ],
+      "reason": "来源不提供项目可执行的浸泡和蒸制机器比例。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "hainan-cai-bao-rice",
+      "claim_id": "dingan_cai_bao_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "hi-agri-dingan-ich-2024"
+      ],
+      "reason": "海南省农业农村厅资料支持定安菜包饭烹制技艺的非遗身份。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "hainan-cai-bao-rice",
+      "claim_id": "finished_rice_and_cooked_filling_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "reason": "来源记录炒熟米饭和熟馅，出锅后再用生菜与酱汁包裹。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "hainan-cai-bao-rice",
+      "claim_id": "project_fixed_ingredient_core",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-agri-dingan-ich-2024",
+        "hi-gov-dingan-cai-bao-2026",
+        "zs-market-food-safety-2026"
+      ],
+      "reason": "非遗身份、一次现场配料和通用安全原则都不能证明项目固定核心或比例。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "hainan-cai-bao-rice",
+      "claim_id": "single_vessel_one_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "hi-gov-dingan-cai-bao-2026"
+      ],
+      "reason": "出锅包裹结构不能写成全部原料单锅焖熟。"
+    }
+  ],
+  "ingredient_shape_matrix": [
+    {
+      "shape": "chicken_pieces",
+      "production_recipe_ids": [
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "claypot",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "cooked_filling",
+      "production_recipe_ids": [
+        "hainan-cai-bao-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-dingan-cai-bao-finished-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "cooked_rice",
+      "production_recipe_ids": [
+        "hainan-cai-bao-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-dingan-cai-bao-finished-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "cooking_oil",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-coconut-shredded-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "fermented_black_beans",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "fresh_coconut_shred",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-coconut-shredded-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "fresh_lettuce_leaf",
+      "production_recipe_ids": [
+        "hainan-cai-bao-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-dingan-cai-bao-finished-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "glutinous_rice",
+      "production_recipe_ids": [
+        "guangxi-five-color-glutinous-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "guangxi-natural-dye-five-color-glutinous-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "late_topping",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "low_heat_finish",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "mushroom",
+      "production_recipe_ids": [
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "named_cured_meat",
+      "production_recipe_ids": [
+        "cantonese-cured-meat-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "named_late_topping",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "natural_plant_dye_liquids",
+      "production_recipe_ids": [
+        "guangxi-five-color-glutinous-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "guangxi-natural-dye-five-color-glutinous-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "pork_rib_pieces",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "portuguese_style_seasoning_unresolved",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "macao-portuguese-style-seafood-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "pot_crust",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "cantonese-claypot-rice-technique"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "raw_rice",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "cantonese-claypot-rice-technique",
+        "hainan-coconut-shredded-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "rice_state_unresolved",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "macao-portuguese-style-seafood-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "sauce_final",
+      "production_recipe_ids": [
+        "hainan-cai-bao-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-dingan-cai-bao-finished-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "seafood_form_unresolved",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "macao-portuguese-style-seafood-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "separately_colored_rice",
+      "production_recipe_ids": [
+        "guangxi-five-color-glutinous-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "guangxi-natural-dye-five-color-glutinous-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "water",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "hainan-coconut-shredded-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    }
+  ],
+  "adaptation_boundaries": [
+    {
+      "boundary_id": "claypot-not-generic-covered-pot",
+      "evidence_status": "not_proven",
+      "verdict": "not_proven",
+      "forbidden_equivalence": "claypot_equals_ordinary_covered_pot",
+      "notes": "普通锅或电饭煲可称广式风味焖饭，不得承诺瓦煲锅巴复刻。"
+    },
+    {
+      "boundary_id": "named-claypot-branches-not-free-slots",
+      "evidence_status": "supported_with_boundaries",
+      "verdict": "not_proven",
+      "forbidden_equivalence": "named_toppings_as_free_protein_slot",
+      "notes": "腊味、香菇滑鸡和豆豉排骨是具名分支，不是任意蛋白槽。"
+    },
+    {
+      "boundary_id": "natural-dyes-not-food-powder-equivalence",
+      "evidence_status": "not_proven",
+      "verdict": "not_proven",
+      "forbidden_equivalence": "food_powders_as_traditional_natural_dyes",
+      "notes": "食品粉版本是家庭适配，不得称传统天然染色。"
+    },
+    {
+      "boundary_id": "guangxi-pineapple-rice-unproven",
+      "evidence_status": "not_proven",
+      "verdict": "not_proven",
+      "forbidden_equivalence": "guangxi_traditional_pineapple_rice_claim",
+      "notes": "本轮无可靠来源支持广西传统菠萝饭归属。"
+    },
+    {
+      "boundary_id": "dingan-cai-bao-not-raw-rice-one-pot",
+      "evidence_status": "not_proven",
+      "verdict": "not_proven",
+      "forbidden_equivalence": "raw_rice_all_ingredients_single_vessel",
+      "notes": "菜包饭为熟饭熟馅出锅后包生菜的多阶段结构。"
+    },
+    {
+      "boundary_id": "macao-menu-not-process",
+      "evidence_status": "not_proven",
+      "verdict": "not_proven",
+      "forbidden_equivalence": "menu_presence_as_one_pot_process",
+      "notes": "澳门葡式海鲜饭菜单线索不等于单锅工艺，也不能把葡国鸡归入。"
+    }
+  ],
+  "safety_boundaries": [
+    {
+      "safety_id": "cured-meat-cook-through-and-salt",
+      "source_ids": [
+        "cq-cured-meat-safety-2026"
+      ],
+      "evidence_status": "principle_only",
+      "required_controls": [
+        "use_labeled_cured_meat",
+        "cook_through",
+        "separate_raw_and_cooked_tools",
+        "disclose_high_salt"
+      ],
+      "endpoint_note": "公开来源只支持原则，不导出分钟、克数或温度。"
+    },
+    {
+      "safety_id": "raw-animal-food-cook-through-and-separate",
+      "source_ids": [
+        "zs-market-food-safety-2026"
+      ],
+      "evidence_status": "principle_only",
+      "required_controls": [
+        "cook_meat_egg_and_seafood_through",
+        "separate_raw_and_cooked"
+      ],
+      "endpoint_note": "不以通用原则替代鸡肉、排骨或海鲜的项目终点。"
+    },
+    {
+      "safety_id": "lettuce-wash-and-raw-cooked-separation",
+      "source_ids": [
+        "zs-market-food-safety-2026"
+      ],
+      "evidence_status": "principle_only",
+      "required_controls": [
+        "wash_fresh_lettuce",
+        "keep_wrapper_after_heat",
+        "separate_raw_and_cooked"
+      ],
+      "endpoint_note": "菜叶是出锅后生食包裹，不得默认为锅内已熟。"
+    }
+  ],
+  "source_evidence": [
+    {
+      "source_id": "gd-cantonese-standard-undated",
+      "title": "粤菜餐厅西关风情特色服务规范（DB44/T 2423-2023）",
+      "url": "https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A",
+      "publisher": "国家标准信息公共服务平台",
+      "published_at": "undated",
+      "date_note": "标准平台记录用于核验 DB44/T 2423-2023 的标准身份；具体煲仔饭工艺另由征求意见稿记录。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家标准信息公共服务平台记录 DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》；仅用于标准身份，不以此推导煲仔饭具体熟制过程。",
+      "proves": [
+        "lead:cantonese-claypot-rice-technique:cantonese_claypot_rice_identity"
+      ],
+      "does_not_prove": [
+        "lead:cantonese-claypot-rice-technique:late_named_topping_structure",
+        "lead:cantonese-claypot-rice-technique:household_vessel_equivalence",
+        "lead:cantonese-claypot-rice-technique:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "gd-xiguan-draft-claypot-rice-undated",
+      "title": "粤菜餐厅西关风情特色服务规范（征求意见稿）",
+      "url": "https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf",
+      "publisher": "广东省市场监督管理局",
+      "published_at": "undated",
+      "date_note": "征求意见稿 PDF 未提供可用于本研究的明确发布日期。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "征求意见稿附录将煲仔饭称为广州特色名菜，列腊味、香菇滑鸡、豆豉排骨，描述淘米入煲、饭七成熟后加具名配料、微火收水起锅巴。",
+      "proves": [
+        "production:cantonese-cured-meat-claypot-rice:guangzhou_claypot_identity",
+        "production:cantonese-cured-meat-claypot-rice:named_branch_identity",
+        "production:cantonese-mushroom-chicken-claypot-rice:guangzhou_claypot_identity",
+        "production:cantonese-mushroom-chicken-claypot-rice:named_branch_identity",
+        "production:cantonese-black-bean-pork-rib-claypot-rice:guangzhou_claypot_identity",
+        "production:cantonese-black-bean-pork-rib-claypot-rice:named_branch_identity",
+        "lead:cantonese-claypot-rice-technique:cantonese_claypot_rice_identity",
+        "lead:cantonese-claypot-rice-technique:late_named_topping_structure"
+      ],
+      "does_not_prove": [
+        "production:cantonese-cured-meat-claypot-rice:ordinary_pot_equivalence",
+        "production:cantonese-cured-meat-claypot-rice:project_ratio_safety",
+        "production:cantonese-mushroom-chicken-claypot-rice:ordinary_pot_equivalence",
+        "production:cantonese-mushroom-chicken-claypot-rice:project_ratio_safety",
+        "production:cantonese-black-bean-pork-rib-claypot-rice:ordinary_pot_equivalence",
+        "production:cantonese-black-bean-pork-rib-claypot-rice:project_ratio_safety",
+        "lead:cantonese-claypot-rice-technique:household_vessel_equivalence",
+        "lead:cantonese-claypot-rice-technique:named_toppings_as_free_protein_slot",
+        "lead:cantonese-claypot-rice-technique:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "hk-tourism-claypot-food-map-undated",
+      "title": "香港美食地图：煲仔饭",
+      "url": "https://www.discoverhongkong.com/content/dam/dhk/intl/plan/traveller-info/e-guidebooks/foodmap-tc.pdf",
+      "publisher": "香港旅游发展局",
+      "published_at": "undated",
+      "date_note": "旅游指南 PDF 未显示稳定发布日期。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "香港旅游发展局指南记录香港在地煲仔饭消费及腊味、鳝鸡、排骨、肉饼等变体，并描述生米小瓦煲、米约六成熟后放配料、低火收水和饭焦。",
+      "proves": [
+        "lead:cantonese-claypot-rice-technique:hong_kong_current_presence"
+      ],
+      "does_not_prove": [
+        "lead:cantonese-claypot-rice-technique:hong_kong_exclusive_origin",
+        "lead:cantonese-claypot-rice-technique:household_vessel_equivalence",
+        "lead:cantonese-claypot-rice-technique:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "gx-foreign-affairs-five-color-rice-2021",
+      "title": "壮族五色糯米饭",
+      "url": "https://wsb.gxzf.gov.cn/xwyw_48149/dfws_48154/t8584005.shtml",
+      "publisher": "广西壮族自治区人民政府外事办公室",
+      "published_at": "2021-05-12",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "广西政府部门文章说明五色糯米饭以天然植物材料泡汁、分色浸泡糯米后蒸制，并与三月三、清明相关。",
+      "proves": [
+        "production:guangxi-five-color-glutinous-rice:guangxi_natural_dye_structure",
+        "lead:guangxi-natural-dye-five-color-glutinous-rice:natural_dye_steamed_structure"
+      ],
+      "does_not_prove": [
+        "production:guangxi-five-color-glutinous-rice:food_powder_as_traditional_equivalence",
+        "production:guangxi-five-color-glutinous-rice:guangxi_pineapple_rice_regional_identity",
+        "production:guangxi-five-color-glutinous-rice:project_ratio_safety",
+        "lead:guangxi-natural-dye-five-color-glutinous-rice:food_powder_as_traditional_equivalence",
+        "lead:guangxi-natural-dye-five-color-glutinous-rice:guangxi_pineapple_rice_regional_identity",
+        "lead:guangxi-natural-dye-five-color-glutinous-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "gx-baise-tax-five-color-rice-2024",
+      "title": "壮乡五色糯米饭飘香",
+      "url": "https://znhd.guangxi.chinatax.gov.cn/baise/gzdt_15440/gzdt_15441/202404/t20240418_400522.html",
+      "publisher": "国家税务总局百色市税务局",
+      "published_at": "2024-04-18",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方页面记录以天然植物萃取液分别浸泡糯米、再合并蒸制的五色糯米饭过程。",
+      "proves": [
+        "production:guangxi-five-color-glutinous-rice:guangxi_natural_dye_structure",
+        "lead:guangxi-natural-dye-five-color-glutinous-rice:natural_dye_steamed_structure"
+      ],
+      "does_not_prove": [
+        "production:guangxi-five-color-glutinous-rice:food_powder_as_traditional_equivalence",
+        "production:guangxi-five-color-glutinous-rice:project_ratio_safety",
+        "lead:guangxi-natural-dye-five-color-glutinous-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "hi-agri-dingan-ich-2024",
+      "title": "定安三项非遗项目入选省级非遗项目",
+      "url": "https://agri.hainan.gov.cn/hnsnyt/zt/xczx/xczxdt/202406/t20240614_3680040.html",
+      "publisher": "海南省农业农村厅",
+      "published_at": "2024-01-02",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "海南省农业农村厅刊载信息确认传统菜品烹饪技艺（菜包饭烹制技艺）入选海南省第六批省级非遗代表性项目。",
+      "proves": [
+        "production:hainan-cai-bao-rice:dingan_cai_bao_identity",
+        "lead:hainan-dingan-cai-bao-finished-rice:dingan_cai_bao_identity"
+      ],
+      "does_not_prove": [
+        "production:hainan-cai-bao-rice:project_fixed_ingredient_core",
+        "lead:hainan-dingan-cai-bao-finished-rice:fixed_ingredient_core",
+        "lead:hainan-dingan-cai-bao-finished-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "hi-gov-dingan-cai-bao-2026",
+      "title": "深耕本地特色，定安推动非遗美食香飘出圈",
+      "url": "https://www.hainan.gov.cn/hainan/sxian/202602/ef2d17adfde24348a7eb4974317058e1.shtml",
+      "publisher": "海南省人民政府网（来源：海南日报）",
+      "published_at": "2026-02-08",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "报道记录大铁锅炒制鱿鱼干、虾米、米饭、韭菜和五花肉，出锅后以生菜和酱汁包成福袋；该现场实例不是永恒固定配方。",
+      "proves": [
+        "production:hainan-cai-bao-rice:finished_rice_and_cooked_filling_structure",
+        "lead:hainan-dingan-cai-bao-finished-rice:finished_rice_and_cooked_filling_structure"
+      ],
+      "does_not_prove": [
+        "production:hainan-cai-bao-rice:single_vessel_one_pot_equivalence",
+        "production:hainan-cai-bao-rice:project_fixed_ingredient_core",
+        "lead:hainan-dingan-cai-bao-finished-rice:single_vessel_one_pot_equivalence",
+        "lead:hainan-dingan-cai-bao-finished-rice:fixed_ingredient_core",
+        "lead:hainan-dingan-cai-bao-finished-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "hi-gov-coconut-shredded-rice-2024",
+      "title": "寻找老味道",
+      "url": "https://www.hainan.gov.cn/hainan/c100643b/202403/679d437de85c40408aee7f67fa1d563e.shtml?ddtab=true",
+      "publisher": "海南省人民政府网（来源：海南日报）",
+      "published_at": "2024-03-25",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "资料将椰丝饭或椰子糒写为椰肉刨丝与洗净大米、少量油和水烧开后焖熟。",
+      "proves": [
+        "lead:hainan-coconut-shredded-rice:coconut_rice_structure"
+      ],
+      "does_not_prove": [
+        "lead:hainan-coconut-shredded-rice:complete_main_meal_sufficiency",
+        "lead:hainan-coconut-shredded-rice:coconut_milk_equivalence",
+        "lead:hainan-coconut-shredded-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "mo-tourism-portuguese-seafood-rice-undated",
+      "title": "Macanese & Portuguese Dishes",
+      "url": "https://www.macaotourism.gov.mo/en/dining/taste-of-macao/macanese-and-portuguese-dishes",
+      "publisher": "澳门特别行政区政府旅游局",
+      "published_at": "undated",
+      "date_note": "旅游介绍页未显示可核验的发布日期；仅用作澳门在地菜单线索。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "C",
+      "evidence_summary": "澳门旅游局页面把 Portuguese Style Seafood Rice 列为主菜，并写出番茄与奶油两条风味路径；页面不说明米的状态、单锅过程、比例，也不把葡国鸡定义为米饭锅。",
+      "proves": [
+        "lead:macao-portuguese-style-seafood-rice:macao_portuguese_style_seafood_rice_presence"
+      ],
+      "does_not_prove": [
+        "lead:macao-portuguese-style-seafood-rice:single_pot_process",
+        "lead:macao-portuguese-style-seafood-rice:portuguese_chicken_as_rice_pot",
+        "lead:macao-portuguese-style-seafood-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-cured-meat-safety-2026",
+      "title": "腊肉、香肠的消费提示",
+      "url": "https://scjgj.cq.gov.cn/bkzs/xfts/202602/t20260213_15442166.html",
+      "publisher": "重庆市市场监督管理局",
+      "published_at": "2026-02-13",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市场监管部门要求腊味来源和标签清晰、彻底炒熟煮透，并提示其高盐属性。",
+      "proves": [
+        "safety:cured-meat-cook-through-and-salt:principle"
+      ],
+      "does_not_prove": [
+        "production:cantonese-cured-meat-claypot-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "zs-market-food-safety-2026",
+      "title": "食品安全消费提示",
+      "url": "https://www.zs.gov.cn/zszjj/gkmlpt/content/2/2589/post_2589753.html",
+      "publisher": "中山市市场监督管理局",
+      "published_at": "2026-01-17",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市场监管消费提示要求肉、蛋和水产食材烧熟煮透，生熟分开并防止交叉污染。",
+      "proves": [
+        "safety:raw-animal-food-cook-through-and-separate:principle",
+        "safety:lettuce-wash-and-raw-cooked-separation:principle"
+      ],
+      "does_not_prove": [
+        "production:cantonese-mushroom-chicken-claypot-rice:project_ratio_safety",
+        "production:cantonese-black-bean-pork-rib-claypot-rice:project_ratio_safety",
+        "production:hainan-cai-bao-rice:project_fixed_ingredient_core"
+      ]
+    }
+  ],
+  "product_decisions": [
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "cantonese-claypot-rice-technique",
+      "state": "research_only",
+      "product_destinations": [
+        "template_evidence",
+        "new_family_research",
+        "ratio_rule"
+      ],
+      "decision_reason": "用于定义边界，不新增生产菜谱，也不把香港消费线索改写为独创结论。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "guangxi-natural-dye-five-color-glutinous-rice",
+      "state": "research_only",
+      "product_destinations": [
+        "template_evidence",
+        "ratio_rule",
+        "research_only"
+      ],
+      "decision_reason": "保留传统结构和家庭适配的明确差异，不以地域标签替代工艺核验。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-coconut-shredded-rice",
+      "state": "research_only",
+      "product_destinations": [
+        "template_evidence",
+        "research_only",
+        "ratio_rule"
+      ],
+      "decision_reason": "只保留海南风味主食组件，不能单独承诺一锅完成完整主餐。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "hainan-dingan-cai-bao-finished-rice",
+      "state": "research_only",
+      "product_destinations": [
+        "template_evidence",
+        "research_only"
+      ],
+      "decision_reason": "适合作为多阶段熟饭结构证据，不直接升为单锅主餐。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "macao-portuguese-style-seafood-rice",
+      "state": "research_only",
+      "product_destinations": [
+        "research_only",
+        "new_family_research"
+      ],
+      "decision_reason": "澳门线索保持研究状态，绝不以菜单名补写同锅过程。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "豆豉排骨是具名分支，不能以泛猪肉或普通锅替换后仍宣称原型。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-cured-meat-claypot-rice",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "可保留广式风味审计，但不得把普通锅家庭适配称为瓦煲复刻。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "cantonese-mushroom-chicken-claypot-rice",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "具名香菇滑鸡分支可以审计，部位、锅具和比例仍需独立验证。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "guangxi-five-color-glutinous-rice",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "保留家庭食品粉适配的诚实标注，但不得回写为传统天然染色复刻。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "hainan-cai-bao-rice",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "research_only"
+      ],
+      "decision_reason": "菜包饭应保留多阶段结构；当前项目轻量版本不得冒充完整传统配方。"
+    }
+  ],
+  "household_journeys": [
+    {
+      "journey_id": "gd-01",
+      "province_code": "CN-GD",
+      "mode": "recommend",
+      "intent": "normal",
+      "input_items": [
+        "大米",
+        "腊肠"
+      ],
+      "expected_family_ids": [
+        "raw-rice-claypot-late-named-topping"
+      ],
+      "expected_structure": "named_cured_meat_branch_or_explicit_style_adaptation",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "ordinary_pot_as_claypot_replica"
+      ],
+      "reason": "核验腊味具名分支与锅具文案。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "gd-02",
+      "province_code": "CN-GD",
+      "mode": "pantry",
+      "intent": "fresh",
+      "input_items": [
+        "大米",
+        "鸡腿",
+        "香菇"
+      ],
+      "expected_family_ids": [
+        "raw-rice-claypot-late-named-topping"
+      ],
+      "expected_structure": "named_mushroom_chicken_branch_or_no_claim",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "chicken_cut_free_substitution"
+      ],
+      "reason": "核验香菇滑鸡分支不被泛化。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "gd-03",
+      "province_code": "CN-GD",
+      "mode": "recommend",
+      "intent": "quick",
+      "input_items": [
+        "剩米饭",
+        "排骨",
+        "豆豉"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "do_not_claim_raw_rice_claypot_process",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "leftover_rice_as_claypot_equivalent"
+      ],
+      "reason": "熟饭不应冒充生米瓦煲过程。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "gx-01",
+      "province_code": "CN-GX",
+      "mode": "recommend",
+      "intent": "batch",
+      "input_items": [
+        "糯米",
+        "天然植物染液"
+      ],
+      "expected_family_ids": [
+        "natural-dye-steamed-glutinous-rice"
+      ],
+      "expected_structure": "separate_color_batches_then_steam",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "invented_dye_ratio"
+      ],
+      "reason": "核验天然染色的分批结构。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "gx-02",
+      "province_code": "CN-GX",
+      "mode": "recommend",
+      "intent": "quick",
+      "input_items": [
+        "糯米",
+        "紫薯粉",
+        "菠菜粉"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "family_adaptation_label_required",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "food_powders_as_traditional_natural_dyes"
+      ],
+      "reason": "食品粉适配不能冒充传统。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "gx-03",
+      "province_code": "CN-GX",
+      "mode": "pantry",
+      "intent": "fresh",
+      "input_items": [
+        "菠萝",
+        "糯米"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "no_guangxi_traditional_pineapple_claim",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "guangxi_traditional_pineapple_rice_claim"
+      ],
+      "reason": "未证实的地域归属不得输出。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "hi-01",
+      "province_code": "CN-HI",
+      "mode": "recommend",
+      "intent": "quick",
+      "input_items": [
+        "剩米饭",
+        "生菜",
+        "韭菜"
+      ],
+      "expected_family_ids": [
+        "finished-rice-cooked-filling-lettuce-wrap"
+      ],
+      "expected_structure": "finished_rice_stir_fry_then_fresh_wrap",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "raw_rice_all_in_one_pot"
+      ],
+      "reason": "核验菜包饭的最后包裹动作。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "hi-02",
+      "province_code": "CN-HI",
+      "mode": "pantry",
+      "intent": "normal",
+      "input_items": [
+        "生米",
+        "生菜",
+        "虾米"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "needs_multi_stage_or_user_decision",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "lettuce_cooked_with_raw_rice"
+      ],
+      "reason": "生米与出锅生菜不可静默压成同锅。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "hi-03",
+      "province_code": "CN-HI",
+      "mode": "recommend",
+      "intent": "batch",
+      "input_items": [
+        "大米",
+        "新鲜椰丝"
+      ],
+      "expected_family_ids": [
+        "coconut-shredded-rice-staple"
+      ],
+      "expected_structure": "coconut_rice_staple_only",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "complete_main_meal_claim"
+      ],
+      "reason": "椰丝饭只证明主食结构。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "hk-01",
+      "province_code": "CN-HK",
+      "mode": "recommend",
+      "intent": "normal",
+      "input_items": [
+        "大米",
+        "腊味"
+      ],
+      "expected_family_ids": [
+        "raw-rice-claypot-late-named-topping"
+      ],
+      "expected_structure": "hong_kong_consumption_not_exclusive_origin",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "hong_kong_exclusive_origin"
+      ],
+      "reason": "核验香港在地消费文案。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "hk-02",
+      "province_code": "CN-HK",
+      "mode": "pantry",
+      "intent": "quick",
+      "input_items": [
+        "剩米饭",
+        "腊肠"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "do_not_claim_claypot_crust",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "leftover_rice_claypot_crust"
+      ],
+      "reason": "快速熟饭不能承诺瓦煲饭焦。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "hk-03",
+      "province_code": "CN-HK",
+      "mode": "recommend",
+      "intent": "fresh",
+      "input_items": [
+        "大米",
+        "鳝鱼",
+        "鸡肉"
+      ],
+      "expected_family_ids": [
+        "raw-rice-claypot-late-named-topping"
+      ],
+      "expected_structure": "named_variant_requires_separate_evidence",
+      "expected_outcome": "manual_review_needed",
+      "forbidden_claims": [
+        "free_protein_slot"
+      ],
+      "reason": "香港指南的变体不等于任意组合许可。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "mo-01",
+      "province_code": "CN-MO",
+      "mode": "recommend",
+      "intent": "normal",
+      "input_items": [
+        "米饭",
+        "虾",
+        "番茄"
+      ],
+      "expected_family_ids": [
+        "macao-portuguese-style-seafood-rice-unresolved"
+      ],
+      "expected_structure": "menu_presence_only_no_process",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "single_pot_process_claim"
+      ],
+      "reason": "澳门海鲜饭需要一手工艺再进入规划。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "mo-02",
+      "province_code": "CN-MO",
+      "mode": "pantry",
+      "intent": "fresh",
+      "input_items": [
+        "鸡肉",
+        "土豆",
+        "椰奶"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "do_not_rewrite_portuguese_chicken_as_rice_pot",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "portuguese_chicken_as_seafood_rice"
+      ],
+      "reason": "葡国鸡不应静默归类为海鲜饭锅。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    },
+    {
+      "journey_id": "mo-03",
+      "province_code": "CN-MO",
+      "mode": "recommend",
+      "intent": "quick",
+      "input_items": [
+        "米饭",
+        "海鲜"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "no_ratio_or_safety_generation",
+      "expected_outcome": "research_boundary",
+      "forbidden_claims": [
+        "invented_seafood_ratio"
+      ],
+      "reason": "无熟制和比例证据时不调用自由生成。",
+      "human_review": {
+        "status": "pending",
+        "family_fit": "",
+        "household_feasibility": "",
+        "identity_preserved": "",
+        "notes": ""
+      }
+    }
+  ],
+  "completion": {
+    "status": "research_in_progress",
+    "blockers": [
+      "production_evidence_gaps",
+      "ratio_dsl_unresolved",
+      "household_vessel_adaptation_unresolved",
+      "meal_sufficiency_unresolved",
+      "safety_endpoint_incomplete",
+      "human_journey_review_incomplete"
+    ],
+    "baseline_facts": [
+      "zero_candidate_baseline"
+    ]
+  },
+  "summary": {
+    "province_coverage_count": 5,
+    "production_audit_count": 5,
+    "candidate_audit_count": 0,
+    "concrete_research_lead_count": 5,
+    "source_count": 11,
+    "source_count_by_grade": {
+      "A": 8,
+      "B": 2,
+      "C": 1
+    },
+    "family_count": 5,
+    "household_journey_count": 15,
+    "human_journey_reviewed_count": 0,
+    "production_recipe_changes": 0,
+    "regional_candidate_changes": 0,
+    "scope_note": "本轮仅新增研究审计与报告：不新增 recipe 或 candidate。"
+  }
+}

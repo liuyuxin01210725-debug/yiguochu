@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { validateRecipeLibrary } from './lib/recipe-library-validator.mjs';
 import { validateCoverageRecipePromotion } from './lib/coverage-recipe-promotion-gate.mjs';
 import { validateIngredientTaxonomy } from './lib/ingredient-taxonomy-validator.mjs';
@@ -507,6 +509,24 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...yunnanGuizhouResearchErrors);
+let lingnanHkMacaoResearchSummary = '';
+// Keep this newest research layer behind every existing gate: if an established
+// validator is red, do not run another builder and obscure the root failure.
+if (errors.length === 0) {
+  const lingnanCheck = spawnSync(process.execPath, [
+    fileURLToPath(new URL('./build-lingnan-hk-macao-one-pot-research.mjs', import.meta.url)),
+    '--check',
+  ], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
+  });
+  if (lingnanCheck.status !== 0) {
+    const detail = [lingnanCheck.stdout, lingnanCheck.stderr].filter(Boolean).join('\n').trim();
+    errors.push(`Lingnan Hong Kong Macao research artifact check failed${detail ? `: ${detail}` : ''}`);
+  } else {
+    lingnanHkMacaoResearchSummary = lingnanCheck.stdout.trim();
+  }
+}
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -563,5 +583,6 @@ if (sichuanChongqingResearchReport && sichuanChongqingResearchSourceErrors.lengt
 if (yunnanGuizhouResearchReport && yunnanGuizhouResearchSourceErrors.length === 0 && yunnanGuizhouResearchErrors.length === 0) {
   console.log(formatYunnanGuizhouRiceResearchSummary(yunnanGuizhouResearchReport));
 }
+if (lingnanHkMacaoResearchSummary) console.log(lingnanHkMacaoResearchSummary);
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
