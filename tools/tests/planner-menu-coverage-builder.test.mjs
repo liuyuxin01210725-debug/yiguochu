@@ -167,6 +167,29 @@ test('Fujian Taiwan M1 recovers two generic plans and retains four honest gaps',
   );
 });
 
+test('Lingnan M1 recovers two generic plans and retains three structural gaps', () => {
+  const report = buildRealReport();
+  const byRecipeId = new Map(report.recipes.map(row => [row.recipe_id, row]));
+  for (const id of [
+    'cantonese-cured-meat-claypot-rice',
+    'cantonese-mushroom-chicken-claypot-rice',
+  ]) {
+    assert.equal(byRecipeId.get(id).audit_status, 'full_single_pot_ingredient_compatible', id);
+  }
+  for (const id of [
+    'hainan-cai-bao-rice',
+    'cantonese-black-bean-pork-rib-claypot-rice',
+    'guangxi-five-color-glutinous-rice',
+  ]) {
+    assert.ok(
+      ['taxonomy_gap', 'planner_gap', 'no_recognized_core'].includes(byRecipeId.get(id).audit_status),
+      id,
+    );
+  }
+  const region = report.by_region.find(row => row.region_id === 'lingnan_hk_macao');
+  assert.deepEqual([region.recipe_count, region.single_pot_full_count], [5, 2]);
+});
+
 test('report metadata, summaries, and validation are deterministic', () => {
   const first = buildRealReport();
   const second = buildRealReport();

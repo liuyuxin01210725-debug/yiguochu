@@ -44,6 +44,16 @@ test('capability ledger distinguishes full partial and no coverage', () => {
     assert.ok(rawRice.taxonomy_item_ids.includes(id), id);
   }
   assert.equal(rawRice.evidence_recipe_ids.includes('fujian-gai-cai-minced-pork-rice'), false);
+  for (const id of ['choy-sum', 'chicken-leg']) {
+    assert.ok(rawRice.taxonomy_item_ids.includes(id), id);
+  }
+  assert.ok(rawRice.region_ids.includes('lingnan_hk_macao'));
+  for (const id of ['cantonese-cured-meat-claypot-rice', 'cantonese-mushroom-chicken-claypot-rice']) {
+    assert.equal(rawRice.evidence_recipe_ids.includes(id), false, id);
+  }
+  const claypot = byFamily.get('claypot-rice');
+  assert.notEqual(claypot.coverage_level, 'full');
+  assert.notEqual(claypot.promotion_status, 'covered_by_active_template');
   const cookedRiceStew = byFamily.get('cooked-rice-stew');
   assert.equal(cookedRiceStew?.coverage_level, 'full');
   assert.deepEqual(cookedRiceStew?.runtime_template_ids, ['acid-staple-pot', 'broth-rice-pot']);

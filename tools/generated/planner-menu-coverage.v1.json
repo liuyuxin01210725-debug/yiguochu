@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "planner_version": "pantry-planner-v2",
-  "template_catalog_version": "templates-v2-20260727-r5",
-  "taxonomy_version": "taxonomy-v1-20260727-r4",
+  "template_catalog_version": "templates-v2-20260727-r6",
+  "taxonomy_version": "taxonomy-v1-20260727-r5",
   "ratio_catalog_version": "ratio-rules-v1-20260727-r3",
   "source_hashes": {
-    "tools/data/ingredient-taxonomy.v1.json": "415dace21213416a233697edb059f184226cec5ea0f48c3121a0b87ddbb9d0a9",
-    "tools/data/meal-templates.v2.json": "4147df9ad4f9d204d0732141b0e7f2701253aa30e4c5cfd93905445f5d63307c",
+    "tools/data/ingredient-taxonomy.v1.json": "1bba2fcdd52b9bda32e471f516fc044fd6d5cbe56f0c63ea99b71832bd9b8f6f",
+    "tools/data/meal-templates.v2.json": "236e33ef10554d1e42a4f5a9aa866aa5d818d3fd19064300b3e3db3272952765",
     "tools/data/menu-master-baseline.v1.json": "68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab",
     "tools/data/ratio-rules.v1.json": "3e6767f73f29e95e9865336e6c46fef8cc71ceed6383b85d0e23627397928fdb",
     "tools/data/recipe-library.json": "69d40f12c3db12fb0d03af20665c33352f4c20b9ad53ad542a4b91c2aec1658e",
-    "tools/data/regional-menu-mappings.v1.json": "2142b0edeec2def38e9f545f0d5a01c23911d696bec910ea58dec5e174d320cc"
+    "tools/data/regional-menu-mappings.v1.json": "d642f30e012bde90d655e52ee54faedf098aafe3b8a268d473a5fbde2f1d8203"
   },
   "summary": {
     "recipe_count": 72,
@@ -18,18 +18,18 @@
     "auto_approved_count": 60,
     "status_counts": {
       "full_single_pot_evidence_aligned": 9,
-      "full_single_pot_ingredient_compatible": 23,
+      "full_single_pot_ingredient_compatible": 25,
       "full_multi_pot": 1,
-      "taxonomy_gap": 29,
+      "taxonomy_gap": 27,
       "planner_gap": 6,
       "no_recognized_core": 4,
       "invalid_source_record": 0
     },
     "priority_counts": {
       "P0": 4,
-      "P1": 35,
+      "P1": 33,
       "P2": 1,
-      "P3": 23,
+      "P3": 25,
       "covered": 9
     }
   },
@@ -72,8 +72,8 @@
     {
       "region_id": "lingnan_hk_macao",
       "recipe_count": 5,
-      "single_pot_full_count": 0,
-      "taxonomy_gap_count": 5,
+      "single_pot_full_count": 2,
+      "taxonomy_gap_count": 3,
       "planner_gap_count": 2
     },
     {
@@ -109,8 +109,8 @@
     {
       "technique_family_id": "claypot-rice",
       "recipe_count": 3,
-      "single_pot_full_count": 0,
-      "taxonomy_gap_count": 3,
+      "single_pot_full_count": 2,
+      "taxonomy_gap_count": 1,
       "planner_gap_count": 1
     },
     {
@@ -307,13 +307,6 @@
       ]
     },
     {
-      "raw": "菜心",
-      "recipe_count": 1,
-      "recipe_ids": [
-        "cantonese-cured-meat-claypot-rice"
-      ]
-    },
-    {
       "raw": "大豆蛋白块",
       "recipe_count": 1,
       "recipe_ids": [
@@ -409,13 +402,6 @@
       "recipe_count": 1,
       "recipe_ids": [
         "shaanbei-red-date-cowpea-rice"
-      ]
-    },
-    {
-      "raw": "去皮鸡腿肉",
-      "recipe_count": 1,
-      "recipe_ids": [
-        "cantonese-mushroom-chicken-claypot-rice"
       ]
     },
     {
@@ -10948,35 +10934,47 @@
           "recognized": true,
           "role": "must_use",
           "duplicate_of": null
-        }
-      ],
-      "recognized_basic_items": [],
-      "unclassified_core_items": [
+        },
         {
           "raw": "菜心",
-          "canonical": null,
-          "category": null,
-          "shape_or_cut": null,
-          "cook_speed": null,
-          "moisture_release": null,
-          "texture_behavior": null,
-          "cooking_risk": "unknown",
-          "recognized": false,
+          "canonical": "菜心",
+          "display_name": "菜心",
+          "category": "leafy_vegetable",
+          "shape_or_cut": "whole",
+          "cook_speed": "fast",
+          "moisture_release": "high",
+          "texture_behavior": "wilts_quickly",
+          "texture_failure_modes": [
+            "soft_when_overcooked"
+          ],
+          "cooking_risk": "none",
+          "required_endpoint_codes": [],
+          "compatible_slot_codes": [
+            "vegetable",
+            "fast_cooking_vegetable"
+          ],
+          "incompatible_slot_codes": [],
+          "recognized": true,
           "role": "must_use",
           "duplicate_of": null
         }
       ],
-      "identity_recognition_ratio": 0.6666666666666666,
+      "recognized_basic_items": [],
+      "unclassified_core_items": [],
+      "identity_recognition_ratio": 1,
       "recognized_only_scenario": {
         "submitted_raw_items": [
           "大米",
-          "广式腊肠"
+          "广式腊肠",
+          "菜心"
         ],
         "status": "complete",
         "plan_kind": "single_pot",
         "pot_count": 1,
         "candidate_template_ids": [
-          "savory-mixed-rice-pot"
+          "savory-mixed-rice-pot",
+          "cooked-rice-stir-pot",
+          "broth-noodle-pot"
         ],
         "selected_template_ids": [
           "savory-mixed-rice-pot"
@@ -11033,11 +11031,35 @@
             "recognized": true,
             "role": "must_use",
             "duplicate_of": null
+          },
+          {
+            "raw": "菜心",
+            "canonical": "菜心",
+            "display_name": "菜心",
+            "category": "leafy_vegetable",
+            "shape_or_cut": "whole",
+            "cook_speed": "fast",
+            "moisture_release": "high",
+            "texture_behavior": "wilts_quickly",
+            "texture_failure_modes": [
+              "soft_when_overcooked"
+            ],
+            "cooking_risk": "none",
+            "required_endpoint_codes": [],
+            "compatible_slot_codes": [
+              "vegetable",
+              "fast_cooking_vegetable"
+            ],
+            "incompatible_slot_codes": [],
+            "recognized": true,
+            "role": "must_use",
+            "duplicate_of": null
           }
         ],
         "planned_raw_items": [
           "大米",
-          "广式腊肠"
+          "广式腊肠",
+          "菜心"
         ],
         "unplanned_items": [],
         "unplanned_raw_items": [],
@@ -11046,6 +11068,10 @@
           {
             "template_id": "savory-mixed-rice-pot",
             "ingredient_amounts": [
+              {
+                "name": "菜心",
+                "grams": 240
+              },
               {
                 "name": "大米",
                 "grams": 200
@@ -11056,19 +11082,19 @@
               },
               {
                 "name": "水",
-                "grams": 270
+                "grams": 240
               }
             ],
             "required_extra_items": [
               {
                 "name": "水",
                 "category": "liquid",
-                "grams": 270
+                "grams": 240
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 270,
-              "liquid_credit_grams": 0,
+              "retained_liquid_grams": 240,
+              "liquid_credit_grams": 30,
               "rounding_grams": 1
             },
             "ratio_trace": [
@@ -11083,18 +11109,25 @@
                 "grams_per_serving": 100
               },
               {
+                "operator": "per_serving",
+                "slot_id": "fast_vegetable",
+                "grams_per_serving": 120
+              },
+              {
                 "operator": "bounded_sum",
                 "attribute": "moisture_release",
                 "value": "high",
-                "matched_items": [],
-                "liquid_credit_grams": 0
+                "matched_items": [
+                  "菜心"
+                ],
+                "liquid_credit_grams": 30
               },
               {
                 "operator": "ratio",
                 "numerator": "retained_liquid_grams",
                 "denominator_slot_id": "staple",
                 "multiplier": 1.35,
-                "liquid_credit_grams": 0
+                "liquid_credit_grams": 30
               },
               {
                 "operator": "fixed_addition",
@@ -11131,11 +11164,13 @@
           "广式腊肠",
           "菜心"
         ],
-        "status": "needs_user_decision",
+        "status": "complete",
         "plan_kind": "single_pot",
         "pot_count": 1,
         "candidate_template_ids": [
-          "savory-mixed-rice-pot"
+          "savory-mixed-rice-pot",
+          "cooked-rice-stir-pot",
+          "broth-noodle-pot"
         ],
         "selected_template_ids": [
           "savory-mixed-rice-pot"
@@ -11192,40 +11227,47 @@
             "recognized": true,
             "role": "must_use",
             "duplicate_of": null
+          },
+          {
+            "raw": "菜心",
+            "canonical": "菜心",
+            "display_name": "菜心",
+            "category": "leafy_vegetable",
+            "shape_or_cut": "whole",
+            "cook_speed": "fast",
+            "moisture_release": "high",
+            "texture_behavior": "wilts_quickly",
+            "texture_failure_modes": [
+              "soft_when_overcooked"
+            ],
+            "cooking_risk": "none",
+            "required_endpoint_codes": [],
+            "compatible_slot_codes": [
+              "vegetable",
+              "fast_cooking_vegetable"
+            ],
+            "incompatible_slot_codes": [],
+            "recognized": true,
+            "role": "must_use",
+            "duplicate_of": null
           }
         ],
         "planned_raw_items": [
           "大米",
-          "广式腊肠"
-        ],
-        "unplanned_items": [
-          {
-            "raw": "菜心",
-            "canonical": null,
-            "category": null,
-            "shape_or_cut": null,
-            "cook_speed": null,
-            "moisture_release": null,
-            "texture_behavior": null,
-            "cooking_risk": "unknown",
-            "recognized": false,
-            "role": "must_use",
-            "duplicate_of": null,
-            "reason_code": "unrecognized_ingredient",
-            "reason": "暂时无法识别这种食材，因此不能承诺已经安排。"
-          }
-        ],
-        "unplanned_raw_items": [
+          "广式腊肠",
           "菜心"
         ],
-        "reason_codes": [
-          "incomplete_coverage",
-          "unrecognized_ingredient"
-        ],
+        "unplanned_items": [],
+        "unplanned_raw_items": [],
+        "reason_codes": [],
         "ratio_plans": [
           {
             "template_id": "savory-mixed-rice-pot",
             "ingredient_amounts": [
+              {
+                "name": "菜心",
+                "grams": 240
+              },
               {
                 "name": "大米",
                 "grams": 200
@@ -11236,19 +11278,19 @@
               },
               {
                 "name": "水",
-                "grams": 270
+                "grams": 240
               }
             ],
             "required_extra_items": [
               {
                 "name": "水",
                 "category": "liquid",
-                "grams": 270
+                "grams": 240
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 270,
-              "liquid_credit_grams": 0,
+              "retained_liquid_grams": 240,
+              "liquid_credit_grams": 30,
               "rounding_grams": 1
             },
             "ratio_trace": [
@@ -11263,18 +11305,25 @@
                 "grams_per_serving": 100
               },
               {
+                "operator": "per_serving",
+                "slot_id": "fast_vegetable",
+                "grams_per_serving": 120
+              },
+              {
                 "operator": "bounded_sum",
                 "attribute": "moisture_release",
                 "value": "high",
-                "matched_items": [],
-                "liquid_credit_grams": 0
+                "matched_items": [
+                  "菜心"
+                ],
+                "liquid_credit_grams": 30
               },
               {
                 "operator": "ratio",
                 "numerator": "retained_liquid_grams",
                 "denominator_slot_id": "staple",
                 "multiplier": 1.35,
-                "liquid_credit_grams": 0
+                "liquid_credit_grams": 30
               },
               {
                 "operator": "fixed_addition",
@@ -11303,7 +11352,7 @@
             ]
           }
         ],
-        "end_to_end_core_coverage_ratio": 0.6666666666666666
+        "end_to_end_core_coverage_ratio": 1
       },
       "evidence_alignment": {
         "direct_template_evidence": false,
@@ -11312,11 +11361,9 @@
           "savory-mixed-rice-pot"
         ]
       },
-      "gap_codes": [
-        "taxonomy_gap"
-      ],
-      "audit_status": "taxonomy_gap",
-      "priority_band": "P1"
+      "gap_codes": [],
+      "audit_status": "full_single_pot_ingredient_compatible",
+      "priority_band": "P3"
     },
     {
       "recipe_id": "cantonese-mushroom-chicken-claypot-rice",
@@ -11360,6 +11407,30 @@
           "duplicate_of": null
         },
         {
+          "raw": "去皮鸡腿肉",
+          "canonical": "鸡肉",
+          "display_name": "鸡腿肉",
+          "category": "chicken",
+          "shape_or_cut": "leg",
+          "cook_speed": "medium",
+          "moisture_release": "low",
+          "texture_behavior": "tender_when_cooked_through",
+          "texture_failure_modes": [
+            "rubbery_when_overcooked"
+          ],
+          "cooking_risk": "raw_poultry",
+          "required_endpoint_codes": [
+            "poultry_fully_cooked"
+          ],
+          "compatible_slot_codes": [
+            "generic_poultry"
+          ],
+          "incompatible_slot_codes": [],
+          "recognized": true,
+          "role": "must_use",
+          "duplicate_of": null
+        },
+        {
           "raw": "鲜香菇",
           "canonical": "香菇",
           "display_name": "香菇",
@@ -11383,25 +11454,12 @@
         }
       ],
       "recognized_basic_items": [],
-      "unclassified_core_items": [
-        {
-          "raw": "去皮鸡腿肉",
-          "canonical": null,
-          "category": null,
-          "shape_or_cut": null,
-          "cook_speed": null,
-          "moisture_release": null,
-          "texture_behavior": null,
-          "cooking_risk": "unknown",
-          "recognized": false,
-          "role": "must_use",
-          "duplicate_of": null
-        }
-      ],
-      "identity_recognition_ratio": 0.6666666666666666,
+      "unclassified_core_items": [],
+      "identity_recognition_ratio": 1,
       "recognized_only_scenario": {
         "submitted_raw_items": [
           "大米",
+          "去皮鸡腿肉",
           "鲜香菇"
         ],
         "status": "complete",
@@ -11410,7 +11468,8 @@
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
           "cooked-rice-stir-pot",
-          "broth-noodle-pot"
+          "broth-noodle-pot",
+          "poultry-staple-pot"
         ],
         "selected_template_ids": [
           "savory-mixed-rice-pot"
@@ -11442,6 +11501,30 @@
             "duplicate_of": null
           },
           {
+            "raw": "去皮鸡腿肉",
+            "canonical": "鸡肉",
+            "display_name": "鸡腿肉",
+            "category": "chicken",
+            "shape_or_cut": "leg",
+            "cook_speed": "medium",
+            "moisture_release": "low",
+            "texture_behavior": "tender_when_cooked_through",
+            "texture_failure_modes": [
+              "rubbery_when_overcooked"
+            ],
+            "cooking_risk": "raw_poultry",
+            "required_endpoint_codes": [
+              "poultry_fully_cooked"
+            ],
+            "compatible_slot_codes": [
+              "generic_poultry"
+            ],
+            "incompatible_slot_codes": [],
+            "recognized": true,
+            "role": "must_use",
+            "duplicate_of": null
+          },
+          {
             "raw": "鲜香菇",
             "canonical": "香菇",
             "display_name": "香菇",
@@ -11466,6 +11549,7 @@
         ],
         "planned_raw_items": [
           "大米",
+          "去皮鸡腿肉",
           "鲜香菇"
         ],
         "unplanned_items": [],
@@ -11477,6 +11561,10 @@
             "ingredient_amounts": [
               {
                 "name": "大米",
+                "grams": 200
+              },
+              {
+                "name": "鸡腿肉",
                 "grams": 200
               },
               {
@@ -11522,6 +11610,11 @@
               {
                 "operator": "per_serving",
                 "slot_id": "staple",
+                "grams_per_serving": 100
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "protein",
                 "grams_per_serving": 100
               },
               {
@@ -11566,13 +11659,14 @@
           "去皮鸡腿肉",
           "鲜香菇"
         ],
-        "status": "needs_user_decision",
+        "status": "complete",
         "plan_kind": "single_pot",
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
           "cooked-rice-stir-pot",
-          "broth-noodle-pot"
+          "broth-noodle-pot",
+          "poultry-staple-pot"
         ],
         "selected_template_ids": [
           "savory-mixed-rice-pot"
@@ -11604,6 +11698,30 @@
             "duplicate_of": null
           },
           {
+            "raw": "去皮鸡腿肉",
+            "canonical": "鸡肉",
+            "display_name": "鸡腿肉",
+            "category": "chicken",
+            "shape_or_cut": "leg",
+            "cook_speed": "medium",
+            "moisture_release": "low",
+            "texture_behavior": "tender_when_cooked_through",
+            "texture_failure_modes": [
+              "rubbery_when_overcooked"
+            ],
+            "cooking_risk": "raw_poultry",
+            "required_endpoint_codes": [
+              "poultry_fully_cooked"
+            ],
+            "compatible_slot_codes": [
+              "generic_poultry"
+            ],
+            "incompatible_slot_codes": [],
+            "recognized": true,
+            "role": "must_use",
+            "duplicate_of": null
+          },
+          {
             "raw": "鲜香菇",
             "canonical": "香菇",
             "display_name": "香菇",
@@ -11628,38 +11746,22 @@
         ],
         "planned_raw_items": [
           "大米",
+          "去皮鸡腿肉",
           "鲜香菇"
         ],
-        "unplanned_items": [
-          {
-            "raw": "去皮鸡腿肉",
-            "canonical": null,
-            "category": null,
-            "shape_or_cut": null,
-            "cook_speed": null,
-            "moisture_release": null,
-            "texture_behavior": null,
-            "cooking_risk": "unknown",
-            "recognized": false,
-            "role": "must_use",
-            "duplicate_of": null,
-            "reason_code": "unrecognized_ingredient",
-            "reason": "暂时无法识别这种食材，因此不能承诺已经安排。"
-          }
-        ],
-        "unplanned_raw_items": [
-          "去皮鸡腿肉"
-        ],
-        "reason_codes": [
-          "incomplete_coverage",
-          "unrecognized_ingredient"
-        ],
+        "unplanned_items": [],
+        "unplanned_raw_items": [],
+        "reason_codes": [],
         "ratio_plans": [
           {
             "template_id": "savory-mixed-rice-pot",
             "ingredient_amounts": [
               {
                 "name": "大米",
+                "grams": 200
+              },
+              {
+                "name": "鸡腿肉",
                 "grams": 200
               },
               {
@@ -11709,6 +11811,11 @@
               },
               {
                 "operator": "per_serving",
+                "slot_id": "protein",
+                "grams_per_serving": 100
+              },
+              {
+                "operator": "per_serving",
                 "slot_id": "mushroom",
                 "grams_per_serving": 100
               },
@@ -11741,7 +11848,7 @@
             ]
           }
         ],
-        "end_to_end_core_coverage_ratio": 0.6666666666666666
+        "end_to_end_core_coverage_ratio": 1
       },
       "evidence_alignment": {
         "direct_template_evidence": false,
@@ -11750,11 +11857,9 @@
           "savory-mixed-rice-pot"
         ]
       },
-      "gap_codes": [
-        "taxonomy_gap"
-      ],
-      "audit_status": "taxonomy_gap",
-      "priority_band": "P1"
+      "gap_codes": [],
+      "audit_status": "full_single_pot_ingredient_compatible",
+      "priority_band": "P3"
     },
     {
       "recipe_id": "cantonese-black-bean-pork-rib-claypot-rice",

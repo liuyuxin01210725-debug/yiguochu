@@ -105,7 +105,7 @@
     {
       "family_id": "raw-rice-braise",
       "regional_scope": "mixed",
-      "region_ids": ["jiangnan", "fujian_taiwan", "northwest", "jinmeng", "qinghai_tibet", "yunnan_guizhou", "sichuan_chongqing"],
+      "region_ids": ["jiangnan", "fujian_taiwan", "lingnan_hk_macao", "northwest", "jinmeng", "qinghai_tibet", "yunnan_guizhou", "sichuan_chongqing"],
       "coverage_level": "full",
       "runtime_template_ids": ["savory-mixed-rice-pot"],
       "candidate_template_ids": [],
@@ -117,7 +117,7 @@
       "evidence_research_ids": ["chongqing-firewood-potato-rice-home"],
       "required_ratio_rule_ids": ["savory-mixed-rice-liquid-v1"],
       "resolved_ratio_rule_ids": ["savory-mixed-rice-liquid-v1"],
-      "taxonomy_item_ids": ["raw-rice", "leafy-greens", "napa-cabbage", "shiitake", "green-cabbage", "mustard-greens", "ground-pork"],
+      "taxonomy_item_ids": ["raw-rice", "leafy-greens", "napa-cabbage", "shiitake", "green-cabbage", "mustard-greens", "ground-pork", "choy-sum", "chicken-leg"],
       "blocker_codes": [],
       "scope_note": "现有生米焖饭模板已覆盖受控生米、耐焖蔬菜与有限蛋白组合，不借模板名称伪造地域菜身份。"
     },

@@ -2791,9 +2791,7 @@
           "广式腊肠",
           "菜心"
         ],
-        "unknown_role": [
-          "菜心"
-        ],
+        "unknown_role": [],
         "optional": [
           "鲜香菇"
         ],
@@ -2898,9 +2896,7 @@
           "去皮鸡腿肉",
           "鲜香菇"
         ],
-        "unknown_role": [
-          "去皮鸡腿肉"
-        ],
+        "unknown_role": [],
         "optional": [
           "小白菜"
         ],
