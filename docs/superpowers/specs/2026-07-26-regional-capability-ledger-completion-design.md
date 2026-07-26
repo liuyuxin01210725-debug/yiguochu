@@ -56,14 +56,15 @@
 ```json
 {
   "family_id": "noodle-broth",
-  "region_ids": ["central_plains", "fujian_taiwan", "lingnan_hk_macao"],
+  "regional_scope": "mixed",
+  "region_ids": ["qinghai_tibet"],
   "coverage_level": "partial",
   "runtime_template_ids": ["broth-noodle-pot"],
   "candidate_template_ids": [],
   "covered_staple_states": ["面条"],
   "uncovered_staple_states": ["面片", "米粉", "粉丝"],
   "promotion_status": "blocked_by_taxonomy",
-  "evidence_recipe_ids": ["broccoli-beef-soup-noodles"],
+  "evidence_recipe_ids": ["broccoli-beef-soup-noodles", "tibetan-gutu"],
   "evidence_research_ids": [],
   "required_ratio_rule_ids": ["broth-noodle-liquid-v1"],
   "resolved_ratio_rule_ids": ["broth-noodle-liquid-v1"],
@@ -80,7 +81,8 @@
 ### 5.1 字段定义
 
 - `family_id`：必须唯一引用 atlas 中的技法家族。
-- `region_ids`：该家族在当前研究中涉及的区域；至少一个且均须存在。
+- `regional_scope`：受控枚举 `regional | national_household | mixed`。`regional` 表示只有地域证据，`national_household` 表示当前只有全国性家常能力，`mixed` 表示两类同时存在。
+- `region_ids`：该家族已有明确事实关联的区域。`regional` 与 `mixed` 必须至少一个，`national_household` 必须为空；不得为了满足计数给全国性家常结构伪造地域。
 - `coverage_level`：受控枚举 `full | partial | none`。
 - `runtime_template_ids`：已经 active 且 `runtime_eligible:true` 的模板；允许为空。
 - `candidate_template_ids`：可能承接下一轮晋升的现有 active/planned 模板；允许为空，不得写不存在的模板。
@@ -123,7 +125,7 @@
 `tools/lib/regional-menu-mapping-validator.mjs` 必须新增并强制以下规则：
 
 1. `template_capability_mappings` 的 `family_id` 集合与 atlas 12 个技法家族完全相等；缺一项、多一项或重复均失败。
-2. 每条记录只能包含本规格定义的字段。
+2. 每条记录只能包含本规格定义的字段；`regional_scope` 必须是受控枚举。
 3. `runtime_template_ids` 中每个模板都必须存在、active 且 `runtime_eligible:true`。
 4. `candidate_template_ids` 中每个模板必须存在；同一模板不得同时出现在 runtime 与 candidate。
 5. `covered_staple_states` 与 `uncovered_staple_states` 必须互斥，合并后与对应 atlas 家族的 `staple_states` 完全相等。
@@ -131,7 +133,7 @@
 7. `covered_by_active_template` 只允许 `coverage_level:"full"`，必须至少一个 runtime template、无 blocker，且 required/resolved ratio 集合完全相等。
 8. `preview_candidate` 可以是 `full` 或 `partial`，但必须至少一个 runtime template、无 blocker，且其已声明范围所需的 required/resolved ratio 集合完全相等；`partial` 的未覆盖状态仍须原样展示。它只表示这一个受控范围待 Preview 验证，不表示整个家族完整，也不表示 production 批准。
 9. `blocked_*` 与 `research_only` 必须至少一个 blocker；不得通过空 blocker 暗示已就绪。
-10. recipe、research、taxonomy、ratio、region 和 template 引用必须全部存在。
+10. recipe、research、taxonomy、ratio、region 和 template 引用必须全部存在；`regional`/`mixed` 必须有 region，`national_household` 不得有 region。
 11. `evidence_recipe_ids` 与 `evidence_research_ids` 合并后至少一项；没有任何证据的条目不能进入台账。
 12. resolved ratio 必须同时出现在 required ratio 中；未落地的 required ratio 可以保留，但不得出现在 resolved 中。
 
