@@ -45,6 +45,7 @@ const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作�
 
 const CHECKER_DATA_FILES = [
   'recipe-library.json',
+  'recipe-candidates.json',
   'coverage-recipe-candidates.json',
   'coverage-recipe-drafts.json',
   'coverage-recipe-promotions.json',
@@ -54,6 +55,10 @@ const CHECKER_DATA_FILES = [
   'regional-menu-research.v1.json',
   'menu-verification-cases.v1.json',
   'menu-master-baseline.v1.json',
+  'regional-atlas.v2.json',
+  'regional-menu-mappings.v1.json',
+  'northeast-stew-research.v1.json',
+  'jiangnan-rice-research.v1.json',
 ];
 
 function runCheckerWithAssetMutation(mutate) {
@@ -829,14 +834,9 @@ test('offline checker reports zero counts for malformed root containers without 
   fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
   fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempTools, 'lib'), { recursive: true });
   fs.cpSync(new URL('../../worker/src/', import.meta.url), path.join(tempRoot, 'worker', 'src'), { recursive: true });
-  for (const name of [
-    'coverage-recipe-candidates.json',
-    'coverage-recipe-drafts.json',
-    'coverage-recipe-promotions.json',
-    'ingredient-taxonomy.v1.json',
-    'meal-templates.v2.json',
-    'ratio-rules.v1.json',
-  ]) {
+  fs.cpSync(new URL('../generated/', import.meta.url), path.join(tempTools, 'generated'), { recursive: true });
+  fs.cpSync(new URL('../../docs/', import.meta.url), path.join(tempRoot, 'docs'), { recursive: true });
+  for (const name of CHECKER_DATA_FILES.filter(name => name !== 'recipe-library.json')) {
     fs.copyFileSync(new URL(`../data/${name}`, import.meta.url), path.join(tempTools, 'data', name));
   }
   fs.writeFileSync(

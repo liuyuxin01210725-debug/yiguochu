@@ -23,6 +23,12 @@ import {
   validateNortheastStewResearchReport,
 } from './lib/northeast-stew-research-builder.mjs';
 import { buildNortheastStewResearchArtifacts } from './lib/northeast-stew-research-renderer.mjs';
+import { validateJiangnanRiceResearch } from './lib/jiangnan-rice-research-validator.mjs';
+import {
+  buildJiangnanRiceResearchReport,
+  validateJiangnanRiceResearchReport,
+} from './lib/jiangnan-rice-research-builder.mjs';
+import { buildJiangnanRiceResearchArtifacts } from './lib/jiangnan-rice-research-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -31,6 +37,7 @@ const errors = [...recipeLibraryErrors];
 const menuMasterInputErrors = [];
 const regionalAtlasInputErrors = [];
 const northeastResearchInputErrors = [];
+const jiangnanResearchInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -40,6 +47,7 @@ function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErro
   return JSON.parse(fs.readFileSync(fileUrl, 'utf8'));
 }
 const coverageCandidates = JSON.parse(fs.readFileSync(new URL('./data/coverage-recipe-candidates.json', import.meta.url), 'utf8'));
+const recipeCandidates = JSON.parse(fs.readFileSync(new URL('./data/recipe-candidates.json', import.meta.url), 'utf8'));
 const coverageDrafts = JSON.parse(fs.readFileSync(new URL('./data/coverage-recipe-drafts.json', import.meta.url), 'utf8'));
 const coveragePromotions = JSON.parse(fs.readFileSync(new URL('./data/coverage-recipe-promotions.json', import.meta.url), 'utf8'));
 const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
@@ -51,6 +59,7 @@ const menuMasterBaseline = readReviewLedger('./data/menu-master-baseline.v1.json
 const regionalAtlas = readReviewLedger('./data/regional-atlas.v2.json', 'regional atlas catalog', regionalAtlasInputErrors);
 const regionalMenuMappings = readReviewLedger('./data/regional-menu-mappings.v1.json', 'regional menu mapping ledger', regionalAtlasInputErrors);
 const northeastResearch = readReviewLedger('./data/northeast-stew-research.v1.json', 'northeast stew research assessment', northeastResearchInputErrors);
+const jiangnanResearch = readReviewLedger('./data/jiangnan-rice-research.v1.json', 'Jiangnan rice research assessment', jiangnanResearchInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -155,6 +164,41 @@ if (regionalAtlasSourceErrors.length === 0 && menuMasterSourceErrors.length === 
   }
 }
 errors.push(...northeastResearchErrors);
+const jiangnanResearchSourceErrors = [
+  ...jiangnanResearchInputErrors,
+  ...validateJiangnanRiceResearch({
+    assessment: jiangnanResearch,
+    recipeLibrary: lib,
+    recipeCandidates,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  }),
+];
+errors.push(...jiangnanResearchSourceErrors);
+const jiangnanResearchErrors = [];
+let jiangnanResearchReport;
+if (recipeLibraryErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && jiangnanResearchSourceErrors.length === 0) {
+  jiangnanResearchReport = buildJiangnanRiceResearchReport({
+    assessment: jiangnanResearch,
+    recipeLibrary: lib,
+    recipeCandidates,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  });
+  jiangnanResearchErrors.push(...validateJiangnanRiceResearchReport(jiangnanResearchReport));
+  if (jiangnanResearchErrors.length === 0) {
+    for (const [relativePath, content] of buildJiangnanRiceResearchArtifacts(jiangnanResearchReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        jiangnanResearchErrors.push(`${relativePath} is missing or stale; run node tools/build-jiangnan-rice-research.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...jiangnanResearchErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -186,6 +230,9 @@ if (regionalAtlasReport && regionalAtlasSourceErrors.length === 0 && regionalAtl
 }
 if (northeastResearchReport && northeastResearchSourceErrors.length === 0 && northeastResearchErrors.length === 0) {
   console.log(`${northeastResearchReport.summary.prototype_count} northeast prototypes · ${northeastResearchReport.summary.source_count} sources · ${northeastResearchReport.summary.journey_count} journeys · northeast research ok`);
+}
+if (jiangnanResearchReport && jiangnanResearchSourceErrors.length === 0 && jiangnanResearchErrors.length === 0) {
+  console.log(`${jiangnanResearchReport.summary.recipe_audit_count} Jiangnan recipe audits · ${jiangnanResearchReport.summary.source_count} sources · ${jiangnanResearchReport.summary.journey_count} journeys · Jiangnan research ok`);
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
