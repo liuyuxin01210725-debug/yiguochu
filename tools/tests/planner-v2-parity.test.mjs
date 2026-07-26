@@ -248,6 +248,7 @@ async function parityCase(name, body, expectedStatus) {
 }
 
 test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2 journeys', async t => {
+  const assetsBefore = digestAssets();
   const basePartialRequest = request({ must: ['番茄', '鸡蛋', '神秘叶子'] });
   const basePartial = (await workerPlan(basePartialRequest)).body;
   const acceptance = {
@@ -275,6 +276,9 @@ test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2
     ['tofu aliases', request({ must: ['南豆腐', '北豆腐', '白菜'] }), 'complete'],
     ['unknown ingredient', basePartialRequest, 'needs_user_decision'],
     ['quick intent', request({ intent: 'quick', must: ['番茄', '鸡蛋'] }), 'complete'],
+    ['braised noodle complete', request({ must: ['面条', '豆角', '猪肉'] }), 'complete'],
+    ['cured meat mixed rice', request({ must: ['大米', '青菜', '咸肉'] }), 'complete'],
+    ['slow cut remains unplanned', request({ must: ['面条', '白菜', '排骨'] }), 'needs_user_decision'],
     ['two pot plan', request({ must: ['大米', '熟米饭', '番茄'] }), 'complete'],
     ['third pot decision', request({ must: ['大米', '熟米饭', '面条', '番茄', '洋葱'] }), 'needs_user_decision'],
     ['partial accepted', acceptedRequest, 'partial_accepted'],
@@ -296,6 +300,7 @@ test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2
       assert.deepEqual(actual, expected.body);
     });
   }
+  assert.equal(digestAssets(), assetsBefore, 'planner parity journeys must not mutate shared assets');
 });
 
 test('Python plan CLI is deterministic, API-key free, asset immutable and shell inert', async () => {

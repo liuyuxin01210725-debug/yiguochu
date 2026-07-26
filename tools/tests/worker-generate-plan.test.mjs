@@ -272,7 +272,7 @@ test('stale envelope or changed exact request state exits before rate, budget an
   const journey = await preparedJourney(baseRequest);
   const cases = [
     ['planner version', value => { value.planner_version = 'pantry-planner-v1'; }],
-    ['catalog version', value => { value.template_catalog_version = 'templates-stale'; }],
+    ['catalog version', value => { value.template_catalog_version = 'templates-v2-20260724'; }],
     ['plan id', value => { value.plan_id = 'pln_v2_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'; }],
     ['servings', value => { value.plan_request.constraints.servings = 3; }],
     ['intent', value => { value.plan_request.constraints.intent = 'fresh'; }],
