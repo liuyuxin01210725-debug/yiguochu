@@ -21,6 +21,7 @@ const appScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
 export const HANDLED_EXPECTATION_KEYS = Object.freeze([
   'allowed_extra_categories', 'code', 'complete_coverage', 'complete_forbidden',
   'different_plan_id', 'different_template_preferred', 'exercise_statuses',
+  'excluded_template_ids',
   'fallback_must_be_explicit', 'forbidden_copy', 'forbidden_extras',
   'forbidden_final_ingredients', 'forbidden_raw', 'forbidden_required_extras',
   'forbidden_shapes', 'forbidden_template_ids', 'forbidden_template_text',
@@ -35,6 +36,7 @@ export const HANDLED_EXPECTATION_KEYS = Object.freeze([
   'pot_count_min', 'pots_retained', 'prefer_use', 'ratio_trace_required',
   'raw_items_retained', 'reason_codes', 'recent_does_not_exhaust',
   'recognition_ratio_below', 'relaxed_item_role', 'same_or_better_promise',
+  'required_template_ids', 'required_unplanned_raw',
   'same_template_different_slot_assignment', 'semantic_denominator',
   'sequential_meals', 'servings_per_pot', 'single_item_solution_forbidden',
   'single_pot_minimum_coverage', 'status', 'structured_actions',
@@ -443,6 +445,18 @@ async function runOne(entry) {
   }
   if (entry.expect.moisture_release_items_at_least != null) assert.ok(body.normalized_items.filter(item => item.moisture_release === 'high').length >= entry.expect.moisture_release_items_at_least);
   if (entry.expect.ratio_trace_required && body.plan.pots.length) assert.ok(body.plan.pots.some(pot => (pot.ratio_trace || []).length > 0));
+  if (entry.expect.required_template_ids) {
+    const actual = new Set(templates(body));
+    for (const id of entry.expect.required_template_ids) assert.ok(actual.has(id), `${entry.id} missing template ${id}`);
+  }
+  if (entry.expect.excluded_template_ids) {
+    const actual = new Set(templates(body));
+    for (const id of entry.expect.excluded_template_ids) assert.equal(actual.has(id), false, `${entry.id} unexpectedly used ${id}`);
+  }
+  if (entry.expect.required_unplanned_raw) {
+    const actual = new Set((body.plan?.unplanned_must_use || []).map(item => item.raw));
+    for (const raw of entry.expect.required_unplanned_raw) assert.ok(actual.has(raw), `${entry.id} silently lost ${raw}`);
+  }
   if (entry.expect.forbidden_template_ids) for (const pot of body.plan.pots || []) {
     if (!entry.expect.forbidden_template_ids.includes(pot.template_id)) continue;
     const assignedRaw = Object.values(pot.slot_assignment || {}).flat().map(item => item.raw);
@@ -578,9 +592,9 @@ async function runOne(entry) {
 }
 
 function validateCorpus() {
-  assert.equal(corpus.journeys.length, 44);
-  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 44 }, (_, index) => index + 1));
-  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 44);
+  assert.equal(corpus.journeys.length, 64);
+  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 64 }, (_, index) => index + 1));
+  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 64);
   assert.equal(JSON.parse(sourceAssets['/recipe-library.json']).recipes.length, 72, 'journey gate must retain the 72-recipe evidence base');
   for (const entry of corpus.journeys) {
     assert.ok(entry.request && entry.expect && entry.category);
@@ -612,7 +626,7 @@ export async function runPantryPlannerV2Journeys({ printSummary = false, journey
   const result = { passed, total: journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
   if (printSummary) {
     console.log(Object.entries(counts).map(([name, count]) => `${name}=${count}`).join(' '));
-    if (journeys.length === corpus.journeys.length) console.log('44/44 planner v2 journeys passed');
+    if (journeys.length === corpus.journeys.length) console.log('64/64 planner v2 journeys passed');
   }
   return result;
 }

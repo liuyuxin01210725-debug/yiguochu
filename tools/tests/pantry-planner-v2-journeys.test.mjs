@@ -7,13 +7,13 @@ import { HANDLED_EXPECTATION_KEYS, runPantryPlannerV2Journeys } from '../run-pan
 
 const corpus = JSON.parse(fs.readFileSync(new URL('../data/pantry-planner-v2-journeys.json', import.meta.url), 'utf8'));
 
-test('corpus maps spec journeys 1-44 exactly once', () => {
-  assert.equal(corpus.journeys.length, 44);
-  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 44 }, (_, index) => index + 1));
-  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 44);
+test('corpus maps spec journeys 1-64 exactly once', () => {
+  assert.equal(corpus.journeys.length, 64);
+  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 64 }, (_, index) => index + 1));
+  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 64);
   assert.deepEqual(
     Object.fromEntries(Object.entries(Object.groupBy(corpus.journeys, entry => entry.category)).map(([key, value]) => [key, value.length])),
-    { taxonomy_shape:8, recommend:3, pantry_coverage:8, decision:5, intent_swap:7, model_boundary:7, version_legacy:6 },
+    { taxonomy_shape:8, recommend:3, pantry_coverage:8, decision:5, intent_swap:7, model_boundary:7, version_legacy:6, regional_capability:20 },
   );
   for (const entry of corpus.journeys) {
     assert.ok(entry.request && entry.expect && Array.isArray(entry.expect.status), `${entry.id} complete request/expect`);
@@ -61,9 +61,9 @@ test('mutation probes prove planner, generation and frontend assertions are beha
   );
 });
 
-test('all 44 planner v2 journeys pass their public-boundary invariants', async () => {
+test('all 64 planner v2 journeys pass their public-boundary invariants', async () => {
   const result = await runPantryPlannerV2Journeys();
-  assert.equal(result.passed, 44);
+  assert.equal(result.passed, 64);
 });
 
 test('CLI executes the gate and emits its stable summary line', () => {
@@ -72,5 +72,5 @@ test('CLI executes the gate and emits its stable summary line', () => {
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.equal(result.stderr, '', 'successful CLI must not emit expected-rejection noise');
-  assert.match(result.stdout, /(?:^|\n)44\/44 planner v2 journeys passed(?:\n|$)/);
+  assert.match(result.stdout, /(?:^|\n)64\/64 planner v2 journeys passed(?:\n|$)/);
 });

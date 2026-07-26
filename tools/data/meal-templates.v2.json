@@ -218,7 +218,7 @@
       "slot_limits":{"total_user_items_min":2,"total_user_items_max":4,"protein_max":1,"vegetable_max":2,"mushroom_max":1},
       "ingredient_categories":{"staple":["noodle"],"vegetable":["leafy_vegetable","pod_vegetable","root_vegetable"],"protein":["chicken","pork","firm_tofu"],"mushroom":["mushroom"]},
       "compatibility_rules":[{"rule_code":"braised_noodle_uses_braise","when":{"slot_id":"staple","category":"noodle"},"requires_cooking_mode":["braise","simmer"]}],
-      "incompatible_rules":[{"rule_code":"braised_noodle_rejects_slow_items","when":{"slot_id":"staple","category":"noodle"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":0}}],
+      "incompatible_rules":[{"rule_code":"braised_noodle_limits_slow_items","when":{"slot_id":"staple","category":"noodle"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":1}}],
       "shape_or_cut_requirements":[{"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin"],"forbidden_shapes":["rib"]},{"slot_id":"protein","category":"chicken","allowed_shapes":["breast","leg"],"forbidden_shapes":[]}],
       "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"simmer_until_tender","slot_ids":["protein","vegetable","mushroom"]},{"phase":3,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":4,"action_code":"reach_safety_endpoints","slot_ids":["staple","protein","vegetable"]}],
       "ratio_constraints":["braised-noodle-liquid-v1"],

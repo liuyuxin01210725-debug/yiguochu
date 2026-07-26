@@ -636,12 +636,12 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
       return;
     }
     const slot = required[index];
-    const choices = [];
+    const userChoices = [];
     if (slot.source_policy?.includes('user')) {
       for (const item of users) {
         if (used.has(item)) continue;
         const fit = itemFit(slot, item, template);
-        if (fit.ok) choices.push(assignedUserRecord(item));
+        if (fit.ok) userChoices.push(item);
         else if (fit.reason_code === 'unsupported_shape_or_cut') {
           mostSpecificFailure = rejection('unsupported_shape_or_cut', '这个食材的部位或形态不适合该做法。', {
             item: item.raw, slot_id: slot.slot_id,
@@ -649,11 +649,18 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
         }
       }
     }
-    choices.push(...basicSlotChoices(slot, context.taxonomy, dislikes, allergyAliases));
-    for (const choice of choices) {
+    const userCombinations = boundedCombinations(userChoices, slot.max_items)
+      .filter(combination => combination.length >= slot.min_items);
+    for (const combination of userCombinations) {
       const nextUsed = new Set(used);
-      if (choice.source === 'user') nextUsed.add(users.find(item => item.raw === choice.raw && item.canonical === choice.canonical));
-      visitRequired(index + 1, { ...assignment, [slot.slot_id]: [choice] }, nextUsed);
+      combination.forEach(item => nextUsed.add(item));
+      visitRequired(index + 1, {
+        ...assignment,
+        [slot.slot_id]: combination.map(assignedUserRecord),
+      }, nextUsed);
+    }
+    for (const choice of basicSlotChoices(slot, context.taxonomy, dislikes, allergyAliases)) {
+      visitRequired(index + 1, { ...assignment, [slot.slot_id]: [choice] }, new Set(used));
     }
   };
   visitRequired(0, {}, new Set());
@@ -2029,10 +2036,10 @@ export async function planMealWithIdentity(assets = {}, request = {}) {
       const leftCoverage = left.plan?.coverage_ratio || 0;
       const rightCoverage = right.plan?.coverage_ratio || 0;
       if (leftCoverage !== rightCoverage) return rightCoverage - leftCoverage;
-      const levelDifference = alternativeLevel(left, current) - alternativeLevel(right, current);
-      if (levelDifference) return levelDifference;
       const recentDifference = Number(recent.has(left.plan.plan_id)) - Number(recent.has(right.plan.plan_id));
       if (recentDifference) return recentDifference;
+      const levelDifference = alternativeLevel(left, current) - alternativeLevel(right, current);
+      if (levelDifference) return levelDifference;
       return planStructureKey(left).localeCompare(planStructureKey(right), 'zh-Hans-CN')
         || left.plan.plan_id.localeCompare(right.plan.plan_id);
     });
