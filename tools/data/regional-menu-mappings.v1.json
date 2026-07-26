@@ -100,5 +100,40 @@
     {"source_type":"research_candidate","source_id":"henan-celery-pork-steamed-noodles","regional_scope":"province_specific","region_ids":["central_plains"],"province_codes":["CN-HA"],"primary_family_id":"noodle-steam-braise","secondary_family_ids":[],"legacy_family_id":"steamed-noodle-home-pot","mapping_basis":["research_hypothesis","family_crosswalk"],"mapping_note":"河南芹菜猪肉蒸面研究题目。"},
     {"source_type":"research_candidate","source_id":"henan-cabbage-mushroom-steamed-noodles","regional_scope":"province_specific","region_ids":["central_plains"],"province_codes":["CN-HA"],"primary_family_id":"noodle-steam-braise","secondary_family_ids":[],"legacy_family_id":"steamed-noodle-home-pot","mapping_basis":["research_hypothesis","family_crosswalk"],"mapping_note":"河南卷心菜菌菇蒸面研究题目。"},
     {"source_type":"research_candidate","source_id":"henan-home-one-pot-steamed-braised-noodles","regional_scope":"province_specific","region_ids":["central_plains"],"province_codes":["CN-HA"],"primary_family_id":"noodle-steam-braise","secondary_family_ids":["noodle-braise"],"legacy_family_id":"steamed-noodle-home-pot","mapping_basis":["research_hypothesis","family_crosswalk"],"mapping_note":"河南家庭单锅蒸焖面是适配研究题目，尚未成为固定菜谱。"}
+  ],
+  "template_capability_mappings": [
+    {
+      "family_id": "raw-rice-braise",
+      "template_id": "savory-mixed-rice-pot",
+      "region_ids": ["jiangnan", "fujian_taiwan"],
+      "promotion_status": "covered_by_active_template",
+      "evidence_recipe_ids": ["shanghai-salted-pork-vegetable-rice", "taiwan-cabbage-mushroom-rice"],
+      "required_ratio_rule_ids": ["savory-mixed-rice-liquid-v1"],
+      "resolved_ratio_rule_ids": ["savory-mixed-rice-liquid-v1"],
+      "taxonomy_item_ids": ["raw-rice", "leafy-greens", "napa-cabbage", "shiitake"],
+      "blocker_codes": []
+    },
+    {
+      "family_id": "noodle-braise",
+      "template_id": "braised-noodle-pot",
+      "region_ids": ["jingjinji", "jinmeng", "shandong", "central_plains"],
+      "promotion_status": "blocked_by_ratio",
+      "evidence_recipe_ids": ["north-china-green-bean-braised-noodles", "cabbage-potato-chicken-leg-braised-noodles"],
+      "required_ratio_rule_ids": ["braised-noodle-liquid-v1"],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": ["noodle", "green-beans", "potato", "napa-cabbage", "chicken-generic", "pork-generic", "firm-tofu", "shiitake"],
+      "blocker_codes": ["ratio_rule_missing:braised-noodle-liquid-v1"]
+    },
+    {
+      "family_id": "stew-with-staple",
+      "template_id": "stew-with-staple-pot",
+      "region_ids": ["northeast"],
+      "promotion_status": "blocked_by_taxonomy",
+      "evidence_recipe_ids": ["green-bean-pork-rib-braised-rice", "cabbage-potato-chicken-leg-braised-noodles"],
+      "required_ratio_rule_ids": ["stew-with-staple-liquid-v1"],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": ["green-beans", "potato", "chicken-generic", "pork-ribs"],
+      "blocker_codes": ["taxonomy_missing:cornmeal-dough", "taxonomy_missing:wheat-dough", "ratio_rule_missing:stew-with-staple-liquid-v1"]
+    }
   ]
 }

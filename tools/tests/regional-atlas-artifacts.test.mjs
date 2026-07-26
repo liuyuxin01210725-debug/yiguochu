@@ -18,6 +18,9 @@ const DATA_FILES = [
   'regional-menu-mappings.v1.json',
   'recipe-library.json',
   'regional-menu-research.v1.json',
+  'meal-templates.v2.json',
+  'ingredient-taxonomy.v1.json',
+  'ratio-rules.v1.json',
 ];
 
 function makeTempBuildRoot() {

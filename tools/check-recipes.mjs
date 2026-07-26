@@ -176,6 +176,9 @@ const regionalAtlasSourceErrors = [
     atlas: regionalAtlas,
     recipeLibrary: lib,
     regionalResearch,
+    templates,
+    taxonomy,
+    ratios,
   }),
 ];
 errors.push(...regionalAtlasSourceErrors);

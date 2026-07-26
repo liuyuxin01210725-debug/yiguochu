@@ -67,12 +67,18 @@ function subjectGroups(report) {
 }
 
 function canonicalInputPayload(inputs) {
+  const regionalMappings = object(inputs.regionalMappings);
   return {
     assessment: copy(inputs.assessment),
     recipeLibrary: copy(inputs.recipeLibrary),
     regionalResearch: copy(inputs.regionalResearch),
     regionalAtlas: copy(inputs.regionalAtlas),
-    regionalMappings: copy(inputs.regionalMappings),
+    regionalMappings: {
+      schema_version: regionalMappings.schema_version,
+      mapping_version: regionalMappings.mapping_version,
+      production_recipe_mappings: copy(regionalMappings.production_recipe_mappings),
+      research_candidate_mappings: copy(regionalMappings.research_candidate_mappings),
+    },
   };
 }
 

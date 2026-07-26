@@ -20,6 +20,9 @@ export function buildRegionalAtlasFromFixedInputs() {
     mappings: readJson('tools/data/regional-menu-mappings.v1.json'),
     recipeLibrary: readJson('tools/data/recipe-library.json'),
     regionalResearch: readJson('tools/data/regional-menu-research.v1.json'),
+    templates: readJson('tools/data/meal-templates.v2.json'),
+    taxonomy: readJson('tools/data/ingredient-taxonomy.v1.json'),
+    ratios: readJson('tools/data/ratio-rules.v1.json'),
   };
   const sourceErrors = [
     ...validateRegionalAtlas(inputs.atlas),

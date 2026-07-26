@@ -8,17 +8,62 @@ const atlas = read('regional-atlas.v2.json');
 const mappings = read('regional-menu-mappings.v1.json');
 const recipeLibrary = read('recipe-library.json');
 const regionalResearch = read('regional-menu-research.v1.json');
+const templates = read('meal-templates.v2.json');
+const taxonomy = read('ingredient-taxonomy.v1.json');
+const ratios = read('ratio-rules.v1.json');
 const validate = value => validateRegionalMenuMappings({
   mappings: value,
   atlas,
   recipeLibrary,
   regionalResearch,
+  templates,
+  taxonomy,
+  ratios,
 });
 
 test('mapping ledger covers the exact 72 production and 24 research IDs', () => {
   assert.equal(mappings.production_recipe_mappings.length, 72);
   assert.equal(mappings.research_candidate_mappings.length, 24);
   assert.deepEqual(validate(mappings), []);
+});
+
+test('capability ledger records covered ratio-blocked and taxonomy-blocked techniques', () => {
+  assert.ok(Array.isArray(mappings.template_capability_mappings));
+  const byFamily = new Map(mappings.template_capability_mappings.map(row => [row.family_id, row]));
+  assert.equal(byFamily.size, 3);
+  assert.equal(byFamily.get('raw-rice-braise')?.promotion_status, 'covered_by_active_template');
+  assert.equal(byFamily.get('noodle-braise')?.promotion_status, 'blocked_by_ratio');
+  assert.deepEqual(byFamily.get('noodle-braise')?.resolved_ratio_rule_ids, []);
+  assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_taxonomy');
+  assert.deepEqual(validate(mappings), []);
+});
+
+test('preview candidates fail closed on stale runtime references or unresolved blockers', () => {
+  const broken = structuredClone(mappings);
+  const row = broken.template_capability_mappings?.find(item => item.family_id === 'noodle-braise');
+  assert.ok(row, 'noodle-braise capability row must exist');
+  row.promotion_status = 'preview_candidate';
+  row.blocker_codes = [];
+  row.resolved_ratio_rule_ids = [...row.required_ratio_rule_ids];
+  assert.match(validate(broken).join('\n'), /unknown resolved ratio rule/);
+});
+
+test('capability rows reject duplicate families and false ready states', () => {
+  const broken = structuredClone(mappings);
+  assert.ok(Array.isArray(broken.template_capability_mappings));
+  const blocked = broken.template_capability_mappings.find(item => item.family_id === 'noodle-braise');
+  blocked.promotion_status = 'preview_candidate';
+  broken.template_capability_mappings.push(structuredClone(blocked));
+  const message = validate(broken).join('\n');
+  assert.match(message, /ready capability cannot retain blockers/);
+  assert.match(message, /capability family_id must be unique/);
+});
+
+test('capability rows reject taxonomy references that are not controlled identities', () => {
+  const broken = structuredClone(mappings);
+  assert.ok(Array.isArray(broken.template_capability_mappings));
+  broken.template_capability_mappings[0].taxonomy_item_ids.push('invented-ingredient');
+  assert.match(validate(broken).join('\n'), /unknown value invented-ingredient/);
 });
 
 test('national and outside-China menus cannot acquire fake provinces', () => {
@@ -71,6 +116,7 @@ test('mapping validator is total for malformed roots and rows', () => {
   const broken = structuredClone(mappings);
   broken.production_recipe_mappings = [null];
   broken.research_candidate_mappings = [null];
+  broken.template_capability_mappings = [null];
   assert.doesNotThrow(() => validate(broken));
   assert.match(validate(broken).join('\n'), /mapping must be an object/);
 });

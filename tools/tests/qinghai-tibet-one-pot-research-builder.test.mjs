@@ -16,6 +16,20 @@ const inputs = {
   regionalMappings: readJson('../data/regional-menu-mappings.v1.json'),
 };
 
+test('planner capability bookkeeping does not invalidate Qinghai Tibet research inputs', () => {
+  const baselineInputs = structuredClone(inputs);
+  const capabilityRows = baselineInputs.regionalMappings.template_capability_mappings;
+  delete baselineInputs.regionalMappings.template_capability_mappings;
+  const baseline = buildQinghaiTibetOnePotResearchReport(baselineInputs);
+
+  const extendedInputs = structuredClone(baselineInputs);
+  extendedInputs.regionalMappings.template_capability_mappings = capabilityRows;
+  const extended = buildQinghaiTibetOnePotResearchReport(extendedInputs);
+
+  assert.equal(extended.input_data_normalized_fingerprint, baseline.input_data_normalized_fingerprint);
+  assert.deepEqual(extended, baseline);
+});
+
 test('report derives the fixed Qinghai Tibet 4/0/5/6/11/12 baseline and retains the normalized source fingerprint', () => {
   const report = buildQinghaiTibetOnePotResearchReport(inputs);
 
