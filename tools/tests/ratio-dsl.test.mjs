@@ -22,13 +22,13 @@ const catalog = prepared.catalog;
 const ACTIVE = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
-  'braised-noodle-pot',
+  'braised-noodle-pot', 'broth-rice-pot',
 ]);
-const OPERATORS = new Set(['per_serving', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
+const OPERATORS = new Set(['per_serving', 'per_serving_by_category', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
 
-test('Ratio DSL catalog covers every active template with only the five executable operators', () => {
+test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260726-r1');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r2');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -42,7 +42,8 @@ test('Ratio DSL catalog covers every active template with only the five executab
     for (const operation of rule.operations) assert.ok(OPERATORS.has(operation.operator));
     const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
     for (const slot of template.required_slots.filter(slot => slot.source_policy.includes('user'))) {
-      assert.equal(rule.operations.filter(operation => operation.operator === 'per_serving' && operation.target.slot_id === slot.slot_id).length, 1, `${rule.rule_id}/${slot.slot_id}`);
+      assert.equal(rule.operations.filter(operation => ['per_serving', 'per_serving_by_category'].includes(operation.operator)
+        && operation.target.slot_id === slot.slot_id).length, 1, `${rule.rule_id}/${slot.slot_id}`);
     }
   }
 });
@@ -57,7 +58,8 @@ test('raw ratio catalog explicitly quantifies every user slot without prepare-ti
       .filter(slot => slot.source_policy.includes('user'))
       .map(slot => slot.slot_id);
     for (const slotId of userSlots) {
-      assert.equal(rule.operations.filter(operation => operation.operator === 'per_serving' && operation.target.slot_id === slotId).length, 1, `${rule.rule_id}/${slotId}`);
+      assert.equal(rule.operations.filter(operation => ['per_serving', 'per_serving_by_category'].includes(operation.operator)
+        && operation.target.slot_id === slotId).length, 1, `${rule.rule_id}/${slotId}`);
     }
   }
 });
@@ -408,6 +410,26 @@ test('high-moisture optional vegetables are quantified once before bounded_sum c
   assert.equal(result.ok,true);
   assert.equal(result.ingredient_amounts.find(row => row.name === '白菜').grams,240);
   assert.equal(result.ingredient_amounts.find(row => row.name === '金针菇').grams,200);
+});
+
+test('broth rice compiles evidence-derived quantities for two servings', () => {
+  const result = compileRatioPlan('broth-rice-liquid-v1', {
+    servings: 2,
+    slots: {
+      staple: [item('熟米饭', 'cooked_rice')],
+      protein: [item('鸡蛋', 'egg')],
+      fast_vegetable: [item('白菜', 'leafy_vegetable')],
+      liquid: [item('水', 'liquid')],
+    },
+  }, catalog);
+  assert.equal(result.ok, true);
+  assert.deepEqual(new Map(result.ingredient_amounts.map(row => [row.name, row.grams])), new Map([
+    ['水', 650],
+    ['熟米饭', 360],
+    ['白菜', 220],
+    ['鸡蛋', 130],
+  ]));
+  assert.deepEqual(result.required_extra_items, [{ name: '水', category: 'liquid', grams: 650 }]);
 });
 
 function catalogWithCategorySpecificProtein(mutator = () => {}) {

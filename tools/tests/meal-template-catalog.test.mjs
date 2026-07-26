@@ -25,10 +25,10 @@ const ACTIVE = new Set([
   'beef-staple-pot',
   'poultry-staple-pot',
   'braised-noodle-pot',
+  'broth-rice-pot',
 ]);
 const PLANNED = new Set([
   'mushroom-aroma-rice-pot',
-  'broth-rice-pot',
   'curry-staple-pot',
   'pork-staple-pot',
   'soft-family-rice-pot',
@@ -42,9 +42,9 @@ const REQUIRED_TEMPLATE_FIELDS = [
   'time_range', 'supported_intents', 'evidence_recipe_ids',
 ];
 
-test('catalog has the approved 9 active and 7 planned composable template IDs', () => {
+test('catalog has the approved 10 active and 6 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r2');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r3');
   assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r2');
   assert.equal(catalog.templates.length, 16);
 
@@ -62,6 +62,32 @@ test('catalog has the approved 9 active and 7 planned composable template IDs', 
     for (const field of REQUIRED_TEMPLATE_FIELDS) assert.ok(field in template, `${template.template_id} missing ${field}`);
     assert.ok(!/[\u4e00-\u9fff]/u.test(template.template_id), 'template IDs describe structures, not display dish names');
   }
+});
+
+test('broth rice is cooked-rice only with category-specific order and safety', () => {
+  const template = catalog.templates.find(row => row.template_id === 'broth-rice-pot');
+  assert.equal(template.activation_status, 'active');
+  assert.equal(template.runtime_eligible, true);
+  assert.deepEqual(template.ingredient_categories.staple, ['cooked_rice']);
+  assert.deepEqual(template.ingredient_categories.protein, ['egg', 'chicken']);
+  assert.deepEqual(template.ingredient_categories.slow_vegetable, ['root_vegetable']);
+  assert.deepEqual(template.ingredient_categories.fast_vegetable, ['leafy_vegetable']);
+  assert.equal(template.slot_limits.total_user_items_min, 2);
+  assert.equal(template.slot_limits.total_user_items_max, 4);
+  assert.ok(template.cooking_order.some(row => row.when?.category === 'egg'
+    && row.action_code === 'gentle_set_protein'));
+  assert.ok(template.cooking_order.some(row => row.when?.category === 'chicken'
+    && row.action_code === 'cook_poultry_through'));
+  assert.deepEqual(new Set(template.safety_endpoints.map(row => `${row.applies_to_category}/${row.endpoint_code}`)), new Set([
+    'cooked_rice/heated_through',
+    'egg/egg_fully_set',
+    'chicken/poultry_fully_cooked_no_pink',
+    'root_vegetable/tender',
+  ]));
+  assert.deepEqual(template.evidence_recipe_ids, [
+    'cabbage-egg-soup-rice',
+    'tomato-chicken-leg-soup-rice',
+  ]);
 });
 
 test('active templates are structurally complete and evidence points only to existing recipes', () => {
