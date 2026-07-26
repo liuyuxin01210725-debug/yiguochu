@@ -18,7 +18,7 @@
 - 来源内容只保存元数据和简短事实摘要；不复制完整步骤、长段原文或图片。
 - `fact_checked` 只证明来源明确支持的地域、名称、核心食材或高层技法；不同来源里的食材不得静默拼成一个“传统固定组合”。
 - 黑龙江铁锅炖、吉林鸡菌菇或鱼锅、辽宁铁锅炖鱼和北京平谷粘卷子必须保持各自证据范围。
-- 粘卷子已有北京平谷直接来源时，不得继续无依据宣称为东北专属原型。
+- 粘卷子已有北京平谷直接来源时，不得继续无依据宣称东北关联已核实；北京证据同样不能被误用为“东北不存在粘卷子”的证明。
 - 鱼、鸡肉、排骨和豆角保留独立安全分支；本计划不编造温度、时间或克数。
 - 玉米面饼、小花卷和粘卷子保持三种独立形态；没有机器比例证据时标 `unresearched`，不得借用其他面团比例。
 - 每条家庭旅程只评估研究家族的可解释适配，不宣称 Planner 已支持。
@@ -116,10 +116,10 @@ test('claim evidence cannot merge separate source facts into a traditional fixed
   assert.equal(chicken.claims.family_compatibility.verdict, 'supported');
 });
 
-test('sticky rolls are not misrepresented as northeast-specific', () => {
+test('sticky rolls keep verified Beijing geography separate from an unproven northeast link', () => {
   const sticky = assessment.prototypes.find(row => row.atlas_id.endsWith('sticky-rolls'));
-  assert.equal(sticky.claims.northeast_identity.verdict, 'contradicted');
-  assert.deepEqual(sticky.corrected_geography.province_codes, ['CN-BJ']);
+  assert.equal(sticky.claims.northeast_identity.verdict, 'not_proven');
+  assert.deepEqual(sticky.verified_geography.province_codes, ['CN-BJ']);
 });
 
 test('fish plus tofu remains unproven even when fish plus corn cake is supported', () => {
@@ -166,7 +166,7 @@ const SOURCE_GRADES = new Set(['A', 'B', 'C']);
 - `province_codes` 恰好是 `CN-LN`、`CN-JL`、`CN-HL`；
 - 四个 `atlas_id` 与 discovery ledger 精确一致且不得与生产 recipe 混用；
 - 每个 claim 必须包含 `verdict`、非空 `evidence_source_ids`、`reason`；`not_proven` 可使用证明邻近事实的来源，但 reason 必须说明缺少哪条直接联系；
-- `contradicted` 必须引用至少一条反证来源；
+- `contradicted` 必须引用直接否定该 claim 的来源；证明另一地域也有同类做法，只能形成 `not_proven`，不能当作排他性反证；
 - 来源必须为 HTTPS，含 `source_id/title/url/publisher/published_at/retrieved_at/source_grade/evidence_summary/proves/does_not_prove`；日期必须是真实日历日期且不晚于 2026-07-26；
 - `source_grade: C` 不能单独支持 `fact_checked`；
 - `corn_dough_cake`、`wheat_flower_roll`、`sticky_roll` 必须是三个独立 staple form；
@@ -186,14 +186,14 @@ const SOURCE_GRADES = new Set(['A', 'B', 'C']);
 | `jilin-lishu-routes-2025` | A | `https://whhlyt.jl.gov.cn/ztzl/jlslyxlhxj/gdxl/sps/lsx/202507/t20250708_9275953.html` | 吉林梨树铁锅炖江鱼、笨鸡、大鹅、大骨家族；不证明具体锅边主食 |
 | `jilin-baishan-food-2024` | A | `https://www.jl.gov.cn/yaowen/202409/t20240920_3299348.html` | 吉林白山铁锅炖鲤鱼、小鸡炖蘑菇、排骨炖豆角；不证明三者与锅边主食同锅 |
 | `liaoning-autumn-food-2025` | A | `https://whly.ln.gov.cn/whly/tpxw/2025110716014218277/index.shtml` | 辽宁铁锅炖鱼及铁锅炖鸡鹅鱼家族；不证明锅边主食或豆腐 |
-| `beijing-pinggu-sticky-roll-2019` | B | `https://www.visitbeijing.com.cn/article/47QmeqUNmDQ` | 北京平谷豆角粘卷子的明确地域、菜饭同锅结构；作为“东北专属”主张的反证 |
+| `beijing-pinggu-sticky-roll-2019` | B | `https://www.visitbeijing.com.cn/article/47QmeqUNmDQ` | 北京平谷豆角粘卷子的明确地域、菜饭同锅结构；不证明也不否定东北存在同类做法 |
 
 四个原型的固定研究结论：
 
 1. `ribs-beans-corn-cake`：黑龙江家族级组合直接受到 A 级来源支持，`research_state: fact_checked`，产品去向为 `template_evidence` 与 `recipe_evidence`，比例与安全仍未完成；
 2. `chicken-mushroom-potato-corn-cake`：鸡+蘑菇+土豆与鸡/玉米饼分别受支持，但“四项固定传统组合”没有单一来源直接证明；`research_state: needs_more_evidence`，只作为 `template_evidence`；
 3. `fish-tofu-vegetable-corn-cake`：鱼+玉米饼家族受到支持，豆腐作为传统核心未获支持；`research_state: needs_more_evidence`，建议把豆腐降为未来受控可选槽位研究，不得宣称传统核心；
-4. `ribs-beans-sticky-rolls`：现有直接来源指向北京平谷，不支持东北专属；东北地域 claim 为 `contradicted`，产品去向为 `content_only`，等待后续在京津冀轮重新归位。
+4. `ribs-beans-sticky-rolls`：现有直接来源只核实北京平谷；东北地域 claim 为 `not_proven`，`research_state: needs_more_evidence`，当前东北轮产品去向为 `content_only`，并在京津冀轮复用已核实的北京证据。不得从北京证据反推东北不存在同类做法。
 
 - [ ] **Step 5: 运行测试并确认通过**
 
@@ -365,7 +365,7 @@ test('ten household journeys cover positive negative and boundary cases', () => 
   assert.equal(new Set(assessment.journey_cases.map(row => row.journey_id)).size, 10);
   assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'supported_family_route'));
   assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'needs_more_evidence'));
-  assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'outside_northeast_scope'));
+  assert.ok(assessment.journey_cases.some(row => row.journey_id === 'ne-j05' && row.expected_research_outcome === 'needs_more_evidence'));
   assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'unsupported_for_family'));
   assert.ok(assessment.journey_cases.every(row => row.human_review.status === 'pending'));
 });
@@ -389,7 +389,7 @@ Expected: FAIL because `journey_cases` is missing or not exactly 10.
 | `ne-j02` | 鸡胸肉、香菇、土豆、玉米面 | `needs_more_evidence`：部位与菌菇替换均需 compatibility，不把它写成地方原做法 |
 | `ne-j03` | 排骨、油豆角、玉米面 | `supported_family_route`：黑龙江来源直接支持该家族结构 |
 | `ne-j04` | 排骨、普通豆角、玉米面 | `needs_more_evidence`：油豆角到普通豆角需明确 taxonomy/compatibility 决策 |
-| `ne-j05` | 排骨、豆角、面粉 | `outside_northeast_scope`：粘卷子直接证据指向北京平谷，留待京津冀轮 |
+| `ne-j05` | 排骨、豆角、面粉 | `needs_more_evidence`：北京平谷已核实，东北关联仍未核实；留待东北补证并在京津冀轮复用北京事实 |
 | `ne-j06` | 鲤鱼、白菜、玉米面 | `needs_more_evidence`：鱼锅与锅边饼家族有据，白菜组合需另证 |
 | `ne-j07` | 鲤鱼、豆腐、白菜、玉米面 | `needs_more_evidence`：豆腐不能被冒充为传统核心 |
 | `ne-j08` | 鸡肉、蘑菇、土豆 | `unsupported_for_family`：缺少本家族必须的锅边主食，不以普通炖菜冒充完整一锅主餐 |
@@ -444,7 +444,7 @@ test('renderers are deterministic and state research boundaries', () => {
   assert.equal(renderNortheastStewResearchJson(report), renderNortheastStewResearchJson(report));
   const markdown = renderNortheastStewResearchMarkdown(report);
   assert.match(markdown, /研究完成不等于生产菜谱已批准/);
-  assert.match(markdown, /粘卷子.*北京平谷/);
+  assert.match(markdown, /粘卷子.*北京平谷.*东北关联.*未核实/);
   assert.match(markdown, /四项固定组合.*未证明/);
   assert.match(markdown, /research_in_progress/);
 });
@@ -687,7 +687,7 @@ Expected: 第一条无输出；diff check 退出 0；工作树干净。
 PR 说明必须列出：
 
 - 4 个原型的事实结论；
-- 粘卷子东北 claim 被纠正为北京平谷证据；
+- 粘卷子当前只有北京平谷关联得到核实，东北关联仍待补证；
 - 鱼+豆腐传统核心仍未证明；
 - 7 条来源和 10 条旅程；
 - 当前状态仍是 `research_in_progress`；
@@ -707,6 +707,6 @@ Expected: `isDraft: true`、`state: OPEN`，remote head 与本地 HEAD 一致。
 
 - Spec coverage: 七项地域交付物、四个原型、一个技法家族、三省节点、来源分级、同构变种、三种主食形态、四个安全分支、十条旅程、产品去向和不进运行时均有对应任务。
 - Scope boundary: 不新增 recipe/template，不修改 Planner 或生成链路，不把 research 结论伪装成人工厨房验证。
-- Evidence boundary: 每条来源的允许证明范围已固定；“不同来源拼成传统固定组合”和“北京平谷粘卷子误归东北”都有反回归测试。
+- Evidence boundary: 每条来源的允许证明范围已固定；“不同来源拼成传统固定组合”和“把北京平谷证据误写成东北已核实或东北不存在”都有反回归测试。
 - Type consistency: validator、builder、renderer、CLI 和总门禁使用同一组稳定函数名与三个固定产物路径。
 - Placeholder scan: 文档没有未决标记、占位 SHA 或未定义 helper；边界审计固定使用本轮真实起点 `7a388b65a2830af75536cb8c61506569aefd5514`。
