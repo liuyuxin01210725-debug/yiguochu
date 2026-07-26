@@ -196,8 +196,8 @@ test('distribution build excludes northeast research source and generated assets
       'stew-with-corn-cake-liquid-v1',
     ].includes(row.rule_id)), false);
     const builtTemplates = JSON.parse(fs.readFileSync(path.join(output, 'meal-templates.v2.json'), 'utf8'));
-    assert.equal(builtTemplates.templates.filter(row => row.activation_status === 'active').length, 9);
-    assert.equal(builtTemplates.templates.filter(row => row.activation_status === 'planned').length, 7);
+    assert.equal(builtTemplates.templates.filter(row => row.activation_status === 'active').length, 10);
+    assert.equal(builtTemplates.templates.filter(row => row.activation_status === 'planned').length, 6);
   } finally {
     fs.rmSync(output, { recursive: true, force: true });
   }
