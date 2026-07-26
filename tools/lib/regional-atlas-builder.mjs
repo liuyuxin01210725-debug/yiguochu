@@ -121,6 +121,15 @@ export function buildRegionalAtlasReport({ atlas, mappings, recipeLibrary, regio
     };
   });
 
+  const capabilityByFamily = new Map(asArray(safeMappings.template_capability_mappings)
+    .filter(isObject)
+    .filter(row => hasText(row.family_id))
+    .map(row => [row.family_id, row]));
+  const capabilityCoverage = techniqueCoverage.map(family => {
+    const source = clone(asObject(capabilityByFamily.get(family.family_id)));
+    return { ...source, family_id: family.family_id, name: family.name };
+  });
+
   const pantryIndex = new Map();
   for (const row of researchAudit) {
     for (const item of row.pantry_gap_items) {
@@ -162,10 +171,14 @@ export function buildRegionalAtlasReport({ atlas, mappings, recipeLibrary, regio
       national_household_count: productionAudit.filter(row => row.regional_scope === 'national_household').length,
       outside_cn_atlas_count: productionAudit.filter(row => row.regional_scope === 'outside_cn_atlas').length,
       blank_province_count: provinceCoverage.filter(row => row.coverage_status === 'skeleton_only').length,
+      capability_full_count: capabilityCoverage.filter(row => row.coverage_level === 'full').length,
+      capability_partial_count: capabilityCoverage.filter(row => row.coverage_level === 'partial').length,
+      capability_none_count: capabilityCoverage.filter(row => row.coverage_level === 'none').length,
     },
     regions,
     province_coverage: provinceCoverage,
     technique_coverage: techniqueCoverage,
+    capability_coverage: capabilityCoverage,
     cultural_overlays: clone(asArray(safeAtlas.cultural_overlays).filter(isObject)),
     production_audit: productionAudit,
     research_audit: researchAudit,
@@ -184,6 +197,7 @@ export function validateRegionalAtlasReport(report) {
     regions: asArray(report.regions),
     province_coverage: asArray(report.province_coverage),
     technique_coverage: asArray(report.technique_coverage),
+    capability_coverage: asArray(report.capability_coverage),
     production_audit: asArray(report.production_audit),
     research_audit: asArray(report.research_audit),
     pantry_gap_coverage: asArray(report.pantry_gap_coverage),
@@ -193,6 +207,7 @@ export function validateRegionalAtlasReport(report) {
   if (arrays.regions.length !== 13) errors.push('regions must contain exactly 13 items');
   if (arrays.province_coverage.length !== 34) errors.push('province_coverage must contain exactly 34 items');
   if (arrays.technique_coverage.length !== 12) errors.push('technique_coverage must contain exactly 12 items');
+  if (arrays.capability_coverage.length !== 12) errors.push('capability_coverage must contain exactly 12 items');
   if (arrays.production_audit.length !== 72) errors.push('production_audit must contain exactly 72 items');
   if (arrays.research_audit.length !== 24) errors.push('research_audit must contain exactly 24 items');
 
@@ -202,8 +217,10 @@ export function validateRegionalAtlasReport(report) {
   if (new Set(researchIds).size !== researchIds.length) errors.push('research audit source_id must be unique');
   const provinceCodes = arrays.province_coverage.map(row => asObject(row).atlas_code);
   const techniqueIds = arrays.technique_coverage.map(row => asObject(row).family_id);
+  const capabilityIds = arrays.capability_coverage.map(row => asObject(row).family_id);
   if (new Set(provinceCodes).size !== provinceCodes.length) errors.push('province coverage atlas_code must be unique');
   if (new Set(techniqueIds).size !== techniqueIds.length) errors.push('technique coverage family_id must be unique');
+  if (new Set(capabilityIds).size !== capabilityIds.length) errors.push('capability coverage family_id must be unique');
 
   const expectedSummary = {
     region_count: arrays.regions.length,
@@ -216,6 +233,9 @@ export function validateRegionalAtlasReport(report) {
     national_household_count: arrays.production_audit.filter(row => asObject(row).regional_scope === 'national_household').length,
     outside_cn_atlas_count: arrays.production_audit.filter(row => asObject(row).regional_scope === 'outside_cn_atlas').length,
     blank_province_count: arrays.province_coverage.filter(row => asObject(row).coverage_status === 'skeleton_only').length,
+    capability_full_count: arrays.capability_coverage.filter(row => asObject(row).coverage_level === 'full').length,
+    capability_partial_count: arrays.capability_coverage.filter(row => asObject(row).coverage_level === 'partial').length,
+    capability_none_count: arrays.capability_coverage.filter(row => asObject(row).coverage_level === 'none').length,
   };
   for (const [field, expected] of Object.entries(expectedSummary)) {
     if (report.summary?.[field] !== expected) errors.push(`summary ${field} expected ${expected}, got ${report.summary?.[field]}`);

@@ -56,6 +56,22 @@ test('all technique families remain visible and porridge is independently counte
   assert.deepEqual(porridge.production_recipe_ids, ['chinese-congee', 'qinghai-hao-fan', 'tibetan-savory-congee']);
 });
 
+test('report exposes all 12 planner capability rows in atlas order', () => {
+  const report = buildRegionalAtlasReport(inputs);
+  assert.ok(Array.isArray(report.capability_coverage));
+  assert.equal(report.capability_coverage.length, 12);
+  assert.deepEqual(
+    report.capability_coverage.map(row => row.family_id),
+    inputs.atlas.technique_families.map(row => row.family_id),
+  );
+  assert.equal(report.summary.capability_full_count, 2);
+  assert.equal(report.summary.capability_partial_count, 3);
+  assert.equal(report.summary.capability_none_count, 7);
+  const stew = report.capability_coverage.find(row => row.family_id === 'stew-with-staple');
+  assert.equal(stew.promotion_status, 'blocked_by_ratio');
+  assert.deepEqual(stew.runtime_template_ids, []);
+});
+
 test('pantry gaps aggregate exact research strings without semantic invention', () => {
   const report = buildRegionalAtlasReport(inputs);
   const byItem = new Map(report.pantry_gap_coverage.map(row => [row.item, row]));
@@ -90,10 +106,21 @@ test('report validator rejects mismatched summaries, duplicate sources and missi
   assert.match(message, /province_coverage must contain exactly 34 items/);
 });
 
+test('report validator rejects missing or duplicate capability families', () => {
+  const missing = buildRegionalAtlasReport(inputs);
+  assert.ok(Array.isArray(missing.capability_coverage));
+  missing.capability_coverage.pop();
+  assert.match(validateRegionalAtlasReport(missing).join('\n'), /capability_coverage must contain exactly 12 items/);
+
+  const duplicate = buildRegionalAtlasReport(inputs);
+  duplicate.capability_coverage[1].family_id = duplicate.capability_coverage[0].family_id;
+  assert.match(validateRegionalAtlasReport(duplicate).join('\n'), /capability coverage family_id must be unique/);
+});
+
 test('builder and report validator are total for malformed nested inputs', () => {
   assert.doesNotThrow(() => buildRegionalAtlasReport({
     atlas: { regions: [null], province_nodes: [null], technique_families: [null], cultural_overlays: [null] },
-    mappings: { production_recipe_mappings: [null], research_candidate_mappings: [null] },
+    mappings: { production_recipe_mappings: [null], research_candidate_mappings: [null], template_capability_mappings: [null] },
     recipeLibrary: { recipes: [null] },
     regionalResearch: { entries: [null] },
   }));
