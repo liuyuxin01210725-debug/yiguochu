@@ -22,12 +22,13 @@ const catalog = prepared.catalog;
 const ACTIVE = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
+  'braised-noodle-pot',
 ]);
 const OPERATORS = new Set(['per_serving', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
 
 test('Ratio DSL catalog covers every active template with only the five executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260724');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260726-r1');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -116,16 +117,54 @@ test('fixed additions and serving-scaled additions produce ordered, non-zero bas
   assert.equal(result.ok, true);
   assert.deepEqual(result.required_extra_items, [
     { name: '食用油', category: 'oil', grams: 10 },
-    { name: '水', category: 'liquid', grams: 240 },
+    { name: '水', category: 'liquid', grams: 270 },
     { name: '盐', category: 'seasoning', grams: 3 },
   ]);
   assert.deepEqual(result.ratio_trace.map(entry => entry.operator), [
-    'per_serving', 'ratio', 'fixed_addition', 'scale_by_servings',
+    'per_serving', 'bounded_sum', 'ratio', 'fixed_addition', 'scale_by_servings',
   ]);
   assert.deepEqual(
     compileRatioPlan('savory-mixed-rice-liquid-v1', { servings: 2, slots: { staple: ['大米'] }, attributes: {} }, catalog),
     result,
   );
+});
+
+test('savory mixed rice credits high-moisture vegetables without hiding their grams', () => {
+  const result = compileRatioPlan('savory-mixed-rice-liquid-v1', {
+    servings: 2,
+    slots: {
+      staple: [item('大米', 'raw_rice')],
+      fast_vegetable: [item('白菜', 'leafy_vegetable', { moisture_release: 'high' })],
+    },
+  }, catalog);
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.ingredient_amounts, [
+    { name: '白菜', grams: 240 },
+    { name: '大米', grams: 200 },
+    { name: '食用油', grams: 10 },
+    { name: '水', grams: 240 },
+    { name: '盐', grams: 3 },
+  ]);
+  assert.equal(result.liquid_constraints.liquid_credit_grams, 30);
+});
+
+test('braised noodle ratio deterministically measures noodles, vegetables, protein and retained liquid', () => {
+  const result = compileRatioPlan('braised-noodle-liquid-v1', {
+    servings: 2,
+    slots: {
+      staple: [item('面条', 'noodle')],
+      vegetable: [item('白菜', 'leafy_vegetable', { moisture_release: 'high' })],
+      protein: [item('鸡腿肉', 'chicken')],
+    },
+  }, catalog);
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.ingredient_amounts, [
+    { name: '白菜', grams: 180 },
+    { name: '鸡腿肉', grams: 160 },
+    { name: '面条', grams: 200 },
+    { name: '水', grams: 330 },
+  ]);
+  assert.equal(result.liquid_constraints.liquid_credit_grams, 30);
 });
 
 test('Ratio DSL validator is total and rejects malformed nested operations, unknown operators, and non-basic extras', () => {
@@ -314,13 +353,14 @@ test('runtime resolves taxonomy identities, rejects spoofed or incompatible slot
 test('every active template accepts a real optional composition without silently dropping an item', () => {
   const probes = [
     ['acid-staple-raw-rice-liquid-v1',{staple:[item('大米','raw_rice')],acid_base:[item('番茄','acid_vegetable',{moisture_release:'high'})],protein:[item('鸡腿肉','chicken')]}],
-    ['savory-mixed-rice-liquid-v1',{staple:[item('大米','raw_rice')],protein:[item('鸡蛋','egg')],vegetable:[item('青菜','leafy_vegetable')]}],
+    ['savory-mixed-rice-liquid-v1',{staple:[item('大米','raw_rice')],protein:[item('鸡蛋','egg')],fast_vegetable:[item('青菜','leafy_vegetable')]}],
     ['cooked-rice-stir-portion-v1',{staple:[item('熟米饭','cooked_rice')],vegetable:[item('青菜','leafy_vegetable')]}],
     ['broth-noodle-liquid-v1',{staple:[item('面条','noodle')],protein:[item('鸡蛋','egg')]}],
     ['egg-tofu-vegetable-egg-portion-v1',{protein:[item('鸡蛋','egg')],vegetable:[item('青菜','leafy_vegetable')],mushroom:[item('金针菇','mushroom')]}],
     ['mushroom-vegetable-stew-liquid-v1',{mushroom:[item('金针菇','mushroom')],vegetable:[item('青菜','leafy_vegetable')],protein:[item('老豆腐','firm_tofu')]}],
     ['beef-staple-cooked-rice-portion-v1',{protein:[item('牛里脊','beef')],staple:[item('熟米饭','cooked_rice')],vegetable:[item('西兰花','cruciferous_vegetable')]}],
     ['poultry-staple-raw-rice-portion-v1',{protein:[item('鸡腿肉','chicken')],staple:[item('大米','raw_rice')],mushroom:[item('金针菇','mushroom')]}],
+    ['braised-noodle-liquid-v1',{staple:[item('面条','noodle')],vegetable:[item('豆角','pod_vegetable')],protein:[item('猪里脊','pork')]}],
   ];
   for (const [ruleId, slots] of probes) {
     const result = compileRatioPlan(ruleId,{servings:2,slots},catalog);

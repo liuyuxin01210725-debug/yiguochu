@@ -24,15 +24,16 @@ const ACTIVE = new Set([
   'mushroom-vegetable-stew-pot',
   'beef-staple-pot',
   'poultry-staple-pot',
+  'braised-noodle-pot',
 ]);
 const PLANNED = new Set([
   'mushroom-aroma-rice-pot',
   'broth-rice-pot',
-  'braised-noodle-pot',
   'curry-staple-pot',
   'pork-staple-pot',
   'soft-family-rice-pot',
   'quick-breakfast-pot',
+  'stew-with-staple-pot',
 ]);
 const REQUIRED_TEMPLATE_FIELDS = [
   'required_slots', 'optional_slots', 'slot_limits', 'ingredient_categories',
@@ -41,11 +42,11 @@ const REQUIRED_TEMPLATE_FIELDS = [
   'time_range', 'supported_intents', 'evidence_recipe_ids',
 ];
 
-test('catalog has the approved 8 active and 7 planned composable template IDs', () => {
+test('catalog has the approved 9 active and 7 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260724');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260726-r1');
   assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260726-r1');
-  assert.equal(catalog.templates.length, 15);
+  assert.equal(catalog.templates.length, 16);
 
   const byId = new Map(catalog.templates.map(template => [template.template_id, template]));
   assert.deepEqual(new Set(byId.keys()), new Set([...ACTIVE, ...PLANNED]));

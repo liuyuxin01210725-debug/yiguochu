@@ -4,12 +4,13 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
-  'pork-staple-pot', 'soft-family-rice-pot', 'quick-breakfast-pot',
+  'pork-staple-pot', 'soft-family-rice-pot', 'stew-with-staple-pot', 'quick-breakfast-pot',
 ]);
 const TAXONOMY_VERSION = 'taxonomy-v1-20260726-r1';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
+  'braised-noodle-pot',
 ]);
 const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
 const SOURCE_POLICIES = new Set(['user', 'basic_extra']);
@@ -18,7 +19,7 @@ const COOKING_MODES = new Set(['braise', 'simmer', 'quick_saute', 'short_simmer'
 const ATTRIBUTE_VALUES = new Map([
   ['moisture_release', new Set(['low', 'medium', 'high'])],
   ['cook_speed', new Set(['no_cook', 'fast', 'medium', 'slow'])],
-  ['cooking_risk', new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'unknown'])],
+  ['cooking_risk', new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough', 'unknown'])],
 ]);
 // First-stage templates only need these two fully machine-checked operators.
 // Do not accept future-looking operator names without a validated payload schema.
@@ -29,7 +30,8 @@ const ACTION_CODES = new Set([
   'stir_cooked_rice', 'add_broth_and_noodles', 'gentle_set_protein', 'simmer_until_tender',
   'sear_beef', 'cook_poultry_through', 'add_mushroom', 'add_liquid', 'add_noodle',
   'add_soft_protein', 'finish_and_check_endpoints', 'add_pork', 'soften_family_texture',
-  'quick_breakfast_heat',
+  'quick_breakfast_heat', 'add_slow_cooking_items', 'position_staple_above_liquid',
+  'steam_staple_with_lid',
 ]);
 const LIQUID_CATEGORIES = new Set(['water', 'approved_stock']);
 
@@ -46,6 +48,7 @@ export const TEMPLATE_ENDPOINT_TO_TAXONOMY_ENDPOINT = Object.freeze({
   pork_fully_cooked: 'pork_fully_cooked',
   bean_fully_cooked: 'bean_fully_cooked',
   tender: 'tender',
+  dough_cooked_through: 'dough_cooked_through',
 });
 const TEMPLATE_ENDPOINTS = new Set(Object.keys(TEMPLATE_ENDPOINT_TO_TAXONOMY_ENDPOINT));
 const ENDPOINT_CATEGORIES = new Map([
@@ -58,6 +61,7 @@ const ENDPOINT_CATEGORIES = new Map([
   ['pork_fully_cooked', new Set(['pork'])],
   ['bean_fully_cooked', new Set(['pod_vegetable'])],
   ['tender', new Set(['cruciferous_vegetable', 'root_vegetable'])],
+  ['dough_cooked_through', new Set(['cornmeal_dough', 'wheat_dough'])],
 ]);
 const RATIO_REF_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 const TEMPLATE_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -467,14 +471,14 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
     if (!isObject(catalog)) return ['template catalog must be an object'];
     assertAllowedKeys(catalog, CATALOG_KEYS, 'template catalog', errors);
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
-    if (catalog.template_catalog_version !== 'templates-v2-20260724') errors.push('template_catalog_version must be templates-v2-20260724');
+    if (catalog.template_catalog_version !== 'templates-v2-20260726-r1') errors.push('template_catalog_version must be templates-v2-20260726-r1');
     if (!isObject(taxonomy) || taxonomy.taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== taxonomy.taxonomy_version) {
       errors.push('ingredient_taxonomy_version must match approved taxonomy');
     }
     if (!Array.isArray(catalog.templates)) return [...errors, 'templates must be an array'];
-    if (catalog.templates.length !== EXPECTED_TEMPLATE_IDS.size) errors.push('templates must contain exactly 15 entries');
+    if (catalog.templates.length !== EXPECTED_TEMPLATE_IDS.size) errors.push('templates must contain exactly 16 entries');
     const context = taxonomyContext(taxonomy);
     const recipeIds = new Set(Array.isArray(recipeLibrary?.recipes) ? recipeLibrary.recipes.map(recipe => recipe?.id).filter(isString) : []);
     if (recipeIds.size === 0) errors.push('recipe library must provide recipe IDs');

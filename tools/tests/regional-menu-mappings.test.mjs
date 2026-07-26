@@ -27,14 +27,14 @@ test('mapping ledger covers the exact 72 production and 24 research IDs', () => 
   assert.deepEqual(validate(mappings), []);
 });
 
-test('capability ledger records covered ratio-blocked and taxonomy-blocked techniques', () => {
+test('capability ledger records covered, preview-ready, and ratio-blocked techniques', () => {
   assert.ok(Array.isArray(mappings.template_capability_mappings));
   const byFamily = new Map(mappings.template_capability_mappings.map(row => [row.family_id, row]));
   assert.equal(byFamily.size, 3);
   assert.equal(byFamily.get('raw-rice-braise')?.promotion_status, 'covered_by_active_template');
-  assert.equal(byFamily.get('noodle-braise')?.promotion_status, 'blocked_by_ratio');
-  assert.deepEqual(byFamily.get('noodle-braise')?.resolved_ratio_rule_ids, []);
-  assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_taxonomy');
+  assert.equal(byFamily.get('noodle-braise')?.promotion_status, 'preview_candidate');
+  assert.deepEqual(byFamily.get('noodle-braise')?.resolved_ratio_rule_ids, ['braised-noodle-liquid-v1']);
+  assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_ratio');
   assert.deepEqual(validate(mappings), []);
 });
 
@@ -44,7 +44,7 @@ test('preview candidates fail closed on stale runtime references or unresolved b
   assert.ok(row, 'noodle-braise capability row must exist');
   row.promotion_status = 'preview_candidate';
   row.blocker_codes = [];
-  row.resolved_ratio_rule_ids = [...row.required_ratio_rule_ids];
+  row.resolved_ratio_rule_ids = ['invented-ratio-rule-v1'];
   assert.match(validate(broken).join('\n'), /unknown resolved ratio rule/);
 });
 
@@ -53,6 +53,7 @@ test('capability rows reject duplicate families and false ready states', () => {
   assert.ok(Array.isArray(broken.template_capability_mappings));
   const blocked = broken.template_capability_mappings.find(item => item.family_id === 'noodle-braise');
   blocked.promotion_status = 'preview_candidate';
+  blocked.blocker_codes = ['manual_review_pending'];
   broken.template_capability_mappings.push(structuredClone(blocked));
   const message = validate(broken).join('\n');
   assert.match(message, /ready capability cannot retain blockers/);

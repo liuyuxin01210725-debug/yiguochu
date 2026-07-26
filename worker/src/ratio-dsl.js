@@ -1,6 +1,6 @@
 import { BASIC_EXTRA_CATEGORIES, resolveBasicExtraIdentity } from './taxonomy-identity.js';
 
-const ACTIVE = new Set(['acid-staple-pot','savory-mixed-rice-pot','cooked-rice-stir-pot','broth-noodle-pot','egg-tofu-vegetable-pot','mushroom-vegetable-stew-pot','beef-staple-pot','poultry-staple-pot']);
+const ACTIVE = new Set(['acid-staple-pot','savory-mixed-rice-pot','cooked-rice-stir-pot','broth-noodle-pot','egg-tofu-vegetable-pot','mushroom-vegetable-stew-pot','beef-staple-pot','poultry-staple-pot','braised-noodle-pot']);
 const OPS = new Set(['per_serving','ratio','bounded_sum','fixed_addition','scale_by_servings']);
 const PREPARED = new WeakMap();
 const RULE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
@@ -38,7 +38,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
     allowed(catalog, new Set(['ratio_dsl_version','ratio_catalog_version','rules']), 'ratio DSL catalog', errors);
     if (catalog.ratio_dsl_version !== 1) errors.push('ratio_dsl_version must be 1');
-    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260724') errors.push('ratio_catalog_version must be ratio-rules-v1-20260724');
+    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260726-r1') errors.push('ratio_catalog_version must be ratio-rules-v1-20260726-r1');
     if (!Array.isArray(catalog.rules)) return [...errors, 'rules must be an array'];
     const templateById = new Map((templates?.templates || []).filter(t => text(t?.template_id)).map(t => [t.template_id, t]));
     const recipeIds = new Set((recipes?.recipes || []).map(r => r?.id).filter(text));

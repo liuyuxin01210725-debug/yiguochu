@@ -417,9 +417,10 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
+  'braised-noodle-pot',
 ]);
 const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
-const RAW_RISK_CODES = new Set(['raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood']);
+const RAW_RISK_CODES = new Set(['raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough']);
 const ENDPOINT_ALIASES = Object.freeze({ poultry_fully_cooked_no_pink: 'poultry_fully_cooked' });
 
 // 过敏 matcher 的 alias 顺序固定：taxonomy 是规划语义权威源，recipe aliases 只补充

@@ -172,6 +172,18 @@ test('quick is a hard limit and never admits templates over 30 minutes', () => {
   }
 });
 
+test('面条、豆角、猪里脊进入独立焖面模板并完整覆盖，quick 不会误选它', () => {
+  const normal = planMeal(assets, request({ must: ['面条', '豆角', '猪里脊'] }));
+  assert.equal(normal.status, 'complete');
+  assert.equal(normal.plan.pots.length, 1);
+  assert.equal(normal.plan.pots[0].template_id, 'braised-noodle-pot');
+  assert.deepEqual(normal.plan.pots[0].planned_must_use.map(item => item.raw).sort(), ['面条', '豆角', '猪里脊'].sort());
+  assert.equal(normal.plan.pots[0].coverage_ratio, 1);
+
+  const quick = buildPotCandidates(assets, request({ intent: 'quick', must: ['面条', '豆角', '猪里脊'] }));
+  assert.equal(quick.some(candidate => candidate.template_id === 'braised-noodle-pot'), false);
+});
+
 test('slow rib cuts cannot enter a quick cooked-rice stir pot', () => {
   const normalized = normalizePlannerItems([
     { raw: '排骨', role: 'must_use' },

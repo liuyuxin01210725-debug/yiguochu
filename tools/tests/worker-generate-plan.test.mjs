@@ -533,6 +533,25 @@ test('chicken, egg-tofu-vegetable and multi-pot journeys render complete househo
   assert.match(eggChecked.meals.map(meal => meal.steps.map(step => step.text).join('\n')).join('\n'), /鸡蛋.*完全凝固/);
 });
 
+test('braised noodle plan survives the full generation contract with noodle, bean and pork safety evidence', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['面条', '豆角', '猪里脊'] }));
+  assert.equal(journey.planned.status, 'complete');
+  assert.equal(journey.planned.plan.pots[0].template_id, 'braised-noodle-pot');
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  assert.deepEqual(new Set(locked.meals[0].safety_endpoints), new Set([
+    'noodle_tender', 'bean_fully_cooked', 'pork_fully_cooked',
+  ]));
+
+  const result = await postGenerate(journey);
+  assert.equal(result.response.status, 200);
+  const prose = result.body.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /无硬芯|熟透/);
+  assert.match(prose, /煮熟软化/);
+  assert.match(prose, /完全熟透/);
+});
+
 test('locked safety endpoints come from the used template category and do not invent staple or duplicate poultry endpoints', async () => {
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const eggJourney = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));

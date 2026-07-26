@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "template_catalog_version": "templates-v2-20260724",
+  "template_catalog_version": "templates-v2-20260726-r1",
   "ingredient_taxonomy_version": "taxonomy-v1-20260726-r1",
   "templates": [
     {
@@ -37,22 +37,22 @@
       "activation_status": "active",
       "runtime_eligible": true,
       "required_slots":[{"slot_id":"staple","min_items":1,"max_items":1,"source_policy":["user","basic_extra"],"accepts_categories":["raw_rice"]}],
-      "optional_slots":[{"slot_id":"protein","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["egg","firm_tofu","beef","chicken","pork"]},{"slot_id":"vegetable","min_items":0,"max_items":2,"source_policy":["user"],"accepts_categories":["leafy_vegetable","cruciferous_vegetable","pod_vegetable","root_vegetable"]},{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]},{"slot_id":"aromatic","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["aromatic_vegetable"]}],
-      "slot_limits":{"total_user_items_min":1,"total_user_items_max":5,"protein_max":1,"vegetable_max":2,"mushroom_max":1,"aromatic_max":1},
-      "ingredient_categories":{"staple":["raw_rice"],"protein":["egg","firm_tofu","beef","chicken","pork"],"vegetable":["leafy_vegetable","cruciferous_vegetable","pod_vegetable","root_vegetable"],"mushroom":["mushroom"],"aromatic":["aromatic_vegetable"]},
+      "optional_slots":[{"slot_id":"protein","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["egg","firm_tofu","beef","chicken"],"accepts_slot_codes":["generic_pork","cured_pork"]},{"slot_id":"slow_vegetable","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["pod_vegetable","root_vegetable"]},{"slot_id":"fast_vegetable","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["leafy_vegetable","cruciferous_vegetable"]},{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]},{"slot_id":"aromatic","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["aromatic_vegetable"]}],
+      "slot_limits":{"total_user_items_min":1,"total_user_items_max":6,"protein_max":1,"slow_vegetable_max":1,"fast_vegetable_max":1,"mushroom_max":1,"aromatic_max":1},
+      "ingredient_categories":{"staple":["raw_rice"],"protein":["egg","firm_tofu","beef","chicken","pork"],"slow_vegetable":["pod_vegetable","root_vegetable"],"fast_vegetable":["leafy_vegetable","cruciferous_vegetable"],"mushroom":["mushroom"],"aromatic":["aromatic_vegetable"]},
       "compatibility_rules":[{"rule_code":"mixed_rice_uses_simmer","when":{"slot_id":"staple","category":"raw_rice"},"requires_cooking_mode":["braise","simmer"]}],
       "incompatible_rules":[{"rule_code":"mixed_rice_limits_high_moisture","when":{"slot_id":"staple","category":"raw_rice"},"forbids_attribute_count":{"attribute":"moisture_release","value":"high","greater_than":1}}],
       "shape_or_cut_requirements":[
         {"slot_id":"protein","category":"beef","allowed_shapes":["slice","dice","tenderloin"],"forbidden_shapes":["brisket","ground"]},
-        {"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin"],"forbidden_shapes":["rib"]}
+        {"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin","cured_slice","sausage"],"forbidden_shapes":["rib"]}
       ],
-      "cooking_order":[{"phase":1,"action_code":"cook_aromatics","slot_ids":["aromatic"]},{"phase":2,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":3,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":4,"action_code":"add_fast_cooking_items","slot_ids":["vegetable","mushroom"]},{"phase":5,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
+      "cooking_order":[{"phase":1,"action_code":"cook_aromatics","slot_ids":["aromatic"]},{"phase":2,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":3,"action_code":"add_slow_cooking_items","slot_ids":["slow_vegetable"]},{"phase":4,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":5,"action_code":"add_fast_cooking_items","slot_ids":["fast_vegetable","mushroom"]},{"phase":6,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
       "ratio_constraints":["savory-mixed-rice-liquid-v1"],
       "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
       "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"pork","endpoint_code":"pork_fully_cooked"},{"applies_to_category":"beef","endpoint_code":"beef_fully_cooked"},{"applies_to_category":"egg","endpoint_code":"egg_fully_set"}],
       "time_range":{"min_minutes":25,"max_minutes":50},
       "supported_intents":["normal","fresh","batch"],
-      "evidence_recipe_ids":["simple-chicken-biryani","taiwan-cabbage-mushroom-rice"]
+      "evidence_recipe_ids":["simple-chicken-biryani","taiwan-cabbage-mushroom-rice","shanghai-salted-pork-vegetable-rice","nanjing-sausage-greens-rice"]
     },
     {
       "template_id":"cooked-rice-stir-pot",
@@ -211,19 +211,19 @@
     },
     {
       "template_id":"braised-noodle-pot",
-      "activation_status":"planned",
-      "runtime_eligible":false,
+      "activation_status":"active",
+      "runtime_eligible":true,
       "required_slots":[{"slot_id":"staple","min_items":1,"max_items":1,"source_policy":["user","basic_extra"],"accepts_categories":["noodle"]},{"slot_id":"vegetable","min_items":1,"max_items":2,"source_policy":["user"],"accepts_categories":["leafy_vegetable","pod_vegetable","root_vegetable"]}],
       "optional_slots":[{"slot_id":"protein","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["chicken","pork","firm_tofu"]},{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]}],
       "slot_limits":{"total_user_items_min":2,"total_user_items_max":4,"protein_max":1,"vegetable_max":2,"mushroom_max":1},
       "ingredient_categories":{"staple":["noodle"],"vegetable":["leafy_vegetable","pod_vegetable","root_vegetable"],"protein":["chicken","pork","firm_tofu"],"mushroom":["mushroom"]},
       "compatibility_rules":[{"rule_code":"braised_noodle_uses_braise","when":{"slot_id":"staple","category":"noodle"},"requires_cooking_mode":["braise","simmer"]}],
       "incompatible_rules":[{"rule_code":"braised_noodle_rejects_slow_items","when":{"slot_id":"staple","category":"noodle"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":0}}],
-      "shape_or_cut_requirements":[],
-      "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"add_noodle","slot_ids":["staple"]},{"phase":3,"action_code":"simmer_until_tender","slot_ids":["vegetable","mushroom"]},{"phase":4,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
+      "shape_or_cut_requirements":[{"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin"],"forbidden_shapes":["rib"]},{"slot_id":"protein","category":"chicken","allowed_shapes":["breast","leg"],"forbidden_shapes":[]}],
+      "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"simmer_until_tender","slot_ids":["protein","vegetable","mushroom"]},{"phase":3,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":4,"action_code":"reach_safety_endpoints","slot_ids":["staple","protein","vegetable"]}],
       "ratio_constraints":["braised-noodle-liquid-v1"],
       "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
-      "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"pork","endpoint_code":"pork_fully_cooked"}],
+      "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"pork","endpoint_code":"pork_fully_cooked"},{"applies_to_category":"firm_tofu","endpoint_code":"heated_through"},{"applies_to_category":"pod_vegetable","endpoint_code":"bean_fully_cooked"},{"applies_to_category":"noodle","endpoint_code":"noodle_tender"}],
       "time_range":{"min_minutes":25,"max_minutes":40},
       "supported_intents":["normal","fresh","batch"],
       "evidence_recipe_ids":["north-china-green-bean-braised-noodles","cabbage-potato-chicken-leg-braised-noodles"]
@@ -284,6 +284,25 @@
       "time_range":{"min_minutes":30,"max_minutes":55},
       "supported_intents":["normal","fresh","batch"],
       "evidence_recipe_ids":["chinese-congee","corn-carrot-chicken-leg-covered-rice"]
+    },
+    {
+      "template_id":"stew-with-staple-pot",
+      "activation_status":"planned",
+      "runtime_eligible":false,
+      "required_slots":[{"slot_id":"protein","min_items":1,"max_items":1,"source_policy":["user"],"accepts_categories":["chicken","pork"]},{"slot_id":"vegetable","min_items":1,"max_items":2,"source_policy":["user"],"accepts_categories":["pod_vegetable","root_vegetable"]},{"slot_id":"staple","min_items":1,"max_items":1,"source_policy":["user"],"accepts_categories":["cornmeal_dough","wheat_dough"]},{"slot_id":"liquid","min_items":1,"max_items":1,"source_policy":["basic_extra"],"accepts_categories":["liquid"]}],
+      "optional_slots":[{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]}],
+      "slot_limits":{"total_user_items_min":3,"total_user_items_max":5,"protein_max":1,"vegetable_max":2,"staple_max":1,"mushroom_max":1},
+      "ingredient_categories":{"protein":["chicken","pork"],"vegetable":["pod_vegetable","root_vegetable"],"staple":["cornmeal_dough","wheat_dough"],"liquid":["liquid"],"mushroom":["mushroom"]},
+      "compatibility_rules":[{"rule_code":"stew_staple_requires_braise_and_steam","when":{"slot_id":"staple","category":"cornmeal_dough"},"requires_cooking_mode":["braise","steam"]}],
+      "incompatible_rules":[{"rule_code":"stew_staple_rejects_excess_wet_items","when":{"slot_id":"staple","category":"cornmeal_dough"},"forbids_attribute_count":{"attribute":"moisture_release","value":"high","greater_than":1}}],
+      "shape_or_cut_requirements":[{"slot_id":"protein","category":"pork","allowed_shapes":["rib"],"forbidden_shapes":[]},{"slot_id":"protein","category":"chicken","allowed_shapes":["leg"],"forbidden_shapes":[]}],
+      "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"simmer_until_tender","slot_ids":["protein","vegetable","mushroom"]},{"phase":3,"action_code":"position_staple_above_liquid","slot_ids":["staple"]},{"phase":4,"action_code":"steam_staple_with_lid","slot_ids":["staple","liquid"]},{"phase":5,"action_code":"reach_safety_endpoints","slot_ids":["protein","vegetable","staple"]}],
+      "ratio_constraints":["stew-with-staple-liquid-v1"],
+      "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
+      "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"pork","endpoint_code":"pork_fully_cooked"},{"applies_to_category":"pod_vegetable","endpoint_code":"bean_fully_cooked"},{"applies_to_category":"cornmeal_dough","endpoint_code":"dough_cooked_through"},{"applies_to_category":"wheat_dough","endpoint_code":"dough_cooked_through"}],
+      "time_range":{"min_minutes":45,"max_minutes":75},
+      "supported_intents":["normal","batch"],
+      "evidence_recipe_ids":["green-bean-pork-rib-braised-rice","cabbage-potato-chicken-leg-braised-noodles"]
     },
     {
       "template_id":"quick-breakfast-pot",

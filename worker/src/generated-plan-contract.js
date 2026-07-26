@@ -29,6 +29,8 @@ const SAFETY_EVIDENCE_RULES = Object.freeze({
   beef_fully_cooked: /完全熟透/u,
   pork_fully_cooked: /完全熟透/u,
   bean_fully_cooked: /煮熟软化/u,
+  heated_through: /热透/u,
+  noodle_tender: /无硬芯|熟透/u,
 });
 const NON_ACHIEVED_SAFETY_RE = /仍(?:然)?(?:有)?粉红|还有粉红|带粉红|见红|带血|流心|溏心|未凝固|尚未|未熟|没熟|没有熟|(?:并)?(?:未|没有|不是|不算).{0,4}(?:熟|凝固)|(?:不|并非|未能).{0,3}(?:完全|彻底).{0,2}(?:熟|凝固)|夹生|稍后|待会|之后再|后续再|将(?:会|要)|需要继续|需再|才能熟|表面(?:已经)?变色/iu;
 const ACTION_TEXT_TEMPLATES = Object.freeze({
@@ -36,6 +38,7 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
   add_broth_and_noodles: ['将{items}放入同一口锅，煮至面条无硬芯', '同锅加入{items}并保持翻动，直至面条熟透'],
   add_fast_cooking_items: ['加入{items}，翻拌至均匀受热', '将{items}加入锅中，翻动至全部热透'],
   add_liquid: ['将{items}倒入同一口锅，与锅内食材拌匀', '同锅加入{items}并搅匀，使液体分布均匀'],
+  add_slow_cooking_items: ['先加入{items}翻拌，使较慢熟的食材开始受热', '将{items}先放入锅中翻动，为后续焖煮预留熟化时间'],
   add_mushroom: ['加入{items}，翻炒至变软并充分受热', '将{items}放入锅中翻炒，直至质地变软'],
   add_noodle: ['铺入{items}，保持同锅焖煮至无硬芯', '将{items}加入锅中并轻轻拨散，煮至熟透'],
   add_pork: ['加入{items}，翻炒至各面均匀变色', '将{items}放入锅中翻动加热，使各面受热均匀'],
@@ -118,6 +121,8 @@ function endpointEvidencePhrase(endpoint, refs) {
     return `${ingredients}完全熟透`;
   }
   if (endpoint === 'bean_fully_cooked') return `${ingredients}煮熟软化`;
+  if (endpoint === 'heated_through') return `${ingredients}整体热透`;
+  if (endpoint === 'noodle_tender') return `${ingredients}熟透且无硬芯`;
   throw new Error(`locked_safety_endpoint_unsupported:${endpoint}`);
 }
 

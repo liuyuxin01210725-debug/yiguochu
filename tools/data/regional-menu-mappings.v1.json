@@ -117,23 +117,23 @@
       "family_id": "noodle-braise",
       "template_id": "braised-noodle-pot",
       "region_ids": ["jingjinji", "jinmeng", "shandong", "central_plains"],
-      "promotion_status": "blocked_by_ratio",
+      "promotion_status": "preview_candidate",
       "evidence_recipe_ids": ["north-china-green-bean-braised-noodles", "cabbage-potato-chicken-leg-braised-noodles"],
       "required_ratio_rule_ids": ["braised-noodle-liquid-v1"],
-      "resolved_ratio_rule_ids": [],
+      "resolved_ratio_rule_ids": ["braised-noodle-liquid-v1"],
       "taxonomy_item_ids": ["noodle", "green-beans", "potato", "napa-cabbage", "chicken-generic", "pork-generic", "firm-tofu", "shiitake"],
-      "blocker_codes": ["ratio_rule_missing:braised-noodle-liquid-v1"]
+      "blocker_codes": []
     },
     {
       "family_id": "stew-with-staple",
       "template_id": "stew-with-staple-pot",
       "region_ids": ["northeast"],
-      "promotion_status": "blocked_by_taxonomy",
+      "promotion_status": "blocked_by_ratio",
       "evidence_recipe_ids": ["green-bean-pork-rib-braised-rice", "cabbage-potato-chicken-leg-braised-noodles"],
       "required_ratio_rule_ids": ["stew-with-staple-liquid-v1"],
       "resolved_ratio_rule_ids": [],
-      "taxonomy_item_ids": ["green-beans", "potato", "chicken-generic", "pork-ribs"],
-      "blocker_codes": ["taxonomy_missing:cornmeal-dough", "taxonomy_missing:wheat-dough", "ratio_rule_missing:stew-with-staple-liquid-v1"]
+      "taxonomy_item_ids": ["green-beans", "potato", "chicken-generic", "pork-ribs", "cornmeal-dough", "wheat-dough"],
+      "blocker_codes": ["ratio_rule_missing:stew-with-staple-liquid-v1"]
     }
   ]
 }
