@@ -7,9 +7,11 @@ const FAMILIES = new Set(['festive-soft-grain-date-bean-braise', 'staged-pilaf-r
 const BOUNDARIES = new Set(['soft_grain_not_ordinary_rice', 'jiaotuan_not_unattended_appliance', 'huayin_cross_locality_and_single_pot_unproven', 'heyan_ich_not_recipe', 'sanfan_dispute_not_family', 'shengcuan_branches_not_one_recipe', 'rouzhanfan_not_any_meat_rice_braise', 'pilaf_named_branches_not_free_slots', 'turpan_ich_not_recipe']);
 const VERDICTS = new Set(['supported', 'not_proven', 'contradicted']);
 const PRODUCTION_PROVINCES = { 'shaanbei-red-date-cowpea-rice': 'CN-SN', 'xinjiang-lamb-pilaf': 'CN-XJ', 'xinjiang-vegetable-pilaf': 'CN-XJ' };
+const AUDIT_STATES = { 'shaanbei-red-date-cowpea-rice': 'needs_manual_review', 'xinjiang-lamb-pilaf': 'needs_manual_review', 'xinjiang-vegetable-pilaf': 'needs_more_evidence' };
 const LEAD_PROVINCES = { 'xifu-jiaotuan-seasoned-bowl': 'CN-SN', 'huayin-mashi-pao': 'CN-SN', 'gansu-heyan-jiumianpian-broth': 'CN-GS', 'huaining-mixed-grain-jiaotuan': 'CN-GS', 'ningxia-shengcuan-jiumian-bowl': 'CN-NX', 'ningxia-rouzhanfan-steamed-rice': 'CN-NX', 'turpan-soup-rice-technique': 'CN-XJ', 'xinjiang-household-jupianzi-soup': 'CN-XJ' };
 const CLAIM_VERDICTS = {"production:shaanbei-red-date-cowpea-rice:soft_grain_date_bean_identity":"supported","production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation":"not_proven","production:shaanbei-red-date-cowpea-rice:project_ratio_time_vessel":"not_proven","production:xinjiang-lamb-pilaf:staged_lamb_carrot_onion_rice_structure":"supported","production:xinjiang-lamb-pilaf:named_lamb_cut_and_fruit_slots":"not_proven","production:xinjiang-lamb-pilaf:project_ratio_time_safety":"not_proven","production:xinjiang-vegetable-pilaf:vegetarian_pilaf_existence":"supported","production:xinjiang-vegetable-pilaf:current_formula_equivalence":"not_proven","lead:xifu-jiaotuan-seasoned-bowl:stirred_thick_mass_and_separate_seasoning":"supported","lead:xifu-jiaotuan-seasoned-bowl:single_vessel_complete_meal":"not_proven","lead:xifu-jiaotuan-seasoned-bowl:project_ratio_safety":"not_proven","lead:huayin-mashi-pao:huayin_local_presence":"supported","lead:huayin-mashi-pao:cross_locality_shape_not_proven":"not_proven","lead:huayin-mashi-pao:single_pot_equivalence":"not_proven","lead:gansu-heyan-jiumianpian-broth:heyan_ich_identity":"supported","lead:gansu-heyan-jiumianpian-broth:noodle_piece_broth_structure":"supported","lead:gansu-heyan-jiumianpian-broth:heyan_exact_recipe":"not_proven","lead:gansu-heyan-jiumianpian-broth:single_pot_equivalence":"not_proven","lead:huaining-mixed-grain-jiaotuan:manual_stirred_grain_structure":"supported","lead:huaining-mixed-grain-jiaotuan:unattended_appliance_equivalence":"not_proven","lead:ningxia-shengcuan-jiumian-bowl:shengcuan_meatball_noodle_piece_structure":"supported","lead:ningxia-shengcuan-jiumian-bowl:all_noodle_piece_branches_one_recipe":"not_proven","lead:ningxia-shengcuan-jiumian-bowl:meat_under_cooking":"not_proven","lead:ningxia-rouzhanfan-steamed-rice:pre_saute_then_steam_structure":"supported","lead:ningxia-rouzhanfan-steamed-rice:any_meat_rice_braise_equivalence":"not_proven","lead:turpan-soup-rice-technique:turpan_ich_identity":"supported","lead:turpan-soup-rice-technique:protection_unit":"supported","lead:turpan-soup-rice-technique:recipe_formula":"not_proven","lead:xinjiang-household-jupianzi-soup:household_soup_noodle_piece_description":"supported","lead:xinjiang-household-jupianzi-soup:exclusive_regional_identity":"not_proven","lead:xinjiang-household-jupianzi-soup:project_ratio_safety":"not_proven"};
 const AUXILIARY_TOKENS = new Set(['safety:fresh_bean_cook_through:principle', 'safety:animal_food_cook_through_and_separate:principle', 'boundary:sanfan_dispute_not_family:naming_dispute']);
+const AUXILIARY_EDGES = { 'safety:fresh_bean_cook_through:principle': 'sn-cdc-bean-safety-2018', 'safety:animal_food_cook_through_and_separate:principle': 'nx-lamb-safety-2025', 'boundary:sanfan_dispute_not_family:naming_dispute': 'gs-sanfan-dispute-2019' };
 const SEMANTIC_FINGERPRINTS = { family_model: '0bddd3a49c80d7887bff926c4dcc47c15e4cf4c7d9d4e17f3b1daf03257c85d6', adaptation_boundaries: '2770b12abf15f454b70939164a45e78ab25724621a88a69267746aa47853c4f3', journey_cases: 'd6384c7af78e9619cc13493ff79cd4e4a61d5f98add7a8806b2944f3f5282804' };
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const array = value => Array.isArray(value) ? value : [];
@@ -71,6 +73,7 @@ function validateRows(rows, idField, expected, tokenPrefix, sourceIds, direction
     if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
     const expectedProvince = idField === 'lead_id' ? LEAD_PROVINCES[row[idField]] : PRODUCTION_PROVINCES[row[idField]];
     if (row.province_code !== expectedProvince) errors.push(`${idField === 'lead_id' ? 'lead' : 'production'} province mapping must remain fixed`);
+    if (idField === 'recipe_id' && row.audit_state !== AUDIT_STATES[row.recipe_id]) errors.push(`${path}.audit_state must remain ${AUDIT_STATES[row.recipe_id]}`);
     if (idField === 'lead_id') {
       if (!PROVINCES.has(row.province_code)) errors.push(`${path}.province_code is invalid`);
       if (!FAMILIES.has(row.family_id)) errors.push(`${path}.family_id must reference a fixed family`);
@@ -80,6 +83,17 @@ function validateRows(rows, idField, expected, tokenPrefix, sourceIds, direction
     for (const sourceId of array(row.source_ids)) if (!sourceIds.has(sourceId)) errors.push(`${path} references unknown source ${sourceId}`);
     validateClaims(row.claims, `${tokenPrefix}:${row[idField]}`, `${path}.claims`, sourceIds, directions, row.province_code, errors);
   });
+}
+
+function collectClaimEvidence(assessment) {
+  const edges = new Map();
+  for (const [prefix, rows, idField] of [
+    ['production', array(assessment.production_recipe_audits), 'recipe_id'],
+    ['lead', array(assessment.concrete_research_leads), 'lead_id'],
+  ]) for (const row of rows) for (const [claimId, claim] of Object.entries(isObject(row?.claims) ? row.claims : {})) {
+    edges.set(`${prefix}:${row[idField]}:${claimId}`, new Set(array(claim?.evidence_source_ids)));
+  }
+  return edges;
 }
 
 function validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regionalMappings }, errors) {
@@ -106,11 +120,15 @@ export function validateNorthwestOnePotResearch({ assessment, recipeLibrary, reg
   validateRows(assessment.production_recipe_audits, 'recipe_id', PRODUCTION, 'production', ids, directions, errors);
   if (!Array.isArray(assessment.candidate_audits) || assessment.candidate_audits.length !== 0) errors.push('candidate_audits must remain empty');
   validateRows(assessment.concrete_research_leads, 'lead_id', LEADS, 'lead', ids, directions, errors);
+  const claimEvidence = collectClaimEvidence(assessment);
   const canonicalTokens = new Set([...Object.keys(CLAIM_VERDICTS), ...AUXILIARY_TOKENS]);
   for (const [sourceId, sourceDirections] of directions) for (const direction of ['proves', 'does_not_prove', 'contradicts']) for (const token of sourceDirections[direction]) {
     if (!canonicalTokens.has(token)) errors.push(`source ${sourceId} ${direction} token ${token} is not a canonical claim token`);
     if (Object.hasOwn(CLAIM_VERDICTS, token) && CLAIM_VERDICTS[token] !== (direction === 'proves' ? 'supported' : direction === 'does_not_prove' ? 'not_proven' : 'contradicted')) errors.push(`source ${sourceId} token ${token} has an invalid evidence direction`);
+    if (Object.hasOwn(CLAIM_VERDICTS, token) && !claimEvidence.get(token)?.has(sourceId)) errors.push(`source ${sourceId} token ${token} does not correspond to claim evidence source`);
+    if (AUXILIARY_TOKENS.has(token) && AUXILIARY_EDGES[token] !== sourceId) errors.push(`source ${sourceId} token ${token} does not match its fixed auxiliary evidence edge`);
   }
+  for (const [token, sourceId] of Object.entries(AUXILIARY_EDGES)) if (!directions.get(sourceId)?.proves?.has(token)) errors.push(`auxiliary token ${token} must remain proved by ${sourceId}`);
   for (const token of Object.keys(CLAIM_VERDICTS)) {
     const [prefix, entityId] = token.split(':');
     const rows = prefix === 'production' ? array(assessment.production_recipe_audits) : array(assessment.concrete_research_leads);

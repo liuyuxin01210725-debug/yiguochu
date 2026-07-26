@@ -127,3 +127,15 @@ test('validator fingerprints fixed family, boundary and journey semantics beyond
   assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_cases semantic fingerprint mismatch/);
   assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_ids must be unique/);
 });
+
+test('validator requires every source token to be an actual source-to-claim evidence edge', () => {
+  const broken = structuredClone(assessment);
+  broken.source_refs.find(row => row.source_id === 'sn-xifu-jiaotuan-2025').does_not_prove.push('production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation');
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /does not correspond to claim evidence source/);
+});
+
+test('validator locks each production audit to its reviewed manual state', () => {
+  const broken = structuredClone(assessment);
+  broken.production_recipe_audits.find(row => row.recipe_id === 'xinjiang-vegetable-pilaf').audit_state = 'approved';
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /audit_state must remain needs_more_evidence/);
+});
