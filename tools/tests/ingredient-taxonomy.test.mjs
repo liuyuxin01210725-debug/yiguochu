@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r2');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r3');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -119,6 +119,37 @@ test('regional ingredients preserve cured-meat and dough cooking identities', ()
     ['wheat_dough', 'dough_piece', 'raw_dough'],
   );
   assert.equal(bacon.recognized, false, '咸肉不能无依据扩成腊肉同义词');
+});
+
+test('Jiangnan M1 identities preserve regional names and controlled compatibility', () => {
+  const rows = normalizePlannerItems(
+    ['小白菜', '矮脚黄', '咸五花肉', '腊五花肉', '平菇'],
+    catalog,
+  );
+  assert.deepEqual(rows.map(row => [
+    row.raw,
+    row.canonical,
+    row.display_name,
+    row.category,
+    row.shape_or_cut,
+    row.cooking_risk,
+  ]), [
+    ['小白菜', '青菜', '小白菜', 'leafy_vegetable', 'whole', 'none'],
+    ['矮脚黄', '青菜', '矮脚黄', 'leafy_vegetable', 'whole', 'none'],
+    ['咸五花肉', '咸肉', '咸五花肉', 'pork', 'cured_slice', 'raw_pork'],
+    ['腊五花肉', '咸肉', '腊五花肉', 'pork', 'cured_slice', 'raw_pork'],
+    ['平菇', '平菇', '平菇', 'mushroom', 'whole', 'none'],
+  ]);
+  assert.ok(rows[2].compatible_slot_codes.includes('cured_pork'));
+  assert.ok(rows[3].compatible_slot_codes.includes('cured_pork'));
+});
+
+test('Jiangnan M1 keeps cooked duck glutinous rice and color source unresolved', () => {
+  const rows = normalizePlannerItems(
+    ['包装熟制板鸭（去骨）', '糯米', '食品级黑米色粉'],
+    catalog,
+  );
+  assert.ok(rows.every(row => row.recognized === false));
 });
 
 test('taxonomy carries culinary behavior, not category alone', () => {
