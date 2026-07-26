@@ -44,8 +44,8 @@ const REQUIRED_TEMPLATE_FIELDS = [
 
 test('catalog has the approved 10 active and 6 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r6');
-  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r5');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r7');
+  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r6');
   assert.equal(catalog.templates.length, 16);
 
   const byId = new Map(catalog.templates.map(template => [template.template_id, template]));
@@ -62,6 +62,12 @@ test('catalog has the approved 10 active and 6 planned composable template IDs',
     for (const field of REQUIRED_TEMPLATE_FIELDS) assert.ok(field in template, `${template.template_id} missing ${field}`);
     assert.ok(!/[\u4e00-\u9fff]/u.test(template.template_id), 'template IDs describe structures, not display dish names');
   }
+
+  const braised = catalog.templates.find(row => row.template_id === 'braised-noodle-pot');
+  assert.deepEqual(new Set(braised.ratio_constraints), new Set([
+    'braised-noodle-liquid-v1',
+    'braised-fresh-wheat-noodle-liquid-v1',
+  ]));
 });
 
 test('broth rice is cooked-rice only with category-specific order and safety', () => {

@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r5');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r6');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -28,7 +28,7 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
 
   const names = new Set(catalog.items.map(item => item.display_name));
   for (const name of [
-    '大米', '熟米饭', '面条', '番茄', '鸡蛋', '嫩豆腐', '老豆腐',
+    '大米', '熟米饭', '面条', '鲜小麦面条', '番茄', '鸡蛋', '嫩豆腐', '老豆腐',
     '牛肉', '牛肉末', '鸡肉', '鸡胸肉', '鸡腿肉', '猪肉', '排骨',
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
     '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
@@ -36,6 +36,43 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '卷心菜', '芥菜', '猪肉末', '菜心',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('fresh wheat noodles and dried noodles keep independent canonical identities', () => {
+  const rows = normalizePlannerItems(
+    ['鲜小麦面条', '鲜面条', '鲜面', '生鲜面', '面条', '挂面', '干面条', '预蒸面'],
+    catalog,
+  );
+  for (const row of rows.slice(0, 4)) {
+    assert.equal(row.canonical_id, 'fresh-wheat-noodle');
+    assert.equal(row.canonical, '鲜小麦面条');
+    assert.equal(row.category, 'noodle');
+    assert.equal(row.ratio_rule_policy, 'canonical_required');
+  }
+  for (const row of rows.slice(4, 7)) {
+    assert.equal(row.canonical_id, 'noodle');
+    assert.equal(row.category, 'noodle');
+    assert.equal(row.ratio_rule_policy, 'category_fallback');
+  }
+  assert.deepEqual(rows.map(row => row.raw),
+    ['鲜小麦面条', '鲜面条', '鲜面', '生鲜面', '面条', '挂面', '干面条', '预蒸面']);
+  assert.equal(rows[7].recognized, false);
+  assert.equal(rows[7].canonical_id, null);
+  assert.equal(rows[7].ratio_rule_policy, null);
+});
+
+test('fresh and dried noodle identities do not deduplicate each other', () => {
+  const [fresh, freshAlias, dried] = normalizePlannerItems(
+    ['鲜小麦面条', '鲜面条', '挂面'], catalog,
+  );
+  assert.equal(fresh.duplicate_of, null);
+  assert.equal(freshAlias.duplicate_of, '鲜小麦面条');
+  assert.equal(dried.duplicate_of, null);
+});
+
+test('only fresh wheat noodles require a canonical ratio rule', () => {
+  const strict = catalog.items.filter(item => item.ratio_rule_policy === 'canonical_required');
+  assert.deepEqual(strict.map(item => item.canonical_id), ['fresh-wheat-noodle']);
 });
 
 test('cornmeal identities preserve raw prepared derived and ready states', () => {

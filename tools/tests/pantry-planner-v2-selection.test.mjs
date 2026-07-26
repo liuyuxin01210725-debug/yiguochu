@@ -412,6 +412,39 @@ test('面条、豆角、猪里脊进入独立焖面模板并完整覆盖，quick
   assert.equal(quick.some(candidate => candidate.template_id === 'braised-noodle-pot'), false);
 });
 
+test('fresh wheat noodles green beans and ground pork form a complete fresh-noodle braise', () => {
+  const result = planMeal(assets, request({ must:['鲜小麦面条','豆角','猪肉末'] }));
+  assert.equal(result.status, 'complete');
+  assert.equal(result.plan.plan_kind, 'single_pot');
+  const pot = result.plan.pots[0];
+  assert.equal(pot.template_id, 'braised-noodle-pot');
+  assert.deepEqual(new Set(pot.planned_must_use.map(item => item.raw)),
+    new Set(['鲜小麦面条','豆角','猪肉末']));
+  assert.deepEqual(result.plan.unplanned_must_use, []);
+  assert.equal(pot.coverage_ratio, 1);
+  assert.equal(pot.ratio_trace[0].rule_id, 'braised-fresh-wheat-noodle-liquid-v1');
+  assert.equal(pot.liquid_constraints.retained_liquid_grams, 170);
+  assert.equal(pot.liquid_constraints.reserve_liquid_grams, 35);
+  assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'bean_fully_cooked'));
+  assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'pork_fully_cooked'));
+  assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'noodle_tender'));
+});
+
+test('fresh noodles cannot fall through to dried noodle ratio and presteamed noodles stay unplanned', () => {
+  const withoutExact = structuredClone(assets);
+  withoutExact.ratios.rules = withoutExact.ratios.rules
+    .filter(row => row.rule_id !== 'braised-fresh-wheat-noodle-liquid-v1');
+  withoutExact.templates.templates.find(row => row.template_id === 'braised-noodle-pot')
+    .ratio_constraints = ['braised-noodle-liquid-v1'];
+  const fresh = planMeal(withoutExact, request({ must:['鲜小麦面条','豆角'] }));
+  assert.notEqual(fresh.status, 'complete');
+
+  const presteamed = planMeal(assets, request({ must:['预蒸面','豆角','猪肉末'] }));
+  assert.notEqual(presteamed.status, 'complete');
+  assert.equal(presteamed.generation_allowed, false);
+  assert.equal(presteamed.normalized_items.find(item => item.raw === '预蒸面').recognized, false);
+});
+
 test('slow rib cuts cannot enter a quick cooked-rice stir pot', () => {
   const normalized = normalizePlannerItems([
     { raw: '排骨', role: 'must_use' },

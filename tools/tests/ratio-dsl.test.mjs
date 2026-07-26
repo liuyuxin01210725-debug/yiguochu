@@ -28,7 +28,7 @@ const OPERATORS = new Set(['per_serving', 'per_serving_by_category', 'ratio', 'b
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r3');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r4');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -46,6 +46,54 @@ test('Ratio DSL catalog covers every active template with only the six executabl
         && operation.target.slot_id === slot.slot_id).length, 1, `${rule.rule_id}/${slot.slot_id}`);
     }
   }
+});
+
+test('fresh noodle ratio is canonical-scoped and locks staged liquid', () => {
+  const rule = rawCatalog.rules.find(row => row.rule_id === 'braised-fresh-wheat-noodle-liquid-v1');
+  assert.ok(rule, 'missing braised-fresh-wheat-noodle-liquid-v1');
+  assert.deepEqual(rule.when.canonical_ids, ['fresh-wheat-noodle']);
+  assert.deepEqual(rule.liquid_distribution, {
+    initial_fraction: 0.8,
+    reserve_fraction: 0.2,
+    reserve_action_code: 'add_reserved_liquid_if_needed',
+  });
+  const result = compileRatioPlan(rule.rule_id, {
+    servings: 2,
+    slots: {
+      staple: [{ name:'鲜小麦面条', category:'noodle', canonical_id:'fresh-wheat-noodle', ratio_rule_policy:'canonical_required', attributes:{} }],
+      vegetable: [{ name:'豆角', category:'pod_vegetable', canonical_id:'green-beans', ratio_rule_policy:'category_fallback', attributes:{ moisture_release:'low' } }],
+      protein: [{ name:'猪肉末', category:'pork', canonical_id:'ground-pork', ratio_rule_policy:'category_fallback', attributes:{} }],
+    },
+  }, catalog);
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.ingredient_amounts, [
+    { name:'豆角', grams:180 },
+    { name:'水', grams:170 },
+    { name:'鲜小麦面条', grams:200 },
+    { name:'猪肉末', grams:160 },
+  ]);
+  assert.deepEqual(result.liquid_constraints, {
+    retained_liquid_grams:170,
+    liquid_credit_grams:0,
+    rounding_grams:5,
+    initial_liquid_grams:135,
+    reserve_liquid_grams:35,
+    reserve_action_code:'add_reserved_liquid_if_needed',
+  });
+});
+
+test('ratio validator rejects unknown canonical scope and invalid liquid split', () => {
+  const unknown = structuredClone(rawCatalog);
+  const unknownRule = unknown.rules.find(row => row.rule_id === 'braised-fresh-wheat-noodle-liquid-v1');
+  assert.ok(unknownRule, 'missing braised-fresh-wheat-noodle-liquid-v1');
+  unknownRule.when.canonical_ids = ['invented-noodle'];
+  assert.match(validateRatioDslCatalog(unknown, templates, taxonomy, recipes).join('\n'), /known canonical identities/);
+
+  const split = structuredClone(rawCatalog);
+  const splitRule = split.rules.find(row => row.rule_id === 'braised-fresh-wheat-noodle-liquid-v1');
+  assert.ok(splitRule, 'missing braised-fresh-wheat-noodle-liquid-v1');
+  splitRule.liquid_distribution.reserve_fraction = 0.3;
+  assert.match(validateRatioDslCatalog(split, templates, taxonomy, recipes).join('\n'), /sum to 1/);
 });
 
 test('raw ratio catalog explicitly quantifies every user slot without prepare-time synthesis', () => {
