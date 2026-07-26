@@ -136,6 +136,38 @@ test('validator locks family membership, adaptation boundaries, journey referenc
   assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: claimBroken }).join('\n'), /late named topping structure claim must remain supported/);
 });
 
+test('validator locks every adaptation-boundary meaning and the remaining Cantonese non-equivalence claims', () => {
+  const boundary = assessment.adaptation_boundaries.find(row => row.boundary_id === 'claypot-not-generic-covered-pot');
+  assert.deepEqual({
+    evidence_status: boundary.evidence_status,
+    verdict: boundary.verdict,
+    forbidden_equivalence: boundary.forbidden_equivalence,
+  }, {
+    evidence_status: 'not_proven',
+    verdict: 'not_proven',
+    forbidden_equivalence: 'claypot_equals_ordinary_covered_pot',
+  });
+
+  const boundaryBroken = structuredClone(assessment);
+  const claypot = boundaryBroken.adaptation_boundaries.find(row => row.boundary_id === 'claypot-not-generic-covered-pot');
+  claypot.evidence_status = 'supported';
+  claypot.verdict = 'supported';
+  claypot.forbidden_equivalence = 'ordinary_pot_equals_claypot';
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /claypot-not-generic-covered-pot boundary meaning must remain fixed/);
+
+  const hongKongBroken = structuredClone(assessment);
+  delete hongKongBroken.concrete_research_leads.find(row => row.lead_id === 'cantonese-claypot-rice-technique').claims.hong_kong_exclusive_origin;
+  hongKongBroken.source_refs.find(row => row.source_id === 'hk-tourism-claypot-food-map-undated').does_not_prove = [];
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: hongKongBroken }).join('\n'), /Hong Kong exclusive origin claim must remain not_proven/);
+
+  const toppingBroken = structuredClone(assessment);
+  delete toppingBroken.concrete_research_leads.find(row => row.lead_id === 'cantonese-claypot-rice-technique').claims.named_toppings_as_free_protein_slot;
+  toppingBroken.source_refs.find(row => row.source_id === 'gd-xiguan-draft-claypot-rice-undated').does_not_prove = toppingBroken.source_refs
+    .find(row => row.source_id === 'gd-xiguan-draft-claypot-rice-undated').does_not_prove
+    .filter(token => token !== 'lead:cantonese-claypot-rice-technique:named_toppings_as_free_protein_slot');
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: toppingBroken }).join('\n'), /named toppings free protein slot claim must remain not_proven/);
+});
+
 test('validator rejects vessel collapse, false regional pineapple attribution and recipe-list promotion', () => {
   const broken = structuredClone(assessment);
   broken.concrete_research_leads.find(row => row.lead_id === 'cantonese-claypot-rice-technique').claims.household_vessel_equivalence.verdict = 'supported';

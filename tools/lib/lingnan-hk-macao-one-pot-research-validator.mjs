@@ -29,6 +29,14 @@ const EXPECTED_BOUNDARIES = new Set([
   'dingan-cai-bao-not-raw-rice-one-pot',
   'macao-menu-not-process',
 ]);
+const EXPECTED_BOUNDARY_MEANINGS = {
+  'claypot-not-generic-covered-pot': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'claypot_equals_ordinary_covered_pot' },
+  'named-claypot-branches-not-free-slots': { evidence_status: 'supported_with_boundaries', verdict: 'not_proven', forbidden_equivalence: 'named_toppings_as_free_protein_slot' },
+  'natural-dyes-not-food-powder-equivalence': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'food_powders_as_traditional_natural_dyes' },
+  'guangxi-pineapple-rice-unproven': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'guangxi_traditional_pineapple_rice_claim' },
+  'dingan-cai-bao-not-raw-rice-one-pot': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'raw_rice_all_ingredients_single_vessel' },
+  'macao-menu-not-process': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'menu_presence_as_one_pot_process' },
+};
 const VERDICTS = new Set(['supported', 'not_proven', 'contradicted']);
 const DESTINATIONS = new Set(['recipe_evidence', 'template_evidence', 'ratio_rule', 'new_family_research', 'research_only', 'substitution_rule']);
 const AUDIT_STATES = new Set(['needs_manual_review', 'needs_more_evidence', 'supported_with_boundaries']);
@@ -143,8 +151,11 @@ function validateSupport(assessment, sourceIds, directions, errors) {
   boundaries.forEach((row, index) => {
     const path = `adaptation_boundaries[${index}]`;
     if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
-    for (const field of ['boundary_id', 'evidence_status', 'notes']) if (!hasText(row[field])) errors.push(`${path}.${field} must be non-empty`);
+    for (const field of ['boundary_id', 'evidence_status', 'verdict', 'forbidden_equivalence', 'notes']) if (!hasText(row[field])) errors.push(`${path}.${field} must be non-empty`);
     if (!VERDICTS.has(row.evidence_status) && row.evidence_status !== 'supported_with_boundaries') errors.push(`${path}.evidence_status is invalid`);
+    if (!VERDICTS.has(row.verdict)) errors.push(`${path}.verdict is invalid`);
+    const expected = EXPECTED_BOUNDARY_MEANINGS[row.boundary_id];
+    if (expected && (row.evidence_status !== expected.evidence_status || row.verdict !== expected.verdict || row.forbidden_equivalence !== expected.forbidden_equivalence)) errors.push(`${row.boundary_id} boundary meaning must remain fixed`);
   });
   if (!Array.isArray(assessment.safety_boundaries) || assessment.safety_boundaries.length === 0) errors.push('safety_boundaries must be a non-empty array');
   asArray(assessment.safety_boundaries).forEach((row, index) => {
@@ -175,6 +186,8 @@ function validateRequiredClaims(assessment, errors) {
   const leads = new Map(asArray(assessment.concrete_research_leads).filter(isObject).map(row => [`lead:${row.lead_id}`, row]));
   const required = [
     ['lead:cantonese-claypot-rice-technique', 'late_named_topping_structure', 'supported', 'late named topping structure claim must remain supported'],
+    ['lead:cantonese-claypot-rice-technique', 'hong_kong_exclusive_origin', 'not_proven', 'Hong Kong exclusive origin claim must remain not_proven'],
+    ['lead:cantonese-claypot-rice-technique', 'named_toppings_as_free_protein_slot', 'not_proven', 'named toppings free protein slot claim must remain not_proven'],
     ['production:guangxi-five-color-glutinous-rice', 'guangxi_pineapple_rice_regional_identity', 'not_proven', 'Guangxi pineapple rice regional identity claim must remain not_proven'],
     ['production:hainan-cai-bao-rice', 'single_vessel_one_pot_equivalence', 'not_proven', 'Dingan cai bao single-vessel claim must remain not_proven'],
     ['lead:hainan-coconut-shredded-rice', 'complete_main_meal_sufficiency', 'not_proven', 'coconut rice meal sufficiency claim must remain not_proven'],

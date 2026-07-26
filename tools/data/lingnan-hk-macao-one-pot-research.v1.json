@@ -367,12 +367,12 @@
     {"family_id":"macao-portuguese-style-seafood-rice-unresolved","name":"澳门葡式海鲜饭待核工艺","meal_structure":"menu_presence_process_unresolved","evidence_status":"research_only"}
   ],
   "adaptation_boundaries": [
-    {"boundary_id":"claypot-not-generic-covered-pot","evidence_status":"not_proven","notes":"普通锅或电饭煲可称广式风味焖饭，不得承诺瓦煲锅巴复刻。"},
-    {"boundary_id":"named-claypot-branches-not-free-slots","evidence_status":"supported_with_boundaries","notes":"腊味、香菇滑鸡和豆豉排骨是具名分支，不是任意蛋白槽。"},
-    {"boundary_id":"natural-dyes-not-food-powder-equivalence","evidence_status":"not_proven","notes":"食品粉版本是家庭适配，不得称传统天然染色。"},
-    {"boundary_id":"guangxi-pineapple-rice-unproven","evidence_status":"not_proven","notes":"本轮无可靠来源支持广西传统菠萝饭归属。"},
-    {"boundary_id":"dingan-cai-bao-not-raw-rice-one-pot","evidence_status":"not_proven","notes":"菜包饭为熟饭熟馅出锅后包生菜的多阶段结构。"},
-    {"boundary_id":"macao-menu-not-process","evidence_status":"not_proven","notes":"澳门葡式海鲜饭菜单线索不等于单锅工艺，也不能把葡国鸡归入。"}
+    {"boundary_id":"claypot-not-generic-covered-pot","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"claypot_equals_ordinary_covered_pot","notes":"普通锅或电饭煲可称广式风味焖饭，不得承诺瓦煲锅巴复刻。"},
+    {"boundary_id":"named-claypot-branches-not-free-slots","evidence_status":"supported_with_boundaries","verdict":"not_proven","forbidden_equivalence":"named_toppings_as_free_protein_slot","notes":"腊味、香菇滑鸡和豆豉排骨是具名分支，不是任意蛋白槽。"},
+    {"boundary_id":"natural-dyes-not-food-powder-equivalence","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"food_powders_as_traditional_natural_dyes","notes":"食品粉版本是家庭适配，不得称传统天然染色。"},
+    {"boundary_id":"guangxi-pineapple-rice-unproven","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"guangxi_traditional_pineapple_rice_claim","notes":"本轮无可靠来源支持广西传统菠萝饭归属。"},
+    {"boundary_id":"dingan-cai-bao-not-raw-rice-one-pot","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"raw_rice_all_ingredients_single_vessel","notes":"菜包饭为熟饭熟馅出锅后包生菜的多阶段结构。"},
+    {"boundary_id":"macao-menu-not-process","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"menu_presence_as_one_pot_process","notes":"澳门葡式海鲜饭菜单线索不等于单锅工艺，也不能把葡国鸡归入。"}
   ],
   "safety_boundaries": [
     {"safety_id":"cured-meat-cook-through-and-salt","source_ids":["cq-cured-meat-safety-2026"],"evidence_status":"principle_only","required_controls":["use_labeled_cured_meat","cook_through","separate_raw_and_cooked_tools","disclose_high_salt"],"endpoint_note":"公开来源只支持原则，不导出分钟、克数或温度。"},
