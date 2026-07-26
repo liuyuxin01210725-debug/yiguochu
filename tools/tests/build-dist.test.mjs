@@ -218,7 +218,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
   }
 });
 
-test('distribution build excludes northeast M1 research calibration and synthetic fixtures', () => {
+test('distribution build excludes research-only and planner coverage audit artifacts', () => {
   const outputDir = makeOutputDir();
   try {
     build(outputDir);
@@ -241,6 +241,8 @@ test('distribution build excludes northeast M1 research calibration and syntheti
       'northeast-stew-safety-evidence.v1.json',
       'northeast-stew-safety-evidence.md',
       'northeast-stew-calibration-runbook.md',
+      'planner-menu-coverage.v1.json',
+      'planner-menu-coverage.md',
     ]) assert.equal(relativeFiles.some(name => path.basename(name) === forbiddenName), false, `research-only file leaked by name: ${forbiddenName}`);
     for (const sentinel of [
       'northeast-stew-research',
@@ -251,6 +253,8 @@ test('distribution build excludes northeast M1 research calibration and syntheti
       'preparation-rule.synthetic',
       'ne-cal-2',
       'synthetic-source-a',
+      'planner-menu-coverage-builder',
+      'Planner 覆盖审计不等于菜谱复刻',
     ]) {
       assert.equal(
         buffers.some(content => content.includes(Buffer.from(sentinel, 'utf8'))),

@@ -584,6 +584,22 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...yunnanGuizhouResearchErrors);
+let plannerMenuCoverageSummary = '';
+if (errors.length === 0) {
+  const coverageCheck = spawnSync(process.execPath, [
+    fileURLToPath(new URL('./build-planner-menu-coverage.mjs', import.meta.url)),
+    '--check',
+  ], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
+  });
+  if (coverageCheck.status !== 0) {
+    const detail = [coverageCheck.stdout, coverageCheck.stderr].filter(Boolean).join('\n').trim();
+    errors.push(`Planner menu coverage artifact check failed${detail ? `: ${detail}` : ''}`);
+  } else {
+    plannerMenuCoverageSummary = coverageCheck.stdout.trim();
+  }
+}
 let lingnanHkMacaoResearchSummary = '';
 // Keep this newest research layer behind every existing gate: if an established
 // validator is red, do not run another builder and obscure the root failure.
@@ -696,6 +712,7 @@ if (sichuanChongqingResearchReport && sichuanChongqingResearchSourceErrors.lengt
 if (yunnanGuizhouResearchReport && yunnanGuizhouResearchSourceErrors.length === 0 && yunnanGuizhouResearchErrors.length === 0) {
   console.log(formatYunnanGuizhouRiceResearchSummary(yunnanGuizhouResearchReport));
 }
+if (plannerMenuCoverageSummary) console.log(`${plannerMenuCoverageSummary} · planner menu coverage ok`);
 if (lingnanHkMacaoResearchSummary) console.log(lingnanHkMacaoResearchSummary);
 if (northwestResearchSummary) console.log(northwestResearchSummary);
 if (qinghaiTibetResearchSummary) console.log(qinghaiTibetResearchSummary);

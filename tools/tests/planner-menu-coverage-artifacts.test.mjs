@@ -13,6 +13,7 @@ import {
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const BUILD = fileURLToPath(new URL('../build-planner-menu-coverage.mjs', import.meta.url));
+const CHECK_RECIPES = fileURLToPath(new URL('../check-recipes.mjs', import.meta.url));
 
 const sampleReport = {
   schema_version: 1,
@@ -115,4 +116,11 @@ test('CLI detects source hash drift without rewriting checked-in artifacts', () 
   } finally {
     fs.rmSync(tempRoot, { recursive:true, force:true });
   }
+});
+
+test('aggregate recipe gate verifies planner menu coverage freshness', () => {
+  const result = spawnSync(process.execPath, [CHECK_RECIPES], { cwd:ROOT, encoding:'utf8' });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /planner menu coverage ok/);
+  assert.match(result.stdout, /72 recipes/);
 });
