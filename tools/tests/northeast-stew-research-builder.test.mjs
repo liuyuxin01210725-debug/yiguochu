@@ -13,7 +13,7 @@ const regionalAtlas = readJson('../data/regional-atlas.v2.json');
 const regionalResearch = readJson('../data/regional-menu-research.v1.json');
 const inputs = { assessment, regionalAtlas, regionalResearch };
 
-test('report contains all seven required regional deliverables', () => {
+test('report contains the regional and M1 readiness deliverables', () => {
   const report = buildNortheastStewResearchReport(inputs);
   assert.deepEqual(validateNortheastStewResearchReport(report), []);
   assert.equal(report.region_overview.region_id, 'northeast');
@@ -24,6 +24,9 @@ test('report contains all seven required regional deliverables', () => {
   assert.equal(report.source_evidence_pack.length, 7);
   assert.equal(report.home_adaptation_boundaries.length, 7);
   assert.equal(report.product_destination_decisions.length, 4);
+  assert.equal(report.machine_rule_readiness.length, 2);
+  assert.equal(report.calibration_readiness.length, 3);
+  assert.equal(report.capability_journey_cases.length, 22);
 });
 
 test('report separates supported family facts from unproven exact combinations', () => {
@@ -63,6 +66,8 @@ test('initial northeast round remains in progress instead of claiming completion
     'ratio_evidence_incomplete',
     'safety_evidence_incomplete',
     'human_journey_review_incomplete',
+    'machine_rule_candidates_blocked',
+    'calibration_2_3_4_servings_incomplete',
   ]);
   assert.equal(report.summary.ratio_ready_form_count, 0);
   assert.equal(report.summary.safety_ready_branch_count, 0);
@@ -74,7 +79,7 @@ test('summary text is derived from the report facts', () => {
   assert.equal(report.summary.journey_count, 10);
   assert.equal(
     formatNortheastStewResearchSummary(report),
-    '4 prototypes · 7 sources · 10 journeys · research_in_progress',
+    '4 prototypes · 7 sources · 10 regional journeys · 2 blocked machine rules · 0 active · 3 pending calibrations · 22 staged capability journeys · research_in_progress',
   );
 });
 
