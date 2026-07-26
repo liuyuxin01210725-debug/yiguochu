@@ -619,6 +619,36 @@ test('braised noodle plan survives the full generation contract with noodle, bea
   assert.match(prose, /完全熟透/);
 });
 
+test('fresh noodle locked plan preserves identity and exact reserved liquid', async () => {
+  const journey = await preparedJourney(plannerRequest({ must:['鲜小麦面条','豆角','猪肉末'] }));
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  assert.equal(meal.liquid_constraints.reserve_liquid_grams, 35);
+  const reserveIndex = meal.cooking_order.findIndex(row => row.action_code === 'add_reserved_liquid_if_needed');
+  assert.ok(reserveIndex >= 0);
+  const reserve = meal.cooking_order[reserveIndex];
+  assert.equal(reserve.locked_liquid_grams, 35);
+  assert.ok(meal.generation_text_contract.steps[reserveIndex]
+    .allowed_texts.every(text => /35克/.test(text)));
+
+  const valid = validModelOutput(locked);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+  for (const [label, mutate] of [
+    ['replace fresh noodles with dried noodles', output => { output.meals[0].steps[0].text += '换成挂面。'; }],
+    ['add unplanned water', output => { output.meals[0].steps[0].text += '再加100克水。'; }],
+    ['omit a locked ingredient', output => { output.meals[0].steps[0].text += '省略豆角。'; }],
+  ]) {
+    const mutated = structuredClone(valid);
+    mutate(mutated);
+    assert.equal(
+      workerModule.validateGeneratedPlan(mutated, locked, ingredientTermUniverse()).ok,
+      false,
+      label,
+    );
+  }
+});
+
 test('cooked-rice broth plan survives generation with conditional chicken and root-vegetable endpoints', async () => {
   const journey = await preparedJourney(plannerRequest({
     must: ['剩米饭', '鸡腿肉', '土豆'],

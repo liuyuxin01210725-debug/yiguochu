@@ -48,6 +48,10 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
     '将{items}按计划比例加入同一口锅并拌匀，加盖焖煮至主食熟软无硬芯',
     '同锅加入{items}并轻轻搅匀，随后加盖焖煮到主食完全熟软',
   ],
+  add_reserved_liquid_if_needed: [
+    '检查锅底；只有出现偏干迹象时，才加入计划预留的{grams}克{items}',
+    '如锅底水分不足，仅补入已锁定的{grams}克{items}，不得再额外加水',
+  ],
   cook_aromatics: ['将{items}放入锅中翻炒至香味释放', '同锅翻炒{items}，直至香味明显释放'],
   cook_poultry_through: ['将{items}放入锅中持续加热并翻动，使各面均匀受热', '同锅加热{items}并适时翻动，确保各面受热'],
   gentle_set_protein: ['加入{items}，保持温和加热至结构稳定', '将{items}放入锅中，轻推并温和加热至定形'],
@@ -165,6 +169,7 @@ function controlledStepTexts(phase, lockedIngredients) {
   const safetyAlt = safety.length ? `，完成后确认${safety.join('；')}` : '';
   return templates.map(template => `${template
     .replace('{items}', refs)
+    .replace('{grams}', String(phase.locked_liquid_grams ?? ''))
     .replace('{safety}', safetyFact)
     .replace('{safety_alt}', safetyAlt)}。`);
 }
@@ -300,6 +305,25 @@ function buildLockedMeal(pot, template, refCounters, context) {
     required_safety_endpoints: [],
     required_safety_ingredient_refs: [],
     }));
+  const reserveLiquidGrams = pot.liquid_constraints?.reserve_liquid_grams;
+  if (typeof reserveLiquidGrams === 'number' && Number.isFinite(reserveLiquidGrams)
+      && reserveLiquidGrams > 0) {
+    const liquidRefs = locked.filter(item => item.category === 'liquid')
+      .map(item => item.ingredient_ref);
+    if (liquidRefs.length !== 1) throw new Error('locked_reserved_liquid_ref_invalid');
+    const insertionIndex = phases.findIndex(phase => phase.action_code === 'add_staple_and_liquid');
+    if (insertionIndex < 0) throw new Error('locked_reserved_liquid_phase_missing');
+    phases.splice(insertionIndex + 1, 0, {
+      phase: insertionIndex + 2,
+      action_code: pot.liquid_constraints.reserve_action_code,
+      slot_ids: ['liquid'],
+      allowed_ingredient_refs: liquidRefs,
+      locked_liquid_grams: reserveLiquidGrams,
+      required_safety_endpoints: [],
+      required_safety_ingredient_refs: [],
+    });
+    phases.forEach((phase, index) => { phase.phase = index + 1; });
+  }
   for (const ingredient of locked.filter(item => item.source === 'basic_extra')) {
     if (phases.some(phase => phase.allowed_ingredient_refs.includes(ingredient.ingredient_ref))) continue;
     let phaseIndex = ingredient.slot_id === 'liquid'
@@ -606,11 +630,17 @@ export function validateGeneratedPlan(modelOutput, lockedPlan, termUniverse) {
       }
       const isControlledStepText = lockedMeal.generation_text_contract.steps[stepIndex]
         ?.allowed_texts.includes(step.text) === true;
+      const permitsLockedNumeric = isControlledStepText
+        && skeleton.action_code === 'add_reserved_liquid_if_needed'
+        && Number.isFinite(skeleton.locked_liquid_grams)
+        && step.text.includes(`${skeleton.locked_liquid_grams}克`);
       if (!validBoundedText(step.text, MAX_STEP_TEXT)) return contractFailure('invalid_prose_length');
       if (ingredientDeletionViolation(step.text, lockedMeal)) {
         return contractFailure('ingredient_deletion_in_prose');
       }
-      if (containsNumericClaim(step.text)) return contractFailure('numeric_prose_override');
+      if (containsNumericClaim(step.text) && !permitsLockedNumeric) {
+        return contractFailure('numeric_prose_override');
+      }
       if (containsMultipleVessels(step.text)) return contractFailure('multiple_vessels');
       if (!isControlledStepText && proseIngredientViolation(step.text, lockedMeal, termUniverse)) {
         return contractFailure('unplanned_ingredient_in_prose');

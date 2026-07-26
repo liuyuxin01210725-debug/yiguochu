@@ -339,6 +339,15 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     if (slots.get(rule.when.slot_id).some(item => item.category !== rule.when.category)) {
       return ratioFailure('ratio_context_category_mismatch', '食材类别与这条份量规则不匹配。');
     }
+    const scopedItems = slots.get(rule.when.slot_id) || [];
+    if (rule.when.canonical_ids?.length
+        && scopedItems.some(item => !rule.when.canonical_ids.includes(item.canonical_id))) {
+      return ratioFailure('ratio_context_identity_mismatch', '食材身份与这条份量规则不匹配。');
+    }
+    if (!rule.when.canonical_ids?.length
+        && scopedItems.some(item => item.ratio_rule_policy === 'canonical_required')) {
+      return ratioFailure('ratio_context_identity_mismatch', '该食材必须使用身份精确的份量规则。');
+    }
     const template = validationContext.templates?.templates?.find(entry => entry?.template_id === rule.when?.template_id);
     const optionalSlotIds = new Set((template?.optional_slots || []).filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id));
     const amounts = new Map();
@@ -467,6 +476,14 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     const retainedLiquidGrams = required_extra_items
       .filter(item => item.category === 'liquid')
       .reduce((sum, item) => sum + item.grams, 0);
+    const distribution = rule.liquid_distribution;
+    const initialLiquidGrams = distribution
+      ? roundRatioGrams(retainedLiquidGrams * distribution.initial_fraction, nearest)
+      : null;
+    const reserveLiquidGrams = distribution
+      ? retainedLiquidGrams - initialLiquidGrams
+      : null;
+    if (trace[0]) trace[0] = { ...trace[0], rule_id:rule.rule_id };
     return {
       ok: true,
       code: 'ratio_compiled',
@@ -476,6 +493,11 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         retained_liquid_grams: retainedLiquidGrams,
         liquid_credit_grams: roundRatioGrams(liquidCredit, nearest),
         rounding_grams: nearest,
+        ...(distribution ? {
+          initial_liquid_grams: initialLiquidGrams,
+          reserve_liquid_grams: reserveLiquidGrams,
+          reserve_action_code: distribution.reserve_action_code,
+        } : {}),
       },
       ratio_trace: trace,
     };
@@ -664,6 +686,27 @@ function ratioContextFor(assignment, servings) {
   };
 }
 
+export function selectRatioRule(template, assignment, ratioCatalog) {
+  const candidates = (ratioCatalog?.rules || []).filter(rule => {
+    if (rule.when?.template_id !== template.template_id
+        || !template.ratio_constraints?.includes(rule.rule_id)) return false;
+    const items = (assignment[rule.when.slot_id] || [])
+      .filter(item => item.category === rule.when.category);
+    if (!items.length) return false;
+    if (!rule.when.canonical_ids?.length) return true;
+    return items.every(item => rule.when.canonical_ids.includes(item.canonical_id));
+  });
+  const exact = candidates.filter(rule => rule.when.canonical_ids?.length);
+  const matchingItems = candidates.flatMap(rule => assignment[rule.when.slot_id] || []);
+  if (!exact.length && matchingItems.some(item => item.ratio_rule_policy === 'canonical_required')) {
+    return { ok:false, code:'ratio_rule_not_found', rule:null };
+  }
+  const best = exact.length ? exact : candidates.filter(rule => !rule.when.canonical_ids?.length);
+  if (best.length === 0) return { ok:false, code:'ratio_rule_not_found', rule:null };
+  if (best.length > 1) return { ok:false, code:'ratio_rule_ambiguous', rule:null };
+  return { ok:true, code:'ratio_rule_selected', rule:best[0] };
+}
+
 function assignmentKey(assignment) {
   return Object.keys(assignment).sort().map(slotId => `${slotId}:${assignment[slotId]
     .map(item => `${item.canonical || item.display_name}/${item.shape_or_cut || ''}/${item.source}`)
@@ -777,13 +820,14 @@ export function assignItemsToTemplate(template, normalizedItems, context = {}) {
       if (incompatible) { hardFailure ||= incompatible; continue; }
       const safety = safetyReason(template, assignment);
       if (safety) { hardFailure ||= safety; continue; }
-      const rule = (context.ratioCatalog?.rules || []).find(candidate => candidate.when?.template_id === template.template_id
-        && template.ratio_constraints?.includes(candidate.rule_id)
-        && (assignment[candidate.when.slot_id] || []).some(item => item.category === candidate.when.category));
-      if (!rule) {
-        hardFailure ||= rejection('would_break_ratio', '这组槽位没有可执行的份量比例。');
+      const selected = selectRatioRule(template, assignment, context.ratioCatalog);
+      if (!selected.ok) {
+        hardFailure ||= rejection('would_break_ratio', '这组槽位没有唯一可执行的份量比例。', {
+          ratio_code: selected.code,
+        });
         continue;
       }
+      const rule = selected.rule;
       const compiled = compileRatioPlan(rule.rule_id, ratioContextFor(assignment, context.servings), context.ratioCatalog);
       if (!compiled.ok) {
         hardFailure ||= rejection('would_break_ratio', '这组食材无法通过份量与液体比例检查。', { ratio_code: compiled.code });

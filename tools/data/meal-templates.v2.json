@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "template_catalog_version": "templates-v2-20260727-r6",
-  "ingredient_taxonomy_version": "taxonomy-v1-20260727-r5",
+  "template_catalog_version": "templates-v2-20260727-r7",
+  "ingredient_taxonomy_version": "taxonomy-v1-20260727-r6",
   "templates": [
     {
       "template_id": "acid-staple-pot",
@@ -219,9 +219,9 @@
       "ingredient_categories":{"staple":["noodle"],"vegetable":["leafy_vegetable","pod_vegetable","root_vegetable"],"protein":["chicken","pork","firm_tofu"],"mushroom":["mushroom"]},
       "compatibility_rules":[{"rule_code":"braised_noodle_uses_braise","when":{"slot_id":"staple","category":"noodle"},"requires_cooking_mode":["braise","simmer"]}],
       "incompatible_rules":[{"rule_code":"braised_noodle_limits_slow_items","when":{"slot_id":"staple","category":"noodle"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":1}}],
-      "shape_or_cut_requirements":[{"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","tenderloin"],"forbidden_shapes":["rib"]},{"slot_id":"protein","category":"chicken","allowed_shapes":["breast","leg"],"forbidden_shapes":[]}],
+      "shape_or_cut_requirements":[{"slot_id":"protein","category":"pork","allowed_shapes":["slice","dice","ground","tenderloin"],"forbidden_shapes":["rib"]},{"slot_id":"protein","category":"chicken","allowed_shapes":["breast","leg"],"forbidden_shapes":[]}],
       "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"simmer_until_tender","slot_ids":["protein","vegetable","mushroom"]},{"phase":3,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":4,"action_code":"reach_safety_endpoints","slot_ids":["staple","protein","vegetable"]}],
-      "ratio_constraints":["braised-noodle-liquid-v1"],
+      "ratio_constraints":["braised-noodle-liquid-v1","braised-fresh-wheat-noodle-liquid-v1"],
       "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
       "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"pork","endpoint_code":"pork_fully_cooked"},{"applies_to_category":"firm_tofu","endpoint_code":"heated_through"},{"applies_to_category":"pod_vegetable","endpoint_code":"bean_fully_cooked"},{"applies_to_category":"noodle","endpoint_code":"noodle_tender"}],
       "time_range":{"min_minutes":25,"max_minutes":40},

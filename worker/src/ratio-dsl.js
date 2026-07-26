@@ -5,6 +5,7 @@ const OPS = new Set(['per_serving','per_serving_by_category','ratio','bounded_su
 const PREPARED = new WeakMap();
 const RULE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 const MOISTURE = new Set(['low','medium','high']);
+const LIQUID_ACTIONS = new Set(['add_reserved_liquid_if_needed']);
 const SKIP_GUARDS = new Map([
   ['texture_behavior', { match:'equals', values:new Set(['renders_fat_when_heated']) }],
   ['texture_failure_modes', { match:'contains', values:new Set(['salty_when_overseasoned']) }],
@@ -23,6 +24,27 @@ const exactObject = (value, keys, label, errors) => {
   if (!object(value)) { errors.push(`${label} must be an object`); return false; }
   allowed(value, keys, label, errors);
   return true;
+};
+const validateCanonicalScope = (value, taxonomyIds, label, errors) => {
+  if (value == null) return;
+  if (!Array.isArray(value) || value.length === 0
+      || value.some(id => typeof id !== 'string' || !taxonomyIds.has(id))
+      || new Set(value).size !== value.length) {
+    errors.push(`${label} must contain unique known canonical identities`);
+  }
+};
+const validateLiquidDistribution = (value, label, errors) => {
+  if (value == null) return;
+  if (!exactObject(value,
+    new Set(['initial_fraction','reserve_fraction','reserve_action_code']), label, errors)) return;
+  const { initial_fraction:initial, reserve_fraction:reserve } = value;
+  if (!number(initial) || !number(reserve) || initial > 1 || reserve > 1
+      || Math.abs(initial + reserve - 1) > Number.EPSILON * 8) {
+    errors.push(`${label} fractions must be between 0 and 1 and sum to 1`);
+  }
+  if (!LIQUID_ACTIONS.has(value.reserve_action_code)) {
+    errors.push(`${label}.reserve_action_code is invalid`);
+  }
 };
 const targetSlot = (target, label, permitted, errors) => {
   if (!exactObject(target, new Set(['slot_id']), label, errors) || !text(target.slot_id) || !permitted.includes(target.slot_id) || Object.keys(target).length !== 1) errors.push(`${label} must be a declared user slot`);
@@ -52,18 +74,30 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
     allowed(catalog, new Set(['ratio_dsl_version','ratio_catalog_version','rules']), 'ratio DSL catalog', errors);
     if (catalog.ratio_dsl_version !== 1) errors.push('ratio_dsl_version must be 1');
-    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260727-r3') errors.push('ratio_catalog_version must be ratio-rules-v1-20260727-r3');
+    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260727-r4') errors.push('ratio_catalog_version must be ratio-rules-v1-20260727-r4');
     if (!Array.isArray(catalog.rules)) return [...errors, 'rules must be an array'];
     const templateById = new Map((templates?.templates || []).filter(t => text(t?.template_id)).map(t => [t.template_id, t]));
     const recipeIds = new Set((recipes?.recipes || []).map(r => r?.id).filter(text));
+    const taxonomyById = new Map((taxonomy?.items || [])
+      .filter(item => text(item?.canonical_id)).map(item => [item.canonical_id, item]));
+    const taxonomyIds = new Set(taxonomyById.keys());
     const ids = new Set();
     for (const [index, rule] of catalog.rules.entries()) {
       const label = `rules[${index}]`;
       if (!object(rule)) { errors.push(`${label} must be an object`); continue; }
-      allowed(rule, new Set(['rule_id','evidence_recipe_ids','when','operations','rounding','example_context']), label, errors);
+      allowed(rule, new Set(['rule_id','evidence_recipe_ids','when','operations','liquid_distribution','rounding','example_context']), label, errors);
       if (!text(rule.rule_id) || !RULE_ID.test(rule.rule_id)) errors.push(`${label}.rule_id is invalid`);
       if (ids.has(rule.rule_id)) errors.push(`duplicate rule_id: ${rule.rule_id}`); ids.add(rule.rule_id);
-      exactObject(rule.when, new Set(['template_id','slot_id','category']), `${label}.when`, errors);
+      exactObject(rule.when, new Set(['template_id','slot_id','category','canonical_ids']), `${label}.when`, errors);
+      validateCanonicalScope(rule.when?.canonical_ids, taxonomyIds, `${label}.when.canonical_ids`, errors);
+      if (Array.isArray(rule.when?.canonical_ids)) {
+        for (const canonicalId of rule.when.canonical_ids) {
+          const identity = taxonomyById.get(canonicalId);
+          if (identity && identity.category !== rule.when?.category) {
+            errors.push(`${label}.when canonical identity category must match when.category`);
+          }
+        }
+      }
       const template = templateById.get(rule.when?.template_id);
       if (!template) errors.push(`${label}.when has unknown template`);
       const slotCategories = new Set(template?.ingredient_categories?.[rule.when?.slot_id] || []);
@@ -121,6 +155,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
       exactObject(rule.rounding, new Set(['grams_to_nearest']), `${label}.rounding`, errors);
       if (!object(rule.rounding) || !Number.isInteger(rule.rounding.grams_to_nearest) || rule.rounding.grams_to_nearest <= 0) errors.push(`${label}.rounding.grams_to_nearest must be a positive integer`);
       if (Number.isInteger(rule.rounding?.grams_to_nearest) && rule.rounding.grams_to_nearest > 0) for (const op of rule.operations) for (const field of ['grams','grams_per_serving','liquid_credit_grams_per_serving']) if (number(op?.[field]?.default) && op[field].default > 0 && Math.round(op[field].default / rule.rounding.grams_to_nearest) === 0) errors.push(`${label}.${field} positive default rounds to 0g`);
+      validateLiquidDistribution(rule.liquid_distribution, `${label}.liquid_distribution`, errors);
       exactObject(rule.example_context, new Set(['slot_name']), `${label}.example_context`, errors);
       if (!text(rule.example_context?.slot_name)) errors.push(`${label}.example_context.slot_name must be a non-empty string`);
     }
