@@ -60,6 +60,7 @@ const CHECKER_DATA_FILES = [
   'northeast-stew-research.v1.json',
   'jiangnan-rice-research.v1.json',
   'shandong-one-pot-research.v1.json',
+  'central-plains-noodle-research.v1.json',
 ];
 
 function runCheckerWithAssetMutation(mutate) {

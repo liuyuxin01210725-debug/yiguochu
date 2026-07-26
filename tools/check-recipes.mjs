@@ -36,6 +36,13 @@ import {
   validateShandongOnePotResearchReport,
 } from './lib/shandong-one-pot-research-builder.mjs';
 import { buildShandongOnePotResearchArtifacts } from './lib/shandong-one-pot-research-renderer.mjs';
+import { validateCentralPlainsNoodleResearch } from './lib/central-plains-noodle-research-validator.mjs';
+import {
+  buildCentralPlainsNoodleResearchReport,
+  formatCentralPlainsNoodleResearchSummary,
+  validateCentralPlainsNoodleResearchReport,
+} from './lib/central-plains-noodle-research-builder.mjs';
+import { buildCentralPlainsNoodleResearchArtifacts } from './lib/central-plains-noodle-research-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -46,6 +53,7 @@ const regionalAtlasInputErrors = [];
 const northeastResearchInputErrors = [];
 const jiangnanResearchInputErrors = [];
 const shandongResearchInputErrors = [];
+const centralPlainsResearchInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -69,6 +77,7 @@ const regionalMenuMappings = readReviewLedger('./data/regional-menu-mappings.v1.
 const northeastResearch = readReviewLedger('./data/northeast-stew-research.v1.json', 'northeast stew research assessment', northeastResearchInputErrors);
 const jiangnanResearch = readReviewLedger('./data/jiangnan-rice-research.v1.json', 'Jiangnan rice research assessment', jiangnanResearchInputErrors);
 const shandongResearch = readReviewLedger('./data/shandong-one-pot-research.v1.json', 'Shandong one-pot research assessment', shandongResearchInputErrors);
+const centralPlainsResearch = readReviewLedger('./data/central-plains-noodle-research.v1.json', 'Central Plains noodle research assessment', centralPlainsResearchInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -243,6 +252,41 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...shandongResearchErrors);
+const centralPlainsResearchSourceErrors = [
+  ...centralPlainsResearchInputErrors,
+  ...validateCentralPlainsNoodleResearch({
+    assessment: centralPlainsResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  }),
+];
+errors.push(...centralPlainsResearchSourceErrors);
+const centralPlainsResearchErrors = [];
+let centralPlainsResearchReport;
+if (recipeLibraryErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && centralPlainsResearchSourceErrors.length === 0) {
+  centralPlainsResearchReport = buildCentralPlainsNoodleResearchReport({
+    assessment: centralPlainsResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  });
+  centralPlainsResearchErrors.push(...validateCentralPlainsNoodleResearchReport(centralPlainsResearchReport));
+  if (centralPlainsResearchErrors.length === 0) {
+    for (const [relativePath, content] of buildCentralPlainsNoodleResearchArtifacts(centralPlainsResearchReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        centralPlainsResearchErrors.push(`${relativePath} is missing or stale; run node tools/build-central-plains-noodle-research.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...centralPlainsResearchErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -280,6 +324,9 @@ if (jiangnanResearchReport && jiangnanResearchSourceErrors.length === 0 && jiang
 }
 if (shandongResearchReport && shandongResearchSourceErrors.length === 0 && shandongResearchErrors.length === 0) {
   console.log(formatShandongOnePotResearchSummary(shandongResearchReport));
+}
+if (centralPlainsResearchReport && centralPlainsResearchSourceErrors.length === 0 && centralPlainsResearchErrors.length === 0) {
+  console.log(formatCentralPlainsNoodleResearchSummary(centralPlainsResearchReport));
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
