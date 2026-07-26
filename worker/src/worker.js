@@ -2855,6 +2855,7 @@ export default {
       let plannerVersion = null;
       let templateCatalogVersion = null;
       let ingredientTaxonomyVersion = null;
+      let ratioRulesVersion = null;
       let activeTemplates = 0;
       let plannedTemplates = 0;
       try {
@@ -2865,6 +2866,7 @@ export default {
         plannerVersion = PLANNER_VERSION;
         templateCatalogVersion = assets.templates.template_catalog_version;
         ingredientTaxonomyVersion = assets.taxonomy.taxonomy_version;
+        ratioRulesVersion = assets.ratios.ratio_catalog_version;
         activeTemplates = assets.templates.templates.filter(template => (
           template.activation_status === 'active' && template.runtime_eligible === true
         )).length;
@@ -2896,6 +2898,7 @@ export default {
         plannerVersion,
         templateCatalogVersion,
         ingredientTaxonomyVersion,
+        ratioRulesVersion,
         activeTemplates,
         plannedTemplates,
       }, 200, env, request);

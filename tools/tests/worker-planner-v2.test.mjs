@@ -102,8 +102,9 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.recipeLibrary, 'ok');
   assert.equal(result.body.plannerAssets, 'ok');
   assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
-  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r3');
-  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r2');
+  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r4');
+  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r3');
+  assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260727-r3');
   assert.equal(result.body.activeTemplates, 10);
   assert.equal(result.body.plannedTemplates, 6);
   assert.equal(result.body.baseRecipes, 72);
@@ -120,6 +121,7 @@ test('health reports unavailable planner assets without claiming validated versi
   assert.equal(result.body.plannerVersion, null);
   assert.equal(result.body.templateCatalogVersion, null);
   assert.equal(result.body.ingredientTaxonomyVersion, null);
+  assert.equal(result.body.ratioRulesVersion, null);
   assert.equal(result.body.activeTemplates, 0);
   assert.equal(result.body.plannedTemplates, 0);
 });
@@ -138,6 +140,7 @@ test('health never reports a semantically invalid recipe library as available', 
   assert.equal(result.body.plannerVersion, null);
   assert.equal(result.body.templateCatalogVersion, null);
   assert.equal(result.body.ingredientTaxonomyVersion, null);
+  assert.equal(result.body.ratioRulesVersion, null);
   assert.equal(result.body.activeTemplates, 0);
   assert.equal(result.body.plannedTemplates, 0);
 });
@@ -389,10 +392,10 @@ test('OPTIONS keeps CORS and legacy malformed JSON behavior remains unchanged', 
 
 test('deployment documentation tracks the current draft planner asset baseline', () => {
   const deployment = fs.readFileSync(new URL('../../部署说明.md', import.meta.url), 'utf8');
-  assert.match(deployment, /templates-v2-20260727-r3/);
-  assert.match(deployment, /taxonomy-v1-20260727-r2/);
-  assert.match(deployment, /ratio-rules-v1-20260727-r2/);
+  assert.match(deployment, /templates-v2-20260727-r4/);
+  assert.match(deployment, /taxonomy-v1-20260727-r3/);
+  assert.match(deployment, /ratio-rules-v1-20260727-r3/);
   assert.match(deployment, /10 个 active templates，6 个 planned templates/);
-  assert.match(deployment, /68\/68/);
+  assert.match(deployment, /76\/76/);
   assert.match(deployment, /未部署|不得部署/);
 });
