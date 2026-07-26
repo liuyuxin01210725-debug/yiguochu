@@ -1,0 +1,126 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { validateQinghaiTibetOnePotResearch } from '../lib/qinghai-tibet-one-pot-research-validator.mjs';
+
+const readJson = relativePath => JSON.parse(fs.readFileSync(new URL(relativePath, import.meta.url), 'utf8'));
+const assessment = readJson('../data/qinghai-tibet-one-pot-research.v1.json');
+const inputs = {
+  assessment,
+  recipeLibrary: readJson('../data/recipe-library.json'),
+  regionalResearch: readJson('../data/regional-menu-research.v1.json'),
+  regionalAtlas: readJson('../data/regional-atlas.v2.json'),
+  regionalMappings: readJson('../data/regional-menu-mappings.v1.json'),
+};
+
+const PRODUCTION_IDS = ['qinghai-hao-fan', 'tibetan-savory-congee', 'tibetan-gutu', 'tibetan-ginseng-fruit-rice'];
+const LEAD_IDS = [
+  'qinghai-ga-mianpian-broth',
+  'qinghai-barley-wheatberry-meat-soup',
+  'tibetan-patu-one-pot',
+  'tibetan-tuba-barley-thick-bowl',
+  'lhasa-tibetan-noodle-breakfast',
+];
+const FAMILY_IDS = [
+  'qinghai-grain-porridge-main-bowl',
+  'qinghai-noodle-piece-broth-main-bowl',
+  'qinghai-barley-wheatberry-meat-soup',
+  'tibetan-patu-one-pot-main-bowl',
+  'tibetan-tuba-barley-thick-main-bowl',
+  'lhasa-noodle-breakfast-main-bowl',
+];
+const BOUNDARY_IDS = [
+  'qinghai-hao-fan-not-traditional-replica',
+  'tibetan-savory-congee-not-traditional-replica',
+  'tibetan-gutu-not-traditional-replica',
+  'tibetan-ginseng-fruit-rice-not-traditional-replica',
+  'ga-mianpian-not-production-recipe',
+  'barley-wheatberry-meat-soup-not-free-grain-slot',
+  'patu-not-free-noodle-equivalence',
+  'tuba-manual-thickening-not-unattended-appliance',
+  'lhasa-noodle-breakfast-not-single-pot-proven',
+];
+
+test('assessment locks Qinghai Tibet nodes, 4/0 baseline, five leads, six distinct families and twelve pending journeys', () => {
+  assert.equal(assessment.region_id, 'qinghai_tibet');
+  assert.deepEqual(assessment.province_codes, ['CN-QH', 'CN-XZ']);
+  assert.deepEqual(assessment.production_recipe_audits.map(row => row.recipe_id).sort(), PRODUCTION_IDS.sort());
+  assert.deepEqual(assessment.candidate_audits, []);
+  assert.deepEqual(assessment.concrete_research_leads.map(row => row.lead_id).sort(), LEAD_IDS.sort());
+  assert.deepEqual(assessment.family_model.map(row => row.family_id).sort(), FAMILY_IDS.sort());
+  assert.deepEqual(assessment.adaptation_boundaries.map(row => row.boundary_id).sort(), BOUNDARY_IDS.sort());
+  assert.equal(assessment.journey_cases.length, 12);
+  assert.ok(assessment.journey_cases.every(row => row.human_review.status === 'pending'));
+  assert.deepEqual(validateQinghaiTibetOnePotResearch(inputs), []);
+});
+
+test('all eleven closed sources are HTTPS, dated or explicitly undated, and participate in a claim or auxiliary edge', () => {
+  assert.equal(assessment.source_refs.length, 11);
+  assert.ok(assessment.source_refs.every(row => row.url.startsWith('https://')));
+  assert.ok(assessment.source_refs.every(row => /^\d{4}-\d{2}-\d{2}$/.test(row.published_at) || (row.published_at === 'undated' && row.date_note)));
+  assert.ok(assessment.source_refs.every(row => row.proves.length + row.does_not_prove.length + row.contradicts.length > 0));
+});
+
+test('validator fails closed for fixed claims, source directions, province ownership, mapping scope and reviewed states', () => {
+  const baselineBroken = structuredClone(assessment);
+  baselineBroken.production_recipe_audits.pop();
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: baselineBroken }).join('\n'), /production audit IDs must match/);
+
+  const directionBroken = structuredClone(assessment);
+  directionBroken.concrete_research_leads.find(row => row.lead_id === 'tibetan-patu-one-pot').claims.single_pot_equivalence.verdict = 'supported';
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: directionBroken }).join('\n'), /must be reverse-indexed/);
+
+  const ownershipBroken = structuredClone(assessment);
+  ownershipBroken.concrete_research_leads.find(row => row.lead_id === 'qinghai-ga-mianpian-broth').province_code = 'CN-XZ';
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: ownershipBroken }).join('\n'), /lead province mapping must remain fixed/);
+
+  const mappingBroken = structuredClone(inputs.regionalMappings);
+  mappingBroken.production_recipe_mappings.find(row => row.source_id === 'qinghai-hao-fan').province_codes = ['CN-XZ'];
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, regionalMappings: mappingBroken }).join('\n'), /production mapping province scope must remain fixed/);
+
+  const stateBroken = structuredClone(assessment);
+  stateBroken.production_recipe_audits.find(row => row.recipe_id === 'tibetan-gutu').audit_state = 'approved';
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: stateBroken }).join('\n'), /audit_state must remain/);
+});
+
+test('validator rejects orphan evidence, source identity drift, and semantic drift in families, boundaries and journeys', () => {
+  const orphan = structuredClone(assessment);
+  orphan.source_refs[0].proves.push('lead:invented:claim');
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: orphan }).join('\n'), /not a canonical claim token/);
+
+  const sourceBroken = structuredClone(assessment);
+  sourceBroken.source_refs[0].title = '改写过的来源标题';
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: sourceBroken }).join('\n'), /source identity manifest mismatch/);
+
+  const familyBroken = structuredClone(assessment);
+  familyBroken.family_model[0].meal_structure = 'generic_free_slot';
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: familyBroken }).join('\n'), /family_model semantic fingerprint mismatch/);
+
+  const boundaryBroken = structuredClone(assessment);
+  boundaryBroken.adaptation_boundaries[0].notes = '可以视为传统复刻。';
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /adaptation_boundaries semantic fingerprint mismatch/);
+
+  const journeyBroken = structuredClone(assessment);
+  journeyBroken.journey_cases[1].journey_id = journeyBroken.journey_cases[0].journey_id;
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_ids must be unique/);
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_cases semantic fingerprint mismatch/);
+});
+
+test('validator keeps every auxiliary evidence edge attached to its fixed source and required entity', () => {
+  const broken = structuredClone(assessment);
+  const source = broken.source_refs.find(row => row.source_id === 'cn-animal-food-safety-2025');
+  source.proves = [];
+  source.does_not_prove = [];
+  source.contradicts = [];
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /must contribute at least one evidence direction/);
+  assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /auxiliary token safety:animal-food-cook-through-and-separate:principle must remain/);
+});
+
+test('validator fingerprints the fixed safety controls as well as their auxiliary evidence edges', () => {
+  const broken = structuredClone(assessment);
+  broken.safety_boundaries[0].required_controls = ['cook_until_convenient'];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'),
+    /safety_boundaries semantic fingerprint mismatch/,
+  );
+});
