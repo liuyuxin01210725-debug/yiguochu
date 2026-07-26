@@ -57,6 +57,13 @@ import {
   validateFujianTaiwanRiceNoodleResearchReport,
 } from './lib/fujian-taiwan-rice-noodle-research-builder.mjs';
 import { buildFujianTaiwanRiceNoodleResearchArtifacts } from './lib/fujian-taiwan-rice-noodle-research-renderer.mjs';
+import { validateJingjinjiJinmengOnePotResearch } from './lib/jingjinji-jinmeng-one-pot-research-validator.mjs';
+import {
+  buildJingjinjiJinmengOnePotResearchReport,
+  formatJingjinjiJinmengOnePotResearchSummary,
+  validateJingjinjiJinmengOnePotResearchReport,
+} from './lib/jingjinji-jinmeng-one-pot-research-builder.mjs';
+import { buildJingjinjiJinmengOnePotResearchArtifacts } from './lib/jingjinji-jinmeng-one-pot-research-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -70,6 +77,7 @@ const shandongResearchInputErrors = [];
 const centralPlainsResearchInputErrors = [];
 const middleYangtzeResearchInputErrors = [];
 const fujianTaiwanResearchInputErrors = [];
+const northChinaResearchInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -96,6 +104,7 @@ const shandongResearch = readReviewLedger('./data/shandong-one-pot-research.v1.j
 const centralPlainsResearch = readReviewLedger('./data/central-plains-noodle-research.v1.json', 'Central Plains noodle research assessment', centralPlainsResearchInputErrors);
 const middleYangtzeResearch = readReviewLedger('./data/middle-yangtze-main-meal-research.v1.json', 'Middle Yangtze main-meal research assessment', middleYangtzeResearchInputErrors);
 const fujianTaiwanResearch = readReviewLedger('./data/fujian-taiwan-rice-noodle-research.v1.json', 'Fujian-Taiwan rice-noodle research assessment', fujianTaiwanResearchInputErrors);
+const northChinaResearch = readReviewLedger('./data/jingjinji-jinmeng-one-pot-research.v1.json', 'Jingjinji-Jinmeng one-pot research assessment', northChinaResearchInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -375,6 +384,41 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...fujianTaiwanResearchErrors);
+const northChinaResearchSourceErrors = [
+  ...northChinaResearchInputErrors,
+  ...validateJingjinjiJinmengOnePotResearch({
+    assessment: northChinaResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  }),
+];
+errors.push(...northChinaResearchSourceErrors);
+const northChinaResearchErrors = [];
+let northChinaResearchReport;
+if (recipeLibraryErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && northChinaResearchSourceErrors.length === 0) {
+  northChinaResearchReport = buildJingjinjiJinmengOnePotResearchReport({
+    assessment: northChinaResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  });
+  northChinaResearchErrors.push(...validateJingjinjiJinmengOnePotResearchReport(northChinaResearchReport));
+  if (northChinaResearchErrors.length === 0) {
+    for (const [relativePath, content] of buildJingjinjiJinmengOnePotResearchArtifacts(northChinaResearchReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        northChinaResearchErrors.push(`${relativePath} is missing or stale; run node tools/build-jingjinji-jinmeng-one-pot-research.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...northChinaResearchErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -421,6 +465,9 @@ if (middleYangtzeResearchReport && middleYangtzeResearchSourceErrors.length === 
 }
 if (fujianTaiwanResearchReport && fujianTaiwanResearchSourceErrors.length === 0 && fujianTaiwanResearchErrors.length === 0) {
   console.log(formatFujianTaiwanRiceNoodleResearchSummary(fujianTaiwanResearchReport));
+}
+if (northChinaResearchReport && northChinaResearchSourceErrors.length === 0 && northChinaResearchErrors.length === 0) {
+  console.log(formatJingjinjiJinmengOnePotResearchSummary(northChinaResearchReport));
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
