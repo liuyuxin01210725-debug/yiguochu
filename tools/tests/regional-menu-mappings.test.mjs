@@ -27,15 +27,119 @@ test('mapping ledger covers the exact 72 production and 24 research IDs', () => 
   assert.deepEqual(validate(mappings), []);
 });
 
-test('capability ledger records covered, preview-ready, and ratio-blocked techniques', () => {
-  assert.ok(Array.isArray(mappings.template_capability_mappings));
-  const byFamily = new Map(mappings.template_capability_mappings.map(row => [row.family_id, row]));
-  assert.equal(byFamily.size, 3);
-  assert.equal(byFamily.get('raw-rice-braise')?.promotion_status, 'covered_by_active_template');
-  assert.equal(byFamily.get('noodle-braise')?.promotion_status, 'preview_candidate');
-  assert.deepEqual(byFamily.get('noodle-braise')?.resolved_ratio_rule_ids, ['braised-noodle-liquid-v1']);
-  assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_ratio');
+test('capability ledger covers every atlas technique family exactly once', () => {
+  const expected = atlas.technique_families.map(row => row.family_id).sort();
+  const actual = mappings.template_capability_mappings.map(row => row.family_id).sort();
+  assert.equal(mappings.mapping_version, 'regional-menu-mappings-v1-20260726-r2');
+  assert.deepEqual(actual, expected);
+  assert.equal(actual.length, 12);
   assert.deepEqual(validate(mappings), []);
+});
+
+test('capability ledger distinguishes full partial and no coverage', () => {
+  const byFamily = new Map(mappings.template_capability_mappings.map(row => [row.family_id, row]));
+  assert.equal(byFamily.get('raw-rice-braise')?.coverage_level, 'full');
+  assert.equal(byFamily.get('cooked-rice-stew')?.coverage_level, 'partial');
+  assert.deepEqual(byFamily.get('cooked-rice-stew')?.coverage_boundary_codes, ['requires_acid_base']);
+  assert.equal(byFamily.get('stew-with-staple')?.coverage_level, 'none');
+  assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_ratio');
+});
+
+test('capability coverage partitions the atlas staple states without overlap', () => {
+  const broken = structuredClone(mappings);
+  const row = broken.template_capability_mappings.find(item => item.family_id === 'noodle-braise');
+  row.covered_staple_states = ['生面', '半熟面'];
+  row.uncovered_staple_states = ['半熟面'];
+  assert.match(validate(broken).join('\n'), /covered and uncovered staple states must be disjoint/);
+});
+
+test('national household capabilities cannot acquire fake regions', () => {
+  const broken = structuredClone(mappings);
+  const row = broken.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+  row.regional_scope = 'national_household';
+  row.region_ids = ['jiangnan'];
+  assert.match(validate(broken).join('\n'), /national_household must not bind regions/);
+});
+
+test('no coverage cannot carry a runtime template', () => {
+  const broken = structuredClone(mappings);
+  const row = broken.template_capability_mappings.find(item => item.family_id === 'stew-with-staple');
+  row.coverage_level = 'none';
+  row.runtime_template_ids = ['savory-mixed-rice-pot'];
+  row.covered_staple_states = [];
+  row.uncovered_staple_states = ['玉米面团', '小麦面团'];
+  row.coverage_boundary_codes = [];
+  assert.match(validate(broken).join('\n'), /none coverage cannot have runtime templates or covered states/);
+});
+
+test('capability references fail closed across every controlled catalog', () => {
+  const mutations = [
+    ['runtime_template_ids', 'invented-template', /unknown runtime template/],
+    ['candidate_template_ids', 'invented-template', /unknown candidate template/],
+    ['evidence_recipe_ids', 'invented-recipe', /unknown value invented-recipe/],
+    ['evidence_research_ids', 'invented-research', /unknown value invented-research/],
+    ['taxonomy_item_ids', 'invented-ingredient', /unknown value invented-ingredient/],
+    ['resolved_ratio_rule_ids', 'invented-ratio-v1', /unknown resolved ratio rule/],
+  ];
+  for (const [field, value, expected] of mutations) {
+    const broken = structuredClone(mappings);
+    const row = broken.template_capability_mappings[0];
+    row[field] ??= [];
+    row[field].push(value);
+    assert.match(validate(broken).join('\n'), expected);
+  }
+});
+
+test('coverage levels and boundaries fail closed on dishonest combinations', () => {
+  const cases = [
+    ['unknown boundary', row => { row.coverage_boundary_codes = ['invented_boundary']; }, /unknown value invented_boundary/],
+    ['partial without gap', row => { row.coverage_level = 'partial'; row.covered_staple_states = ['生米']; row.uncovered_staple_states = []; row.coverage_boundary_codes = []; }, /partial coverage requires an uncovered state or boundary/],
+    ['full with gap', row => { row.coverage_level = 'full'; row.covered_staple_states = ['生米']; row.uncovered_staple_states = []; row.coverage_boundary_codes = ['requires_acid_base']; }, /full coverage cannot retain gaps/],
+  ];
+  for (const [name, mutate, expected] of cases) {
+    const broken = structuredClone(mappings);
+    const row = broken.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+    mutate(row);
+    assert.match(validate(broken).join('\n'), expected, name);
+  }
+});
+
+test('runtime templates must be active and disjoint from candidates', () => {
+  const inactive = structuredClone(mappings);
+  const inactiveRow = inactive.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+  inactiveRow.runtime_template_ids = ['broth-rice-pot'];
+  assert.match(validate(inactive).join('\n'), /runtime template must be active and eligible/);
+
+  const overlap = structuredClone(mappings);
+  const overlapRow = overlap.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+  overlapRow.runtime_template_ids = ['savory-mixed-rice-pot'];
+  overlapRow.candidate_template_ids = ['savory-mixed-rice-pot'];
+  assert.match(validate(overlap).join('\n'), /runtime and candidate templates must be disjoint/);
+});
+
+test('ready blocked and research states enforce blockers evidence and ratios', () => {
+  const ready = structuredClone(mappings);
+  const readyRow = ready.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+  readyRow.promotion_status = 'covered_by_active_template';
+  readyRow.blocker_codes = ['manual_review_pending'];
+  assert.match(validate(ready).join('\n'), /ready capability cannot retain blockers/);
+
+  const blocked = structuredClone(mappings);
+  const blockedRow = blocked.template_capability_mappings.find(item => item.family_id === 'stew-with-staple');
+  blockedRow.blocker_codes = [];
+  assert.match(validate(blocked).join('\n'), /blocked or research capability requires blocker_codes/);
+
+  const noEvidence = structuredClone(mappings);
+  const evidenceRow = noEvidence.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+  evidenceRow.evidence_recipe_ids = [];
+  evidenceRow.evidence_research_ids = [];
+  assert.match(validate(noEvidence).join('\n'), /requires recipe or research evidence/);
+
+  const ratio = structuredClone(mappings);
+  const ratioRow = ratio.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
+  ratioRow.required_ratio_rule_ids = [];
+  ratioRow.resolved_ratio_rule_ids = ['savory-mixed-rice-liquid-v1'];
+  assert.match(validate(ratio).join('\n'), /resolved ratio rule must also be required/);
 });
 
 test('preview candidates fail closed on stale runtime references or unresolved blockers', () => {

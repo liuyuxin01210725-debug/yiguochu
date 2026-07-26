@@ -17,13 +17,18 @@ const CAPABILITY_STATUSES = new Set([
   'research_only', 'blocked_by_evidence', 'blocked_by_taxonomy',
   'blocked_by_ratio', 'preview_candidate', 'covered_by_active_template',
 ]);
-const CAPABILITY_FIELDS = new Set([
-  'family_id', 'template_id', 'region_ids', 'promotion_status',
-  'evidence_recipe_ids', 'required_ratio_rule_ids', 'resolved_ratio_rule_ids',
-  'taxonomy_item_ids', 'blocker_codes',
+const CAPABILITY_SCOPES = new Set(['regional', 'national_household', 'mixed']);
+const COVERAGE_LEVELS = new Set(['full', 'partial', 'none']);
+const COVERAGE_BOUNDARY_CODES = new Set([
+  'requires_acid_base', 'raw_noodle_only', 'plain_noodle_only',
 ]);
-const REQUIRED_CAPABILITY_FAMILIES = new Set([
-  'raw-rice-braise', 'noodle-braise', 'stew-with-staple',
+const CAPABILITY_FIELDS = new Set([
+  'family_id', 'regional_scope', 'region_ids', 'coverage_level',
+  'runtime_template_ids', 'candidate_template_ids',
+  'covered_staple_states', 'uncovered_staple_states', 'coverage_boundary_codes',
+  'promotion_status', 'evidence_recipe_ids', 'evidence_research_ids',
+  'required_ratio_rule_ids', 'resolved_ratio_rule_ids',
+  'taxonomy_item_ids', 'blocker_codes', 'scope_note',
 ]);
 
 const isObject = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -115,7 +120,7 @@ function validateRows({
 }
 
 function validateCapabilityRows({
-  rows, regionIds, techniqueIds, recipeIds, templates, taxonomyIds, ratioIds, errors,
+  rows, regionIds, techniques, recipeIds, researchIds, templates, taxonomyIds, ratioIds, errors,
 }) {
   const familyIds = [];
   for (const [index, row] of rows.entries()) {
@@ -128,15 +133,43 @@ function validateCapabilityRows({
       if (!CAPABILITY_FIELDS.has(field)) errors.push(`${label}: ${field} is not allowed`);
     }
     if (!hasText(row.family_id)) errors.push(`${label}: family_id must be a non-empty string`);
-    else if (!techniqueIds.has(row.family_id)) errors.push(`${label}: unknown family_id`);
-    if (!hasText(row.template_id)) errors.push(`${label}: template_id must be a non-empty string`);
+    else if (!techniques.has(row.family_id)) errors.push(`${label}: unknown family_id`);
+    if (!CAPABILITY_SCOPES.has(row.regional_scope)) errors.push(`${label}: regional_scope is invalid`);
+    if (!COVERAGE_LEVELS.has(row.coverage_level)) errors.push(`${label}: coverage_level is invalid`);
     if (!CAPABILITY_STATUSES.has(row.promotion_status)) errors.push(`${label}: promotion_status is invalid`);
-    checkStringArray(row.region_ids, `${label}: region_ids`, errors, { nonEmpty: true, allowed: regionIds });
-    checkStringArray(row.evidence_recipe_ids, `${label}: evidence_recipe_ids`, errors, { nonEmpty: true, allowed: recipeIds });
-    const requiredRatios = checkStringArray(row.required_ratio_rule_ids, `${label}: required_ratio_rule_ids`, errors, { nonEmpty: true });
+    const regions = checkStringArray(row.region_ids, `${label}: region_ids`, errors, { allowed: regionIds });
+    if (row.regional_scope === 'national_household' && regions.length) errors.push(`${label}: national_household must not bind regions`);
+    if (['regional', 'mixed'].includes(row.regional_scope) && !regions.length) errors.push(`${label}: ${row.regional_scope} requires regions`);
+
+    const runtimeIds = checkStringArray(row.runtime_template_ids, `${label}: runtime_template_ids`, errors);
+    const candidateIds = checkStringArray(row.candidate_template_ids, `${label}: candidate_template_ids`, errors);
+    for (const id of runtimeIds) {
+      const template = templates.get(id);
+      if (!template) errors.push(`${label}: unknown runtime template ${id}`);
+      else if (template.activation_status !== 'active' || !template.runtime_eligible) errors.push(`${label}: runtime template must be active and eligible ${id}`);
+    }
+    for (const id of candidateIds) if (!templates.has(id)) errors.push(`${label}: unknown candidate template ${id}`);
+    if (runtimeIds.some(id => candidateIds.includes(id))) errors.push(`${label}: runtime and candidate templates must be disjoint`);
+
+    const family = techniques.get(row.family_id);
+    const expectedStates = new Set(asArray(family?.staple_states));
+    const covered = checkStringArray(row.covered_staple_states, `${label}: covered_staple_states`, errors, { allowed: expectedStates });
+    const uncovered = checkStringArray(row.uncovered_staple_states, `${label}: uncovered_staple_states`, errors, { allowed: expectedStates });
+    const boundaries = checkStringArray(row.coverage_boundary_codes, `${label}: coverage_boundary_codes`, errors, { allowed: COVERAGE_BOUNDARY_CODES });
+    if (covered.some(value => uncovered.includes(value))) errors.push(`${label}: covered and uncovered staple states must be disjoint`);
+    if (!exactIds([...covered, ...uncovered], expectedStates)) errors.push(`${label}: staple state partition must match atlas family`);
+    if (row.coverage_level === 'full' && (!covered.length || uncovered.length || boundaries.length)) errors.push(`${label}: full coverage cannot retain gaps`);
+    if (row.coverage_level === 'partial' && (!covered.length || (!uncovered.length && !boundaries.length))) errors.push(`${label}: partial coverage requires an uncovered state or boundary`);
+    if (row.coverage_level === 'none' && (covered.length || boundaries.length || runtimeIds.length || !exactIds(uncovered, expectedStates))) errors.push(`${label}: none coverage cannot have runtime templates or covered states`);
+
+    const evidenceRecipes = checkStringArray(row.evidence_recipe_ids, `${label}: evidence_recipe_ids`, errors, { allowed: recipeIds });
+    const evidenceResearch = checkStringArray(row.evidence_research_ids, `${label}: evidence_research_ids`, errors, { allowed: researchIds });
+    if (!evidenceRecipes.length && !evidenceResearch.length) errors.push(`${label}: requires recipe or research evidence`);
+    const requiredRatios = checkStringArray(row.required_ratio_rule_ids, `${label}: required_ratio_rule_ids`, errors);
     const resolvedRatios = checkStringArray(row.resolved_ratio_rule_ids, `${label}: resolved_ratio_rule_ids`, errors);
-    checkStringArray(row.taxonomy_item_ids, `${label}: taxonomy_item_ids`, errors, { nonEmpty: true, allowed: taxonomyIds });
+    checkStringArray(row.taxonomy_item_ids, `${label}: taxonomy_item_ids`, errors, { allowed: taxonomyIds });
     const blockers = checkStringArray(row.blocker_codes, `${label}: blocker_codes`, errors);
+    if (!hasText(row.scope_note)) errors.push(`${label}: scope_note must be a non-empty string`);
 
     for (const ruleId of resolvedRatios) {
       if (!ratioIds.has(ruleId)) errors.push(`${label}: unknown resolved ratio rule ${ruleId}`);
@@ -144,27 +177,24 @@ function validateCapabilityRows({
     }
     const ready = row.promotion_status === 'preview_candidate'
       || row.promotion_status === 'covered_by_active_template';
-    const template = templates.get(row.template_id);
     if (ready && blockers.length) errors.push(`${label}: ready capability cannot retain blockers`);
     if (ready && !exactIds(requiredRatios, resolvedRatios)) {
       errors.push(`${label}: ready capability must resolve every required ratio rule`);
     }
-    if (typeof row.promotion_status === 'string'
-      && row.promotion_status.startsWith('blocked_') && blockers.length === 0) {
-      errors.push(`${label}: blocked capability requires blocker_codes`);
+    if (ready && !runtimeIds.length) errors.push(`${label}: ready capability requires a runtime template`);
+    if (row.promotion_status === 'covered_by_active_template' && row.coverage_level !== 'full') {
+      errors.push(`${label}: covered_by_active_template requires full coverage`);
     }
-    if (ready && (!template || template.activation_status !== 'active' || !template.runtime_eligible)) {
-      errors.push(`${label}: ready capability requires an active runtime template`);
-    }
-    if (row.promotion_status !== 'blocked_by_taxonomy'
-      && row.promotion_status !== 'research_only' && hasText(row.template_id) && !template) {
-      errors.push(`${label}: unknown template_id ${row.template_id}`);
+    if ((row.promotion_status === 'research_only'
+      || (typeof row.promotion_status === 'string' && row.promotion_status.startsWith('blocked_')))
+      && blockers.length === 0) {
+      errors.push(`${label}: blocked or research capability requires blocker_codes`);
     }
     if (hasText(row.family_id)) familyIds.push(row.family_id);
   }
   if (new Set(familyIds).size !== familyIds.length) errors.push('capability family_id must be unique');
-  if (!exactIds(familyIds, REQUIRED_CAPABILITY_FAMILIES)) {
-    errors.push('capability family ID set must exactly match the approved promotion scope');
+  if (!exactIds(familyIds, techniques.keys())) {
+    errors.push('capability family ID set must exactly match atlas technique families');
   }
 }
 
@@ -174,8 +204,8 @@ export function validateRegionalMenuMappings({
   if (!isObject(mappings)) return ['mappings must be an object'];
   const errors = [];
   if (mappings.schema_version !== 1) errors.push('mappings: schema_version must be 1');
-  if (mappings.mapping_version !== 'regional-menu-mappings-v1-20260726') {
-    errors.push('mappings: mapping_version must be regional-menu-mappings-v1-20260726');
+  if (mappings.mapping_version !== 'regional-menu-mappings-v1-20260726-r2') {
+    errors.push('mappings: mapping_version must be regional-menu-mappings-v1-20260726-r2');
   }
   const rootFields = new Set([
     'schema_version', 'mapping_version', 'production_recipe_mappings',
@@ -195,7 +225,8 @@ export function validateRegionalMenuMappings({
   const techniques = asArray(atlas?.technique_families).filter(isObject);
   const regionIds = new Set(regions.map(row => row.region_id).filter(hasText));
   const provinceByCode = new Map(provinces.filter(row => hasText(row.atlas_code)).map(row => [row.atlas_code, row]));
-  const techniqueIds = new Set(techniques.map(row => row.family_id).filter(hasText));
+  const techniqueById = new Map(techniques.filter(row => hasText(row.family_id)).map(row => [row.family_id, row]));
+  const techniqueIds = new Set(techniqueById.keys());
   const templateById = new Map(asArray(templates?.templates).filter(isObject).filter(row => hasText(row.template_id)).map(row => [row.template_id, row]));
   const taxonomyIds = new Set(asArray(taxonomy?.items).filter(isObject).map(row => row.canonical_id).filter(hasText));
   const ratioIds = new Set(asArray(ratios?.rules).filter(isObject).map(row => row.rule_id).filter(hasText));
@@ -223,8 +254,9 @@ export function validateRegionalMenuMappings({
   validateCapabilityRows({
     rows: asArray(mappings.template_capability_mappings),
     regionIds,
-    techniqueIds,
+    techniques: techniqueById,
     recipeIds: new Set(recipeById.keys()),
+    researchIds: new Set(researchById.keys()),
     templates: templateById,
     taxonomyIds,
     ratioIds,
