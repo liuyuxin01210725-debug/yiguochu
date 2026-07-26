@@ -16,6 +16,7 @@
 - 研究候选审计：24
 - 生产地域范围：省级 28；跨地域 2；全国性家常 31；中国地图外 11
 - 当前空白省级节点：15
+- Planner 能力：full 2；partial 3；none 7
 
 ## 13 个地域板块
 
@@ -90,6 +91,25 @@
 | 糯米与杂粮同锅（glutinous-mixed-rice） | 糯米、混合米 | 5 | 0 | production_only | 建立浸泡、糯米吸水和杂粮混合比例。 |
 | 特殊器具家庭化（vessel-adapted-rice） | 生米、糯米、杂粮 | 4 | 5 | production_and_research | 核实铜锅、叶包和果壳等器具变化后仍保留的核心身份。 |
 | 大锅菜配吸汁主食（family-pot-with-absorbent-staple） | 粉条、粉丝、可验证主食 | 1 | 4 | production_and_research | 建立耐炖蔬菜、豆腐肉类和吸汁主食的先后与液体边界。 |
+
+## Planner 能力覆盖矩阵
+
+> 该矩阵是研究与运行能力审计，不等于菜谱批准或部署状态。
+
+| 技法 | coverage | runtime templates | candidate templates | promotion status | 未覆盖主食状态 | blockers | 能力边界 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 生米菜肉同焖（raw-rice-braise） | full | savory-mixed-rice-pot | 无 | covered_by_active_template | 无 | 无 | 现有生米焖饭模板已覆盖受控生米、耐焖蔬菜与有限蛋白组合，不借模板名称伪造地域菜身份。 |
+| 熟饭翻炒（cooked-rice-stir） | full | cooked-rice-stir-pot | 无 | covered_by_active_template | 无 | 无 | 熟饭翻炒按全国性家庭结构覆盖，不绑定不存在的单一地域。 |
+| 熟饭烩煮或汤饭（cooked-rice-stew） | partial | acid-staple-pot | broth-rice-pot | blocked_by_ratio | 无 | ratio_rule_missing:broth-rice-liquid-v1 | 当前只覆盖有酸味底的熟饭烩煮，一般汤饭仍缺独立液体规则。 |
+| 生谷物加液体熬煮（grain-porridge） | none | 无 | soft-family-rice-pot | blocked_by_ratio | 生米、小米、青稞、杂粮 | ratio_rule_missing:soft-family-rice-liquid-v1、taxonomy_missing:millet、taxonomy_missing:highland_barley、taxonomy_missing:mixed_grain | 粥类证据存在，但谷物身份、浸泡和逐类液体比例尚未形成可执行能力。 |
+| 面菜同焖（noodle-braise） | partial | braised-noodle-pot | 无 | preview_candidate | 半熟面 | 无 | 当前可预览能力只覆盖生面焖制，半熟面不被静默并入同一吸液规则。 |
+| 面菜蒸焖（noodle-steam-braise） | none | 无 | 无 | blocked_by_taxonomy | 生面、鲜面 | taxonomy_missing:steamed_noodle_state、template_missing:noodle-steam-braise | 河南蒸面研究题目已归位，但回拌与二次蒸焖所需面条状态仍未受控。 |
+| 汤面面片粉丝一锅（noodle-broth） | partial | broth-noodle-pot | 无 | blocked_by_taxonomy | 面片、米粉、粉丝 | taxonomy_missing:noodle_sheet、taxonomy_missing:rice_noodle、taxonomy_missing:vermicelli | 运行时只覆盖普通面条，面片、米粉和粉丝需要独立吸液与入锅规则。 |
+| 炖菜带锅边主食（stew-with-staple） | none | 无 | stew-with-staple-pot | blocked_by_ratio | 玉米面团、小麦面团 | ratio_rule_missing:stew-with-staple-liquid-v1 | 同锅炖菜带锅边主食的结构有据，但家庭液体、面团含水与蒸汽空间仍未机器化。 |
+| 煲仔或砂锅主食（claypot-rice） | none | 无 | 无 | blocked_by_evidence | 生米 | evidence_missing:household_heat_boundary、evidence_missing:crust_safety_boundary | 已有煲仔饭 evidence，但普通家庭锅具下的受热、锅巴与肉类熟制边界尚未独立验证。 |
+| 糯米与杂粮同锅（glutinous-mixed-rice） | none | 无 | 无 | blocked_by_ratio | 糯米、混合米 | ratio_rule_missing:glutinous-mixed-rice-liquid-v1、taxonomy_missing:glutinous_rice、taxonomy_missing:mixed_rice | 糯米与混合米已有菜谱证据，但原料身份、浸泡和吸水比例尚未形成 Planner 能力。 |
+| 特殊器具家庭化（vessel-adapted-rice） | none | 无 | 无 | research_only | 生米、糯米、杂粮 | research_scope_unresolved:vessel_identity | 特殊器具家庭化后应保留的核心身份尚未收敛，因此只保留研究位置。 |
+| 大锅菜配吸汁主食（family-pot-with-absorbent-staple） | none | 无 | 无 | blocked_by_taxonomy | 粉条、粉丝、可验证主食 | taxonomy_missing:vermicelli、taxonomy_missing:glass_noodle | 粉条和粉丝尚未具备受控吸液与耐煮语义，现有固定菜谱不能代替模板能力。 |
 
 ## 72 道生产菜单地域范围审计
 

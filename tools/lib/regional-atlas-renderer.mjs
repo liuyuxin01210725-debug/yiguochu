@@ -15,6 +15,7 @@ export function renderRegionalAtlasMarkdown(report) {
   const regions = asArray(report?.regions);
   const provinces = asArray(report?.province_coverage);
   const techniques = asArray(report?.technique_coverage);
+  const capabilities = asArray(report?.capability_coverage);
   const production = asArray(report?.production_audit);
   const research = asArray(report?.research_audit);
   const pantry = asArray(report?.pantry_gap_coverage);
@@ -39,6 +40,7 @@ export function renderRegionalAtlasMarkdown(report) {
     `- 研究候选审计：${summary.research_audit_count ?? 0}`,
     `- 生产地域范围：省级 ${summary.province_specific_count ?? 0}；跨地域 ${summary.cross_regional_chinese_count ?? 0}；全国性家常 ${summary.national_household_count ?? 0}；中国地图外 ${summary.outside_cn_atlas_count ?? 0}`,
     `- 当前空白省级节点：${summary.blank_province_count ?? 0}`,
+    `- Planner 能力：full ${summary.capability_full_count ?? 0}；partial ${summary.capability_partial_count ?? 0}；none ${summary.capability_none_count ?? 0}`,
     '',
     '## 13 个地域板块',
     '',
@@ -68,6 +70,19 @@ export function renderRegionalAtlasMarkdown(report) {
       `${row.name}（${row.family_id}）`, list(row.staple_states),
       asArray(row.production_recipe_ids).length, asArray(row.research_candidate_ids).length,
       row.coverage_status, row.research_question,
+    ])),
+    '',
+    '## Planner 能力覆盖矩阵',
+    '',
+    '> 该矩阵是研究与运行能力审计，不等于菜谱批准或部署状态。',
+    '',
+    '| 技法 | coverage | runtime templates | candidate templates | promotion status | 未覆盖主食状态 | blockers | 能力边界 |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- |',
+    ...capabilities.map(row => tableRow([
+      `${row.name}（${row.family_id}）`, row.coverage_level,
+      list(row.runtime_template_ids), list(row.candidate_template_ids),
+      row.promotion_status, list(row.uncovered_staple_states),
+      list(row.blocker_codes), row.scope_note,
     ])),
     '',
     '## 72 道生产菜单地域范围审计',
