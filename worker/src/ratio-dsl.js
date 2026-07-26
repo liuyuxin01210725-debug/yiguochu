@@ -5,6 +5,10 @@ const OPS = new Set(['per_serving','per_serving_by_category','ratio','bounded_su
 const PREPARED = new WeakMap();
 const RULE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 const MOISTURE = new Set(['low','medium','high']);
+const SKIP_GUARDS = new Map([
+  ['texture_behavior', { match:'equals', values:new Set(['renders_fat_when_heated']) }],
+  ['texture_failure_modes', { match:'contains', values:new Set(['salty_when_overseasoned']) }],
+]);
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const text = value => typeof value === 'string' && value.trim();
 const number = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
@@ -31,6 +35,16 @@ const targetBasic = (target, label, taxonomy, errors, liquidOnly = false) => {
   if (liquidOnly && target?.category !== 'liquid') errors.push(`${label} must be a liquid basic extra`);
   if (!resolveBasicExtraIdentity(target, taxonomy)) errors.push(`${label} target name category does not match taxonomy`);
 };
+const validateSkipWhen = (value, template, label, errors) => {
+  if (!exactObject(value, new Set(['slot_id','attribute','match','value']), label, errors)) return;
+  const userSlots = new Set([...(template?.required_slots || []), ...(template?.optional_slots || [])]
+    .filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id));
+  if (!userSlots.has(value.slot_id)) errors.push(`${label}.slot_id must be a declared user slot`);
+  const guard = SKIP_GUARDS.get(value.attribute);
+  if (!guard || value.match !== guard.match || !guard.values.has(value.value)) {
+    errors.push(`${label} must use a controlled attribute match`);
+  }
+};
 
 export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
   try {
@@ -38,7 +52,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
     allowed(catalog, new Set(['ratio_dsl_version','ratio_catalog_version','rules']), 'ratio DSL catalog', errors);
     if (catalog.ratio_dsl_version !== 1) errors.push('ratio_dsl_version must be 1');
-    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260727-r2') errors.push('ratio_catalog_version must be ratio-rules-v1-20260727-r2');
+    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260727-r3') errors.push('ratio_catalog_version must be ratio-rules-v1-20260727-r3');
     if (!Array.isArray(catalog.rules)) return [...errors, 'rules must be an array'];
     const templateById = new Map((templates?.templates || []).filter(t => text(t?.template_id)).map(t => [t.template_id, t]));
     const recipeIds = new Set((recipes?.recipes || []).map(r => r?.id).filter(text));
@@ -73,7 +87,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
         const opLabel = `${label}.operations[${opIndex}]`;
         if (!object(op)) { errors.push(`${opLabel} must be an object`); continue; }
         if (!OPS.has(op.operator)) { errors.push(`${opLabel} has unknown operator`); continue; }
-        allowed(op, new Set(op.operator === 'per_serving' ? ['operator','target','grams'] : op.operator === 'per_serving_by_category' ? ['operator','target','grams_by_category'] : op.operator === 'ratio' ? ['operator','target','numerator','denominator','min','default','max'] : op.operator === 'bounded_sum' ? ['operator','target','grams_per_serving','liquid_credit_grams_per_serving'] : ['operator','target','grams']), opLabel, errors);
+        allowed(op, new Set(op.operator === 'per_serving' ? ['operator','target','grams'] : op.operator === 'per_serving_by_category' ? ['operator','target','grams_by_category'] : op.operator === 'ratio' ? ['operator','target','numerator','denominator','min','default','max'] : op.operator === 'bounded_sum' ? ['operator','target','grams_per_serving','liquid_credit_grams_per_serving'] : ['operator','target','grams','skip_when']), opLabel, errors);
         if (stage(op) < last) errors.push(`${label}.operations must be ordered as food, liquid, then basic additions`); last = Math.max(last, stage(op));
         if (op.operator === 'per_serving') { targetSlot(op.target, `${opLabel}.target`, allUserSlots, errors); bounds(op.grams, `${opLabel}.grams`, errors); }
         if (op.operator === 'per_serving_by_category') {
@@ -94,7 +108,11 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
         }
         if (op.operator === 'bounded_sum') { targetMoisture(op.target, `${opLabel}.target`, errors); bounds(op.grams_per_serving, `${opLabel}.grams_per_serving`, errors); bounds(op.liquid_credit_grams_per_serving, `${opLabel}.liquid_credit_grams_per_serving`, errors); }
         if (op.operator === 'ratio') { bounds({min:op.min,default:op.default,max:op.max}, opLabel, errors); targetBasic(op.target, `${opLabel}.target`, taxonomy, errors, true); exactObject(op.numerator, new Set(['resource']), `${opLabel}.numerator`, errors); if (op.numerator?.resource !== 'retained_liquid_grams') errors.push(`${opLabel}.numerator.resource is invalid`); exactObject(op.denominator, new Set(['slot_id','measure']), `${opLabel}.denominator`, errors); if (op.denominator?.slot_id !== rule.when?.slot_id || op.denominator?.measure !== 'grams') errors.push(`${opLabel}.denominator must measure rule when.slot_id grams`); }
-        if (['fixed_addition','scale_by_servings'].includes(op.operator)) { bounds(op.grams, `${opLabel}.grams`, errors); targetBasic(op.target, `${opLabel}.target`, taxonomy, errors); }
+        if (['fixed_addition','scale_by_servings'].includes(op.operator)) {
+          bounds(op.grams, `${opLabel}.grams`, errors);
+          targetBasic(op.target, `${opLabel}.target`, taxonomy, errors);
+          if (op.skip_when != null) validateSkipWhen(op.skip_when, template, `${opLabel}.skip_when`, errors);
+        }
       }
       const quantityOperationsFor = slotId => rule.operations.filter(op => ['per_serving','per_serving_by_category'].includes(op?.operator) && op.target?.slot_id === slotId);
       for (const slotId of requiredUserSlots) if (quantityOperationsFor(slotId).length !== 1) errors.push(`${label} requires exactly one per_serving or per_serving_by_category operation for user slot ${slotId}`);

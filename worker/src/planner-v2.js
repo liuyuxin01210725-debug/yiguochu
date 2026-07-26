@@ -190,6 +190,7 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
       cook_speed: item.cook_speed,
       moisture_release: item.moisture_release,
       texture_behavior: item.texture_behavior.behavior_code,
+      texture_failure_modes: [...(item.texture_behavior.failure_mode_codes || [])],
       cooking_risk: item.cooking_risk.risk_code,
       required_endpoint_codes: [...(item.cooking_risk.required_endpoint_codes || [])],
       compatible_slot_codes: [...(item.compatible_slot_codes || [])],
@@ -276,6 +277,16 @@ function ratioSlots(context, taxonomy) {
 
 function defaultBound(bounds) {
   return bounds?.default;
+}
+
+function matchRatioSkipWhen(skipWhen, slots) {
+  if (!skipWhen) return { matched:false, matchedItems:[] };
+  const matchedItems = (slots.get(skipWhen.slot_id) || []).filter(item => {
+    const actual = item.attributes?.[skipWhen.attribute];
+    if (skipWhen.match === 'equals') return actual === skipWhen.value;
+    return skipWhen.match === 'contains' && Array.isArray(actual) && actual.includes(skipWhen.value);
+  }).map(item => item.name);
+  return { matched:matchedItems.length > 0, matchedItems };
 }
 
 // Ratio compilation is deliberately a pure interpreter for the five fixed DSL
@@ -391,13 +402,27 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         continue;
       }
       if (operator === 'fixed_addition' || operator === 'scale_by_servings') {
+        const guard = matchRatioSkipWhen(operation.skip_when, slots);
+        if (guard.matched) {
+          trace.push({
+            operator,
+            name: operation.target?.name,
+            applied: false,
+            skip_reason: {
+              slot_id: operation.skip_when.slot_id,
+              attribute: operation.skip_when.attribute,
+              matched_items: guard.matchedItems,
+            },
+          });
+          continue;
+        }
         const grams = defaultBound(operation.grams);
         const multiplier = operator === 'scale_by_servings' ? context.servings : 1;
         if (!finiteNonNegativeNumber(grams) || !resolveBasicExtraIdentity(operation.target, validationContext.taxonomy)) {
           return ratioFailure('ratio_rule_invalid', '基础补充规则无效。');
         }
         if (!addAmount(operation.target.name, grams * multiplier, operation.target)) return ratioFailure('ratio_rule_invalid', '基础补充结果无效。');
-        trace.push({ operator, name: operation.target.name, grams: roundRatioGrams(grams * multiplier, nearest) });
+        trace.push({ operator, name: operation.target.name, applied: true, grams: roundRatioGrams(grams * multiplier, nearest) });
         continue;
       }
       return ratioFailure('ratio_rule_invalid', '份量规则包含不支持的操作。');
@@ -603,6 +628,7 @@ function ratioContextFor(assignment, servings) {
         cook_speed: item.cook_speed,
         moisture_release: item.moisture_release,
         texture_behavior: item.texture_behavior,
+        texture_failure_modes: [...(item.texture_failure_modes || [])],
         cooking_risk: item.cooking_risk,
       },
     }))])),

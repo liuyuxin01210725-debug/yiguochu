@@ -28,7 +28,7 @@ const OPERATORS = new Set(['per_serving', 'per_serving_by_category', 'ratio', 'b
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r2');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r3');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -129,6 +129,102 @@ test('fixed additions and serving-scaled additions produce ordered, non-zero bas
     compileRatioPlan('savory-mixed-rice-liquid-v1', { servings: 2, slots: { staple: ['大米'] }, attributes: {} }, catalog),
     result,
   );
+});
+
+test('savory rice omits preset oil and salt for cured fat-rendering protein', () => {
+  const context = {
+    servings: 2,
+    slots: {
+      staple: [item('大米', 'raw_rice')],
+      protein: [item('咸五花肉', 'pork', {
+        texture_behavior: 'renders_fat_when_heated',
+        texture_failure_modes: ['salty_when_overseasoned'],
+      })],
+      fast_vegetable: [item('小白菜', 'leafy_vegetable', { moisture_release: 'high' })],
+    },
+  };
+  const result = compileRatioPlan('savory-mixed-rice-liquid-v1', context, catalog);
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.required_extra_items.map(row => row.name), ['水']);
+  assert.deepEqual(
+    result.ratio_trace.filter(row => ['食用油', '盐'].includes(row.name)).map(row => ({
+      name: row.name,
+      applied: row.applied,
+      matched_items: row.skip_reason?.matched_items,
+    })),
+    [
+      { name: '食用油', applied: false, matched_items: ['咸五花肉'] },
+      { name: '盐', applied: false, matched_items: ['咸五花肉'] },
+    ],
+  );
+  assert.deepEqual(compileRatioPlan('savory-mixed-rice-liquid-v1', context, catalog), result);
+});
+
+test('savory rice keeps preset oil and salt for fresh protein', () => {
+  const result = compileRatioPlan('savory-mixed-rice-liquid-v1', {
+    servings: 2,
+    slots: {
+      staple: [item('大米', 'raw_rice')],
+      protein: [item('鸡腿肉', 'chicken', {
+        texture_behavior: 'tender_when_cooked_through',
+        texture_failure_modes: ['dry_when_overcooked'],
+      })],
+    },
+  }, catalog);
+  assert.equal(result.ok, true);
+  assert.ok(result.required_extra_items.some(row => row.name === '食用油'));
+  assert.ok(result.required_extra_items.some(row => row.name === '盐'));
+  assert.ok(result.ratio_trace
+    .filter(row => ['食用油', '盐'].includes(row.name))
+    .every(row => row.applied === true));
+});
+
+test('Ratio DSL accepts only finite guards on basic additions', () => {
+  const guarded = structuredClone(rawCatalog);
+  const savory = guarded.rules.find(rule => rule.rule_id === 'savory-mixed-rice-liquid-v1');
+  savory.operations.find(operation => operation.target?.name === '食用油').skip_when = {
+    slot_id: 'protein',
+    attribute: 'texture_behavior',
+    match: 'equals',
+    value: 'renders_fat_when_heated',
+  };
+  savory.operations.find(operation => operation.target?.name === '盐').skip_when = {
+    slot_id: 'protein',
+    attribute: 'texture_failure_modes',
+    match: 'contains',
+    value: 'salty_when_overseasoned',
+  };
+  assert.deepEqual(validateRatioDslCatalog(guarded, templates, taxonomy, recipes), []);
+
+  for (const [field, value, expected] of [
+    ['slot_id', 'missing_slot', 'declared user slot'],
+    ['attribute', 'states', 'controlled attribute match'],
+    ['match', 'regex', 'controlled attribute match'],
+    ['value', 'invented_value', 'controlled attribute match'],
+  ]) {
+    const invalid = structuredClone(guarded);
+    invalid.rules.find(rule => rule.rule_id === 'savory-mixed-rice-liquid-v1')
+      .operations.find(operation => operation.target?.name === '食用油').skip_when[field] = value;
+    assert.ok(
+      validateRatioDslCatalog(invalid, templates, taxonomy, recipes)
+        .some(error => error.includes(expected)),
+      field,
+    );
+  }
+
+  for (const operator of ['per_serving', 'ratio', 'bounded_sum']) {
+    const invalid = structuredClone(guarded);
+    const operation = invalid.rules.flatMap(rule => rule.operations)
+      .find(entry => entry.operator === operator);
+    operation.skip_when = {
+      slot_id: 'staple',
+      attribute: 'texture_behavior',
+      match: 'equals',
+      value: 'absorbs_liquid',
+    };
+    assert.ok(validateRatioDslCatalog(invalid, templates, taxonomy, recipes)
+      .some(error => error.includes('unknown key: skip_when')), operator);
+  }
 });
 
 test('savory mixed rice credits high-moisture vegetables without hiding their grams', () => {

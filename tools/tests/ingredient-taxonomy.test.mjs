@@ -142,6 +142,8 @@ test('Jiangnan M1 identities preserve regional names and controlled compatibilit
   ]);
   assert.ok(rows[2].compatible_slot_codes.includes('cured_pork'));
   assert.ok(rows[3].compatible_slot_codes.includes('cured_pork'));
+  assert.deepEqual(rows[2].texture_failure_modes, ['salty_when_overseasoned']);
+  assert.deepEqual(rows[3].texture_failure_modes, ['salty_when_overseasoned']);
 });
 
 test('Jiangnan M1 keeps cooked duck glutinous rice and color source unresolved', () => {
