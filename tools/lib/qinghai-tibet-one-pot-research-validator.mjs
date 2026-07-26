@@ -36,6 +36,19 @@ const SOURCE_IDENTITIES = {
   'cn-animal-food-safety-2025': ['食品安全消费提示', 'https://www.xiongan.gov.cn/20250429/7cbd00ffe7bd45668510b7f9fecbdd5d/c.html', '雄安新区综合执法局', '2025-04-29', null, 'A'],
   'cn-cdc-bean-safety-2018': ['豆类蔬菜中哪些豆豆易中毒', 'https://niohp.chinacdc.cn/kpdw/zdkz/201806/t20180601_172888.htm', '中国疾控中心职业卫生与中毒控制所', '2018-06-01', null, 'A'],
 };
+const SOURCE_CLAIM_EDGES = {
+  'qh-geermu-ga-mianpian-2023': { proves: ['production:qinghai-hao-fan:regional_name_context', 'lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity'], does_not_prove: ['lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence'], contradicts: [] },
+  'qh-gonghe-barley-wheatberry-2023': { proves: ['lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure'], does_not_prove: ['lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot'], contradicts: [] },
+  'xz-shannan-batu-2026': { proves: ['lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure'], does_not_prove: ['lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence'], contradicts: [] },
+  'xz-gov-patu-2025': { proves: ['production:tibetan-gutu:tibetan_noodle_meal_context', 'lead:tibetan-patu-one-pot:tibetan_patu_identity'], does_not_prove: ['production:tibetan-gutu:traditional_recipe_equivalence', 'lead:tibetan-patu-one-pot:single_pot_equivalence'], contradicts: [] },
+  'xz-tibetology-tuba-2022': { proves: ['lead:tibetan-tuba-barley-thick-bowl:barley_thick_bowl_structure'], does_not_prove: ['lead:tibetan-tuba-barley-thick-bowl:unattended_appliance_equivalence'], contradicts: [] },
+  'xz-gov-lhasa-noodle-2024': { proves: ['lead:lhasa-tibetan-noodle-breakfast:lhasa_breakfast_noodle_and_beef_broth_identity'], does_not_prove: ['lead:lhasa-tibetan-noodle-breakfast:single_pot_complete_meal_equivalence'], contradicts: [] },
+  'xz-tourism-lhasa-noodle-2023': { proves: ['lead:lhasa-tibetan-noodle-breakfast:breakfast_context'], does_not_prove: ['lead:lhasa-tibetan-noodle-breakfast:project_ratio_time_safety'], contradicts: [] },
+  'xz-gov-porridge-2025': { proves: ['production:tibetan-savory-congee:barley_grain_porridge_context'], does_not_prove: ['production:tibetan-savory-congee:traditional_recipe_equivalence'], contradicts: [] },
+  'xz-agri-barley-2023': { proves: ['production:tibetan-ginseng-fruit-rice:barley_region_context'], does_not_prove: ['production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence'], contradicts: [] },
+  'cn-animal-food-safety-2025': { proves: ['safety:animal-food-cook-through-and-separate:principle'], does_not_prove: ['lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence'], contradicts: [] },
+  'cn-cdc-bean-safety-2018': { proves: ['safety:fresh-bean-cook-through:principle'], does_not_prove: ['production:qinghai-hao-fan:traditional_recipe_equivalence'], contradicts: [] },
+};
 const FINGERPRINTS = {
   family_model: '9500c94416795385b6bf58ed1b1f32502c51a4ecdbcbbf7de8c48eebef92a994',
   adaptation_boundaries: '51b89b07d46c85a80688946d65ba3e423d8b8ed6ac80a578151dd676e0d548d9',
@@ -46,6 +59,7 @@ const isObject = value => value !== null && typeof value === 'object' && !Array.
 const list = value => Array.isArray(value) ? value : [];
 const text = value => typeof value === 'string' && value.trim().length > 0;
 const sameSet = (values, expected) => values.length === expected.size && new Set(values).size === expected.size && values.every(value => expected.has(value));
+const sameArray = (values, expected) => Array.isArray(values) && values.length === expected.length && values.every((value, index) => value === expected[index]);
 const directionFor = verdict => verdict === 'supported' ? 'proves' : verdict === 'not_proven' ? 'does_not_prove' : 'contradicts';
 const canonicalJson = value => value === null || typeof value !== 'object' ? JSON.stringify(value) : Array.isArray(value) ? `[${value.map(canonicalJson).join(',')}]` : `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
 const fingerprint = value => createHash('sha256').update(canonicalJson(value)).digest('hex');
@@ -92,6 +106,7 @@ function validateRows(rows, expected, prefix, idField, provinces, sourceIds, dir
     if (prefix === 'production' && row.audit_state !== AUDIT_STATES[row.recipe_id]) errors.push(`production:${row.recipe_id}.audit_state must remain ${AUDIT_STATES[row.recipe_id]}`);
     if (prefix === 'lead' && (row.production_recipe_id !== null || row.candidate_id !== null)) errors.push('research leads cannot reference production recipes or candidates');
     if (prefix === 'lead' && !FAMILIES.has(row.family_id)) errors.push('lead family_id must reference a fixed family');
+    if (prefix === 'lead' && !sameSet(list(row.product_destinations), new Set(['new_family_research', 'research_only']))) errors.push('lead product_destinations must remain new_family_research and research_only');
     validateClaims(row, prefix, idField, sourceIds, directions, errors);
   });
 }
@@ -99,12 +114,17 @@ function validateRows(rows, expected, prefix, idField, provinces, sourceIds, dir
 function validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regionalMappings }, errors) {
   const region = list(regionalAtlas?.regions).find(row => row?.region_id === 'qinghai_tibet');
   if (!region || !sameSet(list(region.province_codes), PROVINCES)) errors.push('regional atlas Qinghai Tibet node must retain CN-QH and CN-XZ');
+  if (list(recipeLibrary?.recipes).length !== 72) errors.push('recipe library baseline must remain 72');
   const recipes = new Set(list(recipeLibrary?.recipes).map(row => row?.id)); for (const id of PRODUCTION) if (!recipes.has(id)) errors.push(`missing production recipe ${id}`);
   const mappings = list(regionalMappings?.production_recipe_mappings).filter(row => list(row?.region_ids).includes('qinghai_tibet'));
   if (!sameSet(mappings.map(row => row?.source_id), PRODUCTION)) errors.push('regional production mappings must retain the fixed 4-recipe baseline');
-  for (const row of mappings) if (!sameSet(list(row.province_codes), new Set([PRODUCTION_PROVINCES[row.source_id]]))) errors.push('production mapping province scope must remain fixed');
+  for (const row of mappings) {
+    if (!sameArray(row.region_ids, ['qinghai_tibet'])) errors.push('production mapping region scope must remain exactly qinghai_tibet');
+    if (!sameArray(row.province_codes, [PRODUCTION_PROVINCES[row.source_id]])) errors.push('production mapping province scope must remain fixed');
+  }
   if (list(regionalMappings?.research_candidate_mappings).filter(row => list(row?.region_ids).includes('qinghai_tibet')).length !== 0) errors.push('regional candidate mappings must remain empty');
   if (!Array.isArray(regionalResearch?.entries)) errors.push('regional research ledger must be an array');
+  else if (regionalResearch.entries.length !== 24) errors.push('regional research baseline must remain 24');
 }
 
 export function validateQinghaiTibetOnePotResearch({ assessment, recipeLibrary, regionalResearch, regionalAtlas, regionalMappings } = {}) {
@@ -119,12 +139,15 @@ export function validateQinghaiTibetOnePotResearch({ assessment, recipeLibrary, 
   const canonicalTokens = new Set([...Object.keys(CLAIM_VERDICTS), ...Object.keys(AUXILIARY_EDGES)]);
   const claimSources = new Map();
   for (const [prefix, rows, idField] of [['production', list(assessment.production_recipe_audits), 'recipe_id'], ['lead', list(assessment.concrete_research_leads), 'lead_id']]) for (const row of rows) for (const [claimId, claim] of Object.entries(isObject(row?.claims) ? row.claims : {})) claimSources.set(`${prefix}:${row[idField]}:${claimId}`, new Set(list(claim.evidence_source_ids)));
+  if (!sameSet([...claimSources.keys()], new Set(Object.keys(CLAIM_VERDICTS)))) errors.push('canonical claim manifest mismatch');
   for (const [sourceId, entry] of directions) for (const direction of ['proves', 'does_not_prove', 'contradicts']) for (const token of entry[direction]) {
     if (!canonicalTokens.has(token)) errors.push(`source ${sourceId} ${direction} token ${token} is not a canonical claim token`);
     if (Object.hasOwn(CLAIM_VERDICTS, token) && CLAIM_VERDICTS[token] !== ({ proves: 'supported', does_not_prove: 'not_proven', contradicts: 'contradicted' })[direction]) errors.push(`source ${sourceId} token ${token} has an invalid evidence direction`);
     if (Object.hasOwn(CLAIM_VERDICTS, token) && !claimSources.get(token)?.has(sourceId)) errors.push(`source ${sourceId} token ${token} does not correspond to claim evidence source`);
     if (Object.hasOwn(AUXILIARY_EDGES, token) && (AUXILIARY_EDGES[token].source_id !== sourceId || AUXILIARY_EDGES[token].direction !== direction)) errors.push(`source ${sourceId} token ${token} does not match its fixed auxiliary evidence edge`);
   }
+  if (!sameSet([...directions.keys()], new Set(Object.keys(SOURCE_CLAIM_EDGES)))) errors.push('source-to-claim edge manifest mismatch');
+  for (const [sourceId, expected] of Object.entries(SOURCE_CLAIM_EDGES)) for (const direction of ['proves', 'does_not_prove', 'contradicts']) if (!sameSet([...directions.get(sourceId)?.[direction] ?? []], new Set(expected[direction]))) errors.push('source-to-claim edge manifest mismatch');
   for (const [token, edge] of Object.entries(AUXILIARY_EDGES)) {
     if (!directions.get(edge.source_id)?.[edge.direction]?.has(token)) errors.push(`auxiliary token ${token} must remain in ${edge.direction} for ${edge.source_id}`);
     const entity = list(edge.entity_type === 'safety' ? assessment.safety_boundaries : assessment.adaptation_boundaries).find(row => row?.[edge.entity_type === 'safety' ? 'safety_id' : 'boundary_id'] === edge.entity_id);

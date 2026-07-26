@@ -124,3 +124,61 @@ test('validator fingerprints the fixed safety controls as well as their auxiliar
     /safety_boundaries semantic fingerprint mismatch/,
   );
 });
+
+test('validator fixes the global 72-recipe library and 24-entry regional research baselines', () => {
+  const recipeLibraryBroken = structuredClone(inputs.recipeLibrary);
+  recipeLibraryBroken.recipes.pop();
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, recipeLibrary: recipeLibraryBroken }).join('\n'),
+    /recipe library baseline must remain 72/,
+  );
+
+  const regionalResearchBroken = structuredClone(inputs.regionalResearch);
+  regionalResearchBroken.entries.pop();
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, regionalResearch: regionalResearchBroken }).join('\n'),
+    /regional research baseline must remain 24/,
+  );
+});
+
+test('validator fixes every research lead to the exact research-only destinations', () => {
+  const broken = structuredClone(assessment);
+  broken.concrete_research_leads.find(row => row.lead_id === 'tibetan-patu-one-pot').product_destinations = ['new_family_research'];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'),
+    /lead product_destinations must remain new_family_research and research_only/,
+  );
+});
+
+test('validator rejects deleting a canonical claim together with its reverse source token', () => {
+  const broken = structuredClone(assessment);
+  delete broken.concrete_research_leads.find(row => row.lead_id === 'tibetan-patu-one-pot').claims.tibetan_patu_identity;
+  const source = broken.source_refs.find(row => row.source_id === 'xz-gov-patu-2025');
+  source.proves = source.proves.filter(token => token !== 'lead:tibetan-patu-one-pot:tibetan_patu_identity');
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'),
+    /canonical claim manifest mismatch/,
+  );
+});
+
+test('validator rejects symmetrically rewiring a fixed source-to-claim evidence edge', () => {
+  const broken = structuredClone(assessment);
+  const claim = broken.concrete_research_leads.find(row => row.lead_id === 'tibetan-patu-one-pot').claims.tibetan_patu_identity;
+  claim.evidence_source_ids = ['xz-shannan-batu-2026'];
+  const oldSource = broken.source_refs.find(row => row.source_id === 'xz-gov-patu-2025');
+  oldSource.proves = oldSource.proves.filter(token => token !== 'lead:tibetan-patu-one-pot:tibetan_patu_identity');
+  broken.source_refs.find(row => row.source_id === 'xz-shannan-batu-2026').proves.push('lead:tibetan-patu-one-pot:tibetan_patu_identity');
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'),
+    /source-to-claim edge manifest mismatch/,
+  );
+});
+
+test('validator rejects adding another region to a fixed production mapping', () => {
+  const broken = structuredClone(inputs.regionalMappings);
+  broken.production_recipe_mappings.find(row => row.source_id === 'qinghai-hao-fan').region_ids = ['qinghai_tibet', 'northwest'];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, regionalMappings: broken }).join('\n'),
+    /production mapping region scope must remain exactly qinghai_tibet/,
+  );
+});
