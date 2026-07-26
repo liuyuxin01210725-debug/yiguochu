@@ -83,6 +83,14 @@ test('validator accepts the catalog and exposes only active templates as runtime
   );
 });
 
+test('northeast M1 keeps stew-with-staple planned and outside runtime selection', () => {
+  const stew = catalog.templates.find(row => row.template_id === 'stew-with-staple-pot');
+  assert.ok(stew);
+  assert.equal(stew.activation_status, 'planned');
+  assert.equal(stew.runtime_eligible, false);
+  assert.equal(getRuntimeEligibleTemplates(catalog).includes(stew), false);
+});
+
 test('validator is total and rejects malformed catalog data without throwing', () => {
   const malformed = { schema_version: 1, templates: [{ template_id: null }] };
   assert.doesNotThrow(() => validateMealTemplateCatalog(malformed, null, null));

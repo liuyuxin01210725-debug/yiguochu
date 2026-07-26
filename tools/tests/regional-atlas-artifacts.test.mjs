@@ -101,6 +101,19 @@ test('markdown renders the planner capability matrix without promoting blocked f
   assert.match(markdown, /ratio_rule_missing:stew-with-staple-liquid-v1/);
 });
 
+test('checked-in capability audit keeps northeast stew outside runtime coverage', () => {
+  const generated = JSON.parse(fs.readFileSync(
+    new URL('../generated/regional-atlas.v2.json', import.meta.url),
+    'utf8',
+  ));
+  const stew = generated.capability_coverage.find(row => row.family_id === 'stew-with-staple');
+  assert.ok(stew);
+  assert.equal(stew.coverage_level, 'none');
+  assert.equal(stew.promotion_status, 'blocked_by_ratio');
+  assert.deepEqual(stew.runtime_template_ids, []);
+  assert.deepEqual(stew.resolved_ratio_rule_ids, []);
+});
+
 test('checked-in regional atlas artifacts are fresh', () => {
   const result = spawnSync(process.execPath, [BUILD, '--check'], { cwd: ROOT, encoding: 'utf8' });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);

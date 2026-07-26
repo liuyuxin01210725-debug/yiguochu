@@ -159,15 +159,40 @@ test('distribution build excludes northeast research source and generated assets
     ], { cwd: ROOT, encoding: 'utf8' });
     assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
     const relativeFiles = [];
+    const buffers = [];
     const visit = directory => {
       for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
         const fullPath = path.join(directory, entry.name);
         if (entry.isDirectory()) visit(fullPath);
-        else relativeFiles.push(path.relative(output, fullPath));
+        else {
+          relativeFiles.push(path.relative(output, fullPath));
+          buffers.push(fs.readFileSync(fullPath));
+        }
       }
     };
     visit(output);
     assert.equal(relativeFiles.some(name => /northeast-stew-research|northeast-stew-journey-review/.test(name)), false);
+    for (const sentinel of [
+      'northeast-stew-research',
+      'northeast-stew-journey-review',
+      'preparation-rule.synthetic',
+      'ne-cal-2',
+      'synthetic-source-a',
+    ]) {
+      assert.equal(
+        buffers.some(content => content.includes(Buffer.from(sentinel, 'utf8'))),
+        false,
+        `northeast M1 research leaked into distribution build: ${sentinel}`,
+      );
+    }
+    const builtRatios = JSON.parse(fs.readFileSync(path.join(output, 'ratio-rules.v1.json'), 'utf8'));
+    assert.equal(builtRatios.rules.some(row => [
+      'cornmeal-flour-to-dough-v1',
+      'stew-with-corn-cake-liquid-v1',
+    ].includes(row.rule_id)), false);
+    const builtTemplates = JSON.parse(fs.readFileSync(path.join(output, 'meal-templates.v2.json'), 'utf8'));
+    assert.equal(builtTemplates.templates.filter(row => row.activation_status === 'active').length, 9);
+    assert.equal(builtTemplates.templates.filter(row => row.activation_status === 'planned').length, 7);
   } finally {
     fs.rmSync(output, { recursive: true, force: true });
   }

@@ -43,6 +43,11 @@ test('capability ledger distinguishes full partial and no coverage', () => {
   assert.deepEqual(byFamily.get('cooked-rice-stew')?.coverage_boundary_codes, ['requires_acid_base']);
   assert.equal(byFamily.get('stew-with-staple')?.coverage_level, 'none');
   assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_ratio');
+  assert.deepEqual(byFamily.get('stew-with-staple')?.resolved_ratio_rule_ids, []);
+  assert.equal(ratios.rules.some(row => [
+    'cornmeal-flour-to-dough-v1',
+    'stew-with-corn-cake-liquid-v1',
+  ].includes(row.rule_id)), false);
 });
 
 test('capability coverage partitions the atlas staple states without overlap', () => {

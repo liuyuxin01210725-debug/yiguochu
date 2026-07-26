@@ -184,6 +184,23 @@ test('incomplete pantry retains deterministic pots and pauses generation', async
   assertZeroGenerationWork(result);
 });
 
+test('M1 cornmeal identities do not activate the blocked stew template', async () => {
+  const result = await postPlan(plannerBody({
+    mode: 'pantry',
+    intent: 'normal',
+    servings: 2,
+    must: ['排骨', '油豆角', '玉米面'],
+  }));
+  assert.notEqual(result.body.status, 'complete');
+  assert.equal(result.body.generation_allowed, false);
+  assert.ok(result.body.plan.unplanned_must_use.some(item => item.raw === '玉米面'));
+  assert.equal(
+    result.body.plan.pots.some(pot => pot.template_id === 'stew-with-staple-pot'),
+    false,
+  );
+  assertZeroGenerationWork(result);
+});
+
 test('swap returns a structural alternative or exact no_alternative_plan, including accepted-partial swap_current', async () => {
   const noAlternativeRequest = plannerBody({ mode: 'pantry', must: ['大米'] });
   const current = await postPlan(noAlternativeRequest);

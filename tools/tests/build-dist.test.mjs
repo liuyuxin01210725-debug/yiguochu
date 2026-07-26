@@ -218,6 +218,45 @@ test('distribution build includes canonical recipe assets and refreshes its serv
   }
 });
 
+test('distribution build excludes northeast M1 research calibration and synthetic fixtures', () => {
+  const outputDir = makeOutputDir();
+  try {
+    build(outputDir);
+    const buffers = [];
+    const visit = directory => {
+      for (const entry of fs.readdirSync(directory, { withFileTypes:true })) {
+        const fullPath = path.join(directory, entry.name);
+        if (entry.isDirectory()) visit(fullPath);
+        else buffers.push(fs.readFileSync(fullPath));
+      }
+    };
+    visit(outputDir);
+    for (const sentinel of [
+      'northeast-stew-research',
+      'northeast-stew-journey-review',
+      'preparation-rule.synthetic',
+      'ne-cal-2',
+      'synthetic-source-a',
+    ]) {
+      assert.equal(
+        buffers.some(content => content.includes(Buffer.from(sentinel, 'utf8'))),
+        false,
+        `research-only sentinel leaked into canonical build: ${sentinel}`,
+      );
+    }
+    const ratios = JSON.parse(fs.readFileSync(path.join(outputDir, 'ratio-rules.v1.json'), 'utf8'));
+    assert.equal(ratios.rules.some(row => [
+      'cornmeal-flour-to-dough-v1',
+      'stew-with-corn-cake-liquid-v1',
+    ].includes(row.rule_id)), false);
+    const templates = JSON.parse(fs.readFileSync(path.join(outputDir, 'meal-templates.v2.json'), 'utf8'));
+    assert.equal(templates.templates.filter(row => row.activation_status === 'active').length, 9);
+    assert.equal(templates.templates.filter(row => row.activation_status === 'planned').length, 7);
+  } finally {
+    fs.rmSync(outputDir, { recursive:true, force:true });
+  }
+});
+
 test('built Worker contains its complete relative module graph and executes planning using only built assets', async () => {
   const outputDir = makeOutputDir();
   try {
