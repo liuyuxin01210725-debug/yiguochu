@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r3');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r4');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -33,6 +33,7 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
     '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
+    '卷心菜', '芥菜', '猪肉末',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
 });
@@ -149,6 +150,34 @@ test('Jiangnan M1 identities preserve regional names and controlled compatibilit
 test('Jiangnan M1 keeps cooked duck glutinous rice and color source unresolved', () => {
   const rows = normalizePlannerItems(
     ['包装熟制板鸭（去骨）', '糯米', '食品级黑米色粉'],
+    catalog,
+  );
+  assert.ok(rows.every(row => row.recognized === false));
+});
+
+test('Fujian Taiwan M1 identities preserve names cuts and controlled aliases', () => {
+  const rows = normalizePlannerItems(
+    ['卷心菜', '高丽菜', '白菜', '芥菜', '盖菜', '猪肉末', '猪绞肉', '猪肉片'],
+    catalog,
+  );
+  assert.deepEqual(rows.map(row => [row.raw, row.canonical, row.category, row.shape_or_cut]), [
+    ['卷心菜', '卷心菜', 'leafy_vegetable', 'whole'],
+    ['高丽菜', '卷心菜', 'leafy_vegetable', 'whole'],
+    ['白菜', '白菜', 'leafy_vegetable', null],
+    ['芥菜', '芥菜', 'leafy_vegetable', 'whole'],
+    ['盖菜', '芥菜', 'leafy_vegetable', 'whole'],
+    ['猪肉末', '猪肉', 'pork', 'ground'],
+    ['猪绞肉', '猪肉', 'pork', 'ground'],
+    ['猪肉片', '猪肉', 'pork', 'slice'],
+  ]);
+  assert.equal(rows[1].display_name, '卷心菜');
+  assert.equal(rows[6].display_name, '猪肉末');
+  assert.deepEqual(rows[5].required_endpoint_codes, ['pork_fully_cooked']);
+});
+
+test('Fujian Taiwan M1 retains ambiguous beans glutinous rice leaf and color gaps', () => {
+  const rows = normalizePlannerItems(
+    ['扁豆', '糯米', '泡发糯米', '食品级干荷叶', '食品级黑米色粉'],
     catalog,
   );
   assert.ok(rows.every(row => row.recognized === false));

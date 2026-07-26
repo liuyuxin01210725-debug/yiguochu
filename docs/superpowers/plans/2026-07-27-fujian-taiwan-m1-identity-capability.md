@@ -77,7 +77,7 @@ test('Fujian Taiwan M1 identities preserve names cuts and controlled aliases', (
   assert.deepEqual(rows.map(row => [row.raw, row.canonical, row.category, row.shape_or_cut]), [
     ['卷心菜', '卷心菜', 'leafy_vegetable', 'whole'],
     ['高丽菜', '卷心菜', 'leafy_vegetable', 'whole'],
-    ['白菜', '白菜', 'leafy_vegetable', 'whole'],
+    ['白菜', '白菜', 'leafy_vegetable', null],
     ['芥菜', '芥菜', 'leafy_vegetable', 'whole'],
     ['盖菜', '芥菜', 'leafy_vegetable', 'whole'],
     ['猪肉末', '猪肉', 'pork', 'ground'],
@@ -124,11 +124,11 @@ Expected: FAIL，明确指出 taxonomy 仍为 r3、template 仍为 r4，且三�
 在 `tools/data/ingredient-taxonomy.v1.json` 增加：
 
 ```json
-{"canonical_id":"green-cabbage","display_name":"卷心菜","aliases":["高丽菜"],"input_scope":"pantry_input","category":"leafy_vegetable","states":["raw"],"shapes_or_cuts":["whole","slice"],"cook_speed":"fast","moisture_release":"high","texture_behavior":{"behavior_code":"wilts_quickly","best_method_codes":["simmer","quick_saute"],"failure_mode_codes":["watery_when_overloaded"]},"cooking_risk":{"risk_code":"none","required_endpoint_codes":[]},"compatible_slot_codes":["vegetable","fast_cooking_vegetable"],"incompatible_slot_codes":[]}
+{"canonical_id":"green-cabbage","display_name":"卷心菜","aliases":["高丽菜"],"input_scope":"pantry_input","default_shape_or_cut":"whole","category":"leafy_vegetable","states":["raw"],"shapes_or_cuts":["whole","slice"],"cook_speed":"fast","moisture_release":"high","texture_behavior":{"behavior_code":"wilts_quickly","best_method_codes":["simmer","quick_saute"],"failure_mode_codes":["watery_when_overloaded"]},"cooking_risk":{"risk_code":"none","required_endpoint_codes":[]},"compatible_slot_codes":["vegetable","fast_cooking_vegetable"],"incompatible_slot_codes":[]}
 ```
 
 ```json
-{"canonical_id":"mustard-greens","display_name":"芥菜","aliases":["盖菜"],"input_scope":"pantry_input","category":"leafy_vegetable","states":["raw"],"shapes_or_cuts":["whole","slice"],"cook_speed":"fast","moisture_release":"high","texture_behavior":{"behavior_code":"wilts_quickly","best_method_codes":["simmer","quick_saute"],"failure_mode_codes":["soft_when_overcooked"]},"cooking_risk":{"risk_code":"none","required_endpoint_codes":[]},"compatible_slot_codes":["vegetable","fast_cooking_vegetable"],"incompatible_slot_codes":[]}
+{"canonical_id":"mustard-greens","display_name":"芥菜","aliases":["盖菜"],"input_scope":"pantry_input","default_shape_or_cut":"whole","category":"leafy_vegetable","states":["raw"],"shapes_or_cuts":["whole","slice"],"cook_speed":"fast","moisture_release":"high","texture_behavior":{"behavior_code":"wilts_quickly","best_method_codes":["simmer","quick_saute"],"failure_mode_codes":["soft_when_overcooked"]},"cooking_risk":{"risk_code":"none","required_endpoint_codes":[]},"compatible_slot_codes":["vegetable","fast_cooking_vegetable"],"incompatible_slot_codes":[]}
 ```
 
 ```json

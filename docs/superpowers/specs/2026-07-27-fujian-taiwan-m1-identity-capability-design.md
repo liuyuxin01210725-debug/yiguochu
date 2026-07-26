@@ -104,6 +104,7 @@ M1 采用“受控身份补齐 + 现有模板窄扩形态”的方案：
   "category": "leafy_vegetable",
   "states": ["raw"],
   "shapes_or_cuts": ["whole", "slice"],
+  "default_shape_or_cut": "whole",
   "cook_speed": "fast",
   "moisture_release": "high",
   "texture_behavior": {
@@ -130,6 +131,7 @@ M1 采用“受控身份补齐 + 现有模板窄扩形态”的方案：
   "category": "leafy_vegetable",
   "states": ["raw"],
   "shapes_or_cuts": ["whole", "slice"],
+  "default_shape_or_cut": "whole",
   "cook_speed": "fast",
   "moisture_release": "high",
   "texture_behavior": {
