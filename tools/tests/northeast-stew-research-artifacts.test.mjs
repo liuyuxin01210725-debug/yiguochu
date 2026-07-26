@@ -19,6 +19,7 @@ const DATA_FILES = [
   'northeast-stew-research.v1.json',
   'regional-atlas.v2.json',
   'regional-menu-research.v1.json',
+  'ingredient-taxonomy.v1.json',
 ];
 const readJson = name => JSON.parse(fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'));
 
@@ -27,6 +28,7 @@ function fixedReport() {
     assessment: readJson('northeast-stew-research.v1.json'),
     regionalAtlas: readJson('regional-atlas.v2.json'),
     regionalResearch: readJson('regional-menu-research.v1.json'),
+    taxonomy: readJson('ingredient-taxonomy.v1.json'),
   });
 }
 

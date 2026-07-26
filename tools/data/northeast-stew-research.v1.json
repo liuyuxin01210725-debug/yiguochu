@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "assessment_version": "northeast-stew-research-v1-20260726",
+  "schema_version": 2,
+  "assessment_version": "northeast-stew-research-v1-20260727-m1",
   "region_id": "northeast",
   "family_id": "stew-with-staple",
   "province_codes": ["CN-LN", "CN-JL", "CN-HL"],
@@ -323,6 +323,98 @@
       {"branch_id": "green_beans", "name": "豆角", "evidence_status": "unresearched", "source_ids": ["hlj-culture-autumn-pot-2025", "jilin-baishan-food-2024"], "endpoint_note": "必须独立建立充分熟制规则。"}
     ]
   },
+  "machine_rule_candidates": [
+    {
+      "rule_id": "cornmeal-flour-to-dough-v1",
+      "rule_kind": "preparation",
+      "activation_status": "blocked",
+      "when": {"input_canonical_id": "cornmeal-flour", "allowed_shape_or_cut": ["fine", "coarse", "unspecified"]},
+      "produces": {"canonical_id": "cornmeal-dough", "state": "prepared"},
+      "required_basic_extras": ["水"],
+      "supporting_source_ids": ["hlj-culture-autumn-pot-2025"],
+      "numeric_evidence_source_ids": [],
+      "calibration_case_ids": ["ne-cal-2", "ne-cal-3", "ne-cal-4"],
+      "evidence_status": "missing",
+      "calibration_status": "required",
+      "blocker_codes": ["numeric_evidence_missing", "calibration_2_3_4_servings_missing"]
+    },
+    {
+      "rule_id": "stew-with-corn-cake-liquid-v1",
+      "rule_kind": "stew_liquid",
+      "activation_status": "blocked",
+      "when": {"template_id": "stew-with-staple-pot", "staple_canonical_id": "cornmeal-dough"},
+      "produces": {"phase_allocations": ["prepare_staple", "stew_liquid"], "staple_position": "above_stew_liquid", "steam_required": true},
+      "required_basic_extras": ["水"],
+      "supporting_source_ids": ["hlj-gov-iron-pot-2025", "hlj-culture-autumn-pot-2025"],
+      "numeric_evidence_source_ids": [],
+      "calibration_case_ids": ["ne-cal-2", "ne-cal-3", "ne-cal-4"],
+      "evidence_status": "missing",
+      "calibration_status": "required",
+      "blocker_codes": ["numeric_evidence_missing", "calibration_2_3_4_servings_missing", "stew_liquid_phase_split_unverified"]
+    }
+  ],
+  "calibration_cases": [
+    {
+      "calibration_id": "ne-cal-2",
+      "servings": 2,
+      "status": "pending",
+      "operator": null,
+      "performed_at": null,
+      "cornmeal_shape_or_cut": null,
+      "equipment": {"pot_diameter_cm": null, "pot_depth_cm": null, "lid_fit_confirmed": null},
+      "measurements": {"cornmeal_grams": null, "preparation_water_grams": null, "stew_water_grams": null, "steam_minutes": null},
+      "acceptance_checks": {"dough_holds_shape": null, "center_cooked_through": null, "cake_above_liquid": null, "cake_holds_together": null, "pot_not_scorched": null, "pork_endpoint_reached": null, "beans_endpoint_reached": null},
+      "notes": ""
+    },
+    {
+      "calibration_id": "ne-cal-3",
+      "servings": 3,
+      "status": "pending",
+      "operator": null,
+      "performed_at": null,
+      "cornmeal_shape_or_cut": null,
+      "equipment": {"pot_diameter_cm": null, "pot_depth_cm": null, "lid_fit_confirmed": null},
+      "measurements": {"cornmeal_grams": null, "preparation_water_grams": null, "stew_water_grams": null, "steam_minutes": null},
+      "acceptance_checks": {"dough_holds_shape": null, "center_cooked_through": null, "cake_above_liquid": null, "cake_holds_together": null, "pot_not_scorched": null, "pork_endpoint_reached": null, "beans_endpoint_reached": null},
+      "notes": ""
+    },
+    {
+      "calibration_id": "ne-cal-4",
+      "servings": 4,
+      "status": "pending",
+      "operator": null,
+      "performed_at": null,
+      "cornmeal_shape_or_cut": null,
+      "equipment": {"pot_diameter_cm": null, "pot_depth_cm": null, "lid_fit_confirmed": null},
+      "measurements": {"cornmeal_grams": null, "preparation_water_grams": null, "stew_water_grams": null, "steam_minutes": null},
+      "acceptance_checks": {"dough_holds_shape": null, "center_cooked_through": null, "cake_above_liquid": null, "cake_holds_together": null, "pot_not_scorched": null, "pork_endpoint_reached": null, "beans_endpoint_reached": null},
+      "notes": ""
+    }
+  ],
+  "capability_journey_cases": [
+    {"journey_id":"ne-cap-j01","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["original_cornmeal_retained","preparation_required","two_phase_water_required","regional_family_wording_allowed"]},
+    {"journey_id":"ne-cap-j02","mode":"pantry","intent":"normal","servings":3,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["three_serving_calibration_required","stable_ratio_scaling"]},
+    {"journey_id":"ne-cap-j03","mode":"pantry","intent":"batch","servings":4,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["four_serving_calibration_required","stable_ratio_scaling"]},
+    {"journey_id":"ne-cap-j04","mode":"recommend","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"ready","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["recommend_not_full_coverage_promise","regional_family_basis_explained"]},
+    {"journey_id":"ne-cap-j05","mode":"pantry","intent":"normal","servings":2,"raw_items":["鸡腿","土豆","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["鸡腿","土豆","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["household_adaptation_name_only","no_fixed_traditional_name_claim"]},
+    {"journey_id":"ne-cap-j06","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","普通豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","普通豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["generic_beans_not_oil_beans","no_fixed_oil_beans_claim"]},
+    {"journey_id":"ne-cap-j07","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","豆角","和好的玉米面团"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","豆角","和好的玉米面团"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["prepared_dough_identity_preserved","preparation_not_repeated"]},
+    {"journey_id":"ne-cap-j08","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","豆角","现成玉米饼"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","豆角","现成玉米饼"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["ready_cake_identity_preserved","ready_cake_not_raw_dough"]},
+    {"journey_id":"ne-cap-j09","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","豆角","玉米粒"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"unsupported_staple_state","expected_template_id":null,"expected_used_items":[],"expected_unplanned_items":["排骨","豆角","玉米粒"],"expected_reason_code":"unsupported_staple_state","assertion_codes":["corn_kernel_not_cornmeal"]},
+    {"journey_id":"ne-cap-j10","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","豆角","小麦面粉"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"unsupported_staple_state","expected_template_id":null,"expected_used_items":[],"expected_unplanned_items":["排骨","豆角","小麦面粉"],"expected_reason_code":"unsupported_staple_state","assertion_codes":["wheat_flour_remains_unplanned"]},
+    {"journey_id":"ne-cap-j11","mode":"pantry","intent":"quick","servings":2,"raw_items":["排骨","豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"time_constraint","expected_template_id":"stew-with-staple-pot","expected_used_items":[],"expected_unplanned_items":["排骨","豆角","玉米面"],"expected_reason_code":"time_constraint","assertion_codes":["no_false_thirty_minute_plan"]},
+    {"journey_id":"ne-cap-j12","mode":"pantry","intent":"normal","servings":1,"raw_items":["排骨","豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"unsupported_servings","expected_template_id":"stew-with-staple-pot","expected_used_items":[],"expected_unplanned_items":["排骨","豆角","玉米面"],"expected_reason_code":"unsupported_servings","assertion_codes":["one_serving_not_calibrated"]},
+    {"journey_id":"ne-cap-j13","mode":"pantry","intent":"normal","servings":5,"raw_items":["排骨","豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"unsupported_servings","expected_template_id":"stew-with-staple-pot","expected_used_items":[],"expected_unplanned_items":["排骨","豆角","玉米面"],"expected_reason_code":"unsupported_servings","assertion_codes":["five_servings_requires_explicit_split"]},
+    {"journey_id":"ne-cap-j14","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","鸡腿","豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"incompatible_combination","expected_template_id":"stew-with-staple-pot","expected_used_items":[],"expected_unplanned_items":["排骨","鸡腿","豆角","玉米面"],"expected_reason_code":"incompatible_combination","assertion_codes":["protein_max_one","no_forced_double_protein"]},
+    {"journey_id":"ne-cap-j15","mode":"pantry","intent":"normal","servings":2,"raw_items":["鱼","豆腐","白菜","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"incompatible_combination","expected_template_id":null,"expected_used_items":[],"expected_unplanned_items":["鱼","豆腐","白菜","玉米面"],"expected_reason_code":"incompatible_combination","assertion_codes":["fish_branch_not_first_stage","tofu_not_traditional_core"]},
+    {"journey_id":"ne-cap-j16","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","豆角","玉米面"],"dislikes":["猪肉"],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"allergen_conflict","expected_template_id":"stew-with-staple-pot","expected_used_items":[],"expected_unplanned_items":["排骨","豆角","玉米面"],"expected_reason_code":"allergen_conflict","assertion_codes":["pork_allergy_blocks_plan"]},
+    {"journey_id":"ne-cap-j17","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"complete","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":null,"assertion_codes":["same_input_same_plan","same_input_same_plan_id"]},
+    {"journey_id":"ne-cap-j18","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"stale_plan","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":"stale_plan","assertion_codes":["preparation_version_in_plan_identity","old_token_rejected"]},
+    {"journey_id":"ne-cap-j19","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"no_alternative_plan","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":"no_alternative_plan","assertion_codes":["swap_replans_without_deepseek","no_equal_commitment_alternative"]},
+    {"journey_id":"ne-cap-j20","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"model_contract_violation","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":"model_contract_violation","assertion_codes":["model_violation_added_wheat_flour_or_egg"]},
+    {"journey_id":"ne-cap-j21","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"model_contract_violation","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":"model_contract_violation","assertion_codes":["model_violation_modified_preparation_or_stew_water"]},
+    {"journey_id":"ne-cap-j22","mode":"pantry","intent":"normal","servings":2,"raw_items":["排骨","油豆角","玉米面"],"dislikes":[],"m1_runtime_expectation":"template_not_runtime_eligible","m2_expected_outcome":"model_contract_violation","expected_template_id":"stew-with-staple-pot","expected_used_items":["排骨","油豆角","玉米面"],"expected_unplanned_items":[],"expected_reason_code":"model_contract_violation","assertion_codes":["model_violation_changed_cornmeal_to_corn_kernel"]}
+  ],
   "journey_cases": [
     {
       "journey_id": "ne-j01",

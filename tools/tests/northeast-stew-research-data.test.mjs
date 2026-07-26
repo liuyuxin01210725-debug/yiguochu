@@ -7,7 +7,8 @@ const readJson = relativePath => JSON.parse(fs.readFileSync(new URL(relativePath
 const assessment = readJson('../data/northeast-stew-research.v1.json');
 const regionalAtlas = readJson('../data/regional-atlas.v2.json');
 const regionalResearch = readJson('../data/regional-menu-research.v1.json');
-const inputs = { assessment, regionalAtlas, regionalResearch };
+const taxonomy = readJson('../data/ingredient-taxonomy.v1.json');
+const inputs = { assessment, regionalAtlas, regionalResearch, taxonomy };
 
 const EXPECTED_IDS = [
   'northeast-chicken-mushroom-potato-corn-cake',
@@ -110,4 +111,108 @@ test('journey validator rejects invented review results and unsupported outcomes
   const message = validateNortheastStewResearch({ ...inputs, assessment: broken }).join('\n');
   assert.match(message, /completed human review requires reviewer, date, household judgement, notes and conclusion/);
   assert.match(message, /expected_research_outcome is invalid/);
+});
+
+test('M1 records two blocked machine-rule candidates and no production numbers', () => {
+  assert.equal(assessment.schema_version, 2);
+  assert.equal(assessment.assessment_version, 'northeast-stew-research-v1-20260727-m1');
+  assert.deepEqual(
+    assessment.machine_rule_candidates.map(row => row.rule_id).sort(),
+    ['cornmeal-flour-to-dough-v1', 'stew-with-corn-cake-liquid-v1'],
+  );
+  assert.ok(assessment.machine_rule_candidates.every(row => row.activation_status === 'blocked'));
+  assert.doesNotMatch(
+    JSON.stringify(assessment.machine_rule_candidates),
+    /"(?:grams|minutes|temperature_c|min|default|max)"/,
+  );
+});
+
+test('calibration ledger reserves exactly 2 3 and 4 servings without fabricating results', () => {
+  assert.deepEqual(assessment.calibration_cases.map(row => row.servings), [2, 3, 4]);
+  for (const row of assessment.calibration_cases) {
+    assert.equal(row.status, 'pending');
+    assert.equal(row.operator, null);
+    assert.equal(row.performed_at, null);
+    assert.equal(row.cornmeal_shape_or_cut, null);
+    assert.ok(Object.values(row.equipment).every(value => value === null));
+    assert.ok(Object.values(row.measurements).every(value => value === null));
+    assert.ok(Object.values(row.acceptance_checks).every(value => value === null));
+  }
+});
+
+test('twenty two staged capability journeys keep M1 blocked and M2 expectations explicit', () => {
+  assert.equal(assessment.capability_journey_cases.length, 22);
+  assert.deepEqual(
+    assessment.capability_journey_cases.map(row => row.journey_id),
+    Array.from({ length:22 }, (_, index) => `ne-cap-j${String(index + 1).padStart(2, '0')}`),
+  );
+  assert.ok(assessment.capability_journey_cases.every(
+    row => row.m1_runtime_expectation === 'template_not_runtime_eligible',
+  ));
+  assert.deepEqual(
+    assessment.capability_journey_cases.slice(19).map(row => row.m2_expected_outcome),
+    ['model_contract_violation', 'model_contract_violation', 'model_contract_violation'],
+  );
+});
+
+test('M1 candidate references fail closed on invented taxonomy and source IDs', () => {
+  const unknownTaxonomy = structuredClone(assessment);
+  unknownTaxonomy.machine_rule_candidates[0].when.input_canonical_id = 'invented-flour';
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: unknownTaxonomy }).join('\n'),
+    /unknown taxonomy/,
+  );
+
+  const unknownSource = structuredClone(assessment);
+  unknownSource.machine_rule_candidates[0].supporting_source_ids = ['invented-source'];
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: unknownSource }).join('\n'),
+    /unknown source/,
+  );
+});
+
+test('pending calibration records cannot contain results or skip the 3-serving case', () => {
+  const fabricated = structuredClone(assessment);
+  fabricated.calibration_cases[0].measurements.cornmeal_grams = 100;
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: fabricated }).join('\n'),
+    /pending calibration must remain unfilled/,
+  );
+
+  const missingThree = structuredClone(assessment);
+  missingThree.calibration_cases = missingThree.calibration_cases.filter(row => row.servings !== 3);
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: missingThree }).join('\n'),
+    /calibration cases must be exactly ne-cal-2 ne-cal-3 and ne-cal-4/,
+  );
+});
+
+test('capability journey ledger rejects missing IDs premature M1 success and incomplete expectations', () => {
+  const missingJourney = structuredClone(assessment);
+  missingJourney.capability_journey_cases.splice(10, 1);
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: missingJourney }).join('\n'),
+    /journey_id must match ne-cap-j01 through ne-cap-j22/,
+  );
+
+  const prematureSuccess = structuredClone(assessment);
+  prematureSuccess.capability_journey_cases[0].m1_runtime_expectation = 'complete';
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: prematureSuccess }).join('\n'),
+    /m1_runtime_expectation must remain template_not_runtime_eligible/,
+  );
+
+  const missingUsed = structuredClone(assessment);
+  missingUsed.capability_journey_cases[0].expected_used_items = [];
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: missingUsed }).join('\n'),
+    /complete or ready journey requires expected_used_items/,
+  );
+
+  const missingViolation = structuredClone(assessment);
+  missingViolation.capability_journey_cases[19].assertion_codes = ['model_output_checked'];
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: missingViolation }).join('\n'),
+    /model_contract_violation journey requires a model violation assertion/,
+  );
 });

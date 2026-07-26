@@ -18,6 +18,7 @@ export function buildNortheastStewResearchFromFixedInputs() {
     assessment: readJson('tools/data/northeast-stew-research.v1.json'),
     regionalAtlas: readJson('tools/data/regional-atlas.v2.json'),
     regionalResearch: readJson('tools/data/regional-menu-research.v1.json'),
+    taxonomy: readJson('tools/data/ingredient-taxonomy.v1.json'),
   };
   const sourceErrors = validateNortheastStewResearch(inputs);
   if (sourceErrors.length) {

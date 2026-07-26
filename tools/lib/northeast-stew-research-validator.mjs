@@ -1,3 +1,5 @@
+import { validatePreparationRuleCandidate } from './preparation-rule-validator.mjs';
+
 const EXPECTED_ATLAS_IDS = new Set([
   'northeast-chicken-mushroom-potato-corn-cake',
   'northeast-fish-tofu-vegetable-corn-cake',
@@ -21,10 +23,19 @@ const EVIDENCE_STATUSES = new Set(['supported', 'family_supported', 'not_proven'
 const JOURNEY_OUTCOMES = new Set(['supported_family_route', 'needs_more_evidence', 'unsupported_for_family']);
 const JOURNEY_INTENTS = new Set(['normal', 'quick']);
 const REVIEW_STATUSES = new Set(['pending', 'passed', 'failed']);
+const M2_OUTCOMES = new Set([
+  'complete', 'ready', 'unsupported_staple_state', 'unsupported_servings',
+  'time_constraint', 'incompatible_combination', 'allergen_conflict',
+  'stale_plan', 'no_alternative_plan', 'model_contract_violation',
+]);
+const CAPABILITY_MODES = new Set(['pantry', 'recommend']);
+const CAPABILITY_INTENTS = new Set(['normal', 'quick', 'batch']);
+const CALIBRATION_IDS = ['ne-cal-2', 'ne-cal-3', 'ne-cal-4'];
 
 const ROOT_FIELDS = new Set([
   'schema_version', 'assessment_version', 'region_id', 'family_id',
   'province_codes', 'source_refs', 'prototypes', 'family_model', 'journey_cases',
+  'machine_rule_candidates', 'calibration_cases', 'capability_journey_cases',
 ]);
 const SOURCE_FIELDS = new Set([
   'source_id', 'title', 'url', 'publisher', 'published_at', 'retrieved_at',
@@ -50,6 +61,25 @@ const JOURNEY_FIELDS = new Set([
 const REVIEW_FIELDS = new Set([
   'status', 'reviewer', 'reviewed_at', 'household_intuition', 'operability',
   'taste_judgement', 'notes', 'conclusion',
+]);
+const CALIBRATION_FIELDS = new Set([
+  'calibration_id', 'servings', 'status', 'operator', 'performed_at',
+  'cornmeal_shape_or_cut', 'equipment', 'measurements', 'acceptance_checks', 'notes',
+]);
+const EQUIPMENT_FIELDS = new Set(['pot_diameter_cm', 'pot_depth_cm', 'lid_fit_confirmed']);
+const MEASUREMENT_FIELDS = new Set([
+  'cornmeal_grams', 'preparation_water_grams', 'stew_water_grams', 'steam_minutes',
+]);
+const ACCEPTANCE_FIELDS = new Set([
+  'dough_holds_shape', 'center_cooked_through', 'cake_above_liquid',
+  'cake_holds_together', 'pot_not_scorched', 'pork_endpoint_reached',
+  'beans_endpoint_reached',
+]);
+const CAPABILITY_JOURNEY_FIELDS = new Set([
+  'journey_id', 'mode', 'intent', 'servings', 'raw_items', 'dislikes',
+  'm1_runtime_expectation', 'm2_expected_outcome', 'expected_template_id',
+  'expected_used_items', 'expected_unplanned_items', 'expected_reason_code',
+  'assertion_codes',
 ]);
 
 const isObject = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -82,7 +112,7 @@ function exactSet(actual, expected, label, errors) {
 function validDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value ?? ''))) return false;
   const date = new Date(`${value}T00:00:00Z`);
-  return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value && value <= '2026-07-26';
+  return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value && value <= '2026-07-27';
 }
 
 function validateSources(sources, errors) {
@@ -283,12 +313,132 @@ function validateJourneys(value, errors) {
   if (JSON.stringify(ids.filter(hasText).sort()) !== JSON.stringify(expectedIds)) errors.push('journey_id must match ne-j01 through ne-j10');
 }
 
-export function validateNortheastStewResearch({ assessment, regionalAtlas, regionalResearch } = {}) {
+function validateMachineRuleCandidates(value, taxonomy, sourceIds, errors) {
+  if (!Array.isArray(value)) {
+    errors.push('assessment: machine_rule_candidates must be an array');
+    return;
+  }
+  if (value.length !== 2) errors.push('assessment: machine_rule_candidates must contain exactly 2 items');
+  const taxonomyIds = new Set(asArray(taxonomy?.items).map(row => asObject(row).canonical_id).filter(hasText));
+  if (taxonomyIds.size === 0) errors.push('ingredient taxonomy is missing canonical identities');
+  for (const candidate of value) {
+    errors.push(...validatePreparationRuleCandidate(candidate, { taxonomyIds, sourceIds }));
+  }
+  const ids = value.map(row => asObject(row).rule_id).filter(hasText).sort();
+  const expected = ['cornmeal-flour-to-dough-v1', 'stew-with-corn-cake-liquid-v1'];
+  if (JSON.stringify(ids) !== JSON.stringify(expected)) {
+    errors.push('machine_rule_candidates must contain the two approved M1 candidate IDs');
+  }
+}
+
+function valuesAreNull(value, expectedFields) {
+  return isObject(value)
+    && [...expectedFields].every(field => Object.hasOwn(value, field) && value[field] === null);
+}
+
+function validateCalibrationCases(value, errors) {
+  if (!Array.isArray(value)) {
+    errors.push('assessment: calibration_cases must be an array');
+    return;
+  }
+  const ids = value.map(row => asObject(row).calibration_id).filter(hasText);
+  if (JSON.stringify(ids) !== JSON.stringify(CALIBRATION_IDS)) {
+    errors.push('calibration cases must be exactly ne-cal-2 ne-cal-3 and ne-cal-4');
+  }
+  for (const [index, calibrationValue] of value.entries()) {
+    const calibration = asObject(calibrationValue);
+    const label = hasText(calibration.calibration_id)
+      ? calibration.calibration_id
+      : `calibration ${index}`;
+    if (!isObject(calibrationValue)) {
+      errors.push(`${label}: calibration must be an object`);
+      continue;
+    }
+    unknownFields(calibration, CALIBRATION_FIELDS, label, errors);
+    const expectedId = CALIBRATION_IDS[index];
+    const expectedServings = index + 2;
+    if (calibration.calibration_id !== expectedId || calibration.servings !== expectedServings) {
+      errors.push(`${label}: calibration ID and servings must preserve the 2 3 4 mapping`);
+    }
+    if (calibration.status !== 'pending') errors.push(`${label}: status must remain pending in M1`);
+    const equipment = asObject(calibration.equipment);
+    const measurements = asObject(calibration.measurements);
+    const checks = asObject(calibration.acceptance_checks);
+    unknownFields(equipment, EQUIPMENT_FIELDS, `${label}.equipment`, errors);
+    unknownFields(measurements, MEASUREMENT_FIELDS, `${label}.measurements`, errors);
+    unknownFields(checks, ACCEPTANCE_FIELDS, `${label}.acceptance_checks`, errors);
+    if (calibration.operator !== null || calibration.performed_at !== null
+      || calibration.cornmeal_shape_or_cut !== null || calibration.notes !== ''
+      || !valuesAreNull(equipment, EQUIPMENT_FIELDS)
+      || !valuesAreNull(measurements, MEASUREMENT_FIELDS)
+      || !valuesAreNull(checks, ACCEPTANCE_FIELDS)) {
+      errors.push(`${label}: pending calibration must remain unfilled`);
+    }
+  }
+}
+
+function validateCapabilityJourneys(value, errors) {
+  if (!Array.isArray(value)) {
+    errors.push('assessment: capability_journey_cases must be an array');
+    return;
+  }
+  const expectedIds = Array.from({ length:22 }, (_, index) => `ne-cap-j${String(index + 1).padStart(2, '0')}`);
+  const ids = value.map(row => asObject(row).journey_id).filter(hasText);
+  if (JSON.stringify(ids) !== JSON.stringify(expectedIds)) {
+    errors.push('capability journey_id must match ne-cap-j01 through ne-cap-j22');
+  }
+  for (const [index, journeyValue] of value.entries()) {
+    const journey = asObject(journeyValue);
+    const label = hasText(journey.journey_id) ? journey.journey_id : `capability journey ${index}`;
+    if (!isObject(journeyValue)) {
+      errors.push(`${label}: capability journey must be an object`);
+      continue;
+    }
+    unknownFields(journey, CAPABILITY_JOURNEY_FIELDS, label, errors);
+    if (!CAPABILITY_MODES.has(journey.mode)) errors.push(`${label}: mode is invalid`);
+    if (!CAPABILITY_INTENTS.has(journey.intent)) errors.push(`${label}: intent is invalid`);
+    if (!Number.isInteger(journey.servings) || journey.servings < 1) errors.push(`${label}: servings must be a positive integer`);
+    const raw = textArray(journey.raw_items, `${label}: raw_items`, errors);
+    textArray(journey.dislikes, `${label}: dislikes`, errors, { nonEmpty:false });
+    const used = textArray(journey.expected_used_items, `${label}: expected_used_items`, errors, { nonEmpty:false });
+    const unplanned = textArray(journey.expected_unplanned_items, `${label}: expected_unplanned_items`, errors, { nonEmpty:false });
+    if (used.some(item => unplanned.includes(item))) errors.push(`${label}: used and unplanned items must not overlap`);
+    if (JSON.stringify([...used, ...unplanned].sort()) !== JSON.stringify([...raw].sort())) {
+      errors.push(`${label}: expected used and unplanned items must partition raw_items`);
+    }
+    if (journey.m1_runtime_expectation !== 'template_not_runtime_eligible') {
+      errors.push(`${label}: m1_runtime_expectation must remain template_not_runtime_eligible`);
+    }
+    if (!M2_OUTCOMES.has(journey.m2_expected_outcome)) errors.push(`${label}: m2_expected_outcome is invalid`);
+    if (journey.expected_template_id !== null && !hasText(journey.expected_template_id)) {
+      errors.push(`${label}: expected_template_id must be null or a non-empty string`);
+    }
+    if (['complete', 'ready'].includes(journey.m2_expected_outcome) && used.length === 0) {
+      errors.push(`${label}: complete or ready journey requires expected_used_items`);
+    }
+    if (['complete', 'ready'].includes(journey.m2_expected_outcome)
+      && journey.expected_template_id !== 'stew-with-staple-pot') {
+      errors.push(`${label}: successful journey must name stew-with-staple-pot`);
+    }
+    if (['complete', 'ready'].includes(journey.m2_expected_outcome)) {
+      if (journey.expected_reason_code !== null) errors.push(`${label}: successful journey reason must be null`);
+    } else if (!hasText(journey.expected_reason_code)) {
+      errors.push(`${label}: rejected or boundary journey requires expected_reason_code`);
+    }
+    const assertions = textArray(journey.assertion_codes, `${label}: assertion_codes`, errors);
+    if (journey.m2_expected_outcome === 'model_contract_violation'
+      && !assertions.some(code => code.startsWith('model_violation_'))) {
+      errors.push(`${label}: model_contract_violation journey requires a model violation assertion`);
+    }
+  }
+}
+
+export function validateNortheastStewResearch({ assessment, regionalAtlas, regionalResearch, taxonomy } = {}) {
   if (!isObject(assessment)) return ['assessment must be an object'];
   const errors = [];
   unknownFields(assessment, ROOT_FIELDS, 'assessment', errors);
-  if (assessment.schema_version !== 1) errors.push('assessment: schema_version must be 1');
-  if (assessment.assessment_version !== 'northeast-stew-research-v1-20260726') errors.push('assessment: assessment_version is invalid');
+  if (assessment.schema_version !== 2) errors.push('assessment: schema_version must be 2');
+  if (assessment.assessment_version !== 'northeast-stew-research-v1-20260727-m1') errors.push('assessment: assessment_version is invalid');
   if (assessment.region_id !== 'northeast') errors.push('assessment: region_id must be northeast');
   if (assessment.family_id !== 'stew-with-staple') errors.push('assessment: family_id must be stew-with-staple');
   const provinces = textArray(assessment.province_codes, 'assessment: province_codes', errors);
@@ -316,5 +466,8 @@ export function validateNortheastStewResearch({ assessment, regionalAtlas, regio
 
   validateFamilyModel(assessment.family_model, new Set(sourceById.keys()), errors);
   validateJourneys(assessment.journey_cases, errors);
+  validateMachineRuleCandidates(assessment.machine_rule_candidates, taxonomy, new Set(sourceById.keys()), errors);
+  validateCalibrationCases(assessment.calibration_cases, errors);
+  validateCapabilityJourneys(assessment.capability_journey_cases, errors);
   return errors;
 }

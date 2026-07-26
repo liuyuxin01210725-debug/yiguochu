@@ -210,6 +210,7 @@ const northeastResearchSourceErrors = [
     assessment: northeastResearch,
     regionalAtlas,
     regionalResearch,
+    taxonomy,
   }),
 ];
 errors.push(...northeastResearchSourceErrors);
