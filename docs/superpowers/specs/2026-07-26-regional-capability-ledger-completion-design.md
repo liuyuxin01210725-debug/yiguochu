@@ -63,6 +63,7 @@
   "candidate_template_ids": [],
   "covered_staple_states": ["面条"],
   "uncovered_staple_states": ["面片", "米粉", "粉丝"],
+  "coverage_boundary_codes": ["plain_noodle_only"],
   "promotion_status": "blocked_by_taxonomy",
   "evidence_recipe_ids": ["broccoli-beef-soup-noodles", "tibetan-gutu"],
   "evidence_research_ids": [],
@@ -88,6 +89,7 @@
 - `candidate_template_ids`：可能承接下一轮晋升的现有 active/planned 模板；允许为空，不得写不存在的模板。
 - `covered_staple_states`：当前运行能力真实覆盖的 atlas `staple_states` 子集。
 - `uncovered_staple_states`：仍未覆盖的 atlas `staple_states` 子集。
+- `coverage_boundary_codes`：当同一种主食状态只覆盖某个受控子集时记录额外边界。第一版词表固定为 `requires_acid_base | raw_noodle_only | plain_noodle_only`，不得写自由文本替代机器状态。
 - `promotion_status`：沿用 `research_only | blocked_by_evidence | blocked_by_taxonomy | blocked_by_ratio | preview_candidate | covered_by_active_template`。
 - `evidence_recipe_ids`：已有生产 recipe evidence，可为空。
 - `evidence_research_ids`：研究候选或地域研究条目 ID，可为空。
@@ -128,8 +130,8 @@
 2. 每条记录只能包含本规格定义的字段；`regional_scope` 必须是受控枚举。
 3. `runtime_template_ids` 中每个模板都必须存在、active 且 `runtime_eligible:true`。
 4. `candidate_template_ids` 中每个模板必须存在；同一模板不得同时出现在 runtime 与 candidate。
-5. `covered_staple_states` 与 `uncovered_staple_states` 必须互斥，合并后与对应 atlas 家族的 `staple_states` 完全相等。
-6. `full` 必须 covered 非空、uncovered 为空；`partial` 两者都非空；`none` 必须 covered 为空、uncovered 为完整集合且 runtime 为空。
+5. `covered_staple_states` 与 `uncovered_staple_states` 必须互斥，合并后与对应 atlas 家族的 `staple_states` 完全相等；`coverage_boundary_codes` 只能取受控词表。
+6. `full` 必须 covered 非空、uncovered 与 boundary 均为空；`partial` 必须 covered 非空，并且 uncovered 或 boundary 至少一项非空；`none` 必须 covered 与 boundary 均为空、uncovered 为完整集合且 runtime 为空。
 7. `covered_by_active_template` 只允许 `coverage_level:"full"`，必须至少一个 runtime template、无 blocker，且 required/resolved ratio 集合完全相等。
 8. `preview_candidate` 可以是 `full` 或 `partial`，但必须至少一个 runtime template、无 blocker，且其已声明范围所需的 required/resolved ratio 集合完全相等；`partial` 的未覆盖状态仍须原样展示。它只表示这一个受控范围待 Preview 验证，不表示整个家族完整，也不表示 production 批准。
 9. `blocked_*` 与 `research_only` 必须至少一个 blocker；不得通过空 blocker 暗示已就绪。
