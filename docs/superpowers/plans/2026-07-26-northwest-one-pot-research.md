@@ -128,7 +128,7 @@ python3 -m py_compile ai_proxy.py
 
   使用相同 ASCII build ID 两次运行 `node tools/build-dist.mjs --out-dir ...`，并以 `diff -qr` 验证字节一致；两份构建都不得包含西北研究资产。
 
-- [ ] **Step 3: 检查范围并提交**
+- [x] **Step 3: 检查范围并提交**
 
 ```bash
 git diff --check
@@ -137,6 +137,6 @@ git add docs tools
 git commit -m "Add Northwest one-pot research layer"
 ```
 
-- [ ] **Step 4: 推送并更新 Draft PR #1**
+- [x] **Step 4: 推送并更新 Draft PR #1**
 
   只更新 `codex/targeted-recipe-expansion` 与现有 Draft PR；不得合并或部署。
