@@ -136,6 +136,6 @@ git add docs tools
 git commit -m "Add Lingnan Hong Kong Macao research layer"
 ```
 
-- [ ] **Step 4: 推送并更新 Draft PR #1**
+- [x] **Step 4: 推送并更新 Draft PR #1**
 
   只更新 `codex/targeted-recipe-expansion` 与现有 Draft PR；不得合并或部署。
