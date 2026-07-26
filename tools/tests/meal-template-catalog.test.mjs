@@ -273,3 +273,17 @@ test('validator requires reachable user-item bounds, non-empty non-overlapping s
     'required slot is missing from cooking_order: staple',
   ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
+
+test('cooking phases accept only an exact declared slot and category condition', () => {
+  const valid = structuredClone(catalog);
+  const template = valid.templates.find(row => row.template_id === 'broth-noodle-pot');
+  template.cooking_order[1].when = { slot_id: 'protein', category: 'egg' };
+  assert.deepEqual(validateMealTemplateCatalog(valid, taxonomy, recipeLibrary), []);
+
+  const invalid = structuredClone(valid);
+  const invalidPhase = invalid.templates.find(row => row.template_id === 'broth-noodle-pot').cooking_order[1];
+  invalidPhase.when = { slot_id: 'staple', category: 'egg', expression: 'true' };
+  const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
+  assert.ok(errors.some(error => error.includes('cooking_order')), errors.join('\n'));
+  assert.ok(errors.some(error => error.includes('unknown key') || error.includes('condition')), errors.join('\n'));
+});

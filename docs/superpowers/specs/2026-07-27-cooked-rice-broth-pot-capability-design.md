@@ -184,7 +184,7 @@ type ConditionalCookingPhase = {
 - 未声明字段、多个条件、任意表达式、脚本和自然语言条件全部拒绝；
 - 条件过滤后，每个已分配用户食材仍必须至少出现在一个保留阶段中，否则计划 fail closed。
 
-本轮新增有限 action code `add_broth_protein`，其受控文案由已锁定 category 决定：鸡肉分支描述均匀小块入汤加热，鸡蛋分支描述蛋液沿锅加入并温和凝固。不得把“鸡肉早于熟饭、鸡蛋晚于熟饭”的差异交给 DeepSeek自由理解。
+条件阶段复用现有有限 action code：鸡肉分支使用 `cook_poultry_through`，鸡蛋分支使用 `gentle_set_protein`。两者已有受控文案，不新增同义 action code。不得把“鸡肉早于熟饭、鸡蛋晚于熟饭”的差异交给 DeepSeek自由理解。
 
 ### 5.2 形态边界
 

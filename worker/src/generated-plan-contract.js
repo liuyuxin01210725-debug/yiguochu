@@ -101,6 +101,12 @@ function basicExtraSlot(extra, slotByName) {
   return 'basic_extra';
 }
 
+function cookingPhaseMatches(phase, slotAssignment) {
+  if (!phase?.when) return true;
+  return (slotAssignment?.[phase.when.slot_id] || [])
+    .some(item => item.category === phase.when.category);
+}
+
 function uniqueStrings(values) {
   return [...new Set(values)];
 }
@@ -281,7 +287,9 @@ function buildLockedMeal(pot, template, refCounters, context) {
     if (refs.length) endpointIngredientRefs.set(endpoint, refs);
   }
   const requiredEndpoints = [...endpointSlots.keys()].sort();
-  let phases = (template.cooking_order || []).map(phase => ({
+  let phases = (template.cooking_order || [])
+    .filter(phase => cookingPhaseMatches(phase, pot.slot_assignment))
+    .map(phase => ({
     phase: phase.phase,
     action_code: phase.action_code,
     slot_ids: [...phase.slot_ids],
@@ -289,7 +297,7 @@ function buildLockedMeal(pot, template, refCounters, context) {
       .map(item => item.ingredient_ref),
     required_safety_endpoints: [],
     required_safety_ingredient_refs: [],
-  }));
+    }));
   for (const ingredient of locked.filter(item => item.source === 'basic_extra')) {
     if (phases.some(phase => phase.allowed_ingredient_refs.includes(ingredient.ingredient_ref))) continue;
     let phaseIndex = ingredient.slot_id === 'liquid'
@@ -318,6 +326,9 @@ function buildLockedMeal(pot, template, refCounters, context) {
   }
   for (const ingredient of locked) {
     if (phases.some(phase => phase.allowed_ingredient_refs.includes(ingredient.ingredient_ref))) continue;
+    if (ingredient.source === 'user') {
+      throw new Error(`locked_cooking_order_ingredient_missing:${ingredient.ingredient_ref}`);
+    }
     if (phases.length) phases[0].allowed_ingredient_refs.push(ingredient.ingredient_ref);
   }
   phases = phases.filter(phase => (

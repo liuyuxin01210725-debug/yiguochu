@@ -492,6 +492,49 @@ test('controlled phrases omit empty optional phases and render executable one-po
   assert.doesNotMatch(prose, /按规划使用.*完成|完成完成|\{\{/);
 });
 
+test('conditional cooking phases keep only the branch matching the locked protein category', async () => {
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const broth = templates.templates.find(row => row.template_id === 'broth-noodle-pot');
+  broth.cooking_order = [
+    { phase: 1, action_code: 'add_broth_and_noodles', slot_ids: ['liquid', 'staple'] },
+    { phase: 2, action_code: 'cook_poultry_through', slot_ids: ['protein'], when: { slot_id: 'protein', category: 'chicken' } },
+    { phase: 3, action_code: 'gentle_set_protein', slot_ids: ['protein'], when: { slot_id: 'protein', category: 'egg' } },
+    { phase: 4, action_code: 'reach_safety_endpoints', slot_ids: ['protein'] },
+  ];
+
+  const eggJourney = await preparedJourney(plannerRequest({ must: ['面条', '鸡蛋'] }));
+  const chickenJourney = await preparedJourney(plannerRequest({ must: ['面条', '鸡腿肉'] }));
+  const eggLocked = workerModule.buildLockedPlanContract(eggJourney.planned, templates);
+  const chickenLocked = workerModule.buildLockedPlanContract(chickenJourney.planned, templates);
+  const eggActions = eggLocked.meals[0].cooking_order.map(row => row.action_code);
+  const chickenActions = chickenLocked.meals[0].cooking_order.map(row => row.action_code);
+
+  assert.ok(eggActions.includes('gentle_set_protein'));
+  assert.equal(eggActions.includes('cook_poultry_through'), false);
+  assert.ok(chickenActions.includes('cook_poultry_through'));
+  assert.equal(chickenActions.includes('gentle_set_protein'), false);
+  for (const meal of [...eggLocked.meals, ...chickenLocked.meals]) {
+    const referenced = new Set(meal.cooking_order.flatMap(row => row.allowed_ingredient_refs));
+    for (const ingredient of meal.locked_ingredients.filter(row => row.source === 'user')) {
+      assert.ok(referenced.has(ingredient.ingredient_ref), ingredient.ingredient_ref);
+    }
+  }
+});
+
+test('conditional cooking phases fail closed when no retained phase owns a locked user ingredient', async () => {
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const broth = templates.templates.find(row => row.template_id === 'broth-noodle-pot');
+  broth.cooking_order = [
+    { phase: 1, action_code: 'add_broth_and_noodles', slot_ids: ['liquid', 'staple'] },
+    { phase: 2, action_code: 'cook_poultry_through', slot_ids: ['protein'], when: { slot_id: 'protein', category: 'chicken' } },
+  ];
+  const eggJourney = await preparedJourney(plannerRequest({ must: ['面条', '鸡蛋'] }));
+  assert.throws(
+    () => workerModule.buildLockedPlanContract(eggJourney.planned, templates),
+    /locked_cooking_order_ingredient_missing/,
+  );
+});
+
 test('chicken, egg-tofu-vegetable and multi-pot journeys render complete household steps', async () => {
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const requests = [

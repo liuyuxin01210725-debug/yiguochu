@@ -77,7 +77,8 @@ const COMPATIBILITY_RULE_KEYS = new Set(['rule_code', 'when', 'requires_cooking_
 const INCOMPATIBILITY_RULE_KEYS = new Set(['rule_code', 'when', 'forbids_attribute_count']);
 const ATTRIBUTE_COUNT_KEYS = new Set(['attribute', 'value', 'greater_than']);
 const SHAPE_REQUIREMENT_KEYS = new Set(['slot_id', 'category', 'allowed_shapes', 'forbidden_shapes']);
-const COOKING_ORDER_KEYS = new Set(['phase', 'action_code', 'slot_ids']);
+const COOKING_ORDER_KEYS = new Set(['phase', 'action_code', 'slot_ids', 'when']);
+const COOKING_ORDER_WHEN_KEYS = new Set(['slot_id', 'category']);
 const LIQUID_CONSTRAINT_KEYS = new Set(['allowed_categories', 'max_liquid_types', 'must_be_measured', 'retained_in_finished_meal']);
 const SAFETY_ENDPOINT_KEYS = new Set(['applies_to_category', 'endpoint_code']);
 const TIME_RANGE_KEYS = new Set(['min_minutes', 'max_minutes']);
@@ -263,7 +264,7 @@ function checkShapeRequirements(requirements, label, declaredSlots, acceptedCate
   });
 }
 
-function checkCookingOrder(order, label, declaredSlots, errors) {
+function checkCookingOrder(order, label, declaredSlots, acceptedCategoriesBySlot, errors) {
   if (!Array.isArray(order) || order.length === 0) {
     errors.push(`${label} must be a non-empty array`);
     return;
@@ -280,6 +281,24 @@ function checkCookingOrder(order, label, declaredSlots, errors) {
     if (Number.isInteger(phase.phase)) previousPhase = phase.phase;
     if (!ACTION_CODES.has(phase.action_code)) errors.push(`${phaseLabel}.action_code must be a finite machine code`);
     if (!stringArray(phase.slot_ids) || phase.slot_ids.some(slot => !declaredSlots.has(slot))) errors.push(`${phaseLabel}.slot_ids has unknown slot`);
+    if (phase.when !== undefined) {
+      if (!isObject(phase.when)) {
+        errors.push(`${phaseLabel}.when must be an object`);
+      } else {
+        assertAllowedKeys(phase.when, COOKING_ORDER_WHEN_KEYS, `${phaseLabel}.when`, errors);
+        if (!isString(phase.when.slot_id) || !declaredSlots.has(phase.when.slot_id)) {
+          errors.push(`${phaseLabel}.when.slot_id must be a declared slot`);
+        } else {
+          if (!phase.slot_ids?.includes(phase.when.slot_id)) {
+            errors.push(`${phaseLabel}.when.slot_id must appear in phase slot_ids`);
+          }
+          if (!isString(phase.when.category)
+            || !acceptedCategoriesBySlot.get(phase.when.slot_id)?.has(phase.when.category)) {
+            errors.push(`${phaseLabel}.when.category must be accepted by its slot`);
+          }
+        }
+      }
+    }
   });
 }
 
@@ -388,7 +407,7 @@ function checkTemplate(template, index, context, recipeIds, errors) {
   checkRules(template.compatibility_rules, `${label}.compatibility_rules`, slotIds, acceptedCategoriesBySlot, context, errors, false);
   checkRules(template.incompatible_rules, `${label}.incompatible_rules`, slotIds, acceptedCategoriesBySlot, context, errors, true);
   checkShapeRequirements(template.shape_or_cut_requirements, `${label}.shape_or_cut_requirements`, slotIds, acceptedCategoriesBySlot, context, errors);
-  checkCookingOrder(template.cooking_order, `${label}.cooking_order`, slotIds, errors);
+  checkCookingOrder(template.cooking_order, `${label}.cooking_order`, slotIds, acceptedCategoriesBySlot, errors);
   if (Array.isArray(template.cooking_order)) {
     const coveredSlots = new Set(template.cooking_order.flatMap(phase => Array.isArray(phase?.slot_ids) ? phase.slot_ids : []));
     for (const slot of requiredSlots) {

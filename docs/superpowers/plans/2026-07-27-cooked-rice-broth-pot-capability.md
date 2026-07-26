@@ -158,7 +158,7 @@ function cookingPhaseMatches(phase, slotAssignment) {
 }
 ```
 
-Filter before mapping. Throw `locked_cooking_order_ingredient_missing:<ref>` if filtering leaves a locked user ingredient in no phase. Add finite `add_broth_protein` phrases; choose the chicken or egg phrases only from locked categories.
+Filter before mapping. Throw `locked_cooking_order_ingredient_missing:<ref>` if filtering leaves a locked user ingredient in no phase. Reuse the existing finite actions `cook_poultry_through` for chicken and `gentle_set_protein` for egg; do not add a synonymous action code.
 
 - [ ] **Step 5: Verify GREEN and commit**
 
