@@ -39,8 +39,16 @@ test('capability ledger covers every atlas technique family exactly once', () =>
 test('capability ledger distinguishes full partial and no coverage', () => {
   const byFamily = new Map(mappings.template_capability_mappings.map(row => [row.family_id, row]));
   assert.equal(byFamily.get('raw-rice-braise')?.coverage_level, 'full');
-  assert.equal(byFamily.get('cooked-rice-stew')?.coverage_level, 'partial');
-  assert.deepEqual(byFamily.get('cooked-rice-stew')?.coverage_boundary_codes, ['requires_acid_base']);
+  const cookedRiceStew = byFamily.get('cooked-rice-stew');
+  assert.equal(cookedRiceStew?.coverage_level, 'full');
+  assert.deepEqual(cookedRiceStew?.runtime_template_ids, ['acid-staple-pot', 'broth-rice-pot']);
+  assert.deepEqual(cookedRiceStew?.candidate_template_ids, []);
+  assert.deepEqual(cookedRiceStew?.coverage_boundary_codes, []);
+  assert.equal(cookedRiceStew?.promotion_status, 'covered_by_active_template');
+  assert.deepEqual(cookedRiceStew?.resolved_ratio_rule_ids, [
+    'acid-staple-cooked-rice-liquid-v1', 'broth-rice-liquid-v1',
+  ]);
+  assert.deepEqual(cookedRiceStew?.blocker_codes, []);
   assert.equal(byFamily.get('stew-with-staple')?.coverage_level, 'none');
   assert.equal(byFamily.get('stew-with-staple')?.promotion_status, 'blocked_by_ratio');
   assert.deepEqual(byFamily.get('stew-with-staple')?.resolved_ratio_rule_ids, []);
@@ -112,7 +120,7 @@ test('coverage levels and boundaries fail closed on dishonest combinations', () 
 test('runtime templates must be active and disjoint from candidates', () => {
   const inactive = structuredClone(mappings);
   const inactiveRow = inactive.template_capability_mappings.find(item => item.family_id === 'raw-rice-braise');
-  inactiveRow.runtime_template_ids = ['broth-rice-pot'];
+  inactiveRow.runtime_template_ids = ['curry-staple-pot'];
   assert.match(validate(inactive).join('\n'), /runtime template must be active and eligible/);
 
   const overlap = structuredClone(mappings);

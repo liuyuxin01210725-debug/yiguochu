@@ -114,6 +114,20 @@ test('checked-in capability audit keeps northeast stew outside runtime coverage'
   assert.deepEqual(stew.resolved_ratio_rule_ids, []);
 });
 
+test('checked-in capability audit exposes ordinary cooked-rice broth as active full coverage', () => {
+  const generated = JSON.parse(fs.readFileSync(
+    new URL('../generated/regional-atlas.v2.json', import.meta.url),
+    'utf8',
+  ));
+  const cookedRice = generated.capability_coverage.find(row => row.family_id === 'cooked-rice-stew');
+  assert.ok(cookedRice);
+  assert.equal(cookedRice.coverage_level, 'full');
+  assert.deepEqual(cookedRice.runtime_template_ids, ['acid-staple-pot', 'broth-rice-pot']);
+  assert.deepEqual(cookedRice.candidate_template_ids, []);
+  assert.equal(cookedRice.promotion_status, 'covered_by_active_template');
+  assert.deepEqual(cookedRice.blocker_codes, []);
+});
+
 test('checked-in regional atlas artifacts are fresh', () => {
   const result = spawnSync(process.execPath, [BUILD, '--check'], { cwd: ROOT, encoding: 'utf8' });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);

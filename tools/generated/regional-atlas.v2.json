@@ -13,8 +13,8 @@
     "national_household_count": 31,
     "outside_cn_atlas_count": 11,
     "blank_province_count": 15,
-    "capability_full_count": 2,
-    "capability_partial_count": 3,
+    "capability_full_count": 3,
+    "capability_partial_count": 2,
     "capability_none_count": 7
   },
   "regions": [
@@ -1124,24 +1124,22 @@
       "family_id": "cooked-rice-stew",
       "regional_scope": "national_household",
       "region_ids": [],
-      "coverage_level": "partial",
+      "coverage_level": "full",
       "runtime_template_ids": [
-        "acid-staple-pot"
-      ],
-      "candidate_template_ids": [
+        "acid-staple-pot",
         "broth-rice-pot"
       ],
+      "candidate_template_ids": [],
       "covered_staple_states": [
         "剩米饭"
       ],
       "uncovered_staple_states": [],
-      "coverage_boundary_codes": [
-        "requires_acid_base"
-      ],
-      "promotion_status": "blocked_by_ratio",
+      "coverage_boundary_codes": [],
+      "promotion_status": "covered_by_active_template",
       "evidence_recipe_ids": [
         "tomato-egg-stewed-leftover-rice",
-        "cabbage-egg-soup-rice"
+        "cabbage-egg-soup-rice",
+        "tomato-chicken-leg-soup-rice"
       ],
       "evidence_research_ids": [],
       "required_ratio_rule_ids": [
@@ -1149,18 +1147,19 @@
         "broth-rice-liquid-v1"
       ],
       "resolved_ratio_rule_ids": [
-        "acid-staple-cooked-rice-liquid-v1"
+        "acid-staple-cooked-rice-liquid-v1",
+        "broth-rice-liquid-v1"
       ],
       "taxonomy_item_ids": [
         "cooked-rice",
         "tomato",
         "egg",
-        "napa-cabbage"
+        "napa-cabbage",
+        "chicken-leg",
+        "potato"
       ],
-      "blocker_codes": [
-        "ratio_rule_missing:broth-rice-liquid-v1"
-      ],
-      "scope_note": "当前只覆盖有酸味底的熟饭烩煮，一般汤饭仍缺独立液体规则。",
+      "blocker_codes": [],
+      "scope_note": "熟饭烩煮由酸味主食锅和普通汤饭锅共同覆盖；组合仍受槽位、部位、时间与安全规则约束。",
       "name": "熟饭烩煮或汤饭"
     },
     {

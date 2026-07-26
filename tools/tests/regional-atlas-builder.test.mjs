@@ -64,8 +64,8 @@ test('report exposes all 12 planner capability rows in atlas order', () => {
     report.capability_coverage.map(row => row.family_id),
     inputs.atlas.technique_families.map(row => row.family_id),
   );
-  assert.equal(report.summary.capability_full_count, 2);
-  assert.equal(report.summary.capability_partial_count, 3);
+  assert.equal(report.summary.capability_full_count, 3);
+  assert.equal(report.summary.capability_partial_count, 2);
   assert.equal(report.summary.capability_none_count, 7);
   const stew = report.capability_coverage.find(row => row.family_id === 'stew-with-staple');
   assert.equal(stew.promotion_status, 'blocked_by_ratio');

@@ -97,8 +97,8 @@ test('aggregate recipe checker reports the validated planner catalog summary', (
   const result = spawnSync(process.execPath, [fileURLToPath(new URL('../check-recipes.mjs', import.meta.url))], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /72 recipes/);
-  assert.match(result.stdout, /9 active templates/);
-  assert.match(result.stdout, /7 planned templates/);
+  assert.match(result.stdout, /10 active templates/);
+  assert.match(result.stdout, /6 planned templates/);
   assert.match(result.stdout, /taxonomy ok/);
   assert.match(result.stdout, /ratio DSL ok/);
 });
