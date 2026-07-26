@@ -426,6 +426,30 @@ test('pure validator rejects chicken and mushroom substitutions plus an unused u
   }
 });
 
+test('locked Jiangnan cured rice cannot reintroduce planner-skipped oil or salt', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    must: ['大米', '咸五花肉', '小白菜'],
+  }));
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const lockedNames = locked.meals.flatMap(meal => meal.locked_ingredients.map(item => item.raw_name));
+  assert.ok(lockedNames.includes('水'));
+  assert.equal(lockedNames.includes('食用油'), false);
+  assert.equal(lockedNames.includes('盐'), false);
+
+  const valid = validModelOutput(locked);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+  for (const forbidden of ['食用油', '盐']) {
+    const mutated = structuredClone(valid);
+    mutated.meals[0].steps[0].text += `再加入${forbidden}。`;
+    assert.equal(
+      workerModule.validateGeneratedPlan(mutated, locked, ingredientTermUniverse()).ok,
+      false,
+      forbidden,
+    );
+  }
+});
+
 test('contract builder and validator return detached facts without mutating planner, catalog or model output', async () => {
   const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);

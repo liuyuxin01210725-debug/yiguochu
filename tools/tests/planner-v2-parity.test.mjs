@@ -316,6 +316,24 @@ test('Python plan CLI is deterministic, API-key free, asset immutable and shell 
   assert.equal(fs.existsSync(marker), false);
 });
 
+test('Jiangnan cured rice facts are identical across Worker and Python bridge', async () => {
+  const body = await parityCase(
+    'Jiangnan cured rice',
+    request({ must: ['大米', '咸五花肉', '小白菜'] }),
+    'complete',
+  );
+  assert.deepEqual(body.plan.unplanned_must_use, []);
+  assert.equal(body.plan.plan_kind, 'single_pot');
+  assert.deepEqual(
+    body.plan.pots[0].required_extra_items.map(item => item.name),
+    ['水'],
+  );
+  assert.deepEqual(
+    new Set(body.plan.pots[0].planned_must_use.map(item => item.raw)),
+    new Set(['大米', '咸五花肉', '小白菜']),
+  );
+});
+
 test('20-item planning stays within the approved bridge ceiling', () => {
   const pantry = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇', '洋葱', '玉米', '虾仁', '豆角'];
   const started = performance.now();
