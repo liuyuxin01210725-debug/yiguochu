@@ -151,15 +151,40 @@ DeepSeek 只从有限文案契约中表达做法
 
 ### 5.1 烹饪顺序
 
-机器顺序固定为：
+机器顺序按实际蛋白类别确定：
 
 1. 汤水与 `slow_vegetable` 先入锅，使根茎先开始软化；
-2. 加入鸡肉时按均匀小块处理并煮至熟制终点；
+2. `protein=chicken` 时加入均匀小块鸡肉并开始煮制；`protein=egg` 时跳过这一阶段；
 3. 加入熟米饭并充分复热；
-4. `egg` 与 `fast_vegetable` 后加入，避免叶菜久煮和鸡蛋过老；
+4. `protein=egg` 时加入蛋液并温和加热至凝固；`protein=chicken` 时跳过蛋液阶段；随后加入 `fast_vegetable`；
 5. 最后统一检查全部安全终点。
 
-如果现有有限动作码无法表达“鸡肉早于熟饭、鸡蛋晚于熟饭”，必须增加有限 action code 和对应固定文案选项；不得把该差异交给模型自由理解。
+为此，`cooking_order` 的 phase 新增唯一一个可选机器条件：
+
+```ts
+type CookingOrderCondition = {
+  slot_id: string;
+  category: string;
+};
+
+type ConditionalCookingPhase = {
+  phase: number;
+  action_code: string;
+  slot_ids: string[];
+  when?: CookingOrderCondition;
+};
+```
+
+边界：
+
+- `when.slot_id` 必须同时出现在该 phase 的 `slot_ids` 和 template 已声明槽位中；
+- `when.category` 必须是该槽位接受的 category；
+- Planner 锁定槽位后，只保留条件命中的阶段；无条件阶段始终保留；
+- 条件未命中不是模型选择，也不得被模型重新加入；
+- 未声明字段、多个条件、任意表达式、脚本和自然语言条件全部拒绝；
+- 条件过滤后，每个已分配用户食材仍必须至少出现在一个保留阶段中，否则计划 fail closed。
+
+本轮新增有限 action code `add_broth_protein`，其受控文案由已锁定 category 决定：鸡肉分支描述均匀小块入汤加热，鸡蛋分支描述蛋液沿锅加入并温和凝固。不得把“鸡肉早于熟饭、鸡蛋晚于熟饭”的差异交给 DeepSeek自由理解。
 
 ### 5.2 形态边界
 
@@ -299,11 +324,13 @@ DeepSeek 不得：
 1. Ratio DSL validator 拒绝未知操作符之前，新增 `per_serving_by_category` 的失败测试；
 2. 校验 category key 缺失、多余、非数值、越界与未声明槽位；
 3. 编译器按锁定食材 category 选择克数，并 fail closed；
-4. template validator 证明 `broth-rice-pot` 只接受熟米饭且安全终点齐全；
-5. Planner 激活 template，并验证单锅、多锅、换一换与 plan identity；
-6. Worker 与 `ai_proxy.py` HTTP parity；
-7. 前端只消费现有 V2 plan schema，不新增入口或功能；
-8. 区域能力账本、atlas 与构建产物同步。
+4. template validator 先拒绝未声明条件，再实现唯一受控的 `when:{slot_id,category}`；
+5. generation contract 只保留条件命中的 cooking phase，并验证食材阶段覆盖不丢失；
+6. template validator 证明 `broth-rice-pot` 只接受熟米饭且安全终点齐全；
+7. Planner 激活 template，并验证单锅、多锅、换一换与 plan identity；
+8. Worker 与 `ai_proxy.py` HTTP parity；
+9. 前端只消费现有 V2 plan schema，不新增入口或功能；
+10. 区域能力账本、atlas 与构建产物同步。
 
 不得先改 catalog 再补测试，也不得通过修改旧断言来掩盖覆盖退化。
 
