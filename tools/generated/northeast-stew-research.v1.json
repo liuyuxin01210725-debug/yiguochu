@@ -1,0 +1,1170 @@
+{
+  "schema_version": 1,
+  "assessment_version": "northeast-stew-research-v1-20260726",
+  "region_overview": {
+    "region_id": "northeast",
+    "name": "东北",
+    "province_codes": [
+      "CN-LN",
+      "CN-JL",
+      "CN-HL"
+    ],
+    "provinces": [
+      {
+        "atlas_code": "CN-LN",
+        "name": "辽宁",
+        "research_question": "核实辽宁铁锅炖、沿海鱼锅与锅边主食中适合家庭一锅主餐的结构。"
+      },
+      {
+        "atlas_code": "CN-JL",
+        "name": "吉林",
+        "research_question": "核实吉林鸡肉菌菇炖锅、豆角锅与面团主食同锅的地方变种。"
+      },
+      {
+        "atlas_code": "CN-HL",
+        "name": "黑龙江",
+        "research_question": "核实黑龙江铁锅炖中排骨或鸡肉、土豆、豆角与锅边饼花卷的稳定结构。"
+      }
+    ],
+    "family_id": "stew-with-staple",
+    "research_focus": [
+      "铁锅炖",
+      "锅边主食",
+      "花卷与粘卷子"
+    ]
+  },
+  "prototype_candidates": [
+    {
+      "atlas_id": "northeast-chicken-mushroom-potato-corn-cake",
+      "prototype_name": "鸡肉蘑菇土豆配锅边饼",
+      "inclusion_class": "family_adaptation_hypothesis",
+      "original_source_confidence": "discovery_only",
+      "research_state": "needs_more_evidence",
+      "verified_geography": {
+        "region_ids": [
+          "northeast"
+        ],
+        "province_codes": [
+          "CN-JL",
+          "CN-HL"
+        ]
+      },
+      "northeast_identity_status": "supported",
+      "exact_combination_status": "not_proven",
+      "family_compatibility_status": "supported",
+      "claims": {
+        "northeast_identity": {
+          "claim_id": "chicken-potato-corn:northeast_identity",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-gov-iron-pot-2025",
+            "jilin-huadian-routes-2025",
+            "jilin-baishan-food-2024"
+          ],
+          "reason": "黑龙江和吉林来源分别支持鸡肉、土豆、蘑菇或锅边主食在东北炖锅家族中的存在。"
+        },
+        "exact_combination": {
+          "claim_id": "chicken-potato-mushroom-corn-cake:exact_combination",
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hlj-gov-iron-pot-2025",
+            "hlj-culture-autumn-pot-2025",
+            "jilin-huadian-routes-2025"
+          ],
+          "reason": "来源分别证明鸡肉蘑菇、鸡肉土豆蘑菇和锅边玉米饼，没有一条直接证明四项固定传统组合。"
+        },
+        "family_compatibility": {
+          "claim_id": "chicken-potato-mushroom-corn-cake:family_compatibility",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025",
+            "jilin-huadian-routes-2025",
+            "jilin-baishan-food-2024"
+          ],
+          "reason": "鸡肉菌菇或鸡肉土豆蘑菇炖菜与锅边玉米饼均属于同一东北铁锅炖家族，可研究家庭组合但不能冒充固定传统菜。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "鸡肉",
+          "role": "protein",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "蘑菇",
+          "role": "stew_vegetable",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "土豆",
+          "role": "stew_vegetable",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "玉米面饼",
+          "role": "staple",
+          "evidence_status": "family_supported"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "product_destinations": [
+        "template_evidence"
+      ],
+      "priority": {
+        "product_score": 58,
+        "regional_score": 22,
+        "risk_penalty": 22,
+        "total_score": 58
+      },
+      "decision_reason": "继续研究兼容性和家庭比例；不创建声称传统固定组合的 recipe。"
+    },
+    {
+      "atlas_id": "northeast-fish-tofu-vegetable-corn-cake",
+      "prototype_name": "鱼豆腐蔬菜锅配玉米饼",
+      "inclusion_class": "family_adaptation_hypothesis",
+      "original_source_confidence": "discovery_only",
+      "research_state": "needs_more_evidence",
+      "verified_geography": {
+        "region_ids": [
+          "northeast"
+        ],
+        "province_codes": [
+          "CN-LN",
+          "CN-JL",
+          "CN-HL"
+        ]
+      },
+      "northeast_identity_status": "supported",
+      "exact_combination_status": "not_proven",
+      "family_compatibility_status": "not_proven",
+      "claims": {
+        "northeast_identity": {
+          "claim_id": "fish-tofu-vegetable-corn-cake:northeast_identity",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025",
+            "jilin-huadian-routes-2025",
+            "jilin-lishu-routes-2025",
+            "jilin-baishan-food-2024",
+            "liaoning-autumn-food-2025"
+          ],
+          "reason": "辽吉黑官方资料均记录铁锅炖鱼或灶台鱼家族。"
+        },
+        "fish_corn_cake_family": {
+          "claim_id": "fish-tofu-vegetable-corn-cake:fish_corn_cake_family",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025"
+          ],
+          "reason": "黑龙江资料将江鱼铁锅炖与锅边玉米面饼置于同一铁锅炖家族说明中。"
+        },
+        "tofu_as_traditional_core": {
+          "claim_id": "fish-tofu-vegetable-corn-cake:tofu_as_traditional_core",
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025",
+            "jilin-huadian-routes-2025",
+            "liaoning-autumn-food-2025"
+          ],
+          "reason": "鱼锅来源均未把豆腐列为该家族的传统核心，不能由普通搭配常识补写。"
+        },
+        "exact_combination": {
+          "claim_id": "fish-tofu-vegetable-corn-cake:exact_combination",
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025",
+            "liaoning-autumn-food-2025"
+          ],
+          "reason": "来源未直接证明鱼、豆腐、耐炖蔬菜和玉米饼四项固定组合。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "鱼",
+          "role": "protein",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "豆腐",
+          "role": "optional_slot_hypothesis",
+          "evidence_status": "not_proven"
+        },
+        {
+          "item": "耐炖蔬菜",
+          "role": "optional_slot_hypothesis",
+          "evidence_status": "not_proven"
+        },
+        {
+          "item": "玉米面饼",
+          "role": "staple",
+          "evidence_status": "family_supported"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "product_destinations": [
+        "template_evidence",
+        "taxonomy_rule"
+      ],
+      "priority": {
+        "product_score": 50,
+        "regional_score": 20,
+        "risk_penalty": 28,
+        "total_score": 42
+      },
+      "decision_reason": "拆开鱼锅事实与豆腐可选槽位假设；安全和兼容性完成前不进入产品。"
+    },
+    {
+      "atlas_id": "northeast-ribs-beans-corn-cake",
+      "prototype_name": "排骨豆角配锅边饼",
+      "inclusion_class": "family_adaptation_hypothesis",
+      "original_source_confidence": "discovery_only",
+      "research_state": "fact_checked",
+      "verified_geography": {
+        "region_ids": [
+          "northeast"
+        ],
+        "province_codes": [
+          "CN-HL"
+        ]
+      },
+      "northeast_identity_status": "supported",
+      "exact_combination_status": "supported",
+      "family_compatibility_status": "supported",
+      "claims": {
+        "northeast_identity": {
+          "claim_id": "ribs-beans-corn-cake:northeast_identity",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025",
+            "jilin-baishan-food-2024"
+          ],
+          "reason": "黑龙江来源直接记录排骨油豆角铁锅炖，吉林来源独立记录排骨炖豆角。"
+        },
+        "exact_combination": {
+          "claim_id": "ribs-beans-corn-cake:exact_combination",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025"
+          ],
+          "reason": "同一黑龙江官方资料在铁锅炖家族中并列排骨油豆角与锅边玉米面饼。"
+        },
+        "family_compatibility": {
+          "claim_id": "ribs-beans-corn-cake:family_compatibility",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "hlj-culture-autumn-pot-2025"
+          ],
+          "reason": "炖菜与吸收汤汁的锅边主食属于同一铁锅完成的高层结构。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "排骨",
+          "role": "protein",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "油豆角",
+          "role": "stew_vegetable",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "玉米面饼",
+          "role": "staple",
+          "evidence_status": "supported"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "product_destinations": [
+        "template_evidence",
+        "recipe_evidence"
+      ],
+      "priority": {
+        "product_score": 60,
+        "regional_score": 25,
+        "risk_penalty": 20,
+        "total_score": 65
+      },
+      "decision_reason": "保留为最优先家族证据；没有比例和安全证据前不进入生产。"
+    },
+    {
+      "atlas_id": "northeast-ribs-beans-sticky-rolls",
+      "prototype_name": "排骨豆角粘卷子",
+      "inclusion_class": "family_adaptation_hypothesis",
+      "original_source_confidence": "discovery_only",
+      "research_state": "needs_more_evidence",
+      "verified_geography": {
+        "region_ids": [
+          "jingjinji"
+        ],
+        "province_codes": [
+          "CN-BJ"
+        ]
+      },
+      "northeast_identity_status": "not_proven",
+      "exact_combination_status": "supported",
+      "family_compatibility_status": "supported",
+      "claims": {
+        "northeast_identity": {
+          "claim_id": "sticky-roll:northeast_identity",
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "beijing-pinggu-sticky-roll-2019"
+          ],
+          "reason": "现有直接来源只证明北京平谷存在豆角粘卷子；这不能证明东北关联，也不能证明东北不存在同类做法。"
+        },
+        "beijing_identity": {
+          "claim_id": "sticky-roll:beijing_identity",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "beijing-pinggu-sticky-roll-2019"
+          ],
+          "reason": "北京旅游网直接将豆角粘卷子记录为平谷地方家常饭。"
+        },
+        "exact_combination": {
+          "claim_id": "sticky-roll:exact_combination",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "beijing-pinggu-sticky-roll-2019"
+          ],
+          "reason": "来源直接说明豆角肉类底菜与上层面卷同锅，但其地域事实限于北京平谷。"
+        },
+        "family_compatibility": {
+          "claim_id": "sticky-roll:family_compatibility",
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "beijing-pinggu-sticky-roll-2019"
+          ],
+          "reason": "菜与面卷同锅的结构属于 stew-with-staple，但当前只作为跨地域家族事实。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "排骨",
+          "role": "protein_variant",
+          "evidence_status": "supported_in_beijing"
+        },
+        {
+          "item": "豆角",
+          "role": "stew_vegetable",
+          "evidence_status": "supported_in_beijing"
+        },
+        {
+          "item": "小麦面团",
+          "role": "sticky_roll_staple",
+          "evidence_status": "supported_in_beijing"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "product_destinations": [
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 45,
+        "regional_score": 10,
+        "risk_penalty": 20,
+        "total_score": 35
+      },
+      "decision_reason": "东北轮不把北京事实改写成东北事实；保留跨地域研究价值并等待东北补证。"
+    }
+  ],
+  "variant_relationships": [
+    {
+      "atlas_id": "northeast-chicken-mushroom-potato-corn-cake",
+      "family_anchor": "northeast-iron-pot-stew-with-staple",
+      "exact_combination_status": "not_proven",
+      "notes": "作为家族适配假设保留，不建立固定传统菜名。"
+    },
+    {
+      "atlas_id": "northeast-fish-tofu-vegetable-corn-cake",
+      "family_anchor": "northeast-iron-pot-stew-with-staple",
+      "exact_combination_status": "not_proven",
+      "notes": "鱼加锅边玉米饼可继续研究；豆腐只能作为未来受控可选槽位假设。"
+    },
+    {
+      "atlas_id": "northeast-ribs-beans-corn-cake",
+      "family_anchor": "northeast-iron-pot-stew-with-staple",
+      "exact_combination_status": "supported",
+      "notes": "黑龙江事实入口最完整，但家庭份量、液体与安全仍待验证。"
+    },
+    {
+      "atlas_id": "northeast-ribs-beans-sticky-rolls",
+      "family_anchor": "cross-regional-stew-with-staple",
+      "exact_combination_status": "supported_outside_current_region",
+      "notes": "北京平谷已核实；东北关联继续补证，不能做排他判断。"
+    }
+  ],
+  "ingredient_coverage_matrix": [
+    {
+      "item": "豆腐",
+      "prototype_ids": [
+        "northeast-fish-tofu-vegetable-corn-cake"
+      ],
+      "roles": [
+        "optional_slot_hypothesis"
+      ],
+      "evidence_statuses": [
+        "not_proven"
+      ]
+    },
+    {
+      "item": "豆角",
+      "prototype_ids": [
+        "northeast-ribs-beans-sticky-rolls"
+      ],
+      "roles": [
+        "stew_vegetable"
+      ],
+      "evidence_statuses": [
+        "supported_in_beijing"
+      ]
+    },
+    {
+      "item": "鸡肉",
+      "prototype_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake"
+      ],
+      "roles": [
+        "protein"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "蘑菇",
+      "prototype_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake"
+      ],
+      "roles": [
+        "stew_vegetable"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "耐炖蔬菜",
+      "prototype_ids": [
+        "northeast-fish-tofu-vegetable-corn-cake"
+      ],
+      "roles": [
+        "optional_slot_hypothesis"
+      ],
+      "evidence_statuses": [
+        "not_proven"
+      ]
+    },
+    {
+      "item": "排骨",
+      "prototype_ids": [
+        "northeast-ribs-beans-corn-cake",
+        "northeast-ribs-beans-sticky-rolls"
+      ],
+      "roles": [
+        "protein",
+        "protein_variant"
+      ],
+      "evidence_statuses": [
+        "supported",
+        "supported_in_beijing"
+      ]
+    },
+    {
+      "item": "土豆",
+      "prototype_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake"
+      ],
+      "roles": [
+        "stew_vegetable"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "小麦面团",
+      "prototype_ids": [
+        "northeast-ribs-beans-sticky-rolls"
+      ],
+      "roles": [
+        "sticky_roll_staple"
+      ],
+      "evidence_statuses": [
+        "supported_in_beijing"
+      ]
+    },
+    {
+      "item": "油豆角",
+      "prototype_ids": [
+        "northeast-ribs-beans-corn-cake"
+      ],
+      "roles": [
+        "stew_vegetable"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "鱼",
+      "prototype_ids": [
+        "northeast-fish-tofu-vegetable-corn-cake"
+      ],
+      "roles": [
+        "protein"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "玉米面饼",
+      "prototype_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake",
+        "northeast-fish-tofu-vegetable-corn-cake",
+        "northeast-ribs-beans-corn-cake"
+      ],
+      "roles": [
+        "staple"
+      ],
+      "evidence_statuses": [
+        "family_supported",
+        "supported"
+      ]
+    }
+  ],
+  "source_evidence_pack": [
+    {
+      "source_id": "hlj-gov-iron-pot-2025",
+      "title": "冰城铁锅炖，缘何连年火出圈？",
+      "url": "https://www.hlj.gov.cn/hlj/tsms/202501/c00_31797990.shtml",
+      "publisher": "黑龙江省人民政府（来源：哈尔滨日报）",
+      "published_at": "2025-01-02",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "黑龙江政府门户介绍哈尔滨铁锅炖，列出排骨或鸡块、土豆、玉米段以及锅边玉米饼和小花卷的同锅结构。",
+      "proves": [
+        "chicken-potato-corn:northeast_identity",
+        "stew-family:corn-cake-and-flower-roll-forms"
+      ],
+      "does_not_prove": [
+        "chicken-potato-mushroom-corn-cake:exact_combination",
+        "fish-tofu-vegetable-corn-cake:exact_combination",
+        "sticky-roll:northeast_identity"
+      ]
+    },
+    {
+      "source_id": "hlj-culture-autumn-pot-2025",
+      "title": "秋天的第一个目的地——黑龙江",
+      "url": "https://wlt.hlj.gov.cn/wlt/c114254/202508/c00_31863513.shtml",
+      "publisher": "黑龙江省文化和旅游厅（来源：省非遗中心）",
+      "published_at": "2025-08-07",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "省非遗中心文章列出江鱼、鸡与榛蘑、排骨与油豆角三类铁锅炖，并说明锅边贴玉米面饼。",
+      "proves": [
+        "ribs-beans-corn-cake:northeast_identity",
+        "ribs-beans-corn-cake:exact_combination",
+        "ribs-beans-corn-cake:family_compatibility",
+        "chicken-potato-mushroom-corn-cake:family_compatibility",
+        "fish-tofu-vegetable-corn-cake:northeast_identity",
+        "fish-tofu-vegetable-corn-cake:fish_corn_cake_family"
+      ],
+      "does_not_prove": [
+        "chicken-potato-mushroom-corn-cake:exact_combination",
+        "fish-tofu-vegetable-corn-cake:tofu_as_traditional_core",
+        "fish-tofu-vegetable-corn-cake:exact_combination",
+        "sticky-roll:northeast_identity"
+      ]
+    },
+    {
+      "source_id": "jilin-huadian-routes-2025",
+      "title": "桦甸市旅游线路（0569-0590）",
+      "url": "https://whhlyt.jl.gov.cn/ztzl/jlslyxlhxj/gdxl/jls/hds/202507/t20250704_9273173.html",
+      "publisher": "吉林省文化和旅游厅",
+      "published_at": "2025-07-04",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "吉林桦甸文旅资料分别记录灶台鱼、鸡与榛蘑，以及公吉小笨鸡配土豆和蘑菇的慢炖结构。",
+      "proves": [
+        "chicken-potato-mushroom-corn-cake:northeast_identity",
+        "chicken-potato-mushroom-corn-cake:family_compatibility",
+        "fish-tofu-vegetable-corn-cake:northeast_identity"
+      ],
+      "does_not_prove": [
+        "chicken-potato-mushroom-corn-cake:exact_combination",
+        "fish-tofu-vegetable-corn-cake:fish_corn_cake_family",
+        "fish-tofu-vegetable-corn-cake:tofu_as_traditional_core",
+        "sticky-roll:northeast_identity"
+      ]
+    },
+    {
+      "source_id": "jilin-lishu-routes-2025",
+      "title": "梨树县旅游线路（0686—0704）",
+      "url": "https://whhlyt.jl.gov.cn/ztzl/jlslyxlhxj/gdxl/sps/lsx/202507/t20250708_9275953.html",
+      "publisher": "吉林省文化和旅游厅",
+      "published_at": "2025-07-08",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "吉林梨树文旅资料记录铁锅炖江鱼、笨鸡、大鹅和大骨等东北铁锅炖家族，但未说明锅边主食。",
+      "proves": [
+        "fish-tofu-vegetable-corn-cake:northeast_identity"
+      ],
+      "does_not_prove": [
+        "fish-tofu-vegetable-corn-cake:fish_corn_cake_family",
+        "fish-tofu-vegetable-corn-cake:tofu_as_traditional_core",
+        "chicken-potato-mushroom-corn-cake:exact_combination",
+        "sticky-roll:northeast_identity"
+      ]
+    },
+    {
+      "source_id": "jilin-baishan-food-2024",
+      "title": "游“醉”美边境 赏多彩白山",
+      "url": "https://www.jl.gov.cn/yaowen/202409/t20240920_3299348.html",
+      "publisher": "吉林省人民政府",
+      "published_at": "2024-09-20",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "吉林白山资料分别记录铁锅炖鲤鱼、小鸡炖蘑菇和排骨炖豆角，未说明这些炖菜与锅边主食同锅。",
+      "proves": [
+        "chicken-potato-mushroom-corn-cake:northeast_identity",
+        "chicken-potato-mushroom-corn-cake:family_compatibility",
+        "ribs-beans-corn-cake:northeast_identity",
+        "fish-tofu-vegetable-corn-cake:northeast_identity"
+      ],
+      "does_not_prove": [
+        "chicken-potato-mushroom-corn-cake:exact_combination",
+        "ribs-beans-corn-cake:exact_combination",
+        "fish-tofu-vegetable-corn-cake:fish_corn_cake_family",
+        "fish-tofu-vegetable-corn-cake:tofu_as_traditional_core",
+        "sticky-roll:northeast_identity"
+      ]
+    },
+    {
+      "source_id": "liaoning-autumn-food-2025",
+      "title": "一口“回暖”，这些美食不简单",
+      "url": "https://whly.ln.gov.cn/whly/tpxw/2025110716014218277/index.shtml",
+      "publisher": "辽宁省文化和旅游厅",
+      "published_at": "2025-11-07",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "辽宁文旅资料记录铁锅炖鱼及铁锅炖鸡、鹅、鱼的家族存在，不涉及锅边主食或豆腐。",
+      "proves": [
+        "fish-tofu-vegetable-corn-cake:northeast_identity"
+      ],
+      "does_not_prove": [
+        "fish-tofu-vegetable-corn-cake:fish_corn_cake_family",
+        "fish-tofu-vegetable-corn-cake:tofu_as_traditional_core",
+        "fish-tofu-vegetable-corn-cake:exact_combination",
+        "sticky-roll:northeast_identity"
+      ]
+    },
+    {
+      "source_id": "beijing-pinggu-sticky-roll-2019",
+      "title": "平谷特色美食豆角粘卷子",
+      "url": "https://www.visitbeijing.com.cn/article/47QmeqUNmDQ",
+      "publisher": "北京旅游网",
+      "published_at": "2019-06-29",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "北京旅游网直接记录平谷豆角粘卷子的地域、豆角与肉类底菜和上层面卷同锅结构；该事实不排除其他地域存在同类做法。",
+      "proves": [
+        "sticky-roll:beijing_identity",
+        "sticky-roll:exact_combination",
+        "sticky-roll:family_compatibility"
+      ],
+      "does_not_prove": [
+        "sticky-roll:northeast_identity"
+      ]
+    }
+  ],
+  "home_adaptation_boundaries": [
+    {
+      "boundary_id": "staple:corn_dough_cake",
+      "subject": "玉米面饼",
+      "boundary_type": "ratio_and_shape",
+      "evidence_status": "unresearched",
+      "explanation": "锅边贴制形态已核实，家庭克数和含水未核实。"
+    },
+    {
+      "boundary_id": "staple:wheat_flower_roll",
+      "subject": "小花卷",
+      "boundary_type": "ratio_and_shape",
+      "evidence_status": "unresearched",
+      "explanation": "锅边烀制形态已核实，面团比例和家庭蒸汽空间未核实。"
+    },
+    {
+      "boundary_id": "staple:sticky_roll",
+      "subject": "粘卷子",
+      "boundary_type": "ratio_and_shape",
+      "evidence_status": "unresearched",
+      "explanation": "北京平谷菜面同锅形态已核实，东北关联与家庭比例未核实。"
+    },
+    {
+      "boundary_id": "safety:chicken",
+      "subject": "鸡肉",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "必须独立建立禽肉熟制终点。"
+    },
+    {
+      "boundary_id": "safety:pork_ribs",
+      "subject": "排骨",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "必须独立建立排骨时间与熟制终点。"
+    },
+    {
+      "boundary_id": "safety:fish",
+      "subject": "鱼",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "必须独立建立鱼类种类、形态和熟制终点。"
+    },
+    {
+      "boundary_id": "safety:green_beans",
+      "subject": "豆角",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "必须独立建立充分熟制规则。"
+    }
+  ],
+  "product_destination_decisions": [
+    {
+      "atlas_id": "northeast-chicken-mushroom-potato-corn-cake",
+      "research_state": "needs_more_evidence",
+      "product_destinations": [
+        "template_evidence"
+      ],
+      "decision_reason": "继续研究兼容性和家庭比例；不创建声称传统固定组合的 recipe。",
+      "priority": {
+        "product_score": 58,
+        "regional_score": 22,
+        "risk_penalty": 22,
+        "total_score": 58
+      }
+    },
+    {
+      "atlas_id": "northeast-fish-tofu-vegetable-corn-cake",
+      "research_state": "needs_more_evidence",
+      "product_destinations": [
+        "template_evidence",
+        "taxonomy_rule"
+      ],
+      "decision_reason": "拆开鱼锅事实与豆腐可选槽位假设；安全和兼容性完成前不进入产品。",
+      "priority": {
+        "product_score": 50,
+        "regional_score": 20,
+        "risk_penalty": 28,
+        "total_score": 42
+      }
+    },
+    {
+      "atlas_id": "northeast-ribs-beans-corn-cake",
+      "research_state": "fact_checked",
+      "product_destinations": [
+        "template_evidence",
+        "recipe_evidence"
+      ],
+      "decision_reason": "保留为最优先家族证据；没有比例和安全证据前不进入生产。",
+      "priority": {
+        "product_score": 60,
+        "regional_score": 25,
+        "risk_penalty": 20,
+        "total_score": 65
+      }
+    },
+    {
+      "atlas_id": "northeast-ribs-beans-sticky-rolls",
+      "research_state": "needs_more_evidence",
+      "product_destinations": [
+        "content_only"
+      ],
+      "decision_reason": "东北轮不把北京事实改写成东北事实；保留跨地域研究价值并等待东北补证。",
+      "priority": {
+        "product_score": 45,
+        "regional_score": 10,
+        "risk_penalty": 20,
+        "total_score": 35
+      }
+    }
+  ],
+  "family_model": {
+    "family_anchor": "northeast-iron-pot-stew-with-staple",
+    "staple_forms": [
+      {
+        "form_id": "corn_dough_cake",
+        "name": "玉米面饼",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "hlj-gov-iron-pot-2025",
+          "hlj-culture-autumn-pot-2025"
+        ],
+        "shape_notes": "锅边贴制形态已核实，家庭克数和含水未核实。"
+      },
+      {
+        "form_id": "wheat_flower_roll",
+        "name": "小花卷",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "hlj-gov-iron-pot-2025"
+        ],
+        "shape_notes": "锅边烀制形态已核实，面团比例和家庭蒸汽空间未核实。"
+      },
+      {
+        "form_id": "sticky_roll",
+        "name": "粘卷子",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "beijing-pinggu-sticky-roll-2019"
+        ],
+        "shape_notes": "北京平谷菜面同锅形态已核实，东北关联与家庭比例未核实。"
+      }
+    ],
+    "safety_branches": [
+      {
+        "branch_id": "chicken",
+        "name": "鸡肉",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "hlj-gov-iron-pot-2025",
+          "jilin-huadian-routes-2025"
+        ],
+        "endpoint_note": "必须独立建立禽肉熟制终点。"
+      },
+      {
+        "branch_id": "pork_ribs",
+        "name": "排骨",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "hlj-culture-autumn-pot-2025",
+          "jilin-baishan-food-2024"
+        ],
+        "endpoint_note": "必须独立建立排骨时间与熟制终点。"
+      },
+      {
+        "branch_id": "fish",
+        "name": "鱼",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "hlj-culture-autumn-pot-2025",
+          "jilin-huadian-routes-2025",
+          "liaoning-autumn-food-2025"
+        ],
+        "endpoint_note": "必须独立建立鱼类种类、形态和熟制终点。"
+      },
+      {
+        "branch_id": "green_beans",
+        "name": "豆角",
+        "evidence_status": "unresearched",
+        "source_ids": [
+          "hlj-culture-autumn-pot-2025",
+          "jilin-baishan-food-2024"
+        ],
+        "endpoint_note": "必须独立建立充分熟制规则。"
+      }
+    ]
+  },
+  "journey_cases": [
+    {
+      "journey_id": "ne-j01",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "鸡腿肉",
+        "榛蘑",
+        "土豆",
+        "玉米面"
+      ],
+      "expected_used_items": [
+        "鸡腿肉",
+        "榛蘑",
+        "土豆",
+        "玉米面"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "鸡肉蘑菇土豆炖菜和锅边玉米饼分别有据，但四项固定组合、鸡腿部位和家庭比例仍需核实。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j02",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "鸡胸肉",
+        "香菇",
+        "土豆",
+        "玉米面"
+      ],
+      "expected_used_items": [
+        "鸡胸肉",
+        "香菇",
+        "土豆",
+        "玉米面"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "鸡胸肉和香菇属于家庭适配替换假设，必须建立部位、菌菇和火候兼容规则，不能冒充地方原做法。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j03",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "排骨",
+        "油豆角",
+        "玉米面"
+      ],
+      "expected_used_items": [
+        "排骨",
+        "油豆角",
+        "玉米面"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "supported_family_route",
+      "explanation": "黑龙江官方来源直接支持排骨油豆角铁锅炖和锅边玉米面饼的家族结构，仍需补家庭比例和安全终点。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j04",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "排骨",
+        "普通豆角",
+        "玉米面"
+      ],
+      "expected_used_items": [
+        "排骨",
+        "普通豆角",
+        "玉米面"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "油豆角替换为普通豆角需要明确 taxonomy、含水和充分熟制兼容规则，不能仅凭同属豆角自动放行。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j05",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "排骨",
+        "豆角",
+        "面粉"
+      ],
+      "expected_used_items": [
+        "排骨",
+        "豆角",
+        "面粉"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "北京平谷粘卷子结构已核实，但东北关联仍未核实；北京事实可在京津冀轮复用，不能证明东北存在或不存在。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j06",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "鲤鱼",
+        "白菜",
+        "玉米面"
+      ],
+      "expected_used_items": [
+        "鲤鱼",
+        "白菜",
+        "玉米面"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "鱼锅和锅边玉米饼家族有据，但白菜作为同锅蔬菜以及家庭鱼类火候仍需独立核实。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j07",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "鲤鱼",
+        "豆腐",
+        "白菜",
+        "玉米面"
+      ],
+      "expected_used_items": [
+        "鲤鱼",
+        "玉米面"
+      ],
+      "expected_unplanned_items": [
+        "豆腐",
+        "白菜"
+      ],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "当前证据只支持鱼锅与锅边玉米饼家族；豆腐和白菜保留为未证实可选槽位，不静默当作传统核心。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j08",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "鸡肉",
+        "蘑菇",
+        "土豆"
+      ],
+      "expected_used_items": [],
+      "expected_unplanned_items": [
+        "鸡肉",
+        "蘑菇",
+        "土豆"
+      ],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "缺少本家族必须的锅边主食；普通鸡肉蘑菇土豆炖菜不能冒充 stew-with-staple 完整一锅主餐。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j09",
+      "mode": "pantry",
+      "intent": "quick",
+      "raw_items": [
+        "排骨",
+        "豆角",
+        "玉米面"
+      ],
+      "expected_used_items": [],
+      "expected_unplanned_items": [
+        "排骨",
+        "豆角",
+        "玉米面"
+      ],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "尚无三十分钟内完成排骨、豆角和锅边饼的比例与安全证据，不对 quick 意图做虚假承诺。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "ne-j10",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "鸡肉",
+        "排骨",
+        "鱼",
+        "豆角",
+        "土豆",
+        "白菜",
+        "蘑菇",
+        "豆腐",
+        "玉米面"
+      ],
+      "expected_used_items": [],
+      "expected_unplanned_items": [
+        "鸡肉",
+        "排骨",
+        "鱼",
+        "豆角",
+        "土豆",
+        "白菜",
+        "蘑菇",
+        "豆腐",
+        "玉米面"
+      ],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "多个蛋白和全部蔬菜不能被强塞进一锅；未来应由确定性 Planner 分锅，本研究家族不输出伪完整计划。",
+      "human_review": {
+        "status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": "",
+        "conclusion": null
+      }
+    }
+  ],
+  "completion_status": {
+    "status": "research_in_progress",
+    "blocking_gaps": [
+      "prototype_evidence_incomplete",
+      "ratio_evidence_incomplete",
+      "safety_evidence_incomplete",
+      "human_journey_review_incomplete"
+    ]
+  },
+  "summary": {
+    "prototype_count": 4,
+    "source_count": 7,
+    "source_count_by_grade": {
+      "A": 6,
+      "B": 1,
+      "C": 0
+    },
+    "fact_checked_count": 1,
+    "needs_more_evidence_count": 3,
+    "rejected_count": 0,
+    "ratio_ready_form_count": 0,
+    "safety_ready_branch_count": 0,
+    "journey_count": 10,
+    "journey_reviewed_count": 0,
+    "production_recipe_changes": 0
+  }
+}
