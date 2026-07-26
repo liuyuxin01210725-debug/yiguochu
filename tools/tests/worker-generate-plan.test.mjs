@@ -595,7 +595,33 @@ test('braised noodle plan survives the full generation contract with noodle, bea
   assert.match(prose, /完全熟透/);
 });
 
-test('locked safety endpoints come from the used template category and do not invent staple or duplicate poultry endpoints', async () => {
+test('cooked-rice broth plan survives generation with conditional chicken and root-vegetable endpoints', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    must: ['剩米饭', '鸡腿肉', '土豆'],
+    servings: 2,
+  }));
+  assert.equal(journey.planned.status, 'complete');
+  assert.equal(journey.planned.plan.pots[0].template_id, 'broth-rice-pot');
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  assert.deepEqual(new Set(locked.meals[0].safety_endpoints), new Set([
+    'heated_through', 'poultry_fully_cooked_no_pink', 'tender',
+  ]));
+  const actions = locked.meals[0].cooking_order.map(row => row.action_code);
+  assert.ok(actions.includes('cook_poultry_through'));
+  assert.equal(actions.includes('gentle_set_protein'), false);
+
+  const result = await postGenerate(journey);
+  assert.equal(result.response.status, 200);
+  assert.equal(result.upstreamBodies.length, 1);
+  const prose = result.body.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /鸡腿肉.*完全熟透，内部无粉红/);
+  assert.match(prose, /土豆.*熟软/);
+  assert.match(prose, /剩米饭.*热透/);
+});
+
+test('locked safety endpoints come exactly from the selected template categories without duplicates', async () => {
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const eggJourney = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
   const eggLocked = workerModule.buildLockedPlanContract(eggJourney.planned, templates);
@@ -603,7 +629,7 @@ test('locked safety endpoints come from the used template category and do not in
 
   const chickenJourney = await preparedJourney(plannerRequest({ must: ['鸡胸肉', '熟米饭'] }));
   const chickenLocked = workerModule.buildLockedPlanContract(chickenJourney.planned, templates);
-  assert.deepEqual(chickenLocked.meals[0].safety_endpoints, ['poultry_fully_cooked_no_pink']);
+  assert.deepEqual(chickenLocked.meals[0].safety_endpoints, ['heated_through', 'poultry_fully_cooked_no_pink']);
 });
 
 test('controlled prose scan rejects finite basic and recipe-only ingredients outside the locked plan', async t => {
@@ -629,7 +655,7 @@ test('controlled prose scan rejects finite basic and recipe-only ingredients out
       assert.equal(workerModule.validateGeneratedPlan(output, locked, termUniverse).ok, false);
     });
   }
-  const noWaterJourney = await preparedJourney(plannerRequest({ must: ['熟米饭', '鸡蛋'] }));
+  const noWaterJourney = await preparedJourney(plannerRequest({ intent: 'quick', must: ['熟米饭', '鸡蛋'] }));
   const noWaterLocked = workerModule.buildLockedPlanContract(noWaterJourney.planned, templates);
   assert.equal(noWaterLocked.meals[0].locked_ingredients.some(item => item.canonical === '水'), false);
   const addsWater = validModelOutput(noWaterLocked);

@@ -172,6 +172,76 @@ test('quick is a hard limit and never admits templates over 30 minutes', () => {
   }
 });
 
+test('cooked rice, egg, and cabbage form one complete broth-rice meal with executable two-serving amounts', () => {
+  const result = planMeal(assets, request({ must: ['熟米饭', '鸡蛋', '白菜'], servings: 2 }));
+
+  assert.equal(result.status, 'complete');
+  assert.equal(result.plan.pots.length, 1);
+  const pot = result.plan.pots[0];
+  assert.equal(pot.template_id, 'broth-rice-pot');
+  assert.equal(pot.coverage_ratio, 1);
+  assert.deepEqual(pot.planned_must_use.map(item => item.raw).sort(), ['熟米饭', '鸡蛋', '白菜'].sort());
+  const amounts = new Map(pot.ingredient_amounts.map(item => [item.name, item.grams]));
+  assert.equal(amounts.get('熟米饭'), 360);
+  assert.equal(amounts.get('鸡蛋'), 130);
+  assert.equal(amounts.get('白菜'), 220);
+  assert.equal(amounts.get('水'), 650);
+});
+
+test('leftover rice, chicken leg, and potato preserve the real cut and receive chicken-specific broth amounts', () => {
+  const result = planMeal(assets, request({ must: ['剩米饭', '鸡腿肉', '土豆'], servings: 2 }));
+
+  assert.equal(result.status, 'complete');
+  const pot = result.plan.pots.find(candidate => candidate.template_id === 'broth-rice-pot');
+  assert.ok(pot);
+  assert.equal(pot.coverage_ratio, 1);
+  const chicken = pot.slot_assignment.protein[0];
+  assert.equal(chicken.raw, '鸡腿肉');
+  assert.equal(chicken.canonical, '鸡肉');
+  assert.equal(chicken.shape_or_cut, 'leg');
+  const amounts = new Map(pot.ingredient_amounts.map(item => [item.name, item.grams]));
+  assert.equal(amounts.get('熟米饭'), 360);
+  assert.equal(amounts.get('鸡腿肉'), 180);
+  assert.equal(amounts.get('土豆'), 160);
+  assert.equal(amounts.get('水'), 650);
+});
+
+test('broth-rice can add a basic cooked-rice staple without pretending it came from the pantry', () => {
+  const pot = buildPotCandidates(assets, request({ must: ['鸡蛋', '白菜'], servings: 2 }))
+    .find(candidate => candidate.template_id === 'broth-rice-pot');
+
+  assert.ok(pot);
+  assert.equal(pot.coverage_ratio, 1);
+  assert.deepEqual(pot.planned_must_use.map(item => item.raw).sort(), ['鸡蛋', '白菜'].sort());
+  assert.ok(pot.required_extra_items.some(item => item.name === '熟米饭' && item.grams === 360));
+  assert.ok(pot.required_extra_items.some(item => item.name === '水' && item.grams === 650));
+});
+
+test('broth-rice keeps raw rice and incompatible proteins outside its slots and is unavailable for quick intent', () => {
+  const rawRice = buildPotCandidates(assets, request({ must: ['大米', '鸡蛋', '白菜'] }))
+    .filter(candidate => candidate.template_id === 'broth-rice-pot');
+  assert.ok(rawRice.length > 0);
+  assert.ok(rawRice.every(candidate => Object.values(candidate.slot_assignment).flat()
+    .every(item => item.raw !== '大米')));
+
+  const incompatible = buildPotCandidates(assets, request({ must: ['熟米饭', '豆腐', '西兰花'] }))
+    .filter(candidate => candidate.template_id === 'broth-rice-pot');
+  assert.equal(incompatible.length, 0);
+
+  const quick = buildPotCandidates(assets, request({ intent: 'quick', must: ['熟米饭', '鸡蛋', '白菜'] }));
+  assert.equal(quick.some(candidate => candidate.template_id === 'broth-rice-pot'), false);
+});
+
+test('broth-rice protein slot never combines egg and chicken in the same pot', () => {
+  const pots = buildPotCandidates(assets, request({ must: ['熟米饭', '鸡蛋', '鸡腿肉', '白菜'] }))
+    .filter(candidate => candidate.template_id === 'broth-rice-pot');
+
+  assert.ok(pots.length > 0);
+  assert.ok(pots.every(pot => (pot.slot_assignment.protein || []).length <= 1));
+  assert.ok(pots.every(pot => !((pot.slot_assignment.protein || []).some(item => item.category === 'egg')
+    && (pot.slot_assignment.protein || []).some(item => item.category === 'chicken'))));
+});
+
 test('面条、豆角、猪里脊进入独立焖面模板并完整覆盖，quick 不会误选它', () => {
   const normal = planMeal(assets, request({ must: ['面条', '豆角', '猪里脊'] }));
   assert.equal(normal.status, 'complete');

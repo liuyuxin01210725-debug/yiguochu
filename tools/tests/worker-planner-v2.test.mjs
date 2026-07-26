@@ -102,10 +102,10 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.recipeLibrary, 'ok');
   assert.equal(result.body.plannerAssets, 'ok');
   assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
-  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r2');
+  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r3');
   assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r2');
-  assert.equal(result.body.activeTemplates, 9);
-  assert.equal(result.body.plannedTemplates, 7);
+  assert.equal(result.body.activeTemplates, 10);
+  assert.equal(result.body.plannedTemplates, 6);
   assert.equal(result.body.baseRecipes, 72);
 });
 
@@ -171,6 +171,22 @@ test('fully coverable pantry returns complete without requiring a model key', as
   assert.equal(result.body.generation_allowed, true);
   assert.equal(result.body.plan.coverage_ratio, 1);
   assert.deepEqual(result.body.plan.unplanned_must_use, []);
+  assertZeroGenerationWork(result);
+});
+
+test('HTTP planner returns the executable cooked-rice broth plan without generation work', async () => {
+  const result = await postPlan(plannerBody({
+    mode: 'pantry',
+    intent: 'normal',
+    servings: 2,
+    must: ['熟米饭', '鸡蛋', '白菜'],
+  }));
+
+  assert.equal(result.response.status, 200);
+  assert.equal(result.body.status, 'complete');
+  assert.equal(result.body.plan.pots.length, 1);
+  assert.equal(result.body.plan.pots[0].template_id, 'broth-rice-pot');
+  assert.equal(result.body.plan.coverage_ratio, 1);
   assertZeroGenerationWork(result);
 });
 

@@ -437,7 +437,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
-  'braised-noodle-pot',
+  'braised-noodle-pot', 'broth-rice-pot',
 ]);
 const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
 const RAW_RISK_CODES = new Set(['raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough']);

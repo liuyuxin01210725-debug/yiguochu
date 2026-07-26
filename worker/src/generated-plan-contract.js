@@ -31,6 +31,7 @@ const SAFETY_EVIDENCE_RULES = Object.freeze({
   bean_fully_cooked: /煮熟软化/u,
   heated_through: /热透/u,
   noodle_tender: /无硬芯|熟透/u,
+  tender: /熟软/u,
 });
 const NON_ACHIEVED_SAFETY_RE = /仍(?:然)?(?:有)?粉红|还有粉红|带粉红|见红|带血|流心|溏心|未凝固|尚未|未熟|没熟|没有熟|(?:并)?(?:未|没有|不是|不算).{0,4}(?:熟|凝固)|(?:不|并非|未能).{0,3}(?:完全|彻底).{0,2}(?:熟|凝固)|夹生|稍后|待会|之后再|后续再|将(?:会|要)|需要继续|需再|才能熟|表面(?:已经)?变色/iu;
 const ACTION_TEXT_TEMPLATES = Object.freeze({
@@ -129,6 +130,7 @@ function endpointEvidencePhrase(endpoint, refs) {
   if (endpoint === 'bean_fully_cooked') return `${ingredients}煮熟软化`;
   if (endpoint === 'heated_through') return `${ingredients}整体热透`;
   if (endpoint === 'noodle_tender') return `${ingredients}熟透且无硬芯`;
+  if (endpoint === 'tender') return `${ingredients}熟软`;
   throw new Error(`locked_safety_endpoint_unsupported:${endpoint}`);
 }
 
