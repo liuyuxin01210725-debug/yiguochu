@@ -16,6 +16,7 @@ const SHAPES = new Set([
   'unspecified', 'cake',
 ]);
 const INPUT_SCOPES = new Set(['pantry_input', 'derived_only']);
+const RATIO_RULE_POLICIES = new Set(['category_fallback', 'canonical_required']);
 const COOK_SPEEDS = new Set(['no_cook', 'fast', 'medium', 'slow']);
 const MOISTURE_RELEASE = new Set(['low', 'medium', 'high']);
 const TEXTURE_BEHAVIORS = new Set([
@@ -55,7 +56,7 @@ function isStringArray(value) {
 export function validateIngredientTaxonomy(data) {
   const errors = [];
   if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
-  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r5') errors.push('taxonomy_version must be taxonomy-v1-20260727-r5');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r6') errors.push('taxonomy_version must be taxonomy-v1-20260727-r6');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];
@@ -94,6 +95,9 @@ export function validateIngredientTaxonomy(data) {
     }
     if (!CATEGORIES.has(item.category)) errors.push(`${label}.category is invalid`);
     if (!INPUT_SCOPES.has(item.input_scope)) errors.push(`${label}.input_scope is invalid`);
+    if (item.ratio_rule_policy != null && !RATIO_RULE_POLICIES.has(item.ratio_rule_policy)) {
+      errors.push(`${label}.ratio_rule_policy is invalid`);
+    }
     if (!isStringArray(item.states) || item.states.some(state => !STATES.has(state))) errors.push(`${label}.states are invalid`);
     if (!isStringArray(item.shapes_or_cuts) || item.shapes_or_cuts.some(shape => !SHAPES.has(shape))) errors.push(`${label}.shapes_or_cuts are invalid`);
     if (item.default_shape_or_cut != null && !shapes.includes(item.default_shape_or_cut)) {
@@ -168,6 +172,10 @@ export function validateIngredientTaxonomy(data) {
   for (const [key, entries] of aliasEntries) {
     if (entries.length > 1) errors.push(`duplicate normalized alias: ${key}`);
     if (displayEntries.has(key)) errors.push(`normalized alias conflicts with display_name: ${key}`);
+  }
+  const strictRatioIdentities = data.items.filter(item => item?.ratio_rule_policy === 'canonical_required');
+  if (strictRatioIdentities.length !== 1 || strictRatioIdentities[0]?.canonical_id !== 'fresh-wheat-noodle') {
+    errors.push('canonical_required ratio policy must belong only to fresh-wheat-noodle');
   }
   for (const item of data.items) {
     if (!item?.canonical_name) continue;

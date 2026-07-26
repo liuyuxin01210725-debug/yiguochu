@@ -166,7 +166,9 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
     if (!item) {
       return {
         raw,
+        canonical_id: null,
         canonical: null,
+        ratio_rule_policy: null,
         category: null,
         shape_or_cut: null,
         cook_speed: null,
@@ -183,7 +185,9 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
     const duplicate_of = representativeIndex === indexOfItem ? null : parsed[representativeIndex].raw;
     return {
       raw,
+      canonical_id: item.canonical_id,
       canonical,
+      ratio_rule_policy: item.ratio_rule_policy || 'category_fallback',
       display_name: item.display_name,
       category: item.category,
       shape_or_cut: taxonomyShapeForInput(item, raw),
@@ -262,15 +266,36 @@ function ratioSlots(context, taxonomy) {
     const normalized = items.map(item => typeof item === 'string'
       ? (() => {
         const identity = identities.get(item.trim().toLowerCase().replace(/\s+/g, ''));
-        return identity ? { name: identity.name, category: identity.category, attributes: {} } : null;
+        return identity ? {
+          name: identity.name,
+          category: identity.category,
+          canonical_id: identity.canonical_id,
+          ratio_rule_policy: identity.ratio_rule_policy,
+          attributes: {},
+        } : null;
       })()
       : (() => {
         const identity = identities.get(item?.name?.trim?.().toLowerCase().replace(/\s+/g, ''));
-        return identity && identity.category === item?.category ? { name: identity.name, category: identity.category, attributes: item.attributes || {} } : null;
+        if (!identity || identity.category !== item?.category
+          || (item?.canonical_id != null && item.canonical_id !== identity.canonical_id)
+          || (item?.ratio_rule_policy != null && item.ratio_rule_policy !== identity.ratio_rule_policy)) return null;
+        return {
+          name: identity.name,
+          category: identity.category,
+          canonical_id: identity.canonical_id,
+          ratio_rule_policy: identity.ratio_rule_policy,
+          attributes: item.attributes || {},
+        };
       })());
     if (normalized.some(item => !item || typeof item !== 'object' || Array.isArray(item)
       || typeof item.name !== 'string' || !item.name.trim() || typeof item.category !== 'string' || !item.category.trim())) return null;
-    slots.set(slotId, normalized.map(item => ({ name: item.name.trim(), category: item.category.trim(), attributes: item.attributes || {} })));
+    slots.set(slotId, normalized.map(item => ({
+      name: item.name.trim(),
+      category: item.category.trim(),
+      canonical_id: item.canonical_id,
+      ratio_rule_policy: item.ratio_rule_policy,
+      attributes: item.attributes || {},
+    })));
   }
   return slots;
 }
@@ -538,7 +563,9 @@ function basicSlotChoices(slot, taxonomy, dislikes = [], allergyAliases = {}) {
     .sort((a, b) => a.display_name.localeCompare(b.display_name, 'zh-Hans-CN'))
     .map(item => ({
       raw: item.display_name,
+      canonical_id: item.canonical_id,
       canonical: item.canonical_name || item.display_name,
+      ratio_rule_policy: item.ratio_rule_policy || 'category_fallback',
       display_name: item.display_name,
       category: item.category,
       shape_or_cut: item.default_shape_or_cut || item.shapes_or_cuts?.[0] || null,
@@ -624,6 +651,8 @@ function ratioContextFor(assignment, servings) {
     slots: Object.fromEntries(Object.entries(assignment).map(([slotId, items]) => [slotId, items.map(item => ({
       name: item.display_name,
       category: item.category,
+      canonical_id: item.canonical_id,
+      ratio_rule_policy: item.ratio_rule_policy,
       attributes: {
         cook_speed: item.cook_speed,
         moisture_release: item.moisture_release,
@@ -1469,7 +1498,9 @@ function identityStringArray(value) {
 function identityIngredient(item = {}) {
   return {
     raw: identityText(item.raw),
+    canonical_id: identityText(item.canonical_id),
     canonical: identityText(item.canonical),
+    ratio_rule_policy: identityText(item.ratio_rule_policy),
     category: identityText(item.category),
     shape_or_cut: identityText(item.shape_or_cut),
     cook_speed: identityText(item.cook_speed),

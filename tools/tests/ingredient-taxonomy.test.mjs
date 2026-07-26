@@ -412,7 +412,8 @@ test('planner normalization retains unknown and duplicate inputs for explanation
   assert.equal(duplicate.canonical, '牛肉');
   assert.equal(duplicate.duplicate_of, '牛里脊');
   assert.deepEqual(unknown, {
-    raw: '火星菜', canonical: null, category: null, shape_or_cut: null,
+    raw: '火星菜', canonical_id: null, canonical: null, ratio_rule_policy: null,
+    category: null, shape_or_cut: null,
     cook_speed: null, moisture_release: null, texture_behavior: null,
     cooking_risk: 'unknown', recognized: false, role: 'prefer_use', duplicate_of: null,
   });

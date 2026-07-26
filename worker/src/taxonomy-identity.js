@@ -10,6 +10,8 @@ export function taxonomyIdentityIndex(taxonomy = {}) {
       if (key && typeof item?.category === 'string') byName.set(key, {
         name: item.display_name,
         category: item.category,
+        canonical_id: item.canonical_id,
+        ratio_rule_policy: item.ratio_rule_policy || 'category_fallback',
       });
     }
   }

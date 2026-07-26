@@ -316,6 +316,19 @@ test('Python plan CLI is deterministic, API-key free, asset immutable and shell 
   assert.equal(fs.existsSync(marker), false);
 });
 
+test('fresh noodle identity is identical across Worker and Python bridge', async () => {
+  const body = await parityCase(
+    'fresh noodle braise',
+    request({ must:['鲜小麦面条','豆角','猪肉末'] }),
+    'complete',
+  );
+  const noodle = body.normalized_items.find(item => item.raw === '鲜小麦面条');
+  assert.deepEqual(
+    [noodle.canonical_id, noodle.canonical, noodle.category],
+    ['fresh-wheat-noodle', '鲜小麦面条', 'noodle'],
+  );
+});
+
 test('Jiangnan cured rice facts are identical across Worker and Python bridge', async () => {
   const body = await parityCase(
     'Jiangnan cured rice',
