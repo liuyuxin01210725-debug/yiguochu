@@ -599,9 +599,9 @@ async function runOne(entry) {
 }
 
 function validateCorpus() {
-  assert.equal(corpus.journeys.length, 84);
-  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 84 }, (_, index) => index + 1));
-  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 84);
+  assert.equal(corpus.journeys.length, 92);
+  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 92 }, (_, index) => index + 1));
+  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 92);
   assert.equal(JSON.parse(sourceAssets['/recipe-library.json']).recipes.length, 72, 'journey gate must retain the 72-recipe evidence base');
   for (const entry of corpus.journeys) {
     assert.ok(entry.request && entry.expect && entry.category);
@@ -633,7 +633,7 @@ export async function runPantryPlannerV2Journeys({ printSummary = false, journey
   const result = { passed, total: journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
   if (printSummary) {
     console.log(Object.entries(counts).map(([name, count]) => `${name}=${count}`).join(' '));
-    if (journeys.length === corpus.journeys.length) console.log('84/84 planner v2 journeys passed');
+    if (journeys.length === corpus.journeys.length) console.log('92/92 planner v2 journeys passed');
   }
   return result;
 }
