@@ -9,16 +9,25 @@ import { validateRegionalMenuResearch } from './lib/regional-menu-research-valid
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
 import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
 import { buildMenuMasterArtifacts } from './lib/menu-master-renderer.mjs';
+import { validateRegionalAtlas } from './lib/regional-atlas-validator.mjs';
+import { validateRegionalMenuMappings } from './lib/regional-menu-mapping-validator.mjs';
+import {
+  buildRegionalAtlasReport,
+  formatRegionalAtlasSummary,
+  validateRegionalAtlasReport,
+} from './lib/regional-atlas-builder.mjs';
+import { buildRegionalAtlasArtifacts } from './lib/regional-atlas-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
 const recipeLibraryErrors = validateRecipeLibrary(lib);
 const errors = [...recipeLibraryErrors];
 const menuMasterInputErrors = [];
-function readMenuMasterLedger(relativePath, label) {
+const regionalAtlasInputErrors = [];
+function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
-    menuMasterInputErrors.push(`${label} is missing`);
+    inputErrors.push(`${label} is missing`);
     return {};
   }
   return JSON.parse(fs.readFileSync(fileUrl, 'utf8'));
@@ -29,9 +38,11 @@ const coveragePromotions = JSON.parse(fs.readFileSync(new URL('./data/coverage-r
 const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
 const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.json', import.meta.url), 'utf8'));
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
-const regionalResearch = readMenuMasterLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
-const verificationCases = readMenuMasterLedger('./data/menu-verification-cases.v1.json', 'menu verification cases ledger');
-const menuMasterBaseline = readMenuMasterLedger('./data/menu-master-baseline.v1.json', 'menu master Phase Zero baseline');
+const regionalResearch = readReviewLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
+const verificationCases = readReviewLedger('./data/menu-verification-cases.v1.json', 'menu verification cases ledger');
+const menuMasterBaseline = readReviewLedger('./data/menu-master-baseline.v1.json', 'menu master Phase Zero baseline');
+const regionalAtlas = readReviewLedger('./data/regional-atlas.v2.json', 'regional atlas catalog', regionalAtlasInputErrors);
+const regionalMenuMappings = readReviewLedger('./data/regional-menu-mappings.v1.json', 'regional menu mapping ledger', regionalAtlasInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -75,6 +86,39 @@ if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMaste
   }
 }
 errors.push(...menuMasterErrors);
+const regionalAtlasSourceErrors = [
+  ...regionalAtlasInputErrors,
+  ...validateRegionalAtlas(regionalAtlas),
+  ...validateRegionalMenuMappings({
+    mappings: regionalMenuMappings,
+    atlas: regionalAtlas,
+    recipeLibrary: lib,
+    regionalResearch,
+  }),
+];
+errors.push(...regionalAtlasSourceErrors);
+const regionalAtlasErrors = [];
+let regionalAtlasReport;
+if (recipeLibraryErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0) {
+  regionalAtlasReport = buildRegionalAtlasReport({
+    atlas: regionalAtlas,
+    mappings: regionalMenuMappings,
+    recipeLibrary: lib,
+    regionalResearch,
+  });
+  regionalAtlasErrors.push(...validateRegionalAtlasReport(regionalAtlasReport));
+  if (regionalAtlasErrors.length === 0) {
+    for (const [relativePath, content] of buildRegionalAtlasArtifacts(regionalAtlasReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        regionalAtlasErrors.push(`${relativePath} is missing or stale; run node tools/build-regional-atlas.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...regionalAtlasErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -100,6 +144,9 @@ console.log([
 ].join(' · '));
 if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterSourceErrors.length === 0 && menuMasterErrors.length === 0) {
   console.log(`${menuMaster.summary.production_count} production menus · ${menuMaster.summary.research_count} research candidates · menu master ok`);
+}
+if (regionalAtlasReport && regionalAtlasSourceErrors.length === 0 && regionalAtlasErrors.length === 0) {
+  console.log(`${formatRegionalAtlasSummary(regionalAtlasReport)} · regional atlas ok`);
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);

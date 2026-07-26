@@ -12,6 +12,7 @@ import {
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const BUILD = fileURLToPath(new URL('../build-regional-atlas.mjs', import.meta.url));
+const BUILD_DIST = fileURLToPath(new URL('../build-dist.mjs', import.meta.url));
 const DATA_FILES = [
   'regional-atlas.v2.json',
   'regional-menu-mappings.v1.json',
@@ -94,4 +95,39 @@ test('build CLI rejects invalid invocation without writing', () => {
   const result = spawnSync(process.execPath, [BUILD, '--unknown'], { cwd: ROOT, encoding: 'utf8' });
   assert.equal(result.status, 2);
   assert.match(result.stderr, /Usage: node tools\/build-regional-atlas\.mjs --write\|--check/);
+});
+
+test('aggregate recipe gate includes regional atlas integrity', () => {
+  const checker = fileURLToPath(new URL('../check-recipes.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [checker], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /regional atlas ok/);
+  assert.match(result.stdout, /34 provinces/);
+  assert.match(result.stdout, /72 production audits/);
+  assert.match(result.stdout, /24 research audits/);
+});
+
+test('distribution build excludes regional audit source and generated assets', () => {
+  fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
+  const output = fs.mkdtempSync(path.join(ROOT, 'dist', '.regional-atlas-isolation-'));
+  try {
+    const result = spawnSync(process.execPath, [
+      BUILD_DIST,
+      '--out-dir', output,
+      '--build-id', 'regional-atlas-isolation-test',
+    ], { cwd: ROOT, encoding: 'utf8' });
+    assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    const relativeFiles = [];
+    const visit = directory => {
+      for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+        const fullPath = path.join(directory, entry.name);
+        if (entry.isDirectory()) visit(fullPath);
+        else relativeFiles.push(path.relative(output, fullPath));
+      }
+    };
+    visit(output);
+    assert.equal(relativeFiles.some(name => /regional-atlas|regional-menu-mappings/.test(name)), false);
+  } finally {
+    fs.rmSync(output, { recursive: true, force: true });
+  }
 });
