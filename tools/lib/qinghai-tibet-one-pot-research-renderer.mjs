@@ -25,6 +25,7 @@ export function renderQinghaiTibetOnePotResearchMarkdown(report) {
   const sources = asArray(report.source_evidence);
   const boundaries = asArray(report.adaptation_boundaries);
   const safety = asArray(report.safety_boundaries);
+  const critical = asArray(report.critical_boundaries);
   const decisions = asArray(report.product_decisions);
   const journeys = asArray(report.household_journeys);
   return [
@@ -43,11 +44,20 @@ export function renderQinghaiTibetOnePotResearchMarkdown(report) {
     `- 当前状态：${completion.status}`,
     `- 阻塞项：${list(completion.blockers)}`,
     '',
-    '核心纠偏：青海熬饭现有条目是项目原创的风味家庭适配版；当前机器证据没有证明小米、土豆、熟鹰嘴豆属于传统结构，因此不得宣称传统复刻。计划阶段记录的肉汤、肉块与蔬菜烩菜轮廓尚未进入当前 11 条闭合机器证据边，本产物不把它当成已验证生产事实。藏式咸稀饭的旧来源本轮不可复核，青稞粒粥食背景也不能替代现有配方证据。',
+    '## 五项机器可验证的关键边界',
     '',
-    '节庆与安全边界：古突必须保留藏历新年前夜与团聚的节庆语境；硬币、羊毛、木炭、纸条等非食品象征物不得进入生成食材或家庭做法。人参果饭必须保留藏历新年的节庆边界；当前机器来源只证明青稞地域背景，尚未证明现有配方、日常高频、同锅焖煮、项目比例或替换关系，食用蕨麻也必须先确认食品级身份与来源。',
-    '',
-    '研究优先级：帕图是本轮最高优先级研究线索，只保留面疙瘩、汤、萝卜等来源直接支持的结构，不把普通牛肉、鸡肉或其他蛋白写成传统等价替换。土巴仍待证其稠度、术语与家庭操作；藏面仍待证面条配方、汤底与单锅完整主餐边界，两者都不能直接进入生产或候选账本。',
+    ...critical.flatMap(item => [
+      `### ${item.finding_id}（${item.finding_kind}）`,
+      '',
+      item.statement,
+      '',
+      `- 对象：${list(asArray(item.subjects).map(subject => `${subject.subject_type}:${subject.subject_id}`))}`,
+      `- 来源：${list(item.source_ids)}`,
+      `- Claim：${list(item.claim_tokens)}`,
+      `- 适配边界：${list(item.boundary_ids)}`,
+      `- 禁止生成项：${list(item.prohibited_generated_items)}`,
+      '',
+    ]),
     '',
     '## 1. 两个节点的真实覆盖',
     '',
@@ -112,9 +122,9 @@ export function renderQinghaiTibetOnePotResearchMarkdown(report) {
     '',
     '## 10. 12 条家庭食材旅程',
     '',
-    '| ID | 节点 | 输入 | 允许家族 | 禁止主张 | 人工状态 |',
-    '| --- | --- | --- | --- | --- | --- |',
-    ...journeys.map(item => row([item.journey_id, item.province_code, list(item.input_items), list(item.expected_family_ids), list(item.forbidden_claims), item.human_review?.status === 'pending' ? '待人工评审' : item.human_review?.status])),
+    '| ID | 节点 | 类型 | 输入 | 研究对象 | 禁止主张 | 人工状态 |',
+    '| --- | --- | --- | --- | --- | --- | --- |',
+    ...journeys.map(item => row([item.journey_id, item.province_code, item.journey_kind, list(item.input_items), item.journey_kind === 'production_audit' ? `生产审计：${list(item.audit_recipe_ids)}` : `研究家族：${list(item.expected_family_ids)}`, list(item.forbidden_claims), item.human_review?.status === 'pending' ? '待人工评审' : item.human_review?.status])),
     '',
     '## 11. 完成状态',
     '',
@@ -132,11 +142,12 @@ export function renderQinghaiTibetOnePotJourneyReviewMarkdown(report) {
     '',
     '> 自动测试只校验证据和边界；家庭直觉、操作负担、味道与身份保留必须由真人记录。',
     '',
-    '| ID | 节点 | 输入 | 预期家族 | 禁止主张 | 人工状态 | 家族匹配 | 家庭可行性 | 身份保留 | 记录 |',
-    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+    '| ID | 节点 | 类型 | 输入 | 研究对象 | 禁止主张 | 人工状态 | 对象匹配 | 家庭可行性 | 身份保留 | 记录 |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ...journeys.map(item => {
       const review = item.human_review || {};
-      return row([item.journey_id, item.province_code, list(item.input_items), list(item.expected_family_ids), list(item.forbidden_claims), review.status === 'pending' ? '待人工评审' : review.status, review.family_fit || '', review.household_feasibility || '', review.identity_preserved || '', review.notes || '']);
+      const target = item.journey_kind === 'production_audit' ? `生产审计：${list(item.audit_recipe_ids)}` : `研究家族：${list(item.expected_family_ids)}`;
+      return row([item.journey_id, item.province_code, item.journey_kind, list(item.input_items), target, list(item.forbidden_claims), review.status === 'pending' ? '待人工评审' : review.status, review.family_fit || '', review.household_feasibility || '', review.identity_preserved || '', review.notes || '']);
     }),
     '',
   ].join('\n');

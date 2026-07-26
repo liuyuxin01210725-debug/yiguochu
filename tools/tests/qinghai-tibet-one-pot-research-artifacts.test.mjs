@@ -93,6 +93,14 @@ test('artifact map deterministically renders the five Qinghai Tibet evidence and
   assert.match(markdown, /土巴.*待证.*藏面|藏面.*待证.*土巴/);
   assert.match(markdown, /research_in_progress/);
 
+  const generated = JSON.parse(json);
+  assert.equal(generated.critical_boundaries.length, 5);
+  for (const finding of generated.critical_boundaries) assert.ok(markdown.includes(finding.statement), finding.finding_id);
+  const rewritten = structuredClone(report);
+  rewritten.critical_boundaries[0].statement = '结构化边界渲染探针';
+  assert.match(renderQinghaiTibetOnePotResearchJson(rewritten), /结构化边界渲染探针/);
+  assert.match(renderQinghaiTibetOnePotResearchMarkdown(rewritten), /结构化边界渲染探针/);
+
   const review = renderQinghaiTibetOnePotJourneyReviewMarkdown(report);
   assert.match(review, /12 条家庭食材旅程/);
   assert.equal((review.match(/待人工评审/g) || []).length, 12);

@@ -4,15 +4,17 @@ const PROVINCES = new Set(['CN-QH', 'CN-XZ']);
 const PRODUCTION = new Set(['qinghai-hao-fan', 'tibetan-savory-congee', 'tibetan-gutu', 'tibetan-ginseng-fruit-rice']);
 const LEADS = new Set(['qinghai-ga-mianpian-broth', 'qinghai-barley-wheatberry-meat-soup', 'tibetan-patu-one-pot', 'tibetan-tuba-barley-thick-bowl', 'lhasa-tibetan-noodle-breakfast']);
 const FAMILIES = new Set(['qinghai-grain-porridge-main-bowl', 'qinghai-noodle-piece-broth-main-bowl', 'qinghai-barley-wheatberry-meat-soup', 'tibetan-patu-one-pot-main-bowl', 'tibetan-tuba-barley-thick-main-bowl', 'lhasa-noodle-breakfast-main-bowl']);
+const CRITICAL_BOUNDARIES = new Set(['hao-fan-evidence-correction', 'gutu-non-food-symbols-forbidden', 'ginseng-fruit-rice-new-year-boundary', 'patu-highest-research-priority', 'tuba-and-tibetan-noodle-pending']);
 const BOUNDARIES = new Set(['qinghai-hao-fan-not-traditional-replica', 'tibetan-savory-congee-not-traditional-replica', 'tibetan-gutu-not-traditional-replica', 'tibetan-ginseng-fruit-rice-not-traditional-replica', 'ga-mianpian-not-production-recipe', 'barley-wheatberry-meat-soup-not-free-grain-slot', 'patu-not-free-noodle-equivalence', 'tuba-manual-thickening-not-unattended-appliance', 'lhasa-noodle-breakfast-not-single-pot-proven']);
 const PRODUCTION_PROVINCES = { 'qinghai-hao-fan': 'CN-QH', 'tibetan-savory-congee': 'CN-XZ', 'tibetan-gutu': 'CN-XZ', 'tibetan-ginseng-fruit-rice': 'CN-XZ' };
 const LEAD_PROVINCES = { 'qinghai-ga-mianpian-broth': 'CN-QH', 'qinghai-barley-wheatberry-meat-soup': 'CN-QH', 'tibetan-patu-one-pot': 'CN-XZ', 'tibetan-tuba-barley-thick-bowl': 'CN-XZ', 'lhasa-tibetan-noodle-breakfast': 'CN-XZ' };
+const FAMILY_PROVINCES = { 'qinghai-grain-porridge-main-bowl': 'CN-QH', 'qinghai-noodle-piece-broth-main-bowl': 'CN-QH', 'qinghai-barley-wheatberry-meat-soup': 'CN-QH', 'tibetan-patu-one-pot-main-bowl': 'CN-XZ', 'tibetan-tuba-barley-thick-main-bowl': 'CN-XZ', 'lhasa-noodle-breakfast-main-bowl': 'CN-XZ' };
 const AUDIT_STATES = { 'qinghai-hao-fan': 'needs_more_evidence', 'tibetan-savory-congee': 'needs_manual_review', 'tibetan-gutu': 'needs_more_evidence', 'tibetan-ginseng-fruit-rice': 'needs_manual_review' };
 const CLAIM_VERDICTS = {
-  'production:qinghai-hao-fan:regional_name_context': 'supported', 'production:qinghai-hao-fan:traditional_recipe_equivalence': 'not_proven',
+  'production:qinghai-hao-fan:regional_name_context': 'supported', 'production:qinghai-hao-fan:hao_fan_broth_root_vegetable_structure': 'supported', 'production:qinghai-hao-fan:project_ingredient_equivalence': 'not_proven', 'production:qinghai-hao-fan:project_ratio_dsl_equivalence': 'not_proven', 'production:qinghai-hao-fan:traditional_recipe_equivalence': 'not_proven',
   'production:tibetan-savory-congee:barley_grain_porridge_context': 'supported', 'production:tibetan-savory-congee:traditional_recipe_equivalence': 'not_proven',
-  'production:tibetan-gutu:tibetan_noodle_meal_context': 'supported', 'production:tibetan-gutu:traditional_recipe_equivalence': 'not_proven',
-  'production:tibetan-ginseng-fruit-rice:barley_region_context': 'supported', 'production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence': 'not_proven',
+  'production:tibetan-gutu:new_year_eve_context': 'supported', 'production:tibetan-gutu:symbolic_filling_context': 'supported', 'production:tibetan-gutu:production_ingredient_safety_equivalence': 'not_proven', 'production:tibetan-gutu:traditional_recipe_equivalence': 'not_proven',
+  'production:tibetan-ginseng-fruit-rice:new_year_ginseng_fruit_rice_combination': 'supported', 'production:tibetan-ginseng-fruit-rice:daily_same_pot_ratio_equivalence': 'not_proven', 'production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence': 'not_proven',
   'lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity': 'supported', 'lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence': 'not_proven',
   'lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure': 'supported', 'lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot': 'not_proven',
   'lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure': 'supported', 'lead:tibetan-patu-one-pot:tibetan_patu_identity': 'supported', 'lead:tibetan-patu-one-pot:single_pot_equivalence': 'not_proven', 'lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence': 'not_proven',
@@ -21,7 +23,6 @@ const CLAIM_VERDICTS = {
 };
 const AUXILIARY_EDGES = {
   'safety:animal-food-cook-through-and-separate:principle': { source_id: 'cn-animal-food-safety-2025', direction: 'proves', entity_type: 'safety', entity_id: 'animal-food-cook-through-and-separate' },
-  'safety:fresh-bean-cook-through:principle': { source_id: 'cn-cdc-bean-safety-2018', direction: 'proves', entity_type: 'safety', entity_id: 'fresh-bean-cook-through' },
 };
 const SOURCE_IDENTITIES = {
   'qh-geermu-ga-mianpian-2023': ['尕面片', 'https://www.geermu.gov.cn/details?id=bb5cf28b7bd0297e017c2f524d0e0367', '格尔木市人民政府', '2023-08-18', null, 'A'],
@@ -32,28 +33,29 @@ const SOURCE_IDENTITIES = {
   'xz-gov-lhasa-noodle-2024': ['一起探索拉萨的美食世界', 'https://www.xizang.gov.cn/xwzx_406/dsdt/202411/t20241120_448021.html', '西藏自治区人民政府', '2024-11-20', null, 'A'],
   'xz-tourism-lhasa-noodle-2023': ['快收藏！“吃在拉萨”攻略来啦~', 'https://wlt.xizang.gov.cn/xccx/lytg/202312/t20231222_395019.html', '西藏自治区文化和旅游厅', '2023-12-22', null, 'A'],
   'xz-gov-porridge-2025': ['舌尖上的雪域探寻三餐四季的味觉记忆', 'https://www.xizang.gov.cn/xwzx_406/bmkx/202505/t20250528_481144.html', '西藏自治区人民政府', '2025-05-28', null, 'A'],
-  'xz-agri-barley-2023': ['2023年西藏计划落实青稞播种面积220万亩', 'https://nynct.xizang.gov.cn/xwzx/xzsn/202311/t20231107_386800.html', '西藏自治区农业农村厅', '2023-11-07', null, 'A'],
+  'xz-gov-new-year-customs-2025': ['藏历新年民俗文化漫谈', 'https://www.xizang.gov.cn/xwzx_406/bmkx/202503/t20250317_467534.html', '西藏自治区人民政府', '2025-03-17', null, 'A'],
   'cn-animal-food-safety-2025': ['食品安全消费提示', 'https://www.xiongan.gov.cn/20250429/7cbd00ffe7bd45668510b7f9fecbdd5d/c.html', '雄安新区综合执法局', '2025-04-29', null, 'A'],
-  'cn-cdc-bean-safety-2018': ['豆类蔬菜中哪些豆豆易中毒', 'https://niohp.chinacdc.cn/kpdw/zdkz/201806/t20180601_172888.htm', '中国疾控中心职业卫生与中毒控制所', '2018-06-01', null, 'A'],
+  'qh-science-hao-fan-2022': ['“花儿之乡”的土族土菜', 'https://digitalpaper.stdaily.com/http_www.kjrb.com/kjwzb/html/2022-07/22/content_538997.htm?div=0', '科普时报', '2022-07-22', null, 'A'],
 };
 const SOURCE_CLAIM_EDGES = {
-  'qh-geermu-ga-mianpian-2023': { proves: ['production:qinghai-hao-fan:regional_name_context', 'lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity'], does_not_prove: ['lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence'], contradicts: [] },
+  'qh-geermu-ga-mianpian-2023': { proves: ['lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity'], does_not_prove: ['lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence'], contradicts: [] },
   'qh-gonghe-barley-wheatberry-2023': { proves: ['lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure'], does_not_prove: ['lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot'], contradicts: [] },
   'xz-shannan-batu-2026': { proves: ['lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure'], does_not_prove: ['lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence'], contradicts: [] },
-  'xz-gov-patu-2025': { proves: ['production:tibetan-gutu:tibetan_noodle_meal_context', 'lead:tibetan-patu-one-pot:tibetan_patu_identity'], does_not_prove: ['production:tibetan-gutu:traditional_recipe_equivalence', 'lead:tibetan-patu-one-pot:single_pot_equivalence'], contradicts: [] },
+  'xz-gov-patu-2025': { proves: ['lead:tibetan-patu-one-pot:tibetan_patu_identity'], does_not_prove: ['lead:tibetan-patu-one-pot:single_pot_equivalence'], contradicts: [] },
   'xz-tibetology-tuba-2022': { proves: ['lead:tibetan-tuba-barley-thick-bowl:barley_thick_bowl_structure'], does_not_prove: ['lead:tibetan-tuba-barley-thick-bowl:unattended_appliance_equivalence'], contradicts: [] },
   'xz-gov-lhasa-noodle-2024': { proves: ['lead:lhasa-tibetan-noodle-breakfast:lhasa_breakfast_noodle_and_beef_broth_identity'], does_not_prove: ['lead:lhasa-tibetan-noodle-breakfast:single_pot_complete_meal_equivalence'], contradicts: [] },
   'xz-tourism-lhasa-noodle-2023': { proves: ['lead:lhasa-tibetan-noodle-breakfast:breakfast_context'], does_not_prove: ['lead:lhasa-tibetan-noodle-breakfast:project_ratio_time_safety'], contradicts: [] },
   'xz-gov-porridge-2025': { proves: ['production:tibetan-savory-congee:barley_grain_porridge_context'], does_not_prove: ['production:tibetan-savory-congee:traditional_recipe_equivalence'], contradicts: [] },
-  'xz-agri-barley-2023': { proves: ['production:tibetan-ginseng-fruit-rice:barley_region_context'], does_not_prove: ['production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence'], contradicts: [] },
+  'xz-gov-new-year-customs-2025': { proves: ['production:tibetan-gutu:new_year_eve_context', 'production:tibetan-gutu:symbolic_filling_context', 'production:tibetan-ginseng-fruit-rice:new_year_ginseng_fruit_rice_combination'], does_not_prove: ['production:tibetan-gutu:production_ingredient_safety_equivalence', 'production:tibetan-gutu:traditional_recipe_equivalence', 'production:tibetan-ginseng-fruit-rice:daily_same_pot_ratio_equivalence', 'production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence'], contradicts: [] },
   'cn-animal-food-safety-2025': { proves: ['safety:animal-food-cook-through-and-separate:principle'], does_not_prove: ['lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence'], contradicts: [] },
-  'cn-cdc-bean-safety-2018': { proves: ['safety:fresh-bean-cook-through:principle'], does_not_prove: ['production:qinghai-hao-fan:traditional_recipe_equivalence'], contradicts: [] },
+  'qh-science-hao-fan-2022': { proves: ['production:qinghai-hao-fan:regional_name_context', 'production:qinghai-hao-fan:hao_fan_broth_root_vegetable_structure'], does_not_prove: ['production:qinghai-hao-fan:project_ingredient_equivalence', 'production:qinghai-hao-fan:project_ratio_dsl_equivalence', 'production:qinghai-hao-fan:traditional_recipe_equivalence'], contradicts: [] },
 };
 const FINGERPRINTS = {
   family_model: '9500c94416795385b6bf58ed1b1f32502c51a4ecdbcbbf7de8c48eebef92a994',
-  adaptation_boundaries: '51b89b07d46c85a80688946d65ba3e423d8b8ed6ac80a578151dd676e0d548d9',
-  safety_boundaries: '3e964edae89b921cc43132fd6e27cfdac0d7ec0e8a41cfb298124e7d15a8bed5',
-  journey_cases: '1576c9bf544716d18f61b631d5539edc24b98628a4ed2d5936e562fcb5846571',
+  adaptation_boundaries: '04e85f878f3062ba23b58920780bf380357a22a112a708f7b7ed62bb6598c295',
+  safety_boundaries: '09548d6df691a6b7d811f6af6a941bc3c43d289ebba7b920b1529ca54778cbfb',
+  critical_boundaries: '709843b3e09717d42aaff3c8a7d0f9a5fcf50f75a0407d07ebfb3fc9065041b1',
+  journey_cases: '7f848c6a85d9c016347f14ccf365cd12367711eaa6532031e28427dcb2bb0b5d',
 };
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const list = value => Array.isArray(value) ? value : [];
@@ -127,6 +129,35 @@ function validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regi
   else if (regionalResearch.entries.length !== 24) errors.push('regional research baseline must remain 24');
 }
 
+function validateCriticalBoundaries(assessment, sourceIds, claimSources, errors) {
+  const findings = list(assessment.critical_boundaries);
+  if (!sameSet(findings.map(row => row?.finding_id), CRITICAL_BOUNDARIES) || findings.length !== 5) errors.push('critical boundary IDs must match the fixed five-boundary contract');
+  const subjectProvinces = { production_recipe: PRODUCTION_PROVINCES, concrete_research_lead: LEAD_PROVINCES };
+  const boundaryIndex = new Map(list(assessment.adaptation_boundaries).map(row => [row?.boundary_id, row]));
+  for (const finding of findings) {
+    if (!isObject(finding) || !text(finding.statement) || !text(finding.finding_kind) || !PROVINCES.has(finding.province_code)) errors.push('critical boundary must retain kind, province and statement');
+    if (!Array.isArray(finding.subjects) || finding.subjects.length === 0) errors.push('critical boundary must retain subjects');
+    for (const subject of list(finding.subjects)) {
+      const expectedProvince = subjectProvinces[subject?.subject_type]?.[subject?.subject_id];
+      if (!expectedProvince || expectedProvince !== finding.province_code) errors.push('critical boundary subject ownership must match province_code');
+    }
+    if (!Array.isArray(finding.source_ids) || finding.source_ids.length === 0 || finding.source_ids.some(id => !sourceIds.has(id))) errors.push('critical boundary must retain known sources');
+    if (!Array.isArray(finding.claim_tokens) || finding.claim_tokens.length === 0) errors.push('critical boundary must retain claim tokens');
+    for (const token of list(finding.claim_tokens)) {
+      if (!Object.hasOwn(CLAIM_VERDICTS, token)) errors.push(`critical boundary references unknown claim token ${token}`);
+      else if (!list(finding.source_ids).some(sourceId => claimSources.get(token)?.has(sourceId))) errors.push(`critical boundary claim ${token} must be supported by a linked source`);
+    }
+    if (!Array.isArray(finding.boundary_ids) || finding.boundary_ids.length === 0) errors.push('critical boundary must retain adaptation boundary links');
+    for (const boundaryId of list(finding.boundary_ids)) {
+      const boundary = boundaryIndex.get(boundaryId);
+      if (!boundary) errors.push(`critical boundary references unknown adaptation boundary ${boundaryId}`);
+      else if (!list(finding.source_ids).some(sourceId => list(boundary.source_ids).includes(sourceId))) errors.push(`critical boundary ${finding.finding_id} must share evidence with ${boundaryId}`);
+    }
+    if (!Array.isArray(finding.prohibited_generated_items) || finding.prohibited_generated_items.some(value => !text(value))) errors.push('critical boundary prohibited_generated_items must be an array of strings');
+  }
+  if (fingerprint(findings) !== FINGERPRINTS.critical_boundaries) errors.push('critical_boundaries semantic fingerprint mismatch');
+}
+
 export function validateQinghaiTibetOnePotResearch({ assessment, recipeLibrary, regionalResearch, regionalAtlas, regionalMappings } = {}) {
   if (!isObject(assessment)) return ['assessment must be an object'];
   const errors = [];
@@ -159,11 +190,23 @@ export function validateQinghaiTibetOnePotResearch({ assessment, recipeLibrary, 
   if (list(assessment.adaptation_boundaries).some(row => row?.evidence_status !== 'not_proven')) errors.push('adaptation boundaries must remain not_proven');
   if (fingerprint(assessment.adaptation_boundaries) !== FINGERPRINTS.adaptation_boundaries) errors.push('adaptation_boundaries semantic fingerprint mismatch');
   if (fingerprint(assessment.safety_boundaries) !== FINGERPRINTS.safety_boundaries) errors.push('safety_boundaries semantic fingerprint mismatch');
+  validateCriticalBoundaries(assessment, ids, claimSources, errors);
   const journeys = list(assessment.journey_cases);
   if (journeys.length !== 12) errors.push('journey_cases must contain exactly 12 items');
   if (new Set(journeys.map(row => row?.journey_id)).size !== journeys.length) errors.push('journey_ids must be unique');
   if (journeys.some(row => row?.human_review?.status !== 'pending')) errors.push('journey human reviews must remain pending');
-  if (journeys.some(row => !PROVINCES.has(row?.province_code) || list(row?.expected_family_ids).some(id => !FAMILIES.has(id)))) errors.push('journey province or family scope is invalid');
+  for (const journey of journeys) {
+    if (!PROVINCES.has(journey?.province_code) || !['family_research', 'production_audit'].includes(journey?.journey_kind)) errors.push('journey province or kind is invalid');
+    if (journey?.journey_kind === 'family_research') {
+      if (list(journey.expected_family_ids).length === 0 || list(journey.audit_recipe_ids).length !== 0) errors.push('family research journey must target families only');
+      if (list(journey.expected_family_ids).some(id => !FAMILIES.has(id))) errors.push('journey province or family scope is invalid');
+      if (list(journey.expected_family_ids).some(id => FAMILY_PROVINCES[id] !== journey.province_code)) errors.push('journey family ownership must match province_code');
+    }
+    if (journey?.journey_kind === 'production_audit') {
+      if (list(journey.expected_family_ids).length !== 0 || list(journey.audit_recipe_ids).length === 0) errors.push('production audit journey must target recipes only');
+      if (list(journey.audit_recipe_ids).some(id => !PRODUCTION.has(id) || PRODUCTION_PROVINCES[id] !== journey.province_code)) errors.push('journey recipe ownership must match province_code');
+    }
+  }
   if (fingerprint(journeys) !== FINGERPRINTS.journey_cases) errors.push('journey_cases semantic fingerprint mismatch');
   validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regionalMappings }, errors);
   return errors;

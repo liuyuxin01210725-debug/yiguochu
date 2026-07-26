@@ -23,8 +23,8 @@ const SUBJECT_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
-const INPUT_DATA_FINGERPRINT = '42b92565594ec4977923416146c3b317b3c6e8701c0ff354d28d3e4fcf67131b';
-const SOURCE_DATA_FINGERPRINT = '7a06b8f669d8bae1d04e079db007f2f2fc6a711d5b7adc94708a3a4ef326b39c';
+const INPUT_DATA_FINGERPRINT = '302d1b4c7a5a4268b4ce94742d7ca163ef1f4c05cfe6561820e2988a5abd7a05';
+const SOURCE_DATA_FINGERPRINT = '6b00e627312cf908cae453bb0bc6d6c5f43e8997deb95322468ff564b2c89230';
 const FIXED_REGION_OVERVIEW_SEMANTICS = {
   name: '青藏',
   research_focus: ['熬饭', '青稞杂粮饭', '地域谷物粥饭'],
@@ -91,6 +91,7 @@ function sourcePayload(report) {
     family_model: copy(rows(report.family_model)),
     adaptation_boundaries: copy(rows(report.adaptation_boundaries)),
     safety_boundaries: copy(rows(report.safety_boundaries)),
+    critical_boundaries: copy(rows(report.critical_boundaries)),
     source_evidence: copy(rows(report.source_evidence)),
     household_journeys: copy(rows(report.household_journeys)),
   };
@@ -281,6 +282,7 @@ export function buildQinghaiTibetOnePotResearchReport(inputs = {}) {
     ingredient_shape_matrix: deriveIngredientShapeMatrix(groups),
     adaptation_boundaries: copy(rows(assessment.adaptation_boundaries)),
     safety_boundaries: copy(rows(assessment.safety_boundaries)),
+    critical_boundaries: copy(rows(assessment.critical_boundaries)),
     source_evidence: copy(rows(assessment.source_refs)),
     product_decisions: deriveProductDecisions(groups),
     household_journeys: copy(rows(assessment.journey_cases)),
@@ -311,7 +313,7 @@ export function validateQinghaiTibetOnePotResearchReport(report) {
   const errors = [];
   const arrayFields = [
     'province_coverage_audits', 'production_recipe_audits', 'candidate_audits', 'concrete_research_leads',
-    'family_model', 'claim_matrix', 'ingredient_shape_matrix', 'adaptation_boundaries', 'safety_boundaries',
+    'family_model', 'claim_matrix', 'ingredient_shape_matrix', 'adaptation_boundaries', 'safety_boundaries', 'critical_boundaries',
     'source_evidence', 'product_decisions', 'household_journeys',
   ];
   for (const field of arrayFields) if (!Array.isArray(report[field])) errors.push(`${field} must be an array`);

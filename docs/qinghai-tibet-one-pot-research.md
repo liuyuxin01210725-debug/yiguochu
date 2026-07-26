@@ -13,11 +13,58 @@
 - 当前状态：research_in_progress
 - 阻塞项：production_evidence_gaps、ratio_dsl_unresolved、household_vessel_adaptation_unresolved、safety_endpoint_incomplete、human_journey_review_incomplete
 
-核心纠偏：青海熬饭现有条目是项目原创的风味家庭适配版；当前机器证据没有证明小米、土豆、熟鹰嘴豆属于传统结构，因此不得宣称传统复刻。计划阶段记录的肉汤、肉块与蔬菜烩菜轮廓尚未进入当前 11 条闭合机器证据边，本产物不把它当成已验证生产事实。藏式咸稀饭的旧来源本轮不可复核，青稞粒粥食背景也不能替代现有配方证据。
+## 五项机器可验证的关键边界
 
-节庆与安全边界：古突必须保留藏历新年前夜与团聚的节庆语境；硬币、羊毛、木炭、纸条等非食品象征物不得进入生成食材或家庭做法。人参果饭必须保留藏历新年的节庆边界；当前机器来源只证明青稞地域背景，尚未证明现有配方、日常高频、同锅焖煮、项目比例或替换关系，食用蕨麻也必须先确认食品级身份与来源。
+### hao-fan-evidence-correction（evidence_correction）
 
-研究优先级：帕图是本轮最高优先级研究线索，只保留面疙瘩、汤、萝卜等来源直接支持的结构，不把普通牛肉、鸡肉或其他蛋白写成传统等价替换。土巴仍待证其稠度、术语与家庭操作；藏面仍待证面条配方、汤底与单锅完整主餐边界，两者都不能直接进入生产或候选账本。
+青海熬饭现有条目是项目原创的风味家庭适配版；直接来源只支持肉汤中加入白萝卜、洋芋、粉条的熬饭，不证明项目的小米、土豆、熟鹰嘴豆、Ratio DSL 或传统复刻。
+
+- 对象：production_recipe:qinghai-hao-fan
+- 来源：qh-science-hao-fan-2022
+- Claim：production:qinghai-hao-fan:regional_name_context、production:qinghai-hao-fan:hao_fan_broth_root_vegetable_structure、production:qinghai-hao-fan:project_ingredient_equivalence、production:qinghai-hao-fan:project_ratio_dsl_equivalence、production:qinghai-hao-fan:traditional_recipe_equivalence
+- 适配边界：qinghai-hao-fan-not-traditional-replica
+- 禁止生成项：—
+
+### gutu-non-food-symbols-forbidden（festival_safety_boundary）
+
+古突必须保留藏历新年前夜与团聚的节庆语境；来源记录辣椒、羊毛、豌豆等寓意馅料，但硬币、羊毛、木炭、纸条等非食品象征物不得进入生成食材或家庭做法。
+
+- 对象：production_recipe:tibetan-gutu
+- 来源：xz-gov-new-year-customs-2025
+- Claim：production:tibetan-gutu:new_year_eve_context、production:tibetan-gutu:symbolic_filling_context、production:tibetan-gutu:production_ingredient_safety_equivalence、production:tibetan-gutu:traditional_recipe_equivalence
+- 适配边界：tibetan-gutu-not-traditional-replica
+- 禁止生成项：硬币、羊毛、木炭、纸条
+
+### ginseng-fruit-rice-new-year-boundary（festival_context_boundary）
+
+人参果饭必须保留藏历新年节庆边界；来源只支持人参果、米饭、酥油、白糖的新年组合，不证明日常高频、同锅焖煮、项目比例或替换关系，蕨麻必须先确认食品级身份与来源。
+
+- 对象：production_recipe:tibetan-ginseng-fruit-rice
+- 来源：xz-gov-new-year-customs-2025
+- Claim：production:tibetan-ginseng-fruit-rice:new_year_ginseng_fruit_rice_combination、production:tibetan-ginseng-fruit-rice:daily_same_pot_ratio_equivalence、production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence
+- 适配边界：tibetan-ginseng-fruit-rice-not-traditional-replica
+- 禁止生成项：—
+
+### patu-highest-research-priority（research_priority）
+
+帕图是本轮最高优先级研究线索，只保留面疙瘩、汤、萝卜等来源直接支持的结构，不把普通牛肉、鸡肉或其他蛋白写成传统等价替换。
+
+- 对象：concrete_research_lead:tibetan-patu-one-pot
+- 来源：xz-shannan-batu-2026、xz-gov-patu-2025
+- Claim：lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure、lead:tibetan-patu-one-pot:tibetan_patu_identity、lead:tibetan-patu-one-pot:single_pot_equivalence
+- 适配边界：patu-not-free-noodle-equivalence
+- 禁止生成项：—
+
+### tuba-and-tibetan-noodle-pending（evidence_pending）
+
+土巴仍待证其稠度、术语与家庭操作；藏面仍待证面条配方、汤底与单锅完整主餐边界，两者都不能直接进入生产或候选账本。
+
+- 对象：concrete_research_lead:tibetan-tuba-barley-thick-bowl、concrete_research_lead:lhasa-tibetan-noodle-breakfast
+- 来源：xz-tibetology-tuba-2022、xz-gov-lhasa-noodle-2024、xz-tourism-lhasa-noodle-2023
+- Claim：lead:tibetan-tuba-barley-thick-bowl:unattended_appliance_equivalence、lead:lhasa-tibetan-noodle-breakfast:single_pot_complete_meal_equivalence、lead:lhasa-tibetan-noodle-breakfast:project_ratio_time_safety
+- 适配边界：tuba-manual-thickening-not-unattended-appliance、lhasa-noodle-breakfast-not-single-pot-proven
+- 禁止生成项：—
+
 
 ## 1. 两个节点的真实覆盖
 
@@ -30,9 +77,9 @@
 
 | 菜谱 | 状态 | 核心食材 | 证据结论 | 禁止主张 | 决策 |
 | --- | --- | --- | --- | --- | --- |
-| 青海熬饭风味家庭适配版（qinghai-hao-fan） | auto_approved / needs_more_evidence | 小米、土豆、熟鹰嘴豆 | regional_name_context：supported<br>traditional_recipe_equivalence：not_proven | traditional_replica、source_as_ratio_dsl | 固定为家庭适配审计，不上调为传统复刻。 |
-| 西藏人参果饭（tibetan-ginseng-fruit-rice） | auto_approved / needs_manual_review | 食品级蕨麻、大米 | barley_region_context：supported<br>traditional_recipe_equivalence：not_proven | traditional_replica、source_as_ratio_dsl | 保留原有家庭适配边界。 |
-| 古突风味家庭适配版（tibetan-gutu） | auto_approved / needs_more_evidence | 小麦面团、小白菜、水 | tibetan_noodle_meal_context：supported<br>traditional_recipe_equivalence：not_proven | traditional_replica、patu_as_gutu_equivalence | 不同面食名称不得混写。 |
+| 青海熬饭风味家庭适配版（qinghai-hao-fan） | auto_approved / needs_more_evidence | 小米、土豆、熟鹰嘴豆 | regional_name_context：supported<br>hao_fan_broth_root_vegetable_structure：supported<br>project_ingredient_equivalence：not_proven<br>project_ratio_dsl_equivalence：not_proven<br>traditional_recipe_equivalence：not_proven | traditional_replica、project_ingredient_equivalence、source_as_ratio_dsl | 固定为家庭适配审计，不上调为传统复刻。 |
+| 西藏人参果饭（tibetan-ginseng-fruit-rice） | auto_approved / needs_manual_review | 食品级蕨麻、大米 | new_year_ginseng_fruit_rice_combination：supported<br>daily_same_pot_ratio_equivalence：not_proven<br>traditional_recipe_equivalence：not_proven | traditional_replica、daily_high_frequency、same_pot_braise_equivalence、source_as_ratio_dsl | 保留藏历新年节庆与食品级蕨麻边界。 |
+| 古突风味家庭适配版（tibetan-gutu） | auto_approved / needs_more_evidence | 小麦面团、小白菜、水 | new_year_eve_context：supported<br>symbolic_filling_context：supported<br>production_ingredient_safety_equivalence：not_proven<br>traditional_recipe_equivalence：not_proven | traditional_replica、non_food_symbol_as_ingredient、patu_as_gutu_equivalence | 古突节庆身份独立记录，非食品象征物禁止进入生成食材。 |
 | 藏式咸稀饭风味家庭适配版（tibetan-savory-congee） | auto_approved / needs_manual_review | 大米、牛奶 | barley_grain_porridge_context：supported<br>traditional_recipe_equivalence：not_proven | traditional_replica、free_grain_slot | 保留地域粥食背景与审计边界。 |
 
 ## 3. 候选账本基线
@@ -78,12 +125,18 @@
 | concrete_research_lead:tibetan-patu-one-pot | tibetan_patu_identity | supported | xz-gov-patu-2025 | 自治区材料支持帕图面食身份。 |
 | concrete_research_lead:tibetan-tuba-barley-thick-bowl | barley_thick_bowl_structure | supported | xz-tibetology-tuba-2022 | 研究机构材料支持土巴的稠粥类结构。 |
 | concrete_research_lead:tibetan-tuba-barley-thick-bowl | unattended_appliance_equivalence | not_proven | xz-tibetology-tuba-2022 | 手工食物描述不证明无人看管设备等价。 |
-| production_recipe:qinghai-hao-fan | regional_name_context | supported | qh-geermu-ga-mianpian-2023 | 仅记录青海家常主食研究语境。 |
-| production_recipe:qinghai-hao-fan | traditional_recipe_equivalence | not_proven | cn-cdc-bean-safety-2018 | 安全原则不构成传统配方证明。 |
-| production_recipe:tibetan-ginseng-fruit-rice | barley_region_context | supported | xz-agri-barley-2023 | 只支持地域粮食背景。 |
-| production_recipe:tibetan-ginseng-fruit-rice | traditional_recipe_equivalence | not_proven | xz-agri-barley-2023 | 作物背景不证明传统人参果饭配方。 |
-| production_recipe:tibetan-gutu | tibetan_noodle_meal_context | supported | xz-gov-patu-2025 | 来源仅支持藏族面食用餐线索。 |
-| production_recipe:tibetan-gutu | traditional_recipe_equivalence | not_proven | xz-gov-patu-2025 | 帕图线索不能替代古突传统成品证据。 |
+| production_recipe:qinghai-hao-fan | hao_fan_broth_root_vegetable_structure | supported | qh-science-hao-fan-2022 | 来源直接描述肉汤中加入白萝卜、洋芋和粉条。 |
+| production_recipe:qinghai-hao-fan | project_ingredient_equivalence | not_proven | qh-science-hao-fan-2022 | 来源不证明项目小米、土豆和熟鹰嘴豆组合。 |
+| production_recipe:qinghai-hao-fan | project_ratio_dsl_equivalence | not_proven | qh-science-hao-fan-2022 | 来源不提供项目 Ratio DSL。 |
+| production_recipe:qinghai-hao-fan | regional_name_context | supported | qh-science-hao-fan-2022 | 来源直接点名土族熬饭。 |
+| production_recipe:qinghai-hao-fan | traditional_recipe_equivalence | not_proven | qh-science-hao-fan-2022 | 具名熬饭轮廓不证明当前项目配方是传统复刻。 |
+| production_recipe:tibetan-ginseng-fruit-rice | daily_same_pot_ratio_equivalence | not_proven | xz-gov-new-year-customs-2025 | 来源不证明日常高频、同锅焖煮、项目比例或替换关系。 |
+| production_recipe:tibetan-ginseng-fruit-rice | new_year_ginseng_fruit_rice_combination | supported | xz-gov-new-year-customs-2025 | 来源直接支持人参果、米饭、酥油和白糖的新年组合。 |
+| production_recipe:tibetan-ginseng-fruit-rice | traditional_recipe_equivalence | not_proven | xz-gov-new-year-customs-2025 | 节庆组合不证明当前项目步骤与比例是传统复刻。 |
+| production_recipe:tibetan-gutu | new_year_eve_context | supported | xz-gov-new-year-customs-2025 | 来源直接支持藏历新年前夜吃古突的节庆语境。 |
+| production_recipe:tibetan-gutu | production_ingredient_safety_equivalence | not_proven | xz-gov-new-year-customs-2025 | 节庆寓意不授权把羊毛等非食品象征物写入生成食材。 |
+| production_recipe:tibetan-gutu | symbolic_filling_context | supported | xz-gov-new-year-customs-2025 | 来源记录辣椒、羊毛和豌豆等寓意馅料。 |
+| production_recipe:tibetan-gutu | traditional_recipe_equivalence | not_proven | xz-gov-new-year-customs-2025 | 节庆习俗材料不证明当前家庭适配配方是传统复刻。 |
 | production_recipe:tibetan-savory-congee | barley_grain_porridge_context | supported | xz-gov-porridge-2025 | 来源只支持青稞粒粥食背景。 |
 | production_recipe:tibetan-savory-congee | traditional_recipe_equivalence | not_proven | xz-gov-porridge-2025 | 背景材料不证明现有配方。 |
 
@@ -115,17 +168,17 @@
 
 | 来源 | 等级 | 直接证明 | 不证明 | 反证 |
 | --- | --- | --- | --- | --- |
-| [尕面片](https://www.geermu.gov.cn/details?id=bb5cf28b7bd0297e017c2f524d0e0367)（格尔木市人民政府，2023-08-18） | A | production:qinghai-hao-fan:regional_name_context、lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity | lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence | — |
+| [尕面片](https://www.geermu.gov.cn/details?id=bb5cf28b7bd0297e017c2f524d0e0367)（格尔木市人民政府，2023-08-18） | A | lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity | lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence | — |
 | [“共和滋味”亮相，十五道精品菜肴，总有一道打动你的胃！](https://www.gonghe.gov.cn/xwdt/tpxw/content_48610099)（共和县人民政府，2023-08-18） | A | lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure | lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot | — |
 | [面疙瘩（吧图）](https://www.shannan.gov.cn/zjsn/snly/tsms/202603/t20260310_165467.html)（山南市文旅局，2026-03-10） | A | lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure | lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence | — |
-| [人间烟火气](https://www.xizang.gov.cn/xwzx_406/bmkx/202506/t20250611_483433.html)（西藏自治区人民政府，2025-06-11） | A | production:tibetan-gutu:tibetan_noodle_meal_context、lead:tibetan-patu-one-pot:tibetan_patu_identity | production:tibetan-gutu:traditional_recipe_equivalence、lead:tibetan-patu-one-pot:single_pot_equivalence | — |
+| [人间烟火气](https://www.xizang.gov.cn/xwzx_406/bmkx/202506/t20250611_483433.html)（西藏自治区人民政府，2025-06-11） | A | lead:tibetan-patu-one-pot:tibetan_patu_identity | lead:tibetan-patu-one-pot:single_pot_equivalence | — |
 | [藏族饮食文化 ｜饭食的类别与制作](https://www.tibetology.ac.cn/2022-02/12/content_41875089.htm)（中国藏学研究中心，2022-02-12） | A | lead:tibetan-tuba-barley-thick-bowl:barley_thick_bowl_structure | lead:tibetan-tuba-barley-thick-bowl:unattended_appliance_equivalence | — |
 | [一起探索拉萨的美食世界](https://www.xizang.gov.cn/xwzx_406/dsdt/202411/t20241120_448021.html)（西藏自治区人民政府，2024-11-20） | A | lead:lhasa-tibetan-noodle-breakfast:lhasa_breakfast_noodle_and_beef_broth_identity | lead:lhasa-tibetan-noodle-breakfast:single_pot_complete_meal_equivalence | — |
 | [快收藏！“吃在拉萨”攻略来啦~](https://wlt.xizang.gov.cn/xccx/lytg/202312/t20231222_395019.html)（西藏自治区文化和旅游厅，2023-12-22） | A | lead:lhasa-tibetan-noodle-breakfast:breakfast_context | lead:lhasa-tibetan-noodle-breakfast:project_ratio_time_safety | — |
 | [舌尖上的雪域探寻三餐四季的味觉记忆](https://www.xizang.gov.cn/xwzx_406/bmkx/202505/t20250528_481144.html)（西藏自治区人民政府，2025-05-28） | A | production:tibetan-savory-congee:barley_grain_porridge_context | production:tibetan-savory-congee:traditional_recipe_equivalence | — |
-| [2023年西藏计划落实青稞播种面积220万亩](https://nynct.xizang.gov.cn/xwzx/xzsn/202311/t20231107_386800.html)（西藏自治区农业农村厅，2023-11-07） | A | production:tibetan-ginseng-fruit-rice:barley_region_context | production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence | — |
+| [藏历新年民俗文化漫谈](https://www.xizang.gov.cn/xwzx_406/bmkx/202503/t20250317_467534.html)（西藏自治区人民政府，2025-03-17） | A | production:tibetan-gutu:new_year_eve_context、production:tibetan-gutu:symbolic_filling_context、production:tibetan-ginseng-fruit-rice:new_year_ginseng_fruit_rice_combination | production:tibetan-gutu:production_ingredient_safety_equivalence、production:tibetan-gutu:traditional_recipe_equivalence、production:tibetan-ginseng-fruit-rice:daily_same_pot_ratio_equivalence、production:tibetan-ginseng-fruit-rice:traditional_recipe_equivalence | — |
 | [食品安全消费提示](https://www.xiongan.gov.cn/20250429/7cbd00ffe7bd45668510b7f9fecbdd5d/c.html)（雄安新区综合执法局，2025-04-29） | A | safety:animal-food-cook-through-and-separate:principle | lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence | — |
-| [豆类蔬菜中哪些豆豆易中毒](https://niohp.chinacdc.cn/kpdw/zdkz/201806/t20180601_172888.htm)（中国疾控中心职业卫生与中毒控制所，2018-06-01） | A | safety:fresh-bean-cook-through:principle | production:qinghai-hao-fan:traditional_recipe_equivalence | — |
+| [“花儿之乡”的土族土菜](https://digitalpaper.stdaily.com/http_www.kjrb.com/kjwzb/html/2022-07/22/content_538997.htm?div=0)（科普时报，2022-07-22） | A | production:qinghai-hao-fan:regional_name_context、production:qinghai-hao-fan:hao_fan_broth_root_vegetable_structure | production:qinghai-hao-fan:project_ingredient_equivalence、production:qinghai-hao-fan:project_ratio_dsl_equivalence、production:qinghai-hao-fan:traditional_recipe_equivalence | — |
 
 ## 8. 家庭适配与安全边界
 
@@ -133,17 +186,16 @@
 
 | 边界 | 状态 | 说明 |
 | --- | --- | --- |
-| qinghai-hao-fan-not-traditional-replica | not_proven | 青海熬饭现有条目只能称家庭适配，不得称传统复刻。 |
+| qinghai-hao-fan-not-traditional-replica | not_proven | 直接来源支持肉汤、白萝卜、洋芋和粉条的熬饭轮廓；现有小米、土豆、熟鹰嘴豆条目只能称项目原创风味家庭适配，不得称传统复刻。 |
 | tibetan-savory-congee-not-traditional-replica | not_proven | 藏式咸稀饭的地域谷物背景不等于传统成品配方。 |
-| tibetan-gutu-not-traditional-replica | not_proven | 帕图线索不得替代古突的传统成品证据。 |
-| tibetan-ginseng-fruit-rice-not-traditional-replica | not_proven | 青稞作物背景不得提升为传统人参果饭证据。 |
+| tibetan-gutu-not-traditional-replica | not_proven | 古突保留新年前夜和寓意馅料语境；非食品象征物禁止进入生成食材，节庆习俗不得改写成日常传统复刻。 |
+| tibetan-ginseng-fruit-rice-not-traditional-replica | not_proven | 人参果、米饭、酥油、白糖的新年组合不证明日常高频、同锅焖煮、项目比例或替换关系。 |
 | ga-mianpian-not-production-recipe | not_proven | 尕面片仅为研究线索，不得直接升格为生产菜谱。 |
 | barley-wheatberry-meat-soup-not-free-grain-slot | not_proven | 青稞、麦仁与牛羊肉不能混写为自由谷物或肉类槽。 |
 | patu-not-free-noodle-equivalence | not_proven | 帕图不得混写为任意面条或古突等价物。 |
 | tuba-manual-thickening-not-unattended-appliance | not_proven | 土巴稠食描述不证明无人看管设备或普通粥等价。 |
 | lhasa-noodle-breakfast-not-single-pot-proven | not_proven | 拉萨藏面早餐组合不证明单锅完整主餐。 |
 | animal-food-cook-through-and-separate | principle_only | 通用熟制原则，不能替代本地工艺或项目时间。；控制：cook_through、prevent_cross_contamination |
-| fresh-bean-cook-through | principle_only | 通用熟制原则，不能证明青海熬饭传统配方。；控制：cook_through |
 
 ## 9. 产品去向决策
 
@@ -155,26 +207,26 @@
 | concrete_research_lead | tibetan-patu-one-pot | research_only | new_family_research、research_only | 独立记录帕图，不与古突混写。 |
 | concrete_research_lead | tibetan-tuba-barley-thick-bowl | research_only | new_family_research、research_only | 土巴独立于普通粥饭与任意稠食。 |
 | production_recipe | qinghai-hao-fan | needs_more_evidence | recipe_evidence、research_only | 固定为家庭适配审计，不上调为传统复刻。 |
-| production_recipe | tibetan-ginseng-fruit-rice | needs_manual_review | recipe_evidence、research_only | 保留原有家庭适配边界。 |
-| production_recipe | tibetan-gutu | needs_more_evidence | recipe_evidence、research_only | 不同面食名称不得混写。 |
+| production_recipe | tibetan-ginseng-fruit-rice | needs_manual_review | recipe_evidence、research_only | 保留藏历新年节庆与食品级蕨麻边界。 |
+| production_recipe | tibetan-gutu | needs_more_evidence | recipe_evidence、research_only | 古突节庆身份独立记录，非食品象征物禁止进入生成食材。 |
 | production_recipe | tibetan-savory-congee | needs_manual_review | recipe_evidence、research_only | 保留地域粥食背景与审计边界。 |
 
 ## 10. 12 条家庭食材旅程
 
-| ID | 节点 | 输入 | 允许家族 | 禁止主张 | 人工状态 |
-| --- | --- | --- | --- | --- | --- |
-| qh-01 | CN-QH | 面粉、牛肉 | qinghai-noodle-piece-broth-main-bowl | traditional_replica | 待人工评审 |
-| qh-02 | CN-QH | 青稞、麦仁、羊肉 | qinghai-barley-wheatberry-meat-soup | free_grain_slot | 待人工评审 |
-| qh-03 | CN-QH | 小米、土豆、鹰嘴豆 | qinghai-grain-porridge-main-bowl | traditional_replica | 待人工评审 |
-| qh-04 | CN-QH | 面粉、萝卜 | qinghai-noodle-piece-broth-main-bowl | single_pot_equivalence | 待人工评审 |
-| qh-05 | CN-QH | 青稞、麦仁、牛肉 | qinghai-barley-wheatberry-meat-soup | free_meat_slot | 待人工评审 |
-| qh-06 | CN-QH | 小米、土豆 | qinghai-grain-porridge-main-bowl | source_as_ratio_dsl | 待人工评审 |
-| xz-01 | CN-XZ | 面粉、牛骨、白萝卜 | tibetan-patu-one-pot-main-bowl | free_noodle_equivalence | 待人工评审 |
-| xz-02 | CN-XZ | 糌粑、肉丁、面块 | tibetan-tuba-barley-thick-main-bowl | unattended_appliance_equivalence | 待人工评审 |
-| xz-03 | CN-XZ | 藏面、牛肉汤 | lhasa-noodle-breakfast-main-bowl | single_pot_complete_meal_equivalence | 待人工评审 |
-| xz-04 | CN-XZ | 青稞、咸味粥 | qinghai-grain-porridge-main-bowl | traditional_replica | 待人工评审 |
-| xz-05 | CN-XZ | 面粉、骨汤 | tibetan-patu-one-pot-main-bowl | project_ratio_time_vessel_equivalence | 待人工评审 |
-| xz-06 | CN-XZ | 糌粑、奶渣、萝卜 | tibetan-tuba-barley-thick-main-bowl | free_barley_slot | 待人工评审 |
+| ID | 节点 | 类型 | 输入 | 研究对象 | 禁止主张 | 人工状态 |
+| --- | --- | --- | --- | --- | --- | --- |
+| qh-01 | CN-QH | family_research | 面粉、牛肉 | 研究家族：qinghai-noodle-piece-broth-main-bowl | traditional_replica | 待人工评审 |
+| qh-02 | CN-QH | family_research | 青稞、麦仁、羊肉 | 研究家族：qinghai-barley-wheatberry-meat-soup | free_grain_slot | 待人工评审 |
+| qh-03 | CN-QH | family_research | 小米、土豆、鹰嘴豆 | 研究家族：qinghai-grain-porridge-main-bowl | traditional_replica | 待人工评审 |
+| qh-04 | CN-QH | family_research | 面粉、萝卜 | 研究家族：qinghai-noodle-piece-broth-main-bowl | single_pot_equivalence | 待人工评审 |
+| qh-05 | CN-QH | family_research | 青稞、麦仁、牛肉 | 研究家族：qinghai-barley-wheatberry-meat-soup | free_meat_slot | 待人工评审 |
+| qh-06 | CN-QH | family_research | 小米、土豆 | 研究家族：qinghai-grain-porridge-main-bowl | source_as_ratio_dsl | 待人工评审 |
+| xz-01 | CN-XZ | family_research | 面粉、牛骨、白萝卜 | 研究家族：tibetan-patu-one-pot-main-bowl | free_noodle_equivalence | 待人工评审 |
+| xz-02 | CN-XZ | family_research | 糌粑、肉丁、面块 | 研究家族：tibetan-tuba-barley-thick-main-bowl | unattended_appliance_equivalence | 待人工评审 |
+| xz-03 | CN-XZ | family_research | 藏面、牛肉汤 | 研究家族：lhasa-noodle-breakfast-main-bowl | single_pot_complete_meal_equivalence | 待人工评审 |
+| xz-04 | CN-XZ | production_audit | 青稞、咸味粥 | 生产审计：tibetan-savory-congee | traditional_replica | 待人工评审 |
+| xz-05 | CN-XZ | family_research | 面粉、骨汤 | 研究家族：tibetan-patu-one-pot-main-bowl | project_ratio_time_vessel_equivalence | 待人工评审 |
+| xz-06 | CN-XZ | family_research | 糌粑、奶渣、萝卜 | 研究家族：tibetan-tuba-barley-thick-main-bowl | free_barley_slot | 待人工评审 |
 
 ## 11. 完成状态
 

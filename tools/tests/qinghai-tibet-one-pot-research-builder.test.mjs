@@ -28,9 +28,29 @@ test('report derives the fixed Qinghai Tibet 4/0/5/6/11/12 baseline and retains 
   assert.equal(report.family_model.length, 6);
   assert.equal(report.source_evidence.length, 11);
   assert.equal(report.household_journeys.length, 12);
-  assert.equal(report.source_data_normalized_fingerprint, '7a06b8f669d8bae1d04e079db007f2f2fc6a711d5b7adc94708a3a4ef326b39c');
-  assert.equal(report.input_data_normalized_fingerprint, '42b92565594ec4977923416146c3b317b3c6e8701c0ff354d28d3e4fcf67131b');
+  assert.equal(report.critical_boundaries.length, 5);
+  assert.equal(report.source_data_normalized_fingerprint, '6b00e627312cf908cae453bb0bc6d6c5f43e8997deb95322468ff564b2c89230');
+  assert.equal(report.input_data_normalized_fingerprint, '302d1b4c7a5a4268b4ce94742d7ca163ef1f4c05cfe6561820e2988a5abd7a05');
   assert.deepEqual(report.summary.source_count_by_grade, { A: 11, B: 0, C: 0 });
+});
+
+test('report carries machine-linked critical boundaries and the Tibet porridge audit journey without cross-region family reuse', () => {
+  const report = buildQinghaiTibetOnePotResearchReport(inputs);
+  const xz04 = report.household_journeys.find(row => row.journey_id === 'xz-04');
+  assert.deepEqual(xz04, {
+    journey_id: 'xz-04',
+    province_code: 'CN-XZ',
+    journey_kind: 'production_audit',
+    input_items: ['青稞', '咸味粥'],
+    expected_family_ids: [],
+    audit_recipe_ids: ['tibetan-savory-congee'],
+    forbidden_claims: ['traditional_replica'],
+    human_review: { status: 'pending' },
+  });
+  const gutu = report.critical_boundaries.find(row => row.finding_id === 'gutu-non-food-symbols-forbidden');
+  assert.deepEqual(gutu.subjects, [{ subject_type: 'production_recipe', subject_id: 'tibetan-gutu' }]);
+  assert.ok(gutu.source_ids.includes('xz-gov-new-year-customs-2025'));
+  assert.ok(gutu.boundary_ids.includes('tibetan-gutu-not-traditional-replica'));
 });
 
 test('claim and ingredient-shape matrices keep regional, meal-context, adaptation, ratio and safety evidence distinct', () => {

@@ -40,6 +40,13 @@ const BOUNDARY_IDS = [
   'tuba-manual-thickening-not-unattended-appliance',
   'lhasa-noodle-breakfast-not-single-pot-proven',
 ];
+const CRITICAL_BOUNDARY_IDS = [
+  'ginseng-fruit-rice-new-year-boundary',
+  'gutu-non-food-symbols-forbidden',
+  'hao-fan-evidence-correction',
+  'patu-highest-research-priority',
+  'tuba-and-tibetan-noodle-pending',
+];
 
 test('assessment locks Qinghai Tibet nodes, 4/0 baseline, five leads, six distinct families and twelve pending journeys', () => {
   assert.equal(assessment.region_id, 'qinghai_tibet');
@@ -59,6 +66,37 @@ test('all eleven closed sources are HTTPS, dated or explicitly undated, and part
   assert.ok(assessment.source_refs.every(row => row.url.startsWith('https://')));
   assert.ok(assessment.source_refs.every(row => /^\d{4}-\d{2}-\d{2}$/.test(row.published_at) || (row.published_at === 'undated' && row.date_note)));
   assert.ok(assessment.source_refs.every(row => row.proves.length + row.does_not_prove.length + row.contradicts.length > 0));
+  assert.ok(assessment.source_refs.some(row => row.source_id === 'qh-science-hao-fan-2022'));
+  assert.ok(assessment.source_refs.some(row => row.source_id === 'xz-gov-new-year-customs-2025'));
+  assert.ok(!assessment.source_refs.some(row => row.source_id === 'cn-cdc-bean-safety-2018'));
+  assert.ok(!assessment.source_refs.some(row => row.source_id === 'xz-agri-barley-2023'));
+});
+
+test('critical product boundaries are machine-linked to their subjects, evidence claims and adaptation boundaries', () => {
+  assert.deepEqual(assessment.critical_boundaries.map(row => row.finding_id).sort(), CRITICAL_BOUNDARY_IDS);
+  const haoFan = assessment.critical_boundaries.find(row => row.finding_id === 'hao-fan-evidence-correction');
+  assert.deepEqual(haoFan.source_ids, ['qh-science-hao-fan-2022']);
+  assert.ok(haoFan.claim_tokens.includes('production:qinghai-hao-fan:hao_fan_broth_root_vegetable_structure'));
+  const gutu = assessment.critical_boundaries.find(row => row.finding_id === 'gutu-non-food-symbols-forbidden');
+  assert.deepEqual(gutu.prohibited_generated_items, ['硬币', '羊毛', '木炭', '纸条']);
+  const ginseng = assessment.critical_boundaries.find(row => row.finding_id === 'ginseng-fruit-rice-new-year-boundary');
+  assert.ok(ginseng.claim_tokens.includes('production:tibetan-ginseng-fruit-rice:new_year_ginseng_fruit_rice_combination'));
+});
+
+test('journeys target a same-province research family or an explicit production audit', () => {
+  const xz04 = assessment.journey_cases.find(row => row.journey_id === 'xz-04');
+  assert.equal(xz04.journey_kind, 'production_audit');
+  assert.deepEqual(xz04.expected_family_ids, []);
+  assert.deepEqual(xz04.audit_recipe_ids, ['tibetan-savory-congee']);
+  assert.ok(assessment.journey_cases.filter(row => row.journey_kind === 'family_research').every(row => row.audit_recipe_ids.length === 0));
+
+  const crossProvince = structuredClone(assessment);
+  const journey = crossProvince.journey_cases.find(row => row.journey_id === 'xz-01');
+  journey.expected_family_ids = ['qinghai-grain-porridge-main-bowl'];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: crossProvince }).join('\n'),
+    /journey family ownership must match province_code/,
+  );
 });
 
 test('validator fails closed for fixed claims, source directions, province ownership, mapping scope and reviewed states', () => {
@@ -104,6 +142,16 @@ test('validator rejects orphan evidence, source identity drift, and semantic dri
   journeyBroken.journey_cases[1].journey_id = journeyBroken.journey_cases[0].journey_id;
   assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_ids must be unique/);
   assert.match(validateQinghaiTibetOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /journey_cases semantic fingerprint mismatch/);
+
+  const findingBroken = structuredClone(assessment);
+  const finding = findingBroken.critical_boundaries.find(row => row.finding_id === 'gutu-non-food-symbols-forbidden');
+  finding.statement = '古突中的非食品象征物可以进入生成食材。';
+  finding.source_ids = ['xz-gov-new-year-customs-2025'];
+  finding.claim_tokens = ['production:tibetan-gutu:symbolic_filling_context'];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: findingBroken }).join('\n'),
+    /critical_boundaries semantic fingerprint mismatch/,
+  );
 });
 
 test('validator keeps every auxiliary evidence edge attached to its fixed source and required entity', () => {
