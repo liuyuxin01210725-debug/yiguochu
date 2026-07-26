@@ -38,27 +38,27 @@
 - Consumes: `recipe-library.json`、`regional-menu-research.v1.json`、`regional-atlas.v2.json`、`regional-menu-mappings.v1.json`。
 - Produces: `validateQinghaiTibetOnePotResearch(inputs): string[]`。
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
   测试锁定 `CN-QH`/`CN-XZ`、4 道生产审计、0 条候选审计、5 条具体研究线索、6 个不能混写的工艺家族、11 条闭合来源、12 条待人工旅程及全部适配／安全边界；同时锁定来源到 claim 的双向证据边、固定地域归属、审计状态与语义指纹。
 
-- [ ] **Step 2: 验证 RED**
+- [x] **Step 2: 验证 RED**
 
   Run: `node --test tools/tests/qinghai-tibet-one-pot-research-data.test.mjs`
 
   Expected: FAIL because the validator module and assessment JSON do not exist.
 
-- [ ] **Step 3: 写最小数据与 validator**
+- [x] **Step 3: 写最小数据与 validator**
 
   4 道生产审计固定为 `qinghai-hao-fan`、`tibetan-savory-congee`、`tibetan-gutu`、`tibetan-ginseng-fruit-rice`；5 条线索固定为青海尕面片、青稞麦仁肉汤，以及西藏帕图、图吧青稞稠食、拉萨藏面。validator 必须核对 4/0 基线、HTTPS 来源、日期或 `undated` 说明、claim 方向反向索引、来源语义身份、province ownership、mapping scope、固定审计状态、家族／边界／旅程语义指纹，且拒绝无证据边来源。
 
-- [ ] **Step 4: 验证 GREEN**
+- [x] **Step 4: 验证 GREEN**
 
   Run: `node --test tools/tests/qinghai-tibet-one-pot-research-data.test.mjs`
 
   Expected: PASS.
 
-- [ ] **Step 5: 提交 Task 1**
+- [x] **Step 5: 提交 Task 1**
 
   Run: `git add tools/tests/qinghai-tibet-one-pot-research-data.test.mjs tools/data/qinghai-tibet-one-pot-research.v1.json tools/lib/qinghai-tibet-one-pot-research-validator.mjs && git commit -m "Add Qinghai Tibet research data contract"`
 
@@ -72,27 +72,27 @@
 - Consumes: Task 1 的固定输入与 validator。
 - Produces: `buildQinghaiTibetOnePotResearchReport(inputs)`、`validateQinghaiTibetOnePotResearchReport(report)`、`formatQinghaiTibetOnePotResearchSummary(report)`。
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
   用字面量断言 4 个 production audits、0 个 candidates、5 个 leads、11 个闭合 sources、6 个 families 与 12 个 journeys；断言 claim matrix 把名称／地域、食材形态、节庆语境、家庭适配、Ratio DSL 与安全终点分开，并断言报告源数据指纹与固定派生视图。
 
-- [ ] **Step 2: 验证 RED**
+- [x] **Step 2: 验证 RED**
 
   Run: `node --test tools/tests/qinghai-tibet-one-pot-research-builder.test.mjs`
 
   Expected: FAIL because the builder module does not exist.
 
-- [ ] **Step 3: 实现纯派生 builder**
+- [x] **Step 3: 实现纯派生 builder**
 
   报告只从固定输入派生节点覆盖、来源等级、claim matrix、ingredient shape matrix、产品去向、完成阻塞项和汇总；不读取网络、不调用模型、不改写输入事实。`completion.status` 必须保持 `research_in_progress`，至少包含 production evidence、ratio、household adaptation、safety endpoint 与真人旅程五类阻塞项。
 
-- [ ] **Step 4: 验证 GREEN**
+- [x] **Step 4: 验证 GREEN**
 
   Run: `node --test tools/tests/qinghai-tibet-one-pot-research-builder.test.mjs`
 
   Expected: PASS.
 
-- [ ] **Step 5: 提交 Task 2**
+- [x] **Step 5: 提交 Task 2**
 
   Run: `git add tools/tests/qinghai-tibet-one-pot-research-builder.test.mjs tools/lib/qinghai-tibet-one-pot-research-builder.mjs && git commit -m "Build Qinghai Tibet research report"`
 
@@ -111,27 +111,27 @@
 - Consumes: Task 2 report。
 - Produces: `buildQinghaiTibetOnePotResearchArtifacts(report): Map<string,string>` 与可重复的 `--write|--check` CLI。
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
   断言三份产物路径、确定性渲染、12 个“待人工评审”、过期文件 fail-closed、聚合门禁包含青藏摘要、`build-dist` 不包含任何本轮研究资产；并断言报告明确写出熬饭来源纠偏、古突非食品象征物禁入、人参果饭节庆边界、帕图优先研究及图吧／藏面待证状态。
 
-- [ ] **Step 2: 验证 RED**
+- [x] **Step 2: 验证 RED**
 
   Run: `node --test tools/tests/qinghai-tibet-one-pot-research-artifacts.test.mjs`
 
   Expected: FAIL because the renderer and CLI do not exist.
 
-- [ ] **Step 3: 实现 renderer、CLI 与聚合门禁**
+- [x] **Step 3: 实现 renderer、CLI 与聚合门禁**
 
   生成 `tools/generated/qinghai-tibet-one-pot-research.v1.json`、`docs/qinghai-tibet-one-pot-research.md`、`docs/qinghai-tibet-one-pot-journey-review.md`；`--check` 对缺失或过期内容失败。`tools/check-recipes.mjs` 仅在既有门禁绿色后调用本 CLI，失败时输出明确青藏研究产物错误，成功时打印摘要。
 
-- [ ] **Step 4: 生成并验证 GREEN**
+- [x] **Step 4: 生成并验证 GREEN**
 
   Run: `node tools/build-qinghai-tibet-one-pot-research.mjs --write && node --test tools/tests/qinghai-tibet-one-pot-research-*.test.mjs`
 
   Expected: PASS.
 
-- [ ] **Step 5: 提交 Task 3**
+- [x] **Step 5: 提交 Task 3**
 
   Run: `git add tools/tests/qinghai-tibet-one-pot-research-artifacts.test.mjs tools/lib/qinghai-tibet-one-pot-research-renderer.mjs tools/build-qinghai-tibet-one-pot-research.mjs tools/generated/qinghai-tibet-one-pot-research.v1.json docs/qinghai-tibet-one-pot-research.md docs/qinghai-tibet-one-pot-journey-review.md tools/check-recipes.mjs && git commit -m "Add Qinghai Tibet research artifacts gate"`
 
@@ -175,4 +175,3 @@
 - [ ] **Step 4: 推送并更新 Draft PR #1**
 
   推送现有 `codex/targeted-recipe-expansion` 分支，更新 PR #1 正文，确认 PR 仍为 Draft、未合并且没有 Preview/production 部署。
-
