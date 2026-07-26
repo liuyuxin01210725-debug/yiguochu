@@ -18,7 +18,18 @@
 本地实验入口：双击 `start.command` 后打开
 <http://localhost:8081/?planner_v2=1>。不得将该入口作为公开产品发给用户。
 
-当前基线：`pantry-planner-v2` / `templates-v2-20260724` / `taxonomy-v1-20260724`
+历史记录所用基线（2026-07-24）：`pantry-planner-v2` / `templates-v2-20260724` / `taxonomy-v1-20260724`。下方场景 A–D 的既有输出均属于这份历史快照，不应被改写成新版本的真实结果。
+
+## Draft 目标基线（待 Preview 验证）
+
+- Planner：`pantry-planner-v2`
+- Template catalog：`templates-v2-20260726-r1`（9 个 active、7 个 planned）
+- Ingredient taxonomy：`taxonomy-v1-20260726-r1`
+- Ratio DSL：`ratio-rules-v1-20260726-r1`
+- Evidence recipes：72 道（数量与批准状态均未改变）
+- 自动旅程门禁：64/64
+
+这组数字只说明 Draft PR 的结构、契约与自动回归达到目标基线，**不等于真实家庭烹饪验证通过**。当前版本尚未部署 Preview，也未部署 production；本表中的真人第一反应、家庭烹饪习惯和实际成品结果仍须由真实用户填写，不能用自动测试替代。
 
 ## 测试方法
 
@@ -128,7 +139,7 @@
 
 ### 场景 A：鸡蛋 + 老豆腐
 
-当前 Planner 基线：
+2026-07-24 历史 Planner 基线：
 
 - 状态：`complete`，覆盖率 `1`；
 - 第一锅：`broth-noodle-pot`，使用鸡蛋，补面条、水、盐；
@@ -149,7 +160,7 @@
 
 ### 场景 B：猪里脊 + 面条
 
-当前 Planner 基线：
+2026-07-24 历史 Planner 基线：
 
 - 状态：`complete`，覆盖率 `1`；
 - 第一锅：`broth-noodle-pot`，使用面条，补水、盐；
@@ -170,7 +181,7 @@
 
 ### 场景 C：番茄 + 金针菇 + 鸡蛋 + 西兰花
 
-当前 Planner 基线：
+2026-07-24 历史 Planner 基线：
 
 - 状态：`complete`，覆盖率 `1`；
 - 单锅：`acid-staple-pot`；
