@@ -847,6 +847,39 @@ test('locked Fujian mustard ground pork rice rejects ingredient substitutions', 
   }
 });
 
+test('locked Lingnan generic rice plans reject ingredient and technique substitutions', async () => {
+  const cases = [
+    {
+      must: ['大米', '广式腊肠', '菜心'],
+      lockedNames: ['大米', '广式腊肠', '菜心'],
+      forbidden: ['小白菜', '腊肉', '锅巴', '瓦煲'],
+    },
+    {
+      must: ['大米', '去皮鸡腿肉', '鲜香菇'],
+      lockedNames: ['大米', '去皮鸡腿肉', '鲜香菇'],
+      forbidden: ['鸡胸肉', '鸡翅', '鸡皮', '平菇'],
+    },
+  ];
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  for (const entry of cases) {
+    const journey = await preparedJourney(plannerRequest({ must: entry.must }));
+    const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+    const names = locked.meals.flatMap(meal => meal.locked_ingredients.map(item => item.raw_name));
+    for (const raw of entry.lockedNames) assert.ok(names.includes(raw), raw);
+    const valid = validModelOutput(locked);
+    assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+    for (const forbidden of entry.forbidden) {
+      const output = structuredClone(valid);
+      output.meals[0].steps[0].text += `加入${forbidden}。`;
+      assert.equal(
+        workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse()).ok,
+        false,
+        forbidden,
+      );
+    }
+  }
+});
+
 test('colloquial quantities and unplanned appliances are rejected in every prose field', async t => {
   const termUniverse = ingredientTermUniverse();
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);

@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r4');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r5');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -33,7 +33,7 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
     '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
-    '卷心菜', '芥菜', '猪肉末',
+    '卷心菜', '芥菜', '猪肉末', '菜心',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
 });
@@ -178,6 +178,38 @@ test('Fujian Taiwan M1 identities preserve names cuts and controlled aliases', (
 test('Fujian Taiwan M1 retains ambiguous beans glutinous rice leaf and color gaps', () => {
   const rows = normalizePlannerItems(
     ['扁豆', '糯米', '泡发糯米', '食品级干荷叶', '食品级黑米色粉'],
+    catalog,
+  );
+  assert.ok(rows.every(row => row.recognized === false));
+});
+
+test('Lingnan M1 preserves choy sum and skinless chicken leg identity boundaries', () => {
+  const rows = normalizePlannerItems(
+    ['菜心', '青菜', '小白菜', '卷心菜', '芥菜', '去皮鸡腿肉', '鸡腿肉', '鸡胸肉'],
+    catalog,
+  );
+  assert.deepEqual(rows.map(row => [
+    row.raw, row.canonical, row.display_name, row.category, row.shape_or_cut,
+  ]), [
+    ['菜心', '菜心', '菜心', 'leafy_vegetable', 'whole'],
+    ['青菜', '青菜', '青菜', 'leafy_vegetable', 'whole'],
+    ['小白菜', '青菜', '小白菜', 'leafy_vegetable', 'whole'],
+    ['卷心菜', '卷心菜', '卷心菜', 'leafy_vegetable', 'whole'],
+    ['芥菜', '芥菜', '芥菜', 'leafy_vegetable', 'whole'],
+    ['去皮鸡腿肉', '鸡肉', '鸡腿肉', 'chicken', 'leg'],
+    ['鸡腿肉', '鸡肉', '鸡腿肉', 'chicken', 'leg'],
+    ['鸡胸肉', '鸡肉', '鸡胸肉', 'chicken', 'breast'],
+  ]);
+  assert.equal(rows[0].moisture_release, 'high');
+  assert.equal(rows[5].cooking_risk, 'raw_poultry');
+  assert.deepEqual(rows[5].required_endpoint_codes, ['poultry_fully_cooked']);
+  assert.notEqual(rows[0].canonical, rows[1].canonical);
+  assert.notEqual(rows[5].shape_or_cut, rows[7].shape_or_cut);
+});
+
+test('Lingnan M1 retains lettuce fermented black beans glutinous rice and color gaps', () => {
+  const rows = normalizePlannerItems(
+    ['生菜', '豆豉', '糯米', '食品级紫薯粉', '食品级甜菜粉', '食品级菠菜粉', '食品级南瓜粉'],
     catalog,
   );
   assert.ok(rows.every(row => row.recognized === false));

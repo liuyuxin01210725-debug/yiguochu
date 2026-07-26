@@ -352,6 +352,25 @@ test('Fujian mustard ground pork rice facts are identical across Worker and Pyth
   );
 });
 
+test('Lingnan skinless chicken mushroom rice facts are identical across Worker and Python bridge', async () => {
+  const body = await parityCase(
+    'Lingnan skinless chicken mushroom rice',
+    request({ must: ['大米', '去皮鸡腿肉', '鲜香菇'] }),
+    'complete',
+  );
+  assert.equal(body.plan.plan_kind, 'single_pot');
+  assert.deepEqual(body.plan.unplanned_must_use, []);
+  assert.deepEqual(
+    new Set(body.plan.pots[0].planned_must_use.map(item => item.raw)),
+    new Set(['大米', '去皮鸡腿肉', '鲜香菇']),
+  );
+  const leg = body.normalized_items.find(item => item.raw === '去皮鸡腿肉');
+  assert.deepEqual(
+    [leg.canonical, leg.shape_or_cut, leg.cooking_risk],
+    ['鸡肉', 'leg', 'raw_poultry'],
+  );
+});
+
 test('20-item planning stays within the approved bridge ceiling', () => {
   const pantry = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇', '洋葱', '玉米', '虾仁', '豆角'];
   const started = performance.now();

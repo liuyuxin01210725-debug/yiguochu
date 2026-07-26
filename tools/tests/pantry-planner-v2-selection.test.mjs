@@ -235,6 +235,70 @@ test('ground pork compatibility never leaks to ribs or ambiguous Fujian staples'
   ]) assert.notEqual(planMeal(assets, request({ must })).status, 'complete');
 });
 
+test('Lingnan M1 menu cores become complete generic rice plans without claiming claypot technique', () => {
+  for (const [title, must] of [
+    ['广式腊味煲仔饭食材', ['大米', '广式腊肠', '菜心']],
+    ['广式香菇滑鸡煲仔饭食材', ['大米', '去皮鸡腿肉', '鲜香菇']],
+  ]) {
+    const result = planMeal(assets, request({ must }));
+    assert.equal(result.status, 'complete', title);
+    assert.equal(result.plan.plan_kind, 'single_pot', title);
+    const pot = result.plan.pots[0];
+    assert.equal(pot.template_id, 'savory-mixed-rice-pot', title);
+    assert.deepEqual(new Set(pot.planned_must_use.map(item => item.raw)), new Set(must), title);
+    assert.deepEqual(result.plan.unplanned_must_use, [], title);
+    assert.equal(pot.coverage_ratio, 1, title);
+    assert.doesNotMatch(JSON.stringify(result), /煲仔饭|瓦煲|锅巴/);
+  }
+});
+
+test('Lingnan cured sausage rice omits preset oil and salt', () => {
+  const result = planMeal(assets, request({ must: ['大米', '广式腊肠', '菜心'] }));
+  assert.equal(result.status, 'complete');
+  assert.deepEqual(result.plan.pots[0].required_extra_items.map(item => item.name), ['水']);
+});
+
+test('skinless chicken leg keeps poultry safety and is blocked by chicken dislike', () => {
+  const safe = planMeal(assets, request({ must: ['大米', '去皮鸡腿肉', '菜心'] }));
+  assert.equal(safe.status, 'complete');
+  const leg = safe.normalized_items.find(item => item.raw === '去皮鸡腿肉');
+  assert.deepEqual(
+    [leg.canonical, leg.shape_or_cut, leg.cooking_risk, leg.required_endpoint_codes],
+    ['鸡肉', 'leg', 'raw_poultry', ['poultry_fully_cooked']],
+  );
+  assert.ok(safe.plan.pots[0].safety_endpoints.some(row => row.endpoint_code === 'poultry_fully_cooked_no_pink'));
+
+  const conflict = planMeal(assets, request({
+    must: ['大米', '去皮鸡腿肉', '鲜香菇'],
+    dislikes: ['鸡肉'],
+  }));
+  assert.notEqual(conflict.status, 'complete');
+  assert.equal(conflict.generation_allowed, false);
+  assert.equal(
+    conflict.plan.unplanned_must_use.find(item => item.raw === '去皮鸡腿肉')?.reason_code,
+    'allergen_conflict',
+  );
+});
+
+test('Lingnan unresolved structures never become complete generic raw-rice pots', () => {
+  for (const must of [
+    ['大米', '生菜', '胡萝卜'],
+    ['大米', '猪肋排', '豆豉'],
+    ['糯米', '食品级紫薯粉', '食品级甜菜粉', '食品级菠菜粉', '食品级南瓜粉'],
+  ]) {
+    const result = planMeal(assets, request({ must }));
+    assert.notEqual(result.status, 'complete', must.join('+'));
+    assert.equal(result.generation_allowed, false, must.join('+'));
+  }
+  const overloaded = planMeal(assets, request({
+    must: ['大米', '广式腊肠', '菜心', '卷心菜'],
+  }));
+  assert.equal(
+    overloaded.status === 'complete' && overloaded.plan.plan_kind === 'single_pot',
+    false,
+  );
+});
+
 test('Jiangnan cured rice plans omit preset oil and salt but retain measured water', () => {
   for (const must of [
     ['大米', '咸五花肉', '小白菜'],
