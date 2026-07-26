@@ -94,6 +94,42 @@ test('report validator rejects dishonest completion and count drift', () => {
   assert.match(message, /region production_recipe_count expected 5, got 1/);
 });
 
+test('report validator rejects a deleted claim matrix row', () => {
+  const broken = structuredClone(buildLingnanHkMacaoOnePotResearchReport(inputs));
+  broken.claim_matrix.pop();
+
+  assert.match(
+    validateLingnanHkMacaoOnePotResearchReport(broken).join('\n'),
+    /claim_matrix must exactly match claims derived from audited rows/,
+  );
+});
+
+test('report validator rejects a self-consistent forged completion', () => {
+  const broken = structuredClone(buildLingnanHkMacaoOnePotResearchReport(inputs));
+  for (const row of [...broken.production_recipe_audits, ...broken.concrete_research_leads]) {
+    for (const claim of Object.values(row.claims)) {
+      claim.verdict = 'supported';
+      claim.evidence_source_ids = ['forged-source'];
+      claim.reason = 'forged evidence';
+    }
+  }
+  for (const row of broken.claim_matrix) {
+    row.verdict = 'supported';
+    row.evidence_direction = 'proves';
+    row.evidence_source_ids = ['forged-source'];
+    row.reason = 'forged evidence';
+  }
+  for (const safety of broken.safety_boundaries) safety.evidence_status = 'verified_endpoint';
+  for (const journey of broken.household_journeys) journey.human_review.status = 'passed';
+  broken.completion = { status: 'regional_round_complete', blockers: [], baseline_facts: ['zero_candidate_baseline'] };
+  broken.summary.human_journey_reviewed_count = 15;
+
+  const message = validateLingnanHkMacaoOnePotResearchReport(broken).join('\n');
+  assert.match(message, /claim .* references unknown source forged-source/);
+  assert.match(message, /completion status must remain research_in_progress/);
+  assert.match(message, /human_journey_reviewed_count must remain 0/);
+});
+
 test('builder fails closed on an invalid assessment while report validation stays total', () => {
   const broken = structuredClone(inputs);
   broken.assessment.candidate_audits.push({});

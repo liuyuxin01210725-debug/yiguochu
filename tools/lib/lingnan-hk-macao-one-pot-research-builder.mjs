@@ -6,6 +6,19 @@ const asObject = value => isObject(value) ? value : {};
 const clone = value => structuredClone(value);
 const CLAIM_DIRECTIONS = { supported: 'proves', not_proven: 'does_not_prove', contradicted: 'contradicts' };
 const EXPECTED_PROVINCES = ['CN-GD', 'CN-GX', 'CN-HI', 'CN-HK', 'CN-MO'];
+const FIXED_COMPLETION_BLOCKERS = [
+  'production_evidence_gaps',
+  'ratio_dsl_unresolved',
+  'household_vessel_adaptation_unresolved',
+  'meal_sufficiency_unresolved',
+  'safety_endpoint_incomplete',
+  'human_journey_review_incomplete',
+];
+const CLAIM_SOURCE_TOKENS = {
+  production_recipe: 'production',
+  research_candidate: 'candidate',
+  concrete_research_lead: 'lead',
+};
 
 function countBy(rows, field, keys) {
   return Object.fromEntries(keys.map(key => [key, rows.filter(row => row?.[field] === key).length]));
@@ -71,6 +84,40 @@ function deriveCompletion(report) {
     baseline_facts: asArray(report.candidate_audits).length === 0 ? ['zero_candidate_baseline'] : [],
     reviewed,
   };
+}
+
+function reportSubjectGroups(report) {
+  return [
+    { subjectType: 'production_recipe', rows: asArray(report.production_recipe_audits), idField: 'recipe_id' },
+    { subjectType: 'research_candidate', rows: asArray(report.candidate_audits), idField: 'candidate_id' },
+    { subjectType: 'concrete_research_lead', rows: asArray(report.concrete_research_leads), idField: 'lead_id' },
+  ];
+}
+
+function validateClaimEvidence(subjectGroups, sourceEvidence, errors) {
+  const sourceIndex = new Map(asArray(sourceEvidence).filter(isObject).map(source => [source.source_id, source]));
+  for (const { subjectType, rows, idField } of subjectGroups) {
+    for (const row of rows) for (const [claimId, claim] of Object.entries(asObject(row.claims))) {
+      const direction = CLAIM_DIRECTIONS[claim?.verdict];
+      const token = `${CLAIM_SOURCE_TOKENS[subjectType]}:${row?.[idField]}:${claimId}`;
+      if (!direction) {
+        errors.push(`claim ${token} has an invalid verdict`);
+        continue;
+      }
+      if (!Array.isArray(claim?.evidence_source_ids) || claim.evidence_source_ids.length === 0) {
+        errors.push(`claim ${token} must retain evidence_source_ids`);
+      }
+      if (typeof claim?.reason !== 'string' || claim.reason.trim().length === 0) errors.push(`claim ${token} must retain a reason`);
+      for (const sourceId of asArray(claim?.evidence_source_ids)) {
+        const source = sourceIndex.get(sourceId);
+        if (!source) {
+          errors.push(`claim ${token} references unknown source ${sourceId}`);
+          continue;
+        }
+        if (!asArray(source[direction]).includes(token)) errors.push(`claim ${token} must be reverse-indexed under ${direction} by source ${sourceId}`);
+      }
+    }
+  }
 }
 
 export function buildLingnanHkMacaoOnePotResearchReport({
@@ -223,19 +270,23 @@ export function validateLingnanHkMacaoOnePotResearchReport(report) {
   if (report.region_overview?.concrete_research_lead_count !== asArray(report.concrete_research_leads).length) errors.push(`region concrete_research_lead_count expected ${asArray(report.concrete_research_leads).length}, got ${report.region_overview?.concrete_research_lead_count}`);
   const expectedGrades = countBy(asArray(report.source_evidence), 'source_grade', ['A', 'B', 'C']);
   if (JSON.stringify(summary.source_count_by_grade) !== JSON.stringify(expectedGrades)) errors.push('summary source_count_by_grade is inconsistent');
-  for (const claim of asArray(report.claim_matrix)) {
-    if (CLAIM_DIRECTIONS[claim?.verdict] !== claim?.evidence_direction) errors.push(`claim matrix direction is inconsistent for ${claim?.subject_id}:${claim?.claim_id}`);
-  }
+  const subjectGroups = reportSubjectGroups(report);
+  const expectedClaimMatrix = deriveClaimMatrix(subjectGroups);
+  if (JSON.stringify(asArray(report.claim_matrix)) !== JSON.stringify(expectedClaimMatrix)) errors.push('claim_matrix must exactly match claims derived from audited rows');
+  validateClaimEvidence(subjectGroups, report.source_evidence, errors);
   const coverage = new Map(asArray(report.province_coverage_audits).map(row => [row?.province_code, row]));
   if (asArray(coverage.get('CN-HK')?.production_recipe_ids).length !== 0 || !asArray(coverage.get('CN-HK')?.context_lead_ids).includes('cantonese-claypot-rice-technique')) errors.push('Hong Kong must retain zero production coverage with its claypot-rice research context');
   if (asArray(coverage.get('CN-MO')?.production_recipe_ids).length !== 0 || !asArray(coverage.get('CN-MO')?.lead_ids).includes('macao-portuguese-style-seafood-rice')) errors.push('Macao must retain zero production coverage with its research lead');
   const expectedCompletion = deriveCompletion(report);
-  if (report.completion?.status !== expectedCompletion.status || JSON.stringify(report.completion?.blockers) !== JSON.stringify(expectedCompletion.blockers) || JSON.stringify(report.completion?.baseline_facts) !== JSON.stringify(expectedCompletion.baseline_facts)) {
-    if (report.completion?.status === 'regional_round_complete') errors.push('completion cannot be complete while evidence or review is incomplete');
-    else errors.push('completion status, blockers or baseline facts are inconsistent');
-  }
+  if (report.completion?.status === 'regional_round_complete') errors.push('completion cannot be complete while evidence or review is incomplete');
+  if (report.completion?.status !== 'research_in_progress') errors.push('completion status must remain research_in_progress');
+  if (JSON.stringify(report.completion?.blockers) !== JSON.stringify(FIXED_COMPLETION_BLOCKERS)) errors.push('completion blockers must remain the fixed Lingnan research blocker set');
+  if (JSON.stringify(report.completion?.baseline_facts) !== JSON.stringify(['zero_candidate_baseline'])) errors.push('completion baseline_facts must retain zero_candidate_baseline');
+  if (expectedCompletion.status !== 'research_in_progress' || JSON.stringify(expectedCompletion.blockers) !== JSON.stringify(FIXED_COMPLETION_BLOCKERS)) errors.push('audited rows no longer support the fixed Lingnan research gate');
+  if (asArray(report.household_journeys).some(row => row?.human_review?.status !== 'pending')) errors.push('household journeys must remain pending manual review');
   if (summary.production_recipe_changes !== 0) errors.push('production_recipe_changes must remain 0');
   if (summary.regional_candidate_changes !== 0) errors.push('regional_candidate_changes must remain 0');
+  if (summary.human_journey_reviewed_count !== 0) errors.push('human_journey_reviewed_count must remain 0');
   if (!/不新增.*recipe.*candidate/i.test(summary.scope_note || '')) errors.push('summary must state that no recipe or candidate was added');
   return errors;
 }
