@@ -527,6 +527,22 @@ if (errors.length === 0) {
     lingnanHkMacaoResearchSummary = lingnanCheck.stdout.trim();
   }
 }
+let northwestResearchSummary = '';
+if (errors.length === 0) {
+  const northwestCheck = spawnSync(process.execPath, [
+    fileURLToPath(new URL('./build-northwest-one-pot-research.mjs', import.meta.url)),
+    '--check',
+  ], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
+  });
+  if (northwestCheck.status !== 0) {
+    const detail = [northwestCheck.stdout, northwestCheck.stderr].filter(Boolean).join('\n').trim();
+    errors.push(`Northwest research artifact check failed${detail ? `: ${detail}` : ''}`);
+  } else {
+    northwestResearchSummary = northwestCheck.stdout.trim();
+  }
+}
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -584,5 +600,6 @@ if (yunnanGuizhouResearchReport && yunnanGuizhouResearchSourceErrors.length === 
   console.log(formatYunnanGuizhouRiceResearchSummary(yunnanGuizhouResearchReport));
 }
 if (lingnanHkMacaoResearchSummary) console.log(lingnanHkMacaoResearchSummary);
+if (northwestResearchSummary) console.log(northwestResearchSummary);
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
