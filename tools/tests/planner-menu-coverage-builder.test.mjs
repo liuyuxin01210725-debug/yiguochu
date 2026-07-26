@@ -188,6 +188,11 @@ test('report validation rejects baseline, ratio, evidence, aggregate, and runtim
   staleAggregate.by_template[0].selected_recipe_count += 1;
   assert.match(errorText(staleAggregate), /by_template aggregate/);
 
+  const badHashes = structuredClone(valid);
+  delete badHashes.source_hashes['tools/data/recipe-library.json'];
+  badHashes.source_hashes['tools/data/ratio-rules.v1.json'] = 'not-a-sha256';
+  assert.match(errorText(badHashes), /source_hashes/);
+
   const dishonestStatus = structuredClone(valid);
   dishonestStatus.recipes.find(row => row.audit_status === 'taxonomy_gap').audit_status = 'full_single_pot_evidence_aligned';
   assert.match(errorText(dishonestStatus), /audit_status is inconsistent/);

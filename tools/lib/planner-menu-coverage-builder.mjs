@@ -16,6 +16,14 @@ const AUDIT_STATUSES = [
   'invalid_source_record',
 ];
 const PRIORITY_BANDS = ['P0', 'P1', 'P2', 'P3', 'covered'];
+const REQUIRED_SOURCE_PATHS = [
+  'tools/data/ingredient-taxonomy.v1.json',
+  'tools/data/meal-templates.v2.json',
+  'tools/data/menu-master-baseline.v1.json',
+  'tools/data/ratio-rules.v1.json',
+  'tools/data/recipe-library.json',
+  'tools/data/regional-menu-mappings.v1.json',
+];
 
 const asArray = value => Array.isArray(value) ? value : [];
 const asObject = value => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
@@ -344,6 +352,11 @@ export function validatePlannerMenuCoverage(report, inputs = {}) {
   if (safeReport.template_catalog_version !== inputs?.templates?.template_catalog_version) errors.push('coverage template_catalog_version is stale');
   if (safeReport.taxonomy_version !== inputs?.taxonomy?.taxonomy_version) errors.push('coverage taxonomy_version is stale');
   if (safeReport.ratio_catalog_version !== inputs?.ratios?.ratio_catalog_version) errors.push('coverage ratio_catalog_version is stale');
+  const sourceHashes = asObject(safeReport.source_hashes);
+  if (JSON.stringify(Object.keys(sourceHashes)) !== JSON.stringify(REQUIRED_SOURCE_PATHS)
+      || Object.values(sourceHashes).some(hash => typeof hash !== 'string' || !/^[0-9a-f]{64}$/.test(hash))) {
+    errors.push('coverage source_hashes must contain the six canonical SHA-256 inputs');
+  }
   if (!Array.isArray(safeReport.recipes)) errors.push('coverage recipes must be an array');
   if (recipes.length !== baselineRows.length) errors.push(`coverage recipe count must be ${baselineRows.length}`);
   if (new Set(recipes.map(row => row?.recipe_id)).size !== recipes.length) errors.push('coverage recipe IDs must be unique');
