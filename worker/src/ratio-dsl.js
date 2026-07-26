@@ -1,7 +1,7 @@
 import { BASIC_EXTRA_CATEGORIES, resolveBasicExtraIdentity } from './taxonomy-identity.js';
 
 const ACTIVE = new Set(['acid-staple-pot','savory-mixed-rice-pot','cooked-rice-stir-pot','broth-noodle-pot','egg-tofu-vegetable-pot','mushroom-vegetable-stew-pot','beef-staple-pot','poultry-staple-pot','braised-noodle-pot']);
-const OPS = new Set(['per_serving','ratio','bounded_sum','fixed_addition','scale_by_servings']);
+const OPS = new Set(['per_serving','per_serving_by_category','ratio','bounded_sum','fixed_addition','scale_by_servings']);
 const PREPARED = new WeakMap();
 const RULE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 const MOISTURE = new Set(['low','medium','high']);
@@ -63,21 +63,42 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
       const requiredUserSlots = (template?.required_slots || []).filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id);
       const optionalUserSlots = (template?.optional_slots || []).filter(slot => slot?.source_policy?.includes('user')).map(slot => slot.slot_id);
       const allUserSlots = [...requiredUserSlots, ...optionalUserSlots];
-      const stage = op => op.operator === 'per_serving' ? 0 : op.operator === 'bounded_sum' ? 1 : op.operator === 'ratio' || (['fixed_addition','scale_by_servings'].includes(op.operator) && op.target?.category === 'liquid') ? 2 : ['fixed_addition','scale_by_servings'].includes(op.operator) ? 3 : 1;
+      const userSlotCategories = new Map(allUserSlots.map(slotId => [
+        slotId,
+        new Set(template?.ingredient_categories?.[slotId] || []),
+      ]));
+      const stage = op => ['per_serving','per_serving_by_category'].includes(op.operator) ? 0 : op.operator === 'bounded_sum' ? 1 : op.operator === 'ratio' || (['fixed_addition','scale_by_servings'].includes(op.operator) && op.target?.category === 'liquid') ? 2 : ['fixed_addition','scale_by_servings'].includes(op.operator) ? 3 : 1;
       let last = 0;
       for (const [opIndex, op] of rule.operations.entries()) {
         const opLabel = `${label}.operations[${opIndex}]`;
         if (!object(op)) { errors.push(`${opLabel} must be an object`); continue; }
         if (!OPS.has(op.operator)) { errors.push(`${opLabel} has unknown operator`); continue; }
-        allowed(op, new Set(op.operator === 'per_serving' ? ['operator','target','grams'] : op.operator === 'ratio' ? ['operator','target','numerator','denominator','min','default','max'] : op.operator === 'bounded_sum' ? ['operator','target','grams_per_serving','liquid_credit_grams_per_serving'] : ['operator','target','grams']), opLabel, errors);
+        allowed(op, new Set(op.operator === 'per_serving' ? ['operator','target','grams'] : op.operator === 'per_serving_by_category' ? ['operator','target','grams_by_category'] : op.operator === 'ratio' ? ['operator','target','numerator','denominator','min','default','max'] : op.operator === 'bounded_sum' ? ['operator','target','grams_per_serving','liquid_credit_grams_per_serving'] : ['operator','target','grams']), opLabel, errors);
         if (stage(op) < last) errors.push(`${label}.operations must be ordered as food, liquid, then basic additions`); last = Math.max(last, stage(op));
         if (op.operator === 'per_serving') { targetSlot(op.target, `${opLabel}.target`, allUserSlots, errors); bounds(op.grams, `${opLabel}.grams`, errors); }
+        if (op.operator === 'per_serving_by_category') {
+          targetSlot(op.target, `${opLabel}.target`, allUserSlots, errors);
+          const expectedCategories = userSlotCategories.get(op.target?.slot_id) || new Set();
+          if (!object(op.grams_by_category)) {
+            errors.push(`${opLabel}.grams_by_category must be an object`);
+          } else {
+            const actualCategories = Object.keys(op.grams_by_category);
+            if (actualCategories.length !== expectedCategories.size
+              || actualCategories.some(category => !expectedCategories.has(category))) {
+              errors.push(`${opLabel}.grams_by_category must provide exact slot category coverage`);
+            }
+            for (const [category, categoryBounds] of Object.entries(op.grams_by_category)) {
+              bounds(categoryBounds, `${opLabel}.grams_by_category.${category}`, errors);
+            }
+          }
+        }
         if (op.operator === 'bounded_sum') { targetMoisture(op.target, `${opLabel}.target`, errors); bounds(op.grams_per_serving, `${opLabel}.grams_per_serving`, errors); bounds(op.liquid_credit_grams_per_serving, `${opLabel}.liquid_credit_grams_per_serving`, errors); }
         if (op.operator === 'ratio') { bounds({min:op.min,default:op.default,max:op.max}, opLabel, errors); targetBasic(op.target, `${opLabel}.target`, taxonomy, errors, true); exactObject(op.numerator, new Set(['resource']), `${opLabel}.numerator`, errors); if (op.numerator?.resource !== 'retained_liquid_grams') errors.push(`${opLabel}.numerator.resource is invalid`); exactObject(op.denominator, new Set(['slot_id','measure']), `${opLabel}.denominator`, errors); if (op.denominator?.slot_id !== rule.when?.slot_id || op.denominator?.measure !== 'grams') errors.push(`${opLabel}.denominator must measure rule when.slot_id grams`); }
         if (['fixed_addition','scale_by_servings'].includes(op.operator)) { bounds(op.grams, `${opLabel}.grams`, errors); targetBasic(op.target, `${opLabel}.target`, taxonomy, errors); }
       }
-      for (const slotId of requiredUserSlots) if (rule.operations.filter(op => op?.operator === 'per_serving' && op.target?.slot_id === slotId).length !== 1) errors.push(`${label} requires exactly one per_serving for user slot ${slotId}`);
-      for (const slotId of optionalUserSlots) if (rule.operations.filter(op => op?.operator === 'per_serving' && op.target?.slot_id === slotId).length !== 1) errors.push(`${label} requires exactly one per_serving for user slot ${slotId}`);
+      const quantityOperationsFor = slotId => rule.operations.filter(op => ['per_serving','per_serving_by_category'].includes(op?.operator) && op.target?.slot_id === slotId);
+      for (const slotId of requiredUserSlots) if (quantityOperationsFor(slotId).length !== 1) errors.push(`${label} requires exactly one per_serving or per_serving_by_category operation for user slot ${slotId}`);
+      for (const slotId of optionalUserSlots) if (quantityOperationsFor(slotId).length !== 1) errors.push(`${label} requires exactly one per_serving or per_serving_by_category operation for user slot ${slotId}`);
       if (template?.liquid_constraints?.retained_in_finished_meal && !rule.operations.some(op => op?.operator === 'ratio' || (['fixed_addition','scale_by_servings'].includes(op?.operator) && op.target?.category === 'liquid'))) errors.push(`${label} missing retained liquid operation`);
       exactObject(rule.rounding, new Set(['grams_to_nearest']), `${label}.rounding`, errors);
       if (!object(rule.rounding) || !Number.isInteger(rule.rounding.grams_to_nearest) || rule.rounding.grams_to_nearest <= 0) errors.push(`${label}.rounding.grams_to_nearest must be a positive integer`);

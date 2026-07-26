@@ -327,6 +327,25 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
 
     for (const operation of Array.isArray(rule.operations) ? rule.operations : []) {
       const operator = operation?.operator;
+      if (operator === 'per_serving_by_category') {
+        const items = slots.get(operation.target?.slot_id);
+        if (!items?.length && optionalSlotIds.has(operation.target?.slot_id)) continue;
+        if (!items?.length) return ratioFailure('ratio_context_missing', '缺少按类别计算的食材槽位。');
+        for (const item of items) {
+          const grams = operation.grams_by_category?.[item.category]?.default;
+          if (!finiteNonNegativeNumber(grams) || grams <= 0
+            || !addAmount(item.name, grams * context.servings)) {
+            return ratioFailure('ratio_rule_invalid', '按类别份量规则无效。');
+          }
+          trace.push({
+            operator,
+            slot_id: operation.target.slot_id,
+            category: item.category,
+            grams_per_serving: grams,
+          });
+        }
+        continue;
+      }
       if (operator === 'per_serving') {
         const items = slots.get(operation.target?.slot_id);
         const grams = defaultBound(operation.grams);

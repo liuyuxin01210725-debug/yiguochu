@@ -409,3 +409,76 @@ test('high-moisture optional vegetables are quantified once before bounded_sum c
   assert.equal(result.ingredient_amounts.find(row => row.name === '白菜').grams,240);
   assert.equal(result.ingredient_amounts.find(row => row.name === '金针菇').grams,200);
 });
+
+function catalogWithCategorySpecificProtein(mutator = () => {}) {
+  const next = structuredClone(rawCatalog);
+  const rule = next.rules.find(row => row.rule_id === 'broth-noodle-liquid-v1');
+  const protein = rule.operations.find(row => row.target?.slot_id === 'protein');
+  protein.operator = 'per_serving_by_category';
+  protein.grams_by_category = {
+    egg: { min: 65, default: 65, max: 65 },
+    soft_tofu: { min: 90, default: 90, max: 90 },
+    firm_tofu: { min: 90, default: 90, max: 90 },
+    chicken: { min: 90, default: 90, max: 90 },
+  };
+  delete protein.grams;
+  mutator(protein, rule);
+  return next;
+}
+
+test('category-specific per-serving quantities compile from the locked ingredient category', () => {
+  const next = catalogWithCategorySpecificProtein();
+  const preparedNext = prepareRatioCatalog(next, validationContext);
+  assert.equal(preparedNext.ok, true, preparedNext.errors.join('\n'));
+
+  const chicken = compileRatioPlan('broth-noodle-liquid-v1', {
+    servings: 2,
+    slots: {
+      staple: [item('面条', 'noodle')],
+      protein: [item('鸡腿肉', 'chicken')],
+    },
+  }, preparedNext.catalog);
+  const egg = compileRatioPlan('broth-noodle-liquid-v1', {
+    servings: 2,
+    slots: {
+      staple: [item('面条', 'noodle')],
+      protein: [item('鸡蛋', 'egg')],
+    },
+  }, preparedNext.catalog);
+
+  assert.equal(chicken.ok, true);
+  assert.equal(egg.ok, true);
+  assert.equal(chicken.ingredient_amounts.find(row => row.name === '鸡腿肉').grams, 180);
+  assert.equal(egg.ingredient_amounts.find(row => row.name === '鸡蛋').grams, 130);
+  assert.ok(chicken.ratio_trace.some(row => row.operator === 'per_serving_by_category'
+    && row.slot_id === 'protein' && row.category === 'chicken' && row.grams_per_serving === 90));
+});
+
+test('category-specific per-serving quantities require exact declared category coverage', () => {
+  const mutations = [
+    map => { delete map.egg; },
+    map => { map.beef = { min: 90, default: 90, max: 90 }; },
+  ];
+  for (const mutate of mutations) {
+    const invalid = catalogWithCategorySpecificProtein(operation => mutate(operation.grams_by_category));
+    const errors = validateRatioDslCatalog(invalid, templates, taxonomy, recipes);
+    assert.ok(errors.some(error => error.includes('category coverage')), errors.join('\n'));
+  }
+});
+
+test('category-specific per-serving quantities reject malformed bounds and targets without throwing', () => {
+  const invalidBounds = catalogWithCategorySpecificProtein(operation => {
+    operation.grams_by_category.egg.default = -1;
+    operation.grams_by_category.egg.expression = 'servings * 65';
+  });
+  const invalidTarget = catalogWithCategorySpecificProtein(operation => {
+    operation.target.slot_id = 'not_a_slot';
+  });
+
+  assert.doesNotThrow(() => validateRatioDslCatalog(invalidBounds, templates, taxonomy, recipes));
+  const boundErrors = validateRatioDslCatalog(invalidBounds, templates, taxonomy, recipes);
+  const targetErrors = validateRatioDslCatalog(invalidTarget, templates, taxonomy, recipes);
+  assert.ok(boundErrors.some(error => error.includes('non-negative')), boundErrors.join('\n'));
+  assert.ok(boundErrors.some(error => error.includes('unknown key')), boundErrors.join('\n'));
+  assert.ok(targetErrors.some(error => error.includes('declared user slot')), targetErrors.join('\n'));
+});
