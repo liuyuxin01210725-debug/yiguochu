@@ -19,7 +19,7 @@ const CLAIM_SOURCE_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
-const CANONICAL_TASK_ONE_FINGERPRINT = 'a7132bc258672eebdfce4dbeec68458e43964d35ae8b43cf43e5930c3a4a503c';
+const CANONICAL_TASK_ONE_FINGERPRINT = '649e1cc79df323538a3198e5102fe7445faa3b58807186ee0540636c956da7fa';
 const REPORT_ENRICHMENT_FIELDS = new Set([
   'recipe_name', 'recipe_status', 'cuisine', 'recipe_core_ingredients', 'recipe_substitution_slots',
   'prototype_name', 'candidate_status', 'ingredient_hypothesis', 'mapping_regional_scope',
@@ -288,7 +288,7 @@ export function validateNorthwestOnePotResearchReport(report) {
   for (const [field, expected] of counts) if (summary[field] !== expected) errors.push(`summary ${field} expected ${expected}, got ${summary[field]}`);
   const fixedCounts = [
     ['province_coverage_audits', 4], ['production_recipe_audits', 3], ['candidate_audits', 0],
-    ['concrete_research_leads', 8], ['family_model', 5], ['source_evidence', 25], ['household_journeys', 16],
+    ['concrete_research_leads', 8], ['family_model', 5], ['source_evidence', 20], ['household_journeys', 16],
   ];
   for (const [field, expected] of fixedCounts) if (asArray(report[field]).length !== expected) errors.push(`${field} must contain exactly ${expected} items`);
   if (report.region_overview?.production_recipe_count !== asArray(report.production_recipe_audits).length) errors.push(`region production_recipe_count expected ${asArray(report.production_recipe_audits).length}, got ${report.region_overview?.production_recipe_count}`);

@@ -93,6 +93,11 @@ test('artifact map renders Northwest evidence boundaries and sixteen pending jou
   assert.match(markdown, /馓饭|糁饭/);
   assert.match(markdown, /八宝茶/);
   assert.match(markdown, /research_in_progress/);
+  assert.match(markdown, /来源：20（A 级 16，B 级 3，C 级 1）/);
+  const generated = JSON.parse(json);
+  assert.equal(generated.summary.source_count, 20);
+  assert.deepEqual(generated.summary.source_count_by_grade, { A: 16, B: 3, C: 1 });
+  assert.equal(generated.source_evidence.length, 20);
   const review = renderNorthwestOnePotJourneyReviewMarkdown(report);
   assert.match(review, /16 条家庭食材旅程/);
   assert.equal((review.match(/待人工评审/g) || []).length, 16);

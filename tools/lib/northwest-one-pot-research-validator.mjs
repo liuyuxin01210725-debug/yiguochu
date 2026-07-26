@@ -30,7 +30,7 @@ function validateSources(assessment, errors) {
   const directions = new Map();
   const rows = array(assessment.source_refs);
   if (!Array.isArray(assessment.source_refs)) errors.push('source_refs must be an array');
-  if (rows.length !== 25) errors.push('source_refs must contain exactly 25 items');
+  if (rows.length !== 20) errors.push('source_refs must contain exactly 20 items');
   rows.forEach((row, index) => {
     const path = `source_refs[${index}]`;
     if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
@@ -47,6 +47,7 @@ function validateSources(assessment, errors) {
       if (!Array.isArray(row[direction]) || row[direction].some(item => !text(item))) errors.push(`${path}.${direction} must be an array of non-empty strings`);
       entry[direction] = new Set(array(row[direction]));
     }
+    if ([...entry.proves, ...entry.does_not_prove, ...entry.contradicts].length === 0) errors.push(`source ${row.source_id} must contribute at least one evidence direction`);
     directions.set(row.source_id, entry);
   });
   return { ids, directions };

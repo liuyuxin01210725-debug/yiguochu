@@ -1745,19 +1745,6 @@
       "contradicts": []
     },
     {
-      "source_id": "gs-lanzhou-noodle-2024",
-      "title": "“兰小味”系列宣传短片之“碳水炸弹”热播",
-      "url": "https://www.gscn.com.cn/culture/system/2024/04/30/013135572.shtml",
-      "publisher": "中国甘肃网（来源兰州日报）",
-      "published_at": "2024-04-30",
-      "retrieved_at": "2026-07-26",
-      "source_grade": "B",
-      "evidence_summary": "兰州烩面片汤与不汤差异，仅作边界语境。",
-      "proves": [],
-      "does_not_prove": [],
-      "contradicts": []
-    },
-    {
       "source_id": "gs-sanfan-dispute-2019",
       "title": "“糁饭”还是“馓饭”？看天水学者怎么辩！",
       "url": "https://gansu.gscn.com.cn/system/2019/03/15/012129101.shtml",
@@ -1769,19 +1756,6 @@
       "proves": [
         "boundary:sanfan_dispute_not_family:naming_dispute"
       ],
-      "does_not_prove": [],
-      "contradicts": []
-    },
-    {
-      "source_id": "nx-dawukou-lamb-noodle-2021",
-      "title": "大武口美食之羊肉搓面",
-      "url": "https://www.dwk.gov.cn/zjdwk/whly/ms/202112/t20211220_3236967.html",
-      "publisher": "大武口区文旅局",
-      "published_at": "2021-12-20",
-      "retrieved_at": "2026-07-26",
-      "source_grade": "A",
-      "evidence_summary": "羊肉搓面为羊肉块、长手工面和萝卜丁臊子汤，只作边界。",
-      "proves": [],
       "does_not_prove": [],
       "contradicts": []
     },
@@ -1818,32 +1792,6 @@
       "does_not_prove": [
         "lead:ningxia-rouzhanfan-steamed-rice:any_meat_rice_braise_equivalence"
       ],
-      "contradicts": []
-    },
-    {
-      "source_id": "nx-hui-xiaochi-2025",
-      "title": "五一碳水狂欢预警！从银川到中卫，宁夏五市必吃榜单请收好",
-      "url": "https://nynct.nx.gov.cn/rdzt/ppny/202510/t20251022_5059812.html",
-      "publisher": "宁夏农业宣传教育展览中心",
-      "published_at": "2025-05-05",
-      "retrieved_at": "2026-07-26",
-      "source_grade": "A",
-      "evidence_summary": "烩小吃为预制组件语境，不构成低摩擦家用工艺。",
-      "proves": [],
-      "does_not_prove": [],
-      "contradicts": []
-    },
-    {
-      "source_id": "nx-wuzhong-food-2023",
-      "title": "游在宁夏 吃在吴忠",
-      "url": "https://www.wuzhong.gov.cn/sywz/cxwz/202302/t20230221_3968499.html",
-      "publisher": "吴忠市人民政府",
-      "published_at": "2023-02-21",
-      "retrieved_at": "2026-07-26",
-      "source_grade": "A",
-      "evidence_summary": "吴忠地方谱系中的羊肉臊子面、烩小吃与肉粘饭。",
-      "proves": [],
-      "does_not_prove": [],
       "contradicts": []
     },
     {
@@ -1914,19 +1862,6 @@
       "does_not_prove": [
         "production:xinjiang-vegetable-pilaf:current_formula_equivalence"
       ],
-      "contradicts": []
-    },
-    {
-      "source_id": "xj-yining-ich-2020",
-      "title": "伊宁市第三批市级非物质文化遗产项目名录",
-      "url": "https://www.yining.gov.cn/yining/c116600/202006/f3fad888b2fb449e9684fe810711447e.shtml",
-      "publisher": "伊宁市人民政府",
-      "published_at": "2020-06-22",
-      "retrieved_at": "2026-07-26",
-      "source_grade": "A",
-      "evidence_summary": "新疆抓饭制作技艺列入伊宁市第三批市级非遗。",
-      "proves": [],
-      "does_not_prove": [],
       "contradicts": []
     },
     {
@@ -2472,10 +2407,10 @@
     "production_audit_count": 3,
     "candidate_audit_count": 0,
     "concrete_research_lead_count": 8,
-    "source_count": 25,
+    "source_count": 20,
     "source_count_by_grade": {
-      "A": 20,
-      "B": 4,
+      "A": 16,
+      "B": 3,
       "C": 1
     },
     "family_count": 5,

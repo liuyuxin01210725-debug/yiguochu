@@ -25,8 +25,8 @@ test('report derives the fixed Northwest 3/0/8 baseline without adding recipes o
   assert.equal(report.production_recipe_audits.length, 3);
   assert.equal(report.candidate_audits.length, 0);
   assert.equal(report.concrete_research_leads.length, 8);
-  assert.equal(report.source_evidence.length, 25);
-  assert.deepEqual(report.summary.source_count_by_grade, { A: 20, B: 4, C: 1 });
+  assert.equal(report.source_evidence.length, 20);
+  assert.deepEqual(report.summary.source_count_by_grade, { A: 16, B: 3, C: 1 });
   assert.equal(report.household_journeys.length, 16);
   assert.equal(report.summary.production_recipe_changes, 0);
   assert.equal(report.summary.regional_candidate_changes, 0);
@@ -80,7 +80,7 @@ test('completion remains research in progress while evidence, ratios, household 
 test('summary is derived from report rows', () => {
   const report = buildNorthwestOnePotResearchReport(inputs);
 
-  assert.deepEqual(report.summary.source_count_by_grade, { A: 20, B: 4, C: 1 });
+  assert.deepEqual(report.summary.source_count_by_grade, { A: 16, B: 3, C: 1 });
   assert.equal(
     formatNorthwestOnePotResearchSummary(report),
     '3 Northwest production audits · 0 candidates · 8 research leads · 16 journeys · Northwest research in progress',
@@ -95,7 +95,7 @@ test('report validator rejects dishonest completion and count drift', () => {
   const message = validateNorthwestOnePotResearchReport(broken).join('\n');
 
   assert.match(message, /completion cannot be complete/);
-  assert.match(message, /summary source_count expected 25, got 99/);
+  assert.match(message, /summary source_count expected 20, got 99/);
   assert.match(message, /region production_recipe_count expected 3, got 1/);
 });
 

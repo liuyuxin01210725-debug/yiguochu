@@ -8,7 +8,7 @@
 - 生产菜谱审计：3
 - 现有候选审计：0
 - 独立研究线索：8
-- 来源：25（A 级 20，B 级 4，C 级 1）
+- 来源：20（A 级 16，B 级 3，C 级 1）
 - 家庭旅程：16（已人工评审 0）
 - 当前状态：research_in_progress
 - 阻塞项：production_evidence_gaps、ratio_dsl_unresolved、household_vessel_adaptation_unresolved、safety_endpoint_incomplete、human_journey_review_incomplete
@@ -142,18 +142,13 @@
 | [康乐传统美食](https://www.gskanglexian.gov.cn/klx/klly/tsms/KLCTMS/art/2022/art_015d1891273e4070a60b68001ef2109a.html)（康乐县人民政府，2017-12-10） | A | lead:gansu-heyan-jiumianpian-broth:noodle_piece_broth_structure | lead:gansu-heyan-jiumianpian-broth:heyan_exact_recipe、lead:gansu-heyan-jiumianpian-broth:single_pot_equivalence |
 | [临夏州公布第六批州级非物质文化遗产代表性项目名录](https://xgs.newgscloud.com/pages/2024/08/02/97af560785214aca940ee806f0509fbb.html)（新甘肃/甘肃日报，2024-08-02） | A | lead:gansu-heyan-jiumianpian-broth:heyan_ich_identity | lead:gansu-heyan-jiumianpian-broth:heyan_exact_recipe |
 | [这碗会宁搅团，藏着黄土高原千年的饮食记忆](https://www.huining.gov.cn/xxgk/xzxxgk/gcyz/fdzdgknr/cwgk/xcsq/cwgk/art/2025/art_13edb2bf82d54c5185daca9c3fe0b60c.html)（会宁县融媒体中心/会宁电视台，2025-12-11） | A | lead:huaining-mixed-grain-jiaotuan:manual_stirred_grain_structure | lead:huaining-mixed-grain-jiaotuan:unattended_appliance_equivalence |
-| [“兰小味”系列宣传短片之“碳水炸弹”热播](https://www.gscn.com.cn/culture/system/2024/04/30/013135572.shtml)（中国甘肃网（来源兰州日报），2024-04-30） | B | — | — |
 | [“糁饭”还是“馓饭”？看天水学者怎么辩！](https://gansu.gscn.com.cn/system/2019/03/15/012129101.shtml)（中国甘肃网，2019-03-15） | C | boundary:sanfan_dispute_not_family:naming_dispute | — |
-| [大武口美食之羊肉搓面](https://www.dwk.gov.cn/zjdwk/whly/ms/202112/t20211220_3236967.html)（大武口区文旅局，2021-12-20） | A | — | — |
 | [宁夏的生汆面，有一些专属浪漫。](https://nynct.nx.gov.cn/rdzt/ppny/202504/t20250423_4889376.html)（宁夏回族自治区农业宣传教育展览中心，2025-04-23） | A | lead:ningxia-shengcuan-jiumian-bowl:shengcuan_meatball_noodle_piece_structure | lead:ningxia-shengcuan-jiumian-bowl:all_noodle_piece_branches_one_recipe、lead:ningxia-shengcuan-jiumian-bowl:meat_under_cooking |
 | [不尝一次宁夏大米，难以给胃一个交代！](https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html)（宁夏农业农村厅农宣中心，2022-11-03） | A | lead:ningxia-rouzhanfan-steamed-rice:pre_saute_then_steam_structure | lead:ningxia-rouzhanfan-steamed-rice:any_meat_rice_braise_equivalence |
-| [五一碳水狂欢预警！从银川到中卫，宁夏五市必吃榜单请收好](https://nynct.nx.gov.cn/rdzt/ppny/202510/t20251022_5059812.html)（宁夏农业宣传教育展览中心，2025-05-05） | A | — | — |
-| [游在宁夏 吃在吴忠](https://www.wuzhong.gov.cn/sywz/cxwz/202302/t20230221_3968499.html)（吴忠市人民政府，2023-02-21） | A | — | — |
 | [食品安全消费提示](https://www.xiongan.gov.cn/20250429/7cbd00ffe7bd45668510b7f9fecbdd5d/c.html)（雄安新区综合执法局，2025-04-29） | A | safety:animal_food_cook_through_and_separate:principle | lead:ningxia-shengcuan-jiumian-bowl:meat_under_cooking |
 | [新疆抓饭](https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml)（新疆维吾尔自治区人民政府，undated） | A | production:xinjiang-lamb-pilaf:staged_lamb_carrot_onion_rice_structure | production:xinjiang-lamb-pilaf:named_lamb_cut_and_fruit_slots、production:xinjiang-lamb-pilaf:project_ratio_time_safety |
 | [新疆味道](https://wlt.xinjiang.gov.cn/wlt/wlgl/201911/d45cbf5fae3241bfa10544b276418ba7.shtml)（新疆维吾尔自治区文化和旅游厅（转载新疆日报），2019-11-08） | A | production:xinjiang-lamb-pilaf:staged_lamb_carrot_onion_rice_structure | production:xinjiang-lamb-pilaf:named_lamb_cut_and_fruit_slots |
 | [“新”上好物｜抓饭：粒粒飘香](https://www.ts.cn/xwzx/shxw/202409/t20240923_23975204.shtml)（天山网，2025-01-12） | B | production:xinjiang-vegetable-pilaf:vegetarian_pilaf_existence | production:xinjiang-vegetable-pilaf:current_formula_equivalence |
-| [伊宁市第三批市级非物质文化遗产项目名录](https://www.yining.gov.cn/yining/c116600/202006/f3fad888b2fb449e9684fe810711447e.shtml)（伊宁市人民政府，2020-06-22） | A | — | — |
 | [第六批自治区级非遗代表性项目名录](https://www.xinjiang.gov.cn/xinjiang/zfgbml/202512/6e77e41eec4e487da460e81d7017c9f0.shtml)（新疆维吾尔自治区人民政府，2025-11-15） | A | lead:turpan-soup-rice-technique:turpan_ich_identity | lead:turpan-soup-rice-technique:recipe_formula |
 | [保护单位通知](https://wlt.xinjiang.gov.cn/wlt/tzgg/202510/48022b058ad94f8da334a2c6ffaa0c79.shtml)（新疆维吾尔自治区文化和旅游厅，2025-10-14） | A | lead:turpan-soup-rice-technique:protection_unit | lead:turpan-soup-rice-technique:recipe_formula |
 | [从新疆美食探源到味觉文化基因认同](https://www.ts.cn/xwzx/whxw/202512/t20251202_31829236.shtml)（天山网/新疆日报，2025-12-02） | B | lead:xinjiang-household-jupianzi-soup:household_soup_noodle_piece_description | lead:xinjiang-household-jupianzi-soup:exclusive_regional_identity、lead:xinjiang-household-jupianzi-soup:project_ratio_safety |

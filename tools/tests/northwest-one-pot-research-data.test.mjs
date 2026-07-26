@@ -53,7 +53,12 @@ test('validator keeps the fixed Northwest adaptation boundaries fail-closed', ()
 });
 
 test('source claims retain direct proof, non-proof and contradiction directions without forged dates', () => {
+  assert.equal(assessment.source_refs.length, 20);
+  assert.equal(assessment.source_refs.filter(row => row.source_grade === 'A').length, 16);
+  assert.equal(assessment.source_refs.filter(row => row.source_grade === 'B').length, 3);
+  assert.equal(assessment.source_refs.filter(row => row.source_grade === 'C').length, 1);
   assert.ok(assessment.source_refs.every(row => Array.isArray(row.proves) && Array.isArray(row.does_not_prove) && Array.isArray(row.contradicts)));
+  assert.ok(assessment.source_refs.every(row => row.proves.length + row.does_not_prove.length + row.contradicts.length > 0));
   assert.ok(assessment.source_refs.filter(row => row.published_at === 'undated').every(row => typeof row.date_note === 'string' && row.date_note.length > 0));
   const huayin = assessment.concrete_research_leads.find(row => row.lead_id === 'huayin-mashi-pao');
   assert.equal(huayin.claims.cross_locality_shape_not_proven.verdict, 'not_proven');
@@ -80,7 +85,7 @@ test('validator fails closed for baseline drift, claim-direction inflation and m
 
 test('validator rejects orphan source tokens, deleted claims, and verdict inflation even when a source direction is edited too', () => {
   const orphan = structuredClone(assessment);
-  orphan.source_refs.find(row => row.source_id === 'gs-lanzhou-noodle-2024').proves.push('lead:invented:claim');
+  orphan.source_refs.find(row => row.source_id === 'gs-kangle-noodle-2017').proves.push('lead:invented:claim');
   assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: orphan }).join('\n'), /is not a canonical claim token/);
 
   const deleted = structuredClone(assessment);
@@ -96,6 +101,19 @@ test('validator rejects orphan source tokens, deleted claims, and verdict inflat
     source.proves.push(token);
   }
   assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: inflated }).join('\n'), /fixed verdict must remain not_proven/);
+});
+
+test('validator rejects a fixed source that contributes no evidence direction', () => {
+  const broken = structuredClone(assessment);
+  const source = broken.source_refs.find(row => row.source_id === 'sn-mizhi-laba-2017');
+  source.proves = [];
+  source.does_not_prove = [];
+  source.contradicts = [];
+
+  assert.match(
+    validateNorthwestOnePotResearch({ ...inputs, assessment: broken }).join('\n'),
+    /source sn-mizhi-laba-2017 must contribute at least one evidence direction/,
+  );
 });
 
 test('validator fixes entity province ownership, per-province lead distribution, and mapping province scope', () => {
