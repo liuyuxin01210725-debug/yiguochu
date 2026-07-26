@@ -78,3 +78,33 @@ test('validator is total for malformed roots and nested rows', () => {
     regionalResearch: { entries: [null] },
   }));
 });
+
+test('ten household journeys cover positive negative and boundary cases', () => {
+  assert.equal(assessment.journey_cases.length, 10);
+  assert.equal(new Set(assessment.journey_cases.map(row => row.journey_id)).size, 10);
+  assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'supported_family_route'));
+  assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'needs_more_evidence'));
+  assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'unsupported_for_family'));
+  assert.ok(assessment.journey_cases.every(row => row.human_review.status === 'pending'));
+});
+
+test('journeys keep the critical household decisions explicit', () => {
+  const byId = new Map(assessment.journey_cases.map(row => [row.journey_id, row]));
+  assert.deepEqual(byId.get('ne-j03').expected_used_items, ['排骨', '油豆角', '玉米面']);
+  assert.equal(byId.get('ne-j05').expected_research_outcome, 'needs_more_evidence');
+  assert.match(byId.get('ne-j05').explanation, /北京平谷.*东北关联仍未核实/);
+  assert.equal(byId.get('ne-j08').expected_research_outcome, 'unsupported_for_family');
+  assert.deepEqual(byId.get('ne-j08').expected_unplanned_items, ['鸡肉', '蘑菇', '土豆']);
+  assert.equal(byId.get('ne-j09').intent, 'quick');
+  assert.equal(byId.get('ne-j10').expected_used_items.length, 0);
+});
+
+test('journey validator rejects invented review results and unsupported outcomes', () => {
+  const broken = structuredClone(assessment);
+  broken.journey_cases[0].human_review.status = 'passed';
+  broken.journey_cases[0].human_review.reviewer = '';
+  broken.journey_cases[1].expected_research_outcome = 'pretend_success';
+  const message = validateNortheastStewResearch({ ...inputs, assessment: broken }).join('\n');
+  assert.match(message, /completed human review requires reviewer, date, notes and conclusion/);
+  assert.match(message, /expected_research_outcome is invalid/);
+});

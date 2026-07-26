@@ -71,9 +71,10 @@ test('initial northeast round remains in progress instead of claiming completion
 
 test('summary text is derived from the report facts', () => {
   const report = buildNortheastStewResearchReport(inputs);
+  assert.equal(report.summary.journey_count, 10);
   assert.equal(
     formatNortheastStewResearchSummary(report),
-    '4 prototypes · 7 sources · 0 journeys · research_in_progress',
+    '4 prototypes · 7 sources · 10 journeys · research_in_progress',
   );
 });
 

@@ -18,6 +18,9 @@ const STATES = new Set(['fact_checked', 'needs_more_evidence', 'rejected']);
 const DESTINATIONS = new Set(['recipe_evidence', 'template_evidence', 'taxonomy_rule', 'ratio_rule', 'content_only', 'rejected']);
 const SOURCE_GRADES = new Set(['A', 'B', 'C']);
 const EVIDENCE_STATUSES = new Set(['supported', 'family_supported', 'not_proven', 'supported_in_beijing']);
+const JOURNEY_OUTCOMES = new Set(['supported_family_route', 'needs_more_evidence', 'unsupported_for_family']);
+const JOURNEY_INTENTS = new Set(['normal', 'quick']);
+const REVIEW_STATUSES = new Set(['pending', 'passed', 'failed']);
 
 const ROOT_FIELDS = new Set([
   'schema_version', 'assessment_version', 'region_id', 'family_id',
@@ -40,6 +43,11 @@ const PRIORITY_FIELDS = new Set(['product_score', 'regional_score', 'risk_penalt
 const FAMILY_FIELDS = new Set(['family_anchor', 'staple_forms', 'safety_branches']);
 const STAPLE_FIELDS = new Set(['form_id', 'name', 'evidence_status', 'source_ids', 'shape_notes']);
 const SAFETY_FIELDS = new Set(['branch_id', 'name', 'evidence_status', 'source_ids', 'endpoint_note']);
+const JOURNEY_FIELDS = new Set([
+  'journey_id', 'mode', 'intent', 'raw_items', 'expected_used_items',
+  'expected_unplanned_items', 'expected_research_outcome', 'explanation', 'human_review',
+]);
+const REVIEW_FIELDS = new Set(['status', 'reviewer', 'reviewed_at', 'notes', 'conclusion']);
 
 const isObject = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 const asObject = value => isObject(value) ? value : {};
@@ -222,6 +230,52 @@ function validateFamilyModel(value, sourceIds, errors) {
   }
 }
 
+function validateJourneys(value, errors) {
+  if (!Array.isArray(value)) {
+    errors.push('assessment: journey_cases must be an array');
+    return;
+  }
+  if (value.length !== 10) errors.push('assessment: journey_cases must contain exactly 10 items');
+  const ids = [];
+  for (const [index, journeyValue] of value.entries()) {
+    const journey = asObject(journeyValue);
+    const label = hasText(journey.journey_id) ? journey.journey_id : `journey ${index}`;
+    if (!isObject(journeyValue)) {
+      errors.push(`${label}: journey must be an object`);
+      continue;
+    }
+    unknownFields(journey, JOURNEY_FIELDS, label, errors);
+    if (!hasText(journey.journey_id)) errors.push(`${label}: journey_id must be a non-empty string`);
+    if (journey.mode !== 'pantry') errors.push(`${label}: mode must be pantry`);
+    if (!JOURNEY_INTENTS.has(journey.intent)) errors.push(`${label}: intent is invalid`);
+    const raw = textArray(journey.raw_items, `${label}: raw_items`, errors);
+    const used = textArray(journey.expected_used_items, `${label}: expected_used_items`, errors, { nonEmpty: false });
+    const unplanned = textArray(journey.expected_unplanned_items, `${label}: expected_unplanned_items`, errors, { nonEmpty: false });
+    if (used.some(item => unplanned.includes(item))) errors.push(`${label}: used and unplanned items must not overlap`);
+    const partition = [...used, ...unplanned];
+    if (JSON.stringify([...partition].sort()) !== JSON.stringify([...raw].sort())) {
+      errors.push(`${label}: used and unplanned items must partition raw_items`);
+    }
+    if (!JOURNEY_OUTCOMES.has(journey.expected_research_outcome)) errors.push(`${label}: expected_research_outcome is invalid`);
+    if (!hasText(journey.explanation)) errors.push(`${label}: explanation must be a non-empty string`);
+    const review = asObject(journey.human_review);
+    if (!isObject(journey.human_review)) errors.push(`${label}: human_review must be an object`);
+    unknownFields(review, REVIEW_FIELDS, `${label}: human_review`, errors);
+    if (!REVIEW_STATUSES.has(review.status)) errors.push(`${label}: human_review.status is invalid`);
+    if (review.status === 'pending') {
+      if (review.reviewer !== null || review.reviewed_at !== null || review.conclusion !== null || review.notes !== '') {
+        errors.push(`${label}: pending human review must remain unfilled`);
+      }
+    } else if (!hasText(review.reviewer) || !validDate(review.reviewed_at) || !hasText(review.notes) || !hasText(review.conclusion)) {
+      errors.push(`${label}: completed human review requires reviewer, date, notes and conclusion`);
+    }
+    ids.push(journey.journey_id);
+  }
+  if (new Set(ids).size !== ids.length) errors.push('journey_id must be unique');
+  const expectedIds = Array.from({ length: 10 }, (_, index) => `ne-j${String(index + 1).padStart(2, '0')}`);
+  if (JSON.stringify(ids.filter(hasText).sort()) !== JSON.stringify(expectedIds)) errors.push('journey_id must match ne-j01 through ne-j10');
+}
+
 export function validateNortheastStewResearch({ assessment, regionalAtlas, regionalResearch } = {}) {
   if (!isObject(assessment)) return ['assessment must be an object'];
   const errors = [];
@@ -254,6 +308,6 @@ export function validateNortheastStewResearch({ assessment, regionalAtlas, regio
   for (const [index, prototype] of prototypes.entries()) validatePrototype(prototype, index, sourceById, errors);
 
   validateFamilyModel(assessment.family_model, new Set(sourceById.keys()), errors);
-  if (!Array.isArray(assessment.journey_cases)) errors.push('assessment: journey_cases must be an array');
+  validateJourneys(assessment.journey_cases, errors);
   return errors;
 }

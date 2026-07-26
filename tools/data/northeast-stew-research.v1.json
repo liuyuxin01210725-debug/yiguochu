@@ -323,5 +323,116 @@
       {"branch_id": "green_beans", "name": "豆角", "evidence_status": "unresearched", "source_ids": ["hlj-culture-autumn-pot-2025", "jilin-baishan-food-2024"], "endpoint_note": "必须独立建立充分熟制规则。"}
     ]
   },
-  "journey_cases": []
+  "journey_cases": [
+    {
+      "journey_id": "ne-j01",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["鸡腿肉", "榛蘑", "土豆", "玉米面"],
+      "expected_used_items": ["鸡腿肉", "榛蘑", "土豆", "玉米面"],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "鸡肉蘑菇土豆炖菜和锅边玉米饼分别有据，但四项固定组合、鸡腿部位和家庭比例仍需核实。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j02",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["鸡胸肉", "香菇", "土豆", "玉米面"],
+      "expected_used_items": ["鸡胸肉", "香菇", "土豆", "玉米面"],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "鸡胸肉和香菇属于家庭适配替换假设，必须建立部位、菌菇和火候兼容规则，不能冒充地方原做法。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j03",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["排骨", "油豆角", "玉米面"],
+      "expected_used_items": ["排骨", "油豆角", "玉米面"],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "supported_family_route",
+      "explanation": "黑龙江官方来源直接支持排骨油豆角铁锅炖和锅边玉米面饼的家族结构，仍需补家庭比例和安全终点。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j04",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["排骨", "普通豆角", "玉米面"],
+      "expected_used_items": ["排骨", "普通豆角", "玉米面"],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "油豆角替换为普通豆角需要明确 taxonomy、含水和充分熟制兼容规则，不能仅凭同属豆角自动放行。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j05",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["排骨", "豆角", "面粉"],
+      "expected_used_items": ["排骨", "豆角", "面粉"],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "北京平谷粘卷子结构已核实，但东北关联仍未核实；北京事实可在京津冀轮复用，不能证明东北存在或不存在。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j06",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["鲤鱼", "白菜", "玉米面"],
+      "expected_used_items": ["鲤鱼", "白菜", "玉米面"],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "鱼锅和锅边玉米饼家族有据，但白菜作为同锅蔬菜以及家庭鱼类火候仍需独立核实。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j07",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["鲤鱼", "豆腐", "白菜", "玉米面"],
+      "expected_used_items": ["鲤鱼", "玉米面"],
+      "expected_unplanned_items": ["豆腐", "白菜"],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "当前证据只支持鱼锅与锅边玉米饼家族；豆腐和白菜保留为未证实可选槽位，不静默当作传统核心。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j08",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["鸡肉", "蘑菇", "土豆"],
+      "expected_used_items": [],
+      "expected_unplanned_items": ["鸡肉", "蘑菇", "土豆"],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "缺少本家族必须的锅边主食；普通鸡肉蘑菇土豆炖菜不能冒充 stew-with-staple 完整一锅主餐。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j09",
+      "mode": "pantry",
+      "intent": "quick",
+      "raw_items": ["排骨", "豆角", "玉米面"],
+      "expected_used_items": [],
+      "expected_unplanned_items": ["排骨", "豆角", "玉米面"],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "尚无三十分钟内完成排骨、豆角和锅边饼的比例与安全证据，不对 quick 意图做虚假承诺。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    },
+    {
+      "journey_id": "ne-j10",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": ["鸡肉", "排骨", "鱼", "豆角", "土豆", "白菜", "蘑菇", "豆腐", "玉米面"],
+      "expected_used_items": [],
+      "expected_unplanned_items": ["鸡肉", "排骨", "鱼", "豆角", "土豆", "白菜", "蘑菇", "豆腐", "玉米面"],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "多个蛋白和全部蔬菜不能被强塞进一锅；未来应由确定性 Planner 分锅，本研究家族不输出伪完整计划。",
+      "human_review": {"status": "pending", "reviewer": null, "reviewed_at": null, "notes": "", "conclusion": null}
+    }
+  ]
 }
