@@ -14,6 +14,21 @@ const EXPECTED_LEADS = new Set([
   'hainan-dingan-cai-bao-finished-rice',
   'macao-portuguese-style-seafood-rice',
 ]);
+const EXPECTED_FAMILIES = new Set([
+  'raw-rice-claypot-late-named-topping',
+  'natural-dye-steamed-glutinous-rice',
+  'finished-rice-cooked-filling-lettuce-wrap',
+  'coconut-shredded-rice-staple',
+  'macao-portuguese-style-seafood-rice-unresolved',
+]);
+const EXPECTED_BOUNDARIES = new Set([
+  'claypot-not-generic-covered-pot',
+  'named-claypot-branches-not-free-slots',
+  'natural-dyes-not-food-powder-equivalence',
+  'guangxi-pineapple-rice-unproven',
+  'dingan-cai-bao-not-raw-rice-one-pot',
+  'macao-menu-not-process',
+]);
 const VERDICTS = new Set(['supported', 'not_proven', 'contradicted']);
 const DESTINATIONS = new Set(['recipe_evidence', 'template_evidence', 'ratio_rule', 'new_family_research', 'research_only', 'substitution_rule']);
 const AUDIT_STATES = new Set(['needs_manual_review', 'needs_more_evidence', 'supported_with_boundaries']);
@@ -116,12 +131,22 @@ function validateLeads(assessment, sourceIds, directions, errors) {
 function validateSupport(assessment, sourceIds, directions, errors) {
   const families = asArray(assessment.family_model);
   if (families.length !== 5) errors.push('family_model must contain exactly 5 items');
+  if (!sameSet(families.filter(isObject).map(row => row.family_id), EXPECTED_FAMILIES)) errors.push('family IDs must match the fixed regional contract');
   families.forEach((row, index) => {
     const path = `family_model[${index}]`;
     if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
     for (const field of ['family_id', 'name', 'meal_structure', 'evidence_status']) if (!hasText(row[field])) errors.push(`${path}.${field} must be non-empty`);
   });
-  for (const field of ['adaptation_boundaries', 'safety_boundaries']) if (!Array.isArray(assessment[field]) || assessment[field].length === 0) errors.push(`${field} must be a non-empty array`);
+  const boundaries = asArray(assessment.adaptation_boundaries);
+  if (!Array.isArray(assessment.adaptation_boundaries) || boundaries.length === 0) errors.push('adaptation_boundaries must be a non-empty array');
+  if (!sameSet(boundaries.filter(isObject).map(row => row.boundary_id), EXPECTED_BOUNDARIES)) errors.push('adaptation boundary IDs must match the fixed regional contract');
+  boundaries.forEach((row, index) => {
+    const path = `adaptation_boundaries[${index}]`;
+    if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
+    for (const field of ['boundary_id', 'evidence_status', 'notes']) if (!hasText(row[field])) errors.push(`${path}.${field} must be non-empty`);
+    if (!VERDICTS.has(row.evidence_status) && row.evidence_status !== 'supported_with_boundaries') errors.push(`${path}.evidence_status is invalid`);
+  });
+  if (!Array.isArray(assessment.safety_boundaries) || assessment.safety_boundaries.length === 0) errors.push('safety_boundaries must be a non-empty array');
   asArray(assessment.safety_boundaries).forEach((row, index) => {
     const path = `safety_boundaries[${index}]`;
     if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
@@ -132,6 +157,33 @@ function validateSupport(assessment, sourceIds, directions, errors) {
     textArray(row.required_controls, `${path}.required_controls`, errors);
     if (!hasText(row.endpoint_note)) errors.push(`${path}.endpoint_note must be non-empty`);
   });
+}
+
+function validateFamilyReferences(assessment, errors) {
+  asArray(assessment.concrete_research_leads).filter(isObject).forEach((row, index) => {
+    if (!EXPECTED_FAMILIES.has(row.family_id)) errors.push(`concrete_research_leads[${index}].family_id must reference a fixed family`);
+  });
+  asArray(assessment.journey_cases).filter(isObject).forEach((row, index) => {
+    for (const familyId of asArray(row.expected_family_ids)) {
+      if (!EXPECTED_FAMILIES.has(familyId)) errors.push(`journey_cases[${index}].expected_family_ids contains unknown family ${familyId}`);
+    }
+  });
+}
+
+function validateRequiredClaims(assessment, errors) {
+  const production = new Map(asArray(assessment.production_recipe_audits).filter(isObject).map(row => [`production:${row.recipe_id}`, row]));
+  const leads = new Map(asArray(assessment.concrete_research_leads).filter(isObject).map(row => [`lead:${row.lead_id}`, row]));
+  const required = [
+    ['lead:cantonese-claypot-rice-technique', 'late_named_topping_structure', 'supported', 'late named topping structure claim must remain supported'],
+    ['production:guangxi-five-color-glutinous-rice', 'guangxi_pineapple_rice_regional_identity', 'not_proven', 'Guangxi pineapple rice regional identity claim must remain not_proven'],
+    ['production:hainan-cai-bao-rice', 'single_vessel_one_pot_equivalence', 'not_proven', 'Dingan cai bao single-vessel claim must remain not_proven'],
+    ['lead:hainan-coconut-shredded-rice', 'complete_main_meal_sufficiency', 'not_proven', 'coconut rice meal sufficiency claim must remain not_proven'],
+    ['lead:macao-portuguese-style-seafood-rice', 'single_pot_process', 'not_proven', 'Macao seafood rice single-pot claim must remain not_proven'],
+  ];
+  for (const [subject, claimId, verdict, error] of required) {
+    const row = production.get(subject) || leads.get(subject);
+    if (row?.claims?.[claimId]?.verdict !== verdict) errors.push(error);
+  }
 }
 
 function validateJourneys(assessment, errors) {
@@ -190,7 +242,9 @@ export function validateLingnanHkMacaoOnePotResearch({ assessment, recipeLibrary
   validateLeads(assessment, ids, directions, errors);
   validateSupport(assessment, ids, directions, errors);
   validateJourneys(assessment, errors);
+  validateFamilyReferences(assessment, errors);
   validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regionalMappings }, errors);
   validateInvariants(assessment, errors);
+  validateRequiredClaims(assessment, errors);
   return errors;
 }

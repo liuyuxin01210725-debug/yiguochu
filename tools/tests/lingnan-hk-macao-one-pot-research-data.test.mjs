@@ -83,6 +83,59 @@ test('five families, evidence directions and fifteen pending household journeys 
   assert.ok(assessment.source_refs.some(row => row.published_at === 'undated'));
 });
 
+test('official-source manifest pins the verified Guangdong standard and Macao tourism source', () => {
+  const byId = new Map(assessment.source_refs.map(row => [row.source_id, row]));
+  assert.deepEqual(byId.get('gd-cantonese-standard-undated'), {
+    ...byId.get('gd-cantonese-standard-undated'),
+    url: 'https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A',
+    title: '粤菜餐厅西关风情特色服务规范（DB44/T 2423-2023）',
+    publisher: '国家标准信息公共服务平台',
+  });
+  assert.deepEqual(byId.get('mo-tourism-portuguese-seafood-rice-undated'), {
+    ...byId.get('mo-tourism-portuguese-seafood-rice-undated'),
+    url: 'https://www.macaotourism.gov.mo/en/dining/taste-of-macao/macanese-and-portuguese-dishes',
+    title: 'Macanese & Portuguese Dishes',
+    publisher: '澳门特别行政区政府旅游局',
+  });
+});
+
+test('validator locks family membership, adaptation boundaries, journey references and core claims fail-closed', () => {
+  const familyIds = [
+    'coconut-shredded-rice-staple',
+    'finished-rice-cooked-filling-lettuce-wrap',
+    'macao-portuguese-style-seafood-rice-unresolved',
+    'natural-dye-steamed-glutinous-rice',
+    'raw-rice-claypot-late-named-topping',
+  ];
+  assert.deepEqual(assessment.family_model.map(row => row.family_id).sort(), familyIds);
+  const boundaryIds = [
+    'claypot-not-generic-covered-pot', 'dingan-cai-bao-not-raw-rice-one-pot',
+    'guangxi-pineapple-rice-unproven', 'macao-menu-not-process',
+    'named-claypot-branches-not-free-slots', 'natural-dyes-not-food-powder-equivalence',
+  ];
+  assert.deepEqual(assessment.adaptation_boundaries.map(row => row.boundary_id).sort(), boundaryIds);
+
+  const familyBroken = structuredClone(assessment);
+  familyBroken.family_model[0].family_id = 'bogus-family';
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: familyBroken }).join('\n'), /family IDs must match the fixed regional contract/);
+
+  const leadBroken = structuredClone(assessment);
+  leadBroken.concrete_research_leads[0].family_id = 'unknown-family';
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: leadBroken }).join('\n'), /family_id must reference a fixed family/);
+
+  const boundaryBroken = structuredClone(assessment);
+  boundaryBroken.adaptation_boundaries = [null];
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /adaptation boundary IDs must match the fixed regional contract/);
+
+  const journeyBroken = structuredClone(assessment);
+  journeyBroken.journey_cases[0].expected_family_ids = ['unknown-family'];
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: journeyBroken }).join('\n'), /expected_family_ids contains unknown family unknown-family/);
+
+  const claimBroken = structuredClone(assessment);
+  delete claimBroken.concrete_research_leads.find(row => row.lead_id === 'cantonese-claypot-rice-technique').claims.late_named_topping_structure;
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: claimBroken }).join('\n'), /late named topping structure claim must remain supported/);
+});
+
 test('validator rejects vessel collapse, false regional pineapple attribution and recipe-list promotion', () => {
   const broken = structuredClone(assessment);
   broken.concrete_research_leads.find(row => row.lead_id === 'cantonese-claypot-rice-technique').claims.household_vessel_equivalence.verdict = 'supported';
