@@ -29,8 +29,9 @@ test('report derives the fixed Qinghai Tibet 4/0/5/6/11/12 baseline and retains 
   assert.equal(report.source_evidence.length, 11);
   assert.equal(report.household_journeys.length, 12);
   assert.equal(report.critical_boundaries.length, 5);
-  assert.equal(report.source_data_normalized_fingerprint, '6b00e627312cf908cae453bb0bc6d6c5f43e8997deb95322468ff564b2c89230');
-  assert.equal(report.input_data_normalized_fingerprint, '302d1b4c7a5a4268b4ce94742d7ca163ef1f4c05cfe6561820e2988a5abd7a05');
+  assert.equal(report.technique_boundaries.length, 3);
+  assert.equal(report.source_data_normalized_fingerprint, 'a6a54b822d74d0a8f3a01abe31ba73cf28b066326c48f05ba58aa13c943639ff');
+  assert.equal(report.input_data_normalized_fingerprint, 'a2c2332bdbb37a8f744bb41dfa6b5e5ad24afa499560823e9f5c76fa78a6cf77');
   assert.deepEqual(report.summary.source_count_by_grade, { A: 11, B: 0, C: 0 });
 });
 
@@ -64,7 +65,18 @@ test('claim and ingredient-shape matrices keep regional, meal-context, adaptatio
   assert.equal(claims.get('qinghai-ga-mianpian-broth:project_single_pot_equivalence').verdict, 'not_proven');
   assert.equal(claims.get('tibetan-patu-one-pot:project_ratio_time_vessel_equivalence').evidence_direction, 'does_not_prove');
   assert.deepEqual(shapes.get('noodle_lump').lead_ids, ['tibetan-patu-one-pot']);
+  assert.deepEqual(shapes.get('barley_grain').production_recipe_ids, []);
+  assert.deepEqual(shapes.get('barley_grain').production_evidence_context_recipe_ids, ['tibetan-savory-congee']);
+  assert.deepEqual(shapes.get('milk').production_recipe_ids, ['tibetan-savory-congee']);
+  assert.deepEqual(shapes.get('yak_beef_dice').lead_ids, ['tibetan-patu-one-pot']);
   assert.equal(report.safety_boundaries.find(row => row.safety_id === 'animal-food-cook-through-and-separate').evidence_status, 'principle_only');
+});
+
+test('report carries all three technique boundaries as validated machine data', () => {
+  const report = buildQinghaiTibetOnePotResearchReport(inputs);
+  const ids = report.technique_boundaries.map(row => row.technique_id).sort();
+  assert.deepEqual(ids, ['qinghai-barley-long-simmer-boundary', 'qinghai-ga-mianpian-branch-boundary', 'tibetan-patu-yak-dice-boundary']);
+  assert.ok(report.technique_boundaries.every(row => row.source_ids.length > 0 && row.claim_tokens.length > 0));
 });
 
 test('product decisions and completion stay derived while the five fixed blockers remain unresolved', () => {
@@ -76,7 +88,7 @@ test('product decisions and completion stay derived while the five fixed blocker
     subject_id: 'tibetan-patu-one-pot',
     state: 'research_only',
     product_destinations: ['new_family_research', 'research_only'],
-    decision_reason: '独立记录帕图，不与古突混写。',
+    decision_reason: '独立记录帕图与牦牛肉丁结构，不与古突或普通肉类替换混写。',
   });
   assert.equal(report.completion.status, 'research_in_progress');
   assert.deepEqual(report.completion.blockers, [

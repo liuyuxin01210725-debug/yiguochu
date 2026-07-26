@@ -95,10 +95,16 @@
           "reason": "具名熬饭轮廓不证明当前项目配方是传统复刻。"
         }
       },
-      "ingredient_shapes": [
+      "production_ingredient_shapes": [
         "millet",
         "potato",
         "cooked_chickpea"
+      ],
+      "evidence_context_shapes": [
+        "broth",
+        "white_radish",
+        "potato",
+        "vermicelli"
       ],
       "forbidden_claims": [
         "traditional_replica",
@@ -166,9 +172,15 @@
           "reason": "节庆组合不证明当前项目步骤与比例是传统复刻。"
         }
       },
-      "ingredient_shapes": [
+      "production_ingredient_shapes": [
+        "food_grade_ginseng_fruit",
+        "rice"
+      ],
+      "evidence_context_shapes": [
+        "ginseng_fruit",
         "rice",
-        "ginseng_fruit"
+        "butter",
+        "sugar"
       ],
       "forbidden_claims": [
         "traditional_replica",
@@ -243,8 +255,14 @@
           "reason": "节庆习俗材料不证明当前家庭适配配方是传统复刻。"
         }
       },
-      "ingredient_shapes": [
-        "noodle_soup"
+      "production_ingredient_shapes": [
+        "wheat_dough",
+        "leafy_green",
+        "water"
+      ],
+      "evidence_context_shapes": [
+        "noodle_dough",
+        "symbolic_filling_context"
       ],
       "forbidden_claims": [
         "traditional_replica",
@@ -302,11 +320,15 @@
           "evidence_source_ids": [
             "xz-gov-porridge-2025"
           ],
-          "reason": "背景材料不证明现有配方。"
+          "reason": "背景材料不证明现有大米、牛奶配方。"
         }
       },
-      "ingredient_shapes": [
-        "barley",
+      "production_ingredient_shapes": [
+        "rice",
+        "milk"
+      ],
+      "evidence_context_shapes": [
+        "barley_grain",
         "savory_porridge"
       ],
       "forbidden_claims": [
@@ -317,7 +339,7 @@
         "recipe_evidence",
         "research_only"
       ],
-      "decision_reason": "保留地域粥食背景与审计边界。",
+      "decision_reason": "生产食材与青稞粥食证据语境分层记录。",
       "recipe_name": "藏式咸稀饭风味家庭适配版",
       "recipe_status": "auto_approved",
       "cuisine": "藏族饮食",
@@ -429,7 +451,7 @@
           "evidence_source_ids": [
             "qh-gonghe-barley-wheatberry-2023"
           ],
-          "reason": "官方材料支持青稞、麦仁与牛羊肉熬煮组合。"
+          "reason": "官方材料支持青稞、麦仁与牛羊肉长时熬煮组合。"
         },
         "free_grain_or_meat_slot": {
           "verdict": "not_proven",
@@ -437,6 +459,13 @@
             "qh-gonghe-barley-wheatberry-2023"
           ],
           "reason": "具名主料不能抽象为自由替换槽。"
+        },
+        "quick_or_30_45_minute_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "qh-gonghe-barley-wheatberry-2023"
+          ],
+          "reason": "长时熬煮线索不支持 quick 或 30–45 分钟压缩。"
         }
       },
       "ingredient_shapes": [
@@ -449,74 +478,118 @@
       ],
       "forbidden_shortcuts": [
         "free_grain_slot",
-        "free_meat_slot"
+        "free_meat_slot",
+        "quick",
+        "30_45_minute_compression"
       ],
       "open_questions": [
         "具体肉类",
-        "浸泡与时长",
+        "浸泡与长熬时长",
         "家用份量"
       ],
       "product_destinations": [
         "new_family_research",
         "research_only"
       ],
-      "decision_reason": "保留明确主料与长熬结构。"
+      "decision_reason": "保留明确主料与长熬结构，不进入 quick。"
     },
     {
       "lead_id": "qinghai-ga-mianpian-broth",
-      "name": "青海尕面片汤",
+      "name": "青海尕面片",
       "province_code": "CN-QH",
       "family_id": "qinghai-noodle-piece-broth-main-bowl",
-      "meal_structure": "hand_formed_noodle_pieces_in_savory_broth",
+      "meal_structure": "hand_torn_noodle_pieces_with_soup_mixed_or_stir_fried_branches",
       "production_recipe_id": null,
       "candidate_id": null,
       "source_ids": [
-        "qh-geermu-ga-mianpian-2023"
+        "qh-guide-ga-mianpian-2014",
+        "cn-animal-food-safety-2025"
       ],
       "claims": {
         "qinghai_household_noodle_identity": {
           "verdict": "supported",
           "evidence_source_ids": [
-            "qh-geermu-ga-mianpian-2023"
+            "qh-guide-ga-mianpian-2014"
           ],
-          "reason": "官方地方材料支持家常面食身份。"
+          "reason": "贵德县官方材料支持家常面食身份。"
+        },
+        "hand_torn_small_piece_boiling_sequence": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "qh-guide-ga-mianpian-2014"
+          ],
+          "reason": "来源支持手揪小片、投入沸水并煮熟。"
+        },
+        "meal_branch_context": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "qh-guide-ga-mianpian-2014"
+          ],
+          "reason": "来源明确记载汤吃、拌吃和炒吃分支。"
+        },
+        "mutton_first_then_noodle_sequence": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "qh-guide-ga-mianpian-2014"
+          ],
+          "reason": "来源支持羊肉先煮、再下面片的路径。"
         },
         "project_single_pot_equivalence": {
           "verdict": "not_proven",
           "evidence_source_ids": [
-            "qh-geermu-ga-mianpian-2023"
+            "qh-guide-ga-mianpian-2014"
           ],
-          "reason": "没有项目锅具和一锅过程证据。"
+          "reason": "来源不证明项目单锅等价。"
+        },
+        "soup_as_only_structure": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "qh-guide-ga-mianpian-2014"
+          ],
+          "reason": "汤式只是具名分支之一。"
+        },
+        "project_ratio_time_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "qh-guide-ga-mianpian-2014"
+          ],
+          "reason": "来源不提供项目比例、分钟或安全终点。"
         }
       },
       "ingredient_shapes": [
-        "noodle_piece",
-        "savory_broth"
+        "hand_torn_noodle_piece",
+        "boiling_water",
+        "soup_mixed_stir_fried_branches",
+        "mutton"
       ],
       "known_structure": [
-        "hand_formed_noodle_piece",
-        "broth"
+        "hand_torn_small_piece",
+        "boiling_water",
+        "soup_mixed_stir_fried_branches",
+        "mutton_first_then_noodle"
       ],
       "forbidden_shortcuts": [
-        "single_pot_equivalence"
+        "single_pot_equivalence",
+        "soup_as_only_structure",
+        "free_branch_substitution"
       ],
       "open_questions": [
         "面片含水",
-        "煮制顺序",
-        "家用比例"
+        "家用比例",
+        "羊肉熟制终点"
       ],
       "product_destinations": [
         "new_family_research",
         "research_only"
       ],
-      "decision_reason": "仅留作青海面片汤研究线索。"
+      "decision_reason": "保留汤、拌、炒分支；羊肉路径必须单独验证熟制终点。"
     },
     {
       "lead_id": "tibetan-patu-one-pot",
       "name": "西藏帕图一锅线索",
       "province_code": "CN-XZ",
       "family_id": "tibetan-patu-one-pot-main-bowl",
-      "meal_structure": "broth_with_named_noodle_lumps_and_mixed_ingredients",
+      "meal_structure": "dinner_thick_porridge_with_noodle_lumps_radish_and_yak_beef_dice",
       "production_recipe_id": null,
       "candidate_id": null,
       "source_ids": [
@@ -539,12 +612,26 @@
           ],
           "reason": "自治区材料支持帕图面食身份。"
         },
+        "dinner_noodle_lump_radish_yak_dice_thick_porridge_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "xz-gov-patu-2025"
+          ],
+          "reason": "来源支持晚餐、面疙瘩、萝卜、牦牛肉丁和熬成粥状。"
+        },
         "single_pot_equivalence": {
           "verdict": "not_proven",
           "evidence_source_ids": [
             "xz-gov-patu-2025"
           ],
           "reason": "身份材料不证明项目单锅等价。"
+        },
+        "free_meat_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xz-gov-patu-2025"
+          ],
+          "reason": "牦牛肉丁不能抽象为普通牛肉或鸡肉传统等价替换。"
         },
         "project_ratio_time_vessel_equivalence": {
           "verdict": "not_proven",
@@ -558,26 +645,32 @@
       "ingredient_shapes": [
         "noodle_lump",
         "bone_broth",
-        "radish"
+        "radish",
+        "yak_beef_dice",
+        "thick_porridge"
       ],
       "known_structure": [
-        "broth",
-        "noodle_lump"
+        "dinner",
+        "noodle_lump",
+        "radish",
+        "yak_beef_dice",
+        "thick_porridge"
       ],
       "forbidden_shortcuts": [
         "free_noodle_equivalence",
+        "free_meat_equivalence",
         "single_pot_equivalence"
       ],
       "open_questions": [
         "名称转写",
-        "肉类熟制终点",
+        "牦牛肉熟制终点",
         "家用锅具"
       ],
       "product_destinations": [
         "new_family_research",
         "research_only"
       ],
-      "decision_reason": "独立记录帕图，不与古突混写。"
+      "decision_reason": "独立记录帕图与牦牛肉丁结构，不与古突或普通肉类替换混写。"
     },
     {
       "lead_id": "tibetan-tuba-barley-thick-bowl",
@@ -640,8 +733,8 @@
     },
     {
       "family_id": "qinghai-noodle-piece-broth-main-bowl",
-      "name": "青海面片汤主碗",
-      "meal_structure": "hand_formed_noodle_pieces_in_savory_broth",
+      "name": "青海面片多分支主餐",
+      "meal_structure": "hand_torn_noodle_pieces_with_soup_mixed_or_stir_fried_branches",
       "evidence_status": "research_only"
     },
     {
@@ -653,7 +746,7 @@
     {
       "family_id": "tibetan-patu-one-pot-main-bowl",
       "name": "西藏帕图主碗",
-      "meal_structure": "broth_with_named_noodle_lumps_and_mixed_ingredients",
+      "meal_structure": "dinner_thick_porridge_with_noodle_lumps_radish_and_yak_beef_dice",
       "evidence_status": "research_only"
     },
     {
@@ -723,7 +816,7 @@
       "evidence_source_ids": [
         "qh-gonghe-barley-wheatberry-2023"
       ],
-      "reason": "官方材料支持青稞、麦仁与牛羊肉熬煮组合。"
+      "reason": "官方材料支持青稞、麦仁与牛羊肉长时熬煮组合。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -738,14 +831,69 @@
     },
     {
       "subject_type": "concrete_research_lead",
+      "subject_id": "qinghai-barley-wheatberry-meat-soup",
+      "claim_id": "quick_or_30_45_minute_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "qh-gonghe-barley-wheatberry-2023"
+      ],
+      "reason": "长时熬煮线索不支持 quick 或 30–45 分钟压缩。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "qinghai-ga-mianpian-broth",
+      "claim_id": "hand_torn_small_piece_boiling_sequence",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "qh-guide-ga-mianpian-2014"
+      ],
+      "reason": "来源支持手揪小片、投入沸水并煮熟。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "qinghai-ga-mianpian-broth",
+      "claim_id": "meal_branch_context",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "qh-guide-ga-mianpian-2014"
+      ],
+      "reason": "来源明确记载汤吃、拌吃和炒吃分支。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "qinghai-ga-mianpian-broth",
+      "claim_id": "mutton_first_then_noodle_sequence",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "qh-guide-ga-mianpian-2014"
+      ],
+      "reason": "来源支持羊肉先煮、再下面片的路径。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "qinghai-ga-mianpian-broth",
+      "claim_id": "project_ratio_time_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "qh-guide-ga-mianpian-2014"
+      ],
+      "reason": "来源不提供项目比例、分钟或安全终点。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
       "subject_id": "qinghai-ga-mianpian-broth",
       "claim_id": "project_single_pot_equivalence",
       "verdict": "not_proven",
       "evidence_direction": "does_not_prove",
       "evidence_source_ids": [
-        "qh-geermu-ga-mianpian-2023"
+        "qh-guide-ga-mianpian-2014"
       ],
-      "reason": "没有项目锅具和一锅过程证据。"
+      "reason": "来源不证明项目单锅等价。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -754,9 +902,20 @@
       "verdict": "supported",
       "evidence_direction": "proves",
       "evidence_source_ids": [
-        "qh-geermu-ga-mianpian-2023"
+        "qh-guide-ga-mianpian-2014"
       ],
-      "reason": "官方地方材料支持家常面食身份。"
+      "reason": "贵德县官方材料支持家常面食身份。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "qinghai-ga-mianpian-broth",
+      "claim_id": "soup_as_only_structure",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "qh-guide-ga-mianpian-2014"
+      ],
+      "reason": "汤式只是具名分支之一。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -768,6 +927,28 @@
         "xz-shannan-batu-2026"
       ],
       "reason": "地方文旅材料支持汤与面疙瘩组合。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "tibetan-patu-one-pot",
+      "claim_id": "dinner_noodle_lump_radish_yak_dice_thick_porridge_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "xz-gov-patu-2025"
+      ],
+      "reason": "来源支持晚餐、面疙瘩、萝卜、牦牛肉丁和熬成粥状。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "tibetan-patu-one-pot",
+      "claim_id": "free_meat_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xz-gov-patu-2025"
+      ],
+      "reason": "牦牛肉丁不能抽象为普通牛肉或鸡肉传统等价替换。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -977,27 +1158,38 @@
       "evidence_source_ids": [
         "xz-gov-porridge-2025"
       ],
-      "reason": "背景材料不证明现有配方。"
+      "reason": "背景材料不证明现有大米、牛奶配方。"
     }
   ],
   "ingredient_shape_matrix": [
     {
       "shape": "barley",
-      "production_recipe_ids": [
-        "tibetan-savory-congee"
-      ],
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "qinghai-barley-wheatberry-meat-soup"
       ],
       "source_types": [
-        "concrete_research_lead",
-        "production_recipe"
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "barley_grain",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-savory-congee"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
       ]
     },
     {
       "shape": "beef_broth",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "lhasa-tibetan-noodle-breakfast"
@@ -1009,6 +1201,7 @@
     {
       "shape": "beef_or_mutton",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "qinghai-barley-wheatberry-meat-soup"
@@ -1020,6 +1213,7 @@
     {
       "shape": "beef_piece",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "lhasa-tibetan-noodle-breakfast"
@@ -1029,8 +1223,21 @@
       ]
     },
     {
+      "shape": "boiling_water",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "qinghai-ga-mianpian-broth"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
       "shape": "bone_broth",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "tibetan-patu-one-pot"
@@ -1040,10 +1247,35 @@
       ]
     },
     {
+      "shape": "broth",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "qinghai-hao-fan"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "butter",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-ginseng-fruit-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
       "shape": "cooked_chickpea",
       "production_recipe_ids": [
         "qinghai-hao-fan"
       ],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [],
       "source_types": [
@@ -1053,6 +1285,7 @@
     {
       "shape": "dairy_curd",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "tibetan-tuba-barley-thick-bowl"
@@ -1062,10 +1295,47 @@
       ]
     },
     {
-      "shape": "ginseng_fruit",
+      "shape": "food_grade_ginseng_fruit",
       "production_recipe_ids": [
         "tibetan-ginseng-fruit-rice"
       ],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "ginseng_fruit",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-ginseng-fruit-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "hand_torn_noodle_piece",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "qinghai-ga-mianpian-broth"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "leafy_green",
+      "production_recipe_ids": [
+        "tibetan-gutu"
+      ],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [],
       "source_types": [
@@ -1075,6 +1345,7 @@
     {
       "shape": "meat_dice",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "tibetan-tuba-barley-thick-bowl"
@@ -1084,10 +1355,11 @@
       ]
     },
     {
-      "shape": "millet",
+      "shape": "milk",
       "production_recipe_ids": [
-        "qinghai-hao-fan"
+        "tibetan-savory-congee"
       ],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [],
       "source_types": [
@@ -1095,8 +1367,45 @@
       ]
     },
     {
+      "shape": "millet",
+      "production_recipe_ids": [
+        "qinghai-hao-fan"
+      ],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "mutton",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "qinghai-ga-mianpian-broth"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "noodle_dough",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-gutu"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
       "shape": "noodle_lump",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "tibetan-patu-one-pot"
@@ -1108,9 +1417,9 @@
     {
       "shape": "noodle_piece",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
-        "qinghai-ga-mianpian-broth",
         "tibetan-tuba-barley-thick-bowl"
       ],
       "source_types": [
@@ -1118,30 +1427,24 @@
       ]
     },
     {
-      "shape": "noodle_soup",
-      "production_recipe_ids": [
-        "tibetan-gutu"
-      ],
-      "candidate_ids": [],
-      "lead_ids": [],
-      "source_types": [
-        "production_recipe"
-      ]
-    },
-    {
       "shape": "potato",
       "production_recipe_ids": [
+        "qinghai-hao-fan"
+      ],
+      "production_evidence_context_recipe_ids": [
         "qinghai-hao-fan"
       ],
       "candidate_ids": [],
       "lead_ids": [],
       "source_types": [
+        "production_evidence_context",
         "production_recipe"
       ]
     },
     {
       "shape": "radish",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "tibetan-patu-one-pot"
@@ -1153,17 +1456,35 @@
     {
       "shape": "rice",
       "production_recipe_ids": [
+        "tibetan-ginseng-fruit-rice",
+        "tibetan-savory-congee"
+      ],
+      "production_evidence_context_recipe_ids": [
         "tibetan-ginseng-fruit-rice"
       ],
       "candidate_ids": [],
       "lead_ids": [],
       "source_types": [
+        "production_evidence_context",
         "production_recipe"
       ]
     },
     {
-      "shape": "savory_broth",
+      "shape": "savory_porridge",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-savory-congee"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "soup_mixed_stir_fried_branches",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "qinghai-ga-mianpian-broth"
@@ -1173,19 +1494,45 @@
       ]
     },
     {
-      "shape": "savory_porridge",
-      "production_recipe_ids": [
-        "tibetan-savory-congee"
+      "shape": "sugar",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-ginseng-fruit-rice"
       ],
       "candidate_ids": [],
       "lead_ids": [],
       "source_types": [
-        "production_recipe"
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "symbolic_filling_context",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "tibetan-gutu"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "thick_porridge",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "tibetan-patu-one-pot"
+      ],
+      "source_types": [
+        "concrete_research_lead"
       ]
     },
     {
       "shape": "tibetan_noodle",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "lhasa-tibetan-noodle-breakfast"
@@ -1197,6 +1544,7 @@
     {
       "shape": "tsampa",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "tibetan-tuba-barley-thick-bowl"
@@ -1206,11 +1554,72 @@
       ]
     },
     {
+      "shape": "vermicelli",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "qinghai-hao-fan"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "water",
+      "production_recipe_ids": [
+        "tibetan-gutu"
+      ],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "wheat_dough",
+      "production_recipe_ids": [
+        "tibetan-gutu"
+      ],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
       "shape": "wheatberry",
       "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
       "candidate_ids": [],
       "lead_ids": [
         "qinghai-barley-wheatberry-meat-soup"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "white_radish",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [
+        "qinghai-hao-fan"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_evidence_context"
+      ]
+    },
+    {
+      "shape": "yak_beef_dice",
+      "production_recipe_ids": [],
+      "production_evidence_context_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "tibetan-patu-one-pot"
       ],
       "source_types": [
         "concrete_research_lead"
@@ -1253,15 +1662,15 @@
     {
       "boundary_id": "ga-mianpian-not-production-recipe",
       "evidence_status": "not_proven",
-      "notes": "尕面片仅为研究线索，不得直接升格为生产菜谱。",
+      "notes": "手揪小片、沸水煮熟与汤/拌/炒分支已证；项目单锅、比例、时间和羊肉熟制终点仍待证，不得直接升格生产。",
       "source_ids": [
-        "qh-geermu-ga-mianpian-2023"
+        "qh-guide-ga-mianpian-2014"
       ]
     },
     {
       "boundary_id": "barley-wheatberry-meat-soup-not-free-grain-slot",
       "evidence_status": "not_proven",
-      "notes": "青稞、麦仁与牛羊肉不能混写为自由谷物或肉类槽。",
+      "notes": "青稞、麦仁与牛羊肉不能混写为自由谷物或肉类槽；长时熬煮不得压缩为 quick 或 30–45 分钟方案。",
       "source_ids": [
         "qh-gonghe-barley-wheatberry-2023"
       ]
@@ -1269,7 +1678,7 @@
     {
       "boundary_id": "patu-not-free-noodle-equivalence",
       "evidence_status": "not_proven",
-      "notes": "帕图不得混写为任意面条或古突等价物。",
+      "notes": "帕图保留晚餐、面疙瘩、萝卜、牦牛肉丁和粥状结构；普通牛肉或鸡肉不得作为传统等价替换。",
       "source_ids": [
         "xz-shannan-batu-2026",
         "xz-gov-patu-2025"
@@ -1398,7 +1807,7 @@
           "subject_id": "tibetan-patu-one-pot"
         }
       ],
-      "statement": "帕图是本轮最高优先级研究线索，只保留面疙瘩、汤、萝卜等来源直接支持的结构，不把普通牛肉、鸡肉或其他蛋白写成传统等价替换。",
+      "statement": "帕图是本轮最高优先级研究线索，保留晚餐、面疙瘩、萝卜、牦牛肉丁和熬成粥状的已证结构；普通牛肉、鸡肉或其他蛋白不得写成传统等价替换。",
       "source_ids": [
         "xz-shannan-batu-2026",
         "xz-gov-patu-2025"
@@ -1406,7 +1815,9 @@
       "claim_tokens": [
         "lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure",
         "lead:tibetan-patu-one-pot:tibetan_patu_identity",
-        "lead:tibetan-patu-one-pot:single_pot_equivalence"
+        "lead:tibetan-patu-one-pot:dinner_noodle_lump_radish_yak_dice_thick_porridge_structure",
+        "lead:tibetan-patu-one-pot:single_pot_equivalence",
+        "lead:tibetan-patu-one-pot:free_meat_equivalence"
       ],
       "boundary_ids": [
         "patu-not-free-noodle-equivalence"
@@ -1445,21 +1856,149 @@
       "prohibited_generated_items": []
     }
   ],
+  "technique_boundaries": [
+    {
+      "technique_id": "qinghai-ga-mianpian-branch-boundary",
+      "province_code": "CN-QH",
+      "lead_id": "qinghai-ga-mianpian-broth",
+      "statement": "尕面片已证事实是手揪小片、投入沸水煮熟，并有汤、拌、炒分支；羊肉路径先煮羊肉再下面片。汤式不是唯一固定结构，项目单锅、比例、时间和安全终点仍是研究假设。",
+      "supported_facts": [
+        "手揪小片",
+        "投入沸水煮熟",
+        "汤/拌/炒分支",
+        "羊肉路径先煮羊肉再下面片"
+      ],
+      "research_hypotheses": [
+        "项目单锅等价",
+        "家用比例",
+        "具体分钟",
+        "羊肉熟制终点"
+      ],
+      "hard_constraints": [
+        "汤式不得写成唯一固定结构",
+        "不同分支不得成为自由替换槽",
+        "羊肉路径必须达到熟制终点"
+      ],
+      "duration_class": "source_not_quantified",
+      "forbidden_intents": [],
+      "source_ids": [
+        "qh-guide-ga-mianpian-2014",
+        "cn-animal-food-safety-2025"
+      ],
+      "claim_tokens": [
+        "lead:qinghai-ga-mianpian-broth:hand_torn_small_piece_boiling_sequence",
+        "lead:qinghai-ga-mianpian-broth:meal_branch_context",
+        "lead:qinghai-ga-mianpian-broth:mutton_first_then_noodle_sequence",
+        "lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence",
+        "lead:qinghai-ga-mianpian-broth:soup_as_only_structure",
+        "lead:qinghai-ga-mianpian-broth:project_ratio_time_safety"
+      ],
+      "boundary_ids": [
+        "ga-mianpian-not-production-recipe"
+      ],
+      "safety_endpoint_ids": [
+        "animal-food-cook-through-and-separate"
+      ]
+    },
+    {
+      "technique_id": "qinghai-barley-long-simmer-boundary",
+      "province_code": "CN-QH",
+      "lead_id": "qinghai-barley-wheatberry-meat-soup",
+      "statement": "青稞麦仁肉汤属于长时熬煮线，禁止标为 quick，也不得压缩为 30–45 分钟方案；具体肉类、浸泡和家用时长仍待证。",
+      "supported_facts": [
+        "青稞",
+        "麦仁",
+        "牛羊肉",
+        "长时熬煮"
+      ],
+      "research_hypotheses": [
+        "具体肉类",
+        "浸泡要求",
+        "家用长熬时长"
+      ],
+      "hard_constraints": [
+        "必须保留长时熬煮",
+        "不得压缩为30–45分钟方案"
+      ],
+      "duration_class": "long_simmer",
+      "forbidden_intents": [
+        "quick"
+      ],
+      "source_ids": [
+        "qh-gonghe-barley-wheatberry-2023"
+      ],
+      "claim_tokens": [
+        "lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure",
+        "lead:qinghai-barley-wheatberry-meat-soup:quick_or_30_45_minute_equivalence"
+      ],
+      "boundary_ids": [
+        "barley-wheatberry-meat-soup-not-free-grain-slot"
+      ],
+      "safety_endpoint_ids": []
+    },
+    {
+      "technique_id": "tibetan-patu-yak-dice-boundary",
+      "province_code": "CN-XZ",
+      "lead_id": "tibetan-patu-one-pot",
+      "statement": "帕图已证事实包括晚餐、面疙瘩、萝卜、牦牛肉丁并熬成粥状；普通牛肉或鸡肉不得作为传统等价替换，项目锅具、比例、时间和牦牛肉熟制终点仍待证。",
+      "supported_facts": [
+        "晚餐",
+        "面疙瘩",
+        "萝卜",
+        "牦牛肉丁",
+        "熬成粥状"
+      ],
+      "research_hypotheses": [
+        "项目单锅等价",
+        "家用比例",
+        "具体时间",
+        "牦牛肉熟制终点"
+      ],
+      "hard_constraints": [
+        "不得漏掉牦牛肉丁",
+        "普通牛肉或鸡肉不得作为传统等价替换"
+      ],
+      "duration_class": "source_described_simmer",
+      "forbidden_intents": [],
+      "source_ids": [
+        "xz-shannan-batu-2026",
+        "xz-gov-patu-2025",
+        "cn-animal-food-safety-2025"
+      ],
+      "claim_tokens": [
+        "lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure",
+        "lead:tibetan-patu-one-pot:dinner_noodle_lump_radish_yak_dice_thick_porridge_structure",
+        "lead:tibetan-patu-one-pot:free_meat_equivalence",
+        "lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence"
+      ],
+      "boundary_ids": [
+        "patu-not-free-noodle-equivalence"
+      ],
+      "safety_endpoint_ids": [
+        "animal-food-cook-through-and-separate"
+      ]
+    }
+  ],
   "source_evidence": [
     {
-      "source_id": "qh-geermu-ga-mianpian-2023",
+      "source_id": "qh-guide-ga-mianpian-2014",
       "title": "尕面片",
-      "url": "https://www.geermu.gov.cn/details?id=bb5cf28b7bd0297e017c2f524d0e0367",
-      "publisher": "格尔木市人民政府",
-      "published_at": "2023-08-18",
+      "url": "https://www.guide.gov.cn/gdly/tsms/content_412482",
+      "publisher": "贵德县人民政府",
+      "published_at": "2014-10-23",
       "retrieved_at": "2026-07-26",
       "source_grade": "A",
-      "evidence_summary": "支持尕面片作为青海家常面食线索，不提供项目比例或单锅等价。",
+      "evidence_summary": "直接支持手揪小片、投入沸水煮熟、汤/拌/炒分支及羊肉先煮后下面片；不证明项目单锅、汤式唯一、比例、时间或安全终点。",
       "proves": [
-        "lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity"
+        "lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity",
+        "lead:qinghai-ga-mianpian-broth:hand_torn_small_piece_boiling_sequence",
+        "lead:qinghai-ga-mianpian-broth:meal_branch_context",
+        "lead:qinghai-ga-mianpian-broth:mutton_first_then_noodle_sequence"
       ],
       "does_not_prove": [
-        "lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence"
+        "lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence",
+        "lead:qinghai-ga-mianpian-broth:soup_as_only_structure",
+        "lead:qinghai-ga-mianpian-broth:project_ratio_time_safety"
       ],
       "contradicts": []
     },
@@ -1468,15 +2007,16 @@
       "title": "“共和滋味”亮相，十五道精品菜肴，总有一道打动你的胃！",
       "url": "https://www.gonghe.gov.cn/xwdt/tpxw/content_48610099",
       "publisher": "共和县人民政府",
-      "published_at": "2023-08-18",
+      "published_at": "2023-05-08",
       "retrieved_at": "2026-07-26",
       "source_grade": "A",
-      "evidence_summary": "支持青稞、麦仁与牛羊肉熬煮的青海线索，不支持自由谷物或肉类替换。",
+      "evidence_summary": "支持青稞、麦仁与牛羊肉长时熬煮的青海线索，不支持自由谷物、肉类替换、quick 或 30–45 分钟压缩。",
       "proves": [
         "lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure"
       ],
       "does_not_prove": [
-        "lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot"
+        "lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot",
+        "lead:qinghai-barley-wheatberry-meat-soup:quick_or_30_45_minute_equivalence"
       ],
       "contradicts": []
     },
@@ -1505,12 +2045,14 @@
       "published_at": "2025-06-11",
       "retrieved_at": "2026-07-26",
       "source_grade": "A",
-      "evidence_summary": "仅支持帕图为藏族晚餐面食线索，不支持将其抽象为任意面条的自由等价。",
+      "evidence_summary": "直接支持帕图作为晚餐，由面疙瘩、萝卜、牦牛肉丁熬成粥状；不支持项目单锅等价或把普通牛肉、鸡肉作为传统替换。",
       "proves": [
-        "lead:tibetan-patu-one-pot:tibetan_patu_identity"
+        "lead:tibetan-patu-one-pot:tibetan_patu_identity",
+        "lead:tibetan-patu-one-pot:dinner_noodle_lump_radish_yak_dice_thick_porridge_structure"
       ],
       "does_not_prove": [
-        "lead:tibetan-patu-one-pot:single_pot_equivalence"
+        "lead:tibetan-patu-one-pot:single_pot_equivalence",
+        "lead:tibetan-patu-one-pot:free_meat_equivalence"
       ],
       "contradicts": []
     },
@@ -1661,7 +2203,7 @@
         "new_family_research",
         "research_only"
       ],
-      "decision_reason": "保留明确主料与长熬结构。"
+      "decision_reason": "保留明确主料与长熬结构，不进入 quick。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -1671,7 +2213,7 @@
         "new_family_research",
         "research_only"
       ],
-      "decision_reason": "仅留作青海面片汤研究线索。"
+      "decision_reason": "保留汤、拌、炒分支；羊肉路径必须单独验证熟制终点。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -1681,7 +2223,7 @@
         "new_family_research",
         "research_only"
       ],
-      "decision_reason": "独立记录帕图，不与古突混写。"
+      "decision_reason": "独立记录帕图与牦牛肉丁结构，不与古突或普通肉类替换混写。"
     },
     {
       "subject_type": "concrete_research_lead",
@@ -1731,7 +2273,7 @@
         "recipe_evidence",
         "research_only"
       ],
-      "decision_reason": "保留地域粥食背景与审计边界。"
+      "decision_reason": "生产食材与青稞粥食证据语境分层记录。"
     }
   ],
   "household_journeys": [
@@ -1970,8 +2512,8 @@
       }
     }
   ],
-  "source_data_normalized_fingerprint": "6b00e627312cf908cae453bb0bc6d6c5f43e8997deb95322468ff564b2c89230",
-  "input_data_normalized_fingerprint": "302d1b4c7a5a4268b4ce94742d7ca163ef1f4c05cfe6561820e2988a5abd7a05",
+  "source_data_normalized_fingerprint": "a6a54b822d74d0a8f3a01abe31ba73cf28b066326c48f05ba58aa13c943639ff",
+  "input_data_normalized_fingerprint": "a2c2332bdbb37a8f744bb41dfa6b5e5ad24afa499560823e9f5c76fa78a6cf77",
   "completion": {
     "status": "research_in_progress",
     "blockers": [

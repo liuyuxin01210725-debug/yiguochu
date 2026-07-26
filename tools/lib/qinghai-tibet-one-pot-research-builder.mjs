@@ -16,6 +16,7 @@ const FIXED_COUNTS = {
   family_model: 6,
   source_evidence: 11,
   household_journeys: 12,
+  technique_boundaries: 3,
 };
 const CLAIM_DIRECTIONS = { supported: 'proves', not_proven: 'does_not_prove', contradicted: 'contradicts' };
 const SUBJECT_TOKENS = {
@@ -23,8 +24,8 @@ const SUBJECT_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
-const INPUT_DATA_FINGERPRINT = '302d1b4c7a5a4268b4ce94742d7ca163ef1f4c05cfe6561820e2988a5abd7a05';
-const SOURCE_DATA_FINGERPRINT = '6b00e627312cf908cae453bb0bc6d6c5f43e8997deb95322468ff564b2c89230';
+const INPUT_DATA_FINGERPRINT = 'a2c2332bdbb37a8f744bb41dfa6b5e5ad24afa499560823e9f5c76fa78a6cf77';
+const SOURCE_DATA_FINGERPRINT = 'a6a54b822d74d0a8f3a01abe31ba73cf28b066326c48f05ba58aa13c943639ff';
 const FIXED_REGION_OVERVIEW_SEMANTICS = {
   name: '青藏',
   research_focus: ['熬饭', '青稞杂粮饭', '地域谷物粥饭'],
@@ -92,6 +93,7 @@ function sourcePayload(report) {
     adaptation_boundaries: copy(rows(report.adaptation_boundaries)),
     safety_boundaries: copy(rows(report.safety_boundaries)),
     critical_boundaries: copy(rows(report.critical_boundaries)),
+    technique_boundaries: copy(rows(report.technique_boundaries)),
     source_evidence: copy(rows(report.source_evidence)),
     household_journeys: copy(rows(report.household_journeys)),
   };
@@ -125,19 +127,37 @@ function deriveClaimMatrix(groups) {
 
 function deriveIngredientShapeMatrix(groups) {
   const shapes = new Map();
+  const addShape = (shape, idField, id, sourceType) => {
+    const entry = shapes.get(shape) ?? {
+      shape,
+      production_recipe_ids: [],
+      production_evidence_context_recipe_ids: [],
+      candidate_ids: [],
+      lead_ids: [],
+      source_types: [],
+    };
+    entry[idField].push(id);
+    if (!entry.source_types.includes(sourceType)) entry.source_types.push(sourceType);
+    shapes.set(shape, entry);
+  };
   for (const { subject_type, rows: auditedRows, id_field } of groups) {
-    for (const row of auditedRows) for (const shape of rows(row.ingredient_shapes)) {
-      const entry = shapes.get(shape) ?? { shape, production_recipe_ids: [], candidate_ids: [], lead_ids: [], source_types: [] };
-      if (subject_type === 'production_recipe') entry.production_recipe_ids.push(row[id_field]);
-      if (subject_type === 'research_candidate') entry.candidate_ids.push(row[id_field]);
-      if (subject_type === 'concrete_research_lead') entry.lead_ids.push(row[id_field]);
-      if (!entry.source_types.includes(subject_type)) entry.source_types.push(subject_type);
-      shapes.set(shape, entry);
+    for (const row of auditedRows) {
+      if (subject_type === 'production_recipe') {
+        for (const shape of rows(row.production_ingredient_shapes)) addShape(shape, 'production_recipe_ids', row[id_field], 'production_recipe');
+        for (const shape of rows(row.evidence_context_shapes)) addShape(shape, 'production_evidence_context_recipe_ids', row[id_field], 'production_evidence_context');
+      }
+      if (subject_type === 'research_candidate') {
+        for (const shape of rows(row.ingredient_shapes)) addShape(shape, 'candidate_ids', row[id_field], 'research_candidate');
+      }
+      if (subject_type === 'concrete_research_lead') {
+        for (const shape of rows(row.ingredient_shapes)) addShape(shape, 'lead_ids', row[id_field], 'concrete_research_lead');
+      }
     }
   }
   return [...shapes.values()].map(entry => ({
     ...entry,
     production_recipe_ids: [...new Set(entry.production_recipe_ids)].sort(),
+    production_evidence_context_recipe_ids: [...new Set(entry.production_evidence_context_recipe_ids)].sort(),
     candidate_ids: [...new Set(entry.candidate_ids)].sort(),
     lead_ids: [...new Set(entry.lead_ids)].sort(),
     source_types: entry.source_types.sort(),
@@ -283,6 +303,7 @@ export function buildQinghaiTibetOnePotResearchReport(inputs = {}) {
     adaptation_boundaries: copy(rows(assessment.adaptation_boundaries)),
     safety_boundaries: copy(rows(assessment.safety_boundaries)),
     critical_boundaries: copy(rows(assessment.critical_boundaries)),
+    technique_boundaries: copy(rows(assessment.technique_boundaries)),
     source_evidence: copy(rows(assessment.source_refs)),
     product_decisions: deriveProductDecisions(groups),
     household_journeys: copy(rows(assessment.journey_cases)),
@@ -313,7 +334,7 @@ export function validateQinghaiTibetOnePotResearchReport(report) {
   const errors = [];
   const arrayFields = [
     'province_coverage_audits', 'production_recipe_audits', 'candidate_audits', 'concrete_research_leads',
-    'family_model', 'claim_matrix', 'ingredient_shape_matrix', 'adaptation_boundaries', 'safety_boundaries', 'critical_boundaries',
+    'family_model', 'claim_matrix', 'ingredient_shape_matrix', 'adaptation_boundaries', 'safety_boundaries', 'critical_boundaries', 'technique_boundaries',
     'source_evidence', 'product_decisions', 'household_journeys',
   ];
   for (const field of arrayFields) if (!Array.isArray(report[field])) errors.push(`${field} must be an array`);

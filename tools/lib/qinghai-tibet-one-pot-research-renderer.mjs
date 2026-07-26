@@ -26,6 +26,7 @@ export function renderQinghaiTibetOnePotResearchMarkdown(report) {
   const boundaries = asArray(report.adaptation_boundaries);
   const safety = asArray(report.safety_boundaries);
   const critical = asArray(report.critical_boundaries);
+  const techniques = asArray(report.technique_boundaries);
   const decisions = asArray(report.product_decisions);
   const journeys = asArray(report.household_journeys);
   return [
@@ -56,6 +57,25 @@ export function renderQinghaiTibetOnePotResearchMarkdown(report) {
       `- Claim：${list(item.claim_tokens)}`,
       `- 适配边界：${list(item.boundary_ids)}`,
       `- 禁止生成项：${list(item.prohibited_generated_items)}`,
+      '',
+    ]),
+    '## 三项机器可验证的技法边界',
+    '',
+    ...techniques.flatMap(item => [
+      `### ${item.technique_id}（${item.province_code}）`,
+      '',
+      item.statement,
+      '',
+      `- 研究对象：${item.lead_id}`,
+      `- 已证事实：${list(item.supported_facts)}`,
+      `- 研究假设：${list(item.research_hypotheses)}`,
+      `- 硬约束：${list(item.hard_constraints)}`,
+      `- 时长分类：${item.duration_class}`,
+      `- 禁止 intent：${list(item.forbidden_intents)}`,
+      `- 来源：${list(item.source_ids)}`,
+      `- Claim：${list(item.claim_tokens)}`,
+      `- 适配边界：${list(item.boundary_ids)}`,
+      `- 安全终点：${list(item.safety_endpoint_ids)}`,
       '',
     ]),
     '',
@@ -95,9 +115,9 @@ export function renderQinghaiTibetOnePotResearchMarkdown(report) {
     '| --- | --- | --- | --- | --- |',
     ...claims.map(item => row([`${item.subject_type}:${item.subject_id}`, item.claim_id, item.verdict, list(item.evidence_source_ids), item.reason])),
     '',
-    '| 形态 | 生产 | 候选 | 线索 | 来源层 |',
-    '| --- | --- | --- | --- | --- |',
-    ...shapes.map(item => row([item.shape, list(item.production_recipe_ids), list(item.candidate_ids), list(item.lead_ids), list(item.source_types)])),
+    '| 形态 | 生产 | 生产证据语境 | 候选 | 线索 | 来源层 |',
+    '| --- | --- | --- | --- | --- | --- |',
+    ...shapes.map(item => row([item.shape, list(item.production_recipe_ids), list(item.production_evidence_context_recipe_ids), list(item.candidate_ids), list(item.lead_ids), list(item.source_types)])),
     '',
     '## 7. 固定来源证据包',
     '',

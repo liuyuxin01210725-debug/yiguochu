@@ -47,11 +47,11 @@
 
 ### patu-highest-research-priority（research_priority）
 
-帕图是本轮最高优先级研究线索，只保留面疙瘩、汤、萝卜等来源直接支持的结构，不把普通牛肉、鸡肉或其他蛋白写成传统等价替换。
+帕图是本轮最高优先级研究线索，保留晚餐、面疙瘩、萝卜、牦牛肉丁和熬成粥状的已证结构；普通牛肉、鸡肉或其他蛋白不得写成传统等价替换。
 
 - 对象：concrete_research_lead:tibetan-patu-one-pot
 - 来源：xz-shannan-batu-2026、xz-gov-patu-2025
-- Claim：lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure、lead:tibetan-patu-one-pot:tibetan_patu_identity、lead:tibetan-patu-one-pot:single_pot_equivalence
+- Claim：lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure、lead:tibetan-patu-one-pot:tibetan_patu_identity、lead:tibetan-patu-one-pot:dinner_noodle_lump_radish_yak_dice_thick_porridge_structure、lead:tibetan-patu-one-pot:single_pot_equivalence、lead:tibetan-patu-one-pot:free_meat_equivalence
 - 适配边界：patu-not-free-noodle-equivalence
 - 禁止生成项：—
 
@@ -64,6 +64,53 @@
 - Claim：lead:tibetan-tuba-barley-thick-bowl:unattended_appliance_equivalence、lead:lhasa-tibetan-noodle-breakfast:single_pot_complete_meal_equivalence、lead:lhasa-tibetan-noodle-breakfast:project_ratio_time_safety
 - 适配边界：tuba-manual-thickening-not-unattended-appliance、lhasa-noodle-breakfast-not-single-pot-proven
 - 禁止生成项：—
+
+## 三项机器可验证的技法边界
+
+### qinghai-ga-mianpian-branch-boundary（CN-QH）
+
+尕面片已证事实是手揪小片、投入沸水煮熟，并有汤、拌、炒分支；羊肉路径先煮羊肉再下面片。汤式不是唯一固定结构，项目单锅、比例、时间和安全终点仍是研究假设。
+
+- 研究对象：qinghai-ga-mianpian-broth
+- 已证事实：手揪小片、投入沸水煮熟、汤/拌/炒分支、羊肉路径先煮羊肉再下面片
+- 研究假设：项目单锅等价、家用比例、具体分钟、羊肉熟制终点
+- 硬约束：汤式不得写成唯一固定结构、不同分支不得成为自由替换槽、羊肉路径必须达到熟制终点
+- 时长分类：source_not_quantified
+- 禁止 intent：—
+- 来源：qh-guide-ga-mianpian-2014、cn-animal-food-safety-2025
+- Claim：lead:qinghai-ga-mianpian-broth:hand_torn_small_piece_boiling_sequence、lead:qinghai-ga-mianpian-broth:meal_branch_context、lead:qinghai-ga-mianpian-broth:mutton_first_then_noodle_sequence、lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence、lead:qinghai-ga-mianpian-broth:soup_as_only_structure、lead:qinghai-ga-mianpian-broth:project_ratio_time_safety
+- 适配边界：ga-mianpian-not-production-recipe
+- 安全终点：animal-food-cook-through-and-separate
+
+### qinghai-barley-long-simmer-boundary（CN-QH）
+
+青稞麦仁肉汤属于长时熬煮线，禁止标为 quick，也不得压缩为 30–45 分钟方案；具体肉类、浸泡和家用时长仍待证。
+
+- 研究对象：qinghai-barley-wheatberry-meat-soup
+- 已证事实：青稞、麦仁、牛羊肉、长时熬煮
+- 研究假设：具体肉类、浸泡要求、家用长熬时长
+- 硬约束：必须保留长时熬煮、不得压缩为30–45分钟方案
+- 时长分类：long_simmer
+- 禁止 intent：quick
+- 来源：qh-gonghe-barley-wheatberry-2023
+- Claim：lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure、lead:qinghai-barley-wheatberry-meat-soup:quick_or_30_45_minute_equivalence
+- 适配边界：barley-wheatberry-meat-soup-not-free-grain-slot
+- 安全终点：—
+
+### tibetan-patu-yak-dice-boundary（CN-XZ）
+
+帕图已证事实包括晚餐、面疙瘩、萝卜、牦牛肉丁并熬成粥状；普通牛肉或鸡肉不得作为传统等价替换，项目锅具、比例、时间和牦牛肉熟制终点仍待证。
+
+- 研究对象：tibetan-patu-one-pot
+- 已证事实：晚餐、面疙瘩、萝卜、牦牛肉丁、熬成粥状
+- 研究假设：项目单锅等价、家用比例、具体时间、牦牛肉熟制终点
+- 硬约束：不得漏掉牦牛肉丁、普通牛肉或鸡肉不得作为传统等价替换
+- 时长分类：source_described_simmer
+- 禁止 intent：—
+- 来源：xz-shannan-batu-2026、xz-gov-patu-2025、cn-animal-food-safety-2025
+- Claim：lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure、lead:tibetan-patu-one-pot:dinner_noodle_lump_radish_yak_dice_thick_porridge_structure、lead:tibetan-patu-one-pot:free_meat_equivalence、lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence
+- 适配边界：patu-not-free-noodle-equivalence
+- 安全终点：animal-food-cook-through-and-separate
 
 
 ## 1. 两个节点的真实覆盖
@@ -80,7 +127,7 @@
 | 青海熬饭风味家庭适配版（qinghai-hao-fan） | auto_approved / needs_more_evidence | 小米、土豆、熟鹰嘴豆 | regional_name_context：supported<br>hao_fan_broth_root_vegetable_structure：supported<br>project_ingredient_equivalence：not_proven<br>project_ratio_dsl_equivalence：not_proven<br>traditional_recipe_equivalence：not_proven | traditional_replica、project_ingredient_equivalence、source_as_ratio_dsl | 固定为家庭适配审计，不上调为传统复刻。 |
 | 西藏人参果饭（tibetan-ginseng-fruit-rice） | auto_approved / needs_manual_review | 食品级蕨麻、大米 | new_year_ginseng_fruit_rice_combination：supported<br>daily_same_pot_ratio_equivalence：not_proven<br>traditional_recipe_equivalence：not_proven | traditional_replica、daily_high_frequency、same_pot_braise_equivalence、source_as_ratio_dsl | 保留藏历新年节庆与食品级蕨麻边界。 |
 | 古突风味家庭适配版（tibetan-gutu） | auto_approved / needs_more_evidence | 小麦面团、小白菜、水 | new_year_eve_context：supported<br>symbolic_filling_context：supported<br>production_ingredient_safety_equivalence：not_proven<br>traditional_recipe_equivalence：not_proven | traditional_replica、non_food_symbol_as_ingredient、patu_as_gutu_equivalence | 古突节庆身份独立记录，非食品象征物禁止进入生成食材。 |
-| 藏式咸稀饭风味家庭适配版（tibetan-savory-congee） | auto_approved / needs_manual_review | 大米、牛奶 | barley_grain_porridge_context：supported<br>traditional_recipe_equivalence：not_proven | traditional_replica、free_grain_slot | 保留地域粥食背景与审计边界。 |
+| 藏式咸稀饭风味家庭适配版（tibetan-savory-congee） | auto_approved / needs_manual_review | 大米、牛奶 | barley_grain_porridge_context：supported<br>traditional_recipe_equivalence：not_proven | traditional_replica、free_grain_slot | 生产食材与青稞粥食证据语境分层记录。 |
 
 ## 3. 候选账本基线
 
@@ -91,9 +138,9 @@
 | 线索 | 家族与餐型 | 关键形态 | 证据结论 | 禁止捷径 |
 | --- | --- | --- | --- | --- |
 | 拉萨藏面早餐（lhasa-tibetan-noodle-breakfast，CN-XZ） | lhasa-noodle-breakfast-main-bowl / tibetan_noodles_with_beef_broth_in_breakfast_set | tibetan_noodle、beef_broth、beef_piece | lhasa_breakfast_noodle_and_beef_broth_identity：supported<br>breakfast_context：supported<br>single_pot_complete_meal_equivalence：not_proven<br>project_ratio_time_safety：not_proven | single_pot_equivalence、free_breakfast_set |
-| 青海青稞麦仁肉汤（qinghai-barley-wheatberry-meat-soup，CN-QH） | qinghai-barley-wheatberry-meat-soup / barley_wheatberry_and_meat_long_simmer_soup | barley、wheatberry、beef_or_mutton | barley_wheatberry_meat_long_simmer_structure：supported<br>free_grain_or_meat_slot：not_proven | free_grain_slot、free_meat_slot |
-| 青海尕面片汤（qinghai-ga-mianpian-broth，CN-QH） | qinghai-noodle-piece-broth-main-bowl / hand_formed_noodle_pieces_in_savory_broth | noodle_piece、savory_broth | qinghai_household_noodle_identity：supported<br>project_single_pot_equivalence：not_proven | single_pot_equivalence |
-| 西藏帕图一锅线索（tibetan-patu-one-pot，CN-XZ） | tibetan-patu-one-pot-main-bowl / broth_with_named_noodle_lumps_and_mixed_ingredients | noodle_lump、bone_broth、radish | broth_and_noodle_lump_structure：supported<br>tibetan_patu_identity：supported<br>single_pot_equivalence：not_proven<br>project_ratio_time_vessel_equivalence：not_proven | free_noodle_equivalence、single_pot_equivalence |
+| 青海青稞麦仁肉汤（qinghai-barley-wheatberry-meat-soup，CN-QH） | qinghai-barley-wheatberry-meat-soup / barley_wheatberry_and_meat_long_simmer_soup | barley、wheatberry、beef_or_mutton | barley_wheatberry_meat_long_simmer_structure：supported<br>free_grain_or_meat_slot：not_proven<br>quick_or_30_45_minute_equivalence：not_proven | free_grain_slot、free_meat_slot、quick、30_45_minute_compression |
+| 青海尕面片（qinghai-ga-mianpian-broth，CN-QH） | qinghai-noodle-piece-broth-main-bowl / hand_torn_noodle_pieces_with_soup_mixed_or_stir_fried_branches | hand_torn_noodle_piece、boiling_water、soup_mixed_stir_fried_branches、mutton | qinghai_household_noodle_identity：supported<br>hand_torn_small_piece_boiling_sequence：supported<br>meal_branch_context：supported<br>mutton_first_then_noodle_sequence：supported<br>project_single_pot_equivalence：not_proven<br>soup_as_only_structure：not_proven<br>project_ratio_time_safety：not_proven | single_pot_equivalence、soup_as_only_structure、free_branch_substitution |
+| 西藏帕图一锅线索（tibetan-patu-one-pot，CN-XZ） | tibetan-patu-one-pot-main-bowl / dinner_thick_porridge_with_noodle_lumps_radish_and_yak_beef_dice | noodle_lump、bone_broth、radish、yak_beef_dice、thick_porridge | broth_and_noodle_lump_structure：supported<br>tibetan_patu_identity：supported<br>dinner_noodle_lump_radish_yak_dice_thick_porridge_structure：supported<br>single_pot_equivalence：not_proven<br>free_meat_equivalence：not_proven<br>project_ratio_time_vessel_equivalence：not_proven | free_noodle_equivalence、free_meat_equivalence、single_pot_equivalence |
 | 西藏土巴青稞稠食（tibetan-tuba-barley-thick-bowl，CN-XZ） | tibetan-tuba-barley-thick-main-bowl / barley_based_thick_bowl_with_meat_and_noodle_pieces | tsampa、meat_dice、noodle_piece、dairy_curd | barley_thick_bowl_structure：supported<br>unattended_appliance_equivalence：not_proven | unattended_appliance_equivalence、free_barley_slot |
 
 ## 5. 六个不能混写的家族
@@ -101,9 +148,9 @@
 | 家族 | 结构 | 证据状态 |
 | --- | --- | --- |
 | 青海谷物粥饭主碗（qinghai-grain-porridge-main-bowl） | grain_porridge_with_named_adaptation_boundaries | research_only |
-| 青海面片汤主碗（qinghai-noodle-piece-broth-main-bowl） | hand_formed_noodle_pieces_in_savory_broth | research_only |
+| 青海面片多分支主餐（qinghai-noodle-piece-broth-main-bowl） | hand_torn_noodle_pieces_with_soup_mixed_or_stir_fried_branches | research_only |
 | 青海青稞麦仁肉汤（qinghai-barley-wheatberry-meat-soup） | barley_wheatberry_and_meat_long_simmer_soup | research_only |
-| 西藏帕图主碗（tibetan-patu-one-pot-main-bowl） | broth_with_named_noodle_lumps_and_mixed_ingredients | research_only |
+| 西藏帕图主碗（tibetan-patu-one-pot-main-bowl） | dinner_thick_porridge_with_noodle_lumps_radish_and_yak_beef_dice | research_only |
 | 西藏土巴青稞稠食主碗（tibetan-tuba-barley-thick-main-bowl） | barley_based_thick_bowl_with_meat_and_noodle_pieces | research_only |
 | 拉萨藏面早餐主碗（lhasa-noodle-breakfast-main-bowl） | tibetan_noodles_with_beef_broth_in_breakfast_set | research_only |
 
@@ -115,11 +162,19 @@
 | concrete_research_lead:lhasa-tibetan-noodle-breakfast | lhasa_breakfast_noodle_and_beef_broth_identity | supported | xz-gov-lhasa-noodle-2024 | 自治区材料支持藏面与牛肉汤组合。 |
 | concrete_research_lead:lhasa-tibetan-noodle-breakfast | project_ratio_time_safety | not_proven | xz-tourism-lhasa-noodle-2023 | 文旅介绍不提供项目比例、时间或熟制终点。 |
 | concrete_research_lead:lhasa-tibetan-noodle-breakfast | single_pot_complete_meal_equivalence | not_proven | xz-gov-lhasa-noodle-2024 | 早餐组合不证明单锅完整主餐。 |
-| concrete_research_lead:qinghai-barley-wheatberry-meat-soup | barley_wheatberry_meat_long_simmer_structure | supported | qh-gonghe-barley-wheatberry-2023 | 官方材料支持青稞、麦仁与牛羊肉熬煮组合。 |
+| concrete_research_lead:qinghai-barley-wheatberry-meat-soup | barley_wheatberry_meat_long_simmer_structure | supported | qh-gonghe-barley-wheatberry-2023 | 官方材料支持青稞、麦仁与牛羊肉长时熬煮组合。 |
 | concrete_research_lead:qinghai-barley-wheatberry-meat-soup | free_grain_or_meat_slot | not_proven | qh-gonghe-barley-wheatberry-2023 | 具名主料不能抽象为自由替换槽。 |
-| concrete_research_lead:qinghai-ga-mianpian-broth | project_single_pot_equivalence | not_proven | qh-geermu-ga-mianpian-2023 | 没有项目锅具和一锅过程证据。 |
-| concrete_research_lead:qinghai-ga-mianpian-broth | qinghai_household_noodle_identity | supported | qh-geermu-ga-mianpian-2023 | 官方地方材料支持家常面食身份。 |
+| concrete_research_lead:qinghai-barley-wheatberry-meat-soup | quick_or_30_45_minute_equivalence | not_proven | qh-gonghe-barley-wheatberry-2023 | 长时熬煮线索不支持 quick 或 30–45 分钟压缩。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | hand_torn_small_piece_boiling_sequence | supported | qh-guide-ga-mianpian-2014 | 来源支持手揪小片、投入沸水并煮熟。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | meal_branch_context | supported | qh-guide-ga-mianpian-2014 | 来源明确记载汤吃、拌吃和炒吃分支。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | mutton_first_then_noodle_sequence | supported | qh-guide-ga-mianpian-2014 | 来源支持羊肉先煮、再下面片的路径。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | project_ratio_time_safety | not_proven | qh-guide-ga-mianpian-2014 | 来源不提供项目比例、分钟或安全终点。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | project_single_pot_equivalence | not_proven | qh-guide-ga-mianpian-2014 | 来源不证明项目单锅等价。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | qinghai_household_noodle_identity | supported | qh-guide-ga-mianpian-2014 | 贵德县官方材料支持家常面食身份。 |
+| concrete_research_lead:qinghai-ga-mianpian-broth | soup_as_only_structure | not_proven | qh-guide-ga-mianpian-2014 | 汤式只是具名分支之一。 |
 | concrete_research_lead:tibetan-patu-one-pot | broth_and_noodle_lump_structure | supported | xz-shannan-batu-2026 | 地方文旅材料支持汤与面疙瘩组合。 |
+| concrete_research_lead:tibetan-patu-one-pot | dinner_noodle_lump_radish_yak_dice_thick_porridge_structure | supported | xz-gov-patu-2025 | 来源支持晚餐、面疙瘩、萝卜、牦牛肉丁和熬成粥状。 |
+| concrete_research_lead:tibetan-patu-one-pot | free_meat_equivalence | not_proven | xz-gov-patu-2025 | 牦牛肉丁不能抽象为普通牛肉或鸡肉传统等价替换。 |
 | concrete_research_lead:tibetan-patu-one-pot | project_ratio_time_vessel_equivalence | not_proven | xz-shannan-batu-2026、cn-animal-food-safety-2025 | 公开制作说明和通用安全原则不构成项目参数。 |
 | concrete_research_lead:tibetan-patu-one-pot | single_pot_equivalence | not_proven | xz-gov-patu-2025 | 身份材料不证明项目单锅等价。 |
 | concrete_research_lead:tibetan-patu-one-pot | tibetan_patu_identity | supported | xz-gov-patu-2025 | 自治区材料支持帕图面食身份。 |
@@ -138,40 +193,57 @@
 | production_recipe:tibetan-gutu | symbolic_filling_context | supported | xz-gov-new-year-customs-2025 | 来源记录辣椒、羊毛和豌豆等寓意馅料。 |
 | production_recipe:tibetan-gutu | traditional_recipe_equivalence | not_proven | xz-gov-new-year-customs-2025 | 节庆习俗材料不证明当前家庭适配配方是传统复刻。 |
 | production_recipe:tibetan-savory-congee | barley_grain_porridge_context | supported | xz-gov-porridge-2025 | 来源只支持青稞粒粥食背景。 |
-| production_recipe:tibetan-savory-congee | traditional_recipe_equivalence | not_proven | xz-gov-porridge-2025 | 背景材料不证明现有配方。 |
+| production_recipe:tibetan-savory-congee | traditional_recipe_equivalence | not_proven | xz-gov-porridge-2025 | 背景材料不证明现有大米、牛奶配方。 |
 
-| 形态 | 生产 | 候选 | 线索 | 来源层 |
-| --- | --- | --- | --- | --- |
-| barley | tibetan-savory-congee | — | qinghai-barley-wheatberry-meat-soup | concrete_research_lead、production_recipe |
-| beef_broth | — | — | lhasa-tibetan-noodle-breakfast | concrete_research_lead |
-| beef_or_mutton | — | — | qinghai-barley-wheatberry-meat-soup | concrete_research_lead |
-| beef_piece | — | — | lhasa-tibetan-noodle-breakfast | concrete_research_lead |
-| bone_broth | — | — | tibetan-patu-one-pot | concrete_research_lead |
-| cooked_chickpea | qinghai-hao-fan | — | — | production_recipe |
-| dairy_curd | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
-| ginseng_fruit | tibetan-ginseng-fruit-rice | — | — | production_recipe |
-| meat_dice | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
-| millet | qinghai-hao-fan | — | — | production_recipe |
-| noodle_lump | — | — | tibetan-patu-one-pot | concrete_research_lead |
-| noodle_piece | — | — | qinghai-ga-mianpian-broth、tibetan-tuba-barley-thick-bowl | concrete_research_lead |
-| noodle_soup | tibetan-gutu | — | — | production_recipe |
-| potato | qinghai-hao-fan | — | — | production_recipe |
-| radish | — | — | tibetan-patu-one-pot | concrete_research_lead |
-| rice | tibetan-ginseng-fruit-rice | — | — | production_recipe |
-| savory_broth | — | — | qinghai-ga-mianpian-broth | concrete_research_lead |
-| savory_porridge | tibetan-savory-congee | — | — | production_recipe |
-| tibetan_noodle | — | — | lhasa-tibetan-noodle-breakfast | concrete_research_lead |
-| tsampa | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
-| wheatberry | — | — | qinghai-barley-wheatberry-meat-soup | concrete_research_lead |
+| 形态 | 生产 | 生产证据语境 | 候选 | 线索 | 来源层 |
+| --- | --- | --- | --- | --- | --- |
+| barley | — | — | — | qinghai-barley-wheatberry-meat-soup | concrete_research_lead |
+| barley_grain | — | tibetan-savory-congee | — | — | production_evidence_context |
+| beef_broth | — | — | — | lhasa-tibetan-noodle-breakfast | concrete_research_lead |
+| beef_or_mutton | — | — | — | qinghai-barley-wheatberry-meat-soup | concrete_research_lead |
+| beef_piece | — | — | — | lhasa-tibetan-noodle-breakfast | concrete_research_lead |
+| boiling_water | — | — | — | qinghai-ga-mianpian-broth | concrete_research_lead |
+| bone_broth | — | — | — | tibetan-patu-one-pot | concrete_research_lead |
+| broth | — | qinghai-hao-fan | — | — | production_evidence_context |
+| butter | — | tibetan-ginseng-fruit-rice | — | — | production_evidence_context |
+| cooked_chickpea | qinghai-hao-fan | — | — | — | production_recipe |
+| dairy_curd | — | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
+| food_grade_ginseng_fruit | tibetan-ginseng-fruit-rice | — | — | — | production_recipe |
+| ginseng_fruit | — | tibetan-ginseng-fruit-rice | — | — | production_evidence_context |
+| hand_torn_noodle_piece | — | — | — | qinghai-ga-mianpian-broth | concrete_research_lead |
+| leafy_green | tibetan-gutu | — | — | — | production_recipe |
+| meat_dice | — | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
+| milk | tibetan-savory-congee | — | — | — | production_recipe |
+| millet | qinghai-hao-fan | — | — | — | production_recipe |
+| mutton | — | — | — | qinghai-ga-mianpian-broth | concrete_research_lead |
+| noodle_dough | — | tibetan-gutu | — | — | production_evidence_context |
+| noodle_lump | — | — | — | tibetan-patu-one-pot | concrete_research_lead |
+| noodle_piece | — | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
+| potato | qinghai-hao-fan | qinghai-hao-fan | — | — | production_evidence_context、production_recipe |
+| radish | — | — | — | tibetan-patu-one-pot | concrete_research_lead |
+| rice | tibetan-ginseng-fruit-rice、tibetan-savory-congee | tibetan-ginseng-fruit-rice | — | — | production_evidence_context、production_recipe |
+| savory_porridge | — | tibetan-savory-congee | — | — | production_evidence_context |
+| soup_mixed_stir_fried_branches | — | — | — | qinghai-ga-mianpian-broth | concrete_research_lead |
+| sugar | — | tibetan-ginseng-fruit-rice | — | — | production_evidence_context |
+| symbolic_filling_context | — | tibetan-gutu | — | — | production_evidence_context |
+| thick_porridge | — | — | — | tibetan-patu-one-pot | concrete_research_lead |
+| tibetan_noodle | — | — | — | lhasa-tibetan-noodle-breakfast | concrete_research_lead |
+| tsampa | — | — | — | tibetan-tuba-barley-thick-bowl | concrete_research_lead |
+| vermicelli | — | qinghai-hao-fan | — | — | production_evidence_context |
+| water | tibetan-gutu | — | — | — | production_recipe |
+| wheat_dough | tibetan-gutu | — | — | — | production_recipe |
+| wheatberry | — | — | — | qinghai-barley-wheatberry-meat-soup | concrete_research_lead |
+| white_radish | — | qinghai-hao-fan | — | — | production_evidence_context |
+| yak_beef_dice | — | — | — | tibetan-patu-one-pot | concrete_research_lead |
 
 ## 7. 固定来源证据包
 
 | 来源 | 等级 | 直接证明 | 不证明 | 反证 |
 | --- | --- | --- | --- | --- |
-| [尕面片](https://www.geermu.gov.cn/details?id=bb5cf28b7bd0297e017c2f524d0e0367)（格尔木市人民政府，2023-08-18） | A | lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity | lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence | — |
-| [“共和滋味”亮相，十五道精品菜肴，总有一道打动你的胃！](https://www.gonghe.gov.cn/xwdt/tpxw/content_48610099)（共和县人民政府，2023-08-18） | A | lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure | lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot | — |
+| [尕面片](https://www.guide.gov.cn/gdly/tsms/content_412482)（贵德县人民政府，2014-10-23） | A | lead:qinghai-ga-mianpian-broth:qinghai_household_noodle_identity、lead:qinghai-ga-mianpian-broth:hand_torn_small_piece_boiling_sequence、lead:qinghai-ga-mianpian-broth:meal_branch_context、lead:qinghai-ga-mianpian-broth:mutton_first_then_noodle_sequence | lead:qinghai-ga-mianpian-broth:project_single_pot_equivalence、lead:qinghai-ga-mianpian-broth:soup_as_only_structure、lead:qinghai-ga-mianpian-broth:project_ratio_time_safety | — |
+| [“共和滋味”亮相，十五道精品菜肴，总有一道打动你的胃！](https://www.gonghe.gov.cn/xwdt/tpxw/content_48610099)（共和县人民政府，2023-05-08） | A | lead:qinghai-barley-wheatberry-meat-soup:barley_wheatberry_meat_long_simmer_structure | lead:qinghai-barley-wheatberry-meat-soup:free_grain_or_meat_slot、lead:qinghai-barley-wheatberry-meat-soup:quick_or_30_45_minute_equivalence | — |
 | [面疙瘩（吧图）](https://www.shannan.gov.cn/zjsn/snly/tsms/202603/t20260310_165467.html)（山南市文旅局，2026-03-10） | A | lead:tibetan-patu-one-pot:broth_and_noodle_lump_structure | lead:tibetan-patu-one-pot:project_ratio_time_vessel_equivalence | — |
-| [人间烟火气](https://www.xizang.gov.cn/xwzx_406/bmkx/202506/t20250611_483433.html)（西藏自治区人民政府，2025-06-11） | A | lead:tibetan-patu-one-pot:tibetan_patu_identity | lead:tibetan-patu-one-pot:single_pot_equivalence | — |
+| [人间烟火气](https://www.xizang.gov.cn/xwzx_406/bmkx/202506/t20250611_483433.html)（西藏自治区人民政府，2025-06-11） | A | lead:tibetan-patu-one-pot:tibetan_patu_identity、lead:tibetan-patu-one-pot:dinner_noodle_lump_radish_yak_dice_thick_porridge_structure | lead:tibetan-patu-one-pot:single_pot_equivalence、lead:tibetan-patu-one-pot:free_meat_equivalence | — |
 | [藏族饮食文化 ｜饭食的类别与制作](https://www.tibetology.ac.cn/2022-02/12/content_41875089.htm)（中国藏学研究中心，2022-02-12） | A | lead:tibetan-tuba-barley-thick-bowl:barley_thick_bowl_structure | lead:tibetan-tuba-barley-thick-bowl:unattended_appliance_equivalence | — |
 | [一起探索拉萨的美食世界](https://www.xizang.gov.cn/xwzx_406/dsdt/202411/t20241120_448021.html)（西藏自治区人民政府，2024-11-20） | A | lead:lhasa-tibetan-noodle-breakfast:lhasa_breakfast_noodle_and_beef_broth_identity | lead:lhasa-tibetan-noodle-breakfast:single_pot_complete_meal_equivalence | — |
 | [快收藏！“吃在拉萨”攻略来啦~](https://wlt.xizang.gov.cn/xccx/lytg/202312/t20231222_395019.html)（西藏自治区文化和旅游厅，2023-12-22） | A | lead:lhasa-tibetan-noodle-breakfast:breakfast_context | lead:lhasa-tibetan-noodle-breakfast:project_ratio_time_safety | — |
@@ -190,9 +262,9 @@
 | tibetan-savory-congee-not-traditional-replica | not_proven | 藏式咸稀饭的地域谷物背景不等于传统成品配方。 |
 | tibetan-gutu-not-traditional-replica | not_proven | 古突保留新年前夜和寓意馅料语境；非食品象征物禁止进入生成食材，节庆习俗不得改写成日常传统复刻。 |
 | tibetan-ginseng-fruit-rice-not-traditional-replica | not_proven | 人参果、米饭、酥油、白糖的新年组合不证明日常高频、同锅焖煮、项目比例或替换关系。 |
-| ga-mianpian-not-production-recipe | not_proven | 尕面片仅为研究线索，不得直接升格为生产菜谱。 |
-| barley-wheatberry-meat-soup-not-free-grain-slot | not_proven | 青稞、麦仁与牛羊肉不能混写为自由谷物或肉类槽。 |
-| patu-not-free-noodle-equivalence | not_proven | 帕图不得混写为任意面条或古突等价物。 |
+| ga-mianpian-not-production-recipe | not_proven | 手揪小片、沸水煮熟与汤/拌/炒分支已证；项目单锅、比例、时间和羊肉熟制终点仍待证，不得直接升格生产。 |
+| barley-wheatberry-meat-soup-not-free-grain-slot | not_proven | 青稞、麦仁与牛羊肉不能混写为自由谷物或肉类槽；长时熬煮不得压缩为 quick 或 30–45 分钟方案。 |
+| patu-not-free-noodle-equivalence | not_proven | 帕图保留晚餐、面疙瘩、萝卜、牦牛肉丁和粥状结构；普通牛肉或鸡肉不得作为传统等价替换。 |
 | tuba-manual-thickening-not-unattended-appliance | not_proven | 土巴稠食描述不证明无人看管设备或普通粥等价。 |
 | lhasa-noodle-breakfast-not-single-pot-proven | not_proven | 拉萨藏面早餐组合不证明单锅完整主餐。 |
 | animal-food-cook-through-and-separate | principle_only | 通用熟制原则，不能替代本地工艺或项目时间。；控制：cook_through、prevent_cross_contamination |
@@ -202,14 +274,14 @@
 | 类型 | 对象 | 状态 | 允许方向 | 未决边界 |
 | --- | --- | --- | --- | --- |
 | concrete_research_lead | lhasa-tibetan-noodle-breakfast | research_only | new_family_research、research_only | 保留早餐组合语境，不写成一锅复刻。 |
-| concrete_research_lead | qinghai-barley-wheatberry-meat-soup | research_only | new_family_research、research_only | 保留明确主料与长熬结构。 |
-| concrete_research_lead | qinghai-ga-mianpian-broth | research_only | new_family_research、research_only | 仅留作青海面片汤研究线索。 |
-| concrete_research_lead | tibetan-patu-one-pot | research_only | new_family_research、research_only | 独立记录帕图，不与古突混写。 |
+| concrete_research_lead | qinghai-barley-wheatberry-meat-soup | research_only | new_family_research、research_only | 保留明确主料与长熬结构，不进入 quick。 |
+| concrete_research_lead | qinghai-ga-mianpian-broth | research_only | new_family_research、research_only | 保留汤、拌、炒分支；羊肉路径必须单独验证熟制终点。 |
+| concrete_research_lead | tibetan-patu-one-pot | research_only | new_family_research、research_only | 独立记录帕图与牦牛肉丁结构，不与古突或普通肉类替换混写。 |
 | concrete_research_lead | tibetan-tuba-barley-thick-bowl | research_only | new_family_research、research_only | 土巴独立于普通粥饭与任意稠食。 |
 | production_recipe | qinghai-hao-fan | needs_more_evidence | recipe_evidence、research_only | 固定为家庭适配审计，不上调为传统复刻。 |
 | production_recipe | tibetan-ginseng-fruit-rice | needs_manual_review | recipe_evidence、research_only | 保留藏历新年节庆与食品级蕨麻边界。 |
 | production_recipe | tibetan-gutu | needs_more_evidence | recipe_evidence、research_only | 古突节庆身份独立记录，非食品象征物禁止进入生成食材。 |
-| production_recipe | tibetan-savory-congee | needs_manual_review | recipe_evidence、research_only | 保留地域粥食背景与审计边界。 |
+| production_recipe | tibetan-savory-congee | needs_manual_review | recipe_evidence、research_only | 生产食材与青稞粥食证据语境分层记录。 |
 
 ## 10. 12 条家庭食材旅程
 

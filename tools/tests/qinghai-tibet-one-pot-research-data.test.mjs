@@ -70,6 +70,43 @@ test('all eleven closed sources are HTTPS, dated or explicitly undated, and part
   assert.ok(assessment.source_refs.some(row => row.source_id === 'xz-gov-new-year-customs-2025'));
   assert.ok(!assessment.source_refs.some(row => row.source_id === 'cn-cdc-bean-safety-2018'));
   assert.ok(!assessment.source_refs.some(row => row.source_id === 'xz-agri-barley-2023'));
+  assert.equal(assessment.source_refs.find(row => row.source_id === 'qh-gonghe-barley-wheatberry-2023').published_at, '2023-05-08');
+  const mianpian = assessment.source_refs.find(row => row.source_id === 'qh-guide-ga-mianpian-2014');
+  assert.equal(mianpian.publisher, '贵德县人民政府');
+  assert.equal(mianpian.published_at, '2014-10-23');
+  assert.ok(!assessment.source_refs.some(row => row.source_id === 'qh-geermu-ga-mianpian-2023'));
+});
+
+test('production ingredient shapes are separate from evidence context and derive from recipe core ingredients', () => {
+  const savory = assessment.production_recipe_audits.find(row => row.recipe_id === 'tibetan-savory-congee');
+  assert.deepEqual(savory.production_ingredient_shapes, ['rice', 'milk']);
+  assert.deepEqual(savory.evidence_context_shapes, ['barley_grain', 'savory_porridge']);
+
+  const broken = structuredClone(assessment);
+  broken.production_recipe_audits.find(row => row.recipe_id === 'tibetan-savory-congee').production_ingredient_shapes = ['barley_grain'];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: broken }).join('\n'),
+    /production ingredient shapes must derive from recipe core ingredients/,
+  );
+});
+
+test('machine technique boundaries preserve mianpian branches, long simmer limits and Patu yak-meat structure', () => {
+  assert.equal(assessment.technique_boundaries.length, 3);
+  const mianpian = assessment.technique_boundaries.find(row => row.technique_id === 'qinghai-ga-mianpian-branch-boundary');
+  assert.deepEqual(mianpian.supported_facts, ['手揪小片', '投入沸水煮熟', '汤/拌/炒分支', '羊肉路径先煮羊肉再下面片']);
+  assert.ok(mianpian.research_hypotheses.includes('项目单锅等价'));
+  assert.ok(mianpian.hard_constraints.includes('汤式不得写成唯一固定结构'));
+  assert.deepEqual(mianpian.safety_endpoint_ids, ['animal-food-cook-through-and-separate']);
+
+  const barley = assessment.technique_boundaries.find(row => row.technique_id === 'qinghai-barley-long-simmer-boundary');
+  assert.equal(barley.duration_class, 'long_simmer');
+  assert.deepEqual(barley.forbidden_intents, ['quick']);
+  assert.ok(barley.hard_constraints.includes('不得压缩为30–45分钟方案'));
+
+  const patu = assessment.technique_boundaries.find(row => row.technique_id === 'tibetan-patu-yak-dice-boundary');
+  assert.ok(patu.supported_facts.includes('牦牛肉丁'));
+  assert.ok(patu.supported_facts.includes('熬成粥状'));
+  assert.ok(patu.hard_constraints.includes('普通牛肉或鸡肉不得作为传统等价替换'));
 });
 
 test('critical product boundaries are machine-linked to their subjects, evidence claims and adaptation boundaries', () => {
@@ -151,6 +188,13 @@ test('validator rejects orphan evidence, source identity drift, and semantic dri
   assert.match(
     validateQinghaiTibetOnePotResearch({ ...inputs, assessment: findingBroken }).join('\n'),
     /critical_boundaries semantic fingerprint mismatch/,
+  );
+
+  const techniqueBroken = structuredClone(assessment);
+  techniqueBroken.technique_boundaries.find(row => row.technique_id === 'qinghai-barley-long-simmer-boundary').forbidden_intents = [];
+  assert.match(
+    validateQinghaiTibetOnePotResearch({ ...inputs, assessment: techniqueBroken }).join('\n'),
+    /technique_boundaries semantic fingerprint mismatch/,
   );
 });
 
