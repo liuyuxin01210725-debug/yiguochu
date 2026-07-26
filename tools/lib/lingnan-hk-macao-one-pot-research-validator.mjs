@@ -1,3 +1,6 @@
+import { createHash } from 'node:crypto';
+
+const EXPECTED_ASSESSMENT_VERSION = 'lingnan-hk-macao-one-pot-research-v1-20260726';
 const EXPECTED_REGION = 'lingnan_hk_macao';
 const EXPECTED_PROVINCES = new Set(['CN-GD', 'CN-GX', 'CN-HI', 'CN-HK', 'CN-MO']);
 const EXPECTED_PRODUCTION = new Set([
@@ -39,6 +42,30 @@ const EXPECTED_BOUNDARY_MEANINGS = {
   'hainan-chicken-rice-separate-cook': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'raw_chicken_and_raw_rice_single_pot_as_traditional_hainan_chicken_rice' },
   'macao-menu-not-process': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'menu_presence_as_one_pot_process' },
 };
+// This manifest is intentionally tied to EXPECTED_ASSESSMENT_VERSION. A legitimate
+// evidence update must bump assessment_version, then consciously update this list.
+const EXPECTED_SOURCE_IDENTITIES = {
+  'gd-cantonese-standard-undated': ['粤菜餐厅西关风情特色服务规范（DB44/T 2423-2023）', 'https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A', '国家标准信息公共服务平台', 'undated', '标准平台记录用于核验 DB44/T 2423-2023 的标准身份；具体煲仔饭工艺另由征求意见稿记录。', 'A'],
+  'gd-xiguan-draft-claypot-rice-undated': ['粤菜餐厅西关风情特色服务规范（征求意见稿）', 'https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf', '广东省市场监督管理局', 'undated', '征求意见稿 PDF 未提供可用于本研究的明确发布日期。', 'B'],
+  'hk-tourism-claypot-food-map-undated': ['香港美食地图：煲仔饭', 'https://www.discoverhongkong.com/content/dam/dhk/intl/plan/traveller-info/e-guidebooks/foodmap-tc.pdf', '香港旅游发展局', 'undated', '旅游指南 PDF 未显示稳定发布日期。', 'B'],
+  'gx-foreign-affairs-five-color-rice-2021': ['壮族五色糯米饭', 'https://wsb.gxzf.gov.cn/xwyw_48149/dfws_48154/t8584005.shtml', '广西壮族自治区人民政府外事办公室', '2021-05-12', null, 'A'],
+  'gx-baise-tax-five-color-rice-2024': ['壮乡五色糯米饭飘香', 'https://znhd.guangxi.chinatax.gov.cn/baise/gzdt_15440/gzdt_15441/202404/t20240418_400522.html', '国家税务总局百色市税务局', '2024-04-18', null, 'A'],
+  'hi-agri-dingan-ich-2024': ['定安三项非遗项目入选省级非遗项目', 'https://agri.hainan.gov.cn/hnsnyt/zt/xczx/xczxdt/202406/t20240614_3680040.html', '海南省农业农村厅', '2024-01-02', null, 'A'],
+  'hi-gov-dingan-cai-bao-2026': ['深耕本地特色，定安推动非遗美食香飘出圈', 'https://www.hainan.gov.cn/hainan/sxian/202602/ef2d17adfde24348a7eb4974317058e1.shtml', '海南省人民政府网（来源：海南日报）', '2026-02-08', null, 'A'],
+  'hi-gov-coconut-shredded-rice-2024': ['寻找老味道', 'https://www.hainan.gov.cn/hainan/c100643b/202403/679d437de85c40408aee7f67fa1d563e.shtml?ddtab=true', '海南省人民政府网（来源：海南日报）', '2024-03-25', null, 'A'],
+  'hi-gov-hainan-chicken-rice-2006': ['海南鸡饭', 'https://www.hainan.gov.cn/hainan/mstc/200606/d1b3748845a84b30b4d9153fdb646140.shtml', '海南省人民政府网', '2006-06-01', null, 'A'],
+  'mo-tourism-portuguese-seafood-rice-undated': ['Macanese & Portuguese Dishes', 'https://www.macaotourism.gov.mo/en/dining/taste-of-macao/macanese-and-portuguese-dishes', '澳门特别行政区政府旅游局', 'undated', '旅游介绍页未显示可核验的发布日期；仅用作澳门在地菜单线索。', 'C'],
+  'cq-cured-meat-safety-2026': ['腊肉、香肠的消费提示', 'https://scjgj.cq.gov.cn/bkzs/xfts/202602/t20260213_15442166.html', '重庆市市场监督管理局', '2026-02-13', null, 'A'],
+  'zs-market-food-safety-2026': ['食品安全消费提示', 'https://www.zs.gov.cn/zszjj/gkmlpt/content/2/2589/post_2589753.html', '中山市市场监督管理局', '2026-01-17', null, 'A'],
+};
+// These fingerprints lock every rendered semantic field for the fixed version.
+// Array order is significant; object keys are canonicalized recursively.
+const EXPECTED_SEMANTIC_FINGERPRINTS = {
+  family_model: '76d28769c4ad13f022a06ddd4e7d245944b7b404baf2cdbb79e3003f2071e3d2',
+  adaptation_boundaries: '533a1d7b23a84b1fe5c967a11f4ded47f719f22b6f759349eba21ef23e2a889a',
+  safety_boundaries: 'd8bfd19ce3171656bb4bff33c3c338d2777c892b199bbe6d323efb4867816bfa',
+  journey_cases: '0db122c299935efaaf6db716213e20b05150f68dd85aa0a239b23cfb24e6e8fb',
+};
 const VERDICTS = new Set(['supported', 'not_proven', 'contradicted']);
 const DESTINATIONS = new Set(['recipe_evidence', 'template_evidence', 'ratio_rule', 'new_family_research', 'research_only', 'substitution_rule']);
 const AUDIT_STATES = new Set(['needs_manual_review', 'needs_more_evidence', 'supported_with_boundaries']);
@@ -46,6 +73,16 @@ const isObject = value => value !== null && typeof value === 'object' && !Array.
 const asArray = value => Array.isArray(value) ? value : [];
 const asObject = value => isObject(value) ? value : {};
 const hasText = value => typeof value === 'string' && value.trim().length > 0;
+
+function canonicalJson(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value) ?? '"__undefined__"';
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  return `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+}
+
+function semanticFingerprint(value) {
+  return createHash('sha256').update(canonicalJson(value)).digest('hex');
+}
 
 function sameSet(values, expected) {
   return values.length === expected.size && new Set(values).size === expected.size && values.every(value => expected.has(value));
@@ -80,6 +117,9 @@ function validateSources(assessment, errors) {
     if (row.published_at === 'undated' && !hasText(row.date_note)) errors.push(`${path}.date_note is required when published_at is undated`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(row.retrieved_at || '')) errors.push(`${path}.retrieved_at must be YYYY-MM-DD`);
     if (!['A', 'B', 'C'].includes(row.source_grade)) errors.push(`${path}.source_grade is invalid`);
+    const expectedIdentity = EXPECTED_SOURCE_IDENTITIES[row.source_id];
+    const actualIdentity = [row.title, row.url, row.publisher, row.published_at, row.date_note ?? null, row.source_grade];
+    if (!expectedIdentity || actualIdentity.some((value, fieldIndex) => value !== expectedIdentity[fieldIndex])) errors.push(`source identity manifest mismatch for ${row.source_id || '<missing>'}`);
     const proves = textArray(row.proves, `${path}.proves`, errors, { allowEmpty: true });
     const doesNotProve = textArray(row.does_not_prove, `${path}.does_not_prove`, errors, { allowEmpty: true });
     const contradicts = row.contradicts === undefined ? [] : textArray(row.contradicts, `${path}.contradicts`, errors, { allowEmpty: true });
@@ -272,7 +312,7 @@ export function validateLingnanHkMacaoOnePotResearch({ assessment, recipeLibrary
   if (!isObject(assessment)) return ['assessment must be an object'];
   const errors = [];
   if (assessment.schema_version !== 1) errors.push('schema_version must be 1');
-  if (!hasText(assessment.assessment_version)) errors.push('assessment_version must be non-empty');
+  if (assessment.assessment_version !== EXPECTED_ASSESSMENT_VERSION) errors.push(`assessment_version must be ${EXPECTED_ASSESSMENT_VERSION}; bump version and update semantic manifests for intentional research changes`);
   if (assessment.region_id !== EXPECTED_REGION) errors.push('region_id must be lingnan_hk_macao');
   if (!sameSet(asArray(assessment.province_codes), EXPECTED_PROVINCES)) errors.push('province_codes must contain CN-GD CN-GX CN-HI CN-HK CN-MO');
   const { ids, directions } = validateSources(assessment, errors);
@@ -284,5 +324,8 @@ export function validateLingnanHkMacaoOnePotResearch({ assessment, recipeLibrary
   validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regionalMappings }, errors);
   validateInvariants(assessment, errors);
   validateRequiredClaims(assessment, errors);
+  for (const [field, expected] of Object.entries(EXPECTED_SEMANTIC_FINGERPRINTS)) {
+    if (semanticFingerprint(asArray(assessment[field])) !== expected) errors.push(`${field} semantic fingerprint mismatch for ${EXPECTED_ASSESSMENT_VERSION}`);
+  }
   return errors;
 }

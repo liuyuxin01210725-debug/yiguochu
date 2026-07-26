@@ -192,6 +192,62 @@ test('validator locks every adaptation-boundary meaning and the remaining Canton
   assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: toppingBroken }).join('\n'), /named toppings free protein slot claim must remain not_proven/);
 });
 
+test('validator pins every verified source identity, not only the previously special-cased records', () => {
+  for (const sourceId of [
+    'hk-tourism-claypot-food-map-undated',
+    'gx-foreign-affairs-five-color-rice-2021',
+    'hi-gov-dingan-cai-bao-2026',
+  ]) {
+    const broken = structuredClone(assessment);
+    Object.assign(broken.source_refs.find(row => row.source_id === sourceId), {
+      url: 'https://example.com/forged', title: '伪造标题', publisher: '伪造发布方',
+      published_at: '1999-01-01', source_grade: 'C',
+    });
+    assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: broken }).join('\n'), new RegExp(`source identity manifest mismatch for ${sourceId}`));
+  }
+});
+
+test('validator fingerprints fixed family and adaptation-boundary user-visible semantics', () => {
+  const familyBroken = structuredClone(assessment);
+  familyBroken.family_model[0].name = '任意电饭煲自由蛋白饭';
+  familyBroken.family_model[0].meal_structure = 'generic_rice_cooker_free_protein_slot';
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: familyBroken }).join('\n'), /family_model semantic fingerprint mismatch/);
+
+  const boundaryBroken = structuredClone(assessment);
+  boundaryBroken.adaptation_boundaries.find(row => row.boundary_id === 'claypot-not-generic-covered-pot').notes = '普通锅与瓦煲完全等价，并可承诺锅巴。';
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /adaptation_boundaries semantic fingerprint mismatch/);
+});
+
+test('validator fingerprints complete safety controls and cannot accept deletions or softer wording', () => {
+  const mutations = [
+    rows => rows.filter(row => row.safety_id !== 'raw-animal-food-cook-through-and-separate'),
+    rows => { rows[0].required_controls = ['look_done']; return rows; },
+    rows => { rows[0].endpoint_note = '随便加热即可。'; return rows; },
+    rows => { rows[0].source_ids = ['zs-market-food-safety-2026']; return rows; },
+  ];
+  for (const mutate of mutations) {
+    const broken = structuredClone(assessment);
+    broken.safety_boundaries = mutate(broken.safety_boundaries);
+    assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /safety_boundaries semantic fingerprint mismatch/);
+  }
+});
+
+test('validator fingerprints every agreed household journey field including the pending review form', () => {
+  const mutations = [
+    row => { row.input_items = ['剩米饭']; },
+    row => { row.expected_structure = 'leftover_rice_is_authentic_raw_rice_claypot'; },
+    row => { row.expected_outcome = 'approved'; },
+    row => { row.reason = '普通锅当然等价。'; },
+    row => { row.forbidden_claims = []; },
+    row => { row.human_review.notes = '预先通过'; },
+  ];
+  for (const mutate of mutations) {
+    const broken = structuredClone(assessment);
+    mutate(broken.journey_cases.find(row => row.journey_id === 'gd-03'));
+    assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /journey_cases semantic fingerprint mismatch/);
+  }
+});
+
 test('validator rejects vessel collapse, false regional pineapple attribution and recipe-list promotion', () => {
   const broken = structuredClone(assessment);
   broken.concrete_research_leads.find(row => row.lead_id === 'cantonese-claypot-rice-technique').claims.household_vessel_equivalence.verdict = 'supported';
