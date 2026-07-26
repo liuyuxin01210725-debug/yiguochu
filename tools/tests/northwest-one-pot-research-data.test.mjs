@@ -139,3 +139,21 @@ test('validator locks each production audit to its reviewed manual state', () =>
   broken.production_recipe_audits.find(row => row.recipe_id === 'xinjiang-vegetable-pilaf').audit_state = 'approved';
   assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /audit_state must remain needs_more_evidence/);
 });
+
+test('validator locks each auxiliary safety or boundary edge to its source, proves direction and target entity', () => {
+  const broken = structuredClone(assessment);
+  const token = 'safety:animal_food_cook_through_and_separate:principle';
+  const source = broken.source_refs.find(row => row.source_id === 'nx-lamb-safety-2025');
+  source.contradicts.push(token);
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: broken }).join('\n'), /does not match its fixed auxiliary evidence edge/);
+});
+
+test('validator requires the concrete safety and boundary entities named by auxiliary evidence edges', () => {
+  const safetyBroken = structuredClone(assessment);
+  safetyBroken.safety_boundaries = safetyBroken.safety_boundaries.filter(row => row.safety_id !== 'fresh_bean_cook_through');
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: safetyBroken }).join('\n'), /safety boundary fresh_bean_cook_through must exist/);
+
+  const boundaryBroken = structuredClone(assessment);
+  boundaryBroken.adaptation_boundaries = boundaryBroken.adaptation_boundaries.filter(row => row.boundary_id !== 'sanfan_dispute_not_family');
+  assert.match(validateNorthwestOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /boundary entity sanfan_dispute_not_family must exist/);
+});

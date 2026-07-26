@@ -11,7 +11,11 @@ const AUDIT_STATES = { 'shaanbei-red-date-cowpea-rice': 'needs_manual_review', '
 const LEAD_PROVINCES = { 'xifu-jiaotuan-seasoned-bowl': 'CN-SN', 'huayin-mashi-pao': 'CN-SN', 'gansu-heyan-jiumianpian-broth': 'CN-GS', 'huaining-mixed-grain-jiaotuan': 'CN-GS', 'ningxia-shengcuan-jiumian-bowl': 'CN-NX', 'ningxia-rouzhanfan-steamed-rice': 'CN-NX', 'turpan-soup-rice-technique': 'CN-XJ', 'xinjiang-household-jupianzi-soup': 'CN-XJ' };
 const CLAIM_VERDICTS = {"production:shaanbei-red-date-cowpea-rice:soft_grain_date_bean_identity":"supported","production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation":"not_proven","production:shaanbei-red-date-cowpea-rice:project_ratio_time_vessel":"not_proven","production:xinjiang-lamb-pilaf:staged_lamb_carrot_onion_rice_structure":"supported","production:xinjiang-lamb-pilaf:named_lamb_cut_and_fruit_slots":"not_proven","production:xinjiang-lamb-pilaf:project_ratio_time_safety":"not_proven","production:xinjiang-vegetable-pilaf:vegetarian_pilaf_existence":"supported","production:xinjiang-vegetable-pilaf:current_formula_equivalence":"not_proven","lead:xifu-jiaotuan-seasoned-bowl:stirred_thick_mass_and_separate_seasoning":"supported","lead:xifu-jiaotuan-seasoned-bowl:single_vessel_complete_meal":"not_proven","lead:xifu-jiaotuan-seasoned-bowl:project_ratio_safety":"not_proven","lead:huayin-mashi-pao:huayin_local_presence":"supported","lead:huayin-mashi-pao:cross_locality_shape_not_proven":"not_proven","lead:huayin-mashi-pao:single_pot_equivalence":"not_proven","lead:gansu-heyan-jiumianpian-broth:heyan_ich_identity":"supported","lead:gansu-heyan-jiumianpian-broth:noodle_piece_broth_structure":"supported","lead:gansu-heyan-jiumianpian-broth:heyan_exact_recipe":"not_proven","lead:gansu-heyan-jiumianpian-broth:single_pot_equivalence":"not_proven","lead:huaining-mixed-grain-jiaotuan:manual_stirred_grain_structure":"supported","lead:huaining-mixed-grain-jiaotuan:unattended_appliance_equivalence":"not_proven","lead:ningxia-shengcuan-jiumian-bowl:shengcuan_meatball_noodle_piece_structure":"supported","lead:ningxia-shengcuan-jiumian-bowl:all_noodle_piece_branches_one_recipe":"not_proven","lead:ningxia-shengcuan-jiumian-bowl:meat_under_cooking":"not_proven","lead:ningxia-rouzhanfan-steamed-rice:pre_saute_then_steam_structure":"supported","lead:ningxia-rouzhanfan-steamed-rice:any_meat_rice_braise_equivalence":"not_proven","lead:turpan-soup-rice-technique:turpan_ich_identity":"supported","lead:turpan-soup-rice-technique:protection_unit":"supported","lead:turpan-soup-rice-technique:recipe_formula":"not_proven","lead:xinjiang-household-jupianzi-soup:household_soup_noodle_piece_description":"supported","lead:xinjiang-household-jupianzi-soup:exclusive_regional_identity":"not_proven","lead:xinjiang-household-jupianzi-soup:project_ratio_safety":"not_proven"};
 const AUXILIARY_TOKENS = new Set(['safety:fresh_bean_cook_through:principle', 'safety:animal_food_cook_through_and_separate:principle', 'boundary:sanfan_dispute_not_family:naming_dispute']);
-const AUXILIARY_EDGES = { 'safety:fresh_bean_cook_through:principle': 'sn-cdc-bean-safety-2018', 'safety:animal_food_cook_through_and_separate:principle': 'nx-lamb-safety-2025', 'boundary:sanfan_dispute_not_family:naming_dispute': 'gs-sanfan-dispute-2019' };
+const AUXILIARY_EDGES = {
+  'safety:fresh_bean_cook_through:principle': { source_id: 'sn-cdc-bean-safety-2018', direction: 'proves', entity_type: 'safety', entity_id: 'fresh_bean_cook_through' },
+  'safety:animal_food_cook_through_and_separate:principle': { source_id: 'nx-lamb-safety-2025', direction: 'proves', entity_type: 'safety', entity_id: 'animal_food_cook_through_and_separate' },
+  'boundary:sanfan_dispute_not_family:naming_dispute': { source_id: 'gs-sanfan-dispute-2019', direction: 'proves', entity_type: 'boundary', entity_id: 'sanfan_dispute_not_family' },
+};
 const SEMANTIC_FINGERPRINTS = { family_model: '0bddd3a49c80d7887bff926c4dcc47c15e4cf4c7d9d4e17f3b1daf03257c85d6', adaptation_boundaries: '2770b12abf15f454b70939164a45e78ab25724621a88a69267746aa47853c4f3', journey_cases: 'd6384c7af78e9619cc13493ff79cd4e4a61d5f98add7a8806b2944f3f5282804' };
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const array = value => Array.isArray(value) ? value : [];
@@ -126,9 +130,9 @@ export function validateNorthwestOnePotResearch({ assessment, recipeLibrary, reg
     if (!canonicalTokens.has(token)) errors.push(`source ${sourceId} ${direction} token ${token} is not a canonical claim token`);
     if (Object.hasOwn(CLAIM_VERDICTS, token) && CLAIM_VERDICTS[token] !== (direction === 'proves' ? 'supported' : direction === 'does_not_prove' ? 'not_proven' : 'contradicted')) errors.push(`source ${sourceId} token ${token} has an invalid evidence direction`);
     if (Object.hasOwn(CLAIM_VERDICTS, token) && !claimEvidence.get(token)?.has(sourceId)) errors.push(`source ${sourceId} token ${token} does not correspond to claim evidence source`);
-    if (AUXILIARY_TOKENS.has(token) && AUXILIARY_EDGES[token] !== sourceId) errors.push(`source ${sourceId} token ${token} does not match its fixed auxiliary evidence edge`);
+    if (AUXILIARY_TOKENS.has(token) && (AUXILIARY_EDGES[token].source_id !== sourceId || AUXILIARY_EDGES[token].direction !== direction)) errors.push(`source ${sourceId} token ${token} does not match its fixed auxiliary evidence edge`);
   }
-  for (const [token, sourceId] of Object.entries(AUXILIARY_EDGES)) if (!directions.get(sourceId)?.proves?.has(token)) errors.push(`auxiliary token ${token} must remain proved by ${sourceId}`);
+  for (const [token, edge] of Object.entries(AUXILIARY_EDGES)) if (!directions.get(edge.source_id)?.[edge.direction]?.has(token)) errors.push(`auxiliary token ${token} must remain in ${edge.direction} for ${edge.source_id}`);
   for (const token of Object.keys(CLAIM_VERDICTS)) {
     const [prefix, entityId] = token.split(':');
     const rows = prefix === 'production' ? array(assessment.production_recipe_audits) : array(assessment.concrete_research_leads);
@@ -147,6 +151,16 @@ export function validateNorthwestOnePotResearch({ assessment, recipeLibrary, reg
     for (const sourceId of array(row.source_ids)) if (!ids.has(sourceId)) errors.push(`adaptation_boundaries[${index}] references unknown source ${sourceId}`);
   });
   if (fingerprint(assessment.adaptation_boundaries) !== SEMANTIC_FINGERPRINTS.adaptation_boundaries) errors.push('adaptation_boundaries semantic fingerprint mismatch');
+  const safetyBoundaries = array(assessment.safety_boundaries);
+  for (const edge of Object.values(AUXILIARY_EDGES)) {
+    const rows = edge.entity_type === 'safety' ? safetyBoundaries : boundaries;
+    const idField = edge.entity_type === 'safety' ? 'safety_id' : 'boundary_id';
+    const entity = rows.find(row => row?.[idField] === edge.entity_id);
+    if (!entity) { errors.push(`${edge.entity_type === 'safety' ? 'safety boundary' : 'boundary entity'} ${edge.entity_id} must exist`); continue; }
+    if (!array(entity.source_ids).includes(edge.source_id)) errors.push(`${edge.entity_type} ${edge.entity_id} must reference ${edge.source_id}`);
+    const expectedStatus = edge.entity_type === 'safety' ? 'principle_only' : 'not_proven';
+    if (entity.evidence_status !== expectedStatus) errors.push(`${edge.entity_type} ${edge.entity_id} evidence_status must remain ${expectedStatus}`);
+  }
   const journeys = array(assessment.journey_cases);
   if (journeys.length !== 16) errors.push('journey_cases must contain exactly 16 items');
   if (new Set(journeys.filter(isObject).map(row => row.journey_id)).size !== journeys.length) errors.push('journey_ids must be unique');
