@@ -2,7 +2,7 @@
 
 日期：2026-07-25
 
-状态：产品方向已确认，待用户审阅正式规格
+状态：已由 `2026-07-26-national-regional-menu-atlas-v2-design.md` 扩展替代；本文件保留为第一版决策记录
 
 适用范围：Draft PR #1 后续规划；本规格本身不授权新增生产 recipe、部署 Preview、部署 production 或合并 PR
 
