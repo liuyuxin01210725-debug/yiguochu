@@ -29,6 +29,13 @@ import {
   validateJiangnanRiceResearchReport,
 } from './lib/jiangnan-rice-research-builder.mjs';
 import { buildJiangnanRiceResearchArtifacts } from './lib/jiangnan-rice-research-renderer.mjs';
+import { validateShandongOnePotResearch } from './lib/shandong-one-pot-research-validator.mjs';
+import {
+  buildShandongOnePotResearchReport,
+  formatShandongOnePotResearchSummary,
+  validateShandongOnePotResearchReport,
+} from './lib/shandong-one-pot-research-builder.mjs';
+import { buildShandongOnePotResearchArtifacts } from './lib/shandong-one-pot-research-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -38,6 +45,7 @@ const menuMasterInputErrors = [];
 const regionalAtlasInputErrors = [];
 const northeastResearchInputErrors = [];
 const jiangnanResearchInputErrors = [];
+const shandongResearchInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -60,6 +68,7 @@ const regionalAtlas = readReviewLedger('./data/regional-atlas.v2.json', 'regiona
 const regionalMenuMappings = readReviewLedger('./data/regional-menu-mappings.v1.json', 'regional menu mapping ledger', regionalAtlasInputErrors);
 const northeastResearch = readReviewLedger('./data/northeast-stew-research.v1.json', 'northeast stew research assessment', northeastResearchInputErrors);
 const jiangnanResearch = readReviewLedger('./data/jiangnan-rice-research.v1.json', 'Jiangnan rice research assessment', jiangnanResearchInputErrors);
+const shandongResearch = readReviewLedger('./data/shandong-one-pot-research.v1.json', 'Shandong one-pot research assessment', shandongResearchInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -199,6 +208,41 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...jiangnanResearchErrors);
+const shandongResearchSourceErrors = [
+  ...shandongResearchInputErrors,
+  ...validateShandongOnePotResearch({
+    assessment: shandongResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  }),
+];
+errors.push(...shandongResearchSourceErrors);
+const shandongResearchErrors = [];
+let shandongResearchReport;
+if (recipeLibraryErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && shandongResearchSourceErrors.length === 0) {
+  shandongResearchReport = buildShandongOnePotResearchReport({
+    assessment: shandongResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  });
+  shandongResearchErrors.push(...validateShandongOnePotResearchReport(shandongResearchReport));
+  if (shandongResearchErrors.length === 0) {
+    for (const [relativePath, content] of buildShandongOnePotResearchArtifacts(shandongResearchReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        shandongResearchErrors.push(`${relativePath} is missing or stale; run node tools/build-shandong-one-pot-research.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...shandongResearchErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -233,6 +277,9 @@ if (northeastResearchReport && northeastResearchSourceErrors.length === 0 && nor
 }
 if (jiangnanResearchReport && jiangnanResearchSourceErrors.length === 0 && jiangnanResearchErrors.length === 0) {
   console.log(`${jiangnanResearchReport.summary.recipe_audit_count} Jiangnan recipe audits · ${jiangnanResearchReport.summary.source_count} sources · ${jiangnanResearchReport.summary.journey_count} journeys · Jiangnan research ok`);
+}
+if (shandongResearchReport && shandongResearchSourceErrors.length === 0 && shandongResearchErrors.length === 0) {
+  console.log(formatShandongOnePotResearchSummary(shandongResearchReport));
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);

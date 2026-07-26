@@ -59,6 +59,7 @@ const CHECKER_DATA_FILES = [
   'regional-menu-mappings.v1.json',
   'northeast-stew-research.v1.json',
   'jiangnan-rice-research.v1.json',
+  'shandong-one-pot-research.v1.json',
 ];
 
 function runCheckerWithAssetMutation(mutate) {

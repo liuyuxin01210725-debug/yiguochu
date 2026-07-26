@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "assessment_version": "shandong-one-pot-research-v1-20260726",
+  "region_id": "shandong",
+  "province_codes": ["CN-SD"],
+  "source_refs": [
+    {
+      "source_id": "sd-zibo-large-pot-2025",
+      "title": "淄博东东峪村大锅菜",
+      "url": "https://www.sdxc.gov.cn/zbsh/shjj/202505/t20250512_15921133.htm",
+      "publisher": "山东宣传网",
+      "published_at": "2025-05-12",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方文化报道记录白菜、豆腐、五花肉入大锅，馒头另行购买，支持大锅组合和锅外主食边界。",
+      "proves": [
+        "candidate:shandong-cabbage-tofu-vermicelli-pot:cabbage_tofu_large_pot",
+        "candidate:shandong-cabbage-tofu-vermicelli-pot:ready_staple_outside_pot"
+      ],
+      "does_not_prove": [
+        "candidate:shandong-cabbage-tofu-vermicelli-pot:vermicelli_as_fixed_core",
+        "candidate:shandong-cabbage-tofu-vermicelli-pot:complete_same_pot_main_meal",
+        "candidate:shandong-southwest-family-pot:regional_identity"
+      ]
+    },
+    {
+      "source_id": "sd-taishan-cabbage-tofu-2024",
+      "title": "泰山白菜与豆腐的地方饮食组合",
+      "url": "https://www.sdxc.gov.cn/whql/xcwhzx/202412/t20241211_15233745.htm",
+      "publisher": "山东宣传网",
+      "published_at": "2024-12-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方文化资料支持泰山白菜与豆腐的地域组合，但不证明粉条、大锅或主食身份。",
+      "proves": ["candidate:shandong-cabbage-tofu-vermicelli-pot:cabbage_tofu_regional_pair"],
+      "does_not_prove": [
+        "candidate:shandong-cabbage-tofu-vermicelli-pot:vermicelli_as_fixed_core",
+        "candidate:shandong-cabbage-tofu-vermicelli-pot:complete_same_pot_main_meal"
+      ]
+    },
+    {
+      "source_id": "yt-ninghai-naofan-2018",
+      "title": "牟平宁海脑饭",
+      "url": "https://www.yantai.gov.cn/art/2018/6/19/art_11748_1167698.html",
+      "publisher": "烟台市人民政府",
+      "published_at": "2018-06-19",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方地方资料记录小米糊、豆浆或豆腐脑、粉条、花生和蔬菜等分层形成宁海脑饭。",
+      "proves": ["lead:shandong-ninghai-naofan:regional_structure"],
+      "does_not_prove": ["lead:shandong-ninghai-naofan:production_ratio_safety"]
+    },
+    {
+      "source_id": "qd-seafood-dough-soup-2025",
+      "title": "青岛海鲜疙瘩汤地方饮食资料",
+      "url": "https://www.qingdao.gov.cn/zwgk/xxgk/whly/gkml/gzxx/202512/t20251231_10428786.shtml",
+      "publisher": "青岛市人民政府",
+      "published_at": "2025-12-31",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方资料支持虾、蛤蜊、扇贝等地方海鲜与面疙瘩同煮的主食汤结构。",
+      "proves": [
+        "candidate:shandong-seafood-staple-pot:concrete_dough_drop_family",
+        "lead:shandong-haixian-dough-drop-soup:regional_structure"
+      ],
+      "does_not_prove": [
+        "candidate:shandong-seafood-staple-pot:generic_seafood_interchangeability",
+        "lead:shandong-haixian-dough-drop-soup:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "wh-seafood-sweet-potato-noodle-2023",
+      "title": "威海海鲜地瓜面条",
+      "url": "https://www.weihai.gov.cn/art/2023/9/28/art_145736_3999489.html",
+      "publisher": "威海市人民政府",
+      "published_at": "2023-09-28",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方资料支持海鲜地瓜面条这一地方产品名称，不提供完整配方、比例或海鲜通配规则。",
+      "proves": ["candidate:shandong-seafood-staple-pot:sweet_potato_noodle_name"],
+      "does_not_prove": [
+        "candidate:shandong-seafood-staple-pot:generic_seafood_interchangeability",
+        "candidate:shandong-seafood-staple-pot:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "sd-pancake-culture-2025",
+      "title": "山东煎饼文化资料",
+      "url": "https://www.sdxc.gov.cn/sy/xcdt/202502/t20250204_15476717.htm",
+      "publisher": "山东宣传网",
+      "published_at": "2025-02-04",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方文化资料支持山东煎饼的主食身份和卷入另制菜、酱或肉的吃法，也显示其属于多流程而非同锅。",
+      "proves": ["candidate:shandong-vegetable-cornmeal-one-pot:ready_pancake_meal_route"],
+      "does_not_prove": ["candidate:shandong-vegetable-cornmeal-one-pot:defined_food_form"]
+    },
+    {
+      "source_id": "sd-pork-bean-noodle-product-2022",
+      "title": "山东预制菜资料中的猪肉豆角焖面",
+      "url": "https://xm.shandong.gov.cn/art/2022/6/21/art_24615_10306323.html",
+      "publisher": "山东省畜牧兽医局",
+      "published_at": "2022-06-21",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "省级官方页面能证明山东当代市场出现猪肉豆角焖面，不能证明其山东起源或独有传统。",
+      "proves": ["production:north-china-green-bean-braised-noodles:shandong_current_presence"],
+      "does_not_prove": ["production:north-china-green-bean-braised-noodles:shandong_specific_origin"]
+    },
+    {
+      "source_id": "nm-west-braised-noodle-2018",
+      "title": "乌拉特中旗美食资料",
+      "url": "https://www.wltzq.gov.cn/zjwzq/yxwltzq/ms/201812/t20181204_674031.html",
+      "publisher": "乌拉特中旗人民政府",
+      "published_at": "2018-12-04",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "现有候选账本引用该政府页面核对晋北至内蒙古西部豆角焖面的地域和高层技法。",
+      "proves": ["production:north-china-green-bean-braised-noodles:cross_northern_identity"],
+      "does_not_prove": ["production:north-china-green-bean-braised-noodles:shandong_specific_origin"]
+    },
+    {
+      "source_id": "yt-food-safety-2024",
+      "title": "夏季食品安全消费提示",
+      "url": "https://www.yantai.gov.cn/art/2024/6/20/art_67000_3200902.html",
+      "publisher": "烟台市人民政府",
+      "published_at": "2024-06-20",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方食品安全提示要求豆类和海鲜烧熟煮透，并强调生熟分开与避免交叉污染；本研究只采用原则，不转写项目克数和时长。",
+      "proves": [
+        "safety:bean-cook-through:endpoint_principle",
+        "safety:seafood-cook-through-cross-contamination:endpoint_principle"
+      ],
+      "does_not_prove": [
+        "safety:bean-cook-through:project_time_quantity",
+        "safety:seafood-cook-through-cross-contamination:project_time_quantity"
+      ]
+    }
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id": "north-china-green-bean-braised-noodles",
+      "audit_state": "needs_more_evidence",
+      "regional_scope_decision": "cross_regional_chinese",
+      "claims": {
+        "shandong_current_presence": {"verdict":"supported","evidence_source_ids":["sd-pork-bean-noodle-product-2022"],"reason":"山东省级页面记录当代猪肉豆角焖面产品。"},
+        "cross_northern_identity": {"verdict":"supported","evidence_source_ids":["nm-west-braised-noodle-2018"],"reason":"现有候选证据将地域线索指向晋北至内蒙古西部，支持跨北方而非山东独占。"},
+        "shandong_specific_origin": {"verdict":"not_proven","evidence_source_ids":["sd-pork-bean-noodle-product-2022","nm-west-braised-noodle-2018"],"reason":"山东当代产品存在与晋蒙地域线索都不能证明山东起源或独有传统。"}
+      },
+      "ingredient_roles": [
+        {"item":"鲜小麦面条","role":"fresh_noodle_staple","evidence_status":"production"},
+        {"item":"豆角","role":"long_cook_vegetable","evidence_status":"production"},
+        {"item":"猪肉末","role":"ground_pork_protein","evidence_status":"production"}
+      ],
+      "product_destinations": ["recipe_evidence", "template_evidence"],
+      "priority": {"product_score":9,"regional_score":5,"risk_penalty":3,"total_score":11},
+      "decision_reason": "保留现有跨地域生产条目，不改名为山东豆角焖面，也不用当代商品资料给传统起源背书。"
+    }
+  ],
+  "candidate_audits": [
+    {
+      "candidate_id": "shandong-cabbage-tofu-vermicelli-pot",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "cabbage_tofu_large_pot": {"verdict":"supported","evidence_source_ids":["sd-zibo-large-pot-2025"],"reason":"淄博官方文化报道直接记录白菜、豆腐与五花肉入大锅。"},
+        "cabbage_tofu_regional_pair": {"verdict":"supported","evidence_source_ids":["sd-taishan-cabbage-tofu-2024"],"reason":"泰山官方文化资料支持白菜豆腐地域组合。"},
+        "vermicelli_as_fixed_core": {"verdict":"not_proven","evidence_source_ids":["sd-zibo-large-pot-2025","sd-taishan-cabbage-tofu-2024"],"reason":"两份来源都不能证明粉条是固定核心。"},
+        "complete_same_pot_main_meal": {"verdict":"not_proven","evidence_source_ids":["sd-zibo-large-pot-2025"],"reason":"来源中的馒头另行购买，不能宣称主食与菜全部同锅。"},
+        "ready_staple_outside_pot": {"verdict":"supported","evidence_source_ids":["sd-zibo-large-pot-2025"],"reason":"来源明确呈现大锅菜配锅外现成馒头的用餐结构。"}
+      },
+      "ingredient_shapes": ["cabbage", "tofu", "pork_belly", "unproven_vermicelli", "ready_bun_outside_pot"],
+      "shape_distinctions": [],
+      "product_destinations": ["template_evidence", "new_family_research"],
+      "priority": {"product_score":8,"regional_score":8,"risk_penalty":5,"total_score":11},
+      "decision_reason": "保留大锅菜和锅外现成主食路线，删除对粉条固定核心和同锅主食的暗示。"
+    },
+    {
+      "candidate_id": "shandong-vegetable-cornmeal-one-pot",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "ready_pancake_meal_route": {"verdict":"supported","evidence_source_ids":["sd-pancake-culture-2025"],"reason":"现成山东煎饼配另制菜可形成低摩擦完整餐研究路线。"},
+        "defined_food_form": {"verdict":"not_proven","evidence_source_ids":["sd-pancake-culture-2025"],"reason":"原候选没有区分现成煎饼、玉米面糊和锅边饼，不能作为一个可执行食物形态。"},
+        "same_pot_identity": {"verdict":"not_proven","evidence_source_ids":["sd-pancake-culture-2025"],"reason":"摊煎饼和炒菜属于多流程，来源不证明菜粮同锅。"}
+      },
+      "ingredient_shapes": ["vegetable_unspecified", "cornmeal_form_unspecified"],
+      "shape_distinctions": ["ready_pancake", "cornmeal_batter", "pot-edge-cake"],
+      "product_destinations": ["research_only"],
+      "priority": {"product_score":5,"regional_score":7,"risk_penalty":6,"total_score":6},
+      "decision_reason": "先拆清玉米面食物形态；当前模糊候选不进入生产或 Planner。"
+    },
+    {
+      "candidate_id": "shandong-seafood-staple-pot",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "concrete_dough_drop_family": {"verdict":"supported","evidence_source_ids":["qd-seafood-dough-soup-2025"],"reason":"青岛官方资料支持具体的海鲜面疙瘩汤结构。"},
+        "sweet_potato_noodle_name": {"verdict":"supported","evidence_source_ids":["wh-seafood-sweet-potato-noodle-2023"],"reason":"威海官方资料支持海鲜地瓜面条这一名称级地方事实。"},
+        "generic_seafood_interchangeability": {"verdict":"not_proven","evidence_source_ids":["qd-seafood-dough-soup-2025","wh-seafood-sweet-potato-noodle-2023"],"reason":"不同海鲜与主食形态不能被一个海鲜泛称自由替换。"},
+        "production_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["wh-seafood-sweet-potato-noodle-2023","yt-food-safety-2024"],"reason":"名称和通用安全原则不足以形成可执行比例与具体海鲜安全规则。"}
+      },
+      "ingredient_shapes": ["identified_shellfish_or_shrimp", "dough_drop", "sweet_potato_noodle"],
+      "shape_distinctions": ["dough_drop", "sweet_potato_noodle"],
+      "product_destinations": ["new_family_research"],
+      "priority": {"product_score":9,"regional_score":9,"risk_penalty":6,"total_score":12},
+      "decision_reason": "把模糊海鲜锅拆成海鲜疙瘩汤和海鲜地瓜面两条具体路线。"
+    },
+    {
+      "candidate_id": "shandong-southwest-family-pot",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "regional_identity": {"verdict":"not_proven","evidence_source_ids":["sd-zibo-large-pot-2025","sd-taishan-cabbage-tofu-2024"],"reason":"淄博和泰山资料不能证明鲁西南家常大锅这一标签。"},
+        "defined_staple_form": {"verdict":"not_proven","evidence_source_ids":["sd-zibo-large-pot-2025"],"reason":"候选写着猪肉或粉条、待核实主食，尚无明确主食形态。"}
+      },
+      "ingredient_shapes": ["cabbage", "tofu", "pork_or_vermicelli", "staple_unspecified"],
+      "shape_distinctions": [],
+      "product_destinations": ["research_only"],
+      "priority": {"product_score":4,"regional_score":3,"risk_penalty":7,"total_score":0},
+      "decision_reason": "没有鲁西南直接证据，不借用山东其他地区资料伪造地域身份。"
+    }
+  ],
+  "concrete_research_leads": [
+    {
+      "lead_id": "shandong-haixian-dough-drop-soup",
+      "name": "胶东海鲜疙瘩汤家族",
+      "production_recipe_id": null,
+      "source_ids": ["qd-seafood-dough-soup-2025", "yt-food-safety-2024"],
+      "known_structure": ["明确海鲜种类", "面疙瘩主食", "汤煮"],
+      "open_questions": ["家庭面水比", "海鲜分型", "加入顺序", "熟制终点"],
+      "product_destinations": ["new_family_research"],
+      "decision_reason": "比泛称胶东海鲜主食锅更具体，先研究结构，不创建生产菜谱。",
+      "priority": {"product_score":9,"regional_score":9,"risk_penalty":5,"total_score":13}
+    },
+    {
+      "lead_id": "shandong-ninghai-naofan",
+      "name": "宁海脑饭家族",
+      "production_recipe_id": null,
+      "source_ids": ["yt-ninghai-naofan-2018"],
+      "known_structure": ["小米糊", "豆浆或豆腐脑", "粉条", "花生", "蔬菜"],
+      "open_questions": ["家庭器具", "液体与小米比例", "豆腐脑状态", "快手化边界"],
+      "product_destinations": ["new_family_research"],
+      "decision_reason": "有明确地方名称和复合主餐结构，先做家族研究，不创建生产菜谱。",
+      "priority": {"product_score":8,"regional_score":10,"risk_penalty":4,"total_score":14}
+    }
+  ],
+  "family_model": [
+    {"family_id":"noodle-braise","name":"豆角鲜面焖制","meal_structure":"same_pot","evidence_status":"production_supported"},
+    {"family_id":"grain-soy-composite-bowl","name":"谷物豆制复合饭","meal_structure":"layered_bowl","evidence_status":"research_supported"},
+    {"family_id":"seafood-noodle-broth","name":"明确海鲜与面食汤锅","meal_structure":"same_pot","evidence_status":"research_supported"},
+    {"family_id":"pot-plus-ready-staple","name":"大锅菜加现成主食","meal_structure":"pot_plus_ready_staple","evidence_status":"research_supported"},
+    {"family_id":"multi-process-pancake-meal","name":"现成煎饼卷另制菜","meal_structure":"multi_process","evidence_status":"research_supported"}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id":"cross-northern-not-shandong-origin","evidence_status":"checked","notes":"跨北方焖面不因山东当代出现而变成山东起源。"},
+    {"boundary_id":"vermicelli-not-silent-core","evidence_status":"checked","notes":"白菜豆腐大锅证据不自动加入粉条。"},
+    {"boundary_id":"ready-staple-outside-pot","evidence_status":"checked","notes":"馒头必须标为锅外现成主食。"},
+    {"boundary_id":"generic-seafood-to-identified-form","evidence_status":"needs_more_evidence","notes":"必须识别海鲜和主食形态。"},
+    {"boundary_id":"ready-pancake-not-cornmeal-batter","evidence_status":"checked","notes":"现成煎饼不等于玉米面糊或锅边饼。"},
+    {"boundary_id":"home-pot-capacity-and-safety","evidence_status":"unresearched","notes":"家庭容量、比例与分锅尚未建立。"}
+  ],
+  "safety_boundaries": [
+    {"safety_id":"bean-cook-through","source_ids":["yt-food-safety-2024"],"evidence_status":"principle_only","endpoint_note":"豆角必须烧熟煮透；本轮不转写为项目时长或克数。"},
+    {"safety_id":"seafood-cook-through-cross-contamination","source_ids":["yt-food-safety-2024"],"evidence_status":"principle_only","endpoint_note":"海鲜必须烧熟煮透并避免生熟交叉污染；具体海鲜仍需分型。"}
+  ],
+  "journey_cases": [
+    {"journey_id":"sd-j01","mode":"pantry","intent":"normal","raw_items":["鲜面","豆角","猪肉末"],"expected_used_items":["鲜面","豆角","猪肉末"],"expected_unplanned_items":[],"expected_structure":"noodle-braise","expected_research_outcome":"supported_family_route","explanation":"可走跨北方豆角焖面，但不得展示为山东传统。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j02","mode":"pantry","intent":"normal","raw_items":["鲜面","豆角","土豆"],"expected_used_items":["鲜面","豆角"],"expected_unplanned_items":["土豆"],"expected_structure":"noodle-braise","expected_research_outcome":"needs_more_evidence","explanation":"组合可能合理，但山东特定身份、土豆兼容和比例未证明。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j03","mode":"recommend","intent":"normal","raw_items":["白菜","豆腐","五花肉"],"expected_used_items":["白菜","豆腐","五花肉"],"expected_unplanned_items":[],"expected_structure":"pot-plus-ready-staple","expected_research_outcome":"needs_more_evidence","explanation":"大锅菜组合有据，但没有现成主食时不能称完整同锅主餐。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j04","mode":"pantry","intent":"normal","raw_items":["白菜","豆腐","粉条"],"expected_used_items":["白菜","豆腐"],"expected_unplanned_items":["粉条"],"expected_structure":"pot-plus-ready-staple","expected_research_outcome":"unsupported_for_family","explanation":"白菜豆腐来源不能自动证明粉条是固定核心。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j05","mode":"pantry","intent":"normal","raw_items":["白菜","豆腐","五花肉","现成馒头"],"expected_used_items":["白菜","豆腐","五花肉","现成馒头"],"expected_unplanned_items":[],"expected_structure":"pot-plus-ready-staple","expected_research_outcome":"supported_family_route","explanation":"可解释为主锅加现成馒头的完整一顿饭，不能写成全部同锅。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j06","mode":"pantry","intent":"normal","raw_items":["小米","无糖豆浆","粉条","小菜心"],"expected_used_items":["小米","无糖豆浆","粉条","小菜心"],"expected_unplanned_items":[],"expected_structure":"grain-soy-composite-bowl","expected_research_outcome":"research_lead_only","explanation":"宁海脑饭家族有据，家庭比例与豆腐脑状态仍待研究。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j07","mode":"pantry","intent":"normal","raw_items":["虾仁","蛤蜊","面粉"],"expected_used_items":["虾仁","蛤蜊","面粉"],"expected_unplanned_items":[],"expected_structure":"seafood-noodle-broth","expected_research_outcome":"research_lead_only","explanation":"海鲜疙瘩汤家族有据，海鲜安全和面疙瘩比例待研究。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j08","mode":"pantry","intent":"normal","raw_items":["海鲜","地瓜面条"],"expected_used_items":["地瓜面条"],"expected_unplanned_items":["海鲜"],"expected_structure":"seafood-noodle-broth","expected_research_outcome":"needs_more_evidence","explanation":"名称有据，但泛称海鲜必须先识别具体种类。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j09","mode":"recommend","intent":"normal","raw_items":["耐煮蔬菜","玉米面"],"expected_used_items":[],"expected_unplanned_items":["耐煮蔬菜","玉米面"],"expected_structure":"unresolved-cornmeal-form","expected_research_outcome":"unsupported_for_family","explanation":"不能把煎饼、玉米糊或锅边饼任意当成同一方案。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j10","mode":"recommend","intent":"quick","raw_items":["现成山东煎饼","炒蔬菜"],"expected_used_items":["现成山东煎饼","炒蔬菜"],"expected_unplanned_items":[],"expected_structure":"multi-process-pancake-meal","expected_research_outcome":"research_lead_only","explanation":"可作为低摩擦完整餐研究，但不是同锅生成。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j11","mode":"pantry","intent":"normal","raw_items":["白菜","豆腐","粉条","猪肉"],"expected_used_items":[],"expected_unplanned_items":["白菜","豆腐","粉条","猪肉"],"expected_structure":"unproven-southwest-pot","expected_research_outcome":"unsupported_for_family","explanation":"缺少鲁西南直接证据，不得伪造地域身份或完整方案。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}},
+    {"journey_id":"sd-j12","mode":"pantry","intent":"normal","raw_items":["未知贝类","豆角","鲜面"],"expected_used_items":["豆角","鲜面"],"expected_unplanned_items":["未知贝类"],"expected_structure":"noodle-braise","expected_research_outcome":"unsafe_or_unrecognized","explanation":"贝类未识别且豆角需熟透，保留未规划并停止成功结论。","human_review":{"status":"pending","reviewer":null,"reviewed_at":null,"household_intuition":null,"operability":null,"taste_judgement":null,"notes":"","conclusion":null}}
+  ]
+}
