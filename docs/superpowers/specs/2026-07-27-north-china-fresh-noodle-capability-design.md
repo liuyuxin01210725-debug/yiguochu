@@ -2,7 +2,7 @@
 
 日期：2026-07-27
 
-状态：设计已获用户口头确认，等待用户审阅书面规格
+状态：设计已获用户确认；计划自审补充 `canonical_required` 的机器执行边界
 
 适用范围：Draft PR #1 后续工作。本设计只修复鲜小麦面条的受控身份和鲜面焖面 Ratio DSL，使现有北方豆角焖面能被 Pantry Planner V2 诚实承接；不新增 recipe，不新增 template，不部署 Preview 或 production，不合并 PR。
 
@@ -94,6 +94,7 @@
   "aliases": ["鲜面条", "鲜面", "生鲜面"],
   "input_scope": "pantry_input",
   "category": "noodle",
+  "ratio_rule_policy": "canonical_required",
   "states": ["raw"],
   "shapes_or_cuts": ["whole"],
   "cook_speed": "fast",
@@ -113,6 +114,8 @@
 ```
 
 `canonical` 或 `canonical_id` 必须保留鲜面身份，不能为了维持旧响应而静默退化成普通“面条”。`normalized_items.raw` 始终保留用户原词。
+
+`ratio_rule_policy:"canonical_required"` 是受控机器字段：它表示该 identity 不能使用只按 category 匹配的通用 Ratio rule。第一阶段仅 `fresh-wheat-noodle` 使用该值；其余 identity 缺省为 `category_fallback`。该字段必须进入 validator、Planner assignment 和规范化 plan identity，不能成为只写在 JSON 里却不执行的说明。
 
 ### 4.2 收窄原 `noodle`
 
@@ -169,7 +172,7 @@ Recipe 只提供技法、安全、比例校准和来源 evidence，不决定组�
 
 1. template、slot、category 和 canonical identity 全部命中的精确规则；
 2. 没有精确规则时，才允许 category 通用规则；
-3. 鲜面 identity 被显式列入某条精确规则后，禁止回退通用干面规则；
+3. assignment 中任一食材声明 `ratio_rule_policy:"canonical_required"` 时，如果没有精确规则必须返回 `ratio_rule_not_found`，禁止回退 category 通用规则；
 4. 多条同等精确规则同时命中时，返回 `ratio_rule_ambiguous`，不得按数组顺序猜测。
 
 这使未来可以继续拆分预蒸面或熟面，而无需新建固定菜谱。
