@@ -70,7 +70,7 @@ test('initial northeast round remains in progress instead of claiming completion
     'calibration_2_3_4_servings_incomplete',
   ]);
   assert.equal(report.summary.ratio_ready_form_count, 0);
-  assert.equal(report.summary.safety_ready_branch_count, 0);
+  assert.equal(report.summary.safety_ready_branch_count, 2);
   assert.equal(report.summary.journey_reviewed_count, 0);
 });
 

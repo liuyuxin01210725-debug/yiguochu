@@ -238,12 +238,15 @@ test('distribution build excludes northeast M1 research calibration and syntheti
     for (const forbiddenName of [
       'northeast-stew-numeric-evidence.v1.json',
       'northeast-stew-numeric-evidence.md',
+      'northeast-stew-safety-evidence.v1.json',
+      'northeast-stew-safety-evidence.md',
       'northeast-stew-calibration-runbook.md',
     ]) assert.equal(relativeFiles.some(name => path.basename(name) === forbiddenName), false, `research-only file leaked by name: ${forbiddenName}`);
     for (const sentinel of [
       'northeast-stew-research',
       'northeast-stew-journey-review',
       'northeast-stew-numeric-evidence',
+      'northeast-stew-safety-evidence',
       'northeast-stew-calibration-runbook',
       'preparation-rule.synthetic',
       'ne-cal-2',

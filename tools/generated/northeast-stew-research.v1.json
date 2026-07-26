@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "assessment_version": "northeast-stew-research-v1-20260727-m1",
+  "assessment_version": "northeast-stew-research-v1-20260727-m3",
   "region_overview": {
     "region_id": "northeast",
     "name": "东北",
@@ -710,28 +710,37 @@
       "subject": "鸡肉",
       "boundary_type": "safety_endpoint",
       "evidence_status": "unresearched",
+      "safety_rule_ids": [],
       "explanation": "必须独立建立禽肉熟制终点。"
     },
     {
       "boundary_id": "safety:pork_ribs",
       "subject": "排骨",
       "boundary_type": "safety_endpoint",
-      "evidence_status": "unresearched",
-      "explanation": "必须独立建立排骨时间与熟制终点。"
+      "evidence_status": "calibration_ready",
+      "safety_rule_ids": [
+        "pork-ribs-safe-endpoint-v1"
+      ],
+      "explanation": "实厨校准必须同时记录排骨中心温度和静置时间；官方参考时长不得写成生产默认。"
     },
     {
       "boundary_id": "safety:fish",
       "subject": "鱼",
       "boundary_type": "safety_endpoint",
       "evidence_status": "unresearched",
+      "safety_rule_ids": [],
       "explanation": "必须独立建立鱼类种类、形态和熟制终点。"
     },
     {
       "boundary_id": "safety:green_beans",
       "subject": "豆角",
       "boundary_type": "safety_endpoint",
-      "evidence_status": "unresearched",
-      "explanation": "必须独立建立充分熟制规则。"
+      "evidence_status": "calibration_ready",
+      "safety_rule_ids": [
+        "green-beans-fully-cooked-v1",
+        "oil-beans-fully-cooked-v1"
+      ],
+      "explanation": "普通豆角与油豆角分别使用受控充分熟制规则；不得跨食材借用分钟数。"
     }
   ],
   "product_destination_decisions": [
@@ -835,17 +844,21 @@
           "hlj-gov-iron-pot-2025",
           "jilin-huadian-routes-2025"
         ],
+        "safety_rule_ids": [],
         "endpoint_note": "必须独立建立禽肉熟制终点。"
       },
       {
         "branch_id": "pork_ribs",
         "name": "排骨",
-        "evidence_status": "unresearched",
+        "evidence_status": "calibration_ready",
         "source_ids": [
           "hlj-culture-autumn-pot-2025",
           "jilin-baishan-food-2024"
         ],
-        "endpoint_note": "必须独立建立排骨时间与熟制终点。"
+        "safety_rule_ids": [
+          "pork-ribs-safe-endpoint-v1"
+        ],
+        "endpoint_note": "实厨校准必须同时记录排骨中心温度和静置时间；官方参考时长不得写成生产默认。"
       },
       {
         "branch_id": "fish",
@@ -856,17 +869,22 @@
           "jilin-huadian-routes-2025",
           "liaoning-autumn-food-2025"
         ],
+        "safety_rule_ids": [],
         "endpoint_note": "必须独立建立鱼类种类、形态和熟制终点。"
       },
       {
         "branch_id": "green_beans",
         "name": "豆角",
-        "evidence_status": "unresearched",
+        "evidence_status": "calibration_ready",
         "source_ids": [
           "hlj-culture-autumn-pot-2025",
           "jilin-baishan-food-2024"
         ],
-        "endpoint_note": "必须独立建立充分熟制规则。"
+        "safety_rule_ids": [
+          "green-beans-fully-cooked-v1",
+          "oil-beans-fully-cooked-v1"
+        ],
+        "endpoint_note": "普通豆角与油豆角分别使用受控充分熟制规则；不得跨食材借用分钟数。"
       }
     ]
   },
@@ -1946,7 +1964,7 @@
     "needs_more_evidence_count": 3,
     "rejected_count": 0,
     "ratio_ready_form_count": 0,
-    "safety_ready_branch_count": 0,
+    "safety_ready_branch_count": 2,
     "journey_count": 10,
     "journey_reviewed_count": 0,
     "machine_rule_candidate_count": 2,

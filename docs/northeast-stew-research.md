@@ -89,9 +89,9 @@
 | 小花卷 | ratio_and_shape | unresearched | 锅边烀制形态已核实，面团比例和家庭蒸汽空间未核实。 |
 | 粘卷子 | ratio_and_shape | unresearched | 北京平谷菜面同锅形态已核实，东北关联与家庭比例未核实。 |
 | 鸡肉 | safety_endpoint | unresearched | 必须独立建立禽肉熟制终点。 |
-| 排骨 | safety_endpoint | unresearched | 必须独立建立排骨时间与熟制终点。 |
+| 排骨 | safety_endpoint | calibration_ready | 实厨校准必须同时记录排骨中心温度和静置时间；官方参考时长不得写成生产默认。 |
 | 鱼 | safety_endpoint | unresearched | 必须独立建立鱼类种类、形态和熟制终点。 |
-| 豆角 | safety_endpoint | unresearched | 必须独立建立充分熟制规则。 |
+| 豆角 | safety_endpoint | calibration_ready | 普通豆角与油豆角分别使用受控充分熟制规则；不得跨食材借用分钟数。 |
 
 ## 7. 产品去向决策
 

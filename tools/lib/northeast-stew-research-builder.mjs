@@ -45,6 +45,7 @@ function buildHomeAdaptationBoundaries(familyModel) {
     subject: row?.name || '',
     boundary_type: 'safety_endpoint',
     evidence_status: row?.evidence_status || 'unresearched',
+    safety_rule_ids: asArray(row?.safety_rule_ids),
     explanation: row?.endpoint_note || '',
   }));
   return [...stapleBoundaries, ...safetyBoundaries];
@@ -53,7 +54,7 @@ function buildHomeAdaptationBoundaries(familyModel) {
 function completionFacts(prototypes, familyModel, journeys, machineRules, calibrationCases) {
   const concludedPrototypes = prototypes.filter(row => ['fact_checked', 'rejected'].includes(row.research_state)).length;
   const ratioReady = asArray(familyModel?.staple_forms).filter(row => row?.evidence_status === 'machine_ready').length;
-  const safetyReady = asArray(familyModel?.safety_branches).filter(row => row?.evidence_status === 'machine_ready').length;
+  const safetyReady = asArray(familyModel?.safety_branches).filter(row => row?.evidence_status === 'calibration_ready').length;
   const reviewedJourneys = journeys.filter(row => ['passed', 'failed'].includes(row?.human_review?.status)).length;
   const machineRulesReady = machineRules.filter(row => row.activation_status === 'active').length;
   const calibrationReady = calibrationCases.filter(row => row.status === 'passed').length;
@@ -220,7 +221,7 @@ export function validateNortheastStewResearchReport(report) {
     needs_more_evidence_count: arrays.prototype_candidates.filter(row => row?.research_state === 'needs_more_evidence').length,
     rejected_count: arrays.prototype_candidates.filter(row => row?.research_state === 'rejected').length,
     ratio_ready_form_count: asArray(report.family_model?.staple_forms).filter(row => row?.evidence_status === 'machine_ready').length,
-    safety_ready_branch_count: asArray(report.family_model?.safety_branches).filter(row => row?.evidence_status === 'machine_ready').length,
+    safety_ready_branch_count: asArray(report.family_model?.safety_branches).filter(row => row?.evidence_status === 'calibration_ready').length,
     journey_count: arrays.journey_cases.length,
     journey_reviewed_count: arrays.journey_cases.filter(row => ['passed', 'failed'].includes(row?.human_review?.status)).length,
     machine_rule_candidate_count: arrays.machine_rule_readiness.length,

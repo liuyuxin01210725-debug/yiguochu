@@ -32,6 +32,13 @@ import {
   validateNortheastStewNumericEvidenceReport,
 } from './lib/northeast-stew-numeric-evidence-builder.mjs';
 import { buildNortheastStewNumericEvidenceArtifacts } from './lib/northeast-stew-numeric-evidence-renderer.mjs';
+import { validateNortheastStewSafetyEvidence } from './lib/northeast-stew-safety-evidence-validator.mjs';
+import {
+  buildNortheastStewSafetyEvidenceReport,
+  formatNortheastStewSafetyEvidenceSummary,
+  validateNortheastStewSafetyEvidenceReport,
+} from './lib/northeast-stew-safety-evidence-builder.mjs';
+import { buildNortheastStewSafetyEvidenceArtifacts } from './lib/northeast-stew-safety-evidence-renderer.mjs';
 import { validateJiangnanRiceResearch } from './lib/jiangnan-rice-research-validator.mjs';
 import {
   buildJiangnanRiceResearchReport,
@@ -96,6 +103,7 @@ const menuMasterInputErrors = [];
 const regionalAtlasInputErrors = [];
 const northeastResearchInputErrors = [];
 const northeastNumericEvidenceInputErrors = [];
+const northeastSafetyEvidenceInputErrors = [];
 const jiangnanResearchInputErrors = [];
 const shandongResearchInputErrors = [];
 const centralPlainsResearchInputErrors = [];
@@ -126,6 +134,7 @@ const regionalAtlas = readReviewLedger('./data/regional-atlas.v2.json', 'regiona
 const regionalMenuMappings = readReviewLedger('./data/regional-menu-mappings.v1.json', 'regional menu mapping ledger', regionalAtlasInputErrors);
 const northeastResearch = readReviewLedger('./data/northeast-stew-research.v1.json', 'northeast stew research assessment', northeastResearchInputErrors);
 const northeastNumericEvidence = readReviewLedger('./data/northeast-stew-numeric-evidence.v1.json', 'northeast numeric evidence ledger', northeastNumericEvidenceInputErrors);
+const northeastSafetyEvidence = readReviewLedger('./data/northeast-stew-safety-evidence.v1.json', 'northeast safety evidence ledger', northeastSafetyEvidenceInputErrors);
 const jiangnanResearch = readReviewLedger('./data/jiangnan-rice-research.v1.json', 'Jiangnan rice research assessment', jiangnanResearchInputErrors);
 const shandongResearch = readReviewLedger('./data/shandong-one-pot-research.v1.json', 'Shandong one-pot research assessment', shandongResearchInputErrors);
 const centralPlainsResearch = readReviewLedger('./data/central-plains-noodle-research.v1.json', 'Central Plains noodle research assessment', centralPlainsResearchInputErrors);
@@ -262,6 +271,39 @@ if (northeastNumericEvidenceSourceErrors.length === 0) {
   }
 }
 errors.push(...northeastNumericEvidenceErrors);
+const northeastSafetyEvidenceSourceErrors = [
+  ...northeastSafetyEvidenceInputErrors,
+  ...validateNortheastStewSafetyEvidence({
+    ledger: northeastSafetyEvidence,
+    research: northeastResearch,
+    taxonomy,
+  }),
+];
+errors.push(...northeastSafetyEvidenceSourceErrors);
+const northeastSafetyEvidenceErrors = [];
+let northeastSafetyEvidenceReport;
+if (northeastSafetyEvidenceSourceErrors.length === 0 && northeastNumericEvidenceSourceErrors.length === 0) {
+  try {
+    northeastSafetyEvidenceReport = buildNortheastStewSafetyEvidenceReport({
+      ledger: northeastSafetyEvidence,
+      research: northeastResearch,
+      taxonomy,
+      numericEvidence: northeastNumericEvidence,
+    });
+    northeastSafetyEvidenceErrors.push(...validateNortheastStewSafetyEvidenceReport(northeastSafetyEvidenceReport));
+    if (northeastSafetyEvidenceErrors.length === 0) {
+      for (const [relativePath, content] of buildNortheastStewSafetyEvidenceArtifacts(northeastSafetyEvidenceReport)) {
+        const artifact = new URL(`../${relativePath}`, import.meta.url);
+        if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+          northeastSafetyEvidenceErrors.push(`${relativePath} is missing or stale; run node tools/build-northeast-stew-safety-evidence.mjs --write intentionally`);
+        }
+      }
+    }
+  } catch (error) {
+    northeastSafetyEvidenceErrors.push(error instanceof Error ? error.message : String(error));
+  }
+}
+errors.push(...northeastSafetyEvidenceErrors);
 const jiangnanResearchSourceErrors = [
   ...jiangnanResearchInputErrors,
   ...validateJiangnanRiceResearch({
@@ -626,6 +668,9 @@ if (northeastResearchReport && northeastResearchSourceErrors.length === 0 && nor
 }
 if (northeastNumericEvidenceReport && northeastNumericEvidenceSourceErrors.length === 0 && northeastNumericEvidenceErrors.length === 0) {
   console.log(`${formatNortheastStewNumericEvidenceSummary(northeastNumericEvidenceReport)} · northeast numeric evidence ok`);
+}
+if (northeastSafetyEvidenceReport && northeastSafetyEvidenceSourceErrors.length === 0 && northeastSafetyEvidenceErrors.length === 0) {
+  console.log(`${formatNortheastStewSafetyEvidenceSummary(northeastSafetyEvidenceReport)} · northeast safety evidence ok`);
 }
 if (jiangnanResearchReport && jiangnanResearchSourceErrors.length === 0 && jiangnanResearchErrors.length === 0) {
   console.log(`${jiangnanResearchReport.summary.recipe_audit_count} Jiangnan recipe audits · ${jiangnanResearchReport.summary.source_count} sources · ${jiangnanResearchReport.summary.journey_count} journeys · Jiangnan research ok`);

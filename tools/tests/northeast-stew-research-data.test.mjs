@@ -41,15 +41,26 @@ test('fish plus tofu remains unproven even when fish plus corn cake is supported
   assert.equal(fish.claims.tofu_as_traditional_core.verdict, 'not_proven');
 });
 
-test('staple forms and safety branches remain separate without invented quantities', () => {
+test('staple forms and safety branches remain separate without duplicating endpoint quantities', () => {
   assert.deepEqual(assessment.family_model.staple_forms.map(row => row.form_id).sort(), [
     'corn_dough_cake', 'sticky_roll', 'wheat_flower_roll',
   ]);
   assert.deepEqual(assessment.family_model.safety_branches.map(row => row.branch_id).sort(), [
     'chicken', 'fish', 'green_beans', 'pork_ribs',
   ]);
-  for (const row of [...assessment.family_model.staple_forms, ...assessment.family_model.safety_branches]) {
+  for (const row of assessment.family_model.staple_forms) {
     assert.equal(row.evidence_status, 'unresearched');
+    assert.equal('grams' in row, false);
+    assert.equal('minutes' in row, false);
+    assert.equal('temperature_c' in row, false);
+  }
+  assert.deepEqual(assessment.family_model.safety_branches.map(row => [row.branch_id, row.evidence_status, row.safety_rule_ids]), [
+    ['chicken', 'unresearched', []],
+    ['pork_ribs', 'calibration_ready', ['pork-ribs-safe-endpoint-v1']],
+    ['fish', 'unresearched', []],
+    ['green_beans', 'calibration_ready', ['green-beans-fully-cooked-v1', 'oil-beans-fully-cooked-v1']],
+  ]);
+  for (const row of assessment.family_model.safety_branches) {
     assert.equal('grams' in row, false);
     assert.equal('minutes' in row, false);
     assert.equal('temperature_c' in row, false);
@@ -115,7 +126,7 @@ test('journey validator rejects invented review results and unsupported outcomes
 
 test('M1 records two blocked machine-rule candidates and no production numbers', () => {
   assert.equal(assessment.schema_version, 2);
-  assert.equal(assessment.assessment_version, 'northeast-stew-research-v1-20260727-m1');
+  assert.equal(assessment.assessment_version, 'northeast-stew-research-v1-20260727-m3');
   assert.deepEqual(
     assessment.machine_rule_candidates.map(row => row.rule_id).sort(),
     ['cornmeal-flour-to-dough-v1', 'stew-with-corn-cake-liquid-v1'],

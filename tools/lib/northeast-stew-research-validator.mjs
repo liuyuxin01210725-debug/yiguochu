@@ -77,7 +77,13 @@ const INGREDIENT_ROLE_FIELDS = new Set(['item', 'role', 'evidence_status']);
 const PRIORITY_FIELDS = new Set(['product_score', 'regional_score', 'risk_penalty', 'total_score']);
 const FAMILY_FIELDS = new Set(['family_anchor', 'staple_forms', 'safety_branches']);
 const STAPLE_FIELDS = new Set(['form_id', 'name', 'evidence_status', 'source_ids', 'shape_notes']);
-const SAFETY_FIELDS = new Set(['branch_id', 'name', 'evidence_status', 'source_ids', 'endpoint_note']);
+const SAFETY_FIELDS = new Set(['branch_id', 'name', 'evidence_status', 'source_ids', 'safety_rule_ids', 'endpoint_note']);
+const SAFETY_RULES_BY_BRANCH = new Map([
+  ['chicken', []],
+  ['pork_ribs', ['pork-ribs-safe-endpoint-v1']],
+  ['fish', []],
+  ['green_beans', ['green-beans-fully-cooked-v1', 'oil-beans-fully-cooked-v1']],
+]);
 const JOURNEY_FIELDS = new Set([
   'journey_id', 'mode', 'intent', 'raw_items', 'expected_used_items',
   'expected_unplanned_items', 'expected_research_outcome', 'explanation', 'human_review',
@@ -283,8 +289,12 @@ function validateFamilyModel(value, sourceIds, errors) {
     if (!isObject(value)) errors.push(`${label} must be an object`);
     unknownFields(row, SAFETY_FIELDS, label, errors);
     for (const field of ['branch_id', 'name', 'endpoint_note']) if (!hasText(row[field])) errors.push(`${label}: ${field} must be non-empty`);
-    if (row.evidence_status !== 'unresearched') errors.push(`${label}: evidence_status must be unresearched`);
+    const expectedRuleIds = SAFETY_RULES_BY_BRANCH.get(row.branch_id) || [];
+    const expectedStatus = expectedRuleIds.length ? 'calibration_ready' : 'unresearched';
+    if (row.evidence_status !== expectedStatus) errors.push(`${label}: evidence_status must be ${expectedStatus}`);
     for (const id of textArray(row.source_ids, `${label}: source_ids`, errors)) if (!sourceIds.has(id)) errors.push(`${label}: unknown source ${id}`);
+    const safetyRuleIds = textArray(row.safety_rule_ids, `${label}: safety_rule_ids`, errors, { nonEmpty: false });
+    if (JSON.stringify(safetyRuleIds) !== JSON.stringify(expectedRuleIds)) errors.push(`${label}: safety_rule_ids must match the approved safety evidence rules`);
     for (const forbidden of ['grams', 'minutes', 'temperature_c']) if (forbidden in row) errors.push(`${label}: ${forbidden} is not allowed before evidence`);
   }
 }
@@ -501,7 +511,7 @@ export function validateNortheastStewResearch({ assessment, regionalAtlas, regio
   const errors = [];
   unknownFields(assessment, ROOT_FIELDS, 'assessment', errors);
   if (assessment.schema_version !== 2) errors.push('assessment: schema_version must be 2');
-  if (assessment.assessment_version !== 'northeast-stew-research-v1-20260727-m1') errors.push('assessment: assessment_version is invalid');
+  if (assessment.assessment_version !== 'northeast-stew-research-v1-20260727-m3') errors.push('assessment: assessment_version is invalid');
   if (assessment.region_id !== 'northeast') errors.push('assessment: region_id must be northeast');
   if (assessment.family_id !== 'stew-with-staple') errors.push('assessment: family_id must be stew-with-staple');
   const provinces = textArray(assessment.province_codes, 'assessment: province_codes', errors);

@@ -6,7 +6,7 @@ export function buildNortheastStewNumericEvidenceReport(ledger, calibrationCases
     schema_version: 1,
     ledger_version: ledger.ledger_version,
     scope: 'research_only',
-    conclusion: '公开证据只用于界定后续记录字段与证据缺口，不能解除 M2 阻塞，也不能转写为生产参数；安全终点获批前不得执行实厨校准。',
+    conclusion: '公开数值证据只用于界定记录字段与证据缺口，不能解除比例规则阻塞，也不能转写为生产参数；实厨校准准入由独立安全证据层决定。',
     sources: ledger.sources.map(source => ({
       source_id: source.source_id,
       title: source.title,

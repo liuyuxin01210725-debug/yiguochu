@@ -17,7 +17,6 @@ const requiredArtifacts = [
   'build-northeast-stew-numeric-evidence.mjs',
   'generated/northeast-stew-numeric-evidence.v1.json',
   '../docs/northeast-stew-numeric-evidence.md',
-  '../docs/northeast-stew-calibration-runbook.md',
 ];
 
 function makeTempBuildRoot() {
@@ -244,23 +243,12 @@ test('calibration report and runbook are deterministic checked-in derivatives of
   const secondArtifacts = buildNortheastStewNumericEvidenceArtifacts(secondReport);
   assert.deepEqual([...artifacts], [...secondArtifacts]);
   for (const [relativePath, content] of artifacts) assert.deepEqual(fs.readFileSync(path.join(ROOT, relativePath), 'utf8'), content, relativePath);
-  assert.match(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /不能解除 M2 阻塞/);
-  assert.match(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /安全终点获批前不得执行实厨校准/);
+  assert.match(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /不能解除比例规则阻塞/);
+  assert.match(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /准入由独立安全证据层决定/);
   assert.doesNotMatch(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /可指导第一次实厨试验/);
   assert.match(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /受版权保护/);
   assert.match(artifacts.get('docs/northeast-stew-numeric-evidence.md'), /区间 \[80-100\] C/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /2 人份/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /不得填写生产默认值/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /玉米面品牌/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /一次只改变一个变量/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /排骨.*熟制终点/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /blocked_by_safety_endpoints/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /禁止开始实厨校准/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /preparation_water_grams/);
-  assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), /cake_holds_together/);
-  for (const field of ['cornmeal_brand', 'preparation_water_temperature_c', 'wheat_flour_added', 'fermentation_used', 'stew_liquid_level_at_paste']) {
-    assert.match(artifacts.get('docs/northeast-stew-calibration-runbook.md'), new RegExp(field));
-  }
+  assert.equal(artifacts.has('docs/northeast-stew-calibration-runbook.md'), false);
 });
 
 test('build CLI writes fixed artifacts rejects invalid invocation and fails closed when stale', () => {
