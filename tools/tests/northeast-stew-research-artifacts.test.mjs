@@ -14,6 +14,7 @@ import {
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const BUILD = fileURLToPath(new URL('../build-northeast-stew-research.mjs', import.meta.url));
+const BUILD_DIST = fileURLToPath(new URL('../build-dist.mjs', import.meta.url));
 const DATA_FILES = [
   'northeast-stew-research.v1.json',
   'regional-atlas.v2.json',
@@ -92,4 +93,39 @@ test('build CLI rejects invalid invocation without writing', () => {
   const result = spawnSync(process.execPath, [BUILD, '--unknown'], { cwd: ROOT, encoding: 'utf8' });
   assert.equal(result.status, 2);
   assert.match(result.stderr, /Usage: node tools\/build-northeast-stew-research\.mjs --write\|--check/);
+});
+
+test('aggregate recipe gate includes northeast research freshness', () => {
+  const checker = fileURLToPath(new URL('../check-recipes.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [checker], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /4 northeast prototypes/);
+  assert.match(result.stdout, /7 sources/);
+  assert.match(result.stdout, /10 journeys/);
+  assert.match(result.stdout, /northeast research ok/);
+});
+
+test('distribution build excludes northeast research source and generated assets', () => {
+  fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
+  const output = fs.mkdtempSync(path.join(ROOT, 'dist', '.northeast-research-isolation-'));
+  try {
+    const result = spawnSync(process.execPath, [
+      BUILD_DIST,
+      '--out-dir', output,
+      '--build-id', 'northeast-research-isolation-test',
+    ], { cwd: ROOT, encoding: 'utf8' });
+    assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    const relativeFiles = [];
+    const visit = directory => {
+      for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+        const fullPath = path.join(directory, entry.name);
+        if (entry.isDirectory()) visit(fullPath);
+        else relativeFiles.push(path.relative(output, fullPath));
+      }
+    };
+    visit(output);
+    assert.equal(relativeFiles.some(name => /northeast-stew-research|northeast-stew-journey-review/.test(name)), false);
+  } finally {
+    fs.rmSync(output, { recursive: true, force: true });
+  }
 });

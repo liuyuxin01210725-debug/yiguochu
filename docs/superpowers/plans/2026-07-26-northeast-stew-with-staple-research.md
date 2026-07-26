@@ -676,8 +676,8 @@ Expected: build succeeds; final `rg` exits 1 because no research/atlas audit ass
 Run:
 
 ```bash
-git diff --name-only 7a388b65a2830af75536cb8c61506569aefd5514..HEAD -- index.html ai_proxy.py worker/src tools/data/recipe-library.json tools/data/regional-menu-research.v1.json tools/data/ingredient-taxonomy.v1.json tools/data/meal-templates.v2.json tools/data/ratio-rules.v1.json
-git diff --check 7a388b65a2830af75536cb8c61506569aefd5514..HEAD
+git diff --name-only 3eb2babbeffea62abf098a0d90551d24887ae659..HEAD -- index.html ai_proxy.py worker/src tools/data/recipe-library.json tools/data/regional-menu-research.v1.json tools/data/ingredient-taxonomy.v1.json tools/data/meal-templates.v2.json tools/data/ratio-rules.v1.json
+git diff --check 3eb2babbeffea62abf098a0d90551d24887ae659..HEAD
 git status --short
 ```
 
@@ -710,4 +710,4 @@ Expected: `isDraft: true`、`state: OPEN`，remote head 与本地 HEAD 一致。
 - Scope boundary: 不新增 recipe/template，不修改 Planner 或生成链路，不把 research 结论伪装成人工厨房验证。
 - Evidence boundary: 每条来源的允许证明范围已固定；“不同来源拼成传统固定组合”和“把北京平谷证据误写成东北已核实或东北不存在”都有反回归测试。
 - Type consistency: validator、builder、renderer、CLI 和总门禁使用同一组稳定函数名与三个固定产物路径。
-- Placeholder scan: 文档没有未决标记、占位 SHA 或未定义 helper；边界审计固定使用本轮真实起点 `7a388b65a2830af75536cb8c61506569aefd5514`。
+- Placeholder scan: 文档没有未决标记、占位 SHA 或未定义 helper；边界审计固定使用本轮真实起点 `3eb2babbeffea62abf098a0d90551d24887ae659`。
