@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { validateNorthwestOnePotResearch } from './northwest-one-pot-research-validator.mjs';
 
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -18,9 +19,47 @@ const CLAIM_SOURCE_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
+const CANONICAL_TASK_ONE_FINGERPRINT = 'a7132bc258672eebdfce4dbeec68458e43964d35ae8b43cf43e5930c3a4a503c';
+const REPORT_ENRICHMENT_FIELDS = new Set([
+  'recipe_name', 'recipe_status', 'cuisine', 'recipe_core_ingredients', 'recipe_substitution_slots',
+  'prototype_name', 'candidate_status', 'ingredient_hypothesis', 'mapping_regional_scope',
+  'province_codes', 'atlas_primary_family_id', 'atlas_secondary_family_ids',
+]);
+const FIXED_PROVINCE_DETAILS = {
+  'CN-SN': { province_name: '陕西', atlas_status: 'skeleton_only', research_question: '整理陕西陕北豆饭、杂粮焖饭和面片锅的地域技法。' },
+  'CN-GS': { province_name: '甘肃', atlas_status: 'skeleton_only', research_question: '核实甘肃面片、熬饭和杂粮饭的一锅主餐原型。' },
+  'CN-NX': { province_name: '宁夏', atlas_status: 'skeleton_only', research_question: '核实宁夏羊肉饭、回族主食锅与杂粮同锅结构。' },
+  'CN-XJ': { province_name: '新疆', atlas_status: 'skeleton_only', research_question: '整理新疆抓饭中羊肉与素抓饭的共享比例、技法和替换边界。' },
+};
 
 function countBy(rows, field, keys) {
   return Object.fromEntries(keys.map(key => [key, rows.filter(row => row?.[field] === key).length]));
+}
+
+function fingerprint(value) {
+  return createHash('sha256').update(JSON.stringify(value)).digest('hex');
+}
+
+function canonicalTaskOneRow(row) {
+  const canonical = clone(row);
+  for (const field of REPORT_ENRICHMENT_FIELDS) delete canonical[field];
+  return canonical;
+}
+
+function canonicalTaskOnePayload(report) {
+  return {
+    assessment_version: report.assessment_version,
+    region_id: report.region_overview?.region_id,
+    province_codes: clone(asArray(report.region_overview?.province_codes)),
+    production_recipe_audits: asArray(report.production_recipe_audits).map(canonicalTaskOneRow).sort((a, b) => a.recipe_id.localeCompare(b.recipe_id)),
+    candidate_audits: asArray(report.candidate_audits).map(canonicalTaskOneRow).sort((a, b) => a.candidate_id.localeCompare(b.candidate_id)),
+    concrete_research_leads: asArray(report.concrete_research_leads).map(canonicalTaskOneRow).sort((a, b) => a.lead_id.localeCompare(b.lead_id)),
+    family_model: clone(asArray(report.family_model)),
+    adaptation_boundaries: clone(asArray(report.adaptation_boundaries)),
+    safety_boundaries: clone(asArray(report.safety_boundaries)),
+    source_evidence: clone(asArray(report.source_evidence)),
+    household_journeys: clone(asArray(report.household_journeys)),
+  };
 }
 
 function deriveClaimMatrix(subjectGroups) {
@@ -260,7 +299,24 @@ export function validateNorthwestOnePotResearchReport(report) {
   const subjectGroups = reportSubjectGroups(report);
   const expectedClaimMatrix = deriveClaimMatrix(subjectGroups);
   if (JSON.stringify(asArray(report.claim_matrix)) !== JSON.stringify(expectedClaimMatrix)) errors.push('claim_matrix must exactly match claims derived from audited rows');
+  const expectedShapeMatrix = deriveShapeMatrix(subjectGroups);
+  if (JSON.stringify(asArray(report.ingredient_shape_matrix)) !== JSON.stringify(expectedShapeMatrix)) errors.push('ingredient_shape_matrix must exactly match audited rows');
+  const expectedProductDecisions = [
+    ...asArray(report.production_recipe_audits).map(row => ({ subject_type: 'production_recipe', subject_id: row.recipe_id, state: row.audit_state, product_destinations: clone(row.product_destinations), decision_reason: row.decision_reason })),
+    ...asArray(report.candidate_audits).map(row => ({ subject_type: 'research_candidate', subject_id: row.candidate_id, state: row.audit_state, product_destinations: clone(row.product_destinations), decision_reason: row.decision_reason })),
+    ...asArray(report.concrete_research_leads).map(row => ({ subject_type: 'concrete_research_lead', subject_id: row.lead_id, state: 'research_only', product_destinations: clone(row.product_destinations), decision_reason: row.decision_reason })),
+  ].sort((a, b) => `${a.subject_type}:${a.subject_id}`.localeCompare(`${b.subject_type}:${b.subject_id}`));
+  if (JSON.stringify(asArray(report.product_decisions)) !== JSON.stringify(expectedProductDecisions)) errors.push('product_decisions must exactly match audited rows');
   validateClaimEvidence(subjectGroups, report.source_evidence, errors);
+  const expectedCoverage = EXPECTED_PROVINCES.map(provinceCode => ({
+    province_code: provinceCode,
+    ...FIXED_PROVINCE_DETAILS[provinceCode],
+    production_recipe_ids: asArray(report.production_recipe_audits).filter(row => row.province_code === provinceCode).map(row => row.recipe_id).sort(),
+    candidate_ids: asArray(report.candidate_audits).filter(row => row.province_code === provinceCode).map(row => row.candidate_id).sort(),
+    lead_ids: asArray(report.concrete_research_leads).filter(row => row.province_code === provinceCode).map(row => row.lead_id).sort(),
+  }));
+  if (JSON.stringify(asArray(report.province_coverage_audits)) !== JSON.stringify(expectedCoverage)) errors.push('province_coverage_audits must exactly match audited rows and fixed province ownership');
+  if (fingerprint(canonicalTaskOnePayload(report)) !== CANONICAL_TASK_ONE_FINGERPRINT) errors.push('canonical Task 1 semantics fingerprint mismatch');
   const coverage = new Map(asArray(report.province_coverage_audits).map(row => [row?.province_code, row]));
   for (const provinceCode of EXPECTED_PROVINCES) if (asArray(coverage.get(provinceCode)?.lead_ids).length !== 2) errors.push(`${provinceCode} must retain exactly two research leads`);
   if (JSON.stringify(asArray(coverage.get('CN-SN')?.production_recipe_ids)) !== JSON.stringify(['shaanbei-red-date-cowpea-rice'])) errors.push('Shaanxi must retain its single production audit');

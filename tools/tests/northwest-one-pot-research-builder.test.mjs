@@ -109,6 +109,40 @@ test('report validator rejects a deleted claim matrix row', () => {
   );
 });
 
+test('report validator rejects coordinated forged Task 1 claim and source evidence semantics', () => {
+  const broken = structuredClone(buildNorthwestOnePotResearchReport(inputs));
+  const token = 'production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation';
+  const claim = broken.production_recipe_audits.find(row => row.recipe_id === 'shaanbei-red-date-cowpea-rice').claims.ordinary_rice_adaptation;
+  claim.verdict = 'supported';
+  for (const sourceId of claim.evidence_source_ids) {
+    const source = broken.source_evidence.find(row => row.source_id === sourceId);
+    source.does_not_prove = source.does_not_prove.filter(value => value !== token);
+    source.proves.push(token);
+  }
+  const matrixClaim = broken.claim_matrix.find(row => row.subject_id === 'shaanbei-red-date-cowpea-rice' && row.claim_id === 'ordinary_rice_adaptation');
+  matrixClaim.verdict = 'supported';
+  matrixClaim.evidence_direction = 'proves';
+
+  assert.match(
+    validateNorthwestOnePotResearchReport(broken).join('\n'),
+    /canonical Task 1 semantics fingerprint mismatch/,
+  );
+});
+
+test('report validator rejects derived shape, product decision and province coverage drift', () => {
+  const noShapes = structuredClone(buildNorthwestOnePotResearchReport(inputs));
+  noShapes.ingredient_shape_matrix = [];
+  assert.match(validateNorthwestOnePotResearchReport(noShapes).join('\n'), /ingredient_shape_matrix must exactly match audited rows/);
+
+  const noDecisions = structuredClone(buildNorthwestOnePotResearchReport(inputs));
+  noDecisions.product_decisions = [];
+  assert.match(validateNorthwestOnePotResearchReport(noDecisions).join('\n'), /product_decisions must exactly match audited rows/);
+
+  const forgedCoverage = structuredClone(buildNorthwestOnePotResearchReport(inputs));
+  forgedCoverage.province_coverage_audits.find(row => row.province_code === 'CN-SN').lead_ids = ['forged-lead-a', 'forged-lead-b'];
+  assert.match(validateNorthwestOnePotResearchReport(forgedCoverage).join('\n'), /province_coverage_audits must exactly match audited rows and fixed province ownership/);
+});
+
 test('builder fails closed on invalid fixed input while report validation stays total', () => {
   const broken = structuredClone(inputs);
   broken.assessment.candidate_audits.push({});
