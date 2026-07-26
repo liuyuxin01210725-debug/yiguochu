@@ -64,12 +64,50 @@ test('renderers are deterministic and preserve the research boundary', () => {
   assert.doesNotMatch(review, /自动通过|人工批准完成/);
 });
 
+test('M1 audit exposes blockers without claiming runnable ratios', () => {
+  const report = fixedReport();
+  assert.equal(report.machine_rule_readiness.length, 2);
+  assert.equal(report.calibration_readiness.length, 3);
+  assert.equal(report.capability_journey_cases.length, 22);
+  assert.equal(report.completion_status.status, 'research_in_progress');
+  assert.ok(report.machine_rule_readiness.every(row => row.activation_status === 'blocked'));
+  assert.equal(report.summary.machine_rule_candidate_count, 2);
+  assert.equal(report.summary.machine_rule_active_count, 0);
+  assert.equal(report.summary.calibration_case_count, 3);
+  assert.equal(report.summary.calibration_passed_count, 0);
+  assert.equal(report.summary.capability_journey_count, 22);
+  assert.equal(report.summary.production_recipe_changes, 0);
+  assert.equal(report.summary.production_ratio_rule_changes, 0);
+  assert.equal(report.summary.runtime_template_changes, 0);
+  assert.ok(report.completion_status.blocking_gaps.includes('machine_rule_candidates_blocked'));
+  assert.ok(report.completion_status.blocking_gaps.includes('calibration_2_3_4_servings_incomplete'));
+});
+
+test('markdown distinguishes structural evidence from numeric evidence and staged journeys', () => {
+  const report = fixedReport();
+  const markdown = renderNortheastStewResearchMarkdown(report);
+  assert.match(markdown, /结构依据不等于数值比例依据/);
+  assert.match(markdown, /cornmeal-flour-to-dough-v1/);
+  assert.match(markdown, /2 人份.*待校准/);
+  assert.doesNotMatch(markdown, /已可运行|比例已批准|完整清库存计划/);
+
+  const review = renderNortheastStewJourneyReviewMarkdown(report);
+  assert.match(review, /能力契约旅程（M1 未激活）/);
+  assert.match(review, /ne-cap-j01/);
+  assert.match(review, /ne-cap-j22/);
+  assert.match(review, /template_not_runtime_eligible/);
+});
+
 test('checked-in northeast research artifacts are fresh', () => {
   const result = spawnSync(process.execPath, [BUILD, '--check'], { cwd: ROOT, encoding: 'utf8' });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   assert.match(result.stdout, /4 prototypes/);
   assert.match(result.stdout, /7 sources/);
-  assert.match(result.stdout, /10 journeys/);
+  assert.match(result.stdout, /10 regional journeys/);
+  assert.match(result.stdout, /2 blocked machine rules/);
+  assert.match(result.stdout, /0 active/);
+  assert.match(result.stdout, /3 pending calibrations/);
+  assert.match(result.stdout, /22 staged capability journeys/);
   assert.match(result.stdout, /research_in_progress/);
 });
 

@@ -5,7 +5,7 @@
 来源：`tools/data/northeast-stew-research.v1.json`、全国地域地图与地域研究账本。
 由 `node tools/build-northeast-stew-research.mjs --write` 确定性生成。
 
-> **边界：这是研究资料，不是生产菜谱批准。** 本轮没有新增或修改生产 recipe、template、taxonomy、Ratio DSL 或运行时代码；`fact_checked` 也不等于人工试做通过。
+> **边界：这是研究资料，不是生产菜谱批准。** 本页记录 M1 的证据与校准准备。结构依据不等于数值比例依据；两条机器规则仍被阻塞，真实 Planner 不会选择该模板。
 
 ## 摘要
 
@@ -14,9 +14,14 @@
 - 原型候选：4
 - 固定来源：7（A 级 6，B 级 1）
 - 家庭旅程：10（已人工评审 0）
+- 机器规则候选：2（active 0）
+- 厨房校准：3（passed 0）
+- 能力契约旅程：22（M1 均未激活）
 - 当前状态：research_in_progress
-- 阻塞项：prototype_evidence_incomplete、ratio_evidence_incomplete、safety_evidence_incomplete、human_journey_review_incomplete
+- 阻塞项：prototype_evidence_incomplete、ratio_evidence_incomplete、safety_evidence_incomplete、human_journey_review_incomplete、machine_rule_candidates_blocked、calibration_2_3_4_servings_incomplete
 - 生产菜谱变更：0
+- 生产 Ratio DSL 变更：0
+- 运行时模板变更：0
 
 关键证据边界：鸡肉、蘑菇、土豆、玉米面饼四项固定组合仍未证明；粘卷子已由北京平谷资料核实，但东北关联仍未核实，不能据此判断东北存在或不存在。
 
@@ -96,6 +101,54 @@
 | northeast-fish-tofu-vegetable-corn-cake | needs_more_evidence | template_evidence、taxonomy_rule | 42 | 拆开鱼锅事实与豆腐可选槽位假设；安全和兼容性完成前不进入产品。 |
 | northeast-ribs-beans-corn-cake | fact_checked | template_evidence、recipe_evidence | 65 | 保留为最优先家族证据；没有比例和安全证据前不进入生产。 |
 | northeast-ribs-beans-sticky-rolls | needs_more_evidence | content_only | 35 | 东北轮不把北京事实改写成东北事实；保留跨地域研究价值并等待东北补证。 |
+
+## 8. 机器规则候选（仍被阻塞）
+
+现有来源只支持家族结构。`supporting_source_ids` 不是克数、含水或时间的依据；生产 Ratio DSL 没有接入这些候选。
+
+| 规则 | 类型 | 激活状态 | 结构来源 | 数值依据 | 校准状态 | 阻塞原因 |
+| --- | --- | --- | --- | --- | --- | --- |
+| cornmeal-flour-to-dough-v1 | preparation | blocked | hlj-culture-autumn-pot-2025 | 缺失 | required | numeric_evidence_missing、calibration_2_3_4_servings_missing |
+| stew-with-corn-cake-liquid-v1 | stew_liquid | blocked | hlj-gov-iron-pot-2025、hlj-culture-autumn-pot-2025 | 缺失 | required | numeric_evidence_missing、calibration_2_3_4_servings_missing、stew_liquid_phase_split_unverified |
+
+## 9. 2/3/4 人份厨房校准
+
+下表是待真人执行的空记录。自动测试不得填写操作者、克数、水量、时间或验收结论。
+
+| 份数 | 状态 | 操作者 | 玉米面形态 | 测量值 | 验收结果 |
+| ---: | --- | --- | --- | --- | --- |
+| 2 人份 | 待校准 | 未填写 | 未填写 | 全部留空 | 全部留空 |
+| 3 人份 | 待校准 | 未填写 | 未填写 | 全部留空 | 全部留空 |
+| 4 人份 | 待校准 | 未填写 | 未填写 | 全部留空 | 全部留空 |
+
+## 10. 能力契约旅程（M1 未激活）
+
+这些是 M2 获得单独批准后才运行的验收合同，不表示当前 Planner 已经输出相应计划。
+
+| 旅程 | 模式/意图/份数 | 输入 | M1 预期 | M2 目标 | 预期模板 | 断言 |
+| --- | --- | --- | --- | --- | --- | --- |
+| ne-cap-j01 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | complete | stew-with-staple-pot | original_cornmeal_retained、preparation_required、two_phase_water_required、regional_family_wording_allowed |
+| ne-cap-j02 | pantry/normal/3 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | complete | stew-with-staple-pot | three_serving_calibration_required、stable_ratio_scaling |
+| ne-cap-j03 | pantry/batch/4 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | complete | stew-with-staple-pot | four_serving_calibration_required、stable_ratio_scaling |
+| ne-cap-j04 | recommend/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | ready | stew-with-staple-pot | recommend_not_full_coverage_promise、regional_family_basis_explained |
+| ne-cap-j05 | pantry/normal/2 | 鸡腿、土豆、玉米面 | template_not_runtime_eligible | complete | stew-with-staple-pot | household_adaptation_name_only、no_fixed_traditional_name_claim |
+| ne-cap-j06 | pantry/normal/2 | 排骨、普通豆角、玉米面 | template_not_runtime_eligible | complete | stew-with-staple-pot | generic_beans_not_oil_beans、no_fixed_oil_beans_claim |
+| ne-cap-j07 | pantry/normal/2 | 排骨、豆角、和好的玉米面团 | template_not_runtime_eligible | complete | stew-with-staple-pot | prepared_dough_identity_preserved、preparation_not_repeated |
+| ne-cap-j08 | pantry/normal/2 | 排骨、豆角、现成玉米饼 | template_not_runtime_eligible | complete | stew-with-staple-pot | ready_cake_identity_preserved、ready_cake_not_raw_dough |
+| ne-cap-j09 | pantry/normal/2 | 排骨、豆角、玉米粒 | template_not_runtime_eligible | unsupported_staple_state | 无 | corn_kernel_not_cornmeal |
+| ne-cap-j10 | pantry/normal/2 | 排骨、豆角、小麦面粉 | template_not_runtime_eligible | unsupported_staple_state | 无 | wheat_flour_remains_unplanned |
+| ne-cap-j11 | pantry/quick/2 | 排骨、豆角、玉米面 | template_not_runtime_eligible | time_constraint | stew-with-staple-pot | no_false_thirty_minute_plan |
+| ne-cap-j12 | pantry/normal/1 | 排骨、豆角、玉米面 | template_not_runtime_eligible | unsupported_servings | stew-with-staple-pot | one_serving_not_calibrated |
+| ne-cap-j13 | pantry/normal/5 | 排骨、豆角、玉米面 | template_not_runtime_eligible | unsupported_servings | stew-with-staple-pot | five_servings_requires_explicit_split |
+| ne-cap-j14 | pantry/normal/2 | 排骨、鸡腿、豆角、玉米面 | template_not_runtime_eligible | incompatible_combination | stew-with-staple-pot | protein_max_one、no_forced_double_protein |
+| ne-cap-j15 | pantry/normal/2 | 鱼、豆腐、白菜、玉米面 | template_not_runtime_eligible | incompatible_combination | 无 | fish_branch_not_first_stage、tofu_not_traditional_core |
+| ne-cap-j16 | pantry/normal/2 | 排骨、豆角、玉米面 | template_not_runtime_eligible | allergen_conflict | stew-with-staple-pot | pork_allergy_blocks_plan |
+| ne-cap-j17 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | complete | stew-with-staple-pot | same_input_same_plan、same_input_same_plan_id |
+| ne-cap-j18 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | stale_plan | stew-with-staple-pot | preparation_version_in_plan_identity、old_token_rejected |
+| ne-cap-j19 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | no_alternative_plan | stew-with-staple-pot | swap_replans_without_deepseek、no_equal_commitment_alternative |
+| ne-cap-j20 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | model_contract_violation | stew-with-staple-pot | model_violation_added_wheat_flour_or_egg |
+| ne-cap-j21 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | model_contract_violation | stew-with-staple-pot | model_violation_modified_preparation_or_stew_water |
+| ne-cap-j22 | pantry/normal/2 | 排骨、油豆角、玉米面 | template_not_runtime_eligible | model_contract_violation | stew-with-staple-pot | model_violation_changed_cornmeal_to_corn_kernel |
 
 ## 家庭旅程研究结论
 
