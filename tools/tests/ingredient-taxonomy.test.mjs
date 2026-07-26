@@ -87,6 +87,14 @@ test('derived-only identities cannot advertise pantry aliases or the wrong state
   assert.ok(wrongStateItem);
   wrongStateItem.states = ['cooked'];
   assert.match(validateIngredientTaxonomy(wrongState).join('\n'), /derived_only identity must use derived_plan_output/);
+
+  const indirectAlias = structuredClone(catalog);
+  const pantryItem = indirectAlias.items.find(item => item.canonical_id === 'ready-corn-cake');
+  pantryItem.canonical_name = '锅边玉米饼';
+  assert.match(
+    validateIngredientTaxonomy(indirectAlias).join('\n'),
+    /canonical_name must not target a derived_only identity/,
+  );
 });
 
 test('regional ingredients preserve cured-meat and dough cooking identities', () => {

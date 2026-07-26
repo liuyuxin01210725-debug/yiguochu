@@ -184,6 +184,9 @@ export function validateIngredientTaxonomy(data) {
     }
     const [target] = targets;
     if (target.canonical_name) errors.push(`${item.canonical_id}.canonical_name must not point to another canonical alias`);
+    if (target.input_scope === 'derived_only') {
+      errors.push(`${item.canonical_id}.canonical_name must not target a derived_only identity`);
+    }
     if (target.category !== item.category) errors.push(`${item.canonical_id}.canonical_name category must match`);
   }
   return errors;

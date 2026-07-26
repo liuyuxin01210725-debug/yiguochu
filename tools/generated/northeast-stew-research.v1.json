@@ -1531,18 +1531,19 @@
       ],
       "dislikes": [],
       "m1_runtime_expectation": "template_not_runtime_eligible",
-      "m2_expected_outcome": "complete",
-      "expected_template_id": "stew-with-staple-pot",
-      "expected_used_items": [
+      "m2_expected_outcome": "unsupported_staple_state",
+      "expected_template_id": null,
+      "expected_used_items": [],
+      "expected_unplanned_items": [
         "排骨",
         "豆角",
         "现成玉米饼"
       ],
-      "expected_unplanned_items": [],
-      "expected_reason_code": null,
+      "expected_reason_code": "unsupported_staple_state",
       "assertion_codes": [
         "ready_cake_identity_preserved",
-        "ready_cake_not_raw_dough"
+        "ready_cake_not_raw_dough",
+        "ready_cake_unsupported_first_stage"
       ]
     },
     {

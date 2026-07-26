@@ -216,3 +216,42 @@ test('capability journey ledger rejects missing IDs premature M1 success and inc
     /model_contract_violation journey requires a model violation assertion/,
   );
 });
+
+test('M1 cannot be forged active with structural sources and pending calibration IDs', () => {
+  const forged = structuredClone(assessment);
+  for (const candidate of forged.machine_rule_candidates) {
+    candidate.activation_status = 'active';
+    candidate.evidence_status = 'evidence_ready';
+    candidate.numeric_evidence_source_ids = candidate.supporting_source_ids.slice(0, 2);
+    while (candidate.numeric_evidence_source_ids.length < 2) {
+      candidate.numeric_evidence_source_ids.push('hlj-gov-iron-pot-2025');
+    }
+    candidate.numeric_evidence_source_ids = [...new Set(candidate.numeric_evidence_source_ids)];
+    if (candidate.numeric_evidence_source_ids.length < 2) {
+      candidate.numeric_evidence_source_ids.push('jilin-baishan-food-2024');
+    }
+    candidate.calibration_status = 'calibrated';
+    candidate.calibration_case_ids = ['ne-cal-2', 'ne-cal-3', 'ne-cal-4'];
+    candidate.blocker_codes = [];
+  }
+  const message = validateNortheastStewResearch({ ...inputs, assessment: forged }).join('\n');
+  assert.match(message, /M1 machine rule candidates must remain blocked/);
+  assert.match(message, /numeric evidence source is not classified for machine ratios/);
+  assert.match(message, /calibrated candidate requires passed calibration records/);
+});
+
+test('capability journey semantics are locked per ID and ready cakes remain unsupported in M2 stage one', () => {
+  const byId = new Map(assessment.capability_journey_cases.map(row => [row.journey_id, row]));
+  assert.equal(byId.get('ne-cap-j08').m2_expected_outcome, 'unsupported_staple_state');
+  assert.deepEqual(byId.get('ne-cap-j08').expected_used_items, []);
+  assert.deepEqual(byId.get('ne-cap-j08').expected_unplanned_items, ['排骨', '豆角', '现成玉米饼']);
+
+  const duplicated = structuredClone(assessment);
+  const replacement = structuredClone(duplicated.capability_journey_cases[0]);
+  replacement.journey_id = 'ne-cap-j02';
+  duplicated.capability_journey_cases[1] = replacement;
+  assert.match(
+    validateNortheastStewResearch({ ...inputs, assessment: duplicated }).join('\n'),
+    /ne-cap-j02: capability journey semantics do not match the approved M1 contract/,
+  );
+});

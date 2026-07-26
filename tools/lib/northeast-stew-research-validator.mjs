@@ -31,6 +31,30 @@ const M2_OUTCOMES = new Set([
 const CAPABILITY_MODES = new Set(['pantry', 'recommend']);
 const CAPABILITY_INTENTS = new Set(['normal', 'quick', 'batch']);
 const CALIBRATION_IDS = ['ne-cal-2', 'ne-cal-3', 'ne-cal-4'];
+const CAPABILITY_JOURNEY_SIGNATURES = new Map([
+  ['ne-cap-j01', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], null, ['original_cornmeal_retained', 'preparation_required', 'two_phase_water_required', 'regional_family_wording_allowed']]],
+  ['ne-cap-j02', ['pantry', 'normal', 3, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], null, ['three_serving_calibration_required', 'stable_ratio_scaling']]],
+  ['ne-cap-j03', ['pantry', 'batch', 4, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], null, ['four_serving_calibration_required', 'stable_ratio_scaling']]],
+  ['ne-cap-j04', ['recommend', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'ready', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], null, ['recommend_not_full_coverage_promise', 'regional_family_basis_explained']]],
+  ['ne-cap-j05', ['pantry', 'normal', 2, ['鸡腿', '土豆', '玉米面'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['鸡腿', '土豆', '玉米面'], [], null, ['household_adaptation_name_only', 'no_fixed_traditional_name_claim']]],
+  ['ne-cap-j06', ['pantry', 'normal', 2, ['排骨', '普通豆角', '玉米面'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['排骨', '普通豆角', '玉米面'], [], null, ['generic_beans_not_oil_beans', 'no_fixed_oil_beans_claim']]],
+  ['ne-cap-j07', ['pantry', 'normal', 2, ['排骨', '豆角', '和好的玉米面团'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['排骨', '豆角', '和好的玉米面团'], [], null, ['prepared_dough_identity_preserved', 'preparation_not_repeated']]],
+  ['ne-cap-j08', ['pantry', 'normal', 2, ['排骨', '豆角', '现成玉米饼'], [], 'template_not_runtime_eligible', 'unsupported_staple_state', null, [], ['排骨', '豆角', '现成玉米饼'], 'unsupported_staple_state', ['ready_cake_identity_preserved', 'ready_cake_not_raw_dough', 'ready_cake_unsupported_first_stage']]],
+  ['ne-cap-j09', ['pantry', 'normal', 2, ['排骨', '豆角', '玉米粒'], [], 'template_not_runtime_eligible', 'unsupported_staple_state', null, [], ['排骨', '豆角', '玉米粒'], 'unsupported_staple_state', ['corn_kernel_not_cornmeal']]],
+  ['ne-cap-j10', ['pantry', 'normal', 2, ['排骨', '豆角', '小麦面粉'], [], 'template_not_runtime_eligible', 'unsupported_staple_state', null, [], ['排骨', '豆角', '小麦面粉'], 'unsupported_staple_state', ['wheat_flour_remains_unplanned']]],
+  ['ne-cap-j11', ['pantry', 'quick', 2, ['排骨', '豆角', '玉米面'], [], 'template_not_runtime_eligible', 'time_constraint', 'stew-with-staple-pot', [], ['排骨', '豆角', '玉米面'], 'time_constraint', ['no_false_thirty_minute_plan']]],
+  ['ne-cap-j12', ['pantry', 'normal', 1, ['排骨', '豆角', '玉米面'], [], 'template_not_runtime_eligible', 'unsupported_servings', 'stew-with-staple-pot', [], ['排骨', '豆角', '玉米面'], 'unsupported_servings', ['one_serving_not_calibrated']]],
+  ['ne-cap-j13', ['pantry', 'normal', 5, ['排骨', '豆角', '玉米面'], [], 'template_not_runtime_eligible', 'unsupported_servings', 'stew-with-staple-pot', [], ['排骨', '豆角', '玉米面'], 'unsupported_servings', ['five_servings_requires_explicit_split']]],
+  ['ne-cap-j14', ['pantry', 'normal', 2, ['排骨', '鸡腿', '豆角', '玉米面'], [], 'template_not_runtime_eligible', 'incompatible_combination', 'stew-with-staple-pot', [], ['排骨', '鸡腿', '豆角', '玉米面'], 'incompatible_combination', ['protein_max_one', 'no_forced_double_protein']]],
+  ['ne-cap-j15', ['pantry', 'normal', 2, ['鱼', '豆腐', '白菜', '玉米面'], [], 'template_not_runtime_eligible', 'incompatible_combination', null, [], ['鱼', '豆腐', '白菜', '玉米面'], 'incompatible_combination', ['fish_branch_not_first_stage', 'tofu_not_traditional_core']]],
+  ['ne-cap-j16', ['pantry', 'normal', 2, ['排骨', '豆角', '玉米面'], ['猪肉'], 'template_not_runtime_eligible', 'allergen_conflict', 'stew-with-staple-pot', [], ['排骨', '豆角', '玉米面'], 'allergen_conflict', ['pork_allergy_blocks_plan']]],
+  ['ne-cap-j17', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'complete', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], null, ['same_input_same_plan', 'same_input_same_plan_id']]],
+  ['ne-cap-j18', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'stale_plan', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], 'stale_plan', ['preparation_version_in_plan_identity', 'old_token_rejected']]],
+  ['ne-cap-j19', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'no_alternative_plan', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], 'no_alternative_plan', ['swap_replans_without_deepseek', 'no_equal_commitment_alternative']]],
+  ['ne-cap-j20', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'model_contract_violation', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], 'model_contract_violation', ['model_violation_added_wheat_flour_or_egg']]],
+  ['ne-cap-j21', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'model_contract_violation', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], 'model_contract_violation', ['model_violation_modified_preparation_or_stew_water']]],
+  ['ne-cap-j22', ['pantry', 'normal', 2, ['排骨', '油豆角', '玉米面'], [], 'template_not_runtime_eligible', 'model_contract_violation', 'stew-with-staple-pot', ['排骨', '油豆角', '玉米面'], [], 'model_contract_violation', ['model_violation_changed_cornmeal_to_corn_kernel']]],
+]);
 
 const ROOT_FIELDS = new Set([
   'schema_version', 'assessment_version', 'region_id', 'family_id',
@@ -313,16 +337,32 @@ function validateJourneys(value, errors) {
   if (JSON.stringify(ids.filter(hasText).sort()) !== JSON.stringify(expectedIds)) errors.push('journey_id must match ne-j01 through ne-j10');
 }
 
-function validateMachineRuleCandidates(value, taxonomy, sourceIds, errors) {
+function validateMachineRuleCandidates(value, taxonomy, sourceIds, calibrationCases, errors) {
   if (!Array.isArray(value)) {
     errors.push('assessment: machine_rule_candidates must be an array');
     return;
   }
   if (value.length !== 2) errors.push('assessment: machine_rule_candidates must contain exactly 2 items');
-  const taxonomyIds = new Set(asArray(taxonomy?.items).map(row => asObject(row).canonical_id).filter(hasText));
+  const taxonomyRows = asArray(taxonomy?.items).filter(isObject);
+  const taxonomyIds = new Set(taxonomyRows.map(row => row.canonical_id).filter(hasText));
+  const taxonomyById = new Map(taxonomyRows.map(row => [row.canonical_id, row]));
+  const passedCalibrationIds = new Set(
+    asArray(calibrationCases).filter(row => row?.status === 'passed').map(row => row.calibration_id),
+  );
   if (taxonomyIds.size === 0) errors.push('ingredient taxonomy is missing canonical identities');
   for (const candidate of value) {
-    errors.push(...validatePreparationRuleCandidate(candidate, { taxonomyIds, sourceIds }));
+    errors.push(...validatePreparationRuleCandidate(candidate, {
+      taxonomyIds,
+      taxonomyById,
+      sourceIds,
+      numericEvidenceSourceIds: new Set(),
+      passedCalibrationIds,
+    }));
+    if (candidate?.activation_status !== 'blocked'
+      || candidate?.evidence_status !== 'missing'
+      || candidate?.calibration_status !== 'required') {
+      errors.push(`${candidate?.rule_id || 'candidate'}: M1 machine rule candidates must remain blocked`);
+    }
   }
   const ids = value.map(row => asObject(row).rule_id).filter(hasText).sort();
   const expected = ['cornmeal-flour-to-dough-v1', 'stew-with-corn-cake-liquid-v1'];
@@ -430,6 +470,24 @@ function validateCapabilityJourneys(value, errors) {
       && !assertions.some(code => code.startsWith('model_violation_'))) {
       errors.push(`${label}: model_contract_violation journey requires a model violation assertion`);
     }
+    const expectedSignature = CAPABILITY_JOURNEY_SIGNATURES.get(journey.journey_id);
+    const actualSignature = [
+      journey.mode,
+      journey.intent,
+      journey.servings,
+      journey.raw_items,
+      journey.dislikes,
+      journey.m1_runtime_expectation,
+      journey.m2_expected_outcome,
+      journey.expected_template_id,
+      journey.expected_used_items,
+      journey.expected_unplanned_items,
+      journey.expected_reason_code,
+      journey.assertion_codes,
+    ];
+    if (expectedSignature && JSON.stringify(actualSignature) !== JSON.stringify(expectedSignature)) {
+      errors.push(`${label}: capability journey semantics do not match the approved M1 contract`);
+    }
   }
 }
 
@@ -466,7 +524,13 @@ export function validateNortheastStewResearch({ assessment, regionalAtlas, regio
 
   validateFamilyModel(assessment.family_model, new Set(sourceById.keys()), errors);
   validateJourneys(assessment.journey_cases, errors);
-  validateMachineRuleCandidates(assessment.machine_rule_candidates, taxonomy, new Set(sourceById.keys()), errors);
+  validateMachineRuleCandidates(
+    assessment.machine_rule_candidates,
+    taxonomy,
+    new Set(sourceById.keys()),
+    assessment.calibration_cases,
+    errors,
+  );
   validateCalibrationCases(assessment.calibration_cases, errors);
   validateCapabilityJourneys(assessment.capability_journey_cases, errors);
   return errors;

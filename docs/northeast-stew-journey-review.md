@@ -30,7 +30,7 @@
 | ne-cap-j05 | pantry/normal/2 | 鸡腿、土豆、玉米面 | template_not_runtime_eligible | complete | 鸡腿、土豆、玉米面 | 无 | 无 | household_adaptation_name_only、no_fixed_traditional_name_claim |
 | ne-cap-j06 | pantry/normal/2 | 排骨、普通豆角、玉米面 | template_not_runtime_eligible | complete | 排骨、普通豆角、玉米面 | 无 | 无 | generic_beans_not_oil_beans、no_fixed_oil_beans_claim |
 | ne-cap-j07 | pantry/normal/2 | 排骨、豆角、和好的玉米面团 | template_not_runtime_eligible | complete | 排骨、豆角、和好的玉米面团 | 无 | 无 | prepared_dough_identity_preserved、preparation_not_repeated |
-| ne-cap-j08 | pantry/normal/2 | 排骨、豆角、现成玉米饼 | template_not_runtime_eligible | complete | 排骨、豆角、现成玉米饼 | 无 | 无 | ready_cake_identity_preserved、ready_cake_not_raw_dough |
+| ne-cap-j08 | pantry/normal/2 | 排骨、豆角、现成玉米饼 | template_not_runtime_eligible | unsupported_staple_state | 无 | 排骨、豆角、现成玉米饼 | unsupported_staple_state | ready_cake_identity_preserved、ready_cake_not_raw_dough、ready_cake_unsupported_first_stage |
 | ne-cap-j09 | pantry/normal/2 | 排骨、豆角、玉米粒 | template_not_runtime_eligible | unsupported_staple_state | 无 | 排骨、豆角、玉米粒 | unsupported_staple_state | corn_kernel_not_cornmeal |
 | ne-cap-j10 | pantry/normal/2 | 排骨、豆角、小麦面粉 | template_not_runtime_eligible | unsupported_staple_state | 无 | 排骨、豆角、小麦面粉 | unsupported_staple_state | wheat_flour_remains_unplanned |
 | ne-cap-j11 | pantry/quick/2 | 排骨、豆角、玉米面 | template_not_runtime_eligible | time_constraint | 无 | 排骨、豆角、玉米面 | time_constraint | no_false_thirty_minute_plan |

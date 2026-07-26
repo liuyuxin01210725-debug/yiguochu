@@ -27,7 +27,10 @@ const syntheticFixture = JSON.parse(fs.readFileSync(
 const taxonomyIds = new Set(taxonomy.items.map(item => item.canonical_id));
 const context = {
   taxonomyIds,
+  taxonomyById: new Map(taxonomy.items.map(item => [item.canonical_id, item])),
   sourceIds: new Set(['source-a', 'source-b']),
+  numericEvidenceSourceIds: new Set(),
+  passedCalibrationIds: new Set(),
 };
 
 function validPreparationCandidate() {
@@ -144,10 +147,42 @@ test('preparation output differs from its input and stew phases are exact', () =
   assert.match(validatePreparationRuleCandidate(incompletePhases, context).join('\n'), /phase_allocations must be exactly/);
 });
 
+test('candidate identities and shapes are locked to the four-state cornmeal contract', () => {
+  const wrongKnownInput = validPreparationCandidate();
+  wrongKnownInput.when.input_canonical_id = 'ready-corn-cake';
+  assert.match(validatePreparationRuleCandidate(wrongKnownInput, context).join('\n'), /input_canonical_id must be cornmeal-flour/);
+
+  const wrongKnownOutput = validPreparationCandidate();
+  wrongKnownOutput.produces.canonical_id = 'raw-rice';
+  assert.match(validatePreparationRuleCandidate(wrongKnownOutput, context).join('\n'), /produces.canonical_id must be cornmeal-dough/);
+
+  const undeclaredShape = validPreparationCandidate();
+  undeclaredShape.when.allowed_shape_or_cut = ['banana'];
+  assert.match(validatePreparationRuleCandidate(undeclaredShape, context).join('\n'), /allowed_shape_or_cut must be exactly fine coarse and unspecified/);
+
+  const wrongStewStaple = validStewLiquidCandidate();
+  wrongStewStaple.when.staple_canonical_id = 'ready-corn-cake';
+  assert.match(validatePreparationRuleCandidate(wrongStewStaple, context).join('\n'), /staple_canonical_id must be cornmeal-dough/);
+});
+
+test('candidate readiness requires numeric evidence classification and passed calibration rows', () => {
+  const forged = validPreparationCandidate();
+  forged.activation_status = 'active';
+  forged.evidence_status = 'evidence_ready';
+  forged.numeric_evidence_source_ids = ['source-a', 'source-b'];
+  forged.calibration_status = 'calibrated';
+  forged.calibration_case_ids = ['ne-cal-2', 'ne-cal-3', 'ne-cal-4'];
+  forged.blocker_codes = [];
+  const errors = validatePreparationRuleCandidate(forged, context).join('\n');
+  assert.match(errors, /numeric evidence source is not classified for machine ratios/);
+  assert.match(errors, /calibrated candidate requires passed calibration records/);
+});
+
 test('isolated synthetic active definition validates the future machine schema', () => {
   assert.equal(syntheticFixture.fixture_scope, 'synthetic_test_only');
   const syntheticContext = {
     taxonomyIds,
+    taxonomyById: new Map(taxonomy.items.map(item => [item.canonical_id, item])),
     sourceIds: new Set(['synthetic-source-a', 'synthetic-source-b']),
   };
   assert.deepEqual(validatePreparationRuleDefinition(syntheticFixture.rule, syntheticContext), []);
@@ -157,6 +192,7 @@ test('isolated synthetic active definition validates the future machine schema',
 test('active definition fails closed on bounds evidence calibration operation order and water phase', () => {
   const syntheticContext = {
     taxonomyIds,
+    taxonomyById: new Map(taxonomy.items.map(item => [item.canonical_id, item])),
     sourceIds: new Set(['synthetic-source-a', 'synthetic-source-b']),
   };
 

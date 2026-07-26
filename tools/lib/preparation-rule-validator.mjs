@@ -61,6 +61,15 @@ function exactSet(value, expected) {
 function validateContext(context, errors) {
   if (!(context?.taxonomyIds instanceof Set)) errors.push('context.taxonomyIds must be a Set');
   if (!(context?.sourceIds instanceof Set)) errors.push('context.sourceIds must be a Set');
+  if (context?.taxonomyById != null && !(context.taxonomyById instanceof Map)) {
+    errors.push('context.taxonomyById must be a Map when supplied');
+  }
+  if (context?.numericEvidenceSourceIds != null && !(context.numericEvidenceSourceIds instanceof Set)) {
+    errors.push('context.numericEvidenceSourceIds must be a Set when supplied');
+  }
+  if (context?.passedCalibrationIds != null && !(context.passedCalibrationIds instanceof Set)) {
+    errors.push('context.passedCalibrationIds must be a Set when supplied');
+  }
 }
 
 function assertAllowedKeys(value, allowed, label, errors) {
@@ -110,8 +119,16 @@ function validateCandidatePreparation(candidate, context, label, errors) {
         || !context?.taxonomyIds?.has(candidate.when.input_canonical_id)) {
       errors.push(`${whenLabel}.input_canonical_id references unknown taxonomy identity`);
     }
-    if (!isStringArray(candidate.when.allowed_shape_or_cut, { allowEmpty:false })) {
-      errors.push(`${whenLabel}.allowed_shape_or_cut must be a non-empty unique string array`);
+    if (candidate.when.input_canonical_id !== 'cornmeal-flour') {
+      errors.push(`${whenLabel}.input_canonical_id must be cornmeal-flour`);
+    }
+    if (!exactSet(candidate.when.allowed_shape_or_cut, ['fine', 'coarse', 'unspecified'])) {
+      errors.push(`${whenLabel}.allowed_shape_or_cut must be exactly fine coarse and unspecified`);
+    }
+    const input = context?.taxonomyById?.get(candidate.when.input_canonical_id);
+    if (input && (input.category !== 'cornmeal_flour'
+      || !candidate.when.allowed_shape_or_cut?.every(shape => input.shapes_or_cuts?.includes(shape)))) {
+      errors.push(`${whenLabel}: input taxonomy row does not support the declared cornmeal shapes`);
     }
   }
 
@@ -121,10 +138,17 @@ function validateCandidatePreparation(candidate, context, label, errors) {
         || !context?.taxonomyIds?.has(candidate.produces.canonical_id)) {
       errors.push(`${producesLabel}.canonical_id references unknown taxonomy identity`);
     }
+    if (candidate.produces.canonical_id !== 'cornmeal-dough') {
+      errors.push(`${producesLabel}.canonical_id must be cornmeal-dough`);
+    }
     if (candidate.produces.canonical_id === candidate.when?.input_canonical_id) {
       errors.push(`${label}: preparation output must differ from input`);
     }
     if (candidate.produces.state !== 'prepared') errors.push(`${producesLabel}.state must be prepared`);
+    const output = context?.taxonomyById?.get(candidate.produces.canonical_id);
+    if (output && (output.category !== 'cornmeal_dough' || !output.states?.includes('prepared'))) {
+      errors.push(`${producesLabel}: output taxonomy row must be prepared cornmeal_dough`);
+    }
   }
 }
 
@@ -137,6 +161,9 @@ function validateCandidateStewLiquid(candidate, context, label, errors) {
     if (typeof candidate.when.staple_canonical_id !== 'string'
         || !context?.taxonomyIds?.has(candidate.when.staple_canonical_id)) {
       errors.push(`${whenLabel}.staple_canonical_id references unknown taxonomy identity`);
+    }
+    if (candidate.when.staple_canonical_id !== 'cornmeal-dough') {
+      errors.push(`${whenLabel}.staple_canonical_id must be cornmeal-dough`);
     }
   }
 
@@ -192,9 +219,22 @@ export function validatePreparationRuleCandidate(candidate, context) {
         || candidate.numeric_evidence_source_ids.length < 2)) {
     errors.push(`${label}: evidence_ready requires two independent numeric sources`);
   }
+  if (candidate.evidence_status === 'evidence_ready'
+      && context?.numericEvidenceSourceIds instanceof Set) {
+    for (const id of candidate.numeric_evidence_source_ids || []) {
+      if (!context.numericEvidenceSourceIds.has(id)) {
+        errors.push(`${label}: numeric evidence source is not classified for machine ratios: ${id}`);
+      }
+    }
+  }
   if (candidate.calibration_status === 'calibrated'
       && !exactSet(candidate.calibration_case_ids, CALIBRATION_IDS)) {
     errors.push(`${label}: calibrated requires 2 3 and 4 serving records`);
+  }
+  if (candidate.calibration_status === 'calibrated'
+      && context?.passedCalibrationIds instanceof Set
+      && !CALIBRATION_IDS.every(id => context.passedCalibrationIds.has(id))) {
+    errors.push(`${label}: calibrated candidate requires passed calibration records`);
   }
   if (candidate.activation_status === 'active'
       && (candidate.evidence_status !== 'evidence_ready'
