@@ -304,7 +304,7 @@ Expected: FAIL with missing builder module.
 - `ratio_ready_form_count` 与 `safety_ready_branch_count`；
 - `completion_status`。
 
-`completion_status` 固定规则：只有四个原型均有产品去向、三个 staple form 均有机器比例证据、四个安全分支均完成、十条旅程全部有人工结论时才为 `regional_round_complete`；否则必须为 `research_in_progress` 并列出 `blocking_gaps`。本轮初始报告必须诚实得到 `research_in_progress`。
+`completion_status` 固定规则：只有四个原型均获得 `fact_checked` 或 `rejected` 的研究结论并具有产品去向、三个 staple form 均有机器比例证据、四个安全分支均完成、十条旅程全部有人工结论时才为 `regional_round_complete`；否则必须为 `research_in_progress` 并列出 `blocking_gaps`。本轮初始报告必须诚实得到 `research_in_progress`。
 
 - [ ] **Step 4: 增加反误导和总函数测试**
 
@@ -312,6 +312,7 @@ Expected: FAIL with missing builder module.
 test('initial northeast round remains in progress instead of claiming completion', () => {
   const report = buildNortheastStewResearchReport(inputs);
   assert.equal(report.completion_status.status, 'research_in_progress');
+  assert.ok(report.completion_status.blocking_gaps.includes('prototype_evidence_incomplete'));
   assert.ok(report.completion_status.blocking_gaps.includes('ratio_evidence_incomplete'));
   assert.ok(report.completion_status.blocking_gaps.includes('safety_evidence_incomplete'));
   assert.ok(report.completion_status.blocking_gaps.includes('human_journey_review_incomplete'));
