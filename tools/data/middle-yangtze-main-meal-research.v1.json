@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "assessment_version": "middle-yangtze-main-meal-research-v1-20260726",
+  "region_id": "middle_yangtze",
+  "province_codes": ["CN-HB", "CN-HN", "CN-JX"],
+  "source_refs": [
+    {
+      "source_id": "hb-wuhan-doupi-2013",
+      "title": "武汉豆皮大王——老通城",
+      "url": "https://wlt.hubei.gov.cn/bmdt/ztzl/zshb/201912/t20191226_1799476.shtml",
+      "publisher": "湖北省文化和旅游厅（来源：湖北方志）",
+      "published_at": "2013-05-22",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方方志资料记录三鲜豆皮的皮由脱壳绿豆、米浆和鸡蛋制成，馅含虾仁、肉丁、冬菇和糯米，肉丁先焖、糯米先蒸后炒，属于多阶段主食小吃。",
+      "proves": ["lead:hubei-wuhan-three-delicacy-doupi:regional_structure"],
+      "does_not_prove": ["lead:hubei-wuhan-three-delicacy-doupi:single_pot_household_equivalence", "lead:hubei-wuhan-three-delicacy-doupi:production_ratio_safety"]
+    },
+    {
+      "source_id": "hb-enshi-doupi-2026",
+      "title": "千城百县看中国｜湖北恩施：一方豆皮 一城乡愁",
+      "url": "https://wlt.hubei.gov.cn/bmdt/szyw/es/202605/t20260528_5945855.shtml",
+      "publisher": "湖北省文化和旅游厅（来源：新华网）",
+      "published_at": "2026-05-28",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "权威媒体资料记录恩施豆皮以大米为主，经浸泡、磨浆、烙制和干燥形成，可有绿豆或玉米变体；成品豆皮可煮汤或炒制。",
+      "proves": ["lead:hubei-enshi-ready-doupi-bowl:regional_structure", "lead:hubei-enshi-ready-doupi-bowl:ready_staple_route"],
+      "does_not_prove": ["lead:hubei-enshi-ready-doupi-bowl:raw_rice_same_meal_equivalence", "lead:hubei-enshi-ready-doupi-bowl:production_ratio_safety"]
+    },
+    {
+      "source_id": "hb-mianyang-three-steam-2022",
+      "title": "这道菜传承600年魅力日盛见证非遗文化生命力",
+      "url": "https://wlt.hubei.gov.cn/bmdt/mtjj/202208/t20220825_4279643.shtml",
+      "publisher": "湖北省文化和旅游厅（来源：长江网）",
+      "published_at": "2022-08-25",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方文旅资料将沔阳三蒸分为水产、禽畜和蔬菜，并列出粉蒸、组合蒸等多种技法；米粉裹料本身不等于一顿饭中已有足量主食。",
+      "proves": ["lead:hubei-mianyang-mixed-grain-powder-steam:regional_structure", "lead:hubei-mianyang-mixed-grain-powder-steam:mixed_steam_technique"],
+      "does_not_prove": ["lead:hubei-mianyang-mixed-grain-powder-steam:staple_sufficiency", "lead:hubei-mianyang-mixed-grain-powder-steam:single_pot_equivalence"]
+    },
+    {
+      "source_id": "hb-xiantao-eel-rice-noodle-2016",
+      "title": "仙桃鳝鱼米粉",
+      "url": "https://wlt.hubei.gov.cn/bmdt/ztzl/zshb/201912/t20191226_1799584.shtml",
+      "publisher": "湖北省文化和旅游厅（来源：湖北省人民政府网站）",
+      "published_at": "2016-04-19",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方资料记录仙桃鳝鱼米粉以鳝鱼骨、猪腿骨和肉皮熬浓汤，米粉制作还涉及大米长时间浸泡与磨浆，是长汤和加工型早餐。",
+      "proves": ["lead:hubei-xiantao-eel-rice-noodle-bowl:regional_structure"],
+      "does_not_prove": ["lead:hubei-xiantao-eel-rice-noodle-bowl:quick_household_equivalence", "lead:hubei-xiantao-eel-rice-noodle-bowl:raw_rice_same_meal_equivalence"]
+    },
+    {
+      "source_id": "hn-xiangxi-shefan",
+      "title": "地方名小吃：社饭",
+      "url": "https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html",
+      "publisher": "湖南省人民政府门户网站",
+      "published_at": "2017-11-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "政府页面记录湘西凤凰社饭由蒿菜、腊肉、葱、粘米和糯米经预处理、炒香、合煮与焖制形成；页面同时出现“三比一”和三分之一粘米、三分之二糯米的矛盾表述。",
+      "proves": ["lead:hunan-xiangxi-shefan:regional_structure", "lead:hunan-xiangxi-shefan:herb_cured_meat_rice_identity"],
+      "does_not_prove": ["lead:hunan-xiangxi-shefan:executable_ratio", "lead:hunan-xiangxi-shefan:generic_cured_rice_same_identity"]
+    },
+    {
+      "source_id": "hn-yongzhou-grey-zongzi-2021",
+      "title": "永州灰粽为何能长年香飘市场",
+      "url": "https://www.hunan.gov.cn/hnyw/szdt/202106/t20210616_19518985.html",
+      "publisher": "湖南省人民政府门户网站",
+      "published_at": "2021-06-16",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方报道记录永州灰粽以草木灰碱水浸泡糯米、红豆和花生，与五花肉包制并熬煮十小时以上，属于高摩擦长工序食品。",
+      "proves": ["lead:hunan-yongzhou-grey-zongzi:regional_structure", "lead:hunan-yongzhou-grey-zongzi:long_process_identity", "lead:hunan-yongzhou-grey-zongzi:not_quick"],
+      "does_not_prove": ["lead:hunan-yongzhou-grey-zongzi:quick_household_equivalence", "lead:hunan-yongzhou-grey-zongzi:production_ratio_safety"]
+    },
+    {
+      "source_id": "jx-powder-jiangxi-nanchang-2022",
+      "title": "粉江西（南昌炒粉部分）",
+      "url": "https://nc.jxnews.com.cn/system/2022/02/11/019533259.shtml",
+      "publisher": "江西日报 / 大江网",
+      "published_at": "2022-02-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "江西日报系列资料记录南昌炒粉以米粉为主食，可配肉丝、青菜、辣椒和豆芽等，属于锅内快炒主餐；未提供机器比例。",
+      "proves": ["lead:jiangxi-nanchang-stir-fried-rice-noodle:regional_structure", "lead:jiangxi-nanchang-stir-fried-rice-noodle:ready_noodle_meal_route"],
+      "does_not_prove": ["lead:jiangxi-nanchang-stir-fried-rice-noodle:dry_noodle_without_pretreatment", "lead:jiangxi-nanchang-stir-fried-rice-noodle:production_ratio_safety"]
+    },
+    {
+      "source_id": "jx-powder-jiangxi-nanfeng-2022",
+      "title": "粉江西（南丰水粉部分）",
+      "url": "https://nc.jxnews.com.cn/system/2022/02/11/019533259_03.shtml",
+      "publisher": "江西日报 / 大江网",
+      "published_at": "2022-02-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "江西日报系列资料记录南丰水粉可煮、炒或做汤，家庭碗可把肉、蛋与米粉组合；成品粉路线不等于从米现场制粉。",
+      "proves": ["lead:jiangxi-nanfeng-rice-noodle-bowl:regional_structure", "lead:jiangxi-nanfeng-rice-noodle-bowl:ready_noodle_meal_route"],
+      "does_not_prove": ["lead:jiangxi-nanfeng-rice-noodle-bowl:dry_noodle_without_pretreatment", "lead:jiangxi-nanfeng-rice-noodle-bowl:production_ratio_safety"]
+    },
+    {
+      "source_id": "jx-nanchang-claypot-soup-2024",
+      "title": "一罐煨汤天下奇鲜",
+      "url": "https://nc.jxnews.com.cn/system/2024/08/27/020613311.shtml",
+      "publisher": "大江网-江南都市报",
+      "published_at": "2024-08-27",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "江西权威媒体以“一汤一粉一座城”描述瓦罐汤和米粉搭配，证明的是一罐汤加一碗粉的组合，不是同一容器完成。",
+      "proves": ["boundary:claypot-soup-plus-noodle-is-two-vessel:meal_structure"],
+      "does_not_prove": ["boundary:claypot-soup-plus-noodle-is-two-vessel:same_pot_equivalence"]
+    },
+    {
+      "source_id": "samr-fermented-rice-noodle-safety-2020",
+      "title": "关于酵米面等食物中毒的风险解析",
+      "url": "https://www.samr.gov.cn/xw/zj/art/2023/art_7587ef80ec2f4e8bab850b7e3d69ec30.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2020-12-05",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家风险解析指出变质湿米粉可产生米酵菌酸，毒素耐热，不能依赖煮沸或高压烹饪消除；消费者应重视来源、储存和变质识别。",
+      "proves": ["safety:wet-rice-noodle-source-storage-discard:principle"],
+      "does_not_prove": ["safety:wet-rice-noodle-source-storage-discard:project_storage_hours", "safety:wet-rice-noodle-source-storage-discard:heat_destroys_toxin"]
+    },
+    {
+      "source_id": "samr-cook-through-2020",
+      "title": "校园食品安全消费提示",
+      "url": "https://www.samr.gov.cn/spcjs/yjjl/art/2020/art_d3005aa05c2340c1af29738386ed39cf.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2020-09-10",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家消费提示要求肉、禽、蛋和水产品完全煮熟煮透并避免交叉污染；本研究只采用终点原则。",
+      "proves": ["safety:animal-and-aquatic-cook-through:principle"],
+      "does_not_prove": ["safety:animal-and-aquatic-cook-through:project_minutes_ratio"]
+    }
+  ],
+  "province_gap_audits": [
+    {"province_code":"CN-HB","province_name":"湖北","production_recipe_ids":[],"candidate_ids":[],"research_gap":"湖北豆皮、米粉和蒸菜有明确技法线索，但当前生产库与候选账本均无省级映射。"},
+    {"province_code":"CN-HN","province_name":"湖南","production_recipe_ids":[],"candidate_ids":[],"research_gap":"湖南社饭与灰粽有地域证据，但当前没有可执行比例或适合首轮生产的候选。"},
+    {"province_code":"CN-JX","province_name":"江西","production_recipe_ids":[],"candidate_ids":[],"research_gap":"江西米粉主餐线索丰富，但现成、干制、汤粉、炒粉和两容器搭配尚未机器区分。"}
+  ],
+  "concrete_research_leads": [
+    {
+      "lead_id":"hubei-wuhan-three-delicacy-doupi","name":"武汉三鲜豆皮多阶段主食","province_code":"CN-HB","family_id":"filled-glutinous-rice-crepe","meal_structure":"multi_stage_filled_crepe","production_recipe_id":null,"candidate_id":null,"source_ids":["hb-wuhan-doupi-2013","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hb-wuhan-doupi-2013"],"reason":"官方方志提供皮、糯米和荤素馅的结构。"},"single_pot_household_equivalence":{"verdict":"not_proven","evidence_source_ids":["hb-wuhan-doupi-2013"],"reason":"来源明确包含焖肉、蒸饭、炒饭和制皮等多阶段。"}},
+      "ingredient_shapes":["mung_bean_rice_egg_crepe","presteamed_glutinous_rice","braised_pork_dice","shrimp_piece","mushroom_piece"],"forbidden_shortcuts":["collapse_to_one_pot_rice","raw_filling_without_cookthrough"],"known_structure":["豆米蛋皮","熟糯米","焖肉和三鲜馅","多阶段组合"],"open_questions":["家庭锅具","步骤简化边界","比例与熟制终点"],"product_destinations":["recipe_evidence","content_only","research_only"]
+    },
+    {
+      "lead_id":"hubei-enshi-ready-doupi-bowl","name":"恩施成品豆皮汤炒主餐","province_code":"CN-HB","family_id":"ready-rice-bean-sheet-bowl","meal_structure":"ready_staple_bowl","production_recipe_id":null,"candidate_id":null,"source_ids":["hb-enshi-doupi-2026"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hb-enshi-doupi-2026"],"reason":"权威资料支持成品豆皮汤煮或炒制。"},"ready_staple_route":{"verdict":"supported","evidence_source_ids":["hb-enshi-doupi-2026"],"reason":"家庭路线以已有豆皮为前提。"},"raw_rice_same_meal_equivalence":{"verdict":"not_proven","evidence_source_ids":["hb-enshi-doupi-2026"],"reason":"制皮需要浸泡、磨浆、烙制和干燥。"}},
+      "ingredient_shapes":["ready_rice_bean_sheet","broth_or_stir_fry","optional_cured_meat_or_pickled_vegetable"],"forbidden_shortcuts":["raw_rice_to_ready_doupi_same_meal","generic_tofu_substitution"],"known_structure":["现成豆皮","汤煮或炒制","可配腊肉或酸菜"],"open_questions":["商品规格","复水比例","湿制或干制安全"],"product_destinations":["taxonomy_rule","new_family_research"]
+    },
+    {
+      "lead_id":"hubei-mianyang-mixed-grain-powder-steam","name":"沔阳米粉混合蒸制","province_code":"CN-HB","family_id":"grain-powder-mixed-steam","meal_structure":"multi_item_steam","production_recipe_id":null,"candidate_id":null,"source_ids":["hb-mianyang-three-steam-2022","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hb-mianyang-three-steam-2022"],"reason":"官方文旅资料支持水产、禽畜和蔬菜蒸制家族。"},"mixed_steam_technique":{"verdict":"supported","evidence_source_ids":["hb-mianyang-three-steam-2022"],"reason":"资料明确列出组合蒸等技法。"},"staple_sufficiency":{"verdict":"not_proven","evidence_source_ids":["hb-mianyang-three-steam-2022"],"reason":"裹料米粉不自动等于足量主食。"}},
+      "ingredient_shapes":["grain_powder_coating","vegetable_or_animal_item","steamer_vessel"],"forbidden_shortcuts":["grain_coating_as_complete_staple","all_steam_methods_as_same_process"],"known_structure":["米粉裹料","水产禽畜蔬菜分型","蒸制"],"open_questions":["主食补足","不同食材分时熟制","家庭蒸具容量"],"product_destinations":["template_evidence","research_only"]
+    },
+    {
+      "lead_id":"hubei-xiantao-eel-rice-noodle-bowl","name":"仙桃鳝鱼浓汤米粉","province_code":"CN-HB","family_id":"long-broth-eel-rice-noodle","meal_structure":"long_broth_bowl","production_recipe_id":null,"candidate_id":null,"source_ids":["hb-xiantao-eel-rice-noodle-2016","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hb-xiantao-eel-rice-noodle-2016"],"reason":"官方资料支持鳝鱼骨、猪骨浓汤和米粉结构。"},"quick_household_equivalence":{"verdict":"not_proven","evidence_source_ids":["hb-xiantao-eel-rice-noodle-2016"],"reason":"长汤和米粉加工不属于未经验证的快手路线。"}},
+      "ingredient_shapes":["eel_bone_broth","pork_bone_broth","ready_rice_noodle"],"forbidden_shortcuts":["raw_rice_to_noodle_same_meal","quick_clear_broth_as_identity_equivalent","undercooked_eel"],"known_structure":["鳝鱼与猪骨浓汤","细米粉","早餐主食"],"open_questions":["家庭高汤降摩擦","鳝鱼处理安全","成品米粉规格"],"product_destinations":["content_only","research_only"]
+    },
+    {
+      "lead_id":"hunan-xiangxi-shefan","name":"湘西蒿香腊味社饭","province_code":"CN-HN","family_id":"cured-meat-herb-glutinous-rice","meal_structure":"pretreated_ingredients_braised_rice","production_recipe_id":null,"candidate_id":null,"source_ids":["hn-xiangxi-shefan","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hn-xiangxi-shefan"],"reason":"政府页面支持蒿菜、腊肉、粘米和糯米的节令饭结构。"},"herb_cured_meat_rice_identity":{"verdict":"supported","evidence_source_ids":["hn-xiangxi-shefan"],"reason":"蒿香、腊味和两种米共同构成身份。"},"executable_ratio":{"verdict":"not_proven","evidence_source_ids":["hn-xiangxi-shefan"],"reason":"页面比例文字内部矛盾，不能转成机器规则。"}},
+      "ingredient_shapes":["processed_artemisia","diced_cured_meat","non_glutinous_rice","glutinous_rice"],"forbidden_shortcuts":["source_ratio_to_ratio_dsl","generic_cured_rice_same_identity","omit_herb_keep_regional_name"],"known_structure":["蒿菜去苦焙干","腊肉葱炒香","两种米合煮焖制"],"open_questions":["可信比例","蒿菜识别与可得性","腊味盐脂控制"],"product_destinations":["recipe_evidence","ratio_rule","research_only"]
+    },
+    {
+      "lead_id":"hunan-yongzhou-grey-zongzi","name":"永州草木灰碱水灰粽","province_code":"CN-HN","family_id":"alkaline-ash-water-wrapped-rice","meal_structure":"wrapped_long_boiled_rice","production_recipe_id":null,"candidate_id":null,"source_ids":["hn-yongzhou-grey-zongzi-2021","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hn-yongzhou-grey-zongzi-2021"],"reason":"官方报道支持草木灰碱水、糯米豆类和肉馅结构。"},"long_process_identity":{"verdict":"supported","evidence_source_ids":["hn-yongzhou-grey-zongzi-2021"],"reason":"来源明确记录长时间熬煮。"},"quick_household_equivalence":{"verdict":"contradicted","evidence_source_ids":["hn-yongzhou-grey-zongzi-2021"],"reason":"十小时以上煮制与 quick 意图直接冲突。"}},
+      "ingredient_shapes":["ash_alkaline_water","soaked_glutinous_rice","red_bean_peanut","wrapped_pork_filling"],"forbidden_shortcuts":["quick_mode","unverified_alkaline_water","ordinary_rice_bowl_same_identity"],"known_structure":["草木灰碱水","包粽","长时间熬煮"],"open_questions":["家庭碱水安全","规格化来源","是否仅做内容"],"product_destinations":["content_only","research_only"]
+    },
+    {
+      "lead_id":"jiangxi-nanchang-stir-fried-rice-noodle","name":"南昌成品米粉快炒主餐","province_code":"CN-JX","family_id":"ready-rice-noodle-stir-fry","meal_structure":"single_wok_ready_staple","production_recipe_id":null,"candidate_id":null,"source_ids":["jx-powder-jiangxi-nanchang-2022","samr-fermented-rice-noodle-safety-2020","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["jx-powder-jiangxi-nanchang-2022"],"reason":"权威媒体支持米粉、肉类和蔬菜快炒结构。"},"ready_noodle_meal_route":{"verdict":"supported","evidence_source_ids":["jx-powder-jiangxi-nanchang-2022"],"reason":"家庭路线以可直接炒或已预处理的米粉为前提。"}},
+      "ingredient_shapes":["ready_or_precooked_rice_noodle","meat_or_egg","greens","bean_sprout_optional"],"forbidden_shortcuts":["dry_noodle_without_pretreatment","spoiled_wet_noodle_reheated","generic_all_rice_noodles_same_hydration"],"known_structure":["米粉主食","肉蛋可选","青菜豆芽","锅内快炒"],"open_questions":["干湿规格","防粘与油量","湿粉储存安全"],"product_destinations":["new_family_research","taxonomy_rule","ratio_rule"]
+    },
+    {
+      "lead_id":"jiangxi-nanfeng-rice-noodle-bowl","name":"南丰成品水粉汤炒主餐","province_code":"CN-JX","family_id":"ready-rice-noodle-broth-or-stir","meal_structure":"ready_staple_broth_or_stir","production_recipe_id":null,"candidate_id":null,"source_ids":["jx-powder-jiangxi-nanfeng-2022","samr-fermented-rice-noodle-safety-2020","samr-cook-through-2020"],
+      "claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["jx-powder-jiangxi-nanfeng-2022"],"reason":"权威媒体支持南丰水粉煮、炒或汤食结构。"},"ready_noodle_meal_route":{"verdict":"supported","evidence_source_ids":["jx-powder-jiangxi-nanfeng-2022"],"reason":"家庭路线以已有水粉或已预处理米粉为前提。"}},
+      "ingredient_shapes":["ready_or_precooked_rice_noodle","broth_or_stir_fry","meat_and_egg_optional"],"forbidden_shortcuts":["dry_noodle_without_pretreatment","raw_rice_to_noodle_same_meal","spoiled_wet_noodle_reheated"],"known_structure":["成品水粉","汤或炒","肉蛋组合"],"open_questions":["商品规格","汤炒分型","液体与复热安全"],"product_destinations":["new_family_research","taxonomy_rule","ratio_rule"]
+    }
+  ],
+  "family_model": [
+    {"family_id":"filled-glutinous-rice-crepe","name":"糯米馅豆米蛋皮","meal_structure":"multi_stage_filled_crepe","evidence_status":"regional_structure_supported"},
+    {"family_id":"ready-rice-bean-sheet-bowl","name":"成品豆皮汤炒主餐","meal_structure":"ready_staple_bowl","evidence_status":"regional_structure_supported"},
+    {"family_id":"grain-powder-mixed-steam","name":"米粉裹料混合蒸","meal_structure":"multi_item_steam","evidence_status":"staple_sufficiency_unresolved"},
+    {"family_id":"long-broth-eel-rice-noodle","name":"鳝鱼骨汤米粉","meal_structure":"long_broth_bowl","evidence_status":"household_adaptation_unresolved"},
+    {"family_id":"cured-meat-herb-glutinous-rice","name":"蒿香腊味糯米饭","meal_structure":"pretreated_ingredients_braised_rice","evidence_status":"ratio_conflict_unresolved"},
+    {"family_id":"alkaline-ash-water-wrapped-rice","name":"灰水包裹糯米","meal_structure":"wrapped_long_boiled_rice","evidence_status":"content_only"},
+    {"family_id":"ready-rice-noodle-stir-fry","name":"成品米粉快炒","meal_structure":"single_wok_ready_staple","evidence_status":"regional_structure_supported"},
+    {"family_id":"ready-rice-noodle-broth-or-stir","name":"成品水粉汤炒","meal_structure":"ready_staple_broth_or_stir","evidence_status":"regional_structure_supported"}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id":"ready-staple-not-raw-grain-manufacture","evidence_status":"checked","notes":"成品豆皮和米粉只能在用户已有合格成品时进入家庭规划，不能从原米同餐制造。"},
+    {"boundary_id":"grain-coating-not-complete-staple","evidence_status":"open","notes":"粉蒸用米粉是裹料还是足量主食必须另行计算。"},
+    {"boundary_id":"shefan-ratio-conflict-not-dsl","evidence_status":"checked","notes":"政府页面比例文字冲突，禁止转写 Ratio DSL。"},
+    {"boundary_id":"grey-zongzi-not-quick","evidence_status":"checked","notes":"草木灰碱水与长时间煮制不进入 quick。"},
+    {"boundary_id":"claypot-soup-plus-noodle-is-two-vessel","evidence_status":"checked","notes":"瓦罐汤配米粉是两容器一顿饭，不得宣称同锅。"}
+  ],
+  "safety_boundaries": [
+    {"safety_id":"wet-rice-noodle-source-storage-discard","source_ids":["samr-fermented-rice-noodle-safety-2020"],"evidence_status":"principle_only","required_controls":["正规来源","按标签冷藏","保质期内尽快食用","异常或过期立即丢弃"],"endpoint_note":"湿米粉若已产生米酵菌酸，加热不能破坏米酵菌酸；不得以煮熟替代来源、储存和丢弃判断。"},
+    {"safety_id":"animal-and-aquatic-cook-through","source_ids":["samr-cook-through-2020"],"evidence_status":"principle_only","required_controls":["生熟分开","动物性食材烧熟煮透","避免交叉污染"],"endpoint_note":"肉、禽、蛋和水产品必须烧熟煮透；本轮不编造项目分钟、克数或液体比例。"}
+  ],
+  "journey_cases": [
+    {"journey_id":"my-j01","province_code":"CN-HB","mode":"pantry","intent":"normal","input_items":["成品恩施豆皮","腊肉","酸菜"],"expected_family_ids":["ready-rice-bean-sheet-bowl"],"expected_structure":"ready_staple_bowl","expected_outcome":"research_family_route","forbidden_claims":["从大米现场做豆皮"],"reason":"用户已有成品豆皮时可研究汤煮或炒制。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j02","province_code":"CN-HB","mode":"pantry","intent":"normal","input_items":["大米","绿豆","腊肉"],"expected_family_ids":[],"expected_structure":"unresolved","expected_outcome":"manufacturing_step_missing","forbidden_claims":["同餐制成恩施豆皮"],"reason":"缺少浸泡、磨浆、烙制和干燥后的成品豆皮。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j03","province_code":"CN-HB","mode":"recommend","intent":"normal","input_items":["熟糯米","鸡蛋","猪肉丁","香菇","虾仁"],"expected_family_ids":["filled-glutinous-rice-crepe"],"expected_structure":"multi_stage_filled_crepe","expected_outcome":"research_only_multistage","forbidden_claims":["一锅焖饭"],"reason":"结构接近武汉三鲜豆皮，但仍是多阶段研究。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j04","province_code":"CN-HB","mode":"pantry","intent":"normal","input_items":["猪肉","鲶鱼","芋头","蒸肉米粉"],"expected_family_ids":["grain-powder-mixed-steam"],"expected_structure":"multi_item_steam","expected_outcome":"staple_sufficiency_unresolved","forbidden_claims":["完整主食已满足"],"reason":"可研究组合蒸，但裹粉是否满足主食量仍未证明。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j05","province_code":"CN-HB","mode":"recommend","intent":"quick","input_items":["鳝鱼","干米粉"],"expected_family_ids":[],"expected_structure":"unresolved","expected_outcome":"quick_conflict","forbidden_claims":["仙桃鳝鱼米粉快手等价"],"reason":"传统线索依赖长汤与米粉处理，不能强行 quick。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j06","province_code":"CN-HN","mode":"pantry","intent":"normal","input_items":["蒿菜","腊肉","粘米","糯米","葱"],"expected_family_ids":["cured-meat-herb-glutinous-rice"],"expected_structure":"pretreated_ingredients_braised_rice","expected_outcome":"ratio_unresolved","forbidden_claims":["比例已经机器验证"],"reason":"社饭身份结构成立，但比例来源冲突。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j07","province_code":"CN-HN","mode":"pantry","intent":"normal","input_items":["腊肉","粘米","糯米"],"expected_family_ids":[],"expected_structure":"generic_cured_rice","expected_outcome":"regional_identity_missing","forbidden_claims":["湘西社饭"],"reason":"缺少蒿菜时只能研究普通腊味饭，不保留社饭地域名。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j08","province_code":"CN-HN","mode":"recommend","intent":"normal","input_items":["腊肉","大米","青菜"],"expected_family_ids":[],"expected_structure":"generic_cured_rice","expected_outcome":"generic_adaptation_only","forbidden_claims":["社饭"],"reason":"可作为家庭腊味饭方向，但不是社饭证据。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j09","province_code":"CN-HN","mode":"recommend","intent":"batch","input_items":["草木灰碱水","糯米","红豆","花生","五花肉","粽叶"],"expected_family_ids":["alkaline-ash-water-wrapped-rice"],"expected_structure":"wrapped_long_boiled_rice","expected_outcome":"content_only_high_friction","forbidden_claims":["普通一锅饭"],"reason":"地域结构成立但工序和安全门槛高，只保留研究与内容。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j10","province_code":"CN-HN","mode":"recommend","intent":"quick","input_items":["糯米","红豆","花生","五花肉"],"expected_family_ids":[],"expected_structure":"unresolved","expected_outcome":"quick_conflict","forbidden_claims":["快手灰粽"],"reason":"长时间碱水包煮结构与 quick 冲突。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j11","province_code":"CN-JX","mode":"pantry","intent":"quick","input_items":["可直接炒米粉","猪肉丝","青菜","豆芽"],"expected_family_ids":["ready-rice-noodle-stir-fry"],"expected_structure":"single_wok_ready_staple","expected_outcome":"research_family_route","forbidden_claims":["所有米粉规格通用"],"reason":"成品或已预处理米粉可研究单锅快炒。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j12","province_code":"CN-JX","mode":"pantry","intent":"quick","input_items":["干米粉","鸡蛋","青菜"],"expected_family_ids":["ready-rice-noodle-stir-fry"],"expected_structure":"pretreatment_then_wok","expected_outcome":"requires_pretreatment","forbidden_claims":["干粉直接下锅快炒"],"reason":"干米粉必须按包装完成浸泡或预煮后再炒。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j13","province_code":"CN-JX","mode":"recommend","intent":"normal","input_items":["成品南丰水粉","鸡蛋","猪肉","青菜"],"expected_family_ids":["ready-rice-noodle-broth-or-stir"],"expected_structure":"ready_staple_broth_or_stir","expected_outcome":"research_family_route","forbidden_claims":["从大米现场制粉"],"reason":"符合成品水粉的汤或炒主餐路线。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j14","province_code":"CN-JX","mode":"recommend","intent":"normal","input_items":["瓦罐汤","米粉"],"expected_family_ids":[],"expected_structure":"two_vessel_meal","expected_outcome":"boundary_only","forbidden_claims":["同锅完成"],"reason":"一汤一粉是两容器搭配，不伪装成同锅。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"my-j15","province_code":"CN-JX","mode":"pantry","intent":"normal","input_items":["猪肉","蒸肉米粉"],"expected_family_ids":[],"expected_structure":"unresolved","expected_outcome":"staple_sufficiency_unresolved","forbidden_claims":["完整主食已满足"],"reason":"裹肉米粉不能自动视为足量主食。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}}
+  ]
+}

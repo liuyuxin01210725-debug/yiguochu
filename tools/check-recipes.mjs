@@ -43,6 +43,13 @@ import {
   validateCentralPlainsNoodleResearchReport,
 } from './lib/central-plains-noodle-research-builder.mjs';
 import { buildCentralPlainsNoodleResearchArtifacts } from './lib/central-plains-noodle-research-renderer.mjs';
+import { validateMiddleYangtzeMainMealResearch } from './lib/middle-yangtze-main-meal-research-validator.mjs';
+import {
+  buildMiddleYangtzeMainMealResearchReport,
+  formatMiddleYangtzeMainMealResearchSummary,
+  validateMiddleYangtzeMainMealResearchReport,
+} from './lib/middle-yangtze-main-meal-research-builder.mjs';
+import { buildMiddleYangtzeMainMealResearchArtifacts } from './lib/middle-yangtze-main-meal-research-renderer.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -54,6 +61,7 @@ const northeastResearchInputErrors = [];
 const jiangnanResearchInputErrors = [];
 const shandongResearchInputErrors = [];
 const centralPlainsResearchInputErrors = [];
+const middleYangtzeResearchInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -78,6 +86,7 @@ const northeastResearch = readReviewLedger('./data/northeast-stew-research.v1.js
 const jiangnanResearch = readReviewLedger('./data/jiangnan-rice-research.v1.json', 'Jiangnan rice research assessment', jiangnanResearchInputErrors);
 const shandongResearch = readReviewLedger('./data/shandong-one-pot-research.v1.json', 'Shandong one-pot research assessment', shandongResearchInputErrors);
 const centralPlainsResearch = readReviewLedger('./data/central-plains-noodle-research.v1.json', 'Central Plains noodle research assessment', centralPlainsResearchInputErrors);
+const middleYangtzeResearch = readReviewLedger('./data/middle-yangtze-main-meal-research.v1.json', 'Middle Yangtze main-meal research assessment', middleYangtzeResearchInputErrors);
 errors.push(...validateCoverageRecipePromotion({
   candidates: coverageCandidates,
   drafts: coverageDrafts,
@@ -287,6 +296,41 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...centralPlainsResearchErrors);
+const middleYangtzeResearchSourceErrors = [
+  ...middleYangtzeResearchInputErrors,
+  ...validateMiddleYangtzeMainMealResearch({
+    assessment: middleYangtzeResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  }),
+];
+errors.push(...middleYangtzeResearchSourceErrors);
+const middleYangtzeResearchErrors = [];
+let middleYangtzeResearchReport;
+if (recipeLibraryErrors.length === 0
+  && regionalAtlasSourceErrors.length === 0
+  && menuMasterSourceErrors.length === 0
+  && middleYangtzeResearchSourceErrors.length === 0) {
+  middleYangtzeResearchReport = buildMiddleYangtzeMainMealResearchReport({
+    assessment: middleYangtzeResearch,
+    recipeLibrary: lib,
+    regionalResearch,
+    regionalAtlas,
+    regionalMappings: regionalMenuMappings,
+  });
+  middleYangtzeResearchErrors.push(...validateMiddleYangtzeMainMealResearchReport(middleYangtzeResearchReport));
+  if (middleYangtzeResearchErrors.length === 0) {
+    for (const [relativePath, content] of buildMiddleYangtzeMainMealResearchArtifacts(middleYangtzeResearchReport)) {
+      const artifact = new URL(`../${relativePath}`, import.meta.url);
+      if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+        middleYangtzeResearchErrors.push(`${relativePath} is missing or stale; run node tools/build-middle-yangtze-main-meal-research.mjs --write intentionally`);
+      }
+    }
+  }
+}
+errors.push(...middleYangtzeResearchErrors);
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -327,6 +371,9 @@ if (shandongResearchReport && shandongResearchSourceErrors.length === 0 && shand
 }
 if (centralPlainsResearchReport && centralPlainsResearchSourceErrors.length === 0 && centralPlainsResearchErrors.length === 0) {
   console.log(formatCentralPlainsNoodleResearchSummary(centralPlainsResearchReport));
+}
+if (middleYangtzeResearchReport && middleYangtzeResearchSourceErrors.length === 0 && middleYangtzeResearchErrors.length === 0) {
+  console.log(formatMiddleYangtzeMainMealResearchSummary(middleYangtzeResearchReport));
 }
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);
