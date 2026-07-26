@@ -133,8 +133,8 @@ export function renderNortheastStewJourneyReviewMarkdown(report) {
     '',
     '> 当前表只列出预期研究边界。自动测试不能代替真人厨房判断，`pending` 状态不会被自动填成结论。',
     '',
-    '| ID | 模式/意图 | 输入 | 预期使用 | 预期未规划 | 研究预期 | 人工状态 | 评审人 | 日期 | 记录与结论 |',
-    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+    '| ID | 模式/意图 | 输入 | 预期使用 | 预期未规划 | 研究预期 | 人工状态 | 家庭直觉 | 可操作性 | 味型判断 | 评审人 | 日期 | 记录与结论 |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ...journeys.map(item => {
       const review = item.human_review || {};
       const status = review.status === 'pending' ? '待人工评审' : review.status;
@@ -146,6 +146,9 @@ export function renderNortheastStewJourneyReviewMarkdown(report) {
         list(item.expected_unplanned_items),
         outcomeLabel[item.expected_research_outcome] || item.expected_research_outcome,
         status,
+        review.household_intuition || '',
+        review.operability || '',
+        review.taste_judgement || '',
         review.reviewer || '',
         review.reviewed_at || '',
         [review.notes, review.conclusion].filter(Boolean).join('；'),

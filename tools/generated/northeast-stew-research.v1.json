@@ -894,6 +894,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -921,6 +924,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -946,6 +952,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -971,6 +980,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -996,6 +1008,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -1021,6 +1036,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -1049,6 +1067,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -1074,6 +1095,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -1099,6 +1123,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }
@@ -1136,6 +1163,9 @@
         "status": "pending",
         "reviewer": null,
         "reviewed_at": null,
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
         "notes": "",
         "conclusion": null
       }

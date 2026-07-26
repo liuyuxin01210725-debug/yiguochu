@@ -86,6 +86,9 @@ test('ten household journeys cover positive negative and boundary cases', () => 
   assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'needs_more_evidence'));
   assert.ok(assessment.journey_cases.some(row => row.expected_research_outcome === 'unsupported_for_family'));
   assert.ok(assessment.journey_cases.every(row => row.human_review.status === 'pending'));
+  assert.ok(assessment.journey_cases.every(row => row.human_review.household_intuition === null));
+  assert.ok(assessment.journey_cases.every(row => row.human_review.operability === null));
+  assert.ok(assessment.journey_cases.every(row => row.human_review.taste_judgement === null));
 });
 
 test('journeys keep the critical household decisions explicit', () => {
@@ -105,6 +108,6 @@ test('journey validator rejects invented review results and unsupported outcomes
   broken.journey_cases[0].human_review.reviewer = '';
   broken.journey_cases[1].expected_research_outcome = 'pretend_success';
   const message = validateNortheastStewResearch({ ...inputs, assessment: broken }).join('\n');
-  assert.match(message, /completed human review requires reviewer, date, notes and conclusion/);
+  assert.match(message, /completed human review requires reviewer, date, household judgement, notes and conclusion/);
   assert.match(message, /expected_research_outcome is invalid/);
 });

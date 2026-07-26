@@ -55,6 +55,9 @@ test('renderers are deterministic and preserve the research boundary', () => {
   const review = renderNortheastStewJourneyReviewMarkdown(report);
   assert.equal(review, renderNortheastStewJourneyReviewMarkdown(report));
   assert.match(review, /10 条家庭食材旅程/);
+  assert.match(review, /家庭直觉/);
+  assert.match(review, /可操作性/);
+  assert.match(review, /味型判断/);
   assert.equal((review.match(/待人工评审/g) || []).length, 10);
   assert.doesNotMatch(review, /自动通过|人工批准完成/);
 });

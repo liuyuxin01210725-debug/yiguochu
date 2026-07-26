@@ -47,7 +47,10 @@ const JOURNEY_FIELDS = new Set([
   'journey_id', 'mode', 'intent', 'raw_items', 'expected_used_items',
   'expected_unplanned_items', 'expected_research_outcome', 'explanation', 'human_review',
 ]);
-const REVIEW_FIELDS = new Set(['status', 'reviewer', 'reviewed_at', 'notes', 'conclusion']);
+const REVIEW_FIELDS = new Set([
+  'status', 'reviewer', 'reviewed_at', 'household_intuition', 'operability',
+  'taste_judgement', 'notes', 'conclusion',
+]);
 
 const isObject = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 const asObject = value => isObject(value) ? value : {};
@@ -263,11 +266,15 @@ function validateJourneys(value, errors) {
     unknownFields(review, REVIEW_FIELDS, `${label}: human_review`, errors);
     if (!REVIEW_STATUSES.has(review.status)) errors.push(`${label}: human_review.status is invalid`);
     if (review.status === 'pending') {
-      if (review.reviewer !== null || review.reviewed_at !== null || review.conclusion !== null || review.notes !== '') {
+      if (review.reviewer !== null || review.reviewed_at !== null
+        || review.household_intuition !== null || review.operability !== null || review.taste_judgement !== null
+        || review.conclusion !== null || review.notes !== '') {
         errors.push(`${label}: pending human review must remain unfilled`);
       }
-    } else if (!hasText(review.reviewer) || !validDate(review.reviewed_at) || !hasText(review.notes) || !hasText(review.conclusion)) {
-      errors.push(`${label}: completed human review requires reviewer, date, notes and conclusion`);
+    } else if (!hasText(review.reviewer) || !validDate(review.reviewed_at)
+      || !hasText(review.household_intuition) || !hasText(review.operability) || !hasText(review.taste_judgement)
+      || !hasText(review.notes) || !hasText(review.conclusion)) {
+      errors.push(`${label}: completed human review requires reviewer, date, household judgement, notes and conclusion`);
     }
     ids.push(journey.journey_id);
   }
