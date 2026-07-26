@@ -151,6 +151,22 @@ test('Jiangnan M1 recovers six menu cores without forging two unresolved identit
   );
 });
 
+test('Fujian Taiwan M1 recovers two generic plans and retains four honest gaps', () => {
+  const report = buildRealReport();
+  const byRecipeId = new Map(report.recipes.map(row => [row.recipe_id, row]));
+  assert.equal(byRecipeId.get('taiwan-cabbage-mushroom-rice').audit_status, 'full_single_pot_evidence_aligned');
+  assert.equal(byRecipeId.get('fujian-gai-cai-minced-pork-rice').audit_status, 'full_single_pot_ingredient_compatible');
+  assert.equal(byRecipeId.get('fujian-hyacinth-bean-rice').audit_status, 'taxonomy_gap');
+  for (const id of ['quanzhou-oil-rice', 'daxi-lotus-leaf-oil-rice', 'she-people-black-rice']) {
+    assert.ok(['taxonomy_gap', 'no_recognized_core'].includes(byRecipeId.get(id).audit_status), id);
+  }
+  const region = report.by_region.find(row => row.region_id === 'fujian_taiwan');
+  assert.deepEqual(
+    [region.recipe_count, region.single_pot_full_count],
+    [6, 2],
+  );
+});
+
 test('report metadata, summaries, and validation are deterministic', () => {
   const first = buildRealReport();
   const second = buildRealReport();

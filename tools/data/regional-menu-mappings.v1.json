@@ -117,7 +117,7 @@
       "evidence_research_ids": ["chongqing-firewood-potato-rice-home"],
       "required_ratio_rule_ids": ["savory-mixed-rice-liquid-v1"],
       "resolved_ratio_rule_ids": ["savory-mixed-rice-liquid-v1"],
-      "taxonomy_item_ids": ["raw-rice", "leafy-greens", "napa-cabbage", "shiitake"],
+      "taxonomy_item_ids": ["raw-rice", "leafy-greens", "napa-cabbage", "shiitake", "green-cabbage", "mustard-greens", "ground-pork"],
       "blocker_codes": [],
       "scope_note": "现有生米焖饭模板已覆盖受控生米、耐焖蔬菜与有限蛋白组合，不借模板名称伪造地域菜身份。"
     },

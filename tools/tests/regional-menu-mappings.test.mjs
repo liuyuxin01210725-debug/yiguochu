@@ -38,7 +38,12 @@ test('capability ledger covers every atlas technique family exactly once', () =>
 
 test('capability ledger distinguishes full partial and no coverage', () => {
   const byFamily = new Map(mappings.template_capability_mappings.map(row => [row.family_id, row]));
-  assert.equal(byFamily.get('raw-rice-braise')?.coverage_level, 'full');
+  const rawRice = byFamily.get('raw-rice-braise');
+  assert.equal(rawRice?.coverage_level, 'full');
+  for (const id of ['green-cabbage', 'mustard-greens', 'ground-pork']) {
+    assert.ok(rawRice.taxonomy_item_ids.includes(id), id);
+  }
+  assert.equal(rawRice.evidence_recipe_ids.includes('fujian-gai-cai-minced-pork-rice'), false);
   const cookedRiceStew = byFamily.get('cooked-rice-stew');
   assert.equal(cookedRiceStew?.coverage_level, 'full');
   assert.deepEqual(cookedRiceStew?.runtime_template_ids, ['acid-staple-pot', 'broth-rice-pot']);

@@ -1079,7 +1079,10 @@
         "raw-rice",
         "leafy-greens",
         "napa-cabbage",
-        "shiitake"
+        "shiitake",
+        "green-cabbage",
+        "mustard-greens",
+        "ground-pork"
       ],
       "blocker_codes": [],
       "scope_note": "现有生米焖饭模板已覆盖受控生米、耐焖蔬菜与有限蛋白组合，不借模板名称伪造地域菜身份。",
