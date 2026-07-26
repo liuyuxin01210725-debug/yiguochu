@@ -188,6 +188,74 @@ test('cooked rice, egg, and cabbage form one complete broth-rice meal with execu
   assert.equal(amounts.get('水'), 650);
 });
 
+test('Jiangnan M1 menu cores become complete single-pot plans without losing regional names', () => {
+  for (const [title, must] of [
+    ['上海咸肉菜饭', ['大米', '咸五花肉', '小白菜']],
+    ['苏州青菜咸肉饭', ['大米', '咸五花肉', '小白菜']],
+    ['南京腊肉菜饭', ['大米', '腊五花肉', '矮脚黄']],
+    ['南京香肠菜饭', ['大米', '广式腊肠', '矮脚黄']],
+    ['金山菜饭', ['大米', '小白菜']],
+    ['家常平菇焖饭', ['大米', '平菇']],
+  ]) {
+    const result = planMeal(assets, request({ must }));
+    assert.equal(result.status, 'complete', title);
+    assert.equal(result.plan.plan_kind, 'single_pot', title);
+    assert.equal(result.plan.pots.length, 1, title);
+    const pot = result.plan.pots[0];
+    assert.equal(pot.template_id, 'savory-mixed-rice-pot', title);
+    assert.deepEqual(new Set(pot.planned_must_use.map(item => item.raw)), new Set(must), title);
+    assert.deepEqual(result.plan.unplanned_must_use, [], title);
+    assert.equal(pot.coverage_ratio, 1, title);
+  }
+});
+
+test('Jiangnan cured rice plans omit preset oil and salt but retain measured water', () => {
+  for (const must of [
+    ['大米', '咸五花肉', '小白菜'],
+    ['大米', '腊五花肉', '矮脚黄'],
+    ['大米', '广式腊肠', '矮脚黄'],
+  ]) {
+    const result = planMeal(assets, request({ must }));
+    assert.equal(result.status, 'complete');
+    const extras = result.plan.pots[0].required_extra_items.map(item => item.name);
+    assert.deepEqual(extras, ['水']);
+    const skipped = result.plan.pots[0].ratio_trace
+      .filter(row => ['食用油', '盐'].includes(row.name));
+    assert.deepEqual(skipped.map(row => [row.name, row.applied]), [
+      ['食用油', false],
+      ['盐', false],
+    ]);
+  }
+});
+
+test('Jiangnan M1 leaves cooked duck glutinous rice and color source explicitly unresolved', () => {
+  const duck = planMeal(assets, request({ must: ['大米', '包装熟制板鸭（去骨）', '矮脚黄'] }));
+  assert.notEqual(duck.status, 'complete');
+  assert.equal(duck.generation_allowed, false);
+  assert.equal(
+    duck.plan.unplanned_must_use.find(item => item.raw === '包装熟制板鸭（去骨）')?.reason_code,
+    'unrecognized_ingredient',
+  );
+
+  const blackRice = planMeal(assets, request({ must: ['糯米', '食品级黑米色粉'] }));
+  assert.notEqual(blackRice.status, 'complete');
+  assert.equal(blackRice.generation_allowed, false);
+  assert.deepEqual(
+    blackRice.plan.unplanned_must_use.map(item => item.raw).sort(),
+    ['糯米', '食品级黑米色粉'].sort(),
+  );
+});
+
+test('two high-moisture Jiangnan items never fabricate a complete single-pot rice plan', () => {
+  const result = planMeal(assets, request({
+    must: ['大米', '咸五花肉', '小白菜', '平菇'],
+  }));
+  assert.equal(
+    result.status === 'complete' && result.plan.plan_kind === 'single_pot',
+    false,
+  );
+});
+
 test('leftover rice, chicken leg, and potato preserve the real cut and receive chicken-specific broth amounts', () => {
   const result = planMeal(assets, request({ must: ['剩米饭', '鸡腿肉', '土豆'], servings: 2 }));
 
