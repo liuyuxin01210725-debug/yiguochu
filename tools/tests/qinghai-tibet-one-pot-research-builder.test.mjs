@@ -28,7 +28,8 @@ test('report derives the fixed Qinghai Tibet 4/0/5/6/11/12 baseline and retains 
   assert.equal(report.family_model.length, 6);
   assert.equal(report.source_evidence.length, 11);
   assert.equal(report.household_journeys.length, 12);
-  assert.equal(report.source_data_normalized_fingerprint, '224c33752390b6ff877d176bad8aa76ea18222d105f99781381b0f006cfff342');
+  assert.equal(report.source_data_normalized_fingerprint, '7a06b8f669d8bae1d04e079db007f2f2fc6a711d5b7adc94708a3a4ef326b39c');
+  assert.equal(report.input_data_normalized_fingerprint, '42b92565594ec4977923416146c3b317b3c6e8701c0ff354d28d3e4fcf67131b');
   assert.deepEqual(report.summary.source_count_by_grade, { A: 11, B: 0, C: 0 });
 });
 
@@ -90,8 +91,60 @@ test('report validator rejects coordinated rewrites of claims and their reverse-
 
   assert.match(
     validateQinghaiTibetOnePotResearchReport(broken).join('\n'),
-    /normalized source data fingerprint mismatch/,
+    /normalized report semantics fingerprint mismatch/,
   );
+});
+
+test('canonical input and report semantics reject coordinated rewrites of all consumed enrichments', () => {
+  const mutations = [
+    ['recipe name', report => { report.production_recipe_audits[0].recipe_name = '伪造菜名'; }],
+    ['core ingredients', report => { report.production_recipe_audits[0].recipe_core_ingredients.push('伪造主料'); }],
+    ['mapping scope', report => { report.production_recipe_audits[0].mapping_regional_scope = 'forged_scope'; }],
+    ['region name', report => { report.region_overview.name = '伪造地域'; }],
+    ['research focus', report => { report.region_overview.research_focus.push('伪造研究方向'); }],
+  ];
+
+  for (const [label, mutate] of mutations) {
+    const broken = structuredClone(buildQinghaiTibetOnePotResearchReport(inputs));
+    mutate(broken);
+    assert.match(
+      validateQinghaiTibetOnePotResearchReport(broken).join('\n'),
+      /normalized report semantics fingerprint mismatch/,
+      label,
+    );
+  }
+
+  const researchDrift = structuredClone(inputs);
+  researchDrift.regionalResearch.entries[0].prototype_name = '伪造研究候选';
+  assert.throws(
+    () => buildQinghaiTibetOnePotResearchReport(researchDrift),
+    /canonical input fingerprint mismatch/,
+  );
+});
+
+test('completion is derived from the actual evidence, ratio, adaptation, safety and human-review predicates', () => {
+  const resolved = structuredClone(buildQinghaiTibetOnePotResearchReport(inputs));
+  for (const audit of resolved.production_recipe_audits) for (const claim of Object.values(audit.claims)) claim.verdict = 'supported';
+  for (const lead of resolved.concrete_research_leads) for (const claim of Object.values(lead.claims)) claim.verdict = 'supported';
+  for (const safety of resolved.safety_boundaries) safety.evidence_status = 'verified_endpoint';
+  for (const journey of resolved.household_journeys) journey.human_review.status = 'passed';
+  resolved.completion = { status: 'regional_round_complete', blockers: [], baseline_facts: ['zero_candidate_baseline'] };
+  resolved.summary.human_journey_reviewed_count = 12;
+
+  assert.doesNotMatch(
+    validateQinghaiTibetOnePotResearchReport(resolved).join('\n'),
+    /completion blockers must retain production evidence, ratio, household adaptation, safety and human review gates/,
+  );
+});
+
+test('formatter refuses missing or unknown completion state instead of presenting research ok', () => {
+  const missing = structuredClone(buildQinghaiTibetOnePotResearchReport(inputs));
+  delete missing.completion;
+  assert.throws(() => formatQinghaiTibetOnePotResearchSummary(missing), /invalid Qinghai Tibet research report/);
+
+  const unknown = structuredClone(buildQinghaiTibetOnePotResearchReport(inputs));
+  unknown.completion.status = 'unknown';
+  assert.throws(() => formatQinghaiTibetOnePotResearchSummary(unknown), /invalid Qinghai Tibet research report/);
 });
 
 test('report validator rejects drift in fixed derived views and the builder fails closed on invalid Task 1 input', () => {

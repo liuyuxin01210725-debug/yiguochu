@@ -23,14 +23,18 @@ const SUBJECT_TOKENS = {
   research_candidate: 'candidate',
   concrete_research_lead: 'lead',
 };
-const COMPLETION_BLOCKERS = [
-  'production_evidence_gaps',
-  'ratio_dsl_unresolved',
-  'household_vessel_adaptation_unresolved',
-  'safety_endpoint_incomplete',
-  'human_journey_review_incomplete',
-];
-const SOURCE_DATA_FINGERPRINT = '224c33752390b6ff877d176bad8aa76ea18222d105f99781381b0f006cfff342';
+const INPUT_DATA_FINGERPRINT = '42b92565594ec4977923416146c3b317b3c6e8701c0ff354d28d3e4fcf67131b';
+const SOURCE_DATA_FINGERPRINT = '7a06b8f669d8bae1d04e079db007f2f2fc6a711d5b7adc94708a3a4ef326b39c';
+const FIXED_REGION_OVERVIEW_SEMANTICS = {
+  name: '青藏',
+  research_focus: ['熬饭', '青稞杂粮饭', '地域谷物粥饭'],
+};
+const FIXED_PRODUCTION_PROJECTION_FINGERPRINTS = {
+  'qinghai-hao-fan': 'f2d819af54d5c105a4babadeec0627ca3461c51572ad646abe9d4edf6271ac34',
+  'tibetan-ginseng-fruit-rice': '1eac69ec73f1d00d1837bc1ee8188428e72aca213fd2eeb94084ee32b5ebe519',
+  'tibetan-gutu': '9f8dc9908099e471a28c185c7b8be3867229a168510ab6f13b9dcf36987fb3b8',
+  'tibetan-savory-congee': 'b34beda82c5b4001b9add24caf1faeac7a4900d8c650f584d348d4ab0c9ae3c3',
+};
 const FIXED_PROVINCE_DETAILS = {
   'CN-QH': {
     province_name: '青海',
@@ -43,10 +47,6 @@ const FIXED_PROVINCE_DETAILS = {
     research_question: '整理西藏咸稀饭、古突、人参果饭和青稞主餐的技法边界。',
   },
 };
-const ENRICHMENT_FIELDS = new Set([
-  'recipe_name', 'recipe_status', 'cuisine', 'recipe_core_ingredients', 'recipe_substitution_slots',
-  'mapping_regional_scope', 'mapping_province_codes', 'atlas_primary_family_id', 'atlas_secondary_family_ids',
-]);
 
 const canonicalJson = value => {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
@@ -65,24 +65,48 @@ function subjectGroups(report) {
   ];
 }
 
-function sourcePayload(report) {
-  const stripEnrichment = row => {
-    const normalized = copy(row);
-    for (const field of ENRICHMENT_FIELDS) delete normalized[field];
-    return normalized;
+function canonicalInputPayload(inputs) {
+  return {
+    assessment: copy(inputs.assessment),
+    recipeLibrary: copy(inputs.recipeLibrary),
+    regionalResearch: copy(inputs.regionalResearch),
+    regionalAtlas: copy(inputs.regionalAtlas),
+    regionalMappings: copy(inputs.regionalMappings),
   };
+}
+
+function sourcePayload(report) {
   return {
     assessment_version: report.assessment_version,
-    region_id: report.region_overview?.region_id,
-    province_codes: copy(rows(report.region_overview?.province_codes)),
-    production_recipe_audits: rows(report.production_recipe_audits).map(stripEnrichment).sort((a, b) => a.recipe_id.localeCompare(b.recipe_id)),
-    candidate_audits: rows(report.candidate_audits).map(stripEnrichment).sort((a, b) => a.candidate_id.localeCompare(b.candidate_id)),
-    concrete_research_leads: rows(report.concrete_research_leads).map(stripEnrichment).sort((a, b) => a.lead_id.localeCompare(b.lead_id)),
+    region_overview: {
+      region_id: report.region_overview?.region_id,
+      name: report.region_overview?.name,
+      province_codes: copy(rows(report.region_overview?.province_codes)),
+      research_focus: copy(rows(report.region_overview?.research_focus)),
+    },
+    province_coverage_audits: copy(rows(report.province_coverage_audits)),
+    production_recipe_audits: copy(rows(report.production_recipe_audits)),
+    candidate_audits: copy(rows(report.candidate_audits)),
+    concrete_research_leads: copy(rows(report.concrete_research_leads)),
     family_model: copy(rows(report.family_model)),
     adaptation_boundaries: copy(rows(report.adaptation_boundaries)),
     safety_boundaries: copy(rows(report.safety_boundaries)),
     source_evidence: copy(rows(report.source_evidence)),
     household_journeys: copy(rows(report.household_journeys)),
+  };
+}
+
+function productionProjection(row) {
+  return {
+    recipe_name: row.recipe_name,
+    recipe_status: row.recipe_status,
+    cuisine: row.cuisine,
+    recipe_core_ingredients: copy(rows(row.recipe_core_ingredients)),
+    recipe_substitution_slots: copy(rows(row.recipe_substitution_slots)),
+    mapping_regional_scope: row.mapping_regional_scope,
+    mapping_province_codes: copy(rows(row.mapping_province_codes)),
+    atlas_primary_family_id: row.atlas_primary_family_id,
+    atlas_secondary_family_ids: copy(rows(row.atlas_secondary_family_ids)),
   };
 }
 
@@ -130,11 +154,19 @@ function deriveProductDecisions(groups) {
 }
 
 function deriveCompletion(report) {
+  const audited = [...rows(report.production_recipe_audits), ...rows(report.concrete_research_leads)];
+  const unresolvedClaims = (audits, pattern) => audits.some(audit => Object.entries(object(audit.claims)).some(([claimId, claim]) => pattern.test(claimId) && claim?.verdict !== 'supported'));
   const journeys = rows(report.household_journeys);
   const reviewed = journeys.filter(journey => ['passed', 'failed'].includes(journey?.human_review?.status)).length;
+  const blockers = [];
+  if (rows(report.production_recipe_audits).some(audit => Object.values(object(audit.claims)).some(claim => claim?.verdict !== 'supported'))) blockers.push('production_evidence_gaps');
+  if (unresolvedClaims(audited, /ratio|time_vessel|time_safety/)) blockers.push('ratio_dsl_unresolved');
+  if (unresolvedClaims(audited, /adaptation|equivalence|appliance/)) blockers.push('household_vessel_adaptation_unresolved');
+  if (rows(report.safety_boundaries).some(boundary => boundary?.evidence_status !== 'verified_endpoint')) blockers.push('safety_endpoint_incomplete');
+  if (journeys.length !== FIXED_COUNTS.household_journeys || reviewed !== journeys.length) blockers.push('human_journey_review_incomplete');
   return {
-    status: 'research_in_progress',
-    blockers: copy(COMPLETION_BLOCKERS),
+    status: blockers.length ? 'research_in_progress' : 'regional_round_complete',
+    blockers,
     baseline_facts: rows(report.candidate_audits).length === 0 ? ['zero_candidate_baseline'] : [],
     reviewed,
   };
@@ -193,6 +225,7 @@ function validateClaimEvidence(report, errors) {
 export function buildQinghaiTibetOnePotResearchReport(inputs = {}) {
   const errors = validateQinghaiTibetOnePotResearch(inputs);
   if (errors.length) throw new Error(errors.join('\n'));
+  if (fingerprint(canonicalInputPayload(inputs)) !== INPUT_DATA_FINGERPRINT) throw new Error('canonical input fingerprint mismatch');
 
   const assessment = object(inputs.assessment);
   const recipes = new Map(rows(inputs.recipeLibrary?.recipes).filter(isObject).map(recipe => [recipe.id, recipe]));
@@ -253,6 +286,7 @@ export function buildQinghaiTibetOnePotResearchReport(inputs = {}) {
     household_journeys: copy(rows(assessment.journey_cases)),
   };
   report.source_data_normalized_fingerprint = fingerprint(sourcePayload(report));
+  report.input_data_normalized_fingerprint = fingerprint(canonicalInputPayload(inputs));
   const completion = deriveCompletion(report);
   report.completion = { status: completion.status, blockers: completion.blockers, baseline_facts: completion.baseline_facts };
   report.summary = {
@@ -284,6 +318,7 @@ export function validateQinghaiTibetOnePotResearchReport(report) {
   if (report.schema_version !== 1) errors.push('report schema_version must be 1');
   if (report.region_overview?.region_id !== REGION_ID) errors.push('region_overview must be Qinghai Tibet');
   if (JSON.stringify(report.region_overview?.province_codes) !== JSON.stringify(PROVINCES)) errors.push('region_overview province_codes must match Qinghai Tibet');
+  if (JSON.stringify({ name: report.region_overview?.name, research_focus: report.region_overview?.research_focus }) !== JSON.stringify(FIXED_REGION_OVERVIEW_SEMANTICS)) errors.push('region_overview semantics must match fixed upstream projection');
   for (const [field, expected] of Object.entries(FIXED_COUNTS)) if (rows(report[field]).length !== expected) errors.push(`${field} must contain exactly ${expected} items`);
   if (report.region_overview?.production_recipe_count !== rows(report.production_recipe_audits).length) errors.push('region production_recipe_count must match audits');
   if (report.region_overview?.candidate_count !== rows(report.candidate_audits).length) errors.push('region candidate_count must match audits');
@@ -302,7 +337,6 @@ export function validateQinghaiTibetOnePotResearchReport(report) {
   for (const [field, expected] of derivedSummaryCounts) if (summary[field] !== expected) errors.push(`summary ${field} expected ${expected}, got ${summary[field]}`);
   if (JSON.stringify(summary.source_count_by_grade) !== JSON.stringify(countBy(rows(report.source_evidence), 'source_grade', ['A', 'B', 'C']))) errors.push('summary source_count_by_grade is inconsistent');
   if (summary.production_recipe_changes !== 0 || summary.regional_candidate_changes !== 0) errors.push('summary must retain zero product changes');
-  if (summary.human_journey_reviewed_count !== 0) errors.push('summary human_journey_reviewed_count must remain 0');
   if (!/不新增.*recipe.*candidate/i.test(summary.scope_note || '')) errors.push('summary must state that no recipe or candidate was added');
 
   const groups = subjectGroups(report);
@@ -310,20 +344,23 @@ export function validateQinghaiTibetOnePotResearchReport(report) {
   if (JSON.stringify(rows(report.ingredient_shape_matrix)) !== JSON.stringify(deriveIngredientShapeMatrix(groups))) errors.push('ingredient_shape_matrix must exactly match audited rows');
   if (JSON.stringify(rows(report.product_decisions)) !== JSON.stringify(deriveProductDecisions(groups))) errors.push('product_decisions must exactly match audited rows');
   if (JSON.stringify(rows(report.province_coverage_audits)) !== JSON.stringify(expectedCoverage(report))) errors.push('province_coverage_audits must exactly match audited rows');
+  for (const production of rows(report.production_recipe_audits)) if (fingerprint(productionProjection(production)) !== FIXED_PRODUCTION_PROJECTION_FINGERPRINTS[production.recipe_id]) errors.push(`production ${production.recipe_id} enrichment must match fixed upstream projection`);
   validateClaimEvidence(report, errors);
 
   const actualFingerprint = fingerprint(sourcePayload(report));
   if (report.source_data_normalized_fingerprint !== actualFingerprint) errors.push('source_data_normalized_fingerprint must match normalized report data');
-  if (actualFingerprint !== SOURCE_DATA_FINGERPRINT) errors.push('normalized source data fingerprint mismatch');
-  if (report.completion?.status !== 'research_in_progress') errors.push('completion status must remain research_in_progress');
-  if (JSON.stringify(report.completion?.blockers) !== JSON.stringify(COMPLETION_BLOCKERS)) errors.push('completion blockers must retain production evidence, ratio, household adaptation, safety and human review gates');
-  if (JSON.stringify(report.completion?.baseline_facts) !== JSON.stringify(['zero_candidate_baseline'])) errors.push('completion baseline_facts must retain zero_candidate_baseline');
-  if (rows(report.household_journeys).some(journey => journey?.human_review?.status !== 'pending')) errors.push('household journeys must remain pending manual review');
+  if (actualFingerprint !== SOURCE_DATA_FINGERPRINT) errors.push('normalized report semantics fingerprint mismatch');
+  if (report.input_data_normalized_fingerprint !== INPUT_DATA_FINGERPRINT) errors.push('canonical input fingerprint mismatch');
+  const completion = deriveCompletion(report);
+  if (report.completion?.status !== completion.status || JSON.stringify(report.completion?.blockers) !== JSON.stringify(completion.blockers) || JSON.stringify(report.completion?.baseline_facts) !== JSON.stringify(completion.baseline_facts)) errors.push('completion must exactly match derived report predicates');
+  if (summary.human_journey_reviewed_count !== completion.reviewed) errors.push(`summary human_journey_reviewed_count expected ${completion.reviewed}, got ${summary.human_journey_reviewed_count}`);
   return errors;
 }
 
 export function formatQinghaiTibetOnePotResearchSummary(report) {
+  const errors = validateQinghaiTibetOnePotResearchReport(report);
+  if (errors.length) throw new Error(`invalid Qinghai Tibet research report: ${errors.join('; ')}`);
   const summary = object(report?.summary);
-  const status = report?.completion?.status === 'research_in_progress' ? 'research in progress' : 'research ok';
+  const status = report.completion.status === 'research_in_progress' ? 'research in progress' : 'research complete';
   return `${summary.production_audit_count ?? 0} Qinghai Tibet production audits · ${summary.candidate_audit_count ?? 0} candidates · ${summary.concrete_research_lead_count ?? 0} research leads · ${summary.household_journey_count ?? 0} journeys · Qinghai Tibet ${status}`;
 }
