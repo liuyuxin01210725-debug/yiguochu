@@ -8,12 +8,12 @@
 - 生产菜谱审计：5
 - 现有候选审计：0
 - 独立研究线索：5
-- 来源：11（A 级 8，B 级 2，C 级 1）
+- 来源：12（A 级 9，B 级 2，C 级 1）
 - 家庭旅程：15（已人工评审 0）
 - 当前状态：research_in_progress
 - 阻塞项：production_evidence_gaps、ratio_dsl_unresolved、household_vessel_adaptation_unresolved、meal_sufficiency_unresolved、safety_endpoint_incomplete、human_journey_review_incomplete
 
-核心纠偏：广式煲仔饭的瓦煲、米饭部分熟后加具名浇头、低火收水与锅巴共同构成工艺边界；普通锅或电饭煲只能称“广式风味焖饭”，不能承诺瓦煲锅巴复刻。腊味、香菇滑鸡、豆豉排骨是具名分支，不是任意互换的蛋白槽。香港当前有煲仔饭消费场景，不等于香港独创。广西五色糯米饭的天然植物染色浸米与食品粉家庭适配必须分开；本轮“广西传统菠萝饭”未证实。海南定安菜包饭是熟饭、熟馅、出锅后生菜包裹的多阶段结构；椰丝饭只证实主食结构，存在完整主餐蛋白与配菜不足的风险，不能承诺完整主餐。澳门葡式海鲜饭仍是菜单研究线索，未证实单锅过程。
+核心纠偏：广式煲仔饭的瓦煲、米饭部分熟后加具名浇头、低火收水与锅巴共同构成工艺边界；普通锅或电饭煲只能称“广式风味焖饭”，不能承诺瓦煲锅巴复刻。腊味、香菇滑鸡、豆豉排骨是具名分支，不是任意互换的蛋白槽。香港当前有煲仔饭消费场景，不等于香港独创。广西五色糯米饭的天然植物染色浸米与食品粉家庭适配必须分开；本轮“广西传统菠萝饭”未证实。海南有三条不能混写的线：定安菜包饭是熟饭、熟馅、出锅后生菜包裹的多阶段结构；椰丝饭只证实主食结构，存在完整主餐蛋白与配菜不足的风险；海南鸡饭是鸡饭分熟，白切鸡另烫、饭以鸡汤或鸡油另煮或拌熟饭，不证明生鸡生米全程同锅。澳门葡式海鲜饭仍是菜单研究线索，未证实单锅过程。
 
 ## 1. 五个节点的真实覆盖
 
@@ -147,6 +147,7 @@
 | [定安三项非遗项目入选省级非遗项目](https://agri.hainan.gov.cn/hnsnyt/zt/xczx/xczxdt/202406/t20240614_3680040.html)（海南省农业农村厅，2024-01-02） | A | production:hainan-cai-bao-rice:dingan_cai_bao_identity、lead:hainan-dingan-cai-bao-finished-rice:dingan_cai_bao_identity | production:hainan-cai-bao-rice:project_fixed_ingredient_core、lead:hainan-dingan-cai-bao-finished-rice:fixed_ingredient_core、lead:hainan-dingan-cai-bao-finished-rice:project_ratio_safety |
 | [深耕本地特色，定安推动非遗美食香飘出圈](https://www.hainan.gov.cn/hainan/sxian/202602/ef2d17adfde24348a7eb4974317058e1.shtml)（海南省人民政府网（来源：海南日报），2026-02-08） | A | production:hainan-cai-bao-rice:finished_rice_and_cooked_filling_structure、lead:hainan-dingan-cai-bao-finished-rice:finished_rice_and_cooked_filling_structure | production:hainan-cai-bao-rice:single_vessel_one_pot_equivalence、production:hainan-cai-bao-rice:project_fixed_ingredient_core、lead:hainan-dingan-cai-bao-finished-rice:single_vessel_one_pot_equivalence、lead:hainan-dingan-cai-bao-finished-rice:fixed_ingredient_core、lead:hainan-dingan-cai-bao-finished-rice:project_ratio_safety |
 | [寻找老味道](https://www.hainan.gov.cn/hainan/c100643b/202403/679d437de85c40408aee7f67fa1d563e.shtml?ddtab=true)（海南省人民政府网（来源：海南日报），2024-03-25） | A | lead:hainan-coconut-shredded-rice:coconut_rice_structure | lead:hainan-coconut-shredded-rice:complete_main_meal_sufficiency、lead:hainan-coconut-shredded-rice:coconut_milk_equivalence、lead:hainan-coconut-shredded-rice:project_ratio_safety |
+| [海南鸡饭](https://www.hainan.gov.cn/hainan/mstc/200606/d1b3748845a84b30b4d9153fdb646140.shtml)（海南省人民政府网，2006-06-01） | A | boundary:hainan-chicken-rice-separate-cook:separate_chicken_and_rice_structure | boundary:hainan-chicken-rice-separate-cook:single_pot_raw_chicken_rice_equivalence、boundary:hainan-chicken-rice-separate-cook:project_ratio_safety |
 | [Macanese & Portuguese Dishes](https://www.macaotourism.gov.mo/en/dining/taste-of-macao/macanese-and-portuguese-dishes)（澳门特别行政区政府旅游局，undated） | C | lead:macao-portuguese-style-seafood-rice:macao_portuguese_style_seafood_rice_presence | lead:macao-portuguese-style-seafood-rice:single_pot_process、lead:macao-portuguese-style-seafood-rice:portuguese_chicken_as_rice_pot、lead:macao-portuguese-style-seafood-rice:project_ratio_safety |
 | [腊肉、香肠的消费提示](https://scjgj.cq.gov.cn/bkzs/xfts/202602/t20260213_15442166.html)（重庆市市场监督管理局，2026-02-13） | A | safety:cured-meat-cook-through-and-salt:principle | production:cantonese-cured-meat-claypot-rice:project_ratio_safety |
 | [食品安全消费提示](https://www.zs.gov.cn/zszjj/gkmlpt/content/2/2589/post_2589753.html)（中山市市场监督管理局，2026-01-17） | A | safety:raw-animal-food-cook-through-and-separate:principle、safety:lettuce-wash-and-raw-cooked-separation:principle | production:cantonese-mushroom-chicken-claypot-rice:project_ratio_safety、production:cantonese-black-bean-pork-rib-claypot-rice:project_ratio_safety、production:hainan-cai-bao-rice:project_fixed_ingredient_core |
@@ -162,6 +163,7 @@
 | natural-dyes-not-food-powder-equivalence | not_proven | 食品粉版本是家庭适配，不得称传统天然染色。 |
 | guangxi-pineapple-rice-unproven | not_proven | 本轮无可靠来源支持广西传统菠萝饭归属。 |
 | dingan-cai-bao-not-raw-rice-one-pot | not_proven | 菜包饭为熟饭熟馅出锅后包生菜的多阶段结构。 |
+| hainan-chicken-rice-separate-cook | not_proven | 海南鸡饭的白切鸡另烫，饭用鸡汤、鸡油另煮或拌熟饭；不证明生鸡生米全程同锅，也不提供项目机器比例。 |
 | macao-menu-not-process | not_proven | 澳门葡式海鲜饭菜单线索不等于单锅工艺，也不能把葡国鸡归入。 |
 | cured-meat-cook-through-and-salt | principle_only | 公开来源只支持原则，不导出分钟、克数或温度。；控制：use_labeled_cured_meat、cook_through、separate_raw_and_cooked_tools、disclose_high_salt |
 | raw-animal-food-cook-through-and-separate | principle_only | 不以通用原则替代鸡肉、排骨或海鲜的项目终点。；控制：cook_meat_egg_and_seafood_through、separate_raw_and_cooked |

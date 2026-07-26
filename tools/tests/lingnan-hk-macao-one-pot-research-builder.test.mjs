@@ -26,7 +26,8 @@ test('report derives the fixed Lingnan baseline without adding recipes or candid
   assert.equal(report.candidate_audits.length, 0);
   assert.equal(report.concrete_research_leads.length, 5);
   assert.equal(report.family_model.length, 5);
-  assert.equal(report.source_evidence.length, 11);
+  assert.equal(report.source_evidence.length, 12);
+  assert.deepEqual(report.summary.source_count_by_grade, { A: 9, B: 2, C: 1 });
   assert.equal(report.household_journeys.length, 15);
   assert.equal(report.summary.production_recipe_changes, 0);
   assert.equal(report.summary.regional_candidate_changes, 0);
@@ -75,7 +76,7 @@ test('completion remains research in progress while evidence, ratios, household 
 test('summary is derived from report rows', () => {
   const report = buildLingnanHkMacaoOnePotResearchReport(inputs);
 
-  assert.deepEqual(report.summary.source_count_by_grade, { A: 8, B: 2, C: 1 });
+  assert.deepEqual(report.summary.source_count_by_grade, { A: 9, B: 2, C: 1 });
   assert.equal(
     formatLingnanHkMacaoOnePotResearchSummary(report),
     '5 Lingnan production audits · 0 candidates · 5 research leads · 15 journeys · Lingnan research in progress',
@@ -90,7 +91,7 @@ test('report validator rejects dishonest completion and count drift', () => {
   const message = validateLingnanHkMacaoOnePotResearchReport(broken).join('\n');
 
   assert.match(message, /completion cannot be complete/);
-  assert.match(message, /summary source_count expected 11, got 99/);
+  assert.match(message, /summary source_count expected 12, got 99/);
   assert.match(message, /region production_recipe_count expected 5, got 1/);
 });
 

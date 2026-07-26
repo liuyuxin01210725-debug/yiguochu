@@ -27,6 +27,7 @@ const EXPECTED_BOUNDARIES = new Set([
   'natural-dyes-not-food-powder-equivalence',
   'guangxi-pineapple-rice-unproven',
   'dingan-cai-bao-not-raw-rice-one-pot',
+  'hainan-chicken-rice-separate-cook',
   'macao-menu-not-process',
 ]);
 const EXPECTED_BOUNDARY_MEANINGS = {
@@ -35,6 +36,7 @@ const EXPECTED_BOUNDARY_MEANINGS = {
   'natural-dyes-not-food-powder-equivalence': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'food_powders_as_traditional_natural_dyes' },
   'guangxi-pineapple-rice-unproven': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'guangxi_traditional_pineapple_rice_claim' },
   'dingan-cai-bao-not-raw-rice-one-pot': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'raw_rice_all_ingredients_single_vessel' },
+  'hainan-chicken-rice-separate-cook': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'raw_chicken_and_raw_rice_single_pot_as_traditional_hainan_chicken_rice' },
   'macao-menu-not-process': { evidence_status: 'not_proven', verdict: 'not_proven', forbidden_equivalence: 'menu_presence_as_one_pot_process' },
 };
 const VERDICTS = new Set(['supported', 'not_proven', 'contradicted']);
@@ -62,7 +64,7 @@ function validateSources(assessment, errors) {
   const directions = new Map();
   const rows = asArray(assessment.source_refs);
   if (!Array.isArray(assessment.source_refs)) errors.push('source_refs must be an array');
-  if (rows.length !== 11) errors.push('source_refs must contain exactly 11 items');
+  if (rows.length !== 12) errors.push('source_refs must contain exactly 12 items');
   rows.forEach((row, index) => {
     const path = `source_refs[${index}]`;
     if (!isObject(row)) { errors.push(`${path} must be an object`); return; }
@@ -156,6 +158,18 @@ function validateSupport(assessment, sourceIds, directions, errors) {
     if (!VERDICTS.has(row.verdict)) errors.push(`${path}.verdict is invalid`);
     const expected = EXPECTED_BOUNDARY_MEANINGS[row.boundary_id];
     if (expected && (row.evidence_status !== expected.evidence_status || row.verdict !== expected.verdict || row.forbidden_equivalence !== expected.forbidden_equivalence)) errors.push(`${row.boundary_id} boundary meaning must remain fixed`);
+    if (row.boundary_id === 'hainan-chicken-rice-separate-cook') {
+      const sourceList = textArray(row.source_ids, `${path}.source_ids`, errors);
+      if (sourceList.length !== 1 || sourceList[0] !== 'hi-gov-hainan-chicken-rice-2006' || !sourceIds.has(sourceList[0])) {
+        errors.push('hainan chicken rice boundary must retain its official source');
+      }
+      const sourceDirections = directions.get('hi-gov-hainan-chicken-rice-2006');
+      if (!sourceDirections?.proves?.has('boundary:hainan-chicken-rice-separate-cook:separate_chicken_and_rice_structure')
+        || !sourceDirections?.does_not_prove?.has('boundary:hainan-chicken-rice-separate-cook:single_pot_raw_chicken_rice_equivalence')
+        || !sourceDirections?.does_not_prove?.has('boundary:hainan-chicken-rice-separate-cook:project_ratio_safety')) {
+        errors.push('hainan chicken rice boundary source directions must remain closed');
+      }
+    }
   });
   if (!Array.isArray(assessment.safety_boundaries) || assessment.safety_boundaries.length === 0) errors.push('safety_boundaries must be a non-empty array');
   asArray(assessment.safety_boundaries).forEach((row, index) => {
@@ -236,10 +250,21 @@ function validateBaseline({ recipeLibrary, regionalResearch, regionalAtlas, regi
 function validateInvariants(assessment, errors) {
   const production = new Map(asArray(assessment.production_recipe_audits).filter(isObject).map(row => [row.recipe_id, row]));
   const leads = new Map(asArray(assessment.concrete_research_leads).filter(isObject).map(row => [row.lead_id, row]));
+  const sources = new Map(asArray(assessment.source_refs).filter(isObject).map(row => [row.source_id, row]));
   if (leads.get('cantonese-claypot-rice-technique')?.claims?.household_vessel_equivalence?.verdict !== 'not_proven') errors.push('household vessel equivalence must remain not_proven');
   if (production.get('guangxi-five-color-glutinous-rice')?.claims?.guangxi_pineapple_rice_regional_identity?.verdict !== 'not_proven') errors.push('Guangxi pineapple rice regional identity must remain not_proven');
   if (production.get('guangxi-five-color-glutinous-rice')?.claims?.food_powder_as_traditional_equivalence?.verdict !== 'not_proven') errors.push('food powder traditional equivalence must remain not_proven');
   if (production.get('hainan-cai-bao-rice')?.claims?.single_vessel_one_pot_equivalence?.verdict !== 'not_proven') errors.push('Dingan cai bao single-vessel equivalence must remain not_proven');
+  const chickenRiceBoundary = asArray(assessment.adaptation_boundaries).find(row => row?.boundary_id === 'hainan-chicken-rice-separate-cook');
+  if (chickenRiceBoundary?.verdict !== 'not_proven') errors.push('Hainan chicken rice single-pot equivalence must remain not_proven');
+  const chickenRiceSource = sources.get('hi-gov-hainan-chicken-rice-2006');
+  if (chickenRiceSource?.url !== 'https://www.hainan.gov.cn/hainan/mstc/200606/d1b3748845a84b30b4d9153fdb646140.shtml'
+    || chickenRiceSource?.title !== '海南鸡饭'
+    || chickenRiceSource?.publisher !== '海南省人民政府网'
+    || chickenRiceSource?.published_at !== '2006-06-01'
+    || chickenRiceSource?.source_grade !== 'A') {
+    errors.push('Hainan chicken rice source must remain official');
+  }
   if (leads.get('macao-portuguese-style-seafood-rice')?.claims?.portuguese_chicken_as_rice_pot?.verdict !== 'not_proven') errors.push('Portuguese chicken as rice pot must remain not_proven');
 }
 

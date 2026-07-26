@@ -65,6 +65,21 @@ test('Hainan finished-rice, coconut and chicken-rice boundaries remain separate'
   assert.equal(caiBaoLead.claims.finished_rice_and_cooked_filling_structure.verdict, 'supported');
   assert.equal(coconutLead.claims.coconut_rice_structure.verdict, 'supported');
   assert.equal(coconutLead.claims.complete_main_meal_sufficiency.verdict, 'not_proven');
+  const chickenRice = assessment.adaptation_boundaries.find(row => row.boundary_id === 'hainan-chicken-rice-separate-cook');
+  assert.deepEqual({
+    source_ids: chickenRice.source_ids,
+    verdict: chickenRice.verdict,
+    forbidden_equivalence: chickenRice.forbidden_equivalence,
+  }, {
+    source_ids: ['hi-gov-hainan-chicken-rice-2006'],
+    verdict: 'not_proven',
+    forbidden_equivalence: 'raw_chicken_and_raw_rice_single_pot_as_traditional_hainan_chicken_rice',
+  });
+  const source = assessment.source_refs.find(row => row.source_id === 'hi-gov-hainan-chicken-rice-2006');
+  assert.equal(source.source_grade, 'A');
+  assert.ok(source.proves.includes('boundary:hainan-chicken-rice-separate-cook:separate_chicken_and_rice_structure'));
+  assert.ok(source.does_not_prove.includes('boundary:hainan-chicken-rice-separate-cook:single_pot_raw_chicken_rice_equivalence'));
+  assert.ok(source.does_not_prove.includes('boundary:hainan-chicken-rice-separate-cook:project_ratio_safety'));
 });
 
 test('Macao Portuguese seafood rice remains a lead only and cannot prove a one-pot process or rewrite Portuguese chicken', () => {
@@ -78,6 +93,7 @@ test('Macao Portuguese seafood rice remains a lead only and cannot prove a one-p
 test('five families, evidence directions and fifteen pending household journeys remain reviewable', () => {
   assert.equal(assessment.family_model.length, 5);
   assert.equal(assessment.journey_cases.length, 15);
+  assert.equal(assessment.source_refs.length, 12);
   assert.ok(assessment.journey_cases.every(row => row.human_review.status === 'pending'));
   assert.ok(assessment.source_refs.every(row => Array.isArray(row.proves) && Array.isArray(row.does_not_prove)));
   assert.ok(assessment.source_refs.some(row => row.published_at === 'undated'));
@@ -110,7 +126,7 @@ test('validator locks family membership, adaptation boundaries, journey referenc
   assert.deepEqual(assessment.family_model.map(row => row.family_id).sort(), familyIds);
   const boundaryIds = [
     'claypot-not-generic-covered-pot', 'dingan-cai-bao-not-raw-rice-one-pot',
-    'guangxi-pineapple-rice-unproven', 'macao-menu-not-process',
+    'guangxi-pineapple-rice-unproven', 'hainan-chicken-rice-separate-cook', 'macao-menu-not-process',
     'named-claypot-branches-not-free-slots', 'natural-dyes-not-food-powder-equivalence',
   ];
   assert.deepEqual(assessment.adaptation_boundaries.map(row => row.boundary_id).sort(), boundaryIds);
@@ -126,6 +142,14 @@ test('validator locks family membership, adaptation boundaries, journey referenc
   const boundaryBroken = structuredClone(assessment);
   boundaryBroken.adaptation_boundaries = [null];
   assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: boundaryBroken }).join('\n'), /adaptation boundary IDs must match the fixed regional contract/);
+
+  const chickenSourceBroken = structuredClone(assessment);
+  chickenSourceBroken.adaptation_boundaries.find(row => row.boundary_id === 'hainan-chicken-rice-separate-cook').source_ids = ['unknown-source'];
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: chickenSourceBroken }).join('\n'), /hainan chicken rice boundary must retain its official source/);
+
+  const chickenOfficialBroken = structuredClone(assessment);
+  chickenOfficialBroken.source_refs.find(row => row.source_id === 'hi-gov-hainan-chicken-rice-2006').url = 'https://example.test/not-hainan-chicken-rice';
+  assert.match(validateLingnanHkMacaoOnePotResearch({ ...inputs, assessment: chickenOfficialBroken }).join('\n'), /Hainan chicken rice source must remain official/);
 
   const journeyBroken = structuredClone(assessment);
   journeyBroken.journey_cases[0].expected_family_ids = ['unknown-family'];

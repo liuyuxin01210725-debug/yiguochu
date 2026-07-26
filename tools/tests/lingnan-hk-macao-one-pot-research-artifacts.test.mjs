@@ -25,6 +25,11 @@ const DATA_FILES = [
   'regional-menu-mappings.v1.json',
 ];
 const readJson = name => JSON.parse(fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'));
+const RESEARCH_ONLY_SENTINELS = [
+  'lingnan-hk-macao-one-pot-research-v1-20260726',
+  'macao-portuguese-style-seafood-rice',
+  '岭南、香港与澳门一锅主餐研究覆盖层',
+];
 
 function fixedReport() {
   return buildLingnanHkMacaoOnePotResearchReport({
@@ -43,6 +48,25 @@ function makeTempBuildRoot() {
   fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempRoot, 'tools', 'lib'), { recursive: true });
   for (const name of DATA_FILES) fs.copyFileSync(new URL(`../data/${name}`, import.meta.url), path.join(tempRoot, 'tools', 'data', name));
   return tempRoot;
+}
+
+function readBuildFilesAsBuffers(output) {
+  const files = [];
+  const visit = directory => {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const full = path.join(directory, entry.name);
+      if (entry.isDirectory()) visit(full);
+      else files.push(path.relative(output, full));
+    }
+  };
+  visit(output);
+  return { files, buffers: files.map(file => fs.readFileSync(path.join(output, file))) };
+}
+
+function assertNoResearchOnlyContent(buffers) {
+  for (const sentinel of RESEARCH_ONLY_SENTINELS) {
+    assert.equal(buffers.some(content => content.includes(Buffer.from(sentinel, 'utf8'))), false, `research-only content leaked into distribution build: ${sentinel}`);
+  }
 }
 
 test('artifact map renders Lingnan evidence boundaries and fifteen pending journeys deterministically', () => {
@@ -67,6 +91,7 @@ test('artifact map renders Lingnan evidence boundaries and fifteen pending journ
   assert.match(markdown, /菠萝饭.*未证实|未证实.*菠萝饭/);
   assert.match(markdown, /多阶段/);
   assert.match(markdown, /主食.*不足|不足.*主食/);
+  assert.match(markdown, /海南鸡饭.*鸡饭分熟|鸡饭分熟.*海南鸡饭/);
   assert.match(markdown, /澳门葡式海鲜饭.*研究线索|研究线索.*澳门葡式海鲜饭/);
   assert.match(markdown, /research_in_progress/);
   const review = renderLingnanHkMacaoOnePotJourneyReviewMarkdown(report);
@@ -111,18 +136,16 @@ test('distribution build excludes Lingnan Hong Kong Macao research assets withou
   try {
     const result = spawnSync(process.execPath, [BUILD_DIST, '--out-dir', output, '--build-id', 'lingnan-hk-macao-research-isolation-test'], { cwd: ROOT, encoding: 'utf8' });
     assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-    const files = [];
-    const visit = directory => {
-      for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-        const full = path.join(directory, entry.name);
-        if (entry.isDirectory()) visit(full);
-        else files.push(path.relative(output, full));
-      }
-    };
-    visit(output);
+    const { files, buffers } = readBuildFilesAsBuffers(output);
     assert.ok(files.length > 0);
     assert.equal(files.some(file => file.includes('lingnan-hk-macao-one-pot-research')), false, files.join('\n'));
+    assertNoResearchOnlyContent(buffers);
+    assert.throws(
+      () => assertNoResearchOnlyContent([...buffers, Buffer.from(RESEARCH_ONLY_SENTINELS[1], 'utf8')]),
+      /research-only content leaked into distribution build: macao-portuguese-style-seafood-rice/,
+    );
   } finally {
     fs.rmSync(output, { recursive: true, force: true });
+    assert.equal(fs.existsSync(output), false, 'temporary distribution build must be removed');
   }
 });

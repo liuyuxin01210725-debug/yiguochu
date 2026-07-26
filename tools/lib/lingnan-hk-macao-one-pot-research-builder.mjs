@@ -262,7 +262,7 @@ export function validateLingnanHkMacaoOnePotResearchReport(report) {
   for (const [field, expected] of counts) if (summary[field] !== expected) errors.push(`summary ${field} expected ${expected}, got ${summary[field]}`);
   const fixedCounts = [
     ['province_coverage_audits', 5], ['production_recipe_audits', 5], ['candidate_audits', 0],
-    ['concrete_research_leads', 5], ['family_model', 5], ['source_evidence', 11], ['household_journeys', 15],
+    ['concrete_research_leads', 5], ['family_model', 5], ['source_evidence', 12], ['household_journeys', 15],
   ];
   for (const [field, expected] of fixedCounts) if (asArray(report[field]).length !== expected) errors.push(`${field} must contain exactly ${expected} items`);
   if (report.region_overview?.production_recipe_count !== asArray(report.production_recipe_audits).length) errors.push(`region production_recipe_count expected ${asArray(report.production_recipe_audits).length}, got ${report.region_overview?.production_recipe_count}`);

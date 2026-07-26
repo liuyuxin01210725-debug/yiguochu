@@ -133,6 +133,18 @@
       "does_not_prove": ["lead:hainan-coconut-shredded-rice:complete_main_meal_sufficiency", "lead:hainan-coconut-shredded-rice:coconut_milk_equivalence", "lead:hainan-coconut-shredded-rice:project_ratio_safety"]
     },
     {
+      "source_id": "hi-gov-hainan-chicken-rice-2006",
+      "title": "海南鸡饭",
+      "url": "https://www.hainan.gov.cn/hainan/mstc/200606/d1b3748845a84b30b4d9153fdb646140.shtml",
+      "publisher": "海南省人民政府网",
+      "published_at": "2006-06-01",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "海南省人民政府网资料将白切鸡的另烫熟与鸡汤、鸡油另煮或拌熟饭分开表述；其直接证明鸡与饭分别熟制，不证明生鸡、生米全程同锅，也不提供项目机器比例。",
+      "proves": ["boundary:hainan-chicken-rice-separate-cook:separate_chicken_and_rice_structure"],
+      "does_not_prove": ["boundary:hainan-chicken-rice-separate-cook:single_pot_raw_chicken_rice_equivalence", "boundary:hainan-chicken-rice-separate-cook:project_ratio_safety"]
+    },
+    {
       "source_id": "mo-tourism-portuguese-seafood-rice-undated",
       "title": "Macanese & Portuguese Dishes",
       "url": "https://www.macaotourism.gov.mo/en/dining/taste-of-macao/macanese-and-portuguese-dishes",
@@ -372,6 +384,7 @@
     {"boundary_id":"natural-dyes-not-food-powder-equivalence","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"food_powders_as_traditional_natural_dyes","notes":"食品粉版本是家庭适配，不得称传统天然染色。"},
     {"boundary_id":"guangxi-pineapple-rice-unproven","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"guangxi_traditional_pineapple_rice_claim","notes":"本轮无可靠来源支持广西传统菠萝饭归属。"},
     {"boundary_id":"dingan-cai-bao-not-raw-rice-one-pot","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"raw_rice_all_ingredients_single_vessel","notes":"菜包饭为熟饭熟馅出锅后包生菜的多阶段结构。"},
+    {"boundary_id":"hainan-chicken-rice-separate-cook","source_ids":["hi-gov-hainan-chicken-rice-2006"],"evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"raw_chicken_and_raw_rice_single_pot_as_traditional_hainan_chicken_rice","notes":"海南鸡饭的白切鸡另烫，饭用鸡汤、鸡油另煮或拌熟饭；不证明生鸡生米全程同锅，也不提供项目机器比例。"},
     {"boundary_id":"macao-menu-not-process","evidence_status":"not_proven","verdict":"not_proven","forbidden_equivalence":"menu_presence_as_one_pot_process","notes":"澳门葡式海鲜饭菜单线索不等于单锅工艺，也不能把葡国鸡归入。"}
   ],
   "safety_boundaries": [
