@@ -109,11 +109,14 @@ test('current production library produces exactly 72 unique menu rows', () => {
   assert.equal(new Set(master.production_menus.map(menu => menu.id)).size, 72);
   assert.deepEqual(validateMenuMaster(master), []);
 
-  for (const ingredient of ['意式烩饭米', '糯米', '小米', '小麦面团', '紫米', '鲜小麦面条', '粉丝']) {
+  for (const ingredient of ['意式烩饭米', '糯米', '小米', '紫米', '鲜小麦面条', '粉丝']) {
     const menu = master.production_menus.find(entry => entry.ingredients.core.includes(ingredient));
     assert.ok(menu, `${ingredient} must remain in a production core boundary`);
     assert.ok(menu.ingredients.unknown_role.includes(ingredient), `${ingredient} must be displayed as 待核实角色`);
   }
+  const wheatDoughMenu = master.production_menus.find(entry => entry.ingredients.staples.includes('小麦面团'));
+  assert.ok(wheatDoughMenu, '小麦面团 must remain in a production staple boundary');
+  assert.equal(wheatDoughMenu.ingredients.unknown_role.includes('小麦面团'), false);
 });
 
 test('versioned phase-zero baseline locks every production ID and status', () => {

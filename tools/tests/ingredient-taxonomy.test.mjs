@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260724');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260726-r1');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -31,8 +31,33 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '大米', '熟米饭', '面条', '番茄', '鸡蛋', '嫩豆腐', '老豆腐',
     '牛肉', '牛肉末', '鸡肉', '鸡胸肉', '鸡腿肉', '猪肉', '排骨',
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
-    '金针菇', '香菇', '水', '食用油', '盐', '酱油',
+    '金针菇', '香菇', '咸肉', '腊肠', '玉米面团', '小麦面团',
+    '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('regional ingredients preserve cured-meat and dough cooking identities', () => {
+  const [salted, sausage, cornDough, wheatDough, bacon] = normalizePlannerItems(
+    ['咸肉', '腊肠', '玉米面团', '小麦面团', '腊肉'],
+    catalog,
+  );
+  assert.deepEqual(
+    [salted.canonical, salted.category, salted.shape_or_cut, salted.cooking_risk],
+    ['咸肉', 'pork', 'cured_slice', 'raw_pork'],
+  );
+  assert.deepEqual(
+    [sausage.canonical, sausage.category, sausage.shape_or_cut, sausage.cooking_risk],
+    ['腊肠', 'pork', 'sausage', 'raw_pork'],
+  );
+  assert.deepEqual(
+    [cornDough.category, cornDough.shape_or_cut, cornDough.cooking_risk],
+    ['cornmeal_dough', 'dough_piece', 'raw_dough'],
+  );
+  assert.deepEqual(
+    [wheatDough.category, wheatDough.shape_or_cut, wheatDough.cooking_risk],
+    ['wheat_dough', 'dough_piece', 'raw_dough'],
+  );
+  assert.equal(bacon.recognized, false, '咸肉不能无依据扩成腊肉同义词');
 });
 
 test('taxonomy carries culinary behavior, not category alone', () => {

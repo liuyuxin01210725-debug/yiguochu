@@ -6,7 +6,7 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
   'pork-staple-pot', 'soft-family-rice-pot', 'quick-breakfast-pot',
 ]);
-const TAXONOMY_VERSION = 'taxonomy-v1-20260724';
+const TAXONOMY_VERSION = 'taxonomy-v1-20260726-r1';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
