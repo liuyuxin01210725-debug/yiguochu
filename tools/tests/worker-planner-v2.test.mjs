@@ -393,9 +393,9 @@ test('OPTIONS keeps CORS and legacy malformed JSON behavior remains unchanged', 
 test('deployment documentation tracks the current draft planner asset baseline', () => {
   const deployment = fs.readFileSync(new URL('../../部署说明.md', import.meta.url), 'utf8');
   assert.match(deployment, /templates-v2-20260727-r8/);
-  assert.match(deployment, /taxonomy-v1-20260727-r7/);
+  assert.match(deployment, /taxonomy-v1-20260727-r8/);
   assert.match(deployment, /ratio-rules-v1-20260727-r4/);
   assert.match(deployment, /10 个 active templates，6 个 planned templates/);
-  assert.match(deployment, /108\/108/);
+  assert.match(deployment, /116\/116/);
   assert.match(deployment, /未部署|不得部署/);
 });
