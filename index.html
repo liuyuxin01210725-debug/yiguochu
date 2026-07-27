@@ -832,6 +832,7 @@ const state = {
   lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
   displayedPlan:null, planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
+  noAlternativeSwap:false,
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
 
@@ -861,9 +862,13 @@ function dishHeader(d) {
   const pantryBar = state.swapPantryEdit
     ? '<div class="swap-pantry editing"><input class="text-input" id="swap-pantry-input" value="' + esc(state.profile.pantry || '') + '" placeholder="家里有/想用掉，逗号分隔"><button class="swap-pantry-btn" data-act="save-swap-pantry">存</button></div>'
     : '<div class="swap-pantry"><span class="swap-pantry-lbl">用掉</span><span class="swap-pantry-val">' + (pantryItems.length ? esc(pantryItems.join(' / ')) : '随便，没指定') + '</span><button class="swap-pantry-btn" data-act="edit-swap-pantry">改</button></div>';
-  const tray = state.swapOpen ? ('<div class="swap-tray"><div class="swap-cap">想换成什么样的？家里的食材会优先使用，搭不上的会说明。</div>' + pantryBar + '<div class="swap-chips">' +
-    intents.map(it => '<button class="swap-chip" data-swap="' + it[0] + '">' + esc(it[1]) + '</button>').join('') +
-    '<button class="swap-chip swap-any" data-swap="any">' + icon('refresh',{size:13,sw:1.9}) + '随便换一个</button></div></div>') : '';
+  const tray = state.swapOpen
+    ? (state.noAlternativeSwap
+      ? '<div class="swap-tray"><div class="swap-cap"><strong>当前组合只有一个可靠的一锅方案。</strong><br>继续用当前这道，或者修改食材后重新选择。</div><div class="swap-chips"><button class="swap-chip swap-any" data-act="edit-safe-profile">修改食材</button></div></div>'
+      : '<div class="swap-tray"><div class="swap-cap">想换成什么样的？家里的食材会优先使用，搭不上的会说明。</div>' + pantryBar + '<div class="swap-chips">' +
+        intents.map(it => '<button class="swap-chip" data-swap="' + it[0] + '">' + esc(it[1]) + '</button>').join('') +
+        '<button class="swap-chip swap-any" data-swap="any">' + icon('refresh',{size:13,sw:1.9}) + '随便换一个</button></div></div>')
+    : '';
   const servings = d.servings || servingCount(state.profile), servingsText = servingLabel(servings);
   const perKcal = Math.round((d.kcal || 0) / servings);
   const perProtein = Math.round((d.protein || 0) / servings);
@@ -894,7 +899,19 @@ function pantryCoverageBlock(d) {
     + (remaining.length ? '<br>剩下：' + esc(remaining.join('、')) : '<br>你为这一锅选的食材已经全部用上。')
     + '</section>';
 }
-function whyFits(d) { return '<section class="why-card"><span class="why-mark">' + icon('spark',{size:16,sw:1.7,stroke:'#b5613a'}) + '</span><p class="why-text">' + esc(d.why) + '</p></section>'; }
+function whyFits(d) {
+  const context = d && d.pantryContext;
+  const original = boundedTextList(context && context.original, 20, 80);
+  let copy = boundedText(d && d.why, 300);
+  if (original.length) {
+    const used = boundedTextList(d && d.usedPantry, 16, 80);
+    const remaining = boundedTextList(context && context.remaining, 20, 80);
+    copy = used.length ? '本锅用上你选择的：' + used.join('、') + '。' : '这次没有把你填写的食材硬凑进菜谱。';
+    if (remaining.length) copy += remaining.join('、') + '暂时没有使用。';
+    copy += '其他需要准备的材料以本页食材清单为准。';
+  }
+  return '<section class="why-card"><span class="why-mark">' + icon('spark',{size:16,sw:1.7,stroke:'#b5613a'}) + '</span><p class="why-text">' + esc(copy) + '</p></section>';
+}
 function recipeBasisBlock(d) {
   const sources = normalizedSourceRefs(d && d.sourceRefs);
   if (!d || !boundedText(d.baseRecipeId, 100) || !boundedText(d.pairingBasis, 400) || !sources.length) return '';
@@ -921,7 +938,7 @@ function ingredients() {
 }
 function stepsBlock(d) {
   const rows = d.steps.map((s, i) => '<li class="step-row"><span class="step-num">' + (i+1) + '</span><span class="step-text">' + esc(s) + '</span></li>').join('');
-  return '<section class="block"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3><span class="block-aside">' + d.steps.length + ' 步 · ' + d.minutes + ' 分钟</span></div><ol class="steps">' + rows + '</ol></section>';
+  return '<section class="block" id="cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3><span class="block-aside">' + d.steps.length + ' 步 · ' + d.minutes + ' 分钟</span></div><ol class="steps">' + rows + '</ol></section>';
 }
 function pairingBlock() {
   const rows = SUPPLEMENTS.map(s => '<li class="supp-row"><span class="supp-icon">' + icon(s.icon,{size:22,sw:1.5,stroke:'#6f8a52'}) + '</span><span class="supp-main"><span class="supp-title">' + esc(s.title) + '</span><span class="supp-sub">' + esc(s.sub) + '</span></span><span class="supp-detail">' + esc(s.detail) + '</span></li>').join('');
@@ -1449,7 +1466,9 @@ function badJsonResponseError(response, endpoint) {
     status:Number(response && response.status) || 0, content_type:contentType, at:new Date().toISOString(),
   };
   console.warn(JSON.stringify(diagnostic));
-  return genError('bad_json', 'bad json', diagnostic.status >= 500, {
+  const code = [502, 503, 504].includes(diagnostic.status) ? 'service_unavailable' : 'bad_json';
+  return genError(code, code === 'service_unavailable' ? 'service unavailable' : 'bad json', diagnostic.status >= 500, {
+    causeCode:'bad_json',
     endpoint:diagnostic.endpoint, httpStatus:diagnostic.status,
     contentType:diagnostic.content_type, occurredAt:diagnostic.at,
   });
@@ -1568,7 +1587,7 @@ const clearGen = () => { genTimers.forEach(clearTimeout); genTimers = []; };
 function showResult(d, notice) {
   state.dish = d; state.items = d.ingredients.map(x => ({ ...x }));
   state.notice = notice || ''; state.lastGenError = null;
-  state.swapOpen = false; state.nutriOpen = false;
+  state.swapOpen = false; state.noAlternativeSwap = false; state.nutriOpen = false;
   state.view = 'result'; window.scrollTo(0, 0); render();
 }
 // 语音输入：Web Speech API(zh-CN)。需 https 或 localhost + Chrome/Safari；file:// 或不支持时提示手打。
@@ -1588,8 +1607,40 @@ function startVoice(id) {
 function syncProfileInputs() {
   ['pantry','dislikes'].forEach(f => { const el = document.getElementById('pf-' + f); if (el) state.profile[f] = el.value; });
 }
+function pantrySelectionSet(value) {
+  return new Set(String(value || '').split(/[,，、\s]+/).map(item => item.trim()).filter(Boolean));
+}
+function syncPantryChipVisuals(value) {
+  const selected = pantrySelectionSet(value);
+  document.querySelectorAll('[data-pantry-chip]').forEach(button => {
+    const name = String(button.dataset.pantryChip || '');
+    const active = selected.has(name);
+    const wrapper = button.closest('.pantry-chip');
+    if (wrapper) wrapper.classList.toggle('on', active);
+    button.textContent = (active ? '✓ ' : '') + name;
+  });
+}
+function beginCooking() {
+  updateSwapHistory('started');
+  state.notice = '已选好这道菜，下面从第 1 步开始。';
+  render();
+  setTimeout(() => {
+    const steps = document.getElementById('cooking-steps') || document.querySelector('.steps');
+    if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 0);
+}
 
 // ============ 事件 ============
+document.getElementById('root').addEventListener('input', (e) => {
+  const target = e && e.target;
+  if (!target) return;
+  if (target.id === 'pf-pantry') {
+    state.profile.pantry = target.value;
+    syncPantryChipVisuals(target.value);
+  } else if (target.id === 'pf-dislikes') {
+    state.profile.dislikes = target.value;
+  }
+});
 document.getElementById('root').addEventListener('click', (e) => {
   const t = e.target.closest('[data-act],[data-swap],[data-seg],[data-mic],[data-pantry-chip]');
   if (!t) return;
@@ -1611,7 +1662,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
   else if (act === 'add-myfood') { syncProfileInputs(); state.addingFood = true; render(); setTimeout(() => { const el = document.getElementById('add-food-input'); if (el) el.focus(); }, 0); }
   else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
-  else if (act === 'start-cooking') { updateSwapHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  else if (act === 'start-cooking') beginCooking();
   else if (act === 'start-v2-cooking') { recordDisplayedPlanHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
   else if (act === 'request-plan-swap') requestAlternativePlan();
   else if (act === 'replan-v2') runPlannerFlow({ autoGenerate:true });
@@ -1798,13 +1849,14 @@ function genFailureCopy(err) {
   const code = err && err.code;
   if (code === 'local_start_required') return { title:'请先启动本地版本', text:'请双击 start.command 启动本地版本。' };
   if (code === 'pantry_too_many') return { title:'食材有点多，先精简一下', text:'一次最多填写 20 种食材。你的输入已经完整保留，请删掉不打算这几顿使用的食材后再试。' };
-  if (code === 'portion_too_small') return { title:'这锅份量偏少', text:'这道做法达不到一顿主餐的份量，已经拦下，没有把它误说成食品安全问题。换一道更完整的会更合适。' };
+  if (code === 'portion_too_small') return { title:'这锅份量偏少', text:'按你选择的份数，这道做法不够一顿主餐。换一道更完整的会更合适。' };
   if (code === 'recipe_not_suitable') return { title:'这道不太符合本次要求', text:'做法本身不一定不安全，但份量、时间或复杂度不适合你这次的选择。' };
   if (code === 'timeout') return { title:'这次等太久了', text:'等太久了，可能是网络或服务器忙。' };
   if (code === 'network') return { title:'这次网络没接上', text:'手机到云端接口这一下没有连稳。检查网络后点「重新生成」通常就好了。' };
   if (code === 'rate_limited') return { title:'今天生成次数太多了', text:'刚才可能已经触发每日保护额度。晚点再试会更稳。' };
   if (code === 'budget_exceeded') return { title:'今天大家用得有点多', text:'到了每日总量保护上限。明天再来会更稳。' };
   if (code === 'budget_unavailable') return { title:'服务暂时不可用', text:'服务暂时不可用，请稍后再试。' };
+  if (code === 'service_unavailable' || code === 'upstream_error' || code === 'upstream_timeout') return { title:'服务现在有点忙', text:'这不是食材或菜谱的问题。服务暂时没有接住这次请求，请稍后再试；你的输入已经保留。' };
   return { title:'这次没生成出来', text:'生成失败了，再试一次？' }; // 其他 5xx/上游错误(bad_json/bad_shape/http_5xx 等)
 }
 // 失败屏(F2): 只显示真实错误原因 + 重新生成/修改食材忌口, 不渲染任何菜品和营养区
@@ -1921,9 +1973,16 @@ async function runGenerate(opts) {
       const normalized = normalizeGenError(err);
       if (previousDish) {
         if (normalized.code === 'portion_too_small') rememberSessionRejectedCandidate(normalized.baseRecipeId);
+        const noAlternative = normalized.code === 'no_compatible_pantry_recipe' || normalized.code === 'no_alternative_recipe';
+        const serviceBusy = ['service_unavailable','upstream_error','upstream_timeout','budget_unavailable'].includes(normalized.code);
         showResult(previousDish, normalized.code === 'portion_too_small'
           ? '刚换到的方案份量不足，已保留当前这道。可以换个方向再试。'
-          : '这次没换成，当前这道还在。可以再试一次。');
+          : noAlternative
+            ? '当前组合只有一个可靠的一锅方案，已经保留在下面。'
+            : serviceBusy
+              ? '服务现在有点忙，当前这道还在。请稍后再换，不需要连续点击。'
+              : '这次没换成，当前这道还在。可以换个方向再试。');
+        state.noAlternativeSwap = noAlternative;
         state.swapOpen = true;
         render();
         return;
@@ -1948,11 +2007,7 @@ mapDish = function(res, targets) {
 };
 const recipeBasisBlockWithoutAdaptation = recipeBasisBlock;
 recipeBasisBlock = function(d) {
-  const rendered = recipeBasisBlockWithoutAdaptation(d);
-  const adaptation = boundedText(d && d.adaptationNote, 400);
-  if (!rendered || !adaptation) return rendered;
-  const line = '<p class="basis-line"><strong>单锅改编说明：</strong>' + esc(adaptation) + '</p>';
-  return rendered.replace('<details class="basis-sources">', line + '<details class="basis-sources">');
+  return recipeBasisBlockWithoutAdaptation(d);
 };
 const scoreDishBeforeQuickLimit = scoreDish;
 scoreDish = function(d) {

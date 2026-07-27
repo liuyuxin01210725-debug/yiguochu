@@ -12,7 +12,9 @@ import {
   repairGroundedMealConsumables,
   repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
+  scaleMealToPortionFloor,
   selectRecipeCandidates,
+  trustedRecipeGenerationOptionsForSelection,
   validateGroundedMeal,
 } from '../../worker/src/worker.js';
 
@@ -29,6 +31,39 @@ const HEALTH_ASSETS = Object.freeze({
   '/ingredient-taxonomy.v1.json': fs.readFileSync(new URL('../data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'),
   '/meal-templates.v2.json': fs.readFileSync(new URL('../data/meal-templates.v2.json', import.meta.url), 'utf8'),
   '/ratio-rules.v1.json': fs.readFileSync(new URL('../data/ratio-rules.v1.json', import.meta.url), 'utf8'),
+});
+
+test('a chosen pantry card locks optional main ingredients to the items declared on that card', () => {
+  const recipe = lib.recipes.find(item => item.id === 'tomato-tofu-stewed-rice');
+  assert.ok(recipe, 'fixture recipe exists');
+  const selection = {
+    recipe,
+    ingredientAliases: lib.ingredient_aliases || {},
+    usedPantry: ['西红柿', '豆腐'],
+    strictPlanSelection: true,
+  };
+  const options = trustedRecipeGenerationOptionsForSelection(selection);
+  assert.ok(options.includes('西红柿'), 'selected pantry substitution remains allowed');
+  assert.equal(options.includes('青菜'), false, 'undeclared optional vegetable cannot appear after card selection');
+  assert.equal(options.includes('香葱'), false, 'undeclared optional garnish cannot appear after card selection');
+});
+
+test('portion repair scales all gram amounts proportionally for a four-serving main meal', () => {
+  const meal = {
+    ingredients: [
+      { name:'熟米饭', grams:300, kcal:120 },
+      { name:'鸡蛋', grams:80, kcal:140 },
+      { name:'青菜', grams:100, kcal:20 },
+      { name:'水', grams:200, kcal:0 },
+    ],
+  };
+  const beforeRatio = meal.ingredients[0].grams / meal.ingredients[1].grams;
+  const result = scaleMealToPortionFloor(meal, { kcal:2600 }, { servings:4 });
+  const totalKcal = meal.ingredients.reduce((sum, item) => sum + item.kcal * item.grams / 100, 0);
+  assert.equal(result.adjusted, true);
+  assert.ok(result.factor > 1 && result.factor <= 3);
+  assert.ok(totalKcal >= 2600 * 0.5 - 1, 'whole-gram rounding may undershoot by less than one kcal');
+  assert.ok(Math.abs(meal.ingredients[0].grams / meal.ingredients[1].grams - beforeRatio) < 0.02);
 });
 
 function healthAssetResponse(request) {

@@ -15,6 +15,7 @@ import worker, {
   recipeSelectionSeed,
   repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
+  scaleMealToPortionFloor,
   selectRecipeCandidates,
   validateGroundedMeal,
   validationRiceAllergenActive,
@@ -196,6 +197,7 @@ elif action == 'prepare':
     )
     meal = proxy.normalize_meal(copy.deepcopy(request['meal']), request.get('usage'))
     proxy.attach_grounded_metadata(meal, selection, constraints)
+    proxy.scale_meal_to_portion_floor(meal, request.get('targets'), constraints)
     result = {
         'system': payload['messages'][0]['content'],
         'prompt': payload['messages'][1]['content'],
@@ -230,6 +232,16 @@ elif action == 'generate_dry':
         result = {'status': 200, 'meal': meal}
     except proxy.UnsafeRecipe as exc:
         result = {'status': 422, 'code': 'unsafe_recipe', 'error': str(exc)}
+elif action == 'portion_floor':
+    meal = copy.deepcopy(request['meal'])
+    result = {
+        'repair': proxy.scale_meal_to_portion_floor(
+            meal,
+            request.get('targets'),
+            request.get('constraints'),
+        ),
+        'meal': meal,
+    }
 else:
     raise ValueError('unknown action')
 json.dump(result, sys.stdout, ensure_ascii=False, separators=(',', ':'))
@@ -2209,6 +2221,53 @@ test('Python rice-safe grounding and forged-profile removal match Worker', async
   assert.equal(Object.hasOwn(py.meal, 'constraint_profile'), false);
   assert.equal(Object.hasOwn(py.meal, 'constraint_profiles'), false);
   assert.deepEqual(py.meal.validation_flags, body.validation_flags);
+});
+
+test('Python and Worker scale an undersized main meal with the same proportional repair', () => {
+  const original = {
+    ingredients: [
+      { name:'熟米饭', grams:300, kcal:120 },
+      { name:'鸡蛋', grams:80, kcal:140 },
+      { name:'青菜', grams:100, kcal:20 },
+      { name:'水', grams:200, kcal:0 },
+    ],
+  };
+  const targets = { kcal:2600 };
+  const constraints = { servings:4 };
+  const jsMeal = structuredClone(original);
+  const jsRepair = scaleMealToPortionFloor(jsMeal, targets, constraints);
+  const py = pythonCall('portion_floor', { meal:original, targets, constraints });
+  assert.deepEqual(py.meal, jsMeal);
+  assert.equal(py.repair.adjusted, jsRepair.adjusted);
+  assert.ok(Math.abs(py.repair.factor - jsRepair.factor) < 1e-12);
+});
+
+test('Python selected-card grounding excludes optional mains not promised by the card', () => {
+  const constraints = {
+    pantry:['西红柿', '豆腐'],
+    purpose:'normal',
+    servings:2,
+    dislikes:[],
+    selected_base_recipe_id:'tomato-tofu-stewed-rice',
+  };
+  const prepared = pythonCall('prepare', {
+    library:lib,
+    constraints,
+    targets:{ kcal:1300, p:50, fb:16 },
+    meal:{
+      ingredients:[
+        { name:'熟米饭', grams:250, kcal:120 },
+        { name:'西红柿', grams:250, kcal:18 },
+        { name:'豆腐', grams:200, kcal:85 },
+      ],
+      steps:['西红柿和豆腐同锅煮热，加入熟米饭烩匀。'],
+    },
+  });
+  const whitelist = prepared.system.split('\n').find(line => line.startsWith('本次可入锅主料白名单:'));
+  assert.match(whitelist, /熟米饭/);
+  assert.match(whitelist, /番茄|西红柿/);
+  assert.match(whitelist, /老豆腐|豆腐/);
+  assert.doesNotMatch(whitelist, /青菜|香葱/);
 });
 
 test('Python trusted rice-safe strict visible wording matches Worker', () => {

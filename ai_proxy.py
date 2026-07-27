@@ -1055,6 +1055,11 @@ def _trusted_recipe_generation_options_for_selection(selection):
         if (canonical := canonical_recipe_ingredient(name, aliases))
     }
     options = _trusted_recipe_generation_options(recipe)
+    if selection.get('strict_plan_selection'):
+        return [
+            name for name in options
+            if canonical_recipe_ingredient(name, aliases) in used
+        ]
     option_canonicals = {
         canonical
         for name in options
@@ -2307,6 +2312,7 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
             '这些食材不能稳妥放进同一锅，请先查看本锅方案',
             build_pantry_plan(library, constraints),
         )
+    selection['strict_plan_selection'] = bool(constraints.get('selected_base_recipe_id'))
     payload = {
         'model': MODEL_NAME,
         'messages': [
@@ -2408,6 +2414,31 @@ def normalize_meal(meal, usage=None):
     if isinstance(usage, dict) and usage.get('total_tokens'):
         meal['_tokens'] = usage['total_tokens']
     return meal
+
+
+def scale_meal_to_portion_floor(meal, targets=None, constraints=None):
+    targets = targets if isinstance(targets, dict) else {}
+    ingredients = meal.get('ingredients') if isinstance(meal, dict) and isinstance(meal.get('ingredients'), list) else []
+    target_kcal = _js_number(targets.get('kcal', _UNDEFINED))
+    if not ingredients or not math.isfinite(target_kcal) or target_kcal <= 0:
+        return {'adjusted': False, 'factor': 1}
+    current_kcal = sum(
+        _js_number(item.get('grams', _UNDEFINED)) * _js_number(item.get('kcal', _UNDEFINED)) / 100
+        for item in ingredients if isinstance(item, dict)
+    )
+    floor_kcal = target_kcal * 0.5
+    if not math.isfinite(current_kcal) or current_kcal <= 0 or current_kcal >= floor_kcal:
+        return {'adjusted': False, 'factor': 1}
+    factor = floor_kcal / current_kcal
+    if not math.isfinite(factor) or factor > 3:
+        return {'adjusted': False, 'factor': factor}
+    for item in ingredients:
+        grams = _js_number(item.get('grams', _UNDEFINED)) if isinstance(item, dict) else 0
+        if math.isfinite(grams) and grams > 0:
+            item['grams'] = max(1, round(grams * factor))
+    meal['portion_adjusted'] = True
+    meal['portion_adjustment_factor'] = round(factor, 2)
+    return {'adjusted': True, 'factor': factor}
 
 
 def _grounded_safety_endpoint(name, raw_risk_category):
@@ -2974,6 +3005,7 @@ def call_recipe(meal_name, targets, constraints):
     usage = data.get('usage', {})
     parsed = normalize_meal(parse_model_json(content), usage)
     finalize_generated_meal(parsed, selection, constraints)
+    scale_meal_to_portion_floor(parsed, targets, constraints)
     now = datetime.now(ZoneInfo('Asia/Shanghai'))
     current_season = season_note(now)
     season_text = current_season.split('。', 2)[1] if current_season else ''

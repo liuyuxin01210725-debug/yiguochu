@@ -716,6 +716,9 @@ function trustedRecipeGenerationOptionsForSelection(selection) {
     .map(name => canonicalRecipeIngredient(name, aliases))
     .filter(Boolean));
   const options = trustedRecipeGenerationOptions(recipe);
+  if (selection?.strictPlanSelection) {
+    return options.filter(name => used.has(canonicalRecipeIngredient(name, aliases)));
+  }
   const optionCanonicals = new Set(options
     .map(name => canonicalRecipeIngredient(name, aliases))
     .filter(Boolean));
@@ -2053,6 +2056,32 @@ function normalizeMeal(meal, usage) {
   return meal;
 }
 
+function scaleMealToPortionFloor(meal, targets = {}, constraints = {}) {
+  const ingredients = Array.isArray(meal?.ingredients) ? meal.ingredients : [];
+  const targetKcal = Number(targets?.kcal);
+  if (!ingredients.length || !Number.isFinite(targetKcal) || targetKcal <= 0) {
+    return { adjusted:false, factor:1 };
+  }
+  const currentKcal = ingredients.reduce((sum, item) => {
+    const grams = Number(item?.grams);
+    const kcal = Number(item?.kcal);
+    return sum + (Number.isFinite(grams) && Number.isFinite(kcal) ? grams * kcal / 100 : 0);
+  }, 0);
+  const floorKcal = targetKcal * 0.5;
+  if (!Number.isFinite(currentKcal) || currentKcal <= 0 || currentKcal >= floorKcal) {
+    return { adjusted:false, factor:1 };
+  }
+  const factor = floorKcal / currentKcal;
+  if (!Number.isFinite(factor) || factor > 3) return { adjusted:false, factor };
+  for (const item of ingredients) {
+    const grams = Number(item?.grams);
+    if (Number.isFinite(grams) && grams > 0) item.grams = Math.max(1, Math.round(grams * factor));
+  }
+  meal.portion_adjusted = true;
+  meal.portion_adjustment_factor = Math.round(factor * 100) / 100;
+  return { adjusted:true, factor };
+}
+
 function groundedSafetyEndpoint(name, rawRiskCategory) {
   if (rawRiskCategory === 'egg') {
     return `继续在原锅加热${name}至熟透并确保蛋白和蛋黄完全凝固且不得流心`;
@@ -2583,6 +2612,8 @@ async function handleGenerate(request, env) {
     }, 409, env, request);
   }
 
+  selection.strictPlanSelection = Boolean(constraints.selected_base_recipe_id);
+
   const budget = await budgetConsume(env);
   if (!budget.ok && budget.unavailable) {
     return errorResponse('budget_unavailable', '生成服务暂时不可用，请稍后再试', 503, env, {}, request);
@@ -2655,6 +2686,7 @@ async function handleGenerate(request, env) {
     }, request);
   }
   await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
+  scaleMealToPortionFloor(meal, targets, constraints);
   console.log(JSON.stringify({
     evt: 'gen',
     ok: true,
@@ -2900,7 +2932,9 @@ export {
   repairGroundedMealConsumables,
   repairRiceAllergyCompleteMain,
   repairGroundedMealSafety,
+  scaleMealToPortionFloor,
   validateGroundedMeal,
+  trustedRecipeGenerationOptionsForSelection,
   validationRiceAllergenActive,
   normalizePlannerRequest,
   plannerRequestFromLegacy,

@@ -105,7 +105,8 @@ function generatedResult(planned = plannerResult()) {
 }
 
 function loadFrontend(responses = [], options = {}) {
-  const root = { innerHTML: '', addEventListener() {} };
+  const listeners = new Map();
+  const root = { innerHTML: '', addEventListener(type, handler) { listeners.set(type, handler); } };
   const calls = [];
   let responseIndex = 0;
   const location = {
@@ -141,6 +142,7 @@ function loadFrontend(responses = [], options = {}) {
     document: {
       getElementById(id) { return id === 'root' ? root : null; },
       querySelector() { return null; },
+      querySelectorAll() { return []; },
     },
     fetch: async (url, init) => {
       calls.push({ url, init });
@@ -163,7 +165,7 @@ function loadFrontend(responses = [], options = {}) {
   for (const [index, script] of appScripts.entries()) {
     vm.runInContext(script, context, { filename: `index-inline-${index + 1}.js` });
   }
-  return { context, calls, root };
+  return { context, calls, root, listeners };
 }
 
 function evaluate(context, source) {
@@ -1078,7 +1080,7 @@ test('a failed swap keeps the current dish visible and offers another user-trigg
   assert.equal(evaluate(context, 'state.view'), 'result');
   assert.equal(evaluate(context, 'state.dish.baseRecipeId'), 'current-still-reliable');
   assert.equal(evaluate(context, 'state.swapOpen'), true);
-  assert.match(evaluate(context, 'state.notice'), /这次没换成/);
+  assert.match(evaluate(context, 'state.notice'), /服务现在有点忙.*稍后再换/);
   assert.match(root.innerHTML, /换个口味|换个菜系|随便换一个/);
   assert.doesNotMatch(root.innerHTML, /这次没生成出来/);
 });
@@ -1104,7 +1106,10 @@ test('a malformed generation response logs non-sensitive boundary diagnostics an
 
   assert.equal(calls.length, 1, 'bad JSON must not trigger an implicit retry');
   assert.equal(evaluate(context, 'state.view'), 'gen-failed');
-  assert.match(root.innerHTML, /这次没生成出来/);
+  assert.equal(evaluate(context, 'state.lastGenError.code'), 'service_unavailable');
+  assert.match(root.innerHTML, /服务现在有点忙/);
+  assert.match(root.innerHTML, /稍后再试/);
+  assert.doesNotMatch(root.innerHTML, /生成失败了，再试一次/);
   assert.doesNotMatch(root.innerHTML, /选基础菜|检查步骤安全/);
   assert.equal(warnings.length, 1);
   const diagnostic = JSON.parse(warnings[0]);
@@ -1113,6 +1118,70 @@ test('a malformed generation response logs non-sensitive boundary diagnostics an
     { evt:'client_generate_error', code:'bad_json', endpoint:'https://api.test/generate-meal', status:502, content_type:'text/html; charset=UTF-8' },
   );
   assert.match(diagnostic.at, /^\d{4}-\d{2}-\d{2}T/);
+});
+
+test('a no-compatible swap ends with one reliable-plan explanation instead of inviting paid retries', async () => {
+  const { context, calls, root } = loadFrontend([{
+    status:422,
+    body:{ code:'no_compatible_pantry_recipe', error:'当前可信菜谱还搭不上这些食材' },
+  }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'西红柿,虾仁,白菜,玉米', dislikes:'' };
+    const current = mapDish(${JSON.stringify(meal({
+      base_recipe_id:'only-reliable-plan',
+      used_pantry:['西红柿','虾仁','白菜','玉米'],
+      unused_pantry:[],
+    }))}, computeTargets(state.profile));
+    state.dish = current;
+    state.items = current.ingredients.map(item => ({ ...item }));
+    state.view = 'result';
+    await runGenerate({ swap:'any' });
+    await new Promise(resolve => setTimeout(resolve, 500));
+  })()`);
+
+  assert.equal(calls.length, 1);
+  assert.equal(evaluate(context, 'state.view'), 'result');
+  assert.equal(evaluate(context, 'state.noAlternativeSwap'), true);
+  assert.match(root.innerHTML, /当前组合只有一个可靠的一锅方案/);
+  assert.match(root.innerHTML, /修改食材/);
+  assert.doesNotMatch(root.innerHTML, /可以再试一次|换个口味|随便换一个/);
+});
+
+test('pantry result explanation never calls required extras existing home ingredients', () => {
+  const { context } = loadFrontend();
+  const rendered = evaluate(context, `whyFits({
+    why:'用家里现成的白菜和鸡蛋。',
+    usedPantry:['白菜'],
+    pantryContext:{ original:['虾仁','白菜','玉米'], remaining:['虾仁','玉米'] }
+  })`);
+  assert.match(rendered, /本锅用上你选择的：白菜/);
+  assert.match(rendered, /虾仁、玉米暂时没有使用/);
+  assert.doesNotMatch(rendered, /家里现成的白菜和鸡蛋/);
+});
+
+test('typing pantry updates state immediately and keeps chip visuals synchronized before collapse', () => {
+  const { context, listeners } = loadFrontend();
+  const handler = listeners.get('input');
+  assert.equal(typeof handler, 'function');
+  handler({ target:{ id:'pf-pantry', value:'鸡胸肉, 西红柿, 豆腐' } });
+  assert.equal(evaluate(context, 'state.profile.pantry'), '鸡胸肉, 西红柿, 豆腐');
+  assert.deepEqual(
+    JSON.parse(evaluate(context, 'JSON.stringify([...pantrySelectionSet(state.profile.pantry)])')),
+    ['鸡胸肉','西红柿','豆腐'],
+  );
+});
+
+test('start cooking enters a visible cooking state and targets a stable steps anchor', async () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+    const current = mapDish(${JSON.stringify(meal())}, computeTargets(state.profile));
+    showResult(current);
+    beginCooking();
+  })()`);
+  assert.match(evaluate(context, 'state.notice'), /从第 1 步开始/);
+  assert.match(root.innerHTML, /id="cooking-steps"/);
+  assert.match(root.innerHTML, /从第 1 步开始/);
 });
 
 test('large pantry grouping renders an ordered multi-pot sequence instead of parallel choices', async () => {
@@ -1347,7 +1416,7 @@ test('a network failure is not retried implicitly', async () => {
   assert.equal(calls.length, 1);
 });
 
-test('frontend bounds and escapes trusted one-pot adaptation evidence', () => {
+test('frontend keeps trusted adaptation metadata bounded but does not expose engineering notes to users', () => {
   const { context } = loadFrontend();
   const input = meal({ adaptation_note: '  <img src=x onerror=alert(1)> 单锅改编  ' });
   const mapped = JSON.parse(evaluate(context,
@@ -1355,9 +1424,16 @@ test('frontend bounds and escapes trusted one-pot adaptation evidence', () => {
       adaptationNote:d.adaptationNote, html:recipeBasisBlock(d)
     }); })())`));
   assert.equal(mapped.adaptationNote, '<img src=x onerror=alert(1)> 单锅改编');
-  assert.match(mapped.html, /单锅改编说明/);
-  assert.match(mapped.html, /&lt;img src=x onerror=alert\(1\)&gt; 单锅改编/);
+  assert.doesNotMatch(mapped.html, /单锅改编说明/);
+  assert.doesNotMatch(mapped.html, /单锅改编/);
   assert.doesNotMatch(mapped.html, /<img/);
+});
+
+test('portion failure copy speaks to cooks without leaking internal validation language', () => {
+  const { context } = loadFrontend();
+  const copy = JSON.parse(evaluate(context, `JSON.stringify(genFailureCopy({ code:'portion_too_small' }))`));
+  assert.match(copy.text, /不够一顿主餐/);
+  assert.doesNotMatch(copy.text, /食品安全问题|拦下|阈值|生产版/);
 });
 
 test('frontend limits adaptation notes to four hundred characters', () => {
@@ -1476,7 +1552,8 @@ test('updateSwapHistory records swapped kind, dedupes, and keeps history on fres
 
 test('start-cooking records the dish as eaten so cross-session avoidance covers cooked dishes', () => {
   // codex 指正: 历史不能只记「换掉的」, 「开始做」的菜必须同样进 swapHistory(否则跨会话避开空转)
-  assert.match(html, /act === 'start-cooking'\) \{\s*updateSwapHistory\('started'\)/);
+  assert.match(html, /act === 'start-cooking'\) beginCooking\(\)/);
+  assert.match(html, /function beginCooking\(\)[\s\S]*?updateSwapHistory\('started'\)/);
 });
 
 test('started and swapped history entries both remain in the seven-day cooldown request', async () => {
