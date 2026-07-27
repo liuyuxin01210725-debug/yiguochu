@@ -612,6 +612,8 @@ const FOODS = [
   { id:'g-17', name:'大米（生）', category:'主食谷物', kcal:346, p:7.1, mg:34,  k:103, ca:8,  fe:1.1, zn:1.5, na:2,  vc:0, vd:0, fb:0.7, w3:0.03 },
   { id:'g-18', name:'糙米（生）', category:'主食谷物', kcal:370, p:7.7, mg:143, k:223, ca:12, fe:1.3, zn:2.0, na:4,  vc:0, vd:0, fb:3.4, w3:0.05 },
   { id:'g-19', name:'薏米（生）', category:'主食谷物', kcal:361, p:12.8,mg:88,  k:238, ca:42, fe:3.6, zn:1.7, na:3,  vc:0, vd:0, fb:2.0, w3:0.05 },
+  // 台湾食药署食品营养成分资料库 R4600201「冬粉」（别名：粉丝），每100g干品。
+  { id:'g-20', name:'粉丝（干）', category:'主食谷物', kcal:351, p:0.1, mg:6, k:13, ca:2, fe:1.9, zn:0.1, na:10, vc:0, vd:0, fb:1.4, w3:0 },
   // 蔬菜 / 菌菇
   { id:'s-50', name:'洋葱', category:'蔬菜', kcal:40, p:1.1, mg:10, k:146, ca:23, fe:0.2, zn:0.17, na:4, vc:7.4, vd:0,   fb:1.7, w3:0.01 },
   { id:'s-51', name:'口蘑', category:'蔬菜', kcal:22, p:3.1, mg:9,  k:318, ca:3,  fe:0.5, zn:0.52, na:5, vc:2.1, vd:0.2, fb:1.0, w3:0 },
@@ -644,6 +646,7 @@ const FOOD_ALIAS = {
   '西红柿':'s-5', '圣女果':'s-5', '小番茄':'s-5',
   '鸡腿':'m-4', '鸡腿肉':'m-4', '鸡胸':'m-3', '鸡胸肉':'m-3',
   '土豆丝':'s-13', '土豆片':'s-13', '马铃薯':'s-13', '洋芋':'s-13',
+  '粉丝':'g-20', '干粉丝':'g-20', '冬粉':'g-20',
   '豆腐':'d-4', '老豆腐':'d-4', '北豆腐':'d-4', '嫩豆腐':'d-14', '南豆腐':'d-14',
   '圆白菜':'s-29', '卷心菜':'s-29', '包菜':'s-29',
   // V9 主食生/熟钉死(alias 优先级最高, 防生米错配成熟饭)
@@ -787,7 +790,7 @@ const MODE_TEXT = { recommend:'直接推荐', pantry:'帮我清库存' };
 const INTENT_TEXT = { normal:'正常做', quick:'快点吃上', fresh:'清爽些', batch:'多做一些' };
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
 const TONE_TEXT = { week:'每份参考' };
-const DEFAULT_PROFILE = { mode:'recommend', intent:'quick', servings:'2', pantry:'', dislikes:'' };
+const DEFAULT_PROFILE = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
 const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','青椒','茄子','菠菜','玉米','金针菇'];
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
 const GENERATION_REQUEST_TIMEOUT_MS = 55000;

@@ -584,6 +584,21 @@ if (recipeLibraryErrors.length === 0
   }
 }
 errors.push(...yunnanGuizhouResearchErrors);
+let nutritionIdentityAuditSummary = '';
+if (errors.length === 0) {
+  const nutritionAudit = spawnSync(process.execPath, [
+    fileURLToPath(new URL('./check-core-ingredient-nutrition.mjs', import.meta.url)),
+  ], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
+  });
+  if (nutritionAudit.status !== 0) {
+    const detail = [nutritionAudit.stdout, nutritionAudit.stderr].filter(Boolean).join('\n').trim();
+    errors.push(`nutrition identity audit failed${detail ? `: ${detail}` : ''}`);
+  } else {
+    nutritionIdentityAuditSummary = nutritionAudit.stdout.trim().split('\n').slice(-2).join(' · ');
+  }
+}
 let plannerMenuCoverageSummary = '';
 if (errors.length === 0) {
   const coverageCheck = spawnSync(process.execPath, [
@@ -712,6 +727,7 @@ if (sichuanChongqingResearchReport && sichuanChongqingResearchSourceErrors.lengt
 if (yunnanGuizhouResearchReport && yunnanGuizhouResearchSourceErrors.length === 0 && yunnanGuizhouResearchErrors.length === 0) {
   console.log(formatYunnanGuizhouRiceResearchSummary(yunnanGuizhouResearchReport));
 }
+if (nutritionIdentityAuditSummary) console.log(nutritionIdentityAuditSummary);
 if (plannerMenuCoverageSummary) console.log(`${plannerMenuCoverageSummary} · planner menu coverage ok`);
 if (lingnanHkMacaoResearchSummary) console.log(lingnanHkMacaoResearchSummary);
 if (northwestResearchSummary) console.log(northwestResearchSummary);

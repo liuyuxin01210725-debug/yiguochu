@@ -1656,6 +1656,34 @@ async function getPlannerAssets(env, request) {
 let TW_CACHE = null;
 function twNorm(s) { return String(s || '').toLowerCase().replace(/（/g, '(').replace(/）/g, ')').replace(/\s+/g, ''); }
 function twBase(s) { return twNorm(s).replace(/\(.*$/, ''); }
+// 大陆常用名必须先经过受控映射，再进入台湾库别名索引；否则台湾语义中的
+// 「土豆=花生」会把马铃薯系统性错配成高热量坚果。
+const TW_INPUT_ALIAS = new Map([
+  ['土豆', '马铃薯'],
+  ['粉丝', '冬粉'],
+  ['干粉丝', '冬粉'],
+  // 无脂肪限定的「牛奶」取全脂鲜乳平均值，不取宽别名首条调味乳。
+  ['牛奶', '全脂鲜乳平均值'],
+  // 菜谱语境中的椰奶用于咖喱/焖饭，指高脂烹饪椰浆，不是即饮椰奶饮料。
+  ['椰奶', '椰浆'],
+]);
+function buildTwNutritionIndex(records) {
+  const idx = new Map();
+  const list = Array.isArray(records) ? records : [];
+  // 主名称优先于任何别名，避免较早记录的宽别名遮蔽后面的精确食品名（如牛奶）。
+  for (const rec of list) {
+    const key = twNorm(rec?.n);
+    if (key && !idx.has(key)) idx.set(key, rec);
+  }
+  for (const rec of list) {
+    if (!rec?.a) continue;
+    for (const alias of String(rec.a).split(/[,;、，]/)) {
+      const key = twNorm(alias);
+      if (key && !idx.has(key)) idx.set(key, rec);
+    }
+  }
+  return { idx, size: list.length };
+}
 async function getTwLib(env, request) {
   if (TW_CACHE) return TW_CACHE;
   TW_CACHE = { idx: new Map(), size: 0 };
@@ -1664,20 +1692,18 @@ async function getTwLib(env, request) {
     const u = new URL('/foods-tw.json', request.url);
     const r = await env.ASSETS.fetch(new Request(u.toString()));
     if (r && r.ok) {
-      const arr = await r.json();
-      for (const rec of arr) {
-        if (rec.n) { const k = twNorm(rec.n); if (!TW_CACHE.idx.has(k)) TW_CACHE.idx.set(k, rec); }
-        if (rec.a) for (const a of String(rec.a).split(/[,;、，]/)) { const t = twNorm(a); if (t && !TW_CACHE.idx.has(t)) TW_CACHE.idx.set(t, rec); }
-      }
-      TW_CACHE.size = arr.length;
+      TW_CACHE = buildTwNutritionIndex(await r.json());
     }
   } catch (_e) { /* 库不可用则跳过, 不影响生成 */ }
   return TW_CACHE;
 }
 function twLookup(lib, name) {
-  const q = twNorm(name); if (!q || !lib.idx.size) return null;
+  const raw = twNorm(name);
+  const q = TW_INPUT_ALIAS.get(raw) || raw;
+  if (!q || !lib.idx.size) return null;
   let h = lib.idx.get(q); if (h) return h;                 // 1. 全名精确
-  const qb = twBase(name);                                 // 2. 去括号基名精确(且库项基名也相等)
+  const rawBase = twBase(name);
+  const qb = TW_INPUT_ALIAS.get(rawBase) || rawBase;        // 2. 去括号基名精确(且库项基名也相等)
   if (qb.length >= 2) { h = lib.idx.get(qb); if (h && twBase(h.n) === qb) return h; }
   return null;
 }
@@ -2841,6 +2867,8 @@ export {
   buildLockedPlanContract,
   lockPlannerOwnedSafetyMetadata,
   validateGeneratedPlan,
+  buildTwNutritionIndex,
+  twLookup,
 };
 
 export default {

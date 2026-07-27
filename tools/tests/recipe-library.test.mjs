@@ -548,6 +548,7 @@ test('canonical ingredient aliases stay stable for later selectors', () => {
     剩米饭: '熟米饭',
     隔夜米饭: '熟米饭',
     排骨: '猪肋排',
+    干粉丝: '粉丝',
   });
 });
 

@@ -264,7 +264,7 @@ test('public profile keeps only the simple direct-recommendation controls', () =
   const { context, root } = loadFrontend();
   assert.deepEqual(
     JSON.parse(evaluate(context, 'JSON.stringify(DEFAULT_PROFILE)')),
-    { mode:'recommend', intent:'quick', servings:'2', pantry:'', dislikes:'' },
+    { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' },
   );
   assert.doesNotMatch(root.innerHTML, /这次需要哪种帮助|帮我清库存|清爽些/);
   assert.doesNotMatch(root.innerHTML, /data-del-myfood/);
@@ -1223,6 +1223,15 @@ test('frontend pantry identity uses the controlled recipe matching semantics', (
   assert.deepEqual(
     JSON.parse(evaluate(context, `JSON.stringify(uniquePantryItems(['牛里脊','牛肉片','豆腐','北豆腐']))`)),
     ['牛里脊','豆腐'],
+  );
+});
+
+test('frontend keeps dry vermicelli in the approved pantry identity and authoritative nutrition chain', () => {
+  const { context } = loadFrontend();
+  assert.equal(evaluate(context, `pantryIdentity('干粉丝')`), evaluate(context, `pantryIdentity('粉丝')`));
+  assert.deepEqual(
+    JSON.parse(evaluate(context, `JSON.stringify((() => { const food=lookupFoodNutrition('干粉丝'); return {name:food?.name,kcal:food?.kcal}; })())`)),
+    { name:'粉丝（干）', kcal:351 },
   );
 });
 

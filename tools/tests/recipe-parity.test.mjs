@@ -909,14 +909,16 @@ test('Python canonicalization matches normalized alias chains and stable cycles'
   const aliases = {
     ' 鸡腿肉（切丁） ': ' 鸡肉（鲜） ',
     鸡肉: '禽肉',
+    干粉丝: '粉丝',
     甲: '乙',
     乙: '甲',
   };
-  const items = ['鸡腿肉丁过敏', '鸡肉', '甲', '乙'];
+  const items = ['鸡腿肉丁过敏', '鸡肉', '干粉丝', '粉丝', '甲', '乙'];
   const expected = items.map(item => canonicalRecipeIngredient(item, aliases));
   assert.deepEqual(pythonCall('canonical', { aliases, items }), expected);
   assert.equal(expected[0], '禽肉');
   assert.equal(expected[2], expected[3]);
+  assert.equal(expected[4], expected[5]);
 });
 
 test('Python selector matches fixed-core rejection and real dislike replacement', () => {

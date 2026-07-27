@@ -145,6 +145,7 @@ async function runGenerateRequest({
   fetchImpl,
   bodyOverrides = {},
   rawBody,
+  foodsTw = [],
 }) {
   generationImportId += 1;
   const { default: worker } = await import(`../../worker/src/worker.js?generation-${generationImportId}`);
@@ -171,7 +172,7 @@ async function runGenerateRequest({
           ? Response.json(recipeLib)
           : new Response('missing', { status: recipeStatus });
       }
-      if (pathname === '/foods-tw.json') return Response.json([]);
+      if (pathname === '/foods-tw.json') return Response.json(foodsTw);
       return new Response('missing', { status: 404 });
     },
   };
@@ -201,9 +202,64 @@ async function runGenerateRequest({
   }
 }
 
+test('controlled pantry identities keep dry vermicelli approved and map mainland potato to potato nutrition', async () => {
+  const recipe = groundedFixtureRecipe({
+    status: 'approved',
+    name: '土豆粉丝锅',
+    core_ingredients: ['土豆', '粉丝', '牛奶'],
+    optional_ingredients: [],
+    generation_optional_ingredients: [],
+    generation_liquid_ingredients: ['水'],
+    substitution_slots: [],
+    discouraged: [],
+    technique: ['同锅煮熟土豆和粉丝'],
+    ratio_rules: ['土豆与粉丝按份量入锅'],
+    safety_rules: [],
+  });
+  const recipeLib = fixtureLib([recipe], { 干粉丝: '粉丝' });
+  const meal = generatedMeal({
+    dish_name: '土豆粉丝锅',
+    ingredients: [
+      { name: '土豆', grams: 300 },
+      { name: '干粉丝', grams: 100 },
+      { name: '牛奶', grams: 200 },
+      { name: '水', grams: 500 },
+    ],
+    steps: ['土豆、干粉丝和牛奶加水同锅煮熟。'],
+  });
+  const foodsTw = [
+    { n: '红土带壳花生(熟)', code: 'C1710101', a: '土豆,长生果,落花生', kcal: 555 },
+    { n: '马铃薯', code: 'B0700201', a: '洋芋,洋薯', kcal: 77 },
+    { n: '冬粉', code: 'R4600201', a: '粉丝', kcal: 351 },
+    { n: '低脂调味乳(木瓜)', code: 'L0126101', a: '牛乳,牛奶', kcal: 61 },
+    { n: '全脂鲜乳平均值', code: 'L01021', a: '牛乳,牛奶', kcal: 63 },
+  ];
+
+  const { response, body } = await runGenerateRequest({
+    recipeLib,
+    meal,
+    foodsTw,
+    constraints: { pantry: ['土豆', '粉丝'] },
+  });
+
+  assert.equal(response.status, 200);
+  const potato = body.ingredients.find(item => item.name === '土豆');
+  const vermicelli = body.ingredients.find(item => item.name === '干粉丝');
+  const milk = body.ingredients.find(item => item.name === '牛奶');
+  assert.equal(potato.authCode, 'B0700201');
+  assert.equal(potato.kcal, 77);
+  assert.equal(vermicelli.authCode, 'R4600201');
+  assert.equal(vermicelli.kcal, 351);
+  assert.equal(milk.authCode, 'L01021');
+});
+
 test('canonicalizer applies aliases after removing preference and cut-form noise', () => {
   assert.equal(canonicalRecipeIngredient(' 鸡腿肉（切丁）过敏 ', lib.ingredient_aliases), '鸡肉');
   assert.equal(canonicalRecipeIngredient('西红柿块忌口', lib.ingredient_aliases), '番茄');
+  assert.equal(
+    canonicalRecipeIngredient('干粉丝', lib.ingredient_aliases),
+    canonicalRecipeIngredient('粉丝', lib.ingredient_aliases),
+  );
 });
 
 test('canonicalizer follows alias chains so a terminal core dislike is excluded', () => {
