@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r8');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r9');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -33,9 +33,52 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
     '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
-    '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉',
+    '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉', '小米', '干鹰嘴豆', '熟鹰嘴豆',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('millet and chickpea states remain explicit and non-interchangeable', () => {
+  const rows = normalizePlannerItems(
+    ['小米', '黄小米', '干鹰嘴豆', '熟鹰嘴豆', '煮熟鹰嘴豆', '罐装鹰嘴豆（沥干）', '鹰嘴豆'],
+    catalog,
+  );
+  assert.deepEqual(
+    rows.slice(0, 6).map(row => [
+      row.canonical_id, row.category, row.state, row.shape_or_cut, row.recognized,
+    ]),
+    [
+      ['raw-millet', 'raw_millet', 'raw', 'whole_grain', true],
+      ['raw-millet', 'raw_millet', 'raw', 'whole_grain', true],
+      ['dry-chickpea-seed', 'dry_legume', 'dry', 'whole_seed', true],
+      ['cooked-chickpea-seed', 'cooked_legume', 'cooked', 'whole_seed', true],
+      ['cooked-chickpea-seed', 'cooked_legume', 'cooked', 'whole_seed', true],
+      ['cooked-chickpea-seed', 'cooked_legume', 'cooked', 'whole_seed', true],
+    ],
+  );
+
+  const generic = rows[6];
+  assert.equal(generic.recognized, false);
+  assert.equal(generic.ambiguity_id, 'chickpea-state');
+  assert.equal(generic.ambiguity_code, 'ambiguous_ingredient_state');
+  assert.deepEqual(generic.eligible_items, ['干鹰嘴豆', '熟鹰嘴豆']);
+
+  const millet = catalog.items.find(row => row.canonical_id === 'raw-millet');
+  assert.ok(millet);
+  assert.equal(millet.texture_behavior.behavior_code, 'absorbs_liquid_and_thickens');
+  assert.deepEqual(millet.texture_behavior.best_method_codes, ['soak', 'simmer']);
+  assert.deepEqual(millet.cooking_risk.required_endpoint_codes, ['grain_tender_no_hard_center']);
+  assert.deepEqual(millet.compatible_slot_codes, ['soft_grain_staple']);
+  assert.deepEqual(
+    millet.incompatible_slot_codes,
+    ['raw_rice_required', 'cooked_rice_required', 'noodle_required'],
+  );
+});
+
+test('chickpea ambiguity aliases deduplicate without inflating the pantry denominator', () => {
+  const [first, duplicate] = normalizePlannerItems(['鹰嘴豆', '鹰嘴豆'], catalog);
+  assert.equal(first.duplicate_of, null);
+  assert.equal(duplicate.duplicate_of, '鹰嘴豆');
 });
 
 test('cowpea pod dry seed cooked seed and generic term never collapse', () => {

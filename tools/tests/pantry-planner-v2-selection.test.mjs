@@ -177,6 +177,36 @@ test('recommend may use a coherent subset but explains unresolved and unsupporte
   assert.deepEqual(cowpea?.eligible_items, ['鲜豇豆', '干豇豆', '熟豇豆']);
 });
 
+test('generic chickpea blocks completion while preserving a valid millet potato pot', () => {
+  const result = planMeal(assets, request({ must: ['小米', '土豆', '鹰嘴豆'] }));
+  assert.equal(result.status, 'needs_user_decision');
+  assert.equal(result.generation_allowed, false);
+  assert.equal(result.plan.pots.length, 1);
+  assert.deepEqual(
+    result.plan.pots[0].planned_must_use.map(row => row.raw).sort(),
+    ['土豆', '小米'].sort(),
+  );
+  const unresolved = result.plan.unplanned_must_use.find(row => row.raw === '鹰嘴豆');
+  assert.equal(unresolved?.reason_code, 'ambiguous_ingredient_state');
+  assert.equal(unresolved?.ambiguity_id, 'chickpea-state');
+  assert.deepEqual(unresolved?.eligible_items, ['干鹰嘴豆', '熟鹰嘴豆']);
+});
+
+test('dry chickpea is never placed into the cooked legume slot', () => {
+  const result = planMeal(assets, request({ must: ['小米', '土豆', '干鹰嘴豆'] }));
+  assert.equal(result.status, 'needs_user_decision');
+  assert.equal(result.generation_allowed, false);
+  assert.equal(result.plan.pots.length, 1);
+  assert.ok(result.plan.pots[0].planned_must_use.every(row => row.raw !== '干鹰嘴豆'));
+  const unplanned = result.plan.unplanned_must_use.find(row => row.raw === '干鹰嘴豆');
+  assert.equal(unplanned?.reason_code, 'unsupported_ingredient_state');
+
+  const alone = planMeal(assets, request({ must: ['干鹰嘴豆'] }));
+  assert.equal(alone.status, 'no_valid_plan');
+  assert.equal(alone.generation_allowed, false);
+  assert.equal(alone.plan.pots.length, 0);
+});
+
 test('semantic duplicates never inflate coverage denominators or planned counts', () => {
   const candidates = buildPotCandidates(assets, request({ must: ['豆腐', '老豆腐', '青菜'] }));
   const pot = candidates.find(candidate => candidate.template_id === 'egg-tofu-vegetable-pot');

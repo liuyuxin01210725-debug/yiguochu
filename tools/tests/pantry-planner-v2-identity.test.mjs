@@ -131,6 +131,7 @@ test('every declared identity fact changes the plan ID', async t => {
     servings: plan => { plan.plan.pots[0].servings = 3; },
     normalized_raw_input: plan => { plan.normalized_items[0].raw = '牛柳'; },
     normalized_role: plan => { plan.normalized_items[0].role = 'prefer_use'; },
+    normalized_state: plan => { plan.normalized_items[0].state = 'cooked'; },
     ambiguity_code: plan => { plan.normalized_items[0].ambiguity_code = 'ambiguous_ingredient_state'; },
     ambiguity_id: plan => { plan.normalized_items[0].ambiguity_id = 'cowpea-state'; },
     ambiguity_options: plan => { plan.normalized_items[0].eligible_items = ['鲜豇豆', '干豇豆', '熟豇豆']; },
