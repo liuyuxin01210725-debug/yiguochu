@@ -14,8 +14,8 @@
     "outside_cn_atlas_count": 11,
     "blank_province_count": 15,
     "capability_full_count": 3,
-    "capability_partial_count": 2,
-    "capability_none_count": 7
+    "capability_partial_count": 3,
+    "capability_none_count": 6
   },
   "regions": [
     {
@@ -1175,20 +1175,21 @@
       "region_ids": [
         "qinghai_tibet"
       ],
-      "coverage_level": "none",
-      "runtime_template_ids": [],
-      "candidate_template_ids": [
+      "coverage_level": "partial",
+      "runtime_template_ids": [
         "soft-family-rice-pot"
       ],
-      "covered_staple_states": [],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "小米"
+      ],
       "uncovered_staple_states": [
         "生米",
-        "小米",
         "青稞",
         "杂粮"
       ],
       "coverage_boundary_codes": [],
-      "promotion_status": "blocked_by_ratio",
+      "promotion_status": "preview_candidate",
       "evidence_recipe_ids": [
         "chinese-congee",
         "qinghai-hao-fan",
@@ -1196,19 +1197,18 @@
       ],
       "evidence_research_ids": [],
       "required_ratio_rule_ids": [
-        "soft-family-rice-liquid-v1"
+        "soft-family-millet-liquid-v1"
       ],
-      "resolved_ratio_rule_ids": [],
+      "resolved_ratio_rule_ids": [
+        "soft-family-millet-liquid-v1"
+      ],
       "taxonomy_item_ids": [
-        "raw-rice"
+        "raw-millet",
+        "potato",
+        "cooked-chickpea-seed"
       ],
-      "blocker_codes": [
-        "ratio_rule_missing:soft-family-rice-liquid-v1",
-        "taxonomy_missing:millet",
-        "taxonomy_missing:highland_barley",
-        "taxonomy_missing:mixed_grain"
-      ],
-      "scope_note": "粥类证据存在，但谷物身份、浸泡和逐类液体比例尚未形成可执行能力。",
+      "blocker_codes": [],
+      "scope_note": "已覆盖小米、块茎和熟豆的食材兼容家庭方案，不声称传统复刻；生米、青稞与其他杂粮仍未覆盖。",
       "name": "生谷物加液体熬煮"
     },
     {

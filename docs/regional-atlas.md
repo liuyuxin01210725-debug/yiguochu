@@ -16,7 +16,7 @@
 - 研究候选审计：24
 - 生产地域范围：省级 28；跨地域 2；全国性家常 31；中国地图外 11
 - 当前空白省级节点：15
-- Planner 能力：full 3；partial 2；none 7
+- Planner 能力：full 3；partial 3；none 6
 
 ## 13 个地域板块
 
@@ -101,7 +101,7 @@
 | 生米菜肉同焖（raw-rice-braise） | full | savory-mixed-rice-pot | 无 | covered_by_active_template | 无 | 无 | 现有生米焖饭模板已覆盖受控生米、耐焖蔬菜与有限蛋白组合，不借模板名称伪造地域菜身份。 |
 | 熟饭翻炒（cooked-rice-stir） | full | cooked-rice-stir-pot | 无 | covered_by_active_template | 无 | 无 | 熟饭翻炒按全国性家庭结构覆盖，不绑定不存在的单一地域。 |
 | 熟饭烩煮或汤饭（cooked-rice-stew） | full | acid-staple-pot、broth-rice-pot | 无 | covered_by_active_template | 无 | 无 | 熟饭烩煮由酸味主食锅和普通汤饭锅共同覆盖；组合仍受槽位、部位、时间与安全规则约束。 |
-| 生谷物加液体熬煮（grain-porridge） | none | 无 | soft-family-rice-pot | blocked_by_ratio | 生米、小米、青稞、杂粮 | ratio_rule_missing:soft-family-rice-liquid-v1、taxonomy_missing:millet、taxonomy_missing:highland_barley、taxonomy_missing:mixed_grain | 粥类证据存在，但谷物身份、浸泡和逐类液体比例尚未形成可执行能力。 |
+| 生谷物加液体熬煮（grain-porridge） | partial | soft-family-rice-pot | 无 | preview_candidate | 生米、青稞、杂粮 | 无 | 已覆盖小米、块茎和熟豆的食材兼容家庭方案，不声称传统复刻；生米、青稞与其他杂粮仍未覆盖。 |
 | 面菜同焖（noodle-braise） | partial | braised-noodle-pot | 无 | preview_candidate | presteamed_noodle | 无 | 干生面与鲜生面已用独立比例规则分流；预蒸面仍未覆盖，不得静默并入任一分支。 |
 | 面菜蒸焖（noodle-steam-braise） | none | 无 | 无 | blocked_by_taxonomy | 生面、鲜面 | taxonomy_missing:steamed_noodle_state、template_missing:noodle-steam-braise | 河南蒸面研究题目已归位，但回拌与二次蒸焖所需面条状态仍未受控。 |
 | 汤面面片粉丝一锅（noodle-broth） | partial | broth-noodle-pot | 无 | blocked_by_taxonomy | 面片、米粉、粉丝 | taxonomy_missing:noodle_sheet、taxonomy_missing:rice_noodle、taxonomy_missing:vermicelli | 运行时只覆盖普通面条，面片、米粉和粉丝需要独立吸液与入锅规则。 |
