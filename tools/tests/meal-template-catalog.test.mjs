@@ -147,7 +147,10 @@ test('savory mixed rice accepts only lamb leg and binds the Xinjiang evidence an
   const invalid = structuredClone(catalog);
   invalid.templates.find(row => row.template_id === 'savory-mixed-rice-pot')
     .shape_or_cut_requirements.find(row => row.category === 'lamb').allowed_shapes = ['ground'];
-  assert.match(validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary).join('\n'), /shape is not declared for category/);
+  assert.match(
+    validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary).join('\n'),
+    /allowed_shapes conflicts with taxonomy shape/,
+  );
 });
 
 test('validator is total and rejects malformed catalog data without throwing', () => {

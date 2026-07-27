@@ -4,7 +4,7 @@ export { normalizeIngredientTaxonomyKey };
 
 const CATEGORIES = new Set([
   'raw_rice', 'cooked_rice', 'noodle', 'acid_vegetable', 'egg', 'soft_tofu', 'firm_tofu',
-  'beef', 'chicken', 'pork', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
+  'beef', 'chicken', 'pork', 'lamb', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
   'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'mushroom', 'cornmeal_dough',
   'cornmeal_flour', 'cornmeal_cake', 'ready_staple',
   'wheat_dough', 'liquid', 'oil', 'seasoning',
@@ -26,7 +26,7 @@ const TEXTURE_BEHAVIORS = new Set([
   'renders_fat_when_heated', 'steams_above_stew', 'liquid', 'dissolves',
   'forms_dough_with_water',
 ]);
-const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough', 'raw_flour', 'unknown']);
+const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_flour', 'unknown']);
 const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam', 'hydrate']);
 const FAILURE_MODE_CODES = new Set([
   'undercooked_when_liquid_is_short', 'mushy_when_overmixed', 'soft_when_overcooked',
@@ -38,12 +38,12 @@ const FAILURE_MODE_CODES = new Set([
 ]);
 const ENDPOINT_CODES = new Set([
   'rice_tender', 'heated_through', 'noodle_tender', 'egg_fully_set', 'beef_fully_cooked',
-  'poultry_fully_cooked', 'pork_fully_cooked', 'bean_fully_cooked', 'tender', 'dough_cooked_through',
+  'poultry_fully_cooked', 'pork_fully_cooked', 'lamb_fully_cooked', 'bean_fully_cooked', 'tender', 'dough_cooked_through',
 ]);
 const SLOT_CODES = new Set([
   'staple', 'raw_rice', 'cooked_rice', 'noodle', 'acid_base', 'vegetable', 'protein', 'egg',
   'soft_tofu', 'firm_tofu', 'generic_beef', 'quick_cook_protein', 'brisket_required',
-  'ground_meat_required', 'generic_poultry', 'generic_pork', 'rib_required',
+  'ground_meat_required', 'generic_poultry', 'generic_pork', 'generic_lamb', 'rib_required',
   'fast_cooking_vegetable', 'aromatic', 'mushroom', 'liquid', 'oil', 'seasoning',
   'hard_stir_fry', 'long_braise', 'cured_pork', 'edge_steamed_staple',
   'staple_preparation_input', 'derived_staple', 'ready_staple',
@@ -53,10 +53,12 @@ function isStringArray(value) {
   return Array.isArray(value) && value.length > 0 && value.every(item => typeof item === 'string' && item.trim());
 }
 
+const VIRTUAL_CANONICAL_NAMES = new Map([['lamb-leg', '羊肉']]);
+
 export function validateIngredientTaxonomy(data) {
   const errors = [];
   if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
-  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r6') errors.push('taxonomy_version must be taxonomy-v1-20260727-r6');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r7') errors.push('taxonomy_version must be taxonomy-v1-20260727-r7');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];
@@ -186,6 +188,7 @@ export function validateIngredientTaxonomy(data) {
       continue;
     }
     const targets = displayEntries.get(targetKey) || [];
+    if (targets.length === 0 && VIRTUAL_CANONICAL_NAMES.get(item.canonical_id) === item.canonical_name) continue;
     if (targets.length !== 1) {
       errors.push(`${item.canonical_id}.canonical_name must name an existing display_name`);
       continue;

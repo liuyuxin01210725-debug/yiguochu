@@ -6,7 +6,7 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
   'pork-staple-pot', 'soft-family-rice-pot', 'stew-with-staple-pot', 'quick-breakfast-pot',
 ]);
-const TAXONOMY_VERSION = 'taxonomy-v1-20260727-r6';
+const TAXONOMY_VERSION = 'taxonomy-v1-20260727-r7';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
@@ -19,7 +19,7 @@ const COOKING_MODES = new Set(['braise', 'simmer', 'quick_saute', 'short_simmer'
 const ATTRIBUTE_VALUES = new Map([
   ['moisture_release', new Set(['low', 'medium', 'high'])],
   ['cook_speed', new Set(['no_cook', 'fast', 'medium', 'slow'])],
-  ['cooking_risk', new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_seafood', 'raw_dough', 'unknown'])],
+  ['cooking_risk', new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'unknown'])],
 ]);
 // First-stage templates only need these two fully machine-checked operators.
 // Do not accept future-looking operator names without a validated payload schema.
@@ -46,6 +46,7 @@ export const TEMPLATE_ENDPOINT_TO_TAXONOMY_ENDPOINT = Object.freeze({
   egg_fully_set: 'egg_fully_set',
   beef_fully_cooked: 'beef_fully_cooked',
   pork_fully_cooked: 'pork_fully_cooked',
+  lamb_fully_cooked: 'lamb_fully_cooked',
   bean_fully_cooked: 'bean_fully_cooked',
   tender: 'tender',
   dough_cooked_through: 'dough_cooked_through',
@@ -59,6 +60,7 @@ const ENDPOINT_CATEGORIES = new Map([
   ['egg_fully_set', new Set(['egg'])],
   ['beef_fully_cooked', new Set(['beef'])],
   ['pork_fully_cooked', new Set(['pork'])],
+  ['lamb_fully_cooked', new Set(['lamb'])],
   ['bean_fully_cooked', new Set(['pod_vegetable'])],
   ['tender', new Set(['cruciferous_vegetable', 'root_vegetable'])],
   ['dough_cooked_through', new Set(['cornmeal_dough', 'wheat_dough'])],
@@ -490,7 +492,7 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
     if (!isObject(catalog)) return ['template catalog must be an object'];
     assertAllowedKeys(catalog, CATALOG_KEYS, 'template catalog', errors);
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
-    if (catalog.template_catalog_version !== 'templates-v2-20260727-r7') errors.push('template_catalog_version must be templates-v2-20260727-r7');
+    if (catalog.template_catalog_version !== 'templates-v2-20260727-r8') errors.push('template_catalog_version must be templates-v2-20260727-r8');
     if (!isObject(taxonomy) || taxonomy.taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== taxonomy.taxonomy_version) {
