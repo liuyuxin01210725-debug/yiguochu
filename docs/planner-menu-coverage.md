@@ -8,7 +8,7 @@
 
 - Planner：`pantry-planner-v2`
 - Template catalog：`templates-v2-20260727-r8`
-- Taxonomy：`taxonomy-v1-20260727-r7`
+- Taxonomy：`taxonomy-v1-20260727-r8`
 - Ratio catalog：`ratio-rules-v1-20260727-r4`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
@@ -55,7 +55,7 @@
 | P1 | 海南定安菜包饭 | vessel-adapted-rice | 大米、生菜、胡萝卜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 大溪荷叶油饭 | vessel-adapted-rice | 糯米、猪肉末、食品级干荷叶 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 广式豆豉排骨煲仔饭 | claypot-rice | 大米、猪肋排、豆豉 | taxonomy_gap | taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
-| P1 | 陕北红枣豇豆焖饭 | raw-rice-braise | 大米、去核红枣、豇豆 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
+| P1 | 陕北红枣豇豆焖饭 | raw-rice-braise | 大米、去核红枣、豇豆 | taxonomy_gap | taxonomy_gap、planner_gap | no_valid_plan | needs_user_decision | 1 |
 | P1 | 青海熬饭风味家庭适配版 | grain-porridge | 小米、土豆、熟鹰嘴豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 山西泥屯小米饭 | raw-rice-braise | 小米、土豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 藏式咸稀饭风味家庭适配版 | grain-porridge | 大米、牛奶 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
@@ -99,11 +99,11 @@
 | 红洋葱 | 1 | soy-lentil-vegetable-stew |
 | 黄油 | 1 | basic-risotto |
 | 姜 | 1 | guizhou-dong-community-rice |
+| 豇豆 | 1 | shaanbei-red-date-cowpea-rice |
 | 牛奶 | 1 | tibetan-savory-congee |
 | 牛肉（粗绞） | 1 | texas-beef-chili |
 | 泡发糯米 | 1 | quanzhou-oil-rice |
 | 芹菜 | 1 | creole-jambalaya |
-| 去核红枣 | 1 | shaanbei-red-date-cowpea-rice |
 | 生菜 | 1 | hainan-cai-bao-rice |
 | 食品级菠菜粉 | 1 | guangxi-five-color-glutinous-rice |
 | 食品级干荷叶 | 1 | daxi-lotus-leaf-oil-rice |
@@ -148,7 +148,7 @@
 | `noodle-braise` | 2 | 2 | 0 | 0 |
 | `noodle-broth` | 4 | 3 | 0 | 1 |
 | `noodle-steam-braise` | 0 | 0 | 0 | 0 |
-| `raw-rice-braise` | 27 | 17 | 7 | 3 |
+| `raw-rice-braise` | 27 | 17 | 7 | 4 |
 | `stew-with-staple` | 0 | 0 | 0 | 0 |
 | `vessel-adapted-rice` | 3 | 0 | 3 | 1 |
 
@@ -162,7 +162,7 @@
 | `jingjinji` | 1 | 1 | 0 | 0 |
 | `jinmeng` | 3 | 2 | 1 | 0 |
 | `lingnan_hk_macao` | 5 | 2 | 3 | 2 |
-| `northwest` | 3 | 2 | 1 | 0 |
+| `northwest` | 3 | 2 | 1 | 1 |
 | `qinghai_tibet` | 4 | 0 | 3 | 1 |
 | `shandong` | 1 | 1 | 0 | 0 |
 | `yunnan_guizhou` | 2 | 0 | 2 | 1 |
@@ -200,7 +200,7 @@
 | 广式豆豉排骨煲仔饭 | 大米、猪肋排、豆豉 | 66.7% | 0% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 新疆羊肉抓饭 | 羊腿肉、洋葱、胡萝卜、大米 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
 | 新疆素抓饭 | 大米、洋葱、胡萝卜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
-| 陕北红枣豇豆焖饭 | 大米、去核红枣、豇豆 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
+| 陕北红枣豇豆焖饭 | 大米、去核红枣、豇豆 | 66.7% | 0% | 33.3% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
 | 青海熬饭风味家庭适配版 | 小米、土豆、熟鹰嘴豆 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 山西岚县土豆饭 | 大米、土豆 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 山西泥屯小米饭 | 小米、土豆 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
@@ -246,8 +246,8 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`5befb470dbf0272eb62fc50847cfdda2238f1bb9f44e53a11b4d665e655c7e64`
-- `tools/data/meal-templates.v2.json`：`f703e72ebe43ef5b866fce9059e3d0a33b3590c2e849f328059822960333e347`
+- `tools/data/ingredient-taxonomy.v1.json`：`d9db25a09f318c3826b1248b5e04fdfe85f8cf10a50963f6cbecb9b562281365`
+- `tools/data/meal-templates.v2.json`：`a777683811a2cde29e6781f88f5eb9ec2b45c642f90b54efbf7d618e0b495e0a`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
 - `tools/data/ratio-rules.v1.json`：`4e8ba6b0036e7d2cba2554445ea5f852c6eac8dc608b9da3652cfc605734e65f`
 - `tools/data/recipe-library.json`：`69d40f12c3db12fb0d03af20665c33352f4c20b9ad53ad542a4b91c2aec1658e`

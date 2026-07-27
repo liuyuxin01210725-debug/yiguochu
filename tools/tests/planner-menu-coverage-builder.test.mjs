@@ -205,6 +205,20 @@ test('Northwest lamb-leg capability restores Xinjiang pilaf without widening oth
   assert.deepEqual([northwest.recipe_count, northwest.single_pot_full_count], [3, 2]);
 });
 
+test('Shaanbei cowpea ambiguity is no longer counted as a fresh green-bean hit', () => {
+  const report = buildRealReport();
+  const shaanbei = byId(report, 'shaanbei-red-date-cowpea-rice');
+  assert.equal(shaanbei.raw_core_scenario.status, 'needs_user_decision');
+  assert.ok(shaanbei.raw_core_scenario.end_to_end_core_coverage_ratio <= 1 / 3);
+  assert.ok(shaanbei.unclassified_core_items.some(row =>
+    row.raw === '豇豆' && row.ambiguity_code === 'ambiguous_ingredient_state'));
+  assert.equal(shaanbei.audit_status === 'full_single_pot_evidence_aligned', false);
+
+  const northwest = report.by_region.find(row => row.region_id === 'northwest');
+  assert.equal(northwest.recipe_count, 3);
+  assert.equal(northwest.single_pot_full_count, 2);
+});
+
 test('report metadata, summaries, and validation are deterministic', () => {
   const first = buildRealReport();
   const second = buildRealReport();
