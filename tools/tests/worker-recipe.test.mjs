@@ -897,6 +897,52 @@ test('trusted recipe system exposes only the reviewed generation optional lock',
   assert.match(system, /本次留在成品中的主烹调液体只能使用: 水/);
 });
 
+test('unselected substitution slots expose only their default originals to DeepSeek', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米'],
+    optional_ingredients: ['玉米'],
+    generation_optional_ingredients: ['玉米', '胡萝卜', '青豆'],
+    generation_liquid_ingredients: ['水'],
+    substitution_slots: [{ slot: '蔬菜配料', replaces: ['玉米'], allowed: ['胡萝卜', '青豆'] }],
+  })]);
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 200 }],
+      steps: ['大米加水同锅焖熟。'],
+    }),
+    constraints: { pantry: ['大米'], purpose: 'normal' },
+  });
+  const system = upstreamBodies[0].messages[0].content;
+  const whitelistLine = system.split('\n').find(line => line.startsWith('本次可入锅主料白名单:'));
+  assert.match(whitelistLine, /大米、玉米、水/);
+  assert.doesNotMatch(whitelistLine, /胡萝卜|青豆/);
+});
+
+test('a pantry-selected substitution exposes exactly that alternative', async () => {
+  const recipeLib = fixtureLib([groundedFixtureRecipe({
+    status: 'approved',
+    core_ingredients: ['大米'],
+    optional_ingredients: ['玉米'],
+    generation_optional_ingredients: ['玉米', '胡萝卜', '青豆'],
+    generation_liquid_ingredients: ['水'],
+    substitution_slots: [{ slot: '蔬菜配料', replaces: ['玉米'], allowed: ['胡萝卜', '青豆'] }],
+  })]);
+  const { upstreamBodies } = await runGenerateRequest({
+    recipeLib,
+    meal: generatedMeal({
+      ingredients: [{ name: '大米', grams: 100 }, { name: '胡萝卜', grams: 100 }, { name: '水', grams: 200 }],
+      steps: ['大米、胡萝卜加水同锅焖熟。'],
+    }),
+    constraints: { pantry: ['大米', '胡萝卜'], purpose: 'normal' },
+  });
+  const system = upstreamBodies[0].messages[0].content;
+  const whitelistLine = system.split('\n').find(line => line.startsWith('本次可入锅主料白名单:'));
+  assert.match(whitelistLine, /大米、胡萝卜、水/);
+  assert.doesNotMatch(whitelistLine, /玉米|青豆/);
+});
+
 test('trusted recipe locks stock against extra water in both system and grounding', async () => {
   const recipeLib = fixtureLib([groundedFixtureRecipe({
     status: 'approved',
@@ -1740,6 +1786,43 @@ test('optional ingredient cap excludes the separately locked main liquid and coo
   const fourExtras = ['蒜', '姜黄', '黑胡椒', '蘑菇'];
   assert.equal(validateGroundedMeal(makeMeal(fourExtras), selection, {}).includes('optional_ingredient_limit_exceeded'), false);
   assert.ok(validateGroundedMeal(makeMeal([...fourExtras, '香菜']), selection, {}).includes('optional_ingredient_limit_exceeded'));
+});
+
+test('packaged cooked duck is not reclassified as raw poultry', () => {
+  const recipe = lib.recipes.find(item => item.id === 'nanjing-duck-greens-rice');
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], lib.ingredient_aliases), {
+    pantry: recipe.core_ingredients, purpose: 'normal', dislikes: [],
+  });
+  const meal = {
+    ingredients: [
+      { name: '大米' }, { name: '包装熟制板鸭（去骨）' }, { name: '矮脚黄' }, { name: '水' },
+    ],
+    steps: [
+      '大米和水同锅焖熟。',
+      '板鸭放入原锅彻底复热至热透。',
+      '加入矮脚黄加热至熟软。',
+    ],
+  };
+  const flags = validateGroundedMeal(meal, selection, {});
+  assert.equal(flags.some(flag => flag.startsWith('high_risk_not_cooked:')), false);
+});
+
+test('skinless chicken thigh keeps the shorter chicken-thigh wording in its cooking endpoint', () => {
+  const recipe = lib.recipes.find(item => item.id === 'cantonese-mushroom-chicken-claypot-rice');
+  const [selection] = selectRecipeCandidates(fixtureLib([recipe], lib.ingredient_aliases), {
+    pantry: recipe.core_ingredients, purpose: 'normal', dislikes: [],
+  });
+  const meal = {
+    ingredients: [
+      { name: '大米' }, { name: '去皮鸡腿肉' }, { name: '鲜香菇' }, { name: '水' },
+    ],
+    steps: [
+      '去皮鸡腿肉与鲜香菇加水和大米同锅焖煮。',
+      '继续加热鸡腿肉至熟透，中心不见粉红。',
+    ],
+  };
+  const flags = validateGroundedMeal(meal, selection, {});
+  assert.equal(flags.some(flag => flag.startsWith('high_risk_not_cooked:')), false);
 });
 
 test('validator catches hidden advance preparation but not an explicit no-advance instruction', () => {

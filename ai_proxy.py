@@ -175,6 +175,10 @@ class PantryNeedsGrouping(RecipeLibraryUnavailable):
 class UnsafeRecipe(RuntimeError):
     """repair 后仍带 validation_flags: 服务端明示失败(422 unsafe_recipe), 不端出。"""
 
+    def __init__(self, message, validation_flag_types=None):
+        super().__init__(message)
+        self.validation_flag_types = list(validation_flag_types or [])
+
 
 try:
     RECIPE_LIBRARY = json.loads(RECIPE_LIBRARY_FILE.read_text(encoding='utf-8'))
@@ -1041,6 +1045,57 @@ def _trusted_recipe_generation_options(recipe):
     return optional if isinstance(optional, list) else []
 
 
+def _trusted_recipe_generation_options_for_selection(selection):
+    selection = selection if isinstance(selection, dict) else {}
+    recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    aliases = selection.get('ingredient_aliases') or {}
+    used = {
+        canonical
+        for name in (selection.get('used_pantry') or [])
+        if (canonical := canonical_recipe_ingredient(name, aliases))
+    }
+    options = _trusted_recipe_generation_options(recipe)
+    option_canonicals = {
+        canonical
+        for name in options
+        if (canonical := canonical_recipe_ingredient(name, aliases))
+    }
+    keep_by_slot = {}
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        originals = recipe_constraint_list(slot.get('replaces'))
+        alternatives = [
+            name for name in recipe_constraint_list(slot.get('allowed'))
+            if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
+        ]
+        selected_alternative = next((
+            name for name in alternatives
+            if canonical_recipe_ingredient(name, aliases) in used
+        ), None)
+        default_options = [
+            name for name in originals
+            if canonical_recipe_ingredient(name, aliases) in option_canonicals
+        ]
+        fallback_options = default_options or [
+            name for name in alternatives
+            if canonical_recipe_ingredient(name, aliases) in option_canonicals
+        ][:1]
+        keep = {
+            canonical
+            for name in ([selected_alternative] if selected_alternative else fallback_options)
+            if (canonical := canonical_recipe_ingredient(name, aliases))
+        }
+        for name in [*originals, *alternatives]:
+            canonical = canonical_recipe_ingredient(name, aliases)
+            if canonical:
+                keep_by_slot[canonical] = canonical in keep
+    return [
+        name for name in options
+        if keep_by_slot.get(canonical_recipe_ingredient(name, aliases), True)
+    ]
+
+
 def _trusted_recipe_liquid_options(recipe):
     configured = recipe.get('generation_liquid_ingredients')
     if isinstance(configured, list):
@@ -1111,7 +1166,7 @@ def _trusted_recipe_ingredient_whitelist(selection):
         if index not in consumed_selected
     ]
     optional_pool = _filter_trusted_options_by_dislikes([
-        *_trusted_recipe_generation_options(recipe),
+        *_trusted_recipe_generation_options_for_selection(selection),
         *_trusted_recipe_liquid_options(recipe),
     ], selection.get('dislikes'), aliases)
     candidates = [*adapted_core, *remaining_selected, *optional_pool]
@@ -1136,7 +1191,7 @@ def build_trusted_recipe_system_override(selection):
     dislikes = selection.get('dislikes')
     adaptation = sanitize_prompt_text(recipe.get('adaptation_note'), 400)
     generation_options = _filter_trusted_options_by_dislikes([
-        item for item in _trusted_recipe_generation_options(recipe)
+        item for item in _trusted_recipe_generation_options_for_selection(selection)
         if not re.match(r'^不(?:放|加|用)', _js_string(item).strip())
     ], dislikes, aliases)
     generation_option_count = '四' if len(generation_options) == 4 else str(len(generation_options))
@@ -1558,7 +1613,7 @@ def _validation_controlled_tokens(name):
     bare = re.sub(r'\(.*?\)', '', normalized)
     if bare == '鸡胸肉':
         return ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片']
-    if bare in ('去骨鸡腿肉', '鸡腿肉', '鸡腿肉去骨'):
+    if bare in ('去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉', '鸡腿肉去骨', '鸡腿肉去皮'):
         return ['鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片']
     if bare in ('猪瘦肉', '瘦猪肉'):
         return ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块']
@@ -1582,7 +1637,10 @@ def _validation_controlled_tokens(name):
 
 
 def _validation_prepared_high_risk_exemption(name):
-    return bool(re.fullmatch(r'(?:鸡高汤|高汤\(鸡高汤\)|浓缩鸡汤|皮蛋)', _validation_form_name(name)))
+    return bool(re.fullmatch(
+        r'(?:鸡高汤|高汤\(鸡高汤\)|浓缩鸡汤|皮蛋|包装熟制板鸭\(去骨\))',
+        _validation_form_name(name),
+    ))
 
 
 def _validation_cooking_oil_ingredient(name):
@@ -2375,7 +2433,7 @@ _VALIDATION_RAW_EGG_FORMS = {
     '鸡蛋', '蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液',
 }
 _VALIDATION_RAW_POULTRY_PORK_FORMS = {
-    '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
+    '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉去皮', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
     '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
     '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
 }
@@ -2887,7 +2945,11 @@ def attach_grounded_metadata(meal, selection, constraints):
 def finalize_generated_meal(meal, selection, constraints):
     attach_grounded_metadata(meal, selection, constraints)
     if meal.get('validation_flags'):
-        raise UnsafeRecipe('生成的做法没有通过食材或熟制检查')
+        flag_types = list(dict.fromkeys(
+            _js_string(flag).split(':', 1)[0]
+            for flag in meal.get('validation_flags') or []
+        ))
+        raise UnsafeRecipe('生成的做法没有通过食材或熟制检查', flag_types)
     return meal
 
 
@@ -3433,6 +3495,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({
                 'error': str(e),
                 'code': 'unsafe_recipe',
+                'validation_flag_types': e.validation_flag_types,
             }, ensure_ascii=False).encode('utf-8'))
         except NoCompatiblePantryRecipe as e:
             self.send_response(422)

@@ -705,6 +705,41 @@ function trustedRecipeGenerationOptions(recipe) {
   return Array.isArray(recipe?.optional_ingredients) ? recipe.optional_ingredients : [];
 }
 
+// 替换位未被用户库存锁定时，只暴露 generation options 中的默认原料；
+// 旧库若只配置了一个可生成替代项，就以该项作为受控默认。用户明确提交
+// allowed 替代项时，则只暴露该项。规则不改审批边界，只防止
+// 模型把原料和多个替代项一起塞进同一锅。
+function trustedRecipeGenerationOptionsForSelection(selection) {
+  const recipe = selection?.recipe && typeof selection.recipe === 'object' ? selection.recipe : {};
+  const aliases = selection?.ingredientAliases || {};
+  const used = new Set((Array.isArray(selection?.usedPantry) ? selection.usedPantry : [])
+    .map(name => canonicalRecipeIngredient(name, aliases))
+    .filter(Boolean));
+  const options = trustedRecipeGenerationOptions(recipe);
+  const optionCanonicals = new Set(options
+    .map(name => canonicalRecipeIngredient(name, aliases))
+    .filter(Boolean));
+  const keepBySlot = new Map();
+  for (const slot of Array.isArray(recipe.substitution_slots) ? recipe.substitution_slots : []) {
+    const originals = recipeConstraintList(slot?.replaces);
+    const alternatives = recipeConstraintList(slot?.allowed)
+      .filter(name => !/^\u4e0d(?:\u653e|\u52a0|\u7528)/.test(String(name || '').trim()));
+    const selectedAlternative = alternatives.find(name => used.has(canonicalRecipeIngredient(name, aliases)));
+    const defaultOptions = originals.filter(name => optionCanonicals.has(canonicalRecipeIngredient(name, aliases)));
+    const fallbackOptions = defaultOptions.length
+      ? defaultOptions
+      : alternatives.filter(name => optionCanonicals.has(canonicalRecipeIngredient(name, aliases))).slice(0, 1);
+    const keep = new Set((selectedAlternative ? [selectedAlternative] : fallbackOptions)
+      .map(name => canonicalRecipeIngredient(name, aliases))
+      .filter(Boolean));
+    for (const name of [...originals, ...alternatives]) {
+      const canonical = canonicalRecipeIngredient(name, aliases);
+      if (canonical) keepBySlot.set(canonical, keep.has(canonical));
+    }
+  }
+  return options.filter(name => keepBySlot.get(canonicalRecipeIngredient(name, aliases)) !== false);
+}
+
 function trustedRecipeLiquidOptions(recipe) {
   if (Array.isArray(recipe?.generation_liquid_ingredients)) {
     return recipe.generation_liquid_ingredients;
@@ -760,7 +795,7 @@ function trustedRecipeIngredientWhitelist(selection) {
   const remainingSelected = selectedPantry.filter((_, index) => !consumedSelected.has(index));
   // 可选/液体/库存部分按忌口过滤(W4); 固定核心保持原样(核心安全由选菜层 blockedCore 保证)。
   const optionalPool = filterTrustedOptionsByDislikes([
-    ...trustedRecipeGenerationOptions(recipe),
+    ...trustedRecipeGenerationOptionsForSelection(selection),
     ...trustedRecipeLiquidOptions(recipe),
   ], selection?.dislikes, aliases);
   return [
@@ -783,7 +818,7 @@ function buildTrustedRecipeSystemOverride(selection) {
   const dislikes = selection?.dislikes;
   const adaptation = sanitizePromptText(recipe.adaptation_note, 400);
   const generationOptions = filterTrustedOptionsByDislikes(
-    trustedRecipeGenerationOptions(recipe)
+    trustedRecipeGenerationOptionsForSelection(selection)
       .filter(item => !/^不(?:放|加|用)/.test(String(item || '').trim())),
     dislikes,
     aliases,
@@ -1144,7 +1179,7 @@ function validationControlledTokens(name) {
   if (bare === '鸡胸肉') {
     return ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'];
   }
-  if (['去骨鸡腿肉', '鸡腿肉', '鸡腿肉去骨'].includes(bare)) {
+  if (['去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉', '鸡腿肉去骨', '鸡腿肉去皮'].includes(bare)) {
     return ['鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片'];
   }
   if (['猪瘦肉', '瘦猪肉'].includes(bare)) return ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块'];
@@ -1160,7 +1195,7 @@ function validationControlledTokens(name) {
 }
 
 function validationPreparedHighRiskExemption(name) {
-  return /^(?:鸡高汤|高汤\(鸡高汤\)|浓缩鸡汤|皮蛋)$/.test(validationFormName(name));
+  return /^(?:鸡高汤|高汤\(鸡高汤\)|浓缩鸡汤|皮蛋|包装熟制板鸭\(去骨\))$/.test(validationFormName(name));
 }
 
 function validationCookingOilIngredient(name) {
@@ -2039,7 +2074,7 @@ const VALIDATION_RAW_EGG_FORMS = new Set([
   '鸡蛋', '蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液',
 ]);
 const VALIDATION_RAW_POULTRY_PORK_FORMS = new Set([
-  '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
+  '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉去皮', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
   '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
   '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
 ]);
