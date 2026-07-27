@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r7');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r8');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -36,6 +36,52 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('cowpea pod dry seed cooked seed and generic term never collapse', () => {
+  const rows = normalizePlannerItems(
+    ['鲜豇豆', '长豇豆', '豆角', '干豇豆', '熟豇豆', '豇豆'],
+    catalog,
+  );
+  assert.deepEqual(
+    rows.slice(0, 5).map(row => [row.canonical_id, row.category, row.recognized]),
+    [
+      ['fresh-cowpea-pod', 'pod_vegetable', true],
+      ['fresh-cowpea-pod', 'pod_vegetable', true],
+      ['green-beans', 'pod_vegetable', true],
+      ['dry-cowpea-seed', 'dry_legume', true],
+      ['cooked-cowpea-seed', 'cooked_legume', true],
+    ],
+  );
+  assert.equal(rows[5].recognized, false);
+  assert.equal(rows[5].ambiguity_id, 'cowpea-state');
+  assert.equal(rows[5].ambiguity_code, 'ambiguous_ingredient_state');
+  assert.deepEqual(rows[5].eligible_items, ['鲜豇豆', '干豇豆', '熟豇豆']);
+});
+
+test('pitted jujube is explicit while red date and jujube remain ambiguous', () => {
+  const [pitted, alias, redDate, jujube] = normalizePlannerItems(
+    ['去核红枣', '去核大枣', '红枣', '大枣'], catalog,
+  );
+  for (const row of [pitted, alias]) {
+    assert.deepEqual(
+      [row.canonical_id, row.category, row.shape_or_cut, row.cooking_risk],
+      ['pitted-dried-jujube', 'dried_fruit', 'pitted', 'pit_hazard'],
+    );
+    assert.deepEqual(row.required_endpoint_codes, ['pit_absent_verified']);
+  }
+  for (const row of [redDate, jujube]) {
+    assert.equal(row.recognized, false);
+    assert.equal(row.ambiguity_id, 'jujube-pit-state');
+    assert.equal(row.ambiguity_code, 'ambiguous_ingredient_state');
+    assert.deepEqual(row.eligible_items, ['去核红枣']);
+  }
+});
+
+test('ambiguity aliases deduplicate without inflating the pantry denominator', () => {
+  const [first, alias] = normalizePlannerItems(['红枣', '大枣'], catalog);
+  assert.equal(first.duplicate_of, null);
+  assert.equal(alias.duplicate_of, '红枣');
 });
 
 test('fresh wheat noodles and dried noodles keep independent canonical identities', () => {
@@ -274,6 +320,44 @@ test('validator rejects duplicate IDs and aliases plus incomplete cooking attrib
   assert.ok(errors.some(error => error.includes('cooking_risk')));
 });
 
+test('ambiguity schema is finite referenced and collision free', () => {
+  assert.deepEqual(validateIngredientTaxonomy(catalog), []);
+
+  const unknownTarget = structuredClone(catalog);
+  unknownTarget.ambiguous_inputs[0].eligible_items = ['不存在的食材'];
+  assert.match(
+    validateIngredientTaxonomy(unknownTarget).join('\n'),
+    /eligible_items.*existing display_name/,
+  );
+
+  const aliasCollision = structuredClone(catalog);
+  aliasCollision.items.find(item => item.canonical_id === 'green-beans').aliases.push('豇豆');
+  assert.match(validateIngredientTaxonomy(aliasCollision).join('\n'), /ambiguity.*conflict/);
+
+  const unknownRoot = structuredClone(catalog);
+  unknownRoot.extra_prompt = 'guess';
+  assert.match(validateIngredientTaxonomy(unknownRoot).join('\n'), /unknown taxonomy field: extra_prompt/);
+});
+
+test('ambiguity validator rejects malformed finite fields without throwing', () => {
+  const probes = [
+    catalog => { catalog.ambiguous_inputs[1].input = '豇 豆'; },
+    catalog => { catalog.ambiguous_inputs[1].ambiguity_id = catalog.ambiguous_inputs[0].ambiguity_id; },
+    catalog => { catalog.ambiguous_inputs[0].reason_code = 'guess_state'; },
+    catalog => { catalog.ambiguous_inputs[0].reason = ''; },
+    catalog => { catalog.ambiguous_inputs[0].eligible_items = []; },
+    catalog => { catalog.ambiguous_inputs[0].eligible_items = ['长豇豆']; },
+  ];
+  for (const mutate of probes) {
+    const invalid = structuredClone(catalog);
+    mutate(invalid);
+    assert.doesNotThrow(() => validateIngredientTaxonomy(invalid));
+    const errors = validateIngredientTaxonomy(invalid);
+    assert.ok(errors.length > 0);
+    assert.ok(errors.every(error => typeof error === 'string'));
+  }
+});
+
 test('validator rejects codes outside its finite first-stage vocabularies', () => {
   const invalid = structuredClone(catalog);
   invalid.items[0].texture_behavior.best_method_codes = ['invent_method'];
@@ -430,7 +514,9 @@ test('planner normalization retains unknown and duplicate inputs for explanation
     raw: '火星菜', canonical_id: null, canonical: null, ratio_rule_policy: null,
     category: null, shape_or_cut: null,
     cook_speed: null, moisture_release: null, texture_behavior: null,
-    cooking_risk: 'unknown', recognized: false, role: 'prefer_use', duplicate_of: null,
+    cooking_risk: 'unknown', recognized: false,
+    ambiguity_id: null, ambiguity_code: null, ambiguity_reason: null, eligible_items: [],
+    role: 'prefer_use', duplicate_of: null,
   });
 });
 

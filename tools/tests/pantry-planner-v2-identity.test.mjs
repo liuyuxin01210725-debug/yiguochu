@@ -131,6 +131,9 @@ test('every declared identity fact changes the plan ID', async t => {
     servings: plan => { plan.plan.pots[0].servings = 3; },
     normalized_raw_input: plan => { plan.normalized_items[0].raw = '牛柳'; },
     normalized_role: plan => { plan.normalized_items[0].role = 'prefer_use'; },
+    ambiguity_code: plan => { plan.normalized_items[0].ambiguity_code = 'ambiguous_ingredient_state'; },
+    ambiguity_id: plan => { plan.normalized_items[0].ambiguity_id = 'cowpea-state'; },
+    ambiguity_options: plan => { plan.normalized_items[0].eligible_items = ['鲜豇豆', '干豇豆', '熟豇豆']; },
     template: plan => { plan.plan.pots[0].template_id = 'cooked-rice-stir-pot'; },
     slot_assignment: plan => { plan.plan.pots[0].slot_assignment.protein[0].shape_or_cut = 'sliced'; },
     ingredient_amount: plan => { plan.plan.pots[0].ingredient_amounts[0].grams += 5; },
@@ -151,6 +154,22 @@ test('every declared identity fact changes the plan ID', async t => {
       assert.notEqual(await planner.computePlanId(changed), baseId);
     });
   }
+});
+
+test('ambiguity options are a semantic set in plan identity', async () => {
+  const a = structuredClone(lockedPlan);
+  Object.assign(a.normalized_items[0], {
+    ambiguity_id: 'cowpea-state',
+    ambiguity_code: 'ambiguous_ingredient_state',
+    eligible_items: ['鲜豇豆', '干豇豆', '熟豇豆'],
+  });
+  const reordered = structuredClone(a);
+  reordered.normalized_items[0].eligible_items.reverse();
+  assert.equal(await planner.computePlanId(a), await planner.computePlanId(reordered));
+
+  const missingOption = structuredClone(a);
+  missingOption.normalized_items[0].eligible_items = ['鲜豇豆', '干豇豆'];
+  assert.notEqual(await planner.computePlanId(a), await planner.computePlanId(missingOption));
 });
 
 test('semantic set ordering is canonical while meal sequence remains meaningful', async () => {

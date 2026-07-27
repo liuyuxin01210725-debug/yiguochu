@@ -151,6 +151,32 @@ test('unknown must-use remains in the denominator and unplanned list and blocks 
   assert.deepEqual(result.plan.unplanned_must_use.map(item => item.reason_code), ['unrecognized_ingredient']);
 });
 
+test('ambiguous cowpea blocks pantry completion without hiding the existing pot', () => {
+  const result = planMeal(assets, request({ must: ['大米', '去核红枣', '豇豆'] }));
+  assert.equal(result.status, 'needs_user_decision');
+  assert.equal(result.generation_allowed, false);
+  assert.ok(result.plan.pots.length >= 1);
+  assert.ok(result.plan.coverage_ratio <= 1 / 3);
+  const row = result.plan.unplanned_must_use.find(item => item.raw === '豇豆');
+  assert.equal(row.reason_code, 'ambiguous_ingredient_state');
+  assert.equal(row.ambiguity_id, 'cowpea-state');
+  assert.deepEqual(row.eligible_items, ['鲜豇豆', '干豇豆', '熟豇豆']);
+});
+
+test('recommend may use a coherent subset but explains unresolved and unsupported ingredients', () => {
+  const result = planMeal(assets, request({
+    mode: 'recommend',
+    prefer: ['大米', '去核红枣', '豇豆', '鸡腿肉'],
+  }));
+  assert.equal(result.status, 'ready');
+  assert.ok(result.plan.planned_prefer_use.some(item => item.raw === '大米'));
+  const jujube = result.plan.unused_prefer_use.find(item => item.raw === '去核红枣');
+  assert.ok(jujube?.reason_code && jujube?.reason);
+  const cowpea = result.plan.unused_prefer_use.find(item => item.raw === '豇豆');
+  assert.equal(cowpea?.reason_code, 'ambiguous_ingredient_state');
+  assert.deepEqual(cowpea?.eligible_items, ['鲜豇豆', '干豇豆', '熟豇豆']);
+});
+
 test('semantic duplicates never inflate coverage denominators or planned counts', () => {
   const candidates = buildPotCandidates(assets, request({ must: ['豆腐', '老豆腐', '青菜'] }));
   const pot = candidates.find(candidate => candidate.template_id === 'egg-tofu-vegetable-pot');
