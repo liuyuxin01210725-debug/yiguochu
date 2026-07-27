@@ -28,6 +28,7 @@ const SAFETY_EVIDENCE_RULES = Object.freeze({
   poultry_fully_cooked_no_pink: /完全熟透.*内部无粉红/u,
   beef_fully_cooked: /完全熟透/u,
   pork_fully_cooked: /完全熟透/u,
+  lamb_fully_cooked: /完全熟透/u,
   bean_fully_cooked: /煮熟软化/u,
   heated_through: /热透/u,
   noodle_tender: /无硬芯|熟透/u,
@@ -128,7 +129,8 @@ function endpointEvidencePhrase(endpoint, refs) {
   const ingredients = joinedPlaceholders(refs);
   if (endpoint === 'egg_fully_set') return `${ingredients}完全凝固`;
   if (endpoint === 'poultry_fully_cooked_no_pink') return `${ingredients}完全熟透，内部无粉红`;
-  if (endpoint === 'beef_fully_cooked' || endpoint === 'pork_fully_cooked') {
+  if (endpoint === 'beef_fully_cooked' || endpoint === 'pork_fully_cooked'
+      || endpoint === 'lamb_fully_cooked') {
     return `${ingredients}完全熟透`;
   }
   if (endpoint === 'bean_fully_cooked') return `${ingredients}煮熟软化`;
@@ -144,7 +146,7 @@ function controlledStepTexts(phase, lockedIngredients) {
     const categories = new Set(lockedIngredients
       .filter(item => phase.allowed_ingredient_refs.includes(item.ingredient_ref))
       .map(item => item.category));
-    if (categories.has('beef') || categories.has('pork')) {
+    if (categories.has('beef') || categories.has('pork') || categories.has('lamb')) {
       templates = [
         '将{items}切成适合入口的薄片，使厚薄尽量一致',
         '把{items}顺着原部位切成薄片，放在手边备用',
