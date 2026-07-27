@@ -329,6 +329,20 @@ test('fresh noodle identity is identical across Worker and Python bridge', async
   );
 });
 
+test('cowpea ambiguity and explicit states are identical across Worker and Python bridge', async () => {
+  for (const must of [
+    ['大米', '去核红枣', '豇豆'],
+    ['大米', '去核红枣', '干豇豆'],
+    ['大米', '去核红枣', '熟豇豆'],
+  ]) {
+    const requestBody = request({ must });
+    const workerResult = await workerPlan(requestBody);
+    const pythonResult = pythonPlan(requestBody);
+    assert.equal(workerResult.status, 200);
+    assert.deepEqual(pythonResult, workerResult.body);
+  }
+});
+
 test('Xinjiang lamb leg rice facts are identical across Worker and Python bridge', async () => {
   const body = await parityCase(
     'Xinjiang lamb leg rice',
@@ -442,6 +456,32 @@ test('HTTP /plan-meal is key-free, rate-free and exactly reflects Worker planner
     }
   } finally {
     await stopProxy(proxy);
+  }
+});
+
+test('ambiguous HTTP planning pauses generation without rate or upstream work', async () => {
+  const upstream = await fakeUpstream();
+  const proxy = await startProxy({
+    RATE_LIMIT: '1',
+    DEEPSEEK_API_KEY: 'local-test-key',
+    API_URL: upstream.url('/valid'),
+  });
+  try {
+    const body = request({ must: ['大米', '去核红枣', '豇豆'] });
+    for (let index = 0; index < 2; index += 1) {
+      const result = await postJson(proxy.base, '/plan-meal', body);
+      assert.equal(result.response.status, 200);
+      assert.equal(result.body.status, 'needs_user_decision');
+      assert.equal(result.body.generation_allowed, false);
+      assert.equal(
+        result.body.plan.unplanned_must_use.find(item => item.raw === '豇豆')?.reason_code,
+        'ambiguous_ingredient_state',
+      );
+    }
+    assert.equal(upstream.calls.length, 0);
+  } finally {
+    await stopProxy(proxy);
+    await upstream.close();
   }
 });
 

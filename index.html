@@ -1089,12 +1089,13 @@ function plannerCoverageHtml(result) {
 }
 function plannerStateScreen() {
   const result = state.displayedPlan || {};
+  const unplanned = result.plan && result.plan.unplanned_must_use || [];
+  const hasAmbiguousIngredient = unplanned.some(item => item.reason_code === 'ambiguous_ingredient_state');
   let title = result.status === 'complete' ? '完整清库存计划'
     : result.status === 'partial_accepted' ? '部分处理方案'
-      : result.status === 'needs_user_decision' ? '还有食材没有安排'
+      : result.status === 'needs_user_decision' ? (hasAmbiguousIngredient ? '需要确认食材状态' : '还有食材没有安排')
         : result.status === 'stale_plan' ? '这份计划已经更新，请重新规划'
           : result.status === 'no_valid_plan' ? '暂时没有可靠的安排' : '这套方案可以做';
-  const unplanned = result.plan && result.plan.unplanned_must_use || [];
   const reasons = unplanned.length ? '<div class="pantry-plan-list">' + unplanned.map(item => '<p class="pantry-plan-note"><strong>' + esc(itemText(item)) + '：</strong>' + esc(boundedText(item.reason || item.message, 160) || '当前规则下暂时无法安排') + '</p>').join('') + '</div>' : '';
   const actions = (result.actions || []).map(plannerActionHtml).join('');
   const edit = (result.actions || []).some(action => action && action.action === 'edit_ingredients')

@@ -502,6 +502,35 @@ test('needs_user_decision retains pots and never calls generation', async () => 
   assert.doesNotMatch(root.innerHTML, /按这几步做/);
 });
 
+test('ingredient ambiguity reads as a quality guard and preserves the raw input', async () => {
+  const planned = plannerResult({
+    status:'needs_user_decision', generation_allowed:false, mode:'pantry',
+    commitment:'还有食材没有安排，需要你先决定下一步。',
+    normalized_items:[
+      {raw:'大米',canonical:'大米',recognized:true,role:'must_use'},
+      {raw:'豇豆',canonical:null,recognized:false,role:'must_use',
+       ambiguity_id:'cowpea-state',ambiguity_code:'ambiguous_ingredient_state',
+       eligible_items:['鲜豇豆','干豇豆','熟豇豆']},
+    ],
+    plan:{
+      planned_must_use:[{raw:'大米',canonical:'大米'}], planned_prefer_use:[],
+      unplanned_must_use:[{raw:'豇豆',canonical:null,ambiguity_id:'cowpea-state',
+        reason_code:'ambiguous_ingredient_state',
+        reason:'“豇豆”可能指鲜豆荚、干豆粒或熟豆粒，请写得更具体。',
+        eligible_items:['鲜豇豆','干豇豆','熟豇豆']}],
+      unused_prefer_use:[], coverage_ratio:0.5,
+    },
+  });
+  const { context, calls, root } = loadFrontend([{body:planned}]);
+  evaluate(context, `state.profile = { mode:'pantry', intent:'normal', servings:'2', pantry:'大米,豇豆', dislikes:'' }`);
+  await evaluate(context, `runPlannerFlow({ autoGenerate:true })`);
+  assert.equal(calls.length, 1);
+  assert.match(root.innerHTML, /fb-banner-title">需要确认食材状态/);
+  assert.match(root.innerHTML, /豇豆.*鲜豆荚.*干豆粒.*熟豆粒/);
+  assert.doesNotMatch(root.innerHTML, /生成失败|全部安排完成/);
+  assert.equal(evaluate(context, 'state.profile.pantry.includes("豇豆")'), true);
+});
+
 test('swap only replans, preview generation reuses its exact request, and history does not pre-record the preview', async () => {
   const first = plannerResult();
   const alternative = plannerResult({ plan:{ plan_id:'pln_v2_alternative', pots:[{ ...plannerResult().plan.pots[0], template_id:'savory-mixed-rice-pot' }] } });
