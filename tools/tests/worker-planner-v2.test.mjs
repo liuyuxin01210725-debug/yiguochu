@@ -102,11 +102,11 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.recipeLibrary, 'ok');
   assert.equal(result.body.plannerAssets, 'ok');
   assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
-  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r8');
-  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r8');
-  assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260727-r4');
-  assert.equal(result.body.activeTemplates, 10);
-  assert.equal(result.body.plannedTemplates, 6);
+  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r9');
+  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r9');
+  assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260727-r5');
+  assert.equal(result.body.activeTemplates, 11);
+  assert.equal(result.body.plannedTemplates, 5);
   assert.equal(result.body.baseRecipes, 72);
 });
 
@@ -175,6 +175,38 @@ test('fully coverable pantry returns complete without requiring a model key', as
   assert.equal(result.body.plan.coverage_ratio, 1);
   assert.deepEqual(result.body.plan.unplanned_must_use, []);
   assertZeroGenerationWork(result);
+});
+
+test('HTTP planner returns the complete measured soft millet pot without generation work', async () => {
+  const input = plannerBody({
+    mode: 'pantry',
+    intent: 'normal',
+    servings: 2,
+    must: ['小米', '土豆', '熟鹰嘴豆'],
+  });
+  const current = await postPlan(input);
+  assert.equal(current.response.status, 200);
+  assert.equal(current.body.status, 'complete');
+  assert.equal(current.body.generation_allowed, true);
+  assert.equal(current.body.plan.coverage_ratio, 1);
+  assert.equal(current.body.plan.pots[0].template_id, 'soft-family-rice-pot');
+  assert.deepEqual(
+    new Map(current.body.plan.pots[0].ingredient_amounts.map(row => [row.name, row.grams])),
+    new Map([['小米',80], ['土豆',180], ['熟鹰嘴豆',176], ['水',664], ['食用油',10], ['盐',3]]),
+  );
+  assertZeroGenerationWork(current);
+
+  const swapped = await postPlan(plannerBody({
+    mode: 'pantry',
+    intent: 'normal',
+    servings: 2,
+    must: ['小米', '土豆', '熟鹰嘴豆'],
+    currentPlanId: current.body.plan.plan_id,
+  }));
+  assert.equal(swapped.body.status, 'no_alternative_plan');
+  assert.equal(swapped.body.code, 'no_alternative_plan');
+  assert.equal(swapped.body.plan.plan_id, current.body.plan.plan_id);
+  assertZeroGenerationWork(swapped);
 });
 
 test('HTTP planner returns the executable cooked-rice broth plan without generation work', async () => {
