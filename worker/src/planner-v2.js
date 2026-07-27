@@ -131,6 +131,17 @@ function taxonomyItemIndex(taxonomy) {
   return index;
 }
 
+function taxonomyAmbiguityIndex(taxonomy) {
+  const index = new Map();
+  for (const ambiguity of taxonomy?.ambiguous_inputs || []) {
+    for (const input of [ambiguity.input, ...(ambiguity.aliases || [])]) {
+      const key = normalizeIngredientTaxonomyKey(input);
+      if (key && !index.has(key)) index.set(key, ambiguity);
+    }
+  }
+  return index;
+}
+
 function taxonomyShapeForInput(item, raw) {
   const rawKey = normalizeIngredientTaxonomyKey(raw);
   const mapped = Object.entries(item.alias_shape_or_cut || {}).find(([alias]) => normalizeIngredientTaxonomyKey(alias) === rawKey)?.[1];
@@ -144,26 +155,43 @@ function taxonomyShapeForInput(item, raw) {
 export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
   if (!Array.isArray(rawItems)) throw invalidPlannerRequest('planner items must be an array');
   const index = taxonomyItemIndex(taxonomy);
-  const parsed = rawItems.map(plannerItemInput).map(input => ({
-    ...input,
-    item: index.get(normalizeIngredientTaxonomyKey(input.raw)) || null,
-  }));
+  const ambiguityIndex = taxonomyAmbiguityIndex(taxonomy);
+  const parsed = rawItems.map(plannerItemInput).map(input => {
+    const key = normalizeIngredientTaxonomyKey(input.raw);
+    const item = index.get(key) || null;
+    return {
+      ...input,
+      item,
+      ambiguity: item ? null : ambiguityIndex.get(key) || null,
+    };
+  });
   const representativeByCanonical = new Map();
   for (let indexOfItem = 0; indexOfItem < parsed.length; indexOfItem += 1) {
     const entry = parsed[indexOfItem];
-    if (!entry.item || entry.role !== 'must_use') continue;
-    const canonical = entry.item.canonical_name || entry.item.display_name;
-    if (!representativeByCanonical.has(canonical)) representativeByCanonical.set(canonical, indexOfItem);
+    if (entry.role !== 'must_use') continue;
+    const identity = entry.item
+      ? entry.item.canonical_name || entry.item.display_name
+      : entry.ambiguity ? `ambiguity:${entry.ambiguity.ambiguity_id}` : null;
+    if (identity && !representativeByCanonical.has(identity)) {
+      representativeByCanonical.set(identity, indexOfItem);
+    }
   }
   for (let indexOfItem = 0; indexOfItem < parsed.length; indexOfItem += 1) {
     const entry = parsed[indexOfItem];
-    if (!entry.item) continue;
-    const canonical = entry.item.canonical_name || entry.item.display_name;
-    if (!representativeByCanonical.has(canonical)) representativeByCanonical.set(canonical, indexOfItem);
+    const identity = entry.item
+      ? entry.item.canonical_name || entry.item.display_name
+      : entry.ambiguity ? `ambiguity:${entry.ambiguity.ambiguity_id}` : null;
+    if (identity && !representativeByCanonical.has(identity)) {
+      representativeByCanonical.set(identity, indexOfItem);
+    }
   }
   return parsed.map((entry, indexOfItem) => {
-    const { raw, role, item } = entry;
+    const { raw, role, item, ambiguity } = entry;
     if (!item) {
+      const ambiguityIdentity = ambiguity ? `ambiguity:${ambiguity.ambiguity_id}` : null;
+      const representativeIndex = ambiguityIdentity == null
+        ? indexOfItem
+        : representativeByCanonical.get(ambiguityIdentity);
       return {
         raw,
         canonical_id: null,
@@ -176,8 +204,12 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
         texture_behavior: null,
         cooking_risk: 'unknown',
         recognized: false,
+        ambiguity_id: ambiguity?.ambiguity_id || null,
+        ambiguity_code: ambiguity?.reason_code || null,
+        ambiguity_reason: ambiguity?.reason || null,
+        eligible_items: [...(ambiguity?.eligible_items || [])],
         role,
-        duplicate_of: null,
+        duplicate_of: representativeIndex === indexOfItem ? null : parsed[representativeIndex].raw,
       };
     }
     const canonical = item.canonical_name || item.display_name;
@@ -200,6 +232,10 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
       compatible_slot_codes: [...(item.compatible_slot_codes || [])],
       incompatible_slot_codes: [...(item.incompatible_slot_codes || [])],
       recognized: true,
+      ambiguity_id: null,
+      ambiguity_code: null,
+      ambiguity_reason: null,
+      eligible_items: [],
       role,
       duplicate_of,
     };
@@ -885,6 +921,12 @@ function unusedReason(item, assignment, template, role, dislikes = [], allergyAl
     reason_code: 'allergen_conflict',
     reason: '这项食材与你设置的忌口冲突。',
   };
+  if (item.ambiguity_code === 'ambiguous_ingredient_state') return {
+    ...structuredClone(item),
+    reason_code: item.ambiguity_code,
+    reason: item.ambiguity_reason,
+    eligible_items: [...item.eligible_items],
+  };
   if (!item.recognized) return {
     ...structuredClone(item),
     reason_code: 'unrecognized_ingredient',
@@ -1192,14 +1234,15 @@ function findBestPartialPotCombination(rankedCandidates, request, diagnostics) {
 const UNPLANNED_REASON_PRIORITY = Object.freeze({
   allergen_conflict: 0,
   unsupported_shape_or_cut: 1,
-  unrecognized_ingredient: 2,
-  time_constraint: 3,
-  safety_constraint: 4,
-  incompatible_combination: 5,
-  would_break_ratio: 6,
-  exceeds_slot_limit: 7,
-  no_compatible_slot: 8,
-  lower_compatibility: 9,
+  ambiguous_ingredient_state: 2,
+  unrecognized_ingredient: 3,
+  time_constraint: 4,
+  safety_constraint: 5,
+  incompatible_combination: 6,
+  would_break_ratio: 7,
+  exceeds_slot_limit: 8,
+  no_compatible_slot: 9,
+  lower_compatibility: 10,
 });
 
 function bestExistingReason(item, ranked, field) {
@@ -1216,6 +1259,12 @@ function fallbackUnplannedReason(item, request, allergyAliases, role) {
     reason_code: 'allergen_conflict',
     reason: '这项食材与你设置的忌口冲突。',
   };
+  if (item.ambiguity_code === 'ambiguous_ingredient_state') return {
+    ...structuredClone(item),
+    reason_code: item.ambiguity_code,
+    reason: item.ambiguity_reason,
+    eligible_items: [...item.eligible_items],
+  };
   if (!item.recognized) return {
     ...structuredClone(item),
     reason_code: 'unrecognized_ingredient',
@@ -1231,7 +1280,10 @@ function fallbackUnplannedReason(item, request, allergyAliases, role) {
 function reasonForUnplanned(item, ranked, request, allergyAliases, role, overrideCode = null) {
   const existing = bestExistingReason(item, ranked, role === 'must_use' ? 'unplanned_must_use' : 'unused_prefer_use');
   const reason = existing ? structuredClone(existing) : fallbackUnplannedReason(item, request, allergyAliases, role);
-  const specific = new Set(['allergen_conflict', 'unsupported_shape_or_cut', 'unrecognized_ingredient', 'time_constraint', 'safety_constraint', 'incompatible_combination']);
+  const specific = new Set([
+    'allergen_conflict', 'unsupported_shape_or_cut', 'ambiguous_ingredient_state',
+    'unrecognized_ingredient', 'time_constraint', 'safety_constraint', 'incompatible_combination',
+  ]);
   if (overrideCode && !specific.has(reason.reason_code)) {
     reason.reason_code = overrideCode;
     reason.reason = overrideCode === 'third_pot_required'
@@ -1445,7 +1497,10 @@ function planMealCore(assets, request, diagnostics) {
   }
 
   const selected = findBestPartialPotCombination(searchRanked, request, diagnostics);
-  const displayableSelected = selected.length === 1 && selected[0].single_pot_eligible !== true ? [] : selected;
+  const hasAmbiguousMust = must.some(item => item.ambiguity_code === 'ambiguous_ingredient_state');
+  const displayableSelected = selected.length === 1
+    && selected[0].single_pot_eligible !== true
+    && !hasAmbiguousMust ? [] : selected;
   const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
     && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
   const capacityExceeded = displayableSelected.length > 0
@@ -1554,6 +1609,9 @@ function identityIngredient(item = {}) {
     required_endpoint_codes: identityStringArray(item.required_endpoint_codes),
     compatible_slot_codes: identityStringArray(item.compatible_slot_codes),
     incompatible_slot_codes: identityStringArray(item.incompatible_slot_codes),
+    ambiguity_id: identityText(item.ambiguity_id),
+    ambiguity_code: identityText(item.ambiguity_code),
+    eligible_items: identityStringArray(item.eligible_items),
     recognized: item.recognized === true,
     role: identityText(item.role),
     duplicate_of: identityText(item.duplicate_of),

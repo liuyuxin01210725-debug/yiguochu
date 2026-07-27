@@ -7,13 +7,13 @@ const CATEGORIES = new Set([
   'beef', 'chicken', 'pork', 'lamb', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
   'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'mushroom', 'cornmeal_dough',
   'cornmeal_flour', 'cornmeal_cake', 'ready_staple',
-  'wheat_dough', 'liquid', 'oil', 'seasoning',
+  'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'liquid', 'oil', 'seasoning',
 ]);
-const STATES = new Set(['raw', 'cooked', 'basic', 'cured', 'prepared', 'derived_plan_output']);
+const STATES = new Set(['raw', 'cooked', 'dry', 'basic', 'cured', 'prepared', 'derived_plan_output']);
 const SHAPES = new Set([
   'whole', 'slice', 'dice', 'shred', 'ground', 'tenderloin', 'breast', 'leg', 'rib',
   'brisket', 'cured_slice', 'sausage', 'dough_piece', 'liquid', 'fine', 'coarse',
-  'unspecified', 'cake',
+  'unspecified', 'cake', 'whole_seed', 'pitted',
 ]);
 const INPUT_SCOPES = new Set(['pantry_input', 'derived_only']);
 const RATIO_RULE_POLICIES = new Set(['category_fallback', 'canonical_required']);
@@ -26,19 +26,20 @@ const TEXTURE_BEHAVIORS = new Set([
   'renders_fat_when_heated', 'steams_above_stew', 'liquid', 'dissolves',
   'forms_dough_with_water',
 ]);
-const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_flour', 'unknown']);
+const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_flour', 'raw_legume', 'pit_hazard', 'unknown']);
 const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam', 'hydrate']);
 const FAILURE_MODE_CODES = new Set([
   'undercooked_when_liquid_is_short', 'mushy_when_overmixed', 'soft_when_overcooked',
   'watery_when_overloaded', 'rubbery_when_overcooked', 'breaks_when_stirred',
-  'dry_when_overcooked', 'tough_when_overcooked', 'tough_when_rushed',
+  'dry_when_overcooked', 'tough_when_overcooked', 'tough_when_undercooked', 'tough_when_rushed',
   'chewy_when_undercooked', 'firm_when_undercooked', 'burns_when_unattended', 'smokes_when_overheated',
   'salty_when_overseasoned', 'dense_when_understeamed',
   'clumps_when_hydration_is_wrong',
 ]);
 const ENDPOINT_CODES = new Set([
   'rice_tender', 'heated_through', 'noodle_tender', 'egg_fully_set', 'beef_fully_cooked',
-  'poultry_fully_cooked', 'pork_fully_cooked', 'lamb_fully_cooked', 'bean_fully_cooked', 'tender', 'dough_cooked_through',
+  'poultry_fully_cooked', 'pork_fully_cooked', 'lamb_fully_cooked', 'bean_fully_cooked',
+  'legume_fully_cooked', 'pit_absent_verified', 'tender', 'dough_cooked_through',
 ]);
 const SLOT_CODES = new Set([
   'staple', 'raw_rice', 'cooked_rice', 'noodle', 'acid_base', 'vegetable', 'protein', 'egg',
@@ -47,6 +48,8 @@ const SLOT_CODES = new Set([
   'fast_cooking_vegetable', 'aromatic', 'mushroom', 'liquid', 'oil', 'seasoning',
   'hard_stir_fry', 'long_braise', 'cured_pork', 'edge_steamed_staple',
   'staple_preparation_input', 'derived_staple', 'ready_staple',
+  'dry_legume_required', 'cooked_legume_required', 'legume_preparation_input', 'cooked_legume',
+  'dried_fruit_accent',
 ]);
 
 function isStringArray(value) {
@@ -55,10 +58,80 @@ function isStringArray(value) {
 
 const VIRTUAL_CANONICAL_NAMES = new Map([['lamb-leg', '羊肉']]);
 
+function validateAmbiguousInputs(data, displayEntries, aliasEntries, errors) {
+  const rows = data.ambiguous_inputs;
+  if (!Array.isArray(rows) || rows.length === 0) {
+    errors.push('ambiguous_inputs must be a non-empty array');
+    return;
+  }
+  const seen = new Set();
+  const seenIds = new Set();
+  for (const [index, row] of rows.entries()) {
+    const label = `ambiguous_inputs[${index}]`;
+    if (!row || typeof row !== 'object' || Array.isArray(row)) {
+      errors.push(`${label} must be an object`);
+      continue;
+    }
+    const allowed = new Set(['ambiguity_id', 'input', 'aliases', 'reason_code', 'reason', 'eligible_items']);
+    for (const key of Object.keys(row)) {
+      if (!allowed.has(key)) errors.push(`${label}.${key} is unknown`);
+    }
+    const aliases = row.aliases == null ? [] : row.aliases;
+    if (typeof row.ambiguity_id !== 'string'
+      || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(row.ambiguity_id)
+      || seenIds.has(row.ambiguity_id)) {
+      errors.push(`${label}.ambiguity_id must be unique kebab-case`);
+    } else {
+      seenIds.add(row.ambiguity_id);
+    }
+    if (typeof row.input !== 'string' || !row.input.trim()) {
+      errors.push(`${label}.input must be non-empty`);
+    }
+    if (!Array.isArray(aliases)
+      || !aliases.every(value => typeof value === 'string' && value.trim())) {
+      errors.push(`${label}.aliases must be a string array`);
+    }
+    if (row.reason_code !== 'ambiguous_ingredient_state') {
+      errors.push(`${label}.reason_code is invalid`);
+    }
+    if (typeof row.reason !== 'string' || !row.reason.trim() || row.reason.length > 160) {
+      errors.push(`${label}.reason must be 1-160 characters`);
+    }
+    if (!Array.isArray(row.eligible_items) || row.eligible_items.length === 0
+      || !row.eligible_items.every(value => typeof value === 'string' && value.trim())) {
+      errors.push(`${label}.eligible_items must be a non-empty string array`);
+    } else {
+      const eligibleKeys = new Set();
+      for (const target of row.eligible_items) {
+        const targetKey = normalizeIngredientTaxonomyKey(target);
+        const targetEntries = displayEntries.get(targetKey) || [];
+        if (targetEntries.length !== 1 || targetEntries[0]?.input_scope !== 'pantry_input') {
+          errors.push(`${label}.eligible_items must name an existing display_name`);
+        }
+        if (eligibleKeys.has(targetKey)) errors.push(`${label}.eligible_items must be unique`);
+        eligibleKeys.add(targetKey);
+      }
+    }
+    for (const input of [row.input, ...(Array.isArray(aliases) ? aliases : [])]) {
+      if (typeof input !== 'string' || !input.trim()) continue;
+      const key = normalizeIngredientTaxonomyKey(input);
+      if (seen.has(key)) errors.push(`duplicate normalized ambiguity input: ${key}`);
+      seen.add(key);
+      if (displayEntries.has(key) || aliasEntries.has(key)) {
+        errors.push(`ambiguity input conflicts with canonical identity: ${key}`);
+      }
+    }
+  }
+}
+
 export function validateIngredientTaxonomy(data) {
   const errors = [];
   if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
-  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r7') errors.push('taxonomy_version must be taxonomy-v1-20260727-r7');
+  const allowedRootFields = new Set(['taxonomy_version', 'items', 'ambiguous_inputs']);
+  for (const key of Object.keys(data)) {
+    if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
+  }
+  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r8') errors.push('taxonomy_version must be taxonomy-v1-20260727-r8');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];
@@ -175,6 +248,7 @@ export function validateIngredientTaxonomy(data) {
     if (entries.length > 1) errors.push(`duplicate normalized alias: ${key}`);
     if (displayEntries.has(key)) errors.push(`normalized alias conflicts with display_name: ${key}`);
   }
+  validateAmbiguousInputs(data, displayEntries, aliasEntries, errors);
   const strictRatioIdentities = data.items.filter(item => item?.ratio_rule_policy === 'canonical_required');
   if (strictRatioIdentities.length !== 1 || strictRatioIdentities[0]?.canonical_id !== 'fresh-wheat-noodle') {
     errors.push('canonical_required ratio policy must belong only to fresh-wheat-noodle');

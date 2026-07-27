@@ -103,7 +103,7 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.plannerAssets, 'ok');
   assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
   assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260727-r8');
-  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r7');
+  assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260727-r8');
   assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260727-r4');
   assert.equal(result.body.activeTemplates, 10);
   assert.equal(result.body.plannedTemplates, 6);
