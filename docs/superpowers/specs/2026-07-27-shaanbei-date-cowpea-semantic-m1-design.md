@@ -192,12 +192,14 @@ taxonomy 顶层新增机器可验证的 `ambiguous_inputs`，不在 Worker、Pyt
 ```json
 [
   {
+    "ambiguity_id": "cowpea-state",
     "input": "豇豆",
     "reason_code": "ambiguous_ingredient_state",
     "reason": "“豇豆”可能指鲜豆荚、干豆粒或熟豆粒，请写得更具体。",
     "eligible_items": ["鲜豇豆", "干豇豆", "熟豇豆"]
   },
   {
+    "ambiguity_id": "jujube-pit-state",
     "input": "红枣",
     "aliases": ["大枣"],
     "reason_code": "ambiguous_ingredient_state",
@@ -210,6 +212,7 @@ taxonomy 顶层新增机器可验证的 `ambiguous_inputs`，不在 Worker、Pyt
 Validator 必须保证：
 
 - ambiguity 输入及 alias 与所有 canonical display name／alias 不冲突；
+- `ambiguity_id` 为唯一、稳定的 ASCII kebab-case 标识；
 - `eligible_items` 全部精确指向 taxonomy 中可输入的 display name；
 - reason code 只能是有限词表中的 `ambiguous_ingredient_state`；
 - reason 是有界非空文字，不能包含步骤、克数或模型提示词；
@@ -227,15 +230,19 @@ Validator 必须保证：
   "category": null,
   "shape_or_cut": null,
   "recognized": false,
+  "ambiguity_id": "cowpea-state",
   "ambiguity_code": "ambiguous_ingredient_state",
   "eligible_items": ["鲜豇豆", "干豇豆", "熟豇豆"]
 }
 ```
 
+同一 ambiguity 的 input 与 aliases 共享 `ambiguity_id`，按 canonical identity 相同的规则去重。例如同时输入“红枣、大枣”只占一个覆盖分母；保留第一项 raw，另一项通过 `duplicate_of` 指向代表项，不得把别名当作两种库存。
+
 `unplanned_must_use` 或 `unused_prefer_use` 使用：
 
 ```json
 {
+  "ambiguity_id": "cowpea-state",
   "reason_code": "ambiguous_ingredient_state",
   "reason": "“豇豆”可能指鲜豆荚、干豆粒或熟豆粒，请写得更具体。",
   "eligible_items": ["鲜豇豆", "干豇豆", "熟豇豆"]
@@ -251,6 +258,8 @@ pantry 模式出现该原因时：
 - 用户通过现有“调整食材”返回输入页，原输入保留；M1 不新增选择器或账号状态。
 
 recommend 模式仍可使用其他合理食材，但必须把歧义项放入 `unused_prefer_use` 并显示原因，不得承诺已经使用。
+
+`plan_id` 的规范化身份必须纳入 `ambiguity_id`、`ambiguity_code` 和排序去重后的 `eligible_items`。同一 raw 输入的歧义分组、解释类型或可选项发生变化时，旧计划必须失效；不能只改用户解释却继续接受旧 token。
 
 ## 8. Recipe、Template 与 Ratio 边界
 
