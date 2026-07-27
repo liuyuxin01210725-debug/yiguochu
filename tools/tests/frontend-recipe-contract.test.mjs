@@ -964,6 +964,32 @@ test('an undersized empty-pantry meal is classified as portion_too_small instead
   );
 });
 
+test('a grounded two-serving soup rice near the main-meal reference is not discarded at first generation', async () => {
+  const groundedSoupRice = meal({
+    dish_name: '白菜鸡蛋汤饭',
+    form: '汤饭',
+    prep_minutes: 15,
+    base_recipe_id: 'cabbage-egg-soup-rice',
+    used_pantry: ['白菜'],
+    ingredients: [
+      { name:'熟米饭', grams:400, kcal:116, p:2.6, fb:0.3, mg:13, k:30, ca:5, fe:0.3, zn:0.5, na:1, vc:0, vd:0, w3:0, auth:'tw' },
+      { name:'白菜', grams:240, kcal:14, p:1.2, fb:1.4, mg:18, k:256, ca:122, fe:1.5, zn:0.3, na:51, vc:24.2, vd:0, w3:0, auth:'tw', authCode:'E3200602' },
+      { name:'鸡蛋', grams:140, kcal:144, p:13.3, fb:0, mg:10, k:154, ca:56, fe:2, zn:1.1, na:131, vc:0, vd:2, w3:0.1, auth:'tw' },
+      { name:'水', grams:720, kcal:0, p:0, fb:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, w3:0 },
+      { name:'盐', grams:3, kcal:0, p:0, fb:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, w3:0 },
+    ],
+  });
+  const { context, calls } = loadFrontend([{ body: groundedSoupRice }]);
+  const dish = JSON.parse(await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'quick', servings:'2', pantry:'白菜', dislikes:'' };
+    return JSON.stringify(await fetchRealDish({ selectedBaseRecipeId:'cabbage-egg-soup-rice' }));
+  })()`));
+
+  assert.equal(calls.length, 1);
+  assert.equal(dish.baseRecipeId, 'cabbage-egg-soup-rice');
+  assert.ok(dish.kcal >= 650 && dish.kcal < 715, `expected the live boundary case, got ${dish.kcal} kcal`);
+});
+
 test('an undersized swap candidate keeps the current dish and reopens swap choices', async () => {
   const tooSmall = meal({
     base_recipe_id: 'undersized-swap-candidate',

@@ -1401,7 +1401,7 @@ function scoreDish(d) {
   if (Array.isArray(d.validationFlags) && d.validationFlags.length) issues.push('validation');
   if ((d.steps || []).length > 4) issues.push('step_count');
   if (d.minutes > 45) issues.push('duration');
-  if (t.kcal && d.kcal < t.kcal * 0.55) issues.push('portion_too_small');
+  if (t.kcal && d.kcal < t.kcal * 0.50) issues.push('portion_too_small');
   if (d.purpose === 'quick' && ((d.steps || []).length > 3 || (d.ingredients || []).length > 8 || d.minutes > 25)) issues.push('quick_complexity');
   const stepText = (d.steps || []).join('');
   if (/另起锅|分别焯|提前一晚|提前过夜/.test(stepText)) issues.push('hidden_prep');
