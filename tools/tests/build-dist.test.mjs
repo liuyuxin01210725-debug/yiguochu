@@ -268,8 +268,8 @@ test('distribution build excludes research-only and planner coverage audit artif
       'stew-with-corn-cake-liquid-v1',
     ].includes(row.rule_id)), false);
     const templates = JSON.parse(fs.readFileSync(path.join(outputDir, 'meal-templates.v2.json'), 'utf8'));
-    assert.equal(templates.templates.filter(row => row.activation_status === 'active').length, 10);
-    assert.equal(templates.templates.filter(row => row.activation_status === 'planned').length, 6);
+    assert.equal(templates.templates.filter(row => row.activation_status === 'active').length, 11);
+    assert.equal(templates.templates.filter(row => row.activation_status === 'planned').length, 5);
   } finally {
     fs.rmSync(outputDir, { recursive:true, force:true });
   }
