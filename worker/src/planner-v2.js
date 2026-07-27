@@ -198,6 +198,7 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
         canonical: null,
         ratio_rule_policy: null,
         category: null,
+        state: null,
         shape_or_cut: null,
         cook_speed: null,
         moisture_release: null,
@@ -222,6 +223,7 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
       ratio_rule_policy: item.ratio_rule_policy || 'category_fallback',
       display_name: item.display_name,
       category: item.category,
+      state: item.states?.length === 1 ? item.states[0] : null,
       shape_or_cut: taxonomyShapeForInput(item, raw),
       cook_speed: item.cook_speed,
       moisture_release: item.moisture_release,
@@ -626,6 +628,7 @@ function basicSlotChoices(slot, taxonomy, dislikes = [], allergyAliases = {}) {
       ratio_rule_policy: item.ratio_rule_policy || 'category_fallback',
       display_name: item.display_name,
       category: item.category,
+      state: item.states?.length === 1 ? item.states[0] : null,
       shape_or_cut: item.default_shape_or_cut || item.shapes_or_cuts?.[0] || null,
       cook_speed: item.cook_speed,
       moisture_release: item.moisture_release,
@@ -1235,14 +1238,15 @@ const UNPLANNED_REASON_PRIORITY = Object.freeze({
   allergen_conflict: 0,
   unsupported_shape_or_cut: 1,
   ambiguous_ingredient_state: 2,
-  unrecognized_ingredient: 3,
-  time_constraint: 4,
-  safety_constraint: 5,
-  incompatible_combination: 6,
-  would_break_ratio: 7,
-  exceeds_slot_limit: 8,
-  no_compatible_slot: 9,
-  lower_compatibility: 10,
+  unsupported_ingredient_state: 3,
+  unrecognized_ingredient: 4,
+  time_constraint: 5,
+  safety_constraint: 6,
+  incompatible_combination: 7,
+  would_break_ratio: 8,
+  exceeds_slot_limit: 9,
+  no_compatible_slot: 10,
+  lower_compatibility: 11,
 });
 
 function bestExistingReason(item, ranked, field) {
@@ -1270,6 +1274,11 @@ function fallbackUnplannedReason(item, request, allergyAliases, role) {
     reason_code: 'unrecognized_ingredient',
     reason: role === 'must_use' ? '暂时无法识别这种食材，因此不能承诺已经安排。' : '暂时无法识别这种食材。',
   };
+  if (item.category === 'dry_legume') return {
+    ...structuredClone(item),
+    reason_code: 'unsupported_ingredient_state',
+    reason: '当前计划只接受已经煮熟的豆类；干豆需要单独泡发并彻底煮熟。',
+  };
   return {
     ...structuredClone(item),
     reason_code: role === 'must_use' ? 'no_compatible_slot' : 'lower_compatibility',
@@ -1282,7 +1291,7 @@ function reasonForUnplanned(item, ranked, request, allergyAliases, role, overrid
   const reason = existing ? structuredClone(existing) : fallbackUnplannedReason(item, request, allergyAliases, role);
   const specific = new Set([
     'allergen_conflict', 'unsupported_shape_or_cut', 'ambiguous_ingredient_state',
-    'unrecognized_ingredient', 'time_constraint', 'safety_constraint', 'incompatible_combination',
+    'unrecognized_ingredient', 'unsupported_ingredient_state', 'time_constraint', 'safety_constraint', 'incompatible_combination',
   ]);
   if (overrideCode && !specific.has(reason.reason_code)) {
     reason.reason_code = overrideCode;
@@ -1601,6 +1610,7 @@ function identityIngredient(item = {}) {
     canonical: identityText(item.canonical),
     ratio_rule_policy: identityText(item.ratio_rule_policy),
     category: identityText(item.category),
+    state: identityText(item.state),
     shape_or_cut: identityText(item.shape_or_cut),
     cook_speed: identityText(item.cook_speed),
     moisture_release: identityText(item.moisture_release),

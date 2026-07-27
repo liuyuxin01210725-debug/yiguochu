@@ -7,13 +7,13 @@ const CATEGORIES = new Set([
   'beef', 'chicken', 'pork', 'lamb', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
   'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'mushroom', 'cornmeal_dough',
   'cornmeal_flour', 'cornmeal_cake', 'ready_staple',
-  'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'liquid', 'oil', 'seasoning',
+  'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'raw_millet', 'liquid', 'oil', 'seasoning',
 ]);
 const STATES = new Set(['raw', 'cooked', 'dry', 'basic', 'cured', 'prepared', 'derived_plan_output']);
 const SHAPES = new Set([
   'whole', 'slice', 'dice', 'shred', 'ground', 'tenderloin', 'breast', 'leg', 'rib',
   'brisket', 'cured_slice', 'sausage', 'dough_piece', 'liquid', 'fine', 'coarse',
-  'unspecified', 'cake', 'whole_seed', 'pitted',
+  'unspecified', 'cake', 'whole_seed', 'whole_grain', 'pitted',
 ]);
 const INPUT_SCOPES = new Set(['pantry_input', 'derived_only']);
 const RATIO_RULE_POLICIES = new Set(['category_fallback', 'canonical_required']);
@@ -25,9 +25,10 @@ const TEXTURE_BEHAVIORS = new Set([
   'tender_after_long_simmer', 'crumbles_when_cooked', 'tender_when_cooked_through', 'wilts_quickly',
   'renders_fat_when_heated', 'steams_above_stew', 'liquid', 'dissolves',
   'forms_dough_with_water',
+  'absorbs_liquid_and_thickens',
 ]);
-const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_flour', 'raw_legume', 'pit_hazard', 'unknown']);
-const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam', 'hydrate']);
+const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_flour', 'raw_legume', 'raw_grain', 'pit_hazard', 'unknown']);
+const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam', 'hydrate', 'soak']);
 const FAILURE_MODE_CODES = new Set([
   'undercooked_when_liquid_is_short', 'mushy_when_overmixed', 'soft_when_overcooked',
   'watery_when_overloaded', 'rubbery_when_overcooked', 'breaks_when_stirred',
@@ -35,11 +36,13 @@ const FAILURE_MODE_CODES = new Set([
   'chewy_when_undercooked', 'firm_when_undercooked', 'burns_when_unattended', 'smokes_when_overheated',
   'salty_when_overseasoned', 'dense_when_understeamed',
   'clumps_when_hydration_is_wrong',
+  'hard_center_when_undercooked', 'scorches_without_stirring',
 ]);
 const ENDPOINT_CODES = new Set([
   'rice_tender', 'heated_through', 'noodle_tender', 'egg_fully_set', 'beef_fully_cooked',
   'poultry_fully_cooked', 'pork_fully_cooked', 'lamb_fully_cooked', 'bean_fully_cooked',
   'legume_fully_cooked', 'pit_absent_verified', 'tender', 'dough_cooked_through',
+  'grain_tender_no_hard_center',
 ]);
 const SLOT_CODES = new Set([
   'staple', 'raw_rice', 'cooked_rice', 'noodle', 'acid_base', 'vegetable', 'protein', 'egg',
@@ -50,6 +53,7 @@ const SLOT_CODES = new Set([
   'staple_preparation_input', 'derived_staple', 'ready_staple',
   'dry_legume_required', 'cooked_legume_required', 'legume_preparation_input', 'cooked_legume',
   'dried_fruit_accent',
+  'soft_grain_staple', 'raw_rice_required', 'cooked_rice_required', 'noodle_required',
 ]);
 
 function isStringArray(value) {
@@ -131,7 +135,7 @@ export function validateIngredientTaxonomy(data) {
   for (const key of Object.keys(data)) {
     if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
   }
-  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r8') errors.push('taxonomy_version must be taxonomy-v1-20260727-r8');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r9') errors.push('taxonomy_version must be taxonomy-v1-20260727-r9');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];
