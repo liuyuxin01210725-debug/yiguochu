@@ -31,6 +31,7 @@ const SAFETY_EVIDENCE_RULES = Object.freeze({
   lamb_fully_cooked: /完全熟透/u,
   bean_fully_cooked: /煮熟软化/u,
   heated_through: /热透/u,
+  grain_tender_no_hard_center: /熟软且无硬芯/u,
   noodle_tender: /无硬芯|熟透/u,
   tender: /熟软/u,
 });
@@ -53,6 +54,18 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
     '检查锅底；只有出现偏干迹象时，才加入计划预留的{grams}克{items}',
     '如锅底水分不足，仅补入已锁定的{grams}克{items}，不得再额外加水',
   ],
+  add_staple_root_and_liquid: [
+    '将{items}按已锁定比例放入同一口锅并轻轻搅匀',
+    '同锅加入{items}，按已确定比例拌匀后开始加热',
+  ],
+  add_cooked_legume: [
+    '将{items}在后段加入，轻轻搅匀并继续加热',
+    '后段加入{items}，同锅翻拌至整体均匀受热',
+  ],
+  add_leafy_vegetable: [
+    '最后加入{items}，轻轻翻拌至叶菜熟软',
+    '将{items}在收尾阶段放入锅中，拌匀并加热至熟软',
+  ],
   cook_aromatics: ['将{items}放入锅中翻炒至香味释放', '同锅翻炒{items}，直至香味明显释放'],
   cook_poultry_through: ['将{items}放入锅中持续加热并翻动，使各面均匀受热', '同锅加热{items}并适时翻动，确保各面受热'],
   gentle_set_protein: ['加入{items}，保持温和加热至结构稳定', '将{items}放入锅中，轻推并温和加热至定形'],
@@ -62,6 +75,14 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
   sear_beef: ['将{items}切成适合入口的薄片，平铺入锅翻炒至表面均匀变色', '把{items}切成厚薄相近的薄片，放入锅中摊开并逐面翻炒'],
   simmer_until_staple_tender: ['加盖焖煮{items}，直至主食熟软且无硬芯', '保持同锅焖煮{items}，直到主食完全熟软'],
   simmer_until_tender: ['加盖焖煮{items}，直至食材熟软', '保持同锅小幅翻动并焖煮{items}，直到质地熟软'],
+  simmer_soft_grain_and_root: [
+    '保持同锅小火焖煮{items}，期间轻搅防糊底',
+    '小火继续焖煮{items}，适时轻轻搅动避免粘底',
+  ],
+  soak_soft_grain: [
+    '用细筛淘洗{items}，浸泡30分钟后沥去浸泡水',
+    '将{items}放入细筛淘净，加水浸泡30分钟后沥干',
+  ],
   soften_family_texture: ['继续焖煮{items}，直至质地柔软易咀嚼', '保持同锅加热{items}，煮到整体柔软易入口'],
   stir_cooked_rice: ['加入{items}，同锅翻拌至米饭松散并均匀热透', '将{items}放入锅中翻拌，直至米饭松散、整体热透'],
 });
@@ -135,6 +156,7 @@ function endpointEvidencePhrase(endpoint, refs) {
   }
   if (endpoint === 'bean_fully_cooked') return `${ingredients}煮熟软化`;
   if (endpoint === 'heated_through') return `${ingredients}整体热透`;
+  if (endpoint === 'grain_tender_no_hard_center') return `${ingredients}熟软且无硬芯`;
   if (endpoint === 'noodle_tender') return `${ingredients}熟透且无硬芯`;
   if (endpoint === 'tender') return `${ingredients}熟软`;
   throw new Error(`locked_safety_endpoint_unsupported:${endpoint}`);
@@ -328,8 +350,11 @@ function buildLockedMeal(pot, template, refCounters, context) {
   }
   for (const ingredient of locked.filter(item => item.source === 'basic_extra')) {
     if (phases.some(phase => phase.allowed_ingredient_refs.includes(ingredient.ingredient_ref))) continue;
-    let phaseIndex = ingredient.slot_id === 'liquid'
-      ? phases.findIndex(phase => /liquid|broth|staple_and_liquid/u.test(phase.action_code))
+    const mixturePhaseIndex = phases.findIndex(phase => (
+      /liquid|broth|staple.*liquid|stir_cooked_rice/u.test(phase.action_code)
+    ));
+    let phaseIndex = ['liquid', 'oil', 'seasoning'].includes(ingredient.slot_id)
+      ? mixturePhaseIndex
       : 0;
     if (phaseIndex < 0) phaseIndex = 0;
     if (phases[phaseIndex]) phases[phaseIndex].allowed_ingredient_refs.push(ingredient.ingredient_ref);
@@ -632,10 +657,12 @@ export function validateGeneratedPlan(modelOutput, lockedPlan, termUniverse) {
       }
       const isControlledStepText = lockedMeal.generation_text_contract.steps[stepIndex]
         ?.allowed_texts.includes(step.text) === true;
-      const permitsLockedNumeric = isControlledStepText
-        && skeleton.action_code === 'add_reserved_liquid_if_needed'
-        && Number.isFinite(skeleton.locked_liquid_grams)
-        && step.text.includes(`${skeleton.locked_liquid_grams}克`);
+      const permitsLockedNumeric = isControlledStepText && (
+        (skeleton.action_code === 'add_reserved_liquid_if_needed'
+          && Number.isFinite(skeleton.locked_liquid_grams)
+          && step.text.includes(`${skeleton.locked_liquid_grams}克`))
+        || (skeleton.action_code === 'soak_soft_grain' && step.text.includes('30分钟'))
+      );
       if (!validBoundedText(step.text, MAX_STEP_TEXT)) return contractFailure('invalid_prose_length');
       if (ingredientDeletionViolation(step.text, lockedMeal)) {
         return contractFailure('ingredient_deletion_in_prose');

@@ -648,7 +648,9 @@ test('soft millet plan locks soaking, measured extras, late cooked beans and cul
   const stepContract = meal.generation_text_contract.steps;
   assert.ok(stepContract[0].allowed_texts.every(text => /浸泡30分钟/u.test(text)));
   assert.ok(stepContract.some(row => row.allowed_texts.every(text => /后段加入/u.test(text))));
-  assert.ok(stepContract.at(-1).allowed_texts.every(text => /无硬芯.*熟软.*热透|熟软.*热透.*无硬芯/u.test(text)));
+  assert.ok(stepContract.at(-1).allowed_texts.every(text => /无硬芯/u.test(text)));
+  assert.ok(stepContract.at(-1).allowed_texts.every(text => /熟软/u.test(text)));
+  assert.ok(stepContract.at(-1).allowed_texts.every(text => /热透/u.test(text)));
 
   const valid = validModelOutput(locked);
   assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
