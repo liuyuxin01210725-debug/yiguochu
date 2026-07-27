@@ -7,8 +7,8 @@
 本报告把现有 72 道 recipe 的原始核心食材，原样送入当前 Planner V2 的确定性纯函数。它只回答当前 taxonomy、template 与 Ratio DSL 能否识别和规划这些食材；不会用菜名猜食材，也不会把模板兼容写成地方菜复刻。
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260727-r7`
-- Taxonomy：`taxonomy-v1-20260727-r6`
+- Template catalog：`templates-v2-20260727-r8`
+- Taxonomy：`taxonomy-v1-20260727-r7`
 - Ratio catalog：`ratio-rules-v1-20260727-r4`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
@@ -17,10 +17,10 @@
 
 | 状态 | 数量 |
 | --- | ---: |
-| full_single_pot_evidence_aligned | 10 |
+| full_single_pot_evidence_aligned | 11 |
 | full_single_pot_ingredient_compatible | 25 |
 | full_multi_pot | 1 |
-| taxonomy_gap | 26 |
+| taxonomy_gap | 25 |
 | planner_gap | 6 |
 | no_recognized_core | 4 |
 | invalid_source_record | 0 |
@@ -30,10 +30,10 @@
 | 优先级 | 数量 |
 | --- | ---: |
 | P0 | 4 |
-| P1 | 32 |
+| P1 | 31 |
 | P2 | 1 |
 | P3 | 25 |
-| covered | 10 |
+| covered | 11 |
 
 ### P0/P1/P2 机器事实
 
@@ -55,7 +55,6 @@
 | P1 | 海南定安菜包饭 | vessel-adapted-rice | 大米、生菜、胡萝卜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 大溪荷叶油饭 | vessel-adapted-rice | 糯米、猪肉末、食品级干荷叶 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 广式豆豉排骨煲仔饭 | claypot-rice | 大米、猪肋排、豆豉 | taxonomy_gap | taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
-| P1 | 新疆羊肉抓饭 | raw-rice-braise | 羊腿肉、洋葱、胡萝卜、大米 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 陕北红枣豇豆焖饭 | raw-rice-braise | 大米、去核红枣、豇豆 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 青海熬饭风味家庭适配版 | grain-porridge | 小米、土豆、熟鹰嘴豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 山西泥屯小米饭 | raw-rice-braise | 小米、土豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
@@ -116,7 +115,6 @@
 | 熟鹰嘴豆 | 1 | qinghai-hao-fan |
 | 虾仁 | 1 | shrimp-egg-fried-leftover-rice |
 | 香肠 | 1 | greens-sausage-fried-rice |
-| 羊腿肉 | 1 | xinjiang-lamb-pilaf |
 | 椰奶 | 1 | kari-ayam-coconut-chicken |
 | 意式烩饭米 | 1 | basic-risotto |
 | 玉米 | 1 | corn-carrot-chicken-leg-covered-rice |
@@ -127,7 +125,7 @@
 | Template | 被最终计划选中的菜单数 | 直接 evidence 对齐数 |
 | --- | ---: | ---: |
 | `acid-staple-pot` | 10 | 3 |
-| `savory-mixed-rice-pot` | 30 | 4 |
+| `savory-mixed-rice-pot` | 30 | 5 |
 | `cooked-rice-stir-pot` | 4 | 0 |
 | `broth-noodle-pot` | 2 | 0 |
 | `egg-tofu-vegetable-pot` | 0 | 0 |
@@ -150,7 +148,7 @@
 | `noodle-braise` | 2 | 2 | 0 | 0 |
 | `noodle-broth` | 4 | 3 | 0 | 1 |
 | `noodle-steam-braise` | 0 | 0 | 0 | 0 |
-| `raw-rice-braise` | 27 | 16 | 8 | 3 |
+| `raw-rice-braise` | 27 | 17 | 7 | 3 |
 | `stew-with-staple` | 0 | 0 | 0 | 0 |
 | `vessel-adapted-rice` | 3 | 0 | 3 | 1 |
 
@@ -164,7 +162,7 @@
 | `jingjinji` | 1 | 1 | 0 | 0 |
 | `jinmeng` | 3 | 2 | 1 | 0 |
 | `lingnan_hk_macao` | 5 | 2 | 3 | 2 |
-| `northwest` | 3 | 1 | 2 | 0 |
+| `northwest` | 3 | 2 | 1 | 0 |
 | `qinghai_tibet` | 4 | 0 | 3 | 1 |
 | `shandong` | 1 | 1 | 0 | 0 |
 | `yunnan_guizhou` | 2 | 0 | 2 | 1 |
@@ -200,7 +198,7 @@
 | 广式腊味煲仔饭 | 大米、广式腊肠、菜心 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 广式香菇滑鸡煲仔饭 | 大米、去皮鸡腿肉、鲜香菇 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 广式豆豉排骨煲仔饭 | 大米、猪肋排、豆豉 | 66.7% | 0% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
-| 新疆羊肉抓饭 | 羊腿肉、洋葱、胡萝卜、大米 | 75% | 100% | 75% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
+| 新疆羊肉抓饭 | 羊腿肉、洋葱、胡萝卜、大米 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
 | 新疆素抓饭 | 大米、洋葱、胡萝卜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 陕北红枣豇豆焖饭 | 大米、去核红枣、豇豆 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
 | 青海熬饭风味家庭适配版 | 小米、土豆、熟鹰嘴豆 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
@@ -248,8 +246,8 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`982cd92f19c93175f3abc5f0e1604c89371434d8c549f3e535ccd97a4a912290`
-- `tools/data/meal-templates.v2.json`：`3c674e942c47ccb54cdb320fcf404dd7ccfea2dfe5af911ef07fbff5de701b70`
+- `tools/data/ingredient-taxonomy.v1.json`：`5befb470dbf0272eb62fc50847cfdda2238f1bb9f44e53a11b4d665e655c7e64`
+- `tools/data/meal-templates.v2.json`：`f703e72ebe43ef5b866fce9059e3d0a33b3590c2e849f328059822960333e347`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
 - `tools/data/ratio-rules.v1.json`：`4e8ba6b0036e7d2cba2554445ea5f852c6eac8dc608b9da3652cfc605734e65f`
 - `tools/data/recipe-library.json`：`69d40f12c3db12fb0d03af20665c33352f4c20b9ad53ad542a4b91c2aec1658e`

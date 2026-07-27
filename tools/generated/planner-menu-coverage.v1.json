@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "planner_version": "pantry-planner-v2",
-  "template_catalog_version": "templates-v2-20260727-r7",
-  "taxonomy_version": "taxonomy-v1-20260727-r6",
+  "template_catalog_version": "templates-v2-20260727-r8",
+  "taxonomy_version": "taxonomy-v1-20260727-r7",
   "ratio_catalog_version": "ratio-rules-v1-20260727-r4",
   "source_hashes": {
-    "tools/data/ingredient-taxonomy.v1.json": "982cd92f19c93175f3abc5f0e1604c89371434d8c549f3e535ccd97a4a912290",
-    "tools/data/meal-templates.v2.json": "3c674e942c47ccb54cdb320fcf404dd7ccfea2dfe5af911ef07fbff5de701b70",
+    "tools/data/ingredient-taxonomy.v1.json": "5befb470dbf0272eb62fc50847cfdda2238f1bb9f44e53a11b4d665e655c7e64",
+    "tools/data/meal-templates.v2.json": "f703e72ebe43ef5b866fce9059e3d0a33b3590c2e849f328059822960333e347",
     "tools/data/menu-master-baseline.v1.json": "68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab",
     "tools/data/ratio-rules.v1.json": "4e8ba6b0036e7d2cba2554445ea5f852c6eac8dc608b9da3652cfc605734e65f",
     "tools/data/recipe-library.json": "69d40f12c3db12fb0d03af20665c33352f4c20b9ad53ad542a4b91c2aec1658e",
@@ -17,20 +17,20 @@
     "approved_count": 12,
     "auto_approved_count": 60,
     "status_counts": {
-      "full_single_pot_evidence_aligned": 10,
+      "full_single_pot_evidence_aligned": 11,
       "full_single_pot_ingredient_compatible": 25,
       "full_multi_pot": 1,
-      "taxonomy_gap": 26,
+      "taxonomy_gap": 25,
       "planner_gap": 6,
       "no_recognized_core": 4,
       "invalid_source_record": 0
     },
     "priority_counts": {
       "P0": 4,
-      "P1": 32,
+      "P1": 31,
       "P2": 1,
       "P3": 25,
-      "covered": 10
+      "covered": 11
     }
   },
   "by_region": [
@@ -79,8 +79,8 @@
     {
       "region_id": "northwest",
       "recipe_count": 3,
-      "single_pot_full_count": 1,
-      "taxonomy_gap_count": 2,
+      "single_pot_full_count": 2,
+      "taxonomy_gap_count": 1,
       "planner_gap_count": 0
     },
     {
@@ -172,8 +172,8 @@
     {
       "technique_family_id": "raw-rice-braise",
       "recipe_count": 27,
-      "single_pot_full_count": 16,
-      "taxonomy_gap_count": 8,
+      "single_pot_full_count": 17,
+      "taxonomy_gap_count": 7,
       "planner_gap_count": 3
     },
     {
@@ -200,7 +200,7 @@
     {
       "template_id": "savory-mixed-rice-pot",
       "selected_recipe_count": 30,
-      "direct_evidence_recipe_count": 4
+      "direct_evidence_recipe_count": 5
     },
     {
       "template_id": "cooked-rice-stir-pot",
@@ -479,13 +479,6 @@
       "recipe_count": 1,
       "recipe_ids": [
         "greens-sausage-fried-rice"
-      ]
-    },
-    {
-      "raw": "羊腿肉",
-      "recipe_count": 1,
-      "recipe_ids": [
-        "xinjiang-lamb-pilaf"
       ]
     },
     {
@@ -12652,6 +12645,36 @@
       ],
       "planner_eligible_items": [
         {
+          "raw": "羊腿肉",
+          "canonical_id": "lamb-leg",
+          "canonical": "羊肉",
+          "ratio_rule_policy": "category_fallback",
+          "display_name": "羊腿肉",
+          "category": "lamb",
+          "shape_or_cut": "leg",
+          "cook_speed": "medium",
+          "moisture_release": "low",
+          "texture_behavior": "tender_when_cooked_through",
+          "texture_failure_modes": [
+            "tough_when_overcooked"
+          ],
+          "cooking_risk": "raw_lamb",
+          "required_endpoint_codes": [
+            "lamb_fully_cooked"
+          ],
+          "compatible_slot_codes": [
+            "generic_lamb"
+          ],
+          "incompatible_slot_codes": [
+            "ground_meat_required",
+            "rib_required",
+            "brisket_required"
+          ],
+          "recognized": true,
+          "role": "must_use",
+          "duplicate_of": null
+        },
+        {
           "raw": "洋葱",
           "canonical_id": "onion",
           "canonical": "洋葱",
@@ -12731,26 +12754,11 @@
         }
       ],
       "recognized_basic_items": [],
-      "unclassified_core_items": [
-        {
-          "raw": "羊腿肉",
-          "canonical_id": null,
-          "canonical": null,
-          "ratio_rule_policy": null,
-          "category": null,
-          "shape_or_cut": null,
-          "cook_speed": null,
-          "moisture_release": null,
-          "texture_behavior": null,
-          "cooking_risk": "unknown",
-          "recognized": false,
-          "role": "must_use",
-          "duplicate_of": null
-        }
-      ],
-      "identity_recognition_ratio": 0.75,
+      "unclassified_core_items": [],
+      "identity_recognition_ratio": 1,
       "recognized_only_scenario": {
         "submitted_raw_items": [
+          "羊腿肉",
           "洋葱",
           "胡萝卜",
           "大米"
@@ -12767,6 +12775,36 @@
           "savory-mixed-rice-pot"
         ],
         "planned_items": [
+          {
+            "raw": "羊腿肉",
+            "canonical_id": "lamb-leg",
+            "canonical": "羊肉",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "羊腿肉",
+            "category": "lamb",
+            "shape_or_cut": "leg",
+            "cook_speed": "medium",
+            "moisture_release": "low",
+            "texture_behavior": "tender_when_cooked_through",
+            "texture_failure_modes": [
+              "tough_when_overcooked"
+            ],
+            "cooking_risk": "raw_lamb",
+            "required_endpoint_codes": [
+              "lamb_fully_cooked"
+            ],
+            "compatible_slot_codes": [
+              "generic_lamb"
+            ],
+            "incompatible_slot_codes": [
+              "ground_meat_required",
+              "rib_required",
+              "brisket_required"
+            ],
+            "recognized": true,
+            "role": "must_use",
+            "duplicate_of": null
+          },
           {
             "raw": "洋葱",
             "canonical_id": "onion",
@@ -12847,6 +12885,7 @@
           }
         ],
         "planned_raw_items": [
+          "羊腿肉",
           "洋葱",
           "胡萝卜",
           "大米"
@@ -12877,6 +12916,10 @@
               {
                 "name": "盐",
                 "grams": 3
+              },
+              {
+                "name": "羊腿肉",
+                "grams": 200
               },
               {
                 "name": "洋葱",
@@ -12911,6 +12954,11 @@
                 "slot_id": "staple",
                 "grams_per_serving": 100,
                 "rule_id": "savory-mixed-rice-liquid-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "protein",
+                "grams_per_serving": 100
               },
               {
                 "operator": "per_serving",
@@ -12960,7 +13008,7 @@
           "胡萝卜",
           "大米"
         ],
-        "status": "needs_user_decision",
+        "status": "complete",
         "plan_kind": "single_pot",
         "pot_count": 1,
         "candidate_template_ids": [
@@ -12972,6 +13020,36 @@
           "savory-mixed-rice-pot"
         ],
         "planned_items": [
+          {
+            "raw": "羊腿肉",
+            "canonical_id": "lamb-leg",
+            "canonical": "羊肉",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "羊腿肉",
+            "category": "lamb",
+            "shape_or_cut": "leg",
+            "cook_speed": "medium",
+            "moisture_release": "low",
+            "texture_behavior": "tender_when_cooked_through",
+            "texture_failure_modes": [
+              "tough_when_overcooked"
+            ],
+            "cooking_risk": "raw_lamb",
+            "required_endpoint_codes": [
+              "lamb_fully_cooked"
+            ],
+            "compatible_slot_codes": [
+              "generic_lamb"
+            ],
+            "incompatible_slot_codes": [
+              "ground_meat_required",
+              "rib_required",
+              "brisket_required"
+            ],
+            "recognized": true,
+            "role": "must_use",
+            "duplicate_of": null
+          },
           {
             "raw": "洋葱",
             "canonical_id": "onion",
@@ -13052,36 +13130,14 @@
           }
         ],
         "planned_raw_items": [
+          "羊腿肉",
           "洋葱",
           "胡萝卜",
           "大米"
         ],
-        "unplanned_items": [
-          {
-            "raw": "羊腿肉",
-            "canonical_id": null,
-            "canonical": null,
-            "ratio_rule_policy": null,
-            "category": null,
-            "shape_or_cut": null,
-            "cook_speed": null,
-            "moisture_release": null,
-            "texture_behavior": null,
-            "cooking_risk": "unknown",
-            "recognized": false,
-            "role": "must_use",
-            "duplicate_of": null,
-            "reason_code": "unrecognized_ingredient",
-            "reason": "暂时无法识别这种食材，因此不能承诺已经安排。"
-          }
-        ],
-        "unplanned_raw_items": [
-          "羊腿肉"
-        ],
-        "reason_codes": [
-          "incomplete_coverage",
-          "unrecognized_ingredient"
-        ],
+        "unplanned_items": [],
+        "unplanned_raw_items": [],
+        "reason_codes": [],
         "ratio_plans": [
           {
             "template_id": "savory-mixed-rice-pot",
@@ -13105,6 +13161,10 @@
               {
                 "name": "盐",
                 "grams": 3
+              },
+              {
+                "name": "羊腿肉",
+                "grams": 200
               },
               {
                 "name": "洋葱",
@@ -13139,6 +13199,11 @@
                 "slot_id": "staple",
                 "grams_per_serving": 100,
                 "rule_id": "savory-mixed-rice-liquid-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "protein",
+                "grams_per_serving": 100
               },
               {
                 "operator": "per_serving",
@@ -13179,20 +13244,18 @@
             ]
           }
         ],
-        "end_to_end_core_coverage_ratio": 0.75
+        "end_to_end_core_coverage_ratio": 1
       },
       "evidence_alignment": {
-        "direct_template_evidence": false,
-        "evidence_template_ids": [],
-        "ingredient_compatible_only_template_ids": [
+        "direct_template_evidence": true,
+        "evidence_template_ids": [
           "savory-mixed-rice-pot"
-        ]
+        ],
+        "ingredient_compatible_only_template_ids": []
       },
-      "gap_codes": [
-        "taxonomy_gap"
-      ],
-      "audit_status": "taxonomy_gap",
-      "priority_band": "P1"
+      "gap_codes": [],
+      "audit_status": "full_single_pot_evidence_aligned",
+      "priority_band": "covered"
     },
     {
       "recipe_id": "xinjiang-vegetable-pilaf",

@@ -141,6 +141,7 @@ function validModelOutput(locked, alternate = false) {
 function mutateOutput(output, locked, mutation) {
   const first = output.meals[0];
   if (mutation === 'add_mushroom') first.dish_name += '香菇';
+  if (mutation === 'add_raisin') first.dish_name += '葡萄干';
   if (mutation === 'tenderloin_to_brisket') first.dish_name = first.dish_name.replace(/牛里脊/g, '牛腩') + '牛腩';
   if (mutation === 'delete_mushroom') {
     const meal = locked.meals.find(item => item.locked_ingredients.some(ingredient => ingredient.raw_name === '金针菇')) || locked.meals[0];
@@ -585,6 +586,7 @@ async function runOne(entry) {
     if (entry.expect.no_retry && entry.generate_deepseek_max === 1) assert.equal(generated.upstreamBodies.length, 1);
     const mutationViolation = {
       add_mushroom:'unplanned_ingredient_in_prose',
+      add_raisin:'unplanned_ingredient_in_prose',
       tenderloin_to_brisket:'unplanned_ingredient_in_prose',
       delete_mushroom:'ingredient_ref_set_mismatch',
       reverse_safety_order:'action_order_mismatch',
@@ -608,7 +610,7 @@ async function runOne(entry) {
 function validateCorpus() {
   assert.equal(corpus.journeys.length, 108);
   assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 108 }, (_, index) => index + 1));
-  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 100);
+  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 108);
   assert.equal(JSON.parse(sourceAssets['/recipe-library.json']).recipes.length, 72, 'journey gate must retain the 72-recipe evidence base');
   for (const entry of corpus.journeys) {
     assert.ok(entry.request && entry.expect && entry.category);
@@ -640,7 +642,7 @@ export async function runPantryPlannerV2Journeys({ printSummary = false, journey
   const result = { passed, total: journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
   if (printSummary) {
     console.log(Object.entries(counts).map(([name, count]) => `${name}=${count}`).join(' '));
-    if (journeys.length === corpus.journeys.length) console.log('100/100 planner v2 journeys passed');
+    if (journeys.length === corpus.journeys.length) console.log('108/108 planner v2 journeys passed');
   }
   return result;
 }
