@@ -20,8 +20,9 @@ const appScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
 
 export const HANDLED_EXPECTATION_KEYS = Object.freeze([
   'allowed_extra_categories', 'code', 'complete_coverage', 'complete_forbidden',
+  'catalog_evidence_recipe_ids',
   'different_plan_id', 'different_template_preferred', 'exercise_statuses',
-  'excluded_template_ids',
+  'exact_ingredient_amounts', 'excluded_ratio_rule_ids', 'excluded_template_ids',
   'fallback_must_be_explicit', 'forbidden_copy', 'forbidden_extras',
   'forbidden_final_ingredients', 'forbidden_raw', 'forbidden_required_extras',
   'forbidden_shapes', 'forbidden_template_ids', 'forbidden_template_text',
@@ -35,6 +36,7 @@ export const HANDLED_EXPECTATION_KEYS = Object.freeze([
   'plan_id_stable_across_wording', 'planned_prefer_min', 'pot_count_max',
   'pot_count_min', 'pots_retained', 'prefer_use', 'ratio_trace_required',
   'raw_items_retained', 'reason_codes', 'recent_does_not_exhaust',
+  'reordered_plan_id_stable',
   'recognition_ratio_below', 'relaxed_item_role', 'same_or_better_promise',
   'required_ratio_rule_ids', 'required_template_ids', 'required_unplanned_raw',
   'same_template_different_slot_assignment', 'semantic_denominator',
@@ -152,6 +154,14 @@ function mutateOutput(output, locked, mutation) {
   }
   if (mutation === 'reverse_safety_order') first.steps.reverse();
   if (mutation === 'modify_ratio') first.steps[0].text += '再多加一倍水';
+  if (mutation === 'add_milk') first.steps[1].text += '再加入牛奶。';
+  if (mutation === 'delete_cooked_chickpea') {
+    const ref = locked.meals[0].locked_ingredients
+      .find(item => item.raw_name === '熟鹰嘴豆')?.ingredient_ref;
+    first.ingredient_refs = first.ingredient_refs.filter(item => item !== ref);
+  }
+  if (mutation === 'modify_locked_water') first.steps[1].text += '把水改成665克。';
+  if (mutation === 'cooked_to_dry_chickpea') first.steps[3].text += '改用干鹰嘴豆。';
 }
 
 async function postGenerate(planRequest, planned, mutation) {
@@ -457,6 +467,27 @@ async function runOne(entry) {
       assert.ok(selected.has(id), `${entry.id} missing ratio rule ${id}`);
     }
   }
+  if (entry.expect.excluded_ratio_rule_ids) {
+    const selected = new Set((body.plan?.pots || []).flatMap(pot =>
+      (pot.ratio_trace || []).map(row => row.rule_id).filter(Boolean)));
+    for (const id of entry.expect.excluded_ratio_rule_ids) {
+      assert.equal(selected.has(id), false, `${entry.id} unexpectedly used ratio rule ${id}`);
+    }
+  }
+  if (entry.expect.exact_ingredient_amounts) {
+    assert.equal(body.plan.pots.length, 1, `${entry.id} exact amounts require one pot`);
+    const actual = Object.fromEntries(body.plan.pots[0].ingredient_amounts.map(item => [item.name, item.grams]));
+    assert.deepEqual(actual, entry.expect.exact_ingredient_amounts, `${entry.id} ingredient amounts drifted`);
+  }
+  if (entry.expect.catalog_evidence_recipe_ids) {
+    const catalog = JSON.parse(sourceAssets['/meal-templates.v2.json']);
+    const selected = new Set(templates(body).flatMap(templateId => (
+      catalog.templates.find(template => template.template_id === templateId)?.evidence_recipe_ids || []
+    )));
+    for (const id of entry.expect.catalog_evidence_recipe_ids) {
+      assert.ok(selected.has(id), `${entry.id} selected template lacks evidence recipe ${id}`);
+    }
+  }
   if (entry.expect.excluded_template_ids) {
     const actual = new Set(templates(body));
     for (const id of entry.expect.excluded_template_ids) assert.equal(actual.has(id), false, `${entry.id} unexpectedly used ${id}`);
@@ -492,6 +523,9 @@ async function runOne(entry) {
   if (entry.expect.forbidden_template_text) for (const value of entry.expect.forbidden_template_text) assert.doesNotMatch(JSON.stringify(body), new RegExp(value));
   if (entry.expect.submitted_must_count != null) {
     assert.equal(body.normalized_items.filter(item => item.role === 'must_use' && !item.duplicate_of).length, entry.expect.submitted_must_count);
+  }
+  if (entry.expect.raw_items_retained != null && entry.expect.semantic_denominator == null) {
+    assert.equal(body.normalized_items.length, entry.expect.raw_items_retained);
   }
   if (entry.expect.single_item_solution_forbidden) for (const pot of body.plan?.pots || []) assert.notEqual(potItems(pot).length, 1);
   if (entry.expect.single_pot_complete_forbidden) {
@@ -553,6 +587,14 @@ async function runOne(entry) {
     assert.notEqual(withHistory.body.status, 'no_alternative_plan');
     assert.notEqual(withHistory.body.plan.plan_id, base.body.plan.plan_id);
   }
+  if (entry.expect.reordered_plan_id_stable) {
+    const reordered = clone(request);
+    reordered.constraints.must_use = [...reordered.constraints.must_use].reverse();
+    reordered.constraints.prefer_use = [...reordered.constraints.prefer_use].reverse();
+    const alternativeOrder = await postPlan(reordered);
+    assert.equal(alternativeOrder.body.plan.plan_id, body.plan.plan_id);
+    assert.equal(structure(alternativeOrder.body), structure(body));
+  }
   if (entry.id === 'J32') {
     const probes = [
       { ...clone(request), constraints: { ...clone(request.constraints), mode: 'recommend', must_use: [], prefer_use: ['番茄'] } },
@@ -608,9 +650,9 @@ async function runOne(entry) {
 }
 
 function validateCorpus() {
-  assert.equal(corpus.journeys.length, 116);
-  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 116 }, (_, index) => index + 1));
-  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 116);
+  assert.equal(corpus.journeys.length, 138);
+  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 138 }, (_, index) => index + 1));
+  assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 138);
   assert.equal(JSON.parse(sourceAssets['/recipe-library.json']).recipes.length, 72, 'journey gate must retain the 72-recipe evidence base');
   for (const entry of corpus.journeys) {
     assert.ok(entry.request && entry.expect && entry.category);
@@ -642,7 +684,7 @@ export async function runPantryPlannerV2Journeys({ printSummary = false, journey
   const result = { passed, total: journeys.length, counts, duration_ms: Math.round(performance.now() - started) };
   if (printSummary) {
     console.log(Object.entries(counts).map(([name, count]) => `${name}=${count}`).join(' '));
-    if (journeys.length === corpus.journeys.length) console.log('116/116 planner v2 journeys passed');
+    if (journeys.length === corpus.journeys.length) console.log('138/138 planner v2 journeys passed');
   }
   return result;
 }
