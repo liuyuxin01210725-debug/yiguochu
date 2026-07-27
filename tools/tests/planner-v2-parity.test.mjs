@@ -329,6 +329,26 @@ test('fresh noodle identity is identical across Worker and Python bridge', async
   );
 });
 
+test('Xinjiang lamb leg rice facts are identical across Worker and Python bridge', async () => {
+  const body = await parityCase(
+    'Xinjiang lamb leg rice',
+    request({ must: ['羊腿肉', '洋葱', '胡萝卜', '大米'] }),
+    'complete',
+  );
+  assert.equal(body.plan.plan_kind, 'single_pot');
+  assert.deepEqual(body.plan.unplanned_must_use, []);
+  assert.equal(body.plan.pots[0].template_id, 'savory-mixed-rice-pot');
+  const lamb = body.normalized_items.find(item => item.raw === '羊腿肉');
+  assert.deepEqual(
+    [lamb.canonical_id, lamb.canonical, lamb.shape_or_cut, lamb.cooking_risk],
+    ['lamb-leg', '羊肉', 'leg', 'raw_lamb'],
+  );
+  assert.deepEqual(
+    Object.fromEntries(body.plan.pots[0].ingredient_amounts.map(item => [item.name, item.grams])),
+    { 大米:200, 羊腿肉:200, 胡萝卜:240, 洋葱:80, 水:270, 食用油:10, 盐:3 },
+  );
+});
+
 test('Jiangnan cured rice facts are identical across Worker and Python bridge', async () => {
   const body = await parityCase(
     'Jiangnan cured rice',

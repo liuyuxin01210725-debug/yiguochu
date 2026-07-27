@@ -649,6 +649,42 @@ test('fresh noodle locked plan preserves identity and exact reserved liquid', as
   }
 });
 
+test('locked lamb-leg rice plan preserves cut extras and completed endpoint', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    must: ['羊腿肉', '洋葱', '胡萝卜', '大米'],
+  }));
+  assert.equal(journey.planned.status, 'complete');
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  assert.ok(meal.locked_ingredients.some(item => (
+    item.raw_name === '羊腿肉' && item.shape_or_cut === 'leg'
+  )));
+  assert.ok(meal.safety_endpoints.includes('lamb_fully_cooked'));
+
+  const valid = validModelOutput(locked);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+  for (const forbidden of ['羊肩肉', '羊排', '羊腩', '羊肉末', '葡萄干']) {
+    const output = structuredClone(valid);
+    output.meals[0].steps[0].text += `加入${forbidden}。`;
+    assert.equal(
+      workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse()).ok,
+      false,
+      forbidden,
+    );
+  }
+
+  const missingEndpoint = structuredClone(valid);
+  const safetyStep = missingEndpoint.meals[0].steps.find(step => (
+    step.completed_safety_endpoints.includes('lamb_fully_cooked')
+  ));
+  safetyStep.completed_safety_endpoints = [];
+  assert.equal(
+    workerModule.validateGeneratedPlan(missingEndpoint, locked, ingredientTermUniverse()).ok,
+    false,
+  );
+});
+
 test('cooked-rice broth plan survives generation with conditional chicken and root-vegetable endpoints', async () => {
   const journey = await preparedJourney(plannerRequest({
     must: ['剩米饭', '鸡腿肉', '土豆'],
