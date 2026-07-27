@@ -109,11 +109,14 @@ test('current production library produces exactly 72 unique menu rows', () => {
   assert.equal(new Set(master.production_menus.map(menu => menu.id)).size, 72);
   assert.deepEqual(validateMenuMaster(master), []);
 
-  for (const ingredient of ['意式烩饭米', '糯米', '小米', '紫米', '粉丝']) {
+  for (const ingredient of ['意式烩饭米', '糯米', '紫米', '粉丝']) {
     const menu = master.production_menus.find(entry => entry.ingredients.core.includes(ingredient));
     assert.ok(menu, `${ingredient} must remain in a production core boundary`);
     assert.ok(menu.ingredients.unknown_role.includes(ingredient), `${ingredient} must be displayed as 待核实角色`);
   }
+  const milletMenu = master.production_menus.find(entry => entry.ingredients.core.includes('小米'));
+  assert.ok(milletMenu, '小米 must remain in a production core boundary');
+  assert.equal(milletMenu.ingredients.unknown_role.includes('小米'), false, '受控小米 taxonomy 不得继续显示为待核实角色');
   const freshNoodleMenu = master.production_menus.find(entry => entry.ingredients.staples.includes('鲜小麦面条'));
   assert.ok(freshNoodleMenu, '鲜小麦面条 must remain in a production staple boundary');
   assert.equal(freshNoodleMenu.ingredients.unknown_role.includes('鲜小麦面条'), false);
