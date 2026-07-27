@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r6');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r7');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -33,7 +33,7 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '白菜', '西兰花', '青菜', '豆角', '黄瓜', '洋葱', '胡萝卜', '土豆',
     '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
-    '卷心菜', '芥菜', '猪肉末', '菜心',
+    '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
 });
@@ -401,6 +401,21 @@ test('planner normalization preserves pork cuts while mapping only generic pork 
     assert.deepEqual(pickIdentity(item), { canonical:'猪肉', category:'pork', shape_or_cut:'tenderloin', recognized:true });
   }
   assert.deepEqual(pickIdentity(porkSlice), { canonical:'猪肉', category:'pork', shape_or_cut:'slice', recognized:true });
+});
+
+test('lamb leg identity is narrow and keeps generic and other cuts unresolved', () => {
+  const rows = normalizePlannerItems(
+    ['羊腿肉', '去骨羊腿肉', '羊肉', '羊肩肉', '羊排', '羊腩', '羊肉末'],
+    catalog,
+  );
+  for (const row of rows.slice(0, 2)) {
+    assert.deepEqual(
+      [row.canonical_id, row.canonical, row.category, row.shape_or_cut, row.cooking_risk],
+      ['lamb-leg', '羊肉', 'lamb', 'leg', 'raw_lamb'],
+    );
+    assert.deepEqual(row.required_endpoint_codes, ['lamb_fully_cooked']);
+  }
+  assert.deepEqual(rows.slice(2).map(row => row.recognized), [false, false, false, false, false]);
 });
 
 test('planner normalization retains unknown and duplicate inputs for explanation', () => {

@@ -104,6 +104,10 @@ test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {
     ['奶', '椰奶', {}],
     ['花生', '花生酱', {}],
     ['坚果', '核桃', {}],
+    ['羊肉', '羊腿肉', {}],
+    ['羊肉', '去骨羊腿肉', {}],
+    ['羊腿肉', '去骨羊腿肉', {}],
+    ['羊肉', '鸡腿肉', {}],
     // 不误伤: 鸡肉↛鸡蛋, 组成员虾仁↛鱼/鲈鱼
     ['鸡肉', '鸡蛋', {}],
     ['虾仁', '鱼', {}],
@@ -131,6 +135,7 @@ test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {
     true, true, true,
     true, true,
     true, true, false, true, true,
+    true, true, true, false,
     false, false, false,
     true, true,
     false, false, false,

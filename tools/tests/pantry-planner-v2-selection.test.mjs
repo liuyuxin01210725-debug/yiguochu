@@ -614,6 +614,52 @@ test('forbidden beef shapes retain unsupported_shape_or_cut in unplanned explana
   }
 });
 
+test('lamb leg onion carrot and rice form one complete savory rice pot', () => {
+  const result = planMeal(assets, request({ must: ['羊腿肉', '洋葱', '胡萝卜', '大米'] }));
+  assert.equal(result.status, 'complete');
+  assert.equal(result.plan.plan_kind, 'single_pot');
+  assert.equal(result.plan.coverage_ratio, 1);
+  assert.deepEqual(result.plan.unplanned_must_use, []);
+  const pot = result.plan.pots[0];
+  assert.equal(pot.template_id, 'savory-mixed-rice-pot');
+  assert.deepEqual(
+    new Set(pot.planned_must_use.map(item => item.raw)),
+    new Set(['羊腿肉', '洋葱', '胡萝卜', '大米']),
+  );
+  assert.equal(pot.ratio_trace[0].rule_id, 'savory-mixed-rice-liquid-v1');
+  assert.deepEqual(
+    Object.fromEntries(pot.ingredient_amounts.map(item => [item.name, item.grams])),
+    { 大米:200, 羊腿肉:200, 胡萝卜:240, 洋葱:80, 水:270, 食用油:10, 盐:3 },
+  );
+  assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'lamb_fully_cooked'));
+});
+
+test('generic and unsupported lamb cuts never enter the lamb-leg slot', () => {
+  for (const raw of ['羊肉', '羊肩肉', '羊排', '羊腩', '羊肉末']) {
+    const result = planMeal(assets, request({ must: [raw, '洋葱', '胡萝卜', '大米'] }));
+    assert.notEqual(result.status, 'complete', raw);
+    assert.ok(result.plan.unplanned_must_use.some(item => item.raw === raw), raw);
+  }
+});
+
+test('lamb pilaf is excluded from quick plans and blocked by the controlled lamb dislike', () => {
+  const quick = planMeal(assets, request({
+    mode:'recommend', intent:'quick', prefer:['羊腿肉', '洋葱', '胡萝卜', '大米'],
+  }));
+  assert.ok(quick.plan.pots.every(pot => pot.template_id !== 'savory-mixed-rice-pot'));
+  assert.ok(quick.plan.pots.every(pot => pot.time_range.max_minutes <= 30));
+
+  const disliked = planMeal(assets, request({
+    must:['羊腿肉', '洋葱', '胡萝卜', '大米'], dislikes:['羊肉'],
+  }));
+  assert.notEqual(disliked.status, 'complete');
+  assert.equal(disliked.generation_allowed, false);
+  assert.equal(
+    disliked.plan.unplanned_must_use.find(item => item.raw === '羊腿肉')?.reason_code,
+    'allergen_conflict',
+  );
+});
+
 test('recognition ratio uses the active product promise denominator, not unrelated-role inputs', () => {
   const pantry = planMeal(assets, request({ must: ['番茄'], prefer: ['未知香草'] }));
   assert.equal(pantry.plan.recognition_ratio, 1);

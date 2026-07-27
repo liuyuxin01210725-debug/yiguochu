@@ -44,8 +44,8 @@ const REQUIRED_TEMPLATE_FIELDS = [
 
 test('catalog has the approved 10 active and 6 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r7');
-  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r6');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r8');
+  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r7');
   assert.equal(catalog.templates.length, 16);
 
   const byId = new Map(catalog.templates.map(template => [template.template_id, template]));
@@ -129,6 +129,25 @@ test('savory mixed rice accepts ground pork without changing regional evidence',
   assert.ok(pork.allowed_shapes.includes('ground'));
   assert.ok(pork.forbidden_shapes.includes('rib'));
   assert.equal(template.evidence_recipe_ids.includes('fujian-gai-cai-minced-pork-rice'), false);
+});
+
+test('savory mixed rice accepts only lamb leg and binds the Xinjiang evidence and endpoint', () => {
+  const template = catalog.templates.find(row => row.template_id === 'savory-mixed-rice-pot');
+  assert.ok(template.optional_slots.find(row => row.slot_id === 'protein').accepts_categories.includes('lamb'));
+  assert.ok(template.ingredient_categories.protein.includes('lamb'));
+  assert.deepEqual(
+    template.shape_or_cut_requirements.find(row => row.category === 'lamb'),
+    { slot_id:'protein', category:'lamb', allowed_shapes:['leg'], forbidden_shapes:[] },
+  );
+  assert.ok(template.safety_endpoints.some(row => (
+    row.applies_to_category === 'lamb' && row.endpoint_code === 'lamb_fully_cooked'
+  )));
+  assert.ok(template.evidence_recipe_ids.includes('xinjiang-lamb-pilaf'));
+
+  const invalid = structuredClone(catalog);
+  invalid.templates.find(row => row.template_id === 'savory-mixed-rice-pot')
+    .shape_or_cut_requirements.find(row => row.category === 'lamb').allowed_shapes = ['ground'];
+  assert.match(validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary).join('\n'), /shape is not declared for category/);
 });
 
 test('validator is total and rejects malformed catalog data without throwing', () => {

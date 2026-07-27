@@ -71,6 +71,7 @@ test('ALLERGEN_GROUPS is the parity-locked table verbatim', () => {
     '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
     '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
     '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿'],
+    '羊肉': ['羊腿肉','去骨羊腿肉'],
   });
 });
 
@@ -81,6 +82,15 @@ test('dislike 牛肉 blocks beef cuts but not pork or chicken', () => {
     ['牛肉', '猪里脊'], ['牛肉', '鸡腿肉'], ['牛肉', '鸡蛋'],
   ]);
   assert.deepEqual(values, [true, true, true, false, false, false]);
+});
+
+test('dislike 羊肉 blocks only the controlled lamb-leg family', () => {
+  const { context } = loadFrontend();
+  const values = matchAll(context, [
+    ['羊肉', '羊腿肉'], ['羊肉', '去骨羊腿肉'],
+    ['羊腿肉', '去骨羊腿肉'], ['羊腿肉', '牛肉'], ['羊肉', '鸡腿肉'],
+  ]);
+  assert.deepEqual(values, [true, true, true, false, false]);
 });
 
 test('alias resolution never narrows allergy protection (豆腐干/干香菇 still hit)', () => {
