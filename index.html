@@ -828,6 +828,7 @@ const state = {
   swapOpen:false, swapPantryEdit:false, addingFood:false, items:[], nutriOpen:false,
   genStage:0, notice:'', lastGenError:null,
   swapHistory:[], // 历史=换掉或点过「开始做」的菜(带 kind+ts), 生成时发给后端避开; 与 localStorage 同步, 跨会话保留 7 天
+  sessionRejectedBaseRecipes:[], // 份量拦截只在当前页面会话避开，不写入 7 天历史
   lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
   displayedPlan:null, planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
@@ -1041,7 +1042,7 @@ async function postPlannerV2(path, body) {
   } finally { clearTimeout(tid); }
   let payload;
   try { payload = await response.json(); }
-  catch (_error) { throw genError('bad_json', 'bad json', response.status >= 500); }
+  catch (_error) { throw badJsonResponseError(response, endpoints[0]); }
   if (!response.ok) {
     if (payload && ['stale_plan','no_alternative_plan','no_valid_plan','needs_user_decision'].includes(payload.status)) return payload;
     throw genError(payload && payload.code ? payload.code : 'http_' + response.status,
@@ -1324,6 +1325,13 @@ function render() {
   else if (state.view === 'v2-plan' || state.view === 'v2-plan-preview') html = plannerStateScreen();
   else if (state.view === 'v2-no-alternative') html = noAlternativePlanScreen();
   else if (state.view === 'v2-result') html = generatedPlanScreen();
+  else if (state.view === 'safe-stop') html = safeStopScreen();
+  else if (state.view === 'pantry-stop') {
+    html = state.lastGenError && state.lastGenError.code === 'no_compatible_pantry_recipe'
+      ? (state.swapHistory.length ? swapExhaustedScreen() : pantryStopScreen())
+      : unsafePantryStopScreen();
+  }
+  else if (state.view === 'gen-failed') html = generationFailureScreen(state.lastGenError);
   else html = resultScreen();
   document.getElementById('root').innerHTML = html;
 }
@@ -1433,6 +1441,19 @@ function genError(code, message, retryable, details) {
   if (details && typeof details === 'object') Object.assign(e, details);
   return e;
 }
+function badJsonResponseError(response, endpoint) {
+  const contentType = response && response.headers && typeof response.headers.get === 'function'
+    ? String(response.headers.get('content-type') || '') : '';
+  const diagnostic = {
+    evt:'client_generate_error', code:'bad_json', endpoint:String((response && response.url) || endpoint || ''),
+    status:Number(response && response.status) || 0, content_type:contentType, at:new Date().toISOString(),
+  };
+  console.warn(JSON.stringify(diagnostic));
+  return genError('bad_json', 'bad json', diagnostic.status >= 500, {
+    endpoint:diagnostic.endpoint, httpStatus:diagnostic.status,
+    contentType:diagnostic.content_type, occurredAt:diagnostic.at,
+  });
+}
 function normalizeGenError(err) {
   if (!err) return { code:'generate_failed', message:'生成失败' };
   return {
@@ -1470,7 +1491,11 @@ async function fetchRealDish(opts) {
   // 换一换历史累计: 换掉或点过「开始做」的菜都发给后端；基础菜在冷却期硬排除，近期家族累进扣分。
   const hist = Array.isArray(state.swapHistory) ? state.swapHistory : [];
   const recent = boundedTextList(hist.map(h => h.name).concat(((swap || hasTrustedRecent) && state.dish) ? [state.dish.name] : []), 20, 80);
-  const recentBaseRecipes = boundedTextList(hist.map(h => h.base).concat(hasTrustedRecent ? [state.dish.baseRecipeId] : []), 20, 100);
+  const recentBaseRecipes = boundedTextList([
+    ...hist.map(h => h.base),
+    ...(Array.isArray(state.sessionRejectedBaseRecipes) ? state.sessionRejectedBaseRecipes : []),
+    ...(hasTrustedRecent ? [state.dish.baseRecipeId] : []),
+  ], 20, 100);
   const recentFamilies = boundedTextList(hist.map(h => h.fam).concat(hasTrustedRecent && state.dish.familyId ? [state.dish.familyId] : []), 20, 100);
   const profilePantry = uniquePantryItems(splitC(p.pantry));
   const requestedPantry = uniquePantryItems(Array.isArray(opts.pantryOverride) ? opts.pantryOverride : profilePantry);
@@ -1480,7 +1505,7 @@ async function fetchRealDish(opts) {
   const body = { meal_name: '这次的一锅主餐', targets, constraints: {
     diet: 'omnivore', pantry: requestedPantry, dislikes: splitW(p.dislikes),
     purpose: p.intent || p.purpose || 'quick', servings: targets.servings, recent_dishes: recent,
-    recent_base_recipes: avoidBase ? recentBaseRecipes.concat([avoidBase]) : recentBaseRecipes,
+    recent_base_recipes: boundedTextList(recentBaseRecipes.concat(avoidBase ? [avoidBase] : []), 20, 100),
     selected_base_recipe_id: selectedBaseRecipeId,
     recent_families: recentFamilies, swap_intent: swapIntent,
     swap_hint: swap ? SWAP_HINT[swap] : '',
@@ -1488,12 +1513,13 @@ async function fetchRealDish(opts) {
   let requestCount = 0;
   const once = async () => {
     const endpoints = apiCandidates('/generate-meal');
-    let r, fetchErr;
+    let r, fetchErr, responseEndpoint = '';
     for (let i = 0; i < endpoints.length && !r && requestCount < 2; i++) {
       const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), GENERATION_REQUEST_TIMEOUT_MS); // 浏览器留 55s: worker 上游 45s, 为 V4 完整菜谱输出保留网络余量
       try {
         requestCount++;
         r = await fetch(endpoints[i], { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal, cache:'no-store' });
+        if (r) responseEndpoint = String(r.url || endpoints[i]);
       } catch (e) {
         fetchErr = e;
       } finally {
@@ -1502,7 +1528,7 @@ async function fetchRealDish(opts) {
     }
     if (!r) throw genError(fetchErr && fetchErr.name === 'AbortError' ? 'timeout' : 'network', fetchErr && fetchErr.name === 'AbortError' ? 'request timeout' : 'network error', true);
     let res;
-    try { res = await r.json(); } catch (e) { throw genError('bad_json', 'bad json', r.status >= 500); }
+    try { res = await r.json(); } catch (e) { throw badJsonResponseError(r, responseEndpoint); }
     if (!r.ok) {
       const code = res && res.code ? String(res.code) : ('http_' + r.status);
       throw genError(code, (res && res.error) || ('http ' + r.status), r.status >= 500, {
@@ -1803,6 +1829,9 @@ function openEditableProfile() {
 }
 function showGenerationFailure(err) {
   state.lastGenError = normalizeGenError(err);
+  if (state.lastGenError.code === 'portion_too_small') {
+    rememberSessionRejectedCandidate(state.lastGenError.baseRecipeId);
+  }
   state.notice = '';
   if (state.lastGenError.code === 'pantry_needs_grouping' && state.lastGenError.pantryPlan.groups.length) {
     state.pantryPlan = state.lastGenError.pantryPlan;
@@ -1850,14 +1879,12 @@ function updateSwapHistory(kind) {
   else state.swapHistory.push(cur);
   persistSwapHistory();
 }
-function rememberRejectedSwapCandidate(baseRecipeId) {
+function rememberSessionRejectedCandidate(baseRecipeId) {
   const base = boundedText(baseRecipeId, 100);
   if (!base) return;
-  const existing = state.swapHistory.findIndex(entry => entry.base === base);
-  const rejected = { name:'', base, fam:'', kind:'swapped', ts:Date.now() };
-  if (existing >= 0) state.swapHistory[existing] = rejected;
-  else state.swapHistory.push(rejected);
-  persistSwapHistory();
+  state.sessionRejectedBaseRecipes = boundedTextList([
+    ...(Array.isArray(state.sessionRejectedBaseRecipes) ? state.sessionRejectedBaseRecipes : []), base,
+  ], 20, 100);
 }
 async function runGenerate(opts) {
   opts = opts || {};
@@ -1888,12 +1915,15 @@ async function runGenerate(opts) {
     genTimers.push(setTimeout(() => { if (myId === genId) showResult(dish); }, wait));
   } catch (err) {
     if (myId !== genId) return;
+    clearGen(); // 防止旧动画计时器在失败屏显示后再次 render 把它覆盖
     genTimers.push(setTimeout(() => {
       if (myId !== genId) return;
       const normalized = normalizeGenError(err);
-      if (previousDish && normalized.code === 'portion_too_small') {
-        rememberRejectedSwapCandidate(normalized.baseRecipeId);
-        showResult(previousDish, '刚换到的方案份量不足，已保留当前这道。可以换个方向再试。');
+      if (previousDish) {
+        if (normalized.code === 'portion_too_small') rememberSessionRejectedCandidate(normalized.baseRecipeId);
+        showResult(previousDish, normalized.code === 'portion_too_small'
+          ? '刚换到的方案份量不足，已保留当前这道。可以换个方向再试。'
+          : '这次没换成，当前这道还在。可以再试一次。');
         state.swapOpen = true;
         render();
         return;

@@ -115,7 +115,7 @@ function loadFrontend(responses = [], options = {}) {
   const window = { scrollTo() {}, location };
   if (options.proxy !== null) window.YIGUOCHU_PROXY = options.proxy || 'https://api.test';
   const context = vm.createContext({
-    console,
+    console: options.console || console,
     URL,
     Date,
     Math,
@@ -151,7 +151,12 @@ function loadFrontend(responses = [], options = {}) {
       return {
         ok: status >= 200 && status < 300,
         status,
-        async json() { return structuredClone(next.body); },
+        url: next.url || String(url),
+        headers: { get(name) { return String(name).toLowerCase() === 'content-type' ? (next.contentType || 'application/json') : null; } },
+        async json() {
+          if (next.jsonError) throw next.jsonError;
+          return structuredClone(next.body);
+        },
       };
     },
   });
@@ -964,6 +969,32 @@ test('an undersized empty-pantry meal is classified as portion_too_small instead
   );
 });
 
+test('a first-generation portion rejection is session-only and the next request excludes that recipe', async () => {
+  const tooSmall = meal({
+    base_recipe_id: 'undersized-first-candidate',
+    ingredients: ['测试主料', '测试主食', '测试蔬菜'].map(name => ({
+      name, grams: 100, kcal: 200, p: 8, fb: 2, mg: 1, k: 1, ca: 1,
+      fe: 1, zn: 1, na: 1, vc: 1, vd: 0, w3: 0,
+    })),
+  });
+  const accepted = meal({ base_recipe_id:'next-complete-candidate' });
+  const storage = sharedStorage();
+  const { context, calls } = loadFrontend([{ body:tooSmall }, { body:accepted }], { storage });
+
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+    await generateLegacyRecipeFallback();
+    await generateLegacyRecipeFallback();
+  })()`);
+
+  assert.equal(calls.length, 2, 'the user-triggered retry makes exactly one new paid request');
+  const secondBody = JSON.parse(calls[1].init.body);
+  assert.deepEqual(secondBody.constraints.recent_base_recipes, ['undersized-first-candidate']);
+  assert.equal(evaluate(context, 'state.dish.baseRecipeId'), 'next-complete-candidate');
+  assert.deepEqual(JSON.parse(evaluate(context, 'JSON.stringify(state.swapHistory)')), []);
+  assert.deepEqual(JSON.parse(storage.getItem('yiguochu_v1') || '{}').swapHistory || [], []);
+});
+
 test('a grounded two-serving soup rice near the main-meal reference is not discarded at first generation', async () => {
   const groundedSoupRice = meal({
     dish_name: '白菜鸡蛋汤饭',
@@ -1015,12 +1046,73 @@ test('an undersized swap candidate keeps the current dish and reopens swap choic
   assert.equal(evaluate(context, 'state.swapOpen'), true);
   assert.deepEqual(
     JSON.parse(evaluate(context, 'JSON.stringify(state.swapHistory.map(entry => entry.base))')),
-    ['current-reliable-dish', 'undersized-swap-candidate'],
-    'the next swap must avoid both the current dish and the rejected candidate',
+    ['current-reliable-dish'],
+    'the persistent seven-day history keeps only the dish the user actually saw',
+  );
+  assert.deepEqual(
+    JSON.parse(evaluate(context, 'JSON.stringify(state.sessionRejectedBaseRecipes)')),
+    ['undersized-swap-candidate'],
+    'the drifting portion rejection is excluded only for this browser session',
   );
   assert.match(evaluate(context, 'state.notice'), /份量不足.*保留当前/);
   assert.match(root.innerHTML, /换个口味|换个菜系|随便换一个/);
   assert.doesNotMatch(root.innerHTML, /这锅份量偏少|换一道更完整的/);
+});
+
+test('a failed swap keeps the current dish visible and offers another user-triggered swap', async () => {
+  const { context, calls, root } = loadFrontend([{
+    status:503,
+    body:{ code:'upstream_error', error:'generation unavailable' },
+  }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+    const current = mapDish(${JSON.stringify(meal({ base_recipe_id:'current-still-reliable' }))}, computeTargets(state.profile));
+    state.dish = current;
+    state.items = current.ingredients.map(item => ({ ...item }));
+    state.view = 'result';
+    await runGenerate({ swap:'any' });
+    await new Promise(resolve => setTimeout(resolve, 500));
+  })()`);
+
+  assert.equal(calls.length, 1, 'swap failure must not trigger an implicit paid retry');
+  assert.equal(evaluate(context, 'state.view'), 'result');
+  assert.equal(evaluate(context, 'state.dish.baseRecipeId'), 'current-still-reliable');
+  assert.equal(evaluate(context, 'state.swapOpen'), true);
+  assert.match(evaluate(context, 'state.notice'), /这次没换成/);
+  assert.match(root.innerHTML, /换个口味|换个菜系|随便换一个/);
+  assert.doesNotMatch(root.innerHTML, /这次没生成出来/);
+});
+
+test('a malformed generation response logs non-sensitive boundary diagnostics and is not overwritten by old animation timers', async () => {
+  const warnings = [];
+  const testConsole = Object.assign({}, console, { warn(value) { warnings.push(String(value)); } });
+  const { context, calls, root } = loadFrontend([{
+    status:502,
+    contentType:'text/html; charset=UTF-8',
+    url:'https://api.test/generate-meal',
+    jsonError:new SyntaxError('Unexpected token <'),
+  }], { console:testConsole });
+
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+    const current = mapDish(${JSON.stringify(meal({ base_recipe_id:'existing-before-error' }))}, computeTargets(state.profile));
+    state.dish = current;
+    state.items = current.ingredients.map(item => ({ ...item }));
+    await runGenerate({});
+    await new Promise(resolve => setTimeout(resolve, 2700));
+  })()`);
+
+  assert.equal(calls.length, 1, 'bad JSON must not trigger an implicit retry');
+  assert.equal(evaluate(context, 'state.view'), 'gen-failed');
+  assert.match(root.innerHTML, /这次没生成出来/);
+  assert.doesNotMatch(root.innerHTML, /选基础菜|检查步骤安全/);
+  assert.equal(warnings.length, 1);
+  const diagnostic = JSON.parse(warnings[0]);
+  assert.deepEqual(
+    { evt:diagnostic.evt, code:diagnostic.code, endpoint:diagnostic.endpoint, status:diagnostic.status, content_type:diagnostic.content_type },
+    { evt:'client_generate_error', code:'bad_json', endpoint:'https://api.test/generate-meal', status:502, content_type:'text/html; charset=UTF-8' },
+  );
+  assert.match(diagnostic.at, /^\d{4}-\d{2}-\d{2}T/);
 });
 
 test('large pantry grouping renders an ordered multi-pot sequence instead of parallel choices', async () => {
