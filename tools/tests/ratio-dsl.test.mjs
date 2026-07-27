@@ -23,12 +23,13 @@ const ACTIVE = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
   'braised-noodle-pot', 'broth-rice-pot',
+  'soft-family-rice-pot',
 ]);
 const OPERATORS = new Set(['per_serving', 'per_serving_by_category', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r4');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r5');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -574,6 +575,45 @@ test('broth rice compiles evidence-derived quantities for two servings', () => {
     ['鸡蛋', 130],
   ]));
   assert.deepEqual(result.required_extra_items, [{ name: '水', category: 'liquid', grams: 650 }]);
+});
+
+test('soft millet ratio compiles exact household quantities without borrowing raw rice rules', () => {
+  const slots = {
+    staple: [{ name:'小米', category:'raw_millet', canonical_id:'raw-millet', attributes:{} }],
+    root_vegetable: [{ name:'土豆', category:'root_vegetable', canonical_id:'potato', attributes:{} }],
+    cooked_legume: [{ name:'熟鹰嘴豆', category:'cooked_legume', canonical_id:'cooked-chickpea-seed', attributes:{} }],
+  };
+  const result = compileRatioPlan('soft-family-millet-liquid-v1', { servings:2, slots }, catalog);
+  assert.equal(result.ok, true);
+  assert.deepEqual(new Map(result.ingredient_amounts.map(row => [row.name, row.grams])), new Map([
+    ['小米', 80], ['土豆', 180], ['熟鹰嘴豆', 176], ['水', 664], ['食用油', 10], ['盐', 3],
+  ]));
+  assert.deepEqual(result.required_extra_items, [
+    { name:'食用油', category:'oil', grams:10 },
+    { name:'水', category:'liquid', grams:664 },
+    { name:'盐', category:'seasoning', grams:3 },
+  ]);
+
+  for (const [servings, expected] of [[3, [120,270,264,996,10,4.5]], [4, [160,360,352,1328,10,6]]]) {
+    const scaled = compileRatioPlan('soft-family-millet-liquid-v1', { servings, slots }, catalog);
+    assert.equal(scaled.ok, true);
+    assert.deepEqual(
+      ['小米','土豆','熟鹰嘴豆','水','食用油','盐'].map(name => scaled.ingredient_amounts.find(row => row.name === name)?.grams),
+      expected,
+    );
+  }
+
+  const withLeaf = compileRatioPlan('soft-family-millet-liquid-v1', {
+    servings:2,
+    slots: { ...slots, leafy_vegetable:[{ name:'小白菜', category:'leafy_vegetable', canonical_id:'small-bok-choy', attributes:{} }] },
+  }, catalog);
+  assert.equal(withLeaf.ingredient_amounts.find(row => row.name === '小白菜')?.grams, 200);
+
+  const wrongStaple = compileRatioPlan('soft-family-millet-liquid-v1', {
+    servings:2,
+    slots: { ...slots, staple:[{ name:'大米', category:'raw_rice', canonical_id:'raw-rice', attributes:{} }] },
+  }, catalog);
+  assert.equal(wrongStaple.code, 'ratio_context_category_mismatch');
 });
 
 function catalogWithCategorySpecificProtein(mutator = () => {}) {

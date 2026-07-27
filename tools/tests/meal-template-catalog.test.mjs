@@ -26,12 +26,12 @@ const ACTIVE = new Set([
   'poultry-staple-pot',
   'braised-noodle-pot',
   'broth-rice-pot',
+  'soft-family-rice-pot',
 ]);
 const PLANNED = new Set([
   'mushroom-aroma-rice-pot',
   'curry-staple-pot',
   'pork-staple-pot',
-  'soft-family-rice-pot',
   'quick-breakfast-pot',
   'stew-with-staple-pot',
 ]);
@@ -42,10 +42,10 @@ const REQUIRED_TEMPLATE_FIELDS = [
   'time_range', 'supported_intents', 'evidence_recipe_ids',
 ];
 
-test('catalog has the approved 10 active and 6 planned composable template IDs', () => {
+test('catalog has the approved 11 active and 5 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r8');
-  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r8');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r9');
+  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r9');
   assert.equal(catalog.templates.length, 16);
 
   const byId = new Map(catalog.templates.map(template => [template.template_id, template]));
@@ -68,6 +68,38 @@ test('catalog has the approved 10 active and 6 planned composable template IDs',
     'braised-noodle-liquid-v1',
     'braised-fresh-wheat-noodle-liquid-v1',
   ]));
+});
+
+test('soft family pot is a narrow millet branch rather than a generic rice recipe', () => {
+  const soft = catalog.templates.find(row => row.template_id === 'soft-family-rice-pot');
+  assert.equal(soft.activation_status, 'active');
+  assert.equal(soft.runtime_eligible, true);
+  assert.deepEqual(soft.required_slots.map(row => [row.slot_id, row.accepts_categories]), [
+    ['staple', ['raw_millet']],
+    ['root_vegetable', ['root_vegetable']],
+  ]);
+  assert.deepEqual(soft.optional_slots.map(row => [row.slot_id, row.accepts_categories]), [
+    ['cooked_legume', ['cooked_legume']],
+    ['leafy_vegetable', ['leafy_vegetable']],
+  ]);
+  assert.deepEqual(soft.slot_limits, {
+    total_user_items_min: 2,
+    total_user_items_max: 4,
+    staple_max: 1,
+    root_vegetable_max: 1,
+    cooked_legume_max: 1,
+    leafy_vegetable_max: 1,
+  });
+  assert.deepEqual(soft.supported_intents, ['normal', 'fresh', 'batch']);
+  assert.deepEqual(soft.time_range, { min_minutes: 35, max_minutes: 50 });
+  assert.deepEqual(soft.ratio_constraints, ['soft-family-millet-liquid-v1']);
+  assert.deepEqual(soft.evidence_recipe_ids, ['chinese-congee', 'qinghai-hao-fan']);
+  assert.deepEqual(new Set(soft.safety_endpoints.map(row => `${row.applies_to_category}/${row.endpoint_code}`)), new Set([
+    'raw_millet/grain_tender_no_hard_center',
+    'root_vegetable/tender',
+    'cooked_legume/heated_through',
+  ]));
+  assert.equal(soft.required_slots[0].source_policy.includes('basic_extra'), false);
 });
 
 test('broth rice is cooked-rice only with category-specific order and safety', () => {
