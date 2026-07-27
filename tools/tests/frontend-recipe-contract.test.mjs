@@ -964,6 +964,39 @@ test('an undersized empty-pantry meal is classified as portion_too_small instead
   );
 });
 
+test('an undersized swap candidate keeps the current dish and reopens swap choices', async () => {
+  const tooSmall = meal({
+    base_recipe_id: 'undersized-swap-candidate',
+    ingredients: ['测试主料', '测试主食', '测试蔬菜'].map(name => ({
+      name, grams: 100, kcal: 200, p: 8, fb: 2, mg: 1, k: 1, ca: 1,
+      fe: 1, zn: 1, na: 1, vc: 1, vd: 0, w3: 0,
+    })),
+  });
+  const { context, calls, root } = loadFrontend([{ body: tooSmall }]);
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'quick', servings:'2', pantry:'', dislikes:'' };
+    const current = mapDish(${JSON.stringify(meal({ base_recipe_id:'current-reliable-dish' }))}, computeTargets(state.profile));
+    state.dish = current;
+    state.items = current.ingredients.map(item => ({ ...item }));
+    state.view = 'result';
+    await runGenerate({ swap:'any' });
+    await new Promise(resolve => setTimeout(resolve, 450));
+  })()`);
+
+  assert.equal(calls.length, 1, 'a rejected swap must not trigger an implicit paid retry');
+  assert.equal(evaluate(context, 'state.view'), 'result');
+  assert.equal(evaluate(context, 'state.dish.baseRecipeId'), 'current-reliable-dish');
+  assert.equal(evaluate(context, 'state.swapOpen'), true);
+  assert.deepEqual(
+    JSON.parse(evaluate(context, 'JSON.stringify(state.swapHistory.map(entry => entry.base))')),
+    ['current-reliable-dish', 'undersized-swap-candidate'],
+    'the next swap must avoid both the current dish and the rejected candidate',
+  );
+  assert.match(evaluate(context, 'state.notice'), /份量不足.*保留当前/);
+  assert.match(root.innerHTML, /换个口味|换个菜系|随便换一个/);
+  assert.doesNotMatch(root.innerHTML, /这锅份量偏少|换一道更完整的/);
+});
+
 test('large pantry grouping renders an ordered multi-pot sequence instead of parallel choices', async () => {
   const pantryPlan = {
     kind: 'sequence',

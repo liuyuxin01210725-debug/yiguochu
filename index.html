@@ -1847,10 +1847,20 @@ function updateSwapHistory(kind) {
   else state.swapHistory.push(cur);
   persistSwapHistory();
 }
+function rememberRejectedSwapCandidate(baseRecipeId) {
+  const base = boundedText(baseRecipeId, 100);
+  if (!base) return;
+  const existing = state.swapHistory.findIndex(entry => entry.base === base);
+  const rejected = { name:'', base, fam:'', kind:'swapped', ts:Date.now() };
+  if (existing >= 0) state.swapHistory[existing] = rejected;
+  else state.swapHistory.push(rejected);
+  persistSwapHistory();
+}
 async function runGenerate(opts) {
   opts = opts || {};
   clearGen();
   const myId = ++genId;
+  const previousDish = opts.swap && state.dish ? state.dish : null;
   state.notice = '';
   state.lastGenError = null;
   if (typeof location !== 'undefined' && location.protocol === 'file:') {
@@ -1877,6 +1887,14 @@ async function runGenerate(opts) {
     if (myId !== genId) return;
     genTimers.push(setTimeout(() => {
       if (myId !== genId) return;
+      const normalized = normalizeGenError(err);
+      if (previousDish && normalized.code === 'portion_too_small') {
+        rememberRejectedSwapCandidate(normalized.baseRecipeId);
+        showResult(previousDish, '刚换到的方案份量不足，已保留当前这道。可以换个方向再试。');
+        state.swapOpen = true;
+        render();
+        return;
+      }
       showGenerationFailure(err);
     }, 400));
   }
