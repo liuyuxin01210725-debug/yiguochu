@@ -193,6 +193,18 @@ test('Lingnan M1 recovers two generic plans and retains three structural gaps', 
   assert.deepEqual([region.recipe_count, region.single_pot_full_count], [5, 2]);
 });
 
+test('Northwest lamb-leg capability restores Xinjiang pilaf without widening other recipes', () => {
+  const report = buildRealReport();
+  const lamb = byId(report, 'xinjiang-lamb-pilaf');
+  assert.equal(lamb.audit_status, 'full_single_pot_evidence_aligned');
+  assert.deepEqual(lamb.unclassified_core_items, []);
+  assert.equal(lamb.raw_core_scenario.end_to_end_core_coverage_ratio, 1);
+  assert.equal(lamb.raw_core_scenario.plan_kind, 'single_pot');
+  assert.ok(lamb.raw_core_scenario.selected_template_ids.includes('savory-mixed-rice-pot'));
+  const northwest = report.by_region.find(row => row.region_id === 'northwest');
+  assert.deepEqual([northwest.recipe_count, northwest.single_pot_full_count], [3, 2]);
+});
+
 test('report metadata, summaries, and validation are deterministic', () => {
   const first = buildRealReport();
   const second = buildRealReport();

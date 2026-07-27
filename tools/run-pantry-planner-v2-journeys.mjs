@@ -606,8 +606,8 @@ async function runOne(entry) {
 }
 
 function validateCorpus() {
-  assert.equal(corpus.journeys.length, 100);
-  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 100 }, (_, index) => index + 1));
+  assert.equal(corpus.journeys.length, 108);
+  assert.deepEqual(corpus.journeys.map(entry => entry.spec_number), Array.from({ length: 108 }, (_, index) => index + 1));
   assert.equal(new Set(corpus.journeys.map(entry => entry.id)).size, 100);
   assert.equal(JSON.parse(sourceAssets['/recipe-library.json']).recipes.length, 72, 'journey gate must retain the 72-recipe evidence base');
   for (const entry of corpus.journeys) {
