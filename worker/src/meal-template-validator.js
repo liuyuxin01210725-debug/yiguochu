@@ -6,11 +6,12 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
   'pork-staple-pot', 'soft-family-rice-pot', 'stew-with-staple-pot', 'quick-breakfast-pot',
 ]);
-const TAXONOMY_VERSION = 'taxonomy-v1-20260727-r8';
+const TAXONOMY_VERSION = 'taxonomy-v1-20260727-r9';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
   'braised-noodle-pot', 'broth-rice-pot',
+  'soft-family-rice-pot',
 ]);
 const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
 const SOURCE_POLICIES = new Set(['user', 'basic_extra']);
@@ -19,7 +20,7 @@ const COOKING_MODES = new Set(['braise', 'simmer', 'quick_saute', 'short_simmer'
 const ATTRIBUTE_VALUES = new Map([
   ['moisture_release', new Set(['low', 'medium', 'high'])],
   ['cook_speed', new Set(['no_cook', 'fast', 'medium', 'slow'])],
-  ['cooking_risk', new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'unknown'])],
+  ['cooking_risk', new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_grain', 'unknown'])],
 ]);
 // First-stage templates only need these two fully machine-checked operators.
 // Do not accept future-looking operator names without a validated payload schema.
@@ -32,6 +33,8 @@ const ACTION_CODES = new Set([
   'add_soft_protein', 'finish_and_check_endpoints', 'add_pork', 'soften_family_texture',
   'quick_breakfast_heat', 'add_slow_cooking_items', 'position_staple_above_liquid',
   'steam_staple_with_lid',
+  'soak_soft_grain', 'add_staple_root_and_liquid', 'simmer_soft_grain_and_root',
+  'add_cooked_legume', 'add_leafy_vegetable',
 ]);
 const LIQUID_CATEGORIES = new Set(['water', 'approved_stock']);
 
@@ -50,12 +53,13 @@ export const TEMPLATE_ENDPOINT_TO_TAXONOMY_ENDPOINT = Object.freeze({
   bean_fully_cooked: 'bean_fully_cooked',
   tender: 'tender',
   dough_cooked_through: 'dough_cooked_through',
+  grain_tender_no_hard_center: 'grain_tender_no_hard_center',
 });
 const TEMPLATE_ENDPOINTS = new Set(Object.keys(TEMPLATE_ENDPOINT_TO_TAXONOMY_ENDPOINT));
 const ENDPOINT_CATEGORIES = new Map([
   ['poultry_fully_cooked_no_pink', new Set(['chicken'])],
   ['rice_tender', new Set(['raw_rice'])],
-  ['heated_through', new Set(['cooked_rice', 'soft_tofu', 'firm_tofu'])],
+  ['heated_through', new Set(['cooked_rice', 'soft_tofu', 'firm_tofu', 'cooked_legume'])],
   ['noodle_tender', new Set(['noodle'])],
   ['egg_fully_set', new Set(['egg'])],
   ['beef_fully_cooked', new Set(['beef'])],
@@ -64,6 +68,7 @@ const ENDPOINT_CATEGORIES = new Map([
   ['bean_fully_cooked', new Set(['pod_vegetable'])],
   ['tender', new Set(['cruciferous_vegetable', 'root_vegetable'])],
   ['dough_cooked_through', new Set(['cornmeal_dough', 'wheat_dough'])],
+  ['grain_tender_no_hard_center', new Set(['raw_millet'])],
 ]);
 const RATIO_REF_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 const TEMPLATE_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -492,7 +497,7 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
     if (!isObject(catalog)) return ['template catalog must be an object'];
     assertAllowedKeys(catalog, CATALOG_KEYS, 'template catalog', errors);
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
-    if (catalog.template_catalog_version !== 'templates-v2-20260727-r8') errors.push('template_catalog_version must be templates-v2-20260727-r8');
+    if (catalog.template_catalog_version !== 'templates-v2-20260727-r9') errors.push('template_catalog_version must be templates-v2-20260727-r9');
     if (!isObject(taxonomy) || taxonomy.taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== taxonomy.taxonomy_version) {

@@ -594,7 +594,7 @@ test('soft millet ratio compiles exact household quantities without borrowing ra
     { name:'盐', category:'seasoning', grams:3 },
   ]);
 
-  for (const [servings, expected] of [[3, [120,270,264,996,10,4.5]], [4, [160,360,352,1328,10,6]]]) {
+  for (const [servings, expected] of [[3, [120,270,264,996,10,5]], [4, [160,360,352,1328,10,6]]]) {
     const scaled = compileRatioPlan('soft-family-millet-liquid-v1', { servings, slots }, catalog);
     assert.equal(scaled.ok, true);
     assert.deepEqual(

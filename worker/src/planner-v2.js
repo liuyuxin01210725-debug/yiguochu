@@ -548,9 +548,10 @@ const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
   'braised-noodle-pot', 'broth-rice-pot',
+  'soft-family-rice-pot',
 ]);
 const BASIC_EXTRA_CATEGORIES = new Set(['raw_rice', 'cooked_rice', 'noodle', 'liquid', 'oil', 'seasoning']);
-const RAW_RISK_CODES = new Set(['raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough']);
+const RAW_RISK_CODES = new Set(['raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_grain']);
 const ENDPOINT_ALIASES = Object.freeze({ poultry_fully_cooked_no_pink: 'poultry_fully_cooked' });
 
 // 过敏 matcher 的 alias 顺序固定：taxonomy 是规划语义权威源，recipe aliases 只补充
@@ -934,6 +935,11 @@ function unusedReason(item, assignment, template, role, dislikes = [], allergyAl
     ...structuredClone(item),
     reason_code: 'unrecognized_ingredient',
     reason: '暂时无法识别这种食材，因此不能承诺已经安排。',
+  };
+  if (item.category === 'dry_legume') return {
+    ...structuredClone(item),
+    reason_code: 'unsupported_ingredient_state',
+    reason: '当前计划只接受已经煮熟的豆类；干豆需要单独泡发并彻底煮熟。',
   };
   const slots = [...(template.required_slots || []), ...(template.optional_slots || [])].filter(slot => slot.source_policy?.includes('user'));
   const fits = slots.map(slot => ({ slot, fit: itemFit(slot, item, template) }));

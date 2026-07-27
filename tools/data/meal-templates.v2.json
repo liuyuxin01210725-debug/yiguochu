@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "template_catalog_version": "templates-v2-20260727-r8",
-  "ingredient_taxonomy_version": "taxonomy-v1-20260727-r8",
+  "template_catalog_version": "templates-v2-20260727-r9",
+  "ingredient_taxonomy_version": "taxonomy-v1-20260727-r9",
   "templates": [
     {
       "template_id": "acid-staple-pot",
@@ -269,22 +269,22 @@
     },
     {
       "template_id":"soft-family-rice-pot",
-      "activation_status":"planned",
-      "runtime_eligible":false,
-      "required_slots":[{"slot_id":"staple","min_items":1,"max_items":1,"source_policy":["user","basic_extra"],"accepts_categories":["raw_rice"]},{"slot_id":"vegetable","min_items":1,"max_items":2,"source_policy":["user"],"accepts_categories":["root_vegetable","leafy_vegetable"]}],
-      "optional_slots":[{"slot_id":"protein","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["egg","soft_tofu","chicken"]},{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]}],
-      "slot_limits":{"total_user_items_min":2,"total_user_items_max":4,"vegetable_max":2,"protein_max":1,"mushroom_max":1},
-      "ingredient_categories":{"staple":["raw_rice"],"vegetable":["root_vegetable","leafy_vegetable"],"protein":["egg","soft_tofu","chicken"],"mushroom":["mushroom"]},
-      "compatibility_rules":[{"rule_code":"soft_family_rice_uses_simmer","when":{"slot_id":"staple","category":"raw_rice"},"requires_cooking_mode":["simmer"]}],
-      "incompatible_rules":[{"rule_code":"soft_family_rice_limits_hard_items","when":{"slot_id":"staple","category":"raw_rice"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":0}}],
-      "shape_or_cut_requirements":[{"slot_id":"protein","category":"chicken","allowed_shapes":["breast","leg"],"forbidden_shapes":[]}],
-      "cooking_order":[{"phase":1,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":2,"action_code":"soften_family_texture","slot_ids":["vegetable","mushroom"]},{"phase":3,"action_code":"add_soft_protein","slot_ids":["protein"]},{"phase":4,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
-      "ratio_constraints":["soft-family-rice-liquid-v1"],
+      "activation_status":"active",
+      "runtime_eligible":true,
+      "required_slots":[{"slot_id":"staple","min_items":1,"max_items":1,"source_policy":["user"],"accepts_categories":["raw_millet"]},{"slot_id":"root_vegetable","min_items":1,"max_items":1,"source_policy":["user"],"accepts_categories":["root_vegetable"]}],
+      "optional_slots":[{"slot_id":"cooked_legume","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["cooked_legume"]},{"slot_id":"leafy_vegetable","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["leafy_vegetable"]}],
+      "slot_limits":{"total_user_items_min":2,"total_user_items_max":4,"staple_max":1,"root_vegetable_max":1,"cooked_legume_max":1,"leafy_vegetable_max":1},
+      "ingredient_categories":{"staple":["raw_millet"],"root_vegetable":["root_vegetable"],"cooked_legume":["cooked_legume"],"leafy_vegetable":["leafy_vegetable"]},
+      "compatibility_rules":[{"rule_code":"soft_family_millet_uses_simmer","when":{"slot_id":"staple","category":"raw_millet"},"requires_cooking_mode":["simmer"]}],
+      "incompatible_rules":[{"rule_code":"soft_family_millet_rejects_slow_items","when":{"slot_id":"staple","category":"raw_millet"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":0}}],
+      "shape_or_cut_requirements":[{"slot_id":"root_vegetable","category":"root_vegetable","allowed_shapes":["whole","slice","dice"],"forbidden_shapes":[]}],
+      "cooking_order":[{"phase":1,"action_code":"soak_soft_grain","slot_ids":["staple"]},{"phase":2,"action_code":"add_staple_root_and_liquid","slot_ids":["staple","root_vegetable"]},{"phase":3,"action_code":"simmer_soft_grain_and_root","slot_ids":["staple","root_vegetable"]},{"phase":4,"action_code":"add_cooked_legume","slot_ids":["cooked_legume"]},{"phase":5,"action_code":"add_leafy_vegetable","slot_ids":["leafy_vegetable"]},{"phase":6,"action_code":"reach_safety_endpoints","slot_ids":["staple","root_vegetable","cooked_legume"]}],
+      "ratio_constraints":["soft-family-millet-liquid-v1"],
       "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
-      "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"egg","endpoint_code":"egg_fully_set"}],
-      "time_range":{"min_minutes":30,"max_minutes":55},
+      "safety_endpoints":[{"applies_to_category":"raw_millet","endpoint_code":"grain_tender_no_hard_center"},{"applies_to_category":"root_vegetable","endpoint_code":"tender"},{"applies_to_category":"cooked_legume","endpoint_code":"heated_through"}],
+      "time_range":{"min_minutes":35,"max_minutes":50},
       "supported_intents":["normal","fresh","batch"],
-      "evidence_recipe_ids":["chinese-congee","corn-carrot-chicken-leg-covered-rice"]
+      "evidence_recipe_ids":["chinese-congee","qinghai-hao-fan"]
     },
     {
       "template_id":"stew-with-staple-pot",
