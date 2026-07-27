@@ -343,6 +343,59 @@ test('cowpea ambiguity and explicit states are identical across Worker and Pytho
   }
 });
 
+test('millet and chickpea states are identical across Worker and Python bridge', async t => {
+  await t.test('cooked chickpea completes the soft millet pot', async () => {
+    const body = await parityCase(
+      'soft millet with cooked chickpea',
+      request({ must: ['小米', '土豆', '熟鹰嘴豆'] }),
+      'complete',
+    );
+    assert.equal(body.plan.pots[0].template_id, 'soft-family-rice-pot');
+    assert.deepEqual(
+      Object.fromEntries(body.normalized_items.map(item => [item.raw, item.state])),
+      { '小米': 'raw', '土豆': 'raw', '熟鹰嘴豆': 'cooked' },
+    );
+    assert.deepEqual(
+      Object.fromEntries(body.plan.pots[0].ingredient_amounts.map(item => [item.name, item.grams])),
+      { '小米':80, '土豆':180, '熟鹰嘴豆':176, '食用油':10, '水':664, '盐':3 },
+    );
+  });
+
+  await t.test('generic chickpea pauses for state clarification', async () => {
+    const body = await parityCase(
+      'ambiguous chickpea state',
+      request({ must: ['小米', '土豆', '鹰嘴豆'] }),
+      'needs_user_decision',
+    );
+    const item = body.plan.unplanned_must_use.find(row => row.raw === '鹰嘴豆');
+    assert.equal(item.reason_code, 'ambiguous_ingredient_state');
+    assert.deepEqual(item.eligible_items, ['干鹰嘴豆', '熟鹰嘴豆']);
+    assert.equal(body.generation_allowed, false);
+  });
+
+  await t.test('dry chickpea remains explicit and unplanned', async () => {
+    const body = await parityCase(
+      'unsupported dry chickpea state',
+      request({ must: ['小米', '土豆', '干鹰嘴豆'] }),
+      'needs_user_decision',
+    );
+    const normalized = body.normalized_items.find(row => row.raw === '干鹰嘴豆');
+    const unplanned = body.plan.unplanned_must_use.find(row => row.raw === '干鹰嘴豆');
+    assert.deepEqual([normalized.category, normalized.state], ['dry_legume', 'dry']);
+    assert.equal(unplanned.reason_code, 'unsupported_ingredient_state');
+  });
+
+  await t.test('quick intent rejects the slow soft millet template', async () => {
+    const body = await parityCase(
+      'quick soft millet',
+      request({ intent: 'quick', must: ['小米', '土豆'] }),
+      'no_valid_plan',
+    );
+    assert.equal(body.generation_allowed, false);
+    assert.equal(body.plan.pots.length, 0);
+  });
+});
+
 test('Xinjiang lamb leg rice facts are identical across Worker and Python bridge', async () => {
   const body = await parityCase(
     'Xinjiang lamb leg rice',

@@ -531,6 +531,36 @@ test('ingredient ambiguity reads as a quality guard and preserves the raw input'
   assert.equal(evaluate(context, 'state.profile.pantry.includes("豇豆")'), true);
 });
 
+test('chickpea ambiguity asks for dry or cooked state without treating planning as a failure', async () => {
+  const planned = plannerResult({
+    status:'needs_user_decision', generation_allowed:false, mode:'pantry',
+    commitment:'还有食材没有安排，需要你先决定下一步。',
+    normalized_items:[
+      {raw:'小米',canonical:'小米',recognized:true,role:'must_use',state:'raw'},
+      {raw:'鹰嘴豆',canonical:null,recognized:false,role:'must_use',state:null,
+       ambiguity_id:'chickpea-state',ambiguity_code:'ambiguous_ingredient_state',
+       ambiguity_reason:'“鹰嘴豆”可能是干豆或已经煮熟的豆，请改写为“干鹰嘴豆”或“熟鹰嘴豆”。',
+       eligible_items:['干鹰嘴豆','熟鹰嘴豆']},
+    ],
+    plan:{
+      planned_must_use:[{raw:'小米',canonical:'小米'}], planned_prefer_use:[],
+      unplanned_must_use:[{raw:'鹰嘴豆',canonical:null,ambiguity_id:'chickpea-state',
+        reason_code:'ambiguous_ingredient_state',
+        reason:'“鹰嘴豆”可能是干豆或已经煮熟的豆，请改写为“干鹰嘴豆”或“熟鹰嘴豆”。',
+        eligible_items:['干鹰嘴豆','熟鹰嘴豆']}],
+      unused_prefer_use:[], coverage_ratio:0.5,
+    },
+  });
+  const { context, calls, root } = loadFrontend([{body:planned}]);
+  evaluate(context, `state.profile = { mode:'pantry', intent:'normal', servings:'2', pantry:'小米,鹰嘴豆', dislikes:'' }`);
+  await evaluate(context, `runPlannerFlow({ autoGenerate:true })`);
+  assert.equal(calls.length, 1);
+  assert.match(root.innerHTML, /fb-banner-title">需要确认食材状态/);
+  assert.match(root.innerHTML, /鹰嘴豆.*干豆.*煮熟/);
+  assert.doesNotMatch(root.innerHTML, /生成失败|全部安排完成/);
+  assert.equal(evaluate(context, 'state.profile.pantry.includes("鹰嘴豆")'), true);
+});
+
 test('swap only replans, preview generation reuses its exact request, and history does not pre-record the preview', async () => {
   const first = plannerResult();
   const alternative = plannerResult({ plan:{ plan_id:'pln_v2_alternative', pots:[{ ...plannerResult().plan.pots[0], template_id:'savory-mixed-rice-pot' }] } });
