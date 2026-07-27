@@ -2600,6 +2600,9 @@ async function handleGenerate(request, env) {
   // 服务端直接 422 unsafe_recipe(前端已有对应停止页), 不再发出去让前端 scoreDish 拦;
   // 以 repair 后的终态 flags 为准, repair 已修掉的不触发; 不静默重试 DeepSeek。
   if (meal.validation_flags.length) {
+    const validationFlagTypes = [...new Set(
+      meal.validation_flags.map(flag => String(flag).split(':', 1)[0]),
+    )];
     console.log(JSON.stringify({
       evt: 'gen',
       ok: false,
@@ -2607,12 +2610,14 @@ async function handleGenerate(request, env) {
       base: meal.base_recipe_id,
       family: meal.family_id,
       flags: meal.validation_flags.length,
-      flag_types: [...new Set(meal.validation_flags.map(flag => String(flag).split(':', 1)[0]))],
+      flag_types: validationFlagTypes,
       tokens: meal._tokens || 0,
       n: (meal.ingredients || []).length,
       ms: Date.now() - t0,
     }));
-    return errorResponse('unsafe_recipe', '生成的做法没有通过食材或熟制检查', 422, env, {}, request);
+    return errorResponse('unsafe_recipe', '生成的做法没有通过食材或熟制检查', 422, env, {
+      validation_flag_types: validationFlagTypes,
+    }, request);
   }
   await enrichWithTw(meal, env, request); // 第二层: 台湾权威库覆盖命中食材的营养(标 auth:'tw')
   console.log(JSON.stringify({

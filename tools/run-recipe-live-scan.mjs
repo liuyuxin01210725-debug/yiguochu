@@ -71,6 +71,7 @@ async function scan(recipe) {
   }
   const exactBase = body?.base_recipe_id === recipe.id;
   const flags = Array.isArray(body?.validation_flags) ? body.validation_flags : [];
+  const flagTypes = Array.isArray(body?.validation_flag_types) ? body.validation_flag_types : [];
   return {
     recipe_id: recipe.id,
     ok: response.ok && exactBase && flags.length === 0,
@@ -78,6 +79,7 @@ async function scan(recipe) {
     code: body?.code || '',
     returned_base_recipe_id: body?.base_recipe_id || '',
     validation_flags: flags,
+    validation_flag_types: flagTypes,
     elapsed_ms: Date.now() - started,
   };
 }

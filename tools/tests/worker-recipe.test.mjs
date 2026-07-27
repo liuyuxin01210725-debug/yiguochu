@@ -2603,6 +2603,7 @@ test('a qualified rice-allergy base returns 422 unsafe_recipe when the model add
   // repair 后终态仍带 allergen_present → 服务端 422 明示失败, 不端出、不静默重试。
   assert.equal(response.status, 422);
   assert.equal(body.code, 'unsafe_recipe');
+  assert.deepEqual(body.validation_flag_types, ['allergen_present']);
   assert.equal(upstreamBodies.length, 1);
   assert.ok(logs.some(line => line.includes('"flag_types":["allergen_present"]')));
   assert.equal(logs.some(line => line.includes('米饭（即食）')), false);
