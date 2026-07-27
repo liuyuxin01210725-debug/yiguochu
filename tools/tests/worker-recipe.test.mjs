@@ -2594,15 +2594,18 @@ test('a qualified rice-allergy base returns 422 unsafe_recipe when the model add
     constraint_profile: { id: 'model-forged-profile', basis: 'forged' },
     constraint_profiles: [{ id: 'model-forged-list', basis: 'forged' }],
   });
-  const { response, body, upstreamBodies } = await runGenerateRequest({
+  const { response, body, upstreamBodies, logs } = await runGenerateRequest({
     recipeLib,
     meal,
     constraints: { dislikes: ['大米过敏'] },
+    captureLogs: true,
   });
   // repair 后终态仍带 allergen_present → 服务端 422 明示失败, 不端出、不静默重试。
   assert.equal(response.status, 422);
   assert.equal(body.code, 'unsafe_recipe');
   assert.equal(upstreamBodies.length, 1);
+  assert.ok(logs.some(line => line.includes('"flag_types":["allergen_present"]')));
+  assert.equal(logs.some(line => line.includes('米饭（即食）')), false);
   // 触发 422 的终态 flags 在校验层确认(模型加米在菜名/食材/步骤三处都拦不住)。
   const constraints = { purpose: 'quick', servings: 2, dislikes: ['大米过敏'] };
   const [selection] = selectRecipeCandidates(recipeLib, constraints);

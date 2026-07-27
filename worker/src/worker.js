@@ -2607,6 +2607,7 @@ async function handleGenerate(request, env) {
       base: meal.base_recipe_id,
       family: meal.family_id,
       flags: meal.validation_flags.length,
+      flag_types: [...new Set(meal.validation_flags.map(flag => String(flag).split(':', 1)[0]))],
       tokens: meal._tokens || 0,
       n: (meal.ingredients || []).length,
       ms: Date.now() - t0,
