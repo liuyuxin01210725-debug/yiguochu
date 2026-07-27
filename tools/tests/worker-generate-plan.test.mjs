@@ -619,6 +619,57 @@ test('braised noodle plan survives the full generation contract with noodle, bea
   assert.match(prose, /完全熟透/);
 });
 
+test('soft millet plan locks soaking, measured extras, late cooked beans and cultural boundaries', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    must: ['小米', '土豆', '熟鹰嘴豆'],
+    servings: 2,
+  }));
+  assert.equal(journey.planned.status, 'complete');
+  assert.equal(journey.planned.plan.pots[0].template_id, 'soft-family-rice-pot');
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  assert.deepEqual(meal.cooking_order.map(row => row.action_code), [
+    'soak_soft_grain',
+    'add_staple_root_and_liquid',
+    'simmer_soft_grain_and_root',
+    'add_cooked_legume',
+    'reach_safety_endpoints',
+  ]);
+  assert.deepEqual(new Set(meal.safety_endpoints), new Set([
+    'grain_tender_no_hard_center', 'tender', 'heated_through',
+  ]));
+  const addPhase = meal.cooking_order.find(row => row.action_code === 'add_staple_root_and_liquid');
+  const namesByRef = new Map(meal.locked_ingredients.map(row => [row.ingredient_ref, row.raw_name]));
+  assert.deepEqual(new Set(addPhase.allowed_ingredient_refs.map(ref => namesByRef.get(ref))), new Set([
+    '小米', '土豆', '水', '食用油', '盐',
+  ]));
+  const stepContract = meal.generation_text_contract.steps;
+  assert.ok(stepContract[0].allowed_texts.every(text => /浸泡30分钟/u.test(text)));
+  assert.ok(stepContract.some(row => row.allowed_texts.every(text => /后段加入/u.test(text))));
+  assert.ok(stepContract.at(-1).allowed_texts.every(text => /无硬芯.*熟软.*热透|熟软.*热透.*无硬芯/u.test(text)));
+
+  const valid = validModelOutput(locked);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+
+  const mutations = [
+    ['add milk', output => { output.meals[0].steps[1].text += '再加入牛奶。'; }],
+    ['delete cooked chickpea', output => {
+      const bean = meal.locked_ingredients.find(row => row.raw_name === '熟鹰嘴豆');
+      output.meals[0].ingredient_refs = output.meals[0].ingredient_refs.filter(ref => ref !== bean.ingredient_ref);
+    }],
+    ['replace with dry chickpea', output => { output.meals[0].steps[3].text += '改用干鹰嘴豆。'; }],
+    ['override water', output => { output.meals[0].steps[1].text += '把水改成665克。'; }],
+    ['claim traditional Qinghai dish', output => { output.meals[0].dish_name = '正宗传统青海熬饭'; }],
+  ];
+  for (const [label, mutate] of mutations) {
+    const output = structuredClone(valid);
+    mutate(output);
+    assert.equal(workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse()).ok, false, label);
+  }
+});
+
 test('fresh noodle locked plan preserves identity and exact reserved liquid', async () => {
   const journey = await preparedJourney(plannerRequest({ must:['鲜小麦面条','豆角','猪肉末'] }));
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
