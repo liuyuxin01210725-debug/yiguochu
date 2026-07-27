@@ -219,6 +219,35 @@ test('Shaanbei cowpea ambiguity is no longer counted as a fresh green-bean hit',
   assert.equal(northwest.single_pot_full_count, 2);
 });
 
+test('Qinghai millet capability covers one household adaptation without widening Tibetan dishes', () => {
+  const report = buildRealReport();
+  const qinghai = byId(report, 'qinghai-hao-fan');
+  assert.equal(qinghai.audit_status, 'full_single_pot_evidence_aligned');
+  assert.deepEqual(qinghai.unclassified_core_items, []);
+  assert.equal(qinghai.raw_core_scenario.status, 'complete');
+  assert.equal(qinghai.raw_core_scenario.end_to_end_core_coverage_ratio, 1);
+  assert.deepEqual(qinghai.raw_core_scenario.selected_template_ids, ['soft-family-rice-pot']);
+  assert.deepEqual(
+    new Set(qinghai.raw_core_scenario.planned_raw_items),
+    new Set(['小米', '土豆', '熟鹰嘴豆']),
+  );
+  assert.ok(qinghai.raw_core_scenario.ratio_plans[0].ratio_trace
+    .some(row => row.rule_id === 'soft-family-millet-liquid-v1'));
+
+  const qinghaiTibet = report.by_region.find(row => row.region_id === 'qinghai_tibet');
+  assert.deepEqual([qinghaiTibet.recipe_count, qinghaiTibet.single_pot_full_count], [4, 1]);
+  for (const id of ['tibetan-savory-congee', 'tibetan-gutu', 'tibetan-ginseng-fruit-rice']) {
+    assert.equal(byId(report, id).audit_status.startsWith('full_single_pot_'), false, id);
+  }
+
+  const capability = mappings.template_capability_mappings
+    .find(row => row.family_id === 'grain-porridge');
+  assert.equal(capability.coverage_level, 'partial');
+  assert.deepEqual(capability.runtime_template_ids, ['soft-family-rice-pot']);
+  assert.deepEqual(capability.resolved_ratio_rule_ids, ['soft-family-millet-liquid-v1']);
+  assert.ok(capability.scope_note.includes('不声称传统复刻'));
+});
+
 test('report metadata, summaries, and validation are deterministic', () => {
   const first = buildRealReport();
   const second = buildRealReport();
