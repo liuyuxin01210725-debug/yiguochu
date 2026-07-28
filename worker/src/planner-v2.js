@@ -980,6 +980,26 @@ function displayFloor(totalMustUse, plannedMustUse) {
   return false;
 }
 
+export function minimumRecommendCoverageCount(totalSubmitted) {
+  if (totalSubmitted <= 0) return 0;
+  if (totalSubmitted <= 2) return totalSubmitted;
+  if (totalSubmitted === 3) return 2;
+  return Math.ceil(totalSubmitted * 0.6);
+}
+
+export function coverageFieldsFor(promiseItems = [], plannedItems = []) {
+  const plannedKeys = new Set(plannedItems.map(item => item.canonical || `raw:${item.raw}`));
+  const recognized = promiseItems.filter(item => item.recognized);
+  const plannedRecognized = recognized.filter(item => (
+    plannedKeys.has(item.canonical || `raw:${item.raw}`)
+  ));
+  return {
+    coverage_ratio: promiseItems.length ? plannedItems.length / promiseItems.length : 0,
+    recognition_ratio: promiseItems.length ? recognized.length / promiseItems.length : 0,
+    recognized_coverage_ratio: recognized.length ? plannedRecognized.length / recognized.length : 0,
+  };
+}
+
 function buildPotCandidatesInternal(assets = {}, request = {}, collectValidVariants = false) {
   const normalizedItems = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
@@ -994,7 +1014,6 @@ function buildPotCandidatesInternal(assets = {}, request = {}, collectValidVaria
   const unique = uniqueSubmittedItems(normalizedItems);
   const must = unique.filter(item => item.role === 'must_use');
   const prefer = unique.filter(item => item.role === 'prefer_use');
-  const recognizedMust = must.filter(item => item.recognized);
   const recognizedSubmitted = unique.filter(item => item.recognized);
   const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
   const candidates = [];
@@ -1030,21 +1049,19 @@ function buildPotCandidatesInternal(assets = {}, request = {}, collectValidVaria
         .map(item => unusedReason(item, variant.slot_assignment, template, 'must_use', request.dislikes || [], allergyAliases));
       const unusedPrefer = prefer.filter(item => !plannedKeys.has(`prefer_use\u0000${item.canonical}`))
         .map(item => unusedReason(item, variant.slot_assignment, template, 'prefer_use', request.dislikes || [], allergyAliases));
-      const coverage_ratio = must.length ? plannedMust.length / must.length : 0;
       const promiseItems = request.mode === 'pantry' ? must : prefer;
-      const recognizedPromiseItems = promiseItems.filter(item => item.recognized);
-      const recognition_ratio = promiseItems.length ? recognizedPromiseItems.length / promiseItems.length : 0;
-      const recognized_coverage_ratio = recognizedMust.length ? plannedMust.length / recognizedMust.length : 0;
+      const plannedPromiseItems = request.mode === 'pantry' ? plannedMust : plannedPrefer;
+      const coverage = coverageFieldsFor(promiseItems, plannedPromiseItems);
       candidates.push({
         ...variant,
         planned_must_use: plannedMust.map(item => ({ ...item })),
         planned_prefer_use: plannedPrefer.map(item => ({ ...item })),
         unplanned_must_use: unplannedMust,
         unused_prefer_use: unusedPrefer,
-        coverage_ratio,
-        recognition_ratio,
-        recognized_coverage_ratio,
-        single_pot_eligible: request.mode === 'recommend' ? plannedPrefer.length > 0 : displayFloor(must.length, plannedMust.length),
+        ...coverage,
+        single_pot_eligible: request.mode === 'recommend'
+          ? plannedPrefer.length >= minimumRecommendCoverageCount(prefer.length)
+          : displayFloor(must.length, plannedMust.length),
       });
     }
   }
@@ -1308,7 +1325,7 @@ function reasonForUnplanned(item, ranked, request, allergyAliases, role, overrid
   return reason;
 }
 
-function decoratePots(pots, allMustUse) {
+function decoratePots(pots, allMustUse, promiseItems, mode) {
   const remaining = new Map(allMustUse.map(item => [item.canonical || `raw:${item.raw}`, structuredClone(item)]));
   const labels = ['第一锅', '第二锅', '第三锅'];
   return pots.map((pot, index) => {
@@ -1316,8 +1333,12 @@ function decoratePots(pots, allMustUse) {
     const localPot = structuredClone(pot);
     delete localPot.unplanned_must_use;
     delete localPot.unused_prefer_use;
+    const plannedPromiseItems = mode === 'pantry'
+      ? localPot.planned_must_use || []
+      : localPot.planned_prefer_use || [];
     return {
       ...localPot,
+      ...coverageFieldsFor(promiseItems, plannedPromiseItems),
       meal_sequence: index + 1,
       label: labels[index],
       remaining_must_use_after: [...remaining.values()].map(item => ({ ...item })),
@@ -1368,20 +1389,14 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
   });
   const unusedPrefer = prefer.filter(item => !plannedPreferKeys.has(item.canonical || `raw:${item.raw}`))
     .map(item => reasonForUnplanned(item, ranked, request, options.allergyAliases, 'prefer_use'));
-  const recognizedMust = must.filter(item => item.recognized);
-  const recognizedPrefer = prefer.filter(item => item.recognized);
   const promiseItems = request.mode === 'pantry' ? must : prefer;
   const plannedPromiseItems = request.mode === 'pantry' ? plannedMust : plannedPrefer;
-  const recognizedPromiseItems = request.mode === 'pantry' ? recognizedMust : recognizedPrefer;
-  const coverageRatio = promiseItems.length ? plannedPromiseItems.length / promiseItems.length : 0;
-  const recognitionRatio = request.mode === 'pantry'
-    ? (must.length ? recognizedMust.length / must.length : 0)
-    : (prefer.length ? recognizedPrefer.length / prefer.length : 0);
-  const recognizedCoverageRatio = recognizedPromiseItems.length ? plannedPromiseItems.length / recognizedPromiseItems.length : 0;
+  const coverage = coverageFieldsFor(promiseItems, plannedPromiseItems);
+  const coverageRatio = coverage.coverage_ratio;
   const complete = request.mode === 'pantry' && unplannedMust.length === 0 && coverageRatio === 1;
   const ready = request.mode === 'recommend' && plannedPrefer.length > 0;
   const status = ready ? 'ready' : complete ? 'complete' : selectedPots.length ? 'needs_user_decision' : 'no_valid_plan';
-  const decoratedPots = decoratePots(selectedPots, must);
+  const decoratedPots = decoratePots(selectedPots, must, promiseItems, request.mode);
   const rejectionReason = options.capacityExceeded
     ? { reason_code: 'plan_capacity_exceeded', message: '最多三锅仍无法完整覆盖本次清库存食材。' }
     : options.thirdPot ? { reason_code: 'third_pot_required', message: '需要第三锅才能完整覆盖。' }
@@ -1405,9 +1420,7 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
       unplanned_must_use: unplannedMust,
       unused_prefer_use: unusedPrefer,
       required_extra_items: aggregateRequiredExtras(selectedPots),
-      coverage_ratio: coverageRatio,
-      recognition_ratio: recognitionRatio,
-      recognized_coverage_ratio: recognizedCoverageRatio,
+      ...coverage,
       rejection_reason: rejectionReason,
       pots: decoratedPots,
     },

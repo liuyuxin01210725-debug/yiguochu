@@ -8,6 +8,7 @@ import {
   assignItemsToTemplate,
   buildPlannerAllergenAliases,
   buildPotCandidates,
+  minimumRecommendCoverageCount,
   normalizePlannerItems,
   normalizePlannerRequest,
   planMeal,
@@ -71,6 +72,49 @@ test('recommend chooses a coherent non-empty subset and explains every unused in
   assert.ok(result.plan.planned_prefer_use.length >= 1);
   assert.ok(result.plan.unused_prefer_use.every(item => item.reason_code && item.reason));
   assert.doesNotMatch(result.commitment, /全部|全都|清空/);
+});
+
+test('recommend coverage thresholds always round 60 percent upward', () => {
+  const cases = new Map([
+    [0, 0], [1, 1], [2, 2], [3, 2], [4, 3], [5, 3],
+    [6, 4], [7, 5], [8, 5], [9, 6], [20, 12],
+  ]);
+  for (const [submitted, expected] of cases) {
+    assert.equal(minimumRecommendCoverageCount(submitted), expected, String(submitted));
+  }
+});
+
+test('recommend single pot uses the original submitted denominator at both levels', () => {
+  const result = planMeal(assets, request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '西兰花', '神秘叶子'],
+  }));
+  assert.equal(result.status, 'ready');
+  assert.equal(result.plan.coverage_ratio, result.plan.pots[0].coverage_ratio);
+  assert.equal(result.plan.recognition_ratio, 3 / 4);
+  assert.equal(result.plan.coverage_ratio, result.plan.planned_prefer_use.length / 4);
+  assert.equal(result.plan.recognized_coverage_ratio, result.plan.planned_prefer_use.length / 3);
+  assert.notEqual(result.plan.pots[0].coverage_ratio, 0);
+});
+
+test('recommend candidate eligibility applies the submitted-item coverage floor', () => {
+  const candidates = buildPotCandidates(assets, request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '西兰花', '神秘叶子', '神秘块根'],
+  }));
+  assert.ok(candidates.some(candidate => candidate.planned_prefer_use.length === 3));
+  for (const candidate of candidates) {
+    assert.equal(candidate.single_pot_eligible, candidate.planned_prefer_use.length >= 3);
+  }
+
+  const seven = buildPotCandidates(assets, request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '西兰花', '金针菇', '胡萝卜', '神秘叶子', '神秘块根'],
+  }));
+  assert.ok(seven.length > 0);
+  for (const candidate of seven) {
+    assert.equal(candidate.single_pot_eligible, candidate.planned_prefer_use.length >= 5);
+  }
 });
 
 test('generic beef accepts tenderloin while preserving the raw cut and rejects brisket or ground forms', () => {
@@ -163,13 +207,15 @@ test('ambiguous cowpea blocks pantry completion without hiding the existing pot'
   assert.deepEqual(row.eligible_items, ['鲜豇豆', '干豇豆', '熟豇豆']);
 });
 
-test('recommend may use a coherent subset but explains unresolved and unsupported ingredients', () => {
+test('recommend rejects a below-floor subset but still explains unresolved inputs', () => {
   const result = planMeal(assets, request({
     mode: 'recommend',
     prefer: ['大米', '去核红枣', '豇豆', '鸡腿肉'],
   }));
-  assert.equal(result.status, 'ready');
-  assert.ok(result.plan.planned_prefer_use.some(item => item.raw === '大米'));
+  assert.equal(result.status, 'no_valid_plan');
+  assert.equal(result.generation_allowed, false);
+  assert.equal(result.plan.pots.length, 0);
+  assert.equal(result.plan.planned_prefer_use.length, 0);
   const jujube = result.plan.unused_prefer_use.find(item => item.raw === '去核红枣');
   assert.ok(jujube?.reason_code && jujube?.reason);
   const cowpea = result.plan.unused_prefer_use.find(item => item.raw === '豇豆');
