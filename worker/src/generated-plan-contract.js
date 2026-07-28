@@ -111,7 +111,7 @@ function normalizedIngredientText(value) {
 function amountFor(item, pot) {
   const candidates = [item.raw, item.display_name, item.canonical].filter(Boolean);
   const exact = (pot.ingredient_amounts || []).find(amount => candidates.includes(amount.name));
-  if (!exact || typeof exact.grams !== 'number' || !Number.isFinite(exact.grams) || exact.grams < 0) {
+  if (!exact || !Number.isSafeInteger(exact.grams) || exact.grams < 0) {
     throw new Error(`locked_ingredient_amount_missing:${candidates[0] || 'unknown'}`);
   }
   return exact.grams;
@@ -257,6 +257,18 @@ export function buildIngredientTermUniverse(taxonomy, recipeLibrary) {
 }
 
 function buildLockedMeal(pot, template, refCounters, context) {
+  for (const amount of pot.ingredient_amounts || []) {
+    if (!amount || typeof amount.name !== 'string'
+        || !Number.isSafeInteger(amount.grams) || amount.grams < 0) {
+      throw new Error('locked_plan_amount_invalid');
+    }
+  }
+  for (const extra of pot.required_extra_items || []) {
+    if (!extra || typeof extra.name !== 'string'
+        || !Number.isSafeInteger(extra.grams) || extra.grams < 0) {
+      throw new Error('locked_basic_extra_invalid');
+    }
+  }
   const slotIds = templateSlots(template);
   const orderedSlotIds = uniqueStrings([...slotIds, ...Object.keys(pot.slot_assignment || {}).sort()]);
   const userIngredients = [];
@@ -286,7 +298,8 @@ function buildLockedMeal(pot, template, refCounters, context) {
   }));
 
   for (const extra of pot.required_extra_items || []) {
-    if (!extra || typeof extra.name !== 'string' || typeof extra.grams !== 'number' || !Number.isFinite(extra.grams)) {
+    if (!extra || typeof extra.name !== 'string'
+        || !Number.isSafeInteger(extra.grams) || extra.grams < 0) {
       throw new Error('locked_basic_extra_invalid');
     }
     locked.push({
@@ -331,8 +344,11 @@ function buildLockedMeal(pot, template, refCounters, context) {
     required_safety_ingredient_refs: [],
     }));
   const reserveLiquidGrams = pot.liquid_constraints?.reserve_liquid_grams;
-  if (typeof reserveLiquidGrams === 'number' && Number.isFinite(reserveLiquidGrams)
-      && reserveLiquidGrams > 0) {
+  if (reserveLiquidGrams != null
+      && (!Number.isSafeInteger(reserveLiquidGrams) || reserveLiquidGrams < 0)) {
+    throw new Error('locked_reserved_liquid_grams_invalid');
+  }
+  if (reserveLiquidGrams > 0) {
     const liquidRefs = locked.filter(item => item.category === 'liquid')
       .map(item => item.ingredient_ref);
     if (liquidRefs.length !== 1) throw new Error('locked_reserved_liquid_ref_invalid');

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { prepareRatioCatalog, validateRatioDslCatalog } from '../lib/ratio-dsl-validator.mjs';
 import { validateMealTemplateCatalog } from '../lib/meal-template-validator.mjs';
 import { compileRatioPlan } from '../../worker/src/planner-v2.js';
+import { normalizeRatioGrams } from '../../worker/src/ratio-dsl.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', name), 'utf8'));
@@ -26,6 +27,14 @@ const ACTIVE = new Set([
   'soft-family-rice-pot',
 ]);
 const OPERATORS = new Set(['per_serving', 'per_serving_by_category', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
+
+test('ratio grams normalize exactly once at the executable DSL boundary', () => {
+  assert.equal(normalizeRatioGrams(133.3, 1), 133);
+  assert.equal(normalizeRatioGrams(133.3, 5), 135);
+  assert.equal(normalizeRatioGrams(0, 5), 0);
+  assert.throws(() => normalizeRatioGrams(10, 0), /invalid_ratio_grams/);
+  assert.throws(() => normalizeRatioGrams(-1, 1), /invalid_ratio_grams/);
+});
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
@@ -513,6 +522,46 @@ test('every active template accepts a real optional composition without silently
     const result = compileRatioPlan(ruleId,{servings:2,slots},catalog);
     assert.equal(result.ok,true,ruleId);
     for (const rows of Object.values(slots)) for (const supplied of rows) assert.ok(result.ingredient_amounts.some(row => row.name === supplied.name && row.grams > 0), `${ruleId}/${supplied.name}`);
+  }
+});
+
+test('every real ratio rule emits only normalized integer gram amounts', () => {
+  const identityFor = (categories, canonicalIds = []) => {
+    const allowed = new Set(categories);
+    const scoped = new Set(canonicalIds);
+    const identity = taxonomy.items.find(entry => allowed.has(entry.category)
+      && (!scoped.size || scoped.has(entry.canonical_id))
+      && (scoped.size || entry.ratio_rule_policy !== 'canonical_required'));
+    assert.ok(identity, `missing taxonomy identity for ${[...allowed].join(',')}`);
+    return item(identity.display_name, identity.category, {
+      moisture_release: identity.moisture_release,
+      texture_behavior: identity.texture_behavior?.behavior_code,
+      texture_failure_modes: identity.texture_behavior?.failure_mode_codes || [],
+    });
+  };
+
+  for (const rule of catalog.rules) {
+    const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
+    const slots = {};
+    for (const slot of template.required_slots.filter(entry => entry.source_policy.includes('user'))) {
+      const categories = slot.slot_id === rule.when.slot_id
+        ? [rule.when.category]
+        : template.ingredient_categories[slot.slot_id];
+      slots[slot.slot_id] = [identityFor(categories, slot.slot_id === rule.when.slot_id
+        ? rule.when.canonical_ids
+        : [])];
+    }
+    const compiled = compileRatioPlan(rule.rule_id, { servings: 3, slots }, catalog);
+    assert.equal(compiled.ok, true, rule.rule_id);
+    for (const row of [...compiled.ingredient_amounts, ...compiled.required_extra_items]) {
+      assert.equal(Number.isSafeInteger(row.grams), true, `${rule.rule_id}/${row.name}/${row.grams}`);
+      assert.ok(row.grams >= 0, `${rule.rule_id}/${row.name}`);
+    }
+    for (const [key, grams] of Object.entries(compiled.liquid_constraints)) {
+      if (!key.endsWith('_grams')) continue;
+      assert.equal(Number.isSafeInteger(grams), true, `${rule.rule_id}/${key}/${grams}`);
+      assert.ok(grams >= 0, `${rule.rule_id}/${key}`);
+    }
   }
 });
 

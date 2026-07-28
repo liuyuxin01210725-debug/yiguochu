@@ -46,6 +46,19 @@ const validateLiquidDistribution = (value, label, errors) => {
     errors.push(`${label}.reserve_action_code is invalid`);
   }
 };
+
+export function normalizeRatioGrams(value, nearest = 1) {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0
+      || !Number.isSafeInteger(nearest) || nearest <= 0) {
+    throw new Error('invalid_ratio_grams');
+  }
+  const normalized = Math.round(value / nearest) * nearest;
+  if (!Number.isSafeInteger(normalized) || normalized < 0) {
+    throw new Error('invalid_ratio_grams');
+  }
+  return normalized;
+}
+
 const targetSlot = (target, label, permitted, errors) => {
   if (!exactObject(target, new Set(['slot_id']), label, errors) || !text(target.slot_id) || !permitted.includes(target.slot_id) || Object.keys(target).length !== 1) errors.push(`${label} must be a declared user slot`);
 };

@@ -270,6 +270,25 @@ test('generation resolves a non-preferred candidate by plan id and rejects non-m
   assert.equal(generated.response.status, 200);
   assert.equal(generated.body.plan_id, second.plan.plan_id);
   assert.equal(generated.upstreamBodies.length, 1);
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const lockedSecond = workerModule.buildLockedPlanContract(second, templates);
+  for (const [mealIndex, lockedMeal] of lockedSecond.meals.entries()) {
+    const authoritativePot = [...second.plan.pots]
+      .sort((left, right) => left.meal_sequence - right.meal_sequence)[mealIndex];
+    for (const lockedIngredient of lockedMeal.locked_ingredients) {
+      assert.equal(Number.isSafeInteger(lockedIngredient.planned_grams), true);
+      const source = lockedIngredient.source === 'user'
+        ? authoritativePot.ingredient_amounts
+        : authoritativePot.required_extra_items;
+      const authoritative = source.find(row => [
+        lockedIngredient.raw_name,
+        lockedIngredient.display_name,
+        lockedIngredient.canonical,
+      ].includes(row.name));
+      assert.ok(authoritative, lockedIngredient.raw_name);
+      assert.equal(lockedIngredient.planned_grams, authoritative.grams);
+    }
+  }
 
   const forged = structuredClone(second);
   forged.plan.plan_id = `pln_v2_${'A'.repeat(43)}`;
@@ -438,6 +457,41 @@ test('pure validator rejects refs, substitutions, numeric overrides, action and 
       assert.equal(typeof checked.reason_code, 'string');
     });
   }
+});
+
+test('model output cannot add an editable grams field or override a locked integer amount', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['牛里脊', '番茄'] }));
+  const locked = workerModule.buildLockedPlanContract(
+    journey.planned,
+    JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']),
+  );
+  assert.ok(locked.meals.flatMap(meal => meal.locked_ingredients)
+    .every(item => Number.isSafeInteger(item.planned_grams) && item.planned_grams >= 0));
+  const valid = validModelOutput(locked);
+
+  const editableField = structuredClone(valid);
+  editableField.meals[0].steps[0].grams = 250;
+  assert.deepEqual(
+    workerModule.validateGeneratedPlan(editableField, locked, ingredientTermUniverse()),
+    { ok:false, reason_code:'invalid_step_shape' },
+  );
+
+  const proseOverride = structuredClone(valid);
+  proseOverride.meals[0].steps[0].text += '加入250克食材。';
+  assert.deepEqual(
+    workerModule.validateGeneratedPlan(proseOverride, locked, ingredientTermUniverse()),
+    { ok:false, reason_code:'numeric_prose_override' },
+  );
+
+  const nonNormalized = structuredClone(journey.planned);
+  nonNormalized.plan.pots[0].ingredient_amounts[0].grams = 133.3;
+  assert.throws(
+    () => workerModule.buildLockedPlanContract(
+      nonNormalized,
+      JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']),
+    ),
+    /locked_plan_amount_invalid/,
+  );
 });
 
 test('pure validator rejects chicken and mushroom substitutions plus an unused user item in prose', async () => {

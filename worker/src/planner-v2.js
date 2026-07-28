@@ -1,4 +1,8 @@
-import { prepareRatioCatalog, preparedRatioCatalogContext } from './ratio-dsl.js';
+import {
+  normalizeRatioGrams,
+  prepareRatioCatalog,
+  preparedRatioCatalogContext,
+} from './ratio-dsl.js';
 import { resolveBasicExtraIdentity, taxonomyIdentityIndex } from './taxonomy-identity.js';
 import { matchAllergy } from './allergen-semantics.js';
 
@@ -290,10 +294,6 @@ function finiteNonNegativeNumber(value) {
   return typeof value === 'number' && Number.isFinite(value) && value >= 0;
 }
 
-function roundRatioGrams(value, nearest) {
-  return Math.round(value / nearest) * nearest;
-}
-
 function ratioSlots(context, taxonomy) {
   if (!context || typeof context !== 'object' || Array.isArray(context) || !context.slots || typeof context.slots !== 'object'
     || Array.isArray(context.slots)) return null;
@@ -394,7 +394,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     let liquidCredit = 0;
     let retainedLiquid = null;
     const addAmount = (name, grams, extra = null) => {
-      const rounded = roundRatioGrams(grams, nearest);
+      const rounded = normalizeRatioGrams(grams, nearest);
       if (!finiteNonNegativeNumber(rounded) || (grams > 0 && rounded === 0) || rounded > 5000 || !name) return false;
       amounts.set(name, (amounts.get(name) || 0) + rounded);
       if (extra) {
@@ -455,7 +455,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
           }
           liquidCredit += credit * context.servings;
         }
-        trace.push({ operator, attribute: operation.target?.attribute, value: operation.target?.value, matched_items: matching.map(item => item.name), liquid_credit_grams: matching.length ? roundRatioGrams(credit * context.servings, nearest) : 0 });
+        trace.push({ operator, attribute: operation.target?.attribute, value: operation.target?.value, matched_items: matching.map(item => item.name), liquid_credit_grams: matching.length ? normalizeRatioGrams(credit * context.servings, nearest) : 0 });
         continue;
       }
       if (operator === 'ratio') {
@@ -470,7 +470,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         if (!finiteNonNegativeNumber(denominatorGrams) || denominatorGrams <= 0) return ratioFailure('ratio_context_missing', '缺少可计算液体比例的主食克数。');
         retainedLiquid = Math.max(0, denominatorGrams * multiplier - liquidCredit);
         if (!addAmount(operation.target?.name, retainedLiquid, operation.target)) return ratioFailure('ratio_rule_invalid', '液体比例结果无效。');
-        trace.push({ operator, numerator: operation.numerator?.resource, denominator_slot_id: operation.denominator?.slot_id, multiplier, liquid_credit_grams: roundRatioGrams(liquidCredit, nearest) });
+        trace.push({ operator, numerator: operation.numerator?.resource, denominator_slot_id: operation.denominator?.slot_id, multiplier, liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest) });
         continue;
       }
       if (operator === 'fixed_addition' || operator === 'scale_by_servings') {
@@ -494,7 +494,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
           return ratioFailure('ratio_rule_invalid', '基础补充规则无效。');
         }
         if (!addAmount(operation.target.name, grams * multiplier, operation.target)) return ratioFailure('ratio_rule_invalid', '基础补充结果无效。');
-        trace.push({ operator, name: operation.target.name, applied: true, grams: roundRatioGrams(grams * multiplier, nearest) });
+        trace.push({ operator, name: operation.target.name, applied: true, grams: normalizeRatioGrams(grams * multiplier, nearest) });
         continue;
       }
       return ratioFailure('ratio_rule_invalid', '份量规则包含不支持的操作。');
@@ -516,7 +516,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       .reduce((sum, item) => sum + item.grams, 0);
     const distribution = rule.liquid_distribution;
     const initialLiquidGrams = distribution
-      ? roundRatioGrams(retainedLiquidGrams * distribution.initial_fraction, nearest)
+      ? normalizeRatioGrams(retainedLiquidGrams * distribution.initial_fraction, nearest)
       : null;
     const reserveLiquidGrams = distribution
       ? retainedLiquidGrams - initialLiquidGrams
@@ -529,7 +529,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       required_extra_items,
       liquid_constraints: retainedLiquidGrams === 0 ? {} : {
         retained_liquid_grams: retainedLiquidGrams,
-        liquid_credit_grams: roundRatioGrams(liquidCredit, nearest),
+        liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest),
         rounding_grams: nearest,
         ...(distribution ? {
           initial_liquid_grams: initialLiquidGrams,
@@ -1667,7 +1667,7 @@ function identityExtra(item = {}) {
     name: identityText(item.name),
     canonical: identityText(item.canonical || item.name),
     category: identityText(item.category),
-    grams: finiteNonNegativeNumber(item.grams) ? item.grams : null,
+    grams: Number.isSafeInteger(item.grams) && item.grams >= 0 ? item.grams : null,
   };
 }
 
@@ -1681,7 +1681,7 @@ function identityAmounts(items = []) {
   return (Array.isArray(items) ? items : []).map(item => ({
     name: identityText(item.name),
     canonical: identityText(item.canonical || item.name),
-    grams: finiteNonNegativeNumber(item.grams) ? item.grams : null,
+    grams: Number.isSafeInteger(item.grams) && item.grams >= 0 ? item.grams : null,
   })).sort((left, right) => `${left.canonical || ''}\u0000${left.name || ''}`
     .localeCompare(`${right.canonical || ''}\u0000${right.name || ''}`, 'zh-Hans-CN'));
 }
