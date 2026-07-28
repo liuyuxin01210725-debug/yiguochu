@@ -613,6 +613,38 @@ test('empty planner candidate bundle shows an honest edit path without blank car
   assert.doesNotMatch(root.innerHTML, /data-act="choose-plan"/);
 });
 
+test('empty direct-recommend candidates explain unrecognized and recognized-but-unarranged inputs', async () => {
+  const blocked = plannerBundle([]);
+  blocked.normalized_items = [
+    { raw:'神秘叶子', canonical:null, recognized:false, role:'prefer_use' },
+    { raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' },
+  ];
+  blocked.plan.unused_prefer_use = [
+    {
+      raw:'神秘叶子', canonical:null, recognized:false, role:'prefer_use',
+      reason_code:'unrecognized_ingredient', reason:'暂时无法识别这种食材。',
+    },
+    {
+      raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use',
+      reason_code:'lower_compatibility', reason:'当前没有足够可靠的组合来使用。',
+    },
+  ];
+  const { context, root } = loadFrontend([
+    { body:blocked },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'神秘叶子, 番茄', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.equal(evaluate(context, 'state.view'), 'v2-candidates');
+  assert.match(root.innerHTML, /神秘叶子/);
+  assert.match(root.innerHTML, /暂时无法识别这种食材/);
+  assert.match(root.innerHTML, /番茄/);
+  assert.match(root.innerHTML, /当前没有足够可靠的组合来使用/);
+  assert.match(root.innerHTML, /data-act="edit-safe-profile"/);
+  assert.doesNotMatch(root.innerHTML, /data-act="choose-plan"/);
+});
+
 test('empty candidates caused by a dislike explain the protection instead of looking like a generic failure', async () => {
   const blocked = plannerBundle([]);
   blocked.normalized_items = [

@@ -12,7 +12,8 @@ test('direct recommendation shadow corpus fixes exactly thirty real journeys', (
   for (const journey of corpus.journeys) {
     assert.match(journey.id, /^dr-shadow-\d{2}$/u);
     assert.equal(journey.mode, 'recommend');
-    assert.ok(['normal', 'quick', 'fresh', 'batch'].includes(journey.intent));
+    assert.ok(['normal', 'quick', 'batch'].includes(journey.intent),
+      `${journey.id} must use an intent reachable from the first-round public Pilot UI`);
     assert.ok(Number.isInteger(journey.servings) && journey.servings >= 1);
     assert.ok(Array.isArray(journey.prefer_use));
     assert.ok(Array.isArray(journey.dislikes));

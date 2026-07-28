@@ -1127,12 +1127,26 @@ function plannerCandidatesScreen() {
   const candidates = Array.isArray(state.planCandidates) ? state.planCandidates : [];
   if (!candidates.length) {
     const candidateResult = state.planCandidateResult || {};
-    const blockedByDislike = [
+    const unavailableItems = [
       ...((candidateResult.plan && candidateResult.plan.unused_prefer_use) || []),
       ...((candidateResult.plan && candidateResult.plan.unplanned_must_use) || []),
       ...(candidateResult.unplanned || []),
-    ].filter(item => item && item.reason_code === 'allergen_conflict');
+    ];
+    const blockedByDislike = unavailableItems.filter(item => item && item.reason_code === 'allergen_conflict');
     const blockedNames = uniquePlanItemTexts(blockedByDislike);
+    const unavailableByName = new Map();
+    unavailableItems.filter(item => item && item.reason_code !== 'allergen_conflict').forEach(item => {
+      const name = itemText(item);
+      if (!name || unavailableByName.has(name)) return;
+      const reason = boundedText(item.reason || item.message, 160)
+        || (item.reason_code === 'unrecognized_ingredient'
+          ? '暂时无法识别这种食材。'
+          : '当前规则下暂时无法安排。');
+      unavailableByName.set(name, reason);
+    });
+    const unavailableDetails = [...unavailableByName.entries()].map(([name, reason]) =>
+      '<p class="pantry-plan-note"><strong>' + esc(name) + '：</strong>' + esc(reason) + '</p>'
+    ).join('');
     const protectedTitle = blockedNames.length
       ? '已按忌口拦下不合适的组合'
       : '当前还没有足够可靠的一锅组合';
@@ -1141,7 +1155,9 @@ function plannerCandidatesScreen() {
       : '这次不拿低覆盖方案凑数。改一两样食材后再试，会更容易得到真正能做的一锅。';
     return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
       + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(protectedTitle) + '</div>'
-      + '<p class="fb-banner-text">' + esc(protectedText) + '</p></div></div>'
+      + '<p class="fb-banner-text">' + esc(protectedText) + '</p>'
+      + (!blockedNames.length && unavailableDetails ? '<div class="pantry-plan-list">' + unavailableDetails + '</div>' : '')
+      + '</div></div>'
       + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">修改食材</button></div></section></div>';
   }
   const cards = candidates.map(candidate => {
