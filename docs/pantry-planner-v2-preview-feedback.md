@@ -23,13 +23,45 @@
 ## Draft 目标基线（待 Preview 验证）
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260726-r1`（9 个 active、7 个 planned）
-- Ingredient taxonomy：`taxonomy-v1-20260726-r1`
-- Ratio DSL：`ratio-rules-v1-20260726-r1`
+- Template catalog：`templates-v2-20260728-r10`（11 个 active、5 个 planned）
+- Ingredient taxonomy：`taxonomy-v1-20260728-r10`
+- Ratio DSL：`ratio-rules-v1-20260727-r5`
 - Evidence recipes：72 道（数量与批准状态均未改变）
-- 自动旅程门禁：64/64
+- Planner V2 自动旅程门禁：138/138
+- 直接推荐影子对照：30/30 无自动硬失败
 
 这组数字只说明 Draft PR 的结构、契约与自动回归达到目标基线，**不等于真实家庭烹饪验证通过**。当前版本尚未部署 Preview，也未部署 production；本表中的真人第一反应、家庭烹饪习惯和实际成品结果仍须由真实用户填写，不能用自动测试替代。
+
+## 直接推荐影子对照（2026-07-28，本地确定性）
+
+固定 corpus：`tools/data/direct-recommend-shadow-v1.json`。运行：
+
+```bash
+node --test tools/tests/direct-recommend-shadow.test.mjs
+node tools/run-direct-recommend-shadow.mjs
+```
+
+本地结果：
+
+- 30/30 条均产生可审计结果；
+- 自动硬失败 0；
+- Planner 额外主要食材 0；
+- 生熟/部位状态偷换 0；
+- 安全不完整 0；
+- 14 条标为 `review_required`，原因是旧 recipe selector 的表面覆盖依赖用户未提交的额外主要食材，或旧路径与新路径的承诺不可直接机械比较；这些条目必须保留人工判断，不得自动记为 V2 回归；
+- `牛腩 + 熟米饭`、`牛肉末 + 面条` 当前明确返回 `no_valid_plan`，验收的是“不把特殊部位偷换成通用牛肉”，不是逼 Planner 凑出假方案；
+- 本记录不包含 DeepSeek 调用、不包含真人浏览器体验，也不表示 Preview 或 Pilot 已放行。
+
+Preview 部署后还必须运行：
+
+```bash
+node tools/run-direct-recommend-preview-gate.mjs \
+  --url "$PREVIEW_URL" \
+  --build-id "$BUILD_ID" \
+  --samples 100
+```
+
+该门先核对 `/health` 构建号与 `plannerRollout: "direct-recommend"`，再预热 5 次、顺序测量 100 次 `/plan-meal`。发布硬门为：`bad_json=0`、非 JSON 响应 0、5xx/网络错误 0、P95 < 2000ms。通过仍不能替代 30 条真人 Chrome 手机视口点击门。
 
 ## 测试方法
 
