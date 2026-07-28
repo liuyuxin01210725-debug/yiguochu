@@ -87,6 +87,85 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
   soften_family_texture: ['继续焖煮{items}，直至质地柔软易咀嚼', '保持同锅加热{items}，煮到整体柔软易入口'],
   stir_cooked_rice: ['加入{items}，同锅翻拌至米饭松散并均匀热透', '将{items}放入锅中翻拌，直至米饭松散、整体热透'],
 });
+const DETERMINISTIC_TEXT_PROFILES = Object.freeze({
+  'acid-staple-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['酸香焖主食', '酸香家常锅']),
+    recommendation_reasons: Object.freeze([
+      '先把酸香底味炒软，再与主食同锅完成，层次清楚也方便照做。',
+      '食材按快慢顺序进入同一口锅，酸香味道能够自然融进主食。',
+    ]),
+  }),
+  'savory-mixed-rice-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['家常焖饭', '咸香一锅饭']),
+    recommendation_reasons: Object.freeze([
+      '先处理较慢熟的食材，再与主食一起焖熟，适合一锅完成这顿饭。',
+      '食材按熟化速度分步入锅，主食和配菜能够在同一锅里协调完成。',
+    ]),
+  }),
+  'cooked-rice-stir-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['家常炒饭', '热拌剩饭锅']),
+    recommendation_reasons: Object.freeze([
+      '利用已经熟的主食快速翻拌加热，步骤短，也与现成主食的状态相符。',
+      '配菜先充分受热，再放入熟主食翻匀，适合把现成主食快速做成一餐。',
+    ]),
+  }),
+  'broth-noodle-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['家常汤面', '暖汤面锅']),
+    recommendation_reasons: Object.freeze([
+      '汤底和配菜先煮出味道，再放入主食煮熟，顺序直接而且容易掌握。',
+      '食材在同一锅汤里依次熟化，最后加入主食，适合做成一顿完整热食。',
+    ]),
+  }),
+  'egg-tofu-vegetable-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['软嫩蔬菜锅', '软嫩家常锅']),
+    recommendation_reasons: Object.freeze([
+      '软嫩食材与蔬菜分阶段入锅，既能保持口感，也能把熟制要求说清楚。',
+      '先让蔬菜充分受热，再轻放软嫩食材，做法温和，适合家常一锅完成。',
+    ]),
+  }),
+  'mushroom-vegetable-stew-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['菌蔬炖锅', '家常菌蔬锅']),
+    recommendation_reasons: Object.freeze([
+      '菌菇先炒软释放香味，再与蔬菜同锅炖熟，味道和口感更协调。',
+      '按食材熟化速度安排先后，先出香、后炖软，适合做成温热的一锅。',
+    ]),
+  }),
+  'beef-staple-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['牛肉主食锅', '家常牛肉一锅餐']),
+    recommendation_reasons: Object.freeze([
+      '肉类先切成易熟的形状并充分受热，再与主食同锅完成，步骤更稳妥。',
+      '先处理肉类的形状与熟度，再衔接主食和配菜，适合按顺序在家完成。',
+    ]),
+  }),
+  'poultry-staple-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['鸡肉主食锅', '家常鸡肉一锅餐']),
+    recommendation_reasons: Object.freeze([
+      '禽肉先均匀受热，再与主食和配菜同锅完成，熟制检查也放在明确步骤里。',
+      '食材按快慢依次入锅，禽肉熟度和主食口感都有清楚的收尾检查。',
+    ]),
+  }),
+  'broth-rice-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['家常汤饭', '暖汤主食锅']),
+    recommendation_reasons: Object.freeze([
+      '先把汤底和配菜煮到合适状态，再加入主食热透，适合做成暖和的一餐。',
+      '较慢熟的食材先入汤，主食在后段加入，能够兼顾口感和完成时间。',
+    ]),
+  }),
+  'braised-noodle-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['家常焖面', '一锅焖面']),
+    recommendation_reasons: Object.freeze([
+      '配菜和汤汁先形成底味，再铺入主食焖熟，整套做法只用同一口锅。',
+      '先把不易熟的食材处理到位，再让主食吸收汤汁，顺序清楚也便于操作。',
+    ]),
+  }),
+  'soft-family-rice-pot': Object.freeze({
+    dish_name_suffixes: Object.freeze(['软烩主食锅', '柔软家常饭']),
+    recommendation_reasons: Object.freeze([
+      '主食与耐煮食材先煮软，易熟食材后放，成品更柔软也方便入口。',
+      '通过分阶段入锅控制软硬程度，最后得到质地温和、容易食用的一餐。',
+    ]),
+  }),
+});
 const DELETION_LANGUAGE_RE = /不使用|不用|不放|不加|丢弃|省略|去掉|移除|留在冰箱|不放入锅/iu;
 
 function isPlainObject(value) {
@@ -145,6 +224,20 @@ function uniqueStrings(values) {
   return [...new Set(values)];
 }
 
+function stableHash(value) {
+  let hash = 0x811c9dc5;
+  for (const character of String(value)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+
+function stableChoice(values, seed) {
+  if (!Array.isArray(values) || values.length === 0) throw new Error('deterministic_text_option_missing');
+  return values[stableHash(seed) % values.length];
+}
+
 function placeholder(ref) {
   return `{{${ref}}}`;
 }
@@ -169,7 +262,7 @@ function endpointEvidencePhrase(endpoint, refs) {
   throw new Error(`locked_safety_endpoint_unsupported:${endpoint}`);
 }
 
-function controlledStepTexts(phase, lockedIngredients) {
+function controlledStepTexts(phase, lockedIngredients, phaseActions = new Set()) {
   let templates = ACTION_TEXT_TEMPLATES[phase.action_code];
   const phaseIngredients = lockedIngredients
     .filter(item => phase.allowed_ingredient_refs.includes(item.ingredient_ref));
@@ -196,6 +289,12 @@ function controlledStepTexts(phase, lockedIngredients) {
     } else if (categories.has('egg')) {
       templates = ['将{items}打散至蛋液均匀', '把{items}充分搅散，静置在手边备用'];
     }
+  }
+  if (phase.action_code === 'sear_beef' && phaseActions.has('protein_pretreat')) {
+    templates = [
+      '将{items}平铺入锅翻炒，直至表面均匀变色',
+      '把{items}放入锅中摊开，并逐面翻炒至均匀变色',
+    ];
   }
   if (!Array.isArray(templates) || templates.length < 2) {
     throw new Error(`locked_action_phrase_missing:${phase.action_code}`);
@@ -427,22 +526,28 @@ function buildLockedMeal(pot, template, refCounters, context) {
   const userRefs = locked.filter(item => item.source === 'user').map(item => item.ingredient_ref);
   const titleRefs = userRefs.length ? userRefs : locked.map(item => item.ingredient_ref);
   const title = joinedPlaceholders(titleRefs);
+  const textProfile = DETERMINISTIC_TEXT_PROFILES[pot.template_id];
+  if (!textProfile) throw new Error(`deterministic_text_profile_missing:${pot.template_id}`);
   const modeReason = context.mode === 'pantry'
-    ? '这份做法按清库存承诺与已确认顺序执行。'
-    : '这份做法按直接推荐计划与已确认顺序执行。';
+    ? '已经安排的食材会按清库存承诺和确认顺序进入这套做法。'
+    : '这套做法优先采用本次更适合一起下锅的食材，并按确认顺序完成。';
   const intentReasons = {
     quick: '这份做法按快手目标与已确认顺序执行。',
     fresh: '这份做法按清爽目标与已确认顺序执行。',
     batch: '这份做法按批量备餐目标与已确认顺序执行。',
   };
   const generationTextContract = {
-    dish_name_options: [`${title}一锅主餐`, `${title}家常一锅餐`],
+    dish_name_options: textProfile.dish_name_suffixes.map(suffix => `${title}${suffix}`),
     steps: phases.map((phase, index) => ({
       order: index + 1,
-      allowed_texts: controlledStepTexts(phase, locked),
+      allowed_texts: controlledStepTexts(
+        phase,
+        locked,
+        new Set(phases.map(entry => entry.action_code)),
+      ),
     })),
     recommendation_reason_options: uniqueStrings([
-      '食材与顺序均按已确认计划执行。',
+      ...textProfile.recommendation_reasons,
       modeReason,
       intentReasons[context.intent],
     ].filter(Boolean)),
@@ -494,6 +599,58 @@ export function buildLockedPlanContract(plannerResult, templateCatalog) {
     intent: plannerResult.intent,
     meals,
   });
+}
+
+export function validateDeterministicTextProfiles(templateCatalog) {
+  const errors = [];
+  for (const template of templateCatalog?.templates || []) {
+    if (template.activation_status !== 'active' || template.runtime_eligible !== true) continue;
+    const profile = DETERMINISTIC_TEXT_PROFILES[template.template_id];
+    if (!profile) {
+      errors.push(`deterministic_text_profile_missing:${template.template_id}`);
+      continue;
+    }
+    for (const field of ['dish_name_suffixes', 'recommendation_reasons']) {
+      const values = profile[field];
+      if (!Array.isArray(values) || values.length < 2
+          || values.some(value => typeof value !== 'string' || !value.trim())) {
+        errors.push(`deterministic_text_profile_invalid:${template.template_id}:${field}`);
+      }
+    }
+  }
+  return errors;
+}
+
+export function buildDeterministicGeneratedPlan(lockedPlan) {
+  if (!isPlainObject(lockedPlan) || typeof lockedPlan.plan_id !== 'string'
+      || !Array.isArray(lockedPlan.meals)) {
+    throw new Error('invalid_locked_plan');
+  }
+  return {
+    plan_id: lockedPlan.plan_id,
+    meals: lockedPlan.meals.map(meal => ({
+      meal_sequence: meal.meal_sequence,
+      dish_name: stableChoice(
+        meal.generation_text_contract?.dish_name_options,
+        `${lockedPlan.plan_id}:${meal.meal_sequence}:dish`,
+      ),
+      ingredient_refs: meal.locked_ingredients.map(item => item.ingredient_ref),
+      steps: meal.cooking_order.map((phase, index) => ({
+        order: index + 1,
+        action_code: phase.action_code,
+        text: stableChoice(
+          meal.generation_text_contract?.steps?.[index]?.allowed_texts,
+          `${lockedPlan.plan_id}:${meal.meal_sequence}:step:${index + 1}`,
+        ),
+        ingredient_refs: [...phase.allowed_ingredient_refs],
+        completed_safety_endpoints: [...phase.required_safety_endpoints],
+      })),
+      recommendation_reason: stableChoice(
+        meal.generation_text_contract?.recommendation_reason_options,
+        `${lockedPlan.plan_id}:${meal.meal_sequence}:reason`,
+      ),
+    })),
+  };
 }
 
 function contractFailure(reason_code) {

@@ -12,10 +12,12 @@ import { validateMealTemplateCatalog } from './meal-template-validator.js';
 import { validateRecipeLibrary } from './recipe-library-validator.js';
 import { matchAllergy } from './allergen-semantics.js';
 import {
+  buildDeterministicGeneratedPlan,
   buildGeneratedPlanResponse,
   buildIngredientTermUniverse,
   buildLockedPlanContract,
   lockPlannerOwnedSafetyMetadata,
+  validateDeterministicTextProfiles,
   validateGeneratedPlan,
 } from './generated-plan-contract.js';
 
@@ -25,6 +27,11 @@ const DEEPSEEK_TIMEOUT_MS = 45000;
 // 每 100g 合理上限(防模型把"整道菜总量"误当每100g, 乘 grams 后营养暴涨)
 const NUTRIENT_MAX = { kcal: 900, p: 100, fb: 100, mg: 1200, k: 5000, ca: 1500, fe: 50, zn: 50, na: 40000, vc: 2000, vd: 50, w3: 60 };
 const RATE_BUCKETS = new Map();
+const BUILD_METADATA_DEFAULTS = Object.freeze({
+  buildId: null,
+  plannerRollout: 'off',
+  generationMode: 'llm',
+});
 
 // ===== 菜谱库候选: 只做确定性查表与排序，不额外调用模型。=====
 const RECIPE_CACHE = new WeakMap();
@@ -1680,7 +1687,8 @@ async function getPlannerAssets(env, request) {
     source = { taxonomy, templates, ratios, recipes };
     if (validateIngredientTaxonomy(taxonomy).length
         || validateRecipeLibrary(recipes).length
-        || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length) throw plannerAssetError();
+        || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length
+        || validateDeterministicTextProfiles(templates).length) throw plannerAssetError();
     const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
     if (!preparedRatios.ok) throw plannerAssetError();
     source = { taxonomy, templates, ratios: preparedRatios.catalog, recipes };
@@ -1690,6 +1698,28 @@ async function getPlannerAssets(env, request) {
   const validated = deepFreeze(source);
   PLANNER_ASSET_CACHE.set(assets, validated);
   return validated;
+}
+
+async function readBuildMetadata(env, request) {
+  try {
+    if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') throw new Error('build_meta_assets_missing');
+    const response = await env.ASSETS.fetch(new Request(new URL('/build-meta.json', request.url)));
+    if (!response?.ok) throw new Error('build_meta_missing');
+    const meta = await response.json();
+    if (!meta || typeof meta !== 'object' || Array.isArray(meta)
+        || typeof meta.buildId !== 'string' || !/^[0-9A-Za-z_-]+$/.test(meta.buildId)
+        || !['off', 'direct-recommend'].includes(meta.plannerRollout)
+        || !['deterministic', 'llm'].includes(meta.generationMode)) {
+      throw new Error('build_meta_invalid');
+    }
+    return {
+      buildId: meta.buildId,
+      plannerRollout: meta.plannerRollout,
+      generationMode: meta.generationMode,
+    };
+  } catch (_error) {
+    return { ...BUILD_METADATA_DEFAULTS };
+  }
 }
 
 // ===== 第二层兜底: 台湾食药署食品营养成分库(权威, OGDL-Taiwan-1.0)。模型生成的食材做高置信匹配, 命中即覆盖为权威值。=====
@@ -2869,6 +2899,29 @@ async function handleGeneratePlan(request, env) {
     console.error('locked plan contract failed', String(error?.message || 'contract_error').slice(0, 80));
     return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
   }
+  const termUniverse = buildIngredientTermUniverse(plannerAssets.taxonomy, plannerAssets.recipes);
+  const buildMetadata = await readBuildMetadata(env, request);
+  if (buildMetadata.generationMode === 'deterministic') {
+    let deterministicOutput;
+    try {
+      deterministicOutput = buildDeterministicGeneratedPlan(lockedPlan);
+    } catch (error) {
+      console.error('deterministic generation failed', String(error?.message || 'contract_error').slice(0, 80));
+      return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
+    }
+    const plannerLockedOutput = lockPlannerOwnedSafetyMetadata(deterministicOutput, lockedPlan);
+    const validation = validateGeneratedPlan(plannerLockedOutput, lockedPlan, termUniverse);
+    if (!validation.ok) {
+      console.error('deterministic generation contract violation', String(validation.reason_code || 'unknown').slice(0, 80));
+      return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
+    }
+    return jsonResponse(
+      buildGeneratedPlanResponse(recomputed, lockedPlan, validation.meals),
+      200,
+      env,
+      request,
+    );
+  }
   if (!env.DEEPSEEK_API_KEY) return errorResponse('missing_api_key', 'DEEPSEEK_API_KEY 未配置', 500, env, {}, request);
   if (!rateOk(request, env)) return errorResponse('rate_limited', '今天生成次数到上限了，明天再来～', 429, env, {}, request);
   const budget = await budgetConsume(env);
@@ -2921,7 +2974,6 @@ async function handleGeneratePlan(request, env) {
     console.warn('generate-plan contract violation', 'malformed_model_json');
     return errorResponse('model_contract_violation', '生成内容没有通过计划一致性检查', 422, env, {}, request);
   }
-  const termUniverse = buildIngredientTermUniverse(plannerAssets.taxonomy, plannerAssets.recipes);
   const plannerLockedOutput = lockPlannerOwnedSafetyMetadata(modelOutput, lockedPlan);
   const validation = validateGeneratedPlan(plannerLockedOutput, lockedPlan, termUniverse);
   if (!validation.ok) {
@@ -2950,9 +3002,11 @@ export {
   validationRiceAllergenActive,
   normalizePlannerRequest,
   plannerRequestFromLegacy,
+  buildDeterministicGeneratedPlan,
   buildIngredientTermUniverse,
   buildLockedPlanContract,
   lockPlannerOwnedSafetyMetadata,
+  validateDeterministicTextProfiles,
   validateGeneratedPlan,
   buildTwNutritionIndex,
   twLookup,
@@ -2963,24 +3017,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env, request) });
     if (request.method === 'GET' && url.pathname === '/health') {
-      let buildId = null;
-      let plannerRollout = 'off';
-      try {
-        if (!env.ASSETS || typeof env.ASSETS.fetch !== 'function') throw new Error('build_meta_assets_missing');
-        const metaResponse = await env.ASSETS.fetch(new Request(new URL('/build-meta.json', request.url)));
-        if (!metaResponse.ok) throw new Error('build_meta_missing');
-        const meta = await metaResponse.json();
-        if (!meta || typeof meta !== 'object' || Array.isArray(meta)
-            || typeof meta.buildId !== 'string' || !/^[0-9A-Za-z_-]+$/.test(meta.buildId)
-            || !['off', 'direct-recommend'].includes(meta.plannerRollout)) {
-          throw new Error('build_meta_invalid');
-        }
-        buildId = meta.buildId;
-        plannerRollout = meta.plannerRollout;
-      } catch (_buildMetaError) {
-        buildId = null;
-        plannerRollout = 'off';
-      }
+      const { buildId, plannerRollout, generationMode } = await readBuildMetadata(env, request);
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
@@ -3026,6 +3063,7 @@ export default {
         budget: env.RATE_KV ? 'kv' : 'memory',
         buildId,
         plannerRollout,
+        generationMode,
         recipeLibrary,
         recipeFamilies,
         baseRecipes,

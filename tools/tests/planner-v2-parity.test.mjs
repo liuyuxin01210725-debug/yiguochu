@@ -85,6 +85,7 @@ function pythonPlan(body, extraEnv = {}) {
       ...process.env,
       DEEPSEEK_API_KEY: '',
       KIMI_API_KEY: '',
+      YIGUOCHU_GENERATION_MODE: 'llm',
       ...extraEnv,
     },
   });
@@ -154,6 +155,7 @@ async function startProxy(extraEnv = {}) {
       HOST: '127.0.0.1',
       DEEPSEEK_API_KEY: '',
       KIMI_API_KEY: '',
+      YIGUOCHU_GENERATION_MODE: 'llm',
       ...extraEnv,
     },
   });
@@ -591,6 +593,31 @@ test('valid single and multi-pot generation each use exactly one fake upstream r
       assert.equal(generated.body.plan.pots.length, planned.plan.pots.length);
     }
     assert.doesNotMatch(JSON.stringify(proxy.logs()), /secret-key-must-not-leak/);
+  } finally {
+    await stopProxy(proxy);
+    await upstream.close();
+  }
+});
+
+test('deterministic local generation needs no key, spends no rate allowance and calls no upstream', async () => {
+  const upstream = await fakeUpstream();
+  const proxy = await startProxy({
+    RATE_LIMIT: '1',
+    DEEPSEEK_API_KEY: '',
+    KIMI_API_KEY: '',
+    API_URL: upstream.url('/valid'),
+    YIGUOCHU_GENERATION_MODE: 'deterministic',
+  });
+  try {
+    const planRequest = request({ must: ['番茄', '鸡蛋'] });
+    const planned = (await workerPlan(planRequest)).body;
+    const submitted = generationEnvelope(planRequest, planned);
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const generated = await postJson(proxy.base, '/generate-plan', submitted);
+      assert.equal(generated.response.status, 200, JSON.stringify(generated.body));
+      assert.equal(generated.body.plan_id, planned.plan.plan_id);
+    }
+    assert.equal(upstream.calls.length, 0);
   } finally {
     await stopProxy(proxy);
     await upstream.close();

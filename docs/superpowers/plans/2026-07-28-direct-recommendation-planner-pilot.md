@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 将 Preview 的第一轮 Pilot 默认路径切换为确定性「直接推荐」Planner，在 2 秒内给出 1–3 个诚实、高覆盖候选，并保证 DeepSeek 只能表达已锁定的食材、克数、比例和安全要求。
+**Goal:** 将 Preview 的第一轮 Pilot 默认路径切换为确定性「直接推荐」Planner，在 2 秒内给出 1–3 个诚实、高覆盖候选，并在用户确认后用确定性本地表达器于 2 秒内呈现已锁定做法。
 
-**Architecture:** `/plan-meal` 使用 taxonomy、template 和 Ratio DSL 生成可复现候选包，候选阶段不调用 DeepSeek；用户选择 `plan_id` 后，`/generate-plan` 服务端重算候选成员并建立 locked plan，DeepSeek 只选择受控菜名和步骤文本。旧 selector 仅用于影子对照，Preview 通过构建标志启用 V2，production 默认关闭。
+**Architecture:** `/plan-meal` 使用 taxonomy、template 和 Ratio DSL 生成可复现候选包；用户选择 `plan_id` 后，`/generate-plan` 服务端重算候选成员并建立 locked plan，Preview 默认由本地确定性表达器从人工受控菜名、步骤和理由中稳定选择。LLM 表达代码保留并由构建标志关闭。旧 selector 仅用于影子对照，production 默认关闭 V2。
 
 **Tech Stack:** 单文件原生 HTML/JavaScript 前端、Cloudflare Pages Worker、Node.js `node:test`、Python 本地代理、JSON taxonomy/template/Ratio DSL 资产、Cloudflare Pages Preview。
 
@@ -12,7 +12,7 @@
 
 - 第一轮 Pilot 只开放「直接推荐」；不开放残缺的「帮我清库存」。
 - Pilot 前 recipe 总数保持 72，不新增 recipe 或 template。
-- `/plan-meal` 的 DeepSeek 调用次数必须为 0；`/generate-plan` 每次用户明确操作最多调用 1 次，失败不自动重试。
+- Preview 默认整个 V2 旅程的 DeepSeek 调用和付费预算读写必须为 0；保留的 LLM 模式每次明确操作最多调用 1 次，失败不自动重试。
 - 正常候选必须达到覆盖门槛；不得为凑三张卡展示低覆盖方案。
 - `required_extra_items` 只能包含基础主食、液体、油脂和基础调味。
 - 模型不能新增、删除、替换食材，不能修改克数、比例、生熟状态、部位或安全终点。
@@ -915,15 +915,15 @@ node tools/build-dist.mjs --out-dir dist --build-id "$BUILD_ID" --planner-rollou
 
 Expected: `dist/build-meta.json` 的 build ID 与 HEAD 一致，rollout 为 `direct-recommend`；源依赖图、72 道 recipe 和 Planner 资产全部进入 dist。
 
-- [ ] **Step 3: 完成 DeepSeek key 轮换门**
+- [ ] **Step 3: 确认 Preview V2 不依赖 DeepSeek key**
 
-由密钥持有人在 DeepSeek 控制台撤销可能暴露的旧 key，创建新 key；更新本地 `.env` 和 Cloudflare Preview Secret。执行人员不得读取、回显、提交或把 key 写进命令历史/日志。用一次不打印请求头的 Preview generation smoke 确认新 key 生效，旧 key 已失效。
+Preview 使用 `generationMode:"deterministic"`，完整 V2 旅程必须在不读取、回显或要求 DeepSeek key 的情况下通过；服务器测试必须证明没有上游 fetch 和预算读写。旧 key 轮换保留为 production 发布前的独立安全门，由密钥持有人执行，不阻断本轮 Preview 确定性验证。
 
-Expected: 旧 key 无效；新 key 仅存在本地 ignored `.env` 与 Cloudflare secret；git diff 不含任何 secret。
+Expected: Preview V2 不依赖 key；git diff 不含任何 secret；production 仍冻结且未获得发布授权。
 
 - [ ] **Step 4: 提交验证文档更新**
 
-在 feedback/pilot 文档记录精确 build ID、自动测试结果、shadow 结果、key rotation 完成状态和待执行浏览器旅程，不写 secret 值。
+在 feedback/pilot 文档记录精确 build ID、自动测试结果、shadow 结果、generation mode、key rotation 延后到 production 前的状态和待执行浏览器旅程，不写 secret 值。
 
 Pilot 记录模板必须保留两条判定：D2 原话问题“你有没有想过一次把冰箱里的东西都用完？当时怎么办的？”；`≥3/5` 第二天愿意再用为通过，`1–2/5` 逐条复盘，`0/5` 回到首屏和核心承诺。点击次数不得替代“是否真正做完一顿饭”。
 
@@ -988,10 +988,35 @@ git commit -m "docs: record direct recommendation browser gate"
 - 顶层和锅级覆盖字段一致；
 - 候选 1–3 张且不凑数；
 - 候选阶段 0 次 DeepSeek；
+- 默认 `/generate-plan` 也为 0 次 DeepSeek、0 次预算读写；
+- 选择方案到成品可见 P95 小于 2 秒；
+- 人工受控 template/action 文案通过 30 条真人浏览器人眼门；
 - 任意被选 candidate plan ID 都能由服务端重算验证；
 - 换一换遵守当前硬排除、7 天软降权；
 - locked grams 为 Ratio DSL 规范化整数，模型漂移为 0；
 - 30 条 shadow、100 次 Preview API 和 30 条真人浏览器旅程全部通过；
-- DeepSeek key 已轮换且未进入代码/日志；
+- DeepSeek key 未进入代码/日志；轮换保留在 production 发布前清单；
 - production 未动，Draft PR 未合并；
 - Pilot 链接仍由人工在所有门槛通过后发放。
+
+---
+
+### Task 10: 2026-07-29 确定性表达层增补
+
+**Files:**
+- Modify: `worker/src/generated-plan-contract.js`
+- Modify: `worker/src/worker.js`
+- Modify: `tools/build-dist.mjs`
+- Modify: `index.html`
+- Modify: `tools/planner-v2-local-bridge.mjs`
+- Modify: `ai_proxy.py`
+- Modify: `tools/run-direct-recommend-preview-gate.mjs`
+- Modify tests and current deployment/feedback docs
+
+**Required behavior:**
+
+1. `--generation-mode deterministic|llm` 写入 `build-meta.json`、页面只读 build meta 与 `/health`；未显式指定时默认 `llm`，Preview 发布命令必须显式指定 `deterministic`。
+2. 确定性生成器只从 `generation_text_contract` 的人工受控有限选项中稳定选择，随后继续运行 `lockPlannerOwnedSafetyMetadata()` 与 `validateGeneratedPlan()`。
+3. 确定性 `/generate-plan` 不检查 API key、不读写生成预算、不发起上游 fetch；LLM 路径保持原行为和原测试。
+4. 端到端 Preview 门增加“选择计划到成品 P95 < 2 秒”和“全旅程 0 次 DeepSeek/付费预算”。
+5. 30 条真实 Chrome 手机旅程逐步阅读菜名、步骤、安全终点和推荐理由；人眼未通过不得发 Pilot。

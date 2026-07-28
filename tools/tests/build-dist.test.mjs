@@ -56,13 +56,17 @@ function makeOutputDir() {
   return fs.mkdtempSync(path.join(ROOT, 'dist', '.build-test-'));
 }
 
-function runBuild(outputDir, { plannerRollout = 'direct-recommend' } = {}) {
+function runBuild(outputDir, {
+  plannerRollout = 'direct-recommend',
+  generationMode = 'deterministic',
+} = {}) {
   const args = [
     BUILD_SCRIPT,
     '--out-dir', outputDir,
     '--build-id', 'canonical-test',
   ];
   if (plannerRollout != null) args.push('--planner-rollout', plannerRollout);
+  if (generationMode != null) args.push('--generation-mode', generationMode);
   return spawnSync(process.execPath, args, { cwd: ROOT, encoding: 'utf8' });
 }
 
@@ -213,9 +217,10 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       /const C = 'yiguochu-shell-v4-canonical-test';/,
     );
     const builtIndex = fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8');
-    assert.doesNotMatch(builtIndex, /__YIGUOCHU_(?:BUILD_ID|PLANNER_ROLLOUT)__/);
+    assert.doesNotMatch(builtIndex, /__YIGUOCHU_(?:BUILD_ID|PLANNER_ROLLOUT|GENERATION_MODE)__/);
     assert.match(builtIndex, /const BUILD_ID = 'canonical-test';/);
     assert.match(builtIndex, /const PLANNER_ROLLOUT = 'direct-recommend';/);
+    assert.match(builtIndex, /const GENERATION_MODE = 'deterministic';/);
     assert.match(builtIndex, /serviceWorker\.register\('sw\.js\?v=canonical-test', \{ updateViaCache:'none' \}\)/);
     assert.doesNotMatch(
       builtIndex,
@@ -224,7 +229,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
     );
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
-      { buildId:'canonical-test', plannerRollout:'direct-recommend' },
+      { buildId:'canonical-test', plannerRollout:'direct-recommend', generationMode:'deterministic' },
     );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
@@ -234,11 +239,11 @@ test('distribution build includes canonical recipe assets and refreshes its serv
 test('distribution build defaults rollout off and rejects unsupported rollout values', () => {
   const outputDir = makeOutputDir();
   try {
-    const defaultBuild = runBuild(outputDir, { plannerRollout:null });
+    const defaultBuild = runBuild(outputDir, { plannerRollout:null, generationMode:null });
     assert.equal(defaultBuild.status, 0, `${defaultBuild.stdout}\n${defaultBuild.stderr}`);
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
-      { buildId:'canonical-test', plannerRollout:'off' },
+      { buildId:'canonical-test', plannerRollout:'off', generationMode:'llm' },
     );
     assert.match(
       fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8'),
@@ -248,6 +253,10 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
     const rejected = runBuild(outputDir, { plannerRollout:'everyone' });
     assert.notEqual(rejected.status, 0);
     assert.match(rejected.stderr, /planner rollout/i);
+
+    const rejectedGenerationMode = runBuild(outputDir, { generationMode:'hybrid' });
+    assert.notEqual(rejectedGenerationMode.status, 0);
+    assert.match(rejectedGenerationMode.stderr, /generation mode/i);
   } finally {
     fs.rmSync(outputDir, { recursive:true, force:true });
   }

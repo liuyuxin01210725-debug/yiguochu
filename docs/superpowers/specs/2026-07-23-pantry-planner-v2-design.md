@@ -15,7 +15,7 @@ V2 的目标是建立明确的产品承诺：
 - `recommend` 模式帮助用户决定吃什么，输入食材是 `prefer_use`，允许部分使用，但必须诚实解释使用和未使用项。
 - `pantry` 模式帮助用户清库存，输入食材是 `must_use`；只有完整计划覆盖全部去重输入时才算成功。
 - 规划由确定性 template rules 与受控 ingredient taxonomy 完成。
-- DeepSeek 不再决定基础组合，只负责把已经锁定的计划表达成菜名、自然步骤和推荐理由。
+- Preview 默认由确定性本地表达器把已经锁定的计划表达成菜名、自然步骤和推荐理由；DeepSeek 表达路径保留为可逆对照，不参与默认 Pilot。
 - 现有 72 道 recipe 继续作为技法、安全、比例和来源证据，不再作为用户组合空间的唯一上限。
 
 ## 2. 非目标
@@ -85,8 +85,8 @@ Taxonomy 是第一阶段约 60 种家庭高频食材及常见别名的受控表�
 → 返回可解释 plan
 → 用户确认或做出决策
 → /generate-plan 服务端重算并核对 plan
-→ 单次 DeepSeek 表达
-→ 模型越界校验
+→ 确定性本地表达（Preview 默认）或受控 LLM 表达（可逆开关）
+→ 表达越界校验
 → 服务端合并锁定食材、权威营养与自然语言步骤
 ```
 
@@ -98,6 +98,7 @@ Taxonomy 是第一阶段约 60 种家庭高频食材及常见别名的受控表�
 - Template catalog 与 taxonomy 是共享机器数据。
 - `/plan-meal` 永远不调用 DeepSeek。
 - `/generate-plan` 不信任前端传回的裸 `plan_id`，必须重算。
+- `generationMode:"deterministic"` 下整个 V2 旅程不调用 DeepSeek、不读取付费预算；`generationMode:"llm"` 仅作为保留的可逆路径。
 
 ## 5. V2 请求契约
 
@@ -825,7 +826,7 @@ Pot 按 `meal_sequence` 排序；slot 按 `slot_id` 排序；同槽食材按 can
 
 前端保留原 plan 和原输入，不显示通用失败页。
 
-## 17. DeepSeek 输入输出边界
+## 17. 表达层输入输出边界
 
 ### 17.1 Planner 锁定的输入
 
@@ -873,9 +874,9 @@ Pot 按 `meal_sequence` 排序；slot 按 `slot_id` 排序；同槽食材按 can
 }
 ```
 
-DeepSeek 不能决定 template、slots、must-use 使用/删除、替换、required extras、克数、液体、时间或安全规则。
+无论确定性表达器还是保留的 LLM 表达器，都不能决定 template、slots、must-use 使用/删除、替换、required extras、克数、液体、时间或安全规则。
 
-### 17.2 模型允许输出
+### 17.2 表达器允许输出
 
 ```json
 {
@@ -899,9 +900,9 @@ DeepSeek 不能决定 template、slots、must-use 使用/删除、替换、requi
 }
 ```
 
-最终食材行、克数、营养和 plan metadata 全部由服务端提供；模型只提供菜名、步骤、理由和核验 refs。
+最终食材行、克数、营养和 plan metadata 全部由服务端提供；表达器只提供菜名、步骤、理由和核验 refs。Preview 默认表达器只能从每个 template/action 的人工受控有限短语中稳定选择并填入锁定占位符，不得自由生成新的烹饪事实。
 
-## 18. 模型越界校验
+## 18. 表达越界校验
 
 服务端检查：
 
@@ -920,7 +921,7 @@ DeepSeek 不能决定 template、slots、must-use 使用/删除、替换、requi
 
 模型把牛里脊换成牛腩、金针菇换成香菇、鸡腿换成鸡胸，均为越界。
 
-越界返回 `model_contract_violation`，不自动重试。只有用户主动重新生成才产生下一次 DeepSeek 调用。
+越界返回 `model_contract_violation`，不自动重试。确定性模式不产生 DeepSeek 调用；保留的 LLM 模式只有用户主动重新生成才产生下一次调用。
 
 ## 19. Stale plan
 
@@ -971,14 +972,15 @@ DeepSeek 不能决定 template、slots、must-use 使用/删除、替换、requi
 
 `/generate-plan`：
 
-- 整个单锅或多锅 plan 最多 1 次 DeepSeek；
+- `generationMode:"deterministic"`：整个单锅或多锅 plan 为 0 次 DeepSeek、0 次预算读写；
+- `generationMode:"llm"`：整个单锅或多锅 plan 最多 1 次 DeepSeek；
 - 三锅也放在一次结构化请求中；
 - 调用前完成重规划、版本、状态与 plan ID 校验；
 - 无效、stale、needs decision 或 no alternative 请求不扣生成预算；
 - 失败不自动重试；
 - 用户主动重新生成才产生下一次调用。
 
-保留请求大小、食材数量、上游超时、每日预算熔断、明确错误码和错误脱敏。Planner endpoint 只需独立的轻量 CPU 频率限制，不使用 DeepSeek 预算计数。
+LLM 路径保留请求大小、食材数量、上游超时、每日预算熔断、明确错误码和错误脱敏。确定性路径不经过上游、预算或 API key。Planner endpoint 只需独立的轻量 CPU 频率限制，不使用 DeepSeek 预算计数。
 
 ## 22. 真实用户旅程测试
 
@@ -1033,6 +1035,7 @@ DeepSeek 不能决定 template、slots、must-use 使用/删除、替换、requi
 ### 22.6 Planner/模型边界
 
 32. `/plan-meal` 的 ready、complete、needs decision、swap 全部验证 DeepSeek 调用为 0。
+32a. `generationMode:"deterministic"` 的 `/plan-meal` → `/generate-plan` 完整旅程验证 DeepSeek 调用和预算读写均为 0。
 33. `/generate-plan` 中模型新增香菇。返回 model contract violation，最终食材不得出现香菇。
 34. 模型把牛里脊改成牛腩。返回 shape/cut violation，不重试。
 35. 模型删除金针菇或步骤不提及。返回 missing planned ingredient。
@@ -1060,7 +1063,8 @@ DeepSeek 不能决定 template、slots、must-use 使用/删除、替换、requi
 - Worker/Python planner parity 全部通过；
 - 44 条旅程通过；
 - `/plan-meal` 全路径 0 次 DeepSeek；
-- `/generate-plan` 每次最多 1 次，失败不自动重试；
+- 确定性 `/generate-plan` 为 0 次 DeepSeek、0 次预算读写；LLM 回滚路径每次最多 1 次且失败不自动重试；
+- 从选择方案到成品可见 P95 小于 2 秒；
 - pantry complete 的 coverage ratio 必须为 1 且 unplanned 为空；
 - recipe 总数保持 72；
 - 不新增账号、画像、营养追踪、多 Agent 或其他功能；

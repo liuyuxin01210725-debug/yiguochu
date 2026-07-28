@@ -3204,6 +3204,16 @@ def _planner_deepseek_api_key():
     return (_env.get('DEEPSEEK_API_KEY') or '').strip()
 
 
+def _planner_generation_mode():
+    raw = os.environ.get('YIGUOCHU_GENERATION_MODE')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_GENERATION_MODE')
+    value = str(raw or '').strip()
+    if not value:
+        return 'deterministic'
+    return value if value in ('deterministic', 'llm') else 'llm'
+
+
 def _planner_bridge_env():
     """Only pass settings the reviewed Worker V2 entrypoint is allowed to consume."""
     env = {
@@ -3215,6 +3225,7 @@ def _planner_bridge_env():
         'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
         'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL,
         'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
+        'YIGUOCHU_GENERATION_MODE': _planner_generation_mode(),
     }
     env.update({name: str(value) for name, value in values.items() if value})
     return env
@@ -3466,17 +3477,18 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self._send_json(409, selected_plan)
             return
 
-        if not _planner_deepseek_api_key():
-            self._send_json(500, {
-                'error': 'DEEPSEEK_API_KEY 未配置',
-                'code': 'missing_api_key',
-            })
-            return
+        if _planner_generation_mode() == 'llm':
+            if not _planner_deepseek_api_key():
+                self._send_json(500, {
+                    'error': 'DEEPSEEK_API_KEY 未配置',
+                    'code': 'missing_api_key',
+                })
+                return
 
-        ip = (self.headers.get('X-Forwarded-For', '').split(',')[0].strip() or self.client_address[0])
-        if not _rate_ok(ip):
-            self._send_json(429, {'error': '今天生成次数到上限了，明天再来～', 'code': 'rate_limited'})
-            return
+            ip = (self.headers.get('X-Forwarded-For', '').split(',')[0].strip() or self.client_address[0])
+            if not _rate_ok(ip):
+                self._send_json(429, {'error': '今天生成次数到上限了，明天再来～', 'code': 'rate_limited'})
+                return
         try:
             self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
         except PlannerBridgeError as error:

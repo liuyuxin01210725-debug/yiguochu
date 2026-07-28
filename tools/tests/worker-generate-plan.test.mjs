@@ -10,6 +10,11 @@ const SOURCE_ASSETS = Object.freeze({
   '/meal-templates.v2.json': readAsset('meal-templates.v2.json'),
   '/ratio-rules.v1.json': readAsset('ratio-rules.v1.json'),
   '/recipe-library.json': readAsset('recipe-library.json'),
+  '/build-meta.json': JSON.stringify({
+    buildId: 'generate-plan-test',
+    plannerRollout: 'direct-recommend',
+    generationMode: 'llm',
+  }),
 });
 
 function plannerRequest({
@@ -33,17 +38,20 @@ function plannerRequest({
   };
 }
 
-function assetBinding() {
+function assetBinding(overrides = {}) {
   const calls = [];
+  const bytes = { ...SOURCE_ASSETS, ...overrides };
   return {
     calls,
     async fetch(request) {
       const pathname = new URL(request.url).pathname;
       calls.push(pathname);
-      if (!Object.prototype.hasOwnProperty.call(SOURCE_ASSETS, pathname)) {
+      if (!Object.prototype.hasOwnProperty.call(bytes, pathname)) {
         return new Response('missing', { status: 404 });
       }
-      return new Response(SOURCE_ASSETS[pathname], {
+      const value = bytes[pathname];
+      if (value instanceof Response) return value.clone();
+      return new Response(value, {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -183,11 +191,60 @@ test('generation contract exposes focused Worker-safe pure builder and validator
   assert.equal(typeof workerModule.buildIngredientTermUniverse, 'function');
   assert.equal(typeof workerModule.lockPlannerOwnedSafetyMetadata, 'function');
   assert.equal(typeof workerModule.validateGeneratedPlan, 'function');
+  assert.equal(typeof workerModule.buildDeterministicGeneratedPlan, 'function');
+  assert.equal(typeof workerModule.validateDeterministicTextProfiles, 'function');
   const universe = ingredientTermUniverse();
   for (const term of ['芝士', '料酒', '糖', '帕玛森奶酪', '鸡腿', '鸡胸肉']) {
     assert.ok(universe.some(entry => entry.term === term), term);
   }
   assert.ok(new Set(universe.map(entry => entry.normalized)).size >= 200);
+});
+
+test('every active template has human-controlled deterministic prose and stable valid output', async () => {
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  assert.deepEqual(workerModule.validateDeterministicTextProfiles(templates), []);
+  const journey = await preparedJourney(plannerRequest({
+    mode: 'recommend',
+    prefer: ['鸡腿', '土豆', '胡萝卜', '洋葱'],
+  }));
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const first = workerModule.buildDeterministicGeneratedPlan(locked);
+  const second = workerModule.buildDeterministicGeneratedPlan(locked);
+  assert.deepEqual(second, first);
+  const checked = workerModule.validateGeneratedPlan(first, locked, ingredientTermUniverse());
+  assert.equal(checked.ok, true);
+  for (const [mealIndex, meal] of first.meals.entries()) {
+    const contract = locked.meals[mealIndex].generation_text_contract;
+    assert.ok(contract.dish_name_options.includes(meal.dish_name));
+    assert.ok(contract.recommendation_reason_options.includes(meal.recommendation_reason));
+    assert.ok(meal.steps.every((step, index) => contract.steps[index].allowed_texts.includes(step.text)));
+  }
+});
+
+test('deterministic generate-plan completes without key, budget or upstream work', async () => {
+  const planRequest = plannerRequest({
+    mode: 'recommend',
+    prefer: ['鸡腿', '土豆', '胡萝卜', '洋葱'],
+  });
+  const assets = assetBinding({
+    '/build-meta.json': JSON.stringify({
+      buildId: 'deterministic-test',
+      plannerRollout: 'direct-recommend',
+      generationMode: 'deterministic',
+    }),
+  });
+  const planned = await obtainPlan(planRequest, assets);
+  assert.equal(planned.response.status, 200);
+  const result = await postGenerate({
+    planRequest,
+    planned: planned.body,
+    assets,
+    env: { DEEPSEEK_API_KEY: undefined, RATE_KV: undefined },
+  });
+  assert.equal(result.response.status, 200);
+  assertNoPaidWork(result);
+  assert.equal(result.body.meals.length, 1);
+  assert.equal(result.body.meals[0].locked_ingredients.some(item => item.raw_name === '洋葱'), true);
 });
 
 test('endpoint ignores model-authored safety codes and restores the planner-owned phase metadata', async () => {
@@ -599,6 +656,25 @@ test('controlled phrases omit empty optional phases and render executable one-po
   assert.match(prose, /牛里脊.*薄片/);
   assert.match(prose, /(?:放入|翻炒|焖煮|加热|拌匀|热透)/);
   assert.doesNotMatch(prose, /按规划使用.*完成|完成完成|\{\{/);
+});
+
+test('controlled beef steps do not tell the user to slice the same tenderloin twice', async () => {
+  const journey = await preparedJourney(plannerRequest({ must: ['牛里脊', '面条', '番茄'] }));
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  assert.ok(meal.cooking_order.some(phase => phase.action_code === 'protein_pretreat'));
+  assert.ok(meal.cooking_order.some(phase => phase.action_code === 'sear_beef'));
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const checked = workerModule.validateGeneratedPlan(
+    deterministic,
+    locked,
+    ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const beefSteps = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.equal((beefSteps.match(/切成|切为|切片/gu) || []).length, 1, beefSteps);
+  assert.match(beefSteps, /平铺入锅|放入锅中摊开/u);
 });
 
 test('conditional cooking phases keep only the branch matching the locked protein category', async () => {

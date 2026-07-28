@@ -6,6 +6,9 @@ import worker from '../worker/src/worker.js';
 
 const BRIDGE_VERSION = 1;
 const ALLOWED_ENDPOINTS = new Set(['/plan-meal', '/generate-plan']);
+const GENERATION_MODE = ['deterministic', 'llm'].includes(process.env.YIGUOCHU_GENERATION_MODE)
+  ? process.env.YIGUOCHU_GENERATION_MODE
+  : 'deterministic';
 const ASSET_FILES = new Map([
   ['/ingredient-taxonomy.v1.json', new URL('./data/ingredient-taxonomy.v1.json', import.meta.url)],
   ['/meal-templates.v2.json', new URL('./data/meal-templates.v2.json', import.meta.url)],
@@ -39,6 +42,16 @@ async function readStdin() {
 const assetBinding = {
   async fetch(input) {
     const pathname = new URL(input.url).pathname;
+    if (pathname === '/build-meta.json') {
+      return new Response(JSON.stringify({
+        buildId: 'local-planner',
+        plannerRollout: 'direct-recommend',
+        generationMode: GENERATION_MODE,
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      });
+    }
     const file = ASSET_FILES.get(pathname);
     if (!file) return new Response('missing', { status: 404 });
     try {

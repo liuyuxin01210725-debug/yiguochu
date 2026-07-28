@@ -1,10 +1,11 @@
 # 一锅出 — 项目说明（AI agent 与开发者必读）
 
-按需打开的家常一锅主餐 PWA：用户选择这次做饭目的、份数、现有食材和忌口，快速得到一锅/一碗方案；不做每日打卡、周营养累计或长期饮食追踪。菜谱由 LLM(DeepSeek) 生成，营养走**两层权威查表纠偏**：① worker 端用台湾食药署全量库(2181 条)覆盖命中食材 → ② 前端本地 `FOODS` 库兜底 → ③ 都没命中才标 AI 估算。
+按需打开的家常一锅主餐 PWA：用户选择这次做饭目的、份数、现有食材和忌口，快速得到一锅/一碗方案；不做每日打卡、周营养累计或长期饮食追踪。Legacy 菜谱路径由 LLM(DeepSeek) 生成；Pantry Planner V2 的 Preview 默认使用确定性受控文案，LLM 表达路径仅作为可逆开关保留。营养走**两层权威查表纠偏**：① worker 端用台湾食药署全量库(2181 条)覆盖命中食材 → ② 前端本地 `FOODS` 库兜底 → ③ 都没命中才标 AI 估算。
 - 前端：`index.html`（单文件，含本地 `FOODS` 库 + 三层取值逻辑）
 - 云端代理：`worker/src/worker.js`（Cloudflare Pages Functions，持 DeepSeek key + 第二层台湾库兜底 `enrichWithTw`）
 - 权威数据底座：`tools/data/foods-tw.json`（台湾食药署库简体版 2181 条，部署时复制进 `dist/` 供 worker `ASSETS.fetch` 读取）；构建脚本 `tools/build-foods-tw.mjs`
 - Planner V2 结构化资产：`tools/data/ingredient-taxonomy.v1.json`、`tools/data/meal-templates.v2.json`、`tools/data/ratio-rules.v1.json`。规划器组合能力由 template rules + ingredient taxonomy 决定；72 道 recipe 只提供技法、安全、比例和来源 evidence。
+- Planner V2 表达模式由构建元数据 `generationMode` 控制：Preview 使用 `deterministic`，由人工受控的 template 文案组装并继续经过食材、克数、顺序与安全契约校验；缺失或非法元数据回退 `llm`，不得静默绕过既有成本保护。
 - 本地调试代理：`ai_proxy.py`（localhost:8765）。生成契约的权威源仍是 `worker/src/worker.js`；涉及份数、场景或 prompt 时，需要同步更新本地代理并跑语法检查，避免本地/线上行为漂移。
 - 线上：https://yiguochu.pages.dev
 

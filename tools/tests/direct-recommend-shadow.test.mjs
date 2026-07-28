@@ -85,8 +85,20 @@ test('preview gate rejects build mismatch, non-json, malformed json and server e
     { status, headers: { 'Content-Type': contentType } },
   );
   const plan = {
+    schema_version: 2,
+    planner_version: 'pantry-planner-v2',
+    template_catalog_version: 'templates-test',
     status: 'ready',
-    candidate_plans: [{ plan: { plan_id: 'fixture', planned_prefer_use: [{ raw: '鸡蛋' }] } }],
+    generation_allowed: true,
+    plan: { plan_id: 'fixture', planned_prefer_use: [{ raw: '鸡蛋' }] },
+    candidate_plans: [],
+  };
+  const generated = { ...plan, meals: [{ meal_sequence:1, dish_name:'测试锅', steps:[] }] };
+  const health = {
+    status: 'ok',
+    buildId: 'wanted',
+    plannerRollout: 'direct-recommend',
+    generationMode: 'deterministic',
   };
 
   await assert.rejects(
@@ -95,9 +107,19 @@ test('preview gate rejects build mismatch, non-json, malformed json and server e
       buildId: 'wanted',
       samples: 1,
       warmups: 0,
-      fetchImpl: async () => json({ status: 'ok', buildId: 'other', plannerRollout: 'direct-recommend' }),
+      fetchImpl: async () => json({ ...health, buildId:'other' }),
     }),
     /build_id_mismatch/u,
+  );
+  await assert.rejects(
+    runPreviewGate({
+      url: 'https://preview.example',
+      buildId: 'wanted',
+      samples: 1,
+      warmups: 0,
+      fetchImpl: async () => json({ ...health, generationMode:'llm' }),
+    }),
+    /generation_mode_mismatch/u,
   );
 
   for (const badResponse of [
@@ -112,9 +134,9 @@ test('preview gate rejects build mismatch, non-json, malformed json and server e
         buildId: 'wanted',
         samples: 1,
         warmups: 0,
-        fetchImpl: async () => {
+        fetchImpl: async input => {
           calls += 1;
-          if (calls === 1) return json({ status: 'ok', buildId: 'wanted', plannerRollout: 'direct-recommend' });
+          if (String(input).endsWith('/health')) return json(health);
           return badResponse();
         },
       }),
@@ -128,13 +150,21 @@ test('preview gate rejects build mismatch, non-json, malformed json and server e
     buildId: 'wanted',
     samples: 2,
     warmups: 1,
-    fetchImpl: async () => {
+    fetchImpl: async input => {
       calls += 1;
-      if (calls === 1) return json({ status: 'ok', buildId: 'wanted', plannerRollout: 'direct-recommend' });
-      return json(plan);
+      const path = new URL(String(input)).pathname;
+      if (path === '/health') return json(health);
+      if (path === '/plan-meal') return json(plan);
+      if (path === '/generate-plan') return json(generated);
+      throw new Error(`unexpected_path:${path}`);
     },
   });
   assert.equal(summary.samples, 2);
+  assert.equal(summary.generation_mode, 'deterministic');
+  assert.equal(summary.plan_samples, 2);
+  assert.equal(summary.generation_samples, 2);
+  assert.ok(summary.plan_p95_ms < 2000);
+  assert.ok(summary.generation_p95_ms < 2000);
   assert.equal(summary.bad_json, 0);
   assert.equal(summary.non_json, 0);
   assert.equal(summary.server_errors, 0);

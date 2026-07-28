@@ -32,6 +32,7 @@ function requestBody(journey) {
 }
 
 async function readJsonResponse(response, counters) {
+  if (!response.ok) counters.http_errors += 1;
   if (response.status >= 500) counters.server_errors += 1;
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.toLowerCase().includes('application/json')) {
@@ -46,6 +47,26 @@ async function readJsonResponse(response, counters) {
   }
 }
 
+function selectedPlan(result) {
+  const candidates = Array.isArray(result?.candidate_plans) ? result.candidate_plans : [];
+  return [result, ...candidates].find(candidate => (
+    candidate?.generation_allowed === true
+    && typeof candidate?.planner_version === 'string'
+    && typeof candidate?.template_catalog_version === 'string'
+    && typeof candidate?.plan?.plan_id === 'string'
+  )) || null;
+}
+
+function generationEnvelope(plan, journey) {
+  return {
+    schema_version: 2,
+    planner_version: plan.planner_version,
+    template_catalog_version: plan.template_catalog_version,
+    plan_id: plan.plan.plan_id,
+    plan_request: requestBody(journey),
+  };
+}
+
 export async function runPreviewGate({
   url,
   buildId,
@@ -58,17 +79,40 @@ export async function runPreviewGate({
     throw new Error('invalid_preview_gate_arguments');
   }
   const base = String(url).replace(/\/+$/u, '');
-  const healthCounters = { bad_json: 0, non_json: 0, server_errors: 0 };
+  const healthCounters = { bad_json: 0, non_json: 0, server_errors: 0, http_errors: 0 };
   const healthResponse = await fetchImpl(`${base}/health`, { headers: { Accept: 'application/json' } });
   const health = await readJsonResponse(healthResponse, healthCounters);
   if (!health || health.buildId !== buildId) throw new Error('build_id_mismatch');
   if (health.plannerRollout !== 'direct-recommend') throw new Error('planner_rollout_mismatch');
-  if (healthCounters.bad_json || healthCounters.non_json || healthCounters.server_errors) {
+  if (health.generationMode !== 'deterministic') throw new Error('generation_mode_mismatch');
+  if (healthCounters.bad_json || healthCounters.non_json
+      || healthCounters.server_errors || healthCounters.http_errors) {
     throw new Error('preview_health_failed');
   }
 
-  const counters = { bad_json: 0, non_json: 0, server_errors: 0 };
-  const latencies = [];
+  const counters = { bad_json: 0, non_json: 0, server_errors: 0, http_errors: 0 };
+  const fixtureJourney = journeys[0];
+  let fixtureResponse;
+  try {
+    fixtureResponse = await fetchImpl(`${base}/plan-meal`, {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody(fixtureJourney)),
+    });
+  } catch (_error) {
+    const error = new Error('preview_gate_failed');
+    error.summary = { ...counters, server_errors: 1 };
+    throw error;
+  }
+  const fixtureBody = await readJsonResponse(fixtureResponse, counters);
+  const fixturePlan = selectedPlan(fixtureBody);
+  if (!fixturePlan) {
+    const error = new Error('preview_gate_failed');
+    error.summary = { ...counters, fixture_plan: 'unavailable' };
+    throw error;
+  }
+
+  const planLatencies = [];
   const total = warmups + samples;
   for (let index = 0; index < total; index += 1) {
     const journey = journeys[index % journeys.length];
@@ -82,30 +126,63 @@ export async function runPreviewGate({
       });
     } catch (_error) {
       counters.server_errors += 1;
-      if (index >= warmups) latencies.push(performance.now() - started);
+      if (index >= warmups) planLatencies.push(performance.now() - started);
       continue;
     }
     await readJsonResponse(response, counters);
     const elapsed = performance.now() - started;
-    if (index >= warmups) latencies.push(elapsed);
+    if (index >= warmups) planLatencies.push(elapsed);
+  }
+
+  const generationLatencies = [];
+  const lockedEnvelope = generationEnvelope(fixturePlan, fixtureJourney);
+  for (let index = 0; index < total; index += 1) {
+    const started = performance.now();
+    let response;
+    try {
+      response = await fetchImpl(`${base}/generate-plan`, {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(lockedEnvelope),
+      });
+    } catch (_error) {
+      counters.server_errors += 1;
+      if (index >= warmups) generationLatencies.push(performance.now() - started);
+      continue;
+    }
+    const generated = await readJsonResponse(response, counters);
+    if (response.ok && (!generated || !Array.isArray(generated.meals))) counters.http_errors += 1;
+    const elapsed = performance.now() - started;
+    if (index >= warmups) generationLatencies.push(elapsed);
   }
   const summary = {
     build_id: health.buildId,
     planner_rollout: health.plannerRollout,
+    generation_mode: health.generationMode,
     planner_version: health.plannerVersion || null,
     template_catalog_version: health.templateCatalogVersion || null,
     taxonomy_version: health.ingredientTaxonomyVersion || null,
     ratio_catalog_version: health.ratioRulesVersion || null,
     samples,
     warmups,
-    p50_ms: percentile(latencies, 50),
-    p95_ms: percentile(latencies, 95),
-    max_ms: percentile(latencies, 100),
+    plan_samples: planLatencies.length,
+    generation_samples: generationLatencies.length,
+    p50_ms: percentile(planLatencies, 50),
+    p95_ms: percentile(planLatencies, 95),
+    max_ms: percentile(planLatencies, 100),
+    plan_p50_ms: percentile(planLatencies, 50),
+    plan_p95_ms: percentile(planLatencies, 95),
+    plan_max_ms: percentile(planLatencies, 100),
+    generation_p50_ms: percentile(generationLatencies, 50),
+    generation_p95_ms: percentile(generationLatencies, 95),
+    generation_max_ms: percentile(generationLatencies, 100),
     bad_json: counters.bad_json,
     non_json: counters.non_json,
     server_errors: counters.server_errors,
+    http_errors: counters.http_errors,
   };
-  if (summary.bad_json || summary.non_json || summary.server_errors || summary.p95_ms >= 2000) {
+  if (summary.bad_json || summary.non_json || summary.server_errors || summary.http_errors
+      || summary.plan_p95_ms >= 2000 || summary.generation_p95_ms >= 2000) {
     const error = new Error('preview_gate_failed');
     error.summary = summary;
     throw error;

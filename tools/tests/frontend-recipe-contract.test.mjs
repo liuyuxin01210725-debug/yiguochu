@@ -230,10 +230,12 @@ function loadFrontend(responses = [], options = {}) {
   });
   const buildId = options.buildId || 'frontend-test';
   const plannerRollout = options.plannerRollout || 'off';
+  const generationMode = options.generationMode || 'llm';
   for (const [index, script] of appScripts.entries()) {
     const builtScript = script
       .replaceAll('__YIGUOCHU_BUILD_ID__', buildId)
-      .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout);
+      .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout)
+      .replaceAll('__YIGUOCHU_GENERATION_MODE__', generationMode);
     vm.runInContext(builtScript, context, { filename: `index-inline-${index + 1}.js` });
   }
   return { context, calls, root, listeners, listenerGroups };
@@ -528,7 +530,7 @@ test('direct-recommend rollout stops at deterministic candidates and generates o
   const { context, calls, root } = loadFrontend([
     { body:plannerBundle([first, second]) },
     { body:generated },
-  ], { plannerRollout:'direct-recommend', proxy:null });
+  ], { plannerRollout:'direct-recommend', generationMode:'deterministic', proxy:null });
 
   await evaluate(context, `(async () => {
     state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋, 西兰花, 土豆, 玉米', dislikes:'' };
@@ -549,6 +551,12 @@ test('direct-recommend rollout stops at deterministic candidates and generates o
   const envelope = JSON.parse(calls[1].init.body);
   assert.equal(envelope.plan_id, 'pln_v2_second');
   assert.equal(evaluate(context, 'state.view'), 'v2-result');
+  assert.deepEqual(
+    JSON.parse(evaluate(context, 'JSON.stringify(window.__YIGUOCHU_BUILD_META__)')),
+    { buildId:'frontend-test', plannerRollout:'direct-recommend', generationMode:'deterministic' },
+  );
+  assert.doesNotMatch(root.innerHTML, /发送给 AI|调用 AI/u);
+  assert.match(root.innerHTML, /受控|确定性/u);
 });
 
 test('candidate cards explain coverage, unused reasons and basic extras without title leakage', async () => {
@@ -590,6 +598,31 @@ test('every active template has a controlled user-facing candidate label', () =>
     assert.equal(typeof labels[template.template_id], 'string', template.template_id);
     assert.ok(labels[template.template_id].length > 0, template.template_id);
   }
+});
+
+test('egg-tofu candidate label only names proteins that are actually planned', () => {
+  const { context } = loadFrontend();
+  const eggOnly = plannerCandidate({
+    id:'pln_v2_egg_only_label',
+    templateId:'egg-tofu-vegetable-pot',
+    used:['番茄','鸡蛋','西兰花'],
+  });
+  const tofuOnly = plannerCandidate({
+    id:'pln_v2_tofu_only_label',
+    templateId:'egg-tofu-vegetable-pot',
+    used:['番茄','豆腐','西兰花'],
+  });
+  const both = plannerCandidate({
+    id:'pln_v2_egg_tofu_label',
+    templateId:'egg-tofu-vegetable-pot',
+    used:['鸡蛋','豆腐','西兰花'],
+  });
+  evaluate(context, `state.planCandidates = ${JSON.stringify([eggOnly, tofuOnly, both])}`);
+  assert.match(evaluate(context, 'candidateHeading(state.planCandidates[0])'), /鸡蛋蔬菜锅/);
+  assert.doesNotMatch(evaluate(context, 'candidateHeading(state.planCandidates[0])'), /豆腐/);
+  assert.match(evaluate(context, 'candidateHeading(state.planCandidates[1])'), /豆腐蔬菜锅/);
+  assert.doesNotMatch(evaluate(context, 'candidateHeading(state.planCandidates[1])'), /鸡蛋/);
+  assert.match(evaluate(context, 'candidateHeading(state.planCandidates[2])'), /蛋豆腐蔬菜锅/);
 });
 
 test('chosen plan survives a generation error and offers a manual retry without replanning', async () => {

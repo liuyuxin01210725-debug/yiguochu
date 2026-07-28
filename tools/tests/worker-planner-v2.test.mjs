@@ -13,6 +13,7 @@ const SOURCE_ASSETS = Object.freeze({
   '/build-meta.json': JSON.stringify({
     buildId: 'preview-test-build',
     plannerRollout: 'direct-recommend',
+    generationMode: 'deterministic',
   }),
 });
 
@@ -114,6 +115,7 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.baseRecipes, 72);
   assert.equal(result.body.buildId, 'preview-test-build');
   assert.equal(result.body.plannerRollout, 'direct-recommend');
+  assert.equal(result.body.generationMode, 'deterministic');
 });
 
 test('health reports unavailable planner assets without claiming validated versions or counts', async () => {
@@ -136,12 +138,14 @@ test('health fails build metadata closed when the asset is missing or invalid', 
   for (const buildMeta of [
     new Response('missing', { status:404 }),
     JSON.stringify({ buildId:'preview-test-build', plannerRollout:'everyone' }),
+    JSON.stringify({ buildId:'preview-test-build', plannerRollout:'direct-recommend', generationMode:'hybrid' }),
     '{bad json',
   ]) {
     const result = await getHealth(assetBinding({ '/build-meta.json':buildMeta }));
     assert.equal(result.response.status, 200);
     assert.equal(result.body.buildId, null);
     assert.equal(result.body.plannerRollout, 'off');
+    assert.equal(result.body.generationMode, 'llm');
     assert.equal(result.body.plannerAssets, 'ok');
   }
 });

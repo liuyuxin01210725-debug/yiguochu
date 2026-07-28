@@ -340,10 +340,18 @@
 
 const BUILD_ID = '__YIGUOCHU_BUILD_ID__';
 const PLANNER_ROLLOUT = '__YIGUOCHU_PLANNER_ROLLOUT__';
+const GENERATION_MODE = '__YIGUOCHU_GENERATION_MODE__';
+const EFFECTIVE_GENERATION_MODE = ['deterministic','llm'].includes(GENERATION_MODE)
+  ? GENERATION_MODE
+  : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'deterministic' : 'llm');
+const DETERMINISTIC_DIRECT_RECOMMEND = (PLANNER_ROLLOUT === 'direct-recommend'
+  || location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  && EFFECTIVE_GENERATION_MODE === 'deterministic';
 if (typeof window !== 'undefined') {
   window.__YIGUOCHU_BUILD_META__ = Object.freeze({
     buildId: BUILD_ID,
     plannerRollout: PLANNER_ROLLOUT,
+    generationMode: EFFECTIVE_GENERATION_MODE,
   });
 }
 
@@ -1026,7 +1034,10 @@ function profileScreen() {
       '<div class="field"><label class="field-label">家里的食材 <span class="field-label-aside">至少一种，结果会说明用上和没用的</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">' + pantryHint + '</span></div>' +
       '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">用于过滤菜谱建议</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>';
   }
-  const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。</p></div>';
+  const privacyDetail = DETERMINISTIC_DIRECT_RECOMMEND
+    ? '份数、常用食材和忌口只保存在本机；本次组合和步骤由受控规划规则确定，不调用 AI，也不记录你的每日饮食。'
+    : '份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。';
+  const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>' + esc(privacyDetail) + '</p></div>';
   return '<div class="screen profile-screen">' + head + rolloutNotice + body + cta + '</div>';
 }
 function generatingScreen() {
@@ -1082,7 +1093,8 @@ async function postPlannerV2(path, body) {
   const endpoints = apiCandidates(path);
   if (!endpoints.length) throw genError('local_start_required', '请双击 start.command 启动本地版本。', false);
   const ctrl = new AbortController();
-  const tid = setTimeout(() => ctrl.abort(), path === '/generate-plan' ? GENERATION_REQUEST_TIMEOUT_MS : 15000);
+  const generationTimeout = EFFECTIVE_GENERATION_MODE === 'deterministic' ? 15000 : GENERATION_REQUEST_TIMEOUT_MS;
+  const tid = setTimeout(() => ctrl.abort(), path === '/generate-plan' ? generationTimeout : 15000);
   let response;
   try {
     response = await fetch(endpoints[0], {
@@ -1118,11 +1130,21 @@ const PLAN_FORM_LABELS = Object.freeze({
   'braised-noodle-pot':'焖面锅',
   'soft-family-rice-pot':'软烩主食锅',
 });
+function candidateFormLabel(templateId, usedItems) {
+  if (templateId !== 'egg-tofu-vegetable-pot') return PLAN_FORM_LABELS[templateId];
+  const text = (Array.isArray(usedItems) ? usedItems : []).join('、');
+  const hasEgg = text.includes('鸡蛋');
+  const hasTofu = text.includes('豆腐');
+  if (hasEgg && hasTofu) return '蛋豆腐蔬菜锅';
+  if (hasEgg) return '鸡蛋蔬菜锅';
+  if (hasTofu) return '豆腐蔬菜锅';
+  return '软嫩蔬菜锅';
+}
 function candidateHeading(candidate) {
   const plan = candidate && candidate.plan || {};
   const used = planItems(plan.planned_prefer_use);
   const templateId = plan.pots && plan.pots[0] && plan.pots[0].template_id;
-  const form = PLAN_FORM_LABELS[templateId];
+  const form = candidateFormLabel(templateId, used);
   if (!used.length || !form) return '';
   const ingredients = used.slice(0, 3).join('、');
   const suffix = used.length > 3 ? '等' + used.length + '种食材' : '';
@@ -1198,7 +1220,9 @@ function plannerCandidatesScreen() {
   }).join('');
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">先选一套真正用得上的组合</div>'
-    + '<p class="fb-banner-text">这些组合由规划器先检查覆盖、时间和安全边界；此时还没有调用 AI 生成步骤。</p></div></div>'
+    + '<p class="fb-banner-text">' + esc(DETERMINISTIC_DIRECT_RECOMMEND
+      ? '这些组合由规划器检查覆盖、时间和安全边界；详细步骤也会由同一套受控规则确定。'
+      : '这些组合由规划器先检查覆盖、时间和安全边界；此时还没有调用 AI 生成步骤。') + '</p></div></div>'
     + '<div class="pantry-plan-list">' + cards + '</div>'
     + '<div class="dish-actions"><button class="btn btn-ghost" data-act="edit-safe-profile">返回修改食材</button></div></section></div>';
 }
@@ -1291,7 +1315,9 @@ function generatedPlanScreen() {
   }).join('');
   return '<div class="screen result-screen"><div class="col-main"><div class="gen-notice"><span>' + esc(title) + '</span></div>' + plannerCoverageHtml(result) + mealHtml
     + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-v2-cooking">开始做</button><button class="btn btn-ghost" data-act="request-plan-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改食材忌口</button></div></div>'
-    + '<div class="result-foot">份数、食材和忌口会发送给 AI 服务生成这套已确认计划的文字步骤。页面不会使用模型编写的营养数值。</div></div>';
+    + '<div class="result-foot">' + esc(DETERMINISTIC_DIRECT_RECOMMEND
+      ? '这套菜名、用量、顺序和安全步骤均由受控规则确定；全程无需连接模型服务，结果可重复核对。'
+      : '份数、食材和忌口会发送给 AI 服务生成这套已确认计划的文字步骤。页面不会使用模型编写的营养数值。') + '</div></div>';
 }
 function setDisplayedPlan(result, requestSnapshot, preview) {
   state.displayedPlan = cloneJson(result);
@@ -1336,7 +1362,7 @@ async function generateDisplayedPlan() {
   const planned = cloneJson(state.displayedPlan);
   const requestSnapshot = cloneJson(state.planRequestSnapshot);
   const operation = (async () => {
-    // 规划器已完成选模板、份量与时间检查。付费请求阶段生成步骤并由服务端执行安全校验。
+    // 规划器已完成选模板、份量与时间检查；表达模式由构建元数据决定，服务端始终重算并校验。
     state.view = 'generating'; state.genStage = 2; render();
     try {
       const generated = await generateConfirmedPlan(planned, requestSnapshot);
