@@ -41,7 +41,7 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
   acid_base_cookdown: ['将{items}放入锅中翻炒至变软并释放汁水', '同锅翻炒{items}，直至质地变软、汁水析出'],
   add_broth_and_noodles: ['将{items}放入同一口锅，煮至面条无硬芯', '同锅加入{items}并保持翻动，直至面条熟透'],
   add_fast_cooking_items: ['加入{items}，翻拌至均匀受热', '将{items}加入锅中，翻动至全部热透'],
-  add_liquid: ['将{items}倒入同一口锅，与锅内食材拌匀', '同锅加入{items}并搅匀，使液体分布均匀'],
+  add_liquid: ['将{items}倒入同一口锅并搅匀', '同锅加入{items}并搅匀，使液体分布均匀'],
   add_slow_cooking_items: ['先加入{items}翻拌，使较慢熟的食材开始受热', '将{items}先放入锅中翻动，为后续焖煮预留熟化时间'],
   add_mushroom: ['加入{items}，翻炒至变软并充分受热', '将{items}放入锅中翻炒，直至质地变软'],
   add_noodle: ['铺入{items}，保持同锅焖煮至无硬芯', '将{items}加入锅中并轻轻拨散，煮至熟透'],
@@ -171,10 +171,18 @@ function endpointEvidencePhrase(endpoint, refs) {
 
 function controlledStepTexts(phase, lockedIngredients) {
   let templates = ACTION_TEXT_TEMPLATES[phase.action_code];
+  const phaseIngredients = lockedIngredients
+    .filter(item => phase.allowed_ingredient_refs.includes(item.ingredient_ref));
+  if (phase.action_code === 'cook_aromatics'
+      && phaseIngredients.length > 0
+      && phaseIngredients.every(item => item.category === 'oil')) {
+    templates = [
+      '将{items}加入锅中，中小火加热至油面微微流动',
+      '同锅加入{items}，开中小火加热后再进行下一步',
+    ];
+  }
   if (phase.action_code === 'protein_pretreat') {
-    const categories = new Set(lockedIngredients
-      .filter(item => phase.allowed_ingredient_refs.includes(item.ingredient_ref))
-      .map(item => item.category));
+    const categories = new Set(phaseIngredients.map(item => item.category));
     if (categories.has('beef') || categories.has('pork') || categories.has('lamb')) {
       templates = [
         '将{items}切成适合入口的薄片，使厚薄尽量一致',

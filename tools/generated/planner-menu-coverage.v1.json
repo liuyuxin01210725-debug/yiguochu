@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "planner_version": "pantry-planner-v2",
-  "template_catalog_version": "templates-v2-20260728-r11",
+  "template_catalog_version": "templates-v2-20260728-r12",
   "taxonomy_version": "taxonomy-v1-20260728-r10",
   "ratio_catalog_version": "ratio-rules-v1-20260728-r6",
   "source_hashes": {
     "tools/data/ingredient-taxonomy.v1.json": "32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c",
-    "tools/data/meal-templates.v2.json": "fcc19c36e0645eabdd2e5d02edbbb8a95d55251fa55fcf9b22cba7f82355ef16",
+    "tools/data/meal-templates.v2.json": "a72e7a2d2b46cb9954ed906f35f001383ef5e2548e13c3be8ca4d213aaa3d654",
     "tools/data/menu-master-baseline.v1.json": "68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab",
     "tools/data/ratio-rules.v1.json": "47d13fc3f6d314f196fc4c20b4f979a211e6c0b8e1ec9a913e2fd61f2a5e7d8e",
     "tools/data/recipe-library.json": "510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340",

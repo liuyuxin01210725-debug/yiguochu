@@ -757,6 +757,11 @@ test('tofu vegetable plan keeps measured basics out of the food-prep instruction
   const pretreat = meal.cooking_order.find(row => row.action_code === 'protein_pretreat');
   const namesByRef = new Map(meal.locked_ingredients.map(row => [row.ingredient_ref, row.raw_name]));
   assert.ok(pretreat.allowed_ingredient_refs.every(ref => !basicNames.has(namesByRef.get(ref))));
+  const liquidPhaseIndex = meal.cooking_order.findIndex(row => row.action_code === 'add_liquid');
+  assert.ok(liquidPhaseIndex >= 0);
+  assert.ok(meal.generation_text_contract.steps[liquidPhaseIndex].allowed_texts.every(text => (
+    /加入.*锅|倒入.*锅|同锅加入/u.test(text) && !/锅内食材|锅内已有/u.test(text)
+  )));
   const checked = workerModule.validateGeneratedPlan(
     validModelOutput(locked), locked, ingredientTermUniverse(),
   );
@@ -941,7 +946,24 @@ test('raw shrimp plan requires explicit fully-cooked seafood evidence', async ()
     && phase.action_code !== 'protein_pretreat'
     && phase.action_code !== 'reach_safety_endpoints'
   ));
-  assert.ok(shrimpCookingIndex >= 0 && shrimpCookingIndex < stapleIndex);
+  assert.ok(
+    shrimpCookingIndex > stapleIndex,
+    `raw shrimp must be added after the raw rice has finished its long covered cook: ${locked.meals[0].cooking_order.map(row => row.action_code).join(',')}`,
+  );
+  assert.ok(
+    shrimpCookingIndex < locked.meals[0].cooking_order.findIndex(phase => (
+      phase.required_safety_endpoints.includes('seafood_fully_cooked')
+    )),
+  );
+
+  const oil = locked.meals[0].locked_ingredients.find(item => item.category === 'oil');
+  const oilPhaseIndex = locked.meals[0].cooking_order.findIndex(phase => (
+    phase.allowed_ingredient_refs.includes(oil.ingredient_ref)
+  ));
+  const oilStep = locked.meals[0].generation_text_contract.steps[oilPhaseIndex];
+  assert.ok(oilStep);
+  assert.ok(oilStep.allowed_texts.every(text => /加热|油面/u.test(text)));
+  assert.ok(oilStep.allowed_texts.every(text => !/翻炒.*香味|香味.*释放/u.test(text)));
 
   const valid = validModelOutput(locked);
   assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
@@ -953,6 +975,35 @@ test('raw shrimp plan requires explicit fully-cooked seafood evidence', async ()
   const checked = workerModule.validateGeneratedPlan(invalid, locked, ingredientTermUniverse());
   assert.equal(checked.ok, false);
   assert.equal(checked.reason_code, 'safety_evidence_invalid');
+
+  const aromaticJourney = await preparedJourney(plannerRequest({
+    must: ['大米', '虾仁', '洋葱'],
+  }));
+  const aromaticLocked = workerModule.buildLockedPlanContract(aromaticJourney.planned, templates);
+  const aromaticMeal = aromaticLocked.meals[0];
+  const aromaticIndex = aromaticMeal.cooking_order.findIndex(phase => (
+    phase.action_code === 'cook_aromatics'
+  ));
+  assert.ok(aromaticIndex >= 0);
+  assert.ok(aromaticMeal.generation_text_contract.steps[aromaticIndex]
+    .allowed_texts.every(text => /翻炒.*香味|香味.*释放/u.test(text)));
+
+  const acidJourney = await preparedJourney(plannerRequest({
+    must: ['番茄', '虾仁'],
+  }));
+  assert.equal(acidJourney.planned.plan.pots[0].template_id, 'acid-staple-pot');
+  const acidLocked = workerModule.buildLockedPlanContract(acidJourney.planned, templates);
+  const acidMeal = acidLocked.meals[0];
+  const acidShrimp = acidMeal.locked_ingredients.find(item => item.raw_name === '虾仁');
+  const acidStapleIndex = acidMeal.cooking_order.findIndex(phase => (
+    phase.action_code === 'add_staple_and_liquid'
+  ));
+  const acidShrimpIndex = acidMeal.cooking_order.findIndex(phase => (
+    phase.allowed_ingredient_refs.includes(acidShrimp.ingredient_ref)
+    && phase.action_code !== 'protein_pretreat'
+    && phase.action_code !== 'reach_safety_endpoints'
+  ));
+  assert.ok(acidShrimpIndex > acidStapleIndex);
 });
 
 test('controlled prose scan rejects finite basic and recipe-only ingredients outside the locked plan', async t => {

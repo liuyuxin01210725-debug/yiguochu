@@ -217,7 +217,11 @@ test('distribution build includes canonical recipe assets and refreshes its serv
     assert.match(builtIndex, /const BUILD_ID = 'canonical-test';/);
     assert.match(builtIndex, /const PLANNER_ROLLOUT = 'direct-recommend';/);
     assert.match(builtIndex, /serviceWorker\.register\('sw\.js\?v=canonical-test', \{ updateViaCache:'none' \}\)/);
-    assert.match(builtIndex, /serviceWorker\.addEventListener\('controllerchange'/);
+    assert.doesNotMatch(
+      builtIndex,
+      /serviceWorker\.addEventListener\('controllerchange'[\s\S]{0,240}location\.reload\(\)/,
+      'a service-worker update must not reload an active cooking journey',
+    );
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
       { buildId:'canonical-test', plannerRollout:'direct-recommend' },

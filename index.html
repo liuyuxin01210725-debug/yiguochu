@@ -844,7 +844,7 @@ const state = {
   sessionRejectedBaseRecipes:[], // 份量拦截只在当前页面会话避开，不写入 7 天历史
   lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
-  displayedPlan:null, planCandidates:[], planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
+  displayedPlan:null, planCandidates:[], planCandidateResult:null, planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
   rolloutNotice:'',
   noAlternativeSwap:false,
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
@@ -1126,9 +1126,22 @@ function uniquePlanItemTexts(items) {
 function plannerCandidatesScreen() {
   const candidates = Array.isArray(state.planCandidates) ? state.planCandidates : [];
   if (!candidates.length) {
+    const candidateResult = state.planCandidateResult || {};
+    const blockedByDislike = [
+      ...((candidateResult.plan && candidateResult.plan.unused_prefer_use) || []),
+      ...((candidateResult.plan && candidateResult.plan.unplanned_must_use) || []),
+      ...(candidateResult.unplanned || []),
+    ].filter(item => item && item.reason_code === 'allergen_conflict');
+    const blockedNames = uniquePlanItemTexts(blockedByDislike);
+    const protectedTitle = blockedNames.length
+      ? '已按忌口拦下不合适的组合'
+      : '当前还没有足够可靠的一锅组合';
+    const protectedText = blockedNames.length
+      ? blockedNames.join('、') + '与你设置的忌口冲突，因此没有放进方案。调整食材或忌口后再试。'
+      : '这次不拿低覆盖方案凑数。改一两样食材后再试，会更容易得到真正能做的一锅。';
     return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
-      + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前还没有足够可靠的一锅组合</div>'
-      + '<p class="fb-banner-text">这次不拿低覆盖方案凑数。改一两样食材后再试，会更容易得到真正能做的一锅。</p></div></div>'
+      + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(protectedTitle) + '</div>'
+      + '<p class="fb-banner-text">' + esc(protectedText) + '</p></div></div>'
       + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">修改食材</button></div></section></div>';
   }
   const cards = candidates.map(candidate => {
@@ -1258,6 +1271,7 @@ function generatedPlanScreen() {
 }
 function setDisplayedPlan(result, requestSnapshot, preview) {
   state.displayedPlan = cloneJson(result);
+  state.planCandidateResult = null;
   state.planRequestSnapshot = cloneJson(requestSnapshot);
   state.generatedPlan = null;
   state.noAlternativeResult = null;
@@ -1324,6 +1338,7 @@ function isLegacyRecipeFallback(result) {
 async function generateLegacyRecipeFallback() {
   state.displayedPlan = null;
   state.planCandidates = [];
+  state.planCandidateResult = null;
   state.planRequestSnapshot = null;
   state.generatedPlan = null;
   state.noAlternativeResult = null;
@@ -1349,6 +1364,7 @@ async function runPlannerFlow(options) {
       state.generatedPlan = null;
       state.noAlternativeResult = null;
       state.planRequestSnapshot = requestSnapshot;
+      state.planCandidateResult = cloneJson(planned);
       state.planCandidates = Array.isArray(planned.candidate_plans)
         ? cloneJson(planned.candidate_plans)
         : [];
@@ -2170,14 +2186,8 @@ scoreDish = function(d) {
   return scoreDishBeforeQuickLimit(scored);
 };
 </script>
-<script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过) */
+<script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过)。更新在下次自然导航生效，不强制刷新正在做饭的页面。 */
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  let swRefreshing = false;
-  navigator.serviceWorker.addEventListener('controllerchange', function() {
-    if (swRefreshing) return;
-    swRefreshing = true;
-    location.reload();
-  });
   navigator.serviceWorker.register('sw.js?v=__YIGUOCHU_BUILD_ID__', { updateViaCache:'none' })
     .then(function(registration) { return registration.update(); })
     .catch(function(){});

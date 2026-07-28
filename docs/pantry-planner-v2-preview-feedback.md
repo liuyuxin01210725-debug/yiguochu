@@ -23,7 +23,7 @@
 ## Draft 目标基线（待 Preview 验证）
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260728-r11`（11 个 active、5 个 planned）
+- Template catalog：`templates-v2-20260728-r12`（11 个 active、5 个 planned）
 - Ingredient taxonomy：`taxonomy-v1-20260728-r10`
 - Ratio DSL：`ratio-rules-v1-20260728-r6`
 - Evidence recipes：72 道（数量与批准状态均未改变）

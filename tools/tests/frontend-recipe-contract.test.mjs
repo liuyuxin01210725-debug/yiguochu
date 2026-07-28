@@ -163,7 +163,16 @@ function plannerBundle(candidates) {
 
 function loadFrontend(responses = [], options = {}) {
   const listeners = new Map();
-  const root = { innerHTML: '', addEventListener(type, handler) { listeners.set(type, handler); } };
+  const listenerGroups = new Map();
+  const root = {
+    innerHTML: '',
+    addEventListener(type, handler) {
+      listeners.set(type, handler);
+      const group = listenerGroups.get(type) || [];
+      group.push(handler);
+      listenerGroups.set(type, group);
+    },
+  };
   const calls = [];
   let responseIndex = 0;
   const location = {
@@ -227,7 +236,7 @@ function loadFrontend(responses = [], options = {}) {
       .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout);
     vm.runInContext(builtScript, context, { filename: `index-inline-${index + 1}.js` });
   }
-  return { context, calls, root, listeners };
+  return { context, calls, root, listeners, listenerGroups };
 }
 
 function evaluate(context, source) {
@@ -604,6 +613,29 @@ test('empty planner candidate bundle shows an honest edit path without blank car
   assert.doesNotMatch(root.innerHTML, /data-act="choose-plan"/);
 });
 
+test('empty candidates caused by a dislike explain the protection instead of looking like a generic failure', async () => {
+  const blocked = plannerBundle([]);
+  blocked.normalized_items = [
+    { raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' },
+    { raw:'鸡蛋', canonical:'鸡蛋', recognized:true, role:'prefer_use' },
+  ];
+  blocked.plan.unused_prefer_use = [{
+    raw:'鸡蛋', canonical:'鸡蛋', recognized:true, role:'prefer_use',
+    reason_code:'allergen_conflict', reason:'与你设置的忌口冲突。',
+  }];
+  const { context, root } = loadFrontend([
+    { body:blocked },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'鸡蛋' };
+    await runPrimaryFlow();
+  })()`);
+  assert.equal(evaluate(context, 'state.view'), 'v2-candidates');
+  assert.match(root.innerHTML, /已按忌口拦下/);
+  assert.match(root.innerHTML, /鸡蛋/);
+  assert.doesNotMatch(root.innerHTML, /生成失败/);
+});
+
 test('direct-recommend rollout neutralizes a saved pantry promise and never sends must_use', async () => {
   const storage = sharedStorage();
   storage.setItem('yiguochu_v1', JSON.stringify({
@@ -850,6 +882,27 @@ test('no-alternative restores the already-generated current result without anoth
   evaluate(context, 'continueCurrentPlan()');
   assert.equal(calls.length, before);
   assert.equal(evaluate(context, 'state.view'), 'v2-result');
+  assert.match(root.innerHTML, /番茄焖饭/);
+});
+
+test('delegated continue-current-plan click restores the generated result without navigating or fetching', async () => {
+  const current = plannerResult();
+  const generated = generatedResult(current);
+  const noAlternative = plannerResult({
+    status:'no_alternative_plan', code:'no_alternative_plan', generation_allowed:false,
+    actions:[{ action:'edit_ingredients', label:'返回修改食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] }],
+  });
+  const { context, calls, root, listenerGroups } = loadFrontend([{ body:noAlternative }]);
+  evaluate(context, `showGeneratedPlan(${JSON.stringify(generated)}, ${JSON.stringify(current)}, buildPlanRequest())`);
+  await evaluate(context, 'requestAlternativePlan()');
+  const before = calls.length;
+  const target = { dataset:{ act:'continue-current-plan' } };
+  const event = { target:{ closest() { return target; } } };
+  for (const handler of listenerGroups.get('click') || []) handler(event);
+  assert.equal(calls.length, before);
+  assert.equal(evaluate(context, 'state.view'), 'v2-result');
+  assert.equal(evaluate(context, 'state.displayedPlan.plan.plan_id'), current.plan.plan_id);
+  assert.equal(evaluate(context, 'state.generatedPlan.meals.length'), 1);
   assert.match(root.innerHTML, /番茄焖饭/);
 });
 
