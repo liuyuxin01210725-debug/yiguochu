@@ -87,6 +87,21 @@ test('four-item pantry never presents a one-item pot and computes coverage again
   assert.equal(result.plan.pots[0].planned_must_use.length, 4);
 });
 
+test('direct recommendation keeps onion with chicken and root vegetables when one pot can use all four', async () => {
+  const result = await planMealCandidateBundle(assets, request({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['鸡腿', '土豆', '胡萝卜', '洋葱'],
+  }));
+  assert.equal(result.status, 'ready');
+  assert.ok(result.candidate_plans.length > 0);
+  assert.deepEqual(
+    new Set(result.candidate_plans[0].plan.planned_prefer_use.map(item => item.raw)),
+    new Set(['鸡腿', '土豆', '胡萝卜', '洋葱']),
+  );
+  assert.equal(result.candidate_plans[0].plan.coverage_ratio, 1);
+});
+
 test('the same pantry enters a composable template without selecting a fixed recipe', () => {
   const candidates = buildPotCandidates(assets, request({ must: ['番茄', '金针菇', '鸡蛋', '西兰花'] }));
   const highCoverage = candidates.find(candidate => candidate.coverage_ratio === 1);

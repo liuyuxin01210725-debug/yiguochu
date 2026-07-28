@@ -7,9 +7,9 @@
 本报告把现有 72 道 recipe 的原始核心食材，原样送入当前 Planner V2 的确定性纯函数。它只回答当前 taxonomy、template 与 Ratio DSL 能否识别和规划这些食材；不会用菜名猜食材，也不会把模板兼容写成地方菜复刻。
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260728-r13`
+- Template catalog：`templates-v2-20260728-r14`
 - Taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio catalog：`ratio-rules-v1-20260728-r6`
+- Ratio catalog：`ratio-rules-v1-20260728-r7`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -242,8 +242,8 @@
 ## 输入指纹
 
 - `tools/data/ingredient-taxonomy.v1.json`：`32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c`
-- `tools/data/meal-templates.v2.json`：`8f72efe60b4650b9ade2b7661ad0179731e4871f6d785ac60a6035c4776a8966`
+- `tools/data/meal-templates.v2.json`：`04459b806aa51b36852a2204670f567b6d35a1f3abfa7cb0dff20de3b8535125`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`47d13fc3f6d314f196fc4c20b4f979a211e6c0b8e1ec9a913e2fd61f2a5e7d8e`
+- `tools/data/ratio-rules.v1.json`：`7f5c7c4d0bf9effae51fcfa38f7d231767e23ce9a27702e36b59d3f07b88ea30`
 - `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`

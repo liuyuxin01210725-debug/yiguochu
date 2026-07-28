@@ -771,6 +771,36 @@ test('normal chicken and potato cooks the root vegetable through instead of addi
   assert.match(prose, /土豆.*熟软/);
 });
 
+test('normal poultry staple cooks user onion before chicken and keeps both root vegetables', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['鸡腿', '土豆', '胡萝卜', '洋葱'],
+  }));
+  assert.equal(journey.planned.status, 'ready');
+  assert.equal(journey.planned.plan.pots[0].template_id, 'poultry-staple-pot');
+  assert.deepEqual(
+    new Set(journey.planned.plan.planned_prefer_use.map(item => item.raw)),
+    new Set(['鸡腿', '土豆', '胡萝卜', '洋葱']),
+  );
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  const actions = meal.cooking_order.map(row => row.action_code);
+  const aromaticIndex = actions.findIndex(code => code === 'cook_aromatics');
+  const poultryIndex = actions.findIndex(code => code === 'cook_poultry_through');
+  assert.ok(aromaticIndex >= 0 && aromaticIndex < poultryIndex, actions.join(','));
+  const onion = meal.locked_ingredients.find(item => item.raw_name === '洋葱');
+  assert.equal(onion?.planned_grams, 80);
+
+  const checked = workerModule.validateGeneratedPlan(
+    validModelOutput(locked), locked, ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  assert.match(checked.meals[0].steps[aromaticIndex].text, /洋葱/);
+});
+
 test('normal poultry staple softens mushroom before adding quick leafy vegetables', async () => {
   const request = plannerRequest({
     mode: 'recommend',
