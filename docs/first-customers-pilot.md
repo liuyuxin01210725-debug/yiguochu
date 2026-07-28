@@ -2,7 +2,7 @@
 
 目标不是“发很多人”，而是验证：真实做饭的人会不会在第二天自己回来再用。
 
-Pilot 入口：等待 `recipe-validation` Preview 发布并通过构建号、性能与 30 条真人浏览器门后填写。**不得发送 production 链接，也不得在发布门完成前邀请测试者承担 QA。**
+Pilot 入口：等待 `recipe-validation` Preview 发布并通过构建号、性能与真人浏览器门后填写。**不得发送 production 链接，也不得在发布门完成前邀请测试者承担 QA。** DeepSeek key 轮换由密钥持有人安排在 production 上线前完成；该安全门不得遗忘，但不阻塞内部 Preview 验证。
 
 ## 本周唯一目标
 

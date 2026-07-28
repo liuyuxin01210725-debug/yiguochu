@@ -206,7 +206,7 @@ test('endpoint ignores model-authored safety codes and restores the planner-owne
   assert.equal(result.kv.puts, 1);
   assert.deepEqual(
     result.body.meals[0].steps.map(step => step.completed_safety_endpoints),
-    [[], [], [], ['beef_fully_cooked']],
+    [[], [], [], [], ['beef_fully_cooked']],
   );
 });
 
@@ -695,6 +695,15 @@ test('braised noodle plan survives the full generation contract with noodle, bea
   assert.deepEqual(new Set(locked.meals[0].safety_endpoints), new Set([
     'noodle_tender', 'bean_fully_cooked', 'pork_fully_cooked',
   ]));
+  const actions = locked.meals[0].cooking_order.map(row => row.action_code);
+  assert.ok(actions.indexOf('add_liquid') < actions.indexOf('simmer_until_tender'));
+  assert.ok(actions.indexOf('simmer_until_tender') < actions.indexOf('add_noodle'));
+  assert.deepEqual(
+    new Set(locked.meals[0].locked_ingredients
+      .filter(item => item.source === 'basic_extra')
+      .map(item => item.raw_name)),
+    new Set(['水', '食用油', '盐']),
+  );
 
   const result = await postGenerate(journey);
   assert.equal(result.response.status, 200);
@@ -702,6 +711,60 @@ test('braised noodle plan survives the full generation contract with noodle, bea
   assert.match(prose, /无硬芯|熟透/);
   assert.match(prose, /煮熟软化/);
   assert.match(prose, /完全熟透/);
+  assert.doesNotMatch(prose, /将(?:水|食用油|盐).{0,8}整理成/u);
+});
+
+test('quick chicken and potato never put cooked staple ahead of raw poultry and root vegetable', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    mode: 'recommend',
+    intent: 'quick',
+    prefer: ['鸡腿肉', '土豆'],
+  }));
+  assert.equal(journey.planned.status, 'ready');
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  const actions = meal.cooking_order.map(row => row.action_code);
+  const stapleIndex = actions.findIndex(code => (
+    code === 'stir_cooked_rice' || code === 'add_noodle' || code === 'add_broth_and_noodles'
+  ));
+  const poultryIndex = actions.findIndex(code => code === 'cook_poultry_through');
+  const rootIndex = actions.findIndex(code => code === 'add_slow_cooking_items');
+  assert.ok(poultryIndex >= 0 && poultryIndex < stapleIndex, actions.join(','));
+  assert.ok(rootIndex >= 0 && rootIndex < stapleIndex, actions.join(','));
+  const checked = workerModule.validateGeneratedPlan(
+    validModelOutput(locked), locked, ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /鸡腿肉.*完全熟透，内部无粉红/);
+  assert.match(prose, /土豆.*熟软/);
+});
+
+test('tofu vegetable plan keeps measured basics out of the food-prep instruction', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    mode: 'recommend',
+    prefer: ['豆腐', '青菜', '金针菇'],
+  }));
+  assert.equal(journey.planned.status, 'ready');
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  const basicNames = new Set(meal.locked_ingredients
+    .filter(item => item.source === 'basic_extra')
+    .map(item => item.raw_name));
+  assert.deepEqual(basicNames, new Set(['水', '食用油', '盐']));
+  const pretreat = meal.cooking_order.find(row => row.action_code === 'protein_pretreat');
+  const namesByRef = new Map(meal.locked_ingredients.map(row => [row.ingredient_ref, row.raw_name]));
+  assert.ok(pretreat.allowed_ingredient_refs.every(ref => !basicNames.has(namesByRef.get(ref))));
+  const checked = workerModule.validateGeneratedPlan(
+    validModelOutput(locked), locked, ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  assert.doesNotMatch(
+    checked.meals[0].steps.map(step => step.text).join('\n'),
+    /(?:整理|切成).{0,12}(?:水|食用油|盐)/u,
+  );
 });
 
 test('soft millet plan locks soaking, measured extras, late cooked beans and cultural boundaries', async () => {
@@ -762,13 +825,13 @@ test('fresh noodle locked plan preserves identity and exact reserved liquid', as
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
   const meal = locked.meals[0];
-  assert.equal(meal.liquid_constraints.reserve_liquid_grams, 35);
+  assert.equal(meal.liquid_constraints.reserve_liquid_grams, 34);
   const reserveIndex = meal.cooking_order.findIndex(row => row.action_code === 'add_reserved_liquid_if_needed');
   assert.ok(reserveIndex >= 0);
   const reserve = meal.cooking_order[reserveIndex];
-  assert.equal(reserve.locked_liquid_grams, 35);
+  assert.equal(reserve.locked_liquid_grams, 34);
   assert.ok(meal.generation_text_contract.steps[reserveIndex]
-    .allowed_texts.every(text => /35克/.test(text)));
+    .allowed_texts.every(text => /34克/.test(text)));
 
   const valid = validModelOutput(locked);
   assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
@@ -869,6 +932,16 @@ test('raw shrimp plan requires explicit fully-cooked seafood evidence', async ()
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
   assert.ok(locked.meals[0].safety_endpoints.includes('seafood_fully_cooked'));
+  const shrimp = locked.meals[0].locked_ingredients.find(item => item.raw_name === '虾仁');
+  const stapleIndex = locked.meals[0].cooking_order.findIndex(phase => (
+    phase.action_code === 'add_staple_and_liquid' || phase.action_code === 'add_noodle'
+  ));
+  const shrimpCookingIndex = locked.meals[0].cooking_order.findIndex(phase => (
+    phase.allowed_ingredient_refs.includes(shrimp.ingredient_ref)
+    && phase.action_code !== 'protein_pretreat'
+    && phase.action_code !== 'reach_safety_endpoints'
+  ));
+  assert.ok(shrimpCookingIndex >= 0 && shrimpCookingIndex < stapleIndex);
 
   const valid = validModelOutput(locked);
   assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
@@ -984,7 +1057,9 @@ test('safety endpoint tags require the risk ingredient ref and achieved doneness
   for (const [name, mutate, reason] of cases) {
     await t.test(name, () => {
       const output = validModelOutput(locked);
-      const safetyStep = output.meals[0].steps.find(step => step.completed_safety_endpoints.length);
+      const safetyStep = output.meals[0].steps.find(step => (
+        step.completed_safety_endpoints.includes('poultry_fully_cooked_no_pink')
+      ));
       mutate(safetyStep);
       const checked = workerModule.validateGeneratedPlan(output, locked, termUniverse);
       assert.equal(checked.ok, false);

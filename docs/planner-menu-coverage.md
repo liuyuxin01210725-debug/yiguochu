@@ -7,9 +7,9 @@
 本报告把现有 72 道 recipe 的原始核心食材，原样送入当前 Planner V2 的确定性纯函数。它只回答当前 taxonomy、template 与 Ratio DSL 能否识别和规划这些食材；不会用菜名猜食材，也不会把模板兼容写成地方菜复刻。
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260728-r10`
+- Template catalog：`templates-v2-20260728-r11`
 - Taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio catalog：`ratio-rules-v1-20260727-r5`
+- Ratio catalog：`ratio-rules-v1-20260728-r6`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -118,16 +118,16 @@
 
 | Template | 被最终计划选中的菜单数 | 直接 evidence 对齐数 |
 | --- | ---: | ---: |
-| `acid-staple-pot` | 10 | 3 |
+| `acid-staple-pot` | 9 | 3 |
 | `savory-mixed-rice-pot` | 31 | 5 |
-| `cooked-rice-stir-pot` | 4 | 0 |
-| `broth-noodle-pot` | 2 | 0 |
-| `egg-tofu-vegetable-pot` | 0 | 0 |
+| `cooked-rice-stir-pot` | 8 | 0 |
+| `broth-noodle-pot` | 1 | 0 |
+| `egg-tofu-vegetable-pot` | 1 | 1 |
 | `mushroom-vegetable-stew-pot` | 0 | 0 |
 | `beef-staple-pot` | 2 | 1 |
-| `poultry-staple-pot` | 1 | 0 |
-| `broth-rice-pot` | 7 | 1 |
-| `braised-noodle-pot` | 5 | 2 |
+| `poultry-staple-pot` | 0 | 0 |
+| `broth-rice-pot` | 6 | 1 |
+| `braised-noodle-pot` | 4 | 2 |
 | `soft-family-rice-pot` | 2 | 1 |
 
 ## 技法家族覆盖
@@ -169,11 +169,11 @@
 | 中式基础粥 | 大米、水 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 简化一锅鸡肉香料饭 | 大米、鸡肉、洋葱 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
 | 西非番茄香料饭 | 大米、番茄、甜椒、洋葱 | 75% | 100% | 75% | multi_pot / needs_user_decision | acid-staple-pot、cooked-rice-stir-pot | 直接对齐 | P1 |
-| 克里奥尔番茄鸡肉什锦饭 | 大米、番茄、鸡肉、芹菜 | 75% | 100% | 75% | multi_pot / needs_user_decision | acid-staple-pot、broth-noodle-pot | 仅食材兼容或未规划 | P1 |
+| 克里奥尔番茄鸡肉什锦饭 | 大米、番茄、鸡肉、芹菜 | 75% | 100% | 75% | multi_pot / needs_user_decision | acid-staple-pot、cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |
 | 大豆扁豆西兰花炖锅 | 红扁豆、大豆蛋白块、西兰花、红洋葱 | 25% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 鸡肉黑眼豆番茄饭锅 | 黑眼豆（罐头沥干）、大米、鸡肉、番茄、洋葱 | 80% | 100% | 80% | multi_pot / needs_user_decision | acid-staple-pot、cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |
 | 扁豆土豆番茄咖喱 | 红扁豆、土豆、番茄 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | acid-staple-pot | 仅食材兼容或未规划 | P1 |
-| 番茄甜椒炖蛋 | 鸡蛋、番茄、甜椒 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | acid-staple-pot | 仅食材兼容或未规划 | P1 |
+| 番茄甜椒炖蛋 | 鸡蛋、番茄、甜椒 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | egg-tofu-vegetable-pot | 直接对齐 | P1 |
 | 德州风味牛肉辣炖锅 | 牛肉（粗绞）、干辣椒 | 0% | 不适用 | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P0 |
 | 印尼椰香鸡肉咖喱 | 鸡肉、椰奶、红葱头 | 33.3% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 基础意式烩饭 | 意式烩饭米、洋葱、高汤、黄油 | 25% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
@@ -224,14 +224,14 @@
 | 青菜豆腐汤面 | 面条、老豆腐、青菜 | 100% | 100% | 100% | single_pot / complete | braised-noodle-pot | 仅食材兼容或未规划 | P3 |
 | 香菇青菜豆腐饭锅 | 大米、鲜香菇、老豆腐、青菜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 鸡腿土豆焖饭 | 大米、鸡腿肉、土豆 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
-| 鸡腿香菇土豆烩饭 | 熟米饭、鸡腿肉、鲜香菇 | 100% | 100% | 100% | single_pot / complete | poultry-staple-pot | 仅食材兼容或未规划 | P3 |
+| 鸡腿香菇土豆烩饭 | 熟米饭、鸡腿肉、鲜香菇 | 100% | 100% | 100% | single_pot / complete | cooked-rice-stir-pot | 仅食材兼容或未规划 | P3 |
 | 番茄鸡腿土豆汤饭 | 熟米饭、鸡腿肉、番茄 | 100% | 100% | 100% | multi_pot / complete | acid-staple-pot、broth-noodle-pot | 仅食材兼容或未规划 | P2 |
 | 玉米土豆鸡腿饭锅 | 大米、鸡腿肉、玉米、胡萝卜 | 100% | 100% | 100% | multi_pot / complete | savory-mixed-rice-pot、savory-mixed-rice-pot | 仅食材兼容或未规划 | P2 |
 | 白菜土豆鸡腿焖面 | 面条、鸡腿肉、白菜、土豆 | 100% | 100% | 100% | single_pot / complete | braised-noodle-pot | 直接对齐 | covered |
-| 青菜香肠炒饭 | 熟米饭、青菜、香肠 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | broth-rice-pot | 仅食材兼容或未规划 | P1 |
+| 青菜香肠炒饭 | 熟米饭、青菜、香肠 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |
 | 青菜肉末焖饭 | 大米、青菜、猪肉末 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 青菜鸡蛋汤饭 | 熟米饭、白菜、鸡蛋 | 100% | 100% | 100% | single_pot / complete | broth-rice-pot | 直接对齐 | covered |
-| 青菜豆腐粉丝煲 | 粉丝、青菜、老豆腐 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | braised-noodle-pot | 仅食材兼容或未规划 | P1 |
+| 青菜豆腐粉丝煲 | 粉丝、青菜、老豆腐 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |
 | 青菜鸡腿汤面 | 面条、青菜、鸡腿肉 | 100% | 100% | 100% | single_pot / complete | braised-noodle-pot | 仅食材兼容或未规划 | P3 |
 | 豆角排骨焖饭 | 大米、猪肋排、豆角 | 100% | 66.7% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
 | 土豆排骨烩饭 | 熟米饭、猪肋排、土豆 | 100% | 66.7% | 66.7% | single_pot / needs_user_decision | broth-rice-pot | 仅食材兼容或未规划 | P1 |
@@ -242,8 +242,8 @@
 ## 输入指纹
 
 - `tools/data/ingredient-taxonomy.v1.json`：`32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c`
-- `tools/data/meal-templates.v2.json`：`83c82b924b32722250095e60318d072793ed1056a04b358efbddd3067ec99710`
+- `tools/data/meal-templates.v2.json`：`fcc19c36e0645eabdd2e5d02edbbb8a95d55251fa55fcf9b22cba7f82355ef16`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`ffa8558bc6a2d9f274baf0c523195ee925ff42e46599a17c2c267f99e03eb767`
+- `tools/data/ratio-rules.v1.json`：`47d13fc3f6d314f196fc4c20b4f979a211e6c0b8e1ec9a913e2fd61f2a5e7d8e`
 - `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`

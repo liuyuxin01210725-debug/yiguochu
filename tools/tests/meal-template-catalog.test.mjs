@@ -44,7 +44,7 @@ const REQUIRED_TEMPLATE_FIELDS = [
 
 test('catalog has the approved 11 active and 5 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260728-r10');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260728-r11');
   assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260728-r10');
   assert.equal(catalog.templates.length, 16);
 
@@ -384,11 +384,13 @@ test('validator requires reachable user-item bounds, non-empty non-overlapping s
 test('cooking phases accept only an exact declared slot and category condition', () => {
   const valid = structuredClone(catalog);
   const template = valid.templates.find(row => row.template_id === 'broth-noodle-pot');
-  template.cooking_order[1].when = { slot_id: 'protein', category: 'egg' };
+  const proteinPhase = template.cooking_order.find(phase => phase.slot_ids.includes('protein'));
+  proteinPhase.when = { slot_id: 'protein', category: 'egg' };
   assert.deepEqual(validateMealTemplateCatalog(valid, taxonomy, recipeLibrary), []);
 
   const invalid = structuredClone(valid);
-  const invalidPhase = invalid.templates.find(row => row.template_id === 'broth-noodle-pot').cooking_order[1];
+  const invalidPhase = invalid.templates.find(row => row.template_id === 'broth-noodle-pot')
+    .cooking_order.find(phase => phase.slot_ids.includes('protein'));
   invalidPhase.when = { slot_id: 'staple', category: 'egg', expression: 'true' };
   const errors = validateMealTemplateCatalog(invalid, taxonomy, recipeLibrary);
   assert.ok(errors.some(error => error.includes('cooking_order')), errors.join('\n'));

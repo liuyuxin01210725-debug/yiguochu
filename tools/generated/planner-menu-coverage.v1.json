@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "planner_version": "pantry-planner-v2",
-  "template_catalog_version": "templates-v2-20260728-r10",
+  "template_catalog_version": "templates-v2-20260728-r11",
   "taxonomy_version": "taxonomy-v1-20260728-r10",
-  "ratio_catalog_version": "ratio-rules-v1-20260727-r5",
+  "ratio_catalog_version": "ratio-rules-v1-20260728-r6",
   "source_hashes": {
     "tools/data/ingredient-taxonomy.v1.json": "32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c",
-    "tools/data/meal-templates.v2.json": "83c82b924b32722250095e60318d072793ed1056a04b358efbddd3067ec99710",
+    "tools/data/meal-templates.v2.json": "fcc19c36e0645eabdd2e5d02edbbb8a95d55251fa55fcf9b22cba7f82355ef16",
     "tools/data/menu-master-baseline.v1.json": "68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab",
-    "tools/data/ratio-rules.v1.json": "ffa8558bc6a2d9f274baf0c523195ee925ff42e46599a17c2c267f99e03eb767",
+    "tools/data/ratio-rules.v1.json": "47d13fc3f6d314f196fc4c20b4f979a211e6c0b8e1ec9a913e2fd61f2a5e7d8e",
     "tools/data/recipe-library.json": "510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340",
     "tools/data/regional-menu-mappings.v1.json": "edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078"
   },
@@ -194,7 +194,7 @@
   "by_template": [
     {
       "template_id": "acid-staple-pot",
-      "selected_recipe_count": 10,
+      "selected_recipe_count": 9,
       "direct_evidence_recipe_count": 3
     },
     {
@@ -204,18 +204,18 @@
     },
     {
       "template_id": "cooked-rice-stir-pot",
-      "selected_recipe_count": 4,
+      "selected_recipe_count": 8,
       "direct_evidence_recipe_count": 0
     },
     {
       "template_id": "broth-noodle-pot",
-      "selected_recipe_count": 2,
+      "selected_recipe_count": 1,
       "direct_evidence_recipe_count": 0
     },
     {
       "template_id": "egg-tofu-vegetable-pot",
-      "selected_recipe_count": 0,
-      "direct_evidence_recipe_count": 0
+      "selected_recipe_count": 1,
+      "direct_evidence_recipe_count": 1
     },
     {
       "template_id": "mushroom-vegetable-stew-pot",
@@ -229,17 +229,17 @@
     },
     {
       "template_id": "poultry-staple-pot",
-      "selected_recipe_count": 1,
+      "selected_recipe_count": 0,
       "direct_evidence_recipe_count": 0
     },
     {
       "template_id": "broth-rice-pot",
-      "selected_recipe_count": 7,
+      "selected_recipe_count": 6,
       "direct_evidence_recipe_count": 1
     },
     {
       "template_id": "braised-noodle-pot",
-      "selected_recipe_count": 5,
+      "selected_recipe_count": 4,
       "direct_evidence_recipe_count": 2
     },
     {
@@ -1668,21 +1668,39 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -1711,6 +1729,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -1943,21 +1973,39 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -1986,6 +2034,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -2339,21 +2399,39 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -2382,6 +2460,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -2397,6 +2487,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "grams": 800
               },
@@ -2410,6 +2504,11 @@
                 "name": "面条",
                 "category": "noodle",
                 "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
               },
               {
                 "name": "水",
@@ -2447,6 +2546,12 @@
                 "liquid_credit_grams": 0
               },
               {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
                 "operator": "scale_by_servings",
                 "name": "盐",
                 "applied": true,
@@ -2475,7 +2580,7 @@
         ],
         "selected_template_ids": [
           "acid-staple-pot",
-          "broth-noodle-pot"
+          "cooked-rice-stir-pot"
         ],
         "planned_items": [
           {
@@ -2621,21 +2726,39 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -2664,57 +2787,65 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
           {
-            "template_id": "broth-noodle-pot",
+            "template_id": "cooked-rice-stir-pot",
             "ingredient_amounts": [
               {
                 "name": "鸡肉",
                 "grams": 200
               },
               {
-                "name": "面条",
-                "grams": 200
+                "name": "食用油",
+                "grams": 8
               },
               {
-                "name": "水",
-                "grams": 800
+                "name": "熟米饭",
+                "grams": 360
               },
               {
                 "name": "盐",
-                "grams": 3
+                "grams": 4
               }
             ],
             "required_extra_items": [
               {
-                "name": "面条",
-                "category": "noodle",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 8
               },
               {
-                "name": "水",
-                "category": "liquid",
-                "grams": 800
+                "name": "熟米饭",
+                "category": "cooked_rice",
+                "grams": 360
               },
               {
                 "name": "盐",
                 "category": "seasoning",
-                "grams": 3
+                "grams": 4
               }
             ],
-            "liquid_constraints": {
-              "retained_liquid_grams": 800,
-              "liquid_credit_grams": 0,
-              "rounding_grams": 1
-            },
+            "liquid_constraints": {},
             "ratio_trace": [
               {
                 "operator": "per_serving",
                 "slot_id": "staple",
-                "grams_per_serving": 100,
-                "rule_id": "broth-noodle-liquid-v1"
+                "grams_per_serving": 180,
+                "rule_id": "cooked-rice-stir-portion-v1"
               },
               {
                 "operator": "per_serving",
@@ -2722,17 +2853,16 @@
                 "grams_per_serving": 100
               },
               {
-                "operator": "ratio",
-                "numerator": "retained_liquid_grams",
-                "denominator_slot_id": "staple",
-                "multiplier": 4,
-                "liquid_credit_grams": 0
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 8
               },
               {
                 "operator": "scale_by_servings",
                 "name": "盐",
                 "applied": true,
-                "grams": 3
+                "grams": 4
               }
             ]
           }
@@ -2744,7 +2874,7 @@
         "evidence_template_ids": [],
         "ingredient_compatible_only_template_ids": [
           "acid-staple-pot",
-          "broth-noodle-pot"
+          "cooked-rice-stir-pot"
         ]
       },
       "gap_codes": [
@@ -2927,6 +3057,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "grams": 800
               },
@@ -2944,6 +3078,11 @@
                 "name": "面条",
                 "category": "noodle",
                 "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
               },
               {
                 "name": "水",
@@ -2979,6 +3118,12 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 4,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
               },
               {
                 "operator": "scale_by_servings",
@@ -3465,21 +3610,39 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -3508,6 +3671,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -3783,21 +3958,39 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -3826,6 +4019,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -4030,7 +4235,6 @@
         "candidate_template_ids": [
           "acid-staple-pot",
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -4119,12 +4323,20 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
               },
               {
                 "name": "土豆",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
@@ -4134,15 +4346,25 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -4176,6 +4398,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -4194,7 +4428,6 @@
         "candidate_template_ids": [
           "acid-staple-pot",
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -4311,12 +4544,20 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
               },
               {
                 "name": "土豆",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
@@ -4326,15 +4567,25 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -4368,6 +4619,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -4504,7 +4767,7 @@
           "egg-tofu-vegetable-pot"
         ],
         "selected_template_ids": [
-          "acid-staple-pot"
+          "egg-tofu-vegetable-pot"
         ],
         "planned_items": [
           {
@@ -4579,74 +4842,80 @@
         "reason_codes": [],
         "ratio_plans": [
           {
-            "template_id": "acid-staple-pot",
+            "template_id": "egg-tofu-vegetable-pot",
             "ingredient_amounts": [
               {
-                "name": "大米",
-                "grams": 200
-              },
-              {
                 "name": "番茄",
-                "grams": 300
+                "grams": 200
               },
               {
                 "name": "鸡蛋",
-                "grams": 200
+                "grams": 100
+              },
+              {
+                "name": "食用油",
+                "grams": 6
               },
               {
                 "name": "水",
-                "grams": 160
+                "grams": 300
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
-                "name": "大米",
-                "category": "raw_rice",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
               },
               {
                 "name": "水",
                 "category": "liquid",
-                "grams": 160
+                "grams": 300
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 160,
-              "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "retained_liquid_grams": 300,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
                 "operator": "per_serving",
-                "slot_id": "staple",
-                "grams_per_serving": 100,
-                "rule_id": "acid-staple-raw-rice-liquid-v1"
-              },
-              {
-                "operator": "per_serving",
-                "slot_id": "acid_base",
-                "grams_per_serving": 150
-              },
-              {
-                "operator": "per_serving",
                 "slot_id": "protein",
+                "grams_per_serving": 50,
+                "rule_id": "egg-tofu-vegetable-egg-portion-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "vegetable",
                 "grams_per_serving": 100
               },
               {
-                "operator": "bounded_sum",
-                "attribute": "moisture_release",
-                "value": "high",
-                "matched_items": [
-                  "番茄"
-                ],
-                "liquid_credit_grams": 120
+                "operator": "scale_by_servings",
+                "name": "水",
+                "applied": true,
+                "grams": 300
               },
               {
-                "operator": "ratio",
-                "numerator": "retained_liquid_grams",
-                "denominator_slot_id": "staple",
-                "multiplier": 1.4,
-                "liquid_credit_grams": 120
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -4670,7 +4939,7 @@
           "egg-tofu-vegetable-pot"
         ],
         "selected_template_ids": [
-          "acid-staple-pot"
+          "egg-tofu-vegetable-pot"
         ],
         "planned_items": [
           {
@@ -4773,74 +5042,80 @@
         ],
         "ratio_plans": [
           {
-            "template_id": "acid-staple-pot",
+            "template_id": "egg-tofu-vegetable-pot",
             "ingredient_amounts": [
               {
-                "name": "大米",
-                "grams": 200
-              },
-              {
                 "name": "番茄",
-                "grams": 300
+                "grams": 200
               },
               {
                 "name": "鸡蛋",
-                "grams": 200
+                "grams": 100
+              },
+              {
+                "name": "食用油",
+                "grams": 6
               },
               {
                 "name": "水",
-                "grams": 160
+                "grams": 300
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
-                "name": "大米",
-                "category": "raw_rice",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
               },
               {
                 "name": "水",
                 "category": "liquid",
-                "grams": 160
+                "grams": 300
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 160,
-              "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "retained_liquid_grams": 300,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
                 "operator": "per_serving",
-                "slot_id": "staple",
-                "grams_per_serving": 100,
-                "rule_id": "acid-staple-raw-rice-liquid-v1"
-              },
-              {
-                "operator": "per_serving",
-                "slot_id": "acid_base",
-                "grams_per_serving": 150
-              },
-              {
-                "operator": "per_serving",
                 "slot_id": "protein",
+                "grams_per_serving": 50,
+                "rule_id": "egg-tofu-vegetable-egg-portion-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "vegetable",
                 "grams_per_serving": 100
               },
               {
-                "operator": "bounded_sum",
-                "attribute": "moisture_release",
-                "value": "high",
-                "matched_items": [
-                  "番茄"
-                ],
-                "liquid_credit_grams": 120
+                "operator": "scale_by_servings",
+                "name": "水",
+                "applied": true,
+                "grams": 300
               },
               {
-                "operator": "ratio",
-                "numerator": "retained_liquid_grams",
-                "denominator_slot_id": "staple",
-                "multiplier": 1.4,
-                "liquid_credit_grams": 120
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -4848,11 +5123,11 @@
         "end_to_end_core_coverage_ratio": 0.6666666666666666
       },
       "evidence_alignment": {
-        "direct_template_evidence": false,
-        "evidence_template_ids": [],
-        "ingredient_compatible_only_template_ids": [
-          "acid-staple-pot"
-        ]
+        "direct_template_evidence": true,
+        "evidence_template_ids": [
+          "egg-tofu-vegetable-pot"
+        ],
+        "ingredient_compatible_only_template_ids": []
       },
       "gap_codes": [
         "taxonomy_gap"
@@ -5170,6 +5445,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "grams": 800
               },
@@ -5183,6 +5462,11 @@
                 "name": "面条",
                 "category": "noodle",
                 "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
               },
               {
                 "name": "水",
@@ -5218,6 +5502,12 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 4,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
               },
               {
                 "operator": "scale_by_servings",
@@ -11511,7 +11801,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -11690,7 +11979,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -15524,7 +15812,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot",
           "soft-family-rice-pot"
         ],
@@ -15744,7 +16031,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot",
           "soft-family-rice-pot"
         ],
@@ -16056,7 +16342,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -16234,7 +16519,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -16509,7 +16793,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot",
           "soft-family-rice-pot"
         ],
@@ -16685,7 +16968,6 @@
         "pot_count": 1,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot",
           "soft-family-rice-pot"
         ],
@@ -19695,6 +19977,10 @@
                 "grams": 180
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 170
               },
@@ -19703,23 +19989,37 @@
                 "grams": 200
               },
               {
+                "name": "盐",
+                "grams": 3
+              },
+              {
                 "name": "猪肉末",
                 "grams": 160
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 170
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 170,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5,
-              "initial_liquid_grams": 135,
-              "reserve_liquid_grams": 35,
+              "rounding_grams": 1,
+              "initial_liquid_grams": 136,
+              "reserve_liquid_grams": 34,
               "reserve_action_code": "add_reserved_liquid_if_needed"
             },
             "ratio_trace": [
@@ -19752,6 +20052,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 0.85,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -19891,6 +20203,10 @@
                 "grams": 180
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 170
               },
@@ -19899,23 +20215,37 @@
                 "grams": 200
               },
               {
+                "name": "盐",
+                "grams": 3
+              },
+              {
                 "name": "猪肉末",
                 "grams": 160
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 170
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 170,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5,
-              "initial_liquid_grams": 135,
-              "reserve_liquid_grams": 35,
+              "rounding_grams": 1,
+              "initial_liquid_grams": 136,
+              "reserve_liquid_grams": 34,
               "reserve_action_code": "add_reserved_liquid_if_needed"
             },
             "ratio_trace": [
@@ -19948,6 +20278,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 0.85,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -20145,25 +20487,43 @@
                 "grams": 130
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -20184,6 +20544,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -20289,25 +20661,43 @@
                 "grams": 130
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -20328,6 +20718,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -20594,25 +20996,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -20645,6 +21065,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -20788,25 +21220,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -20839,6 +21289,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -21104,25 +21566,43 @@
                 "grams": 220
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -21148,6 +21628,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -21290,25 +21782,43 @@
                 "grams": 220
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -21334,6 +21844,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -22202,25 +22724,43 @@
                 "grams": 130
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -22241,6 +22781,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -22474,25 +23026,43 @@
                 "grams": 130
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -22513,6 +23083,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -22782,6 +23364,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
@@ -22792,19 +23378,33 @@
               {
                 "name": "西兰花",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 240,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -22828,6 +23428,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 240
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -22969,6 +23581,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
@@ -22979,19 +23595,33 @@
               {
                 "name": "西兰花",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 240,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -23015,6 +23645,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 240
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -23928,6 +24570,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
@@ -23938,19 +24584,33 @@
               {
                 "name": "西兰花",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -23988,6 +24648,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -24166,6 +24838,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
@@ -24176,19 +24852,33 @@
               {
                 "name": "西兰花",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -24226,6 +24916,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -24498,25 +25200,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 600
               },
               {
                 "name": "西兰花",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 600
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 600,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -24540,6 +25260,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 600
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -24685,25 +25417,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 600
               },
               {
                 "name": "西兰花",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 600
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 600,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -24727,6 +25477,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 600
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -26771,25 +27533,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -26822,6 +27602,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -26964,25 +27756,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -27015,6 +27825,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -27284,21 +28106,39 @@
                 "grams": 180
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 330,
               "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -27332,6 +28172,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 30
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -27478,21 +28330,39 @@
                 "grams": 180
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 330,
               "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -27526,6 +28396,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 30
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -28922,7 +29804,7 @@
           "broth-rice-pot"
         ],
         "selected_template_ids": [
-          "poultry-staple-pot"
+          "cooked-rice-stir-pot"
         ],
         "planned_items": [
           {
@@ -29028,48 +29910,53 @@
         "reason_codes": [],
         "ratio_plans": [
           {
-            "template_id": "poultry-staple-pot",
+            "template_id": "cooked-rice-stir-pot",
             "ingredient_amounts": [
               {
                 "name": "鸡腿肉",
-                "grams": 240
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 8
               },
               {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
-                "name": "水",
+                "name": "香菇",
                 "grams": 200
               },
               {
-                "name": "香菇",
-                "grams": 200
+                "name": "盐",
+                "grams": 4
               }
             ],
             "required_extra_items": [
               {
-                "name": "水",
-                "category": "liquid",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 8
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 4
               }
             ],
-            "liquid_constraints": {
-              "retained_liquid_grams": 200,
-              "liquid_credit_grams": 0,
-              "rounding_grams": 5
-            },
+            "liquid_constraints": {},
             "ratio_trace": [
               {
                 "operator": "per_serving",
-                "slot_id": "protein",
-                "grams_per_serving": 120,
-                "rule_id": "poultry-staple-cooked-rice-portion-v1"
+                "slot_id": "staple",
+                "grams_per_serving": 180,
+                "rule_id": "cooked-rice-stir-portion-v1"
               },
               {
                 "operator": "per_serving",
-                "slot_id": "staple",
-                "grams_per_serving": 180
+                "slot_id": "protein",
+                "grams_per_serving": 100
               },
               {
                 "operator": "per_serving",
@@ -29077,10 +29964,16 @@
                 "grams_per_serving": 100
               },
               {
-                "operator": "scale_by_servings",
-                "name": "水",
+                "operator": "fixed_addition",
+                "name": "食用油",
                 "applied": true,
-                "grams": 200
+                "grams": 8
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 4
               }
             ]
           }
@@ -29104,7 +29997,7 @@
           "broth-rice-pot"
         ],
         "selected_template_ids": [
-          "poultry-staple-pot"
+          "cooked-rice-stir-pot"
         ],
         "planned_items": [
           {
@@ -29210,48 +30103,53 @@
         "reason_codes": [],
         "ratio_plans": [
           {
-            "template_id": "poultry-staple-pot",
+            "template_id": "cooked-rice-stir-pot",
             "ingredient_amounts": [
               {
                 "name": "鸡腿肉",
-                "grams": 240
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 8
               },
               {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
-                "name": "水",
+                "name": "香菇",
                 "grams": 200
               },
               {
-                "name": "香菇",
-                "grams": 200
+                "name": "盐",
+                "grams": 4
               }
             ],
             "required_extra_items": [
               {
-                "name": "水",
-                "category": "liquid",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 8
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 4
               }
             ],
-            "liquid_constraints": {
-              "retained_liquid_grams": 200,
-              "liquid_credit_grams": 0,
-              "rounding_grams": 5
-            },
+            "liquid_constraints": {},
             "ratio_trace": [
               {
                 "operator": "per_serving",
-                "slot_id": "protein",
-                "grams_per_serving": 120,
-                "rule_id": "poultry-staple-cooked-rice-portion-v1"
+                "slot_id": "staple",
+                "grams_per_serving": 180,
+                "rule_id": "cooked-rice-stir-portion-v1"
               },
               {
                 "operator": "per_serving",
-                "slot_id": "staple",
-                "grams_per_serving": 180
+                "slot_id": "protein",
+                "grams_per_serving": 100
               },
               {
                 "operator": "per_serving",
@@ -29259,10 +30157,16 @@
                 "grams_per_serving": 100
               },
               {
-                "operator": "scale_by_servings",
-                "name": "水",
+                "operator": "fixed_addition",
+                "name": "食用油",
                 "applied": true,
-                "grams": 200
+                "grams": 8
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 4
               }
             ]
           }
@@ -29273,7 +30177,7 @@
         "direct_template_evidence": false,
         "evidence_template_ids": [],
         "ingredient_compatible_only_template_ids": [
-          "poultry-staple-pot"
+          "cooked-rice-stir-pot"
         ]
       },
       "gap_codes": [],
@@ -29524,25 +30428,43 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -29570,6 +30492,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -29585,6 +30519,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "grams": 800
               },
@@ -29598,6 +30536,11 @@
                 "name": "面条",
                 "category": "noodle",
                 "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
               },
               {
                 "name": "水",
@@ -29633,6 +30576,12 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 4,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
               },
               {
                 "operator": "scale_by_servings",
@@ -29778,25 +30727,43 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 200
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 200,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -29824,6 +30791,18 @@
                 "name": "水",
                 "applied": true,
                 "grams": 200
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           },
@@ -29839,6 +30818,10 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "grams": 800
               },
@@ -29852,6 +30835,11 @@
                 "name": "面条",
                 "category": "noodle",
                 "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
               },
               {
                 "name": "水",
@@ -29887,6 +30875,12 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 4,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
               },
               {
                 "operator": "scale_by_servings",
@@ -31072,25 +32066,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 330
               },
               {
                 "name": "土豆",
                 "grams": 180
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 330,
               "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -31124,6 +32136,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 30
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -31303,25 +32327,43 @@
                 "grams": 200
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 330
               },
               {
                 "name": "土豆",
                 "grams": 180
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 330,
               "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -31355,6 +32397,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 30
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -31570,25 +32624,43 @@
                 "grams": 220
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -31608,6 +32680,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -31630,7 +32714,7 @@
           "broth-rice-pot"
         ],
         "selected_template_ids": [
-          "broth-rice-pot"
+          "cooked-rice-stir-pot"
         ],
         "planned_items": [
           {
@@ -31733,51 +32817,61 @@
         ],
         "ratio_plans": [
           {
-            "template_id": "broth-rice-pot",
+            "template_id": "cooked-rice-stir-pot",
             "ingredient_amounts": [
               {
                 "name": "青菜",
-                "grams": 220
+                "grams": 240
+              },
+              {
+                "name": "食用油",
+                "grams": 8
               },
               {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
-                "name": "水",
-                "grams": 650
+                "name": "盐",
+                "grams": 4
               }
             ],
             "required_extra_items": [
               {
-                "name": "水",
-                "category": "liquid",
-                "grams": 650
+                "name": "食用油",
+                "category": "oil",
+                "grams": 8
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 4
               }
             ],
-            "liquid_constraints": {
-              "retained_liquid_grams": 650,
-              "liquid_credit_grams": 0,
-              "rounding_grams": 5
-            },
+            "liquid_constraints": {},
             "ratio_trace": [
               {
                 "operator": "per_serving",
                 "slot_id": "staple",
                 "grams_per_serving": 180,
-                "rule_id": "broth-rice-liquid-v1"
+                "rule_id": "cooked-rice-stir-portion-v1"
               },
               {
                 "operator": "per_serving",
-                "slot_id": "fast_vegetable",
-                "grams_per_serving": 110
+                "slot_id": "vegetable",
+                "grams_per_serving": 120
               },
               {
-                "operator": "ratio",
-                "numerator": "retained_liquid_grams",
-                "denominator_slot_id": "staple",
-                "multiplier": 1.8,
-                "liquid_credit_grams": 0
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 8
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 4
               }
             ]
           }
@@ -31788,7 +32882,7 @@
         "direct_template_evidence": false,
         "evidence_template_ids": [],
         "ingredient_compatible_only_template_ids": [
-          "broth-rice-pot"
+          "cooked-rice-stir-pot"
         ]
       },
       "gap_codes": [
@@ -32620,25 +33714,43 @@
                 "grams": 130
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -32664,6 +33776,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -32806,25 +33930,43 @@
                 "grams": 130
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -32850,6 +33992,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -32984,7 +34138,7 @@
           "braised-noodle-pot"
         ],
         "selected_template_ids": [
-          "braised-noodle-pot"
+          "egg-tofu-vegetable-pot"
         ],
         "planned_items": [
           {
@@ -33059,74 +34213,80 @@
         "reason_codes": [],
         "ratio_plans": [
           {
-            "template_id": "braised-noodle-pot",
+            "template_id": "egg-tofu-vegetable-pot",
             "ingredient_amounts": [
               {
                 "name": "老豆腐",
-                "grams": 160
-              },
-              {
-                "name": "面条",
                 "grams": 200
               },
               {
                 "name": "青菜",
-                "grams": 180
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 6
               },
               {
                 "name": "水",
-                "grams": 330
+                "grams": 300
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
-                "name": "面条",
-                "category": "noodle",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
               },
               {
                 "name": "水",
                 "category": "liquid",
-                "grams": 330
+                "grams": 300
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 330,
-              "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "retained_liquid_grams": 300,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
                 "operator": "per_serving",
-                "slot_id": "staple",
+                "slot_id": "protein",
                 "grams_per_serving": 100,
-                "rule_id": "braised-noodle-liquid-v1"
+                "rule_id": "egg-tofu-vegetable-firm-tofu-portion-v1"
               },
               {
                 "operator": "per_serving",
                 "slot_id": "vegetable",
-                "grams_per_serving": 90
+                "grams_per_serving": 100
               },
               {
-                "operator": "per_serving",
-                "slot_id": "protein",
-                "grams_per_serving": 80
+                "operator": "scale_by_servings",
+                "name": "水",
+                "applied": true,
+                "grams": 300
               },
               {
-                "operator": "bounded_sum",
-                "attribute": "moisture_release",
-                "value": "high",
-                "matched_items": [
-                  "青菜"
-                ],
-                "liquid_credit_grams": 30
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
               },
               {
-                "operator": "ratio",
-                "numerator": "retained_liquid_grams",
-                "denominator_slot_id": "staple",
-                "multiplier": 1.8,
-                "liquid_credit_grams": 30
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -33150,7 +34310,7 @@
           "braised-noodle-pot"
         ],
         "selected_template_ids": [
-          "braised-noodle-pot"
+          "cooked-rice-stir-pot"
         ],
         "planned_items": [
           {
@@ -33253,74 +34413,75 @@
         ],
         "ratio_plans": [
           {
-            "template_id": "braised-noodle-pot",
+            "template_id": "cooked-rice-stir-pot",
             "ingredient_amounts": [
               {
                 "name": "老豆腐",
-                "grams": 160
-              },
-              {
-                "name": "面条",
                 "grams": 200
               },
               {
                 "name": "青菜",
-                "grams": 180
+                "grams": 240
               },
               {
-                "name": "水",
-                "grams": 330
+                "name": "食用油",
+                "grams": 8
+              },
+              {
+                "name": "熟米饭",
+                "grams": 360
+              },
+              {
+                "name": "盐",
+                "grams": 4
               }
             ],
             "required_extra_items": [
               {
-                "name": "面条",
-                "category": "noodle",
-                "grams": 200
+                "name": "食用油",
+                "category": "oil",
+                "grams": 8
               },
               {
-                "name": "水",
-                "category": "liquid",
-                "grams": 330
+                "name": "熟米饭",
+                "category": "cooked_rice",
+                "grams": 360
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 4
               }
             ],
-            "liquid_constraints": {
-              "retained_liquid_grams": 330,
-              "liquid_credit_grams": 30,
-              "rounding_grams": 5
-            },
+            "liquid_constraints": {},
             "ratio_trace": [
               {
                 "operator": "per_serving",
                 "slot_id": "staple",
-                "grams_per_serving": 100,
-                "rule_id": "braised-noodle-liquid-v1"
-              },
-              {
-                "operator": "per_serving",
-                "slot_id": "vegetable",
-                "grams_per_serving": 90
+                "grams_per_serving": 180,
+                "rule_id": "cooked-rice-stir-portion-v1"
               },
               {
                 "operator": "per_serving",
                 "slot_id": "protein",
-                "grams_per_serving": 80
+                "grams_per_serving": 100
               },
               {
-                "operator": "bounded_sum",
-                "attribute": "moisture_release",
-                "value": "high",
-                "matched_items": [
-                  "青菜"
-                ],
-                "liquid_credit_grams": 30
+                "operator": "per_serving",
+                "slot_id": "vegetable",
+                "grams_per_serving": 120
               },
               {
-                "operator": "ratio",
-                "numerator": "retained_liquid_grams",
-                "denominator_slot_id": "staple",
-                "multiplier": 1.8,
-                "liquid_credit_grams": 30
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 8
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 4
               }
             ]
           }
@@ -33331,7 +34492,7 @@
         "direct_template_evidence": false,
         "evidence_template_ids": [],
         "ingredient_compatible_only_template_ids": [
-          "braised-noodle-pot"
+          "cooked-rice-stir-pot"
         ]
       },
       "gap_codes": [
@@ -33591,21 +34752,39 @@
                 "grams": 180
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 330,
               "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -33639,6 +34818,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 30
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -33785,21 +34976,39 @@
                 "grams": 180
               },
               {
+                "name": "食用油",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 7
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 330
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 330,
               "liquid_credit_grams": 30,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -33833,6 +35042,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 30
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 7
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -34663,29 +35884,47 @@
             "template_id": "broth-rice-pot",
             "ingredient_amounts": [
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
               },
               {
                 "name": "土豆",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -34705,6 +35944,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -34847,29 +36098,47 @@
             "template_id": "broth-rice-pot",
             "ingredient_amounts": [
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
               },
               {
                 "name": "土豆",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -34889,6 +36158,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -35066,7 +36347,6 @@
         "candidate_template_ids": [
           "acid-staple-pot",
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -35229,25 +36509,43 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
               },
               {
                 "name": "土豆",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -35281,6 +36579,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -35300,7 +36610,6 @@
         "candidate_template_ids": [
           "acid-staple-pot",
           "savory-mixed-rice-pot",
-          "cooked-rice-stir-pot",
           "broth-noodle-pot"
         ],
         "selected_template_ids": [
@@ -35463,25 +36772,43 @@
                 "grams": 300
               },
               {
+                "name": "食用油",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "grams": 160
               },
               {
                 "name": "土豆",
                 "grams": 240
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 6
+              },
+              {
                 "name": "水",
                 "category": "liquid",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
               "retained_liquid_grams": 160,
               "liquid_credit_grams": 120,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -35515,6 +36842,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.4,
                 "liquid_credit_grams": 120
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 6
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -36533,29 +37872,47 @@
                 "grams": 220
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
               },
               {
                 "name": "土豆",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -36580,6 +37937,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }
@@ -36759,29 +38128,47 @@
                 "grams": 220
               },
               {
+                "name": "食用油",
+                "grams": 4
+              },
+              {
                 "name": "熟米饭",
                 "grams": 360
               },
               {
                 "name": "水",
-                "grams": 650
+                "grams": 648
               },
               {
                 "name": "土豆",
                 "grams": 160
+              },
+              {
+                "name": "盐",
+                "grams": 3
               }
             ],
             "required_extra_items": [
               {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 4
+              },
+              {
                 "name": "水",
                 "category": "liquid",
-                "grams": 650
+                "grams": 648
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
               }
             ],
             "liquid_constraints": {
-              "retained_liquid_grams": 650,
+              "retained_liquid_grams": 648,
               "liquid_credit_grams": 0,
-              "rounding_grams": 5
+              "rounding_grams": 1
             },
             "ratio_trace": [
               {
@@ -36806,6 +38193,18 @@
                 "denominator_slot_id": "staple",
                 "multiplier": 1.8,
                 "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 4
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
               }
             ]
           }

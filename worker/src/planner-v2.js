@@ -359,6 +359,8 @@ function ratioSlots(context, taxonomy) {
           category: identity.category,
           canonical_id: identity.canonical_id,
           ratio_rule_policy: identity.ratio_rule_policy,
+          source: item.source,
+          role: item.role,
           attributes: item.attributes || {},
         };
       })());
@@ -369,6 +371,8 @@ function ratioSlots(context, taxonomy) {
       category: item.category.trim(),
       canonical_id: item.canonical_id,
       ratio_rule_policy: item.ratio_rule_policy,
+      source: item.source,
+      role: item.role,
       attributes: item.attributes || {},
     })));
   }
@@ -478,7 +482,12 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         continue;
       }
       if (operator === 'bounded_sum') {
-        const matching = allSlotItems.filter(item => (item.attributes?.[operation.target?.attribute] || attributes?.[item.name]?.[operation.target?.attribute]) === operation.target?.value);
+        const matching = allSlotItems.filter(item => (
+          item.source !== 'basic_extra'
+          && item.role !== 'basic_extra'
+          && (item.attributes?.[operation.target?.attribute]
+            || attributes?.[item.name]?.[operation.target?.attribute]) === operation.target?.value
+        ));
         const grams = defaultBound(operation.grams_per_serving);
         const credit = defaultBound(operation.liquid_credit_grams_per_serving);
         if (operation.target?.attribute !== 'moisture_release' || !['low', 'medium', 'high'].includes(operation.target?.value)
@@ -770,6 +779,8 @@ function ratioContextFor(assignment, servings) {
       category: item.category,
       canonical_id: item.canonical_id,
       ratio_rule_policy: item.ratio_rule_policy,
+      source: item.source,
+      role: item.role,
       attributes: {
         cook_speed: item.cook_speed,
         moisture_release: item.moisture_release,
@@ -1131,6 +1142,12 @@ export function buildPotCandidates(assets = {}, request = {}) {
   return buildPotCandidatesInternal(assets, request, false);
 }
 
+function requiredExtraBurden(items = []) {
+  return (Array.isArray(items) ? items : [])
+    .filter(item => ['raw_rice', 'cooked_rice', 'noodle'].includes(item?.category))
+    .length;
+}
+
 export function rankPotCandidates(candidates = [], request = {}) {
   return [...candidates].sort((left, right) => {
     const leftPrimary = request.mode === 'pantry' ? left.planned_must_use.length : left.planned_prefer_use.length;
@@ -1139,7 +1156,9 @@ export function rankPotCandidates(candidates = [], request = {}) {
     const leftSafe = left.safety_complete === true ? 1 : 0;
     const rightSafe = right.safety_complete === true ? 1 : 0;
     if (leftSafe !== rightSafe) return rightSafe - leftSafe;
-    if (left.required_extra_items.length !== right.required_extra_items.length) return left.required_extra_items.length - right.required_extra_items.length;
+    const leftExtraBurden = requiredExtraBurden(left.required_extra_items);
+    const rightExtraBurden = requiredExtraBurden(right.required_extra_items);
+    if (leftExtraBurden !== rightExtraBurden) return leftExtraBurden - rightExtraBurden;
     return left.template_id.localeCompare(right.template_id)
       || left.assignment_key.localeCompare(right.assignment_key, 'zh-Hans-CN');
   });
@@ -2095,8 +2114,8 @@ function selectDiverseCandidates(candidates, limit) {
     const coverageDifference = (right.plan?.planned_prefer_use?.length || 0)
       - (left.plan?.planned_prefer_use?.length || 0);
     if (coverageDifference) return coverageDifference;
-    const extraDifference = (left.plan?.required_extra_items?.length || 0)
-      - (right.plan?.required_extra_items?.length || 0);
+    const extraDifference = requiredExtraBurden(left.plan?.required_extra_items)
+      - requiredExtraBurden(right.plan?.required_extra_items);
     if (extraDifference) return extraDifference;
     return planStructureKey(left).localeCompare(planStructureKey(right), 'zh-Hans-CN')
       || left.plan.plan_id.localeCompare(right.plan.plan_id);
@@ -2106,14 +2125,25 @@ function selectDiverseCandidates(candidates, limit) {
   const selected = [];
   const selectedIds = new Set();
   const selectedStructures = new Set();
+  const selectedPresentations = new Set();
   for (const candidate of ordered) {
     if ((candidate.plan?.planned_prefer_use?.length || 0) < bestCoverage - 1) continue;
     const planId = candidate.plan?.plan_id;
     const structure = planStructureKey(candidate);
-    if (!planId || selectedIds.has(planId) || selectedStructures.has(structure)) continue;
+    const pot = candidate.plan?.pots?.[0];
+    const presentation = JSON.stringify([
+      pot?.template_id || '',
+      (candidate.plan?.planned_prefer_use || [])
+        .map(item => item.canonical || item.raw)
+        .filter(Boolean)
+        .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN')),
+    ]);
+    if (!planId || selectedIds.has(planId) || selectedStructures.has(structure)
+        || selectedPresentations.has(presentation)) continue;
     selected.push(candidate);
     selectedIds.add(planId);
     selectedStructures.add(structure);
+    selectedPresentations.add(presentation);
     if (selected.length >= boundedLimit) break;
   }
   return selected;
@@ -2175,11 +2205,16 @@ function noAlternativeResponse(current) {
   retained.code = 'no_alternative_plan';
   retained.generation_allowed = false;
   retained.message = '当前组合只有一个可靠的一锅方案';
-  retained.actions = [
-    structuredAction('relax_item', '放宽一种食材', unplannedItems, { eligible_items: eligible, requires_acknowledgement: true }),
-    structuredAction('force_multi_pot', '分成两锅', unplannedItems),
-    structuredAction('edit_ingredients', '返回修改食材', unplannedItems),
-  ];
+  retained.actions = retained.mode === 'pantry'
+    ? [
+        structuredAction('relax_item', '放宽一种食材', unplannedItems, {
+          eligible_items: eligible,
+          requires_acknowledgement: true,
+        }),
+        structuredAction('force_multi_pot', '分成两锅', unplannedItems),
+        structuredAction('edit_ingredients', '返回修改食材', unplannedItems),
+      ]
+    : [structuredAction('edit_ingredients', '返回修改食材', unplannedItems)];
   return retained;
 }
 

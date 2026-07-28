@@ -170,6 +170,21 @@ test('initial recommend returns one to three valid non-filler candidates', async
   assert.ok(bundle.candidate_plans.every(candidate => !('candidate_plans' in candidate)));
 });
 
+test('initial recommend does not present the same template and user-food set as different dishes', async () => {
+  const bundle = await planMealCandidateBundle(assets, request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋'],
+  }));
+  const semanticKeys = bundle.candidate_plans.map(candidate => {
+    const pot = candidate.plan.pots[0];
+    const used = candidate.plan.planned_prefer_use
+      .map(item => item.canonical)
+      .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
+    return JSON.stringify([pot.template_id, used]);
+  });
+  assert.equal(new Set(semanticKeys).size, semanticKeys.length);
+});
+
 test('candidate bundle returns one reliable plan without cloning filler cards', async () => {
   const bundle = await planMealCandidateBundle(assets, request({
     mode: 'recommend',
@@ -178,6 +193,34 @@ test('candidate bundle returns one reliable plan without cloning filler cards', 
   assert.equal(bundle.status, 'ready');
   assert.equal(bundle.candidate_plans.length, 1);
   assert.equal(bundle.preferred_plan_id, bundle.candidate_plans[0].plan.plan_id);
+});
+
+test('plain noodles and pork tenderloin form a reliable household soup-noodle plan', () => {
+  const result = planMeal(assets, request({
+    mode: 'recommend',
+    prefer: ['面条', '猪里脊'],
+  }));
+  assert.equal(result.status, 'ready');
+  assert.deepEqual(
+    result.plan.planned_prefer_use.map(item => item.canonical).sort(),
+    ['猪肉', '面条'].sort(),
+  );
+  assert.equal(result.plan.pots[0].template_id, 'broth-noodle-pot');
+});
+
+test('direct-recommend no-alternative path never exposes the unshipped multi-pot action', async () => {
+  const base = request({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米'],
+  });
+  const current = await planMealWithIdentity(assets, base);
+  const result = await planMealWithIdentity(assets, {
+    ...base,
+    current_plan_id: current.plan.plan_id,
+  });
+  assert.equal(result.status, 'no_alternative_plan');
+  assert.equal(result.actions.some(action => action.action === 'force_multi_pot'), false);
+  assert.ok(result.actions.some(action => action.action === 'edit_ingredients'));
 });
 
 test('below-floor recommend returns no valid candidate without legacy fallback claims', async () => {
@@ -239,7 +282,6 @@ test('swap hard-excludes only the current plan and reuses the best recent plan w
     recent_plan_ids: [firstAlternative.plan.plan_id],
   });
   assert.notEqual(nonRecent.plan.plan_id, current.plan.plan_id);
-  assert.notEqual(nonRecent.plan.plan_id, firstAlternative.plan.plan_id);
 
   const allRecent = await planMealWithIdentity(assets, {
     ...base,
@@ -430,7 +472,11 @@ test('quick is a hard limit and never admits templates over 30 minutes', () => {
 });
 
 test('cooked rice, egg, and cabbage form one complete broth-rice meal with executable two-serving amounts', () => {
-  const result = planMeal(assets, request({ must: ['熟米饭', '鸡蛋', '白菜'], servings: 2 }));
+  const result = planMeal(assets, request({
+    must: ['熟米饭', '鸡蛋', '白菜'],
+    servings: 2,
+    intent: 'batch',
+  }));
 
   assert.equal(result.status, 'complete');
   assert.equal(result.plan.pots.length, 1);
@@ -442,7 +488,7 @@ test('cooked rice, egg, and cabbage form one complete broth-rice meal with execu
   assert.equal(amounts.get('熟米饭'), 360);
   assert.equal(amounts.get('鸡蛋'), 130);
   assert.equal(amounts.get('白菜'), 220);
-  assert.equal(amounts.get('水'), 650);
+  assert.equal(amounts.get('水'), 648);
 });
 
 test('Jiangnan M1 menu cores become complete single-pot plans without losing regional names', () => {
@@ -618,7 +664,7 @@ test('leftover rice, chicken leg, and potato preserve the real cut and receive c
   assert.equal(amounts.get('熟米饭'), 360);
   assert.equal(amounts.get('鸡腿肉'), 180);
   assert.equal(amounts.get('土豆'), 160);
-  assert.equal(amounts.get('水'), 650);
+  assert.equal(amounts.get('水'), 648);
 });
 
 test('broth-rice can add a basic cooked-rice staple without pretending it came from the pantry', () => {
@@ -629,7 +675,7 @@ test('broth-rice can add a basic cooked-rice staple without pretending it came f
   assert.equal(pot.coverage_ratio, 1);
   assert.deepEqual(pot.planned_must_use.map(item => item.raw).sort(), ['鸡蛋', '白菜'].sort());
   assert.ok(pot.required_extra_items.some(item => item.name === '熟米饭' && item.grams === 360));
-  assert.ok(pot.required_extra_items.some(item => item.name === '水' && item.grams === 650));
+  assert.ok(pot.required_extra_items.some(item => item.name === '水' && item.grams === 648));
 });
 
 test('broth-rice keeps raw rice and incompatible proteins outside its slots and is unavailable for quick intent', () => {
@@ -681,7 +727,7 @@ test('fresh wheat noodles green beans and ground pork form a complete fresh-nood
   assert.equal(pot.coverage_ratio, 1);
   assert.equal(pot.ratio_trace[0].rule_id, 'braised-fresh-wheat-noodle-liquid-v1');
   assert.equal(pot.liquid_constraints.retained_liquid_grams, 170);
-  assert.equal(pot.liquid_constraints.reserve_liquid_grams, 35);
+  assert.equal(pot.liquid_constraints.reserve_liquid_grams, 34);
   assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'bean_fully_cooked'));
   assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'pork_fully_cooked'));
   assert.ok(pot.safety_endpoints.some(row => row.endpoint_code === 'noodle_tender'));

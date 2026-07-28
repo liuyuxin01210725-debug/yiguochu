@@ -338,8 +338,23 @@ test('public profile keeps only the simple direct-recommendation controls', () =
   assert.doesNotMatch(root.innerHTML, /这次需要哪种帮助|帮我清库存|清爽些/);
   assert.doesNotMatch(root.innerHTML, /data-del-myfood/);
   for (const label of ['正常做', '快点吃上', '多做一些']) assert.match(root.innerHTML, new RegExp(label));
-  assert.match(root.innerHTML, /食材可不填/);
+  assert.doesNotMatch(root.innerHTML, /食材可不填/);
+  assert.match(root.innerHTML, /至少填一种/);
   assert.match(root.innerHTML, /不会为了用完而硬凑/);
+});
+
+test('empty direct recommendation stays on the input page with a clear local prompt', async () => {
+  const { context, calls, root } = loadFrontend([], {
+    plannerRollout:'direct-recommend',
+    proxy:null,
+  });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.equal(calls.length, 0);
+  assert.equal(evaluate(context, 'state.view'), 'profile');
+  assert.match(root.innerHTML, /先选或填写至少一种家里的食材/);
 });
 
 test('localhost planner lab keeps the orthogonal mode and intent controls', () => {
@@ -801,7 +816,6 @@ test('no_alternative_plan has its dedicated path and retains the clean current g
     message:'当前组合只有一个可靠的一锅方案',
     actions:[
       { action:'relax_item', label:'放宽一种食材', eligible_items:['番茄'], requires_acknowledgement:true, unplanned_items:[] },
-      { action:'force_multi_pot', label:'分成两锅', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
       { action:'edit_ingredients', label:'返回修改食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
     ],
   });
@@ -811,7 +825,7 @@ test('no_alternative_plan has its dedicated path and retains the clean current g
   assert.equal(evaluate(context, 'state.view'), 'v2-no-alternative');
   assert.match(root.innerHTML, /当前组合只有一个可靠的一锅方案/);
   assert.match(root.innerHTML, /放宽一种食材/);
-  assert.match(root.innerHTML, /分成两锅/);
+  assert.doesNotMatch(root.innerHTML, /分成两锅/);
   assert.match(root.innerHTML, /返回修改食材/);
   assert.equal(evaluate(context, `state.displayedPlan.plan.plan_id`), current.plan.plan_id);
   assert.equal(evaluate(context, `state.planRequestSnapshot.constraints.current_plan_id`), null);
@@ -824,7 +838,6 @@ test('no-alternative restores the already-generated current result without anoth
     status:'no_alternative_plan', code:'no_alternative_plan', generation_allowed:false,
     actions:[
       { action:'relax_item', label:'放宽一种食材', eligible_items:['番茄'], requires_acknowledgement:true, unplanned_items:[] },
-      { action:'force_multi_pot', label:'分成两锅', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
       { action:'edit_ingredients', label:'返回修改食材', eligible_items:[], requires_acknowledgement:false, unplanned_items:[] },
     ],
   });
@@ -870,6 +883,7 @@ test('V2 generated multi-meal result is ordered, records started plan history, a
   assert.match(root.innerHTML, /第二锅/);
   assert.ok(root.innerHTML.indexOf('番茄焖饭') < root.innerHTML.indexOf('菌菇汤面'));
   assert.doesNotMatch(root.innerHTML, /kcal|营养参考|蛋白 \/ 份/);
+  assert.match(root.innerHTML, /data-act="edit-safe-profile"/);
   evaluate(context, `recordDisplayedPlanHistory('started')`);
   const history = JSON.parse(evaluate(context, 'JSON.stringify(state.swapHistory)'));
   assert.equal(history.at(-1).planId, 'pln_v2_two');

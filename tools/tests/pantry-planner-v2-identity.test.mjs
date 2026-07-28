@@ -481,7 +481,7 @@ test('large partial pantry swap keeps the validated two-pot coverage instead of 
 
 test('partial acceptance can explicitly swap while preserving its acknowledged unplanned set', async () => {
   expectIdentityApi();
-  const pantry = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇'];
+  const pantry = ['大米', '熟米饭', '面条', '番茄', '鸡蛋', '老豆腐', '牛里脊', '鸡胸肉', '猪里脊', '白菜', '西兰花', '青菜', '胡萝卜', '土豆', '金针菇', '香菇', '洋葱'];
   const baseRequest = request({ must: pantry, decision: { action: 'allow_third_pot' } });
   const current = await planner.planMealWithIdentity(assets, baseRequest);
   const acknowledged = current.plan.unplanned_must_use.map(item => item.canonical || item.raw);

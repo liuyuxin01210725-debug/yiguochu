@@ -1010,12 +1010,12 @@ function profileScreen() {
       : [['normal','正常做'],['quick','快点吃上'],['batch','多做一些']];
     const pantryHint = lab
       ? '一次最多 20 种。直接推荐会挑合理组合；帮我清库存会完整安排，安排不了时先请你决定。'
-      : '食材可不填。填了会优先选合理搭配，用不上的会说明，不会为了用完而硬凑。';
+      : '至少填一种家里的食材。会优先选合理搭配，用不上的会说明，不会为了用完而硬凑。';
     body = '<section class="form-card">' + collapse +
       modeControl +
       '<div class="field"><label class="field-label">这次怎么做</label>' + seg('intent',intentOptions) + '</div>' +
       '<div class="field"><label class="field-label">这一锅做几份</label>' + seg('servings',[['1','1 份'],['2','2 份'],['4','3–4 份']]) + '<span class="field-hint">按正常一顿的份量计算；“多做一些”会优先给适合分装复热的做法。</span></div>' +
-      '<div class="field"><label class="field-label">家里的食材 <span class="field-label-aside">可选，结果会说明用上和没用的</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">' + pantryHint + '</span></div>' +
+      '<div class="field"><label class="field-label">家里的食材 <span class="field-label-aside">至少一种，结果会说明用上和没用的</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">' + pantryHint + '</span></div>' +
       '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">用于过滤菜谱建议</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>';
   }
   const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。</p></div>';
@@ -1231,9 +1231,13 @@ function noAlternativePlanScreen() {
   const result = state.noAlternativeResult || {};
   const keepCurrent = state.displayedPlan && state.displayedPlan.plan
     ? '<button class="btn btn-primary" data-act="continue-current-plan">继续用当前方案</button>' : '';
+  const hasRelax = (result.actions || []).some(action => action && action.action === 'relax_item');
+  const guidance = hasRelax
+    ? '当前方案仍然保留。你可以继续用它，或放宽一种食材、回去调整食材。'
+    : '当前方案仍然保留。你可以继续用它，或回去调整食材后再试。';
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前组合只有一个可靠的一锅方案</div>'
-    + '<p class="fb-banner-text">当前方案仍然保留。你可以继续用它，或明确放宽一种食材、改成两锅、回去调整食材。</p></div></div><div class="dish-actions">'
+    + '<p class="fb-banner-text">' + esc(guidance) + '</p></div></div><div class="dish-actions">'
     + keepCurrent + (result.actions || []).map(plannerActionHtml).join('') + '</div></section></div>';
 }
 function generatedPlanScreen() {
@@ -1249,7 +1253,7 @@ function generatedPlanScreen() {
       + '<section class="block"><div class="step-head"><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>';
   }).join('');
   return '<div class="screen result-screen"><div class="col-main"><div class="gen-notice"><span>' + esc(title) + '</span></div>' + plannerCoverageHtml(result) + mealHtml
-    + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-v2-cooking">开始做</button><button class="btn btn-ghost" data-act="request-plan-swap">换一换</button></div></div>'
+    + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-v2-cooking">开始做</button><button class="btn btn-ghost" data-act="request-plan-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改食材忌口</button></div></div>'
     + '<div class="result-foot">份数、食材和忌口会发送给 AI 服务生成这套已确认计划的文字步骤。页面不会使用模型编写的营养数值。</div></div>';
 }
 function setDisplayedPlan(result, requestSnapshot, preview) {
@@ -1376,6 +1380,14 @@ async function runPrimaryFlow() {
   if (plannerLabEnabled()) return runPlannerFlow({ autoGenerate:true });
   state.profile.mode = 'recommend';
   if (plannerDirectRecommendEnabled()) {
+    if (pantryCount === 0) {
+      state.view = 'profile';
+      state.profileEditing = true;
+      state.rolloutNotice = '先选或填写至少一种家里的食材。';
+      render();
+      return;
+    }
+    state.rolloutNotice = '';
     return runPlannerFlow({ autoGenerate:false, showCandidates:true });
   }
   return generateLegacyRecipeFallback();

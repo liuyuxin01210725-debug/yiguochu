@@ -23,14 +23,14 @@
 ## Draft 目标基线（待 Preview 验证）
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260728-r10`（11 个 active、5 个 planned）
+- Template catalog：`templates-v2-20260728-r11`（11 个 active、5 个 planned）
 - Ingredient taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio DSL：`ratio-rules-v1-20260727-r5`
+- Ratio DSL：`ratio-rules-v1-20260728-r6`
 - Evidence recipes：72 道（数量与批准状态均未改变）
 - Planner V2 自动旅程门禁：138/138
 - 直接推荐影子对照：30/30 无自动硬失败
 
-这组数字只说明 Draft PR 的结构、契约与自动回归达到目标基线，**不等于真实家庭烹饪验证通过**。当前版本尚未部署 Preview，也未部署 production；本表中的真人第一反应、家庭烹饪习惯和实际成品结果仍须由真实用户填写，不能用自动测试替代。
+这组数字只说明 Draft PR 的结构、契约与自动回归达到目标基线，**不等于真实家庭烹饪验证通过**。上一修订已部署 Preview，当前修订仍待重新部署；production 始终未动。本表中的真人第一反应、家庭烹饪习惯和实际成品结果仍须由真实用户填写，不能用自动测试替代。
 
 ## 直接推荐影子对照（2026-07-28，本地确定性）
 
@@ -91,14 +91,31 @@ node tools/run-direct-recommend-preview-gate.mjs \
 
 仍未通过、因此继续阻塞发放：
 
-- DeepSeek 旧 key 撤销和 Preview Secret 更新：**等待密钥持有人确认**；没有读取、回显或提交任何 key；
-- Preview 部署：未执行；
-- 线上 `/health`、`build-meta.json`、页面 `window.__YIGUOCHU_BUILD_META__` 三方核对：未执行；
-- Preview 100 次 `/plan-meal` 性能门：未执行；
+- DeepSeek 旧 key 撤销：由密钥持有人明确推迟到 production 上线前执行；它仍是 production 硬门，但不阻塞仅限内部验证的 Preview；
+- 当前修订的 Preview 部署：未执行；
+- 当前修订的线上 `/health`、`build-meta.json`、页面 `window.__YIGUOCHU_BUILD_META__` 三方核对：未执行；
+- 当前修订的 Preview 100 次 `/plan-meal` 性能门：未执行；
 - 30 条真人 Chrome 手机视口点击门：未执行，由独立复测者在 Preview 构建号核对后完成；
 - 5 人 Pilot 链接：不得发送。
 
 已知 Pilot 观察项（不在本轮修改）：用户输入“熟玉米”时，首轮 taxonomy 可能不识别或无法区分于生玉米。记录真实输入和页面结果，不提前扩 taxonomy。
+
+## 真人浏览器缺陷修订候选（2026-07-28，待新 Preview 复测）
+
+前一版 `direct-recommend-723a106` 已在 Preview 通过 100 次 `/plan-meal`
+性能门，但多路真人浏览器点击发现：候选卡可能只更换补充主食而伪装成不同菜；
+生肉和慢熟根茎可能排在熟米饭或面条之后；豆腐步骤出现“整理水油”；
+虾仁虽列入计划却没有明确下锅；基础油盐缺少确定用量；直接推荐仍出现无效
+“分成两锅”路径；空输入承诺与结果不一致；生成结果缺少返回修改入口。
+
+本轮修订边界：
+
+- 不增加 recipe，不增加 template，不建设新推荐系统；
+- 相同 `template_id + 用户食材集合` 的候选只展示一次，不凑满三张卡；
+- cooking order 必须由结构化 template phase 决定，Ratio DSL 明确锁定水、油、盐；
+- 直接推荐没有替代计划时只保留修改食材路径，不能借未上线多锅能力兜底；
+- 空输入不请求接口；生成结果保留修改食材忌口入口；
+- 只有全量自动门、Preview 构建三方核对、性能门和真人手机浏览器复测全部通过后，才恢复 5 人 Pilot。
 
 ## 测试方法
 

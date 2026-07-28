@@ -135,6 +135,12 @@ function cookingPhaseMatches(phase, slotAssignment) {
     .some(item => item.category === phase.when.category);
 }
 
+function phaseOwnsLockedIngredient(phase, ingredient) {
+  if (!phase.slot_ids.includes(ingredient.slot_id)) return false;
+  if (!phase.when || phase.when.slot_id !== ingredient.slot_id) return true;
+  return ingredient.category === phase.when.category;
+}
+
 function uniqueStrings(values) {
   return [...new Set(values)];
 }
@@ -338,7 +344,7 @@ function buildLockedMeal(pot, template, refCounters, context) {
     phase: phase.phase,
     action_code: phase.action_code,
     slot_ids: [...phase.slot_ids],
-    allowed_ingredient_refs: locked.filter(item => phase.slot_ids.includes(item.slot_id))
+    allowed_ingredient_refs: locked.filter(item => phaseOwnsLockedIngredient(phase, item))
       .map(item => item.ingredient_ref),
     required_safety_endpoints: [],
     required_safety_ingredient_refs: [],
@@ -352,7 +358,9 @@ function buildLockedMeal(pot, template, refCounters, context) {
     const liquidRefs = locked.filter(item => item.category === 'liquid')
       .map(item => item.ingredient_ref);
     if (liquidRefs.length !== 1) throw new Error('locked_reserved_liquid_ref_invalid');
-    const insertionIndex = phases.findIndex(phase => phase.action_code === 'add_staple_and_liquid');
+    const insertionIndex = phases.findIndex(phase => (
+      phase.action_code === 'add_staple_and_liquid' || phase.action_code === 'add_noodle'
+    ));
     if (insertionIndex < 0) throw new Error('locked_reserved_liquid_phase_missing');
     phases.splice(insertionIndex + 1, 0, {
       phase: insertionIndex + 2,
@@ -367,12 +375,16 @@ function buildLockedMeal(pot, template, refCounters, context) {
   }
   for (const ingredient of locked.filter(item => item.source === 'basic_extra')) {
     if (phases.some(phase => phase.allowed_ingredient_refs.includes(ingredient.ingredient_ref))) continue;
-    const mixturePhaseIndex = phases.findIndex(phase => (
-      /liquid|broth|staple.*liquid|stir_cooked_rice/u.test(phase.action_code)
+    const oilPhaseIndex = phases.findIndex(phase => (
+      /acid_base_cookdown|cook_aromatics|sear_beef|cook_poultry_through|add_pork|add_mushroom|add_liquid|add_staple.*liquid|add_slow_cooking_items|gentle_set_protein|stir_cooked_rice/u
+        .test(phase.action_code)
     ));
-    let phaseIndex = ['liquid', 'oil', 'seasoning'].includes(ingredient.slot_id)
-      ? mixturePhaseIndex
-      : 0;
+    const mixturePhaseIndex = phases.findIndex(phase => (
+      /liquid|broth|staple.*liquid|add_noodle|stir_cooked_rice|simmer_until_tender/u.test(phase.action_code)
+    ));
+    let phaseIndex = ingredient.slot_id === 'oil'
+      ? oilPhaseIndex
+      : ['liquid', 'seasoning'].includes(ingredient.slot_id) ? mixturePhaseIndex : 0;
     if (phaseIndex < 0) phaseIndex = 0;
     if (phases[phaseIndex]) phases[phaseIndex].allowed_ingredient_refs.push(ingredient.ingredient_ref);
   }

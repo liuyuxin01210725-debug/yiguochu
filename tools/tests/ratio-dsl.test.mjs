@@ -38,7 +38,7 @@ test('ratio grams normalize exactly once at the executable DSL boundary', () => 
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260727-r5');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260728-r6');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -50,6 +50,14 @@ test('Ratio DSL catalog covers every active template with only the six executabl
   for (const rule of catalog.rules) {
     assert.ok(rule.operations.length > 0);
     for (const operation of rule.operations) assert.ok(OPERATORS.has(operation.operator));
+    assert.ok(
+      rule.operations.some(operation => operation.target?.category === 'oil'),
+      `${rule.rule_id} must provide a measured cooking oil baseline`,
+    );
+    assert.ok(
+      rule.operations.some(operation => operation.target?.category === 'seasoning'),
+      `${rule.rule_id} must provide a measured salt baseline`,
+    );
     const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
     for (const slot of template.required_slots.filter(slot => slot.source_policy.includes('user'))) {
       assert.equal(rule.operations.filter(operation => ['per_serving', 'per_serving_by_category'].includes(operation.operator)
@@ -78,16 +86,18 @@ test('fresh noodle ratio is canonical-scoped and locks staged liquid', () => {
   assert.equal(result.ok, true);
   assert.deepEqual(result.ingredient_amounts, [
     { name:'豆角', grams:180 },
+    { name:'食用油', grams:7 },
     { name:'水', grams:170 },
     { name:'鲜小麦面条', grams:200 },
+    { name:'盐', grams:3 },
     { name:'猪肉末', grams:160 },
   ]);
   assert.deepEqual(result.liquid_constraints, {
     retained_liquid_grams:170,
     liquid_credit_grams:0,
-    rounding_grams:5,
-    initial_liquid_grams:135,
-    reserve_liquid_grams:35,
+    rounding_grams:1,
+    initial_liquid_grams:136,
+    reserve_liquid_grams:34,
     reserve_action_code:'add_reserved_liquid_if_needed',
   });
 });
@@ -126,9 +136,10 @@ test('strict validator rejects unknown nested shapes and invalid ratio semantics
   const invalid = structuredClone(rawCatalog);
   invalid.rules[0].when.extra = true;
   invalid.rules[0].operations[0].target.extra = true;
-  invalid.rules[0].operations.at(-1).numerator.resource = 'recipe_prose';
-  invalid.rules[0].operations.at(-1).denominator.measure = 'cups';
-  invalid.rules[0].operations.at(-1).target.extra = true;
+  const ratioOperation = invalid.rules[0].operations.find(operation => operation.operator === 'ratio');
+  ratioOperation.numerator.resource = 'recipe_prose';
+  ratioOperation.denominator.measure = 'cups';
+  ratioOperation.target.extra = true;
   invalid.rules[0].rounding.extra = true;
   invalid.rules[0].example_context.extra = true;
   const errors = validateRatioDslCatalog(invalid, templates, taxonomy, recipes);
@@ -147,12 +158,18 @@ test('rice and liquid compile deterministically from explicit high-moisture cred
   assert.deepEqual(result.ingredient_amounts, [
     { name: '大米', grams: 200 },
     { name: '番茄', grams: 300 },
+    { name: '食用油', grams: 6 },
     { name: '水', grams: 160 },
+    { name: '盐', grams: 3 },
   ]);
-  assert.deepEqual(result.required_extra_items, [{ name: '水', category: 'liquid', grams: 160 }]);
+  assert.deepEqual(result.required_extra_items, [
+    { name: '食用油', category: 'oil', grams: 6 },
+    { name: '水', category: 'liquid', grams: 160 },
+    { name: '盐', category: 'seasoning', grams: 3 },
+  ]);
   assert.equal(result.liquid_constraints.retained_liquid_grams, 160);
   assert.deepEqual(result.ratio_trace.map(entry => entry.operator), [
-    'per_serving', 'per_serving', 'bounded_sum', 'ratio',
+    'per_serving', 'per_serving', 'bounded_sum', 'ratio', 'fixed_addition', 'scale_by_servings',
   ]);
 });
 
@@ -318,7 +335,9 @@ test('braised noodle ratio deterministically measures noodles, vegetables, prote
     { name: '白菜', grams: 180 },
     { name: '鸡腿肉', grams: 160 },
     { name: '面条', grams: 200 },
+    { name: '食用油', grams: 7 },
     { name: '水', grams: 330 },
+    { name: '盐', grams: 3 },
   ]);
   assert.equal(result.liquid_constraints.liquid_credit_grams, 30);
 });
@@ -412,9 +431,10 @@ test('category-specific rules quantify every required staple and reject mismatch
     slots: { protein: [item('牛里脊', 'beef')], staple: [item('熟米饭', 'cooked_rice')] },
   }, catalog);
   assert.equal(beefRice.ok, true);
-  assert.deepEqual(beefRice.ingredient_amounts.slice(0, 2), [
-    { name: '牛里脊', grams: 200 }, { name: '熟米饭', grams: 360 },
-  ]);
+  assert.deepEqual(
+    beefRice.ingredient_amounts.filter(row => row.name === '牛里脊' || row.name === '熟米饭'),
+    [{ name: '牛里脊', grams: 200 }, { name: '熟米饭', grams: 360 }],
+  );
 
   const poultryRice = compileRatioPlan('poultry-staple-raw-rice-portion-v1', {
     servings: 2,
@@ -618,12 +638,18 @@ test('broth rice compiles evidence-derived quantities for two servings', () => {
   }, catalog);
   assert.equal(result.ok, true);
   assert.deepEqual(new Map(result.ingredient_amounts.map(row => [row.name, row.grams])), new Map([
-    ['水', 650],
+    ['水', 648],
     ['熟米饭', 360],
     ['白菜', 220],
     ['鸡蛋', 130],
+    ['食用油', 4],
+    ['盐', 3],
   ]));
-  assert.deepEqual(result.required_extra_items, [{ name: '水', category: 'liquid', grams: 650 }]);
+  assert.deepEqual(result.required_extra_items, [
+    { name: '食用油', category: 'oil', grams: 4 },
+    { name: '水', category: 'liquid', grams: 648 },
+    { name: '盐', category: 'seasoning', grams: 3 },
+  ]);
 });
 
 test('soft millet ratio compiles exact household quantities without borrowing raw rice rules', () => {
@@ -675,6 +701,7 @@ function catalogWithCategorySpecificProtein(mutator = () => {}) {
     soft_tofu: { min: 90, default: 90, max: 90 },
     firm_tofu: { min: 90, default: 90, max: 90 },
     chicken: { min: 90, default: 90, max: 90 },
+    pork: { min: 90, default: 90, max: 90 },
   };
   delete protein.grams;
   mutator(protein, rule);
