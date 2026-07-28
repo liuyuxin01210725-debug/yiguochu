@@ -17,7 +17,7 @@ const catalog = JSON.parse(fs.readFileSync(
 ));
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260727-r9');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260728-r10');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -34,8 +34,36 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '金针菇', '香菇', '咸肉', '腊肠', '玉米面', '和好的玉米面团',
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
     '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉', '小米', '干鹰嘴豆', '熟鹰嘴豆',
+    '虾仁', '玉米',
     '水', '食用油', '盐', '酱油',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('shrimp and sweet corn aliases preserve controlled cooking identities', () => {
+  const rows = normalizePlannerItems(
+    ['虾仁', '鲜虾仁', '冷冻虾仁', '玉米', '玉米粒', '甜玉米'],
+    catalog,
+  );
+  assert.ok(rows.every(row => row.recognized), JSON.stringify(rows));
+  assert.deepEqual(
+    rows.map(row => [row.canonical_id, row.category, row.state, row.shape_or_cut]),
+    [
+      ['shrimp', 'seafood', 'raw', 'whole'],
+      ['shrimp', 'seafood', 'raw', 'whole'],
+      ['shrimp', 'seafood', 'raw', 'whole'],
+      ['sweet-corn', 'starchy_vegetable', 'raw', 'whole_seed'],
+      ['sweet-corn', 'starchy_vegetable', 'raw', 'whole_seed'],
+      ['sweet-corn', 'starchy_vegetable', 'raw', 'whole_seed'],
+    ],
+  );
+  const shrimp = catalog.items.find(item => item.canonical_id === 'shrimp');
+  assert.equal(shrimp.cooking_risk.risk_code, 'raw_seafood');
+  assert.deepEqual(shrimp.cooking_risk.required_endpoint_codes, ['seafood_fully_cooked']);
+  assert.ok(shrimp.compatible_slot_codes.includes('quick_cook_protein'));
+  const corn = catalog.items.find(item => item.canonical_id === 'sweet-corn');
+  assert.equal(corn.cooking_risk.risk_code, 'none');
+  assert.deepEqual(corn.cooking_risk.required_endpoint_codes, []);
+  assert.ok(corn.compatible_slot_codes.includes('vegetable'));
 });
 
 test('millet and chickpea states remain explicit and non-interchangeable', () => {

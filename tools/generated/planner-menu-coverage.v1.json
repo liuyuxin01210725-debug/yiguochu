@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "planner_version": "pantry-planner-v2",
-  "template_catalog_version": "templates-v2-20260727-r9",
-  "taxonomy_version": "taxonomy-v1-20260727-r9",
+  "template_catalog_version": "templates-v2-20260728-r10",
+  "taxonomy_version": "taxonomy-v1-20260728-r10",
   "ratio_catalog_version": "ratio-rules-v1-20260727-r5",
   "source_hashes": {
-    "tools/data/ingredient-taxonomy.v1.json": "02e627be2c8552ed35f07cc3fc68c4e5ad0f83a072ba2cf17c106363cb8477bb",
-    "tools/data/meal-templates.v2.json": "130a93a6b63120376365a1ca8d895b8c40f59146a66e77cb4af8bd64c54a231e",
+    "tools/data/ingredient-taxonomy.v1.json": "32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c",
+    "tools/data/meal-templates.v2.json": "83c82b924b32722250095e60318d072793ed1056a04b358efbddd3067ec99710",
     "tools/data/menu-master-baseline.v1.json": "68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab",
     "tools/data/ratio-rules.v1.json": "ffa8558bc6a2d9f274baf0c523195ee925ff42e46599a17c2c267f99e03eb767",
     "tools/data/recipe-library.json": "510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340",
@@ -19,16 +19,16 @@
     "status_counts": {
       "full_single_pot_evidence_aligned": 12,
       "full_single_pot_ingredient_compatible": 26,
-      "full_multi_pot": 1,
-      "taxonomy_gap": 23,
+      "full_multi_pot": 3,
+      "taxonomy_gap": 21,
       "planner_gap": 6,
       "no_recognized_core": 4,
       "invalid_source_record": 0
     },
     "priority_counts": {
       "P0": 4,
-      "P1": 29,
-      "P2": 1,
+      "P1": 27,
+      "P2": 3,
       "P3": 26,
       "covered": 12
     }
@@ -124,7 +124,7 @@
       "technique_family_id": "cooked-rice-stir",
       "recipe_count": 5,
       "single_pot_full_count": 3,
-      "taxonomy_gap_count": 2,
+      "taxonomy_gap_count": 1,
       "planner_gap_count": 0
     },
     {
@@ -173,7 +173,7 @@
       "technique_family_id": "raw-rice-braise",
       "recipe_count": 27,
       "single_pot_full_count": 18,
-      "taxonomy_gap_count": 6,
+      "taxonomy_gap_count": 5,
       "planner_gap_count": 4
     },
     {
@@ -199,7 +199,7 @@
     },
     {
       "template_id": "savory-mixed-rice-pot",
-      "selected_recipe_count": 30,
+      "selected_recipe_count": 31,
       "direct_evidence_recipe_count": 5
     },
     {
@@ -458,13 +458,6 @@
       ]
     },
     {
-      "raw": "虾仁",
-      "recipe_count": 1,
-      "recipe_ids": [
-        "shrimp-egg-fried-leftover-rice"
-      ]
-    },
-    {
       "raw": "香肠",
       "recipe_count": 1,
       "recipe_ids": [
@@ -483,13 +476,6 @@
       "recipe_count": 1,
       "recipe_ids": [
         "basic-risotto"
-      ]
-    },
-    {
-      "raw": "玉米",
-      "recipe_count": 1,
-      "recipe_ids": [
-        "corn-carrot-chicken-leg-covered-rice"
       ]
     },
     {
@@ -21920,6 +21906,40 @@
           "duplicate_of": null
         },
         {
+          "raw": "虾仁",
+          "canonical_id": "shrimp",
+          "canonical": "虾仁",
+          "ratio_rule_policy": "category_fallback",
+          "display_name": "虾仁",
+          "category": "seafood",
+          "state": "raw",
+          "shape_or_cut": "whole",
+          "cook_speed": "fast",
+          "moisture_release": "low",
+          "texture_behavior": "tender_when_quick_cooked",
+          "texture_failure_modes": [
+            "rubbery_when_overcooked"
+          ],
+          "cooking_risk": "raw_seafood",
+          "required_endpoint_codes": [
+            "seafood_fully_cooked"
+          ],
+          "compatible_slot_codes": [
+            "protein",
+            "quick_cook_protein"
+          ],
+          "incompatible_slot_codes": [
+            "long_braise"
+          ],
+          "recognized": true,
+          "ambiguity_id": null,
+          "ambiguity_code": null,
+          "ambiguity_reason": null,
+          "eligible_items": [],
+          "role": "must_use",
+          "duplicate_of": null
+        },
+        {
           "raw": "鸡蛋",
           "canonical_id": "egg",
           "canonical": "鸡蛋",
@@ -21953,37 +21973,17 @@
         }
       ],
       "recognized_basic_items": [],
-      "unclassified_core_items": [
-        {
-          "raw": "虾仁",
-          "canonical_id": null,
-          "canonical": null,
-          "ratio_rule_policy": null,
-          "category": null,
-          "state": null,
-          "shape_or_cut": null,
-          "cook_speed": null,
-          "moisture_release": null,
-          "texture_behavior": null,
-          "cooking_risk": "unknown",
-          "recognized": false,
-          "ambiguity_id": null,
-          "ambiguity_code": null,
-          "ambiguity_reason": null,
-          "eligible_items": [],
-          "role": "must_use",
-          "duplicate_of": null
-        }
-      ],
-      "identity_recognition_ratio": 0.6666666666666666,
+      "unclassified_core_items": [],
+      "identity_recognition_ratio": 1,
       "recognized_only_scenario": {
         "submitted_raw_items": [
           "熟米饭",
+          "虾仁",
           "鸡蛋"
         ],
         "status": "complete",
-        "plan_kind": "single_pot",
-        "pot_count": 1,
+        "plan_kind": "multi_pot",
+        "pot_count": 2,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
           "cooked-rice-stir-pot",
@@ -21991,6 +21991,7 @@
           "broth-rice-pot"
         ],
         "selected_template_ids": [
+          "savory-mixed-rice-pot",
           "broth-rice-pot"
         ],
         "planned_items": [
@@ -22018,6 +22019,40 @@
               "cooked_rice"
             ],
             "incompatible_slot_codes": [],
+            "recognized": true,
+            "ambiguity_id": null,
+            "ambiguity_code": null,
+            "ambiguity_reason": null,
+            "eligible_items": [],
+            "role": "must_use",
+            "duplicate_of": null
+          },
+          {
+            "raw": "虾仁",
+            "canonical_id": "shrimp",
+            "canonical": "虾仁",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "虾仁",
+            "category": "seafood",
+            "state": "raw",
+            "shape_or_cut": "whole",
+            "cook_speed": "fast",
+            "moisture_release": "low",
+            "texture_behavior": "tender_when_quick_cooked",
+            "texture_failure_modes": [
+              "rubbery_when_overcooked"
+            ],
+            "cooking_risk": "raw_seafood",
+            "required_endpoint_codes": [
+              "seafood_fully_cooked"
+            ],
+            "compatible_slot_codes": [
+              "protein",
+              "quick_cook_protein"
+            ],
+            "incompatible_slot_codes": [
+              "long_braise"
+            ],
             "recognized": true,
             "ambiguity_id": null,
             "ambiguity_code": null,
@@ -22061,12 +22096,104 @@
         ],
         "planned_raw_items": [
           "熟米饭",
+          "虾仁",
           "鸡蛋"
         ],
         "unplanned_items": [],
         "unplanned_raw_items": [],
         "reason_codes": [],
         "ratio_plans": [
+          {
+            "template_id": "savory-mixed-rice-pot",
+            "ingredient_amounts": [
+              {
+                "name": "大米",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "grams": 270
+              },
+              {
+                "name": "虾仁",
+                "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
+              }
+            ],
+            "required_extra_items": [
+              {
+                "name": "大米",
+                "category": "raw_rice",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "category": "liquid",
+                "grams": 270
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
+              }
+            ],
+            "liquid_constraints": {
+              "retained_liquid_grams": 270,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
+            },
+            "ratio_trace": [
+              {
+                "operator": "per_serving",
+                "slot_id": "staple",
+                "grams_per_serving": 100,
+                "rule_id": "savory-mixed-rice-liquid-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "protein",
+                "grams_per_serving": 100
+              },
+              {
+                "operator": "bounded_sum",
+                "attribute": "moisture_release",
+                "value": "high",
+                "matched_items": [],
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "ratio",
+                "numerator": "retained_liquid_grams",
+                "denominator_slot_id": "staple",
+                "multiplier": 1.35,
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 10
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
+              }
+            ]
+          },
           {
             "template_id": "broth-rice-pot",
             "ingredient_amounts": [
@@ -22126,9 +22253,9 @@
           "虾仁",
           "鸡蛋"
         ],
-        "status": "needs_user_decision",
-        "plan_kind": "single_pot",
-        "pot_count": 1,
+        "status": "complete",
+        "plan_kind": "multi_pot",
+        "pot_count": 2,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
           "cooked-rice-stir-pot",
@@ -22136,6 +22263,7 @@
           "broth-rice-pot"
         ],
         "selected_template_ids": [
+          "savory-mixed-rice-pot",
           "broth-rice-pot"
         ],
         "planned_items": [
@@ -22163,6 +22291,40 @@
               "cooked_rice"
             ],
             "incompatible_slot_codes": [],
+            "recognized": true,
+            "ambiguity_id": null,
+            "ambiguity_code": null,
+            "ambiguity_reason": null,
+            "eligible_items": [],
+            "role": "must_use",
+            "duplicate_of": null
+          },
+          {
+            "raw": "虾仁",
+            "canonical_id": "shrimp",
+            "canonical": "虾仁",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "虾仁",
+            "category": "seafood",
+            "state": "raw",
+            "shape_or_cut": "whole",
+            "cook_speed": "fast",
+            "moisture_release": "low",
+            "texture_behavior": "tender_when_quick_cooked",
+            "texture_failure_modes": [
+              "rubbery_when_overcooked"
+            ],
+            "cooking_risk": "raw_seafood",
+            "required_endpoint_codes": [
+              "seafood_fully_cooked"
+            ],
+            "compatible_slot_codes": [
+              "protein",
+              "quick_cook_protein"
+            ],
+            "incompatible_slot_codes": [
+              "long_braise"
+            ],
             "recognized": true,
             "ambiguity_id": null,
             "ambiguity_code": null,
@@ -22206,40 +22368,104 @@
         ],
         "planned_raw_items": [
           "熟米饭",
+          "虾仁",
           "鸡蛋"
         ],
-        "unplanned_items": [
-          {
-            "raw": "虾仁",
-            "canonical_id": null,
-            "canonical": null,
-            "ratio_rule_policy": null,
-            "category": null,
-            "state": null,
-            "shape_or_cut": null,
-            "cook_speed": null,
-            "moisture_release": null,
-            "texture_behavior": null,
-            "cooking_risk": "unknown",
-            "recognized": false,
-            "ambiguity_id": null,
-            "ambiguity_code": null,
-            "ambiguity_reason": null,
-            "eligible_items": [],
-            "role": "must_use",
-            "duplicate_of": null,
-            "reason_code": "unrecognized_ingredient",
-            "reason": "暂时无法识别这种食材，因此不能承诺已经安排。"
-          }
-        ],
-        "unplanned_raw_items": [
-          "虾仁"
-        ],
-        "reason_codes": [
-          "incomplete_coverage",
-          "unrecognized_ingredient"
-        ],
+        "unplanned_items": [],
+        "unplanned_raw_items": [],
+        "reason_codes": [],
         "ratio_plans": [
+          {
+            "template_id": "savory-mixed-rice-pot",
+            "ingredient_amounts": [
+              {
+                "name": "大米",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "grams": 270
+              },
+              {
+                "name": "虾仁",
+                "grams": 200
+              },
+              {
+                "name": "盐",
+                "grams": 3
+              }
+            ],
+            "required_extra_items": [
+              {
+                "name": "大米",
+                "category": "raw_rice",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "category": "liquid",
+                "grams": 270
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
+              }
+            ],
+            "liquid_constraints": {
+              "retained_liquid_grams": 270,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
+            },
+            "ratio_trace": [
+              {
+                "operator": "per_serving",
+                "slot_id": "staple",
+                "grams_per_serving": 100,
+                "rule_id": "savory-mixed-rice-liquid-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "protein",
+                "grams_per_serving": 100
+              },
+              {
+                "operator": "bounded_sum",
+                "attribute": "moisture_release",
+                "value": "high",
+                "matched_items": [],
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "ratio",
+                "numerator": "retained_liquid_grams",
+                "denominator_slot_id": "staple",
+                "multiplier": 1.35,
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 10
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
+              }
+            ]
+          },
           {
             "template_id": "broth-rice-pot",
             "ingredient_amounts": [
@@ -22291,20 +22517,19 @@
             ]
           }
         ],
-        "end_to_end_core_coverage_ratio": 0.6666666666666666
+        "end_to_end_core_coverage_ratio": 1
       },
       "evidence_alignment": {
         "direct_template_evidence": false,
         "evidence_template_ids": [],
         "ingredient_compatible_only_template_ids": [
+          "savory-mixed-rice-pot",
           "broth-rice-pot"
         ]
       },
-      "gap_codes": [
-        "taxonomy_gap"
-      ],
-      "audit_status": "taxonomy_gap",
-      "priority_band": "P1"
+      "gap_codes": [],
+      "audit_status": "full_multi_pot",
+      "priority_band": "P2"
     },
     {
       "recipe_id": "broccoli-beef-fried-rice",
@@ -29765,6 +29990,35 @@
           "duplicate_of": null
         },
         {
+          "raw": "玉米",
+          "canonical_id": "sweet-corn",
+          "canonical": "玉米",
+          "ratio_rule_policy": "category_fallback",
+          "display_name": "玉米",
+          "category": "starchy_vegetable",
+          "state": "raw",
+          "shape_or_cut": "whole_seed",
+          "cook_speed": "medium",
+          "moisture_release": "medium",
+          "texture_behavior": "softens_with_simmering",
+          "texture_failure_modes": [
+            "firm_when_undercooked"
+          ],
+          "cooking_risk": "none",
+          "required_endpoint_codes": [],
+          "compatible_slot_codes": [
+            "vegetable"
+          ],
+          "incompatible_slot_codes": [],
+          "recognized": true,
+          "ambiguity_id": null,
+          "ambiguity_code": null,
+          "ambiguity_reason": null,
+          "eligible_items": [],
+          "role": "must_use",
+          "duplicate_of": null
+        },
+        {
           "raw": "胡萝卜",
           "canonical_id": "carrot",
           "canonical": "胡萝卜",
@@ -29797,38 +30051,18 @@
         }
       ],
       "recognized_basic_items": [],
-      "unclassified_core_items": [
-        {
-          "raw": "玉米",
-          "canonical_id": null,
-          "canonical": null,
-          "ratio_rule_policy": null,
-          "category": null,
-          "state": null,
-          "shape_or_cut": null,
-          "cook_speed": null,
-          "moisture_release": null,
-          "texture_behavior": null,
-          "cooking_risk": "unknown",
-          "recognized": false,
-          "ambiguity_id": null,
-          "ambiguity_code": null,
-          "ambiguity_reason": null,
-          "eligible_items": [],
-          "role": "must_use",
-          "duplicate_of": null
-        }
-      ],
-      "identity_recognition_ratio": 0.75,
+      "unclassified_core_items": [],
+      "identity_recognition_ratio": 1,
       "recognized_only_scenario": {
         "submitted_raw_items": [
           "大米",
           "鸡腿肉",
+          "玉米",
           "胡萝卜"
         ],
         "status": "complete",
-        "plan_kind": "single_pot",
-        "pot_count": 1,
+        "plan_kind": "multi_pot",
+        "pot_count": 2,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
           "cooked-rice-stir-pot",
@@ -29838,6 +30072,7 @@
           "braised-noodle-pot"
         ],
         "selected_template_ids": [
+          "savory-mixed-rice-pot",
           "savory-mixed-rice-pot"
         ],
         "planned_items": [
@@ -29905,6 +30140,35 @@
             "duplicate_of": null
           },
           {
+            "raw": "玉米",
+            "canonical_id": "sweet-corn",
+            "canonical": "玉米",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "玉米",
+            "category": "starchy_vegetable",
+            "state": "raw",
+            "shape_or_cut": "whole_seed",
+            "cook_speed": "medium",
+            "moisture_release": "medium",
+            "texture_behavior": "softens_with_simmering",
+            "texture_failure_modes": [
+              "firm_when_undercooked"
+            ],
+            "cooking_risk": "none",
+            "required_endpoint_codes": [],
+            "compatible_slot_codes": [
+              "vegetable"
+            ],
+            "incompatible_slot_codes": [],
+            "recognized": true,
+            "ambiguity_id": null,
+            "ambiguity_code": null,
+            "ambiguity_reason": null,
+            "eligible_items": [],
+            "role": "must_use",
+            "duplicate_of": null
+          },
+          {
             "raw": "胡萝卜",
             "canonical_id": "carrot",
             "canonical": "胡萝卜",
@@ -29939,6 +30203,7 @@
         "planned_raw_items": [
           "大米",
           "鸡腿肉",
+          "玉米",
           "胡萝卜"
         ],
         "unplanned_items": [],
@@ -30039,6 +30304,97 @@
                 "grams": 3
               }
             ]
+          },
+          {
+            "template_id": "savory-mixed-rice-pot",
+            "ingredient_amounts": [
+              {
+                "name": "大米",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "grams": 270
+              },
+              {
+                "name": "盐",
+                "grams": 3
+              },
+              {
+                "name": "玉米",
+                "grams": 240
+              }
+            ],
+            "required_extra_items": [
+              {
+                "name": "大米",
+                "category": "raw_rice",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "category": "liquid",
+                "grams": 270
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
+              }
+            ],
+            "liquid_constraints": {
+              "retained_liquid_grams": 270,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
+            },
+            "ratio_trace": [
+              {
+                "operator": "per_serving",
+                "slot_id": "staple",
+                "grams_per_serving": 100,
+                "rule_id": "savory-mixed-rice-liquid-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "slow_vegetable",
+                "grams_per_serving": 120
+              },
+              {
+                "operator": "bounded_sum",
+                "attribute": "moisture_release",
+                "value": "high",
+                "matched_items": [],
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "ratio",
+                "numerator": "retained_liquid_grams",
+                "denominator_slot_id": "staple",
+                "multiplier": 1.35,
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 10
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
+              }
+            ]
           }
         ],
         "recognized_planner_coverage_ratio": 1
@@ -30050,9 +30406,9 @@
           "玉米",
           "胡萝卜"
         ],
-        "status": "needs_user_decision",
-        "plan_kind": "single_pot",
-        "pot_count": 1,
+        "status": "complete",
+        "plan_kind": "multi_pot",
+        "pot_count": 2,
         "candidate_template_ids": [
           "savory-mixed-rice-pot",
           "cooked-rice-stir-pot",
@@ -30062,6 +30418,7 @@
           "braised-noodle-pot"
         ],
         "selected_template_ids": [
+          "savory-mixed-rice-pot",
           "savory-mixed-rice-pot"
         ],
         "planned_items": [
@@ -30129,6 +30486,35 @@
             "duplicate_of": null
           },
           {
+            "raw": "玉米",
+            "canonical_id": "sweet-corn",
+            "canonical": "玉米",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "玉米",
+            "category": "starchy_vegetable",
+            "state": "raw",
+            "shape_or_cut": "whole_seed",
+            "cook_speed": "medium",
+            "moisture_release": "medium",
+            "texture_behavior": "softens_with_simmering",
+            "texture_failure_modes": [
+              "firm_when_undercooked"
+            ],
+            "cooking_risk": "none",
+            "required_endpoint_codes": [],
+            "compatible_slot_codes": [
+              "vegetable"
+            ],
+            "incompatible_slot_codes": [],
+            "recognized": true,
+            "ambiguity_id": null,
+            "ambiguity_code": null,
+            "ambiguity_reason": null,
+            "eligible_items": [],
+            "role": "must_use",
+            "duplicate_of": null
+          },
+          {
             "raw": "胡萝卜",
             "canonical_id": "carrot",
             "canonical": "胡萝卜",
@@ -30163,39 +30549,12 @@
         "planned_raw_items": [
           "大米",
           "鸡腿肉",
+          "玉米",
           "胡萝卜"
         ],
-        "unplanned_items": [
-          {
-            "raw": "玉米",
-            "canonical_id": null,
-            "canonical": null,
-            "ratio_rule_policy": null,
-            "category": null,
-            "state": null,
-            "shape_or_cut": null,
-            "cook_speed": null,
-            "moisture_release": null,
-            "texture_behavior": null,
-            "cooking_risk": "unknown",
-            "recognized": false,
-            "ambiguity_id": null,
-            "ambiguity_code": null,
-            "ambiguity_reason": null,
-            "eligible_items": [],
-            "role": "must_use",
-            "duplicate_of": null,
-            "reason_code": "unrecognized_ingredient",
-            "reason": "暂时无法识别这种食材，因此不能承诺已经安排。"
-          }
-        ],
-        "unplanned_raw_items": [
-          "玉米"
-        ],
-        "reason_codes": [
-          "incomplete_coverage",
-          "unrecognized_ingredient"
-        ],
+        "unplanned_items": [],
+        "unplanned_raw_items": [],
+        "reason_codes": [],
         "ratio_plans": [
           {
             "template_id": "savory-mixed-rice-pot",
@@ -30291,9 +30650,100 @@
                 "grams": 3
               }
             ]
+          },
+          {
+            "template_id": "savory-mixed-rice-pot",
+            "ingredient_amounts": [
+              {
+                "name": "大米",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "grams": 270
+              },
+              {
+                "name": "盐",
+                "grams": 3
+              },
+              {
+                "name": "玉米",
+                "grams": 240
+              }
+            ],
+            "required_extra_items": [
+              {
+                "name": "大米",
+                "category": "raw_rice",
+                "grams": 200
+              },
+              {
+                "name": "食用油",
+                "category": "oil",
+                "grams": 10
+              },
+              {
+                "name": "水",
+                "category": "liquid",
+                "grams": 270
+              },
+              {
+                "name": "盐",
+                "category": "seasoning",
+                "grams": 3
+              }
+            ],
+            "liquid_constraints": {
+              "retained_liquid_grams": 270,
+              "liquid_credit_grams": 0,
+              "rounding_grams": 1
+            },
+            "ratio_trace": [
+              {
+                "operator": "per_serving",
+                "slot_id": "staple",
+                "grams_per_serving": 100,
+                "rule_id": "savory-mixed-rice-liquid-v1"
+              },
+              {
+                "operator": "per_serving",
+                "slot_id": "slow_vegetable",
+                "grams_per_serving": 120
+              },
+              {
+                "operator": "bounded_sum",
+                "attribute": "moisture_release",
+                "value": "high",
+                "matched_items": [],
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "ratio",
+                "numerator": "retained_liquid_grams",
+                "denominator_slot_id": "staple",
+                "multiplier": 1.35,
+                "liquid_credit_grams": 0
+              },
+              {
+                "operator": "fixed_addition",
+                "name": "食用油",
+                "applied": true,
+                "grams": 10
+              },
+              {
+                "operator": "scale_by_servings",
+                "name": "盐",
+                "applied": true,
+                "grams": 3
+              }
+            ]
           }
         ],
-        "end_to_end_core_coverage_ratio": 0.75
+        "end_to_end_core_coverage_ratio": 1
       },
       "evidence_alignment": {
         "direct_template_evidence": false,
@@ -30302,11 +30752,9 @@
           "savory-mixed-rice-pot"
         ]
       },
-      "gap_codes": [
-        "taxonomy_gap"
-      ],
-      "audit_status": "taxonomy_gap",
-      "priority_band": "P1"
+      "gap_codes": [],
+      "audit_status": "full_multi_pot",
+      "priority_band": "P2"
     },
     {
       "recipe_id": "cabbage-potato-chicken-leg-braised-noodles",

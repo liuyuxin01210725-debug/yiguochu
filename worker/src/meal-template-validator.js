@@ -6,7 +6,7 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
   'pork-staple-pot', 'soft-family-rice-pot', 'stew-with-staple-pot', 'quick-breakfast-pot',
 ]);
-const TAXONOMY_VERSION = 'taxonomy-v1-20260727-r9';
+const TAXONOMY_VERSION = 'taxonomy-v1-20260728-r10';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
@@ -50,6 +50,7 @@ export const TEMPLATE_ENDPOINT_TO_TAXONOMY_ENDPOINT = Object.freeze({
   beef_fully_cooked: 'beef_fully_cooked',
   pork_fully_cooked: 'pork_fully_cooked',
   lamb_fully_cooked: 'lamb_fully_cooked',
+  seafood_fully_cooked: 'seafood_fully_cooked',
   bean_fully_cooked: 'bean_fully_cooked',
   tender: 'tender',
   dough_cooked_through: 'dough_cooked_through',
@@ -65,6 +66,7 @@ const ENDPOINT_CATEGORIES = new Map([
   ['beef_fully_cooked', new Set(['beef'])],
   ['pork_fully_cooked', new Set(['pork'])],
   ['lamb_fully_cooked', new Set(['lamb'])],
+  ['seafood_fully_cooked', new Set(['seafood'])],
   ['bean_fully_cooked', new Set(['pod_vegetable'])],
   ['tender', new Set(['cruciferous_vegetable', 'root_vegetable'])],
   ['dough_cooked_through', new Set(['cornmeal_dough', 'wheat_dough'])],
@@ -497,7 +499,7 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
     if (!isObject(catalog)) return ['template catalog must be an object'];
     assertAllowedKeys(catalog, CATALOG_KEYS, 'template catalog', errors);
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
-    if (catalog.template_catalog_version !== 'templates-v2-20260727-r9') errors.push('template_catalog_version must be templates-v2-20260727-r9');
+    if (catalog.template_catalog_version !== 'templates-v2-20260728-r10') errors.push('template_catalog_version must be templates-v2-20260728-r10');
     if (!isObject(taxonomy) || taxonomy.taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== taxonomy.taxonomy_version) {

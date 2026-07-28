@@ -44,8 +44,8 @@ const REQUIRED_TEMPLATE_FIELDS = [
 
 test('catalog has the approved 11 active and 5 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260727-r9');
-  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260727-r9');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260728-r10');
+  assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260728-r10');
   assert.equal(catalog.templates.length, 16);
 
   const byId = new Map(catalog.templates.map(template => [template.template_id, template]));
@@ -68,6 +68,19 @@ test('catalog has the approved 11 active and 5 planned composable template IDs',
     'braised-noodle-liquid-v1',
     'braised-fresh-wheat-noodle-liquid-v1',
   ]));
+});
+
+test('savory mixed rice accepts raw shrimp and sweet corn with an explicit seafood endpoint', () => {
+  const template = catalog.templates.find(row => row.template_id === 'savory-mixed-rice-pot');
+  const protein = template.optional_slots.find(row => row.slot_id === 'protein');
+  const slowVegetable = template.optional_slots.find(row => row.slot_id === 'slow_vegetable');
+  assert.ok(protein.accepts_categories.includes('seafood'));
+  assert.ok(slowVegetable.accepts_categories.includes('starchy_vegetable'));
+  assert.ok(template.ingredient_categories.protein.includes('seafood'));
+  assert.ok(template.ingredient_categories.slow_vegetable.includes('starchy_vegetable'));
+  assert.ok(template.safety_endpoints.some(row => (
+    row.applies_to_category === 'seafood' && row.endpoint_code === 'seafood_fully_cooked'
+  )));
 });
 
 test('soft family pot is a narrow millet branch rather than a generic rice recipe', () => {

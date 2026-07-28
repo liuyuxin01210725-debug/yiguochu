@@ -775,6 +775,28 @@ test('locked safety endpoints come exactly from the selected template categories
   assert.deepEqual(chickenLocked.meals[0].safety_endpoints, ['heated_through', 'poultry_fully_cooked_no_pink']);
 });
 
+test('raw shrimp plan requires explicit fully-cooked seafood evidence', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米'],
+  }));
+  assert.equal(journey.planned.status, 'ready');
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  assert.ok(locked.meals[0].safety_endpoints.includes('seafood_fully_cooked'));
+
+  const valid = validModelOutput(locked);
+  assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+  const invalid = structuredClone(valid);
+  const safetyStep = invalid.meals[0].steps.find(step => (
+    step.completed_safety_endpoints.includes('seafood_fully_cooked')
+  ));
+  safetyStep.text = '虾仁表面已经变色。';
+  const checked = workerModule.validateGeneratedPlan(invalid, locked, ingredientTermUniverse());
+  assert.equal(checked.ok, false);
+  assert.equal(checked.reason_code, 'safety_evidence_invalid');
+});
+
 test('controlled prose scan rejects finite basic and recipe-only ingredients outside the locked plan', async t => {
   const termUniverse = ingredientTermUniverse();
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);

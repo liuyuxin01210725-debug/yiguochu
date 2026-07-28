@@ -117,6 +117,22 @@ test('recommend candidate eligibility applies the submitted-item coverage floor'
   }
 });
 
+test('shrimp and corn are recognized and planned together instead of being silently dropped', () => {
+  const result = planMeal(assets, request({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米'],
+  }));
+  assert.equal(result.status, 'ready');
+  assert.ok(result.normalized_items.every(item => item.recognized), JSON.stringify(result.normalized_items));
+  assert.deepEqual(
+    result.plan.planned_prefer_use.map(item => item.canonical).sort(),
+    ['虾仁', '玉米'].sort(),
+  );
+  assert.deepEqual(result.plan.unused_prefer_use, []);
+  assert.equal(result.plan.coverage_ratio, 1);
+  assert.equal(result.plan.pots[0].template_id, 'savory-mixed-rice-pot');
+});
+
 test('generic beef accepts tenderloin while preserving the raw cut and rejects brisket or ground forms', () => {
   const tenderloin = normalizePlannerItems([
     { raw: '牛里脊', role: 'must_use' }, { raw: '熟米饭', role: 'must_use' },

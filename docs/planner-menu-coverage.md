@@ -7,8 +7,8 @@
 本报告把现有 72 道 recipe 的原始核心食材，原样送入当前 Planner V2 的确定性纯函数。它只回答当前 taxonomy、template 与 Ratio DSL 能否识别和规划这些食材；不会用菜名猜食材，也不会把模板兼容写成地方菜复刻。
 
 - Planner：`pantry-planner-v2`
-- Template catalog：`templates-v2-20260727-r9`
-- Taxonomy：`taxonomy-v1-20260727-r9`
+- Template catalog：`templates-v2-20260728-r10`
+- Taxonomy：`taxonomy-v1-20260728-r10`
 - Ratio catalog：`ratio-rules-v1-20260727-r5`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
@@ -19,8 +19,8 @@
 | --- | ---: |
 | full_single_pot_evidence_aligned | 12 |
 | full_single_pot_ingredient_compatible | 26 |
-| full_multi_pot | 1 |
-| taxonomy_gap | 23 |
+| full_multi_pot | 3 |
+| taxonomy_gap | 21 |
 | planner_gap | 6 |
 | no_recognized_core | 4 |
 | invalid_source_record | 0 |
@@ -30,8 +30,8 @@
 | 优先级 | 数量 |
 | --- | ---: |
 | P0 | 4 |
-| P1 | 29 |
-| P2 | 1 |
+| P1 | 27 |
+| P2 | 3 |
 | P3 | 26 |
 | covered | 12 |
 
@@ -63,9 +63,9 @@
 | P0 | 畲族乌饭风味家庭适配版 | glutinous-mixed-rice | 糯米、食品级黑米色粉 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
 | P0 | 傣族菠萝紫米饭 | vessel-adapted-rice | 紫米、菠萝 | no_recognized_core | no_recognized_core、taxonomy_gap、planner_gap | no_valid_plan | no_valid_plan | 0 |
 | P1 | 侗家社饭风味家庭适配版 | raw-rice-braise | 大米、腊五花肉、姜、小白菜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
-| P1 | 虾仁鸡蛋炒剩饭 | cooked-rice-stir | 熟米饭、虾仁、鸡蛋 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
+| P2 | 虾仁鸡蛋炒剩饭 | cooked-rice-stir | 熟米饭、虾仁、鸡蛋 | full_multi_pot | 无 | complete | complete | 2 |
 | P2 | 番茄鸡腿土豆汤饭 | cooked-rice-stew | 熟米饭、鸡腿肉、番茄 | full_multi_pot | 无 | complete | complete | 2 |
-| P1 | 玉米土豆鸡腿饭锅 | raw-rice-braise | 大米、鸡腿肉、玉米、胡萝卜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
+| P2 | 玉米土豆鸡腿饭锅 | raw-rice-braise | 大米、鸡腿肉、玉米、胡萝卜 | full_multi_pot | 无 | complete | complete | 2 |
 | P1 | 青菜香肠炒饭 | cooked-rice-stir | 熟米饭、青菜、香肠 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 青菜豆腐粉丝煲 | family-pot-with-absorbent-staple | 粉丝、青菜、老豆腐 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 豆角排骨焖饭 | raw-rice-braise | 大米、猪肋排、豆角 | planner_gap | planner_gap | needs_user_decision | needs_user_decision | 1 |
@@ -109,11 +109,9 @@
 | 食品级南瓜粉 | 1 | guangxi-five-color-glutinous-rice |
 | 食品级甜菜粉 | 1 | guangxi-five-color-glutinous-rice |
 | 食品级紫薯粉 | 1 | guangxi-five-color-glutinous-rice |
-| 虾仁 | 1 | shrimp-egg-fried-leftover-rice |
 | 香肠 | 1 | greens-sausage-fried-rice |
 | 椰奶 | 1 | kari-ayam-coconut-chicken |
 | 意式烩饭米 | 1 | basic-risotto |
-| 玉米 | 1 | corn-carrot-chicken-leg-covered-rice |
 | 紫米 | 1 | dai-pineapple-purple-rice |
 
 ## Active template 实际命中
@@ -121,7 +119,7 @@
 | Template | 被最终计划选中的菜单数 | 直接 evidence 对齐数 |
 | --- | ---: | ---: |
 | `acid-staple-pot` | 10 | 3 |
-| `savory-mixed-rice-pot` | 30 | 5 |
+| `savory-mixed-rice-pot` | 31 | 5 |
 | `cooked-rice-stir-pot` | 4 | 0 |
 | `broth-noodle-pot` | 2 | 0 |
 | `egg-tofu-vegetable-pot` | 0 | 0 |
@@ -138,14 +136,14 @@
 | --- | ---: | ---: | ---: | ---: |
 | `claypot-rice` | 3 | 2 | 1 | 1 |
 | `cooked-rice-stew` | 10 | 7 | 0 | 2 |
-| `cooked-rice-stir` | 5 | 3 | 2 | 0 |
+| `cooked-rice-stir` | 5 | 3 | 1 | 0 |
 | `family-pot-with-absorbent-staple` | 1 | 0 | 1 | 0 |
 | `glutinous-mixed-rice` | 3 | 0 | 3 | 2 |
 | `grain-porridge` | 3 | 2 | 1 | 0 |
 | `noodle-braise` | 2 | 2 | 0 | 0 |
 | `noodle-broth` | 4 | 3 | 0 | 1 |
 | `noodle-steam-braise` | 0 | 0 | 0 | 0 |
-| `raw-rice-braise` | 27 | 18 | 6 | 4 |
+| `raw-rice-braise` | 27 | 18 | 5 | 4 |
 | `stew-with-staple` | 0 | 0 | 0 | 0 |
 | `vessel-adapted-rice` | 3 | 0 | 3 | 1 |
 
@@ -214,7 +212,7 @@
 | 番茄鸡蛋烩剩饭 | 熟米饭、番茄、鸡蛋 | 100% | 100% | 100% | single_pot / complete | acid-staple-pot | 直接对齐 | covered |
 | 青菜鸡蛋焖剩饭 | 熟米饭、青菜、鸡蛋 | 100% | 100% | 100% | single_pot / complete | broth-rice-pot | 仅食材兼容或未规划 | P3 |
 | 香菇鸡蛋焖剩饭 | 熟米饭、鲜香菇、鸡蛋 | 100% | 100% | 100% | single_pot / complete | cooked-rice-stir-pot | 仅食材兼容或未规划 | P3 |
-| 虾仁鸡蛋炒剩饭 | 熟米饭、虾仁、鸡蛋 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | broth-rice-pot | 仅食材兼容或未规划 | P1 |
+| 虾仁鸡蛋炒剩饭 | 熟米饭、虾仁、鸡蛋 | 100% | 100% | 100% | multi_pot / complete | savory-mixed-rice-pot、broth-rice-pot | 仅食材兼容或未规划 | P2 |
 | 西兰花牛肉炒饭 | 熟米饭、西兰花、牛肉 | 100% | 100% | 100% | single_pot / complete | beef-staple-pot | 仅食材兼容或未规划 | P3 |
 | 西兰花牛肉焖饭 | 大米、西兰花、牛肉 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 番茄西兰花牛肉烩饭 | 熟米饭、番茄、西兰花、牛肉 | 100% | 100% | 100% | single_pot / complete | acid-staple-pot | 仅食材兼容或未规划 | P3 |
@@ -228,7 +226,7 @@
 | 鸡腿土豆焖饭 | 大米、鸡腿肉、土豆 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 鸡腿香菇土豆烩饭 | 熟米饭、鸡腿肉、鲜香菇 | 100% | 100% | 100% | single_pot / complete | poultry-staple-pot | 仅食材兼容或未规划 | P3 |
 | 番茄鸡腿土豆汤饭 | 熟米饭、鸡腿肉、番茄 | 100% | 100% | 100% | multi_pot / complete | acid-staple-pot、broth-noodle-pot | 仅食材兼容或未规划 | P2 |
-| 玉米土豆鸡腿饭锅 | 大米、鸡腿肉、玉米、胡萝卜 | 75% | 100% | 75% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
+| 玉米土豆鸡腿饭锅 | 大米、鸡腿肉、玉米、胡萝卜 | 100% | 100% | 100% | multi_pot / complete | savory-mixed-rice-pot、savory-mixed-rice-pot | 仅食材兼容或未规划 | P2 |
 | 白菜土豆鸡腿焖面 | 面条、鸡腿肉、白菜、土豆 | 100% | 100% | 100% | single_pot / complete | braised-noodle-pot | 直接对齐 | covered |
 | 青菜香肠炒饭 | 熟米饭、青菜、香肠 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | broth-rice-pot | 仅食材兼容或未规划 | P1 |
 | 青菜肉末焖饭 | 大米、青菜、猪肉末 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
@@ -243,8 +241,8 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`02e627be2c8552ed35f07cc3fc68c4e5ad0f83a072ba2cf17c106363cb8477bb`
-- `tools/data/meal-templates.v2.json`：`130a93a6b63120376365a1ca8d895b8c40f59146a66e77cb4af8bd64c54a231e`
+- `tools/data/ingredient-taxonomy.v1.json`：`32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c`
+- `tools/data/meal-templates.v2.json`：`83c82b924b32722250095e60318d072793ed1056a04b358efbddd3067ec99710`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
 - `tools/data/ratio-rules.v1.json`：`ffa8558bc6a2d9f274baf0c523195ee925ff42e46599a17c2c267f99e03eb767`
 - `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`

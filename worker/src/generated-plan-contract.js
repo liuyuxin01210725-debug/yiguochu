@@ -29,6 +29,7 @@ const SAFETY_EVIDENCE_RULES = Object.freeze({
   beef_fully_cooked: /完全熟透/u,
   pork_fully_cooked: /完全熟透/u,
   lamb_fully_cooked: /完全熟透/u,
+  seafood_fully_cooked: /完全熟透/u,
   bean_fully_cooked: /煮熟软化/u,
   heated_through: /热透/u,
   grain_tender_no_hard_center: /熟软且无硬芯/u,
@@ -151,7 +152,7 @@ function endpointEvidencePhrase(endpoint, refs) {
   if (endpoint === 'egg_fully_set') return `${ingredients}完全凝固`;
   if (endpoint === 'poultry_fully_cooked_no_pink') return `${ingredients}完全熟透，内部无粉红`;
   if (endpoint === 'beef_fully_cooked' || endpoint === 'pork_fully_cooked'
-      || endpoint === 'lamb_fully_cooked') {
+      || endpoint === 'lamb_fully_cooked' || endpoint === 'seafood_fully_cooked') {
     return `${ingredients}完全熟透`;
   }
   if (endpoint === 'bean_fully_cooked') return `${ingredients}煮熟软化`;

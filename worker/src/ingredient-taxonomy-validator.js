@@ -3,9 +3,9 @@ import { normalizeIngredientTaxonomyKey } from './planner-v2.js';
 export { normalizeIngredientTaxonomyKey };
 
 const CATEGORIES = new Set([
-  'raw_rice', 'cooked_rice', 'noodle', 'acid_vegetable', 'egg', 'soft_tofu', 'firm_tofu',
+  'raw_rice', 'cooked_rice', 'noodle', 'acid_vegetable', 'egg', 'soft_tofu', 'firm_tofu', 'seafood',
   'beef', 'chicken', 'pork', 'lamb', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
-  'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'mushroom', 'cornmeal_dough',
+  'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'starchy_vegetable', 'mushroom', 'cornmeal_dough',
   'cornmeal_flour', 'cornmeal_cake', 'ready_staple',
   'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'raw_millet', 'liquid', 'oil', 'seasoning',
 ]);
@@ -41,6 +41,7 @@ const FAILURE_MODE_CODES = new Set([
 const ENDPOINT_CODES = new Set([
   'rice_tender', 'heated_through', 'noodle_tender', 'egg_fully_set', 'beef_fully_cooked',
   'poultry_fully_cooked', 'pork_fully_cooked', 'lamb_fully_cooked', 'bean_fully_cooked',
+  'seafood_fully_cooked',
   'legume_fully_cooked', 'pit_absent_verified', 'tender', 'dough_cooked_through',
   'grain_tender_no_hard_center',
 ]);
@@ -135,7 +136,7 @@ export function validateIngredientTaxonomy(data) {
   for (const key of Object.keys(data)) {
     if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
   }
-  if (data.taxonomy_version !== 'taxonomy-v1-20260727-r9') errors.push('taxonomy_version must be taxonomy-v1-20260727-r9');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260728-r10') errors.push('taxonomy_version must be taxonomy-v1-20260728-r10');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];

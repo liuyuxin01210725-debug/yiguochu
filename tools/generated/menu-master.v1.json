@@ -5103,9 +5103,7 @@
           "虾仁",
           "鸡蛋"
         ],
-        "unknown_role": [
-          "虾仁"
-        ],
+        "unknown_role": [],
         "optional": [
           "玉米",
           "香葱"
@@ -6566,9 +6564,7 @@
           "玉米",
           "胡萝卜"
         ],
-        "unknown_role": [
-          "玉米"
-        ],
+        "unknown_role": [],
         "optional": [
           "香葱"
         ],
