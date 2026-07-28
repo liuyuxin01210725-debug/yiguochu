@@ -63,6 +63,43 @@ node tools/run-direct-recommend-preview-gate.mjs \
 
 该门先核对 `/health` 构建号与 `plannerRollout: "direct-recommend"`，再预热 5 次、顺序测量 100 次 `/plan-meal`。发布硬门为：`bad_json=0`、非 JSON 响应 0、5xx/网络错误 0、P95 < 2000ms。通过仍不能替代 30 条真人 Chrome 手机视口点击门。
 
+## Task 9 本地发布门记录（2026-07-28）
+
+精确代码基线：
+
+- HEAD：`3975262`
+- 构建 ID：`direct-recommend-3975262`
+- rollout：`direct-recommend`
+- 工作区在构建前为 clean；`dist/build-meta.json` 与 HEAD 一致
+
+已通过：
+
+- 全部 Node 测试：1440/1440（`--test-concurrency=1`，避免压力测试与并发套件争抢 CPU 后产生计时假红）；
+- `node tools/check-recipes.mjs`：通过，72 道 recipe、11 active + 5 planned templates；
+- `node tools/run-pantry-planner-v2-journeys.mjs`：138/138；
+- `node tools/run-direct-recommend-shadow.mjs`：30/30，自动硬失败 0，人工争议 14；
+- `python3 -m py_compile ai_proxy.py`：通过；
+- `node --test tools/tests/build-dist.test.mjs`：7/7；
+- `tools/build-dist.mjs`：23 个发布文件，构建元数据一致。
+
+模型越界硬拒绝的测试落点：
+
+- `tools/tests/worker-generate-plan.test.mjs` 的 `pure validator rejects refs, substitutions, numeric overrides, action and safety drift`，子例 `changed beef cut`：拒绝把牛里脊改成牛腩；
+- 同一组的 `added mushroom prose`，以及 `pure validator rejects chicken and mushroom substitutions plus an unused user item in prose`：拒绝新增香菇等未规划主料；
+- `pure validator rejects shrimp that never reaches its seafood endpoint` 与既有 shrimp plan 契约测试：虾仁只能来自 locked plan 且必须达到海鲜熟制终点；
+- `controlled generation prose is a closed grammar...` 的 `dish name adds cheese`：拒绝菜名加入未使用食材。
+
+仍未通过、因此继续阻塞发放：
+
+- DeepSeek 旧 key 撤销和 Preview Secret 更新：**等待密钥持有人确认**；没有读取、回显或提交任何 key；
+- Preview 部署：未执行；
+- 线上 `/health`、`build-meta.json`、页面 `window.__YIGUOCHU_BUILD_META__` 三方核对：未执行；
+- Preview 100 次 `/plan-meal` 性能门：未执行；
+- 30 条真人 Chrome 手机视口点击门：未执行，由独立复测者在 Preview 构建号核对后完成；
+- 5 人 Pilot 链接：不得发送。
+
+已知 Pilot 观察项（不在本轮修改）：用户输入“熟玉米”时，首轮 taxonomy 可能不识别或无法区分于生玉米。记录真实输入和页面结果，不提前扩 taxonomy。
+
 ## 测试方法
 
 1. 优先邀请平时真实参与家庭做饭的人。
