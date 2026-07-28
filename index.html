@@ -844,7 +844,8 @@ const state = {
   sessionRejectedBaseRecipes:[], // 份量拦截只在当前页面会话避开，不写入 7 天历史
   lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
-  displayedPlan:null, planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
+  displayedPlan:null, planCandidates:[], planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
+  rolloutNotice:'',
   noAlternativeSwap:false,
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
@@ -989,6 +990,9 @@ function profileScreen() {
   const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
   const myFoods = (Array.isArray(p.myFoods) && p.myFoods.length) ? p.myFoods : COMMON_PANTRY;
   const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">没灵感或赶时间时，给你一锅真正能做的主餐。</p></header>';
+  const rolloutNotice = state.rolloutNotice
+    ? '<div class="gen-notice"><span>' + esc(state.rolloutNotice) + '</span></div>'
+    : '';
   const seg = (field, opts) => '<div class="segmented">' + opts.map(o => '<button class="seg' + (p[field]===o[0] ? ' on' : '') + '" data-seg="' + field + '" data-val="' + o[0] + '">' + esc(o[1]) + '</button>').join('') + '</div>';
   let body;
   if (!state.profileEditing) {
@@ -1015,7 +1019,7 @@ function profileScreen() {
       '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">用于过滤菜谱建议</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>';
   }
   const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。</p></div>';
-  return '<div class="screen profile-screen">' + head + body + cta + '</div>';
+  return '<div class="screen profile-screen">' + head + rolloutNotice + body + cta + '</div>';
 }
 function generatingScreen() {
   const note = '正在按你选择的食材、份数和忌口逐项检查。';
@@ -1093,6 +1097,74 @@ async function postPlannerV2(path, body) {
 function fetchPlan(planRequest) { return postPlannerV2('/plan-meal', planRequest || buildPlanRequest()); }
 function itemText(item) { return boundedText(item && (item.raw || item.canonical || item.name), 80); }
 function planItems(items) { return (Array.isArray(items) ? items : []).map(itemText).filter(Boolean); }
+const PLAN_FORM_LABELS = Object.freeze({
+  'acid-staple-pot':'酸香主食锅',
+  'savory-mixed-rice-pot':'家常焖饭锅',
+  'cooked-rice-stir-pot':'熟饭快炒锅',
+  'broth-noodle-pot':'汤面锅',
+  'egg-tofu-vegetable-pot':'蛋豆腐蔬菜锅',
+  'mushroom-vegetable-stew-pot':'菌菇蔬菜锅',
+  'beef-staple-pot':'牛肉主食锅',
+  'poultry-staple-pot':'鸡肉主食锅',
+  'broth-rice-pot':'汤饭锅',
+  'braised-noodle-pot':'焖面锅',
+  'soft-family-rice-pot':'软烩主食锅',
+});
+function candidateHeading(candidate) {
+  const plan = candidate && candidate.plan || {};
+  const used = planItems(plan.planned_prefer_use);
+  const templateId = plan.pots && plan.pots[0] && plan.pots[0].template_id;
+  const form = PLAN_FORM_LABELS[templateId];
+  if (!used.length || !form) return '';
+  const ingredients = used.slice(0, 3).join('、');
+  const suffix = used.length > 3 ? '等' + used.length + '种食材' : '';
+  return ingredients + suffix + ' · ' + form;
+}
+function uniquePlanItemTexts(items) {
+  return [...new Set(planItems(items))];
+}
+function plannerCandidatesScreen() {
+  const candidates = Array.isArray(state.planCandidates) ? state.planCandidates : [];
+  if (!candidates.length) {
+    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+      + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前还没有足够可靠的一锅组合</div>'
+      + '<p class="fb-banner-text">这次不拿低覆盖方案凑数。改一两样食材后再试，会更容易得到真正能做的一锅。</p></div></div>'
+      + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">修改食材</button></div></section></div>';
+  }
+  const cards = candidates.map(candidate => {
+    const plan = candidate.plan || {};
+    const heading = candidateHeading(candidate);
+    const used = uniquePlanItemTexts(plan.planned_prefer_use);
+    const unused = Array.isArray(plan.unused_prefer_use) ? plan.unused_prefer_use : [];
+    const submitted = uniquePlanItemTexts((candidate.normalized_items || [])
+      .filter(item => item && item.role === 'prefer_use' && item.duplicate_of == null));
+    const denominator = submitted.length || used.length + unused.length;
+    const extras = uniquePlanItemTexts(plan.required_extra_items);
+    const maxMinutes = plan.pots && plan.pots[0] && plan.pots[0].time_range
+      && Number.isFinite(+plan.pots[0].time_range.max_minutes)
+      ? Math.round(+plan.pots[0].time_range.max_minutes)
+      : null;
+    const unusedHtml = unused.length
+      ? '<span class="pantry-plan-items"><strong>这次没用：</strong>'
+        + unused.map(item => esc(itemText(item)) + '（'
+          + esc(boundedText(item.reason || item.message, 120) || '这套组合里先不使用') + '）').join('；')
+        + '</span>'
+      : '';
+    return '<button class="pantry-plan-card" data-act="choose-plan" data-plan-id="' + esc(plan.plan_id) + '">'
+      + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(heading || '可靠的一锅方案') + '</span>'
+      + '<span class="pantry-plan-count">用上 ' + used.length + '/' + denominator
+      + (maxMinutes ? ' · 最多 ' + maxMinutes + ' 分钟' : '') + '</span></span>'
+      + '<span class="pantry-plan-items"><strong>这次用上：</strong>' + esc(used.join('、')) + '</span>'
+      + unusedHtml
+      + (extras.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(extras.join('、')) + '</span>' : '')
+      + '<span class="pantry-plan-note">选这套后，再生成详细步骤。</span></button>';
+  }).join('');
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">先选一套真正用得上的组合</div>'
+    + '<p class="fb-banner-text">这些组合由规划器先检查覆盖、时间和安全边界；此时还没有调用 AI 生成步骤。</p></div></div>'
+    + '<div class="pantry-plan-list">' + cards + '</div>'
+    + '<div class="dish-actions"><button class="btn btn-ghost" data-act="edit-safe-profile">返回修改食材</button></div></section></div>';
+}
 function plannerPotsHtml(result) {
   const pots = result && result.plan && Array.isArray(result.plan.pots) ? result.plan.pots : [];
   return '<div class="pantry-plan-list">' + pots.map((pot, index) => {
@@ -1188,6 +1260,14 @@ function setDisplayedPlan(result, requestSnapshot, preview) {
   state.view = preview && result.generation_allowed ? 'v2-plan-preview' : 'v2-plan';
   window.scrollTo(0, 0); render();
 }
+async function choosePlan(planId) {
+  const chosen = (state.planCandidates || []).find(candidate => (
+    candidate && candidate.plan && candidate.plan.plan_id === String(planId || '')
+  ));
+  if (!chosen || !state.planRequestSnapshot) return;
+  setDisplayedPlan(chosen, state.planRequestSnapshot, true);
+  await generateDisplayedPlan();
+}
 function generationEnvelope(result, requestSnapshot) {
   return {
     schema_version:2,
@@ -1239,6 +1319,7 @@ function isLegacyRecipeFallback(result) {
 }
 async function generateLegacyRecipeFallback() {
   state.displayedPlan = null;
+  state.planCandidates = [];
   state.planRequestSnapshot = null;
   state.generatedPlan = null;
   state.noAlternativeResult = null;
@@ -1259,6 +1340,19 @@ async function runPlannerFlow(options) {
   state.view = 'generating'; state.genStage = 0; render();
   try {
     const planned = await fetchPlan(requestSnapshot);
+    if (opts.showCandidates === true) {
+      state.displayedPlan = null;
+      state.generatedPlan = null;
+      state.noAlternativeResult = null;
+      state.planRequestSnapshot = requestSnapshot;
+      state.planCandidates = Array.isArray(planned.candidate_plans)
+        ? cloneJson(planned.candidate_plans)
+        : [];
+      state.view = 'v2-candidates';
+      window.scrollTo(0, 0);
+      render();
+      return;
+    }
     if (isLegacyRecipeFallback(planned) && opts.autoGenerate) {
       await generateLegacyRecipeFallback();
       return;
@@ -1281,6 +1375,9 @@ async function runPrimaryFlow() {
   }
   if (plannerLabEnabled()) return runPlannerFlow({ autoGenerate:true });
   state.profile.mode = 'recommend';
+  if (plannerDirectRecommendEnabled()) {
+    return runPlannerFlow({ autoGenerate:false, showCandidates:true });
+  }
   return generateLegacyRecipeFallback();
 }
 function swapPlanRequest() {
@@ -1362,6 +1459,7 @@ function render() {
   if (state.view === 'profile') html = profileScreen();
   else if (state.view === 'generating') html = generatingScreen();
   else if (state.view === 'pantry-plan') html = pantryPlanScreen();
+  else if (state.view === 'v2-candidates') html = plannerCandidatesScreen();
   else if (state.view === 'v2-plan' || state.view === 'v2-plan-preview') html = plannerStateScreen();
   else if (state.view === 'v2-no-alternative') html = noAlternativePlanScreen();
   else if (state.view === 'v2-result') html = generatedPlanScreen();
@@ -1688,8 +1786,10 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'start-cooking') beginCooking();
   else if (act === 'start-v2-cooking') { recordDisplayedPlanHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
   else if (act === 'request-plan-swap') requestAlternativePlan();
+  else if (act === 'choose-plan') choosePlan(t.dataset.planId);
   else if (act === 'replan-v2') runPlannerFlow({ autoGenerate:true });
   else if (act === 'generate-displayed-plan') generateDisplayedPlan();
+  else if (act === 'retry-generate-plan') generateDisplayedPlan();
   else if (act === 'continue-current-plan') continueCurrentPlan();
   else if (act === 'plan-decision') applyPlanDecision(t.dataset.decision, t.dataset.item);
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
@@ -1701,11 +1801,16 @@ document.getElementById('root').addEventListener('click', (e) => {
 // ============ 初始化 ============
 (function init() {
   const saved = STORE.getProfile();
-  if (saved) { state.profile = migrateProfile(saved); STORE.saveProfile(state.profile); state.firstTime = false; state.profileEditing = false; }
+  const savedProfile = saved ? migrateProfile(saved) : null;
+  const savedPantryMode = savedProfile && savedProfile.mode === 'pantry';
+  if (saved) { state.profile = savedProfile; STORE.saveProfile(state.profile); state.firstTime = false; state.profileEditing = false; }
   else { state.firstTime = true; state.profileEditing = true; }
   if (!plannerLabEnabled()) {
     state.profile.mode = 'recommend';
     state.profile.intent = publicIntent(state.profile.intent);
+    if (plannerDirectRecommendEnabled() && savedPantryMode) {
+      state.rolloutNotice = '清库存正在做，先来解决今晚吃什么。';
+    }
     STORE.saveProfile(state.profile);
   }
   state.swapHistory = pruneSwapHistory(STORE.getSwapHistory()); // 读回跨会话换一换历史: 7 天前的丢弃, 最多 20 条
@@ -1886,13 +1991,20 @@ function genFailureCopy(err) {
 function generationFailureScreen(err) {
   const copy = genFailureCopy(err);
   const retryLabel = err && err.code === 'portion_too_small' ? '换一道更完整的' : '重新生成';
+  const keepsPlannerChoice = plannerDirectRecommendEnabled()
+    && state.displayedPlan && state.displayedPlan.plan && state.planRequestSnapshot;
+  const selectedPlan = keepsPlannerChoice
+    ? plannerPotsHtml(state.displayedPlan)
+      + '<p class="pantry-plan-note">这套组合还在，只是详细步骤这次没有生成成功。</p>'
+    : '';
+  const retryAction = keepsPlannerChoice ? 'retry-generate-plan' : 'retry';
   return '<div class="screen fallback-screen"><section class="fallback-banner">'
     + '<div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
     + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div>'
     + '<p class="fb-banner-text">' + esc(copy.text) + '</p>'
-    + '</div></div><div class="dish-actions">'
-    + '<button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>' + esc(retryLabel) + '</span></button>'
+    + '</div></div>' + selectedPlan + '<div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="' + retryAction + '">' + icon('refresh',{size:18,sw:1.9}) + '<span>' + esc(retryLabel) + '</span></button>'
     + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>修改食材忌口</span></button>'
     + '</div></section></div>';
 }

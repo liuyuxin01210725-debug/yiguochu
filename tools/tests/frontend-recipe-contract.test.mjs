@@ -104,6 +104,63 @@ function generatedResult(planned = plannerResult()) {
   };
 }
 
+function plannerCandidate({
+  id, templateId, used, unused = [], extras = [{ name:'水', category:'liquid', grams:160 }],
+  minutes = 30,
+}) {
+  return plannerResult({
+    normalized_items: [...used, ...unused].map(raw => ({
+      raw, canonical:raw, recognized:true, role:'prefer_use',
+    })),
+    plan: {
+      plan_id:id,
+      planned_prefer_use:used.map(raw => ({ raw, canonical:raw, recognized:true, role:'prefer_use' })),
+      unused_prefer_use:unused.map(raw => ({
+        raw, canonical:raw, recognized:true, role:'prefer_use',
+        reason_code:'not_selected', reason:'这套组合里先不用，避免为了凑数影响做法。',
+      })),
+      required_extra_items:extras,
+      coverage_ratio:used.length / (used.length + unused.length),
+      recognition_ratio:1,
+      recognized_coverage_ratio:used.length / (used.length + unused.length),
+      pots:[{
+        meal_sequence:1, label:'第一锅', servings:2, template_id:templateId,
+        planned_must_use:[],
+        planned_prefer_use:used.map(raw => ({ raw, canonical:raw, recognized:true, role:'prefer_use' })),
+        slot_assignment:{},
+        required_extra_items:extras,
+        time_range:{ min_minutes:Math.max(5, minutes - 10), max_minutes:minutes },
+      }],
+    },
+  });
+}
+
+function plannerBundle(candidates) {
+  if (!candidates.length) {
+    return plannerResult({
+      status:'no_valid_plan',
+      generation_allowed:false,
+      plan:{
+        plan_id:'pln_v2_no-candidates',
+        planned_prefer_use:[],
+        unused_prefer_use:[],
+        required_extra_items:[],
+        coverage_ratio:0,
+        recognition_ratio:0,
+        recognized_coverage_ratio:0,
+        pots:[],
+      },
+      candidate_plans:[],
+      preferred_plan_id:null,
+    });
+  }
+  return {
+    ...structuredClone(candidates[0]),
+    candidate_plans:structuredClone(candidates),
+    preferred_plan_id:candidates[0].plan.plan_id,
+  };
+}
+
 function loadFrontend(responses = [], options = {}) {
   const listeners = new Map();
   const root = { innerHTML: '', addEventListener(type, handler) { listeners.set(type, handler); } };
@@ -162,8 +219,13 @@ function loadFrontend(responses = [], options = {}) {
       };
     },
   });
+  const buildId = options.buildId || 'frontend-test';
+  const plannerRollout = options.plannerRollout || 'off';
   for (const [index, script] of appScripts.entries()) {
-    vm.runInContext(script, context, { filename: `index-inline-${index + 1}.js` });
+    const builtScript = script
+      .replaceAll('__YIGUOCHU_BUILD_ID__', buildId)
+      .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout);
+    vm.runInContext(builtScript, context, { filename: `index-inline-${index + 1}.js` });
   }
   return { context, calls, root, listeners };
 }
@@ -405,6 +467,149 @@ test('public primary flow uses one legacy generation call with empty or populate
       assert.equal(evaluate(context, 'state.view'), 'result');
     });
   }
+});
+
+test('direct-recommend rollout stops at deterministic candidates and generates only the chosen plan', async () => {
+  const first = plannerCandidate({
+    id:'pln_v2_first',
+    templateId:'acid-staple-pot',
+    used:['番茄','鸡蛋','西兰花'],
+    unused:['土豆','玉米'],
+  });
+  const second = plannerCandidate({
+    id:'pln_v2_second',
+    templateId:'egg-tofu-vegetable-pot',
+    used:['鸡蛋','西兰花','土豆'],
+    unused:['番茄','玉米'],
+  });
+  const generated = generatedResult(second);
+  const { context, calls, root } = loadFrontend([
+    { body:plannerBundle([first, second]) },
+    { body:generated },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋, 西兰花, 土豆, 玉米', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.deepEqual(
+    calls.map(call => new URL(call.url, 'https://app.test').pathname),
+    ['/plan-meal'],
+  );
+  assert.equal(evaluate(context, 'state.view'), 'v2-candidates');
+  assert.equal((root.innerHTML.match(/data-act="choose-plan"/g) || []).length, 2);
+
+  await evaluate(context, `choosePlan('pln_v2_second')`);
+  assert.deepEqual(
+    calls.map(call => new URL(call.url, 'https://app.test').pathname),
+    ['/plan-meal', '/generate-plan'],
+  );
+  const envelope = JSON.parse(calls[1].init.body);
+  assert.equal(envelope.plan_id, 'pln_v2_second');
+  assert.equal(evaluate(context, 'state.view'), 'v2-result');
+});
+
+test('candidate cards explain coverage, unused reasons and basic extras without title leakage', async () => {
+  const candidate = plannerCandidate({
+    id:'pln_v2_honest',
+    templateId:'savory-mixed-rice-pot',
+    used:['番茄','鸡蛋','西兰花'],
+    unused:['土豆','玉米'],
+    extras:[
+      { name:'大米', category:'staple', grams:200 },
+      { name:'水', category:'liquid', grams:260 },
+    ],
+    minutes:35,
+  });
+  const { context, root } = loadFrontend([
+    { body:plannerBundle([candidate]) },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋, 西兰花, 土豆, 玉米', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.match(root.innerHTML, /用上 3\/5/);
+  for (const item of ['番茄','鸡蛋','西兰花','土豆','玉米','大米','水']) {
+    assert.match(root.innerHTML, new RegExp(item));
+  }
+  assert.match(root.innerHTML, /避免为了凑数影响做法/);
+  assert.equal(evaluate(context, `candidateHeading(state.planCandidates[0]).includes('土豆')`), false);
+  assert.equal(evaluate(context, `candidateHeading(state.planCandidates[0]).includes('玉米')`), false);
+  assert.equal(evaluate(context, `candidateHeading(state.planCandidates[0]).includes('savory-mixed-rice-pot')`), false);
+});
+
+test('every active template has a controlled user-facing candidate label', () => {
+  const templates = JSON.parse(fs.readFileSync(new URL('../data/meal-templates.v2.json', import.meta.url), 'utf8'));
+  const { context } = loadFrontend();
+  const labels = JSON.parse(evaluate(context, 'JSON.stringify(PLAN_FORM_LABELS)'));
+  for (const template of templates.templates.filter(entry => (
+    entry.activation_status === 'active' && entry.runtime_eligible === true
+  ))) {
+    assert.equal(typeof labels[template.template_id], 'string', template.template_id);
+    assert.ok(labels[template.template_id].length > 0, template.template_id);
+  }
+});
+
+test('chosen plan survives a generation error and offers a manual retry without replanning', async () => {
+  const candidate = plannerCandidate({
+    id:'pln_v2_retry-choice',
+    templateId:'acid-staple-pot',
+    used:['番茄','鸡蛋'],
+  });
+  const { context, calls, root } = loadFrontend([
+    { body:plannerBundle([candidate]) },
+    { jsonError:new SyntaxError('bad json'), contentType:'text/html', status:200 },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'' };
+    await runPrimaryFlow();
+    await choosePlan('pln_v2_retry-choice');
+  })()`);
+  assert.deepEqual(
+    calls.map(call => new URL(call.url, 'https://app.test').pathname),
+    ['/plan-meal', '/generate-plan'],
+  );
+  assert.equal(evaluate(context, 'state.view'), 'gen-failed');
+  assert.equal(evaluate(context, 'state.displayedPlan.plan.plan_id'), 'pln_v2_retry-choice');
+  assert.match(root.innerHTML, /这套组合还在/);
+  assert.match(root.innerHTML, /data-act="retry-generate-plan"/);
+});
+
+test('empty planner candidate bundle shows an honest edit path without blank cards', async () => {
+  const { context, root } = loadFrontend([
+    { body:plannerBundle([]) },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'未知食材A, 未知食材B', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+  assert.equal(evaluate(context, 'state.view'), 'v2-candidates');
+  assert.match(root.innerHTML, /当前还没有足够可靠的一锅组合/);
+  assert.match(root.innerHTML, /data-act="edit-safe-profile"/);
+  assert.doesNotMatch(root.innerHTML, /data-act="choose-plan"/);
+});
+
+test('direct-recommend rollout neutralizes a saved pantry promise and never sends must_use', async () => {
+  const storage = sharedStorage();
+  storage.setItem('yiguochu_v1', JSON.stringify({
+    profile:{ mode:'pantry', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'' },
+  }));
+  const candidate = plannerCandidate({
+    id:'pln_v2_saved-pantry',
+    templateId:'acid-staple-pot',
+    used:['番茄','鸡蛋'],
+  });
+  const { context, calls, root } = loadFrontend([
+    { body:plannerBundle([candidate]) },
+  ], { plannerRollout:'direct-recommend', proxy:null, storage });
+  assert.equal(evaluate(context, 'state.profile.mode'), 'recommend');
+  assert.match(root.innerHTML, /清库存正在做，先来解决今晚吃什么/);
+  assert.doesNotMatch(root.innerHTML, /data-val="pantry"/);
+
+  await evaluate(context, 'runPrimaryFlow()');
+  const request = JSON.parse(calls[0].init.body);
+  assert.deepEqual(request.constraints.must_use, []);
+  assert.deepEqual(request.constraints.prefer_use, ['番茄', '鸡蛋']);
 });
 
 test('localhost planner lab primary flow still uses plan then generate', async () => {

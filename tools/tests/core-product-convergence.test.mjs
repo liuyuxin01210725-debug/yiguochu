@@ -137,3 +137,12 @@ test('generation animation names the actual three checks', () => {
   for (const label of ['选基础菜', '检查份量时间', '检查步骤安全']) assert.match(html, new RegExp(label));
   assert.doesNotMatch(html, /正在看是不是 40 分钟内能做|第一版有点麻烦，换一版更顺手的/);
 });
+
+test('preview planner rollout is explicit, candidate-first, and keeps pantry mode unavailable', () => {
+  const html = read('index.html');
+  assert.match(html, /function plannerDirectRecommendEnabled\(\)/);
+  assert.match(html, /runPlannerFlow\(\{ autoGenerate:false, showCandidates:true \}\)/);
+  assert.match(html, /data-act="choose-plan"/);
+  assert.match(html, /清库存正在做，先来解决今晚吃什么/);
+  assert.doesNotMatch(html, /data-act="use-leftovers"|用剩下的食材再来一锅/);
+});
