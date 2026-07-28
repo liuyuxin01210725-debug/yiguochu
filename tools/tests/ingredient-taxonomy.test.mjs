@@ -15,6 +15,20 @@ const catalog = JSON.parse(fs.readFileSync(
   path.join(here, '../data/ingredient-taxonomy.v1.json'),
   'utf8',
 ));
+const frontendHtml = fs.readFileSync(path.join(here, '../../index.html'), 'utf8');
+
+test('every public common-pantry chip is recognized by the active taxonomy', () => {
+  const declaration = frontendHtml.match(/const COMMON_PANTRY = \[([^\]]+)\];/u);
+  assert.ok(declaration, 'COMMON_PANTRY declaration must remain inspectable');
+  const chipNames = [...declaration[1].matchAll(/'([^']+)'/gu)].map(match => match[1]);
+  assert.ok(chipNames.length > 0);
+  const rows = normalizePlannerItems(chipNames, catalog);
+  assert.deepEqual(
+    rows.filter(row => !row.recognized).map(row => row.raw),
+    [],
+    'the product must not invite users to select ingredients that its planner rejects',
+  );
+});
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
   assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260728-r10');

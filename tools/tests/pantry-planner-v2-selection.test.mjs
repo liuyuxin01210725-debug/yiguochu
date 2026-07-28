@@ -27,6 +27,7 @@ const assets = Object.freeze({
   ratios: readJson('ratio-rules.v1.json'),
   recipes: readJson('recipe-library.json'),
 });
+const frontendHtml = fs.readFileSync(path.join(here, '../../index.html'), 'utf8');
 const activeTemplate = id => assets.templates.templates.find(template => template.template_id === id);
 const request = ({
   mode = 'pantry', intent = 'normal', must = [], prefer = [], dislikes = [], servings = 2,
@@ -61,6 +62,22 @@ const context = (normalizedItems, overrides = {}) => {
     ...overrides,
   };
 };
+
+test('every public common-pantry chip has a real direct-recommend candidate that uses it', async () => {
+  const declaration = frontendHtml.match(/const COMMON_PANTRY = \[([^\]]+)\];/u);
+  assert.ok(declaration);
+  const chipNames = [...declaration[1].matchAll(/'([^']+)'/gu)].map(match => match[1]);
+  for (const raw of chipNames) {
+    const result = await planMealCandidateBundle(assets, request({ mode:'recommend', prefer:[raw] }));
+    assert.equal(result.status, 'ready', raw);
+    assert.ok(result.candidate_plans.length > 0, raw);
+    assert.ok(
+      result.candidate_plans.some(candidate =>
+        candidate.plan.planned_prefer_use.some(item => item.raw === raw)),
+      raw,
+    );
+  }
+});
 
 test('four-item pantry never presents a one-item pot and computes coverage against all four', () => {
   const result = planMeal(assets, request({ must: ['番茄', '金针菇', '鸡蛋', '西兰花'] }));

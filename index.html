@@ -800,9 +800,17 @@ const INTENT_TEXT = { normal:'正常做', quick:'快点吃上', fresh:'清爽些
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
 const TONE_TEXT = { week:'每份参考' };
 const DEFAULT_PROFILE = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
-const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','青椒','茄子','菠菜','玉米','金针菇'];
+const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','玉米','金针菇','大米','剩米饭','面条'];
+const LEGACY_UNSUPPORTED_COMMON_PANTRY = new Set(['青椒','茄子','菠菜']);
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
 const GENERATION_REQUEST_TIMEOUT_MS = 55000;
+
+function profilePantryChoices(profile) {
+  const saved = Array.isArray(profile && profile.myFoods) ? profile.myFoods : [];
+  const migrated = saved.filter(item =>
+    typeof item === 'string' && item.trim() && !LEGACY_UNSUPPORTED_COMMON_PANTRY.has(item.trim()));
+  return migrated.length ? migrated : COMMON_PANTRY;
+}
 
 function plannerLabEnabled() {
   if (typeof location === 'undefined') return false;
@@ -988,7 +996,7 @@ function profileScreen() {
   const p = state.profile;
   const lab = plannerLabEnabled();
   const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
-  const myFoods = (Array.isArray(p.myFoods) && p.myFoods.length) ? p.myFoods : COMMON_PANTRY;
+  const myFoods = profilePantryChoices(p);
   const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">没灵感或赶时间时，给你一锅真正能做的主餐。</p></header>';
   const rolloutNotice = state.rolloutNotice
     ? '<div class="gen-notice"><span>' + esc(state.rolloutNotice) + '</span></div>'
@@ -1826,7 +1834,7 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'edit-swap-pantry') { state.swapPantryEdit = true; render(); }
   else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
   else if (act === 'add-myfood') { syncProfileInputs(); state.addingFood = true; render(); setTimeout(() => { const el = document.getElementById('add-food-input'); if (el) el.focus(); }, 0); }
-  else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
+  else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = profilePantryChoices(state.profile).slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
   else if (act === 'start-cooking') beginCooking();
   else if (act === 'start-v2-cooking') { recordDisplayedPlanHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
   else if (act === 'request-plan-swap') requestAlternativePlan();

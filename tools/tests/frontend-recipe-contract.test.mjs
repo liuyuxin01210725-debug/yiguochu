@@ -352,6 +352,24 @@ test('public profile keeps only the simple direct-recommendation controls', () =
   assert.match(root.innerHTML, /不会为了用完而硬凑/);
 });
 
+test('public profile migrates unsupported legacy default chips without deleting real custom choices', () => {
+  const { context, root } = loadFrontend();
+  evaluate(context, `(() => {
+    state.profile = {
+      mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'',
+      myFoods:['鸡蛋','青椒','茄子','菠菜','香菜'],
+    };
+    state.profileEditing = true;
+    state.view = 'profile';
+    render();
+  })()`);
+  for (const unsupported of ['青椒', '茄子', '菠菜']) {
+    assert.doesNotMatch(root.innerHTML, new RegExp('data-pantry-chip="' + unsupported + '"'));
+  }
+  assert.match(root.innerHTML, /data-pantry-chip="鸡蛋"/);
+  assert.match(root.innerHTML, /data-pantry-chip="香菜"/);
+});
+
 test('empty direct recommendation stays on the input page with a clear local prompt', async () => {
   const { context, calls, root } = loadFrontend([], {
     plannerRollout:'direct-recommend',
