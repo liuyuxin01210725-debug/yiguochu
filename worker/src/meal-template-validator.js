@@ -499,7 +499,7 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
     if (!isObject(catalog)) return ['template catalog must be an object'];
     assertAllowedKeys(catalog, CATALOG_KEYS, 'template catalog', errors);
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
-    if (catalog.template_catalog_version !== 'templates-v2-20260728-r12') errors.push('template_catalog_version must be templates-v2-20260728-r12');
+    if (catalog.template_catalog_version !== 'templates-v2-20260728-r13') errors.push('template_catalog_version must be templates-v2-20260728-r13');
     if (!isObject(taxonomy) || taxonomy.taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== TAXONOMY_VERSION
       || catalog.ingredient_taxonomy_version !== taxonomy.taxonomy_version) {

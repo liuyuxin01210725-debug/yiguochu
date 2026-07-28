@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "template_catalog_version": "templates-v2-20260728-r12",
+  "template_catalog_version": "templates-v2-20260728-r13",
   "ingredient_taxonomy_version": "taxonomy-v1-20260728-r10",
   "templates": [
     {
@@ -164,10 +164,10 @@
       "compatibility_rules":[{"rule_code":"poultry_staple_uses_simmer","when":{"slot_id":"protein","category":"chicken"},"requires_cooking_mode":["simmer","braise"]}],
       "incompatible_rules":[{"rule_code":"poultry_staple_rejects_slow_side_items","when":{"slot_id":"protein","category":"chicken"},"forbids_attribute_count":{"attribute":"cook_speed","value":"slow","greater_than":0}}],
       "shape_or_cut_requirements":[{"slot_id":"protein","category":"chicken","allowed_shapes":["breast","leg"],"forbidden_shapes":[]}],
-      "cooking_order":[{"phase":1,"action_code":"cook_poultry_through","slot_ids":["protein"]},{"phase":2,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":3,"action_code":"add_fast_cooking_items","slot_ids":["vegetable","mushroom"]},{"phase":4,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
+      "cooking_order":[{"phase":1,"action_code":"cook_poultry_through","slot_ids":["protein"]},{"phase":2,"action_code":"add_slow_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"root_vegetable"}},{"phase":3,"action_code":"add_staple_and_liquid","slot_ids":["staple"]},{"phase":4,"action_code":"simmer_until_tender","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"cruciferous_vegetable"}},{"phase":5,"action_code":"add_mushroom","slot_ids":["mushroom"]},{"phase":6,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"leafy_vegetable"}},{"phase":7,"action_code":"reach_safety_endpoints","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"root_vegetable"}},{"phase":8,"action_code":"reach_safety_endpoints","slot_ids":["protein"]}],
       "ratio_constraints":["poultry-staple-raw-rice-portion-v1","poultry-staple-cooked-rice-portion-v1","poultry-staple-noodle-portion-v1"],
       "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
-      "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"cooked_rice","endpoint_code":"heated_through"}],
+      "safety_endpoints":[{"applies_to_category":"chicken","endpoint_code":"poultry_fully_cooked_no_pink"},{"applies_to_category":"cooked_rice","endpoint_code":"heated_through"},{"applies_to_category":"root_vegetable","endpoint_code":"tender"}],
       "time_range":{"min_minutes":25,"max_minutes":50},
       "supported_intents":["normal","fresh","batch"],
       "evidence_recipe_ids":["simple-chicken-biryani","chicken-leg-potato-braised-rice"]

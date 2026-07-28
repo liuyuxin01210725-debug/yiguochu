@@ -741,6 +741,60 @@ test('quick chicken and potato never put cooked staple ahead of raw poultry and 
   assert.match(prose, /土豆.*熟软/);
 });
 
+test('normal chicken and potato cooks the root vegetable through instead of adding it after the staple is done', async () => {
+  const journey = await preparedJourney(plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['鸡腿肉', '土豆'],
+  }));
+  assert.equal(journey.planned.status, 'ready');
+  assert.equal(journey.planned.plan.pots[0].template_id, 'poultry-staple-pot');
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
+  const meal = locked.meals[0];
+  const actions = meal.cooking_order.map(row => row.action_code);
+  const rootIndex = actions.findIndex(code => code === 'add_slow_cooking_items');
+  const stapleIndex = actions.findIndex(code => code === 'add_staple_and_liquid');
+  const endpointIndex = actions.findIndex(code => code === 'reach_safety_endpoints');
+
+  assert.ok(rootIndex >= 0 && rootIndex < stapleIndex, actions.join(','));
+  assert.ok(endpointIndex > stapleIndex, actions.join(','));
+  assert.ok(meal.safety_endpoints.includes('tender'));
+
+  const checked = workerModule.validateGeneratedPlan(
+    validModelOutput(locked), locked, ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /鸡腿肉.*完全熟透，内部无粉红/);
+  assert.match(prose, /土豆.*熟软/);
+});
+
+test('normal poultry staple softens mushroom before adding quick leafy vegetables', async () => {
+  const request = plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['鸡腿肉', '青菜', '香菇', '熟米饭'],
+  });
+  const plannedBundle = await obtainPlan(request);
+  assert.equal(plannedBundle.response.status, 200);
+  const poultryPlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'poultry-staple-pot'
+  ));
+  assert.ok(poultryPlan);
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(poultryPlan, templates);
+  const actions = locked.meals[0].cooking_order.map(row => row.action_code);
+  const mushroomIndex = actions.findIndex(code => code === 'add_mushroom');
+  const leafyIndex = actions.findIndex(code => code === 'add_fast_cooking_items');
+  const poultryEndpointIndex = actions.findIndex(code => code === 'reach_safety_endpoints');
+
+  assert.ok(mushroomIndex >= 0 && mushroomIndex < leafyIndex, actions.join(','));
+  assert.ok(leafyIndex < poultryEndpointIndex, actions.join(','));
+});
+
 test('tofu vegetable plan keeps measured basics out of the food-prep instruction', async () => {
   const journey = await preparedJourney(plannerRequest({
     mode: 'recommend',
