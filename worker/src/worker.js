@@ -2963,6 +2963,24 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env, request) });
     if (request.method === 'GET' && url.pathname === '/health') {
+      let buildId = null;
+      let plannerRollout = 'off';
+      try {
+        if (!env.ASSETS || typeof env.ASSETS.fetch !== 'function') throw new Error('build_meta_assets_missing');
+        const metaResponse = await env.ASSETS.fetch(new Request(new URL('/build-meta.json', request.url)));
+        if (!metaResponse.ok) throw new Error('build_meta_missing');
+        const meta = await metaResponse.json();
+        if (!meta || typeof meta !== 'object' || Array.isArray(meta)
+            || typeof meta.buildId !== 'string' || !/^[0-9A-Za-z_-]+$/.test(meta.buildId)
+            || !['off', 'direct-recommend'].includes(meta.plannerRollout)) {
+          throw new Error('build_meta_invalid');
+        }
+        buildId = meta.buildId;
+        plannerRollout = meta.plannerRollout;
+      } catch (_buildMetaError) {
+        buildId = null;
+        plannerRollout = 'off';
+      }
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
@@ -3006,6 +3024,8 @@ export default {
         provider: 'deepseek',
         model: env.MODEL_NAME || DEFAULT_DEEPSEEK_MODEL,
         budget: env.RATE_KV ? 'kv' : 'memory',
+        buildId,
+        plannerRollout,
         recipeLibrary,
         recipeFamilies,
         baseRecipes,

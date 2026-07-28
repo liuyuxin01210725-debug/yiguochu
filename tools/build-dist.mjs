@@ -35,7 +35,7 @@ const GENERATED_ASSETS = [
 
 function usage(message) {
   if (message) console.error(message);
-  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>]');
+  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--planner-rollout off|direct-recommend]');
   process.exitCode = 1;
 }
 
@@ -43,11 +43,12 @@ function parseArgs(argumentsList) {
   const options = {
     outputDir: path.join(ROOT, 'dist'),
     buildId: new Date().toISOString().replace(/[^0-9A-Za-z]+/g, '-'),
+    plannerRollout: 'off',
   };
 
   for (let index = 0; index < argumentsList.length; index += 1) {
     const argument = argumentsList[index];
-    if (argument === '--out-dir' || argument === '--build-id') {
+    if (argument === '--out-dir' || argument === '--build-id' || argument === '--planner-rollout') {
       const value = argumentsList[index + 1];
       if (!value || value.startsWith('--')) {
         usage(`${argument} requires a value.`);
@@ -55,6 +56,7 @@ function parseArgs(argumentsList) {
       }
       if (argument === '--out-dir') options.outputDir = path.resolve(value);
       if (argument === '--build-id') options.buildId = value;
+      if (argument === '--planner-rollout') options.plannerRollout = value;
       index += 1;
       continue;
     }
@@ -73,6 +75,10 @@ function parseArgs(argumentsList) {
   }
   if (!/^[0-9A-Za-z_-]+$/.test(options.buildId)) {
     usage('Build id may contain only letters, numbers, underscores, and hyphens.');
+    return null;
+  }
+  if (!['off', 'direct-recommend'].includes(options.plannerRollout)) {
+    usage('Planner rollout must be off or direct-recommend.');
     return null;
   }
   return options;
@@ -96,7 +102,7 @@ function copy(sourceRelativePath, outputPath) {
   fs.copyFileSync(sourcePath, outputPath);
 }
 
-function build({ outputDir, buildId }) {
+function build({ outputDir, buildId, plannerRollout }) {
   assertNoSymlinkInOutputPath(outputDir);
   if (fs.existsSync(outputDir) && !fs.lstatSync(outputDir).isDirectory()) {
     throw new Error(`Output path must be a directory: ${outputDir}`);
@@ -121,13 +127,26 @@ function build({ outputDir, buildId }) {
 
   const indexPath = path.join(outputDir, 'index.html');
   const sourceIndex = fs.readFileSync(indexPath, 'utf8');
-  const generatedIndex = sourceIndex.replaceAll('__YIGUOCHU_BUILD_ID__', buildId);
+  const generatedIndex = sourceIndex
+    .replaceAll('__YIGUOCHU_BUILD_ID__', buildId)
+    .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout);
   if (generatedIndex === sourceIndex) {
     throw new Error('Cannot inject the frontend build id; update tools/build-dist.mjs for the current index.html format.');
   }
   fs.writeFileSync(indexPath, generatedIndex, 'utf8');
 
-  console.log(JSON.stringify({ outputDir, buildId, files: STATIC_ASSETS.length + GENERATED_ASSETS.length }));
+  fs.writeFileSync(
+    path.join(outputDir, 'build-meta.json'),
+    `${JSON.stringify({ buildId, plannerRollout }, null, 2)}\n`,
+    'utf8',
+  );
+
+  console.log(JSON.stringify({
+    outputDir,
+    buildId,
+    plannerRollout,
+    files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 1,
+  }));
 }
 
 const options = parseArgs(process.argv.slice(2));

@@ -35,6 +35,7 @@ const REQUIRED_ASSETS = [
   'ingredient-taxonomy.v1.json',
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
+  'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
   ['_worker.js', path.join(ROOT, 'worker', 'src', 'worker.js')],
@@ -55,12 +56,14 @@ function makeOutputDir() {
   return fs.mkdtempSync(path.join(ROOT, 'dist', '.build-test-'));
 }
 
-function runBuild(outputDir) {
-  return spawnSync(process.execPath, [
+function runBuild(outputDir, { plannerRollout = 'direct-recommend' } = {}) {
+  const args = [
     BUILD_SCRIPT,
     '--out-dir', outputDir,
     '--build-id', 'canonical-test',
-  ], { cwd: ROOT, encoding: 'utf8' });
+  ];
+  if (plannerRollout != null) args.push('--planner-rollout', plannerRollout);
+  return spawnSync(process.execPath, args, { cwd: ROOT, encoding: 'utf8' });
 }
 
 function build(outputDir) {
@@ -204,17 +207,45 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 22);
+    assert.equal(buildRecord.files, 23);
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
       /const C = 'yiguochu-shell-v4-canonical-test';/,
     );
     const builtIndex = fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8');
-    assert.doesNotMatch(builtIndex, /__YIGUOCHU_BUILD_ID__/);
+    assert.doesNotMatch(builtIndex, /__YIGUOCHU_(?:BUILD_ID|PLANNER_ROLLOUT)__/);
+    assert.match(builtIndex, /const BUILD_ID = 'canonical-test';/);
+    assert.match(builtIndex, /const PLANNER_ROLLOUT = 'direct-recommend';/);
     assert.match(builtIndex, /serviceWorker\.register\('sw\.js\?v=canonical-test', \{ updateViaCache:'none' \}\)/);
     assert.match(builtIndex, /serviceWorker\.addEventListener\('controllerchange'/);
+    assert.deepEqual(
+      JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
+      { buildId:'canonical-test', plannerRollout:'direct-recommend' },
+    );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test('distribution build defaults rollout off and rejects unsupported rollout values', () => {
+  const outputDir = makeOutputDir();
+  try {
+    const defaultBuild = runBuild(outputDir, { plannerRollout:null });
+    assert.equal(defaultBuild.status, 0, `${defaultBuild.stdout}\n${defaultBuild.stderr}`);
+    assert.deepEqual(
+      JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
+      { buildId:'canonical-test', plannerRollout:'off' },
+    );
+    assert.match(
+      fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8'),
+      /const PLANNER_ROLLOUT = 'off';/,
+    );
+
+    const rejected = runBuild(outputDir, { plannerRollout:'everyone' });
+    assert.notEqual(rejected.status, 0);
+    assert.match(rejected.stderr, /planner rollout/i);
+  } finally {
+    fs.rmSync(outputDir, { recursive:true, force:true });
   }
 });
 

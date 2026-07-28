@@ -10,6 +10,10 @@ const SOURCE_ASSETS = Object.freeze({
   '/meal-templates.v2.json': readAsset('meal-templates.v2.json'),
   '/ratio-rules.v1.json': readAsset('ratio-rules.v1.json'),
   '/recipe-library.json': readAsset('recipe-library.json'),
+  '/build-meta.json': JSON.stringify({
+    buildId: 'preview-test-build',
+    plannerRollout: 'direct-recommend',
+  }),
 });
 
 function plannerBody({
@@ -108,6 +112,8 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.activeTemplates, 11);
   assert.equal(result.body.plannedTemplates, 5);
   assert.equal(result.body.baseRecipes, 72);
+  assert.equal(result.body.buildId, 'preview-test-build');
+  assert.equal(result.body.plannerRollout, 'direct-recommend');
 });
 
 test('health reports unavailable planner assets without claiming validated versions or counts', async () => {
@@ -124,6 +130,20 @@ test('health reports unavailable planner assets without claiming validated versi
   assert.equal(result.body.ratioRulesVersion, null);
   assert.equal(result.body.activeTemplates, 0);
   assert.equal(result.body.plannedTemplates, 0);
+});
+
+test('health fails build metadata closed when the asset is missing or invalid', async () => {
+  for (const buildMeta of [
+    new Response('missing', { status:404 }),
+    JSON.stringify({ buildId:'preview-test-build', plannerRollout:'everyone' }),
+    '{bad json',
+  ]) {
+    const result = await getHealth(assetBinding({ '/build-meta.json':buildMeta }));
+    assert.equal(result.response.status, 200);
+    assert.equal(result.body.buildId, null);
+    assert.equal(result.body.plannerRollout, 'off');
+    assert.equal(result.body.plannerAssets, 'ok');
+  }
 });
 
 test('health never reports a semantically invalid recipe library as available', async () => {

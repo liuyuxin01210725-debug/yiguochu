@@ -338,6 +338,15 @@
    真正的护栏不是这段注释，是有人愿意对"就这一个没关系"说不。
    ============================================================ */
 
+const BUILD_ID = '__YIGUOCHU_BUILD_ID__';
+const PLANNER_ROLLOUT = '__YIGUOCHU_PLANNER_ROLLOUT__';
+if (typeof window !== 'undefined') {
+  window.__YIGUOCHU_BUILD_META__ = Object.freeze({
+    buildId: BUILD_ID,
+    plannerRollout: PLANNER_ROLLOUT,
+  });
+}
+
 // ---- 极简线性图标 ----
 const ICON_PATHS = {
   check:'<polyline points="20 6 9 17 4 12"/>', chevron:'<polyline points="9 6 15 12 9 18"/>',
@@ -799,6 +808,10 @@ function plannerLabEnabled() {
   if (typeof location === 'undefined') return false;
   const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   return local && /(?:^|[?&])planner_v2=1(?:&|$)/.test(String(location.search || ''));
+}
+function plannerDirectRecommendEnabled() {
+  if (PLANNER_ROLLOUT === 'direct-recommend') return true;
+  return plannerLabEnabled();
 }
 function publicIntent(value) {
   return value === 'quick' || value === 'batch' ? value : 'normal';
