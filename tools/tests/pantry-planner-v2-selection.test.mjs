@@ -12,6 +12,7 @@ import {
   normalizePlannerItems,
   normalizePlannerRequest,
   planMeal,
+  planMealCandidateBundle,
   rankPotCandidates,
 } from '../../worker/src/planner-v2.js';
 
@@ -131,6 +132,51 @@ test('shrimp and corn are recognized and planned together instead of being silen
   assert.deepEqual(result.plan.unused_prefer_use, []);
   assert.equal(result.plan.coverage_ratio, 1);
   assert.equal(result.plan.pots[0].template_id, 'savory-mixed-rice-pot');
+});
+
+test('initial recommend returns one to three valid non-filler candidates', async () => {
+  const bundle = await planMealCandidateBundle(assets, request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '豆腐', '西兰花', '熟米饭'],
+  }));
+  assert.ok(bundle.candidate_plans.length >= 1 && bundle.candidate_plans.length <= 3);
+  const best = bundle.candidate_plans[0].plan.planned_prefer_use.length;
+  assert.ok(bundle.candidate_plans.every(candidate => (
+    candidate.plan.planned_prefer_use.length >= minimumRecommendCoverageCount(5)
+  )));
+  assert.ok(bundle.candidate_plans.slice(1).every(candidate => (
+    candidate.plan.planned_prefer_use.length >= best - 1
+  )));
+  assert.equal(
+    new Set(bundle.candidate_plans.map(candidate => candidate.plan.plan_id)).size,
+    bundle.candidate_plans.length,
+  );
+  assert.equal(bundle.preferred_plan_id, bundle.candidate_plans[0].plan.plan_id);
+  assert.ok(bundle.candidate_plans.every(candidate => !('candidate_plans' in candidate)));
+});
+
+test('candidate bundle returns one reliable plan without cloning filler cards', async () => {
+  const bundle = await planMealCandidateBundle(assets, request({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米'],
+  }));
+  assert.equal(bundle.status, 'ready');
+  assert.equal(bundle.candidate_plans.length, 1);
+  assert.equal(bundle.preferred_plan_id, bundle.candidate_plans[0].plan.plan_id);
+});
+
+test('below-floor recommend returns no valid candidate without legacy fallback claims', async () => {
+  const bundle = await planMealCandidateBundle(assets, request({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米', '未知A', '未知B', '未知C'],
+  }));
+  assert.equal(bundle.status, 'no_valid_plan');
+  assert.deepEqual(bundle.candidate_plans, []);
+  assert.equal(bundle.preferred_plan_id, null);
+  assert.equal(bundle.legacy_fallback, undefined);
+  assert.equal(bundle.plan_source, undefined);
+  assert.equal(bundle.plan.planned_prefer_use.length, 0);
+  assert.equal(bundle.plan.unused_prefer_use.length, 5);
 });
 
 test('generic beef accepts tenderloin while preserving the raw cut and rejects brisket or ground forms', () => {

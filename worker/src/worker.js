@@ -1,8 +1,10 @@
 import {
   PLANNER_VERSION,
   normalizePlannerRequest,
+  planMealCandidateBundle,
   planMealWithIdentity,
   plannerRequestFromLegacy,
+  resolveAuthoritativePlanById,
 } from './planner-v2.js';
 import { prepareRatioCatalog } from './ratio-dsl.js';
 import { validateIngredientTaxonomy } from './ingredient-taxonomy-validator.js';
@@ -2732,7 +2734,13 @@ async function handlePlanMeal(request, env) {
     return errorResponse('planner_assets_unavailable', '规划规则暂时不可用', 503, env, {}, request);
   }
   try {
-    return jsonResponse(await planMealWithIdentity(plannerAssets, plannerRequest), 200, env, request);
+    const isInitialRecommend = plannerRequest.mode === 'recommend'
+      && !plannerRequest.current_plan_id
+      && !plannerRequest.decision;
+    const planned = isInitialRecommend
+      ? await planMealCandidateBundle(plannerAssets, plannerRequest, { limit: 3 })
+      : await planMealWithIdentity(plannerAssets, plannerRequest);
+    return jsonResponse(planned, 200, env, request);
   } catch (error) {
     if (error?.code === 'invalid_planner_request') {
       return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
@@ -2833,7 +2841,11 @@ async function handleGeneratePlan(request, env) {
   }
   let recomputed;
   try {
-    recomputed = await planMealWithIdentity(plannerAssets, plannerRequest);
+    recomputed = await resolveAuthoritativePlanById(
+      plannerAssets,
+      plannerRequest,
+      parsed.plan_id,
+    );
   } catch (error) {
     if (error?.code === 'invalid_planner_request') {
       return jsonResponse(stalePlanGenerationResponse(), 409, env, request);
@@ -2842,9 +2854,9 @@ async function handleGeneratePlan(request, env) {
     return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
   }
 
-  if (parsed.planner_version !== recomputed.planner_version
-      || parsed.template_catalog_version !== recomputed.template_catalog_version
-      || parsed.plan_id !== recomputed.plan?.plan_id) {
+  if (!recomputed
+      || parsed.planner_version !== recomputed.planner_version
+      || parsed.template_catalog_version !== recomputed.template_catalog_version) {
     return jsonResponse(stalePlanGenerationResponse(recomputed), 409, env, request);
   }
   if (!GENERATABLE_PLAN_STATUSES.has(recomputed.status) || recomputed.generation_allowed !== true) {

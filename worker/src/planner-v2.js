@@ -1954,6 +1954,91 @@ async function identifiedValidPlans(assets, request) {
   return identified;
 }
 
+function submittedRecommendCount(result) {
+  return uniqueSubmittedItems(result.normalized_items || [])
+    .filter(item => item.role === 'prefer_use').length;
+}
+
+function isNormalRecommendCandidate(result) {
+  if (result?.status !== 'ready' || result.generation_allowed !== true
+      || result.mode !== 'recommend' || result.legacy_fallback === true
+      || result.plan_source === 'legacy_recipe_selector'
+      || result.plan?.plan_kind !== 'single_pot'
+      || result.plan?.pots?.length !== 1) return false;
+  const submittedCount = submittedRecommendCount(result);
+  const plannedCount = result.plan?.planned_prefer_use?.length || 0;
+  if (submittedCount > 0 && plannedCount < minimumRecommendCoverageCount(submittedCount)) return false;
+  if (!(result.plan?.unused_prefer_use || []).every(item => item.reason_code && item.reason)) return false;
+  return (result.plan?.required_extra_items || [])
+    .every(item => BASIC_EXTRA_CATEGORIES.has(item.category));
+}
+
+function selectDiverseCandidates(candidates, limit) {
+  const boundedLimit = Math.max(1, Math.min(3, Number.isInteger(limit) ? limit : 3));
+  const ordered = [...candidates].sort((left, right) => {
+    const coverageDifference = (right.plan?.planned_prefer_use?.length || 0)
+      - (left.plan?.planned_prefer_use?.length || 0);
+    if (coverageDifference) return coverageDifference;
+    const extraDifference = (left.plan?.required_extra_items?.length || 0)
+      - (right.plan?.required_extra_items?.length || 0);
+    if (extraDifference) return extraDifference;
+    return planStructureKey(left).localeCompare(planStructureKey(right), 'zh-Hans-CN')
+      || left.plan.plan_id.localeCompare(right.plan.plan_id);
+  });
+  if (!ordered.length) return [];
+  const bestCoverage = ordered[0].plan?.planned_prefer_use?.length || 0;
+  const selected = [];
+  const selectedIds = new Set();
+  const selectedStructures = new Set();
+  for (const candidate of ordered) {
+    if ((candidate.plan?.planned_prefer_use?.length || 0) < bestCoverage - 1) continue;
+    const planId = candidate.plan?.plan_id;
+    const structure = planStructureKey(candidate);
+    if (!planId || selectedIds.has(planId) || selectedStructures.has(structure)) continue;
+    selected.push(candidate);
+    selectedIds.add(planId);
+    selectedStructures.add(structure);
+    if (selected.length >= boundedLimit) break;
+  }
+  return selected;
+}
+
+export async function planMealCandidateBundle(assets = {}, request = {}, { limit = 3 } = {}) {
+  const cleanRequest = requestWithoutSwapHistory(request);
+  const plans = await identifiedValidPlans(assets, cleanRequest);
+  const selected = selectDiverseCandidates(plans.filter(isNormalRecommendCandidate), limit);
+  if (!selected.length) {
+    const authoritative = await attachPlanIdentity(planMeal(assets, cleanRequest));
+    return {
+      ...authoritative,
+      candidate_plans: [],
+      preferred_plan_id: null,
+    };
+  }
+  return {
+    ...structuredClone(selected[0]),
+    candidate_plans: selected.map(candidate => structuredClone(candidate)),
+    preferred_plan_id: selected[0].plan.plan_id,
+  };
+}
+
+export async function resolveAuthoritativePlanById(assets = {}, request = {}, planId = '') {
+  if (request.mode === 'recommend' && !request.current_plan_id && !request.decision) {
+    const bundle = await planMealCandidateBundle(assets, request, { limit: 3 });
+    const member = bundle.candidate_plans.find(candidate => candidate.plan?.plan_id === planId);
+    if (member) return structuredClone(member);
+    if (bundle.plan?.plan_id === planId && !bundle.candidate_plans.length) {
+      const detached = structuredClone(bundle);
+      delete detached.candidate_plans;
+      delete detached.preferred_plan_id;
+      return detached;
+    }
+    return null;
+  }
+  const authoritative = await planMealWithIdentity(assets, request);
+  return authoritative.plan?.plan_id === planId ? authoritative : null;
+}
+
 function stalePlanResponse() {
   return {
     status: 'stale_plan',

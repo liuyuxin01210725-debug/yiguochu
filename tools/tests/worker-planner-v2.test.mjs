@@ -155,6 +155,10 @@ test('recommend planning returns a stable identified ready plan with honest used
   assert.equal(first.response.status, 200);
   assert.equal(first.body.schema_version, 2);
   assert.equal(first.body.status, 'ready');
+  assert.ok(first.body.candidate_plans.length >= 1 && first.body.candidate_plans.length <= 3);
+  assert.equal(first.body.preferred_plan_id, first.body.plan.plan_id);
+  assert.equal(first.body.candidate_plans[0].plan.plan_id, first.body.plan.plan_id);
+  assert.ok(first.body.candidate_plans.every(candidate => !('candidate_plans' in candidate)));
   assert.match(first.body.plan.plan_id, /^pln_v2_[A-Za-z0-9_-]{43}$/);
   assert.ok(first.body.plan.planned_prefer_use.length >= 1);
   assert.ok(first.body.plan.unused_prefer_use.some(item => item.raw === '神秘叶子'));
@@ -165,6 +169,28 @@ test('recommend planning returns a stable identified ready plan with honest used
   assert.equal(assets.bytes['/ingredient-taxonomy.v1.json'], SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);
   assertZeroGenerationWork(first);
   assertZeroGenerationWork(second);
+});
+
+test('initial recommend candidate bundle does not call DeepSeek or duplicate a sole reliable plan', async () => {
+  const result = await postPlan(plannerBody({ prefer: ['虾仁', '玉米'] }));
+  assert.equal(result.response.status, 200);
+  assert.equal(result.body.status, 'ready');
+  assert.equal(result.body.candidate_plans.length, 1);
+  assert.equal(result.body.preferred_plan_id, result.body.candidate_plans[0].plan.plan_id);
+  assertZeroGenerationWork(result);
+});
+
+test('below-floor recommend returns an empty honest bundle with no legacy fallback marker', async () => {
+  const result = await postPlan(plannerBody({
+    prefer: ['虾仁', '玉米', '未知A', '未知B', '未知C'],
+  }));
+  assert.equal(result.response.status, 200);
+  assert.equal(result.body.status, 'no_valid_plan');
+  assert.deepEqual(result.body.candidate_plans, []);
+  assert.equal(result.body.preferred_plan_id, null);
+  assert.equal(result.body.legacy_fallback, undefined);
+  assert.equal(result.body.plan_source, undefined);
+  assertZeroGenerationWork(result);
 });
 
 test('fully coverable pantry returns complete without requiring a model key', async () => {

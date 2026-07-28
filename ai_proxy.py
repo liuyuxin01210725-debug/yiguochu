@@ -3437,11 +3437,21 @@ class Handler(http.server.BaseHTTPRequestHandler):
             return
 
         planned = preflight['body'] if isinstance(preflight.get('body'), dict) else {}
+        authoritative_plans = [
+            candidate for candidate in (
+                [planned] + (planned.get('candidate_plans') or [])
+            )
+            if isinstance(candidate, dict)
+        ]
+        selected_plan = next((
+            candidate for candidate in authoritative_plans
+            if submitted['plan_id'] == (candidate.get('plan') or {}).get('plan_id')
+        ), None)
         exact_snapshot = (
             preflight['status'] == 200
-            and submitted['planner_version'] == planned.get('planner_version')
-            and submitted['template_catalog_version'] == planned.get('template_catalog_version')
-            and submitted['plan_id'] == (planned.get('plan') or {}).get('plan_id')
+            and selected_plan is not None
+            and submitted['planner_version'] == selected_plan.get('planner_version')
+            and submitted['template_catalog_version'] == selected_plan.get('template_catalog_version')
         )
         if preflight['status'] != 200 or not exact_snapshot:
             # This second deterministic call is still unpaid: Worker rejects the
@@ -3451,8 +3461,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
             except PlannerBridgeError as error:
                 self._send_json(*_bridge_error_payload(error))
             return
-        if planned.get('status') not in ('ready', 'complete', 'partial_accepted') or planned.get('generation_allowed') is not True:
-            self._send_json(409, planned)
+        if (selected_plan.get('status') not in ('ready', 'complete', 'partial_accepted')
+                or selected_plan.get('generation_allowed') is not True):
+            self._send_json(409, selected_plan)
             return
 
         if not _planner_deepseek_api_key():

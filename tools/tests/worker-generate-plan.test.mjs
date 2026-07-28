@@ -252,6 +252,37 @@ test('valid single-pot generation recomputes the plan and spends exactly one bud
   assert.doesNotMatch(JSON.stringify(result.body), /\{\{[ie]\d+\}\}/);
 });
 
+test('generation resolves a non-preferred candidate by plan id and rejects non-members before budget', async () => {
+  const planRequest = plannerRequest({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '豆腐', '西兰花', '熟米饭'],
+  });
+  const assets = assetBinding();
+  const plannedBundle = await obtainPlan(planRequest, assets);
+  assert.equal(plannedBundle.response.status, 200);
+  assert.ok(plannedBundle.body.candidate_plans.length >= 2);
+  const second = plannedBundle.body.candidate_plans[1];
+  const generated = await postGenerate({
+    planRequest,
+    planned: second,
+    assets,
+  });
+  assert.equal(generated.response.status, 200);
+  assert.equal(generated.body.plan_id, second.plan.plan_id);
+  assert.equal(generated.upstreamBodies.length, 1);
+
+  const forged = structuredClone(second);
+  forged.plan.plan_id = `pln_v2_${'A'.repeat(43)}`;
+  const rejected = await postGenerate({
+    planRequest,
+    planned: forged,
+    assets,
+  });
+  assert.equal(rejected.response.status, 409);
+  assert.equal(rejected.body.status, 'stale_plan');
+  assertNoPaidWork(rejected);
+});
+
 test('valid two-pot generation sends the whole plan in one upstream request and one budget write', async () => {
   const journey = await preparedJourney(plannerRequest({ must: ['大米', '熟米饭', '番茄'] }));
   assert.equal(journey.planned.plan.pots.length, 2);

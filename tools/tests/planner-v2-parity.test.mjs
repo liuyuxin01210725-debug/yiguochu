@@ -303,6 +303,19 @@ test('Python /plan-meal CLI is byte-semantic equivalent to Worker across real V2
   assert.equal(digestAssets(), assetsBefore, 'planner parity journeys must not mutate shared assets');
 });
 
+test('Python bridge mirrors initial candidate bundles without recursive candidates', async () => {
+  const body = request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '豆腐', '西兰花', '熟米饭'],
+  });
+  const expected = await workerPlan(body);
+  const actual = pythonPlan(body);
+  assert.deepEqual(actual, expected.body);
+  assert.ok(actual.candidate_plans.length >= 1 && actual.candidate_plans.length <= 3);
+  assert.equal(actual.preferred_plan_id, actual.candidate_plans[0].plan.plan_id);
+  assert.ok(actual.candidate_plans.every(candidate => !('candidate_plans' in candidate)));
+});
+
 test('Python plan CLI is deterministic, API-key free, asset immutable and shell inert', async () => {
   const body = request({ must: ['牛里脊', '番茄'], prefer: ['$(touch /tmp/yiguochu-planner-shell-injection)'] });
   const marker = '/tmp/yiguochu-planner-shell-injection';
@@ -578,6 +591,35 @@ test('valid single and multi-pot generation each use exactly one fake upstream r
       assert.equal(generated.body.plan.pots.length, planned.plan.pots.length);
     }
     assert.doesNotMatch(JSON.stringify(proxy.logs()), /secret-key-must-not-leak/);
+  } finally {
+    await stopProxy(proxy);
+    await upstream.close();
+  }
+});
+
+test('local proxy treats a displayed non-preferred candidate as valid and still enforces its rate gate', async () => {
+  const upstream = await fakeUpstream();
+  const proxy = await startProxy({
+    RATE_LIMIT: '1',
+    DEEPSEEK_API_KEY: 'local-test-key',
+    API_URL: upstream.url('/valid'),
+  });
+  try {
+    const planRequest = request({
+      mode: 'recommend',
+      prefer: ['番茄', '鸡蛋', '豆腐', '西兰花', '熟米饭'],
+    });
+    const planned = await postJson(proxy.base, '/plan-meal', planRequest);
+    assert.ok(planned.body.candidate_plans.length >= 2);
+    const second = planned.body.candidate_plans[1];
+    const generateRequest = generationEnvelope(planRequest, second);
+    const first = await postJson(proxy.base, '/generate-plan', generateRequest);
+    assert.equal(first.response.status, 200);
+    assert.equal(first.body.plan_id, second.plan.plan_id);
+    const secondAttempt = await postJson(proxy.base, '/generate-plan', generateRequest);
+    assert.equal(secondAttempt.response.status, 429);
+    assert.equal(secondAttempt.body.code, 'rate_limited');
+    assert.equal(upstream.calls.length, 1);
   } finally {
     await stopProxy(proxy);
     await upstream.close();
