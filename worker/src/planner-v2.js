@@ -2072,6 +2072,11 @@ function alternativeLevel(candidate, current) {
   return planStructureKey(candidate) !== planStructureKey(current) ? 2 : 99;
 }
 
+export function recentPlanPenalty(planId, recentPlanIds = []) {
+  if (typeof planId !== 'string' || !planId) return 0;
+  return Array.isArray(recentPlanIds) && recentPlanIds.includes(planId) ? 1 : 0;
+}
+
 function selectedPotSignature(selected) {
   return selected.map(entry => `${entry.candidate.template_id}\u0000${entry.candidate.assignment_key}`).join('\u0001');
 }
@@ -2191,7 +2196,6 @@ async function findBestPartialAlternative(assets, request, current, preparedCont
       consider([entries[left], entries[right]]);
     }
   }
-  const recent = new Set(request.recent_plan_ids || []);
   let firstRecent = null;
   for (const selected of [...finalists.entries()].sort(([left], [right]) => left.localeCompare(right, 'zh-Hans-CN')).map(([, value]) => value)) {
     let response = buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked,
@@ -2201,7 +2205,7 @@ async function findBestPartialAlternative(assets, request, current, preparedCont
     if (response.status !== current.status || response.plan.planned_must_use.length < currentCount) continue;
     const identified = await attachPlanIdentity(response);
     if (identified.plan.plan_id === current.plan.plan_id || planStructureKey(identified) === currentStructure) continue;
-    if (!recent.has(identified.plan.plan_id)) return identified;
+    if (recentPlanPenalty(identified.plan.plan_id, request.recent_plan_ids) === 0) return identified;
     if (!firstRecent) firstRecent = identified;
   }
   return firstRecent;
@@ -2321,7 +2325,6 @@ export async function planMealWithIdentity(assets = {}, request = {}) {
   const plans = await identifiedValidPlans(assets, request);
   const current = plans.find(plan => plan.plan.plan_id === request.current_plan_id);
   if (!current) return stalePlanResponse();
-  const recent = new Set(request.recent_plan_ids || []);
   const alternatives = plans.filter(candidate => candidate.plan.plan_id !== current.plan.plan_id
       && planStructureKey(candidate) !== planStructureKey(current)
       && preservesPromise(candidate, current))
@@ -2329,7 +2332,11 @@ export async function planMealWithIdentity(assets = {}, request = {}) {
       const leftCoverage = left.plan?.coverage_ratio || 0;
       const rightCoverage = right.plan?.coverage_ratio || 0;
       if (leftCoverage !== rightCoverage) return rightCoverage - leftCoverage;
-      const recentDifference = Number(recent.has(left.plan.plan_id)) - Number(recent.has(right.plan.plan_id));
+      const extraDifference = (left.plan?.required_extra_items?.length || 0)
+        - (right.plan?.required_extra_items?.length || 0);
+      if (extraDifference) return extraDifference;
+      const recentDifference = recentPlanPenalty(left.plan.plan_id, request.recent_plan_ids)
+        - recentPlanPenalty(right.plan.plan_id, request.recent_plan_ids);
       if (recentDifference) return recentDifference;
       const levelDifference = alternativeLevel(left, current) - alternativeLevel(right, current);
       if (levelDifference) return levelDifference;

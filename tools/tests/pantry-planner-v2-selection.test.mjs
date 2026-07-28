@@ -13,7 +13,9 @@ import {
   normalizePlannerRequest,
   planMeal,
   planMealCandidateBundle,
+  planMealWithIdentity,
   rankPotCandidates,
+  recentPlanPenalty,
 } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -25,10 +27,22 @@ const assets = Object.freeze({
   recipes: readJson('recipe-library.json'),
 });
 const activeTemplate = id => assets.templates.templates.find(template => template.template_id === id);
-const request = ({ mode = 'pantry', intent = 'normal', must = [], prefer = [], dislikes = [], servings = 2 } = {}) => normalizePlannerRequest({
+const request = ({
+  mode = 'pantry', intent = 'normal', must = [], prefer = [], dislikes = [], servings = 2,
+  currentPlanId = null, recentPlanIds = [],
+} = {}) => normalizePlannerRequest({
   schema_version: 2,
   planner_version: 'pantry-planner-v2',
-  constraints: { mode, intent, servings, must_use: must, prefer_use: prefer, dislikes },
+  constraints: {
+    mode,
+    intent,
+    servings,
+    must_use: must,
+    prefer_use: prefer,
+    dislikes,
+    current_plan_id: currentPlanId,
+    recent_plan_ids: recentPlanIds,
+  },
 });
 const context = (normalizedItems, overrides = {}) => {
   const prepared = prepareRatioCatalog(assets.ratios, {
@@ -177,6 +191,63 @@ test('below-floor recommend returns no valid candidate without legacy fallback c
   assert.equal(bundle.plan_source, undefined);
   assert.equal(bundle.plan.planned_prefer_use.length, 0);
   assert.equal(bundle.plan.unused_prefer_use.length, 5);
+});
+
+test('recent plan ids are a binary soft penalty rather than an exclusion set', () => {
+  assert.equal(recentPlanPenalty('new-plan', ['old-plan']), 0);
+  assert.equal(recentPlanPenalty('old-plan', ['old-plan']), 1);
+  assert.equal(recentPlanPenalty('old-plan', ['old-plan', 'old-plan']), 1);
+});
+
+test('swap hard-excludes only the current plan and reuses the best recent plan when needed', async () => {
+  const base = request({
+    mode: 'recommend',
+    prefer: ['熟米饭', '鸡蛋', '牛里脊', '西兰花'],
+  });
+  const current = await planMealWithIdentity(assets, base);
+  const firstAlternative = await planMealWithIdentity(assets, {
+    ...base,
+    current_plan_id: current.plan.plan_id,
+  });
+  assert.notEqual(firstAlternative.plan.plan_id, current.plan.plan_id);
+
+  const nonRecent = await planMealWithIdentity(assets, {
+    ...base,
+    current_plan_id: current.plan.plan_id,
+    recent_plan_ids: [firstAlternative.plan.plan_id],
+  });
+  assert.notEqual(nonRecent.plan.plan_id, current.plan.plan_id);
+  assert.notEqual(nonRecent.plan.plan_id, firstAlternative.plan.plan_id);
+
+  const allRecent = await planMealWithIdentity(assets, {
+    ...base,
+    current_plan_id: current.plan.plan_id,
+    recent_plan_ids: [firstAlternative.plan.plan_id, nonRecent.plan.plan_id],
+  });
+  assert.equal(allRecent.status, 'ready');
+  assert.notEqual(allRecent.plan.plan_id, current.plan.plan_id);
+});
+
+test('recent penalty never lets a lower-coverage non-recent plan defeat a stronger plan', async () => {
+  const base = request({
+    mode: 'recommend',
+    prefer: ['番茄', '鸡蛋', '豆腐', '西兰花', '熟米饭'],
+  });
+  const current = await planMealWithIdentity(assets, base);
+  const stronger = await planMealWithIdentity(assets, {
+    ...base,
+    current_plan_id: current.plan.plan_id,
+  });
+  const withPenalty = await planMealWithIdentity(assets, {
+    ...base,
+    current_plan_id: current.plan.plan_id,
+    recent_plan_ids: [stronger.plan.plan_id],
+  });
+  assert.equal(withPenalty.plan.plan_id, stronger.plan.plan_id);
+  assert.equal(
+    withPenalty.plan.planned_prefer_use.length,
+    stronger.plan.planned_prefer_use.length,
+  );
 });
 
 test('generic beef accepts tenderloin while preserving the raw cut and rejects brisket or ground forms', () => {

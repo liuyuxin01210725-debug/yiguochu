@@ -1604,6 +1604,34 @@ test('swap history reload drops entries older than seven days and caps at twenty
   assert.ok(restored.every(h => typeof h.ts === 'number'));
 });
 
+test('V2 cooldown sends both history kinds once per plan using the latest seven-day record', () => {
+  const storage = sharedStorage();
+  const now = Date.now();
+  storage.setItem('yiguochu_v1', JSON.stringify({ swapHistory: [
+    { planId:'expired', kind:'started', ts:now - 8 * 24 * 3600 * 1000 },
+    { planId:'duplicate', kind:'swapped', ts:now - 3000 },
+    { planId:'started-plan', kind:'started', ts:now - 2000 },
+    { planId:'duplicate', kind:'started', ts:now - 1000 },
+    { planId:'swapped-plan', kind:'swapped', ts:now - 500 },
+  ] }));
+  const { context } = loadFrontend([], { storage });
+  const result = JSON.parse(evaluate(context, `JSON.stringify({
+    ids: recentPlanIds(),
+    history: state.swapHistory,
+  })`));
+  assert.deepEqual(result.ids, ['started-plan', 'duplicate', 'swapped-plan']);
+  assert.equal(result.history.find(entry => entry.planId === 'duplicate').kind, 'started');
+  assert.equal(result.history.filter(entry => entry.planId === 'duplicate').length, 1);
+  assert.equal(result.history.some(entry => entry.planId === 'expired'), false);
+
+  evaluate(context, `state.swapHistory = Array.from({ length:25 }, (_, index) => ({
+    planId:'plan-' + index,
+    kind:index % 2 ? 'started' : 'swapped',
+    ts:Date.now() - index,
+  }))`);
+  assert.equal(JSON.parse(evaluate(context, 'JSON.stringify(recentPlanIds())')).length, 20);
+});
+
 test('swap history survives a frontend reload through shared localStorage', () => {
   const storage = sharedStorage();
   const first = loadFrontend([], { storage });

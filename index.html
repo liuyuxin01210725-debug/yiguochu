@@ -840,12 +840,22 @@ const state = {
 const SWAP_HISTORY_TTL = 7 * 24 * 60 * 60 * 1000;
 function pruneSwapHistory(list, now) {
   const t = typeof now === 'number' ? now : Date.now();
-  return (Array.isArray(list) ? list : [])
+  const normalized = (Array.isArray(list) ? list : [])
     .filter(h => h && typeof h.ts === 'number' && (h.planId || h.name || h.base) && t - h.ts < SWAP_HISTORY_TTL)
     .map(h => ({
       name: String(h.name || ''), base: String(h.base || ''), fam: String(h.fam || ''),
       planId: String(h.planId || ''), kind: h.kind === 'started' ? 'started' : 'swapped', ts: h.ts,
-    }))
+    }));
+  const latest = new Map();
+  for (const entry of normalized) {
+    const key = entry.planId
+      ? 'plan:' + entry.planId
+      : 'legacy:' + entry.base + '\u0000' + entry.name + '\u0000' + entry.fam;
+    const prior = latest.get(key);
+    if (!prior || entry.ts >= prior.ts) latest.set(key, entry);
+  }
+  return [...latest.values()]
+    .sort((left, right) => left.ts - right.ts)
     .slice(-20);
 }
 // state.swapHistory 就是持久层在内存的镜像: 修剪后写回 localStorage
