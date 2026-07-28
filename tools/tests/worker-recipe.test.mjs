@@ -3992,11 +3992,11 @@ test('health cache is isolated per assets binding in one module instance', async
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);
-  assert.equal(okFetches, 4);
-  assert.equal(missingFetches, 5);
+  assert.equal(okFetches, 5);
+  assert.equal(missingFetches, 6);
 });
 
-test('health reuses the recipe cache for the same assets binding', async () => {
+test('health reuses planner assets while refreshing build metadata for the same binding', async () => {
   const { default: worker } = await import('../../worker/src/worker.js?health-binding-reuse');
   const requests = [];
   const assets = {
@@ -4011,12 +4011,14 @@ test('health reuses the recipe cache for the same assets binding', async () => {
   assert.equal((await first.json()).recipeLibrary, 'ok');
   assert.equal((await second.json()).recipeLibrary, 'ok');
   assert.deepEqual(new Set(requests), new Set([
+    'https://one.example/build-meta.json',
     'https://one.example/ingredient-taxonomy.v1.json',
     'https://one.example/meal-templates.v2.json',
     'https://one.example/ratio-rules.v1.json',
     'https://one.example/recipe-library.json',
+    'https://two.example/build-meta.json',
   ]));
-  assert.equal(requests.length, 4);
+  assert.equal(requests.length, 6);
 });
 
 test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {
