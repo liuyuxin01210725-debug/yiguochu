@@ -1683,7 +1683,7 @@ async function getPlannerAssets(env, request) {
         || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length) throw plannerAssetError();
     const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
     if (!preparedRatios.ok) throw plannerAssetError();
-    source = structuredClone({ taxonomy, templates, ratios: preparedRatios.catalog, recipes });
+    source = { taxonomy, templates, ratios: preparedRatios.catalog, recipes };
   } catch (_error) {
     throw plannerAssetError();
   }

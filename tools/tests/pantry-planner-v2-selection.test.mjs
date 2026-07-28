@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
 import { prepareRatioCatalog } from '../../worker/src/ratio-dsl.js';
 import {
@@ -191,6 +192,27 @@ test('below-floor recommend returns no valid candidate without legacy fallback c
   assert.equal(bundle.plan_source, undefined);
   assert.equal(bundle.plan.planned_prefer_use.length, 0);
   assert.equal(bundle.plan.unused_prefer_use.length, 5);
+});
+
+test('recommend candidate planning stops before combinatorial search when one-pot capacity cannot meet the coverage promise', async () => {
+  const prefer = [
+    '鸡蛋', '西红柿', '土豆', '鸡胸肉', '西兰花',
+    '豆腐', '胡萝卜', '洋葱', '虾仁', '香菇',
+    '白菜', '青椒', '茄子', '菠菜', '玉米',
+    '金针菇', '大米', '面条', '剩米饭', '牛里脊',
+  ];
+  const started = performance.now();
+  const bundle = await planMealCandidateBundle(assets, request({
+    mode: 'recommend',
+    prefer,
+  }));
+  const elapsed = performance.now() - started;
+
+  assert.equal(bundle.status, 'no_valid_plan');
+  assert.deepEqual(bundle.candidate_plans, []);
+  assert.equal(bundle.plan.planned_prefer_use.length, 0);
+  assert.equal(bundle.plan.unused_prefer_use.length, prefer.length);
+  assert.ok(elapsed < 250, `capacity short-circuit took ${elapsed.toFixed(1)}ms`);
 });
 
 test('recent plan ids are a binary soft penalty rather than an exclusion set', () => {

@@ -19,6 +19,10 @@ const DECISION_ACTIONS = new Set([
   'edit_ingredients',
 ]);
 const MAX_ITEMS = 20;
+const PREPARED_RATIO_BY_SOURCE = new WeakMap();
+const TAXONOMY_ITEM_INDEX_CACHE = new WeakMap();
+const TAXONOMY_AMBIGUITY_INDEX_CACHE = new WeakMap();
+const ALLERGEN_ALIAS_CACHE = new WeakMap();
 function createPlannerDiagnostics() {
   return {
     exact_search_calls: 0,
@@ -36,6 +40,29 @@ function addPlannerDiagnostic(diagnostics, field, amount = 1) {
 
 function maxPlannerDiagnostic(diagnostics, field, value) {
   if (diagnostics) diagnostics[field] = Math.max(diagnostics[field], value);
+}
+
+function preparedRatiosForAssets(assets = {}) {
+  const source = assets.ratios || assets.ratioCatalog;
+  if (!source || typeof source !== 'object') {
+    return { ok: false, errors: ['ratio catalog is unavailable'], catalog: null };
+  }
+  if (preparedRatioCatalogContext(source)) {
+    return { ok: true, errors: [], catalog: source };
+  }
+  const canCache = Object.isFrozen(source)
+    && Object.isFrozen(assets.taxonomy)
+    && Object.isFrozen(assets.templates)
+    && Object.isFrozen(assets.recipes);
+  const cached = canCache ? PREPARED_RATIO_BY_SOURCE.get(source) : null;
+  if (cached) return cached;
+  const prepared = prepareRatioCatalog(source, {
+    taxonomy: assets.taxonomy,
+    templates: assets.templates,
+    recipes: assets.recipes,
+  });
+  if (canCache) PREPARED_RATIO_BY_SOURCE.set(source, prepared);
+  return prepared;
 }
 
 function invalidPlannerRequest(message) {
@@ -124,6 +151,10 @@ export function normalizeIngredientTaxonomyKey(value) {
 export const normalizePlannerTaxonomyKey = normalizeIngredientTaxonomyKey;
 
 function taxonomyItemIndex(taxonomy) {
+  const canCache = taxonomy && typeof taxonomy === 'object' && Object.isFrozen(taxonomy);
+  if (canCache && TAXONOMY_ITEM_INDEX_CACHE.has(taxonomy)) {
+    return TAXONOMY_ITEM_INDEX_CACHE.get(taxonomy);
+  }
   const index = new Map();
   for (const item of taxonomy?.items || []) {
     if (item.input_scope === 'derived_only') continue;
@@ -132,10 +163,15 @@ function taxonomyItemIndex(taxonomy) {
       if (key && !index.has(key)) index.set(key, item);
     }
   }
+  if (canCache) TAXONOMY_ITEM_INDEX_CACHE.set(taxonomy, index);
   return index;
 }
 
 function taxonomyAmbiguityIndex(taxonomy) {
+  const canCache = taxonomy && typeof taxonomy === 'object' && Object.isFrozen(taxonomy);
+  if (canCache && TAXONOMY_AMBIGUITY_INDEX_CACHE.has(taxonomy)) {
+    return TAXONOMY_AMBIGUITY_INDEX_CACHE.get(taxonomy);
+  }
   const index = new Map();
   for (const ambiguity of taxonomy?.ambiguous_inputs || []) {
     for (const input of [ambiguity.input, ...(ambiguity.aliases || [])]) {
@@ -143,6 +179,7 @@ function taxonomyAmbiguityIndex(taxonomy) {
       if (key && !index.has(key)) index.set(key, ambiguity);
     }
   }
+  if (canCache) TAXONOMY_AMBIGUITY_INDEX_CACHE.set(taxonomy, index);
   return index;
 }
 
@@ -581,6 +618,24 @@ export function buildPlannerAllergenAliases(taxonomy = {}, recipeLibrary = {}) {
   return aliases;
 }
 
+function plannerAllergenAliasesForAssets(assets = {}) {
+  const taxonomy = assets.taxonomy;
+  const recipes = assets.recipes;
+  if (!taxonomy || typeof taxonomy !== 'object' || !recipes || typeof recipes !== 'object'
+      || !Object.isFrozen(taxonomy) || !Object.isFrozen(recipes)) {
+    return buildPlannerAllergenAliases(taxonomy, recipes);
+  }
+  let byRecipes = ALLERGEN_ALIAS_CACHE.get(taxonomy);
+  if (!byRecipes) {
+    byRecipes = new WeakMap();
+    ALLERGEN_ALIAS_CACHE.set(taxonomy, byRecipes);
+  }
+  if (!byRecipes.has(recipes)) {
+    byRecipes.set(recipes, Object.freeze(buildPlannerAllergenAliases(taxonomy, recipes)));
+  }
+  return byRecipes.get(recipes);
+}
+
 function rejection(reason_code, message, details = {}) {
   return { ok: false, rejection_reason: { reason_code, message, ...details } };
 }
@@ -1000,25 +1055,29 @@ export function coverageFieldsFor(promiseItems = [], plannedItems = []) {
   };
 }
 
-function buildPotCandidatesInternal(assets = {}, request = {}, collectValidVariants = false) {
+function buildPotCandidatesInternal(
+  assets = {},
+  request = {},
+  collectValidVariants = false,
+  minimumRecommendCoverage = 0,
+) {
   const normalizedItems = normalizePlannerItems([
     ...(request.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(request.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
   ], assets.taxonomy);
-  const prepared = prepareRatioCatalog(assets.ratios || assets.ratioCatalog, {
-    taxonomy: assets.taxonomy,
-    templates: assets.templates,
-    recipes: assets.recipes,
-  });
+  const prepared = preparedRatiosForAssets(assets);
   if (!prepared.ok) return [];
   const unique = uniqueSubmittedItems(normalizedItems);
   const must = unique.filter(item => item.role === 'must_use');
   const prefer = unique.filter(item => item.role === 'prefer_use');
   const recognizedSubmitted = unique.filter(item => item.recognized);
-  const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
+  const allergyAliases = plannerAllergenAliasesForAssets(assets);
   const candidates = [];
   for (const template of assets.templates?.templates || []) {
     if (!ACTIVE_TEMPLATE_IDS.has(template.template_id) || template.activation_status !== 'active' || !template.runtime_eligible) continue;
+    if (request.mode === 'recommend'
+        && minimumRecommendCoverage > 0
+        && (template.slot_limits?.total_user_items_max || 0) < minimumRecommendCoverage) continue;
     const assigned = assignItemsToTemplate(template, normalizedItems, {
       taxonomy: assets.taxonomy,
       ratioCatalog: prepared.catalog,
@@ -1440,6 +1499,14 @@ function maxPlannerUserItemsPerPot(assets, request) {
     .map(template => template.slot_limits?.total_user_items_max || 0));
 }
 
+function recommendCapacityExceeded(assets, request, normalizedItems) {
+  if (request.mode !== 'recommend') return false;
+  const submitted = uniqueSubmittedItems(normalizedItems)
+    .filter(item => item.role === 'prefer_use').length;
+  return submitted > 0
+    && minimumRecommendCoverageCount(submitted) > maxPlannerUserItemsPerPot(assets, request);
+}
+
 function legacyRecipeFallbackResponse(assets, request, normalizedItems, reason) {
   return {
     schema_version: 2,
@@ -1482,6 +1549,12 @@ function planMealCore(assets, request, diagnostics) {
       && uniqueSubmittedItems(normalized_items).filter(item => item.role === 'prefer_use').length === 0) {
     return legacyRecipeFallbackResponse(assets, request, normalized_items, 'recommend_no_submitted_ingredients');
   }
+  if (recommendCapacityExceeded(assets, request, normalized_items)) {
+    if (diagnostics) diagnostics.capacity_short_circuit = true;
+    return buildPlannerResponse(assets, request, normalized_items, [], [], {
+      allergyAliases: plannerAllergenAliasesForAssets(assets),
+    });
+  }
   const publicRanked = rankPotCandidates(buildPotCandidates(assets, request), request);
   const must = uniqueSubmittedItems(normalized_items).filter(item => item.role === 'must_use');
   const recognizedMustCount = must.filter(item => item.recognized).length;
@@ -1492,7 +1565,7 @@ function planMealCore(assets, request, diagnostics) {
     : publicRanked;
   // Search-ranked candidates have completed candidate validation at this point.
   addPlannerDiagnostic(diagnostics, 'valid_candidate_count', searchRanked.length);
-  const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
+  const allergyAliases = plannerAllergenAliasesForAssets(assets);
   if (request.mode === 'recommend') {
     const chosen = publicRanked.find(candidate => candidate.single_pot_eligible);
     return buildPlannerResponse(assets, request, normalized_items, publicRanked, chosen ? [chosen] : [], { allergyAliases });
@@ -1901,24 +1974,67 @@ function candidatePlanningRequest(request) {
 
 function enumerateValidatedPlanResults(assets, request) {
   const planningRequest = candidatePlanningRequest(request);
-  const authoritative = planMeal(assets, requestWithoutSwapHistory(request));
-  const results = [authoritative];
   const normalizedItems = normalizePlannerItems([
     ...(planningRequest.must_use || []).map(raw => ({ raw, role: 'must_use' })),
     ...(planningRequest.prefer_use || []).map(raw => ({ raw, role: 'prefer_use' })),
   ], assets.taxonomy);
+  if (planningRequest.mode === 'recommend') {
+    if (uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'prefer_use').length === 0
+        || recommendCapacityExceeded(assets, planningRequest, normalizedItems)) {
+      return [planMeal(assets, requestWithoutSwapHistory(request))];
+    }
+    const searchRanked = rankPotCandidates(
+      buildPotCandidatesInternal(
+        assets,
+        planningRequest,
+        true,
+        minimumRecommendCoverageCount(uniqueSubmittedItems(normalizedItems)
+          .filter(item => item.role === 'prefer_use').length),
+      ),
+      planningRequest,
+    );
+    const explanationRanked = [...searchRanked.reduce((byTemplate, candidate) => {
+      if (!byTemplate.has(candidate.template_id)) byTemplate.set(candidate.template_id, candidate);
+      return byTemplate;
+    }, new Map()).values()];
+    const allergyAliases = plannerAllergenAliasesForAssets(assets);
+    const eligible = searchRanked.filter(candidate => candidate.single_pot_eligible);
+    const authoritative = buildPlannerResponse(
+      assets,
+      planningRequest,
+      normalizedItems,
+      explanationRanked,
+      eligible[0] ? [eligible[0]] : [],
+      { allergyAliases },
+    );
+    const results = [authoritative];
+    for (const candidate of eligible) {
+      results.push(buildPlannerResponse(
+        assets,
+        planningRequest,
+        normalizedItems,
+        explanationRanked,
+        [candidate],
+        { allergyAliases },
+      ));
+    }
+    const unique = new Map();
+    for (const result of results) {
+      const key = planStructureKey(result);
+      if (!unique.has(key)) unique.set(key, result);
+    }
+    return [...unique.values()];
+  }
+
+  const authoritative = planMeal(assets, requestWithoutSwapHistory(request));
+  const results = [authoritative];
   const publicRanked = rankPotCandidates(buildPotCandidates(assets, planningRequest), planningRequest);
-  const needsAssignmentVariants = planningRequest.mode === 'recommend' || authoritative.status === 'complete';
+  const needsAssignmentVariants = authoritative.status === 'complete';
   const searchRanked = needsAssignmentVariants
     ? rankPotCandidates(buildPotCandidatesInternal(assets, planningRequest, true), planningRequest)
     : publicRanked;
-  const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
-  if (planningRequest.mode === 'recommend') {
-    for (const candidate of searchRanked) {
-      if (!candidate.single_pot_eligible) continue;
-      results.push(buildPlannerResponse(assets, planningRequest, normalizedItems, publicRanked, [candidate], { allergyAliases }));
-    }
-  } else if (authoritative.status === 'complete') {
+  const allergyAliases = plannerAllergenAliasesForAssets(assets);
+  if (authoritative.status === 'complete') {
     const must = uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'must_use');
     const maxPots = planningRequest.allow_third_pot ? 3 : 2;
     for (let potCount = 1; potCount <= maxPots; potCount += 1) {
@@ -2008,7 +2124,7 @@ export async function planMealCandidateBundle(assets = {}, request = {}, { limit
   const plans = await identifiedValidPlans(assets, cleanRequest);
   const selected = selectDiverseCandidates(plans.filter(isNormalRecommendCandidate), limit);
   if (!selected.length) {
-    const authoritative = await attachPlanIdentity(planMeal(assets, cleanRequest));
+    const authoritative = plans[0] || await attachPlanIdentity(planMeal(assets, cleanRequest));
     return {
       ...authoritative,
       candidate_plans: [],
@@ -2103,7 +2219,7 @@ function buildPartialAlternativeContext(assets, request) {
     seenTemplates.add(candidate.template_id);
     return true;
   });
-  const allergyAliases = buildPlannerAllergenAliases(assets.taxonomy, assets.recipes);
+  const allergyAliases = plannerAllergenAliasesForAssets(assets);
   const must = uniqueSubmittedItems(normalizedItems).filter(item => item.role === 'must_use');
   const entries = searchRanked.map((candidate, rank) => ({
     candidate,
