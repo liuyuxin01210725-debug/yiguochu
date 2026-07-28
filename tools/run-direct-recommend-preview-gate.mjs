@@ -91,22 +91,28 @@ export async function runPreviewGate({
   }
 
   const counters = { bad_json: 0, non_json: 0, server_errors: 0, http_errors: 0 };
-  const fixtureJourney = journeys[0];
-  let fixtureResponse;
-  try {
-    fixtureResponse = await fetchImpl(`${base}/plan-meal`, {
-      method: 'POST',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody(fixtureJourney)),
-    });
-  } catch (_error) {
-    const error = new Error('preview_gate_failed');
-    error.summary = { ...counters, server_errors: 1 };
-    throw error;
+  let fixtureJourney = null;
+  let fixturePlan = null;
+  for (const journey of journeys) {
+    let fixtureResponse;
+    try {
+      fixtureResponse = await fetchImpl(`${base}/plan-meal`, {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody(journey)),
+      });
+    } catch (_error) {
+      counters.server_errors += 1;
+      continue;
+    }
+    const fixtureBody = await readJsonResponse(fixtureResponse, counters);
+    const selected = selectedPlan(fixtureBody);
+    if (!selected) continue;
+    fixtureJourney = journey;
+    fixturePlan = selected;
+    break;
   }
-  const fixtureBody = await readJsonResponse(fixtureResponse, counters);
-  const fixturePlan = selectedPlan(fixtureBody);
-  if (!fixturePlan) {
+  if (!fixtureJourney || !fixturePlan) {
     const error = new Error('preview_gate_failed');
     error.summary = { ...counters, fixture_plan: 'unavailable' };
     throw error;

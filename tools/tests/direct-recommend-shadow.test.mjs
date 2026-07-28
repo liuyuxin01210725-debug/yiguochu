@@ -78,6 +78,63 @@ test('preview gate percentile uses the sorted one-based ninety-fifth sample', as
   assert.equal(percentile(values, 100), 100);
 });
 
+test('preview gate skips non-generatable corpus rows when selecting its generation fixture', async () => {
+  const { runPreviewGate } = await import('../run-direct-recommend-preview-gate.mjs');
+  const json = body => new Response(JSON.stringify(body), {
+    status: 200,
+    headers: { 'Content-Type':'application/json' },
+  });
+  const health = {
+    status:'ok',
+    buildId:'wanted',
+    plannerRollout:'direct-recommend',
+    generationMode:'deterministic',
+  };
+  const unavailable = {
+    schema_version:2,
+    planner_version:'pantry-planner-v2',
+    template_catalog_version:'templates-test',
+    status:'no_valid_plan',
+    generation_allowed:false,
+    plan:null,
+    candidate_plans:[],
+  };
+  const plan = {
+    schema_version:2,
+    planner_version:'pantry-planner-v2',
+    template_catalog_version:'templates-test',
+    status:'ready',
+    generation_allowed:true,
+    plan:{ plan_id:'fixture', planned_prefer_use:[{ raw:'鸡蛋' }] },
+    candidate_plans:[],
+  };
+  const journeys = [
+    { mode:'recommend', intent:'normal', servings:2, prefer_use:[], dislikes:[] },
+    { mode:'recommend', intent:'normal', servings:2, prefer_use:['鸡蛋'], dislikes:[] },
+  ];
+  let fixtureLookups = 0;
+  const summary = await runPreviewGate({
+    url:'https://preview.example',
+    buildId:'wanted',
+    samples:1,
+    warmups:0,
+    journeys,
+    fetchImpl:async (input, init) => {
+      const path = new URL(String(input)).pathname;
+      if (path === '/health') return json(health);
+      if (path === '/generate-plan') return json({ ...plan, meals:[{ meal_sequence:1 }] });
+      const body = JSON.parse(init.body);
+      if (fixtureLookups < 2) {
+        fixtureLookups += 1;
+        return json(body.constraints.prefer_use.length ? plan : unavailable);
+      }
+      return json(plan);
+    },
+  });
+  assert.equal(fixtureLookups, 2);
+  assert.equal(summary.generation_samples, 1);
+});
+
 test('preview gate rejects build mismatch, non-json, malformed json and server errors', async () => {
   const { runPreviewGate } = await import('../run-direct-recommend-preview-gate.mjs');
   const json = (body, status = 200, contentType = 'application/json') => new Response(
