@@ -262,7 +262,12 @@ function endpointEvidencePhrase(endpoint, refs) {
   throw new Error(`locked_safety_endpoint_unsupported:${endpoint}`);
 }
 
-function controlledStepTexts(phase, lockedIngredients, phaseActions = new Set()) {
+function controlledStepTexts(
+  phase,
+  lockedIngredients,
+  phaseActions = new Set(),
+  endpointIngredientRefs = new Map(),
+) {
   let templates = ACTION_TEXT_TEMPLATES[phase.action_code];
   const phaseIngredients = lockedIngredients
     .filter(item => phase.allowed_ingredient_refs.includes(item.ingredient_ref));
@@ -296,12 +301,22 @@ function controlledStepTexts(phase, lockedIngredients, phaseActions = new Set())
       '把{items}放入锅中摊开，并逐面翻炒至均匀变色',
     ];
   }
+  if (phase.action_code === 'add_staple_and_liquid'
+      && phaseIngredients.some(item => item.category === 'cooked_rice')) {
+    templates = [
+      '将{items}加入同一口锅轻轻翻拌，继续加热至水分基本收匀，并确认熟米饭整体热透',
+      '同锅加入{items}并翻匀，保持加热至汤汁收匀、熟米饭整体热透',
+    ];
+  }
   if (!Array.isArray(templates) || templates.length < 2) {
     throw new Error(`locked_action_phrase_missing:${phase.action_code}`);
   }
   const refs = joinedPlaceholders(phase.allowed_ingredient_refs);
   const safety = phase.required_safety_endpoints.map(endpoint => (
-    endpointEvidencePhrase(endpoint, phase.required_safety_ingredient_refs)
+    endpointEvidencePhrase(
+      endpoint,
+      endpointIngredientRefs.get(endpoint) || phase.required_safety_ingredient_refs,
+    )
   ));
   const safetyFact = safety.length ? `，并确认${safety.join('；')}` : '';
   const safetyAlt = safety.length ? `，完成后确认${safety.join('；')}` : '';
@@ -544,6 +559,7 @@ function buildLockedMeal(pot, template, refCounters, context) {
         phase,
         locked,
         new Set(phases.map(entry => entry.action_code)),
+        endpointIngredientRefs,
       ),
     })),
     recommendation_reason_options: uniqueStrings([

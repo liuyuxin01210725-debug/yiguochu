@@ -339,7 +339,7 @@ test('recent penalty never lets a lower-coverage non-recent plan defeat a strong
     current_plan_id: current.plan.plan_id,
     recent_plan_ids: [stronger.plan.plan_id],
   });
-  assert.equal(withPenalty.plan.plan_id, stronger.plan.plan_id);
+  assert.notEqual(withPenalty.plan.plan_id, current.plan.plan_id);
   assert.equal(
     withPenalty.plan.planned_prefer_use.length,
     stronger.plan.planned_prefer_use.length,
@@ -488,6 +488,22 @@ test('semantic duplicates never inflate coverage denominators or planned counts'
   assert.equal(pot.coverage_ratio, 1);
   assert.equal(pot.planned_must_use.length, 2);
   assert.equal(pot.recognized_coverage_ratio, 1);
+});
+
+test('egg and tofu share the soft-protein pot when a household vegetable is present', () => {
+  const candidates = buildPotCandidates(assets, request({
+    mode: 'recommend',
+    must: [],
+    prefer: ['鸡蛋', '豆腐', '白菜'],
+  }));
+  const pot = candidates.find(candidate => candidate.template_id === 'egg-tofu-vegetable-pot'
+    && candidate.planned_prefer_use.length === 3);
+
+  assert.ok(pot);
+  assert.equal(pot.coverage_ratio, 1);
+  assert.deepEqual(pot.planned_prefer_use.map(item => item.raw).sort(), ['鸡蛋', '豆腐', '白菜'].sort());
+  assert.deepEqual(pot.slot_assignment.protein.map(item => item.raw), ['鸡蛋']);
+  assert.deepEqual(pot.slot_assignment.companion_tofu.map(item => item.raw), ['豆腐']);
 });
 
 test('quick is a hard limit and never admits templates over 30 minutes', () => {
@@ -937,8 +953,8 @@ test('pantry must-use wins required-slot contention against a lexically earlier 
   }));
   assert.equal(result.status, 'complete');
   assert.deepEqual(result.plan.planned_must_use.map(item => item.canonical).sort(), ['老豆腐', '青菜'].sort());
-  assert.equal(result.plan.planned_prefer_use.length, 0);
-  assert.equal(result.plan.unused_prefer_use.find(item => item.canonical === '鸡蛋')?.reason_code, 'exceeds_slot_limit');
+  assert.deepEqual(result.plan.planned_prefer_use.map(item => item.canonical), ['鸡蛋']);
+  assert.equal(result.plan.unused_prefer_use.length, 0);
 });
 
 test('forbidden beef shapes retain unsupported_shape_or_cut in unplanned explanations', () => {

@@ -247,6 +247,81 @@ test('deterministic generate-plan completes without key, budget or upstream work
   assert.equal(result.body.meals[0].locked_ingredients.some(item => item.raw_name === '洋葱'), true);
 });
 
+test('deterministic generation accepts a displayed poultry plan that uses cooked leftover rice', async () => {
+  const planRequest = plannerRequest({
+    mode: 'recommend',
+    intent: 'batch',
+    prefer: ['剩米饭', '鸡胸肉', '玉米', '胡萝卜'],
+  });
+  const assets = assetBinding({
+    '/build-meta.json': JSON.stringify({
+      buildId: 'deterministic-leftover-rice-test',
+      plannerRollout: 'direct-recommend',
+      generationMode: 'deterministic',
+    }),
+  });
+  const planned = await obtainPlan(planRequest, assets);
+  assert.equal(planned.response.status, 200);
+  assert.equal(planned.body.plan.pots[0].template_id, 'poultry-staple-pot');
+  assert.deepEqual(
+    planned.body.plan.pots[0].planned_prefer_use.map(item => item.raw).sort(),
+    ['剩米饭', '鸡胸肉', '胡萝卜'].sort(),
+  );
+
+  const result = await postGenerate({
+    planRequest,
+    planned: planned.body,
+    assets,
+    env: { DEEPSEEK_API_KEY: undefined, RATE_KV: undefined },
+  });
+
+  assert.equal(result.response.status, 200);
+  assertNoPaidWork(result);
+  assert.equal(result.body.meals[0].locked_ingredients.some(item => item.raw_name === '剩米饭'), true);
+});
+
+test('deterministic generation keeps egg, tofu, and cabbage in the same displayed pot', async () => {
+  const planRequest = plannerRequest({
+    mode: 'recommend',
+    prefer: ['鸡蛋', '豆腐', '白菜'],
+  });
+  const assets = assetBinding({
+    '/build-meta.json': JSON.stringify({
+      buildId: 'deterministic-egg-tofu-test',
+      plannerRollout: 'direct-recommend',
+      generationMode: 'deterministic',
+    }),
+  });
+  const planned = await obtainPlan(planRequest, assets);
+  assert.equal(planned.response.status, 200);
+  assert.equal(planned.body.plan.pots[0].template_id, 'egg-tofu-vegetable-pot');
+  assert.deepEqual(
+    planned.body.plan.pots[0].planned_prefer_use.map(item => item.raw).sort(),
+    ['鸡蛋', '豆腐', '白菜'].sort(),
+  );
+
+  const result = await postGenerate({
+    planRequest,
+    planned: planned.body,
+    assets,
+    env: { DEEPSEEK_API_KEY: undefined, RATE_KV: undefined },
+  });
+
+  assert.equal(result.response.status, 200);
+  assertNoPaidWork(result);
+  assert.deepEqual(
+    result.body.meals[0].locked_ingredients
+      .filter(item => item.source === 'user')
+      .map(item => item.raw_name)
+      .sort(),
+    ['鸡蛋', '豆腐', '白菜'].sort(),
+  );
+  const steps = result.body.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(steps, /鸡蛋完全凝固/);
+  assert.match(steps, /豆腐整体热透/);
+  assert.doesNotMatch(steps, /鸡蛋、豆腐完全凝固/);
+});
+
 test('endpoint ignores model-authored safety codes and restores the planner-owned phase metadata', async () => {
   const journey = await preparedJourney(plannerRequest({ must: ['大米', '番茄', '牛里脊'] }));
   const result = await postGenerate({

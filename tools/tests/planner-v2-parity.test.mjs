@@ -864,7 +864,7 @@ test('generate bridge timeout is bounded and maps to upstream_timeout without re
     RATE_LIMIT: '10',
     DEEPSEEK_API_KEY: 'test-key',
     PLANNER_NODE_EXECUTABLE: wrapper,
-    PLANNER_BRIDGE_TIMEOUT_S: '1',
+    PLANNER_BRIDGE_TIMEOUT_S: '0.75',
   });
   try {
     const planRequest = request({ must: ['番茄', '鸡蛋'] });

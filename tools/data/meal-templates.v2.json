@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "template_catalog_version": "templates-v2-20260728-r14",
+  "template_catalog_version": "templates-v2-20260729-r15",
   "ingredient_taxonomy_version": "taxonomy-v1-20260728-r10",
   "templates": [
     {
@@ -101,13 +101,13 @@
       "activation_status":"active",
       "runtime_eligible":true,
       "required_slots":[{"slot_id":"protein","min_items":1,"max_items":1,"source_policy":["user"],"accepts_categories":["egg","soft_tofu","firm_tofu"]},{"slot_id":"vegetable","min_items":1,"max_items":2,"source_policy":["user"],"accepts_categories":["acid_vegetable","leafy_vegetable","cruciferous_vegetable","root_vegetable"]}],
-      "optional_slots":[{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]},{"slot_id":"liquid","min_items":0,"max_items":1,"source_policy":["basic_extra"],"accepts_categories":["liquid"]}],
-      "slot_limits":{"total_user_items_min":2,"total_user_items_max":4,"protein_max":1,"vegetable_max":2,"mushroom_max":1},
-      "ingredient_categories":{"protein":["egg","soft_tofu","firm_tofu"],"vegetable":["acid_vegetable","leafy_vegetable","cruciferous_vegetable","root_vegetable"],"mushroom":["mushroom"],"liquid":["liquid"]},
+      "optional_slots":[{"slot_id":"mushroom","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["mushroom"]},{"slot_id":"companion_tofu","min_items":0,"max_items":1,"source_policy":["user"],"accepts_categories":["soft_tofu","firm_tofu"]},{"slot_id":"liquid","min_items":0,"max_items":1,"source_policy":["basic_extra"],"accepts_categories":["liquid"]}],
+      "slot_limits":{"total_user_items_min":2,"total_user_items_max":4,"protein_max":1,"vegetable_max":2,"mushroom_max":1,"companion_tofu_max":1},
+      "ingredient_categories":{"protein":["egg","soft_tofu","firm_tofu"],"vegetable":["acid_vegetable","leafy_vegetable","cruciferous_vegetable","root_vegetable"],"mushroom":["mushroom"],"companion_tofu":["soft_tofu","firm_tofu"],"liquid":["liquid"]},
       "compatibility_rules":[{"rule_code":"soft_tofu_uses_short_simmer","when":{"slot_id":"protein","category":"soft_tofu"},"requires_cooking_mode":["short_simmer"]}],
       "incompatible_rules":[{"rule_code":"soft_tofu_limits_high_moisture","when":{"slot_id":"protein","category":"soft_tofu"},"forbids_attribute_count":{"attribute":"moisture_release","value":"high","greater_than":2}}],
       "shape_or_cut_requirements":[],
-      "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"add_liquid","slot_ids":["liquid"]},{"phase":3,"action_code":"add_slow_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"root_vegetable"}},{"phase":4,"action_code":"gentle_set_protein","slot_ids":["protein"]},{"phase":5,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"acid_vegetable"}},{"phase":6,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"leafy_vegetable"}},{"phase":7,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"cruciferous_vegetable"}},{"phase":8,"action_code":"add_mushroom","slot_ids":["mushroom"]},{"phase":9,"action_code":"reach_safety_endpoints","slot_ids":["protein","vegetable"]}],
+      "cooking_order":[{"phase":1,"action_code":"protein_pretreat","slot_ids":["protein"]},{"phase":2,"action_code":"add_liquid","slot_ids":["liquid"]},{"phase":3,"action_code":"add_slow_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"root_vegetable"}},{"phase":4,"action_code":"gentle_set_protein","slot_ids":["protein","companion_tofu"]},{"phase":5,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"acid_vegetable"}},{"phase":6,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"leafy_vegetable"}},{"phase":7,"action_code":"add_fast_cooking_items","slot_ids":["vegetable"],"when":{"slot_id":"vegetable","category":"cruciferous_vegetable"}},{"phase":8,"action_code":"add_mushroom","slot_ids":["mushroom"]},{"phase":9,"action_code":"reach_safety_endpoints","slot_ids":["protein","companion_tofu","vegetable"]}],
       "ratio_constraints":["egg-tofu-vegetable-egg-portion-v1","egg-tofu-vegetable-soft-tofu-portion-v1","egg-tofu-vegetable-firm-tofu-portion-v1"],
       "liquid_constraints":{"allowed_categories":["water","approved_stock"],"max_liquid_types":1,"must_be_measured":true,"retained_in_finished_meal":true},
       "safety_endpoints":[{"applies_to_category":"egg","endpoint_code":"egg_fully_set"},{"applies_to_category":"soft_tofu","endpoint_code":"heated_through"},{"applies_to_category":"firm_tofu","endpoint_code":"heated_through"},{"applies_to_category":"root_vegetable","endpoint_code":"tender"}],
