@@ -361,6 +361,40 @@ Preview 的构建三方核对、100 次性能门和远端真人点击回归为�
 DeepSeek 边界。新的 Preview 仍须重新通过全部本地门、两段 100 次性能门和
 真人点击回归。
 
+### 稳定入口复测失败与边缘冷启动修复
+
+候选缓存版本 `direct-recommend-fd2b3cc` 在唯一部署 URL 上通过两段性能门：
+
+- 规划 P50 334ms、P95 855ms、最大 3045ms；
+- 成品 P50 352ms、P95 898ms、最大 2151ms；
+- `bad_json=0`、非 JSON 0、5xx/网络错误 0。
+
+但同一构建的稳定 Preview 入口没有通过，不能用唯一 URL 的较快数据替代：
+
+- 规划 P50 778ms、P95 2387ms、最大 9614ms；
+- 成品 P50 1466ms、P95 4016ms、最大 8849ms；
+- `bad_json=0`、非 JSON 0、5xx/网络错误 0。
+
+进一步对稳定入口顺序取样时，第一条 `/plan-meal` 为 2657ms，随后同一边缘
+实例降到 329ms、185ms、205ms、175ms；响应体约 50KB，诊断指向新边缘实例
+初始化时读取并校验四份 Planner JSON，而不是 DeepSeek、响应体下载或产品
+算法。为此，本轮只调整构建产物：
+
+- `tools/build-dist.mjs` 把 canonical taxonomy、template、Ratio DSL 和
+  72 道 evidence recipe JSON 嵌入 `_worker.js`；
+- 新实例仍调用同一套权威 validator 和 Ratio DSL prepare，一次都不跳过；
+- 源码 Worker 与本地测试继续以 `ASSETS` 为权威，因此缺失、非法 JSON、
+  语义非法和不同 binding 隔离测试仍保持有效；
+- 构建后测试会让所有静态资产请求主动失败，只有嵌入资产完成验证且
+  `/plan-meal`、`/health` 都可正常响应时才通过；
+- public JSON 仍随包发布，不改变前端、菜谱页或审计入口。
+
+该优化不改变 Planner 请求、响应、排序、模板、菜谱、Ratio DSL、食材身份、
+安全边界、DeepSeek 边界或用户数据策略。当前本地门为 Node `1467/1467`、
+Planner 旅程 `138/138`、影子对照 30 条硬失败 0、菜谱门和 Python 语法通过。
+是否恢复 Pilot 仍须以新构建在唯一 URL 与稳定入口各自完成 100 次规划和
+100 次成品性能门，并完成远端真人点击回归为准。
+
 ## 测试方法
 
 1. 优先邀请平时真实参与家庭做饭的人。

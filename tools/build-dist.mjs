@@ -32,6 +32,8 @@ const GENERATED_ASSETS = [
   ['worker/src/meal-template-validator.js', 'meal-template-validator.js'],
   ['worker/src/recipe-library-validator.js', 'recipe-library-validator.js'],
 ];
+const COMPILED_BUILD_METADATA_SENTINEL = "'__YIGUOCHU_COMPILED_BUILD_METADATA_JSON__'";
+const COMPILED_PLANNER_ASSETS_SENTINEL = "'__YIGUOCHU_COMPILED_PLANNER_ASSETS_JSON__'";
 
 function usage(message) {
   if (message) console.error(message);
@@ -109,6 +111,15 @@ function copy(sourceRelativePath, outputPath) {
   fs.copyFileSync(sourcePath, outputPath);
 }
 
+function readCanonicalJson(sourceRelativePath) {
+  const sourcePath = path.join(ROOT, sourceRelativePath);
+  try {
+    return JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
+  } catch (error) {
+    throw new Error(`Cannot embed canonical JSON ${sourceRelativePath}: ${error.message}`);
+  }
+}
+
 function build({ outputDir, buildId, plannerRollout, generationMode }) {
   assertNoSymlinkInOutputPath(outputDir);
   if (fs.existsSync(outputDir) && !fs.lstatSync(outputDir).isDirectory()) {
@@ -119,6 +130,31 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
 
   for (const asset of STATIC_ASSETS) copy(asset, path.join(outputDir, asset));
   for (const [source, target] of GENERATED_ASSETS) copy(source, path.join(outputDir, target));
+
+  const workerPath = path.join(outputDir, '_worker.js');
+  const sourceWorker = fs.readFileSync(workerPath, 'utf8');
+  const buildMetadata = { buildId, plannerRollout, generationMode };
+  const embeddedPlannerAssets = {
+    taxonomy: readCanonicalJson('tools/data/ingredient-taxonomy.v1.json'),
+    templates: readCanonicalJson('tools/data/meal-templates.v2.json'),
+    ratios: readCanonicalJson('tools/data/ratio-rules.v1.json'),
+    recipes: readCanonicalJson('tools/data/recipe-library.json'),
+  };
+  const generatedWorker = sourceWorker
+    .replace(
+      COMPILED_BUILD_METADATA_SENTINEL,
+      JSON.stringify(JSON.stringify(buildMetadata)),
+    )
+    .replace(
+      COMPILED_PLANNER_ASSETS_SENTINEL,
+      JSON.stringify(JSON.stringify(embeddedPlannerAssets)),
+    );
+  if (generatedWorker === sourceWorker
+      || generatedWorker.includes(COMPILED_BUILD_METADATA_SENTINEL)
+      || generatedWorker.includes(COMPILED_PLANNER_ASSETS_SENTINEL)) {
+    throw new Error('Cannot embed canonical Worker metadata; update tools/build-dist.mjs for the current worker.js format.');
+  }
+  fs.writeFileSync(workerPath, generatedWorker, 'utf8');
 
   const serviceWorkerPath = path.join(outputDir, 'sw.js');
   const sourceServiceWorker = fs.readFileSync(serviceWorkerPath, 'utf8');
@@ -145,7 +181,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
 
   fs.writeFileSync(
     path.join(outputDir, 'build-meta.json'),
-    `${JSON.stringify({ buildId, plannerRollout, generationMode }, null, 2)}\n`,
+    `${JSON.stringify(buildMetadata, null, 2)}\n`,
     'utf8',
   );
 

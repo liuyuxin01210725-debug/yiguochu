@@ -38,7 +38,6 @@ const REQUIRED_ASSETS = [
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
-  ['_worker.js', path.join(ROOT, 'worker', 'src', 'worker.js')],
   ['planner-v2.js', path.join(ROOT, 'worker', 'src', 'planner-v2.js')],
   ['ratio-dsl.js', path.join(ROOT, 'worker', 'src', 'ratio-dsl.js')],
   ['taxonomy-identity.js', path.join(ROOT, 'worker', 'src', 'taxonomy-identity.js')],
@@ -231,6 +230,11 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
       { buildId:'canonical-test', plannerRollout:'direct-recommend', generationMode:'deterministic' },
     );
+    const builtWorker = fs.readFileSync(path.join(outputDir, '_worker.js'), 'utf8');
+    assert.doesNotMatch(
+      builtWorker,
+      /__YIGUOCHU_COMPILED_(?:BUILD_METADATA|PLANNER_ASSETS)_JSON__/,
+    );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
   }
@@ -319,7 +323,7 @@ test('distribution build excludes research-only and planner coverage audit artif
   }
 });
 
-test('built Worker contains its complete relative module graph and executes planning using only built assets', async () => {
+test('built Worker contains its complete relative module graph and plans from embedded validated assets', async () => {
   const outputDir = makeOutputDir();
   try {
     build(outputDir);
@@ -329,6 +333,11 @@ test('built Worker contains its complete relative module graph and executes plan
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };
     try {
+      const unavailableAssets = {
+        async fetch() {
+          throw new Error('built planner must not fetch deployed planner metadata or JSON assets');
+        },
+      };
       const response = await builtWorker.fetch(new Request('https://built.example/plan-meal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -341,11 +350,22 @@ test('built Worker contains its complete relative module graph and executes plan
             current_plan_id: null, recent_plan_ids: [], decision: null,
           },
         }),
-      }), { ASSETS: builtAssetBinding(outputDir) });
+      }), { ASSETS: unavailableAssets });
       assert.equal(response.status, 200);
       const body = await response.json();
       assert.equal(body.status, 'complete');
       assert.match(body.plan.plan_id, /^pln_v2_[A-Za-z0-9_-]{43}$/);
+
+      const healthResponse = await builtWorker.fetch(
+        new Request('https://built.example/health'),
+        { ASSETS: unavailableAssets },
+      );
+      assert.equal(healthResponse.status, 200);
+      const health = await healthResponse.json();
+      assert.equal(health.buildId, 'canonical-test');
+      assert.equal(health.plannerRollout, 'direct-recommend');
+      assert.equal(health.generationMode, 'deterministic');
+      assert.equal(health.plannerAssets, 'ok');
     } finally {
       globalThis.fetch = originalFetch;
     }

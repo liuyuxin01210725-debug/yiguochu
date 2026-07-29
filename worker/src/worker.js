@@ -32,11 +32,17 @@ const BUILD_METADATA_DEFAULTS = Object.freeze({
   plannerRollout: 'off',
   generationMode: 'llm',
 });
+// The canonical build replaces these sentinels with JSON strings. Source tests
+// intentionally leave them unresolved so ASSETS remains the authority there.
+const COMPILED_BUILD_METADATA_JSON = '__YIGUOCHU_COMPILED_BUILD_METADATA_JSON__';
+const COMPILED_PLANNER_ASSETS_JSON = '__YIGUOCHU_COMPILED_PLANNER_ASSETS_JSON__';
 
 // ===== 菜谱库候选: 只做确定性查表与排序，不额外调用模型。=====
 const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
 const PLANNER_ASSET_CACHE = new WeakMap();
+let COMPILED_PLANNER_ASSET_CACHE;
+let COMPILED_BUILD_METADATA_CACHE;
 const INITIAL_RECOMMEND_BUNDLE_CACHE = new WeakMap();
 const INITIAL_RECOMMEND_BUNDLE_CACHE_LIMIT = 64;
 const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
@@ -1661,6 +1667,30 @@ function deepFreeze(value) {
   return value;
 }
 
+function parseCompiledJson(raw) {
+  if (typeof raw !== 'string' || raw.startsWith('__YIGUOCHU_COMPILED_')) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
+  } catch (_error) {
+    return null;
+  }
+}
+
+function validateAndPreparePlannerAssets(source) {
+  const taxonomy = source?.taxonomy;
+  const templates = source?.templates;
+  const ratios = source?.ratios;
+  const recipes = source?.recipes;
+  if (validateIngredientTaxonomy(taxonomy).length
+      || validateRecipeLibrary(recipes).length
+      || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length
+      || validateDeterministicTextProfiles(templates).length) throw plannerAssetError();
+  const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
+  if (!preparedRatios.ok) throw plannerAssetError();
+  return deepFreeze({ taxonomy, templates, ratios: preparedRatios.catalog, recipes });
+}
+
 export async function getCachedInitialRecommendBundle(
   cacheOwner,
   plannerAssets,
@@ -1700,6 +1730,20 @@ async function readPlannerJsonAsset(assets, request, pathname) {
 }
 
 async function getPlannerAssets(env, request) {
+  if (COMPILED_PLANNER_ASSET_CACHE === undefined) {
+    const embedded = parseCompiledJson(
+      COMPILED_PLANNER_ASSETS_JSON,
+    );
+    try {
+      COMPILED_PLANNER_ASSET_CACHE = embedded
+        ? validateAndPreparePlannerAssets(embedded)
+        : null;
+    } catch (_error) {
+      throw plannerAssetError();
+    }
+  }
+  if (COMPILED_PLANNER_ASSET_CACHE) return COMPILED_PLANNER_ASSET_CACHE;
+
   const assets = env?.ASSETS;
   if (!assets || (typeof assets !== 'object' && typeof assets !== 'function')
       || typeof assets.fetch !== 'function') throw plannerAssetError();
@@ -1712,23 +1756,33 @@ async function getPlannerAssets(env, request) {
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.ratios),
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.recipes),
     ]);
-    source = { taxonomy, templates, ratios, recipes };
-    if (validateIngredientTaxonomy(taxonomy).length
-        || validateRecipeLibrary(recipes).length
-        || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length
-        || validateDeterministicTextProfiles(templates).length) throw plannerAssetError();
-    const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
-    if (!preparedRatios.ok) throw plannerAssetError();
-    source = { taxonomy, templates, ratios: preparedRatios.catalog, recipes };
+    source = validateAndPreparePlannerAssets({ taxonomy, templates, ratios, recipes });
   } catch (_error) {
     throw plannerAssetError();
   }
-  const validated = deepFreeze(source);
-  PLANNER_ASSET_CACHE.set(assets, validated);
-  return validated;
+  PLANNER_ASSET_CACHE.set(assets, source);
+  return source;
 }
 
 async function readBuildMetadata(env, request) {
+  if (COMPILED_BUILD_METADATA_CACHE === undefined) {
+    COMPILED_BUILD_METADATA_CACHE = parseCompiledJson(
+      COMPILED_BUILD_METADATA_JSON,
+    );
+  }
+  if (COMPILED_BUILD_METADATA_CACHE) {
+    const meta = COMPILED_BUILD_METADATA_CACHE;
+    if (typeof meta.buildId === 'string' && /^[0-9A-Za-z_-]+$/.test(meta.buildId)
+        && ['off', 'direct-recommend'].includes(meta.plannerRollout)
+        && ['deterministic', 'llm'].includes(meta.generationMode)) {
+      return {
+        buildId: meta.buildId,
+        plannerRollout: meta.plannerRollout,
+        generationMode: meta.generationMode,
+      };
+    }
+    return { ...BUILD_METADATA_DEFAULTS };
+  }
   try {
     if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') throw new Error('build_meta_assets_missing');
     const response = await env.ASSETS.fetch(new Request(new URL('/build-meta.json', request.url)));
