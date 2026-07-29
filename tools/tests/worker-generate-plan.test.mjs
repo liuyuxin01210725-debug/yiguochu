@@ -322,6 +322,43 @@ test('deterministic generation keeps egg, tofu, and cabbage in the same displaye
   assert.doesNotMatch(steps, /鸡蛋、豆腐完全凝固/);
 });
 
+test('initial recommend cache reuses only the exact server-planned bundle and returns detached clones', async () => {
+  const cacheOwner = {};
+  const request = plannerRequest({
+    mode: 'recommend',
+    prefer: ['鸡蛋', '豆腐', '白菜'],
+  });
+  const authoritative = {
+    status: 'ready',
+    generation_allowed: true,
+    plan: { plan_id: 'pln_v2_cache_fixture' },
+    candidate_plans: [{ plan: { plan_id: 'pln_v2_cache_fixture' } }],
+  };
+  let calls = 0;
+  const compute = async () => {
+    calls += 1;
+    return structuredClone(authoritative);
+  };
+
+  const first = await workerModule.getCachedInitialRecommendBundle(
+    cacheOwner, {}, request, compute,
+  );
+  first.plan.plan_id = 'mutated';
+  const second = await workerModule.getCachedInitialRecommendBundle(
+    cacheOwner, {}, request, compute,
+  );
+  assert.equal(calls, 1);
+  assert.deepEqual(second, authoritative);
+
+  await workerModule.getCachedInitialRecommendBundle(
+    cacheOwner,
+    {},
+    plannerRequest({ mode: 'recommend', prefer: ['鸡蛋', '白菜'] }),
+    compute,
+  );
+  assert.equal(calls, 2);
+});
+
 test('endpoint ignores model-authored safety codes and restores the planner-owned phase metadata', async () => {
   const journey = await preparedJourney(plannerRequest({ must: ['大米', '番茄', '牛里脊'] }));
   const result = await postGenerate({

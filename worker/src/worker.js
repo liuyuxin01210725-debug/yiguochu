@@ -37,6 +37,8 @@ const BUILD_METADATA_DEFAULTS = Object.freeze({
 const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
 const PLANNER_ASSET_CACHE = new WeakMap();
+const INITIAL_RECOMMEND_BUNDLE_CACHE = new WeakMap();
+const INITIAL_RECOMMEND_BUNDLE_CACHE_LIMIT = 64;
 const RECIPE_GROUNDING_TOKEN_RE = /\{recipe_grounding\}/gi;
 const RICE_ALLERGY_COMPLETE_MAIN_PROFILE_ID = 'rice-allergy-complete-main';
 const TRUSTED_RECIPE_SYSTEM_ROLE = '你是可信基础菜谱的一锅出编辑。只按本系统消息中的可信菜谱硬约束和用户消息里的对应 grounding 生成；不得套用通用“主食+蛋白+多蔬菜”模板。返回严格 JSON，JSON 外不要输出文字。';
@@ -1659,6 +1661,32 @@ function deepFreeze(value) {
   return value;
 }
 
+export async function getCachedInitialRecommendBundle(
+  cacheOwner,
+  plannerAssets,
+  plannerRequest,
+  compute = planMealCandidateBundle,
+) {
+  const cacheableOwner = cacheOwner
+    && (typeof cacheOwner === 'object' || typeof cacheOwner === 'function');
+  if (!cacheableOwner) {
+    return compute(plannerAssets, plannerRequest, { limit: 3 });
+  }
+  let cache = INITIAL_RECOMMEND_BUNDLE_CACHE.get(cacheOwner);
+  if (!cache) {
+    cache = new Map();
+    INITIAL_RECOMMEND_BUNDLE_CACHE.set(cacheOwner, cache);
+  }
+  const key = JSON.stringify(plannerRequest);
+  if (cache.has(key)) return structuredClone(cache.get(key));
+  const planned = await compute(plannerAssets, plannerRequest, { limit: 3 });
+  if (cache.size >= INITIAL_RECOMMEND_BUNDLE_CACHE_LIMIT) {
+    cache.delete(cache.keys().next().value);
+  }
+  cache.set(key, structuredClone(planned));
+  return structuredClone(planned);
+}
+
 async function readPlannerJsonAsset(assets, request, pathname) {
   const response = await assets.fetch(new Request(new URL(pathname, request.url).toString()));
   if (!response?.ok) throw plannerAssetError();
@@ -2768,7 +2796,11 @@ async function handlePlanMeal(request, env) {
       && !plannerRequest.current_plan_id
       && !plannerRequest.decision;
     const planned = isInitialRecommend
-      ? await planMealCandidateBundle(plannerAssets, plannerRequest, { limit: 3 })
+      ? await getCachedInitialRecommendBundle(
+        env?.ASSETS,
+        plannerAssets,
+        plannerRequest,
+      )
       : await planMealWithIdentity(plannerAssets, plannerRequest);
     return jsonResponse(planned, 200, env, request);
   } catch (error) {
@@ -2871,11 +2903,32 @@ async function handleGeneratePlan(request, env) {
   }
   let recomputed;
   try {
-    recomputed = await resolveAuthoritativePlanById(
-      plannerAssets,
-      plannerRequest,
-      parsed.plan_id,
-    );
+    const isInitialRecommend = plannerRequest.mode === 'recommend'
+      && !plannerRequest.current_plan_id
+      && !plannerRequest.decision;
+    if (isInitialRecommend) {
+      const bundle = await getCachedInitialRecommendBundle(
+        env?.ASSETS,
+        plannerAssets,
+        plannerRequest,
+      );
+      recomputed = bundle.candidate_plans?.find(candidate => (
+        candidate.plan?.plan_id === parsed.plan_id
+      )) || null;
+      if (!recomputed
+          && !bundle.candidate_plans?.length
+          && bundle.plan?.plan_id === parsed.plan_id) {
+        recomputed = structuredClone(bundle);
+        delete recomputed.candidate_plans;
+        delete recomputed.preferred_plan_id;
+      }
+    } else {
+      recomputed = await resolveAuthoritativePlanById(
+        plannerAssets,
+        plannerRequest,
+        parsed.plan_id,
+      );
+    }
   } catch (error) {
     if (error?.code === 'invalid_planner_request') {
       return jsonResponse(stalePlanGenerationResponse(), 409, env, request);
