@@ -959,7 +959,7 @@ Pot 按 `meal_sequence` 排序；slot 按 `slot_id` 排序；同槽食材按 can
 5. V1 recommend 必要时可以明确调用 legacy recipe selector。
 6. Legacy 响应必须标记 `plan_source:"legacy_recipe_selector"`、`legacy_fallback:true` 与原因。
 
-第一阶段 recommend 没有输入或没有任何可识别 prefer item 时可以走 legacy fallback。Template planner 不为了填满槽位而擅自新增非基础主料。
+第一阶段 recommend 没有输入或没有任何可识别 prefer item 时，底层 Planner/兼容接口仍可返回明确的 legacy fallback 或 `no_valid_plan`，以保留 API 的确定性边界测试。**这不等于首轮 Pilot 的页面允许空食材生成。** 当前“直接推荐”UI 有意要求用户至少选择或填写一种家里的食材；空输入点击时留在输入页，并稳定显示“先选或填写至少一种家里的食材。”。这是产品入口契约，不是 Planner 的 N=0 能力缺失，也不得被后续维护者当作 bug 放开。Template planner 不为了填满槽位而擅自新增非基础主料。
 
 ## 21. 成本与调用次数
 
@@ -1001,7 +1001,7 @@ LLM 路径保留请求大小、食材数量、上游超时、每日预算熔断�
 
 9. Recommend：番茄、金针菇、鸡蛋、西兰花、黄瓜。系统选择最合理的兼容组合，不要求全部使用；返回 planned prefer 与 unused prefer，并逐项解释 `texture_conflict`、`would_break_ratio` 或 `exceeds_slot_limit`，页面不得承诺“全部用上”。
 10. Recommend：只有番茄。至少使用番茄，可补基础主食、液体、油脂或调味，不得擅自补肉、鸡蛋或豆腐。
-11. Recommend：无输入。允许明确 legacy fallback，并标记来源，不伪装成 template plan。
+11. Recommend：无输入。底层 Planner/兼容接口允许明确 legacy fallback，并标记来源，不伪装成 template plan；首轮 Pilot 的 UI 则必须在输入页拦截，并显示至少填写一种食材的明确提示。两层契约分别测试，不得互相替代。
 
 ### 22.3 覆盖与多锅
 
