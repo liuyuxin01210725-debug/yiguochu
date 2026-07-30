@@ -19,7 +19,7 @@
       "ratio_rule_ids": [],
       "technique_graph": [],
       "seasoning_actions": [],
-      "safety_endpoints": ["pork_fully_cooked"],
+      "safety_endpoints": [],
       "naming": {"canonical_name":"上海奉贤咸肉菜饭"},
       "source_claims": [],
       "household_trial": null
@@ -42,7 +42,7 @@
       "ratio_rule_ids": [],
       "technique_graph": [],
       "seasoning_actions": [],
-      "safety_endpoints": ["lamb_fully_cooked"],
+      "safety_endpoints": [],
       "naming": {"canonical_name":"新疆羊肉抓饭"},
       "source_claims": [],
       "household_trial": null
@@ -88,31 +88,31 @@
       "ratio_rule_ids": [],
       "technique_graph": [],
       "seasoning_actions": [],
-      "safety_endpoints": ["pork_fully_cooked"],
+      "safety_endpoints": [],
       "naming": {"canonical_name":"泉州浥饭（油饭）"},
       "source_claims": [],
       "household_trial": null
     },
     {
-      "recipe_id": "cantonese-mushroom-chicken-claypot-rice",
+      "recipe_id": "cantonese-cured-meat-claypot-rice",
       "activation_status": "planned",
       "identity_level": "canonical",
       "identity_evidence": [
         {"title":"粤菜餐厅西关风情特色服务规范（征求意见稿）","url":"https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf"}
       ],
       "identity_signature": {
-        "required_canonical_ids": ["raw-rice", "chicken-leg", "shiitake"],
-        "required_states_or_cuts": ["leg"],
+        "required_canonical_ids": ["raw-rice", "chinese-sausage", "choy-sum"],
+        "required_states_or_cuts": ["sausage"],
         "forbidden_canonical_ids": []
       },
       "approved_variants": [],
-      "template_id": "mushroom-aroma-rice-pot",
+      "template_id": "savory-mixed-rice-pot",
       "slot_assignment": {},
       "ratio_rule_ids": [],
       "technique_graph": [],
       "seasoning_actions": [],
-      "safety_endpoints": ["poultry_fully_cooked_no_pink"],
-      "naming": {"canonical_name":"广式香菇滑鸡煲仔饭"},
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"广式腊味煲仔饭"},
       "source_claims": [],
       "household_trial": null
     },
@@ -134,7 +134,7 @@
       "ratio_rule_ids": [],
       "technique_graph": [],
       "seasoning_actions": [],
-      "safety_endpoints": ["pork_fully_cooked", "bean_fully_cooked", "noodle_tender"],
+      "safety_endpoints": [],
       "naming": {"canonical_name":"北方豆角焖面"},
       "source_claims": [],
       "household_trial": null

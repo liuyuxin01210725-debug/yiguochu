@@ -23,9 +23,33 @@ const INITIAL_RECIPE_IDS = new Set([
   'xinjiang-lamb-pilaf',
   'taiwan-cabbage-mushroom-rice',
   'quanzhou-oil-rice',
-  'cantonese-mushroom-chicken-claypot-rice',
+  'cantonese-cured-meat-claypot-rice',
   'north-china-green-bean-braised-noodles',
 ]);
+
+function completeSyntheticPreview() {
+  const preview = structuredClone(catalog);
+  const entry = preview.entries.find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  entry.activation_status = 'preview_enabled';
+  entry.slot_assignment = {
+    staple: ['raw-rice'],
+    protein: ['salted-pork-belly'],
+    fast_vegetable: ['small-bok-choy'],
+  };
+  entry.ratio_rule_ids = ['savory-mixed-rice-liquid-v1'];
+  entry.ratio_default_rule_id = 'savory-mixed-rice-liquid-v1';
+  entry.technique_graph = [{ phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] }];
+  entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
+  entry.safety_endpoints = [{ endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] }];
+  entry.source_claims = [{ claim_type: 'identity', evidence_index: 0 }];
+  entry.household_trial = {
+    status: 'completed',
+    trial_date: '2026-07-30',
+    reviewer: 'synthetic-test-fixture',
+    outcome: 'passed',
+  };
+  return preview;
+}
 
 test('runtime catalog keeps the six independently reviewed identities planned', () => {
   assert.equal(catalog.recipe_runtime_catalog_version, 'recipe-runtime-v1-20260730-r1');
@@ -45,12 +69,18 @@ test('canonical identities require non-project HTTPS evidence and resolve every 
   entry.identity_signature.required_canonical_ids = ['unknown-canonical-id'];
   entry.template_id = 'unknown-template-id';
   entry.ratio_rule_ids = ['unknown-ratio-id'];
-  entry.safety_endpoints = ['unknown-safety-endpoint'];
+  entry.safety_endpoints = [{ endpoint_code: 'unknown-safety-endpoint', canonical_ids: [] }];
 
   const errors = validateRecipeRuntimeCatalog(invalid, context);
-  for (const expected of ['independent HTTPS identity evidence', 'unknown canonical_id', 'unknown template_id', 'unknown ratio_rule_id', 'unknown safety endpoint']) {
+  for (const expected of ['independent HTTPS identity evidence', 'unknown canonical_id', 'unknown template_id', 'unknown ratio_rule_id', 'safety endpoint unknown-safety-endpoint']) {
     assert.ok(errors.some(error => error.includes(expected)), expected);
   }
+});
+
+test('all project-controlled pages.dev subdomains are invalid canonical identity evidence', () => {
+  const invalid = structuredClone(catalog);
+  invalid.entries[0].identity_evidence[0].url = 'https://preview.yiguochu.pages.dev/recipes.html?id=not-independent';
+  assert.match(validateRecipeRuntimeCatalog(invalid, context).join('\n'), /independent HTTPS identity evidence/);
 });
 
 test('preview activation fails closed without a single ratio default or structured household trial', () => {
@@ -82,4 +112,62 @@ test('validator rejects schema bypasses, unknown recipes and free-text substitut
   for (const expected of ['catalog unknown key', 'unknown recipe_id', 'naming unknown key', 'approved_variants[0] must be an object']) {
     assert.ok(errors.some(error => error.includes(expected)), expected);
   }
+});
+
+test('preview activation rejects every missing or malformed executable binding', () => {
+  const invalid = completeSyntheticPreview();
+  const entry = invalid.entries[0];
+  entry.identity_signature = {
+    required_canonical_ids: [],
+    required_states_or_cuts: [],
+    forbidden_canonical_ids: [],
+  };
+  entry.slot_assignment = { invented_slot: ['free text replacement'] };
+  entry.technique_graph = [{ arbitrary_instruction: '随便炒一下' }];
+  entry.seasoning_actions = [{ note: '按口味加盐' }];
+  entry.safety_endpoints = [];
+  entry.source_claims = [{ url: 'https://example.com/free-text-source' }];
+  entry.household_trial.trial_date = 'not-a-date';
+  entry.household_trial.outcome = 'failed';
+
+  const errors = validateRecipeRuntimeCatalog(invalid, context);
+  for (const expected of [
+    'identity_signature.required_canonical_ids must not be empty',
+    'slot_assignment unknown slot invented_slot',
+    'technique_graph[0] unknown key arbitrary_instruction',
+    'seasoning_actions[0] unknown key note',
+    'preview_enabled requires at least one safety endpoint',
+    'source_claims[0] unknown key url',
+    'household_trial.trial_date must use YYYY-MM-DD',
+    'household_trial.outcome must be passed',
+  ]) assert.ok(errors.some(error => error.includes(expected)), expected);
+});
+
+test('preview activation enforces recipe, template, ratio, slot and safety relationships', () => {
+  const invalid = completeSyntheticPreview();
+  const entry = invalid.entries[0];
+  entry.identity_signature.required_canonical_ids = ['tomato'];
+  entry.slot_assignment = { invented_slot: ['tomato'] };
+  entry.ratio_rule_ids = ['acid-staple-raw-rice-liquid-v1'];
+  entry.ratio_default_rule_id = 'acid-staple-raw-rice-liquid-v1';
+  entry.safety_endpoints = [{ endpoint_code: 'bean_fully_cooked', canonical_ids: ['salted-pork-belly'] }];
+
+  const errors = validateRecipeRuntimeCatalog(invalid, context);
+  for (const expected of [
+    'canonical_id tomato is not a recipe core identity',
+    'slot_assignment unknown slot invented_slot',
+    'ratio_rule_id acid-staple-raw-rice-liquid-v1 does not belong to template',
+    'safety endpoint bean_fully_cooked does not belong to template',
+  ]) assert.ok(errors.some(error => error.includes(expected)), expected);
+});
+
+test('validator locks the r1 catalog to exactly the six approved pilot recipe IDs', () => {
+  const missing = structuredClone(catalog);
+  missing.entries.pop();
+  const extra = structuredClone(catalog);
+  extra.entries.push(structuredClone(extra.entries[0]));
+  extra.entries[6].recipe_id = 'simple-chicken-biryani';
+
+  assert.match(validateRecipeRuntimeCatalog(missing, context).join('\n'), /r1 recipe IDs must exactly match/);
+  assert.match(validateRecipeRuntimeCatalog(extra, context).join('\n'), /r1 recipe IDs must exactly match/);
 });
