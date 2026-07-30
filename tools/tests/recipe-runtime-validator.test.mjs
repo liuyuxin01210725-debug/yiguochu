@@ -273,3 +273,35 @@ test('preview rejects duplicate, incompatible and unrelated canonical slot assig
     'canonical_id tomato is not a required recipe identity',
   ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
+
+test('planned runtime entries reference only their own bounds-only recipe evidence rules', () => {
+  const expected = new Map([
+    ['shanghai-salted-pork-vegetable-rice', ['shanghai-salted-pork-liquid-evidence-v1']],
+    ['xinjiang-lamb-pilaf', ['xinjiang-lamb-pilaf-liquid-evidence-v1']],
+    ['taiwan-cabbage-mushroom-rice', [
+      'taiwan-cabbage-mushroom-liquid-evidence-v1',
+      'taiwan-tomato-shrimp-rice-evidence-v1',
+    ]],
+    ['quanzhou-oil-rice', ['quanzhou-soaked-rice-liquid-evidence-v1']],
+    ['cantonese-cured-meat-claypot-rice', []],
+    ['north-china-green-bean-braised-noodles', []],
+  ]);
+  for (const entry of catalog.entries) {
+    assert.deepEqual(entry.ratio_rule_ids, expected.get(entry.recipe_id), entry.recipe_id);
+    assert.equal(entry.ratio_default_rule_id, null, entry.recipe_id);
+  }
+  assert.deepEqual(validateRecipeRuntimeCatalog(catalog, context), []);
+
+  const wrong = structuredClone(catalog);
+  wrong.entries.find(entry => entry.recipe_id === 'shanghai-salted-pork-vegetable-rice')
+    .ratio_rule_ids = ['xinjiang-lamb-pilaf-liquid-evidence-v1'];
+  assert.match(validateRecipeRuntimeCatalog(wrong, context).join('\n'), /does not belong to recipe/);
+});
+
+test('bounds-only recipe evidence can never satisfy a preview ratio default', () => {
+  const invalid = completeSyntheticPreview();
+  const entry = invalid.entries.find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  entry.ratio_rule_ids = ['shanghai-salted-pork-liquid-evidence-v1'];
+  entry.ratio_default_rule_id = 'shanghai-salted-pork-liquid-evidence-v1';
+  assert.match(validateRecipeRuntimeCatalog(invalid, context).join('\n'), /ratio default must be executable/);
+});

@@ -513,8 +513,15 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
     const ratioIds = stringArray(entry.ratio_rule_ids, `${label}.ratio_rule_ids`, errors);
     for (const ratioRuleId of ratioIds) {
       if (!ratioRuleIds.has(ratioRuleId)) errors.push(`${label} unknown ratio_rule_id ${ratioRuleId}`);
-      else if (ratioById.get(ratioRuleId)?.when?.template_id !== entry.template_id) {
-        errors.push(`${label} ratio_rule_id ${ratioRuleId} does not belong to template ${entry.template_id}`);
+      else {
+        const ratioRule = ratioById.get(ratioRuleId);
+        if (isNonEmptyString(ratioRule?.when?.recipe_id)) {
+          if (ratioRule.when.recipe_id !== entry.recipe_id) {
+            errors.push(`${label} ratio_rule_id ${ratioRuleId} does not belong to recipe ${entry.recipe_id}`);
+          }
+        } else if (ratioRule?.when?.template_id !== entry.template_id) {
+          errors.push(`${label} ratio_rule_id ${ratioRuleId} does not belong to template ${entry.template_id}`);
+        }
       }
     }
     validateTechniqueGraph(entry.technique_graph, `${label}.technique_graph`, template,
@@ -538,6 +545,10 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
       const defaults = isNonEmptyString(entry.ratio_default_rule_id) ? [entry.ratio_default_rule_id] : [];
       if (defaults.length !== 1 || !ratioIds.includes(entry.ratio_default_rule_id)) {
         errors.push(`${label} preview_enabled requires exactly one ratio default`);
+      }
+      if (isNonEmptyString(entry.ratio_default_rule_id)
+          && ratioById.get(entry.ratio_default_rule_id)?.execution_mode === 'bounds_only') {
+        errors.push(`${label} ratio default must be executable`);
       }
       validateHouseholdTrial(entry.household_trial, `${label}.household_trial`, errors);
     }

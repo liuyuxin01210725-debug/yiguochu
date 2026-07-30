@@ -335,22 +335,27 @@ function ratioSlots(context, taxonomy) {
   if (!context || typeof context !== 'object' || Array.isArray(context) || !context.slots || typeof context.slots !== 'object'
     || Array.isArray(context.slots)) return null;
   const slots = new Map();
+  const taxonomyItemsById = new Map((taxonomy?.items || []).map(item => [item.canonical_id, item]));
   for (const [slotId, value] of Object.entries(context.slots)) {
     const items = Array.isArray(value) ? value : [value];
     const identities = taxonomyIdentityIndex(taxonomy);
     const normalized = items.map(item => typeof item === 'string'
       ? (() => {
         const identity = identities.get(item.trim().toLowerCase().replace(/\s+/g, ''));
+        const taxonomyItem = identity ? taxonomyItemsById.get(identity.canonical_id) : null;
         return identity ? {
           name: identity.name,
           category: identity.category,
           canonical_id: identity.canonical_id,
           ratio_rule_policy: identity.ratio_rule_policy,
+          state: taxonomyItem?.states?.length === 1 ? taxonomyItem.states[0] : null,
+          shape_or_cut: taxonomyItem?.default_shape_or_cut || (taxonomyItem?.shapes_or_cuts?.length === 1 ? taxonomyItem.shapes_or_cuts[0] : null),
           attributes: {},
         } : null;
       })()
       : (() => {
         const identity = identities.get(item?.name?.trim?.().toLowerCase().replace(/\s+/g, ''));
+        const taxonomyItem = identity ? taxonomyItemsById.get(identity.canonical_id) : null;
         if (!identity || identity.category !== item?.category
           || (item?.canonical_id != null && item.canonical_id !== identity.canonical_id)
           || (item?.ratio_rule_policy != null && item.ratio_rule_policy !== identity.ratio_rule_policy)) return null;
@@ -359,6 +364,8 @@ function ratioSlots(context, taxonomy) {
           category: identity.category,
           canonical_id: identity.canonical_id,
           ratio_rule_policy: identity.ratio_rule_policy,
+          state: item.state || (taxonomyItem?.states?.length === 1 ? taxonomyItem.states[0] : null),
+          shape_or_cut: item.shape_or_cut || taxonomyItem?.default_shape_or_cut || (taxonomyItem?.shapes_or_cuts?.length === 1 ? taxonomyItem.shapes_or_cuts[0] : null),
           source: item.source,
           role: item.role,
           attributes: item.attributes || {},
@@ -371,6 +378,8 @@ function ratioSlots(context, taxonomy) {
       category: item.category.trim(),
       canonical_id: item.canonical_id,
       ratio_rule_policy: item.ratio_rule_policy,
+      state: item.state,
+      shape_or_cut: item.shape_or_cut,
       source: item.source,
       role: item.role,
       attributes: item.attributes || {},
@@ -404,21 +413,28 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     if (!validationContext) return ratioFailure('ratio_rule_invalid', '份量规则未通过机器校验。');
     const rule = ratioCatalog.rules.find(candidate => candidate?.rule_id === ruleId);
     if (!rule) return ratioFailure('ratio_rule_not_found', '未找到可执行的份量规则。');
+    if (rule.execution_mode === 'bounds_only') {
+      return ratioFailure('ratio_rule_not_executable', '这条规则只记录了来源区间，尚无经试做校准的唯一执行值。');
+    }
+    const recipeScoped = typeof rule.when?.recipe_id === 'string';
+    if (recipeScoped && context?.recipe_id !== rule.when.recipe_id) {
+      return ratioFailure('ratio_context_identity_mismatch', '菜谱身份与这条份量规则不匹配。');
+    }
     if (!Number.isInteger(context?.servings) || context.servings < 1 || context.servings > 8) {
       return ratioFailure('ratio_context_missing', '份数必须是 1 到 8 的整数。');
     }
     const slots = ratioSlots(context, validationContext.taxonomy);
-    if (!slots || !slots.get(rule.when?.slot_id)?.length) {
+    if (!slots || (!recipeScoped && !slots.get(rule.when?.slot_id)?.length)) {
       return ratioFailure('ratio_context_missing', '缺少规则需要的食材槽位。');
     }
     const nearest = rule.rounding?.grams_to_nearest;
     if (!Number.isInteger(nearest) || nearest <= 0) {
       return ratioFailure('ratio_rule_invalid', '份量规则缺少有效的取整单位。');
     }
-    if (slots.get(rule.when.slot_id).some(item => item.category !== rule.when.category)) {
+    if (!recipeScoped && slots.get(rule.when.slot_id).some(item => item.category !== rule.when.category)) {
       return ratioFailure('ratio_context_category_mismatch', '食材类别与这条份量规则不匹配。');
     }
-    const scopedItems = slots.get(rule.when.slot_id) || [];
+    const scopedItems = recipeScoped ? [] : slots.get(rule.when.slot_id) || [];
     if (rule.when.canonical_ids?.length
         && scopedItems.some(item => !rule.when.canonical_ids.includes(item.canonical_id))) {
       return ratioFailure('ratio_context_identity_mismatch', '食材身份与这条份量规则不匹配。');
@@ -448,6 +464,13 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       ? context.attributes
       : {};
     const allSlotItems = [...slots.values()].flat();
+    const recipeItemsFor = target => allSlotItems.filter(item => {
+      if (target?.canonical_id && item.canonical_id !== target.canonical_id) return false;
+      if (target?.recipe_ingredient_name && item.name !== target.recipe_ingredient_name) return false;
+      if (target?.state && item.state !== target.state) return false;
+      if (target?.shape_or_cut && item.shape_or_cut !== target.shape_or_cut) return false;
+      return Boolean(target?.canonical_id || target?.recipe_ingredient_name);
+    });
 
     for (const operation of Array.isArray(rule.operations) ? rule.operations : []) {
       const operator = operation?.operator;
@@ -471,14 +494,16 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         continue;
       }
       if (operator === 'per_serving') {
-        const items = slots.get(operation.target?.slot_id);
+        const items = recipeScoped ? recipeItemsFor(operation.target) : slots.get(operation.target?.slot_id);
         const grams = defaultBound(operation.grams);
         if (!items?.length && optionalSlotIds.has(operation.target?.slot_id)) continue;
         if (!items?.length || !finiteNonNegativeNumber(grams)) {
           return ratioFailure('ratio_rule_invalid', '按份数规则无效。');
         }
         for (const item of items) if (!addAmount(item.name, grams * context.servings)) return ratioFailure('ratio_rule_invalid', '按份数结果无效。');
-        trace.push({ operator, slot_id: operation.target.slot_id, grams_per_serving: grams });
+        trace.push(recipeScoped
+          ? { operator, canonical_id:operation.target.canonical_id || null, recipe_ingredient_name:operation.target.recipe_ingredient_name || null, grams_per_serving: grams }
+          : { operator, slot_id: operation.target.slot_id, grams_per_serving: grams });
         continue;
       }
       if (operator === 'bounded_sum') {
@@ -505,10 +530,11 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         continue;
       }
       if (operator === 'ratio') {
-        const denominatorItems = slots.get(operation.denominator?.slot_id);
+        const denominatorItems = recipeScoped ? recipeItemsFor(operation.denominator) : slots.get(operation.denominator?.slot_id);
         const multiplier = operation.default;
-        if (!denominatorItems?.length || operation.denominator?.slot_id !== rule.when?.slot_id
-          || operation.denominator?.measure !== 'grams' || operation.numerator?.resource !== 'retained_liquid_grams'
+        if (!denominatorItems?.length || (!recipeScoped && operation.denominator?.slot_id !== rule.when?.slot_id)
+          || operation.denominator?.measure !== 'grams'
+          || !['retained_liquid_grams','retained_cooked_liquid_grams'].includes(operation.numerator?.resource)
           || !resolveBasicExtraIdentity(operation.target, validationContext.taxonomy) || operation.target?.category !== 'liquid' || !finiteNonNegativeNumber(multiplier)) {
           return ratioFailure('ratio_rule_invalid', '液体比例规则无效。');
         }
@@ -516,7 +542,9 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         if (!finiteNonNegativeNumber(denominatorGrams) || denominatorGrams <= 0) return ratioFailure('ratio_context_missing', '缺少可计算液体比例的主食克数。');
         retainedLiquid = Math.max(0, denominatorGrams * multiplier - liquidCredit);
         if (!addAmount(operation.target?.name, retainedLiquid, operation.target)) return ratioFailure('ratio_rule_invalid', '液体比例结果无效。');
-        trace.push({ operator, numerator: operation.numerator?.resource, denominator_slot_id: operation.denominator?.slot_id, multiplier, liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest) });
+        trace.push(recipeScoped
+          ? { operator, numerator: operation.numerator?.resource, denominator_canonical_id: operation.denominator?.canonical_id || null, denominator_recipe_ingredient_name: operation.denominator?.recipe_ingredient_name || null, multiplier, liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest) }
+          : { operator, numerator: operation.numerator?.resource, denominator_slot_id: operation.denominator?.slot_id, multiplier, liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest) });
         continue;
       }
       if (operator === 'fixed_addition' || operator === 'scale_by_servings') {
@@ -545,12 +573,14 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       }
       return ratioFailure('ratio_rule_invalid', '份量规则包含不支持的操作。');
     }
-    const acceptedCategories = new Map([
-      ...(template?.required_slots || []), ...(template?.optional_slots || []),
-    ].map(slot => [slot.slot_id, new Set(template?.ingredient_categories?.[slot.slot_id] || [])]));
-    for (const [slotId, items] of slots) {
-      const accepted = acceptedCategories.get(slotId);
-      if (!accepted || items.some(item => !accepted.has(item.category))) return ratioFailure('ratio_context_category_mismatch', '食材类别与槽位不兼容。');
+    if (!recipeScoped) {
+      const acceptedCategories = new Map([
+        ...(template?.required_slots || []), ...(template?.optional_slots || []),
+      ].map(slot => [slot.slot_id, new Set(template?.ingredient_categories?.[slot.slot_id] || [])]));
+      for (const [slotId, items] of slots) {
+        const accepted = acceptedCategories.get(slotId);
+        if (!accepted || items.some(item => !accepted.has(item.category))) return ratioFailure('ratio_context_category_mismatch', '食材类别与槽位不兼容。');
+      }
     }
     for (const item of allSlotItems) {
       if (!amounts.has(item.name) || amounts.get(item.name) <= 0) return ratioFailure('ratio_rule_invalid', '已确定食材缺少可执行克数。');

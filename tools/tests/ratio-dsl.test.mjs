@@ -28,6 +28,39 @@ const ACTIVE = new Set([
 ]);
 const OPERATORS = new Set(['per_serving', 'per_serving_by_category', 'ratio', 'bounded_sum', 'fixed_addition', 'scale_by_servings']);
 
+function recipeBoundsRule() {
+  return {
+    rule_id: 'shanghai-salted-pork-liquid-evidence-v1',
+    evidence_recipe_ids: ['shanghai-salted-pork-vegetable-rice'],
+    execution_mode: 'bounds_only',
+    when: { recipe_id: 'shanghai-salted-pork-vegetable-rice' },
+    operations: [
+      {
+        operator: 'reference_quantity',
+        target: { canonical_id: 'raw-rice', state: 'raw' },
+        grams: { min: 100, max: 100 },
+      },
+      {
+        operator: 'ratio',
+        target: { name: '水', category: 'liquid' },
+        numerator: { resource: 'retained_liquid_grams' },
+        denominator: { canonical_id: 'raw-rice', state: 'raw', measure: 'grams' },
+        min: 1.25,
+        max: 1.4,
+      },
+    ],
+    rounding: { grams_to_nearest: 1 },
+    example_context: { ingredient_name: '大米' },
+  };
+}
+
+function catalogWithRecipeRule(rule = recipeBoundsRule()) {
+  const next = structuredClone(rawCatalog);
+  next.rules = next.rules.filter(candidate => !candidate.when?.recipe_id);
+  next.rules.push(rule);
+  return next;
+}
+
 test('ratio grams normalize exactly once at the executable DSL boundary', () => {
   assert.equal(normalizeRatioGrams(133.3, 1), 133);
   assert.equal(normalizeRatioGrams(133.3, 5), 135);
@@ -46,8 +79,9 @@ test('Ratio DSL catalog covers every active template with only the six executabl
   for (const template of templates.templates.filter(template => ACTIVE.has(template.template_id))) {
     for (const ref of template.ratio_constraints) refs.add(ref);
   }
-  assert.deepEqual(new Set(catalog.rules.map(rule => rule.rule_id)), refs);
-  for (const rule of catalog.rules) {
+  const templateRules = catalog.rules.filter(rule => rule.when?.template_id);
+  assert.deepEqual(new Set(templateRules.map(rule => rule.rule_id)), refs);
+  for (const rule of templateRules) {
     assert.ok(rule.operations.length > 0);
     for (const operation of rule.operations) assert.ok(OPERATORS.has(operation.operator));
     assert.ok(
@@ -120,7 +154,7 @@ test('raw ratio catalog explicitly quantifies every user slot without prepare-ti
   const rawResult = prepareRatioCatalog(rawCatalog, validationContext);
   assert.equal(rawResult.ok, true);
   assert.deepEqual(rawResult.catalog.rules, rawCatalog.rules);
-  for (const rule of rawCatalog.rules) {
+  for (const rule of rawCatalog.rules.filter(candidate => candidate.when?.template_id)) {
     const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
     const userSlots = [...template.required_slots, ...template.optional_slots]
       .filter(slot => slot.source_policy.includes('user'))
@@ -174,7 +208,7 @@ test('rice and liquid compile deterministically from explicit high-moisture cred
 });
 
 test('quick ratio rules stay inside their declared time and serving bounds', () => {
-  const quickRules = catalog.rules.filter(rule => {
+  const quickRules = catalog.rules.filter(rule => rule.when?.template_id).filter(rule => {
     const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
     return template.supported_intents.includes('quick');
   });
@@ -545,7 +579,7 @@ test('every active template accepts a real optional composition without silently
   }
 });
 
-test('every real ratio rule emits only normalized integer gram amounts', () => {
+test('every executable template ratio rule emits only normalized integer gram amounts', () => {
   const identityFor = (categories, canonicalIds = []) => {
     const allowed = new Set(categories);
     const scoped = new Set(canonicalIds);
@@ -560,7 +594,7 @@ test('every real ratio rule emits only normalized integer gram amounts', () => {
     });
   };
 
-  for (const rule of catalog.rules) {
+  for (const rule of catalog.rules.filter(candidate => candidate.when?.template_id)) {
     const template = templates.templates.find(entry => entry.template_id === rule.when.template_id);
     const slots = {};
     for (const slot of template.required_slots.filter(entry => entry.source_policy.includes('user'))) {
@@ -763,4 +797,161 @@ test('category-specific per-serving quantities reject malformed bounds and targe
   assert.ok(boundErrors.some(error => error.includes('non-negative')), boundErrors.join('\n'));
   assert.ok(boundErrors.some(error => error.includes('unknown key')), boundErrors.join('\n'));
   assert.ok(targetErrors.some(error => error.includes('declared user slot')), targetErrors.join('\n'));
+});
+
+test('recipe Ratio DSL scope is exclusive, recipe-bound and rejects unknown recipes', () => {
+  const valid = catalogWithRecipeRule();
+  assert.deepEqual(validateRatioDslCatalog(valid, templates, taxonomy, recipes), []);
+
+  const mixed = catalogWithRecipeRule();
+  mixed.rules.at(-1).when.template_id = 'savory-mixed-rice-pot';
+  assert.match(validateRatioDslCatalog(mixed, templates, taxonomy, recipes).join('\n'), /exactly one template or recipe scope/);
+
+  const unknown = catalogWithRecipeRule();
+  unknown.rules.at(-1).when.recipe_id = 'unknown-recipe';
+  assert.match(validateRatioDslCatalog(unknown, templates, taxonomy, recipes).join('\n'), /unknown recipe/);
+
+  const wrongBinding = catalogWithRecipeRule();
+  wrongBinding.rules.at(-1).evidence_recipe_ids = ['xinjiang-lamb-pilaf'];
+  assert.match(validateRatioDslCatalog(wrongBinding, templates, taxonomy, recipes).join('\n'), /must be evidence for recipe/);
+});
+
+test('recipe Ratio DSL requires exact machine identity, state and one quantity operation per quantified ingredient', () => {
+  const duplicate = catalogWithRecipeRule();
+  duplicate.rules.at(-1).operations.splice(1, 0, structuredClone(duplicate.rules.at(-1).operations[0]));
+  assert.match(validateRatioDslCatalog(duplicate, templates, taxonomy, recipes).join('\n'), /exactly one quantity operation.*raw-rice/);
+
+  const wrongState = catalogWithRecipeRule();
+  wrongState.rules.at(-1).operations[0].target.state = 'cooked';
+  assert.match(validateRatioDslCatalog(wrongState, templates, taxonomy, recipes).join('\n'), /state.*raw-rice/);
+
+  const cookedDenominator = catalogWithRecipeRule();
+  cookedDenominator.rules.at(-1).operations[1].denominator = {
+    canonical_id: 'cooked-rice', state: 'cooked', measure: 'grams',
+  };
+  assert.match(validateRatioDslCatalog(cookedDenominator, templates, taxonomy, recipes).join('\n'), /denominator.*recipe identity/);
+
+  const soakedMismatch = recipeBoundsRule();
+  soakedMismatch.rule_id = 'quanzhou-soaked-rice-liquid-evidence-v1';
+  soakedMismatch.evidence_recipe_ids = ['quanzhou-oil-rice'];
+  soakedMismatch.when.recipe_id = 'quanzhou-oil-rice';
+  soakedMismatch.operations[0].target = { recipe_ingredient_name: '泡发糯米', state: 'raw' };
+  soakedMismatch.operations[1].denominator = { recipe_ingredient_name: '泡发糯米', state: 'raw', measure: 'grams' };
+  assert.match(validateRatioDslCatalog(catalogWithRecipeRule(soakedMismatch), templates, taxonomy, recipes).join('\n'), /must use machine state soaked/);
+
+  const inventedState = structuredClone(soakedMismatch);
+  inventedState.operations[0].target = { recipe_ingredient_name: '猪肉末', state: 'invented_state' };
+  assert.match(validateRatioDslCatalog(catalogWithRecipeRule(inventedState), templates, taxonomy, recipes).join('\n'), /controlled machine state/);
+});
+
+test('recipe Ratio DSL keeps all additions inside controlled basic-extra identities', () => {
+  for (const target of [
+    { name: '老豆腐', category: 'firm_tofu' },
+    { name: '大米', category: 'raw_rice' },
+  ]) {
+    const invalid = catalogWithRecipeRule();
+    invalid.rules.at(-1).operations.push({
+      operator: 'fixed_addition',
+      target,
+      grams: { min: 100, max: 100 },
+    });
+    assert.match(validateRatioDslCatalog(invalid, templates, taxonomy, recipes).join('\n'), /liquid, oil, or seasoning basic extra/);
+  }
+});
+
+test('authoritative recipe evidence stays bounds-only and fails closed at compile time', () => {
+  const ruleIds = new Set(rawCatalog.rules.filter(rule => rule.when?.recipe_id).map(rule => rule.rule_id));
+  assert.deepEqual(ruleIds, new Set([
+    'shanghai-salted-pork-liquid-evidence-v1',
+    'xinjiang-lamb-pilaf-liquid-evidence-v1',
+    'taiwan-cabbage-mushroom-liquid-evidence-v1',
+    'taiwan-tomato-shrimp-rice-evidence-v1',
+    'quanzhou-soaked-rice-liquid-evidence-v1',
+  ]));
+  for (const rule of rawCatalog.rules.filter(candidate => candidate.when?.recipe_id)) {
+    assert.equal(rule.execution_mode, 'bounds_only', rule.rule_id);
+    assert.ok(rule.operations.some(operation => operation.operator === 'reference_quantity'), rule.rule_id);
+    assert.equal(rule.operations.some(operation => operation.operator === 'per_serving'), false, rule.rule_id);
+    assert.ok(rule.operations.every(operation => operation.default == null && operation.grams?.default == null), rule.rule_id);
+  }
+  const preparedCatalog = prepareRatioCatalog(rawCatalog, validationContext);
+  assert.equal(preparedCatalog.ok, true, preparedCatalog.errors.join('\n'));
+  const result = compileRatioPlan('shanghai-salted-pork-liquid-evidence-v1', {
+    recipe_id: 'shanghai-salted-pork-vegetable-rice',
+    servings: 2,
+    slots: { staple: [{ name: '大米', category: 'raw_rice', canonical_id: 'raw-rice', state: 'raw' }] },
+  }, preparedCatalog.catalog);
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'ratio_rule_not_executable');
+});
+
+test('a calibrated test-only recipe rule compiles deterministically through the single rounding boundary', () => {
+  const executable = recipeBoundsRule();
+  executable.execution_mode = 'executable';
+  executable.operations[0].operator = 'per_serving';
+  executable.operations[0].grams = { min: 66.65, default: 66.65, max: 66.65 };
+  executable.operations.splice(1, 0,
+    {
+      operator: 'per_serving',
+      target: { canonical_id: 'salted-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' },
+      grams: { min: 50.25, default: 50.25, max: 50.25 },
+    },
+    {
+      operator: 'per_serving',
+      target: { canonical_id: 'small-bok-choy', state: 'raw' },
+      grams: { min: 75.15, default: 75.15, max: 75.15 },
+    },
+  );
+  executable.operations.at(-1).default = 1.333;
+  executable.operations.push(
+    { operator: 'fixed_addition', target: { name: '食用油', category: 'oil' }, grams: { min: 5, default: 5, max: 5 } },
+    { operator: 'scale_by_servings', target: { name: '盐', category: 'seasoning' }, grams: { min: 1.5, default: 1.5, max: 1.5 } },
+  );
+  const next = catalogWithRecipeRule(executable);
+  const preparedNext = prepareRatioCatalog(next, validationContext);
+  assert.equal(preparedNext.ok, true, preparedNext.errors.join('\n'));
+  const context = {
+    recipe_id: executable.when.recipe_id,
+    servings: 2,
+    slots: {
+      staple: [{ name: '大米', category: 'raw_rice', canonical_id: 'raw-rice', state: 'raw' }],
+      protein: [{ name: '咸五花肉', category: 'pork', canonical_id: 'salted-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' }],
+      vegetable: [{ name: '小白菜', category: 'leafy_vegetable', canonical_id: 'small-bok-choy', state: 'raw' }],
+    },
+  };
+  const result = compileRatioPlan(executable.rule_id, context, preparedNext.catalog);
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.deepEqual(result.ingredient_amounts, [
+    { name: '大米', grams: 133 },
+    { name: '食用油', grams: 5 },
+    { name: '水', grams: 177 },
+    { name: '咸五花肉', grams: 101 },
+    { name: '小白菜', grams: 150 },
+    { name: '盐', grams: 3 },
+  ]);
+  assert.deepEqual(compileRatioPlan(executable.rule_id, context, preparedNext.catalog), result);
+
+  const retainedCookingLiquid = structuredClone(executable);
+  retainedCookingLiquid.rule_id = 'shanghai-retained-cooked-liquid-fixture-v1';
+  retainedCookingLiquid.operations.find(operation => operation.operator === 'ratio').numerator.resource = 'retained_cooked_liquid_grams';
+  const cookedLiquidCatalog = catalogWithRecipeRule(retainedCookingLiquid);
+  const preparedCookedLiquid = prepareRatioCatalog(cookedLiquidCatalog, validationContext);
+  assert.equal(preparedCookedLiquid.ok, true, preparedCookedLiquid.errors.join('\n'));
+  const compiledCookedLiquid = compileRatioPlan(retainedCookingLiquid.rule_id, {
+    ...context,
+  }, preparedCookedLiquid.catalog);
+  assert.equal(compiledCookedLiquid.ok, true, JSON.stringify(compiledCookedLiquid));
+  assert.ok(compiledCookedLiquid.ratio_trace.some(trace => trace.numerator === 'retained_cooked_liquid_grams'));
+});
+
+test('existing template-scoped Ratio DSL validates and compiles unchanged beside recipe evidence', () => {
+  assert.deepEqual(validateRatioDslCatalog(rawCatalog, templates, taxonomy, recipes), []);
+  const result = compileRatioPlan('savory-mixed-rice-liquid-v1', {
+    servings: 2,
+    slots: { staple: ['大米'] },
+  }, catalog);
+  assert.equal(result.ok, true);
+  assert.equal(result.ingredient_amounts.find(item => item.name === '大米')?.grams, 200);
+  const ratioTrace = result.ratio_trace.find(trace => trace.operator === 'ratio');
+  assert.equal(Object.hasOwn(ratioTrace, 'denominator_canonical_id'), false);
 });

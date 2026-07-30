@@ -16,7 +16,10 @@
       "approved_variants": [],
       "template_id": "savory-mixed-rice-pot",
       "slot_assignment": {},
-      "ratio_rule_ids": [],
+      "ratio_rule_ids": [
+        "shanghai-salted-pork-liquid-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
       "technique_graph": [],
       "seasoning_actions": [],
       "safety_endpoints": [],
@@ -39,7 +42,10 @@
       "approved_variants": [],
       "template_id": "savory-mixed-rice-pot",
       "slot_assignment": {},
-      "ratio_rule_ids": [],
+      "ratio_rule_ids": [
+        "xinjiang-lamb-pilaf-liquid-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
       "technique_graph": [],
       "seasoning_actions": [],
       "safety_endpoints": [],
@@ -62,7 +68,11 @@
       "approved_variants": [],
       "template_id": "mushroom-aroma-rice-pot",
       "slot_assignment": {},
-      "ratio_rule_ids": [],
+      "ratio_rule_ids": [
+        "taiwan-cabbage-mushroom-liquid-evidence-v1",
+        "taiwan-tomato-shrimp-rice-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
       "technique_graph": [],
       "seasoning_actions": [],
       "safety_endpoints": [],
@@ -85,7 +95,10 @@
       "approved_variants": [],
       "template_id": "savory-mixed-rice-pot",
       "slot_assignment": {},
-      "ratio_rule_ids": [],
+      "ratio_rule_ids": [
+        "quanzhou-soaked-rice-liquid-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
       "technique_graph": [],
       "seasoning_actions": [],
       "safety_endpoints": [],
@@ -109,6 +122,7 @@
       "template_id": "savory-mixed-rice-pot",
       "slot_assignment": {},
       "ratio_rule_ids": [],
+      "ratio_default_rule_id": null,
       "technique_graph": [],
       "seasoning_actions": [],
       "safety_endpoints": [],
@@ -132,6 +146,7 @@
       "template_id": "braised-noodle-pot",
       "slot_assignment": {},
       "ratio_rule_ids": [],
+      "ratio_default_rule_id": null,
       "technique_graph": [],
       "seasoning_actions": [],
       "safety_endpoints": [],
