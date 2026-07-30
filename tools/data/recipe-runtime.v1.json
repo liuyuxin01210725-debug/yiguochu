@@ -10,7 +10,7 @@
       ],
       "identity_signature": {
         "required_canonical_ids": ["raw-rice", "salted-pork-belly", "small-bok-choy"],
-        "required_states_or_cuts": ["cured_slice"],
+        "required_states_or_cuts": [{"canonical_id":"salted-pork-belly","value":"cured_slice"}],
         "forbidden_canonical_ids": []
       },
       "approved_variants": [],
@@ -33,7 +33,7 @@
       ],
       "identity_signature": {
         "required_canonical_ids": ["raw-rice", "lamb-leg", "onion", "carrot"],
-        "required_states_or_cuts": ["leg"],
+        "required_states_or_cuts": [{"canonical_id":"lamb-leg","value":"leg"}],
         "forbidden_canonical_ids": []
       },
       "approved_variants": [],
@@ -79,7 +79,7 @@
       ],
       "identity_signature": {
         "required_canonical_ids": ["ground-pork", "shiitake"],
-        "required_states_or_cuts": ["soaked-glutinous-rice"],
+        "required_states_or_cuts": [],
         "forbidden_canonical_ids": []
       },
       "approved_variants": [],
@@ -102,7 +102,7 @@
       ],
       "identity_signature": {
         "required_canonical_ids": ["raw-rice", "chinese-sausage", "choy-sum"],
-        "required_states_or_cuts": ["sausage"],
+        "required_states_or_cuts": [{"canonical_id":"chinese-sausage","value":"sausage"}],
         "forbidden_canonical_ids": []
       },
       "approved_variants": [],
@@ -125,7 +125,7 @@
       ],
       "identity_signature": {
         "required_canonical_ids": ["fresh-wheat-noodle", "green-beans", "ground-pork"],
-        "required_states_or_cuts": ["ground"],
+        "required_states_or_cuts": [{"canonical_id":"ground-pork","value":"ground"}],
         "forbidden_canonical_ids": []
       },
       "approved_variants": [],

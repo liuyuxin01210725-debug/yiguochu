@@ -31,6 +31,9 @@ function completeSyntheticPreview() {
   const preview = structuredClone(catalog);
   const entry = preview.entries.find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
   entry.activation_status = 'preview_enabled';
+  entry.identity_signature.required_states_or_cuts = [
+    { canonical_id: 'salted-pork-belly', value: 'cured_slice' },
+  ];
   entry.slot_assignment = {
     staple: ['raw-rice'],
     protein: ['salted-pork-belly'],
@@ -38,7 +41,13 @@ function completeSyntheticPreview() {
   };
   entry.ratio_rule_ids = ['savory-mixed-rice-liquid-v1'];
   entry.ratio_default_rule_id = 'savory-mixed-rice-liquid-v1';
-  entry.technique_graph = [{ phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] }];
+  entry.technique_graph = [
+    { phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] },
+    { phase: 6, action_code: 'add_pork', slot_ids: ['protein'] },
+    { phase: 8, action_code: 'add_staple_and_liquid', slot_ids: ['staple'] },
+    { phase: 12, action_code: 'add_fast_cooking_items', slot_ids: ['fast_vegetable'] },
+    { phase: 13, action_code: 'reach_safety_endpoints', slot_ids: ['protein'] },
+  ];
   entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
   entry.safety_endpoints = [{ endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] }];
   entry.source_claims = [{ claim_type: 'identity', evidence_index: 0 }];
@@ -50,6 +59,10 @@ function completeSyntheticPreview() {
   };
   return preview;
 }
+
+test('a fully coherent synthetic preview fixture satisfies every runtime relationship', () => {
+  assert.deepEqual(validateRecipeRuntimeCatalog(completeSyntheticPreview(), context), []);
+});
 
 test('runtime catalog keeps the six independently reviewed identities planned', () => {
   assert.equal(catalog.recipe_runtime_catalog_version, 'recipe-runtime-v1-20260730-r1');
@@ -170,4 +183,39 @@ test('validator locks the r1 catalog to exactly the six approved pilot recipe ID
 
   assert.match(validateRecipeRuntimeCatalog(missing, context).join('\n'), /r1 recipe IDs must exactly match/);
   assert.match(validateRecipeRuntimeCatalog(extra, context).join('\n'), /r1 recipe IDs must exactly match/);
+});
+
+test('preview rejects the review adversary with individually valid but unrelated bindings', () => {
+  const invalid = completeSyntheticPreview();
+  const entry = invalid.entries[0];
+  entry.identity_signature.required_states_or_cuts = ['invented-free-text-state'];
+  entry.slot_assignment = { protein: ['salted-pork-belly'] };
+  entry.technique_graph = [{ phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] }];
+  entry.safety_endpoints = [{ endpoint_code: 'lamb_fully_cooked', canonical_ids: ['lamb-leg'] }];
+  entry.household_trial.trial_date = '2026-99-99';
+
+  const errors = validateRecipeRuntimeCatalog(invalid, context);
+  for (const expected of [
+    'slot_assignment required slot staple must be assigned',
+    'required canonical_id raw-rice must be assigned exactly once',
+    'required_states_or_cuts[0] must be an object',
+    'technique_graph missing required template step',
+    'safety endpoint lamb_fully_cooked canonical_id lamb-leg is not assigned',
+    'missing required safety endpoint pork_fully_cooked for canonical_id salted-pork-belly',
+    'household_trial.trial_date must be a real calendar date',
+  ]) assert.ok(errors.some(error => error.includes(expected)), expected);
+});
+
+test('preview rejects duplicate, incompatible and unrelated canonical slot assignments', () => {
+  const invalid = completeSyntheticPreview();
+  const entry = invalid.entries[0];
+  entry.slot_assignment.staple = ['raw-rice', 'raw-rice'];
+  entry.slot_assignment.fast_vegetable = ['small-bok-choy', 'tomato'];
+
+  const errors = validateRecipeRuntimeCatalog(invalid, context);
+  for (const expected of [
+    'slot_assignment.staple exceeds max_items',
+    'required canonical_id raw-rice must be assigned exactly once',
+    'canonical_id tomato is not a required recipe identity',
+  ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });

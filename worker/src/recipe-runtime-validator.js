@@ -17,6 +17,7 @@ const IDENTITY_EVIDENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_SIGNATURE_FIELDS = new Set([
   'required_canonical_ids', 'required_states_or_cuts', 'forbidden_canonical_ids',
 ]);
+const STATE_OR_CUT_FIELDS = new Set(['canonical_id', 'value']);
 const NAMING_FIELDS = new Set(['canonical_name']);
 const VARIANT_FIELDS = new Set(['variant_id', 'substitutions', 'identity_impact']);
 const SUBSTITUTION_FIELDS = new Set(['slot_id', 'replaces_canonical_ids', 'allowed_canonical_ids']);
@@ -142,21 +143,32 @@ function validateHouseholdTrial(trial, label, errors) {
   }
   pushUnknownKeys(errors, trial, HOUSEHOLD_TRIAL_FIELDS, label);
   if (trial.status !== 'completed') errors.push(`${label}.status must be completed`);
-  if (!isNonEmptyString(trial.trial_date) || !ISO_DATE_RE.test(trial.trial_date)) errors.push(`${label}.trial_date must use YYYY-MM-DD`);
+  if (!isNonEmptyString(trial.trial_date) || !ISO_DATE_RE.test(trial.trial_date)) {
+    errors.push(`${label}.trial_date must use YYYY-MM-DD`);
+  } else {
+    const [year, month, day] = trial.trial_date.split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
+      errors.push(`${label}.trial_date must be a real calendar date`);
+    }
+  }
   if (!isNonEmptyString(trial.reviewer)) errors.push(`${label}.reviewer must be a non-empty string`);
   if (trial.outcome !== 'passed') errors.push(`${label}.outcome must be passed`);
 }
 
-function validateSlotAssignment(assignment, label, template, canonicalItems, previewEnabled, errors) {
+function validateSlotAssignment(assignment, label, template, canonicalItems, requiredIdentityIds, previewEnabled, errors) {
+  const assignedBySlot = new Map();
+  const assignedCounts = new Map();
   if (!isPlainObject(assignment)) {
     errors.push(`${label} must be an object`);
-    return;
+    return { assignedBySlot, assignedCounts };
   }
   const slots = [...(Array.isArray(template?.required_slots) ? template.required_slots : []),
     ...(Array.isArray(template?.optional_slots) ? template.optional_slots : [])];
   const slotById = new Map(slots.map(slot => [slot.slot_id, slot]));
   const assigned = Object.keys(assignment);
   if (previewEnabled && assigned.length === 0) errors.push(`${label} must not be empty for preview_enabled`);
+  let totalAssigned = 0;
   for (const slotId of assigned) {
     const slot = slotById.get(slotId);
     if (!slot) {
@@ -164,8 +176,17 @@ function validateSlotAssignment(assignment, label, template, canonicalItems, pre
       continue;
     }
     const canonicalIds = stringArray(assignment[slotId], `${label}.${slotId}`, errors);
+    assignedBySlot.set(slotId, canonicalIds);
+    totalAssigned += canonicalIds.length;
+    if (previewEnabled && canonicalIds.length < (slot.min_items || 0)) {
+      errors.push(`${label}.${slotId} is below min_items`);
+    }
+    if (Number.isInteger(slot.max_items) && canonicalIds.length > slot.max_items) {
+      errors.push(`${label}.${slotId} exceeds max_items`);
+    }
     if (previewEnabled && canonicalIds.length === 0) errors.push(`${label}.${slotId} must not be empty for preview_enabled`);
     for (const canonicalId of canonicalIds) {
+      assignedCounts.set(canonicalId, (assignedCounts.get(canonicalId) || 0) + 1);
       const item = canonicalItems.get(canonicalId);
       if (!item) {
         errors.push(`${label}.${slotId} unknown canonical_id ${canonicalId}`);
@@ -175,11 +196,80 @@ function validateSlotAssignment(assignment, label, template, canonicalItems, pre
       const acceptsSlot = (Array.isArray(slot.accepts_slot_codes) ? slot.accepts_slot_codes : [])
         .some(code => (Array.isArray(item.compatible_slot_codes) ? item.compatible_slot_codes : []).includes(code));
       if (!acceptsCategory && !acceptsSlot) errors.push(`${label}.${slotId} canonical_id ${canonicalId} is incompatible with template slot`);
+      if (previewEnabled && !requiredIdentityIds.has(canonicalId)) {
+        errors.push(`${label}.${slotId} canonical_id ${canonicalId} is not a required recipe identity`);
+      }
+    }
+  }
+  if (previewEnabled) {
+    for (const slot of Array.isArray(template?.required_slots) ? template.required_slots : []) {
+      const canonicalIds = assignedBySlot.get(slot.slot_id);
+      if (!canonicalIds) errors.push(`${label} required slot ${slot.slot_id} must be assigned`);
+      else if (canonicalIds.length < slot.min_items || canonicalIds.length > slot.max_items) {
+        errors.push(`${label}.${slot.slot_id} violates required slot cardinality`);
+      }
+    }
+    const limits = template?.slot_limits || {};
+    if (Number.isInteger(limits.total_user_items_min) && totalAssigned < limits.total_user_items_min) {
+      errors.push(`${label} is below total_user_items_min`);
+    }
+    if (Number.isInteger(limits.total_user_items_max) && totalAssigned > limits.total_user_items_max) {
+      errors.push(`${label} exceeds total_user_items_max`);
+    }
+    for (const [slotId, canonicalIds] of assignedBySlot) {
+      const limit = limits[`${slotId}_max`];
+      if (Number.isInteger(limit) && canonicalIds.length > limit) errors.push(`${label}.${slotId} exceeds slot_limits maximum`);
+    }
+    for (const canonicalId of requiredIdentityIds) {
+      if (assignedCounts.get(canonicalId) !== 1) errors.push(`${label} required canonical_id ${canonicalId} must be assigned exactly once`);
+    }
+  }
+  return { assignedBySlot, assignedCounts };
+}
+
+function validateStateOrCuts(values, label, requiredIdentityIds, canonicalItems, errors) {
+  if (!Array.isArray(values)) {
+    errors.push(`${label} must be an array`);
+    return;
+  }
+  for (const [index, stateOrCut] of values.entries()) {
+    const stateLabel = `${label}[${index}]`;
+    if (!isPlainObject(stateOrCut)) {
+      errors.push(`${stateLabel} must be an object`);
+      continue;
+    }
+    pushUnknownKeys(errors, stateOrCut, STATE_OR_CUT_FIELDS, stateLabel);
+    const item = canonicalItems.get(stateOrCut.canonical_id);
+    if (!item) {
+      errors.push(`${stateLabel} unknown canonical_id ${stateOrCut.canonical_id}`);
+      continue;
+    }
+    if (!requiredIdentityIds.has(stateOrCut.canonical_id)) errors.push(`${stateLabel}.canonical_id must be required by identity_signature`);
+    const controlledValues = new Set([...(Array.isArray(item.states) ? item.states : []),
+      ...(Array.isArray(item.shapes_or_cuts) ? item.shapes_or_cuts : [])]);
+    if (!isNonEmptyString(stateOrCut.value) || !controlledValues.has(stateOrCut.value)) {
+      errors.push(`${stateLabel}.value is not a controlled taxonomy state or cut`);
     }
   }
 }
 
-function validateTechniqueGraph(graph, label, template, previewEnabled, errors) {
+function templateStepApplies(step, assignedBySlot, canonicalItems) {
+  const relevantSlots = (step.slot_ids || []).filter(slotId => assignedBySlot.has(slotId));
+  if (relevantSlots.length === 0) return false;
+  if (!isPlainObject(step.when)) return true;
+  const whenItems = assignedBySlot.get(step.when.slot_id) || [];
+  return whenItems.some(canonicalId => canonicalItems.get(canonicalId)?.category === step.when.category);
+}
+
+function stepKey(step) {
+  return `${step.phase}\u0000${step.action_code}\u0000${[...(step.slot_ids || [])].sort().join('\u0001')}`;
+}
+
+function relevantStep(step, assignedBySlot) {
+  return { ...step, slot_ids: (step.slot_ids || []).filter(slotId => assignedBySlot.has(slotId)) };
+}
+
+function validateTechniqueGraph(graph, label, template, assignedBySlot, canonicalItems, previewEnabled, errors) {
   if (!Array.isArray(graph)) {
     errors.push(`${label} must be an array`);
     return;
@@ -196,10 +286,20 @@ function validateTechniqueGraph(graph, label, template, previewEnabled, errors) 
     if (!Number.isInteger(step.phase)) errors.push(`${stepLabel}.phase must be an integer`);
     if (!isNonEmptyString(step.action_code)) errors.push(`${stepLabel}.action_code must be a non-empty string`);
     const slotIds = stringArray(step.slot_ids, `${stepLabel}.slot_ids`, errors);
-    const matchingStep = templateSteps.some(templateStep => templateStep.phase === step.phase
+    if (slotIds.some(slotId => !assignedBySlot.has(slotId))) errors.push(`${stepLabel}.slot_ids must reference assigned slots`);
+    const matchingStep = templateSteps.find(templateStep => templateStep.phase === step.phase
       && templateStep.action_code === step.action_code
-      && setsMatch(new Set(templateStep.slot_ids || []), new Set(slotIds)));
+      && slotIds.length > 0
+      && slotIds.every(slotId => (templateStep.slot_ids || []).includes(slotId)));
     if (!matchingStep) errors.push(`${stepLabel} does not belong to template cooking_order`);
+    else if (!templateStepApplies(matchingStep, assignedBySlot, canonicalItems)) errors.push(`${stepLabel} is not relevant to assigned ingredients`);
+  }
+  if (previewEnabled) {
+    const supplied = new Set(graph.filter(isPlainObject).map(stepKey));
+    for (const templateStep of templateSteps.filter(step => templateStepApplies(step, assignedBySlot, canonicalItems))) {
+      const expected = relevantStep(templateStep, assignedBySlot);
+      if (!supplied.has(stepKey(expected))) errors.push(`${label} missing required template step ${templateStep.phase}/${templateStep.action_code}`);
+    }
   }
 }
 
@@ -221,7 +321,7 @@ function validateSeasoningActions(actions, label, previewEnabled, errors) {
   }
 }
 
-function validateSafetyEndpoints(endpoints, label, template, canonicalItems, previewEnabled, errors) {
+function validateSafetyEndpoints(endpoints, label, template, canonicalItems, assignedCounts, previewEnabled, errors) {
   if (!Array.isArray(endpoints)) {
     errors.push(`${label} must be an array`);
     return;
@@ -251,6 +351,21 @@ function validateSafetyEndpoints(endpoints, label, template, canonicalItems, pre
       const item = canonicalItems.get(canonicalId);
       if (!item) errors.push(`${endpointLabel} unknown canonical_id ${canonicalId}`);
       else if (item.category !== category) errors.push(`${endpointLabel} canonical_id ${canonicalId} is incompatible with safety endpoint`);
+      else if (previewEnabled && assignedCounts.get(canonicalId) !== 1) {
+        errors.push(`${endpointLabel} safety endpoint ${endpoint.endpoint_code} canonical_id ${canonicalId} is not assigned`);
+      }
+    }
+  }
+  if (previewEnabled) {
+    for (const [canonicalId, count] of assignedCounts) {
+      if (count !== 1) continue;
+      const item = canonicalItems.get(canonicalId);
+      for (const [endpointCode, category] of templateEndpoints) {
+        if (item?.category !== category) continue;
+        const supplied = endpoints.some(endpoint => endpoint?.endpoint_code === endpointCode
+          && Array.isArray(endpoint.canonical_ids) && endpoint.canonical_ids.includes(canonicalId));
+        if (!supplied) errors.push(`${label} missing required safety endpoint ${endpointCode} for canonical_id ${canonicalId}`);
+      }
     }
   }
 }
@@ -335,25 +450,34 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
       }
     }
 
+    let requiredIdentityIds = new Set();
     if (!isPlainObject(entry.identity_signature)) {
       errors.push(`${label}.identity_signature must be an object`);
     } else {
       pushUnknownKeys(errors, entry.identity_signature, IDENTITY_SIGNATURE_FIELDS, `${label}.identity_signature`);
-      for (const field of IDENTITY_SIGNATURE_FIELDS) {
+      for (const field of ['required_canonical_ids', 'forbidden_canonical_ids']) {
         const values = stringArray(entry.identity_signature[field], `${label}.identity_signature.${field}`, errors);
-        if (field !== 'required_states_or_cuts') {
-          for (const canonicalId of values) {
-            if (!canonicalIds.has(canonicalId)) errors.push(`${label} unknown canonical_id ${canonicalId}`);
-          }
+        for (const canonicalId of values) {
+          if (!canonicalIds.has(canonicalId)) errors.push(`${label} unknown canonical_id ${canonicalId}`);
         }
       }
+      requiredIdentityIds = new Set(stringArray(
+        entry.identity_signature.required_canonical_ids,
+        `${label}.identity_signature.required_canonical_ids`,
+        errors,
+      ));
+      validateStateOrCuts(entry.identity_signature.required_states_or_cuts,
+        `${label}.identity_signature.required_states_or_cuts`, requiredIdentityIds, canonicalItems, errors);
       if (entry.activation_status === 'preview_enabled'
-        && stringArray(entry.identity_signature.required_canonical_ids, `${label}.identity_signature.required_canonical_ids`, errors).length === 0) {
+        && requiredIdentityIds.size === 0) {
         errors.push(`${label}.identity_signature.required_canonical_ids must not be empty for preview_enabled`);
       }
       if (entry.activation_status === 'preview_enabled') {
-        const recipeCoreIds = recipeCoreCanonicalIds(recipesById.get(entry.recipe_id), canonicalItems);
-        for (const canonicalId of entry.identity_signature.required_canonical_ids || []) {
+        const recipe = recipesById.get(entry.recipe_id);
+        const recipeCoreIds = recipeCoreCanonicalIds(recipe, canonicalItems);
+        const recipeCoreCount = Array.isArray(recipe?.core_ingredients) ? recipe.core_ingredients.length : 0;
+        if (recipeCoreIds.size !== recipeCoreCount) errors.push(`${label} recipe core identities do not resolve reliably`);
+        for (const canonicalId of requiredIdentityIds) {
           if (!recipeCoreIds.has(canonicalId)) errors.push(`${label} canonical_id ${canonicalId} is not a recipe core identity`);
         }
       }
@@ -373,7 +497,8 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
       errors.push(`${label} unknown template_id ${entry.template_id}`);
     }
     const template = templateById(templates, entry.template_id);
-    validateSlotAssignment(entry.slot_assignment, `${label}.slot_assignment`, template, canonicalItems, entry.activation_status === 'preview_enabled', errors);
+    const assignment = validateSlotAssignment(entry.slot_assignment, `${label}.slot_assignment`, template,
+      canonicalItems, requiredIdentityIds, entry.activation_status === 'preview_enabled', errors);
     const ratioIds = stringArray(entry.ratio_rule_ids, `${label}.ratio_rule_ids`, errors);
     for (const ratioRuleId of ratioIds) {
       if (!ratioRuleIds.has(ratioRuleId)) errors.push(`${label} unknown ratio_rule_id ${ratioRuleId}`);
@@ -381,9 +506,11 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
         errors.push(`${label} ratio_rule_id ${ratioRuleId} does not belong to template ${entry.template_id}`);
       }
     }
-    validateTechniqueGraph(entry.technique_graph, `${label}.technique_graph`, template, entry.activation_status === 'preview_enabled', errors);
+    validateTechniqueGraph(entry.technique_graph, `${label}.technique_graph`, template,
+      assignment.assignedBySlot, canonicalItems, entry.activation_status === 'preview_enabled', errors);
     validateSeasoningActions(entry.seasoning_actions, `${label}.seasoning_actions`, entry.activation_status === 'preview_enabled', errors);
-    validateSafetyEndpoints(entry.safety_endpoints, `${label}.safety_endpoints`, template, canonicalItems, entry.activation_status === 'preview_enabled', errors);
+    validateSafetyEndpoints(entry.safety_endpoints, `${label}.safety_endpoints`, template, canonicalItems,
+      assignment.assignedCounts, entry.activation_status === 'preview_enabled', errors);
     validateSourceClaims(entry.source_claims, `${label}.source_claims`, entry.identity_evidence || [], entry.activation_status === 'preview_enabled', errors);
     if (!isPlainObject(entry.naming)) {
       errors.push(`${label}.naming must be an object`);
