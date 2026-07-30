@@ -7,6 +7,7 @@ import { validateCoverageRecipePromotion } from './lib/coverage-recipe-promotion
 import { validateIngredientTaxonomy } from './lib/ingredient-taxonomy-validator.mjs';
 import { validateMealTemplateCatalog } from './lib/meal-template-validator.mjs';
 import { validateRatioDslCatalog } from './lib/ratio-dsl-validator.mjs';
+import { validateRecipeRuntimeCatalog } from './lib/recipe-runtime-validator.mjs';
 import { validateRegionalMenuResearch } from './lib/regional-menu-research-validator.mjs';
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
 import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
@@ -127,6 +128,7 @@ const coveragePromotions = JSON.parse(fs.readFileSync(new URL('./data/coverage-r
 const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
 const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.json', import.meta.url), 'utf8'));
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
+const recipeRuntimeCatalog = JSON.parse(fs.readFileSync(new URL('./data/recipe-runtime.v1.json', import.meta.url), 'utf8'));
 const regionalResearch = readReviewLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
 const verificationCases = readReviewLedger('./data/menu-verification-cases.v1.json', 'menu verification cases ledger');
 const menuMasterBaseline = readReviewLedger('./data/menu-master-baseline.v1.json', 'menu master Phase Zero baseline');
@@ -152,7 +154,13 @@ errors.push(...validateCoverageRecipePromotion({
 const taxonomyErrors = validateIngredientTaxonomy(taxonomy);
 const templateErrors = validateMealTemplateCatalog(templates, taxonomy, lib);
 const ratioErrors = validateRatioDslCatalog(ratios, templates, taxonomy, lib);
-errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors);
+const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
+  recipes: lib,
+  taxonomy,
+  templates,
+  ratios,
+});
+errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...recipeRuntimeErrors);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];
 const families = Array.isArray(lib.families) ? lib.families : [];
 const recipeIds = new Set(recipes.filter(recipe => recipe && typeof recipe === 'object').map(recipe => recipe.id));
@@ -680,13 +688,22 @@ const activeTemplateCount = Array.isArray(templates?.templates)
 const plannedTemplateCount = Array.isArray(templates?.templates)
   ? templates.templates.filter(template => template?.activation_status === 'planned' && template?.runtime_eligible === false).length
   : 0;
+const plannedRuntimeRecipeCount = Array.isArray(recipeRuntimeCatalog?.entries)
+  ? recipeRuntimeCatalog.entries.filter(entry => entry?.activation_status === 'planned').length
+  : 0;
+const previewEnabledRuntimeRecipeCount = Array.isArray(recipeRuntimeCatalog?.entries)
+  ? recipeRuntimeCatalog.entries.filter(entry => entry?.activation_status === 'preview_enabled').length
+  : 0;
 console.log(`菜谱家族 ${familyCount} 个 · 基础菜谱 ${recipeCount} 道（approved 人工批准 ${approvedCount} 道 · auto_approved 自动闸门通过待评审 ${autoApprovedCount} 道）`);
 console.log([
   `${recipeCount} recipes`,
   `${activeTemplateCount} active templates`,
   `${plannedTemplateCount} planned templates`,
+  `${plannedRuntimeRecipeCount} planned runtime recipes`,
+  `${previewEnabledRuntimeRecipeCount} preview-enabled runtime recipes`,
   taxonomyErrors.length ? `taxonomy invalid (${taxonomyErrors.length})` : 'taxonomy ok',
   ratioErrors.length ? `ratio DSL invalid (${ratioErrors.length})` : 'ratio DSL ok',
+  recipeRuntimeErrors.length ? `recipe runtime invalid (${recipeRuntimeErrors.length})` : 'recipe runtime ok',
 ].join(' · '));
 if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterSourceErrors.length === 0 && menuMasterErrors.length === 0) {
   console.log(`${menuMaster.summary.production_count} production menus · ${menuMaster.summary.research_count} research candidates · menu master ok`);
