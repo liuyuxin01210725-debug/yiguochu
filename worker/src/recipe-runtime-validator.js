@@ -27,7 +27,8 @@ const SEASONING_FIELDS = new Set(['action_code', 'amount_source']);
 const SAFETY_ENDPOINT_FIELDS = new Set(['endpoint_code', 'canonical_ids']);
 const SOURCE_CLAIM_FIELDS = new Set(['claim_type', 'evidence_index']);
 const SEASONING_ACTION_CODES = new Set(['add_measured_seasoning']);
-const SOURCE_CLAIM_TYPES = new Set(['identity', 'technique', 'ratio', 'safety']);
+const SOURCE_CLAIM_TYPES = new Set(['identity', 'technique', 'ratio', 'seasoning', 'safety']);
+const REQUIRED_PREVIEW_CLAIM_TYPES = new Set(['identity', 'technique', 'ratio', 'seasoning', 'safety']);
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 function isPlainObject(value) {
@@ -196,7 +197,10 @@ function validateSlotAssignment(assignment, label, template, canonicalItems, req
       const acceptsSlot = (Array.isArray(slot.accepts_slot_codes) ? slot.accepts_slot_codes : [])
         .some(code => (Array.isArray(item.compatible_slot_codes) ? item.compatible_slot_codes : []).includes(code));
       if (!acceptsCategory && !acceptsSlot) errors.push(`${label}.${slotId} canonical_id ${canonicalId} is incompatible with template slot`);
-      if (previewEnabled && !requiredIdentityIds.has(canonicalId)) {
+      const basicExtraOnly = Array.isArray(slot.source_policy)
+        && slot.source_policy.includes('basic_extra')
+        && !slot.source_policy.includes('user');
+      if (previewEnabled && !basicExtraOnly && !requiredIdentityIds.has(canonicalId)) {
         errors.push(`${label}.${slotId} canonical_id ${canonicalId} is not a required recipe identity`);
       }
     }
@@ -376,6 +380,7 @@ function validateSourceClaims(claims, label, evidence, previewEnabled, errors) {
     return;
   }
   if (previewEnabled && claims.length === 0) errors.push(`${label} must not be empty for preview_enabled`);
+  const presentClaimTypes = new Set();
   for (const [index, claim] of claims.entries()) {
     const claimLabel = `${label}[${index}]`;
     if (!isPlainObject(claim)) {
@@ -384,8 +389,14 @@ function validateSourceClaims(claims, label, evidence, previewEnabled, errors) {
     }
     pushUnknownKeys(errors, claim, SOURCE_CLAIM_FIELDS, claimLabel);
     if (!SOURCE_CLAIM_TYPES.has(claim.claim_type)) errors.push(`${claimLabel}.claim_type is invalid`);
+    else presentClaimTypes.add(claim.claim_type);
     if (!Number.isInteger(claim.evidence_index) || claim.evidence_index < 0 || claim.evidence_index >= evidence.length) {
       errors.push(`${claimLabel}.evidence_index must reference identity_evidence`);
+    }
+  }
+  if (previewEnabled) {
+    for (const claimType of REQUIRED_PREVIEW_CLAIM_TYPES) {
+      if (!presentClaimTypes.has(claimType)) errors.push(`${label} missing required claim_type ${claimType}`);
     }
   }
 }

@@ -27,6 +27,9 @@ const INITIAL_RECIPE_IDS = new Set([
   'north-china-green-bean-braised-noodles',
 ]);
 
+const COMPLETE_SOURCE_CLAIMS = ['identity', 'technique', 'ratio', 'seasoning', 'safety']
+  .map(claim_type => ({ claim_type, evidence_index: 0 }));
+
 function completeSyntheticPreview() {
   const preview = structuredClone(catalog);
   const entry = preview.entries.find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
@@ -50,7 +53,45 @@ function completeSyntheticPreview() {
   ];
   entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
   entry.safety_endpoints = [{ endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] }];
-  entry.source_claims = [{ claim_type: 'identity', evidence_index: 0 }];
+  entry.source_claims = structuredClone(COMPLETE_SOURCE_CLAIMS);
+  entry.household_trial = {
+    status: 'completed',
+    trial_date: '2026-07-30',
+    reviewer: 'synthetic-test-fixture',
+    outcome: 'passed',
+  };
+  return preview;
+}
+
+function completeSyntheticNorthChinaPreview() {
+  const preview = structuredClone(catalog);
+  const entry = preview.entries.find(candidate => candidate.recipe_id === 'north-china-green-bean-braised-noodles');
+  entry.activation_status = 'preview_enabled';
+  entry.identity_signature.required_states_or_cuts = [
+    { canonical_id: 'ground-pork', value: 'ground' },
+  ];
+  entry.slot_assignment = {
+    staple: ['fresh-wheat-noodle'],
+    vegetable: ['green-beans'],
+    liquid: ['water'],
+    protein: ['ground-pork'],
+  };
+  entry.ratio_rule_ids = ['braised-fresh-wheat-noodle-liquid-v1'];
+  entry.ratio_default_rule_id = 'braised-fresh-wheat-noodle-liquid-v1';
+  entry.technique_graph = [
+    { phase: 1, action_code: 'protein_pretreat', slot_ids: ['protein'] },
+    { phase: 2, action_code: 'add_liquid', slot_ids: ['liquid'] },
+    { phase: 3, action_code: 'simmer_until_tender', slot_ids: ['protein', 'vegetable'] },
+    { phase: 4, action_code: 'add_noodle', slot_ids: ['staple'] },
+    { phase: 5, action_code: 'reach_safety_endpoints', slot_ids: ['staple', 'protein', 'vegetable'] },
+  ];
+  entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
+  entry.safety_endpoints = [
+    { endpoint_code: 'pork_fully_cooked', canonical_ids: ['ground-pork'] },
+    { endpoint_code: 'bean_fully_cooked', canonical_ids: ['green-beans'] },
+    { endpoint_code: 'noodle_tender', canonical_ids: ['fresh-wheat-noodle'] },
+  ];
+  entry.source_claims = structuredClone(COMPLETE_SOURCE_CLAIMS);
   entry.household_trial = {
     status: 'completed',
     trial_date: '2026-07-30',
@@ -62,6 +103,19 @@ function completeSyntheticPreview() {
 
 test('a fully coherent synthetic preview fixture satisfies every runtime relationship', () => {
   assert.deepEqual(validateRecipeRuntimeCatalog(completeSyntheticPreview(), context), []);
+});
+
+test('a coherent North-China preview permits water only as the required basic-extra liquid dependency', () => {
+  assert.deepEqual(validateRecipeRuntimeCatalog(completeSyntheticNorthChinaPreview(), context), []);
+});
+
+test('preview source claims must cover every activation-contract claim type', () => {
+  const invalid = completeSyntheticPreview();
+  invalid.entries[0].source_claims = [{ claim_type: 'identity', evidence_index: 0 }];
+  const errors = validateRecipeRuntimeCatalog(invalid, context);
+  for (const claimType of ['technique', 'ratio', 'seasoning', 'safety']) {
+    assert.ok(errors.some(error => error.includes(`source_claims missing required claim_type ${claimType}`)), claimType);
+  }
 });
 
 test('runtime catalog keeps the six independently reviewed identities planned', () => {
