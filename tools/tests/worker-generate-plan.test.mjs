@@ -10,6 +10,8 @@ const SOURCE_ASSETS = Object.freeze({
   '/meal-templates.v2.json': readAsset('meal-templates.v2.json'),
   '/ratio-rules.v1.json': readAsset('ratio-rules.v1.json'),
   '/recipe-library.json': readAsset('recipe-library.json'),
+  '/recipe-runtime.v1.json': readAsset('recipe-runtime.v1.json'),
+  '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
   '/build-meta.json': JSON.stringify({
     buildId: 'generate-plan-test',
     plannerRollout: 'direct-recommend',

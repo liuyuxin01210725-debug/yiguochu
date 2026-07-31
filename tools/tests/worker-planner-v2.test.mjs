@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import worker from '../../worker/src/worker.js';
+import {
+  computePlanId,
+  enumerateAuthoritativeRecommendState,
+  normalizePlannerRequest,
+} from '../../worker/src/planner-v2.js';
 
 const readAsset = name => fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8');
 const SOURCE_ASSETS = Object.freeze({
@@ -10,12 +15,114 @@ const SOURCE_ASSETS = Object.freeze({
   '/meal-templates.v2.json': readAsset('meal-templates.v2.json'),
   '/ratio-rules.v1.json': readAsset('ratio-rules.v1.json'),
   '/recipe-library.json': readAsset('recipe-library.json'),
+  '/recipe-runtime.v1.json': readAsset('recipe-runtime.v1.json'),
+  '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
   '/build-meta.json': JSON.stringify({
     buildId: 'preview-test-build',
     plannerRollout: 'direct-recommend',
     generationMode: 'deterministic',
   }),
 });
+
+const COMPLETE_SOURCE_CLAIMS = ['identity', 'technique', 'ratio', 'seasoning', 'safety']
+  .map(claim_type => ({ claim_type, evidence_index: 0 }));
+
+function syntheticShanghaiPreviewOverrides() {
+  const ratios = JSON.parse(SOURCE_ASSETS['/ratio-rules.v1.json']);
+  const recipeRuntime = JSON.parse(SOURCE_ASSETS['/recipe-runtime.v1.json']);
+  const entry = recipeRuntime.entries
+    .find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  const ruleId = 'test-worker-shanghai-executable-v1';
+  ratios.rules.push({
+    rule_id: ruleId,
+    evidence_recipe_ids: [entry.recipe_id],
+    execution_mode: 'executable',
+    when: { recipe_id: entry.recipe_id },
+    operations: [
+      ['raw-rice', 'raw', null, 100],
+      ['salted-pork-belly', 'cured', 'cured_slice', 50],
+      ['small-bok-choy', 'raw', null, 75],
+    ].map(([canonical_id, state, shape_or_cut, grams]) => ({
+      operator: 'per_serving',
+      target: { canonical_id, state, ...(shape_or_cut ? { shape_or_cut } : {}) },
+      grams: { min: grams, default: grams, max: grams },
+    })).concat({
+      operator: 'ratio',
+      target: { name: '水', category: 'liquid' },
+      numerator: { resource: 'retained_liquid_grams' },
+      denominator: { canonical_id: 'raw-rice', state: 'raw', measure: 'grams' },
+      min: 1.3,
+      default: 1.3,
+      max: 1.3,
+    }),
+    rounding: { grams_to_nearest: 1 },
+    example_context: { ingredient_name: '大米' },
+  });
+  const techniqueGraph = [
+    { phase: 1, action_code: 'start_cured_pork_and_rice', slot_ids: ['protein', 'staple'], fact_refs: [] },
+    { phase: 2, action_code: 'add_locked_liquid', slot_ids: ['staple'], fact_refs: ['total_liquid_grams'] },
+    { phase: 3, action_code: 'cook_rice_until_tender_before_late_greens', slot_ids: ['staple'], fact_refs: [] },
+    { phase: 4, action_code: 'add_leafy_vegetable_late', slot_ids: ['fast_vegetable'], fact_refs: [] },
+    {
+      phase: 5,
+      action_code: 'complete_recipe_safety',
+      slot_ids: ['protein', 'staple'],
+      fact_refs: [],
+      safety_endpoint_codes: ['pork_fully_cooked', 'grain_tender_no_hard_center'],
+    },
+  ];
+  Object.assign(entry, {
+    activation_status: 'preview_enabled',
+    slot_assignment: {
+      staple: ['raw-rice'],
+      protein: ['salted-pork-belly'],
+      fast_vegetable: ['small-bok-choy'],
+    },
+    ratio_rule_ids: [ruleId],
+    ratio_default_rule_id: ruleId,
+    action_profile_ref: { action_profile_id: 'test-worker-shanghai-profile', profile_version: 'test-v1' },
+    technique_graph: techniqueGraph,
+    seasoning_actions: [
+      { action_code: 'taste_before_salt', amount_source: 'none' },
+      { action_code: 'omit_extra_salt', amount_source: 'none' },
+    ],
+    safety_endpoints: [
+      { endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] },
+      { endpoint_code: 'grain_tender_no_hard_center', canonical_ids: ['raw-rice'] },
+    ],
+    source_claims: structuredClone(COMPLETE_SOURCE_CLAIMS),
+    household_trial: {
+      status: 'completed',
+      trial_date: '2026-07-30',
+      reviewer: 'synthetic-worker-fixture',
+      outcome: 'passed',
+    },
+  });
+  entry.identity_signature.identity_critical_action_sequence = techniqueGraph.map(step => step.action_code);
+  const instances = techniqueGraph.map((step, index) => ({
+    instance_id: `test-worker-shanghai-step-${index + 1}`,
+    action_code: step.action_code,
+    slot_ids: [...(step.slot_ids || [])],
+    fact_refs: [...(step.fact_refs || [])],
+    produces_resources: [...(step.produces_resources || [])],
+    consumes_resources: [...(step.consumes_resources || [])],
+    safety_endpoint_codes: [...(step.safety_endpoint_codes || [])],
+  }));
+  const actionProfiles = {
+    action_profile_catalog_version: 'recipe-action-profiles-v1-20260731-r1',
+    profiles: [{
+      action_profile_id: entry.action_profile_ref.action_profile_id,
+      profile_version: entry.action_profile_ref.profile_version,
+      instances,
+      execution_sequence: instances.map(instance => instance.instance_id),
+    }],
+  };
+  return {
+    '/ratio-rules.v1.json': JSON.stringify(ratios),
+    '/recipe-runtime.v1.json': JSON.stringify(recipeRuntime),
+    '/recipe-action-profiles.v1.json': JSON.stringify(actionProfiles),
+  };
+}
 
 function plannerBody({
   mode = 'recommend', intent = 'normal', must = [], prefer = [], dislikes = [], servings = 2,
@@ -88,6 +195,83 @@ async function postPlan(body, { assets = assetBinding(), rawBody, env = {} } = {
   }
 }
 
+function generationEnvelope(planRequest, planned, planId = planned.plan.plan_id) {
+  return {
+    schema_version: 2,
+    planner_version: planned.planner_version,
+    template_catalog_version: planned.template_catalog_version,
+    plan_id: planId,
+    plan_request: structuredClone(planRequest),
+  };
+}
+
+function validModelOutput(lockedPlan) {
+  return {
+    plan_id: lockedPlan.plan_id,
+    meals: lockedPlan.meals.map(meal => ({
+      meal_sequence: meal.meal_sequence,
+      dish_name: meal.generation_text_contract.dish_name_options[0],
+      ingredient_refs: meal.locked_ingredients.map(item => item.ingredient_ref),
+      steps: meal.cooking_order.map((phase, index) => ({
+        order: index + 1,
+        action_code: phase.action_code,
+        text: meal.generation_text_contract.steps[index].allowed_texts[0],
+        ingredient_refs: [...phase.allowed_ingredient_refs],
+        completed_safety_endpoints: [...phase.required_safety_endpoints],
+      })),
+      recommendation_reason: meal.generation_text_contract.recommendation_reason_options[0],
+    })),
+  };
+}
+
+async function postGeneratePlan(body, {
+  assets = assetBinding(), ip = '198.51.100.8', rateLimit = 1,
+} = {}) {
+  const kv = {
+    values: new Map(),
+    gets: 0,
+    puts: 0,
+    async get(key) { this.gets += 1; return this.values.get(String(key)) ?? null; },
+    async put(key, value) { this.puts += 1; this.values.set(String(key), String(value)); },
+  };
+  let upstreamCalls = 0;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (_url, options) => {
+    upstreamCalls += 1;
+    const upstreamBody = JSON.parse(options.body);
+    const userMessage = JSON.parse(upstreamBody.messages[1].content);
+    return new Response(JSON.stringify({
+      choices: [{ message: { content: JSON.stringify(validModelOutput(userMessage.locked_plan)) } }],
+    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  };
+  try {
+    const response = await worker.fetch(new Request('https://planner.example/generate-plan', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Origin: 'https://planner.example',
+        'X-Forwarded-For': ip,
+      },
+      body: JSON.stringify(body),
+    }), {
+      ASSETS: assets,
+      RATE_KV: kv,
+      RATE_LIMIT: rateLimit,
+      DAILY_BUDGET: 10,
+      DEEPSEEK_API_KEY: 'test-worker-key',
+    });
+    return {
+      response,
+      body: await response.json(),
+      upstreamCalls,
+      kvGets: kv.gets,
+      kvPuts: kv.puts,
+    };
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+}
+
 function assertZeroGenerationWork(result) {
   assert.equal(result.upstreamCalls, 0);
   assert.equal(result.kvGets, 0);
@@ -112,10 +296,48 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260731-r9');
   assert.equal(result.body.activeTemplates, 11);
   assert.equal(result.body.plannedTemplates, 5);
+  assert.equal(result.body.recipeRuntime, 'ok');
+  assert.equal(result.body.recipeRuntimeCatalogVersion, 'recipe-runtime-v1-20260730-r1');
+  assert.equal(result.body.recipeRuntimeEntries, 6);
+  assert.equal(result.body.recipeRuntimePreviewEnabled, 0);
+  assert.equal(result.body.actionProfiles, 'ok');
+  assert.equal(result.body.actionProfileCatalogVersion, 'recipe-action-profiles-v1-20260731-r1');
+  assert.equal(result.body.actionProfileCount, 0);
   assert.equal(result.body.baseRecipes, 72);
   assert.equal(result.body.buildId, 'preview-test-build');
   assert.equal(result.body.plannerRollout, 'direct-recommend');
   assert.equal(result.body.generationMode, 'deterministic');
+});
+
+test('missing or invalid recipe runtime assets make health unavailable and planning fail closed', async t => {
+  const invalidRuntime = JSON.parse(SOURCE_ASSETS['/recipe-runtime.v1.json']);
+  invalidRuntime.recipe_runtime_catalog_version = 'forged-runtime-version';
+  const invalidProfiles = JSON.parse(SOURCE_ASSETS['/recipe-action-profiles.v1.json']);
+  invalidProfiles.profiles = {};
+  const cases = [
+    ['missing runtime', { '/recipe-runtime.v1.json': new Response('missing', { status: 404 }) }],
+    ['invalid runtime', { '/recipe-runtime.v1.json': JSON.stringify(invalidRuntime) }],
+    ['invalid action profiles', { '/recipe-action-profiles.v1.json': JSON.stringify(invalidProfiles) }],
+  ];
+  for (const [name, overrides] of cases) {
+    await t.test(name, async () => {
+      const assets = assetBinding(overrides);
+      const health = await getHealth(assets);
+      assert.equal(health.body.plannerAssets, 'unavailable');
+      assert.equal(health.body.recipeRuntime, 'unavailable');
+      assert.equal(health.body.recipeRuntimeCatalogVersion, null);
+      assert.equal(health.body.recipeRuntimeEntries, 0);
+      assert.equal(health.body.recipeRuntimePreviewEnabled, 0);
+      assert.equal(health.body.actionProfiles, 'unavailable');
+      assert.equal(health.body.actionProfileCatalogVersion, null);
+      assert.equal(health.body.actionProfileCount, 0);
+
+      const planned = await postPlan(plannerBody({ prefer: ['番茄'] }), { assets });
+      assert.equal(planned.response.status, 503);
+      assert.equal(planned.body.code, 'planner_assets_unavailable');
+      assertZeroGenerationWork(planned);
+    });
+  }
 });
 
 test('health reports unavailable planner assets without claiming validated versions or counts', async () => {
@@ -193,6 +415,239 @@ test('recommend planning returns a stable identified ready plan with honest used
   assert.equal(assets.bytes['/ingredient-taxonomy.v1.json'], SOURCE_ASSETS['/ingredient-taxonomy.v1.json']);
   assertZeroGenerationWork(first);
   assertZeroGenerationWork(second);
+});
+
+test('isolated validated preview assets expose a fully materialized named candidate before signing', async () => {
+  const assets = assetBinding(syntheticShanghaiPreviewOverrides());
+  const planRequest = plannerBody({
+    mode: 'recommend',
+    prefer: ['大米', '咸五花肉', '小白菜'],
+  });
+  const result = await postPlan(planRequest, { assets });
+
+  assert.equal(result.response.status, 200, JSON.stringify(result.body));
+  assert.equal(result.body.status, 'ready');
+  assert.equal(result.body.plan_source, 'named_recipe');
+  assert.equal(result.body.recipe_id, 'shanghai-salted-pork-vegetable-rice');
+  assert.equal(result.body.variant_id, null);
+  assert.equal(result.body.identity_level, 'canonical');
+  assert.deepEqual(result.body.presentation, {
+    title: '上海奉贤咸肉菜饭',
+    canonical_name: '上海奉贤咸肉菜饭',
+  });
+  assert.equal(result.body.recipe_runtime_catalog_version, 'recipe-runtime-v1-20260730-r1');
+  assert.equal(result.body.preferred_plan_id, result.body.plan.plan_id);
+  assert.equal(result.body.candidate_plans[0].plan.plan_id, result.body.plan.plan_id);
+  assert.equal(
+    result.body.plan.pots[0].execution_contract.action_profile_catalog_version,
+    'recipe-action-profiles-v1-20260731-r1',
+  );
+  assert.ok(result.body.plan.pots[0].ingredient_amounts.every(item => Number.isSafeInteger(item.grams)));
+  assertZeroGenerationWork(result);
+});
+
+test('one synthetic hybrid authoritative set recognizes named and custom displayed members during swap', async () => {
+  const assets = assetBinding(syntheticShanghaiPreviewOverrides());
+  const initialRequest = plannerBody({
+    mode: 'recommend',
+    prefer: ['大米', '咸五花肉', '小白菜'],
+  });
+  const initial = await postPlan(initialRequest, { assets });
+  assert.equal(initial.response.status, 200, JSON.stringify(initial.body));
+  assert.equal(initial.body.plan_source, 'named_recipe');
+  const displayed = new Map(initial.body.candidate_plans.map(candidate => [candidate.plan.plan_id, candidate]));
+  const displayedCustom = initial.body.candidate_plans.find(candidate => candidate.plan_source === 'custom_template');
+  assert.ok(displayedCustom, JSON.stringify(initial.body.candidate_plans));
+
+  const fromNamed = await postPlan(plannerBody({
+    mode: 'recommend',
+    prefer: ['大米', '咸五花肉', '小白菜'],
+    currentPlanId: initial.body.plan.plan_id,
+  }), { assets });
+  assert.equal(fromNamed.response.status, 200);
+  assert.notEqual(fromNamed.body.status, 'stale_plan');
+  assert.equal(fromNamed.body.plan_source, 'custom_template');
+  assert.ok(displayed.has(fromNamed.body.plan.plan_id), JSON.stringify(fromNamed.body));
+  assert.notEqual(fromNamed.body.plan.plan_id, initial.body.plan.plan_id);
+
+  const fromCustom = await postPlan(plannerBody({
+    mode: 'recommend',
+    prefer: ['大米', '咸五花肉', '小白菜'],
+    currentPlanId: displayedCustom.plan.plan_id,
+  }), { assets });
+  assert.equal(fromCustom.response.status, 200);
+  assert.notEqual(fromCustom.body.status, 'stale_plan');
+  assert.ok(displayed.has(fromCustom.body.plan.plan_id), JSON.stringify(fromCustom.body));
+  assert.notEqual(fromCustom.body.plan.plan_id, displayedCustom.plan.plan_id);
+  assertZeroGenerationWork(initial);
+  assertZeroGenerationWork(fromNamed);
+  assertZeroGenerationWork(fromCustom);
+});
+
+test('synthetic generation accepts exact displayed non-preferred membership and rejects foreign identities before work', async () => {
+  const overrides = {
+    ...syntheticShanghaiPreviewOverrides(),
+    '/build-meta.json': JSON.stringify({
+      buildId: 'preview-test-build',
+      plannerRollout: 'direct-recommend',
+      generationMode: 'llm',
+    }),
+  };
+  const assets = assetBinding(overrides);
+  const planRequest = plannerBody({ mode: 'recommend', prefer: ['大米', '咸五花肉', '小白菜'] });
+  const planned = await postPlan(planRequest, { assets });
+  assert.equal(planned.body.plan_source, 'named_recipe');
+
+  const displayedNonPreferred = planned.body.candidate_plans.find(candidate => (
+    candidate.plan.plan_id !== planned.body.preferred_plan_id
+      && candidate.plan_source === 'custom_template'
+  ));
+  assert.ok(displayedNonPreferred, JSON.stringify(planned.body.candidate_plans));
+  const generated = await postGeneratePlan(
+    generationEnvelope(planRequest, planned.body, displayedNonPreferred.plan.plan_id),
+    { assets, ip: '198.51.100.90' },
+  );
+  assert.equal(generated.response.status, 200, JSON.stringify(generated.body));
+  assert.equal(generated.body.plan_id, displayedNonPreferred.plan.plan_id);
+  assert.equal(generated.upstreamCalls, 1);
+
+  const foreign = structuredClone(planned.body.candidate_plans[0]);
+  foreign.recipe_id = 'xinjiang-lamb-pilaf';
+  foreign.presentation = { title: '新疆羊肉抓饭', canonical_name: '新疆羊肉抓饭' };
+  foreign.plan.plan_id = await computePlanId(foreign);
+  const forged = await postGeneratePlan(generationEnvelope(planRequest, planned.body, foreign.plan.plan_id), {
+    assets,
+    ip: '198.51.100.91',
+  });
+  assert.equal(forged.response.status, 409);
+  assert.equal(forged.body.code, 'stale_plan');
+  assert.equal(forged.upstreamCalls, 0);
+  assert.equal(forged.kvGets, 0);
+  assert.equal(forged.kvPuts, 0);
+
+  const stale = await postGeneratePlan(generationEnvelope(
+    planRequest,
+    planned.body,
+    'pln_v2_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+  ), { assets, ip: '198.51.100.92' });
+  assert.equal(stale.response.status, 409);
+  assert.equal(stale.body.code, 'stale_plan');
+  assert.equal(stale.upstreamCalls, 0);
+  assert.equal(stale.kvGets, 0);
+  assert.equal(stale.kvPuts, 0);
+});
+
+test('initial generation authorizes only the displayed top three, never a hidden authoritative member', async () => {
+  const planRequest = plannerBody({
+    mode: 'recommend',
+    prefer: ['大米', '番茄', '鸡蛋'],
+  });
+  const assets = assetBinding();
+  const initial = await postPlan(planRequest, { assets });
+  assert.equal(initial.response.status, 200, JSON.stringify(initial.body));
+  assert.equal(initial.body.candidate_plans.length, 3);
+
+  const internalState = await enumerateAuthoritativeRecommendState({
+    taxonomy: JSON.parse(SOURCE_ASSETS['/ingredient-taxonomy.v1.json']),
+    templates: JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']),
+    ratios: JSON.parse(SOURCE_ASSETS['/ratio-rules.v1.json']),
+    recipes: JSON.parse(SOURCE_ASSETS['/recipe-library.json']),
+  }, normalizePlannerRequest(planRequest));
+  assert.ok(internalState.candidates.length > initial.body.candidate_plans.length);
+  const displayedIds = new Set(initial.body.candidate_plans.map(candidate => candidate.plan.plan_id));
+  const hidden = internalState.candidates.find(candidate => !displayedIds.has(candidate.plan.plan_id));
+  assert.ok(hidden, JSON.stringify(internalState.candidates.map(candidate => candidate.plan.plan_id)));
+
+  const preferred = await postGeneratePlan(
+    generationEnvelope(planRequest, initial.body, initial.body.preferred_plan_id),
+    { assets, ip: '198.51.100.97' },
+  );
+  assert.equal(preferred.response.status, 200, JSON.stringify(preferred.body));
+  assert.equal(preferred.body.plan_id, initial.body.preferred_plan_id);
+
+  const displayedNonPreferred = initial.body.candidate_plans[1];
+  const nonPreferred = await postGeneratePlan(
+    generationEnvelope(planRequest, initial.body, displayedNonPreferred.plan.plan_id),
+    { assets, ip: '198.51.100.98' },
+  );
+  assert.equal(nonPreferred.response.status, 200, JSON.stringify(nonPreferred.body));
+  assert.equal(nonPreferred.body.plan_id, displayedNonPreferred.plan.plan_id);
+
+  const rejectedHidden = await postGeneratePlan(
+    generationEnvelope(planRequest, initial.body, hidden.plan.plan_id),
+    { assets, ip: '198.51.100.99' },
+  );
+  assert.equal(rejectedHidden.response.status, 409, JSON.stringify(rejectedHidden.body));
+  assert.equal(rejectedHidden.body.status, 'stale_plan');
+  assertZeroGenerationWork(rejectedHidden);
+});
+
+test('synthetic hybrid state keeps retained IDs non-generatable and partial acknowledgement exact', async () => {
+  const assets = assetBinding(syntheticShanghaiPreviewOverrides());
+
+  const soleRequest = plannerBody({ mode: 'recommend', prefer: ['虾仁', '玉米'] });
+  const sole = await postPlan(soleRequest, { assets });
+  assert.equal(sole.body.candidate_plans.length, 1);
+  const noAlternativeRequest = plannerBody({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米'],
+    currentPlanId: sole.body.plan.plan_id,
+  });
+  const noAlternative = await postPlan(noAlternativeRequest, { assets });
+  assert.equal(noAlternative.body.status, 'no_alternative_plan');
+  const rejectedRetained = await postGeneratePlan(
+    generationEnvelope(noAlternativeRequest, noAlternative.body),
+    { assets, ip: '198.51.100.93' },
+  );
+  assert.equal(rejectedRetained.response.status, 409);
+  assert.equal(rejectedRetained.body.status, 'no_alternative_plan');
+  assertZeroGenerationWork(rejectedRetained);
+
+  const partialRequest = plannerBody({
+    mode: 'pantry',
+    must: ['番茄', '鸡蛋', '神秘叶子'],
+  });
+  const partial = await postPlan(partialRequest, { assets });
+  assert.equal(partial.body.status, 'needs_user_decision');
+  const rejectedDecision = await postGeneratePlan(
+    generationEnvelope(partialRequest, partial.body),
+    { assets, ip: '198.51.100.94' },
+  );
+  assert.equal(rejectedDecision.response.status, 409);
+  assert.equal(rejectedDecision.body.status, 'needs_user_decision');
+  assertZeroGenerationWork(rejectedDecision);
+
+  const acknowledgement = {
+    action: 'accept_partial',
+    plan_id: partial.body.plan.plan_id,
+    acknowledged_unplanned: ['神秘叶子'],
+  };
+  const acceptedRequest = plannerBody({
+    mode: 'pantry',
+    must: ['番茄', '鸡蛋', '神秘叶子'],
+    currentPlanId: partial.body.plan.plan_id,
+    decision: acknowledgement,
+  });
+  const accepted = await postPlan(acceptedRequest, { assets });
+  assert.equal(accepted.body.status, 'partial_accepted');
+  const generated = await postGeneratePlan(
+    generationEnvelope(acceptedRequest, accepted.body),
+    { assets, ip: '198.51.100.95' },
+  );
+  assert.equal(generated.response.status, 200, JSON.stringify(generated.body));
+
+  const forgedAcknowledgementRequest = plannerBody({
+    mode: 'pantry',
+    must: ['番茄', '鸡蛋', '神秘叶子'],
+    currentPlanId: partial.body.plan.plan_id,
+    decision: { ...acknowledgement, acknowledged_unplanned: ['番茄'] },
+  });
+  const rejectedForgery = await postGeneratePlan(
+    generationEnvelope(forgedAcknowledgementRequest, accepted.body),
+    { assets, ip: '198.51.100.96' },
+  );
+  assert.equal(rejectedForgery.response.status, 409);
+  assertZeroGenerationWork(rejectedForgery);
 });
 
 test('initial recommend candidate bundle does not call DeepSeek or duplicate a sole reliable plan', async () => {

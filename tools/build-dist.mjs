@@ -22,6 +22,7 @@ const GENERATED_ASSETS = [
   ['tools/data/ingredient-taxonomy.v1.json', 'ingredient-taxonomy.v1.json'],
   ['tools/data/meal-templates.v2.json', 'meal-templates.v2.json'],
   ['tools/data/ratio-rules.v1.json', 'ratio-rules.v1.json'],
+  ['tools/data/recipe-runtime.v1.json', 'recipe-runtime.v1.json'],
   ['tools/data/recipe-action-profiles.v1.json', 'recipe-action-profiles.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
@@ -30,7 +31,9 @@ const GENERATED_ASSETS = [
   ['worker/src/taxonomy-identity.js', 'taxonomy-identity.js'],
   ['worker/src/allergen-semantics.js', 'allergen-semantics.js'],
   ['worker/src/generated-plan-contract.js', 'generated-plan-contract.js'],
+  ['worker/src/recipe-runtime-matcher.js', 'recipe-runtime-matcher.js'],
   ['worker/src/recipe-runtime-compiler.js', 'recipe-runtime-compiler.js'],
+  ['worker/src/recipe-runtime-validator.js', 'recipe-runtime-validator.js'],
   ['worker/src/recipe-action-registry.js', 'recipe-action-registry.js'],
   ['worker/src/recipe-action-profile-validator.js', 'recipe-action-profile-validator.js'],
   ['worker/src/ingredient-taxonomy-validator.js', 'ingredient-taxonomy-validator.js'],
@@ -144,6 +147,8 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
     templates: readCanonicalJson('tools/data/meal-templates.v2.json'),
     ratios: readCanonicalJson('tools/data/ratio-rules.v1.json'),
     recipes: readCanonicalJson('tools/data/recipe-library.json'),
+    recipeRuntime: readCanonicalJson('tools/data/recipe-runtime.v1.json'),
+    actionProfiles: readCanonicalJson('tools/data/recipe-action-profiles.v1.json'),
   };
   const generatedWorker = sourceWorker
     .replace(

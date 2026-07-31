@@ -1561,7 +1561,7 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
     mode: request.mode,
     intent: request.intent,
     ...(selectedPots.length ? {
-      recipe_runtime_catalog_version: assets.recipeRuntime?.recipe_runtime_catalog_version || null,
+      recipe_runtime_catalog_version: null,
       plan_source: 'custom_template',
       recipe_id: null,
       variant_id: null,
@@ -1917,11 +1917,15 @@ export function canonicalPlanIdentityPayload(result = {}) {
     .sort((left, right) => (left.meal_sequence ?? Number.MAX_SAFE_INTEGER) - (right.meal_sequence ?? Number.MAX_SAFE_INTEGER)
       || String(left.template_id || '').localeCompare(String(right.template_id || '')));
   const singlePot = pots.length === 1 ? pots[0] : null;
+  const planSource = identityText(result.plan_source);
+  const namedIdentity = planSource === 'named_recipe' || planSource === 'recipe_variant';
   return {
     planner_version: identityText(result.planner_version),
     template_catalog_version: identityText(result.template_catalog_version),
-    recipe_runtime_catalog_version: identityText(result.recipe_runtime_catalog_version),
-    plan_source: identityText(result.plan_source),
+    recipe_runtime_catalog_version: namedIdentity
+      ? identityText(result.recipe_runtime_catalog_version)
+      : null,
+    plan_source: planSource,
     recipe_id: identityText(result.recipe_id),
     variant_id: identityText(result.variant_id),
     identity_level: identityText(result.identity_level),
@@ -2254,6 +2258,24 @@ function selectDiverseCandidates(candidates, limit) {
   return selected;
 }
 
+export async function enumerateAuthoritativeRecommendState(
+  assets = {},
+  request = {},
+  { limit = 3 } = {},
+) {
+  const cleanRequest = requestWithoutSwapHistory(request);
+  const plans = await identifiedValidPlans(assets, cleanRequest);
+  const candidates = plans.filter(isNormalRecommendCandidate);
+  return {
+    authoritative: structuredClone(
+      plans[0] || await attachPlanIdentity(planMeal(assets, cleanRequest)),
+    ),
+    candidates: candidates.map(candidate => structuredClone(candidate)),
+    displayed: selectDiverseCandidates(candidates, limit)
+      .map(candidate => structuredClone(candidate)),
+  };
+}
+
 const HYBRID_IDENTITY_RANK = Object.freeze({
   canonical: 0,
   approved_variant: 1,
@@ -2422,13 +2444,11 @@ export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanI
 }
 
 export async function planMealCandidateBundle(assets = {}, request = {}, { limit = 3 } = {}) {
-  const cleanRequest = requestWithoutSwapHistory(request);
-  const plans = await identifiedValidPlans(assets, cleanRequest);
-  const selected = selectDiverseCandidates(plans.filter(isNormalRecommendCandidate), limit);
+  const state = await enumerateAuthoritativeRecommendState(assets, request, { limit });
+  const selected = state.displayed;
   if (!selected.length) {
-    const authoritative = plans[0] || await attachPlanIdentity(planMeal(assets, cleanRequest));
     return {
-      ...authoritative,
+      ...structuredClone(state.authoritative),
       candidate_plans: [],
       preferred_plan_id: null,
     };

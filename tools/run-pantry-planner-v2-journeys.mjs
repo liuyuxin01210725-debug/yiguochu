@@ -13,6 +13,8 @@ const sourceAssets = Object.freeze({
   '/meal-templates.v2.json': readText('./data/meal-templates.v2.json'),
   '/ratio-rules.v1.json': readText('./data/ratio-rules.v1.json'),
   '/recipe-library.json': readText('./data/recipe-library.json'),
+  '/recipe-runtime.v1.json': readText('./data/recipe-runtime.v1.json'),
+  '/recipe-action-profiles.v1.json': readText('./data/recipe-action-profiles.v1.json'),
 });
 const html = readText('../index.html');
 const appScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]

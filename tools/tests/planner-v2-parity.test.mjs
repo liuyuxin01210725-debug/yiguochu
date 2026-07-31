@@ -17,6 +17,8 @@ const assetNames = [
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
   'recipe-library.json',
+  'recipe-runtime.v1.json',
+  'recipe-action-profiles.v1.json',
   'foods-tw.json',
 ];
 const sourceAssets = Object.freeze(Object.fromEntries(assetNames.map(name => [
@@ -45,12 +47,12 @@ function request({
   };
 }
 
-function assets() {
+function assets(source = sourceAssets) {
   return {
     async fetch(input) {
       const pathname = new URL(input.url).pathname;
-      if (!Object.hasOwn(sourceAssets, pathname)) return new Response('missing', { status: 404 });
-      return new Response(sourceAssets[pathname], {
+      if (!Object.hasOwn(source, pathname)) return new Response('missing', { status: 404 });
+      return new Response(source[pathname], {
         status: 200,
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
       });
@@ -58,13 +60,124 @@ function assets() {
   };
 }
 
-async function workerPlan(body) {
+async function workerPlan(body, source = sourceAssets) {
   const response = await worker.fetch(new Request('http://localhost:8765/plan-meal', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Origin: 'http://localhost:8081' },
     body: JSON.stringify(body),
-  }), { ASSETS: assets(), RATE_LIMIT: 0 });
+  }), { ASSETS: assets(source), RATE_LIMIT: 0 });
   return { status: response.status, body: await response.json() };
+}
+
+function nodeBridgePlan(body, extraEnv = {}) {
+  const result = spawnSync(process.execPath, [bridgePath, '/plan-meal'], {
+    cwd: repoRoot,
+    input: JSON.stringify(body),
+    encoding: 'utf8',
+    timeout: 40000,
+    env: {
+      ...process.env,
+      DEEPSEEK_API_KEY: '',
+      YIGUOCHU_GENERATION_MODE: 'deterministic',
+      ...extraEnv,
+    },
+  });
+  assert.equal(result.signal, null, result.stderr);
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const envelope = JSON.parse(result.stdout);
+  assert.equal(envelope.bridge_version, 1);
+  return { status: envelope.status, body: envelope.body };
+}
+
+function syntheticShanghaiAssetFixture() {
+  const source = structuredClone(sourceAssets);
+  const ratios = JSON.parse(source['/ratio-rules.v1.json']);
+  const runtime = JSON.parse(source['/recipe-runtime.v1.json']);
+  const entry = runtime.entries.find(row => row.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  const ruleId = 'test-parity-shanghai-executable-v1';
+  ratios.rules.push({
+    rule_id: ruleId,
+    evidence_recipe_ids: [entry.recipe_id],
+    execution_mode: 'executable',
+    when: { recipe_id: entry.recipe_id },
+    operations: [
+      ['raw-rice', 'raw', null, 100],
+      ['salted-pork-belly', 'cured', 'cured_slice', 50],
+      ['small-bok-choy', 'raw', null, 75],
+    ].map(([canonical_id, state, shape_or_cut, grams]) => ({
+      operator: 'per_serving',
+      target: { canonical_id, state, ...(shape_or_cut ? { shape_or_cut } : {}) },
+      grams: { min: grams, default: grams, max: grams },
+    })).concat({
+      operator: 'ratio',
+      target: { name: '水', category: 'liquid' },
+      numerator: { resource: 'retained_liquid_grams' },
+      denominator: { canonical_id: 'raw-rice', state: 'raw', measure: 'grams' },
+      min: 1.3,
+      default: 1.3,
+      max: 1.3,
+    }),
+    rounding: { grams_to_nearest: 1 },
+    example_context: { ingredient_name: '大米' },
+  });
+  const techniqueGraph = [
+    { phase: 1, action_code: 'start_cured_pork_and_rice', slot_ids: ['protein', 'staple'], fact_refs: [] },
+    { phase: 2, action_code: 'add_locked_liquid', slot_ids: ['staple'], fact_refs: ['total_liquid_grams'] },
+    { phase: 3, action_code: 'cook_rice_until_tender_before_late_greens', slot_ids: ['staple'], fact_refs: [] },
+    { phase: 4, action_code: 'add_leafy_vegetable_late', slot_ids: ['fast_vegetable'], fact_refs: [] },
+    {
+      phase: 5,
+      action_code: 'complete_recipe_safety',
+      slot_ids: ['protein', 'staple'],
+      fact_refs: [],
+      safety_endpoint_codes: ['pork_fully_cooked', 'grain_tender_no_hard_center'],
+    },
+  ];
+  Object.assign(entry, {
+    activation_status: 'preview_enabled',
+    slot_assignment: { staple: ['raw-rice'], protein: ['salted-pork-belly'], fast_vegetable: ['small-bok-choy'] },
+    ratio_rule_ids: [ruleId],
+    ratio_default_rule_id: ruleId,
+    action_profile_ref: { action_profile_id: 'test-parity-shanghai-profile', profile_version: 'test-v1' },
+    technique_graph: techniqueGraph,
+    seasoning_actions: [
+      { action_code: 'taste_before_salt', amount_source: 'none' },
+      { action_code: 'omit_extra_salt', amount_source: 'none' },
+    ],
+    safety_endpoints: [
+      { endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] },
+      { endpoint_code: 'grain_tender_no_hard_center', canonical_ids: ['raw-rice'] },
+    ],
+    source_claims: ['identity', 'technique', 'ratio', 'seasoning', 'safety']
+      .map(claim_type => ({ claim_type, evidence_index: 0 })),
+    household_trial: {
+      status: 'completed', trial_date: '2026-07-30', reviewer: 'synthetic-parity-fixture', outcome: 'passed',
+    },
+  });
+  entry.identity_signature.identity_critical_action_sequence = techniqueGraph.map(step => step.action_code);
+  const instances = techniqueGraph.map((step, index) => ({
+    instance_id: `test-parity-shanghai-step-${index + 1}`,
+    action_code: step.action_code,
+    slot_ids: [...(step.slot_ids || [])],
+    fact_refs: [...(step.fact_refs || [])],
+    produces_resources: [...(step.produces_resources || [])],
+    consumes_resources: [...(step.consumes_resources || [])],
+    safety_endpoint_codes: [...(step.safety_endpoint_codes || [])],
+  }));
+  source['/ratio-rules.v1.json'] = JSON.stringify(ratios);
+  source['/recipe-runtime.v1.json'] = JSON.stringify(runtime);
+  source['/recipe-action-profiles.v1.json'] = JSON.stringify({
+    action_profile_catalog_version: 'recipe-action-profiles-v1-20260731-r1',
+    profiles: [{
+      action_profile_id: entry.action_profile_ref.action_profile_id,
+      profile_version: entry.action_profile_ref.profile_version,
+      instances,
+      execution_sequence: instances.map(instance => instance.instance_id),
+    }],
+  });
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-planner-assets-'));
+  for (const name of assetNames) fs.writeFileSync(path.join(directory, name), source[`/${name}`]);
+  return { source, directory };
 }
 
 async function workerRaw(endpoint, rawBody) {
@@ -316,6 +429,34 @@ test('Python bridge mirrors initial candidate bundles without recursive candidat
   assert.ok(actual.candidate_plans.length >= 1 && actual.candidate_plans.length <= 3);
   assert.equal(actual.preferred_plan_id, actual.candidate_plans[0].plan.plan_id);
   assert.ok(actual.candidate_plans.every(candidate => !('candidate_plans' in candidate)));
+});
+
+test('Node local bridge and Worker return the same synthetic named identity, title, catalog and signed plan ID', async () => {
+  const fixture = syntheticShanghaiAssetFixture();
+  try {
+    const body = request({
+      mode: 'recommend',
+      prefer: ['大米', '咸五花肉', '小白菜'],
+    });
+    const expected = await workerPlan(body, fixture.source);
+    const actual = nodeBridgePlan(body, { YIGUOCHU_PLANNER_ASSET_DIR: fixture.directory });
+
+    assert.equal(expected.status, 200, JSON.stringify(expected.body));
+    assert.equal(expected.body.plan_source, 'named_recipe');
+    assert.equal(expected.body.recipe_id, 'shanghai-salted-pork-vegetable-rice');
+    assert.deepEqual(expected.body.presentation, {
+      title: '上海奉贤咸肉菜饭',
+      canonical_name: '上海奉贤咸肉菜饭',
+    });
+    assert.equal(expected.body.recipe_runtime_catalog_version, 'recipe-runtime-v1-20260730-r1');
+    assert.equal(
+      expected.body.plan.pots[0].execution_contract.action_profile_catalog_version,
+      'recipe-action-profiles-v1-20260731-r1',
+    );
+    assert.deepEqual(actual, expected);
+  } finally {
+    fs.rmSync(fixture.directory, { recursive: true, force: true });
+  }
 });
 
 test('Python plan CLI is deterministic, API-key free, asset immutable and shell inert', async () => {

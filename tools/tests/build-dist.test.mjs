@@ -30,7 +30,9 @@ const REQUIRED_ASSETS = [
   'taxonomy-identity.js',
   'allergen-semantics.js',
   'generated-plan-contract.js',
+  'recipe-runtime-matcher.js',
   'recipe-runtime-compiler.js',
+  'recipe-runtime-validator.js',
   'recipe-action-registry.js',
   'recipe-action-profile-validator.js',
   'ingredient-taxonomy-validator.js',
@@ -39,6 +41,7 @@ const REQUIRED_ASSETS = [
   'ingredient-taxonomy.v1.json',
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
+  'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
   'build-meta.json',
 ];
@@ -49,7 +52,9 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['taxonomy-identity.js', path.join(ROOT, 'worker', 'src', 'taxonomy-identity.js')],
   ['allergen-semantics.js', path.join(ROOT, 'worker', 'src', 'allergen-semantics.js')],
   ['generated-plan-contract.js', path.join(ROOT, 'worker', 'src', 'generated-plan-contract.js')],
+  ['recipe-runtime-matcher.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-matcher.js')],
   ['recipe-runtime-compiler.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-compiler.js')],
+  ['recipe-runtime-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-validator.js')],
   ['recipe-action-registry.js', path.join(ROOT, 'worker', 'src', 'recipe-action-registry.js')],
   ['recipe-action-profile-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-action-profile-validator.js')],
   ['ingredient-taxonomy-validator.js', path.join(ROOT, 'worker', 'src', 'ingredient-taxonomy-validator.js')],
@@ -58,6 +63,7 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['ingredient-taxonomy.v1.json', path.join(ROOT, 'tools', 'data', 'ingredient-taxonomy.v1.json')],
   ['meal-templates.v2.json', path.join(ROOT, 'tools', 'data', 'meal-templates.v2.json')],
   ['ratio-rules.v1.json', path.join(ROOT, 'tools', 'data', 'ratio-rules.v1.json')],
+  ['recipe-runtime.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-runtime.v1.json')],
   ['recipe-action-profiles.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-action-profiles.v1.json')],
 ]);
 
@@ -220,7 +226,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 28);
+    assert.equal(buildRecord.files, 31);
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
       /const C = 'yiguochu-shell-v4-canonical-test';/,
@@ -338,7 +344,7 @@ test('built Worker contains its complete relative module graph and plans from em
   try {
     build(outputDir);
     const graph = assertBuiltImportGraph(outputDir);
-    assert.equal(graph.size, 13);
+    assert.equal(graph.size, 15);
     const { default: builtWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?built=${Date.now()}`);
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };
@@ -376,6 +382,13 @@ test('built Worker contains its complete relative module graph and plans from em
       assert.equal(health.plannerRollout, 'direct-recommend');
       assert.equal(health.generationMode, 'deterministic');
       assert.equal(health.plannerAssets, 'ok');
+      assert.equal(health.recipeRuntime, 'ok');
+      assert.equal(health.recipeRuntimeCatalogVersion, 'recipe-runtime-v1-20260730-r1');
+      assert.equal(health.recipeRuntimeEntries, 6);
+      assert.equal(health.recipeRuntimePreviewEnabled, 0);
+      assert.equal(health.actionProfiles, 'ok');
+      assert.equal(health.actionProfileCatalogVersion, 'recipe-action-profiles-v1-20260731-r1');
+      assert.equal(health.actionProfileCount, 0);
     } finally {
       globalThis.fetch = originalFetch;
     }

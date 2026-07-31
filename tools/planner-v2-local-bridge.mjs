@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import fs from 'node:fs/promises';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 import worker from '../worker/src/worker.js';
 
@@ -9,12 +11,21 @@ const ALLOWED_ENDPOINTS = new Set(['/plan-meal', '/generate-plan']);
 const GENERATION_MODE = ['deterministic', 'llm'].includes(process.env.YIGUOCHU_GENERATION_MODE)
   ? process.env.YIGUOCHU_GENERATION_MODE
   : 'deterministic';
+const ASSET_DIRECTORY = typeof process.env.YIGUOCHU_PLANNER_ASSET_DIR === 'string'
+  && process.env.YIGUOCHU_PLANNER_ASSET_DIR.trim()
+  ? path.resolve(process.env.YIGUOCHU_PLANNER_ASSET_DIR.trim())
+  : null;
+const assetUrl = name => ASSET_DIRECTORY
+  ? pathToFileURL(path.join(ASSET_DIRECTORY, name))
+  : new URL(`./data/${name}`, import.meta.url);
 const ASSET_FILES = new Map([
-  ['/ingredient-taxonomy.v1.json', new URL('./data/ingredient-taxonomy.v1.json', import.meta.url)],
-  ['/meal-templates.v2.json', new URL('./data/meal-templates.v2.json', import.meta.url)],
-  ['/ratio-rules.v1.json', new URL('./data/ratio-rules.v1.json', import.meta.url)],
-  ['/recipe-library.json', new URL('./data/recipe-library.json', import.meta.url)],
-  ['/foods-tw.json', new URL('./data/foods-tw.json', import.meta.url)],
+  ['/ingredient-taxonomy.v1.json', assetUrl('ingredient-taxonomy.v1.json')],
+  ['/meal-templates.v2.json', assetUrl('meal-templates.v2.json')],
+  ['/ratio-rules.v1.json', assetUrl('ratio-rules.v1.json')],
+  ['/recipe-library.json', assetUrl('recipe-library.json')],
+  ['/recipe-runtime.v1.json', assetUrl('recipe-runtime.v1.json')],
+  ['/recipe-action-profiles.v1.json', assetUrl('recipe-action-profiles.v1.json')],
+  ['/foods-tw.json', assetUrl('foods-tw.json')],
 ]);
 
 function machineFailure(code, exitCode = 2) {

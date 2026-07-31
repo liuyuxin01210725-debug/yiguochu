@@ -1,15 +1,21 @@
 import {
   PLANNER_VERSION,
+  computePlanId,
+  enumerateAuthoritativeRecommendState,
   normalizePlannerRequest,
-  planMealCandidateBundle,
   planMealWithIdentity,
   plannerRequestFromLegacy,
   resolveAuthoritativePlanById,
+  selectHybridCandidates,
 } from './planner-v2.js';
 import { prepareRatioCatalog } from './ratio-dsl.js';
 import { validateIngredientTaxonomy } from './ingredient-taxonomy-validator.js';
 import { validateMealTemplateCatalog } from './meal-template-validator.js';
 import { validateRecipeLibrary } from './recipe-library-validator.js';
+import { validateRecipeRuntimeCatalog } from './recipe-runtime-validator.js';
+import { validateRecipeActionProfileCatalog } from './recipe-action-profile-validator.js';
+import { matchNamedRecipeCandidates } from './recipe-runtime-matcher.js';
+import { materializeNamedPlanFacts } from './recipe-runtime-compiler.js';
 import { matchAllergy } from './allergen-semantics.js';
 import {
   buildDeterministicGeneratedPlan,
@@ -1651,6 +1657,8 @@ const PLANNER_ASSET_PATHS = Object.freeze({
   templates: '/meal-templates.v2.json',
   ratios: '/ratio-rules.v1.json',
   recipes: '/recipe-library.json',
+  recipeRuntime: '/recipe-runtime.v1.json',
+  actionProfiles: '/recipe-action-profiles.v1.json',
 });
 
 function plannerAssetError() {
@@ -1682,20 +1690,246 @@ function validateAndPreparePlannerAssets(source) {
   const templates = source?.templates;
   const ratios = source?.ratios;
   const recipes = source?.recipes;
+  const recipeRuntime = source?.recipeRuntime;
+  const actionProfiles = source?.actionProfiles;
   if (validateIngredientTaxonomy(taxonomy).length
       || validateRecipeLibrary(recipes).length
       || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length
-      || validateDeterministicTextProfiles(templates).length) throw plannerAssetError();
+      || validateDeterministicTextProfiles(templates).length
+      || validateRecipeActionProfileCatalog(actionProfiles).length) throw plannerAssetError();
   const preparedRatios = prepareRatioCatalog(ratios, { taxonomy, templates, recipes });
   if (!preparedRatios.ok) throw plannerAssetError();
-  return deepFreeze({ taxonomy, templates, ratios: preparedRatios.catalog, recipes });
+  if (validateRecipeRuntimeCatalog(recipeRuntime, {
+    taxonomy,
+    templates,
+    ratios: preparedRatios.catalog,
+    recipes,
+    actionProfiles,
+  }).length) throw plannerAssetError();
+  return deepFreeze({
+    taxonomy,
+    templates,
+    ratios: preparedRatios.catalog,
+    recipes,
+    recipeRuntime,
+    actionProfiles,
+  });
+}
+
+function copyNamedCoverage(target, named) {
+  target.normalized_items = structuredClone(named.normalized_items);
+  target.match_trace = [...named.match_trace];
+  for (const field of [
+    'planned_must_use', 'planned_prefer_use', 'unplanned_must_use', 'unused_prefer_use',
+    'coverage_ratio', 'recognition_ratio', 'recognized_coverage_ratio',
+  ]) {
+    target.plan[field] = structuredClone(named[field]);
+  }
+  target.unplanned = structuredClone(named.unplanned_must_use);
+  const pot = target.plan.pots[0];
+  for (const field of ['planned_must_use', 'planned_prefer_use']) {
+    pot[field] = structuredClone(named[field]);
+  }
+}
+
+async function namedPlanCandidates(plannerAssets, normalizedResult, customCandidates) {
+  const matches = matchNamedRecipeCandidates(plannerAssets, normalizedResult);
+  if (!matches.length || !Array.isArray(customCandidates)) return [];
+  const candidates = [];
+  for (const named of matches) {
+    const entry = plannerAssets.recipeRuntime.entries
+      .find(candidate => candidate.recipe_id === named.recipe_id);
+    const recipe = plannerAssets.recipes.recipes
+      .find(candidate => candidate.id === named.recipe_id);
+    if (!entry || !recipe) continue;
+    for (const custom of customCandidates) {
+      if (custom.plan?.pots?.length !== 1
+          || custom.plan.pots[0].template_id !== entry.template_id) continue;
+      const draft = structuredClone(custom);
+      Object.assign(draft, {
+        recipe_runtime_catalog_version: named.recipe_runtime_catalog_version,
+        plan_source: named.plan_source,
+        recipe_id: named.recipe_id,
+        variant_id: named.variant_id,
+        identity_level: named.identity_level,
+        presentation: structuredClone(named.presentation),
+      });
+      copyNamedCoverage(draft, named);
+      try {
+        const materialized = materializeNamedPlanFacts(
+          draft,
+          entry,
+          plannerAssets.ratios,
+          recipe,
+          plannerAssets.actionProfiles,
+        );
+        materialized.plan.plan_id = await computePlanId(materialized);
+        candidates.push(materialized);
+        break;
+      } catch (_error) {
+        // A generic pot may share a template without owning the exact named
+        // ingredients. Only a fully materializable server candidate is eligible.
+      }
+    }
+  }
+  return candidates;
+}
+
+function detachedHybridCandidate(candidate) {
+  const detached = structuredClone(candidate);
+  delete detached.coverage_used;
+  delete detached.coverage_total;
+  return detached;
+}
+
+function hybridStalePlanResponse() {
+  return {
+    status: 'stale_plan',
+    code: 'stale_plan',
+    generation_allowed: false,
+    message: '计划规则或输入已经变化，请重新规划。',
+    actions: [{
+      action: 'replan',
+      label: '重新规划',
+      eligible_items: [],
+      requires_acknowledgement: false,
+      unplanned_items: [],
+    }],
+  };
+}
+
+function hybridNoAlternativeResponse(current) {
+  const retained = structuredClone(current);
+  retained.status = 'no_alternative_plan';
+  retained.code = 'no_alternative_plan';
+  retained.generation_allowed = false;
+  retained.message = '当前组合只有一个可靠的一锅方案';
+  retained.actions = [{
+    action: 'edit_ingredients',
+    label: '返回修改食材',
+    eligible_items: [],
+    requires_acknowledgement: false,
+    unplanned_items: (retained.plan?.unplanned_must_use || [])
+      .map(item => item.canonical || item.raw)
+      .filter(Boolean),
+  }];
+  return retained;
+}
+
+function uniqueHybridMembers(candidates) {
+  const members = [];
+  const ids = new Set();
+  for (const candidate of candidates) {
+    const planId = candidate?.plan?.plan_id;
+    if (!planId || ids.has(planId)) continue;
+    ids.add(planId);
+    members.push(structuredClone(candidate));
+  }
+  return members;
+}
+
+function chooseHybridAlternative(candidates, recentPlanIds) {
+  return selectHybridCandidates(candidates, {
+    limit: 1,
+    recentPlanIds,
+  }).map(detachedHybridCandidate)[0] || null;
+}
+
+async function enumerateAuthoritativeHybridRecommendState(
+  plannerAssets,
+  plannerRequest,
+  { limit = 3 } = {},
+) {
+  const customState = await enumerateAuthoritativeRecommendState(
+    plannerAssets,
+    plannerRequest,
+    { limit },
+  );
+  const named = await namedPlanCandidates(
+    plannerAssets,
+    customState.authoritative,
+    customState.candidates,
+  );
+  const navigationMembers = uniqueHybridMembers([...named, ...customState.candidates]);
+  const displayed = (named.length
+    ? selectHybridCandidates([...named, ...customState.displayed], {
+        limit,
+        recentPlanIds: plannerRequest.recent_plan_ids,
+      })
+    : customState.displayed)
+    .map(detachedHybridCandidate);
+  const initialResponse = displayed.length
+    ? {
+        ...structuredClone(displayed[0]),
+        candidate_plans: displayed.map(candidate => structuredClone(candidate)),
+        preferred_plan_id: displayed[0].plan.plan_id,
+      }
+    : {
+        ...structuredClone(customState.authoritative),
+        candidate_plans: [],
+        preferred_plan_id: null,
+      };
+
+  if (!plannerRequest.current_plan_id) {
+    const generationAuthorizedMembers = displayed.length
+      ? displayed.map(candidate => structuredClone(candidate))
+      : initialResponse.generation_allowed === true && initialResponse.plan?.plan_id
+        ? [structuredClone(initialResponse)]
+        : [];
+    return {
+      response: initialResponse,
+      navigationMembers,
+      generationAuthorizedMembers,
+    };
+  }
+
+  const current = navigationMembers.find(candidate => (
+    candidate.plan?.plan_id === plannerRequest.current_plan_id
+  ));
+  if (!current) {
+    return {
+      response: hybridStalePlanResponse(),
+      navigationMembers,
+      generationAuthorizedMembers: [],
+    };
+  }
+  const displayedAlternatives = displayed.filter(candidate => (
+    candidate.plan?.plan_id !== current.plan.plan_id
+  ));
+  const memberAlternatives = navigationMembers.filter(candidate => (
+    candidate.plan?.plan_id !== current.plan.plan_id
+  ));
+  const alternative = chooseHybridAlternative(displayedAlternatives, plannerRequest.recent_plan_ids)
+    || chooseHybridAlternative(memberAlternatives, plannerRequest.recent_plan_ids);
+  if (!alternative) {
+    const response = hybridNoAlternativeResponse(current);
+    return {
+      response,
+      navigationMembers,
+      generationAuthorizedMembers: [],
+    };
+  }
+  return {
+    response: alternative,
+    navigationMembers,
+    generationAuthorizedMembers: [structuredClone(alternative)],
+  };
+}
+
+async function planInitialRecommendBundle(plannerAssets, plannerRequest, { limit = 3 } = {}) {
+  const state = await enumerateAuthoritativeHybridRecommendState(
+    plannerAssets,
+    plannerRequest,
+    { limit },
+  );
+  return state.response;
 }
 
 export async function getCachedInitialRecommendBundle(
   cacheOwner,
   plannerAssets,
   plannerRequest,
-  compute = planMealCandidateBundle,
+  compute = planInitialRecommendBundle,
 ) {
   const cacheableOwner = cacheOwner
     && (typeof cacheOwner === 'object' || typeof cacheOwner === 'function');
@@ -1750,13 +1984,17 @@ async function getPlannerAssets(env, request) {
   if (PLANNER_ASSET_CACHE.has(assets)) return PLANNER_ASSET_CACHE.get(assets);
   let source;
   try {
-    const [taxonomy, templates, ratios, recipes] = await Promise.all([
+    const [taxonomy, templates, ratios, recipes, recipeRuntime, actionProfiles] = await Promise.all([
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.taxonomy),
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.templates),
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.ratios),
       readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.recipes),
+      readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.recipeRuntime),
+      readPlannerJsonAsset(assets, request, PLANNER_ASSET_PATHS.actionProfiles),
     ]);
-    source = validateAndPreparePlannerAssets({ taxonomy, templates, ratios, recipes });
+    source = validateAndPreparePlannerAssets({
+      taxonomy, templates, ratios, recipes, recipeRuntime, actionProfiles,
+    });
   } catch (_error) {
     throw plannerAssetError();
   }
@@ -2846,16 +3084,23 @@ async function handlePlanMeal(request, env) {
     return errorResponse('planner_assets_unavailable', '规划规则暂时不可用', 503, env, {}, request);
   }
   try {
-    const isInitialRecommend = plannerRequest.mode === 'recommend'
-      && !plannerRequest.current_plan_id
+    const isHybridRecommend = plannerRequest.mode === 'recommend'
       && !plannerRequest.decision;
-    const planned = isInitialRecommend
-      ? await getCachedInitialRecommendBundle(
+    let planned;
+    if (isHybridRecommend && !plannerRequest.current_plan_id) {
+      planned = await getCachedInitialRecommendBundle(
         env?.ASSETS,
         plannerAssets,
         plannerRequest,
-      )
-      : await planMealWithIdentity(plannerAssets, plannerRequest);
+      );
+    } else if (isHybridRecommend) {
+      planned = (await enumerateAuthoritativeHybridRecommendState(
+        plannerAssets,
+        plannerRequest,
+      )).response;
+    } else {
+      planned = await planMealWithIdentity(plannerAssets, plannerRequest);
+    }
     return jsonResponse(planned, 200, env, request);
   } catch (error) {
     if (error?.code === 'invalid_planner_request') {
@@ -2957,24 +3202,20 @@ async function handleGeneratePlan(request, env) {
   }
   let recomputed;
   try {
-    const isInitialRecommend = plannerRequest.mode === 'recommend'
-      && !plannerRequest.current_plan_id
+    const isHybridRecommend = plannerRequest.mode === 'recommend'
       && !plannerRequest.decision;
-    if (isInitialRecommend) {
-      const bundle = await getCachedInitialRecommendBundle(
-        env?.ASSETS,
+    if (isHybridRecommend) {
+      const state = await enumerateAuthoritativeHybridRecommendState(
         plannerAssets,
         plannerRequest,
       );
-      recomputed = bundle.candidate_plans?.find(candidate => (
+      recomputed = state.generationAuthorizedMembers.find(candidate => (
         candidate.plan?.plan_id === parsed.plan_id
       )) || null;
       if (!recomputed
-          && !bundle.candidate_plans?.length
-          && bundle.plan?.plan_id === parsed.plan_id) {
-        recomputed = structuredClone(bundle);
-        delete recomputed.candidate_plans;
-        delete recomputed.preferred_plan_id;
+          && state.response.generation_allowed !== true
+          && state.response.plan?.plan_id === parsed.plan_id) {
+        recomputed = structuredClone(state.response);
       }
     } else {
       recomputed = await resolveAuthoritativePlanById(
@@ -3001,7 +3242,14 @@ async function handleGeneratePlan(request, env) {
   }
   let lockedPlan;
   try {
-    lockedPlan = buildLockedPlanContract(recomputed, plannerAssets.templates);
+    lockedPlan = buildLockedPlanContract(
+      recomputed,
+      plannerAssets.templates,
+      plannerAssets.recipeRuntime,
+      plannerAssets.ratios,
+      plannerAssets.recipes,
+      plannerAssets.actionProfiles,
+    );
   } catch (error) {
     console.error('locked plan contract failed', String(error?.message || 'contract_error').slice(0, 80));
     return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
@@ -3135,6 +3383,13 @@ export default {
       let ratioRulesVersion = null;
       let activeTemplates = 0;
       let plannedTemplates = 0;
+      let recipeRuntime = 'unavailable';
+      let recipeRuntimeCatalogVersion = null;
+      let recipeRuntimeEntries = 0;
+      let recipeRuntimePreviewEnabled = 0;
+      let actionProfiles = 'unavailable';
+      let actionProfileCatalogVersion = null;
+      let actionProfileCount = 0;
       try {
         const assets = await getPlannerAssets(env, request);
         recipeFamilies = Array.isArray(assets.recipes.families) ? assets.recipes.families.length : 0;
@@ -3150,6 +3405,15 @@ export default {
         plannedTemplates = assets.templates.templates.filter(template => (
           template.activation_status === 'planned' && template.runtime_eligible === false
         )).length;
+        recipeRuntime = 'ok';
+        recipeRuntimeCatalogVersion = assets.recipeRuntime.recipe_runtime_catalog_version;
+        recipeRuntimeEntries = assets.recipeRuntime.entries.length;
+        recipeRuntimePreviewEnabled = assets.recipeRuntime.entries.filter(entry => (
+          entry.activation_status === 'preview_enabled'
+        )).length;
+        actionProfiles = 'ok';
+        actionProfileCatalogVersion = assets.actionProfiles.action_profile_catalog_version;
+        actionProfileCount = assets.actionProfiles.profiles.length;
       } catch (_err) {
         plannerAssets = 'unavailable';
         try {
@@ -3181,6 +3445,13 @@ export default {
         ratioRulesVersion,
         activeTemplates,
         plannedTemplates,
+        recipeRuntime,
+        recipeRuntimeCatalogVersion,
+        recipeRuntimeEntries,
+        recipeRuntimePreviewEnabled,
+        actionProfiles,
+        actionProfileCatalogVersion,
+        actionProfileCount,
       }, 200, env, request);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {

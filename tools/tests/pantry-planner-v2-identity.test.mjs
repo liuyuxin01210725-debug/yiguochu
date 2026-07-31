@@ -13,6 +13,11 @@ const assets = Object.freeze({
   ratios: readJson('ratio-rules.v1.json'),
   recipes: readJson('recipe-library.json'),
 });
+const assetsWithProductionRuntime = Object.freeze({
+  ...assets,
+  recipeRuntime: readJson('recipe-runtime.v1.json'),
+  actionProfiles: readJson('recipe-action-profiles.v1.json'),
+});
 
 function request({
   mode = 'pantry', intent = 'normal', must = [], prefer = [], dislikes = [], servings = 2,
@@ -131,6 +136,32 @@ test('custom plan identity keeps the pre-runtime canonical payload and plan ID w
   assert.equal(await planner.computePlanId(lockedPlan), expectedLegacyId);
 });
 
+test('loading the production runtime closure does not migrate a custom canonical payload or plan ID', async () => {
+  const plannerRequest = request({
+    mode: 'recommend',
+    prefer: ['虾仁', '玉米'],
+  });
+  const legacy = await planner.planMealWithIdentity(assets, plannerRequest);
+  const runtimeLoaded = await planner.planMealWithIdentity(assetsWithProductionRuntime, plannerRequest);
+
+  assert.equal(legacy.plan_source, 'custom_template');
+  assert.equal(runtimeLoaded.plan_source, 'custom_template');
+  assert.equal(runtimeLoaded.recipe_runtime_catalog_version, null);
+  assert.equal(
+    planner.stableCanonicalJson(planner.canonicalPlanIdentityPayload(runtimeLoaded)),
+    planner.stableCanonicalJson(planner.canonicalPlanIdentityPayload(legacy)),
+  );
+  assert.equal(runtimeLoaded.plan.plan_id, legacy.plan.plan_id);
+  const customWithUnrelatedRuntime = structuredClone(legacy);
+  customWithUnrelatedRuntime.recipe_runtime_catalog_version = 'recipe-runtime-unrelated-v99';
+  assert.equal(
+    planner.stableCanonicalJson(planner.canonicalPlanIdentityPayload(customWithUnrelatedRuntime)),
+    planner.stableCanonicalJson(planner.canonicalPlanIdentityPayload(legacy)),
+  );
+  assert.equal(await planner.computePlanId(customWithUnrelatedRuntime), legacy.plan.plan_id);
+  assert.equal(Object.hasOwn(runtimeLoaded.plan.pots[0], 'execution_contract'), false);
+});
+
 test('plan IDs use exact unpadded Web-Crypto SHA-256 base64url form without Buffer dependency', async () => {
   expectIdentityApi();
   const originalBuffer = globalThis.Buffer;
@@ -150,7 +181,6 @@ test('every declared identity fact changes the plan ID', async t => {
   const changes = {
     planner_version: plan => { plan.planner_version = 'pantry-planner-v3'; },
     template_catalog_version: plan => { plan.template_catalog_version = 'templates-v2-next'; },
-    recipe_runtime_catalog_version: plan => { plan.recipe_runtime_catalog_version = 'recipe-runtime-test-v2'; },
     plan_source: plan => { plan.plan_source = 'named_recipe'; },
     recipe_id: plan => { plan.recipe_id = 'shanghai-salted-pork-vegetable-rice'; },
     variant_id: plan => { plan.variant_id = 'greens-choy-sum'; },
@@ -200,6 +230,10 @@ test('recipe identity changes plan ID while presentation and match trace remain 
   sameFacts.presentation.title = '只改显示文案';
   sameFacts.match_trace.reverse();
   assert.equal(await planner.computePlanId(canonical), await planner.computePlanId(sameFacts));
+
+  const changedRuntime = structuredClone(canonical);
+  changedRuntime.recipe_runtime_catalog_version = 'recipe-runtime-test-v2';
+  assert.notEqual(await planner.computePlanId(canonical), await planner.computePlanId(changedRuntime));
 
   const variant = structuredClone(canonical);
   variant.plan_source = 'recipe_variant';

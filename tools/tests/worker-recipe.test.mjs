@@ -31,6 +31,8 @@ const HEALTH_ASSETS = Object.freeze({
   '/ingredient-taxonomy.v1.json': fs.readFileSync(new URL('../data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'),
   '/meal-templates.v2.json': fs.readFileSync(new URL('../data/meal-templates.v2.json', import.meta.url), 'utf8'),
   '/ratio-rules.v1.json': fs.readFileSync(new URL('../data/ratio-rules.v1.json', import.meta.url), 'utf8'),
+  '/recipe-runtime.v1.json': fs.readFileSync(new URL('../data/recipe-runtime.v1.json', import.meta.url), 'utf8'),
+  '/recipe-action-profiles.v1.json': fs.readFileSync(new URL('../data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'),
 });
 
 test('a chosen pantry card locks optional main ingredients to the items declared on that card', () => {
@@ -3992,8 +3994,8 @@ test('health cache is isolated per assets binding in one module instance', async
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);
-  assert.equal(okFetches, 5);
-  assert.equal(missingFetches, 6);
+  assert.equal(okFetches, 7);
+  assert.equal(missingFetches, 8);
 });
 
 test('health reuses planner assets while refreshing build metadata for the same binding', async () => {
@@ -4016,9 +4018,11 @@ test('health reuses planner assets while refreshing build metadata for the same 
     'https://one.example/meal-templates.v2.json',
     'https://one.example/ratio-rules.v1.json',
     'https://one.example/recipe-library.json',
+    'https://one.example/recipe-runtime.v1.json',
+    'https://one.example/recipe-action-profiles.v1.json',
     'https://two.example/build-meta.json',
   ]));
-  assert.equal(requests.length, 6);
+  assert.equal(requests.length, 8);
 });
 
 test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {
