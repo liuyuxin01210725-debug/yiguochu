@@ -17,6 +17,7 @@ import {
   planMealWithIdentity,
   rankPotCandidates,
   recentPlanPenalty,
+  selectHybridCandidates,
 } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -63,6 +64,209 @@ const context = (normalizedItems, overrides = {}) => {
   };
 };
 
+function hybridCandidate({
+  source = 'custom_template', identity = 'custom', recipeId = null, variantId = null,
+  templateId = 'savory-mixed-rice-pot', used = ['大米'], total = 1,
+  extras = [], technique = ['braise'], title = '候选', slotAssignment = null,
+  intentFit = true, timeMinutes = 30, stepCount = 4, planId = null,
+} = {}) {
+  const normalized = Array.from({ length: total }, (_, index) => ({
+    raw: used[index] || `食材${index + 1}`,
+    canonical: used[index] || `食材${index + 1}`,
+    canonical_id: used[index] ? `used-${index + 1}` : `item-${index + 1}`,
+    recognized: true,
+    role: 'prefer_use',
+    duplicate_of: null,
+  }));
+  const planned = normalized.slice(0, used.length).map(item => structuredClone(item));
+  return {
+    plan_source: source,
+    recipe_id: recipeId,
+    variant_id: variantId,
+    identity_level: identity,
+    presentation: { title },
+    match_trace: ['ignored-for-diversity'],
+    normalized_items: normalized,
+    planned_prefer_use: planned,
+    unused_prefer_use: normalized.slice(planned.length),
+    required_extra_items: extras,
+    intent_fit: intentFit,
+    time_minutes: timeMinutes,
+    step_count: stepCount,
+    plan_id: planId,
+    coverage_ratio: total ? planned.length / total : 0,
+    template_id: templateId,
+    technique_signature: technique,
+    slot_assignment: slotAssignment || { main: planned },
+  };
+}
+
+test('hybrid A-order puts a floor-qualified named 3/4 before custom 4/4 and preserves exact counts', () => {
+  const named = hybridCandidate({
+    source: 'named_recipe', identity: 'canonical', recipeId: 'shanghai', used: ['大米', '咸肉', '小白菜'], total: 4,
+  });
+  const custom = hybridCandidate({ used: ['大米', '咸肉', '小白菜', '香菇'], total: 4, templateId: 'custom-rice' });
+  const selected = selectHybridCandidates([custom, named], { limit: 3 });
+  assert.deepEqual(selected.map(candidate => candidate.plan_source), ['named_recipe', 'custom_template']);
+  assert.deepEqual(selected.map(candidate => [candidate.coverage_used, candidate.coverage_total]), [[3, 4], [4, 4]]);
+});
+
+test('hybrid hard floor removes named 1/2 before identity ranking', () => {
+  const named = hybridCandidate({ source: 'named_recipe', identity: 'canonical', recipeId: 'named', used: ['大米'], total: 2 });
+  const custom = hybridCandidate({ used: ['大米', '番茄'], total: 2 });
+  const selected = selectHybridCandidates([named, custom]);
+  assert.deepEqual(selected.map(candidate => candidate.plan_source), ['custom_template']);
+});
+
+test('hybrid identity order is canonical then approved variant then adaptation then custom', () => {
+  const candidates = [
+    hybridCandidate({ identity: 'custom', used: ['1', '2', '3', '4'], total: 4 }),
+    hybridCandidate({ source: 'recipe_variant', identity: 'style_adaptation', recipeId: 'a', variantId: 'style', used: ['1', '2', '3'], total: 4 }),
+    hybridCandidate({ source: 'recipe_variant', identity: 'approved_variant', recipeId: 'a', variantId: 'variant', used: ['1', '2', '3'], total: 4 }),
+    hybridCandidate({ source: 'named_recipe', identity: 'canonical', recipeId: 'a', used: ['1', '2', '3'], total: 4 }),
+  ];
+  assert.deepEqual(
+    selectHybridCandidates(candidates, { limit: 9 }).map(candidate => candidate.identity_level),
+    ['canonical', 'approved_variant', 'style_adaptation'],
+  );
+  assert.equal(selectHybridCandidates([candidates[0]])[0].identity_level, 'custom');
+});
+
+test('hybrid coverage ignores planned items that are not members of submitted normalized input', () => {
+  const forged = hybridCandidate({
+    source: 'named_recipe', identity: 'canonical', recipeId: 'forged', used: ['大米', '咸肉', '小白菜'], total: 4,
+  });
+  forged.planned_prefer_use[2] = {
+    raw: '外部虾仁', canonical: '虾仁', canonical_id: 'outside-shrimp', recognized: true, role: 'prefer_use', duplicate_of: null,
+  };
+  assert.deepEqual(selectHybridCandidates([forged]), []);
+});
+
+test('hybrid arbitration rejects inconsistent source and identity tuples', () => {
+  const invalid = [
+    hybridCandidate({ source: 'custom_template', identity: 'canonical', recipeId: 'forged' }),
+    hybridCandidate({ source: 'named_recipe', identity: 'custom', recipeId: 'forged' }),
+    hybridCandidate({ source: 'named_recipe', identity: 'canonical', recipeId: null }),
+    hybridCandidate({ source: 'recipe_variant', identity: 'canonical', recipeId: 'forged', variantId: 'v1' }),
+    hybridCandidate({ source: 'recipe_variant', identity: 'approved_variant', recipeId: 'forged', variantId: null }),
+  ];
+  assert.deepEqual(selectHybridCandidates(invalid), []);
+});
+
+test('hybrid diversity collapses prose-only duplicates but preserves structural recipe, variant, template and used-set changes', () => {
+  const canonical = hybridCandidate({ source:'named_recipe', identity:'canonical', recipeId:'shanghai', used:['rice','pork','greens'], total:4, title:'上海菜饭' });
+  const proseDuplicate = structuredClone(canonical);
+  proseDuplicate.presentation.title = '上海菜饭。';
+  proseDuplicate.match_trace.reverse();
+  const variant = hybridCandidate({ source:'recipe_variant', identity:'approved_variant', recipeId:'shanghai', variantId:'greens-choy-sum', used:['rice','pork','choy-sum'], total:4 });
+  const customSameStructure = hybridCandidate({ source:'custom_template', identity:'custom', templateId:'savory-mixed-rice-pot', used:['rice','pork','greens'], total:4 });
+  const customOtherTemplate = hybridCandidate({
+    source:'custom_template', identity:'custom', templateId:'broth-rice-pot', used:['rice','pork','greens'], total:4,
+    slotAssignment: {
+      staple: [{ raw:'rice', canonical:'rice', canonical_id:'used-1', recognized:true, role:'prefer_use', duplicate_of:null }],
+      topping: [
+        { raw:'pork', canonical:'pork', canonical_id:'used-2', recognized:true, role:'prefer_use', duplicate_of:null },
+        { raw:'greens', canonical:'greens', canonical_id:'used-3', recognized:true, role:'prefer_use', duplicate_of:null },
+      ],
+    },
+  });
+  const customOtherTemplateDuplicate = structuredClone(customOtherTemplate);
+  customOtherTemplateDuplicate.slot_assignment = {
+    topping: [...customOtherTemplateDuplicate.slot_assignment.topping].reverse(),
+    staple: customOtherTemplateDuplicate.slot_assignment.staple,
+  };
+
+  const selected = selectHybridCandidates([
+    proseDuplicate, customOtherTemplateDuplicate, canonical, variant, customSameStructure, customOtherTemplate,
+  ], { limit: 6 });
+  assert.equal(selected.filter(candidate => candidate.recipe_id === 'shanghai' && candidate.variant_id == null).length, 1);
+  assert.ok(selected.some(candidate => candidate.variant_id === 'greens-choy-sum'));
+  assert.equal(selectHybridCandidates([customOtherTemplateDuplicate, customOtherTemplate]).length, 1);
+  assert.deepEqual(
+    selectHybridCandidates([canonical, customSameStructure]).map(candidate => candidate.plan_source),
+    ['named_recipe', 'custom_template'],
+  );
+});
+
+test('hybrid custom diversity keeps real slot, used-set, template and technique differences', () => {
+  const base = hybridCandidate({ used:['rice','pork','greens'], total:4, technique:['braise'] });
+  const differentSlot = structuredClone(base);
+  differentSlot.slot_assignment = { other: structuredClone(base.slot_assignment.main) };
+  const differentTechnique = structuredClone(base);
+  differentTechnique.technique_signature = ['steam'];
+  const differentUsedSet = hybridCandidate({ used:['rice','pork','tomato'], total:4, technique:['braise'] });
+  const differentTemplate = hybridCandidate({ used:['rice','pork','greens'], total:4, templateId:'broth-rice-pot', technique:['braise'] });
+  assert.equal(selectHybridCandidates(
+    [base, differentSlot, differentTechnique, differentUsedSet, differentTemplate],
+    { limit: 3 },
+  ).length, 3);
+});
+
+test('hybrid arbitration applies intent, burden and recent history only after identity, coverage and extras', () => {
+  const noMajorExtra = hybridCandidate({
+    recipeId:'no-extra', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    intentFit:false, timeMinutes:60, stepCount:10,
+  });
+  const majorExtra = hybridCandidate({
+    recipeId:'major-extra', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    extras:[{ name:'另买鸡肉', category:'protein' }], intentFit:true, timeMinutes:15, stepCount:2,
+  });
+  assert.equal(selectHybridCandidates([majorExtra, noMajorExtra])[0].recipe_id, 'no-extra');
+
+  const poorIntent = hybridCandidate({
+    recipeId:'a', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    intentFit:false, timeMinutes:20, stepCount:2, planId:'plan-poor-intent',
+  });
+  const goodIntentHeavy = hybridCandidate({
+    recipeId:'b', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    intentFit:true, timeMinutes:40, stepCount:7, planId:'plan-good-heavy',
+  });
+  const goodIntentLightRecent = hybridCandidate({
+    recipeId:'c', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    intentFit:true, timeMinutes:25, stepCount:4, planId:'plan-good-light-recent',
+  });
+  const goodIntentLightFresh = hybridCandidate({
+    recipeId:'d', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    intentFit:true, timeMinutes:25, stepCount:4, planId:'plan-good-light-fresh',
+  });
+  assert.deepEqual(
+    selectHybridCandidates(
+      [poorIntent, goodIntentHeavy, goodIntentLightRecent, goodIntentLightFresh],
+      { limit:3, recentPlanIds:['plan-good-light-recent'] },
+    ).map(candidate => candidate.recipe_id),
+    ['d', 'c', 'b'],
+  );
+
+  const strongerRecent = hybridCandidate({
+    recipeId:'strong', source:'named_recipe', identity:'canonical', used:['1','2','3','4'], total:4,
+    intentFit:false, timeMinutes:60, stepCount:10, planId:'strong-recent',
+  });
+  const weakerFresh = hybridCandidate({
+    recipeId:'weak', source:'recipe_variant', identity:'approved_variant', variantId:'v1', used:['1','2','3'], total:4,
+    intentFit:true, timeMinutes:15, stepCount:2, planId:'weak-fresh',
+  });
+  assert.equal(
+    selectHybridCandidates([weakerFresh, strongerRecent], { recentPlanIds:['strong-recent'] })[0].recipe_id,
+    'strong',
+  );
+});
+
+test('hybrid recent history is a binary soft demotion and never exhausts all candidates', () => {
+  const first = hybridCandidate({
+    recipeId:'a', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    planId:'recent-a',
+  });
+  const second = hybridCandidate({
+    recipeId:'b', source:'named_recipe', identity:'canonical', used:['1','2','3'], total:4,
+    planId:'recent-b',
+  });
+  const selected = selectHybridCandidates([second, first], {
+    recentPlanIds:['recent-a', 'recent-b'],
+  });
+  assert.equal(selected.length, 2);
+  assert.deepEqual(selected.map(candidate => candidate.recipe_id), ['a', 'b']);
+});
+
 test('every public common-pantry chip has a real direct-recommend candidate that uses it', async () => {
   const declaration = frontendHtml.match(/const COMMON_PANTRY = \[([^\]]+)\];/u);
   assert.ok(declaration);
@@ -76,6 +280,19 @@ test('every public common-pantry chip has a real direct-recommend candidate that
         candidate.plan.planned_prefer_use.some(item => item.raw === raw)),
       raw,
     );
+  }
+});
+
+test('existing planner candidates carry an explicit custom identity contract', async () => {
+  const bundle = await planMealCandidateBundle(assets, request({
+    mode: 'recommend', prefer: ['番茄', '鸡蛋'],
+  }));
+  assert.ok(bundle.candidate_plans.length > 0);
+  for (const candidate of bundle.candidate_plans) {
+    assert.equal(candidate.plan_source, 'custom_template');
+    assert.equal(candidate.recipe_id, null);
+    assert.equal(candidate.variant_id, null);
+    assert.equal(candidate.identity_level, 'custom');
   }
 });
 
@@ -124,7 +341,7 @@ test('recommend chooses a coherent non-empty subset and explains every unused in
 
 test('recommend coverage thresholds always round 60 percent upward', () => {
   const cases = new Map([
-    [0, 0], [1, 1], [2, 2], [3, 2], [4, 3], [5, 3],
+    [0, 0], [1, 1], [2, 2], [3, 2], [4, 3], [5, 4],
     [6, 4], [7, 5], [8, 5], [9, 6], [20, 12],
   ]);
   for (const [submitted, expected] of cases) {
@@ -152,7 +369,7 @@ test('recommend candidate eligibility applies the submitted-item coverage floor'
   }));
   assert.ok(candidates.some(candidate => candidate.planned_prefer_use.length === 3));
   for (const candidate of candidates) {
-    assert.equal(candidate.single_pot_eligible, candidate.planned_prefer_use.length >= 3);
+    assert.equal(candidate.single_pot_eligible, candidate.planned_prefer_use.length >= 4);
   }
 
   const seven = buildPotCandidates(assets, request({
@@ -375,6 +592,32 @@ test('generic beef accepts tenderloin while preserving the raw cut and rejects b
     assert.equal(rejected.ok, false, raw);
     assert.equal(rejected.rejection_reason.reason_code, 'unsupported_shape_or_cut', raw);
   }
+});
+
+test('semantic de-duplication keeps different canonical parts and shapes but collapses true aliases', () => {
+  const distinctParts = normalizePlannerItems([
+    { raw:'牛肉片', role:'prefer_use' },
+    { raw:'牛里脊', role:'prefer_use' },
+    { raw:'熟米饭', role:'prefer_use' },
+  ], assets.taxonomy);
+  assert.equal(distinctParts.filter(item => item.duplicate_of == null).length, 3);
+  assert.notEqual(distinctParts[0].canonical_id, distinctParts[1].canonical_id);
+  assert.notEqual(distinctParts[0].shape_or_cut, distinctParts[1].shape_or_cut);
+
+  const tenderloinAliases = normalizePlannerItems([
+    { raw:'牛里脊肉', role:'prefer_use' },
+    { raw:'牛柳', role:'must_use' },
+  ], assets.taxonomy);
+  assert.equal(tenderloinAliases.filter(item => item.duplicate_of == null).length, 1);
+  assert.equal(tenderloinAliases.find(item => item.duplicate_of == null).raw, '牛柳');
+  assert.equal(tenderloinAliases.find(item => item.raw === '牛里脊肉').duplicate_of, '牛柳');
+
+  const tofuAliases = normalizePlannerItems([
+    { raw:'豆腐', role:'prefer_use' },
+    { raw:'老豆腐', role:'must_use' },
+  ], assets.taxonomy);
+  assert.equal(tofuAliases.filter(item => item.duplicate_of == null).length, 1);
+  assert.equal(tofuAliases.find(item => item.duplicate_of == null).raw, '老豆腐');
 });
 
 test('豆腐 and 老豆腐 share one canonical identity that is used once and never also shown unused', () => {

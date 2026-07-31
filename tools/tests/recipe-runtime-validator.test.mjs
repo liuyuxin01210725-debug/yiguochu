@@ -116,6 +116,19 @@ function completeSyntheticNorthChinaPreview() {
   return preview;
 }
 
+function legalChoySumVariant() {
+  return {
+    variant_id: 'greens-choy-sum',
+    identity_impact: 'named_variant',
+    naming: { display_name: '上海奉贤咸肉菜饭（菜心版）' },
+    substitutions: [{
+      slot_id: 'fast_vegetable',
+      replaces_canonical_ids: ['small-bok-choy'],
+      allowed_canonical_ids: ['choy-sum'],
+    }],
+  };
+}
+
 test('a fully coherent synthetic preview fixture satisfies every runtime relationship', () => {
   assert.deepEqual(validateRecipeRuntimeCatalog(completeSyntheticPreview(), context), []);
 });
@@ -194,6 +207,129 @@ test('validator rejects schema bypasses, unknown recipes and free-text substitut
   for (const expected of ['catalog unknown key', 'unknown recipe_id', 'naming unknown key', 'approved_variants[0] must be an object']) {
     assert.ok(errors.some(error => error.includes(expected)), expected);
   }
+});
+
+test('approved variants are bound to one assigned identity slot and a pre-reviewed display name', () => {
+  const invalid = completeSyntheticPreview();
+  invalid.entries[0].approved_variants = [{
+    variant_id: 'cross-slot-bypass',
+    identity_impact: 'named_variant',
+    substitutions: [{
+      slot_id: 'protein',
+      replaces_canonical_ids: ['small-bok-choy'],
+      allowed_canonical_ids: ['beef-brisket'],
+    }],
+  }];
+
+  const errors = validateRecipeRuntimeCatalog(invalid, context).join('\n');
+  assert.match(errors, /naming.*display_name/u);
+  assert.match(errors, /small-bok-choy.*not assigned to slot protein/u);
+  assert.match(errors, /beef-brisket.*incompatible with template slot protein/u);
+});
+
+test('approved variants cannot replace a non-identity ingredient or reuse an unrestricted allowed identity', () => {
+  const invalid = completeSyntheticPreview();
+  invalid.entries[0].approved_variants = [{
+    variant_id: 'non-identity-bypass',
+    identity_impact: 'named_variant',
+    naming: { display_name: '非法变体' },
+    substitutions: [{
+      slot_id: 'fast_vegetable',
+      replaces_canonical_ids: ['tomato'],
+      allowed_canonical_ids: ['choy-sum'],
+    }],
+  }];
+
+  const errors = validateRecipeRuntimeCatalog(invalid, context).join('\n');
+  assert.match(errors, /tomato.*must be a required recipe identity/u);
+});
+
+test('preview variants fail closed until executable quantity transfer exists', () => {
+  const invalid = completeSyntheticPreview();
+  invalid.entries[0].approved_variants = [legalChoySumVariant()];
+  assert.match(
+    validateRecipeRuntimeCatalog(invalid, context).join('\n'),
+    /preview variants require executable substitution quantity transfer/u,
+  );
+});
+
+test('variant slot must exist and own the replaced identity', () => {
+  const unknownSlot = completeSyntheticPreview();
+  unknownSlot.entries[0].approved_variants = [legalChoySumVariant()];
+  unknownSlot.entries[0].approved_variants[0].substitutions[0].slot_id = 'invented';
+  assert.match(validateRecipeRuntimeCatalog(unknownSlot, context).join('\n'), /slot_id must reference a template slot/u);
+
+  const wrongSlot = completeSyntheticPreview();
+  wrongSlot.entries[0].approved_variants = [legalChoySumVariant()];
+  wrongSlot.entries[0].approved_variants[0].substitutions[0].slot_id = 'protein';
+  assert.match(validateRecipeRuntimeCatalog(wrongSlot, context).join('\n'), /small-bok-choy.*not assigned to slot protein/u);
+});
+
+test('variant cannot add a new cooking risk without an exact safety endpoint', () => {
+  const invalid = completeSyntheticPreview();
+  invalid.entries[0].approved_variants = [legalChoySumVariant()];
+  invalid.entries[0].approved_variants[0].substitutions[0].allowed_canonical_ids = ['chicken-leg'];
+  assert.match(validateRecipeRuntimeCatalog(invalid, context).join('\n'), /chicken-leg.*safety endpoint/u);
+});
+
+test('variant cannot replace a canonical identity used by the recipe ratio default', () => {
+  const invalid = completeSyntheticPreview();
+  invalid.entries[0].approved_variants = [legalChoySumVariant()];
+  invalid.entries[0].approved_variants[0].substitutions[0] = {
+    slot_id: 'staple',
+    replaces_canonical_ids: ['raw-rice'],
+    allowed_canonical_ids: ['raw-millet'],
+  };
+  const ratioContext = structuredClone(context);
+  ratioContext.ratios.rules.find(rule => rule.rule_id === 'synthetic-shanghai-recipe-executable-v1').operations = [{
+    operator: 'fixed_quantity',
+    target: { canonical_id: 'raw-rice' },
+  }];
+  assert.match(validateRecipeRuntimeCatalog(invalid, ratioContext).join('\n'), /raw-rice.*ratio default/u);
+});
+
+test('variant cannot replace an identity-critical shape or cut with another part', () => {
+  const invalid = completeSyntheticPreview();
+  const entry = invalid.entries[0];
+  entry.identity_signature.required_canonical_ids = ['raw-rice', 'beef-brisket', 'small-bok-choy'];
+  entry.identity_signature.required_states_or_cuts = [{ canonical_id: 'beef-brisket', value: 'brisket' }];
+  entry.slot_assignment.protein = ['beef-brisket'];
+  entry.safety_endpoints = [{ endpoint_code: 'beef_fully_cooked', canonical_ids: ['beef-brisket'] }];
+  entry.approved_variants = [{
+    variant_id: 'brisket-to-tenderloin',
+    identity_impact: 'preserves_identity',
+    naming: { display_name: '非法牛肉部位变体' },
+    substitutions: [{
+      slot_id: 'protein',
+      replaces_canonical_ids: ['beef-brisket'],
+      allowed_canonical_ids: ['beef-tenderloin'],
+    }],
+  }];
+  assert.match(validateRecipeRuntimeCatalog(invalid, context).join('\n'), /beef-tenderloin.*required state or cut brisket/u);
+});
+
+test('variant ids are unique and one identity cannot be replaced twice', () => {
+  const duplicateIds = completeSyntheticPreview();
+  duplicateIds.entries[0].approved_variants = [legalChoySumVariant(), legalChoySumVariant()];
+  assert.match(validateRecipeRuntimeCatalog(duplicateIds, context).join('\n'), /duplicate variant_id greens-choy-sum/u);
+
+  const conflicting = completeSyntheticPreview();
+  const variant = legalChoySumVariant();
+  variant.substitutions.push({
+    slot_id: 'fast_vegetable',
+    replaces_canonical_ids: ['small-bok-choy'],
+    allowed_canonical_ids: ['leafy-greens'],
+  });
+  conflicting.entries[0].approved_variants = [variant];
+  assert.match(validateRecipeRuntimeCatalog(conflicting, context).join('\n'), /small-bok-choy.*replaced more than once/u);
+});
+
+test('variant cannot be a naming-only duplicate with no structural substitution', () => {
+  const invalid = completeSyntheticPreview();
+  const variant = legalChoySumVariant();
+  variant.substitutions = [];
+  invalid.entries[0].approved_variants = [variant];
+  assert.match(validateRecipeRuntimeCatalog(invalid, context).join('\n'), /substitutions must not be empty/u);
 });
 
 test('preview activation rejects every missing or malformed executable binding', () => {

@@ -121,12 +121,12 @@
 | `acid-staple-pot` | 9 | 3 |
 | `savory-mixed-rice-pot` | 31 | 5 |
 | `cooked-rice-stir-pot` | 8 | 0 |
-| `broth-noodle-pot` | 1 | 0 |
+| `broth-noodle-pot` | 0 | 0 |
 | `egg-tofu-vegetable-pot` | 1 | 1 |
 | `mushroom-vegetable-stew-pot` | 0 | 0 |
 | `beef-staple-pot` | 2 | 1 |
 | `poultry-staple-pot` | 0 | 0 |
-| `broth-rice-pot` | 6 | 1 |
+| `broth-rice-pot` | 7 | 2 |
 | `braised-noodle-pot` | 4 | 2 |
 | `soft-family-rice-pot` | 2 | 1 |
 
@@ -225,7 +225,7 @@
 | 香菇青菜豆腐饭锅 | 大米、鲜香菇、老豆腐、青菜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 鸡腿土豆焖饭 | 大米、鸡腿肉、土豆 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 鸡腿香菇土豆烩饭 | 熟米饭、鸡腿肉、鲜香菇 | 100% | 100% | 100% | single_pot / complete | cooked-rice-stir-pot | 仅食材兼容或未规划 | P3 |
-| 番茄鸡腿土豆汤饭 | 熟米饭、鸡腿肉、番茄 | 100% | 100% | 100% | multi_pot / complete | acid-staple-pot、broth-noodle-pot | 仅食材兼容或未规划 | P2 |
+| 番茄鸡腿土豆汤饭 | 熟米饭、鸡腿肉、番茄 | 100% | 100% | 100% | multi_pot / complete | broth-rice-pot、acid-staple-pot | 直接对齐 | P2 |
 | 玉米土豆鸡腿饭锅 | 大米、鸡腿肉、玉米、胡萝卜 | 100% | 100% | 100% | multi_pot / complete | savory-mixed-rice-pot、savory-mixed-rice-pot | 仅食材兼容或未规划 | P2 |
 | 白菜土豆鸡腿焖面 | 面条、鸡腿肉、白菜、土豆 | 100% | 100% | 100% | single_pot / complete | braised-noodle-pot | 直接对齐 | covered |
 | 青菜香肠炒饭 | 熟米饭、青菜、香肠 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |

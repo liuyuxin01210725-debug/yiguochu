@@ -5,6 +5,9 @@ import {
 } from './ratio-dsl.js';
 import { resolveBasicExtraIdentity, taxonomyIdentityIndex } from './taxonomy-identity.js';
 import { matchAllergy } from './allergen-semantics.js';
+import { minimumRecommendCoverageCount } from './planner-coverage.js';
+
+export { minimumRecommendCoverageCount } from './planner-coverage.js';
 
 export const PLANNER_SCHEMA_VERSION = 2;
 export const PLANNER_VERSION = 'pantry-planner-v2';
@@ -191,6 +194,25 @@ function taxonomyShapeForInput(item, raw) {
   return item.shapes_or_cuts?.length === 1 ? item.shapes_or_cuts[0] : null;
 }
 
+function controlledIngredientIdentity(canonicalId, state, shapeOrCut) {
+  return `ingredient:${canonicalId}\u0000${state || ''}\u0000${shapeOrCut || ''}`;
+}
+
+function plannerSemanticIdentity(entry) {
+  if (entry.item) {
+    const state = entry.item.states?.length === 1 ? entry.item.states[0] : null;
+    const shapeOrCut = taxonomyShapeForInput(entry.item, entry.raw);
+    return controlledIngredientIdentity(entry.item.canonical_id, state, shapeOrCut);
+  }
+  return entry.ambiguity ? `ambiguity:${entry.ambiguity.ambiguity_id}` : null;
+}
+
+function plannerItemSemanticKey(item = {}) {
+  if (item.canonical_id) return controlledIngredientIdentity(item.canonical_id, item.state, item.shape_or_cut);
+  if (item.ambiguity_id) return `ambiguity:${item.ambiguity_id}`;
+  return `raw:${item.raw || ''}`;
+}
+
 // 只依据受控 taxonomy 做精确身份识别。此处故意不看 recipe evidence，
 // 也不做模糊分类；未知食材保留为 recognized:false，交给后续 planner 解释。
 export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
@@ -210,18 +232,14 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
   for (let indexOfItem = 0; indexOfItem < parsed.length; indexOfItem += 1) {
     const entry = parsed[indexOfItem];
     if (entry.role !== 'must_use') continue;
-    const identity = entry.item
-      ? entry.item.canonical_name || entry.item.display_name
-      : entry.ambiguity ? `ambiguity:${entry.ambiguity.ambiguity_id}` : null;
+    const identity = plannerSemanticIdentity(entry);
     if (identity && !representativeByCanonical.has(identity)) {
       representativeByCanonical.set(identity, indexOfItem);
     }
   }
   for (let indexOfItem = 0; indexOfItem < parsed.length; indexOfItem += 1) {
     const entry = parsed[indexOfItem];
-    const identity = entry.item
-      ? entry.item.canonical_name || entry.item.display_name
-      : entry.ambiguity ? `ambiguity:${entry.ambiguity.ambiguity_id}` : null;
+    const identity = plannerSemanticIdentity(entry);
     if (identity && !representativeByCanonical.has(identity)) {
       representativeByCanonical.set(identity, indexOfItem);
     }
@@ -229,7 +247,7 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
   return parsed.map((entry, indexOfItem) => {
     const { raw, role, item, ambiguity } = entry;
     if (!item) {
-      const ambiguityIdentity = ambiguity ? `ambiguity:${ambiguity.ambiguity_id}` : null;
+      const ambiguityIdentity = plannerSemanticIdentity(entry);
       const representativeIndex = ambiguityIdentity == null
         ? indexOfItem
         : representativeByCanonical.get(ambiguityIdentity);
@@ -255,7 +273,7 @@ export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
       };
     }
     const canonical = item.canonical_name || item.display_name;
-    const representativeIndex = representativeByCanonical.get(canonical);
+    const representativeIndex = representativeByCanonical.get(plannerSemanticIdentity(entry));
     const duplicate_of = representativeIndex === indexOfItem ? null : parsed[representativeIndex].raw;
     return {
       raw,
@@ -686,8 +704,8 @@ function rejection(reason_code, message, details = {}) {
 }
 
 function stableItemCompare(left, right) {
-  return `${left.canonical || ''}\u0000${left.shape_or_cut || ''}\u0000${left.raw || ''}`
-    .localeCompare(`${right.canonical || ''}\u0000${right.shape_or_cut || ''}\u0000${right.raw || ''}`, 'zh-Hans-CN');
+  return `${plannerItemSemanticKey(left)}\u0000${left.raw || ''}`
+    .localeCompare(`${plannerItemSemanticKey(right)}\u0000${right.raw || ''}`, 'zh-Hans-CN');
 }
 
 function acceptedCategoryCount(slot, template) {
@@ -851,7 +869,7 @@ export function selectRatioRule(template, assignment, ratioCatalog) {
 
 function assignmentKey(assignment) {
   return Object.keys(assignment).sort().map(slotId => `${slotId}:${assignment[slotId]
-    .map(item => `${item.canonical || item.display_name}/${item.shape_or_cut || ''}/${item.source}`)
+    .map(item => `${plannerItemSemanticKey(item)}/${item.source}`)
     .sort().join(',')}`).join('|');
 }
 
@@ -1082,18 +1100,11 @@ function displayFloor(totalMustUse, plannedMustUse) {
   return false;
 }
 
-export function minimumRecommendCoverageCount(totalSubmitted) {
-  if (totalSubmitted <= 0) return 0;
-  if (totalSubmitted <= 2) return totalSubmitted;
-  if (totalSubmitted === 3) return 2;
-  return Math.ceil(totalSubmitted * 0.6);
-}
-
 export function coverageFieldsFor(promiseItems = [], plannedItems = []) {
-  const plannedKeys = new Set(plannedItems.map(item => item.canonical || `raw:${item.raw}`));
+  const plannedKeys = new Set(plannedItems.map(plannerItemSemanticKey));
   const recognized = promiseItems.filter(item => item.recognized);
   const plannedRecognized = recognized.filter(item => (
-    plannedKeys.has(item.canonical || `raw:${item.raw}`)
+    plannedKeys.has(plannerItemSemanticKey(item))
   ));
   return {
     coverage_ratio: promiseItems.length ? plannedItems.length / promiseItems.length : 0,
@@ -1203,7 +1214,7 @@ export function rankPotCandidates(candidates = [], request = {}) {
 function canonicalUserKeys(pot) {
   return new Set([
     ...(pot.planned_must_use || []), ...(pot.planned_prefer_use || []),
-  ].map(item => item.canonical || `raw:${item.raw}`));
+  ].map(plannerItemSemanticKey));
 }
 
 // 完整多锅只搜索最多 3 锅。候选先按“用户食材集合 + must 集合”去重，
@@ -1212,7 +1223,7 @@ function canonicalUserKeys(pot) {
 function findExactCompletePotCombination(rankedCandidates, mustUse, exactPotCount, diagnostics) {
   addPlannerDiagnostic(diagnostics, 'exact_search_calls');
   if (!mustUse.length || mustUse.some(item => !item.recognized)) return null;
-  const targetKeys = [...new Set(mustUse.map(item => item.canonical || `raw:${item.raw}`))]
+  const targetKeys = [...new Set(mustUse.map(plannerItemSemanticKey))]
     .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
   const allUserKeys = [...new Set([...targetKeys, ...rankedCandidates.flatMap(candidate => [...canonicalUserKeys(candidate)])])]
     .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
@@ -1258,7 +1269,7 @@ function findExactCompletePotCombination(rankedCandidates, mustUse, exactPotCoun
 }
 
 function combinedItemKeys(pots, field) {
-  return new Set(pots.flatMap(pot => pot[field] || []).map(item => item.canonical || `raw:${item.raw}`));
+  return new Set(pots.flatMap(pot => pot[field] || []).map(plannerItemSemanticKey));
 }
 
 function aggregateRequiredExtras(pots) {
@@ -1387,9 +1398,9 @@ const UNPLANNED_REASON_PRIORITY = Object.freeze({
 });
 
 function bestExistingReason(item, ranked, field) {
-  const key = item.canonical || `raw:${item.raw}`;
+  const key = plannerItemSemanticKey(item);
   return ranked.flatMap(candidate => candidate[field] || [])
-    .filter(entry => (entry.canonical || `raw:${entry.raw}`) === key)
+    .filter(entry => plannerItemSemanticKey(entry) === key)
     .sort((left, right) => (UNPLANNED_REASON_PRIORITY[left.reason_code] ?? 99)
       - (UNPLANNED_REASON_PRIORITY[right.reason_code] ?? 99))[0] || null;
 }
@@ -1440,10 +1451,10 @@ function reasonForUnplanned(item, ranked, request, allergyAliases, role, overrid
 }
 
 function decoratePots(pots, allMustUse, promiseItems, mode) {
-  const remaining = new Map(allMustUse.map(item => [item.canonical || `raw:${item.raw}`, structuredClone(item)]));
+  const remaining = new Map(allMustUse.map(item => [plannerItemSemanticKey(item), structuredClone(item)]));
   const labels = ['第一锅', '第二锅', '第三锅'];
   return pots.map((pot, index) => {
-    for (const item of pot.planned_must_use || []) remaining.delete(item.canonical || `raw:${item.raw}`);
+    for (const item of pot.planned_must_use || []) remaining.delete(plannerItemSemanticKey(item));
     const localPot = structuredClone(pot);
     delete localPot.unplanned_must_use;
     delete localPot.unused_prefer_use;
@@ -1493,15 +1504,15 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
   const prefer = unique.filter(item => item.role === 'prefer_use');
   const plannedMustKeys = combinedItemKeys(selectedPots, 'planned_must_use');
   const plannedPreferKeys = combinedItemKeys(selectedPots, 'planned_prefer_use');
-  const plannedMust = must.filter(item => plannedMustKeys.has(item.canonical || `raw:${item.raw}`));
-  const plannedPrefer = prefer.filter(item => plannedPreferKeys.has(item.canonical || `raw:${item.raw}`));
+  const plannedMust = must.filter(item => plannedMustKeys.has(plannerItemSemanticKey(item)));
+  const plannedPrefer = prefer.filter(item => plannedPreferKeys.has(plannerItemSemanticKey(item)));
   const thirdPotKeys = options.thirdPot ? canonicalUserKeys(options.thirdPot) : new Set();
-  const unplannedMust = must.filter(item => !plannedMustKeys.has(item.canonical || `raw:${item.raw}`)).map(item => {
-    const key = item.canonical || `raw:${item.raw}`;
+  const unplannedMust = must.filter(item => !plannedMustKeys.has(plannerItemSemanticKey(item))).map(item => {
+    const key = plannerItemSemanticKey(item);
     const override = thirdPotKeys.has(key) ? 'third_pot_required' : options.capacityExceeded ? 'plan_capacity_exceeded' : null;
     return reasonForUnplanned(item, ranked, request, options.allergyAliases, 'must_use', override);
   });
-  const unusedPrefer = prefer.filter(item => !plannedPreferKeys.has(item.canonical || `raw:${item.raw}`))
+  const unusedPrefer = prefer.filter(item => !plannedPreferKeys.has(plannerItemSemanticKey(item)))
     .map(item => reasonForUnplanned(item, ranked, request, options.allergyAliases, 'prefer_use'));
   const promiseItems = request.mode === 'pantry' ? must : prefer;
   const plannedPromiseItems = request.mode === 'pantry' ? plannedMust : plannedPrefer;
@@ -1523,6 +1534,14 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
     generation_allowed: ready || complete,
     mode: request.mode,
     intent: request.intent,
+    ...(selectedPots.length ? {
+      recipe_runtime_catalog_version: assets.recipeRuntime?.recipe_runtime_catalog_version || null,
+      plan_source: 'custom_template',
+      recipe_id: null,
+      variant_id: null,
+      identity_level: 'custom',
+      match_trace: [],
+    } : {}),
     normalized_items: normalizedItems.map(item => structuredClone(item)),
     commitment: ready
       ? '直接推荐会选择较合适的组合，并如实列出这次未使用的食材。'
@@ -1658,7 +1677,9 @@ function planMealCore(assets, request, diagnostics) {
     && selected[0].single_pot_eligible !== true
     && !hasAmbiguousMust ? [] : selected;
   const allIndividuallyCoverable = must.length > 0 && must.every(item => item.recognized
-    && searchRanked.some(candidate => candidate.planned_must_use.some(planned => planned.canonical === item.canonical)));
+    && searchRanked.some(candidate => candidate.planned_must_use.some(planned => (
+      plannerItemSemanticKey(planned) === plannerItemSemanticKey(item)
+    ))));
   const capacityExceeded = displayableSelected.length > 0
     && (exceedsAbsoluteThreePotCapacity || allIndividuallyCoverable);
   return buildPlannerResponse(assets, request, normalized_items, publicRanked, displayableSelected, {
@@ -1777,7 +1798,7 @@ function identityIngredient(item = {}) {
 }
 
 function identityIngredientKey(item) {
-  return `${item.canonical || ''}\u0000${item.raw || ''}\u0000${item.shape_or_cut || ''}\u0000${item.role || ''}\u0000${item.source || ''}`;
+  return `${item.canonical_id || ''}\u0000${item.state || ''}\u0000${item.shape_or_cut || ''}\u0000${item.canonical || ''}\u0000${item.raw || ''}\u0000${item.role || ''}\u0000${item.source || ''}`;
 }
 
 function identitySlotAssignment(slotAssignment = {}) {
@@ -1856,6 +1877,11 @@ export function canonicalPlanIdentityPayload(result = {}) {
   return {
     planner_version: identityText(result.planner_version),
     template_catalog_version: identityText(result.template_catalog_version),
+    recipe_runtime_catalog_version: identityText(result.recipe_runtime_catalog_version),
+    plan_source: identityText(result.plan_source),
+    recipe_id: identityText(result.recipe_id),
+    variant_id: identityText(result.variant_id),
+    identity_level: identityText(result.identity_level),
     template_id: singlePot?.template_id || null,
     normalized_items: (Array.isArray(result.normalized_items) ? result.normalized_items : [])
       .map(identityIngredient)
@@ -1928,7 +1954,7 @@ function requestWithoutSwapHistory(request) {
 
 function completeCombinationEntries(rankedCandidates, mustUse) {
   if (!mustUse.length || mustUse.some(item => !item.recognized)) return null;
-  const targetKeys = [...new Set(mustUse.map(item => item.canonical || `raw:${item.raw}`))]
+  const targetKeys = [...new Set(mustUse.map(plannerItemSemanticKey))]
     .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
   const allUserKeys = [...new Set([...targetKeys, ...rankedCandidates.flatMap(candidate => [...canonicalUserKeys(candidate)])])]
     .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'));
@@ -2180,6 +2206,173 @@ function selectDiverseCandidates(candidates, limit) {
     selectedIds.add(planId);
     selectedStructures.add(structure);
     selectedPresentations.add(presentation);
+    if (selected.length >= boundedLimit) break;
+  }
+  return selected;
+}
+
+const HYBRID_IDENTITY_RANK = Object.freeze({
+  canonical: 0,
+  approved_variant: 1,
+  style_adaptation: 2,
+  custom: 3,
+});
+
+function hybridPlannedItems(candidate) {
+  return candidate?.plan?.planned_prefer_use || candidate?.planned_prefer_use || [];
+}
+
+function hybridRequiredExtras(candidate) {
+  return candidate?.plan?.required_extra_items || candidate?.required_extra_items || [];
+}
+
+function hybridTemplateId(candidate) {
+  return candidate?.template_id || candidate?.plan?.pots?.[0]?.template_id || null;
+}
+
+function hybridCoverageFacts(candidate) {
+  const normalized = Array.isArray(candidate?.normalized_items) ? candidate.normalized_items : [];
+  const representatives = normalized.filter(item => item && item.duplicate_of == null);
+  const groupByRaw = new Map(representatives.map(item => [item.raw, item.raw]));
+  const rows = normalized.map(item => ({ item, group: item?.duplicate_of || item?.raw }))
+    .filter(entry => entry.item && groupByRaw.has(entry.group));
+  const usedGroups = new Map();
+  for (const planned of hybridPlannedItems(candidate)) {
+    const exact = rows.find(({ item }) => item.raw === planned?.raw
+      && item.canonical_id === planned?.canonical_id
+      && item.state === planned?.state
+      && item.shape_or_cut === planned?.shape_or_cut)
+      || rows.find(({ item }) => item.raw === planned?.raw && item.canonical_id === planned?.canonical_id)
+      || rows.find(({ item }) => item.canonical_id && item.canonical_id === planned?.canonical_id);
+    if (!exact || usedGroups.has(exact.group)) continue;
+    usedGroups.set(exact.group, exact.item.canonical_id || exact.item.canonical || exact.item.raw);
+  }
+  return {
+    total: representatives.length,
+    used: usedGroups.size,
+    usedSet: [...usedGroups.values()].sort((left, right) => left.localeCompare(right, 'zh-Hans-CN')),
+  };
+}
+
+function hybridUsedSet(candidate) {
+  return hybridCoverageFacts(candidate).usedSet;
+}
+
+function hybridStructuralKey(candidate) {
+  const source = candidate?.plan_source || 'custom_template';
+  if (source === 'named_recipe' || source === 'recipe_variant') {
+    return stableCanonicalJson({
+      source,
+      recipe_id: candidate?.recipe_id || null,
+      variant_id: candidate?.variant_id || null,
+      identity_level: candidate?.identity_level || null,
+    });
+  }
+  return stableCanonicalJson({
+    source: 'custom_template',
+    template_id: hybridTemplateId(candidate),
+    technique_signature: candidate?.technique_signature
+      || candidate?.plan?.pots?.[0]?.technique_signature || [],
+    used: hybridUsedSet(candidate),
+    slot_assignment: identitySlotAssignment(candidate?.slot_assignment
+      || candidate?.plan?.pots?.[0]?.slot_assignment || {}),
+  });
+}
+
+function majorExtraBurden(candidate) {
+  return hybridRequiredExtras(candidate)
+    .filter(item => !['liquid', 'oil', 'seasoning'].includes(item?.category)).length;
+}
+
+function hybridIntentPenalty(candidate) {
+  return candidate?.intent_fit === false ? 1 : 0;
+}
+
+function finiteHybridBurden(value) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0
+    ? value
+    : Number.MAX_SAFE_INTEGER;
+}
+
+function hybridTimeBurden(candidate) {
+  if (typeof candidate?.time_minutes === 'number') return finiteHybridBurden(candidate.time_minutes);
+  const pots = Array.isArray(candidate?.plan?.pots) ? candidate.plan.pots : [];
+  if (!pots.length) return Number.MAX_SAFE_INTEGER;
+  return pots.reduce((total, pot) => total + finiteHybridBurden(pot?.time_range?.max_minutes), 0);
+}
+
+function hybridStepBurden(candidate) {
+  if (typeof candidate?.step_count === 'number') return finiteHybridBurden(candidate.step_count);
+  const technique = candidate?.technique_signature || candidate?.plan?.pots?.[0]?.technique_signature;
+  return Array.isArray(technique) ? technique.length : Number.MAX_SAFE_INTEGER;
+}
+
+function hybridPlanId(candidate) {
+  return typeof candidate?.plan_id === 'string' && candidate.plan_id
+    ? candidate.plan_id
+    : typeof candidate?.plan?.plan_id === 'string' && candidate.plan.plan_id
+      ? candidate.plan.plan_id
+      : null;
+}
+
+function hybridStableKey(candidate) {
+  return hybridPlanId(candidate) || hybridStructuralKey(candidate);
+}
+
+export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanIds = [] } = {}) {
+  const boundedLimit = Math.max(1, Math.min(3, Number.isInteger(limit) ? limit : 3));
+  const recentIds = new Set((Array.isArray(recentPlanIds) ? recentPlanIds : [])
+    .filter(value => typeof value === 'string' && value));
+  const eligible = [];
+  for (const candidate of Array.isArray(candidates) ? candidates : []) {
+    const source = candidate?.plan_source || 'custom_template';
+    const level = candidate?.identity_level || (source === 'custom_template' ? 'custom' : null);
+    const validIdentity = (source === 'custom_template' && level === 'custom'
+        && candidate?.recipe_id == null && candidate?.variant_id == null)
+      || (source === 'named_recipe' && level === 'canonical'
+        && typeof candidate?.recipe_id === 'string' && candidate.recipe_id && candidate?.variant_id == null)
+      || (source === 'recipe_variant' && ['approved_variant', 'style_adaptation'].includes(level)
+        && typeof candidate?.recipe_id === 'string' && candidate.recipe_id
+        && typeof candidate?.variant_id === 'string' && candidate.variant_id);
+    if (!validIdentity) continue;
+    const coverage = hybridCoverageFacts(candidate);
+    const denominator = coverage.total;
+    const plannedCount = coverage.used;
+    if (plannedCount < minimumRecommendCoverageCount(denominator)) continue;
+    const detached = structuredClone(candidate);
+    detached.plan_source = source;
+    detached.recipe_id = detached.plan_source === 'custom_template' ? null : detached.recipe_id || null;
+    detached.variant_id = detached.plan_source === 'custom_template' ? null : detached.variant_id || null;
+    detached.identity_level = detached.plan_source === 'custom_template' ? 'custom' : detached.identity_level;
+    detached.coverage_used = plannedCount;
+    detached.coverage_total = denominator;
+    detached.coverage_ratio = denominator ? plannedCount / denominator : 0;
+    eligible.push(detached);
+  }
+  eligible.sort((left, right) => {
+    const identityDifference = (HYBRID_IDENTITY_RANK[left.identity_level] ?? Number.MAX_SAFE_INTEGER)
+      - (HYBRID_IDENTITY_RANK[right.identity_level] ?? Number.MAX_SAFE_INTEGER);
+    if (identityDifference) return identityDifference;
+    if (left.coverage_used !== right.coverage_used) return right.coverage_used - left.coverage_used;
+    const extraDifference = majorExtraBurden(left) - majorExtraBurden(right);
+    if (extraDifference) return extraDifference;
+    const intentDifference = hybridIntentPenalty(left) - hybridIntentPenalty(right);
+    if (intentDifference) return intentDifference;
+    const timeDifference = hybridTimeBurden(left) - hybridTimeBurden(right);
+    if (timeDifference) return timeDifference;
+    const stepDifference = hybridStepBurden(left) - hybridStepBurden(right);
+    if (stepDifference) return stepDifference;
+    const recentDifference = Number(recentIds.has(hybridPlanId(left))) - Number(recentIds.has(hybridPlanId(right)));
+    if (recentDifference) return recentDifference;
+    return hybridStableKey(left).localeCompare(hybridStableKey(right), 'zh-Hans-CN');
+  });
+  const selected = [];
+  const seenStructures = new Set();
+  for (const candidate of eligible) {
+    const structure = hybridStructuralKey(candidate);
+    if (seenStructures.has(structure)) continue;
+    seenStructures.add(structure);
+    selected.push(candidate);
     if (selected.length >= boundedLimit) break;
   }
   return selected;

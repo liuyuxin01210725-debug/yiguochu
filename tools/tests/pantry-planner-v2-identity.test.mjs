@@ -49,6 +49,11 @@ function onlyTemplate(sourceAssets, templateId) {
 const lockedPlan = Object.freeze({
   planner_version: 'pantry-planner-v2',
   template_catalog_version: 'templates-v2-test',
+  recipe_runtime_catalog_version: 'recipe-runtime-test-v1',
+  plan_source: 'custom_template',
+  recipe_id: null,
+  variant_id: null,
+  identity_level: 'custom',
   mode: 'pantry',
   intent: 'normal',
   normalized_items: [
@@ -97,6 +102,11 @@ test('plan ID ignores generated prose, UI facts, timestamps, plan ID itself and 
   a.plan.pots[0].label = '第一锅';
   const b = JSON.parse(JSON.stringify({
     intent: lockedPlan.intent,
+    recipe_runtime_catalog_version: lockedPlan.recipe_runtime_catalog_version,
+    plan_source: lockedPlan.plan_source,
+    recipe_id: lockedPlan.recipe_id,
+    variant_id: lockedPlan.variant_id,
+    identity_level: lockedPlan.identity_level,
     plan: { ...structuredClone(lockedPlan.plan), ui_copy: '另一份文案' },
     normalized_items: structuredClone(lockedPlan.normalized_items),
     mode: lockedPlan.mode,
@@ -126,6 +136,11 @@ test('every declared identity fact changes the plan ID', async t => {
   const changes = {
     planner_version: plan => { plan.planner_version = 'pantry-planner-v3'; },
     template_catalog_version: plan => { plan.template_catalog_version = 'templates-v2-next'; },
+    recipe_runtime_catalog_version: plan => { plan.recipe_runtime_catalog_version = 'recipe-runtime-test-v2'; },
+    plan_source: plan => { plan.plan_source = 'named_recipe'; },
+    recipe_id: plan => { plan.recipe_id = 'shanghai-salted-pork-vegetable-rice'; },
+    variant_id: plan => { plan.variant_id = 'greens-choy-sum'; },
+    identity_level: plan => { plan.identity_level = 'canonical'; },
     mode: plan => { plan.mode = 'recommend'; },
     intent: plan => { plan.intent = 'quick'; },
     servings: plan => { plan.plan.pots[0].servings = 3; },
@@ -155,6 +170,29 @@ test('every declared identity fact changes the plan ID', async t => {
       assert.notEqual(await planner.computePlanId(changed), baseId);
     });
   }
+});
+
+test('recipe identity changes plan ID while presentation and match trace remain non-semantic', async () => {
+  const canonical = structuredClone(lockedPlan);
+  Object.assign(canonical, {
+    plan_source: 'named_recipe',
+    recipe_id: 'shanghai-salted-pork-vegetable-rice',
+    variant_id: null,
+    identity_level: 'canonical',
+    presentation: { title: '上海奉贤咸肉菜饭' },
+    match_trace: ['raw-rice=exact', 'small-bok-choy=exact'],
+  });
+  const sameFacts = structuredClone(canonical);
+  sameFacts.presentation.title = '只改显示文案';
+  sameFacts.match_trace.reverse();
+  assert.equal(await planner.computePlanId(canonical), await planner.computePlanId(sameFacts));
+
+  const variant = structuredClone(canonical);
+  variant.plan_source = 'recipe_variant';
+  variant.variant_id = 'greens-choy-sum';
+  variant.identity_level = 'approved_variant';
+  assert.notEqual(await planner.computePlanId(canonical), await planner.computePlanId(variant));
+  assert.equal(await planner.computePlanId(canonical), await planner.computePlanId(structuredClone(canonical)));
 });
 
 test('ambiguity options are a semantic set in plan identity', async () => {
@@ -259,12 +297,28 @@ test('pantry swap preserves complete coverage and recommend swap remains honest'
   assert.equal(pantrySwap.plan.coverage_ratio, 1);
   assert.deepEqual(pantrySwap.plan.unplanned_must_use, []);
 
-  const recommendRequest = request({ mode: 'recommend', intent: 'quick', prefer: ['熟米饭', '鸡蛋', '牛里脊', '西兰花', '神秘叶子'] });
+  const recommendRequest = request({ mode: 'recommend', intent: 'quick', prefer: ['熟米饭', '鸡蛋', '牛里脊', '西兰花'] });
   const recommendCurrent = await planner.planMealWithIdentity(assets, recommendRequest);
   const recommendSwap = await planner.planMealWithIdentity(assets, { ...recommendRequest, current_plan_id: recommendCurrent.plan.plan_id });
   assert.equal(recommendSwap.status, 'ready');
   assert.ok(recommendSwap.plan.planned_prefer_use.some(item => item.recognized));
   assert.ok(recommendSwap.plan.unused_prefer_use.every(item => item.reason_code && item.reason));
+});
+
+test('five submitted recommend items including an unknown never expose a three-of-five plan', async () => {
+  expectIdentityApi();
+  const result = await planner.planMealWithIdentity(assets, request({
+    mode: 'recommend',
+    intent: 'quick',
+    prefer: ['熟米饭', '鸡蛋', '牛里脊', '西兰花', '神秘叶子'],
+  }));
+  assert.equal(result.status, 'no_valid_plan');
+  assert.deepEqual(result.plan.planned_prefer_use, []);
+  assert.equal(result.plan.coverage_ratio, 0);
+  assert.deepEqual(
+    result.plan.unused_prefer_use.map(item => item.raw).sort(),
+    ['熟米饭', '神秘叶子', '牛里脊', '西兰花', '鸡蛋'].sort(),
+  );
 });
 
 test('recent IDs are soft demotion and never exhaust all valid alternatives', async () => {

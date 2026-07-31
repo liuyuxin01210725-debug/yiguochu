@@ -19,7 +19,8 @@ const IDENTITY_SIGNATURE_FIELDS = new Set([
 ]);
 const STATE_OR_CUT_FIELDS = new Set(['canonical_id', 'value']);
 const NAMING_FIELDS = new Set(['canonical_name']);
-const VARIANT_FIELDS = new Set(['variant_id', 'substitutions', 'identity_impact']);
+const VARIANT_FIELDS = new Set(['variant_id', 'substitutions', 'identity_impact', 'naming']);
+const VARIANT_NAMING_FIELDS = new Set(['display_name']);
 const SUBSTITUTION_FIELDS = new Set(['slot_id', 'replaces_canonical_ids', 'allowed_canonical_ids']);
 const HOUSEHOLD_TRIAL_FIELDS = new Set(['status', 'trial_date', 'reviewer', 'outcome']);
 const TECHNIQUE_FIELDS = new Set(['phase', 'action_code', 'slot_ids']);
@@ -106,7 +107,37 @@ function setsMatch(left, right) {
   return left.size === right.size && [...left].every(value => right.has(value));
 }
 
-function validateVariant(variant, label, canonicalIds, errors) {
+function variantItemFitsSlot(item, slot, template) {
+  const acceptsCategory = Array.isArray(slot?.accepts_categories) && slot.accepts_categories.includes(item?.category);
+  const acceptsSlot = (Array.isArray(slot?.accepts_slot_codes) ? slot.accepts_slot_codes : [])
+    .some(code => (Array.isArray(item?.compatible_slot_codes) ? item.compatible_slot_codes : []).includes(code));
+  if (!acceptsCategory && !acceptsSlot) return false;
+  const shapeRule = (Array.isArray(template?.shape_or_cut_requirements) ? template.shape_or_cut_requirements : [])
+    .find(rule => rule.slot_id === slot.slot_id && rule.category === item.category);
+  if (!shapeRule) return true;
+  const shapes = new Set(Array.isArray(item.shapes_or_cuts) ? item.shapes_or_cuts : []);
+  if ([...(shapeRule.forbidden_shapes || [])].some(shape => shapes.has(shape))) return false;
+  return !(shapeRule.allowed_shapes || []).length
+    || (shapeRule.allowed_shapes || []).some(shape => shapes.has(shape));
+}
+
+function collectCanonicalReferences(value, output = new Set()) {
+  if (Array.isArray(value)) {
+    value.forEach(item => collectCanonicalReferences(item, output));
+    return output;
+  }
+  if (!isPlainObject(value)) return output;
+  if (isNonEmptyString(value.canonical_id)) output.add(value.canonical_id);
+  if (Array.isArray(value.canonical_ids)) value.canonical_ids.filter(isNonEmptyString).forEach(id => output.add(id));
+  Object.values(value).forEach(item => collectCanonicalReferences(item, output));
+  return output;
+}
+
+function validateVariant(variant, label, {
+  canonicalIds, canonicalItems, requiredIdentityIds, forbiddenIdentityIds,
+  template, assignedBySlot, canonicalName, requiredStatesOrCuts,
+  safetyEndpoints, ratioDefaultRule,
+}, errors) {
   if (!isPlainObject(variant)) {
     errors.push(`${label} must be an object; free-text substitutions are not allowed`);
     return;
@@ -116,10 +147,35 @@ function validateVariant(variant, label, canonicalIds, errors) {
   if (!['preserves_identity', 'named_variant', 'style_adaptation', 'breaks_identity'].includes(variant.identity_impact)) {
     errors.push(`${label}.identity_impact is invalid`);
   }
+  if (!isPlainObject(variant.naming)) {
+    errors.push(`${label}.naming must contain a pre-reviewed display_name`);
+  } else {
+    pushUnknownKeys(errors, variant.naming, VARIANT_NAMING_FIELDS, `${label}.naming`);
+    if (!isNonEmptyString(variant.naming.display_name)) errors.push(`${label}.naming.display_name must be a non-empty string`);
+    if (variant.identity_impact === 'style_adaptation' && variant.naming.display_name === canonicalName) {
+      errors.push(`${label}.naming.display_name must distinguish a style adaptation from the canonical name`);
+    }
+  }
   if (!Array.isArray(variant.substitutions)) {
     errors.push(`${label}.substitutions must be an array`);
     return;
   }
+  if (variant.substitutions.length === 0) errors.push(`${label}.substitutions must not be empty`);
+  const slotById = new Map([
+    ...(Array.isArray(template?.required_slots) ? template.required_slots : []),
+    ...(Array.isArray(template?.optional_slots) ? template.optional_slots : []),
+  ].map(slot => [slot.slot_id, slot]));
+  const seenReplaced = new Set();
+  const ratioIdentityIds = collectCanonicalReferences(ratioDefaultRule);
+  const safetyByCanonicalId = new Map();
+  for (const endpoint of Array.isArray(safetyEndpoints) ? safetyEndpoints : []) {
+    for (const canonicalId of endpoint.canonical_ids || []) {
+      if (!safetyByCanonicalId.has(canonicalId)) safetyByCanonicalId.set(canonicalId, new Set());
+      safetyByCanonicalId.get(canonicalId).add(endpoint.endpoint_code);
+    }
+  }
+  const stateOrCutByCanonicalId = new Map((Array.isArray(requiredStatesOrCuts) ? requiredStatesOrCuts : [])
+    .map(requirement => [requirement.canonical_id, requirement.value]));
   for (const [index, substitution] of variant.substitutions.entries()) {
     const substitutionLabel = `${label}.substitutions[${index}]`;
     if (!isPlainObject(substitution)) {
@@ -128,11 +184,42 @@ function validateVariant(variant, label, canonicalIds, errors) {
     }
     pushUnknownKeys(errors, substitution, SUBSTITUTION_FIELDS, substitutionLabel);
     if (!isNonEmptyString(substitution.slot_id)) errors.push(`${substitutionLabel}.slot_id must be a non-empty string`);
-    for (const canonicalId of stringArray(substitution.replaces_canonical_ids, `${substitutionLabel}.replaces_canonical_ids`, errors)) {
+    const slot = slotById.get(substitution.slot_id);
+    if (!slot) errors.push(`${substitutionLabel}.slot_id must reference a template slot`);
+    const replacesCanonicalIds = stringArray(substitution.replaces_canonical_ids, `${substitutionLabel}.replaces_canonical_ids`, errors);
+    const allowedCanonicalIds = stringArray(substitution.allowed_canonical_ids, `${substitutionLabel}.allowed_canonical_ids`, errors);
+    if (replacesCanonicalIds.length === 0) errors.push(`${substitutionLabel}.replaces_canonical_ids must not be empty`);
+    if (allowedCanonicalIds.length === 0) errors.push(`${substitutionLabel}.allowed_canonical_ids must not be empty`);
+    for (const canonicalId of replacesCanonicalIds) {
       if (!canonicalIds.has(canonicalId)) errors.push(`${substitutionLabel} unknown canonical_id ${canonicalId}`);
+      if (!requiredIdentityIds.has(canonicalId)) errors.push(`${substitutionLabel} canonical_id ${canonicalId} must be a required recipe identity`);
+      if (!(assignedBySlot.get(substitution.slot_id) || []).includes(canonicalId)) {
+        errors.push(`${substitutionLabel} canonical_id ${canonicalId} is not assigned to slot ${substitution.slot_id}`);
+      }
+      if (seenReplaced.has(canonicalId)) errors.push(`${substitutionLabel} canonical_id ${canonicalId} is replaced more than once`);
+      seenReplaced.add(canonicalId);
+      if (ratioIdentityIds.has(canonicalId)) {
+        errors.push(`${substitutionLabel} canonical_id ${canonicalId} is bound by the recipe ratio default`);
+      }
     }
-    for (const canonicalId of stringArray(substitution.allowed_canonical_ids, `${substitutionLabel}.allowed_canonical_ids`, errors)) {
+    for (const canonicalId of allowedCanonicalIds) {
       if (!canonicalIds.has(canonicalId)) errors.push(`${substitutionLabel} unknown canonical_id ${canonicalId}`);
+      const item = canonicalItems.get(canonicalId);
+      if (item && slot && !variantItemFitsSlot(item, slot, template)) {
+        errors.push(`${substitutionLabel} canonical_id ${canonicalId} is incompatible with template slot ${substitution.slot_id}`);
+      }
+      if (forbiddenIdentityIds.has(canonicalId)) errors.push(`${substitutionLabel} canonical_id ${canonicalId} is forbidden by identity_signature`);
+      const requiredValue = (substitution.replaces_canonical_ids || [])
+        .map(replacedId => stateOrCutByCanonicalId.get(replacedId)).find(Boolean);
+      const controlledValues = new Set([...(item?.states || []), ...(item?.shapes_or_cuts || [])]);
+      if (requiredValue && !controlledValues.has(requiredValue)) {
+        errors.push(`${substitutionLabel} canonical_id ${canonicalId} does not preserve required state or cut ${requiredValue}`);
+      }
+      for (const endpointCode of item?.cooking_risk?.required_endpoint_codes || []) {
+        if (!safetyByCanonicalId.get(canonicalId)?.has(endpointCode)) {
+          errors.push(`${substitutionLabel} canonical_id ${canonicalId} lacks required safety endpoint ${endpointCode}`);
+        }
+      }
     }
   }
 }
@@ -494,22 +581,40 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
       }
     }
 
-    if (!Array.isArray(entry.approved_variants)) {
-      errors.push(`${label}.approved_variants must be an array`);
-    } else {
-      entry.approved_variants.forEach((variant, variantIndex) => validateVariant(
-        variant,
-        `${label}.approved_variants[${variantIndex}]`,
-        canonicalIds,
-        errors,
-      ));
-    }
     if (!isNonEmptyString(entry.template_id) || !templateIds.has(entry.template_id)) {
       errors.push(`${label} unknown template_id ${entry.template_id}`);
     }
     const template = templateById(templates, entry.template_id);
     const assignment = validateSlotAssignment(entry.slot_assignment, `${label}.slot_assignment`, template,
       canonicalItems, requiredIdentityIds, entry.activation_status === 'preview_enabled', errors);
+    if (!Array.isArray(entry.approved_variants)) {
+      errors.push(`${label}.approved_variants must be an array`);
+    } else {
+      if (entry.activation_status === 'preview_enabled' && entry.approved_variants.length > 0) {
+        errors.push(`${label}.approved_variants preview variants require executable substitution quantity transfer`);
+      }
+      const seenVariantIds = new Set();
+      const forbiddenIdentityIds = new Set(Array.isArray(entry.identity_signature?.forbidden_canonical_ids)
+        ? entry.identity_signature.forbidden_canonical_ids : []);
+      entry.approved_variants.forEach((variant, variantIndex) => {
+        if (isNonEmptyString(variant?.variant_id)) {
+          if (seenVariantIds.has(variant.variant_id)) errors.push(`${label}.approved_variants duplicate variant_id ${variant.variant_id}`);
+          seenVariantIds.add(variant.variant_id);
+        }
+        validateVariant(variant, `${label}.approved_variants[${variantIndex}]`, {
+          canonicalIds,
+          canonicalItems,
+          requiredIdentityIds,
+          forbiddenIdentityIds,
+          template,
+          assignedBySlot: assignment.assignedBySlot,
+          canonicalName: entry.naming?.canonical_name,
+          requiredStatesOrCuts: entry.identity_signature?.required_states_or_cuts,
+          safetyEndpoints: entry.safety_endpoints,
+          ratioDefaultRule: ratioById.get(entry.ratio_default_rule_id),
+        }, errors);
+      });
+    }
     const ratioIds = stringArray(entry.ratio_rule_ids, `${label}.ratio_rule_ids`, errors);
     for (const ratioRuleId of ratioIds) {
       if (!ratioRuleIds.has(ratioRuleId)) errors.push(`${label} unknown ratio_rule_id ${ratioRuleId}`);
