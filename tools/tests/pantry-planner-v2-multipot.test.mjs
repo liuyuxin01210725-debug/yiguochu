@@ -353,19 +353,19 @@ test('explicit force_multi_pot may choose two meals at equal must coverage', () 
   assert.equal(result.plan.planned_must_use.length, 1);
 });
 
-test('recommend remains honest about partial use and is not forced into pantry completeness', () => {
+test('recommend refuses to present a two-of-five subset below its four-item coverage floor', () => {
   const result = planMeal(assets, request({
     mode: 'recommend',
     prefer: ['番茄', '鸡蛋', '西兰花', '牛里脊', '神秘叶子'],
   }));
 
-  assert.equal(result.status, 'ready');
-  assert.equal(result.generation_allowed, true);
-  assert.ok(result.plan.planned_prefer_use.length >= 1);
-  assert.ok(result.plan.unused_prefer_use.length >= 1);
-  assert.equal(result.plan.coverage_ratio, result.plan.planned_prefer_use.length / 5);
+  assert.equal(result.status, 'no_valid_plan');
+  assert.equal(result.generation_allowed, false);
+  assert.deepEqual(result.plan.planned_prefer_use, []);
+  assert.equal(result.plan.unused_prefer_use.length, 5);
+  assert.equal(result.plan.coverage_ratio, 0);
   assert.equal(result.plan.recognition_ratio, 4 / 5);
-  assert.equal(result.plan.recognized_coverage_ratio, result.plan.planned_prefer_use.length / 4);
+  assert.equal(result.plan.recognized_coverage_ratio, 0);
   assert.doesNotMatch(result.commitment, /全部|清空|完整清库存/);
 });
 

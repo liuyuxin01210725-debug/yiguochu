@@ -77,7 +77,11 @@ test('keeps source order while partitioning planner, basic, and unknown identiti
   assert.deepEqual(entry.raw_core_items, ['牛里脊', '水', '陌生菜', '牛肉片']);
   assert.deepEqual(entry.recognized_basic_items.map(row => row.raw), ['水']);
   assert.deepEqual(entry.unclassified_core_items.map(row => row.raw), ['陌生菜']);
-  assert.equal(entry.planner_eligible_items.filter(row => row.duplicate_of === null).length, 1);
+  const representatives = entry.planner_eligible_items.filter(row => row.duplicate_of === null);
+  assert.deepEqual(representatives.map(row => [row.raw, row.canonical_id, row.shape_or_cut]), [
+    ['牛里脊', 'beef-tenderloin', 'tenderloin'],
+    ['牛肉片', 'beef-generic', 'slice'],
+  ]);
   assert.equal(entry.identity_recognition_ratio, 1 / 2);
 });
 
