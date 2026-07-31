@@ -1,3 +1,6 @@
+import { buildLockedRecipeMeal } from './recipe-runtime-compiler.js';
+import { RECIPE_SAFETY_EVIDENCE_PATTERNS } from './recipe-action-registry.js';
+
 const TOP_LEVEL_KEYS = ['plan_id', 'meals'];
 const MEAL_KEYS = ['meal_sequence', 'dish_name', 'ingredient_refs', 'steps', 'recommendation_reason'];
 const STEP_KEYS = ['order', 'action_code', 'text', 'ingredient_refs', 'completed_safety_endpoints'];
@@ -281,18 +284,44 @@ function controlledStepTexts(
   }
   if (phase.action_code === 'protein_pretreat') {
     const categories = new Set(phaseIngredients.map(item => item.category));
-    if (categories.has('beef') || categories.has('pork') || categories.has('lamb')) {
+    const shapes = new Set(phaseIngredients.map(item => item.shape_or_cut));
+    if (shapes.has('ground')) {
+      templates = [
+        '将{items}放入锅中，用锅铲轻轻炒散，避免结成大块',
+        '把{items}下锅后及时拨散，使肉末均匀受热',
+      ];
+    } else if (shapes.has('cured_slice')) {
+      templates = [
+        '将{items}按原有腌制片形分散铺开，不再重复改刀',
+        '把{items}逐片铺开并保持原有形状，放在手边备用',
+      ];
+    } else if (shapes.has('sausage')) {
+      templates = [
+        '将{items}保持原形整理好；如锅具空间有限，只切成大小相近的小段',
+        '把{items}按原形放好，必要时仅分成均匀小段，不再作其他改刀',
+      ];
+    } else if (shapes.has('tenderloin') || shapes.has('slice')) {
       templates = [
         '将{items}切成适合入口的薄片，使厚薄尽量一致',
         '把{items}顺着原部位切成薄片，放在手边备用',
+      ];
+    } else if (categories.has('egg')) {
+      templates = ['将{items}打散至蛋液均匀', '把{items}充分搅散，静置在手边备用'];
+    } else if (shapes.has('leg') || shapes.has('breast') || shapes.has('whole')) {
+      templates = [
+        '将{items}按原部位与原有形状整理好，不擅自改成其他肉形',
+        '检查{items}的原部位并保持原形，整理后放在手边备用',
       ];
     } else if (categories.has('chicken')) {
       templates = [
         '将{items}切成大小相近的小块，便于均匀熟透',
         '把{items}按原部位整理成均匀小块并备好',
       ];
-    } else if (categories.has('egg')) {
-      templates = ['将{items}打散至蛋液均匀', '把{items}充分搅散，静置在手边备用'];
+    } else {
+      templates = [
+        '将{items}按现有部位与形状整理好，不擅自改变食材形态',
+        '检查{items}的原有状态并保持其形态，整理后备用',
+      ];
     }
   }
   if (phase.action_code === 'sear_beef' && phaseActions.has('protein_pretreat')) {
@@ -573,6 +602,11 @@ function buildLockedMeal(pot, template, refCounters, context) {
     meal_sequence: pot.meal_sequence,
     servings: pot.servings,
     template_id: pot.template_id,
+    plan_source: context.plan_source,
+    recipe_id: context.recipe_id,
+    variant_id: context.variant_id,
+    identity_level: context.identity_level,
+    presentation: structuredClone(context.presentation || null),
     locked_ingredients: locked,
     slot_assignment: orderedSlotIds.map(slot_id => ({
       slot_id,
@@ -591,11 +625,100 @@ function buildLockedMeal(pot, template, refCounters, context) {
   };
 }
 
-export function buildLockedPlanContract(plannerResult, templateCatalog) {
+const CUSTOM_IDENTITY_FIELDS = new Set([
+  'plan_source', 'recipe_id', 'variant_id', 'identity_level', 'presentation', 'canonical_name',
+]);
+const CUSTOM_PLAN_FIELDS = new Set([
+  'plan_kind', 'planned_must_use', 'planned_prefer_use', 'unplanned_must_use', 'unused_prefer_use',
+  'required_extra_items', 'coverage_ratio', 'recognition_ratio', 'recognized_coverage_ratio',
+  'rejection_reason', 'pots', 'plan_id',
+]);
+const CUSTOM_POT_FIELDS = new Set([
+  'ok', 'template_id', 'slot_assignment', 'assignment_key', 'servings', 'time_range', 'safety_endpoints',
+  'safety_complete', 'ingredient_amounts', 'required_extra_items', 'liquid_constraints', 'ratio_trace',
+  'rejection_reason', 'planned_must_use', 'planned_prefer_use', 'coverage_ratio', 'recognition_ratio',
+  'recognized_coverage_ratio', 'single_pot_eligible', 'meal_sequence', 'label', 'remaining_must_use_after',
+]);
+
+function assertCustomIdentityClean(value) {
+  if (!isPlainObject(value)) throw new Error('custom_plan_identity_invalid');
+  const visit = node => {
+    if (Array.isArray(node)) {
+      node.forEach(visit);
+      return;
+    }
+    if (!isPlainObject(node)) return;
+    for (const [field, child] of Object.entries(node)) {
+      if (CUSTOM_IDENTITY_FIELDS.has(field)) throw new Error('custom_plan_identity_invalid');
+      visit(child);
+    }
+  };
+  for (const [field, child] of Object.entries(value)) {
+    if (CUSTOM_IDENTITY_FIELDS.has(field)) throw new Error('custom_plan_identity_invalid');
+    visit(child);
+  }
+}
+
+function customAllowlistedPlan(plan) {
+  assertCustomIdentityClean(plan);
+  const next = {};
+  for (const [key, value] of Object.entries(plan)) {
+    if (!CUSTOM_PLAN_FIELDS.has(key)) throw new Error(`custom_plan_field_invalid:${key}`);
+    if (key !== 'pots') next[key] = structuredClone(value);
+  }
+  next.pots = plan.pots.map(pot => {
+    assertCustomIdentityClean(pot);
+    const nextPot = {};
+    for (const [key, value] of Object.entries(pot)) {
+      if (!CUSTOM_POT_FIELDS.has(key)) throw new Error(`custom_plan_pot_field_invalid:${key}`);
+      nextPot[key] = structuredClone(value);
+    }
+    return nextPot;
+  });
+  return next;
+}
+
+export function buildLockedPlanContract(
+  plannerResult, templateCatalog, recipeRuntimeCatalog, ratioCatalog, recipeLibrary, actionProfileCatalog,
+) {
   if (!isPlainObject(plannerResult) || !isPlainObject(plannerResult.plan)
       || typeof plannerResult.plan.plan_id !== 'string' || !Array.isArray(plannerResult.plan.pots)) {
     throw new Error('invalid_planner_result');
   }
+  if (plannerResult.plan_source === 'named_recipe' || plannerResult.plan_source === 'recipe_variant') {
+    if (typeof plannerResult.recipe_runtime_catalog_version !== 'string'
+        || plannerResult.recipe_runtime_catalog_version.length === 0
+        || plannerResult.recipe_runtime_catalog_version !== recipeRuntimeCatalog?.recipe_runtime_catalog_version) {
+      throw new Error('named_recipe_runtime_catalog_stale');
+    }
+    const runtimeEntry = recipeRuntimeCatalog?.entries?.find(entry => entry?.recipe_id === plannerResult.recipe_id);
+    const recipeRecord = recipeLibrary?.recipes?.find(recipe => recipe?.id === plannerResult.recipe_id);
+    const meal = buildLockedRecipeMeal(
+      plannerResult, runtimeEntry, ratioCatalog, recipeRecord, actionProfileCatalog,
+    );
+    return structuredClone({
+      plan_id: plannerResult.plan.plan_id,
+      planner_version: plannerResult.planner_version,
+      template_catalog_version: plannerResult.template_catalog_version,
+      recipe_runtime_catalog_version: plannerResult.recipe_runtime_catalog_version,
+      mode: plannerResult.mode,
+      intent: plannerResult.intent,
+      plan_source: plannerResult.plan_source,
+      recipe_id: plannerResult.recipe_id,
+      variant_id: plannerResult.variant_id,
+      identity_level: plannerResult.identity_level,
+      presentation: meal.presentation,
+      plan: plannerResult.plan,
+      meals: [meal],
+    });
+  }
+  if ((plannerResult.plan_source ?? 'custom_template') !== 'custom_template'
+      || plannerResult.recipe_id != null || plannerResult.variant_id != null
+      || (plannerResult.identity_level ?? 'custom') !== 'custom'
+      || plannerResult.presentation != null || Object.hasOwn(plannerResult, 'canonical_name')) {
+    throw new Error('custom_plan_identity_invalid');
+  }
+  const lockedCustomPlan = customAllowlistedPlan(plannerResult.plan);
   const templates = new Map((templateCatalog?.templates || []).map(template => [template.template_id, template]));
   const refCounters = { user: 1, extra: 1 };
   const meals = [...plannerResult.plan.pots].sort((left, right) => left.meal_sequence - right.meal_sequence)
@@ -605,14 +728,26 @@ export function buildLockedPlanContract(plannerResult, templateCatalog) {
       return buildLockedMeal(pot, template, refCounters, {
         mode: plannerResult.mode,
         intent: plannerResult.intent,
+        plan_source: 'custom_template',
+        recipe_id: null,
+        variant_id: null,
+        identity_level: 'custom',
+        presentation: null,
       });
     });
   return structuredClone({
     plan_id: plannerResult.plan.plan_id,
     planner_version: plannerResult.planner_version,
     template_catalog_version: plannerResult.template_catalog_version,
+    recipe_runtime_catalog_version: plannerResult.recipe_runtime_catalog_version ?? null,
     mode: plannerResult.mode,
     intent: plannerResult.intent,
+    plan_source: 'custom_template',
+    recipe_id: null,
+    variant_id: null,
+    identity_level: 'custom',
+    presentation: null,
+    plan: lockedCustomPlan,
     meals,
   });
 }
@@ -761,12 +896,18 @@ function validBoundedText(value, max) {
   return text.length > 0 && text.length <= max && !/[\u0000-\u001f\u007f]/u.test(text);
 }
 
-function safetyEvidenceValid(step, skeleton) {
+function safetyEvidenceValid(step, skeleton, lockedMeal) {
   if (!skeleton.required_safety_endpoints.length) return true;
   const refs = new Set(step.ingredient_refs);
   if (skeleton.required_safety_ingredient_refs.some(ref => !refs.has(ref))) return false;
   if (NON_ACHIEVED_SAFETY_RE.test(step.text)) return false;
-  return skeleton.required_safety_endpoints.every(endpoint => SAFETY_EVIDENCE_RULES[endpoint]?.test(step.text));
+  const isNamedRecipe = lockedMeal?.plan_source === 'named_recipe';
+  return skeleton.required_safety_endpoints.every(endpoint => {
+    const pattern = isNamedRecipe
+      ? RECIPE_SAFETY_EVIDENCE_PATTERNS[endpoint] ?? SAFETY_EVIDENCE_RULES[endpoint]
+      : SAFETY_EVIDENCE_RULES[endpoint];
+    return pattern?.test(step.text);
+  });
 }
 
 function explicitRawPartsPreserved(outputMeal, lockedMeal) {
@@ -872,6 +1013,9 @@ export function validateGeneratedPlan(modelOutput, lockedPlan, termUniverse) {
           && Number.isFinite(skeleton.locked_liquid_grams)
           && step.text.includes(`${skeleton.locked_liquid_grams}克`))
         || (skeleton.action_code === 'soak_soft_grain' && step.text.includes('30分钟'))
+        || (Array.isArray(skeleton.locked_numeric_facts)
+          && skeleton.locked_numeric_facts.length > 0
+          && skeleton.locked_numeric_facts.every(fact => step.text.includes(fact)))
       );
       if (!validBoundedText(step.text, MAX_STEP_TEXT)) return contractFailure('invalid_prose_length');
       if (ingredientDeletionViolation(step.text, lockedMeal)) {
@@ -909,7 +1053,7 @@ export function validateGeneratedPlan(modelOutput, lockedPlan, termUniverse) {
         return contractFailure('safety_endpoint_phase_mismatch');
       }
       if (skeleton.required_safety_endpoints.length) {
-        if (!safetyEvidenceValid(step, skeleton)) return contractFailure('safety_evidence_invalid');
+        if (!safetyEvidenceValid(step, skeleton, lockedMeal)) return contractFailure('safety_evidence_invalid');
       }
       for (const endpoint of step.completed_safety_endpoints) {
         if (completedEndpoints.has(endpoint)) return contractFailure('duplicate_safety_endpoint');
@@ -938,20 +1082,31 @@ export function buildGeneratedPlanResponse(plannerResult, lockedPlan, validatedM
     schema_version: plannerResult.schema_version,
     planner_version: plannerResult.planner_version,
     template_catalog_version: plannerResult.template_catalog_version,
-    plan_id: plannerResult.plan.plan_id,
+    recipe_runtime_catalog_version: lockedPlan.recipe_runtime_catalog_version ?? null,
+    plan_id: lockedPlan.plan_id,
     status: plannerResult.status,
     generation_allowed: plannerResult.generation_allowed,
     mode: plannerResult.mode,
     intent: plannerResult.intent,
+    plan_source: lockedPlan.plan_source,
+    recipe_id: lockedPlan.recipe_id,
+    variant_id: lockedPlan.variant_id,
+    identity_level: lockedPlan.identity_level,
+    presentation: structuredClone(lockedPlan.presentation || null),
     normalized_items: plannerResult.normalized_items,
     commitment: plannerResult.commitment,
-    plan: plannerResult.plan,
+    plan: lockedPlan.plan,
     unplanned: plannerResult.unplanned,
     actions: plannerResult.actions,
     meals: lockedPlan.meals.map((lockedMeal, index) => ({
       meal_sequence: lockedMeal.meal_sequence,
       servings: lockedMeal.servings,
       template_id: lockedMeal.template_id,
+      plan_source: lockedMeal.plan_source,
+      recipe_id: lockedMeal.recipe_id,
+      variant_id: lockedMeal.variant_id,
+      identity_level: lockedMeal.identity_level,
+      presentation: structuredClone(lockedMeal.presentation || null),
       locked_ingredients: lockedMeal.locked_ingredients,
       slot_assignment: lockedMeal.slot_assignment,
       ratio_constraints: lockedMeal.ratio_constraints,

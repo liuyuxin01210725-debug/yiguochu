@@ -25,30 +25,40 @@ const REQUIRED_ASSETS = [
   'recipe-library.json',
   '_worker.js',
   'planner-v2.js',
+  'planner-coverage.js',
   'ratio-dsl.js',
   'taxonomy-identity.js',
   'allergen-semantics.js',
   'generated-plan-contract.js',
+  'recipe-runtime-compiler.js',
+  'recipe-action-registry.js',
+  'recipe-action-profile-validator.js',
   'ingredient-taxonomy-validator.js',
   'meal-template-validator.js',
   'recipe-library-validator.js',
   'ingredient-taxonomy.v1.json',
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
+  'recipe-action-profiles.v1.json',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
   ['planner-v2.js', path.join(ROOT, 'worker', 'src', 'planner-v2.js')],
+  ['planner-coverage.js', path.join(ROOT, 'worker', 'src', 'planner-coverage.js')],
   ['ratio-dsl.js', path.join(ROOT, 'worker', 'src', 'ratio-dsl.js')],
   ['taxonomy-identity.js', path.join(ROOT, 'worker', 'src', 'taxonomy-identity.js')],
   ['allergen-semantics.js', path.join(ROOT, 'worker', 'src', 'allergen-semantics.js')],
   ['generated-plan-contract.js', path.join(ROOT, 'worker', 'src', 'generated-plan-contract.js')],
+  ['recipe-runtime-compiler.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-compiler.js')],
+  ['recipe-action-registry.js', path.join(ROOT, 'worker', 'src', 'recipe-action-registry.js')],
+  ['recipe-action-profile-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-action-profile-validator.js')],
   ['ingredient-taxonomy-validator.js', path.join(ROOT, 'worker', 'src', 'ingredient-taxonomy-validator.js')],
   ['meal-template-validator.js', path.join(ROOT, 'worker', 'src', 'meal-template-validator.js')],
   ['recipe-library-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-library-validator.js')],
   ['ingredient-taxonomy.v1.json', path.join(ROOT, 'tools', 'data', 'ingredient-taxonomy.v1.json')],
   ['meal-templates.v2.json', path.join(ROOT, 'tools', 'data', 'meal-templates.v2.json')],
   ['ratio-rules.v1.json', path.join(ROOT, 'tools', 'data', 'ratio-rules.v1.json')],
+  ['recipe-action-profiles.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-action-profiles.v1.json')],
 ]);
 
 function makeOutputDir() {
@@ -210,7 +220,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 23);
+    assert.equal(buildRecord.files, 28);
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
       /const C = 'yiguochu-shell-v4-canonical-test';/,
@@ -328,7 +338,7 @@ test('built Worker contains its complete relative module graph and plans from em
   try {
     build(outputDir);
     const graph = assertBuiltImportGraph(outputDir);
-    assert.equal(graph.size, 9);
+    assert.equal(graph.size, 13);
     const { default: builtWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?built=${Date.now()}`);
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };

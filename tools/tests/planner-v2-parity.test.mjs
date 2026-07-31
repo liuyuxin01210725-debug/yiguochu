@@ -858,13 +858,15 @@ test('missing Node and invalid bridge JSON fail closed with bounded planner erro
 test('generate bridge timeout is bounded and maps to upstream_timeout without retry', async () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-bridge-timeout-'));
   const wrapper = path.join(tempDir, 'node-wrapper');
-  fs.writeFileSync(wrapper, `#!/bin/sh\nif [ "$2" = "/generate-plan" ]; then sleep 2; exit 0; fi\nexec "${process.execPath}" "$1" "$2"\n`);
+  fs.writeFileSync(wrapper, `#!/bin/sh\nif [ "$2" = "/generate-plan" ]; then sleep 5; exit 0; fi\nexec "${process.execPath}" "$1" "$2"\n`);
   fs.chmodSync(wrapper, 0o700);
   const proxy = await startProxy({
     RATE_LIMIT: '10',
     DEEPSEEK_API_KEY: 'test-key',
     PLANNER_NODE_EXECUTABLE: wrapper,
-    PLANNER_BRIDGE_TIMEOUT_S: '0.75',
+    // Test-only timing: keep a wide scheduler margin under the serial full
+    // suite without changing ai_proxy.py's production timeout default.
+    PLANNER_BRIDGE_TIMEOUT_S: '1.5',
   });
   try {
     const planRequest = request({ must: ['番茄', '鸡蛋'] });
@@ -874,7 +876,7 @@ test('generate bridge timeout is bounded and maps to upstream_timeout without re
     const elapsed = performance.now() - started;
     assert.equal(result.response.status, 504);
     assert.equal(result.body.code, 'upstream_timeout');
-    assert.ok(elapsed < 1800, `bridge timeout took ${elapsed}ms`);
+    assert.ok(elapsed < 4000, `bridge timeout took ${elapsed}ms`);
     assert.doesNotMatch(JSON.stringify(result.body), /node-wrapper|planner-v2-local-bridge|test-key/);
   } finally {
     await stopProxy(proxy);

@@ -339,6 +339,7 @@ function ratioFailure(code, message) {
     code,
     message,
     ingredient_amounts: [],
+    identity_amounts: [],
     required_extra_items: [],
     liquid_constraints: {},
     ratio_trace: [],
@@ -610,6 +611,30 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       if (!amounts.has(item.name) || amounts.get(item.name) <= 0) return ratioFailure('ratio_rule_invalid', '已确定食材缺少可执行克数。');
     }
     const ingredient_amounts = [...amounts.entries()].map(([name, grams]) => ({ name, grams })).sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
+    const identityKeysByName = new Map();
+    const identity_amounts = [];
+    for (const item of allSlotItems) {
+      if (!item.canonical_id) continue;
+      const key = `${item.canonical_id}\u0000${item.state || ''}\u0000${item.shape_or_cut || ''}`;
+      if (!identityKeysByName.has(item.name)) identityKeysByName.set(item.name, new Set());
+      identityKeysByName.get(item.name).add(key);
+      const grams = amounts.get(item.name);
+      if (!Number.isSafeInteger(grams) || grams <= 0) return ratioFailure('ratio_rule_invalid', '食材身份缺少可执行克数。');
+      if (!identity_amounts.some(row => row.canonical_id === item.canonical_id
+          && row.state === item.state && row.shape_or_cut === item.shape_or_cut)) {
+        identity_amounts.push({
+          name: item.name,
+          canonical_id: item.canonical_id,
+          state: item.state ?? null,
+          shape_or_cut: item.shape_or_cut ?? null,
+          grams,
+        });
+      }
+    }
+    if ([...identityKeysByName.values()].some(keys => keys.size > 1)) {
+      return ratioFailure('ratio_context_identity_ambiguous', '同名食材对应多个身份，无法安全绑定份量。');
+    }
+    identity_amounts.sort((left, right) => left.canonical_id.localeCompare(right.canonical_id));
     const required_extra_items = [...extras.values()].sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
     const retainedLiquidGrams = required_extra_items
       .filter(item => item.category === 'liquid')
@@ -626,6 +651,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       ok: true,
       code: 'ratio_compiled',
       ingredient_amounts,
+      identity_amounts,
       required_extra_items,
       liquid_constraints: retainedLiquidGrams === 0 ? {} : {
         retained_liquid_grams: retainedLiquidGrams,
@@ -1812,27 +1838,39 @@ function identitySlotAssignment(slotAssignment = {}) {
 }
 
 function identityExtra(item = {}) {
-  return {
+  const identity = {
     name: identityText(item.name),
     canonical: identityText(item.canonical || item.name),
     category: identityText(item.category),
     grams: Number.isSafeInteger(item.grams) && item.grams >= 0 ? item.grams : null,
   };
+  for (const field of ['canonical_id', 'state', 'shape_or_cut']) {
+    const value = identityText(item[field]);
+    if (value != null) identity[field] = value;
+  }
+  return identity;
 }
 
 function identityExtras(items = []) {
   return (Array.isArray(items) ? items : []).map(identityExtra)
-    .sort((left, right) => `${left.category || ''}\u0000${left.canonical || left.name || ''}`
-      .localeCompare(`${right.category || ''}\u0000${right.canonical || right.name || ''}`, 'zh-Hans-CN'));
+    .sort((left, right) => `${left.canonical_id || ''}\u0000${left.state || ''}\u0000${left.shape_or_cut || ''}\u0000${left.category || ''}\u0000${left.canonical || left.name || ''}`
+      .localeCompare(`${right.canonical_id || ''}\u0000${right.state || ''}\u0000${right.shape_or_cut || ''}\u0000${right.category || ''}\u0000${right.canonical || right.name || ''}`, 'zh-Hans-CN'));
 }
 
 function identityAmounts(items = []) {
-  return (Array.isArray(items) ? items : []).map(item => ({
-    name: identityText(item.name),
-    canonical: identityText(item.canonical || item.name),
-    grams: Number.isSafeInteger(item.grams) && item.grams >= 0 ? item.grams : null,
-  })).sort((left, right) => `${left.canonical || ''}\u0000${left.name || ''}`
-    .localeCompare(`${right.canonical || ''}\u0000${right.name || ''}`, 'zh-Hans-CN'));
+  return (Array.isArray(items) ? items : []).map(item => {
+    const identity = {
+      name: identityText(item.name),
+      canonical: identityText(item.canonical || item.name),
+      grams: Number.isSafeInteger(item.grams) && item.grams >= 0 ? item.grams : null,
+    };
+    for (const field of ['canonical_id', 'state', 'shape_or_cut']) {
+      const value = identityText(item[field]);
+      if (value != null) identity[field] = value;
+    }
+    return identity;
+  }).sort((left, right) => `${left.canonical_id || ''}\u0000${left.state || ''}\u0000${left.shape_or_cut || ''}\u0000${left.canonical || ''}\u0000${left.name || ''}`
+    .localeCompare(`${right.canonical_id || ''}\u0000${right.state || ''}\u0000${right.shape_or_cut || ''}\u0000${right.canonical || ''}\u0000${right.name || ''}`, 'zh-Hans-CN'));
 }
 
 function identitySafetyEndpoints(items = []) {
@@ -1852,7 +1890,7 @@ function identityRatioTrace(items = []) {
 }
 
 function identityPot(pot = {}) {
-  return {
+  const identity = {
     meal_sequence: Number.isInteger(pot.meal_sequence) ? pot.meal_sequence : null,
     template_id: identityText(pot.template_id),
     servings: Number.isInteger(pot.servings) ? pot.servings : null,
@@ -1867,6 +1905,11 @@ function identityPot(pot = {}) {
       max_minutes: finiteNonNegativeNumber(pot.time_range?.max_minutes) ? pot.time_range.max_minutes : null,
     },
   };
+  if (pot.execution_contract && typeof pot.execution_contract === 'object'
+      && !Array.isArray(pot.execution_contract) && Object.keys(pot.execution_contract).length > 0) {
+    identity.execution_contract = recursivelySortObjectKeys(structuredClone(pot.execution_contract));
+  }
+  return identity;
 }
 
 export function canonicalPlanIdentityPayload(result = {}) {

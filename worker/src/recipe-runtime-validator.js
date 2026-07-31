@@ -1,3 +1,10 @@
+import { RECIPE_ACTION_REGISTRY, RECIPE_SAFETY_EVIDENCE_REGISTRY } from './recipe-action-registry.js';
+import {
+  materializeProfileActions,
+  resolveRecipeActionProfile,
+  validateRecipeActionProfileCatalog,
+} from './recipe-action-profile-validator.js';
+
 const ACTIVATION_STATES = new Set(['planned', 'preview_enabled']);
 const IDENTITY_LEVELS = new Set(['canonical']);
 const R1_RECIPE_IDS = new Set([
@@ -11,23 +18,33 @@ const R1_RECIPE_IDS = new Set([
 const ENTRY_FIELDS = new Set([
   'recipe_id', 'activation_status', 'identity_level', 'identity_evidence', 'identity_signature',
   'approved_variants', 'template_id', 'slot_assignment', 'ratio_rule_ids', 'ratio_default_rule_id',
-  'technique_graph', 'seasoning_actions', 'safety_endpoints', 'naming', 'source_claims', 'household_trial',
+  'action_profile_ref', 'technique_graph', 'seasoning_actions', 'safety_endpoints', 'naming', 'source_claims', 'household_trial',
 ]);
 const IDENTITY_EVIDENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_SIGNATURE_FIELDS = new Set([
   'required_canonical_ids', 'required_states_or_cuts', 'forbidden_canonical_ids',
+  'identity_critical_action_sequence',
 ]);
 const STATE_OR_CUT_FIELDS = new Set(['canonical_id', 'value']);
+const ACTION_PROFILE_REF_FIELDS = new Set(['action_profile_id', 'profile_version']);
 const NAMING_FIELDS = new Set(['canonical_name']);
 const VARIANT_FIELDS = new Set(['variant_id', 'substitutions', 'identity_impact', 'naming']);
 const VARIANT_NAMING_FIELDS = new Set(['display_name']);
 const SUBSTITUTION_FIELDS = new Set(['slot_id', 'replaces_canonical_ids', 'allowed_canonical_ids']);
 const HOUSEHOLD_TRIAL_FIELDS = new Set(['status', 'trial_date', 'reviewer', 'outcome']);
-const TECHNIQUE_FIELDS = new Set(['phase', 'action_code', 'slot_ids']);
+const TECHNIQUE_FIELDS = new Set([
+  'phase', 'action_code', 'slot_ids', 'fact_refs', 'safety_endpoint_codes',
+  'produces_resources', 'consumes_resources',
+]);
 const SEASONING_FIELDS = new Set(['action_code', 'amount_source']);
 const SAFETY_ENDPOINT_FIELDS = new Set(['endpoint_code', 'canonical_ids']);
 const SOURCE_CLAIM_FIELDS = new Set(['claim_type', 'evidence_index']);
-const SEASONING_ACTION_CODES = new Set(['add_measured_seasoning']);
+const SEASONING_ACTION_CODES = new Set([
+  'taste_before_salt', 'add_locked_salt', 'add_locked_oil', 'omit_extra_salt',
+]);
+const SAFETY_ENDPOINT_ALIASES = new Map([
+  ['rice_tender', 'grain_tender_no_hard_center'],
+]);
 const SOURCE_CLAIM_TYPES = new Set(['identity', 'technique', 'ratio', 'seasoning', 'safety']);
 const REQUIRED_PREVIEW_CLAIM_TYPES = new Set(['identity', 'technique', 'ratio', 'seasoning', 'safety']);
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -56,7 +73,9 @@ function stringArray(value, label, errors) {
   for (const [index, item] of value.entries()) {
     if (!isNonEmptyString(item)) errors.push(`${label}[${index}] must be a non-empty string`);
   }
-  return value.filter(isNonEmptyString);
+  const valid = value.filter(isNonEmptyString);
+  if (new Set(valid).size !== valid.length) errors.push(`${label} must not contain duplicates`);
+  return valid;
 }
 
 function urlIsIndependentHttps(url) {
@@ -344,29 +363,20 @@ function validateStateOrCuts(values, label, requiredIdentityIds, canonicalItems,
   }
 }
 
-function templateStepApplies(step, assignedBySlot, canonicalItems) {
-  const relevantSlots = (step.slot_ids || []).filter(slotId => assignedBySlot.has(slotId));
-  if (relevantSlots.length === 0) return false;
-  if (!isPlainObject(step.when)) return true;
-  const whenItems = assignedBySlot.get(step.when.slot_id) || [];
-  return whenItems.some(canonicalId => canonicalItems.get(canonicalId)?.category === step.when.category);
-}
-
-function stepKey(step) {
-  return `${step.phase}\u0000${step.action_code}\u0000${[...(step.slot_ids || [])].sort().join('\u0001')}`;
-}
-
-function relevantStep(step, assignedBySlot) {
-  return { ...step, slot_ids: (step.slot_ids || []).filter(slotId => assignedBySlot.has(slotId)) };
-}
-
-function validateTechniqueGraph(graph, label, template, assignedBySlot, canonicalItems, previewEnabled, errors) {
+function validateTechniqueGraph(graph, label, identityCriticalSequence, assignedBySlot, requiredIdentityIds,
+  declaredSafetyEndpoints, ratioDefaultRule, previewEnabled, errors) {
   if (!Array.isArray(graph)) {
     errors.push(`${label} must be an array`);
     return;
   }
   if (previewEnabled && graph.length === 0) errors.push(`${label} must not be empty for preview_enabled`);
-  const templateSteps = Array.isArray(template?.cooking_order) ? template.cooking_order : [];
+  const reachableSlots = new Set();
+  const reachableSafety = new Set();
+  const ratioFacts = ratioDefaultFacts(ratioDefaultRule);
+  const availableResources = new Set();
+  const producedCounts = new Map();
+  const consumedCounts = new Map();
+  let previousPhase = 0;
   for (const [index, step] of graph.entries()) {
     const stepLabel = `${label}[${index}]`;
     if (!isPlainObject(step)) {
@@ -375,26 +385,148 @@ function validateTechniqueGraph(graph, label, template, assignedBySlot, canonica
     }
     pushUnknownKeys(errors, step, TECHNIQUE_FIELDS, stepLabel);
     if (!Number.isInteger(step.phase)) errors.push(`${stepLabel}.phase must be an integer`);
-    if (!isNonEmptyString(step.action_code)) errors.push(`${stepLabel}.action_code must be a non-empty string`);
+    else {
+      if (step.phase <= previousPhase) errors.push(`${label} phases must be strictly increasing and unique`);
+      previousPhase = step.phase;
+    }
+    const actionSchema = RECIPE_ACTION_REGISTRY[step.action_code];
+    if (!actionSchema) errors.push(`${stepLabel}.action_code is not an allowed recipe action`);
     const slotIds = stringArray(step.slot_ids, `${stepLabel}.slot_ids`, errors);
     if (slotIds.some(slotId => !assignedBySlot.has(slotId))) errors.push(`${stepLabel}.slot_ids must reference assigned slots`);
-    const matchingStep = templateSteps.find(templateStep => templateStep.phase === step.phase
-      && templateStep.action_code === step.action_code
-      && slotIds.length > 0
-      && slotIds.every(slotId => (templateStep.slot_ids || []).includes(slotId)));
-    if (!matchingStep) errors.push(`${stepLabel} does not belong to template cooking_order`);
-    else if (!templateStepApplies(matchingStep, assignedBySlot, canonicalItems)) errors.push(`${stepLabel} is not relevant to assigned ingredients`);
+    if (actionSchema) {
+      let expectedSlots = actionSchema.exact_slot_sets;
+      if (step.action_code === 'complete_recipe_safety') {
+        const ownerSlots = uniqueStrings((step.safety_endpoint_codes || []).flatMap(code => {
+          const endpoint = (declaredSafetyEndpoints || []).find(candidate => candidate?.endpoint_code === code);
+          return (endpoint?.canonical_ids || []).map(canonicalId => [...assignedBySlot.entries()]
+            .find(([, canonicalIds]) => canonicalIds.includes(canonicalId))?.[0]).filter(Boolean);
+        }));
+        expectedSlots = [ownerSlots];
+      }
+      const slotsMatch = expectedSlots.some(expected => setsMatch(new Set(expected), new Set(slotIds)));
+      if (!slotsMatch) errors.push(`${stepLabel}.slot_ids do not match action schema`);
+    }
+    for (const slotId of slotIds) if (assignedBySlot.has(slotId)) reachableSlots.add(slotId);
+    const factRefs = stringArray(step.fact_refs, `${stepLabel}.fact_refs`, errors);
+    for (const factRef of factRefs) {
+      if (!actionSchema?.allowed_facts.includes(factRef)) errors.push(`${stepLabel}.fact_refs ${factRef} is not owned by action ${step.action_code}`);
+      else if (!ratioFacts.has(factRef)) errors.push(`${stepLabel}.fact_refs ${factRef} is not locked by ratio_default`);
+    }
+    if (actionSchema && !setsMatch(new Set(factRefs), new Set(actionSchema.required_facts))) {
+      errors.push(`${stepLabel}.fact_refs must exactly match required action facts`);
+    }
+    const safetyCodes = step.safety_endpoint_codes == null
+      ? [] : stringArray(step.safety_endpoint_codes, `${stepLabel}.safety_endpoint_codes`, errors);
+    if (safetyCodes.length && step.action_code !== 'complete_recipe_safety') {
+      errors.push(`${stepLabel}.safety_endpoint_codes are only allowed on complete_recipe_safety`);
+    }
+    for (const code of safetyCodes) {
+      reachableSafety.add(code);
+      const endpoint = (declaredSafetyEndpoints || []).find(candidate => candidate?.endpoint_code === code);
+      if (!endpoint) {
+        errors.push(`${stepLabel}.safety_endpoint_codes ${code} is not declared`);
+        continue;
+      }
+      for (const canonicalId of endpoint?.canonical_ids || []) {
+        const assignedSlot = [...assignedBySlot.entries()]
+          .find(([, canonicalIds]) => canonicalIds.includes(canonicalId))?.[0];
+        if (!assignedSlot || !slotIds.includes(assignedSlot)) {
+          errors.push(`${stepLabel}.safety_endpoint_codes ${code} does not own canonical_id ${canonicalId}`);
+        }
+      }
+    }
+    const resourcePolicy = actionSchema || { produces_resources: [], consumes_resources: [] };
+    const produces = step.produces_resources == null ? []
+      : stringArray(step.produces_resources, `${stepLabel}.produces_resources`, errors);
+    const consumes = step.consumes_resources == null ? []
+      : stringArray(step.consumes_resources, `${stepLabel}.consumes_resources`, errors);
+    for (const resource of produces) {
+      if (!resourcePolicy.produces_resources.includes(resource)) {
+        errors.push(`${stepLabel}.produces_resources ${resource} is not owned by action ${step.action_code}`);
+        continue;
+      }
+      producedCounts.set(resource, (producedCounts.get(resource) || 0) + 1);
+      availableResources.add(resource);
+    }
+    for (const resource of consumes) {
+      if (!resourcePolicy.consumes_resources.includes(resource)) {
+        errors.push(`${stepLabel}.consumes_resources ${resource} is not owned by action ${step.action_code}`);
+        continue;
+      }
+      if (!availableResources.has(resource)) {
+        errors.push(`${label} ${resource} must be produced before it is consumed`);
+      }
+      consumedCounts.set(resource, (consumedCounts.get(resource) || 0) + 1);
+    }
+    if (actionSchema && (!setsMatch(new Set(produces), new Set(actionSchema.produces_resources))
+        || !setsMatch(new Set(consumes), new Set(actionSchema.consumes_resources)))) {
+      errors.push(`${stepLabel} resources must exactly match action schema`);
+    }
   }
   if (previewEnabled) {
-    const supplied = new Set(graph.filter(isPlainObject).map(stepKey));
-    for (const templateStep of templateSteps.filter(step => templateStepApplies(step, assignedBySlot, canonicalItems))) {
-      const expected = relevantStep(templateStep, assignedBySlot);
-      if (!supplied.has(stepKey(expected))) errors.push(`${label} missing required template step ${templateStep.phase}/${templateStep.action_code}`);
+    if (!Array.isArray(identityCriticalSequence) || !identityCriticalSequence.length
+        || graph.map(step => step?.action_code).join('\u0000') !== identityCriticalSequence.join('\u0000')) {
+      errors.push(`${label} does not match identity-critical action sequence`);
+    }
+    for (const canonicalId of requiredIdentityIds) {
+      const assignedSlot = [...assignedBySlot.entries()]
+        .find(([, canonicalIds]) => canonicalIds.includes(canonicalId))?.[0];
+      if (!assignedSlot || !reachableSlots.has(assignedSlot)) {
+        errors.push(`${label} required canonical_id ${canonicalId} is unreachable`);
+      }
+    }
+    for (const endpoint of declaredSafetyEndpoints || []) {
+      if (!reachableSafety.has(endpoint.endpoint_code)) {
+        errors.push(`${label} safety endpoint ${endpoint.endpoint_code} is not reachable`);
+      }
+    }
+    const retainedCooked = (ratioDefaultRule?.operations || []).some(operation => (
+      operation?.operator === 'ratio'
+      && operation?.numerator?.resource === 'retained_cooked_liquid_grams'
+    ));
+    if (retainedCooked && (producedCounts.get('retained_cooked_liquid') !== 1
+        || consumedCounts.get('retained_cooked_liquid') !== 1)) {
+      errors.push(`${label} retained_cooked_liquid must be produced and consumed exactly once`);
+    }
+    if (!retainedCooked && ((producedCounts.get('retained_cooked_liquid') || 0) > 0
+        || (consumedCounts.get('retained_cooked_liquid') || 0) > 0)) {
+      errors.push(`${label} retained_cooked_liquid resource requires retained cooked liquid ratio`);
+    }
+    const stagedLiquid = ratioDefaultRule?.liquid_distribution;
+    if (stagedLiquid && (producedCounts.get('reserved_liquid') !== 1
+        || consumedCounts.get('reserved_liquid') !== 1)) {
+      errors.push(`${label} reserved_liquid must be produced and consumed exactly once`);
+    }
+    if (stagedLiquid && !graph.some(step => step?.action_code === stagedLiquid.reserve_action_code)) {
+      errors.push(`${label} missing liquid_distribution reserve action ${stagedLiquid.reserve_action_code}`);
+    }
+    if (!stagedLiquid && ((producedCounts.get('reserved_liquid') || 0) > 0
+        || (consumedCounts.get('reserved_liquid') || 0) > 0)) {
+      errors.push(`${label} reserved_liquid resource requires liquid_distribution`);
     }
   }
 }
 
-function validateSeasoningActions(actions, label, previewEnabled, errors) {
+function uniqueStrings(values) {
+  return [...new Set(values)].sort((left, right) => left.localeCompare(right));
+}
+
+function ratioDefaultFacts(ratioRule) {
+  const facts = new Set();
+  for (const operation of Array.isArray(ratioRule?.operations) ? ratioRule.operations : []) {
+    if (operation?.operator === 'ratio') facts.add('total_liquid_grams');
+    if (!['fixed_addition', 'scale_by_servings'].includes(operation?.operator)) continue;
+    if (operation?.target?.name === '盐' && operation.target.category === 'seasoning') facts.add('salt_grams');
+    if (operation?.target?.name === '食用油' && operation.target.category === 'oil') facts.add('oil_grams');
+  }
+  if (ratioRule?.liquid_distribution) {
+    facts.add('initial_liquid_grams');
+    facts.add('reserve_liquid_grams');
+  }
+  return facts;
+}
+
+function validateSeasoningActions(actions, label, ratioDefaultRule, previewEnabled, errors) {
   if (!Array.isArray(actions)) {
     errors.push(`${label} must be an array`);
     return;
@@ -408,7 +540,34 @@ function validateSeasoningActions(actions, label, previewEnabled, errors) {
     }
     pushUnknownKeys(errors, action, SEASONING_FIELDS, actionLabel);
     if (!SEASONING_ACTION_CODES.has(action.action_code)) errors.push(`${actionLabel}.action_code is invalid`);
-    if (action.amount_source !== 'ratio_default') errors.push(`${actionLabel}.amount_source must be ratio_default`);
+    const expectedSource = ['taste_before_salt', 'omit_extra_salt'].includes(action.action_code)
+      ? 'none' : 'ratio_default';
+    if (action.amount_source !== expectedSource) errors.push(`${actionLabel}.amount_source must be ${expectedSource}`);
+  }
+  const actionCodes = actions.filter(isPlainObject).map(action => action.action_code);
+  if (new Set(actionCodes).size !== actionCodes.length) errors.push(`${label} must not contain duplicate seasoning actions`);
+  const facts = ratioDefaultFacts(ratioDefaultRule);
+  const saltDecisions = actionCodes.filter(code => ['add_locked_salt', 'omit_extra_salt'].includes(code));
+  if (previewEnabled && saltDecisions.length !== 1) errors.push(`${label} requires exactly one salt decision`);
+  if (actionCodes.includes('add_locked_salt') && !facts.has('salt_grams')) {
+    errors.push(`${label} add_locked_salt requires a locked salt fact`);
+  }
+  if (facts.has('salt_grams') && !actionCodes.includes('add_locked_salt')) {
+    errors.push(`${label} locked salt fact requires add_locked_salt`);
+  }
+  if (actionCodes.includes('add_locked_oil') && !facts.has('oil_grams')) {
+    errors.push(`${label} add_locked_oil requires a locked oil fact`);
+  }
+  if (facts.has('oil_grams') && !actionCodes.includes('add_locked_oil')) {
+    errors.push(`${label} locked oil fact requires add_locked_oil`);
+  }
+  if (actionCodes.includes('add_locked_salt') && actionCodes.includes('omit_extra_salt')) {
+    errors.push(`${label} cannot both add and omit extra salt`);
+  }
+  const tasteIndex = actionCodes.indexOf('taste_before_salt');
+  const saltDecisionIndex = actionCodes.findIndex(code => ['add_locked_salt', 'omit_extra_salt'].includes(code));
+  if (tasteIndex >= 0 && saltDecisionIndex >= 0 && tasteIndex > saltDecisionIndex) {
+    errors.push(`${label} taste_before_salt must precede the salt decision`);
   }
 }
 
@@ -420,6 +579,13 @@ function validateSafetyEndpoints(endpoints, label, template, canonicalItems, ass
   if (previewEnabled && endpoints.length === 0) errors.push(`${label} preview_enabled requires at least one safety endpoint`);
   const templateEndpoints = new Map((Array.isArray(template?.safety_endpoints) ? template.safety_endpoints : [])
     .map(endpoint => [endpoint.endpoint_code, endpoint.applies_to_category]));
+  const knownEndpointCodes = new Set([
+    ...templateEndpoints.keys(),
+    ...[...canonicalItems.values()].flatMap(item => item.cooking_risk?.required_endpoint_codes || [])
+      .map(code => SAFETY_ENDPOINT_ALIASES.get(code) || code),
+  ]);
+  const endpointCodes = endpoints.filter(isPlainObject).map(endpoint => endpoint.endpoint_code).filter(isNonEmptyString);
+  if (new Set(endpointCodes).size !== endpointCodes.length) errors.push(`${label} endpoint_code must be unique`);
   for (const [index, endpoint] of endpoints.entries()) {
     const endpointLabel = `${label}[${index}]`;
     if (!isPlainObject(endpoint)) {
@@ -431,18 +597,28 @@ function validateSafetyEndpoints(endpoints, label, template, canonicalItems, ass
       errors.push(`${endpointLabel}.endpoint_code must be a non-empty string`);
       continue;
     }
-    const category = templateEndpoints.get(endpoint.endpoint_code);
-    if (!category) {
-      errors.push(`${endpointLabel} safety endpoint ${endpoint.endpoint_code} does not belong to template`);
+    if (!knownEndpointCodes.has(endpoint.endpoint_code)) {
+      errors.push(`${endpointLabel} safety endpoint ${endpoint.endpoint_code} is unknown`);
       continue;
+    }
+    if (previewEnabled && !RECIPE_SAFETY_EVIDENCE_REGISTRY[endpoint.endpoint_code]) {
+      errors.push(`${endpointLabel} safety endpoint lacks deterministic writer`);
     }
     const canonicalIds = stringArray(endpoint.canonical_ids, `${endpointLabel}.canonical_ids`, errors);
     if (previewEnabled && canonicalIds.length === 0) errors.push(`${endpointLabel}.canonical_ids must not be empty for preview_enabled`);
     for (const canonicalId of canonicalIds) {
       const item = canonicalItems.get(canonicalId);
       if (!item) errors.push(`${endpointLabel} unknown canonical_id ${canonicalId}`);
-      else if (item.category !== category) errors.push(`${endpointLabel} canonical_id ${canonicalId} is incompatible with safety endpoint`);
-      else if (previewEnabled && assignedCounts.get(canonicalId) !== 1) {
+      else {
+        const requiredCodes = new Set((item.cooking_risk?.required_endpoint_codes || [])
+          .map(code => SAFETY_ENDPOINT_ALIASES.get(code) || code));
+        const templateCategory = templateEndpoints.get(endpoint.endpoint_code);
+        if (!requiredCodes.has(endpoint.endpoint_code)
+            && templateCategory !== item.category) {
+          errors.push(`${endpointLabel} canonical_id ${canonicalId} is incompatible with safety endpoint`);
+        }
+      }
+      if (item && previewEnabled && assignedCounts.get(canonicalId) !== 1) {
         errors.push(`${endpointLabel} safety endpoint ${endpoint.endpoint_code} canonical_id ${canonicalId} is not assigned`);
       }
     }
@@ -451,8 +627,13 @@ function validateSafetyEndpoints(endpoints, label, template, canonicalItems, ass
     for (const [canonicalId, count] of assignedCounts) {
       if (count !== 1) continue;
       const item = canonicalItems.get(canonicalId);
-      for (const [endpointCode, category] of templateEndpoints) {
-        if (item?.category !== category) continue;
+      const requiredCodes = new Set([
+        ...(item?.cooking_risk?.required_endpoint_codes || [])
+          .map(code => SAFETY_ENDPOINT_ALIASES.get(code) || code),
+        ...[...templateEndpoints.entries()].filter(([, category]) => item?.category === category)
+          .map(([endpointCode]) => endpointCode),
+      ]);
+      for (const endpointCode of requiredCodes) {
         const supplied = endpoints.some(endpoint => endpoint?.endpoint_code === endpointCode
           && Array.isArray(endpoint.canonical_ids) && endpoint.canonical_ids.includes(canonicalId));
         if (!supplied) errors.push(`${label} missing required safety endpoint ${endpointCode} for canonical_id ${canonicalId}`);
@@ -488,7 +669,9 @@ function validateSourceClaims(claims, label, evidence, previewEnabled, errors) {
   }
 }
 
-export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templates, ratios } = {}) {
+export function validateRecipeRuntimeCatalog(catalog, {
+  recipes, taxonomy, templates, ratios, actionProfiles,
+} = {}) {
   const errors = [];
   if (!isPlainObject(catalog)) return ['recipe runtime catalog must be an object'];
   pushUnknownKeys(errors, catalog, new Set(['recipe_runtime_catalog_version', 'entries']), 'catalog');
@@ -498,6 +681,10 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
   if (!Array.isArray(catalog.entries)) {
     errors.push('catalog entries must be an array');
     return errors;
+  }
+
+  if (actionProfiles != null) {
+    errors.push(...validateRecipeActionProfileCatalog(actionProfiles));
   }
 
   const recipeIds = knownIds(recipes?.recipes, 'id');
@@ -549,6 +736,7 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
     }
 
     let requiredIdentityIds = new Set();
+    let identityCriticalSequence = [];
     if (!isPlainObject(entry.identity_signature)) {
       errors.push(`${label}.identity_signature must be an object`);
     } else {
@@ -564,6 +752,14 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
         `${label}.identity_signature.required_canonical_ids`,
         errors,
       ));
+      identityCriticalSequence = entry.identity_signature.identity_critical_action_sequence == null
+        ? [] : stringArray(entry.identity_signature.identity_critical_action_sequence,
+          `${label}.identity_signature.identity_critical_action_sequence`, errors);
+      for (const actionCode of identityCriticalSequence) {
+        if (!RECIPE_ACTION_REGISTRY[actionCode]) {
+          errors.push(`${label}.identity_signature.identity_critical_action_sequence unknown action ${actionCode}`);
+        }
+      }
       validateStateOrCuts(entry.identity_signature.required_states_or_cuts,
         `${label}.identity_signature.required_states_or_cuts`, requiredIdentityIds, canonicalItems, errors);
       if (entry.activation_status === 'preview_enabled'
@@ -625,9 +821,64 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
         }
       }
     }
-    validateTechniqueGraph(entry.technique_graph, `${label}.technique_graph`, template,
-      assignment.assignedBySlot, canonicalItems, entry.activation_status === 'preview_enabled', errors);
-    validateSeasoningActions(entry.seasoning_actions, `${label}.seasoning_actions`, entry.activation_status === 'preview_enabled', errors);
+    let profileGraph = null;
+    let profileSequence = [];
+    if (entry.action_profile_ref != null) {
+      if (!isPlainObject(entry.action_profile_ref)) {
+        errors.push(`${label}.action_profile_ref must be an object`);
+      } else {
+        pushUnknownKeys(errors, entry.action_profile_ref, ACTION_PROFILE_REF_FIELDS, `${label}.action_profile_ref`);
+        for (const field of ACTION_PROFILE_REF_FIELDS) {
+          if (!isNonEmptyString(entry.action_profile_ref[field])) {
+            errors.push(`${label}.action_profile_ref.${field} must be a non-empty string`);
+          }
+        }
+        try {
+          const profile = resolveRecipeActionProfile(actionProfiles, entry.action_profile_ref);
+          profileGraph = materializeProfileActions(profile);
+          profileSequence = profileGraph.map(step => step.action_code);
+        } catch (error) {
+          errors.push(`${label}.${error.message}`);
+        }
+      }
+    } else if (entry.activation_status === 'preview_enabled') {
+      errors.push(`${label}.action_profile_ref is required for preview_enabled`);
+    }
+    if (entry.activation_status === 'preview_enabled' && profileGraph) {
+      validateTechniqueGraph(profileGraph.map(({ instance_id: _instanceId, ...action }) => action),
+        `${label}.action_profile`, profileSequence, assignment.assignedBySlot,
+        requiredIdentityIds, entry.safety_endpoints, ratioById.get(entry.ratio_default_rule_id), true, errors);
+      if (Array.isArray(entry.technique_graph) && entry.technique_graph.length > 0) {
+        validateTechniqueGraph(entry.technique_graph, `${label}.technique_graph`, identityCriticalSequence.length
+          ? identityCriticalSequence : entry.technique_graph.map(step => step?.action_code), assignment.assignedBySlot,
+        requiredIdentityIds, entry.safety_endpoints, ratioById.get(entry.ratio_default_rule_id), true, errors);
+        const legacyContract = entry.technique_graph.map(step => ({
+          action_code: step.action_code,
+          slot_ids: step.slot_ids || [],
+          fact_refs: step.fact_refs || [],
+          produces_resources: step.produces_resources || [],
+          consumes_resources: step.consumes_resources || [],
+          safety_endpoint_codes: step.safety_endpoint_codes || [],
+        }));
+        const profileContract = profileGraph.map(step => ({
+          action_code: step.action_code,
+          slot_ids: step.slot_ids || [],
+          fact_refs: step.fact_refs || [],
+          produces_resources: step.produces_resources || [],
+          consumes_resources: step.consumes_resources || [],
+          safety_endpoint_codes: step.safety_endpoint_codes || [],
+        }));
+        if (JSON.stringify(legacyContract) !== JSON.stringify(profileContract)) {
+          errors.push(`${label}.technique_graph must match independent action profile`);
+        }
+      }
+    } else {
+      validateTechniqueGraph(entry.technique_graph, `${label}.technique_graph`, identityCriticalSequence,
+        assignment.assignedBySlot, requiredIdentityIds, entry.safety_endpoints,
+        ratioById.get(entry.ratio_default_rule_id), false, errors);
+    }
+    validateSeasoningActions(entry.seasoning_actions, `${label}.seasoning_actions`,
+      ratioById.get(entry.ratio_default_rule_id), entry.activation_status === 'preview_enabled', errors);
     validateSafetyEndpoints(entry.safety_endpoints, `${label}.safety_endpoints`, template, canonicalItems,
       assignment.assignedCounts, entry.activation_status === 'preview_enabled', errors);
     validateSourceClaims(entry.source_claims, `${label}.source_claims`, entry.identity_evidence || [], entry.activation_status === 'preview_enabled', errors);

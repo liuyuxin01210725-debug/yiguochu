@@ -18,12 +18,29 @@ const SYNTHETIC_RECIPE_RATIOS = [
     evidence_recipe_ids: ['shanghai-salted-pork-vegetable-rice'],
     execution_mode: 'executable',
     when: { recipe_id: 'shanghai-salted-pork-vegetable-rice' },
+    operations: [{
+      operator: 'ratio', target: { name: '水', category: 'liquid' },
+      numerator: { resource: 'retained_liquid_grams' },
+      denominator: { canonical_id: 'raw-rice', state: 'raw', measure: 'grams' },
+      min: 1.3, default: 1.3, max: 1.3,
+    }],
   },
   {
     rule_id: 'synthetic-north-china-recipe-executable-v1',
     evidence_recipe_ids: ['north-china-green-bean-braised-noodles'],
     execution_mode: 'executable',
     when: { recipe_id: 'north-china-green-bean-braised-noodles' },
+    operations: [{
+      operator: 'ratio', target: { name: '水', category: 'liquid' },
+      numerator: { resource: 'retained_liquid_grams' },
+      denominator: { canonical_id: 'fresh-wheat-noodle', state: 'raw', measure: 'grams' },
+      min: 0.5, default: 0.5, max: 0.5,
+    }],
+    liquid_distribution: {
+      initial_fraction: 0.8,
+      reserve_fraction: 0.2,
+      reserve_action_code: 'add_reserved_liquid_if_needed',
+    },
   },
 ];
 const context = {
@@ -31,6 +48,7 @@ const context = {
   taxonomy: readJson('ingredient-taxonomy.v1.json'),
   templates: readJson('meal-templates.v2.json'),
   ratios: { ...productionRatios, rules: [...productionRatios.rules, ...SYNTHETIC_RECIPE_RATIOS] },
+  actionProfiles: readJson('recipe-action-profiles.v1.json'),
 };
 
 const INITIAL_RECIPE_IDS = new Set([
@@ -44,6 +62,28 @@ const INITIAL_RECIPE_IDS = new Set([
 
 const COMPLETE_SOURCE_CLAIMS = ['identity', 'technique', 'ratio', 'seasoning', 'safety']
   .map(claim_type => ({ claim_type, evidence_index: 0 }));
+
+function installActionProfile(entry, profileId) {
+  const instances = entry.technique_graph.map((action, index) => ({
+    instance_id: `${profileId}-step-${index + 1}`,
+    action_code: action.action_code,
+    slot_ids: [...(action.slot_ids || [])],
+    fact_refs: [...(action.fact_refs || [])],
+    produces_resources: [...(action.produces_resources || [])],
+    consumes_resources: [...(action.consumes_resources || [])],
+    safety_endpoint_codes: [...(action.safety_endpoint_codes || [])],
+  }));
+  entry.action_profile_ref = { action_profile_id: profileId, profile_version: 'test-v1' };
+  context.actionProfiles = {
+    action_profile_catalog_version: 'recipe-action-profiles-v1-20260731-r1',
+    profiles: [{
+      action_profile_id: profileId,
+      profile_version: 'test-v1',
+      instances,
+      execution_sequence: instances.map(instance => instance.instance_id),
+    }],
+  };
+}
 
 function completeSyntheticPreview() {
   const preview = structuredClone(catalog);
@@ -60,14 +100,22 @@ function completeSyntheticPreview() {
   entry.ratio_rule_ids = ['synthetic-shanghai-recipe-executable-v1'];
   entry.ratio_default_rule_id = 'synthetic-shanghai-recipe-executable-v1';
   entry.technique_graph = [
-    { phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] },
-    { phase: 6, action_code: 'add_pork', slot_ids: ['protein'] },
-    { phase: 8, action_code: 'add_staple_and_liquid', slot_ids: ['staple'] },
-    { phase: 12, action_code: 'add_fast_cooking_items', slot_ids: ['fast_vegetable'] },
-    { phase: 13, action_code: 'reach_safety_endpoints', slot_ids: ['protein'] },
+    { phase: 1, action_code: 'start_cured_pork_and_rice', slot_ids: ['protein', 'staple'], fact_refs: [] },
+    { phase: 2, action_code: 'add_locked_liquid', slot_ids: ['staple'], fact_refs: ['total_liquid_grams'] },
+    { phase: 3, action_code: 'cook_rice_until_tender_before_late_greens', slot_ids: ['staple'], fact_refs: [] },
+    { phase: 4, action_code: 'add_leafy_vegetable_late', slot_ids: ['fast_vegetable'], fact_refs: [] },
+    { phase: 5, action_code: 'complete_recipe_safety', slot_ids: ['protein', 'staple'], fact_refs: [], safety_endpoint_codes: ['pork_fully_cooked', 'grain_tender_no_hard_center'] },
   ];
-  entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
-  entry.safety_endpoints = [{ endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] }];
+  entry.identity_signature.identity_critical_action_sequence = entry.technique_graph.map(action => action.action_code);
+  installActionProfile(entry, 'test-shanghai-profile');
+  entry.seasoning_actions = [
+    { action_code: 'taste_before_salt', amount_source: 'none' },
+    { action_code: 'omit_extra_salt', amount_source: 'none' },
+  ];
+  entry.safety_endpoints = [
+    { endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] },
+    { endpoint_code: 'grain_tender_no_hard_center', canonical_ids: ['raw-rice'] },
+  ];
   entry.source_claims = structuredClone(COMPLETE_SOURCE_CLAIMS);
   entry.household_trial = {
     status: 'completed',
@@ -94,13 +142,16 @@ function completeSyntheticNorthChinaPreview() {
   entry.ratio_rule_ids = ['synthetic-north-china-recipe-executable-v1'];
   entry.ratio_default_rule_id = 'synthetic-north-china-recipe-executable-v1';
   entry.technique_graph = [
-    { phase: 1, action_code: 'protein_pretreat', slot_ids: ['protein'] },
-    { phase: 2, action_code: 'add_liquid', slot_ids: ['liquid'] },
-    { phase: 3, action_code: 'simmer_until_tender', slot_ids: ['protein', 'vegetable'] },
-    { phase: 4, action_code: 'add_noodle', slot_ids: ['staple'] },
-    { phase: 5, action_code: 'reach_safety_endpoints', slot_ids: ['staple', 'protein', 'vegetable'] },
+    { phase: 1, action_code: 'break_up_ground_pork', slot_ids: ['protein'], fact_refs: [] },
+    { phase: 2, action_code: 'measure_add_initial_and_reserve_liquid', slot_ids: ['liquid'], fact_refs: ['initial_liquid_grams', 'reserve_liquid_grams'], produces_resources: ['reserved_liquid'], consumes_resources: [] },
+    { phase: 3, action_code: 'simmer_pork_and_beans', slot_ids: ['protein', 'vegetable'], fact_refs: [] },
+    { phase: 4, action_code: 'add_fresh_noodle', slot_ids: ['staple'], fact_refs: [] },
+    { phase: 5, action_code: 'add_reserved_liquid_if_needed', slot_ids: ['liquid'], fact_refs: ['reserve_liquid_grams'], produces_resources: [], consumes_resources: ['reserved_liquid'] },
+    { phase: 6, action_code: 'complete_recipe_safety', slot_ids: ['staple', 'protein', 'vegetable'], fact_refs: [], safety_endpoint_codes: ['pork_fully_cooked', 'bean_fully_cooked', 'noodle_tender'] },
   ];
-  entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
+  entry.identity_signature.identity_critical_action_sequence = entry.technique_graph.map(action => action.action_code);
+  installActionProfile(entry, 'test-north-china-profile');
+  entry.seasoning_actions = [{ action_code: 'omit_extra_salt', amount_source: 'none' }];
   entry.safety_endpoints = [
     { endpoint_code: 'pork_fully_cooked', canonical_ids: ['ground-pork'] },
     { endpoint_code: 'bean_fully_cooked', canonical_ids: ['green-beans'] },
@@ -375,7 +426,7 @@ test('preview activation enforces recipe, template, ratio, slot and safety relat
     'canonical_id tomato is not a recipe core identity',
     'slot_assignment unknown slot invented_slot',
     'ratio_rule_id acid-staple-raw-rice-liquid-v1 must be recipe-scoped',
-    'safety endpoint bean_fully_cooked does not belong to template',
+    'canonical_id salted-pork-belly is incompatible with safety endpoint',
   ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
 
@@ -404,7 +455,7 @@ test('preview rejects the review adversary with individually valid but unrelated
     'slot_assignment required slot staple must be assigned',
     'required canonical_id raw-rice must be assigned exactly once',
     'required_states_or_cuts[0] must be an object',
-    'technique_graph missing required template step',
+    'technique_graph required canonical_id raw-rice is unreachable',
     'safety endpoint lamb_fully_cooked canonical_id lamb-leg is not assigned',
     'missing required safety endpoint pork_fully_cooked for canonical_id salted-pork-belly',
     'household_trial.trial_date must be a real calendar date',

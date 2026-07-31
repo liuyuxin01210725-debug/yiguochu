@@ -81,6 +81,33 @@ function executableShanghaiRule() {
   return rule;
 }
 
+function executableNorthChinaNoodleRule() {
+  return {
+    rule_id: 'test-fixture-north-china-staged-liquid-v1',
+    evidence_recipe_ids: ['north-china-green-bean-braised-noodles'],
+    execution_mode: 'executable',
+    when: { recipe_id: 'north-china-green-bean-braised-noodles' },
+    operations: [
+      { operator: 'per_serving', target: { canonical_id: 'fresh-wheat-noodle', state: 'raw', shape_or_cut: 'whole' }, grams: { min: 100, default: 100, max: 100 } },
+      { operator: 'per_serving', target: { canonical_id: 'green-beans', state: 'raw' }, grams: { min: 90, default: 90, max: 90 } },
+      { operator: 'per_serving', target: { canonical_id: 'ground-pork', state: 'raw', shape_or_cut: 'ground' }, grams: { min: 80, default: 80, max: 80 } },
+      {
+        operator: 'ratio', target: { name: '水', category: 'liquid' },
+        numerator: { resource: 'retained_liquid_grams' },
+        denominator: { canonical_id: 'fresh-wheat-noodle', state: 'raw', shape_or_cut: 'whole', measure: 'grams' },
+        min: 0.85, default: 0.85, max: 0.85,
+      },
+    ],
+    liquid_distribution: {
+      initial_fraction: 0.8,
+      reserve_fraction: 0.2,
+      reserve_action_code: 'add_reserved_liquid_if_needed',
+    },
+    rounding: { grams_to_nearest: 1 },
+    example_context: { ingredient_name: '鲜小麦面条' },
+  };
+}
+
 test('ratio grams normalize exactly once at the executable DSL boundary', () => {
   assert.equal(normalizeRatioGrams(133.3, 1), 133);
   assert.equal(normalizeRatioGrams(133.3, 5), 135);
@@ -1084,8 +1111,21 @@ test('template rules forbid recipe-only execution_mode injection', () => {
   }
 });
 
-test('recipe rules forbid liquid_distribution until recipe execution supports a validated contract', () => {
-  const invalid = recipeBoundsRule();
+test('recipe liquid_distribution is executable-only and uses the same validated split contract', () => {
+  const executable = executableNorthChinaNoodleRule();
+  assert.doesNotMatch(
+    validateRatioDslCatalog(catalogWithRecipeRule(executable), templates, taxonomy, recipes).join('\n'),
+    /liquid_distribution/u,
+  );
+
+  const boundsOnly = recipeBoundsRule();
+  boundsOnly.liquid_distribution = structuredClone(executable.liquid_distribution);
+  assert.match(
+    validateRatioDslCatalog(catalogWithRecipeRule(boundsOnly), templates, taxonomy, recipes).join('\n'),
+    /liquid_distribution is only executable for recipe scope/u,
+  );
+
+  const invalid = executableNorthChinaNoodleRule();
   invalid.liquid_distribution = {
     initial_fraction: 9,
     reserve_fraction: -8,
@@ -1093,7 +1133,7 @@ test('recipe rules forbid liquid_distribution until recipe execution supports a 
   };
   assert.match(
     validateRatioDslCatalog(catalogWithRecipeRule(invalid), templates, taxonomy, recipes).join('\n'),
-    /liquid_distribution is forbidden for recipe scope/,
+    /liquid_distribution.*(?:sum to 1|reserve_action_code)/u,
   );
 });
 

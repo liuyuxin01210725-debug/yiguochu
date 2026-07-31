@@ -248,7 +248,13 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
             || rule.evidence_recipe_ids[0] !== rule.when.recipe_id) {
           errors.push(`${label}.evidence_recipe_ids must be evidence for recipe ${rule.when.recipe_id}`);
         }
-        if (rule.liquid_distribution != null) errors.push(`${label}.liquid_distribution is forbidden for recipe scope`);
+        if (rule.liquid_distribution != null) {
+          if (rule.execution_mode !== 'executable') {
+            errors.push(`${label}.liquid_distribution is only executable for recipe scope`);
+          } else {
+            validateLiquidDistribution(rule.liquid_distribution, `${label}.liquid_distribution`, errors);
+          }
+        }
         const coreResolution = exactRecipeCoreIdentityResolution(recipe, taxonomyById);
         const coreCanonicalIds = coreResolution.canonicalIds;
         if (rule.execution_mode === 'executable' && coreResolution.unresolvedOrAmbiguous.length) {

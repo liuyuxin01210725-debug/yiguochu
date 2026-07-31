@@ -552,7 +552,9 @@ test('accepted partial generates only from the exact acknowledged request and re
   assert.equal(result.body.status, 'partial_accepted');
   assert.deepEqual(result.body.plan.unplanned_must_use, accepted.planned.plan.unplanned_must_use);
   assert.equal(result.body.meals.length, accepted.planned.plan.pots.length);
-  assert.doesNotMatch(JSON.stringify(lockedInputFromUpstreamBody(result.upstreamBodies[0])), /神秘叶子/);
+  const lockedForExpression = lockedInputFromUpstreamBody(result.upstreamBodies[0]);
+  assert.match(JSON.stringify(lockedForExpression.plan.unplanned_must_use), /神秘叶子/);
+  assert.doesNotMatch(JSON.stringify(lockedForExpression.meals), /神秘叶子/);
 });
 
 test('a forged accepted-partial id or acknowledgement is rejected before budget', async () => {
@@ -758,7 +760,7 @@ test('controlled phrases omit empty optional phases and render executable one-po
     .findIndex(phase => phase.action_code === 'add_staple_and_liquid');
   assert.ok(staplePhaseIndex >= 0);
   for (const text of locked.meals[0].generation_text_contract.steps[staplePhaseIndex].allowed_texts) {
-    assert.match(text, /加盖焖煮.*(?:熟软|无硬芯)/);
+    assert.match(text, /(?:加盖焖煮.*(?:熟软|无硬芯)|熟米饭整体热透)/);
   }
   const output = validModelOutput(locked);
   const checked = workerModule.validateGeneratedPlan(output, locked, ingredientTermUniverse());

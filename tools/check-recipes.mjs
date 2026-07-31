@@ -129,6 +129,7 @@ const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.
 const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.json', import.meta.url), 'utf8'));
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
 const recipeRuntimeCatalog = JSON.parse(fs.readFileSync(new URL('./data/recipe-runtime.v1.json', import.meta.url), 'utf8'));
+const recipeActionProfiles = JSON.parse(fs.readFileSync(new URL('./data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'));
 const regionalResearch = readReviewLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
 const verificationCases = readReviewLedger('./data/menu-verification-cases.v1.json', 'menu verification cases ledger');
 const menuMasterBaseline = readReviewLedger('./data/menu-master-baseline.v1.json', 'menu master Phase Zero baseline');
@@ -159,6 +160,7 @@ const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   taxonomy,
   templates,
   ratios,
+  actionProfiles: recipeActionProfiles,
 });
 errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...recipeRuntimeErrors);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];

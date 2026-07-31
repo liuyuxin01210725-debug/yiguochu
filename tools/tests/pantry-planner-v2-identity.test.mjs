@@ -117,6 +117,20 @@ test('plan ID ignores generated prose, UI facts, timestamps, plan ID itself and 
   assert.equal(await planner.computePlanId(a), await planner.computePlanId(b));
 });
 
+test('custom plan identity keeps the pre-runtime canonical payload and plan ID when no execution contract exists', async () => {
+  const payload = planner.canonicalPlanIdentityPayload(lockedPlan);
+  assert.equal(Object.hasOwn(payload.pots[0], 'execution_contract'), false);
+
+  const legacyPayload = structuredClone(payload);
+  delete legacyPayload.pots[0].execution_contract;
+  const bytes = new TextEncoder().encode(planner.stableCanonicalJson(legacyPayload));
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes));
+  let binary = '';
+  for (const byte of digest) binary += String.fromCharCode(byte);
+  const expectedLegacyId = `pln_v2_${btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/u, '')}`;
+  assert.equal(await planner.computePlanId(lockedPlan), expectedLegacyId);
+});
+
 test('plan IDs use exact unpadded Web-Crypto SHA-256 base64url form without Buffer dependency', async () => {
   expectIdentityApi();
   const originalBuffer = globalThis.Buffer;

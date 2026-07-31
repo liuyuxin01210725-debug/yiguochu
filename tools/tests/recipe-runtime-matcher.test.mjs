@@ -18,27 +18,58 @@ const productionAssets = Object.freeze({
   templates: readJson('meal-templates.v2.json'),
   ratios: baseRatios,
   recipeRuntime: readJson('recipe-runtime.v1.json'),
+  actionProfiles: readJson('recipe-action-profiles.v1.json'),
 });
 
 const COMPLETE_SOURCE_CLAIMS = ['identity', 'technique', 'ratio', 'seasoning', 'safety']
   .map(claim_type => ({ claim_type, evidence_index: 0 }));
 
-function addSyntheticExecutableRule(assets, recipeId, ruleId) {
+function addSyntheticExecutableRule(assets, recipeId, ruleId, { retainedCookedLiquid = false } = {}) {
   assets.ratios.rules.push({
     rule_id: ruleId,
     evidence_recipe_ids: [recipeId],
     execution_mode: 'executable',
     when: { recipe_id: recipeId },
+    operations: [{
+      operator: 'ratio',
+      target: { name: '水', category: 'liquid' },
+      numerator: { resource: retainedCookedLiquid ? 'retained_cooked_liquid_grams' : 'raw_staple_grams' },
+      denominator: { canonical_id: 'raw-rice', state: 'raw', measure: 'grams' },
+      min: 1,
+      default: 1,
+      max: 1,
+    }],
   });
 }
 
-function completePreviewEntry(entry, { ratioRuleId, slotAssignment, techniqueGraph, safetyEndpoints }) {
+function completePreviewEntry(assets, entry, {
+  ratioRuleId, slotAssignment, techniqueGraph, safetyEndpoints, seasoningActions,
+}) {
   entry.activation_status = 'preview_enabled';
   entry.slot_assignment = slotAssignment;
   entry.ratio_rule_ids = [ratioRuleId];
   entry.ratio_default_rule_id = ratioRuleId;
   entry.technique_graph = techniqueGraph;
-  entry.seasoning_actions = [{ action_code: 'add_measured_seasoning', amount_source: 'ratio_default' }];
+  entry.identity_signature.identity_critical_action_sequence = techniqueGraph.map(step => step.action_code);
+  const instances = techniqueGraph.map((step, index) => ({
+    instance_id: `${entry.recipe_id}-step-${index + 1}`,
+    action_code: step.action_code,
+    slot_ids: [...(step.slot_ids || [])],
+    fact_refs: [...(step.fact_refs || [])],
+    produces_resources: [...(step.produces_resources || [])],
+    consumes_resources: [...(step.consumes_resources || [])],
+    safety_endpoint_codes: [...(step.safety_endpoint_codes || [])],
+  }));
+  entry.action_profile_ref = { action_profile_id: `test-${entry.recipe_id}`, profile_version: 'test-v1' };
+  assets.actionProfiles = {
+    action_profile_catalog_version: 'recipe-action-profiles-v1-20260731-r1',
+    profiles: [{
+      ...entry.action_profile_ref,
+      instances,
+      execution_sequence: instances.map(instance => instance.instance_id),
+    }],
+  };
+  entry.seasoning_actions = seasoningActions;
   entry.safety_endpoints = safetyEndpoints;
   entry.source_claims = structuredClone(COMPLETE_SOURCE_CLAIMS);
   entry.household_trial = {
@@ -60,7 +91,7 @@ function promotedShanghaiAssets() {
   addSyntheticExecutableRule(assets, 'shanghai-salted-pork-vegetable-rice', ratioRuleId);
   const entry = assets.recipeRuntime.entries
     .find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
-  completePreviewEntry(entry, {
+  completePreviewEntry(assets, entry, {
     ratioRuleId,
     slotAssignment: {
       staple: ['raw-rice'],
@@ -68,13 +99,26 @@ function promotedShanghaiAssets() {
       fast_vegetable: ['small-bok-choy'],
     },
     techniqueGraph: [
-      { phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] },
-      { phase: 6, action_code: 'add_pork', slot_ids: ['protein'] },
-      { phase: 8, action_code: 'add_staple_and_liquid', slot_ids: ['staple'] },
-      { phase: 12, action_code: 'add_fast_cooking_items', slot_ids: ['fast_vegetable'] },
-      { phase: 13, action_code: 'reach_safety_endpoints', slot_ids: ['protein'] },
+      { phase: 1, action_code: 'start_cured_pork_and_rice', slot_ids: ['protein', 'staple'], fact_refs: [] },
+      { phase: 2, action_code: 'add_locked_liquid', slot_ids: ['staple'], fact_refs: ['total_liquid_grams'] },
+      { phase: 3, action_code: 'cook_rice_until_tender_before_late_greens', slot_ids: ['staple'], fact_refs: [] },
+      { phase: 4, action_code: 'add_leafy_vegetable_late', slot_ids: ['fast_vegetable'], fact_refs: [] },
+      {
+        phase: 5,
+        action_code: 'complete_recipe_safety',
+        slot_ids: ['protein', 'staple'],
+        fact_refs: [],
+        safety_endpoint_codes: ['pork_fully_cooked', 'grain_tender_no_hard_center'],
+      },
     ],
-    safetyEndpoints: [{ endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] }],
+    seasoningActions: [
+      { action_code: 'taste_before_salt', amount_source: 'none' },
+      { action_code: 'omit_extra_salt', amount_source: 'none' },
+    ],
+    safetyEndpoints: [
+      { endpoint_code: 'pork_fully_cooked', canonical_ids: ['salted-pork-belly'] },
+      { endpoint_code: 'grain_tender_no_hard_center', canonical_ids: ['raw-rice'] },
+    ],
   });
   entry.approved_variants = [];
   return assertCoherentRuntimeFixture(assets);
@@ -104,9 +148,9 @@ function futureChoySumMatcherFixture() {
 function promotedXinjiangAssets() {
   const assets = structuredClone(productionAssets);
   const ratioRuleId = 'synthetic-xinjiang-recipe-executable-v1';
-  addSyntheticExecutableRule(assets, 'xinjiang-lamb-pilaf', ratioRuleId);
+  addSyntheticExecutableRule(assets, 'xinjiang-lamb-pilaf', ratioRuleId, { retainedCookedLiquid: true });
   const entry = assets.recipeRuntime.entries.find(candidate => candidate.recipe_id === 'xinjiang-lamb-pilaf');
-  completePreviewEntry(entry, {
+  completePreviewEntry(assets, entry, {
     ratioRuleId,
     slotAssignment: {
       staple: ['raw-rice'],
@@ -115,14 +159,39 @@ function promotedXinjiangAssets() {
       slow_vegetable: ['carrot'],
     },
     techniqueGraph: [
-      { phase: 1, action_code: 'cook_aromatics', slot_ids: ['aromatic'] },
-      { phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] },
-      { phase: 3, action_code: 'add_slow_cooking_items', slot_ids: ['slow_vegetable'] },
-      { phase: 7, action_code: 'add_slow_cooking_items', slot_ids: ['protein'] },
-      { phase: 8, action_code: 'add_staple_and_liquid', slot_ids: ['staple'] },
-      { phase: 13, action_code: 'reach_safety_endpoints', slot_ids: ['protein'] },
+      { phase: 1, action_code: 'brown_lamb_first', slot_ids: ['protein'], fact_refs: [] },
+      { phase: 2, action_code: 'cook_onion_and_carrot', slot_ids: ['aromatic', 'slow_vegetable'], fact_refs: [] },
+      {
+        phase: 3,
+        action_code: 'measure_retained_cooked_liquid',
+        slot_ids: ['protein'],
+        fact_refs: ['total_liquid_grams'],
+        produces_resources: ['retained_cooked_liquid'],
+        consumes_resources: [],
+      },
+      {
+        phase: 4,
+        action_code: 'add_raw_rice_to_retained_liquid',
+        slot_ids: ['staple'],
+        fact_refs: [],
+        produces_resources: [],
+        consumes_resources: ['retained_cooked_liquid'],
+      },
+      { phase: 5, action_code: 'braise_lamb_rice_until_done', slot_ids: ['protein', 'staple', 'slow_vegetable'], fact_refs: [] },
+      {
+        phase: 6,
+        action_code: 'complete_recipe_safety',
+        slot_ids: ['protein', 'staple', 'slow_vegetable'],
+        fact_refs: [],
+        safety_endpoint_codes: ['lamb_fully_cooked', 'grain_tender_no_hard_center', 'tender'],
+      },
     ],
-    safetyEndpoints: [{ endpoint_code: 'lamb_fully_cooked', canonical_ids: ['lamb-leg'] }],
+    seasoningActions: [{ action_code: 'omit_extra_salt', amount_source: 'none' }],
+    safetyEndpoints: [
+      { endpoint_code: 'lamb_fully_cooked', canonical_ids: ['lamb-leg'] },
+      { endpoint_code: 'grain_tender_no_hard_center', canonical_ids: ['raw-rice'] },
+      { endpoint_code: 'tender', canonical_ids: ['carrot'] },
+    ],
   });
   return assertCoherentRuntimeFixture(assets);
 }

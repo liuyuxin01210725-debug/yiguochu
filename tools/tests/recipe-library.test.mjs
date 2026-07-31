@@ -52,6 +52,8 @@ const CHECKER_DATA_FILES = [
   'ingredient-taxonomy.v1.json',
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
+  'recipe-runtime.v1.json',
+  'recipe-action-profiles.v1.json',
   'regional-menu-research.v1.json',
   'menu-verification-cases.v1.json',
   'menu-master-baseline.v1.json',
@@ -108,6 +110,7 @@ test('aggregate recipe checker fails closed on malformed planner assets and evid
     ['taxonomy', 'ingredient-taxonomy.v1.json', data => { data.taxonomy_version = 'taxonomy-broken'; }],
     ['template', 'meal-templates.v2.json', data => { data.templates[0].activation_status = 'planned'; }],
     ['ratio DSL', 'ratio-rules.v1.json', data => { data.ratio_catalog_version = 'ratio-broken'; }],
+    ['action profiles', 'recipe-action-profiles.v1.json', data => { data.action_profile_catalog_version = 'profiles-broken'; }],
     ['recipe evidence', 'meal-templates.v2.json', data => { data.templates[0].evidence_recipe_ids[0] = 'missing-recipe'; }],
   ];
   for (const [name, file, mutate] of cases) {
@@ -120,6 +123,7 @@ test('aggregate recipe checker fails closed on malformed planner assets and evid
       });
       assert.equal(result.status, 1, `${name} unexpectedly passed:\n${result.stdout}\n${result.stderr}`);
       assert.match(result.stderr, /❌/);
+      if (name === 'action profiles') assert.match(result.stderr, /action profile catalog version is invalid/u);
     });
   }
 });
