@@ -5,9 +5,14 @@ import { pathToFileURL } from 'node:url';
 import vm from 'node:vm';
 
 import worker from '../worker/src/worker.js';
+import { normalizePlannerItems } from '../worker/src/planner-v2.js';
+import { buildLockedRecipeMeal } from '../worker/src/recipe-runtime-compiler.js';
+import { matchNamedRecipeCandidates } from '../worker/src/recipe-runtime-matcher.js';
 
 const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const corpus = JSON.parse(readText('./data/pantry-planner-v2-journeys.json'));
+const recipeRuntimeCorpus = JSON.parse(readText('./data/recipe-runtime-journeys.v1.json'));
+const recipeRuntimeJourneys = Object.freeze(recipeRuntimeCorpus.journeys || []);
 const sourceAssets = Object.freeze({
   '/ingredient-taxonomy.v1.json': readText('./data/ingredient-taxonomy.v1.json'),
   '/meal-templates.v2.json': readText('./data/meal-templates.v2.json'),
@@ -48,12 +53,12 @@ export const HANDLED_EXPECTATION_KEYS = Object.freeze([
   'unused_reason_required', 'visible_action', 'visible_copy',
 ]);
 
-function assetBinding() {
+function assetBinding(assetTexts = sourceAssets) {
   return {
     async fetch(request) {
       const pathname = new URL(request.url).pathname;
-      return Object.hasOwn(sourceAssets, pathname)
-        ? new Response(sourceAssets[pathname], { status: 200, headers: { 'Content-Type': 'application/json' } })
+      return Object.hasOwn(assetTexts, pathname)
+        ? new Response(assetTexts[pathname], { status: 200, headers: { 'Content-Type': 'application/json' } })
         : new Response('missing', { status: 404 });
     },
   };
@@ -93,7 +98,7 @@ function v2RequestFromLegacy(request) {
   };
 }
 
-async function postPlan(request) {
+async function postPlan(request, { assets = assetBinding() } = {}) {
   const budget = budgetBinding({ forbidden: true });
   let upstreamCalls = 0;
   const originalFetch = globalThis.fetch;
@@ -101,7 +106,7 @@ async function postPlan(request) {
   try {
     const response = await worker.fetch(new Request('https://journeys.example/plan-meal', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://journeys.example' }, body: JSON.stringify(request),
-    }), { ASSETS: assetBinding(), RATE_KV: budget });
+    }), { ASSETS: assets, RATE_KV: budget });
     const body = await response.json();
     assert.equal(upstreamCalls, 0, 'plan-meal made a DeepSeek call');
     assert.equal(budget.gets, 0, 'plan-meal read generation budget');
@@ -166,7 +171,7 @@ function mutateOutput(output, locked, mutation) {
   if (mutation === 'cooked_to_dry_chickpea') first.steps[3].text += '改用干鹰嘴豆。';
 }
 
-async function postGenerate(planRequest, planned, mutation) {
+async function postGenerate(planRequest, planned, mutation, { assets = assetBinding() } = {}) {
   const budget = budgetBinding();
   const upstreamBodies = [];
   const envelope = {
@@ -196,7 +201,7 @@ async function postGenerate(planRequest, planned, mutation) {
   try {
     const response = await worker.fetch(new Request('https://journeys.example/generate-plan', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://journeys.example' }, body: JSON.stringify(envelope),
-    }), { ASSETS: assetBinding(), DEEPSEEK_API_KEY: 'journey-test-key', RATE_LIMIT: 0, RATE_KV: budget });
+    }), { ASSETS: assets, DEEPSEEK_API_KEY: 'journey-test-key', RATE_LIMIT: 0, RATE_KV: budget });
     const body = await response.json();
     assert.ok(upstreamBodies.length <= 1, 'generate-plan retried DeepSeek');
     return { response, body, upstreamBodies, budget, envelope, warnings };
@@ -664,6 +669,11 @@ function validateCorpus() {
     assert.ok(Object.hasOwn(entry, 'model_mutation'));
     for (const key of Object.keys(entry.expect)) assert.ok(HANDLED_EXPECTATION_KEYS.includes(key), `${entry.id} has metadata-only expectation ${key}`);
   }
+  assert.equal(recipeRuntimeCorpus.schema_version, 1);
+  assert.equal(recipeRuntimeCorpus.suite, 'recipe-runtime-task7-synthetic-journeys');
+  assert.equal(recipeRuntimeJourneys.length, 17);
+  assert.equal(new Set(recipeRuntimeJourneys.map(entry => entry.id)).size, 17);
+  assert.ok(recipeRuntimeJourneys.every(entry => /^RR\d{2}$/u.test(entry.id) && entry.scenario && entry.title));
 }
 
 export async function runPantryPlannerV2Journeys({ printSummary = false, journeys = corpus.journeys } = {}) {
@@ -691,9 +701,240 @@ export async function runPantryPlannerV2Journeys({ printSummary = false, journey
   return result;
 }
 
+function runtimeJourneyRequest(entry, currentPlanId = null) {
+  return {
+    schema_version: 2,
+    planner_version: 'pantry-planner-v2',
+    constraints: {
+      mode: 'recommend',
+      intent: 'normal',
+      servings: 2,
+      must_use: [],
+      prefer_use: [...entry.prefer_use],
+      dislikes: [...(entry.dislikes || [])],
+      current_plan_id: currentPlanId,
+      recent_plan_ids: [],
+      decision: null,
+    },
+  };
+}
+
+function normalizedMatcherRequest(assets, entry) {
+  return {
+    mode: 'recommend',
+    intent: 'normal',
+    servings: 2,
+    prefer_use: [...entry.prefer_use],
+    dislikes: [...(entry.dislikes || [])],
+    normalized_items: normalizePlannerItems(
+      entry.prefer_use.map(raw => ({ raw, role: 'prefer_use' })),
+      assets.taxonomy,
+    ),
+  };
+}
+
+function recipeRuntimeCandidate(body, recipeId) {
+  return (body.candidate_plans || []).find(candidate => candidate.recipe_id === recipeId) || null;
+}
+
+function assertGeneratedIdentity(planned, generated, entry) {
+  assert.equal(generated.response.status, 200, `${entry.id} deterministic generation HTTP`);
+  assert.equal(generated.body.plan_id, planned.body.plan.plan_id, `${entry.id} plan id`);
+  assert.equal(generated.body.plan_source, planned.body.plan_source, `${entry.id} plan source`);
+  assert.equal(generated.body.recipe_id, planned.body.recipe_id, `${entry.id} recipe id`);
+  assert.equal(generated.body.variant_id, planned.body.variant_id, `${entry.id} variant id`);
+  assert.equal(generated.body.identity_level, planned.body.identity_level, `${entry.id} identity level`);
+  assert.deepEqual(generated.body.presentation, planned.body.presentation, `${entry.id} presentation`);
+  assert.equal(generated.body.meals[0].dish_name, entry.expected_title, `${entry.id} dish title`);
+}
+
+export async function runRecipeRuntimeJourneys() {
+  validateCorpus();
+  const [{
+    recipeRuntimeJourneyFixtureTexts,
+    recipeRuntimeMatcherFixtureAssets,
+  }] = await Promise.all([
+    import('./tests/fixtures/recipe-runtime-journey-fixture.mjs'),
+  ]);
+  const fixtureTexts = recipeRuntimeJourneyFixtureTexts();
+  const fixtureAssets = assetBinding(fixtureTexts);
+  const matcherAssets = recipeRuntimeMatcherFixtureAssets();
+  const productionMatcherAssets = {
+    taxonomy: JSON.parse(sourceAssets['/ingredient-taxonomy.v1.json']),
+    templates: JSON.parse(sourceAssets['/meal-templates.v2.json']),
+    ratios: JSON.parse(sourceAssets['/ratio-rules.v1.json']),
+    recipes: JSON.parse(sourceAssets['/recipe-library.json']),
+    recipeRuntime: JSON.parse(sourceAssets['/recipe-runtime.v1.json']),
+    actionProfiles: JSON.parse(sourceAssets['/recipe-action-profiles.v1.json']),
+  };
+  let passed = 0;
+  let planDeepSeekCalls = 0;
+  let generateDeepSeekCalls = 0;
+
+  for (const entry of recipeRuntimeJourneys) {
+    const request = runtimeJourneyRequest(entry);
+
+    if (entry.scenario === 'canonical_chain' || entry.scenario === 'ground_pork_chain') {
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      assert.equal(planned.body.status, 'ready', `${entry.id} planning status`);
+      assert.equal(planned.body.plan_source, 'named_recipe', `${entry.id} source`);
+      assert.equal(planned.body.recipe_id, entry.recipe_id, `${entry.id} recipe`);
+      assert.equal(planned.body.presentation.title, entry.expected_title, `${entry.id} title`);
+      const generated = await postGenerate(request, planned.body, null, { assets: fixtureAssets });
+      generateDeepSeekCalls += generated.upstreamBodies.length;
+      assertGeneratedIdentity(planned, generated, entry);
+      if (entry.scenario === 'ground_pork_chain') {
+        const generatedText = JSON.stringify(generated.body.meals);
+        assert.match(generatedText, /拨散|炒散/u);
+        assert.doesNotMatch(generatedText, /切片|切薄片/u);
+      }
+    } else if (entry.scenario === 'named_absent') {
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      assert.equal(recipeRuntimeCandidate(planned.body, entry.recipe_id), null, `${entry.id} retained named identity`);
+    } else if (entry.scenario === 'variant_matcher_blocked') {
+      const runtimeEntry = matcherAssets.recipeRuntime.entries
+        .find(candidate => candidate.recipe_id === entry.recipe_id);
+      runtimeEntry.approved_variants = [{
+        variant_id: entry.variant_id,
+        identity_impact: 'named_variant',
+        naming: { display_name: entry.expected_title },
+        substitutions: [{
+          slot_id: 'fast_vegetable',
+          replaces_canonical_ids: ['small-bok-choy'],
+          allowed_canonical_ids: ['choy-sum'],
+        }],
+      }];
+      const [candidate] = matchNamedRecipeCandidates(matcherAssets, normalizedMatcherRequest(matcherAssets, entry));
+      assert.equal(candidate?.variant_id, entry.variant_id);
+      assert.equal(candidate?.presentation.title, entry.expected_title);
+      assert.throws(
+        () => buildLockedRecipeMeal({ plan_source: 'recipe_variant' }),
+        /recipe_variant_not_executable/u,
+      );
+    } else if (entry.scenario === 'taiwan_base_blocked') {
+      const direct = matchNamedRecipeCandidates(matcherAssets, normalizedMatcherRequest(matcherAssets, entry));
+      assert.equal(direct[0]?.recipe_id, entry.recipe_id);
+      assert.equal(direct[0]?.presentation.title, entry.expected_title);
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      assert.equal(recipeRuntimeCandidate(planned.body, entry.recipe_id), null);
+      assert.equal(planned.body.plan_source, 'custom_template');
+    } else if (entry.scenario === 'taiwan_variant_blocked') {
+      const runtimeEntry = productionMatcherAssets.recipeRuntime.entries
+        .find(candidate => candidate.recipe_id === entry.recipe_id);
+      const ratio = productionMatcherAssets.ratios.rules
+        .find(rule => rule.rule_id === 'taiwan-tomato-shrimp-rice-evidence-v1');
+      assert.equal(ratio?.execution_mode, 'bounds_only');
+      assert.deepEqual(runtimeEntry.approved_variants, []);
+      assert.deepEqual(
+        matchNamedRecipeCandidates(matcherAssets, normalizedMatcherRequest(matcherAssets, entry))
+          .filter(candidate => candidate.recipe_id === entry.recipe_id),
+        [],
+      );
+      assert.throws(
+        () => buildLockedRecipeMeal({ plan_source: 'recipe_variant' }),
+        /recipe_variant_not_executable/u,
+      );
+    } else if (entry.scenario === 'quanzhou_shape_blocked') {
+      const normalized = normalizedMatcherRequest(productionMatcherAssets, entry).normalized_items;
+      const soakedRice = normalized.find(item => item.raw === '泡发糯米');
+      assert.equal(soakedRice.recognized, false);
+      assert.equal(soakedRice.state, null);
+      assert.equal(soakedRice.shape_or_cut, null);
+      assert.deepEqual(
+        matchNamedRecipeCandidates(productionMatcherAssets, normalizedMatcherRequest(productionMatcherAssets, entry)),
+        [],
+      );
+      const rule = productionMatcherAssets.ratios.rules
+        .find(candidate => candidate.rule_id === 'quanzhou-soaked-rice-liquid-evidence-v1');
+      assert.equal(rule.execution_mode, 'bounds_only');
+      assert.equal(rule.operations[0].target.state, 'soaked');
+      assert.equal(rule.operations[0].target.shape_or_cut, 'whole_soaked_grain');
+      assert.equal(rule.operations[0].target.canonical_id, undefined);
+    } else if (entry.scenario === 'named_over_custom') {
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      const named = planned.body.candidate_plans.find(candidate => candidate.plan_source === 'named_recipe');
+      const custom = planned.body.candidate_plans.find(candidate => candidate.plan_source === 'custom_template'
+        && candidate.plan.coverage_ratio === 1);
+      assert.ok(named, `${entry.id} missing named candidate`);
+      assert.ok(custom, `${entry.id} missing 4/4 custom candidate`);
+      assert.equal(named.plan.coverage_ratio, 3 / 4);
+      assert.equal(planned.body.candidate_plans.indexOf(named) < planned.body.candidate_plans.indexOf(custom), true);
+    } else if (entry.scenario === 'two_of_two') {
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      assert.equal(planned.body.status, 'ready');
+      assert.ok(planned.body.candidate_plans.length > 0);
+      assert.ok(planned.body.candidate_plans.every(candidate => candidate.plan.coverage_ratio === 1));
+      assert.ok(planned.body.candidate_plans.every(candidate => candidate.plan.planned_prefer_use.length === 2));
+    } else if (entry.scenario === 'allergy_blocks_named') {
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      assert.equal(recipeRuntimeCandidate(planned.body, entry.recipe_id), null);
+      assert.doesNotMatch(JSON.stringify(planned.body.plan?.planned_prefer_use || []), /咸五花肉/u);
+    } else if (entry.scenario === 'swap') {
+      const initial = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += initial.upstreamCalls;
+      assert.equal(initial.body.plan_source, 'named_recipe');
+      const swapped = await postPlan(runtimeJourneyRequest(entry, initial.body.plan.plan_id), { assets: fixtureAssets });
+      planDeepSeekCalls += swapped.upstreamCalls;
+      assert.notEqual(swapped.body.status, 'no_alternative_plan');
+      assert.notEqual(swapped.body.plan.plan_id, initial.body.plan.plan_id);
+      assert.equal(swapped.body.plan_source, 'custom_template');
+    } else if (entry.scenario === 'card_to_result') {
+      const planned = await postPlan(request, { assets: fixtureAssets });
+      planDeepSeekCalls += planned.upstreamCalls;
+      const generated = await postGenerate(request, planned.body, null, { assets: fixtureAssets });
+      generateDeepSeekCalls += generated.upstreamBodies.length;
+      assertGeneratedIdentity(planned, generated, entry);
+      const frontend = frontendFixture();
+      frontend.eval(`state.planCandidates=${JSON.stringify(planned.body.candidate_plans)};
+        state.planCandidateResult=${JSON.stringify(planned.body)};
+        state.planRequestSnapshot=${JSON.stringify(request)};
+        state.view='v2-candidates'; render()`);
+      assert.match(frontend.root.innerHTML, new RegExp(entry.expected_title));
+      frontend.eval(`showGeneratedPlan(${JSON.stringify(generated.body)},${JSON.stringify(planned.body)},${JSON.stringify(request)})`);
+      assert.equal(frontend.eval('state.view'), 'v2-result');
+      assert.equal(frontend.eval('state.displayedPlan.plan.plan_id'), planned.body.plan.plan_id);
+      assert.equal(frontend.eval('state.generatedPlan.presentation.title'), entry.expected_title);
+      assert.match(frontend.root.innerHTML, new RegExp(entry.expected_title));
+    } else if (entry.scenario === 'production_shadow_only') {
+      const matches = matchNamedRecipeCandidates(
+        productionMatcherAssets,
+        normalizedMatcherRequest(productionMatcherAssets, entry),
+      );
+      assert.deepEqual(matches, []);
+      assert.equal(productionMatcherAssets.recipeRuntime.entries.filter(row => row.activation_status === 'preview_enabled').length, 0);
+    } else {
+      throw new Error(`${entry.id} unknown recipe runtime scenario ${entry.scenario}`);
+    }
+    passed += 1;
+  }
+
+  assert.equal(planDeepSeekCalls, 0);
+  assert.equal(generateDeepSeekCalls, 0);
+  return {
+    passed,
+    total: recipeRuntimeJourneys.length,
+    plan_deepseek_calls: planDeepSeekCalls,
+    generate_deepseek_calls: generateDeepSeekCalls,
+    production_runtime_preview_enabled: productionMatcherAssets.recipeRuntime.entries
+      .filter(entry => entry.activation_status === 'preview_enabled').length,
+    production_recipe_count: productionMatcherAssets.recipes.recipes.length,
+  };
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
-  runPantryPlannerV2Journeys({ printSummary: true }).catch(error => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
+  runPantryPlannerV2Journeys({ printSummary: true })
+    .then(async () => {
+      const runtime = await runRecipeRuntimeJourneys();
+      console.log(`${runtime.passed}/${runtime.total} recipe runtime journeys passed · DeepSeek plan=${runtime.plan_deepseek_calls} generate=${runtime.generate_deepseek_calls}`);
+    })
+    .catch(error => {
+      console.error(error.message);
+      process.exitCode = 1;
+    });
 }

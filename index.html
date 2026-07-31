@@ -1123,7 +1123,7 @@ function fetchPlan(planRequest) { return postPlannerV2('/plan-meal', planRequest
 function itemText(item) { return boundedText(item && (item.raw || item.canonical || item.name), 80); }
 function planItems(items) { return (Array.isArray(items) ? items : []).map(itemText).filter(Boolean); }
 const PLAN_PRESENTATION_KEYS = Object.freeze(['badge','title','subtitle','source_label','canonical_path']);
-const CUSTOM_PRESENTATION_TECHNIQUES = Object.freeze(['焖饭','汤饭','汤面','焖面','炖锅','快炒饭']);
+const CUSTOM_PRESENTATION_TECHNIQUES = Object.freeze(['焖饭','烩饭','汤饭','汤面','焖面','炖锅','快炒饭']);
 function exactPresentationKeys(value) {
   return value && typeof value === 'object' && !Array.isArray(value)
     && JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...PLAN_PRESENTATION_KEYS].sort());
@@ -1273,7 +1273,9 @@ function plannerCandidatesScreen() {
 function plannerPotsHtml(result) {
   const pots = result && result.plan && Array.isArray(result.plan.pots) ? result.plan.pots : [];
   return '<div class="pantry-plan-list">' + pots.map((pot, index) => {
-    const label = boundedText(pot.label, 20) || ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
+    const label = pots.length === 1
+      ? '一锅方案'
+      : boundedText(pot.label, 20) || ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
     const used = planItems([...(pot.planned_must_use || []), ...(pot.planned_prefer_use || [])]);
     const extras = planItems(pot.required_extra_items);
     const time = pot.time_range && Number.isFinite(+pot.time_range.max_minutes) ? ' / 最多 ' + Math.round(+pot.time_range.max_minutes) + ' 分钟' : '';
@@ -1310,6 +1312,11 @@ function plannerCoverageHtml(result) {
 }
 function plannerStateScreen() {
   const result = state.displayedPlan || {};
+  const isGeneratedPreview = result.generation_allowed && state.view === 'v2-plan-preview';
+  const previewPresentation = isGeneratedPreview ? planPresentation(result) : null;
+  if (isGeneratedPreview && !previewPresentation) {
+    return generationFailureScreen(genError('plan_identity_mismatch', '新方案的菜名与已选计划不一致', false));
+  }
   const unplanned = result.plan && result.plan.unplanned_must_use || [];
   const hasAmbiguousIngredient = unplanned.some(item => item.reason_code === 'ambiguous_ingredient_state');
   let title = result.status === 'complete' ? '完整清库存计划'
@@ -1327,9 +1334,12 @@ function plannerStateScreen() {
     ? '<button class="btn btn-ghost" data-act="request-plan-swap">换一换</button>' : '';
   const hasPlanDetails = result.plan && ['ready','complete','needs_user_decision','partial_accepted'].includes(result.status);
   const planDetails = hasPlanDetails ? plannerPotsHtml(result) + plannerCoverageHtml(result) + reasons : '';
+  const previewIdentity = previewPresentation
+    ? '<section class="dish-card"><div class="dish-body"><div class="dish-eyebrow"><span>' + esc(previewPresentation.badge) + '</span></div><h1 class="dish-name">' + esc(previewPresentation.title) + '</h1><p class="dish-taste">' + esc(previewPresentation.subtitle) + '</p>' + presentationSourceLink(previewPresentation) + '</div></section>'
+    : '';
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(title) + '</div><p class="fb-banner-text">' + esc(boundedText(result.commitment, 240)) + '</p></div></div>'
-    + planDetails
+    + previewIdentity + planDetails
     + '<div class="dish-actions">' + generate + actions + swap + edit + '</div></section></div>';
 }
 function noAlternativePlanScreen() {
@@ -1356,7 +1366,9 @@ function generatedPlanScreen() {
   const title = result.status === 'complete' ? '完整清库存计划' : result.status === 'partial_accepted' ? '部分处理方案' : '今天按这套做';
   const mealHtml = meals.map((meal, index) => {
     const presentation = mealPresentations[index];
-    const label = ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
+    const label = meals.length === 1
+      ? '一锅方案'
+      : ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
     const ingredients = (meal.locked_ingredients || []).map(item => '<li class="ing-row"><span class="ing-name">' + esc(boundedText(item.raw_name || item.name, 80)) + '</span><span class="ing-grams">' + esc(String(Math.round(+item.planned_grams || 0))) + ' g</span></li>').join('');
     const steps = (meal.steps || []).map((step, stepIndex) => '<li class="step-row"><span class="step-num">' + (stepIndex + 1) + '</span><span class="step-text">' + esc(boundedText(typeof step === 'string' ? step : step.text, 400)) + '</span></li>').join('');
     return '<section class="dish-card"><div class="dish-body"><div class="dish-eyebrow"><span>' + esc(label) + ' · ' + esc(presentation.badge) + '</span><span class="chip chip-form">约 ' + esc(String(meal.servings || servingCount(state.profile))) + ' 份</span></div><h1 class="dish-name">' + esc(presentation.title) + '</h1><p class="dish-taste">' + esc(presentation.subtitle) + '</p>' + presentationSourceLink(presentation) + '<p class="dish-taste">' + esc(boundedText(meal.recommendation_reason, 300)) + '</p></div></section>'
@@ -1571,6 +1583,9 @@ async function requestAlternativePlan() {
     const alternative = await fetchPlan(request);
     if (alternative.status === 'no_alternative_plan') {
       state.noAlternativeResult = cloneJson(alternative); state.view = 'v2-no-alternative'; render(); return;
+    }
+    if (!planPresentation(alternative)) {
+      throw genError('plan_identity_mismatch', '新方案的菜名与已选计划不一致', false);
     }
     setDisplayedPlan(alternative, request, true);
   } catch (error) { showGenerationFailure(error); }

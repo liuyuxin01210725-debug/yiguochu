@@ -988,10 +988,10 @@ test('custom ground pork never renders slice or thin-slice instructions', async 
 
 test('custom protein preparation preserves controlled part and shape semantics', async () => {
   for (const fixture of [
-    { ingredient: '羊腿肉', shape: 'leg', expected: /原部位/u, forbidden: /切片|薄片/u },
-    { ingredient: '鸡胸肉', shape: 'breast', expected: /原部位/u, forbidden: /切片|薄片/u },
-    { ingredient: '咸五花肉', shape: 'cured_slice', expected: /分散|铺开/u, forbidden: /再切|切成.*薄片/u },
-    { ingredient: '腊肠', shape: 'sausage', expected: /原形|小段/u, forbidden: /切片|薄片/u },
+    { ingredient: '羊腿肉', shape: 'leg', expected: /小块.*沿关节|沿关节.*小块/u, forbidden: /原部位|切片|薄片/u },
+    { ingredient: '鸡胸肉', shape: 'breast', expected: /均匀小块|大小相近的小块/u, forbidden: /原部位|切片|薄片/u },
+    { ingredient: '咸五花肉', shape: 'cured_slice', expected: /分散|铺开/u, forbidden: /原有|再切|切成.*薄片/u },
+    { ingredient: '腊肠', shape: 'sausage', expected: /整根|小段/u, forbidden: /原形|切片|薄片/u },
     { ingredient: '牛里脊', shape: 'tenderloin', expected: /薄片/u, forbidden: /牛腩|牛肉末/u },
   ]) {
     const planned = await planMealWithIdentity(productionAssets, request(['大米', fixture.ingredient]));

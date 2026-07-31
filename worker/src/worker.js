@@ -1851,12 +1851,15 @@ async function enumerateAuthoritativeHybridRecommendState(
     customState.candidates,
   );
   const navigationMembers = uniqueHybridMembers([...named, ...customState.candidates]);
-  const displayed = (named.length
-    ? selectHybridCandidates([...named, ...customState.displayed], {
-        limit,
-        recentPlanIds: plannerRequest.recent_plan_ids,
-      })
-    : customState.displayed)
+  const displayed = selectHybridCandidates([...named, ...customState.displayed], {
+    limit,
+    recentPlanIds: plannerRequest.recent_plan_ids,
+    // The deterministic planner already ranked custom candidates by the full
+    // cooking contract. When no named recipe is eligible, public-card
+    // validation and deduplication must not replace that ranking with a second
+    // shallower sort.
+    preserveInputOrder: named.length === 0,
+  })
     .map(detachedHybridCandidate);
   const initialResponse = displayed.length
     ? {

@@ -322,6 +322,40 @@ test('deterministic generation keeps egg, tofu, and cabbage in the same displaye
   assert.match(steps, /鸡蛋完全凝固/);
   assert.match(steps, /豆腐整体热透/);
   assert.doesNotMatch(steps, /鸡蛋、豆腐完全凝固/);
+  assert.doesNotMatch(steps, /检查豆腐|完成后确认/u);
+});
+
+test('deterministic recommend generates cured pork rice with household preparation language', async () => {
+  const planRequest = plannerRequest({
+    mode: 'recommend',
+    prefer: ['大米', '咸五花肉', '青菜'],
+  });
+  const assets = assetBinding({
+    '/build-meta.json': JSON.stringify({
+      buildId: 'deterministic-cured-pork-test',
+      plannerRollout: 'direct-recommend',
+      generationMode: 'deterministic',
+    }),
+  });
+  const planned = await obtainPlan(planRequest, assets);
+  assert.equal(planned.response.status, 200);
+  assert.deepEqual(
+    planned.body.plan.pots[0].planned_prefer_use.map(item => item.raw).sort(),
+    ['大米', '咸五花肉', '青菜'].sort(),
+  );
+
+  const result = await postGenerate({
+    planRequest,
+    planned: planned.body,
+    assets,
+    env: { DEEPSEEK_API_KEY: undefined, RATE_KV: undefined },
+  });
+
+  assert.equal(result.response.status, 200, JSON.stringify(result.body));
+  assertNoPaidWork(result);
+  const steps = result.body.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(steps, /咸五花肉.*(?:分散|铺开)/u);
+  assert.doesNotMatch(steps, /原有|原形|再切/u);
 });
 
 test('initial recommend cache reuses only the exact server-planned bundle and returns detached clones', async () => {
@@ -359,6 +393,26 @@ test('initial recommend cache reuses only the exact server-planned bundle and re
     compute,
   );
   assert.equal(calls, 2);
+});
+
+test('HTTP custom-only bundle removes visible duplicate cards and unused-equivalent extras', async () => {
+  const tofu = await obtainPlan(plannerRequest({
+    mode:'recommend', intent:'normal', prefer:['豆腐','青菜','金针菇'],
+  }));
+  assert.equal(tofu.response.status, 200);
+  const tofuTitles = tofu.body.candidate_plans.map(candidate => candidate.presentation.title);
+  assert.equal(new Set(tofuTitles).size, tofuTitles.length);
+
+  const noodles = await obtainPlan(plannerRequest({
+    mode:'recommend', intent:'normal', prefer:['猪里脊','鲜小麦面条','豆角'],
+  }));
+  assert.equal(noodles.response.status, 200);
+  for (const candidate of noodles.body.candidate_plans) {
+    const unusedCategories = new Set(candidate.plan.unused_prefer_use.map(item => item.category));
+    assert.equal(candidate.plan.required_extra_items.some(item => (
+      unusedCategories.has(item.category) && !['liquid','oil','seasoning'].includes(item.category)
+    )), false);
+  }
 });
 
 test('endpoint ignores model-authored safety codes and restores the planner-owned phase metadata', async () => {
@@ -793,6 +847,30 @@ test('controlled beef steps do not tell the user to slice the same tenderloin tw
   assert.match(beefSteps, /平铺入锅|放入锅中摊开/u);
 });
 
+test('beef noodle journey prepares only beef and never tells the cook to slice oil', async () => {
+  const request = plannerRequest({
+    mode:'recommend', intent:'normal', prefer:['西兰花','牛里脊'],
+  });
+  const plannedBundle = await obtainPlan(request);
+  const candidate = plannedBundle.body.candidate_plans.find(row => (
+    row.plan.pots[0].template_id === 'beef-staple-pot'
+    && row.plan.required_extra_items.some(item => item.category === 'noodle')
+  ));
+  assert.ok(candidate);
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(candidate, templates);
+  const meal = locked.meals[0];
+  const pretreat = meal.cooking_order.find(phase => phase.action_code === 'protein_pretreat');
+  assert.ok(pretreat);
+  const pretreatNames = pretreat.allowed_ingredient_refs.map(ref => (
+    meal.locked_ingredients.find(item => item.ingredient_ref === ref)?.raw_name
+  ));
+  assert.deepEqual(pretreatNames, ['牛里脊']);
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const prose = deterministic.meals[0].steps.map(step => step.text).join('\n');
+  assert.doesNotMatch(prose, /食用油.{0,8}(?:切|片)|(?:切|片).{0,8}食用油/u);
+});
+
 test('conditional cooking phases keep only the branch matching the locked protein category', async () => {
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const broth = templates.templates.find(row => row.template_id === 'broth-noodle-pot');
@@ -820,6 +898,100 @@ test('conditional cooking phases keep only the branch matching the locked protei
       assert.ok(referenced.has(ingredient.ingredient_ref), ingredient.ingredient_ref);
     }
   }
+});
+
+test('broth noodle plan simmers mushroom after liquid instead of telling users to stir-fry it in soup', async () => {
+  const request = plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['鸡腿肉', '土豆', '香菇', '面条'],
+  });
+  const plannedBundle = await obtainPlan(request);
+  assert.equal(plannedBundle.response.status, 200);
+  const brothPlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'broth-noodle-pot'
+  ));
+  assert.ok(brothPlan, '真实家庭输入应有可执行的汤面候选');
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(brothPlan, templates);
+  const actions = locked.meals[0].cooking_order.map(phase => phase.action_code);
+  const mushroomIndex = actions.indexOf('simmer_until_tender');
+  const noodleIndex = actions.indexOf('add_noodle');
+  assert.ok(mushroomIndex >= 0 && mushroomIndex < noodleIndex, actions.join(','));
+  const mushroomPhase = locked.meals[0].cooking_order.find(phase => (
+    phase.allowed_ingredient_refs.some(ref => (
+      locked.meals[0].locked_ingredients.find(item => item.ingredient_ref === ref)?.raw_name === '香菇'
+    ))
+  ));
+  assert.equal(mushroomPhase?.action_code, 'simmer_until_tender');
+
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const checked = workerModule.validateGeneratedPlan(
+    deterministic,
+    locked,
+    ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /香菇.*(?:焖煮|煮至|熟软)|(?:焖煮|煮至|熟软).*香菇/u);
+  assert.doesNotMatch(prose, /香菇.*翻炒|翻炒.*香菇/u);
+});
+
+test('chicken leg broth journey gives an executable household prep step without identity jargon', async () => {
+  const request = plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['鸡腿肉', '土豆', '香菇', '面条'],
+  });
+  const plannedBundle = await obtainPlan(request);
+  const brothPlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'broth-noodle-pot'
+  ));
+  assert.ok(brothPlan);
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(brothPlan, templates);
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const checked = workerModule.validateGeneratedPlan(
+    deterministic,
+    locked,
+    ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /鸡腿肉.*(?:切成|剪成|小块|划开|擦干)/u);
+  assert.match(prose, /(?:水|汤).*?(?:烧开|沸腾)|(?:烧开|沸腾).*?(?:水|汤)/u);
+  assert.doesNotMatch(prose, /鸡腿肉.*(?:原部位|保持原形|其他肉形)|(?:原部位|保持原形|其他肉形).*鸡腿肉/u);
+});
+
+test('tomato egg stew cooks down tomato before liquid and sets egg only after the broth is hot', async () => {
+  const plannedBundle = await obtainPlan(plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['番茄', '鸡蛋'],
+  }));
+  const stewPlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'egg-tofu-vegetable-pot'
+  ));
+  assert.ok(stewPlan);
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(stewPlan, templates);
+  const actions = locked.meals[0].cooking_order.map(row => row.action_code);
+  const acidIndex = actions.indexOf('acid_base_cookdown');
+  const liquidIndex = actions.indexOf('add_liquid');
+  const eggIndex = actions.indexOf('gentle_set_protein');
+  assert.ok(acidIndex >= 0 && acidIndex < liquidIndex, actions.join(','));
+  assert.ok(liquidIndex >= 0 && liquidIndex < eggIndex, actions.join(','));
+
+  const checked = workerModule.validateGeneratedPlan(
+    workerModule.buildDeterministicGeneratedPlan(locked),
+    locked,
+    ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.ok(prose.indexOf('番茄') < prose.lastIndexOf('鸡蛋'), prose);
 });
 
 test('conditional cooking phases fail closed when no retained phase owns a locked user ingredient', async () => {
@@ -1046,6 +1218,95 @@ test('tofu vegetable plan keeps measured basics out of the food-prep instruction
     checked.meals[0].steps.map(step => step.text).join('\n'),
     /(?:整理|切成).{0,12}(?:水|食用油|盐)/u,
   );
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const deterministicChecked = workerModule.validateGeneratedPlan(
+    deterministic, locked, ingredientTermUniverse(),
+  );
+  assert.equal(deterministicChecked.ok, true);
+  const prose = deterministicChecked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /豆腐.*(?:块状|表面水分|轻轻整理)/u);
+  assert.doesNotMatch(prose, /豆腐.*部位|部位.*豆腐/u);
+});
+
+test('tofu cabbage safety close checks only ingredients with a real endpoint', async () => {
+  const plannedBundle = await obtainPlan(plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['白菜', '豆腐'],
+  }));
+  const stewPlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'egg-tofu-vegetable-pot'
+  ));
+  assert.ok(stewPlan);
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(stewPlan, templates);
+  const meal = locked.meals[0];
+  const safety = meal.cooking_order.find(row => row.action_code === 'reach_safety_endpoints');
+  const byRef = new Map(meal.locked_ingredients.map(row => [row.ingredient_ref, row.raw_name]));
+  assert.deepEqual(safety.allowed_ingredient_refs.map(ref => byRef.get(ref)), ['豆腐']);
+  const checked = workerModule.validateGeneratedPlan(
+    workerModule.buildDeterministicGeneratedPlan(locked), locked, ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const close = checked.meals[0].steps.at(-1).text;
+  assert.doesNotMatch(close, /白菜/u);
+  assert.match(close, /豆腐.*热透/u);
+});
+
+test('pre-sliced pork is not cut again and all prep finishes before the oil heats', async () => {
+  const plannedBundle = await obtainPlan(plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['土豆', '猪肉片', '白菜'],
+  }));
+  const ricePlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'savory-mixed-rice-pot'
+  ));
+  assert.ok(ricePlan);
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(ricePlan, templates);
+  const actions = locked.meals[0].cooking_order.map(row => row.action_code);
+  assert.ok(actions.indexOf('protein_pretreat') < actions.indexOf('cook_aromatics'), actions.join(','));
+  const checked = workerModule.validateGeneratedPlan(
+    workerModule.buildDeterministicGeneratedPlan(locked), locked, ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.doesNotMatch(prose, /猪肉片.*(?:切成|切为|原部位)|(?:切成|切为|原部位).*猪肉片/u);
+  assert.match(prose, /猪肉片.*(?:摊开|分开|擦干)/u);
+});
+
+test('tofu cooked-rice journey heats the oiled rice before adding fragile tofu and omits empty safety checks', async () => {
+  const plannedBundle = await obtainPlan(plannerRequest({
+    mode: 'recommend',
+    intent: 'normal',
+    prefer: ['豆腐', '青菜', '金针菇'],
+  }));
+  const cookedRicePlan = plannedBundle.body.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'cooked-rice-stir-pot'
+  ));
+  assert.ok(cookedRicePlan);
+
+  const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
+  const locked = workerModule.buildLockedPlanContract(cookedRicePlan, templates);
+  const actions = locked.meals[0].cooking_order.map(row => row.action_code);
+  assert.ok(
+    actions.indexOf('stir_cooked_rice') < actions.indexOf('add_soft_protein'),
+    actions.join(','),
+  );
+  assert.equal(actions.includes('reach_safety_endpoints'), false, actions.join(','));
+
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const checked = workerModule.validateGeneratedPlan(
+    deterministic,
+    locked,
+    ingredientTermUniverse(),
+  );
+  assert.equal(checked.ok, true);
+  const prose = checked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(prose, /熟米饭.*食用油|食用油.*熟米饭/u);
+  assert.match(prose, /青菜.*金针菇.*(?:断生|熟软|无生味)/u);
+  assert.doesNotMatch(prose, /检查豆腐|豆腐.*安全终点/u);
 });
 
 test('soft millet plan locks soaking, measured extras, late cooked beans and cultural boundaries', async () => {
@@ -1113,6 +1374,9 @@ test('fresh noodle locked plan preserves identity and exact reserved liquid', as
   assert.equal(reserve.locked_liquid_grams, 34);
   assert.ok(meal.generation_text_contract.steps[reserveIndex]
     .allowed_texts.every(text => /34克/.test(text)));
+  assert.ok(meal.generation_text_contract.steps.every(step => step.allowed_texts.every(text => (
+    !/计划比例|计划预留|已锁定|不得再额外/u.test(text)
+  ))));
 
   const valid = validModelOutput(locked);
   assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
@@ -1243,6 +1507,14 @@ test('raw shrimp plan requires explicit fully-cooked seafood evidence', async ()
 
   const valid = validModelOutput(locked);
   assert.equal(workerModule.validateGeneratedPlan(valid, locked, ingredientTermUniverse()).ok, true);
+  const deterministic = workerModule.buildDeterministicGeneratedPlan(locked);
+  const deterministicChecked = workerModule.validateGeneratedPlan(
+    deterministic, locked, ingredientTermUniverse(),
+  );
+  assert.equal(deterministicChecked.ok, true);
+  const shrimpProse = deterministicChecked.meals[0].steps.map(step => step.text).join('\n');
+  assert.match(shrimpProse, /虾仁.*(?:沥去表面水分|保持完整|轻轻整理)/u);
+  assert.doesNotMatch(shrimpProse, /虾仁.*(?:部位|其他肉形)|(?:部位|其他肉形).*虾仁/u);
   const invalid = structuredClone(valid);
   const safetyStep = invalid.meals[0].steps.find(step => (
     step.completed_safety_endpoints.includes('seafood_fully_cooked')

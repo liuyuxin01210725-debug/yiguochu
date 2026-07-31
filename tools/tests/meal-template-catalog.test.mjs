@@ -44,7 +44,7 @@ const REQUIRED_TEMPLATE_FIELDS = [
 
 test('catalog has the approved 11 active and 5 planned composable template IDs', () => {
   assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.template_catalog_version, 'templates-v2-20260729-r15');
+  assert.equal(catalog.template_catalog_version, 'templates-v2-20260731-r18');
   assert.equal(catalog.ingredient_taxonomy_version, 'taxonomy-v1-20260728-r10');
   assert.equal(catalog.templates.length, 16);
 

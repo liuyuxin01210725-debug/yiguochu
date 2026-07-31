@@ -136,16 +136,32 @@ test('hybrid hard floor removes named 1/2 before identity ranking', () => {
 
 test('hybrid identity order is canonical then approved variant then adaptation then custom', () => {
   const candidates = [
-    hybridCandidate({ identity: 'custom', used: ['1', '2', '3', '4'], total: 4 }),
-    hybridCandidate({ source: 'recipe_variant', identity: 'style_adaptation', recipeId: 'a', variantId: 'style', used: ['1', '2', '3'], total: 4 }),
-    hybridCandidate({ source: 'recipe_variant', identity: 'approved_variant', recipeId: 'a', variantId: 'variant', used: ['1', '2', '3'], total: 4 }),
-    hybridCandidate({ source: 'named_recipe', identity: 'canonical', recipeId: 'a', used: ['1', '2', '3'], total: 4 }),
+    hybridCandidate({ identity: 'custom', used: ['1', '2', '3', '4'], total: 4, title:'自定义焖饭' }),
+    hybridCandidate({ source: 'recipe_variant', identity: 'style_adaptation', recipeId: 'a', variantId: 'style', used: ['1', '2', '3'], total: 4, title:'家常改编版' }),
+    hybridCandidate({ source: 'recipe_variant', identity: 'approved_variant', recipeId: 'a', variantId: 'variant', used: ['1', '2', '3'], total: 4, title:'已复核替换版' }),
+    hybridCandidate({ source: 'named_recipe', identity: 'canonical', recipeId: 'a', used: ['1', '2', '3'], total: 4, title:'基础菜谱' }),
   ];
   assert.deepEqual(
     selectHybridCandidates(candidates, { limit: 9 }).map(candidate => candidate.identity_level),
     ['canonical', 'approved_variant', 'style_adaptation'],
   );
   assert.equal(selectHybridCandidates([candidates[0]])[0].identity_level, 'custom');
+});
+
+test('hybrid filtering can preserve the deterministic planner order for custom-only bundles', () => {
+  const first = hybridCandidate({
+    source:'custom_template', identity:'custom', templateId:'poultry-staple-pot',
+    used:['鸡腿','土豆'], total:2, title:'鸡腿、土豆焖饭',
+  });
+  const second = hybridCandidate({
+    source:'custom_template', identity:'custom', templateId:'braised-noodle-pot',
+    used:['鸡腿','土豆'], total:2, title:'鸡腿、土豆焖面',
+  });
+  const selected = selectHybridCandidates([first, second], {
+    limit:3,
+    preserveInputOrder:true,
+  });
+  assert.equal(selected[0].template_id, 'poultry-staple-pot');
 });
 
 test('hybrid coverage ignores planned items that are not members of submitted normalized input', () => {
@@ -205,17 +221,82 @@ test('hybrid diversity collapses prose-only duplicates but preserves structural 
 });
 
 test('hybrid custom diversity keeps real slot, used-set, template and technique differences', () => {
-  const base = hybridCandidate({ used:['rice','pork','greens'], total:4, technique:['braise'] });
+  const base = hybridCandidate({ used:['rice','pork','greens'], total:4, technique:['braise'], title:'家常焖饭' });
   const differentSlot = structuredClone(base);
   differentSlot.slot_assignment = { other: structuredClone(base.slot_assignment.main) };
+  differentSlot.presentation.title = '家常菌菇焖饭';
   const differentTechnique = structuredClone(base);
   differentTechnique.technique_signature = ['steam'];
-  const differentUsedSet = hybridCandidate({ used:['rice','pork','tomato'], total:4, technique:['braise'] });
-  const differentTemplate = hybridCandidate({ used:['rice','pork','greens'], total:4, templateId:'broth-rice-pot', technique:['braise'] });
+  differentTechnique.presentation.title = '家常蒸焖饭';
+  const differentUsedSet = hybridCandidate({ used:['rice','pork','tomato'], total:4, technique:['braise'], title:'番茄焖饭' });
+  const differentTemplate = hybridCandidate({ used:['rice','pork','greens'], total:4, templateId:'broth-rice-pot', technique:['braise'], title:'家常汤饭' });
   assert.equal(selectHybridCandidates(
     [base, differentSlot, differentTechnique, differentUsedSet, differentTemplate],
     { limit: 3 },
   ).length, 3);
+});
+
+test('hybrid public choices collapse custom cards that look identical to a cook', () => {
+  const eggTofu = hybridCandidate({
+    templateId:'egg-tofu-vegetable-pot', used:['豆腐','青菜','金针菇'], total:3,
+    technique:['gentle_set_protein'], title:'豆腐、青菜炖锅', timeMinutes:25,
+    extras:[{ name:'水', category:'liquid' }, { name:'盐', category:'seasoning' }],
+  });
+  const mushroomStew = hybridCandidate({
+    templateId:'mushroom-vegetable-stew-pot', used:['豆腐','青菜','金针菇'], total:3,
+    technique:['simmer_until_tender'], title:'豆腐、青菜炖锅', timeMinutes:30,
+    extras:[{ name:'水', category:'liquid' }, { name:'盐', category:'seasoning' }],
+  });
+  assert.equal(selectHybridCandidates([mushroomStew, eggTofu], { limit:3 }).length, 1);
+});
+
+test('custom presentation keeps the user tofu wording instead of silently narrowing it to firm tofu', async () => {
+  const result = await planMealWithIdentity(assets, request({
+    mode:'recommend', prefer:['豆腐','青菜','金针菇'],
+  }));
+  assert.match(result.presentation.title, /^豆腐、/u);
+  assert.doesNotMatch(result.presentation.title, /^老豆腐、/u);
+});
+
+test('custom presentation names the actual staple technique and does not repeat noodle wording', async () => {
+  const beefBundle = await planMealCandidateBundle(assets, request({
+    mode:'recommend', prefer:['西兰花','牛里脊'],
+  }));
+  const beefNoodle = beefBundle.candidate_plans.find(candidate => (
+    candidate.plan.pots[0].template_id === 'beef-staple-pot'
+    && candidate.plan.required_extra_items.some(item => item.category === 'noodle')
+  ));
+  assert.ok(beefNoodle);
+  assert.match(beefNoodle.presentation.title, /汤面$/u);
+  assert.doesNotMatch(beefNoodle.presentation.title, /焖饭$/u);
+
+  const pork = await planMealWithIdentity(assets, request({
+    mode:'recommend', prefer:['猪里脊','鲜小麦面条','豆角'],
+  }));
+  assert.match(pork.presentation.title, /焖面$/u);
+  assert.doesNotMatch(pork.presentation.title, /面条焖面/u);
+});
+
+test('acid staple presentation distinguishes leftover-rice stew from raw-rice braising', async () => {
+  const result = await planMealWithIdentity(assets, request({
+    mode:'recommend', prefer:['番茄','剩米饭'],
+  }));
+  assert.equal(result.plan.pots[0].template_id, 'acid-staple-pot');
+  assert.match(result.presentation.title, /烩饭$/u);
+  assert.doesNotMatch(result.presentation.title, /焖饭$/u);
+});
+
+test('hybrid selector rejects a card that leaves the user noodle unused and asks them to buy noodle', () => {
+  const conflicting = hybridCandidate({
+    templateId:'braised-noodle-pot', used:['猪里脊','豆角'], total:3,
+    title:'猪里脊、豆角焖面', extras:[{ name:'面条', category:'noodle' }],
+  });
+  conflicting.normalized_items[2] = {
+    raw:'鲜小麦面条', canonical:'鲜小麦面条', canonical_id:'fresh-wheat-noodle',
+    category:'noodle', recognized:true, role:'prefer_use', duplicate_of:null,
+  };
+  conflicting.unused_prefer_use = [structuredClone(conflicting.normalized_items[2])];
+  assert.deepEqual(selectHybridCandidates([conflicting]), []);
 });
 
 test('hybrid arbitration applies intent, burden and recent history only after identity, coverage and extras', () => {

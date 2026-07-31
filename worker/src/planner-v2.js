@@ -2366,6 +2366,16 @@ function hybridIntentPenalty(candidate) {
   return candidate?.intent_fit === false ? 1 : 0;
 }
 
+function hybridAsksForUnusedEquivalent(candidate) {
+  const unused = candidate?.plan?.unused_prefer_use || candidate?.unused_prefer_use || [];
+  const unusedCategories = new Set(unused.map(item => item?.category).filter(Boolean));
+  return hybridRequiredExtras(candidate).some(extra => (
+    typeof extra?.category === 'string'
+      && !['liquid','oil','seasoning'].includes(extra.category)
+      && unusedCategories.has(extra.category)
+  ));
+}
+
 function finiteHybridBurden(value) {
   return typeof value === 'number' && Number.isFinite(value) && value >= 0
     ? value
@@ -2397,7 +2407,27 @@ function hybridStableKey(candidate) {
   return hybridPlanId(candidate) || hybridStructuralKey(candidate);
 }
 
-export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanIds = [] } = {}) {
+function hybridPublicChoiceKey(candidate) {
+  const presentation = candidate?.presentation || {};
+  const extras = hybridRequiredExtras(candidate).map(item => ({
+    name: item?.name || null,
+    category: item?.category || null,
+  })).sort((left, right) => stableCanonicalJson(left).localeCompare(stableCanonicalJson(right), 'zh-Hans-CN'));
+  return stableCanonicalJson({
+    badge: presentation.badge || null,
+    title: presentation.title || null,
+    source_label: presentation.source_label || null,
+    canonical_path: presentation.canonical_path || null,
+    used: hybridUsedSet(candidate),
+    extras,
+  });
+}
+
+export function selectHybridCandidates(candidates = [], {
+  limit = 3,
+  recentPlanIds = [],
+  preserveInputOrder = false,
+} = {}) {
   const boundedLimit = Math.max(1, Math.min(3, Number.isInteger(limit) ? limit : 3));
   const recentIds = new Set((Array.isArray(recentPlanIds) ? recentPlanIds : [])
     .filter(value => typeof value === 'string' && value));
@@ -2419,6 +2449,7 @@ export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanI
       variantId: candidate?.variant_id ?? null,
       identityLevel: level,
     })) continue;
+    if (hybridAsksForUnusedEquivalent(candidate)) continue;
     const coverage = hybridCoverageFacts(candidate);
     const denominator = coverage.total;
     const plannedCount = coverage.used;
@@ -2433,7 +2464,7 @@ export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanI
     detached.coverage_ratio = denominator ? plannedCount / denominator : 0;
     eligible.push(detached);
   }
-  eligible.sort((left, right) => {
+  if (!preserveInputOrder) eligible.sort((left, right) => {
     const identityDifference = (HYBRID_IDENTITY_RANK[left.identity_level] ?? Number.MAX_SAFE_INTEGER)
       - (HYBRID_IDENTITY_RANK[right.identity_level] ?? Number.MAX_SAFE_INTEGER);
     if (identityDifference) return identityDifference;
@@ -2452,10 +2483,14 @@ export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanI
   });
   const selected = [];
   const seenStructures = new Set();
+  const seenPublicChoices = new Set();
   for (const candidate of eligible) {
     const structure = hybridStructuralKey(candidate);
     if (seenStructures.has(structure)) continue;
+    const publicChoice = hybridPublicChoiceKey(candidate);
+    if (seenPublicChoices.has(publicChoice)) continue;
     seenStructures.add(structure);
+    seenPublicChoices.add(publicChoice);
     selected.push(candidate);
     if (selected.length >= boundedLimit) break;
   }

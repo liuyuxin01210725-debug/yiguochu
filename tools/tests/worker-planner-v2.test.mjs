@@ -291,7 +291,7 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.recipeLibrary, 'ok');
   assert.equal(result.body.plannerAssets, 'ok');
   assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
-  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260729-r15');
+  assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260731-r18');
   assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260728-r10');
   assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260731-r9');
   assert.equal(result.body.activeTemplates, 11);
@@ -932,7 +932,7 @@ test('OPTIONS keeps CORS and legacy malformed JSON behavior remains unchanged', 
 
 test('deployment documentation tracks the current draft planner asset baseline', () => {
   const deployment = fs.readFileSync(new URL('../../部署说明.md', import.meta.url), 'utf8');
-  assert.match(deployment, /templates-v2-20260729-r15/);
+  assert.match(deployment, /templates-v2-20260731-r18/);
   assert.match(deployment, /taxonomy-v1-20260728-r10/);
   assert.match(deployment, /ratio-rules-v1-20260731-r9/);
   assert.match(deployment, /11 个 active templates，5 个 planned templates/);

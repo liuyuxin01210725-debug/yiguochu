@@ -49,23 +49,26 @@ const ACTION_TEXT_TEMPLATES = Object.freeze({
   acid_base_cookdown: ['将{items}放入锅中翻炒至变软并释放汁水', '同锅翻炒{items}，直至质地变软、汁水析出'],
   add_broth_and_noodles: ['将{items}放入同一口锅，煮至面条无硬芯', '同锅加入{items}并保持翻动，直至面条熟透'],
   add_fast_cooking_items: ['加入{items}，翻拌至均匀受热', '将{items}加入锅中，翻动至全部热透'],
-  add_liquid: ['将{items}倒入同一口锅并搅匀', '同锅加入{items}并搅匀，使液体分布均匀'],
+  add_liquid: [
+    '将{items}倒入同一口锅并搅匀，大火加热至沸腾后转中火',
+    '同锅加入{items}，加热至汤底沸腾后再进行下一步',
+  ],
   add_slow_cooking_items: ['先加入{items}翻拌，使较慢熟的食材开始受热', '将{items}先放入锅中翻动，为后续焖煮预留熟化时间'],
   add_mushroom: ['加入{items}，翻炒至变软并充分受热', '将{items}放入锅中翻炒，直至质地变软'],
   add_noodle: ['铺入{items}，保持同锅焖煮至无硬芯', '将{items}加入锅中并轻轻拨散，煮至熟透'],
   add_pork: ['加入{items}，翻炒至各面均匀变色', '将{items}放入锅中翻动加热，使各面受热均匀'],
   add_soft_protein: ['轻轻放入{items}，避免大力翻动并继续同锅加热', '将{items}沿锅边放入，轻推均匀后继续加热'],
   add_staple_and_liquid: [
-    '将{items}按计划比例加入同一口锅并拌匀，加盖焖煮至主食熟软无硬芯',
+    '将{items}按量好的份量加入同一口锅并拌匀，加盖焖煮至主食熟软无硬芯',
     '同锅加入{items}并轻轻搅匀，随后加盖焖煮到主食完全熟软',
   ],
   add_reserved_liquid_if_needed: [
-    '检查锅底；只有出现偏干迹象时，才加入计划预留的{grams}克{items}',
-    '如锅底水分不足，仅补入已锁定的{grams}克{items}，不得再额外加水',
+    '检查锅底；只有出现偏干迹象时，才加入预留的{grams}克{items}',
+    '如锅底偏干，只补入预留的{grams}克{items}，翻匀后继续焖煮',
   ],
   add_staple_root_and_liquid: [
-    '将{items}按已锁定比例放入同一口锅并轻轻搅匀',
-    '同锅加入{items}，按已确定比例拌匀后开始加热',
+    '将{items}按量好的份量放入同一口锅并轻轻搅匀',
+    '把{items}按量好的份量同锅拌匀后开始加热',
   ],
   add_cooked_legume: [
     '将{items}在后段加入，轻轻搅匀并继续加热',
@@ -297,30 +300,55 @@ function controlledStepTexts(
       ];
     } else if (shapes.has('cured_slice')) {
       templates = [
-        '将{items}按原有腌制片形分散铺开，不再重复改刀',
-        '把{items}逐片铺开并保持原有形状，放在手边备用',
+        '将{items}逐片分散铺开，粘连处轻轻分开即可',
+        '把{items}逐片铺开，整理好后放在手边备用',
       ];
     } else if (shapes.has('sausage')) {
       templates = [
-        '将{items}保持原形整理好；如锅具空间有限，只切成大小相近的小段',
-        '把{items}按原形放好，必要时仅分成均匀小段，不再作其他改刀',
+        '将{items}整根放好；如锅具空间有限，可切成大小相近的小段',
+        '把{items}整理好，按锅具大小整根使用或分成均匀小段',
       ];
-    } else if (shapes.has('tenderloin') || shapes.has('slice')) {
+    } else if (shapes.has('slice')) {
+      templates = [
+        '将{items}逐片摊开，粘连的部分轻轻分开后放在手边备用',
+        '把{items}擦干表面水分并分散铺开，保持薄片状态备用',
+      ];
+    } else if (shapes.has('tenderloin')) {
       templates = [
         '将{items}切成适合入口的薄片，使厚薄尽量一致',
-        '把{items}顺着原部位切成薄片，放在手边备用',
+        '把{items}顺着纹理切成厚薄一致的薄片，放在手边备用',
       ];
     } else if (categories.has('egg')) {
       templates = ['将{items}打散至蛋液均匀', '把{items}充分搅散，静置在手边备用'];
-    } else if (shapes.has('leg') || shapes.has('breast') || shapes.has('whole')) {
+    } else if (categories.has('soft_tofu') || categories.has('firm_tofu')) {
       templates = [
-        '将{items}按原部位与原有形状整理好，不擅自改成其他肉形',
-        '检查{items}的原部位并保持原形，整理后放在手边备用',
+        '将{items}沥去表面水分，保持块状轻轻整理好',
+        '把{items}按原有块状轻轻整理，避免反复翻动弄碎',
+      ];
+    } else if (categories.has('seafood')) {
+      templates = [
+        '将{items}沥去表面水分，保持完整后备用',
+        '把{items}轻轻整理好，沥去表面水分后放在手边备用',
+      ];
+    } else if (shapes.has('leg')) {
+      templates = [
+        '将{items}切成大小相近的小块；带骨时沿关节分开，便于均匀熟透',
+        '把{items}擦干表面水分，较大的块沿关节分开，整理成大小接近的小块',
+      ];
+    } else if (shapes.has('breast')) {
+      templates = [
+        '将{items}切成大小相近的小块，便于后续均匀熟透',
+        '把{items}擦干表面水分后切成均匀小块，放在手边备用',
+      ];
+    } else if (shapes.has('whole')) {
+      templates = [
+        '将{items}擦干表面水分，较大的部分沿关节分开，便于均匀熟透',
+        '把{items}整理成大小接近、容易翻动的小块，放在手边备用',
       ];
     } else if (categories.has('chicken')) {
       templates = [
         '将{items}切成大小相近的小块，便于均匀熟透',
-        '把{items}按原部位整理成均匀小块并备好',
+        '把{items}整理成大小均匀、容易翻动的小块并备好',
       ];
     } else {
       templates = [
@@ -342,6 +370,39 @@ function controlledStepTexts(
       '同锅加入{items}并翻匀，保持加热至汤汁收匀、熟米饭整体热透',
     ];
   }
+  if (phase.action_code === 'add_fast_cooking_items'
+      && phaseIngredients.length > 0
+      && phaseIngredients.every(item => [
+        'leafy_vegetable', 'cruciferous_vegetable', 'mushroom',
+      ].includes(item.category))) {
+    const categories = new Set(phaseIngredients.map(item => item.category));
+    if (categories.has('mushroom') && categories.has('leafy_vegetable')) {
+      templates = [
+        '加入{items}，轻轻翻拌至叶菜断生、菌菇熟软且没有生味',
+        '将{items}同锅翻匀，继续加热到叶菜刚熟、菌菇熟软无生味',
+      ];
+    } else if (categories.has('mushroom') && categories.has('cruciferous_vegetable')) {
+      templates = [
+        '加入{items}，轻轻翻拌至蔬菜熟而仍有口感、菌菇熟软无生味',
+        '将{items}同锅翻匀，继续加热到蔬菜刚熟、菌菇熟软且没有生味',
+      ];
+    } else if (categories.has('mushroom')) {
+      templates = [
+        '加入{items}，轻轻翻拌至菌菇熟软且没有生味',
+        '将{items}同锅翻匀，继续加热到菌菇熟软无生味',
+      ];
+    } else if (categories.has('leafy_vegetable')) {
+      templates = [
+        '最后加入{items}，轻轻翻拌至叶菜塌软断生',
+        '将{items}同锅翻匀，继续加热到叶菜刚熟',
+      ];
+    } else {
+      templates = [
+        '加入{items}，翻拌至蔬菜刚熟并保持适当口感',
+        '将{items}同锅翻匀，继续加热到蔬菜熟而仍有口感',
+      ];
+    }
+  }
   if (!Array.isArray(templates) || templates.length < 2) {
     throw new Error(`locked_action_phrase_missing:${phase.action_code}`);
   }
@@ -354,6 +415,12 @@ function controlledStepTexts(
   ));
   const safetyFact = safety.length ? `，并确认${safety.join('；')}` : '';
   const safetyAlt = safety.length ? `，完成后确认${safety.join('；')}` : '';
+  if (phase.action_code === 'reach_safety_endpoints' && safety.length) {
+    return [
+      `继续同锅加热，直至${safety.join('；')}。`,
+      `保持同锅加热，直到${safety.join('；')}。`,
+    ];
+  }
   return templates.map(template => `${template
     .replace('{items}', refs)
     .replace('{grams}', String(phase.locked_liquid_grams ?? ''))
@@ -562,6 +629,11 @@ function buildLockedMeal(pot, template, refCounters, context) {
       );
     }
   }
+  for (const phase of phases) {
+    if (phase.action_code === 'reach_safety_endpoints') {
+      phase.allowed_ingredient_refs = uniqueStrings(phase.required_safety_ingredient_refs);
+    }
+  }
   for (const ingredient of locked) {
     if (phases.some(phase => phase.allowed_ingredient_refs.includes(ingredient.ingredient_ref))) continue;
     if (ingredient.source === 'user') {
@@ -570,7 +642,9 @@ function buildLockedMeal(pot, template, refCounters, context) {
     if (phases.length) phases[0].allowed_ingredient_refs.push(ingredient.ingredient_ref);
   }
   phases = phases.filter(phase => (
-    phase.allowed_ingredient_refs.length > 0 || phase.required_safety_endpoints.length > 0
+    !(phase.action_code === 'reach_safety_endpoints'
+      && phase.required_safety_endpoints.length === 0)
+    && (phase.allowed_ingredient_refs.length > 0 || phase.required_safety_endpoints.length > 0)
   ));
   const textProfile = DETERMINISTIC_TEXT_PROFILES[pot.template_id];
   if (!textProfile) throw new Error(`deterministic_text_profile_missing:${pot.template_id}`);

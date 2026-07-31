@@ -1055,7 +1055,7 @@ test('needs_user_decision retains pots and never calls generation', async () => 
   assert.equal(calls.length, 1);
   assert.equal(evaluate(context, 'state.view'), 'v2-plan');
   assert.match(root.innerHTML, /还有食材没有安排/);
-  assert.match(root.innerHTML, /第一锅/);
+  assert.match(root.innerHTML, /一锅方案/);
   assert.match(root.innerHTML, /最多 30 分钟/);
   assert.match(root.innerHTML, /神秘叶子/);
   assert.doesNotMatch(root.innerHTML, /按这几步做/);
@@ -1122,9 +1122,12 @@ test('chickpea ambiguity asks for dry or cooked state without treating planning 
 
 test('swap only replans, preview generation reuses its exact request, and history does not pre-record the preview', async () => {
   const first = plannerResult();
-  const alternative = plannerResult({ plan:{ plan_id:'pln_v2_alternative', pots:[{ ...plannerResult().plan.pots[0], template_id:'savory-mixed-rice-pot' }] } });
+  const alternative = plannerResult({
+    presentation:customPresentation('番茄、西兰花家常焖饭'),
+    plan:{ plan_id:'pln_v2_alternative', pots:[{ ...plannerResult().plan.pots[0], template_id:'savory-mixed-rice-pot' }] },
+  });
   const generated = generatedResult(alternative);
-  const { context, calls, root } = loadFrontend([{ body:first }, { body:alternative }, { body:generated }]);
+  const { context, calls, root } = loadFrontend([{ body:alternative }, { body:generated }]);
   await evaluate(context, `(async () => {
     state.profile = { mode:'recommend', intent:'quick', servings:'2', pantry:'番茄, 西兰花', dislikes:'' };
     const initialRequest = buildPlanRequest();
@@ -1135,10 +1138,38 @@ test('swap only replans, preview generation reuses its exact request, and histor
   assert.equal(new URL(calls[0].url, 'https://app.test').pathname, '/plan-meal');
   assert.equal(evaluate(context, 'state.view'), 'v2-plan-preview');
   assert.match(root.innerHTML, /生成这套做法/);
+  assert.match(root.innerHTML, /自定义方案/);
+  assert.match(root.innerHTML, /番茄、西兰花家常焖饭/);
+  assert.match(root.innerHTML, /按本次选中的食材与受控家常技法组合/);
+  assert.match(root.innerHTML, /一锅方案/);
+  assert.doesNotMatch(root.innerHTML, /第一锅/);
   assert.equal(evaluate(context, `state.swapHistory.some(h => h.planId === 'pln_v2_alternative')`), false);
   const exactAlternativeRequest = JSON.parse(calls[0].init.body);
   await evaluate(context, `generateDisplayedPlan()`);
   assert.deepEqual(JSON.parse(calls[1].init.body).plan_request, exactAlternativeRequest);
+});
+
+test('an invalid swap presentation keeps the current reliable plan and fails closed', async () => {
+  const current = plannerResult({
+    presentation:customPresentation('番茄、鸡蛋焖饭'),
+  });
+  const invalid = plannerResult({
+    presentation:{ ...customPresentation('番茄、西兰花焖饭'), title:'番茄、西兰花配方' },
+    plan:{ plan_id:'pln_v2_invalid_swap', pots:[{ ...plannerResult().plan.pots[0], template_id:'savory-mixed-rice-pot' }] },
+  });
+  const { context, root } = loadFrontend([{ body:invalid }], {
+    plannerRollout:'direct-recommend', generationMode:'deterministic', proxy:null,
+  });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'' };
+    setDisplayedPlan(${JSON.stringify(current)}, buildPlanRequest(), false);
+    await requestAlternativePlan();
+  })()`);
+  assert.equal(evaluate(context, 'state.view'), 'gen-failed');
+  assert.equal(evaluate(context, 'state.lastGenError.code'), 'plan_identity_mismatch');
+  assert.equal(evaluate(context, 'state.displayedPlan.plan.plan_id'), current.plan.plan_id);
+  assert.match(root.innerHTML, /这套组合还在/);
+  assert.doesNotMatch(root.innerHTML, /番茄、西兰花配方/);
 });
 
 test('no_alternative_plan has its dedicated path and retains the clean current generation snapshot', async () => {
@@ -1251,6 +1282,15 @@ test('V2 generated multi-meal result is ordered, records started plan history, a
   const history = JSON.parse(evaluate(context, 'JSON.stringify(state.swapHistory)'));
   assert.equal(history.at(-1).planId, 'pln_v2_two');
   assert.equal(history.at(-1).kind, 'started');
+});
+
+test('single-pot generated result is labeled as one-pot plan instead of a misleading first pot', () => {
+  const planned = plannerResult();
+  const generated = generatedResult(planned);
+  const { context, root } = loadFrontend();
+  evaluate(context, `showGeneratedPlan(${JSON.stringify(generated)}, ${JSON.stringify(planned)}, buildPlanRequest())`);
+  assert.match(root.innerHTML, /一锅方案 · 自定义方案/);
+  assert.doesNotMatch(root.innerHTML, /第一锅 · 自定义方案/);
 });
 
 test('stale_plan has dedicated copy and an explicit replan path', async () => {

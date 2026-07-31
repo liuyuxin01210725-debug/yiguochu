@@ -24,7 +24,7 @@ const TECHNIQUE_BY_TEMPLATE = Object.freeze({
   'braised-noodle-pot': '焖面',
   'soft-family-rice-pot': '炖锅',
 });
-const CONTROLLED_TECHNIQUES = new Set(Object.values(TECHNIQUE_BY_TEMPLATE));
+const CONTROLLED_TECHNIQUES = new Set([...Object.values(TECHNIQUE_BY_TEMPLATE), '烩饭']);
 const UNSAFE_TEXT_RE = /[<>\u0000-\u001f\u007f]/u;
 const NAMED_IMPLICATION_RE = /人工批准|正宗|标准菜谱/u;
 const CUSTOM_IDENTITY_RE = /地域|正宗|传统|经典|酸香主食锅|家常主食锅/iu;
@@ -75,10 +75,50 @@ function plannedUserItems(result) {
   return selected;
 }
 
-function decisiveIngredientNames(result) {
+function plannedPot(result) {
+  return result?.plan?.pots?.[0] || result?.pots?.[0] || result || {};
+}
+
+function plannedStapleCategory(result) {
+  const pot = plannedPot(result);
+  const assigned = Array.isArray(pot?.slot_assignment?.staple)
+    ? pot.slot_assignment.staple : [];
+  const extra = Array.isArray(pot?.required_extra_items)
+    ? pot.required_extra_items : [];
+  return [...assigned, ...extra].map(item => item?.category)
+    .find(category => ['raw_rice','cooked_rice','noodle'].includes(category)) || null;
+}
+
+function techniqueForResult(templateId, result) {
+  if (templateId === 'acid-staple-pot') {
+    const stapleCategory = plannedStapleCategory(result);
+    if (stapleCategory === 'noodle') return '汤面';
+    if (stapleCategory === 'cooked_rice') return '烩饭';
+    if (stapleCategory === 'raw_rice') return '焖饭';
+  }
+  if (templateId === 'beef-staple-pot' || templateId === 'poultry-staple-pot') {
+    const stapleCategory = plannedStapleCategory(result);
+    if (stapleCategory === 'noodle') return '汤面';
+    if (stapleCategory === 'cooked_rice') return '汤饭';
+    if (stapleCategory === 'raw_rice') return '焖饭';
+  }
+  return TECHNIQUE_BY_TEMPLATE[templateId];
+}
+
+function decisiveIngredientNames(result, technique) {
+  const items = plannedUserItems(result);
+  const inherentStapleCategories = ['汤面','焖面'].includes(technique)
+    ? new Set(['noodle'])
+    : ['焖饭','烩饭','汤饭','快炒饭'].includes(technique)
+      ? new Set(['raw_rice','cooked_rice']) : new Set();
+  const visibleItems = items.filter(item => !inherentStapleCategories.has(item?.category));
+  const sourceItems = visibleItems.length ? visibleItems : items;
   const names = [];
-  for (const item of plannedUserItems(result)) {
-    const value = [item?.display_name, item?.canonical, item?.raw]
+  for (const item of sourceItems) {
+    // A custom plan must keep the cook's own ingredient wording. Canonical
+    // identity is for matching and safety, not permission to silently narrow
+    // a generic input such as "豆腐" to "老豆腐" in the public title.
+    const value = [item?.raw, item?.display_name, item?.canonical]
       .find(candidate => exactSafeText(candidate, 24));
     if (!value || names.includes(value)) continue;
     names.push(value);
@@ -91,8 +131,8 @@ export function buildCustomPlanPresentation(result = {}) {
   const templateId = result?.plan?.pots?.[0]?.template_id
     || result?.pots?.[0]?.template_id
     || result?.template_id;
-  const technique = TECHNIQUE_BY_TEMPLATE[templateId];
-  const ingredients = decisiveIngredientNames(result);
+  const technique = techniqueForResult(templateId, result);
+  const ingredients = decisiveIngredientNames(result, technique);
   if (!technique || ingredients.length === 0) return null;
   const presentation = {
     badge: '自定义方案',
