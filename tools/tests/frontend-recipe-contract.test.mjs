@@ -48,6 +48,36 @@ function meal(overrides = {}) {
   };
 }
 
+function customPresentation(title = '番茄焖饭') {
+  return {
+    badge: '自定义方案',
+    title,
+    subtitle: '按本次选中的食材与受控家常技法组合。',
+    source_label: null,
+    canonical_path: null,
+  };
+}
+
+function canonicalPresentation(recipeId, title) {
+  return {
+    badge: '依据菜谱',
+    title,
+    subtitle: '按已核验菜谱的用料、比例与熟制顺序呈现。',
+    source_label: '查看一锅出标准配方',
+    canonical_path: `/recipes.html?id=${recipeId}`,
+  };
+}
+
+function variantPresentation(recipeId, title) {
+  return {
+    badge: '菜谱替换版',
+    title,
+    subtitle: '采用已复核的食材替换，并以菜谱替换版呈现。',
+    source_label: '查看一锅出标准配方',
+    canonical_path: `/recipes.html?id=${recipeId}`,
+  };
+}
+
 function plannerResult(overrides = {}) {
   const plan = {
     plan_id: 'pln_v2_test-plan',
@@ -76,6 +106,9 @@ function plannerResult(overrides = {}) {
     planner_version:'pantry-planner-v2',
     template_catalog_version:'templates-v2-20260724',
     status:'ready', generation_allowed:true, mode:'recommend', intent:'quick',
+    recipe_runtime_catalog_version:null,
+    plan_source:'custom_template', recipe_id:null, variant_id:null, identity_level:'custom',
+    presentation:customPresentation(),
     normalized_items:[
       { raw:'番茄', canonical:'番茄', recognized:true, role:'prefer_use' },
       { raw:'西兰花', canonical:'西兰花', recognized:true, role:'prefer_use' },
@@ -91,13 +124,19 @@ function plannerResult(overrides = {}) {
 function generatedResult(planned = plannerResult()) {
   return {
     ...structuredClone(planned),
+    plan_id:planned.plan.plan_id,
     meals:[{
       meal_sequence:1, servings:2, template_id:'acid-staple-pot',
+      plan_source:planned.plan_source,
+      recipe_id:planned.recipe_id,
+      variant_id:planned.variant_id,
+      identity_level:planned.identity_level,
+      presentation:structuredClone(planned.presentation),
       locked_ingredients:[
         { ref:'i1', raw_name:'番茄', planned_grams:200 },
         { ref:'e1', raw_name:'大米', planned_grams:160 },
       ],
-      dish_name:'番茄焖饭',
+      dish_name:planned.presentation.title,
       steps:[{ phase:'同锅焖煮', text:'番茄和大米同锅焖熟。' }],
       recommendation_reason:'优先使用番茄，西兰花留到下一顿。',
     }],
@@ -106,9 +145,11 @@ function generatedResult(planned = plannerResult()) {
 
 function plannerCandidate({
   id, templateId, used, unused = [], extras = [{ name:'水', category:'liquid', grams:160 }],
-  minutes = 30,
+  minutes = 30, identity = {}, presentation = customPresentation(),
 }) {
   return plannerResult({
+    ...identity,
+    presentation,
     normalized_items: [...used, ...unused].map(raw => ({
       raw, canonical:raw, recognized:true, role:'prefer_use',
     })),
@@ -517,14 +558,14 @@ test('direct-recommend rollout stops at deterministic candidates and generates o
   const first = plannerCandidate({
     id:'pln_v2_first',
     templateId:'acid-staple-pot',
-    used:['番茄','鸡蛋','西兰花'],
-    unused:['土豆','玉米'],
+    used:['番茄','鸡蛋','西兰花','土豆'],
+    unused:['玉米'],
   });
   const second = plannerCandidate({
     id:'pln_v2_second',
     templateId:'egg-tofu-vegetable-pot',
-    used:['鸡蛋','西兰花','土豆'],
-    unused:['番茄','玉米'],
+    used:['番茄','鸡蛋','西兰花','土豆'],
+    unused:['玉米'],
   });
   const generated = generatedResult(second);
   const { context, calls, root } = loadFrontend([
@@ -559,12 +600,226 @@ test('direct-recommend rollout stops at deterministic candidates and generates o
   assert.match(root.innerHTML, /受控|确定性/u);
 });
 
+test('candidate cards render only server-signed canonical and custom presentation with exact coverage', async () => {
+  const recipeId = 'shanghai-salted-pork-vegetable-rice';
+  const named = plannerCandidate({
+    id:'pln_v2_named_3_of_4', templateId:'savory-mixed-rice-pot',
+    used:['大米','咸五花肉','小白菜'], unused:['香菇'],
+    identity:{
+      recipe_runtime_catalog_version:'recipe-runtime-v1-test',
+      plan_source:'named_recipe', recipe_id:recipeId, variant_id:null, identity_level:'canonical',
+    },
+    presentation:canonicalPresentation(recipeId, '上海奉贤咸肉菜饭'),
+  });
+  const custom = plannerCandidate({
+    id:'pln_v2_custom_4_of_4', templateId:'savory-mixed-rice-pot',
+    used:['番茄','鸡蛋','西兰花','土豆'],
+    presentation:customPresentation('番茄、鸡蛋焖饭'),
+  });
+  const { context, root } = loadFrontend([
+    { body:plannerBundle([named, custom]) },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'大米, 咸五花肉, 小白菜, 香菇', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+
+  assert.equal((root.innerHTML.match(/data-act="choose-plan"/g) || []).length, 2);
+  assert.match(root.innerHTML, /依据菜谱/);
+  assert.match(root.innerHTML, /上海奉贤咸肉菜饭/);
+  assert.match(root.innerHTML, /用上 3\/4/);
+  assert.match(root.innerHTML, /href="\/recipes\.html\?id=shanghai-salted-pork-vegetable-rice"/);
+  assert.match(root.innerHTML, />查看一锅出标准配方<\/a>/);
+  assert.match(root.innerHTML, /自定义方案/);
+  assert.match(root.innerHTML, /番茄、鸡蛋焖饭/);
+  assert.match(root.innerHTML, /用上 4\/4/);
+  assert.doesNotMatch(root.innerHTML, /人工批准|正宗/u);
+  assert.doesNotMatch(root.innerHTML, /savory-mixed-rice-pot|酸香主食锅|家常主食锅/u);
+});
+
+test('approved variant card shows the reviewed replacement name instead of the canonical title', async () => {
+  const recipeId = 'shanghai-salted-pork-vegetable-rice';
+  const variant = plannerCandidate({
+    id:'pln_v2_variant', templateId:'savory-mixed-rice-pot', used:['大米','咸五花肉','菜心'],
+    identity:{
+      recipe_runtime_catalog_version:'recipe-runtime-v1-test',
+      plan_source:'recipe_variant', recipe_id:recipeId,
+      variant_id:'shanghai-choy-sum-variant', identity_level:'approved_variant',
+    },
+    presentation:variantPresentation(recipeId, '上海奉贤咸肉菜饭（菜心版）'),
+  });
+  const { context, root } = loadFrontend([{ body:plannerBundle([variant]) }], {
+    plannerRollout:'direct-recommend', proxy:null,
+  });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'大米, 咸五花肉, 菜心', dislikes:'' };
+    await runPrimaryFlow();
+  })()`);
+
+  assert.match(root.innerHTML, /菜谱替换版/);
+  assert.match(root.innerHTML, /上海奉贤咸肉菜饭（菜心版）/);
+  assert.match(root.innerHTML, /已复核的食材替换/);
+  assert.doesNotMatch(root.innerHTML, /pantry-plan-name">大米、咸五花肉、菜心/u);
+});
+
+test('missing unknown unsafe and below-floor presentations fail closed before cards become clickable', async () => {
+  const missing = plannerCandidate({
+    id:'pln_v2_missing_presentation', templateId:'acid-staple-pot', used:['番茄','鸡蛋'],
+    presentation:null,
+  });
+  const unknown = plannerCandidate({
+    id:'pln_v2_unknown_field', templateId:'acid-staple-pot', used:['番茄','鸡蛋'],
+    presentation:{ ...customPresentation('番茄鸡蛋焖饭'), engineering_label:'acid-staple-pot' },
+  });
+  const unsafe = plannerCandidate({
+    id:'pln_v2_unsafe_title', templateId:'acid-staple-pot', used:['番茄','鸡蛋'],
+    presentation:customPresentation('正宗地域经典番茄鸡蛋饭'),
+  });
+  const oneOfTwo = plannerCandidate({
+    id:'pln_v2_one_of_two', templateId:'acid-staple-pot', used:['番茄'], unused:['鸡蛋'],
+    presentation:customPresentation('番茄焖饭'),
+  });
+  const { context, calls, root } = loadFrontend([
+    { body:plannerBundle([missing, unknown, unsafe, oneOfTwo]) },
+  ], { plannerRollout:'direct-recommend', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'' };
+    await runPrimaryFlow();
+    await choosePlan('pln_v2_missing_presentation');
+  })()`);
+
+  assert.equal(calls.length, 1);
+  assert.equal(evaluate(context, 'state.planCandidates.length'), 0);
+  assert.doesNotMatch(root.innerHTML, /data-act="choose-plan"/);
+  assert.doesNotMatch(root.innerHTML, /可靠的一锅方案/);
+});
+
+test('chosen server candidate and generated result retain exact identity and presentation', async () => {
+  const recipeId = 'shanghai-salted-pork-vegetable-rice';
+  const chosen = plannerCandidate({
+    id:'pln_v2_exact_identity', templateId:'savory-mixed-rice-pot', used:['大米','咸五花肉','小白菜'],
+    identity:{
+      recipe_runtime_catalog_version:'recipe-runtime-v1-test',
+      plan_source:'named_recipe', recipe_id:recipeId, variant_id:null, identity_level:'canonical',
+    },
+    presentation:canonicalPresentation(recipeId, '上海奉贤咸肉菜饭'),
+  });
+  const generated = generatedResult(chosen);
+  const { context, root } = loadFrontend([
+    { body:plannerBundle([chosen]) }, { body:generated },
+  ], { plannerRollout:'direct-recommend', generationMode:'deterministic', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'大米, 咸五花肉, 小白菜', dislikes:'' };
+    await runPrimaryFlow();
+    await choosePlan('pln_v2_exact_identity');
+  })()`);
+
+  assert.equal(evaluate(context, 'state.view'), 'v2-result');
+  assert.equal(evaluate(context, 'state.displayedPlan.plan.plan_id'), 'pln_v2_exact_identity');
+  assert.equal(evaluate(context, 'state.displayedPlan.plan_source'), 'named_recipe');
+  assert.equal(evaluate(context, 'state.displayedPlan.recipe_id'), recipeId);
+  assert.equal(evaluate(context, 'state.displayedPlan.variant_id'), null);
+  assert.equal(evaluate(context, 'state.displayedPlan.identity_level'), 'canonical');
+  assert.equal(evaluate(context, 'state.generatedPlan.presentation.title'), '上海奉贤咸肉菜饭');
+  assert.match(root.innerHTML, /依据菜谱/);
+  assert.match(root.innerHTML, /上海奉贤咸肉菜饭/);
+});
+
+test('generated identity mismatch fails deterministically while retaining the selected plan', async () => {
+  const chosen = plannerCandidate({
+    id:'pln_v2_selected_before_mismatch', templateId:'acid-staple-pot', used:['番茄','鸡蛋'],
+    presentation:customPresentation('番茄、鸡蛋焖饭'),
+  });
+  const mismatched = generatedResult(chosen);
+  mismatched.plan_source = 'named_recipe';
+  mismatched.recipe_id = 'foreign-recipe';
+  mismatched.identity_level = 'canonical';
+  mismatched.presentation = canonicalPresentation('foreign-recipe', '外部菜名');
+  const { context, calls, root } = loadFrontend([
+    { body:plannerBundle([chosen]) }, { body:mismatched },
+  ], { plannerRollout:'direct-recommend', generationMode:'deterministic', proxy:null });
+  await evaluate(context, `(async () => {
+    state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋', dislikes:'' };
+    await runPrimaryFlow();
+    await choosePlan('pln_v2_selected_before_mismatch');
+  })()`);
+
+  assert.equal(calls.length, 2);
+  assert.equal(evaluate(context, 'state.view'), 'gen-failed');
+  assert.equal(evaluate(context, 'state.lastGenError.code'), 'plan_identity_mismatch');
+  assert.equal(evaluate(context, 'state.displayedPlan.plan.plan_id'), 'pln_v2_selected_before_mismatch');
+  assert.match(root.innerHTML, /这套组合还在/);
+  assert.doesNotMatch(root.innerHTML, /外部菜名/);
+});
+
+test('multi-pot custom generation accepts each strictly validated per-pot server title', () => {
+  const planned = plannerResult({ plan:{
+    plan_id:'pln_v2_multi_presentations', plan_kind:'multi_pot',
+    pots:[
+      plannerResult().plan.pots[0],
+      { ...plannerResult().plan.pots[0], meal_sequence:2, template_id:'stew-pot' },
+    ],
+  } });
+  const generated = generatedResult(planned);
+  generated.meals.push({
+    ...structuredClone(generated.meals[0]),
+    meal_sequence:2,
+    template_id:'stew-pot',
+    presentation:customPresentation('菌菇、土豆炖锅'),
+    dish_name:'菌菇、土豆炖锅',
+  });
+  const { context } = loadFrontend();
+
+  assert.equal(
+    evaluate(context, `generatedMatchesSelectedPlan(${JSON.stringify(generated)}, ${JSON.stringify(planned)})`),
+    true,
+  );
+});
+
+test('public direct recommendation stops seven through ten inputs before planning and retains exact text', async () => {
+  for (const count of [7, 10]) {
+    const pantry = Array.from({ length:count }, (_, index) => `食材${index + 1}`).join(', ');
+    const { context, calls, root } = loadFrontend([], {
+      plannerRollout:'direct-recommend', generationMode:'deterministic', proxy:null,
+    });
+    await evaluate(context, `(async () => {
+      state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:${JSON.stringify(pantry)}, dislikes:'' };
+      await runPrimaryFlow();
+    })()`);
+    assert.equal(calls.length, 0, `${count} inputs must not call planner or generation`);
+    assert.equal(evaluate(context, 'state.view'), 'profile');
+    assert.equal(evaluate(context, 'state.profile.pantry'), pantry);
+    assert.match(root.innerHTML, /本顿优先的 3–5 项/);
+  }
+});
+
+test('public direct recommendation keeps six and eleven outside the seven-through-ten local stop', async () => {
+  for (const count of [6, 11]) {
+    const pantry = Array.from({ length:count }, (_, index) => `食材${index + 1}`).join(', ');
+    const { context, calls, root } = loadFrontend([
+      { body:plannerBundle([]) },
+    ], { plannerRollout:'direct-recommend', generationMode:'deterministic', proxy:null });
+    await evaluate(context, `(async () => {
+      state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:${JSON.stringify(pantry)}, dislikes:'' };
+      await runPrimaryFlow();
+    })()`);
+    assert.deepEqual(
+      calls.map(call => new URL(call.url, 'https://app.test').pathname),
+      ['/plan-meal'],
+      `${count} inputs must continue to the server planner`,
+    );
+    assert.equal(evaluate(context, 'state.profile.pantry'), pantry);
+    assert.doesNotMatch(root.innerHTML, /本顿优先的 3–5 项/);
+  }
+});
+
 test('candidate cards explain coverage, unused reasons and basic extras without title leakage', async () => {
   const candidate = plannerCandidate({
     id:'pln_v2_honest',
     templateId:'savory-mixed-rice-pot',
-    used:['番茄','鸡蛋','西兰花'],
-    unused:['土豆','玉米'],
+    used:['番茄','鸡蛋','西兰花','土豆'],
+    unused:['玉米'],
     extras:[
       { name:'大米', category:'staple', grams:200 },
       { name:'水', category:'liquid', grams:260 },
@@ -578,51 +833,13 @@ test('candidate cards explain coverage, unused reasons and basic extras without 
     state.profile = { mode:'recommend', intent:'normal', servings:'2', pantry:'番茄, 鸡蛋, 西兰花, 土豆, 玉米', dislikes:'' };
     await runPrimaryFlow();
   })()`);
-  assert.match(root.innerHTML, /用上 3\/5/);
+  assert.match(root.innerHTML, /用上 4\/5/);
   for (const item of ['番茄','鸡蛋','西兰花','土豆','玉米','大米','水']) {
     assert.match(root.innerHTML, new RegExp(item));
   }
   assert.match(root.innerHTML, /避免为了凑数影响做法/);
-  assert.equal(evaluate(context, `candidateHeading(state.planCandidates[0]).includes('土豆')`), false);
-  assert.equal(evaluate(context, `candidateHeading(state.planCandidates[0]).includes('玉米')`), false);
-  assert.equal(evaluate(context, `candidateHeading(state.planCandidates[0]).includes('savory-mixed-rice-pot')`), false);
-});
-
-test('every active template has a controlled user-facing candidate label', () => {
-  const templates = JSON.parse(fs.readFileSync(new URL('../data/meal-templates.v2.json', import.meta.url), 'utf8'));
-  const { context } = loadFrontend();
-  const labels = JSON.parse(evaluate(context, 'JSON.stringify(PLAN_FORM_LABELS)'));
-  for (const template of templates.templates.filter(entry => (
-    entry.activation_status === 'active' && entry.runtime_eligible === true
-  ))) {
-    assert.equal(typeof labels[template.template_id], 'string', template.template_id);
-    assert.ok(labels[template.template_id].length > 0, template.template_id);
-  }
-});
-
-test('egg-tofu candidate label only names proteins that are actually planned', () => {
-  const { context } = loadFrontend();
-  const eggOnly = plannerCandidate({
-    id:'pln_v2_egg_only_label',
-    templateId:'egg-tofu-vegetable-pot',
-    used:['番茄','鸡蛋','西兰花'],
-  });
-  const tofuOnly = plannerCandidate({
-    id:'pln_v2_tofu_only_label',
-    templateId:'egg-tofu-vegetable-pot',
-    used:['番茄','豆腐','西兰花'],
-  });
-  const both = plannerCandidate({
-    id:'pln_v2_egg_tofu_label',
-    templateId:'egg-tofu-vegetable-pot',
-    used:['鸡蛋','豆腐','西兰花'],
-  });
-  evaluate(context, `state.planCandidates = ${JSON.stringify([eggOnly, tofuOnly, both])}`);
-  assert.match(evaluate(context, 'candidateHeading(state.planCandidates[0])'), /鸡蛋蔬菜锅/);
-  assert.doesNotMatch(evaluate(context, 'candidateHeading(state.planCandidates[0])'), /豆腐/);
-  assert.match(evaluate(context, 'candidateHeading(state.planCandidates[1])'), /豆腐蔬菜锅/);
-  assert.doesNotMatch(evaluate(context, 'candidateHeading(state.planCandidates[1])'), /鸡蛋/);
-  assert.match(evaluate(context, 'candidateHeading(state.planCandidates[2])'), /蛋豆腐蔬菜锅/);
+  assert.equal(evaluate(context, `state.planCandidates[0].presentation.title.includes('玉米')`), false);
+  assert.equal(evaluate(context, `state.planCandidates[0].presentation.title.includes('savory-mixed-rice-pot')`), false);
 });
 
 test('chosen plan survives a generation error and offers a manual retry without replanning', async () => {
@@ -1012,12 +1229,22 @@ test('V2 generated multi-meal result is ordered, records started plan history, a
     pots:[plannerResult().plan.pots[0], { ...plannerResult().plan.pots[0], meal_sequence:2, label:'第二锅', template_id:'broth-noodle-pot' }],
   } });
   const generated = generatedResult(planned);
-  generated.meals.push({ ...generated.meals[0], meal_sequence:2, dish_name:'菌菇汤面', template_id:'broth-noodle-pot' });
+  generated.meals.push({
+    ...generated.meals[0],
+    meal_sequence:2,
+    dish_name:'菌菇、土豆汤面',
+    template_id:'broth-noodle-pot',
+    presentation:customPresentation('菌菇、土豆汤面'),
+  });
   const { context, root } = loadFrontend();
   evaluate(context, `showGeneratedPlan(${JSON.stringify(generated)}, ${JSON.stringify(planned)}, buildPlanRequest())`);
   assert.match(root.innerHTML, /第一锅/);
   assert.match(root.innerHTML, /第二锅/);
-  assert.ok(root.innerHTML.indexOf('番茄焖饭') < root.innerHTML.indexOf('菌菇汤面'));
+  assert.ok(root.innerHTML.indexOf('第一锅') < root.innerHTML.indexOf('第二锅'));
+  assert.equal((root.innerHTML.match(/番茄焖饭/g) || []).length, 1);
+  assert.equal((root.innerHTML.match(/菌菇、土豆汤面/g) || []).length, 1);
+  assert.equal((root.innerHTML.match(/自定义方案/g) || []).length, 2);
+  assert.equal((root.innerHTML.match(/按本次选中的食材与受控家常技法组合。/g) || []).length, 2);
   assert.doesNotMatch(root.innerHTML, /kcal|营养参考|蛋白 \/ 份/);
   assert.match(root.innerHTML, /data-act="edit-safe-profile"/);
   evaluate(context, `recordDisplayedPlanHistory('started')`);

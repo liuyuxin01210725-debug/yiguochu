@@ -726,7 +726,7 @@ test('contract builder and validator return detached facts without mutating plan
   assert.deepEqual(output, outputBefore);
 });
 
-test('one plan accepts two finite controlled wording variants without changing plan identity', async () => {
+test('one plan keeps one server title while accepting two finite controlled step and reason variants', async () => {
   const journey = await preparedJourney(plannerRequest({ must: ['番茄', '鸡蛋'] }));
   const templates = JSON.parse(SOURCE_ASSETS['/meal-templates.v2.json']);
   const locked = workerModule.buildLockedPlanContract(journey.planned, templates);
@@ -734,7 +734,7 @@ test('one plan accepts two finite controlled wording variants without changing p
   const second = structuredClone(first);
   second.meals.forEach((meal, mealIndex) => {
     const contract = locked.meals[mealIndex].generation_text_contract;
-    meal.dish_name = contract.dish_name_options[1];
+    assert.deepEqual(contract.dish_name_options, [locked.meals[mealIndex].presentation.title]);
     meal.recommendation_reason = contract.recommendation_reason_options[1];
     meal.steps.forEach((step, stepIndex) => { step.text = contract.steps[stepIndex].allowed_texts[1]; });
   });
@@ -1598,11 +1598,9 @@ test('placeholder refs are exact per phase and cannot cross meals', async t => {
 
   const multi = await preparedJourney(plannerRequest({ must: ['大米', '熟米饭', '番茄'] }));
   const multiLocked = workerModule.buildLockedPlanContract(multi.planned, templates);
-  await t.test('dish name cannot use another meal placeholder', () => {
+  await t.test('dish name cannot copy another meal server title', () => {
     const output = validModelOutput(multiLocked);
-    const foreignRef = output.meals[1].ingredient_refs[0];
-    const ownRef = output.meals[0].ingredient_refs[0];
-    output.meals[0].dish_name = output.meals[0].dish_name.replace(`{{${ownRef}}}`, `{{${foreignRef}}}`);
+    output.meals[0].dish_name = output.meals[1].dish_name;
     assert.equal(workerModule.validateGeneratedPlan(output, multiLocked, termUniverse).ok, false);
   });
 });

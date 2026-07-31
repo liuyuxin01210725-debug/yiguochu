@@ -29,6 +29,7 @@ const REQUIRED_ASSETS = [
   'ratio-dsl.js',
   'taxonomy-identity.js',
   'allergen-semantics.js',
+  'plan-presentation.js',
   'generated-plan-contract.js',
   'recipe-runtime-matcher.js',
   'recipe-runtime-compiler.js',
@@ -51,6 +52,7 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['ratio-dsl.js', path.join(ROOT, 'worker', 'src', 'ratio-dsl.js')],
   ['taxonomy-identity.js', path.join(ROOT, 'worker', 'src', 'taxonomy-identity.js')],
   ['allergen-semantics.js', path.join(ROOT, 'worker', 'src', 'allergen-semantics.js')],
+  ['plan-presentation.js', path.join(ROOT, 'worker', 'src', 'plan-presentation.js')],
   ['generated-plan-contract.js', path.join(ROOT, 'worker', 'src', 'generated-plan-contract.js')],
   ['recipe-runtime-matcher.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-matcher.js')],
   ['recipe-runtime-compiler.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-compiler.js')],
@@ -226,7 +228,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 31);
+    assert.equal(buildRecord.files, 32);
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
       /const C = 'yiguochu-shell-v4-canonical-test';/,
@@ -344,7 +346,7 @@ test('built Worker contains its complete relative module graph and plans from em
   try {
     build(outputDir);
     const graph = assertBuiltImportGraph(outputDir);
-    assert.equal(graph.size, 15);
+    assert.equal(graph.size, 16);
     const { default: builtWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?built=${Date.now()}`);
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };

@@ -1,5 +1,10 @@
 import { buildLockedRecipeMeal } from './recipe-runtime-compiler.js';
 import { RECIPE_SAFETY_EVIDENCE_PATTERNS } from './recipe-action-registry.js';
+import {
+  assertCanonicalCustomPlanPresentation,
+  assertPlanPresentation,
+  buildCustomPlanPresentation,
+} from './plan-presentation.js';
 
 const TOP_LEVEL_KEYS = ['plan_id', 'meals'];
 const MEAL_KEYS = ['meal_sequence', 'dish_name', 'ingredient_refs', 'steps', 'recommendation_reason'];
@@ -567,11 +572,23 @@ function buildLockedMeal(pot, template, refCounters, context) {
   phases = phases.filter(phase => (
     phase.allowed_ingredient_refs.length > 0 || phase.required_safety_endpoints.length > 0
   ));
-  const userRefs = locked.filter(item => item.source === 'user').map(item => item.ingredient_ref);
-  const titleRefs = userRefs.length ? userRefs : locked.map(item => item.ingredient_ref);
-  const title = joinedPlaceholders(titleRefs);
   const textProfile = DETERMINISTIC_TEXT_PROFILES[pot.template_id];
   if (!textProfile) throw new Error(`deterministic_text_profile_missing:${pot.template_id}`);
+  const presentation = context.plan_source === 'custom_template'
+    ? assertCanonicalCustomPlanPresentation(context.presentation, {
+        mode: context.mode,
+        plan: {
+          planned_must_use: pot.planned_must_use || [],
+          planned_prefer_use: pot.planned_prefer_use || [],
+          pots: [pot],
+        },
+      })
+    : assertPlanPresentation(context.presentation, {
+        planSource: context.plan_source,
+        recipeId: context.recipe_id,
+        variantId: context.variant_id,
+        identityLevel: context.identity_level,
+      });
   const modeReason = context.mode === 'pantry'
     ? '已经安排的食材会按清库存承诺和确认顺序进入这套做法。'
     : '这套做法优先采用本次更适合一起下锅的食材，并按确认顺序完成。';
@@ -581,7 +598,7 @@ function buildLockedMeal(pot, template, refCounters, context) {
     batch: '这份做法按批量备餐目标与已确认顺序执行。',
   };
   const generationTextContract = {
-    dish_name_options: textProfile.dish_name_suffixes.map(suffix => `${title}${suffix}`),
+    dish_name_options: [presentation.title],
     steps: phases.map((phase, index) => ({
       order: index + 1,
       allowed_texts: controlledStepTexts(
@@ -606,7 +623,7 @@ function buildLockedMeal(pot, template, refCounters, context) {
     recipe_id: context.recipe_id,
     variant_id: context.variant_id,
     identity_level: context.identity_level,
-    presentation: structuredClone(context.presentation || null),
+    presentation,
     locked_ingredients: locked,
     slot_assignment: orderedSlotIds.map(slot_id => ({
       slot_id,
@@ -715,9 +732,13 @@ export function buildLockedPlanContract(
   if ((plannerResult.plan_source ?? 'custom_template') !== 'custom_template'
       || plannerResult.recipe_id != null || plannerResult.variant_id != null
       || (plannerResult.identity_level ?? 'custom') !== 'custom'
-      || plannerResult.presentation != null || Object.hasOwn(plannerResult, 'canonical_name')) {
+      || Object.hasOwn(plannerResult, 'canonical_name')) {
     throw new Error('custom_plan_identity_invalid');
   }
+  const presentation = assertCanonicalCustomPlanPresentation(
+    plannerResult.presentation,
+    plannerResult,
+  );
   const lockedCustomPlan = customAllowlistedPlan(plannerResult.plan);
   const templates = new Map((templateCatalog?.templates || []).map(template => [template.template_id, template]));
   const refCounters = { user: 1, extra: 1 };
@@ -725,6 +746,14 @@ export function buildLockedPlanContract(
     .map(pot => {
       const template = templates.get(pot.template_id);
       if (!template) throw new Error(`locked_template_missing:${pot.template_id}`);
+      const mealPresentation = buildCustomPlanPresentation({
+        mode: plannerResult.mode,
+        plan: {
+          planned_must_use: pot.planned_must_use || [],
+          planned_prefer_use: pot.planned_prefer_use || [],
+          pots: [pot],
+        },
+      });
       return buildLockedMeal(pot, template, refCounters, {
         mode: plannerResult.mode,
         intent: plannerResult.intent,
@@ -732,7 +761,7 @@ export function buildLockedPlanContract(
         recipe_id: null,
         variant_id: null,
         identity_level: 'custom',
-        presentation: null,
+        presentation: mealPresentation,
       });
     });
   return structuredClone({
@@ -746,7 +775,7 @@ export function buildLockedPlanContract(
     recipe_id: null,
     variant_id: null,
     identity_level: 'custom',
-    presentation: null,
+    presentation,
     plan: lockedCustomPlan,
     meals,
   });

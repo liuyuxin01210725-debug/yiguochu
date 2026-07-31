@@ -79,12 +79,28 @@ function hybridCandidate({
     duplicate_of: null,
   }));
   const planned = normalized.slice(0, used.length).map(item => structuredClone(item));
+  const customTitle = /(焖饭|汤饭|汤面|焖面|炖锅|快炒饭)$/u.test(title) ? title : `${title}焖饭`;
+  const presentation = source === 'custom_template'
+    ? {
+        badge:'自定义方案', title:customTitle,
+        subtitle:'按本次选中的食材与受控家常技法组合。',
+        source_label:null, canonical_path:null,
+      }
+    : {
+        badge:source === 'recipe_variant' ? '菜谱替换版' : '依据菜谱',
+        title,
+        subtitle:source === 'recipe_variant'
+          ? '采用已复核的食材替换，并以菜谱替换版呈现。'
+          : '按已核验菜谱的用料、比例与熟制顺序呈现。',
+        source_label:'查看一锅出标准配方',
+        canonical_path:recipeId ? `/recipes.html?id=${recipeId}` : null,
+      };
   return {
     plan_source: source,
     recipe_id: recipeId,
     variant_id: variantId,
     identity_level: identity,
-    presentation: { title },
+    presentation,
     match_trace: ['ignored-for-diversity'],
     normalized_items: normalized,
     planned_prefer_use: planned,

@@ -5,6 +5,7 @@ import {
   RECIPE_SEASONING_WRITERS,
 } from './recipe-action-registry.js';
 import { materializeProfileActions, resolveRecipeActionProfile } from './recipe-action-profile-validator.js';
+import { buildNamedRecipePresentation } from './plan-presentation.js';
 
 const BASIC_EXTRA_IDS = new Set(['water', 'salt', 'cooking-oil']);
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -27,9 +28,13 @@ function runtimeEntryFor(plannerResult, entry) {
   if (plannerResult.plan_source !== 'named_recipe') throw new Error('named_recipe_identity_invalid');
   if (!entry || entry.recipe_id !== plannerResult.recipe_id
       || entry.activation_status !== 'preview_enabled') throw new Error('named_recipe_not_executable');
+  const expectedPresentation = buildNamedRecipePresentation({
+    recipeId: entry?.recipe_id,
+    title: entry?.naming?.canonical_name,
+  });
   if (plannerResult.identity_level !== 'canonical' || plannerResult.variant_id != null
-      || plannerResult.presentation?.title !== entry.naming?.canonical_name
-      || plannerResult.presentation?.canonical_name !== entry.naming?.canonical_name) {
+      || !expectedPresentation
+      || canonicalJson(plannerResult.presentation) !== canonicalJson(expectedPresentation)) {
     throw new Error('named_recipe_identity_invalid');
   }
   return entry;
@@ -372,7 +377,10 @@ export function materializeNamedPlanFacts(plannerResult, runtimeEntry, ratioCata
   Object.assign(next.plan.pots[0], facts);
   next.plan.required_extra_items = structuredClone(facts.required_extra_items);
   next.plan.plan_id = null;
-  next.presentation = { title: entry.naming.canonical_name, canonical_name: entry.naming.canonical_name };
+  next.presentation = buildNamedRecipePresentation({
+    recipeId: entry.recipe_id,
+    title: entry.naming.canonical_name,
+  });
   return next;
 }
 
@@ -538,7 +546,10 @@ export function buildLockedRecipeMeal(plannerResult, runtimeEntry, ratioCatalog,
   if (lockedIngredients.some(ingredient => !referenced.has(ingredient.ingredient_ref))) {
     throw new Error('named_recipe_locked_ingredient_unreachable');
   }
-  const presentation = { title: entry.naming.canonical_name, canonical_name: entry.naming.canonical_name };
+  const presentation = buildNamedRecipePresentation({
+    recipeId: entry.recipe_id,
+    title: entry.naming.canonical_name,
+  });
   return {
     meal_sequence: pot.meal_sequence,
     servings: pot.servings,

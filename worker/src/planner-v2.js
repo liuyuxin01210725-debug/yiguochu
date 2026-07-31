@@ -6,6 +6,7 @@ import {
 import { resolveBasicExtraIdentity, taxonomyIdentityIndex } from './taxonomy-identity.js';
 import { matchAllergy } from './allergen-semantics.js';
 import { minimumRecommendCoverageCount } from './planner-coverage.js';
+import { buildCustomPlanPresentation, validatePlanPresentation } from './plan-presentation.js';
 
 export { minimumRecommendCoverageCount } from './planner-coverage.js';
 
@@ -1569,6 +1570,9 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
       match_trace: [],
     } : {}),
     normalized_items: normalizedItems.map(item => structuredClone(item)),
+    unrecognized_items: unique
+      .filter(item => !item.recognized)
+      .map(item => structuredClone(item)),
     commitment: ready
       ? '直接推荐会选择较合适的组合，并如实列出这次未使用的食材。'
       : complete ? '完整清库存计划。' : selectedPots.length ? '还有食材没有安排，需要你先决定下一步。' : '当前没有达到承诺门槛的可靠计划。',
@@ -1586,6 +1590,15 @@ function buildPlannerResponse(assets, request, normalizedItems, ranked, selected
     unplanned: unplannedMust.map(item => structuredClone(item)),
     actions: status === 'needs_user_decision' ? partialActions(unplannedMust, Boolean(options.thirdPot)) : [],
   };
+  if (selectedPots.length) {
+    result.presentation = buildCustomPlanPresentation(result);
+    if (!validatePlanPresentation(result.presentation, {
+      planSource: 'custom_template',
+      recipeId: null,
+      variantId: null,
+      identityLevel: 'custom',
+    })) throw new Error('plan_presentation_invalid');
+  }
   return result;
 }
 
@@ -2400,6 +2413,12 @@ export function selectHybridCandidates(candidates = [], { limit = 3, recentPlanI
         && typeof candidate?.recipe_id === 'string' && candidate.recipe_id
         && typeof candidate?.variant_id === 'string' && candidate.variant_id);
     if (!validIdentity) continue;
+    if (!validatePlanPresentation(candidate?.presentation, {
+      planSource: source,
+      recipeId: candidate?.recipe_id ?? null,
+      variantId: candidate?.variant_id ?? null,
+      identityLevel: level,
+    })) continue;
     const coverage = hybridCoverageFacts(candidate);
     const denominator = coverage.total;
     const plannedCount = coverage.used;

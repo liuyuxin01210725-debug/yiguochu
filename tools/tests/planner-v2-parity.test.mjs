@@ -445,8 +445,11 @@ test('Node local bridge and Worker return the same synthetic named identity, tit
     assert.equal(expected.body.plan_source, 'named_recipe');
     assert.equal(expected.body.recipe_id, 'shanghai-salted-pork-vegetable-rice');
     assert.deepEqual(expected.body.presentation, {
+      badge: '依据菜谱',
       title: '上海奉贤咸肉菜饭',
-      canonical_name: '上海奉贤咸肉菜饭',
+      subtitle: '按已核验菜谱的用料、比例与熟制顺序呈现。',
+      source_label: '查看一锅出标准配方',
+      canonical_path: '/recipes.html?id=shanghai-salted-pork-vegetable-rice',
     });
     assert.equal(expected.body.recipe_runtime_catalog_version, 'recipe-runtime-v1-20260730-r1');
     assert.equal(

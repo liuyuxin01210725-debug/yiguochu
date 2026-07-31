@@ -29,6 +29,26 @@ const productionAssets = {
 let profileFixtureCounter = 0;
 const profileFixtures = new Map();
 
+function namedPresentation(recipeId, title) {
+  return {
+    badge: '依据菜谱',
+    title,
+    subtitle: '按已核验菜谱的用料、比例与熟制顺序呈现。',
+    source_label: '查看一锅出标准配方',
+    canonical_path: `/recipes.html?id=${recipeId}`,
+  };
+}
+
+function reviewedVariantPresentation(recipeId, title) {
+  return {
+    badge: '菜谱替换版',
+    title,
+    subtitle: '采用已复核的食材替换，并以菜谱替换版呈现。',
+    source_label: '查看一锅出标准配方',
+    canonical_path: `/recipes.html?id=${recipeId}`,
+  };
+}
+
 function request(preferUse, servings = 2) {
   return {
     schema_version: 2,
@@ -390,7 +410,7 @@ test('authoritative planned named recipes fail closed instead of retaining a rea
     plan_source: 'named_recipe',
     recipe_id: 'shanghai-salted-pork-vegetable-rice',
     identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation('shanghai-salted-pork-vegetable-rice', '上海奉贤咸肉菜饭'),
   });
   const prepared = prepareRatioCatalog(productionAssets.ratios, productionAssets);
   assert.equal(prepared.ok, true);
@@ -406,7 +426,7 @@ test('named candidate is materialized before signing and compiler rejects every 
   const ratios = preparedRatios(shanghaiRule);
   const generic = await namedPlannerResult(['大米', '咸五花肉', '小白菜'], {
     plan_source: 'named_recipe', recipe_id: entry.recipe_id, identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation(entry.recipe_id, '上海奉贤咸肉菜饭'),
   });
   assert.throws(() => namedCompiler(generic, runtime, ratios), /named_recipe_plan_fact_mismatch/u);
 
@@ -468,7 +488,7 @@ test('custom compiler rejects any borrowed recipe identity or regional presentat
     recipe_id: 'shanghai-salted-pork-vegetable-rice',
     variant_id: null,
     identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation('shanghai-salted-pork-vegetable-rice', '上海奉贤咸肉菜饭'),
   });
   assert.throws(
     () => buildLockedPlanContract(custom, productionAssets.templates),
@@ -505,7 +525,7 @@ test('Shanghai named fixture locks its real title and recipe-specific pork-rice-
   });
   let planned = await namedPlannerResult(['大米', '咸五花肉', '小白菜'], {
     plan_source: 'named_recipe', recipe_id: 'shanghai-salted-pork-vegetable-rice', identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation('shanghai-salted-pork-vegetable-rice', '上海奉贤咸肉菜饭'),
   });
 
   const ratios = preparedRatios(shanghaiRule);
@@ -556,7 +576,7 @@ test('Xinjiang named fixture starts with lamb and measures retained cooked liqui
   });
   let planned = await namedPlannerResult(['大米', '羊腿肉', '洋葱', '胡萝卜'], {
     plan_source: 'named_recipe', recipe_id: 'xinjiang-lamb-pilaf', identity_level: 'canonical',
-    presentation: { title: '新疆羊肉抓饭', canonical_name: '新疆羊肉抓饭' },
+    presentation: namedPresentation('xinjiang-lamb-pilaf', '新疆羊肉抓饭'),
   });
 
   const ratios = preparedRatios(xinjiangRule);
@@ -592,7 +612,7 @@ test('Taiwan base fixture uses its own base ratio and graph while every recipe v
   assertCoherentFixture(runtime, ratios);
   let planned = await taiwanPlannerResult({
     plan_source: 'named_recipe', recipe_id: 'taiwan-cabbage-mushroom-rice', variant_id: null,
-    identity_level: 'canonical', presentation: { title: '高丽菜香菇炊饭', canonical_name: '高丽菜香菇炊饭' },
+    identity_level: 'canonical', presentation: namedPresentation('taiwan-cabbage-mushroom-rice', '高丽菜香菇炊饭'),
   });
   planned = await materializedNamed(planned, runtime, ratios);
   const locked = namedCompiler(planned, runtime, ratios);
@@ -607,7 +627,7 @@ test('Taiwan base fixture uses its own base ratio and graph while every recipe v
   variant.plan_source = 'recipe_variant';
   variant.variant_id = 'test-fixture-tomato-shrimp-variant';
   variant.identity_level = 'named_variant';
-  variant.presentation = { title: '番茄虾仁高丽菜炊饭', canonical_name: '高丽菜香菇炊饭' };
+  variant.presentation = reviewedVariantPresentation('taiwan-cabbage-mushroom-rice', '番茄虾仁高丽菜炊饭');
   assert.throws(
     () => namedCompiler(variant, runtime, ratios),
     /recipe_variant_not_executable/u,
@@ -617,7 +637,7 @@ test('Taiwan base fixture uses its own base ratio and graph while every recipe v
 test('recipe Ratio DSL output binds every amount to canonical state and shape identity', async () => {
   const planned = await namedPlannerResult(['大米', '羊腿肉', '洋葱', '胡萝卜'], {
     plan_source: 'named_recipe', recipe_id: 'xinjiang-lamb-pilaf', identity_level: 'canonical',
-    presentation: { title: '新疆羊肉抓饭', canonical_name: '新疆羊肉抓饭' },
+    presentation: namedPresentation('xinjiang-lamb-pilaf', '新疆羊肉抓饭'),
   });
   const pot = planned.plan.pots[0];
   const ratios = preparedRatios(xinjiangRule);
@@ -750,7 +770,7 @@ test('named compiler independently rejects a mutated runtime action contract', a
   const ratios = preparedRatios(shanghaiRule);
   let planned = await namedPlannerResult(['大米', '咸五花肉', '小白菜'], {
     plan_source: 'named_recipe', recipe_id: 'shanghai-salted-pork-vegetable-rice', identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation('shanghai-salted-pork-vegetable-rice', '上海奉贤咸肉菜饭'),
   });
   planned = await materializedNamed(planned, runtime, ratios);
   const cases = [
@@ -836,7 +856,7 @@ test('North-China validator, materializer, compiler and deterministic validator 
   assertCoherentFixture(runtime, ratios);
   let planned = await namedPlannerResult(['鲜小麦面条', '豆角', '猪肉末'], {
     plan_source: 'named_recipe', recipe_id: 'north-china-green-bean-braised-noodles', identity_level: 'canonical',
-    presentation: { title: '北方豆角焖面', canonical_name: '北方豆角焖面' },
+    presentation: namedPresentation('north-china-green-bean-braised-noodles', '北方豆角焖面'),
   });
   planned = await materializedNamed(planned, runtime, ratios);
   const locked = namedCompiler(planned, runtime, ratios);
@@ -888,7 +908,7 @@ test('named compiler rejects forged identity, missing executable bindings, wrong
   assertCoherentFixture(runtime, ratios);
   let planned = await namedPlannerResult(['大米', '咸五花肉', '小白菜'], {
     plan_source: 'named_recipe', recipe_id: 'shanghai-salted-pork-vegetable-rice', identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation('shanghai-salted-pork-vegetable-rice', '上海奉贤咸肉菜饭'),
   });
   planned = await materializedNamed(planned, runtime, ratios);
   const compile = (candidate, runtimeCandidate = runtime) => namedCompiler(candidate, runtimeCandidate, ratios);
@@ -1032,7 +1052,7 @@ test('named recipes use the unified generated-plan validator and reject all plan
   assertCoherentFixture(runtime, ratios);
   let planned = await namedPlannerResult(['大米', '羊腿肉', '洋葱', '胡萝卜'], {
     plan_source: 'named_recipe', recipe_id: 'xinjiang-lamb-pilaf', identity_level: 'canonical',
-    presentation: { title: '新疆羊肉抓饭', canonical_name: '新疆羊肉抓饭' },
+    presentation: namedPresentation('xinjiang-lamb-pilaf', '新疆羊肉抓饭'),
   });
   planned = await materializedNamed(planned, runtime, ratios);
   const locked = namedCompiler(planned, runtime, ratios);
@@ -1046,7 +1066,7 @@ test('named recipes use the unified generated-plan validator and reject all plan
     assert.equal(subject.recipe_id, 'xinjiang-lamb-pilaf');
     assert.equal(subject.variant_id, null);
     assert.equal(subject.identity_level, 'canonical');
-    assert.deepEqual(subject.presentation, { title: '新疆羊肉抓饭', canonical_name: '新疆羊肉抓饭' });
+    assert.deepEqual(subject.presentation, namedPresentation('xinjiang-lamb-pilaf', '新疆羊肉抓饭'));
   }
   assert.equal(response.recipe_runtime_catalog_version, productionAssets.recipeRuntime.recipe_runtime_catalog_version);
 
@@ -1143,7 +1163,7 @@ test('named compiler rejects Shanghai profile when cured-pork start and sequence
   const { runtime, entry, profiles, ratios } = independentProfileFixture(shanghaiPreviewFixture, shanghaiRule);
   const generic = await namedPlannerResult(['大米', '咸五花肉', '小白菜'], {
     plan_source: 'named_recipe', recipe_id: entry.recipe_id, identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation(entry.recipe_id, '上海奉贤咸肉菜饭'),
   });
   const recipe = productionAssets.recipes.recipes.find(row => row.id === entry.recipe_id);
   const materialized = materializeNamedPlanFacts(generic, entry, ratios, recipe, profiles);
@@ -1177,7 +1197,7 @@ test('named compiler rejects Taiwan profile when cabbage-mushroom start and sequ
   const { runtime, entry, profiles, ratios } = independentProfileFixture(taiwanPreviewFixture, taiwanBaseRule);
   const generic = await taiwanPlannerResult({
     plan_source: 'named_recipe', recipe_id: entry.recipe_id, variant_id: null,
-    identity_level: 'canonical', presentation: { title: '高丽菜香菇炊饭', canonical_name: '高丽菜香菇炊饭' },
+    identity_level: 'canonical', presentation: namedPresentation(entry.recipe_id, '高丽菜香菇炊饭'),
   });
   const recipe = productionAssets.recipes.recipes.find(row => row.id === entry.recipe_id);
   const materialized = materializeNamedPlanFacts(generic, entry, ratios, recipe, profiles);
@@ -1286,7 +1306,7 @@ test('materialized execution contract is signed and stale profile plans fail clo
   const ratios = preparedRatios(shanghaiRule);
   const generic = await namedPlannerResult(['大米', '咸五花肉', '小白菜'], {
     plan_source: 'named_recipe', recipe_id: entry.recipe_id, identity_level: 'canonical',
-    presentation: { title: '上海奉贤咸肉菜饭', canonical_name: '上海奉贤咸肉菜饭' },
+    presentation: namedPresentation(entry.recipe_id, '上海奉贤咸肉菜饭'),
   });
   const recipe = productionAssets.recipes.recipes.find(row => row.id === entry.recipe_id);
   const first = materializeNamedPlanFacts(generic, entry, ratios, recipe, profiles);
@@ -1345,4 +1365,29 @@ test('custom plan rejects nested identity injection and response only returns it
   assert.deepEqual(response.plan, before);
   assert.equal(response.plan_id, locked.plan_id);
   assert.equal(response.plan.pots[0].recipe_id, undefined);
+});
+
+test('custom compiler canonically binds presentation ingredients and technique to the current plan', async () => {
+  const base = await planMealWithIdentity(productionAssets, request(['大米', '西红柿']));
+  assert.equal(base.plan_source, 'custom_template');
+
+  const foreignIngredient = structuredClone(base);
+  const currentTechnique = ['焖饭','汤饭','汤面','焖面','炖锅','快炒饭']
+    .find(technique => foreignIngredient.presentation.title.endsWith(technique));
+  assert.ok(currentTechnique);
+  foreignIngredient.presentation.title = `香菇${currentTechnique}`;
+  assert.throws(
+    () => buildLockedPlanContract(foreignIngredient, productionAssets.templates),
+    /custom_plan_presentation_mismatch/u,
+  );
+
+  const wrongTechnique = structuredClone(base);
+  const replacementTechnique = ['焖饭','汤饭','汤面','焖面','炖锅','快炒饭']
+    .find(technique => technique !== currentTechnique);
+  wrongTechnique.presentation.title = wrongTechnique.presentation.title
+    .slice(0, -currentTechnique.length) + replacementTechnique;
+  assert.throws(
+    () => buildLockedPlanContract(wrongTechnique, productionAssets.templates),
+    /custom_plan_presentation_mismatch/u,
+  );
 });

@@ -181,6 +181,11 @@
   .pantry-plan-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
   .pantry-plan-card { width: 100%; text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 14px; font-family: inherit; cursor: pointer; color: var(--ink); }
   .pantry-plan-card:hover, .pantry-plan-card:focus-visible { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(181,97,58,.1); outline: none; }
+  .pantry-plan-choice { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; }
+  .pantry-plan-choice:focus-visible { outline: 2px solid var(--clay); outline-offset: 4px; border-radius: 8px; }
+  .plan-presentation-badge { display: inline-flex; width: fit-content; padding: 3px 8px; border-radius: 999px; background: var(--sage-pale); color: var(--sage-dark); font-size: 12px; font-weight: 700; }
+  .plan-presentation-subtitle { display: block; margin-top: 6px; color: var(--ink2); font-size: 13px; line-height: 1.55; }
+  .plan-presentation-source { display: inline-flex; margin-top: 8px; color: var(--clay-dark); font-size: 13px; font-weight: 700; }
   .pantry-plan-top { display: flex; justify-content: space-between; gap: 8px 12px; align-items: baseline; flex-wrap: wrap; }
   .pantry-plan-name { font-size: 15px; font-weight: 700; flex: 1 1 160px; }
   .pantry-plan-label { padding: 2px 7px; border-radius: 999px; background: var(--clay-soft); color: var(--clay); font-size: 11px; font-weight: 700; white-space: nowrap; }
@@ -1117,44 +1122,81 @@ async function postPlannerV2(path, body) {
 function fetchPlan(planRequest) { return postPlannerV2('/plan-meal', planRequest || buildPlanRequest()); }
 function itemText(item) { return boundedText(item && (item.raw || item.canonical || item.name), 80); }
 function planItems(items) { return (Array.isArray(items) ? items : []).map(itemText).filter(Boolean); }
-const PLAN_FORM_LABELS = Object.freeze({
-  'acid-staple-pot':'酸香主食锅',
-  'savory-mixed-rice-pot':'家常焖饭锅',
-  'cooked-rice-stir-pot':'熟饭快炒锅',
-  'broth-noodle-pot':'汤面锅',
-  'egg-tofu-vegetable-pot':'蛋豆腐蔬菜锅',
-  'mushroom-vegetable-stew-pot':'菌菇蔬菜锅',
-  'beef-staple-pot':'牛肉主食锅',
-  'poultry-staple-pot':'鸡肉主食锅',
-  'broth-rice-pot':'汤饭锅',
-  'braised-noodle-pot':'焖面锅',
-  'soft-family-rice-pot':'软烩主食锅',
-});
-function candidateFormLabel(templateId, usedItems) {
-  if (templateId !== 'egg-tofu-vegetable-pot') return PLAN_FORM_LABELS[templateId];
-  const text = (Array.isArray(usedItems) ? usedItems : []).join('、');
-  const hasEgg = text.includes('鸡蛋');
-  const hasTofu = text.includes('豆腐');
-  if (hasEgg && hasTofu) return '蛋豆腐蔬菜锅';
-  if (hasEgg) return '鸡蛋蔬菜锅';
-  if (hasTofu) return '豆腐蔬菜锅';
-  return '软嫩蔬菜锅';
+const PLAN_PRESENTATION_KEYS = Object.freeze(['badge','title','subtitle','source_label','canonical_path']);
+const CUSTOM_PRESENTATION_TECHNIQUES = Object.freeze(['焖饭','汤饭','汤面','焖面','炖锅','快炒饭']);
+function exactPresentationKeys(value) {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    && JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...PLAN_PRESENTATION_KEYS].sort());
 }
-function candidateHeading(candidate) {
+function safePresentationText(value, maxLength) {
+  return typeof value === 'string' && value === value.trim() && value.length > 0
+    && [...value].length <= maxLength && !/[<>\u0000-\u001f\u007f]/u.test(value);
+}
+function validPlanPresentation(result) {
+  const p = result && result.presentation;
+  if (!exactPresentationKeys(p)
+      || !safePresentationText(p.badge, 16)
+      || !safePresentationText(p.title, 80)
+      || !safePresentationText(p.subtitle, 160)
+      || !(p.source_label === null || safePresentationText(p.source_label, 40))
+      || !(p.canonical_path === null || safePresentationText(p.canonical_path, 160))) return false;
+  const source = result.plan_source, recipeId = result.recipe_id, variantId = result.variant_id;
+  if (source === 'custom_template') {
+    return result.identity_level === 'custom' && recipeId == null && variantId == null
+      && p.badge === '自定义方案' && p.source_label === null && p.canonical_path === null
+      && CUSTOM_PRESENTATION_TECHNIQUES.some(technique => p.title.endsWith(technique))
+      && !/地域|正宗|传统|经典|酸香主食锅|家常主食锅/iu.test(p.title + '\n' + p.subtitle)
+      && !/(?:[a-z0-9]+-){1,}[a-z0-9-]+/iu.test(p.title + '\n' + p.subtitle);
+  }
+  const canonicalPath = typeof recipeId === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(recipeId)
+    ? '/recipes.html?id=' + recipeId : '';
+  if (!canonicalPath || p.source_label !== '查看一锅出标准配方' || p.canonical_path !== canonicalPath) return false;
+  if (source === 'named_recipe') {
+    return result.identity_level === 'canonical' && variantId == null && p.badge === '依据菜谱'
+      && !/人工批准|正宗|标准菜谱/u.test(p.badge + '\n' + p.title + '\n' + p.subtitle);
+  }
+  return source === 'recipe_variant'
+    && ['approved_variant','style_adaptation'].includes(result.identity_level)
+    && typeof variantId === 'string' && variantId.length > 0 && p.badge === '菜谱替换版'
+    && /已复核/u.test(p.subtitle) && /替换/u.test(p.subtitle)
+    && !/人工批准|正宗|标准菜谱/u.test(p.title + '\n' + p.subtitle);
+}
+function planPresentation(result) { return validPlanPresentation(result) ? result.presentation : null; }
+function directRecommendCoverageFloor(total) {
+  if (total <= 0) return 0;
+  if (total <= 2) return total;
+  if (total === 3) return 2;
+  if (total === 4) return 3;
+  if (total <= 6) return 4;
+  return Math.ceil(total * 0.6);
+}
+function displayablePlanCandidate(candidate) {
   const plan = candidate && candidate.plan || {};
-  const used = planItems(plan.planned_prefer_use);
-  const templateId = plan.pots && plan.pots[0] && plan.pots[0].template_id;
-  const form = candidateFormLabel(templateId, used);
-  if (!used.length || !form) return '';
-  const ingredients = used.slice(0, 3).join('、');
-  const suffix = used.length > 3 ? '等' + used.length + '种食材' : '';
-  return ingredients + suffix + ' · ' + form;
+  if (!planPresentation(candidate) || typeof plan.plan_id !== 'string' || !plan.plan_id) return false;
+  const submitted = uniquePlanItemTexts((candidate.normalized_items || [])
+    .filter(item => item && item.role === 'prefer_use' && item.duplicate_of == null));
+  const used = uniquePlanItemTexts(plan.planned_prefer_use);
+  const denominator = submitted.length || used.length + uniquePlanItemTexts(plan.unused_prefer_use).length;
+  return used.length >= directRecommendCoverageFloor(denominator);
+}
+function presentationSourceLink(presentation) {
+  return presentation.source_label && presentation.canonical_path
+    ? '<a class="plan-presentation-source" href="' + esc(presentation.canonical_path) + '">' + esc(presentation.source_label) + '</a>'
+    : '';
+}
+function presentationSummary(result) {
+  const presentation = planPresentation(result);
+  if (!presentation) return '';
+  return '<span class="plan-presentation-badge">' + esc(presentation.badge) + '</span>'
+    + '<span class="plan-presentation-subtitle">' + esc(presentation.subtitle) + '</span>'
+    + presentationSourceLink(presentation);
 }
 function uniquePlanItemTexts(items) {
   return [...new Set(planItems(items))];
 }
 function plannerCandidatesScreen() {
-  const candidates = Array.isArray(state.planCandidates) ? state.planCandidates : [];
+  const candidates = Array.isArray(state.planCandidates)
+    ? state.planCandidates.filter(displayablePlanCandidate) : [];
   if (!candidates.length) {
     const candidateResult = state.planCandidateResult || {};
     const unavailableItems = [
@@ -1192,7 +1234,7 @@ function plannerCandidatesScreen() {
   }
   const cards = candidates.map(candidate => {
     const plan = candidate.plan || {};
-    const heading = candidateHeading(candidate);
+    const presentation = planPresentation(candidate);
     const used = uniquePlanItemTexts(plan.planned_prefer_use);
     const unused = Array.isArray(plan.unused_prefer_use) ? plan.unused_prefer_use : [];
     const submitted = uniquePlanItemTexts((candidate.normalized_items || [])
@@ -1209,14 +1251,16 @@ function plannerCandidatesScreen() {
           + esc(boundedText(item.reason || item.message, 120) || '这套组合里先不使用') + '）').join('；')
         + '</span>'
       : '';
-    return '<button class="pantry-plan-card" data-act="choose-plan" data-plan-id="' + esc(plan.plan_id) + '">'
-      + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(heading || '可靠的一锅方案') + '</span>'
+    return '<article class="pantry-plan-card"><button class="pantry-plan-choice" data-act="choose-plan" data-plan-id="' + esc(plan.plan_id) + '">'
+      + '<span class="pantry-plan-top"><span class="pantry-plan-name"><span class="plan-presentation-badge">' + esc(presentation.badge) + '</span><br>' + esc(presentation.title) + '</span>'
       + '<span class="pantry-plan-count">用上 ' + used.length + '/' + denominator
       + (maxMinutes ? ' · 最多 ' + maxMinutes + ' 分钟' : '') + '</span></span>'
+      + '<span class="plan-presentation-subtitle">' + esc(presentation.subtitle) + '</span>'
       + '<span class="pantry-plan-items"><strong>这次用上：</strong>' + esc(used.join('、')) + '</span>'
       + unusedHtml
       + (extras.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(extras.join('、')) + '</span>' : '')
-      + '<span class="pantry-plan-note">选这套后，再生成详细步骤。</span></button>';
+      + '<span class="pantry-plan-note">选这套后，再生成详细步骤。</span></button>'
+      + presentationSourceLink(presentation) + '</article>';
   }).join('');
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">先选一套真正用得上的组合</div>'
@@ -1304,12 +1348,18 @@ function noAlternativePlanScreen() {
 function generatedPlanScreen() {
   const generated = state.generatedPlan || {}, meals = Array.isArray(generated.meals) ? generated.meals.slice().sort((a,b) => (+a.meal_sequence || 0) - (+b.meal_sequence || 0)) : [];
   const result = state.displayedPlan || generated;
+  const planLevelPresentation = planPresentation(result);
+  const mealPresentations = meals.map(meal => planPresentation(meal));
+  if (!planLevelPresentation || mealPresentations.some(presentation => !presentation)) {
+    return generationFailureScreen(genError('plan_identity_mismatch', '生成结果与所选方案不一致', false));
+  }
   const title = result.status === 'complete' ? '完整清库存计划' : result.status === 'partial_accepted' ? '部分处理方案' : '今天按这套做';
   const mealHtml = meals.map((meal, index) => {
+    const presentation = mealPresentations[index];
     const label = ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
     const ingredients = (meal.locked_ingredients || []).map(item => '<li class="ing-row"><span class="ing-name">' + esc(boundedText(item.raw_name || item.name, 80)) + '</span><span class="ing-grams">' + esc(String(Math.round(+item.planned_grams || 0))) + ' g</span></li>').join('');
     const steps = (meal.steps || []).map((step, stepIndex) => '<li class="step-row"><span class="step-num">' + (stepIndex + 1) + '</span><span class="step-text">' + esc(boundedText(typeof step === 'string' ? step : step.text, 400)) + '</span></li>').join('');
-    return '<section class="dish-card"><div class="dish-body"><div class="dish-eyebrow"><span>' + esc(label) + '</span><span class="chip chip-form">约 ' + esc(String(meal.servings || servingCount(state.profile))) + ' 份</span></div><h1 class="dish-name">' + esc(boundedText(meal.dish_name, 100) || '一锅主餐') + '</h1><p class="dish-taste">' + esc(boundedText(meal.recommendation_reason, 300)) + '</p></div></section>'
+    return '<section class="dish-card"><div class="dish-body"><div class="dish-eyebrow"><span>' + esc(label) + ' · ' + esc(presentation.badge) + '</span><span class="chip chip-form">约 ' + esc(String(meal.servings || servingCount(state.profile))) + ' 份</span></div><h1 class="dish-name">' + esc(presentation.title) + '</h1><p class="dish-taste">' + esc(presentation.subtitle) + '</p>' + presentationSourceLink(presentation) + '<p class="dish-taste">' + esc(boundedText(meal.recommendation_reason, 300)) + '</p></div></section>'
       + '<section class="block"><div class="step-head"><h3 class="step-title">需要这些</h3></div><ul class="ing-list">' + ingredients + '</ul></section>'
       + '<section class="block"><div class="step-head"><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>';
   }).join('');
@@ -1345,6 +1395,32 @@ function generationEnvelope(result, requestSnapshot) {
     plan_request:cloneJson(requestSnapshot),
   };
 }
+function exactSelectedIdentityTuple(left, right) {
+  for (const field of ['plan_source','recipe_id','variant_id','identity_level']) {
+    if ((left && left[field]) !== (right && right[field])) return false;
+  }
+  return true;
+}
+function exactSelectedIdentity(left, right) {
+  if (!exactSelectedIdentityTuple(left, right)) return false;
+  return JSON.stringify(left && left.presentation) === JSON.stringify(right && right.presentation);
+}
+function generatedMatchesSelectedPlan(generated, selected) {
+  const selectedPlanId = selected && selected.plan && selected.plan.plan_id;
+  if (!selectedPlanId || !planPresentation(selected) || !planPresentation(generated)
+      || generated.plan_id !== selectedPlanId
+      || !generated.plan || generated.plan.plan_id !== selectedPlanId
+      || !exactSelectedIdentity(generated, selected)
+      || !Array.isArray(generated.meals) || generated.meals.length === 0) return false;
+  const multipleCustomPots = generated.meals.length > 1 && selected.plan_source === 'custom_template';
+  return generated.meals.every(meal => (
+    planPresentation(meal)
+    && exactSelectedIdentityTuple(meal, selected)
+    && meal.dish_name === meal.presentation.title
+    && (multipleCustomPots
+      || JSON.stringify(meal.presentation) === JSON.stringify(selected.presentation))
+  ));
+}
 async function generateConfirmedPlan(result, requestSnapshot) {
   return postPlannerV2('/generate-plan', generationEnvelope(result, requestSnapshot));
 }
@@ -1371,6 +1447,9 @@ async function generateDisplayedPlan() {
           state.noAlternativeResult = cloneJson(generated); state.view = 'v2-no-alternative'; render(); return;
         }
         setDisplayedPlan(generated, requestSnapshot, false); return;
+      }
+      if (!generatedMatchesSelectedPlan(generated, planned)) {
+        throw genError('plan_identity_mismatch', '生成结果与所选方案不一致', false);
       }
       showGeneratedPlan(generated, planned, requestSnapshot);
     } catch (error) { showGenerationFailure(error); }
@@ -1416,7 +1495,7 @@ async function runPlannerFlow(options) {
       state.planRequestSnapshot = requestSnapshot;
       state.planCandidateResult = cloneJson(planned);
       state.planCandidates = Array.isArray(planned.candidate_plans)
-        ? cloneJson(planned.candidate_plans)
+        ? cloneJson(planned.candidate_plans).filter(displayablePlanCandidate)
         : [];
       state.view = 'v2-candidates';
       window.scrollTo(0, 0);
@@ -1441,6 +1520,14 @@ async function runPrimaryFlow() {
   const pantryCount = splitPlannerItems(state.profile.pantry).length;
   if (pantryCount > 20) {
     showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false));
+    return;
+  }
+  if (PLANNER_ROLLOUT === 'direct-recommend' && pantryCount >= 7 && pantryCount <= 10) {
+    state.profile.mode = 'recommend';
+    state.view = 'profile';
+    state.profileEditing = true;
+    state.rolloutNotice = '这次先保留你填写的全部食材；请删减到本顿优先的 3–5 项后再获取方案。';
+    render();
     return;
   }
   if (plannerLabEnabled()) return runPlannerFlow({ autoGenerate:true });

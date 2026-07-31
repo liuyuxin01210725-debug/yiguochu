@@ -240,7 +240,13 @@ test('complete canonical Shanghai identity yields its real name and exact honest
   assert.equal(candidate.recipe_id, 'shanghai-salted-pork-vegetable-rice');
   assert.equal(candidate.variant_id, null);
   assert.equal(candidate.identity_level, 'canonical');
-  assert.equal(candidate.presentation.title, '上海奉贤咸肉菜饭');
+  assert.deepEqual(candidate.presentation, {
+    badge: '依据菜谱',
+    title: '上海奉贤咸肉菜饭',
+    subtitle: '按已核验菜谱的用料、比例与熟制顺序呈现。',
+    source_label: '查看一锅出标准配方',
+    canonical_path: '/recipes.html?id=shanghai-salted-pork-vegetable-rice',
+  });
   assert.equal(candidate.coverage_ratio, 3 / 4);
   assert.equal(candidate.recognition_ratio, 3 / 4);
   assert.equal(candidate.recognized_coverage_ratio, 1);
@@ -257,7 +263,13 @@ test('an explicit choy-sum substitution produces a named variant rather than can
   assert.equal(candidate.recipe_id, 'shanghai-salted-pork-vegetable-rice');
   assert.equal(candidate.variant_id, 'shanghai-choy-sum-variant');
   assert.equal(candidate.identity_level, 'approved_variant');
-  assert.equal(candidate.presentation.title, '上海奉贤咸肉菜饭（菜心版）');
+  assert.deepEqual(candidate.presentation, {
+    badge: '菜谱替换版',
+    title: '上海奉贤咸肉菜饭（菜心版）',
+    subtitle: '采用已复核的食材替换，并以菜谱替换版呈现。',
+    source_label: '查看一锅出标准配方',
+    canonical_path: '/recipes.html?id=shanghai-salted-pork-vegetable-rice',
+  });
   assert.equal(candidate.coverage_ratio, 1);
   assert.match(candidate.match_trace.join('\n'), /small-bok-choy.*choy-sum/u);
 });

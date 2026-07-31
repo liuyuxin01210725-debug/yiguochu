@@ -1,4 +1,5 @@
 import { minimumRecommendCoverageCount } from './planner-coverage.js';
+import { buildNamedRecipePresentation } from './plan-presentation.js';
 
 const IDENTITY_LEVEL_BY_IMPACT = Object.freeze({
   preserves_identity: 'approved_variant',
@@ -112,6 +113,12 @@ function candidateFor(entry, allItems, attempt, variant = null, runtimeCatalogVe
   const plannedRecognized = planned.filter(item => item.recognized === true);
   const title = variantPresentationTitle(entry, variant);
   if (!title) return null;
+  const presentation = buildNamedRecipePresentation({
+    recipeId: entry.recipe_id,
+    title,
+    variant: Boolean(variant),
+  });
+  if (!presentation) return null;
   return {
     recipe_runtime_catalog_version: runtimeCatalogVersion,
     plan_source: variant ? 'recipe_variant' : 'named_recipe',
@@ -119,10 +126,7 @@ function candidateFor(entry, allItems, attempt, variant = null, runtimeCatalogVe
     variant_id: variant?.variant_id || null,
     identity_level: variant ? IDENTITY_LEVEL_BY_IMPACT[variant.identity_impact] : 'canonical',
     match_trace: [...attempt.trace],
-    presentation: {
-      title,
-      canonical_name: entry.naming.canonical_name,
-    },
+    presentation,
     normalized_items: allItems.map(item => structuredClone(item)),
     planned_must_use: planned.filter(item => item.role === 'must_use'),
     planned_prefer_use: planned.filter(item => item.role === 'prefer_use'),

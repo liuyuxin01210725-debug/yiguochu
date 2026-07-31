@@ -30,6 +30,7 @@ const GENERATED_ASSETS = [
   ['worker/src/ratio-dsl.js', 'ratio-dsl.js'],
   ['worker/src/taxonomy-identity.js', 'taxonomy-identity.js'],
   ['worker/src/allergen-semantics.js', 'allergen-semantics.js'],
+  ['worker/src/plan-presentation.js', 'plan-presentation.js'],
   ['worker/src/generated-plan-contract.js', 'generated-plan-contract.js'],
   ['worker/src/recipe-runtime-matcher.js', 'recipe-runtime-matcher.js'],
   ['worker/src/recipe-runtime-compiler.js', 'recipe-runtime-compiler.js'],
