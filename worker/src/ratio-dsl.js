@@ -11,6 +11,7 @@ const SKIP_GUARDS = new Map([
   ['texture_failure_modes', { match:'contains', values:new Set(['salty_when_overseasoned']) }],
 ]);
 const RECIPE_MACHINE_STATES = new Set(['raw','cooked','soaked','cured','basic','prepared','derived_plan_output']);
+const UNRESOLVED_RECIPE_SHAPES = new Set(['whole_soaked_grain']);
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const text = value => typeof value === 'string' && value.trim();
 const number = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
@@ -85,25 +86,95 @@ const validateSkipWhen = (value, template, label, errors) => {
 };
 
 const normalizedIngredientName = value => String(value || '').trim().toLowerCase().replace(/[\s（）()_-]+/g, '');
-const recipeRelatedCanonicalIds = (recipe, taxonomyById) => {
-  const sourceText = [
-    ...(Array.isArray(recipe?.core_ingredients) ? recipe.core_ingredients : []),
-    ...(Array.isArray(recipe?.ratio_rules) ? recipe.ratio_rules : []),
-    ...(Array.isArray(recipe?.substitution_slots) ? recipe.substitution_slots.flatMap(slot => [
-      ...(Array.isArray(slot?.replaces) ? slot.replaces : []),
-      ...(Array.isArray(slot?.allowed) ? slot.allowed : []),
-    ]) : []),
-  ].map(normalizedIngredientName);
-  return new Set([...taxonomyById.values()].filter(item => [item.display_name, item.canonical_name, ...(item.aliases || [])]
-    .filter(Boolean).some(name => sourceText.some(textValue => textValue.includes(normalizedIngredientName(name)))))
-    .map(item => item.canonical_id));
+const exactTaxonomyIdsForLiteral = (literal, taxonomyById) => {
+  const wanted = normalizedIngredientName(literal);
+  return [...taxonomyById.values()].filter(item => [item.display_name, ...(item.aliases || [])]
+    .filter(Boolean).some(name => normalizedIngredientName(name) === wanted)).map(item => item.canonical_id);
 };
-const recipeCoreNames = recipe => new Set((Array.isArray(recipe?.core_ingredients) ? recipe.core_ingredients : [])
-  .map(normalizedIngredientName));
+const exactRecipeCoreIdentityResolution = (recipe, taxonomyById) => {
+  const canonicalIds = new Set();
+  const unresolvedOrAmbiguous = [];
+  for (const literal of Array.isArray(recipe?.core_ingredients) ? recipe.core_ingredients : []) {
+    const matches = exactTaxonomyIdsForLiteral(literal, taxonomyById);
+    if (matches.length !== 1 || canonicalIds.has(matches[0])) unresolvedOrAmbiguous.push(literal);
+    else canonicalIds.add(matches[0]);
+  }
+  return { canonicalIds, unresolvedOrAmbiguous };
+};
+const recipeLiteralAtPath = (recipe, path) => {
+  if (typeof path !== 'string' || !(
+    /^\/(?:core_ingredients|optional_ingredients|generation_optional_ingredients)\/\d+$/.test(path)
+    || /^\/substitution_slots\/\d+\/(?:replaces|allowed)\/\d+$/.test(path)
+  )) return { ok:false, value:null };
+  let value = recipe;
+  for (const segment of path.slice(1).split('/')) {
+    if (Array.isArray(value)) {
+      if (!/^\d+$/.test(segment) || Number(segment) >= value.length) return { ok:false, value:null };
+      value = value[Number(segment)];
+    } else if (object(value) && Object.hasOwn(value, segment)) {
+      value = value[segment];
+    } else return { ok:false, value:null };
+  }
+  return { ok:true, value };
+};
+const validateRecipeEvidenceBindings = (rule, label, recipe, taxonomyById, errors) => {
+  const canonicalIds = new Set();
+  const canonicalById = new Map();
+  const unresolvedByName = new Map();
+  if (rule.evidence_bindings == null) return { canonicalIds, canonicalById, unresolvedByName };
+  if (!Array.isArray(rule.evidence_bindings)) {
+    errors.push(`${label}.evidence_bindings must be an array`);
+    return { canonicalIds, canonicalById, unresolvedByName };
+  }
+  if (rule.execution_mode !== 'bounds_only' && rule.evidence_bindings.length) {
+    errors.push(`${label}.evidence_bindings are evidence-only and forbidden for executable recipe rules`);
+  }
+  for (const [index, binding] of rule.evidence_bindings.entries()) {
+    const bindingLabel = `${label}.evidence_bindings[${index}]`;
+    if (!object(binding)) { errors.push(`${bindingLabel} must be an object`); continue; }
+    const structured = binding.binding_type === 'structured_recipe_literal';
+    const unresolved = binding.binding_type === 'unresolved_core_identity';
+    if (!structured && !unresolved) {
+      errors.push(`${bindingLabel}.binding_type is invalid`);
+      continue;
+    }
+    allowed(binding, new Set(structured
+      ? ['binding_type','recipe_path','literal','canonical_id','state','shape_or_cut']
+      : ['binding_type','recipe_path','literal','recipe_ingredient_name','state','shape_or_cut']), bindingLabel, errors);
+    const resolved = recipeLiteralAtPath(recipe, binding.recipe_path);
+    if (!resolved.ok || resolved.value !== binding.literal) {
+      errors.push(`${bindingLabel} does not resolve to the exact recipe literal`);
+    }
+    if (structured) {
+      const item = taxonomyById.get(binding.canonical_id);
+      const exactMatches = exactTaxonomyIdsForLiteral(binding.literal, taxonomyById);
+      if (!item || exactMatches.length !== 1 || exactMatches[0] !== binding.canonical_id) {
+        errors.push(`${bindingLabel}.canonical_id must exactly match the structured recipe literal`);
+      } else {
+        if (!(item.states || []).includes(binding.state)) errors.push(`${bindingLabel}.state does not match canonical_id ${binding.canonical_id}`);
+        if (binding.shape_or_cut != null && !(item.shapes_or_cuts || []).includes(binding.shape_or_cut)) errors.push(`${bindingLabel}.shape_or_cut does not match canonical_id ${binding.canonical_id}`);
+        if (canonicalIds.has(binding.canonical_id)) errors.push(`${bindingLabel}.canonical_id must not be duplicated`);
+        canonicalIds.add(binding.canonical_id);
+        canonicalById.set(binding.canonical_id, binding);
+      }
+    } else {
+      if (!/^\/core_ingredients\/\d+$/.test(binding.recipe_path || '')) errors.push(`${bindingLabel}.recipe_path must identify an exact core ingredient`);
+      if (!text(binding.recipe_ingredient_name) || binding.recipe_ingredient_name !== binding.literal) errors.push(`${bindingLabel}.recipe_ingredient_name must equal literal`);
+      if (exactTaxonomyIdsForLiteral(binding.literal, taxonomyById).length) errors.push(`${bindingLabel} taxonomy-backed ingredients must use canonical_id`);
+      if (!RECIPE_MACHINE_STATES.has(binding.state)) errors.push(`${bindingLabel}.state must be a controlled machine state`);
+      if (!UNRESOLVED_RECIPE_SHAPES.has(binding.shape_or_cut)) errors.push(`${bindingLabel}.shape_or_cut must be a controlled unresolved recipe shape`);
+      const key = normalizedIngredientName(binding.recipe_ingredient_name);
+      if (unresolvedByName.has(key)) errors.push(`${bindingLabel}.recipe_ingredient_name must not be duplicated`);
+      unresolvedByName.set(key, binding);
+    }
+  }
+  return { canonicalIds, canonicalById, unresolvedByName };
+};
 const recipeIdentityKey = target => target?.canonical_id
   ? `canonical:${target.canonical_id}`
   : target?.recipe_ingredient_name ? `recipe:${normalizedIngredientName(target.recipe_ingredient_name)}` : null;
-const validateRecipeIngredientTarget = (target, label, recipe, taxonomyById, relatedCanonicalIds, errors, measureAllowed = false) => {
+const validateRecipeIngredientTarget = (target, label, taxonomyById, allowedCanonicalIds, canonicalEvidenceById, unresolvedByName,
+  executionMode, errors, measureAllowed = false) => {
   const allowedKeys = new Set(['canonical_id','recipe_ingredient_name','state','shape_or_cut']);
   if (measureAllowed) allowedKeys.add('measure');
   if (!exactObject(target, allowedKeys, label, errors)) return null;
@@ -119,16 +190,25 @@ const validateRecipeIngredientTarget = (target, label, recipe, taxonomyById, rel
     const item = taxonomyById.get(target.canonical_id);
     if (!item) errors.push(`${label} unknown canonical_id ${target.canonical_id}`);
     else {
-      if (!relatedCanonicalIds.has(target.canonical_id)) errors.push(`${label} canonical_id ${target.canonical_id} is not a recipe identity`);
+      if (!allowedCanonicalIds.has(target.canonical_id)) errors.push(`${label} canonical_id ${target.canonical_id} is not an exact structured recipe identity`);
       if (!(item.states || []).includes(target.state)) errors.push(`${label}.state does not match canonical_id ${target.canonical_id}`);
       if (target.shape_or_cut != null && !(item.shapes_or_cuts || []).includes(target.shape_or_cut)) errors.push(`${label}.shape_or_cut does not match canonical_id ${target.canonical_id}`);
+      const evidenceBinding = canonicalEvidenceById.get(target.canonical_id);
+      if (evidenceBinding && (target.state !== evidenceBinding.state
+          || (target.shape_or_cut ?? null) !== (evidenceBinding.shape_or_cut ?? null))) {
+        errors.push(`${label} does not match its structured evidence binding`);
+      }
     }
   } else {
-    const coreNames = recipeCoreNames(recipe);
-    if (!coreNames.has(normalizedIngredientName(target.recipe_ingredient_name))) errors.push(`${label}.recipe_ingredient_name is not a recipe core ingredient`);
-    if (!RECIPE_MACHINE_STATES.has(target.state)) errors.push(`${label}.state must be a controlled machine state`);
-    const expectedState = normalizedIngredientName(target.recipe_ingredient_name).startsWith('泡发') ? 'soaked' : null;
-    if (expectedState && target.state !== expectedState) errors.push(`${label} must use machine state ${expectedState}`);
+    if (exactTaxonomyIdsForLiteral(target.recipe_ingredient_name, taxonomyById).length) {
+      errors.push(`${label} taxonomy-backed recipe ingredients must use canonical_id`);
+    }
+    const binding = unresolvedByName.get(normalizedIngredientName(target.recipe_ingredient_name));
+    if (!binding) errors.push(`${label}.recipe_ingredient_name requires an explicit unresolved core identity binding`);
+    else if (target.state !== binding.state || target.shape_or_cut !== binding.shape_or_cut) {
+      errors.push(`${label} must match the unresolved binding state and shape_or_cut`);
+    }
+    if (executionMode !== 'bounds_only') errors.push(`${label}.recipe_ingredient_name is evidence-only and not executable`);
   }
   return recipeIdentityKey(target);
 };
@@ -139,7 +219,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
     allowed(catalog, new Set(['ratio_dsl_version','ratio_catalog_version','rules']), 'ratio DSL catalog', errors);
     if (catalog.ratio_dsl_version !== 1) errors.push('ratio_dsl_version must be 1');
-    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260729-r8') errors.push('ratio_catalog_version must be ratio-rules-v1-20260729-r8');
+    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260731-r9') errors.push('ratio_catalog_version must be ratio-rules-v1-20260731-r9');
     if (!Array.isArray(catalog.rules)) return [...errors, 'rules must be an array'];
     const templateById = new Map((templates?.templates || []).filter(t => text(t?.template_id)).map(t => [t.template_id, t]));
     const recipeIds = new Set((recipes?.recipes || []).map(r => r?.id).filter(text));
@@ -151,7 +231,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     for (const [index, rule] of catalog.rules.entries()) {
       const label = `rules[${index}]`;
       if (!object(rule)) { errors.push(`${label} must be an object`); continue; }
-      allowed(rule, new Set(['rule_id','evidence_recipe_ids','execution_mode','when','operations','liquid_distribution','rounding','example_context']), label, errors);
+      allowed(rule, new Set(['rule_id','evidence_recipe_ids','evidence_bindings','execution_mode','when','operations','liquid_distribution','rounding','example_context']), label, errors);
       if (!text(rule.rule_id) || !RULE_ID.test(rule.rule_id)) errors.push(`${label}.rule_id is invalid`);
       if (ids.has(rule.rule_id)) errors.push(`duplicate rule_id: ${rule.rule_id}`); ids.add(rule.rule_id);
       const hasTemplateScope = text(rule.when?.template_id);
@@ -168,7 +248,15 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
             || rule.evidence_recipe_ids[0] !== rule.when.recipe_id) {
           errors.push(`${label}.evidence_recipe_ids must be evidence for recipe ${rule.when.recipe_id}`);
         }
-        const relatedCanonicalIds = recipeRelatedCanonicalIds(recipe, taxonomyById);
+        if (rule.liquid_distribution != null) errors.push(`${label}.liquid_distribution is forbidden for recipe scope`);
+        const coreResolution = exactRecipeCoreIdentityResolution(recipe, taxonomyById);
+        const coreCanonicalIds = coreResolution.canonicalIds;
+        if (rule.execution_mode === 'executable' && coreResolution.unresolvedOrAmbiguous.length) {
+          errors.push(`${label} executable recipe requires every core ingredient to resolve exactly once: ${coreResolution.unresolvedOrAmbiguous.join(', ')}`);
+        }
+        const evidenceBindings = validateRecipeEvidenceBindings(rule, label, recipe, taxonomyById, errors);
+        const allowedCanonicalIds = new Set(coreCanonicalIds);
+        if (rule.execution_mode === 'bounds_only') for (const canonicalId of evidenceBindings.canonicalIds) allowedCanonicalIds.add(canonicalId);
         if (!Array.isArray(rule.operations) || !rule.operations.length) {
           errors.push(`${label}.operations must be a non-empty array`);
         } else {
@@ -197,8 +285,9 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
               errors.push(`${opLabel}.per_serving is only valid for executable recipe rules`);
             }
             if (['reference_quantity','per_serving'].includes(op.operator)) {
-              const key = validateRecipeIngredientTarget(op.target, `${opLabel}.target`, recipe,
-                taxonomyById, relatedCanonicalIds, errors);
+              const key = validateRecipeIngredientTarget(op.target, `${opLabel}.target`, taxonomyById,
+                allowedCanonicalIds, evidenceBindings.canonicalById, evidenceBindings.unresolvedByName,
+                rule.execution_mode, errors);
               bounds(op.grams, `${opLabel}.grams`, errors, requiresDefault);
               if (key) quantityCounts.set(key, (quantityCounts.get(key) || 0) + 1);
             }
@@ -209,8 +298,9 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
               if (!['retained_liquid_grams','retained_cooked_liquid_grams'].includes(op.numerator?.resource)) {
                 errors.push(`${opLabel}.numerator.resource is invalid`);
               }
-              const denominatorKey = validateRecipeIngredientTarget(op.denominator, `${opLabel}.denominator`, recipe,
-                taxonomyById, relatedCanonicalIds, errors, true);
+              const denominatorKey = validateRecipeIngredientTarget(op.denominator, `${opLabel}.denominator`, taxonomyById,
+                allowedCanonicalIds, evidenceBindings.canonicalById, evidenceBindings.unresolvedByName,
+                rule.execution_mode, errors, true);
               if (denominatorKey && quantityCounts.get(denominatorKey) !== 1) {
                 errors.push(`${label} requires exactly one quantity operation for ${denominatorKey.replace(/^[^:]+:/, '')}`);
               }
@@ -227,12 +317,8 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
             errors.push(`${label} requires exactly one quantity operation for ${key.replace(/^[^:]+:/, '')}`);
           }
           if (rule.execution_mode === 'executable') {
-            for (const canonicalId of relatedCanonicalIds) {
-              const coreNames = recipeCoreNames(recipe);
-              const item = taxonomyById.get(canonicalId);
-              const isCore = [item?.display_name, item?.canonical_name, ...(item?.aliases || [])]
-                .filter(Boolean).some(name => coreNames.has(normalizedIngredientName(name)));
-              if (isCore && quantityCounts.get(`canonical:${canonicalId}`) !== 1) {
+            for (const canonicalId of coreCanonicalIds) {
+              if (quantityCounts.get(`canonical:${canonicalId}`) !== 1) {
                 errors.push(`${label} executable recipe requires exactly one quantity operation for ${canonicalId}`);
               }
             }
@@ -246,6 +332,8 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
         if (!text(rule.example_context?.ingredient_name)) errors.push(`${label}.example_context.ingredient_name must be a non-empty string`);
         continue;
       }
+      if (rule.execution_mode != null) errors.push(`${label}.execution_mode is only valid for recipe scope`);
+      if (rule.evidence_bindings != null) errors.push(`${label}.evidence_bindings are only valid for recipe scope`);
       exactObject(rule.when, new Set(['template_id','slot_id','category','canonical_ids']), `${label}.when`, errors);
       validateCanonicalScope(rule.when?.canonical_ids, taxonomyIds, `${label}.when.canonical_ids`, errors);
       if (Array.isArray(rule.when?.canonical_ids)) {

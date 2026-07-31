@@ -496,6 +496,9 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       if (operator === 'per_serving') {
         const items = recipeScoped ? recipeItemsFor(operation.target) : slots.get(operation.target?.slot_id);
         const grams = defaultBound(operation.grams);
+        if (recipeScoped && items?.length > 1) {
+          return ratioFailure('ratio_context_identity_ambiguous', '同一菜谱食材身份在运行时出现了多个匹配。');
+        }
         if (!items?.length && optionalSlotIds.has(operation.target?.slot_id)) continue;
         if (!items?.length || !finiteNonNegativeNumber(grams)) {
           return ratioFailure('ratio_rule_invalid', '按份数规则无效。');
@@ -532,6 +535,9 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       if (operator === 'ratio') {
         const denominatorItems = recipeScoped ? recipeItemsFor(operation.denominator) : slots.get(operation.denominator?.slot_id);
         const multiplier = operation.default;
+        if (recipeScoped && denominatorItems?.length > 1) {
+          return ratioFailure('ratio_context_identity_ambiguous', '份量比例的基准食材在运行时出现了多个匹配。');
+        }
         if (!denominatorItems?.length || (!recipeScoped && operation.denominator?.slot_id !== rule.when?.slot_id)
           || operation.denominator?.measure !== 'grams'
           || !['retained_liquid_grams','retained_cooked_liquid_grams'].includes(operation.numerator?.resource)

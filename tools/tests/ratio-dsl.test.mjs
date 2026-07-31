@@ -61,6 +61,26 @@ function catalogWithRecipeRule(rule = recipeBoundsRule()) {
   return next;
 }
 
+function executableShanghaiRule() {
+  const rule = recipeBoundsRule();
+  rule.execution_mode = 'executable';
+  rule.operations = [
+    { operator: 'per_serving', target: { canonical_id: 'raw-rice', state: 'raw' }, grams: { min: 100, default: 100, max: 100 } },
+    { operator: 'per_serving', target: { canonical_id: 'salted-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' }, grams: { min: 50, default: 50, max: 50 } },
+    { operator: 'per_serving', target: { canonical_id: 'small-bok-choy', state: 'raw' }, grams: { min: 75, default: 75, max: 75 } },
+    {
+      operator: 'ratio',
+      target: { name: '水', category: 'liquid' },
+      numerator: { resource: 'retained_liquid_grams' },
+      denominator: { canonical_id: 'raw-rice', state: 'raw', measure: 'grams' },
+      min: 1.3,
+      default: 1.3,
+      max: 1.3,
+    },
+  ];
+  return rule;
+}
+
 test('ratio grams normalize exactly once at the executable DSL boundary', () => {
   assert.equal(normalizeRatioGrams(133.3, 1), 133);
   assert.equal(normalizeRatioGrams(133.3, 5), 135);
@@ -71,7 +91,7 @@ test('ratio grams normalize exactly once at the executable DSL boundary', () => 
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260729-r8');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260731-r9');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -831,16 +851,16 @@ test('recipe Ratio DSL requires exact machine identity, state and one quantity o
   };
   assert.match(validateRatioDslCatalog(cookedDenominator, templates, taxonomy, recipes).join('\n'), /denominator.*recipe identity/);
 
-  const soakedMismatch = recipeBoundsRule();
-  soakedMismatch.rule_id = 'quanzhou-soaked-rice-liquid-evidence-v1';
-  soakedMismatch.evidence_recipe_ids = ['quanzhou-oil-rice'];
-  soakedMismatch.when.recipe_id = 'quanzhou-oil-rice';
-  soakedMismatch.operations[0].target = { recipe_ingredient_name: '泡发糯米', state: 'raw' };
-  soakedMismatch.operations[1].denominator = { recipe_ingredient_name: '泡发糯米', state: 'raw', measure: 'grams' };
-  assert.match(validateRatioDslCatalog(catalogWithRecipeRule(soakedMismatch), templates, taxonomy, recipes).join('\n'), /must use machine state soaked/);
+  const quanzhouRule = rawCatalog.rules.find(rule => rule.rule_id === 'quanzhou-soaked-rice-liquid-evidence-v1');
+  const soakedMismatch = structuredClone(quanzhouRule);
+  soakedMismatch.operations[0].target.state = 'raw';
+  soakedMismatch.operations[1].denominator.state = 'raw';
+  assert.match(validateRatioDslCatalog(catalogWithRecipeRule(soakedMismatch), templates, taxonomy, recipes).join('\n'), /must match the unresolved binding state/);
 
-  const inventedState = structuredClone(soakedMismatch);
-  inventedState.operations[0].target = { recipe_ingredient_name: '猪肉末', state: 'invented_state' };
+  const inventedState = structuredClone(quanzhouRule);
+  inventedState.evidence_bindings[0].state = 'invented_state';
+  inventedState.operations[0].target.state = 'invented_state';
+  inventedState.operations[1].denominator.state = 'invented_state';
   assert.match(validateRatioDslCatalog(catalogWithRecipeRule(inventedState), templates, taxonomy, recipes).join('\n'), /controlled machine state/);
 });
 
@@ -883,6 +903,35 @@ test('authoritative recipe evidence stays bounds-only and fails closed at compil
   }, preparedCatalog.catalog);
   assert.equal(result.ok, false);
   assert.equal(result.code, 'ratio_rule_not_executable');
+});
+
+test('non-core variant evidence and unresolved core identities use exact structured bindings', () => {
+  const taiwanVariant = rawCatalog.rules.find(rule => rule.rule_id === 'taiwan-tomato-shrimp-rice-evidence-v1');
+  assert.deepEqual(taiwanVariant.evidence_bindings, [
+    { binding_type: 'structured_recipe_literal', recipe_path: '/optional_ingredients/1', literal: '番茄', canonical_id: 'tomato', state: 'raw' },
+    { binding_type: 'structured_recipe_literal', recipe_path: '/substitution_slots/0/allowed/0', literal: '白菜', canonical_id: 'napa-cabbage', state: 'raw' },
+    { binding_type: 'structured_recipe_literal', recipe_path: '/optional_ingredients/2', literal: '玉米', canonical_id: 'sweet-corn', state: 'raw', shape_or_cut: 'whole_seed' },
+    { binding_type: 'structured_recipe_literal', recipe_path: '/substitution_slots/1/allowed/3', literal: '虾仁', canonical_id: 'shrimp', state: 'raw', shape_or_cut: 'whole' },
+  ]);
+  const quanzhou = rawCatalog.rules.find(rule => rule.rule_id === 'quanzhou-soaked-rice-liquid-evidence-v1');
+  assert.deepEqual(quanzhou.evidence_bindings, [{
+    binding_type: 'unresolved_core_identity',
+    recipe_path: '/core_ingredients/0',
+    literal: '泡发糯米',
+    recipe_ingredient_name: '泡发糯米',
+    state: 'soaked',
+    shape_or_cut: 'whole_soaked_grain',
+  }]);
+
+  const wrongLiteral = structuredClone(rawCatalog);
+  wrongLiteral.rules.find(rule => rule.rule_id === 'taiwan-tomato-shrimp-rice-evidence-v1')
+    .evidence_bindings[0].literal = '菜谱里不存在';
+  assert.match(validateRatioDslCatalog(wrongLiteral, templates, taxonomy, recipes).join('\n'), /does not resolve to the exact recipe literal/);
+
+  const driftedTarget = structuredClone(rawCatalog);
+  driftedTarget.rules.find(rule => rule.rule_id === 'taiwan-tomato-shrimp-rice-evidence-v1')
+    .operations.find(operation => operation.target?.canonical_id === 'tomato').target.shape_or_cut = 'dice';
+  assert.match(validateRatioDslCatalog(driftedTarget, templates, taxonomy, recipes).join('\n'), /does not match its structured evidence binding/);
 });
 
 test('a calibrated test-only recipe rule compiles deterministically through the single rounding boundary', () => {
@@ -954,4 +1003,116 @@ test('existing template-scoped Ratio DSL validates and compiles unchanged beside
   assert.equal(result.ingredient_amounts.find(item => item.name === '大米')?.grams, 200);
   const ratioTrace = result.ratio_trace.find(trace => trace.operator === 'ratio');
   assert.equal(Object.hasOwn(ratioTrace, 'denominator_canonical_id'), false);
+});
+
+test('recipe arithmetic rejects canonical identities authorized only by prose substrings', () => {
+  const waxedPork = executableShanghaiRule();
+  waxedPork.operations.splice(3, 0, {
+    operator: 'per_serving',
+    target: { canonical_id: 'waxed-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' },
+    grams: { min: 20, default: 20, max: 20 },
+  });
+  const next = catalogWithRecipeRule(waxedPork);
+  assert.match(
+    validateRatioDslCatalog(next, templates, taxonomy, recipes).join('\n'),
+    /waxed-pork-belly.*exact structured recipe identity/,
+  );
+  assert.equal(prepareRatioCatalog(next, validationContext).ok, false);
+  const compileAttempt = compileRatioPlan(waxedPork.rule_id, {
+    recipe_id: waxedPork.when.recipe_id,
+    servings: 2,
+    slots: {
+      staple: [{ name: '大米', category: 'raw_rice', canonical_id: 'raw-rice', state: 'raw' }],
+      protein: [
+        { name: '咸五花肉', category: 'pork', canonical_id: 'salted-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' },
+        { name: '腊五花肉', category: 'pork', canonical_id: 'waxed-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' },
+      ],
+      vegetable: [{ name: '小白菜', category: 'leafy_vegetable', canonical_id: 'small-bok-choy', state: 'raw' }],
+    },
+  }, next);
+  assert.equal(compileAttempt.ok, false);
+  assert.equal(compileAttempt.code, 'ratio_rule_invalid');
+});
+
+test('taxonomy-backed recipe ingredients cannot use unresolved-name bindings or invented cooked state', () => {
+  const invalid = {
+    rule_id: 'quanzhou-ground-pork-fallback-adversary-v1',
+    evidence_recipe_ids: ['quanzhou-oil-rice'],
+    execution_mode: 'bounds_only',
+    when: { recipe_id: 'quanzhou-oil-rice' },
+    operations: [{
+      operator: 'reference_quantity',
+      target: { recipe_ingredient_name: '猪肉末', state: 'cooked' },
+      grams: { min: 100, max: 100 },
+    }],
+    rounding: { grams_to_nearest: 1 },
+    example_context: { ingredient_name: '猪肉末' },
+  };
+  assert.match(
+    validateRatioDslCatalog(catalogWithRecipeRule(invalid), templates, taxonomy, recipes).join('\n'),
+    /taxonomy-backed.*canonical_id/,
+  );
+});
+
+test('executable recipe rules reject incomplete or ambiguous core identity resolution', () => {
+  const invalid = {
+    rule_id: 'quanzhou-incomplete-core-executable-v1',
+    evidence_recipe_ids: ['quanzhou-oil-rice'],
+    execution_mode: 'executable',
+    when: { recipe_id: 'quanzhou-oil-rice' },
+    operations: [
+      { operator: 'per_serving', target: { canonical_id: 'ground-pork', state: 'raw', shape_or_cut: 'ground' }, grams: { min: 50, default: 50, max: 50 } },
+      { operator: 'per_serving', target: { canonical_id: 'shiitake', state: 'raw' }, grams: { min: 30, default: 30, max: 30 } },
+    ],
+    rounding: { grams_to_nearest: 1 },
+    example_context: { ingredient_name: '猪肉末' },
+  };
+  assert.match(
+    validateRatioDslCatalog(catalogWithRecipeRule(invalid), templates, taxonomy, recipes).join('\n'),
+    /executable recipe requires every core ingredient to resolve exactly once.*泡发糯米/,
+  );
+});
+
+test('template rules forbid recipe-only execution_mode injection', () => {
+  for (const executionMode of ['bounds_only', 'banana']) {
+    const invalid = structuredClone(rawCatalog);
+    invalid.rules.find(rule => rule.when?.template_id).execution_mode = executionMode;
+    assert.match(
+      validateRatioDslCatalog(invalid, templates, taxonomy, recipes).join('\n'),
+      /execution_mode is only valid for recipe scope/,
+    );
+  }
+});
+
+test('recipe rules forbid liquid_distribution until recipe execution supports a validated contract', () => {
+  const invalid = recipeBoundsRule();
+  invalid.liquid_distribution = {
+    initial_fraction: 9,
+    reserve_fraction: -8,
+    reserve_action_code: 'invented_action',
+  };
+  assert.match(
+    validateRatioDslCatalog(catalogWithRecipeRule(invalid), templates, taxonomy, recipes).join('\n'),
+    /liquid_distribution is forbidden for recipe scope/,
+  );
+});
+
+test('recipe compiler rejects duplicate runtime matches instead of multiplying a quantified identity', () => {
+  const executable = executableShanghaiRule();
+  const preparedExecutable = prepareRatioCatalog(catalogWithRecipeRule(executable), validationContext);
+  assert.equal(preparedExecutable.ok, true, preparedExecutable.errors.join('\n'));
+  const result = compileRatioPlan(executable.rule_id, {
+    recipe_id: executable.when.recipe_id,
+    servings: 2,
+    slots: {
+      staple: [{ name: '大米', category: 'raw_rice', canonical_id: 'raw-rice', state: 'raw' }],
+      protein: [
+        { name: '咸五花肉', category: 'pork', canonical_id: 'salted-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' },
+        { name: '咸五花肉', category: 'pork', canonical_id: 'salted-pork-belly', state: 'cured', shape_or_cut: 'cured_slice' },
+      ],
+      vegetable: [{ name: '小白菜', category: 'leafy_vegetable', canonical_id: 'small-bok-choy', state: 'raw' }],
+    },
+  }, preparedExecutable.catalog);
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'ratio_context_identity_ambiguous');
 });

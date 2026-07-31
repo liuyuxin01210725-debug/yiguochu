@@ -9,7 +9,7 @@
 - Planner：`pantry-planner-v2`
 - Template catalog：`templates-v2-20260729-r15`
 - Taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio catalog：`ratio-rules-v1-20260729-r8`
+- Ratio catalog：`ratio-rules-v1-20260731-r9`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -244,6 +244,6 @@
 - `tools/data/ingredient-taxonomy.v1.json`：`32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c`
 - `tools/data/meal-templates.v2.json`：`0a5d4ca4268d9208720027b629c6a9c595984fe6769f12ea8db6ba76dc49343f`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`a57359e1ab23eef18a0d8d8e55ddde6f9ba48ad0fa397b2458227434c3ad5b12`
+- `tools/data/ratio-rules.v1.json`：`8ad5f6325428cca967b3d25325a9121652d7ab609aadc2a3ee4be3f0e6ac99fe`
 - `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`

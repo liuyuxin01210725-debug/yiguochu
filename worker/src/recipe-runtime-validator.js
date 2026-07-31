@@ -515,12 +515,8 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
       if (!ratioRuleIds.has(ratioRuleId)) errors.push(`${label} unknown ratio_rule_id ${ratioRuleId}`);
       else {
         const ratioRule = ratioById.get(ratioRuleId);
-        if (isNonEmptyString(ratioRule?.when?.recipe_id)) {
-          if (ratioRule.when.recipe_id !== entry.recipe_id) {
-            errors.push(`${label} ratio_rule_id ${ratioRuleId} does not belong to recipe ${entry.recipe_id}`);
-          }
-        } else if (ratioRule?.when?.template_id !== entry.template_id) {
-          errors.push(`${label} ratio_rule_id ${ratioRuleId} does not belong to template ${entry.template_id}`);
+        if (ratioRule?.when?.recipe_id !== entry.recipe_id) {
+          errors.push(`${label} ratio_rule_id ${ratioRuleId} must be recipe-scoped to ${entry.recipe_id}`);
         }
       }
     }
@@ -547,7 +543,7 @@ export function validateRecipeRuntimeCatalog(catalog, { recipes, taxonomy, templ
         errors.push(`${label} preview_enabled requires exactly one ratio default`);
       }
       if (isNonEmptyString(entry.ratio_default_rule_id)
-          && ratioById.get(entry.ratio_default_rule_id)?.execution_mode === 'bounds_only') {
+          && ratioById.get(entry.ratio_default_rule_id)?.execution_mode !== 'executable') {
         errors.push(`${label} ratio default must be executable`);
       }
       validateHouseholdTrial(entry.household_trial, `${label}.household_trial`, errors);

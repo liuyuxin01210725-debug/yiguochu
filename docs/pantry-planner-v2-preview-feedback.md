@@ -30,7 +30,7 @@
 - Planner：`pantry-planner-v2`
 - Template catalog：`templates-v2-20260729-r15`（11 个 active、5 个 planned）
 - Ingredient taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio DSL：`ratio-rules-v1-20260729-r8`
+- Ratio DSL：`ratio-rules-v1-20260731-r9`
 - Evidence recipes：72 道（数量与批准状态均未改变）
 - Planner V2 自动旅程门禁：138/138
 - 直接推荐影子对照：30/30 无自动硬失败

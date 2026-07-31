@@ -11,11 +11,26 @@ import {
 const here = path.dirname(fileURLToPath(import.meta.url));
 const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', name), 'utf8'));
 const catalog = readJson('recipe-runtime.v1.json');
+const productionRatios = readJson('ratio-rules.v1.json');
+const SYNTHETIC_RECIPE_RATIOS = [
+  {
+    rule_id: 'synthetic-shanghai-recipe-executable-v1',
+    evidence_recipe_ids: ['shanghai-salted-pork-vegetable-rice'],
+    execution_mode: 'executable',
+    when: { recipe_id: 'shanghai-salted-pork-vegetable-rice' },
+  },
+  {
+    rule_id: 'synthetic-north-china-recipe-executable-v1',
+    evidence_recipe_ids: ['north-china-green-bean-braised-noodles'],
+    execution_mode: 'executable',
+    when: { recipe_id: 'north-china-green-bean-braised-noodles' },
+  },
+];
 const context = {
   recipes: readJson('recipe-library.json'),
   taxonomy: readJson('ingredient-taxonomy.v1.json'),
   templates: readJson('meal-templates.v2.json'),
-  ratios: readJson('ratio-rules.v1.json'),
+  ratios: { ...productionRatios, rules: [...productionRatios.rules, ...SYNTHETIC_RECIPE_RATIOS] },
 };
 
 const INITIAL_RECIPE_IDS = new Set([
@@ -42,8 +57,8 @@ function completeSyntheticPreview() {
     protein: ['salted-pork-belly'],
     fast_vegetable: ['small-bok-choy'],
   };
-  entry.ratio_rule_ids = ['savory-mixed-rice-liquid-v1'];
-  entry.ratio_default_rule_id = 'savory-mixed-rice-liquid-v1';
+  entry.ratio_rule_ids = ['synthetic-shanghai-recipe-executable-v1'];
+  entry.ratio_default_rule_id = 'synthetic-shanghai-recipe-executable-v1';
   entry.technique_graph = [
     { phase: 2, action_code: 'protein_pretreat', slot_ids: ['protein'] },
     { phase: 6, action_code: 'add_pork', slot_ids: ['protein'] },
@@ -76,8 +91,8 @@ function completeSyntheticNorthChinaPreview() {
     liquid: ['water'],
     protein: ['ground-pork'],
   };
-  entry.ratio_rule_ids = ['braised-fresh-wheat-noodle-liquid-v1'];
-  entry.ratio_default_rule_id = 'braised-fresh-wheat-noodle-liquid-v1';
+  entry.ratio_rule_ids = ['synthetic-north-china-recipe-executable-v1'];
+  entry.ratio_default_rule_id = 'synthetic-north-china-recipe-executable-v1';
   entry.technique_graph = [
     { phase: 1, action_code: 'protein_pretreat', slot_ids: ['protein'] },
     { phase: 2, action_code: 'add_liquid', slot_ids: ['liquid'] },
@@ -223,7 +238,7 @@ test('preview activation enforces recipe, template, ratio, slot and safety relat
   for (const expected of [
     'canonical_id tomato is not a recipe core identity',
     'slot_assignment unknown slot invented_slot',
-    'ratio_rule_id acid-staple-raw-rice-liquid-v1 does not belong to template',
+    'ratio_rule_id acid-staple-raw-rice-liquid-v1 must be recipe-scoped',
     'safety endpoint bean_fully_cooked does not belong to template',
   ]) assert.ok(errors.some(error => error.includes(expected)), expected);
 });
@@ -295,7 +310,7 @@ test('planned runtime entries reference only their own bounds-only recipe eviden
   const wrong = structuredClone(catalog);
   wrong.entries.find(entry => entry.recipe_id === 'shanghai-salted-pork-vegetable-rice')
     .ratio_rule_ids = ['xinjiang-lamb-pilaf-liquid-evidence-v1'];
-  assert.match(validateRecipeRuntimeCatalog(wrong, context).join('\n'), /does not belong to recipe/);
+  assert.match(validateRecipeRuntimeCatalog(wrong, context).join('\n'), /must be recipe-scoped/);
 });
 
 test('bounds-only recipe evidence can never satisfy a preview ratio default', () => {
@@ -304,4 +319,23 @@ test('bounds-only recipe evidence can never satisfy a preview ratio default', ()
   entry.ratio_rule_ids = ['shanghai-salted-pork-liquid-evidence-v1'];
   entry.ratio_default_rule_id = 'shanghai-salted-pork-liquid-evidence-v1';
   assert.match(validateRecipeRuntimeCatalog(invalid, context).join('\n'), /ratio default must be executable/);
+});
+
+test('named runtime entries reject generic template ratio references and defaults', () => {
+  const planned = structuredClone(catalog);
+  const entry = planned.entries.find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  entry.ratio_rule_ids = ['savory-mixed-rice-liquid-v1'];
+  assert.match(
+    validateRecipeRuntimeCatalog(planned, context).join('\n'),
+    /must be recipe-scoped to shanghai-salted-pork-vegetable-rice/,
+  );
+
+  const preview = completeSyntheticPreview();
+  const previewEntry = preview.entries.find(candidate => candidate.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  previewEntry.ratio_rule_ids = ['savory-mixed-rice-liquid-v1'];
+  previewEntry.ratio_default_rule_id = 'savory-mixed-rice-liquid-v1';
+  assert.match(
+    validateRecipeRuntimeCatalog(preview, context).join('\n'),
+    /must be recipe-scoped to shanghai-salted-pork-vegetable-rice/,
+  );
 });
