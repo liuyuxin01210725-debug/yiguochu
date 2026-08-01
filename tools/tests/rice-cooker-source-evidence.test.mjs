@@ -16,7 +16,7 @@ test('machine ledger and fail-closed validator exist', async () => {
   assert.ok(await loadLedger());
 });
 
-test('ledger validates and pins the six audited source recipes without floating recipe URLs', async () => {
+test('ledger validates and pins the audited source recipes without floating recipe URLs', async () => {
   const ledger = await loadLedger();
   const errors = validatorModule.validateRiceCookerSourceEvidence(ledger);
   assert.deepEqual(errors, []);
@@ -24,11 +24,17 @@ test('ledger validates and pins the six audited source recipes without floating 
     ledger.entries.map(entry => entry.source_id).sort(),
     [
       'howtocook-salted-pork-vegetable-rice-b1f0a1a',
+      'joyoung-curry-chicken-rice-jrc-4hp82',
+      'joyoung-mixed-sausage-vegetable-rice-jrc-4hp82',
       'panasonic-fresh-shiitake-rice-sr-afg',
       'panasonic-mixed-chicken-rice-sr-df151',
+      'taiwan-afa-cabbage-rice',
+      'taiwan-afa-pumpkin-rice',
       'tatung-sesame-chicken-rice',
       'tatung-shanghai-vegetable-rice',
+      'yutian-electric-cooker-lamb-pilaf',
       'zojirushi-fresh-vegetable-bamboo-rice',
+      'zojirushi-minced-pork-greens-rice-nl-erh',
     ],
   );
 
@@ -62,6 +68,12 @@ test('liquid semantics distinguish added water, waterline, and inner-vessel liqu
   assert.equal(byId['zojirushi-fresh-vegetable-bamboo-rice'].quantities.liquid_contract.semantic, 'waterline_after_liquid_seasonings');
   assert.equal(byId['tatung-shanghai-vegetable-rice'].quantities.liquid_contract.semantic, 'inner_vessel_total_liquid_with_separate_outer_water');
   assert.equal(byId['tatung-sesame-chicken-rice'].quantities.liquid_contract.semantic, 'inner_vessel_added_water_with_separate_outer_water');
+  assert.equal(byId['taiwan-afa-pumpkin-rice'].quantities.liquid_contract.semantic, 'added_water_ratio_to_rice_measure');
+  assert.equal(byId['taiwan-afa-cabbage-rice'].quantities.liquid_contract.semantic, 'added_water_ratio_to_rice_measure');
+  assert.equal(byId['joyoung-curry-chicken-rice-jrc-4hp82'].quantities.liquid_contract.semantic, 'added_water_exact');
+  assert.equal(byId['joyoung-mixed-sausage-vegetable-rice-jrc-4hp82'].quantities.liquid_contract.semantic, 'added_water_exact');
+  assert.equal(byId['zojirushi-minced-pork-greens-rice-nl-erh'].quantities.liquid_contract.semantic, 'waterline_after_liquid_seasonings');
+  assert.equal(byId['yutian-electric-cooker-lamb-pilaf'].quantities.liquid_contract.semantic, 'ambiguous_source_ratio');
 });
 
 test('audited quantities stay attached to the exact source recipe that proves them', async () => {
@@ -98,6 +110,22 @@ test('audited quantities stay attached to the exact source recipe that proves th
   assert.deepEqual(tatungChicken.quantities.liquid_contract.amount, { value: 4, unit: 'manufacturer_cup', includes: ['温水'] });
   assert.equal(tatungChicken.quantities.protein_items.find(item => item.name === '鸡腿').quantity.value, 520);
   assert.equal(tatungChicken.verdict.status, 'research_only');
+
+  const pumpkin = byId['taiwan-afa-pumpkin-rice'];
+  assert.deepEqual(pumpkin.quantities.rice, { value: 2, unit: 'manufacturer_cup' });
+  assert.equal(pumpkin.quantities.protein_items.find(item => item.name === '猪绞肉').quantity.value, 75);
+  assert.equal(pumpkin.quantities.vegetable_items.find(item => item.name === '南瓜').quantity.value, 300);
+
+  const curry = byId['joyoung-curry-chicken-rice-jrc-4hp82'];
+  assert.deepEqual(curry.quantities.rice, { value: 420, unit: 'g', source_measure: '3 manufacturer cups' });
+  assert.deepEqual(curry.quantities.liquid_contract.amount, { value: 528, unit: 'g' });
+  assert.equal(curry.quantities.protein_items.find(item => item.name === '鸡胸肉').quantity.value, 150);
+
+  const mincedGreens = byId['zojirushi-minced-pork-greens-rice-nl-erh'];
+  assert.deepEqual(mincedGreens.quantities.rice, { value: 3, unit: 'manufacturer_cup' });
+  assert.deepEqual(mincedGreens.quantities.liquid_contract.waterline, { scale: 'white_rice', mark: 3 });
+  assert.equal(mincedGreens.quantities.protein_items.find(item => item.name === '猪肉糜').quantity.value, 90);
+  assert.equal(mincedGreens.quantities.vegetable_items.find(item => item.name === '青菜').quantity.value, 90);
 });
 
 test('validator fails closed when evidence boundaries are removed or liquid types are conflated', async () => {

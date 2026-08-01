@@ -339,6 +339,342 @@
         "不能证明香菇6朵对应统一克数",
         "不能替代520g鸡腿的切块尺寸和熟制终点校验"
       ]
+    },
+    {
+      "source_id": "taiwan-afa-pumpkin-rice",
+      "source_title": "南瓜饭",
+      "source_url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+      "publisher": "台湾农业部农粮署食农教育电子书",
+      "source_kind": "government_food_education_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "政府食农教育页面只用于核对菜名、配料、电锅流程和0.8倍加水事实；不复制页面原文、图片或版式。",
+        "allowed_use": ["recipe_identity", "ingredient_quantities", "rice_measure_ratio_fact", "electric_cooker_process_fact"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "claim_weight_ratio_without_conversion", "claim_linear_serving_scaling"]
+      },
+      "quantities": {
+        "rice": {"value": 2, "unit": "manufacturer_cup"},
+        "liquid_contract": {
+          "semantic": "added_water_ratio_to_rice_measure",
+          "ratio": {"water_measure": 0.8, "rice_measure": 1},
+          "interpretation": "来源按同一量杯表达加水量为米量的0.8倍，不等于已证明的克重比。"
+        },
+        "protein_items": [
+          {"name": "猪绞肉", "quantity": {"value": 75, "unit": "g"}},
+          {"name": "虾米", "quantity": {"value": 10, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "南瓜", "quantity": {"value": 300, "unit": "g"}},
+          {"name": "香菇", "quantity": {"value": 2, "unit": "朵"}}
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "generic_electric_cooker_pre_saute_then_rice_cycle",
+        "manufacturer": null,
+        "models": [],
+        "program": "电锅煮饭行程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后闭盖焖15分钟，来源另记载可再按一次开关",
+        "source_executability": "executable_as_written_with_source_measure"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可证明两量杯米、定量南瓜与猪绞肉先预处理后用电锅成饭的固定批量；只能使用来源量杯语义。",
+        "reason": "来源同时给出米量、主要配料、加水比和电锅流程。"
+      },
+      "cannot_prove": [
+        "不能证明量杯体积与米克重的固定换算",
+        "不能证明配方可按份数无限线性缩放",
+        "不能证明所有电饭煲的二次按键行为等价",
+        "不能替代猪绞肉的熟制终点校验"
+      ]
+    },
+    {
+      "source_id": "taiwan-afa-cabbage-rice",
+      "source_title": "高丽菜饭",
+      "source_url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+      "publisher": "台湾农业部农粮署食农教育电子书",
+      "source_kind": "government_food_education_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "政府食农教育页面只用于核对菜名、配料、电锅流程和0.8倍加水事实；不复制原文、图片或版式。",
+        "allowed_use": ["recipe_identity", "ingredient_quantities", "rice_measure_ratio_fact", "electric_cooker_process_fact"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "claim_weight_ratio_without_conversion", "inflate_shrimp_garnish_to_full_protein"]
+      },
+      "quantities": {
+        "rice": {"value": 2, "unit": "manufacturer_cup"},
+        "liquid_contract": {
+          "semantic": "added_water_ratio_to_rice_measure",
+          "ratio": {"water_measure": 0.8, "rice_measure": 1},
+          "interpretation": "来源按同一量杯表达加水量为米量的0.8倍，高丽菜析水已包含在该固定配方的来源语义中。"
+        },
+        "protein_items": [
+          {"name": "虾米", "quantity": {"value": 10, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "高丽菜", "quantity": {"value": 300, "unit": "g"}},
+          {"name": "香菇", "quantity": {"value": 1, "unit": "朵"}},
+          {"name": "大蒜", "quantity": {"value": 3, "unit": "瓣"}}
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "generic_electric_cooker_pre_saute_then_rice_cycle",
+        "manufacturer": null,
+        "models": [],
+        "program": "电锅煮饭行程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后翻松",
+        "source_executability": "executable_as_written_with_source_measure"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可证明高丽菜、少量虾米与香菇按固定批量预处理后进入电锅成饭；营养上只能按碳水+膳食纤维的B级理解。",
+        "reason": "来源给出菜饭身份、固定批量和电锅流程，但10g虾米不得冒充充足蛋白质主料。"
+      },
+      "cannot_prove": [
+        "不能证明10g虾米足以承担一顿主餐的蛋白质角色",
+        "不能证明量杯体积与米克重的固定换算",
+        "不能证明更换为任意叶菜后仍使用相同液体",
+        "不能证明配方可按份数无限线性缩放"
+      ]
+    },
+    {
+      "source_id": "joyoung-curry-chicken-rice-jrc-4hp82",
+      "source_title": "咖喱鸡肉饭",
+      "source_url": "https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf",
+      "publisher": "Joyoung America",
+      "source_kind": "manufacturer_manual_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方说明书仅用于核对JRC-4HP82的固定配方、加水量和程序事实；不复制说明书原文、图片或版式。",
+        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
+        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence", "claim_linear_serving_scaling"]
+      },
+      "quantities": {
+        "rice": {"value": 420, "unit": "g", "source_measure": "3 manufacturer cups"},
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {"value": 528, "unit": "g"},
+          "interpretation": "528g是说明书明示加入内胆的水，不是包含蔬菜析水的总液体。"
+        },
+        "protein_items": [
+          {"name": "鸡胸肉", "quantity": {"value": 150, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "胡萝卜", "quantity": {"value": 100, "unit": "g"}},
+          {"name": "土豆", "quantity": {"value": 100, "unit": "g"}},
+          {"name": "洋葱", "quantity": {"value": 100, "unit": "g"}}
+        ],
+        "other_items": [
+          {"name": "咖喱块", "quantity": {"value": 100, "unit": "g"}},
+          {"name": "植物油", "quantity": {"value": 15, "unit": "g"}},
+          {"name": "酱油", "quantity": {"value": 15, "unit": "g"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "joyoung_jrc_4hp82_white_rice_cycle",
+        "manufacturer": "Joyoung",
+        "models": ["JRC-4HP82"],
+        "program": "柴火饭/白米饭来源程序",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后翻松",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可直接证明JRC-4HP82在固定批量下的咖喱鸡肉饭配料、新增水量和一次程序。",
+        "reason": "厂商说明书同时给出了米、水、蛋白质、蔬菜和程序。"
+      },
+      "cannot_prove": [
+        "不能证明528g水适用于其他型号或其他批量",
+        "不能证明配方可按份数无限线性缩放",
+        "不能证明鸡腿可无条件替换鸡胸",
+        "不能替代鸡肉的熟制终点校验"
+      ]
+    },
+    {
+      "source_id": "joyoung-mixed-sausage-vegetable-rice-jrc-4hp82",
+      "source_title": "懒人焖饭",
+      "source_url": "https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf",
+      "publisher": "Joyoung America",
+      "source_kind": "manufacturer_manual_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方说明书仅用于核对JRC-4HP82的固定什锦腊肠焖饭配方、加水量和程序事实；项目对外名称不使用“懒人”作为虚假营销承诺。",
+        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
+        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence", "claim_linear_serving_scaling"]
+      },
+      "quantities": {
+        "rice": {"value": 420, "unit": "g", "source_measure": "3 manufacturer cups"},
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {"value": 528, "unit": "g"},
+          "interpretation": "528g是说明书明示加入内胆的水，不是把配菜含水折算后的总液体。"
+        },
+        "protein_items": [
+          {"name": "腊肠", "quantity": {"value": 50, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "青豆", "quantity": {"value": 50, "unit": "g"}},
+          {"name": "香菇", "quantity": {"value": 50, "unit": "g"}},
+          {"name": "玉米", "quantity": {"value": 50, "unit": "g"}},
+          {"name": "胡萝卜", "quantity": {"value": 50, "unit": "g"}}
+        ],
+        "other_items": [
+          {"name": "蚝油", "quantity": {"value": 20, "unit": "g"}},
+          {"name": "酱油", "quantity": {"value": 15, "unit": "g"}},
+          {"name": "植物油", "quantity": {"value": 10, "unit": "g"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "joyoung_jrc_4hp82_white_rice_cycle",
+        "manufacturer": "Joyoung",
+        "models": ["JRC-4HP82"],
+        "program": "柴火饭/白米饭来源程序",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后翻松",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可直接证明JRC-4HP82在固定批量下的腊肠、四种配菜与米同锅程序。",
+        "reason": "厂商说明书同时给出了米、水、蛋白质、蔬菜和程序。"
+      },
+      "cannot_prove": [
+        "不能证明528g水适用于其他型号或其他批量",
+        "不能证明50g腊肠可替换为任意咸肉制品",
+        "不能证明配方可按份数无限线性缩放",
+        "不能替代腊肠标签、盐度和复热终点校验"
+      ]
+    },
+    {
+      "source_id": "zojirushi-minced-pork-greens-rice-nl-erh",
+      "source_title": "肉糜青菜饭",
+      "source_url": "https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf",
+      "publisher": "上海象印家用电器有限公司",
+      "source_kind": "manufacturer_manual_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方说明书只用于核对NL-ERH系列中的肉糜青菜饭配料、水位线顺序和什锦饭程序；不复制原文、版式或图片。",
+        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "waterline_semantics", "appliance_program_fact"],
+        "forbidden_use": ["copy_manual_text", "copy_manual_images", "convert_waterline_to_unverified_grams", "claim_generic_cooker_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 3, "unit": "manufacturer_cup"},
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {"scale": "white_rice", "mark": 3},
+          "interpretation": "肉糜与青菜预炒汁和液体调味先进内胆，再补水至白米3水位线；不得换算成未证明的毫升数。"
+        },
+        "protein_items": [
+          {"name": "猪肉糜", "quantity": {"value": 90, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "青菜", "quantity": {"value": 90, "unit": "g"}}
+        ],
+        "other_items": [
+          {"name": "油", "quantity": {"value": 1, "unit": "tsp"}},
+          {"name": "料酒", "quantity": {"value": 1, "unit": "tsp"}},
+          {"name": "酱油", "quantity": {"value": 1, "unit": "tsp"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "zojirushi_nl_erh_mixed_rice_waterline",
+        "manufacturer": "ZOJIRUSHI",
+        "models": ["NL-ERH10C", "NL-ERH18C"],
+        "program": "什锦饭",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后翻松",
+        "source_executability": "executable_on_named_models"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可直接证明NL-ERH系列按白米3水位线和什锦饭程序完成肉糜青菜饭的固定批量。",
+        "reason": "说明书给出了固定米量、肉糜和青菜克数、液体顺序、水位线和程序。"
+      },
+      "cannot_prove": [
+        "不能证明白米3水位线等于固定毫升数",
+        "不能证明水位线规则可迁移到无同款刻度的电饭煲",
+        "不能证明固定三杯批量可按份数无限线性缩放",
+        "不能替代猪肉糜至少71.1摄氏度的项目安全终点校验"
+      ]
+    },
+    {
+      "source_id": "yutian-electric-cooker-lamb-pilaf",
+      "source_title": "抓饭",
+      "source_url": "https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html",
+      "publisher": "新疆和田地区于田县人民政府",
+      "source_kind": "local_government_food_culture_page",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "government_site_terms_unspecified",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "地方政府页面只用于证明抓饭身份、核心食材与电饭锅家庭流程；不复制原文、图片，不将含糊比例转换为生产参数。",
+        "allowed_use": ["regional_identity", "core_combination", "electric_cooker_process_research"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "convert_ambiguous_ratio_to_machine_value", "claim_executable_liquid_contract"]
+      },
+      "quantities": {
+        "rice": {"value": null, "unit": "source_says_appropriate_amount"},
+        "liquid_contract": {
+          "semantic": "ambiguous_source_ratio",
+          "source_expression": "1:2",
+          "interpretation": "来源没有明确1:2的分子、分母和计量状态，不得换成米水比。"
+        },
+        "protein_items": [
+          {"name": "羊肉", "quantity": {"value": 200, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "胡萝卜", "quantity": {"value": 2, "unit": "根"}},
+          {"name": "洋葱", "quantity": {"value": 1, "unit": "个"}}
+        ],
+        "other_items": [
+          {"name": "油", "quantity": {"value": 50, "unit": "g"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "ordinary_electric_rice_cooker_after_stovetop_preparation",
+        "manufacturer": null,
+        "models": [],
+        "program": "电饭锅煮饭行程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后翻松",
+        "source_executability": "not_machine_executable_due_to_ambiguous_liquid"
+      },
+      "verdict": {
+        "status": "research_only",
+        "scope": "只证明羊肉、胡萝卜、洋葱和米经炉上预处理后进入电饭锅的家庭流程；液体表达不足以执行。",
+        "reason": "抓饭的地域身份和电饭锅流程有直接来源，但米量与液体语义未解析。"
+      },
+      "cannot_prove": [
+        "不能证明1:2是米水质量比、体积比或其他比例",
+        "不能证明来源中的大米实际克数",
+        "不能证明羊肉块大小和终点可被电饭锅程序单独保证",
+        "不得与压力锅配方的170g水合并成通用公式"
+      ]
     }
   ]
 }

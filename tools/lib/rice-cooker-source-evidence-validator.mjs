@@ -15,6 +15,8 @@ const ENTRY_KEYS = new Set([
 const LIQUID_SEMANTICS = new Set([
   'added_water_exact',
   'added_water_texture_range',
+  'added_water_ratio_to_rice_measure',
+  'ambiguous_source_ratio',
   'waterline_after_liquid_seasonings',
   'inner_vessel_total_liquid_with_separate_outer_water',
   'inner_vessel_added_water_with_separate_outer_water',
@@ -107,6 +109,10 @@ export function validateRiceCookerSourceEvidence(ledger) {
         errors.push(`${path}: added_water_exact requires amount`);
       } else if (liquid.semantic === 'added_water_texture_range' && !isObject(liquid.amounts_ml)) {
         errors.push(`${path}: added_water_texture_range requires amounts_ml`);
+      } else if (liquid.semantic === 'added_water_ratio_to_rice_measure' && !isObject(liquid.ratio)) {
+        errors.push(`${path}: added_water_ratio_to_rice_measure requires ratio`);
+      } else if (liquid.semantic === 'ambiguous_source_ratio' && !presentString(liquid.source_expression)) {
+        errors.push(`${path}: ambiguous_source_ratio requires source_expression`);
       } else if (liquid.semantic === 'waterline_after_liquid_seasonings' && !isObject(liquid.waterline)) {
         errors.push(`${path}: waterline_after_liquid_seasonings requires waterline`);
       } else if (liquid.semantic.startsWith('inner_vessel_') && (!isObject(liquid.amount) || !presentString(liquid.outer_vessel_boundary))) {
@@ -119,6 +125,10 @@ export function validateRiceCookerSourceEvidence(ledger) {
     }
     if (!isObject(entry.verdict) || !VERDICTS.has(entry.verdict.status)) errors.push(`${path}.verdict.status is invalid`);
     if (!presentString(entry.verdict?.scope)) errors.push(`${path}.verdict.scope is required`);
+    if (entry.quantities?.liquid_contract?.semantic === 'ambiguous_source_ratio'
+        && entry.verdict?.status !== 'research_only') {
+      errors.push(`${path}: ambiguous_source_ratio cannot be executable_reference`);
+    }
     if (!Array.isArray(entry.cannot_prove) || entry.cannot_prove.length === 0) errors.push(`${path}.cannot_prove must be non-empty`);
   });
   return errors;
