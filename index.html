@@ -742,6 +742,7 @@ const ALLERGEN_GROUPS = {
   '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
   '花生': ['花生','花生米','花生酱'],
   '坚果': ['核桃','杏仁','腰果','开心果','榛子','松子','碧根果','夏威夷果','巴旦木','板栗','芝麻','芝麻酱'],
+  '大豆': ['大豆','黄豆','豆腐','嫩豆腐','老豆腐','油炸豆腐','炸豆腐','豆浆','豆皮','腐竹','酱油','豆豉','味噌'],
   '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
   '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
   '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿'],
@@ -1814,12 +1815,15 @@ function riceStatusCopy(status) {
 function riceMealStatusScreen() {
   const result = state.riceStatusResult || {};
   const copy = riceStatusCopy(result.status);
+  const safetyReasons = [...new Set((Array.isArray(result.safety_rejections) ? result.safety_rejections : [])
+    .map(item => boundedText(item && (item.reason || item.message), 200)).filter(Boolean))];
+  const safetyNotes = safetyReasons.map(reason => '<p class="pantry-plan-note"><strong>为什么拦下：</strong>' + esc(reason) + '</p>').join('');
   const unused = (result.unused_items || []).map(item => {
     const name = riceItemName(item);
     return name ? '<p class="pantry-plan-note"><strong>' + esc(name) + '：</strong>' + esc(riceUnusedReason(item)) + '</p>' : '';
   }).join('');
   return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
-    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div><p class="fb-banner-text">' + esc(copy.text) + '</p>' + unused + '</div></div>'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div><p class="fb-banner-text">' + esc(copy.text) + '</p>' + safetyNotes + unused + '</div></div>'
     + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
 }
 function riceGeneratedSummary() {

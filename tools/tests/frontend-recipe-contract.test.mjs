@@ -317,6 +317,19 @@ test('rice meal nutrition summaries show each nutrition role only once', () => {
   assert.equal((markup.match(/膳食纤维/g) || []).length, 1);
 });
 
+test('rice meal safety stop explains a required seasoning allergen conflict', () => {
+  const { context } = loadFrontend();
+  const markup = evaluate(context, `(() => {
+    state.riceStatusResult = {
+      status:'unsafe_recipe',
+      unused_items:[{raw:'鸡胸肉', reason_code:'not_in_active_catalog', reason:'现有菜饭还没有适合使用这项食材的可靠做法。'}],
+      safety_rejections:[{reason_code:'seasoning_allergen_conflict', reason:'这道菜饭的必需调味料与你设置的忌口冲突，已在候选阶段拦下。'}]
+    };
+    return riceMealStatusScreen();
+  })()`);
+  assert.match(markup, /必需调味料与你设置的忌口冲突/);
+});
+
 test('preview uses only its same-origin generation endpoint', () => {
   const { context } = loadFrontend([], {
     proxy: null,

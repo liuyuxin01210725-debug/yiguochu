@@ -997,6 +997,21 @@ test('direct dislike preflight emits the same structured safety rejection contra
   }]);
 });
 
+test('direct 大豆 dislike preflight blocks tofu identities before candidate selection', () => {
+  const tofu = select({ servings: 2, pantry: ['豆腐', '白菜'], dislikes: ['大豆'] });
+  assert.equal(tofu.status, 'unsafe_recipe');
+  assert.deepEqual(tofu.safety_rejections.map(row => row.ingredient_ids), [['firm-tofu']]);
+
+  const friedTofu = select({
+    servings: 2,
+    pantry: ['鸡胸肉', '油炸豆腐', '牛蒡', '胡萝卜', '香菇'],
+    dislikes: ['大豆'],
+  }, { riceCatalogScope:'calibration' });
+  assert.equal(friedTofu.status, 'unsafe_recipe');
+  assert.ok(friedTofu.safety_rejections.some(row => row.ingredient_ids.includes('fried-tofu')));
+
+});
+
 test('controlled seasoning allergens are derived from taxonomy and fail closed before candidate selection', () => {
   const cases = [
     { seasoningId: 'oyster-sauce', dislike: '海鲜', allergenTags: ['贝类', '大豆', '小麦'] },

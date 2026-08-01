@@ -105,6 +105,10 @@ test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {
     ['奶', '椰奶', {}],
     ['花生', '花生酱', {}],
     ['坚果', '核桃', {}],
+    ['大豆', '油炸豆腐', {}],
+    ['大豆', '酱油', {}],
+    ['大豆', '青豆', {}],
+    ['大豆', '青豌豆', {}],
     ['羊肉', '羊腿肉', {}],
     ['羊肉', '去骨羊腿肉', {}],
     ['羊腿肉', '去骨羊腿肉', {}],
@@ -133,13 +137,14 @@ test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {
   assert.deepEqual(actual, expected);
   // 锁定关键语义预期, 防两端同错
   assert.deepEqual(expected, [
-    true, true, true, true,
-    true, true,
-    true, true, false, true, true,
-    true, true, true, false,
-    false, false, false,
-    true, true,
-    false, false, false,
+    true, true, true, true,          // seafood
+    true, true,                      // chicken
+    true, true, false, true, true,   // egg, dairy, coconut, peanut, nuts
+    true, true, false, false,        // soy group never captures green peas
+    true, true, true, false,         // lamb
+    false, false, false,             // non-expanding members
+    true, true,                      // normalized wording and alias
+    false, false, false,             // empty and unrelated
     true, true, true, false, true, true,
   ]);
 });
