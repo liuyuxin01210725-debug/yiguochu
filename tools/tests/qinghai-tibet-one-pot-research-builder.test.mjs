@@ -47,7 +47,7 @@ test('report derives the fixed Qinghai Tibet 4/0/5/6/11/12 baseline and retains 
   assert.equal(report.critical_boundaries.length, 5);
   assert.equal(report.technique_boundaries.length, 3);
   assert.equal(report.source_data_normalized_fingerprint, 'a6a54b822d74d0a8f3a01abe31ba73cf28b066326c48f05ba58aa13c943639ff');
-  assert.equal(report.input_data_normalized_fingerprint, '29e6ef75bf25989f90f66f4e09f627bb0134f2b10956be5155a744397221fdbc');
+  assert.equal(report.input_data_normalized_fingerprint, '6daf0b982aa8ed5d598d69f6ac9da8a786d3155b480c7635bc46c27801685ff5');
   assert.deepEqual(report.summary.source_count_by_grade, { A: 11, B: 0, C: 0 });
 });
 
