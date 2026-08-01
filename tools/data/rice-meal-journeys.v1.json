@@ -82,6 +82,10 @@
         "allowed_variant_ids": ["home-cabbage-tofu-rice"],
         "forbidden_variant_ids": [],
         "min_coverage_count": 2,
+        "expected_coverage_count": 2,
+        "expected_coverage_total": 2,
+        "expected_used_raw": ["豆腐", "白菜"],
+        "expected_unused_raw": [],
         "nutrition_grades": ["A"],
         "required_unused_reason_codes": []
       },
@@ -111,6 +115,15 @@
         "allowed_variant_ids": ["home-broccoli-beef-rice"],
         "forbidden_variant_ids": [],
         "min_coverage_count": 2,
+        "expected_coverage_count": 2,
+        "expected_coverage_total": 2,
+        "expected_used_raw": ["牛里脊", "西兰花"],
+        "expected_unused_raw": [],
+        "expected_substitutions": [{
+          "target_canonical_id": "beef-generic",
+          "input_canonical_id": "beef-tenderloin",
+          "kind": "generic_slot"
+        }],
         "nutrition_grades": ["A"],
         "required_unused_reason_codes": []
       },
@@ -207,6 +220,10 @@
         "allowed_variant_ids": ["home-green-bean-pork-rib-rice"],
         "forbidden_variant_ids": [],
         "min_coverage_count": 2,
+        "expected_coverage_count": 2,
+        "expected_coverage_total": 2,
+        "expected_used_raw": ["排骨", "豆角"],
+        "expected_unused_raw": [],
         "nutrition_grades": ["A"],
         "required_unused_reason_codes": []
       },
@@ -299,6 +316,10 @@
         "allowed_variant_ids": ["home-mushroom-green-bean-pork-rib-rice"],
         "forbidden_variant_ids": [],
         "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 3,
+        "expected_used_raw": ["排骨", "香菇", "豆角"],
+        "expected_unused_raw": [],
         "nutrition_grades": ["A"],
         "required_unused_reason_codes": []
       },
@@ -318,6 +339,97 @@
         "required_unused_reason_codes": []
       },
       "catalog_gap": "仅在3人份且普通电饭煲能显示剩余时间、短暂开盖后自动继续原程序时开放；其他份量与机型不推定等价。"
+    },
+    {
+      "id": "RM-22-chicken-corn-carrot-potato-coverage",
+      "spec_case": 22,
+      "request": { "servings": 2, "pantry": ["鸡腿", "玉米", "胡萝卜", "土豆"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-corn-carrot-chicken-leg-rice",
+        "allowed_variant_ids": ["home-corn-carrot-chicken-leg-rice"],
+        "forbidden_variant_ids": ["home-chicken-leg-potato-rice"],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 4,
+        "expected_used_raw": ["鸡腿", "玉米", "胡萝卜"],
+        "expected_unused_raw": ["土豆"],
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": ["not_selected_for_this_variant"]
+      }
+    },
+    {
+      "id": "RM-23-five-items-ceil-sixty-percent",
+      "spec_case": 23,
+      "request": { "servings": 2, "pantry": ["白菜", "豆腐", "鸡腿", "玉米", "胡萝卜"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-corn-carrot-chicken-leg-rice",
+        "allowed_variant_ids": ["home-corn-carrot-chicken-leg-rice"],
+        "forbidden_variant_ids": ["home-cabbage-tofu-rice"],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 5,
+        "expected_used_raw": ["鸡腿", "玉米", "胡萝卜"],
+        "expected_unused_raw": ["白菜", "豆腐"],
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": ["not_selected_for_this_variant"]
+      }
+    },
+    {
+      "id": "RM-24-tofu-ribs-no-forced-combination",
+      "spec_case": 24,
+      "request": { "servings": 2, "pantry": ["豆腐", "排骨"], "dislikes": [] },
+      "expect": {
+        "status": "no_reliable_rice_meal",
+        "allowed_variant_ids": [],
+        "forbidden_variant_ids": ["home-cabbage-tofu-rice", "home-green-bean-pork-rib-rice"],
+        "min_coverage_count": 0,
+        "nutrition_grades": [],
+        "required_unused_reason_codes": ["not_in_active_catalog"]
+      }
+    },
+    {
+      "id": "RM-25-tenderloin-and-brisket-one-generic-slot",
+      "spec_case": 25,
+      "request": { "servings": 2, "pantry": ["西兰花", "牛里脊", "牛腩"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-broccoli-beef-rice",
+        "allowed_variant_ids": ["home-broccoli-beef-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "expected_coverage_count": 2,
+        "expected_coverage_total": 3,
+        "expected_used_raw": ["牛里脊", "西兰花"],
+        "expected_unused_raw": ["牛腩"],
+        "expected_substitutions": [{
+          "target_canonical_id": "beef-generic",
+          "input_canonical_id": "beef-tenderloin",
+          "kind": "generic_slot"
+        }],
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": ["not_in_active_catalog"]
+      }
+    },
+    {
+      "id": "RM-26-explicit-rice-does-not-pad-coverage",
+      "spec_case": 26,
+      "request": { "servings": 2, "pantry": ["大米", "豆角", "排骨"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-green-bean-pork-rib-rice",
+        "allowed_variant_ids": ["home-green-bean-pork-rib-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "expected_coverage_count": 2,
+        "expected_coverage_total": 2,
+        "expected_used_raw": ["排骨", "豆角"],
+        "expected_unused_raw": [],
+        "expected_ignored_basic_raw": ["大米"],
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      }
     }
   ]
 }

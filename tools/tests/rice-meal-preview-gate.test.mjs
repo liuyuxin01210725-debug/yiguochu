@@ -38,7 +38,7 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
   assert.equal(report.summary.preview_ready_count, 8);
   assert.equal(report.summary.planned_count, 3);
   assert.deepEqual(report.summary.nutrition_grade_counts, { A: 7, B: 1, C: 0 });
-  assert.equal(report.summary.journey_count, 21);
+  assert.equal(report.summary.journey_count, 26);
   assert.deepEqual(report.summary.journey_variant_ids, [
     'home-broccoli-beef-rice',
     'home-cabbage-tofu-rice',

@@ -82,6 +82,32 @@ function validateJourney(journey, result) {
       errors.push(`unexpected nutrition grade ${candidate.nutrition_grade}`);
     }
   }
+  const first = result.candidates[0];
+  if (first && Number.isInteger(expected.expected_coverage_count)
+      && first.coverage_count !== expected.expected_coverage_count) {
+    errors.push(`coverage count want=${expected.expected_coverage_count} got=${first.coverage_count}`);
+  }
+  if (first && Number.isInteger(expected.expected_coverage_total)
+      && first.coverage_total !== expected.expected_coverage_total) {
+    errors.push(`coverage total want=${expected.expected_coverage_total} got=${first.coverage_total}`);
+  }
+  if (first && Array.isArray(expected.expected_used_raw)
+      && JSON.stringify(first.used_items.map(item => item.raw)) !== JSON.stringify(expected.expected_used_raw)) {
+    errors.push(`used items want=${JSON.stringify(expected.expected_used_raw)} got=${JSON.stringify(first.used_items.map(item => item.raw))}`);
+  }
+  if (first && Array.isArray(expected.expected_unused_raw)
+      && JSON.stringify(first.unused_items.map(item => item.raw)) !== JSON.stringify(expected.expected_unused_raw)) {
+    errors.push(`unused items want=${JSON.stringify(expected.expected_unused_raw)} got=${JSON.stringify(first.unused_items.map(item => item.raw))}`);
+  }
+  if (first && Array.isArray(expected.expected_substitutions)
+      && JSON.stringify(first.substitutions) !== JSON.stringify(expected.expected_substitutions)) {
+    errors.push(`substitutions want=${JSON.stringify(expected.expected_substitutions)} got=${JSON.stringify(first.substitutions)}`);
+  }
+  if (Array.isArray(expected.expected_ignored_basic_raw)
+      && JSON.stringify((result.normalized_request?.ignored_basic_items || []).map(item => item.raw))
+        !== JSON.stringify(expected.expected_ignored_basic_raw)) {
+    errors.push(`ignored basics want=${JSON.stringify(expected.expected_ignored_basic_raw)} got=${JSON.stringify((result.normalized_request?.ignored_basic_items || []).map(item => item.raw))}`);
+  }
   const actualReasons = reasonCodes(result);
   for (const reasonCode of expected.required_unused_reason_codes) {
     if (!actualReasons.has(reasonCode)) errors.push(`missing unused reason ${reasonCode}`);
@@ -124,7 +150,7 @@ function validateCompilerJourney(journey, result) {
 function summaryFor(result) {
   const first = result.candidates[0];
   if (first) {
-    return `variant=${first.variant_id} coverage=${first.coverage_count}/${first.submitted_count} grade=${first.nutrition_grade}`;
+    return `variant=${first.variant_id} coverage=${first.coverage_count}/${first.coverage_total} grade=${first.nutrition_grade}`;
   }
   if (result.current_candidate) return `current=${result.current_candidate.variant_id}`;
   const reasons = [...reasonCodes(result)].sort();

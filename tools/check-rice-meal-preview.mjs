@@ -21,7 +21,7 @@ const EXPECTED = Object.freeze({
   previewReadyCount: 8,
   plannedCount: 3,
   minimumGradeA: 7,
-  journeyCount: 21,
+  journeyCount: 26,
 });
 const EXCLUDED_LEGACY_CATEGORIES = Object.freeze([
   'legacy-selector',

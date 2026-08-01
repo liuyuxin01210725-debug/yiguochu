@@ -183,7 +183,7 @@ test('Shanghai salted pork vegetable rice is a real three-serving plan and never
 });
 
 test('every hand-authored rice-meal journey has its literal status, variant, coverage, grade, and reason contract', () => {
-  assert.equal(journeyCorpus.journeys.length, 21, 'the fixed journey gate covers every active variant, including the Shanghai source-locked batch');
+  assert.equal(journeyCorpus.journeys.length, 26, 'the fixed journey gate covers every active variant and the nine Task 5 household-coverage cases');
   for (const journey of journeyCorpus.journeys) {
     let result;
     if (journey.swap_from_variant_id) {
@@ -204,6 +204,26 @@ test('every hand-authored rice-meal journey has its literal status, variant, cov
     if (expected.status === 'ready') {
       assert.ok(result.candidates.length > 0, `${journey.id} must emit at least one candidate`);
       assert.equal(result.candidates[0].variant_id, expected.expected_first_variant, `${journey.id} first candidate`);
+      const first = result.candidates[0];
+      if (Number.isInteger(expected.expected_coverage_count)) {
+        assert.equal(first.coverage_count, expected.expected_coverage_count, `${journey.id} exact coverage count`);
+      }
+      if (Number.isInteger(expected.expected_coverage_total)) {
+        assert.equal(first.coverage_total, expected.expected_coverage_total, `${journey.id} exact coverage total`);
+      }
+      if (Array.isArray(expected.expected_used_raw)) {
+        assert.deepEqual(first.used_items.map(item => item.raw), expected.expected_used_raw, `${journey.id} used items`);
+      }
+      if (Array.isArray(expected.expected_unused_raw)) {
+        assert.deepEqual(first.unused_items.map(item => item.raw), expected.expected_unused_raw, `${journey.id} unused items`);
+      }
+      if (Array.isArray(expected.expected_substitutions)) {
+        assert.deepEqual(first.substitutions, expected.expected_substitutions, `${journey.id} substitutions`);
+      }
+      if (Array.isArray(expected.expected_ignored_basic_raw)) {
+        assert.deepEqual(result.normalized_request.ignored_basic_items.map(item => item.raw), expected.expected_ignored_basic_raw,
+          `${journey.id} ignored basic inputs`);
+      }
     }
     assert.ok(
       result.candidates.every(candidate => expected.allowed_variant_ids.includes(candidate.variant_id)),
@@ -258,6 +278,7 @@ test('rice input is a default basic item rather than a user-coverage item, and u
   const candidate = result.candidates[0];
   assert.equal(candidate.variant_id, 'home-chicken-leg-potato-rice');
   assert.equal(candidate.submitted_count, 3);
+  assert.equal(candidate.coverage_total, 3);
   assert.equal(candidate.coverage_count, 2);
   assert.equal(candidate.coverage_ratio, 2 / 3);
   assert.deepEqual(candidate.used_items.map(item => item.raw).sort(), ['土豆', '鸡腿']);
@@ -588,6 +609,35 @@ test('stable sorting uses grade and recent history only inside the best coverage
   assert.deepEqual(tiedHistory.candidates.map(candidate => candidate.variant_id), ['beta', 'alpha']);
 });
 
+test('recent history cannot make the two-item rib rice outrank the three-item mushroom rib rice', () => {
+  const request = { servings: 2, pantry: ['香菇', '豆角', '排骨'], dislikes: [] };
+  const first = select(request);
+  assert.deepEqual(first.candidates.map(candidate => candidate.variant_id), [
+    'home-mushroom-green-bean-pork-rib-rice',
+  ]);
+  const withRecentBest = select(request, { recentPlanIds:[first.candidates[0].plan_id] });
+  assert.deepEqual(withRecentBest.candidates.map(candidate => [candidate.variant_id, candidate.coverage_count]), [
+    ['home-mushroom-green-bean-pork-rib-rice', 3],
+  ]);
+});
+
+test('each tied card independently computes coverage from the original pantry instead of consuming a shared remainder', () => {
+  const request = { servings: 2, pantry: ['鸡腿', '土豆', '胡萝卜'], dislikes: [] };
+  const sourceCatalog = fixtureCatalog([
+    fixtureVariant({ variantId: 'chicken-potato', ingredientIds: ['chicken-leg', 'potato'], grade: 'B' }),
+    fixtureVariant({ variantId: 'chicken-carrot', ingredientIds: ['chicken-leg', 'carrot'], grade: 'B' }),
+  ]);
+  const result = select(request, { sourceCatalog });
+  assert.deepEqual(Object.fromEntries(result.candidates.map(candidate => [candidate.variant_id, {
+    coverage: [candidate.coverage_count, candidate.coverage_total],
+    used: candidate.used_items.map(item => item.raw),
+    unused: candidate.unused_items.map(item => item.raw),
+  }])), {
+    'chicken-potato': { coverage:[2, 3], used:['鸡腿', '土豆'], unused:['胡萝卜'] },
+    'chicken-carrot': { coverage:[2, 3], used:['鸡腿', '胡萝卜'], unused:['土豆'] },
+  });
+});
+
 test('the catalog identity enum ranks regional before household_reviewed before generic, before cooker adaptation burden', () => {
   const regional = fixtureVariant({
     variantId: 'regional-process',
@@ -672,6 +722,7 @@ test('swap never lowers pantry coverage and reports no alternative when only wea
 
   const swapped = select({ ...adjustedRequest, current_plan_id: initial.candidates[0].plan_id }, { sourceCatalog });
   assert.equal(swapped.status, 'no_alternative_rice_meal');
+  assert.equal(swapped.code, 'no_alternative_plan');
   assert.deepEqual(swapped.candidates, []);
   assert.equal(swapped.current_candidate.plan_id, initial.candidates[0].plan_id);
   assert.equal(swapped.current_candidate.coverage_count, 3);
@@ -846,11 +897,11 @@ test('the journey CLI enforces ready-candidate ordering and executes the compile
     encoding: 'utf8',
   });
   assert.equal(run.status, 0, run.stderr || run.stdout);
-  assert.match(run.stdout, /Rice meal journey gate: total=21 selector_passed=21 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
+  assert.match(run.stdout, /Rice meal journey gate: total=26 selector_passed=26 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
   assert.match(run.stdout, /needs_balance_input: 1/u);
-  assert.match(run.stdout, /no_reliable_rice_meal: 6/u);
+  assert.match(run.stdout, /no_reliable_rice_meal: 7/u);
   assert.match(run.stdout, /no_alternative_rice_meal: 1/u);
-  assert.match(run.stdout, /ready: 10/u);
+  assert.match(run.stdout, /ready: 14/u);
   assert.match(run.stdout, /unsafe_recipe: 3/u);
   assert.match(run.stdout, /RM-04-chicken-potato-b .*coverage=2\/2 grade=B/u);
   assert.match(run.stdout, /RM-15-selector-facts-for-compiler .*contract=passed/u);

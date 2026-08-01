@@ -789,6 +789,9 @@ function buildCandidate({
     used_items: assignments.map(entry => clone(entry.input)),
     unused_items: candidateUnusedItems(normalized, usedInputKeys, allMatchedInputKeys),
     coverage_count: assignments.length,
+    coverage_total: normalized.submitted_items.length,
+    // Kept as a response-compatibility alias while consumers migrate to the
+    // explicit coverage contract above. New UI and gates must use coverage_total.
     submitted_count: normalized.submitted_items.length,
     coverage_ratio: normalized.submitted_items.length ? assignments.length / normalized.submitted_items.length : 0,
     nutrition_grade: variant.nutrition_structure.grade,
@@ -1012,6 +1015,7 @@ export function selectRiceMealCandidates({
     )), history);
     if (!alternatives.length) {
       return resultBase(catalog, normalized, 'no_alternative_rice_meal', {
+        code: 'no_alternative_plan',
         current_candidate: current,
       });
     }

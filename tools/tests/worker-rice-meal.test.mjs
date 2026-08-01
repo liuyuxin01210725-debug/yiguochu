@@ -129,10 +129,31 @@ test('rice-meal build selects schema-v3 candidates without model or budget work'
   assert.deepEqual(result.body.candidates.map(candidate => candidate.variant_id), [
     'home-chicken-leg-potato-rice',
   ]);
+  assert.equal(result.body.candidates[0].coverage_total, 2);
   assert.match(result.body.candidates[0].plan_token, /^rm1\.[A-Za-z0-9_-]+\.[a-f0-9]{64}$/u);
   assert.equal(result.modelCalls, 0);
   assert.equal(result.kv.gets, 0);
   assert.equal(result.kv.puts, 0);
+});
+
+test('rice-meal HTTP swap returns no_alternative_plan without losing the current candidate', async () => {
+  const planned = await post('/plan-meal', ricePlanRequest());
+  const current = planned.body.candidates[0];
+  const started = performance.now();
+  const swapped = await post('/plan-meal', ricePlanRequest({
+    swap: {
+      current_plan_id: current.plan_id,
+      recent_plan_ids: [current.plan_id],
+    },
+  }));
+
+  assert.equal(swapped.status, 200);
+  assert.equal(swapped.body.status, 'no_alternative_rice_meal');
+  assert.equal(swapped.body.code, 'no_alternative_plan');
+  assert.equal(swapped.body.current_candidate.plan_id, current.plan_id);
+  assert.ok(performance.now() - started < 2000, 'no-alternative response must return within two seconds');
+  assert.equal(swapped.modelCalls, 0);
+  assert.equal(swapped.kv.gets, 0);
 });
 
 test('rice-meal build compiles only a signed token and preserves reviewed RM-15 facts without model work', async () => {

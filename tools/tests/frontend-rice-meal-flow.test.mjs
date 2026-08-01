@@ -40,7 +40,7 @@ function candidate(overrides = {}) {
       reason:'这套菜饭的受控搭配暂不使用胡萝卜。',
     }],
     coverage_count:2,
-    submitted_count:3,
+    coverage_total:3,
     coverage_ratio:2 / 3,
     nutrition_grade:'B',
     nutrition_roles:[
@@ -371,7 +371,7 @@ test('rice statuses use dedicated pages and always provide a return-to-edit path
 
 test('rice swap replans, no alternative keeps the current result, and compile failure keeps the selected plan', async () => {
   const noAlternative = {
-    schema_version:3, product_focus:'rice_meal', status:'no_alternative_rice_meal',
+    schema_version:3, product_focus:'rice_meal', status:'no_alternative_rice_meal', code:'no_alternative_plan',
     candidates:[], current_candidate:candidate(),
   };
   const { context, root, calls } = loadRiceFrontend([
@@ -385,6 +385,7 @@ test('rice swap replans, no alternative keeps the current result, and compile fa
   await evaluate(context, 'requestRiceMealSwap()');
 
   assert.equal(evaluate(context, 'state.view'), 'no-alternative');
+  assert.equal(evaluate(context, 'state.riceStatusResult.code'), 'no_alternative_plan');
   assert.match(root.innerHTML, /当前这道菜饭仍然保留/);
   assert.match(root.innerHTML, /鸡腿土豆焖饭/);
   const swapBody = JSON.parse(calls[2].init.body);
