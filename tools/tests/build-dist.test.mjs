@@ -469,6 +469,7 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
 
     const healthResponse = await riceWorker.fetch(new Request('https://built.example/health'), {
       ASSETS: unavailableAssets,
+      RICE_MEAL_PLAN_SECRET: 'build-rice-meal-secret',
     });
     const health = await healthResponse.json();
     assert.equal(health.productFocus, 'rice-meal-v1');
@@ -478,6 +479,8 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
     assert.equal(health.riceMealVariants, 11);
     assert.equal(health.riceMealPreviewReady, 8);
     assert.equal(health.riceMealPlanned, 3);
+    assert.equal(health.riceMealPlanSigner, 'ok');
+    assert.equal(health.riceMealRuntime, 'ok');
 
     const workerPath = path.join(outputDir, '_worker.js');
     const builtSource = fs.readFileSync(workerPath, 'utf8');

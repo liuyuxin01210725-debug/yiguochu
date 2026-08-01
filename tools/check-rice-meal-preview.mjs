@@ -314,6 +314,7 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
       summary.health_catalog_status = health.json?.riceMealCatalog || null;
       if (health.response.status !== 200 || health.json?.productFocus !== 'rice-meal-v1'
           || health.json?.riceMealCatalog !== 'ok' || health.json?.baseRecipes !== 72
+          || health.json?.riceMealPlanSigner !== 'ok' || health.json?.riceMealRuntime !== 'ok'
           || health.json?.riceMealFamilies !== 3 || health.json?.riceMealVariants !== 11
           || health.json?.riceMealPreviewReady !== EXPECTED.previewReadyCount
           || health.json?.riceMealPlanned !== EXPECTED.plannedCount) {

@@ -347,3 +347,37 @@ test('health exposes rice catalog facts only for valid rice metadata and include
     assert.equal(body.riceMealPlanned, 0);
   }
 });
+
+test('health distinguishes a valid rice catalog from missing plan-token signing readiness', async () => {
+  const withoutSecret = await worker.fetch(new Request('https://rice-meal.example/health'), {
+    ASSETS: assetBinding(),
+  });
+  const withoutSecretBody = await withoutSecret.json();
+
+  assert.equal(withoutSecret.status, 200);
+  assert.equal(withoutSecretBody.riceMealCatalog, 'ok');
+  assert.equal(withoutSecretBody.riceMealPlanSigner, 'unavailable');
+  assert.equal(withoutSecretBody.riceMealRuntime, 'unavailable');
+
+  const withSecret = await worker.fetch(new Request('https://rice-meal.example/health'), {
+    ASSETS: assetBinding(),
+    RICE_MEAL_PLAN_SECRET: 'worker-rice-meal-test-secret',
+  });
+  const withSecretBody = await withSecret.json();
+
+  assert.equal(withSecret.status, 200);
+  assert.equal(withSecretBody.riceMealCatalog, 'ok');
+  assert.equal(withSecretBody.riceMealPlanSigner, 'ok');
+  assert.equal(withSecretBody.riceMealRuntime, 'ok');
+});
+
+test('rice-meal planning reports a missing signer without pretending catalog assets are broken', async () => {
+  const result = await post('/plan-meal', ricePlanRequest(), {
+    env: { RICE_MEAL_PLAN_SECRET: '' },
+  });
+
+  assert.equal(result.status, 503);
+  assert.equal(result.body.code, 'rice_meal_signing_unavailable');
+  assert.equal(result.modelCalls, 0);
+  assert.equal(result.kv.gets, 0);
+});

@@ -1684,6 +1684,12 @@ function riceMealAssetError() {
   return error;
 }
 
+function riceMealSigningError() {
+  const error = new Error('rice_meal_signing_unavailable');
+  error.code = 'rice_meal_signing_unavailable';
+  return error;
+}
+
 function buildMetadataError() {
   const error = new Error('build_metadata_unavailable');
   error.code = 'build_metadata_unavailable';
@@ -3255,7 +3261,7 @@ function riceMealPlanSecret(env) {
   const secret = typeof env?.RICE_MEAL_PLAN_SECRET === 'string'
     ? env.RICE_MEAL_PLAN_SECRET.trim()
     : '';
-  if (!secret) throw riceMealAssetError();
+  if (!secret) throw riceMealSigningError();
   return secret;
 }
 
@@ -3300,12 +3306,16 @@ async function handleRiceMealPlan(request, env) {
     return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
   }
   let riceMealAssets;
-  let secret;
   try {
     riceMealAssets = await getRiceMealAssets(env, request);
-    secret = riceMealPlanSecret(env);
   } catch (_error) {
     return errorResponse('rice_meal_assets_unavailable', '菜饭规划规则暂时不可用', 503, env, {}, request);
+  }
+  let secret;
+  try {
+    secret = riceMealPlanSecret(env);
+  } catch (_error) {
+    return errorResponse('rice_meal_signing_unavailable', '菜饭计划签名服务暂时不可用', 503, env, {}, request);
   }
   try {
     const selection = selectRiceMealCandidates({
@@ -3349,12 +3359,16 @@ async function handleRiceMealGenerate(request, env) {
     return errorResponse('invalid_plan_token', '菜饭计划凭证无效', 400, env, {}, request);
   }
   let riceMealAssets;
-  let secret;
   try {
     riceMealAssets = await getRiceMealAssets(env, request);
-    secret = riceMealPlanSecret(env);
   } catch (_error) {
     return errorResponse('rice_meal_assets_unavailable', '菜饭规划规则暂时不可用', 503, env, {}, request);
+  }
+  let secret;
+  try {
+    secret = riceMealPlanSecret(env);
+  } catch (_error) {
+    return errorResponse('rice_meal_signing_unavailable', '菜饭计划签名服务暂时不可用', 503, env, {}, request);
   }
   try {
     const candidate = verifyAndRecomputeRiceMealPlan(envelope, riceMealAssets, secret);
@@ -3687,6 +3701,8 @@ export default {
       let riceMealVariants = 0;
       let riceMealPreviewReady = 0;
       let riceMealPlanned = 0;
+      let riceMealPlanSigner = 'unavailable';
+      let riceMealRuntime = 'unavailable';
       try {
         const assets = await getPlannerAssets(env, request);
         recipeFamilies = Array.isArray(assets.recipes.families) ? assets.recipes.families.length : 0;
@@ -3726,6 +3742,12 @@ export default {
       }
       if (buildMetadata?.productFocus === 'rice-meal-v1') {
         try {
+          riceMealPlanSecret(env);
+          riceMealPlanSigner = 'ok';
+        } catch (_error) {
+          riceMealPlanSigner = 'unavailable';
+        }
+        try {
           const riceAssets = await getRiceMealAssets(env, request);
           riceMealCatalog = 'ok';
           riceMealCatalogVersion = riceAssets.catalog.catalog_version;
@@ -3745,6 +3767,9 @@ export default {
             : 0;
         } catch (_error) {
           riceMealCatalog = 'unavailable';
+        }
+        if (riceMealCatalog === 'ok' && riceMealPlanSigner === 'ok') {
+          riceMealRuntime = 'ok';
         }
       }
       return jsonResponse({
@@ -3780,6 +3805,8 @@ export default {
         riceMealVariants,
         riceMealPreviewReady,
         riceMealPlanned,
+        riceMealPlanSigner,
+        riceMealRuntime,
       }, 200, env, request);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {
