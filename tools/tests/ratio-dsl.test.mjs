@@ -14,7 +14,8 @@ const rawCatalog = readJson('ratio-rules.v1.json');
 const templates = readJson('meal-templates.v2.json');
 const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const recipes = readJson('recipe-library.json');
-const validationContext = { templates, taxonomy, recipes };
+const riceMealCatalog = readJson('rice-meal-catalog.v1.json');
+const validationContext = { templates, taxonomy, recipes, riceMealCatalog };
 const item = (name, category, attributes = {}) => ({ name, category, attributes });
 const prepared = prepareRatioCatalog(rawCatalog, validationContext);
 assert.equal(prepared.ok, true);
@@ -949,7 +950,7 @@ test('recipe Ratio DSL scope is exclusive, recipe-bound and rejects unknown reci
 
   const mixed = catalogWithRecipeRule();
   mixed.rules.at(-1).when.template_id = 'savory-mixed-rice-pot';
-  assert.match(validateRatioDslCatalog(mixed, templates, taxonomy, recipes).join('\n'), /exactly one template or recipe scope/);
+  assert.match(validateRatioDslCatalog(mixed, templates, taxonomy, recipes).join('\n'), /exactly one template, recipe, or variant scope/);
 
   const unknown = catalogWithRecipeRule();
   unknown.rules.at(-1).when.recipe_id = 'unknown-recipe';
@@ -958,6 +959,30 @@ test('recipe Ratio DSL scope is exclusive, recipe-bound and rejects unknown reci
   const wrongBinding = catalogWithRecipeRule();
   wrongBinding.rules.at(-1).evidence_recipe_ids = ['xinjiang-lamb-pilaf'];
   assert.match(validateRatioDslCatalog(wrongBinding, templates, taxonomy, recipes).join('\n'), /must be evidence for recipe/);
+});
+
+test('runtime rice-meal Ratio DSL may bind to exactly one variant_id without borrowing recipe identity', () => {
+  const variantScoped = catalogWithRecipeRule(executableShanghaiRule());
+  const rule = variantScoped.rules.at(-1);
+  rule.when = { variant_id: 'shanghai-salted-pork-rice' };
+  assert.deepEqual(
+    validateRatioDslCatalog(variantScoped, templates, taxonomy, recipes, riceMealCatalog),
+    [],
+  );
+
+  const mixed = structuredClone(variantScoped);
+  mixed.rules.at(-1).when.recipe_id = 'shanghai-salted-pork-vegetable-rice';
+  assert.match(
+    validateRatioDslCatalog(mixed, templates, taxonomy, recipes, riceMealCatalog).join('\n'),
+    /exactly one template, recipe, or variant scope/u,
+  );
+
+  const unknown = structuredClone(variantScoped);
+  unknown.rules.at(-1).when.variant_id = 'unknown-runtime-variant';
+  assert.match(
+    validateRatioDslCatalog(unknown, templates, taxonomy, recipes, riceMealCatalog).join('\n'),
+    /unknown rice-meal variant/u,
+  );
 });
 
 test('recipe Ratio DSL requires exact machine identity, state and one quantity operation per quantified ingredient', () => {

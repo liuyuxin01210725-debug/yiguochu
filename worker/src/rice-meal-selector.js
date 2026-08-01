@@ -659,6 +659,41 @@ function assertControlledRatioCatalog(ratioCatalog) {
   }
 }
 
+function sourceEvidenceFacts(sourceEvidence) {
+  if (!isPlainObject(sourceEvidence) || typeof sourceEvidence.ledger_version !== 'string'
+      || !sourceEvidence.ledger_version.trim() || !Array.isArray(sourceEvidence.entries)
+      || sourceEvidence.entries.length === 0) {
+    throw new TypeError('sourceEvidence must provide ledger_version and entries');
+  }
+  return {
+    source_evidence_ledger_version: sourceEvidence.ledger_version,
+    source_evidence_hash: `sha256:${sha256Hex(canonicalJson(sourceEvidence))}`,
+  };
+}
+
+function sourceRefsForVariant(variant, sourceEvidence) {
+  const byId = new Map((sourceEvidence.entries || []).map(entry => [entry?.source_id, entry]));
+  return (variant.evidence_refs || []).filter(ref => ref?.kind === 'source').map(ref => {
+    const entry = byId.get(ref.id);
+    return entry ? {
+      source_id: entry.source_id,
+      title: entry.source_title,
+      url: entry.source_url,
+    } : null;
+  }).filter(Boolean);
+}
+
+function ratioRuleTargetsVariant(rule, variant) {
+  if (!isPlainObject(rule?.when)) return false;
+  if (typeof rule.when.variant_id === 'string') {
+    return rule.when.variant_id === variant.variant_id
+      && !Object.hasOwn(rule.when, 'recipe_id');
+  }
+  return typeof variant.recipe_id === 'string' && variant.recipe_id
+    && rule.when.recipe_id === variant.recipe_id
+    && !Object.hasOwn(rule.when, 'variant_id');
+}
+
 function ratioFactsForVariant(variant, ratioCatalog) {
   const ratioRuleIds = Array.isArray(variant?.ratio_rule_ids)
     ? [...new Set(variant.ratio_rule_ids.filter(ruleId => typeof ruleId === 'string' && ruleId.trim()))]
@@ -669,7 +704,7 @@ function ratioFactsForVariant(variant, ratioCatalog) {
   for (const ruleId of ratioRuleIds.sort((left, right) => left.localeCompare(right, 'en'))) {
     const rule = rulesById.get(ruleId);
     if (!isPlainObject(rule) || rule.execution_mode !== 'executable'
-        || rule.when?.recipe_id !== variant.recipe_id
+        || !ratioRuleTargetsVariant(rule, variant)
         || !Array.isArray(rule.operations) || !rule.operations.length
         || !isPlainObject(rule.rounding)) {
       return null;
@@ -695,7 +730,7 @@ function ratioFactsForVariant(variant, ratioCatalog) {
   };
 }
 
-function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, planSnapshot }) {
+function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, evidenceFacts, planSnapshot }) {
   const adaptation = variant.cooker_adaptation || {};
   const compareSubstitutions = (left, right) => (
     left.target_id.localeCompare(right.target_id, 'zh-Hans-CN')
@@ -716,6 +751,8 @@ function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, p
     ratio_rule_ids: [...(variant.ratio_rule_ids || [])].sort(),
     ratio_catalog_version: ratioFacts.ratio_catalog_version,
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
+    source_evidence_ledger_version: evidenceFacts.source_evidence_ledger_version,
+    source_evidence_hash: evidenceFacts.source_evidence_hash,
     action_protocol: ['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].map(phase => ({
       phase,
       actions: [...(adaptation[phase] || [])].sort((left, right) => left.order - right.order).map(action => ({
@@ -762,6 +799,8 @@ function buildCandidate({
   normalized,
   assignments,
   ratioFacts,
+  evidenceFacts,
+  sourceEvidence,
   allMatchedInputKeys,
   itemsById,
 }) {
@@ -772,18 +811,21 @@ function buildCandidate({
     clone([...(adaptation[phase] || [])].sort((left, right) => left.order - right.order)),
   ]));
   const planSnapshot = requestSnapshot(catalog, normalized);
-  const identity = planIdentity({ catalog, variant, normalized, assignments, ratioFacts, planSnapshot });
+  const identity = planIdentity({ catalog, variant, normalized, assignments, ratioFacts, evidenceFacts, planSnapshot });
   const protein = (variant.nutrition_structure?.material_contributors || []).find(row => row.role === 'protein');
   return {
     plan_id: `sha256:${sha256Hex(canonicalJson(identity))}`,
     catalog_version: catalog.catalog_version,
     ratio_catalog_version: ratioFacts.ratio_catalog_version,
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
+    source_evidence_ledger_version: evidenceFacts.source_evidence_ledger_version,
+    source_evidence_hash: evidenceFacts.source_evidence_hash,
     servings: normalized.servings,
     plan_snapshot: planSnapshot,
     family_id: familyId,
     variant_id: variant.variant_id,
     recipe_id: variant.recipe_id,
+    source_refs: sourceRefsForVariant(variant, sourceEvidence),
     display_name: variant.display_name,
     name_label: variant.name_label,
     used_items: assignments.map(entry => clone(entry.input)),
@@ -863,10 +905,12 @@ export function selectRiceMealCandidates({
   catalog = {},
   taxonomy = {},
   ratioCatalog,
+  sourceEvidence,
   normalizedRequest = null,
   recentPlanIds = [],
 } = {}) {
   assertControlledRatioCatalog(ratioCatalog);
+  const evidenceFacts = sourceEvidenceFacts(sourceEvidence);
   const normalized = normalizedRequest == null
     ? normalizeRiceMealRequest(request, taxonomy)
     : normalizeRiceMealRequestSnapshot(normalizedRequest, taxonomy);
@@ -957,6 +1001,8 @@ export function selectRiceMealCandidates({
         normalized,
         assignments: partialMatch.assignments,
         ratioFacts: partialMatch.ratioFacts,
+        evidenceFacts,
+        sourceEvidence,
         allMatchedInputKeys,
         itemsById,
       })).sort((left, right) => candidateRank(left, right, history))[0];
@@ -998,6 +1044,8 @@ export function selectRiceMealCandidates({
     normalized,
     assignments: match.assignments,
     ratioFacts: match.ratioFacts,
+    evidenceFacts,
+    sourceEvidence,
     allMatchedInputKeys,
     itemsById,
   }));

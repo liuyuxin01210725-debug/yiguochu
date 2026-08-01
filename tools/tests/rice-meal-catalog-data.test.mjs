@@ -19,6 +19,7 @@ const ratios = readJson('ratio-rules.v1.json');
 const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const templates = readJson('meal-templates.v2.json');
 const collection = readJson('rice-meal-collection.v1.json');
+const sourceEvidence = readJson('rice-cooker-source-evidence.v1.json');
 const scope = JSON.parse(fs.readFileSync(path.join(here, 'fixtures/rice-meal-preview-scope.json'), 'utf8'));
 
 const recipeById = new Map(recipes.recipes.map(recipe => [recipe.id, recipe]));
@@ -86,10 +87,16 @@ const expected = new Map([
   }],
 ]);
 
-function variantFor(recipeId) {
-  const rows = variants.filter(variant => variant.recipe_id === recipeId);
-  assert.equal(rows.length, 1, `${recipeId} must have exactly one first-stage catalog variant`);
-  return rows[0];
+function variantForRecipeEvidence(recipeId) {
+  const expectedVariantId = expected.get(recipeId)?.variant_id;
+  assert.ok(expectedVariantId, `${recipeId} must have an expected migrated variant`);
+  const row = variants.find(variant => variant.variant_id === expectedVariantId);
+  assert.ok(row, `${expectedVariantId} must be the stable runtime variant identity`);
+  assert.ok(
+    row.evidence_refs.some(ref => ref.kind === 'recipe' && ref.id === recipeId),
+    `${expectedVariantId} must retain ${recipeId} only as recipe evidence`,
+  );
+  return row;
 }
 
 function materialIds(variant) {
@@ -109,9 +116,10 @@ function sourceNamesFor(item) {
   return [item.display_name, ...(item.aliases || [])].map(normalize);
 }
 
-test('first-stage scope maps each permitted recipe exactly once to a fixed natural household name', () => {
+test('first-stage scope uses unique variant identities and keeps recipes as optional evidence', () => {
   assert.deepEqual(validateRiceMealCatalog(catalog, {
     recipeLibrary: recipes,
+    sourceEvidence,
     taxonomy,
     ratioCatalog: ratios,
     collection,
@@ -120,14 +128,26 @@ test('first-stage scope maps each permitted recipe exactly once to a fixed natur
     ...scope.included_recipe_ids,
     ...scope.controlled_process_adaptation_recipe_ids,
   ];
+  assert.equal(new Set(variants.map(variant => variant.variant_id)).size, variants.length);
   assert.deepEqual(
-    new Set(variants.map(variant => variant.recipe_id)),
+    new Set(variants.flatMap(variant => variant.evidence_refs
+      .filter(ref => ref.kind === 'recipe')
+      .map(ref => ref.id))),
     new Set(catalogEvidenceIds),
-    'the catalog must cover only the fixed allowlist plus the three controlled process adaptations',
+    'recipe evidence must cover the fixed allowlist plus controlled process adaptations without becoming the runtime key',
   );
+  for (const variant of variants) {
+    assert.ok(variant.evidence_refs.length > 0, `${variant.variant_id} requires evidence`);
+    if (variant.recipe_id !== null && variant.recipe_id !== undefined) {
+      assert.ok(
+        variant.evidence_refs.some(ref => ref.kind === 'recipe' && ref.id === variant.recipe_id),
+        `${variant.variant_id} legacy recipe_id must also appear as same-ID recipe evidence`,
+      );
+    }
+  }
 
   for (const [recipeId, want] of expected) {
-    const variant = variantFor(recipeId);
+    const variant = variantForRecipeEvidence(recipeId);
     assert.equal(variant.variant_id, want.variant_id);
     assert.equal(variant.display_name, want.display_name);
     assert.equal(variant.status, want.status);
@@ -148,8 +168,35 @@ test('first-stage scope maps each permitted recipe exactly once to a fixed natur
   }
 });
 
+test('a source-only runtime variant remains valid with recipe_id null and a variant-scoped ratio', () => {
+  const sourceOnlyCatalog = structuredClone(catalog);
+  const sourceOnlyRatios = structuredClone(ratios);
+  const variant = sourceOnlyCatalog.families
+    .flatMap(family => family.variants)
+    .find(row => row.variant_id === 'home-chicken-leg-potato-rice');
+  variant.recipe_id = null;
+  variant.evidence_refs = [{
+    kind: 'source',
+    id: 'panasonic-mixed-chicken-rice-sr-df151',
+    supports: ['identity'],
+  }];
+  for (const ratioRuleId of variant.ratio_rule_ids) {
+    sourceOnlyRatios.rules.find(rule => rule.rule_id === ratioRuleId).when = {
+      variant_id: variant.variant_id,
+    };
+  }
+
+  assert.deepEqual(validateRiceMealCatalog(sourceOnlyCatalog, {
+    recipeLibrary: recipes,
+    sourceEvidence,
+    taxonomy,
+    ratioCatalog: sourceOnlyRatios,
+    collection,
+  }), []);
+});
+
 test('chicken-leg potato rice is B because potato cannot stand in for the fiber role', () => {
-  const variant = variantFor('chicken-leg-potato-braised-rice');
+  const variant = variantForRecipeEvidence('chicken-leg-potato-braised-rice');
 
   assert.equal(variant.nutrition_structure.grade, 'B');
   assert.deepEqual(variant.nutrition_structure.material_contributors, [
@@ -173,6 +220,7 @@ test('catalog rejects a source label drift in chicken-leg potato rice while its 
 
   assert.ok(validateRiceMealCatalog(catalog, {
     recipeLibrary: recipes,
+    sourceEvidence,
     taxonomy,
     ratioCatalog: ratios,
     collection: driftedCollection,
@@ -181,7 +229,7 @@ test('catalog rejects a source label drift in chicken-leg potato rice while its 
 
 test('every first-stage variant has traceable sources, A-or-B material nutrition, honest quantity references, and a closed-lid protocol', () => {
   for (const recipeId of scope.included_recipe_ids) {
-    const variant = variantFor(recipeId);
+    const variant = variantForRecipeEvidence(recipeId);
     const recipe = recipeById.get(recipeId);
     assert.ok(recipe, `${recipeId} must still be a library recipe`);
     const materials = materialIds(variant);
@@ -246,42 +294,48 @@ test('every first-stage variant has traceable sources, A-or-B material nutrition
 
 test('preview-ready entries promote only unique executable defaults and never infer a midpoint from recipe prose', () => {
   const previewReady = variants.filter(variant => variant.status === 'preview_ready');
-  assert.deepEqual(previewReady.map(variant => variant.recipe_id).sort(), [
-    'broccoli-beef-braised-rice',
-    'cabbage-tofu-braised-rice',
-    'chicken-leg-potato-braised-rice',
-    'corn-carrot-chicken-leg-covered-rice',
-    'green-bean-pork-rib-braised-rice',
-    'greens-minced-pork-braised-rice',
-    'mushroom-green-bean-pork-rib-braised-rice',
-    'shanghai-salted-pork-vegetable-rice',
+  assert.deepEqual(previewReady.map(variant => variant.variant_id).sort(), [
+    'home-broccoli-beef-rice',
+    'home-cabbage-tofu-rice',
+    'home-chicken-leg-potato-rice',
+    'home-corn-carrot-chicken-leg-rice',
+    'home-green-bean-pork-rib-rice',
+    'home-greens-minced-pork-rice',
+    'home-mushroom-green-bean-pork-rib-rice',
+    'shanghai-salted-pork-rice',
   ]);
 
   for (const variant of previewReady) {
-    const recipe = recipeById.get(variant.recipe_id);
+    const recipeEvidence = variant.evidence_refs.find(ref => ref.kind === 'recipe');
+    const recipe = recipeById.get(recipeEvidence?.id);
+    assert.ok(recipe, `${variant.variant_id} requires usable recipe evidence for this migrated batch`);
     const sourceNames = new Set(recipe.core_ingredients.map(normalize));
     for (const canonicalId of materialIds(variant)) {
-      assert.ok(sourceNamesFor(taxonomyById.get(canonicalId)).some(name => sourceNames.has(name)), `${variant.recipe_id} may not depend on a user-unprovided major ingredient`);
+      assert.ok(sourceNamesFor(taxonomyById.get(canonicalId)).some(name => sourceNames.has(name)), `${variant.variant_id} may not depend on a user-unprovided major ingredient`);
     }
     for (const ruleId of variant.ratio_rule_ids) {
       const rule = ratioById.get(ruleId);
-      assert.equal(rule.execution_mode, 'executable', `${variant.recipe_id} must only promote executable rules`);
-      assert.equal(rule.when.recipe_id, variant.recipe_id);
+      assert.equal(rule.execution_mode, 'executable', `${variant.variant_id} must only promote executable rules`);
+      assert.equal(
+        rule.when.variant_id === variant.variant_id || rule.when.recipe_id === variant.recipe_id,
+        true,
+        `${variant.variant_id} ratio rule must bind the runtime variant or its temporary legacy recipe evidence`,
+      );
       const liquid = rule.operations.filter(operation => operation.operator === 'ratio');
-      assert.equal(liquid.length, 1, `${variant.recipe_id} needs one liquid default`);
-      assert.equal(liquid[0].min, liquid[0].default, `${variant.recipe_id} liquid lower bound must equal its only default`);
-      assert.equal(liquid[0].default, liquid[0].max, `${variant.recipe_id} liquid upper bound must equal its only default`);
+      assert.equal(liquid.length, 1, `${variant.variant_id} needs one liquid default`);
+      assert.equal(liquid[0].min, liquid[0].default, `${variant.variant_id} liquid lower bound must equal its only default`);
+      assert.equal(liquid[0].default, liquid[0].max, `${variant.variant_id} liquid upper bound must equal its only default`);
     }
     for (const ingredient of [variant.rice, ...variant.ingredients]) {
-      assert.notEqual(ingredient.amount_rule_id, null, `${variant.recipe_id} preview material must have an executable amount rule`);
-      assert.ok(variant.ratio_rule_ids.includes(ingredient.amount_rule_id), `${variant.recipe_id} preview amount rule must be declared`);
+      assert.notEqual(ingredient.amount_rule_id, null, `${variant.variant_id} preview material must have an executable amount rule`);
+      assert.ok(variant.ratio_rule_ids.includes(ingredient.amount_rule_id), `${variant.variant_id} preview amount rule must be declared`);
     }
-    assert.deepEqual(variant.approved_substitutions, [], `${variant.recipe_id} preview substitutions need an executable contract and are therefore absent`);
+    assert.deepEqual(variant.approved_substitutions, [], `${variant.variant_id} preview substitutions need an executable contract and are therefore absent`);
     const startActions = variant.cooker_adaptation.start_actions;
     const loads = startActions.filter(action => action.action_code === 'load_inner_pot');
     const starts = startActions.filter(action => action.action_code === 'start_closed_lid_program');
-    assert.equal(loads.length, 1, `${variant.recipe_id} preview flow must load exactly once`);
-    assert.equal(starts.length, 1, `${variant.recipe_id} preview flow must start exactly once`);
+    assert.equal(loads.length, 1, `${variant.variant_id} preview flow must load exactly once`);
+    assert.equal(starts.length, 1, `${variant.variant_id} preview flow must start exactly once`);
     const preCook = variant.cooker_adaptation.pre_actions
       .find(action => [
         'pre_cook_tender_vegetables_outside_cooker',
@@ -294,12 +348,12 @@ test('preview-ready entries promote only unique executable defaults and never in
     assert.deepEqual(
       new Set(loads[0].ingredient_ids),
       new Set(materialIds(variant).filter(id => !heldAside.has(id))),
-      `${variant.recipe_id} preview load must include every start-load material and exclude finish-only vegetables`,
+      `${variant.variant_id} preview load must include every start-load material and exclude finish-only vegetables`,
     );
     if (finishHeld.size) {
       const fold = variant.cooker_adaptation.finish_actions
         .find(action => action.action_code === 'fold_in_pre_cooked_ingredients');
-      assert.ok(fold, `${variant.recipe_id} controlled adaptation needs a finish fold`);
+      assert.ok(fold, `${variant.variant_id} controlled adaptation needs a finish fold`);
       assert.deepEqual(new Set(fold.ingredient_ids), finishHeld);
     }
     if (midHeld.size) {
@@ -309,9 +363,9 @@ test('preview-ready entries promote only unique executable defaults and never in
     }
     const endpointIds = new Set(variant.safety_endpoints.map(endpoint => endpoint.canonical_ingredient_id));
     const verification = variant.cooker_adaptation.finish_actions.find(action => action.action_code === 'verify_safety_endpoints');
-    assert.ok(verification, `${variant.recipe_id} preview flow must verify safety endpoints`);
+    assert.ok(verification, `${variant.variant_id} preview flow must verify safety endpoints`);
     for (const endpointId of endpointIds) {
-      assert.ok(verification.ingredient_ids.includes(endpointId), `${variant.recipe_id} preview verification must cover ${endpointId}`);
+      assert.ok(verification.ingredient_ids.includes(endpointId), `${variant.variant_id} preview verification must cover ${endpointId}`);
     }
   }
 
@@ -320,7 +374,7 @@ test('preview-ready entries promote only unique executable defaults and never in
     'xinjiang-lamb-pilaf',
     'shaanbei-red-date-cowpea-rice',
   ]) {
-    const variant = variantFor(recipeId);
+    const variant = variantForRecipeEvidence(recipeId);
     assert.equal(variant.status, 'planned', `${recipeId} has no source-backed unique executable default`);
     for (const ruleId of variant.ratio_rule_ids) {
       assert.equal(ratioById.get(ruleId).execution_mode, 'bounds_only', `${recipeId} must not turn a prose range into a midpoint default`);
@@ -329,7 +383,7 @@ test('preview-ready entries promote only unique executable defaults and never in
 });
 
 test('meat-and-greens rice keeps the manufacturer evidence separate from the project household standard', () => {
-  const variant = variantFor('greens-minced-pork-braised-rice');
+  const variant = variantForRecipeEvidence('greens-minced-pork-braised-rice');
   const rule = ratioById.get('greens-minced-pork-braised-rice-executable-v1');
 
   assert.equal(variant.display_name, '肉糜青菜饭');
@@ -345,7 +399,12 @@ test('meat-and-greens rice keeps the manufacturer evidence separate from the pro
 });
 
 test('closed-lid recipe rules compile the migrated fixed quantities through one integer normalization boundary', () => {
-  const prepared = prepareRatioCatalog(ratios, { templates, taxonomy, recipes });
+  const prepared = prepareRatioCatalog(ratios, {
+    templates,
+    taxonomy,
+    recipes,
+    riceMealCatalog: catalog,
+  });
   assert.equal(prepared.ok, true, prepared.errors.join('\n'));
   const cases = [
     {
@@ -474,7 +533,7 @@ test('controlled finish-only variants expose the drained project test standard w
     ['broccoli-beef-braised-rice', 'broccoli'],
   ];
   for (const [recipeId, heldId] of cases) {
-    const variant = variantFor(recipeId);
+    const variant = variantForRecipeEvidence(recipeId);
     assert.equal(variant.status, 'preview_ready');
     assert.deepEqual(variant.supported_servings, [1, 2, 3, 4]);
     assert.match(variant.review_note, /一锅出项目 Preview 家庭测试标准/u);
@@ -488,7 +547,7 @@ test('controlled finish-only variants expose the drained project test standard w
     assert.deepEqual(fold?.ingredient_ids, [heldId]);
     assert.ok(variant.safety_endpoints.some(endpoint => endpoint.canonical_ingredient_id === heldId));
   }
-  assert.equal(variantFor('greens-minced-pork-braised-rice').status, 'preview_ready');
+  assert.equal(variantForRecipeEvidence('greens-minced-pork-braised-rice').status, 'preview_ready');
 });
 
 test('four project test standards bind added water, salt, draining actions, safety and project canonical source', () => {
@@ -519,7 +578,7 @@ test('four project test standards bind added water, salt, draining actions, safe
     },
   ];
   for (const testCase of cases) {
-    const variant = variantFor(testCase.recipeId);
+    const variant = variantForRecipeEvidence(testCase.recipeId);
     const rule = ratioById.get(variant.ratio_rule_ids[0]);
     assert.deepEqual(variant.supported_servings, [1, 2, 3, 4]);
     assert.equal(rule.liquid_contract.kind, 'added_water');
@@ -597,7 +656,7 @@ test('the first-stage action catalog preserves explicit poultry rib and lamb pre
   ]);
   for (const [recipeId, actionCode] of requiredPreAction) {
     assert.ok(
-      variantFor(recipeId).cooker_adaptation.pre_actions.some(action => action.action_code === actionCode),
+      variantForRecipeEvidence(recipeId).cooker_adaptation.pre_actions.some(action => action.action_code === actionCode),
       `${recipeId} must retain its explicit preprocessing action`,
     );
   }

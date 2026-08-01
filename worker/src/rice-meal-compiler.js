@@ -283,17 +283,21 @@ function canonicalCandidateFacts(candidate) {
     candidate.catalog_version,
     candidate.family_id,
     candidate.variant_id,
-    candidate.recipe_id,
     candidate.ratio_catalog_version,
     candidate.ratio_facts_hash,
+    candidate.source_evidence_ledger_version,
+    candidate.source_evidence_hash,
   ].map(nonEmptyString);
+  const recipeId = candidate.recipe_id == null ? null : nonEmptyString(candidate.recipe_id);
   const selectedIngredientIds = sortedUniqueStrings(candidate.selected_ingredient_ids);
   const selectedInputIds = sortedUniqueStrings(candidate.selected_input_ids);
   const ratioRuleIds = sortedUniqueStrings(candidate.ratio_rule_ids);
   const actions = canonicalActionProtocol(candidate.execution_actions);
   const servings = integerServings(candidate.servings);
-  if (fields.some(value => value == null) || servings == null || requestSnapshot == null
-      || !/^sha256:[a-f0-9]{64}$/u.test(fields[6]) || substitutions == null || safetyEndpoints == null
+  if (fields.some(value => value == null) || (candidate.recipe_id != null && recipeId == null)
+      || servings == null || requestSnapshot == null
+      || !/^sha256:[a-f0-9]{64}$/u.test(fields[5])
+      || !/^sha256:[a-f0-9]{64}$/u.test(fields[7]) || substitutions == null || safetyEndpoints == null
       || selectedIngredientIds == null || selectedInputIds == null || ratioRuleIds == null || actions == null) {
     return null;
   }
@@ -302,11 +306,13 @@ function canonicalCandidateFacts(candidate) {
     plan_id: fields[0],
     family_id: fields[2],
     variant_id: fields[3],
-    recipe_id: fields[4],
+    recipe_id: recipeId,
     servings,
     request: requestSnapshot,
-    ratio_catalog_version: fields[5],
-    ratio_facts_hash: fields[6],
+    ratio_catalog_version: fields[4],
+    ratio_facts_hash: fields[5],
+    source_evidence_ledger_version: fields[6],
+    source_evidence_hash: fields[7],
     selected_ingredient_ids: selectedIngredientIds,
     selected_input_ids: selectedInputIds,
     substitutions,
@@ -431,16 +437,28 @@ function parsePlanToken(token, secret) {
 function assertAssets(assets) {
   if (!isPlainObject(assets) || !isPlainObject(assets.catalog)
       || !isPlainObject(assets.taxonomy) || !isPlainObject(assets.ratios)
-      || !isPlainObject(assets.recipes)) {
+      || !isPlainObject(assets.recipes) || !isPlainObject(assets.sourceEvidence)) {
     throw stalePlan();
   }
 }
 
+function sourceEvidenceIdentity(sourceEvidence) {
+  if (!nonEmptyString(sourceEvidence?.ledger_version) || !Array.isArray(sourceEvidence?.entries)
+      || sourceEvidence.entries.length === 0) throw stalePlan();
+  return {
+    version: sourceEvidence.ledger_version.trim(),
+    hash: `sha256:${sha256Hex(canonicalJson(sourceEvidence))}`,
+  };
+}
+
 function recomputeCandidate(facts, assets) {
   assertAssets(assets);
+  const evidenceIdentity = sourceEvidenceIdentity(assets.sourceEvidence);
   if (facts.catalog_version !== assets.catalog.catalog_version
       || facts.request.catalog_version !== assets.catalog.catalog_version
       || facts.ratio_catalog_version !== assets.ratios.ratio_catalog_version
+      || facts.source_evidence_ledger_version !== evidenceIdentity.version
+      || facts.source_evidence_hash !== evidenceIdentity.hash
       || facts.servings !== facts.request.servings) throw stalePlan();
   let result;
   try {
@@ -450,6 +468,7 @@ function recomputeCandidate(facts, assets) {
       catalog: assets.catalog,
       taxonomy: assets.taxonomy,
       ratioCatalog: assets.ratios,
+      sourceEvidence: assets.sourceEvidence,
       recentPlanIds: [],
     });
   } catch {
@@ -481,7 +500,12 @@ function taxonomyById(taxonomy) {
 
 function exactRecipeRule(rule, variant) {
   return rule && rule.execution_mode === 'executable'
-    && rule.when?.recipe_id === variant.recipe_id
+    && ((typeof rule.when?.variant_id === 'string'
+      && rule.when.variant_id === variant.variant_id
+      && !Object.hasOwn(rule.when, 'recipe_id'))
+      || (typeof variant.recipe_id === 'string' && variant.recipe_id
+        && rule.when?.recipe_id === variant.recipe_id
+        && !Object.hasOwn(rule.when, 'variant_id')))
     && Array.isArray(rule.operations)
     && rule.operations.length > 0;
 }
@@ -718,7 +742,7 @@ function refsForIds(ids, refsByCanonical) {
 
 function lockedPlanForCandidate(candidate, assets) {
   const entry = variantsById(assets.catalog).get(candidate.variant_id);
-  if (!entry || entry.family_id !== candidate.family_id || entry.variant.recipe_id !== candidate.recipe_id
+  if (!entry || entry.family_id !== candidate.family_id || (entry.variant.recipe_id ?? null) !== candidate.recipe_id
       || entry.variant.status !== 'preview_ready' || !HOUSEHOLD_COPY[candidate.variant_id]) {
     throw stalePlan();
   }
@@ -749,7 +773,7 @@ function lockedPlanForCandidate(candidate, assets) {
   const adaptation = variant.cooker_adaptation;
   const midActions = Array.isArray(adaptation?.mid_actions) ? adaptation.mid_actions : [];
   const controlledMidCycle = adaptation?.requires_mid_cook_opening === true
-    && variant.recipe_id === 'shanghai-salted-pork-vegetable-rice'
+    && variant.variant_id === 'shanghai-salted-pork-rice'
     && JSON.stringify(variant.supported_servings) === JSON.stringify([3])
     && midActions.length === 1
     && midActions[0]?.action_code === 'add_reserved_leafy_vegetable'

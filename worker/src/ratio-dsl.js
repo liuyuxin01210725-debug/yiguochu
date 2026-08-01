@@ -259,7 +259,7 @@ const validateRecipeIngredientTarget = (target, label, taxonomyById, allowedCano
   return recipeIdentityKey(target);
 };
 
-export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
+export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes, riceMealCatalog = null) {
   try {
     const errors = [];
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
@@ -273,6 +273,10 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     const taxonomyById = new Map((taxonomy?.items || [])
       .filter(item => text(item?.canonical_id)).map(item => [item.canonical_id, item]));
     const taxonomyIds = new Set(taxonomyById.keys());
+    const riceMealVariantById = new Map((riceMealCatalog?.families || [])
+      .flatMap(family => family?.variants || [])
+      .filter(variant => text(variant?.variant_id))
+      .map(variant => [variant.variant_id, variant]));
     const ids = new Set();
     for (const [index, rule] of catalog.rules.entries()) {
       const label = `rules[${index}]`;
@@ -282,17 +286,31 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
       if (ids.has(rule.rule_id)) errors.push(`duplicate rule_id: ${rule.rule_id}`); ids.add(rule.rule_id);
       const hasTemplateScope = text(rule.when?.template_id);
       const hasRecipeScope = text(rule.when?.recipe_id);
-      if ((hasTemplateScope ? 1 : 0) + (hasRecipeScope ? 1 : 0) !== 1) {
-        errors.push(`${label}.when must use exactly one template or recipe scope`);
+      const hasVariantScope = text(rule.when?.variant_id);
+      if ((hasTemplateScope ? 1 : 0) + (hasRecipeScope ? 1 : 0) + (hasVariantScope ? 1 : 0) !== 1) {
+        errors.push(`${label}.when must use exactly one template, recipe, or variant scope`);
       }
-      if (hasRecipeScope) {
-        exactObject(rule.when, new Set(['recipe_id']), `${label}.when`, errors);
-        const recipe = recipeById.get(rule.when.recipe_id);
-        if (!recipe) errors.push(`${label}.when has unknown recipe`);
+      if (hasRecipeScope || hasVariantScope) {
+        exactObject(rule.when, new Set([hasVariantScope ? 'variant_id' : 'recipe_id']), `${label}.when`, errors);
+        const runtimeVariant = hasVariantScope ? riceMealVariantById.get(rule.when.variant_id) : null;
+        if (hasVariantScope && !runtimeVariant) errors.push(`${label}.when has unknown rice-meal variant`);
+        const runtimeCanonicalIds = runtimeVariant
+          ? [runtimeVariant.rice?.canonical_ingredient_id, ...(runtimeVariant.ingredients || [])
+            .map(ingredient => ingredient?.canonical_ingredient_id)].filter(text)
+          : [];
+        const recipe = hasRecipeScope ? recipeById.get(rule.when.recipe_id) : {
+          core_ingredients: runtimeCanonicalIds.map(canonicalId => taxonomyById.get(canonicalId)?.display_name)
+            .filter(text),
+        };
+        if (hasRecipeScope && !recipe) errors.push(`${label}.when has unknown recipe`);
         if (!['bounds_only','executable'].includes(rule.execution_mode)) errors.push(`${label}.execution_mode is invalid`);
-        if (!Array.isArray(rule.evidence_recipe_ids) || rule.evidence_recipe_ids.length !== 1
-            || rule.evidence_recipe_ids[0] !== rule.when.recipe_id) {
+        if (hasRecipeScope && (!Array.isArray(rule.evidence_recipe_ids) || rule.evidence_recipe_ids.length !== 1
+            || rule.evidence_recipe_ids[0] !== rule.when.recipe_id)) {
           errors.push(`${label}.evidence_recipe_ids must be evidence for recipe ${rule.when.recipe_id}`);
+        }
+        if (hasVariantScope && (!Array.isArray(rule.evidence_recipe_ids)
+            || rule.evidence_recipe_ids.some(id => !text(id) || !recipeIds.has(id)))) {
+          errors.push(`${label}.evidence_recipe_ids for variant scope must contain only known recipe evidence IDs`);
         }
         if (rule.liquid_distribution != null) {
           if (rule.execution_mode !== 'executable') {
@@ -307,7 +325,12 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
         if (rule.execution_mode === 'executable' && coreResolution.unresolvedOrAmbiguous.length) {
           errors.push(`${label} executable recipe requires every core ingredient to resolve exactly once: ${coreResolution.unresolvedOrAmbiguous.join(', ')}`);
         }
-        const evidenceBindings = validateRecipeEvidenceBindings(rule, label, recipe, taxonomyById, errors);
+        if (hasVariantScope && rule.evidence_bindings != null) {
+          errors.push(`${label}.evidence_bindings are not accepted for variant scope`);
+        }
+        const evidenceBindings = hasVariantScope
+          ? { canonicalIds: new Set(), canonicalById: new Map(), unresolvedByName: new Map() }
+          : validateRecipeEvidenceBindings(rule, label, recipe, taxonomyById, errors);
         const allowedCanonicalIds = new Set(coreCanonicalIds);
         if (rule.execution_mode === 'bounds_only') for (const canonicalId of evidenceBindings.canonicalIds) allowedCanonicalIds.add(canonicalId);
         if (!Array.isArray(rule.operations) || !rule.operations.length) {
@@ -514,7 +537,13 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
 
 export function prepareRatioCatalog(catalog, context) {
   const draft = structuredClone(catalog);
-  const errors = validateRatioDslCatalog(draft, context?.templates, context?.taxonomy, context?.recipes);
+  const errors = validateRatioDslCatalog(
+    draft,
+    context?.templates,
+    context?.taxonomy,
+    context?.recipes,
+    context?.riceMealCatalog,
+  );
   if (errors.length) return { ok:false, errors, catalog:null };
   const freeze = value => {
     if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -531,8 +560,8 @@ export function prepareRatioCatalog(catalog, context) {
 
 export function preparedRatioCatalogContext(catalog) { return PREPARED.get(catalog) || null; }
 
-export function assertRatioDslCatalog(catalog, templates, taxonomy, recipes) {
-  const errors = validateRatioDslCatalog(catalog, templates, taxonomy, recipes);
+export function assertRatioDslCatalog(catalog, templates, taxonomy, recipes, riceMealCatalog = null) {
+  const errors = validateRatioDslCatalog(catalog, templates, taxonomy, recipes, riceMealCatalog);
   if (errors.length) throw new Error(`invalid ratio DSL catalog:\n${errors.join('\n')}`);
   return catalog;
 }

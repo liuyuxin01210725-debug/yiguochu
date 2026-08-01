@@ -28,6 +28,7 @@ const assets = Object.freeze({
   taxonomy: readAsset('ingredient-taxonomy.v1.json'),
   ratios: readAsset('ratio-rules.v1.json'),
   recipes: readAsset('recipe-library.json'),
+  sourceEvidence: readAsset('rice-cooker-source-evidence.v1.json'),
 });
 const SECRET = 'rice-meal-test-secret';
 
@@ -42,6 +43,7 @@ function select(request, ratioCatalog = assets.ratios) {
     catalog: assets.catalog,
     taxonomy: assets.taxonomy,
     ratioCatalog,
+    sourceEvidence: assets.sourceEvidence,
     recentPlanIds: [],
   });
   assert.equal(result.status, 'ready', JSON.stringify(result));
@@ -209,6 +211,48 @@ test('verification recomputes the server candidate and rejects bare, forged, and
     'stale_plan',
   );
   expectCode(() => compile(candidate, { ...assets, ratios: changedRatios }), 'stale_plan');
+
+  const changedLedger = structuredClone(assets.sourceEvidence);
+  changedLedger.ledger_version = `${changedLedger.ledger_version}-changed`;
+  expectCode(
+    () => verify({ plan_token: token }, { ...assets, sourceEvidence: changedLedger }, SECRET),
+    'stale_plan',
+  );
+});
+
+test('signed compilation accepts a source-only runtime variant with recipe_id null and keeps the variant identity', () => {
+  const sourceOnlyAssets = structuredClone(assets);
+  const sourceOnly = sourceOnlyAssets.catalog.families
+    .flatMap(family => family.variants)
+    .find(row => row.variant_id === 'home-chicken-leg-potato-rice');
+  sourceOnly.recipe_id = null;
+  sourceOnly.display_name = '测试真实菜饭名';
+  sourceOnly.evidence_refs = [{
+    kind: 'source',
+    id: 'panasonic-mixed-chicken-rice-sr-df151',
+    supports: ['identity'],
+  }];
+  const rule = sourceOnlyAssets.ratios.rules
+    .find(row => row.rule_id === 'chicken-leg-potato-braised-rice-executable-v1');
+  rule.when = { variant_id: sourceOnly.variant_id };
+
+  const selected = selectRiceMealCandidates({
+    request: { servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] },
+    catalog: sourceOnlyAssets.catalog,
+    taxonomy: sourceOnlyAssets.taxonomy,
+    ratioCatalog: sourceOnlyAssets.ratios,
+    sourceEvidence: sourceOnlyAssets.sourceEvidence,
+    recentPlanIds: [],
+  });
+  assert.equal(selected.status, 'ready');
+  const candidate = selected.candidates[0];
+  assert.equal(candidate.recipe_id, null);
+  const token = compilerApi('buildRiceMealPlanToken')(candidate, SECRET);
+  const verified = compilerApi('verifyAndRecomputeRiceMealPlan')({ plan_token: token }, sourceOnlyAssets, SECRET);
+  const output = compilerApi('compileRiceMeal')(verified, sourceOnlyAssets);
+  assert.equal(output.variant_id, sourceOnly.variant_id);
+  assert.equal(output.recipe_id, null);
+  assert.equal(output.meals[0].dish_name, '测试真实菜饭名');
 });
 
 test('ratio machine facts change plan identity for water-ratio and rounding edits under one catalog version', () => {
@@ -348,6 +392,7 @@ test('four project household standards compile exact 1/2/3/4 serving water, salt
         catalog: assets.catalog,
         taxonomy: assets.taxonomy,
         ratioCatalog: assets.ratios,
+        sourceEvidence: assets.sourceEvidence,
         recentPlanIds: [],
       });
       assert.equal(result.status, 'ready', JSON.stringify(result));

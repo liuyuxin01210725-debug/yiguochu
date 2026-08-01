@@ -3353,11 +3353,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        # Keep the HTTP server's liveness probe independent from the optional
-        # Node planner bridge.  In particular, callers must be able to start
-        # this proxy and receive a bounded planner_unavailable response when
-        # Node is absent; the bridge itself exposes the detailed planner
-        # health payload when it is available.
+        if self.path == '/health' and _planner_product_focus() == 'rice-meal-v1':
+            # Rice Meal health is part of the deterministic asset contract.
+            # Reflect the reviewed Worker bridge so local and Preview expose
+            # the same catalog, ledger version/hash, and fail-closed status.
+            try:
+                self._reflect_bridge(invoke_planner_bridge('/health', {}))
+            except PlannerBridgeError as error:
+                self._send_json(*_bridge_error_payload(error))
+            return
+        # Legacy liveness remains independent from the optional planner bridge.
         if self.path in ('/', '/health'):
             self.send_response(200)
             self._send_cors_headers()

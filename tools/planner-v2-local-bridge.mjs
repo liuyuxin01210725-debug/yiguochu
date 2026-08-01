@@ -5,6 +5,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import worker from '../worker/src/worker.js';
+import { canonicalJson, sha256Hex } from '../worker/src/rice-meal-selector.js';
 
 const BRIDGE_VERSION = 1;
 const ALLOWED_ENDPOINTS = new Set(['/health', '/plan-meal', '/generate-plan']);
@@ -45,6 +46,7 @@ const ASSET_FILES = new Map([
   ['/recipe-action-profiles.v1.json', assetUrl('recipe-action-profiles.v1.json')],
   ['/rice-meal-catalog.v1.json', assetUrl('rice-meal-catalog.v1.json')],
   ['/rice-meal-collection.v1.json', assetUrl('rice-meal-collection.v1.json')],
+  ['/rice-cooker-source-evidence.v1.json', assetUrl('rice-cooker-source-evidence.v1.json')],
   ['/foods-tw.json', assetUrl('foods-tw.json')],
 ]);
 
@@ -74,11 +76,28 @@ const assetBinding = {
   async fetch(input) {
     const pathname = new URL(input.url).pathname;
     if (pathname === '/build-meta.json') {
+      let sourceEvidenceMetadata = {};
+      if (PRODUCT_FOCUS === 'rice-meal-v1') {
+        try {
+          const sourceEvidence = JSON.parse(await fs.readFile(
+            ASSET_FILES.get('/rice-cooker-source-evidence.v1.json'),
+            'utf8',
+          ));
+          sourceEvidenceMetadata = {
+            riceCookerSourceEvidenceVersion: sourceEvidence.ledger_version,
+            riceCookerSourceEvidenceSha256: sha256Hex(canonicalJson(sourceEvidence)),
+          };
+        } catch (_error) {
+          // A rice-focused source build without its evidence ledger must expose
+          // invalid metadata, not silently fall back to the legacy product.
+        }
+      }
       return new Response(JSON.stringify({
         buildId: 'local-planner',
         plannerRollout: 'direct-recommend',
         generationMode: GENERATION_MODE,
         productFocus: PRODUCT_FOCUS,
+        ...sourceEvidenceMetadata,
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json; charset=utf-8' },

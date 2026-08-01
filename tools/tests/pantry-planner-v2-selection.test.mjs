@@ -27,6 +27,7 @@ const assets = Object.freeze({
   templates: readJson('meal-templates.v2.json'),
   ratios: readJson('ratio-rules.v1.json'),
   recipes: readJson('recipe-library.json'),
+  riceMealCatalog: readJson('rice-meal-catalog.v1.json'),
 });
 const frontendHtml = fs.readFileSync(path.join(here, '../../index.html'), 'utf8');
 const activeTemplate = id => assets.templates.templates.find(template => template.template_id === id);
@@ -52,6 +53,7 @@ const context = (normalizedItems, overrides = {}) => {
     taxonomy: assets.taxonomy,
     templates: assets.templates,
     recipes: assets.recipes,
+    riceMealCatalog: assets.riceMealCatalog,
   });
   assert.equal(prepared.ok, true);
   return {
@@ -116,6 +118,20 @@ function hybridCandidate({
     slot_assignment: slotAssignment || { main: planned },
   };
 }
+
+test('planner asset preparation accepts a ratio rule bound to a rice-meal variant', () => {
+  const ratios = structuredClone(assets.ratios);
+  const rule = ratios.rules.find(item => item.rule_id === 'chicken-leg-potato-braised-rice-executable-v1');
+  assert.ok(rule);
+  rule.when = { variant_id: 'home-chicken-leg-potato-rice' };
+
+  const result = planMeal({ ...assets, ratios }, request({
+    mode: 'recommend',
+    prefer: ['鸡腿', '土豆'],
+  }));
+  assert.notEqual(result.status, 'no_valid_plan');
+  assert.ok(result.plan.pots.length > 0);
+});
 
 test('hybrid A-order puts a floor-qualified named 3/4 before custom 4/4 and preserves exact counts', () => {
   const named = hybridCandidate({

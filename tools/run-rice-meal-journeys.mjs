@@ -14,8 +14,9 @@ const taxonomy = readJson('tools/data/ingredient-taxonomy.v1.json');
 const catalog = readJson('tools/data/rice-meal-catalog.v1.json');
 const ratios = readJson('tools/data/ratio-rules.v1.json');
 const recipes = readJson('tools/data/recipe-library.json');
+const sourceEvidence = readJson('tools/data/rice-cooker-source-evidence.v1.json');
 const corpus = readJson('tools/data/rice-meal-journeys.v1.json');
-const compilerAssets = Object.freeze({ catalog, taxonomy, ratios, recipes });
+const compilerAssets = Object.freeze({ catalog, taxonomy, ratios, recipes, sourceEvidence });
 const compilerSecret = 'rice-meal-journey-contract-v1';
 const STATUS_ORDER = [
   'ready',
@@ -34,7 +35,14 @@ function reasonCodes(result) {
 }
 
 function select(request) {
-  return selectRiceMealCandidates({ request, catalog, taxonomy, ratioCatalog: ratios, recentPlanIds: [] });
+  return selectRiceMealCandidates({
+    request,
+    catalog,
+    taxonomy,
+    ratioCatalog: ratios,
+    sourceEvidence,
+    recentPlanIds: [],
+  });
 }
 
 function executeJourney(journey) {

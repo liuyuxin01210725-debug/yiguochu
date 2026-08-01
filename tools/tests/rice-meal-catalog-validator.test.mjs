@@ -4,17 +4,68 @@ import { spawnSync } from 'node:child_process';
 
 const validatorModule = await import('../lib/rice-meal-catalog-validator.mjs').catch(error => ({ loadError: error }));
 
+function validSourceEvidence() {
+  return {
+    schema_version: 1,
+    ledger_version: 'source-evidence-test-v1',
+    scope: 'Test-only source evidence ledger.',
+    entries: [{
+      source_id: 'known-source',
+      source_title: '已知电饭煲配方来源',
+      source_url: 'https://example.com/known-source',
+      publisher: '测试发布者',
+      source_kind: 'manufacturer_recipe_page',
+      retrieved_at: '2026-08-02',
+      rights: {
+        license_name: 'publisher_copyright',
+        license_url: null,
+        contribution_permission_url: null,
+        usage_boundary: '仅用于测试结构化来源能力边界。',
+        allowed_use: ['manufacturer_recipe_fact', 'ingredient_quantities', 'added_water_fact', 'appliance_program_fact'],
+        forbidden_use: ['copy_source_text'],
+      },
+      quantities: {
+        rice: { value: 100, unit: 'g' },
+        liquid_contract: {
+          semantic: 'added_water_exact',
+          amount: { value: 140, unit: 'ml' },
+        },
+        protein_items: [],
+        vegetable_items: [],
+        other_items: [],
+      },
+      appliance_profile: {
+        profile: 'named_test_cooker',
+        manufacturer: '测试厂商',
+        models: ['TEST-1'],
+        program: 'standard_rice_cycle',
+        single_cook_cycle: true,
+        mid_cycle_opening: null,
+        finish_action: '完成后翻松',
+        source_executability: 'executable_on_named_model',
+      },
+      verdict: {
+        status: 'executable_reference',
+        scope: '只证明固定测试机型上的配方事实。',
+        reason: '测试夹具。',
+      },
+      cannot_prove: ['不能证明跨机型等价'],
+    }],
+  };
+}
+
 const context = {
   recipeLibrary: {
     recipes: [
-      { id: 'known-recipe' },
+      { id: 'known-recipe', name: '已知菜饭', technique: ['闭盖煮饭'] },
       { id: 'banshan-wild-rice' },
       { id: 'daxi-lotus-leaf-oil-rice' },
       { id: 'cantonese-cured-meat-claypot-rice' },
-      { id: 'cabbage-tofu-braised-rice' },
-      { id: 'shanghai-salted-pork-vegetable-rice' },
+      { id: 'cabbage-tofu-braised-rice', name: '白菜豆腐焖饭', technique: ['蔬菜预熟后拌入'] },
+      { id: 'shanghai-salted-pork-vegetable-rice', name: '上海咸肉菜饭', technique: ['后段加入青菜'] },
     ],
   },
+  sourceEvidence: validSourceEvidence(),
   taxonomy: {
     items: [
       {
@@ -145,6 +196,11 @@ function validCatalog() {
       variants: [{
         variant_id: 'closed-lid-chicken-rice',
         recipe_id: 'known-recipe',
+        evidence_refs: [{
+          kind: 'recipe',
+          id: 'known-recipe',
+          supports: ['identity', 'quantity', 'liquid', 'process'],
+        }],
         display_name: '鸡腿青菜焖饭',
         name_label: '家常电饭煲改编',
         review_note: '以项目菜谱中的固定食材、闭盖流程和安全终点为机器目录依据。',
@@ -314,6 +370,11 @@ function controlledFinishCatalog() {
   const variant = catalog.families[0].variants[0];
   variant.variant_id = 'home-cabbage-tofu-rice';
   variant.recipe_id = 'cabbage-tofu-braised-rice';
+  variant.evidence_refs = [{
+    kind: 'recipe',
+    id: 'cabbage-tofu-braised-rice',
+    supports: ['identity', 'quantity', 'liquid', 'process'],
+  }];
   variant.display_name = '白菜豆腐焖饭';
   variant.identity_level = 'household_reviewed';
   variant.region_codes = [];
@@ -379,6 +440,11 @@ function controlledMidOpenCatalog() {
   const variant = catalog.families[0].variants[0];
   variant.variant_id = 'shanghai-salted-pork-rice';
   variant.recipe_id = 'shanghai-salted-pork-vegetable-rice';
+  variant.evidence_refs = [{
+    kind: 'recipe',
+    id: 'shanghai-salted-pork-vegetable-rice',
+    supports: ['identity', 'quantity', 'liquid', 'process'],
+  }];
   variant.display_name = '上海咸肉菜饭';
   variant.name_label = '普通电饭煲后段加青菜';
   variant.supported_servings = [3];
@@ -528,7 +594,7 @@ test('preview-ready variants reject ambiguous liquid semantics', () => {
   expectError(validCatalog(), 'preview_ready requires explicit liquid contract semantics', nextContext);
 });
 
-test('accepts a blocked mid-open recipe only through the controlled outside-cook and finish-fold protocol', () => {
+test('accepts a blocked mid-open variant only through the controlled outside-cook and finish-fold protocol', () => {
   const catalog = controlledFinishCatalog();
   assert.deepEqual(validate(catalog), []);
 });
@@ -575,6 +641,26 @@ test('accepts only the source-locked Shanghai three-serving mid-cycle leafy prot
   assert.deepEqual(validate(controlledMidOpenCatalog()), []);
 });
 
+test('controlled finish and mid-cycle capabilities are keyed by variant_id without recipe_id', () => {
+  for (const [catalog, ruleId] of [
+    [controlledFinishCatalog(), 'controlled-finish-ratio'],
+    [controlledMidOpenCatalog(), 'shanghai-mid-open-ratio'],
+  ]) {
+    const variant = catalog.families[0].variants[0];
+    const validationContext = clone(context);
+    validationContext.ratioCatalog.rules.find(rule => rule.rule_id === ruleId).when = {
+      variant_id: variant.variant_id,
+    };
+    variant.recipe_id = null;
+    variant.evidence_refs = [{
+      kind: 'source',
+      id: 'known-source',
+      supports: ['identity'],
+    }];
+    assert.deepEqual(validate(catalog, validationContext), []);
+  }
+});
+
 test('controlled mid-cycle opening rejects unsupported servings, risky additions, load overlap, and protocol drift', () => {
   const mutations = [
     ['servings', catalog => { catalog.families[0].variants[0].supported_servings = [2, 3]; }, 'supported_servings must equal the reviewed batch [3]'],
@@ -612,6 +698,135 @@ test('rejects unresolved recipe, canonical ingredient, and ratio-rule references
   expectError(catalog, 'unknown recipe_id: missing-recipe');
   expectError(catalog, 'unknown canonical ingredient: missing-ingredient');
   expectError(catalog, 'unknown ratio rule: missing-ratio');
+});
+
+test('runtime identity is variant_id and recipe_id may be null or omitted with source evidence', () => {
+  const validationContext = clone(context);
+  validationContext.ratioCatalog.rules[0].when = { variant_id: 'closed-lid-chicken-rice' };
+  const catalog = validCatalog();
+  const variant = catalog.families[0].variants[0];
+  variant.recipe_id = null;
+  variant.evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['identity', 'quantity', 'liquid', 'appliance', 'process'],
+  }];
+
+  assert.deepEqual(validate(catalog, validationContext), []);
+
+  delete variant.recipe_id;
+  assert.deepEqual(validate(catalog, validationContext), []);
+});
+
+test('every variant requires controlled non-empty evidence references with known IDs', () => {
+  const missing = validCatalog();
+  delete missing.families[0].variants[0].evidence_refs;
+  expectError(missing, 'evidence_refs must be a non-empty array');
+
+  const malformed = validCatalog();
+  malformed.families[0].variants[0].evidence_refs = [{
+    kind: 'blog',
+    id: 'missing-evidence',
+    supports: ['identity', 'nutrition'],
+  }];
+  expectError(malformed, 'evidence_refs[0].kind must be recipe or source');
+  expectError(malformed, 'evidence_refs[0].supports contains unsupported value: nutrition');
+
+  const unknownRecipe = validCatalog();
+  unknownRecipe.families[0].variants[0].evidence_refs[0].id = 'missing-recipe';
+  expectError(unknownRecipe, 'evidence_refs[0] unknown recipe evidence id: missing-recipe');
+
+  const unknownSource = validCatalog();
+  unknownSource.families[0].variants[0].evidence_refs = [{
+    kind: 'source',
+    id: 'missing-source',
+    supports: ['identity'],
+  }];
+  expectError(unknownSource, 'evidence_refs[0] unknown source evidence id: missing-source');
+});
+
+test('source evidence supports stay within a valid ledger, rights, verdict, and cannot-prove boundary', () => {
+  const invalidLedgerContext = clone(context);
+  delete invalidLedgerContext.sourceEvidence.ledger_version;
+  expectError(validCatalog(), 'source evidence ledger: ledger_version is required', invalidLedgerContext);
+
+  const researchContext = clone(context);
+  const researchSource = researchContext.sourceEvidence.entries[0];
+  researchSource.verdict.status = 'research_only';
+  const researchCatalog = validCatalog();
+  researchCatalog.families[0].variants[0].evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['identity', 'quantity'],
+  }];
+  expectError(researchCatalog, 'research_only source may support identity only', researchContext);
+
+  const rightsContext = clone(context);
+  rightsContext.sourceEvidence.entries[0].rights.allowed_use = ['manufacturer_recipe_fact'];
+  const rightsCatalog = validCatalog();
+  rightsCatalog.families[0].variants[0].evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['quantity'],
+  }];
+  expectError(rightsCatalog, 'support quantity is not allowed by source rights', rightsContext);
+
+  const forbiddenContext = clone(context);
+  forbiddenContext.sourceEvidence.entries[0].rights.forbidden_use = ['claim_generic_cooker_equivalence'];
+  const forbiddenCatalog = validCatalog();
+  forbiddenCatalog.families[0].variants[0].evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['appliance'],
+  }];
+  expectError(forbiddenCatalog, 'support appliance conflicts with forbidden_use', forbiddenContext);
+
+  const boundaryContext = clone(context);
+  boundaryContext.sourceEvidence.entries[0].cannot_prove = ['不能证明完整操作流程'];
+  const boundaryCatalog = validCatalog();
+  boundaryCatalog.families[0].variants[0].evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['process'],
+  }];
+  expectError(boundaryCatalog, 'support process conflicts with cannot_prove', boundaryContext);
+});
+
+test('recipe evidence cannot claim appliance support without a structured appliance capability', () => {
+  const catalog = validCatalog();
+  catalog.families[0].variants[0].evidence_refs[0].supports.push('appliance');
+
+  expectError(catalog, 'recipe evidence known-recipe cannot support appliance');
+});
+
+test('source identity support is rejected when cannot_prove disclaims dish or regional identity', () => {
+  const validationContext = clone(context);
+  const source = validationContext.sourceEvidence.entries[0];
+  source.verdict.status = 'research_only';
+  source.rights.allowed_use = ['source_identity'];
+  source.cannot_prove = ['不能证明该菜名或地域身份'];
+  validationContext.ratioCatalog.rules[0].when = { variant_id: 'closed-lid-chicken-rice' };
+  const catalog = validCatalog();
+  const variant = catalog.families[0].variants[0];
+  variant.recipe_id = null;
+  variant.evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['identity'],
+  }];
+
+  expectError(catalog, 'support identity conflicts with cannot_prove', validationContext);
+});
+
+test('a non-null legacy recipe_id must be declared independently as recipe evidence', () => {
+  const catalog = validCatalog();
+  catalog.families[0].variants[0].evidence_refs = [{
+    kind: 'source',
+    id: 'known-source',
+    supports: ['identity'],
+  }];
+
+  expectError(catalog, 'recipe_id known-recipe requires a same-ID recipe evidence_ref');
 });
 
 test('rejects a status that skips required promotion stages', () => {
@@ -696,38 +911,38 @@ test('rejects unknown exclusion flags', () => {
   expectError(catalog, 'exclusion_flags contains unknown value: unknown-boundary');
 });
 
-test('rejects a blocked wild-mushroom recipe even when it omits exclusion_flags', () => {
+test('rejects a blocked wild-mushroom variant even when it omits exclusion_flags', () => {
   const catalog = validCatalog();
   const variant = catalog.families[0].variants[0];
-  variant.recipe_id = 'banshan-wild-rice';
+  variant.variant_id = 'home-wild-mushroom-rice';
   delete variant.exclusion_flags;
 
-  expectError(catalog, 'exclusion_flags must match recipe_id derived risks: wild_mushroom');
+  expectError(catalog, 'exclusion_flags must match variant_id derived risks: wild_mushroom');
   expectError(catalog, 'effective exclusion_flags prevent preview_ready or higher status');
 });
 
-for (const [flag, recipeId] of [
-  ['wild_mushroom', 'banshan-wild-rice'],
-  ['ceremonial_glutinous_rice', 'daxi-lotus-leaf-oil-rice'],
-  ['requires_mid_cook_opening', 'cantonese-cured-meat-claypot-rice'],
+for (const [flag, variantId] of [
+  ['wild_mushroom', 'home-wild-mushroom-rice'],
+  ['ceremonial_glutinous_rice', 'home-lotus-leaf-oil-rice'],
+  ['requires_mid_cook_opening', 'home-cantonese-cured-meat-claypot-rice'],
 ]) {
   test(`rejects a preview-ready variant carrying the ${flag} risk`, () => {
     const catalog = validCatalog();
     const variant = catalog.families[0].variants[0];
-    variant.recipe_id = recipeId;
+    variant.variant_id = variantId;
     variant.exclusion_flags = [flag];
 
     expectError(catalog, 'effective exclusion_flags prevent preview_ready or higher status');
   });
 }
 
-test('rejects exclusion flags that disagree with the recipe-derived risk', () => {
+test('rejects exclusion flags that disagree with the variant-derived risk', () => {
   const catalog = validCatalog();
   const variant = catalog.families[0].variants[0];
-  variant.recipe_id = 'banshan-wild-rice';
+  variant.variant_id = 'home-wild-mushroom-rice';
   variant.exclusion_flags = ['ceremonial_glutinous_rice'];
 
-  expectError(catalog, 'exclusion_flags must match recipe_id derived risks: wild_mushroom');
+  expectError(catalog, 'exclusion_flags must match variant_id derived risks: wild_mushroom');
 });
 
 test('rejects a regional claim backed only by a placeholder identity URL', () => {
@@ -1237,7 +1452,7 @@ test('rejects a major ingredient without both an amount rule and a cooker action
   expectError(catalog, 'major ingredient must declare action');
 });
 
-test('preview-ready variants require recipe-bound executable quantity and liquid coverage', () => {
+test('preview-ready variants require runtime-bound executable quantity and liquid coverage', () => {
   const foreignContext = clone(context);
   foreignContext.ratioCatalog.rules.push({
     rule_id: 'foreign-bounds-ratio',

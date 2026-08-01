@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateRiceCookerSourceEvidence } from './lib/rice-cooker-source-evidence-validator.mjs';
+import { canonicalJson } from '../worker/src/rice-meal-selector.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST_ROOT = path.join(ROOT, 'dist');
@@ -26,6 +29,7 @@ const GENERATED_ASSETS = [
   ['tools/data/recipe-action-profiles.v1.json', 'recipe-action-profiles.v1.json'],
   ['tools/data/rice-meal-catalog.v1.json', 'rice-meal-catalog.v1.json'],
   ['tools/data/rice-meal-collection.v1.json', 'rice-meal-collection.v1.json'],
+  ['tools/data/rice-cooker-source-evidence.v1.json', 'rice-cooker-source-evidence.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -45,6 +49,7 @@ const GENERATED_ASSETS = [
   ['worker/src/rice-meal-selector.js', 'rice-meal-selector.js'],
   ['worker/src/rice-meal-compiler.js', 'rice-meal-compiler.js'],
   ['worker/src/rice-meal-catalog-validator.js', 'rice-meal-catalog-validator.js'],
+  ['worker/src/rice-cooker-source-evidence-validator.js', 'rice-cooker-source-evidence-validator.js'],
 ];
 const COMPILED_BUILD_METADATA_SENTINEL = "'__YIGUOCHU_COMPILED_BUILD_METADATA_JSON__'";
 const COMPILED_PLANNER_ASSETS_SENTINEL = "'__YIGUOCHU_COMPILED_PLANNER_ASSETS_JSON__'";
@@ -157,9 +162,25 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
   for (const asset of STATIC_ASSETS) copy(asset, path.join(outputDir, asset));
   for (const [source, target] of GENERATED_ASSETS) copy(source, path.join(outputDir, target));
 
+  const riceCookerSourceEvidence = readCanonicalJson('tools/data/rice-cooker-source-evidence.v1.json');
+  const sourceEvidenceErrors = validateRiceCookerSourceEvidence(riceCookerSourceEvidence);
+  if (sourceEvidenceErrors.length) {
+    throw new Error(`Cannot build invalid rice-cooker source evidence: ${sourceEvidenceErrors.join('; ')}`);
+  }
+  const riceCookerSourceEvidenceSha256 = crypto.createHash('sha256')
+    .update(canonicalJson(riceCookerSourceEvidence))
+    .digest('hex');
+
   const workerPath = path.join(outputDir, '_worker.js');
   const sourceWorker = fs.readFileSync(workerPath, 'utf8');
-  const buildMetadata = { buildId, plannerRollout, generationMode, productFocus };
+  const buildMetadata = {
+    buildId,
+    plannerRollout,
+    generationMode,
+    productFocus,
+    riceCookerSourceEvidenceVersion: riceCookerSourceEvidence.ledger_version,
+    riceCookerSourceEvidenceSha256,
+  };
   const embeddedPlannerAssets = {
     taxonomy: readCanonicalJson('tools/data/ingredient-taxonomy.v1.json'),
     templates: readCanonicalJson('tools/data/meal-templates.v2.json'),
@@ -169,6 +190,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     actionProfiles: readCanonicalJson('tools/data/recipe-action-profiles.v1.json'),
     riceMealCatalog: readCanonicalJson('tools/data/rice-meal-catalog.v1.json'),
     riceMealCollection: readCanonicalJson('tools/data/rice-meal-collection.v1.json'),
+    riceCookerSourceEvidence,
   };
   const generatedWorker = sourceWorker
     .replace(

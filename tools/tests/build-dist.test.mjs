@@ -1,15 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { canonicalJson } from '../../worker/src/rice-meal-selector.js';
 
 const ROOT = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const BUILD_SCRIPT = path.join(ROOT, 'tools', 'build-dist.mjs');
 const LIBRARY_PATH = path.join(ROOT, 'tools', 'data', 'recipe-library.json');
+const SOURCE_EVIDENCE_PATH = path.join(ROOT, 'tools', 'data', 'rice-cooker-source-evidence.v1.json');
+const SOURCE_EVIDENCE = JSON.parse(fs.readFileSync(SOURCE_EVIDENCE_PATH, 'utf8'));
+const SOURCE_EVIDENCE_SHA256 = crypto.createHash('sha256')
+  .update(canonicalJson(SOURCE_EVIDENCE))
+  .digest('hex');
 const CHROME = process.env.YIGUOCHU_CHROME_PATH
   || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const REQUIRED_ASSETS = [
@@ -46,9 +53,11 @@ const REQUIRED_ASSETS = [
   'recipe-action-profiles.v1.json',
   'rice-meal-catalog.v1.json',
   'rice-meal-collection.v1.json',
+  'rice-cooker-source-evidence.v1.json',
   'rice-meal-selector.js',
   'rice-meal-compiler.js',
   'rice-meal-catalog-validator.js',
+  'rice-cooker-source-evidence-validator.js',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -67,6 +76,7 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['rice-meal-selector.js', path.join(ROOT, 'worker', 'src', 'rice-meal-selector.js')],
   ['rice-meal-compiler.js', path.join(ROOT, 'worker', 'src', 'rice-meal-compiler.js')],
   ['rice-meal-catalog-validator.js', path.join(ROOT, 'worker', 'src', 'rice-meal-catalog-validator.js')],
+  ['rice-cooker-source-evidence-validator.js', path.join(ROOT, 'worker', 'src', 'rice-cooker-source-evidence-validator.js')],
   ['ingredient-taxonomy-validator.js', path.join(ROOT, 'worker', 'src', 'ingredient-taxonomy-validator.js')],
   ['meal-template-validator.js', path.join(ROOT, 'worker', 'src', 'meal-template-validator.js')],
   ['recipe-library-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-library-validator.js')],
@@ -77,6 +87,7 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['recipe-action-profiles.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-action-profiles.v1.json')],
   ['rice-meal-catalog.v1.json', path.join(ROOT, 'tools', 'data', 'rice-meal-catalog.v1.json')],
   ['rice-meal-collection.v1.json', path.join(ROOT, 'tools', 'data', 'rice-meal-collection.v1.json')],
+  ['rice-cooker-source-evidence.v1.json', path.join(ROOT, 'tools', 'data', 'rice-cooker-source-evidence.v1.json')],
 ]);
 
 function makeOutputDir() {
@@ -240,7 +251,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 37);
+    assert.equal(buildRecord.files, 39);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
@@ -264,6 +275,8 @@ test('distribution build includes canonical recipe assets and refreshes its serv
         plannerRollout:'direct-recommend',
         generationMode:'deterministic',
         productFocus:'legacy',
+        riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
+        riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
     );
     const builtWorker = fs.readFileSync(path.join(outputDir, '_worker.js'), 'utf8');
@@ -283,7 +296,14 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
     assert.equal(defaultBuild.status, 0, `${defaultBuild.stdout}\n${defaultBuild.stderr}`);
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
-      { buildId:'canonical-test', plannerRollout:'off', generationMode:'llm', productFocus:'legacy' },
+      {
+        buildId:'canonical-test',
+        plannerRollout:'off',
+        generationMode:'llm',
+        productFocus:'legacy',
+        riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
+        riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
+      },
     );
     assert.match(
       fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8'),
@@ -368,7 +388,7 @@ test('built Worker contains its complete relative module graph and plans from em
   try {
     build(outputDir);
     const graph = assertBuiltImportGraph(outputDir);
-    assert.equal(graph.size, 19);
+    assert.equal(graph.size, 20);
     const { default: builtWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?built=${Date.now()}`);
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };
@@ -435,6 +455,8 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
         plannerRollout:'direct-recommend',
         generationMode:'deterministic',
         productFocus:'rice-meal-v1',
+        riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
+        riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
     );
     for (const asset of [
@@ -479,11 +501,29 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
     assert.equal(health.riceMealVariants, 11);
     assert.equal(health.riceMealPreviewReady, 8);
     assert.equal(health.riceMealPlanned, 3);
+    assert.equal(health.riceCookerSourceEvidence, 'ok');
+    assert.equal(health.riceCookerSourceEvidenceVersion, 'rice-cooker-source-evidence-v1-20260802');
+    assert.equal(health.riceCookerSourceEvidenceSha256, SOURCE_EVIDENCE_SHA256);
     assert.equal(health.riceMealPlanSigner, 'ok');
     assert.equal(health.riceMealRuntime, 'ok');
 
     const workerPath = path.join(outputDir, '_worker.js');
     const builtSource = fs.readFileSync(workerPath, 'utf8');
+    fs.writeFileSync(workerPath, builtSource.replace(
+      SOURCE_EVIDENCE_SHA256,
+      '0000000000000000000000000000000000000000000000000000000000000000',
+    ));
+    const { default: mismatchedEvidenceWorker } = await import(`${pathToFileURL(workerPath).href}?evidence-mismatch=${Date.now()}`);
+    const mismatchedHealth = await mismatchedEvidenceWorker.fetch(
+      new Request('https://built.example/health'),
+      { ASSETS: unavailableAssets, RICE_MEAL_PLAN_SECRET: 'build-rice-meal-secret' },
+    );
+    const mismatchedHealthBody = await mismatchedHealth.json();
+    assert.equal(mismatchedHealthBody.riceCookerSourceEvidence, 'unavailable');
+    assert.equal(mismatchedHealthBody.riceCookerSourceEvidenceVersion, null);
+    assert.equal(mismatchedHealthBody.riceCookerSourceEvidenceSha256, null);
+    assert.equal(mismatchedHealthBody.riceMealCatalog, 'unavailable');
+
     fs.writeFileSync(workerPath, builtSource.replace(
       /const COMPILED_BUILD_METADATA_JSON = [^;]+;/u,
       "const COMPILED_BUILD_METADATA_JSON = 'not-valid-json';",

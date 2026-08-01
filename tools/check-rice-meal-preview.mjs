@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { validateRiceMealCatalog } from './lib/rice-meal-catalog-validator.mjs';
-import { selectRiceMealCandidates } from '../worker/src/rice-meal-selector.js';
+import { canonicalJson, selectRiceMealCandidates } from '../worker/src/rice-meal-selector.js';
 import {
   buildRiceMealPlanToken,
   compileRiceMeal,
@@ -14,6 +15,13 @@ import {
 } from '../worker/src/rice-meal-compiler.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const SOURCE_EVIDENCE = JSON.parse(fs.readFileSync(
+  path.join(ROOT, 'tools/data/rice-cooker-source-evidence.v1.json'),
+  'utf8',
+));
+const SOURCE_EVIDENCE_SHA256 = crypto.createHash('sha256')
+  .update(canonicalJson(SOURCE_EVIDENCE))
+  .digest('hex');
 const EXPECTED = Object.freeze({
   recipeCount: 72,
   familyCount: 3,
@@ -38,6 +46,8 @@ const BUILD_METADATA = buildId => Object.freeze({
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
+  riceCookerSourceEvidenceVersion: SOURCE_EVIDENCE.ledger_version,
+  riceCookerSourceEvidenceSha256: SOURCE_EVIDENCE_SHA256,
 });
 
 const readJson = relativePath => JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), 'utf8'));
@@ -55,6 +65,7 @@ function selectJourney(journey, assets) {
     catalog: assets.catalog,
     taxonomy: assets.taxonomy,
     ratioCatalog: assets.ratioCatalog,
+    sourceEvidence: assets.sourceEvidence,
     recentPlanIds: [],
   });
   if (!journey.swap_from_variant_id) return first;
@@ -65,6 +76,7 @@ function selectJourney(journey, assets) {
     catalog: assets.catalog,
     taxonomy: assets.taxonomy,
     ratioCatalog: assets.ratioCatalog,
+    sourceEvidence: assets.sourceEvidence,
     recentPlanIds: [],
   });
 }
@@ -106,6 +118,7 @@ function compileJourneyCandidate(candidate, variant, assets) {
         catalog: assets.catalog,
         taxonomy: assets.taxonomy,
         ratioCatalog: assets.ratioCatalog,
+        sourceEvidence: assets.sourceEvidence,
         recentPlanIds: [],
       });
       servingCandidate = selection.candidates?.find(row => row.variant_id === variant.variant_id);
@@ -129,12 +142,14 @@ function compileOneJourneyCandidate(candidate, variant, assets) {
     taxonomy: assets.taxonomy,
     ratios: assets.ratioCatalog,
     recipes: assets.recipeLibrary,
+    sourceEvidence: assets.sourceEvidence,
   }, secret);
   const output = compileRiceMeal(recomputed, {
     catalog: assets.catalog,
     taxonomy: assets.taxonomy,
     ratios: assets.ratioCatalog,
     recipes: assets.recipeLibrary,
+    sourceEvidence: assets.sourceEvidence,
   });
   const meal = output.meals?.[0];
   const errors = [];
@@ -161,9 +176,16 @@ export function validateRiceMealPreviewGate({
   journeys,
   ratioCatalog,
   recipeLibrary,
+  sourceEvidence,
   taxonomy,
 } = {}) {
-  const errors = validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, ratioCatalog, collection });
+  const errors = validateRiceMealCatalog(catalog, {
+    recipeLibrary,
+    taxonomy,
+    ratioCatalog,
+    collection,
+    sourceEvidence,
+  });
   const variants = variantsOf(catalog);
   const active = variants.filter(variant => variant.status === 'preview_ready');
   const planned = variants.filter(variant => variant.status === 'planned');
@@ -199,7 +221,7 @@ export function validateRiceMealPreviewGate({
   for (const journey of journeyRows) {
     let result;
     try {
-      result = selectJourney(journey, { catalog, taxonomy, ratioCatalog });
+      result = selectJourney(journey, { catalog, taxonomy, ratioCatalog, sourceEvidence });
       errors.push(...validateJourney(journey, result));
     } catch (error) {
       errors.push(`${journey.id} selector failed: ${error?.message || error}`);
@@ -219,6 +241,7 @@ export function validateRiceMealPreviewGate({
         taxonomy,
         ratioCatalog,
         recipeLibrary,
+        sourceEvidence,
       });
       errors.push(...compileResult.errors);
       compiledServingContracts += compileResult.compiledServingContracts;
@@ -313,9 +336,11 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
       ['tools/data/ingredient-taxonomy.v1.json', 'ingredient-taxonomy.v1.json'],
       ['tools/data/recipe-library.json', 'recipe-library.json'],
       ['tools/data/foods-tw.json', 'foods-tw.json'],
+      ['tools/data/rice-cooker-source-evidence.v1.json', 'rice-cooker-source-evidence.v1.json'],
       ['worker/src/rice-meal-selector.js', 'rice-meal-selector.js'],
       ['worker/src/rice-meal-compiler.js', 'rice-meal-compiler.js'],
       ['worker/src/rice-meal-catalog-validator.js', 'rice-meal-catalog-validator.js'],
+      ['worker/src/rice-cooker-source-evidence-validator.js', 'rice-cooker-source-evidence-validator.js'],
     ];
     for (const [source, built] of sourcePairs) {
       const sourceBytes = fs.readFileSync(path.join(ROOT, source));
@@ -344,6 +369,9 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
       summary.health_catalog_status = health.json?.riceMealCatalog || null;
       if (health.response.status !== 200 || health.json?.productFocus !== 'rice-meal-v1'
           || health.json?.riceMealCatalog !== 'ok' || health.json?.baseRecipes !== 72
+          || health.json?.riceCookerSourceEvidence !== 'ok'
+          || health.json?.riceCookerSourceEvidenceVersion !== SOURCE_EVIDENCE.ledger_version
+          || health.json?.riceCookerSourceEvidenceSha256 !== SOURCE_EVIDENCE_SHA256
           || health.json?.riceMealPlanSigner !== 'ok' || health.json?.riceMealRuntime !== 'ok'
           || health.json?.riceMealFamilies !== 3 || health.json?.riceMealVariants !== 11
           || health.json?.riceMealPreviewReady !== EXPECTED.previewReadyCount
@@ -402,6 +430,7 @@ function loadSourceAssets() {
     journeys: readJson('tools/data/rice-meal-journeys.v1.json'),
     ratioCatalog: readJson('tools/data/ratio-rules.v1.json'),
     recipeLibrary: readJson('tools/data/recipe-library.json'),
+    sourceEvidence: readJson('tools/data/rice-cooker-source-evidence.v1.json'),
     taxonomy: readJson('tools/data/ingredient-taxonomy.v1.json'),
   };
 }

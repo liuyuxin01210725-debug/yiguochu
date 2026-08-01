@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -9,6 +10,7 @@ import {
   auditRiceMealPreviewRuntime,
   validateRiceMealPreviewGate,
 } from '../check-rice-meal-preview.mjs';
+import { canonicalJson } from '../../worker/src/rice-meal-selector.js';
 
 const readJson = name => JSON.parse(fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'));
 const assets = Object.freeze({
@@ -17,8 +19,12 @@ const assets = Object.freeze({
   journeys: readJson('rice-meal-journeys.v1.json'),
   ratioCatalog: readJson('ratio-rules.v1.json'),
   recipeLibrary: readJson('recipe-library.json'),
+  sourceEvidence: readJson('rice-cooker-source-evidence.v1.json'),
   taxonomy: readJson('ingredient-taxonomy.v1.json'),
 });
+const sourceEvidenceSha256 = crypto.createHash('sha256')
+  .update(canonicalJson(assets.sourceEvidence))
+  .digest('hex');
 const clone = value => structuredClone(value);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const mutateVariant = (catalog, variantId, mutate) => {
@@ -113,6 +119,8 @@ test('runtime audit proves exact build metadata, truthful health and zero model 
     plannerRollout: 'direct-recommend',
     generationMode: 'deterministic',
     productFocus: 'rice-meal-v1',
+    riceCookerSourceEvidenceVersion: assets.sourceEvidence.ledger_version,
+    riceCookerSourceEvidenceSha256: sourceEvidenceSha256,
   });
   assert.equal(report.summary.health_catalog_status, 'ok');
   assert.equal(report.summary.health_mismatch_status, 'unavailable');

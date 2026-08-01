@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { validateRecipeLibrary } from './lib/recipe-library-validator.mjs';
@@ -10,7 +11,9 @@ import { validateRatioDslCatalog } from './lib/ratio-dsl-validator.mjs';
 import { validateRecipeRuntimeCatalog } from './lib/recipe-runtime-validator.mjs';
 import { validateRiceMealCatalog } from './lib/rice-meal-catalog-validator.mjs';
 import { validateRiceMealCollection } from './lib/rice-meal-collection-validator.mjs';
+import { validateRiceCookerSourceEvidence } from './lib/rice-cooker-source-evidence-validator.mjs';
 import { buildRiceMealCollectionArtifacts } from './lib/rice-meal-collection-renderer.mjs';
+import { canonicalJson } from '../worker/src/rice-meal-selector.js';
 import { validateRegionalMenuResearch } from './lib/regional-menu-research-validator.mjs';
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
 import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
@@ -116,6 +119,7 @@ const fujianTaiwanResearchInputErrors = [];
 const northChinaResearchInputErrors = [];
 const sichuanChongqingResearchInputErrors = [];
 const yunnanGuizhouResearchInputErrors = [];
+const riceCookerSourceEvidenceInputErrors = [];
 function readReviewLedger(relativePath, label, inputErrors = menuMasterInputErrors) {
   const fileUrl = new URL(relativePath, import.meta.url);
   if (!fs.existsSync(fileUrl)) {
@@ -133,6 +137,11 @@ const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.j
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
 const riceMealCatalog = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-catalog.v1.json', import.meta.url), 'utf8'));
 const riceMealCollection = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-collection.v1.json', import.meta.url), 'utf8'));
+const riceCookerSourceEvidence = readReviewLedger(
+  './data/rice-cooker-source-evidence.v1.json',
+  'rice-cooker source evidence ledger',
+  riceCookerSourceEvidenceInputErrors,
+);
 const recipeRuntimeCatalog = JSON.parse(fs.readFileSync(new URL('./data/recipe-runtime.v1.json', import.meta.url), 'utf8'));
 const recipeActionProfiles = JSON.parse(fs.readFileSync(new URL('./data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'));
 const regionalResearch = readReviewLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
@@ -162,11 +171,16 @@ const templateErrors = validateMealTemplateCatalog(templates, taxonomy, lib);
 const ratioErrors = validateRatioDslCatalog(ratios, templates, taxonomy, lib);
 const riceMealCatalogErrors = validateRiceMealCatalog(riceMealCatalog, {
   recipeLibrary: lib,
+  sourceEvidence: riceCookerSourceEvidence,
   taxonomy,
   ratioCatalog: ratios,
   collection: riceMealCollection,
 });
 const riceMealCollectionErrors = validateRiceMealCollection(riceMealCollection, { taxonomy, catalog: riceMealCatalog });
+const riceCookerSourceEvidenceErrors = [
+  ...riceCookerSourceEvidenceInputErrors,
+  ...validateRiceCookerSourceEvidence(riceCookerSourceEvidence),
+];
 const riceMealCollectionArtifactErrors = [];
 if (riceMealCollectionErrors.length === 0) {
   for (const [relativePath, content] of buildRiceMealCollectionArtifacts(riceMealCollection)) {
@@ -183,7 +197,16 @@ const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   ratios,
   actionProfiles: recipeActionProfiles,
 });
-errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...riceMealCatalogErrors, ...riceMealCollectionErrors, ...riceMealCollectionArtifactErrors, ...recipeRuntimeErrors);
+errors.push(
+  ...taxonomyErrors,
+  ...templateErrors,
+  ...ratioErrors,
+  ...riceCookerSourceEvidenceErrors,
+  ...riceMealCatalogErrors,
+  ...riceMealCollectionErrors,
+  ...riceMealCollectionArtifactErrors,
+  ...recipeRuntimeErrors,
+);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];
 const families = Array.isArray(lib.families) ? lib.families : [];
 const recipeIds = new Set(recipes.filter(recipe => recipe && typeof recipe === 'object').map(recipe => recipe.id));
@@ -745,6 +768,9 @@ const riceMealCollectionPlannedCount = riceMealCollectionTracking.filter(row => 
 const riceMealCollectionGapCount = Array.isArray(riceMealCollection?.region_nodes)
   ? riceMealCollection.region_nodes.filter(node => typeof node?.gap === 'string' && node.gap.trim()).length
   : 0;
+const riceCookerSourceEvidenceSha256 = riceCookerSourceEvidenceErrors.length === 0
+  ? crypto.createHash('sha256').update(canonicalJson(riceCookerSourceEvidence)).digest('hex')
+  : null;
 console.log(`菜谱家族 ${familyCount} 个 · 基础菜谱 ${recipeCount} 道（approved 人工批准 ${approvedCount} 道 · auto_approved 自动闸门通过待评审 ${autoApprovedCount} 道）`);
 console.log([
   `${recipeCount} recipes`,
@@ -755,6 +781,13 @@ console.log([
   taxonomyErrors.length ? `taxonomy invalid (${taxonomyErrors.length})` : 'taxonomy ok',
   ratioErrors.length ? `ratio DSL invalid (${ratioErrors.length})` : 'ratio DSL ok',
   recipeRuntimeErrors.length ? `recipe runtime invalid (${recipeRuntimeErrors.length})` : 'recipe runtime ok',
+].join(' · '));
+console.log([
+  riceCookerSourceEvidenceErrors.length
+    ? `rice-cooker source evidence invalid (${riceCookerSourceEvidenceErrors.length})`
+    : 'rice-cooker source evidence ok',
+  `version ${riceCookerSourceEvidence?.ledger_version || 'unavailable'}`,
+  `sha256 ${riceCookerSourceEvidenceSha256 || 'unavailable'}`,
 ].join(' · '));
 console.log([
   `${riceMealCollectionCandidates.length} collection candidates`,

@@ -352,6 +352,56 @@ test('choosing a signed rice candidate is the only action that compiles its resu
   assert.match(root.innerHTML, /台湾卫生福利部食品药物管理署/);
 });
 
+test('source-only rice meals keep their real variant name and expose only a controlled HTTPS fact-source link', async () => {
+  const sourceOnlyCandidate = candidate({
+    recipe_id:null,
+    variant_id:'source-only-real-rice',
+    display_name:'高丽菜饭',
+    source_refs:[{
+      source_id:'official-source',
+      title:'官方高丽菜饭资料',
+      url:'https://example.com/official-cabbage-rice',
+    }],
+  });
+  const sourceOnlyResult = compiledResult({
+    recipe_id:null,
+    variant_id:sourceOnlyCandidate.variant_id,
+    meals:[{
+      ...compiledResult().meals[0],
+      recipe_id:null,
+      variant_id:sourceOnlyCandidate.variant_id,
+      dish_name:sourceOnlyCandidate.display_name,
+    }],
+  });
+  const { context, root } = loadRiceFrontend([
+    { body:readySelection([sourceOnlyCandidate]) },
+    { body:sourceOnlyResult },
+  ]);
+  evaluate(context, `state.profile={servings:'2', pantry:'卷心菜, 香菇', dislikes:''}`);
+  await evaluate(context, 'runRiceMealPlanning()');
+
+  assert.equal(evaluate(context, 'state.view'), 'rice-meal-candidates');
+  assert.match(root.innerHTML, /高丽菜饭/u);
+  assert.match(root.innerHTML, /查看事实来源/u);
+  assert.match(root.innerHTML, /https:\/\/example\.com\/official-cabbage-rice/u);
+  assert.doesNotMatch(root.innerHTML, /官方高丽菜饭资料[^<]*<\/span>|鸡腿土豆焖饭/u);
+
+  await evaluate(context, `chooseRiceMealPlan('sha256:rice-plan-1')`);
+  assert.equal(evaluate(context, 'state.view'), 'rice-meal-result');
+  assert.match(root.innerHTML, /高丽菜饭/u);
+  assert.match(root.innerHTML, /查看事实来源/u);
+  assert.doesNotMatch(root.innerHTML, /查看一锅出标准配方/u);
+
+  const unsafe = candidate({
+    recipe_id:null,
+    variant_id:'unsafe-source-link',
+    display_name:'测试菜饭',
+    source_refs:[{ source_id:'unsafe', title:'不安全', url:'javascript:alert(1)' }],
+  });
+  const unsafeHtml = evaluate(context, `riceCandidateCard(${JSON.stringify(unsafe)})`);
+  assert.doesNotMatch(unsafeHtml, /javascript:|查看事实来源/u);
+});
+
 test('rice result uses the local authority fallback before showing an estimate badge', async () => {
   const localFallback = compiledResult();
   localFallback.plan.nutrition_inputs = localFallback.plan.nutrition_inputs.map(item => ({

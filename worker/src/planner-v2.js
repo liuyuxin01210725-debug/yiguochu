@@ -64,6 +64,7 @@ function preparedRatiosForAssets(assets = {}) {
     taxonomy: assets.taxonomy,
     templates: assets.templates,
     recipes: assets.recipes,
+    riceMealCatalog: assets.riceMealCatalog,
   });
   if (canCache) PREPARED_RATIO_BY_SOURCE.set(source, prepared);
   return prepared;

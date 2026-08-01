@@ -16,6 +16,7 @@ const assets = {
   taxonomy: readAsset('ingredient-taxonomy.v1.json'),
   ratios: readAsset('ratio-rules.v1.json'),
   recipes: readAsset('recipe-library.json'),
+  sourceEvidence: readAsset('rice-cooker-source-evidence.v1.json'),
   templates: readAsset('meal-templates.v2.json'),
 };
 const SECRET = 'task-8a-test-secret';
@@ -30,6 +31,7 @@ function candidateFor(pantry, variantId, servings = 2, ratioCatalog = assets.rat
     catalog: assets.catalog,
     taxonomy: assets.taxonomy,
     ratioCatalog,
+    sourceEvidence: assets.sourceEvidence,
     recentPlanIds: [],
   });
   assert.equal(result.status, 'ready', JSON.stringify(result));
@@ -155,6 +157,7 @@ test('known six-item user journey is rejected below the sixty-percent floor with
       catalog: assets.catalog,
       taxonomy: assets.taxonomy,
       ratioCatalog: assets.ratios,
+      sourceEvidence: assets.sourceEvidence,
       recentPlanIds: [],
     });
     assert.equal(six.status, 'no_reliable_rice_meal');

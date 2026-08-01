@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 
 const validatorModule = await import('../lib/rice-cooker-source-evidence-validator.mjs')
   .catch(error => ({ loadError: error }));
+const workerValidatorModule = await import('../../worker/src/rice-cooker-source-evidence-validator.js')
+  .catch(error => ({ loadError: error }));
 
 async function loadLedger() {
   return JSON.parse(await readFile(new URL('../data/rice-cooker-source-evidence.v1.json', import.meta.url), 'utf8'));
@@ -14,6 +16,21 @@ test('machine ledger and fail-closed validator exist', async () => {
   assert.equal(typeof validatorModule.validateRiceCookerSourceEvidence, 'function');
   assert.equal(typeof validatorModule.assertRiceCookerSourceEvidence, 'function');
   assert.ok(await loadLedger());
+});
+
+test('build-time and Worker validators enforce the same fail-closed evidence boundary', async () => {
+  assert.ok(!workerValidatorModule.loadError, `Worker validator must load: ${workerValidatorModule.loadError?.message}`);
+  const ledger = await loadLedger();
+  assert.deepEqual(workerValidatorModule.validateRiceCookerSourceEvidence(ledger), []);
+
+  const invalid = structuredClone(ledger);
+  invalid.entries.find(entry => (
+    entry.source_id === 'zojirushi-tomato-seafood-rice-corrupted-page'
+  )).verdict.status = 'executable_reference';
+  assert.deepEqual(
+    workerValidatorModule.validateRiceCookerSourceEvidence(invalid),
+    validatorModule.validateRiceCookerSourceEvidence(invalid),
+  );
 });
 
 test('ledger validates and pins the audited source recipes without floating recipe URLs', async () => {

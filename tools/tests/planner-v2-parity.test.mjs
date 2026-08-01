@@ -9,6 +9,7 @@ import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 import worker from '../../worker/src/worker.js';
+import { canonicalJson } from '../../worker/src/rice-meal-selector.js';
 
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
 const bridgePath = path.join(repoRoot, 'tools/planner-v2-local-bridge.mjs');
@@ -21,6 +22,7 @@ const assetNames = [
   'recipe-action-profiles.v1.json',
   'rice-meal-catalog.v1.json',
   'rice-meal-collection.v1.json',
+  'rice-cooker-source-evidence.v1.json',
   'foods-tw.json',
 ];
 const sourceAssets = Object.freeze(Object.fromEntries(assetNames.map(name => [
@@ -65,6 +67,10 @@ const RICE_MEAL_BUILD_META = JSON.stringify({
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
+  riceCookerSourceEvidenceVersion: JSON.parse(sourceAssets['/rice-cooker-source-evidence.v1.json']).ledger_version,
+  riceCookerSourceEvidenceSha256: crypto.createHash('sha256')
+    .update(canonicalJson(JSON.parse(sourceAssets['/rice-cooker-source-evidence.v1.json'])))
+    .digest('hex'),
 });
 const RICE_MEAL_SECRET = 'rice-meal-parity-secret';
 
@@ -576,6 +582,28 @@ test('rice-meal Worker and local Python bridge preserve selector and compiler fa
       'verify_safety_endpoints',
       'fluff_and_serve',
     ]);
+  } finally {
+    await stopProxy(proxy);
+  }
+});
+
+test('Rice Meal Python health transparently reports the reviewed bridge ledger identity', async () => {
+  const env = {
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    RICE_MEAL_PLAN_SECRET: RICE_MEAL_SECRET,
+  };
+  const expected = nodeBridge('/health', {}, env);
+  assert.equal(expected.status, 200);
+  assert.equal(expected.body.riceCookerSourceEvidence, 'ok');
+  assert.equal(expected.body.riceCookerSourceEvidenceVersion,
+    JSON.parse(sourceAssets['/rice-cooker-source-evidence.v1.json']).ledger_version);
+  assert.match(expected.body.riceCookerSourceEvidenceSha256, /^[a-f0-9]{64}$/u);
+
+  const proxy = await startProxy(env);
+  try {
+    const response = await fetch(`${proxy.base}/health`);
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), expected.body);
   } finally {
     await stopProxy(proxy);
   }

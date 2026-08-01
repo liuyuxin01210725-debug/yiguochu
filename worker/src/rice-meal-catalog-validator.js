@@ -1,4 +1,5 @@
 import { normalizeRatioGrams } from './ratio-dsl.js';
+import { validateRiceCookerSourceEvidence } from './rice-cooker-source-evidence-validator.js';
 
 const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r6';
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -8,6 +9,33 @@ const NUTRITION_GRADES = new Set(['A', 'B', 'C']);
 const ADAPTATIONS = new Set(['direct_adaptation', 'process_adaptation', 'style_adaptation', 'not_suitable']);
 const IDENTITY_LEVELS = new Set(['generic', 'regional', 'household_reviewed']);
 const PREVIEW_NOTICE_CODES = new Set(['household_test_pending_feedback']);
+const EVIDENCE_KINDS = new Set(['recipe', 'source']);
+const EVIDENCE_SUPPORTS = new Set(['identity', 'quantity', 'liquid', 'appliance', 'process']);
+const SOURCE_ALLOWED_USE_BY_SUPPORT = Object.freeze({
+  identity: new Set(['source_identity', 'manufacturer_recipe_fact', 'recipe_identity', 'regional_identity', 'core_combination']),
+  quantity: new Set(['ingredient_quantities', 'fixed_batch_fact']),
+  liquid: new Set([
+    'added_water_fact', 'liquid_contract_research', 'waterline_semantics',
+    'inner_vessel_liquid_fact', 'inner_vessel_added_water_fact', 'rice_measure_ratio_fact',
+  ]),
+  appliance: new Set(['appliance_program_fact', 'appliance_capability_fact', 'electric_cooker_process_fact']),
+  process: new Set([
+    'manufacturer_recipe_fact', 'high_level_process_research', 'appliance_program_fact',
+    'appliance_capability_fact', 'electric_cooker_process_fact', 'electric_cooker_process_research',
+    'double_pot_process_research',
+  ]),
+});
+const SOURCE_FORBIDDEN_USE_BY_SUPPORT = Object.freeze({
+  liquid: new Set(['convert_waterline_to_unverified_grams']),
+  appliance: new Set(['claim_generic_cooker_equivalence']),
+});
+const SOURCE_CANNOT_PROVE_BY_SUPPORT = Object.freeze({
+  identity: /不能证明[^。]*(?:菜名|地域身份|地域归属|真实名称)/u,
+  quantity: /不能证明[^。]*(?:实际克数|对应统一克数|固定批量)/u,
+  liquid: /不能证明[^。]*(?:新增液量|新增水量|米水(?:质量|体积)?比|水位线语义)/u,
+  appliance: /不能证明[^。]*(?:适用机型|电饭煲程序|器具程序)/u,
+  process: /不能证明[^。]*(?:完整操作流程|入锅时机|操作步骤)/u,
+});
 const RICE_CATEGORIES = new Set(['raw_rice', 'prepared_glutinous_rice']);
 const PREVIEW_OR_HIGHER = new Set(['preview_ready', 'pilot_observed', 'production_approved']);
 const NUTRITION_ROLE_POLICY = Object.freeze({
@@ -64,33 +92,33 @@ const FIRST_STAGE_SAFETY_ENDPOINT_CODES = new Set([
   'beef_fully_cooked',
   'heated_through',
 ]);
-const PREVIEW_BLOCKED_RECIPE_IDS = Object.freeze({
-  wild_mushroom: new Set(['banshan-wild-rice']),
-  ceremonial_glutinous_rice: new Set(['daxi-lotus-leaf-oil-rice']),
+const PREVIEW_BLOCKED_VARIANT_IDS = Object.freeze({
+  wild_mushroom: new Set(['home-wild-mushroom-rice']),
+  ceremonial_glutinous_rice: new Set(['home-lotus-leaf-oil-rice']),
   requires_mid_cook_opening: new Set([
-    'cantonese-cured-meat-claypot-rice',
-    'cantonese-mushroom-chicken-claypot-rice',
-    'cantonese-black-bean-pork-rib-claypot-rice',
-    'shanghai-salted-pork-vegetable-rice',
-    'suzhou-salted-pork-vegetable-rice',
-    'nanjing-cured-pork-greens-rice',
-    'nanjing-sausage-greens-rice',
-    'taiwan-cabbage-mushroom-rice',
-    'fujian-gai-cai-minced-pork-rice',
-    'xinjiang-vegetable-pilaf',
-    'cabbage-tofu-braised-rice',
-    'mushroom-greens-tofu-covered-rice',
-    'broccoli-beef-braised-rice',
-    'greens-minced-pork-braised-rice',
+    'home-cantonese-cured-meat-claypot-rice',
+    'home-cantonese-mushroom-chicken-claypot-rice',
+    'home-cantonese-black-bean-pork-rib-claypot-rice',
+    'shanghai-salted-pork-rice',
+    'home-suzhou-salted-pork-vegetable-rice',
+    'home-nanjing-cured-pork-greens-rice',
+    'home-nanjing-sausage-greens-rice',
+    'home-taiwan-cabbage-mushroom-rice',
+    'home-fujian-gai-cai-minced-pork-rice',
+    'home-xinjiang-vegetable-pilaf',
+    'home-cabbage-tofu-rice',
+    'home-mushroom-greens-tofu-rice',
+    'home-broccoli-beef-rice',
+    'home-greens-minced-pork-rice',
   ]),
 });
-const CONTROLLED_FINISH_OVERRIDE_RECIPE_IDS = new Set([
-  'cabbage-tofu-braised-rice',
-  'broccoli-beef-braised-rice',
-  'greens-minced-pork-braised-rice',
+const CONTROLLED_FINISH_OVERRIDE_VARIANT_IDS = new Set([
+  'home-cabbage-tofu-rice',
+  'home-broccoli-beef-rice',
+  'home-greens-minced-pork-rice',
 ]);
-const CONTROLLED_MID_OPEN_OVERRIDE_RECIPE_IDS = new Set([
-  'shanghai-salted-pork-vegetable-rice',
+const CONTROLLED_MID_OPEN_OVERRIDE_VARIANT_IDS = new Set([
+  'shanghai-salted-pork-rice',
 ]);
 const FORBIDDEN_FINISH_ONLY_CATEGORIES = new Set([
   'chicken', 'pork', 'lamb', 'beef', 'seafood', 'egg',
@@ -100,12 +128,13 @@ const TRUSTED_IDENTITY_URL_SUFFIXES = ['gov.cn', 'gov.tw', 'edu.tw'];
 const ROOT_FIELDS = new Set(['schema_version', 'catalog_version', 'families']);
 const FAMILY_FIELDS = new Set(['family_id', 'variants']);
 const VARIANT_FIELDS = new Set([
-  'variant_id', 'recipe_id', 'display_name', 'name_label', 'status', 'status_history',
+  'variant_id', 'recipe_id', 'evidence_refs', 'display_name', 'name_label', 'status', 'status_history',
   'identity_level', 'region_codes', 'identity_refs', 'rice', 'ingredients', 'approved_substitutions',
   'forbidden_combinations', 'nutrition_structure', 'cooker_adaptation', 'ratio_rule_ids',
   'safety_endpoints', 'source_refs', 'exclusion_flags', 'review_note',
   'supported_servings', 'collection_candidate_id', 'preview_notice_code',
 ]);
+const EVIDENCE_REFERENCE_FIELDS = new Set(['kind', 'id', 'supports']);
 const REFERENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_REFERENCE_FIELDS = new Set([
   'usage', 'direct', 'source_kind', 'publisher', 'retrieved_at', 'title', 'url',
@@ -265,9 +294,9 @@ function validateIdentityReference(ref, label, errors) {
   if (!isMachineVerifiableIdentityUrl(ref.url)) errors.push(`${label}.url must use a trusted direct non-project non-placeholder HTTPS suffix`);
 }
 
-function derivedExclusionFlags(recipeId) {
-  return new Set(Object.entries(PREVIEW_BLOCKED_RECIPE_IDS)
-    .filter(([, recipeIds]) => recipeIds.has(recipeId))
+function derivedExclusionFlags(variantId) {
+  return new Set(Object.entries(PREVIEW_BLOCKED_VARIANT_IDS)
+    .filter(([, variantIds]) => variantIds.has(variantId))
     .map(([flag]) => flag));
 }
 
@@ -675,8 +704,14 @@ function validateRatioBindings(variant, label, materialRules, context, errors) {
   const declaredRules = declaredRulePairs.map(pair => pair.rule);
 
   for (const { index, rule } of declaredRulePairs) {
-    if (rule.when?.recipe_id !== variant.recipe_id) {
-      errors.push(`${label}.ratio_rule_ids[${index}] must bind to recipe_id ${variant.recipe_id}`);
+    const bindsVariant = rule.when?.variant_id === variant.variant_id;
+    const bindsLegacyRecipe = isNonEmptyString(variant.recipe_id)
+      && rule.when?.recipe_id === variant.recipe_id;
+    if (!bindsVariant && !bindsLegacyRecipe) {
+      const legacySuffix = isNonEmptyString(variant.recipe_id)
+        ? ` or must bind to recipe_id ${variant.recipe_id}`
+        : '';
+      errors.push(`${label}.ratio_rule_ids[${index}] must bind to variant_id ${variant.variant_id}${legacySuffix}`);
     }
     if (PREVIEW_OR_HIGHER.has(variant.status) && rule.execution_mode !== 'executable') {
       errors.push(`${label} preview_ready ratio rule must be executable`);
@@ -711,6 +746,99 @@ function validateRatioBindings(variant, label, materialRules, context, errors) {
       && materialRules.some(material => material.amountRuleId === null)
       && !String(variant.review_note || '').includes('未量化')) {
     errors.push(`${label} planned unquantified materials require a review_note that explains 未量化 gap`);
+  }
+}
+
+function sourceSupportErrors(entry, support) {
+  const errors = [];
+  const allowedUses = new Set(Array.isArray(entry?.rights?.allowed_use) ? entry.rights.allowed_use : []);
+  const capabilityUses = SOURCE_ALLOWED_USE_BY_SUPPORT[support] || new Set();
+  if (![...capabilityUses].some(use => allowedUses.has(use))) {
+    errors.push(`support ${support} is not allowed by source rights`);
+  }
+  if (entry?.verdict?.status === 'research_only' && support !== 'identity') {
+    errors.push(`research_only source may support identity only, not ${support}`);
+  }
+  const forbiddenUses = new Set(Array.isArray(entry?.rights?.forbidden_use) ? entry.rights.forbidden_use : []);
+  if ([...(SOURCE_FORBIDDEN_USE_BY_SUPPORT[support] || [])].some(use => forbiddenUses.has(use))) {
+    errors.push(`support ${support} conflicts with forbidden_use`);
+  }
+  const cannotProve = Array.isArray(entry?.cannot_prove) ? entry.cannot_prove.join('；') : '';
+  if (SOURCE_CANNOT_PROVE_BY_SUPPORT[support]?.test(cannotProve)) {
+    errors.push(`support ${support} conflicts with cannot_prove`);
+  }
+  return errors;
+}
+
+function recipeSupportErrors(recipe, support, context) {
+  const recipeId = recipe?.id;
+  const evidenceRules = [...context.ratioRules.values()].filter(rule => (
+    rule?.when?.recipe_id === recipeId
+    || (Array.isArray(rule?.evidence_recipe_ids) && rule.evidence_recipe_ids.includes(recipeId))
+  ));
+  const hasQuantity = evidenceRules.some(rule => Array.isArray(rule?.operations)
+    && rule.operations.some(operation => [
+      'reference_quantity', 'per_serving', 'allocate_group_total_per_serving',
+    ].includes(operation?.operator)));
+  const hasLiquid = evidenceRules.some(rule => Array.isArray(rule?.operations)
+    && rule.operations.some(operation => operation?.operator === 'ratio'
+      || ['liquid'].includes(operation?.target?.category)));
+  const capabilities = {
+    identity: isNonEmptyString(recipeId) && isNonEmptyString(recipe?.name),
+    quantity: hasQuantity,
+    liquid: hasLiquid,
+    appliance: false,
+    process: Array.isArray(recipe?.technique) && recipe.technique.some(isNonEmptyString),
+  };
+  return capabilities[support] ? [] : [`recipe evidence ${recipeId} cannot support ${support}`];
+}
+
+function validateEvidenceReferences(evidenceRefs, label, context, errors) {
+  if (!Array.isArray(evidenceRefs) || evidenceRefs.length === 0) {
+    errors.push(`${label}.evidence_refs must be a non-empty array`);
+    return;
+  }
+  const seen = new Set();
+  for (const [index, ref] of evidenceRefs.entries()) {
+    const refLabel = `${label}.evidence_refs[${index}]`;
+    if (!isPlainObject(ref)) {
+      errors.push(`${refLabel} must be an object`);
+      continue;
+    }
+    pushUnknownKeys(errors, ref, EVIDENCE_REFERENCE_FIELDS, refLabel);
+    if (!EVIDENCE_KINDS.has(ref.kind)) {
+      errors.push(`${refLabel}.kind must be recipe or source`);
+    }
+    if (!ID_RE.test(ref.id || '')) {
+      errors.push(`${refLabel}.id must be a kebab-case ID`);
+    } else if (ref.kind === 'recipe' && !context.recipeIds.has(ref.id)) {
+      errors.push(`${refLabel} unknown recipe evidence id: ${ref.id}`);
+    } else if (ref.kind === 'source' && !context.sourceEvidenceById.has(ref.id)) {
+      errors.push(`${refLabel} unknown source evidence id: ${ref.id}`);
+    }
+    const identity = `${String(ref.kind)}:${String(ref.id)}`;
+    if (seen.has(identity)) errors.push(`${label}.evidence_refs must not contain duplicate kind/id pairs`);
+    seen.add(identity);
+    if (!Array.isArray(ref.supports) || ref.supports.length === 0) {
+      errors.push(`${refLabel}.supports must be a non-empty array`);
+      continue;
+    }
+    const seenSupports = new Set();
+    for (const support of ref.supports) {
+      if (!EVIDENCE_SUPPORTS.has(support)) {
+        errors.push(`${refLabel}.supports contains unsupported value: ${String(support)}`);
+      } else if (ref.kind === 'recipe' && context.recipeById.has(ref.id)) {
+        for (const recipeError of recipeSupportErrors(context.recipeById.get(ref.id), support, context)) {
+          errors.push(`${refLabel} ${recipeError}`);
+        }
+      } else if (ref.kind === 'source' && context.sourceEvidenceById.has(ref.id)) {
+        for (const sourceError of sourceSupportErrors(context.sourceEvidenceById.get(ref.id), support)) {
+          errors.push(`${refLabel} ${sourceError}`);
+        }
+      }
+      if (seenSupports.has(support)) errors.push(`${refLabel}.supports must not contain duplicates`);
+      seenSupports.add(support);
+    }
   }
 }
 
@@ -801,7 +929,7 @@ function validateActionList(value, phase, label, materials, actionMaterialIds, e
 }
 
 function controlledMidCycleProtocol(variant, materials, safetyEndpoints) {
-  const eligible = CONTROLLED_MID_OPEN_OVERRIDE_RECIPE_IDS.has(variant.recipe_id)
+  const eligible = CONTROLLED_MID_OPEN_OVERRIDE_VARIANT_IDS.has(variant.variant_id)
     && PREVIEW_OR_HIGHER.has(variant.status);
   if (!eligible) return { eligible: false, ok: false, heldIds: new Set(), errors: [] };
   const adaptation = isPlainObject(variant.cooker_adaptation) ? variant.cooker_adaptation : {};
@@ -863,7 +991,7 @@ function controlledMidCycleProtocol(variant, materials, safetyEndpoints) {
 }
 
 function controlledFinishProtocol(variant, materials, safetyEndpoints) {
-  const eligible = CONTROLLED_FINISH_OVERRIDE_RECIPE_IDS.has(variant.recipe_id)
+  const eligible = CONTROLLED_FINISH_OVERRIDE_VARIANT_IDS.has(variant.variant_id)
     && PREVIEW_OR_HIGHER.has(variant.status);
   if (!eligible) return { eligible: false, ok: false, heldIds: new Set(), errors: [] };
   const adaptation = isPlainObject(variant.cooker_adaptation) ? variant.cooker_adaptation : {};
@@ -1047,7 +1175,17 @@ function validateVariant(variant, label, context, variantIds, errors) {
   if (!ID_RE.test(variant.variant_id || '')) errors.push(`${label}.variant_id must be a kebab-case ID`);
   else if (variantIds.has(variant.variant_id)) errors.push(`duplicate variant id: ${variant.variant_id}`);
   else variantIds.add(variant.variant_id);
-  if (!context.recipeIds.has(variant.recipe_id)) errors.push(`${label}.recipe_id unknown recipe_id: ${String(variant.recipe_id)}`);
+  if (variant.recipe_id !== undefined && variant.recipe_id !== null) {
+    if (!ID_RE.test(variant.recipe_id || '')) errors.push(`${label}.recipe_id must be null or a kebab-case ID`);
+    else if (!context.recipeIds.has(variant.recipe_id)) errors.push(`${label}.recipe_id unknown recipe_id: ${String(variant.recipe_id)}`);
+  }
+  validateEvidenceReferences(variant.evidence_refs, label, context, errors);
+  if (isNonEmptyString(variant.recipe_id)
+      && !(Array.isArray(variant.evidence_refs) && variant.evidence_refs.some(ref => (
+        ref?.kind === 'recipe' && ref?.id === variant.recipe_id
+      )))) {
+    errors.push(`${label}.recipe_id ${variant.recipe_id} requires a same-ID recipe evidence_ref`);
+  }
   if (!isNonEmptyString(variant.display_name)) errors.push(`${label}.display_name must be a real non-empty name`);
   if (!isNonEmptyString(variant.name_label)) errors.push(`${label}.name_label must be a non-empty string`);
   if (!isNonEmptyString(variant.review_note)) errors.push(`${label}.review_note must be a non-empty string`);
@@ -1182,11 +1320,11 @@ function validateVariant(variant, label, context, variantIds, errors) {
       seenExclusionFlags.add(flag);
     }
     const explicitFlags = new Set(exclusionFlags);
-    const derivedFlags = derivedExclusionFlags(variant.recipe_id);
+    const derivedFlags = derivedExclusionFlags(variant.variant_id);
     if (finishProtocol.ok) derivedFlags.delete('requires_mid_cook_opening');
     if (midCycleProtocol.ok) derivedFlags.delete('requires_mid_cook_opening');
     if (derivedFlags.size > 0 && !setsMatch(explicitFlags, derivedFlags)) {
-      errors.push(`${label}.exclusion_flags must match recipe_id derived risks: ${[...derivedFlags].join(', ')}`);
+      errors.push(`${label}.exclusion_flags must match variant_id derived risks: ${[...derivedFlags].join(', ')}`);
     }
     const effectiveFlags = new Set([...explicitFlags, ...derivedFlags]);
     if (effectiveFlags.size > 0 && PREVIEW_OR_HIGHER.has(variant.status)) {
@@ -1215,7 +1353,13 @@ function validateVariant(variant, label, context, variantIds, errors) {
   }
 }
 
-export function validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, ratioCatalog, collection } = {}) {
+export function validateRiceMealCatalog(catalog, {
+  recipeLibrary,
+  sourceEvidence,
+  taxonomy,
+  ratioCatalog,
+  collection,
+} = {}) {
   try {
     const errors = [];
     if (!isPlainObject(catalog)) return ['rice meal catalog must be an object'];
@@ -1223,8 +1367,16 @@ export function validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, rati
     if (catalog.schema_version !== 1) errors.push('schema_version must be 1');
     if (catalog.catalog_version !== CATALOG_VERSION) errors.push(`catalog_version must be ${CATALOG_VERSION}`);
     if (!Array.isArray(catalog.families)) return [...errors, 'families must be an array'];
+    const sourceEvidenceErrors = validateRiceCookerSourceEvidence(sourceEvidence);
+    errors.push(...sourceEvidenceErrors.map(error => `source evidence ledger: ${error}`));
+    const sourceEvidenceById = sourceEvidenceErrors.length === 0
+      ? new Map(sourceEvidence.entries.map(entry => [entry.source_id, entry]))
+      : new Map();
     const context = {
       recipeIds: idSet(recipeLibrary?.recipes, 'id'),
+      recipeById: new Map((Array.isArray(recipeLibrary?.recipes) ? recipeLibrary.recipes : [])
+        .filter(recipe => isNonEmptyString(recipe?.id)).map(recipe => [recipe.id, recipe])),
+      sourceEvidenceById,
       canonicals: canonicalItems(taxonomy),
       ratios: knownRatioIds(ratioCatalog),
       ratioRules: knownRatioRules(ratioCatalog),

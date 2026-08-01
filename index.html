@@ -1715,11 +1715,29 @@ function riceUserNoticeHtml(notices) {
 function validRiceCandidate(candidate) {
   return !!(candidate && typeof candidate.plan_id === 'string' && candidate.plan_id
     && typeof candidate.plan_token === 'string' && candidate.plan_token
+    && typeof candidate.variant_id === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(candidate.variant_id)
+    && (candidate.recipe_id == null
+      || (typeof candidate.recipe_id === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(candidate.recipe_id)))
     && typeof candidate.display_name === 'string' && candidate.display_name
     && Number.isInteger(candidate.coverage_count) && Number.isInteger(candidate.coverage_total)
     && candidate.coverage_count >= 1 && candidate.coverage_total >= candidate.coverage_count
     && ['A','B'].includes(candidate.nutrition_grade)
     && Array.isArray(candidate.used_items) && Array.isArray(candidate.unused_items));
+}
+function riceSourceLink(candidate) {
+  const recipeId = candidate && candidate.recipe_id;
+  if (typeof recipeId === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(recipeId)) {
+    return '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(recipeId) + '">查看一锅出标准配方</a>';
+  }
+  for (const ref of Array.isArray(candidate && candidate.source_refs) ? candidate.source_refs : []) {
+    const rawUrl = boundedText(ref && ref.url, 500);
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.protocol !== 'https:' || parsed.username || parsed.password) continue;
+      return '<a class="plan-presentation-source" href="' + esc(parsed.href) + '" target="_blank" rel="noopener noreferrer">查看事实来源</a>';
+    } catch (_error) { /* ignore malformed source evidence */ }
+  }
+  return '';
 }
 function ricePreparationLabel(candidate, preActions) {
   if (candidate && candidate.cooker_adaptation_level === 'process_adaptation') {
@@ -1755,7 +1773,7 @@ function riceCandidateCard(candidate) {
     + (total == null ? '' : '<span class="pantry-plan-items"><strong>全程 ' + total + ' 分钟</strong></span>')
     + riceUserNoticeHtml(candidate.user_notices)
     + '<span class="pantry-plan-note">选中后直接打开已锁定的用量和电饭煲步骤。</span></button>'
-    + (candidate.recipe_id ? '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(candidate.recipe_id) + '">查看一锅出标准配方</a>' : '')
+    + riceSourceLink(candidate)
     + '</article>';
 }
 function riceMealCandidatesScreen() {
@@ -1835,7 +1853,7 @@ function riceMealResultScreen() {
     + '<p class="pantry-plan-items"><strong>营养搭配 ' + esc(candidate.nutrition_grade || '') + '：</strong>' + esc(nutritionRoles.join('、')) + '</p>'
     + (unused.length ? '<p class="pantry-plan-items"><strong>这次没有使用：</strong>' + unused.join('；') + '</p>' : '')
     + riceUserNoticeHtml(generated.user_notices || meal.user_notices)
-    + (candidate.recipe_id ? '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(candidate.recipe_id) + '">查看一锅出标准配方</a>' : '') + '</div></section>'
+    + riceSourceLink(candidate) + '</div></section>'
     + '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3></div><ul class="ing-list">' + ingredients + '</ul></section>'
     + '<section class="block" id="rice-cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>'
     + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-rice-cooking">开始做</button><button class="btn btn-ghost" data-act="request-rice-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改配菜忌口</button></div></div>'

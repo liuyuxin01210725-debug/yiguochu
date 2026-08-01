@@ -1,15 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 
 import worker from '../../worker/src/worker.js';
+import { canonicalJson } from '../../worker/src/rice-meal-selector.js';
 
 const readAsset = name => fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8');
+const SOURCE_EVIDENCE = readAsset('rice-cooker-source-evidence.v1.json');
+const SOURCE_EVIDENCE_SHA256 = crypto.createHash('sha256')
+  .update(canonicalJson(JSON.parse(SOURCE_EVIDENCE)))
+  .digest('hex');
 const RICE_MEAL_BUILD_META = JSON.stringify({
   buildId: 'rice-meal-worker-test',
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
+  riceCookerSourceEvidenceVersion: 'rice-cooker-source-evidence-v1-20260802',
+  riceCookerSourceEvidenceSha256: SOURCE_EVIDENCE_SHA256,
 });
 const LEGACY_BUILD_META = JSON.stringify({
   buildId: 'legacy-worker-test',
@@ -26,6 +34,7 @@ const SOURCE_ASSETS = Object.freeze({
   '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
   '/rice-meal-catalog.v1.json': readAsset('rice-meal-catalog.v1.json'),
   '/rice-meal-collection.v1.json': readAsset('rice-meal-collection.v1.json'),
+  '/rice-cooker-source-evidence.v1.json': SOURCE_EVIDENCE,
   '/foods-tw.json': readAsset('foods-tw.json'),
   '/build-meta.json': RICE_MEAL_BUILD_META,
 });
@@ -34,6 +43,7 @@ function assetBinding(overrides = {}) {
   const bytes = { ...SOURCE_ASSETS, ...overrides };
   return {
     calls: [],
+    set(pathname, value) { bytes[pathname] = value; },
     async fetch(request) {
       const pathname = new URL(request.url).pathname;
       this.calls.push(pathname);
@@ -274,6 +284,48 @@ test('rice-meal build fails closed when its catalog or focus metadata is unavail
   assert.equal(invalidMetadata.modelCalls, 0);
 });
 
+test('rice-meal endpoints fail closed when source evidence is missing, contradictory, or mismatched to build metadata', async () => {
+  const missing = await post('/plan-meal', ricePlanRequest(), {
+    assets: assetBinding({ '/rice-cooker-source-evidence.v1.json': undefined }),
+  });
+  assert.equal(missing.status, 503);
+  assert.equal(missing.body.code, 'rice_meal_assets_unavailable');
+
+  const contradictoryLedger = JSON.parse(SOURCE_EVIDENCE);
+  contradictoryLedger.entries.find(entry => (
+    entry.source_id === 'zojirushi-tomato-seafood-rice-corrupted-page'
+  )).verdict.status = 'executable_reference';
+  const contradictory = await post('/plan-meal', ricePlanRequest(), {
+    assets: assetBinding({
+      '/rice-cooker-source-evidence.v1.json': JSON.stringify(contradictoryLedger),
+    }),
+  });
+  assert.equal(contradictory.status, 503);
+  assert.equal(contradictory.body.code, 'rice_meal_assets_unavailable');
+
+  const mismatched = await post('/plan-meal', ricePlanRequest(), {
+    assets: assetBinding({
+      '/build-meta.json': JSON.stringify({
+        ...JSON.parse(RICE_MEAL_BUILD_META),
+        riceCookerSourceEvidenceSha256: '0'.repeat(64),
+      }),
+    }),
+  });
+  assert.equal(mismatched.status, 503);
+  assert.equal(mismatched.body.code, 'rice_meal_assets_unavailable');
+
+  const staleVersion = await post('/plan-meal', ricePlanRequest(), {
+    assets: assetBinding({
+      '/build-meta.json': JSON.stringify({
+        ...JSON.parse(RICE_MEAL_BUILD_META),
+        riceCookerSourceEvidenceVersion: 'rice-cooker-source-evidence-v1-stale',
+      }),
+    }),
+  });
+  assert.equal(staleVersion.status, 503);
+  assert.equal(staleVersion.body.code, 'rice_meal_assets_unavailable');
+});
+
 test('rice build routes parsed invalid bodies by build metadata, never through legacy contracts', async () => {
   const malformedRicePlan = await post('/plan-meal', ricePlanRequest({ dislikes: '不吃辣' }));
   assert.equal(malformedRicePlan.status, 400);
@@ -327,6 +379,52 @@ test('health reports rice catalog availability rather than claiming a missing ca
   assert.equal(body.riceMealPreviewReady, 0);
 });
 
+test('health exposes no source-evidence identity when the ledger is missing or stale', async () => {
+  for (const overrides of [
+    { '/rice-cooker-source-evidence.v1.json': undefined },
+    {
+      '/build-meta.json': JSON.stringify({
+        ...JSON.parse(RICE_MEAL_BUILD_META),
+        riceCookerSourceEvidenceVersion: 'rice-cooker-source-evidence-v1-stale',
+      }),
+    },
+  ]) {
+    const response = await worker.fetch(new Request('https://rice-meal.example/health'), {
+      ASSETS: assetBinding(overrides),
+      RICE_MEAL_PLAN_SECRET: 'worker-rice-meal-test-secret',
+    });
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.riceMealCatalog, 'unavailable');
+    assert.equal(body.riceCookerSourceEvidence, 'unavailable');
+    assert.equal(body.riceCookerSourceEvidenceVersion, null);
+    assert.equal(body.riceCookerSourceEvidenceSha256, null);
+    assert.equal(body.riceMealRuntime, 'unavailable');
+  }
+});
+
+test('cached rice assets are rejected when build metadata changes underneath the same binding', async () => {
+  const assets = assetBinding();
+  const first = await worker.fetch(new Request('https://rice-meal.example/health'), {
+    ASSETS: assets,
+    RICE_MEAL_PLAN_SECRET: 'worker-rice-meal-test-secret',
+  });
+  assert.equal((await first.json()).riceCookerSourceEvidence, 'ok');
+
+  assets.set('/build-meta.json', JSON.stringify({
+    ...JSON.parse(RICE_MEAL_BUILD_META),
+    riceCookerSourceEvidenceSha256: '0'.repeat(64),
+  }));
+  const second = await worker.fetch(new Request('https://rice-meal.example/health'), {
+    ASSETS: assets,
+    RICE_MEAL_PLAN_SECRET: 'worker-rice-meal-test-secret',
+  });
+  const secondBody = await second.json();
+  assert.equal(secondBody.riceCookerSourceEvidence, 'unavailable');
+  assert.equal(secondBody.riceMealCatalog, 'unavailable');
+  assert.equal(secondBody.riceMealRuntime, 'unavailable');
+});
+
 test('health exposes rice catalog facts only for valid rice metadata and includes planned count', async () => {
   const healthy = await worker.fetch(new Request('https://rice-meal.example/health'), {
     ASSETS: assetBinding(),
@@ -339,6 +437,9 @@ test('health exposes rice catalog facts only for valid rice metadata and include
   assert.equal(healthyBody.riceMealVariants, 11);
   assert.equal(healthyBody.riceMealPreviewReady, 8);
   assert.equal(healthyBody.riceMealPlanned, 3);
+  assert.equal(healthyBody.riceCookerSourceEvidence, 'ok');
+  assert.equal(healthyBody.riceCookerSourceEvidenceVersion, 'rice-cooker-source-evidence-v1-20260802');
+  assert.equal(healthyBody.riceCookerSourceEvidenceSha256, SOURCE_EVIDENCE_SHA256);
 
   for (const buildMeta of [
     '{bad json',

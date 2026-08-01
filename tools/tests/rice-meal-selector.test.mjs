@@ -10,6 +10,7 @@ const readJson = name => JSON.parse(fs.readFileSync(path.join(here, '../data', n
 const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const catalog = readJson('rice-meal-catalog.v1.json');
 const ratios = readJson('ratio-rules.v1.json');
+const sourceEvidence = readJson('rice-cooker-source-evidence.v1.json');
 const journeyCorpus = readJson('rice-meal-journeys.v1.json');
 
 // The import is deliberately deferred so the first RED run fails as a test
@@ -55,6 +56,7 @@ function select(request, {
     catalog: sourceCatalog,
     taxonomy,
     ratioCatalog: sourceRatioCatalog || controlledRatioCatalogFor(sourceCatalog),
+    sourceEvidence,
     recentPlanIds,
   });
 }
@@ -179,6 +181,52 @@ test('selector fails closed when the controlled ratio catalog is absent', () => 
     taxonomy,
     recentPlanIds: [],
   }), /ratioCatalog/u);
+});
+
+test('selector binds every candidate to the exact source-evidence ledger version and hash', () => {
+  const result = select({ servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] });
+  assert.equal(result.status, 'ready');
+  assert.equal(result.candidates[0].source_evidence_ledger_version, sourceEvidence.ledger_version);
+  assert.match(result.candidates[0].source_evidence_hash, /^sha256:[a-f0-9]{64}$/u);
+
+  assert.throws(() => selectRiceMealCandidates({
+    request: { servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] },
+    catalog,
+    taxonomy,
+    ratioCatalog: ratios,
+    recentPlanIds: [],
+  }), /sourceEvidence/u);
+});
+
+test('source-only runtime variants bind executable ratios by variant_id without borrowing a recipe identity', () => {
+  const sourceOnlyCatalog = structuredClone(catalog);
+  const sourceOnly = sourceOnlyCatalog.families
+    .flatMap(family => family.variants)
+    .find(row => row.variant_id === 'home-chicken-leg-potato-rice');
+  sourceOnly.recipe_id = null;
+  sourceOnly.display_name = '测试真实菜饭名';
+  sourceOnly.evidence_refs = [{
+    kind: 'source',
+    id: 'panasonic-mixed-chicken-rice-sr-df151',
+    supports: ['identity'],
+  }];
+  const sourceOnlyRatios = structuredClone(ratios);
+  const rule = sourceOnlyRatios.rules.find(row => row.rule_id === 'chicken-leg-potato-braised-rice-executable-v1');
+  rule.when = { variant_id: sourceOnly.variant_id };
+
+  const result = select({ servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] }, {
+    sourceCatalog: sourceOnlyCatalog,
+    sourceRatioCatalog: sourceOnlyRatios,
+  });
+  assert.equal(result.status, 'ready');
+  assert.equal(result.candidates[0].variant_id, sourceOnly.variant_id);
+  assert.equal(result.candidates[0].recipe_id, null);
+  assert.equal(result.candidates[0].display_name, '测试真实菜饭名');
+  assert.deepEqual(result.candidates[0].source_refs, [{
+    source_id: 'panasonic-mixed-chicken-rice-sr-df151',
+    title: '什锦鸡饭',
+    url: 'https://home.panasonic.cn/support/attachments/auld/manual/SR-DF151.pdf',
+  }]);
 });
 
 test('Shanghai salted pork vegetable rice is a real three-serving plan and never leaks into unreviewed serving sizes', () => {
