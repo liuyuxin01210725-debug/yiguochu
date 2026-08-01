@@ -53,6 +53,7 @@ const CHECKER_DATA_FILES = [
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
   'rice-meal-catalog.v1.json',
+  'rice-meal-collection.v1.json',
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
   'regional-menu-research.v1.json',
