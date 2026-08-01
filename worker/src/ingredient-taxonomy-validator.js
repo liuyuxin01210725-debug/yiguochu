@@ -148,7 +148,7 @@ export function validateIngredientTaxonomy(data) {
   for (const key of Object.keys(data)) {
     if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
   }
-  if (data.taxonomy_version !== 'taxonomy-v1-20260802-r11') errors.push('taxonomy_version must be taxonomy-v1-20260802-r11');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260802-r12') errors.push('taxonomy_version must be taxonomy-v1-20260802-r12');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];

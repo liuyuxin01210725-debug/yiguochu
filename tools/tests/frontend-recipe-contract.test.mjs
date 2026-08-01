@@ -302,6 +302,21 @@ test('frontend maps and renders trusted recipe evidence', () => {
   }
 });
 
+test('rice meal nutrition summaries show each nutrition role only once', () => {
+  const { context } = loadFrontend();
+  const markup = evaluate(context, `riceCandidateCard({
+    plan_id:'sha256:test', plan_token:'token', variant_id:'test-rice', recipe_id:null,
+    display_name:'测试菜饭', coverage_count:3, coverage_total:3,
+    used_items:[{raw:'大米'},{raw:'白菜'},{raw:'香菇'}], unused_items:[],
+    nutrition_grade:'B',
+    nutrition_roles:[{role:'carb'},{role:'fiber'},{role:'fiber'}],
+    required_extra_items:[], execution_actions:{pre_actions:[]},
+    active_time_minutes:10, total_time_minutes:30, user_notices:[],
+    source_refs:[], cooker_adaptation_level:'direct_rice_cooker'
+  })`);
+  assert.equal((markup.match(/膳食纤维/g) || []).length, 1);
+});
+
 test('preview uses only its same-origin generation endpoint', () => {
   const { context } = loadFrontend([], {
     proxy: null,

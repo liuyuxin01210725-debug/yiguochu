@@ -31,7 +31,7 @@ test('every public common-pantry chip is recognized by the active taxonomy', () 
 });
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260802-r11');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260802-r12');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -112,7 +112,7 @@ test('shrimp and sweet corn aliases preserve controlled cooking identities', () 
   assert.ok(corn.compatible_slot_codes.includes('vegetable'));
 });
 
-test('the eight calibration identities are explicit while generic 青豆 stays unresolved', () => {
+test('the eight calibration identities accept the household name 青豆 for green peas', () => {
   const rows = normalizePlannerItems(
     ['虾米', '南瓜', '青豌豆', '竹笋', '干木耳', '油炸豆腐', '牛蒡', '芹菜', '青豆'],
     catalog,
@@ -123,8 +123,8 @@ test('the eight calibration identities are explicit while generic 青豆 stays u
   ]);
   assert.ok(rows.slice(0, 8).every(row => row.recognized), JSON.stringify(rows));
   assert.equal(rows[8].raw, '青豆');
-  assert.equal(rows[8].recognized, false);
-  assert.equal(rows[8].canonical_id, null);
+  assert.equal(rows[8].recognized, true);
+  assert.equal(rows[8].canonical_id, 'green-peas');
 });
 
 test('millet and chickpea states remain explicit and non-interchangeable', () => {
