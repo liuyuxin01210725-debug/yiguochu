@@ -10,6 +10,7 @@ import { validateRatioDslCatalog } from './lib/ratio-dsl-validator.mjs';
 import { validateRecipeRuntimeCatalog } from './lib/recipe-runtime-validator.mjs';
 import { validateRiceMealCatalog } from './lib/rice-meal-catalog-validator.mjs';
 import { validateRiceMealCollection } from './lib/rice-meal-collection-validator.mjs';
+import { buildRiceMealCollectionArtifacts } from './lib/rice-meal-collection-renderer.mjs';
 import { validateRegionalMenuResearch } from './lib/regional-menu-research-validator.mjs';
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
 import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
@@ -165,6 +166,15 @@ const riceMealCatalogErrors = validateRiceMealCatalog(riceMealCatalog, {
   ratioCatalog: ratios,
 });
 const riceMealCollectionErrors = validateRiceMealCollection(riceMealCollection, { taxonomy, catalog: riceMealCatalog });
+const riceMealCollectionArtifactErrors = [];
+if (riceMealCollectionErrors.length === 0) {
+  for (const [relativePath, content] of buildRiceMealCollectionArtifacts(riceMealCollection)) {
+    const artifact = new URL(`../${relativePath}`, import.meta.url);
+    if (!fs.existsSync(artifact) || !fs.readFileSync(artifact).equals(Buffer.from(content, 'utf8'))) {
+      riceMealCollectionArtifactErrors.push(`${relativePath} is missing or stale; run node tools/build-rice-meal-collection.mjs --write`);
+    }
+  }
+}
 const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   recipes: lib,
   taxonomy,
@@ -172,7 +182,7 @@ const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   ratios,
   actionProfiles: recipeActionProfiles,
 });
-errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...riceMealCatalogErrors, ...riceMealCollectionErrors, ...recipeRuntimeErrors);
+errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...riceMealCatalogErrors, ...riceMealCollectionErrors, ...riceMealCollectionArtifactErrors, ...recipeRuntimeErrors);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];
 const families = Array.isArray(lib.families) ? lib.families : [];
 const recipeIds = new Set(recipes.filter(recipe => recipe && typeof recipe === 'object').map(recipe => recipe.id));
