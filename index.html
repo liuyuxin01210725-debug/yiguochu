@@ -1840,7 +1840,7 @@ function riceMealResultScreen() {
     + '<section class="block" id="rice-cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>'
     + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-rice-cooking">开始做</button><button class="btn btn-ghost" data-act="request-rice-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改配菜忌口</button></div></div>'
     + '<div class="col-side"><section class="block nutri-block"><p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px;line-height:1.5;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）。未命中的项目会标「估」。</p></section></div>'
-    + '<div class="result-foot">菜名、食材、克数、顺序和安全终点都与已选签名计划对齐；本路径不调用模型服务。</div></div>';
+    + '<div class="result-foot">这道菜饭的食材、克数、顺序和安全检查均已固定，不会临时替换。</div></div>';
 }
 function showRiceMealStatus(result) {
   state.riceStatusResult = cloneJson(result || {});

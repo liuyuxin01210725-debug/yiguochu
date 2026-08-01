@@ -303,7 +303,8 @@ test('process-adapted rice meals disclose outside-pot prep and keep unused items
   assert.match(root.innerHTML, /营养搭配 B：.*碳水 \/ 主食.*蛋白质/u);
   assert.match(root.innerHTML, /这次没有使用：.*胡萝卜/u);
   assert.match(root.innerHTML, /这套菜饭的受控搭配暂不使用胡萝卜/u);
-  assert.doesNotMatch(root.innerHTML, /电饭煲一锅出|Preview 家庭测试标准|待真实厨房反馈/u);
+  assert.match(root.innerHTML, /食材、克数、顺序和安全检查均已固定，不会临时替换/u);
+  assert.doesNotMatch(root.innerHTML, /电饭煲一锅出|Preview 家庭测试标准|待真实厨房反馈|签名计划|模型服务/u);
 });
 
 test('mature candidate and result DOM do not show household test notices', async () => {
