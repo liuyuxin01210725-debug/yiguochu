@@ -1,5 +1,5 @@
 {
-  "taxonomy_version": "taxonomy-v1-20260802-r11",
+  "taxonomy_version": "taxonomy-v1-20260802-r12",
   "items": [
     {
       "canonical_id": "raw-rice",
@@ -2580,6 +2580,7 @@
       "canonical_id": "green-peas",
       "display_name": "青豌豆",
       "aliases": [
+        "青豆",
         "豌豆仁",
         "甜豌豆"
       ],
