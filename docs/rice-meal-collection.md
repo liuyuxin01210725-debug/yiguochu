@@ -20,10 +20,16 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 南京矮脚黄板鸭菜饭 | 糯米、矮脚黄、熟板鸭、姜 | A | glutinous-rice | 糯米、菜和熟鸭焖制 | identity | identity_only | 无数量、液体和器具证据 | identity_only |
-| 吴江香青菜咸肉饭 | 米、吴江青菜、咸肉 | A | raw-rice | 菜与咸肉配米蒸煮 | identity | identity_only | 无工艺数量 | identity_only |
+| 南京矮脚黄板鸭菜饭 | 糯米、矮脚黄、板鸭丁、姜 | A | glutinous-rice | 文化来源记录板鸭丁、矮脚黄与糯米一起煮，同文又有青菜米饭翻炒的概括，未形成唯一可执行流程 | identity、safety | identity_only | 板鸭丁的生熟状态未定：咸板鸭为生制品须合法熟制，盐水鸭才是熟制即食；不得自动归一为熟板鸭；缺数量、有效液体、份数、器具与唯一工艺 | identity_only |
+| 吴江香青菜咸肉饭 | 米、吴江香青菜、咸肉 | A | rice-state-unverified | 来源只证明吴江香青菜与咸肉饭的地域身份，不证明配米蒸煮流程 | identity | identity_only | 来源未给投料数量、米的生熟/浸泡状态、有效液体和完整工艺；不得用邻近地区菜饭流程补写 | identity_only |
 
 ## 浙江（CN-ZJ）
+
+### jiangnan-mustard-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 温州芥菜饭 | 糯米、芥菜、猪肉末 | A | glutinous-rice | 传统资料支持浸泡糯米先蒸熟，芥菜与肉等配料炒香后再合并炒拌，不是生米一键闭盖流程 | identity | identity_only | 一手来源未给精确数量、有效液体、份数与熟制终点；传统“蒸米+炒配料+合并炒拌”不能静默改成一只电饭煲一键版；须家庭实验并明标改编 | research_candidate |
 
 ### seasonal-mixed-rice
 
@@ -41,17 +47,23 @@
 
 ## 福建（CN-FJ）
 
+### minnan-crab-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 泉州红蟳饭（红膏蟳饭） | 大米/糯米、红膏蟳（雌性青蟹）、五花肉、干香菇、干贝/虾仁干 | A | mixed-rice | 泉州官方资料记录活蟹处理与先煎、香菇干贝五花肉炒香、与米合并高压或蒸制的分支流程 | identity | identity_only | 未取得团体标准正文；页面无精确食材克数、有效液体、份数、时间和家庭设备档位；活蟹处理、蟹壳锐物、甲壳/贝类过敏、死蟹禁用、冷链和蟹肉完全熟制均未形成可机器验证终点；不得用虾仁替换红膏蟳后仍使用红蟳饭的地域真名 | research_candidate |
+
 ### minnan-oil-rice
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 泉州海味三层肉浥饭（油饭） | 米、五花肉、豆干、香菇、蚝/干贝 | A | raw-rice | 油葱、海味和肉同焖 | identity | identity_only | 无数量液体；海鲜过敏和盐分边界 | planned |
+| 泉州海味三层肉浥饭（油饭） | 米、五花肉、豆干、香菇、蚝/干贝 | A | raw-rice | 官方原型是生大米、三层肉、豆干、香菇与海味在柴火锅中同煮 | identity | identity_only | 来源无数量、有效液体、份数、家庭器具参数及海鲜熟制/过敏边界；官方原型的生大米+三层肉+豆干+海味与当前映射的泡发糯米+肉末+香菇不等价；未闭合前不得冒充地域原方 | planned |
 
 ### minnan-salted-rice
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 福建盖菜肉末咸饭 | 米、盖菜、洋葱、瘦猪肉 | A | raw-rice | 学校供餐配料比例，工艺未给 | identity、quantity、nutrition | partial | 无液体与器具工艺 | research_candidate |
+| 福建盖菜肉末咸饭 | 稻米、盖菜、洋葱、瘦猪肉 | A | raw-rice | 官方学生带量表只证明每名9至11岁学生的食材可食部克数，不提供烹调工艺 | identity、quantity、nutrition | partial | 来源给出稻米105g、盖菜115g、洋葱30g、瘦猪肉25g/名9至11岁学生，但无有效液体、烹调流程、家庭器具和成人份校准 | research_candidate |
 
 ## 台湾（CN-TW）
 
@@ -59,8 +71,8 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 台湾高丽菜饭 | 米、高丽菜、虾米、香菇 | B | raw-rice | 电饭煲炊饭 | identity、quantity、liquid、appliance | partial | 量杯标准化和焯沥高丽菜水分契约未闭合 | planned |
-| 台湾南瓜饭 | 米、南瓜、猪绞肉、虾米、香菇 | A | raw-rice | 电饭煲一次烹调，水为米量0.8倍 | identity、quantity、liquid、appliance | partial | 量杯标准化与二次烹调能力未闭合 | planned |
+| 台湾高丽菜饭 | 米、高丽菜、虾米、香菇 | B | raw-rice | 来源为电锅炊饭：高丽菜、虾米、香菇等与米按固定批量处理，水为米体积量0.8倍 | identity、quantity、liquid、appliance | partial | 2杯米与0.8倍水为来源体积量，缺可迁移的克/毫升换算、份数和调味克数；10g虾米只作风味与过敏因素，不得冒充实质蛋白贡献；高丽菜、虾米等未完成本项目 taxonomy，且焯沥/析水对有效液体的影响未闭合 | planned |
+| 台湾南瓜饭 | 米、南瓜、猪绞肉、虾米、香菇 | A | raw-rice | 来源按厂家量杯取米、水为米体积量0.8倍；首次完成后静置15分钟并再启动一次开关 | identity、quantity、liquid、appliance | partial | 来源未给量杯到克/毫升的可迁移换算、明确份数及调味克数；静置15分钟后第二次按键的行为不能默认在所有机型上等价；需跨机型家庭验证；南瓜、虾米等尚未完成本项目受控 taxonomy/过敏边界 | planned |
 
 ## 广东（CN-GD）
 
@@ -68,15 +80,15 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 广州豆豉排骨煲仔饭 | 米、排骨、豆豉 | B | raw-rice | 砂锅后加排骨 | identity | identity_only | 后加排骨、盐分和液体未闭合 | research_candidate |
+| 豉汁排骨饭 | 米、排骨、豆豉 | B | raw-rice | 番禺官方资料将豉汁排骨饭列为煲仔饭分支，水将收干时加腌肉再小火焖熟 | identity | identity_only | 豆豉与复合酱汁克数、有效液体、两人份和普通电饭煲程序未闭合；带骨排骨最厚肉处的熟制终点和高钠边界未闭合；松下花菇排骨焖饭只是型号专属近邻证据，不是豉汁排骨饭，不得直接搬用参数 | research_candidate |
 | 广州腊味煲仔饭 | 米、腊肉/腊肠 | B | raw-rice | 砂锅后加腊味并取锅巴 | identity | identity_only | 砂锅后加与通用电饭煲不等价 | research_candidate |
-| 广州香菇滑鸡煲仔饭 | 米、鸡肉、香菇 | A | raw-rice | 煲仔饭后加生鸡肉 | identity | identity_only | 后加生鸡肉安全和器具等价未闭合 | research_candidate |
+| 冬菇滑鸡饭 | 米、鸡肉、香菇 | A | raw-rice | 番禺官方资料记录浸米入砂锅，水将收干时加入预先腌制的鸡肉与冬菇，再转小火焖熟 | identity | identity_only | 来源无统一两人份克数、有效液体、普通电饭煲程序和鸡肉74摄氏度中心终点；厂商鸡肉+香菇饭的近邻参数来自不同型号与不同菜名，不得混拼成冬菇滑鸡饭的权威配方；普通电饭煲版不得承诺传统砂锅锅巴 | research_candidate |
 
 ### manufacturer-mixed-rice
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 香芋鸡煲仔饭（松下机型配方） | 米、鸡肉、芋头、虾米、香菇、木耳 | A | raw-rice | 指定压力IH机型水位线3烹调 | identity、quantity、appliance | partial | 仅命名机型适用 | planned |
+| 香芋鸡煲仔饭（松下机型配方） | 米、鸡肉、芋头、虾米、香菇、木耳 | A | raw-rice | 指定压力IH机型水位线3烹调 | identity、quantity、appliance | partial | 来源限定松下压力IH机型、煲仔饭专用程序和短粒米水位线3，未给通用新增水克数；芋头需先油炸，不属于原料直接入锅的简化流程；不能宣称跨型号、跨品牌或普通白米程序等价 | planned |
 
 ## 海南（CN-HI）
 
@@ -88,7 +100,7 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 新疆羊肉抓饭（波劳） | 米、羊肉、胡萝卜、洋葱 | A | raw-rice | 羊肉胡萝卜炒香后与米焖熟 | identity、appliance | partial | 普通电饭煲的数量、液体闭合缺失 | planned |
+| 新疆羊肉抓饭（波劳） | 米、羊肉、胡萝卜、洋葱 | A | raw-rice | 羊肉胡萝卜炒香后与米焖熟 | identity、appliance | partial | 电饭煲来源的1:2未说明分子、分母、质量/体积与米的生熟状态，禁止自动解读为米水比；来源未给大米实际克数、份数、羊肉块尺寸和可机器验证熟制终点；不得把压力锅或其他来源的液体数字合并成普通电饭煲通用公式 | planned |
 | 新疆碎肉抓饭 | 米、羊肉、胡萝卜、鹰嘴豆 | A | raw-rice | 碎肉、菜、豆与米配餐 | identity、quantity、nutrition | partial | 无液体和工艺 | research_candidate |
 
 ## 陕西（CN-SN）
@@ -119,8 +131,8 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 四川四季豆孔干饭 | 米、四季豆 | B | parboiled-drained-rice | 米先煮沥，再与四季豆焖干 | identity | identity_only | 预煮沥米与四季豆全熟终点；来源当前无法独立复核 | research_candidate |
-| 四川豌豆孔干饭 | 米、豌豆 | B | parboiled-drained-rice | 米先煮沥，再与豌豆焖干 | identity | identity_only | 需预煮沥米协议；来源当前无法独立复核 | research_candidate |
+| 四川四季豆孔干饭 | 米、四季豆 | B | parboiled-drained-rice | 米先煮至半熟后沥米汤，四季豆略炒，再铺上沥干的米加盖小火回焖 | identity、safety | identity_only | 半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数；半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；四季豆必须充分熟制；访谈的“略炒+回焖”没有提供可机器验证的时间/熟度终点 | research_candidate |
+| 四川豌豆孔干饭 | 米、豌豆 | B | parboiled-drained-rice | 米先煮至半熟后沥米汤，豌豆略炒，再铺上沥干的米加盖小火回焖 | identity | identity_only | 半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数；半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；来源为转载，仍需独立一手复核 | research_candidate |
 
 ## 重庆（CN-CQ）
 
@@ -143,7 +155,7 @@
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 施甸蚕豆火腿焖饭 | 米、火腿、蚕豆 | A | raw-rice | 焖饭身份记录 | identity | identity_only | 无工艺、数量和液体 | identity_only |
-| 施甸豌豆洋芋火腿焖饭 | 米、土豆、火腿、鲜豌豆 | A | raw-rice | 米、洋芋、火腿、豆同焖 | identity | identity_only | 无数量和液体 | research_candidate |
+| 施甸豌豆洋芋火腿焖饭 | 米、土豆、火腿、鲜豌豆 | A | raw-rice | 施甸县官方资料记录火腿切丁煎出油，与新鲜豌豆、洋芋丁和大米混合，放入罗锅以柴火慢焖 | identity | identity_only | 官方来源只给真实菜名、核心组合和高层流程，无大米、洋芋、火腿、豌豆克数，无份数与有效液体；火腿出油量、盐度、柴火强弱、时间、完成判据和电饭煲程序均未闭合；任何两人份参数都只能作为项目试验假设 | research_candidate |
 | 腾冲北海铜锅洋芋饭 | 米、土豆、四季豆、腌肉 | A | raw-rice | 铜锅焖制 | identity | identity_only | 无数量液体且铜锅身份损失 | research_candidate |
 
 ## 贵州（CN-GZ）
@@ -268,3 +280,10 @@
 | 豆角排骨焖饭 | 米、豆角、排骨 | A | raw-rice | 一锅出项目 Preview 家庭测试标准，待真实厨房反馈 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
 | 肉糜青菜饭 | 米、肉糜、青菜 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
 | 香菇豆角排骨焖饭 | 米、香菇、豆角、排骨 | A | raw-rice | 一锅出项目 Preview 家庭测试标准，待真实厨房反馈 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
+
+### manufacturer-mixed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 牛肉什锦饭 | 米、牛肉末、胡萝卜泥、洋葱 | C | raw-rice | 象印官方固定4至5人批量：3厂家杯米，先拌盐并补水至白米3水位线，牛肉末、胡萝卜泥、洋葱与黄油分层铺放不搅拌，使用什锦饭程序 | identity、quantity、appliance | partial | 来源只给白米3品牌水位线，无可迁移的固定水量；不得跨品牌或改成通用新增水克数；固定4至5人批量不能未经验证线性缩放到1至4人；每批仅100g牛肉末和90g蔬菜，按本项目每份营养门槛只能记C级证据原型；若做项目家庭A级改编，必须明确标注增加的牛肉/蔬菜量不是厂商原配方；牛肉末熟制终点仍需项目确定性校验 | research_candidate |
+| 番茄海鲜饭 | 米、鱿鱼圈、虾仁、番茄、洋葱、混合蔬菜 | C | raw-rice | 页面只能证明菜名、4至5人批量和配料表；所示步骤转为糙米粥水位线、红枣与枸杞流程，与番茄海鲜饭矛盾，不可执行 | identity、quantity | partial | 页面步骤明显串页/损坏，与菜名和配料表矛盾；加液、水位线、程序和操作顺序全部 fail-closed；固定批量中的海鲜与蔬菜份量按本项目每份门槛不足，且白砂糖65g需额外营养/口味审查，只记C级证据原型；鱿鱼和虾仁的入锅时机、熟制终点、甲壳/软体过敏防线均未闭合 | research_candidate |

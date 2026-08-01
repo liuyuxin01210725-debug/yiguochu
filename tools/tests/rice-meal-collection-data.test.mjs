@@ -12,7 +12,7 @@ test('national rice-meal collection records all research candidates, exclusions,
     readJson('rice-meal-catalog.v1.json'),
   ]);
   assert.deepEqual(validateRiceMealCollection(collection, { taxonomy, catalog }), []);
-  assert.equal(collection.candidates.length, 41);
+  assert.equal(collection.candidates.length, 45);
   assert.ok(collection.exclusions.length >= 8);
   assert.equal(collection.catalog_tracking.length, 11);
   assert.deepEqual(
@@ -61,4 +61,66 @@ test('national rice-meal collection records all research candidates, exclusions,
     assert.deepEqual(candidate.mapped_core, tracking.core_ingredient_ids,
       `${variant.variant_id} mapped_core must be the explicit catalog/tracking mapping`);
   }
+});
+
+test('new regional and manufacturer findings remain blocked research candidates with no runtime mapping', async () => {
+  const [collection, taxonomy, catalog] = await Promise.all([
+    readJson('rice-meal-collection.v1.json'),
+    readJson('ingredient-taxonomy.v1.json'),
+    readJson('rice-meal-catalog.v1.json'),
+  ]);
+  assert.deepEqual(validateRiceMealCollection(collection, { taxonomy, catalog }), []);
+
+  const byId = new Map(collection.candidates.map(candidate => [candidate.candidate_id, candidate]));
+  const tracked = new Set(collection.catalog_tracking.map(row => row.candidate_id).filter(Boolean));
+  const mapped = new Set(collection.runtime_mappings.map(row => row.candidate_id));
+  for (const id of [
+    'wenzhou-mustard-rice',
+    'quanzhou-red-crab-rice',
+    'zojirushi-beef-mixed-rice',
+    'zojirushi-tomato-seafood-rice',
+  ]) {
+    const candidate = byId.get(id);
+    assert.ok(candidate, `${id} must be recorded`);
+    assert.equal(candidate.status, 'research_candidate', `${id} must not be activated`);
+    assert.ok(candidate.blockers.length > 0, `${id} must retain blockers`);
+    assert.equal(tracked.has(id), false, `${id} must not enter catalog tracking`);
+    assert.equal(mapped.has(id), false, `${id} must not enter runtime mappings`);
+  }
+
+  const beef = byId.get('zojirushi-beef-mixed-rice');
+  assert.equal(beef.quantity_liquid_completeness, 'partial');
+  assert.deepEqual(beef.identity_sources[0].supports, ['identity', 'quantity', 'appliance']);
+  assert.match(beef.blockers.join('\n'), /固定水量|水位线/);
+
+  const tomatoSeafood = byId.get('zojirushi-tomato-seafood-rice');
+  assert.equal(tomatoSeafood.quantity_liquid_completeness, 'partial');
+  assert.match(tomatoSeafood.blockers.join('\n'), /串页|损坏|矛盾/);
+  assert.equal(tomatoSeafood.nutrition_grade, 'C');
+  assert.equal(byId.get('quanzhou-red-crab-rice').name, '泉州红蟳饭（红膏蟳饭）');
+});
+
+test('research blockers preserve dish-defining rice state, liquid ambiguity, and raw-versus-cooked safety boundaries', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const byId = new Map(collection.candidates.map(candidate => [candidate.candidate_id, candidate]));
+
+  const nanjing = byId.get('nanjing-duck-greens-rice');
+  assert.ok(nanjing.core_ingredients.some(item => item.label === '板鸭丁'));
+  assert.equal(nanjing.core_ingredients.some(item => item.label === '熟板鸭'), false);
+  assert.ok(nanjing.identity_sources.some(source => source.supports.includes('safety')));
+  assert.match(nanjing.blockers.join('\n'), /生熟|熟制/);
+
+  const pilaf = byId.get('xinjiang-lamb-pilaf');
+  assert.match(pilaf.blockers.join('\n'), /1:2/);
+  assert.match(pilaf.blockers.join('\n'), /分子|分母|米量|份数/);
+
+  for (const id of ['sichuan-pea-kong-rice', 'sichuan-green-bean-kong-rice']) {
+    const candidate = byId.get(id);
+    assert.match(candidate.traditional_appliance_and_steps, /半熟|六成熟/);
+    assert.match(candidate.traditional_appliance_and_steps, /沥米汤/);
+    assert.match(candidate.blockers.join('\n'), /沥米汤|回加液体|预煮终点/);
+  }
+
+  assert.equal(byId.get('guangzhou-mushroom-chicken-claypot-rice').name, '冬菇滑鸡饭');
+  assert.equal(byId.get('guangzhou-black-bean-rib-claypot-rice').name, '豉汁排骨饭');
 });

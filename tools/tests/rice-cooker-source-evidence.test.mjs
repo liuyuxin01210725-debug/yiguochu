@@ -33,8 +33,10 @@ test('ledger validates and pins the audited source recipes without floating reci
       'tatung-sesame-chicken-rice',
       'tatung-shanghai-vegetable-rice',
       'yutian-electric-cooker-lamb-pilaf',
+      'zojirushi-beef-mixed-rice',
       'zojirushi-fresh-vegetable-bamboo-rice',
       'zojirushi-minced-pork-greens-rice-nl-erh',
+      'zojirushi-tomato-seafood-rice-corrupted-page',
     ],
   );
 
@@ -126,6 +128,54 @@ test('audited quantities stay attached to the exact source recipe that proves th
   assert.deepEqual(mincedGreens.quantities.liquid_contract.waterline, { scale: 'white_rice', mark: 3 });
   assert.equal(mincedGreens.quantities.protein_items.find(item => item.name === '猪肉糜').quantity.value, 90);
   assert.equal(mincedGreens.quantities.vegetable_items.find(item => item.name === '青菜').quantity.value, 90);
+});
+
+test('Zojirushi beef mixed rice stays tied to its fixed batch, marked inner pot and mixed-rice program', async () => {
+  const ledger = await loadLedger();
+  const beef = ledger.entries.find(entry => entry.source_id === 'zojirushi-beef-mixed-rice');
+
+  assert.ok(beef);
+  assert.equal(beef.source_kind, 'manufacturer_recipe_page');
+  assert.deepEqual(beef.quantities.rice, {
+    value: 3,
+    unit: 'manufacturer_cup',
+    servings: { min: 4, max: 5 },
+  });
+  assert.equal(beef.quantities.protein_items.find(item => item.name === '牛肉末').quantity.value, 100);
+  assert.equal(beef.quantities.vegetable_items.find(item => item.name === '胡萝卜泥').quantity.value, 50);
+  assert.equal(beef.quantities.vegetable_items.find(item => item.name === '洋葱').quantity.value, 40);
+  assert.equal(beef.quantities.liquid_contract.semantic, 'waterline_after_liquid_seasonings');
+  assert.deepEqual(beef.quantities.liquid_contract.waterline, { scale: 'white_rice', mark: 3 });
+  assert.equal(beef.appliance_profile.program, '什锦饭');
+  assert.equal(beef.verdict.status, 'executable_reference');
+  assert.match(beef.verdict.scope, /适用机型|兼容/);
+  assert.match(beef.cannot_prove.join('\n'), /固定毫升|新增水量|跨品牌/);
+});
+
+test('corrupted Zojirushi tomato seafood page records identity facts but fails closed for process and liquid', async () => {
+  const ledger = await loadLedger();
+  const tomatoSeafood = ledger.entries.find(entry => (
+    entry.source_id === 'zojirushi-tomato-seafood-rice-corrupted-page'
+  ));
+
+  assert.ok(tomatoSeafood);
+  assert.equal(tomatoSeafood.quantities.liquid_contract.semantic, 'ambiguous_source_ratio');
+  assert.match(tomatoSeafood.quantities.liquid_contract.source_expression, /糙米粥1|页面流程串页/);
+  assert.equal(tomatoSeafood.appliance_profile.source_executability, 'not_executable_due_to_corrupted_process');
+  assert.equal(tomatoSeafood.verdict.status, 'research_only');
+  assert.match(tomatoSeafood.verdict.reason, /损坏|串页|矛盾/);
+  assert.ok(tomatoSeafood.rights.forbidden_use.includes('treat_corrupted_process_as_recipe'));
+  assert.ok(tomatoSeafood.rights.forbidden_use.includes('claim_executable_process'));
+  assert.match(tomatoSeafood.cannot_prove.join('\n'), /加液|程序|流程/);
+
+  const invalid = structuredClone(ledger);
+  invalid.entries.find(entry => (
+    entry.source_id === 'zojirushi-tomato-seafood-rice-corrupted-page'
+  )).verdict.status = 'executable_reference';
+  assert.ok(
+    validatorModule.validateRiceCookerSourceEvidence(invalid)
+      .some(error => error.includes('ambiguous_source_ratio cannot be executable_reference')),
+  );
 });
 
 test('validator fails closed when evidence boundaries are removed or liquid types are conflated', async () => {

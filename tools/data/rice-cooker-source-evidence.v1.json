@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "ledger_version": "rice-cooker-source-evidence-v1-20260801",
+  "ledger_version": "rice-cooker-source-evidence-v1-20260802",
   "scope": "Cross-region source ledger for electric-rice-cooker rice meals. It records what each exact source proves about quantities, liquid semantics and appliance execution; it does not activate catalog variants or authorize production use.",
   "entries": [
     {
@@ -619,6 +619,123 @@
         "不能证明水位线规则可迁移到无同款刻度的电饭煲",
         "不能证明固定三杯批量可按份数无限线性缩放",
         "不能替代猪肉糜至少71.1摄氏度的项目安全终点校验"
+      ]
+    },
+    {
+      "source_id": "zojirushi-beef-mixed-rice",
+      "source_title": "牛肉什锦饭",
+      "source_url": "https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/",
+      "publisher": "上海象印家用电器有限公司",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-02",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "厂商食谱页只用于核对固定批量、白米水位线、什锦饭程序与高层动作事实；不复制页面原文、图片或版式，不将品牌水位线换算为未证明的通用毫升数。",
+        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "waterline_semantics", "appliance_program_fact"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "convert_waterline_to_unverified_grams", "claim_generic_cooker_equivalence", "claim_linear_serving_scaling"]
+      },
+      "quantities": {
+        "rice": {"value": 3, "unit": "manufacturer_cup", "servings": {"min": 4, "max": 5}},
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {"scale": "white_rice", "mark": 3},
+          "interpretation": "来源要求洗米后先拌入盐，再补水至白米3水位线；未提供可脱离该内胆刻度的新增水毫升数。"
+        },
+        "protein_items": [
+          {"name": "牛肉末", "quantity": {"value": 100, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "胡萝卜泥", "quantity": {"value": 50, "unit": "g"}},
+          {"name": "洋葱", "quantity": {"value": 40, "unit": "g"}}
+        ],
+        "other_items": [
+          {"name": "无盐黄油", "quantity": {"value": 5, "unit": "g"}},
+          {"name": "盐", "quantity": {"value": 2, "unit": "tsp", "source_measure_ml_per_tsp": 5}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "zojirushi_mixed_rice_white_rice_waterline",
+        "manufacturer": "ZOJIRUSHI",
+        "models": ["具备来源页所指什锦饭菜单和白米3水位线的象印机型"],
+        "program": "什锦饭",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后翻松",
+        "source_executability": "executable_on_compatible_named_program_and_marked_inner_pot"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "只可在来源适用且具有什锦饭程序与同款白米水位线的兼容象印机型中，作为4至5人固定批量证据。",
+        "reason": "厂商页给出了固定批量、食材克数、加液顺序、白米水位线和什锦饭程序。"
+      },
+      "cannot_prove": [
+        "不能证明白米3水位线等于固定毫升的新增水量",
+        "不能证明该水位线与什锦饭程序可跨品牌迁移",
+        "不能证明4至5人固定批量可按份数无限线性缩放",
+        "不能证明100g牛肉末和90g蔬菜达到本项目A/B营养分级的实质份量",
+        "不能替代牛肉末熟制终点的确定性校验"
+      ]
+    },
+    {
+      "source_id": "zojirushi-tomato-seafood-rice-corrupted-page",
+      "source_title": "番茄海鲜饭",
+      "source_url": "https://www.zojirushi-china.com/activity/recipe/rice-cooker/fanqiehaixianfan/",
+      "publisher": "上海象印家用电器有限公司",
+      "source_kind": "manufacturer_recipe_page_with_corrupted_process",
+      "retrieved_at": "2026-08-02",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "页面仅用于记录菜名、适用人数与配料表等可直接核对的结构化事实；由于步骤段落与菜名、配料不一致，不得将其当作可执行食谱，不复制原文或图片。",
+        "allowed_use": ["source_identity", "ingredient_list_fact", "fixed_batch_fact", "corrupted_source_boundary"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "treat_corrupted_process_as_recipe", "claim_executable_process", "convert_corrupted_steps_to_liquid_contract"]
+      },
+      "quantities": {
+        "rice": {"value": 3, "unit": "manufacturer_cup", "servings": {"min": 4, "max": 5}},
+        "liquid_contract": {
+          "semantic": "ambiguous_source_ratio",
+          "source_expression": "页面流程串页：番茄海鲜饭的菜名与配料表之后，步骤却转为糙米粥1水位线、红枣与枸杞的糙米粥流程",
+          "interpretation": "页面步骤显然与菜名及配料表矛盾，不得推定加液量、水位线、程序或操作顺序。"
+        },
+        "protein_items": [
+          {"name": "鱿鱼圈", "quantity": {"value": 40, "unit": "g"}},
+          {"name": "虾仁", "quantity": {"value": 40, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "洋葱", "quantity": {"value": 30, "unit": "g"}},
+          {"name": "混合蔬菜", "quantity": {"value": 40, "unit": "g"}},
+          {"name": "番茄", "quantity": {"value": 80, "unit": "g", "source_measure": "1/2个"}}
+        ],
+        "other_items": [
+          {"name": "白砂糖", "quantity": {"value": 65, "unit": "g"}},
+          {"name": "盐", "quantity": {"value": 1.5, "unit": "tsp", "source_measure_ml_per_tsp": 5}},
+          {"name": "白胡椒", "quantity": {"value": 1, "unit": "tsp", "source_measure_ml_per_tsp": 5}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "zojirushi_page_process_unusable",
+        "manufacturer": "ZOJIRUSHI",
+        "models": ["页面声称适用具备什锦饭菜单的机型，但步骤损坏无法核验"],
+        "program": "页面标题区声称什锦饭，步骤段却误写糙米粥",
+        "single_cook_cycle": null,
+        "mid_cycle_opening": null,
+        "finish_action": null,
+        "source_executability": "not_executable_due_to_corrupted_process"
+      },
+      "verdict": {
+        "status": "research_only",
+        "scope": "只保留菜名、4至5人固定批量与配料表的身份/数量线索；不提供可执行的加液、程序或操作流程。",
+        "reason": "页面流程串页或损坏，显示的糙米粥步骤与番茄海鲜饭的菜名和配料矛盾。"
+      },
+      "cannot_prove": [
+        "不能证明番茄海鲜饭的新增加液量或水位线",
+        "不能证明该菜应使用的电饭煲程序和完整操作流程",
+        "不能证明海鲜与米的入锅时机或熟制终点",
+        "不能将页面中的糙米粥步骤修补成番茄海鲜饭食谱",
+        "不能证明固定批量可按份数线性缩放"
       ]
     },
     {

@@ -1,125 +1,2000 @@
 {
   "schema_version": 1,
-  "collection_version": "rice-meal-collection-v1-20260801",
+  "collection_version": "rice-meal-collection-v1-20260802",
   "scope": "全国咸味菜饭/焖饭研究总目录；只记录身份、证据与适配边界，不激活运行时配方。",
   "region_nodes": [
-    {"region_id":"CN-SH","display_name":"上海","candidate_ids":["shanghai-salted-pork-vegetable-rice"],"gap":null},
-    {"region_id":"CN-JS","display_name":"江苏","candidate_ids":["wujiang-greens-salted-pork-rice","nanjing-duck-greens-rice"],"gap":null},
-    {"region_id":"CN-ZJ","display_name":"浙江","candidate_ids":["banshan-lixia-wild-rice"],"gap":null},
-    {"region_id":"CN-AH","display_name":"安徽","candidate_ids":["dongzhi-crust-rice"],"gap":null},
-    {"region_id":"CN-FJ","display_name":"福建","candidate_ids":["quanzhou-oil-rice","fujian-mustard-pork-salted-rice"],"gap":null},
-    {"region_id":"CN-TW","display_name":"台湾","candidate_ids":["taiwan-pumpkin-rice","taiwan-cabbage-rice"],"gap":null},
-    {"region_id":"CN-GD","display_name":"广东","candidate_ids":["guangzhou-cured-claypot-rice","guangzhou-mushroom-chicken-claypot-rice","guangzhou-black-bean-rib-claypot-rice","panasonic-taro-chicken-rice"],"gap":null},
-    {"region_id":"CN-HI","display_name":"海南","candidate_ids":[],"gap":"定安菜包饭为熟饭翻炒包裹，排除原米菜饭候选。"},
-    {"region_id":"CN-XJ","display_name":"新疆","candidate_ids":["xinjiang-lamb-pilaf","xinjiang-minced-lamb-pilaf"],"gap":null},
-    {"region_id":"CN-SN","display_name":"陕西","candidate_ids":["mizhi-lamb-diced-rice","household-red-date-cowpea-rice"],"gap":null},
-    {"region_id":"CN-NX","display_name":"宁夏","candidate_ids":["ningxia-meat-sticky-rice"],"gap":null},
-    {"region_id":"CN-SC","display_name":"四川","candidate_ids":["sichuan-pea-kong-rice","sichuan-green-bean-kong-rice"],"gap":null},
-    {"region_id":"CN-CQ","display_name":"重庆","candidate_ids":["qijiang-potato-cured-pork-kong-rice","youzhou-she-rice"],"gap":null},
-    {"region_id":"CN-YN","display_name":"云南","candidate_ids":["shidian-pea-potato-ham-rice","shidian-broad-bean-ham-rice","tengchong-copper-pot-potato-rice"],"gap":null},
-    {"region_id":"CN-GZ","display_name":"贵州","candidate_ids":["dong-steamed-she-rice","wanshan-she-rice"],"gap":null},
-    {"region_id":"CN-HA","display_name":"河南","candidate_ids":["huixian-ground-pot-chicken-rice"],"gap":null},
-    {"region_id":"CN-HN","display_name":"湖南","candidate_ids":["mayang-she-rice","xiangxi-she-rice","xiangjiangyuan-bamboo-rice","lianyuan-bamboo-rice"],"gap":null},
-    {"region_id":"CN-HB","display_name":"湖北","candidate_ids":["yichang-cured-pork-braised-rice"],"gap":null},
-    {"region_id":"CN-HE","display_name":"河北","candidate_ids":[],"gap":"涉县条目为小米焖饭，不属于本轮米饭菜饭范围。"},
-    {"region_id":"CN-HK","display_name":"香港","candidate_ids":[],"gap":"本轮未找到符合咸味干饭完整主餐边界的可靠候选。"},
-    {"region_id":"CN-MO","display_name":"澳门","candidate_ids":[],"gap":"本轮未找到符合咸味干饭完整主餐边界的可靠候选。"},
-    {"region_id":"CN-TJ","display_name":"天津","candidate_ids":["ninghe-zeng-pork-rice"],"gap":null},
-    {"region_id":"CN-GX","display_name":"广西","candidate_ids":[],"gap":"本轮未找到具可靠第一方证据、符合咸味干饭完整主餐边界的候选；五色糯米饭为营养 C/礼俗饭。"},
-    {"region_id":"CN-GS","display_name":"甘肃","candidate_ids":[],"gap":"本轮无符合边界的可靠咸味干饭完整主餐。"},
-    {"region_id":"CN-QH","display_name":"青海","candidate_ids":[],"gap":"本轮无符合边界的可靠咸味干饭完整主餐。"},
-    {"region_id":"CN-XZ","display_name":"西藏","candidate_ids":[],"gap":"本轮无符合边界的可靠咸味干饭完整主餐。"},
-    {"region_id":"CN-LN","display_name":"辽宁","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-JL","display_name":"吉林","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-HL","display_name":"黑龙江","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-BJ","display_name":"北京","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-SX","display_name":"山西","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-NM","display_name":"内蒙古","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-SD","display_name":"山东","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"CN-JX","display_name":"江西","candidate_ids":[],"gap":"本轮无符合边界的可靠候选。"},
-    {"region_id":"HOUSEHOLD","display_name":"家常标准（非地域）","candidate_ids":["household-chicken-leg-potato-rice","household-corn-carrot-chicken-rice","household-greens-minced-pork-rice","household-green-bean-pork-rib-rice","household-mushroom-green-bean-pork-rib-rice","household-cabbage-tofu-rice","household-broccoli-beef-rice"],"gap":null}
+    {
+      "region_id": "CN-SH",
+      "display_name": "上海",
+      "candidate_ids": ["shanghai-salted-pork-vegetable-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-JS",
+      "display_name": "江苏",
+      "candidate_ids": [
+        "wujiang-greens-salted-pork-rice",
+        "nanjing-duck-greens-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-ZJ",
+      "display_name": "浙江",
+      "candidate_ids": ["banshan-lixia-wild-rice", "wenzhou-mustard-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-AH",
+      "display_name": "安徽",
+      "candidate_ids": ["dongzhi-crust-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-FJ",
+      "display_name": "福建",
+      "candidate_ids": [
+        "quanzhou-oil-rice",
+        "fujian-mustard-pork-salted-rice",
+        "quanzhou-red-crab-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-TW",
+      "display_name": "台湾",
+      "candidate_ids": ["taiwan-pumpkin-rice", "taiwan-cabbage-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-GD",
+      "display_name": "广东",
+      "candidate_ids": [
+        "guangzhou-cured-claypot-rice",
+        "guangzhou-mushroom-chicken-claypot-rice",
+        "guangzhou-black-bean-rib-claypot-rice",
+        "panasonic-taro-chicken-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-HI",
+      "display_name": "海南",
+      "candidate_ids": [],
+      "gap": "定安菜包饭为熟饭翻炒包裹，排除原米菜饭候选。"
+    },
+    {
+      "region_id": "CN-XJ",
+      "display_name": "新疆",
+      "candidate_ids": ["xinjiang-lamb-pilaf", "xinjiang-minced-lamb-pilaf"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-SN",
+      "display_name": "陕西",
+      "candidate_ids": [
+        "mizhi-lamb-diced-rice",
+        "household-red-date-cowpea-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-NX",
+      "display_name": "宁夏",
+      "candidate_ids": ["ningxia-meat-sticky-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-SC",
+      "display_name": "四川",
+      "candidate_ids": [
+        "sichuan-pea-kong-rice",
+        "sichuan-green-bean-kong-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-CQ",
+      "display_name": "重庆",
+      "candidate_ids": [
+        "qijiang-potato-cured-pork-kong-rice",
+        "youzhou-she-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-YN",
+      "display_name": "云南",
+      "candidate_ids": [
+        "shidian-pea-potato-ham-rice",
+        "shidian-broad-bean-ham-rice",
+        "tengchong-copper-pot-potato-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-GZ",
+      "display_name": "贵州",
+      "candidate_ids": ["dong-steamed-she-rice", "wanshan-she-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-HA",
+      "display_name": "河南",
+      "candidate_ids": ["huixian-ground-pot-chicken-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-HN",
+      "display_name": "湖南",
+      "candidate_ids": [
+        "mayang-she-rice",
+        "xiangxi-she-rice",
+        "xiangjiangyuan-bamboo-rice",
+        "lianyuan-bamboo-rice"
+      ],
+      "gap": null
+    },
+    {
+      "region_id": "CN-HB",
+      "display_name": "湖北",
+      "candidate_ids": ["yichang-cured-pork-braised-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-HE",
+      "display_name": "河北",
+      "candidate_ids": [],
+      "gap": "涉县条目为小米焖饭，不属于本轮米饭菜饭范围。"
+    },
+    {
+      "region_id": "CN-HK",
+      "display_name": "香港",
+      "candidate_ids": [],
+      "gap": "本轮未找到符合咸味干饭完整主餐边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-MO",
+      "display_name": "澳门",
+      "candidate_ids": [],
+      "gap": "本轮未找到符合咸味干饭完整主餐边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-TJ",
+      "display_name": "天津",
+      "candidate_ids": ["ninghe-zeng-pork-rice"],
+      "gap": null
+    },
+    {
+      "region_id": "CN-GX",
+      "display_name": "广西",
+      "candidate_ids": [],
+      "gap": "本轮未找到具可靠第一方证据、符合咸味干饭完整主餐边界的候选；五色糯米饭为营养 C/礼俗饭。"
+    },
+    {
+      "region_id": "CN-GS",
+      "display_name": "甘肃",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠咸味干饭完整主餐。"
+    },
+    {
+      "region_id": "CN-QH",
+      "display_name": "青海",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠咸味干饭完整主餐。"
+    },
+    {
+      "region_id": "CN-XZ",
+      "display_name": "西藏",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠咸味干饭完整主餐。"
+    },
+    {
+      "region_id": "CN-LN",
+      "display_name": "辽宁",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-JL",
+      "display_name": "吉林",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-HL",
+      "display_name": "黑龙江",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-BJ",
+      "display_name": "北京",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-SX",
+      "display_name": "山西",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-NM",
+      "display_name": "内蒙古",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-SD",
+      "display_name": "山东",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "CN-JX",
+      "display_name": "江西",
+      "candidate_ids": [],
+      "gap": "本轮无符合边界的可靠候选。"
+    },
+    {
+      "region_id": "HOUSEHOLD",
+      "display_name": "家常标准（非地域）",
+      "candidate_ids": [
+        "household-chicken-leg-potato-rice",
+        "household-corn-carrot-chicken-rice",
+        "household-greens-minced-pork-rice",
+        "household-green-bean-pork-rib-rice",
+        "household-mushroom-green-bean-pork-rib-rice",
+        "household-cabbage-tofu-rice",
+        "household-broccoli-beef-rice",
+        "zojirushi-beef-mixed-rice",
+        "zojirushi-tomato-seafood-rice"
+      ],
+      "gap": null
+    }
   ],
   "candidates": [
-    {"candidate_id":"shanghai-salted-pork-vegetable-rice","name":"上海奉贤咸肉菜饭","runtime_name_aliases":["上海咸肉菜饭"],"region_codes":["CN-SH"],"family":"jiangnan-vegetable-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"leafy-greens","label":"青菜"},{"canonical_id":null,"label":"咸肉/香肠"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"土灶或锅中米、菜和咸肉同煮成饭","identity_sources":[{"title":"咸肉菜饭","publisher":"奉贤区人民政府","retrieved_at":"2026-08-01","url":"https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html","supports":["identity"]},{"title":"咸肉菜饭（fixed commit b1f0a1a）","publisher":"HowToCook","retrieved_at":"2026-08-01","url":"https://github.com/Anduin2017/HowToCook/blob/b1f0a1aaba4c86508df1640a2fb8a01e1602c72e/dishes/staple/%E5%92%B8%E8%82%89%E8%8F%9C%E9%A5%AD.md","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E1","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","small-bok-choy","salted-pork-belly"],"mapping_scope":"partial_adaptation","mapping_note":"运行目录收敛为小白菜和咸五花肉；调研候选的青菜与咸肉/香肠并非逐项等价。"},
-    {"candidate_id":"wujiang-greens-salted-pork-rice","name":"吴江香青菜咸肉饭","region_codes":["CN-JS"],"family":"jiangnan-vegetable-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"吴江青菜"},{"canonical_id":"cured-pork","label":"咸肉"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"菜与咸肉配米蒸煮","identity_sources":[{"title":"吴江香青菜咸肉饭","publisher":"苏州市人民政府","retrieved_at":"2026-08-01","url":"https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无工艺数量"],"status":"identity_only"},
-    {"candidate_id":"nanjing-duck-greens-rice","name":"南京矮脚黄板鸭菜饭","region_codes":["CN-JS"],"family":"jiangnan-vegetable-rice","core_ingredients":[{"canonical_id":null,"label":"糯米"},{"canonical_id":"aijiaohuang-greens","label":"矮脚黄"},{"canonical_id":null,"label":"熟板鸭"},{"canonical_id":null,"label":"姜"}],"rice_state":"glutinous-rice","nutrition_grade":"A","traditional_appliance_and_steps":"糯米、菜和熟鸭焖制","identity_sources":[{"title":"南京矮脚黄板鸭菜饭","publisher":"江苏省科协","retrieved_at":"2026-08-01","url":"https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无数量、液体和器具证据"],"status":"identity_only"},
-    {"candidate_id":"banshan-lixia-wild-rice","name":"半山立夏野米饭","region_codes":["CN-ZJ"],"family":"seasonal-mixed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"egg","label":"鸡蛋"},{"canonical_id":null,"label":"韭菜"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"民俗铁锅炒煮","identity_sources":[{"title":"半山立夏野米饭","publisher":"中国非物质文化遗产网","retrieved_at":"2026-08-01","url":"https://www.ihchina.cn/solarzx_details/18383.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["无数量和电饭煲适配"],"status":"research_candidate"},
-    {"candidate_id":"dongzhi-crust-rice","name":"东至农家锅巴饭","region_codes":["CN-AH"],"family":"pot-crust-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"香米"},{"canonical_id":"pork-generic","label":"猪肉"},{"canonical_id":null,"label":"芋头"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"电饭煲提及，后段成锅巴","identity_sources":[{"title":"东至农家锅巴饭","publisher":"池州市人社局","retrieved_at":"2026-08-01","url":"https://czsrsj.chizhou.gov.cn/News/show/608587.html","supports":["identity","quantity"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E3","blockers":["水量“1.5瓶”含义不明；生肉后加安全未闭合"],"status":"research_candidate"},
-    {"candidate_id":"quanzhou-oil-rice","name":"泉州海味三层肉浥饭（油饭）","runtime_name_aliases":["泉州浥饭（油饭）"],"region_codes":["CN-FJ"],"family":"minnan-oil-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"五花肉"},{"canonical_id":null,"label":"豆干"},{"canonical_id":"shiitake","label":"香菇"},{"canonical_id":null,"label":"蚝/干贝"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"油葱、海味和肉同焖","identity_sources":[{"title":"泉州海味三层肉浥饭","publisher":"泉州市人民政府","retrieved_at":"2026-08-01","url":"https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202411/t20241122_3107926.htm","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E2","blockers":["无数量液体；海鲜过敏和盐分边界"],"status":"planned","mapped_core":["soaked-glutinous-rice","ground-pork","shiitake"],"mapping_scope":"partial_adaptation","mapping_note":"运行目录采用泡发糯米、肉末和香菇的家庭改编；调研候选还记录五花肉、豆干与蚝/干贝，未声称完整等价。"},
-    {"candidate_id":"fujian-mustard-pork-salted-rice","name":"福建盖菜肉末咸饭","region_codes":["CN-FJ"],"family":"minnan-salted-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"mustard-greens","label":"盖菜"},{"canonical_id":"onion","label":"洋葱"},{"canonical_id":null,"label":"瘦猪肉"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"学校供餐配料比例，工艺未给","identity_sources":[{"title":"学生带量食谱","publisher":"福建省卫健委","retrieved_at":"2026-08-01","url":"https://wjw.fujian.gov.cn/xxgk/zfxxgkzl/zfxxgkml/qtzdxx/202509/P020250918623795675713.pdf","supports":["identity","quantity","nutrition"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E3","blockers":["无液体与器具工艺"],"status":"research_candidate"},
-    {"candidate_id":"taiwan-pumpkin-rice","name":"台湾南瓜饭","region_codes":["CN-TW"],"family":"taiwan-mixed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"南瓜"},{"canonical_id":"ground-pork","label":"猪绞肉"},{"canonical_id":null,"label":"虾米"},{"canonical_id":"shiitake","label":"香菇"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"电饭煲一次烹调，水为米量0.8倍","identity_sources":[{"title":"台湾南瓜饭","publisher":"台湾农业部","retrieved_at":"2026-08-01","url":"https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html","supports":["identity","quantity","liquid","appliance"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E2","blockers":["量杯标准化与二次烹调能力未闭合"],"status":"planned"},
-    {"candidate_id":"taiwan-cabbage-rice","name":"台湾高丽菜饭","region_codes":["CN-TW"],"family":"taiwan-mixed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"green-cabbage","label":"高丽菜"},{"canonical_id":null,"label":"虾米"},{"canonical_id":"shiitake","label":"香菇"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"电饭煲炊饭","identity_sources":[{"title":"台湾高丽菜饭","publisher":"台湾农业部","retrieved_at":"2026-08-01","url":"https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html","supports":["identity","quantity","liquid","appliance"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E2","blockers":["量杯标准化和焯沥高丽菜水分契约未闭合"],"status":"planned"},
-    {"candidate_id":"guangzhou-cured-claypot-rice","name":"广州腊味煲仔饭","region_codes":["CN-GD"],"family":"cantonese-claypot-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"腊肉/腊肠"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"砂锅后加腊味并取锅巴","identity_sources":[{"title":"广东煲仔饭资料","publisher":"广东省政府","retrieved_at":"2026-08-01","url":"https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["砂锅后加与通用电饭煲不等价"],"status":"research_candidate"},
-    {"candidate_id":"guangzhou-mushroom-chicken-claypot-rice","name":"广州香菇滑鸡煲仔饭","region_codes":["CN-GD"],"family":"cantonese-claypot-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"chicken-generic","label":"鸡肉"},{"canonical_id":"shiitake","label":"香菇"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"煲仔饭后加生鸡肉","identity_sources":[{"title":"广东煲仔饭资料","publisher":"广东省政府","retrieved_at":"2026-08-01","url":"https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["后加生鸡肉安全和器具等价未闭合"],"status":"research_candidate"},
-    {"candidate_id":"guangzhou-black-bean-rib-claypot-rice","name":"广州豆豉排骨煲仔饭","region_codes":["CN-GD"],"family":"cantonese-claypot-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"pork-ribs","label":"排骨"},{"canonical_id":null,"label":"豆豉"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"砂锅后加排骨","identity_sources":[{"title":"广东煲仔饭资料","publisher":"广东省政府","retrieved_at":"2026-08-01","url":"https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["后加排骨、盐分和液体未闭合"],"status":"research_candidate"},
-    {"candidate_id":"panasonic-taro-chicken-rice","name":"香芋鸡煲仔饭（松下机型配方）","region_codes":["CN-GD"],"family":"manufacturer-mixed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"chicken-generic","label":"鸡肉"},{"canonical_id":null,"label":"芋头"},{"canonical_id":null,"label":"虾米"},{"canonical_id":"shiitake","label":"香菇"},{"canonical_id":null,"label":"木耳"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"指定压力IH机型水位线3烹调","identity_sources":[{"title":"SR-PXC香芋鸡煲仔饭","publisher":"松下家电中国","retrieved_at":"2026-08-01","url":"https://home.panasonic.cn/support/attachments/auld/manual/SR-PXC.pdf","supports":["identity","quantity","appliance"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E2","blockers":["仅命名机型适用"],"status":"planned"},
-    {"candidate_id":"xinjiang-lamb-pilaf","name":"新疆羊肉抓饭（波劳）","runtime_name_aliases":["新疆羊肉抓饭"],"region_codes":["CN-XJ"],"family":"xinjiang-pilaf","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"羊肉"},{"canonical_id":"carrot","label":"胡萝卜"},{"canonical_id":"onion","label":"洋葱"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"羊肉胡萝卜炒香后与米焖熟","identity_sources":[{"title":"新疆羊肉抓饭","publisher":"新疆维吾尔自治区人民政府","retrieved_at":"2026-08-01","url":"https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml","supports":["identity"]},{"title":"电饭煲抓饭介绍","publisher":"新疆文旅","retrieved_at":"2026-08-01","url":"https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html","supports":["appliance"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E2","blockers":["普通电饭煲的数量、液体闭合缺失"],"status":"planned","mapped_core":["raw-rice","lamb-leg","onion","carrot"],"mapping_scope":"partial_adaptation","mapping_note":"运行目录限定羊腿肉；调研候选仅记录羊肉，未声称部位等价。"},
-    {"candidate_id":"xinjiang-minced-lamb-pilaf","name":"新疆碎肉抓饭","region_codes":["CN-XJ"],"family":"xinjiang-pilaf","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"羊肉"},{"canonical_id":"carrot","label":"胡萝卜"},{"canonical_id":null,"label":"鹰嘴豆"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"碎肉、菜、豆与米配餐","identity_sources":[{"title":"学生带量食谱碎肉抓饭","publisher":"新疆卫健委","retrieved_at":"2026-08-01","url":"https://wjw.xinjiang.gov.cn/hfpc/spaq/202510/1b0e4aca73b345ef9ddb473899c23b1b/files/4.9-11%E5%B2%81%E5%AD%A6%E7%94%9F%E6%98%A5%E5%A4%8F%E5%AD%A3%E5%B8%A6%E9%87%8F%E9%A3%9F%E8%B0%B1%EF%BC%88%E8%AF%95%E8%A1%8C%EF%BC%89.pdf","supports":["identity","quantity","nutrition"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E3","blockers":["无液体和工艺"],"status":"research_candidate"},
-    {"candidate_id":"mizhi-lamb-diced-rice","name":"米脂羊肉丁丁饭","region_codes":["CN-SN"],"family":"northwest-meat-rice","core_ingredients":[{"canonical_id":null,"label":"羊肉"},{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"黄花菜/金针菇"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"羊肉丁与米煮制","identity_sources":[{"title":"米脂羊肉丁丁饭","publisher":"陕西省地方志","retrieved_at":"2026-08-01","url":"https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201209/t20120912_2620380.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无数量、液体和份数"],"status":"research_candidate"},
-    {"candidate_id":"ningxia-meat-sticky-rice","name":"宁夏肉粘饭","region_codes":["CN-NX"],"family":"northwest-meat-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"牛/羊肉"},{"canonical_id":"onion","label":"洋葱"},{"canonical_id":"carrot","label":"胡萝卜"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"炒肉菜后与米蒸焖","identity_sources":[{"title":"宁夏肉粘饭","publisher":"宁夏农业农村厅","retrieved_at":"2026-08-01","url":"https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无数量与液体"],"status":"research_candidate"},
-    {"candidate_id":"sichuan-pea-kong-rice","name":"四川豌豆孔干饭","region_codes":["CN-SC"],"family":"sichuan-kong-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"豌豆"}],"rice_state":"parboiled-drained-rice","nutrition_grade":"B","traditional_appliance_and_steps":"米先煮沥，再与豌豆焖干","identity_sources":[{"title":"川东孔干饭流程（待复核）","publisher":"黑龙江政协网转载来源","retrieved_at":"2026-08-01","url":"https://www.hljzx.gov.cn/contents/68/7320.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["需预煮沥米协议；来源当前无法独立复核"],"status":"research_candidate"},
-    {"candidate_id":"sichuan-green-bean-kong-rice","name":"四川四季豆孔干饭","region_codes":["CN-SC"],"family":"sichuan-kong-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"green-beans","label":"四季豆"}],"rice_state":"parboiled-drained-rice","nutrition_grade":"B","traditional_appliance_and_steps":"米先煮沥，再与四季豆焖干","identity_sources":[{"title":"川东孔干饭流程（待复核）","publisher":"黑龙江政协网转载来源","retrieved_at":"2026-08-01","url":"https://www.hljzx.gov.cn/contents/68/7320.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["预煮沥米与四季豆全熟终点；来源当前无法独立复核"],"status":"research_candidate"},
-    {"candidate_id":"qijiang-potato-cured-pork-kong-rice","name":"綦江洋芋腊肉箜饭","region_codes":["CN-CQ"],"family":"sichuan-kong-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"potato","label":"土豆"},{"canonical_id":null,"label":"腊肉"}],"rice_state":"rice-state-unverified","nutrition_grade":"B","traditional_appliance_and_steps":"箜饭身份记录","identity_sources":[{"title":"綦江洋芋腊肉箜饭","publisher":"重庆市人民政府","retrieved_at":"2026-08-01","url":"https://www.cq.gov.cn/zjcq/ydjs/tyss/202505/t20250512_14602375.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无数量、液体和米态"],"status":"identity_only"},
-    {"candidate_id":"youzhou-she-rice","name":"酉州社饭","region_codes":["CN-CQ"],"family":"wuling-she-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"腊肉"},{"canonical_id":null,"label":"豆干"},{"canonical_id":null,"label":"野菜"}],"rice_state":"parboiled-rice","nutrition_grade":"A","traditional_appliance_and_steps":"米预煮、野菜和腊味多阶段合制","identity_sources":[{"title":"酉州社饭","publisher":"酉阳自治县人民政府","retrieved_at":"2026-08-01","url":"https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["野菜控制和多阶段工艺"],"status":"research_candidate"},
-    {"candidate_id":"shidian-pea-potato-ham-rice","name":"施甸豌豆洋芋火腿焖饭","region_codes":["CN-YN"],"family":"yunnan-potato-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"potato","label":"土豆"},{"canonical_id":null,"label":"火腿"},{"canonical_id":null,"label":"鲜豌豆"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"米、洋芋、火腿、豆同焖","identity_sources":[{"title":"施甸豌豆洋芋火腿焖饭","publisher":"施甸县人民政府","retrieved_at":"2026-08-01","url":"https://www.shidian.gov.cn/info/1111/3792183.htm","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无数量和液体"],"status":"research_candidate"},
-    {"candidate_id":"shidian-broad-bean-ham-rice","name":"施甸蚕豆火腿焖饭","region_codes":["CN-YN"],"family":"yunnan-potato-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"火腿"},{"canonical_id":null,"label":"蚕豆"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"焖饭身份记录","identity_sources":[{"title":"施甸蚕豆火腿焖饭","publisher":"施甸县人民政府","retrieved_at":"2026-08-01","url":"https://shidian.gov.cn/info/1111/3664633.htm","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无工艺、数量和液体"],"status":"identity_only"},
-    {"candidate_id":"tengchong-copper-pot-potato-rice","name":"腾冲北海铜锅洋芋饭","region_codes":["CN-YN"],"family":"yunnan-potato-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"potato","label":"土豆"},{"canonical_id":"green-beans","label":"四季豆"},{"canonical_id":null,"label":"腌肉"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"铜锅焖制","identity_sources":[{"title":"腾冲北海铜锅洋芋饭","publisher":"腾冲市人民政府","retrieved_at":"2026-08-01","url":"https://www.tengchong.gov.cn/info/9573/5813513.htm","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["无数量液体且铜锅身份损失"],"status":"research_candidate"},
-    {"candidate_id":"dong-steamed-she-rice","name":"贵州侗家甑蒸社饭","region_codes":["CN-GZ"],"family":"wuling-she-rice","core_ingredients":[{"canonical_id":null,"label":"糯米/粳米"},{"canonical_id":null,"label":"艾草"},{"canonical_id":null,"label":"腊肉"},{"canonical_id":null,"label":"花生"},{"canonical_id":null,"label":"豆干"}],"rice_state":"mixed-rice","nutrition_grade":"A","traditional_appliance_and_steps":"甑蒸两条工艺分支","identity_sources":[{"title":"贵州侗家甑蒸社饭","publisher":"贵州人大网","retrieved_at":"2026-08-01","url":"https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["双工艺且无总克数液体"],"status":"research_candidate"},
-    {"candidate_id":"wanshan-she-rice","name":"铜仁万山社饭","region_codes":["CN-GZ"],"family":"wuling-she-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"鲜米"},{"canonical_id":null,"label":"糯米"},{"canonical_id":null,"label":"菜/豆"},{"canonical_id":null,"label":"花生"},{"canonical_id":null,"label":"腊肉"}],"rice_state":"mixed-rice","nutrition_grade":"A","traditional_appliance_and_steps":"预煮、热泡、低焖","identity_sources":[{"title":"铜仁万山社饭","publisher":"铜仁市人民政府","retrieved_at":"2026-08-01","url":"https://www.tongren.gov.cn/2025/0405/333568.shtml","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["无总数量液体，多阶段"],"status":"research_candidate"},
-    {"candidate_id":"huixian-ground-pot-chicken-rice","name":"辉县地锅鸡米饭","region_codes":["CN-HA"],"family":"ground-pot-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"生米"},{"canonical_id":"chicken-generic","label":"鸡肉"},{"canonical_id":null,"label":"干豆角"},{"canonical_id":"shiitake","label":"香菇"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"地锅鸡与米饭","identity_sources":[{"title":"辉县地锅鸡米饭","publisher":"河南电视台","retrieved_at":"2026-08-01","url":"https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["无克数、液体和份数"],"status":"research_candidate"},
-    {"candidate_id":"mayang-she-rice","name":"麻阳社饭","region_codes":["CN-HN"],"family":"wuling-she-rice","core_ingredients":[{"canonical_id":null,"label":"粳米/糯米"},{"canonical_id":null,"label":"艾草"},{"canonical_id":null,"label":"腊肉"},{"canonical_id":null,"label":"野葱"},{"canonical_id":null,"label":"蒜苗"}],"rice_state":"mixed-rice","nutrition_grade":"A","traditional_appliance_and_steps":"预煮沥米或甑蒸","identity_sources":[{"title":"麻阳社饭","publisher":"麻阳县人民政府","retrieved_at":"2026-08-01","url":"https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["无总克数液体"],"status":"research_candidate"},
-    {"candidate_id":"xiangxi-she-rice","name":"湘西社饭","region_codes":["CN-HN"],"family":"wuling-she-rice","core_ingredients":[{"canonical_id":null,"label":"糯米/粳米"},{"canonical_id":null,"label":"野菜"},{"canonical_id":null,"label":"腊肉"},{"canonical_id":null,"label":"葱蒜"}],"rice_state":"mixed-rice","nutrition_grade":"A","traditional_appliance_and_steps":"社饭多阶段蒸焖","identity_sources":[{"title":"湘西社饭","publisher":"湖南省人民政府","retrieved_at":"2026-08-01","url":"https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["比例文字冲突且无可执行比"],"status":"research_candidate"},
-    {"candidate_id":"xiangjiangyuan-bamboo-rice","name":"湘江源瑶家竹筒饭","region_codes":["CN-HN"],"family":"bamboo-rice","core_ingredients":[{"canonical_id":null,"label":"糯米"},{"canonical_id":null,"label":"茶豆"},{"canonical_id":"ground-pork","label":"猪肉末"}],"rice_state":"glutinous-rice","nutrition_grade":"A","traditional_appliance_and_steps":"竹筒火烤","identity_sources":[{"title":"湘江源瑶家竹筒饭","publisher":"蓝山县人民政府","retrieved_at":"2026-08-01","url":"https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml","supports":["identity","quantity"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E4","blockers":["需食品安全竹筒与首煮液体"],"status":"research_candidate"},
-    {"candidate_id":"lianyuan-bamboo-rice","name":"涟源腊肉红枣竹筒饭","region_codes":["CN-HN"],"family":"bamboo-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"腊肉"},{"canonical_id":null,"label":"红枣"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"火烤竹筒","identity_sources":[{"title":"涟源腊肉红枣竹筒饭","publisher":"湖南省文旅厅","retrieved_at":"2026-08-01","url":"https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["火烤器具身份且无数量液体"],"status":"research_candidate"},
-    {"candidate_id":"yichang-cured-pork-braised-rice","name":"宜昌腊肉焖饭","region_codes":["CN-HB"],"family":"middle-yangtze-cured-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":null,"label":"腊肉"}],"rice_state":"rice-state-unverified","nutrition_grade":"B","traditional_appliance_and_steps":"焖饭名称身份记录","identity_sources":[{"title":"宜昌腊肉焖饭","publisher":"宜昌市发改委","retrieved_at":"2026-08-01","url":"https://fgw.yichang.gov.cn/content-56405-984018-1.html","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E3","blockers":["仅有名称，缺工艺、数量和液体"],"status":"identity_only"},
-    {"candidate_id":"ninghe-zeng-pork-rice","name":"宁河甑乡肉焖儿","region_codes":["CN-TJ"],"family":"zeng-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"pork-generic","label":"猪肉"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"通风陶甑蒸制","identity_sources":[{"title":"宁河甑乡肉焖儿","publisher":"天津日报","retrieved_at":"2026-08-01","url":"https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm","supports":["identity"]}],"quantity_liquid_completeness":"identity_only","adaptation_level":"E4","blockers":["无数量液体，甑器具身份"],"status":"research_candidate"},
-    {"candidate_id":"household-chicken-leg-potato-rice","name":"鸡腿土豆焖饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"chicken-leg","label":"鸡腿"},{"canonical_id":"potato","label":"土豆"}],"rice_state":"raw-rice","nutrition_grade":"B","traditional_appliance_and_steps":"项目家庭标准闭盖烹调","identity_sources":[{"title":"一锅出家庭审核：鸡腿土豆焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=chicken-leg-potato-braised-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E1","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","chicken-leg","potato"],"mapping_scope":"exact"},
-    {"candidate_id":"household-corn-carrot-chicken-rice","name":"玉米胡萝卜鸡腿焖饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"chicken-leg","label":"鸡腿"},{"canonical_id":"carrot","label":"胡萝卜"},{"canonical_id":"sweet-corn","label":"玉米"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"项目家庭标准闭盖烹调","identity_sources":[{"title":"一锅出家庭审核：玉米胡萝卜鸡腿焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=corn-carrot-chicken-leg-covered-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E1","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","chicken-leg","carrot","sweet-corn"],"mapping_scope":"exact"},
-    {"candidate_id":"household-greens-minced-pork-rice","name":"肉糜青菜饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"ground-pork","label":"肉糜"},{"canonical_id":"leafy-greens","label":"青菜"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"项目家庭标准闭盖烹调","identity_sources":[{"title":"一锅出家庭审核：肉糜青菜饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=greens-minced-pork-braised-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E1","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","leafy-greens","ground-pork"],"mapping_scope":"exact"},
-    {"candidate_id":"household-red-date-cowpea-rice","name":"陕北红枣豇豆焖饭","region_codes":["CN-SN"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"fresh-cowpea-pod","label":"豇豆"},{"canonical_id":null,"label":"红枣"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"项目家庭审核，未进入 Preview","identity_sources":[{"title":"一锅出家庭审核：陕北红枣豇豆焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=shaanbei-red-date-cowpea-rice","supports":["identity"]}],"quantity_liquid_completeness":"partial","adaptation_level":"E2","blockers":["仍待液体复核"],"status":"planned","mapped_core":["raw-rice","fresh-cowpea-pod","pitted-dried-jujube"],"mapping_scope":"partial_adaptation","mapping_note":"运行目录明确去核红枣；调研候选仅记录红枣，未声称处理状态等价。"},
-    {"candidate_id":"household-green-bean-pork-rib-rice","name":"豆角排骨焖饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"green-beans","label":"豆角"},{"canonical_id":"pork-ribs","label":"排骨"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"一锅出项目 Preview 家庭测试标准，待真实厨房反馈","identity_sources":[{"title":"一锅出项目标准配方：豆角排骨焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E2","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","green-beans","pork-ribs"],"mapping_scope":"exact"},
-    {"candidate_id":"household-mushroom-green-bean-pork-rib-rice","name":"香菇豆角排骨焖饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"shiitake","label":"香菇"},{"canonical_id":"green-beans","label":"豆角"},{"canonical_id":"pork-ribs","label":"排骨"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"一锅出项目 Preview 家庭测试标准，待真实厨房反馈","identity_sources":[{"title":"一锅出项目标准配方：香菇豆角排骨焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E2","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","green-beans","pork-ribs","shiitake"],"mapping_scope":"exact"},
-    {"candidate_id":"household-cabbage-tofu-rice","name":"白菜豆腐焖饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"napa-cabbage","label":"白菜"},{"canonical_id":"firm-tofu","label":"豆腐"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"一锅出项目 Preview 家庭测试标准，待真实厨房反馈","identity_sources":[{"title":"一锅出项目标准配方：白菜豆腐焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E2","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","napa-cabbage","firm-tofu"],"mapping_scope":"exact"},
-    {"candidate_id":"household-broccoli-beef-rice","name":"西兰花牛肉焖饭","region_codes":["HOUSEHOLD"],"family":"household-reviewed-rice","core_ingredients":[{"canonical_id":"raw-rice","label":"米"},{"canonical_id":"broccoli","label":"西兰花"},{"canonical_id":"beef-generic","label":"牛肉"}],"rice_state":"raw-rice","nutrition_grade":"A","traditional_appliance_and_steps":"一锅出项目 Preview 家庭测试标准，待真实厨房反馈","identity_sources":[{"title":"一锅出项目标准配方：西兰花牛肉焖饭","publisher":"一锅出项目","retrieved_at":"2026-08-01","url":"https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice","supports":["identity","quantity","liquid","appliance","safety","nutrition"]}],"quantity_liquid_completeness":"complete","adaptation_level":"E2","blockers":[],"runtime_contract":{"quantity":"complete","liquid":"complete","appliance":"complete","safety":"complete"},"status":"runtime_ready","mapped_core":["raw-rice","broccoli","beef-generic"],"mapping_scope":"exact"}
+    {
+      "candidate_id": "shanghai-salted-pork-vegetable-rice",
+      "name": "上海奉贤咸肉菜饭",
+      "runtime_name_aliases": ["上海咸肉菜饭"],
+      "region_codes": ["CN-SH"],
+      "family": "jiangnan-vegetable-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "leafy-greens", "label": "青菜" },
+        { "canonical_id": null, "label": "咸肉/香肠" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "土灶或锅中米、菜和咸肉同煮成饭",
+      "identity_sources": [
+        {
+          "title": "咸肉菜饭",
+          "publisher": "奉贤区人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html",
+          "supports": ["identity"]
+        },
+        {
+          "title": "咸肉菜饭（fixed commit b1f0a1a）",
+          "publisher": "HowToCook",
+          "retrieved_at": "2026-08-01",
+          "url": "https://github.com/Anduin2017/HowToCook/blob/b1f0a1aaba4c86508df1640a2fb8a01e1602c72e/dishes/staple/%E5%92%B8%E8%82%89%E8%8F%9C%E9%A5%AD.md",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E1",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "small-bok-choy", "salted-pork-belly"],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "运行目录收敛为小白菜和咸五花肉；调研候选的青菜与咸肉/香肠并非逐项等价。"
+    },
+    {
+      "candidate_id": "wujiang-greens-salted-pork-rice",
+      "name": "吴江香青菜咸肉饭",
+      "region_codes": ["CN-JS"],
+      "family": "jiangnan-vegetable-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "吴江香青菜" },
+        { "canonical_id": "cured-pork", "label": "咸肉" }
+      ],
+      "rice_state": "rice-state-unverified",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "来源只证明吴江香青菜与咸肉饭的地域身份，不证明配米蒸煮流程",
+      "identity_sources": [
+        {
+          "title": "吴江香青菜咸肉饭",
+          "publisher": "苏州市人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": [
+        "来源未给投料数量、米的生熟/浸泡状态、有效液体和完整工艺；不得用邻近地区菜饭流程补写"
+      ],
+      "status": "identity_only"
+    },
+    {
+      "candidate_id": "nanjing-duck-greens-rice",
+      "name": "南京矮脚黄板鸭菜饭",
+      "region_codes": ["CN-JS"],
+      "family": "jiangnan-vegetable-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "糯米" },
+        { "canonical_id": "aijiaohuang-greens", "label": "矮脚黄" },
+        { "canonical_id": null, "label": "板鸭丁" },
+        { "canonical_id": null, "label": "姜" }
+      ],
+      "rice_state": "glutinous-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "文化来源记录板鸭丁、矮脚黄与糯米一起煮，同文又有青菜米饭翻炒的概括，未形成唯一可执行流程",
+      "identity_sources": [
+        {
+          "title": "寻味二十四节气・小寒",
+          "publisher": "浙江省社会科学界联合会",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html",
+          "supports": ["identity"]
+        },
+        {
+          "title": "南京记忆｜咸板鸭与咸鸭肫",
+          "publisher": "南京市地方志编纂委员会办公室",
+          "retrieved_at": "2026-08-02",
+          "url": "https://dfz.nanjing.gov.cn/gzdt/202408/t20240827_4750017.html",
+          "supports": ["safety"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": [
+        "板鸭丁的生熟状态未定：咸板鸭为生制品须合法熟制，盐水鸭才是熟制即食；不得自动归一为熟板鸭",
+        "缺数量、有效液体、份数、器具与唯一工艺"
+      ],
+      "status": "identity_only"
+    },
+    {
+      "candidate_id": "banshan-lixia-wild-rice",
+      "name": "半山立夏野米饭",
+      "region_codes": ["CN-ZJ"],
+      "family": "seasonal-mixed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "egg", "label": "鸡蛋" },
+        { "canonical_id": null, "label": "韭菜" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "民俗铁锅炒煮",
+      "identity_sources": [
+        {
+          "title": "半山立夏野米饭",
+          "publisher": "中国非物质文化遗产网",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.ihchina.cn/solarzx_details/18383.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["无数量和电饭煲适配"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "wenzhou-mustard-rice",
+      "name": "温州芥菜饭",
+      "region_codes": ["CN-ZJ"],
+      "family": "jiangnan-mustard-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "糯米" },
+        { "canonical_id": "mustard-greens", "label": "芥菜" },
+        { "canonical_id": "ground-pork", "label": "猪肉末" }
+      ],
+      "rice_state": "glutinous-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "传统资料支持浸泡糯米先蒸熟，芥菜与肉等配料炒香后再合并炒拌，不是生米一键闭盖流程",
+      "identity_sources": [
+        {
+          "title": "南麂：春龙抬首暖海岛，芥饭飘香邻里情",
+          "publisher": "温州党建",
+          "retrieved_at": "2026-08-02",
+          "url": "https://www.wzdj.gov.cn/system/2026/03/19/015430433.shtml",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": [
+        "一手来源未给精确数量、有效液体、份数与熟制终点",
+        "传统“蒸米+炒配料+合并炒拌”不能静默改成一只电饭煲一键版；须家庭实验并明标改编"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "dongzhi-crust-rice",
+      "name": "东至农家锅巴饭",
+      "region_codes": ["CN-AH"],
+      "family": "pot-crust-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "香米" },
+        { "canonical_id": "pork-generic", "label": "猪肉" },
+        { "canonical_id": null, "label": "芋头" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "电饭煲提及，后段成锅巴",
+      "identity_sources": [
+        {
+          "title": "东至农家锅巴饭",
+          "publisher": "池州市人社局",
+          "retrieved_at": "2026-08-01",
+          "url": "https://czsrsj.chizhou.gov.cn/News/show/608587.html",
+          "supports": ["identity", "quantity"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E3",
+      "blockers": ["水量“1.5瓶”含义不明；生肉后加安全未闭合"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "quanzhou-oil-rice",
+      "name": "泉州海味三层肉浥饭（油饭）",
+      "runtime_name_aliases": ["泉州浥饭（油饭）"],
+      "region_codes": ["CN-FJ"],
+      "family": "minnan-oil-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "五花肉" },
+        { "canonical_id": null, "label": "豆干" },
+        { "canonical_id": "shiitake", "label": "香菇" },
+        { "canonical_id": null, "label": "蚝/干贝" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "官方原型是生大米、三层肉、豆干、香菇与海味在柴火锅中同煮",
+      "identity_sources": [
+        {
+          "title": "泉州海味三层肉浥饭",
+          "publisher": "泉州市人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202411/t20241122_3107926.htm",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E2",
+      "blockers": [
+        "来源无数量、有效液体、份数、家庭器具参数及海鲜熟制/过敏边界",
+        "官方原型的生大米+三层肉+豆干+海味与当前映射的泡发糯米+肉末+香菇不等价；未闭合前不得冒充地域原方"
+      ],
+      "status": "planned",
+      "mapped_core": ["soaked-glutinous-rice", "ground-pork", "shiitake"],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "运行目录采用泡发糯米、肉末和香菇的家庭改编；它与官方生大米、三层肉、豆干和海味原型只是部分映射，不声称等价。"
+    },
+    {
+      "candidate_id": "fujian-mustard-pork-salted-rice",
+      "name": "福建盖菜肉末咸饭",
+      "region_codes": ["CN-FJ"],
+      "family": "minnan-salted-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "稻米" },
+        { "canonical_id": "mustard-greens", "label": "盖菜" },
+        { "canonical_id": "onion", "label": "洋葱" },
+        { "canonical_id": null, "label": "瘦猪肉" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "官方学生带量表只证明每名9至11岁学生的食材可食部克数，不提供烹调工艺",
+      "identity_sources": [
+        {
+          "title": "学生带量食谱",
+          "publisher": "福建省卫生健康委员会",
+          "retrieved_at": "2026-08-01",
+          "url": "https://wjw.fujian.gov.cn/xxgk/zfxxgkzl/zfxxgkml/qtzdxx/202509/P020250918623795675713.pdf",
+          "supports": ["identity", "quantity", "nutrition"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E3",
+      "blockers": [
+        "来源给出稻米105g、盖菜115g、洋葱30g、瘦猪肉25g/名9至11岁学生，但无有效液体、烹调流程、家庭器具和成人份校准"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "quanzhou-red-crab-rice",
+      "name": "泉州红蟳饭（红膏蟳饭）",
+      "region_codes": ["CN-FJ"],
+      "family": "minnan-crab-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "大米/糯米" },
+        { "canonical_id": null, "label": "红膏蟳（雌性青蟹）" },
+        { "canonical_id": null, "label": "五花肉" },
+        { "canonical_id": null, "label": "干香菇" },
+        { "canonical_id": null, "label": "干贝/虾仁干" }
+      ],
+      "rice_state": "mixed-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "泉州官方资料记录活蟹处理与先煎、香菇干贝五花肉炒香、与米合并高压或蒸制的分支流程",
+      "identity_sources": [
+        {
+          "title": "红蟳饭：软糯鲜香回味长",
+          "publisher": "泉州市人民政府",
+          "retrieved_at": "2026-08-02",
+          "url": "https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202506/t20250624_3182398.htm",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": [
+        "未取得团体标准正文；页面无精确食材克数、有效液体、份数、时间和家庭设备档位",
+        "活蟹处理、蟹壳锐物、甲壳/贝类过敏、死蟹禁用、冷链和蟹肉完全熟制均未形成可机器验证终点",
+        "不得用虾仁替换红膏蟳后仍使用红蟳饭的地域真名"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "taiwan-pumpkin-rice",
+      "name": "台湾南瓜饭",
+      "region_codes": ["CN-TW"],
+      "family": "taiwan-mixed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "南瓜" },
+        { "canonical_id": "ground-pork", "label": "猪绞肉" },
+        { "canonical_id": null, "label": "虾米" },
+        { "canonical_id": "shiitake", "label": "香菇" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "来源按厂家量杯取米、水为米体积量0.8倍；首次完成后静置15分钟并再启动一次开关",
+      "identity_sources": [
+        {
+          "title": "台湾南瓜饭",
+          "publisher": "台湾农业部",
+          "retrieved_at": "2026-08-01",
+          "url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+          "supports": ["identity", "quantity", "liquid", "appliance"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E2",
+      "blockers": [
+        "来源未给量杯到克/毫升的可迁移换算、明确份数及调味克数",
+        "静置15分钟后第二次按键的行为不能默认在所有机型上等价；需跨机型家庭验证",
+        "南瓜、虾米等尚未完成本项目受控 taxonomy/过敏边界"
+      ],
+      "status": "planned"
+    },
+    {
+      "candidate_id": "taiwan-cabbage-rice",
+      "name": "台湾高丽菜饭",
+      "region_codes": ["CN-TW"],
+      "family": "taiwan-mixed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "green-cabbage", "label": "高丽菜" },
+        { "canonical_id": null, "label": "虾米" },
+        { "canonical_id": "shiitake", "label": "香菇" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "来源为电锅炊饭：高丽菜、虾米、香菇等与米按固定批量处理，水为米体积量0.8倍",
+      "identity_sources": [
+        {
+          "title": "台湾高丽菜饭",
+          "publisher": "台湾农业部",
+          "retrieved_at": "2026-08-01",
+          "url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+          "supports": ["identity", "quantity", "liquid", "appliance"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E2",
+      "blockers": [
+        "2杯米与0.8倍水为来源体积量，缺可迁移的克/毫升换算、份数和调味克数",
+        "10g虾米只作风味与过敏因素，不得冒充实质蛋白贡献",
+        "高丽菜、虾米等未完成本项目 taxonomy，且焯沥/析水对有效液体的影响未闭合"
+      ],
+      "status": "planned"
+    },
+    {
+      "candidate_id": "guangzhou-cured-claypot-rice",
+      "name": "广州腊味煲仔饭",
+      "region_codes": ["CN-GD"],
+      "family": "cantonese-claypot-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "腊肉/腊肠" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "砂锅后加腊味并取锅巴",
+      "identity_sources": [
+        {
+          "title": "广东煲仔饭资料",
+          "publisher": "广东省政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["砂锅后加与通用电饭煲不等价"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "guangzhou-mushroom-chicken-claypot-rice",
+      "name": "冬菇滑鸡饭",
+      "region_codes": ["CN-GD"],
+      "family": "cantonese-claypot-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "chicken-generic", "label": "鸡肉" },
+        { "canonical_id": "shiitake", "label": "香菇" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "番禺官方资料记录浸米入砂锅，水将收干时加入预先腌制的鸡肉与冬菇，再转小火焖熟",
+      "identity_sources": [
+        {
+          "title": "番禺风味・煲仔饭",
+          "publisher": "广州市番禺区人民政府",
+          "retrieved_at": "2026-08-02",
+          "url": "https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": [
+        "来源无统一两人份克数、有效液体、普通电饭煲程序和鸡肉74摄氏度中心终点",
+        "厂商鸡肉+香菇饭的近邻参数来自不同型号与不同菜名，不得混拼成冬菇滑鸡饭的权威配方",
+        "普通电饭煲版不得承诺传统砂锅锅巴"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "guangzhou-black-bean-rib-claypot-rice",
+      "name": "豉汁排骨饭",
+      "region_codes": ["CN-GD"],
+      "family": "cantonese-claypot-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "pork-ribs", "label": "排骨" },
+        { "canonical_id": null, "label": "豆豉" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "番禺官方资料将豉汁排骨饭列为煲仔饭分支，水将收干时加腌肉再小火焖熟",
+      "identity_sources": [
+        {
+          "title": "番禺风味・煲仔饭",
+          "publisher": "广州市番禺区人民政府",
+          "retrieved_at": "2026-08-02",
+          "url": "https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": [
+        "豆豉与复合酱汁克数、有效液体、两人份和普通电饭煲程序未闭合",
+        "带骨排骨最厚肉处的熟制终点和高钠边界未闭合",
+        "松下花菇排骨焖饭只是型号专属近邻证据，不是豉汁排骨饭，不得直接搬用参数"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "panasonic-taro-chicken-rice",
+      "name": "香芋鸡煲仔饭（松下机型配方）",
+      "region_codes": ["CN-GD"],
+      "family": "manufacturer-mixed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "chicken-generic", "label": "鸡肉" },
+        { "canonical_id": null, "label": "芋头" },
+        { "canonical_id": null, "label": "虾米" },
+        { "canonical_id": "shiitake", "label": "香菇" },
+        { "canonical_id": null, "label": "木耳" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "指定压力IH机型水位线3烹调",
+      "identity_sources": [
+        {
+          "title": "SR-PXC香芋鸡煲仔饭",
+          "publisher": "松下家电中国",
+          "retrieved_at": "2026-08-01",
+          "url": "https://home.panasonic.cn/support/attachments/auld/manual/SR-PXC.pdf",
+          "supports": ["identity", "quantity", "appliance"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E2",
+      "blockers": [
+        "来源限定松下压力IH机型、煲仔饭专用程序和短粒米水位线3，未给通用新增水克数",
+        "芋头需先油炸，不属于原料直接入锅的简化流程",
+        "不能宣称跨型号、跨品牌或普通白米程序等价"
+      ],
+      "status": "planned"
+    },
+    {
+      "candidate_id": "xinjiang-lamb-pilaf",
+      "name": "新疆羊肉抓饭（波劳）",
+      "runtime_name_aliases": ["新疆羊肉抓饭"],
+      "region_codes": ["CN-XJ"],
+      "family": "xinjiang-pilaf",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "羊肉" },
+        { "canonical_id": "carrot", "label": "胡萝卜" },
+        { "canonical_id": "onion", "label": "洋葱" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "羊肉胡萝卜炒香后与米焖熟",
+      "identity_sources": [
+        {
+          "title": "新疆羊肉抓饭",
+          "publisher": "新疆维吾尔自治区人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml",
+          "supports": ["identity"]
+        },
+        {
+          "title": "电饭煲抓饭介绍",
+          "publisher": "新疆文旅",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html",
+          "supports": ["appliance"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E2",
+      "blockers": [
+        "电饭煲来源的1:2未说明分子、分母、质量/体积与米的生熟状态，禁止自动解读为米水比",
+        "来源未给大米实际克数、份数、羊肉块尺寸和可机器验证熟制终点",
+        "不得把压力锅或其他来源的液体数字合并成普通电饭煲通用公式"
+      ],
+      "status": "planned",
+      "mapped_core": ["raw-rice", "lamb-leg", "onion", "carrot"],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "运行目录限定羊腿肉；调研候选仅记录羊肉，未声称部位等价。"
+    },
+    {
+      "candidate_id": "xinjiang-minced-lamb-pilaf",
+      "name": "新疆碎肉抓饭",
+      "region_codes": ["CN-XJ"],
+      "family": "xinjiang-pilaf",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "羊肉" },
+        { "canonical_id": "carrot", "label": "胡萝卜" },
+        { "canonical_id": null, "label": "鹰嘴豆" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "碎肉、菜、豆与米配餐",
+      "identity_sources": [
+        {
+          "title": "学生带量食谱碎肉抓饭",
+          "publisher": "新疆卫健委",
+          "retrieved_at": "2026-08-01",
+          "url": "https://wjw.xinjiang.gov.cn/hfpc/spaq/202510/1b0e4aca73b345ef9ddb473899c23b1b/files/4.9-11%E5%B2%81%E5%AD%A6%E7%94%9F%E6%98%A5%E5%A4%8F%E5%AD%A3%E5%B8%A6%E9%87%8F%E9%A3%9F%E8%B0%B1%EF%BC%88%E8%AF%95%E8%A1%8C%EF%BC%89.pdf",
+          "supports": ["identity", "quantity", "nutrition"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E3",
+      "blockers": ["无液体和工艺"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "mizhi-lamb-diced-rice",
+      "name": "米脂羊肉丁丁饭",
+      "region_codes": ["CN-SN"],
+      "family": "northwest-meat-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "羊肉" },
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "黄花菜/金针菇" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "羊肉丁与米煮制",
+      "identity_sources": [
+        {
+          "title": "米脂羊肉丁丁饭",
+          "publisher": "陕西省地方志",
+          "retrieved_at": "2026-08-01",
+          "url": "https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201209/t20120912_2620380.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": ["无数量、液体和份数"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "ningxia-meat-sticky-rice",
+      "name": "宁夏肉粘饭",
+      "region_codes": ["CN-NX"],
+      "family": "northwest-meat-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "牛/羊肉" },
+        { "canonical_id": "onion", "label": "洋葱" },
+        { "canonical_id": "carrot", "label": "胡萝卜" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "炒肉菜后与米蒸焖",
+      "identity_sources": [
+        {
+          "title": "宁夏肉粘饭",
+          "publisher": "宁夏农业农村厅",
+          "retrieved_at": "2026-08-01",
+          "url": "https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": ["无数量与液体"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "sichuan-pea-kong-rice",
+      "name": "四川豌豆孔干饭",
+      "region_codes": ["CN-SC"],
+      "family": "sichuan-kong-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "豌豆" }
+      ],
+      "rice_state": "parboiled-drained-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "米先煮至半熟后沥米汤，豌豆略炒，再铺上沥干的米加盖小火回焖",
+      "identity_sources": [
+        {
+          "title": "成都日报访谈：孔干饭技法",
+          "publisher": "黑龙江省政协网（转载成都日报）",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.hljzx.gov.cn/contents/68/7320.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": [
+        "半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数",
+        "半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；来源为转载，仍需独立一手复核"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "sichuan-green-bean-kong-rice",
+      "name": "四川四季豆孔干饭",
+      "region_codes": ["CN-SC"],
+      "family": "sichuan-kong-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "green-beans", "label": "四季豆" }
+      ],
+      "rice_state": "parboiled-drained-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "米先煮至半熟后沥米汤，四季豆略炒，再铺上沥干的米加盖小火回焖",
+      "identity_sources": [
+        {
+          "title": "成都日报访谈：孔干饭技法",
+          "publisher": "黑龙江省政协网（转载成都日报）",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.hljzx.gov.cn/contents/68/7320.html",
+          "supports": ["identity"]
+        },
+        {
+          "title": "四季豆中毒风险与充分熟制提示",
+          "publisher": "四川省卫生健康委员会",
+          "retrieved_at": "2026-08-02",
+          "url": "https://wsjkw.sc.gov.cn/scwsjkw/jkys/2025/7/31/4b70f331b17c4e2782717842d2d53628.shtml",
+          "supports": ["safety"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": [
+        "半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数",
+        "半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭",
+        "四季豆必须充分熟制；访谈的“略炒+回焖”没有提供可机器验证的时间/熟度终点"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "qijiang-potato-cured-pork-kong-rice",
+      "name": "綦江洋芋腊肉箜饭",
+      "region_codes": ["CN-CQ"],
+      "family": "sichuan-kong-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "potato", "label": "土豆" },
+        { "canonical_id": null, "label": "腊肉" }
+      ],
+      "rice_state": "rice-state-unverified",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "箜饭身份记录",
+      "identity_sources": [
+        {
+          "title": "綦江洋芋腊肉箜饭",
+          "publisher": "重庆市人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.cq.gov.cn/zjcq/ydjs/tyss/202505/t20250512_14602375.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": ["无数量、液体和米态"],
+      "status": "identity_only"
+    },
+    {
+      "candidate_id": "youzhou-she-rice",
+      "name": "酉州社饭",
+      "region_codes": ["CN-CQ"],
+      "family": "wuling-she-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "腊肉" },
+        { "canonical_id": null, "label": "豆干" },
+        { "canonical_id": null, "label": "野菜" }
+      ],
+      "rice_state": "parboiled-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "米预煮、野菜和腊味多阶段合制",
+      "identity_sources": [
+        {
+          "title": "酉州社饭",
+          "publisher": "酉阳自治县人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["野菜控制和多阶段工艺"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "shidian-pea-potato-ham-rice",
+      "name": "施甸豌豆洋芋火腿焖饭",
+      "region_codes": ["CN-YN"],
+      "family": "yunnan-potato-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "potato", "label": "土豆" },
+        { "canonical_id": null, "label": "火腿" },
+        { "canonical_id": null, "label": "鲜豌豆" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "施甸县官方资料记录火腿切丁煎出油，与新鲜豌豆、洋芋丁和大米混合，放入罗锅以柴火慢焖",
+      "identity_sources": [
+        {
+          "title": "施甸豌豆洋芋火腿焖饭",
+          "publisher": "施甸县人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.shidian.gov.cn/info/1111/3792183.htm",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": [
+        "官方来源只给真实菜名、核心组合和高层流程，无大米、洋芋、火腿、豌豆克数，无份数与有效液体",
+        "火腿出油量、盐度、柴火强弱、时间、完成判据和电饭煲程序均未闭合；任何两人份参数都只能作为项目试验假设"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "shidian-broad-bean-ham-rice",
+      "name": "施甸蚕豆火腿焖饭",
+      "region_codes": ["CN-YN"],
+      "family": "yunnan-potato-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "火腿" },
+        { "canonical_id": null, "label": "蚕豆" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "焖饭身份记录",
+      "identity_sources": [
+        {
+          "title": "施甸蚕豆火腿焖饭",
+          "publisher": "施甸县人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://shidian.gov.cn/info/1111/3664633.htm",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": ["无工艺、数量和液体"],
+      "status": "identity_only"
+    },
+    {
+      "candidate_id": "tengchong-copper-pot-potato-rice",
+      "name": "腾冲北海铜锅洋芋饭",
+      "region_codes": ["CN-YN"],
+      "family": "yunnan-potato-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "potato", "label": "土豆" },
+        { "canonical_id": "green-beans", "label": "四季豆" },
+        { "canonical_id": null, "label": "腌肉" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "铜锅焖制",
+      "identity_sources": [
+        {
+          "title": "腾冲北海铜锅洋芋饭",
+          "publisher": "腾冲市人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.tengchong.gov.cn/info/9573/5813513.htm",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["无数量液体且铜锅身份损失"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "dong-steamed-she-rice",
+      "name": "贵州侗家甑蒸社饭",
+      "region_codes": ["CN-GZ"],
+      "family": "wuling-she-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "糯米/粳米" },
+        { "canonical_id": null, "label": "艾草" },
+        { "canonical_id": null, "label": "腊肉" },
+        { "canonical_id": null, "label": "花生" },
+        { "canonical_id": null, "label": "豆干" }
+      ],
+      "rice_state": "mixed-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "甑蒸两条工艺分支",
+      "identity_sources": [
+        {
+          "title": "贵州侗家甑蒸社饭",
+          "publisher": "贵州人大网",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["双工艺且无总克数液体"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "wanshan-she-rice",
+      "name": "铜仁万山社饭",
+      "region_codes": ["CN-GZ"],
+      "family": "wuling-she-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "鲜米" },
+        { "canonical_id": null, "label": "糯米" },
+        { "canonical_id": null, "label": "菜/豆" },
+        { "canonical_id": null, "label": "花生" },
+        { "canonical_id": null, "label": "腊肉" }
+      ],
+      "rice_state": "mixed-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "预煮、热泡、低焖",
+      "identity_sources": [
+        {
+          "title": "铜仁万山社饭",
+          "publisher": "铜仁市人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.tongren.gov.cn/2025/0405/333568.shtml",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["无总数量液体，多阶段"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "huixian-ground-pot-chicken-rice",
+      "name": "辉县地锅鸡米饭",
+      "region_codes": ["CN-HA"],
+      "family": "ground-pot-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "生米" },
+        { "canonical_id": "chicken-generic", "label": "鸡肉" },
+        { "canonical_id": null, "label": "干豆角" },
+        { "canonical_id": "shiitake", "label": "香菇" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "地锅鸡与米饭",
+      "identity_sources": [
+        {
+          "title": "辉县地锅鸡米饭",
+          "publisher": "河南电视台",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": ["无克数、液体和份数"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "mayang-she-rice",
+      "name": "麻阳社饭",
+      "region_codes": ["CN-HN"],
+      "family": "wuling-she-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "粳米/糯米" },
+        { "canonical_id": null, "label": "艾草" },
+        { "canonical_id": null, "label": "腊肉" },
+        { "canonical_id": null, "label": "野葱" },
+        { "canonical_id": null, "label": "蒜苗" }
+      ],
+      "rice_state": "mixed-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "预煮沥米或甑蒸",
+      "identity_sources": [
+        {
+          "title": "麻阳社饭",
+          "publisher": "麻阳县人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["无总克数液体"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "xiangxi-she-rice",
+      "name": "湘西社饭",
+      "region_codes": ["CN-HN"],
+      "family": "wuling-she-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "糯米/粳米" },
+        { "canonical_id": null, "label": "野菜" },
+        { "canonical_id": null, "label": "腊肉" },
+        { "canonical_id": null, "label": "葱蒜" }
+      ],
+      "rice_state": "mixed-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "社饭多阶段蒸焖",
+      "identity_sources": [
+        {
+          "title": "湘西社饭",
+          "publisher": "湖南省人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["比例文字冲突且无可执行比"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "xiangjiangyuan-bamboo-rice",
+      "name": "湘江源瑶家竹筒饭",
+      "region_codes": ["CN-HN"],
+      "family": "bamboo-rice",
+      "core_ingredients": [
+        { "canonical_id": null, "label": "糯米" },
+        { "canonical_id": null, "label": "茶豆" },
+        { "canonical_id": "ground-pork", "label": "猪肉末" }
+      ],
+      "rice_state": "glutinous-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "竹筒火烤",
+      "identity_sources": [
+        {
+          "title": "湘江源瑶家竹筒饭",
+          "publisher": "蓝山县人民政府",
+          "retrieved_at": "2026-08-01",
+          "url": "https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml",
+          "supports": ["identity", "quantity"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E4",
+      "blockers": ["需食品安全竹筒与首煮液体"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "lianyuan-bamboo-rice",
+      "name": "涟源腊肉红枣竹筒饭",
+      "region_codes": ["CN-HN"],
+      "family": "bamboo-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "腊肉" },
+        { "canonical_id": null, "label": "红枣" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "火烤竹筒",
+      "identity_sources": [
+        {
+          "title": "涟源腊肉红枣竹筒饭",
+          "publisher": "湖南省文旅厅",
+          "retrieved_at": "2026-08-01",
+          "url": "https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["火烤器具身份且无数量液体"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "yichang-cured-pork-braised-rice",
+      "name": "宜昌腊肉焖饭",
+      "region_codes": ["CN-HB"],
+      "family": "middle-yangtze-cured-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "腊肉" }
+      ],
+      "rice_state": "rice-state-unverified",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "焖饭名称身份记录",
+      "identity_sources": [
+        {
+          "title": "宜昌腊肉焖饭",
+          "publisher": "宜昌市发改委",
+          "retrieved_at": "2026-08-01",
+          "url": "https://fgw.yichang.gov.cn/content-56405-984018-1.html",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E3",
+      "blockers": ["仅有名称，缺工艺、数量和液体"],
+      "status": "identity_only"
+    },
+    {
+      "candidate_id": "ninghe-zeng-pork-rice",
+      "name": "宁河甑乡肉焖儿",
+      "region_codes": ["CN-TJ"],
+      "family": "zeng-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "pork-generic", "label": "猪肉" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "通风陶甑蒸制",
+      "identity_sources": [
+        {
+          "title": "宁河甑乡肉焖儿",
+          "publisher": "天津日报",
+          "retrieved_at": "2026-08-01",
+          "url": "https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "identity_only",
+      "adaptation_level": "E4",
+      "blockers": ["无数量液体，甑器具身份"],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "zojirushi-beef-mixed-rice",
+      "name": "牛肉什锦饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "manufacturer-mixed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "beef-ground", "label": "牛肉末" },
+        { "canonical_id": null, "label": "胡萝卜泥" },
+        { "canonical_id": "onion", "label": "洋葱" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "象印官方固定4至5人批量：3厂家杯米，先拌盐并补水至白米3水位线，牛肉末、胡萝卜泥、洋葱与黄油分层铺放不搅拌，使用什锦饭程序",
+      "identity_sources": [
+        {
+          "title": "牛肉什锦饭",
+          "publisher": "上海象印家用电器有限公司",
+          "retrieved_at": "2026-08-02",
+          "url": "https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/",
+          "supports": ["identity", "quantity", "appliance"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E2",
+      "blockers": [
+        "来源只给白米3品牌水位线，无可迁移的固定水量；不得跨品牌或改成通用新增水克数",
+        "固定4至5人批量不能未经验证线性缩放到1至4人",
+        "每批仅100g牛肉末和90g蔬菜，按本项目每份营养门槛只能记C级证据原型；若做项目家庭A级改编，必须明确标注增加的牛肉/蔬菜量不是厂商原配方",
+        "牛肉末熟制终点仍需项目确定性校验"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "zojirushi-tomato-seafood-rice",
+      "name": "番茄海鲜饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "manufacturer-mixed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": null, "label": "鱿鱼圈" },
+        { "canonical_id": "shrimp", "label": "虾仁" },
+        { "canonical_id": "tomato", "label": "番茄" },
+        { "canonical_id": "onion", "label": "洋葱" },
+        { "canonical_id": null, "label": "混合蔬菜" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "页面只能证明菜名、4至5人批量和配料表；所示步骤转为糙米粥水位线、红枣与枸杞流程，与番茄海鲜饭矛盾，不可执行",
+      "identity_sources": [
+        {
+          "title": "番茄海鲜饭（页面步骤串页）",
+          "publisher": "上海象印家用电器有限公司",
+          "retrieved_at": "2026-08-02",
+          "url": "https://www.zojirushi-china.com/activity/recipe/rice-cooker/fanqiehaixianfan/",
+          "supports": ["identity", "quantity"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E4",
+      "blockers": [
+        "页面步骤明显串页/损坏，与菜名和配料表矛盾；加液、水位线、程序和操作顺序全部 fail-closed",
+        "固定批量中的海鲜与蔬菜份量按本项目每份门槛不足，且白砂糖65g需额外营养/口味审查，只记C级证据原型",
+        "鱿鱼和虾仁的入锅时机、熟制终点、甲壳/软体过敏防线均未闭合"
+      ],
+      "status": "research_candidate"
+    },
+    {
+      "candidate_id": "household-chicken-leg-potato-rice",
+      "name": "鸡腿土豆焖饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "chicken-leg", "label": "鸡腿" },
+        { "canonical_id": "potato", "label": "土豆" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "项目家庭标准闭盖烹调",
+      "identity_sources": [
+        {
+          "title": "一锅出家庭审核：鸡腿土豆焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=chicken-leg-potato-braised-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E1",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "chicken-leg", "potato"],
+      "mapping_scope": "exact"
+    },
+    {
+      "candidate_id": "household-corn-carrot-chicken-rice",
+      "name": "玉米胡萝卜鸡腿焖饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "chicken-leg", "label": "鸡腿" },
+        { "canonical_id": "carrot", "label": "胡萝卜" },
+        { "canonical_id": "sweet-corn", "label": "玉米" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "项目家庭标准闭盖烹调",
+      "identity_sources": [
+        {
+          "title": "一锅出家庭审核：玉米胡萝卜鸡腿焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=corn-carrot-chicken-leg-covered-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E1",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "chicken-leg", "carrot", "sweet-corn"],
+      "mapping_scope": "exact"
+    },
+    {
+      "candidate_id": "household-greens-minced-pork-rice",
+      "name": "肉糜青菜饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "ground-pork", "label": "肉糜" },
+        { "canonical_id": "leafy-greens", "label": "青菜" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "项目家庭标准闭盖烹调",
+      "identity_sources": [
+        {
+          "title": "一锅出家庭审核：肉糜青菜饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=greens-minced-pork-braised-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E1",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "leafy-greens", "ground-pork"],
+      "mapping_scope": "exact"
+    },
+    {
+      "candidate_id": "household-red-date-cowpea-rice",
+      "name": "陕北红枣豇豆焖饭",
+      "region_codes": ["CN-SN"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "fresh-cowpea-pod", "label": "豇豆" },
+        { "canonical_id": null, "label": "红枣" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "项目家庭审核，未进入 Preview",
+      "identity_sources": [
+        {
+          "title": "一锅出家庭审核：陕北红枣豇豆焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=shaanbei-red-date-cowpea-rice",
+          "supports": ["identity"]
+        }
+      ],
+      "quantity_liquid_completeness": "partial",
+      "adaptation_level": "E2",
+      "blockers": ["仍待液体复核"],
+      "status": "planned",
+      "mapped_core": ["raw-rice", "fresh-cowpea-pod", "pitted-dried-jujube"],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "运行目录明确去核红枣；调研候选仅记录红枣，未声称处理状态等价。"
+    },
+    {
+      "candidate_id": "household-green-bean-pork-rib-rice",
+      "name": "豆角排骨焖饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "green-beans", "label": "豆角" },
+        { "canonical_id": "pork-ribs", "label": "排骨" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈",
+      "identity_sources": [
+        {
+          "title": "一锅出项目标准配方：豆角排骨焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "green-beans", "pork-ribs"],
+      "mapping_scope": "exact"
+    },
+    {
+      "candidate_id": "household-mushroom-green-bean-pork-rib-rice",
+      "name": "香菇豆角排骨焖饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "shiitake", "label": "香菇" },
+        { "canonical_id": "green-beans", "label": "豆角" },
+        { "canonical_id": "pork-ribs", "label": "排骨" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈",
+      "identity_sources": [
+        {
+          "title": "一锅出项目标准配方：香菇豆角排骨焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "green-beans", "pork-ribs", "shiitake"],
+      "mapping_scope": "exact"
+    },
+    {
+      "candidate_id": "household-cabbage-tofu-rice",
+      "name": "白菜豆腐焖饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "napa-cabbage", "label": "白菜" },
+        { "canonical_id": "firm-tofu", "label": "豆腐" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈",
+      "identity_sources": [
+        {
+          "title": "一锅出项目标准配方：白菜豆腐焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "napa-cabbage", "firm-tofu"],
+      "mapping_scope": "exact"
+    },
+    {
+      "candidate_id": "household-broccoli-beef-rice",
+      "name": "西兰花牛肉焖饭",
+      "region_codes": ["HOUSEHOLD"],
+      "family": "household-reviewed-rice",
+      "core_ingredients": [
+        { "canonical_id": "raw-rice", "label": "米" },
+        { "canonical_id": "broccoli", "label": "西兰花" },
+        { "canonical_id": "beef-generic", "label": "牛肉" }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈",
+      "identity_sources": [
+        {
+          "title": "一锅出项目标准配方：西兰花牛肉焖饭",
+          "publisher": "一锅出项目",
+          "retrieved_at": "2026-08-01",
+          "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance",
+            "safety",
+            "nutrition"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [],
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      },
+      "status": "runtime_ready",
+      "mapped_core": ["raw-rice", "broccoli", "beef-generic"],
+      "mapping_scope": "exact"
+    }
   ],
   "exclusions": [
-    {"exclusion_id":"northeast-corn-cake","name":"东北排骨豆角贴饼子","reason":"玉米饼，不是米饭","source_url":"https://www.hlj.gov.cn/hlj/tsms/202501/c00_31797990.shtml","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"yanbian-bibimbap","name":"延边石锅拌饭","reason":"米饭和菜分别完成","source_url":"https://xxgk.jl.gov.cn/szf/gkml/202112/W020211228350101882900.pdf","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"jining-bengrou-rice","name":"济宁甏肉干饭","reason":"肉与饭分开烹制","source_url":"https://www.jining.gov.cn/art/2025/4/7/art_65758_2898310.html","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"lanxian-potato-rice","name":"岚县土豆饭","reason":"营养结构C","source_url":"https://www.sxgp.gov.cn/xwzx_358/szfwj_1327/202305/P020230522324003109029.pdf","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"nitun-millet-rice","name":"泥屯小米饭","reason":"小米加土豆营养结构C","source_url":"https://www.mct.gov.cn/whzx/qgwhxxlb/sx/202503/t20250313_958804.htm","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"anyuan-bamboo-rice","name":"安远竹筒饭","reason":"纯米，营养结构C","source_url":"https://www.ay.gov.cn/ayzf/c103773/tt.shtml","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"wuhan-doupi","name":"武汉三鲜豆皮","reason":"分段蒸、包、煎的组装菜","source_url":"https://wlt.hubei.gov.cn/bmdt/ztzl/zshb/201912/t20191226_1799476.shtml","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"henan-pea-rice","name":"河南豌豆焖饭","reason":"泛健康内容不能证明河南地域身份","source_url":"https://www.hnlgb.gov.cn/2019/07-11/111094.html","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"qianjiang-potato-rice","name":"黔江柴火洋芋饭","reason":"原型营养结构C；来源不支持固定腊肉蔬菜适配版","source_url":"https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"shexian-millet-rice","name":"涉县蔬菜小米焖饭","reason":"小米主食，不属于米饭菜饭范围","source_url":"https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"dingan-cooked-rice-wrap","name":"定安菜包饭","reason":"熟饭翻炒后包裹，非原米同锅菜饭","source_url":"https://agri.hainan.gov.cn/hnsnyt/zt/xczx/xczxdt/202406/t20240614_3680040.html","adaptation_level":"excluded","status":"excluded"},
-    {"exclusion_id":"taiwan-hakka-cooked-rice","name":"台湾客家菜饭（社区竞赛版）","reason":"熟饭与另制配料组装，非原米同锅菜饭","source_url":"https://meethakka.tycg.gov.tw/upload/cont_att/70fdadfd-8578-4660-9500-2df3e77d5df0.pdf","adaptation_level":"excluded","status":"excluded"}
+    {
+      "exclusion_id": "northeast-corn-cake",
+      "name": "东北排骨豆角贴饼子",
+      "reason": "玉米饼，不是米饭",
+      "source_url": "https://www.hlj.gov.cn/hlj/tsms/202501/c00_31797990.shtml",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "yanbian-bibimbap",
+      "name": "延边石锅拌饭",
+      "reason": "米饭和菜分别完成",
+      "source_url": "https://xxgk.jl.gov.cn/szf/gkml/202112/W020211228350101882900.pdf",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "jining-bengrou-rice",
+      "name": "济宁甏肉干饭",
+      "reason": "肉与饭分开烹制",
+      "source_url": "https://www.jining.gov.cn/art/2025/4/7/art_65758_2898310.html",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "lanxian-potato-rice",
+      "name": "岚县土豆饭",
+      "reason": "营养结构C",
+      "source_url": "https://www.sxgp.gov.cn/xwzx_358/szfwj_1327/202305/P020230522324003109029.pdf",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "nitun-millet-rice",
+      "name": "泥屯小米饭",
+      "reason": "小米加土豆营养结构C",
+      "source_url": "https://www.mct.gov.cn/whzx/qgwhxxlb/sx/202503/t20250313_958804.htm",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "anyuan-bamboo-rice",
+      "name": "安远竹筒饭",
+      "reason": "纯米，营养结构C",
+      "source_url": "https://www.ay.gov.cn/ayzf/c103773/tt.shtml",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "wuhan-doupi",
+      "name": "武汉三鲜豆皮",
+      "reason": "分段蒸、包、煎的组装菜",
+      "source_url": "https://wlt.hubei.gov.cn/bmdt/ztzl/zshb/201912/t20191226_1799476.shtml",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "henan-pea-rice",
+      "name": "河南豌豆焖饭",
+      "reason": "泛健康内容不能证明河南地域身份",
+      "source_url": "https://www.hnlgb.gov.cn/2019/07-11/111094.html",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "qianjiang-potato-rice",
+      "name": "黔江柴火洋芋饭",
+      "reason": "原型营养结构C；来源不支持固定腊肉蔬菜适配版",
+      "source_url": "https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "shexian-millet-rice",
+      "name": "涉县蔬菜小米焖饭",
+      "reason": "小米主食，不属于米饭菜饭范围",
+      "source_url": "https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "dingan-cooked-rice-wrap",
+      "name": "定安菜包饭",
+      "reason": "熟饭翻炒后包裹，非原米同锅菜饭",
+      "source_url": "https://agri.hainan.gov.cn/hnsnyt/zt/xczx/xczxdt/202406/t20240614_3680040.html",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    },
+    {
+      "exclusion_id": "taiwan-hakka-cooked-rice",
+      "name": "台湾客家菜饭（社区竞赛版）",
+      "reason": "熟饭与另制配料组装，非原米同锅菜饭",
+      "source_url": "https://meethakka.tycg.gov.tw/upload/cont_att/70fdadfd-8578-4660-9500-2df3e77d5df0.pdf",
+      "adaptation_level": "excluded",
+      "status": "excluded"
+    }
   ],
   "catalog_tracking": [
-    {"tracking_id":"track-quanzhou","runtime_variant_id":"home-soaked-glutinous-pork-mushroom-rice","candidate_id":"quanzhou-oil-rice","nutrition_grade":"A","core_ingredient_ids":["soaked-glutinous-rice","ground-pork","shiitake"],"status":"planned","reverse_mapping_id":"map-quanzhou"},
-    {"tracking_id":"track-xinjiang","runtime_variant_id":"home-lamb-carrot-rice","candidate_id":"xinjiang-lamb-pilaf","nutrition_grade":"A","core_ingredient_ids":["raw-rice","lamb-leg","onion","carrot"],"status":"planned","reverse_mapping_id":"map-xinjiang"},
-    {"tracking_id":"track-shaanbei","runtime_variant_id":"home-red-date-cowpea-rice","candidate_id":"household-red-date-cowpea-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","fresh-cowpea-pod","pitted-dried-jujube"],"status":"planned","reverse_mapping_id":"map-shaanbei"},
-    {"tracking_id":"track-potato-chicken","runtime_variant_id":"home-chicken-leg-potato-rice","candidate_id":"household-chicken-leg-potato-rice","nutrition_grade":"B","core_ingredient_ids":["raw-rice","chicken-leg","potato"],"status":"runtime_ready","reverse_mapping_id":"map-potato-chicken"},
-    {"tracking_id":"track-corn-chicken","runtime_variant_id":"home-corn-carrot-chicken-leg-rice","candidate_id":"household-corn-carrot-chicken-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","chicken-leg","carrot","sweet-corn"],"status":"runtime_ready","reverse_mapping_id":"map-corn-chicken"},
-    {"tracking_id":"track-green-bean-rib","runtime_variant_id":"home-green-bean-pork-rib-rice","candidate_id":"household-green-bean-pork-rib-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","green-beans","pork-ribs"],"status":"runtime_ready","reverse_mapping_id":"map-green-bean-rib"},
-    {"tracking_id":"track-mushroom-green-bean-rib","runtime_variant_id":"home-mushroom-green-bean-pork-rib-rice","candidate_id":"household-mushroom-green-bean-pork-rib-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","green-beans","pork-ribs","shiitake"],"status":"runtime_ready","reverse_mapping_id":"map-mushroom-green-bean-rib"},
-    {"tracking_id":"track-cabbage-tofu","runtime_variant_id":"home-cabbage-tofu-rice","candidate_id":"household-cabbage-tofu-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","napa-cabbage","firm-tofu"],"status":"runtime_ready","reverse_mapping_id":"map-cabbage-tofu"},
-    {"tracking_id":"track-broccoli-beef","runtime_variant_id":"home-broccoli-beef-rice","candidate_id":"household-broccoli-beef-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","broccoli","beef-generic"],"status":"runtime_ready","reverse_mapping_id":"map-broccoli-beef"},
-    {"tracking_id":"track-shanghai","runtime_variant_id":"shanghai-salted-pork-rice","candidate_id":"shanghai-salted-pork-vegetable-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","small-bok-choy","salted-pork-belly"],"status":"runtime_ready","reverse_mapping_id":"map-shanghai"},
-    {"tracking_id":"track-greens-pork","runtime_variant_id":"home-greens-minced-pork-rice","candidate_id":"household-greens-minced-pork-rice","nutrition_grade":"A","core_ingredient_ids":["raw-rice","leafy-greens","ground-pork"],"status":"runtime_ready","reverse_mapping_id":"map-greens-pork"}
+    {
+      "tracking_id": "track-quanzhou",
+      "runtime_variant_id": "home-soaked-glutinous-pork-mushroom-rice",
+      "candidate_id": "quanzhou-oil-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": [
+        "soaked-glutinous-rice",
+        "ground-pork",
+        "shiitake"
+      ],
+      "status": "planned",
+      "reverse_mapping_id": "map-quanzhou"
+    },
+    {
+      "tracking_id": "track-xinjiang",
+      "runtime_variant_id": "home-lamb-carrot-rice",
+      "candidate_id": "xinjiang-lamb-pilaf",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": ["raw-rice", "lamb-leg", "onion", "carrot"],
+      "status": "planned",
+      "reverse_mapping_id": "map-xinjiang"
+    },
+    {
+      "tracking_id": "track-shaanbei",
+      "runtime_variant_id": "home-red-date-cowpea-rice",
+      "candidate_id": "household-red-date-cowpea-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "fresh-cowpea-pod",
+        "pitted-dried-jujube"
+      ],
+      "status": "planned",
+      "reverse_mapping_id": "map-shaanbei"
+    },
+    {
+      "tracking_id": "track-potato-chicken",
+      "runtime_variant_id": "home-chicken-leg-potato-rice",
+      "candidate_id": "household-chicken-leg-potato-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": ["raw-rice", "chicken-leg", "potato"],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-potato-chicken"
+    },
+    {
+      "tracking_id": "track-corn-chicken",
+      "runtime_variant_id": "home-corn-carrot-chicken-leg-rice",
+      "candidate_id": "household-corn-carrot-chicken-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-leg",
+        "carrot",
+        "sweet-corn"
+      ],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-corn-chicken"
+    },
+    {
+      "tracking_id": "track-green-bean-rib",
+      "runtime_variant_id": "home-green-bean-pork-rib-rice",
+      "candidate_id": "household-green-bean-pork-rib-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": ["raw-rice", "green-beans", "pork-ribs"],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-green-bean-rib"
+    },
+    {
+      "tracking_id": "track-mushroom-green-bean-rib",
+      "runtime_variant_id": "home-mushroom-green-bean-pork-rib-rice",
+      "candidate_id": "household-mushroom-green-bean-pork-rib-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "green-beans",
+        "pork-ribs",
+        "shiitake"
+      ],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-mushroom-green-bean-rib"
+    },
+    {
+      "tracking_id": "track-cabbage-tofu",
+      "runtime_variant_id": "home-cabbage-tofu-rice",
+      "candidate_id": "household-cabbage-tofu-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": ["raw-rice", "napa-cabbage", "firm-tofu"],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-cabbage-tofu"
+    },
+    {
+      "tracking_id": "track-broccoli-beef",
+      "runtime_variant_id": "home-broccoli-beef-rice",
+      "candidate_id": "household-broccoli-beef-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": ["raw-rice", "broccoli", "beef-generic"],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-broccoli-beef"
+    },
+    {
+      "tracking_id": "track-shanghai",
+      "runtime_variant_id": "shanghai-salted-pork-rice",
+      "candidate_id": "shanghai-salted-pork-vegetable-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "small-bok-choy",
+        "salted-pork-belly"
+      ],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-shanghai"
+    },
+    {
+      "tracking_id": "track-greens-pork",
+      "runtime_variant_id": "home-greens-minced-pork-rice",
+      "candidate_id": "household-greens-minced-pork-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": ["raw-rice", "leafy-greens", "ground-pork"],
+      "status": "runtime_ready",
+      "reverse_mapping_id": "map-greens-pork"
+    }
   ],
   "runtime_mappings": [
-    {"mapping_id":"map-quanzhou","candidate_id":"quanzhou-oil-rice","tracking_id":"track-quanzhou"},
-    {"mapping_id":"map-xinjiang","candidate_id":"xinjiang-lamb-pilaf","tracking_id":"track-xinjiang"},
-    {"mapping_id":"map-shanghai","candidate_id":"shanghai-salted-pork-vegetable-rice","tracking_id":"track-shanghai"},
-    {"mapping_id":"map-shaanbei","candidate_id":"household-red-date-cowpea-rice","tracking_id":"track-shaanbei"},
-    {"mapping_id":"map-potato-chicken","candidate_id":"household-chicken-leg-potato-rice","tracking_id":"track-potato-chicken"},
-    {"mapping_id":"map-corn-chicken","candidate_id":"household-corn-carrot-chicken-rice","tracking_id":"track-corn-chicken"},
-    {"mapping_id":"map-greens-pork","candidate_id":"household-greens-minced-pork-rice","tracking_id":"track-greens-pork"},
-    {"mapping_id":"map-green-bean-rib","candidate_id":"household-green-bean-pork-rib-rice","tracking_id":"track-green-bean-rib"},
-    {"mapping_id":"map-mushroom-green-bean-rib","candidate_id":"household-mushroom-green-bean-pork-rib-rice","tracking_id":"track-mushroom-green-bean-rib"},
-    {"mapping_id":"map-cabbage-tofu","candidate_id":"household-cabbage-tofu-rice","tracking_id":"track-cabbage-tofu"},
-    {"mapping_id":"map-broccoli-beef","candidate_id":"household-broccoli-beef-rice","tracking_id":"track-broccoli-beef"}
+    {
+      "mapping_id": "map-quanzhou",
+      "candidate_id": "quanzhou-oil-rice",
+      "tracking_id": "track-quanzhou"
+    },
+    {
+      "mapping_id": "map-xinjiang",
+      "candidate_id": "xinjiang-lamb-pilaf",
+      "tracking_id": "track-xinjiang"
+    },
+    {
+      "mapping_id": "map-shanghai",
+      "candidate_id": "shanghai-salted-pork-vegetable-rice",
+      "tracking_id": "track-shanghai"
+    },
+    {
+      "mapping_id": "map-shaanbei",
+      "candidate_id": "household-red-date-cowpea-rice",
+      "tracking_id": "track-shaanbei"
+    },
+    {
+      "mapping_id": "map-potato-chicken",
+      "candidate_id": "household-chicken-leg-potato-rice",
+      "tracking_id": "track-potato-chicken"
+    },
+    {
+      "mapping_id": "map-corn-chicken",
+      "candidate_id": "household-corn-carrot-chicken-rice",
+      "tracking_id": "track-corn-chicken"
+    },
+    {
+      "mapping_id": "map-greens-pork",
+      "candidate_id": "household-greens-minced-pork-rice",
+      "tracking_id": "track-greens-pork"
+    },
+    {
+      "mapping_id": "map-green-bean-rib",
+      "candidate_id": "household-green-bean-pork-rib-rice",
+      "tracking_id": "track-green-bean-rib"
+    },
+    {
+      "mapping_id": "map-mushroom-green-bean-rib",
+      "candidate_id": "household-mushroom-green-bean-pork-rib-rice",
+      "tracking_id": "track-mushroom-green-bean-rib"
+    },
+    {
+      "mapping_id": "map-cabbage-tofu",
+      "candidate_id": "household-cabbage-tofu-rice",
+      "tracking_id": "track-cabbage-tofu"
+    },
+    {
+      "mapping_id": "map-broccoli-beef",
+      "candidate_id": "household-broccoli-beef-rice",
+      "tracking_id": "track-broccoli-beef"
+    }
   ]
 }
