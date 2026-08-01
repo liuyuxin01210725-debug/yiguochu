@@ -1818,7 +1818,10 @@ function riceMealStatusScreen() {
   const safetyReasons = [...new Set((Array.isArray(result.safety_rejections) ? result.safety_rejections : [])
     .map(item => boundedText(item && (item.reason || item.message), 200)).filter(Boolean))];
   const safetyNotes = safetyReasons.map(reason => '<p class="pantry-plan-note"><strong>为什么拦下：</strong>' + esc(reason) + '</p>').join('');
-  const unused = (result.unused_items || []).map(item => {
+  const unusedItems = safetyReasons.length
+    ? (result.unused_items || []).filter(item => item && item.reason_code === 'allergen_conflict')
+    : (result.unused_items || []);
+  const unused = unusedItems.map(item => {
     const name = riceItemName(item);
     return name ? '<p class="pantry-plan-note"><strong>' + esc(name) + '：</strong>' + esc(riceUnusedReason(item)) + '</p>' : '';
   }).join('');
