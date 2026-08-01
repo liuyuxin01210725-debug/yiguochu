@@ -9,7 +9,16 @@ import {
 const TOKEN_VERSION = 1;
 const TOKEN_PREFIX = 'rm1';
 const ACTION_PHASES = Object.freeze(['pre_actions', 'start_actions', 'mid_actions', 'finish_actions']);
-const BASIC_EXTRA_IDS = new Set(['water', 'cooking-oil', 'salt']);
+const CONTROLLED_SEASONING_IDS = new Set([
+  'soy-sauce', 'cooking-wine', 'sesame-oil', 'oyster-sauce',
+  'curry-block', 'sugar', 'salt', 'cooking-oil',
+]);
+const BASIC_EXTRA_IDS = new Set(['water', ...CONTROLLED_SEASONING_IDS]);
+const CONTROLLED_SEASONING_COPY = Object.freeze({
+  use_controlled_seasoning_outside_cooker: '在锅外处理食材时，加入{{g}}克{{s}}调味。',
+  add_controlled_seasoning_before_start: '在启动程序前，把{{g}}克{{s}}加入内胆，与其他食材轻轻拌匀。',
+  add_controlled_seasoning_after_cook: '程序结束并确认食材熟制合格后，加入{{g}}克{{s}}拌匀。',
+});
 
 const HOUSEHOLD_COPY = Object.freeze({
   'home-chicken-leg-potato-rice': Object.freeze({
@@ -240,17 +249,20 @@ function canonicalRequestSnapshot(snapshot) {
   const catalogVersion = nonEmptyString(snapshot.catalog_version);
   const servings = integerServings(snapshot.servings);
   const normalizedItems = stableRows(snapshot.normalized_items, canonicalSnapshotItem);
+  const availableBasicItems = stableRows(snapshot.available_basic_items || [], canonicalSnapshotItem);
   const dislikes = stableRows(snapshot.dislikes, dislike => {
     const normalized = nonEmptyString(dislike);
     return normalized && normalizePlannerTaxonomyKey(normalized) === normalized ? normalized : null;
   });
-  if (!catalogVersion || servings == null || normalizedItems == null || dislikes == null
-      || new Set(normalizedItems.map(canonicalJson)).size !== normalizedItems.length
+  if (!catalogVersion || servings == null || normalizedItems == null || availableBasicItems == null || dislikes == null
+      || new Set([...normalizedItems, ...availableBasicItems].map(canonicalJson)).size
+        !== normalizedItems.length + availableBasicItems.length
       || new Set(dislikes).size !== dislikes.length) return null;
   return {
     catalog_version: catalogVersion,
     servings,
     normalized_items: normalizedItems,
+    available_basic_items: availableBasicItems,
     dislikes,
   };
 }
@@ -278,6 +290,20 @@ function canonicalCandidateFacts(candidate) {
       endpoint_code: endpointCode,
     };
   });
+  const controlledSeasonings = stableRows(candidate.controlled_seasonings, row => {
+    const canonicalId = nonEmptyString(row?.canonical_ingredient_id);
+    const amountRuleId = nonEmptyString(row?.amount_rule_id);
+    const phase = nonEmptyString(row?.phase);
+    const actionCode = nonEmptyString(row?.action_code);
+    if (!canonicalId || !amountRuleId || row?.required !== true || !phase || !actionCode) return null;
+    return {
+      canonical_ingredient_id: canonicalId,
+      amount_rule_id: amountRuleId,
+      required: true,
+      phase,
+      action_code: actionCode,
+    };
+  });
   const fields = [
     candidate.plan_id,
     candidate.catalog_version,
@@ -288,17 +314,22 @@ function canonicalCandidateFacts(candidate) {
     candidate.source_evidence_ledger_version,
     candidate.source_evidence_hash,
   ].map(nonEmptyString);
+  const taxonomyVersion = nonEmptyString(candidate.taxonomy_version);
+  const taxonomyHash = nonEmptyString(candidate.taxonomy_hash);
   const recipeId = candidate.recipe_id == null ? null : nonEmptyString(candidate.recipe_id);
   const selectedIngredientIds = sortedUniqueStrings(candidate.selected_ingredient_ids);
   const selectedInputIds = sortedUniqueStrings(candidate.selected_input_ids);
   const ratioRuleIds = sortedUniqueStrings(candidate.ratio_rule_ids);
   const actions = canonicalActionProtocol(candidate.execution_actions);
   const servings = integerServings(candidate.servings);
-  if (fields.some(value => value == null) || (candidate.recipe_id != null && recipeId == null)
+  if (fields.some(value => value == null) || !taxonomyVersion
+      || !/^sha256:[a-f0-9]{64}$/u.test(taxonomyHash || '')
+      || (candidate.recipe_id != null && recipeId == null)
       || servings == null || requestSnapshot == null
       || !/^sha256:[a-f0-9]{64}$/u.test(fields[5])
       || !/^sha256:[a-f0-9]{64}$/u.test(fields[7]) || substitutions == null || safetyEndpoints == null
-      || selectedIngredientIds == null || selectedInputIds == null || ratioRuleIds == null || actions == null) {
+      || selectedIngredientIds == null || selectedInputIds == null || ratioRuleIds == null
+      || controlledSeasonings == null || actions == null) {
     return null;
   }
   return {
@@ -313,9 +344,12 @@ function canonicalCandidateFacts(candidate) {
     ratio_facts_hash: fields[5],
     source_evidence_ledger_version: fields[6],
     source_evidence_hash: fields[7],
+    taxonomy_version: taxonomyVersion,
+    taxonomy_hash: taxonomyHash,
     selected_ingredient_ids: selectedIngredientIds,
     selected_input_ids: selectedInputIds,
     substitutions,
+    controlled_seasonings: controlledSeasonings,
     ratio_rule_ids: ratioRuleIds,
     action_protocol: actions,
     safety_endpoints: safetyEndpoints,
@@ -451,14 +485,25 @@ function sourceEvidenceIdentity(sourceEvidence) {
   };
 }
 
+function taxonomyIdentity(taxonomy) {
+  if (!nonEmptyString(taxonomy?.taxonomy_version) || !Array.isArray(taxonomy?.items)) throw stalePlan();
+  return {
+    version: taxonomy.taxonomy_version.trim(),
+    hash: `sha256:${sha256Hex(canonicalJson(taxonomy))}`,
+  };
+}
+
 function recomputeCandidate(facts, assets) {
   assertAssets(assets);
   const evidenceIdentity = sourceEvidenceIdentity(assets.sourceEvidence);
+  const currentTaxonomyIdentity = taxonomyIdentity(assets.taxonomy);
   if (facts.catalog_version !== assets.catalog.catalog_version
       || facts.request.catalog_version !== assets.catalog.catalog_version
       || facts.ratio_catalog_version !== assets.ratios.ratio_catalog_version
       || facts.source_evidence_ledger_version !== evidenceIdentity.version
       || facts.source_evidence_hash !== evidenceIdentity.hash
+      || facts.taxonomy_version !== currentTaxonomyIdentity.version
+      || facts.taxonomy_hash !== currentTaxonomyIdentity.hash
       || facts.servings !== facts.request.servings) throw stalePlan();
   let result;
   try {
@@ -713,7 +758,7 @@ function materialRows(variant, candidate, taxonomy) {
     .map(item => item.canonical_ingredient_id)];
   if (targets.some(id => !id || !itemIndex.has(id))) ratioFailure();
   const used = new Set();
-  return targets.map((canonicalId, index) => {
+  const majorMaterials = targets.map((canonicalId, index) => {
     const taxonomyItem = itemIndex.get(canonicalId);
     const input = index === 0 ? null : actualInputFor(canonicalId, candidate, used);
     const rawName = input?.raw || taxonomyItem.display_name;
@@ -732,6 +777,11 @@ function materialRows(variant, candidate, taxonomy) {
       requires_explicit_raw_name: Boolean(input?.raw && shape),
     };
   });
+  const controlledIds = (variant.controlled_seasonings || []).map(row => row.canonical_ingredient_id);
+  if (controlledIds.some(id => !itemIndex.has(id))
+      || new Set([...majorMaterials.map(item => item.canonical_id), ...controlledIds]).size
+        !== majorMaterials.length + controlledIds.length) ratioFailure();
+  return majorMaterials;
 }
 
 function refsForIds(ids, refsByCanonical) {
@@ -764,9 +814,17 @@ function lockedPlanForCandidate(candidate, assets) {
   const extraIds = ratio.extras.map(item => item.canonical_id);
   if (!extraIds.includes('water') || extraIds.some(id => !BASIC_EXTRA_IDS.has(id))
       || new Set(extraIds).size !== extraIds.length) ratioFailure();
+  const controlledSeasoningIds = new Set((variant.controlled_seasonings || [])
+    .map(row => row.canonical_ingredient_id));
   const allIngredients = [
     ...materials.map((item, index) => ({ ...item, ingredient_ref: `i${index + 1}`, planned_grams: ratio.amounts.get(item.canonical_id) })),
-    ...ratio.extras.map((item, index) => ({ ...item, ingredient_ref: `e${index + 1}`, planned_grams: item.grams, requires_explicit_raw_name: false })),
+    ...ratio.extras.map((item, index) => ({
+      ...item,
+      source: controlledSeasoningIds.has(item.canonical_id) ? 'controlled_seasoning' : item.source,
+      ingredient_ref: `e${index + 1}`,
+      planned_grams: item.grams,
+      requires_explicit_raw_name: false,
+    })),
   ];
   if (allIngredients.some(item => !Number.isSafeInteger(item.planned_grams) || item.planned_grams <= 0)) ratioFailure();
   const refsByCanonical = new Map(allIngredients.map(item => [item.canonical_id, item.ingredient_ref]));
@@ -791,8 +849,30 @@ function lockedPlanForCandidate(candidate, assets) {
   if (!adaptation || adaptation.closed_lid_continuation !== true
       || (adaptation.requires_mid_cook_opening === true && !controlledMidCycle)
       || adaptation.completion_status !== 'complete') ratioFailure();
-  const catalogActions = ACTION_PHASES.flatMap(phase => (adaptation[phase] || [])
-    .slice().sort((left, right) => left.order - right.order));
+  const controlledActionsByPhase = new Map(ACTION_PHASES.map(phase => [phase,
+    (variant.controlled_seasonings || []).filter(row => row.phase === phase).map(row => ({
+      action_code: row.action_code,
+      ingredient_ids: [row.canonical_ingredient_id],
+      controlled_seasoning: true,
+    })),
+  ]));
+  const catalogActions = ACTION_PHASES.flatMap(phase => {
+    const base = (adaptation[phase] || []).slice().sort((left, right) => left.order - right.order);
+    const controlled = controlledActionsByPhase.get(phase) || [];
+    if (phase === 'start_actions') {
+      const startIndex = base.findIndex(action => action.action_code === 'start_closed_lid_program');
+      return startIndex < 0
+        ? [...base, ...controlled]
+        : [...base.slice(0, startIndex), ...controlled, ...base.slice(startIndex)];
+    }
+    if (phase === 'finish_actions') {
+      const serveIndex = base.findIndex(action => action.action_code === 'fluff_and_serve');
+      return serveIndex < 0
+        ? [...base, ...controlled]
+        : [...base.slice(0, serveIndex), ...controlled, ...base.slice(serveIndex)];
+    }
+    return [...base, ...controlled];
+  });
   const candidateActions = candidate.execution_actions;
   if (!candidateActions || canonicalJson(canonicalActionProtocol(candidateActions))
       !== canonicalJson(canonicalActionProtocol(adaptation))) ratioFailure();
@@ -809,17 +889,25 @@ function lockedPlanForCandidate(candidate, assets) {
   const cookingOrder = catalogActions.map(action => {
     const allowed = refsForIds(action.ingredient_ids || [], refsByCanonical);
     if (action.action_code === 'load_inner_pot') {
-      for (const extra of ratio.extras) {
+      for (const extra of ratio.extras.filter(item => !controlledSeasoningIds.has(item.canonical_id))) {
         const ref = refsByCanonical.get(extra.canonical_id);
         if (ref && !allowed.includes(ref)) allowed.push(ref);
       }
     }
-    const text = copy.steps[action.action_code];
+    const controlledSeasoningGrams = action.controlled_seasoning
+      ? ratio.amounts.get(action.ingredient_ids?.[0]) : null;
+    const text = action.controlled_seasoning
+      ? CONTROLLED_SEASONING_COPY[action.action_code]
+        ?.replace('{{g}}', String(controlledSeasoningGrams))
+        .replace('{{s}}', `{{${allowed[0]}}}`)
+      : copy.steps[action.action_code];
     if (!text) ratioFailure();
     const requirements = action.action_code === 'verify_safety_endpoints'
       ? { required_safety_endpoints: [...safetyEndpoints], required_safety_ingredient_refs: safetyRefs }
       : { required_safety_endpoints: [], required_safety_ingredient_refs: [] };
-    const lockedNumericFacts = action.action_code === 'verify_safety_endpoints'
+    const lockedNumericFacts = action.controlled_seasoning && Number.isSafeInteger(controlledSeasoningGrams)
+      ? [`${controlledSeasoningGrams}克`]
+      : action.action_code === 'verify_safety_endpoints'
         && safetyEndpoints.includes('pork_fully_cooked')
         && (action.ingredient_ids || []).includes('pork-ribs')
       ? ['74°C']
@@ -831,6 +919,7 @@ function lockedPlanForCandidate(candidate, assets) {
     return {
       action_code: action.action_code,
       allowed_ingredient_refs: allowed,
+      allowed_text: text,
       locked_numeric_facts: lockedNumericFacts,
       ...requirements,
     };
@@ -869,7 +958,7 @@ function lockedPlanForCandidate(candidate, assets) {
           : [],
         steps: cookingOrder.map((phase, index) => ({
           order: index + 1,
-          allowed_texts: [copy.steps[phase.action_code]],
+          allowed_texts: [phase.allowed_text],
         })),
         recommendation_reason_options: [copy.recommendation_reason],
       },
@@ -885,6 +974,9 @@ export function compileRiceMeal(candidate, assets) {
   const universe = buildIngredientTermUniverse(assets.taxonomy, assets.recipes);
   const { meals } = renderAndValidateDeterministicLockedPlan(lockedPlan, universe);
   const lockedMeal = lockedPlan.meals[0];
+  const requiredControlledIds = new Set((recomputed.required_extra_items || [])
+    .filter(item => item?.kind === 'controlled_seasoning')
+    .map(item => item.canonical_id));
   return clone({
     schema_version: 3,
     catalog_version: assets.catalog.catalog_version,
@@ -906,11 +998,19 @@ export function compileRiceMeal(candidate, assets) {
         canonical_id: item.canonical_id,
         name: item.raw_name,
         grams: item.planned_grams,
+        source: item.source,
       })),
-      required_extra_items: lockedMeal.locked_ingredients.filter(item => item.source === 'basic_extra').map(item => ({
+      required_extra_items: lockedMeal.locked_ingredients.filter(item => (
+        item.source === 'basic_extra'
+        || (item.source === 'controlled_seasoning' && requiredControlledIds.has(item.canonical_id))
+      )).map(item => ({
         canonical_id: item.canonical_id,
         name: item.raw_name,
         grams: item.planned_grams,
+        kind: item.source === 'controlled_seasoning' ? 'controlled_seasoning' : 'basic_extra',
+        allergen_tags: item.source === 'controlled_seasoning'
+          ? clone(assets.taxonomy.items.find(row => row.canonical_id === item.canonical_id)?.allergen_tags || [])
+          : [],
       })),
       ratio_trace: clone(lockedMeal.ratio_constraints),
       liquid_constraints: clone(lockedMeal.liquid_constraints),
@@ -921,6 +1021,7 @@ export function compileRiceMeal(candidate, assets) {
         canonical_id: item.canonical_id,
         state: item.state,
         grams: item.planned_grams,
+        source: item.source,
       })),
     },
     meals: lockedPlan.meals.map((meal, index) => ({

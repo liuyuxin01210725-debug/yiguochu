@@ -240,7 +240,7 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`9de0f8f16344c539e404a8b6de515dcff3e244fbabbcae6818962576b7aaa8da`
+- `tools/data/ingredient-taxonomy.v1.json`：`6cf5c245cc31af86270f609bb2321faa122b4bc5370e392031c5b742034dba7c`
 - `tools/data/meal-templates.v2.json`：`90a5fbd63f94ff376a08ac441e2058b99058dc34347d795b6da1cdebf36f8ad1`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
 - `tools/data/ratio-rules.v1.json`：`5cc2c5f651921904d071ed9cf850ee8efb770cf5fd6338d485c9ff2f58ceb673`

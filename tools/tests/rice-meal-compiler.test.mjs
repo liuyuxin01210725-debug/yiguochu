@@ -51,6 +51,42 @@ function select(request, ratioCatalog = assets.ratios) {
   return result.candidates[0];
 }
 
+function selectFromAssets(request, sourceAssets) {
+  const result = selectRiceMealCandidates({
+    request,
+    catalog: sourceAssets.catalog,
+    taxonomy: sourceAssets.taxonomy,
+    ratioCatalog: sourceAssets.ratios,
+    sourceEvidence: sourceAssets.sourceEvidence,
+    recentPlanIds: [],
+  });
+  assert.equal(result.status, 'ready', JSON.stringify(result));
+  assert.ok(result.candidates.length > 0);
+  return result.candidates[0];
+}
+
+function seasonedChickenAssets() {
+  const source = structuredClone(assets);
+  source.catalog.catalog_version = 'rice-meal-catalog-controlled-seasoning-test-v1';
+  const variant = source.catalog.families.flatMap(family => family.variants)
+    .find(row => row.variant_id === 'home-chicken-leg-potato-rice');
+  variant.controlled_seasonings = [{
+    canonical_ingredient_id: 'soy-sauce',
+    amount_rule_id: 'chicken-leg-potato-braised-rice-executable-v1',
+    required: true,
+    phase: 'start_actions',
+    action_code: 'add_controlled_seasoning_before_start',
+  }];
+  const rule = source.ratios.rules
+    .find(row => row.rule_id === 'chicken-leg-potato-braised-rice-executable-v1');
+  rule.operations.push({
+    operator: 'scale_by_servings',
+    target: { name: '酱油', category: 'seasoning' },
+    grams: { min: 5, default: 5, max: 5 },
+  });
+  return source;
+}
+
 function chickenCandidate(servings = 2) {
   return select({ servings, pantry: ['鸡腿', '土豆'], dislikes: [] });
 }
@@ -130,6 +166,7 @@ test('signed plan token uses a canonical normalized request snapshot rather than
       { kind: 'recognized', canonical_id: 'chicken-leg', state: 'raw', shape_or_cut: 'leg' },
       { kind: 'recognized', canonical_id: 'potato', state: 'raw', shape_or_cut: null },
     ],
+    available_basic_items: [],
     dislikes: [],
   });
   assert.deepEqual(canonicalDislike.plan_snapshot.dislikes, ['香菜']);
@@ -175,6 +212,49 @@ test('signed plan token changes when semantic candidate facts change', () => {
 
   const token = buildToken(base, SECRET);
   for (const changed of variants) assert.notEqual(buildToken(changed, SECRET), token);
+});
+
+test('controlled seasonings are signed, quantified, listed, and referenced by a deterministic step', () => {
+  const sourceAssets = seasonedChickenAssets();
+  const candidate = selectFromAssets({ servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] }, sourceAssets);
+  const token = compilerApi('buildRiceMealPlanToken')(candidate, SECRET);
+  const output = compilerApi('compileRiceMeal')(candidate, sourceAssets);
+
+  assert.ok(token.startsWith('rm1.'));
+  assert.deepEqual(candidate.controlled_seasonings, [{
+    canonical_ingredient_id: 'soy-sauce',
+    amount_rule_id: 'chicken-leg-potato-braised-rice-executable-v1',
+    required: true,
+    phase: 'start_actions',
+    action_code: 'add_controlled_seasoning_before_start',
+    allergen_tags: ['大豆', '小麦'],
+  }]);
+  assert.ok(candidate.selected_ingredient_ids.includes('soy-sauce'));
+  assert.equal(candidate.coverage_count, 2);
+  assert.equal(output.plan.ingredient_amounts.find(item => item.canonical_id === 'soy-sauce')?.grams, 10);
+  assert.deepEqual(output.plan.required_extra_items.find(item => item.canonical_id === 'soy-sauce'), {
+    canonical_id: 'soy-sauce',
+    name: '酱油',
+    grams: 10,
+    kind: 'controlled_seasoning',
+    allergen_tags: ['大豆', '小麦'],
+  });
+  assert.ok(output.plan.nutrition_inputs.some(item => item.canonical_id === 'soy-sauce' && item.grams === 10));
+  assert.ok(output.meals[0].locked_ingredients.some(item => (
+    item.canonical_id === 'soy-sauce' && item.source === 'controlled_seasoning'
+  )));
+  assert.ok(output.meals[0].steps.some(step => step.text.includes('酱油')));
+
+  const stockedCandidate = selectFromAssets({ servings: 2, pantry: ['鸡腿', '土豆', '酱油'], dislikes: [] }, sourceAssets);
+  const stockedOutput = compilerApi('compileRiceMeal')(stockedCandidate, sourceAssets);
+  assert.ok(stockedOutput.plan.ingredient_amounts.some(item => (
+    item.canonical_id === 'soy-sauce' && item.grams === 10
+  )));
+  assert.ok(stockedOutput.plan.required_extra_items.every(item => item.canonical_id !== 'soy-sauce'));
+
+  const tampered = structuredClone(candidate);
+  tampered.controlled_seasonings = [];
+  assert.notEqual(compilerApi('buildRiceMealPlanToken')(tampered, SECRET), token);
 });
 
 test('verification recomputes the server candidate and rejects bare, forged, and stale plans', () => {

@@ -51,6 +51,8 @@ function candidate(overrides = {}) {
       { canonical_id:'raw-rice', display_name:'大米' },
       { canonical_id:'water', display_name:'水' },
     ],
+    controlled_seasonings:[],
+    required_extra_items:[],
     execution_actions:{
       pre_actions:[{ order:1, action_code:'prepare_vegetables', ingredient_ids:['potato'] }],
       start_actions:[{ order:1, action_code:'start_closed_lid_program', ingredient_ids:['raw-rice','chicken-leg','potato'] }],
@@ -229,6 +231,54 @@ test('rice planner request uses the only schema-v3 HTTP shape and candidate card
   assert.match(root.innerHTML, /蛋白质/);
   assert.match(root.innerHTML, /处理食材|12 分钟/);
   assert.match(root.innerHTML, /全程 45 分钟/);
+});
+
+test('controlled seasonings are disclosed separately without inflating pantry coverage', async () => {
+  const seasonedCandidate = candidate({
+    controlled_seasonings:[{
+      canonical_ingredient_id:'soy-sauce',
+      amount_rule_id:'soy-sauce-per-serving-v1',
+      required:true,
+      phase:'start_actions',
+      action_code:'add_controlled_seasoning_before_start',
+      display_name:'酱油',
+      allergen_tags:['大豆','小麦'],
+    }],
+    required_extra_items:[{
+      canonical_id:'soy-sauce', display_name:'酱油', kind:'controlled_seasoning', allergen_tags:['大豆','小麦'],
+    }],
+  });
+  const seasonedResult = compiledResult();
+  seasonedResult.plan.ingredient_amounts.push({
+    canonical_id:'soy-sauce', name:'酱油', grams:10, source:'controlled_seasoning',
+  });
+  seasonedResult.plan.required_extra_items.push({
+    canonical_id:'soy-sauce', name:'酱油', grams:10, kind:'controlled_seasoning', allergen_tags:['大豆','小麦'],
+  });
+  seasonedResult.plan.nutrition_inputs.push({
+    canonical_id:'soy-sauce', name:'酱油', grams:10, source:'controlled_seasoning',
+  });
+  seasonedResult.meals[0].locked_ingredients.push({
+    ingredient_ref:'s1', canonical_id:'soy-sauce', raw_name:'酱油', planned_grams:10, source:'controlled_seasoning',
+  });
+  seasonedResult.meals[0].steps.splice(2, 0, {
+    action_code:'add_controlled_seasoning_before_start', text:'加入 10 克酱油，再启动标准煮饭程序。',
+  });
+
+  const { context, root } = loadRiceFrontend([
+    { body:readySelection([seasonedCandidate]) },
+    { body:seasonedResult },
+  ]);
+  evaluate(context, `state.profile={servings:'2', pantry:'鸡腿, 土豆, 胡萝卜', dislikes:''}`);
+  await evaluate(context, 'runRiceMealPlanning()');
+  assert.match(root.innerHTML, /还需准备的基础调味：.*酱油/u);
+  assert.match(root.innerHTML, /用上 2\/3/u);
+
+  await evaluate(context, `chooseRiceMealPlan('sha256:rice-plan-1')`);
+  assert.match(root.innerHTML, /主食和配菜/u);
+  assert.match(root.innerHTML, /基础调味/u);
+  assert.match(root.innerHTML, /酱油[\s\S]*?10 g/u);
+  assert.match(root.innerHTML, /加入 10 克酱油/u);
 });
 
 test('candidate and result DOM show controlled household test notices without leaking review notes', async () => {

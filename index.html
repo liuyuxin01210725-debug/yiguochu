@@ -1722,7 +1722,14 @@ function validRiceCandidate(candidate) {
     && Number.isInteger(candidate.coverage_count) && Number.isInteger(candidate.coverage_total)
     && candidate.coverage_count >= 1 && candidate.coverage_total >= candidate.coverage_count
     && ['A','B'].includes(candidate.nutrition_grade)
-    && Array.isArray(candidate.used_items) && Array.isArray(candidate.unused_items));
+    && Array.isArray(candidate.used_items) && Array.isArray(candidate.unused_items)
+    && Array.isArray(candidate.controlled_seasonings)
+    && candidate.controlled_seasonings.every(item => item
+      && typeof item.canonical_ingredient_id === 'string' && item.canonical_ingredient_id
+      && typeof item.amount_rule_id === 'string' && item.amount_rule_id
+      && typeof item.phase === 'string' && typeof item.action_code === 'string'
+      && Array.isArray(item.allergen_tags))
+    && Array.isArray(candidate.required_extra_items));
 }
 function riceSourceLink(candidate) {
   const recipeId = candidate && candidate.recipe_id;
@@ -1762,12 +1769,16 @@ function riceCandidateCard(candidate) {
     ? candidate.execution_actions.pre_actions.length : 0;
   const active = Number.isFinite(+candidate.active_time_minutes) ? Math.round(+candidate.active_time_minutes) : null;
   const total = Number.isFinite(+candidate.total_time_minutes) ? Math.round(+candidate.total_time_minutes) : null;
+  const seasoningExtras = candidate.required_extra_items
+    .filter(item => item && item.kind === 'controlled_seasoning')
+    .map(riceItemName).filter(Boolean);
   return '<article class="pantry-plan-card"><button class="pantry-plan-choice" data-act="choose-rice-meal" data-plan-id="' + esc(candidate.plan_id) + '">'
     + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(candidate.display_name) + '</span>'
     + '<span class="pantry-plan-count">用上 ' + candidate.coverage_count + '/' + candidate.coverage_total + '</span></span>'
     + '<span class="pantry-plan-items"><strong>这锅用上：</strong>' + esc(used.join('、')) + '</span>'
     + (unused.length ? '<span class="pantry-plan-items"><strong>这次没用：</strong>' + unused.join('；') + '</span>' : '')
     + '<span class="pantry-plan-items"><strong>营养搭配 ' + esc(candidate.nutrition_grade) + '：</strong>' + esc(roles.join('、')) + '</span>'
+    + (seasoningExtras.length ? '<span class="pantry-plan-items"><strong>还需准备的基础调味：</strong>' + esc(seasoningExtras.join('、')) + '</span>' : '')
     + '<span class="pantry-plan-items"><strong>前置处理：</strong>' + ricePreparationLabel(candidate, preActions)
     + (active == null ? '' : ' · ' + active + ' 分钟') + '</span>'
     + (total == null ? '' : '<span class="pantry-plan-items"><strong>全程 ' + total + ' 分钟</strong></span>')
@@ -1823,7 +1834,7 @@ function riceMealResultScreen() {
   const nutritionById = new Map(((generated.plan && generated.plan.nutrition_inputs) || [])
     .map(item => [item.canonical_id, item]));
   const liquidContract = meal.liquid_constraints || (generated.plan && generated.plan.liquid_constraints) || {};
-  const ingredients = (meal.locked_ingredients || []).map(item => {
+  const ingredientRow = item => {
     const nutrition = nutritionById.get(item.canonical_id) || {};
     const localAuthority = lookupFoodNutrition(nutrition.name || riceItemName(item) || item.raw_name);
     const zeroNutritionBasic = item.canonical_id === 'water'
@@ -1838,7 +1849,10 @@ function riceMealResultScreen() {
     return '<li class="ing-row"><span class="ing-name">' + esc(displayName)
       + (estimated ? '<span class="est-tag" title="未命中权威营养库，营养数据仅作估算"> 估</span>' : '')
       + '</span><span class="ing-grams">' + esc(displayAmount) + '</span></li>';
-  }).join('');
+  };
+  const lockedIngredients = Array.isArray(meal.locked_ingredients) ? meal.locked_ingredients : [];
+  const majorIngredients = lockedIngredients.filter(item => item && item.source !== 'controlled_seasoning').map(ingredientRow).join('');
+  const controlledSeasonings = lockedIngredients.filter(item => item && item.source === 'controlled_seasoning').map(ingredientRow).join('');
   const steps = (meal.steps || []).map((step, index) => '<li class="step-row"><span class="step-num">' + (index + 1) + '</span><span class="step-text">' + esc(boundedText(step && step.text, 500)) + '</span></li>').join('');
   const unused = (candidate.unused_items || []).map(item => {
     const name = riceItemName(item);
@@ -1854,7 +1868,8 @@ function riceMealResultScreen() {
     + (unused.length ? '<p class="pantry-plan-items"><strong>这次没有使用：</strong>' + unused.join('；') + '</p>' : '')
     + riceUserNoticeHtml(generated.user_notices || meal.user_notices)
     + riceSourceLink(candidate) + '</div></section>'
-    + '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3></div><ul class="ing-list">' + ingredients + '</ul></section>'
+    + '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">主食和配菜</h3></div><ul class="ing-list">' + majorIngredients + '</ul>'
+    + (controlledSeasonings ? '<h4 class="step-title" style="margin-top:18px">基础调味</h4><ul class="ing-list">' + controlledSeasonings + '</ul>' : '') + '</section>'
     + '<section class="block" id="rice-cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>'
     + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-rice-cooking">开始做</button><button class="btn btn-ghost" data-act="request-rice-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改配菜忌口</button></div></div>'
     + '<div class="col-side"><section class="block nutri-block"><p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px;line-height:1.5;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）。未命中的项目会标「估」。</p></section></div>'

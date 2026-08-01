@@ -9,6 +9,15 @@ const NUTRITION_GRADES = new Set(['A', 'B', 'C']);
 const ADAPTATIONS = new Set(['direct_adaptation', 'process_adaptation', 'style_adaptation', 'not_suitable']);
 const IDENTITY_LEVELS = new Set(['generic', 'regional', 'household_reviewed']);
 const PREVIEW_NOTICE_CODES = new Set(['household_test_pending_feedback']);
+const CONTROLLED_SEASONING_IDS = new Set([
+  'soy-sauce', 'cooking-wine', 'sesame-oil', 'oyster-sauce',
+  'curry-block', 'sugar', 'salt', 'cooking-oil',
+]);
+const CONTROLLED_SEASONING_ACTIONS = Object.freeze({
+  pre_actions: new Set(['use_controlled_seasoning_outside_cooker']),
+  start_actions: new Set(['add_controlled_seasoning_before_start']),
+  finish_actions: new Set(['add_controlled_seasoning_after_cook']),
+});
 const EVIDENCE_KINDS = new Set(['recipe', 'source']);
 const EVIDENCE_SUPPORTS = new Set(['identity', 'quantity', 'liquid', 'appliance', 'process']);
 const SOURCE_ALLOWED_USE_BY_SUPPORT = Object.freeze({
@@ -132,9 +141,12 @@ const VARIANT_FIELDS = new Set([
   'identity_level', 'region_codes', 'identity_refs', 'rice', 'ingredients', 'approved_substitutions',
   'forbidden_combinations', 'nutrition_structure', 'cooker_adaptation', 'ratio_rule_ids',
   'safety_endpoints', 'source_refs', 'exclusion_flags', 'review_note',
-  'supported_servings', 'collection_candidate_id', 'preview_notice_code',
+  'supported_servings', 'collection_candidate_id', 'preview_notice_code', 'controlled_seasonings',
 ]);
 const EVIDENCE_REFERENCE_FIELDS = new Set(['kind', 'id', 'supports']);
+const CONTROLLED_SEASONING_FIELDS = new Set([
+  'canonical_ingredient_id', 'amount_rule_id', 'required', 'phase', 'action_code',
+]);
 const REFERENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_REFERENCE_FIELDS = new Set([
   'usage', 'direct', 'source_kind', 'publisher', 'retrieved_at', 'title', 'url',
@@ -516,8 +528,9 @@ function nutritionRoleCompatible(role, canonicalId, category) {
     && (policy.categories.has(category) || policy.canonicalIds.has(canonicalId)));
 }
 
-function ruleQuantifiesMaterial(rule, canonicalId, { executableOnly = false } = {}) {
+function ruleQuantifiesMaterial(rule, canonicalId, { executableOnly = false, canonicals = new Map() } = {}) {
   if (!isPlainObject(rule) || !Array.isArray(rule.operations)) return false;
+  const canonical = canonicals.get(canonicalId);
   return rule.operations.some(operation => (
     isPlainObject(operation)
     && (
@@ -526,8 +539,59 @@ function ruleQuantifiesMaterial(rule, canonicalId, { executableOnly = false } = 
           || (!executableOnly && operation.operator === 'reference_quantity')))
       || (operation.operator === 'allocate_group_total_per_serving'
         && operation.member_targets?.some(target => target?.canonical_id === canonicalId))
+      || (['fixed_addition', 'scale_by_servings'].includes(operation.operator)
+        && canonical
+        && operation.target?.name === canonical.display_name
+        && operation.target?.category === canonical.category)
     )
   ));
+}
+
+function validateControlledSeasonings(variant, label, context, errors) {
+  const rows = variant.controlled_seasonings;
+  if (!Array.isArray(rows)) {
+    errors.push(`${label}.controlled_seasonings must be an array`);
+    return new Set();
+  }
+  const ids = new Set();
+  const declaredRatioIds = new Set(Array.isArray(variant.ratio_rule_ids) ? variant.ratio_rule_ids : []);
+  for (const [index, row] of rows.entries()) {
+    const rowLabel = `${label}.controlled_seasonings[${index}]`;
+    if (!isPlainObject(row)) {
+      errors.push(`${rowLabel} must be an object`);
+      continue;
+    }
+    pushUnknownKeys(errors, row, CONTROLLED_SEASONING_FIELDS, rowLabel);
+    const canonical = validateKnownCanonicalId(row.canonical_ingredient_id, rowLabel, context.canonicals, errors);
+    if (canonical && !CONTROLLED_SEASONING_IDS.has(row.canonical_ingredient_id)) {
+      errors.push(`${rowLabel}.canonical_ingredient_id is not an allowed controlled seasoning`);
+    }
+    if (ids.has(row.canonical_ingredient_id)) {
+      errors.push(`${label}.controlled_seasonings must not contain duplicate canonical ingredients`);
+    }
+    ids.add(row.canonical_ingredient_id);
+    if (!isNonEmptyString(row.amount_rule_id)) {
+      errors.push(`${rowLabel}.amount_rule_id must be a non-empty ratio rule ID`);
+    } else {
+      validateKnownRatioId(row.amount_rule_id, `${rowLabel}.amount_rule_id`, context.ratios, errors);
+      if (!declaredRatioIds.has(row.amount_rule_id)) {
+        errors.push(`${rowLabel}.amount_rule_id must be declared in ratio_rule_ids`);
+      }
+      const rule = context.ratioRules.get(row.amount_rule_id);
+      if (rule && !ruleQuantifiesMaterial(rule, row.canonical_ingredient_id, {
+        executableOnly: PREVIEW_OR_HIGHER.has(variant.status),
+        canonicals: context.canonicals,
+      })) {
+        errors.push(`${rowLabel}.amount_rule_id does not quantify ${row.canonical_ingredient_id}`);
+      }
+    }
+    if (row.required !== true) errors.push(`${rowLabel}.required must be true`);
+    if (!Object.hasOwn(CONTROLLED_SEASONING_ACTIONS, row.phase)
+        || !CONTROLLED_SEASONING_ACTIONS[row.phase].has(row.action_code)) {
+      errors.push(`${rowLabel} phase/action_code pair is not allowed`);
+    }
+  }
+  return ids;
 }
 
 export function resolveDefaultPerServingMaterialGrams(variant, ratioCatalog, servings = 1) {
@@ -842,7 +906,7 @@ function validateEvidenceReferences(evidenceRefs, label, context, errors) {
   }
 }
 
-function validateNutrition(nutrition, label, materialIds, canonicals, status, errors) {
+function validateNutrition(nutrition, label, materialIds, controlledSeasoningIds, canonicals, status, errors) {
   if (!isPlainObject(nutrition)) {
     errors.push(`${label}.nutrition_structure must be an object`);
     return;
@@ -867,6 +931,10 @@ function validateNutrition(nutrition, label, materialIds, canonicals, status, er
     if (!isNonEmptyString(contributor.role)) errors.push(`${contributorLabel}.role must be a non-empty string`);
     else roles.add(contributor.role);
     const canonical = validateKnownCanonicalId(contributor.canonical_ingredient_id, contributorLabel, canonicals, errors);
+    if (controlledSeasoningIds.has(contributor.canonical_ingredient_id)
+        && ['protein', 'fiber'].includes(contributor.role)) {
+      errors.push(`${contributorLabel} controlled seasoning ${contributor.canonical_ingredient_id} cannot be a protein or fiber contributor`);
+    }
     if (canonical && !materialIds.has(contributor.canonical_ingredient_id)) {
       errors.push(`${contributorLabel}.canonical_ingredient_id must be a material ingredient`);
     }
@@ -1302,7 +1370,16 @@ function validateVariant(variant, label, context, variantIds, errors) {
       }
     });
   }
-  validateNutrition(variant.nutrition_structure, label, new Set(materials.keys()), context.canonicals, variant.status, errors);
+  const controlledSeasoningIds = validateControlledSeasonings(variant, label, context, errors);
+  validateNutrition(
+    variant.nutrition_structure,
+    label,
+    new Set(materials.keys()),
+    controlledSeasoningIds,
+    context.canonicals,
+    variant.status,
+    errors,
+  );
   validateCollectionMapping(variant, label, new Set(materials.keys()), context.collection, context.canonicals, errors);
   const finishProtocol = controlledFinishProtocol(variant, materials, variant.safety_endpoints);
   for (const error of finishProtocol.errors) errors.push(`${label} ${error}`);

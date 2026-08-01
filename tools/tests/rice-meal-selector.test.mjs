@@ -48,13 +48,14 @@ function controlledRatioCatalogFor(sourceCatalog) {
 function select(request, {
   sourceCatalog = catalog,
   sourceRatioCatalog = null,
+  sourceTaxonomy = taxonomy,
   recentPlanIds = [],
 } = {}) {
   assert.equal(typeof selectRiceMealCandidates, 'function', 'selectRiceMealCandidates must be exported');
   return selectRiceMealCandidates({
     request,
     catalog: sourceCatalog,
-    taxonomy,
+    taxonomy: sourceTaxonomy,
     ratioCatalog: sourceRatioCatalog || controlledRatioCatalogFor(sourceCatalog),
     sourceEvidence,
     recentPlanIds,
@@ -78,6 +79,31 @@ function variant(id) {
   return catalog.families.flatMap(family => family.variants).find(row => row.variant_id === id);
 }
 
+function catalogWithChickenSeasonings(seasoningIds) {
+  const sourceCatalog = structuredClone(catalog);
+  sourceCatalog.catalog_version = `rice-meal-selector-seasoning-${seasoningIds.join('-')}`;
+  const chicken = sourceCatalog.families.flatMap(family => family.variants)
+    .find(row => row.variant_id === 'home-chicken-leg-potato-rice');
+  chicken.controlled_seasonings = seasoningIds.map(canonicalId => ({
+    canonical_ingredient_id: canonicalId,
+    amount_rule_id: 'chicken-leg-potato-braised-rice-executable-v1',
+    required: true,
+    phase: 'start_actions',
+    action_code: 'add_controlled_seasoning_before_start',
+  }));
+  const sourceRatios = structuredClone(ratios);
+  const rule = sourceRatios.rules.find(row => row.rule_id === 'chicken-leg-potato-braised-rice-executable-v1');
+  for (const canonicalId of seasoningIds) {
+    const item = taxonomyItem(canonicalId);
+    rule.operations.push({
+      operator: 'scale_by_servings',
+      target: { name: item.display_name, category: item.category },
+      grams: { min: 5, default: 5, max: 5 },
+    });
+  }
+  return { sourceCatalog, sourceRatios };
+}
+
 const TEST_NOTICE = '这道菜饭仍在家庭试做验证中，请先按页面克数和步骤操作。';
 const FOUR_SERVING_CAPACITY_NOTICE = '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限';
 
@@ -97,6 +123,7 @@ function fixtureVariant({
   activeTimeMinutes = 20,
   approvedSubstitutions = [],
   forbiddenCombinations = [],
+  controlledSeasonings = [],
 } = {}) {
   const allMaterialIds = ['raw-rice', ...ingredientIds];
   const contributors = grade === 'A'
@@ -127,6 +154,7 @@ function fixtureVariant({
       amount_rule_id: 'fixture-rule',
       action: '入内胆',
     })),
+    controlled_seasonings: controlledSeasonings,
     approved_substitutions: approvedSubstitutions,
     forbidden_combinations: forbiddenCombinations,
     nutrition_structure: { grade, material_contributors: contributors },
@@ -159,6 +187,53 @@ function fixtureCatalog(variants, familyId = 'fixture-family') {
 test('selector exposes the two documented pure-function entrypoints', () => {
   assert.equal(typeof normalizeRiceMealRequest, 'function');
   assert.equal(typeof selectRiceMealCandidates, 'function');
+});
+
+test('controlled seasonings are signed candidate facts but never inflate pantry coverage', () => {
+  const { sourceCatalog, sourceRatios } = catalogWithChickenSeasonings(['soy-sauce']);
+  const result = select({ servings: 2, pantry: ['鸡腿', '土豆', '酱油'], dislikes: [] }, {
+    sourceCatalog,
+    sourceRatioCatalog: sourceRatios,
+  });
+  assert.equal(result.status, 'ready');
+  const candidate = result.candidates[0];
+  assert.equal(candidate.coverage_count, 2);
+  assert.equal(candidate.coverage_total, 2);
+  assert.deepEqual(candidate.controlled_seasonings.map(row => row.canonical_ingredient_id), ['soy-sauce']);
+  assert.ok(candidate.selected_ingredient_ids.includes('soy-sauce'));
+  assert.ok(candidate.required_extra_items.every(item => item.canonical_id !== 'soy-sauce'));
+
+  const withoutPantrySeasoning = select({ servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] }, {
+    sourceCatalog,
+    sourceRatioCatalog: sourceRatios,
+  }).candidates[0];
+  assert.deepEqual(withoutPantrySeasoning.required_extra_items, [{
+    canonical_id: 'soy-sauce',
+    display_name: '酱油',
+    kind: 'controlled_seasoning',
+  }]);
+  const unseasoned = select({ servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] }).candidates[0];
+  assert.notEqual(withoutPantrySeasoning.plan_id, unseasoned.plan_id);
+});
+
+test('controlled seasoning allergen profiles block candidates before compilation', () => {
+  const cases = [
+    { seasoning: 'oyster-sauce', dislikes: ['海鲜'] },
+    { seasoning: 'soy-sauce', dislikes: ['大豆'] },
+    { seasoning: 'soy-sauce', dislikes: ['小麦'] },
+    { seasoning: 'curry-block', dislikes: ['奶'] },
+    { seasoning: 'sesame-oil', dislikes: ['芝麻'] },
+    { seasoning: 'sesame-oil', dislikes: ['坚果'] },
+  ];
+  for (const testCase of cases) {
+    const { sourceCatalog, sourceRatios } = catalogWithChickenSeasonings([testCase.seasoning]);
+    const result = select({ servings: 2, pantry: ['鸡腿', '土豆'], dislikes: testCase.dislikes }, {
+      sourceCatalog,
+      sourceRatioCatalog: sourceRatios,
+    });
+    assert.equal(result.status, 'unsafe_recipe', JSON.stringify(testCase));
+    assert.ok(result.safety_rejections.some(row => row.reason_code === 'seasoning_allergen_conflict'));
+  }
 });
 
 test('selector accepts only the reviewed 1, 2, 3, and 4 serving request sizes', () => {
@@ -865,6 +940,133 @@ test('direct dislike preflight emits the same structured safety rejection contra
   }]);
 });
 
+test('controlled seasoning allergens are derived from taxonomy and fail closed before candidate selection', () => {
+  const cases = [
+    { seasoningId: 'oyster-sauce', dislike: '海鲜', allergenTags: ['贝类', '大豆', '小麦'] },
+    { seasoningId: 'soy-sauce', dislike: '大豆', allergenTags: ['大豆', '小麦'] },
+    { seasoningId: 'soy-sauce', dislike: '小麦', allergenTags: ['大豆', '小麦'] },
+    { seasoningId: 'curry-block', dislike: '小麦', allergenTags: ['小麦', '奶', '大豆'] },
+    { seasoningId: 'curry-block', dislike: '奶', allergenTags: ['小麦', '奶', '大豆'] },
+    { seasoningId: 'curry-block', dislike: '大豆', allergenTags: ['小麦', '奶', '大豆'] },
+    { seasoningId: 'sesame-oil', dislike: '芝麻', allergenTags: ['芝麻'] },
+    { seasoningId: 'sesame-oil', dislike: '坚果', allergenTags: ['芝麻'] },
+  ];
+  for (const { seasoningId, dislike, allergenTags } of cases) {
+    const seasonedVariant = fixtureVariant({
+      variantId: `seasoning-conflict-${seasoningId}-${cases.indexOf(cases.find(row => row.seasoningId === seasoningId && row.dislike === dislike))}`,
+      ingredientIds: ['chicken-leg', 'potato'],
+      grade: 'B',
+      controlledSeasonings: [{
+        canonical_ingredient_id: seasoningId,
+        amount_rule_id: 'fixture-controlled-seasoning-rule',
+        required: true,
+        phase: 'start_actions',
+        action_code: 'add_controlled_seasoning_before_start',
+      }],
+    });
+    const result = select(
+      { servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [dislike] },
+      { sourceCatalog: fixtureCatalog([seasonedVariant]) },
+    );
+    assert.equal(result.status, 'unsafe_recipe', `${seasoningId} must reject ${dislike}`);
+    assert.deepEqual(result.unsafe_reasons, ['seasoning_allergen_conflict']);
+    assert.deepEqual(result.safety_rejections, [{
+      reason_code: 'seasoning_allergen_conflict',
+      reason: '这道菜饭的必需调味料与你设置的忌口冲突，已在候选阶段拦下。',
+      ingredient_ids: [seasoningId],
+      variant_id: seasonedVariant.variant_id,
+      seasoning_canonical_id: seasoningId,
+      allergen_tags: allergenTags,
+      conflicting_dislikes: [dislike],
+    }]);
+  }
+});
+
+test('controlled seasonings are stable signed execution facts without inflating pantry coverage', () => {
+  const seasoningRows = [
+    {
+      canonical_ingredient_id: 'soy-sauce',
+      amount_rule_id: 'fixture-soy-sauce-rule',
+      required: true,
+      phase: 'start_actions',
+      action_code: 'add_controlled_seasoning_before_start',
+    },
+    {
+      canonical_ingredient_id: 'sesame-oil',
+      amount_rule_id: 'fixture-sesame-oil-rule',
+      required: true,
+      phase: 'finish_actions',
+      action_code: 'add_controlled_seasoning_after_cook',
+    },
+  ];
+  const makeCatalog = rows => fixtureCatalog([fixtureVariant({
+    variantId: 'signed-controlled-seasonings',
+    ingredientIds: ['chicken-leg', 'potato'],
+    grade: 'B',
+    controlledSeasonings: rows,
+  })]);
+  const pantry = ['鸡腿', '土豆', '酱油', '料酒', '芝麻油', '蚝油', '咖喱块', '糖'];
+  const first = select({ servings: 2, pantry, dislikes: [] }, {
+    sourceCatalog: makeCatalog(seasoningRows),
+  }).candidates[0];
+  const reordered = select({ servings: 2, pantry, dislikes: [] }, {
+    sourceCatalog: makeCatalog([...seasoningRows].reverse()),
+  }).candidates[0];
+  const withoutSeasonings = select({ servings: 2, pantry, dislikes: [] }, {
+    sourceCatalog: makeCatalog([]),
+  }).candidates[0];
+
+  assert.equal(first.taxonomy_version, taxonomy.taxonomy_version);
+  assert.match(first.taxonomy_hash, /^sha256:[0-9a-f]{64}$/u);
+  assert.deepEqual(first.controlled_seasonings, [
+    { ...seasoningRows[1], allergen_tags: ['芝麻'] },
+    { ...seasoningRows[0], allergen_tags: ['大豆', '小麦'] },
+  ]);
+  assert.deepEqual(first.major_material_ids, ['raw-rice', 'chicken-leg', 'potato']);
+  assert.deepEqual(first.execution_material_ids, [
+    'raw-rice', 'chicken-leg', 'potato', 'sesame-oil', 'soy-sauce',
+  ]);
+  assert.deepEqual(first.selected_ingredient_ids, first.execution_material_ids);
+  assert.deepEqual(first.selected_input_ids, ['chicken-leg', 'potato']);
+  assert.equal(first.coverage_count, 2);
+  assert.equal(first.coverage_total, 2);
+  assert.equal(first.coverage_ratio, 1);
+  assert.deepEqual(first.used_items.map(item => item.canonical_id), ['chicken-leg', 'potato']);
+  assert.deepEqual(first.unused_items, []);
+  assert.equal(first.plan_id, reordered.plan_id, 'catalog seasoning order is not semantic');
+  assert.notEqual(first.plan_id, withoutSeasonings.plan_id, 'seasoning execution facts must be signed');
+
+  const changedProfile = structuredClone(taxonomy);
+  changedProfile.items.find(item => item.canonical_id === 'soy-sauce').allergen_tags.push('芝麻');
+  const changedProfileCandidate = select({ servings: 2, pantry, dislikes: [] }, {
+    sourceCatalog: makeCatalog(seasoningRows),
+    sourceTaxonomy: changedProfile,
+  }).candidates[0];
+  assert.equal(changedProfileCandidate.taxonomy_version, taxonomy.taxonomy_version);
+  assert.notEqual(first.taxonomy_hash, changedProfileCandidate.taxonomy_hash);
+  assert.notEqual(first.plan_id, changedProfileCandidate.plan_id, 'allergen profile changes invalidate old plans');
+
+  const changedVersion = structuredClone(taxonomy);
+  changedVersion.taxonomy_version = `${taxonomy.taxonomy_version}-next`;
+  const changedVersionCandidate = select({ servings: 2, pantry, dislikes: [] }, {
+    sourceCatalog: makeCatalog(seasoningRows),
+    sourceTaxonomy: changedVersion,
+  }).candidates[0];
+  assert.notEqual(first.plan_id, changedVersionCandidate.plan_id, 'taxonomy version changes invalidate old plans');
+});
+
+test('basic controlled seasonings entered by the user never count as major pantry coverage', () => {
+  const normalized = normalize({
+    servings: 2,
+    pantry: ['鸡腿', '土豆', '酱油', '料酒', '芝麻油', '蚝油', '咖喱块', '糖'],
+    dislikes: [],
+  });
+  assert.deepEqual(normalized.submitted_items.map(item => item.canonical_id), ['chicken-leg', 'potato']);
+  assert.deepEqual(normalized.ignored_basic_items.map(item => item.canonical_id), [
+    'soy-sauce', 'cooking-wine', 'sesame-oil', 'oyster-sauce', 'curry-block', 'sugar',
+  ]);
+});
+
 test('candidate facts are a signed compiler handoff: name, material identities, ratio rule, actions, and recompute snapshot', () => {
   const compilerJourney = journeyCorpus.journeys.find(journey => journey.id === 'RM-15-selector-facts-for-compiler');
   assert.equal(compilerJourney?.contract_pending, undefined, 'RM-15 must execute its candidate-to-compiler contract');
@@ -897,6 +1099,7 @@ test('candidate facts are a signed compiler handoff: name, material identities, 
         { kind: 'recognized', canonical_id: 'chicken-leg', state: 'raw', shape_or_cut: 'leg' },
         { kind: 'recognized', canonical_id: 'potato', state: 'raw', shape_or_cut: null },
       ],
+      available_basic_items: [],
       dislikes: [],
     },
     selected_ingredient_ids: ['raw-rice', 'chicken-leg', 'potato'],

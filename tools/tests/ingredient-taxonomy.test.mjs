@@ -49,8 +49,39 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
     '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉', '小米', '干鹰嘴豆', '熟鹰嘴豆',
     '虾仁', '玉米',
-    '水', '食用油', '盐', '酱油',
+    '水', '食用油', '盐', '酱油', '料酒', '芝麻油', '蚝油', '咖喱块', '糖',
   ]) assert.ok(names.has(name), `missing ${name}`);
+});
+
+test('controlled seasonings carry the only approved fixed allergen tags in taxonomy', () => {
+  const byId = new Map(catalog.items.map(item => [item.canonical_id, item]));
+  assert.deepEqual(
+    [...byId.keys()].filter(id => [
+      'soy-sauce', 'cooking-wine', 'sesame-oil', 'oyster-sauce',
+      'curry-block', 'sugar', 'salt', 'cooking-oil',
+    ].includes(id)).sort(),
+    [
+      'cooking-oil', 'cooking-wine', 'curry-block', 'oyster-sauce',
+      'salt', 'sesame-oil', 'soy-sauce', 'sugar',
+    ],
+  );
+  assert.deepEqual(byId.get('soy-sauce').allergen_tags, ['大豆', '小麦']);
+  assert.deepEqual(byId.get('oyster-sauce').allergen_tags, ['贝类', '大豆', '小麦']);
+  assert.deepEqual(byId.get('curry-block').allergen_tags, ['小麦', '奶', '大豆']);
+  assert.deepEqual(byId.get('sesame-oil').allergen_tags, ['芝麻']);
+  for (const id of ['cooking-wine', 'sugar', 'salt', 'cooking-oil']) {
+    assert.deepEqual(byId.get(id).allergen_tags, [], `${id} must explicitly carry an empty fixed allergen set`);
+  }
+});
+
+test('taxonomy validator rejects controlled seasoning allergen drift and unknown tags', () => {
+  const drifted = structuredClone(catalog);
+  drifted.items.find(item => item.canonical_id === 'soy-sauce').allergen_tags = ['大豆'];
+  assert.ok(validateIngredientTaxonomy(drifted).some(error => error.includes('soy-sauce.allergen_tags must equal 大豆,小麦')));
+
+  const unknown = structuredClone(catalog);
+  unknown.items.find(item => item.canonical_id === 'salt').allergen_tags = ['神秘过敏原'];
+  assert.ok(validateIngredientTaxonomy(unknown).some(error => error.includes('salt.allergen_tags contains unknown tag')));
 });
 
 test('shrimp and sweet corn aliases preserve controlled cooking identities', () => {

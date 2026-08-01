@@ -56,6 +56,30 @@ function assetBinding(overrides = {}) {
   };
 }
 
+function controlledSeasoningAssets({ canonicalId = 'soy-sauce', displayName = '酱油' } = {}) {
+  const catalog = JSON.parse(SOURCE_ASSETS['/rice-meal-catalog.v1.json']);
+  const ratios = JSON.parse(SOURCE_ASSETS['/ratio-rules.v1.json']);
+  const variant = catalog.families.flatMap(family => family.variants)
+    .find(item => item.variant_id === 'home-chicken-leg-potato-rice');
+  variant.controlled_seasonings = [{
+    canonical_ingredient_id:canonicalId,
+    amount_rule_id:'chicken-leg-potato-braised-rice-executable-v1',
+    required:true,
+    phase:'start_actions',
+    action_code:'add_controlled_seasoning_before_start',
+  }];
+  ratios.rules.find(rule => rule.rule_id === 'chicken-leg-potato-braised-rice-executable-v1')
+    .operations.push({
+      operator:'scale_by_servings',
+      target:{ name:displayName, category:'seasoning' },
+      grams:{ min:5, default:5, max:5 },
+    });
+  return assetBinding({
+    '/rice-meal-catalog.v1.json':JSON.stringify(catalog),
+    '/ratio-rules.v1.json':JSON.stringify(ratios),
+  });
+}
+
 function zeroBudgetKv() {
   return {
     gets: 0,
@@ -146,6 +170,19 @@ test('rice-meal build selects schema-v3 candidates without model or budget work'
   assert.equal(result.kv.puts, 0);
 });
 
+test('mainland curry-block identity maps to the authoritative Taiwan curry-block nutrition row', async () => {
+  const assets = controlledSeasoningAssets({ canonicalId:'curry-block', displayName:'咖喱块' });
+  const planned = await post('/plan-meal', ricePlanRequest(), { assets });
+  assert.equal(planned.status, 200, JSON.stringify(planned.body));
+  const generated = await post('/generate-plan', {
+    plan_token:planned.body.candidates[0].plan_token,
+  }, { assets });
+  assert.equal(generated.status, 200, JSON.stringify(generated.body));
+  const curry = generated.body.plan.nutrition_inputs.find(item => item.canonical_id === 'curry-block');
+  assert.equal(curry?.authCode, 'P0200501');
+  assert.equal(curry?.auth, 'tw');
+});
+
 test('rice-meal HTTP swap returns no_alternative_plan without losing the current candidate', async () => {
   const planned = await post('/plan-meal', ricePlanRequest());
   const current = planned.body.candidates[0];
@@ -168,7 +205,7 @@ test('rice-meal HTTP swap returns no_alternative_plan without losing the current
 
 test('rice-meal build compiles only a signed token and preserves reviewed RM-15 facts without model work', async () => {
   const planned = await post('/plan-meal', ricePlanRequest());
-  assert.equal(planned.status, 200);
+  assert.equal(planned.status, 200, JSON.stringify(planned.body));
   const result = await post('/generate-plan', { plan_token: planned.body.candidates[0].plan_token });
 
   assert.equal(result.status, 200);
@@ -195,6 +232,40 @@ test('rice-meal build compiles only a signed token and preserves reviewed RM-15 
   assert.equal(result.modelCalls, 0);
   assert.equal(result.kv.gets, 0);
   assert.equal(result.kv.puts, 0);
+});
+
+test('rice-meal HTTP flow carries controlled seasoning through signing, dislikes, grams, nutrition, and steps', async () => {
+  const assets = controlledSeasoningAssets();
+  const planned = await post('/plan-meal', ricePlanRequest(), { assets });
+  assert.equal(planned.status, 200, JSON.stringify(planned.body));
+  const candidate = planned.body.candidates[0];
+  assert.equal(candidate.coverage_count, 2, 'seasoning must not inflate pantry coverage');
+  assert.deepEqual(candidate.required_extra_items.map(item => [item.canonical_id, item.kind]), [
+    ['soy-sauce', 'controlled_seasoning'],
+  ]);
+
+  const generated = await post('/generate-plan', { plan_token:candidate.plan_token }, {
+    assets,
+  });
+  assert.equal(generated.status, 200);
+  assert.deepEqual(generated.body.plan.ingredient_amounts
+    .filter(item => item.canonical_id === 'soy-sauce')
+    .map(item => [item.grams, item.source]), [[10, 'controlled_seasoning']]);
+  assert.equal(generated.body.plan.nutrition_inputs
+    .find(item => item.canonical_id === 'soy-sauce')?.auth, 'tw');
+  assert.match(generated.body.meals[0].steps
+    .find(step => step.action_code === 'add_controlled_seasoning_before_start')?.text || '', /10克酱油/u);
+  assert.equal(generated.modelCalls, 0);
+  assert.equal(generated.kv.gets, 0);
+
+  const blocked = await post('/plan-meal', ricePlanRequest({ dislikes:['大豆'] }), {
+    assets,
+  });
+  assert.equal(blocked.status, 200);
+  assert.equal(blocked.body.status, 'unsafe_recipe');
+  assert.equal(blocked.body.safety_rejections[0].reason_code, 'seasoning_allergen_conflict');
+  assert.equal(blocked.modelCalls, 0);
+  assert.equal(blocked.kv.gets, 0);
 });
 
 test('three-person ordinary rice meal keeps three servings through signed compilation and scales every amount', async () => {

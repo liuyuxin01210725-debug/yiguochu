@@ -123,6 +123,13 @@ const context = {
         cook_speed: 'fast',
         cooking_risk: { required_endpoint_codes: [] },
       },
+      {
+        canonical_id: 'soy-sauce',
+        display_name: '酱油', aliases: [],
+        category: 'seasoning',
+        allergen_tags: ['大豆', '小麦'],
+        cooking_risk: { required_endpoint_codes: [] },
+      },
     ],
   },
   ratioCatalog: {
@@ -240,6 +247,7 @@ function validCatalog() {
         ],
         approved_substitutions: [],
         forbidden_combinations: [],
+        controlled_seasonings: [],
         nutrition_structure: {
           grade: 'A',
           material_contributors: [
@@ -827,6 +835,63 @@ test('a non-null legacy recipe_id must be declared independently as recipe evide
   }];
 
   expectError(catalog, 'recipe_id known-recipe requires a same-ID recipe evidence_ref');
+});
+
+function catalogWithControlledSoySauce() {
+  const catalog = validCatalog();
+  catalog.families[0].variants[0].controlled_seasonings = [{
+    canonical_ingredient_id: 'soy-sauce',
+    amount_rule_id: 'known-ratio',
+    required: true,
+    phase: 'start_actions',
+    action_code: 'add_controlled_seasoning_before_start',
+  }];
+  return catalog;
+}
+
+function contextWithControlledSoySauceRatio() {
+  const validationContext = clone(context);
+  validationContext.ratioCatalog.rules[0].operations.push({
+    operator: 'scale_by_servings',
+    target: { name: '酱油', category: 'seasoning' },
+    grams: { min: 5, default: 5, max: 5 },
+  });
+  return validationContext;
+}
+
+test('controlled seasonings are canonical, quantified, required, phased, and action-bound', () => {
+  const validationContext = contextWithControlledSoySauceRatio();
+  assert.deepEqual(validate(catalogWithControlledSoySauce(), validationContext), []);
+
+  const selfDeclaredAllergen = catalogWithControlledSoySauce();
+  selfDeclaredAllergen.families[0].variants[0].controlled_seasonings[0].allergen_tags = ['大豆'];
+  expectError(selfDeclaredAllergen, 'controlled_seasonings[0] unknown key allergen_tags', validationContext);
+
+  const optional = catalogWithControlledSoySauce();
+  optional.families[0].variants[0].controlled_seasonings[0].required = false;
+  expectError(optional, 'controlled_seasonings[0].required must be true', validationContext);
+
+  const unknownPhase = catalogWithControlledSoySauce();
+  unknownPhase.families[0].variants[0].controlled_seasonings[0].phase = 'mid_actions';
+  expectError(unknownPhase, 'controlled_seasonings[0] phase/action_code pair is not allowed', validationContext);
+
+  const unknownAction = catalogWithControlledSoySauce();
+  unknownAction.families[0].variants[0].controlled_seasonings[0].action_code = 'free_text_action';
+  expectError(unknownAction, 'controlled_seasonings[0] phase/action_code pair is not allowed', validationContext);
+
+  const unquantified = catalogWithControlledSoySauce();
+  unquantified.families[0].variants[0].controlled_seasonings[0].amount_rule_id = 'missing-ratio';
+  expectError(unquantified, 'controlled_seasonings[0].amount_rule_id unknown ratio rule: missing-ratio', validationContext);
+});
+
+test('controlled seasonings cannot be promoted to protein or fiber contributors', () => {
+  const catalog = catalogWithControlledSoySauce();
+  catalog.families[0].variants[0].nutrition_structure.material_contributors[1] = {
+    role: 'protein',
+    canonical_ingredient_id: 'soy-sauce',
+  };
+
+  expectError(catalog, 'controlled seasoning soy-sauce cannot be a protein or fiber contributor', contextWithControlledSoySauceRatio());
 });
 
 test('rejects a status that skips required promotion stages', () => {

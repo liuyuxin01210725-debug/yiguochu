@@ -6,7 +6,8 @@ import {
 import { matchAllergy } from './allergen-semantics.js';
 
 const ACTIVE_VARIANT_STATUSES = new Set(['preview_ready', 'pilot_observed', 'production_approved']);
-const BASIC_COVERAGE_IDS = new Set(['raw-rice', 'water', 'cooking-oil', 'salt']);
+const BASIC_COVERAGE_IDS = new Set(['raw-rice', 'water']);
+const NON_COVERAGE_CATEGORIES = new Set(['liquid', 'oil', 'seasoning']);
 const GRADE_RANK = Object.freeze({ A: 0, B: 1 });
 const IDENTITY_RANK = Object.freeze({
   regional: 0,
@@ -98,8 +99,10 @@ export function normalizeRiceMealRequest(request = {}, taxonomy = {}) {
     taxonomy,
   ));
   const uniqueItems = normalizedItems.filter(item => item.duplicate_of === null);
-  const ignoredBasicItems = uniqueItems.filter(item => BASIC_COVERAGE_IDS.has(item.canonical_id));
-  const submittedItems = uniqueItems.filter(item => !BASIC_COVERAGE_IDS.has(item.canonical_id));
+  const isBasic = item => BASIC_COVERAGE_IDS.has(item.canonical_id)
+    || NON_COVERAGE_CATEGORIES.has(item.category);
+  const ignoredBasicItems = uniqueItems.filter(isBasic);
+  const submittedItems = uniqueItems.filter(item => !isBasic(item));
   const duplicateItems = normalizedItems.filter(item => item.duplicate_of !== null);
   const dislikes = uniqueStrings(asStringList(request.dislikes, 'dislikes'));
   const dislikeFacts = uniqueStrings(dislikes.map(normalizePlannerTaxonomyKey).filter(Boolean))
@@ -159,6 +162,7 @@ function requestSnapshot(catalog, normalized) {
     catalog_version: catalog?.catalog_version || null,
     servings: normalized.servings,
     normalized_items: sortedUniqueFacts(normalized.submitted_items.map(snapshotFactForItem)),
+    available_basic_items: sortedUniqueFacts(normalized.ignored_basic_items.map(snapshotFactForItem)),
     dislikes: [...(normalized.dislike_facts || [])]
       .sort((left, right) => left.localeCompare(right, 'zh-Hans-CN')),
   };
@@ -219,25 +223,31 @@ function unrecognizedSnapshotItem(fact, taxonomy) {
 
 function normalizeRiceMealRequestSnapshot(snapshot = {}, taxonomy = {}) {
   if (!isPlainObject(snapshot) || !Array.isArray(snapshot.normalized_items)
+      || (snapshot.available_basic_items !== undefined && !Array.isArray(snapshot.available_basic_items))
       || !Array.isArray(snapshot.dislikes)
       || typeof snapshot.catalog_version !== 'string' || !snapshot.catalog_version.trim()) {
     throw new TypeError('normalizedRequest snapshot is invalid');
   }
   const servings = validateServings(snapshot.servings);
   const itemsById = taxonomyIndex(taxonomy);
-  const facts = snapshot.normalized_items.map(fact => {
+  const normalizeFact = fact => {
     if (fact?.kind === 'recognized') return recognizedSnapshotItem(fact, itemsById);
     if (fact?.kind === 'unrecognized') return unrecognizedSnapshotItem(fact, taxonomy);
     throw new TypeError('normalizedRequest item kind is invalid');
-  });
-  const sourceFactKeys = snapshot.normalized_items.map(fact => canonicalJson(fact));
+  };
+  const submittedFacts = snapshot.normalized_items;
+  const basicFacts = snapshot.available_basic_items || [];
+  const facts = [...submittedFacts, ...basicFacts].map(normalizeFact);
+  const sourceFactKeys = [...submittedFacts, ...basicFacts].map(fact => canonicalJson(fact));
   if (new Set(sourceFactKeys).size !== sourceFactKeys.length) {
     throw new TypeError('normalizedRequest items must be unique');
   }
   const normalizedItems = deduplicateNormalizedItems(facts);
   const uniqueItems = normalizedItems.filter(item => item.duplicate_of === null);
-  const ignoredBasicItems = uniqueItems.filter(item => BASIC_COVERAGE_IDS.has(item.canonical_id));
-  const submittedItems = uniqueItems.filter(item => !BASIC_COVERAGE_IDS.has(item.canonical_id));
+  const ignoredBasicItems = uniqueItems.filter(item => BASIC_COVERAGE_IDS.has(item.canonical_id)
+    || NON_COVERAGE_CATEGORIES.has(item.category));
+  const submittedItems = uniqueItems.filter(item => !BASIC_COVERAGE_IDS.has(item.canonical_id)
+    && !NON_COVERAGE_CATEGORIES.has(item.category));
   const dislikes = snapshot.dislikes.map(dislike => {
     if (typeof dislike !== 'string' || !dislike || normalizePlannerTaxonomyKey(dislike) !== dislike) {
       throw new TypeError('normalizedRequest dislikes are invalid');
@@ -270,6 +280,25 @@ function catalogVariants(catalog) {
 function materialIds(variant) {
   return [variant?.rice?.canonical_ingredient_id, ...(variant?.ingredients || []).map(item => item.canonical_ingredient_id)]
     .filter(Boolean);
+}
+
+function controlledSeasoningFacts(variant, itemsById) {
+  return (variant?.controlled_seasonings || []).map(row => {
+    const item = itemsById.get(row?.canonical_ingredient_id);
+    return {
+      canonical_ingredient_id: row?.canonical_ingredient_id,
+      amount_rule_id: row?.amount_rule_id,
+      required: row?.required === true,
+      phase: row?.phase,
+      action_code: row?.action_code,
+      allergen_tags: [...(item?.allergen_tags || [])],
+    };
+  }).sort((left, right) => left.canonical_ingredient_id.localeCompare(right.canonical_ingredient_id, 'en'));
+}
+
+function executionMaterialIds(variant, itemsById) {
+  return [...materialIds(variant), ...controlledSeasoningFacts(variant, itemsById)
+    .map(row => row.canonical_ingredient_id)];
 }
 
 function approvedSubstitution(variant, targetId, inputId) {
@@ -470,6 +499,7 @@ const SAFETY_REASONS = Object.freeze({
   material_amount_missing: '该菜饭缺少受控食材用量规则。',
   safety_endpoint_missing: '该菜饭缺少必需的熟制安全终点。',
   load_protocol_incomplete: '该菜饭缺少将全部食材安全入锅的流程。',
+  seasoning_allergen_conflict: '这道菜饭的必需调味料与你设置的忌口冲突，已在候选阶段拦下。',
 });
 
 function safetyRejectionForMatch(match) {
@@ -479,8 +509,15 @@ function safetyRejectionForMatch(match) {
     reason: reasonCode === 'forbidden_combination'
       ? match.forbidden?.reason || SAFETY_REASONS.forbidden_combination
       : SAFETY_REASONS[reasonCode] || '该菜饭未通过受控安全检查。',
-    ingredient_ids: uniqueStrings(match.assignments.map(entry => entry.input.canonical_id)),
+    ingredient_ids: reasonCode === 'seasoning_allergen_conflict'
+      ? [match.seasoning_conflict.canonical_ingredient_id]
+      : uniqueStrings(match.assignments.map(entry => entry.input.canonical_id)),
     variant_id: match.variant.variant_id,
+    ...(reasonCode === 'seasoning_allergen_conflict' ? {
+      seasoning_canonical_id: match.seasoning_conflict.canonical_ingredient_id,
+      allergen_tags: clone(match.seasoning_conflict.allergen_tags),
+      conflicting_dislikes: clone(match.seasoning_conflict.conflicting_dislikes),
+    } : {}),
   };
 }
 
@@ -671,6 +708,17 @@ function sourceEvidenceFacts(sourceEvidence) {
   };
 }
 
+function taxonomyFacts(taxonomy) {
+  if (!isPlainObject(taxonomy) || typeof taxonomy.taxonomy_version !== 'string'
+      || !taxonomy.taxonomy_version.trim() || !Array.isArray(taxonomy.items)) {
+    throw new TypeError('taxonomy must provide taxonomy_version and items');
+  }
+  return {
+    taxonomy_version: taxonomy.taxonomy_version,
+    taxonomy_hash: `sha256:${sha256Hex(canonicalJson(taxonomy))}`,
+  };
+}
+
 function sourceRefsForVariant(variant, sourceEvidence) {
   const byId = new Map((sourceEvidence.entries || []).map(entry => [entry?.source_id, entry]));
   return (variant.evidence_refs || []).filter(ref => ref?.kind === 'source').map(ref => {
@@ -730,7 +778,7 @@ function ratioFactsForVariant(variant, ratioCatalog) {
   };
 }
 
-function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, evidenceFacts, planSnapshot }) {
+function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, evidenceFacts, taxonomyIdentity, seasoningFacts, planSnapshot }) {
   const adaptation = variant.cooker_adaptation || {};
   const compareSubstitutions = (left, right) => (
     left.target_id.localeCompare(right.target_id, 'zh-Hans-CN')
@@ -753,6 +801,9 @@ function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, e
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
     source_evidence_ledger_version: evidenceFacts.source_evidence_ledger_version,
     source_evidence_hash: evidenceFacts.source_evidence_hash,
+    taxonomy_version: taxonomyIdentity.taxonomy_version,
+    taxonomy_hash: taxonomyIdentity.taxonomy_hash,
+    controlled_seasonings: clone(seasoningFacts),
     action_protocol: ['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].map(phase => ({
       phase,
       actions: [...(adaptation[phase] || [])].sort((left, right) => left.order - right.order).map(action => ({
@@ -803,6 +854,7 @@ function buildCandidate({
   sourceEvidence,
   allMatchedInputKeys,
   itemsById,
+  taxonomyIdentity,
 }) {
   const usedInputKeys = new Set(assignments.map(entry => itemKey(entry.input)));
   const adaptation = variant.cooker_adaptation;
@@ -811,7 +863,18 @@ function buildCandidate({
     clone([...(adaptation[phase] || [])].sort((left, right) => left.order - right.order)),
   ]));
   const planSnapshot = requestSnapshot(catalog, normalized);
-  const identity = planIdentity({ catalog, variant, normalized, assignments, ratioFacts, evidenceFacts, planSnapshot });
+  const seasoningFacts = controlledSeasoningFacts(variant, itemsById);
+  const identity = planIdentity({
+    catalog,
+    variant,
+    normalized,
+    assignments,
+    ratioFacts,
+    evidenceFacts,
+    taxonomyIdentity,
+    seasoningFacts,
+    planSnapshot,
+  });
   const protein = (variant.nutrition_structure?.material_contributors || []).find(row => row.role === 'protein');
   return {
     plan_id: `sha256:${sha256Hex(canonicalJson(identity))}`,
@@ -820,6 +883,8 @@ function buildCandidate({
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
     source_evidence_ledger_version: evidenceFacts.source_evidence_ledger_version,
     source_evidence_hash: evidenceFacts.source_evidence_hash,
+    taxonomy_version: taxonomyIdentity.taxonomy_version,
+    taxonomy_hash: taxonomyIdentity.taxonomy_hash,
     servings: normalized.servings,
     plan_snapshot: planSnapshot,
     family_id: familyId,
@@ -839,7 +904,16 @@ function buildCandidate({
     nutrition_grade: variant.nutrition_structure.grade,
     nutrition_roles: clone(variant.nutrition_structure.material_contributors || []),
     required_basic_items: basicItems(itemsById),
-    selected_ingredient_ids: materialIds(variant),
+    required_extra_items: seasoningFacts.filter(row => !normalized.ignored_basic_items
+      .some(item => item.canonical_id === row.canonical_ingredient_id)).map(row => ({
+      canonical_id: row.canonical_ingredient_id,
+      display_name: itemsById.get(row.canonical_ingredient_id)?.display_name || row.canonical_ingredient_id,
+      kind: 'controlled_seasoning',
+    })),
+    controlled_seasonings: seasoningFacts,
+    major_material_ids: materialIds(variant),
+    execution_material_ids: executionMaterialIds(variant, itemsById),
+    selected_ingredient_ids: executionMaterialIds(variant, itemsById),
     selected_input_ids: assignments.map(entry => entry.input.canonical_id),
     substitutions: assignments.filter(entry => entry.match.kind !== 'exact').map(entry => ({
       target_canonical_id: entry.target_id,
@@ -911,6 +985,7 @@ export function selectRiceMealCandidates({
 } = {}) {
   assertControlledRatioCatalog(ratioCatalog);
   const evidenceFacts = sourceEvidenceFacts(sourceEvidence);
+  const taxonomyIdentity = taxonomyFacts(taxonomy);
   const normalized = normalizedRequest == null
     ? normalizeRiceMealRequest(request, taxonomy)
     : normalizeRiceMealRequestSnapshot(normalizedRequest, taxonomy);
@@ -936,6 +1011,21 @@ export function selectRiceMealCandidates({
         && !variant.supported_servings.includes(normalized.servings)) continue;
     const assignments = findMaterialAssignment(variant, normalized.submitted_items, itemsById);
     if (!assignments) continue;
+    const seasoningConflict = controlledSeasoningFacts(variant, itemsById).map(row => ({
+      ...row,
+      conflicting_dislikes: normalized.dislikes.filter(dislike => row.allergen_tags
+        .some(tag => matchAllergy(dislike, tag, aliases))),
+    })).find(row => row.conflicting_dislikes.length > 0);
+    if (seasoningConflict) {
+      unsafeMatches.push({
+        family_id: familyId,
+        variant,
+        assignments,
+        seasoning_conflict: seasoningConflict,
+        safety_issue: 'seasoning_allergen_conflict',
+      });
+      continue;
+    }
     const forbidden = variantForbiddenCombination(variant, assignments);
     if (forbidden) {
       unsafeMatches.push({ family_id: familyId, variant, assignments, forbidden, safety_issue: 'forbidden_combination' });
@@ -1005,6 +1095,7 @@ export function selectRiceMealCandidates({
         sourceEvidence,
         allMatchedInputKeys,
         itemsById,
+        taxonomyIdentity,
       })).sort((left, right) => candidateRank(left, right, history))[0];
       const limitedUnusedItems = diagnosticCandidate.unused_items.map(item => reasonedItem(
         item,
@@ -1047,7 +1138,8 @@ export function selectRiceMealCandidates({
     evidenceFacts,
     sourceEvidence,
     allMatchedInputKeys,
-    itemsById,
+      itemsById,
+      taxonomyIdentity,
   }));
   const currentPlanId = normalized.current_plan_id;
   if (currentPlanId) {

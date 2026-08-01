@@ -17,6 +17,17 @@ const SHAPES = new Set([
 ]);
 const INPUT_SCOPES = new Set(['pantry_input', 'derived_only']);
 const RATIO_RULE_POLICIES = new Set(['category_fallback', 'canonical_required']);
+const ALLERGEN_TAGS = new Set(['大豆', '小麦', '贝类', '奶', '芝麻']);
+const CONTROLLED_SEASONING_ALLERGENS = new Map([
+  ['soy-sauce', ['大豆', '小麦']],
+  ['cooking-wine', []],
+  ['sesame-oil', ['芝麻']],
+  ['oyster-sauce', ['贝类', '大豆', '小麦']],
+  ['curry-block', ['小麦', '奶', '大豆']],
+  ['sugar', []],
+  ['salt', []],
+  ['cooking-oil', []],
+]);
 const COOK_SPEEDS = new Set(['no_cook', 'fast', 'medium', 'slow']);
 const MOISTURE_RELEASE = new Set(['low', 'medium', 'high']);
 const TEXTURE_BEHAVIORS = new Set([
@@ -174,6 +185,27 @@ export function validateIngredientTaxonomy(data) {
       }
     }
     if (!CATEGORIES.has(item.category)) errors.push(`${label}.category is invalid`);
+    if (item.allergen_tags !== undefined) {
+      if (!Array.isArray(item.allergen_tags)
+          || new Set(item.allergen_tags).size !== item.allergen_tags.length
+          || item.allergen_tags.some(tag => !ALLERGEN_TAGS.has(tag))) {
+        const unknownTag = Array.isArray(item.allergen_tags)
+          ? item.allergen_tags.find(tag => !ALLERGEN_TAGS.has(tag))
+          : null;
+        errors.push(unknownTag
+          ? `${item.canonical_id}.allergen_tags contains unknown tag: ${String(unknownTag)}`
+          : `${label}.allergen_tags must be a unique controlled array`);
+      }
+    }
+    if (CONTROLLED_SEASONING_ALLERGENS.has(item.canonical_id)) {
+      const expectedTags = CONTROLLED_SEASONING_ALLERGENS.get(item.canonical_id);
+      if (JSON.stringify(item.allergen_tags) !== JSON.stringify(expectedTags)) {
+        errors.push(`${item.canonical_id}.allergen_tags must equal ${expectedTags.join(',')}`);
+      }
+      if (!['seasoning', 'oil'].includes(item.category)) {
+        errors.push(`${item.canonical_id} controlled seasoning category must be seasoning or oil`);
+      }
+    }
     if (!INPUT_SCOPES.has(item.input_scope)) errors.push(`${label}.input_scope is invalid`);
     if (item.ratio_rule_policy != null && !RATIO_RULE_POLICIES.has(item.ratio_rule_policy)) {
       errors.push(`${label}.ratio_rule_policy is invalid`);

@@ -2243,6 +2243,8 @@ const TW_INPUT_ALIAS = new Map([
   ['牛奶', '全脂鲜乳平均值'],
   // 菜谱语境中的椰奶用于咖喱/焖饭，指高脂烹饪椰浆，不是即饮椰奶饮料。
   ['椰奶', '椰浆'],
+  // 台湾库使用「咖哩」字形；大陆输入和受控菜饭目录统一使用「咖喱」。
+  ['咖喱块', '咖哩块'],
 ]);
 function buildTwNutritionIndex(records) {
   const idx = new Map();
