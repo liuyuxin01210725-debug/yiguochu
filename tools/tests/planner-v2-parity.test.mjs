@@ -588,14 +588,14 @@ test('Rice Meal bridge permits its fixed development signing secret only in expl
     HOST: '0.0.0.0',
   });
   assert.equal(unsafeHost.status, 503);
-  assert.equal(unsafeHost.body.code, 'rice_meal_assets_unavailable');
+  assert.equal(unsafeHost.body.code, 'rice_meal_signing_unavailable');
 
   const implicitNodeDev = nodeBridge('/plan-meal', riceMealRequest(), {
     YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
     HOST: '127.0.0.1',
   });
   assert.equal(implicitNodeDev.status, 503);
-  assert.equal(implicitNodeDev.body.code, 'rice_meal_assets_unavailable');
+  assert.equal(implicitNodeDev.body.code, 'rice_meal_signing_unavailable');
 
   const explicitLoopbackDev = nodeBridge('/plan-meal', riceMealRequest(), {
     YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
@@ -613,7 +613,7 @@ test('Rice Meal bridge permits its fixed development signing secret only in expl
   try {
     const response = await postJson(hosted.base, '/plan-meal', riceMealRequest());
     assert.equal(response.response.status, 503);
-    assert.equal(response.body.code, 'rice_meal_assets_unavailable');
+    assert.equal(response.body.code, 'rice_meal_signing_unavailable');
   } finally {
     await stopProxy(hosted);
   }
@@ -627,7 +627,7 @@ test('Rice Meal bridge permits its fixed development signing secret only in expl
   try {
     const response = await postJson(hostedMode.base, '/plan-meal', riceMealRequest());
     assert.equal(response.response.status, 503);
-    assert.equal(response.body.code, 'rice_meal_assets_unavailable');
+    assert.equal(response.body.code, 'rice_meal_signing_unavailable');
   } finally {
     await stopProxy(hostedMode);
   }
