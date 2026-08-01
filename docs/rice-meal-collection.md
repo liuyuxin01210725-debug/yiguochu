@@ -8,14 +8,6 @@
 
 ## 上海（CN-SH）
 
-### household-reviewed-rice
-
-| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 鸡腿土豆焖饭 | 米、鸡腿、土豆 | B | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
-| 玉米胡萝卜鸡腿焖饭 | 米、鸡腿、胡萝卜、玉米 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
-| 肉糜青菜饭 | 米、肉糜、青菜 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
-
 ### jiangnan-vegetable-rice
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
@@ -262,3 +254,13 @@
 ## 江西（CN-JX）
 
 显式空白地域：本轮无符合边界的可靠候选。
+
+## 家常标准（非地域）（HOUSEHOLD）
+
+### household-reviewed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鸡腿土豆焖饭 | 米、鸡腿、土豆 | B | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
+| 玉米胡萝卜鸡腿焖饭 | 米、鸡腿、胡萝卜、玉米 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
+| 肉糜青菜饭 | 米、肉糜、青菜 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |

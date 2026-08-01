@@ -7,6 +7,8 @@ const SOURCE_SUPPORTS = new Set(['identity', 'quantity', 'liquid', 'appliance', 
 const REGION_IDS = new Set([
   'CN-AH', 'CN-BJ', 'CN-CQ', 'CN-FJ', 'CN-GD', 'CN-GS', 'CN-GX', 'CN-GZ', 'CN-HA', 'CN-HB', 'CN-HE', 'CN-HI', 'CN-HK', 'CN-HL', 'CN-HN', 'CN-JL', 'CN-JS', 'CN-JX', 'CN-LN', 'CN-MO', 'CN-NM', 'CN-NX', 'CN-QH', 'CN-SC', 'CN-SD', 'CN-SH', 'CN-SN', 'CN-SX', 'CN-TJ', 'CN-TW', 'CN-XJ', 'CN-XZ', 'CN-YN', 'CN-ZJ',
 ]);
+const HOUSEHOLD_NODE_ID = 'HOUSEHOLD';
+const HOUSEHOLD_NODE_NAME = '家常标准（非地域）';
 const TOP_LEVEL_KEYS = new Set(['schema_version', 'collection_version', 'scope', 'region_nodes', 'candidates', 'exclusions', 'catalog_tracking', 'runtime_mappings']);
 const CANDIDATE_KEYS = new Set(['candidate_id', 'name', 'region_codes', 'family', 'core_ingredients', 'rice_state', 'nutrition_grade', 'traditional_appliance_and_steps', 'identity_sources', 'quantity_liquid_completeness', 'adaptation_level', 'blockers', 'runtime_contract', 'status']);
 const SOURCE_KEYS = new Set(['title', 'publisher', 'retrieved_at', 'url', 'supports']);
@@ -99,10 +101,17 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     if ((!Array.isArray(node.candidate_ids) || node.candidate_ids.length === 0) && !present(node.gap)) errors.push(`${path} must declare candidate_ids or an explicit gap`);
     if (Array.isArray(node.candidate_ids) && node.candidate_ids.length > 0 && node.gap !== null) errors.push(`${path} cannot have both candidates and gap`);
   });
-  if (nodeById.size !== REGION_IDS.size || [...REGION_IDS].some(id => !nodeById.has(id)) || [...nodeById].some(([id]) => !REGION_IDS.has(id))) errors.push('region_nodes must cover the complete supported region set exactly once');
+  const householdNode = nodeById.get(HOUSEHOLD_NODE_ID);
+  if (nodeById.size !== REGION_IDS.size + 1
+    || [...REGION_IDS].some(id => !nodeById.has(id))
+    || [...nodeById].some(([id]) => !REGION_IDS.has(id) && id !== HOUSEHOLD_NODE_ID)
+    || !householdNode
+    || householdNode.display_name !== HOUSEHOLD_NODE_NAME) {
+    errors.push('region_nodes must cover the complete supported region set exactly once plus HOUSEHOLD');
+  }
   candidateById.forEach((candidate, id) => {
     const declared = new Set(Array.isArray(candidate.region_codes) ? candidate.region_codes : []);
-    declared.forEach(regionId => { if (!REGION_IDS.has(regionId)) errors.push(`candidates ${id} references unsupported region ${regionId}`); });
+    declared.forEach(regionId => { if (!REGION_IDS.has(regionId) && regionId !== HOUSEHOLD_NODE_ID) errors.push(`candidates ${id} references unsupported region ${regionId}`); });
     const listed = listedCandidateRegions.get(id) || new Set();
     if (declared.size !== listed.size || [...declared].some(regionId => !listed.has(regionId))) errors.push(`candidate-region mismatch for ${id}`);
   });

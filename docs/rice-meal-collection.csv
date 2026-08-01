@@ -1,7 +1,4 @@
 candidate_id,name,regions,family,core_ingredients,nutrition_grade,rice_state,traditional_appliance_and_steps,evidence_status,quantity_liquid_completeness,blockers,runtime_status
-household-chicken-leg-potato-rice,鸡腿土豆焖饭,上海 (CN-SH),household-reviewed-rice,米 / 鸡腿 / 土豆,B,raw-rice,项目家庭标准闭盖烹调,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
-household-corn-carrot-chicken-rice,玉米胡萝卜鸡腿焖饭,上海 (CN-SH),household-reviewed-rice,米 / 鸡腿 / 胡萝卜 / 玉米,A,raw-rice,项目家庭标准闭盖烹调,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
-household-greens-minced-pork-rice,肉糜青菜饭,上海 (CN-SH),household-reviewed-rice,米 / 肉糜 / 青菜,A,raw-rice,项目家庭标准闭盖烹调,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
 shanghai-salted-pork-vegetable-rice,上海奉贤咸肉菜饭,上海 (CN-SH),jiangnan-vegetable-rice,米 / 青菜 / 咸肉/香肠,A,raw-rice,土灶或锅中米、菜和咸肉同煮成饭,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
 nanjing-duck-greens-rice,南京矮脚黄板鸭菜饭,江苏 (CN-JS),jiangnan-vegetable-rice,糯米 / 矮脚黄 / 熟板鸭 / 姜,A,glutinous-rice,糯米、菜和熟鸭焖制,identity,identity_only,无数量、液体和器具证据,identity_only
 wujiang-greens-salted-pork-rice,吴江香青菜咸肉饭,江苏 (CN-JS),jiangnan-vegetable-rice,米 / 吴江青菜 / 咸肉,A,raw-rice,菜与咸肉配米蒸煮,identity,identity_only,无工艺数量,identity_only
@@ -36,3 +33,6 @@ mayang-she-rice,麻阳社饭,湖南 (CN-HN),wuling-she-rice,粳米/糯米 / 艾�
 xiangxi-she-rice,湘西社饭,湖南 (CN-HN),wuling-she-rice,糯米/粳米 / 野菜 / 腊肉 / 葱蒜,A,mixed-rice,社饭多阶段蒸焖,identity,identity_only,比例文字冲突且无可执行比,research_candidate
 yichang-cured-pork-braised-rice,宜昌腊肉焖饭,湖北 (CN-HB),middle-yangtze-cured-rice,米 / 腊肉,B,rice-state-unverified,焖饭名称身份记录,identity,identity_only,仅有名称，缺工艺、数量和液体,identity_only
 ninghe-zeng-pork-rice,宁河甑乡肉焖儿,天津 (CN-TJ),zeng-rice,米 / 猪肉,B,raw-rice,通风陶甑蒸制,identity,identity_only,无数量液体，甑器具身份,research_candidate
+household-chicken-leg-potato-rice,鸡腿土豆焖饭,家常标准（非地域） (HOUSEHOLD),household-reviewed-rice,米 / 鸡腿 / 土豆,B,raw-rice,项目家庭标准闭盖烹调,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
+household-corn-carrot-chicken-rice,玉米胡萝卜鸡腿焖饭,家常标准（非地域） (HOUSEHOLD),household-reviewed-rice,米 / 鸡腿 / 胡萝卜 / 玉米,A,raw-rice,项目家庭标准闭盖烹调,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
+household-greens-minced-pork-rice,肉糜青菜饭,家常标准（非地域） (HOUSEHOLD),household-reviewed-rice,米 / 肉糜 / 青菜,A,raw-rice,项目家庭标准闭盖烹调,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready

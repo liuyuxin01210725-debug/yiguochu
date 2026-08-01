@@ -26,3 +26,15 @@
 
 - Renderer never changes runtime assets, deployment assets, or source data; it only reads the machine collection and writes review artifacts.
 - Stable ordering intentionally follows the declared `region_nodes` order, then ASCII family and candidate IDs. This keeps output insensitive to candidate-array ordering while preserving the source's geographic review order.
+
+## Review fix round 1
+
+- Moved the three project household-reviewed runtime candidates out of `CN-SH` into the single explicit `HOUSEHOLD` node, displayed as `家常标准（非地域）`. The validator still requires all 34 province-level IDs exactly once, additionally requires exactly this one non-geographic node, and preserves candidate/node bidirectional consistency.
+- Corrected `buildRiceMealCollectionArtifacts()` to return the specified `Array<[path, content]>`; consumers retain ordinary pair iteration and tests explicitly check the contract before constructing a `Map` as a lookup convenience.
+- Added a CSV escaping regression test with a comma, double quotes, and newline in a real rendered candidate field.
+
+### Review-fix verification
+
+- `node --test tools/tests/rice-meal-collection-data.test.mjs tools/tests/rice-meal-collection-validator.test.mjs tools/tests/rice-meal-collection-renderer.test.mjs` — 17/17 pass.
+- `node tools/build-rice-meal-collection.mjs --write` then `--check` — pass.
+- `node tools/check-recipes.mjs` — pass.

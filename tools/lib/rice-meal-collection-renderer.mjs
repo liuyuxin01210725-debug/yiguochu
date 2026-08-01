@@ -96,8 +96,8 @@ export function renderRiceMealCollectionCsv(collection) {
 }
 
 export function buildRiceMealCollectionArtifacts(collection) {
-  return new Map([
+  return [
     ['docs/rice-meal-collection.md', renderRiceMealCollectionMarkdown(collection)],
     ['docs/rice-meal-collection.csv', renderRiceMealCollectionCsv(collection)],
-  ]);
+  ];
 }

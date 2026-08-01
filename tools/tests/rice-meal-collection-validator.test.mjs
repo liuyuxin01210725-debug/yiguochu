@@ -55,6 +55,12 @@ test('requires the complete region set', async () => {
   assert.ok(validatorModule.validateRiceMealCollection(invalid, await dependencies()).some(error => error.includes('region_nodes must cover the complete supported region set')));
 });
 
+test('requires exactly one non-geographic household node without weakening province coverage', async () => {
+  const invalid = structuredClone(await readCollection());
+  invalid.region_nodes = invalid.region_nodes.filter(node => node.region_id !== 'HOUSEHOLD');
+  assert.ok(validatorModule.validateRiceMealCollection(invalid, await dependencies()).some(error => error.includes('plus HOUSEHOLD')));
+});
+
 test('rejects candidate to region node drift', async () => {
   const invalid = structuredClone(await readCollection());
   invalid.candidates[0].region_codes = ['CN-JS'];
