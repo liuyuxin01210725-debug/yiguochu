@@ -784,6 +784,16 @@ test('accepts household-reviewed identity only when it carries no regional claim
   expectError(catalog, 'household_reviewed must not declare region_codes');
 });
 
+test('accepts only the controlled household test notice code', () => {
+  const catalog = validCatalog();
+  const variant = catalog.families[0].variants[0];
+  variant.preview_notice_code = 'household_test_pending_feedback';
+  assert.deepEqual(validate(catalog), []);
+
+  variant.preview_notice_code = '把 review_note 原样发给用户';
+  expectError(catalog, 'preview_notice_code is not allowed');
+});
+
 test('rejects missing review basis and malformed closed-lid action protocol', () => {
   const catalog = validCatalog();
   const variant = catalog.families[0].variants[0];

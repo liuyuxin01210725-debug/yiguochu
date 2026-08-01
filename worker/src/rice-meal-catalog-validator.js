@@ -5,6 +5,7 @@ const STATUS_SET = new Set(STATUSES);
 const NUTRITION_GRADES = new Set(['A', 'B', 'C']);
 const ADAPTATIONS = new Set(['direct_adaptation', 'process_adaptation', 'style_adaptation', 'not_suitable']);
 const IDENTITY_LEVELS = new Set(['generic', 'regional', 'household_reviewed']);
+const PREVIEW_NOTICE_CODES = new Set(['household_test_pending_feedback']);
 const RICE_CATEGORIES = new Set(['raw_rice', 'prepared_glutinous_rice']);
 const PREVIEW_OR_HIGHER = new Set(['preview_ready', 'pilot_observed', 'production_approved']);
 const NUTRITION_ROLE_POLICY = Object.freeze({
@@ -82,7 +83,7 @@ const VARIANT_FIELDS = new Set([
   'identity_level', 'region_codes', 'identity_refs', 'rice', 'ingredients', 'approved_substitutions',
   'forbidden_combinations', 'nutrition_structure', 'cooker_adaptation', 'ratio_rule_ids',
   'safety_endpoints', 'source_refs', 'exclusion_flags', 'review_note',
-  'supported_servings', 'collection_candidate_id',
+  'supported_servings', 'collection_candidate_id', 'preview_notice_code',
 ]);
 const REFERENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_REFERENCE_FIELDS = new Set([
@@ -874,6 +875,9 @@ function validateVariant(variant, label, context, variantIds, errors) {
   if (!isNonEmptyString(variant.display_name)) errors.push(`${label}.display_name must be a real non-empty name`);
   if (!isNonEmptyString(variant.name_label)) errors.push(`${label}.name_label must be a non-empty string`);
   if (!isNonEmptyString(variant.review_note)) errors.push(`${label}.review_note must be a non-empty string`);
+  if (variant.preview_notice_code !== undefined && !PREVIEW_NOTICE_CODES.has(variant.preview_notice_code)) {
+    errors.push(`${label}.preview_notice_code is not allowed`);
+  }
   validateStatus(variant, label, errors);
   if (variant.supported_servings !== undefined) {
     if (!Array.isArray(variant.supported_servings) || variant.supported_servings.length === 0

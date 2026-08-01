@@ -134,6 +134,9 @@ function compiledResult(overrides = {}) {
   };
 }
 
+const TEST_NOTICE = 'Preview 家庭测试标准 · 待真实厨房反馈';
+const FOUR_SERVING_CAPACITY_NOTICE = '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限';
+
 function loadRiceFrontend(responses = [], locationOverrides = {}) {
   const html = fs.readFileSync(path.join(OUTPUT, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
@@ -226,6 +229,58 @@ test('rice planner request uses the only schema-v3 HTTP shape and candidate card
   assert.match(root.innerHTML, /蛋白质/);
   assert.match(root.innerHTML, /处理食材|12 分钟/);
   assert.match(root.innerHTML, /全程 45 分钟/);
+});
+
+test('candidate and result DOM show controlled household test notices without leaking review notes', async () => {
+  const testCandidate = candidate({
+    variant_id:'home-cabbage-tofu-rice',
+    recipe_id:'cabbage-tofu-braised-rice',
+    display_name:'白菜豆腐焖饭',
+    servings:4,
+    user_notices:[
+      { code:'household_test_pending_feedback', text:TEST_NOTICE },
+      { code:'four_serving_cooker_capacity_check', text:FOUR_SERVING_CAPACITY_NOTICE },
+    ],
+  });
+  const testResult = compiledResult({
+    variant_id:testCandidate.variant_id,
+    recipe_id:testCandidate.recipe_id,
+    user_notices:structuredClone(testCandidate.user_notices),
+    meals:[{
+      ...compiledResult().meals[0],
+      variant_id:testCandidate.variant_id,
+      recipe_id:testCandidate.recipe_id,
+      dish_name:testCandidate.display_name,
+      user_notices:structuredClone(testCandidate.user_notices),
+    }],
+  });
+  const { context, root } = loadRiceFrontend([
+    { body:readySelection([testCandidate]) },
+    { body:testResult },
+  ]);
+  evaluate(context, `state.profile={servings:'4', pantry:'豆腐, 白菜', dislikes:''}`);
+  await evaluate(context, 'runRiceMealPlanning()');
+  assert.match(root.innerHTML, new RegExp(TEST_NOTICE, 'u'));
+  assert.match(root.innerHTML, new RegExp(FOUR_SERVING_CAPACITY_NOTICE, 'u'));
+  assert.doesNotMatch(root.innerHTML, /recipe-library\.json|不宣称地域原方|人工批准/u);
+
+  await evaluate(context, `chooseRiceMealPlan('sha256:rice-plan-1')`);
+  assert.match(root.innerHTML, new RegExp(TEST_NOTICE, 'u'));
+  assert.match(root.innerHTML, new RegExp(FOUR_SERVING_CAPACITY_NOTICE, 'u'));
+});
+
+test('mature candidate and result DOM do not show household test notices', async () => {
+  const mature = candidate({ user_notices:[] });
+  const result = compiledResult({
+    user_notices:[],
+    meals:[{ ...compiledResult().meals[0], user_notices:[] }],
+  });
+  const { context, root } = loadRiceFrontend([{ body:readySelection([mature]) }, { body:result }]);
+  evaluate(context, `state.profile={servings:'2', pantry:'鸡腿, 土豆', dislikes:''}`);
+  await evaluate(context, 'runRiceMealPlanning()');
+  assert.doesNotMatch(root.innerHTML, /Preview 家庭测试标准|最高刻度/u);
+  await evaluate(context, `chooseRiceMealPlan('sha256:rice-plan-1')`);
+  assert.doesNotMatch(root.innerHTML, /Preview 家庭测试标准|最高刻度/u);
 });
 
 test('three-person selection reaches the planner request without falling back to two servings', async () => {

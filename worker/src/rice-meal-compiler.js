@@ -870,6 +870,7 @@ export function compileRiceMeal(candidate, assets) {
     family_id: recomputed.family_id,
     variant_id: recomputed.variant_id,
     recipe_id: recomputed.recipe_id,
+    user_notices: clone(recomputed.user_notices || []),
     plan: {
       plan_id: recomputed.plan_id,
       catalog_version: assets.catalog.catalog_version,
@@ -906,6 +907,7 @@ export function compileRiceMeal(candidate, assets) {
       recipe_id: meal.recipe_id,
       variant_id: meal.variant_id,
       identity_level: meal.identity_level,
+      user_notices: clone(recomputed.user_notices || []),
       locked_ingredients: clone(meal.locked_ingredients),
       slot_assignment: clone(meal.slot_assignment),
       ratio_constraints: clone(meal.ratio_constraints),

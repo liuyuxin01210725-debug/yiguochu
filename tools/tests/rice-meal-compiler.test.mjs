@@ -385,7 +385,28 @@ test('four project household standards compile exact 1/2/4 serving water, salt, 
       assert.match(safetyText, /大米.*无硬芯/u);
       assert.match(safetyText, testCase.safety);
       assert.equal(output.meals[0].dish_name, candidate.display_name);
+      const expectedNotices = [
+        {
+          code: 'household_test_pending_feedback',
+          text: 'Preview 家庭测试标准 · 待真实厨房反馈',
+        },
+        ...(servings === 4 ? [{
+          code: 'four_serving_cooker_capacity_check',
+          text: '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限',
+        }] : []),
+      ];
+      assert.deepEqual(output.user_notices, expectedNotices);
+      assert.deepEqual(output.meals[0].user_notices, expectedNotices);
     }
+  }
+});
+
+test('mature preview meals do not acquire household test notices', () => {
+  for (const candidate of [chickenCandidate(), cornCandidate(), select({ servings: 2, pantry: ['猪肉末', '青菜'], dislikes: [] })]) {
+    const output = compilerApi('compileRiceMeal')(candidate, assets);
+    assert.deepEqual(candidate.user_notices, []);
+    assert.deepEqual(output.user_notices, []);
+    assert.deepEqual(output.meals[0].user_notices, []);
   }
 });
 

@@ -1700,6 +1700,18 @@ function riceUnusedReason(item) {
 function riceNutritionRoleLabel(role) {
   return ({ carb:'碳水 / 主食', protein:'蛋白质', fiber:'膳食纤维' })[role] || '';
 }
+const RICE_USER_NOTICE_COPY = Object.freeze({
+  household_test_pending_feedback:'Preview 家庭测试标准 · 待真实厨房反馈',
+  four_serving_cooker_capacity_check:'请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限',
+});
+function riceUserNoticeHtml(notices) {
+  return (Array.isArray(notices) ? notices : []).map(notice => {
+    const text = notice && RICE_USER_NOTICE_COPY[notice.code];
+    return text && notice.text === text
+      ? '<span class="pantry-plan-note rice-user-notice">' + esc(text) + '</span>'
+      : '';
+  }).join('');
+}
 function validRiceCandidate(candidate) {
   return !!(candidate && typeof candidate.plan_id === 'string' && candidate.plan_id
     && typeof candidate.plan_token === 'string' && candidate.plan_token
@@ -1729,6 +1741,7 @@ function riceCandidateCard(candidate) {
     + '<span class="pantry-plan-items"><strong>前置处理：</strong>' + (preActions ? '处理食材约 ' + preActions + ' 步' : '无额外处理')
     + (active == null ? '' : ' · ' + active + ' 分钟') + '</span>'
     + (total == null ? '' : '<span class="pantry-plan-items"><strong>全程 ' + total + ' 分钟</strong></span>')
+    + riceUserNoticeHtml(candidate.user_notices)
     + '<span class="pantry-plan-note">选中后直接打开已锁定的用量和电饭煲步骤。</span></button>'
     + (candidate.recipe_id ? '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(candidate.recipe_id) + '">查看一锅出标准配方</a>' : '')
     + '</article>';
@@ -1801,6 +1814,7 @@ function riceMealResultScreen() {
     + '<div class="dish-eyebrow"><span>今天做这道菜饭</span><span class="chip chip-form">电饭煲一锅出</span></div><h1 class="dish-name">' + esc(meal.dish_name) + '</h1>'
     + '<div class="dish-meta"><span class="meta">用上 ' + esc(String(candidate.coverage_count || 0)) + '/' + esc(String(candidate.submitted_count || 0)) + '</span><span class="meta-dot"></span><span class="meta">营养 ' + esc(candidate.nutrition_grade || '') + '</span></div>'
     + '<p class="dish-taste">' + esc(meal.recommendation_reason) + '</p>'
+    + riceUserNoticeHtml(generated.user_notices || meal.user_notices)
     + (candidate.recipe_id ? '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(candidate.recipe_id) + '">查看一锅出标准配方</a>' : '') + '</div></section>'
     + '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3></div><ul class="ing-list">' + ingredients + '</ul></section>'
     + '<section class="block" id="rice-cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>'

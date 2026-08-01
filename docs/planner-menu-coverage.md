@@ -244,5 +244,5 @@
 - `tools/data/meal-templates.v2.json`：`90a5fbd63f94ff376a08ac441e2058b99058dc34347d795b6da1cdebf36f8ad1`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
 - `tools/data/ratio-rules.v1.json`：`4f04263b859d8d4ed3d8d44a301c2eb613ca1bce398f7e433784da8a7461312c`
-- `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`
+- `tools/data/recipe-library.json`：`5b5842fd062f9aefbc0fdcf522684b95482364959a1e3382eeb18449888935bd`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`

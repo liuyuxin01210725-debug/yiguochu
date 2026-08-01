@@ -483,6 +483,53 @@ test('four project test standards bind added water, salt, draining actions, safe
   }
 });
 
+test('four project test standards keep their canonical recipe pages aligned with the machine contract', () => {
+  const cases = [
+    {
+      recipeId: 'green-bean-pork-rib-braised-rice',
+      water: 145,
+      technique: /锅外预煮.*沥干.*预煮水.*弃置/u,
+      summary: /沥干.*弃置.*预煮水/u,
+    },
+    {
+      recipeId: 'mushroom-green-bean-pork-rib-braised-rice',
+      water: 145,
+      technique: /锅外预煮.*沥干.*预煮水.*弃置/u,
+      summary: /沥干.*弃置.*预煮水/u,
+    },
+    {
+      recipeId: 'cabbage-tofu-braised-rice',
+      water: 130,
+      technique: /白菜.*锅外.*熟.*沥干.*弃置.*焖菜水.*成饭.*拌入/u,
+      summary: /白菜.*锅外.*成饭后.*拌入/u,
+    },
+    {
+      recipeId: 'broccoli-beef-braised-rice',
+      water: 135,
+      technique: /西兰花.*锅外.*熟.*沥干.*弃置.*焖菜水.*成饭.*拌入/u,
+      summary: /西兰花.*锅外.*成饭后.*拌入/u,
+    },
+  ];
+  for (const testCase of cases) {
+    const recipe = recipeById.get(testCase.recipeId);
+    assert.equal(recipe.status, 'auto_approved');
+    assert.equal(recipe.source_refs.length, 1);
+    assert.deepEqual(Object.keys(recipe.source_refs[0]).sort(), [
+      'attribution', 'license', 'retrieved_at', 'title', 'url', 'usage',
+    ]);
+    assert.match(recipe.summary, testCase.summary, testCase.recipeId);
+    assert.match(recipe.technique.join(' '), testCase.technique, testCase.recipeId);
+    assert.match(recipe.ratio_rules.join(' '), new RegExp(`每100克大米另加约${testCase.water}克清水`, 'u'), testCase.recipeId);
+    assert.match(recipe.ratio_rules.join(' '), /每份使用1克盐/u, testCase.recipeId);
+    assert.doesNotMatch(
+      [recipe.summary, recipe.adaptation_note, ...recipe.technique, ...recipe.ratio_rules].join(' '),
+      /可用总液体|接近熟透时加入白菜|后段加入西兰花/u,
+      testCase.recipeId,
+    );
+  }
+  assert.equal(recipes.recipes.length, 72);
+});
+
 test('the first-stage action catalog preserves explicit poultry rib and lamb preprocessing outside the single closed-lid cycle', () => {
   const requiredPreAction = new Map([
     ['chicken-leg-potato-braised-rice', 'cut_chicken_leg_to_small_pieces'],

@@ -13,6 +13,10 @@ const IDENTITY_RANK = Object.freeze({
   household_reviewed: 1,
   generic: 2,
 });
+const CONTROLLED_USER_NOTICES = Object.freeze({
+  household_test_pending_feedback: 'Preview 家庭测试标准 · 待真实厨房反馈',
+  four_serving_cooker_capacity_check: '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限',
+});
 const BALANCE_STARCHY_IDS = new Set([
   // Exact current taxonomy identities only: both have controlled balance
   // prompts. Do not invent a sweet-potato ID while taxonomy has none.
@@ -739,6 +743,18 @@ function basicItems(itemsById) {
   }));
 }
 
+function controlledUserNotices(variant, servings) {
+  const statusText = CONTROLLED_USER_NOTICES[variant.preview_notice_code];
+  if (!statusText) return [];
+  return [
+    { code: variant.preview_notice_code, text: statusText },
+    ...(servings === 4 ? [{
+      code: 'four_serving_cooker_capacity_check',
+      text: CONTROLLED_USER_NOTICES.four_serving_cooker_capacity_check,
+    }] : []),
+  ];
+}
+
 function buildCandidate({
   catalog,
   familyId,
@@ -794,6 +810,7 @@ function buildCandidate({
     extra_major_count: 0,
     identity_level: variant.identity_level,
     protein_variant_id: protein?.canonical_ingredient_id || null,
+    user_notices: controlledUserNotices(variant, normalized.servings),
   };
 }
 

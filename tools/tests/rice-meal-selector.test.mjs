@@ -76,6 +76,9 @@ function variant(id) {
   return catalog.families.flatMap(family => family.variants).find(row => row.variant_id === id);
 }
 
+const TEST_NOTICE = 'Preview 家庭测试标准 · 待真实厨房反馈';
+const FOUR_SERVING_CAPACITY_NOTICE = '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限';
+
 function taxonomyItem(canonicalId) {
   const item = taxonomy.items.find(row => row.canonical_id === canonicalId);
   assert.ok(item, `fixture needs taxonomy item ${canonicalId}`);
@@ -487,6 +490,44 @@ test('a seven-plus request may select a controlled four-to-five-item meal withou
   assert.equal(result.candidates[0].coverage_count, 5);
   assert.equal(result.candidates[0].submitted_count, 7);
   assert.deepEqual(result.candidates[0].unused_items.map(item => item.raw), ['番茄', '鸡蛋']);
+});
+
+test('project household test standards expose only controlled candidate notices', () => {
+  const projectCases = [
+    [['豆角', '排骨'], 'home-green-bean-pork-rib-rice'],
+    [['香菇', '豆角', '排骨'], 'home-mushroom-green-bean-pork-rib-rice'],
+    [['豆腐', '白菜'], 'home-cabbage-tofu-rice'],
+    [['牛里脊', '西兰花'], 'home-broccoli-beef-rice'],
+  ];
+  for (const [pantry, variantId] of projectCases) {
+    const two = select({ servings: 2, pantry, dislikes: [] }).candidates
+      .find(row => row.variant_id === variantId);
+    assert.deepEqual(two?.user_notices, [{
+      code: 'household_test_pending_feedback',
+      text: TEST_NOTICE,
+    }]);
+    assert.doesNotMatch(JSON.stringify(two.user_notices), /recipe-library|不宣称|人工批准/u);
+
+    const four = select({ servings: 4, pantry, dislikes: [] }).candidates
+      .find(row => row.variant_id === variantId);
+    assert.deepEqual(four?.user_notices, [
+      { code: 'household_test_pending_feedback', text: TEST_NOTICE },
+      { code: 'four_serving_cooker_capacity_check', text: FOUR_SERVING_CAPACITY_NOTICE },
+    ]);
+  }
+
+  for (const [pantry, matureVariant] of [
+    [['鸡腿', '土豆'], 'home-chicken-leg-potato-rice'],
+    [['鸡腿', '玉米', '胡萝卜'], 'home-corn-carrot-chicken-leg-rice'],
+    [['猪肉末', '青菜'], 'home-greens-minced-pork-rice'],
+    [['咸五花肉', '小白菜'], 'shanghai-salted-pork-rice'],
+  ]) {
+    const servings = matureVariant === 'shanghai-salted-pork-rice' ? 3 : 2;
+    const candidate = select({ servings, pantry, dislikes: [] }).candidates
+      .find(row => row.variant_id === matureVariant);
+    assert.ok(candidate, matureVariant);
+    assert.deepEqual(candidate.user_notices, []);
+  }
 });
 
 test('a seven-plus request rejects a six-of-seven match instead of silently treating it as a valid coverage band', () => {
