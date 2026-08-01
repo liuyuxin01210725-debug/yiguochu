@@ -138,10 +138,13 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     if (requiredStatus && row.status !== requiredStatus) errors.push(`${path}.status must match catalog status`);
     if (row.candidate_id !== null && !candidateById.has(row.candidate_id)) errors.push(`${path}.candidate_id references unknown candidate`);
     if (!NUTRITION_GRADES.has(row.nutrition_grade)) errors.push(`${path}.nutrition_grade is invalid`);
+    const mappedCandidate = candidateById.get(row.candidate_id);
+    if (mappedCandidate && row.nutrition_grade !== mappedCandidate.nutrition_grade) errors.push(`${path}.nutrition_grade must match mapped candidate`);
     if (!['planned', 'runtime_ready'].includes(row.status)) errors.push(`${path}.status must be planned or runtime_ready`);
     if (row.status === 'runtime_ready') {
-      const candidate = candidateById.get(row.candidate_id);
+      const candidate = mappedCandidate;
       if (!present(row.candidate_id) || !present(row.reverse_mapping_id)) errors.push(`${path}.runtime_ready requires candidate_id and reverse_mapping_id`);
+      if (!['A', 'B'].includes(row.nutrition_grade)) errors.push(`${path}.runtime_ready nutrition_grade must be A or B`);
       if (!candidate || candidate.status !== 'runtime_ready' || !['A', 'B'].includes(candidate.nutrition_grade)) errors.push(`${path}.runtime_ready must reference an A/B runtime_ready candidate`);
     }
     if (!Array.isArray(row.core_ingredient_ids) || row.core_ingredient_ids.length === 0) errors.push(`${path}.core_ingredient_ids must be non-empty`);

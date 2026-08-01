@@ -84,6 +84,17 @@ test('rejects runtime-ready tracking without candidate and reverse mapping', asy
   assert.ok(validatorModule.validateRiceMealCollection(invalid, await dependencies()).some(error => error.includes('runtime_ready requires candidate_id and reverse_mapping_id')));
 });
 
+test('rejects tracking nutrition grades that drift from the mapped candidate', async () => {
+  const runtimeInvalid = structuredClone(await readCollection());
+  runtimeInvalid.catalog_tracking.find(row => row.status === 'runtime_ready').nutrition_grade = 'C';
+  assert.ok(validatorModule.validateRiceMealCollection(runtimeInvalid, await dependencies()).some(error => error.includes('runtime_ready nutrition_grade must be A or B')));
+
+  const plannedInvalid = structuredClone(await readCollection());
+  const planned = plannedInvalid.catalog_tracking.find(row => row.status === 'planned' && row.candidate_id !== null);
+  planned.nutrition_grade = planned.nutrition_grade === 'A' ? 'B' : 'A';
+  assert.ok(validatorModule.validateRiceMealCollection(plannedInvalid, await dependencies()).some(error => error.includes('nutrition_grade must match mapped candidate')));
+});
+
 test('rejects runtime-ready candidate without a complete executable contract', async () => {
   const invalid = structuredClone(await readCollection());
   const candidate = invalid.candidates.find(row => row.status !== 'runtime_ready');

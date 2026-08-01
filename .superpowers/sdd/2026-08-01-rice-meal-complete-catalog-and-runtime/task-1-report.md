@@ -36,3 +36,7 @@ node tools/check-recipes.mjs
 - 两条四川孔干饭保留 `来源当前无法独立复核` blocker；米态仅接受受控米/糯米状态，未证实米态明确标为 `rice-state-unverified`。
 
 Fix round verification: `node --test tools/tests/rice-meal-collection-validator.test.mjs tools/tests/rice-meal-collection-data.test.mjs` reports 13 pass, 0 fail; `node tools/check-recipes.mjs` passes and reports 37 candidates, 4 runtime_ready, 7 planned, 16 explicit regional gaps.
+
+## Fix round 2 — tracking nutrition single source of truth
+
+新增独立红灯测试后，validator 现强制每条带 candidate 的 tracking `nutrition_grade` 与映射 candidate 完全一致；`runtime_ready` tracking 还必须为 A/B。定点测试现为 14 pass, 0 fail，聚合体检通过。
