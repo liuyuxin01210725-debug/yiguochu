@@ -8,6 +8,9 @@ const csvCell = value => {
 const tableRow = values => `| ${values.map(markdownCell).join(' | ')} |`;
 const candidateEvidence = candidate => [...new Set(asArray(candidate.identity_sources).flatMap(source => asArray(source?.supports)))];
 const candidateBlockers = candidate => asArray(candidate.blockers).join('；') || '无';
+const candidateCoreLabels = candidate => asArray(candidate.core_ingredients)
+  .map(item => typeof item === 'object' && item !== null ? item.label : item)
+  .filter(Boolean);
 const regionLabel = region => `${region.display_name}（${region.region_id}）`;
 
 function candidatesForRegion(collection, region) {
@@ -48,7 +51,7 @@ export function renderRiceMealCollectionMarkdown(collection) {
       for (const candidate of familyCandidates) {
         lines.push(tableRow([
           candidate.name,
-          asArray(candidate.core_ingredients).join('、'),
+          candidateCoreLabels(candidate).join('、'),
           candidate.nutrition_grade,
           candidate.rice_state,
           candidate.traditional_appliance_and_steps,
@@ -82,7 +85,7 @@ export function renderRiceMealCollectionCsv(collection) {
       candidate.name,
       asArray(candidate.region_codes).map(code => `${regions.get(code)?.display_name || code} (${code})`).join(' / '),
       candidate.family,
-      asArray(candidate.core_ingredients).join(' / '),
+      candidateCoreLabels(candidate).join(' / '),
       candidate.nutrition_grade,
       candidate.rice_state,
       candidate.traditional_appliance_and_steps,

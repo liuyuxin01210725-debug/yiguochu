@@ -10,11 +10,51 @@ const REGION_IDS = new Set([
 const HOUSEHOLD_NODE_ID = 'HOUSEHOLD';
 const HOUSEHOLD_NODE_NAME = '家常标准（非地域）';
 const TOP_LEVEL_KEYS = new Set(['schema_version', 'collection_version', 'scope', 'region_nodes', 'candidates', 'exclusions', 'catalog_tracking', 'runtime_mappings']);
-const CANDIDATE_KEYS = new Set(['candidate_id', 'name', 'region_codes', 'family', 'core_ingredients', 'core_ingredient_ids', 'runtime_name_aliases', 'rice_state', 'nutrition_grade', 'traditional_appliance_and_steps', 'identity_sources', 'quantity_liquid_completeness', 'adaptation_level', 'blockers', 'runtime_contract', 'status']);
+const CANDIDATE_KEYS = new Set(['candidate_id', 'name', 'region_codes', 'family', 'core_ingredients', 'mapped_core', 'mapping_scope', 'mapping_note', 'runtime_name_aliases', 'rice_state', 'nutrition_grade', 'traditional_appliance_and_steps', 'identity_sources', 'quantity_liquid_completeness', 'adaptation_level', 'blockers', 'runtime_contract', 'status']);
 const SOURCE_KEYS = new Set(['title', 'publisher', 'retrieved_at', 'url', 'supports']);
+const MAPPING_SCOPES = new Set(['exact', 'partial_adaptation']);
+const COLLECTION_LABEL_ALIASES = new Map([
+  ['米', new Set(['raw-rice'])],
+  ['香米', new Set(['raw-rice'])],
+  ['鲜米', new Set(['raw-rice'])],
+  ['肉糜', new Set(['ground-pork'])],
+  ['豇豆', new Set(['fresh-cowpea-pod'])],
+]);
 
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const present = value => typeof value === 'string' && value.trim().length > 0;
+const normalizeLabel = value => String(value || '').trim().toLowerCase().replace(/[\s（）()_-]+/gu, '');
+
+function canonicalLabelMatches(label, canonicalId, taxonomyById) {
+  const item = taxonomyById.get(canonicalId);
+  const normalized = normalizeLabel(label);
+  if ([item?.display_name, item?.canonical_name, ...(item?.aliases || [])].some(name => normalizeLabel(name) === normalized)) return true;
+  return COLLECTION_LABEL_ALIASES.get(normalized)?.has(canonicalId) === true;
+}
+
+function candidateCoreCanonicalIds(candidate, path, taxonomyById, errors) {
+  const ids = new Set();
+  if (!Array.isArray(candidate?.core_ingredients) || candidate.core_ingredients.length === 0) return ids;
+  candidate.core_ingredients.forEach((entry, index) => {
+    const entryPath = `${path}.core_ingredients[${index}]`;
+    if (!isObject(entry)) { errors.push(`${entryPath} must be an object`); return; }
+    checkKeys(entry, new Set(['canonical_id', 'label']), entryPath, errors);
+    if (!present(entry.label)) errors.push(`${entryPath}.label is required`);
+    if (entry.canonical_id !== null && !present(entry.canonical_id)) {
+      errors.push(`${entryPath}.canonical_id must be a canonical ID or null`);
+      return;
+    }
+    if (present(entry.canonical_id)) {
+      if (!taxonomyById.has(entry.canonical_id)) errors.push(`${entryPath}.canonical_id references unknown taxonomy item ${entry.canonical_id}`);
+      else if (present(entry.label) && !canonicalLabelMatches(entry.label, entry.canonical_id, taxonomyById)) {
+        errors.push(`${entryPath}.label conflicts with canonical_id ${entry.canonical_id}`);
+      }
+      if (ids.has(entry.canonical_id)) errors.push(`${entryPath}.canonical_id must not duplicate another core ingredient`);
+      ids.add(entry.canonical_id);
+    }
+  });
+  return ids;
+}
 
 function isHttps(value) {
   if (!present(value)) return false;
@@ -52,6 +92,10 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
   for (const key of ['region_nodes', 'candidates', 'exclusions', 'catalog_tracking', 'runtime_mappings']) if (!Array.isArray(collection[key])) errors.push(`${key} must be an array`);
   if (errors.length > 0) return errors;
 
+  const taxonomyById = new Map(Array.isArray(taxonomy?.items)
+    ? taxonomy.items.filter(item => present(item?.canonical_id)).map(item => [item.canonical_id, item])
+    : []);
+
   const candidateIds = new Set();
   const candidateById = new Map();
   collection.candidates.forEach((candidate, index) => {
@@ -64,12 +108,16 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     for (const key of ['name', 'family', 'traditional_appliance_and_steps']) if (!present(candidate[key])) errors.push(`${path}.${key} is required`);
     if (!Array.isArray(candidate.region_codes) || candidate.region_codes.length === 0) errors.push(`${path}.region_codes must be non-empty`);
     if (!Array.isArray(candidate.core_ingredients) || candidate.core_ingredients.length === 0) errors.push(`${path}.core_ingredients must be non-empty`);
-    if (candidate.core_ingredient_ids !== undefined && (!Array.isArray(candidate.core_ingredient_ids)
-      || candidate.core_ingredient_ids.length === 0
-      || candidate.core_ingredient_ids.some(id => !present(id))
-      || new Set(candidate.core_ingredient_ids).size !== candidate.core_ingredient_ids.length)) {
-      errors.push(`${path}.core_ingredient_ids must be a non-empty unique canonical ID array when present`);
+    candidateCoreCanonicalIds(candidate, path, taxonomyById, errors);
+    if (candidate.mapped_core !== undefined && (!Array.isArray(candidate.mapped_core)
+      || candidate.mapped_core.length === 0
+      || candidate.mapped_core.some(id => !present(id))
+      || new Set(candidate.mapped_core).size !== candidate.mapped_core.length)) {
+      errors.push(`${path}.mapped_core must be a non-empty unique canonical ID array when present`);
     }
+    if (candidate.mapped_core !== undefined && !MAPPING_SCOPES.has(candidate.mapping_scope)) errors.push(`${path}.mapping_scope is invalid`);
+    if (candidate.mapping_scope === 'partial_adaptation' && !present(candidate.mapping_note)) errors.push(`${path}.partial_adaptation requires mapping_note`);
+    if (candidate.mapping_scope === 'exact' && candidate.mapping_note !== undefined) errors.push(`${path}.exact mapping must not declare mapping_note`);
     if (candidate.runtime_name_aliases !== undefined && (!Array.isArray(candidate.runtime_name_aliases)
       || candidate.runtime_name_aliases.some(name => !present(name))
       || new Set(candidate.runtime_name_aliases).size !== candidate.runtime_name_aliases.length)) {
@@ -139,7 +187,7 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     if (item.adaptation_level !== 'excluded' || item.status !== 'excluded') errors.push(`${path} must use excluded state and adaptation level`);
   });
 
-  const taxonomyIds = new Set(Array.isArray(taxonomy?.items) ? taxonomy.items.map(item => item?.canonical_id) : []);
+  const taxonomyIds = new Set(taxonomyById.keys());
   const variants = Array.isArray(catalog?.families) ? catalog.families.flatMap(family => Array.isArray(family?.variants) ? family.variants : []) : [];
   const variantById = new Map(variants.map(variant => [variant?.variant_id, variant]));
   const trackingById = new Map();
@@ -176,18 +224,21 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     if (mappedCandidate?.nutrition_grade === 'C') errors.push(`${path} cannot activate a nutrition grade C candidate`);
     if (mappedCandidate?.status === 'excluded') errors.push(`${path} cannot activate an excluded candidate`);
     if (mappedCandidate) {
-      const candidateCoreIds = new Set(Array.isArray(mappedCandidate.core_ingredient_ids)
-        ? mappedCandidate.core_ingredient_ids
-        : []);
-      if (candidateCoreIds.size === 0) errors.push(`${path} mapped candidate requires core_ingredient_ids`);
-      for (const id of candidateCoreIds) if (!taxonomyIds.has(id)) errors.push(`${path} mapped candidate core_ingredient_ids references unknown taxonomy item ${id}`);
+      const candidateCoreIds = candidateCoreCanonicalIds(mappedCandidate, `candidates[${collection.candidates.indexOf(mappedCandidate)}]`, taxonomyById, errors);
+      const mappedCoreIds = new Set(Array.isArray(mappedCandidate.mapped_core) ? mappedCandidate.mapped_core : []);
+      if (mappedCoreIds.size === 0) errors.push(`${path} mapped candidate requires mapped_core`);
+      for (const id of mappedCoreIds) if (!taxonomyIds.has(id)) errors.push(`${path} mapped candidate mapped_core references unknown taxonomy item ${id}`);
       const catalogCoreIds = new Set([
         variant?.rice?.canonical_ingredient_id,
         ...(Array.isArray(variant?.ingredients) ? variant.ingredients.map(item => item?.canonical_ingredient_id) : []),
       ].filter(present));
-      if (candidateCoreIds.size !== catalogCoreIds.size || [...candidateCoreIds].some(id => !catalogCoreIds.has(id))) {
-        errors.push(`${path} candidate core_ingredient_ids must match catalog variant`);
+      if (mappedCoreIds.size !== catalogCoreIds.size || [...mappedCoreIds].some(id => !catalogCoreIds.has(id))) {
+        errors.push(`${path} candidate mapped_core must match catalog variant`);
       }
+      const trackingCoreIds = new Set(Array.isArray(row.core_ingredient_ids) ? row.core_ingredient_ids : []);
+      if (mappedCoreIds.size !== trackingCoreIds.size || [...mappedCoreIds].some(id => !trackingCoreIds.has(id))) errors.push(`${path} candidate mapped_core must match tracking core_ingredient_ids`);
+      if (mappedCandidate.mapping_scope === 'exact'
+        && (candidateCoreIds.size !== mappedCoreIds.size || [...candidateCoreIds].some(id => !mappedCoreIds.has(id)))) errors.push(`${path} exact candidate core_ingredients must match mapped_core`);
       const expectedCandidateStatuses = variant?.status === 'planned' ? new Set(['planned'])
         : variant?.status === 'preview_ready' || variant?.status === 'pilot_observed' || variant?.status === 'production_approved'
           ? new Set(['runtime_ready'])

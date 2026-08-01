@@ -160,6 +160,21 @@ test('chicken-leg potato rice is B because potato cannot stand in for the fiber 
   );
 });
 
+test('catalog rejects a source label drift in chicken-leg potato rice while its canonical ID stays potato', () => {
+  const driftedCollection = structuredClone(collection);
+  const potato = driftedCollection.candidates
+    .find(candidate => candidate.candidate_id === 'household-chicken-leg-potato-rice')
+    .core_ingredients.find(item => item.canonical_id === 'potato');
+  potato.label = '香菇';
+
+  assert.ok(validateRiceMealCatalog(catalog, {
+    recipeLibrary: recipes,
+    taxonomy,
+    ratioCatalog: ratios,
+    collection: driftedCollection,
+  }).some(error => error.includes('collection candidate.core_ingredients[2].label conflicts with canonical_id potato')));
+});
+
 test('every first-stage variant has traceable sources, A-or-B material nutrition, honest quantity references, and a closed-lid protocol', () => {
   for (const recipeId of scope.included_recipe_ids) {
     const variant = variantFor(recipeId);

@@ -125,10 +125,21 @@ test('requires collection tracking to be the reverse of each catalog variant can
   const candidateCoreInvalid = structuredClone(await readCollection());
   const candidateCoreDeps = await dependencies();
   candidateCoreInvalid.candidates.find(row => row.candidate_id === 'household-chicken-leg-potato-rice')
-    .core_ingredient_ids = ['raw-rice', 'chicken-leg', 'shiitake'];
+    .mapped_core = ['raw-rice', 'chicken-leg', 'shiitake'];
   assert.ok(
     validatorModule.validateRiceMealCollection(candidateCoreInvalid, candidateCoreDeps)
-      .some(error => error.includes('candidate core_ingredient_ids must match catalog variant')),
+      .some(error => error.includes('candidate mapped_core must match catalog variant')),
+  );
+
+  const candidateLabelInvalid = structuredClone(await readCollection());
+  const candidateLabelDeps = await dependencies();
+  const candidateLabel = candidateLabelInvalid.candidates
+    .find(row => row.candidate_id === 'household-chicken-leg-potato-rice');
+  candidateLabel.core_ingredients
+    .find(item => item.canonical_id === 'potato').label = '香菇';
+  assert.ok(
+    validatorModule.validateRiceMealCollection(candidateLabelInvalid, candidateLabelDeps)
+      .some(error => error.includes('core_ingredients[2].label conflicts with canonical_id potato')),
   );
 
   const promotedCandidateInvalid = structuredClone(await readCollection());

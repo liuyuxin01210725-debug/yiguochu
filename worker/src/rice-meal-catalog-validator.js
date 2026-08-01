@@ -136,6 +136,16 @@ const ACTION_REQUIRED_MATERIALS = Object.freeze({
 const SAFETY_ENDPOINT_FIELDS = new Set(['canonical_ingredient_id', 'endpoint_code']);
 const SUBSTITUTION_FIELDS = new Set(['replaces_canonical_id', 'allowed_canonical_ids']);
 const FORBIDDEN_COMBINATION_FIELDS = new Set(['canonical_ingredient_ids', 'reason']);
+const COLLECTION_MAPPING_SCOPES = new Set(['exact', 'partial_adaptation']);
+// These are controlled source-language labels whose canonical taxonomy spelling differs.
+// They are intentionally narrow: an unmapped research label must remain canonical_id: null.
+const COLLECTION_LABEL_ALIASES = new Map([
+  ['米', new Set(['raw-rice'])],
+  ['香米', new Set(['raw-rice'])],
+  ['鲜米', new Set(['raw-rice'])],
+  ['肉糜', new Set(['ground-pork'])],
+  ['豇豆', new Set(['fresh-cowpea-pod'])],
+]);
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -243,6 +253,44 @@ function normalizedIdentityName(value) {
   return String(value || '').trim().toLowerCase().replace(/[\s（）()_-]+/gu, '');
 }
 
+function collectionLabelMatches(label, canonicalId, canonicals) {
+  const canonical = canonicals.get(canonicalId);
+  const normalized = normalizedIdentityName(label);
+  if ([canonical?.display_name, canonical?.canonical_name, ...(canonical?.aliases || [])]
+    .some(name => normalizedIdentityName(name) === normalized)) return true;
+  return COLLECTION_LABEL_ALIASES.get(normalized)?.has(canonicalId) === true;
+}
+
+function collectionCandidateCoreIds(candidate, label, canonicals, errors) {
+  const ids = new Set();
+  if (!Array.isArray(candidate?.core_ingredients) || candidate.core_ingredients.length === 0) {
+    errors.push(`${label}.core_ingredients must be a non-empty structured array`);
+    return ids;
+  }
+  candidate.core_ingredients.forEach((entry, index) => {
+    const entryLabel = `${label}.core_ingredients[${index}]`;
+    if (!isPlainObject(entry)) {
+      errors.push(`${entryLabel} must be an object`);
+      return;
+    }
+    pushUnknownKeys(errors, entry, new Set(['canonical_id', 'label']), entryLabel);
+    if (!isNonEmptyString(entry.label)) errors.push(`${entryLabel}.label must be a non-empty string`);
+    if (entry.canonical_id !== null && !isNonEmptyString(entry.canonical_id)) {
+      errors.push(`${entryLabel}.canonical_id must be a canonical ID or null`);
+      return;
+    }
+    if (isNonEmptyString(entry.canonical_id)) {
+      if (!canonicals.has(entry.canonical_id)) errors.push(`${entryLabel}.canonical_id unknown canonical ingredient: ${entry.canonical_id}`);
+      else if (isNonEmptyString(entry.label) && !collectionLabelMatches(entry.label, entry.canonical_id, canonicals)) {
+        errors.push(`${entryLabel}.label conflicts with canonical_id ${entry.canonical_id}`);
+      }
+      if (ids.has(entry.canonical_id)) errors.push(`${entryLabel}.canonical_id duplicates another core ingredient`);
+      ids.add(entry.canonical_id);
+    }
+  });
+  return ids;
+}
+
 function matchesCollectionIdentity(variant, candidate) {
   const displayName = normalizedIdentityName(variant.display_name);
   const controlledNames = [candidate?.name, ...(Array.isArray(candidate?.runtime_name_aliases)
@@ -265,7 +313,7 @@ function collectionContext(collection) {
   return { candidates, tracking, mappings };
 }
 
-function validateCollectionMapping(variant, label, materialIds, collection, errors) {
+function validateCollectionMapping(variant, label, materialIds, collection, canonicals, errors) {
   if (!isNonEmptyString(variant.collection_candidate_id)) {
     errors.push(`${label}.collection_candidate_id must be a non-empty collection candidate ID`);
     return;
@@ -291,9 +339,29 @@ function validateCollectionMapping(variant, label, materialIds, collection, erro
   if (!setsMatch(materialIds, trackedMaterialIds)) {
     errors.push(`${label} collection core ingredient identities must match variant`);
   }
-  const candidateMaterialIds = new Set(Array.isArray(candidate.core_ingredient_ids) ? candidate.core_ingredient_ids : []);
-  if (!setsMatch(materialIds, candidateMaterialIds)) {
+  const candidateCoreIds = collectionCandidateCoreIds(candidate, `${label} collection candidate`, canonicals, errors);
+  const mappedCoreIds = new Set(Array.isArray(candidate.mapped_core) ? candidate.mapped_core : []);
+  if (mappedCoreIds.size === 0 || mappedCoreIds.size !== candidate.mapped_core?.length) {
+    errors.push(`${label} collection candidate mapped_core must be a non-empty unique canonical ID array`);
+  }
+  for (const canonicalId of mappedCoreIds) {
+    if (!canonicals.has(canonicalId)) errors.push(`${label} collection candidate mapped_core unknown canonical ingredient: ${canonicalId}`);
+  }
+  if (!COLLECTION_MAPPING_SCOPES.has(candidate.mapping_scope)) {
+    errors.push(`${label} collection candidate mapping_scope is invalid`);
+  } else if (candidate.mapping_scope === 'exact') {
+    if (candidate.mapping_note !== undefined) errors.push(`${label} exact collection candidate mapping must not declare mapping_note`);
+    if (!setsMatch(candidateCoreIds, mappedCoreIds)) {
+      errors.push(`${label} exact collection candidate core ingredient identities must match mapped_core`);
+    }
+  } else if (!isNonEmptyString(candidate.mapping_note)) {
+    errors.push(`${label} partial_adaptation collection candidate requires mapping_note`);
+  }
+  if (!setsMatch(materialIds, mappedCoreIds)) {
     errors.push(`${label} collection candidate core ingredient identities must match variant`);
+  }
+  if (!setsMatch(trackedMaterialIds, mappedCoreIds)) {
+    errors.push(`${label} collection candidate mapped_core must match tracking`);
   }
   const mapping = collection.mappings.get(tracking.reverse_mapping_id);
   if (!mapping || mapping.candidate_id !== variant.collection_candidate_id || mapping.tracking_id !== tracking.tracking_id) {
@@ -905,7 +973,7 @@ function validateVariant(variant, label, context, variantIds, errors) {
     });
   }
   validateNutrition(variant.nutrition_structure, label, new Set(materials.keys()), context.canonicals, variant.status, errors);
-  validateCollectionMapping(variant, label, new Set(materials.keys()), context.collection, errors);
+  validateCollectionMapping(variant, label, new Set(materials.keys()), context.collection, context.canonicals, errors);
   const finishProtocol = controlledFinishProtocol(variant, materials, variant.safety_endpoints);
   for (const error of finishProtocol.errors) errors.push(`${label} ${error}`);
   const midCycleProtocol = controlledMidCycleProtocol(variant, materials, variant.safety_endpoints);

@@ -19,46 +19,55 @@ const context = {
     items: [
       {
         canonical_id: 'raw-rice',
+        display_name: '大米', aliases: ['米'],
         category: 'raw_rice',
         cooking_risk: { required_endpoint_codes: ['rice_tender'] },
       },
       {
         canonical_id: 'chicken-leg',
+        display_name: '鸡腿肉', aliases: ['鸡腿'],
         category: 'chicken',
         cooking_risk: { required_endpoint_codes: ['poultry_fully_cooked'] },
       },
       {
         canonical_id: 'bok-choy',
+        display_name: '青菜', aliases: [],
         category: 'leafy_vegetable',
         cooking_risk: { required_endpoint_codes: [] },
       },
       {
         canonical_id: 'potato',
+        display_name: '土豆', aliases: ['马铃薯'],
         category: 'root_vegetable',
         cooking_risk: { required_endpoint_codes: [] },
       },
       {
         canonical_id: 'shrimp',
+        display_name: '虾仁', aliases: [],
         category: 'seafood',
         cooking_risk: { required_endpoint_codes: ['seafood_fully_cooked'] },
       },
       {
         canonical_id: 'firm-tofu',
+        display_name: '老豆腐', aliases: ['豆腐'],
         category: 'firm_tofu',
         cooking_risk: { required_endpoint_codes: ['heated_through'] },
       },
       {
         canonical_id: 'napa-cabbage',
+        display_name: '大白菜', aliases: ['白菜'],
         category: 'leafy_vegetable',
         cooking_risk: { required_endpoint_codes: [] },
       },
       {
         canonical_id: 'salted-pork-belly',
+        display_name: '咸五花肉', aliases: [],
         category: 'pork',
         cooking_risk: { required_endpoint_codes: ['pork_fully_cooked'] },
       },
       {
         canonical_id: 'small-bok-choy',
+        display_name: '小白菜', aliases: ['青菜'],
         category: 'leafy_vegetable',
         cook_speed: 'fast',
         cooking_risk: { required_endpoint_codes: [] },
@@ -217,8 +226,13 @@ function catalogCollection() {
     candidates: [{
       candidate_id: 'household-chicken-rice',
       name: '鸡腿青菜焖饭',
-      core_ingredients: ['米', '鸡腿', '青菜'],
-      core_ingredient_ids: ['raw-rice', 'chicken-leg', 'bok-choy'],
+      core_ingredients: [
+        { canonical_id: 'raw-rice', label: '米' },
+        { canonical_id: 'chicken-leg', label: '鸡腿' },
+        { canonical_id: 'bok-choy', label: '青菜' },
+      ],
+      mapped_core: ['raw-rice', 'chicken-leg', 'bok-choy'],
+      mapping_scope: 'exact',
       runtime_name_aliases: ['鸡腿青菜焖饭'],
       nutrition_grade: 'A',
       status: 'runtime_ready',
@@ -252,12 +266,24 @@ function collectionForCatalog(catalog) {
     ...variant.ingredients.map(item => item.canonical_ingredient_id),
   ];
   const status = variant.status === 'preview_ready' ? 'runtime_ready' : 'planned';
+  const labels = {
+    'raw-rice': '米',
+    'chicken-leg': '鸡腿',
+    'bok-choy': '青菜',
+    potato: '土豆',
+    shrimp: '虾仁',
+    'firm-tofu': '豆腐',
+    'napa-cabbage': '白菜',
+    'salted-pork-belly': '咸五花肉',
+    'small-bok-choy': '小白菜',
+  };
   return {
     candidates: [{
       candidate_id: variant.collection_candidate_id,
       name: variant.display_name,
-      core_ingredients: ['受控测试食材'],
-      core_ingredient_ids: coreIngredientIds,
+      core_ingredients: coreIngredientIds.map(canonical_id => ({ canonical_id, label: labels[canonical_id] || canonical_id })),
+      mapped_core: coreIngredientIds,
+      mapping_scope: 'exact',
       runtime_name_aliases: [variant.display_name],
       nutrition_grade: variant.nutrition_structure.grade,
       status,
@@ -477,7 +503,8 @@ test('catalog collection mapping rejects wrong candidate identity, materials, an
     ['name identity', () => {}, (_catalog, collection) => { collection.candidates[0].name = '不相干的家庭焖饭'; collection.candidates[0].runtime_name_aliases = []; }, 'collection candidate name conflicts with display_name'],
     ['same suffix wrong locality', catalog => { catalog.families[0].variants[0].display_name = '新疆羊肉抓饭'; }, (_catalog, collection) => { collection.candidates[0].name = '广西羊肉抓饭'; collection.candidates[0].runtime_name_aliases = []; }, 'collection candidate name conflicts with display_name'],
     ['core materials', () => {}, (_catalog, collection) => { collection.catalog_tracking[0].core_ingredient_ids = ['raw-rice', 'chicken-leg']; }, 'collection core ingredient identities must match variant'],
-    ['candidate core materials', () => {}, (_catalog, collection) => { collection.candidates[0].core_ingredient_ids = ['raw-rice', 'chicken-leg', 'shiitake']; }, 'collection candidate core ingredient identities must match variant'],
+    ['candidate core materials', () => {}, (_catalog, collection) => { collection.candidates[0].mapped_core = ['raw-rice', 'chicken-leg', 'shiitake']; }, 'collection candidate core ingredient identities must match variant'],
+    ['candidate label drift', () => {}, (_catalog, collection) => { collection.candidates[0].core_ingredients[2].label = '香菇'; }, 'collection candidate.core_ingredients[2].label conflicts with canonical_id bok-choy'],
     ['nutrition C', () => {}, (_catalog, collection) => { collection.candidates[0].nutrition_grade = 'C'; }, 'cannot activate a nutrition grade C collection candidate'],
     ['excluded', () => {}, (_catalog, collection) => { collection.candidates[0].status = 'excluded'; }, 'cannot activate an excluded collection candidate'],
     ['planned to runtime ready', catalog => { const variant = catalog.families[0].variants[0]; variant.status = 'planned'; variant.status_history = ['research_only', 'fact_checked', 'planned']; }, (_catalog, collection) => { collection.catalog_tracking[0].status = 'planned'; }, 'planned must map to a planned collection candidate'],

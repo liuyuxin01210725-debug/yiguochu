@@ -21,6 +21,14 @@ test('national rice-meal collection records all research candidates, exclusions,
   );
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'runtime_ready').length, 4);
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'planned').length, 7);
+  assert.ok(collection.candidates.every(candidate => (
+    Array.isArray(candidate.core_ingredients)
+    && candidate.core_ingredients.every(item => item
+      && Object.hasOwn(item, 'canonical_id')
+      && typeof item.label === 'string'
+      && item.label.trim())
+    && !Object.hasOwn(candidate, 'core_ingredient_ids')
+  )), 'candidate core ingredients must use the canonical structured source only');
   const variants = catalog.families.flatMap(family => family.variants);
   const trackingByVariantId = new Map(collection.catalog_tracking.map(row => [row.runtime_variant_id, row]));
   const mappingsById = new Map(collection.runtime_mappings.map(row => [row.mapping_id, row]));
@@ -33,5 +41,8 @@ test('national rice-meal collection records all research candidates, exclusions,
       { mapping_id: tracking.reverse_mapping_id, candidate_id: variant.collection_candidate_id, tracking_id: tracking.tracking_id },
       `${variant.variant_id} must have one reverse collection mapping`,
     );
+    const candidate = collection.candidates.find(row => row.candidate_id === variant.collection_candidate_id);
+    assert.deepEqual(candidate.mapped_core, tracking.core_ingredient_ids,
+      `${variant.variant_id} mapped_core must be the explicit catalog/tracking mapping`);
   }
 });
