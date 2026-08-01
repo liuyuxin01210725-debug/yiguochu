@@ -31,7 +31,7 @@ test('every public common-pantry chip is recognized by the active taxonomy', () 
 });
 
 test('taxonomy is versioned, unique, and covers the first planner vocabulary', () => {
-  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260728-r10');
+  assert.equal(catalog.taxonomy_version, 'taxonomy-v1-20260802-r11');
   assert.deepEqual(validateIngredientTaxonomy(catalog), []);
   assert.doesNotThrow(() => assertIngredientTaxonomy(catalog));
 
@@ -49,6 +49,7 @@ test('taxonomy is versioned, unique, and covers the first planner vocabulary', (
     '锅边玉米饼', '现成玉米饼', '油豆角', '小麦面团',
     '卷心菜', '芥菜', '猪肉末', '菜心', '羊腿肉', '小米', '干鹰嘴豆', '熟鹰嘴豆',
     '虾仁', '玉米',
+    '虾米', '南瓜', '青豌豆', '竹笋', '干木耳', '油炸豆腐', '牛蒡', '芹菜',
     '水', '食用油', '盐', '酱油', '料酒', '芝麻油', '蚝油', '咖喱块', '糖',
   ]) assert.ok(names.has(name), `missing ${name}`);
 });
@@ -109,6 +110,21 @@ test('shrimp and sweet corn aliases preserve controlled cooking identities', () 
   assert.equal(corn.cooking_risk.risk_code, 'none');
   assert.deepEqual(corn.cooking_risk.required_endpoint_codes, []);
   assert.ok(corn.compatible_slot_codes.includes('vegetable'));
+});
+
+test('the eight calibration identities are explicit while generic 青豆 stays unresolved', () => {
+  const rows = normalizePlannerItems(
+    ['虾米', '南瓜', '青豌豆', '竹笋', '干木耳', '油炸豆腐', '牛蒡', '芹菜', '青豆'],
+    catalog,
+  );
+  assert.deepEqual(rows.slice(0, 8).map(row => row.canonical_id), [
+    'dried-shrimp', 'pumpkin', 'green-peas', 'bamboo-shoot',
+    'dried-wood-ear', 'fried-tofu', 'burdock', 'celery',
+  ]);
+  assert.ok(rows.slice(0, 8).every(row => row.recognized), JSON.stringify(rows));
+  assert.equal(rows[8].raw, '青豆');
+  assert.equal(rows[8].recognized, false);
+  assert.equal(rows[8].canonical_id, null);
 });
 
 test('millet and chickpea states remain explicit and non-interchangeable', () => {

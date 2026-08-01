@@ -8,6 +8,7 @@ const CATEGORIES = new Set([
   'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'starchy_vegetable', 'mushroom', 'cornmeal_dough',
   'cornmeal_flour', 'cornmeal_cake', 'ready_staple', 'prepared_glutinous_rice',
   'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'raw_millet', 'liquid', 'oil', 'seasoning',
+  'legume', 'squash_vegetable', 'shoot_vegetable',
 ]);
 const STATES = new Set(['raw', 'cooked', 'dry', 'basic', 'cured', 'prepared', 'derived_plan_output']);
 const SHAPES = new Set([
@@ -147,7 +148,7 @@ export function validateIngredientTaxonomy(data) {
   for (const key of Object.keys(data)) {
     if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
   }
-  if (data.taxonomy_version !== 'taxonomy-v1-20260728-r10') errors.push('taxonomy_version must be taxonomy-v1-20260728-r10');
+  if (data.taxonomy_version !== 'taxonomy-v1-20260802-r11') errors.push('taxonomy_version must be taxonomy-v1-20260802-r11');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
 
   const ids = [];

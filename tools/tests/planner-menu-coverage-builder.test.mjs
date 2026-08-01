@@ -13,6 +13,7 @@ const recipeLibrary = readJson('../data/recipe-library.json');
 const taxonomy = readJson('../data/ingredient-taxonomy.v1.json');
 const templates = readJson('../data/meal-templates.v2.json');
 const ratios = readJson('../data/ratio-rules.v1.json');
+const riceMealCatalog = readJson('../data/rice-meal-catalog.v1.json');
 const mappings = readJson('../data/regional-menu-mappings.v1.json');
 const baseline = readJson('../data/menu-master-baseline.v1.json');
 
@@ -22,6 +23,7 @@ function buildRealReport() {
     taxonomy,
     templates,
     ratios,
+    riceMealCatalog,
     mappings,
     baseline,
     sourceHashes: {
@@ -31,6 +33,7 @@ function buildRealReport() {
       'tools/data/ratio-rules.v1.json': 'd'.repeat(64),
       'tools/data/recipe-library.json': 'e'.repeat(64),
       'tools/data/regional-menu-mappings.v1.json': 'f'.repeat(64),
+      'tools/data/rice-meal-catalog.v1.json': '0'.repeat(64),
     },
   });
 }

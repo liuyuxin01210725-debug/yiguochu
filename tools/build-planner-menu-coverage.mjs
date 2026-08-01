@@ -20,6 +20,7 @@ const SOURCE_PATHS = [
   'tools/data/ingredient-taxonomy.v1.json',
   'tools/data/meal-templates.v2.json',
   'tools/data/ratio-rules.v1.json',
+  'tools/data/rice-meal-catalog.v1.json',
   'tools/data/regional-menu-mappings.v1.json',
   'tools/data/menu-master-baseline.v1.json',
 ];
@@ -49,13 +50,14 @@ export function buildPlannerMenuCoverageFromFixedInputs() {
   const taxonomy = sources[SOURCE_PATHS[1]].value;
   const templates = sources[SOURCE_PATHS[2]].value;
   const ratios = sources[SOURCE_PATHS[3]].value;
-  const mappings = sources[SOURCE_PATHS[4]].value;
-  const baseline = sources[SOURCE_PATHS[5]].value;
+  const riceMealCatalog = sources[SOURCE_PATHS[4]].value;
+  const mappings = sources[SOURCE_PATHS[5]].value;
+  const baseline = sources[SOURCE_PATHS[6]].value;
   const sourceErrors = [
     ...validateRecipeLibrary(recipeLibrary),
     ...validateIngredientTaxonomy(taxonomy),
-    ...validateMealTemplateCatalog(templates, taxonomy, recipeLibrary),
-    ...validateRatioDslCatalog(ratios, templates, taxonomy, recipeLibrary),
+    ...validateMealTemplateCatalog(templates, taxonomy, recipeLibrary, ratios, riceMealCatalog),
+    ...validateRatioDslCatalog(ratios, templates, taxonomy, recipeLibrary, riceMealCatalog),
     ...mappingAndBaselineErrors(mappings, baseline),
   ];
   if (sourceErrors.length) throw new Error(`Input validation failed:\n${sourceErrors.map(error => `- ${error}`).join('\n')}`);
@@ -64,6 +66,7 @@ export function buildPlannerMenuCoverageFromFixedInputs() {
     taxonomy,
     templates,
     ratios,
+    riceMealCatalog,
     mappings,
     baseline,
     sourceHashes: Object.fromEntries(SOURCE_PATHS.map(relativePath => [relativePath, sources[relativePath].hash])),

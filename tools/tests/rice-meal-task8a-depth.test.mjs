@@ -18,6 +18,7 @@ const assets = {
   recipes: readAsset('recipe-library.json'),
   sourceEvidence: readAsset('rice-cooker-source-evidence.v1.json'),
   templates: readAsset('meal-templates.v2.json'),
+  riceCatalogScope: 'ready',
 };
 const SECRET = 'task-8a-test-secret';
 
@@ -44,11 +45,12 @@ function amounts(output) {
   return Object.fromEntries(output.plan.ingredient_amounts.map(row => [row.canonical_id, row.grams]));
 }
 
-test('the focused catalog keeps eleven evidence variants and exposes eight liquid-audited Preview plans', () => {
+test('the focused catalog keeps public, calibration, and planned variants while exposing eight public Preview plans', () => {
   const active = variants().filter(variant => variant.status === 'preview_ready');
   assert.equal(assets.catalog.families.length, 3);
-  assert.equal(variants().length, 11);
+  assert.equal(variants().length, 19);
   assert.equal(active.length, 8);
+  assert.equal(variants().filter(variant => variant.status === 'calibration_preview').length, 8);
   assert.equal(variants().filter(variant => variant.status === 'planned').length, 3);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 7);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);

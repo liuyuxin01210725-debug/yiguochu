@@ -3994,8 +3994,8 @@ test('health cache is isolated per assets binding in one module instance', async
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);
-  assert.equal(okFetches, 7);
-  assert.equal(missingFetches, 8);
+  assert.equal(okFetches, 8);
+  assert.equal(missingFetches, 9);
 });
 
 test('health reuses planner assets while refreshing build metadata for the same binding', async () => {
@@ -4020,9 +4020,10 @@ test('health reuses planner assets while refreshing build metadata for the same 
     'https://one.example/recipe-library.json',
     'https://one.example/recipe-runtime.v1.json',
     'https://one.example/recipe-action-profiles.v1.json',
+    'https://one.example/rice-meal-catalog.v1.json',
     'https://two.example/build-meta.json',
   ]));
-  assert.equal(requests.length, 8);
+  assert.equal(requests.length, 9);
 });
 
 test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {

@@ -18,6 +18,9 @@ const GENERATION_MODE = PRODUCT_FOCUS === 'rice-meal-v1'
   : (['deterministic', 'llm'].includes(process.env.YIGUOCHU_GENERATION_MODE)
     ? process.env.YIGUOCHU_GENERATION_MODE
     : 'deterministic');
+const RICE_CATALOG_SCOPE = ['ready', 'calibration'].includes(process.env.YIGUOCHU_RICE_CATALOG_SCOPE)
+  ? process.env.YIGUOCHU_RICE_CATALOG_SCOPE
+  : 'ready';
 const LOOPBACK_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
 const hostedMode = value => ['1', 'true', 'yes', 'on'].includes(String(value || '').trim().toLowerCase());
 const explicitLoopbackDev = PRODUCT_FOCUS === 'rice-meal-v1'
@@ -97,6 +100,7 @@ const assetBinding = {
         plannerRollout: 'direct-recommend',
         generationMode: GENERATION_MODE,
         productFocus: PRODUCT_FOCUS,
+        riceCatalogScope: RICE_CATALOG_SCOPE,
         ...sourceEvidenceMetadata,
       }), {
         status: 200,

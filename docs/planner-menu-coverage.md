@@ -8,8 +8,8 @@
 
 - Planner：`pantry-planner-v2`
 - Template catalog：`templates-v2-20260731-r18`
-- Taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio catalog：`ratio-rules-v1-20260801-r13`
+- Taxonomy：`taxonomy-v1-20260802-r11`
+- Ratio catalog：`ratio-rules-v1-20260802-r14`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -19,8 +19,8 @@
 | --- | ---: |
 | full_single_pot_evidence_aligned | 12 |
 | full_single_pot_ingredient_compatible | 26 |
-| full_multi_pot | 3 |
-| taxonomy_gap | 20 |
+| full_multi_pot | 4 |
+| taxonomy_gap | 19 |
 | planner_gap | 7 |
 | no_recognized_core | 4 |
 | invalid_source_record | 0 |
@@ -30,8 +30,8 @@
 | 优先级 | 数量 |
 | --- | ---: |
 | P0 | 4 |
-| P1 | 27 |
-| P2 | 3 |
+| P1 | 26 |
+| P2 | 4 |
 | P3 | 26 |
 | covered | 12 |
 
@@ -40,7 +40,7 @@
 | 优先级 | 菜单 | 技法家族 | 原始核心食材 | 主状态 | gap codes | 已识别能力状态 | 实际端到端状态 | 锅数 |
 | --- | --- | --- | --- | --- | --- | --- | --- | ---: |
 | P1 | 西非番茄香料饭 | 无中国地域技法映射 | 大米、番茄、甜椒、洋葱 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 2 |
-| P1 | 克里奥尔番茄鸡肉什锦饭 | 无中国地域技法映射 | 大米、番茄、鸡肉、芹菜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 2 |
+| P2 | 克里奥尔番茄鸡肉什锦饭 | 无中国地域技法映射 | 大米、番茄、鸡肉、芹菜 | full_multi_pot | 无 | complete | complete | 2 |
 | P1 | 大豆扁豆西兰花炖锅 | 无中国地域技法映射 | 红扁豆、大豆蛋白块、西兰花、红洋葱 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 鸡肉黑眼豆番茄饭锅 | 无中国地域技法映射 | 黑眼豆（罐头沥干）、大米、鸡肉、番茄、洋葱 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 2 |
 | P1 | 扁豆土豆番茄咖喱 | 无中国地域技法映射 | 红扁豆、土豆、番茄 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
@@ -99,7 +99,6 @@
 | 豇豆 | 1 | shaanbei-red-date-cowpea-rice |
 | 牛奶 | 1 | tibetan-savory-congee |
 | 牛肉（粗绞） | 1 | texas-beef-chili |
-| 芹菜 | 1 | creole-jambalaya |
 | 生菜 | 1 | hainan-cai-bao-rice |
 | 食品级菠菜粉 | 1 | guangxi-five-color-glutinous-rice |
 | 食品级干荷叶 | 1 | daxi-lotus-leaf-oil-rice |
@@ -168,7 +167,7 @@
 | 中式基础粥 | 大米、水 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 简化一锅鸡肉香料饭 | 大米、鸡肉、洋葱 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
 | 西非番茄香料饭 | 大米、番茄、甜椒、洋葱 | 75% | 100% | 75% | multi_pot / needs_user_decision | acid-staple-pot、cooked-rice-stir-pot | 直接对齐 | P1 |
-| 克里奥尔番茄鸡肉什锦饭 | 大米、番茄、鸡肉、芹菜 | 75% | 100% | 75% | multi_pot / needs_user_decision | acid-staple-pot、cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |
+| 克里奥尔番茄鸡肉什锦饭 | 大米、番茄、鸡肉、芹菜 | 100% | 100% | 100% | multi_pot / complete | acid-staple-pot、cooked-rice-stir-pot | 仅食材兼容或未规划 | P2 |
 | 大豆扁豆西兰花炖锅 | 红扁豆、大豆蛋白块、西兰花、红洋葱 | 25% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 鸡肉黑眼豆番茄饭锅 | 黑眼豆（罐头沥干）、大米、鸡肉、番茄、洋葱 | 80% | 100% | 80% | multi_pot / needs_user_decision | acid-staple-pot、cooked-rice-stir-pot | 仅食材兼容或未规划 | P1 |
 | 扁豆土豆番茄咖喱 | 红扁豆、土豆、番茄 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | acid-staple-pot | 仅食材兼容或未规划 | P1 |
@@ -240,9 +239,10 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`6cf5c245cc31af86270f609bb2321faa122b4bc5370e392031c5b742034dba7c`
-- `tools/data/meal-templates.v2.json`：`90a5fbd63f94ff376a08ac441e2058b99058dc34347d795b6da1cdebf36f8ad1`
+- `tools/data/ingredient-taxonomy.v1.json`：`7f2a2fdd4b5553b88fc261dd358aebfcc15e7ca94689a2c3b74ac227185dcf6a`
+- `tools/data/meal-templates.v2.json`：`938c187f850d9f1badcb81630f0ca4f2900c6a27cd0d2b4610e9650db7562526`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`5cc2c5f651921904d071ed9cf850ee8efb770cf5fd6338d485c9ff2f58ceb673`
+- `tools/data/ratio-rules.v1.json`：`5167aeed954fd7bec1fc09afdf6836d861f3868ab6869165885280b2dab61e94`
 - `tools/data/recipe-library.json`：`5b5842fd062f9aefbc0fdcf522684b95482364959a1e3382eeb18449888935bd`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`
+- `tools/data/rice-meal-catalog.v1.json`：`44e8aa0288a3da284e9be5c22266a0023bc69a2a47a8146377b71b490d5ce4df`

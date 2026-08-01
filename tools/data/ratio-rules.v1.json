@@ -1,37 +1,4319 @@
-{"ratio_dsl_version":1,"ratio_catalog_version":"ratio-rules-v1-20260801-r13","rules":[
-{"rule_id":"acid-staple-raw-rice-liquid-v1","evidence_recipe_ids":["jollof-rice","tomato-tofu-stewed-rice"],"when":{"template_id":"acid-staple-pot","slot_id":"staple","category":"raw_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"acid_base"},"grams":{"min":120,"default":150,"max":180}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"bounded_sum","target":{"attribute":"moisture_release","value":"high"},"grams_per_serving":{"min":120,"default":150,"max":180},"liquid_credit_grams_per_serving":{"min":40,"default":60,"max":80}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":1.2,"default":1.4,"max":1.6},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":4,"default":6,"max":8}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"大米"}},
-{"rule_id":"acid-staple-cooked-rice-liquid-v1","evidence_recipe_ids":["tomato-egg-stewed-leftover-rice","tomato-tofu-stewed-rice"],"when":{"template_id":"acid-staple-pot","slot_id":"staple","category":"cooked_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":150,"default":180,"max":220}},{"operator":"per_serving","target":{"slot_id":"acid_base"},"grams":{"min":120,"default":150,"max":180}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"bounded_sum","target":{"attribute":"moisture_release","value":"high"},"grams_per_serving":{"min":120,"default":150,"max":180},"liquid_credit_grams_per_serving":{"min":0,"default":0,"max":0}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":80,"default":100,"max":120}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":4,"default":6,"max":8}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"熟米饭"}},
-{"rule_id":"acid-staple-noodle-liquid-v1","evidence_recipe_ids":["jollof-rice","tomato-tofu-stewed-rice"],"when":{"template_id":"acid-staple-pot","slot_id":"staple","category":"noodle"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"acid_base"},"grams":{"min":120,"default":150,"max":180}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"bounded_sum","target":{"attribute":"moisture_release","value":"high"},"grams_per_serving":{"min":120,"default":150,"max":180},"liquid_credit_grams_per_serving":{"min":0,"default":0,"max":0}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":3,"default":4,"max":5},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":4,"default":6,"max":8}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"面条"}},
-{"rule_id":"savory-mixed-rice-liquid-v1","evidence_recipe_ids":["simple-chicken-biryani","taiwan-cabbage-mushroom-rice","shanghai-salted-pork-vegetable-rice","nanjing-sausage-greens-rice"],"when":{"template_id":"savory-mixed-rice-pot","slot_id":"staple","category":"raw_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"slow_vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"fast_vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"aromatic"},"grams":{"min":20,"default":40,"max":60}},{"operator":"bounded_sum","target":{"attribute":"moisture_release","value":"high"},"grams_per_serving":{"min":80,"default":100,"max":120},"liquid_credit_grams_per_serving":{"min":10,"default":15,"max":20}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":1.2,"default":1.35,"max":1.45},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":8,"default":10,"max":12},"skip_when":{"slot_id":"protein","attribute":"texture_behavior","match":"equals","value":"renders_fat_when_heated"}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2},"skip_when":{"slot_id":"protein","attribute":"texture_failure_modes","match":"contains","value":"salty_when_overseasoned"}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"大米"}},
-{"rule_id":"cooked-rice-stir-portion-v1","evidence_recipe_ids":["home-egg-fried-leftover-rice","broccoli-beef-fried-rice"],"when":{"template_id":"cooked-rice-stir-pot","slot_id":"staple","category":"cooked_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":150,"default":180,"max":220}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":6,"default":8,"max":10}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":2,"max":3}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"熟米饭"}},
-{"rule_id":"broth-noodle-liquid-v1","evidence_recipe_ids":["greens-chicken-leg-soup-noodles","greens-tofu-soup-noodles"],"when":{"template_id":"broth-noodle-pot","slot_id":"staple","category":"noodle"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":3,"default":4,"max":5},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":3,"default":4,"max":6}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"面条"}},
-{"rule_id":"egg-tofu-vegetable-egg-portion-v1","evidence_recipe_ids":["shakshuka-tomato-egg","greens-tofu-vermicelli-pot"],"when":{"template_id":"egg-tofu-vegetable-pot","slot_id":"protein","category":"egg"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":45,"default":50,"max":60}},{"operator":"per_serving","target":{"slot_id":"companion_tofu"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":80,"default":100,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":120,"default":150,"max":180}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":4,"default":6,"max":8}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"鸡蛋"}},
-{"rule_id":"egg-tofu-vegetable-soft-tofu-portion-v1","evidence_recipe_ids":["shakshuka-tomato-egg","greens-tofu-vermicelli-pot"],"when":{"template_id":"egg-tofu-vegetable-pot","slot_id":"protein","category":"soft_tofu"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":140}},{"operator":"per_serving","target":{"slot_id":"companion_tofu"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":80,"default":100,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":120,"default":150,"max":180}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":4,"default":6,"max":8}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"嫩豆腐"}},
-{"rule_id":"egg-tofu-vegetable-firm-tofu-portion-v1","evidence_recipe_ids":["shakshuka-tomato-egg","greens-tofu-vermicelli-pot"],"when":{"template_id":"egg-tofu-vegetable-pot","slot_id":"protein","category":"firm_tofu"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":140}},{"operator":"per_serving","target":{"slot_id":"companion_tofu"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":80,"default":100,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":120,"default":150,"max":180}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":4,"default":6,"max":8}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"老豆腐"}},
-{"rule_id":"mushroom-vegetable-stew-liquid-v1","evidence_recipe_ids":["soy-lentil-vegetable-stew","mushroom-greens-tofu-covered-rice"],"when":{"template_id":"mushroom-vegetable-stew-pot","slot_id":"mushroom","category":"mushroom"},"operations":[{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":140}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":150,"max":180}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":160,"default":200,"max":240}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":3,"default":4,"max":6}},{"operator":"fixed_addition","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":2,"max":3}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"金针菇"}},
-{"rule_id":"beef-staple-cooked-rice-portion-v1","evidence_recipe_ids":["broccoli-beef-braised-rice","broccoli-beef-soup-noodles"],"when":{"template_id":"beef-staple-pot","slot_id":"staple","category":"cooked_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":150,"default":180,"max":220}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":80,"default":120,"max":160}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"熟米饭"}},
-{"rule_id":"beef-staple-noodle-portion-v1","evidence_recipe_ids":["broccoli-beef-braised-rice","broccoli-beef-soup-noodles"],"when":{"template_id":"beef-staple-pot","slot_id":"staple","category":"noodle"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":200,"default":300,"max":400}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"面条"}},
-{"rule_id":"poultry-staple-raw-rice-portion-v1","evidence_recipe_ids":["simple-chicken-biryani","chicken-leg-potato-braised-rice"],"when":{"template_id":"poultry-staple-pot","slot_id":"staple","category":"raw_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":100,"default":120,"max":150}},{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"aromatic"},"grams":{"min":20,"default":40,"max":60}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":1,"default":1.2,"max":1.4},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"大米"}},
-{"rule_id":"poultry-staple-cooked-rice-portion-v1","evidence_recipe_ids":["simple-chicken-biryani","chicken-leg-potato-braised-rice"],"when":{"template_id":"poultry-staple-pot","slot_id":"staple","category":"cooked_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":100,"default":120,"max":150}},{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":150,"default":180,"max":220}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"aromatic"},"grams":{"min":20,"default":40,"max":60}},{"operator":"scale_by_servings","target":{"name":"水","category":"liquid"},"grams":{"min":80,"default":100,"max":120}},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"熟米饭"}},
-{"rule_id":"poultry-staple-noodle-portion-v1","evidence_recipe_ids":["simple-chicken-biryani","chicken-leg-potato-braised-rice"],"when":{"template_id":"poultry-staple-pot","slot_id":"staple","category":"noodle"},"operations":[{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":100,"default":120,"max":150}},{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":100,"default":120,"max":140}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"aromatic"},"grams":{"min":20,"default":40,"max":60}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":3,"default":4,"max":5},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"面条"}},
-{"rule_id":"braised-noodle-liquid-v1","evidence_recipe_ids":["cabbage-potato-chicken-leg-braised-noodles"],"when":{"template_id":"braised-noodle-pot","slot_id":"staple","category":"noodle"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":80,"default":100,"max":120}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":70,"default":90,"max":120}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":60,"default":80,"max":100}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":60,"default":80,"max":100}},{"operator":"bounded_sum","target":{"attribute":"moisture_release","value":"high"},"grams_per_serving":{"min":70,"default":90,"max":120},"liquid_credit_grams_per_serving":{"min":10,"default":15,"max":20}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":1.6,"default":1.8,"max":2},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"面条"}},
-{"rule_id":"braised-fresh-wheat-noodle-liquid-v1","evidence_recipe_ids":["north-china-green-bean-braised-noodles"],"when":{"template_id":"braised-noodle-pot","slot_id":"staple","category":"noodle","canonical_ids":["fresh-wheat-noodle"]},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":85,"default":100,"max":110}},{"operator":"per_serving","target":{"slot_id":"vegetable"},"grams":{"min":70,"default":90,"max":120}},{"operator":"per_serving","target":{"slot_id":"protein"},"grams":{"min":60,"default":80,"max":100}},{"operator":"per_serving","target":{"slot_id":"mushroom"},"grams":{"min":60,"default":80,"max":100}},{"operator":"bounded_sum","target":{"attribute":"moisture_release","value":"high"},"grams_per_serving":{"min":70,"default":90,"max":120},"liquid_credit_grams_per_serving":{"min":10,"default":15,"max":20}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":0.7,"default":0.85,"max":1},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":5,"default":7,"max":9}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"liquid_distribution":{"initial_fraction":0.8,"reserve_fraction":0.2,"reserve_action_code":"add_reserved_liquid_if_needed"},"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"鲜小麦面条"}},
-{"rule_id":"broth-rice-liquid-v1","evidence_recipe_ids":["cabbage-egg-soup-rice","tomato-chicken-leg-soup-rice"],"when":{"template_id":"broth-rice-pot","slot_id":"staple","category":"cooked_rice"},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":180,"default":180,"max":180}},{"operator":"per_serving_by_category","target":{"slot_id":"protein"},"grams_by_category":{"egg":{"min":65,"default":65,"max":65},"chicken":{"min":90,"default":90,"max":90}}},{"operator":"per_serving","target":{"slot_id":"slow_vegetable"},"grams":{"min":80,"default":80,"max":80}},{"operator":"per_serving","target":{"slot_id":"fast_vegetable"},"grams":{"min":110,"default":110,"max":110}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":1.8,"default":1.8,"max":1.8},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":3,"default":4,"max":6}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"熟米饭"}},
-{"rule_id":"soft-family-millet-liquid-v1","evidence_recipe_ids":["chinese-congee","qinghai-hao-fan"],"when":{"template_id":"soft-family-rice-pot","slot_id":"staple","category":"raw_millet","canonical_ids":["raw-millet"]},"operations":[{"operator":"per_serving","target":{"slot_id":"staple"},"grams":{"min":35,"default":40,"max":45}},{"operator":"per_serving","target":{"slot_id":"root_vegetable"},"grams":{"min":80,"default":90,"max":100}},{"operator":"per_serving","target":{"slot_id":"cooked_legume"},"grams":{"min":70,"default":88,"max":100}},{"operator":"per_serving","target":{"slot_id":"leafy_vegetable"},"grams":{"min":80,"default":100,"max":120}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"slot_id":"staple","measure":"grams"},"min":8,"default":8.3,"max":8.5},{"operator":"fixed_addition","target":{"name":"食用油","category":"oil"},"grams":{"min":8,"default":10,"max":12}},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1.5,"max":2}}],"rounding":{"grams_to_nearest":1},"example_context":{"slot_name":"小米"}}
-,{"rule_id":"shanghai-salted-pork-liquid-evidence-v1","evidence_recipe_ids":["shanghai-salted-pork-vegetable-rice"],"execution_mode":"bounds_only","when":{"recipe_id":"shanghai-salted-pork-vegetable-rice"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.25,"max":1.4}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"xinjiang-lamb-pilaf-liquid-evidence-v1","evidence_recipe_ids":["xinjiang-lamb-pilaf"],"execution_mode":"bounds_only","when":{"recipe_id":"xinjiang-lamb-pilaf"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_cooked_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.35,"max":1.5}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"taiwan-cabbage-mushroom-liquid-evidence-v1","evidence_recipe_ids":["taiwan-cabbage-mushroom-rice"],"execution_mode":"bounds_only","when":{"recipe_id":"taiwan-cabbage-mushroom-rice"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.2,"max":1.45}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"taiwan-tomato-shrimp-rice-evidence-v1","evidence_recipe_ids":["taiwan-cabbage-mushroom-rice"],"evidence_bindings":[{"binding_type":"structured_recipe_literal","recipe_path":"/optional_ingredients/1","literal":"番茄","canonical_id":"tomato","state":"raw"},{"binding_type":"structured_recipe_literal","recipe_path":"/substitution_slots/0/allowed/0","literal":"白菜","canonical_id":"napa-cabbage","state":"raw"},{"binding_type":"structured_recipe_literal","recipe_path":"/optional_ingredients/2","literal":"玉米","canonical_id":"sweet-corn","state":"raw","shape_or_cut":"whole_seed"},{"binding_type":"structured_recipe_literal","recipe_path":"/substitution_slots/1/allowed/3","literal":"虾仁","canonical_id":"shrimp","state":"raw","shape_or_cut":"whole"}],"execution_mode":"bounds_only","when":{"recipe_id":"taiwan-cabbage-mushroom-rice"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"reference_quantity","target":{"canonical_id":"tomato","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"reference_quantity","target":{"canonical_id":"napa-cabbage","state":"raw"},"grams":{"min":60,"max":60}},{"operator":"reference_quantity","target":{"canonical_id":"sweet-corn","state":"raw","shape_or_cut":"whole_seed"},"grams":{"min":50,"max":50}},{"operator":"reference_quantity","target":{"canonical_id":"shrimp","state":"raw","shape_or_cut":"whole"},"grams":{"min":80,"max":80}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":0.8,"max":0.8}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"quanzhou-soaked-rice-liquid-evidence-v1","evidence_recipe_ids":["quanzhou-oil-rice"],"evidence_bindings":[{"binding_type":"structured_recipe_literal","recipe_path":"/core_ingredients/0","literal":"泡发糯米","canonical_id":"soaked-glutinous-rice","state":"prepared","shape_or_cut":"whole_grain"}],"execution_mode":"bounds_only","when":{"recipe_id":"quanzhou-oil-rice"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"soaked-glutinous-rice","state":"prepared","shape_or_cut":"whole_grain"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"soaked-glutinous-rice","state":"prepared","shape_or_cut":"whole_grain","measure":"grams"},"min":0.9,"max":1.1}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"泡发糯米"}}
-,{"rule_id":"shaanbei-red-date-cowpea-rice-liquid-evidence-v1","evidence_recipe_ids":["shaanbei-red-date-cowpea-rice"],"execution_mode":"bounds_only","when":{"recipe_id":"shaanbei-red-date-cowpea-rice"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.3,"max":1.55}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"corn-carrot-chicken-leg-covered-rice-evidence-v1","evidence_recipe_ids":["corn-carrot-chicken-leg-covered-rice"],"execution_mode":"bounds_only","when":{"recipe_id":"corn-carrot-chicken-leg-covered-rice"},"liquid_contract":{"kind":"total_free_liquid","measured_contributor_ids":["water"],"measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.4,"max":1.4}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"mushroom-green-bean-pork-rib-braised-rice-evidence-v1","evidence_recipe_ids":["mushroom-green-bean-pork-rib-braised-rice"],"execution_mode":"bounds_only","when":{"recipe_id":"mushroom-green-bean-pork-rib-braised-rice"},"operations":[{"operator":"reference_quantity","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"max":100}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.45,"max":1.45}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"corn-carrot-chicken-leg-covered-rice-executable-v1","evidence_recipe_ids":["corn-carrot-chicken-leg-covered-rice"],"execution_mode":"executable","when":{"recipe_id":"corn-carrot-chicken-leg-covered-rice"},"liquid_contract":{"kind":"total_free_liquid","measured_contributor_ids":["water"],"measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"chicken-leg","state":"raw","shape_or_cut":"leg"},"grams":{"min":55,"default":55,"max":55}},{"operator":"allocate_group_total_per_serving","member_targets":[{"canonical_id":"sweet-corn","state":"raw","shape_or_cut":"whole_seed"},{"canonical_id":"carrot","state":"raw"}],"grams":{"min":75,"default":75,"max":75},"allocation_policy":"equal_split_ordered_residual"},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.4,"default":1.4,"max":1.4}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"mushroom-green-bean-pork-rib-braised-rice-executable-v1","evidence_recipe_ids":["mushroom-green-bean-pork-rib-braised-rice"],"execution_mode":"executable","when":{"recipe_id":"mushroom-green-bean-pork-rib-braised-rice"},"liquid_contract":{"kind":"added_water","measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"pork-ribs","state":"raw","shape_or_cut":"rib"},"grams":{"min":100,"default":100,"max":100}},{"operator":"allocate_group_total_per_serving","member_targets":[{"canonical_id":"shiitake","state":"raw"},{"canonical_id":"green-beans","state":"raw"}],"grams":{"min":75,"default":75,"max":75},"allocation_policy":"equal_split_ordered_residual"},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"added_water_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.45,"default":1.45,"max":1.45},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1,"max":1}}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"chicken-leg-potato-braised-rice-executable-v1","evidence_recipe_ids":["chicken-leg-potato-braised-rice"],"execution_mode":"executable","when":{"recipe_id":"chicken-leg-potato-braised-rice"},"liquid_contract":{"kind":"total_free_liquid","measured_contributor_ids":["water"],"measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"chicken-leg","state":"raw","shape_or_cut":"leg"},"grams":{"min":60,"default":60,"max":60}},{"operator":"per_serving","target":{"canonical_id":"potato","state":"raw"},"grams":{"min":50,"default":50,"max":50}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"retained_liquid_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.4,"default":1.4,"max":1.4}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"green-bean-pork-rib-braised-rice-executable-v1","evidence_recipe_ids":["green-bean-pork-rib-braised-rice"],"execution_mode":"executable","when":{"recipe_id":"green-bean-pork-rib-braised-rice"},"liquid_contract":{"kind":"added_water","measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"pork-ribs","state":"raw","shape_or_cut":"rib"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"green-beans","state":"raw"},"grams":{"min":75,"default":75,"max":75}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"added_water_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.45,"default":1.45,"max":1.45},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1,"max":1}}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"cabbage-tofu-braised-rice-executable-v1","evidence_recipe_ids":["cabbage-tofu-braised-rice"],"execution_mode":"executable","when":{"recipe_id":"cabbage-tofu-braised-rice"},"liquid_contract":{"kind":"added_water","measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"firm-tofu","state":"raw"},"grams":{"min":90,"default":90,"max":90}},{"operator":"per_serving","target":{"canonical_id":"napa-cabbage","state":"raw"},"grams":{"min":75,"default":75,"max":75}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"added_water_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.3,"default":1.3,"max":1.3},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1,"max":1}}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"broccoli-beef-braised-rice-executable-v1","evidence_recipe_ids":["broccoli-beef-braised-rice"],"execution_mode":"executable","when":{"recipe_id":"broccoli-beef-braised-rice"},"liquid_contract":{"kind":"added_water","measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"beef-generic","state":"raw"},"grams":{"min":50,"default":50,"max":50}},{"operator":"per_serving","target":{"canonical_id":"broccoli","state":"raw"},"grams":{"min":75,"default":75,"max":75}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"added_water_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.35,"default":1.35,"max":1.35},{"operator":"scale_by_servings","target":{"name":"盐","category":"seasoning"},"grams":{"min":1,"default":1,"max":1}}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"greens-minced-pork-braised-rice-executable-v1","evidence_recipe_ids":["greens-minced-pork-braised-rice"],"execution_mode":"executable","when":{"recipe_id":"greens-minced-pork-braised-rice"},"liquid_contract":{"kind":"added_water","measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"ground-pork","state":"raw","shape_or_cut":"ground"},"grams":{"min":50,"default":50,"max":50}},{"operator":"per_serving","target":{"canonical_id":"leafy-greens","state":"raw"},"grams":{"min":75,"default":75,"max":75}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"added_water_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.35,"default":1.35,"max":1.35}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-,{"rule_id":"shanghai-salted-pork-rice-executable-v1","evidence_recipe_ids":["shanghai-salted-pork-vegetable-rice"],"execution_mode":"executable","when":{"recipe_id":"shanghai-salted-pork-vegetable-rice"},"liquid_contract":{"kind":"added_water","measurement":"weigh_before_loading","display_precision":"approximate","display_rounding_grams":10},"operations":[{"operator":"per_serving","target":{"canonical_id":"raw-rice","state":"raw"},"grams":{"min":100,"default":100,"max":100}},{"operator":"per_serving","target":{"canonical_id":"salted-pork-belly","state":"cured","shape_or_cut":"cured_slice"},"grams":{"min":50,"default":50,"max":50}},{"operator":"per_serving","target":{"canonical_id":"small-bok-choy","state":"raw","shape_or_cut":"whole"},"grams":{"min":133.33333333333334,"default":133.33333333333334,"max":133.33333333333334}},{"operator":"ratio","target":{"name":"水","category":"liquid"},"numerator":{"resource":"added_water_grams"},"denominator":{"canonical_id":"raw-rice","state":"raw","measure":"grams"},"min":1.0333333333333334,"default":1.0333333333333334,"max":1.0333333333333334}],"rounding":{"grams_to_nearest":1},"example_context":{"ingredient_name":"大米"}}
-]}
+{
+  "ratio_dsl_version": 1,
+  "ratio_catalog_version": "ratio-rules-v1-20260802-r14",
+  "rules": [
+    {
+      "rule_id": "acid-staple-raw-rice-liquid-v1",
+      "evidence_recipe_ids": [
+        "jollof-rice",
+        "tomato-tofu-stewed-rice"
+      ],
+      "when": {
+        "template_id": "acid-staple-pot",
+        "slot_id": "staple",
+        "category": "raw_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "acid_base"
+          },
+          "grams": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "bounded_sum",
+          "target": {
+            "attribute": "moisture_release",
+            "value": "high"
+          },
+          "grams_per_serving": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          },
+          "liquid_credit_grams_per_serving": {
+            "min": 40,
+            "default": 60,
+            "max": 80
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.4,
+          "max": 1.6
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 6,
+            "max": 8
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "大米"
+      }
+    },
+    {
+      "rule_id": "acid-staple-cooked-rice-liquid-v1",
+      "evidence_recipe_ids": [
+        "tomato-egg-stewed-leftover-rice",
+        "tomato-tofu-stewed-rice"
+      ],
+      "when": {
+        "template_id": "acid-staple-pot",
+        "slot_id": "staple",
+        "category": "cooked_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 150,
+            "default": 180,
+            "max": 220
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "acid_base"
+          },
+          "grams": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "bounded_sum",
+          "target": {
+            "attribute": "moisture_release",
+            "value": "high"
+          },
+          "grams_per_serving": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          },
+          "liquid_credit_grams_per_serving": {
+            "min": 0,
+            "default": 0,
+            "max": 0
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 6,
+            "max": 8
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "熟米饭"
+      }
+    },
+    {
+      "rule_id": "acid-staple-noodle-liquid-v1",
+      "evidence_recipe_ids": [
+        "jollof-rice",
+        "tomato-tofu-stewed-rice"
+      ],
+      "when": {
+        "template_id": "acid-staple-pot",
+        "slot_id": "staple",
+        "category": "noodle"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "acid_base"
+          },
+          "grams": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "bounded_sum",
+          "target": {
+            "attribute": "moisture_release",
+            "value": "high"
+          },
+          "grams_per_serving": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          },
+          "liquid_credit_grams_per_serving": {
+            "min": 0,
+            "default": 0,
+            "max": 0
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 3,
+          "default": 4,
+          "max": 5
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 6,
+            "max": 8
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "面条"
+      }
+    },
+    {
+      "rule_id": "savory-mixed-rice-liquid-v1",
+      "evidence_recipe_ids": [
+        "simple-chicken-biryani",
+        "taiwan-cabbage-mushroom-rice",
+        "shanghai-salted-pork-vegetable-rice",
+        "nanjing-sausage-greens-rice"
+      ],
+      "when": {
+        "template_id": "savory-mixed-rice-pot",
+        "slot_id": "staple",
+        "category": "raw_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "slow_vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "fast_vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "aromatic"
+          },
+          "grams": {
+            "min": 20,
+            "default": 40,
+            "max": 60
+          }
+        },
+        {
+          "operator": "bounded_sum",
+          "target": {
+            "attribute": "moisture_release",
+            "value": "high"
+          },
+          "grams_per_serving": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          },
+          "liquid_credit_grams_per_serving": {
+            "min": 10,
+            "default": 15,
+            "max": 20
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.35,
+          "max": 1.45
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 8,
+            "default": 10,
+            "max": 12
+          },
+          "skip_when": {
+            "slot_id": "protein",
+            "attribute": "texture_behavior",
+            "match": "equals",
+            "value": "renders_fat_when_heated"
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          },
+          "skip_when": {
+            "slot_id": "protein",
+            "attribute": "texture_failure_modes",
+            "match": "contains",
+            "value": "salty_when_overseasoned"
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "大米"
+      }
+    },
+    {
+      "rule_id": "cooked-rice-stir-portion-v1",
+      "evidence_recipe_ids": [
+        "home-egg-fried-leftover-rice",
+        "broccoli-beef-fried-rice"
+      ],
+      "when": {
+        "template_id": "cooked-rice-stir-pot",
+        "slot_id": "staple",
+        "category": "cooked_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 150,
+            "default": 180,
+            "max": 220
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 6,
+            "default": 8,
+            "max": 10
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 2,
+            "max": 3
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "熟米饭"
+      }
+    },
+    {
+      "rule_id": "broth-noodle-liquid-v1",
+      "evidence_recipe_ids": [
+        "greens-chicken-leg-soup-noodles",
+        "greens-tofu-soup-noodles"
+      ],
+      "when": {
+        "template_id": "broth-noodle-pot",
+        "slot_id": "staple",
+        "category": "noodle"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 3,
+          "default": 4,
+          "max": 5
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 3,
+            "default": 4,
+            "max": 6
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "面条"
+      }
+    },
+    {
+      "rule_id": "egg-tofu-vegetable-egg-portion-v1",
+      "evidence_recipe_ids": [
+        "shakshuka-tomato-egg",
+        "greens-tofu-vermicelli-pot"
+      ],
+      "when": {
+        "template_id": "egg-tofu-vegetable-pot",
+        "slot_id": "protein",
+        "category": "egg"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 45,
+            "default": 50,
+            "max": 60
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "companion_tofu"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 6,
+            "max": 8
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "鸡蛋"
+      }
+    },
+    {
+      "rule_id": "egg-tofu-vegetable-soft-tofu-portion-v1",
+      "evidence_recipe_ids": [
+        "shakshuka-tomato-egg",
+        "greens-tofu-vermicelli-pot"
+      ],
+      "when": {
+        "template_id": "egg-tofu-vegetable-pot",
+        "slot_id": "protein",
+        "category": "soft_tofu"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "companion_tofu"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 6,
+            "max": 8
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "嫩豆腐"
+      }
+    },
+    {
+      "rule_id": "egg-tofu-vegetable-firm-tofu-portion-v1",
+      "evidence_recipe_ids": [
+        "shakshuka-tomato-egg",
+        "greens-tofu-vermicelli-pot"
+      ],
+      "when": {
+        "template_id": "egg-tofu-vegetable-pot",
+        "slot_id": "protein",
+        "category": "firm_tofu"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "companion_tofu"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 120,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 6,
+            "max": 8
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "老豆腐"
+      }
+    },
+    {
+      "rule_id": "mushroom-vegetable-stew-liquid-v1",
+      "evidence_recipe_ids": [
+        "soy-lentil-vegetable-stew",
+        "mushroom-greens-tofu-covered-rice"
+      ],
+      "when": {
+        "template_id": "mushroom-vegetable-stew-pot",
+        "slot_id": "mushroom",
+        "category": "mushroom"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 150,
+            "max": 180
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 160,
+            "default": 200,
+            "max": 240
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 3,
+            "default": 4,
+            "max": 6
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 2,
+            "max": 3
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "金针菇"
+      }
+    },
+    {
+      "rule_id": "beef-staple-cooked-rice-portion-v1",
+      "evidence_recipe_ids": [
+        "broccoli-beef-braised-rice",
+        "broccoli-beef-soup-noodles"
+      ],
+      "when": {
+        "template_id": "beef-staple-pot",
+        "slot_id": "staple",
+        "category": "cooked_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 150,
+            "default": 180,
+            "max": 220
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 80,
+            "default": 120,
+            "max": 160
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "熟米饭"
+      }
+    },
+    {
+      "rule_id": "beef-staple-noodle-portion-v1",
+      "evidence_recipe_ids": [
+        "broccoli-beef-braised-rice",
+        "broccoli-beef-soup-noodles"
+      ],
+      "when": {
+        "template_id": "beef-staple-pot",
+        "slot_id": "staple",
+        "category": "noodle"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 200,
+            "default": 300,
+            "max": 400
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "面条"
+      }
+    },
+    {
+      "rule_id": "poultry-staple-raw-rice-portion-v1",
+      "evidence_recipe_ids": [
+        "simple-chicken-biryani",
+        "chicken-leg-potato-braised-rice"
+      ],
+      "when": {
+        "template_id": "poultry-staple-pot",
+        "slot_id": "staple",
+        "category": "raw_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 150
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "aromatic"
+          },
+          "grams": {
+            "min": 20,
+            "default": 40,
+            "max": 60
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 1,
+          "default": 1.2,
+          "max": 1.4
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "大米"
+      }
+    },
+    {
+      "rule_id": "poultry-staple-cooked-rice-portion-v1",
+      "evidence_recipe_ids": [
+        "simple-chicken-biryani",
+        "chicken-leg-potato-braised-rice"
+      ],
+      "when": {
+        "template_id": "poultry-staple-pot",
+        "slot_id": "staple",
+        "category": "cooked_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 150
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 150,
+            "default": 180,
+            "max": 220
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "aromatic"
+          },
+          "grams": {
+            "min": 20,
+            "default": 40,
+            "max": 60
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "熟米饭"
+      }
+    },
+    {
+      "rule_id": "poultry-staple-noodle-portion-v1",
+      "evidence_recipe_ids": [
+        "simple-chicken-biryani",
+        "chicken-leg-potato-braised-rice"
+      ],
+      "when": {
+        "template_id": "poultry-staple-pot",
+        "slot_id": "staple",
+        "category": "noodle"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 150
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 100,
+            "default": 120,
+            "max": 140
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "aromatic"
+          },
+          "grams": {
+            "min": 20,
+            "default": 40,
+            "max": 60
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 3,
+          "default": 4,
+          "max": 5
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "面条"
+      }
+    },
+    {
+      "rule_id": "braised-noodle-liquid-v1",
+      "evidence_recipe_ids": [
+        "cabbage-potato-chicken-leg-braised-noodles"
+      ],
+      "when": {
+        "template_id": "braised-noodle-pot",
+        "slot_id": "staple",
+        "category": "noodle"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 70,
+            "default": 90,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 60,
+            "default": 80,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 60,
+            "default": 80,
+            "max": 100
+          }
+        },
+        {
+          "operator": "bounded_sum",
+          "target": {
+            "attribute": "moisture_release",
+            "value": "high"
+          },
+          "grams_per_serving": {
+            "min": 70,
+            "default": 90,
+            "max": 120
+          },
+          "liquid_credit_grams_per_serving": {
+            "min": 10,
+            "default": 15,
+            "max": 20
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 1.6,
+          "default": 1.8,
+          "max": 2
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "面条"
+      }
+    },
+    {
+      "rule_id": "braised-fresh-wheat-noodle-liquid-v1",
+      "evidence_recipe_ids": [
+        "north-china-green-bean-braised-noodles"
+      ],
+      "when": {
+        "template_id": "braised-noodle-pot",
+        "slot_id": "staple",
+        "category": "noodle",
+        "canonical_ids": [
+          "fresh-wheat-noodle"
+        ]
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 85,
+            "default": 100,
+            "max": 110
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "vegetable"
+          },
+          "grams": {
+            "min": 70,
+            "default": 90,
+            "max": 120
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams": {
+            "min": 60,
+            "default": 80,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "mushroom"
+          },
+          "grams": {
+            "min": 60,
+            "default": 80,
+            "max": 100
+          }
+        },
+        {
+          "operator": "bounded_sum",
+          "target": {
+            "attribute": "moisture_release",
+            "value": "high"
+          },
+          "grams_per_serving": {
+            "min": 70,
+            "default": 90,
+            "max": 120
+          },
+          "liquid_credit_grams_per_serving": {
+            "min": 10,
+            "default": 15,
+            "max": 20
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 0.7,
+          "default": 0.85,
+          "max": 1
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 5,
+            "default": 7,
+            "max": 9
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "liquid_distribution": {
+        "initial_fraction": 0.8,
+        "reserve_fraction": 0.2,
+        "reserve_action_code": "add_reserved_liquid_if_needed"
+      },
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "鲜小麦面条"
+      }
+    },
+    {
+      "rule_id": "broth-rice-liquid-v1",
+      "evidence_recipe_ids": [
+        "cabbage-egg-soup-rice",
+        "tomato-chicken-leg-soup-rice"
+      ],
+      "when": {
+        "template_id": "broth-rice-pot",
+        "slot_id": "staple",
+        "category": "cooked_rice"
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 180,
+            "default": 180,
+            "max": 180
+          }
+        },
+        {
+          "operator": "per_serving_by_category",
+          "target": {
+            "slot_id": "protein"
+          },
+          "grams_by_category": {
+            "egg": {
+              "min": 65,
+              "default": 65,
+              "max": 65
+            },
+            "chicken": {
+              "min": 90,
+              "default": 90,
+              "max": 90
+            }
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "slow_vegetable"
+          },
+          "grams": {
+            "min": 80,
+            "default": 80,
+            "max": 80
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "fast_vegetable"
+          },
+          "grams": {
+            "min": 110,
+            "default": 110,
+            "max": 110
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 1.8,
+          "default": 1.8,
+          "max": 1.8
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 3,
+            "default": 4,
+            "max": 6
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "熟米饭"
+      }
+    },
+    {
+      "rule_id": "soft-family-millet-liquid-v1",
+      "evidence_recipe_ids": [
+        "chinese-congee",
+        "qinghai-hao-fan"
+      ],
+      "when": {
+        "template_id": "soft-family-rice-pot",
+        "slot_id": "staple",
+        "category": "raw_millet",
+        "canonical_ids": [
+          "raw-millet"
+        ]
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "staple"
+          },
+          "grams": {
+            "min": 35,
+            "default": 40,
+            "max": 45
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "root_vegetable"
+          },
+          "grams": {
+            "min": 80,
+            "default": 90,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "cooked_legume"
+          },
+          "grams": {
+            "min": 70,
+            "default": 88,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "slot_id": "leafy_vegetable"
+          },
+          "grams": {
+            "min": 80,
+            "default": 100,
+            "max": 120
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "slot_id": "staple",
+            "measure": "grams"
+          },
+          "min": 8,
+          "default": 8.3,
+          "max": 8.5
+        },
+        {
+          "operator": "fixed_addition",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 8,
+            "default": 10,
+            "max": 12
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1.5,
+            "max": 2
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "slot_name": "小米"
+      }
+    },
+    {
+      "rule_id": "shanghai-salted-pork-liquid-evidence-v1",
+      "evidence_recipe_ids": [
+        "shanghai-salted-pork-vegetable-rice"
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "shanghai-salted-pork-vegetable-rice"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.25,
+          "max": 1.4
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "xinjiang-lamb-pilaf-liquid-evidence-v1",
+      "evidence_recipe_ids": [
+        "xinjiang-lamb-pilaf"
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "xinjiang-lamb-pilaf"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_cooked_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.35,
+          "max": 1.5
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "taiwan-cabbage-mushroom-liquid-evidence-v1",
+      "evidence_recipe_ids": [
+        "taiwan-cabbage-mushroom-rice"
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "taiwan-cabbage-mushroom-rice"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "max": 1.45
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "taiwan-tomato-shrimp-rice-evidence-v1",
+      "evidence_recipe_ids": [
+        "taiwan-cabbage-mushroom-rice"
+      ],
+      "evidence_bindings": [
+        {
+          "binding_type": "structured_recipe_literal",
+          "recipe_path": "/optional_ingredients/1",
+          "literal": "番茄",
+          "canonical_id": "tomato",
+          "state": "raw"
+        },
+        {
+          "binding_type": "structured_recipe_literal",
+          "recipe_path": "/substitution_slots/0/allowed/0",
+          "literal": "白菜",
+          "canonical_id": "napa-cabbage",
+          "state": "raw"
+        },
+        {
+          "binding_type": "structured_recipe_literal",
+          "recipe_path": "/optional_ingredients/2",
+          "literal": "玉米",
+          "canonical_id": "sweet-corn",
+          "state": "raw",
+          "shape_or_cut": "whole_seed"
+        },
+        {
+          "binding_type": "structured_recipe_literal",
+          "recipe_path": "/substitution_slots/1/allowed/3",
+          "literal": "虾仁",
+          "canonical_id": "shrimp",
+          "state": "raw",
+          "shape_or_cut": "whole"
+        }
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "taiwan-cabbage-mushroom-rice"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "tomato",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "napa-cabbage",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 60,
+            "max": 60
+          }
+        },
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "sweet-corn",
+            "state": "raw",
+            "shape_or_cut": "whole_seed"
+          },
+          "grams": {
+            "min": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "shrimp",
+            "state": "raw",
+            "shape_or_cut": "whole"
+          },
+          "grams": {
+            "min": 80,
+            "max": 80
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 0.8,
+          "max": 0.8
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "quanzhou-soaked-rice-liquid-evidence-v1",
+      "evidence_recipe_ids": [
+        "quanzhou-oil-rice"
+      ],
+      "evidence_bindings": [
+        {
+          "binding_type": "structured_recipe_literal",
+          "recipe_path": "/core_ingredients/0",
+          "literal": "泡发糯米",
+          "canonical_id": "soaked-glutinous-rice",
+          "state": "prepared",
+          "shape_or_cut": "whole_grain"
+        }
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "quanzhou-oil-rice"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "soaked-glutinous-rice",
+            "state": "prepared",
+            "shape_or_cut": "whole_grain"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "soaked-glutinous-rice",
+            "state": "prepared",
+            "shape_or_cut": "whole_grain",
+            "measure": "grams"
+          },
+          "min": 0.9,
+          "max": 1.1
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "泡发糯米"
+      }
+    },
+    {
+      "rule_id": "shaanbei-red-date-cowpea-rice-liquid-evidence-v1",
+      "evidence_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice"
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "shaanbei-red-date-cowpea-rice"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.3,
+          "max": 1.55
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "corn-carrot-chicken-leg-covered-rice-evidence-v1",
+      "evidence_recipe_ids": [
+        "corn-carrot-chicken-leg-covered-rice"
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "corn-carrot-chicken-leg-covered-rice"
+      },
+      "liquid_contract": {
+        "kind": "total_free_liquid",
+        "measured_contributor_ids": [
+          "water"
+        ],
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.4,
+          "max": 1.4
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "mushroom-green-bean-pork-rib-braised-rice-evidence-v1",
+      "evidence_recipe_ids": [
+        "mushroom-green-bean-pork-rib-braised-rice"
+      ],
+      "execution_mode": "bounds_only",
+      "when": {
+        "recipe_id": "mushroom-green-bean-pork-rib-braised-rice"
+      },
+      "operations": [
+        {
+          "operator": "reference_quantity",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.45,
+          "max": 1.45
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "corn-carrot-chicken-leg-covered-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "corn-carrot-chicken-leg-covered-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "corn-carrot-chicken-leg-covered-rice"
+      },
+      "liquid_contract": {
+        "kind": "total_free_liquid",
+        "measured_contributor_ids": [
+          "water"
+        ],
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-leg",
+            "state": "raw",
+            "shape_or_cut": "leg"
+          },
+          "grams": {
+            "min": 55,
+            "default": 55,
+            "max": 55
+          }
+        },
+        {
+          "operator": "allocate_group_total_per_serving",
+          "member_targets": [
+            {
+              "canonical_id": "sweet-corn",
+              "state": "raw",
+              "shape_or_cut": "whole_seed"
+            },
+            {
+              "canonical_id": "carrot",
+              "state": "raw"
+            }
+          ],
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          },
+          "allocation_policy": "equal_split_ordered_residual"
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.4,
+          "default": 1.4,
+          "max": 1.4
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "mushroom-green-bean-pork-rib-braised-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "mushroom-green-bean-pork-rib-braised-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-ribs",
+            "state": "raw",
+            "shape_or_cut": "rib"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "allocate_group_total_per_serving",
+          "member_targets": [
+            {
+              "canonical_id": "shiitake",
+              "state": "raw"
+            },
+            {
+              "canonical_id": "green-beans",
+              "state": "raw"
+            }
+          ],
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          },
+          "allocation_policy": "equal_split_ordered_residual"
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.45,
+          "default": 1.45,
+          "max": 1.45
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "chicken-leg-potato-braised-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "chicken-leg-potato-braised-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "chicken-leg-potato-braised-rice"
+      },
+      "liquid_contract": {
+        "kind": "total_free_liquid",
+        "measured_contributor_ids": [
+          "water"
+        ],
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-leg",
+            "state": "raw",
+            "shape_or_cut": "leg"
+          },
+          "grams": {
+            "min": 60,
+            "default": 60,
+            "max": 60
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "potato",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "retained_liquid_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.4,
+          "default": 1.4,
+          "max": 1.4
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "green-bean-pork-rib-braised-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "green-bean-pork-rib-braised-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-ribs",
+            "state": "raw",
+            "shape_or_cut": "rib"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "green-beans",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.45,
+          "default": 1.45,
+          "max": 1.45
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "cabbage-tofu-braised-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "cabbage-tofu-braised-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "cabbage-tofu-braised-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "firm-tofu",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 90,
+            "default": 90,
+            "max": 90
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "napa-cabbage",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.3,
+          "default": 1.3,
+          "max": 1.3
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "broccoli-beef-braised-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "broccoli-beef-braised-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "broccoli-beef-braised-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "beef-generic",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "broccoli",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.35,
+          "default": 1.35,
+          "max": 1.35
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "greens-minced-pork-braised-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "greens-minced-pork-braised-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "greens-minced-pork-braised-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ground-pork",
+            "state": "raw",
+            "shape_or_cut": "ground"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "leafy-greens",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.35,
+          "default": 1.35,
+          "max": 1.35
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "shanghai-salted-pork-rice-executable-v1",
+      "evidence_recipe_ids": [
+        "shanghai-salted-pork-vegetable-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "recipe_id": "shanghai-salted-pork-vegetable-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "salted-pork-belly",
+            "state": "cured",
+            "shape_or_cut": "cured_slice"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "small-bok-choy",
+            "state": "raw",
+            "shape_or_cut": "whole"
+          },
+          "grams": {
+            "min": 133.33333333333334,
+            "default": 133.33333333333334,
+            "max": 133.33333333333334
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.0333333333333334,
+          "default": 1.0333333333333334,
+          "max": 1.0333333333333334
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "大米"
+      }
+    },
+    {
+      "rule_id": "home-taiwan-cabbage-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-taiwan-cabbage-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "green-cabbage",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 150,
+            "default": 150,
+            "max": 150
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shiitake",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 20,
+            "default": 20,
+            "max": 20
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shrimp",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 4,
+            "max": 4
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "高丽菜"
+      }
+    },
+    {
+      "rule_id": "home-taiwan-pumpkin-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-taiwan-pumpkin-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pumpkin",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 150,
+            "default": 150,
+            "max": 150
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ground-pork",
+            "state": "raw",
+            "shape_or_cut": "ground"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shiitake",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 20,
+            "default": 20,
+            "max": 20
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shrimp",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 4,
+            "max": 4
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "南瓜"
+      }
+    },
+    {
+      "rule_id": "home-curry-chicken-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-curry-chicken-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-breast",
+            "state": "raw",
+            "shape_or_cut": "breast"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 37.5,
+            "default": 37.5,
+            "max": 37.5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "potato",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 37.5,
+            "default": 37.5,
+            "max": 37.5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "onion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 37.5,
+            "default": 37.5,
+            "max": 37.5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.25,
+          "default": 1.25,
+          "max": 1.25
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "咖喱块",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "酱油",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 4,
+            "default": 4,
+            "max": 4
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 4,
+            "max": 4
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "咖喱鸡肉饭"
+      }
+    },
+    {
+      "rule_id": "home-sausage-mixed-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-sausage-mixed-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chinese-sausage",
+            "state": "cured",
+            "shape_or_cut": "sausage"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "green-peas",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shiitake",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "sweet-corn",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.25,
+          "default": 1.25,
+          "max": 1.25
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "蚝油",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "酱油",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 3.5,
+            "default": 3.5,
+            "max": 3.5
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 2.5,
+            "default": 2.5,
+            "max": 2.5
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "腊肠什锦焖饭"
+      }
+    },
+    {
+      "rule_id": "home-beef-mixed-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-beef-mixed-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "beef-ground",
+            "state": "raw",
+            "shape_or_cut": "ground"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 37.5,
+            "default": 37.5,
+            "max": 37.5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "onion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 37.5,
+            "default": 37.5,
+            "max": 37.5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.35,
+          "default": 1.35,
+          "max": 1.35
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 4,
+            "max": 4
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "牛肉什锦饭"
+      }
+    },
+    {
+      "rule_id": "home-bamboo-vegetable-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-bamboo-vegetable-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ground-pork",
+            "state": "raw",
+            "shape_or_cut": "ground"
+          },
+          "grams": {
+            "min": 15,
+            "default": 15,
+            "max": 15
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bamboo-shoot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "onion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 12.5,
+            "default": 12.5,
+            "max": 12.5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 12.5,
+            "default": 12.5,
+            "max": 12.5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-wood-ear",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 2.5,
+            "default": 2.5,
+            "max": 2.5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.35,
+          "default": 1.35,
+          "max": 1.35
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "食用油",
+            "category": "oil"
+          },
+          "grams": {
+            "min": 4,
+            "default": 4,
+            "max": 4
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "鲜蔬竹笋饭"
+      }
+    },
+    {
+      "rule_id": "home-mixed-chicken-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-mixed-chicken-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-breast",
+            "state": "raw",
+            "shape_or_cut": "breast"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "fried-tofu",
+            "state": "cooked"
+          },
+          "grams": {
+            "min": 45,
+            "default": 45,
+            "max": 45
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "burdock",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shiitake",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.6,
+          "default": 1.6,
+          "max": 1.6
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "料酒",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "酱油",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "盐",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 1,
+            "default": 1,
+            "max": 1
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "什锦鸡饭"
+      }
+    },
+    {
+      "rule_id": "home-fresh-shiitake-rice-executable-v1",
+      "evidence_recipe_ids": [],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "home-fresh-shiitake-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-breast",
+            "state": "raw",
+            "shape_or_cut": "breast"
+          },
+          "grams": {
+            "min": 10,
+            "default": 10,
+            "max": 10
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shiitake",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 60,
+            "default": 60,
+            "max": 60
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "celery",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 15,
+            "default": 15,
+            "max": 15
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        },
+        {
+          "operator": "scale_by_servings",
+          "target": {
+            "name": "酱油",
+            "category": "seasoning"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "鲜香菇饭"
+      }
+    }
+  ]
+}

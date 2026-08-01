@@ -370,7 +370,7 @@ def unique_recipe_pantry(value, aliases=None):
 
 # ===== 过敏类别表（与 index.html、worker/src/worker.js 保持一致，parity 测试锁定）
 ALLERGEN_GROUPS = {
-    '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+    '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','虾米','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
     '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
     '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
     '花生': ['花生','花生米','花生酱'],
@@ -3225,6 +3225,14 @@ def _planner_product_focus():
     return value or 'legacy'
 
 
+def _planner_rice_catalog_scope():
+    raw = os.environ.get('YIGUOCHU_RICE_CATALOG_SCOPE')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_RICE_CATALOG_SCOPE')
+    value = str(raw or '').strip()
+    return value if value in ('ready', 'calibration') else 'ready'
+
+
 def _is_loopback_host(value):
     host = str(value or '').strip().lower()
     return host in ('localhost', '127.0.0.1', '::1', '[::1]')
@@ -3273,6 +3281,7 @@ def _planner_bridge_env():
         if secret:
             values['RICE_MEAL_PLAN_SECRET'] = secret
         values['HOST'] = HOST
+        values['YIGUOCHU_RICE_CATALOG_SCOPE'] = _planner_rice_catalog_scope()
         if _planner_explicit_loopback_dev():
             values['YIGUOCHU_LOCAL_DEV'] = '1'
         if _planner_hosted_mode():

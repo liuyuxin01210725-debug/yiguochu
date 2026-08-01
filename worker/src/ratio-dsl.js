@@ -265,7 +265,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes, r
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
     allowed(catalog, new Set(['ratio_dsl_version','ratio_catalog_version','rules']), 'ratio DSL catalog', errors);
     if (catalog.ratio_dsl_version !== 1) errors.push('ratio_dsl_version must be 1');
-    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260801-r13') errors.push('ratio_catalog_version must be ratio-rules-v1-20260801-r13');
+    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260802-r14') errors.push('ratio_catalog_version must be ratio-rules-v1-20260802-r14');
     if (!Array.isArray(catalog.rules)) return [...errors, 'rules must be an array'];
     const templateById = new Map((templates?.templates || []).filter(t => text(t?.template_id)).map(t => [t.template_id, t]));
     const recipeIds = new Set((recipes?.recipes || []).map(r => r?.id).filter(text));
@@ -292,6 +292,12 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes, r
       }
       if (hasRecipeScope || hasVariantScope) {
         exactObject(rule.when, new Set([hasVariantScope ? 'variant_id' : 'recipe_id']), `${label}.when`, errors);
+        // Variant-scoped rules belong exclusively to the rice-meal compiler. The
+        // legacy/template planner intentionally does not load that catalog, so it
+        // must ignore these unreachable rules instead of becoming unavailable.
+        // Rice-meal builds and repository gates always pass riceMealCatalog and
+        // therefore still validate the complete rule body against the variant.
+        if (hasVariantScope && !riceMealCatalog) continue;
         const runtimeVariant = hasVariantScope ? riceMealVariantById.get(rule.when.variant_id) : null;
         if (hasVariantScope && !runtimeVariant) errors.push(`${label}.when has unknown rice-meal variant`);
         const runtimeCanonicalIds = runtimeVariant

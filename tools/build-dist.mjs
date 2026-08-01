@@ -56,7 +56,7 @@ const COMPILED_PLANNER_ASSETS_SENTINEL = "'__YIGUOCHU_COMPILED_PLANNER_ASSETS_JS
 
 function usage(message) {
   if (message) console.error(message);
-  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--planner-rollout off|direct-recommend] [--generation-mode deterministic|llm] [--product-focus legacy|rice-meal-v1]');
+  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--planner-rollout off|direct-recommend] [--generation-mode deterministic|llm] [--product-focus legacy|rice-meal-v1] [--rice-catalog-scope ready|calibration]');
   process.exitCode = 1;
 }
 
@@ -67,13 +67,14 @@ function parseArgs(argumentsList) {
     plannerRollout: 'off',
     generationMode: 'llm',
     productFocus: 'legacy',
+    riceCatalogScope: 'ready',
   };
 
   for (let index = 0; index < argumentsList.length; index += 1) {
     const argument = argumentsList[index];
     if (argument === '--out-dir' || argument === '--build-id'
         || argument === '--planner-rollout' || argument === '--generation-mode'
-        || argument === '--product-focus') {
+        || argument === '--product-focus' || argument === '--rice-catalog-scope') {
       const value = argumentsList[index + 1];
       if (!value || value.startsWith('--')) {
         usage(`${argument} requires a value.`);
@@ -84,6 +85,7 @@ function parseArgs(argumentsList) {
       if (argument === '--planner-rollout') options.plannerRollout = value;
       if (argument === '--generation-mode') options.generationMode = value;
       if (argument === '--product-focus') options.productFocus = value;
+      if (argument === '--rice-catalog-scope') options.riceCatalogScope = value;
       index += 1;
       continue;
     }
@@ -114,6 +116,10 @@ function parseArgs(argumentsList) {
   }
   if (!['legacy', 'rice-meal-v1'].includes(options.productFocus)) {
     usage('Product focus must be legacy or rice-meal-v1.');
+    return null;
+  }
+  if (!['ready', 'calibration'].includes(options.riceCatalogScope)) {
+    usage('Rice catalog scope must be ready or calibration.');
     return null;
   }
   if (options.productFocus === 'rice-meal-v1'
@@ -151,7 +157,7 @@ function readCanonicalJson(sourceRelativePath) {
   }
 }
 
-function build({ outputDir, buildId, plannerRollout, generationMode, productFocus }) {
+function build({ outputDir, buildId, plannerRollout, generationMode, productFocus, riceCatalogScope }) {
   assertNoSymlinkInOutputPath(outputDir);
   if (fs.existsSync(outputDir) && !fs.lstatSync(outputDir).isDirectory()) {
     throw new Error(`Output path must be a directory: ${outputDir}`);
@@ -178,6 +184,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     plannerRollout,
     generationMode,
     productFocus,
+    riceCatalogScope,
     riceCookerSourceEvidenceVersion: riceCookerSourceEvidence.ledger_version,
     riceCookerSourceEvidenceSha256,
   };
@@ -227,10 +234,11 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout)
     .replaceAll('__YIGUOCHU_GENERATION_MODE__', generationMode)
     .replaceAll('__YIGUOCHU_PRODUCT_FOCUS__', productFocus);
+  const scopedIndex = generatedIndex.replaceAll('__YIGUOCHU_RICE_CATALOG_SCOPE__', riceCatalogScope);
   if (generatedIndex === sourceIndex) {
     throw new Error('Cannot inject the frontend build id; update tools/build-dist.mjs for the current index.html format.');
   }
-  fs.writeFileSync(indexPath, generatedIndex, 'utf8');
+  fs.writeFileSync(indexPath, scopedIndex, 'utf8');
 
   fs.writeFileSync(
     path.join(outputDir, 'build-meta.json'),
@@ -244,6 +252,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     plannerRollout,
     generationMode,
     productFocus,
+    riceCatalogScope,
     files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 1,
   }));
 }

@@ -29,6 +29,7 @@ const assets = Object.freeze({
   ratios: readAsset('ratio-rules.v1.json'),
   recipes: readAsset('recipe-library.json'),
   sourceEvidence: readAsset('rice-cooker-source-evidence.v1.json'),
+  riceCatalogScope: 'ready',
 });
 const SECRET = 'rice-meal-test-secret';
 
@@ -59,6 +60,7 @@ function selectFromAssets(request, sourceAssets) {
     ratioCatalog: sourceAssets.ratios,
     sourceEvidence: sourceAssets.sourceEvidence,
     recentPlanIds: [],
+    riceCatalogScope: sourceAssets.riceCatalogScope || 'ready',
   });
   assert.equal(result.status, 'ready', JSON.stringify(result));
   assert.ok(result.candidates.length > 0);
@@ -161,6 +163,7 @@ test('signed plan token uses a canonical normalized request snapshot rather than
   assert.equal(buildToken(normalizedUnknown, SECRET), buildToken(whitespaceUnknown, SECRET));
   assert.deepEqual(direct.plan_snapshot, {
     catalog_version: assets.catalog.catalog_version,
+    rice_catalog_scope: 'ready',
     servings: 2,
     normalized_items: [
       { kind: 'recognized', canonical_id: 'chicken-leg', state: 'raw', shape_or_cut: 'leg' },
@@ -298,6 +301,14 @@ test('verification recomputes the server candidate and rejects bare, forged, and
     () => verify({ plan_token: token }, { ...assets, sourceEvidence: changedLedger }, SECRET),
     'stale_plan',
   );
+
+  expectCode(
+    () => verify({ plan_token: token }, { ...assets, riceCatalogScope:'calibration' }, SECRET),
+    'stale_plan',
+  );
+  const mismatchedScope = structuredClone(candidate);
+  mismatchedScope.rice_catalog_scope = 'calibration';
+  expectCode(() => buildToken(mismatchedScope, SECRET), 'invalid_plan_token');
 });
 
 test('signed compilation accepts a source-only runtime variant with recipe_id null and keeps the variant identity', () => {
@@ -619,6 +630,96 @@ test('every active rice-meal family renders its reviewed household prose with no
       [output.meals[0].dish_name, ...output.meals[0].steps.map(step => step.text), output.meals[0].recommendation_reason].join('\n'),
       /计划比例|slot|template|canonical|生产版|家里现成/u,
     );
+  }
+});
+
+test('all eight calibration rice meals compile under their authentic names and locked two-person grams', () => {
+  const calibrationAssets = { ...assets, riceCatalogScope: 'calibration' };
+  const fixtures = [
+    {
+      variantId: 'home-taiwan-cabbage-rice',
+      dishName: '高丽菜饭',
+      pantry: ['卷心菜', '香菇', '虾米'],
+      grams: { 'raw-rice': 200, 'green-cabbage': 300, shiitake: 40, 'dried-shrimp': 10, water: 240, 'cooking-oil': 8 },
+    },
+    {
+      variantId: 'home-taiwan-pumpkin-rice',
+      dishName: '南瓜饭',
+      pantry: ['南瓜', '猪肉末', '香菇', '虾米'],
+      grams: { 'raw-rice': 200, pumpkin: 300, 'ground-pork': 100, shiitake: 40, 'dried-shrimp': 10, water: 240, 'cooking-oil': 8 },
+    },
+    {
+      variantId: 'home-curry-chicken-rice',
+      dishName: '咖喱鸡肉饭',
+      pantry: ['鸡胸肉', '胡萝卜', '土豆', '洋葱'],
+      grams: { 'raw-rice': 200, 'chicken-breast': 100, carrot: 75, potato: 75, onion: 75, water: 250, 'curry-block': 50, 'soy-sauce': 8, 'cooking-oil': 8 },
+    },
+    {
+      variantId: 'home-sausage-mixed-rice',
+      dishName: '懒人焖饭（腊肠什锦版）',
+      pantry: ['腊肠', '青豌豆', '香菇', '玉米', '胡萝卜'],
+      grams: { 'raw-rice': 200, 'chinese-sausage': 50, 'green-peas': 50, shiitake: 50, 'sweet-corn': 50, carrot: 50, water: 250, 'oyster-sauce': 10, 'soy-sauce': 7, 'cooking-oil': 5 },
+    },
+    {
+      variantId: 'home-beef-mixed-rice',
+      dishName: '牛肉什锦饭',
+      pantry: ['牛肉末', '胡萝卜', '洋葱'],
+      grams: { 'raw-rice': 200, 'beef-ground': 100, carrot: 75, onion: 75, water: 270, 'cooking-oil': 8, salt: 2 },
+    },
+    {
+      variantId: 'home-bamboo-vegetable-rice',
+      dishName: '鲜蔬竹笋饭',
+      pantry: ['猪肉末', '竹笋', '洋葱', '胡萝卜', '干木耳'],
+      grams: { 'raw-rice': 200, 'ground-pork': 30, 'bamboo-shoot': 100, onion: 25, carrot: 25, 'dried-wood-ear': 5, water: 270, 'cooking-oil': 8, salt: 2 },
+    },
+    {
+      variantId: 'home-mixed-chicken-rice',
+      dishName: '什锦鸡饭',
+      pantry: ['鸡胸肉', '油炸豆腐', '牛蒡', '胡萝卜', '香菇'],
+      grams: { 'raw-rice': 200, 'chicken-breast': 100, 'fried-tofu': 90, burdock: 50, carrot: 50, shiitake: 50, water: 320, 'cooking-wine': 10, 'soy-sauce': 10, salt: 2 },
+    },
+    {
+      variantId: 'home-fresh-shiitake-rice',
+      dishName: '鲜香菇饭',
+      pantry: ['鸡胸肉', '香菇', '芹菜'],
+      grams: { 'raw-rice': 200, 'chicken-breast': 20, shiitake: 120, celery: 30, water: 240, 'soy-sauce': 10 },
+    },
+  ];
+
+  for (const fixture of fixtures) {
+    const result = selectRiceMealCandidates({
+      request: { servings: 2, pantry: fixture.pantry, dislikes: [] },
+      catalog: calibrationAssets.catalog,
+      taxonomy: calibrationAssets.taxonomy,
+      ratioCatalog: calibrationAssets.ratios,
+      sourceEvidence: calibrationAssets.sourceEvidence,
+      recentPlanIds: [],
+      riceCatalogScope: 'calibration',
+    });
+    assert.equal(result.status, 'ready', `${fixture.variantId}: ${JSON.stringify(result)}`);
+    const candidate = result.candidates.find(row => row.variant_id === fixture.variantId);
+    assert.ok(candidate, `${fixture.variantId} must be selectable`);
+    const output = compilerApi('compileRiceMeal')(candidate, calibrationAssets);
+    assert.equal(output.meals[0].dish_name, fixture.dishName);
+    assert.equal(candidate.rice_catalog_scope, 'calibration');
+    const grams = Object.fromEntries(output.plan.ingredient_amounts.map(row => [row.canonical_id, row.grams]));
+    for (const [canonicalId, expected] of Object.entries(fixture.grams)) {
+      assert.equal(grams[canonicalId], expected, `${fixture.variantId}/${canonicalId}`);
+    }
+    const userCopy = [
+      output.meals[0].dish_name,
+      output.meals[0].recommendation_reason,
+      ...output.meals[0].steps.map(step => step.text),
+    ].join('\n');
+    assert.doesNotMatch(userCopy, /主食锅|饭锅|计划比例|slot|template|canonical|生产版/u);
+    assert.ok(output.user_notices.some(notice => notice.code === 'household_test_pending_feedback'));
+    const sauteIndex = output.meals[0].steps.findIndex(step => step.action_code === 'pre_saute_materials_outside_cooker');
+    if (sauteIndex >= 0) {
+      const oilIndex = output.meals[0].steps.findIndex(step => (
+        step.action_code === 'use_controlled_seasoning_outside_cooker' && step.text.includes('油')
+      ));
+      assert.ok(oilIndex >= 0 && oilIndex < sauteIndex, `${fixture.variantId}: oil must precede pre-saute`);
+    }
   }
 });
 

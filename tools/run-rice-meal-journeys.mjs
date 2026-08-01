@@ -16,7 +16,13 @@ const ratios = readJson('tools/data/ratio-rules.v1.json');
 const recipes = readJson('tools/data/recipe-library.json');
 const sourceEvidence = readJson('tools/data/rice-cooker-source-evidence.v1.json');
 const corpus = readJson('tools/data/rice-meal-journeys.v1.json');
-const compilerAssets = Object.freeze({ catalog, taxonomy, ratios, recipes, sourceEvidence });
+const compilerAssets = Object.freeze({
+  catalog,
+  taxonomy,
+  ratios,
+  recipes,
+  sourceEvidence,
+});
 const compilerSecret = 'rice-meal-journey-contract-v1';
 const STATUS_ORDER = [
   'ready',
@@ -34,7 +40,7 @@ function reasonCodes(result) {
   ].map(item => item.reason_code).filter(Boolean));
 }
 
-function select(request) {
+function select(request, riceCatalogScope = 'ready') {
   return selectRiceMealCandidates({
     request,
     catalog,
@@ -42,12 +48,14 @@ function select(request) {
     ratioCatalog: ratios,
     sourceEvidence,
     recentPlanIds: [],
+    riceCatalogScope,
   });
 }
 
 function executeJourney(journey) {
-  if (!journey.swap_from_variant_id) return select(journey.request);
-  const initial = select(journey.request);
+  const riceCatalogScope = journey.rice_catalog_scope || 'ready';
+  if (!journey.swap_from_variant_id) return select(journey.request, riceCatalogScope);
+  const initial = select(journey.request, riceCatalogScope);
   const current = initial.candidates.find(candidate => candidate.variant_id === journey.swap_from_variant_id);
   if (!current) {
     return {
@@ -59,7 +67,7 @@ function executeJourney(journey) {
       journey_setup_error: `initial candidate ${journey.swap_from_variant_id} was absent`,
     };
   }
-  return select({ ...journey.request, current_plan_id: current.plan_id });
+  return select({ ...journey.request, current_plan_id: current.plan_id }, riceCatalogScope);
 }
 
 function validateJourney(journey, result) {
@@ -131,8 +139,9 @@ function validateCompilerJourney(journey, result) {
   if (!candidate) return ['compiler journey emitted no candidate'];
   try {
     const token = buildRiceMealPlanToken(candidate, compilerSecret);
-    const recomputed = verifyAndRecomputeRiceMealPlan({ plan_token: token }, compilerAssets, compilerSecret);
-    const output = compileRiceMeal(recomputed, compilerAssets);
+    const scopedAssets = { ...compilerAssets, riceCatalogScope: journey.rice_catalog_scope || 'ready' };
+    const recomputed = verifyAndRecomputeRiceMealPlan({ plan_token: token }, scopedAssets, compilerSecret);
+    const output = compileRiceMeal(recomputed, scopedAssets);
     const meal = output.meals?.[0];
     if (output.plan_id !== candidate.plan_id) errors.push('compiler changed candidate plan id');
     if (meal?.dish_name !== expected.dish_name) {

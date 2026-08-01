@@ -114,6 +114,111 @@ const HOUSEHOLD_COPY = Object.freeze({
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻松，盛出即可。',
     }),
   }),
+  'home-taiwan-cabbage-rice': Object.freeze({
+    recommendation_reason: '高丽菜、香菇和虾米先在锅外炒香，再与大米同煮；少量虾米只负责提鲜，不夸大它在整锅里的份量。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成宽丝，{{i3}}切片；{{i4}}快速冲洗后沥干。',
+      pre_saute_materials_outside_cooker: '在锅外先将{{i4}}和{{i3}}炒出香味，再加入{{i2}}翻炒至略微变软。',
+      load_inner_pot: '把{{i1}}和炒好的{{i2}}、{{i3}}、{{i4}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻，把水分吸收均匀。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}已经熟软；{{i4}}已经热透。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}从底部轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'home-taiwan-pumpkin-rice': Object.freeze({
+    recommendation_reason: '南瓜、猪肉末、香菇和虾米先炒出香味，再与大米同煮，兼顾主食、蛋白质和蔬菜。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成小块，{{i3}}拨散，{{i4}}切片；{{i5}}快速冲洗后沥干。',
+      pre_saute_materials_outside_cooker: '在锅外先炒散{{i3}}至没有粉红生肉，再加入{{i5}}、{{i4}}和{{i2}}翻炒出香味。',
+      load_inner_pot: '把{{i1}}和炒好的{{i2}}、{{i3}}、{{i4}}、{{i5}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}已经熟软；{{i3}}完全熟透且没有粉红生肉；{{i5}}已经热透。',
+      fluff_and_serve: '轻轻翻匀{{i1}}、{{i2}}、{{i3}}、{{i4}}和{{i5}}，盛出即可。',
+    }),
+  }),
+  'home-curry-chicken-rice': Object.freeze({
+    recommendation_reason: '鸡肉、土豆、胡萝卜和洋葱随咖喱与大米同煮，材料完整，适合作为一顿省事主餐。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成大小均匀的小块，避免厚块叠在一起。',
+      prepare_vegetables: '将{{i3}}、{{i4}}和{{i5}}切成大小接近的小块；{{i4}}切好后冲去表面淀粉。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透、内部无粉红；{{i3}}、{{i4}}和{{i5}}都已经熟软。',
+      fluff_and_serve: '从底部轻轻翻匀{{i1}}、{{i2}}、{{i3}}、{{i4}}和{{i5}}，让咖喱均匀裹住米饭后盛出。',
+    }),
+  }),
+  'home-sausage-mixed-rice': Object.freeze({
+    recommendation_reason: '腊肠、青豌豆、香菇、玉米和胡萝卜与大米同煮，材料多样但步骤集中，适合电饭煲一次完成。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成薄片，避免腊肠叠成厚块。',
+      prepare_vegetables: '将{{i3}}洗净，{{i4}}切片，{{i5}}沥干，{{i6}}切成小丁。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}已经完全熟透；{{i3}}和{{i6}}已经熟软。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}从底部轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'home-beef-mixed-rice': Object.freeze({
+    recommendation_reason: '牛肉末、胡萝卜和洋葱与大米同煮，蛋白质和蔬菜份量都按两人主餐校准。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}拨散，避免结成厚块。',
+      prepare_vegetables: '将{{i3}}切成小丁，{{i4}}切碎。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}和{{i4}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透且没有生肉色；{{i3}}和{{i4}}已经熟软。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}和{{i4}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'home-bamboo-vegetable-rice': Object.freeze({
+    recommendation_reason: '竹笋、木耳、胡萝卜和洋葱占主要份量，少量猪肉末只负责增香，整锅以清爽和丰富口感为主。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_dried_wood_ear: '按包装说明泡发{{i6}}，修剪硬蒂后另用清水充分冲洗、沥干并切成小片。',
+      prepare_raw_ingredients: '将{{i2}}拨散，避免结成厚块。',
+      prepare_vegetables: '将{{i3}}切片，{{i4}}和{{i5}}切成小丁。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透且没有粉红生肉；{{i3}}和{{i5}}已经熟软；{{i6}}已经热透。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'home-mixed-chicken-rice': Object.freeze({
+    recommendation_reason: '鸡肉、油炸豆腐、牛蒡、胡萝卜和香菇与大米同煮，蛋白质和蔬菜都达到两人主餐的实质份量。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成均匀小块，{{i3}}切成容易入口的小块。',
+      prepare_vegetables: '将{{i4}}切细条，{{i5}}切成小丁，{{i6}}切片。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透、内部无粉红；{{i3}}已经热透；{{i4}}和{{i5}}已经熟软。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'home-fresh-shiitake-rice': Object.freeze({
+    recommendation_reason: '鲜香菇是这道饭的主角，少量鸡肉只负责增香，芹菜提供清香和蔬菜口感。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成小丁，避免叠成厚块。',
+      prepare_vegetables: '将{{i3}}切片，{{i4}}切成小丁。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}和{{i4}}已经放好，盖好锅盖，启动标准煮饭程序，中途不要开盖。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透、内部无粉红；{{i4}}已经熟软。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}和{{i4}}轻轻翻匀，盛出即可。',
+    }),
+  }),
   'shanghai-salted-pork-rice': Object.freeze({
     recommendation_reason: '这种安排兼顾地方风味、清爽口感和完整熟制。',
     steps: Object.freeze({
@@ -247,6 +352,7 @@ function canonicalSnapshotItem(row) {
 function canonicalRequestSnapshot(snapshot) {
   if (!isPlainObject(snapshot)) return null;
   const catalogVersion = nonEmptyString(snapshot.catalog_version);
+  const riceCatalogScope = nonEmptyString(snapshot.rice_catalog_scope);
   const servings = integerServings(snapshot.servings);
   const normalizedItems = stableRows(snapshot.normalized_items, canonicalSnapshotItem);
   const availableBasicItems = stableRows(snapshot.available_basic_items || [], canonicalSnapshotItem);
@@ -254,12 +360,14 @@ function canonicalRequestSnapshot(snapshot) {
     const normalized = nonEmptyString(dislike);
     return normalized && normalizePlannerTaxonomyKey(normalized) === normalized ? normalized : null;
   });
-  if (!catalogVersion || servings == null || normalizedItems == null || availableBasicItems == null || dislikes == null
+  if (!catalogVersion || !['ready', 'calibration'].includes(riceCatalogScope)
+      || servings == null || normalizedItems == null || availableBasicItems == null || dislikes == null
       || new Set([...normalizedItems, ...availableBasicItems].map(canonicalJson)).size
         !== normalizedItems.length + availableBasicItems.length
       || new Set(dislikes).size !== dislikes.length) return null;
   return {
     catalog_version: catalogVersion,
+    rice_catalog_scope: riceCatalogScope,
     servings,
     normalized_items: normalizedItems,
     available_basic_items: availableBasicItems,
@@ -316,6 +424,7 @@ function canonicalCandidateFacts(candidate) {
   ].map(nonEmptyString);
   const taxonomyVersion = nonEmptyString(candidate.taxonomy_version);
   const taxonomyHash = nonEmptyString(candidate.taxonomy_hash);
+  const riceCatalogScope = nonEmptyString(candidate.rice_catalog_scope);
   const recipeId = candidate.recipe_id == null ? null : nonEmptyString(candidate.recipe_id);
   const selectedIngredientIds = sortedUniqueStrings(candidate.selected_ingredient_ids);
   const selectedInputIds = sortedUniqueStrings(candidate.selected_input_ids);
@@ -326,6 +435,7 @@ function canonicalCandidateFacts(candidate) {
       || !/^sha256:[a-f0-9]{64}$/u.test(taxonomyHash || '')
       || (candidate.recipe_id != null && recipeId == null)
       || servings == null || requestSnapshot == null
+      || riceCatalogScope !== requestSnapshot.rice_catalog_scope
       || !/^sha256:[a-f0-9]{64}$/u.test(fields[5])
       || !/^sha256:[a-f0-9]{64}$/u.test(fields[7]) || substitutions == null || safetyEndpoints == null
       || selectedIngredientIds == null || selectedInputIds == null || ratioRuleIds == null
@@ -339,6 +449,7 @@ function canonicalCandidateFacts(candidate) {
     variant_id: fields[3],
     recipe_id: recipeId,
     servings,
+    rice_catalog_scope: riceCatalogScope,
     request: requestSnapshot,
     ratio_catalog_version: fields[4],
     ratio_facts_hash: fields[5],
@@ -471,7 +582,8 @@ function parsePlanToken(token, secret) {
 function assertAssets(assets) {
   if (!isPlainObject(assets) || !isPlainObject(assets.catalog)
       || !isPlainObject(assets.taxonomy) || !isPlainObject(assets.ratios)
-      || !isPlainObject(assets.recipes) || !isPlainObject(assets.sourceEvidence)) {
+      || !isPlainObject(assets.recipes) || !isPlainObject(assets.sourceEvidence)
+      || !['ready', 'calibration'].includes(assets.riceCatalogScope)) {
     throw stalePlan();
   }
 }
@@ -499,6 +611,7 @@ function recomputeCandidate(facts, assets) {
   const currentTaxonomyIdentity = taxonomyIdentity(assets.taxonomy);
   if (facts.catalog_version !== assets.catalog.catalog_version
       || facts.request.catalog_version !== assets.catalog.catalog_version
+      || facts.request.rice_catalog_scope !== assets.riceCatalogScope
       || facts.ratio_catalog_version !== assets.ratios.ratio_catalog_version
       || facts.source_evidence_ledger_version !== evidenceIdentity.version
       || facts.source_evidence_hash !== evidenceIdentity.hash
@@ -515,6 +628,7 @@ function recomputeCandidate(facts, assets) {
       ratioCatalog: assets.ratios,
       sourceEvidence: assets.sourceEvidence,
       recentPlanIds: [],
+      riceCatalogScope: assets.riceCatalogScope,
     });
   } catch {
     throw stalePlan();
@@ -792,8 +906,12 @@ function refsForIds(ids, refsByCanonical) {
 
 function lockedPlanForCandidate(candidate, assets) {
   const entry = variantsById(assets.catalog).get(candidate.variant_id);
+  const eligibleStatuses = assets.riceCatalogScope === 'calibration'
+    ? new Set(['calibration_preview', 'preview_ready', 'pilot_observed', 'production_approved'])
+    : new Set(['preview_ready', 'pilot_observed', 'production_approved']);
   if (!entry || entry.family_id !== candidate.family_id || (entry.variant.recipe_id ?? null) !== candidate.recipe_id
-      || entry.variant.status !== 'preview_ready' || !HOUSEHOLD_COPY[candidate.variant_id]) {
+      || candidate.rice_catalog_scope !== assets.riceCatalogScope
+      || !eligibleStatuses.has(entry.variant.status) || !HOUSEHOLD_COPY[candidate.variant_id]) {
     throw stalePlan();
   }
   const variant = entry.variant;
@@ -859,6 +977,12 @@ function lockedPlanForCandidate(candidate, assets) {
   const catalogActions = ACTION_PHASES.flatMap(phase => {
     const base = (adaptation[phase] || []).slice().sort((left, right) => left.order - right.order);
     const controlled = controlledActionsByPhase.get(phase) || [];
+    if (phase === 'pre_actions') {
+      const sauteIndex = base.findIndex(action => action.action_code === 'pre_saute_materials_outside_cooker');
+      return sauteIndex < 0
+        ? [...base, ...controlled]
+        : [...base.slice(0, sauteIndex), ...controlled, ...base.slice(sauteIndex)];
+    }
     if (phase === 'start_actions') {
       const startIndex = base.findIndex(action => action.action_code === 'start_closed_lid_program');
       return startIndex < 0
@@ -876,7 +1000,7 @@ function lockedPlanForCandidate(candidate, assets) {
   const candidateActions = candidate.execution_actions;
   if (!candidateActions || canonicalJson(canonicalActionProtocol(candidateActions))
       !== canonicalJson(canonicalActionProtocol(adaptation))) ratioFailure();
-  const safetyEndpoints = (variant.safety_endpoints || []).map(row => row.endpoint_code);
+  const safetyEndpoints = [...new Set((variant.safety_endpoints || []).map(row => row.endpoint_code))];
   if (!safetyEndpoints.length || canonicalJson(stableRows(candidate.safety_endpoints, row => ({
     canonical_ingredient_id: nonEmptyString(row?.canonical_ingredient_id),
     endpoint_code: nonEmptyString(row?.endpoint_code),

@@ -95,6 +95,7 @@ test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {
   const cases = [
     // [dislikeTerm, ingredientName, aliases] — 类别名按组扩展
     ['海鲜', '虾仁', {}],
+    ['海鲜', '虾米', {}],
     ['海鲜', '带鱼', {}],
     ['海鲜', '蛤蜊', {}],
     ['鸡肉', '鸡腿肉', {}],
@@ -132,7 +133,7 @@ test('matchAllergy and ai_proxy.match_allergy agree on category cases', () => {
   assert.deepEqual(actual, expected);
   // 锁定关键语义预期, 防两端同错
   assert.deepEqual(expected, [
-    true, true, true,
+    true, true, true, true,
     true, true,
     true, true, false, true, true,
     true, true, true, false,

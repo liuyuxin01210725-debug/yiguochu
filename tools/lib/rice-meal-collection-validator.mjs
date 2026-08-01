@@ -1,4 +1,4 @@
-const STATES = new Set(['identity_only', 'research_candidate', 'planned', 'runtime_ready', 'excluded']);
+const STATES = new Set(['identity_only', 'research_candidate', 'planned', 'calibration_ready', 'runtime_ready', 'excluded']);
 const ADAPTATION_LEVELS = new Set(['E1', 'E2', 'E3', 'E4', 'excluded']);
 const NUTRITION_GRADES = new Set(['A', 'B', 'C']);
 const RICE_STATES = new Set(['raw-rice', 'soaked-rice', 'glutinous-rice', 'mixed-rice', 'parboiled-rice', 'parboiled-drained-rice', 'rice-state-unverified']);
@@ -138,7 +138,14 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
       if (candidate.nutrition_grade === 'C') errors.push(`${path}.runtime_ready cannot use nutrition grade C`);
       if (candidate.quantity_liquid_completeness !== 'complete' || !completeContract || !['quantity', 'liquid', 'appliance', 'safety'].every(key => supports.has(key))) errors.push(`${path}.runtime_ready requires complete quantity, liquid, appliance and safety contracts`);
       if (!Array.isArray(candidate.blockers) || candidate.blockers.length !== 0) errors.push(`${path}.runtime_ready must have no blockers`);
-    } else if (candidate.runtime_contract !== undefined) errors.push(`${path}.runtime_contract is only allowed for runtime_ready`);
+    } else if (candidate.status === 'calibration_ready') {
+      const contract = candidate.runtime_contract;
+      const completeContract = isObject(contract) && ['quantity', 'liquid', 'appliance', 'safety'].every(key => contract[key] === 'complete');
+      if (candidate.nutrition_grade === 'C') errors.push(`${path}.calibration_ready cannot use nutrition grade C`);
+      if (candidate.quantity_liquid_completeness !== 'complete' || !completeContract) {
+        errors.push(`${path}.calibration_ready requires complete project quantity, liquid, appliance and safety contracts`);
+      }
+    } else if (candidate.runtime_contract !== undefined) errors.push(`${path}.runtime_contract is only allowed for calibration_ready or runtime_ready`);
   });
 
   const nodeById = new Map();
@@ -215,7 +222,9 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
         errors.push(`${path} tracking core_ingredient_ids must match catalog variant`);
       }
     }
-    const requiredStatus = variant?.status === 'preview_ready' ? 'runtime_ready' : variant?.status === 'planned' ? 'planned' : null;
+    const requiredStatus = variant?.status === 'calibration_preview' ? 'calibration_ready'
+      : variant?.status === 'preview_ready' ? 'runtime_ready'
+        : variant?.status === 'planned' ? 'planned' : null;
     if (requiredStatus && row.status !== requiredStatus) errors.push(`${path}.status must match catalog status`);
     if (row.candidate_id !== null && !candidateById.has(row.candidate_id)) errors.push(`${path}.candidate_id references unknown candidate`);
     if (!NUTRITION_GRADES.has(row.nutrition_grade)) errors.push(`${path}.nutrition_grade is invalid`);
@@ -240,6 +249,7 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
       if (mappedCandidate.mapping_scope === 'exact'
         && (candidateCoreIds.size !== mappedCoreIds.size || [...candidateCoreIds].some(id => !mappedCoreIds.has(id)))) errors.push(`${path} exact candidate core_ingredients must match mapped_core`);
       const expectedCandidateStatuses = variant?.status === 'planned' ? new Set(['planned'])
+        : variant?.status === 'calibration_preview' ? new Set(['calibration_ready'])
         : variant?.status === 'preview_ready' || variant?.status === 'pilot_observed' || variant?.status === 'production_approved'
           ? new Set(['runtime_ready'])
           : variant?.status === 'research_only' ? new Set(['identity_only', 'research_candidate'])
@@ -249,12 +259,20 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
         errors.push(`${path} ${variant.status} must map to a ${[...expectedCandidateStatuses].join(' or ')} candidate`);
       }
     }
-    if (!['planned', 'runtime_ready'].includes(row.status)) errors.push(`${path}.status must be planned or runtime_ready`);
+    if (!['planned', 'calibration_ready', 'runtime_ready'].includes(row.status)) errors.push(`${path}.status must be planned, calibration_ready, or runtime_ready`);
     if (row.status === 'runtime_ready') {
       const candidate = mappedCandidate;
       if (!present(row.candidate_id) || !present(row.reverse_mapping_id)) errors.push(`${path}.runtime_ready requires candidate_id and reverse_mapping_id`);
       if (!['A', 'B'].includes(row.nutrition_grade)) errors.push(`${path}.runtime_ready nutrition_grade must be A or B`);
       if (!candidate || candidate.status !== 'runtime_ready' || !['A', 'B'].includes(candidate.nutrition_grade)) errors.push(`${path}.runtime_ready must reference an A/B runtime_ready candidate`);
+    }
+    if (row.status === 'calibration_ready') {
+      const candidate = mappedCandidate;
+      if (!present(row.candidate_id) || !present(row.reverse_mapping_id)) errors.push(`${path}.calibration_ready requires candidate_id and reverse_mapping_id`);
+      if (!['A', 'B'].includes(row.nutrition_grade)) errors.push(`${path}.calibration_ready nutrition_grade must be A or B`);
+      if (!candidate || candidate.status !== 'calibration_ready' || !['A', 'B'].includes(candidate.nutrition_grade)) {
+        errors.push(`${path}.calibration_ready must reference an A/B calibration_ready candidate`);
+      }
     }
     if (!Array.isArray(row.core_ingredient_ids) || row.core_ingredient_ids.length === 0) errors.push(`${path}.core_ingredient_ids must be non-empty`);
     else row.core_ingredient_ids.forEach(id => { if (!taxonomyIds.has(id)) errors.push(`${path}.core_ingredient_ids references unknown taxonomy item ${id}`); });

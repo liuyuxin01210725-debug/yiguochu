@@ -97,6 +97,7 @@ test('CLI detects source hash drift without rewriting checked-in artifacts', () 
       'ingredient-taxonomy.v1.json',
       'meal-templates.v2.json',
       'ratio-rules.v1.json',
+      'rice-meal-catalog.v1.json',
       'regional-menu-mappings.v1.json',
       'menu-master-baseline.v1.json',
     ]) fs.copyFileSync(path.join(ROOT, 'tools', 'data', name), path.join(tempRoot, 'tools', 'data', name));

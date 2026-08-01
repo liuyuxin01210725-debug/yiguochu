@@ -594,7 +594,7 @@ test('direct-recommend rollout stops at deterministic candidates and generates o
   assert.equal(evaluate(context, 'state.view'), 'v2-result');
   assert.deepEqual(
     JSON.parse(evaluate(context, 'JSON.stringify(window.__YIGUOCHU_BUILD_META__)')),
-    { buildId:'frontend-test', plannerRollout:'direct-recommend', generationMode:'deterministic', productFocus:'legacy' },
+    { buildId:'frontend-test', plannerRollout:'direct-recommend', generationMode:'deterministic', productFocus:'legacy', riceCatalogScope:'ready' },
   );
   assert.doesNotMatch(root.innerHTML, /发送给 AI|调用 AI/u);
   assert.match(root.innerHTML, /受控|确定性/u);

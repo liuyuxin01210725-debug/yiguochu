@@ -1,9 +1,9 @@
 import { normalizeRatioGrams } from './ratio-dsl.js';
 import { validateRiceCookerSourceEvidence } from './rice-cooker-source-evidence-validator.js';
 
-const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r6';
+const CATALOG_VERSION = 'rice-meal-catalog-v1-20260802-r7';
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const STATUSES = ['research_only', 'fact_checked', 'planned', 'preview_ready', 'pilot_observed', 'production_approved'];
+const STATUSES = ['research_only', 'fact_checked', 'planned', 'calibration_preview', 'preview_ready', 'pilot_observed', 'production_approved'];
 const STATUS_SET = new Set(STATUSES);
 const NUTRITION_GRADES = new Set(['A', 'B', 'C']);
 const ADAPTATIONS = new Set(['direct_adaptation', 'process_adaptation', 'style_adaptation', 'not_suitable']);
@@ -46,7 +46,7 @@ const SOURCE_CANNOT_PROVE_BY_SUPPORT = Object.freeze({
   process: /不能证明[^。]*(?:完整操作流程|入锅时机|操作步骤)/u,
 });
 const RICE_CATEGORIES = new Set(['raw_rice', 'prepared_glutinous_rice']);
-const PREVIEW_OR_HIGHER = new Set(['preview_ready', 'pilot_observed', 'production_approved']);
+const PREVIEW_OR_HIGHER = new Set(['calibration_preview', 'preview_ready', 'pilot_observed', 'production_approved']);
 const NUTRITION_ROLE_POLICY = Object.freeze({
   carb: {
     categories: new Set(['raw_rice', 'prepared_glutinous_rice', 'starchy_vegetable']),
@@ -59,7 +59,7 @@ const NUTRITION_ROLE_POLICY = Object.freeze({
     excludedCanonicalIds: new Set(),
   },
   fiber: {
-    categories: new Set(['leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable', 'root_vegetable', 'aromatic_vegetable', 'mushroom', 'dried_fruit', 'legume', 'dry_legume', 'cooked_legume']),
+    categories: new Set(['leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable', 'root_vegetable', 'aromatic_vegetable', 'mushroom', 'dried_fruit', 'legume', 'dry_legume', 'cooked_legume', 'squash_vegetable', 'shoot_vegetable']),
     canonicalIds: new Set(['sweet-corn']),
     excludedCanonicalIds: new Set(['potato']),
   },
@@ -184,6 +184,8 @@ const PHASE_ACTION_CODES = Object.freeze({
     'brown_ground_pork_outside_cooker',
     'pre_cook_tender_vegetables_outside_cooker',
     'pre_cook_tender_vegetables_drain_and_discard_liquid',
+    'pre_saute_materials_outside_cooker',
+    'prepare_dried_wood_ear',
   ]),
   start_actions: new Set(['load_inner_pot', 'start_closed_lid_program']),
   mid_actions: new Set(['add_reserved_leafy_vegetable']),
@@ -434,7 +436,8 @@ function validateCollectionMapping(variant, label, materialIds, collection, cano
   if (!mapping || mapping.candidate_id !== variant.collection_candidate_id || mapping.tracking_id !== tracking.tracking_id) {
     errors.push(`${label} collection reverse mapping must match variant and candidate`);
   }
-  const expectedTrackingStatus = variant.status === 'preview_ready' ? 'runtime_ready'
+  const expectedTrackingStatus = variant.status === 'calibration_preview' ? 'calibration_ready'
+    : variant.status === 'preview_ready' ? 'runtime_ready'
     : variant.status === 'planned' ? 'planned' : null;
   if (expectedTrackingStatus && tracking.status !== expectedTrackingStatus) {
     errors.push(`${label} collection tracking status must match variant status`);
@@ -449,6 +452,7 @@ function validateCollectionMapping(variant, label, materialIds, collection, cano
     research_only: new Set(['identity_only', 'research_candidate']),
     fact_checked: new Set(['research_candidate']),
     planned: new Set(['planned']),
+    calibration_preview: new Set(['calibration_ready']),
     preview_ready: new Set(['runtime_ready']),
     pilot_observed: new Set(['runtime_ready']),
     production_approved: new Set(['runtime_ready']),
@@ -492,7 +496,10 @@ function validateStatus(variant, label, errors) {
     errors.push(`${label}.status_history must record every completed stage`);
     return;
   }
-  const expected = STATUSES.slice(0, STATUSES.indexOf(variant.status) + 1);
+  const promotionStatuses = ['research_only', 'fact_checked', 'planned', 'preview_ready', 'pilot_observed', 'production_approved'];
+  const expected = variant.status === 'calibration_preview'
+    ? ['research_only', 'fact_checked', 'planned', 'calibration_preview']
+    : promotionStatuses.slice(0, promotionStatuses.indexOf(variant.status) + 1);
   if (variant.status_history.length !== expected.length
     || variant.status_history.some((status, index) => status !== expected[index])) {
     errors.push(`${label}.status_history must progress one stage at a time to status`);
@@ -949,7 +956,7 @@ function validateNutrition(nutrition, label, materialIds, controlledSeasoningIds
   if (nutrition.grade === 'B' && roles.size < 2) {
     errors.push(`${label} nutrition grade B requires at least two material contributor roles`);
   }
-  if (nutrition.grade === 'C' && ['preview_ready', 'pilot_observed', 'production_approved'].includes(status)) {
+  if (nutrition.grade === 'C' && PREVIEW_OR_HIGHER.has(status)) {
     errors.push(`${label} nutrition grade C cannot be preview_ready or beyond`);
   }
 }
@@ -1268,7 +1275,12 @@ function validateVariant(variant, label, context, variantIds, errors) {
       errors.push(`${label}.supported_servings must be a non-empty unique integer array from 1 to 8`);
     }
   }
+  if (variant.status === 'calibration_preview'
+      && JSON.stringify(variant.supported_servings) !== JSON.stringify([2])) {
+    errors.push(`${label} calibration_preview supported_servings must equal [2]`);
+  }
   if (PREVIEW_OR_HIGHER.has(variant.status)
+      && variant.status !== 'calibration_preview'
       && variant.variant_id !== 'shanghai-salted-pork-rice'
       && JSON.stringify(variant.supported_servings) !== JSON.stringify([1, 2, 3, 4])) {
     errors.push(`${label} preview_ready supported_servings must equal [1,2,3,4]`);
@@ -1423,7 +1435,7 @@ function validateVariant(variant, label, context, variantIds, errors) {
   validateSafetyEndpoints(variant.safety_endpoints, label, materials, context.canonicals, errors);
   if (!Array.isArray(variant.source_refs)) errors.push(`${label}.source_refs must be an array`);
   else {
-    if (['preview_ready', 'pilot_observed', 'production_approved'].includes(variant.status) && variant.source_refs.length === 0) {
+    if (PREVIEW_OR_HIGHER.has(variant.status) && variant.source_refs.length === 0) {
       errors.push(`${label} preview_ready requires at least one source_ref`);
     }
     variant.source_refs.forEach((ref, index) => validateReference(ref, `${label}.source_refs[${index}]`, errors));

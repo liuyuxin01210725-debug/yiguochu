@@ -5,7 +5,9 @@ import {
 } from './planner-v2.js';
 import { matchAllergy } from './allergen-semantics.js';
 
-const ACTIVE_VARIANT_STATUSES = new Set(['preview_ready', 'pilot_observed', 'production_approved']);
+const READY_VARIANT_STATUSES = new Set(['preview_ready', 'pilot_observed', 'production_approved']);
+const CALIBRATION_VARIANT_STATUSES = new Set([...READY_VARIANT_STATUSES, 'calibration_preview']);
+const RICE_CATALOG_SCOPES = new Set(['ready', 'calibration']);
 const BASIC_COVERAGE_IDS = new Set(['raw-rice', 'water']);
 const NON_COVERAGE_CATEGORIES = new Set(['liquid', 'oil', 'seasoning']);
 const GRADE_RANK = Object.freeze({ A: 0, B: 1 });
@@ -157,9 +159,18 @@ function sortedUniqueFacts(facts) {
     .map(([, fact]) => fact);
 }
 
-function requestSnapshot(catalog, normalized) {
+function normalizeRiceCatalogScope(value) {
+  const scope = value == null ? 'ready' : value;
+  if (typeof scope !== 'string' || !RICE_CATALOG_SCOPES.has(scope)) {
+    throw new TypeError('riceCatalogScope must be ready or calibration');
+  }
+  return scope;
+}
+
+function requestSnapshot(catalog, normalized, riceCatalogScope) {
   return {
     catalog_version: catalog?.catalog_version || null,
+    rice_catalog_scope: riceCatalogScope,
     servings: normalized.servings,
     normalized_items: sortedUniqueFacts(normalized.submitted_items.map(snapshotFactForItem)),
     available_basic_items: sortedUniqueFacts(normalized.ignored_basic_items.map(snapshotFactForItem)),
@@ -221,11 +232,12 @@ function unrecognizedSnapshotItem(fact, taxonomy) {
   return normalizePlannerItems([{ raw: fact.raw, role: 'prefer_use' }], taxonomy)[0];
 }
 
-function normalizeRiceMealRequestSnapshot(snapshot = {}, taxonomy = {}) {
+function normalizeRiceMealRequestSnapshot(snapshot = {}, taxonomy = {}, expectedScope = 'ready') {
   if (!isPlainObject(snapshot) || !Array.isArray(snapshot.normalized_items)
       || (snapshot.available_basic_items !== undefined && !Array.isArray(snapshot.available_basic_items))
       || !Array.isArray(snapshot.dislikes)
-      || typeof snapshot.catalog_version !== 'string' || !snapshot.catalog_version.trim()) {
+      || typeof snapshot.catalog_version !== 'string' || !snapshot.catalog_version.trim()
+      || normalizeRiceCatalogScope(snapshot.rice_catalog_scope) !== expectedScope) {
     throw new TypeError('normalizedRequest snapshot is invalid');
   }
   const servings = validateServings(snapshot.servings);
@@ -855,6 +867,7 @@ function buildCandidate({
   allMatchedInputKeys,
   itemsById,
   taxonomyIdentity,
+  riceCatalogScope,
 }) {
   const usedInputKeys = new Set(assignments.map(entry => itemKey(entry.input)));
   const adaptation = variant.cooker_adaptation;
@@ -862,7 +875,7 @@ function buildCandidate({
     phase,
     clone([...(adaptation[phase] || [])].sort((left, right) => left.order - right.order)),
   ]));
-  const planSnapshot = requestSnapshot(catalog, normalized);
+  const planSnapshot = requestSnapshot(catalog, normalized, riceCatalogScope);
   const seasoningFacts = controlledSeasoningFacts(variant, itemsById);
   const identity = planIdentity({
     catalog,
@@ -878,6 +891,7 @@ function buildCandidate({
   const protein = (variant.nutrition_structure?.material_contributors || []).find(row => row.role === 'protein');
   return {
     plan_id: `sha256:${sha256Hex(canonicalJson(identity))}`,
+    rice_catalog_scope: riceCatalogScope,
     catalog_version: catalog.catalog_version,
     ratio_catalog_version: ratioFacts.ratio_catalog_version,
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
@@ -963,10 +977,11 @@ function selectDiverseCandidates(candidates, recentPlanIds) {
   return selected;
 }
 
-function resultBase(catalog, normalized, status, extras = {}) {
+function resultBase(catalog, normalized, riceCatalogScope, status, extras = {}) {
   return {
     schema_version: 3,
     catalog_version: catalog?.catalog_version || null,
+    rice_catalog_scope: riceCatalogScope,
     status,
     candidates: [],
     normalized_request: normalized,
@@ -982,18 +997,23 @@ export function selectRiceMealCandidates({
   sourceEvidence,
   normalizedRequest = null,
   recentPlanIds = [],
+  riceCatalogScope = 'ready',
 } = {}) {
+  const scope = normalizeRiceCatalogScope(riceCatalogScope);
+  const activeVariantStatuses = scope === 'calibration'
+    ? CALIBRATION_VARIANT_STATUSES
+    : READY_VARIANT_STATUSES;
   assertControlledRatioCatalog(ratioCatalog);
   const evidenceFacts = sourceEvidenceFacts(sourceEvidence);
   const taxonomyIdentity = taxonomyFacts(taxonomy);
   const normalized = normalizedRequest == null
     ? normalizeRiceMealRequest(request, taxonomy)
-    : normalizeRiceMealRequestSnapshot(normalizedRequest, taxonomy);
+    : normalizeRiceMealRequestSnapshot(normalizedRequest, taxonomy, scope);
   const itemsById = taxonomyIndex(taxonomy);
   const aliases = allergyAliases(taxonomy);
   const unsafeItems = unsafeItemsForRequest(normalized, itemsById, aliases);
   if (unsafeItems.length) {
-    return resultBase(catalog, normalized, 'unsafe_recipe', {
+    return resultBase(catalog, normalized, scope, 'unsafe_recipe', {
       unused_items: unsafeItems,
       unsafe_items: unsafeItems,
       safety_rejections: safetyRejectionsForRequestItems(unsafeItems),
@@ -1006,7 +1026,7 @@ export function selectRiceMealCandidates({
   const identityAndNutritionMatches = [];
   const unsafeMatches = [];
   for (const { family_id: familyId, variant } of catalogVariants(catalog)) {
-    if (!ACTIVE_VARIANT_STATUSES.has(variant.status)) continue;
+    if (!activeVariantStatuses.has(variant.status)) continue;
     if (Array.isArray(variant.supported_servings)
         && !variant.supported_servings.includes(normalized.servings)) continue;
     const assignments = findMaterialAssignment(variant, normalized.submitted_items, itemsById);
@@ -1062,7 +1082,7 @@ export function selectRiceMealCandidates({
   if (!qualified.length) {
     if (unsafeMatches.length && (!identityAndNutritionMatches.length || coverageQualified.length)) {
       const safetyRejections = unsafeMatches.map(safetyRejectionForMatch);
-      return resultBase(catalog, normalized, 'unsafe_recipe', {
+      return resultBase(catalog, normalized, scope, 'unsafe_recipe', {
         unused_items: safetyUnusedItems(normalized, safetyRejections, allMatchedInputKeys),
         unsafe_reasons: safetyRejections.map(rejection => rejection.reason_code),
         safety_rejections: safetyRejections,
@@ -1096,6 +1116,7 @@ export function selectRiceMealCandidates({
         allMatchedInputKeys,
         itemsById,
         taxonomyIdentity,
+        riceCatalogScope: scope,
       })).sort((left, right) => candidateRank(left, right, history))[0];
       const limitedUnusedItems = diagnosticCandidate.unused_items.map(item => reasonedItem(
         item,
@@ -1110,20 +1131,20 @@ export function selectRiceMealCandidates({
           reason: '当前只能可靠使用 1/2 项食材，不能作为一锅主餐推荐。',
         },
       };
-      return resultBase(catalog, normalized, 'no_reliable_rice_meal', {
+      return resultBase(catalog, normalized, scope, 'no_reliable_rice_meal', {
         unused_items: limitedUnusedItems,
         best_available_candidate: bestAvailableCandidate,
       });
     }
     if (partialMatches.length && unsafePartialMatches.length) {
       const safetyRejections = unsafePartialMatches.map(safetyRejectionForMatch);
-      return resultBase(catalog, normalized, 'unsafe_recipe', {
+      return resultBase(catalog, normalized, scope, 'unsafe_recipe', {
         unused_items: safetyUnusedItems(normalized, safetyRejections, allMatchedInputKeys),
         unsafe_reasons: safetyRejections.map(rejection => rejection.reason_code),
         safety_rejections: safetyRejections,
       });
     }
-    return resultBase(catalog, normalized, needsBalance ? 'needs_balance_input' : 'no_reliable_rice_meal', {
+    return resultBase(catalog, normalized, scope, needsBalance ? 'needs_balance_input' : 'no_reliable_rice_meal', {
       unused_items: normalized.submitted_items.map(item => unplannedReason(item, allMatchedInputKeys, { needsBalance })),
     });
   }
@@ -1139,13 +1160,14 @@ export function selectRiceMealCandidates({
     sourceEvidence,
     allMatchedInputKeys,
       itemsById,
-      taxonomyIdentity,
+    taxonomyIdentity,
+    riceCatalogScope: scope,
   }));
   const currentPlanId = normalized.current_plan_id;
   if (currentPlanId) {
     const current = candidates.find(candidate => candidate.plan_id === currentPlanId);
     if (!current) {
-      return resultBase(catalog, normalized, 'no_reliable_rice_meal', {
+      return resultBase(catalog, normalized, scope, 'no_reliable_rice_meal', {
         unused_items: normalized.submitted_items.map(item => unplannedReason(item, allMatchedInputKeys)),
       });
     }
@@ -1154,12 +1176,12 @@ export function selectRiceMealCandidates({
       && candidate.coverage_count >= current.coverage_count
     )), history);
     if (!alternatives.length) {
-      return resultBase(catalog, normalized, 'no_alternative_rice_meal', {
+      return resultBase(catalog, normalized, scope, 'no_alternative_rice_meal', {
         code: 'no_alternative_plan',
         current_candidate: current,
       });
     }
-    return resultBase(catalog, normalized, 'ready', {
+    return resultBase(catalog, normalized, scope, 'ready', {
       candidates: alternatives,
       current_candidate: current,
     });
@@ -1167,7 +1189,7 @@ export function selectRiceMealCandidates({
 
   const bestCoverageCount = Math.max(...candidates.map(candidate => candidate.coverage_count));
   const bestCoverageTier = candidates.filter(candidate => candidate.coverage_count === bestCoverageCount);
-  return resultBase(catalog, normalized, 'ready', {
+  return resultBase(catalog, normalized, scope, 'ready', {
     candidates: selectDiverseCandidates(bestCoverageTier, history),
   });
 }

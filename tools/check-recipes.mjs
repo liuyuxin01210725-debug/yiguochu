@@ -167,8 +167,8 @@ errors.push(...validateCoverageRecipePromotion({
   production: lib,
 }));
 const taxonomyErrors = validateIngredientTaxonomy(taxonomy);
-const templateErrors = validateMealTemplateCatalog(templates, taxonomy, lib);
-const ratioErrors = validateRatioDslCatalog(ratios, templates, taxonomy, lib);
+const templateErrors = validateMealTemplateCatalog(templates, taxonomy, lib, ratios, riceMealCatalog);
+const ratioErrors = validateRatioDslCatalog(ratios, templates, taxonomy, lib, riceMealCatalog);
 const riceMealCatalogErrors = validateRiceMealCatalog(riceMealCatalog, {
   recipeLibrary: lib,
   sourceEvidence: riceCookerSourceEvidence,
@@ -760,10 +760,12 @@ const riceMealVariants = Array.isArray(riceMealCatalog?.families)
   ? riceMealCatalog.families.flatMap(family => Array.isArray(family?.variants) ? family.variants : [])
   : [];
 const riceMealPreviewReadyCount = riceMealVariants.filter(variant => variant?.status === 'preview_ready').length;
+const riceMealCalibrationPreviewCount = riceMealVariants.filter(variant => variant?.status === 'calibration_preview').length;
 const riceMealPlannedCount = riceMealVariants.filter(variant => variant?.status === 'planned').length;
 const riceMealCollectionCandidates = Array.isArray(riceMealCollection?.candidates) ? riceMealCollection.candidates : [];
 const riceMealCollectionTracking = Array.isArray(riceMealCollection?.catalog_tracking) ? riceMealCollection.catalog_tracking : [];
 const riceMealCollectionRuntimeReadyCount = riceMealCollectionTracking.filter(row => row?.status === 'runtime_ready').length;
+const riceMealCollectionCalibrationReadyCount = riceMealCollectionTracking.filter(row => row?.status === 'calibration_ready').length;
 const riceMealCollectionPlannedCount = riceMealCollectionTracking.filter(row => row?.status === 'planned').length;
 const riceMealCollectionGapCount = Array.isArray(riceMealCollection?.region_nodes)
   ? riceMealCollection.region_nodes.filter(node => typeof node?.gap === 'string' && node.gap.trim()).length
@@ -792,6 +794,7 @@ console.log([
 console.log([
   `${riceMealCollectionCandidates.length} collection candidates`,
   `${riceMealCollectionRuntimeReadyCount} runtime_ready`,
+  `${riceMealCollectionCalibrationReadyCount} calibration_ready`,
   `${riceMealCollectionPlannedCount} planned`,
   `${riceMealCollectionGapCount} explicit regional gaps`,
   riceMealCollectionErrors.length ? `rice meal collection invalid (${riceMealCollectionErrors.length})` : 'rice meal collection ok',
@@ -800,6 +803,7 @@ console.log([
   `${riceMealFamilyCount} families`,
   `${riceMealVariants.length} variants`,
   `${riceMealPreviewReadyCount} preview_ready`,
+  `${riceMealCalibrationPreviewCount} calibration_preview`,
   `${riceMealPlannedCount} planned`,
   riceMealCatalogErrors.length ? `rice meal catalog invalid (${riceMealCatalogErrors.length})` : 'rice meal catalog ok',
 ].join(' · '));

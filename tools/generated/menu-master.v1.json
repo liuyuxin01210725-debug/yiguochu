@@ -391,9 +391,7 @@
           "鸡肉",
           "芹菜"
         ],
-        "unknown_role": [
-          "芹菜"
-        ],
+        "unknown_role": [],
         "optional": [
           "黄油",
           "鸡高汤",

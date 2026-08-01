@@ -347,6 +347,7 @@ const BUILD_ID = '__YIGUOCHU_BUILD_ID__';
 const PLANNER_ROLLOUT = '__YIGUOCHU_PLANNER_ROLLOUT__';
 const GENERATION_MODE = '__YIGUOCHU_GENERATION_MODE__';
 const PRODUCT_FOCUS = '__YIGUOCHU_PRODUCT_FOCUS__';
+const RICE_CATALOG_SCOPE = '__YIGUOCHU_RICE_CATALOG_SCOPE__';
 // Raw source remains legacy-safe: only a compiled, explicit value enables the
 // public rice-meal product. A missing placeholder must never switch products.
 const RICE_MEAL_PRODUCT = PRODUCT_FOCUS === 'rice-meal-v1';
@@ -362,6 +363,9 @@ if (typeof window !== 'undefined') {
     plannerRollout: PLANNER_ROLLOUT,
     generationMode: EFFECTIVE_GENERATION_MODE,
     productFocus: RICE_MEAL_PRODUCT ? 'rice-meal-v1' : 'legacy',
+    riceCatalogScope: ['ready','calibration'].includes(RICE_CATALOG_SCOPE)
+      ? RICE_CATALOG_SCOPE
+      : 'ready',
   });
 }
 
@@ -733,7 +737,7 @@ function pantryItemMatchesIngredient(item, ingredientName) {
 }
 // ===== 过敏类别表（与 worker/src/worker.js、ai_proxy.py 保持一致，parity 测试锁定）
 const ALLERGEN_GROUPS = {
-  '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+  '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','虾米','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
   '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
   '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
   '花生': ['花生','花生米','花生酱'],

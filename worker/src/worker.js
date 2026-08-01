@@ -50,6 +50,7 @@ const BUILD_METADATA_DEFAULTS = Object.freeze({
   plannerRollout: 'off',
   generationMode: 'llm',
   productFocus: 'legacy',
+  riceCatalogScope: 'ready',
   riceCookerSourceEvidenceVersion: null,
   riceCookerSourceEvidenceSha256: null,
 });
@@ -1731,7 +1732,9 @@ function validateAndPreparePlannerAssets(source) {
   const actionProfiles = source?.actionProfiles;
   if (validateIngredientTaxonomy(taxonomy).length
       || validateRecipeLibrary(recipes).length
-      || validateMealTemplateCatalog(templates, taxonomy, recipes, ratios).length
+      || validateMealTemplateCatalog(
+        templates, taxonomy, recipes, ratios, source?.riceMealCatalog,
+      ).length
       || validateDeterministicTextProfiles(templates).length
       || validateRecipeActionProfileCatalog(actionProfiles).length) throw plannerAssetError();
   const preparedRatios = prepareRatioCatalog(ratios, {
@@ -2034,6 +2037,7 @@ async function assertSourceEvidenceMatchesBuildMetadata(env, request, sourceEvid
       || buildMetadata.riceCookerSourceEvidenceSha256 !== sha256) {
     throw riceMealAssetError();
   }
+  return buildMetadata;
 }
 
 async function getPlannerAssets(env, request) {
@@ -2083,12 +2087,13 @@ async function getRiceMealAssets(env, request) {
   if (cacheableBinding && RICE_MEAL_ASSET_CACHE.has(assetBinding)) {
     const cached = RICE_MEAL_ASSET_CACHE.get(assetBinding);
     try {
-      await assertSourceEvidenceMatchesBuildMetadata(
+      const buildMetadata = await assertSourceEvidenceMatchesBuildMetadata(
         env,
         request,
         cached.sourceEvidence,
         cached.sourceEvidenceSha256,
       );
+      if (cached.riceCatalogScope !== buildMetadata.riceCatalogScope) throw riceMealAssetError();
     } catch (_error) {
       throw riceMealAssetError();
     }
@@ -2132,10 +2137,11 @@ async function getRiceMealAssets(env, request) {
     }
   }
   let sourceEvidenceSha256;
+  let buildMetadata;
   try {
     assertRiceCookerSourceEvidence(sourceEvidence);
     sourceEvidenceSha256 = canonicalJsonSha256(sourceEvidence);
-    await assertSourceEvidenceMatchesBuildMetadata(
+    buildMetadata = await assertSourceEvidenceMatchesBuildMetadata(
       env,
       request,
       sourceEvidence,
@@ -2156,6 +2162,7 @@ async function getRiceMealAssets(env, request) {
     collection,
     sourceEvidence,
     sourceEvidenceSha256,
+    riceCatalogScope: buildMetadata.riceCatalogScope,
     taxonomy: plannerAssets.taxonomy,
     ratios: plannerAssets.ratios,
     recipes: plannerAssets.recipes,
@@ -2170,6 +2177,9 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
     : meta?.productFocus;
   const sourceEvidenceVersion = meta?.riceCookerSourceEvidenceVersion;
   const sourceEvidenceSha256 = meta?.riceCookerSourceEvidenceSha256;
+  const riceCatalogScope = meta?.riceCatalogScope === undefined && allowSourceLegacyDefault
+    ? 'ready'
+    : meta?.riceCatalogScope;
   const hasSourceEvidenceMetadata = sourceEvidenceVersion !== undefined
     || sourceEvidenceSha256 !== undefined;
   const validSourceEvidenceMetadata = typeof sourceEvidenceVersion === 'string'
@@ -2181,6 +2191,7 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
       || !['off', 'direct-recommend'].includes(meta.plannerRollout)
       || !['deterministic', 'llm'].includes(meta.generationMode)
       || !['legacy', 'rice-meal-v1'].includes(productFocus)
+      || !['ready', 'calibration'].includes(riceCatalogScope)
       || (hasSourceEvidenceMetadata && !validSourceEvidenceMetadata)
       || (productFocus === 'rice-meal-v1' && !validSourceEvidenceMetadata)) return null;
   return {
@@ -2188,6 +2199,7 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
     plannerRollout: meta.plannerRollout,
     generationMode: meta.generationMode,
     productFocus,
+    riceCatalogScope,
     riceCookerSourceEvidenceVersion: validSourceEvidenceMetadata ? sourceEvidenceVersion : null,
     riceCookerSourceEvidenceSha256: validSourceEvidenceMetadata ? sourceEvidenceSha256 : null,
   };
@@ -3415,6 +3427,7 @@ async function handleRiceMealPlan(request, env) {
       ratioCatalog: riceMealAssets.ratios,
       sourceEvidence: riceMealAssets.sourceEvidence,
       recentPlanIds: selectorRequest.recent_plan_ids || [],
+      riceCatalogScope: riceMealAssets.riceCatalogScope,
     });
     return jsonResponse(withRiceMealPlanTokens(selection, secret), 200, env, request);
   } catch (_error) {
@@ -3769,6 +3782,7 @@ export default {
       const plannerRollout = buildMetadata?.plannerRollout ?? 'off';
       const generationMode = buildMetadata?.generationMode ?? 'llm';
       const productFocus = buildMetadata?.productFocus ?? null;
+      const riceCatalogScope = buildMetadata?.riceCatalogScope ?? null;
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
@@ -3791,6 +3805,7 @@ export default {
       let riceMealFamilies = 0;
       let riceMealVariants = 0;
       let riceMealPreviewReady = 0;
+      let riceMealCalibrationReady = 0;
       let riceMealPlanned = 0;
       let riceMealPlanSigner = 'unavailable';
       let riceMealRuntime = 'unavailable';
@@ -3857,6 +3872,11 @@ export default {
               ? family.variants.filter(variant => variant.status === 'preview_ready').length
               : 0), 0)
             : 0;
+          riceMealCalibrationReady = Array.isArray(riceAssets.catalog.families)
+            ? riceAssets.catalog.families.reduce((count, family) => count + (Array.isArray(family?.variants)
+              ? family.variants.filter(variant => variant.status === 'calibration_preview').length
+              : 0), 0)
+            : 0;
           riceMealPlanned = Array.isArray(riceAssets.catalog.families)
             ? riceAssets.catalog.families.reduce((count, family) => count + (Array.isArray(family?.variants)
               ? family.variants.filter(variant => variant.status === 'planned').length
@@ -3878,6 +3898,7 @@ export default {
         plannerRollout,
         generationMode,
         productFocus,
+        riceCatalogScope,
         buildMetadata: buildMetadata ? 'ok' : 'unavailable',
         recipeLibrary,
         recipeFamilies,
@@ -3901,6 +3922,7 @@ export default {
         riceMealFamilies,
         riceMealVariants,
         riceMealPreviewReady,
+        riceMealCalibrationReady,
         riceMealPlanned,
         riceMealPlanSigner,
         riceMealRuntime,

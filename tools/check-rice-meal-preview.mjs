@@ -25,11 +25,12 @@ const SOURCE_EVIDENCE_SHA256 = crypto.createHash('sha256')
 const EXPECTED = Object.freeze({
   recipeCount: 72,
   familyCount: 3,
-  variantCount: 11,
+  variantCount: 19,
   previewReadyCount: 8,
+  calibrationPreviewCount: 8,
   plannedCount: 3,
   minimumGradeA: 7,
-  journeyCount: 26,
+  journeyCount: 34,
 });
 const EXCLUDED_LEGACY_CATEGORIES = Object.freeze([
   'legacy-selector',
@@ -46,20 +47,38 @@ const BUILD_METADATA = buildId => Object.freeze({
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
+  riceCatalogScope: 'ready',
   riceCookerSourceEvidenceVersion: SOURCE_EVIDENCE.ledger_version,
   riceCookerSourceEvidenceSha256: SOURCE_EVIDENCE_SHA256,
 });
 
 const readJson = relativePath => JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), 'utf8'));
 const variantsOf = catalog => (catalog?.families || []).flatMap(family => family?.variants || []);
-const actionCodes = variant => ['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].flatMap(phase => (
-  (variant?.cooker_adaptation?.[phase] || [])
+const actionCodes = variant => ['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].flatMap(phase => {
+  const base = (variant?.cooker_adaptation?.[phase] || [])
     .slice()
     .sort((left, right) => left.order - right.order)
-    .map(action => action.action_code)
-));
+    .map(action => action.action_code);
+  const controlled = (variant?.controlled_seasonings || [])
+    .filter(row => row.phase === phase)
+    .map(row => row.action_code);
+  if (phase === 'pre_actions') {
+    const index = base.indexOf('pre_saute_materials_outside_cooker');
+    return index < 0 ? [...base, ...controlled] : [...base.slice(0, index), ...controlled, ...base.slice(index)];
+  }
+  if (phase === 'start_actions') {
+    const index = base.indexOf('start_closed_lid_program');
+    return index < 0 ? [...base, ...controlled] : [...base.slice(0, index), ...controlled, ...base.slice(index)];
+  }
+  if (phase === 'finish_actions') {
+    const index = base.indexOf('fluff_and_serve');
+    return index < 0 ? [...base, ...controlled] : [...base.slice(0, index), ...controlled, ...base.slice(index)];
+  }
+  return [...base, ...controlled];
+});
 
 function selectJourney(journey, assets) {
+  const riceCatalogScope = journey.rice_catalog_scope || 'ready';
   const first = selectRiceMealCandidates({
     request: journey.request,
     catalog: assets.catalog,
@@ -67,6 +86,7 @@ function selectJourney(journey, assets) {
     ratioCatalog: assets.ratioCatalog,
     sourceEvidence: assets.sourceEvidence,
     recentPlanIds: [],
+    riceCatalogScope,
   });
   if (!journey.swap_from_variant_id) return first;
   const current = first.candidates.find(candidate => candidate.variant_id === journey.swap_from_variant_id);
@@ -78,6 +98,7 @@ function selectJourney(journey, assets) {
     ratioCatalog: assets.ratioCatalog,
     sourceEvidence: assets.sourceEvidence,
     recentPlanIds: [],
+    riceCatalogScope,
   });
 }
 
@@ -107,7 +128,7 @@ function validateJourney(journey, result) {
   return errors;
 }
 
-function compileJourneyCandidate(candidate, variant, assets) {
+function compileJourneyCandidate(candidate, variant, assets, riceCatalogScope = 'ready') {
   const errors = [];
   let compiledServingContracts = 0;
   for (const servings of variant.supported_servings || []) {
@@ -120,6 +141,7 @@ function compileJourneyCandidate(candidate, variant, assets) {
         ratioCatalog: assets.ratioCatalog,
         sourceEvidence: assets.sourceEvidence,
         recentPlanIds: [],
+        riceCatalogScope,
       });
       servingCandidate = selection.candidates?.find(row => row.variant_id === variant.variant_id);
       if (!servingCandidate) {
@@ -127,14 +149,14 @@ function compileJourneyCandidate(candidate, variant, assets) {
         continue;
       }
     }
-    const servingErrors = compileOneJourneyCandidate(servingCandidate, variant, assets);
+    const servingErrors = compileOneJourneyCandidate(servingCandidate, variant, assets, riceCatalogScope);
     errors.push(...servingErrors.map(error => `${variant.variant_id}/${servings} ${error}`));
     if (servingErrors.length === 0) compiledServingContracts += 1;
   }
   return { errors, compiledServingContracts };
 }
 
-function compileOneJourneyCandidate(candidate, variant, assets) {
+function compileOneJourneyCandidate(candidate, variant, assets, riceCatalogScope = 'ready') {
   const secret = 'rice-meal-preview-gate-contract-v1';
   const planToken = buildRiceMealPlanToken(candidate, secret);
   const recomputed = verifyAndRecomputeRiceMealPlan({ plan_token: planToken }, {
@@ -143,6 +165,7 @@ function compileOneJourneyCandidate(candidate, variant, assets) {
     ratios: assets.ratioCatalog,
     recipes: assets.recipeLibrary,
     sourceEvidence: assets.sourceEvidence,
+    riceCatalogScope,
   }, secret);
   const output = compileRiceMeal(recomputed, {
     catalog: assets.catalog,
@@ -150,6 +173,7 @@ function compileOneJourneyCandidate(candidate, variant, assets) {
     ratios: assets.ratioCatalog,
     recipes: assets.recipeLibrary,
     sourceEvidence: assets.sourceEvidence,
+    riceCatalogScope,
   });
   const meal = output.meals?.[0];
   const errors = [];
@@ -189,6 +213,7 @@ export function validateRiceMealPreviewGate({
   const variants = variantsOf(catalog);
   const active = variants.filter(variant => variant.status === 'preview_ready');
   const planned = variants.filter(variant => variant.status === 'planned');
+  const calibration = variants.filter(variant => variant.status === 'calibration_preview');
   const gradeCounts = { A: 0, B: 0, C: 0 };
   for (const variant of active) {
     const grade = variant.nutrition_structure?.grade;
@@ -208,6 +233,9 @@ export function validateRiceMealPreviewGate({
   if ((catalog?.families || []).length !== EXPECTED.familyCount) errors.push(`rice family count must be ${EXPECTED.familyCount}`);
   if (variants.length !== EXPECTED.variantCount) errors.push(`rice variant count must be ${EXPECTED.variantCount}`);
   if (active.length !== EXPECTED.previewReadyCount) errors.push(`preview_ready count must be ${EXPECTED.previewReadyCount}`);
+  if (calibration.length !== EXPECTED.calibrationPreviewCount) {
+    errors.push(`calibration_preview count must be ${EXPECTED.calibrationPreviewCount}`);
+  }
   if (planned.length !== EXPECTED.plannedCount) errors.push(`planned count must be ${EXPECTED.plannedCount}`);
   if (gradeCounts.A < EXPECTED.minimumGradeA) errors.push(`preview needs at least ${EXPECTED.minimumGradeA} grade-A candidates`);
   if (gradeCounts.C !== 0) errors.push('preview must have zero ordinary grade-C candidates');
@@ -217,7 +245,7 @@ export function validateRiceMealPreviewGate({
   const journeyVariantIds = new Set();
   const compiledVariantIds = new Set();
   let compiledServingContracts = 0;
-  const activeById = new Map(active.map(variant => [variant.variant_id, variant]));
+  const executableById = new Map([...active, ...calibration].map(variant => [variant.variant_id, variant]));
   for (const journey of journeyRows) {
     let result;
     try {
@@ -230,19 +258,19 @@ export function validateRiceMealPreviewGate({
     const expectedVariantId = journey.expect?.status === 'ready'
       ? journey.expect.expected_first_variant
       : null;
-    if (!activeById.has(expectedVariantId)) continue;
+    if (!executableById.has(expectedVariantId)) continue;
     if (journeyVariantIds.has(expectedVariantId)) continue;
     journeyVariantIds.add(expectedVariantId);
     const candidate = result.candidates?.[0];
     if (!candidate || candidate.variant_id !== expectedVariantId) continue;
     try {
-      const compileResult = compileJourneyCandidate(candidate, activeById.get(expectedVariantId), {
+      const compileResult = compileJourneyCandidate(candidate, executableById.get(expectedVariantId), {
         catalog,
         taxonomy,
         ratioCatalog,
         recipeLibrary,
         sourceEvidence,
-      });
+      }, journey.rice_catalog_scope || 'ready');
       errors.push(...compileResult.errors);
       compiledServingContracts += compileResult.compiledServingContracts;
       if (compileResult.errors.length === 0) compiledVariantIds.add(expectedVariantId);
@@ -250,7 +278,7 @@ export function validateRiceMealPreviewGate({
       errors.push(`${expectedVariantId} compile contract failed: ${error?.code || error?.message || error}`);
     }
   }
-  for (const variant of active) {
+  for (const variant of executableById.values()) {
     if (!journeyVariantIds.has(variant.variant_id)) {
       errors.push(`${variant.variant_id} has no deterministic first-candidate journey`);
     } else if (!compiledVariantIds.has(variant.variant_id)) {
@@ -266,6 +294,7 @@ export function validateRiceMealPreviewGate({
       family_count: (catalog?.families || []).length,
       variant_count: variants.length,
       preview_ready_count: active.length,
+      calibration_preview_count: calibration.length,
       planned_count: planned.length,
       nutrition_grade_counts: gradeCounts,
       journey_count: journeyRows.length,
@@ -321,6 +350,7 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
       '--planner-rollout', 'direct-recommend',
       '--generation-mode', 'deterministic',
       '--product-focus', 'rice-meal-v1',
+      '--rice-catalog-scope', 'ready',
     ], { cwd: ROOT, encoding: 'utf8' });
     if (build.status !== 0) {
       return { errors: [`rice build failed: ${[build.stdout, build.stderr].filter(Boolean).join('\n').trim()}`], summary };
@@ -373,8 +403,11 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
           || health.json?.riceCookerSourceEvidenceVersion !== SOURCE_EVIDENCE.ledger_version
           || health.json?.riceCookerSourceEvidenceSha256 !== SOURCE_EVIDENCE_SHA256
           || health.json?.riceMealPlanSigner !== 'ok' || health.json?.riceMealRuntime !== 'ok'
-          || health.json?.riceMealFamilies !== 3 || health.json?.riceMealVariants !== 11
+          || health.json?.riceMealFamilies !== 3
+          || health.json?.riceCatalogScope !== 'ready'
+          || health.json?.riceMealVariants !== EXPECTED.variantCount
           || health.json?.riceMealPreviewReady !== EXPECTED.previewReadyCount
+          || health.json?.riceMealCalibrationReady !== EXPECTED.calibrationPreviewCount
           || health.json?.riceMealPlanned !== EXPECTED.plannedCount) {
         errors.push('built /health does not report the exact rice Preview catalog facts');
       }
@@ -452,10 +485,11 @@ async function main() {
     `families=${summary.family_count}`,
     `variants=${summary.variant_count}`,
     `preview_ready=${summary.preview_ready_count}`,
+    `calibration_preview=${summary.calibration_preview_count}`,
     `planned=${summary.planned_count}`,
     `grades=A:${summary.nutrition_grade_counts.A},B:${summary.nutrition_grade_counts.B},C:${summary.nutrition_grade_counts.C}`,
     `journeys=${summary.journey_count}`,
-    `compiled=${summary.compiled_variant_ids.length}/${summary.preview_ready_count}`,
+    `compiled=${summary.compiled_variant_ids.length}/${summary.preview_ready_count + summary.calibration_preview_count}`,
     `compiled_contracts=${summary.compiled_serving_contracts}`,
     'model_calls=0',
     'budget_changes=0',

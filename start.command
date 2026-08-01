@@ -22,9 +22,10 @@ fi
 # 本地版与 Preview 使用同一套菜饭构建元数据和代理契约，禁止一边跑新版前端、一边让代理按 legacy 校验。
 export YIGUOCHU_PRODUCT_FOCUS="rice-meal-v1"
 export YIGUOCHU_GENERATION_MODE="deterministic"
+export YIGUOCHU_RICE_CATALOG_SCOPE="calibration"
 # 每次双击都换缓存版本，避免浏览器继续显示上一次本地构建。
 LOCAL_BUILD_ID="rice-meal-local-$(date +%Y%m%d%H%M%S)"
-if ! "$NODE_BIN" tools/build-dist.mjs --out-dir dist --build-id "$LOCAL_BUILD_ID" --planner-rollout direct-recommend --generation-mode deterministic --product-focus rice-meal-v1 >/dev/null; then
+if ! "$NODE_BIN" tools/build-dist.mjs --out-dir dist --build-id "$LOCAL_BUILD_ID" --planner-rollout direct-recommend --generation-mode deterministic --product-focus rice-meal-v1 --rice-catalog-scope calibration >/dev/null; then
   echo "错误：本地菜饭页面构建失败。" >&2
   exit 1
 fi

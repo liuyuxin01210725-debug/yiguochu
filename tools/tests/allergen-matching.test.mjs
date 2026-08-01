@@ -63,7 +63,7 @@ test('ALLERGEN_GROUPS is the parity-locked table verbatim', () => {
   const { context } = loadFrontend();
   const groups = JSON.parse(evaluate(context, `JSON.stringify(ALLERGEN_GROUPS)`));
   assert.deepEqual(groups, {
-    '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+    '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','虾米','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
     '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
     '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
     '花生': ['花生','花生米','花生酱'],
@@ -106,10 +106,10 @@ test('alias resolution never narrows allergy protection (豆腐干/干香菇 sti
 test('dislike 海鲜 blocks seafood members but not chicken or egg', () => {
   const { context } = loadFrontend();
   const values = matchAll(context, [
-    ['海鲜', '虾仁'], ['海鲜', '带鱼'], ['海鲜', '蛤蜊'], ['海鲜', '鱿鱼'],
+    ['海鲜', '虾仁'], ['海鲜', '虾米'], ['海鲜', '带鱼'], ['海鲜', '蛤蜊'], ['海鲜', '鱿鱼'],
     ['海鲜', '鸡肉'], ['海鲜', '鸡蛋'],
   ]);
-  assert.deepEqual(values, [true, true, true, true, false, false]);
+  assert.deepEqual(values, [true, true, true, true, true, false, false]);
 });
 
 test('dislike 鸡肉 blocks chicken cuts but not egg or beef', () => {

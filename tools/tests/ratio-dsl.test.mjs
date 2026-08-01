@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { prepareRatioCatalog, validateRatioDslCatalog } from '../lib/ratio-dsl-validator.mjs';
+import { prepareRatioCatalog, validateRatioDslCatalog as validateRatioDslCatalogRaw } from '../lib/ratio-dsl-validator.mjs';
 import { validateMealTemplateCatalog } from '../lib/meal-template-validator.mjs';
 import { compileRatioPlan } from '../../worker/src/planner-v2.js';
 import { normalizeRatioGrams } from '../../worker/src/ratio-dsl.js';
@@ -16,6 +16,12 @@ const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const recipes = readJson('recipe-library.json');
 const riceMealCatalog = readJson('rice-meal-catalog.v1.json');
 const validationContext = { templates, taxonomy, recipes, riceMealCatalog };
+function validateRatioDslCatalog(candidate, templateCatalog = templates, taxonomyCatalog = taxonomy,
+  recipeLibrary = recipes, runtimeRiceMealCatalog = riceMealCatalog) {
+  return validateRatioDslCatalogRaw(
+    candidate, templateCatalog, taxonomyCatalog, recipeLibrary, runtimeRiceMealCatalog,
+  );
+}
 const item = (name, category, attributes = {}) => ({ name, category, attributes });
 const prepared = prepareRatioCatalog(rawCatalog, validationContext);
 assert.equal(prepared.ok, true);
@@ -216,9 +222,9 @@ test('added-water recipe compilation reports added water without fabricating ret
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260801-r13');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260802-r14');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
-  assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
+  assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog, riceMealCatalog), []);
 
   const refs = new Set();
   for (const template of templates.templates.filter(template => ACTIVE.has(template.template_id))) {

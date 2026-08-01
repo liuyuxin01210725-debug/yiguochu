@@ -50,6 +50,7 @@ function select(request, {
   sourceRatioCatalog = null,
   sourceTaxonomy = taxonomy,
   recentPlanIds = [],
+  riceCatalogScope = 'ready',
 } = {}) {
   assert.equal(typeof selectRiceMealCandidates, 'function', 'selectRiceMealCandidates must be exported');
   return selectRiceMealCandidates({
@@ -59,6 +60,7 @@ function select(request, {
     ratioCatalog: sourceRatioCatalog || controlledRatioCatalogFor(sourceCatalog),
     sourceEvidence,
     recentPlanIds,
+    riceCatalogScope,
   });
 }
 
@@ -187,6 +189,60 @@ function fixtureCatalog(variants, familyId = 'fixture-family') {
 test('selector exposes the two documented pure-function entrypoints', () => {
   assert.equal(typeof normalizeRiceMealRequest, 'function');
   assert.equal(typeof selectRiceMealCandidates, 'function');
+});
+
+test('calibration variants are invisible by default and available only in the signed calibration scope', () => {
+  const calibration = fixtureVariant({
+    variantId:'calibration-chicken-potato-rice',
+    ingredientIds:['chicken-leg','potato'],
+    grade:'B',
+  });
+  calibration.status = 'calibration_preview';
+  calibration.status_history = ['research_only','fact_checked','planned','calibration_preview'];
+  calibration.supported_servings = [2];
+  const sourceCatalog = fixtureCatalog([calibration]);
+
+  const ordinary = select({ servings:2, pantry:['鸡腿','土豆'], dislikes:[] }, { sourceCatalog });
+  assert.equal(ordinary.status, 'no_reliable_rice_meal');
+
+  const internal = select({ servings:2, pantry:['鸡腿','土豆'], dislikes:[] }, {
+    sourceCatalog,
+    riceCatalogScope:'calibration',
+  });
+  assert.equal(internal.status, 'ready');
+  assert.equal(internal.rice_catalog_scope, 'calibration');
+  assert.equal(internal.candidates[0].rice_catalog_scope, 'calibration');
+  assert.equal(internal.candidates[0].plan_snapshot.rice_catalog_scope, 'calibration');
+});
+
+test('the eight authentic calibration meals cover their reviewed pantry sets without leaking into ready scope', () => {
+  const fixtures = [
+    ['home-taiwan-cabbage-rice', ['卷心菜', '香菇', '虾米']],
+    ['home-taiwan-pumpkin-rice', ['南瓜', '猪肉末', '香菇', '虾米']],
+    ['home-curry-chicken-rice', ['鸡胸肉', '胡萝卜', '土豆', '洋葱']],
+    ['home-sausage-mixed-rice', ['腊肠', '青豌豆', '香菇', '玉米', '胡萝卜']],
+    ['home-beef-mixed-rice', ['牛肉末', '胡萝卜', '洋葱']],
+    ['home-bamboo-vegetable-rice', ['猪肉末', '竹笋', '洋葱', '胡萝卜', '干木耳']],
+    ['home-mixed-chicken-rice', ['鸡胸肉', '油炸豆腐', '牛蒡', '胡萝卜', '香菇']],
+    ['home-fresh-shiitake-rice', ['鸡胸肉', '香菇', '芹菜']],
+  ];
+
+  for (const [variantId, pantry] of fixtures) {
+    const ready = select({ servings: 2, pantry, dislikes: [] });
+    assert.equal(ready.candidates.some(candidate => candidate.variant_id === variantId), false, variantId);
+
+    const calibration = select({ servings: 2, pantry, dislikes: [] }, {
+      riceCatalogScope: 'calibration',
+    });
+    assert.equal(calibration.status, 'ready', `${variantId}: ${JSON.stringify(calibration)}`);
+    const candidate = calibration.candidates.find(row => row.variant_id === variantId);
+    assert.ok(candidate, `${variantId} must be emitted in calibration scope`);
+    assert.equal(candidate.coverage_count, pantry.length, variantId);
+    assert.equal(candidate.coverage_total, pantry.length, variantId);
+    assert.equal(candidate.coverage_ratio, 1, variantId);
+    assert.deepEqual(candidate.unused_items, [], variantId);
+    assert.equal(candidate.display_name, variant(variantId).display_name, variantId);
+  }
 });
 
 test('controlled seasonings are signed candidate facts but never inflate pantry coverage', () => {
@@ -319,17 +375,18 @@ test('Shanghai salted pork vegetable rice is a real three-serving plan and never
 });
 
 test('every hand-authored rice-meal journey has its literal status, variant, coverage, grade, and reason contract', () => {
-  assert.equal(journeyCorpus.journeys.length, 26, 'the fixed journey gate covers every active variant and the nine Task 5 household-coverage cases');
+  assert.equal(journeyCorpus.journeys.length, 34, 'the fixed journey gate covers every public-ready and internal-calibration rice variant');
   for (const journey of journeyCorpus.journeys) {
+    const riceCatalogScope = journey.rice_catalog_scope || 'ready';
     let result;
     if (journey.swap_from_variant_id) {
-      const initial = select(journey.request);
+      const initial = select(journey.request, { riceCatalogScope });
       const current = initial.candidates.find(candidate => candidate.variant_id === journey.swap_from_variant_id);
       assert.ok(current, `${journey.id} fixture must first expose ${journey.swap_from_variant_id}`);
-      result = select({ ...journey.request, current_plan_id: current.plan_id });
+      result = select({ ...journey.request, current_plan_id: current.plan_id }, { riceCatalogScope });
       assert.equal(result.current_candidate?.variant_id, journey.swap_from_variant_id);
     } else {
-      result = select(journey.request);
+      result = select(journey.request, { riceCatalogScope });
     }
     const expected = journey.expect;
     assert.equal(result.status, expected.status, journey.id);
@@ -380,12 +437,12 @@ test('every hand-authored rice-meal journey has its literal status, variant, cov
   }
 });
 
-test('journey corpus exercises every active variant and the selector remains entirely local', () => {
+test('journey corpus exercises every public-ready and internal-calibration variant and the selector remains entirely local', () => {
   const exercised = new Set(journeyCorpus.journeys
     .filter(journey => journey.expect.status === 'ready')
     .map(journey => journey.expect.expected_first_variant));
   const active = catalog.families.flatMap(family => family.variants)
-    .filter(row => row.status === 'preview_ready')
+    .filter(row => ['preview_ready', 'calibration_preview'].includes(row.status))
     .map(row => row.variant_id);
   assert.deepEqual([...exercised].sort(), active.sort());
 });
@@ -1094,6 +1151,7 @@ test('candidate facts are a signed compiler handoff: name, material identities, 
     nutrition_grade: 'B',
     plan_snapshot: {
       catalog_version: catalog.catalog_version,
+      rice_catalog_scope: 'ready',
       servings: 2,
       normalized_items: [
         { kind: 'recognized', canonical_id: 'chicken-leg', state: 'raw', shape_or_cut: 'leg' },
@@ -1161,11 +1219,11 @@ test('the journey CLI enforces ready-candidate ordering and executes the compile
     encoding: 'utf8',
   });
   assert.equal(run.status, 0, run.stderr || run.stdout);
-  assert.match(run.stdout, /Rice meal journey gate: total=26 selector_passed=26 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
+  assert.match(run.stdout, /Rice meal journey gate: total=34 selector_passed=34 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
   assert.match(run.stdout, /needs_balance_input: 1/u);
   assert.match(run.stdout, /no_reliable_rice_meal: 7/u);
   assert.match(run.stdout, /no_alternative_rice_meal: 1/u);
-  assert.match(run.stdout, /ready: 14/u);
+  assert.match(run.stdout, /ready: 22/u);
   assert.match(run.stdout, /unsafe_recipe: 3/u);
   assert.match(run.stdout, /RM-04-chicken-potato-b .*coverage=2\/2 grade=B/u);
   assert.match(run.stdout, /RM-15-selector-facts-for-compiler .*contract=passed/u);

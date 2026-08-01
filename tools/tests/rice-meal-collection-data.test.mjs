@@ -12,15 +12,17 @@ test('national rice-meal collection records all research candidates, exclusions,
     readJson('rice-meal-catalog.v1.json'),
   ]);
   assert.deepEqual(validateRiceMealCollection(collection, { taxonomy, catalog }), []);
-  assert.equal(collection.candidates.length, 45);
+  assert.equal(collection.candidates.length, 50);
   assert.ok(collection.exclusions.length >= 8);
-  assert.equal(collection.catalog_tracking.length, 11);
+  assert.equal(collection.catalog_tracking.length, 19);
   assert.deepEqual(
     collection.region_nodes.filter(node => node.gap).map(node => node.region_id).sort(),
     ['CN-BJ', 'CN-GS', 'CN-GX', 'CN-HE', 'CN-HI', 'CN-HK', 'CN-HL', 'CN-JL', 'CN-JX', 'CN-LN', 'CN-MO', 'CN-NM', 'CN-QH', 'CN-SD', 'CN-SX', 'CN-XZ'],
   );
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'runtime_ready').length, 8);
+  assert.equal(collection.catalog_tracking.filter(row => row.status === 'calibration_ready').length, 8);
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'planned').length, 3);
+  assert.equal(collection.runtime_mappings.length, 19);
   for (const candidateId of [
     'household-green-bean-pork-rib-rice',
     'household-mushroom-green-bean-pork-rib-rice',
@@ -63,7 +65,7 @@ test('national rice-meal collection records all research candidates, exclusions,
   }
 });
 
-test('new regional and manufacturer findings remain blocked research candidates with no runtime mapping', async () => {
+test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),
     readJson('ingredient-taxonomy.v1.json'),
@@ -77,7 +79,6 @@ test('new regional and manufacturer findings remain blocked research candidates 
   for (const id of [
     'wenzhou-mustard-rice',
     'quanzhou-red-crab-rice',
-    'zojirushi-beef-mixed-rice',
     'zojirushi-tomato-seafood-rice',
   ]) {
     const candidate = byId.get(id);
@@ -88,16 +89,29 @@ test('new regional and manufacturer findings remain blocked research candidates 
     assert.equal(mapped.has(id), false, `${id} must not enter runtime mappings`);
   }
 
-  const beef = byId.get('zojirushi-beef-mixed-rice');
-  assert.equal(beef.quantity_liquid_completeness, 'partial');
-  assert.deepEqual(beef.identity_sources[0].supports, ['identity', 'quantity', 'appliance']);
-  assert.match(beef.blockers.join('\n'), /固定水量|水位线/);
-
   const tomatoSeafood = byId.get('zojirushi-tomato-seafood-rice');
   assert.equal(tomatoSeafood.quantity_liquid_completeness, 'partial');
   assert.match(tomatoSeafood.blockers.join('\n'), /串页|损坏|矛盾/);
   assert.equal(tomatoSeafood.nutrition_grade, 'C');
   assert.equal(byId.get('quanzhou-red-crab-rice').name, '泉州红蟳饭（红膏蟳饭）');
+
+  for (const id of [
+    'taiwan-cabbage-rice',
+    'taiwan-pumpkin-rice',
+    'joyoung-curry-chicken-rice',
+    'joyoung-sausage-mixed-rice',
+    'zojirushi-beef-mixed-rice',
+    'zojirushi-bamboo-vegetable-rice',
+    'panasonic-mixed-chicken-rice',
+    'panasonic-fresh-shiitake-rice',
+  ]) {
+    const candidate = byId.get(id);
+    assert.equal(candidate?.status, 'calibration_ready', id);
+    assert.equal(candidate?.quantity_liquid_completeness, 'complete', id);
+    assert.match(candidate?.blockers.join('\n') || '', /内部校准合同.*实厨试做/u, id);
+    assert.equal(tracked.has(id), true, id);
+    assert.equal(mapped.has(id), true, id);
+  }
 });
 
 test('research blockers preserve dish-defining rice state, liquid ambiguity, and raw-versus-cooked safety boundaries', async () => {

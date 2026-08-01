@@ -23,6 +23,7 @@ const REQUIRED_SOURCE_PATHS = [
   'tools/data/ratio-rules.v1.json',
   'tools/data/recipe-library.json',
   'tools/data/regional-menu-mappings.v1.json',
+  'tools/data/rice-meal-catalog.v1.json',
 ];
 
 const asArray = value => Array.isArray(value) ? value : [];
@@ -355,7 +356,7 @@ export function validatePlannerMenuCoverage(report, inputs = {}) {
   const sourceHashes = asObject(safeReport.source_hashes);
   if (JSON.stringify(Object.keys(sourceHashes)) !== JSON.stringify(REQUIRED_SOURCE_PATHS)
       || Object.values(sourceHashes).some(hash => typeof hash !== 'string' || !/^[0-9a-f]{64}$/.test(hash))) {
-    errors.push('coverage source_hashes must contain the six canonical SHA-256 inputs');
+    errors.push('coverage source_hashes must contain the seven canonical SHA-256 inputs');
   }
   if (!Array.isArray(safeReport.recipes)) errors.push('coverage recipes must be an array');
   if (recipes.length !== baselineRows.length) errors.push(`coverage recipe count must be ${baselineRows.length}`);

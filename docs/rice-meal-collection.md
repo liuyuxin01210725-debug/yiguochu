@@ -71,8 +71,8 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 台湾高丽菜饭 | 米、高丽菜、虾米、香菇 | B | raw-rice | 来源为电锅炊饭：高丽菜、虾米、香菇等与米按固定批量处理，水为米体积量0.8倍 | identity、quantity、liquid、appliance | partial | 2杯米与0.8倍水为来源体积量，缺可迁移的克/毫升换算、份数和调味克数；10g虾米只作风味与过敏因素，不得冒充实质蛋白贡献；高丽菜、虾米等未完成本项目 taxonomy，且焯沥/析水对有效液体的影响未闭合 | planned |
-| 台湾南瓜饭 | 米、南瓜、猪绞肉、虾米、香菇 | A | raw-rice | 来源按厂家量杯取米、水为米体积量0.8倍；首次完成后静置15分钟并再启动一次开关 | identity、quantity、liquid、appliance | partial | 来源未给量杯到克/毫升的可迁移换算、明确份数及调味克数；静置15分钟后第二次按键的行为不能默认在所有机型上等价；需跨机型家庭验证；南瓜、虾米等尚未完成本项目受控 taxonomy/过敏边界 | planned |
+| 高丽菜饭 | 米、高丽菜、虾米、香菇 | B | raw-rice | 来源为电锅炊饭：高丽菜、虾米、香菇等与米按固定批量处理，水为米体积量0.8倍 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 南瓜饭 | 米、南瓜、猪绞肉、虾米、香菇 | A | raw-rice | 来源按厂家量杯取米、水为米体积量0.8倍；首次完成后静置15分钟并再启动一次开关 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
 
 ## 广东（CN-GD）
 
@@ -285,5 +285,10 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 牛肉什锦饭 | 米、牛肉末、胡萝卜泥、洋葱 | C | raw-rice | 象印官方固定4至5人批量：3厂家杯米，先拌盐并补水至白米3水位线，牛肉末、胡萝卜泥、洋葱与黄油分层铺放不搅拌，使用什锦饭程序 | identity、quantity、appliance | partial | 来源只给白米3品牌水位线，无可迁移的固定水量；不得跨品牌或改成通用新增水克数；固定4至5人批量不能未经验证线性缩放到1至4人；每批仅100g牛肉末和90g蔬菜，按本项目每份营养门槛只能记C级证据原型；若做项目家庭A级改编，必须明确标注增加的牛肉/蔬菜量不是厂商原配方；牛肉末熟制终点仍需项目确定性校验 | research_candidate |
+| 咖喱鸡肉饭 | 大米、鸡胸肉、胡萝卜、土豆、洋葱 | A | raw-rice | Joyoung America的咖喱鸡肉饭提供真实菜名、组合和电饭煲流程；项目另建两人校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 懒人焖饭（腊肠什锦版） | 大米、腊肠、青豌豆、香菇、玉米、胡萝卜 | B | raw-rice | Joyoung America的懒人焖饭提供真实菜名、组合和电饭煲流程；项目另建两人校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 鲜香菇饭 | 大米、鸡胸肉、香菇、芹菜 | B | raw-rice | 松下家电（中国）有限公司的鲜香菇饭提供真实菜名、组合和电饭煲流程；项目另建两人校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 什锦鸡饭 | 大米、鸡胸肉、油炸豆腐、牛蒡、胡萝卜、香菇 | A | raw-rice | 松下家电（中国）有限公司的什锦鸡饭提供真实菜名、组合和电饭煲流程；项目另建两人校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 鲜蔬竹笋饭 | 大米、猪肉末、竹笋、洋葱、胡萝卜、干木耳 | B | raw-rice | 上海象印家用电器有限公司的鲜蔬竹笋饭提供真实菜名、组合和电饭煲流程；项目另建两人校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 牛肉什锦饭 | 米、牛肉末、胡萝卜泥、洋葱 | A | raw-rice | 象印官方固定4至5人批量：3厂家杯米，先拌盐并补水至白米3水位线，牛肉末、胡萝卜泥、洋葱与黄油分层铺放不搅拌，使用什锦饭程序 | identity、quantity、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
 | 番茄海鲜饭 | 米、鱿鱼圈、虾仁、番茄、洋葱、混合蔬菜 | C | raw-rice | 页面只能证明菜名、4至5人批量和配料表；所示步骤转为糙米粥水位线、红枣与枸杞流程，与番茄海鲜饭矛盾，不可执行 | identity、quantity | partial | 页面步骤明显串页/损坏，与菜名和配料表矛盾；加液、水位线、程序和操作顺序全部 fail-closed；固定批量中的海鲜与蔬菜份量按本项目每份门槛不足，且白砂糖65g需额外营养/口味审查，只记C级证据原型；鱿鱼和虾仁的入锅时机、熟制终点、甲壳/软体过敏防线均未闭合 | research_candidate |

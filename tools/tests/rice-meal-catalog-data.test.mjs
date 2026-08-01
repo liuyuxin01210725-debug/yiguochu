@@ -490,14 +490,19 @@ test('all eight Preview meals earn their A-or-B grade from executable per-person
   }
 });
 
-test('catalog exposes eight liquid-audited Preview meals while keeping all eleven evidence variants and 72 recipes', () => {
+test('catalog keeps eight ready meals and adds eight two-person calibration meals without changing 72 recipes', () => {
   const active = variants.filter(variant => variant.status === 'preview_ready');
+  const calibration = variants.filter(variant => variant.status === 'calibration_preview');
   assert.equal(catalog.families.length, 3);
-  assert.equal(variants.length, 11);
+  assert.equal(variants.length, 19);
   assert.equal(active.length, 8);
+  assert.equal(calibration.length, 8);
   assert.equal(variants.filter(variant => variant.status === 'planned').length, 3);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 7);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
+  assert.equal(calibration.filter(variant => variant.nutrition_structure.grade === 'A').length, 4);
+  assert.equal(calibration.filter(variant => variant.nutrition_structure.grade === 'B').length, 4);
+  assert.ok(calibration.every(variant => JSON.stringify(variant.supported_servings) === JSON.stringify([2])));
   assert.equal(recipes.recipes.length, 72);
 });
 

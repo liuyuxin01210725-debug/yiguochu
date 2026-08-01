@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "rice-meal-catalog-v1-20260801-r6",
+  "catalog_version": "rice-meal-catalog-v1-20260802-r7",
   "journeys": [
     {
       "id": "RM-01-jiangnan-planned-only",
@@ -428,6 +428,142 @@
         "expected_unused_raw": [],
         "expected_ignored_basic_raw": ["大米"],
         "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-27-calibration-cabbage-rice-full-coverage",
+      "spec_case": 27,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["卷心菜", "香菇", "虾米"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-taiwan-cabbage-rice",
+        "allowed_variant_ids": ["home-taiwan-cabbage-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 3,
+        "nutrition_grades": ["B"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-28-calibration-pumpkin-rice-full-coverage",
+      "spec_case": 28,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["南瓜", "猪肉末", "香菇", "虾米"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-taiwan-pumpkin-rice",
+        "allowed_variant_ids": ["home-taiwan-pumpkin-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 4,
+        "expected_coverage_count": 4,
+        "expected_coverage_total": 4,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-29-calibration-curry-chicken-full-coverage",
+      "spec_case": 29,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["鸡胸肉", "胡萝卜", "土豆", "洋葱"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-curry-chicken-rice",
+        "allowed_variant_ids": ["home-curry-chicken-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 4,
+        "expected_coverage_count": 4,
+        "expected_coverage_total": 4,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-30-calibration-sausage-mixed-full-coverage",
+      "spec_case": 30,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["腊肠", "青豌豆", "香菇", "玉米", "胡萝卜"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-sausage-mixed-rice",
+        "allowed_variant_ids": ["home-sausage-mixed-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 5,
+        "expected_coverage_count": 5,
+        "expected_coverage_total": 5,
+        "nutrition_grades": ["B"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-31-calibration-beef-mixed-full-coverage",
+      "spec_case": 31,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["牛肉末", "胡萝卜", "洋葱"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-beef-mixed-rice",
+        "allowed_variant_ids": ["home-beef-mixed-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 3,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-32-calibration-bamboo-vegetable-full-coverage",
+      "spec_case": 32,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["猪肉末", "竹笋", "洋葱", "胡萝卜", "干木耳"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-bamboo-vegetable-rice",
+        "allowed_variant_ids": ["home-bamboo-vegetable-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 5,
+        "expected_coverage_count": 5,
+        "expected_coverage_total": 5,
+        "nutrition_grades": ["B"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-33-calibration-mixed-chicken-full-coverage",
+      "spec_case": 33,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["鸡胸肉", "油炸豆腐", "牛蒡", "胡萝卜", "香菇"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-mixed-chicken-rice",
+        "allowed_variant_ids": ["home-mixed-chicken-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 5,
+        "expected_coverage_count": 5,
+        "expected_coverage_total": 5,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-34-calibration-fresh-shiitake-full-coverage",
+      "spec_case": 34,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["鸡胸肉", "香菇", "芹菜"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-fresh-shiitake-rice",
+        "allowed_variant_ids": ["home-fresh-shiitake-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 3,
+        "nutrition_grades": ["B"],
         "required_unused_reason_codes": []
       }
     }

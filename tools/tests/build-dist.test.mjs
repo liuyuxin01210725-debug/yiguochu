@@ -98,6 +98,7 @@ function runBuild(outputDir, {
   plannerRollout = 'direct-recommend',
   generationMode = 'deterministic',
   productFocus = 'legacy',
+  riceCatalogScope = 'ready',
 } = {}) {
   const args = [
     BUILD_SCRIPT,
@@ -107,6 +108,7 @@ function runBuild(outputDir, {
   if (plannerRollout != null) args.push('--planner-rollout', plannerRollout);
   if (generationMode != null) args.push('--generation-mode', generationMode);
   if (productFocus != null) args.push('--product-focus', productFocus);
+  if (riceCatalogScope != null) args.push('--rice-catalog-scope', riceCatalogScope);
   return spawnSync(process.execPath, args, { cwd: ROOT, encoding: 'utf8' });
 }
 
@@ -275,6 +277,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
         plannerRollout:'direct-recommend',
         generationMode:'deterministic',
         productFocus:'legacy',
+        riceCatalogScope:'ready',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -301,6 +304,7 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
         plannerRollout:'off',
         generationMode:'llm',
         productFocus:'legacy',
+        riceCatalogScope:'ready',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -313,6 +317,10 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
     const rejected = runBuild(outputDir, { plannerRollout:'everyone' });
     assert.notEqual(rejected.status, 0);
     assert.match(rejected.stderr, /planner rollout/i);
+
+    const rejectedScope = runBuild(outputDir, { riceCatalogScope:'public' });
+    assert.notEqual(rejectedScope.status, 0);
+    assert.match(rejectedScope.stderr, /catalog scope/i);
 
     const rejectedGenerationMode = runBuild(outputDir, { generationMode:'hybrid' });
     assert.notEqual(rejectedGenerationMode.status, 0);
@@ -445,7 +453,10 @@ test('built Worker contains its complete relative module graph and plans from em
 test('rice-meal distribution embeds the catalog and focus metadata without a legacy fallback', async () => {
   const outputDir = makeOutputDir();
   try {
-    const buildResult = runBuild(outputDir, { productFocus:'rice-meal-v1' });
+    const buildResult = runBuild(outputDir, {
+      productFocus:'rice-meal-v1',
+      riceCatalogScope:'calibration',
+    });
     assert.equal(buildResult.status, 0, `${buildResult.stdout}\n${buildResult.stderr}`);
     assert.equal(JSON.parse(buildResult.stdout).productFocus, 'rice-meal-v1');
     assert.deepEqual(
@@ -455,6 +466,7 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
         plannerRollout:'direct-recommend',
         generationMode:'deterministic',
         productFocus:'rice-meal-v1',
+        riceCatalogScope:'calibration',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -496,10 +508,11 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
     const health = await healthResponse.json();
     assert.equal(health.productFocus, 'rice-meal-v1');
     assert.equal(health.riceMealCatalog, 'ok');
-    assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r6');
+    assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260802-r7');
     assert.equal(health.riceMealFamilies, 3);
-    assert.equal(health.riceMealVariants, 11);
+    assert.equal(health.riceMealVariants, 19);
     assert.equal(health.riceMealPreviewReady, 8);
+    assert.equal(health.riceMealCalibrationReady, 8);
     assert.equal(health.riceMealPlanned, 3);
     assert.equal(health.riceCookerSourceEvidence, 'ok');
     assert.equal(health.riceCookerSourceEvidenceVersion, 'rice-cooker-source-evidence-v1-20260802');

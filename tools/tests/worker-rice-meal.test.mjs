@@ -16,14 +16,21 @@ const RICE_MEAL_BUILD_META = JSON.stringify({
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
+  riceCatalogScope: 'ready',
   riceCookerSourceEvidenceVersion: 'rice-cooker-source-evidence-v1-20260802',
   riceCookerSourceEvidenceSha256: SOURCE_EVIDENCE_SHA256,
+});
+const CALIBRATION_BUILD_META = JSON.stringify({
+  ...JSON.parse(RICE_MEAL_BUILD_META),
+  buildId: 'rice-meal-calibration-worker-test',
+  riceCatalogScope: 'calibration',
 });
 const LEGACY_BUILD_META = JSON.stringify({
   buildId: 'legacy-worker-test',
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'legacy',
+  riceCatalogScope: 'ready',
 });
 const SOURCE_ASSETS = Object.freeze({
   '/ingredient-taxonomy.v1.json': readAsset('ingredient-taxonomy.v1.json'),
@@ -168,6 +175,32 @@ test('rice-meal build selects schema-v3 candidates without model or budget work'
   assert.equal(result.modelCalls, 0);
   assert.equal(result.kv.gets, 0);
   assert.equal(result.kv.puts, 0);
+});
+
+test('calibration build can sign and compile calibration meals while ready builds reject their tokens', async () => {
+  const calibrationAssets = assetBinding({ '/build-meta.json': CALIBRATION_BUILD_META });
+  const planned = await post('/plan-meal', ricePlanRequest({
+    pantry: ['卷心菜', '香菇', '虾米'],
+  }), { assets: calibrationAssets });
+  assert.equal(planned.status, 200, JSON.stringify(planned.body));
+  assert.equal(planned.body.rice_catalog_scope, 'calibration');
+  const candidate = planned.body.candidates.find(row => row.variant_id === 'home-taiwan-cabbage-rice');
+  assert.ok(candidate, JSON.stringify(planned.body));
+  assert.equal(candidate.rice_catalog_scope, 'calibration');
+
+  const generated = await post('/generate-plan', { plan_token: candidate.plan_token }, {
+    assets: calibrationAssets,
+  });
+  assert.equal(generated.status, 200, JSON.stringify(generated.body));
+  assert.equal(generated.body.meals[0].dish_name, '高丽菜饭');
+  assert.equal(generated.modelCalls, 0);
+
+  const rejected = await post('/generate-plan', { plan_token: candidate.plan_token }, {
+    assets: assetBinding(),
+  });
+  assert.equal(rejected.status, 409);
+  assert.equal(rejected.body.code, 'stale_plan');
+  assert.equal(rejected.modelCalls, 0);
 });
 
 test('mainland curry-block identity maps to the authoritative Taiwan curry-block nutrition row', async () => {
@@ -503,10 +536,12 @@ test('health exposes rice catalog facts only for valid rice metadata and include
   });
   const healthyBody = await healthy.json();
   assert.equal(healthyBody.riceMealCatalog, 'ok');
-  assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r6');
+  assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260802-r7');
   assert.equal(healthyBody.riceMealFamilies, 3);
-  assert.equal(healthyBody.riceMealVariants, 11);
+  assert.equal(healthyBody.riceCatalogScope, 'ready');
+  assert.equal(healthyBody.riceMealVariants, 19);
   assert.equal(healthyBody.riceMealPreviewReady, 8);
+  assert.equal(healthyBody.riceMealCalibrationReady, 8);
   assert.equal(healthyBody.riceMealPlanned, 3);
   assert.equal(healthyBody.riceCookerSourceEvidence, 'ok');
   assert.equal(healthyBody.riceCookerSourceEvidenceVersion, 'rice-cooker-source-evidence-v1-20260802');
@@ -527,6 +562,7 @@ test('health exposes rice catalog facts only for valid rice metadata and include
     assert.equal(body.riceMealFamilies, 0);
     assert.equal(body.riceMealVariants, 0);
     assert.equal(body.riceMealPreviewReady, 0);
+    assert.equal(body.riceMealCalibrationReady, 0);
     assert.equal(body.riceMealPlanned, 0);
   }
 });

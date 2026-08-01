@@ -197,7 +197,7 @@ function clone(value) {
 function validCatalog() {
   return {
     schema_version: 1,
-    catalog_version: 'rice-meal-catalog-v1-20260801-r6',
+    catalog_version: 'rice-meal-catalog-v1-20260802-r7',
     families: [{
       family_id: 'closed-lid-rice-meal',
       variants: [{
@@ -333,7 +333,8 @@ function collectionForCatalog(catalog) {
     variant.rice.canonical_ingredient_id,
     ...variant.ingredients.map(item => item.canonical_ingredient_id),
   ];
-  const status = variant.status === 'preview_ready' ? 'runtime_ready' : 'planned';
+  const status = variant.status === 'preview_ready' ? 'runtime_ready'
+    : variant.status === 'calibration_preview' ? 'calibration_ready' : 'planned';
   const labels = {
     'raw-rice': '米',
     'chicken-leg': '鸡腿',
@@ -892,6 +893,21 @@ test('controlled seasonings cannot be promoted to protein or fiber contributors'
   };
 
   expectError(catalog, 'controlled seasoning soy-sauce cannot be a protein or fiber contributor', contextWithControlledSoySauceRatio());
+});
+
+test('calibration preview is a two-serving executable branch and never impersonates preview approval', () => {
+  const catalog = validCatalog();
+  const variant = catalog.families[0].variants[0];
+  variant.status = 'calibration_preview';
+  variant.status_history = ['research_only', 'fact_checked', 'planned', 'calibration_preview'];
+  variant.supported_servings = [2];
+  variant.preview_notice_code = 'household_test_pending_feedback';
+
+  assert.deepEqual(validate(catalog), []);
+
+  const widened = structuredClone(catalog);
+  widened.families[0].variants[0].supported_servings = [1, 2, 3, 4];
+  expectError(widened, 'calibration_preview supported_servings must equal [2]');
 });
 
 test('rejects a status that skips required promotion stages', () => {
@@ -1633,5 +1649,5 @@ test('recipe aggregate gate validates the catalog and reports its status counts'
   });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /3 families · 11 variants · 8 preview_ready · 3 planned · rice meal catalog ok/);
+  assert.match(result.stdout, /3 families · 19 variants · 8 preview_ready · 8 calibration_preview · 3 planned · rice meal catalog ok/);
 });

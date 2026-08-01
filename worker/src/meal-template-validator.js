@@ -6,7 +6,7 @@ const EXPECTED_TEMPLATE_IDS = new Set([
   'mushroom-aroma-rice-pot', 'broth-rice-pot', 'braised-noodle-pot', 'curry-staple-pot',
   'pork-staple-pot', 'soft-family-rice-pot', 'stew-with-staple-pot', 'quick-breakfast-pot',
 ]);
-const TAXONOMY_VERSION = 'taxonomy-v1-20260728-r10';
+const TAXONOMY_VERSION = 'taxonomy-v1-20260802-r11';
 const ACTIVE_TEMPLATE_IDS = new Set([
   'acid-staple-pot', 'savory-mixed-rice-pot', 'cooked-rice-stir-pot', 'broth-noodle-pot',
   'egg-tofu-vegetable-pot', 'mushroom-vegetable-stew-pot', 'beef-staple-pot', 'poultry-staple-pot',
@@ -493,7 +493,7 @@ function checkTemplate(template, index, context, recipeIds, errors) {
   else if (template.evidence_recipe_ids.some(recipeId => !recipeIds.has(recipeId))) errors.push(`${label} has unknown evidence recipe`);
 }
 
-export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog) {
+export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog, riceMealCatalog) {
   try {
     const errors = [];
     if (!isObject(catalog)) return ['template catalog must be an object'];
@@ -532,15 +532,21 @@ export function validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ra
         errors.push(`${id} must be planned and runtime ineligible`);
       }
     }
-    if (ratioCatalog !== undefined) errors.push(...validateRatioDslCatalog(ratioCatalog, catalog, taxonomy, recipeLibrary));
+    if (ratioCatalog !== undefined) {
+      errors.push(...validateRatioDslCatalog(
+        ratioCatalog, catalog, taxonomy, recipeLibrary, riceMealCatalog,
+      ));
+    }
     return errors;
   } catch (error) {
     return [`template catalog validation failed safely: ${error instanceof Error ? error.message : String(error)}`];
   }
 }
 
-export function assertMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog) {
-  const errors = validateMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog);
+export function assertMealTemplateCatalog(catalog, taxonomy, recipeLibrary, ratioCatalog, riceMealCatalog) {
+  const errors = validateMealTemplateCatalog(
+    catalog, taxonomy, recipeLibrary, ratioCatalog, riceMealCatalog,
+  );
   if (errors.length) throw new Error(`invalid meal template catalog:\n${errors.join('\n')}`);
 }
 

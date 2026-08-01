@@ -67,6 +67,7 @@ const RICE_MEAL_BUILD_META = JSON.stringify({
   plannerRollout: 'direct-recommend',
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
+  riceCatalogScope: 'ready',
   riceCookerSourceEvidenceVersion: JSON.parse(sourceAssets['/rice-cooker-source-evidence.v1.json']).ledger_version,
   riceCookerSourceEvidenceSha256: crypto.createHash('sha256')
     .update(canonicalJson(JSON.parse(sourceAssets['/rice-cooker-source-evidence.v1.json'])))
