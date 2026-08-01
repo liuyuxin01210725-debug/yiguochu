@@ -2,7 +2,16 @@
 
 目标不是“发很多人”，而是验证：真实做饭的人会不会在第二天自己回来再用。
 
-Pilot 入口：等待 `recipe-validation` Preview 发布并通过构建号、性能与真人浏览器门后填写。**不得发送 production 链接，也不得在发布门完成前邀请测试者承担 QA。** DeepSeek key 轮换由密钥持有人安排在 production 上线前完成；该安全门不得遗忘，但不阻塞内部 Preview 验证。
+Pilot 入口：等待 `recipe-validation` Preview 发布并通过构建号、性能与三路真人浏览器门后填写。**不得发送 production 链接，也不得在发布门完成前邀请测试者承担 QA。** DeepSeek key 轮换由密钥持有人安排在 production 上线前完成；该安全门不得遗忘，但不阻塞内部 Preview 验证。
+
+## 2026-08-02 菜饭 Preview Pilot 冻结基线
+
+- 全国收集总目录：41 条候选，8 条 `runtime_ready`、3 条 `planned`；
+- 用户可测目录：8 道具名电饭煲菜饭，其余 3 道不参与候选；
+- evidence 基线：72 道 recipe，数量和批准状态均未改变；
+- 项目标准边界：豆角排骨、香菇豆角排骨、白菜豆腐、西兰花牛肉只是待家庭反馈的 Preview 测试标准，不得记成已试做或人工批准；
+- 自动工程门：1795/1795 Node、26/26 菜饭旅程、8/8 编译、0 模型调用、0 预算变化；
+- 待完成：最终 Preview 构建标识三方核对和三个独立 Chrome 手机视口真实点击角色。在此之前 Pilot 状态仍为 **NO-GO**。
 
 ## 本周唯一目标
 
