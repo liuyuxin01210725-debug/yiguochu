@@ -143,12 +143,27 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     trackingVariantIds.add(row.runtime_variant_id);
     const variant = variantById.get(row.runtime_variant_id);
     if (!variant) errors.push(`${path}.runtime_variant_id does not exist in catalog`);
+    if (variant) {
+      if (variant.collection_candidate_id !== row.candidate_id) {
+        errors.push(`${path} catalog collection_candidate_id must match tracking candidate_id`);
+      }
+      const catalogCoreIds = new Set([
+        variant.rice?.canonical_ingredient_id,
+        ...(Array.isArray(variant.ingredients) ? variant.ingredients.map(item => item?.canonical_ingredient_id) : []),
+      ].filter(present));
+      const trackingCoreIds = new Set(Array.isArray(row.core_ingredient_ids) ? row.core_ingredient_ids : []);
+      if (catalogCoreIds.size !== trackingCoreIds.size || [...catalogCoreIds].some(id => !trackingCoreIds.has(id))) {
+        errors.push(`${path} tracking core_ingredient_ids must match catalog variant`);
+      }
+    }
     const requiredStatus = variant?.status === 'preview_ready' ? 'runtime_ready' : variant?.status === 'planned' ? 'planned' : null;
     if (requiredStatus && row.status !== requiredStatus) errors.push(`${path}.status must match catalog status`);
     if (row.candidate_id !== null && !candidateById.has(row.candidate_id)) errors.push(`${path}.candidate_id references unknown candidate`);
     if (!NUTRITION_GRADES.has(row.nutrition_grade)) errors.push(`${path}.nutrition_grade is invalid`);
     const mappedCandidate = candidateById.get(row.candidate_id);
     if (mappedCandidate && row.nutrition_grade !== mappedCandidate.nutrition_grade) errors.push(`${path}.nutrition_grade must match mapped candidate`);
+    if (mappedCandidate?.nutrition_grade === 'C') errors.push(`${path} cannot activate a nutrition grade C candidate`);
+    if (mappedCandidate?.status === 'excluded') errors.push(`${path} cannot activate an excluded candidate`);
     if (!['planned', 'runtime_ready'].includes(row.status)) errors.push(`${path}.status must be planned or runtime_ready`);
     if (row.status === 'runtime_ready') {
       const candidate = mappedCandidate;

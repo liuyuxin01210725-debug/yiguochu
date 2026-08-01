@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prepareRatioCatalog } from '../lib/ratio-dsl-validator.mjs';
+import { validateRiceMealCatalog } from '../lib/rice-meal-catalog-validator.mjs';
 import { compileRatioPlan } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -13,6 +14,7 @@ const recipes = readJson('recipe-library.json');
 const ratios = readJson('ratio-rules.v1.json');
 const taxonomy = readJson('ingredient-taxonomy.v1.json');
 const templates = readJson('meal-templates.v2.json');
+const collection = readJson('rice-meal-collection.v1.json');
 const scope = JSON.parse(fs.readFileSync(path.join(here, 'fixtures/rice-meal-preview-scope.json'), 'utf8'));
 
 const recipeById = new Map(recipes.recipes.map(recipe => [recipe.id, recipe]));
@@ -104,6 +106,12 @@ function sourceNamesFor(item) {
 }
 
 test('first-stage scope maps each permitted recipe exactly once to a fixed natural household name', () => {
+  assert.deepEqual(validateRiceMealCatalog(catalog, {
+    recipeLibrary: recipes,
+    taxonomy,
+    ratioCatalog: ratios,
+    collection,
+  }), []);
   const catalogEvidenceIds = [
     ...scope.included_recipe_ids,
     ...scope.controlled_process_adaptation_recipe_ids,

@@ -101,6 +101,28 @@ test('rejects tracking nutrition grades that drift from the mapped candidate', a
   assert.ok(validatorModule.validateRiceMealCollection(plannedInvalid, await dependencies()).some(error => error.includes('nutrition_grade must match mapped candidate')));
 });
 
+test('requires collection tracking to be the reverse of each catalog variant candidate mapping', async () => {
+  const invalid = structuredClone(await readCollection());
+  const deps = await dependencies();
+  const tracking = invalid.catalog_tracking.find(row => row.runtime_variant_id === 'home-chicken-leg-potato-rice');
+  const variant = deps.catalog.families.flatMap(family => family.variants)
+    .find(row => row.variant_id === tracking.runtime_variant_id);
+  variant.collection_candidate_id = 'household-corn-carrot-chicken-rice';
+  assert.ok(
+    validatorModule.validateRiceMealCollection(invalid, deps)
+      .some(error => error.includes('catalog collection_candidate_id must match tracking candidate_id')),
+  );
+
+  const coreInvalid = structuredClone(await readCollection());
+  const coreDeps = await dependencies();
+  coreInvalid.catalog_tracking.find(row => row.runtime_variant_id === 'home-chicken-leg-potato-rice')
+    .core_ingredient_ids = ['raw-rice', 'chicken-leg'];
+  assert.ok(
+    validatorModule.validateRiceMealCollection(coreInvalid, coreDeps)
+      .some(error => error.includes('tracking core_ingredient_ids must match catalog variant')),
+  );
+});
+
 test('rejects runtime-ready candidate without a complete executable contract', async () => {
   const invalid = structuredClone(await readCollection());
   const candidate = invalid.candidates.find(row => row.status !== 'runtime_ready');

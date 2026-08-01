@@ -12,7 +12,7 @@ test('national rice-meal collection records all research candidates, exclusions,
     readJson('rice-meal-catalog.v1.json'),
   ]);
   assert.deepEqual(validateRiceMealCollection(collection, { taxonomy, catalog }), []);
-  assert.equal(collection.candidates.length, 37);
+  assert.equal(collection.candidates.length, 41);
   assert.ok(collection.exclusions.length >= 8);
   assert.equal(collection.catalog_tracking.length, 11);
   assert.deepEqual(
@@ -21,4 +21,17 @@ test('national rice-meal collection records all research candidates, exclusions,
   );
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'runtime_ready').length, 4);
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'planned').length, 7);
+  const variants = catalog.families.flatMap(family => family.variants);
+  const trackingByVariantId = new Map(collection.catalog_tracking.map(row => [row.runtime_variant_id, row]));
+  const mappingsById = new Map(collection.runtime_mappings.map(row => [row.mapping_id, row]));
+  for (const variant of variants) {
+    const tracking = trackingByVariantId.get(variant.variant_id);
+    assert.ok(variant.collection_candidate_id, `${variant.variant_id} must name its collection candidate`);
+    assert.equal(tracking?.candidate_id, variant.collection_candidate_id, `${variant.variant_id} must use the collection tracking candidate`);
+    assert.deepEqual(
+      mappingsById.get(tracking.reverse_mapping_id),
+      { mapping_id: tracking.reverse_mapping_id, candidate_id: variant.collection_candidate_id, tracking_id: tracking.tracking_id },
+      `${variant.variant_id} must have one reverse collection mapping`,
+    );
+  }
 });

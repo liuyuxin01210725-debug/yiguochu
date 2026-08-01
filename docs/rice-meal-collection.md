@@ -261,6 +261,10 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 西兰花牛肉焖饭 | 米、西兰花、牛肉 | A | raw-rice | 项目家庭审核，未进入 Preview | identity | partial | 仍待牛肉与西兰花的闭盖克数和液体复核 | planned |
+| 白菜豆腐焖饭 | 米、白菜、豆腐 | A | raw-rice | 项目家庭审核，未进入 Preview | identity | partial | 仍待白菜与豆腐的闭盖克数和液体复核 | planned |
 | 鸡腿土豆焖饭 | 米、鸡腿、土豆 | B | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
 | 玉米胡萝卜鸡腿焖饭 | 米、鸡腿、胡萝卜、玉米 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
+| 豆角排骨焖饭 | 米、豆角、排骨 | A | raw-rice | 项目家庭审核，未进入 Preview | identity | partial | 仍待排骨和豆角的闭盖克数与液体复核 | planned |
 | 肉糜青菜饭 | 米、肉糜、青菜 | A | raw-rice | 项目家庭标准闭盖烹调 | identity、quantity、liquid、appliance、safety、nutrition | complete | 无 | runtime_ready |
+| 香菇豆角排骨焖饭 | 米、香菇、豆角、排骨 | A | raw-rice | 项目家庭审核，未进入 Preview | identity | partial | 仍待排骨、香菇和豆角的闭盖克数与液体复核 | planned |

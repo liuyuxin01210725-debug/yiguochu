@@ -20,6 +20,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "quanzhou-oil-rice",
           "rice": {
             "canonical_ingredient_id": "soaked-glutinous-rice",
             "amount_rule_id": "quanzhou-soaked-rice-liquid-evidence-v1",
@@ -171,6 +172,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "xinjiang-lamb-pilaf",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "xinjiang-lamb-pilaf-liquid-evidence-v1",
@@ -338,6 +340,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-red-date-cowpea-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "shaanbei-red-date-cowpea-rice-liquid-evidence-v1",
@@ -492,6 +495,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-chicken-leg-potato-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "chicken-leg-potato-braised-rice-executable-v1",
@@ -565,6 +569,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-corn-carrot-chicken-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "corn-carrot-chicken-leg-covered-rice-executable-v1",
@@ -645,6 +650,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-green-bean-pork-rib-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
@@ -719,6 +725,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-mushroom-green-bean-pork-rib-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
@@ -799,6 +806,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-cabbage-tofu-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "cabbage-tofu-braised-rice-executable-v1",
@@ -873,6 +881,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-broccoli-beef-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "broccoli-beef-braised-rice-executable-v1",
@@ -957,6 +966,7 @@
             "title": "上海乡村菜饭与咸肉菜饭",
             "url": "https://www.shanghai.gov.cn/nw17239/20260521/4ecd1a53e8734da4944cda5141f805e9.html"
           }],
+          "collection_candidate_id": "shanghai-salted-pork-vegetable-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "shanghai-salted-pork-rice-executable-v1",
@@ -1044,6 +1054,7 @@
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
+          "collection_candidate_id": "household-greens-minced-pork-rice",
           "rice": {
             "canonical_ingredient_id": "raw-rice",
             "amount_rule_id": "greens-minced-pork-braised-rice-executable-v1",

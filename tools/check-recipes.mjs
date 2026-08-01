@@ -164,6 +164,7 @@ const riceMealCatalogErrors = validateRiceMealCatalog(riceMealCatalog, {
   recipeLibrary: lib,
   taxonomy,
   ratioCatalog: ratios,
+  collection: riceMealCollection,
 });
 const riceMealCollectionErrors = validateRiceMealCollection(riceMealCollection, { taxonomy, catalog: riceMealCatalog });
 const riceMealCollectionArtifactErrors = [];

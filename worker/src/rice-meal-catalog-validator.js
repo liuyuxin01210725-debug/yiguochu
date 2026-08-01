@@ -82,7 +82,7 @@ const VARIANT_FIELDS = new Set([
   'identity_level', 'region_codes', 'identity_refs', 'rice', 'ingredients', 'approved_substitutions',
   'forbidden_combinations', 'nutrition_structure', 'cooker_adaptation', 'ratio_rule_ids',
   'safety_endpoints', 'source_refs', 'exclusion_flags', 'review_note',
-  'supported_servings',
+  'supported_servings', 'collection_candidate_id',
 ]);
 const REFERENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_REFERENCE_FIELDS = new Set([
@@ -237,6 +237,79 @@ function derivedExclusionFlags(recipeId) {
 
 function setsMatch(left, right) {
   return left.size === right.size && [...left].every(value => right.has(value));
+}
+
+function normalizedIdentityName(value) {
+  return String(value || '').trim().toLowerCase().replace(/[\s（）()_-]+/gu, '');
+}
+
+function sharesIdentityFragment(left, right) {
+  const a = normalizedIdentityName(left);
+  const b = normalizedIdentityName(right);
+  for (let length = Math.min(a.length, b.length); length >= 3; length -= 1) {
+    for (let start = 0; start <= a.length - length; start += 1) {
+      if (b.includes(a.slice(start, start + length))) return true;
+    }
+  }
+  return false;
+}
+
+function collectionContext(collection) {
+  if (!isPlainObject(collection)) return null;
+  const candidates = new Map((Array.isArray(collection.candidates) ? collection.candidates : [])
+    .filter(item => isPlainObject(item) && isNonEmptyString(item.candidate_id))
+    .map(item => [item.candidate_id, item]));
+  const tracking = new Map((Array.isArray(collection.catalog_tracking) ? collection.catalog_tracking : [])
+    .filter(item => isPlainObject(item) && isNonEmptyString(item.runtime_variant_id))
+    .map(item => [item.runtime_variant_id, item]));
+  const mappings = new Map((Array.isArray(collection.runtime_mappings) ? collection.runtime_mappings : [])
+    .filter(item => isPlainObject(item) && isNonEmptyString(item.mapping_id))
+    .map(item => [item.mapping_id, item]));
+  return { candidates, tracking, mappings };
+}
+
+function validateCollectionMapping(variant, label, materialIds, collection, errors) {
+  if (!collection) return;
+  if (!isNonEmptyString(variant.collection_candidate_id)) {
+    errors.push(`${label}.collection_candidate_id must be a non-empty collection candidate ID`);
+    return;
+  }
+  const candidate = collection.candidates.get(variant.collection_candidate_id);
+  if (!candidate) {
+    errors.push(`${label}.collection_candidate_id references unknown collection candidate`);
+    return;
+  }
+  if (!sharesIdentityFragment(variant.display_name, candidate.name)) {
+    errors.push(`${label} collection candidate name conflicts with display_name`);
+  }
+  const tracking = collection.tracking.get(variant.variant_id);
+  if (!tracking || tracking.candidate_id !== variant.collection_candidate_id) {
+    errors.push(`${label} must have exactly one matching collection tracking row`);
+    return;
+  }
+  const trackedMaterialIds = new Set(Array.isArray(tracking.core_ingredient_ids) ? tracking.core_ingredient_ids : []);
+  if (!setsMatch(materialIds, trackedMaterialIds)) {
+    errors.push(`${label} collection core ingredient identities must match variant`);
+  }
+  const mapping = collection.mappings.get(tracking.reverse_mapping_id);
+  if (!mapping || mapping.candidate_id !== variant.collection_candidate_id || mapping.tracking_id !== tracking.tracking_id) {
+    errors.push(`${label} collection reverse mapping must match variant and candidate`);
+  }
+  const expectedTrackingStatus = variant.status === 'preview_ready' ? 'runtime_ready'
+    : variant.status === 'planned' ? 'planned' : null;
+  if (expectedTrackingStatus && tracking.status !== expectedTrackingStatus) {
+    errors.push(`${label} collection tracking status must match variant status`);
+  }
+  if (candidate.nutrition_grade === 'C') {
+    errors.push(`${label} cannot activate a nutrition grade C collection candidate`);
+  }
+  if (candidate.status === 'excluded') {
+    errors.push(`${label} cannot activate an excluded collection candidate`);
+  }
+  if (variant.status === 'preview_ready'
+    && (candidate.status !== 'runtime_ready' || !['A', 'B'].includes(candidate.nutrition_grade))) {
+    errors.push(`${label} preview_ready must map to an A/B runtime_ready collection candidate`);
+  }
 }
 
 function validateKnownCanonicalId(value, label, canonicals, errors) {
@@ -816,6 +889,7 @@ function validateVariant(variant, label, context, variantIds, errors) {
     });
   }
   validateNutrition(variant.nutrition_structure, label, new Set(materials.keys()), context.canonicals, variant.status, errors);
+  validateCollectionMapping(variant, label, new Set(materials.keys()), context.collection, errors);
   const finishProtocol = controlledFinishProtocol(variant, materials, variant.safety_endpoints);
   for (const error of finishProtocol.errors) errors.push(`${label} ${error}`);
   const midCycleProtocol = controlledMidCycleProtocol(variant, materials, variant.safety_endpoints);
@@ -860,7 +934,7 @@ function validateVariant(variant, label, context, variantIds, errors) {
   }
 }
 
-export function validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, ratioCatalog } = {}) {
+export function validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, ratioCatalog, collection } = {}) {
   try {
     const errors = [];
     if (!isPlainObject(catalog)) return ['rice meal catalog must be an object'];
@@ -873,6 +947,7 @@ export function validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, rati
       canonicals: canonicalItems(taxonomy),
       ratios: knownRatioIds(ratioCatalog),
       ratioRules: knownRatioRules(ratioCatalog),
+      collection: collectionContext(collection),
     };
     const familyIds = new Set();
     const variantIds = new Set();

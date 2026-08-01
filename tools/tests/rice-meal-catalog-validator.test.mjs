@@ -211,6 +211,38 @@ function validCatalog() {
   };
 }
 
+function catalogCollection() {
+  return {
+    candidates: [{
+      candidate_id: 'household-chicken-rice',
+      name: '鸡腿青菜焖饭',
+      core_ingredients: ['米', '鸡腿', '青菜'],
+      nutrition_grade: 'A',
+      status: 'runtime_ready',
+    }],
+    catalog_tracking: [{
+      tracking_id: 'track-chicken',
+      runtime_variant_id: 'closed-lid-chicken-rice',
+      candidate_id: 'household-chicken-rice',
+      core_ingredient_ids: ['raw-rice', 'chicken-leg', 'bok-choy'],
+      nutrition_grade: 'A',
+      status: 'runtime_ready',
+      reverse_mapping_id: 'map-chicken',
+    }],
+    runtime_mappings: [{
+      mapping_id: 'map-chicken',
+      candidate_id: 'household-chicken-rice',
+      tracking_id: 'track-chicken',
+    }],
+  };
+}
+
+function catalogWithCollection() {
+  const catalog = validCatalog();
+  catalog.families[0].variants[0].collection_candidate_id = 'household-chicken-rice';
+  return catalog;
+}
+
 function controlledFinishCatalog() {
   const catalog = validCatalog();
   const variant = catalog.families[0].variants[0];
@@ -382,6 +414,31 @@ test('accepts a complete closed-lid preview-ready catalog and returns it from th
   const catalog = validCatalog();
   assert.deepEqual(validate(catalog), []);
   assert.equal(validator().assertRiceMealCatalog(catalog, context), catalog);
+});
+
+test('catalog variants require a bidirectional collection mapping', () => {
+  const catalog = validCatalog();
+  expectError(catalog, 'collection_candidate_id must be a non-empty collection candidate ID', {
+    ...context,
+    collection: catalogCollection(),
+  });
+});
+
+test('catalog collection mapping rejects wrong candidate identity, materials, and non-runnable candidates', () => {
+  const cases = [
+    ['wrong candidate', catalog => { catalog.families[0].variants[0].collection_candidate_id = 'missing-candidate'; }, () => {}, 'references unknown collection candidate'],
+    ['name identity', () => {}, (_catalog, collection) => { collection.candidates[0].name = '不相干的家庭焖饭'; }, 'collection candidate name conflicts with display_name'],
+    ['core materials', () => {}, (_catalog, collection) => { collection.catalog_tracking[0].core_ingredient_ids = ['raw-rice', 'chicken-leg']; }, 'collection core ingredient identities must match variant'],
+    ['nutrition C', () => {}, (_catalog, collection) => { collection.candidates[0].nutrition_grade = 'C'; }, 'cannot activate a nutrition grade C collection candidate'],
+    ['excluded', () => {}, (_catalog, collection) => { collection.candidates[0].status = 'excluded'; }, 'cannot activate an excluded collection candidate'],
+  ];
+  for (const [_label, mutateCatalog, mutateCollection, expected] of cases) {
+    const catalog = catalogWithCollection();
+    const collection = catalogCollection();
+    mutateCatalog(catalog, collection);
+    mutateCollection(catalog, collection);
+    expectError(catalog, expected, { ...context, collection });
+  }
 });
 
 test('preview-ready variants reject ambiguous liquid semantics', () => {
