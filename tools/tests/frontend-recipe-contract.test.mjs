@@ -328,6 +328,7 @@ test('rice meal safety stop explains a required seasoning allergen conflict', ()
     return riceMealStatusScreen();
   })()`);
   assert.match(markup, /必需调味料与你设置的忌口冲突/);
+  assert.doesNotMatch(markup, /鸡胸肉：.*没有适合使用/);
 });
 
 test('preview uses only its same-origin generation endpoint', () => {
