@@ -1,3 +1,5 @@
+import { normalizeRatioGrams } from './ratio-dsl.js';
+
 const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r6';
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const STATUSES = ['research_only', 'fact_checked', 'planned', 'preview_ready', 'pilot_observed', 'production_approved'];
@@ -15,15 +17,34 @@ const NUTRITION_ROLE_POLICY = Object.freeze({
     excludedCanonicalIds: new Set(),
   },
   protein: {
-    categories: new Set(['chicken', 'pork', 'lamb', 'seafood', 'beef', 'firm_tofu', 'soft_tofu', 'egg', 'legume']),
+    categories: new Set(['chicken', 'pork', 'lamb', 'seafood', 'beef', 'firm_tofu', 'soft_tofu', 'egg', 'legume', 'dry_legume', 'cooked_legume']),
     canonicalIds: new Set(),
     excludedCanonicalIds: new Set(),
   },
   fiber: {
-    categories: new Set(['leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable', 'root_vegetable', 'aromatic_vegetable', 'mushroom', 'dried_fruit']),
-    canonicalIds: new Set(),
+    categories: new Set(['leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable', 'root_vegetable', 'aromatic_vegetable', 'mushroom', 'dried_fruit', 'legume', 'dry_legume', 'cooked_legume']),
+    canonicalIds: new Set(['sweet-corn']),
     excludedCanonicalIds: new Set(['potato']),
   },
+});
+const SUBSTANTIAL_CARB_GRAMS = 80;
+const SUBSTANTIAL_FIBER_GRAMS = 75;
+const SUBSTANTIAL_PROTEIN_GRAMS_BY_CATEGORY = Object.freeze({
+  chicken: 50,
+  pork: 50,
+  lamb: 50,
+  seafood: 50,
+  beef: 50,
+  firm_tofu: 90,
+  soft_tofu: 90,
+  egg: 45,
+  legume: 75,
+  dry_legume: 30,
+  cooked_legume: 75,
+});
+const SUBSTANTIAL_PROTEIN_GRAMS_BY_CANONICAL_ID = Object.freeze({
+  // Pork-rib plans declare bone-in raw weight, not edible lean-pork weight.
+  'pork-ribs': 100,
 });
 const EXCLUSION_FLAGS = new Set([
   'wild_mushroom',
@@ -480,6 +501,161 @@ function ruleQuantifiesMaterial(rule, canonicalId, { executableOnly = false } = 
   ));
 }
 
+export function resolveDefaultPerServingMaterialGrams(variant, ratioCatalog, servings = 1) {
+  if (!Number.isSafeInteger(servings) || servings <= 0) {
+    throw new Error('servings must be a positive integer');
+  }
+  const amounts = new Map();
+  const ratioRules = knownRatioRules(ratioCatalog);
+  const addAmount = (canonicalId, grams) => {
+    if (amounts.has(canonicalId)) throw new Error(`duplicate executable material amount for ${canonicalId}`);
+    amounts.set(canonicalId, grams);
+  };
+  for (const ruleId of Array.isArray(variant?.ratio_rule_ids) ? variant.ratio_rule_ids : []) {
+    const rule = ratioRules.get(ruleId);
+    if (!rule) throw new Error(`missing declared ratio rule ${ruleId}`);
+    if (rule.execution_mode !== 'executable') continue;
+    if (!Array.isArray(rule.operations)) throw new Error(`executable ratio rule ${ruleId} requires operations`);
+    const nearest = rule.rounding?.grams_to_nearest;
+    if (!Number.isSafeInteger(nearest) || nearest <= 0) {
+      throw new Error(`executable ratio rule ${ruleId} rounding must be a positive integer`);
+    }
+    const normalizeWholePot = value => {
+      let normalized;
+      try {
+        normalized = normalizeRatioGrams(value, nearest);
+      } catch (_error) {
+        throw new Error(`executable ratio rule ${ruleId} grams do not normalize to a positive integer`);
+      }
+      if (normalized <= 0) {
+        throw new Error(`executable ratio rule ${ruleId} grams do not normalize to a positive integer`);
+      }
+      return normalized;
+    };
+    for (const operation of rule.operations) {
+      if (!isPlainObject(operation)) {
+        throw new Error(`executable operation in ${ruleId} must be an object`);
+      }
+      if (operation.operator === 'per_serving') {
+        const canonicalId = operation.target?.canonical_id;
+        const grams = operation.grams?.default;
+        if (!isNonEmptyString(canonicalId)
+            || !Number.isFinite(grams) || grams <= 0
+            || operation.grams?.min !== grams || operation.grams?.max !== grams) {
+          throw new Error(`executable per_serving operation in ${ruleId} requires positive exact grams`);
+        }
+        addAmount(canonicalId, normalizeWholePot(grams * servings) / servings);
+        continue;
+      }
+      if (operation.operator !== 'allocate_group_total_per_serving') continue;
+      if (operation.allocation_policy !== 'equal_split_ordered_residual') {
+        throw new Error(`executable group allocation policy in ${ruleId} is invalid`);
+      }
+      if (!Array.isArray(operation.member_targets) || operation.member_targets.length < 2
+          || operation.member_targets.some(target => !isNonEmptyString(target?.canonical_id))) {
+        throw new Error(`executable group in ${ruleId} requires at least two valid members`);
+      }
+      const memberIds = operation.member_targets.map(target => target.canonical_id);
+      if (new Set(memberIds).size !== memberIds.length) {
+        throw new Error(`executable group in ${ruleId} requires unique members`);
+      }
+      const groupGrams = operation.grams?.default;
+      if (!Number.isFinite(groupGrams) || groupGrams <= 0
+          || operation.grams?.min !== groupGrams || operation.grams?.max !== groupGrams) {
+        throw new Error(`executable group in ${ruleId} requires positive exact grams`);
+      }
+      const lockedTotal = normalizeWholePot(groupGrams * servings);
+      const totalUnits = lockedTotal / nearest;
+      if (!Number.isSafeInteger(totalUnits) || totalUnits < memberIds.length) {
+        throw new Error(`executable group in ${ruleId} cannot allocate at least one rounding unit per member`);
+      }
+      const baseUnits = Math.floor(totalUnits / memberIds.length);
+      const residualUnits = totalUnits % memberIds.length;
+      memberIds.forEach((canonicalId, index) => {
+        const wholePotGrams = (baseUnits + (index < residualUnits ? 1 : 0)) * nearest;
+        addAmount(canonicalId, wholePotGrams / servings);
+      });
+      continue;
+    }
+    for (const operation of rule.operations) {
+      if (['per_serving', 'allocate_group_total_per_serving', 'ratio', 'fixed_addition', 'scale_by_servings']
+        .includes(operation.operator)) continue;
+      throw new Error(`unsupported executable operator ${String(operation.operator)} in ${ruleId}`);
+    }
+  }
+  return amounts;
+}
+
+export function validateSubstantialNutrition(variant, taxonomy, ratioCatalog) {
+  const errors = [];
+  const nutrition = variant?.nutrition_structure;
+  if (!isPlainObject(nutrition) || !Array.isArray(nutrition.material_contributors)) return errors;
+  const canonicals = canonicalItems(taxonomy);
+  const servingSizes = Array.isArray(variant?.supported_servings) && variant.supported_servings.length
+    ? variant.supported_servings
+    : [1];
+
+  for (const servings of servingSizes) {
+    const servingLabel = `${servings} servings`;
+    let amounts;
+    try {
+      amounts = resolveDefaultPerServingMaterialGrams(variant, ratioCatalog, servings);
+    } catch (error) {
+      errors.push(`executable nutrition quantities are invalid at ${servingLabel}: ${error instanceof Error ? error.message : String(error)}`);
+      continue;
+    }
+    const substantialRoles = new Set();
+    let fiberGrams = 0;
+    let hasFiberContributor = false;
+    const fiberContributorIds = new Set();
+
+    for (const contributor of nutrition.material_contributors) {
+      if (!isPlainObject(contributor) || !isNonEmptyString(contributor.canonical_ingredient_id)) continue;
+      const canonicalId = contributor.canonical_ingredient_id;
+      const canonical = canonicals.get(canonicalId);
+      if (!canonical || !nutritionRoleCompatible(contributor.role, canonicalId, canonical.category)) continue;
+      const grams = amounts.get(canonicalId);
+      if (!Number.isFinite(grams)) {
+        errors.push(`${canonicalId} has no executable default grams for ${contributor.role} role at ${servingLabel}`);
+        continue;
+      }
+      if (contributor.role === 'carb') {
+        if (canonical.category === 'raw_rice' && grams >= SUBSTANTIAL_CARB_GRAMS) substantialRoles.add('carb');
+        else errors.push(`${canonicalId} resolves to ${grams}g/person below carb threshold ${SUBSTANTIAL_CARB_GRAMS}g/person at ${servingLabel}`);
+        continue;
+      }
+      if (contributor.role === 'protein') {
+        const threshold = SUBSTANTIAL_PROTEIN_GRAMS_BY_CANONICAL_ID[canonicalId]
+          ?? SUBSTANTIAL_PROTEIN_GRAMS_BY_CATEGORY[canonical.category];
+        if (Number.isFinite(threshold) && grams >= threshold) substantialRoles.add('protein');
+        else if (Number.isFinite(threshold)) errors.push(`${canonicalId} resolves to ${grams}g/person below protein threshold ${threshold}g/person at ${servingLabel}`);
+        continue;
+      }
+      if (contributor.role === 'fiber') {
+        hasFiberContributor = true;
+        if (!fiberContributorIds.has(canonicalId)) {
+          fiberContributorIds.add(canonicalId);
+          fiberGrams += grams;
+        }
+      }
+    }
+
+    if (hasFiberContributor) {
+      if (fiberGrams >= SUBSTANTIAL_FIBER_GRAMS) substantialRoles.add('fiber');
+      else errors.push(`fiber contributors resolve to ${fiberGrams}g/person below fiber threshold ${SUBSTANTIAL_FIBER_GRAMS}g/person at ${servingLabel}`);
+    }
+    if (nutrition.grade === 'A' && !['carb', 'protein', 'fiber'].every(role => substantialRoles.has(role))) {
+      errors.push(`nutrition grade A requires substantial carb, protein, and fiber executable defaults at ${servingLabel}`);
+    }
+    if (nutrition.grade === 'B'
+        && (!substantialRoles.has('carb')
+          || (!substantialRoles.has('protein') && !substantialRoles.has('fiber')))) {
+      errors.push(`nutrition grade B requires substantial carb plus protein or fiber executable defaults at ${servingLabel}`);
+    }
+  }
+  return errors;
+}
+
 function executableLiquidOperationCount(rules) {
   return rules.reduce((count, rule) => count + (Array.isArray(rule?.operations)
     ? rule.operations.filter(operation => (
@@ -886,6 +1062,11 @@ function validateVariant(variant, label, context, variantIds, errors) {
       errors.push(`${label}.supported_servings must be a non-empty unique integer array from 1 to 8`);
     }
   }
+  if (PREVIEW_OR_HIGHER.has(variant.status)
+      && variant.variant_id !== 'shanghai-salted-pork-rice'
+      && JSON.stringify(variant.supported_servings) !== JSON.stringify([1, 2, 3, 4])) {
+    errors.push(`${label} preview_ready supported_servings must equal [1,2,3,4]`);
+  }
   if (!IDENTITY_LEVELS.has(variant.identity_level)) errors.push(`${label}.identity_level must be generic, regional, or household_reviewed`);
   const regionCodes = variant.region_codes === undefined ? [] : variant.region_codes;
   if (!Array.isArray(regionCodes)) {
@@ -1019,6 +1200,11 @@ function validateVariant(variant, label, context, variantIds, errors) {
     variant.ratio_rule_ids.forEach((ratioId, index) => validateKnownRatioId(ratioId, `${label}.ratio_rule_ids[${index}]`, context.ratios, errors));
   }
   validateRatioBindings(variant, label, materialRules, context, errors);
+  if (PREVIEW_OR_HIGHER.has(variant.status)) {
+    for (const error of validateSubstantialNutrition(variant, context.taxonomy, context.ratioCatalog)) {
+      errors.push(`${label} ${error}`);
+    }
+  }
   validateSafetyEndpoints(variant.safety_endpoints, label, materials, context.canonicals, errors);
   if (!Array.isArray(variant.source_refs)) errors.push(`${label}.source_refs must be an array`);
   else {
@@ -1042,6 +1228,8 @@ export function validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, rati
       canonicals: canonicalItems(taxonomy),
       ratios: knownRatioIds(ratioCatalog),
       ratioRules: knownRatioRules(ratioCatalog),
+      taxonomy,
+      ratioCatalog,
       collection: collectionContext(collection),
     };
     const familyIds = new Set();

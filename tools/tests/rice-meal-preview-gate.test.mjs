@@ -50,6 +50,7 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
     'shanghai-salted-pork-rice',
   ]);
   assert.deepEqual(report.summary.compiled_variant_ids, report.summary.journey_variant_ids);
+  assert.equal(report.summary.compiled_serving_contracts, 29);
   assert.deepEqual(report.summary.excluded_legacy_categories, [
     'legacy-selector',
     'leftover-rice',

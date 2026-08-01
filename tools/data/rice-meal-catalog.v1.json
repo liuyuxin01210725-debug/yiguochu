@@ -492,6 +492,7 @@
           "review_note": "迁移依据为 recipe-library.json#chicken-leg-potato-braised-rice；鸡腿肉和土豆数量由原始比例直接结构化。原文写的是约140克可用总液体，不再误说成精确清水；本方案没有其他可量取汤汁，因此预览按约量清水执行，尚未完成家庭试做。",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
+          "supported_servings": [1, 2, 3, 4],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -563,9 +564,10 @@
           "recipe_id": "corn-carrot-chicken-leg-covered-rice",
           "display_name": "玉米胡萝卜鸡腿焖饭",
           "name_label": "家庭玉米鸡腿焖饭",
-          "review_note": "迁移依据为 recipe-library.json#corn-carrot-chicken-leg-covered-rice；来源只给出玉米与胡萝卜合计45克/100克大米，目录不声称两者各自克数来自菜谱。原文写的是约140克可用总液体，不再误说成精确清水；本方案没有其他可量取汤汁，因此预览按约量清水执行。执行时按声明成员顺序等分，奇数余量依次分配；这是可复现的 planner allocation，不是来源单项事实，尚未完成厨房口味试做。",
+          "review_note": "迁移依据为 recipe-library.json#corn-carrot-chicken-leg-covered-rice；来源只给出玉米与胡萝卜合计45克/100克大米。本批次项目营养校准将两者合计小幅调整为每人75克，不是来源原始单项克数，也不声称两者各自克数来自菜谱。原文写的是约140克可用总液体，不再误说成精确清水；本方案没有其他可量取汤汁，因此预览按约量清水执行。执行时按声明成员顺序等分，奇数余量依次分配；这是可复现的 planner allocation，不是来源单项事实，尚未完成厨房口味试做。",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
+          "supported_servings": [1, 2, 3, 4],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -602,6 +604,7 @@
             "material_contributors": [
               {"role": "carb", "canonical_ingredient_id": "raw-rice"},
               {"role": "protein", "canonical_ingredient_id": "chicken-leg"},
+              {"role": "fiber", "canonical_ingredient_id": "sweet-corn"},
               {"role": "fiber", "canonical_ingredient_id": "carrot"}
             ]
           },
@@ -644,7 +647,7 @@
           "recipe_id": "green-bean-pork-rib-braised-rice",
           "display_name": "豆角排骨焖饭",
           "name_label": "家庭豆角排骨焖饭",
-          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；排骨锅外预煮后沥干并弃置预煮水；豆角洗净切段后充分沥干；每 100 克生米另加 145 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；本批次项目营养校准将带骨排骨毛重调整为每人100克、豆角调整为每人75克，这不是来源原始份量。排骨锅外预煮后沥干并弃置预煮水；豆角洗净切段后充分沥干；每 100 克生米另加 145 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
           "preview_notice_code": "household_test_pending_feedback",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
@@ -710,7 +713,7 @@
             {"canonical_ingredient_id": "pork-ribs", "endpoint_code": "pork_fully_cooked"},
             {"canonical_ingredient_id": "green-beans", "endpoint_code": "bean_fully_cooked"}
           ],
-          "supported_servings": [1, 2, 4],
+          "supported_servings": [1, 2, 3, 4],
           "source_refs": [
             {"title": "一锅出项目标准配方：豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice"}
           ],
@@ -721,7 +724,7 @@
           "recipe_id": "mushroom-green-bean-pork-rib-braised-rice",
           "display_name": "香菇豆角排骨焖饭",
           "name_label": "家庭香菇排骨焖饭",
-          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；排骨锅外预煮后沥干并弃置预煮水；鲜香菇和豆角洗净切好后充分沥干，不把食材自身出水冒充清水；每 100 克生米另加 145 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；本批次项目营养校准将带骨排骨毛重调整为每人100克、香菇与豆角合计调整为每人75克，这不是来源原始份量。排骨锅外预煮后沥干并弃置预煮水；鲜香菇和豆角洗净切好后充分沥干，不把食材自身出水冒充清水；每 100 克生米另加 145 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
           "preview_notice_code": "household_test_pending_feedback",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
@@ -761,6 +764,7 @@
             "material_contributors": [
               {"role": "carb", "canonical_ingredient_id": "raw-rice"},
               {"role": "protein", "canonical_ingredient_id": "pork-ribs"},
+              {"role": "fiber", "canonical_ingredient_id": "shiitake"},
               {"role": "fiber", "canonical_ingredient_id": "green-beans"}
             ]
           },
@@ -793,7 +797,7 @@
             {"canonical_ingredient_id": "pork-ribs", "endpoint_code": "pork_fully_cooked"},
             {"canonical_ingredient_id": "green-beans", "endpoint_code": "bean_fully_cooked"}
           ],
-          "supported_servings": [1, 2, 4],
+          "supported_servings": [1, 2, 3, 4],
           "source_refs": [
             {"title": "一锅出项目标准配方：香菇豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice"}
           ],
@@ -804,7 +808,7 @@
           "recipe_id": "cabbage-tofu-braised-rice",
           "display_name": "白菜豆腐焖饭",
           "name_label": "家庭白菜豆腐焖饭",
-          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；白菜锅外焖熟后充分沥干，焖菜水弃置，成饭后再拌入；每 100 克生米另加 130 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；本批次项目营养校准将老豆腐小幅调整为每人90克、白菜调整为每人75克，这不是来源原始份量。白菜锅外焖熟后充分沥干，焖菜水弃置，成饭后再拌入；每 100 克生米另加 130 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
           "preview_notice_code": "household_test_pending_feedback",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
@@ -870,7 +874,7 @@
             {"canonical_ingredient_id": "firm-tofu", "endpoint_code": "heated_through"},
             {"canonical_ingredient_id": "napa-cabbage", "endpoint_code": "tender"}
           ],
-          "supported_servings": [1, 2, 4],
+          "supported_servings": [1, 2, 3, 4],
           "source_refs": [
             {"title": "一锅出项目标准配方：白菜豆腐焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice"}
           ],
@@ -881,7 +885,7 @@
           "recipe_id": "broccoli-beef-braised-rice",
           "display_name": "西兰花牛肉焖饭",
           "name_label": "家庭西兰花牛肉焖饭",
-          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；西兰花锅外焖熟后充分沥干，焖菜水弃置，成饭后再拌入；每 100 克生米另加 135 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；本批次项目营养校准将牛肉小幅调整为每人50克、西兰花调整为每人75克，这不是来源原始份量。西兰花锅外焖熟后充分沥干，焖菜水弃置，成饭后再拌入；每 100 克生米另加 135 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
           "preview_notice_code": "household_test_pending_feedback",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
@@ -948,7 +952,7 @@
             {"canonical_ingredient_id": "beef-generic", "endpoint_code": "beef_fully_cooked"},
             {"canonical_ingredient_id": "broccoli", "endpoint_code": "tender"}
           ],
-          "supported_servings": [1, 2, 4],
+          "supported_servings": [1, 2, 3, 4],
           "source_refs": [
             {"title": "一锅出项目标准配方：西兰花牛肉焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice"}
           ],
@@ -1056,9 +1060,10 @@
           "recipe_id": "greens-minced-pork-braised-rice",
           "display_name": "肉糜青菜饭",
           "name_label": "家庭电饭煲菜饭",
-          "review_note": "迁移依据为 recipe-library.json#greens-minced-pork-braised-rice；象印说明书中的“肉糜青菜饭”只证明指定机型与水位线流程，本条目仍使用项目家庭标准的称重比例与锅外熟制流程，不声称两者的水量可直接等同。",
+          "review_note": "迁移依据为 recipe-library.json#greens-minced-pork-braised-rice；象印说明书中的“肉糜青菜饭”只证明指定机型与水位线流程。本批次项目营养校准将猪肉末小幅调整为每人50克、青菜调整为每人75克，这不是来源原始份量；本条目仍使用项目家庭标准的称重比例与锅外熟制流程，不声称两者的水量可直接等同。",
           "status": "preview_ready",
           "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
+          "supported_servings": [1, 2, 3, 4],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],

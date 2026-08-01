@@ -308,41 +308,41 @@ test('compiler locks catalog name, exact integer ratio grams, allowed ingredient
   });
 });
 
-test('four project household standards compile exact 1/2/4 serving water, salt, draining and safety contracts', () => {
+test('four project household standards compile exact 1/2/3/4 serving water, salt, draining and safety contracts', () => {
   const cases = [
     {
       variantId: 'home-green-bean-pork-rib-rice',
       pantry: ['豆角', '排骨'],
-      perServing: { 'raw-rice': 100, 'pork-ribs': 70, 'green-beans': 55, water: 145, salt: 1 },
+      perServing: { 'raw-rice': 100, 'pork-ribs': 100, 'green-beans': 75, water: 145, salt: 1 },
       actions: ['pre_cook_pork_ribs_drain_and_discard_liquid', 'drain_prepared_vegetables_before_loading'],
       safety: /最厚可食部位.*74°C.*完全熟透.*豆角.*无生青色.*豆腥味/u,
     },
     {
       variantId: 'home-mushroom-green-bean-pork-rib-rice',
       pantry: ['香菇', '豆角', '排骨'],
-      perServing: { 'raw-rice': 100, 'pork-ribs': 70, water: 145, salt: 1 },
-      groupTotal: { canonicalIds: ['shiitake', 'green-beans'], gramsPerServing: 65 },
+      perServing: { 'raw-rice': 100, 'pork-ribs': 100, water: 145, salt: 1 },
+      groupTotal: { canonicalIds: ['shiitake', 'green-beans'], gramsPerServing: 75 },
       actions: ['pre_cook_pork_ribs_drain_and_discard_liquid', 'drain_prepared_vegetables_before_loading'],
       safety: /最厚可食部位.*74°C.*完全熟透.*豆角.*无生青色.*豆腥味/u,
     },
     {
       variantId: 'home-cabbage-tofu-rice',
       pantry: ['豆腐', '白菜'],
-      perServing: { 'raw-rice': 100, 'firm-tofu': 60, 'napa-cabbage': 50, water: 130, salt: 1 },
+      perServing: { 'raw-rice': 100, 'firm-tofu': 90, 'napa-cabbage': 75, water: 130, salt: 1 },
       actions: ['pre_cook_tender_vegetables_drain_and_discard_liquid'],
       safety: /老豆腐.*中心热透.*白菜.*熟透/u,
     },
     {
       variantId: 'home-broccoli-beef-rice',
       pantry: ['牛里脊', '西兰花'],
-      perServing: { 'raw-rice': 100, 'beef-generic': 35, broccoli: 45, water: 135, salt: 1 },
+      perServing: { 'raw-rice': 100, 'beef-generic': 50, broccoli: 75, water: 135, salt: 1 },
       actions: ['pre_cook_tender_vegetables_drain_and_discard_liquid'],
       safety: /牛里脊.*薄片.*完全熟透.*无生肉色.*西兰花.*熟透/u,
     },
   ];
   const compile = compilerApi('compileRiceMeal');
   for (const testCase of cases) {
-    for (const servings of [1, 2, 4]) {
+    for (const servings of [1, 2, 3, 4]) {
       const result = selectRiceMealCandidates({
         request: { servings, pantry: testCase.pantry, dislikes: [] },
         catalog: assets.catalog,

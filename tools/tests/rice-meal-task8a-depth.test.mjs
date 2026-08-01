@@ -53,12 +53,12 @@ test('the focused catalog keeps eleven evidence variants and exposes eight liqui
   assert.equal(assets.recipes.recipes.length, 72);
 });
 
-test('group-total allocation preserves the source total and assigns odd residual grams in declared member order', () => {
+test('group-total allocation preserves the calibrated total and declared member order', () => {
   const cases = [
-    { servings: 1, corn: 23, carrot: 22, total: 45 },
-    { servings: 2, corn: 45, carrot: 45, total: 90 },
-    { servings: 3, corn: 68, carrot: 67, total: 135 },
-    { servings: 4, corn: 90, carrot: 90, total: 180 },
+    { servings: 1, corn: 38, carrot: 37, total: 75 },
+    { servings: 2, corn: 75, carrot: 75, total: 150 },
+    { servings: 3, corn: 113, carrot: 112, total: 225 },
+    { servings: 4, corn: 150, carrot: 150, total: 300 },
   ];
   for (const row of cases) {
     const candidate = candidateFor(
@@ -110,7 +110,7 @@ test('signed ratio facts reject a tampered active group total while the second g
     variant_id: 'home-corn-carrot-chicken-leg-rice',
     dish: '玉米胡萝卜鸡腿焖饭',
     rule_id: 'corn-carrot-chicken-leg-covered-rice-executable-v1',
-    expected: { 'raw-rice': 200, 'chicken-leg': 110, 'sweet-corn': 45, carrot: 45, water: 280 },
+    expected: { 'raw-rice': 200, 'chicken-leg': 110, 'sweet-corn': 75, carrot: 75, water: 280 },
   };
   const candidate = candidateFor(activeCase.pantry, activeCase.variant_id);
   const output = compileRiceMeal(candidate, assets);
@@ -128,7 +128,7 @@ test('signed ratio facts reject a tampered active group total while the second g
   const tamperedRatios = structuredClone(assets.ratios);
   const operation = tamperedRatios.rules.find(row => row.rule_id === activeCase.rule_id)
     .operations.find(row => row.operator === 'allocate_group_total_per_serving');
-  operation.grams = { min: 44, default: 44, max: 44 };
+  operation.grams = { min: 74, default: 74, max: 74 };
   assert.throws(
     () => verifyAndRecomputeRiceMealPlan({ plan_token: token }, { ...assets, ratios: tamperedRatios }, SECRET),
     error => error?.code === 'stale_plan',

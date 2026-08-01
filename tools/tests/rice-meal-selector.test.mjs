@@ -159,6 +159,19 @@ test('selector exposes the two documented pure-function entrypoints', () => {
   assert.equal(typeof selectRiceMealCandidates, 'function');
 });
 
+test('selector accepts only the reviewed 1, 2, 3, and 4 serving request sizes', () => {
+  for (const servings of [1, 2, 3, 4]) {
+    assert.equal(normalize({ servings, pantry: ['鸡腿'], dislikes: [] }).servings, servings);
+  }
+  for (const servings of [5, 6, 7, 8]) {
+    assert.throws(
+      () => normalize({ servings, pantry: ['鸡腿'], dislikes: [] }),
+      /servings must be one of 1, 2, 3, or 4/u,
+      String(servings),
+    );
+  }
+});
+
 test('selector fails closed when the controlled ratio catalog is absent', () => {
   assert.throws(() => selectRiceMealCandidates({
     request: { servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] },

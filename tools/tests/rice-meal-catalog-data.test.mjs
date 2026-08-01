@@ -4,7 +4,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prepareRatioCatalog } from '../lib/ratio-dsl-validator.mjs';
-import { validateRiceMealCatalog } from '../lib/rice-meal-catalog-validator.mjs';
+import {
+  resolveDefaultPerServingMaterialGrams,
+  validateRiceMealCatalog,
+  validateSubstantialNutrition,
+} from '../lib/rice-meal-catalog-validator.mjs';
 import { compileRatioPlan } from '../../worker/src/planner-v2.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -354,37 +358,37 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
       recipe_id: 'green-bean-pork-rib-braised-rice',
       rule_id: 'green-bean-pork-rib-braised-rice-executable-v1',
       items: ['大米', '排骨', '豆角'],
-      want: { 大米: 200, 排骨: 140, 豆角: 110, 水: 290, 盐: 2 },
+      want: { 大米: 200, 排骨: 200, 豆角: 150, 水: 290, 盐: 2 },
     },
     {
       recipe_id: 'corn-carrot-chicken-leg-covered-rice',
       rule_id: 'corn-carrot-chicken-leg-covered-rice-executable-v1',
       items: ['大米', '鸡腿肉', '玉米', '胡萝卜'],
-      want: { 大米: 200, 鸡腿肉: 110, 玉米: 45, 胡萝卜: 45, 水: 280 },
+      want: { 大米: 200, 鸡腿肉: 110, 玉米: 75, 胡萝卜: 75, 水: 280 },
     },
     {
       recipe_id: 'mushroom-green-bean-pork-rib-braised-rice',
       rule_id: 'mushroom-green-bean-pork-rib-braised-rice-executable-v1',
       items: ['大米', '排骨', '香菇', '豆角'],
-      want: { 大米: 200, 排骨: 140, 香菇: 65, 豆角: 65, 水: 290, 盐: 2 },
+      want: { 大米: 200, 排骨: 200, 香菇: 75, 豆角: 75, 水: 290, 盐: 2 },
     },
     {
       recipe_id: 'cabbage-tofu-braised-rice',
       rule_id: 'cabbage-tofu-braised-rice-executable-v1',
       items: ['大米', '老豆腐', '白菜'],
-      want: { 大米: 200, 老豆腐: 120, 白菜: 100, 水: 260, 盐: 2 },
+      want: { 大米: 200, 老豆腐: 180, 白菜: 150, 水: 260, 盐: 2 },
     },
     {
       recipe_id: 'broccoli-beef-braised-rice',
       rule_id: 'broccoli-beef-braised-rice-executable-v1',
       items: ['大米', '牛肉', '西兰花'],
-      want: { 大米: 200, 牛肉: 70, 西兰花: 90, 水: 270, 盐: 2 },
+      want: { 大米: 200, 牛肉: 100, 西兰花: 150, 水: 270, 盐: 2 },
     },
     {
       recipe_id: 'greens-minced-pork-braised-rice',
       rule_id: 'greens-minced-pork-braised-rice-executable-v1',
       items: ['大米', '猪肉末', '青菜'],
-      want: { 大米: 200, 猪肉末: 90, 青菜: 80, 水: 270 },
+      want: { 大米: 200, 猪肉末: 100, 青菜: 150, 水: 270 },
     },
   ];
   for (const testCase of cases) {
@@ -400,6 +404,33 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
   }
 });
 
+test('all eight Preview meals earn their A-or-B grade from executable per-person grams', () => {
+  const active = variants.filter(variant => variant.status === 'preview_ready');
+  const expectedDefaults = new Map([
+    ['home-chicken-leg-potato-rice', { grade: 'B', grams: { 'raw-rice': 100, 'chicken-leg': 60, potato: 50 } }],
+    ['home-corn-carrot-chicken-leg-rice', { grade: 'A', grams: { 'raw-rice': 100, 'chicken-leg': 55, 'sweet-corn': 38, carrot: 37 } }],
+    ['home-green-bean-pork-rib-rice', { grade: 'A', grams: { 'raw-rice': 100, 'pork-ribs': 100, 'green-beans': 75 } }],
+    ['home-mushroom-green-bean-pork-rib-rice', { grade: 'A', grams: { 'raw-rice': 100, 'pork-ribs': 100, shiitake: 38, 'green-beans': 37 } }],
+    ['home-cabbage-tofu-rice', { grade: 'A', grams: { 'raw-rice': 100, 'firm-tofu': 90, 'napa-cabbage': 75 } }],
+    ['home-broccoli-beef-rice', { grade: 'A', grams: { 'raw-rice': 100, 'beef-generic': 50, broccoli: 75 } }],
+    ['shanghai-salted-pork-rice', { grade: 'A', grams: { 'raw-rice': 100, 'salted-pork-belly': 50, 'small-bok-choy': 133 } }],
+    ['home-greens-minced-pork-rice', { grade: 'A', grams: { 'raw-rice': 100, 'ground-pork': 50, 'leafy-greens': 75 } }],
+  ]);
+
+  assert.equal(active.length, expectedDefaults.size);
+  for (const variant of active) {
+    const expectedRow = expectedDefaults.get(variant.variant_id);
+    assert.ok(expectedRow, variant.variant_id);
+    assert.equal(variant.nutrition_structure.grade, expectedRow.grade, variant.variant_id);
+    assert.deepEqual(
+      Object.fromEntries(resolveDefaultPerServingMaterialGrams(variant, ratios)),
+      expectedRow.grams,
+      variant.variant_id,
+    );
+    assert.deepEqual(validateSubstantialNutrition(variant, taxonomy, ratios), [], variant.variant_id);
+  }
+});
+
 test('catalog exposes eight liquid-audited Preview meals while keeping all eleven evidence variants and 72 recipes', () => {
   const active = variants.filter(variant => variant.status === 'preview_ready');
   assert.equal(catalog.families.length, 3);
@@ -411,6 +442,32 @@ test('catalog exposes eight liquid-audited Preview meals while keeping all eleve
   assert.equal(recipes.recipes.length, 72);
 });
 
+test('every active ordinary meal explicitly supports 1, 2, 3, and 4 servings while Shanghai remains 3-only', () => {
+  const active = variants.filter(variant => variant.status === 'preview_ready');
+  for (const variant of active) {
+    assert.deepEqual(
+      variant.supported_servings,
+      variant.variant_id === 'shanghai-salted-pork-rice' ? [3] : [1, 2, 3, 4],
+      variant.variant_id,
+    );
+  }
+});
+
+test('project nutrition calibrations are explicit in review notes instead of being presented as source facts', () => {
+  for (const variantId of [
+    'home-corn-carrot-chicken-leg-rice',
+    'home-green-bean-pork-rib-rice',
+    'home-mushroom-green-bean-pork-rib-rice',
+    'home-cabbage-tofu-rice',
+    'home-broccoli-beef-rice',
+    'home-greens-minced-pork-rice',
+  ]) {
+    const variant = variants.find(row => row.variant_id === variantId);
+    assert.match(variant.review_note, /项目营养校准/u, variantId);
+    assert.match(variant.review_note, /不是来源原始单项克数|不是来源原始份量/u, variantId);
+  }
+});
+
 test('controlled finish-only variants expose the drained project test standard without changing regional identity', () => {
   const cases = [
     ['cabbage-tofu-braised-rice', 'napa-cabbage'],
@@ -419,7 +476,7 @@ test('controlled finish-only variants expose the drained project test standard w
   for (const [recipeId, heldId] of cases) {
     const variant = variantFor(recipeId);
     assert.equal(variant.status, 'preview_ready');
-    assert.deepEqual(variant.supported_servings, [1, 2, 4]);
+    assert.deepEqual(variant.supported_servings, [1, 2, 3, 4]);
     assert.match(variant.review_note, /一锅出项目 Preview 家庭测试标准/u);
     assert.match(variant.review_note, /待真实厨房反馈/u);
     assert.match(variant.review_note, /不宣称地域原方、厂商跨机型保证、已试做或人工批准/u);
@@ -464,7 +521,7 @@ test('four project test standards bind added water, salt, draining actions, safe
   for (const testCase of cases) {
     const variant = variantFor(testCase.recipeId);
     const rule = ratioById.get(variant.ratio_rule_ids[0]);
-    assert.deepEqual(variant.supported_servings, [1, 2, 4]);
+    assert.deepEqual(variant.supported_servings, [1, 2, 3, 4]);
     assert.equal(rule.liquid_contract.kind, 'added_water');
     const liquid = rule.operations.find(operation => operation.operator === 'ratio');
     assert.equal(liquid.numerator.resource, 'added_water_grams');

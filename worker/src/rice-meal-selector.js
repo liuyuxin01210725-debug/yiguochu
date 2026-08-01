@@ -81,8 +81,8 @@ function deduplicateNormalizedItems(items) {
 
 function validateServings(value) {
   const servings = value == null ? 2 : value;
-  if (!Number.isInteger(servings) || servings < 1 || servings > 8) {
-    throw new TypeError('servings must be an integer from 1 to 8');
+  if (!Number.isInteger(servings) || ![1, 2, 3, 4].includes(servings)) {
+    throw new TypeError('servings must be one of 1, 2, 3, or 4');
   }
   return servings;
 }

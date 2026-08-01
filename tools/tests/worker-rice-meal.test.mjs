@@ -187,7 +187,7 @@ test('rice-meal build compiles only a signed token and preserves reviewed RM-15 
   assert.equal(result.kv.puts, 0);
 });
 
-test('three-person rice meal keeps three servings through signed compilation and scales every amount', async () => {
+test('three-person ordinary rice meal keeps three servings through signed compilation and scales every amount', async () => {
   const planned = await post('/plan-meal', ricePlanRequest({ servings:3 }));
   assert.equal(planned.status, 200);
   assert.equal(planned.body.candidates[0].servings, 3);
@@ -238,6 +238,17 @@ test('rice-meal endpoints reject malformed JSON before model or budget work', as
   assert.equal(result.modelCalls, 0);
   assert.equal(result.kv.gets, 0);
   assert.equal(result.kv.puts, 0);
+});
+
+test('rice-meal planning API rejects serving sizes outside the reviewed 1-to-4 contract', async () => {
+  for (const servings of [5, 6, 7, 8]) {
+    const result = await post('/plan-meal', ricePlanRequest({ servings }));
+    assert.equal(result.status, 400, String(servings));
+    assert.equal(result.body.code, 'invalid_rice_meal_request', String(servings));
+    assert.equal(result.modelCalls, 0, String(servings));
+    assert.equal(result.kv.gets, 0, String(servings));
+    assert.equal(result.kv.puts, 0, String(servings));
+  }
 });
 
 test('rice-meal build fails closed when its catalog or focus metadata is unavailable', async () => {

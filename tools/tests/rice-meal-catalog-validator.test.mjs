@@ -93,6 +93,7 @@ const context = {
         { operator: 'per_serving', target: { canonical_id: 'shrimp' }, grams: { min: 100, default: 100, max: 100 } },
         { operator: 'ratio', target: { name: '水', category: 'liquid' }, min: 1.4, default: 1.4, max: 1.4 },
       ],
+      rounding: { grams_to_nearest: 1 },
     }, {
       rule_id: 'controlled-finish-ratio',
       execution_mode: 'executable',
@@ -105,10 +106,11 @@ const context = {
       },
       operations: [
         { operator: 'per_serving', target: { canonical_id: 'raw-rice' }, grams: { min: 100, default: 100, max: 100 } },
-        { operator: 'per_serving', target: { canonical_id: 'firm-tofu' }, grams: { min: 60, default: 60, max: 60 } },
-        { operator: 'per_serving', target: { canonical_id: 'napa-cabbage' }, grams: { min: 50, default: 50, max: 50 } },
+        { operator: 'per_serving', target: { canonical_id: 'firm-tofu' }, grams: { min: 90, default: 90, max: 90 } },
+        { operator: 'per_serving', target: { canonical_id: 'napa-cabbage' }, grams: { min: 75, default: 75, max: 75 } },
         { operator: 'ratio', target: { name: '水', category: 'liquid' }, min: 1.3, default: 1.3, max: 1.3 },
       ],
+      rounding: { grams_to_nearest: 1 },
     }, {
       rule_id: 'shanghai-mid-open-ratio',
       execution_mode: 'executable',
@@ -125,6 +127,7 @@ const context = {
         { operator: 'per_serving', target: { canonical_id: 'small-bok-choy' }, grams: { min: 400 / 3, default: 400 / 3, max: 400 / 3 } },
         { operator: 'ratio', target: { name: '水', category: 'liquid' }, min: 31 / 30, default: 31 / 30, max: 31 / 30 },
       ],
+      rounding: { grams_to_nearest: 1 },
     }],
   },
 };
@@ -147,6 +150,7 @@ function validCatalog() {
         review_note: '以项目菜谱中的固定食材、闭盖流程和安全终点为机器目录依据。',
         status: 'preview_ready',
         status_history: ['research_only', 'fact_checked', 'planned', 'preview_ready'],
+        supported_servings: [1, 2, 3, 4],
         identity_level: 'regional',
         region_codes: ['CN-ZJ'],
         identity_refs: [{
@@ -838,6 +842,372 @@ test('rejects a grade C entry marked preview-ready', () => {
   variant.nutrition_structure.material_contributors = [{ role: 'carb', canonical_ingredient_id: 'raw-rice' }];
 
   expectError(catalog, 'nutrition grade C cannot be preview_ready');
+});
+
+test('requires every ordinary Preview variant to declare the reviewed 1, 2, 3, and 4 serving set', () => {
+  const missing = validCatalog();
+  delete missing.families[0].variants[0].supported_servings;
+  expectError(missing, 'preview_ready supported_servings must equal [1,2,3,4]');
+
+  const missingThree = validCatalog();
+  missingThree.families[0].variants[0].supported_servings = [1, 2, 4];
+  expectError(missingThree, 'preview_ready supported_servings must equal [1,2,3,4]');
+});
+
+test('resolves executable per-serving grams and ordered group totals but ignores reference quantities', () => {
+  const variant = {
+    variant_id: 'nutrition-resolution-fixture',
+    ratio_rule_ids: ['executable-nutrition', 'reference-only'],
+  };
+  const ratioCatalog = {
+    rules: [{
+      rule_id: 'executable-nutrition',
+      execution_mode: 'executable',
+      operations: [
+        { operator: 'per_serving', target: { canonical_id: 'raw-rice' }, grams: { min: 80, default: 80, max: 80 } },
+        { operator: 'per_serving', target: { canonical_id: 'chicken-leg' }, grams: { min: 50, default: 50, max: 50 } },
+        {
+          operator: 'allocate_group_total_per_serving',
+          member_targets: [{ canonical_id: 'bok-choy' }, { canonical_id: 'shiitake' }],
+          grams: { min: 75, default: 75, max: 75 },
+          allocation_policy: 'equal_split_ordered_residual',
+        },
+      ],
+      rounding: { grams_to_nearest: 1 },
+    }, {
+      rule_id: 'reference-only',
+      execution_mode: 'bounds_only',
+      operations: [
+        { operator: 'reference_quantity', target: { canonical_id: 'raw-rice' }, grams: { min: 999, max: 999 } },
+      ],
+      rounding: { grams_to_nearest: 1 },
+    }],
+  };
+
+  assert.equal(typeof validatorModule.resolveDefaultPerServingMaterialGrams, 'function');
+  assert.deepEqual(
+    [...validatorModule.resolveDefaultPerServingMaterialGrams(variant, ratioCatalog)],
+    [
+      ['raw-rice', 80],
+      ['chicken-leg', 50],
+      ['bok-choy', 38],
+      ['shiitake', 37],
+    ],
+  );
+});
+
+test('default gram resolver rejects ranged amounts, invalid rounding, duplicate identities, and malformed groups', () => {
+  const variant = { ratio_rule_ids: ['strict-executable'] };
+  const makeCatalog = operations => ({
+    rules: [{
+      rule_id: 'strict-executable',
+      execution_mode: 'executable',
+      operations,
+      rounding: { grams_to_nearest: 1 },
+    }],
+  });
+  const perServing = (canonicalId, grams) => ({
+    operator: 'per_serving',
+    target: { canonical_id: canonicalId },
+    grams,
+  });
+
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, makeCatalog([
+      perServing('raw-rice', { min: 79, default: 80, max: 81 }),
+    ])),
+    /per_serving.*positive exact grams/u,
+  );
+
+  const invalidRounding = makeCatalog([
+    perServing('raw-rice', { min: 80, default: 80, max: 80 }),
+  ]);
+  invalidRounding.rules[0].rounding.grams_to_nearest = 0;
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, invalidRounding),
+    /rounding.*positive integer/u,
+  );
+
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, makeCatalog([
+      perServing('raw-rice', { min: 80, default: 80, max: 80 }),
+      perServing('raw-rice', { min: 80, default: 80, max: 80 }),
+    ])),
+    /duplicate.*raw-rice/u,
+  );
+
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, makeCatalog([{
+      operator: 'allocate_group_total_per_serving',
+      member_targets: [{ canonical_id: 'bok-choy' }, { canonical_id: 'bok-choy' }],
+      grams: { min: 75, default: 75, max: 75 },
+      allocation_policy: 'equal_split_ordered_residual',
+    }])),
+    /group.*unique/u,
+  );
+
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, makeCatalog([{
+      operator: 'allocate_group_total_per_serving',
+      member_targets: [{ canonical_id: 'bok-choy' }, { canonical_id: 'shiitake' }],
+      grams: { min: 75, default: 75, max: 75 },
+      allocation_policy: 'unsupported_policy',
+    }])),
+    /group.*allocation policy/u,
+  );
+
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, makeCatalog([null])),
+    /operation.*object/u,
+  );
+  assert.throws(
+    () => validatorModule.resolveDefaultPerServingMaterialGrams(variant, makeCatalog([{ operator: 'invented' }])),
+    /unsupported executable operator/u,
+  );
+});
+
+test('default gram resolver applies compiler integer rounding before deterministic group allocation', () => {
+  const variant = { ratio_rule_ids: ['rounded-executable'] };
+  const ratioCatalog = {
+    rules: [{
+      rule_id: 'rounded-executable',
+      execution_mode: 'executable',
+      operations: [
+        { operator: 'per_serving', target: { canonical_id: 'chicken-leg' }, grams: { min: 55, default: 55, max: 55 } },
+        {
+          operator: 'allocate_group_total_per_serving',
+          member_targets: [{ canonical_id: 'bok-choy' }, { canonical_id: 'shiitake' }],
+          grams: { min: 75, default: 75, max: 75 },
+          allocation_policy: 'equal_split_ordered_residual',
+        },
+      ],
+      rounding: { grams_to_nearest: 2 },
+    }],
+  };
+
+  assert.deepEqual(
+    [...validatorModule.resolveDefaultPerServingMaterialGrams(variant, ratioCatalog)],
+    [['chicken-leg', 56], ['bok-choy', 38], ['shiitake', 38]],
+  );
+  assert.deepEqual(
+    [...validatorModule.resolveDefaultPerServingMaterialGrams(variant, ratioCatalog, 2)],
+    [['chicken-leg', 55], ['bok-choy', 38], ['shiitake', 37]],
+    'the compiler locks the whole two-person pot before converting back to per-person grams',
+  );
+});
+
+test('substantial nutrition validates every supported serving size against whole-pot compiler rounding', () => {
+  const taxonomy = {
+    items: [
+      { canonical_id: 'raw-rice', category: 'raw_rice' },
+      { canonical_id: 'chicken-leg', category: 'chicken' },
+    ],
+  };
+  const variant = {
+    variant_id: 'serving-sensitive-rounding',
+    status: 'preview_ready',
+    supported_servings: [1, 2],
+    ratio_rule_ids: ['serving-sensitive-ratio'],
+    nutrition_structure: {
+      grade: 'B',
+      material_contributors: [
+        { role: 'carb', canonical_ingredient_id: 'raw-rice' },
+        { role: 'protein', canonical_ingredient_id: 'chicken-leg' },
+      ],
+    },
+  };
+  const ratioCatalog = {
+    rules: [{
+      rule_id: 'serving-sensitive-ratio',
+      execution_mode: 'executable',
+      operations: [
+        { operator: 'per_serving', target: { canonical_id: 'raw-rice' }, grams: { min: 80, default: 80, max: 80 } },
+        { operator: 'per_serving', target: { canonical_id: 'chicken-leg' }, grams: { min: 49.6, default: 49.6, max: 49.6 } },
+      ],
+      rounding: { grams_to_nearest: 1 },
+    }],
+  };
+
+  const errors = validatorModule.validateSubstantialNutrition(variant, taxonomy, ratioCatalog);
+  assert.ok(errors.some(error => (
+    error.includes('chicken-leg resolves to 49.5g/person below protein threshold 50g/person')
+      && error.includes('2 servings')
+  )), errors.join('\n'));
+});
+
+test('locks substantial protein thresholds at their exact per-person boundaries', () => {
+  assert.equal(typeof validatorModule.validateSubstantialNutrition, 'function');
+  const taxonomy = {
+    items: [
+      { canonical_id: 'raw-rice', category: 'raw_rice' },
+      { canonical_id: 'chicken-leg', category: 'chicken' },
+      { canonical_id: 'pork-ribs', category: 'pork' },
+      { canonical_id: 'shrimp', category: 'seafood' },
+      { canonical_id: 'firm-tofu', category: 'firm_tofu' },
+      { canonical_id: 'egg', category: 'egg' },
+      { canonical_id: 'dry-chickpea-seed', category: 'dry_legume' },
+      { canonical_id: 'cooked-chickpea-seed', category: 'cooked_legume' },
+    ],
+  };
+  const cases = [
+    ['chicken-leg', 50],
+    ['shrimp', 50],
+    ['firm-tofu', 90],
+    ['egg', 45],
+    ['dry-chickpea-seed', 30],
+    ['cooked-chickpea-seed', 75],
+    ['pork-ribs', 100],
+  ];
+  for (const [canonicalId, threshold] of cases) {
+    const makeFixture = grams => ({
+      variant: {
+        variant_id: `boundary-${canonicalId}`,
+        status: 'preview_ready',
+        ratio_rule_ids: [`ratio-${canonicalId}`],
+        nutrition_structure: {
+          grade: 'B',
+          material_contributors: [
+            { role: 'carb', canonical_ingredient_id: 'raw-rice' },
+            { role: 'protein', canonical_ingredient_id: canonicalId },
+          ],
+        },
+      },
+      ratioCatalog: {
+        rules: [{
+          rule_id: `ratio-${canonicalId}`,
+          execution_mode: 'executable',
+          operations: [
+            { operator: 'per_serving', target: { canonical_id: 'raw-rice' }, grams: { min: 80, default: 80, max: 80 } },
+            { operator: 'per_serving', target: { canonical_id: canonicalId }, grams: { min: grams, default: grams, max: grams } },
+          ],
+          rounding: { grams_to_nearest: 1 },
+        }],
+      },
+    });
+    const below = makeFixture(threshold - 1);
+    assert.ok(
+      validatorModule.validateSubstantialNutrition(below.variant, taxonomy, below.ratioCatalog)
+        .some(error => error.includes(`${canonicalId} resolves to ${threshold - 1}g/person below protein threshold ${threshold}g/person`)),
+      canonicalId,
+    );
+    const boundary = makeFixture(threshold);
+    assert.deepEqual(
+      validatorModule.validateSubstantialNutrition(boundary.variant, taxonomy, boundary.ratioCatalog),
+      [],
+      canonicalId,
+    );
+  }
+});
+
+test('locks raw-rice and combined fiber thresholds and rejects reference-only quantities', () => {
+  assert.equal(typeof validatorModule.validateSubstantialNutrition, 'function');
+  const taxonomy = {
+    items: [
+      { canonical_id: 'raw-rice', category: 'raw_rice' },
+      { canonical_id: 'chicken-leg', category: 'chicken' },
+      { canonical_id: 'bok-choy', category: 'leafy_vegetable' },
+      { canonical_id: 'shiitake', category: 'mushroom' },
+    ],
+  };
+  const makeGradeA = ({ riceOperator = 'per_serving', riceGrams = 80, fiberTotal = 75 } = {}) => ({
+    variant: {
+      variant_id: 'carb-fiber-boundary',
+      status: 'preview_ready',
+      ratio_rule_ids: ['carb-fiber-ratio'],
+      nutrition_structure: {
+        grade: 'A',
+        material_contributors: [
+          { role: 'carb', canonical_ingredient_id: 'raw-rice' },
+          { role: 'protein', canonical_ingredient_id: 'chicken-leg' },
+          { role: 'fiber', canonical_ingredient_id: 'bok-choy' },
+          { role: 'fiber', canonical_ingredient_id: 'shiitake' },
+        ],
+      },
+    },
+    ratioCatalog: {
+      rules: [{
+        rule_id: 'carb-fiber-ratio',
+        execution_mode: riceOperator === 'reference_quantity' ? 'bounds_only' : 'executable',
+        operations: [
+          riceOperator === 'reference_quantity'
+            ? { operator: riceOperator, target: { canonical_id: 'raw-rice' }, grams: { min: riceGrams, max: riceGrams } }
+            : { operator: riceOperator, target: { canonical_id: 'raw-rice' }, grams: { min: riceGrams, default: riceGrams, max: riceGrams } },
+          { operator: 'per_serving', target: { canonical_id: 'chicken-leg' }, grams: { min: 50, default: 50, max: 50 } },
+          {
+            operator: 'allocate_group_total_per_serving',
+            member_targets: [{ canonical_id: 'bok-choy' }, { canonical_id: 'shiitake' }],
+            grams: { min: fiberTotal, default: fiberTotal, max: fiberTotal },
+            allocation_policy: 'equal_split_ordered_residual',
+          },
+        ],
+        rounding: { grams_to_nearest: 1 },
+      }],
+    },
+  });
+
+  const boundary = makeGradeA();
+  assert.deepEqual(validatorModule.validateSubstantialNutrition(boundary.variant, taxonomy, boundary.ratioCatalog), []);
+
+  const lowRice = makeGradeA({ riceGrams: 79 });
+  assert.ok(validatorModule.validateSubstantialNutrition(lowRice.variant, taxonomy, lowRice.ratioCatalog)
+    .some(error => error.includes('raw-rice resolves to 79g/person below carb threshold 80g/person')));
+
+  const lowFiber = makeGradeA({ fiberTotal: 74 });
+  assert.ok(validatorModule.validateSubstantialNutrition(lowFiber.variant, taxonomy, lowFiber.ratioCatalog)
+    .some(error => error.includes('fiber contributors resolve to 74g/person below fiber threshold 75g/person')));
+
+  const referenceOnly = makeGradeA({ riceOperator: 'reference_quantity' });
+  assert.ok(validatorModule.validateSubstantialNutrition(referenceOnly.variant, taxonomy, referenceOnly.ratioCatalog)
+    .some(error => error.includes('raw-rice has no executable default grams')));
+});
+
+test('catalog integration rejects an A label whose executable protein and fiber defaults are insubstantial', () => {
+  const nextContext = clone(context);
+  const operations = nextContext.ratioCatalog.rules[0].operations;
+  operations.find(operation => operation.target?.canonical_id === 'chicken-leg').grams = { min: 49, default: 49, max: 49 };
+  operations.find(operation => operation.target?.canonical_id === 'bok-choy').grams = { min: 74, default: 74, max: 74 };
+
+  expectError(validCatalog(), 'chicken-leg resolves to 49g/person below protein threshold 50g/person', nextContext);
+  expectError(validCatalog(), 'fiber contributors resolve to 74g/person below fiber threshold 75g/person', nextContext);
+});
+
+test('does not double-count a duplicated fiber contributor identity', () => {
+  const taxonomy = {
+    items: [
+      { canonical_id: 'raw-rice', category: 'raw_rice' },
+      { canonical_id: 'chicken-leg', category: 'chicken' },
+      { canonical_id: 'bok-choy', category: 'leafy_vegetable' },
+    ],
+  };
+  const variant = {
+    variant_id: 'duplicate-fiber-fixture',
+    status: 'preview_ready',
+    ratio_rule_ids: ['duplicate-fiber-ratio'],
+    nutrition_structure: {
+      grade: 'A',
+      material_contributors: [
+        { role: 'carb', canonical_ingredient_id: 'raw-rice' },
+        { role: 'protein', canonical_ingredient_id: 'chicken-leg' },
+        { role: 'fiber', canonical_ingredient_id: 'bok-choy' },
+        { role: 'fiber', canonical_ingredient_id: 'bok-choy' },
+      ],
+    },
+  };
+  const ratioCatalog = {
+    rules: [{
+      rule_id: 'duplicate-fiber-ratio',
+      execution_mode: 'executable',
+      operations: [
+        { operator: 'per_serving', target: { canonical_id: 'raw-rice' }, grams: { min: 80, default: 80, max: 80 } },
+        { operator: 'per_serving', target: { canonical_id: 'chicken-leg' }, grams: { min: 50, default: 50, max: 50 } },
+        { operator: 'per_serving', target: { canonical_id: 'bok-choy' }, grams: { min: 40, default: 40, max: 40 } },
+      ],
+      rounding: { grams_to_nearest: 1 },
+    }],
+  };
+
+  assert.ok(validatorModule.validateSubstantialNutrition(variant, taxonomy, ratioCatalog)
+    .some(error => error.includes('fiber contributors resolve to 40g/person below fiber threshold 75g/person')));
 });
 
 test('rejects potato as a fiber contributor even when the grade A role list appears complete', () => {
