@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "rice-meal-catalog-v1-20260801-r4",
+  "catalog_version": "rice-meal-catalog-v1-20260801-r5",
   "journeys": [
     {
       "id": "RM-01-jiangnan-planned-only",
@@ -224,18 +224,19 @@
       }
     },
     {
-      "id": "RM-16-greens-ground-pork-liquid-gap",
+      "id": "RM-16-greens-ground-pork-ready",
       "spec_case": 16,
       "request": { "servings": 2, "pantry": ["猪肉末", "青菜"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
-        "forbidden_variant_ids": ["home-greens-minced-pork-rice"],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
-        "required_unused_reason_codes": ["not_in_active_catalog"]
+        "status": "ready",
+        "expected_first_variant": "home-greens-minced-pork-rice",
+        "allowed_variant_ids": ["home-greens-minced-pork-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
       },
-      "catalog_gap": "青菜肉末焖饭的叶菜预处理与出水尚无可量取的总液体契约，保持 planned。"
+      "catalog_gap": "已锁定肉糜、青菜、称重加水与程序完成后拌入青菜的项目家庭标准；象印资料只作为真实菜名和指定机型工艺证据。"
     },
     {
       "id": "RM-15-selector-facts-for-compiler",

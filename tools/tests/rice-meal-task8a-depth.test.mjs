@@ -42,13 +42,13 @@ function amounts(output) {
   return Object.fromEntries(output.plan.ingredient_amounts.map(row => [row.canonical_id, row.grams]));
 }
 
-test('Task 8A keeps ten evidence variants but exposes only the two liquid-audited Preview plans', () => {
+test('the focused catalog keeps ten evidence variants and exposes three liquid-audited Preview plans', () => {
   const active = variants().filter(variant => variant.status === 'preview_ready');
   assert.equal(assets.catalog.families.length, 3);
   assert.equal(variants().length, 10);
-  assert.equal(active.length, 2);
-  assert.equal(variants().filter(variant => variant.status === 'planned').length, 8);
-  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 1);
+  assert.equal(active.length, 3);
+  assert.equal(variants().filter(variant => variant.status === 'planned').length, 7);
+  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 2);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
   assert.equal(assets.recipes.recipes.length, 72);
 });

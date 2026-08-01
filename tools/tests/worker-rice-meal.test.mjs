@@ -273,11 +273,11 @@ test('health exposes rice catalog facts only for valid rice metadata and include
   });
   const healthyBody = await healthy.json();
   assert.equal(healthyBody.riceMealCatalog, 'ok');
-  assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r4');
+  assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r5');
   assert.equal(healthyBody.riceMealFamilies, 3);
   assert.equal(healthyBody.riceMealVariants, 10);
-  assert.equal(healthyBody.riceMealPreviewReady, 2);
-  assert.equal(healthyBody.riceMealPlanned, 8);
+  assert.equal(healthyBody.riceMealPreviewReady, 3);
+  assert.equal(healthyBody.riceMealPlanned, 7);
 
   for (const buildMeta of [
     '{bad json',

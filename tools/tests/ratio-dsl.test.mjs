@@ -146,7 +146,7 @@ test('recipe liquid contract distinguishes added water, measurable total liquid,
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260801-r11');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260801-r12');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 

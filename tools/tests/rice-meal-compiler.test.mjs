@@ -196,7 +196,7 @@ test('verification recomputes the server candidate and rejects bare, forged, and
   );
 
   const staleCatalog = structuredClone(assets.catalog);
-  staleCatalog.catalog_version = 'rice-meal-catalog-v1-20260801-r5';
+  staleCatalog.catalog_version = 'rice-meal-catalog-v1-20260801-r6';
   expectCode(
     () => verify({ plan_token: token }, { ...assets, catalog: staleCatalog }, SECRET),
     'stale_plan',
@@ -314,7 +314,6 @@ test('compiler cannot be reached for controlled finish-only meals while their li
   const cases = [
     ['豆腐', '白菜'],
     ['牛里脊', '西兰花'],
-    ['猪肉末', '青菜'],
   ];
   for (const pantry of cases) {
     const result = selectRiceMealCandidates({
@@ -327,6 +326,24 @@ test('compiler cannot be reached for controlled finish-only meals while their li
     assert.equal(result.status, 'no_reliable_rice_meal');
     assert.deepEqual(result.candidates, []);
   }
+});
+
+test('meat-and-greens rice compiles its calibrated finish-fold plan', () => {
+  const candidate = select({ servings: 2, pantry: ['猪肉末', '青菜'], dislikes: [] });
+  assert.equal(candidate.variant_id, 'home-greens-minced-pork-rice');
+  const output = compilerApi('compileRiceMeal')(candidate, assets);
+  assert.equal(output.meals[0].dish_name, '肉糜青菜饭');
+  assert.deepEqual(output.meals[0].steps.map(step => step.action_code), [
+    'rinse_raw_rice',
+    'brown_ground_pork_outside_cooker',
+    'pre_cook_tender_vegetables_outside_cooker',
+    'load_inner_pot',
+    'start_closed_lid_program',
+    'rest_lid_closed',
+    'verify_safety_endpoints',
+    'fold_in_pre_cooked_ingredients',
+    'fluff_and_serve',
+  ]);
 });
 
 test('every active rice-meal family renders its reviewed household prose with no engineering language', () => {

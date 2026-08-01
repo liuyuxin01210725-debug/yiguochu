@@ -30,17 +30,18 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
   const report = validateRiceMealPreviewGate(assets);
 
   assert.deepEqual(report.errors, []);
-  assert.equal(report.summary.catalog_version, 'rice-meal-catalog-v1-20260801-r4');
+  assert.equal(report.summary.catalog_version, 'rice-meal-catalog-v1-20260801-r5');
   assert.equal(report.summary.recipe_count, 72);
   assert.equal(report.summary.family_count, 3);
   assert.equal(report.summary.variant_count, 10);
-  assert.equal(report.summary.preview_ready_count, 2);
-  assert.equal(report.summary.planned_count, 8);
-  assert.deepEqual(report.summary.nutrition_grade_counts, { A: 1, B: 1, C: 0 });
+  assert.equal(report.summary.preview_ready_count, 3);
+  assert.equal(report.summary.planned_count, 7);
+  assert.deepEqual(report.summary.nutrition_grade_counts, { A: 2, B: 1, C: 0 });
   assert.equal(report.summary.journey_count, 20);
   assert.deepEqual(report.summary.journey_variant_ids, [
     'home-chicken-leg-potato-rice',
     'home-corn-carrot-chicken-leg-rice',
+    'home-greens-minced-pork-rice',
   ]);
   assert.deepEqual(report.summary.compiled_variant_ids, report.summary.journey_variant_ids);
   assert.deepEqual(report.summary.excluded_legacy_categories, [

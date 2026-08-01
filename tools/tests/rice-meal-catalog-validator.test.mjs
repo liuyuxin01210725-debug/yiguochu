@@ -99,7 +99,7 @@ function clone(value) {
 function validCatalog() {
   return {
     schema_version: 1,
-    catalog_version: 'rice-meal-catalog-v1-20260801-r4',
+    catalog_version: 'rice-meal-catalog-v1-20260801-r5',
     families: [{
       family_id: 'closed-lid-rice-meal',
       variants: [{
@@ -704,5 +704,5 @@ test('recipe aggregate gate validates the catalog and reports its status counts'
   });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /3 families · 10 variants · 2 preview_ready · 8 planned · rice meal catalog ok/);
+  assert.match(result.stdout, /3 families · 10 variants · 3 preview_ready · 7 planned · rice meal catalog ok/);
 });

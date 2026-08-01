@@ -24,17 +24,17 @@ const normalize = value => String(value || '').trim().toLowerCase().replace(/[\s
 const expected = new Map([
   ['quanzhou-oil-rice', {
     variant_id: 'home-soaked-glutinous-pork-mushroom-rice',
-    display_name: '香菇肉末糯米饭',
+    display_name: '泉州浥饭（油饭）',
     status: 'planned',
   }],
   ['xinjiang-lamb-pilaf', {
     variant_id: 'home-lamb-carrot-rice',
-    display_name: '羊肉胡萝卜焖饭',
+    display_name: '新疆羊肉抓饭',
     status: 'planned',
   }],
   ['shaanbei-red-date-cowpea-rice', {
     variant_id: 'home-red-date-cowpea-rice',
-    display_name: '红枣豇豆焖饭',
+    display_name: '陕北红枣豇豆焖饭',
     status: 'planned',
   }],
   ['chicken-leg-potato-braised-rice', {
@@ -69,8 +69,8 @@ const expected = new Map([
   }],
   ['greens-minced-pork-braised-rice', {
     variant_id: 'home-greens-minced-pork-rice',
-    display_name: '青菜肉末焖饭',
-    status: 'planned',
+    display_name: '肉糜青菜饭',
+    status: 'preview_ready',
   }],
 ]);
 
@@ -206,6 +206,7 @@ test('preview-ready entries promote only unique executable defaults and never in
   assert.deepEqual(previewReady.map(variant => variant.recipe_id).sort(), [
     'chicken-leg-potato-braised-rice',
     'corn-carrot-chicken-leg-covered-rice',
+    'greens-minced-pork-braised-rice',
   ]);
 
   for (const variant of previewReady) {
@@ -268,6 +269,22 @@ test('preview-ready entries promote only unique executable defaults and never in
   }
 });
 
+test('meat-and-greens rice keeps the manufacturer evidence separate from the project household standard', () => {
+  const variant = variantFor('greens-minced-pork-braised-rice');
+  const rule = ratioById.get('greens-minced-pork-braised-rice-executable-v1');
+
+  assert.equal(variant.display_name, '肉糜青菜饭');
+  assert.ok(variant.source_refs.some(ref => ref.url === 'https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf'));
+  assert.deepEqual(rule.liquid_contract, {
+    kind: 'added_water',
+    measurement: 'weigh_before_loading',
+    display_precision: 'approximate',
+    display_rounding_grams: 10,
+  });
+  assert.match(variant.review_note, /项目家庭标准/u);
+  assert.match(variant.review_note, /象印/u);
+});
+
 test('closed-lid recipe rules compile the migrated fixed quantities through one integer normalization boundary', () => {
   const prepared = prepareRatioCatalog(ratios, { templates, taxonomy, recipes });
   assert.equal(prepared.ok, true, prepared.errors.join('\n'));
@@ -328,22 +345,21 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
   }
 });
 
-test('catalog exposes only two liquid-audited Preview meals while keeping all ten evidence variants and 72 recipes', () => {
+test('catalog exposes three liquid-audited Preview meals while keeping all ten evidence variants and 72 recipes', () => {
   const active = variants.filter(variant => variant.status === 'preview_ready');
   assert.equal(catalog.families.length, 3);
   assert.equal(variants.length, 10);
-  assert.equal(active.length, 2);
-  assert.equal(variants.filter(variant => variant.status === 'planned').length, 8);
-  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 1);
+  assert.equal(active.length, 3);
+  assert.equal(variants.filter(variant => variant.status === 'planned').length, 7);
+  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 2);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
   assert.equal(recipes.recipes.length, 72);
 });
 
-test('controlled finish-only variants retain their process evidence but stay planned until liquid calibration closes', () => {
+test('controlled finish-only variants stay planned only while their liquid calibration remains open', () => {
   const cases = [
     ['cabbage-tofu-braised-rice', 'napa-cabbage'],
     ['broccoli-beef-braised-rice', 'broccoli'],
-    ['greens-minced-pork-braised-rice', 'leafy-greens'],
   ];
   for (const [recipeId, heldId] of cases) {
     const variant = variantFor(recipeId);
@@ -357,6 +373,7 @@ test('controlled finish-only variants retain their process evidence but stay pla
     assert.deepEqual(fold?.ingredient_ids, [heldId]);
     assert.ok(variant.safety_endpoints.some(endpoint => endpoint.canonical_ingredient_id === heldId));
   }
+  assert.equal(variantFor('greens-minced-pork-braised-rice').status, 'preview_ready');
 });
 
 test('the first-stage action catalog preserves explicit poultry rib and lamb preprocessing outside the single closed-lid cycle', () => {

@@ -1,4 +1,4 @@
-const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r4';
+const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r5';
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const STATUSES = ['research_only', 'fact_checked', 'planned', 'preview_ready', 'pilot_observed', 'production_approved'];
 const STATUS_SET = new Set(STATUSES);

@@ -270,7 +270,7 @@ test('beef tenderloin may fill an explicit generic-beef position but cannot fill
   assert.deepEqual(result.candidates[0].used_items.map(item => item.canonical_id).sort(), ['beef-tenderloin', 'broccoli']);
 });
 
-test('controlled finish-only rice meals stay planned and never leak into runtime selection', () => {
+test('controlled finish-only rice meals stay planned until their liquid contract is calibrated', () => {
   const cases = [
     {
       pantry: ['豆腐', '白菜'],
@@ -287,11 +287,6 @@ test('controlled finish-only rice meals stay planned and never leak into runtime
       variant_id: 'home-broccoli-beef-rice',
       used_canonical_ids: ['beef-tenderloin', 'broccoli'],
     },
-    {
-      pantry: ['猪肉末', '青菜'],
-      variant_id: 'home-greens-minced-pork-rice',
-      used_canonical_ids: ['ground-pork', 'leafy-greens'],
-    },
   ];
   for (const row of cases) {
     const result = select({ servings: 2, pantry: row.pantry, dislikes: [] });
@@ -300,6 +295,10 @@ test('controlled finish-only rice meals stay planned and never leak into runtime
     assert.ok(result.unused_items.every(item => item.reason_code === 'not_in_active_catalog'));
     assert.equal(variant(row.variant_id).status, 'planned');
   }
+  const calibrated = select({ servings: 2, pantry: ['猪肉末', '青菜'], dislikes: [] });
+  assert.equal(calibrated.status, 'ready');
+  assert.equal(calibrated.candidates[0].variant_id, 'home-greens-minced-pork-rice');
+  assert.deepEqual(calibrated.candidates[0].used_items.map(item => item.canonical_id).sort(), ['ground-pork', 'leafy-greens']);
 });
 
 test('soft tofu and firm tofu never interchange without an explicit approved substitution', () => {
@@ -786,9 +785,9 @@ test('the journey CLI enforces ready-candidate ordering and executes the compile
   assert.equal(run.status, 0, run.stderr || run.stdout);
   assert.match(run.stdout, /Rice meal journey gate: total=20 selector_passed=20 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
   assert.match(run.stdout, /needs_balance_input: 1/u);
-  assert.match(run.stdout, /no_reliable_rice_meal: 11/u);
+  assert.match(run.stdout, /no_reliable_rice_meal: 10/u);
   assert.match(run.stdout, /no_alternative_rice_meal: 1/u);
-  assert.match(run.stdout, /ready: 4/u);
+  assert.match(run.stdout, /ready: 5/u);
   assert.match(run.stdout, /unsafe_recipe: 3/u);
   assert.match(run.stdout, /RM-04-chicken-potato-b .*coverage=2\/2 grade=B/u);
   assert.match(run.stdout, /RM-15-selector-facts-for-compiler .*contract=passed/u);

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "rice-meal-catalog-v1-20260801-r4",
+  "catalog_version": "rice-meal-catalog-v1-20260801-r5",
   "families": [
     {
       "family_id": "home-southern-rice",
@@ -8,8 +8,8 @@
         {
           "variant_id": "home-soaked-glutinous-pork-mushroom-rice",
           "recipe_id": "quanzhou-oil-rice",
-          "display_name": "香菇肉末糯米饭",
-          "name_label": "家庭糯米饭",
+          "display_name": "泉州浥饭（油饭）",
+          "name_label": "闽南油饭家庭版",
           "review_note": "迁移依据为 recipe-library.json#quanzhou-oil-rice；仅作为项目家庭标准复核，不声明泉州地域真实性。肉末与香菇未量化，不能据此生成可执行克数。",
           "status": "planned",
           "status_history": [
@@ -159,8 +159,8 @@
         {
           "variant_id": "home-lamb-carrot-rice",
           "recipe_id": "xinjiang-lamb-pilaf",
-          "display_name": "羊肉胡萝卜焖饭",
-          "name_label": "家庭羊肉焖饭",
+          "display_name": "新疆羊肉抓饭",
+          "name_label": "抓饭家庭电饭煲待校准版",
           "review_note": "迁移依据为 recipe-library.json#xinjiang-lamb-pilaf；保留羊肉先熟制和可用余液范围，未声明新疆地域真实性。羊肉、洋葱与胡萝卜未量化，不能据此生成可执行克数。",
           "status": "planned",
           "status_history": [
@@ -326,8 +326,8 @@
         {
           "variant_id": "home-red-date-cowpea-rice",
           "recipe_id": "shaanbei-red-date-cowpea-rice",
-          "display_name": "红枣豇豆焖饭",
-          "name_label": "家庭红枣豆角焖饭",
+          "display_name": "陕北红枣豇豆焖饭",
+          "name_label": "陕北腊八焖饭语义待校准版",
           "review_note": "迁移依据为 recipe-library.json#shaanbei-red-date-cowpea-rice；原始“豇豆”字面身份尚未消歧，鲜豇豆仅记录为待复核的加工假设，条目保持 planned。红枣与鲜豇豆未量化，不能据此生成可执行克数。",
           "status": "planned",
           "status_history": [
@@ -940,11 +940,11 @@
         {
           "variant_id": "home-greens-minced-pork-rice",
           "recipe_id": "greens-minced-pork-braised-rice",
-          "display_name": "青菜肉末焖饭",
-          "name_label": "家庭青菜肉末焖饭",
-          "review_note": "迁移依据为 recipe-library.json#greens-minced-pork-braised-rice；猪肉末和青菜改为锅外熟制后，锅内含水与油脂条件已经改变，原总液体比例不能直接继承；当前退回 planned，等待独立液体校准。",
-          "status": "planned",
-          "status_history": ["research_only", "fact_checked", "planned"],
+          "display_name": "肉糜青菜饭",
+          "name_label": "家庭电饭煲菜饭",
+          "review_note": "迁移依据为 recipe-library.json#greens-minced-pork-braised-rice；象印说明书中的“肉糜青菜饭”只证明指定机型与水位线流程，本条目仍使用项目家庭标准的称重比例与锅外熟制流程，不声称两者的水量可直接等同。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -1008,9 +1008,10 @@
             {"canonical_ingredient_id": "leafy-greens", "endpoint_code": "tender"}
           ],
           "source_refs": [
-            {"title": "一锅出原创标准配方：青菜肉末焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=greens-minced-pork-braised-rice"}
+            {"title": "一锅出原创标准配方：青菜肉末焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=greens-minced-pork-braised-rice"},
+            {"title": "象印 NL-ERH 说明书：肉糜青菜饭", "url": "https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf"}
           ],
-          "exclusion_flags": ["requires_mid_cook_opening"]
+          "exclusion_flags": []
         }
       ]
     }

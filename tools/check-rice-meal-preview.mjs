@@ -18,9 +18,9 @@ const EXPECTED = Object.freeze({
   recipeCount: 72,
   familyCount: 3,
   variantCount: 10,
-  previewReadyCount: 2,
-  plannedCount: 8,
-  minimumGradeA: 1,
+  previewReadyCount: 3,
+  plannedCount: 7,
+  minimumGradeA: 2,
   journeyCount: 20,
 });
 const EXCLUDED_LEGACY_CATEGORIES = Object.freeze([
@@ -313,7 +313,7 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
       if (health.response.status !== 200 || health.json?.productFocus !== 'rice-meal-v1'
           || health.json?.riceMealCatalog !== 'ok' || health.json?.baseRecipes !== 72
           || health.json?.riceMealFamilies !== 3 || health.json?.riceMealVariants !== 10
-          || health.json?.riceMealPreviewReady !== 2 || health.json?.riceMealPlanned !== 8) {
+          || health.json?.riceMealPreviewReady !== 3 || health.json?.riceMealPlanned !== 7) {
         errors.push('built /health does not report the exact rice Preview catalog facts');
       }
       const planned = await responseJson(builtWorker, '/plan-meal', {
