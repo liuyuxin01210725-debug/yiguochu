@@ -73,18 +73,19 @@
       "catalog_gap": "现有激活目录没有可同时使用鸡腿、土豆和青菜的 A 级变体；不得把青菜强塞进鸡腿土豆焖饭。"
     },
     {
-      "id": "RM-06-tofu-cabbage-liquid-gap",
+      "id": "RM-06-tofu-cabbage-ready",
       "spec_case": 6,
       "request": { "servings": 2, "pantry": ["豆腐", "白菜"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
-        "forbidden_variant_ids": ["home-cabbage-tofu-rice"],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
-        "required_unused_reason_codes": ["not_in_active_catalog"]
+        "status": "ready",
+        "expected_first_variant": "home-cabbage-tofu-rice",
+        "allowed_variant_ids": ["home-cabbage-tofu-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
       },
-      "catalog_gap": "白菜豆腐焖饭的菜叶出水与收尾拌入尚无可量取的总液体契约，保持 planned。"
+      "preview_basis": "白菜锅外焖熟并弃置焖菜液后拌入，使用受控 added-water 项目测试标准。"
     },
     {
       "id": "RM-07-tofu-mushroom-greens-planned-gap",
@@ -101,18 +102,19 @@
       "catalog_gap": "没有 preview_ready 的豆腐香菇青菜电饭煲菜饭。"
     },
     {
-      "id": "RM-08-beef-broccoli-liquid-gap",
+      "id": "RM-08-beef-broccoli-ready",
       "spec_case": 8,
       "request": { "servings": 2, "pantry": ["牛里脊", "西兰花"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
-        "forbidden_variant_ids": ["home-broccoli-beef-rice"],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
-        "required_unused_reason_codes": ["not_in_active_catalog"]
+        "status": "ready",
+        "expected_first_variant": "home-broccoli-beef-rice",
+        "allowed_variant_ids": ["home-broccoli-beef-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
       },
-      "catalog_gap": "西兰花牛肉焖饭的预处理与蔬菜出水尚无可量取的总液体契约，保持 planned。"
+      "preview_basis": "西兰花锅外焖熟并弃置焖菜液后拌入，牛里脊只进入通用牛肉位。"
     },
     {
       "id": "RM-09-four-vegetable-protein-mix-no-single-card",
@@ -196,18 +198,19 @@
       }
     },
     {
-      "id": "RM-13-four-items-below-coverage-floor",
+      "id": "RM-13-green-bean-rib-ready",
       "spec_case": 13,
-      "request": { "servings": 2, "pantry": ["鸡腿", "土豆", "排骨", "豆角"], "dislikes": [] },
+      "request": { "servings": 2, "pantry": ["排骨", "豆角"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
-        "forbidden_variant_ids": ["home-green-bean-pork-rib-rice"],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
-        "required_unused_reason_codes": ["not_in_active_catalog"]
+        "status": "ready",
+        "expected_first_variant": "home-green-bean-pork-rib-rice",
+        "allowed_variant_ids": ["home-green-bean-pork-rib-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
       },
-      "catalog_gap": "4 项输入至少需要覆盖 3 项；鸡腿土豆焖饭只能可靠覆盖 2 项。"
+      "preview_basis": "排骨锅外预煮并弃置预煮水，豆角充分沥干后按受控 added-water 项目测试标准入煲。"
     },
     {
       "id": "RM-14-no-second-reliable-alternative",
@@ -287,18 +290,19 @@
       }
     },
     {
-      "id": "RM-18-mushroom-bean-rib-liquid-gap",
+      "id": "RM-18-mushroom-bean-rib-ready",
       "spec_case": 18,
       "request": { "servings": 2, "pantry": ["排骨", "香菇", "豆角"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
-        "forbidden_variant_ids": ["home-mushroom-green-bean-pork-rib-rice", "home-green-bean-pork-rib-rice"],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
-        "required_unused_reason_codes": ["not_in_active_catalog"]
+        "status": "ready",
+        "expected_first_variant": "home-mushroom-green-bean-pork-rib-rice",
+        "allowed_variant_ids": ["home-mushroom-green-bean-pork-rib-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
       },
-      "catalog_gap": "排骨预煮液与香菇豆角出水尚未转成可量取的总液体契约，相关条目保持 planned。"
+      "preview_basis": "排骨锅外预煮弃液，香菇和豆角充分沥干后按受控 added-water 项目测试标准入煲。"
     },
     {
       "id": "RM-21-shanghai-salted-pork-ready",

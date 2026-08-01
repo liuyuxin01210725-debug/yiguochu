@@ -305,8 +305,8 @@ test('health exposes rice catalog facts only for valid rice metadata and include
   assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r6');
   assert.equal(healthyBody.riceMealFamilies, 3);
   assert.equal(healthyBody.riceMealVariants, 11);
-  assert.equal(healthyBody.riceMealPreviewReady, 4);
-  assert.equal(healthyBody.riceMealPlanned, 7);
+  assert.equal(healthyBody.riceMealPreviewReady, 8);
+  assert.equal(healthyBody.riceMealPlanned, 3);
 
   for (const buildMeta of [
     '{bad json',

@@ -301,30 +301,91 @@ test('compiler locks catalog name, exact integer ratio grams, allowed ingredient
     kind: 'total_free_liquid',
     measured_contributor_ids: ['water'],
     target_total_free_liquid_grams: 280,
-    added_water_grams: 280,
     display_precision: 'approximate',
     display_grams: 280,
-    retained_liquid_grams: 280,
     liquid_credit_grams: 0,
     rounding_grams: 1,
   });
 });
 
-test('compiler cannot be reached for controlled finish-only meals while their liquid contracts remain planned', () => {
+test('four project household standards compile exact 1/2/4 serving water, salt, draining and safety contracts', () => {
   const cases = [
-    ['豆腐', '白菜'],
-    ['牛里脊', '西兰花'],
+    {
+      variantId: 'home-green-bean-pork-rib-rice',
+      pantry: ['豆角', '排骨'],
+      perServing: { 'raw-rice': 100, 'pork-ribs': 70, 'green-beans': 55, water: 145, salt: 1 },
+      actions: ['pre_cook_pork_ribs_drain_and_discard_liquid', 'drain_prepared_vegetables_before_loading'],
+      safety: /最厚可食部位.*74°C.*完全熟透.*豆角.*无生青色.*豆腥味/u,
+    },
+    {
+      variantId: 'home-mushroom-green-bean-pork-rib-rice',
+      pantry: ['香菇', '豆角', '排骨'],
+      perServing: { 'raw-rice': 100, 'pork-ribs': 70, water: 145, salt: 1 },
+      groupTotal: { canonicalIds: ['shiitake', 'green-beans'], gramsPerServing: 65 },
+      actions: ['pre_cook_pork_ribs_drain_and_discard_liquid', 'drain_prepared_vegetables_before_loading'],
+      safety: /最厚可食部位.*74°C.*完全熟透.*豆角.*无生青色.*豆腥味/u,
+    },
+    {
+      variantId: 'home-cabbage-tofu-rice',
+      pantry: ['豆腐', '白菜'],
+      perServing: { 'raw-rice': 100, 'firm-tofu': 60, 'napa-cabbage': 50, water: 130, salt: 1 },
+      actions: ['pre_cook_tender_vegetables_drain_and_discard_liquid'],
+      safety: /老豆腐.*中心热透.*白菜.*熟透/u,
+    },
+    {
+      variantId: 'home-broccoli-beef-rice',
+      pantry: ['牛里脊', '西兰花'],
+      perServing: { 'raw-rice': 100, 'beef-generic': 35, broccoli: 45, water: 135, salt: 1 },
+      actions: ['pre_cook_tender_vegetables_drain_and_discard_liquid'],
+      safety: /牛里脊.*薄片.*完全熟透.*无生肉色.*西兰花.*熟透/u,
+    },
   ];
-  for (const pantry of cases) {
-    const result = selectRiceMealCandidates({
-      request: { servings: 2, pantry, dislikes: [] },
-      catalog: assets.catalog,
-      taxonomy: assets.taxonomy,
-      ratioCatalog: assets.ratios,
-      recentPlanIds: [],
-    });
-    assert.equal(result.status, 'no_reliable_rice_meal');
-    assert.deepEqual(result.candidates, []);
+  const compile = compilerApi('compileRiceMeal');
+  for (const testCase of cases) {
+    for (const servings of [1, 2, 4]) {
+      const result = selectRiceMealCandidates({
+        request: { servings, pantry: testCase.pantry, dislikes: [] },
+        catalog: assets.catalog,
+        taxonomy: assets.taxonomy,
+        ratioCatalog: assets.ratios,
+        recentPlanIds: [],
+      });
+      assert.equal(result.status, 'ready', JSON.stringify(result));
+      const candidate = result.candidates.find(row => row.variant_id === testCase.variantId);
+      assert.ok(candidate, `${testCase.variantId}/${servings}`);
+      const output = compile(candidate, assets);
+      const amounts = Object.fromEntries(output.plan.ingredient_amounts
+        .map(item => [item.canonical_id, item.grams]));
+      for (const [canonicalId, perServing] of Object.entries(testCase.perServing)) {
+        assert.equal(amounts[canonicalId], perServing * servings, `${testCase.variantId}/${servings}/${canonicalId}`);
+      }
+      if (testCase.groupTotal) {
+        assert.equal(testCase.groupTotal.canonicalIds.reduce((sum, canonicalId) => sum + amounts[canonicalId], 0),
+          testCase.groupTotal.gramsPerServing * servings);
+      }
+      assert.deepEqual(output.plan.required_extra_items.map(item => item.canonical_id), ['water', 'salt']);
+      assert.deepEqual(output.plan.liquid_constraints, {
+        kind: 'added_water',
+        measured_contributor_ids: [],
+        added_water_grams: testCase.perServing.water * servings,
+        display_precision: 'approximate',
+        display_grams: Math.round((testCase.perServing.water * servings) / 10) * 10,
+        liquid_credit_grams: 0,
+        rounding_grams: 1,
+      });
+      const steps = output.meals[0].steps;
+      for (const actionCode of testCase.actions) {
+        const step = steps.find(row => row.action_code === actionCode);
+        assert.ok(step, `${testCase.variantId}/${servings}/${actionCode}`);
+        assert.match(step.text, /沥干/u);
+        if (actionCode.includes('discard_liquid')) assert.match(step.text, /弃置/u);
+      }
+      assert.ok(steps.some(step => step.text.includes('盐')), `${testCase.variantId}/${servings} must mention salt`);
+      const safetyText = steps.find(step => step.action_code === 'verify_safety_endpoints')?.text || '';
+      assert.match(safetyText, /大米.*无硬芯/u);
+      assert.match(safetyText, testCase.safety);
+      assert.equal(output.meals[0].dish_name, candidate.display_name);
+    }
   }
 });
 

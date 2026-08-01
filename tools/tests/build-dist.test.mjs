@@ -476,8 +476,8 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
     assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r6');
     assert.equal(health.riceMealFamilies, 3);
     assert.equal(health.riceMealVariants, 11);
-    assert.equal(health.riceMealPreviewReady, 4);
-    assert.equal(health.riceMealPlanned, 7);
+    assert.equal(health.riceMealPreviewReady, 8);
+    assert.equal(health.riceMealPlanned, 3);
 
     const workerPath = path.join(outputDir, '_worker.js');
     const builtSource = fs.readFileSync(workerPath, 'utf8');

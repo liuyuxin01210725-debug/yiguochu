@@ -973,5 +973,5 @@ test('recipe aggregate gate validates the catalog and reports its status counts'
   });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /3 families · 11 variants · 4 preview_ready · 7 planned · rice meal catalog ok/);
+  assert.match(result.stdout, /3 families · 11 variants · 8 preview_ready · 3 planned · rice meal catalog ok/);
 });

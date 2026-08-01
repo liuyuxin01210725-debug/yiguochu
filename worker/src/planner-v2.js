@@ -603,7 +603,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         }
         if (!denominatorItems?.length || (!recipeScoped && operation.denominator?.slot_id !== rule.when?.slot_id)
           || operation.denominator?.measure !== 'grams'
-          || !['retained_liquid_grams','retained_cooked_liquid_grams'].includes(operation.numerator?.resource)
+          || !['added_water_grams','retained_liquid_grams','retained_cooked_liquid_grams'].includes(operation.numerator?.resource)
           || !resolveBasicExtraIdentity(operation.target, validationContext.taxonomy) || operation.target?.category !== 'liquid' || !finiteNonNegativeNumber(multiplier)) {
           return ratioFailure('ratio_rule_invalid', '液体比例规则无效。');
         }
@@ -704,13 +704,28 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       ? retainedLiquidGrams - initialLiquidGrams
       : null;
     if (trace[0]) trace[0] = { ...trace[0], rule_id:rule.rule_id };
+    const liquidContract = recipeScoped ? rule.liquid_contract : null;
+    const recipeLiquidConstraints = retainedLiquidGrams === 0 || !liquidContract ? null : {
+      kind: liquidContract.kind,
+      measured_contributor_ids: [...(liquidContract.measured_contributor_ids || [])],
+      ...(liquidContract.kind === 'total_free_liquid'
+        ? {
+          target_total_free_liquid_grams: retainedLiquidGrams,
+          retained_liquid_grams: retainedLiquidGrams,
+        }
+        : { added_water_grams: retainedLiquidGrams }),
+      display_precision: liquidContract.display_precision,
+      display_grams: normalizeRatioGrams(retainedLiquidGrams, liquidContract.display_rounding_grams),
+      liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest),
+      rounding_grams: nearest,
+    };
     return {
       ok: true,
       code: 'ratio_compiled',
       ingredient_amounts,
       identity_amounts,
       required_extra_items,
-      liquid_constraints: retainedLiquidGrams === 0 ? {} : {
+      liquid_constraints: recipeLiquidConstraints || (retainedLiquidGrams === 0 ? {} : {
         retained_liquid_grams: retainedLiquidGrams,
         liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest),
         rounding_grams: nearest,
@@ -719,7 +734,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
           reserve_liquid_grams: reserveLiquidGrams,
           reserve_action_code: distribution.reserve_action_code,
         } : {}),
-      },
+      }),
       ratio_trace: trace,
     };
   } catch {

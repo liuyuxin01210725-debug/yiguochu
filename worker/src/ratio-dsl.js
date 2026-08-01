@@ -382,8 +382,16 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
               bounds({ min:op.min, default:op.default, max:op.max }, opLabel, errors, requiresDefault);
               targetBasic(op.target, `${opLabel}.target`, taxonomy, errors, true);
               exactObject(op.numerator, new Set(['resource']), `${opLabel}.numerator`, errors);
-              if (!['retained_liquid_grams','retained_cooked_liquid_grams'].includes(op.numerator?.resource)) {
+              if (!['added_water_grams','retained_liquid_grams','retained_cooked_liquid_grams'].includes(op.numerator?.resource)) {
                 errors.push(`${opLabel}.numerator.resource is invalid`);
+              }
+              if (rule.liquid_contract?.kind === 'added_water'
+                  && op.numerator?.resource !== 'added_water_grams') {
+                errors.push(`${opLabel} added_water liquid contract requires added_water_grams`);
+              }
+              if (rule.liquid_contract?.kind === 'total_free_liquid'
+                  && op.numerator?.resource !== 'retained_liquid_grams') {
+                errors.push(`${opLabel} total_free_liquid liquid contract requires retained_liquid_grams`);
               }
               const denominatorKey = validateRecipeIngredientTarget(op.denominator, `${opLabel}.denominator`, taxonomyById,
                 allowedCanonicalIds, evidenceBindings.canonicalById, evidenceBindings.unresolvedByName,

@@ -144,6 +144,75 @@ test('recipe liquid contract distinguishes added water, measurable total liquid,
   assert.equal(prepareRatioCatalog(catalogWithRecipeRule(waterLine), validationContext).ok, true);
 });
 
+test('recipe liquid contract binds added water and total free liquid to different machine resources', () => {
+  const addedWater = executableShanghaiRule();
+  addedWater.liquid_contract = {
+    kind: 'added_water',
+    measurement: 'weigh_before_loading',
+    display_precision: 'approximate',
+    display_rounding_grams: 10,
+  };
+  addedWater.operations.find(operation => operation.operator === 'ratio')
+    .numerator.resource = 'added_water_grams';
+  const validAddedWater = prepareRatioCatalog(catalogWithRecipeRule(addedWater), validationContext);
+  assert.equal(validAddedWater.ok, true, validAddedWater.errors.join('\n'));
+
+  const wrongAddedWater = structuredClone(addedWater);
+  wrongAddedWater.operations.find(operation => operation.operator === 'ratio')
+    .numerator.resource = 'retained_liquid_grams';
+  assert.match(
+    validateRatioDslCatalog(catalogWithRecipeRule(wrongAddedWater), templates, taxonomy, recipes).join('\n'),
+    /added_water.*added_water_grams/u,
+  );
+
+  const totalFreeLiquid = structuredClone(addedWater);
+  totalFreeLiquid.liquid_contract = {
+    kind: 'total_free_liquid',
+    measured_contributor_ids: ['water'],
+    measurement: 'weigh_before_loading',
+    display_precision: 'approximate',
+    display_rounding_grams: 10,
+  };
+  totalFreeLiquid.operations.find(operation => operation.operator === 'ratio')
+    .numerator.resource = 'retained_liquid_grams';
+  const validTotalFreeLiquid = prepareRatioCatalog(catalogWithRecipeRule(totalFreeLiquid), validationContext);
+  assert.equal(validTotalFreeLiquid.ok, true, validTotalFreeLiquid.errors.join('\n'));
+
+  const wrongTotalFreeLiquid = structuredClone(totalFreeLiquid);
+  wrongTotalFreeLiquid.operations.find(operation => operation.operator === 'ratio')
+    .numerator.resource = 'added_water_grams';
+  assert.match(
+    validateRatioDslCatalog(catalogWithRecipeRule(wrongTotalFreeLiquid), templates, taxonomy, recipes).join('\n'),
+    /total_free_liquid.*retained_liquid_grams/u,
+  );
+});
+
+test('added-water recipe compilation reports added water without fabricating retained liquid', () => {
+  const rule = executableShanghaiRule();
+  rule.liquid_contract = {
+    kind: 'added_water',
+    measurement: 'weigh_before_loading',
+    display_precision: 'approximate',
+    display_rounding_grams: 10,
+  };
+  rule.operations.find(operation => operation.operator === 'ratio')
+    .numerator.resource = 'added_water_grams';
+  const preparedRule = prepareRatioCatalog(catalogWithRecipeRule(rule), validationContext);
+  assert.equal(preparedRule.ok, true, preparedRule.errors.join('\n'));
+  const result = compileRatioPlan(rule.rule_id, {
+    recipe_id: rule.when.recipe_id,
+    servings: 2,
+    slots: {
+      recipe_materials: ['大米', '咸五花肉', '小白菜'],
+    },
+  }, preparedRule.catalog);
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(result.liquid_constraints.kind, 'added_water');
+  assert.equal(result.liquid_constraints.added_water_grams, 260);
+  assert.equal(Object.hasOwn(result.liquid_constraints, 'retained_liquid_grams'), false);
+  assert.equal(Object.hasOwn(result.liquid_constraints, 'target_total_free_liquid_grams'), false);
+});
+
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
   assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260801-r13');

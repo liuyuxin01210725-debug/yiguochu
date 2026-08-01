@@ -394,7 +394,10 @@ function variantRatioAndSafetyIssue(variant, itemsById, ratioFacts) {
   const startActions = adaptation?.start_actions || [];
   const load = startActions.find(action => action.action_code === 'load_inner_pot');
   const preCook = (adaptation?.pre_actions || [])
-    .find(action => action.action_code === 'pre_cook_tender_vegetables_outside_cooker');
+    .find(action => [
+      'pre_cook_tender_vegetables_outside_cooker',
+      'pre_cook_tender_vegetables_drain_and_discard_liquid',
+    ].includes(action.action_code));
   const fold = (adaptation?.finish_actions || [])
     .find(action => action.action_code === 'fold_in_pre_cooked_ingredients');
   const controlledMid = controlledMidCycleAction(adaptation);

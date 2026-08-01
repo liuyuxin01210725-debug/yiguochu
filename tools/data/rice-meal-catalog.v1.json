@@ -644,9 +644,9 @@
           "recipe_id": "green-bean-pork-rib-braised-rice",
           "display_name": "豆角排骨焖饭",
           "name_label": "家庭豆角排骨焖饭",
-          "review_note": "迁移依据为 recipe-library.json#green-bean-pork-rib-braised-rice；排骨预处理后的汤汁是否保留和计入总液体未量化，当前不能把可用总液体直接解释为另加清水，退回 planned。",
-          "status": "planned",
-          "status_history": ["research_only", "fact_checked", "planned"],
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；排骨锅外预煮后沥干并弃置预煮水；豆角洗净切段后充分沥干；每 100 克生米另加 145 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -661,13 +661,13 @@
               "canonical_ingredient_id": "pork-ribs",
               "role": "蛋白质",
               "amount_rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
-              "action": "先在外锅煮至接近熟透后入内胆"
+              "action": "锅外预煮后充分沥干，预煮水弃置，再入内胆"
             },
             {
               "canonical_ingredient_id": "green-beans",
               "role": "耐煮蔬菜",
               "amount_rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
-              "action": "处理后入内胆"
+              "action": "洗净切段后充分沥干，再入内胆"
             }
           ],
           "approved_substitutions": [],
@@ -687,8 +687,8 @@
             "completion_status": "complete",
             "pre_actions": [
               {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
-              {"order": 2, "action_code": "pre_cook_pork_ribs_outside_cooker", "ingredient_ids": ["pork-ribs"]},
-              {"order": 3, "action_code": "prepare_vegetables", "ingredient_ids": ["green-beans"]}
+              {"order": 2, "action_code": "pre_cook_pork_ribs_drain_and_discard_liquid", "ingredient_ids": ["pork-ribs"]},
+              {"order": 3, "action_code": "drain_prepared_vegetables_before_loading", "ingredient_ids": ["green-beans"]}
             ],
             "start_actions": [
               {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "pork-ribs", "green-beans"]},
@@ -709,8 +709,9 @@
             {"canonical_ingredient_id": "pork-ribs", "endpoint_code": "pork_fully_cooked"},
             {"canonical_ingredient_id": "green-beans", "endpoint_code": "bean_fully_cooked"}
           ],
+          "supported_servings": [1, 2, 4],
           "source_refs": [
-            {"title": "一锅出原创标准配方：豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice"}
+            {"title": "一锅出项目标准配方：豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice"}
           ],
           "exclusion_flags": []
         },
@@ -719,9 +720,9 @@
           "recipe_id": "mushroom-green-bean-pork-rib-braised-rice",
           "display_name": "香菇豆角排骨焖饭",
           "name_label": "家庭香菇排骨焖饭",
-          "review_note": "迁移依据为 recipe-library.json#mushroom-green-bean-pork-rib-braised-rice；香菇与豆角合计量可复现，但排骨预处理汤汁与鲜菇出水没有可执行计量合同，当前不能把可用总液体直接解释为另加清水，退回 planned。",
-          "status": "planned",
-          "status_history": ["research_only", "fact_checked", "planned"],
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；排骨锅外预煮后沥干并弃置预煮水；鲜香菇和豆角洗净切好后充分沥干，不把食材自身出水冒充清水；每 100 克生米另加 145 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -736,19 +737,19 @@
               "canonical_ingredient_id": "pork-ribs",
               "role": "蛋白质",
               "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
-              "action": "先在外锅煮至接近熟透后入内胆"
+              "action": "锅外预煮后充分沥干，预煮水弃置，再入内胆"
             },
             {
               "canonical_ingredient_id": "shiitake",
               "role": "菌菇",
               "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
-              "action": "处理后入内胆"
+              "action": "洗净切片后充分沥干，再入内胆"
             },
             {
               "canonical_ingredient_id": "green-beans",
               "role": "耐煮蔬菜",
               "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
-              "action": "处理后入内胆"
+              "action": "洗净切段后充分沥干，再入内胆"
             }
           ],
           "approved_substitutions": [],
@@ -768,8 +769,8 @@
             "completion_status": "complete",
             "pre_actions": [
               {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
-              {"order": 2, "action_code": "pre_cook_pork_ribs_outside_cooker", "ingredient_ids": ["pork-ribs"]},
-              {"order": 3, "action_code": "prepare_vegetables", "ingredient_ids": ["shiitake", "green-beans"]}
+              {"order": 2, "action_code": "pre_cook_pork_ribs_drain_and_discard_liquid", "ingredient_ids": ["pork-ribs"]},
+              {"order": 3, "action_code": "drain_prepared_vegetables_before_loading", "ingredient_ids": ["shiitake", "green-beans"]}
             ],
             "start_actions": [
               {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "pork-ribs", "shiitake", "green-beans"]},
@@ -790,8 +791,9 @@
             {"canonical_ingredient_id": "pork-ribs", "endpoint_code": "pork_fully_cooked"},
             {"canonical_ingredient_id": "green-beans", "endpoint_code": "bean_fully_cooked"}
           ],
+          "supported_servings": [1, 2, 4],
           "source_refs": [
-            {"title": "一锅出原创标准配方：香菇豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice"}
+            {"title": "一锅出项目标准配方：香菇豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice"}
           ],
           "exclusion_flags": []
         },
@@ -800,9 +802,9 @@
           "recipe_id": "cabbage-tofu-braised-rice",
           "display_name": "白菜豆腐焖饭",
           "name_label": "家庭白菜豆腐焖饭",
-          "review_note": "迁移依据为 recipe-library.json#cabbage-tofu-braised-rice；白菜从原做法改为锅外熟制后，锅内含水条件已经改变，原总液体比例不能直接继承；当前退回 planned，等待独立液体校准。",
-          "status": "planned",
-          "status_history": ["research_only", "fact_checked", "planned"],
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；白菜锅外焖熟后充分沥干，焖菜水弃置，成饭后再拌入；每 100 克生米另加 130 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -823,7 +825,7 @@
               "canonical_ingredient_id": "napa-cabbage",
               "role": "嫩叶菜",
               "amount_rule_id": "cabbage-tofu-braised-rice-executable-v1",
-              "action": "锅外熟制后保留，煮饭程序结束再拌入"
+              "action": "锅外焖熟后充分沥干，焖菜水弃置，煮饭程序结束再拌入"
             }
           ],
           "approved_substitutions": [],
@@ -843,7 +845,7 @@
             "completion_status": "complete",
             "pre_actions": [
               {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
-              {"order": 2, "action_code": "pre_cook_tender_vegetables_outside_cooker", "ingredient_ids": ["napa-cabbage"]}
+              {"order": 2, "action_code": "pre_cook_tender_vegetables_drain_and_discard_liquid", "ingredient_ids": ["napa-cabbage"]}
             ],
             "start_actions": [
               {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "firm-tofu"]},
@@ -865,19 +867,20 @@
             {"canonical_ingredient_id": "firm-tofu", "endpoint_code": "heated_through"},
             {"canonical_ingredient_id": "napa-cabbage", "endpoint_code": "tender"}
           ],
+          "supported_servings": [1, 2, 4],
           "source_refs": [
-            {"title": "一锅出原创标准配方：白菜豆腐焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice"}
+            {"title": "一锅出项目标准配方：白菜豆腐焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice"}
           ],
-          "exclusion_flags": ["requires_mid_cook_opening"]
+          "exclusion_flags": []
         },
         {
           "variant_id": "home-broccoli-beef-rice",
           "recipe_id": "broccoli-beef-braised-rice",
           "display_name": "西兰花牛肉焖饭",
           "name_label": "家庭西兰花牛肉焖饭",
-          "review_note": "迁移依据为 recipe-library.json#broccoli-beef-braised-rice；西兰花从原做法改为锅外熟制后，锅内含水条件已经改变，原总液体比例不能直接继承；当前退回 planned，等待独立液体校准。",
-          "status": "planned",
-          "status_history": ["research_only", "fact_checked", "planned"],
+          "review_note": "一锅出项目 Preview 家庭测试标准，待真实厨房反馈。recipe-library.json 原做法仅作迁移基础；西兰花锅外焖熟后充分沥干，焖菜水弃置，成饭后再拌入；每 100 克生米另加 135 克清水。本条不宣称地域原方、厂商跨机型保证、已试做或人工批准。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
           "identity_level": "household_reviewed",
           "region_codes": [],
           "identity_refs": [],
@@ -898,7 +901,7 @@
               "canonical_ingredient_id": "broccoli",
               "role": "嫩蔬菜",
               "amount_rule_id": "broccoli-beef-braised-rice-executable-v1",
-              "action": "锅外熟制后保留，煮饭程序结束再拌入"
+              "action": "锅外焖熟后充分沥干，焖菜水弃置，煮饭程序结束再拌入"
             }
           ],
           "approved_substitutions": [],
@@ -919,7 +922,7 @@
             "pre_actions": [
               {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
               {"order": 2, "action_code": "prepare_raw_ingredients", "ingredient_ids": ["beef-generic"]},
-              {"order": 3, "action_code": "pre_cook_tender_vegetables_outside_cooker", "ingredient_ids": ["broccoli"]}
+              {"order": 3, "action_code": "pre_cook_tender_vegetables_drain_and_discard_liquid", "ingredient_ids": ["broccoli"]}
             ],
             "start_actions": [
               {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "beef-generic"]},
@@ -941,10 +944,11 @@
             {"canonical_ingredient_id": "beef-generic", "endpoint_code": "beef_fully_cooked"},
             {"canonical_ingredient_id": "broccoli", "endpoint_code": "tender"}
           ],
+          "supported_servings": [1, 2, 4],
           "source_refs": [
-            {"title": "一锅出原创标准配方：西兰花牛肉焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice"}
+            {"title": "一锅出项目标准配方：西兰花牛肉焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice"}
           ],
-          "exclusion_flags": ["requires_mid_cook_opening"]
+          "exclusion_flags": []
         },
         {
           "variant_id": "shanghai-salted-pork-rice",

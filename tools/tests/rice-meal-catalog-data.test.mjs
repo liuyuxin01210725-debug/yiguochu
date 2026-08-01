@@ -52,22 +52,22 @@ const expected = new Map([
   ['green-bean-pork-rib-braised-rice', {
     variant_id: 'home-green-bean-pork-rib-rice',
     display_name: '豆角排骨焖饭',
-    status: 'planned',
+    status: 'preview_ready',
   }],
   ['mushroom-green-bean-pork-rib-braised-rice', {
     variant_id: 'home-mushroom-green-bean-pork-rib-rice',
     display_name: '香菇豆角排骨焖饭',
-    status: 'planned',
+    status: 'preview_ready',
   }],
   ['cabbage-tofu-braised-rice', {
     variant_id: 'home-cabbage-tofu-rice',
     display_name: '白菜豆腐焖饭',
-    status: 'planned',
+    status: 'preview_ready',
   }],
   ['broccoli-beef-braised-rice', {
     variant_id: 'home-broccoli-beef-rice',
     display_name: '西兰花牛肉焖饭',
-    status: 'planned',
+    status: 'preview_ready',
   }],
   ['greens-minced-pork-braised-rice', {
     variant_id: 'home-greens-minced-pork-rice',
@@ -243,9 +243,13 @@ test('every first-stage variant has traceable sources, A-or-B material nutrition
 test('preview-ready entries promote only unique executable defaults and never infer a midpoint from recipe prose', () => {
   const previewReady = variants.filter(variant => variant.status === 'preview_ready');
   assert.deepEqual(previewReady.map(variant => variant.recipe_id).sort(), [
+    'broccoli-beef-braised-rice',
+    'cabbage-tofu-braised-rice',
     'chicken-leg-potato-braised-rice',
     'corn-carrot-chicken-leg-covered-rice',
+    'green-bean-pork-rib-braised-rice',
     'greens-minced-pork-braised-rice',
+    'mushroom-green-bean-pork-rib-braised-rice',
     'shanghai-salted-pork-vegetable-rice',
   ]);
 
@@ -275,7 +279,10 @@ test('preview-ready entries promote only unique executable defaults and never in
     assert.equal(loads.length, 1, `${variant.recipe_id} preview flow must load exactly once`);
     assert.equal(starts.length, 1, `${variant.recipe_id} preview flow must start exactly once`);
     const preCook = variant.cooker_adaptation.pre_actions
-      .find(action => action.action_code === 'pre_cook_tender_vegetables_outside_cooker');
+      .find(action => [
+        'pre_cook_tender_vegetables_outside_cooker',
+        'pre_cook_tender_vegetables_drain_and_discard_liquid',
+      ].includes(action.action_code));
     const finishHeld = new Set(preCook?.ingredient_ids || []);
     const midHeld = new Set((variant.cooker_adaptation.mid_actions || [])
       .flatMap(action => action.ingredient_ids || []));
@@ -347,7 +354,7 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
       recipe_id: 'green-bean-pork-rib-braised-rice',
       rule_id: 'green-bean-pork-rib-braised-rice-executable-v1',
       items: ['大米', '排骨', '豆角'],
-      want: { 大米: 200, 排骨: 140, 豆角: 110, 水: 290 },
+      want: { 大米: 200, 排骨: 140, 豆角: 110, 水: 290, 盐: 2 },
     },
     {
       recipe_id: 'corn-carrot-chicken-leg-covered-rice',
@@ -359,19 +366,19 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
       recipe_id: 'mushroom-green-bean-pork-rib-braised-rice',
       rule_id: 'mushroom-green-bean-pork-rib-braised-rice-executable-v1',
       items: ['大米', '排骨', '香菇', '豆角'],
-      want: { 大米: 200, 排骨: 140, 香菇: 65, 豆角: 65, 水: 290 },
+      want: { 大米: 200, 排骨: 140, 香菇: 65, 豆角: 65, 水: 290, 盐: 2 },
     },
     {
       recipe_id: 'cabbage-tofu-braised-rice',
       rule_id: 'cabbage-tofu-braised-rice-executable-v1',
       items: ['大米', '老豆腐', '白菜'],
-      want: { 大米: 200, 老豆腐: 120, 白菜: 100, 水: 260 },
+      want: { 大米: 200, 老豆腐: 120, 白菜: 100, 水: 260, 盐: 2 },
     },
     {
       recipe_id: 'broccoli-beef-braised-rice',
       rule_id: 'broccoli-beef-braised-rice-executable-v1',
       items: ['大米', '牛肉', '西兰花'],
-      want: { 大米: 200, 牛肉: 70, 西兰花: 90, 水: 270 },
+      want: { 大米: 200, 牛肉: 70, 西兰花: 90, 水: 270, 盐: 2 },
     },
     {
       recipe_id: 'greens-minced-pork-braised-rice',
@@ -393,27 +400,30 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
   }
 });
 
-test('catalog exposes four liquid-audited Preview meals while keeping all eleven evidence variants and 72 recipes', () => {
+test('catalog exposes eight liquid-audited Preview meals while keeping all eleven evidence variants and 72 recipes', () => {
   const active = variants.filter(variant => variant.status === 'preview_ready');
   assert.equal(catalog.families.length, 3);
   assert.equal(variants.length, 11);
-  assert.equal(active.length, 4);
-  assert.equal(variants.filter(variant => variant.status === 'planned').length, 7);
-  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 3);
+  assert.equal(active.length, 8);
+  assert.equal(variants.filter(variant => variant.status === 'planned').length, 3);
+  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 7);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
   assert.equal(recipes.recipes.length, 72);
 });
 
-test('controlled finish-only variants stay planned only while their liquid calibration remains open', () => {
+test('controlled finish-only variants expose the drained project test standard without changing regional identity', () => {
   const cases = [
     ['cabbage-tofu-braised-rice', 'napa-cabbage'],
     ['broccoli-beef-braised-rice', 'broccoli'],
   ];
   for (const [recipeId, heldId] of cases) {
     const variant = variantFor(recipeId);
-    assert.equal(variant.status, 'planned');
-    assert.match(variant.review_note, /锅内含水|液体校准/u);
-    const preCook = variant.cooker_adaptation.pre_actions.find(action => action.action_code === 'pre_cook_tender_vegetables_outside_cooker');
+    assert.equal(variant.status, 'preview_ready');
+    assert.deepEqual(variant.supported_servings, [1, 2, 4]);
+    assert.match(variant.review_note, /一锅出项目 Preview 家庭测试标准/u);
+    assert.match(variant.review_note, /待真实厨房反馈/u);
+    assert.match(variant.review_note, /不宣称地域原方、厂商跨机型保证、已试做或人工批准/u);
+    const preCook = variant.cooker_adaptation.pre_actions.find(action => action.action_code === 'pre_cook_tender_vegetables_drain_and_discard_liquid');
     const load = variant.cooker_adaptation.start_actions.find(action => action.action_code === 'load_inner_pot');
     const fold = variant.cooker_adaptation.finish_actions.find(action => action.action_code === 'fold_in_pre_cooked_ingredients');
     assert.deepEqual(preCook?.ingredient_ids, [heldId]);
@@ -424,12 +434,61 @@ test('controlled finish-only variants stay planned only while their liquid calib
   assert.equal(variantFor('greens-minced-pork-braised-rice').status, 'preview_ready');
 });
 
+test('four project test standards bind added water, salt, draining actions, safety and project canonical source', () => {
+  const cases = [
+    {
+      recipeId: 'green-bean-pork-rib-braised-rice',
+      water: 1.45,
+      preActions: ['pre_cook_pork_ribs_drain_and_discard_liquid', 'drain_prepared_vegetables_before_loading'],
+      endpoints: ['rice_tender', 'pork_fully_cooked', 'bean_fully_cooked'],
+    },
+    {
+      recipeId: 'mushroom-green-bean-pork-rib-braised-rice',
+      water: 1.45,
+      preActions: ['pre_cook_pork_ribs_drain_and_discard_liquid', 'drain_prepared_vegetables_before_loading'],
+      endpoints: ['rice_tender', 'pork_fully_cooked', 'bean_fully_cooked'],
+    },
+    {
+      recipeId: 'cabbage-tofu-braised-rice',
+      water: 1.3,
+      preActions: ['pre_cook_tender_vegetables_drain_and_discard_liquid'],
+      endpoints: ['rice_tender', 'heated_through', 'tender'],
+    },
+    {
+      recipeId: 'broccoli-beef-braised-rice',
+      water: 1.35,
+      preActions: ['pre_cook_tender_vegetables_drain_and_discard_liquid'],
+      endpoints: ['rice_tender', 'beef_fully_cooked', 'tender'],
+    },
+  ];
+  for (const testCase of cases) {
+    const variant = variantFor(testCase.recipeId);
+    const rule = ratioById.get(variant.ratio_rule_ids[0]);
+    assert.deepEqual(variant.supported_servings, [1, 2, 4]);
+    assert.equal(rule.liquid_contract.kind, 'added_water');
+    const liquid = rule.operations.find(operation => operation.operator === 'ratio');
+    assert.equal(liquid.numerator.resource, 'added_water_grams');
+    assert.equal(liquid.default, testCase.water);
+    const salt = rule.operations.find(operation => operation.target?.category === 'seasoning');
+    assert.deepEqual(salt, {
+      operator: 'scale_by_servings',
+      target: { name: '盐', category: 'seasoning' },
+      grams: { min: 1, default: 1, max: 1 },
+    });
+    const actionCodes = variant.cooker_adaptation.pre_actions.map(action => action.action_code);
+    for (const actionCode of testCase.preActions) assert.ok(actionCodes.includes(actionCode), `${testCase.recipeId}/${actionCode}`);
+    assert.deepEqual(variant.safety_endpoints.map(endpoint => endpoint.endpoint_code), testCase.endpoints);
+    assert.ok(variant.source_refs.every(ref => ref.title.startsWith('一锅出项目标准配方：')));
+    assert.ok(variant.source_refs.every(ref => !/地域事实来源|传统原方/u.test(ref.title)));
+  }
+});
+
 test('the first-stage action catalog preserves explicit poultry rib and lamb preprocessing outside the single closed-lid cycle', () => {
   const requiredPreAction = new Map([
     ['chicken-leg-potato-braised-rice', 'cut_chicken_leg_to_small_pieces'],
     ['corn-carrot-chicken-leg-covered-rice', 'cut_chicken_leg_to_small_pieces'],
-    ['green-bean-pork-rib-braised-rice', 'pre_cook_pork_ribs_outside_cooker'],
-    ['mushroom-green-bean-pork-rib-braised-rice', 'pre_cook_pork_ribs_outside_cooker'],
+    ['green-bean-pork-rib-braised-rice', 'pre_cook_pork_ribs_drain_and_discard_liquid'],
+    ['mushroom-green-bean-pork-rib-braised-rice', 'pre_cook_pork_ribs_drain_and_discard_liquid'],
     ['xinjiang-lamb-pilaf', 'brown_lamb_and_aromatics_outside_cooker'],
   ]);
   for (const [recipeId, actionCode] of requiredPreAction) {

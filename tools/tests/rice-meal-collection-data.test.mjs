@@ -19,8 +19,24 @@ test('national rice-meal collection records all research candidates, exclusions,
     collection.region_nodes.filter(node => node.gap).map(node => node.region_id).sort(),
     ['CN-BJ', 'CN-GS', 'CN-GX', 'CN-HE', 'CN-HI', 'CN-HK', 'CN-HL', 'CN-JL', 'CN-JX', 'CN-LN', 'CN-MO', 'CN-NM', 'CN-QH', 'CN-SD', 'CN-SX', 'CN-XZ'],
   );
-  assert.equal(collection.catalog_tracking.filter(row => row.status === 'runtime_ready').length, 4);
-  assert.equal(collection.catalog_tracking.filter(row => row.status === 'planned').length, 7);
+  assert.equal(collection.catalog_tracking.filter(row => row.status === 'runtime_ready').length, 8);
+  assert.equal(collection.catalog_tracking.filter(row => row.status === 'planned').length, 3);
+  for (const candidateId of [
+    'household-green-bean-pork-rib-rice',
+    'household-mushroom-green-bean-pork-rib-rice',
+    'household-cabbage-tofu-rice',
+    'household-broccoli-beef-rice',
+  ]) {
+    const candidate = collection.candidates.find(row => row.candidate_id === candidateId);
+    assert.equal(candidate?.status, 'runtime_ready', candidateId);
+    assert.equal(candidate?.quantity_liquid_completeness, 'complete', candidateId);
+    assert.deepEqual(candidate?.blockers, [], candidateId);
+    assert.equal(
+      candidate?.traditional_appliance_and_steps,
+      '一锅出项目 Preview 家庭测试标准，待真实厨房反馈',
+      candidateId,
+    );
+  }
   assert.ok(collection.candidates.every(candidate => (
     Array.isArray(candidate.core_ingredients)
     && candidate.core_ingredients.every(item => item

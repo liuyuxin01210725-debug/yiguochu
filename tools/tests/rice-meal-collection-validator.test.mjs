@@ -144,7 +144,7 @@ test('requires collection tracking to be the reverse of each catalog variant can
 
   const promotedCandidateInvalid = structuredClone(await readCollection());
   const promotedCandidateDeps = await dependencies();
-  promotedCandidateInvalid.candidates.find(row => row.candidate_id === 'household-green-bean-pork-rib-rice')
+  promotedCandidateInvalid.candidates.find(row => row.candidate_id === 'household-red-date-cowpea-rice')
     .status = 'runtime_ready';
   assert.ok(
     validatorModule.validateRiceMealCollection(promotedCandidateInvalid, promotedCandidateDeps)

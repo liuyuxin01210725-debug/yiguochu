@@ -42,13 +42,13 @@ function amounts(output) {
   return Object.fromEntries(output.plan.ingredient_amounts.map(row => [row.canonical_id, row.grams]));
 }
 
-test('the focused catalog keeps eleven evidence variants and exposes four liquid-audited Preview plans', () => {
+test('the focused catalog keeps eleven evidence variants and exposes eight liquid-audited Preview plans', () => {
   const active = variants().filter(variant => variant.status === 'preview_ready');
   assert.equal(assets.catalog.families.length, 3);
   assert.equal(variants().length, 11);
-  assert.equal(active.length, 4);
-  assert.equal(variants().filter(variant => variant.status === 'planned').length, 7);
-  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 3);
+  assert.equal(active.length, 8);
+  assert.equal(variants().filter(variant => variant.status === 'planned').length, 3);
+  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 7);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
   assert.equal(assets.recipes.recipes.length, 72);
 });
@@ -104,7 +104,7 @@ test('group-total rule rejects missing, duplicate, wrong members, and invalid to
   }
 });
 
-test('signed ratio facts reject a tampered active group total while the second group rule stays planned', () => {
+test('signed ratio facts reject a tampered active group total while the second group rule is also Preview-ready', () => {
   const activeCase = {
     pantry: ['鸡腿', '玉米', '胡萝卜'],
     variant_id: 'home-corn-carrot-chicken-leg-rice',
@@ -118,8 +118,8 @@ test('signed ratio facts reject a tampered active group total while the second g
   assert.deepEqual(amounts(output), activeCase.expected);
   assert.equal(Object.keys(activeCase.expected).length, output.plan.ingredient_amounts.length);
 
-  const plannedGroup = variantById('home-mushroom-green-bean-pork-rib-rice');
-  assert.equal(plannedGroup.status, 'planned');
+  const secondGroup = variantById('home-mushroom-green-bean-pork-rib-rice');
+  assert.equal(secondGroup.status, 'preview_ready');
   assert.ok(ruleById('mushroom-green-bean-pork-rib-braised-rice-executable-v1')
     .operations.some(operation => operation.operator === 'allocate_group_total_per_serving'));
 

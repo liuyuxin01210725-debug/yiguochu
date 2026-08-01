@@ -35,14 +35,18 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
   assert.equal(report.summary.recipe_count, 72);
   assert.equal(report.summary.family_count, 3);
   assert.equal(report.summary.variant_count, 11);
-  assert.equal(report.summary.preview_ready_count, 4);
-  assert.equal(report.summary.planned_count, 7);
-  assert.deepEqual(report.summary.nutrition_grade_counts, { A: 3, B: 1, C: 0 });
+  assert.equal(report.summary.preview_ready_count, 8);
+  assert.equal(report.summary.planned_count, 3);
+  assert.deepEqual(report.summary.nutrition_grade_counts, { A: 7, B: 1, C: 0 });
   assert.equal(report.summary.journey_count, 21);
   assert.deepEqual(report.summary.journey_variant_ids, [
+    'home-broccoli-beef-rice',
+    'home-cabbage-tofu-rice',
     'home-chicken-leg-potato-rice',
     'home-corn-carrot-chicken-leg-rice',
+    'home-green-bean-pork-rib-rice',
     'home-greens-minced-pork-rice',
+    'home-mushroom-green-bean-pork-rib-rice',
     'shanghai-salted-pork-rice',
   ]);
   assert.deepEqual(report.summary.compiled_variant_ids, report.summary.journey_variant_ids);

@@ -42,12 +42,12 @@ const HOUSEHOLD_COPY = Object.freeze({
     recommendation_reason: '排骨和豆角按熟化顺序处理，再与大米一起焖熟，适合一锅端上桌。',
     steps: Object.freeze({
       rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
-      pre_cook_pork_ribs_outside_cooker: '将{{i2}}在外锅加热至接近熟透，倒去多余血沫后备用。',
-      prepare_vegetables: '将{{i3}}修剪两端后切成小段，洗净备用。',
-      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}放入内胆，加入{{e1}}并轻轻铺平。',
+      pre_cook_pork_ribs_drain_and_discard_liquid: '将{{i2}}在锅外预煮至接近熟透，捞出并充分沥干；预煮液全部弃置，不计入另加清水。',
+      drain_prepared_vegetables_before_loading: '将{{i3}}修剪两端后切成小段，洗净并充分沥干再入煲；不把食材自身出水冒充另加清水。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}放入内胆，加入量好的{{e1}}和{{e2}}并轻轻铺平。',
       start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}已经放好，盖好锅盖，启动标准煮饭程序。',
       rest_lid_closed: '程序结束后，让{{i1}}在盖好锅盖的状态下静置片刻。',
-      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i3}}煮熟软化。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}最厚可食部位达到74°C并完全熟透；{{i3}}煮熟软化，完全熟软且无生青色和豆腥味。',
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻松，盛出即可。',
     }),
   }),
@@ -55,12 +55,12 @@ const HOUSEHOLD_COPY = Object.freeze({
     recommendation_reason: '排骨、香菇和豆角按熟化顺序处理，再与大米一起焖熟，能在一锅里兼顾肉、菌菇和蔬菜。',
     steps: Object.freeze({
       rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
-      pre_cook_pork_ribs_outside_cooker: '将{{i2}}在外锅加热至接近熟透，倒去多余血沫后备用。',
-      prepare_vegetables: '将{{i3}}切片；{{i4}}修剪两端后切成小段，分别洗净备用。',
-      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}放入内胆，加入{{e1}}并轻轻铺平。',
+      pre_cook_pork_ribs_drain_and_discard_liquid: '将{{i2}}在锅外预煮至接近熟透，捞出并充分沥干；预煮液全部弃置，不计入另加清水。',
+      drain_prepared_vegetables_before_loading: '将{{i3}}切片；{{i4}}修剪两端后切成小段，分别洗净并充分沥干再入煲；不把食材自身出水冒充另加清水。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}放入内胆，加入量好的{{e1}}和{{e2}}并轻轻铺平。',
       start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}已经放好，盖好锅盖，启动标准煮饭程序。',
       rest_lid_closed: '程序结束后，让{{i1}}在盖好锅盖的状态下静置片刻。',
-      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i4}}煮熟软化。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}最厚可食部位达到74°C并完全熟透；{{i4}}煮熟软化，完全熟软且无生青色和豆腥味。',
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}、{{i4}}轻轻翻松，盛出即可。',
     }),
   }),
@@ -68,11 +68,11 @@ const HOUSEHOLD_COPY = Object.freeze({
     recommendation_reason: '老豆腐随大米焖透，白菜在锅外熟制后再拌入，兼顾清爽口感和完整闭盖程序。',
     steps: Object.freeze({
       rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
-      pre_cook_tender_vegetables_outside_cooker: '将{{i3}}洗净切好，在炒锅中炒至熟软，保持温热待用。',
-      load_inner_pot: '把{{i1}}、{{i2}}放入内胆，加入{{e1}}并轻轻铺平。',
+      pre_cook_tender_vegetables_drain_and_discard_liquid: '将{{i3}}洗净切好，在锅外加少量水焖至熟透，充分沥干；焖菜液全部弃置，不计入另加清水。',
+      load_inner_pot: '把{{i1}}、{{i2}}放入内胆，加入量好的{{e1}}和{{e2}}并轻轻铺平。',
       start_closed_lid_program: '确认{{i1}}、{{i2}}已经放好，盖好锅盖，启动标准煮饭程序并保持锅盖关闭。',
       rest_lid_closed: '程序结束后，让{{i1}}在盖好锅盖的状态下静置片刻。',
-      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}中心热透；锅外熟制的{{i3}}已经熟软。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}中心热透；锅外熟制的{{i3}}已经熟透且熟软。',
       fold_in_pre_cooked_ingredients: '把保留的{{i3}}拌入煮好的饭中，轻轻翻匀。',
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻松，盛出即可。',
     }),
@@ -82,11 +82,11 @@ const HOUSEHOLD_COPY = Object.freeze({
     steps: Object.freeze({
       rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
       prepare_raw_ingredients: '将{{i2}}切成薄而均匀的小片，避免叠成厚块。',
-      pre_cook_tender_vegetables_outside_cooker: '将{{i3}}洗净分成小朵，在炒锅中炒至熟嫩，保持温热待用。',
-      load_inner_pot: '把{{i1}}、{{i2}}放入内胆，加入{{e1}}并轻轻铺平。',
+      pre_cook_tender_vegetables_drain_and_discard_liquid: '将{{i3}}洗净分成小朵，在锅外加少量水焖至熟透，充分沥干；焖菜液全部弃置，不计入另加清水。',
+      load_inner_pot: '把{{i1}}、{{i2}}放入内胆，加入量好的{{e1}}和{{e2}}并轻轻铺平。',
       start_closed_lid_program: '确认{{i1}}、{{i2}}已经放好，盖好锅盖，启动标准煮饭程序并保持锅盖关闭。',
       rest_lid_closed: '程序结束后，让{{i1}}在盖好锅盖的状态下静置片刻。',
-      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透且无生肉色；锅外熟制的{{i3}}已经熟嫩。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}薄片完全熟透且无生肉色；锅外熟制的{{i3}}已经熟透且熟软。',
       fold_in_pre_cooked_ingredients: '把保留的{{i3}}拌入煮好的饭中，轻轻翻匀。',
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻松，盛出即可。',
     }),
@@ -597,7 +597,8 @@ function compileExactRatioFacts(variant, candidate, assets, materials) {
       const multiplier = operation.default;
       if (!denominator || operation.denominator?.state !== denominator.state
           || operation.denominator?.measure !== 'grams' || !target
-          || operation.numerator?.resource !== 'retained_liquid_grams'
+          || operation.numerator?.resource !== (liquidContract.kind === 'added_water'
+            ? 'added_water_grams' : 'retained_liquid_grams')
           || !Number.isFinite(multiplier) || multiplier <= 0
           || operation.min !== multiplier || operation.max !== multiplier
           || !rawAmounts.has(denominator.canonical_id)) {
@@ -647,6 +648,7 @@ function compileExactRatioFacts(variant, candidate, assets, materials) {
   const addedWaterGrams = extras.filter(item => item.canonical_id === 'water')
     .reduce((sum, item) => sum + item.grams, 0);
   if (!Number.isSafeInteger(addedWaterGrams) || addedWaterGrams <= 0) ratioFailure();
+  const lockedLiquidCreditGrams = normalizeRatioGrams(liquidCredit, nearest);
   return {
     amounts: lockedAmounts,
     extras,
@@ -654,12 +656,19 @@ function compileExactRatioFacts(variant, candidate, assets, materials) {
     liquid_constraints: {
       kind: liquidContract.kind,
       measured_contributor_ids: clone(liquidContract.measured_contributor_ids || []),
-      target_total_free_liquid_grams: liquidContract.kind === 'total_free_liquid' ? addedWaterGrams : null,
-      added_water_grams: addedWaterGrams,
+      ...(liquidContract.kind === 'total_free_liquid'
+        ? {
+          target_total_free_liquid_grams: addedWaterGrams + lockedLiquidCreditGrams,
+        }
+        : { added_water_grams: addedWaterGrams }),
       display_precision: liquidContract.display_precision,
-      display_grams: normalizeRatioGrams(addedWaterGrams, liquidContract.display_rounding_grams),
-      retained_liquid_grams: addedWaterGrams,
-      liquid_credit_grams: normalizeRatioGrams(liquidCredit, nearest),
+      display_grams: normalizeRatioGrams(
+        liquidContract.kind === 'total_free_liquid'
+          ? addedWaterGrams + lockedLiquidCreditGrams
+          : addedWaterGrams,
+        liquidContract.display_rounding_grams,
+      ),
+      liquid_credit_grams: lockedLiquidCreditGrams,
       rounding_grams: nearest,
     },
   };
@@ -728,7 +737,9 @@ function lockedPlanForCandidate(candidate, assets) {
   })) ratioFailure();
   const materials = materialRows(variant, candidate, assets.taxonomy);
   const ratio = compileExactRatioFacts(variant, candidate, assets, materials);
-  if (ratio.extras.length !== 1 || ratio.extras[0].canonical_id !== 'water') ratioFailure();
+  const extraIds = ratio.extras.map(item => item.canonical_id);
+  if (!extraIds.includes('water') || extraIds.some(id => !BASIC_EXTRA_IDS.has(id))
+      || new Set(extraIds).size !== extraIds.length) ratioFailure();
   const allIngredients = [
     ...materials.map((item, index) => ({ ...item, ingredient_ref: `i${index + 1}`, planned_grams: ratio.amounts.get(item.canonical_id) })),
     ...ratio.extras.map((item, index) => ({ ...item, ingredient_ref: `e${index + 1}`, planned_grams: item.grams, requires_explicit_raw_name: false })),
@@ -784,7 +795,11 @@ function lockedPlanForCandidate(candidate, assets) {
     const requirements = action.action_code === 'verify_safety_endpoints'
       ? { required_safety_endpoints: [...safetyEndpoints], required_safety_ingredient_refs: safetyRefs }
       : { required_safety_endpoints: [], required_safety_ingredient_refs: [] };
-    const lockedNumericFacts = action.action_code === 'add_reserved_leafy_vegetable'
+    const lockedNumericFacts = action.action_code === 'verify_safety_endpoints'
+        && safetyEndpoints.includes('pork_fully_cooked')
+        && (action.ingredient_ids || []).includes('pork-ribs')
+      ? ['74°C']
+      : action.action_code === 'add_reserved_leafy_vegetable'
       ? [`${action.timing_min}分钟`, `${action.max_open_seconds}秒`]
       : (action.action_code === 'rest_lid_closed' && Number.isInteger(action.rest_minutes)
         ? [`${action.rest_minutes}分钟`]

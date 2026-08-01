@@ -243,6 +243,6 @@
 - `tools/data/ingredient-taxonomy.v1.json`：`9de0f8f16344c539e404a8b6de515dcff3e244fbabbcae6818962576b7aaa8da`
 - `tools/data/meal-templates.v2.json`：`90a5fbd63f94ff376a08ac441e2058b99058dc34347d795b6da1cdebf36f8ad1`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`818a8e38c6010fecdcaa438a7a35afe5de07e6b5527e8cef735063738eb04c75`
+- `tools/data/ratio-rules.v1.json`：`4f04263b859d8d4ed3d8d44a301c2eb613ca1bce398f7e433784da8a7461312c`
 - `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`

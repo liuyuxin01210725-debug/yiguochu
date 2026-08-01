@@ -116,8 +116,11 @@ const PHASE_ACTION_CODES = Object.freeze({
     'prepare_raw_ingredients',
     'prepare_vegetables',
     'pre_cook_pork_ribs_outside_cooker',
+    'pre_cook_pork_ribs_drain_and_discard_liquid',
+    'drain_prepared_vegetables_before_loading',
     'brown_ground_pork_outside_cooker',
     'pre_cook_tender_vegetables_outside_cooker',
+    'pre_cook_tender_vegetables_drain_and_discard_liquid',
   ]),
   start_actions: new Set(['load_inner_pot', 'start_closed_lid_program']),
   mid_actions: new Set(['add_reserved_leafy_vegetable']),
@@ -131,6 +134,7 @@ const ACTION_REQUIRED_MATERIALS = Object.freeze({
   pre_cook_cowpea_pods_outside_cooker: ['fresh-cowpea-pod'],
   cut_chicken_leg_to_small_pieces: ['chicken-leg'],
   pre_cook_pork_ribs_outside_cooker: ['pork-ribs'],
+  pre_cook_pork_ribs_drain_and_discard_liquid: ['pork-ribs'],
   brown_ground_pork_outside_cooker: ['ground-pork'],
 });
 const SAFETY_ENDPOINT_FIELDS = new Set(['canonical_ingredient_id', 'endpoint_code']);
@@ -689,7 +693,10 @@ function controlledFinishProtocol(variant, materials, safetyEndpoints) {
   const preActions = Array.isArray(adaptation.pre_actions) ? adaptation.pre_actions : [];
   const startActions = Array.isArray(adaptation.start_actions) ? adaptation.start_actions : [];
   const finishActions = Array.isArray(adaptation.finish_actions) ? adaptation.finish_actions : [];
-  const pre = preActions.filter(action => action?.action_code === 'pre_cook_tender_vegetables_outside_cooker');
+  const pre = preActions.filter(action => [
+    'pre_cook_tender_vegetables_outside_cooker',
+    'pre_cook_tender_vegetables_drain_and_discard_liquid',
+  ].includes(action?.action_code));
   const folds = finishActions.filter(action => action?.action_code === 'fold_in_pre_cooked_ingredients');
   const protocolErrors = [];
   if (pre.length !== 1) protocolErrors.push('requires pre_cook_tender_vegetables_outside_cooker exactly once');
