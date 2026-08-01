@@ -26,3 +26,13 @@ node tools/check-recipes.mjs
 
 - `catalog_tracking` 与 `runtime_mappings` 是本任务的非运行时追踪层，保持既有 catalog 不变；Task 3 将按计划向每个 catalog variant 加 `collection_candidate_id`，完成跨文件的双向映射。
 - 37 条候选均保持调研/计划边界；本任务没有把任何新候选激活为 Preview，也没有补造数量、液体或营养权威数值。
+
+## Fix round 1 — review disposition
+
+- URL 改用 `new URL()`，强制 `https:` 与非空 host；每条候选身份来源现固定记录 `title`、`publisher`、`retrieved_at`、`url`、`supports`，其中 supports 使用受控证据类型。
+- 运行追踪与 catalog 状态双向收紧：`preview_ready -> runtime_ready`、`planned -> planned`；四条运行追踪都必须有 candidate 与反向 mapping，候选必须为 A/B、完整数量/液体/器具/安全契约且无 blocker。
+- 黔江“适配版”、定安熟饭包裹、涉县小米焖饭和台湾客家熟饭组装均已移入 exclusions；新增三条 requested household-reviewed runtime candidates，并补一个已存在 planned variant 的 household linkage，以维持 37 条候选。
+- 地域节点固定为 34 个省级/港澳节点，新增 CN-HK 与 CN-MO 显式 gap；候选与地域节点现作双向一致性校验。
+- 两条四川孔干饭保留 `来源当前无法独立复核` blocker；米态仅接受受控米/糯米状态，未证实米态明确标为 `rice-state-unverified`。
+
+Fix round verification: `node --test tools/tests/rice-meal-collection-validator.test.mjs tools/tests/rice-meal-collection-data.test.mjs` reports 13 pass, 0 fail; `node tools/check-recipes.mjs` passes and reports 37 candidates, 4 runtime_ready, 7 planned, 16 explicit regional gaps.
