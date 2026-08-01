@@ -979,9 +979,10 @@ function allowedProseTerms(meal, termUniverse) {
   return allowed;
 }
 
-function proseIngredientViolation(text, meal, termUniverse) {
+function proseIngredientViolation(text, meal, termUniverse, exemptions = []) {
   const normalized = normalizedIngredientText(text);
   const allowed = allowedProseTerms(meal, termUniverse);
+  const exempt = new Set(exemptions.map(normalizedIngredientText).filter(Boolean));
   const lockedExplicit = meal.locked_ingredients.flatMap(item => [item.raw_name, item.display_name])
     .map(normalizedIngredientText).filter(Boolean);
   for (const candidate of normalizedTermUniverse(termUniverse)) {
@@ -989,6 +990,7 @@ function proseIngredientViolation(text, meal, termUniverse) {
       ? new RegExp(`(?:加|加入|倒|倒入|放|放入|淋|淋入|撒|撒入|调入|拌入|用)${candidate.normalized}`, 'u').test(normalized)
       : normalized.includes(candidate.normalized);
     if (!mentioned) continue;
+    if (exempt.has(candidate.normalized)) continue;
     if (allowed.has(candidate.normalized)) continue;
     if (lockedExplicit.some(term => term.includes(candidate.normalized))) continue;
     return true;
@@ -1104,7 +1106,17 @@ export function validateGeneratedPlan(modelOutput, lockedPlan, termUniverse) {
     if (containsMultipleVessels(outputMeal.dish_name) || containsMultipleVessels(outputMeal.recommendation_reason)) {
       return contractFailure('multiple_vessels');
     }
-    if (proseIngredientViolation(`${outputMeal.dish_name}\n${outputMeal.recommendation_reason}`, lockedMeal, termUniverse)) {
+    const titleExemptions = lockedMeal.plan_source === 'rice_meal_catalog'
+      && Array.isArray(lockedMeal.generation_text_contract?.dish_name_ingredient_exemptions)
+      && lockedMeal.generation_text_contract.dish_name_ingredient_exemptions.every(term => (
+        typeof term === 'string'
+        && term.length >= 2
+        && outputMeal.dish_name.includes(term)
+      ))
+      ? lockedMeal.generation_text_contract.dish_name_ingredient_exemptions
+      : [];
+    if (proseIngredientViolation(outputMeal.dish_name, lockedMeal, termUniverse, titleExemptions)
+        || proseIngredientViolation(outputMeal.recommendation_reason, lockedMeal, termUniverse)) {
       return contractFailure('unplanned_ingredient_in_prose');
     }
     const expectedRefs = lockedMeal.locked_ingredients.map(item => item.ingredient_ref);

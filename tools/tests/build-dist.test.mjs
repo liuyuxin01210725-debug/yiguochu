@@ -471,10 +471,10 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
     const health = await healthResponse.json();
     assert.equal(health.productFocus, 'rice-meal-v1');
     assert.equal(health.riceMealCatalog, 'ok');
-    assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r5');
+    assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r6');
     assert.equal(health.riceMealFamilies, 3);
-    assert.equal(health.riceMealVariants, 10);
-    assert.equal(health.riceMealPreviewReady, 3);
+    assert.equal(health.riceMealVariants, 11);
+    assert.equal(health.riceMealPreviewReady, 4);
     assert.equal(health.riceMealPlanned, 7);
 
     const workerPath = path.join(outputDir, '_worker.js');

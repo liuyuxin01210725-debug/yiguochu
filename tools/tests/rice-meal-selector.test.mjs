@@ -165,8 +165,22 @@ test('selector fails closed when the controlled ratio catalog is absent', () => 
   }), /ratioCatalog/u);
 });
 
+test('Shanghai salted pork vegetable rice is a real three-serving plan and never leaks into unreviewed serving sizes', () => {
+  const ready = select({ servings: 3, pantry: ['咸五花肉', '小白菜'], dislikes: [] });
+  assert.equal(ready.status, 'ready');
+  assert.equal(ready.candidates[0].variant_id, 'shanghai-salted-pork-rice');
+  assert.equal(ready.candidates[0].display_name, '上海咸肉菜饭');
+  assert.equal(ready.candidates[0].coverage_count, 2);
+  assert.deepEqual(ready.candidates[0].execution_actions.mid_actions.map(action => action.action_code), [
+    'add_reserved_leafy_vegetable',
+  ]);
+
+  const unsupported = select({ servings: 2, pantry: ['咸五花肉', '小白菜'], dislikes: [] });
+  assert.notEqual(unsupported.candidates[0]?.variant_id, 'shanghai-salted-pork-rice');
+});
+
 test('every hand-authored rice-meal journey has its literal status, variant, coverage, grade, and reason contract', () => {
-  assert.equal(journeyCorpus.journeys.length, 20, 'the fixed journey gate covers every active variant, including both group-total additions');
+  assert.equal(journeyCorpus.journeys.length, 21, 'the fixed journey gate covers every active variant, including the Shanghai source-locked batch');
   for (const journey of journeyCorpus.journeys) {
     let result;
     if (journey.swap_from_variant_id) {
@@ -783,11 +797,11 @@ test('the journey CLI enforces ready-candidate ordering and executes the compile
     encoding: 'utf8',
   });
   assert.equal(run.status, 0, run.stderr || run.stdout);
-  assert.match(run.stdout, /Rice meal journey gate: total=20 selector_passed=20 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
+  assert.match(run.stdout, /Rice meal journey gate: total=21 selector_passed=21 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
   assert.match(run.stdout, /needs_balance_input: 1/u);
   assert.match(run.stdout, /no_reliable_rice_meal: 10/u);
   assert.match(run.stdout, /no_alternative_rice_meal: 1/u);
-  assert.match(run.stdout, /ready: 5/u);
+  assert.match(run.stdout, /ready: 6/u);
   assert.match(run.stdout, /unsafe_recipe: 3/u);
   assert.match(run.stdout, /RM-04-chicken-potato-b .*coverage=2\/2 grade=B/u);
   assert.match(run.stdout, /RM-15-selector-facts-for-compiler .*contract=passed/u);

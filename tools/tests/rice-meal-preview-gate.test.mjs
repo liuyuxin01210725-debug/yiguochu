@@ -30,18 +30,19 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
   const report = validateRiceMealPreviewGate(assets);
 
   assert.deepEqual(report.errors, []);
-  assert.equal(report.summary.catalog_version, 'rice-meal-catalog-v1-20260801-r5');
+  assert.equal(report.summary.catalog_version, 'rice-meal-catalog-v1-20260801-r6');
   assert.equal(report.summary.recipe_count, 72);
   assert.equal(report.summary.family_count, 3);
-  assert.equal(report.summary.variant_count, 10);
-  assert.equal(report.summary.preview_ready_count, 3);
+  assert.equal(report.summary.variant_count, 11);
+  assert.equal(report.summary.preview_ready_count, 4);
   assert.equal(report.summary.planned_count, 7);
-  assert.deepEqual(report.summary.nutrition_grade_counts, { A: 2, B: 1, C: 0 });
-  assert.equal(report.summary.journey_count, 20);
+  assert.deepEqual(report.summary.nutrition_grade_counts, { A: 3, B: 1, C: 0 });
+  assert.equal(report.summary.journey_count, 21);
   assert.deepEqual(report.summary.journey_variant_ids, [
     'home-chicken-leg-potato-rice',
     'home-corn-carrot-chicken-leg-rice',
     'home-greens-minced-pork-rice',
+    'shanghai-salted-pork-rice',
   ]);
   assert.deepEqual(report.summary.compiled_variant_ids, report.summary.journey_variant_ids);
   assert.deepEqual(report.summary.excluded_legacy_categories, [
@@ -83,7 +84,7 @@ test('release gate rejects missing executable ratios, incomplete actions and mid
   const errors = report.errors.join('\n');
   assert.match(errors, /major ingredient must declare amount_rule_id/u);
   assert.match(errors, /must reference every material ingredient across ordered actions: chicken-leg/u);
-  assert.match(errors, /must not require mid-cook lid opening/u);
+  assert.match(errors, /must not require unreviewed mid-cook lid opening/u);
 });
 
 test('release gate rejects an active variant without a deterministic journey and compile contract', () => {

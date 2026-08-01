@@ -72,6 +72,12 @@ const expected = new Map([
     display_name: '肉糜青菜饭',
     status: 'preview_ready',
   }],
+  ['shanghai-salted-pork-vegetable-rice', {
+    variant_id: 'shanghai-salted-pork-rice',
+    display_name: '上海咸肉菜饭',
+    status: 'preview_ready',
+    identity_level: 'regional',
+  }],
 ]);
 
 function variantFor(recipeId) {
@@ -88,6 +94,7 @@ function allActionIngredientIds(variant) {
   return new Set([
     ...variant.cooker_adaptation.pre_actions,
     ...variant.cooker_adaptation.start_actions,
+    ...(variant.cooker_adaptation.mid_actions || []),
     ...variant.cooker_adaptation.finish_actions,
   ].flatMap(action => action.ingredient_ids));
 }
@@ -112,11 +119,20 @@ test('first-stage scope maps each permitted recipe exactly once to a fixed natur
     assert.equal(variant.variant_id, want.variant_id);
     assert.equal(variant.display_name, want.display_name);
     assert.equal(variant.status, want.status);
-    assert.equal(variant.identity_level, 'household_reviewed');
-    assert.deepEqual(variant.region_codes, [], `${recipeId} must not imply a regional authenticity claim`);
-    assert.deepEqual(variant.identity_refs, [], `${recipeId} must not carry an unsupported regional identity ref`);
+    assert.equal(variant.identity_level, want.identity_level || 'household_reviewed');
+    if (want.identity_level === 'regional') {
+      assert.deepEqual(variant.region_codes, ['CN-SH']);
+      assert.equal(variant.identity_refs.length, 1);
+    } else {
+      assert.deepEqual(variant.region_codes, [], `${recipeId} must not imply a regional authenticity claim`);
+      assert.deepEqual(variant.identity_refs, [], `${recipeId} must not carry an unsupported regional identity ref`);
+    }
     assert.doesNotMatch(variant.display_name, /饭锅|主食锅/u, `${recipeId} needs a natural household dish name`);
-    assert.match(variant.review_note, /recipe-library\.json/u, `${recipeId} review note must trace the migration basis`);
+    if (want.identity_level === 'regional') {
+      assert.match(variant.review_note, /上海市政府|HowToCook/u, `${recipeId} review note must trace its regional and process evidence`);
+    } else {
+      assert.match(variant.review_note, /recipe-library\.json/u, `${recipeId} review note must trace the migration basis`);
+    }
   }
 });
 
@@ -207,6 +223,7 @@ test('preview-ready entries promote only unique executable defaults and never in
     'chicken-leg-potato-braised-rice',
     'corn-carrot-chicken-leg-covered-rice',
     'greens-minced-pork-braised-rice',
+    'shanghai-salted-pork-vegetable-rice',
   ]);
 
   for (const variant of previewReady) {
@@ -236,17 +253,25 @@ test('preview-ready entries promote only unique executable defaults and never in
     assert.equal(starts.length, 1, `${variant.recipe_id} preview flow must start exactly once`);
     const preCook = variant.cooker_adaptation.pre_actions
       .find(action => action.action_code === 'pre_cook_tender_vegetables_outside_cooker');
-    const heldAside = new Set(preCook?.ingredient_ids || []);
+    const finishHeld = new Set(preCook?.ingredient_ids || []);
+    const midHeld = new Set((variant.cooker_adaptation.mid_actions || [])
+      .flatMap(action => action.ingredient_ids || []));
+    const heldAside = new Set([...finishHeld, ...midHeld]);
     assert.deepEqual(
       new Set(loads[0].ingredient_ids),
       new Set(materialIds(variant).filter(id => !heldAside.has(id))),
       `${variant.recipe_id} preview load must include every start-load material and exclude finish-only vegetables`,
     );
-    if (heldAside.size) {
+    if (finishHeld.size) {
       const fold = variant.cooker_adaptation.finish_actions
         .find(action => action.action_code === 'fold_in_pre_cooked_ingredients');
       assert.ok(fold, `${variant.recipe_id} controlled adaptation needs a finish fold`);
-      assert.deepEqual(new Set(fold.ingredient_ids), heldAside);
+      assert.deepEqual(new Set(fold.ingredient_ids), finishHeld);
+    }
+    if (midHeld.size) {
+      assert.equal(variant.variant_id, 'shanghai-salted-pork-rice');
+      assert.deepEqual([...midHeld], ['small-bok-choy']);
+      assert.deepEqual(variant.supported_servings, [3]);
     }
     const endpointIds = new Set(variant.safety_endpoints.map(endpoint => endpoint.canonical_ingredient_id));
     const verification = variant.cooker_adaptation.finish_actions.find(action => action.action_code === 'verify_safety_endpoints');
@@ -345,13 +370,13 @@ test('closed-lid recipe rules compile the migrated fixed quantities through one 
   }
 });
 
-test('catalog exposes three liquid-audited Preview meals while keeping all ten evidence variants and 72 recipes', () => {
+test('catalog exposes four liquid-audited Preview meals while keeping all eleven evidence variants and 72 recipes', () => {
   const active = variants.filter(variant => variant.status === 'preview_ready');
   assert.equal(catalog.families.length, 3);
-  assert.equal(variants.length, 10);
-  assert.equal(active.length, 3);
+  assert.equal(variants.length, 11);
+  assert.equal(active.length, 4);
   assert.equal(variants.filter(variant => variant.status === 'planned').length, 7);
-  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 2);
+  assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 3);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
   assert.equal(recipes.recipes.length, 72);
 });

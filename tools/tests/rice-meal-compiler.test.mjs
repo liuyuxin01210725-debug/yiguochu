@@ -196,7 +196,7 @@ test('verification recomputes the server candidate and rejects bare, forged, and
   );
 
   const staleCatalog = structuredClone(assets.catalog);
-  staleCatalog.catalog_version = 'rice-meal-catalog-v1-20260801-r6';
+  staleCatalog.catalog_version = 'rice-meal-catalog-v1-20260801-r7';
   expectCode(
     () => verify({ plan_token: token }, { ...assets, catalog: staleCatalog }, SECRET),
     'stale_plan',
@@ -344,6 +344,32 @@ test('meat-and-greens rice compiles its calibrated finish-fold plan', () => {
     'fold_in_pre_cooked_ingredients',
     'fluff_and_serve',
   ]);
+});
+
+test('Shanghai salted pork vegetable rice compiles the exact three-serving source batch and controlled mid-cycle step', () => {
+  const candidate = select({ servings: 3, pantry: ['咸五花肉', '小白菜'], dislikes: [] });
+  assert.equal(candidate.variant_id, 'shanghai-salted-pork-rice');
+  const output = compilerApi('compileRiceMeal')(candidate, assets);
+  assert.equal(output.meals[0].dish_name, '上海咸肉菜饭');
+  assert.deepEqual(output.plan.ingredient_amounts.map(item => [item.canonical_id, item.grams]), [
+    ['raw-rice', 300],
+    ['salted-pork-belly', 150],
+    ['small-bok-choy', 400],
+    ['water', 310],
+  ]);
+  assert.deepEqual(output.meals[0].steps.map(step => step.action_code), [
+    'rinse_raw_rice',
+    'prepare_raw_ingredients',
+    'prepare_vegetables',
+    'load_inner_pot',
+    'start_closed_lid_program',
+    'add_reserved_leafy_vegetable',
+    'rest_lid_closed',
+    'verify_safety_endpoints',
+    'fluff_and_serve',
+  ]);
+  assert.match(output.meals[0].steps[5].text, /剩约10分钟/u);
+  assert.match(output.meals[0].steps[5].text, /30秒内合盖/u);
 });
 
 test('every active rice-meal family renders its reviewed household prose with no engineering language', () => {

@@ -17,11 +17,11 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const EXPECTED = Object.freeze({
   recipeCount: 72,
   familyCount: 3,
-  variantCount: 10,
-  previewReadyCount: 3,
+  variantCount: 11,
+  previewReadyCount: 4,
   plannedCount: 7,
-  minimumGradeA: 2,
-  journeyCount: 20,
+  minimumGradeA: 3,
+  journeyCount: 21,
 });
 const EXCLUDED_LEGACY_CATEGORIES = Object.freeze([
   'legacy-selector',
@@ -42,7 +42,7 @@ const BUILD_METADATA = buildId => Object.freeze({
 
 const readJson = relativePath => JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), 'utf8'));
 const variantsOf = catalog => (catalog?.families || []).flatMap(family => family?.variants || []);
-const actionCodes = variant => ['pre_actions', 'start_actions', 'finish_actions'].flatMap(phase => (
+const actionCodes = variant => ['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].flatMap(phase => (
   (variant?.cooker_adaptation?.[phase] || [])
     .slice()
     .sort((left, right) => left.order - right.order)
@@ -148,8 +148,9 @@ export function validateRiceMealPreviewGate({
     if (EXCLUDED_PUBLIC_PATTERN.test(variant.display_name || '')) {
       errors.push(`${variant.variant_id} has a mechanical or excluded public name: ${variant.display_name}`);
     }
-    if (variant.cooker_adaptation?.requires_mid_cook_opening === true) {
-      errors.push(`${variant.variant_id} must not require mid-cook lid opening`);
+    if (variant.cooker_adaptation?.requires_mid_cook_opening === true
+        && variant.variant_id !== 'shanghai-salted-pork-rice') {
+      errors.push(`${variant.variant_id} must not require unreviewed mid-cook lid opening`);
     }
   }
 
@@ -312,8 +313,8 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
       summary.health_catalog_status = health.json?.riceMealCatalog || null;
       if (health.response.status !== 200 || health.json?.productFocus !== 'rice-meal-v1'
           || health.json?.riceMealCatalog !== 'ok' || health.json?.baseRecipes !== 72
-          || health.json?.riceMealFamilies !== 3 || health.json?.riceMealVariants !== 10
-          || health.json?.riceMealPreviewReady !== 3 || health.json?.riceMealPlanned !== 7) {
+          || health.json?.riceMealFamilies !== 3 || health.json?.riceMealVariants !== 11
+          || health.json?.riceMealPreviewReady !== 4 || health.json?.riceMealPlanned !== 7) {
         errors.push('built /health does not report the exact rice Preview catalog facts');
       }
       const planned = await responseJson(builtWorker, '/plan-meal', {

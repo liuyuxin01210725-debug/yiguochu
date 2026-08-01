@@ -12,6 +12,7 @@ const context = {
       { id: 'daxi-lotus-leaf-oil-rice' },
       { id: 'cantonese-cured-meat-claypot-rice' },
       { id: 'cabbage-tofu-braised-rice' },
+      { id: 'shanghai-salted-pork-vegetable-rice' },
     ],
   },
   taxonomy: {
@@ -51,6 +52,17 @@ const context = {
         category: 'leafy_vegetable',
         cooking_risk: { required_endpoint_codes: [] },
       },
+      {
+        canonical_id: 'salted-pork-belly',
+        category: 'pork',
+        cooking_risk: { required_endpoint_codes: ['pork_fully_cooked'] },
+      },
+      {
+        canonical_id: 'small-bok-choy',
+        category: 'leafy_vegetable',
+        cook_speed: 'fast',
+        cooking_risk: { required_endpoint_codes: [] },
+      },
     ],
   },
   ratioCatalog: {
@@ -88,6 +100,22 @@ const context = {
         { operator: 'per_serving', target: { canonical_id: 'napa-cabbage' }, grams: { min: 50, default: 50, max: 50 } },
         { operator: 'ratio', target: { name: '水', category: 'liquid' }, min: 1.3, default: 1.3, max: 1.3 },
       ],
+    }, {
+      rule_id: 'shanghai-mid-open-ratio',
+      execution_mode: 'executable',
+      when: { recipe_id: 'shanghai-salted-pork-vegetable-rice' },
+      liquid_contract: {
+        kind: 'added_water',
+        measurement: 'weigh_before_loading',
+        display_precision: 'approximate',
+        display_rounding_grams: 10,
+      },
+      operations: [
+        { operator: 'per_serving', target: { canonical_id: 'raw-rice' }, grams: { min: 100, default: 100, max: 100 } },
+        { operator: 'per_serving', target: { canonical_id: 'salted-pork-belly' }, grams: { min: 50, default: 50, max: 50 } },
+        { operator: 'per_serving', target: { canonical_id: 'small-bok-choy' }, grams: { min: 400 / 3, default: 400 / 3, max: 400 / 3 } },
+        { operator: 'ratio', target: { name: '水', category: 'liquid' }, min: 31 / 30, default: 31 / 30, max: 31 / 30 },
+      ],
     }],
   },
 };
@@ -99,7 +127,7 @@ function clone(value) {
 function validCatalog() {
   return {
     schema_version: 1,
-    catalog_version: 'rice-meal-catalog-v1-20260801-r5',
+    catalog_version: 'rice-meal-catalog-v1-20260801-r6',
     families: [{
       family_id: 'closed-lid-rice-meal',
       variants: [{
@@ -248,6 +276,93 @@ function controlledFinishCatalog() {
   return catalog;
 }
 
+function controlledMidOpenCatalog() {
+  const catalog = validCatalog();
+  const variant = catalog.families[0].variants[0];
+  variant.variant_id = 'shanghai-salted-pork-rice';
+  variant.recipe_id = 'shanghai-salted-pork-vegetable-rice';
+  variant.display_name = '上海咸肉菜饭';
+  variant.name_label = '普通电饭煲后段加青菜';
+  variant.supported_servings = [3];
+  variant.identity_level = 'regional';
+  variant.region_codes = ['CN-SH'];
+  variant.identity_refs = [{
+    usage: 'identity',
+    direct: true,
+    source_kind: 'government',
+    publisher: '上海市人民政府',
+    retrieved_at: '2026-08-01',
+    title: '上海乡村咸肉菜饭',
+    url: 'https://www.shanghai.gov.cn/example',
+  }];
+  variant.rice.amount_rule_id = 'shanghai-mid-open-ratio';
+  variant.ingredients = [
+    {
+      canonical_ingredient_id: 'salted-pork-belly',
+      role: 'protein',
+      amount_rule_id: 'shanghai-mid-open-ratio',
+      action: '与米同煮',
+    },
+    {
+      canonical_ingredient_id: 'small-bok-choy',
+      role: 'fiber',
+      amount_rule_id: 'shanghai-mid-open-ratio',
+      action: '最后十分钟铺在饭面',
+    },
+  ];
+  variant.nutrition_structure = {
+    grade: 'A',
+    material_contributors: [
+      { role: 'carb', canonical_ingredient_id: 'raw-rice' },
+      { role: 'protein', canonical_ingredient_id: 'salted-pork-belly' },
+      { role: 'fiber', canonical_ingredient_id: 'small-bok-choy' },
+    ],
+  };
+  variant.cooker_adaptation = {
+    adaptation: 'process_adaptation',
+    closed_lid_continuation: true,
+    requires_mid_cook_opening: true,
+    completion_status: 'complete',
+    pre_actions: [
+      { order: 1, action_code: 'rinse_raw_rice', ingredient_ids: ['raw-rice'] },
+      { order: 2, action_code: 'prepare_raw_ingredients', ingredient_ids: ['salted-pork-belly'] },
+      { order: 3, action_code: 'prepare_vegetables', ingredient_ids: ['small-bok-choy'] },
+    ],
+    start_actions: [
+      { order: 1, action_code: 'load_inner_pot', ingredient_ids: ['raw-rice', 'salted-pork-belly'] },
+      { order: 2, action_code: 'start_closed_lid_program', ingredient_ids: ['raw-rice', 'salted-pork-belly'] },
+    ],
+    mid_actions: [{
+      order: 1,
+      action_code: 'add_reserved_leafy_vegetable',
+      ingredient_ids: ['small-bok-choy'],
+      timing_basis: 'program_remaining_minutes',
+      timing_min: 10,
+      timing_max: 10,
+      max_open_seconds: 30,
+      placement: 'top_no_stir',
+      resume_policy: 'same_program_auto_resume',
+      required_post_close_minutes: 10,
+    }],
+    finish_actions: [
+      { order: 1, action_code: 'rest_lid_closed', ingredient_ids: ['raw-rice'], rest_minutes: 5 },
+      { order: 2, action_code: 'verify_safety_endpoints', ingredient_ids: ['raw-rice', 'salted-pork-belly', 'small-bok-choy'] },
+      { order: 3, action_code: 'fluff_and_serve', ingredient_ids: ['raw-rice', 'salted-pork-belly', 'small-bok-choy'] },
+    ],
+    program: 'standard_rice',
+    active_time_minutes: 15,
+    total_time_minutes: 40,
+  };
+  variant.ratio_rule_ids = ['shanghai-mid-open-ratio'];
+  variant.safety_endpoints = [
+    { canonical_ingredient_id: 'raw-rice', endpoint_code: 'rice_tender' },
+    { canonical_ingredient_id: 'salted-pork-belly', endpoint_code: 'pork_fully_cooked' },
+    { canonical_ingredient_id: 'small-bok-choy', endpoint_code: 'tender' },
+  ];
+  variant.exclusion_flags = [];
+  return catalog;
+}
+
 function validator() {
   assert.ok(!validatorModule.loadError, 'rice meal catalog validator module must exist');
   assert.equal(typeof validatorModule.validateRiceMealCatalog, 'function');
@@ -316,6 +431,26 @@ test('controlled finish-only adaptation rejects non-tender materials such as raw
   variant.cooker_adaptation.pre_actions[1].ingredient_ids = ['raw-rice'];
   variant.cooker_adaptation.finish_actions[2].ingredient_ids = ['raw-rice'];
   expectError(catalog, 'finish-only ingredient must be a controlled tender vegetable');
+});
+
+test('accepts only the source-locked Shanghai three-serving mid-cycle leafy protocol', () => {
+  assert.deepEqual(validate(controlledMidOpenCatalog()), []);
+});
+
+test('controlled mid-cycle opening rejects unsupported servings, risky additions, load overlap, and protocol drift', () => {
+  const mutations = [
+    ['servings', catalog => { catalog.families[0].variants[0].supported_servings = [2, 3]; }, 'supported_servings must equal the reviewed batch [3]'],
+    ['raw protein', catalog => { catalog.families[0].variants[0].cooker_adaptation.mid_actions[0].ingredient_ids = ['salted-pork-belly']; }, 'mid-cycle ingredient must be one fast leafy vegetable'],
+    ['load overlap', catalog => { catalog.families[0].variants[0].cooker_adaptation.start_actions[0].ingredient_ids.push('small-bok-choy'); }, 'mid-cycle ingredient must stay out of load_inner_pot'],
+    ['timing', catalog => { catalog.families[0].variants[0].cooker_adaptation.mid_actions[0].timing_min = 8; }, 'mid-cycle timing must be exactly ten remaining minutes'],
+    ['opening', catalog => { catalog.families[0].variants[0].cooker_adaptation.mid_actions[0].max_open_seconds = 60; }, 'mid-cycle opening must close within 30 seconds'],
+    ['resume', catalog => { catalog.families[0].variants[0].cooker_adaptation.mid_actions[0].resume_policy = 'restart_program'; }, 'mid-cycle action must resume the same program automatically'],
+  ];
+  for (const [label, mutate, expected] of mutations) {
+    const catalog = controlledMidOpenCatalog();
+    mutate(catalog);
+    expectError(catalog, expected);
+  }
 });
 
 test('rejects duplicate family and variant IDs', () => {
@@ -704,5 +839,5 @@ test('recipe aggregate gate validates the catalog and reports its status counts'
   });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /3 families · 10 variants · 3 preview_ready · 7 planned · rice meal catalog ok/);
+  assert.match(result.stdout, /3 families · 11 variants · 4 preview_ready · 7 planned · rice meal catalog ok/);
 });

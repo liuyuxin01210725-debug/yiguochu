@@ -350,10 +350,26 @@ function variantForbiddenCombination(variant, assignments) {
   )) || null;
 }
 
+function controlledMidCycleAction(adaptation) {
+  const actions = Array.isArray(adaptation?.mid_actions) ? adaptation.mid_actions : [];
+  if (actions.length !== 1) return null;
+  const action = actions[0];
+  if (action?.action_code !== 'add_reserved_leafy_vegetable'
+      || action.timing_basis !== 'program_remaining_minutes'
+      || action.timing_min !== 10 || action.timing_max !== 10
+      || action.max_open_seconds !== 30
+      || action.placement !== 'top_no_stir'
+      || action.resume_policy !== 'same_program_auto_resume'
+      || action.required_post_close_minutes !== 10
+      || !Array.isArray(action.ingredient_ids) || action.ingredient_ids.length !== 1) return null;
+  return action;
+}
+
 function variantAdaptationIssue(variant) {
   const adaptation = variant.cooker_adaptation;
+  const controlledMid = controlledMidCycleAction(adaptation);
   if (!adaptation || adaptation.closed_lid_continuation !== true
-      || adaptation.requires_mid_cook_opening === true
+      || (adaptation.requires_mid_cook_opening === true && !controlledMid)
       || adaptation.completion_status !== 'complete') {
     return 'cooker_adaptation_incomplete';
   }
@@ -381,12 +397,17 @@ function variantRatioAndSafetyIssue(variant, itemsById, ratioFacts) {
     .find(action => action.action_code === 'pre_cook_tender_vegetables_outside_cooker');
   const fold = (adaptation?.finish_actions || [])
     .find(action => action.action_code === 'fold_in_pre_cooked_ingredients');
-  const heldIds = new Set(preCook?.ingredient_ids || []);
+  const controlledMid = controlledMidCycleAction(adaptation);
+  const heldIds = new Set([
+    ...(preCook?.ingredient_ids || []),
+    ...(controlledMid?.ingredient_ids || []),
+  ]);
   const hasControlledFinish = heldIds.size > 0
     && fold
     && heldIds.size === new Set(fold.ingredient_ids || []).size
     && [...heldIds].every(id => fold.ingredient_ids.includes(id));
   if ((preCook || fold) && !hasControlledFinish) return 'load_protocol_incomplete';
+  if (adaptation?.requires_mid_cook_opening === true && !controlledMid) return 'load_protocol_incomplete';
   const startMaterials = materials.filter(materialId => !heldIds.has(materialId));
   if (!load || !startMaterials.every(materialId => load.ingredient_ids?.includes(materialId))) return 'load_protocol_incomplete';
   if ([...heldIds].some(materialId => load.ingredient_ids?.includes(materialId))) return 'load_protocol_incomplete';
@@ -688,12 +709,21 @@ function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, p
     ratio_rule_ids: [...(variant.ratio_rule_ids || [])].sort(),
     ratio_catalog_version: ratioFacts.ratio_catalog_version,
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
-    action_protocol: ['pre_actions', 'start_actions', 'finish_actions'].map(phase => ({
+    action_protocol: ['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].map(phase => ({
       phase,
       actions: [...(adaptation[phase] || [])].sort((left, right) => left.order - right.order).map(action => ({
         order: action.order,
         action_code: action.action_code,
         ingredient_ids: [...(action.ingredient_ids || [])].sort((left, right) => left.localeCompare(right, 'en')),
+        ...(phase === 'mid_actions' ? {
+          timing_basis: action.timing_basis,
+          timing_min: action.timing_min,
+          timing_max: action.timing_max,
+          max_open_seconds: action.max_open_seconds,
+          placement: action.placement,
+          resume_policy: action.resume_policy,
+          required_post_close_minutes: action.required_post_close_minutes,
+        } : {}),
       })),
     })),
   };
@@ -718,7 +748,7 @@ function buildCandidate({
 }) {
   const usedInputKeys = new Set(assignments.map(entry => itemKey(entry.input)));
   const adaptation = variant.cooker_adaptation;
-  const executionActions = Object.fromEntries(['pre_actions', 'start_actions', 'finish_actions'].map(phase => [
+  const executionActions = Object.fromEntries(['pre_actions', 'start_actions', 'mid_actions', 'finish_actions'].map(phase => [
     phase,
     clone([...(adaptation[phase] || [])].sort((left, right) => left.order - right.order)),
   ]));
@@ -835,6 +865,8 @@ export function selectRiceMealCandidates({
   const unsafeMatches = [];
   for (const { family_id: familyId, variant } of catalogVariants(catalog)) {
     if (!ACTIVE_VARIANT_STATUSES.has(variant.status)) continue;
+    if (Array.isArray(variant.supported_servings)
+        && !variant.supported_servings.includes(normalized.servings)) continue;
     const assignments = findMaterialAssignment(variant, normalized.submitted_items, itemsById);
     if (!assignments) continue;
     const forbidden = variantForbiddenCombination(variant, assignments);

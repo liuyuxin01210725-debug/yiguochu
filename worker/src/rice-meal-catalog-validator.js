@@ -1,4 +1,4 @@
-const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r5';
+const CATALOG_VERSION = 'rice-meal-catalog-v1-20260801-r6';
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const STATUSES = ['research_only', 'fact_checked', 'planned', 'preview_ready', 'pilot_observed', 'production_approved'];
 const STATUS_SET = new Set(STATUSES);
@@ -67,6 +67,9 @@ const CONTROLLED_FINISH_OVERRIDE_RECIPE_IDS = new Set([
   'broccoli-beef-braised-rice',
   'greens-minced-pork-braised-rice',
 ]);
+const CONTROLLED_MID_OPEN_OVERRIDE_RECIPE_IDS = new Set([
+  'shanghai-salted-pork-vegetable-rice',
+]);
 const FORBIDDEN_FINISH_ONLY_CATEGORIES = new Set([
   'chicken', 'pork', 'lamb', 'beef', 'seafood', 'egg',
 ]);
@@ -79,6 +82,7 @@ const VARIANT_FIELDS = new Set([
   'identity_level', 'region_codes', 'identity_refs', 'rice', 'ingredients', 'approved_substitutions',
   'forbidden_combinations', 'nutrition_structure', 'cooker_adaptation', 'ratio_rule_ids',
   'safety_endpoints', 'source_refs', 'exclusion_flags', 'review_note',
+  'supported_servings',
 ]);
 const REFERENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_REFERENCE_FIELDS = new Set([
@@ -90,9 +94,15 @@ const NUTRITION_FIELDS = new Set(['grade', 'material_contributors']);
 const CONTRIBUTOR_FIELDS = new Set(['role', 'canonical_ingredient_id']);
 const ADAPTATION_FIELDS = new Set([
   'adaptation', 'closed_lid_continuation', 'requires_mid_cook_opening', 'completion_status',
-  'pre_actions', 'start_actions', 'finish_actions', 'program', 'active_time_minutes', 'total_time_minutes',
+  'pre_actions', 'start_actions', 'mid_actions', 'finish_actions', 'program', 'active_time_minutes', 'total_time_minutes',
 ]);
 const ACTION_FIELDS = new Set(['order', 'action_code', 'ingredient_ids']);
+const REST_ACTION_FIELDS = new Set([...ACTION_FIELDS, 'rest_minutes']);
+const MID_ACTION_FIELDS = new Set([
+  ...ACTION_FIELDS,
+  'timing_basis', 'timing_min', 'timing_max', 'max_open_seconds', 'placement',
+  'resume_policy', 'required_post_close_minutes',
+]);
 const COOKER_PROGRAMS = new Set(['standard_rice']);
 const PHASE_ACTION_CODES = Object.freeze({
   pre_actions: new Set([
@@ -110,6 +120,7 @@ const PHASE_ACTION_CODES = Object.freeze({
     'pre_cook_tender_vegetables_outside_cooker',
   ]),
   start_actions: new Set(['load_inner_pot', 'start_closed_lid_program']),
+  mid_actions: new Set(['add_reserved_leafy_vegetable']),
   finish_actions: new Set(['rest_lid_closed', 'verify_safety_endpoints', 'fold_in_pre_cooked_ingredients', 'fluff_and_serve']),
 });
 const ACTION_REQUIRED_MATERIALS = Object.freeze({
@@ -421,7 +432,10 @@ function validateActionList(value, phase, label, materials, actionMaterialIds, e
       errors.push(`${actionLabel} must be an object`);
       continue;
     }
-    pushUnknownKeys(errors, action, ACTION_FIELDS, actionLabel);
+    const allowedActionFields = phase === 'mid_actions'
+      ? MID_ACTION_FIELDS
+      : (phase === 'finish_actions' && action.action_code === 'rest_lid_closed' ? REST_ACTION_FIELDS : ACTION_FIELDS);
+    pushUnknownKeys(errors, action, allowedActionFields, actionLabel);
     if (!Number.isInteger(action.order) || action.order !== index + 1) {
       errors.push(`${phaseLabel} must have contiguous order starting at 1`);
     }
@@ -446,6 +460,68 @@ function validateActionList(value, phase, label, materials, actionMaterialIds, e
       }
     }
   }
+}
+
+function controlledMidCycleProtocol(variant, materials, safetyEndpoints) {
+  const eligible = CONTROLLED_MID_OPEN_OVERRIDE_RECIPE_IDS.has(variant.recipe_id)
+    && PREVIEW_OR_HIGHER.has(variant.status);
+  if (!eligible) return { eligible: false, ok: false, heldIds: new Set(), errors: [] };
+  const adaptation = isPlainObject(variant.cooker_adaptation) ? variant.cooker_adaptation : {};
+  const midActions = Array.isArray(adaptation.mid_actions) ? adaptation.mid_actions : [];
+  const startActions = Array.isArray(adaptation.start_actions) ? adaptation.start_actions : [];
+  const finishActions = Array.isArray(adaptation.finish_actions) ? adaptation.finish_actions : [];
+  const protocolErrors = [];
+  if (JSON.stringify(variant.supported_servings) !== JSON.stringify([3])) {
+    protocolErrors.push('supported_servings must equal the reviewed batch [3]');
+  }
+  if (midActions.length !== 1 || midActions[0]?.action_code !== 'add_reserved_leafy_vegetable') {
+    protocolErrors.push('requires add_reserved_leafy_vegetable exactly once');
+  }
+  const mid = midActions[0] || {};
+  const heldIds = new Set(mid.ingredient_ids || []);
+  const heldItems = [...heldIds].map(id => materials.get(id)).filter(Boolean);
+  if (heldIds.size !== 1 || heldItems.length !== 1
+      || heldItems[0].category !== 'leafy_vegetable' || heldItems[0].cook_speed !== 'fast') {
+    protocolErrors.push('mid-cycle ingredient must be one fast leafy vegetable');
+  }
+  const load = startActions.find(action => action?.action_code === 'load_inner_pot');
+  if ([...heldIds].some(canonicalId => load?.ingredient_ids?.includes(canonicalId))) {
+    protocolErrors.push('mid-cycle ingredient must stay out of load_inner_pot');
+  }
+  const endpointIds = new Set((Array.isArray(safetyEndpoints) ? safetyEndpoints : [])
+    .map(endpoint => endpoint?.canonical_ingredient_id).filter(isNonEmptyString));
+  if ([...heldIds].some(canonicalId => !endpointIds.has(canonicalId))) {
+    protocolErrors.push('mid-cycle ingredient requires a safety endpoint');
+  }
+  if (mid.timing_basis !== 'program_remaining_minutes' || mid.timing_min !== 10 || mid.timing_max !== 10
+      || mid.required_post_close_minutes !== 10) {
+    protocolErrors.push('mid-cycle timing must be exactly ten remaining minutes');
+  }
+  if (mid.max_open_seconds !== 30) {
+    protocolErrors.push('mid-cycle opening must close within 30 seconds');
+  }
+  if (mid.placement !== 'top_no_stir') {
+    protocolErrors.push('mid-cycle leafy vegetable must be placed on top without stirring');
+  }
+  if (mid.resume_policy !== 'same_program_auto_resume') {
+    protocolErrors.push('mid-cycle action must resume the same program automatically');
+  }
+  const rest = finishActions.filter(action => action?.action_code === 'rest_lid_closed');
+  if (rest.length !== 1 || rest[0]?.rest_minutes !== 5) {
+    protocolErrors.push('controlled Shanghai finish must rest closed for 5 minutes');
+  }
+  if (adaptation.adaptation !== 'process_adaptation') {
+    protocolErrors.push('controlled mid-cycle protocol requires process_adaptation');
+  }
+  if (adaptation.requires_mid_cook_opening !== true) {
+    protocolErrors.push('controlled mid-cycle protocol requires explicit mid-cook opening');
+  }
+  return {
+    eligible,
+    ok: protocolErrors.length === 0,
+    heldIds,
+    errors: [...new Set(protocolErrors)],
+  };
 }
 
 function controlledFinishProtocol(variant, materials, safetyEndpoints) {
@@ -496,7 +572,7 @@ function controlledFinishProtocol(variant, materials, safetyEndpoints) {
   };
 }
 
-function validateAdaptation(adaptation, label, status, materials, safetyEndpoints, controlledFinish, errors) {
+function validateAdaptation(adaptation, label, status, materials, safetyEndpoints, controlledFinish, controlledMidCycle, errors) {
   if (!isPlainObject(adaptation)) {
     errors.push(`${label}.cooker_adaptation must be an object`);
     return;
@@ -508,8 +584,8 @@ function validateAdaptation(adaptation, label, status, materials, safetyEndpoint
   if (adaptation.closed_lid_continuation !== true) {
     errors.push(`${label}.cooker_adaptation.closed_lid_continuation must be true`);
   }
-  if (adaptation.requires_mid_cook_opening !== false) {
-    errors.push(`${label}.cooker_adaptation.requires_mid_cook_opening must be false`);
+  if (adaptation.requires_mid_cook_opening !== false && !controlledMidCycle?.ok) {
+    errors.push(`${label}.cooker_adaptation.requires_mid_cook_opening must be false or use the approved controlled mid-cycle protocol`);
   }
   if (!['complete', 'incomplete'].includes(adaptation.completion_status)) {
     errors.push(`${label}.cooker_adaptation.completion_status must be complete or incomplete`);
@@ -524,6 +600,13 @@ function validateAdaptation(adaptation, label, status, materials, safetyEndpoint
   const actionMaterialIds = new Set();
   for (const phase of ['pre_actions', 'start_actions', 'finish_actions']) {
     validateActionList(adaptation[phase], phase, label, materials, actionMaterialIds, errors);
+  }
+  if (adaptation.requires_mid_cook_opening === true || adaptation.mid_actions !== undefined) {
+    validateActionList(adaptation.mid_actions, 'mid_actions', label, materials, actionMaterialIds, errors);
+  }
+  if (!controlledMidCycle?.ok && (adaptation.finish_actions || [])
+    .some(action => action?.rest_minutes !== undefined)) {
+    errors.push(`${label}.cooker_adaptation.rest_minutes is reserved for the approved controlled mid-cycle protocol`);
   }
   if (Array.isArray(adaptation.start_actions)
       && adaptation.start_actions.at(-1)?.action_code !== 'start_closed_lid_program') {
@@ -543,7 +626,10 @@ function validateAdaptation(adaptation, label, status, materials, safetyEndpoint
     if (programActions.length !== 1) {
       errors.push(`${label} preview_ready requires exactly one start_closed_lid_program action`);
     }
-    const heldIds = controlledFinish?.eligible ? controlledFinish.heldIds : new Set();
+    const heldIds = new Set([
+      ...(controlledFinish?.ok ? controlledFinish.heldIds : []),
+      ...(controlledMidCycle?.ok ? controlledMidCycle.heldIds : []),
+    ]);
     if (loadActions.some(action => [...materials.keys()].filter(canonicalId => !heldIds.has(canonicalId))
       .some(canonicalId => !action.ingredient_ids?.includes(canonicalId)))) {
       errors.push(`${label} preview_ready load_inner_pot must cover every ${heldIds.size ? 'start-load ' : ''}material ingredient`);
@@ -625,6 +711,13 @@ function validateVariant(variant, label, context, variantIds, errors) {
   if (!isNonEmptyString(variant.name_label)) errors.push(`${label}.name_label must be a non-empty string`);
   if (!isNonEmptyString(variant.review_note)) errors.push(`${label}.review_note must be a non-empty string`);
   validateStatus(variant, label, errors);
+  if (variant.supported_servings !== undefined) {
+    if (!Array.isArray(variant.supported_servings) || variant.supported_servings.length === 0
+        || variant.supported_servings.some(value => !Number.isInteger(value) || value < 1 || value > 8)
+        || new Set(variant.supported_servings).size !== variant.supported_servings.length) {
+      errors.push(`${label}.supported_servings must be a non-empty unique integer array from 1 to 8`);
+    }
+  }
   if (!IDENTITY_LEVELS.has(variant.identity_level)) errors.push(`${label}.identity_level must be generic, regional, or household_reviewed`);
   const regionCodes = variant.region_codes === undefined ? [] : variant.region_codes;
   if (!Array.isArray(regionCodes)) {
@@ -725,7 +818,9 @@ function validateVariant(variant, label, context, variantIds, errors) {
   validateNutrition(variant.nutrition_structure, label, new Set(materials.keys()), context.canonicals, variant.status, errors);
   const finishProtocol = controlledFinishProtocol(variant, materials, variant.safety_endpoints);
   for (const error of finishProtocol.errors) errors.push(`${label} ${error}`);
-  validateAdaptation(variant.cooker_adaptation, label, variant.status, materials, variant.safety_endpoints, finishProtocol, errors);
+  const midCycleProtocol = controlledMidCycleProtocol(variant, materials, variant.safety_endpoints);
+  for (const error of midCycleProtocol.errors) errors.push(`${label} ${error}`);
+  validateAdaptation(variant.cooker_adaptation, label, variant.status, materials, variant.safety_endpoints, finishProtocol, midCycleProtocol, errors);
   const exclusionFlags = variant.exclusion_flags === undefined ? [] : variant.exclusion_flags;
   if (!Array.isArray(exclusionFlags)) {
     errors.push(`${label}.exclusion_flags must be an array`);
@@ -739,6 +834,7 @@ function validateVariant(variant, label, context, variantIds, errors) {
     const explicitFlags = new Set(exclusionFlags);
     const derivedFlags = derivedExclusionFlags(variant.recipe_id);
     if (finishProtocol.ok) derivedFlags.delete('requires_mid_cook_opening');
+    if (midCycleProtocol.ok) derivedFlags.delete('requires_mid_cook_opening');
     if (derivedFlags.size > 0 && !setsMatch(explicitFlags, derivedFlags)) {
       errors.push(`${label}.exclusion_flags must match recipe_id derived risks: ${[...derivedFlags].join(', ')}`);
     }

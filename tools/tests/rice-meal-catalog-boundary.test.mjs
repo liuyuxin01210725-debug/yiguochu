@@ -123,8 +123,9 @@ test('scope keeps wild-mushroom, ceremonial glutinous-rice, and mid-cook-opening
   }
 });
 
-test('only three named legacy mid-open recipes may support a separately validated closed-cycle process adaptation', () => {
+test('only four named legacy mid-open recipes may support a separately validated controlled process adaptation', () => {
   assert.deepEqual(scope.controlled_process_adaptation_recipe_ids, [
+    'shanghai-salted-pork-vegetable-rice',
     'cabbage-tofu-braised-rice',
     'broccoli-beef-braised-rice',
     'greens-minced-pork-braised-rice',

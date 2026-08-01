@@ -8,7 +8,7 @@ import {
 
 const TOKEN_VERSION = 1;
 const TOKEN_PREFIX = 'rm1';
-const ACTION_PHASES = Object.freeze(['pre_actions', 'start_actions', 'finish_actions']);
+const ACTION_PHASES = Object.freeze(['pre_actions', 'start_actions', 'mid_actions', 'finish_actions']);
 const BASIC_EXTRA_IDS = new Set(['water', 'cooking-oil', 'salt']);
 
 const HOUSEHOLD_COPY = Object.freeze({
@@ -105,6 +105,20 @@ const HOUSEHOLD_COPY = Object.freeze({
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻松，盛出即可。',
     }),
   }),
+  'shanghai-salted-pork-rice': Object.freeze({
+    recommendation_reason: '这种安排兼顾地方风味、清爽口感和完整熟制。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}切成薄而均匀的小片，先试咸味，不额外加盐。',
+      prepare_vegetables: '将{{i3}}洗净切段，充分沥干，单独放在手边备用。',
+      load_inner_pot: '把{{i1}}和{{i2}}放入内胆，加入约量好的{{e1}}并轻轻铺平。',
+      start_closed_lid_program: '确认{{i1}}和{{i2}}已经放好，盖好锅盖，启动标准煮饭程序；确认机器能显示剩余时间，并允许短暂开盖后自动继续。',
+      add_reserved_leafy_vegetable: '煮饭程序剩约10分钟时，开盖把{{i3}}铺在饭面，不翻动米饭；30秒内合盖，让原程序继续。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖焖5分钟。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i3}}已经熟软。',
+      fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻匀，盛出即可。',
+    }),
+  }),
 });
 
 function clone(value) {
@@ -159,7 +173,9 @@ function canonicalActionProtocol(executionActions) {
   if (!isPlainObject(executionActions)) return null;
   const protocol = [];
   for (const phase of ACTION_PHASES) {
-    const source = executionActions[phase];
+    const source = phase === 'mid_actions' && executionActions[phase] === undefined
+      ? []
+      : executionActions[phase];
     if (!Array.isArray(source)) return null;
     const actions = source.map(action => {
       const ingredientIds = sortedUniqueStrings(action?.ingredient_ids);
@@ -169,9 +185,26 @@ function canonicalActionProtocol(executionActions) {
         order: action.order,
         action_code: action.action_code.trim(),
         ingredient_ids: ingredientIds,
+        ...(phase === 'mid_actions' ? {
+          timing_basis: nonEmptyString(action.timing_basis),
+          timing_min: action.timing_min,
+          timing_max: action.timing_max,
+          max_open_seconds: action.max_open_seconds,
+          placement: nonEmptyString(action.placement),
+          resume_policy: nonEmptyString(action.resume_policy),
+          required_post_close_minutes: action.required_post_close_minutes,
+        } : {}),
+        ...(phase === 'finish_actions' && action.action_code === 'rest_lid_closed'
+          && Number.isInteger(action.rest_minutes) ? { rest_minutes: action.rest_minutes } : {}),
       };
     });
     if (actions.some(action => action == null)) return null;
+    if (phase === 'mid_actions' && actions.some(action => (
+      !action.timing_basis || !action.placement || !action.resume_policy
+      || !Number.isInteger(action.timing_min) || !Number.isInteger(action.timing_max)
+      || !Number.isInteger(action.max_open_seconds)
+      || !Number.isInteger(action.required_post_close_minutes)
+    ))) return null;
     actions.sort((left, right) => left.order - right.order
       || left.action_code.localeCompare(right.action_code, 'en'));
     if (new Set(actions.map(action => action.order)).size !== actions.length) return null;
@@ -681,6 +714,8 @@ function lockedPlanForCandidate(candidate, assets) {
     throw stalePlan();
   }
   const variant = entry.variant;
+  if (Array.isArray(variant.supported_servings)
+      && !variant.supported_servings.includes(candidate.servings)) ratioFailure();
   const itemIndex = taxonomyById(assets.taxonomy);
   const substitutions = candidate.substitutions || [];
   if (substitutions.some(row => {
@@ -701,8 +736,26 @@ function lockedPlanForCandidate(candidate, assets) {
   if (allIngredients.some(item => !Number.isSafeInteger(item.planned_grams) || item.planned_grams <= 0)) ratioFailure();
   const refsByCanonical = new Map(allIngredients.map(item => [item.canonical_id, item.ingredient_ref]));
   const adaptation = variant.cooker_adaptation;
+  const midActions = Array.isArray(adaptation?.mid_actions) ? adaptation.mid_actions : [];
+  const controlledMidCycle = adaptation?.requires_mid_cook_opening === true
+    && variant.recipe_id === 'shanghai-salted-pork-vegetable-rice'
+    && JSON.stringify(variant.supported_servings) === JSON.stringify([3])
+    && midActions.length === 1
+    && midActions[0]?.action_code === 'add_reserved_leafy_vegetable'
+    && midActions[0]?.timing_basis === 'program_remaining_minutes'
+    && midActions[0]?.timing_min === 10 && midActions[0]?.timing_max === 10
+    && midActions[0]?.max_open_seconds === 30
+    && midActions[0]?.placement === 'top_no_stir'
+    && midActions[0]?.resume_policy === 'same_program_auto_resume'
+    && midActions[0]?.required_post_close_minutes === 10
+    && midActions[0]?.ingredient_ids?.length === 1
+    && midActions[0]?.ingredient_ids?.[0] === 'small-bok-choy';
+  const controlledRest = (adaptation?.finish_actions || [])
+    .filter(action => action?.action_code === 'rest_lid_closed');
+  if (controlledMidCycle && (controlledRest.length !== 1 || controlledRest[0]?.rest_minutes !== 5)) ratioFailure();
   if (!adaptation || adaptation.closed_lid_continuation !== true
-      || adaptation.requires_mid_cook_opening === true || adaptation.completion_status !== 'complete') ratioFailure();
+      || (adaptation.requires_mid_cook_opening === true && !controlledMidCycle)
+      || adaptation.completion_status !== 'complete') ratioFailure();
   const catalogActions = ACTION_PHASES.flatMap(phase => (adaptation[phase] || [])
     .slice().sort((left, right) => left.order - right.order));
   const candidateActions = candidate.execution_actions;
@@ -731,9 +784,15 @@ function lockedPlanForCandidate(candidate, assets) {
     const requirements = action.action_code === 'verify_safety_endpoints'
       ? { required_safety_endpoints: [...safetyEndpoints], required_safety_ingredient_refs: safetyRefs }
       : { required_safety_endpoints: [], required_safety_ingredient_refs: [] };
+    const lockedNumericFacts = action.action_code === 'add_reserved_leafy_vegetable'
+      ? [`${action.timing_min}分钟`, `${action.max_open_seconds}秒`]
+      : (action.action_code === 'rest_lid_closed' && Number.isInteger(action.rest_minutes)
+        ? [`${action.rest_minutes}分钟`]
+        : []);
     return {
       action_code: action.action_code,
       allowed_ingredient_refs: allowed,
+      locked_numeric_facts: lockedNumericFacts,
       ...requirements,
     };
   });
@@ -766,6 +825,9 @@ function lockedPlanForCandidate(candidate, assets) {
       })),
       generation_text_contract: {
         dish_name_options: [variant.display_name],
+        dish_name_ingredient_exemptions: variant.variant_id === 'shanghai-salted-pork-rice'
+          ? ['上海咸肉']
+          : [],
         steps: cookingOrder.map((phase, index) => ({
           order: index + 1,
           allowed_texts: [copy.steps[phase.action_code]],

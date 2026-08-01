@@ -180,6 +180,34 @@ test('three-person rice meal keeps three servings through signed compilation and
   ]);
 });
 
+test('three-person Shanghai salted pork rice survives the real HTTP plan and generation handoff', async () => {
+  const planned = await post('/plan-meal', ricePlanRequest({
+    servings: 3,
+    pantry: ['咸五花肉', '小白菜'],
+  }));
+  assert.equal(planned.status, 200);
+  assert.equal(planned.body.candidates[0].variant_id, 'shanghai-salted-pork-rice');
+  assert.deepEqual(planned.body.candidates[0].used_items.map(item => item.raw), ['咸五花肉', '小白菜']);
+
+  const generated = await post('/generate-plan', {
+    plan_token: planned.body.candidates[0].plan_token,
+  });
+  assert.equal(generated.status, 200);
+  assert.equal(generated.body.meals[0].dish_name, '上海咸肉菜饭');
+  assert.deepEqual(generated.body.plan.ingredient_amounts.map(item => [item.canonical_id, item.grams]), [
+    ['raw-rice', 300],
+    ['salted-pork-belly', 150],
+    ['small-bok-choy', 400],
+    ['water', 310],
+  ]);
+  assert.match(generated.body.meals[0].steps.find(step => (
+    step.action_code === 'add_reserved_leafy_vegetable'
+  )).text, /剩约10分钟.*30秒内合盖/u);
+  assert.equal(generated.modelCalls, 0);
+  assert.equal(generated.kv.gets, 0);
+  assert.equal(generated.kv.puts, 0);
+});
+
 test('rice-meal endpoints reject malformed JSON before model or budget work', async () => {
   const result = await post('/generate-plan', null, { rawBody: '{bad json' });
 
@@ -273,10 +301,10 @@ test('health exposes rice catalog facts only for valid rice metadata and include
   });
   const healthyBody = await healthy.json();
   assert.equal(healthyBody.riceMealCatalog, 'ok');
-  assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r5');
+  assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r6');
   assert.equal(healthyBody.riceMealFamilies, 3);
-  assert.equal(healthyBody.riceMealVariants, 10);
-  assert.equal(healthyBody.riceMealPreviewReady, 3);
+  assert.equal(healthyBody.riceMealVariants, 11);
+  assert.equal(healthyBody.riceMealPreviewReady, 4);
   assert.equal(healthyBody.riceMealPlanned, 7);
 
   for (const buildMeta of [

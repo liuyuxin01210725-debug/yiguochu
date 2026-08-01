@@ -146,7 +146,7 @@ test('recipe liquid contract distinguishes added water, measurable total liquid,
 
 test('Ratio DSL catalog covers every active template with only the six executable operators', () => {
   assert.equal(catalog.ratio_dsl_version, 1);
-  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260801-r12');
+  assert.equal(catalog.ratio_catalog_version, 'ratio-rules-v1-20260801-r13');
   assert.deepEqual(validateRatioDslCatalog(catalog, templates, taxonomy, recipes), []);
   assert.deepEqual(validateMealTemplateCatalog(templates, taxonomy, recipes, catalog), []);
 
@@ -953,6 +953,7 @@ test('authoritative recipe evidence stays bounds-only and fails closed at compil
     'greens-minced-pork-braised-rice-executable-v1',
     'corn-carrot-chicken-leg-covered-rice-executable-v1',
     'mushroom-green-bean-pork-rib-braised-rice-executable-v1',
+    'shanghai-salted-pork-rice-executable-v1',
   ]);
   const recipeRules = rawCatalog.rules.filter(rule => rule.when?.recipe_id);
   assert.deepEqual(

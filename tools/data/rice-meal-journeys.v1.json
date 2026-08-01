@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "rice-meal-catalog-v1-20260801-r5",
+  "catalog_version": "rice-meal-catalog-v1-20260801-r6",
   "journeys": [
     {
       "id": "RM-01-jiangnan-planned-only",
@@ -299,6 +299,21 @@
         "required_unused_reason_codes": ["not_in_active_catalog"]
       },
       "catalog_gap": "排骨预煮液与香菇豆角出水尚未转成可量取的总液体契约，相关条目保持 planned。"
+    },
+    {
+      "id": "RM-21-shanghai-salted-pork-ready",
+      "spec_case": 21,
+      "request": { "servings": 3, "pantry": ["咸五花肉", "小白菜"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "shanghai-salted-pork-rice",
+        "allowed_variant_ids": ["shanghai-salted-pork-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      },
+      "catalog_gap": "仅在3人份且普通电饭煲能显示剩余时间、短暂开盖后自动继续原程序时开放；其他份量与机型不推定等价。"
     }
   ]
 }
