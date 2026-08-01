@@ -76,7 +76,7 @@ function variant(id) {
   return catalog.families.flatMap(family => family.variants).find(row => row.variant_id === id);
 }
 
-const TEST_NOTICE = 'Preview 家庭测试标准 · 待真实厨房反馈';
+const TEST_NOTICE = '这道菜饭仍在家庭试做验证中，请先按页面克数和步骤操作。';
 const FOUR_SERVING_CAPACITY_NOTICE = '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限';
 
 function taxonomyItem(canonicalId) {

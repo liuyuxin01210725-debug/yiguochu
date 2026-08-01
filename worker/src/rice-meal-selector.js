@@ -14,7 +14,7 @@ const IDENTITY_RANK = Object.freeze({
   generic: 2,
 });
 const CONTROLLED_USER_NOTICES = Object.freeze({
-  household_test_pending_feedback: 'Preview 家庭测试标准 · 待真实厨房反馈',
+  household_test_pending_feedback: '这道菜饭仍在家庭试做验证中，请先按页面克数和步骤操作。',
   four_serving_cooker_capacity_check: '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限',
 });
 const BALANCE_STARCHY_IDS = new Set([

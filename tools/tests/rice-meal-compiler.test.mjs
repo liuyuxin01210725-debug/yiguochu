@@ -388,7 +388,7 @@ test('four project household standards compile exact 1/2/4 serving water, salt, 
       const expectedNotices = [
         {
           code: 'household_test_pending_feedback',
-          text: 'Preview 家庭测试标准 · 待真实厨房反馈',
+          text: '这道菜饭仍在家庭试做验证中，请先按页面克数和步骤操作。',
         },
         ...(servings === 4 ? [{
           code: 'four_serving_cooker_capacity_check',

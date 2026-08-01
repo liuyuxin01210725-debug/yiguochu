@@ -134,7 +134,7 @@ function compiledResult(overrides = {}) {
   };
 }
 
-const TEST_NOTICE = 'Preview 家庭测试标准 · 待真实厨房反馈';
+const TEST_NOTICE = '这道菜饭仍在家庭试做验证中，请先按页面克数和步骤操作。';
 const FOUR_SERVING_CAPACITY_NOTICE = '请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限';
 
 function loadRiceFrontend(responses = [], locationOverrides = {}) {
@@ -267,6 +267,43 @@ test('candidate and result DOM show controlled household test notices without le
   await evaluate(context, `chooseRiceMealPlan('sha256:rice-plan-1')`);
   assert.match(root.innerHTML, new RegExp(TEST_NOTICE, 'u'));
   assert.match(root.innerHTML, new RegExp(FOUR_SERVING_CAPACITY_NOTICE, 'u'));
+});
+
+test('process-adapted rice meals disclose outside-pot prep and keep unused items visible without internal preview jargon', async () => {
+  const processCandidate = candidate({
+    cooker_adaptation_level:'process_adaptation',
+    user_notices:[{ code:'household_test_pending_feedback', text:TEST_NOTICE }],
+    execution_actions:{
+      pre_actions:[
+        { order:1, action_code:'pre_cook_tender_vegetables_drain_and_discard_liquid', ingredient_ids:['napa-cabbage'] },
+      ],
+      start_actions:[{ order:1, action_code:'start_closed_lid_program', ingredient_ids:['raw-rice','firm-tofu'] }],
+      finish_actions:[{ order:1, action_code:'fold_in_pre_cooked_ingredients', ingredient_ids:['napa-cabbage'] }],
+    },
+  });
+  const processResult = compiledResult({
+    user_notices:structuredClone(processCandidate.user_notices),
+    meals:[{
+      ...compiledResult().meals[0],
+      user_notices:structuredClone(processCandidate.user_notices),
+    }],
+  });
+  const { context, root } = loadRiceFrontend([
+    { body:readySelection([processCandidate]) },
+    { body:processResult },
+  ]);
+
+  evaluate(context, `state.profile={servings:'2', pantry:'鸡腿, 土豆, 胡萝卜', dislikes:''}`);
+  await evaluate(context, 'runRiceMealPlanning()');
+  assert.match(root.innerHTML, /需锅外预处理/u);
+  assert.doesNotMatch(root.innerHTML, /Preview 家庭测试标准|待真实厨房反馈/u);
+
+  await evaluate(context, `chooseRiceMealPlan('sha256:rice-plan-1')`);
+  assert.match(root.innerHTML, /需锅外预处理 · 电饭煲完成/u);
+  assert.match(root.innerHTML, /营养搭配 B：.*碳水 \/ 主食.*蛋白质/u);
+  assert.match(root.innerHTML, /这次没有使用：.*胡萝卜/u);
+  assert.match(root.innerHTML, /这套菜饭的受控搭配暂不使用胡萝卜/u);
+  assert.doesNotMatch(root.innerHTML, /电饭煲一锅出|Preview 家庭测试标准|待真实厨房反馈/u);
 });
 
 test('mature candidate and result DOM do not show household test notices', async () => {
