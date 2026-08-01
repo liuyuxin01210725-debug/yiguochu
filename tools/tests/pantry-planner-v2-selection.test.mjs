@@ -764,6 +764,16 @@ test('unknown must-use remains in the denominator and unplanned list and blocks 
   assert.deepEqual(result.plan.unplanned_must_use.map(item => item.reason_code), ['unrecognized_ingredient']);
 });
 
+test('prepared glutinous rice never enters the generic savory raw-rice rule', () => {
+  const result = planMeal(assets, request({ must: ['泡发糯米', '猪肉末', '鲜香菇'] }));
+  assert.notEqual(result.status, 'complete');
+  assert.equal(result.generation_allowed, false);
+  assert.equal(result.plan.planned_must_use.some(item => item.raw === '泡发糯米'), false);
+  assert.equal(result.plan.unplanned_must_use.find(item => item.raw === '泡发糯米')?.reason_code, 'no_compatible_slot');
+  const amounts = result.plan.pots.flatMap(pot => pot.ingredient_amounts || []);
+  assert.equal(amounts.some(item => item.name === '泡发糯米' && item.grams === 200), false);
+});
+
 test('ambiguous cowpea blocks pantry completion without hiding the existing pot', () => {
   const result = planMeal(assets, request({ must: ['大米', '去核红枣', '豇豆'] }));
   assert.equal(result.status, 'needs_user_decision');

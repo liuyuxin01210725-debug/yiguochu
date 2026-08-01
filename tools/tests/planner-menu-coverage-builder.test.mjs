@@ -164,8 +164,14 @@ test('Fujian Taiwan M1 recovers two generic plans and retains four honest gaps',
   assert.equal(byRecipeId.get('taiwan-cabbage-mushroom-rice').audit_status, 'full_single_pot_evidence_aligned');
   assert.equal(byRecipeId.get('fujian-gai-cai-minced-pork-rice').audit_status, 'full_single_pot_ingredient_compatible');
   assert.equal(byRecipeId.get('fujian-hyacinth-bean-rice').audit_status, 'taxonomy_gap');
+  const quanzhou = byRecipeId.get('quanzhou-oil-rice');
+  assert.notEqual(quanzhou.raw_core_scenario.status, 'complete');
+  assert.equal(quanzhou.raw_core_scenario.planned_raw_items.includes('泡发糯米'), false);
+  assert.equal(quanzhou.raw_core_scenario.unplanned_raw_items.includes('泡发糯米'), true);
+  assert.equal(quanzhou.raw_core_scenario.ratio_plans.some(plan => plan.ingredient_amounts
+    .some(item => item.name === '泡发糯米' && item.grams === 200)), false);
   for (const id of ['quanzhou-oil-rice', 'daxi-lotus-leaf-oil-rice', 'she-people-black-rice']) {
-    assert.ok(['taxonomy_gap', 'no_recognized_core'].includes(byRecipeId.get(id).audit_status), id);
+    assert.ok(['taxonomy_gap', 'planner_gap', 'no_recognized_core'].includes(byRecipeId.get(id).audit_status), id);
   }
   const region = report.by_region.find(row => row.region_id === 'fujian_taiwan');
   assert.deepEqual(

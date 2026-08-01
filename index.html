@@ -346,6 +346,10 @@
 const BUILD_ID = '__YIGUOCHU_BUILD_ID__';
 const PLANNER_ROLLOUT = '__YIGUOCHU_PLANNER_ROLLOUT__';
 const GENERATION_MODE = '__YIGUOCHU_GENERATION_MODE__';
+const PRODUCT_FOCUS = '__YIGUOCHU_PRODUCT_FOCUS__';
+// Raw source remains legacy-safe: only a compiled, explicit value enables the
+// public rice-meal product. A missing placeholder must never switch products.
+const RICE_MEAL_PRODUCT = PRODUCT_FOCUS === 'rice-meal-v1';
 const EFFECTIVE_GENERATION_MODE = ['deterministic','llm'].includes(GENERATION_MODE)
   ? GENERATION_MODE
   : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'deterministic' : 'llm');
@@ -357,6 +361,7 @@ if (typeof window !== 'undefined') {
     buildId: BUILD_ID,
     plannerRollout: PLANNER_ROLLOUT,
     generationMode: EFFECTIVE_GENERATION_MODE,
+    productFocus: RICE_MEAL_PRODUCT ? 'rice-meal-v1' : 'legacy',
   });
 }
 
@@ -812,7 +817,9 @@ const MODE_TEXT = { recommend:'直接推荐', pantry:'帮我清库存' };
 const INTENT_TEXT = { normal:'正常做', quick:'快点吃上', fresh:'清爽些', batch:'多做一些' };
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
 const TONE_TEXT = { week:'每份参考' };
-const DEFAULT_PROFILE = { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+const DEFAULT_PROFILE = RICE_MEAL_PRODUCT
+  ? { servings:'2', pantry:'', dislikes:'' }
+  : { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
 const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','玉米','金针菇','大米','剩米饭','面条'];
 const LEGACY_UNSUPPORTED_COMMON_PANTRY = new Set(['青椒','茄子','菠菜']);
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
@@ -839,9 +846,12 @@ function publicIntent(value) {
 }
 function servingCount(profile) {
   const n = Number(profile && profile.servings);
-  return [1,2,4].includes(n) ? n : 2;
+  return [1,2,3,4].includes(n) ? n : 2;
 }
-function servingLabel(value) { return Number(value) === 4 ? '3–4' : String(value || 2); }
+function servingLabel(value) {
+  if (RICE_MEAL_PRODUCT) return String(value || 2);
+  return Number(value) === 4 ? '3–4' : String(value || 2);
+}
 // 单次主餐营养：只展示整锅折算后的每份值，不拿它评价全天是否达标。
 function nutriFor(d) {
   const n = d.nutrients || {}, servings = d.servings || servingCount(state.profile);
@@ -866,6 +876,8 @@ const state = {
   lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
   pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
   displayedPlan:null, planCandidates:[], planCandidateResult:null, planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
+  riceSelection:null, riceCandidates:[], riceSelectedCandidate:null, riceGeneratedPlan:null, riceStatusResult:null,
+  riceRequestSnapshot:null, riceRecentPlanIds:[],
   rolloutNotice:'',
   noAlternativeSwap:false,
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
@@ -1005,7 +1017,30 @@ function resultScreen() {
   const notice = state.notice ? '<div class="gen-notice">' + icon('pin',{size:15,sw:1.7,stroke:'#c08a3e'}) + '<span>' + esc(state.notice) + '</span></div>' : '';
   return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + pantryCoverageBlock(d) + whyFits(d) + recipeBasisBlock(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + pairingBlock() + nutritionPanel(d) + '</div><div class="result-foot">营养为粗略参考、非医疗或营养诊疗建议；孕期 / 哺乳 / 儿童 / 慢性病 / 严重食物过敏 / 服药期间，请咨询医生或注册营养师。<br>偏好只保存在本机；生成时会将份数、食材和忌口发送给 AI 服务。</div></div>';
 }
+function riceMealProfileScreen() {
+  const p = state.profile;
+  const pantrySet = new Set(splitPlannerItems(p.pantry));
+  const riceFoods = ['鸡腿','土豆','豆角','排骨','豆腐','牛肉','西兰花','猪肉末','青菜','玉米','胡萝卜','洋葱','香菇','白菜'];
+  const seg = '<div class="segmented">' + [['1','1 份'],['2','2 份'],['3','3 份'],['4','4 份']]
+    .map(option => '<button class="seg' + (p.servings === option[0] ? ' on' : '') + '" data-seg="servings" data-val="' + option[0] + '">' + option[1] + '</button>').join('') + '</div>';
+  const notice = state.rolloutNotice
+    ? '<div class="gen-notice"><span>' + esc(state.rolloutNotice) + '</span></div>' : '';
+  return '<div class="screen profile-screen">'
+    + '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出菜饭</div>'
+    + '<p class="app-tagline">家里默认有米，选你想用的配菜。用电饭煲做一锅真正能端上桌的菜饭。</p></header>'
+    + notice + '<section class="form-card">'
+    + '<div class="field"><label class="field-label">这一锅做几份</label>' + seg + '<span class="field-hint">大米和水会按份数计算。</span></div>'
+    + '<div class="field"><label class="field-label">想用的配菜 <span class="field-label-aside">至少一种</span></label>'
+    + '<div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡腿, 土豆, 胡萝卜"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div>'
+    + '<div class="pantry-chips">' + riceFoods.map(food => '<span class="pantry-chip' + (pantrySet.has(food) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(food) + '">' + (pantrySet.has(food) ? '✓ ' : '') + esc(food) + '</button></span>').join('') + '</div>'
+    + '<span class="field-hint">会优先选真实菜饭里合理的搭配；用不上的会说明原因，不为了凑数硬放。</span></div>'
+    + '<div class="field"><label class="field-label">不吃 / 过敏</label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div>'
+    + '<span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>'
+    + '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>推荐菜饭</span></button>'
+    + '<p class="privacy-note"><strong>仅供日常做饭参考，非医疗 / 营养诊疗建议。</strong><br>份数、配菜和忌口只保存在本机；菜名、用量、顺序和安全步骤都由受控规则确定，不调用 AI。</p></div></div>';
+}
 function profileScreen() {
+  if (RICE_MEAL_PRODUCT) return riceMealProfileScreen();
   const p = state.profile;
   const lab = plannerLabEnabled();
   const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
@@ -1529,6 +1564,7 @@ async function runPlannerFlow(options) {
   } catch (error) { showGenerationFailure(error); }
 }
 async function runPrimaryFlow() {
+  if (RICE_MEAL_PRODUCT) return runRiceMealPlanning();
   const pantryCount = splitPlannerItems(state.profile.pantry).length;
   if (pantryCount > 20) {
     showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false));
@@ -1633,11 +1669,229 @@ async function applyPlanDecision(action, item) {
     rejectUnchangedPlanId:action === 'force_multi_pot' ? planId : null,
   });
 }
+
+// ============ 菜饭聚焦前端契约（schema v3） ============
+function buildRiceMealRequest(options) {
+  const opts = options || {};
+  const request = {
+    schema_version:3,
+    product_focus:'rice_meal',
+    servings:servingCount(state.profile),
+    pantry:splitPlannerItems(state.profile.pantry),
+    dislikes:splitPlannerItems(state.profile.dislikes),
+  };
+  if (opts.currentPlanId) {
+    request.swap = {
+      current_plan_id:String(opts.currentPlanId),
+      recent_plan_ids:boundedTextList(opts.recentPlanIds || state.riceRecentPlanIds, 20, 100),
+    };
+  }
+  return request;
+}
+function riceItemName(item) {
+  return boundedText(item && (item.raw || item.raw_name || item.display_name || item.name || item.canonical), 80);
+}
+function riceUnusedReason(item) {
+  return boundedText(item && (item.reason || item.message), 180)
+    || (item && item.reason_code === 'unrecognized_ingredient'
+      ? '暂时还无法可靠识别这样食材。'
+      : '当前可靠菜饭的搭配暂不使用这样食材。');
+}
+function riceNutritionRoleLabel(role) {
+  return ({ carb:'碳水 / 主食', protein:'蛋白质', fiber:'膳食纤维' })[role] || '';
+}
+function validRiceCandidate(candidate) {
+  return !!(candidate && typeof candidate.plan_id === 'string' && candidate.plan_id
+    && typeof candidate.plan_token === 'string' && candidate.plan_token
+    && typeof candidate.display_name === 'string' && candidate.display_name
+    && Number.isInteger(candidate.coverage_count) && Number.isInteger(candidate.submitted_count)
+    && candidate.coverage_count >= 1 && candidate.submitted_count >= candidate.coverage_count
+    && ['A','B'].includes(candidate.nutrition_grade)
+    && Array.isArray(candidate.used_items) && Array.isArray(candidate.unused_items));
+}
+function riceCandidateCard(candidate) {
+  const used = candidate.used_items.map(riceItemName).filter(Boolean);
+  const unused = candidate.unused_items.map(item => {
+    const name = riceItemName(item);
+    return name ? esc(name) + '（' + esc(riceUnusedReason(item)) + '）' : '';
+  }).filter(Boolean);
+  const roles = (candidate.nutrition_roles || []).map(item => riceNutritionRoleLabel(item && item.role)).filter(Boolean);
+  const preActions = candidate.execution_actions && Array.isArray(candidate.execution_actions.pre_actions)
+    ? candidate.execution_actions.pre_actions.length : 0;
+  const active = Number.isFinite(+candidate.active_time_minutes) ? Math.round(+candidate.active_time_minutes) : null;
+  const total = Number.isFinite(+candidate.total_time_minutes) ? Math.round(+candidate.total_time_minutes) : null;
+  return '<article class="pantry-plan-card"><button class="pantry-plan-choice" data-act="choose-rice-meal" data-plan-id="' + esc(candidate.plan_id) + '">'
+    + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(candidate.display_name) + '</span>'
+    + '<span class="pantry-plan-count">用上 ' + candidate.coverage_count + '/' + candidate.submitted_count + '</span></span>'
+    + '<span class="pantry-plan-items"><strong>这锅用上：</strong>' + esc(used.join('、')) + '</span>'
+    + (unused.length ? '<span class="pantry-plan-items"><strong>这次没用：</strong>' + unused.join('；') + '</span>' : '')
+    + '<span class="pantry-plan-items"><strong>营养搭配 ' + esc(candidate.nutrition_grade) + '：</strong>' + esc(roles.join('、')) + '</span>'
+    + '<span class="pantry-plan-items"><strong>前置处理：</strong>' + (preActions ? '处理食材约 ' + preActions + ' 步' : '无额外处理')
+    + (active == null ? '' : ' · ' + active + ' 分钟') + '</span>'
+    + (total == null ? '' : '<span class="pantry-plan-items"><strong>全程 ' + total + ' 分钟</strong></span>')
+    + '<span class="pantry-plan-note">选中后直接打开已锁定的用量和电饭煲步骤。</span></button>'
+    + (candidate.recipe_id ? '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(candidate.recipe_id) + '">查看一锅出标准配方</a>' : '')
+    + '</article>';
+}
+function riceMealCandidatesScreen() {
+  const candidates = (state.riceCandidates || []).filter(validRiceCandidate).slice(0, 3);
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">选一道真正能做的菜饭</div>'
+    + '<p class="fb-banner-text">每张卡都是有固定菜名、用量、电饭煲顺序和安全终点的可靠方案。不会为了凑数补满三张。</p></div></div>'
+    + '<div class="pantry-plan-list">' + candidates.map(riceCandidateCard).join('') + '</div>'
+    + '<div class="dish-actions"><button class="btn btn-ghost" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
+}
+function riceStatusCopy(status) {
+  return ({
+    needs_balance_input:{ title:'这几样还缺一个主餐支点', text:'再加一样蛋白质或蔬菜，才更像一顿营养搭配合理的菜饭。' },
+    no_reliable_rice_meal:{ title:'暂时没有可靠的菜饭方案', text:'现有目录还不能稳妥承接这组配菜。这次没有硬拼一道名不副实的饭。' },
+    unsafe_recipe:{ title:'这次先不给出菜饭', text:'为了避开不适合的食材、忌口或熟制风险，已停止这次推荐。' },
+    stale_plan:{ title:'这份菜饭计划已经变化', text:'目录或比例规则已更新，请回到配菜页重新规划。' },
+  })[status] || { title:'这次暂时没有结果', text:'你的输入已保留，可以返回调整配菜。' };
+}
+function riceMealStatusScreen() {
+  const result = state.riceStatusResult || {};
+  const copy = riceStatusCopy(result.status);
+  const unused = (result.unused_items || []).map(item => {
+    const name = riceItemName(item);
+    return name ? '<p class="pantry-plan-note"><strong>' + esc(name) + '：</strong>' + esc(riceUnusedReason(item)) + '</p>' : '';
+  }).join('');
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div><p class="fb-banner-text">' + esc(copy.text) + '</p>' + unused + '</div></div>'
+    + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
+}
+function riceGeneratedSummary() {
+  const generated = state.riceGeneratedPlan;
+  const meal = generated && Array.isArray(generated.meals) ? generated.meals[0] : null;
+  return meal ? '<section class="dish-card"><div class="dish-body"><h1 class="dish-name">' + esc(meal.dish_name) + '</h1><p class="dish-taste">' + esc(meal.recommendation_reason) + '</p></div></section>' : '';
+}
+function riceNoAlternativeScreen() {
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前组合只有这一道可靠菜饭</div>'
+    + '<p class="fb-banner-text">当前这道菜饭仍然保留。这次没有用只换名字或降低食材覆盖的方案充数。</p></div></div>'
+    + riceGeneratedSummary() + '<div class="dish-actions"><button class="btn btn-primary" data-act="continue-rice-meal">继续用当前菜饭</button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
+}
+function riceMealResultScreen() {
+  const generated = state.riceGeneratedPlan || {};
+  const candidate = state.riceSelectedCandidate || {};
+  const meal = Array.isArray(generated.meals) ? generated.meals[0] : null;
+  if (!meal) return riceMealStatusScreen();
+  const nutritionById = new Map(((generated.plan && generated.plan.nutrition_inputs) || [])
+    .map(item => [item.canonical_id, item]));
+  const liquidContract = meal.liquid_constraints || (generated.plan && generated.plan.liquid_constraints) || {};
+  const ingredients = (meal.locked_ingredients || []).map(item => {
+    const nutrition = nutritionById.get(item.canonical_id) || {};
+    const localAuthority = lookupFoodNutrition(nutrition.name || riceItemName(item) || item.raw_name);
+    const zeroNutritionBasic = item.canonical_id === 'water'
+      || nutrition.canonical_id === 'water'
+      || riceItemName(item) === '水';
+    const estimated = nutrition.auth !== 'tw' && !localAuthority && !zeroNutritionBasic;
+    const totalLiquidWater = item.canonical_id === 'water' && liquidContract.kind === 'total_free_liquid';
+    const displayName = totalLiquidWater ? '清水（本锅约总液体）' : (riceItemName(item) || item.raw_name);
+    const displayAmount = totalLiquidWater
+      ? '约 ' + String(Math.round(+liquidContract.display_grams || +item.planned_grams || 0)) + ' g'
+      : String(Math.round(+item.planned_grams || 0)) + ' g';
+    return '<li class="ing-row"><span class="ing-name">' + esc(displayName)
+      + (estimated ? '<span class="est-tag" title="未命中权威营养库，营养数据仅作估算"> 估</span>' : '')
+      + '</span><span class="ing-grams">' + esc(displayAmount) + '</span></li>';
+  }).join('');
+  const steps = (meal.steps || []).map((step, index) => '<li class="step-row"><span class="step-num">' + (index + 1) + '</span><span class="step-text">' + esc(boundedText(step && step.text, 500)) + '</span></li>').join('');
+  return '<div class="screen result-screen"><div class="col-main"><section class="dish-card"><div class="dish-body">'
+    + '<div class="dish-eyebrow"><span>今天做这道菜饭</span><span class="chip chip-form">电饭煲一锅出</span></div><h1 class="dish-name">' + esc(meal.dish_name) + '</h1>'
+    + '<div class="dish-meta"><span class="meta">用上 ' + esc(String(candidate.coverage_count || 0)) + '/' + esc(String(candidate.submitted_count || 0)) + '</span><span class="meta-dot"></span><span class="meta">营养 ' + esc(candidate.nutrition_grade || '') + '</span></div>'
+    + '<p class="dish-taste">' + esc(meal.recommendation_reason) + '</p>'
+    + (candidate.recipe_id ? '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(candidate.recipe_id) + '">查看一锅出标准配方</a>' : '') + '</div></section>'
+    + '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3></div><ul class="ing-list">' + ingredients + '</ul></section>'
+    + '<section class="block" id="rice-cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>'
+    + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-rice-cooking">开始做</button><button class="btn btn-ghost" data-act="request-rice-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改配菜忌口</button></div></div>'
+    + '<div class="col-side"><section class="block nutri-block"><p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px;line-height:1.5;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）。未命中的项目会标「估」。</p></section></div>'
+    + '<div class="result-foot">菜名、食材、克数、顺序和安全终点都与已选签名计划对齐；本路径不调用模型服务。</div></div>';
+}
+function showRiceMealStatus(result) {
+  state.riceStatusResult = cloneJson(result || {});
+  const viewByStatus = {
+    needs_balance_input:'needs-balance',
+    no_reliable_rice_meal:'no-reliable',
+    no_alternative_rice_meal:'no-alternative',
+    unsafe_recipe:'unsafe',
+    stale_plan:'stale',
+  };
+  state.view = viewByStatus[state.riceStatusResult.status] || 'no-reliable';
+  window.scrollTo(0, 0);
+  render();
+}
+function validRiceCompiledResult(result, candidate) {
+  const meal = result && Array.isArray(result.meals) ? result.meals[0] : null;
+  return !!(result && result.schema_version === 3 && result.status === 'ready' && result.generation_allowed === true
+    && result.plan_id === candidate.plan_id && result.variant_id === candidate.variant_id
+    && result.recipe_id === candidate.recipe_id && meal && meal.dish_name === candidate.display_name
+    && meal.variant_id === candidate.variant_id && meal.recipe_id === candidate.recipe_id);
+}
+async function runRiceMealPlanning(options) {
+  const opts = options || {};
+  if (typeof location !== 'undefined' && location.protocol === 'file:') {
+    showGenerationFailure(genError('local_start_required', '请双击 start.command 启动本地版本。', false)); return;
+  }
+  const pantry = splitPlannerItems(state.profile.pantry);
+  if (!pantry.length) {
+    state.view = 'profile'; state.profileEditing = true;
+    state.rolloutNotice = '先选或填写至少一种想用的配菜。'; render(); return;
+  }
+  if (pantry.length > 20) {
+    showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false)); return;
+  }
+  state.rolloutNotice = '';
+  state.view = 'generating'; state.genStage = 0; render();
+  const request = buildRiceMealRequest(opts);
+  state.riceRequestSnapshot = cloneJson(request);
+  try {
+    const result = await postPlannerV2('/plan-meal', request);
+    state.riceSelection = cloneJson(result);
+    if (result.status === 'ready') {
+      const candidates = Array.isArray(result.candidates) ? result.candidates.filter(validRiceCandidate).slice(0, 3) : [];
+      if (!candidates.length) throw genError('bad_shape', '可用菜饭候选结构无效', false);
+      state.riceCandidates = cloneJson(candidates);
+      state.riceStatusResult = null;
+      state.view = 'rice-meal-candidates'; window.scrollTo(0, 0); render(); return;
+    }
+    if (result.status === 'no_alternative_rice_meal') {
+      state.riceStatusResult = cloneJson(result); state.view = 'no-alternative'; render(); return;
+    }
+    showRiceMealStatus(result);
+  } catch (error) { showGenerationFailure(error); }
+}
+async function chooseRiceMealPlan(planId) {
+  const candidate = (state.riceCandidates || []).find(item => item.plan_id === String(planId || ''));
+  if (!candidate || !validRiceCandidate(candidate)) return;
+  state.riceSelectedCandidate = cloneJson(candidate);
+  state.view = 'generating'; state.genStage = 1; render();
+  try {
+    const result = await postPlannerV2('/generate-plan', { plan_token:candidate.plan_token });
+    if (result && result.status === 'stale_plan') { showRiceMealStatus(result); return; }
+    if (!validRiceCompiledResult(result, candidate)) throw genError('plan_identity_mismatch', '生成结果与已选菜饭不一致', false);
+    state.riceGeneratedPlan = cloneJson(result);
+    state.riceRecentPlanIds = boundedTextList([...state.riceRecentPlanIds, candidate.plan_id], 20, 100);
+    state.view = 'rice-meal-result'; window.scrollTo(0, 0); render();
+  } catch (error) { showGenerationFailure(error); }
+}
+async function requestRiceMealSwap() {
+  const current = state.riceSelectedCandidate;
+  if (!current) return;
+  await runRiceMealPlanning({
+    currentPlanId:current.plan_id,
+    recentPlanIds:boundedTextList([...state.riceRecentPlanIds, current.plan_id], 20, 100),
+  });
+}
 // ============ 主渲染 ============
 function render() {
   let html;
   if (state.view === 'profile') html = profileScreen();
   else if (state.view === 'generating') html = generatingScreen();
+  else if (state.view === 'rice-meal-candidates') html = riceMealCandidatesScreen();
+  else if (state.view === 'rice-meal-result') html = riceMealResultScreen();
+  else if (['needs-balance','no-reliable','unsafe','stale'].includes(state.view)) html = riceMealStatusScreen();
+  else if (state.view === 'no-alternative') html = riceNoAlternativeScreen();
   else if (state.view === 'pantry-plan') html = pantryPlanScreen();
   else if (state.view === 'v2-candidates') html = plannerCandidatesScreen();
   else if (state.view === 'v2-plan' || state.view === 'v2-plan-preview') html = plannerStateScreen();
@@ -1965,6 +2219,11 @@ document.getElementById('root').addEventListener('click', (e) => {
   else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = profilePantryChoices(state.profile).slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
   else if (act === 'start-cooking') beginCooking();
   else if (act === 'start-v2-cooking') { recordDisplayedPlanHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  else if (act === 'choose-rice-meal') chooseRiceMealPlan(t.dataset.planId);
+  else if (act === 'request-rice-swap') requestRiceMealSwap();
+  else if (act === 'continue-rice-meal') { state.view = 'rice-meal-result'; state.riceStatusResult = null; render(); }
+  else if (act === 'retry-rice-generate') chooseRiceMealPlan(state.riceSelectedCandidate && state.riceSelectedCandidate.plan_id);
+  else if (act === 'start-rice-cooking') { const steps = document.getElementById('rice-cooking-steps') || document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
   else if (act === 'request-plan-swap') requestAlternativePlan();
   else if (act === 'choose-plan') choosePlan(t.dataset.planId);
   else if (act === 'replan-v2') runPlannerFlow({ autoGenerate:true });
@@ -1981,11 +2240,17 @@ document.getElementById('root').addEventListener('click', (e) => {
 // ============ 初始化 ============
 (function init() {
   const saved = STORE.getProfile();
-  const savedProfile = saved ? migrateProfile(saved) : null;
+  const savedProfile = saved ? (RICE_MEAL_PRODUCT
+    ? {
+        servings:['1','2','3','4'].includes(String(saved.servings)) ? String(saved.servings) : '2',
+        pantry:boundedText(saved.pantry, 1600),
+        dislikes:boundedText(saved.dislikes, 1600),
+      }
+    : migrateProfile(saved)) : null;
   const savedPantryMode = savedProfile && savedProfile.mode === 'pantry';
   if (saved) { state.profile = savedProfile; STORE.saveProfile(state.profile); state.firstTime = false; state.profileEditing = false; }
   else { state.firstTime = true; state.profileEditing = true; }
-  if (!plannerLabEnabled()) {
+  if (!RICE_MEAL_PRODUCT && !plannerLabEnabled()) {
     state.profile.mode = 'recommend';
     state.profile.intent = publicIntent(state.profile.intent);
     if (plannerDirectRecommendEnabled() && savedPantryMode) {
@@ -2171,13 +2436,17 @@ function genFailureCopy(err) {
 function generationFailureScreen(err) {
   const copy = genFailureCopy(err);
   const retryLabel = err && err.code === 'portion_too_small' ? '换一道更完整的' : '重新生成';
+  const keepsRiceChoice = RICE_MEAL_PRODUCT && state.riceSelectedCandidate;
   const keepsPlannerChoice = plannerDirectRecommendEnabled()
     && state.displayedPlan && state.displayedPlan.plan && state.planRequestSnapshot;
-  const selectedPlan = keepsPlannerChoice
+  const selectedPlan = keepsRiceChoice
+    ? '<section class="pantry-plan-card"><span class="pantry-plan-name">' + esc(state.riceSelectedCandidate.display_name) + '</span>'
+      + '<p class="pantry-plan-note">已选的菜饭还在，只是这次没能打开已锁定的详细步骤。</p></section>'
+    : keepsPlannerChoice
     ? plannerPotsHtml(state.displayedPlan)
       + '<p class="pantry-plan-note">这套组合还在，只是详细步骤这次没有生成成功。</p>'
     : '';
-  const retryAction = keepsPlannerChoice ? 'retry-generate-plan' : 'retry';
+  const retryAction = keepsRiceChoice ? 'retry-rice-generate' : keepsPlannerChoice ? 'retry-generate-plan' : 'retry';
   return '<div class="screen fallback-screen"><section class="fallback-banner">'
     + '<div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})

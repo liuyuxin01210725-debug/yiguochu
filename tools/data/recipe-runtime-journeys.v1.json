@@ -11,7 +11,7 @@
     {"id":"RR07","scenario":"named_absent","title":"新疆缺胡萝卜降级 custom","recipe_id":"xinjiang-lamb-pilaf","prefer_use":["大米","羊腿肉","洋葱"]},
     {"id":"RR08","scenario":"taiwan_base_blocked","title":"台湾基础版 matcher 命中但 HTTP named carrier 仍 fail closed","recipe_id":"taiwan-cabbage-mushroom-rice","prefer_use":["大米","高丽菜","鲜香菇"],"expected_title":"高丽菜香菇炊饭"},
     {"id":"RR09","scenario":"taiwan_variant_blocked","title":"番茄虾仁版有 bounds 但变体执行链未建立","recipe_id":"taiwan-cabbage-mushroom-rice","prefer_use":["大米","番茄","白菜","玉米","虾仁"]},
-    {"id":"RR10","scenario":"quanzhou_shape_blocked","title":"泉州泡发糯米必须保留 soaked whole-grain identity","recipe_id":"quanzhou-oil-rice","prefer_use":["泡发糯米","猪肉末","香菇"]},
+    {"id":"RR10","scenario":"quanzhou_shape_blocked","title":"泉州泡发糯米保留独立 prepared identity 且不走通用生米规则","recipe_id":"quanzhou-oil-rice","prefer_use":["泡发糯米","猪肉末","香菇"]},
     {"id":"RR11","scenario":"ground_pork_chain","title":"豆角焖面猪肉末只拨散不切片","recipe_id":"north-china-green-bean-braised-noodles","prefer_use":["鲜小麦面条","豆角","猪肉末"],"expected_title":"北方豆角焖面"},
     {"id":"RR12","scenario":"named_over_custom","title":"named 3/4 在过门后优先于 custom 4/4","recipe_id":"shanghai-salted-pork-vegetable-rice","prefer_use":["大米","咸五花肉","小白菜","香菇"]},
     {"id":"RR13","scenario":"two_of_two","title":"两项输入必须完整 2/2","prefer_use":["番茄","鸡蛋"]},

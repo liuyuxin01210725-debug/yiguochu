@@ -3,12 +3,12 @@
   "planner_version": "pantry-planner-v2",
   "template_catalog_version": "templates-v2-20260731-r18",
   "taxonomy_version": "taxonomy-v1-20260728-r10",
-  "ratio_catalog_version": "ratio-rules-v1-20260731-r9",
+  "ratio_catalog_version": "ratio-rules-v1-20260801-r11",
   "source_hashes": {
-    "tools/data/ingredient-taxonomy.v1.json": "32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c",
+    "tools/data/ingredient-taxonomy.v1.json": "9de0f8f16344c539e404a8b6de515dcff3e244fbabbcae6818962576b7aaa8da",
     "tools/data/meal-templates.v2.json": "90a5fbd63f94ff376a08ac441e2058b99058dc34347d795b6da1cdebf36f8ad1",
     "tools/data/menu-master-baseline.v1.json": "68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab",
-    "tools/data/ratio-rules.v1.json": "8ad5f6325428cca967b3d25325a9121652d7ab609aadc2a3ee4be3f0e6ac99fe",
+    "tools/data/ratio-rules.v1.json": "46ebd46fef0260af05af7ecbe34db57b91ea1ff634b5c6c495cddde6665ad9ea",
     "tools/data/recipe-library.json": "510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340",
     "tools/data/regional-menu-mappings.v1.json": "edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078"
   },
@@ -20,8 +20,8 @@
       "full_single_pot_evidence_aligned": 12,
       "full_single_pot_ingredient_compatible": 26,
       "full_multi_pot": 3,
-      "taxonomy_gap": 21,
-      "planner_gap": 6,
+      "taxonomy_gap": 20,
+      "planner_gap": 7,
       "no_recognized_core": 4,
       "invalid_source_record": 0
     },
@@ -45,8 +45,8 @@
       "region_id": "fujian_taiwan",
       "recipe_count": 6,
       "single_pot_full_count": 2,
-      "taxonomy_gap_count": 4,
-      "planner_gap_count": 1
+      "taxonomy_gap_count": 3,
+      "planner_gap_count": 2
     },
     {
       "region_id": "jiangnan",
@@ -138,8 +138,8 @@
       "technique_family_id": "glutinous-mixed-rice",
       "recipe_count": 3,
       "single_pot_full_count": 0,
-      "taxonomy_gap_count": 3,
-      "planner_gap_count": 2
+      "taxonomy_gap_count": 2,
+      "planner_gap_count": 3
     },
     {
       "technique_family_id": "grain-porridge",
@@ -385,13 +385,6 @@
       "recipe_count": 1,
       "recipe_ids": [
         "texas-beef-chili"
-      ]
-    },
-    {
-      "raw": "泡发糯米",
-      "recipe_count": 1,
-      "recipe_ids": [
-        "quanzhou-oil-rice"
       ]
     },
     {
@@ -10331,6 +10324,39 @@
       ],
       "planner_eligible_items": [
         {
+          "raw": "泡发糯米",
+          "canonical_id": "soaked-glutinous-rice",
+          "canonical": "泡发糯米",
+          "ratio_rule_policy": "category_fallback",
+          "display_name": "泡发糯米",
+          "category": "prepared_glutinous_rice",
+          "state": "prepared",
+          "shape_or_cut": "whole_grain",
+          "cook_speed": "slow",
+          "moisture_release": "low",
+          "texture_behavior": "absorbs_liquid",
+          "texture_failure_modes": [
+            "undercooked_when_liquid_is_short"
+          ],
+          "cooking_risk": "none",
+          "required_endpoint_codes": [
+            "rice_tender"
+          ],
+          "compatible_slot_codes": [
+            "staple_preparation_input"
+          ],
+          "incompatible_slot_codes": [
+            "raw_rice_required"
+          ],
+          "recognized": true,
+          "ambiguity_id": null,
+          "ambiguity_code": null,
+          "ambiguity_reason": null,
+          "eligible_items": [],
+          "role": "must_use",
+          "duplicate_of": null
+        },
+        {
           "raw": "猪肉末",
           "canonical_id": "ground-pork",
           "canonical": "猪肉",
@@ -10395,35 +10421,15 @@
         }
       ],
       "recognized_basic_items": [],
-      "unclassified_core_items": [
-        {
-          "raw": "泡发糯米",
-          "canonical_id": null,
-          "canonical": null,
-          "ratio_rule_policy": null,
-          "category": null,
-          "state": null,
-          "shape_or_cut": null,
-          "cook_speed": null,
-          "moisture_release": null,
-          "texture_behavior": null,
-          "cooking_risk": "unknown",
-          "recognized": false,
-          "ambiguity_id": null,
-          "ambiguity_code": null,
-          "ambiguity_reason": null,
-          "eligible_items": [],
-          "role": "must_use",
-          "duplicate_of": null
-        }
-      ],
-      "identity_recognition_ratio": 0.6666666666666666,
+      "unclassified_core_items": [],
+      "identity_recognition_ratio": 1,
       "recognized_only_scenario": {
         "submitted_raw_items": [
+          "泡发糯米",
           "猪肉末",
           "鲜香菇"
         ],
-        "status": "complete",
+        "status": "needs_user_decision",
         "plan_kind": "single_pot",
         "pot_count": 1,
         "candidate_template_ids": [
@@ -10503,9 +10509,50 @@
           "猪肉末",
           "鲜香菇"
         ],
-        "unplanned_items": [],
-        "unplanned_raw_items": [],
-        "reason_codes": [],
+        "unplanned_items": [
+          {
+            "raw": "泡发糯米",
+            "canonical_id": "soaked-glutinous-rice",
+            "canonical": "泡发糯米",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "泡发糯米",
+            "category": "prepared_glutinous_rice",
+            "state": "prepared",
+            "shape_or_cut": "whole_grain",
+            "cook_speed": "slow",
+            "moisture_release": "low",
+            "texture_behavior": "absorbs_liquid",
+            "texture_failure_modes": [
+              "undercooked_when_liquid_is_short"
+            ],
+            "cooking_risk": "none",
+            "required_endpoint_codes": [
+              "rice_tender"
+            ],
+            "compatible_slot_codes": [
+              "staple_preparation_input"
+            ],
+            "incompatible_slot_codes": [
+              "raw_rice_required"
+            ],
+            "recognized": true,
+            "ambiguity_id": null,
+            "ambiguity_code": null,
+            "ambiguity_reason": null,
+            "eligible_items": [],
+            "role": "must_use",
+            "duplicate_of": null,
+            "reason_code": "no_compatible_slot",
+            "reason": "这项食材与当前单锅结构不够匹配。"
+          }
+        ],
+        "unplanned_raw_items": [
+          "泡发糯米"
+        ],
+        "reason_codes": [
+          "incomplete_coverage",
+          "no_compatible_slot"
+        ],
         "ratio_plans": [
           {
             "template_id": "savory-mixed-rice-pot",
@@ -10608,7 +10655,7 @@
             ]
           }
         ],
-        "recognized_planner_coverage_ratio": 1
+        "recognized_planner_coverage_ratio": 0.6666666666666666
       },
       "raw_core_scenario": {
         "submitted_raw_items": [
@@ -10699,25 +10746,38 @@
         "unplanned_items": [
           {
             "raw": "泡发糯米",
-            "canonical_id": null,
-            "canonical": null,
-            "ratio_rule_policy": null,
-            "category": null,
-            "state": null,
-            "shape_or_cut": null,
-            "cook_speed": null,
-            "moisture_release": null,
-            "texture_behavior": null,
-            "cooking_risk": "unknown",
-            "recognized": false,
+            "canonical_id": "soaked-glutinous-rice",
+            "canonical": "泡发糯米",
+            "ratio_rule_policy": "category_fallback",
+            "display_name": "泡发糯米",
+            "category": "prepared_glutinous_rice",
+            "state": "prepared",
+            "shape_or_cut": "whole_grain",
+            "cook_speed": "slow",
+            "moisture_release": "low",
+            "texture_behavior": "absorbs_liquid",
+            "texture_failure_modes": [
+              "undercooked_when_liquid_is_short"
+            ],
+            "cooking_risk": "none",
+            "required_endpoint_codes": [
+              "rice_tender"
+            ],
+            "compatible_slot_codes": [
+              "staple_preparation_input"
+            ],
+            "incompatible_slot_codes": [
+              "raw_rice_required"
+            ],
+            "recognized": true,
             "ambiguity_id": null,
             "ambiguity_code": null,
             "ambiguity_reason": null,
             "eligible_items": [],
             "role": "must_use",
             "duplicate_of": null,
-            "reason_code": "unrecognized_ingredient",
-            "reason": "暂时无法识别这种食材，因此不能承诺已经安排。"
+            "reason_code": "no_compatible_slot",
+            "reason": "这项食材与当前单锅结构不够匹配。"
           }
         ],
         "unplanned_raw_items": [
@@ -10725,7 +10785,7 @@
         ],
         "reason_codes": [
           "incomplete_coverage",
-          "unrecognized_ingredient"
+          "no_compatible_slot"
         ],
         "ratio_plans": [
           {
@@ -10839,9 +10899,9 @@
         ]
       },
       "gap_codes": [
-        "taxonomy_gap"
+        "planner_gap"
       ],
-      "audit_status": "taxonomy_gap",
+      "audit_status": "planner_gap",
       "priority_band": "P1"
     },
     {

@@ -343,12 +343,22 @@ test('Fujian Taiwan M1 identities preserve names cuts and controlled aliases', (
   assert.deepEqual(rows[5].required_endpoint_codes, ['pork_fully_cooked']);
 });
 
-test('Fujian Taiwan M1 retains ambiguous beans glutinous rice leaf and color gaps', () => {
+test('evidenced soaked glutinous rice is a prepared identity outside generic raw-rice slots', () => {
   const rows = normalizePlannerItems(
     ['扁豆', '糯米', '泡发糯米', '食品级干荷叶', '食品级黑米色粉'],
     catalog,
   );
-  assert.ok(rows.every(row => row.recognized === false));
+  for (const row of [rows[0], rows[1], rows[3], rows[4]]) assert.equal(row.recognized, false);
+  assert.deepEqual(
+    [rows[2].canonical_id, rows[2].canonical, rows[2].category, rows[2].state, rows[2].shape_or_cut, rows[2].recognized],
+    ['soaked-glutinous-rice', '泡发糯米', 'prepared_glutinous_rice', 'prepared', 'whole_grain', true],
+  );
+  assert.deepEqual(rows[2].compatible_slot_codes, ['staple_preparation_input']);
+  assert.equal(rows[2].compatible_slot_codes.includes('raw_rice'), false);
+  const [rawRice] = normalizePlannerItems(['大米'], catalog);
+  assert.notEqual(rows[2].canonical_id, rawRice.canonical_id);
+  assert.notEqual(rows[2].category, rawRice.category);
+  assert.notEqual(rows[2].state, rawRice.state);
 });
 
 test('Lingnan M1 preserves choy sum and skinless chicken leg identity boundaries', () => {

@@ -21,6 +21,7 @@ const SOURCE_ASSETS = Object.freeze({
     buildId: 'preview-test-build',
     plannerRollout: 'direct-recommend',
     generationMode: 'deterministic',
+    productFocus: 'legacy',
   }),
 });
 
@@ -293,7 +294,7 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.plannerVersion, 'pantry-planner-v2');
   assert.equal(result.body.templateCatalogVersion, 'templates-v2-20260731-r18');
   assert.equal(result.body.ingredientTaxonomyVersion, 'taxonomy-v1-20260728-r10');
-  assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260731-r9');
+  assert.equal(result.body.ratioRulesVersion, 'ratio-rules-v1-20260801-r11');
   assert.equal(result.body.activeTemplates, 11);
   assert.equal(result.body.plannedTemplates, 5);
   assert.equal(result.body.recipeRuntime, 'ok');
@@ -307,6 +308,7 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.buildId, 'preview-test-build');
   assert.equal(result.body.plannerRollout, 'direct-recommend');
   assert.equal(result.body.generationMode, 'deterministic');
+  assert.equal(result.body.productFocus, 'legacy');
 });
 
 test('missing or invalid recipe runtime assets make health unavailable and planning fail closed', async t => {
@@ -356,18 +358,21 @@ test('health reports unavailable planner assets without claiming validated versi
   assert.equal(result.body.plannedTemplates, 0);
 });
 
-test('health fails build metadata closed when the asset is missing or invalid', async () => {
-  for (const buildMeta of [
-    new Response('missing', { status:404 }),
-    JSON.stringify({ buildId:'preview-test-build', plannerRollout:'everyone' }),
-    JSON.stringify({ buildId:'preview-test-build', plannerRollout:'direct-recommend', generationMode:'hybrid' }),
-    '{bad json',
+test('health distinguishes source legacy defaults from invalid build metadata', async () => {
+  for (const [buildMeta, expectedFocus, expectedMetadata] of [
+    [new Response('missing', { status:404 }), 'legacy', 'ok'],
+    [JSON.stringify({ buildId:'preview-test-build', plannerRollout:'everyone', generationMode:'deterministic', productFocus:'legacy' }), null, 'unavailable'],
+    [JSON.stringify({ buildId:'preview-test-build', plannerRollout:'direct-recommend', generationMode:'hybrid', productFocus:'legacy' }), null, 'unavailable'],
+    [JSON.stringify({ buildId:'preview-test-build', plannerRollout:'direct-recommend', generationMode:'deterministic', productFocus:'wrong' }), null, 'unavailable'],
+    ['{bad json', null, 'unavailable'],
   ]) {
     const result = await getHealth(assetBinding({ '/build-meta.json':buildMeta }));
     assert.equal(result.response.status, 200);
     assert.equal(result.body.buildId, null);
     assert.equal(result.body.plannerRollout, 'off');
     assert.equal(result.body.generationMode, 'llm');
+    assert.equal(result.body.productFocus, expectedFocus);
+    assert.equal(result.body.buildMetadata, expectedMetadata);
     assert.equal(result.body.plannerAssets, 'ok');
   }
 });
@@ -494,6 +499,7 @@ test('synthetic generation accepts exact displayed non-preferred membership and 
       buildId: 'preview-test-build',
       plannerRollout: 'direct-recommend',
       generationMode: 'llm',
+      productFocus: 'legacy',
     }),
   };
   const assets = assetBinding(overrides);
@@ -809,21 +815,21 @@ test('unsupported input returns no_valid_plan rather than a generic worker failu
   assertZeroGenerationWork(result);
 });
 
-test('planner request parsing rejects malformed, oversized, empty, non-object and invalid contracts before assets or budget', async t => {
+test('planner request parsing rejects malformed, oversized, empty, non-object and invalid contracts before planner assets or budget', async t => {
   const cases = [
-    ['malformed JSON', '{not-json', 'invalid_json'],
-    ['oversized body', JSON.stringify({ padding: 'x'.repeat(33 * 1024) }), 'request_too_large'],
-    ['empty body', '', 'invalid_planner_request'],
-    ['array JSON', '[]', 'invalid_planner_request'],
-    ['invalid V2 contract', JSON.stringify(plannerBody({ intent: 'eventually' })), 'invalid_planner_request'],
+    ['malformed JSON', '{not-json', 'invalid_json', false],
+    ['oversized body', JSON.stringify({ padding: 'x'.repeat(33 * 1024) }), 'request_too_large', false],
+    ['empty body', '', 'invalid_planner_request', true],
+    ['array JSON', '[]', 'invalid_planner_request', true],
+    ['invalid V2 contract', JSON.stringify(plannerBody({ intent: 'eventually' })), 'invalid_planner_request', true],
   ];
-  for (const [name, rawBody, code] of cases) {
+  for (const [name, rawBody, code, checksMetadata] of cases) {
     await t.test(name, async () => {
       const assets = assetBinding();
       const result = await postPlan(null, { assets, rawBody });
       assert.equal(result.response.status, 400);
       assert.equal(result.body.code, code);
-      assert.equal(assets.calls.length, 0);
+      assert.deepEqual(assets.calls, checksMetadata ? ['/build-meta.json'] : []);
       assertZeroGenerationWork(result);
     });
   }
@@ -934,7 +940,7 @@ test('deployment documentation tracks the current draft planner asset baseline',
   const deployment = fs.readFileSync(new URL('../../部署说明.md', import.meta.url), 'utf8');
   assert.match(deployment, /templates-v2-20260731-r18/);
   assert.match(deployment, /taxonomy-v1-20260728-r10/);
-  assert.match(deployment, /ratio-rules-v1-20260731-r9/);
+  assert.match(deployment, /ratio-rules-v1-20260801-r11/);
   assert.match(deployment, /11 个 active templates，5 个 planned templates/);
   assert.match(deployment, /138\/138/);
   assert.match(deployment, /未部署|不得部署/);

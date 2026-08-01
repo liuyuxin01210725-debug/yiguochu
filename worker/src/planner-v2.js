@@ -422,7 +422,7 @@ function matchRatioSkipWhen(skipWhen, slots) {
   return { matched:matchedItems.length > 0, matchedItems };
 }
 
-// Ratio compilation is deliberately a pure interpreter for the five fixed DSL
+// Ratio compilation is deliberately a pure interpreter for the fixed DSL
 // operators. It never reads recipe prose, evaluates expressions, or calls a model.
 export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
   try {
@@ -471,12 +471,12 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     let liquidCredit = 0;
     let retainedLiquid = null;
     const addAmount = (name, grams, extra = null) => {
-      const rounded = normalizeRatioGrams(grams, nearest);
-      if (!finiteNonNegativeNumber(rounded) || (grams > 0 && rounded === 0) || rounded > 5000 || !name) return false;
-      amounts.set(name, (amounts.get(name) || 0) + rounded);
+      const next = (amounts.get(name) || 0) + grams;
+      if (!finiteNonNegativeNumber(grams) || !finiteNonNegativeNumber(next) || next > 5000 || !name) return false;
+      amounts.set(name, next);
       if (extra) {
         const existing = extras.get(name);
-        extras.set(name, { name, category: extra.category, grams: (existing?.grams || 0) + rounded });
+        extras.set(name, { name, category: extra.category, grams: (existing?.grams || 0) + grams });
       }
       return true;
     };
@@ -484,6 +484,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       ? context.attributes
       : {};
     const allSlotItems = [...slots.values()].flat();
+    const groupLockedItemNames = new Set();
     const recipeItemsFor = target => allSlotItems.filter(item => {
       if (target?.canonical_id && item.canonical_id !== target.canonical_id) return false;
       if (target?.recipe_ingredient_name && item.name !== target.recipe_ingredient_name) return false;
@@ -527,6 +528,48 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
         trace.push(recipeScoped
           ? { operator, canonical_id:operation.target.canonical_id || null, recipe_ingredient_name:operation.target.recipe_ingredient_name || null, grams_per_serving: grams }
           : { operator, slot_id: operation.target.slot_id, grams_per_serving: grams });
+        continue;
+      }
+      if (operator === 'allocate_group_total_per_serving') {
+        if (!recipeScoped || operation.allocation_policy !== 'equal_split_ordered_residual'
+            || !Array.isArray(operation.member_targets) || operation.member_targets.length < 2) {
+          return ratioFailure('ratio_rule_invalid', '组合食材总量分配规则无效。');
+        }
+        const members = operation.member_targets.map(target => recipeItemsFor(target));
+        if (members.some(items => items.length !== 1)) {
+          return ratioFailure('ratio_context_identity_mismatch', '组合食材身份与总量分配规则不匹配。');
+        }
+        const gramsPerServing = defaultBound(operation.grams);
+        if (!Number.isFinite(gramsPerServing) || gramsPerServing <= 0) {
+          return ratioFailure('ratio_rule_invalid', '组合食材总量必须是正数。');
+        }
+        const lockedGroupTotal = normalizeRatioGrams(gramsPerServing * context.servings, nearest);
+        const totalUnits = lockedGroupTotal / nearest;
+        if (!Number.isSafeInteger(totalUnits) || totalUnits < members.length) {
+          return ratioFailure('ratio_rule_invalid', '组合食材总量无法按取整单位安全分配。');
+        }
+        const baseUnits = Math.floor(totalUnits / members.length);
+        const residualUnits = totalUnits % members.length;
+        const allocated = [];
+        for (const [index, items] of members.entries()) {
+          const grams = (baseUnits + (index < residualUnits ? 1 : 0)) * nearest;
+          if (!addAmount(items[0].name, grams)) {
+            return ratioFailure('ratio_rule_invalid', '组合食材总量分配结果无效。');
+          }
+          groupLockedItemNames.add(items[0].name);
+          allocated.push({
+            canonical_id: operation.member_targets[index].canonical_id,
+            grams,
+          });
+        }
+        trace.push({
+          operator,
+          member_canonical_ids: operation.member_targets.map(target => target.canonical_id),
+          group_total_grams: lockedGroupTotal,
+          allocation_policy: operation.allocation_policy,
+          amount_provenance: 'planner_allocation_not_source_individual_amounts',
+          allocated,
+        });
         continue;
       }
       if (operator === 'bounded_sum') {
@@ -611,7 +654,17 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
     for (const item of allSlotItems) {
       if (!amounts.has(item.name) || amounts.get(item.name) <= 0) return ratioFailure('ratio_rule_invalid', '已确定食材缺少可执行克数。');
     }
-    const ingredient_amounts = [...amounts.entries()].map(([name, grams]) => ({ name, grams })).sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
+    const lockedAmounts = new Map();
+    for (const [name, grams] of amounts) {
+      const locked = groupLockedItemNames.has(name) ? grams : normalizeRatioGrams(grams, nearest);
+      if (!Number.isSafeInteger(locked) || locked <= 0 || locked > 5000) {
+        return ratioFailure('ratio_rule_invalid', '份量在最终取整后无效。');
+      }
+      lockedAmounts.set(name, locked);
+    }
+    const ingredient_amounts = [...lockedAmounts.entries()]
+      .map(([name, grams]) => ({ name, grams }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
     const identityKeysByName = new Map();
     const identity_amounts = [];
     for (const item of allSlotItems) {
@@ -619,7 +672,7 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       const key = `${item.canonical_id}\u0000${item.state || ''}\u0000${item.shape_or_cut || ''}`;
       if (!identityKeysByName.has(item.name)) identityKeysByName.set(item.name, new Set());
       identityKeysByName.get(item.name).add(key);
-      const grams = amounts.get(item.name);
+      const grams = lockedAmounts.get(item.name);
       if (!Number.isSafeInteger(grams) || grams <= 0) return ratioFailure('ratio_rule_invalid', '食材身份缺少可执行克数。');
       if (!identity_amounts.some(row => row.canonical_id === item.canonical_id
           && row.state === item.state && row.shape_or_cut === item.shape_or_cut)) {
@@ -636,7 +689,10 @@ export function compileRatioPlan(ruleId, context = {}, ratioCatalog = {}) {
       return ratioFailure('ratio_context_identity_ambiguous', '同名食材对应多个身份，无法安全绑定份量。');
     }
     identity_amounts.sort((left, right) => left.canonical_id.localeCompare(right.canonical_id));
-    const required_extra_items = [...extras.values()].sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
+    const required_extra_items = [...extras.values()]
+      .map(item => ({ ...item, grams: lockedAmounts.get(item.name) }))
+      .filter(item => Number.isSafeInteger(item.grams) && item.grams > 0)
+      .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
     const retainedLiquidGrams = required_extra_items
       .filter(item => item.category === 'liquid')
       .reduce((sum, item) => sum + item.grams, 0);

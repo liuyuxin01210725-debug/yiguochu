@@ -2,10 +2,13 @@ import { BASIC_EXTRA_CATEGORIES, resolveBasicExtraIdentity } from './taxonomy-id
 
 const ACTIVE = new Set(['acid-staple-pot','savory-mixed-rice-pot','cooked-rice-stir-pot','broth-noodle-pot','egg-tofu-vegetable-pot','mushroom-vegetable-stew-pot','beef-staple-pot','poultry-staple-pot','braised-noodle-pot','broth-rice-pot','soft-family-rice-pot']);
 const OPS = new Set(['per_serving','per_serving_by_category','ratio','bounded_sum','fixed_addition','scale_by_servings']);
+const GROUP_ALLOCATION_OPERATOR = 'allocate_group_total_per_serving';
+const GROUP_ALLOCATION_POLICY = 'equal_split_ordered_residual';
 const PREPARED = new WeakMap();
 const RULE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*-v\d+$/;
 const MOISTURE = new Set(['low','medium','high']);
 const LIQUID_ACTIONS = new Set(['add_reserved_liquid_if_needed']);
+const LIQUID_CONTRACT_KINDS = new Set(['added_water','total_free_liquid','cooker_water_line']);
 const SKIP_GUARDS = new Map([
   ['texture_behavior', { match:'equals', values:new Set(['renders_fat_when_heated']) }],
   ['texture_failure_modes', { match:'contains', values:new Set(['salty_when_overseasoned']) }],
@@ -48,6 +51,49 @@ const validateLiquidDistribution = (value, label, errors) => {
   }
   if (!LIQUID_ACTIONS.has(value.reserve_action_code)) {
     errors.push(`${label}.reserve_action_code is invalid`);
+  }
+};
+const validateLiquidContract = (value, label, taxonomyById, errors) => {
+  if (value == null) return;
+  if (!exactObject(value,
+    new Set(['kind','measured_contributor_ids','measurement','display_precision','display_rounding_grams','cup_source','line_code']),
+    label, errors)) return;
+  if (!LIQUID_CONTRACT_KINDS.has(value.kind)) errors.push(`${label}.kind is invalid`);
+  if (!['weigh_before_loading','cooker_mark'].includes(value.measurement)) {
+    errors.push(`${label}.measurement is invalid`);
+  }
+  if (!['exact','approximate','appliance_mark'].includes(value.display_precision)) {
+    errors.push(`${label}.display_precision is invalid`);
+  }
+  if (value.kind === 'added_water') {
+    if (value.measurement !== 'weigh_before_loading' || value.display_precision === 'appliance_mark') {
+      errors.push(`${label} added_water must use a weighed amount`);
+    }
+    if (value.measured_contributor_ids != null) {
+      errors.push(`${label} added_water must not declare measured contributors`);
+    }
+  }
+  if (value.kind === 'total_free_liquid') {
+    if (!Array.isArray(value.measured_contributor_ids) || value.measured_contributor_ids.length === 0
+        || new Set(value.measured_contributor_ids).size !== value.measured_contributor_ids.length
+        || value.measured_contributor_ids.some(id => taxonomyById.get(id)?.category !== 'liquid')) {
+      errors.push(`${label} total_free_liquid requires unique known measured contributors`);
+    }
+    if (value.measurement !== 'weigh_before_loading' || value.display_precision !== 'approximate') {
+      errors.push(`${label} total_free_liquid must be weighed and displayed as approximate`);
+    }
+  }
+  if (value.kind === 'cooker_water_line') {
+    if (value.measurement !== 'cooker_mark' || value.display_precision !== 'appliance_mark'
+        || !text(value.cup_source) || !text(value.line_code)) {
+      errors.push(`${label} cooker_water_line requires cup_source and line_code`);
+    }
+  } else if (value.cup_source != null || value.line_code != null) {
+    errors.push(`${label} cup_source and line_code are only valid for cooker_water_line`);
+  }
+  if (value.kind !== 'cooker_water_line'
+      && (!Number.isSafeInteger(value.display_rounding_grams) || value.display_rounding_grams <= 0)) {
+    errors.push(`${label}.display_rounding_grams must be a positive integer`);
   }
 };
 
@@ -219,7 +265,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     if (!object(catalog)) return ['ratio DSL catalog must be an object'];
     allowed(catalog, new Set(['ratio_dsl_version','ratio_catalog_version','rules']), 'ratio DSL catalog', errors);
     if (catalog.ratio_dsl_version !== 1) errors.push('ratio_dsl_version must be 1');
-    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260731-r9') errors.push('ratio_catalog_version must be ratio-rules-v1-20260731-r9');
+    if (catalog.ratio_catalog_version !== 'ratio-rules-v1-20260801-r11') errors.push('ratio_catalog_version must be ratio-rules-v1-20260801-r11');
     if (!Array.isArray(catalog.rules)) return [...errors, 'rules must be an array'];
     const templateById = new Map((templates?.templates || []).filter(t => text(t?.template_id)).map(t => [t.template_id, t]));
     const recipeIds = new Set((recipes?.recipes || []).map(r => r?.id).filter(text));
@@ -231,7 +277,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
     for (const [index, rule] of catalog.rules.entries()) {
       const label = `rules[${index}]`;
       if (!object(rule)) { errors.push(`${label} must be an object`); continue; }
-      allowed(rule, new Set(['rule_id','evidence_recipe_ids','evidence_bindings','execution_mode','when','operations','liquid_distribution','rounding','example_context']), label, errors);
+      allowed(rule, new Set(['rule_id','evidence_recipe_ids','evidence_bindings','execution_mode','when','operations','liquid_distribution','liquid_contract','rounding','example_context']), label, errors);
       if (!text(rule.rule_id) || !RULE_ID.test(rule.rule_id)) errors.push(`${label}.rule_id is invalid`);
       if (ids.has(rule.rule_id)) errors.push(`duplicate rule_id: ${rule.rule_id}`); ids.add(rule.rule_id);
       const hasTemplateScope = text(rule.when?.template_id);
@@ -255,6 +301,7 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
             validateLiquidDistribution(rule.liquid_distribution, `${label}.liquid_distribution`, errors);
           }
         }
+        validateLiquidContract(rule.liquid_contract, `${label}.liquid_contract`, taxonomyById, errors);
         const coreResolution = exactRecipeCoreIdentityResolution(recipe, taxonomyById);
         const coreCanonicalIds = coreResolution.canonicalIds;
         if (rule.execution_mode === 'executable' && coreResolution.unresolvedOrAmbiguous.length) {
@@ -268,16 +315,17 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
         } else {
           const quantityCounts = new Map();
           let lastStage = 0;
-          const stage = operation => ['reference_quantity','per_serving'].includes(operation?.operator) ? 0
+          const stage = operation => ['reference_quantity','per_serving',GROUP_ALLOCATION_OPERATOR].includes(operation?.operator) ? 0
             : operation?.operator === 'ratio' || operation?.target?.category === 'liquid' ? 2 : 3;
           for (const [opIndex, op] of rule.operations.entries()) {
             const opLabel = `${label}.operations[${opIndex}]`;
             if (!object(op)) { errors.push(`${opLabel} must be an object`); continue; }
-            if (!['reference_quantity','per_serving','ratio','fixed_addition','scale_by_servings'].includes(op.operator)) {
+            if (!['reference_quantity','per_serving',GROUP_ALLOCATION_OPERATOR,'ratio','fixed_addition','scale_by_servings'].includes(op.operator)) {
               errors.push(`${opLabel} has unknown operator`);
               continue;
             }
             allowed(op, new Set(['reference_quantity','per_serving'].includes(op.operator) ? ['operator','target','grams']
+              : op.operator === GROUP_ALLOCATION_OPERATOR ? ['operator','member_targets','grams','allocation_policy']
               : op.operator === 'ratio' ? ['operator','target','numerator','denominator','min','default','max']
                 : ['operator','target','grams']), opLabel, errors);
             const currentStage = stage(op);
@@ -296,6 +344,39 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes) {
                 rule.execution_mode, errors);
               bounds(op.grams, `${opLabel}.grams`, errors, requiresDefault);
               if (key) quantityCounts.set(key, (quantityCounts.get(key) || 0) + 1);
+            }
+            if (op.operator === GROUP_ALLOCATION_OPERATOR) {
+              if (rule.execution_mode !== 'executable') {
+                errors.push(`${opLabel}.${GROUP_ALLOCATION_OPERATOR} is only valid for executable recipe rules`);
+              }
+              if (!Array.isArray(op.member_targets) || op.member_targets.length < 2) {
+                errors.push(`${opLabel}.member_targets must contain at least two unique recipe ingredients`);
+              } else {
+                const memberKeys = op.member_targets.map((target, memberIndex) => validateRecipeIngredientTarget(
+                  target,
+                  `${opLabel}.member_targets[${memberIndex}]`,
+                  taxonomyById,
+                  allowedCanonicalIds,
+                  evidenceBindings.canonicalById,
+                  evidenceBindings.unresolvedByName,
+                  rule.execution_mode,
+                  errors,
+                ));
+                if (memberKeys.some(key => key == null) || new Set(memberKeys).size !== memberKeys.length) {
+                  errors.push(`${opLabel}.member_targets must contain unique valid recipe ingredients`);
+                }
+                for (const key of memberKeys.filter(Boolean)) {
+                  quantityCounts.set(key, (quantityCounts.get(key) || 0) + 1);
+                }
+              }
+              bounds(op.grams, `${opLabel}.grams`, errors, true);
+              if (!number(op.grams?.default) || op.grams.default <= 0
+                  || op.grams.min !== op.grams.default || op.grams.max !== op.grams.default) {
+                errors.push(`${opLabel}.grams must be a positive exact group total`);
+              }
+              if (op.allocation_policy !== GROUP_ALLOCATION_POLICY) {
+                errors.push(`${opLabel}.allocation_policy must be ${GROUP_ALLOCATION_POLICY}`);
+              }
             }
             if (op.operator === 'ratio') {
               bounds({ min:op.min, default:op.default, max:op.max }, opLabel, errors, requiresDefault);

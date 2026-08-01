@@ -52,6 +52,7 @@ const CHECKER_DATA_FILES = [
   'ingredient-taxonomy.v1.json',
   'meal-templates.v2.json',
   'ratio-rules.v1.json',
+  'rice-meal-catalog.v1.json',
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
   'regional-menu-research.v1.json',
@@ -60,10 +61,16 @@ const CHECKER_DATA_FILES = [
   'regional-atlas.v2.json',
   'regional-menu-mappings.v1.json',
   'northeast-stew-research.v1.json',
+  'northeast-stew-numeric-evidence.v1.json',
+  'northeast-stew-safety-evidence.v1.json',
   'jiangnan-rice-research.v1.json',
   'shandong-one-pot-research.v1.json',
   'central-plains-noodle-research.v1.json',
   'middle-yangtze-main-meal-research.v1.json',
+  'fujian-taiwan-rice-noodle-research.v1.json',
+  'jingjinji-jinmeng-one-pot-research.v1.json',
+  'sichuan-chongqing-rice-research.v1.json',
+  'yunnan-guizhou-rice-research.v1.json',
 ];
 
 function runCheckerWithAssetMutation(mutate) {

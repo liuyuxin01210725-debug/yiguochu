@@ -3214,25 +3214,83 @@ def _planner_generation_mode():
     return value if value in ('deterministic', 'llm') else 'llm'
 
 
+def _planner_product_focus():
+    raw = os.environ.get('YIGUOCHU_PRODUCT_FOCUS')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_PRODUCT_FOCUS')
+    value = str(raw or '').strip()
+    # Missing local configuration is intentionally the existing V2 path. An
+    # explicit invalid value is forwarded to the Worker, which fails metadata
+    # closed instead of guessing a product route here.
+    return value or 'legacy'
+
+
+def _is_loopback_host(value):
+    host = str(value or '').strip().lower()
+    return host in ('localhost', '127.0.0.1', '::1', '[::1]')
+
+
+def _planner_hosted_mode():
+    raw = os.environ.get('YIGUOCHU_HOSTED_MODE')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_HOSTED_MODE')
+    return str(raw or '').strip().lower() in ('1', 'true', 'yes', 'on')
+
+
+def _planner_explicit_loopback_dev():
+    return (
+        _planner_product_focus() == 'rice-meal-v1'
+        and _is_loopback_host(HOST)
+        and not _planner_hosted_mode()
+    )
+
+
+def _planner_rice_meal_plan_secret():
+    raw = os.environ.get('RICE_MEAL_PLAN_SECRET')
+    if raw is None:
+        raw = _env.get('RICE_MEAL_PLAN_SECRET')
+    configured = str(raw or '').strip()
+    if configured:
+        return configured
+    if _planner_explicit_loopback_dev():
+        return 'local-rice-meal-development-secret'
+    return ''
+
+
 def _planner_bridge_env():
     """Only pass settings the reviewed Worker V2 entrypoint is allowed to consume."""
     env = {
         'LANG': 'C.UTF-8',
         'LC_ALL': 'C.UTF-8',
     }
-    values = {
-        'DEEPSEEK_API_KEY': _planner_deepseek_api_key(),
-        'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
-        'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL,
-        'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
-        'YIGUOCHU_GENERATION_MODE': _planner_generation_mode(),
-    }
+    product_focus = _planner_product_focus()
+    values = {'YIGUOCHU_PRODUCT_FOCUS': product_focus}
+    if product_focus == 'rice-meal-v1':
+        # Rice Meal is a deterministic signed-token path.  It must never
+        # inherit model credentials or budgets, and its development fallback
+        # secret is available only to an explicitly loopback local bridge.
+        secret = _planner_rice_meal_plan_secret()
+        if secret:
+            values['RICE_MEAL_PLAN_SECRET'] = secret
+        values['HOST'] = HOST
+        if _planner_explicit_loopback_dev():
+            values['YIGUOCHU_LOCAL_DEV'] = '1'
+        if _planner_hosted_mode():
+            values['YIGUOCHU_HOSTED_MODE'] = '1'
+    else:
+        values.update({
+            'DEEPSEEK_API_KEY': _planner_deepseek_api_key(),
+            'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
+            'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL,
+            'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
+            'YIGUOCHU_GENERATION_MODE': _planner_generation_mode(),
+        })
     env.update({name: str(value) for name, value in values.items() if value})
     return env
 
 
 def invoke_planner_bridge(endpoint, body):
-    if endpoint not in ('/plan-meal', '/generate-plan') or not isinstance(body, dict):
+    if endpoint not in ('/health', '/plan-meal', '/generate-plan') or not isinstance(body, dict):
         raise PlannerBridgeError()
     if not PLANNER_NODE or not PLANNER_BRIDGE_FILE.is_file():
         raise PlannerBridgeError()
@@ -3295,7 +3353,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        # 简单健康检查
+        # Keep the HTTP server's liveness probe independent from the optional
+        # Node planner bridge.  In particular, callers must be able to start
+        # this proxy and receive a bounded planner_unavailable response when
+        # Node is absent; the bridge itself exposes the detailed planner
+        # health payload when it is available.
         if self.path in ('/', '/health'):
             self.send_response(200)
             self._send_cors_headers()
@@ -3426,6 +3488,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
         submitted, failure = self._read_v2_object('invalid_generate_plan_request')
         if failure:
             self._send_json(*failure)
+            return
+        if _planner_product_focus() == 'rice-meal-v1':
+            # Rice Meal owns a signed-token, deterministic compiler contract.
+            # Keep this proxy as a transport mirror: the reviewed Worker checks
+            # the envelope and recomputes it, while this branch never touches
+            # the local DeepSeek key or persistent rate accounting.
+            try:
+                self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
+            except PlannerBridgeError as error:
+                self._send_json(*_bridge_error_payload(error))
             return
         expected_keys = {
             'schema_version', 'planner_version', 'template_catalog_version', 'plan_id', 'plan_request',

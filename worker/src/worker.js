@@ -17,6 +17,13 @@ import { validateRecipeActionProfileCatalog } from './recipe-action-profile-vali
 import { matchNamedRecipeCandidates } from './recipe-runtime-matcher.js';
 import { materializeNamedPlanFacts } from './recipe-runtime-compiler.js';
 import { matchAllergy } from './allergen-semantics.js';
+import { selectRiceMealCandidates } from './rice-meal-selector.js';
+import { assertRiceMealCatalog } from './rice-meal-catalog-validator.js';
+import {
+  buildRiceMealPlanToken,
+  compileRiceMeal,
+  verifyAndRecomputeRiceMealPlan,
+} from './rice-meal-compiler.js';
 import {
   buildDeterministicGeneratedPlan,
   buildGeneratedPlanResponse,
@@ -37,6 +44,7 @@ const BUILD_METADATA_DEFAULTS = Object.freeze({
   buildId: null,
   plannerRollout: 'off',
   generationMode: 'llm',
+  productFocus: 'legacy',
 });
 // The canonical build replaces these sentinels with JSON strings. Source tests
 // intentionally leave them unresolved so ASSETS remains the authority there.
@@ -47,6 +55,7 @@ const COMPILED_PLANNER_ASSETS_JSON = '__YIGUOCHU_COMPILED_PLANNER_ASSETS_JSON__'
 const RECIPE_CACHE = new WeakMap();
 const RECIPE_FALLBACK_CACHE = new Map();
 const PLANNER_ASSET_CACHE = new WeakMap();
+const RICE_MEAL_ASSET_CACHE = new WeakMap();
 let COMPILED_PLANNER_ASSET_CACHE;
 let COMPILED_BUILD_METADATA_CACHE;
 const INITIAL_RECOMMEND_BUNDLE_CACHE = new WeakMap();
@@ -1660,10 +1669,23 @@ const PLANNER_ASSET_PATHS = Object.freeze({
   recipeRuntime: '/recipe-runtime.v1.json',
   actionProfiles: '/recipe-action-profiles.v1.json',
 });
+const RICE_MEAL_CATALOG_ASSET_PATH = '/rice-meal-catalog.v1.json';
 
 function plannerAssetError() {
   const error = new Error('planner_assets_unavailable');
   error.code = 'planner_assets_unavailable';
+  return error;
+}
+
+function riceMealAssetError() {
+  const error = new Error('rice_meal_assets_unavailable');
+  error.code = 'rice_meal_assets_unavailable';
+  return error;
+}
+
+function buildMetadataError() {
+  const error = new Error('build_metadata_unavailable');
+  error.code = 'build_metadata_unavailable';
   return error;
 }
 
@@ -1713,6 +1735,7 @@ function validateAndPreparePlannerAssets(source) {
     recipes,
     recipeRuntime,
     actionProfiles,
+    riceMealCatalog: source?.riceMealCatalog,
   });
 }
 
@@ -2005,42 +2028,96 @@ async function getPlannerAssets(env, request) {
   return source;
 }
 
+async function getRiceMealAssets(env, request) {
+  const assetBinding = env?.ASSETS;
+  const cacheableBinding = assetBinding
+    && (typeof assetBinding === 'object' || typeof assetBinding === 'function');
+  if (cacheableBinding && RICE_MEAL_ASSET_CACHE.has(assetBinding)) {
+    return RICE_MEAL_ASSET_CACHE.get(assetBinding);
+  }
+  let plannerAssets;
+  try {
+    plannerAssets = await getPlannerAssets(env, request);
+  } catch (_error) {
+    throw riceMealAssetError();
+  }
+  let catalog = plannerAssets.riceMealCatalog;
+  if (!catalog) {
+    try {
+      if (!assetBinding || typeof assetBinding.fetch !== 'function') throw riceMealAssetError();
+      catalog = await readPlannerJsonAsset(assetBinding, request, RICE_MEAL_CATALOG_ASSET_PATH);
+    } catch (_error) {
+      throw riceMealAssetError();
+    }
+  }
+  try {
+    assertRiceMealCatalog(catalog, {
+      recipeLibrary: plannerAssets.recipes,
+      taxonomy: plannerAssets.taxonomy,
+      ratioCatalog: plannerAssets.ratios,
+    });
+  } catch (_error) {
+    throw riceMealAssetError();
+  }
+  const prepared = deepFreeze({
+    catalog,
+    taxonomy: plannerAssets.taxonomy,
+    ratios: plannerAssets.ratios,
+    recipes: plannerAssets.recipes,
+  });
+  if (cacheableBinding) RICE_MEAL_ASSET_CACHE.set(assetBinding, prepared);
+  return prepared;
+}
+
+function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {}) {
+  const productFocus = meta?.productFocus === undefined && allowSourceLegacyDefault
+    ? 'legacy'
+    : meta?.productFocus;
+  if (!meta || typeof meta !== 'object' || Array.isArray(meta)
+      || typeof meta.buildId !== 'string' || !/^[0-9A-Za-z_-]+$/.test(meta.buildId)
+      || !['off', 'direct-recommend'].includes(meta.plannerRollout)
+      || !['deterministic', 'llm'].includes(meta.generationMode)
+      || !['legacy', 'rice-meal-v1'].includes(productFocus)) return null;
+  return {
+    buildId: meta.buildId,
+    plannerRollout: meta.plannerRollout,
+    generationMode: meta.generationMode,
+    productFocus,
+  };
+}
+
 async function readBuildMetadata(env, request) {
   if (COMPILED_BUILD_METADATA_CACHE === undefined) {
-    COMPILED_BUILD_METADATA_CACHE = parseCompiledJson(
+    COMPILED_BUILD_METADATA_CACHE = validatedBuildMetadata(parseCompiledJson(
       COMPILED_BUILD_METADATA_JSON,
-    );
+    ));
   }
   if (COMPILED_BUILD_METADATA_CACHE) {
-    const meta = COMPILED_BUILD_METADATA_CACHE;
-    if (typeof meta.buildId === 'string' && /^[0-9A-Za-z_-]+$/.test(meta.buildId)
-        && ['off', 'direct-recommend'].includes(meta.plannerRollout)
-        && ['deterministic', 'llm'].includes(meta.generationMode)) {
-      return {
-        buildId: meta.buildId,
-        plannerRollout: meta.plannerRollout,
-        generationMode: meta.generationMode,
-      };
-    }
-    return { ...BUILD_METADATA_DEFAULTS };
+    return COMPILED_BUILD_METADATA_CACHE;
   }
+  const compiledMetadataWasSupplied = !COMPILED_BUILD_METADATA_JSON.startsWith('__YIGUOCHU_COMPILED_');
+  if (compiledMetadataWasSupplied) throw buildMetadataError();
   try {
     if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') throw new Error('build_meta_assets_missing');
     const response = await env.ASSETS.fetch(new Request(new URL('/build-meta.json', request.url)));
-    if (!response?.ok) throw new Error('build_meta_missing');
-    const meta = await response.json();
-    if (!meta || typeof meta !== 'object' || Array.isArray(meta)
-        || typeof meta.buildId !== 'string' || !/^[0-9A-Za-z_-]+$/.test(meta.buildId)
-        || !['off', 'direct-recommend'].includes(meta.plannerRollout)
-        || !['deterministic', 'llm'].includes(meta.generationMode)) {
-      throw new Error('build_meta_invalid');
+    // The source Worker has no embedded build metadata. Keeping a legacy-only
+    // development default avoids changing V2 unit and local workflows; a
+    // compiled artifact never reaches this branch because metadata is embedded.
+    if (!response?.ok) return { ...BUILD_METADATA_DEFAULTS };
+    let parsed;
+    try {
+      parsed = await response.json();
+    } catch (_error) {
+      throw buildMetadataError();
     }
-    return {
-      buildId: meta.buildId,
-      plannerRollout: meta.plannerRollout,
-      generationMode: meta.generationMode,
-    };
-  } catch (_error) {
+    // Existing source-only test and local fixtures predate productFocus. A
+    // compiled build never takes this compatibility branch: its embedded
+    // metadata must contain the exact focus or routing fails closed.
+    const meta = validatedBuildMetadata(parsed, { allowSourceLegacyDefault: true });
+    if (!meta) throw buildMetadataError();
+    return meta;
+  } catch (error) {
+    if (error?.code === 'build_metadata_unavailable') throw error;
     return { ...BUILD_METADATA_DEFAULTS };
   }
 }
@@ -3114,6 +3191,195 @@ async function handlePlanMeal(request, env) {
   }
 }
 
+const RICE_MEAL_REQUEST_REQUIRED_KEYS = Object.freeze([
+  'schema_version', 'product_focus', 'servings', 'pantry', 'dislikes',
+]);
+const RICE_MEAL_SWAP_KEYS = Object.freeze(['current_plan_id', 'recent_plan_ids']);
+
+function isPlainRequestObject(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+function hasOnlyKeys(value, allowed) {
+  return Object.keys(value).every(key => allowed.includes(key));
+}
+
+function normalizeRiceMealSwap(value) {
+  if (value == null) return {};
+  if (typeof value === 'string' && value.trim()) {
+    return { current_plan_id: value.trim() };
+  }
+  if (!isPlainRequestObject(value) || !hasOnlyKeys(value, RICE_MEAL_SWAP_KEYS)
+      || typeof value.current_plan_id !== 'string' || !value.current_plan_id.trim()
+      || (value.recent_plan_ids !== undefined && !Array.isArray(value.recent_plan_ids))) {
+    throw new TypeError('invalid_rice_meal_swap');
+  }
+  return {
+    current_plan_id: value.current_plan_id.trim(),
+    ...(value.recent_plan_ids === undefined ? {} : { recent_plan_ids: value.recent_plan_ids }),
+  };
+}
+
+function normalizeRiceMealHttpRequest(value) {
+  if (!isPlainRequestObject(value)
+      || !hasOnlyKeys(value, [...RICE_MEAL_REQUEST_REQUIRED_KEYS, 'swap'])
+      || RICE_MEAL_REQUEST_REQUIRED_KEYS.some(key => !Object.hasOwn(value, key))
+      || value.schema_version !== 3 || value.product_focus !== 'rice_meal'
+      || !Array.isArray(value.pantry) || !Array.isArray(value.dislikes)) {
+    throw new TypeError('invalid_rice_meal_request');
+  }
+  return {
+    servings: value.servings,
+    pantry: value.pantry,
+    dislikes: value.dislikes,
+    ...normalizeRiceMealSwap(value.swap),
+  };
+}
+
+function riceMealPlanSecret(env) {
+  const secret = typeof env?.RICE_MEAL_PLAN_SECRET === 'string'
+    ? env.RICE_MEAL_PLAN_SECRET.trim()
+    : '';
+  if (!secret) throw riceMealAssetError();
+  return secret;
+}
+
+function withRiceMealPlanTokens(selection, secret) {
+  const response = structuredClone(selection);
+  if (response.status === 'ready' && Array.isArray(response.candidates)) {
+    response.candidates = response.candidates.map(candidate => ({
+      ...candidate,
+      plan_token: buildRiceMealPlanToken(candidate, secret),
+    }));
+  }
+  response.product_focus = 'rice_meal';
+  return response;
+}
+
+async function enrichRiceMealNutrition(compiled, env, request) {
+  const inputs = compiled?.plan?.nutrition_inputs;
+  if (!Array.isArray(inputs)) return compiled;
+  const nutritionEnvelope = { ingredients: inputs };
+  await enrichWithTw(nutritionEnvelope, env, request);
+  compiled.plan.nutrition_inputs = nutritionEnvelope.ingredients;
+  if (typeof nutritionEnvelope._twMatched === 'number') compiled._twMatched = nutritionEnvelope._twMatched;
+  return compiled;
+}
+
+async function handleRiceMealPlan(request, env) {
+  const rawBody = await request.text().catch(() => '');
+  if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
+    return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(rawBody);
+  } catch (_error) {
+    if (rawBody.trim()) return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+    return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
+  }
+  let selectorRequest;
+  try {
+    selectorRequest = normalizeRiceMealHttpRequest(parsed);
+  } catch (_error) {
+    return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
+  }
+  let riceMealAssets;
+  let secret;
+  try {
+    riceMealAssets = await getRiceMealAssets(env, request);
+    secret = riceMealPlanSecret(env);
+  } catch (_error) {
+    return errorResponse('rice_meal_assets_unavailable', '菜饭规划规则暂时不可用', 503, env, {}, request);
+  }
+  try {
+    const selection = selectRiceMealCandidates({
+      request: selectorRequest,
+      catalog: riceMealAssets.catalog,
+      taxonomy: riceMealAssets.taxonomy,
+      ratioCatalog: riceMealAssets.ratios,
+      recentPlanIds: selectorRequest.recent_plan_ids || [],
+    });
+    return jsonResponse(withRiceMealPlanTokens(selection, secret), 200, env, request);
+  } catch (_error) {
+    return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
+  }
+}
+
+function riceMealStaleResponse() {
+  return {
+    schema_version: 3,
+    product_focus: 'rice_meal',
+    status: 'stale_plan',
+    code: 'stale_plan',
+    generation_allowed: false,
+    message: '这份菜饭计划已经变化，请重新规划后再生成做法。',
+  };
+}
+
+async function handleRiceMealGenerate(request, env) {
+  const rawBody = await request.text().catch(() => '');
+  if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
+    return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+  }
+  let envelope;
+  try {
+    envelope = JSON.parse(rawBody);
+  } catch (_error) {
+    if (rawBody.trim()) return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+    return errorResponse('invalid_plan_token', '菜饭计划凭证无效', 400, env, {}, request);
+  }
+  if (!isPlainRequestObject(envelope) || Object.keys(envelope).length !== 1
+      || typeof envelope.plan_token !== 'string') {
+    return errorResponse('invalid_plan_token', '菜饭计划凭证无效', 400, env, {}, request);
+  }
+  let riceMealAssets;
+  let secret;
+  try {
+    riceMealAssets = await getRiceMealAssets(env, request);
+    secret = riceMealPlanSecret(env);
+  } catch (_error) {
+    return errorResponse('rice_meal_assets_unavailable', '菜饭规划规则暂时不可用', 503, env, {}, request);
+  }
+  try {
+    const candidate = verifyAndRecomputeRiceMealPlan(envelope, riceMealAssets, secret);
+    const compiled = compileRiceMeal(candidate, riceMealAssets);
+    compiled.product_focus = 'rice_meal';
+    await enrichRiceMealNutrition(compiled, env, request);
+    return jsonResponse(compiled, 200, env, request);
+  } catch (error) {
+    if (error?.code === 'invalid_plan_token') {
+      return errorResponse('invalid_plan_token', '菜饭计划凭证无效', 400, env, {}, request);
+    }
+    if (error?.code === 'stale_plan') {
+      return jsonResponse(riceMealStaleResponse(), 409, env, request);
+    }
+    console.error('rice meal deterministic compilation failed', String(error?.message || 'contract_error').slice(0, 80));
+    return errorResponse('rice_meal_assets_unavailable', '菜饭规划规则暂时不可用', 503, env, {}, request);
+  }
+}
+
+async function plannerJsonPreflight(request) {
+  let rawBody;
+  try {
+    rawBody = await request.clone().text();
+  } catch (_error) {
+    return { error: 'invalid_json' };
+  }
+  if (new TextEncoder().encode(rawBody).length > 32 * 1024) return { error: 'request_too_large' };
+  try {
+    JSON.parse(rawBody);
+  } catch (_error) {
+    // Both product contracts preserve their endpoint-specific empty-body
+    // response.  Any non-empty malformed JSON has the shared invalid_json
+    // response and can be rejected before loading build metadata.
+    if (rawBody.trim()) return { error: 'invalid_json' };
+  }
+  return { error: null };
+}
+
 const GENERATE_PLAN_ENVELOPE_KEYS = Object.freeze([
   'schema_version',
   'planner_version',
@@ -3375,7 +3641,16 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(env, request) });
     if (request.method === 'GET' && url.pathname === '/health') {
-      const { buildId, plannerRollout, generationMode } = await readBuildMetadata(env, request);
+      let buildMetadata = null;
+      try {
+        buildMetadata = await readBuildMetadata(env, request);
+      } catch (_error) {
+        buildMetadata = null;
+      }
+      const buildId = buildMetadata?.buildId ?? null;
+      const plannerRollout = buildMetadata?.plannerRollout ?? 'off';
+      const generationMode = buildMetadata?.generationMode ?? 'llm';
+      const productFocus = buildMetadata?.productFocus ?? null;
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
@@ -3393,6 +3668,12 @@ export default {
       let actionProfiles = 'unavailable';
       let actionProfileCatalogVersion = null;
       let actionProfileCount = 0;
+      let riceMealCatalog = 'unavailable';
+      let riceMealCatalogVersion = null;
+      let riceMealFamilies = 0;
+      let riceMealVariants = 0;
+      let riceMealPreviewReady = 0;
+      let riceMealPlanned = 0;
       try {
         const assets = await getPlannerAssets(env, request);
         recipeFamilies = Array.isArray(assets.recipes.families) ? assets.recipes.families.length : 0;
@@ -3430,6 +3711,29 @@ export default {
           baseRecipes = 0;
         }
       }
+      if (buildMetadata?.productFocus === 'rice-meal-v1') {
+        try {
+          const riceAssets = await getRiceMealAssets(env, request);
+          riceMealCatalog = 'ok';
+          riceMealCatalogVersion = riceAssets.catalog.catalog_version;
+          riceMealFamilies = Array.isArray(riceAssets.catalog.families) ? riceAssets.catalog.families.length : 0;
+          riceMealVariants = Array.isArray(riceAssets.catalog.families)
+            ? riceAssets.catalog.families.reduce((count, family) => count + (Array.isArray(family?.variants) ? family.variants.length : 0), 0)
+            : 0;
+          riceMealPreviewReady = Array.isArray(riceAssets.catalog.families)
+            ? riceAssets.catalog.families.reduce((count, family) => count + (Array.isArray(family?.variants)
+              ? family.variants.filter(variant => variant.status === 'preview_ready').length
+              : 0), 0)
+            : 0;
+          riceMealPlanned = Array.isArray(riceAssets.catalog.families)
+            ? riceAssets.catalog.families.reduce((count, family) => count + (Array.isArray(family?.variants)
+              ? family.variants.filter(variant => variant.status === 'planned').length
+              : 0), 0)
+            : 0;
+        } catch (_error) {
+          riceMealCatalog = 'unavailable';
+        }
+      }
       return jsonResponse({
         status: 'ok',
         provider: 'deepseek',
@@ -3438,6 +3742,8 @@ export default {
         buildId,
         plannerRollout,
         generationMode,
+        productFocus,
+        buildMetadata: buildMetadata ? 'ok' : 'unavailable',
         recipeLibrary,
         recipeFamilies,
         baseRecipes,
@@ -3455,6 +3761,12 @@ export default {
         actionProfiles,
         actionProfileCatalogVersion,
         actionProfileCount,
+        riceMealCatalog,
+        riceMealCatalogVersion,
+        riceMealFamilies,
+        riceMealVariants,
+        riceMealPreviewReady,
+        riceMealPlanned,
       }, 200, env, request);
     }
     if (request.method === 'POST' && url.pathname === '/generate-meal') {
@@ -3466,9 +3778,41 @@ export default {
       }
     }
     if (request.method === 'POST' && url.pathname === '/plan-meal') {
+      const preflight = await plannerJsonPreflight(request);
+      if (preflight.error === 'request_too_large') {
+        return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+      }
+      if (preflight.error === 'invalid_json') {
+        return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+      }
+      let buildMetadata;
+      try {
+        buildMetadata = await readBuildMetadata(env, request);
+      } catch (_error) {
+        return errorResponse('build_metadata_unavailable', '构建元数据暂时不可用', 503, env, {}, request);
+      }
+      if (buildMetadata.productFocus === 'rice-meal-v1') {
+        return handleRiceMealPlan(request, env);
+      }
       return handlePlanMeal(request, env);
     }
     if (request.method === 'POST' && url.pathname === '/generate-plan') {
+      const preflight = await plannerJsonPreflight(request);
+      if (preflight.error === 'request_too_large') {
+        return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
+      }
+      if (preflight.error === 'invalid_json') {
+        return errorResponse('invalid_json', '请求体不是有效的 JSON', 400, env, {}, request);
+      }
+      let buildMetadata;
+      try {
+        buildMetadata = await readBuildMetadata(env, request);
+      } catch (_error) {
+        return errorResponse('build_metadata_unavailable', '构建元数据暂时不可用', 503, env, {}, request);
+      }
+      if (buildMetadata.productFocus === 'rice-meal-v1') {
+        return handleRiceMealGenerate(request, env);
+      }
       try {
         return await handleGeneratePlan(request, env);
       } catch (error) {

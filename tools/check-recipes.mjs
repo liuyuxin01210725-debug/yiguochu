@@ -8,6 +8,7 @@ import { validateIngredientTaxonomy } from './lib/ingredient-taxonomy-validator.
 import { validateMealTemplateCatalog } from './lib/meal-template-validator.mjs';
 import { validateRatioDslCatalog } from './lib/ratio-dsl-validator.mjs';
 import { validateRecipeRuntimeCatalog } from './lib/recipe-runtime-validator.mjs';
+import { validateRiceMealCatalog } from './lib/rice-meal-catalog-validator.mjs';
 import { validateRegionalMenuResearch } from './lib/regional-menu-research-validator.mjs';
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
 import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
@@ -128,6 +129,7 @@ const coveragePromotions = JSON.parse(fs.readFileSync(new URL('./data/coverage-r
 const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
 const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.json', import.meta.url), 'utf8'));
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
+const riceMealCatalog = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-catalog.v1.json', import.meta.url), 'utf8'));
 const recipeRuntimeCatalog = JSON.parse(fs.readFileSync(new URL('./data/recipe-runtime.v1.json', import.meta.url), 'utf8'));
 const recipeActionProfiles = JSON.parse(fs.readFileSync(new URL('./data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'));
 const regionalResearch = readReviewLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
@@ -155,6 +157,11 @@ errors.push(...validateCoverageRecipePromotion({
 const taxonomyErrors = validateIngredientTaxonomy(taxonomy);
 const templateErrors = validateMealTemplateCatalog(templates, taxonomy, lib);
 const ratioErrors = validateRatioDslCatalog(ratios, templates, taxonomy, lib);
+const riceMealCatalogErrors = validateRiceMealCatalog(riceMealCatalog, {
+  recipeLibrary: lib,
+  taxonomy,
+  ratioCatalog: ratios,
+});
 const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   recipes: lib,
   taxonomy,
@@ -162,7 +169,7 @@ const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   ratios,
   actionProfiles: recipeActionProfiles,
 });
-errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...recipeRuntimeErrors);
+errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...riceMealCatalogErrors, ...recipeRuntimeErrors);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];
 const families = Array.isArray(lib.families) ? lib.families : [];
 const recipeIds = new Set(recipes.filter(recipe => recipe && typeof recipe === 'object').map(recipe => recipe.id));
@@ -675,6 +682,21 @@ if (errors.length === 0) {
     qinghaiTibetResearchSummary = qinghaiTibetCheck.stdout.trim();
   }
 }
+let riceMealPreviewGateSummary = '';
+if (errors.length === 0) {
+  const riceMealPreviewGate = spawnSync(process.execPath, [
+    fileURLToPath(new URL('./check-rice-meal-preview.mjs', import.meta.url)),
+  ], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8',
+  });
+  if (riceMealPreviewGate.status !== 0) {
+    const detail = [riceMealPreviewGate.stdout, riceMealPreviewGate.stderr].filter(Boolean).join('\n').trim();
+    errors.push(`rice meal Preview gate failed${detail ? `: ${detail}` : ''}`);
+  } else {
+    riceMealPreviewGateSummary = riceMealPreviewGate.stdout.trim();
+  }
+}
 for (const error of errors) console.error(`❌ ${error}`);
 const familyCount = Array.isArray(lib?.families) ? lib.families.length : 0;
 const recipeCount = Array.isArray(lib?.recipes) ? lib.recipes.length : 0;
@@ -696,6 +718,12 @@ const plannedRuntimeRecipeCount = Array.isArray(recipeRuntimeCatalog?.entries)
 const previewEnabledRuntimeRecipeCount = Array.isArray(recipeRuntimeCatalog?.entries)
   ? recipeRuntimeCatalog.entries.filter(entry => entry?.activation_status === 'preview_enabled').length
   : 0;
+const riceMealFamilyCount = Array.isArray(riceMealCatalog?.families) ? riceMealCatalog.families.length : 0;
+const riceMealVariants = Array.isArray(riceMealCatalog?.families)
+  ? riceMealCatalog.families.flatMap(family => Array.isArray(family?.variants) ? family.variants : [])
+  : [];
+const riceMealPreviewReadyCount = riceMealVariants.filter(variant => variant?.status === 'preview_ready').length;
+const riceMealPlannedCount = riceMealVariants.filter(variant => variant?.status === 'planned').length;
 console.log(`菜谱家族 ${familyCount} 个 · 基础菜谱 ${recipeCount} 道（approved 人工批准 ${approvedCount} 道 · auto_approved 自动闸门通过待评审 ${autoApprovedCount} 道）`);
 console.log([
   `${recipeCount} recipes`,
@@ -706,6 +734,13 @@ console.log([
   taxonomyErrors.length ? `taxonomy invalid (${taxonomyErrors.length})` : 'taxonomy ok',
   ratioErrors.length ? `ratio DSL invalid (${ratioErrors.length})` : 'ratio DSL ok',
   recipeRuntimeErrors.length ? `recipe runtime invalid (${recipeRuntimeErrors.length})` : 'recipe runtime ok',
+].join(' · '));
+console.log([
+  `${riceMealFamilyCount} families`,
+  `${riceMealVariants.length} variants`,
+  `${riceMealPreviewReadyCount} preview_ready`,
+  `${riceMealPlannedCount} planned`,
+  riceMealCatalogErrors.length ? `rice meal catalog invalid (${riceMealCatalogErrors.length})` : 'rice meal catalog ok',
 ].join(' · '));
 if (recipeLibraryErrors.length === 0 && taxonomyErrors.length === 0 && menuMasterSourceErrors.length === 0 && menuMasterErrors.length === 0) {
   console.log(`${menuMaster.summary.production_count} production menus · ${menuMaster.summary.research_count} research candidates · menu master ok`);
@@ -751,5 +786,6 @@ if (plannerMenuCoverageSummary) console.log(`${plannerMenuCoverageSummary} · pl
 if (lingnanHkMacaoResearchSummary) console.log(lingnanHkMacaoResearchSummary);
 if (northwestResearchSummary) console.log(northwestResearchSummary);
 if (qinghaiTibetResearchSummary) console.log(qinghaiTibetResearchSummary);
+if (riceMealPreviewGateSummary) console.log(riceMealPreviewGateSummary);
 console.log(errors.length ? `❌ 菜谱库体检不通过: ${errors.length} 项` : '✅ 菜谱库体检通过');
 process.exit(errors.length ? 1 : 0);

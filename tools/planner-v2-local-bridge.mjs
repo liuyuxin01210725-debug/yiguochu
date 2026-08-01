@@ -7,10 +7,28 @@ import { pathToFileURL } from 'node:url';
 import worker from '../worker/src/worker.js';
 
 const BRIDGE_VERSION = 1;
-const ALLOWED_ENDPOINTS = new Set(['/plan-meal', '/generate-plan']);
-const GENERATION_MODE = ['deterministic', 'llm'].includes(process.env.YIGUOCHU_GENERATION_MODE)
-  ? process.env.YIGUOCHU_GENERATION_MODE
-  : 'deterministic';
+const ALLOWED_ENDPOINTS = new Set(['/health', '/plan-meal', '/generate-plan']);
+const PRODUCT_FOCUS = typeof process.env.YIGUOCHU_PRODUCT_FOCUS === 'string'
+  && process.env.YIGUOCHU_PRODUCT_FOCUS.trim()
+  ? process.env.YIGUOCHU_PRODUCT_FOCUS.trim()
+  : 'legacy';
+const GENERATION_MODE = PRODUCT_FOCUS === 'rice-meal-v1'
+  ? 'deterministic'
+  : (['deterministic', 'llm'].includes(process.env.YIGUOCHU_GENERATION_MODE)
+    ? process.env.YIGUOCHU_GENERATION_MODE
+    : 'deterministic');
+const LOOPBACK_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
+const hostedMode = value => ['1', 'true', 'yes', 'on'].includes(String(value || '').trim().toLowerCase());
+const explicitLoopbackDev = PRODUCT_FOCUS === 'rice-meal-v1'
+  && process.env.YIGUOCHU_LOCAL_DEV === '1'
+  && LOOPBACK_HOSTS.has(String(process.env.HOST || '').trim().toLowerCase())
+  && !hostedMode(process.env.YIGUOCHU_HOSTED_MODE);
+const configuredRiceMealPlanSecret = typeof process.env.RICE_MEAL_PLAN_SECRET === 'string'
+  && process.env.RICE_MEAL_PLAN_SECRET.trim()
+  ? process.env.RICE_MEAL_PLAN_SECRET.trim()
+  : '';
+const RICE_MEAL_PLAN_SECRET = configuredRiceMealPlanSecret
+  || (explicitLoopbackDev ? 'local-rice-meal-development-secret' : '');
 const ASSET_DIRECTORY = typeof process.env.YIGUOCHU_PLANNER_ASSET_DIR === 'string'
   && process.env.YIGUOCHU_PLANNER_ASSET_DIR.trim()
   ? path.resolve(process.env.YIGUOCHU_PLANNER_ASSET_DIR.trim())
@@ -25,6 +43,7 @@ const ASSET_FILES = new Map([
   ['/recipe-library.json', assetUrl('recipe-library.json')],
   ['/recipe-runtime.v1.json', assetUrl('recipe-runtime.v1.json')],
   ['/recipe-action-profiles.v1.json', assetUrl('recipe-action-profiles.v1.json')],
+  ['/rice-meal-catalog.v1.json', assetUrl('rice-meal-catalog.v1.json')],
   ['/foods-tw.json', assetUrl('foods-tw.json')],
 ]);
 
@@ -58,6 +77,7 @@ const assetBinding = {
         buildId: 'local-planner',
         plannerRollout: 'direct-recommend',
         generationMode: GENERATION_MODE,
+        productFocus: PRODUCT_FOCUS,
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -91,8 +111,11 @@ function workerEnv() {
     RATE_LIMIT: 0,
     ALLOW_ORIGIN: 'http://localhost:8081,http://127.0.0.1:8081',
   };
-  for (const key of ['DEEPSEEK_API_KEY', 'API_URL', 'MODEL_NAME', 'DAILY_BUDGET']) {
-    if (typeof process.env[key] === 'string' && process.env[key]) env[key] = process.env[key];
+  if (RICE_MEAL_PLAN_SECRET) env.RICE_MEAL_PLAN_SECRET = RICE_MEAL_PLAN_SECRET;
+  if (PRODUCT_FOCUS !== 'rice-meal-v1') {
+    for (const key of ['DEEPSEEK_API_KEY', 'API_URL', 'MODEL_NAME', 'DAILY_BUDGET']) {
+      if (typeof process.env[key] === 'string' && process.env[key]) env[key] = process.env[key];
+    }
   }
   return env;
 }
@@ -103,23 +126,25 @@ async function main() {
     machineFailure('invalid_bridge_endpoint');
     return;
   }
-  let body;
-  try {
-    body = await readStdin();
-  } catch (_error) {
-    machineFailure('invalid_bridge_input');
-    return;
+  let body = null;
+  if (endpoint !== '/health') {
+    try {
+      body = await readStdin();
+    } catch (_error) {
+      machineFailure('invalid_bridge_input');
+      return;
+    }
   }
 
   try {
     const response = await worker.fetch(new Request(`http://localhost:8765${endpoint}`, {
-      method: 'POST',
+      method: endpoint === '/health' ? 'GET' : 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         Origin: 'http://localhost:8081',
         'X-Forwarded-For': '127.0.0.1',
       },
-      body: JSON.stringify(body),
+      ...(body == null ? {} : { body: JSON.stringify(body) }),
     }), workerEnv());
     const rawBody = await response.text();
     let parsedBody;

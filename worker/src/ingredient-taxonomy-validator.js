@@ -6,7 +6,7 @@ const CATEGORIES = new Set([
   'raw_rice', 'cooked_rice', 'noodle', 'acid_vegetable', 'egg', 'soft_tofu', 'firm_tofu', 'seafood',
   'beef', 'chicken', 'pork', 'lamb', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
   'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'starchy_vegetable', 'mushroom', 'cornmeal_dough',
-  'cornmeal_flour', 'cornmeal_cake', 'ready_staple',
+  'cornmeal_flour', 'cornmeal_cake', 'ready_staple', 'prepared_glutinous_rice',
   'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'raw_millet', 'liquid', 'oil', 'seasoning',
 ]);
 const STATES = new Set(['raw', 'cooked', 'dry', 'basic', 'cured', 'prepared', 'derived_plan_output']);

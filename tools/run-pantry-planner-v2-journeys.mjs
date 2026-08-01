@@ -840,9 +840,13 @@ export async function runRecipeRuntimeJourneys() {
     } else if (entry.scenario === 'quanzhou_shape_blocked') {
       const normalized = normalizedMatcherRequest(productionMatcherAssets, entry).normalized_items;
       const soakedRice = normalized.find(item => item.raw === '泡发糯米');
-      assert.equal(soakedRice.recognized, false);
-      assert.equal(soakedRice.state, null);
-      assert.equal(soakedRice.shape_or_cut, null);
+      assert.equal(soakedRice.recognized, true);
+      assert.equal(soakedRice.canonical_id, 'soaked-glutinous-rice');
+      assert.equal(soakedRice.category, 'prepared_glutinous_rice');
+      assert.equal(soakedRice.state, 'prepared');
+      assert.equal(soakedRice.shape_or_cut, 'whole_grain');
+      assert.deepEqual(soakedRice.compatible_slot_codes, ['staple_preparation_input']);
+      assert.equal(soakedRice.compatible_slot_codes.includes('raw_rice'), false);
       assert.deepEqual(
         matchNamedRecipeCandidates(productionMatcherAssets, normalizedMatcherRequest(productionMatcherAssets, entry)),
         [],
@@ -850,9 +854,9 @@ export async function runRecipeRuntimeJourneys() {
       const rule = productionMatcherAssets.ratios.rules
         .find(candidate => candidate.rule_id === 'quanzhou-soaked-rice-liquid-evidence-v1');
       assert.equal(rule.execution_mode, 'bounds_only');
-      assert.equal(rule.operations[0].target.state, 'soaked');
-      assert.equal(rule.operations[0].target.shape_or_cut, 'whole_soaked_grain');
-      assert.equal(rule.operations[0].target.canonical_id, undefined);
+      assert.equal(rule.operations[0].target.state, 'prepared');
+      assert.equal(rule.operations[0].target.shape_or_cut, 'whole_grain');
+      assert.equal(rule.operations[0].target.canonical_id, 'soaked-glutinous-rice');
     } else if (entry.scenario === 'named_over_custom') {
       const planned = await postPlan(request, { assets: fixtureAssets });
       planDeepSeekCalls += planned.upstreamCalls;

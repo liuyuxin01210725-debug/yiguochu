@@ -24,6 +24,7 @@ const GENERATED_ASSETS = [
   ['tools/data/ratio-rules.v1.json', 'ratio-rules.v1.json'],
   ['tools/data/recipe-runtime.v1.json', 'recipe-runtime.v1.json'],
   ['tools/data/recipe-action-profiles.v1.json', 'recipe-action-profiles.v1.json'],
+  ['tools/data/rice-meal-catalog.v1.json', 'rice-meal-catalog.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -40,13 +41,16 @@ const GENERATED_ASSETS = [
   ['worker/src/ingredient-taxonomy-validator.js', 'ingredient-taxonomy-validator.js'],
   ['worker/src/meal-template-validator.js', 'meal-template-validator.js'],
   ['worker/src/recipe-library-validator.js', 'recipe-library-validator.js'],
+  ['worker/src/rice-meal-selector.js', 'rice-meal-selector.js'],
+  ['worker/src/rice-meal-compiler.js', 'rice-meal-compiler.js'],
+  ['worker/src/rice-meal-catalog-validator.js', 'rice-meal-catalog-validator.js'],
 ];
 const COMPILED_BUILD_METADATA_SENTINEL = "'__YIGUOCHU_COMPILED_BUILD_METADATA_JSON__'";
 const COMPILED_PLANNER_ASSETS_SENTINEL = "'__YIGUOCHU_COMPILED_PLANNER_ASSETS_JSON__'";
 
 function usage(message) {
   if (message) console.error(message);
-  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--planner-rollout off|direct-recommend] [--generation-mode deterministic|llm]');
+  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--planner-rollout off|direct-recommend] [--generation-mode deterministic|llm] [--product-focus legacy|rice-meal-v1]');
   process.exitCode = 1;
 }
 
@@ -56,12 +60,14 @@ function parseArgs(argumentsList) {
     buildId: new Date().toISOString().replace(/[^0-9A-Za-z]+/g, '-'),
     plannerRollout: 'off',
     generationMode: 'llm',
+    productFocus: 'legacy',
   };
 
   for (let index = 0; index < argumentsList.length; index += 1) {
     const argument = argumentsList[index];
     if (argument === '--out-dir' || argument === '--build-id'
-        || argument === '--planner-rollout' || argument === '--generation-mode') {
+        || argument === '--planner-rollout' || argument === '--generation-mode'
+        || argument === '--product-focus') {
       const value = argumentsList[index + 1];
       if (!value || value.startsWith('--')) {
         usage(`${argument} requires a value.`);
@@ -71,6 +77,7 @@ function parseArgs(argumentsList) {
       if (argument === '--build-id') options.buildId = value;
       if (argument === '--planner-rollout') options.plannerRollout = value;
       if (argument === '--generation-mode') options.generationMode = value;
+      if (argument === '--product-focus') options.productFocus = value;
       index += 1;
       continue;
     }
@@ -97,6 +104,15 @@ function parseArgs(argumentsList) {
   }
   if (!['deterministic', 'llm'].includes(options.generationMode)) {
     usage('Generation mode must be deterministic or llm.');
+    return null;
+  }
+  if (!['legacy', 'rice-meal-v1'].includes(options.productFocus)) {
+    usage('Product focus must be legacy or rice-meal-v1.');
+    return null;
+  }
+  if (options.productFocus === 'rice-meal-v1'
+      && (options.plannerRollout !== 'direct-recommend' || options.generationMode !== 'deterministic')) {
+    usage('rice-meal-v1 requires direct-recommend and deterministic build metadata.');
     return null;
   }
   return options;
@@ -129,7 +145,7 @@ function readCanonicalJson(sourceRelativePath) {
   }
 }
 
-function build({ outputDir, buildId, plannerRollout, generationMode }) {
+function build({ outputDir, buildId, plannerRollout, generationMode, productFocus }) {
   assertNoSymlinkInOutputPath(outputDir);
   if (fs.existsSync(outputDir) && !fs.lstatSync(outputDir).isDirectory()) {
     throw new Error(`Output path must be a directory: ${outputDir}`);
@@ -142,7 +158,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
 
   const workerPath = path.join(outputDir, '_worker.js');
   const sourceWorker = fs.readFileSync(workerPath, 'utf8');
-  const buildMetadata = { buildId, plannerRollout, generationMode };
+  const buildMetadata = { buildId, plannerRollout, generationMode, productFocus };
   const embeddedPlannerAssets = {
     taxonomy: readCanonicalJson('tools/data/ingredient-taxonomy.v1.json'),
     templates: readCanonicalJson('tools/data/meal-templates.v2.json'),
@@ -150,6 +166,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
     recipes: readCanonicalJson('tools/data/recipe-library.json'),
     recipeRuntime: readCanonicalJson('tools/data/recipe-runtime.v1.json'),
     actionProfiles: readCanonicalJson('tools/data/recipe-action-profiles.v1.json'),
+    riceMealCatalog: readCanonicalJson('tools/data/rice-meal-catalog.v1.json'),
   };
   const generatedWorker = sourceWorker
     .replace(
@@ -184,7 +201,8 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
   const generatedIndex = sourceIndex
     .replaceAll('__YIGUOCHU_BUILD_ID__', buildId)
     .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout)
-    .replaceAll('__YIGUOCHU_GENERATION_MODE__', generationMode);
+    .replaceAll('__YIGUOCHU_GENERATION_MODE__', generationMode)
+    .replaceAll('__YIGUOCHU_PRODUCT_FOCUS__', productFocus);
   if (generatedIndex === sourceIndex) {
     throw new Error('Cannot inject the frontend build id; update tools/build-dist.mjs for the current index.html format.');
   }
@@ -201,6 +219,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode }) {
     buildId,
     plannerRollout,
     generationMode,
+    productFocus,
     files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 1,
   }));
 }

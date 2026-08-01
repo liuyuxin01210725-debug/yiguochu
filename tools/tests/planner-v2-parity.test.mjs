@@ -19,6 +19,7 @@ const assetNames = [
   'recipe-library.json',
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
+  'rice-meal-catalog.v1.json',
   'foods-tw.json',
 ];
 const sourceAssets = Object.freeze(Object.fromEntries(assetNames.map(name => [
@@ -47,6 +48,25 @@ function request({
   };
 }
 
+function riceMealRequest(overrides = {}) {
+  return {
+    schema_version: 3,
+    product_focus: 'rice_meal',
+    servings: 2,
+    pantry: ['鸡腿', '土豆'],
+    dislikes: [],
+    ...overrides,
+  };
+}
+
+const RICE_MEAL_BUILD_META = JSON.stringify({
+  buildId: 'rice-meal-parity',
+  plannerRollout: 'direct-recommend',
+  generationMode: 'deterministic',
+  productFocus: 'rice-meal-v1',
+});
+const RICE_MEAL_SECRET = 'rice-meal-parity-secret';
+
 function assets(source = sourceAssets) {
   return {
     async fetch(input) {
@@ -69,6 +89,19 @@ async function workerPlan(body, source = sourceAssets) {
   return { status: response.status, body: await response.json() };
 }
 
+async function workerRiceMeal(endpoint, body) {
+  const response = await worker.fetch(new Request(`http://localhost:8765${endpoint}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Origin: 'http://localhost:8081' },
+    body: JSON.stringify(body),
+  }), {
+    ASSETS: assets({ ...sourceAssets, '/build-meta.json': RICE_MEAL_BUILD_META }),
+    RATE_LIMIT: 0,
+    RICE_MEAL_PLAN_SECRET: RICE_MEAL_SECRET,
+  });
+  return { status: response.status, body: await response.json() };
+}
+
 function nodeBridgePlan(body, extraEnv = {}) {
   const result = spawnSync(process.execPath, [bridgePath, '/plan-meal'], {
     cwd: repoRoot,
@@ -87,6 +120,54 @@ function nodeBridgePlan(body, extraEnv = {}) {
   const envelope = JSON.parse(result.stdout);
   assert.equal(envelope.bridge_version, 1);
   return { status: envelope.status, body: envelope.body };
+}
+
+function nodeBridge(endpoint, body, extraEnv = {}) {
+  const result = spawnSync(process.execPath, [bridgePath, endpoint], {
+    cwd: repoRoot,
+    input: JSON.stringify(body),
+    encoding: 'utf8',
+    timeout: 40000,
+    env: {
+      ...process.env,
+      DEEPSEEK_API_KEY: '',
+      API_URL: '',
+      MODEL_NAME: '',
+      DAILY_BUDGET: '',
+      RICE_MEAL_PLAN_SECRET: '',
+      ...extraEnv,
+    },
+  });
+  assert.equal(result.signal, null, result.stderr);
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const envelope = JSON.parse(result.stdout);
+  assert.equal(envelope.bridge_version, 1);
+  return { status: envelope.status, body: envelope.body };
+}
+
+function pythonPlannerChildEnv(extraEnv = {}) {
+  const result = spawnSync('python3', [
+    '-c',
+    'import json, ai_proxy; print(json.dumps(ai_proxy._planner_bridge_env(), sort_keys=True))',
+  ], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+    timeout: 15000,
+    env: {
+      ...process.env,
+      HOST: '127.0.0.1',
+      YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+      RICE_MEAL_PLAN_SECRET: 'explicit-rice-secret',
+      DEEPSEEK_API_KEY: 'must-not-cross-rice-boundary',
+      API_URL: 'https://example.invalid/should-not-forward',
+      MODEL_NAME: 'must-not-forward',
+      DAILY_BUDGET: '999',
+      YIGUOCHU_GENERATION_MODE: 'llm',
+      ...extraEnv,
+    },
+  });
+  assert.equal(result.status, 0, result.stderr);
+  return JSON.parse(result.stdout.trim());
 }
 
 function syntheticShanghaiAssetFixture() {
@@ -206,6 +287,13 @@ function pythonPlan(body, extraEnv = {}) {
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.ok(result.stdout.trim(), 'CLI must print one JSON response body');
   return JSON.parse(result.stdout);
+}
+
+function pythonRiceMealPlan(body) {
+  return pythonPlan(body, {
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    RICE_MEAL_PLAN_SECRET: RICE_MEAL_SECRET,
+  });
 }
 
 function digestAssets() {
@@ -429,6 +517,140 @@ test('Python bridge mirrors initial candidate bundles without recursive candidat
   assert.ok(actual.candidate_plans.length >= 1 && actual.candidate_plans.length <= 3);
   assert.equal(actual.preferred_plan_id, actual.candidate_plans[0].plan.plan_id);
   assert.ok(actual.candidate_plans.every(candidate => !('candidate_plans' in candidate)));
+});
+
+test('rice-meal Worker and local Python bridge preserve selector and compiler facts with no model route', async () => {
+  const requestBody = riceMealRequest();
+  const workerPlanResult = await workerRiceMeal('/plan-meal', requestBody);
+  const pythonCliPlan = pythonRiceMealPlan(requestBody);
+
+  assert.equal(workerPlanResult.status, 200);
+  assert.deepEqual(pythonCliPlan, workerPlanResult.body);
+  assert.deepEqual(workerPlanResult.body.candidates.map(candidate => candidate.variant_id), [
+    'home-chicken-leg-potato-rice',
+  ]);
+  assert.deepEqual(
+    workerPlanResult.body.candidates.map(candidate => ({
+      used: candidate.used_items.map(item => item.canonical_id),
+      unused: candidate.unused_items.map(item => item.canonical_id || item.raw),
+      coverage: candidate.coverage_count,
+      grade: candidate.nutrition_grade,
+    })),
+    [{ used:['chicken-leg', 'potato'], unused:[], coverage:2, grade:'B' }],
+  );
+
+  const workerGenerated = await workerRiceMeal('/generate-plan', {
+    plan_token: workerPlanResult.body.candidates[0].plan_token,
+  });
+  const proxy = await startProxy({
+    RATE_LIMIT: '1',
+    DEEPSEEK_API_KEY: '',
+    KIMI_API_KEY: '',
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    RICE_MEAL_PLAN_SECRET: RICE_MEAL_SECRET,
+  });
+  try {
+    const proxyPlan = await postJson(proxy.base, '/plan-meal', requestBody);
+    const proxyGenerated = await postJson(proxy.base, '/generate-plan', {
+      plan_token: proxyPlan.body.candidates[0].plan_token,
+    });
+    assert.equal(proxyPlan.response.status, workerPlanResult.status);
+    assert.deepEqual(proxyPlan.body, workerPlanResult.body);
+    assert.equal(proxyGenerated.response.status, workerGenerated.status);
+    assert.deepEqual(proxyGenerated.body, workerGenerated.body);
+    assert.equal(proxyGenerated.body.meals[0].dish_name, '鸡腿土豆焖饭');
+    assert.deepEqual(proxyGenerated.body.plan.ingredient_amounts.map(item => [item.canonical_id, item.grams]), [
+      ['raw-rice', 200],
+      ['chicken-leg', 120],
+      ['potato', 100],
+      ['water', 280],
+    ]);
+    assert.deepEqual(proxyGenerated.body.meals[0].steps.map(step => step.action_code), [
+      'rinse_raw_rice',
+      'cut_chicken_leg_to_small_pieces',
+      'prepare_vegetables',
+      'load_inner_pot',
+      'start_closed_lid_program',
+      'rest_lid_closed',
+      'verify_safety_endpoints',
+      'fluff_and_serve',
+    ]);
+  } finally {
+    await stopProxy(proxy);
+  }
+});
+
+test('Rice Meal bridge permits its fixed development signing secret only in explicit loopback dev mode', async () => {
+  const unsafeHost = nodeBridge('/plan-meal', riceMealRequest(), {
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    YIGUOCHU_LOCAL_DEV: '1',
+    HOST: '0.0.0.0',
+  });
+  assert.equal(unsafeHost.status, 503);
+  assert.equal(unsafeHost.body.code, 'rice_meal_assets_unavailable');
+
+  const implicitNodeDev = nodeBridge('/plan-meal', riceMealRequest(), {
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    HOST: '127.0.0.1',
+  });
+  assert.equal(implicitNodeDev.status, 503);
+  assert.equal(implicitNodeDev.body.code, 'rice_meal_assets_unavailable');
+
+  const explicitLoopbackDev = nodeBridge('/plan-meal', riceMealRequest(), {
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    YIGUOCHU_LOCAL_DEV: '1',
+    HOST: '127.0.0.1',
+  });
+  assert.equal(explicitLoopbackDev.status, 200);
+  assert.equal(explicitLoopbackDev.body.status, 'ready');
+
+  const hosted = await startProxy({
+    HOST: '0.0.0.0',
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    RICE_MEAL_PLAN_SECRET: '',
+  });
+  try {
+    const response = await postJson(hosted.base, '/plan-meal', riceMealRequest());
+    assert.equal(response.response.status, 503);
+    assert.equal(response.body.code, 'rice_meal_assets_unavailable');
+  } finally {
+    await stopProxy(hosted);
+  }
+
+  const hostedMode = await startProxy({
+    HOST: '127.0.0.1',
+    YIGUOCHU_HOSTED_MODE: '1',
+    YIGUOCHU_PRODUCT_FOCUS: 'rice-meal-v1',
+    RICE_MEAL_PLAN_SECRET: '',
+  });
+  try {
+    const response = await postJson(hostedMode.base, '/plan-meal', riceMealRequest());
+    assert.equal(response.response.status, 503);
+    assert.equal(response.body.code, 'rice_meal_assets_unavailable');
+  } finally {
+    await stopProxy(hostedMode);
+  }
+});
+
+test('Rice Meal local bridge strips model configuration from its child environment', () => {
+  const childEnv = pythonPlannerChildEnv();
+  assert.equal(childEnv.YIGUOCHU_PRODUCT_FOCUS, 'rice-meal-v1');
+  assert.equal(childEnv.RICE_MEAL_PLAN_SECRET, 'explicit-rice-secret');
+  assert.equal(childEnv.YIGUOCHU_LOCAL_DEV, '1');
+  for (const forbidden of [
+    'DEEPSEEK_API_KEY',
+    'API_URL',
+    'MODEL_NAME',
+    'DAILY_BUDGET',
+    'YIGUOCHU_GENERATION_MODE',
+  ]) assert.equal(Object.hasOwn(childEnv, forbidden), false, `${forbidden} must not reach a Rice bridge child`);
+
+  const hostedEnv = pythonPlannerChildEnv({
+    RICE_MEAL_PLAN_SECRET: '',
+    YIGUOCHU_HOSTED_MODE: '1',
+  });
+  assert.equal(Object.hasOwn(hostedEnv, 'RICE_MEAL_PLAN_SECRET'), false);
+  assert.equal(Object.hasOwn(hostedEnv, 'YIGUOCHU_LOCAL_DEV'), false);
 });
 
 test('Node local bridge and Worker return the same synthetic named identity, title, catalog and signed plan ID', async () => {

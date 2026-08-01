@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "ledger_version": "rice-cooker-source-evidence-v1-20260801",
+  "scope": "Cross-region source ledger for electric-rice-cooker rice meals. It records what each exact source proves about quantities, liquid semantics and appliance execution; it does not activate catalog variants or authorize production use.",
+  "entries": [
+    {
+      "source_id": "howtocook-salted-pork-vegetable-rice-b1f0a1a",
+      "source_title": "咸肉菜饭",
+      "source_url": "https://github.com/Anduin2017/HowToCook/blob/b1f0a1aaba4c86508df1640a2fb8a01e1602c72e/dishes/staple/%E5%92%B8%E8%82%89%E8%8F%9C%E9%A5%AD.md",
+      "publisher": "HowToCook 社区项目（该条目贡献者通过 PR #1717 提交）",
+      "source_kind": "open_source_recipe_at_fixed_commit",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "Unlicense",
+        "license_url": "https://github.com/Anduin2017/HowToCook/blob/master/LICENSE",
+        "contribution_permission_url": "https://github.com/Anduin2017/HowToCook/pull/1717",
+        "usage_boundary": "PR 贡献者明确同意该菜谱贡献进入 public domain 并按项目 Unlicense 处理；固定 commit 可用于核对该版事实。本项目仍只提取结构化事实，不复制图片，也不把后续浮动分支当作同一证据。",
+        "allowed_use": ["source_identity", "ingredient_quantities", "liquid_contract_research", "high_level_process_research"],
+        "forbidden_use": ["copy_source_images", "treat_future_master_as_same_evidence", "claim_cross_appliance_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 300, "unit": "g", "servings": 3},
+        "liquid_contract": {
+          "semantic": "added_water_texture_range",
+          "amounts_ml": {"firm": 300, "default": 310, "soft": 325},
+          "conditional_adjustments": [{"when": "add_winter_bamboo_100g", "add_ml": 20}],
+          "interpretation": "数字表示向内胆加入的水，不是把蔬菜析水折算后的总液体，也不是水位线。"
+        },
+        "protein_items": [
+          {"name": "淡咸肉", "quantity": {"value": 150, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "上海青", "quantity": {"value": 400, "unit": "g"}},
+          {"name": "冬笋", "quantity": {"value": 100, "unit": "g"}, "optional": true}
+        ],
+        "other_items": [
+          {"name": "猪油", "quantity": {"value": 15, "unit": "g"}},
+          {"name": "料酒", "quantity": {"value": 15, "unit": "ml"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "ordinary_electric_rice_cooker_with_mid_cycle_opening",
+        "manufacturer": null,
+        "models": [],
+        "program": "standard_rice_cycle",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": "程序最后约10分钟加入叶菜",
+        "finish_action": "程序结束后闭盖焖5分钟",
+        "source_executability": "executable_as_written"
+      },
+      "verdict": {
+        "status": "research_only",
+        "scope": "精确配方可作为普通电饭煲菜饭研究基线；当前 Preview 的未知机型闭盖单周期规则不允许依赖中途开盖，因此不得直接晋升运行目录。",
+        "reason": "来源自身可执行且许可链清楚，但它依赖运行中开盖，未证明所有普通电饭煲都允许该操作。"
+      },
+      "cannot_prove": [
+        "不能证明所有电饭煲运行中开盖都安全或不影响程序",
+        "不能证明冬笋以外的出水蔬菜也应统一增加20ml水",
+        "不能证明3人批量可线性缩放到任意份数",
+        "不能替代咸肉盐度和熟制终点的独立安全校验"
+      ]
+    },
+    {
+      "source_id": "panasonic-mixed-chicken-rice-sr-df151",
+      "source_title": "什锦鸡饭",
+      "source_url": "https://home.panasonic.cn/support/attachments/auld/manual/SR-DF151.pdf",
+      "publisher": "松下家电（中国）有限公司",
+      "source_kind": "manufacturer_manual_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方说明书仅作为型号内的配方事实与器具能力证据；不复制说明书原文、版式或图片，不把版权材料打包进运行时。",
+        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
+        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 450, "unit": "g", "source_measure": "3 manufacturer cups"},
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {"value": 720, "unit": "ml"},
+          "interpretation": "说明书直接要求向内锅加入4杯水；本账本按该说明书计量杯换算记录为新增水720ml，不是总液体。"
+        },
+        "protein_items": [
+          {"name": "鸡肉", "quantity": {"value": 80, "unit": "g"}},
+          {"name": "油炸豆腐", "quantity": {"value": 2, "unit": "块"}}
+        ],
+        "vegetable_items": [
+          {"name": "牛蒡", "quantity": {"value": 35, "unit": "g"}},
+          {"name": "胡萝卜", "quantity": {"value": 40, "unit": "g"}},
+          {"name": "香菇", "quantity": {"value": 2, "unit": "个"}}
+        ],
+        "other_items": [
+          {"name": "料酒", "quantity": {"value": 20, "unit": "ml"}},
+          {"name": "酱油", "quantity": {"value": 20, "unit": "ml"}},
+          {"name": "盐", "quantity": {"value": 3, "unit": "g"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "panasonic_sr_df151_closed_lid_once",
+        "manufacturer": "Panasonic",
+        "models": ["SR-DF151"],
+        "program": "精煮",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "烹调完成后翻松",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可直接证明 SR-DF151 在该批量、该计量杯和精煮程序下的一次闭盖什锦饭；可供 Ratio DSL 研究，不自动成为跨机型默认值。",
+        "reason": "官方型号说明书同时给出米、水、主要配料和程序。"
+      },
+      "cannot_prove": [
+        "不能证明720ml新增水适用于其他容量或品牌电饭煲",
+        "不能证明配方可按人数线性缩放",
+        "不能证明任意鸡肉部位与油炸豆腐块尺寸等价",
+        "不能替代鸡肉熟制终点的确定性校验"
+      ]
+    },
+    {
+      "source_id": "panasonic-fresh-shiitake-rice-sr-afg",
+      "source_title": "鲜香菇饭",
+      "source_url": "https://home.panasonic.cn/support/attachments/auld/manual/SR-AFG.pdf",
+      "publisher": "松下家电（中国）有限公司",
+      "source_kind": "manufacturer_manual_recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方说明书只用于核对指定机型菜谱事实、数量和程序；不复制说明书文字、页面或图片。",
+        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
+        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 150, "unit": "g", "source_measure": "1 manufacturer cup"},
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {"value": 180, "unit": "ml"},
+          "interpretation": "180ml是向内锅加入的水，不是水位线，也没有把鲜香菇析水折成总液体。"
+        },
+        "protein_items": [
+          {"name": "鸡肉", "quantity": {"value": 20, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "鲜香菇", "quantity": {"value": 4, "unit": "朵"}},
+          {"name": "芹菜", "quantity": {"value": 15, "unit": "g"}}
+        ],
+        "other_items": [
+          {"name": "酱油", "quantity": {"value": 10, "unit": "ml"}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "panasonic_sr_afg_casserole_program_finish_fold",
+        "manufacturer": "Panasonic",
+        "models": ["SR-AFG series"],
+        "program": "煲仔饭",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序完成后拌入芹菜并闭盖焖5分钟",
+        "source_executability": "executable_on_named_model_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可直接证明 SR-AFG 说明书所述煲仔饭程序下，150g米配180ml新增水和固定少量配料的完成后拌菜流程。",
+        "reason": "官方说明书给出固定批量、新增水量、配料和完成后操作。"
+      },
+      "cannot_prove": [
+        "不能证明普通白米程序与该煲仔饭程序等价",
+        "不能证明4朵鲜香菇对应统一克数",
+        "不能证明其他机型对鲜香菇析水的控制相同",
+        "不能替代鸡肉熟制终点的确定性校验"
+      ]
+    },
+    {
+      "source_id": "zojirushi-fresh-vegetable-bamboo-rice",
+      "source_title": "鲜蔬竹笋饭",
+      "source_url": "https://www.zojirushi-china.com/activity/recipe/rice-cooker/xianshuzhusunfan/",
+      "publisher": "上海象印家用电器有限公司",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方食谱只用于核对型号水位线语义、配料数量和高层流程；不复制页面文字或图片。",
+        "allowed_use": ["manufacturer_recipe_fact", "waterline_semantics", "ingredient_quantities", "appliance_capability_fact"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "convert_waterline_to_unverified_grams", "claim_generic_cooker_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 3, "unit": "manufacturer_cup"},
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {"scale": "white_rice", "mark": 3},
+          "interpretation": "液体调味料先加入内锅，再补水到白米3刻度；来源不提供可脱离内锅刻度的新增水克数。"
+        },
+        "protein_items": [
+          {"name": "肉末", "quantity": {"value": 30, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "洋葱", "quantity": {"value": 20, "unit": "g"}},
+          {"name": "胡萝卜", "quantity": {"value": 15, "unit": "g"}},
+          {"name": "竹笋", "quantity": {"value": 100, "unit": "g"}},
+          {"name": "木耳", "quantity": {"value": 2, "unit": "g"}}
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "zojirushi_inner_pot_white_rice_waterline",
+        "manufacturer": "ZOJIRUSHI",
+        "models": ["具备白米3刻度的来源适用机型"],
+        "program": "来源页面指定饭类程序",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后翻松",
+        "source_executability": "executable_on_compatible_marked_inner_pot"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "可在来源适用且具有相同白米水位线的象印内锅中按水位线执行；只能作为 waterline 型规则证据。",
+        "reason": "官方页面给出完整配料和加液顺序，但没有独立新增水量。"
+      },
+      "cannot_prove": [
+        "不能证明白米3刻度等于固定毫升数",
+        "不能证明水位线可以迁移到无同款刻度的其他品牌内锅",
+        "不能证明肉末种类和脂肪比例可任意替换",
+        "不能替代肉末熟制终点的确定性校验"
+      ]
+    },
+    {
+      "source_id": "tatung-shanghai-vegetable-rice",
+      "source_title": "上海菜饭",
+      "source_url": "https://www.tatung.com.cn/ElectronicRecipes/info_itemid_199.html",
+      "publisher": "大同（TATUNG）",
+      "source_kind": "manufacturer_double-pot-recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方电锅食谱只作为大同双锅结构、内锅液体和分段加热的研究事实；不复制页面原文或图片。",
+        "allowed_use": ["manufacturer_recipe_fact", "inner_vessel_liquid_fact", "double_pot_process_research", "ingredient_quantities"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "treat_outer_water_as_food_ingredient", "claim_single_pot_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 3, "unit": "manufacturer_cup"},
+        "liquid_contract": {
+          "semantic": "inner_vessel_total_liquid_with_separate_outer_water",
+          "amount": {"value": 3.5, "unit": "manufacturer_cup", "includes": ["高汤"]},
+          "outer_vessel_boundary": "外锅水是大同电锅的热源控制量，必须与内锅食用液体分开记录；本账本不把它并入食材或米水比。",
+          "interpretation": "3.5杯是内锅高汤/可用液体，不是普通单内胆电饭煲的新增水默认值。"
+        },
+        "protein_items": [
+          {"name": "腊肠", "quantity": {"value": 3, "unit": "根"}}
+        ],
+        "vegetable_items": [
+          {"name": "青江菜", "quantity": {"value": 3, "unit": "把"}},
+          {"name": "香菇", "quantity": {"min": 8, "max": 10, "unit": "朵"}},
+          {"name": "玉米", "quantity": {"value": 1, "unit": "罐"}}
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_outer_water_two_stage",
+        "manufacturer": "TATUNG",
+        "models": ["大同电锅"],
+        "program": "外锅加水触发机械跳起的两段加热",
+        "single_cook_cycle": false,
+        "mid_cycle_opening": "第一次跳起后开盖拌入青江菜，再补外锅水进行第二段加热",
+        "finish_action": "第二次跳起后完成",
+        "source_executability": "executable_on_tatung_double_pot_only"
+      },
+      "verdict": {
+        "status": "research_only",
+        "scope": "仅用于研究上海菜饭在大同双锅电锅中的内外锅液体分离与分段流程；不进入普通单内胆电饭煲 Ratio DSL。",
+        "reason": "外锅水控制热量和时间，且流程依赖两段加热与中途开盖，不能直接映射为普通电饭煲的一次闭盖程序。"
+      },
+      "cannot_prove": [
+        "不能证明3.5杯内锅液体适用于普通单内胆电饭煲",
+        "不能把外锅水计入食材水或营养",
+        "不能证明青江菜在单次闭盖程序中保持同等质地",
+        "不能证明3把青江菜和1罐玉米对应统一克数"
+      ]
+    },
+    {
+      "source_id": "tatung-sesame-chicken-rice",
+      "source_title": "麻油香菇盐麴鸡饭",
+      "source_url": "https://www.tatung.com.cn/ElectronicRecipes/info_itemid_171.html",
+      "publisher": "大同（TATUNG）",
+      "source_kind": "manufacturer_double-pot-recipe",
+      "retrieved_at": "2026-08-01",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方电锅食谱只用于核对大同双锅结构、内锅加水量和主要食材数量；不复制页面文字或图片。",
+        "allowed_use": ["manufacturer_recipe_fact", "inner_vessel_added_water_fact", "double_pot_process_research", "ingredient_quantities"],
+        "forbidden_use": ["copy_page_text", "copy_page_images", "treat_outer_water_as_food_ingredient", "claim_single_pot_equivalence"]
+      },
+      "quantities": {
+        "rice": {"value": 4, "unit": "manufacturer_cup"},
+        "liquid_contract": {
+          "semantic": "inner_vessel_added_water_with_separate_outer_water",
+          "amount": {"value": 4, "unit": "manufacturer_cup", "includes": ["温水"]},
+          "outer_vessel_boundary": "外锅另加水供大同电锅加热；其数值与内锅食用温水属于不同控制变量，不得合并。",
+          "interpretation": "4杯温水是内锅新增液体；外锅水只控制专用电锅加热。"
+        },
+        "protein_items": [
+          {"name": "鸡腿", "quantity": {"value": 520, "unit": "g"}}
+        ],
+        "vegetable_items": [
+          {"name": "香菇", "quantity": {"value": 6, "unit": "朵"}},
+          {"name": "冬笋", "quantity": {"value": 120, "unit": "g"}}
+        ],
+        "other_items": [
+          {"name": "麻油与盐麴调味", "quantity": {"source_specific": true}}
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_outer_water",
+        "manufacturer": "TATUNG",
+        "models": ["大同电锅"],
+        "program": "外锅加水触发机械跳起",
+        "single_cook_cycle": false,
+        "mid_cycle_opening": null,
+        "finish_action": "跳起后按来源流程完成焖置与翻松",
+        "source_executability": "executable_on_tatung_double_pot_only"
+      },
+      "verdict": {
+        "status": "research_only",
+        "scope": "只证明大同双锅电锅下4杯米、4杯内锅温水与固定鸡腿/香菇/冬笋的来源配方；不直接转为普通电饭煲规则。",
+        "reason": "双锅外水加热结构与普通单内胆传感程序不同，且外锅加热量未进入本项目通用机器契约。"
+      },
+      "cannot_prove": [
+        "不能证明4杯米配4杯温水适用于普通单内胆电饭煲",
+        "不能把外锅水折算成普通电饭煲时间或温度",
+        "不能证明香菇6朵对应统一克数",
+        "不能替代520g鸡腿的切块尺寸和熟制终点校验"
+      ]
+    }
+  ]
+}

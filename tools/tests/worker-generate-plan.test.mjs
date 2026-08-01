@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import worker, * as workerModule from '../../worker/src/worker.js';
+import { renderAndValidateDeterministicLockedPlan } from '../../worker/src/generated-plan-contract.js';
 
 const readAsset = name => fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8');
 const SOURCE_ASSETS = Object.freeze({
@@ -192,6 +193,7 @@ test('generation contract exposes focused Worker-safe pure builder and validator
   assert.equal(typeof workerModule.buildLockedPlanContract, 'function');
   assert.equal(typeof workerModule.buildIngredientTermUniverse, 'function');
   assert.equal(typeof workerModule.lockPlannerOwnedSafetyMetadata, 'function');
+  assert.equal(typeof renderAndValidateDeterministicLockedPlan, 'function');
   assert.equal(typeof workerModule.validateGeneratedPlan, 'function');
   assert.equal(typeof workerModule.buildDeterministicGeneratedPlan, 'function');
   assert.equal(typeof workerModule.validateDeterministicTextProfiles, 'function');
@@ -215,6 +217,9 @@ test('every active template has human-controlled deterministic prose and stable 
   assert.deepEqual(second, first);
   const checked = workerModule.validateGeneratedPlan(first, locked, ingredientTermUniverse());
   assert.equal(checked.ok, true);
+  const unified = renderAndValidateDeterministicLockedPlan(locked, ingredientTermUniverse());
+  assert.deepEqual(unified.generated, first);
+  assert.deepEqual(unified.meals, checked.meals);
   for (const [mealIndex, meal] of first.meals.entries()) {
     const contract = locked.meals[mealIndex].generation_text_contract;
     assert.ok(contract.dish_name_options.includes(meal.dish_name));

@@ -34,11 +34,13 @@ const UNPLANNED_APPLIANCE_RE = /烤箱|电烤箱|空气炸锅|微波炉|电压�
 const SAFETY_EVIDENCE_RULES = Object.freeze({
   egg_fully_set: /完全凝固/u,
   poultry_fully_cooked_no_pink: /完全熟透.*内部无粉红/u,
+  poultry_fully_cooked: /完全熟透.*内部无粉红/u,
   beef_fully_cooked: /完全熟透/u,
   pork_fully_cooked: /完全熟透/u,
   lamb_fully_cooked: /完全熟透/u,
   seafood_fully_cooked: /完全熟透/u,
   bean_fully_cooked: /煮熟软化/u,
+  rice_tender: /熟软且无硬芯/u,
   heated_through: /热透/u,
   grain_tender_no_hard_center: /熟软且无硬芯/u,
   noodle_tender: /无硬芯|熟透/u,
@@ -905,6 +907,16 @@ export function buildDeterministicGeneratedPlan(lockedPlan) {
       ),
     })),
   };
+}
+
+// Both the existing Planner V2 path and the focused rice-meal compiler use
+// this single render-then-validate boundary. Callers receive only rendered
+// prose after the same ingredient, action, and safety contract has passed.
+export function renderAndValidateDeterministicLockedPlan(lockedPlan, termUniverse) {
+  const generated = buildDeterministicGeneratedPlan(lockedPlan);
+  const validation = validateGeneratedPlan(generated, lockedPlan, termUniverse);
+  if (!validation.ok) throw new Error(`deterministic_contract_invalid:${validation.reason_code}`);
+  return { generated, meals: validation.meals };
 }
 
 function contractFailure(reason_code) {

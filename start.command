@@ -19,7 +19,17 @@ if [ ! -f "$BRIDGE_FILE" ]; then
   exit 1
 fi
 
-PREFLIGHT_REQUEST='{"schema_version":2,"planner_version":"pantry-planner-v2","constraints":{"mode":"recommend","intent":"normal","servings":2,"must_use":[],"prefer_use":["番茄"],"dislikes":[],"current_plan_id":null,"recent_plan_ids":[],"decision":null}}'
+# 本地版与 Preview 使用同一套菜饭构建元数据和代理契约，禁止一边跑新版前端、一边让代理按 legacy 校验。
+export YIGUOCHU_PRODUCT_FOCUS="rice-meal-v1"
+export YIGUOCHU_GENERATION_MODE="deterministic"
+# 每次双击都换缓存版本，避免浏览器继续显示上一次本地构建。
+LOCAL_BUILD_ID="rice-meal-local-$(date +%Y%m%d%H%M%S)"
+if ! "$NODE_BIN" tools/build-dist.mjs --out-dir dist --build-id "$LOCAL_BUILD_ID" --planner-rollout direct-recommend --generation-mode deterministic --product-focus rice-meal-v1 >/dev/null; then
+  echo "错误：本地菜饭页面构建失败。" >&2
+  exit 1
+fi
+
+PREFLIGHT_REQUEST='{"schema_version":3,"product_focus":"rice_meal","servings":2,"pantry":["鸡腿","土豆"],"dislikes":[]}'
 if ! DEEPSEEK_API_KEY='' PLANNER_NODE_EXECUTABLE="$NODE_BIN" python3 ai_proxy.py --plan-meal "$PREFLIGHT_REQUEST" >/dev/null 2>&1; then
   echo "错误：本地规划组件未就绪，请确认 Node.js 和规划文件完整。" >&2
   exit 1
@@ -34,8 +44,8 @@ nohup python3 ai_proxy.py > proxy.log 2>&1 &
 PROXY_PID=$!
 echo "proxy 启动中 (PID $PROXY_PID), 日志: proxy.log"
 
-# 通过 localhost 提供页面，避免 file:// 与浏览器来源规则造成行为漂移
-nohup python3 -m http.server 8081 --bind 127.0.0.1 > static.log 2>&1 &
+# 通过 localhost 提供本次构建产物，避免 raw index.html 的构建占位符回退 legacy 产品。
+nohup python3 -m http.server 8081 --bind 127.0.0.1 --directory dist > static.log 2>&1 &
 STATIC_PID=$!
 echo "网页服务启动中 (PID $STATIC_PID), 日志: static.log"
 

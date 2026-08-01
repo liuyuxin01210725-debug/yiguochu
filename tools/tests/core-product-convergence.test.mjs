@@ -14,7 +14,7 @@ function executable(file, body) {
   fs.chmodSync(file, 0o700);
 }
 
-function startFixture({ bridge = true, planExit = 0 } = {}) {
+function startFixture({ bridge = true, buildExit = 0, planExit = 0 } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-start-'));
   const bin = path.join(dir, 'bin');
   fs.mkdirSync(bin);
@@ -26,7 +26,7 @@ function startFixture({ bridge = true, planExit = 0 } = {}) {
   }
   const log = path.join(dir, 'commands.log');
   const node = path.join(bin, 'node');
-  executable(node, 'exit 0');
+  executable(node, `echo "node $*" >> "$LOG_FILE"\ncase "$*" in *build-dist.mjs*) exit ${buildExit};; esac\nexit 0`);
   executable(path.join(bin, 'python3'), `echo "python3 $*" >> "$LOG_FILE"\ncase " $* " in *" --plan-meal "*) exit ${planExit};; esac\nexit 0`);
   for (const name of ['lsof', 'xargs', 'nohup', 'curl', 'sleep', 'open']) {
     executable(path.join(bin, name), `echo "${name} $*" >> "$LOG_FILE"\nexit 0`);
@@ -63,8 +63,10 @@ test('product principles keep personalization honest and architecture focused', 
 
 test('start.command starts both local services and opens the localhost page', () => {
   const script = read('start.command');
+  assert.match(script, /build-dist\.mjs[\s\S]*--product-focus[\s\S]*rice-meal-v1/);
+  assert.match(script, /YIGUOCHU_PRODUCT_FOCUS=["']?rice-meal-v1/);
   assert.match(script, /python3\s+ai_proxy\.py/);
-  assert.match(script, /python3\s+-m\s+http\.server\s+8081/);
+  assert.match(script, /python3\s+-m\s+http\.server\s+8081[\s\S]*--directory\s+dist/);
   assert.match(script, /open\s+["']http:\/\/localhost:8081[\/]?["']/);
   assert.doesNotMatch(script, /open\s+["']index\.html["']/);
 });
@@ -81,6 +83,7 @@ test('start.command fails closed before kill/open when Node, bridge or planner C
   const cases = [
     ['missing Node', { bridge: true, planExit: 0 }, { PLANNER_NODE_EXECUTABLE: '/missing/node' }],
     ['missing bridge', { bridge: false, planExit: 0 }, {}],
+    ['rice-meal build failure', { bridge: true, buildExit: 4, planExit: 0 }, {}],
     ['planner CLI failure', { bridge: true, planExit: 3 }, {}],
   ];
   for (const [name, options, env] of cases) {
@@ -89,7 +92,7 @@ test('start.command fails closed before kill/open when Node, bridge or planner C
       try {
         const result = runStart(fixture, env);
         assert.notEqual(result.status, 0);
-        assert.match(`${result.stdout}${result.stderr}`, /本地规划组件未就绪|需要\s*Node\.js/);
+        assert.match(`${result.stdout}${result.stderr}`, /本地规划组件未就绪|本地菜饭页面构建失败|需要\s*Node\.js/);
         const commands = fs.existsSync(fixture.log) ? fs.readFileSync(fixture.log, 'utf8') : '';
         assert.doesNotMatch(commands, /lsof|nohup|open/);
       } finally {
@@ -105,10 +108,11 @@ test('start.command keeps the normal launch path after successful planner prefli
     const result = runStart(fixture);
     assert.equal(result.status, 0, result.stderr || result.stdout);
     const commands = fs.readFileSync(fixture.log, 'utf8');
+    assert.match(commands, /node .*build-dist\.mjs .*--product-focus rice-meal-v1/);
     assert.match(commands, /python3 ai_proxy\.py --plan-meal/);
     assert.match(commands, /lsof -ti :8765/);
     assert.match(commands, /nohup python3 ai_proxy\.py/);
-    assert.match(commands, /nohup python3 -m http\.server 8081/);
+    assert.match(commands, /nohup python3 -m http\.server 8081 .*--directory dist/);
     assert.match(commands, /open http:\/\/localhost:8081/);
     assert.ok(commands.indexOf('--plan-meal') < commands.indexOf('lsof -ti :8765'));
   } finally {

@@ -44,6 +44,10 @@ const REQUIRED_ASSETS = [
   'ratio-rules.v1.json',
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
+  'rice-meal-catalog.v1.json',
+  'rice-meal-selector.js',
+  'rice-meal-compiler.js',
+  'rice-meal-catalog-validator.js',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -59,6 +63,9 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['recipe-runtime-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-runtime-validator.js')],
   ['recipe-action-registry.js', path.join(ROOT, 'worker', 'src', 'recipe-action-registry.js')],
   ['recipe-action-profile-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-action-profile-validator.js')],
+  ['rice-meal-selector.js', path.join(ROOT, 'worker', 'src', 'rice-meal-selector.js')],
+  ['rice-meal-compiler.js', path.join(ROOT, 'worker', 'src', 'rice-meal-compiler.js')],
+  ['rice-meal-catalog-validator.js', path.join(ROOT, 'worker', 'src', 'rice-meal-catalog-validator.js')],
   ['ingredient-taxonomy-validator.js', path.join(ROOT, 'worker', 'src', 'ingredient-taxonomy-validator.js')],
   ['meal-template-validator.js', path.join(ROOT, 'worker', 'src', 'meal-template-validator.js')],
   ['recipe-library-validator.js', path.join(ROOT, 'worker', 'src', 'recipe-library-validator.js')],
@@ -67,6 +74,7 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['ratio-rules.v1.json', path.join(ROOT, 'tools', 'data', 'ratio-rules.v1.json')],
   ['recipe-runtime.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-runtime.v1.json')],
   ['recipe-action-profiles.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-action-profiles.v1.json')],
+  ['rice-meal-catalog.v1.json', path.join(ROOT, 'tools', 'data', 'rice-meal-catalog.v1.json')],
 ]);
 
 function makeOutputDir() {
@@ -76,6 +84,7 @@ function makeOutputDir() {
 function runBuild(outputDir, {
   plannerRollout = 'direct-recommend',
   generationMode = 'deterministic',
+  productFocus = 'legacy',
 } = {}) {
   const args = [
     BUILD_SCRIPT,
@@ -84,6 +93,7 @@ function runBuild(outputDir, {
   ];
   if (plannerRollout != null) args.push('--planner-rollout', plannerRollout);
   if (generationMode != null) args.push('--generation-mode', generationMode);
+  if (productFocus != null) args.push('--product-focus', productFocus);
   return spawnSync(process.execPath, args, { cwd: ROOT, encoding: 'utf8' });
 }
 
@@ -228,7 +238,8 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 32);
+    assert.equal(buildRecord.files, 36);
+    assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
       /const C = 'yiguochu-shell-v4-canonical-test';/,
@@ -246,7 +257,12 @@ test('distribution build includes canonical recipe assets and refreshes its serv
     );
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
-      { buildId:'canonical-test', plannerRollout:'direct-recommend', generationMode:'deterministic' },
+      {
+        buildId:'canonical-test',
+        plannerRollout:'direct-recommend',
+        generationMode:'deterministic',
+        productFocus:'legacy',
+      },
     );
     const builtWorker = fs.readFileSync(path.join(outputDir, '_worker.js'), 'utf8');
     assert.doesNotMatch(
@@ -265,7 +281,7 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
     assert.equal(defaultBuild.status, 0, `${defaultBuild.stdout}\n${defaultBuild.stderr}`);
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
-      { buildId:'canonical-test', plannerRollout:'off', generationMode:'llm' },
+      { buildId:'canonical-test', plannerRollout:'off', generationMode:'llm', productFocus:'legacy' },
     );
     assert.match(
       fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8'),
@@ -279,6 +295,10 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
     const rejectedGenerationMode = runBuild(outputDir, { generationMode:'hybrid' });
     assert.notEqual(rejectedGenerationMode.status, 0);
     assert.match(rejectedGenerationMode.stderr, /generation mode/i);
+
+    const rejectedFocus = runBuild(outputDir, { productFocus:'all-products' });
+    assert.notEqual(rejectedFocus.status, 0);
+    assert.match(rejectedFocus.stderr, /product focus/i);
   } finally {
     fs.rmSync(outputDir, { recursive:true, force:true });
   }
@@ -346,7 +366,7 @@ test('built Worker contains its complete relative module graph and plans from em
   try {
     build(outputDir);
     const graph = assertBuiltImportGraph(outputDir);
-    assert.equal(graph.size, 16);
+    assert.equal(graph.size, 19);
     const { default: builtWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?built=${Date.now()}`);
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };
@@ -383,6 +403,7 @@ test('built Worker contains its complete relative module graph and plans from em
       assert.equal(health.buildId, 'canonical-test');
       assert.equal(health.plannerRollout, 'direct-recommend');
       assert.equal(health.generationMode, 'deterministic');
+      assert.equal(health.productFocus, 'legacy');
       assert.equal(health.plannerAssets, 'ok');
       assert.equal(health.recipeRuntime, 'ok');
       assert.equal(health.recipeRuntimeCatalogVersion, 'recipe-runtime-v1-20260730-r1');
@@ -394,6 +415,91 @@ test('built Worker contains its complete relative module graph and plans from em
     } finally {
       globalThis.fetch = originalFetch;
     }
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test('rice-meal distribution embeds the catalog and focus metadata without a legacy fallback', async () => {
+  const outputDir = makeOutputDir();
+  try {
+    const buildResult = runBuild(outputDir, { productFocus:'rice-meal-v1' });
+    assert.equal(buildResult.status, 0, `${buildResult.stdout}\n${buildResult.stderr}`);
+    assert.equal(JSON.parse(buildResult.stdout).productFocus, 'rice-meal-v1');
+    assert.deepEqual(
+      JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
+      {
+        buildId:'canonical-test',
+        plannerRollout:'direct-recommend',
+        generationMode:'deterministic',
+        productFocus:'rice-meal-v1',
+      },
+    );
+    for (const asset of [
+      'rice-meal-catalog.v1.json',
+      'rice-meal-selector.js',
+      'rice-meal-compiler.js',
+      'rice-meal-catalog-validator.js',
+    ]) assert.equal(fs.existsSync(path.join(outputDir, asset)), true, `${asset} must be built`);
+
+    const unavailableAssets = {
+      async fetch() { throw new Error('rice build must use embedded assets'); },
+    };
+    const { default: riceWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?rice=${Date.now()}`);
+    const plannedResponse = await riceWorker.fetch(new Request('https://built.example/plan-meal', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        schema_version: 3,
+        product_focus: 'rice_meal',
+        servings: 2,
+        pantry: ['鸡腿', '土豆'],
+        dislikes: [],
+      }),
+    }), {
+      ASSETS: unavailableAssets,
+      RICE_MEAL_PLAN_SECRET: 'build-rice-meal-secret',
+    });
+    const planned = await plannedResponse.json();
+    assert.equal(plannedResponse.status, 200);
+    assert.equal(planned.candidates[0].variant_id, 'home-chicken-leg-potato-rice');
+    assert.match(planned.candidates[0].plan_token, /^rm1\./u);
+
+    const healthResponse = await riceWorker.fetch(new Request('https://built.example/health'), {
+      ASSETS: unavailableAssets,
+    });
+    const health = await healthResponse.json();
+    assert.equal(health.productFocus, 'rice-meal-v1');
+    assert.equal(health.riceMealCatalog, 'ok');
+    assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260801-r4');
+    assert.equal(health.riceMealFamilies, 3);
+    assert.equal(health.riceMealVariants, 10);
+    assert.equal(health.riceMealPreviewReady, 2);
+    assert.equal(health.riceMealPlanned, 8);
+
+    const workerPath = path.join(outputDir, '_worker.js');
+    const builtSource = fs.readFileSync(workerPath, 'utf8');
+    fs.writeFileSync(workerPath, builtSource.replace(
+      /const COMPILED_BUILD_METADATA_JSON = [^;]+;/u,
+      "const COMPILED_BUILD_METADATA_JSON = 'not-valid-json';",
+    ));
+    const { default: brokenWorker } = await import(`${pathToFileURL(workerPath).href}?broken=${Date.now()}`);
+    const brokenResponse = await brokenWorker.fetch(new Request('https://built.example/plan-meal', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        schema_version: 3,
+        product_focus: 'rice_meal',
+        servings: 2,
+        pantry: ['鸡腿', '土豆'],
+        dislikes: [],
+      }),
+    }), {
+      ASSETS: unavailableAssets,
+      RICE_MEAL_PLAN_SECRET: 'build-rice-meal-secret',
+    });
+    assert.equal(brokenResponse.status, 503);
+    assert.equal((await brokenResponse.json()).code, 'build_metadata_unavailable');
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
   }

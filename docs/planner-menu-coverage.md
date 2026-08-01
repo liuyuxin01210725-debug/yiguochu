@@ -9,7 +9,7 @@
 - Planner：`pantry-planner-v2`
 - Template catalog：`templates-v2-20260731-r18`
 - Taxonomy：`taxonomy-v1-20260728-r10`
-- Ratio catalog：`ratio-rules-v1-20260731-r9`
+- Ratio catalog：`ratio-rules-v1-20260801-r11`
 - 菜单：72（approved：12；auto_approved：60）
 - 模型与网络调用：0
 
@@ -20,8 +20,8 @@
 | full_single_pot_evidence_aligned | 12 |
 | full_single_pot_ingredient_compatible | 26 |
 | full_multi_pot | 3 |
-| taxonomy_gap | 21 |
-| planner_gap | 6 |
+| taxonomy_gap | 20 |
+| planner_gap | 7 |
 | no_recognized_core | 4 |
 | invalid_source_record | 0 |
 
@@ -50,7 +50,7 @@
 | P1 | 基础意式烩饭 | 无中国地域技法映射 | 意式烩饭米、洋葱、高汤、黄油 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 米粒卷心菜杂蔬汤 | 无中国地域技法映射 | 大米、卷心菜、高汤 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 南京矮脚黄板鸭菜饭 | raw-rice-braise | 大米、包装熟制板鸭（去骨）、矮脚黄 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
-| P1 | 泉州浥饭（油饭） | glutinous-mixed-rice | 泡发糯米、猪肉末、鲜香菇 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
+| P1 | 泉州浥饭（油饭） | glutinous-mixed-rice | 泡发糯米、猪肉末、鲜香菇 | planner_gap | planner_gap | needs_user_decision | needs_user_decision | 1 |
 | P1 | 福建扁豆饭 | raw-rice-braise | 大米、扁豆 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
 | P1 | 海南定安菜包饭 | vessel-adapted-rice | 大米、生菜、胡萝卜 | taxonomy_gap | taxonomy_gap | complete | needs_user_decision | 1 |
 | P1 | 大溪荷叶油饭 | vessel-adapted-rice | 糯米、猪肉末、食品级干荷叶 | taxonomy_gap | taxonomy_gap | complete | no_valid_plan | 0 |
@@ -99,7 +99,6 @@
 | 豇豆 | 1 | shaanbei-red-date-cowpea-rice |
 | 牛奶 | 1 | tibetan-savory-congee |
 | 牛肉（粗绞） | 1 | texas-beef-chili |
-| 泡发糯米 | 1 | quanzhou-oil-rice |
 | 芹菜 | 1 | creole-jambalaya |
 | 生菜 | 1 | hainan-cai-bao-rice |
 | 食品级菠菜粉 | 1 | guangxi-five-color-glutinous-rice |
@@ -138,7 +137,7 @@
 | `cooked-rice-stew` | 10 | 7 | 0 | 2 |
 | `cooked-rice-stir` | 5 | 3 | 1 | 0 |
 | `family-pot-with-absorbent-staple` | 1 | 0 | 1 | 0 |
-| `glutinous-mixed-rice` | 3 | 0 | 3 | 2 |
+| `glutinous-mixed-rice` | 3 | 0 | 2 | 3 |
 | `grain-porridge` | 3 | 2 | 1 | 0 |
 | `noodle-braise` | 2 | 2 | 0 | 0 |
 | `noodle-broth` | 4 | 3 | 0 | 1 |
@@ -152,7 +151,7 @@
 | 地域 | 菜单数 | 单锅完整覆盖 | taxonomy gap | Planner gap |
 | --- | ---: | ---: | ---: | ---: |
 | `central_plains` | 1 | 1 | 0 | 0 |
-| `fujian_taiwan` | 6 | 2 | 4 | 1 |
+| `fujian_taiwan` | 6 | 2 | 3 | 2 |
 | `jiangnan` | 8 | 6 | 2 | 1 |
 | `jingjinji` | 1 | 1 | 0 | 0 |
 | `jinmeng` | 3 | 3 | 0 | 0 |
@@ -185,7 +184,7 @@
 | 南京矮脚黄板鸭菜饭 | 大米、包装熟制板鸭（去骨）、矮脚黄 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
 | 金山土灶菜饭 | 大米、小白菜 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 高丽菜香菇炊饭 | 大米、卷心菜、鲜香菇 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 直接对齐 | covered |
-| 泉州浥饭（油饭） | 泡发糯米、猪肉末、鲜香菇 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
+| 泉州浥饭（油饭） | 泡发糯米、猪肉末、鲜香菇 | 100% | 66.7% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
 | 福建盖菜肉末咸饭 | 大米、芥菜、猪肉末 | 100% | 100% | 100% | single_pot / complete | savory-mixed-rice-pot | 仅食材兼容或未规划 | P3 |
 | 福建扁豆饭 | 大米、扁豆 | 50% | 100% | 0% | none / no_valid_plan | 无 | 仅食材兼容或未规划 | P1 |
 | 海南定安菜包饭 | 大米、生菜、胡萝卜 | 66.7% | 100% | 66.7% | single_pot / needs_user_decision | savory-mixed-rice-pot | 仅食材兼容或未规划 | P1 |
@@ -241,9 +240,9 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`32039e23566799cfc4c68a10c4b0b5c25d39eb5689437628727ceb33671ea64c`
+- `tools/data/ingredient-taxonomy.v1.json`：`9de0f8f16344c539e404a8b6de515dcff3e244fbabbcae6818962576b7aaa8da`
 - `tools/data/meal-templates.v2.json`：`90a5fbd63f94ff376a08ac441e2058b99058dc34347d795b6da1cdebf36f8ad1`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`8ad5f6325428cca967b3d25325a9121652d7ab609aadc2a3ee4be3f0e6ac99fe`
+- `tools/data/ratio-rules.v1.json`：`46ebd46fef0260af05af7ecbe34db57b91ea1ff634b5c6c495cddde6665ad9ea`
 - `tools/data/recipe-library.json`：`510abe0eb577117f3a465c920d52a2dad949defa0fdd799b88e5e8286bf57340`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`

@@ -1,0 +1,1018 @@
+{
+  "schema_version": 1,
+  "catalog_version": "rice-meal-catalog-v1-20260801-r4",
+  "families": [
+    {
+      "family_id": "home-southern-rice",
+      "variants": [
+        {
+          "variant_id": "home-soaked-glutinous-pork-mushroom-rice",
+          "recipe_id": "quanzhou-oil-rice",
+          "display_name": "香菇肉末糯米饭",
+          "name_label": "家庭糯米饭",
+          "review_note": "迁移依据为 recipe-library.json#quanzhou-oil-rice；仅作为项目家庭标准复核，不声明泉州地域真实性。肉末与香菇未量化，不能据此生成可执行克数。",
+          "status": "planned",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "soaked-glutinous-rice",
+            "amount_rule_id": "quanzhou-soaked-rice-liquid-evidence-v1",
+            "action": "作为泡发主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "ground-pork",
+              "role": "蛋白质",
+              "amount_rule_id": null,
+              "action": "先在外锅煸香后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "shiitake",
+              "role": "蔬菜",
+              "amount_rule_id": null,
+              "action": "先与肉末在外锅煸香后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "soaked-glutinous-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "ground-pork"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "shiitake"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "verify_soaked_glutinous_rice",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "brown_ground_pork_and_mushrooms_outside_cooker",
+                "ingredient_ids": [
+                  "ground-pork",
+                  "shiitake"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "ground-pork",
+                  "shiitake"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "ground-pork",
+                  "shiitake"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "ground-pork"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "ground-pork",
+                  "shiitake"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 45
+          },
+          "ratio_rule_ids": [
+            "quanzhou-soaked-rice-liquid-evidence-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "soaked-glutinous-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "ground-pork",
+              "endpoint_code": "pork_fully_cooked"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "一锅出原创标准配方：泉州浥饭（油饭）",
+              "url": "https://yiguochu.pages.dev/recipes.html?id=quanzhou-oil-rice"
+            }
+          ],
+          "exclusion_flags": []
+        }
+      ]
+    },
+    {
+      "family_id": "home-northwest-rice",
+      "variants": [
+        {
+          "variant_id": "home-lamb-carrot-rice",
+          "recipe_id": "xinjiang-lamb-pilaf",
+          "display_name": "羊肉胡萝卜焖饭",
+          "name_label": "家庭羊肉焖饭",
+          "review_note": "迁移依据为 recipe-library.json#xinjiang-lamb-pilaf；保留羊肉先熟制和可用余液范围，未声明新疆地域真实性。羊肉、洋葱与胡萝卜未量化，不能据此生成可执行克数。",
+          "status": "planned",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "xinjiang-lamb-pilaf-liquid-evidence-v1",
+            "action": "作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "lamb-leg",
+              "role": "蛋白质",
+              "amount_rule_id": null,
+              "action": "先在外锅熟制后连同可用余液入内胆"
+            },
+            {
+              "canonical_ingredient_id": "onion",
+              "role": "香味蔬菜",
+              "amount_rule_id": null,
+              "action": "与羊肉在外锅加热后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "蔬菜",
+              "amount_rule_id": null,
+              "action": "切配后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "lamb-leg"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "carrot"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "brown_lamb_and_aromatics_outside_cooker",
+                "ingredient_ids": [
+                  "lamb-leg",
+                  "onion"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "prepare_vegetables",
+                "ingredient_ids": [
+                  "carrot"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "lamb-leg",
+                  "onion",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "lamb-leg",
+                  "onion",
+                  "carrot"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "lamb-leg",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "lamb-leg",
+                  "onion",
+                  "carrot"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 50
+          },
+          "ratio_rule_ids": [
+            "xinjiang-lamb-pilaf-liquid-evidence-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "lamb-leg",
+              "endpoint_code": "lamb_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "一锅出原创标准配方：新疆羊肉抓饭",
+              "url": "https://yiguochu.pages.dev/recipes.html?id=xinjiang-lamb-pilaf"
+            }
+          ],
+          "exclusion_flags": []
+        },
+        {
+          "variant_id": "home-red-date-cowpea-rice",
+          "recipe_id": "shaanbei-red-date-cowpea-rice",
+          "display_name": "红枣豇豆焖饭",
+          "name_label": "家庭红枣豆角焖饭",
+          "review_note": "迁移依据为 recipe-library.json#shaanbei-red-date-cowpea-rice；原始“豇豆”字面身份尚未消歧，鲜豇豆仅记录为待复核的加工假设，条目保持 planned。红枣与鲜豇豆未量化，不能据此生成可执行克数。",
+          "status": "planned",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "shaanbei-red-date-cowpea-rice-liquid-evidence-v1",
+            "action": "作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pitted-dried-jujube",
+              "role": "果干",
+              "amount_rule_id": null,
+              "action": "逐颗确认去核后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "fresh-cowpea-pod",
+              "role": "豆角",
+              "amount_rule_id": null,
+              "action": "先在外锅完全熟制后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "fresh-cowpea-pod"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_pitted_dried_fruit",
+                "ingredient_ids": [
+                  "pitted-dried-jujube"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "pre_cook_cowpea_pods_outside_cooker",
+                "ingredient_ids": [
+                  "fresh-cowpea-pod"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pitted-dried-jujube",
+                  "fresh-cowpea-pod"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pitted-dried-jujube",
+                  "fresh-cowpea-pod"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pitted-dried-jujube",
+                  "fresh-cowpea-pod"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pitted-dried-jujube",
+                  "fresh-cowpea-pod"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 45
+          },
+          "ratio_rule_ids": [
+            "shaanbei-red-date-cowpea-rice-liquid-evidence-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pitted-dried-jujube",
+              "endpoint_code": "pit_absent_verified"
+            },
+            {
+              "canonical_ingredient_id": "fresh-cowpea-pod",
+              "endpoint_code": "bean_fully_cooked"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "一锅出原创标准配方：陕北红枣豇豆焖饭",
+              "url": "https://yiguochu.pages.dev/recipes.html?id=shaanbei-red-date-cowpea-rice"
+            }
+          ],
+          "exclusion_flags": []
+        }
+      ]
+    },
+    {
+      "family_id": "home-braised-rice",
+      "variants": [
+        {
+          "variant_id": "home-chicken-leg-potato-rice",
+          "recipe_id": "chicken-leg-potato-braised-rice",
+          "display_name": "鸡腿土豆焖饭",
+          "name_label": "家庭鸡腿焖饭",
+          "review_note": "迁移依据为 recipe-library.json#chicken-leg-potato-braised-rice；鸡腿肉和土豆数量由原始比例直接结构化。原文写的是约140克可用总液体，不再误说成精确清水；本方案没有其他可量取汤汁，因此预览按约量清水执行，尚未完成家庭试做。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "chicken-leg-potato-braised-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "role": "蛋白质",
+              "amount_rule_id": "chicken-leg-potato-braised-rice-executable-v1",
+              "action": "切成小块后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "potato",
+              "role": "耐煮蔬菜",
+              "amount_rule_id": "chicken-leg-potato-braised-rice-executable-v1",
+              "action": "切块后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "chicken-leg"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "direct_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "cut_chicken_leg_to_small_pieces", "ingredient_ids": ["chicken-leg"]},
+              {"order": 3, "action_code": "prepare_vegetables", "ingredient_ids": ["potato"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "chicken-leg", "potato"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "chicken-leg", "potato"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "chicken-leg", "potato"]},
+              {"order": 3, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "chicken-leg", "potato"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 40,
+            "total_time_minutes": 45
+          },
+          "ratio_rule_ids": ["chicken-leg-potato-braised-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "chicken-leg", "endpoint_code": "poultry_fully_cooked"},
+            {"canonical_ingredient_id": "potato", "endpoint_code": "tender"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：鸡腿土豆焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=chicken-leg-potato-braised-rice"}
+          ],
+          "exclusion_flags": []
+        },
+        {
+          "variant_id": "home-corn-carrot-chicken-leg-rice",
+          "recipe_id": "corn-carrot-chicken-leg-covered-rice",
+          "display_name": "玉米胡萝卜鸡腿焖饭",
+          "name_label": "家庭玉米鸡腿焖饭",
+          "review_note": "迁移依据为 recipe-library.json#corn-carrot-chicken-leg-covered-rice；来源只给出玉米与胡萝卜合计45克/100克大米，目录不声称两者各自克数来自菜谱。原文写的是约140克可用总液体，不再误说成精确清水；本方案没有其他可量取汤汁，因此预览按约量清水执行。执行时按声明成员顺序等分，奇数余量依次分配；这是可复现的 planner allocation，不是来源单项事实，尚未完成厨房口味试做。",
+          "status": "preview_ready",
+          "status_history": ["research_only", "fact_checked", "planned", "preview_ready"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "corn-carrot-chicken-leg-covered-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "role": "蛋白质",
+              "amount_rule_id": "corn-carrot-chicken-leg-covered-rice-executable-v1",
+              "action": "切成小块后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "sweet-corn",
+              "role": "谷物蔬菜",
+              "amount_rule_id": "corn-carrot-chicken-leg-covered-rice-executable-v1",
+              "action": "处理后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "蔬菜",
+              "amount_rule_id": "corn-carrot-chicken-leg-covered-rice-executable-v1",
+              "action": "切块后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "chicken-leg"},
+              {"role": "fiber", "canonical_ingredient_id": "carrot"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "direct_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "cut_chicken_leg_to_small_pieces", "ingredient_ids": ["chicken-leg"]},
+              {"order": 3, "action_code": "prepare_vegetables", "ingredient_ids": ["sweet-corn", "carrot"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "chicken-leg", "sweet-corn", "carrot"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "chicken-leg", "sweet-corn", "carrot"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "chicken-leg", "carrot"]},
+              {"order": 3, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "chicken-leg", "sweet-corn", "carrot"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 40,
+            "total_time_minutes": 45
+          },
+          "ratio_rule_ids": ["corn-carrot-chicken-leg-covered-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "chicken-leg", "endpoint_code": "poultry_fully_cooked"},
+            {"canonical_ingredient_id": "carrot", "endpoint_code": "tender"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：玉米土豆鸡腿饭锅", "url": "https://yiguochu.pages.dev/recipes.html?id=corn-carrot-chicken-leg-covered-rice"}
+          ],
+          "exclusion_flags": []
+        },
+        {
+          "variant_id": "home-green-bean-pork-rib-rice",
+          "recipe_id": "green-bean-pork-rib-braised-rice",
+          "display_name": "豆角排骨焖饭",
+          "name_label": "家庭豆角排骨焖饭",
+          "review_note": "迁移依据为 recipe-library.json#green-bean-pork-rib-braised-rice；排骨预处理后的汤汁是否保留和计入总液体未量化，当前不能把可用总液体直接解释为另加清水，退回 planned。",
+          "status": "planned",
+          "status_history": ["research_only", "fact_checked", "planned"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-ribs",
+              "role": "蛋白质",
+              "amount_rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
+              "action": "先在外锅煮至接近熟透后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "green-beans",
+              "role": "耐煮蔬菜",
+              "amount_rule_id": "green-bean-pork-rib-braised-rice-executable-v1",
+              "action": "处理后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "pork-ribs"},
+              {"role": "fiber", "canonical_ingredient_id": "green-beans"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "pre_cook_pork_ribs_outside_cooker", "ingredient_ids": ["pork-ribs"]},
+              {"order": 3, "action_code": "prepare_vegetables", "ingredient_ids": ["green-beans"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "pork-ribs", "green-beans"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "pork-ribs", "green-beans"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "pork-ribs", "green-beans"]},
+              {"order": 3, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "pork-ribs", "green-beans"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 55
+          },
+          "ratio_rule_ids": ["green-bean-pork-rib-braised-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "pork-ribs", "endpoint_code": "pork_fully_cooked"},
+            {"canonical_ingredient_id": "green-beans", "endpoint_code": "bean_fully_cooked"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=green-bean-pork-rib-braised-rice"}
+          ],
+          "exclusion_flags": []
+        },
+        {
+          "variant_id": "home-mushroom-green-bean-pork-rib-rice",
+          "recipe_id": "mushroom-green-bean-pork-rib-braised-rice",
+          "display_name": "香菇豆角排骨焖饭",
+          "name_label": "家庭香菇排骨焖饭",
+          "review_note": "迁移依据为 recipe-library.json#mushroom-green-bean-pork-rib-braised-rice；香菇与豆角合计量可复现，但排骨预处理汤汁与鲜菇出水没有可执行计量合同，当前不能把可用总液体直接解释为另加清水，退回 planned。",
+          "status": "planned",
+          "status_history": ["research_only", "fact_checked", "planned"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-ribs",
+              "role": "蛋白质",
+              "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
+              "action": "先在外锅煮至接近熟透后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "shiitake",
+              "role": "菌菇",
+              "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
+              "action": "处理后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "green-beans",
+              "role": "耐煮蔬菜",
+              "amount_rule_id": "mushroom-green-bean-pork-rib-braised-rice-executable-v1",
+              "action": "处理后入内胆"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "pork-ribs"},
+              {"role": "fiber", "canonical_ingredient_id": "green-beans"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "pre_cook_pork_ribs_outside_cooker", "ingredient_ids": ["pork-ribs"]},
+              {"order": 3, "action_code": "prepare_vegetables", "ingredient_ids": ["shiitake", "green-beans"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "pork-ribs", "shiitake", "green-beans"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "pork-ribs", "shiitake", "green-beans"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "pork-ribs", "green-beans"]},
+              {"order": 3, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "pork-ribs", "shiitake", "green-beans"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 40,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": ["mushroom-green-bean-pork-rib-braised-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "pork-ribs", "endpoint_code": "pork_fully_cooked"},
+            {"canonical_ingredient_id": "green-beans", "endpoint_code": "bean_fully_cooked"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：香菇豆角排骨焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=mushroom-green-bean-pork-rib-braised-rice"}
+          ],
+          "exclusion_flags": []
+        },
+        {
+          "variant_id": "home-cabbage-tofu-rice",
+          "recipe_id": "cabbage-tofu-braised-rice",
+          "display_name": "白菜豆腐焖饭",
+          "name_label": "家庭白菜豆腐焖饭",
+          "review_note": "迁移依据为 recipe-library.json#cabbage-tofu-braised-rice；白菜从原做法改为锅外熟制后，锅内含水条件已经改变，原总液体比例不能直接继承；当前退回 planned，等待独立液体校准。",
+          "status": "planned",
+          "status_history": ["research_only", "fact_checked", "planned"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "cabbage-tofu-braised-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "firm-tofu",
+              "role": "蛋白质",
+              "amount_rule_id": "cabbage-tofu-braised-rice-executable-v1",
+              "action": "切块后随米饭从程序开始加热"
+            },
+            {
+              "canonical_ingredient_id": "napa-cabbage",
+              "role": "嫩叶菜",
+              "amount_rule_id": "cabbage-tofu-braised-rice-executable-v1",
+              "action": "锅外熟制后保留，煮饭程序结束再拌入"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "firm-tofu"},
+              {"role": "fiber", "canonical_ingredient_id": "napa-cabbage"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "pre_cook_tender_vegetables_outside_cooker", "ingredient_ids": ["napa-cabbage"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "firm-tofu"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "firm-tofu"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "firm-tofu", "napa-cabbage"]},
+              {"order": 3, "action_code": "fold_in_pre_cooked_ingredients", "ingredient_ids": ["napa-cabbage"]},
+              {"order": 4, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "firm-tofu", "napa-cabbage"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 35
+          },
+          "ratio_rule_ids": ["cabbage-tofu-braised-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "firm-tofu", "endpoint_code": "heated_through"},
+            {"canonical_ingredient_id": "napa-cabbage", "endpoint_code": "tender"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：白菜豆腐焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=cabbage-tofu-braised-rice"}
+          ],
+          "exclusion_flags": ["requires_mid_cook_opening"]
+        },
+        {
+          "variant_id": "home-broccoli-beef-rice",
+          "recipe_id": "broccoli-beef-braised-rice",
+          "display_name": "西兰花牛肉焖饭",
+          "name_label": "家庭西兰花牛肉焖饭",
+          "review_note": "迁移依据为 recipe-library.json#broccoli-beef-braised-rice；西兰花从原做法改为锅外熟制后，锅内含水条件已经改变，原总液体比例不能直接继承；当前退回 planned，等待独立液体校准。",
+          "status": "planned",
+          "status_history": ["research_only", "fact_checked", "planned"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "broccoli-beef-braised-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "beef-generic",
+              "role": "蛋白质",
+              "amount_rule_id": "broccoli-beef-braised-rice-executable-v1",
+              "action": "切成小片后随米饭从程序开始加热"
+            },
+            {
+              "canonical_ingredient_id": "broccoli",
+              "role": "嫩蔬菜",
+              "amount_rule_id": "broccoli-beef-braised-rice-executable-v1",
+              "action": "锅外熟制后保留，煮饭程序结束再拌入"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "beef-generic"},
+              {"role": "fiber", "canonical_ingredient_id": "broccoli"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "prepare_raw_ingredients", "ingredient_ids": ["beef-generic"]},
+              {"order": 3, "action_code": "pre_cook_tender_vegetables_outside_cooker", "ingredient_ids": ["broccoli"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "beef-generic"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "beef-generic"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "beef-generic", "broccoli"]},
+              {"order": 3, "action_code": "fold_in_pre_cooked_ingredients", "ingredient_ids": ["broccoli"]},
+              {"order": 4, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "beef-generic", "broccoli"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 40,
+            "total_time_minutes": 40
+          },
+          "ratio_rule_ids": ["broccoli-beef-braised-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "beef-generic", "endpoint_code": "beef_fully_cooked"},
+            {"canonical_ingredient_id": "broccoli", "endpoint_code": "tender"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：西兰花牛肉焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=broccoli-beef-braised-rice"}
+          ],
+          "exclusion_flags": ["requires_mid_cook_opening"]
+        },
+        {
+          "variant_id": "home-greens-minced-pork-rice",
+          "recipe_id": "greens-minced-pork-braised-rice",
+          "display_name": "青菜肉末焖饭",
+          "name_label": "家庭青菜肉末焖饭",
+          "review_note": "迁移依据为 recipe-library.json#greens-minced-pork-braised-rice；猪肉末和青菜改为锅外熟制后，锅内含水与油脂条件已经改变，原总液体比例不能直接继承；当前退回 planned，等待独立液体校准。",
+          "status": "planned",
+          "status_history": ["research_only", "fact_checked", "planned"],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "greens-minced-pork-braised-rice-executable-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "ground-pork",
+              "role": "蛋白质",
+              "amount_rule_id": "greens-minced-pork-braised-rice-executable-v1",
+              "action": "锅外炒散熟化后入内胆"
+            },
+            {
+              "canonical_ingredient_id": "leafy-greens",
+              "role": "嫩叶菜",
+              "amount_rule_id": "greens-minced-pork-braised-rice-executable-v1",
+              "action": "锅外熟制后保留，煮饭程序结束再拌入"
+            }
+          ],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {"role": "carb", "canonical_ingredient_id": "raw-rice"},
+              {"role": "protein", "canonical_ingredient_id": "ground-pork"},
+              {"role": "fiber", "canonical_ingredient_id": "leafy-greens"}
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {"order": 1, "action_code": "rinse_raw_rice", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "brown_ground_pork_outside_cooker", "ingredient_ids": ["ground-pork"]},
+              {"order": 3, "action_code": "pre_cook_tender_vegetables_outside_cooker", "ingredient_ids": ["leafy-greens"]}
+            ],
+            "start_actions": [
+              {"order": 1, "action_code": "load_inner_pot", "ingredient_ids": ["raw-rice", "ground-pork"]},
+              {"order": 2, "action_code": "start_closed_lid_program", "ingredient_ids": ["raw-rice", "ground-pork"]}
+            ],
+            "finish_actions": [
+              {"order": 1, "action_code": "rest_lid_closed", "ingredient_ids": ["raw-rice"]},
+              {"order": 2, "action_code": "verify_safety_endpoints", "ingredient_ids": ["raw-rice", "ground-pork", "leafy-greens"]},
+              {"order": 3, "action_code": "fold_in_pre_cooked_ingredients", "ingredient_ids": ["leafy-greens"]},
+              {"order": 4, "action_code": "fluff_and_serve", "ingredient_ids": ["raw-rice", "ground-pork", "leafy-greens"]}
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 35
+          },
+          "ratio_rule_ids": ["greens-minced-pork-braised-rice-executable-v1"],
+          "safety_endpoints": [
+            {"canonical_ingredient_id": "raw-rice", "endpoint_code": "rice_tender"},
+            {"canonical_ingredient_id": "ground-pork", "endpoint_code": "pork_fully_cooked"},
+            {"canonical_ingredient_id": "leafy-greens", "endpoint_code": "tender"}
+          ],
+          "source_refs": [
+            {"title": "一锅出原创标准配方：青菜肉末焖饭", "url": "https://yiguochu.pages.dev/recipes.html?id=greens-minced-pork-braised-rice"}
+          ],
+          "exclusion_flags": ["requires_mid_cook_opening"]
+        }
+      ]
+    }
+  ]
+}
