@@ -44,6 +44,7 @@ const ASSET_FILES = new Map([
   ['/recipe-runtime.v1.json', assetUrl('recipe-runtime.v1.json')],
   ['/recipe-action-profiles.v1.json', assetUrl('recipe-action-profiles.v1.json')],
   ['/rice-meal-catalog.v1.json', assetUrl('rice-meal-catalog.v1.json')],
+  ['/rice-meal-collection.v1.json', assetUrl('rice-meal-collection.v1.json')],
   ['/foods-tw.json', assetUrl('foods-tw.json')],
 ]);
 

@@ -20,6 +20,7 @@ const assetNames = [
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
   'rice-meal-catalog.v1.json',
+  'rice-meal-collection.v1.json',
   'foods-tw.json',
 ];
 const sourceAssets = Object.freeze(Object.fromEntries(assetNames.map(name => [
