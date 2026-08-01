@@ -9,6 +9,7 @@ import { validateMealTemplateCatalog } from './lib/meal-template-validator.mjs';
 import { validateRatioDslCatalog } from './lib/ratio-dsl-validator.mjs';
 import { validateRecipeRuntimeCatalog } from './lib/recipe-runtime-validator.mjs';
 import { validateRiceMealCatalog } from './lib/rice-meal-catalog-validator.mjs';
+import { validateRiceMealCollection } from './lib/rice-meal-collection-validator.mjs';
 import { validateRegionalMenuResearch } from './lib/regional-menu-research-validator.mjs';
 import { validateMenuVerificationCases } from './lib/menu-verification-validator.mjs';
 import { buildMenuMaster, validateMenuMaster, validateMenuMasterBaseline } from './lib/menu-master-builder.mjs';
@@ -130,6 +131,7 @@ const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.
 const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.json', import.meta.url), 'utf8'));
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
 const riceMealCatalog = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-catalog.v1.json', import.meta.url), 'utf8'));
+const riceMealCollection = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-collection.v1.json', import.meta.url), 'utf8'));
 const recipeRuntimeCatalog = JSON.parse(fs.readFileSync(new URL('./data/recipe-runtime.v1.json', import.meta.url), 'utf8'));
 const recipeActionProfiles = JSON.parse(fs.readFileSync(new URL('./data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'));
 const regionalResearch = readReviewLedger('./data/regional-menu-research.v1.json', 'regional menu research ledger');
@@ -162,6 +164,7 @@ const riceMealCatalogErrors = validateRiceMealCatalog(riceMealCatalog, {
   taxonomy,
   ratioCatalog: ratios,
 });
+const riceMealCollectionErrors = validateRiceMealCollection(riceMealCollection, { taxonomy, catalog: riceMealCatalog });
 const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   recipes: lib,
   taxonomy,
@@ -169,7 +172,7 @@ const recipeRuntimeErrors = validateRecipeRuntimeCatalog(recipeRuntimeCatalog, {
   ratios,
   actionProfiles: recipeActionProfiles,
 });
-errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...riceMealCatalogErrors, ...recipeRuntimeErrors);
+errors.push(...taxonomyErrors, ...templateErrors, ...ratioErrors, ...riceMealCatalogErrors, ...riceMealCollectionErrors, ...recipeRuntimeErrors);
 const recipes = Array.isArray(lib.recipes) ? lib.recipes : [];
 const families = Array.isArray(lib.families) ? lib.families : [];
 const recipeIds = new Set(recipes.filter(recipe => recipe && typeof recipe === 'object').map(recipe => recipe.id));
@@ -724,6 +727,13 @@ const riceMealVariants = Array.isArray(riceMealCatalog?.families)
   : [];
 const riceMealPreviewReadyCount = riceMealVariants.filter(variant => variant?.status === 'preview_ready').length;
 const riceMealPlannedCount = riceMealVariants.filter(variant => variant?.status === 'planned').length;
+const riceMealCollectionCandidates = Array.isArray(riceMealCollection?.candidates) ? riceMealCollection.candidates : [];
+const riceMealCollectionTracking = Array.isArray(riceMealCollection?.catalog_tracking) ? riceMealCollection.catalog_tracking : [];
+const riceMealCollectionRuntimeReadyCount = riceMealCollectionTracking.filter(row => row?.status === 'runtime_ready').length;
+const riceMealCollectionPlannedCount = riceMealCollectionTracking.filter(row => row?.status === 'planned').length;
+const riceMealCollectionGapCount = Array.isArray(riceMealCollection?.region_nodes)
+  ? riceMealCollection.region_nodes.filter(node => typeof node?.gap === 'string' && node.gap.trim()).length
+  : 0;
 console.log(`菜谱家族 ${familyCount} 个 · 基础菜谱 ${recipeCount} 道（approved 人工批准 ${approvedCount} 道 · auto_approved 自动闸门通过待评审 ${autoApprovedCount} 道）`);
 console.log([
   `${recipeCount} recipes`,
@@ -734,6 +744,13 @@ console.log([
   taxonomyErrors.length ? `taxonomy invalid (${taxonomyErrors.length})` : 'taxonomy ok',
   ratioErrors.length ? `ratio DSL invalid (${ratioErrors.length})` : 'ratio DSL ok',
   recipeRuntimeErrors.length ? `recipe runtime invalid (${recipeRuntimeErrors.length})` : 'recipe runtime ok',
+].join(' · '));
+console.log([
+  `${riceMealCollectionCandidates.length} collection candidates`,
+  `${riceMealCollectionRuntimeReadyCount} runtime_ready`,
+  `${riceMealCollectionPlannedCount} planned`,
+  `${riceMealCollectionGapCount} explicit regional gaps`,
+  riceMealCollectionErrors.length ? `rice meal collection invalid (${riceMealCollectionErrors.length})` : 'rice meal collection ok',
 ].join(' · '));
 console.log([
   `${riceMealFamilyCount} families`,
