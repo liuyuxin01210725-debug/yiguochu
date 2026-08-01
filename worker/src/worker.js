@@ -1670,6 +1670,7 @@ const PLANNER_ASSET_PATHS = Object.freeze({
   actionProfiles: '/recipe-action-profiles.v1.json',
 });
 const RICE_MEAL_CATALOG_ASSET_PATH = '/rice-meal-catalog.v1.json';
+const RICE_MEAL_COLLECTION_ASSET_PATH = '/rice-meal-collection.v1.json';
 
 function plannerAssetError() {
   const error = new Error('planner_assets_unavailable');
@@ -1736,6 +1737,7 @@ function validateAndPreparePlannerAssets(source) {
     recipeRuntime,
     actionProfiles,
     riceMealCatalog: source?.riceMealCatalog,
+    riceMealCollection: source?.riceMealCollection,
   });
 }
 
@@ -2042,10 +2044,19 @@ async function getRiceMealAssets(env, request) {
     throw riceMealAssetError();
   }
   let catalog = plannerAssets.riceMealCatalog;
+  let collection = plannerAssets.riceMealCollection;
   if (!catalog) {
     try {
       if (!assetBinding || typeof assetBinding.fetch !== 'function') throw riceMealAssetError();
       catalog = await readPlannerJsonAsset(assetBinding, request, RICE_MEAL_CATALOG_ASSET_PATH);
+    } catch (_error) {
+      throw riceMealAssetError();
+    }
+  }
+  if (!collection) {
+    try {
+      if (!assetBinding || typeof assetBinding.fetch !== 'function') throw riceMealAssetError();
+      collection = await readPlannerJsonAsset(assetBinding, request, RICE_MEAL_COLLECTION_ASSET_PATH);
     } catch (_error) {
       throw riceMealAssetError();
     }
@@ -2055,12 +2066,14 @@ async function getRiceMealAssets(env, request) {
       recipeLibrary: plannerAssets.recipes,
       taxonomy: plannerAssets.taxonomy,
       ratioCatalog: plannerAssets.ratios,
+      collection,
     });
   } catch (_error) {
     throw riceMealAssetError();
   }
   const prepared = deepFreeze({
     catalog,
+    collection,
     taxonomy: plannerAssets.taxonomy,
     ratios: plannerAssets.ratios,
     recipes: plannerAssets.recipes,

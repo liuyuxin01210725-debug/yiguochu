@@ -25,6 +25,7 @@ const SOURCE_ASSETS = Object.freeze({
   '/recipe-runtime.v1.json': readAsset('recipe-runtime.v1.json'),
   '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
   '/rice-meal-catalog.v1.json': readAsset('rice-meal-catalog.v1.json'),
+  '/rice-meal-collection.v1.json': readAsset('rice-meal-collection.v1.json'),
   '/foods-tw.json': readAsset('foods-tw.json'),
   '/build-meta.json': RICE_MEAL_BUILD_META,
 });

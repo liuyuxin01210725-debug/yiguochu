@@ -149,6 +149,7 @@ function validCatalog() {
           title: '鸡腿青菜焖饭的地方风味依据',
           url: 'https://www.gov.cn/identity',
         }],
+        collection_candidate_id: 'household-chicken-rice',
         rice: {
           canonical_ingredient_id: 'raw-rice',
           amount_rule_id: 'known-ratio',
@@ -217,6 +218,8 @@ function catalogCollection() {
       candidate_id: 'household-chicken-rice',
       name: '鸡腿青菜焖饭',
       core_ingredients: ['米', '鸡腿', '青菜'],
+      core_ingredient_ids: ['raw-rice', 'chicken-leg', 'bok-choy'],
+      runtime_name_aliases: ['鸡腿青菜焖饭'],
       nutrition_grade: 'A',
       status: 'runtime_ready',
     }],
@@ -239,8 +242,41 @@ function catalogCollection() {
 
 function catalogWithCollection() {
   const catalog = validCatalog();
-  catalog.families[0].variants[0].collection_candidate_id = 'household-chicken-rice';
   return catalog;
+}
+
+function collectionForCatalog(catalog) {
+  const variant = catalog.families[0].variants[0];
+  const coreIngredientIds = [
+    variant.rice.canonical_ingredient_id,
+    ...variant.ingredients.map(item => item.canonical_ingredient_id),
+  ];
+  const status = variant.status === 'preview_ready' ? 'runtime_ready' : 'planned';
+  return {
+    candidates: [{
+      candidate_id: variant.collection_candidate_id,
+      name: variant.display_name,
+      core_ingredients: ['受控测试食材'],
+      core_ingredient_ids: coreIngredientIds,
+      runtime_name_aliases: [variant.display_name],
+      nutrition_grade: variant.nutrition_structure.grade,
+      status,
+    }],
+    catalog_tracking: [{
+      tracking_id: 'track-current',
+      runtime_variant_id: variant.variant_id,
+      candidate_id: variant.collection_candidate_id,
+      core_ingredient_ids: coreIngredientIds,
+      nutrition_grade: variant.nutrition_structure.grade,
+      status,
+      reverse_mapping_id: 'map-current',
+    }],
+    runtime_mappings: [{
+      mapping_id: 'map-current',
+      candidate_id: variant.collection_candidate_id,
+      tracking_id: 'track-current',
+    }],
+  };
 }
 
 function controlledFinishCatalog() {
@@ -403,7 +439,10 @@ function validator() {
 }
 
 function validate(catalog, validationContext = context) {
-  return validator().validateRiceMealCatalog(catalog, validationContext);
+  const nextContext = validationContext.collection
+    ? validationContext
+    : { ...validationContext, collection: collectionForCatalog(catalog) };
+  return validator().validateRiceMealCatalog(catalog, nextContext);
 }
 
 function expectError(catalog, expected, validationContext = context) {
@@ -413,11 +452,19 @@ function expectError(catalog, expected, validationContext = context) {
 test('accepts a complete closed-lid preview-ready catalog and returns it from the assertion API', () => {
   const catalog = validCatalog();
   assert.deepEqual(validate(catalog), []);
-  assert.equal(validator().assertRiceMealCatalog(catalog, context), catalog);
+  assert.equal(validator().assertRiceMealCatalog(catalog, { ...context, collection: collectionForCatalog(catalog) }), catalog);
+});
+
+test('catalog validation fails closed when a collection dependency is absent', () => {
+  assert.ok(
+    validator().validateRiceMealCatalog(validCatalog(), context)
+      .some(error => error.includes('collection dependency must be a valid collection object')),
+  );
 });
 
 test('catalog variants require a bidirectional collection mapping', () => {
   const catalog = validCatalog();
+  delete catalog.families[0].variants[0].collection_candidate_id;
   expectError(catalog, 'collection_candidate_id must be a non-empty collection candidate ID', {
     ...context,
     collection: catalogCollection(),
@@ -427,10 +474,13 @@ test('catalog variants require a bidirectional collection mapping', () => {
 test('catalog collection mapping rejects wrong candidate identity, materials, and non-runnable candidates', () => {
   const cases = [
     ['wrong candidate', catalog => { catalog.families[0].variants[0].collection_candidate_id = 'missing-candidate'; }, () => {}, 'references unknown collection candidate'],
-    ['name identity', () => {}, (_catalog, collection) => { collection.candidates[0].name = '不相干的家庭焖饭'; }, 'collection candidate name conflicts with display_name'],
+    ['name identity', () => {}, (_catalog, collection) => { collection.candidates[0].name = '不相干的家庭焖饭'; collection.candidates[0].runtime_name_aliases = []; }, 'collection candidate name conflicts with display_name'],
+    ['same suffix wrong locality', catalog => { catalog.families[0].variants[0].display_name = '新疆羊肉抓饭'; }, (_catalog, collection) => { collection.candidates[0].name = '广西羊肉抓饭'; collection.candidates[0].runtime_name_aliases = []; }, 'collection candidate name conflicts with display_name'],
     ['core materials', () => {}, (_catalog, collection) => { collection.catalog_tracking[0].core_ingredient_ids = ['raw-rice', 'chicken-leg']; }, 'collection core ingredient identities must match variant'],
+    ['candidate core materials', () => {}, (_catalog, collection) => { collection.candidates[0].core_ingredient_ids = ['raw-rice', 'chicken-leg', 'shiitake']; }, 'collection candidate core ingredient identities must match variant'],
     ['nutrition C', () => {}, (_catalog, collection) => { collection.candidates[0].nutrition_grade = 'C'; }, 'cannot activate a nutrition grade C collection candidate'],
     ['excluded', () => {}, (_catalog, collection) => { collection.candidates[0].status = 'excluded'; }, 'cannot activate an excluded collection candidate'],
+    ['planned to runtime ready', catalog => { const variant = catalog.families[0].variants[0]; variant.status = 'planned'; variant.status_history = ['research_only', 'fact_checked', 'planned']; }, (_catalog, collection) => { collection.catalog_tracking[0].status = 'planned'; }, 'planned must map to a planned collection candidate'],
   ];
   for (const [_label, mutateCatalog, mutateCollection, expected] of cases) {
     const catalog = catalogWithCollection();

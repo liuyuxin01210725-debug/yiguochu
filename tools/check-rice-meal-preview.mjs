@@ -131,12 +131,13 @@ function compileJourneyCandidate(candidate, variant, assets) {
 
 export function validateRiceMealPreviewGate({
   catalog,
+  collection,
   journeys,
   ratioCatalog,
   recipeLibrary,
   taxonomy,
 } = {}) {
-  const errors = validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, ratioCatalog });
+  const errors = validateRiceMealCatalog(catalog, { recipeLibrary, taxonomy, ratioCatalog, collection });
   const variants = variantsOf(catalog);
   const active = variants.filter(variant => variant.status === 'preview_ready');
   const planned = variants.filter(variant => variant.status === 'planned');
@@ -365,6 +366,7 @@ export async function auditRiceMealPreviewRuntime({ buildId = 'rice-meal-gate' }
 function loadSourceAssets() {
   return {
     catalog: readJson('tools/data/rice-meal-catalog.v1.json'),
+    collection: readJson('tools/data/rice-meal-collection.v1.json'),
     journeys: readJson('tools/data/rice-meal-journeys.v1.json'),
     ratioCatalog: readJson('tools/data/ratio-rules.v1.json'),
     recipeLibrary: readJson('tools/data/recipe-library.json'),

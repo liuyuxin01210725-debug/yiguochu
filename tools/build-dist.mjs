@@ -25,6 +25,7 @@ const GENERATED_ASSETS = [
   ['tools/data/recipe-runtime.v1.json', 'recipe-runtime.v1.json'],
   ['tools/data/recipe-action-profiles.v1.json', 'recipe-action-profiles.v1.json'],
   ['tools/data/rice-meal-catalog.v1.json', 'rice-meal-catalog.v1.json'],
+  ['tools/data/rice-meal-collection.v1.json', 'rice-meal-collection.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -167,6 +168,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     recipeRuntime: readCanonicalJson('tools/data/recipe-runtime.v1.json'),
     actionProfiles: readCanonicalJson('tools/data/recipe-action-profiles.v1.json'),
     riceMealCatalog: readCanonicalJson('tools/data/rice-meal-catalog.v1.json'),
+    riceMealCollection: readCanonicalJson('tools/data/rice-meal-collection.v1.json'),
   };
   const generatedWorker = sourceWorker
     .replace(

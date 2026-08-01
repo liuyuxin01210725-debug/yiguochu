@@ -45,6 +45,7 @@ const REQUIRED_ASSETS = [
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
   'rice-meal-catalog.v1.json',
+  'rice-meal-collection.v1.json',
   'rice-meal-selector.js',
   'rice-meal-compiler.js',
   'rice-meal-catalog-validator.js',
@@ -75,6 +76,7 @@ const BYTE_IDENTICAL_ASSETS = new Map([
   ['recipe-runtime.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-runtime.v1.json')],
   ['recipe-action-profiles.v1.json', path.join(ROOT, 'tools', 'data', 'recipe-action-profiles.v1.json')],
   ['rice-meal-catalog.v1.json', path.join(ROOT, 'tools', 'data', 'rice-meal-catalog.v1.json')],
+  ['rice-meal-collection.v1.json', path.join(ROOT, 'tools', 'data', 'rice-meal-collection.v1.json')],
 ]);
 
 function makeOutputDir() {
@@ -238,7 +240,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 36);
+    assert.equal(buildRecord.files, 37);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),

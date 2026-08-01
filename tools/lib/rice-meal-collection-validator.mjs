@@ -10,7 +10,7 @@ const REGION_IDS = new Set([
 const HOUSEHOLD_NODE_ID = 'HOUSEHOLD';
 const HOUSEHOLD_NODE_NAME = '家常标准（非地域）';
 const TOP_LEVEL_KEYS = new Set(['schema_version', 'collection_version', 'scope', 'region_nodes', 'candidates', 'exclusions', 'catalog_tracking', 'runtime_mappings']);
-const CANDIDATE_KEYS = new Set(['candidate_id', 'name', 'region_codes', 'family', 'core_ingredients', 'rice_state', 'nutrition_grade', 'traditional_appliance_and_steps', 'identity_sources', 'quantity_liquid_completeness', 'adaptation_level', 'blockers', 'runtime_contract', 'status']);
+const CANDIDATE_KEYS = new Set(['candidate_id', 'name', 'region_codes', 'family', 'core_ingredients', 'core_ingredient_ids', 'runtime_name_aliases', 'rice_state', 'nutrition_grade', 'traditional_appliance_and_steps', 'identity_sources', 'quantity_liquid_completeness', 'adaptation_level', 'blockers', 'runtime_contract', 'status']);
 const SOURCE_KEYS = new Set(['title', 'publisher', 'retrieved_at', 'url', 'supports']);
 
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -64,6 +64,17 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     for (const key of ['name', 'family', 'traditional_appliance_and_steps']) if (!present(candidate[key])) errors.push(`${path}.${key} is required`);
     if (!Array.isArray(candidate.region_codes) || candidate.region_codes.length === 0) errors.push(`${path}.region_codes must be non-empty`);
     if (!Array.isArray(candidate.core_ingredients) || candidate.core_ingredients.length === 0) errors.push(`${path}.core_ingredients must be non-empty`);
+    if (candidate.core_ingredient_ids !== undefined && (!Array.isArray(candidate.core_ingredient_ids)
+      || candidate.core_ingredient_ids.length === 0
+      || candidate.core_ingredient_ids.some(id => !present(id))
+      || new Set(candidate.core_ingredient_ids).size !== candidate.core_ingredient_ids.length)) {
+      errors.push(`${path}.core_ingredient_ids must be a non-empty unique canonical ID array when present`);
+    }
+    if (candidate.runtime_name_aliases !== undefined && (!Array.isArray(candidate.runtime_name_aliases)
+      || candidate.runtime_name_aliases.some(name => !present(name))
+      || new Set(candidate.runtime_name_aliases).size !== candidate.runtime_name_aliases.length)) {
+      errors.push(`${path}.runtime_name_aliases must be a unique non-empty string array when present`);
+    }
     if (!RICE_STATES.has(candidate.rice_state)) errors.push(`${path}.rice_state is invalid`);
     if (!NUTRITION_GRADES.has(candidate.nutrition_grade)) errors.push(`${path}.nutrition_grade is invalid`);
     if (!COMPLETENESS.has(candidate.quantity_liquid_completeness)) errors.push(`${path}.quantity_liquid_completeness is invalid`);
@@ -164,6 +175,29 @@ export function validateRiceMealCollection(collection, { taxonomy, catalog } = {
     if (mappedCandidate && row.nutrition_grade !== mappedCandidate.nutrition_grade) errors.push(`${path}.nutrition_grade must match mapped candidate`);
     if (mappedCandidate?.nutrition_grade === 'C') errors.push(`${path} cannot activate a nutrition grade C candidate`);
     if (mappedCandidate?.status === 'excluded') errors.push(`${path} cannot activate an excluded candidate`);
+    if (mappedCandidate) {
+      const candidateCoreIds = new Set(Array.isArray(mappedCandidate.core_ingredient_ids)
+        ? mappedCandidate.core_ingredient_ids
+        : []);
+      if (candidateCoreIds.size === 0) errors.push(`${path} mapped candidate requires core_ingredient_ids`);
+      for (const id of candidateCoreIds) if (!taxonomyIds.has(id)) errors.push(`${path} mapped candidate core_ingredient_ids references unknown taxonomy item ${id}`);
+      const catalogCoreIds = new Set([
+        variant?.rice?.canonical_ingredient_id,
+        ...(Array.isArray(variant?.ingredients) ? variant.ingredients.map(item => item?.canonical_ingredient_id) : []),
+      ].filter(present));
+      if (candidateCoreIds.size !== catalogCoreIds.size || [...candidateCoreIds].some(id => !catalogCoreIds.has(id))) {
+        errors.push(`${path} candidate core_ingredient_ids must match catalog variant`);
+      }
+      const expectedCandidateStatuses = variant?.status === 'planned' ? new Set(['planned'])
+        : variant?.status === 'preview_ready' || variant?.status === 'pilot_observed' || variant?.status === 'production_approved'
+          ? new Set(['runtime_ready'])
+          : variant?.status === 'research_only' ? new Set(['identity_only', 'research_candidate'])
+            : variant?.status === 'fact_checked' ? new Set(['research_candidate'])
+              : null;
+      if (expectedCandidateStatuses && !expectedCandidateStatuses.has(mappedCandidate.status)) {
+        errors.push(`${path} ${variant.status} must map to a ${[...expectedCandidateStatuses].join(' or ')} candidate`);
+      }
+    }
     if (!['planned', 'runtime_ready'].includes(row.status)) errors.push(`${path}.status must be planned or runtime_ready`);
     if (row.status === 'runtime_ready') {
       const candidate = mappedCandidate;

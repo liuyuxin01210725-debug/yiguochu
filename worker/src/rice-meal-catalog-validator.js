@@ -243,15 +243,12 @@ function normalizedIdentityName(value) {
   return String(value || '').trim().toLowerCase().replace(/[\s（）()_-]+/gu, '');
 }
 
-function sharesIdentityFragment(left, right) {
-  const a = normalizedIdentityName(left);
-  const b = normalizedIdentityName(right);
-  for (let length = Math.min(a.length, b.length); length >= 3; length -= 1) {
-    for (let start = 0; start <= a.length - length; start += 1) {
-      if (b.includes(a.slice(start, start + length))) return true;
-    }
-  }
-  return false;
+function matchesCollectionIdentity(variant, candidate) {
+  const displayName = normalizedIdentityName(variant.display_name);
+  const controlledNames = [candidate?.name, ...(Array.isArray(candidate?.runtime_name_aliases)
+    ? candidate.runtime_name_aliases
+    : [])];
+  return controlledNames.some(name => normalizedIdentityName(name) === displayName);
 }
 
 function collectionContext(collection) {
@@ -269,9 +266,12 @@ function collectionContext(collection) {
 }
 
 function validateCollectionMapping(variant, label, materialIds, collection, errors) {
-  if (!collection) return;
   if (!isNonEmptyString(variant.collection_candidate_id)) {
     errors.push(`${label}.collection_candidate_id must be a non-empty collection candidate ID`);
+    return;
+  }
+  if (!collection) {
+    errors.push(`${label} collection dependency must be a valid collection object`);
     return;
   }
   const candidate = collection.candidates.get(variant.collection_candidate_id);
@@ -279,7 +279,7 @@ function validateCollectionMapping(variant, label, materialIds, collection, erro
     errors.push(`${label}.collection_candidate_id references unknown collection candidate`);
     return;
   }
-  if (!sharesIdentityFragment(variant.display_name, candidate.name)) {
+  if (!matchesCollectionIdentity(variant, candidate)) {
     errors.push(`${label} collection candidate name conflicts with display_name`);
   }
   const tracking = collection.tracking.get(variant.variant_id);
@@ -290,6 +290,10 @@ function validateCollectionMapping(variant, label, materialIds, collection, erro
   const trackedMaterialIds = new Set(Array.isArray(tracking.core_ingredient_ids) ? tracking.core_ingredient_ids : []);
   if (!setsMatch(materialIds, trackedMaterialIds)) {
     errors.push(`${label} collection core ingredient identities must match variant`);
+  }
+  const candidateMaterialIds = new Set(Array.isArray(candidate.core_ingredient_ids) ? candidate.core_ingredient_ids : []);
+  if (!setsMatch(materialIds, candidateMaterialIds)) {
+    errors.push(`${label} collection candidate core ingredient identities must match variant`);
   }
   const mapping = collection.mappings.get(tracking.reverse_mapping_id);
   if (!mapping || mapping.candidate_id !== variant.collection_candidate_id || mapping.tracking_id !== tracking.tracking_id) {
@@ -306,8 +310,20 @@ function validateCollectionMapping(variant, label, materialIds, collection, erro
   if (candidate.status === 'excluded') {
     errors.push(`${label} cannot activate an excluded collection candidate`);
   }
-  if (variant.status === 'preview_ready'
-    && (candidate.status !== 'runtime_ready' || !['A', 'B'].includes(candidate.nutrition_grade))) {
+  const candidateStatusByCatalogStatus = {
+    research_only: new Set(['identity_only', 'research_candidate']),
+    fact_checked: new Set(['research_candidate']),
+    planned: new Set(['planned']),
+    preview_ready: new Set(['runtime_ready']),
+    pilot_observed: new Set(['runtime_ready']),
+    production_approved: new Set(['runtime_ready']),
+  };
+  const allowedCandidateStatuses = candidateStatusByCatalogStatus[variant.status];
+  if (allowedCandidateStatuses && !allowedCandidateStatuses.has(candidate.status)) {
+    const expected = [...allowedCandidateStatuses].join(' or ');
+    errors.push(`${label} ${variant.status} must map to a ${expected} collection candidate`);
+  }
+  if (variant.status === 'preview_ready' && !['A', 'B'].includes(candidate.nutrition_grade)) {
     errors.push(`${label} preview_ready must map to an A/B runtime_ready collection candidate`);
   }
 }

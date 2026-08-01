@@ -13,6 +13,7 @@ import {
 const readJson = name => JSON.parse(fs.readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'));
 const assets = Object.freeze({
   catalog: readJson('rice-meal-catalog.v1.json'),
+  collection: readJson('rice-meal-collection.v1.json'),
   journeys: readJson('rice-meal-journeys.v1.json'),
   ratioCatalog: readJson('ratio-rules.v1.json'),
   recipeLibrary: readJson('recipe-library.json'),
