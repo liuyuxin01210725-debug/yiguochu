@@ -46,30 +46,57 @@ function isNonEmptyRecord(value) {
   return isRecord(value) && Object.keys(value).length > 0;
 }
 
-function hasMeaningfulListEntries(value) {
-  return Array.isArray(value) && value.length > 0 && value.every(item => (
-    nonEmptyString(item) || isNonEmptyRecord(item)
+function isPositiveFiniteNumber(value) {
+  return Number.isFinite(value) && value > 0;
+}
+
+function hasNonEmptyStrings(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(nonEmptyString);
+}
+
+function isMeaningfulAmount(value) {
+  return isNonEmptyRecord(value)
+    && isPositiveFiniteNumber(value.value)
+    && nonEmptyString(value.unit);
+}
+
+function isMeaningfulFixedBatchIngredient(value) {
+  return isNonEmptyRecord(value)
+    && nonEmptyString(value.name)
+    && isMeaningfulAmount(value.amount);
+}
+
+function isMeaningfulCookingSequence(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(entry => (
+    isNonEmptyRecord(entry)
+    && Number.isInteger(entry.step)
+    && entry.step > 0
+    && nonEmptyString(entry.instruction)
+  ));
+}
+
+function isMeaningfulSafetyEndpoints(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(endpoint => (
+    isNonEmptyRecord(endpoint) && nonEmptyString(endpoint.code)
   ));
 }
 
 function isMeaningfulFixedBatch(value) {
   return isNonEmptyRecord(value)
-    && Number.isFinite(value.servings)
-    && value.servings > 0
-    && hasMeaningfulListEntries(value.ingredients);
+    && isPositiveFiniteNumber(value.servings)
+    && Array.isArray(value.ingredients)
+    && value.ingredients.length > 0
+    && value.ingredients.every(isMeaningfulFixedBatchIngredient);
 }
 
 function isMeaningfulLiquidContract(value) {
   return isNonEmptyRecord(value)
     && nonEmptyString(value.kind)
-    && isNonEmptyRecord(value.amount)
-    && Number.isFinite(value.amount.value)
-    && value.amount.value > 0
-    && nonEmptyString(value.amount.unit);
+    && isMeaningfulAmount(value.amount);
 }
 
 function isMeaningfulNutritionRoles(value) {
-  return isRecord(value) && hasMeaningfulListEntries(value.roles);
+  return isRecord(value) && hasNonEmptyStrings(value.roles);
 }
 
 function canonicalRegionKey(recipe) {
@@ -117,10 +144,11 @@ function invalidExecutableFields(recipe) {
   const valid = {
     fixed_batch: isMeaningfulFixedBatch(recipe.fixed_batch),
     liquid_contract: isMeaningfulLiquidContract(recipe.liquid_contract),
-    cooking_sequence: hasMeaningfulListEntries(recipe.cooking_sequence),
-    time_contract: isNonEmptyRecord(recipe.time_contract),
-    safety_endpoints: hasMeaningfulListEntries(recipe.safety_endpoints),
-    allergen_labels: hasMeaningfulListEntries(recipe.allergen_labels),
+    cooking_sequence: isMeaningfulCookingSequence(recipe.cooking_sequence),
+    time_contract: isNonEmptyRecord(recipe.time_contract)
+      && isPositiveFiniteNumber(recipe.time_contract.total_minutes),
+    safety_endpoints: isMeaningfulSafetyEndpoints(recipe.safety_endpoints),
+    allergen_labels: hasNonEmptyStrings(recipe.allergen_labels),
   };
   return REQUIRED_EXECUTABLE_FIELDS.filter(field => !valid[field]);
 }

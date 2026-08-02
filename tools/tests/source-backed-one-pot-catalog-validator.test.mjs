@@ -189,3 +189,38 @@ test('requires appliance evidence for electric-cooker instructions', () => {
   catalog.recipes[0].cooking_sequence = [{ step: 1, instruction: '倒入电饭煲，按煮饭键。' }];
   assert.match(errorsFor(catalog).join('\n'), /appliance support/i);
 });
+
+test('rejects nonempty placeholder objects in public execution fields', () => {
+  // Removing field-specific public execution schemas would make this fail.
+  const catalog = executableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.cooking_sequence = [{ placeholder: true }];
+  recipe.time_contract = { placeholder: true };
+  recipe.allergen_labels = [{ placeholder: true }];
+  recipe.nutrition_structure.roles = [{ placeholder: true }];
+  const errors = errorsFor(catalog).join('\n');
+  for (const field of [
+    'cooking_sequence', 'time_contract', 'allergen_labels', 'nutrition_structure.roles',
+  ]) assert.match(errors, new RegExp(field));
+});
+
+test('rejects a malformed fixed-batch ingredient', () => {
+  // Removing the fixed-batch ingredient schema would make this fail.
+  const catalog = executableCatalog();
+  catalog.recipes[0].fixed_batch.ingredients = [{
+    name: '', amount: { value: 0, unit: '' },
+  }];
+  assert.match(errorsFor(catalog).join('\n'), /fixed_batch/i);
+});
+
+test('rejects placeholder safety endpoints for a raw-oyster recipe with safety evidence', () => {
+  // Removing the safety-endpoint schema would make this fail.
+  const catalog = executableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.core_ingredients = ['米', '生蚝'];
+  recipe.source_refs[0].claim_scopes.push('safety');
+  recipe.safety_endpoints = [{ placeholder: true }];
+  const errors = errorsFor(catalog).join('\n');
+  assert.doesNotMatch(errors, /safety support/i);
+  assert.match(errors, /safety_endpoints/i);
+});
