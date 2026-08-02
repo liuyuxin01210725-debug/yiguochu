@@ -1137,9 +1137,31 @@ test('locks each retained national candidate to its exact supported source, vess
   assert.match(xinjiang?.cooker_adaptation?.notes ?? '', /于田.*电饭锅/u);
   assert.equal(xinjiang?.fixed_batch, null);
   assert.equal(xinjiang?.liquid_contract, null);
-  assert.deepEqual(xinjiang?.cooking_sequence, []);
+  assert.equal(xinjiang?.cooking_sequence.length, 5);
   assert.equal(xinjiang?.time_contract, null);
   assert.deepEqual(xinjiang?.safety_endpoints, []);
+});
+
+test('structures the Yutian electric-cooker hand-grab-rice sequence while keeping its unresolved rice and liquid facts explicit', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'yutian-electric-cooker-lamb-pilaf'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'yutian-electric-cooker-lamb-pilaf');
+
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source says 1:2 without identifying the compared quantities');
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米.*泡.*半个小时.*羊肉.*胡萝卜.*洋葱/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /洋葱.*羊肉.*翻炒/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /羊肉.*煮.*10分钟/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /泡好的米.*均匀撒在上面/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /电饭锅.*焖.*20分钟/);
+  assert.equal(recipe?.time_contract, null, 'the cooker step is not a complete total-time contract');
+  assert.equal(recipe?.nutrition_structure?.grade, 'B');
+  assert.deepEqual(recipe?.nutrition_structure?.roles, ['carbohydrate', 'protein', 'fiber']);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
 test('merges Ili hand-grab-rice evidence into the existing Xinjiang identity without blending cooker contracts', () => {
@@ -1154,7 +1176,7 @@ test('merges Ili hand-grab-rice evidence into the existing Xinjiang identity wit
   assert.equal(recipes.some(recipe => recipe.recipe_id === 'xinjiang-ili-shouzhua-fan'), false);
   assert.equal(xinjiang[0].fixed_batch, null);
   assert.equal(xinjiang[0].liquid_contract, null);
-  assert.deepEqual(xinjiang[0].cooking_sequence, []);
+  assert.equal(xinjiang[0].cooking_sequence.length, 5);
   assert.equal(xinjiang[0].time_contract, null);
   assert.deepEqual(xinjiang[0].safety_endpoints, []);
 });
