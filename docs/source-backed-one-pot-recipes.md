@@ -26,7 +26,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 什锦鸡饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；油炸豆腐；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [什锦鸡饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-DF151.pdf) |
+| 什锦鸡饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；油炸豆腐；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [什锦鸡饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-DF151.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 咖喱鸡肉饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；土豆；洋葱；咖喱块 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [电饭煲JRC-4HP82（F40FZ820）说明书：咖喱鸡肉饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 懒人焖饭 | 腊肠什锦饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；腊肠；青豆；香菇；玉米；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [懒人焖饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf) |
 | 牛肉什锦饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛肉末；胡萝卜泥；洋葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [牛肉什锦饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -74,7 +74,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 筒仔米糕 | — | TW | taiwan-steamed-glutinous-rice | 研究记录（非公开可执行） | 长糯米；猪绞肉；金钩虾；香菇；红葱头 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [筒仔米糕](https://kids.moa.gov.tw/theme_data.php?theme=kids_cooking&id=288) |
+| 筒仔米糕 | — | TW | taiwan-steamed-glutinous-rice | 研究记录（非公开可执行） | 长糯米；猪绞肉；金钩虾；香菇；红葱头 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [筒仔米糕](https://kids.moa.gov.tw/theme_data.php?theme=kids_cooking&id=288)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -48,10 +48,8 @@
 
 ## 8. Missing safety
 
-- 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
-- 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 
 ## 9. Regional blanks

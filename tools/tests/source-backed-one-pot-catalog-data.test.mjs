@@ -811,6 +811,82 @@ test('structures the official Zojirushi beef mixed-rice waterline and ground-bee
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('structures the Panasonic mixed-chicken rice quantities and four-cup liquid without inventing servings or a cross-model runtime', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'panasonic-mixed-chicken-rice-sr-df151'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'panasonic-mixed-chicken-rice-sr-df151');
+
+  assert.equal(recipe?.fixed_batch, null, 'the manual gives ingredient quantities but no servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 4, unit: '杯' },
+    source_ids: ['panasonic-mixed-chicken-rice-sr-df151'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鸡肉.*牛蒡.*焯/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /米.*4杯水/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /料酒.*酱油.*盐.*其余材料.*合盖/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /精煮/);
+  assert.equal(recipe?.time_contract, null, 'the manual does not state the complete program duration');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Joyoung lazy braised-rice liquid and layering process while leaving sausage safety unresolved', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'joyoung-mixed-sausage-vegetable-rice-jrc-4hp82'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'joyoung-mixed-sausage-vegetable-rice-jrc-4hp82');
+
+  assert.equal(recipe?.fixed_batch, null, 'the manual gives 3 cups but no servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 528, unit: 'g' },
+    source_ids: ['joyoung-mixed-sausage-vegetable-rice-jrc-4hp82'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /香肠.*香菇.*胡萝卜.*青豆.*玉米/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /420克.*528克水/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /White rice|柴火饭/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /葱花.*搅拌/);
+  assert.equal(recipe?.time_contract, null, 'the manual gives no complete recipe duration for this menu');
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.match(recipe?.evidence_notes ?? '', /香肠.*安全|安全.*香肠/);
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the official tongzai rice-cake quantities and staged steaming without hiding its time conflict', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taiwan-tongzai-rice-cake'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-4');
+
+  assert.equal(recipe?.fixed_batch, null, 'the source gives ingredient amounts but no servings');
+  assert.equal(recipe?.liquid_contract, null, 'the glaze water is not a rice-cooking liquid contract');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /长糯米.*2小时.*15分钟/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /金钩虾.*香菇.*红葱头/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /猪绞肉.*颜色变白/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /蒸筒.*5分钟/);
+  assert.equal(recipe?.time_contract, null, 'the page time conflicts with its two-hour soak and staged steaming');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.match(recipe?.evidence_notes ?? '', /30分钟.*2小时|2小时.*30分钟/);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('keeps the official cured-meat claypot-rice variant separate while structuring its exact ratio', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'cantonese-cured-meat-claypot-rice'
