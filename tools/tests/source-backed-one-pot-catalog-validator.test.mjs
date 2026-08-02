@@ -412,3 +412,58 @@ test('rejects duplicate source IDs before resolving fact-level references', () =
   });
   assert.match(errorsFor(catalog).join('\n'), /source_id duplicates/i);
 });
+
+test('requires matching high-risk endpoints when the risk appears only in fixed-batch ingredients', () => {
+  // Removing fixed-batch risk scanning would let rice_tender promote each of these fixtures.
+  const cases = [
+    ['生鸡肉', 'poultry', 'poultry_fully_cooked'],
+    ['生鱼片', 'seafood', 'seafood_fully_cooked'],
+    ['蛋', 'egg', 'egg_fully_cooked'],
+    ['四季豆', 'beans', 'beans_fully_cooked'],
+  ];
+  for (const [ingredientName, category, endpoint] of cases) {
+    const catalog = factSourcedExecutableCatalog();
+    const recipe = catalog.recipes[0];
+    recipe.core_ingredients = ['米'];
+    recipe.fixed_batch.ingredients.push({
+      name: ingredientName,
+      amount: { value: 100, unit: 'g' },
+      source_ids: ['shanghai-fengxian-salted-pork-rice'],
+    });
+    recipe.safety_endpoints = [{ code: 'rice_tender', source_ids: ['shanghai-fengxian-salted-pork-rice'] }];
+    let errors = errorsFor(catalog).join('\n');
+    assert.match(errors, new RegExp(`${category}.*${endpoint}`), ingredientName);
+
+    recipe.safety_endpoints[0].code = endpoint;
+    errors = errorsFor(catalog);
+    assert.deepEqual(errors, [], ingredientName);
+  }
+});
+
+test('does not treat tofu or fish-flavoured seasoning as raw seafood or risky beans', () => {
+  // Broad character matching would falsely require safety endpoints for non-risk ingredient names.
+  const catalog = factSourcedExecutableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.core_ingredients = ['米'];
+  recipe.fixed_batch.ingredients.push(
+    { name: '豆腐', amount: { value: 100, unit: 'g' }, source_ids: ['shanghai-fengxian-salted-pork-rice'] },
+    { name: '鱼香酱', amount: { value: 10, unit: 'g' }, source_ids: ['shanghai-fengxian-salted-pork-rice'] },
+  );
+  assert.deepEqual(errorsFor(catalog), []);
+});
+
+test('classifies chicken egg as egg risk without also requiring a poultry endpoint', () => {
+  // A broad chicken-character matcher would add a false poultry requirement here.
+  const catalog = factSourcedExecutableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.core_ingredients = ['米'];
+  recipe.fixed_batch.ingredients.push({
+    name: '鸡蛋',
+    amount: { value: 50, unit: 'g' },
+    source_ids: ['shanghai-fengxian-salted-pork-rice'],
+  });
+  recipe.safety_endpoints = [{ code: 'egg_fully_cooked', source_ids: ['shanghai-fengxian-salted-pork-rice'] }];
+  const errors = errorsFor(catalog).join('\n');
+  assert.doesNotMatch(errors, /poultry_fully_cooked/i);
+  assert.equal(errors, '');
+});

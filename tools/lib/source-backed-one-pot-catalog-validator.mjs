@@ -62,7 +62,7 @@ const HIGH_RISK_CATEGORIES = [
   ['lamb', /\b(lamb|mutton)\b|羊肉|羊排/i, 'lamb_fully_cooked'],
   ['shellfish', /\b(shrimp|prawn|crab|oyster|clam|mussel|scallop|shellfish)\b|虾|蟹|蚝|牡蛎|贝|蛤蜊|扇贝/i, 'shellfish_fully_cooked'],
   ['seafood', /\b(seafood|fish)\b|海鲜|鱼肉|鲜鱼|鱼片/i, 'seafood_fully_cooked'],
-  ['egg', /\beggs?\b|鸡蛋|鸭蛋|鹅蛋|生蛋/i, 'egg_fully_cooked'],
+  ['egg', /\beggs?\b|鸡蛋|鸭蛋|鹅蛋|生蛋|^蛋$/i, 'egg_fully_cooked'],
   ['beans', /\b(raw beans?|kidney beans?)\b|生豆|四季豆|芸豆|扁豆|菜豆|红腰豆|白芸豆/i, 'beans_fully_cooked'],
   ['wild_mushrooms', /\bwild mushrooms?\b|野生菌|野生蘑菇/i, 'wild_mushrooms_fully_cooked'],
 ];
@@ -353,15 +353,17 @@ export function containsRawHighRiskIngredient(recipe) {
 }
 
 function detectedHighRiskCategories(recipe) {
-  const ingredientText = (Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [])
-    .flatMap(ingredient => {
-      if (nonEmptyString(ingredient)) return [ingredient];
-      if (!isRecord(ingredient)) return [];
-      return [ingredient.name, ingredient.ingredient, ingredient.canonical_name, ingredient.canonical_id]
-        .filter(nonEmptyString);
-    })
-    .join('\n');
-  return HIGH_RISK_CATEGORIES.filter(([, pattern]) => pattern.test(ingredientText));
+  const ingredients = [
+    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+    ...(Array.isArray(recipe.fixed_batch?.ingredients) ? recipe.fixed_batch.ingredients : []),
+  ];
+  const ingredientNames = ingredients.flatMap(ingredient => {
+    if (nonEmptyString(ingredient)) return [ingredient];
+    if (!isRecord(ingredient)) return [];
+    return [ingredient.name, ingredient.ingredient, ingredient.canonical_name, ingredient.canonical_id]
+      .filter(nonEmptyString);
+  });
+  return HIGH_RISK_CATEGORIES.filter(([, pattern]) => ingredientNames.some(name => pattern.test(name)));
 }
 
 function isProjectSelfCitation(url, projectHosts) {
