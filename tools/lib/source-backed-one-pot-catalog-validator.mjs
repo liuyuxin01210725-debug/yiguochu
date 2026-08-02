@@ -27,6 +27,20 @@ const REQUIRED_EXECUTABLE_FIELDS = [
   'time_contract', 'safety_endpoints', 'allergen_labels',
 ];
 const DEFAULT_PROJECT_HOSTS = ['yiguochu.pages.dev'];
+const MIGRATION_DISPOSITIONS = new Set([
+  'source_backed_migrated',
+  'source_backed_research_only',
+  'manufacturer_recipe_migrated',
+  'project_original_excluded',
+  'scope_excluded',
+  'duplicate_alias',
+]);
+const MIGRATION_TARGET_DISPOSITIONS = new Set([
+  'source_backed_migrated',
+  'source_backed_research_only',
+  'manufacturer_recipe_migrated',
+  'duplicate_alias',
+]);
 const RAW_HIGH_RISK_INGREDIENT = /\b(raw\s+)?(poultry|chicken|turkey|duck|pork|beef|lamb|seafood|fish|shrimp|crab|egg|eggs|beans|wild\s+mushrooms?|live\s+shellfish)\b|生(?:鸡|禽|猪|牛|羊|鱼|虾|蟹|海鲜|鸡蛋|蛋|豆|野生蘑菇|贝)|(?:鸡|鸭|鹅|禽肉|猪肉|牛肉|羊肉|海鲜|鱼|虾|蟹|鸡蛋|生蛋|生豆|野生菌|活贝|蚝|牡蛎|蛤蜊|扇贝)|(?:生蚝|牡蛎|蚝|贝类|蛤蜊|扇贝)/i;
 const APPLIANCE_CLAIM = /电饭煲|电锅|饭煲|电压力锅|压力锅|空气炸锅|微波炉|烤箱|蒸箱|rice cooker|slow cooker|instant pot/i;
 
@@ -312,6 +326,88 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
       });
     }
     validatePromotionGates(recipe, path, errors);
+  }
+
+  return errors;
+}
+
+export function validateSourceBackedCatalogMigration(migration, legacyVariants, sourceBackedCatalog) {
+  const errors = [];
+  if (!isRecord(migration)) return ['migration must be an object'];
+  if (migration.schema_version !== 1) errors.push('migration.schema_version must be 1');
+  addRequiredStringError(errors, migration.migration_version, 'migration.migration_version');
+  if (!Array.isArray(migration.items)) {
+    errors.push('migration.items must be an array');
+    return errors;
+  }
+
+  const legacyIds = new Set();
+  if (!Array.isArray(legacyVariants)) {
+    errors.push('legacyVariants must be an array');
+  } else {
+    for (const [index, legacy] of legacyVariants.entries()) {
+      if (!nonEmptyString(legacy?.variant_id)) {
+        errors.push(`legacyVariants[${index}].variant_id must be a nonempty string`);
+      } else {
+        legacyIds.add(legacy.variant_id);
+      }
+    }
+  }
+
+  const targetRecipeIds = new Set();
+  if (sourceBackedCatalog !== undefined) {
+    if (!isRecord(sourceBackedCatalog) || !Array.isArray(sourceBackedCatalog.recipes)) {
+      errors.push('sourceBackedCatalog.recipes must be an array');
+    } else {
+      for (const recipe of sourceBackedCatalog.recipes) {
+        if (nonEmptyString(recipe?.recipe_id)) targetRecipeIds.add(recipe.recipe_id);
+      }
+    }
+  }
+
+  const accountedLegacyIds = new Set();
+  for (const [index, item] of migration.items.entries()) {
+    const path = `migration.items[${index}]`;
+    if (!isRecord(item)) {
+      errors.push(`${path} must be an object`);
+      continue;
+    }
+
+    addRequiredStringError(errors, item.legacy_variant_id, `${path}.legacy_variant_id`);
+    addRequiredStringError(errors, item.legacy_display_name, `${path}.legacy_display_name`);
+    addRequiredStringError(errors, item.reason, `${path}.reason`);
+    if (!MIGRATION_DISPOSITIONS.has(item.disposition)) {
+      errors.push(`${path}.disposition is invalid`);
+    }
+
+    if (nonEmptyString(item.legacy_variant_id)) {
+      if (accountedLegacyIds.has(item.legacy_variant_id)) {
+        errors.push(`duplicate legacy variant ${item.legacy_variant_id}`);
+      }
+      accountedLegacyIds.add(item.legacy_variant_id);
+      if (Array.isArray(legacyVariants) && !legacyIds.has(item.legacy_variant_id)) {
+        errors.push(`unknown legacy variant ${item.legacy_variant_id}`);
+      }
+    }
+
+    if (MIGRATION_TARGET_DISPOSITIONS.has(item.disposition)) {
+      if (!nonEmptyString(item.target_recipe_id)) {
+        errors.push(`${path}.target_recipe_id must be a nonempty string for ${item.disposition}`);
+      } else if (sourceBackedCatalog !== undefined && !targetRecipeIds.has(item.target_recipe_id)) {
+        errors.push(`target_recipe_id ${item.target_recipe_id} does not exist in source-backed catalog`);
+      }
+    } else if (
+      item.disposition === 'project_original_excluded'
+      || item.disposition === 'scope_excluded'
+    ) {
+      if (item.target_recipe_id !== null) {
+        errors.push(`${path}.target_recipe_id must be null for ${item.disposition}`);
+      }
+    }
+  }
+
+  for (const legacyId of legacyIds) {
+    if (!accountedLegacyIds.has(legacyId)) errors.push(`missing legacy variant ${legacyId}`);
   }
 
   return errors;

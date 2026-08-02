@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "migration_version": "source-backed-catalog-migration-v1-20260802",
+  "items": [
+    {"legacy_variant_id":"home-soaked-glutinous-pork-mushroom-rice","legacy_display_name":"泉州浥饭（油饭）","disposition":"project_original_excluded","target_recipe_id":null,"reason":"唯一旧引用是一锅出原创标准配方；仓库没有可独立复核的泉州身份或固定批量来源。"},
+    {"legacy_variant_id":"home-taiwan-cabbage-rice","legacy_display_name":"高丽菜饭","disposition":"source_backed_research_only","target_recipe_id":"taiwan-cabbage-rice","reason":"台湾农业部来源支持身份、固定量杯批量、加水语义和电锅流程，但仓库没有独立安全终点与完整时长事实。"},
+    {"legacy_variant_id":"home-taiwan-pumpkin-rice","legacy_display_name":"南瓜饭","disposition":"source_backed_research_only","target_recipe_id":"taiwan-pumpkin-rice","reason":"台湾农业部来源支持身份、固定量杯批量、加水语义和电锅流程，但仓库没有独立安全终点与完整时长事实。"},
+    {"legacy_variant_id":"home-lamb-carrot-rice","legacy_display_name":"新疆羊肉抓饭","disposition":"source_backed_research_only","target_recipe_id":"yutian-electric-cooker-lamb-pilaf","reason":"于田县政府来源支持抓饭身份和电饭锅高层流程，但米量与“1:2”液体语义未解析，不能形成固定执行批量。"},
+    {"legacy_variant_id":"home-red-date-cowpea-rice","legacy_display_name":"陕北红枣豇豆焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"唯一旧引用是一锅出原创标准配方，且旧审计已记录“豇豆”身份未消歧；没有独立来源可迁移。"},
+    {"legacy_variant_id":"home-bamboo-vegetable-rice","legacy_display_name":"鲜蔬竹笋饭","disposition":"manufacturer_recipe_migrated","target_recipe_id":"zojirushi-fresh-vegetable-bamboo-rice","reason":"象印官方食谱页支持原显示菜名、配料、水位线与指定器具流程；水位线不可换算为跨机型毫升数。"},
+    {"legacy_variant_id":"home-beef-mixed-rice","legacy_display_name":"牛肉什锦饭","disposition":"manufacturer_recipe_migrated","target_recipe_id":"zojirushi-beef-mixed-rice","reason":"象印官方食谱页支持原显示菜名、固定批量、水位线与什锦饭程序；仅限具有该程序和刻度的机型。"},
+    {"legacy_variant_id":"home-broccoli-beef-rice","legacy_display_name":"西兰花牛肉焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"旧条目明确是一锅出项目 Preview 家庭测试标准，且仅有项目自引，不是独立菜谱来源。"},
+    {"legacy_variant_id":"home-cabbage-tofu-rice","legacy_display_name":"白菜豆腐焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"旧条目明确是一锅出项目 Preview 家庭测试标准，且仅有项目自引，不是独立菜谱来源。"},
+    {"legacy_variant_id":"home-chicken-leg-potato-rice","legacy_display_name":"鸡腿土豆焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"旧条目唯一来源是一锅出原创标准配方；没有独立身份、批量或器具事实可迁移。"},
+    {"legacy_variant_id":"home-corn-carrot-chicken-leg-rice","legacy_display_name":"玉米胡萝卜鸡腿焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"旧条目唯一来源是一锅出原创标准配方，且名称与项目改配不构成外部菜谱身份。"},
+    {"legacy_variant_id":"home-curry-chicken-rice","legacy_display_name":"咖喱鸡肉饭","disposition":"manufacturer_recipe_migrated","target_recipe_id":"joyoung-curry-chicken-rice-jrc-4hp82","reason":"九阳 JRC-4HP82 官方说明书支持原显示菜名、固定批量、新增水和一次程序；不得扩展到其他机型或份数。"},
+    {"legacy_variant_id":"home-fresh-shiitake-rice","legacy_display_name":"鲜香菇饭","disposition":"manufacturer_recipe_migrated","target_recipe_id":"panasonic-fresh-shiitake-rice-sr-afg","reason":"松下 SR-AFG 说明书支持原显示菜名、固定批量、新增水和煲仔饭程序；不得替换为普通白米程序。"},
+    {"legacy_variant_id":"home-green-bean-pork-rib-rice","legacy_display_name":"豆角排骨焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"旧条目明确是一锅出项目 Preview 家庭测试标准，且仅有项目自引，不是独立菜谱来源。"},
+    {"legacy_variant_id":"home-greens-minced-pork-rice","legacy_display_name":"肉糜青菜饭","disposition":"manufacturer_recipe_migrated","target_recipe_id":"zojirushi-minced-pork-greens-rice-nl-erh","reason":"象印 NL-ERH 说明书支持原显示菜名、固定米量、肉糜青菜克数、水位线与什锦饭程序；不得转为通用毫升规则。"},
+    {"legacy_variant_id":"home-mixed-chicken-rice","legacy_display_name":"什锦鸡饭","disposition":"manufacturer_recipe_migrated","target_recipe_id":"panasonic-mixed-chicken-rice-sr-df151","reason":"松下 SR-DF151 说明书支持原显示菜名、固定批量、新增水和精煮程序；不得扩展到其他机型或份数。"},
+    {"legacy_variant_id":"home-mushroom-green-bean-pork-rib-rice","legacy_display_name":"香菇豆角排骨焖饭","disposition":"project_original_excluded","target_recipe_id":null,"reason":"旧条目明确是一锅出项目 Preview 家庭测试标准，且仅有项目自引，不是独立菜谱来源。"},
+    {"legacy_variant_id":"home-sausage-mixed-rice","legacy_display_name":"懒人焖饭（腊肠什锦版）","disposition":"manufacturer_recipe_migrated","target_recipe_id":"joyoung-mixed-sausage-vegetable-rice-jrc-4hp82","reason":"九阳 JRC-4HP82 官方说明书的原显示菜名为“懒人焖饭”，支持固定批量、新增水和一次程序；项目补充的“腊肠什锦版”不作为规范名迁移。"},
+    {"legacy_variant_id":"shanghai-salted-pork-rice","legacy_display_name":"上海咸肉菜饭","disposition":"source_backed_research_only","target_recipe_id":"shanghai-salted-pork-vegetable-rice","reason":"上海市政府页面支持地域身份，HowToCook 固定提交支持固定配方与中途开盖流程；未有完整安全终点和跨机型开盖等价证据。"}
+  ]
+}
