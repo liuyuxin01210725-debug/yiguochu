@@ -389,3 +389,88 @@ test('states the Quanzhou identity-versus-adaptation evidence boundary', () => {
   assert.match(item?.reason ?? '', /泉州.*政府.*身份/u);
   assert.match(item?.reason ?? '', /糯米.*简化/u);
 });
+
+test('records an evidence result or concrete blank for every required national region', () => {
+  // Removing national review coverage or a dated research result must make this fail.
+  const requiredCodes = [
+    'CN-BJ', 'CN-TJ', 'CN-HE', 'CN-SX', 'CN-NM', 'CN-LN', 'CN-JL', 'CN-HL',
+    'CN-SH', 'CN-JS', 'CN-ZJ', 'CN-AH', 'CN-FJ', 'CN-JX', 'CN-SD', 'CN-HA',
+    'CN-HB', 'CN-HN', 'CN-GD', 'CN-GX', 'CN-HI', 'CN-CQ', 'CN-SC', 'CN-GZ',
+    'CN-YN', 'CN-XZ', 'CN-SN', 'CN-GS', 'CN-QH', 'CN-NX', 'CN-XJ', 'TW',
+    'HK', 'MO',
+  ];
+  const catalog = sourceBackedCatalog();
+  const reviewed = new Set(catalog.reviewed_regions);
+
+  assert.deepEqual([...reviewed].sort(), [...requiredCodes].sort());
+  for (const code of requiredCodes) {
+    const hasRecipe = catalog.recipes.some(recipe => recipe.region_codes.includes(code));
+    const blanks = catalog.regional_blanks.filter(blank => blank.region_code === code);
+    assert.ok(hasRecipe || blanks.length > 0, `${code} has a recipe or regional blank`);
+    for (const blank of blanks) {
+      assert.match(blank.reason ?? '', /\S/u, `${code} blank has a concrete reason`);
+      assert.equal(blank.searched_at, '2026-08-02', `${code} blank research date`);
+    }
+  }
+});
+
+test('retains the national source-backed candidates at their evidence-only statuses', () => {
+  // Dropping a retained lead or promoting incomplete evidence must make this fail.
+  const recipes = new Map(sourceBackedCatalog().recipes.map(recipe => [recipe.recipe_id, recipe]));
+  const expected = {
+    'ningxia-wuzhong-rouzhanfan': ['肉粘饭', 'recipe_fact_checked'],
+    'yunnan-shidian-pea-potato-ham-rice': ['豌豆洋芋火腿焖饭', 'recipe_fact_checked'],
+    'sichuan-kongganfan': ['孔干饭', 'recipe_fact_checked'],
+    'hubei-enshi-shefan': ['社饭', 'identity_verified'],
+  };
+
+  for (const [recipeId, [canonicalName, status]] of Object.entries(expected)) {
+    const recipe = recipes.get(recipeId);
+    assert.equal(recipe?.canonical_name, canonicalName, recipeId);
+    assert.equal(recipe?.status, status, recipeId);
+    assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), recipeId);
+    assert.ok(recipe?.source_refs.every(source => source.url.startsWith('https://')), recipeId);
+  }
+
+  for (const recipe of recipes.values()) {
+    assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status), recipe.recipe_id);
+  }
+});
+
+test('merges Ili hand-grab-rice evidence into the existing Xinjiang identity without blending cooker contracts', () => {
+  // Splitting the identity into a duplicate or turning two limited sources into a recipe contract must fail.
+  const recipes = sourceBackedCatalog().recipes;
+  const xinjiang = recipes.filter(recipe => recipe.recipe_id === 'yutian-electric-cooker-lamb-pilaf');
+  assert.equal(xinjiang.length, 1);
+  assert.equal(xinjiang[0].canonical_name, '手抓饭');
+  assert.deepEqual(xinjiang[0].aliases, ['抓饭', '波罗']);
+  assert.ok(xinjiang[0].source_refs.some(source => source.source_id === 'S-XJ-ILI-1'));
+  assert.ok(xinjiang[0].source_refs.some(source => source.source_id === 'yutian-electric-cooker-lamb-pilaf'));
+  assert.equal(recipes.some(recipe => recipe.recipe_id === 'xinjiang-ili-shouzhua-fan'), false);
+  assert.equal(xinjiang[0].fixed_batch, null);
+  assert.equal(xinjiang[0].liquid_contract, null);
+  assert.deepEqual(xinjiang[0].cooking_sequence, []);
+  assert.equal(xinjiang[0].time_contract, null);
+  assert.deepEqual(xinjiang[0].safety_endpoints, []);
+});
+
+test('preserves HTTP, nutrition, process, and access blockers as dated regional blanks', () => {
+  // Replacing blockers with invented HTTPS, balanced variants, or unproven one-pot facts must fail.
+  const blanks = sourceBackedCatalog().regional_blanks;
+  const expected = [
+    ['CN-YN', '禄劝洋芋焖饭', /HTTP.*HTTPS/u],
+    ['CN-YN', '禄劝蚕豆焖饭', /HTTP.*HTTPS/u],
+    ['CN-CQ', '柴火洋芋饭', /营养|两种主食/u],
+    ['MO', 'Portuguese Style Seafood Rice', /米饭状态|一锅/u],
+    ['CN-GX', '宁明县电饭锅焖饭', /404/u],
+    ['HK', '香港煲仔饭', /403/u],
+  ];
+
+  for (const [regionCode, candidateName, reasonPattern] of expected) {
+    const blank = blanks.find(item => (
+      item.region_code === regionCode && item.candidate_name === candidateName
+    ));
+    assert.equal(blank?.searched_at, '2026-08-02', `${regionCode}:${candidateName}`);
+    assert.match(blank?.reason ?? '', reasonPattern, `${regionCode}:${candidateName}`);
+  }
+});

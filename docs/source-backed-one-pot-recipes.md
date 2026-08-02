@@ -9,6 +9,11 @@
 | 冬菇滑鸡饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；鸡肉；冬菇 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A) |
 | 腊味煲仔饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；腊味 | appliance、identity、ingredients、liquid、process | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A) |
 | 豉汁排骨饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；排骨；豆豉 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A) |
+## enshi-seasonal-glutinous-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 社饭 | — | CN-HB | enshi-seasonal-glutinous-rice | 研究记录（非公开可执行） | 香蒿；糯米 | identity、ingredients | 缺 process | [恩施社节](https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml) |
 ## jiangnan-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -50,6 +55,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 壶仔饭 | — | CN-FJ | minnan-steamed-glutinous-rice | 研究记录（非公开可执行） | 糯米；三层肉；香菇；虾米；大骨汤 | appliance、identity、ingredients、liquid、process | 当前状态所需证据已齐 | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
+## ningxia-steamed-meat-vegetable-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 肉粘饭 | — | CN-NX | ningxia-steamed-meat-vegetable-rice | 研究记录（非公开可执行） | 宁夏大米；牛肉或羊肉；洋葱；胡萝卜 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [不尝一次宁夏大米，难以给胃一个交代！](https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html) |
+## sichuan-parboil-drain-return-to-pot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋；少量水 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html) |
 ## taiwan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -80,7 +95,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 抓饭 | 新疆羊肉抓饭 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 米；羊肉；胡萝卜；洋葱 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [抓饭](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html) |
+| 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米；盐；水 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [抓饭](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml) |
+## yunnan-seasonal-pea-potato-ham-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 豌豆洋芋火腿焖饭 | — | CN-YN | yunnan-seasonal-pea-potato-ham-rice | 研究记录（非公开可执行） | 火腿；青豌豆仁；洋芋；米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [来老麦解锁青豌豆的N种“鲜”吃法](https://shidian.gov.cn/info/1111/3792183.htm) |
 ## zhejiang-festival-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

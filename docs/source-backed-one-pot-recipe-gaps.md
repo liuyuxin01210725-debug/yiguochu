@@ -14,15 +14,21 @@
 
 ## 3. Missing quantity
 
-- 抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 孔干饭 (sichuan-kongganfan) — CN-SC
+- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 4. Missing liquid
 
+- 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
-- 抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 5. Missing process
 
+- 社饭 (hubei-enshi-shefan) — CN-HB
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 咸饭 (minnan-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
@@ -40,9 +46,12 @@
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱
+- 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 孔干饭 (sichuan-kongganfan) — CN-SC
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
 - 高丽菜饭 (taiwan-cabbage-rice) — TW
-- 抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 8. Missing safety
 
@@ -51,14 +60,40 @@
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱
+- 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
 - 高丽菜饭 (taiwan-cabbage-rice) — TW
-- 抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 
 ## 9. Regional blanks
 
+- CN-AH — 未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。（检索于 2026-08-02）
+- CN-BJ — 本轮北京地区焖饭/菜饭检索未找到可独立核验的原始来源；结果为通用家常做法或非米饭菜品。（检索于 2026-08-02）
+- CN-CQ — 原始来源支持身份和柴火锅过程，但基础形式为米饭加洋芋两种主食；肉菜仅为非固定可选项，营养上不符合平衡主餐门槛。（检索于 2026-08-02）
+- CN-GS — 区域一锅线索为面条、汤碗或搅拌谷物，不符合米饭主餐范围。（检索于 2026-08-02）
+- CN-GX — 宁明县政府线索的原始 URL 在复核时返回 HTTP 404，未作为证据使用。（检索于 2026-08-02）
+- CN-GZ — 店铺和活动线索未形成可读原始来源或固定米饭主餐证据。（检索于 2026-08-02）
+- CN-HA — 线索为面食、粥或通用电饭锅食谱，均不在目录范围。（检索于 2026-08-02）
+- CN-HE — 未找到同时满足具名地域咸味米饭主餐与可独立核验做法门槛的来源。（检索于 2026-08-02）
+- CN-HI — 已知线索为鸡与饭分段制作，不能改写为生鸡肉与生米一锅；未保留其他合格独立来源。（检索于 2026-08-02）
+- CN-HL — 地方米饭引用为分开主食或通用做法，未保留合格的独立来源。（检索于 2026-08-02）
+- CN-HN — 武陵地区可能有社饭传统，但本轮未找到可独立核验的湖南原始来源证明固定米饭主餐。（检索于 2026-08-02）
+- CN-JL — 未取得可用原始来源或具名咸味一锅米饭证据。（检索于 2026-08-02）
+- CN-JX — 未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。（检索于 2026-08-02）
+- CN-LN — 可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。（检索于 2026-08-02）
+- CN-NM — 未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。（检索于 2026-08-02）
+- CN-QH — 政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。（检索于 2026-08-02）
+- CN-SD — 线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。（检索于 2026-08-02）
+- CN-SN — 发现线索为节庆软粮日期豆食物，未证明咸味米饭主餐范围、谷物身份或现代豆类处理。（检索于 2026-08-02）
+- CN-SX — 区域线索主要是小米或洋芋主食，并非本目录限定的咸味米饭主餐。（检索于 2026-08-02）
+- CN-TJ — 本轮未找到可用原始来源；区域结果为小吃、配菜米饭或通用电饭锅食谱。（检索于 2026-08-02）
+- CN-XZ — 线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。（检索于 2026-08-02）
+- CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）
+- CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）
+- HK — 香港旅游发展局食物地图 PDF 复核时遇 Cloudflare HTTP 403；且现有线索只表明消费，不证明香港独有起源，未保留可读原始来源。（检索于 2026-08-02）
+- MO — 澳门政府旅游页面只证明菜单和宽泛海鲜成分，未证明米饭状态、一锅过程或安全终点，可能为湿饭，故按流程范围阻塞。（检索于 2026-08-02）
 - TW — 候选“台湾油饭”未找到可读的直达原始食谱来源。（检索于 2026-08-02）
 
 ## 10. Excluded project-original combinations
