@@ -191,10 +191,28 @@ test('records the audited disposition of all nineteen legacy variants', () => {
 });
 
 test('keeps every migrated recipe non-public until safety and complete execution facts are independently supported', () => {
+  // Removing a null contract, changing an evidence-only status, or promoting a row must fail here.
   const catalog = sourceBackedCatalog();
   assert.ok(catalog.recipes.length > 0);
+  const statusTotals = catalog.recipes.reduce((totals, recipe) => {
+    totals[recipe.status] = (totals[recipe.status] ?? 0) + 1;
+    return totals;
+  }, {});
+  assert.deepEqual(statusTotals, {
+    discovered: 2,
+    identity_verified: 15,
+    recipe_fact_checked: 15,
+  });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
+  }
+
+  for (const recipe of catalog.recipes.filter(recipe => recipe.status === 'recipe_fact_checked')) {
+    assert.equal(recipe.fixed_batch, null, `${recipe.recipe_id} lacks a sourced fixed batch`);
+    assert.equal(recipe.liquid_contract, null, `${recipe.recipe_id} lacks a sourced liquid contract`);
+    assert.deepEqual(recipe.cooking_sequence, [], `${recipe.recipe_id} lacks sourced process steps`);
+    assert.equal(recipe.time_contract, null, `${recipe.recipe_id} lacks a sourced time contract`);
+    assert.deepEqual(recipe.safety_endpoints, [], `${recipe.recipe_id} lacks sourced safety endpoints`);
   }
 });
 

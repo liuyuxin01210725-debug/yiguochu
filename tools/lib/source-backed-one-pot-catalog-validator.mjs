@@ -112,9 +112,12 @@ function isMeaningfulFixedBatch(value) {
 }
 
 function isMeaningfulLiquidContract(value) {
-  return isNonEmptyRecord(value)
-    && nonEmptyString(value.kind)
-    && isMeaningfulAmount(value.amount);
+  if (!isNonEmptyRecord(value) || !nonEmptyString(value.kind)) return false;
+  if (value.kind !== 'waterline') return isMeaningfulAmount(value.amount);
+  return isNonEmptyRecord(value.waterline)
+    && nonEmptyString(value.waterline.appliance_model)
+    && nonEmptyString(value.waterline.scale)
+    && (isPositiveFiniteNumber(value.waterline.mark) || nonEmptyString(value.waterline.mark));
 }
 
 function isMeaningfulNutritionRoles(value) {
@@ -164,6 +167,90 @@ function sourceClaimScopes(recipe) {
   return new Set(sourceRefs.flatMap(source => (
     Array.isArray(source?.claim_scopes) ? source.claim_scopes : []
   )));
+}
+
+function hasFactValue(value) {
+  if (value == null) return false;
+  return !Array.isArray(value) || value.length > 0;
+}
+
+function validateFactSourceIds(recipe, value, path, requiredScopes, errors) {
+  if (!hasFactValue(value)) return;
+  if (!hasNonEmptyStrings(value.source_ids)) {
+    errors.push(`${path}.source_ids must be a nonempty string array`);
+    return;
+  }
+
+  const sourceById = new Map((Array.isArray(recipe.source_refs) ? recipe.source_refs : [])
+    .filter(isRecord)
+    .filter(source => nonEmptyString(source.source_id))
+    .map(source => [source.source_id, source]));
+  for (const sourceId of value.source_ids) {
+    const source = sourceById.get(sourceId);
+    if (!source) {
+      errors.push(`${path}.source_ids references unknown source_id: ${sourceId}`);
+      continue;
+    }
+    const scopes = new Set(Array.isArray(source.claim_scopes) ? source.claim_scopes : []);
+    for (const scope of requiredScopes) {
+      if (!scopes.has(scope)) errors.push(`${path}.source_ids source_id ${sourceId} does not support ${scope}`);
+    }
+  }
+}
+
+function validateFactStructure(recipe, path, errors) {
+  if (recipe.fixed_batch != null && !isMeaningfulFixedBatch(recipe.fixed_batch)) {
+    errors.push(`${path}.fixed_batch must have the expected fixed-batch structure`);
+  }
+  if (recipe.liquid_contract != null && !isMeaningfulLiquidContract(recipe.liquid_contract)) {
+    errors.push(`${path}.liquid_contract must be a positive numeric amount and unit or a model-scoped waterline`);
+  }
+  if (hasFactValue(recipe.cooking_sequence) && !isMeaningfulCookingSequence(recipe.cooking_sequence)) {
+    errors.push(`${path}.cooking_sequence must have the expected cooking-sequence structure`);
+  }
+  if (recipe.time_contract != null && (!isNonEmptyRecord(recipe.time_contract)
+    || !isPositiveFiniteNumber(recipe.time_contract.total_minutes))) {
+    errors.push(`${path}.time_contract must have a positive total_minutes`);
+  }
+  if (hasFactValue(recipe.safety_endpoints) && !isMeaningfulSafetyEndpoints(recipe.safety_endpoints)) {
+    errors.push(`${path}.safety_endpoints must have the expected safety-endpoint structure`);
+  }
+}
+
+function validateFactEvidence(recipe, path, errors) {
+  validateFactStructure(recipe, path, errors);
+
+  validateFactSourceIds(recipe, recipe.fixed_batch, `${path}.fixed_batch`, ['quantity'], errors);
+  for (const [ingredientIndex, ingredient] of (Array.isArray(recipe.fixed_batch?.ingredients)
+    ? recipe.fixed_batch.ingredients : []).entries()) {
+    validateFactSourceIds(
+      recipe,
+      ingredient,
+      `${path}.fixed_batch.ingredients[${ingredientIndex}]`,
+      ['quantity'],
+      errors,
+    );
+  }
+
+  const liquidScopes = recipe.liquid_contract?.kind === 'waterline'
+    ? ['liquid', 'appliance']
+    : ['liquid'];
+  validateFactSourceIds(recipe, recipe.liquid_contract, `${path}.liquid_contract`, liquidScopes, errors);
+
+  for (const [stepIndex, step] of (Array.isArray(recipe.cooking_sequence) ? recipe.cooking_sequence : []).entries()) {
+    const scopes = ['process'];
+    if (APPLIANCE_CLAIM.test(step?.instruction ?? '')) scopes.push('appliance');
+    validateFactSourceIds(recipe, step, `${path}.cooking_sequence[${stepIndex}]`, scopes, errors);
+  }
+
+  validateFactSourceIds(recipe, recipe.time_contract, `${path}.time_contract`, ['time'], errors);
+  for (const [endpointIndex, endpoint] of (Array.isArray(recipe.safety_endpoints) ? recipe.safety_endpoints : []).entries()) {
+    validateFactSourceIds(recipe, endpoint, `${path}.safety_endpoints[${endpointIndex}]`, ['safety'], errors);
+  }
+
+  if (isRecord(recipe.cooker_adaptation) && recipe.cooker_adaptation.status === 'adapted') {
+    validateFactSourceIds(recipe, recipe.cooker_adaptation, `${path}.cooker_adaptation`, ['appliance'], errors);
+  }
 }
 
 function invalidExecutableFields(recipe) {
@@ -350,6 +437,7 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
         }
       });
     }
+    validateFactEvidence(recipe, path, errors);
     validatePromotionGates(recipe, path, errors);
   }
 
