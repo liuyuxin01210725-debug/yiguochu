@@ -41,6 +41,14 @@ const MIGRATION_TARGET_DISPOSITIONS = new Set([
   'manufacturer_recipe_migrated',
   'duplicate_alias',
 ]);
+const MANDATORY_PROJECT_ORIGINAL_COMBINATION_VARIANT_IDS = new Set([
+  'home-broccoli-beef-rice',
+  'home-cabbage-tofu-rice',
+  'home-chicken-leg-potato-rice',
+  'home-corn-carrot-chicken-leg-rice',
+  'home-green-bean-pork-rib-rice',
+  'home-mushroom-green-bean-pork-rib-rice',
+]);
 const RAW_HIGH_RISK_INGREDIENT = /\b(raw\s+)?(poultry|chicken|turkey|duck|pork|beef|lamb|seafood|fish|shrimp|crab|egg|eggs|beans|wild\s+mushrooms?|live\s+shellfish)\b|生(?:鸡|禽|猪|牛|羊|鱼|虾|蟹|海鲜|鸡蛋|蛋|豆|野生蘑菇|贝)|(?:鸡|鸭|鹅|禽肉|猪肉|牛肉|羊肉|海鲜|鱼|虾|蟹|鸡蛋|生蛋|生豆|野生菌|活贝|蚝|牡蛎|蛤蜊|扇贝)|(?:生蚝|牡蛎|蚝|贝类|蛤蜊|扇贝)/i;
 const APPLIANCE_CLAIM = /电饭煲|电锅|饭煲|电压力锅|压力锅|空气炸锅|微波炉|烤箱|蒸箱|rice cooker|slow cooker|instant pot/i;
 
@@ -426,7 +434,11 @@ export function validateSourceBackedCatalogMigration(migration, legacyVariants, 
       }
     }
 
-    if (item.disposition === 'project_original_excluded' && hasUsableSourceBackedCatalog) {
+    if (
+      item.disposition === 'project_original_excluded'
+      && MANDATORY_PROJECT_ORIGINAL_COMBINATION_VARIANT_IDS.has(item.legacy_variant_id)
+      && hasUsableSourceBackedCatalog
+    ) {
       const legacy = legacyVariantsById.get(item.legacy_variant_id);
       if (!legacy) continue;
 

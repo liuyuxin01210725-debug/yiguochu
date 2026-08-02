@@ -120,6 +120,49 @@ test('migration validator rejects project-original identities copied under a new
   }
 });
 
+test('migration validator keeps all six mandatory project-original combinations blocked under new IDs', () => {
+  const legacyVariants = flattenLegacyVariants();
+  const migration = migrationLedger();
+  for (const legacyId of [
+    'home-broccoli-beef-rice',
+    'home-cabbage-tofu-rice',
+    'home-chicken-leg-potato-rice',
+    'home-corn-carrot-chicken-leg-rice',
+    'home-green-bean-pork-rib-rice',
+    'home-mushroom-green-bean-pork-rib-rice',
+  ]) {
+    const legacy = legacyVariants.find(item => item.variant_id === legacyId);
+    const catalog = sourceBackedCatalog();
+    catalog.recipes.push({
+      recipe_id: `independent-looking-${legacyId}`,
+      canonical_name: legacy.display_name,
+      aliases: [],
+    });
+    const errors = validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog);
+    assert.match(errors.join('\n'), new RegExp(`project-original legacy variant ${legacyId}`));
+  }
+});
+
+test('migration validator permits an independently sourced canonical Quanzhou identity', () => {
+  // A ban that applies to all project_original_excluded rows would reject this independent identity.
+  const legacyVariants = flattenLegacyVariants();
+  const migration = migrationLedger();
+  const legacy = legacyVariants.find(item => (
+    item.variant_id === 'home-soaked-glutinous-pork-mushroom-rice'
+  ));
+  const catalog = sourceBackedCatalog();
+  catalog.recipes.push({
+    recipe_id: 'quanzhou-independent-oil-rice',
+    canonical_name: legacy.display_name,
+    aliases: [],
+  });
+  const errors = validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog);
+  assert.doesNotMatch(
+    errors.join('\n'),
+    /project-original legacy variant home-soaked-glutinous-pork-mushroom-rice/i,
+  );
+});
+
 test('records the audited disposition of all nineteen legacy variants', () => {
   const dispositionById = Object.fromEntries(
     migrationLedger().items.map(item => [item.legacy_variant_id, item.disposition]),
