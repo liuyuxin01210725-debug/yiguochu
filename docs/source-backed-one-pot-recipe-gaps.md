@@ -16,14 +16,12 @@
 
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
-- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 4. Missing liquid
 
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
-- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 5. Missing process
@@ -40,7 +38,6 @@
 ## 7. Missing time
 
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
-- 咖喱鸡肉饭 (joyoung-curry-chicken-rice-jrc-4hp82) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
@@ -50,13 +47,11 @@
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
 - 高丽菜饭 (taiwan-cabbage-rice) — TW
-- 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 8. Missing safety
 
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
-- 咖喱鸡肉饭 (joyoung-curry-chicken-rice-jrc-4hp82) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱

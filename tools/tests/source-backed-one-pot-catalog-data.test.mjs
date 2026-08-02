@@ -191,7 +191,7 @@ test('records the audited disposition of all nineteen legacy variants', () => {
 });
 
 test('keeps every migrated recipe non-public until safety and complete execution facts are independently supported', () => {
-  // Removing a null contract, changing an evidence-only status, or promoting a row must fail here.
+  // Partial evidence may now be structured one contract at a time, but no incomplete row may be promoted.
   const catalog = sourceBackedCatalog();
   assert.ok(catalog.recipes.length > 0);
   const statusTotals = catalog.recipes.reduce((totals, recipe) => {
@@ -208,11 +208,14 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }
 
   for (const recipe of catalog.recipes.filter(recipe => recipe.status === 'recipe_fact_checked')) {
-    assert.equal(recipe.fixed_batch, null, `${recipe.recipe_id} lacks a sourced fixed batch`);
-    assert.equal(recipe.liquid_contract, null, `${recipe.recipe_id} lacks a sourced liquid contract`);
-    assert.deepEqual(recipe.cooking_sequence, [], `${recipe.recipe_id} lacks sourced process steps`);
-    assert.equal(recipe.time_contract, null, `${recipe.recipe_id} lacks a sourced time contract`);
-    assert.deepEqual(recipe.safety_endpoints, [], `${recipe.recipe_id} lacks sourced safety endpoints`);
+    const completeExecutionContract = Boolean(
+      recipe.fixed_batch
+      && recipe.liquid_contract
+      && recipe.cooking_sequence.length > 0
+      && recipe.time_contract
+      && recipe.safety_endpoints.length > 0,
+    );
+    assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
   }
 });
 
@@ -455,6 +458,57 @@ test('retains the national source-backed candidates at their evidence-only statu
   }
 });
 
+test('records the first-priority source matrix without pretending the recipes are executable', () => {
+  const recipes = new Map(sourceBackedCatalog().recipes.map(recipe => [recipe.recipe_id, recipe]));
+
+  const pilaf = recipes.get('yutian-electric-cooker-lamb-pilaf');
+  const yutian = pilaf?.source_refs.find(source => (
+    source.source_id === 'yutian-electric-cooker-lamb-pilaf'
+  ));
+  const ili = pilaf?.source_refs.find(source => source.source_id === 'S-XJ-ILI-1');
+  const regional = pilaf?.source_refs.find(source => source.source_id === 'S-XJ-REGION-1');
+  assert.ok(yutian?.claim_scopes.includes('quantity'));
+  assert.ok(yutian?.claim_scopes.includes('time'));
+  assert.ok(ili?.claim_scopes.includes('time'));
+  assert.deepEqual(regional?.claim_scopes, [
+    'identity', 'ingredients', 'liquid', 'process', 'appliance', 'time',
+  ]);
+  assert.match(pilaf?.evidence_notes ?? '', /20分钟.*40分钟.*1\.5小时/u);
+  assert.equal(pilaf?.fixed_batch, null, 'rice amount remains unspecified');
+  assert.equal(pilaf?.time_contract, null, 'different appliance timelines stay separate');
+
+  const curry = recipes.get('joyoung-curry-chicken-rice-jrc-4hp82');
+  assert.deepEqual(curry?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 528, unit: 'g' },
+    source_ids: ['joyoung-curry-chicken-rice-jrc-4hp82'],
+  });
+  assert.equal(curry?.cooking_sequence.length, 4);
+  assert.deepEqual(curry?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.equal(curry?.fixed_batch, null, 'manual does not state servings');
+  assert.equal(curry?.time_contract, null, 'three-cup White rice duration is not explicit');
+  assert.ok(curry?.source_refs.find(source => source.source_id === 'S-SAFETY-TEMPERATURES-1'));
+
+  const shanghai = recipes.get('shanghai-salted-pork-vegetable-rice');
+  assert.equal(shanghai?.status, 'identity_verified');
+  assert.equal(shanghai?.fixed_batch, null);
+  assert.equal(shanghai?.time_contract, null, '15–20 minutes is not a full-process duration');
+
+  for (const recipeId of [
+    'cantonese-cured-meat-claypot-rice',
+    'cantonese-mushroom-chicken-claypot-rice',
+  ]) {
+    const recipe = recipes.get(recipeId);
+    assert.ok(recipe?.source_refs.find(source => source.source_id === 'S-GD-3'));
+    assert.ok(recipe?.source_refs.find(source => source.source_id === 'S-GD-KAIPING-1'));
+    assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+  }
+});
+
 test('locks each retained national candidate to its exact supported source, vessel, and core-ingredient boundary', () => {
   // Treating process facts as vessels or core ingredients, or drifting provenance, must make this fail.
   const recipes = new Map(sourceBackedCatalog().recipes.map(recipe => [recipe.recipe_id, recipe]));
@@ -465,8 +519,9 @@ test('locks each retained national candidate to its exact supported source, vess
       vessels: ['炉上有盖锅', '电饭锅'],
       ingredients: ['鲜羊肉', '胡萝卜', '洋葱', '油脂', '米'],
       sources: [
-        ['yutian-electric-cooker-lamb-pilaf', '抓饭', '新疆和田地区于田县人民政府', 'https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html', ['identity', 'ingredients', 'process', 'appliance']],
-        ['S-XJ-ILI-1', '手抓饭', '伊犁哈萨克自治州人民政府', 'https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml', ['identity', 'ingredients', 'process', 'appliance']],
+        ['yutian-electric-cooker-lamb-pilaf', '于田抓饭做法', '新疆和田地区于田县人民政府', 'https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html', ['identity', 'ingredients', 'quantity', 'process', 'appliance', 'time']],
+        ['S-XJ-ILI-1', '手抓饭', '伊犁哈萨克自治州人民政府', 'https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml', ['identity', 'ingredients', 'process', 'appliance', 'time']],
+        ['S-XJ-REGION-1', '新疆抓饭', '新疆维吾尔自治区人民政府', 'https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml', ['identity', 'ingredients', 'liquid', 'process', 'appliance', 'time']],
       ],
     },
     'ningxia-wuzhong-rouzhanfan': {
@@ -512,9 +567,9 @@ test('locks each retained national candidate to its exact supported source, vess
   }
 
   const xinjiang = recipes.get('yutian-electric-cooker-lamb-pilaf');
-  assert.match(xinjiang?.evidence_notes ?? '', /S-XJ-ILI-1.*炉上有盖锅/u);
+  assert.match(xinjiang?.evidence_notes ?? '', /伊犁.*炉上/u);
   assert.match(xinjiang?.evidence_notes ?? '', /于田.*电饭锅/u);
-  assert.match(xinjiang?.cooker_adaptation?.notes ?? '', /S-XJ-ILI-1.*炉上有盖锅/u);
+  assert.match(xinjiang?.cooker_adaptation?.notes ?? '', /伊犁.*炉上有盖锅/u);
   assert.match(xinjiang?.cooker_adaptation?.notes ?? '', /于田.*电饭锅/u);
   assert.equal(xinjiang?.fixed_batch, null);
   assert.equal(xinjiang?.liquid_contract, null);

@@ -6,8 +6,8 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 冬菇滑鸡饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；鸡肉；冬菇 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A) |
-| 腊味煲仔饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；腊味 | appliance、identity、ingredients、liquid、process | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A) |
+| 冬菇滑鸡饭 | 香菇滑鸡煲仔饭 | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；鸡肉；冬菇 | appliance、identity、ingredients、liquid、process、safety、time | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》全文](https://com.gd.gov.cn/attachment/0/513/513488/4095266.pdf)<br>[央视《味道》聚焦！赤坎煲仔饭：一口非遗烟火，百年侨乡记忆](https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/3/3394/post_3394460.html?jump=true)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 腊味煲仔饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；腊味 | appliance、identity、ingredients、liquid、process、safety、time | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》全文](https://com.gd.gov.cn/attachment/0/513/513488/4095266.pdf)<br>[央视《味道》聚焦！赤坎煲仔饭：一口非遗烟火，百年侨乡记忆](https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/3/3394/post_3394460.html?jump=true)<br>[食品安全消费提示（腊味选购篇）](https://www.zc.gov.cn/gzzcscjg/gkmlpt/content/10/10653/post_10653964.html) |
 | 豉汁排骨饭 | — | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；排骨；豆豉 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A) |
 ## enshi-seasonal-glutinous-rice
 
@@ -20,14 +20,14 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 南京菜饭 | 矮脚黄菜饭 | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 矮脚黄；糯米；咸肉片或香肠片或板鸭丁 | identity、ingredients、process | 当前状态所需证据已齐 | [寻味二十四节气・小寒](https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html) |
 | 香青菜咸肉饭 | — | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 吴江香青菜；咸肉；饭 | identity、ingredients | 缺 process | [吴江香青菜入选国家地理标志产品](https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml) |
-| 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 浸泡大米；青菜；咸肉 | identity、ingredients、liquid、process、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html) |
+| 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 浸泡大米；青菜；咸肉 | identity、ingredients、liquid、process、safety、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 蚕豆菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 蚕豆；猪肉丁；牛心菜；饭 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [外婆的蚕豆菜饭](https://mzj.sh.gov.cn/lnb-hf/20250519/8cfe8d45a5e846c0a441161c21226bef.html) |
 ## 厂商电饭煲食谱
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 什锦鸡饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；油炸豆腐；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [什锦鸡饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-DF151.pdf) |
-| 咖喱鸡肉饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；土豆；洋葱；咖喱块 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [咖喱鸡肉饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf) |
+| 咖喱鸡肉饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；土豆；洋葱；咖喱块 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [电饭煲JRC-4HP82（F40FZ820）说明书：咖喱鸡肉饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 懒人焖饭 | 腊肠什锦饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；腊肠；青豆；香菇；玉米；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [懒人焖饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf) |
 | 牛肉什锦饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛肉末；胡萝卜泥；洋葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [牛肉什锦饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/) |
 | 肉糜青菜饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪肉糜；青菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [肉糜青菜饭](https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf) |
@@ -95,7 +95,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [抓饭](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml) |
+| 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [于田抓饭做法](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml)<br>[新疆抓饭](https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml) |
 ## yunnan-seasonal-pea-potato-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
