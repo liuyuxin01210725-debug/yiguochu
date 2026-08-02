@@ -200,8 +200,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     discovered: 2,
-    identity_verified: 12,
-    recipe_fact_checked: 18,
+    identity_verified: 11,
+    recipe_fact_checked: 19,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -247,7 +247,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
     'cantonese-cured-meat-claypot-rice': 'recipe_fact_checked',
     'cantonese-mushroom-chicken-claypot-rice': 'recipe_fact_checked',
-    'cantonese-black-bean-pork-rib-claypot-rice': 'identity_verified',
+    'cantonese-black-bean-pork-rib-claypot-rice': 'recipe_fact_checked',
     'zhanjiang-galangal-leaf-rice': 'discovered',
     'zhanjiang-duck-rice': 'discovered',
   };
@@ -284,7 +284,6 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
     'taiwan-tongzai-rice-cake',
     'cantonese-cured-meat-claypot-rice',
     'cantonese-mushroom-chicken-claypot-rice',
-    'cantonese-black-bean-pork-rib-claypot-rice',
     'quanzhou-red-xun-rice',
   ]) {
     const recipe = byId.get(recipeId);
@@ -913,6 +912,41 @@ test('structures the direct official mushroom-chicken claypot-rice quantities wh
   }]);
   assert.equal(source?.license, 'permission_required');
   assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Cookpot IH black-bean pork-rib rice schedule without turning a cooker countdown into a total time', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'cantonese-black-bean-pork-rib-claypot-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-COOKPOT-BLACK-BEAN-RIB-RICE-1');
+
+  assert.equal(recipe?.fixed_batch, null, 'the source reports a four-to-five-person range, not one fixed serving count');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 3.6, unit: '杯' },
+    source_ids: ['S-GD-COOKPOT-BLACK-BEAN-RIB-RICE-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 6);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /长秈米.*3杯/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /小排.*2厘米/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /豆豉.*腌.*30分钟/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /3\.6杯水.*蒸架/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /煲仔饭.*模式/);
+  assert.match(recipe?.cooking_sequence[5]?.instruction ?? '', /倒数30分钟.*倒入饭里/);
+  assert.equal(recipe?.time_contract, null, 'the page gives preparation time and a countdown point, not a complete cooker duration');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.match(recipe?.cooker_adaptation?.notes ?? '', /IH/);
+  assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
