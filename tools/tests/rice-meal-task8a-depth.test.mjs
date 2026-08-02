@@ -150,7 +150,7 @@ test('Taiwan shrimp evidence remains non-executable until liquid and hot-hold ki
   assert.equal(evidenceRule.operations.some(operation => operation.grams?.default != null || operation.default != null), false);
 });
 
-test('known six-item user journey is rejected below the sixty-percent floor without model work', () => {
+test('known six-item user journey keeps the best authentic multi-ingredient rice meal without model work', () => {
   const originalFetch = globalThis.fetch;
   try {
     globalThis.fetch = () => { throw new Error('Task 8A runtime must not call a model'); };
@@ -162,8 +162,18 @@ test('known six-item user journey is rejected below the sixty-percent floor with
       sourceEvidence: assets.sourceEvidence,
       recentPlanIds: [],
     });
-    assert.equal(six.status, 'no_reliable_rice_meal');
-    assert.deepEqual(six.candidates, []);
+    assert.equal(six.status, 'ready');
+    assert.equal(six.candidates.length, 1);
+    assert.equal(six.candidates[0].variant_id, 'home-mushroom-green-bean-pork-rib-rice');
+    assert.equal(six.candidates[0].coverage_ratio, 0.5);
+    assert.deepEqual(
+      six.candidates[0].used_items.map(item => item.raw).sort(),
+      ['排骨', '豆角', '香菇'].sort(),
+    );
+    assert.deepEqual(
+      six.candidates[0].unused_items.map(item => item.raw).sort(),
+      ['土豆', '青菜', '鸡腿'].sort(),
+    );
   } finally {
     globalThis.fetch = originalFetch;
   }

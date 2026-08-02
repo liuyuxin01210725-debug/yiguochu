@@ -375,7 +375,7 @@ test('Shanghai salted pork vegetable rice is a real three-serving plan and never
 });
 
 test('every hand-authored rice-meal journey has its literal status, variant, coverage, grade, and reason contract', () => {
-  assert.equal(journeyCorpus.journeys.length, 34, 'the fixed journey gate covers every public-ready and internal-calibration rice variant');
+  assert.equal(journeyCorpus.journeys.length, 36, 'the fixed journey gate covers every active variant plus both screenshot regressions');
   for (const journey of journeyCorpus.journeys) {
     const riceCatalogScope = journey.rice_catalog_scope || 'ready';
     let result;
@@ -561,8 +561,8 @@ test('a named chicken-leg rice meal never accepts chicken breast through a gener
 
 test('unused-item reasons speak to a home cook instead of exposing catalog engineering terms', () => {
   const result = select({ servings: 2, pantry: ['鸡腿', '土豆', '胡萝卜', '番茄'], dislikes: [] });
-  assert.equal(result.status, 'no_reliable_rice_meal');
-  const reasons = result.unused_items.map(item => item.reason).join('\n');
+  assert.equal(result.status, 'ready');
+  const reasons = result.candidates[0].unused_items.map(item => item.reason).join('\n');
   assert.doesNotMatch(reasons, /当前已激活目录|受控用料/);
   assert.match(reasons, /现有菜饭|这道菜饭/);
 });
@@ -667,13 +667,61 @@ test('a four-to-six-item request never emits a normal card that uses only one su
   assert.deepEqual(result.candidates, []);
 });
 
-test('four-to-six-item requests require a ceiling sixty-percent coverage floor', () => {
+test('a five-item pantry keeps the best honest two-item named rice meals instead of dead-ending', () => {
+  const result = select({
+    servings: 2,
+    pantry: ['鸡腿', '土豆', '豆腐', '白菜', '排骨'],
+    dislikes: [],
+  });
+
+  assert.equal(result.status, 'ready', JSON.stringify(result));
+  assert.deepEqual(result.candidates.map(candidate => candidate.variant_id), [
+    'home-cabbage-tofu-rice',
+    'home-chicken-leg-potato-rice',
+  ]);
+  for (const candidate of result.candidates) {
+    assert.equal(candidate.coverage_count, 2);
+    assert.equal(candidate.coverage_total, 5);
+    assert.equal(candidate.coverage_ratio, 0.4);
+    assert.equal(candidate.extra_major_count, 0);
+    assert.equal(candidate.required_extra_items.some(item => item.kind === 'major_material'), false);
+  }
+});
+
+test('one supplied main ingredient may unlock one authentic named rice meal with one explicit side ingredient', () => {
+  const result = select({ servings: 2, pantry: ['排骨'], dislikes: [] });
+
+  assert.equal(result.status, 'ready', JSON.stringify(result));
+  assert.deepEqual(result.candidates.map(candidate => candidate.variant_id), [
+    'home-green-bean-pork-rib-rice',
+  ]);
+  const candidate = result.candidates[0];
+  assert.equal(candidate.coverage_count, 1);
+  assert.equal(candidate.coverage_total, 1);
+  assert.deepEqual(candidate.used_items.map(item => item.raw), ['排骨']);
+  assert.deepEqual(candidate.required_extra_items.filter(item => item.kind === 'major_material'), [{
+    canonical_id: 'green-beans',
+    display_name: '豆角',
+    kind: 'major_material',
+    allergen_tags: [],
+  }]);
+  assert.equal(candidate.extra_major_count, 1);
+});
+
+test('an explicitly required side ingredient still obeys dislikes before the candidate is shown', () => {
+  const result = select({ servings: 2, pantry: ['排骨'], dislikes: ['豆角过敏'] });
+
+  assert.equal(result.candidates.some(candidate => candidate.variant_id === 'home-green-bean-pork-rib-rice'), false);
+  assert.ok(['unsafe_recipe', 'no_reliable_rice_meal'].includes(result.status), JSON.stringify(result));
+});
+
+test('four-to-six-item requests keep an honest named meal once at least two submitted items match', () => {
   const cases = [
-    { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄'], matched: ['chicken-leg', 'potato'], ready: false },
+    { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄'], matched: ['chicken-leg', 'potato'], ready: true },
     { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄'], matched: ['chicken-leg', 'potato', 'carrot'], ready: true },
-    { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄', '白菜'], matched: ['chicken-leg', 'potato'], ready: false },
+    { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄', '白菜'], matched: ['chicken-leg', 'potato'], ready: true },
     { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄', '白菜'], matched: ['chicken-leg', 'potato', 'carrot'], ready: true },
-    { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄', '白菜', '香菇'], matched: ['chicken-leg', 'potato', 'carrot'], ready: false },
+    { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄', '白菜', '香菇'], matched: ['chicken-leg', 'potato', 'carrot'], ready: true },
     { submitted: ['鸡腿', '土豆', '胡萝卜', '番茄', '白菜', '香菇'], matched: ['chicken-leg', 'potato', 'carrot', 'napa-cabbage'], ready: true },
   ];
   for (const row of cases) {
@@ -744,7 +792,7 @@ test('project household test standards expose only controlled candidate notices'
   }
 });
 
-test('a seven-plus request rejects a six-of-seven match instead of silently treating it as a valid coverage band', () => {
+test('a seven-plus request keeps a six-of-seven named meal and identifies the one unused item', () => {
   const fixture = fixtureCatalog([
     fixtureVariant({
       variantId: 'six-material-rice',
@@ -757,10 +805,10 @@ test('a seven-plus request rejects a six-of-seven match instead of silently trea
     pantry: ['鸡腿', '土豆', '白菜', '香菇', '胡萝卜', '西兰花', '番茄'],
     dislikes: [],
   }, { sourceCatalog: fixture });
-  assert.equal(result.status, 'no_reliable_rice_meal');
-  assert.deepEqual(result.candidates, []);
-  assert.equal(result.best_available_candidate, undefined);
-  assert.equal(result.unused_items.length, 7, 'every submitted input remains explicitly accounted for');
+  assert.equal(result.status, 'ready');
+  assert.equal(result.candidates[0].coverage_count, 6);
+  assert.equal(result.candidates[0].coverage_total, 7);
+  assert.deepEqual(result.candidates[0].unused_items.map(item => item.raw), ['番茄']);
 });
 
 test('the initial screen never pads the best coverage tier with weaker cards', () => {
@@ -1234,14 +1282,16 @@ test('the journey CLI enforces ready-candidate ordering and executes the compile
     encoding: 'utf8',
   });
   assert.equal(run.status, 0, run.stderr || run.stdout);
-  assert.match(run.stdout, /Rice meal journey gate: total=34 selector_passed=34 selector_failed=0 compiler_passed=1 compiler_failed=0/u);
+  assert.match(run.stdout, /Rice meal journey gate: total=36 selector_passed=36 selector_failed=0 compiler_passed=2 compiler_failed=0/u);
   assert.match(run.stdout, /needs_balance_input: 1/u);
-  assert.match(run.stdout, /no_reliable_rice_meal: 7/u);
+  assert.match(run.stdout, /no_reliable_rice_meal: 5/u);
   assert.match(run.stdout, /no_alternative_rice_meal: 1/u);
-  assert.match(run.stdout, /ready: 22/u);
+  assert.match(run.stdout, /ready: 26/u);
   assert.match(run.stdout, /unsafe_recipe: 3/u);
   assert.match(run.stdout, /RM-04-chicken-potato-b .*coverage=2\/2 grade=B/u);
   assert.match(run.stdout, /RM-15-selector-facts-for-compiler .*contract=passed/u);
-  assert.match(run.stdout, /Candidate-to-compiler contract: passed=1 failed=0; executed by the journey gate\./u);
+  assert.match(run.stdout, /Candidate-to-compiler contract: passed=2 failed=0; executed by the journey gate\./u);
+  assert.match(run.stdout, /RM-35-screenshot-five-item-honest-two-item-options .*coverage=2\/5 grade=A/u);
+  assert.match(run.stdout, /RM-36-screenshot-ribs-with-explicit-green-beans .*coverage=1\/1 grade=A contract=passed/u);
   assert.match(run.stdout, /RM-01-jiangnan-planned-only .*no_reliable_rice_meal .*not_in_active_catalog/u);
 });

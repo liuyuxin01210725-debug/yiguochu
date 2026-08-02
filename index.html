@@ -1781,12 +1781,16 @@ function riceCandidateCard(candidate) {
   const seasoningExtras = candidate.required_extra_items
     .filter(item => item && item.kind === 'controlled_seasoning')
     .map(riceItemName).filter(Boolean);
+  const majorExtras = candidate.required_extra_items
+    .filter(item => item && item.kind === 'major_material')
+    .map(riceItemName).filter(Boolean);
   return '<article class="pantry-plan-card"><button class="pantry-plan-choice" data-act="choose-rice-meal" data-plan-id="' + esc(candidate.plan_id) + '">'
     + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(candidate.display_name) + '</span>'
     + '<span class="pantry-plan-count">用上 ' + candidate.coverage_count + '/' + candidate.coverage_total + '</span></span>'
     + '<span class="pantry-plan-items"><strong>这锅用上：</strong>' + esc(used.join('、')) + '</span>'
     + (unused.length ? '<span class="pantry-plan-items"><strong>这次没用：</strong>' + unused.join('；') + '</span>' : '')
     + '<span class="pantry-plan-items"><strong>营养搭配 ' + esc(candidate.nutrition_grade) + '：</strong>' + esc(roles.join('、')) + '</span>'
+    + (majorExtras.length ? '<span class="pantry-plan-items"><strong>还需准备的配菜：</strong>' + esc(majorExtras.join('、')) + '</span>' : '')
     + (seasoningExtras.length ? '<span class="pantry-plan-items"><strong>还需准备的基础调味：</strong>' + esc(seasoningExtras.join('、')) + '</span>' : '')
     + '<span class="pantry-plan-items"><strong>前置处理：</strong>' + ricePreparationLabel(candidate, preActions)
     + (active == null ? '' : ' · ' + active + ' 分钟') + '</span>'

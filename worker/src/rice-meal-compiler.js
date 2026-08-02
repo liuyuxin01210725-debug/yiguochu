@@ -868,13 +868,17 @@ function actualInputFor(targetId, candidate, used) {
 
 function materialRows(variant, candidate, taxonomy) {
   const itemIndex = taxonomyById(taxonomy);
+  const requiredMajorIds = new Set((candidate.required_extra_items || [])
+    .filter(item => item?.kind === 'major_material')
+    .map(item => item.canonical_id));
   const targets = [variant.rice?.canonical_ingredient_id, ...(variant.ingredients || [])
     .map(item => item.canonical_ingredient_id)];
   if (targets.some(id => !id || !itemIndex.has(id))) ratioFailure();
   const used = new Set();
   const majorMaterials = targets.map((canonicalId, index) => {
     const taxonomyItem = itemIndex.get(canonicalId);
-    const input = index === 0 ? null : actualInputFor(canonicalId, candidate, used);
+    const requiredMajorExtra = index > 0 && requiredMajorIds.has(canonicalId);
+    const input = index === 0 || requiredMajorExtra ? null : actualInputFor(canonicalId, candidate, used);
     const rawName = input?.raw || taxonomyItem.display_name;
     const state = input?.state || taxonomyItem.states?.[0] || null;
     const shape = input?.shape_or_cut || taxonomyItem.shapes_or_cuts?.[0] || null;
@@ -887,7 +891,7 @@ function materialRows(variant, candidate, taxonomy) {
       state,
       shape_or_cut: shape,
       moisture_release: input?.moisture_release || taxonomyItem.moisture_release || null,
-      source: index === 0 ? 'catalog_staple' : 'user',
+      source: index === 0 ? 'catalog_staple' : requiredMajorExtra ? 'required_major_extra' : 'user',
       requires_explicit_raw_name: Boolean(input?.raw && shape),
     };
   });
@@ -1101,6 +1105,9 @@ export function compileRiceMeal(candidate, assets) {
   const requiredControlledIds = new Set((recomputed.required_extra_items || [])
     .filter(item => item?.kind === 'controlled_seasoning')
     .map(item => item.canonical_id));
+  const requiredMajorIds = new Set((recomputed.required_extra_items || [])
+    .filter(item => item?.kind === 'major_material')
+    .map(item => item.canonical_id));
   return clone({
     schema_version: 3,
     catalog_version: assets.catalog.catalog_version,
@@ -1126,13 +1133,16 @@ export function compileRiceMeal(candidate, assets) {
       })),
       required_extra_items: lockedMeal.locked_ingredients.filter(item => (
         item.source === 'basic_extra'
+        || (item.source === 'required_major_extra' && requiredMajorIds.has(item.canonical_id))
         || (item.source === 'controlled_seasoning' && requiredControlledIds.has(item.canonical_id))
       )).map(item => ({
         canonical_id: item.canonical_id,
         name: item.raw_name,
         grams: item.planned_grams,
-        kind: item.source === 'controlled_seasoning' ? 'controlled_seasoning' : 'basic_extra',
-        allergen_tags: item.source === 'controlled_seasoning'
+        kind: item.source === 'controlled_seasoning'
+          ? 'controlled_seasoning'
+          : item.source === 'required_major_extra' ? 'major_material' : 'basic_extra',
+        allergen_tags: item.source === 'controlled_seasoning' || item.source === 'required_major_extra'
           ? clone(assets.taxonomy.items.find(row => row.canonical_id === item.canonical_id)?.allergen_tags || [])
           : [],
       })),

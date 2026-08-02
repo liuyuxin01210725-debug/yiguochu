@@ -260,6 +260,26 @@ test('controlled seasonings are signed, quantified, listed, and referenced by a 
   assert.notEqual(compilerApi('buildRiceMealPlanToken')(tampered, SECRET), token);
 });
 
+test('one explicit missing side ingredient is locked, quantified, and disclosed through compilation', () => {
+  const candidate = select({ servings: 2, pantry: ['排骨'], dislikes: [] });
+  assert.equal(candidate.variant_id, 'home-green-bean-pork-rib-rice');
+  assert.deepEqual(candidate.required_extra_items.filter(item => item.kind === 'major_material')
+    .map(item => item.canonical_id), ['green-beans']);
+
+  const output = compilerApi('compileRiceMeal')(candidate, assets);
+  const greenBeans = output.meals[0].locked_ingredients.find(item => item.canonical_id === 'green-beans');
+  assert.ok(greenBeans);
+  assert.equal(greenBeans.source, 'required_major_extra');
+  assert.ok(Number.isSafeInteger(greenBeans.planned_grams) && greenBeans.planned_grams > 0);
+  assert.deepEqual(output.plan.required_extra_items.filter(item => item.kind === 'major_material'), [{
+    canonical_id: 'green-beans',
+    name: '豆角',
+    grams: greenBeans.planned_grams,
+    kind: 'major_material',
+    allergen_tags: [],
+  }]);
+});
+
 test('verification recomputes the server candidate and rejects bare, forged, and stale plans', () => {
   const buildToken = compilerApi('buildRiceMealPlanToken');
   const verify = compilerApi('verifyAndRecomputeRiceMealPlan');

@@ -144,32 +144,40 @@
       "catalog_gap": "没有可用的蛋类/蔬菜菜饭变体；不能退回旧 template 做单食材卡。"
     },
     {
-      "id": "RM-10-six-mixed-below-coverage-floor",
+      "id": "RM-10-six-mixed-best-honest-coverage",
       "spec_case": 10,
       "request": { "servings": 2, "pantry": ["鸡腿", "土豆", "排骨", "豆角", "香菇", "青菜"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
-        "forbidden_variant_ids": ["home-mushroom-green-bean-pork-rib-rice", "home-green-bean-pork-rib-rice"],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
+        "status": "ready",
+        "expected_first_variant": "home-mushroom-green-bean-pork-rib-rice",
+        "allowed_variant_ids": ["home-mushroom-green-bean-pork-rib-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 6,
+        "expected_used_raw": ["排骨", "香菇", "豆角"],
+        "nutrition_grades": ["A"],
         "required_unused_reason_codes": ["not_in_active_catalog"]
       },
-      "catalog_gap": "6 项输入至少需要覆盖 4 项；当前有充分液体证据的激活条目最多覆盖鸡腿和土豆 2 项。"
+      "catalog_gap": "直接推荐不承诺清库存；应诚实展示当前最完整的 3/6 真实菜饭，并逐项解释未使用食材。"
     },
     {
-      "id": "RM-11-ten-mixed-insufficient-active-coverage",
+      "id": "RM-11-ten-mixed-best-honest-coverage",
       "spec_case": 11,
       "request": { "servings": 2, "pantry": ["鸡腿", "土豆", "排骨", "豆角", "香菇", "青菜", "白菜", "番茄", "鸡蛋", "西兰花"], "dislikes": [] },
       "expect": {
-        "status": "no_reliable_rice_meal",
-        "allowed_variant_ids": [],
+        "status": "ready",
+        "expected_first_variant": "home-mushroom-green-bean-pork-rib-rice",
+        "allowed_variant_ids": ["home-mushroom-green-bean-pork-rib-rice"],
         "forbidden_variant_ids": [],
-        "min_coverage_count": 0,
-        "nutrition_grades": [],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 10,
+        "expected_used_raw": ["排骨", "香菇", "豆角"],
+        "nutrition_grades": ["A"],
         "required_unused_reason_codes": ["not_in_active_catalog"]
       },
-      "catalog_gap": "7 项以上输入需要 4–5 项合理覆盖；当前两条激活变体最多各覆盖 2 项，不得承诺清库存。"
+      "catalog_gap": "十项输入不应被硬塞进一锅；直接推荐只展示最合理的真实组合并诚实列出其余七项。"
     },
     {
       "id": "RM-12a-egg-dislike-preflight",
@@ -565,6 +573,47 @@
         "expected_coverage_total": 3,
         "nutrition_grades": ["B"],
         "required_unused_reason_codes": []
+      }
+    },
+    {
+      "id": "RM-35-screenshot-five-item-honest-two-item-options",
+      "spec_case": 35,
+      "request": { "servings": 2, "pantry": ["鸡腿", "土豆", "豆腐", "白菜", "排骨"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-cabbage-tofu-rice",
+        "allowed_variant_ids": ["home-cabbage-tofu-rice", "home-chicken-leg-potato-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 2,
+        "expected_coverage_count": 2,
+        "expected_coverage_total": 5,
+        "expected_used_raw": ["豆腐", "白菜"],
+        "nutrition_grades": ["A", "B"],
+        "required_unused_reason_codes": ["not_selected_for_this_variant", "not_in_active_catalog"]
+      }
+    },
+    {
+      "id": "RM-36-screenshot-ribs-with-explicit-green-beans",
+      "spec_case": 36,
+      "request": { "servings": 2, "pantry": ["排骨"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "home-green-bean-pork-rib-rice",
+        "allowed_variant_ids": ["home-green-bean-pork-rib-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 1,
+        "expected_coverage_count": 1,
+        "expected_coverage_total": 1,
+        "expected_used_raw": ["排骨"],
+        "expected_unused_raw": [],
+        "nutrition_grades": ["A"],
+        "required_unused_reason_codes": []
+      },
+      "compiler_expect": {
+        "dish_name": "豆角排骨焖饭",
+        "ingredient_amounts": [["raw-rice", 200], ["pork-ribs", 200], ["green-beans", 150], ["water", 290], ["salt", 2]],
+        "action_codes": ["rinse_raw_rice", "pre_cook_pork_ribs_drain_and_discard_liquid", "drain_prepared_vegetables_before_loading", "load_inner_pot", "start_closed_lid_program", "rest_lid_closed", "verify_safety_endpoints", "fluff_and_serve"],
+        "safety_endpoints": ["rice_tender", "pork_fully_cooked", "bean_fully_cooked"]
       }
     }
   ]

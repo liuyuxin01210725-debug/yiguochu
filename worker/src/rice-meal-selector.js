@@ -361,12 +361,15 @@ function findMaterialAssignment(variant, submittedItems, itemsById) {
       match: ingredientMatchKind(input, targetId, targetItem, variant),
     })).filter(entry => entry.match);
   });
-  if (options.some(entries => !entries.length)) return null;
-
   let best = null;
+  const comparePartial = (left, right) => {
+    if (!right) return -1;
+    if (left.length !== right.length) return right.length - left.length;
+    return compareAssignment(left, right);
+  };
   function visit(targetIndex, usedInputIndices, assignments) {
     if (targetIndex === targets.length) {
-      if (compareAssignment(assignments, best) < 0) best = assignments;
+      if (comparePartial(assignments, best) < 0) best = assignments;
       return;
     }
     const ordered = [...options[targetIndex]].sort((left, right) => (
@@ -379,16 +382,25 @@ function findMaterialAssignment(variant, submittedItems, itemsById) {
       nextUsed.add(option.index);
       visit(targetIndex + 1, nextUsed, [...assignments, option]);
     }
+    visit(targetIndex + 1, usedInputIndices, assignments);
   }
   visit(0, new Set(), []);
-  return best;
+  if (!best?.length) return null;
+  const assignedTargets = new Set(best.map(entry => entry.target_id));
+  return {
+    assignments: best,
+    missing_target_ids: targets.filter(targetId => !assignedTargets.has(targetId)),
+  };
 }
 
-function variantForbiddenCombination(variant, assignments) {
+function variantForbiddenCombination(variant, assignments, missingTargetIds = []) {
   // A substitution replaces its nominal target. Forbidden-combination checks
   // must therefore inspect the actual assignment only, never the displaced
   // catalog material.
-  const present = new Set(assignments.map(entry => entry.input.canonical_id));
+  const present = new Set([
+    ...assignments.map(entry => entry.input.canonical_id),
+    ...missingTargetIds,
+  ]);
   return (variant.forbidden_combinations || []).find(entry => (
     Array.isArray(entry?.canonical_ingredient_ids)
     && entry.canonical_ingredient_ids.every(canonicalId => present.has(canonicalId))
@@ -481,6 +493,16 @@ function itemConflictsWithDislikes(item, dislikes, aliases) {
   return dislikes.some(dislike => names.some(name => matchAllergy(dislike, name, aliases)));
 }
 
+function taxonomyItemConflictsWithDislikes(item, dislikes, aliases) {
+  const names = [
+    item?.display_name,
+    item?.canonical_name,
+    ...(item?.aliases || []),
+    ...(item?.allergen_tags || []),
+  ].filter(Boolean);
+  return dislikes.some(dislike => names.some(name => matchAllergy(dislike, name, aliases)));
+}
+
 function unsafeItemsForRequest(normalized, itemsById, aliases) {
   const unsafe = normalized.submitted_items.filter(item => itemConflictsWithDislikes(item, normalized.dislikes, aliases))
     .map(item => ({
@@ -512,6 +534,7 @@ const SAFETY_REASONS = Object.freeze({
   safety_endpoint_missing: '该菜饭缺少必需的熟制安全终点。',
   load_protocol_incomplete: '该菜饭缺少将全部食材安全入锅的流程。',
   seasoning_allergen_conflict: '这道菜饭的必需调味料与你设置的忌口冲突，已在候选阶段拦下。',
+  required_extra_allergen_conflict: '这道菜饭还需准备的配菜与你设置的忌口冲突，已在候选阶段拦下。',
 });
 
 function safetyRejectionForMatch(match) {
@@ -523,6 +546,8 @@ function safetyRejectionForMatch(match) {
       : SAFETY_REASONS[reasonCode] || '该菜饭未通过受控安全检查。',
     ingredient_ids: reasonCode === 'seasoning_allergen_conflict'
       ? [match.seasoning_conflict.canonical_ingredient_id]
+      : reasonCode === 'required_extra_allergen_conflict'
+        ? [match.required_extra_conflict.canonical_id]
       : uniqueStrings(match.assignments.map(entry => entry.input.canonical_id)),
     variant_id: match.variant.variant_id,
     ...(reasonCode === 'seasoning_allergen_conflict' ? {
@@ -582,17 +607,11 @@ function candidateUnusedItems(normalized, usedInputKeys, allMatchedInputKeys) {
 
 function coverageState(coverageCount, submittedCount) {
   if (submittedCount === 0) return { ready: false, status: 'no_reliable_rice_meal' };
-  if (submittedCount === 1) return { ready: coverageCount === 1, status: 'no_reliable_rice_meal' };
-  if (submittedCount === 2) return coverageCount === 2
+  if (submittedCount === 1) return coverageCount === 1
     ? { ready: true, status: 'ready' }
     : { ready: false, status: 'no_reliable_rice_meal' };
-  if (submittedCount === 3) return coverageCount >= 2
-    ? { ready: true, status: 'ready' }
-    : { ready: false, status: 'no_reliable_rice_meal' };
-  if (submittedCount <= 6) return coverageCount >= Math.ceil(submittedCount * 0.6)
-    ? { ready: true, status: 'ready' }
-    : { ready: false, status: 'no_reliable_rice_meal' };
-  return coverageCount >= 4 && coverageCount <= 5
+  const minimumCoverage = submittedCount >= 7 ? 3 : 2;
+  return coverageCount >= minimumCoverage
     ? { ready: true, status: 'ready' }
     : { ready: false, status: 'no_reliable_rice_meal' };
 }
@@ -790,7 +809,18 @@ function ratioFactsForVariant(variant, ratioCatalog) {
   };
 }
 
-function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, evidenceFacts, taxonomyIdentity, seasoningFacts, planSnapshot }) {
+function planIdentity({
+  catalog,
+  variant,
+  normalized,
+  assignments,
+  missingTargetIds,
+  ratioFacts,
+  evidenceFacts,
+  taxonomyIdentity,
+  seasoningFacts,
+  planSnapshot,
+}) {
   const adaptation = variant.cooker_adaptation || {};
   const compareSubstitutions = (left, right) => (
     left.target_id.localeCompare(right.target_id, 'zh-Hans-CN')
@@ -808,6 +838,7 @@ function planIdentity({ catalog, variant, normalized, assignments, ratioFacts, e
       input_id: entry.input.canonical_id,
       kind: entry.match.kind,
     })).sort(compareSubstitutions),
+    required_major_material_ids: [...missingTargetIds].sort(),
     ratio_rule_ids: [...(variant.ratio_rule_ids || [])].sort(),
     ratio_catalog_version: ratioFacts.ratio_catalog_version,
     ratio_facts_hash: ratioFacts.ratio_facts_hash,
@@ -861,6 +892,7 @@ function buildCandidate({
   variant,
   normalized,
   assignments,
+  missingTargetIds,
   ratioFacts,
   evidenceFacts,
   sourceEvidence,
@@ -882,6 +914,7 @@ function buildCandidate({
     variant,
     normalized,
     assignments,
+    missingTargetIds,
     ratioFacts,
     evidenceFacts,
     taxonomyIdentity,
@@ -889,6 +922,15 @@ function buildCandidate({
     planSnapshot,
   });
   const protein = (variant.nutrition_structure?.material_contributors || []).find(row => row.role === 'protein');
+  const requiredMajorItems = missingTargetIds.map(canonicalId => {
+    const item = itemsById.get(canonicalId);
+    return {
+      canonical_id: canonicalId,
+      display_name: item?.display_name || canonicalId,
+      kind: 'major_material',
+      allergen_tags: clone(item?.allergen_tags || []),
+    };
+  });
   return {
     plan_id: `sha256:${sha256Hex(canonicalJson(identity))}`,
     rice_catalog_scope: riceCatalogScope,
@@ -918,12 +960,12 @@ function buildCandidate({
     nutrition_grade: variant.nutrition_structure.grade,
     nutrition_roles: clone(variant.nutrition_structure.material_contributors || []),
     required_basic_items: basicItems(itemsById),
-    required_extra_items: seasoningFacts.filter(row => !normalized.ignored_basic_items
+    required_extra_items: [...requiredMajorItems, ...seasoningFacts.filter(row => !normalized.ignored_basic_items
       .some(item => item.canonical_id === row.canonical_ingredient_id)).map(row => ({
       canonical_id: row.canonical_ingredient_id,
       display_name: itemsById.get(row.canonical_ingredient_id)?.display_name || row.canonical_ingredient_id,
       kind: 'controlled_seasoning',
-    })),
+    }))],
     controlled_seasonings: seasoningFacts,
     major_material_ids: materialIds(variant),
     execution_material_ids: executionMaterialIds(variant, itemsById),
@@ -940,7 +982,7 @@ function buildCandidate({
     cooker_adaptation_level: adaptation.adaptation,
     active_time_minutes: adaptation.active_time_minutes,
     total_time_minutes: adaptation.total_time_minutes,
-    extra_major_count: 0,
+    extra_major_count: requiredMajorItems.length,
     identity_level: variant.identity_level,
     protein_variant_id: protein?.canonical_ingredient_id || null,
     user_notices: controlledUserNotices(variant, normalized.servings),
@@ -1029,8 +1071,26 @@ export function selectRiceMealCandidates({
     if (!activeVariantStatuses.has(variant.status)) continue;
     if (Array.isArray(variant.supported_servings)
         && !variant.supported_servings.includes(normalized.servings)) continue;
-    const assignments = findMaterialAssignment(variant, normalized.submitted_items, itemsById);
-    if (!assignments) continue;
+    const materialMatch = findMaterialAssignment(variant, normalized.submitted_items, itemsById);
+    if (!materialMatch) continue;
+    const { assignments, missing_target_ids: missingTargetIds } = materialMatch;
+    const requiredExtraConflictId = missingTargetIds.find(canonicalId => (
+      taxonomyItemConflictsWithDislikes(itemsById.get(canonicalId), normalized.dislikes, aliases)
+    ));
+    if (requiredExtraConflictId) {
+      unsafeMatches.push({
+        family_id: familyId,
+        variant,
+        assignments,
+        missingTargetIds,
+        required_extra_conflict: {
+          canonical_id: requiredExtraConflictId,
+          display_name: itemsById.get(requiredExtraConflictId)?.display_name || requiredExtraConflictId,
+        },
+        safety_issue: 'required_extra_allergen_conflict',
+      });
+      continue;
+    }
     const seasoningConflict = controlledSeasoningFacts(variant, itemsById).map(row => ({
       ...row,
       conflicting_dislikes: normalized.dislikes.filter(dislike => row.allergen_tags
@@ -1041,26 +1101,44 @@ export function selectRiceMealCandidates({
         family_id: familyId,
         variant,
         assignments,
+        missingTargetIds,
         seasoning_conflict: seasoningConflict,
         safety_issue: 'seasoning_allergen_conflict',
       });
       continue;
     }
-    const forbidden = variantForbiddenCombination(variant, assignments);
+    const forbidden = variantForbiddenCombination(variant, assignments, missingTargetIds);
     if (forbidden) {
-      unsafeMatches.push({ family_id: familyId, variant, assignments, forbidden, safety_issue: 'forbidden_combination' });
+      unsafeMatches.push({ family_id: familyId, variant, assignments, missingTargetIds, forbidden, safety_issue: 'forbidden_combination' });
       continue;
     }
     const adaptationIssue = variantAdaptationIssue(variant);
     if (adaptationIssue) {
-      unsafeMatches.push({ family_id: familyId, variant, assignments, safety_issue: adaptationIssue });
+      unsafeMatches.push({ family_id: familyId, variant, assignments, missingTargetIds, safety_issue: adaptationIssue });
       continue;
     }
     if (!variantHasAllowedNutrition(variant)) continue;
-    identityAndNutritionMatches.push({ family_id: familyId, variant, assignments });
+    identityAndNutritionMatches.push({ family_id: familyId, variant, assignments, missingTargetIds });
   }
 
-  const quality = match => coverageState(match.assignments.length, normalized.submitted_items.length);
+  const quality = match => {
+    const coverage = coverageState(match.assignments.length, normalized.submitted_items.length);
+    if (!coverage.ready) return coverage;
+    if (onlyStarchyInput(normalized)) return { ready: false, status: 'needs_balance_input' };
+    const allowedMissingCount = normalized.submitted_items.length === 1 ? 1 : 0;
+    if (match.missingTargetIds.length > allowedMissingCount) {
+      return { ready: false, status: 'no_reliable_rice_meal' };
+    }
+    if (normalized.submitted_items.length === 1 && match.missingTargetIds.length === 1) {
+      const proteinTargetIds = new Set((match.variant.nutrition_structure?.material_contributors || [])
+        .filter(row => row.role === 'protein')
+        .map(row => row.canonical_ingredient_id));
+      if (proteinTargetIds.has(match.missingTargetIds[0])) {
+        return { ready: false, status: 'needs_balance_input' };
+      }
+    }
+    return coverage;
+  };
   const coverageQualified = identityAndNutritionMatches.filter(match => quality(match).ready);
   const qualified = [];
   for (const match of coverageQualified) {
@@ -1073,6 +1151,7 @@ export function selectRiceMealCandidates({
     qualified.push({ ...match, ratioFacts });
   }
   const allMatchedInputKeys = new Set(identityAndNutritionMatches
+    .filter(match => match.missingTargetIds.length === 0)
     .flatMap(match => match.assignments.map(entry => itemKey(entry.input))));
   const history = uniqueStrings([
     ...normalized.recent_plan_ids,
@@ -1080,8 +1159,9 @@ export function selectRiceMealCandidates({
   ]);
 
   if (!qualified.length) {
-    if (unsafeMatches.length && (!identityAndNutritionMatches.length || coverageQualified.length)) {
-      const safetyRejections = unsafeMatches.map(safetyRejectionForMatch);
+    const unsafeQualified = unsafeMatches.filter(match => quality(match).ready);
+    if (unsafeQualified.length) {
+      const safetyRejections = unsafeQualified.map(safetyRejectionForMatch);
       return resultBase(catalog, normalized, scope, 'unsafe_recipe', {
         unused_items: safetyUnusedItems(normalized, safetyRejections, allMatchedInputKeys),
         unsafe_reasons: safetyRejections.map(rejection => rejection.reason_code),
@@ -1090,7 +1170,9 @@ export function selectRiceMealCandidates({
     }
     const needsBalance = onlyStarchyInput(normalized);
     const partialMatches = !needsBalance && normalized.submitted_items.length === 2
-      ? identityAndNutritionMatches.filter(match => match.assignments.length === 1)
+      ? identityAndNutritionMatches.filter(match => (
+        match.assignments.length === 1 && match.missingTargetIds.length === 0
+      ))
       : [];
     const unsafePartialMatches = unsafeMatches.filter(match => match.assignments.length === 1);
     const safePartialMatches = [];
@@ -1110,6 +1192,7 @@ export function selectRiceMealCandidates({
         variant: partialMatch.variant,
         normalized,
         assignments: partialMatch.assignments,
+        missingTargetIds: partialMatch.missingTargetIds,
         ratioFacts: partialMatch.ratioFacts,
         evidenceFacts,
         sourceEvidence,
@@ -1155,6 +1238,7 @@ export function selectRiceMealCandidates({
     variant: match.variant,
     normalized,
     assignments: match.assignments,
+    missingTargetIds: match.missingTargetIds,
     ratioFacts: match.ratioFacts,
     evidenceFacts,
     sourceEvidence,
