@@ -750,6 +750,67 @@ test('structures the Zojirushi minced-pork greens rice waterline without collaps
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('structures the official Zojirushi fresh-vegetable bamboo rice process without inventing a serving count or cross-model water volume', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zojirushi-fresh-vegetable-bamboo-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'zojirushi-fresh-vegetable-bamboo-rice');
+
+  assert.equal(recipe?.fixed_batch, null, 'the official page states 4–5 servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'waterline',
+    waterline: {
+      appliance_model: '搭载“什锦饭”菜单且有白米3水位线的象印机型',
+      scale: 'white_rice',
+      mark: 3,
+    },
+    source_ids: ['zojirushi-fresh-vegetable-bamboo-rice'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /木耳.*泡发.*1小时/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /肉糜.*洋葱.*胡萝卜.*竹笋/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /白米.*白米3.*水位/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /铺入.*不搅拌.*什锦饭/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /结束.*拌匀/);
+  assert.equal(recipe?.time_contract, null, 'the official page does not state a complete program duration');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the official Zojirushi beef mixed-rice waterline and ground-beef safety endpoint', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zojirushi-beef-mixed-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
+
+  assert.equal(recipe?.fixed_batch, null, 'the official page states 4–5 servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'waterline',
+    waterline: {
+      appliance_model: '搭载“什锦饭”菜单且有白米3水位线的象印机型',
+      scale: 'white_rice',
+      mark: 3,
+    },
+    source_ids: ['zojirushi-beef-mixed-rice'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白米.*盐.*胡萝卜泥.*洋葱.*牛肉糜.*黄油.*不搅拌/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /结束.*拌匀/);
+  assert.equal(recipe?.time_contract, null, 'the official page does not state a complete program duration');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'beef_fully_cooked',
+    minimum_core_temperature_c: 71,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('keeps the official cured-meat claypot-rice variant separate while structuring its exact ratio', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'cantonese-cured-meat-claypot-rice'
