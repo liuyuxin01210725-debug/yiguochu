@@ -1,6 +1,6 @@
 # 有来源一锅主餐缺口报告
 
-> 本报告由目录、来源声明范围和迁移台账派生；不将缺口写成已验证事实。
+> 本报告由目录、来源声明范围和迁移台账派生；各段只列出当前状态的晋升阻塞，不将未要求的范围写成通用缺口。
 
 ## 1. Missing identity
 
@@ -42,13 +42,10 @@
 
 ## 8. Missing safety
 
-- 上海咸肉菜饭 (shanghai-salted-pork-vegetable-rice) — CN-SH
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 咖喱鸡肉饭 (joyoung-curry-chicken-rice-jrc-4hp82) — 非地域·厂商食谱
-- 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
-- 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
 - 高丽菜饭 (taiwan-cabbage-rice) — TW

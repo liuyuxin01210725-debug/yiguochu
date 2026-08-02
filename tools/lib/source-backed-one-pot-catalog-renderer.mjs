@@ -1,11 +1,16 @@
+import {
+  PUBLIC_SOURCE_BACKED_STATUSES,
+  REQUIRED_EXECUTABLE_SCOPES,
+  claimsNamedAppliance,
+  containsRawHighRiskIngredient,
+} from './source-backed-one-pot-catalog-validator.mjs';
+
 const CLAIM_SCOPES = [
   'identity', 'ingredients', 'quantity', 'liquid',
   'process', 'appliance', 'time', 'safety',
 ];
 
-const PUBLIC_STATUSES = new Set([
-  'preview_ready', 'kitchen_observed', 'production_approved',
-]);
+const FACT_CHECK_SCOPES = ['ingredients', 'process'];
 
 const FAMILY_LABELS = {
   'manufacturer-rice-cooker-recipes': '厂商电饭煲食谱',
@@ -41,9 +46,27 @@ export function supportedClaimScopes(recipe) {
   ).sort(compareText);
 }
 
-export function missingClaimScopes(recipe) {
+export function requiredPromotionScopes(recipe) {
+  const status = recipe?.status;
+  if (status === 'discovered') return ['identity'];
+  if (status === 'identity_verified') return [...FACT_CHECK_SCOPES];
+  if (status !== 'recipe_fact_checked'
+    && status !== 'executable'
+    && !PUBLIC_SOURCE_BACKED_STATUSES.has(status)) return [];
+
+  const required = new Set(REQUIRED_EXECUTABLE_SCOPES);
+  if (claimsNamedAppliance(recipe)) required.add('appliance');
+  if (containsRawHighRiskIngredient(recipe)) required.add('safety');
+  return CLAIM_SCOPES.filter(scope => required.has(scope));
+}
+
+export function promotionBlockerScopes(recipe) {
   const supported = new Set(supportedClaimScopes(recipe));
-  return CLAIM_SCOPES.filter(scope => !supported.has(scope));
+  return requiredPromotionScopes(recipe).filter(scope => !supported.has(scope));
+}
+
+export function missingClaimScopes(recipe) {
+  return promotionBlockerScopes(recipe);
 }
 
 export function csvEscape(value) {
@@ -56,7 +79,7 @@ function formatFamily(family) {
 }
 
 function formatStatus(status) {
-  if (PUBLIC_STATUSES.has(status)) return `公开候选（${asText(status)}）`;
+  if (PUBLIC_SOURCE_BACKED_STATUSES.has(status)) return `公开候选（${asText(status)}）`;
   if (status === 'executable') return '可执行研究记录（非公开）';
   return '研究记录（非公开可执行）';
 }
@@ -86,11 +109,11 @@ function renderMarkdown(catalog) {
     if (family !== currentFamily) {
       currentFamily = family;
       lines.push(`## ${formatFamily(family)}`, '');
-      lines.push('| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持声明 | 缺失声明/缺口 | 直接来源 |');
+      lines.push('| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |');
       lines.push('| --- | --- | --- | --- | --- | --- | --- | --- | --- |');
     }
     const supported = supportedClaimScopes(recipe);
-    const missing = missingClaimScopes(recipe);
+    const blockers = promotionBlockerScopes(recipe);
     lines.push([
       asText(recipe?.canonical_name),
       formatAliases(recipe),
@@ -99,7 +122,7 @@ function renderMarkdown(catalog) {
       formatStatus(recipe?.status),
       asArray(recipe?.core_ingredients).map(asText).join('；') || '—',
       supported.join('、') || '—',
-      missing.length ? `缺 ${missing.join('、')}` : '无',
+      blockers.length ? `缺 ${blockers.join('、')}` : '当前状态所需证据已齐',
       formatSources(recipe),
     ].map(value => String(value).replaceAll('|', '\\|')).join(' | ').replace(/^/, '| ').concat(' |'));
   }
@@ -110,7 +133,7 @@ function renderMarkdown(catalog) {
 function csvRows(catalog) {
   const header = [
     'recipe_id', 'canonical_name', 'aliases', 'region_codes', 'cuisine_family', 'status',
-    'visibility', 'core_ingredients', 'supported_claim_scopes', 'missing_claim_scopes',
+    'visibility', 'core_ingredients', 'supported_evidence_scopes', 'promotion_blockers',
     'source_id', 'source_title', 'source_url', 'source_claim_scopes',
   ];
   const rows = [header];
@@ -120,7 +143,7 @@ function csvRows(catalog) {
       rows.push([
         recipe?.recipe_id ?? '', recipe?.canonical_name ?? '', formatAliases(recipe).replaceAll('；', ';'),
         recipeRegionLabel(recipe), recipe?.cuisine_family ?? '', recipe?.status ?? '', formatStatus(recipe?.status),
-        asArray(recipe?.core_ingredients).join(';'), supportedClaimScopes(recipe).join(';'), missingClaimScopes(recipe).join(';'),
+        asArray(recipe?.core_ingredients).join(';'), supportedClaimScopes(recipe).join(';'), promotionBlockerScopes(recipe).join(';'),
         source?.source_id ?? '', source?.title ?? '', source?.url ?? '', asArray(source?.claim_scopes).join(';'),
       ]);
     }
@@ -129,7 +152,7 @@ function csvRows(catalog) {
 }
 
 function renderGapSection(number, scope, recipes) {
-  const missing = recipes.filter(recipe => missingClaimScopes(recipe).includes(scope));
+  const missing = recipes.filter(recipe => promotionBlockerScopes(recipe).includes(scope));
   const lines = [`## ${number}. Missing ${scope}`, ''];
   if (!missing.length) return `${lines.concat('无。', '').join('\n')}`;
   for (const recipe of missing) {
@@ -144,7 +167,7 @@ function renderGaps(catalog, migration) {
   const lines = [
     '# 有来源一锅主餐缺口报告',
     '',
-    '> 本报告由目录、来源声明范围和迁移台账派生；不将缺口写成已验证事实。',
+    '> 本报告由目录、来源声明范围和迁移台账派生；各段只列出当前状态的晋升阻塞，不将未要求的范围写成通用缺口。',
     '',
   ];
   CLAIM_SCOPES.forEach((scope, index) => lines.push(renderGapSection(index + 1, scope, recipes)));

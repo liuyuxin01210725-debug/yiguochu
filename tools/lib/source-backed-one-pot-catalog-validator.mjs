@@ -19,7 +19,7 @@ export const PUBLIC_SOURCE_BACKED_STATUSES = new Set([
 
 const KEBAB_CASE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HTTPS_URL = /^https:\/\/[^/\s]+(?:\/[^\s]*)?$/i;
-const REQUIRED_EXECUTABLE_SCOPES = [
+export const REQUIRED_EXECUTABLE_SCOPES = [
   'identity', 'ingredients', 'quantity', 'liquid', 'process', 'time',
 ];
 const REQUIRED_EXECUTABLE_FIELDS = [
@@ -175,7 +175,7 @@ function invalidExecutableFields(recipe) {
   return REQUIRED_EXECUTABLE_FIELDS.filter(field => !valid[field]);
 }
 
-function claimsNamedAppliance(recipe) {
+export function claimsNamedAppliance(recipe) {
   const adaptation = isRecord(recipe.cooker_adaptation) ? recipe.cooker_adaptation : {};
   const namedApplianceFields = [
     recipe.appliance,
@@ -202,7 +202,7 @@ function collectText(value) {
   return [];
 }
 
-function containsRawHighRiskIngredient(recipe) {
+export function containsRawHighRiskIngredient(recipe) {
   const ingredients = [
     ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
     ...(Array.isArray(recipe.fixed_batch?.ingredients) ? recipe.fixed_batch.ingredients : []),

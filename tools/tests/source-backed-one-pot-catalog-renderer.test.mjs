@@ -7,8 +7,10 @@ import { fileURLToPath } from 'node:url';
 import {
   buildSourceBackedOnePotArtifacts,
   csvEscape,
-  missingClaimScopes,
+  promotionBlockerScopes,
   recipeRegionLabel,
+  requiredPromotionScopes,
+  supportedClaimScopes,
 } from '../lib/source-backed-one-pot-catalog-renderer.mjs';
 import {
   findStaleArtifactPaths,
@@ -35,8 +37,8 @@ test('renders sorted recipes with visible evidence fields and direct source link
   assert.match(markdown, /菜系/u);
   assert.match(markdown, /状态/u);
   assert.match(markdown, /核心食材/u);
-  assert.match(markdown, /已支持声明/u);
-  assert.match(markdown, /缺失声明\/缺口/u);
+  assert.match(markdown, /已支持证据范围/u);
+  assert.match(markdown, /当前晋升阻塞/u);
   assert.match(markdown, /\[上海乡村菜饭与咸肉菜饭\]\(https:\/\//u);
   assert.ok(markdown.indexOf('咖喱鸡肉饭') < markdown.indexOf('牛肉什锦饭'));
 });
@@ -84,7 +86,7 @@ test('quotes CSV commas, quotes, and line breaks while retaining raw URLs and se
   assert.equal(csvEscape('plain'), 'plain');
 });
 
-test('derives all claim-scope gaps, regional blanks, and excluded combinations', () => {
+test('derives status-aware promotion blockers, regional blanks, and excluded combinations', () => {
   const fixture = catalog();
   fixture.regional_blanks = [{ region_code: 'CN-TEST', reason: 'No qualifying source', searched_at: '2026-08-02' }];
   const artifacts = buildSourceBackedOnePotArtifacts(fixture, migration());
@@ -97,9 +99,49 @@ test('derives all claim-scope gaps, regional blanks, and excluded combinations',
   assert.match(gaps, /CN-TEST/u);
   assert.match(gaps, /## 10\. Excluded project-original combinations/u);
   assert.match(gaps, /西兰花牛肉焖饭/u);
-  assert.deepEqual(missingClaimScopes({ source_refs: [{ claim_scopes: ['identity'] }] }), [
-    'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time', 'safety',
-  ]);
+  assert.match(gaps, /当前状态的晋升阻塞/u);
+});
+
+test('keeps discovered recipes focused on identity instead of all generic claim gaps', () => {
+  const discovered = {
+    status: 'discovered',
+    source_refs: [],
+  };
+
+  assert.deepEqual(supportedClaimScopes(discovered), []);
+  assert.deepEqual(requiredPromotionScopes(discovered), ['identity']);
+  assert.deepEqual(promotionBlockerScopes(discovered), ['identity']);
+});
+
+test('uses ingredients and process as the identity-verified fact-check requirements', () => {
+  const verified = {
+    status: 'identity_verified',
+    source_refs: [{ claim_scopes: ['identity', 'ingredients'] }],
+  };
+
+  assert.deepEqual(requiredPromotionScopes(verified), ['ingredients', 'process']);
+  assert.deepEqual(promotionBlockerScopes(verified), ['process']);
+});
+
+test('adds conditional appliance and safety blockers to a high-risk fact-checked recipe', () => {
+  const checked = {
+    status: 'recipe_fact_checked',
+    core_ingredients: ['鸡肉', '米'],
+    cooker_adaptation: { appliance: 'rice cooker' },
+    source_refs: [{ claim_scopes: ['identity', 'ingredients', 'quantity', 'liquid', 'process'] }],
+  };
+
+  assert.deepEqual(promotionBlockerScopes(checked), ['appliance', 'time', 'safety']);
+});
+
+test('has no evidence-scope promotion blockers for a public candidate with its required support', () => {
+  const publicRecipe = {
+    status: 'preview_ready',
+    core_ingredients: ['米', '蔬菜'],
+    source_refs: [{ claim_scopes: ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'time'] }],
+  };
+
+  assert.deepEqual(promotionBlockerScopes(publicRecipe), []);
 });
 
 test('reports only byte-different or missing generated paths as stale', () => {
