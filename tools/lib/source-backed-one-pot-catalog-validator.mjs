@@ -61,7 +61,7 @@ const HIGH_RISK_CATEGORIES = [
   ['beef', /\bbeef\b|牛肉|牛腩|牛肉末/i, 'beef_fully_cooked'],
   ['lamb', /\b(lamb|mutton)\b|羊肉|羊排/i, 'lamb_fully_cooked'],
   ['shellfish', /\b(shrimp|prawn|crab|oyster|clam|mussel|scallop|shellfish)\b|虾|蟹|蚝|牡蛎|贝|蛤蜊|扇贝/i, 'shellfish_fully_cooked'],
-  ['seafood', /\b(seafood|fish)\b|海鲜|鱼肉|鲜鱼|鱼片/i, 'seafood_fully_cooked'],
+  ['seafood', isControlledFishIngredient, 'seafood_fully_cooked'],
   ['egg', /\beggs?\b|鸡蛋|鸭蛋|鹅蛋|生蛋|^蛋$/i, 'egg_fully_cooked'],
   ['beans', /\b(raw beans?|kidney beans?)\b|生豆|四季豆|芸豆|扁豆|菜豆|红腰豆|白芸豆/i, 'beans_fully_cooked'],
   ['wild_mushrooms', /\bwild mushrooms?\b|野生菌|野生蘑菇/i, 'wild_mushrooms_fully_cooked'],
@@ -69,6 +69,17 @@ const HIGH_RISK_CATEGORIES = [
 
 function isRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isControlledFishIngredient(value) {
+  if (!nonEmptyString(value)) return false;
+  const name = value.trim();
+  if (/鱼香/u.test(name) || /\bfish\s+sauce\b/i.test(name)) return false;
+  if (/\b(?:raw\s+)?fish(?:\s+(?:fillet|meat|steak))?\b/i.test(name) || /海鲜/u.test(name)) {
+    return true;
+  }
+  if (/^(?:生)?鱼(?:片|肉|柳|段|块)?$/u.test(name)) return true;
+  return /^(?:生)?(?:鲈|草|鲫|鲤|鲢|鳙|青|黑|鲶|鳗|鲭|鳕|鲑|三文|带|黄花|大黄|小黄|鲳|罗非|石斑|多宝|桂|武昌|金枪|虹鳟)鱼(?:片|肉|柳|段|块)?$/u.test(name);
 }
 
 function nonEmptyString(value) {
@@ -363,7 +374,9 @@ function detectedHighRiskCategories(recipe) {
     return [ingredient.name, ingredient.ingredient, ingredient.canonical_name, ingredient.canonical_id]
       .filter(nonEmptyString);
   });
-  return HIGH_RISK_CATEGORIES.filter(([, pattern]) => ingredientNames.some(name => pattern.test(name)));
+  return HIGH_RISK_CATEGORIES.filter(([, detector]) => ingredientNames.some(name => (
+    typeof detector === 'function' ? detector(name) : detector.test(name)
+  )));
 }
 
 function isProjectSelfCitation(url, projectHosts) {

@@ -448,6 +448,7 @@ test('does not treat tofu or fish-flavoured seasoning as raw seafood or risky be
   recipe.fixed_batch.ingredients.push(
     { name: '豆腐', amount: { value: 100, unit: 'g' }, source_ids: ['shanghai-fengxian-salted-pork-rice'] },
     { name: '鱼香酱', amount: { value: 10, unit: 'g' }, source_ids: ['shanghai-fengxian-salted-pork-rice'] },
+    { name: '鱼香茄子', amount: { value: 100, unit: 'g' }, source_ids: ['shanghai-fengxian-salted-pork-rice'] },
   );
   assert.deepEqual(errorsFor(catalog), []);
 });
@@ -466,4 +467,23 @@ test('classifies chicken egg as egg risk without also requiring a poultry endpoi
   const errors = errorsFor(catalog).join('\n');
   assert.doesNotMatch(errors, /poultry_fully_cooked/i);
   assert.equal(errors, '');
+});
+
+test('requires seafood safety for controlled raw and common fish names only in fixed-batch ingredients', () => {
+  // Removing the controlled fish detector would let these actual fish ingredients pass as rice-only meals.
+  for (const ingredientName of ['生鱼', '鲈鱼', '草鱼']) {
+    const catalog = factSourcedExecutableCatalog();
+    const recipe = catalog.recipes[0];
+    recipe.core_ingredients = ['米'];
+    recipe.fixed_batch.ingredients.push({
+      name: ingredientName,
+      amount: { value: 100, unit: 'g' },
+      source_ids: ['shanghai-fengxian-salted-pork-rice'],
+    });
+    recipe.safety_endpoints = [{ code: 'rice_tender', source_ids: ['shanghai-fengxian-salted-pork-rice'] }];
+    assert.match(errorsFor(catalog).join('\n'), /seafood.*seafood_fully_cooked/i, ingredientName);
+
+    recipe.safety_endpoints[0].code = 'seafood_fully_cooked';
+    assert.deepEqual(errorsFor(catalog), [], ingredientName);
+  }
 });
