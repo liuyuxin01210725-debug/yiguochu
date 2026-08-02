@@ -950,6 +950,31 @@ test('structures the Cookpot IH black-bean pork-rib rice schedule without turnin
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('structures the official Kongganfan parboil-and-return process without inventing a rice-cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'sichuan-kongganfan'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-SC-CPPCC-KONGGANFAN-1');
+
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米.*半熟.*沥水/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /豌豆.*四季豆.*洋芋.*翻炒/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /倒入.*滤干.*米饭/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /盖上锅盖.*文火.*孔.*熟/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.match(recipe?.cooker_adaptation?.notes ?? '', /电饭/);
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('keeps the official cured-meat claypot-rice variant separate while structuring its exact ratio', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'cantonese-cured-meat-claypot-rice'
@@ -1005,7 +1030,10 @@ test('locks each retained national candidate to its exact supported source, vess
       status: 'recipe_fact_checked',
       vessels: ['炉上锅'],
       ingredients: ['米', '腊肉', '豆角', '洋芋'],
-      sources: [['S-SC-1', '曾颖：孔干饭', '四川省作家协会网站（页面标注来源四川日报）', 'https://www.sczjw.net.cn/read/detail/11028.html', ['identity', 'ingredients', 'liquid', 'process', 'appliance']]],
+      sources: [
+        ['S-SC-1', '曾颖：孔干饭', '四川省作家协会网站（页面标注来源四川日报）', 'https://www.sczjw.net.cn/read/detail/11028.html', ['identity', 'ingredients', 'liquid', 'process', 'appliance']],
+        ['S-SC-CPPCC-KONGGANFAN-1', '古蜀先民“菜篮子”里都有啥？', '中国人民政治协商会议黑龙江省委员会办公厅（转载人民政协网）', 'https://www.hljzx.gov.cn/contents/68/7320.html', ['identity', 'ingredients', 'process']],
+      ],
     },
     'hubei-enshi-shefan': {
       canonicalName: '社饭',
