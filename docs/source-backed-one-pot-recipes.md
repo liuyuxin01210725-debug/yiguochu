@@ -20,7 +20,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 南京菜饭 | 矮脚黄菜饭 | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 矮脚黄；糯米；咸肉片或香肠片或板鸭丁 | identity、ingredients、process | 当前状态所需证据已齐 | [寻味二十四节气・小寒](https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html) |
 | 香青菜咸肉饭 | — | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 吴江香青菜；咸肉；饭 | identity、ingredients | 缺 process | [吴江香青菜入选国家地理标志产品](https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml) |
-| 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 浸泡大米；青菜；咸肉 | identity、ingredients、liquid、process、safety、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 大米；青菜；咸肉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html)<br>[Shanghai Cai Fan (上海菜饭) – Rice with Salted Pork and Greens](https://thewoksoflife.com/shanghai-cai-fan-rice-salted-pork-greens/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 蚕豆菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 蚕豆；猪肉丁；牛心菜；饭 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [外婆的蚕豆菜饭](https://mzj.sh.gov.cn/lnb-hf/20250519/8cfe8d45a5e846c0a441161c21226bef.html) |
 ## 厂商电饭煲食谱
 
@@ -30,9 +30,9 @@
 | 咖喱鸡肉饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；土豆；洋葱；咖喱块 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [电饭煲JRC-4HP82（F40FZ820）说明书：咖喱鸡肉饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 懒人焖饭 | 腊肠什锦饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；腊肠；青豆；香菇；玉米；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [懒人焖饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf) |
 | 牛肉什锦饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛肉末；胡萝卜泥；洋葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [牛肉什锦饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/) |
-| 肉糜青菜饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪肉糜；青菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [肉糜青菜饭](https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf) |
+| 肉糜青菜饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪肉糜；青菜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [肉糜青菜饭](https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鲜蔬竹笋饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；肉末；洋葱；胡萝卜；竹笋；木耳 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鲜蔬竹笋饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/xianshuzhusunfan/) |
-| 鲜香菇饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；鲜香菇；芹菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [鲜香菇饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-AFG.pdf) |
+| 鲜香菇饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；鲜香菇；芹菜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鲜香菇饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-AFG.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## minnan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -79,7 +79,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 南瓜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [南瓜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html) |
+| 南瓜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [南瓜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 高丽菜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 白米；高丽菜；香菇；五花肉；胡萝卜；虾米；葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [农粮署北区分署电子书：高丽菜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[全民健康保险双月刊80期：高丽菜饭](https://media.nhi.gov.tw/md/dl-52195-25353cf985624e8aaa641aea6f390005-3.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## western-guangdong-duck-rice
 

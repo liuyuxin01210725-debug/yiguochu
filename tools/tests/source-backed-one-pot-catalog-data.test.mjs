@@ -200,13 +200,14 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     discovered: 2,
-    identity_verified: 14,
-    recipe_fact_checked: 16,
+    identity_verified: 13,
+    recipe_fact_checked: 17,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
   }
 
+  const factCompleteButNotPublic = new Set(['shanghai-salted-pork-vegetable-rice']);
   for (const recipe of catalog.recipes.filter(recipe => recipe.status === 'recipe_fact_checked')) {
     const completeExecutionContract = Boolean(
       recipe.fixed_batch
@@ -215,7 +216,12 @@ test('keeps every migrated recipe non-public until safety and complete execution
       && recipe.time_contract
       && recipe.safety_endpoints.length > 0,
     );
-    assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
+    if (completeExecutionContract) {
+      assert.ok(factCompleteButNotPublic.has(recipe.recipe_id), `${recipe.recipe_id} is not an approved complete fact contract`);
+      assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
+    } else {
+      assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
+    }
   }
 });
 
@@ -225,7 +231,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
   const recipes = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   const reviewed = new Set(catalog.reviewed_regions);
   const expected = {
-    'shanghai-salted-pork-vegetable-rice': 'identity_verified',
+    'shanghai-salted-pork-vegetable-rice': 'recipe_fact_checked',
     'shanghai-broad-bean-vegetable-rice': 'identity_verified',
     'wujiang-fragrant-greens-salted-pork-rice': 'identity_verified',
     'nanjing-aijiaohuang-rice': 'identity_verified',
@@ -494,9 +500,17 @@ test('records the first-priority source matrix without pretending the recipes ar
   assert.ok(curry?.source_refs.find(source => source.source_id === 'S-SAFETY-TEMPERATURES-1'));
 
   const shanghai = recipes.get('shanghai-salted-pork-vegetable-rice');
-  assert.equal(shanghai?.status, 'identity_verified');
-  assert.equal(shanghai?.fixed_batch, null);
-  assert.equal(shanghai?.time_contract, null, '15–20 minutes is not a full-process duration');
+  assert.equal(shanghai?.status, 'recipe_fact_checked');
+  assert.equal(shanghai?.fixed_batch?.servings, 4);
+  assert.deepEqual(shanghai?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 1.25, unit: '杯' },
+    source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'],
+  });
+  assert.deepEqual(shanghai?.time_contract, {
+    total_minutes: 60,
+    source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'],
+  });
 
   for (const recipeId of [
     'cantonese-cured-meat-claypot-rice',
@@ -605,6 +619,134 @@ test('structures only the supported liquid time and safety facts for mushroom ba
   assert.equal(shellfishEndpoint?.minimum_core_temperature_c, undefined);
   assert.equal(shellfishEndpoint?.visual_endpoint, '肉质呈珍珠白或白色且不透明');
   assert.ok(recipe?.allergen_labels.includes('甲壳类'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the official pumpkin-rice liquid and process without inventing servings or total time', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taiwan-pumpkin-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'taiwan-afa-pumpkin-rice');
+
+  assert.equal(recipe?.fixed_batch, null, 'source gives ingredient quantities but no servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'rice_to_water_ratio',
+    amount: { value: 0.8, unit: '杯水/杯米' },
+    source_ids: ['taiwan-afa-pumpkin-rice'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /泡水半小时/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /猪绞肉.*炒熟/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /焖15分钟/);
+  assert.equal(recipe?.time_contract, null, 'the source gives stage times but no complete total duration');
+  assert.deepEqual(
+    recipe?.safety_endpoints.map(endpoint => endpoint.code).sort(),
+    ['pork_fully_cooked', 'shellfish_fully_cooked'],
+  );
+  assert.equal(source?.claim_scopes.includes('time'), true);
+  assert.ok(recipe?.allergen_labels.includes('甲壳类'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures a fixed Shanghai salted-pork vegetable-rice source contract without claiming an electric-cooker adaptation', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shanghai-salted-pork-vegetable-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-WOL-SHANGHAI-CAIFAN-1');
+
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.fixed_batch, {
+    servings: 4,
+    ingredients: [
+      { name: '大米', amount: { value: 1, unit: '杯' }, source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'] },
+      { name: '咸肉', amount: { value: 0.25, unit: '杯' }, source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'] },
+      { name: '猪油（或培根油/食用油）', amount: { value: 1, unit: '汤匙' }, source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'] },
+      { name: '食用油', amount: { value: 1, unit: '汤匙' }, source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'] },
+      { name: '姜', amount: { value: 0.5, unit: '茶匙' }, source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'] },
+      { name: '小青菜', amount: { value: 225, unit: '克' }, source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'] },
+    ],
+    source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'],
+  });
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 1.25, unit: '杯' },
+    source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /浸泡.*45.*60分钟/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /咸肉.*猪油.*沸腾/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /青菜.*8分钟.*5分钟/);
+  assert.deepEqual(recipe?.time_contract, {
+    total_minutes: 60,
+    source_ids: ['S-WOL-SHANGHAI-CAIFAN-1'],
+  });
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(source?.claim_scopes.includes('time'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Panasonic fresh-shiitake rice contract while retaining its model-specific program boundary', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'panasonic-fresh-shiitake-rice-sr-afg'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'panasonic-fresh-shiitake-rice-sr-afg');
+
+  assert.equal(recipe?.fixed_batch, null, 'the manual gives a one-cup recipe but no servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 1, unit: '杯' },
+    source_ids: ['panasonic-fresh-shiitake-rice-sr-afg'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /1杯水.*浸泡.*15分钟/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /香菇丝.*鸡肉丝.*铺/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /煲仔饭/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /芹菜.*余温焖5分钟/);
+  assert.equal(recipe?.time_contract, null, 'the manual does not state the complete program duration');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.equal(source?.claim_scopes.includes('time'), true);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.match(recipe?.cooker_adaptation?.notes ?? '', /SR-AFG/);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Zojirushi minced-pork greens rice waterline without collapsing its four-to-five-serving range', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zojirushi-minced-pork-greens-rice-nl-erh'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'zojirushi-minced-pork-greens-rice-nl-erh');
+
+  assert.equal(recipe?.fixed_batch, null, 'the manual states 4–5 servings, not one fixed serving count');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'waterline',
+    waterline: {
+      appliance_model: 'ZOJIRUSHI NL-ERH10C / NL-ERH18C',
+      scale: 'white_rice',
+      mark: 3,
+    },
+    source_ids: ['zojirushi-minced-pork-greens-rice-nl-erh'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /猪肉糜.*青菜.*炒熟/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /汤汁和水.*白米.*3/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /铺平.*不搅拌/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /煮饭结束.*搅拌/);
+  assert.equal(recipe?.time_contract, null, 'the source does not provide a complete program duration');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
