@@ -483,14 +483,14 @@ test('records the first-priority source matrix without pretending the recipes ar
     amount: { value: 528, unit: 'g' },
     source_ids: ['joyoung-curry-chicken-rice-jrc-4hp82'],
   });
-  assert.equal(curry?.cooking_sequence.length, 4);
+  assert.equal(curry?.cooking_sequence.length, 2);
   assert.deepEqual(curry?.safety_endpoints, [{
     code: 'poultry_fully_cooked',
     minimum_core_temperature_c: 74,
     source_ids: ['S-SAFETY-TEMPERATURES-1'],
   }]);
   assert.equal(curry?.fixed_batch, null, 'manual does not state servings');
-  assert.equal(curry?.time_contract, null, 'three-cup White rice duration is not explicit');
+  assert.equal(curry?.time_contract, null, 'bilingual program conflict and duration remain unresolved');
   assert.ok(curry?.source_refs.find(source => source.source_id === 'S-SAFETY-TEMPERATURES-1'));
 
   const shanghai = recipes.get('shanghai-salted-pork-vegetable-rice');
@@ -507,6 +507,33 @@ test('records the first-priority source matrix without pretending the recipes ar
     assert.ok(recipe?.source_refs.find(source => source.source_id === 'S-GD-KAIPING-1'));
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
   }
+
+  const curedMeat = recipes.get('cantonese-cured-meat-claypot-rice');
+  const yangpu = curedMeat?.source_refs.find(source => source.source_id === 'S-GD-YANGPU-1');
+  assert.deepEqual(yangpu?.claim_scopes, [
+    'identity', 'ingredients', 'liquid', 'process', 'appliance', 'time',
+  ]);
+  assert.match(curedMeat?.evidence_notes ?? '', /200克水.*中火8分钟.*小火.*15分钟/u);
+  assert.equal(curedMeat?.liquid_contract, null, 'the source omits rice weight');
+  assert.equal(curedMeat?.time_contract, null, 'the source does not close the full preparation timeline');
+});
+
+test('records the Joyoung bilingual program conflict instead of choosing a convenient cooker mode', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'joyoung-curry-chicken-rice-jrc-4hp82'
+  ));
+  const manual = recipe?.source_refs.find(source => (
+    source.source_id === 'joyoung-curry-chicken-rice-jrc-4hp82'
+  ));
+
+  assert.match(
+    manual?.evidence_locator ?? '',
+    /Chapter 8.*Curry Chicken Rice.*page 11\/27.*咖喱鸡肉饭.*page 24\/27/u,
+  );
+  assert.match(recipe?.evidence_notes ?? '', /英文.*Slow cook.*中文.*White rice/u);
+  assert.doesNotMatch(JSON.stringify(recipe?.cooking_sequence), /Slow cook|White rice|柴火饭|精煮饭/u);
+  assert.deepEqual(recipe?.liquid_contract?.amount, { value: 528, unit: 'g' });
+  assert.equal(recipe?.time_contract, null);
 });
 
 test('locks each retained national candidate to its exact supported source, vessel, and core-ingredient boundary', () => {
