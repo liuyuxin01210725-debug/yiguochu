@@ -59,7 +59,7 @@
 
 ## 9. Regional blanks
 
-无。
+- TW — 候选“台湾油饭”未找到可读的直达原始食谱来源。（检索于 2026-08-02）
 
 ## 10. Excluded project-original combinations
 

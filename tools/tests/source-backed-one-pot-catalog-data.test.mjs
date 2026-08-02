@@ -217,7 +217,6 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'quanzhou-red-xun-rice': 'identity_verified',
     'taiwan-cabbage-rice': 'recipe_fact_checked',
     'taiwan-mushroom-bamboo-shoot-rice': 'recipe_fact_checked',
-    'taiwan-oil-rice': 'discovered',
     'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
     'cantonese-cured-meat-claypot-rice': 'identity_verified',
     'cantonese-mushroom-chicken-claypot-rice': 'identity_verified',
@@ -237,6 +236,13 @@ test('records reviewed coverage and the evidence status of every eastern researc
   for (const [recipeId, status] of Object.entries(expected)) {
     assert.equal(recipes.get(recipeId)?.status, status, recipeId);
   }
+  assert.equal(recipes.has('taiwan-oil-rice'), false);
+  assert.deepEqual(catalog.regional_blanks.find(blank => blank.region_code === 'TW'), {
+    region_code: 'TW',
+    candidate_name: '台湾油饭',
+    reason: '候选“台湾油饭”未找到可读的直达原始食谱来源。',
+    searched_at: '2026-08-02',
+  });
 });
 
 test('keeps eastern source identities distinct and source claims bounded', () => {
@@ -260,6 +266,14 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
 
   for (const recipeId of ['zhanjiang-galangal-leaf-rice', 'zhanjiang-duck-rice']) {
     const recipe = byId.get(recipeId);
+    assert.equal(recipe?.status, 'discovered', recipeId);
+    assert.equal(recipe?.identity_status, 'discovered', recipeId);
+    assert.deepEqual(recipe?.core_ingredients, [], recipeId);
+    assert.equal(recipe?.fixed_batch, null, recipeId);
+    assert.equal(recipe?.liquid_contract, null, recipeId);
+    assert.deepEqual(recipe?.cooking_sequence, [], recipeId);
+    assert.equal(recipe?.time_contract, null, recipeId);
+    assert.deepEqual(recipe?.safety_endpoints, [], recipeId);
     assert.equal(recipe?.source_refs[0]?.access_status, 'pdf_not_parsed', recipeId);
     assert.deepEqual(recipe?.source_refs[0]?.claim_scopes, [], recipeId);
   }
@@ -276,24 +290,22 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
   }
 });
 
-test('accepts an unparsed official PDF lead only as an empty-scope discovered record', () => {
-  // Requiring a fabricated scope for an unread PDF would turn a research lead into false evidence.
+test('rejects unparsed PDF scopes and promotion beyond discovery', () => {
+  // Letting unread PDFs carry a scope or raise a row above discovery would manufacture evidence.
   const catalog = sourceBackedCatalog();
-  const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-cabbage-rice');
-  recipe.status = 'discovered';
-  recipe.source_refs = [{
-    source_id: 'zhanjiang-pdf-lead',
-    title: '湛江地方标准附件（蛤蒌饭、鸭仔饭线索）',
-    publisher: '湛江市人民政府',
-    url: 'https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf',
-    retrieved_at: '2026-08-02',
-    source_kind: 'government PDF lead',
-    access_status: 'pdf_not_parsed',
-    claim_scopes: [],
-    attribution: '湛江市人民政府',
-    license: 'terms_unspecified',
-  }];
-  assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'zhanjiang-galangal-leaf-rice');
+  recipe.source_refs[0].claim_scopes = ['identity'];
+  assert.match(
+    validator.validateSourceBackedOnePotCatalog(catalog).join('\n'),
+    /pdf_not_parsed.*exactly \[\]/i,
+  );
+
+  const promoted = sourceBackedCatalog();
+  promoted.recipes.find(item => item.recipe_id === 'zhanjiang-galangal-leaf-rice').status = 'identity_verified';
+  assert.match(
+    validator.validateSourceBackedOnePotCatalog(promoted).join('\n'),
+    /pdf_not_parsed.*discovery-only/i,
+  );
 });
 
 test('preserves official manufacturer names and their appliance boundaries', () => {

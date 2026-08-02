@@ -50,11 +50,6 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 壶仔饭 | — | CN-FJ | minnan-steamed-glutinous-rice | 研究记录（非公开可执行） | 糯米；三层肉；香菇；虾米；大骨汤 | appliance、identity、ingredients、liquid、process | 当前状态所需证据已齐 | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
-## taiwan-glutinous-rice
-
-| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 油饭 | — | TW | taiwan-glutinous-rice | 研究记录（非公开可执行） | 长糯米 | identity | 当前状态所需证据已齐 | [筒仔米糕](https://kids.moa.gov.tw/theme_data.php?theme=kids_cooking&id=288) |
 ## taiwan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

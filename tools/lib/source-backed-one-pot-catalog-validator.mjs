@@ -145,8 +145,10 @@ function validateSource(source, path, errors) {
   }
 
   const isUnparsedPdfLead = source.access_status === 'pdf_not_parsed';
-  if (!Array.isArray(source.claim_scopes)
-    || (source.claim_scopes.length === 0 && !isUnparsedPdfLead)) {
+  if (isUnparsedPdfLead && (!Array.isArray(source.claim_scopes) || source.claim_scopes.length !== 0)) {
+    errors.push(`${path}.pdf_not_parsed claim_scopes must be exactly []`);
+  } else if (!isUnparsedPdfLead
+    && (!Array.isArray(source.claim_scopes) || source.claim_scopes.length === 0)) {
     errors.push(`${path}.claim_scopes must be a nonempty array unless access_status is pdf_not_parsed`);
   } else {
     for (const scope of source.claim_scopes) {
@@ -340,6 +342,9 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
       recipe.source_refs.forEach((source, sourceIndex) => {
         const sourcePath = `${path}.source_refs[${sourceIndex}]`;
         validateSource(source, sourcePath, errors);
+        if (source?.access_status === 'pdf_not_parsed' && recipe.status !== 'discovered') {
+          errors.push(`${sourcePath}.pdf_not_parsed sources are discovery-only`);
+        }
         if (isProjectSelfCitation(source?.url, projectHosts)) {
           errors.push(`${sourcePath}.url must not be a project self-citation`);
         }
