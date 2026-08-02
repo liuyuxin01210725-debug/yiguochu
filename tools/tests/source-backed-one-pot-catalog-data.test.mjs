@@ -975,6 +975,51 @@ test('structures the official Kongganfan parboil-and-return process without inve
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('structures the Ningxia rouzhanfan identity and cook sequence without inventing missing quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'ningxia-wuzhong-rouzhanfan'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-NX-AGRI-ROUZHANFAN-2024-1');
+
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /牛肉或羊肉.*洋葱.*胡萝卜.*炒制/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /米饭.*同蒸/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /半固体.*粘饭/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the official Shidian pea-potato-ham rice sequence without promoting a wood-fired pot to cooker equivalence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'yunnan-shidian-pea-potato-ham-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-YN-1');
+
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /火腿.*切丁.*煸出油脂/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /青豌豆米.*土豆丁.*大米.*拌匀/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /罗锅.*柴火.*慢焖/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('keeps the official cured-meat claypot-rice variant separate while structuring its exact ratio', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'cantonese-cured-meat-claypot-rice'
@@ -1016,7 +1061,10 @@ test('locks each retained national candidate to its exact supported source, vess
       status: 'recipe_fact_checked',
       vessels: [],
       ingredients: ['宁夏大米', '牛肉或羊肉', '洋葱', '胡萝卜'],
-      sources: [['S-NX-1', '不尝一次宁夏大米，难以给胃一个交代！', '宁夏回族自治区农业农村厅（农宣中心）', 'https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html', ['identity', 'ingredients', 'process']]],
+      sources: [
+        ['S-NX-1', '不尝一次宁夏大米，难以给胃一个交代！', '宁夏回族自治区农业农村厅（农宣中心）', 'https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html', ['identity', 'ingredients', 'process']],
+        ['S-NX-AGRI-ROUZHANFAN-2024-1', '2024年第一顿必吃它，香甜软糯油润喷香！', '宁夏回族自治区农业农村厅（农业宣传教育展览中心）', 'https://nynct.nx.gov.cn/rdzt/ppny/202403/t20240307_4478445.html', ['identity', 'ingredients', 'process']],
+      ],
     },
     'yunnan-shidian-pea-potato-ham-rice': {
       canonicalName: '豌豆洋芋火腿焖饭',
