@@ -200,8 +200,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     discovered: 2,
-    identity_verified: 13,
-    recipe_fact_checked: 17,
+    identity_verified: 12,
+    recipe_fact_checked: 18,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -246,7 +246,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'taiwan-mushroom-bamboo-shoot-rice': 'recipe_fact_checked',
     'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
     'cantonese-cured-meat-claypot-rice': 'recipe_fact_checked',
-    'cantonese-mushroom-chicken-claypot-rice': 'identity_verified',
+    'cantonese-mushroom-chicken-claypot-rice': 'recipe_fact_checked',
     'cantonese-black-bean-pork-rib-claypot-rice': 'identity_verified',
     'zhanjiang-galangal-leaf-rice': 'discovered',
     'zhanjiang-duck-rice': 'discovered',
@@ -884,6 +884,35 @@ test('structures the official tongzai rice-cake quantities and staged steaming w
   assert.ok(source?.claim_scopes.includes('quantity'));
   assert.ok(source?.claim_scopes.includes('process'));
   assert.match(recipe?.evidence_notes ?? '', /30分钟.*2小时|2小时.*30分钟/);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the direct official mushroom-chicken claypot-rice quantities while retaining its vessel and permission boundary', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'cantonese-mushroom-chicken-claypot-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-TAFT-CHICKEN-RICE-1');
+
+  assert.equal(recipe?.fixed_batch, null, 'the source gives ingredient quantities but no servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 2.5, unit: '杯' },
+    source_ids: ['S-GD-TAFT-CHICKEN-RICE-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白米.*1\.5杯.*煲饭酱/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸡腿.*香菇.*鸡蛋.*20分钟/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /2\.5杯水.*煮滚/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /材料.*20几分钟.*翻面/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /鸡肉有熟.*煲饭酱汁/);
+  assert.equal(recipe?.time_contract, null, 'the source gives an approximate stage duration, not a complete total');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.equal(source?.license, 'permission_required');
+  assert.ok(source?.claim_scopes.includes('quantity'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
