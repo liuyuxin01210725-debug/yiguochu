@@ -267,6 +267,40 @@ test('rice-meal build compiles only a signed token and preserves reviewed RM-15 
   assert.equal(result.kv.puts, 0);
 });
 
+test('rice-meal HTTP flow turns a single rib input into an honest named meal with one disclosed side ingredient', async () => {
+  const planned = await post('/plan-meal', ricePlanRequest({ pantry:['排骨'] }));
+  assert.equal(planned.status, 200, JSON.stringify(planned.body));
+  assert.equal(planned.body.status, 'ready');
+  const candidate = planned.body.candidates[0];
+  assert.equal(candidate.variant_id, 'home-green-bean-pork-rib-rice');
+  assert.deepEqual(candidate.required_extra_items.filter(item => item.kind === 'major_material')
+    .map(item => item.canonical_id), ['green-beans']);
+
+  const generated = await post('/generate-plan', { plan_token:candidate.plan_token });
+  assert.equal(generated.status, 200, JSON.stringify(generated.body));
+  assert.deepEqual(generated.body.plan.required_extra_items.filter(item => item.kind === 'major_material')
+    .map(item => [item.canonical_id, item.name]), [['green-beans', '豆角']]);
+  assert.equal(generated.body.meals[0].locked_ingredients
+    .find(item => item.canonical_id === 'green-beans')?.source, 'required_major_extra');
+  assert.equal(generated.modelCalls, 0);
+});
+
+test('rice-meal HTTP flow offers honest two-of-five dishes for the screenshot pantry instead of a dead end', async () => {
+  const planned = await post('/plan-meal', ricePlanRequest({
+    pantry:['鸡腿', '土豆', '豆腐', '白菜', '排骨'],
+  }));
+  assert.equal(planned.status, 200, JSON.stringify(planned.body));
+  assert.equal(planned.body.status, 'ready');
+  assert.deepEqual(planned.body.candidates.map(candidate => candidate.variant_id), [
+    'home-cabbage-tofu-rice',
+    'home-chicken-leg-potato-rice',
+  ]);
+  assert.ok(planned.body.candidates.every(candidate => (
+    candidate.coverage_count === 2 && candidate.coverage_total === 5
+  )));
+  assert.equal(planned.modelCalls, 0);
+});
+
 test('rice-meal HTTP flow carries controlled seasoning through signing, dislikes, grams, nutrition, and steps', async () => {
   const assets = controlledSeasoningAssets();
   const planned = await post('/plan-meal', ricePlanRequest(), { assets });

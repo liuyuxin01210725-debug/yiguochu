@@ -281,6 +281,30 @@ test('controlled seasonings are disclosed separately without inflating pantry co
   assert.match(root.innerHTML, /加入 10 克酱油/u);
 });
 
+test('a missing major side ingredient is disclosed before the user chooses the rice meal', async () => {
+  const ribCandidate = candidate({
+    display_name:'豆角排骨焖饭',
+    variant_id:'home-green-bean-pork-rib-rice',
+    recipe_id:'green-bean-pork-rib-braised-rice',
+    used_items:[{ raw:'排骨', canonical_id:'pork-ribs', display_name:'排骨' }],
+    unused_items:[],
+    coverage_count:1,
+    coverage_total:1,
+    coverage_ratio:1,
+    required_extra_items:[{
+      canonical_id:'green-beans', display_name:'豆角', kind:'major_material', allergen_tags:[],
+    }],
+  });
+  const { context, root } = loadRiceFrontend([{ body:readySelection([ribCandidate]) }]);
+  evaluate(context, `state.profile={servings:'2', pantry:'排骨', dislikes:''}`);
+
+  await evaluate(context, 'runRiceMealPlanning()');
+
+  assert.match(root.innerHTML, /豆角排骨焖饭/u);
+  assert.match(root.innerHTML, /还需准备的配菜：.*豆角/u);
+  assert.match(root.innerHTML, /用上 1\/1/u);
+});
+
 test('candidate and result DOM show controlled household test notices without leaking review notes', async () => {
   const testCandidate = candidate({
     variant_id:'home-cabbage-tofu-rice',

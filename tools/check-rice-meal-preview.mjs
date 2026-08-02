@@ -30,7 +30,7 @@ const EXPECTED = Object.freeze({
   calibrationPreviewCount: 8,
   plannedCount: 3,
   minimumGradeA: 7,
-  journeyCount: 34,
+  journeyCount: 36,
 });
 const EXCLUDED_LEGACY_CATEGORIES = Object.freeze([
   'legacy-selector',
