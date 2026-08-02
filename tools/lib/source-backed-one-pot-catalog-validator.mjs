@@ -26,7 +26,9 @@ const REQUIRED_EXECUTABLE_FIELDS = [
   'fixed_batch', 'liquid_contract', 'cooking_sequence',
   'time_contract', 'safety_endpoints', 'allergen_labels',
 ];
-const RAW_HIGH_RISK_INGREDIENT = /\b(raw\s+)?(poultry|chicken|turkey|duck|pork|beef|lamb|seafood|fish|shrimp|crab|egg|eggs|beans|wild\s+mushrooms?|live\s+shellfish)\b|生(?:鸡|禽|猪|牛|羊|鱼|虾|蟹|海鲜|鸡蛋|蛋|豆|野生蘑菇|贝)|(?:鸡|鸭|鹅|禽肉|猪肉|牛肉|羊肉|海鲜|鱼|虾|蟹|鸡蛋|生蛋|生豆|野生菌|活贝)/i;
+const DEFAULT_PROJECT_HOSTS = ['yiguochu.pages.dev'];
+const RAW_HIGH_RISK_INGREDIENT = /\b(raw\s+)?(poultry|chicken|turkey|duck|pork|beef|lamb|seafood|fish|shrimp|crab|egg|eggs|beans|wild\s+mushrooms?|live\s+shellfish)\b|生(?:鸡|禽|猪|牛|羊|鱼|虾|蟹|海鲜|鸡蛋|蛋|豆|野生蘑菇|贝)|(?:鸡|鸭|鹅|禽肉|猪肉|牛肉|羊肉|海鲜|鱼|虾|蟹|鸡蛋|生蛋|生豆|野生菌|活贝|蚝|牡蛎|蛤蜊|扇贝)|(?:生蚝|牡蛎|蚝|贝类|蛤蜊|扇贝)/i;
+const APPLIANCE_CLAIM = /电饭煲|电锅|饭煲|电压力锅|压力锅|空气炸锅|微波炉|烤箱|蒸箱|rice cooker|slow cooker|instant pot/i;
 
 function isRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -38,6 +40,36 @@ function nonEmptyString(value) {
 
 function addRequiredStringError(errors, value, path) {
   if (!nonEmptyString(value)) errors.push(`${path} must be a nonempty string`);
+}
+
+function isNonEmptyRecord(value) {
+  return isRecord(value) && Object.keys(value).length > 0;
+}
+
+function hasMeaningfulListEntries(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(item => (
+    nonEmptyString(item) || isNonEmptyRecord(item)
+  ));
+}
+
+function isMeaningfulFixedBatch(value) {
+  return isNonEmptyRecord(value)
+    && Number.isFinite(value.servings)
+    && value.servings > 0
+    && hasMeaningfulListEntries(value.ingredients);
+}
+
+function isMeaningfulLiquidContract(value) {
+  return isNonEmptyRecord(value)
+    && nonEmptyString(value.kind)
+    && isNonEmptyRecord(value.amount)
+    && Number.isFinite(value.amount.value)
+    && value.amount.value > 0
+    && nonEmptyString(value.amount.unit);
+}
+
+function isMeaningfulNutritionRoles(value) {
+  return isRecord(value) && hasMeaningfulListEntries(value.roles);
 }
 
 function canonicalRegionKey(recipe) {
@@ -81,13 +113,21 @@ function sourceClaimScopes(recipe) {
   )));
 }
 
-function missingRequiredField(recipe, field) {
-  return recipe[field] === null || recipe[field] === undefined;
+function invalidExecutableFields(recipe) {
+  const valid = {
+    fixed_batch: isMeaningfulFixedBatch(recipe.fixed_batch),
+    liquid_contract: isMeaningfulLiquidContract(recipe.liquid_contract),
+    cooking_sequence: hasMeaningfulListEntries(recipe.cooking_sequence),
+    time_contract: isNonEmptyRecord(recipe.time_contract),
+    safety_endpoints: hasMeaningfulListEntries(recipe.safety_endpoints),
+    allergen_labels: hasMeaningfulListEntries(recipe.allergen_labels),
+  };
+  return REQUIRED_EXECUTABLE_FIELDS.filter(field => !valid[field]);
 }
 
 function claimsNamedAppliance(recipe) {
   const adaptation = isRecord(recipe.cooker_adaptation) ? recipe.cooker_adaptation : {};
-  return [
+  const namedApplianceFields = [
     recipe.appliance,
     recipe.appliance_name,
     recipe.named_appliance,
@@ -95,7 +135,21 @@ function claimsNamedAppliance(recipe) {
     adaptation.appliance,
     adaptation.appliance_name,
     adaptation.named_appliance,
-  ].some(nonEmptyString);
+  ];
+  if (namedApplianceFields.some(nonEmptyString)) return true;
+
+  const applianceClaimText = [
+    adaptation.notes,
+    ...collectText(recipe.cooking_sequence),
+  ];
+  return applianceClaimText.some(text => APPLIANCE_CLAIM.test(text));
+}
+
+function collectText(value) {
+  if (nonEmptyString(value)) return [value];
+  if (Array.isArray(value)) return value.flatMap(collectText);
+  if (isRecord(value)) return Object.values(value).flatMap(collectText);
+  return [];
 }
 
 function containsRawHighRiskIngredient(recipe) {
@@ -116,7 +170,7 @@ function isProjectSelfCitation(url, projectHosts) {
   if (!nonEmptyString(url)) return false;
   try {
     const hostname = new URL(url).hostname.toLowerCase();
-    return projectHosts.some(host => hostname === host || hostname.endsWith(`.${host}`));
+    return [...projectHosts].some(host => hostname === host || hostname.endsWith(`.${host}`));
   } catch {
     return false;
   }
@@ -141,7 +195,7 @@ function validatePromotionGates(recipe, path, errors) {
     errors.push(`${path} public recipe is missing required claim scopes: ${missingScopes.join(', ')}`);
   }
 
-  const missingFields = REQUIRED_EXECUTABLE_FIELDS.filter(field => missingRequiredField(recipe, field));
+  const missingFields = invalidExecutableFields(recipe);
   if (missingFields.includes('fixed_batch') || missingFields.includes('liquid_contract')) {
     errors.push(`${path} public recipe requires fixed_batch and liquid_contract`);
   }
@@ -162,13 +216,21 @@ function validatePromotionGates(recipe, path, errors) {
     || !['A', 'B'].includes(recipe.nutrition_structure.grade)) {
     errors.push(`${path} public recipe requires nutrition structure grade A or B`);
   }
+  if (!isMeaningfulNutritionRoles(recipe.nutrition_structure)) {
+    errors.push(`${path}.nutrition_structure.roles must be a nonempty array`);
+  }
 }
 
 export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
   const errors = [];
-  const projectHosts = Array.isArray(options.project_hosts)
-    ? options.project_hosts
-    : ['yiguochu.pages.dev'];
+  const safeOptions = isRecord(options) ? options : {};
+  const additionalProjectHosts = Array.isArray(safeOptions.project_hosts)
+    ? safeOptions.project_hosts.filter(nonEmptyString)
+    : [];
+  const projectHosts = new Set([
+    ...DEFAULT_PROJECT_HOSTS,
+    ...additionalProjectHosts.map(host => host.toLowerCase()),
+  ]);
 
   if (!isRecord(catalog)) return ['catalog must be an object'];
   if (catalog.schema_version !== 1) errors.push('catalog.schema_version must be 1');

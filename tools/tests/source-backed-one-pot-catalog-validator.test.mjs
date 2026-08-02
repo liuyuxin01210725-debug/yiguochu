@@ -47,12 +47,15 @@ const executableCatalog = () => {
   const catalog = validCatalog();
   const recipe = catalog.recipes[0];
   recipe.status = 'preview_ready';
-  recipe.fixed_batch = { servings: 2, ingredients: [] };
+  recipe.fixed_batch = {
+    servings: 2,
+    ingredients: [{ name: '米', amount: { value: 200, unit: 'g' } }],
+  };
   recipe.liquid_contract = { kind: 'added_water', amount: { value: 260, unit: 'ml' } };
   recipe.cooking_sequence = [{ step: 1, instruction: '煮熟后食用。' }];
   recipe.time_contract = { total_minutes: 40 };
   recipe.safety_endpoints = [{ code: 'rice_tender' }];
-  recipe.allergen_labels = [];
+  recipe.allergen_labels = ['无已知过敏原'];
   recipe.source_refs[0].claim_scopes = [
     'identity', 'ingredients', 'quantity', 'liquid', 'process', 'time',
   ];
@@ -120,4 +123,69 @@ test('returns errors instead of throwing for malformed public source references'
   catalog.recipes[0].source_refs = null;
   assert.doesNotThrow(() => validateSourceBackedOnePotCatalog(catalog));
   assert.match(errorsFor(catalog).join('\n'), /source_refs/i);
+});
+
+test('rejects empty execution structures in public recipes', () => {
+  // Removing the public execution-structure validator branch would make this fail.
+  const catalog = executableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.fixed_batch = {};
+  recipe.liquid_contract = {};
+  recipe.cooking_sequence = [];
+  recipe.time_contract = {};
+  recipe.safety_endpoints = [];
+  recipe.allergen_labels = [];
+  recipe.nutrition_structure.roles = [];
+  const errors = errorsFor(catalog).join('\n');
+  for (const field of [
+    'fixed_batch', 'liquid_contract', 'cooking_sequence', 'time_contract',
+    'safety_endpoints', 'allergen_labels', 'nutrition_structure.roles',
+  ]) assert.match(errors, new RegExp(field));
+});
+
+test('requires safety evidence and a nonempty endpoint for raw oysters', () => {
+  // Removing the raw-shellfish safety validator branch would make this fail.
+  const catalog = executableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.core_ingredients = ['米', '生蚝'];
+  recipe.safety_endpoints = [];
+  let errors = errorsFor(catalog).join('\n');
+  assert.match(errors, /safety support/i);
+  assert.match(errors, /safety_endpoints/i);
+
+  recipe.source_refs[0].claim_scopes.push('safety');
+  errors = errorsFor(catalog).join('\n');
+  assert.doesNotMatch(errors, /safety support/i);
+  assert.match(errors, /safety_endpoints/i);
+});
+
+test('retains the default project host when additional project hosts are empty', () => {
+  // Removing the default project-host merge would make this fail.
+  const catalog = validCatalog();
+  catalog.recipes[0].source_refs[0].url = 'https://yiguochu.pages.dev/recipes/test';
+  const errors = validateSourceBackedOnePotCatalog(catalog, { project_hosts: [] }).join('\n');
+  assert.match(errors, /project self-citation/i);
+});
+
+test('accepts null options without throwing', () => {
+  // Removing the null-options guard would make this fail.
+  assert.doesNotThrow(() => validateSourceBackedOnePotCatalog(validCatalog(), null));
+});
+
+test('requires appliance evidence for an electric-cooker adaptation note', () => {
+  // Removing the appliance-claim text detector would make this fail.
+  const catalog = executableCatalog();
+  catalog.recipes[0].cooker_adaptation = {
+    status: 'adapted',
+    adapted_name: '上海咸肉菜饭（电饭煲版）',
+    notes: '电饭煲版本。',
+  };
+  assert.match(errorsFor(catalog).join('\n'), /appliance support/i);
+});
+
+test('requires appliance evidence for electric-cooker instructions', () => {
+  // Removing the appliance-claim text detector would make this fail.
+  const catalog = executableCatalog();
+  catalog.recipes[0].cooking_sequence = [{ step: 1, instruction: '倒入电饭煲，按煮饭键。' }];
+  assert.match(errorsFor(catalog).join('\n'), /appliance support/i);
 });
