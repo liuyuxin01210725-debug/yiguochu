@@ -39,7 +39,7 @@ test('renders sorted recipes with visible evidence fields and direct source link
   assert.match(markdown, /核心食材/u);
   assert.match(markdown, /已支持证据范围/u);
   assert.match(markdown, /当前晋升阻塞/u);
-  assert.match(markdown, /\[上海乡村菜饭与咸肉菜饭\]\(https:\/\//u);
+  assert.match(markdown, /\[大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香\]\(https:\/\//u);
   assert.ok(markdown.indexOf('咖喱鸡肉饭') < markdown.indexOf('牛肉什锦饭'));
 });
 

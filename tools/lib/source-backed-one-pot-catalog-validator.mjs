@@ -144,8 +144,10 @@ function validateSource(source, path, errors) {
     errors.push(`${path}.url must be an HTTPS URL`);
   }
 
-  if (!Array.isArray(source.claim_scopes) || source.claim_scopes.length === 0) {
-    errors.push(`${path}.claim_scopes must be a nonempty array`);
+  const isUnparsedPdfLead = source.access_status === 'pdf_not_parsed';
+  if (!Array.isArray(source.claim_scopes)
+    || (source.claim_scopes.length === 0 && !isUnparsedPdfLead)) {
+    errors.push(`${path}.claim_scopes must be a nonempty array unless access_status is pdf_not_parsed`);
   } else {
     for (const scope of source.claim_scopes) {
       if (!CLAIM_SCOPES.has(scope)) {

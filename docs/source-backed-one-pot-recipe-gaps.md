@@ -4,11 +4,13 @@
 
 ## 1. Missing identity
 
-无。
+- 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
+- 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 
 ## 2. Missing ingredients
 
-无。
+- 咸饭 (minnan-salty-rice) — CN-FJ
+- 芋头饭 (quanzhou-taro-rice) — CN-FJ
 
 ## 3. Missing quantity
 
@@ -16,11 +18,14 @@
 
 ## 4. Missing liquid
 
+- 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 
 ## 5. Missing process
 
-无。
+- 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
+- 咸饭 (minnan-salty-rice) — CN-FJ
+- 芋头饭 (quanzhou-taro-rice) — CN-FJ
 
 ## 6. Missing appliance
 
@@ -28,7 +33,6 @@
 
 ## 7. Missing time
 
-- 上海咸肉菜饭 (shanghai-salted-pork-vegetable-rice) — CN-SH
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 咖喱鸡肉饭 (joyoung-curry-chicken-rice-jrc-4hp82) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
@@ -47,6 +51,8 @@
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱
+- 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
+- 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
 - 高丽菜饭 (taiwan-cabbage-rice) — TW
 - 抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ

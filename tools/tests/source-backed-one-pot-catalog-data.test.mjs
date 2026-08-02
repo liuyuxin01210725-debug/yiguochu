@@ -194,11 +194,106 @@ test('keeps every migrated recipe non-public until safety and complete execution
   const catalog = sourceBackedCatalog();
   assert.ok(catalog.recipes.length > 0);
   for (const recipe of catalog.recipes) {
-    assert.equal(recipe.status, 'recipe_fact_checked');
-    assert.equal(recipe.fixed_batch, null);
-    assert.equal(recipe.time_contract, null);
-    assert.equal(recipe.safety_endpoints.length, 0);
+    assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
   }
+});
+
+test('records reviewed coverage and the evidence status of every eastern research node', () => {
+  // Dropping a research node, promoting it, or leaving a region unreviewed must fail here.
+  const catalog = sourceBackedCatalog();
+  const recipes = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
+  const reviewed = new Set(catalog.reviewed_regions);
+  const expected = {
+    'shanghai-salted-pork-vegetable-rice': 'identity_verified',
+    'shanghai-broad-bean-vegetable-rice': 'identity_verified',
+    'wujiang-fragrant-greens-salted-pork-rice': 'identity_verified',
+    'nanjing-aijiaohuang-rice': 'identity_verified',
+    'wenzhou-mustard-greens-rice': 'identity_verified',
+    'quanzhou-radish-rice': 'identity_verified',
+    'minnan-salty-rice': 'identity_verified',
+    'quanzhou-taro-rice': 'identity_verified',
+    'shenhu-huzaifan': 'identity_verified',
+    'quanzhou-yifan-oil-rice': 'identity_verified',
+    'quanzhou-red-xun-rice': 'identity_verified',
+    'taiwan-cabbage-rice': 'recipe_fact_checked',
+    'taiwan-mushroom-bamboo-shoot-rice': 'recipe_fact_checked',
+    'taiwan-oil-rice': 'discovered',
+    'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
+    'cantonese-cured-meat-claypot-rice': 'identity_verified',
+    'cantonese-mushroom-chicken-claypot-rice': 'identity_verified',
+    'cantonese-black-bean-pork-rib-claypot-rice': 'identity_verified',
+    'zhanjiang-galangal-leaf-rice': 'discovered',
+    'zhanjiang-duck-rice': 'discovered',
+  };
+
+  for (const code of ['CN-SH', 'CN-JS', 'CN-ZJ', 'CN-FJ', 'CN-GD', 'TW']) {
+    assert.ok(reviewed.has(code), `${code} is reviewed`);
+    assert.ok(
+      catalog.recipes.some(recipe => recipe.region_codes.includes(code))
+        || catalog.regional_blanks.some(blank => blank.region_code === code),
+      `${code} has a candidate or explicit blank`,
+    );
+  }
+  for (const [recipeId, status] of Object.entries(expected)) {
+    assert.equal(recipes.get(recipeId)?.status, status, recipeId);
+  }
+});
+
+test('keeps eastern source identities distinct and source claims bounded', () => {
+  // Merging source formulations or turning vessel evidence into rice-cooker support is a data bug.
+  const recipes = sourceBackedCatalog().recipes;
+  const byId = new Map(recipes.map(recipe => [recipe.recipe_id, recipe]));
+  assert.equal(recipes.filter(recipe => recipe.recipe_id === 'shanghai-salted-pork-vegetable-rice').length, 1);
+  assert.equal(recipes.filter(recipe => recipe.recipe_id === 'taiwan-cabbage-rice').length, 1);
+
+  for (const recipeId of [
+    'shenhu-huzaifan',
+    'taiwan-tongzai-rice-cake',
+    'cantonese-cured-meat-claypot-rice',
+    'cantonese-mushroom-chicken-claypot-rice',
+    'cantonese-black-bean-pork-rib-claypot-rice',
+    'quanzhou-red-xun-rice',
+  ]) {
+    const recipe = byId.get(recipeId);
+    assert.ok(!/电饭煲|电锅|rice cooker/i.test(recipe?.cooker_adaptation?.notes ?? ''), recipeId);
+  }
+
+  for (const recipeId of ['zhanjiang-galangal-leaf-rice', 'zhanjiang-duck-rice']) {
+    const recipe = byId.get(recipeId);
+    assert.equal(recipe?.source_refs[0]?.access_status, 'pdf_not_parsed', recipeId);
+    assert.deepEqual(recipe?.source_refs[0]?.claim_scopes, [], recipeId);
+  }
+
+  for (const recipe of recipes.filter(recipe => recipe.region_codes.some(code => (
+    ['CN-SH', 'CN-JS', 'CN-ZJ', 'CN-FJ', 'CN-GD', 'TW'].includes(code)
+  )))) {
+    for (const source of recipe.source_refs) {
+      assert.ok(source.url.startsWith('https://'), `${recipe.recipe_id}:${source.source_id}`);
+      for (const field of ['title', 'publisher', 'retrieved_at', 'source_kind', 'license', 'attribution']) {
+        assert.ok(source[field], `${recipe.recipe_id}:${source.source_id}:${field}`);
+      }
+    }
+  }
+});
+
+test('accepts an unparsed official PDF lead only as an empty-scope discovered record', () => {
+  // Requiring a fabricated scope for an unread PDF would turn a research lead into false evidence.
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-cabbage-rice');
+  recipe.status = 'discovered';
+  recipe.source_refs = [{
+    source_id: 'zhanjiang-pdf-lead',
+    title: '湛江地方标准附件（蛤蒌饭、鸭仔饭线索）',
+    publisher: '湛江市人民政府',
+    url: 'https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf',
+    retrieved_at: '2026-08-02',
+    source_kind: 'government PDF lead',
+    access_status: 'pdf_not_parsed',
+    claim_scopes: [],
+    attribution: '湛江市人民政府',
+    license: 'terms_unspecified',
+  }];
+  assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
 });
 
 test('preserves official manufacturer names and their appliance boundaries', () => {
