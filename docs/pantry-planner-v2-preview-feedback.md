@@ -981,3 +981,9 @@ Pilot 通过标准保持锁定：`≥3/5` 用户实际完成一顿饭且第二�
 
 这条记录取代上文“绝不降低覆盖门槛”的机械表述，但不改变 Pilot NO-GO：页面能给出诚实候选，
 仍不能代替 8 道校准菜饭的真实厨房试做。
+
+最终 Preview 构建为 `rice-screenshot-fix-2762916`，稳定入口仍为
+`https://recipe-validation.yiguochu.pages.dev`，不可变部署为
+`https://852fbe58.yiguochu.pages.dev`。部署后重新用真实浏览器填写并点击上述五项输入与单独排骨，
+候选结果与本地验证一致；`/health` 和 `build-meta.json` 同时报告该构建号、
+`productFocus=rice-meal-v1`、`generationMode=deterministic`、`riceCatalogScope=calibration`。
