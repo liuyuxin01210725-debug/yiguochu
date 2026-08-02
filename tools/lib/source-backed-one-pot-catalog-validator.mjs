@@ -305,9 +305,19 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
     }
 
     addRequiredStringError(errors, recipe.canonical_name, `${path}.canonical_name`);
-    if (!Array.isArray(recipe.region_codes) || recipe.region_codes.length === 0 || !recipe.region_codes.every(nonEmptyString)) {
-      errors.push(`${path}.region_codes must be a nonempty string array`);
-    } else if (nonEmptyString(recipe.canonical_name)) {
+    let hasValidRegionCodes = false;
+    if (recipe.cuisine_family === 'manufacturer-rice-cooker-recipes') {
+      hasValidRegionCodes = Array.isArray(recipe.region_codes) && recipe.region_codes.length === 0;
+      if (!hasValidRegionCodes) {
+        errors.push(`${path}.manufacturer-rice-cooker-recipes region_codes must be an empty array`);
+      }
+    } else {
+      hasValidRegionCodes = Array.isArray(recipe.region_codes)
+        && recipe.region_codes.length > 0
+        && recipe.region_codes.every(nonEmptyString);
+      if (!hasValidRegionCodes) errors.push(`${path}.region_codes must be a nonempty string array`);
+    }
+    if (hasValidRegionCodes && nonEmptyString(recipe.canonical_name)) {
       const key = canonicalRegionKey(recipe);
       if (canonicalRegionKeys.has(key)) errors.push(`${path}.canonical_name + region_codes must be unique`);
       canonicalRegionKeys.add(key);
@@ -342,6 +352,7 @@ export function validateSourceBackedCatalogMigration(migration, legacyVariants, 
   }
 
   const legacyIds = new Set();
+  const legacyVariantsById = new Map();
   if (!Array.isArray(legacyVariants)) {
     errors.push('legacyVariants must be an array');
   } else {
@@ -350,19 +361,29 @@ export function validateSourceBackedCatalogMigration(migration, legacyVariants, 
         errors.push(`legacyVariants[${index}].variant_id must be a nonempty string`);
       } else {
         legacyIds.add(legacy.variant_id);
+        legacyVariantsById.set(legacy.variant_id, legacy);
       }
     }
   }
 
   const targetRecipeIds = new Set();
-  if (sourceBackedCatalog !== undefined) {
-    if (!isRecord(sourceBackedCatalog) || !Array.isArray(sourceBackedCatalog.recipes)) {
+  const needsSourceBackedCatalog = migration.items.some(item => (
+    isRecord(item)
+    && (MIGRATION_TARGET_DISPOSITIONS.has(item.disposition)
+      || item.disposition === 'project_original_excluded')
+  ));
+  const hasUsableSourceBackedCatalog = isRecord(sourceBackedCatalog)
+    && Array.isArray(sourceBackedCatalog.recipes);
+  const sourceBackedRecipes = hasUsableSourceBackedCatalog ? sourceBackedCatalog.recipes : [];
+  if (!hasUsableSourceBackedCatalog) {
+    if (needsSourceBackedCatalog) {
+      errors.push('sourceBackedCatalog is required for target and project-original validation');
+    } else if (sourceBackedCatalog !== undefined) {
       errors.push('sourceBackedCatalog.recipes must be an array');
-    } else {
-      for (const recipe of sourceBackedCatalog.recipes) {
-        if (nonEmptyString(recipe?.recipe_id)) targetRecipeIds.add(recipe.recipe_id);
-      }
     }
+  }
+  for (const recipe of sourceBackedRecipes) {
+    if (nonEmptyString(recipe?.recipe_id)) targetRecipeIds.add(recipe.recipe_id);
   }
 
   const accountedLegacyIds = new Set();
@@ -393,7 +414,7 @@ export function validateSourceBackedCatalogMigration(migration, legacyVariants, 
     if (MIGRATION_TARGET_DISPOSITIONS.has(item.disposition)) {
       if (!nonEmptyString(item.target_recipe_id)) {
         errors.push(`${path}.target_recipe_id must be a nonempty string for ${item.disposition}`);
-      } else if (sourceBackedCatalog !== undefined && !targetRecipeIds.has(item.target_recipe_id)) {
+      } else if (hasUsableSourceBackedCatalog && !targetRecipeIds.has(item.target_recipe_id)) {
         errors.push(`target_recipe_id ${item.target_recipe_id} does not exist in source-backed catalog`);
       }
     } else if (
@@ -402,6 +423,31 @@ export function validateSourceBackedCatalogMigration(migration, legacyVariants, 
     ) {
       if (item.target_recipe_id !== null) {
         errors.push(`${path}.target_recipe_id must be null for ${item.disposition}`);
+      }
+    }
+
+    if (item.disposition === 'project_original_excluded' && hasUsableSourceBackedCatalog) {
+      const legacy = legacyVariantsById.get(item.legacy_variant_id);
+      if (!legacy) continue;
+
+      if (nonEmptyString(legacy.recipe_id) && targetRecipeIds.has(legacy.recipe_id)) {
+        errors.push(`project-original legacy variant ${item.legacy_variant_id} reappears as recipe_id ${legacy.recipe_id}`);
+      }
+      const prohibitedNames = [
+        legacy.display_name,
+        legacy.name_label,
+        ...(Array.isArray(legacy.aliases) ? legacy.aliases : []),
+      ].filter(nonEmptyString);
+      for (const recipe of sourceBackedRecipes) {
+        const catalogNames = [
+          recipe?.canonical_name,
+          ...(Array.isArray(recipe?.aliases) ? recipe.aliases : []),
+        ].filter(nonEmptyString);
+        for (const prohibitedName of prohibitedNames) {
+          if (catalogNames.includes(prohibitedName)) {
+            errors.push(`project-original legacy variant ${item.legacy_variant_id} reappears as a catalog name: ${prohibitedName}`);
+          }
+        }
       }
     }
   }

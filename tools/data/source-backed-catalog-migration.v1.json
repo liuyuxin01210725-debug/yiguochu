@@ -2,7 +2,7 @@
   "schema_version": 1,
   "migration_version": "source-backed-catalog-migration-v1-20260802",
   "items": [
-    {"legacy_variant_id":"home-soaked-glutinous-pork-mushroom-rice","legacy_display_name":"泉州浥饭（油饭）","disposition":"project_original_excluded","target_recipe_id":null,"reason":"唯一旧引用是一锅出原创标准配方；仓库没有可独立复核的泉州身份或固定批量来源。"},
+    {"legacy_variant_id":"home-soaked-glutinous-pork-mushroom-rice","legacy_display_name":"泉州浥饭（油饭）","disposition":"project_original_excluded","target_recipe_id":null,"reason":"泉州市政府资料支持泉州浥饭/油饭的地域身份；但其大米、三层肉、豆干与海味结构不能证明旧项目泡发糯米、肉末、鲜香菇的简化公式等价。"},
     {"legacy_variant_id":"home-taiwan-cabbage-rice","legacy_display_name":"高丽菜饭","disposition":"source_backed_research_only","target_recipe_id":"taiwan-cabbage-rice","reason":"台湾农业部来源支持身份、固定量杯批量、加水语义和电锅流程，但仓库没有独立安全终点与完整时长事实。"},
     {"legacy_variant_id":"home-taiwan-pumpkin-rice","legacy_display_name":"南瓜饭","disposition":"source_backed_research_only","target_recipe_id":"taiwan-pumpkin-rice","reason":"台湾农业部来源支持身份、固定量杯批量、加水语义和电锅流程，但仓库没有独立安全终点与完整时长事实。"},
     {"legacy_variant_id":"home-lamb-carrot-rice","legacy_display_name":"新疆羊肉抓饭","disposition":"source_backed_research_only","target_recipe_id":"yutian-electric-cooker-lamb-pilaf","reason":"于田县政府来源支持抓饭身份和电饭锅高层流程，但米量与“1:2”液体语义未解析，不能形成固定执行批量。"},
