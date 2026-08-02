@@ -101,11 +101,48 @@ import {
   validateYunnanGuizhouRiceResearchReport,
 } from './lib/yunnan-guizhou-rice-research-builder.mjs';
 import { buildYunnanGuizhouRiceResearchArtifacts } from './lib/yunnan-guizhou-rice-research-renderer.mjs';
+import {
+  readJson as readSourceBackedJson,
+  validateSourceBackedCatalogFiles,
+} from './check-source-backed-one-pot-catalog.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
 const recipeLibraryErrors = validateRecipeLibrary(lib);
 const errors = [...recipeLibraryErrors];
+const sourceBackedCatalogInputErrors = [];
+let sourceBackedCatalog = { recipes: [] };
+let sourceBackedMigration = { items: [] };
+for (const [relativePath, assign] of [
+  ['tools/data/source-backed-one-pot-recipes.v1.json', value => { sourceBackedCatalog = value; }],
+  ['tools/data/source-backed-catalog-migration.v1.json', value => { sourceBackedMigration = value; }],
+]) {
+  try {
+    assign(readSourceBackedJson(relativePath));
+  } catch (error) {
+    sourceBackedCatalogInputErrors.push(
+      `${relativePath} could not be read: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+const sourceBackedArtifactContents = new Map();
+for (const relativePath of [
+  'docs/source-backed-one-pot-recipes.md',
+  'docs/source-backed-one-pot-recipes.csv',
+  'docs/source-backed-one-pot-recipe-gaps.md',
+]) {
+  const artifactUrl = new URL(`../${relativePath}`, import.meta.url);
+  if (fs.existsSync(artifactUrl)) sourceBackedArtifactContents.set(relativePath, fs.readFileSync(artifactUrl, 'utf8'));
+}
+const sourceBackedCatalogErrors = [
+  ...sourceBackedCatalogInputErrors,
+  ...validateSourceBackedCatalogFiles({
+    catalog: sourceBackedCatalog,
+    migration: sourceBackedMigration,
+    artifactContents: sourceBackedArtifactContents,
+  }),
+];
+errors.push(...sourceBackedCatalogErrors);
 const menuMasterInputErrors = [];
 const regionalAtlasInputErrors = [];
 const northeastResearchInputErrors = [];
@@ -773,7 +810,23 @@ const riceMealCollectionGapCount = Array.isArray(riceMealCollection?.region_node
 const riceCookerSourceEvidenceSha256 = riceCookerSourceEvidenceErrors.length === 0
   ? crypto.createHash('sha256').update(canonicalJson(riceCookerSourceEvidence)).digest('hex')
   : null;
+const sourceBackedRecipes = Array.isArray(sourceBackedCatalog?.recipes) ? sourceBackedCatalog.recipes : [];
+const sourceBackedStatusCounts = sourceBackedRecipes.reduce((counts, recipe) => {
+  const status = typeof recipe?.status === 'string' && recipe.status ? recipe.status : 'invalid';
+  counts[status] = (counts[status] ?? 0) + 1;
+  return counts;
+}, {});
 console.log(`菜谱家族 ${familyCount} 个 · 基础菜谱 ${recipeCount} 道（approved 人工批准 ${approvedCount} 道 · auto_approved 自动闸门通过待评审 ${autoApprovedCount} 道）`);
+console.log([
+  `${sourceBackedRecipes.length} source-backed one-pot recipes`,
+  `version ${sourceBackedCatalog?.catalog_version || 'unavailable'}`,
+  ...Object.entries(sourceBackedStatusCounts)
+    .sort(([left], [right]) => left.localeCompare(right, 'en'))
+    .map(([status, count]) => `${status} ${count}`),
+  sourceBackedCatalogErrors.length
+    ? `source-backed catalog invalid (${sourceBackedCatalogErrors.length})`
+    : 'source-backed catalog and artifacts ok',
+].join(' · '));
 console.log([
   `${recipeCount} recipes`,
   `${activeTemplateCount} active templates`,
