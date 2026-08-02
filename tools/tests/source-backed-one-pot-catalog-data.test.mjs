@@ -200,8 +200,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     discovered: 2,
-    identity_verified: 15,
-    recipe_fact_checked: 15,
+    identity_verified: 14,
+    recipe_fact_checked: 16,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -239,7 +239,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'taiwan-cabbage-rice': 'recipe_fact_checked',
     'taiwan-mushroom-bamboo-shoot-rice': 'recipe_fact_checked',
     'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
-    'cantonese-cured-meat-claypot-rice': 'identity_verified',
+    'cantonese-cured-meat-claypot-rice': 'recipe_fact_checked',
     'cantonese-mushroom-chicken-claypot-rice': 'identity_verified',
     'cantonese-black-bean-pork-rib-claypot-rice': 'identity_verified',
     'zhanjiang-galangal-leaf-rice': 'discovered',
@@ -514,7 +514,11 @@ test('records the first-priority source matrix without pretending the recipes ar
     'identity', 'ingredients', 'liquid', 'process', 'appliance', 'time',
   ]);
   assert.match(curedMeat?.evidence_notes ?? '', /200克水.*中火8分钟.*小火.*15分钟/u);
-  assert.equal(curedMeat?.liquid_contract, null, 'the source omits rice weight');
+  assert.deepEqual(curedMeat?.liquid_contract, {
+    kind: 'rice_to_water_ratio',
+    amount: { value: 1.3, unit: '杯水/杯米' },
+    source_ids: ['S-TW-AFA-CURED-RICE-1'],
+  });
   assert.equal(curedMeat?.time_contract, null, 'the source does not close the full preparation timeline');
 });
 
@@ -534,6 +538,95 @@ test('records the Joyoung bilingual program conflict instead of choosing a conve
   assert.doesNotMatch(JSON.stringify(recipe?.cooking_sequence), /Slow cook|White rice|柴火饭|精煮饭/u);
   assert.deepEqual(recipe?.liquid_contract?.amount, { value: 528, unit: 'g' });
   assert.equal(recipe?.time_contract, null);
+});
+
+test('structures the fixed National Health Insurance cabbage-rice version without inventing a cooker duration', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taiwan-cabbage-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-NHI-CABBAGE-1');
+
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(source?.claim_scopes, [
+    'identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time',
+  ]);
+  assert.equal(recipe?.fixed_batch?.servings, 3);
+  assert.deepEqual(
+    recipe?.fixed_batch?.ingredients.find(item => item.name === '白米')?.amount,
+    { value: 1.5, unit: '杯' },
+  );
+  assert.deepEqual(
+    recipe?.fixed_batch?.ingredients.find(item => item.name === '五花肉')?.amount,
+    { value: 200, unit: 'g' },
+  );
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 1.5, unit: '杯' },
+    source_ids: ['S-TW-NHI-CABBAGE-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.equal(recipe?.time_contract, null, 'automatic cooker-cycle duration is not stated');
+  assert.deepEqual(
+    recipe?.safety_endpoints.map(endpoint => endpoint.code).sort(),
+    ['pork_fully_cooked', 'shellfish_fully_cooked'],
+  );
+  const shellfishEndpoint = recipe?.safety_endpoints.find(endpoint => (
+    endpoint.code === 'shellfish_fully_cooked'
+  ));
+  assert.equal(shellfishEndpoint?.minimum_core_temperature_c, undefined);
+  assert.equal(shellfishEndpoint?.visual_endpoint, '肉质呈珍珠白或白色且不透明');
+  assert.ok(recipe?.allergen_labels.includes('甲壳类'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures only the supported liquid time and safety facts for mushroom bamboo-shoot rice', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taiwan-mushroom-bamboo-shoot-rice'
+  ));
+
+  assert.equal(recipe?.fixed_batch, null, 'source gives quantities but does not state servings');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 1, unit: '杯' },
+    source_ids: ['S-TW-3'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.deepEqual(recipe?.time_contract, {
+    total_minutes: 30,
+    source_ids: ['S-TW-3'],
+  });
+  assert.deepEqual(
+    recipe?.safety_endpoints.map(endpoint => endpoint.code).sort(),
+    ['pork_fully_cooked', 'shellfish_fully_cooked'],
+  );
+  const shellfishEndpoint = recipe?.safety_endpoints.find(endpoint => (
+    endpoint.code === 'shellfish_fully_cooked'
+  ));
+  assert.equal(shellfishEndpoint?.minimum_core_temperature_c, undefined);
+  assert.equal(shellfishEndpoint?.visual_endpoint, '肉质呈珍珠白或白色且不透明');
+  assert.ok(recipe?.allergen_labels.includes('甲壳类'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('keeps the official cured-meat claypot-rice variant separate while structuring its exact ratio', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'cantonese-cured-meat-claypot-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-AFA-CURED-RICE-1');
+
+  assert.deepEqual(source?.claim_scopes, [
+    'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time',
+  ]);
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'rice_to_water_ratio',
+    amount: { value: 1.3, unit: '杯水/杯米' },
+    source_ids: ['S-TW-AFA-CURED-RICE-1'],
+  });
+  assert.ok(recipe?.cooking_sequence.length >= 4);
+  assert.equal(recipe?.fixed_batch, null, 'official variant does not state servings');
+  assert.equal(recipe?.time_contract, null, 'listed stages do not state complete preparation time');
+  assert.match(recipe?.evidence_notes ?? '', /农粮署.*独立版本.*不与.*杨浦/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
 test('locks each retained national candidate to its exact supported source, vessel, and core-ingredient boundary', () => {

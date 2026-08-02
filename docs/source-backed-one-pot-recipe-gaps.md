@@ -33,7 +33,7 @@
 
 ## 6. Missing appliance
 
-无。
+- 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 
 ## 7. Missing time
 
@@ -46,7 +46,6 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
-- 高丽菜饭 (taiwan-cabbage-rice) — TW
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 8. Missing safety
@@ -57,10 +56,8 @@
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
-- 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
-- 高丽菜饭 (taiwan-cabbage-rice) — TW
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 
 ## 9. Regional blanks
