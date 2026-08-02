@@ -16,12 +16,14 @@
 
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 4. Missing liquid
 
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
+- 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 5. Missing process
@@ -50,6 +52,7 @@
 
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 
 ## 9. Regional blanks

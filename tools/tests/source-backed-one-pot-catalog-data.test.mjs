@@ -201,7 +201,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   assert.deepEqual(statusTotals, {
     discovered: 2,
     identity_verified: 11,
-    recipe_fact_checked: 19,
+    recipe_fact_checked: 20,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1016,6 +1016,32 @@ test('structures the official Shidian pea-potato-ham rice sequence without promo
     roles: ['carbohydrate', 'protein', 'fiber'],
   });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('keeps the Tongren seasonal shefan as a separate regional identity with its half-hour steaming evidence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'guizhou-tongren-shefan'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GZ-TONGREN-SHEFAN-1');
+
+  assert.equal(recipe?.canonical_name, '铜仁社饭');
+  assert.deepEqual(recipe?.region_codes, ['CN-GZ']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /青蒿.*野葱.*洗.*切/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /豆腐干.*腊肉.*切成丁.*糯米.*黏米/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /花生.*黄豆.*豆腐干丁.*腊肉丁.*青蒿.*野葱/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /拌匀.*蒸.*半小时/);
+  assert.equal(recipe?.time_contract, null, 'the source gives a steaming stage, not a complete preparation time');
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
