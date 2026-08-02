@@ -26,7 +26,7 @@ const validCatalog = () => ({
     safety_endpoints: [],
     allergen_labels: [],
     nutrition_structure: { grade: 'A', roles: ['carbohydrate', 'protein', 'fiber'] },
-    cooker_adaptation: { status: 'not_assessed', notes: '' },
+    cooker_adaptation: { status: 'not_adapted', notes: '未建立适配。' },
     source_refs: [{
       source_id: 'shanghai-fengxian-salted-pork-rice',
       title: '大雪节气村民做咸肉菜饭',
@@ -325,4 +325,90 @@ test('rejects a public identity-only recipe even when its execution fields cite 
   assert.match(errors, /does not support process/);
   assert.match(errors, /does not support time/);
   assert.match(errors, /does not support safety/);
+});
+
+test('rejects unknown cooker adaptation statuses and source-limited appliance facts without a linked source', () => {
+  // Removing adaptation-status or source-limited evidence validation would make these bypasses pass.
+  const catalog = validCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.cooker_adaptation = { status: 'unreviewed', notes: '待核。' };
+  assert.match(errorsFor(catalog).join('\n'), /cooker_adaptation\.status is invalid/i);
+
+  recipe.cooker_adaptation = {
+    status: 'source_limited',
+    appliance_model: 'RC-3',
+    notes: '仅限 RC-3 程序。',
+  };
+  assert.match(errorsFor(catalog).join('\n'), /cooker_adaptation\.source_ids must be a nonempty/i);
+});
+
+test('requires model-scoped waterline evidence for a source-limited adaptation', () => {
+  // Removing source-limited waterline validation would make generic waterline claims pass.
+  const catalog = validCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.source_refs[0].claim_scopes.push('liquid', 'appliance');
+  recipe.cooker_adaptation = {
+    status: 'source_limited',
+    waterline: { scale: 'white_rice', mark: 3 },
+    source_ids: ['shanghai-fengxian-salted-pork-rice'],
+    notes: '仅限来源内锅水位线。',
+  };
+  assert.match(errorsFor(catalog).join('\n'), /model-scoped waterline/i);
+
+  recipe.cooker_adaptation.waterline.appliance_model = 'RC-3';
+  assert.deepEqual(errorsFor(catalog), []);
+});
+
+test('rejects a public row whose source-limited cooker adaptation lacks appliance evidence', () => {
+  // Removing source-limited adaptation source validation would let a public row bypass appliance evidence.
+  const catalog = factSourcedExecutableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.cooker_adaptation = {
+    status: 'source_limited',
+    appliance_model: 'RC-3',
+    source_ids: ['shanghai-fengxian-salted-pork-rice'],
+    notes: '仅限 RC-3 程序。',
+  };
+  assert.match(errorsFor(catalog).join('\n'), /cooker_adaptation.*does not support appliance/i);
+});
+
+test('requires risk-matched safety endpoints instead of rice tenderness for chicken', () => {
+  // Removing category-to-endpoint matching would let rice_tender satisfy raw poultry safety.
+  const catalog = factSourcedExecutableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.core_ingredients = ['米', '鸡肉'];
+  recipe.safety_endpoints = [{ code: 'rice_tender', source_ids: ['shanghai-fengxian-salted-pork-rice'] }];
+  assert.match(errorsFor(catalog).join('\n'), /poultry.*poultry_fully_cooked/i);
+
+  recipe.safety_endpoints[0].code = 'poultry_fully_cooked';
+  assert.deepEqual(errorsFor(catalog), []);
+});
+
+test('requires shellfish and risky-bean safety endpoints from the matching controlled categories', () => {
+  // Removing either category mapping would let an unrelated concrete endpoint satisfy both risks.
+  const catalog = factSourcedExecutableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.core_ingredients = ['米', '生蚝', '四季豆'];
+  recipe.safety_endpoints = [{ code: 'poultry_fully_cooked', source_ids: ['shanghai-fengxian-salted-pork-rice'] }];
+  let errors = errorsFor(catalog).join('\n');
+  assert.match(errors, /shellfish.*shellfish_fully_cooked/i);
+  assert.match(errors, /beans.*beans_fully_cooked/i);
+
+  recipe.safety_endpoints = [
+    { code: 'shellfish_fully_cooked', source_ids: ['shanghai-fengxian-salted-pork-rice'] },
+    { code: 'beans_fully_cooked', source_ids: ['shanghai-fengxian-salted-pork-rice'] },
+  ];
+  assert.deepEqual(errorsFor(catalog), []);
+});
+
+test('rejects duplicate source IDs before resolving fact-level references', () => {
+  // Removing duplicate-source validation would let a Map silently select one conflicting source.
+  const catalog = factSourcedExecutableCatalog();
+  const recipe = catalog.recipes[0];
+  recipe.source_refs.push({
+    ...recipe.source_refs[0],
+    claim_scopes: ['identity'],
+    url: 'https://www.fengxian.gov.cn/conflicting-source.html',
+  });
+  assert.match(errorsFor(catalog).join('\n'), /source_id duplicates/i);
 });

@@ -49,8 +49,23 @@ const MANDATORY_PROJECT_ORIGINAL_COMBINATION_VARIANT_IDS = new Set([
   'home-green-bean-pork-rib-rice',
   'home-mushroom-green-bean-pork-rib-rice',
 ]);
-const RAW_HIGH_RISK_INGREDIENT = /\b(raw\s+)?(poultry|chicken|turkey|duck|pork|beef|lamb|seafood|fish|shrimp|crab|egg|eggs|beans|wild\s+mushrooms?|live\s+shellfish)\b|生(?:鸡|禽|猪|牛|羊|鱼|虾|蟹|海鲜|鸡蛋|蛋|豆|野生蘑菇|贝)|(?:鸡|鸭|鹅|禽肉|猪肉|牛肉|羊肉|海鲜|鱼|虾|蟹|鸡蛋|生蛋|生豆|野生菌|活贝|蚝|牡蛎|蛤蜊|扇贝)|(?:生蚝|牡蛎|蚝|贝类|蛤蜊|扇贝)/i;
 const APPLIANCE_CLAIM = /电饭煲|电锅|饭煲|电压力锅|压力锅|空气炸锅|微波炉|烤箱|蒸箱|rice cooker|slow cooker|instant pot/i;
+const COOKER_ADAPTATION_STATUSES = new Set(['not_adapted', 'source_limited', 'adapted']);
+const ADAPTATION_ONLY_FIELDS = [
+  'appliance', 'appliance_name', 'appliance_model', 'named_appliance',
+  'program', 'waterline', 'adapted_name', 'source_ids',
+];
+const HIGH_RISK_CATEGORIES = [
+  ['poultry', /\b(chicken|turkey|duck|poultry)\b|鸡肉|鸡胸|鸡腿|鸡翅|鸡丁|鸡柳|鸡块|禽肉|鸭肉|鸭腿|鹅肉|火鸡/i, 'poultry_fully_cooked'],
+  ['pork', /\bpork\b|猪肉|猪排|猪绞肉|猪肉糜|排骨|腊肉/i, 'pork_fully_cooked'],
+  ['beef', /\bbeef\b|牛肉|牛腩|牛肉末/i, 'beef_fully_cooked'],
+  ['lamb', /\b(lamb|mutton)\b|羊肉|羊排/i, 'lamb_fully_cooked'],
+  ['shellfish', /\b(shrimp|prawn|crab|oyster|clam|mussel|scallop|shellfish)\b|虾|蟹|蚝|牡蛎|贝|蛤蜊|扇贝/i, 'shellfish_fully_cooked'],
+  ['seafood', /\b(seafood|fish)\b|海鲜|鱼肉|鲜鱼|鱼片/i, 'seafood_fully_cooked'],
+  ['egg', /\beggs?\b|鸡蛋|鸭蛋|鹅蛋|生蛋/i, 'egg_fully_cooked'],
+  ['beans', /\b(raw beans?|kidney beans?)\b|生豆|四季豆|芸豆|扁豆|菜豆|红腰豆|白芸豆/i, 'beans_fully_cooked'],
+  ['wild_mushrooms', /\bwild mushrooms?\b|野生菌|野生蘑菇/i, 'wild_mushrooms_fully_cooked'],
+];
 
 function isRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -114,10 +129,14 @@ function isMeaningfulFixedBatch(value) {
 function isMeaningfulLiquidContract(value) {
   if (!isNonEmptyRecord(value) || !nonEmptyString(value.kind)) return false;
   if (value.kind !== 'waterline') return isMeaningfulAmount(value.amount);
-  return isNonEmptyRecord(value.waterline)
-    && nonEmptyString(value.waterline.appliance_model)
-    && nonEmptyString(value.waterline.scale)
-    && (isPositiveFiniteNumber(value.waterline.mark) || nonEmptyString(value.waterline.mark));
+  return isModelScopedWaterline(value.waterline);
+}
+
+function isModelScopedWaterline(value) {
+  return isNonEmptyRecord(value)
+    && nonEmptyString(value.appliance_model)
+    && nonEmptyString(value.scale)
+    && (isPositiveFiniteNumber(value.mark) || nonEmptyString(value.mark));
 }
 
 function isMeaningfulNutritionRoles(value) {
@@ -181,16 +200,18 @@ function validateFactSourceIds(recipe, value, path, requiredScopes, errors) {
     return;
   }
 
-  const sourceById = new Map((Array.isArray(recipe.source_refs) ? recipe.source_refs : [])
-    .filter(isRecord)
-    .filter(source => nonEmptyString(source.source_id))
-    .map(source => [source.source_id, source]));
+  const sourceRefs = (Array.isArray(recipe.source_refs) ? recipe.source_refs : []).filter(isRecord);
   for (const sourceId of value.source_ids) {
-    const source = sourceById.get(sourceId);
-    if (!source) {
+    const matchingSources = sourceRefs.filter(source => source.source_id === sourceId);
+    if (matchingSources.length === 0) {
       errors.push(`${path}.source_ids references unknown source_id: ${sourceId}`);
       continue;
     }
+    if (matchingSources.length > 1) {
+      errors.push(`${path}.source_ids source_id ${sourceId} is ambiguous because source_id is duplicated`);
+      continue;
+    }
+    const [source] = matchingSources;
     const scopes = new Set(Array.isArray(source.claim_scopes) ? source.claim_scopes : []);
     for (const scope of requiredScopes) {
       if (!scopes.has(scope)) errors.push(`${path}.source_ids source_id ${sourceId} does not support ${scope}`);
@@ -248,9 +269,43 @@ function validateFactEvidence(recipe, path, errors) {
     validateFactSourceIds(recipe, endpoint, `${path}.safety_endpoints[${endpointIndex}]`, ['safety'], errors);
   }
 
-  if (isRecord(recipe.cooker_adaptation) && recipe.cooker_adaptation.status === 'adapted') {
-    validateFactSourceIds(recipe, recipe.cooker_adaptation, `${path}.cooker_adaptation`, ['appliance'], errors);
+}
+
+function validateCookerAdaptation(recipe, path, errors) {
+  const adaptation = recipe.cooker_adaptation;
+  const adaptationPath = `${path}.cooker_adaptation`;
+  if (!isNonEmptyRecord(adaptation)) {
+    errors.push(`${adaptationPath} must be an object`);
+    return;
   }
+  if (!COOKER_ADAPTATION_STATUSES.has(adaptation.status)) {
+    errors.push(`${adaptationPath}.status is invalid`);
+    return;
+  }
+  addRequiredStringError(errors, adaptation.notes, `${adaptationPath}.notes`);
+
+  if (adaptation.status === 'not_adapted') {
+    for (const field of ADAPTATION_ONLY_FIELDS) {
+      if (adaptation[field] != null) errors.push(`${adaptationPath}.${field} is not allowed for not_adapted`);
+    }
+    return;
+  }
+
+  const hasStructuredWaterline = adaptation.waterline != null;
+  if (hasStructuredWaterline && !isModelScopedWaterline(adaptation.waterline)) {
+    errors.push(`${adaptationPath}.waterline must be a model-scoped waterline`);
+  }
+  if (/水位线|waterline/i.test(adaptation.notes) && !hasStructuredWaterline) {
+    errors.push(`${adaptationPath}.waterline must be explicit when notes claim a waterline`);
+  }
+
+  validateFactSourceIds(
+    recipe,
+    adaptation,
+    adaptationPath,
+    hasStructuredWaterline ? ['appliance', 'liquid'] : ['appliance'],
+    errors,
+  );
 }
 
 function invalidExecutableFields(recipe) {
@@ -294,17 +349,19 @@ function collectText(value) {
 }
 
 export function containsRawHighRiskIngredient(recipe) {
-  const ingredients = [
-    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
-    ...(Array.isArray(recipe.fixed_batch?.ingredients) ? recipe.fixed_batch.ingredients : []),
-  ];
-  return ingredients.some(ingredient => {
-    if (nonEmptyString(ingredient)) return RAW_HIGH_RISK_INGREDIENT.test(ingredient);
-    if (!isRecord(ingredient)) return false;
-    return [ingredient.name, ingredient.ingredient, ingredient.canonical_name, ingredient.canonical_id]
-      .filter(nonEmptyString)
-      .some(name => RAW_HIGH_RISK_INGREDIENT.test(name));
-  });
+  return detectedHighRiskCategories(recipe).length > 0;
+}
+
+function detectedHighRiskCategories(recipe) {
+  const ingredientText = (Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [])
+    .flatMap(ingredient => {
+      if (nonEmptyString(ingredient)) return [ingredient];
+      if (!isRecord(ingredient)) return [];
+      return [ingredient.name, ingredient.ingredient, ingredient.canonical_name, ingredient.canonical_id]
+        .filter(nonEmptyString);
+    })
+    .join('\n');
+  return HIGH_RISK_CATEGORIES.filter(([, pattern]) => pattern.test(ingredientText));
 }
 
 function isProjectSelfCitation(url, projectHosts) {
@@ -351,6 +408,14 @@ function validatePromotionGates(recipe, path, errors) {
   }
   if (containsRawHighRiskIngredient(recipe) && !scopes.has('safety')) {
     errors.push(`${path} raw high-risk ingredients require safety support`);
+  }
+  const safetyCodes = new Set((Array.isArray(recipe.safety_endpoints) ? recipe.safety_endpoints : [])
+    .map(endpoint => endpoint?.code)
+    .filter(nonEmptyString));
+  for (const [category, , requiredEndpoint] of detectedHighRiskCategories(recipe)) {
+    if (!safetyCodes.has(requiredEndpoint)) {
+      errors.push(`${path} high-risk ${category} requires safety endpoint ${requiredEndpoint}`);
+    }
   }
 
   if (!isRecord(recipe.nutrition_structure)
@@ -426,9 +491,14 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
     if (!Array.isArray(recipe.source_refs) || recipe.source_refs.length === 0) {
       errors.push(`${path}.source_refs must be a nonempty array`);
     } else {
+      const sourceIds = new Set();
       recipe.source_refs.forEach((source, sourceIndex) => {
         const sourcePath = `${path}.source_refs[${sourceIndex}]`;
         validateSource(source, sourcePath, errors);
+        if (nonEmptyString(source?.source_id)) {
+          if (sourceIds.has(source.source_id)) errors.push(`${sourcePath}.source_id duplicates ${source.source_id}`);
+          sourceIds.add(source.source_id);
+        }
         if (source?.access_status === 'pdf_not_parsed' && recipe.status !== 'discovered') {
           errors.push(`${sourcePath}.pdf_not_parsed sources are discovery-only`);
         }
@@ -438,6 +508,7 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
       });
     }
     validateFactEvidence(recipe, path, errors);
+    validateCookerAdaptation(recipe, path, errors);
     validatePromotionGates(recipe, path, errors);
   }
 

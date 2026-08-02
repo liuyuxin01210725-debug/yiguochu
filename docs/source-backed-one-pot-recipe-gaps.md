@@ -61,6 +61,7 @@
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜香菇饭 (panasonic-fresh-shiitake-rice-sr-afg) — 非地域·厂商食谱
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 孔干饭 (sichuan-kongganfan) — CN-SC
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 南瓜饭 (taiwan-pumpkin-rice) — TW
