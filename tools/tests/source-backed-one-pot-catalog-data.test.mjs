@@ -437,6 +437,74 @@ test('retains the national source-backed candidates at their evidence-only statu
   }
 });
 
+test('locks each retained national candidate to its exact supported source, vessel, and core-ingredient boundary', () => {
+  // Treating process facts as vessels or core ingredients, or drifting provenance, must make this fail.
+  const recipes = new Map(sourceBackedCatalog().recipes.map(recipe => [recipe.recipe_id, recipe]));
+  const expected = {
+    'yutian-electric-cooker-lamb-pilaf': {
+      canonicalName: '手抓饭',
+      status: 'recipe_fact_checked',
+      vessels: ['炉上有盖锅', '电饭锅'],
+      ingredients: ['鲜羊肉', '胡萝卜', '洋葱', '油脂', '米'],
+      sources: [
+        ['yutian-electric-cooker-lamb-pilaf', '抓饭', '新疆和田地区于田县人民政府', 'https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html', ['identity', 'ingredients', 'process', 'appliance']],
+        ['S-XJ-ILI-1', '手抓饭', '伊犁哈萨克自治州人民政府', 'https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml', ['identity', 'ingredients', 'process', 'appliance']],
+      ],
+    },
+    'ningxia-wuzhong-rouzhanfan': {
+      canonicalName: '肉粘饭',
+      status: 'recipe_fact_checked',
+      vessels: [],
+      ingredients: ['宁夏大米', '牛肉或羊肉', '洋葱', '胡萝卜'],
+      sources: [['S-NX-1', '不尝一次宁夏大米，难以给胃一个交代！', '宁夏回族自治区农业农村厅（农宣中心）', 'https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html', ['identity', 'ingredients', 'process']]],
+    },
+    'yunnan-shidian-pea-potato-ham-rice': {
+      canonicalName: '豌豆洋芋火腿焖饭',
+      status: 'recipe_fact_checked',
+      vessels: ['罗锅'],
+      ingredients: ['火腿', '青豌豆仁', '洋芋', '米'],
+      sources: [['S-YN-1', '来老麦解锁青豌豆的N种“鲜”吃法', '施甸县人民政府门户网站 / 施甸融媒体中心', 'https://shidian.gov.cn/info/1111/3792183.htm', ['identity', 'ingredients', 'process', 'appliance']]],
+    },
+    'sichuan-kongganfan': {
+      canonicalName: '孔干饭',
+      status: 'recipe_fact_checked',
+      vessels: ['炉上锅'],
+      ingredients: ['米', '腊肉', '豆角', '洋芋'],
+      sources: [['S-SC-1', '曾颖：孔干饭', '四川省作家协会网站（页面标注来源四川日报）', 'https://www.sczjw.net.cn/read/detail/11028.html', ['identity', 'ingredients', 'liquid', 'process', 'appliance']]],
+    },
+    'hubei-enshi-shefan': {
+      canonicalName: '社饭',
+      status: 'identity_verified',
+      vessels: [],
+      ingredients: ['香蒿', '糯米'],
+      sources: [['S-HB-1', '恩施社节', '恩施州人民政府门户网站', 'https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml', ['identity', 'ingredients']]],
+    },
+  };
+
+  for (const [recipeId, expectedRecipe] of Object.entries(expected)) {
+    const recipe = recipes.get(recipeId);
+    assert.equal(recipe?.canonical_name, expectedRecipe.canonicalName, recipeId);
+    assert.equal(recipe?.status, expectedRecipe.status, recipeId);
+    assert.deepEqual(recipe?.traditional_vessels, expectedRecipe.vessels, recipeId);
+    assert.deepEqual(recipe?.core_ingredients, expectedRecipe.ingredients, recipeId);
+    assert.deepEqual(recipe?.source_refs.map(source => [
+      source.source_id, source.title, source.publisher, source.url, source.claim_scopes,
+    ]), expectedRecipe.sources, recipeId);
+    assert.ok(recipe?.source_refs.every(source => source.url.startsWith('https://')), recipeId);
+  }
+
+  const xinjiang = recipes.get('yutian-electric-cooker-lamb-pilaf');
+  assert.match(xinjiang?.evidence_notes ?? '', /S-XJ-ILI-1.*炉上有盖锅/u);
+  assert.match(xinjiang?.evidence_notes ?? '', /于田.*电饭锅/u);
+  assert.match(xinjiang?.cooker_adaptation?.notes ?? '', /S-XJ-ILI-1.*炉上有盖锅/u);
+  assert.match(xinjiang?.cooker_adaptation?.notes ?? '', /于田.*电饭锅/u);
+  assert.equal(xinjiang?.fixed_batch, null);
+  assert.equal(xinjiang?.liquid_contract, null);
+  assert.deepEqual(xinjiang?.cooking_sequence, []);
+  assert.equal(xinjiang?.time_contract, null);
+  assert.deepEqual(xinjiang?.safety_endpoints, []);
+});
+
 test('merges Ili hand-grab-rice evidence into the existing Xinjiang identity without blending cooker contracts', () => {
   // Splitting the identity into a duplicate or turning two limited sources into a recipe contract must fail.
   const recipes = sourceBackedCatalog().recipes;

@@ -64,7 +64,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋；少量水 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html) |
+| 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html) |
 ## taiwan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -95,7 +95,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米；盐；水 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [抓饭](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml) |
+| 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [抓饭](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml) |
 ## yunnan-seasonal-pea-potato-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
