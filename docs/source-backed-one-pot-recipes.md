@@ -157,7 +157,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 芋头饭 | — | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 米；芋头 | identity | 缺 ingredients、process | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
+| 芋头饭 | — | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 米；芋头 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[泉港区志（地方饮食章节）](https://upload.mnw.cn/2015/1119/1447919222239.pdf) |
 | 萝卜饭 | — | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 萝卜；带皮猪肉；香菇；海蛎；虾干；米 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
 | 闽南芥菜饭 | 咸饭；芥菜饭 | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 大米；芥菜；海蛎干；蛏干 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[芥菜饭](https://www.quanzhougastronomy.com/ch/msjy/fypx/202501/t20250104_3126968.htm) |
 ## minnan-seafood-rice
