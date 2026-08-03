@@ -29,8 +29,8 @@ tengchong-copper-pot-potato-rice,腾冲北海铜锅洋芋饭,云南 (CN-YN),yunn
 dong-steamed-she-rice,贵州侗家甑蒸社饭,贵州 (CN-GZ),wuling-she-rice,糯米/粳米 / 艾草 / 腊肉 / 花生 / 豆干,A,mixed-rice,甑蒸两条工艺分支,identity,identity_only,双工艺且无总克数液体,research_candidate
 wanshan-she-rice,铜仁万山社饭,贵州 (CN-GZ),wuling-she-rice,鲜米 / 糯米 / 蒿菜 / 野葱 / 豆子 / 花生 / 腊肉,A,mixed-rice,预煮、热泡、低焖,identity,identity_only,无总数量、液体和总时长；米态混合且为多阶段工艺,research_candidate
 huixian-ground-pot-chicken-rice,辉县地锅鸡米饭,河南 (CN-HA),ground-pot-rice,生米 / 鸡肉 / 干豆角 / 香菇 / 粉条,A,raw-rice,地锅鸡与米饭,identity,identity_only,来源明确给出鸡肉、米饭、干豆角、香菇和末段粉条的工艺，但没有固定数量、液体、时间、份数或电饭煲适配,research_candidate
-lianyuan-bamboo-rice,涟源腊肉红枣竹筒饭,湖南 (CN-HN),bamboo-rice,米 / 腊肉 / 红枣,B,raw-rice,火烤竹筒,identity,identity_only,火烤器具身份且无数量液体,research_candidate
-xiangjiangyuan-bamboo-rice,湘江源瑶家竹筒饭,湖南 (CN-HN),bamboo-rice,糯米 / 茶豆 / 猪肉末,A,glutinous-rice,竹筒火烤,identity / quantity,partial,需食品安全竹筒与首煮液体,research_candidate
+lianyuan-bamboo-rice,涟源腊肉红枣竹筒饭,湖南 (CN-HN),bamboo-rice,粳米或糯米 / 腊肉 / 红枣,B,raw-rice,粳米或糯米配腊肉红枣，温火翻烤约20分钟,identity,identity_only,来源给出粳米或糯米、腊肉、红枣和约20分钟温火翻烤，但无固定总克数、液体、安全终点或现代电饭煲适配,research_candidate
+xiangjiangyuan-bamboo-rice,湘江源瑶家竹筒饭,湖南 (CN-HN),bamboo-rice,糯米 / 茶豆 / 猪肉末,A,glutinous-rice,三分之一糯米、三分之一茶豆、三分之一瘦肉末装竹筒、粽叶封口后蒸半小时,identity / quantity,partial,来源给出三等分原料和半小时蒸制，但无固定总克数、液体、安全终点或现代电饭煲适配,research_candidate
 mayang-she-rice,麻阳社饭,湖南 (CN-HN),wuling-she-rice,粳米 / 糯米 / 社蒿菜 / 腊肉 / 野藠 / 大蒜苗,A,mixed-rice,粳米/糯米3:7预煮沥米或甑蒸,identity,identity_only,来源给出粳米/糯米3:7和煮、甑蒸两条分支，但无固定总量、液体、时间或电饭煲适配,research_candidate
 xiangxi-she-rice,湘西社饭,湖南 (CN-HN),wuling-she-rice,粘米 / 糯米 / 蒿菜 / 腊肉 / 葫葱,A,mixed-rice,三分之一粘米半熟、三分之二糯米煮熟后焖半小时,identity,identity_only,来源同时写“按三比一”与“三分之一粘米、三分之二糯米”，比例对象/表述需人工裁决；无固定总克数、液体或电饭煲适配,research_candidate
 yichang-cured-pork-braised-rice,宜昌腊肉焖饭,湖北 (CN-HB),middle-yangtze-cured-rice,米 / 腊肉,C,rice-state-unverified,宜昌市发展改革委官方页面在三峡一桌菜中点名，未提供腊肉焖饭制作流程,identity,identity_only,官方页面当前跳转循环，只能核验搜索摘录中的菜名和组合；缺米态、工艺、数量、液体、时间、器具和安全终点,identity_only

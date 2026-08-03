@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 10,
-      recipe_fact_checked: 46,
+      recipe_fact_checked: 48,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -315,6 +315,38 @@ test('records Xiangxi she rice while preserving the source ratio contradiction',
   assert.match(recipe?.evidence_notes || '', /三分之一的粘米.*三分之二的糯米/);
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'time']);
+});
+
+test('records Xiangjiangyuan Yao bamboo rice with its source-stated thirds', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'xiangjiangyuan-bamboo-rice');
+  assert.equal(recipe?.canonical_name, '湘江源瑶家竹筒饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '茶豆', '猪肉末']);
+  assert.deepEqual(recipe?.traditional_vessels, ['竹筒']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.time_contract, { total_minutes: 30, source_ids: ['S-HN-LANSHAN-BAMBOO-RICE-1'] });
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.evidence_notes || '', /三分之一糯米、三分之一茶豆、三分之一瘦肉末/);
+  assert.match(recipe?.evidence_notes || '', /粽叶/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'time']);
+});
+
+test('records Lianyuan cured-pork red-date bamboo rice with its named local source', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'lianyuan-bamboo-rice');
+  assert.equal(recipe?.canonical_name, '涟源腊肉红枣竹筒饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['粳米或糯米', '腊肉', '红枣']);
+  assert.deepEqual(recipe?.traditional_vessels, ['竹筒', '火烤']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.time_contract, { total_minutes: 20, source_ids: ['S-HN-LIANYUAN-BAMBOO-RICE-1'] });
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.evidence_notes || '', /粳米或糯米/);
+  assert.match(recipe?.evidence_notes || '', /温火.*20分钟/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'time']);
 });
 
 test('structures the Guangzhou government electric-cooker taro and cured-pork rice recipe without inventing a batch or time', () => {

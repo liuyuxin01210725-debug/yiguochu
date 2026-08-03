@@ -181,8 +181,8 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 涟源腊肉红枣竹筒饭 | 米、腊肉、红枣 | B | raw-rice | 火烤竹筒 | identity | identity_only | 火烤器具身份且无数量液体 | research_candidate |
-| 湘江源瑶家竹筒饭 | 糯米、茶豆、猪肉末 | A | glutinous-rice | 竹筒火烤 | identity、quantity | partial | 需食品安全竹筒与首煮液体 | research_candidate |
+| 涟源腊肉红枣竹筒饭 | 粳米或糯米、腊肉、红枣 | B | raw-rice | 粳米或糯米配腊肉红枣，温火翻烤约20分钟 | identity | identity_only | 来源给出粳米或糯米、腊肉、红枣和约20分钟温火翻烤，但无固定总克数、液体、安全终点或现代电饭煲适配 | research_candidate |
+| 湘江源瑶家竹筒饭 | 糯米、茶豆、猪肉末 | A | glutinous-rice | 三分之一糯米、三分之一茶豆、三分之一瘦肉末装竹筒、粽叶封口后蒸半小时 | identity、quantity | partial | 来源给出三等分原料和半小时蒸制，但无固定总克数、液体、安全终点或现代电饭煲适配 | research_candidate |
 
 ### wuling-she-rice
 

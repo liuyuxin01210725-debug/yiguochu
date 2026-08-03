@@ -176,5 +176,56 @@
       "status":"recipe_fact_checked",
       "evidence_notes":"湖南省人民政府页面记录湘西凤凰土乡苗寨社饭的地域身份、蒿菜去苦焙干、腊肉与葫葱、粘米和糯米，以及盖锅焖约半个钟头的流程。来源先写“按三比一的方法”，随后又写三分之一的粘米与三分之二的糯米；本条保留这一表述冲突，不把它改写成单一比例或固定批量，也不补写来源没有给出的液体、安全终点、份数或电饭煲适配。"
     }
+    ,
+    {
+      "recipe_id":"xiangjiangyuan-bamboo-rice",
+      "canonical_name":"湘江源瑶家竹筒饭",
+      "aliases":["湘江源竹筒饭","瑶家竹筒饭"],
+      "region_codes":["CN-HN"],
+      "cuisine_family":"xiangjiangyuan-bamboo-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["竹筒"],
+      "core_ingredients":["糯米","茶豆","猪肉末"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"按来源记载准备三分之一糯米、三分之一茶豆和三分之一瘦肉末；来源称茶豆为湘江源瑶族乡的地方食材。","source_ids":["S-HN-LANSHAN-BAMBOO-RICE-1"]},
+        {"step":2,"instruction":"将蒸好的茶豆饭从竹筒一端塞入，保持另一端封住以免漏出。","source_ids":["S-HN-LANSHAN-BAMBOO-RICE-1"]},
+        {"step":3,"instruction":"用剪好的粽叶包裹竹筒两端并用棕丝扎紧；来源记载竹筒饭做好后放锅里蒸半小时。","source_ids":["S-HN-LANSHAN-BAMBOO-RICE-1"]}
+      ],
+      "time_contract":{"total_minutes":30,"source_ids":["S-HN-LANSHAN-BAMBOO-RICE-1"]},
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"蓝山县人民政府来源支持竹筒装填、粽叶封口和锅中蒸制的地方做法，未提供固定总克数、液体、安全终点或现代电饭煲等价参数。"},
+      "source_refs":[{"source_id":"S-HN-LANSHAN-BAMBOO-RICE-1","title":"湘聚缘柴火山庄","publisher":"蓝山县人民政府 / 县旅游局","url":"https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml","retrieved_at":"2026-08-03","source_kind":"county_government_tourism_food_page","access_status":"opened","evidence_locator":"正文第80至81行：湘江源瑶家竹筒饭三等分原料、蒸熟茶豆饭装筒、粽叶封口，以及前文第72行半小时蒸制记载","claim_scopes":["identity","ingredients","quantity","process","time"],"attribution":"蓝山县人民政府 / 县旅游局","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"蓝山县人民政府页面记录湘江源瑶家竹筒饭的三分之一糯米、三分之一茶豆、三分之一瘦肉末，说明蒸好的茶豆饭装入竹筒、粽叶包口并用棕丝扎紧，另记竹筒饭锅蒸半小时。本条保留来源的三等分与竹筒工艺，不补写固定克数、液体、安全终点、份数或电饭煲适配。"
+    }
+    ,
+    {
+      "recipe_id":"lianyuan-bamboo-rice",
+      "canonical_name":"涟源腊肉红枣竹筒饭",
+      "aliases":["涟源竹筒饭","腊肉红枣竹筒饭"],
+      "region_codes":["CN-HN"],
+      "cuisine_family":"lianyuan-bamboo-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["竹筒","火烤"],
+      "core_ingredients":["粳米或糯米","腊肉","红枣"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"按来源记载以粳米或糯米为主料，配腊肉、红枣装入竹筒；来源未给固定用量或装填比例。","source_ids":["S-HN-LIANYUAN-BAMBOO-RICE-1"]},
+        {"step":2,"instruction":"将竹筒置于温火上慢慢翻烤，约二十分钟后取食。","source_ids":["S-HN-LIANYUAN-BAMBOO-RICE-1"]}
+      ],
+      "time_contract":{"total_minutes":20,"source_ids":["S-HN-LIANYUAN-BAMBOO-RICE-1"]},
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"湖南省文化和旅游厅来源支持涟源竹筒饭的原料身份和温火翻烤约二十分钟，未提供固定总克数、液体、安全终点或现代电饭煲等价参数。"},
+      "source_refs":[{"source_id":"S-HN-LIANYUAN-BAMBOO-RICE-1","title":"跟着旅发大会游涟源|来一场舌尖上的美食之旅！","publisher":"湖南省文化和旅游厅","url":"https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html","retrieved_at":"2026-08-03","source_kind":"provincial_tourism_food_article","access_status":"search_extract_opened","evidence_locator":"搜索结果正文：涟源竹筒饭身份、粳米或糯米、腊肉、红枣及温火翻烤约20分钟","claim_scopes":["identity","ingredients","process","time"],"attribution":"湖南省文化和旅游厅","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"湖南省文化和旅游厅页面记录涟源竹筒饭以粳米或糯米为原料、配腊肉和红枣，在温火上慢慢翻烤，约20分钟后食用。本条保留这道具名地方饭的原料与器具工艺，不补写固定克数、液体、安全终点、份数或电饭煲适配。"
+    }
   ]
 }

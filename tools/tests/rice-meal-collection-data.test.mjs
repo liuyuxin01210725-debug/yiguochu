@@ -169,6 +169,36 @@ test('keeps Xiangxi she rice ratio wording unresolved', async () => {
   assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
 });
 
+test('keeps Xiangjiangyuan bamboo rice thirds and bamboo process explicit', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'xiangjiangyuan-bamboo-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: null, label: '糯米' },
+    { canonical_id: null, label: '茶豆' },
+    { canonical_id: 'ground-pork', label: '猪肉末' },
+  ]);
+  assert.equal(candidate?.quantity_liquid_completeness, 'partial');
+  assert.match(candidate?.traditional_appliance_and_steps || '', /三分之一.*竹筒.*半小时/);
+  assert.match(candidate?.blockers.join('\n') || '', /无固定总克数/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '湘聚缘柴火山庄');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+});
+
+test('keeps Lianyuan bamboo rice source wording and roast boundary explicit', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'lianyuan-bamboo-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: null, label: '粳米或糯米' },
+    { canonical_id: null, label: '腊肉' },
+    { canonical_id: null, label: '红枣' },
+  ]);
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.traditional_appliance_and_steps || '', /温火.*20分钟/);
+  assert.match(candidate?.blockers.join('\n') || '', /无固定总克数/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '跟着旅发大会游涟源|来一场舌尖上的美食之旅！');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

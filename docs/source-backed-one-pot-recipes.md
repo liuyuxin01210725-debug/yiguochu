@@ -57,6 +57,11 @@
 | 香青菜咸肉饭 | — | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 吴江香青菜；咸肉；饭 | identity、ingredients | 缺 process | [吴江香青菜入选国家地理标志产品](https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml) |
 | 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 大米；青菜；咸肉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html)<br>[Shanghai Cai Fan (上海菜饭) – Rice with Salted Pork and Greens](https://thewoksoflife.com/shanghai-cai-fan-rice-salted-pork-greens/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 蚕豆菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 蚕豆；猪肉丁；牛心菜；饭 | appliance、identity、ingredients、process、safety、time | 缺 quantity、liquid | [外婆的蚕豆菜饭](https://mzj.sh.gov.cn/lnb-hf/20250519/8cfe8d45a5e846c0a441161c21226bef.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## lianyuan-bamboo-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 涟源腊肉红枣竹筒饭 | 涟源竹筒饭；腊肉红枣竹筒饭 | CN-HN | lianyuan-bamboo-rice | 研究记录（非公开可执行） | 粳米或糯米；腊肉；红枣 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [跟着旅发大会游涟源\|来一场舌尖上的美食之旅！](https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html) |
 ## 厂商电饭煲食谱
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -186,6 +191,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 酉州社饭 | 社饭 | CN-CQ | wuling-she-rice | 研究记录（非公开可执行） | 米；腊肉；豆腐干；野菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [典籍里的酉阳美食](https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html) |
+## xiangjiangyuan-bamboo-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 湘江源瑶家竹筒饭 | 湘江源竹筒饭；瑶家竹筒饭 | CN-HN | xiangjiangyuan-bamboo-rice | 研究记录（非公开可执行） | 糯米；茶豆；猪肉末 | identity、ingredients、process、quantity、time | 缺 liquid、appliance、safety | [湘聚缘柴火山庄](https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml) |
 ## xiangxi-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

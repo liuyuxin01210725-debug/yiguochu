@@ -1857,12 +1857,12 @@
       ],
       "rice_state": "glutinous-rice",
       "nutrition_grade": "A",
-      "traditional_appliance_and_steps": "竹筒火烤",
+      "traditional_appliance_and_steps": "三分之一糯米、三分之一茶豆、三分之一瘦肉末装竹筒、粽叶封口后蒸半小时",
       "identity_sources": [
         {
-          "title": "湘江源瑶家竹筒饭",
+          "title": "湘聚缘柴火山庄",
           "publisher": "蓝山县人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml",
           "supports": [
             "identity",
@@ -1873,7 +1873,7 @@
       "quantity_liquid_completeness": "partial",
       "adaptation_level": "E4",
       "blockers": [
-        "需食品安全竹筒与首煮液体"
+        "来源给出三等分原料和半小时蒸制，但无固定总克数、液体、安全终点或现代电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1886,8 +1886,8 @@
       "family": "bamboo-rice",
       "core_ingredients": [
         {
-          "canonical_id": "raw-rice",
-          "label": "米"
+          "canonical_id": null,
+          "label": "粳米或糯米"
         },
         {
           "canonical_id": null,
@@ -1900,12 +1900,12 @@
       ],
       "rice_state": "raw-rice",
       "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "火烤竹筒",
+      "traditional_appliance_and_steps": "粳米或糯米配腊肉红枣，温火翻烤约20分钟",
       "identity_sources": [
         {
-          "title": "涟源腊肉红枣竹筒饭",
+          "title": "跟着旅发大会游涟源|来一场舌尖上的美食之旅！",
           "publisher": "湖南省文旅厅",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html",
           "supports": [
             "identity"
@@ -1915,7 +1915,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "火烤器具身份且无数量液体"
+        "来源给出粳米或糯米、腊肉、红枣和约20分钟温火翻烤，但无固定总克数、液体、安全终点或现代电饭煲适配"
       ],
       "status": "research_candidate"
     },

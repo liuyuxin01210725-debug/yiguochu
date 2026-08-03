@@ -19,6 +19,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
@@ -47,6 +48,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
@@ -61,6 +63,7 @@
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
@@ -81,11 +84,13 @@
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
+- 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
@@ -125,6 +130,7 @@
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
@@ -134,6 +140,7 @@
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
