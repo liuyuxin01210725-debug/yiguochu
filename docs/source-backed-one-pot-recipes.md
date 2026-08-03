@@ -199,7 +199,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 陵川和锅大米 | 一锅出；柴火大米 | CN-SX | shanxi-heguo-rice | 研究记录（非公开可执行） | 米饭；蔬菜或副食 | identity、ingredients | 缺 process | [陵川和锅大米](https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml) |
+| 陵川和锅大米 | 一锅出；柴火大米 | CN-SX | shanxi-heguo-rice | 研究记录（非公开可执行） | 大米；干豆角 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [陵川和锅大米](https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml)<br>[太行、长城、黄河旅游公路沿线美食之晋城篇 \| 太行古道上的泽州食韵](https://app-new.sxwbs.com/pages/2026/04/24/bc279d8c60bf4588824d5f8f84222c47.html) |
 ## shexian-millet-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
