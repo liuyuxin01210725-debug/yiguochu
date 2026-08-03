@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 62,
+    recipe_fact_checked: 63,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1142,6 +1142,32 @@ test('records Daojiao dragon-boat rice with its named local process and staged g
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /道滘.*龙船饭.*来源没有给.*固定数量.*电饭煲/u);
+});
+
+test('records Zhangpu Jiangnan vegetable rice as a named Kunshan locality variant', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'kunshan-zhangpu-jiangnan-vegetable-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '张浦江南菜饭');
+  assert.deepEqual(recipe?.aliases, ['江南菜饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-JS']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['柴火土灶']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '金华村腊肉', '矮脚青菜']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, [
+    { step: 1, instruction: '以张浦本土大米、金华村腊肉和矮脚青菜，经柴火土灶焖煮鲜炒制成江南菜饭。', source_ids: ['S-JS-KUNSHAN-ZHANGPU-JIANGNAN-RICE-1'] },
+  ]);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.ks.gov.cn/kss/bmdt/202505/b349fef57c6746d9ba9538434d020019.shtml');
+  assert.equal(source?.publisher, '昆山市住房和城乡建设局');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /江南菜饭张浦灶.*来源没有给.*固定数量.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {

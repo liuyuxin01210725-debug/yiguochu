@@ -732,6 +732,29 @@
       "source_refs":[{"source_id":"S-GD-DONGGUAN-DRAGON-BOAT-RICE-1","title":"来道滘！吃龙船饭+看龙舟赛，绝配！","publisher":"东莞市人民政府门户网站 / 道滘镇","url":"https://www.dg.gov.cn/daojiao/jjd40/d40xw/content/post_4220034.html","retrieved_at":"2026-08-03","source_kind":"municipal_town_government_food_culture_article","access_status":"opened","evidence_locator":"正文第22至28行的端午传统身份；第32至51行的原料、炒料、糯米与粘米浸泡蒸熟、调味和拌合流程","claim_scopes":["identity","ingredients","process"],"attribution":"东莞市人民政府门户网站 / 道滘镇","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"东莞市道滘镇政府页面将龙船饭明确记为端午扒龙船时的传统美食，并给出香菇、虾米、腊鸭肝、腊肠、瘦肉等配料，先炒料，再将糯米和粘米浸泡蒸熟，最后调味拌合的流程。来源没有给固定数量、液体、总时间、安全终点或现代电饭煲适配，因此只保留龙船饭原名、地域身份、分阶段制作和食材边界，不补写执行合同。"
+    },
+    {
+      "recipe_id":"kunshan-zhangpu-jiangnan-vegetable-rice",
+      "canonical_name":"张浦江南菜饭",
+      "aliases":["江南菜饭"],
+      "region_codes":["CN-JS"],
+      "cuisine_family":"kunshan-zhangpu-jiangnan-vegetable-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["柴火土灶"],
+      "core_ingredients":["大米","金华村腊肉","矮脚青菜"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"以张浦本土大米、金华村腊肉和矮脚青菜，经柴火土灶焖煮鲜炒制成江南菜饭。","source_ids":["S-JS-KUNSHAN-ZHANGPU-JIANGNAN-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"昆山市人民政府来源记录张浦江南菜饭的柴火土灶焖煮鲜炒边界，未提供电饭煲等价适配、固定批量、液体、时间或安全终点。"},
+      "source_refs":[{"source_id":"S-JS-KUNSHAN-ZHANGPU-JIANGNAN-RICE-1","title":"走进传统村落 | 腊肉制作跻身非遗名录 金华村北华翔","publisher":"昆山市住房和城乡建设局","url":"https://www.ks.gov.cn/kss/bmdt/202505/b349fef57c6746d9ba9538434d020019.shtml","retrieved_at":"2026-08-03","source_kind":"municipal_government_traditional_village_food_article","access_status":"opened","evidence_locator":"正文第74至76行：江南菜饭张浦灶品牌及大米、金华村腊肉、矮脚青菜、柴火土灶焖煮鲜炒描述","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"昆山市住房和城乡建设局","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"昆山市住房和城乡建设局页面将‘江南菜饭张浦灶’作为张浦金华村的地方品牌，明确写出张浦本土大米、金华村腊肉和矮脚青菜，以及柴火土灶焖煮鲜炒的做法边界。来源没有给固定数量、液体、总时间、安全终点或现代电饭煲适配，因此只保留地域具名、核心食材、器具和原文过程，不补写执行合同。"
     }
   ]
 }
