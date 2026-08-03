@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 8,
-    recipe_fact_checked: 34,
+    identity_verified: 7,
+    recipe_fact_checked: 35,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -369,7 +369,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'shanghai-broad-bean-vegetable-rice': 'recipe_fact_checked',
     'wujiang-fragrant-greens-salted-pork-rice': 'identity_verified',
     'nanjing-aijiaohuang-rice': 'identity_verified',
-    'wenzhou-mustard-greens-rice': 'identity_verified',
+    'wenzhou-mustard-greens-rice': 'recipe_fact_checked',
     'quanzhou-radish-rice': 'identity_verified',
     'minnan-salty-rice': 'recipe_fact_checked',
     'quanzhou-taro-rice': 'identity_verified',
@@ -441,6 +441,7 @@ test('structures the Zhanjiang galangal-leaf rice cooker process without inventi
     item.recipe_id === 'zhanjiang-galangal-leaf-rice'
   ));
   const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-ZHANJIANG-GALOU-1');
+  const standardSource = recipe?.source_refs.find(item => item.source_id === 'S-GD-ZHANJIANG-GALOU-STANDARD-1');
 
   assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.equal(recipe?.identity_status, 'verified');
@@ -460,6 +461,30 @@ test('structures the Zhanjiang galangal-leaf rice cooker process without inventi
   assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
   assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.equal(standardSource?.access_status, 'search_extract_opened');
+  assert.ok(standardSource?.claim_scopes.includes('liquid'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Wenzhou Nanji mustard-greens rice event process without inventing quantities or a cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'wenzhou-mustard-greens-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JN-5');
+
+  assert.equal(recipe?.canonical_name, '温州南麂芥菜饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['芥菜', '肉末', '米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /洗菜.*切肉.*淘米.*大锅.*翻炒/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

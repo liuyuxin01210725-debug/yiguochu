@@ -28,6 +28,7 @@
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
+- 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 
 ## 4. Missing liquid
 
@@ -44,9 +45,9 @@
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
-- 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
+- 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 
 ## 5. Missing process
 
@@ -79,6 +80,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
+- 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 
 ## 8. Missing safety
 

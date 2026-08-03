@@ -130,7 +130,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 蛤蒌饭 | — | CN-GD | western-guangdong-herb-rice | 研究记录（非公开可执行） | 蛤蒌叶；香米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [蛤蒌饭](https://www.zhanjiang.gov.cn/zjms/content/post_1743734.html) |
+| 蛤蒌饭 | — | CN-GD | western-guangdong-herb-rice | 研究记录（非公开可执行） | 蛤蒌叶；香米 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [蛤蒌饭](https://www.zhanjiang.gov.cn/zjms/content/post_1743734.html)<br>[湛江地方标准（蛤蒌饭条目）](https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf) |
 ## xinjiang-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -155,4 +155,4 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 温州南麂芥菜饭 | — | CN-ZJ | zhejiang-festival-rice | 研究记录（非公开可执行） | 芥菜；肉末；米 | identity、ingredients、process | 当前状态所需证据已齐 | [南麂：春龙抬首暖海岛 芥饭飘香邻里情](https://www.wzdj.gov.cn/system/2026/03/19/015430433.shtml) |
+| 温州南麂芥菜饭 | — | CN-ZJ | zhejiang-festival-rice | 研究记录（非公开可执行） | 芥菜；肉末；米 | identity、ingredients、process | 缺 quantity、liquid、time | [南麂：春龙抬首暖海岛 芥饭飘香邻里情](https://www.wzdj.gov.cn/system/2026/03/19/015430433.shtml) |
