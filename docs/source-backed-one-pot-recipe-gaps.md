@@ -19,6 +19,7 @@
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
+- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
@@ -72,6 +73,7 @@
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
+- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
@@ -121,7 +123,6 @@
 
 ## 5. Missing process
 
-- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
@@ -137,6 +138,7 @@
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
+- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -164,6 +166,7 @@
 - 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
+- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
@@ -215,6 +218,7 @@
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH

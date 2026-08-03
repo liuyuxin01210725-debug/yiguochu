@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 10,
-    recipe_fact_checked: 73,
+    identity_verified: 9,
+    recipe_fact_checked: 74,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -222,6 +222,30 @@ test('keeps every migrated recipe non-public until safety and complete execution
       assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
     }
   }
+});
+
+test('records the Fujian beef mustard-greens rice process without inventing beef-specific timing or quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'fujian-beef-mustard-greens-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-FJ-MUSTARD-BEEF-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '牛肉盖菜饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['牛肉', '盖菜', '米饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /盖菜.*焯水.*苦味/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /盖菜.*米饭同煮.*咸饭.*焖煮/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /没有给出牛肉投料顺序、固定数量、液体、时间、安全终点或电饭煲适配/u);
 });
 
 test('records Pingtan golden-crab glutinous rice as a named banquet rice dish without inventing quantities or cooker equivalence', () => {
@@ -1378,24 +1402,26 @@ test('records Yanshan broad-bean braised rice from the local media process witho
   assert.match(recipe?.evidence_notes ?? '', /来源没有给.*固定.*米水比例.*电饭煲/u);
 });
 
-test('records Fujian beef mustard-greens rice as a named regional identity without inventing its recipe contract', () => {
+test('records Fujian beef mustard-greens rice process facts without inventing a beef recipe contract', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'fujian-beef-mustard-greens-rice');
   assert.equal(recipe?.canonical_name, '牛肉盖菜饭');
   assert.deepEqual(recipe?.aliases, ['盖菜牛肉饭']);
   assert.deepEqual(recipe?.region_codes, ['CN-FJ']);
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.traditional_vessels, []);
   assert.deepEqual(recipe?.core_ingredients, ['牛肉', '盖菜', '米饭']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /盖菜.*焯水.*苦味/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /盖菜.*米饭同煮.*咸饭.*焖煮/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://m.thepaper.cn/newsDetail_forward_32454690');
-  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
-  assert.match(recipe?.evidence_notes ?? '', /直接列出.*牛肉盖菜饭.*来源没有给.*固定.*步骤/u);
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /直接列出.*牛肉盖菜饭.*没有给出牛肉投料顺序.*固定.*时间/u);
 });
 
 test('records Chikan claypot-rice craft with the government-sourced claypot process without inventing a cooker contract', () => {

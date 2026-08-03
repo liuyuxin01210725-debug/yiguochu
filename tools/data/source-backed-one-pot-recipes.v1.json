@@ -308,15 +308,18 @@
       "core_ingredients":["牛肉","盖菜","米饭"],
       "fixed_batch":null,
       "liquid_contract":null,
-      "cooking_sequence":[],
+      "cooking_sequence":[
+        {"step":1,"instruction":"盖菜可先焯水，以减轻苦味。","source_ids":["S-FJ-MUSTARD-BEEF-RICE-1"]},
+        {"step":2,"instruction":"盖菜可与米饭同煮，形成福建咸饭或焖煮类家常吃法；来源没有给出牛肉的具体投料顺序。","source_ids":["S-FJ-MUSTARD-BEEF-RICE-1"]}
+      ],
       "time_contract":null,
       "safety_endpoints":[],
       "allergen_labels":[],
       "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
-      "cooker_adaptation":{"status":"not_adapted","notes":"福建地方媒体只列出牛肉盖菜饭这一具名吃法，并概述盖菜与米饭同煮的福建咸饭家常结构；未提供器具、固定批量、液体、步骤、时间、安全终点或现代电饭煲适配。"},
-      "source_refs":[{"source_id":"S-FJ-MUSTARD-BEEF-RICE-1","title":"最近福建人的餐桌被盖菜“霸屏”！福建“省菜”真不是盖的","publisher":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","url":"https://m.thepaper.cn/newsDetail_forward_32454690","retrieved_at":"2026-08-03","source_kind":"district_government_media_food_article","access_status":"opened","evidence_locator":"正文第27至33行列出牛肉盖菜饭；第47至51行解释盖菜名称；第118至119行说明盖菜与米饭同煮是福建咸饭、焖煮家常结构","claim_scopes":["identity","ingredients"],"attribution":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","license":"terms_unspecified"}],
-      "status":"identity_verified",
-      "evidence_notes":"福建地方媒体在福建盖菜的地域饮食报道中直接列出“牛肉盖菜饭”，并说明盖菜在福建常与米饭同煮、形成咸饭或焖煮家常吃法；来源没有给这道具名组合的固定数量、液体、完整步骤、时间、安全终点或电饭煲适配，因此只保留身份与核心食材，不建立执行合同。"
+      "cooker_adaptation":{"status":"not_adapted","notes":"福建地方媒体补充盖菜可焯水、搭配油脂并与米饭同煮，但未提供牛肉投料顺序、器具、固定批量、液体、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-FJ-MUSTARD-BEEF-RICE-1","title":"最近福建人的餐桌被盖菜“霸屏”！福建“省菜”真不是盖的","publisher":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","url":"https://m.thepaper.cn/newsDetail_forward_32454690","retrieved_at":"2026-08-03","source_kind":"district_government_media_food_article","access_status":"opened","evidence_locator":"正文第27至33行列出牛肉盖菜饭；第47至51行解释盖菜名称；第118至119行说明盖菜可焯水并与米饭同煮、形成福建咸饭或焖煮家常结构","claim_scopes":["identity","ingredients","process"],"attribution":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","license":"terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"福建地方媒体在福建盖菜的地域饮食报道中直接列出“牛肉盖菜饭”，并说明盖菜可先焯水、搭配油脂、与米饭同煮形成咸饭或焖煮类家常吃法；这些是盖菜米饭结构的来源事实，不等同于完整的牛肉投料配方。来源没有给出牛肉投料顺序、固定数量、液体、时间、安全终点或电饭煲适配，因此只补来源明确的盖菜米饭工序，不建立执行合同。"
     },
     {
       "recipe_id":"chikan-claypot-rice-craft",
