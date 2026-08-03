@@ -6,7 +6,6 @@
   "regional_blanks": [
     {"region_code":"CN-NM","candidate_name":"未保留候选","reason":"未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。","searched_at":"2026-08-02"},
     {"region_code":"CN-LN","candidate_name":"东北一锅出","reason":"可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。","searched_at":"2026-08-02"},
-    {"region_code":"CN-JL","candidate_name":"未保留候选","reason":"未取得可用原始来源或具名咸味一锅米饭证据。","searched_at":"2026-08-02"},
     {"region_code":"CN-AH","candidate_name":"未保留候选","reason":"未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-JX","candidate_name":"未保留候选","reason":"未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-SD","candidate_name":"未保留候选","reason":"线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。","searched_at":"2026-08-02"},
@@ -1223,6 +1222,29 @@
       "source_refs":[{"source_id":"S-HL-HEZHE-MOWENGGU-1","title":"炒鱼毛 鱼刨花 鱼汤面 赫哲族美食亮相冰城","publisher":"黑龙江省文化和旅游厅（生活报）","url":"https://wlt.hlj.gov.cn/wlt/c115584/202509/c00_31876156.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_culture_tourism_hosted_food_article","access_status":"opened","evidence_locator":"正文第35至42行：赫哲族全鱼宴与日常饮食，以及莫温古饭由鱼或兽肉与小米一同烹制成稀饭的说明","claim_scopes":["identity","ingredients","process"],"attribution":"黑龙江省文化和旅游厅 / 生活报","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"黑龙江省文化和旅游厅转载资料将莫温古饭列为赫哲族日常饮食，并明确说明鱼或兽肉与小米一同烹制成稀饭。来源没有固定鱼种或肉种、克数、液体、时间、器具、安全终点或电饭煲适配，因此不把这些空白补成合同。"
+    },
+    {
+      "recipe_id":"jilin-red-bean-sorghum-rice",
+      "canonical_name":"吉林小豆高粱米饭",
+      "aliases":["小豆高粱米饭"],
+      "region_codes":["CN-JL"],
+      "cuisine_family":"jilin-red-bean-sorghum-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["大锅"],
+      "core_ingredients":["小豆","高粱米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"吉林民间饮食习俗记载，办喜事时宴席前一顿多为大锅焖的小豆高粱米饭。","source_ids":["S-JL-RED-BEAN-SORGHUM-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"来源只记录吉林民俗中的大锅焖制，不提供家庭份量、豆类预处理、液体、时间、安全终点或现代电饭煲适配参数。"},
+      "source_refs":[{"source_id":"S-JL-RED-BEAN-SORGHUM-RICE-1","title":"吉林民间饮食习俗：以大黄米、白小米为主食","publisher":"中国新闻网 / 中国吉林网","url":"https://www.chinanews.com.cn/gn/2010/12-21/2736898.shtml","retrieved_at":"2026-08-03","source_kind":"regional_news_food_custom_article","access_status":"search_extract_opened","evidence_locator":"搜索摘录：过去城乡以大锅做饭；办喜事时宴席前一顿多为大锅焖的小豆高粱米饭","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中国新闻网 / 中国吉林网","license":"terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"中国新闻网转引中国吉林网的吉林民间饮食习俗文章明确记载，办喜事时宴席前一顿多为大锅焖的小豆高粱米饭。本条只保留小豆、高粱米、大锅焖和地方婚宴食俗事实；来源没有固定小豆和高粱米用量、液体、时间、豆类预处理、安全终点或电饭煲适配，因此不补写可执行合同。"
     }
   ]
 }

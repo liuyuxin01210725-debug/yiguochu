@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 5,
+    identity_verified: 6,
     recipe_fact_checked: 95,
   });
   for (const recipe of catalog.recipes) {
@@ -251,6 +251,34 @@ test('records Hezhe Mowenggu rice porridge as a named millet meal without invent
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(source?.evidence_locator ?? '', /正文第35至42行/);
   assert.match(recipe?.evidence_notes ?? '', /没有固定鱼种或肉种、克数、液体、时间/u);
+});
+
+test('records Jilin red-bean sorghum rice as a named wedding-pot staple without inventing its missing contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'jilin-red-bean-sorghum-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-JL-RED-BEAN-SORGHUM-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '吉林小豆高粱米饭');
+  assert.deepEqual(recipe?.aliases, ['小豆高粱米饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-JL']);
+  assert.deepEqual(recipe?.traditional_vessels, ['大锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['小豆', '高粱米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /办喜事时.*宴席前一顿.*大锅焖.*小豆高粱米饭/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /办喜事时.*宴席前一顿.*大锅焖/u);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定小豆和高粱米用量、液体、时间/u);
 });
 
 test('records the Fujian beef mustard-greens rice process without inventing beef-specific timing or quantities', () => {
