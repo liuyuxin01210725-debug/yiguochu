@@ -25,6 +25,7 @@
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
+- 河曲酸粥 (hequ-sour-porridge) — CN-SX
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
@@ -49,6 +50,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
+- 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
@@ -102,6 +104,7 @@
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
+- 河曲酸粥 (hequ-sour-porridge) — CN-SX
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
@@ -127,6 +130,7 @@
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
+- 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
@@ -194,6 +198,7 @@
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
@@ -226,6 +231,7 @@
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黎家竹筒饭 (hainan-li-bamboo-tube-rice) — CN-HI
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
+- 河曲酸粥 (hequ-sour-porridge) — CN-SX
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
@@ -251,6 +257,7 @@
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
+- 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH

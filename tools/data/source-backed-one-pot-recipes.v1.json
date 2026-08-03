@@ -1425,6 +1425,58 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"靖远县人民政府页面称糁饭是当地传统家常饭和主要食品，区分小米、黄米、白米等米料以及麦面、豆面、包谷面等变体，并给出淘米煮沸、七八成熟加面搅拌、盖锅焖制的传统流程；另一页面说明黄米或白米糁饭是当地农村常见主食，并与酸菜炒肉片等同桌。本条只保留米面混合结构与来源直接描述的三步过程，不把‘适量水’改写为固定液体；来源没有固定用量、时间、安全终点或电饭煲适配，不补写执行合同。"
+    },
+    {
+      "recipe_id":"hequ-sour-porridge",
+      "canonical_name":"河曲酸粥",
+      "aliases":["五米酸粥","酸饭"],
+      "region_codes":["CN-SX"],
+      "cuisine_family":"hequ-sour-porridge",
+      "identity_status":"verified",
+      "traditional_vessels":["锅","浆米罐"],
+      "core_ingredients":["糜子","大米","小米","糯米","玉米碜子","酸浆"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将糜子、大米、小米、糯米和玉米碜子放进酸浆（酸水）里泡一晚上，形成河曲酸粥的浆米。","source_ids":["S-SX-HEQU-SOUR-PORRIDGE-2"]},
+        {"step":2,"instruction":"第二天把泡好的浆米煮熟；来源将其记为河曲人一年四季常吃的早饭。","source_ids":["S-SX-HEQU-SOUR-PORRIDGE-1","S-SX-HEQU-SOUR-PORRIDGE-2"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"来源记录的是含自然发酵酸浆的河曲传统酸粥，未提供家庭发酵卫生控制、固定批量、液体比例、煮制时间、安全终点或现代电饭煲适配；本条不把酸浆发酵改写成可直接执行的现代方案。"},
+      "source_refs":[
+        {"source_id":"S-SX-HEQU-SOUR-PORRIDGE-1","title":"河曲酸粥","publisher":"太原日报 / 凤凰网山西","url":"https://sx.ifeng.com/c/81RYDj4uLIm","retrieved_at":"2026-08-03","source_kind":"regional_newspaper_food_culture_article","access_status":"opened","evidence_locator":"正文第36至43行：河曲酸粥身份、糜米与浆米罐、泡米发酵后煮粥的地方饮食背景","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"太原日报，经凤凰网山西转载","license":"publisher_terms_unspecified"},
+        {"source_id":"S-SX-HEQU-SOUR-PORRIDGE-2","title":"山西，被低估的华北早餐大省→ 早起真的不吃‘剩饭’","publisher":"山西新闻网 / 澎湃新闻转载","url":"https://m.thepaper.cn/baijiahao_24402905","retrieved_at":"2026-08-03","source_kind":"regional_news_food_culture_article","access_status":"opened","evidence_locator":"正文第48至60行：忻州酸粥、五米组成、酸水浸泡一晚后次日煮熟及饭搭子背景","claim_scopes":["identity","ingredients","process"],"attribution":"山西新闻网，经澎湃新闻转载","license":"publisher_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"两条来源共同支持河曲酸粥/五米酸粥的具名地域身份、糜子或糜米与大米/小米/糯米/玉米碜子的组合，以及酸水浸泡一夜、次日煮熟的传统过程。来源还记录浆米罐和长期家庭发酵背景，但没有提供发酵卫生控制、固定用量、液体量、时间、安全终点或电饭煲适配；因此本条只进入研究目录，不建立家庭发酵安全合同。"
+    },
+    {
+      "recipe_id":"ningxia-lamb-tiaohe-rice",
+      "canonical_name":"羊肉调和饭",
+      "aliases":["调和饭"],
+      "region_codes":["CN-NX"],
+      "cuisine_family":"ningxia-lamb-tiaohe-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["米","面","土豆","豆类","豆腐"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"宁夏来源称调和饭把米、面、土豆、豆类（各种豆子）和豆腐放在一起煮；本条保留来源正文的材料清单，不把标题中的‘羊肉’补进正文未列出的核心食材。","source_ids":["S-NX-LAMB-TIAOHE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"宁夏回族自治区文化和旅游厅来源只支持调和饭的具名身份、米面薯豆腐同锅煮制和小吃语境，未提供固定批量、液体、时间、安全终点或现代电饭煲适配。标题称‘羊肉调和’，但正文材料段没有列羊肉，本条不擅自修复这一来源差异。"},
+      "source_refs":[
+        {"source_id":"S-NX-LAMB-TIAOHE-RICE-1","title":"羊肉调和","publisher":"宁夏回族自治区文化和旅游厅","url":"https://www.nx.gov.cn/ssjn/rwnx/pxms/202304/t20230407_4022896.html","retrieved_at":"2026-08-03","source_kind":"autonomous_region_tourism_food_culture_page","access_status":"opened","evidence_locator":"正文第24至31行：‘羊肉调和饭’身份、米面土豆豆类豆腐同锅煮制及宁夏腊八饮食背景","claim_scopes":["identity","ingredients","process"],"attribution":"宁夏回族自治区文化和旅游厅","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"宁夏回族自治区文化和旅游厅页面把羊肉调和饭列为宁夏特色美食，正文称调和饭用米、面、土豆、各种豆子和豆腐放在一起煮，并说明其腊八与老宁夏饮食背景。由于标题写‘羊肉’而正文材料段未列羊肉，本条保留这一冲突，不把羊肉补进核心配料；来源没有固定用量、液体、时间、安全终点或电饭煲适配，因此不建立执行合同。"
     }
   ]
 }

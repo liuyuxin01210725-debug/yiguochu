@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 101,
+    recipe_fact_checked: 103,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3818,5 +3818,72 @@ test('records Jingyuan sanfan as a named mixed-grain staple with its source-stat
   assert.equal(contextSource?.access_status, 'opened');
   assert.deepEqual(contextSource?.claim_scopes, ['identity', 'ingredients']);
   assert.match(contextSource?.evidence_locator ?? '', /正文第12至16行/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Hequ sour porridge without turning fermented grain facts into a modern safety contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'hequ-sour-porridge'
+  ));
+  const identitySource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SX-HEQU-SOUR-PORRIDGE-1'
+  ));
+  const processSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SX-HEQU-SOUR-PORRIDGE-2'
+  ));
+
+  assert.equal(recipe?.canonical_name, '河曲酸粥');
+  assert.deepEqual(recipe?.aliases, ['五米酸粥', '酸饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-SX']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅', '浆米罐']);
+  assert.deepEqual(recipe?.core_ingredients, ['糜子', '大米', '小米', '糯米', '玉米碜子', '酸浆']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糜子.*酸浆.*泡.*一晚上/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /第二天.*煮熟/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('家庭发酵背景'));
+  assert.ok(recipe?.evidence_notes.includes('不建立家庭发酵安全合同'));
+  assert.equal(identitySource?.access_status, 'opened');
+  assert.deepEqual(identitySource?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(identitySource?.evidence_locator ?? '', /第36至43行/u);
+  assert.equal(processSource?.access_status, 'opened');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(processSource?.evidence_locator ?? '', /第48至60行/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Ningxia lamb tiaohe rice as a named mixed-grain one-pot food without resolving the source title mismatch', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'ningxia-lamb-tiaohe-rice'
+  ));
+  const official = recipe?.source_refs.find(item => (
+    item.source_id === 'S-NX-LAMB-TIAOHE-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '羊肉调和饭');
+  assert.deepEqual(recipe?.aliases, ['调和饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-NX']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '面', '土豆', '豆类', '豆腐']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米.*面.*土豆.*豆类.*豆腐.*一起煮/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('标题写'));
+  assert.ok(recipe?.evidence_notes.includes('正文材料段未列羊肉'));
+  assert.equal(official?.access_status, 'opened');
+  assert.deepEqual(official?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(official?.evidence_locator ?? '', /第24至31行/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

@@ -94,6 +94,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 赫哲族莫温古饭 | 莫温古饭；鱼肉粥 | CN-HL | heizhe-mowenggu-millet-porridge | 研究记录（非公开可执行） | 小米；鱼或兽肉 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [炒鱼毛 鱼刨花 鱼汤面 赫哲族美食亮相冰城](https://wlt.hlj.gov.cn/wlt/c115584/202509/c00_31876156.shtml) |
+## hequ-sour-porridge
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 河曲酸粥 | 五米酸粥；酸饭 | CN-SX | hequ-sour-porridge | 研究记录（非公开可执行） | 糜子；大米；小米；糯米；玉米碜子；酸浆 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [河曲酸粥](https://sx.ifeng.com/c/81RYDj4uLIm)<br>[山西，被低估的华北早餐大省→ 早起真的不吃‘剩饭’](https://m.thepaper.cn/baijiahao_24402905) |
 ## huangpu-cured-meat-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -231,6 +236,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 宁河甑乡肉焖儿 | — | CN-TJ | ninghe-zeng-rice | 研究记录（非公开可执行） | 大米；猪肉；香菇 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [望山见水忆乡愁（图）](https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm)<br>[〖新闻发布会〗最美“丰”景，津郊“乡”约，“四个十”活动打造天津丰收季](https://www.zhonghongwang.com/show-257-286448-1.html) |
+## ningxia-lamb-tiaohe-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 羊肉调和饭 | 调和饭 | CN-NX | ningxia-lamb-tiaohe-rice | 研究记录（非公开可执行） | 米；面；土豆；豆类；豆腐 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [羊肉调和](https://www.nx.gov.cn/ssjn/rwnx/pxms/202304/t20230407_4022896.html) |
 ## ningxia-steamed-meat-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
