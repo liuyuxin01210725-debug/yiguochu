@@ -846,6 +846,34 @@
       "evidence_notes":"国家民族事务委员会页面将菠萝紫米饭列为傣族特色米食；广西新闻网美食频道进一步记录云南傣族菠萝饭的传统流程：糯米浸泡2小时以上后蒸熟，菠萝掏空去心、切碎拌白糖、火腿丁、青豌豆或果脯，再装回菠萝上屉蒸20分钟。本条保留具名身份、菠萝容器和蒸制边界，不补写固定数量、液体、完整总时长、安全终点或电饭煲适配；火腿和青豌豆/果脯存在可选分支，营养标为甜味米食的C级研究条目，不包装成均衡主餐。"
     },
     {
+      "recipe_id":"longlin-five-color-sticky-rice",
+      "canonical_name":"隆林五色糯米饭",
+      "aliases":["五色糯米饭","五色饭","花米饭"],
+      "region_codes":["CN-GX"],
+      "cuisine_family":"guangxi-zhuang-five-color-sticky-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["木甑","蒸桶"],
+      "core_ingredients":["糯米","枫叶","黄饭花","红蓝草","紫蕃滕"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将枫叶、黄饭花、红蓝草、紫蕃滕等植物染料捣烂、风干后浸泡或煮沸，滤去叶渣，得到染料液。","source_ids":["S-GX-LONGLIN-FIVE-COLOR-RICE-1"]},
+        {"step":2,"instruction":"将洗净的糯米放入染料液中浸泡至少4个小时，通常一夜；待上色后放油抛匀。","source_ids":["S-GX-LONGLIN-FIVE-COLOR-RICE-1"]},
+        {"step":3,"instruction":"将各色糯米放入木甑或蒸桶大火蒸制；来源分别记载40至50分钟和约1小时，保留该时长差异。","source_ids":["S-GX-LONGLIN-FIVE-COLOR-RICE-1","S-GX-LONGLIN-FIVE-COLOR-RICE-2"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"隆林县政府来源支持木甑/蒸桶和植物染液浸泡、蒸制的壮族传统做法，未提供现代电饭煲等价程序、固定批量、液体或安全终点；不改写为电饭煲主餐。"},
+      "source_refs":[
+        {"source_id":"S-GX-LONGLIN-FIVE-COLOR-RICE-1","title":"品味隆林五色糯米饭","publisher":"中共隆林各族自治县委员会宣传部","url":"https://www.longlin.gov.cn/index.php?c=show&id=72818","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第55至86行：隆林壮族五色糯米饭身份、植物染液、至少4小时浸泡及大火蒸40至50分钟流程","claim_scopes":["identity","ingredients","process","time"],"attribution":"中共隆林各族自治县委员会宣传部","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GX-LONGLIN-FIVE-COLOR-RICE-2","title":"蒸腾五色糯米饭 备足山歌赛干粮","publisher":"中共隆林各族自治县委员会宣传部","url":"https://www.longlin.gov.cn/index.php?c=show&id=72858","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第56至64行：壮族三月三传统身份、植物染料浸泡和蒸桶蒸煮约一小时","claim_scopes":["identity","ingredients","process","time","appliance"],"attribution":"中共隆林各族自治县委员会宣传部","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"隆林县政府两篇地方文化页面都明确记录壮族三月三的五色糯米饭，写出枫叶、黄饭花、红蓝草、紫蕃滕等植物染料、染液浸泡糯米和木甑/蒸桶蒸制流程；一篇记载糯米至少浸泡4小时、蒸40至50分钟，另一篇记载蒸约一小时。本条保留两条来源的时长差异，不取平均，不补写固定数量、液体、安全终点或电饭煲适配；其核心只有糯米和植物染色，营养标为C级研究条目，不包装成均衡主餐。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

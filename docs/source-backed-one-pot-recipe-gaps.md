@@ -21,6 +21,7 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
+- 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
@@ -86,6 +87,7 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
+- 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA

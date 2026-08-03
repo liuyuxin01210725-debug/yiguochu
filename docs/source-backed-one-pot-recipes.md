@@ -59,6 +59,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 广式生炒糯米饭 | 生炒糯米饭 | CN-GD | guangdong-raw-stir-fried-glutinous-rice | 研究记录（非公开可执行） | 生糯米；腊肠；虾米；香菇；泡菇水 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [12种好吃到令广州人丧失理智的米饭！](https://gzwxb.gov.cn/context/contextId/201941) |
+## guangxi-zhuang-five-color-sticky-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 隆林五色糯米饭 | 五色糯米饭；五色饭；花米饭 | CN-GX | guangxi-zhuang-five-color-sticky-rice | 研究记录（非公开可执行） | 糯米；枫叶；黄饭花；红蓝草；紫蕃滕 | appliance、identity、ingredients、process、time | 缺 quantity、liquid | [品味隆林五色糯米饭](https://www.longlin.gov.cn/index.php?c=show&id=72818)<br>[蒸腾五色糯米饭 备足山歌赛干粮](https://www.longlin.gov.cn/index.php?c=show&id=72858) |
 ## guangzhou-cured-meat-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

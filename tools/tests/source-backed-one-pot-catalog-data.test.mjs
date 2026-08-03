@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 86,
+    recipe_fact_checked: 87,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1286,6 +1286,41 @@ test('records Dai pineapple rice with its named sweet-rice identity and steaming
   assert.match(recipe?.evidence_notes ?? '', /傣族.*菠萝饭.*糯米/u);
   assert.match(recipe?.evidence_notes ?? '', /火腿丁.*青豌豆.*果脯.*20分钟/u);
   assert.match(recipe?.evidence_notes ?? '', /甜味米食.*C级.*不包装成均衡主餐/u);
+});
+
+test('records Longlin Zhuang five-color sticky rice without collapsing its two steaming-time sources', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'longlin-five-color-sticky-rice');
+  const detailedSource = recipe?.source_refs?.find(item => item.source_id === 'S-GX-LONGLIN-FIVE-COLOR-RICE-1');
+  const processSource = recipe?.source_refs?.find(item => item.source_id === 'S-GX-LONGLIN-FIVE-COLOR-RICE-2');
+
+  assert.equal(recipe?.canonical_name, '隆林五色糯米饭');
+  assert.deepEqual(recipe?.aliases, ['五色糯米饭', '五色饭', '花米饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GX']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '枫叶', '黄饭花', '红蓝草', '紫蕃滕']);
+  assert.deepEqual(recipe?.traditional_vessels, ['木甑', '蒸桶']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /植物染料.*捣.*浸泡|煮沸.*过滤/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /糯米.*染料液.*浸泡.*至少4个小时/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /木甑|蒸桶.*40至50分钟.*约1小时/u);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(detailedSource?.url, 'https://www.longlin.gov.cn/index.php?c=show&id=72818');
+  assert.equal(detailedSource?.publisher, '中共隆林各族自治县委员会宣传部');
+  assert.deepEqual(detailedSource?.claim_scopes, ['identity', 'ingredients', 'process', 'time']);
+  assert.equal(processSource?.url, 'https://www.longlin.gov.cn/index.php?c=show&id=72858');
+  assert.equal(processSource?.publisher, '中共隆林各族自治县委员会宣传部');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process', 'time', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /壮族.*三月三.*五色糯米饭/u);
+  assert.match(recipe?.evidence_notes ?? '', /40至50分钟.*约一小时|约一小时.*40至50分钟/u);
+  assert.match(recipe?.evidence_notes ?? '', /C级.*不包装成均衡主餐/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {
