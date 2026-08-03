@@ -152,7 +152,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 浥饭 | 油饭 | CN-FJ | minnan-mixed-rice | 研究记录（非公开可执行） | 红葱头油；大米；三层肉；香菇；豆干；蚵干；干贝 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [泉州人的一生，离不开“吃桌”！](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202411/t20241122_3107926.htm) |
+| 浥饭 | 油饭 | CN-FJ | minnan-mixed-rice | 研究记录（非公开可执行） | 红葱头油；大米；三层肉；香菇；豆干；蚵干；干贝 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [泉州人的一生，离不开“吃桌”！](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202411/t20241122_3107926.htm) |
 ## minnan-salty-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -164,7 +164,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 红蟳饭 | — | CN-FJ | minnan-seafood-rice | 研究记录（非公开可执行） | 红蟳；米；香菇；小干贝；三层肉 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [红蟳饭：软糯鲜香回味长](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202506/t20250624_3182398.htm) |
+| 红蟳饭 | — | CN-FJ | minnan-seafood-rice | 研究记录（非公开可执行） | 红蟳；米；香菇；小干贝；三层肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [红蟳饭：软糯鲜香回味长](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202506/t20250624_3182398.htm) |
 ## minnan-steamed-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 17,
-    recipe_fact_checked: 66,
+    identity_verified: 15,
+    recipe_fact_checked: 68,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -609,8 +609,8 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'minnan-salty-rice': 'recipe_fact_checked',
     'quanzhou-taro-rice': 'identity_verified',
     'shenhu-huzaifan': 'recipe_fact_checked',
-    'quanzhou-yifan-oil-rice': 'identity_verified',
-    'quanzhou-red-xun-rice': 'identity_verified',
+    'quanzhou-yifan-oil-rice': 'recipe_fact_checked',
+    'quanzhou-red-xun-rice': 'recipe_fact_checked',
     'taiwan-cabbage-rice': 'recipe_fact_checked',
     'taiwan-mushroom-bamboo-shoot-rice': 'recipe_fact_checked',
     'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
@@ -641,6 +641,48 @@ test('records reviewed coverage and the evidence status of every eastern researc
   });
 });
 
+test('keeps the official Quanzhou yifan process instead of leaving its identity-only row empty', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'quanzhou-yifan-oil-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-MN-2');
+
+  assert.equal(recipe?.canonical_name, '浥饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['柴火大锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['红葱头油', '大米', '三层肉', '香菇', '豆干', '蚵干', '干贝']);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /红葱头油.*大米.*三层肉.*香菇.*豆干.*蚵干.*干贝.*柴火大锅.*煮熟/u);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.match(recipe?.evidence_notes ?? '', /浥饭.*柴火大锅.*来源没有给.*有效液体.*总时间.*海味安全.*电饭煲/u);
+});
+
+test('keeps the official Quanzhou red-xun process and its pressure-pot or steamer branches explicit', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'quanzhou-red-xun-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-MN-3');
+
+  assert.equal(recipe?.canonical_name, '红蟳饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['高压锅', '蒸笼']);
+  assert.deepEqual(recipe?.core_ingredients, ['红蟳', '米', '香菇', '小干贝', '三层肉']);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /红蟳.*清洗.*宰杀.*过油.*切/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /香菇.*小干贝.*三层肉.*米.*混合/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /两条分支.*高压锅.*蒸笼/u);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.match(recipe?.evidence_notes ?? '', /红蟳.*团体标准.*没有给.*固定.*蟹类安全.*电饭煲/u);
+});
+
 test('keeps eastern source identities distinct and source claims bounded', () => {
   // Merging source formulations or turning vessel evidence into rice-cooker support is a data bug.
   const recipes = sourceBackedCatalog().recipes;
@@ -653,11 +695,14 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
     'taiwan-tongzai-rice-cake',
     'cantonese-cured-meat-claypot-rice',
     'cantonese-mushroom-chicken-claypot-rice',
-    'quanzhou-red-xun-rice',
   ]) {
     const recipe = byId.get(recipeId);
     assert.ok(!/电饭煲|电锅|rice cooker/i.test(recipe?.cooker_adaptation?.notes ?? ''), recipeId);
   }
+
+  const redXun = byId.get('quanzhou-red-xun-rice');
+  assert.equal(redXun?.cooker_adaptation?.status, 'not_adapted');
+  assert.match(redXun?.cooker_adaptation?.notes ?? '', /不提供现代电饭煲等价/u);
 
   for (const recipe of recipes.filter(recipe => recipe.region_codes.some(code => (
     ['CN-SH', 'CN-JS', 'CN-ZJ', 'CN-FJ', 'CN-GD', 'TW'].includes(code)

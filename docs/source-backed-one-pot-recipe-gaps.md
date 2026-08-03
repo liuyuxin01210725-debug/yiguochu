@@ -29,7 +29,9 @@
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
+- 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
+- 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
@@ -76,7 +78,9 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
+- 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
+- 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -165,7 +169,9 @@
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
+- 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
+- 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -203,6 +209,8 @@
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
+- 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
