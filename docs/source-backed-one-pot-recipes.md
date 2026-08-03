@@ -377,6 +377,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 人参果饭 | 人参果拌饭 | CN-XZ | tibet-ginseng-fruit-rice | 研究记录（非公开可执行） | 米饭；人参果；酥油；白糖 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [人参果饭](https://www.shannan.gov.cn/zjsn/snly/tsms/202405/t20240509_135414.html)<br>[阿坝州特色小吃](https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201803/95058a485d21443aa7b091a330df2518.shtml)<br>[雪域齐欢乐 西藏各族群众欢庆春节藏历新年](https://pulan.gov.cn/info/2641/36531.htm) |
+## tibet-mida-rice-porridge
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 咪达 | 命名粥 | CN-XZ | tibet-mida-rice-porridge | 研究记录（非公开可执行） | 米饭；盐；酥油；肉丁；红枣；杏干；葡萄干 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [西藏的饮食](https://www.npc.gov.cn/WZWSREL3pncmR3L25wYy96dC9xdC94emRidGNmbWovMjAwOS0wMy8xOC9jb250ZW50XzE0OTM5MDguaHRt) |
 ## tongren-seasonal-shefan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

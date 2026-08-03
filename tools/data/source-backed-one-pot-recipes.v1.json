@@ -1533,6 +1533,32 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"山南市人民政府与阿坝州地方志办公室共同支持人参果饭/人参果拌饭的藏族节庆身份、熟米饭与煮熟人参果各半、白糖和滚烫酥油的基础组合及过程；普兰县人民政府转载新华社的材料记录了加入葡萄干、先在锅中炒匀的地区变体，但本条不把该变体混入基础核心。现有来源没有固定数量、液体量、总时间、现代家庭安全终点或电饭煲适配，因此不建立执行合同。"
+    },
+    {
+      "recipe_id":"tibet-mida-rice-porridge",
+      "canonical_name":"咪达",
+      "aliases":["命名粥"],
+      "region_codes":["CN-XZ"],
+      "cuisine_family":"tibet-mida-rice-porridge",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["米饭","盐","酥油","肉丁","红枣","杏干","葡萄干"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将米饭煮成稀粥。","source_ids":["S-XZ-NPC-MIDA-RICE-1"]},
+        {"step":2,"instruction":"加入少许盐、酥油、肉丁、红枣、杏干和葡萄干，盖紧锅盖焖后充分搅拌。","source_ids":["S-XZ-NPC-MIDA-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"中国人大网来源记录咪达的稀粥、酥油、肉丁和干果组合及小火焖后搅拌流程，但原文时长写作‘对小时’，语义不清；没有固定批量、液体、现代电饭煲参数或家庭安全终点，因此不建立时长或电饭煲执行合同。"},
+      "source_refs":[
+        {"source_id":"S-XZ-NPC-MIDA-RICE-1","title":"西藏的饮食","publisher":"中国人大网","url":"https://www.npc.gov.cn/WZWSREL3pncmR3L25wYy96dC9xdC94emRidGNmbWovMjAwOS0wMy8xOC9jb250ZW50XzE0OTM5MDguaHRt","retrieved_at":"2026-08-03","source_kind":"national_government_food_culture_page","access_status":"search_extract_opened","evidence_locator":"搜索摘录：咪达意为命名粥；米饭煮成稀粥后加入盐、酥油、肉丁、红枣、杏干、葡萄干，盖锅小火焖后搅拌；原文时长表述为‘对小时’，未据此建立时间合同","claim_scopes":["identity","ingredients","process"],"attribution":"中国人大网","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"中国人大网饮食文化页面明确记录咪达（意为命名粥）的身份、米饭煮稀粥后加入盐、酥油、肉丁、红枣、杏干和葡萄干，以及盖锅焖后搅拌的过程。原文时长出现‘对小时’这一含混表述，且没有固定数量、液体量、现代家庭安全终点或电饭煲适配，因此本条保留具名来源与材料流程，不建立时长合同，不擅自修正时长或补写执行参数。"
     }
   ]
 }
