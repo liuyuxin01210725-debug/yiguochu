@@ -1504,6 +1504,35 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"连南瑶族自治县人民政府页面记录瑶家竹筒饭是瑶胞外出劳作时就地取材制作的具名米饭，以米、盐和山泉水入竹筒，木塞封口后埋入热火灰煨炙约半小时。来源提到山野菜是另行煮熟的伴菜，没有肉类填充，也没有固定克数、液体比例、安全终点或电饭煲适配；本条仅记录原始竹筒饭过程。"
+    },
+    {
+      "recipe_id":"tibet-renshenggu-rice",
+      "canonical_name":"人参果饭",
+      "aliases":["人参果拌饭"],
+      "region_codes":["CN-XZ"],
+      "cuisine_family":"tibet-ginseng-fruit-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅","碗"],
+      "core_ingredients":["米饭","人参果","酥油","白糖"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将人参果煮熟。","source_ids":["S-XZ-ABA-RENSHENGGU-RICE-1"]},
+        {"step":2,"instruction":"将煮熟的米饭和人参果各一半盛入碗内。","source_ids":["S-XZ-SHANNAN-RENSHENGGU-RICE-1","S-XZ-ABA-RENSHENGGU-RICE-1"]},
+        {"step":3,"instruction":"撒上白糖，再淋入滚烫的酥油。","source_ids":["S-XZ-SHANNAN-RENSHENGGU-RICE-1","S-XZ-ABA-RENSHENGGU-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"山南市人民政府和阿坝州地方志办公室来源支持的是藏族节庆人参果饭/人参果拌饭，过程包含先煮熟人参果、与熟米饭入碗并淋滚烫酥油；普兰县人民政府转载新华社的材料还记录了加入葡萄干并在锅中炒匀的变体。本条不把变体合并进基础核心，也没有把熟饭拌制改写成现代电饭煲一锅合同。"},
+      "source_refs":[
+        {"source_id":"S-XZ-SHANNAN-RENSHENGGU-RICE-1","title":"人参果饭","publisher":"山南市人民政府","url":"https://www.shannan.gov.cn/zjsn/snly/tsms/202405/t20240509_135414.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_food_page","access_status":"opened","evidence_locator":"正文第7至19行：人参果饭身份、米饭/人参果/酥油/白糖主要原料、熟米饭与煮熟人参果各半入碗及滚烫酥油流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"山南市人民政府","license":"government_site_terms_unspecified"},
+        {"source_id":"S-XZ-ABA-RENSHENGGU-RICE-1","title":"阿坝州特色小吃","publisher":"阿坝州地方志办公室","url":"https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201803/95058a485d21443aa7b091a330df2518.shtml","retrieved_at":"2026-08-03","source_kind":"prefecture_gazette_food_culture_page","access_status":"opened","evidence_locator":"正文第37至40行：节庆人参果饭身份、煮人参果、米饭、白糖及滚烫酥油汁流程","claim_scopes":["identity","ingredients","process"],"attribution":"阿坝州地方志办公室","license":"government_site_terms_unspecified"},
+        {"source_id":"S-XZ-PULAN-RENSHENGGU-RICE-1","title":"雪域齐欢乐 西藏各族群众欢庆春节藏历新年","publisher":"阿里地区普兰县人民政府（新华社）","url":"https://pulan.gov.cn/info/2641/36531.htm","retrieved_at":"2026-08-03","source_kind":"county_government_xinhua_food_culture_article","access_status":"opened","evidence_locator":"正文第87至98行：藏历新年首餐人参果饭身份、浸泡人参果/葡萄干、酥油融化后入锅炒匀的变体","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"新华社经阿里地区普兰县人民政府转载","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"山南市人民政府与阿坝州地方志办公室共同支持人参果饭/人参果拌饭的藏族节庆身份、熟米饭与煮熟人参果各半、白糖和滚烫酥油的基础组合及过程；普兰县人民政府转载新华社的材料记录了加入葡萄干、先在锅中炒匀的地区变体，但本条不把该变体混入基础核心。现有来源没有固定数量、液体量、总时间、现代家庭安全终点或电饭煲适配，因此不建立执行合同。"
     }
   ]
 }

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 104,
+    recipe_fact_checked: 105,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3917,5 +3917,43 @@ test('records Liannan Yao bamboo-tube rice with the source-stated charcoal proce
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance', 'time']);
   assert.match(source?.evidence_locator ?? '', /正文第22至27行/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Tibetan ginseng-fruit rice from government food-culture sources without inventing an electric-cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'tibet-renshenggu-rice'
+  ));
+  const shannan = recipe?.source_refs.find(item => (
+    item.source_id === 'S-XZ-SHANNAN-RENSHENGGU-RICE-1'
+  ));
+  const aba = recipe?.source_refs.find(item => (
+    item.source_id === 'S-XZ-ABA-RENSHENGGU-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '人参果饭');
+  assert.deepEqual(recipe?.aliases, ['人参果拌饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-XZ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅', '碗']);
+  assert.deepEqual(recipe?.core_ingredients, ['米饭', '人参果', '酥油', '白糖']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /人参果.*煮熟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /熟.*米饭.*人参果.*各一半.*碗/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /白糖.*滚烫.*酥油/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没有固定数量'));
+  assert.ok(recipe?.evidence_notes.includes('葡萄干'));
+  assert.equal(shannan?.access_status, 'opened');
+  assert.deepEqual(shannan?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(shannan?.evidence_locator ?? '', /正文第7至19行/u);
+  assert.equal(aba?.access_status, 'opened');
+  assert.deepEqual(aba?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(aba?.evidence_locator ?? '', /正文第37至40行/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
