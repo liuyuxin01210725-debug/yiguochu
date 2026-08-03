@@ -153,6 +153,22 @@ test('keeps Mayang she rice source terms and rice split explicit', async () => {
   assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
 });
 
+test('keeps Xiangxi she rice ratio wording unresolved', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'xiangxi-she-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: null, label: '粘米' },
+    { canonical_id: null, label: '糯米' },
+    { canonical_id: null, label: '蒿菜' },
+    { canonical_id: null, label: '腊肉' },
+    { canonical_id: null, label: '葫葱' },
+  ]);
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.blockers.join('\n') || '', /三比一.*三分之一.*三分之二/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '地方名小吃：社饭');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

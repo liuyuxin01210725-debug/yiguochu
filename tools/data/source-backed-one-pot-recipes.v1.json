@@ -149,5 +149,32 @@
       "status":"recipe_fact_checked",
       "evidence_notes":"麻阳县人民政府页面明确记录麻阳社饭的粳米/糯米3:7比例、冷水浸泡一天一夜、社蒿菜/野藠/大蒜苗/腊肉，以及煮社饭和蒸社饭两条分支。本条保留该来源的比例和两种工艺，不把它们合并成一个固定标准方，也不补写来源没有给出的总克数、液体、总时间、份数、安全终点或电饭煲适配。"
     }
+    ,
+    {
+      "recipe_id":"xiangxi-she-rice",
+      "canonical_name":"湘西社饭",
+      "aliases":["凤凰蒿香苗家社饭","凤凰苗家社饭"],
+      "region_codes":["CN-HN"],
+      "cuisine_family":"xiangxi-she-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["粘米","糯米","蒿菜","腊肉","葫葱"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"采撷鲜嫩的蒿菜，洗净剁碎，在石板上把苦水揉尽，再放在锅里焙干；腊肉切成碎颗，与葫葱一起备好。","source_ids":["S-HN-XIANGXI-SHE-RICE-1"]},
+        {"step":2,"instruction":"来源先称“按三比一的方法”，随后具体写三分之一的粘米煮到半熟，再把三分之二的糯米倒入锅内与粘米煮熟；本条保留原文两种表述，不将其改写成单一比例合同。","source_ids":["S-HN-XIANGXI-SHE-RICE-1"]},
+        {"step":3,"instruction":"把事先炒香的蒿菜放进锅里，与米饭和腊肉、葫葱拌合均匀。","source_ids":["S-HN-XIANGXI-SHE-RICE-1"]},
+        {"step":4,"instruction":"盖上锅盖焖约半个钟头；来源另记社饭可现煮现吃，也可事后炒着吃。","source_ids":["S-HN-XIANGXI-SHE-RICE-1"]}
+      ],
+      "time_contract":{"total_minutes":30,"source_ids":["S-HN-XIANGXI-SHE-RICE-1"]},
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"湖南省人民政府来源支持湘西凤凰社饭的传统锅中流程，但未提供固定总克数、液体、安全终点或现代电饭煲等价参数。"},
+      "source_refs":[{"source_id":"S-HN-XIANGXI-SHE-RICE-1","title":"地方名小吃：社饭","publisher":"湖南省人民政府门户网站","url":"https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html","retrieved_at":"2026-08-03","source_kind":"provincial_government_food_culture_page","access_status":"opened","evidence_locator":"正文第48至54行：凤凰土乡苗寨社饭身份、蒿菜/腊肉/葫葱、粘米与糯米工序及半小时焖制","claim_scopes":["identity","ingredients","quantity","process","time"],"attribution":"湖南省人民政府门户网站","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"湖南省人民政府页面记录湘西凤凰土乡苗寨社饭的地域身份、蒿菜去苦焙干、腊肉与葫葱、粘米和糯米，以及盖锅焖约半个钟头的流程。来源先写“按三比一的方法”，随后又写三分之一的粘米与三分之二的糯米；本条保留这一表述冲突，不把它改写成单一比例或固定批量，也不补写来源没有给出的液体、安全终点、份数或电饭煲适配。"
+    }
   ]
 }

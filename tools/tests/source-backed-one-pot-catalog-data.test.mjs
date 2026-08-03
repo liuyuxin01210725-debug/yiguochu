@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 10,
-    recipe_fact_checked: 45,
+      recipe_fact_checked: 46,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -299,6 +299,22 @@ test('records Mayang she rice with its source-stated 3-to-7 rice split and two m
   assert.match(recipe?.evidence_notes || '', /煮社饭和蒸社饭两条分支/);
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process']);
+});
+
+test('records Xiangxi she rice while preserving the source ratio contradiction', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'xiangxi-she-rice');
+  assert.equal(recipe?.canonical_name, '湘西社饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['粘米', '糯米', '蒿菜', '腊肉', '葫葱']);
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.time_contract, { total_minutes: 30, source_ids: ['S-HN-XIANGXI-SHE-RICE-1'] });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.evidence_notes || '', /三比一/);
+  assert.match(recipe?.evidence_notes || '', /三分之一的粘米.*三分之二的糯米/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'time']);
 });
 
 test('structures the Guangzhou government electric-cooker taro and cured-pork rice recipe without inventing a batch or time', () => {

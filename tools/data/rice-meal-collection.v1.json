@@ -1794,11 +1794,15 @@
       "core_ingredients": [
         {
           "canonical_id": null,
-          "label": "糯米/粳米"
+          "label": "粘米"
         },
         {
           "canonical_id": null,
-          "label": "野菜"
+          "label": "糯米"
+        },
+        {
+          "canonical_id": null,
+          "label": "蒿菜"
         },
         {
           "canonical_id": null,
@@ -1806,17 +1810,17 @@
         },
         {
           "canonical_id": null,
-          "label": "葱蒜"
+          "label": "葫葱"
         }
       ],
       "rice_state": "mixed-rice",
       "nutrition_grade": "A",
-      "traditional_appliance_and_steps": "社饭多阶段蒸焖",
+      "traditional_appliance_and_steps": "三分之一粘米半熟、三分之二糯米煮熟后焖半小时",
       "identity_sources": [
         {
-          "title": "湘西社饭",
+          "title": "地方名小吃：社饭",
           "publisher": "湖南省人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html",
           "supports": [
             "identity"
@@ -1826,7 +1830,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "比例文字冲突且无可执行比"
+        "来源同时写“按三比一”与“三分之一粘米、三分之二糯米”，比例对象/表述需人工裁决；无固定总克数、液体或电饭煲适配"
       ],
       "status": "research_candidate"
     },

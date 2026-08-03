@@ -186,6 +186,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 酉州社饭 | 社饭 | CN-CQ | wuling-she-rice | 研究记录（非公开可执行） | 米；腊肉；豆腐干；野菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [典籍里的酉阳美食](https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html) |
+## xiangxi-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 湘西社饭 | 凤凰蒿香苗家社饭；凤凰苗家社饭 | CN-HN | xiangxi-she-rice | 研究记录（非公开可执行） | 粘米；糯米；蒿菜；腊肉；葫葱 | identity、ingredients、process、quantity、time | 缺 liquid、appliance、safety | [地方名小吃：社饭](https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html) |
 ## xinjiang-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

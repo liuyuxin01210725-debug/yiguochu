@@ -61,6 +61,7 @@
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
@@ -85,6 +86,7 @@
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 7. Missing time
@@ -132,6 +134,7 @@
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
