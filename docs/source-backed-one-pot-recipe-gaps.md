@@ -14,6 +14,7 @@
 
 ## 3. Missing quantity
 
+- 社饭 (hubei-enshi-shefan) — CN-HB
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
@@ -21,6 +22,7 @@
 
 ## 4. Missing liquid
 
+- 社饭 (hubei-enshi-shefan) — CN-HB
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
@@ -28,7 +30,6 @@
 
 ## 5. Missing process
 
-- 社饭 (hubei-enshi-shefan) — CN-HB
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 咸饭 (minnan-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
@@ -39,6 +40,7 @@
 
 ## 7. Missing time
 
+- 社饭 (hubei-enshi-shefan) — CN-HB
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
@@ -50,6 +52,7 @@
 
 ## 8. Missing safety
 
+- 社饭 (hubei-enshi-shefan) — CN-HB
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ

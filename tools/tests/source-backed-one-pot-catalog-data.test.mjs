@@ -200,8 +200,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     discovered: 2,
-    identity_verified: 11,
-    recipe_fact_checked: 20,
+    identity_verified: 10,
+    recipe_fact_checked: 21,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -447,7 +447,7 @@ test('retains the national source-backed candidates at their evidence-only statu
     'ningxia-wuzhong-rouzhanfan': ['肉粘饭', 'recipe_fact_checked'],
     'yunnan-shidian-pea-potato-ham-rice': ['豌豆洋芋火腿焖饭', 'recipe_fact_checked'],
     'sichuan-kongganfan': ['孔干饭', 'recipe_fact_checked'],
-    'hubei-enshi-shefan': ['社饭', 'identity_verified'],
+    'hubei-enshi-shefan': ['社饭', 'recipe_fact_checked'],
   };
 
   for (const [recipeId, [canonicalName, status]] of Object.entries(expected)) {
@@ -1111,10 +1111,13 @@ test('locks each retained national candidate to its exact supported source, vess
     },
     'hubei-enshi-shefan': {
       canonicalName: '社饭',
-      status: 'identity_verified',
-      vessels: [],
-      ingredients: ['香蒿', '糯米'],
-      sources: [['S-HB-1', '恩施社节', '恩施州人民政府门户网站', 'https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml', ['identity', 'ingredients']]],
+      status: 'recipe_fact_checked',
+      vessels: ['甑'],
+      ingredients: ['香蒿', '糯米', '腊肉', '豆干', '蒜苗'],
+      sources: [
+        ['S-HB-1', '恩施社节', '恩施州人民政府门户网站', 'https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml', ['identity', 'ingredients']],
+        ['S-HB-FORESTRY-SHEFAN-1', '体验民风民俗 感受传统韵味', '国家林业和草原局', 'https://www.forestry.gov.cn/c/www/xxyd/26633.jhtml', ['identity', 'ingredients', 'process', 'appliance']],
+      ],
     },
   };
 
@@ -1179,6 +1182,28 @@ test('merges Ili hand-grab-rice evidence into the existing Xinjiang identity wit
   assert.equal(xinjiang[0].cooking_sequence.length, 5);
   assert.equal(xinjiang[0].time_contract, null);
   assert.deepEqual(xinjiang[0].safety_endpoints, []);
+});
+
+test('structures the Enshi shefan process from the forestry authority excerpt without inventing quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'hubei-enshi-shefan'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-HB-FORESTRY-SHEFAN-1');
+
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /腊肉丁.*豆干丁.*蒜苗.*浸泡过的糯米.*搅拌均匀/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /上甑蒸熟/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
 test('preserves HTTP, nutrition, process, and access blockers as dated regional blanks', () => {
