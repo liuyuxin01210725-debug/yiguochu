@@ -72,6 +72,7 @@
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
+- 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
@@ -148,6 +149,7 @@
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
+- 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
@@ -264,6 +266,7 @@
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
+- 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
@@ -330,7 +333,6 @@
 - CN-NM — 未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。（检索于 2026-08-02）
 - CN-QH — 政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。（检索于 2026-08-02）
 - CN-SD — 线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。（检索于 2026-08-02）
-- CN-SN — 发现线索为节庆软粮日期豆食物，未证明咸味米饭主餐范围、谷物身份或现代豆类处理。（检索于 2026-08-02）
 - CN-XZ — 线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。（检索于 2026-08-02）
 - CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）
 - CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）

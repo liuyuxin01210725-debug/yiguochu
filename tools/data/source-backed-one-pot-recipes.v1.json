@@ -18,7 +18,6 @@
     {"region_code":"CN-YN","candidate_name":"禄劝洋芋焖饭","reason":"禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。","searched_at":"2026-08-02"},
     {"region_code":"CN-YN","candidate_name":"禄劝蚕豆焖饭","reason":"禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。","searched_at":"2026-08-02"},
     {"region_code":"CN-XZ","candidate_name":"人参果饭","reason":"线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。","searched_at":"2026-08-02"},
-    {"region_code":"CN-SN","candidate_name":"陕北红枣豇豆焖饭","reason":"发现线索为节庆软粮日期豆食物，未证明咸味米饭主餐范围、谷物身份或现代豆类处理。","searched_at":"2026-08-02"},
     {"region_code":"CN-QH","candidate_name":"青海手抓饭","reason":"政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。","searched_at":"2026-08-02"},
     {"region_code":"TW","candidate_name":"台湾油饭","reason":"候选“台湾油饭”未找到可读的直达原始食谱来源。","searched_at":"2026-08-02"},
     {"region_code":"HK","candidate_name":"香港煲仔饭","reason":"香港旅游发展局食物地图 PDF 复核时遇 Cloudflare HTTP 403；且现有线索只表明消费，不证明香港独有起源，未保留可读原始来源。","searched_at":"2026-08-02"},
@@ -1268,6 +1267,32 @@
       "source_refs":[{"source_id":"S-GS-QINGYANG-STICKY-MILLET-RICE-1","title":"粘糜子焖饭","publisher":"庆阳市西峰区人民政府","url":"https://www.gsxf.gov.cn/mlxf/tsxc/content_112041","retrieved_at":"2026-08-03","source_kind":"district_government_food_culture_page","access_status":"opened","evidence_locator":"正文第62至65行：庆阳粘糜子焖饭的地方身份、粘糜子与红枣、锅中加水慢煮及放凉后食用分支","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"庆阳市西峰区人民政府","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"庆阳市西峰区人民政府页面明确将粘糜子焖饭作为庆阳地方饭食，记载粘糜子淘洗后入锅，加清水和红枣慢煮、小火焖熟，放凉后可浇红糖水或蜂蜜。来源没有固定粘糜子和红枣用量、精确液体量、时间、份数、安全终点或电饭煲适配，因此只保留来源直接支持的身份与流程，不补写可执行合同。"
+    },
+    {
+      "recipe_id":"yulin-laba-braised-rice",
+      "canonical_name":"榆林腊八焖饭",
+      "aliases":["腊八焖饭"],
+      "region_codes":["CN-SN"],
+      "cuisine_family":"yulin-laba-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["软谷米","软黄米","红枣","豇豆","红糖"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"来源记载腊月初七晚将软谷米、软黄米和红枣等备齐，并把豇豆浸泡在水中。","source_ids":["S-SN-YULIN-LABA-BRAISED-RICE-1"]},
+        {"step":2,"instruction":"次日待豇豆煮至七分熟时，将软谷米下锅。","source_ids":["S-SN-YULIN-LABA-BRAISED-RICE-1"]},
+        {"step":3,"instruction":"用小火慢煮焖熟，做成榆林腊八焖饭。","source_ids":["S-SN-YULIN-LABA-BRAISED-RICE-1"]},
+        {"step":4,"instruction":"以小麻油、盐和葱花炝成热油；等焖饭出锅后，浇上热油，来源还列出软黄米、红糖等食材。","source_ids":["S-SN-YULIN-LABA-BRAISED-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"陕西省地方志办公室来源记录的是当地锅中焖煮和灶火流程，不提供家庭份量、精确液体量、总时间、安全终点或现代电饭煲适配参数。"},
+      "source_refs":[{"source_id":"S-SN-YULIN-LABA-BRAISED-RICE-1","title":"腊八饭里的陕西年味","publisher":"陕西省地方志办公室","url":"https://dfz.shaanxi.gov.cn/zslm/zjyd/fzsy/202001/t20200106_2623780.html","retrieved_at":"2026-08-03","source_kind":"provincial_local_history_food_article","access_status":"search_extract_opened","evidence_locator":"搜索摘录：榆林腊八焖饭用软谷米、软黄米、红枣、豇豆、红糖下锅；豇豆七分熟后下软谷米，小火慢煮焖熟","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"陕西省地方志办公室","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"陕西省地方志办公室文章明确区分榆林腊八焖饭与腊八粥，记载软谷米、软黄米、红枣、豇豆、红糖等食材，以及先浸泡豆子、煮至七分熟后下软谷米、小火慢煮焖熟、出锅浇热油的顺序。本条只保留来源直接支持的地域身份和分阶段流程；来源没有固定用量、液体量、份数、总时间、安全终点或电饭煲适配，因此不补写可执行合同。"
     }
   ]
 }

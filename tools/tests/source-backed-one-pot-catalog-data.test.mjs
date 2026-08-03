@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 6,
-    recipe_fact_checked: 96,
+    recipe_fact_checked: 97,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -308,6 +308,37 @@ test('records Qingyang sticky-millet braised rice without inventing its missing 
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'liquid', 'process', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /正文第62至65行/u);
   assert.match(recipe?.evidence_notes ?? '', /没有固定.*用量、精确液体量、时间/u);
+});
+
+test('records Yulin Laba braised rice with its staged bean-and-grain process only', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'yulin-laba-braised-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SN-YULIN-LABA-BRAISED-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '榆林腊八焖饭');
+  assert.deepEqual(recipe?.aliases, ['腊八焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-SN']);
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['软谷米', '软黄米', '红枣', '豇豆', '红糖']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /软谷米.*软黄米.*红枣.*豇豆.*浸泡/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /豇豆.*七分熟.*软谷米.*下锅/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /小火慢煮焖熟/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /小麻油.*盐.*葱花.*浇上热油/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /腊八焖饭.*豇豆.*七分熟.*下软谷米/u);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定.*用量、液体量、份数、总时间/u);
 });
 
 test('records the Fujian beef mustard-greens rice process without inventing beef-specific timing or quantities', () => {
