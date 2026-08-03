@@ -706,6 +706,32 @@
       "source_refs":[{"source_id":"S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1","title":"瑶乡‘年味’别样浓：一道‘油浸肉’心境大不同","publisher":"广东省人民政府侨务办公室 / 金羊网","url":"https://www.qb.gd.gov.cn/mlgd/content/post_1037668.html","retrieved_at":"2026-08-03","source_kind":"provincial_overseas_affairs_office_food_culture_article","access_status":"search_extract_opened","evidence_locator":"搜索摘录：韶关市始兴县深渡水瑶族乡横岭村糯米菜饭的腊肉煸油、冬笋香菇蒜苗芥菜翻炒、加入提前蒸好糯米饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"广东省人民政府侨务办公室 / 金羊网","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"广东省人民政府侨务办公室页面的搜索摘录明确将糯米菜饭置于韶关市始兴县深渡水瑶族乡年味语境，写出腊肉煸炒出油、冬笋香菇蒜苗芥菜翻炒、加入提前蒸好的糯米饭搅拌的连续流程，并保留铁锅边界。由于当前只能核验搜索摘录，且来源没有给出固定数量、液体、总时间、安全终点或现代电饭煲适配，因此不补写执行合同。"
+    },
+    {
+      "recipe_id":"dongguan-dragon-boat-rice",
+      "canonical_name":"龙船饭",
+      "aliases":[],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"dongguan-dragon-boat-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["糯米","粘米","香菇","虾米","腊鸭肝","腊肠","瘦肉"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将香菇、虾米、腊鸭肝、腊肠和瘦肉等配料提前洗净、切碎备用。","source_ids":["S-GD-DONGGUAN-DRAGON-BOAT-RICE-1"]},
+        {"step":2,"instruction":"锅中倒油，将切碎的配料快速爆炒出香味。","source_ids":["S-GD-DONGGUAN-DRAGON-BOAT-RICE-1"]},
+        {"step":3,"instruction":"糯米和粘米按口感调配比例后浸泡，再蒸熟备用。","source_ids":["S-GD-DONGGUAN-DRAGON-BOAT-RICE-1"]},
+        {"step":4,"instruction":"米饭按口味加入油、盐、糖、酱油调味，将炒香配料倒入饭中充分搅拌。","source_ids":["S-GD-DONGGUAN-DRAGON-BOAT-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"东莞市道滘镇政府来源记录龙船饭的锅内炒料、糯米与粘米浸泡蒸熟、调味后拌合流程，没有提供固定数量、液体、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-DONGGUAN-DRAGON-BOAT-RICE-1","title":"来道滘！吃龙船饭+看龙舟赛，绝配！","publisher":"东莞市人民政府门户网站 / 道滘镇","url":"https://www.dg.gov.cn/daojiao/jjd40/d40xw/content/post_4220034.html","retrieved_at":"2026-08-03","source_kind":"municipal_town_government_food_culture_article","access_status":"opened","evidence_locator":"正文第22至28行的端午传统身份；第32至51行的原料、炒料、糯米与粘米浸泡蒸熟、调味和拌合流程","claim_scopes":["identity","ingredients","process"],"attribution":"东莞市人民政府门户网站 / 道滘镇","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"东莞市道滘镇政府页面将龙船饭明确记为端午扒龙船时的传统美食，并给出香菇、虾米、腊鸭肝、腊肠、瘦肉等配料，先炒料，再将糯米和粘米浸泡蒸熟，最后调味拌合的流程。来源没有给固定数量、液体、总时间、安全终点或现代电饭煲适配，因此只保留龙船饭原名、地域身份、分阶段制作和食材边界，不补写执行合同。"
     }
   ]
 }

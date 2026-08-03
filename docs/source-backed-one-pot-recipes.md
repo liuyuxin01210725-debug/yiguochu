@@ -24,6 +24,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 水平鹅饭 | 大朗水平鹅饭 | CN-GD | dongguan-dalang-hengping-goose-rice | 研究记录（非公开可执行） | 丝苗米；鹅肉；酱油；葱花 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [寻味大朗 \| 从一颗荔枝说起](https://www.dg.gov.cn/zjdz/whdz/dztc/content/post_3957867.html) |
+## dongguan-dragon-boat-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 龙船饭 | — | CN-GD | dongguan-dragon-boat-rice | 研究记录（非公开可执行） | 糯米；粘米；香菇；虾米；腊鸭肝；腊肠；瘦肉 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [来道滘！吃龙船饭+看龙舟赛，绝配！](https://www.dg.gov.cn/daojiao/jjd40/d40xw/content/post_4220034.html) |
 ## dongzhi-guoba-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

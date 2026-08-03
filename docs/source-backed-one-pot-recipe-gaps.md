@@ -15,6 +15,7 @@
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
+- 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -56,6 +57,7 @@
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
+- 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -115,6 +117,7 @@
 
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
+- 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
@@ -134,6 +137,7 @@
 
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
+- 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
@@ -176,6 +180,7 @@
 
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
+- 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD

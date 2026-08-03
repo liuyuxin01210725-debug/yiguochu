@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 61,
+    recipe_fact_checked: 62,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1113,6 +1113,35 @@ test('records Shixing Yao glutinous vegetable rice from the source-stated staged
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.equal(source?.access_status, 'search_extract_opened');
   assert.match(recipe?.evidence_notes ?? '', /深渡水瑶族乡.*搜索摘录.*没有给出.*固定数量.*电饭煲/u);
+});
+
+test('records Daojiao dragon-boat rice with its named local process and staged grain preparation', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'dongguan-dragon-boat-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '龙船饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '粘米', '香菇', '虾米', '腊鸭肝', '腊肠', '瘦肉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, [
+    { step: 1, instruction: '将香菇、虾米、腊鸭肝、腊肠和瘦肉等配料提前洗净、切碎备用。', source_ids: ['S-GD-DONGGUAN-DRAGON-BOAT-RICE-1'] },
+    { step: 2, instruction: '锅中倒油，将切碎的配料快速爆炒出香味。', source_ids: ['S-GD-DONGGUAN-DRAGON-BOAT-RICE-1'] },
+    { step: 3, instruction: '糯米和粘米按口感调配比例后浸泡，再蒸熟备用。', source_ids: ['S-GD-DONGGUAN-DRAGON-BOAT-RICE-1'] },
+    { step: 4, instruction: '米饭按口味加入油、盐、糖、酱油调味，将炒香配料倒入饭中充分搅拌。', source_ids: ['S-GD-DONGGUAN-DRAGON-BOAT-RICE-1'] },
+  ]);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.dg.gov.cn/daojiao/jjd40/d40xw/content/post_4220034.html');
+  assert.equal(source?.publisher, '东莞市人民政府门户网站 / 道滘镇');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /道滘.*龙船饭.*来源没有给.*固定数量.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {
