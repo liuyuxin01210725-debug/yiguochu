@@ -20,6 +20,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
@@ -34,6 +35,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
@@ -43,6 +45,7 @@
 
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
+- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 
 ## 6. Missing appliance
 
@@ -61,6 +64,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN

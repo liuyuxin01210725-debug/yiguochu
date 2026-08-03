@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 7,
-    recipe_fact_checked: 28,
+    identity_verified: 8,
+    recipe_fact_checked: 30,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1414,6 +1414,90 @@ test('structures the Enshi shefan process from the forestry authority excerpt wi
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'search_extract_opened');
   assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Wa chicken lanfan as a source-backed mixed rice identity without inventing a cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'yunnan-wa-chicken-lanfan'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-YN-WA-CHICKEN-LANFAN-1');
+
+  assert.equal(recipe?.canonical_name, '佤族鸡肉烂饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '鸡肉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米.*鸡肉.*同锅煮/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the sourced spring-bamboo cured-meat rice process without promoting an ambiguous 15-minute label', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shanghai-spring-bamboo-cured-meat-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-SH-SPRING-BAMBOO-CURED-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '春笋腊味饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '雷笋', '腊肠', '五花咸肉', '青豆']);
+  assert.equal(recipe?.fixed_batch, null, 'source gives amounts but no serving count');
+  assert.equal(recipe?.liquid_contract, null, 'source only says to add an unspecified amount of water');
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /雷笋.*(?:剥.*壳|去壳)/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腊肠.*咸肉.*切/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大米.*电饭煲.*清水/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /焯烫.*2分钟/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /咸肉.*腊肠.*雷笋.*青豆.*电饭煲/);
+  assert.equal(recipe?.time_contract, null, 'source labels 15 minutes but does not define whether rice cooking is included');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('keeps Yangzhou fried rice as a named source-backed identity rather than a generic fried-rice combination', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'yangzhou-standard-fried-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JS-YANGZHOU-FRIED-RICE-STANDARD-1');
+
+  assert.equal(recipe?.canonical_name, '扬州炒饭');
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.core_ingredients, [
+    '籼米饭', '鲜鸡蛋', '水发海参', '熟地方鸡腿肉', '中国火腿肉',
+    '水发干贝', '上浆湖虾仁', '水发花菇', '净鲜笋', '青豌豆',
+  ]);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

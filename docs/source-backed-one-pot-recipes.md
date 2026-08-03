@@ -19,6 +19,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## jiangnan-spring-bamboo-cured-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 春笋腊味饭 | — | CN-SH | jiangnan-spring-bamboo-cured-rice | 研究记录（非公开可执行） | 大米；雷笋；腊肠；五花咸肉；青豆 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [春笋腊味饭](https://m.thepaper.cn/newsDetail_forward_32484538)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## jiangnan-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -91,6 +96,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 铜仁社饭 | 社菜饭 | CN-GZ | tongren-seasonal-shefan | 研究记录（非公开可执行） | 糯米；黏米；腊肉；青蒿；野葱；黄豆；花生；豆腐干；青菜；蒜苗 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [玉屏玉露村：农家社饭香](https://www.tongren.gov.cn/2025/0317/332884.shtml) |
+## wa-chicken-lanfan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 佤族鸡肉烂饭 | 鸡肉烂饭 | CN-YN | wa-chicken-lanfan | 研究记录（非公开可执行） | 大米；鸡肉 | identity、ingredients、process、safety | 缺 quantity、liquid、time | [佤族饮食习俗](https://cangyuan.gov.cn/artview/739/267924.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## western-guangdong-duck-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -106,6 +116,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [于田抓饭做法](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml)<br>[新疆抓饭](https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml) |
+## yangzhou-fried-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 扬州炒饭 | 扬州蛋炒饭 | CN-JS | yangzhou-fried-rice | 研究记录（非公开可执行） | 籼米饭；鲜鸡蛋；水发海参；熟地方鸡腿肉；中国火腿肉；水发干贝；上浆湖虾仁；水发花菇；净鲜笋；青豌豆 | identity、ingredients | 缺 process | [扬州官方发布扬州炒饭新标准：米饭晶莹透亮 至少加三个蛋](https://china.cnr.cn/xwwgf/20151023/t20151023_520256152.shtml) |
 ## yunnan-seasonal-pea-potato-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
