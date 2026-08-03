@@ -19,7 +19,6 @@
     {"region_code":"CN-YN","candidate_name":"禄劝蚕豆焖饭","reason":"禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。","searched_at":"2026-08-02"},
     {"region_code":"CN-XZ","candidate_name":"人参果饭","reason":"线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。","searched_at":"2026-08-02"},
     {"region_code":"CN-SN","candidate_name":"陕北红枣豇豆焖饭","reason":"发现线索为节庆软粮日期豆食物，未证明咸味米饭主餐范围、谷物身份或现代豆类处理。","searched_at":"2026-08-02"},
-    {"region_code":"CN-GS","candidate_name":"未保留候选","reason":"区域一锅线索为面条、汤碗或搅拌谷物，不符合米饭主餐范围。","searched_at":"2026-08-02"},
     {"region_code":"CN-QH","candidate_name":"青海手抓饭","reason":"政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。","searched_at":"2026-08-02"},
     {"region_code":"TW","candidate_name":"台湾油饭","reason":"候选“台湾油饭”未找到可读的直达原始食谱来源。","searched_at":"2026-08-02"},
     {"region_code":"HK","candidate_name":"香港煲仔饭","reason":"香港旅游发展局食物地图 PDF 复核时遇 Cloudflare HTTP 403；且现有线索只表明消费，不证明香港独有起源，未保留可读原始来源。","searched_at":"2026-08-02"},
@@ -1245,6 +1244,30 @@
       "source_refs":[{"source_id":"S-JL-RED-BEAN-SORGHUM-RICE-1","title":"吉林民间饮食习俗：以大黄米、白小米为主食","publisher":"中国新闻网 / 中国吉林网","url":"https://www.chinanews.com.cn/gn/2010/12-21/2736898.shtml","retrieved_at":"2026-08-03","source_kind":"regional_news_food_custom_article","access_status":"search_extract_opened","evidence_locator":"搜索摘录：过去城乡以大锅做饭；办喜事时宴席前一顿多为大锅焖的小豆高粱米饭","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中国新闻网 / 中国吉林网","license":"terms_unspecified"}],
       "status":"identity_verified",
       "evidence_notes":"中国新闻网转引中国吉林网的吉林民间饮食习俗文章明确记载，办喜事时宴席前一顿多为大锅焖的小豆高粱米饭。本条只保留小豆、高粱米、大锅焖和地方婚宴食俗事实；来源没有固定小豆和高粱米用量、液体、时间、豆类预处理、安全终点或电饭煲适配，因此不补写可执行合同。"
+    },
+    {
+      "recipe_id":"qingyang-sticky-millet-braised-rice",
+      "canonical_name":"庆阳粘糜子焖饭",
+      "aliases":["粘糜子焖饭"],
+      "region_codes":["CN-GS"],
+      "cuisine_family":"qingyang-sticky-millet-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["粘糜子","红枣"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"挑选饱满的粘糜子，淘洗去杂后放入锅中，加入清水和红枣，开始慢煮。","source_ids":["S-GS-QINGYANG-STICKY-MILLET-RICE-1"]},
+        {"step":2,"instruction":"小火慢煮至粘糜子焖饭成熟；来源另记成品放凉后可浇红糖水或蜂蜜食用。","source_ids":["S-GS-QINGYANG-STICKY-MILLET-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"庆阳市西峰区人民政府页面只记录锅中加水慢煮的地方焖饭流程，不提供家庭份量、精确液体量、总时间、安全终点或现代电饭煲适配参数。"},
+      "source_refs":[{"source_id":"S-GS-QINGYANG-STICKY-MILLET-RICE-1","title":"粘糜子焖饭","publisher":"庆阳市西峰区人民政府","url":"https://www.gsxf.gov.cn/mlxf/tsxc/content_112041","retrieved_at":"2026-08-03","source_kind":"district_government_food_culture_page","access_status":"opened","evidence_locator":"正文第62至65行：庆阳粘糜子焖饭的地方身份、粘糜子与红枣、锅中加水慢煮及放凉后食用分支","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"庆阳市西峰区人民政府","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"庆阳市西峰区人民政府页面明确将粘糜子焖饭作为庆阳地方饭食，记载粘糜子淘洗后入锅，加清水和红枣慢煮、小火焖熟，放凉后可浇红糖水或蜂蜜。来源没有固定粘糜子和红枣用量、精确液体量、时间、份数、安全终点或电饭煲适配，因此只保留来源直接支持的身份与流程，不补写可执行合同。"
     }
   ]
 }

@@ -52,6 +52,7 @@
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
+- 庆阳粘糜子焖饭 (qingyang-sticky-millet-braised-rice) — CN-GS
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
@@ -242,6 +243,7 @@
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
+- 庆阳粘糜子焖饭 (qingyang-sticky-millet-braised-rice) — CN-GS
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
@@ -318,7 +320,6 @@
 
 - CN-AH — 未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。（检索于 2026-08-02）
 - CN-CQ — 原始来源支持身份和柴火锅过程，但基础形式为米饭加洋芋两种主食；肉菜仅为非固定可选项，营养上不符合平衡主餐门槛。（检索于 2026-08-02）
-- CN-GS — 区域一锅线索为面条、汤碗或搅拌谷物，不符合米饭主餐范围。（检索于 2026-08-02）
 - CN-GX — 宁明县政府线索的原始 URL 在复核时返回 HTTP 404，未作为证据使用。（检索于 2026-08-02）
 - CN-GZ — 店铺和活动线索未形成可读原始来源或固定米饭主餐证据。（检索于 2026-08-02）
 - CN-HA — 线索为面食、粥或通用电饭锅食谱，均不在目录范围。（检索于 2026-08-02）

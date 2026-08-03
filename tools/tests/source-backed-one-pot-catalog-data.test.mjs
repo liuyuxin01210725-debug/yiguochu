@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 6,
-    recipe_fact_checked: 95,
+    recipe_fact_checked: 96,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -279,6 +279,35 @@ test('records Jilin red-bean sorghum rice as a named wedding-pot staple without 
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /办喜事时.*宴席前一顿.*大锅焖/u);
   assert.match(recipe?.evidence_notes ?? '', /没有固定小豆和高粱米用量、液体、时间/u);
+});
+
+test('records Qingyang sticky-millet braised rice without inventing its missing contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'qingyang-sticky-millet-braised-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GS-QINGYANG-STICKY-MILLET-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '庆阳粘糜子焖饭');
+  assert.deepEqual(recipe?.aliases, ['粘糜子焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GS']);
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['粘糜子', '红枣']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /粘糜子.*淘洗.*锅中.*清水.*红枣.*慢煮/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /小火慢煮.*粘糜子焖饭/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /正文第62至65行/u);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定.*用量、精确液体量、时间/u);
 });
 
 test('records the Fujian beef mustard-greens rice process without inventing beef-specific timing or quantities', () => {

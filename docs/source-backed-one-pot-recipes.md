@@ -246,6 +246,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 土家社饭 | — | CN-CQ | qianjiang-tujia-she-rice | 研究记录（非公开可执行） | 糯米；猪肉；大蒜；蒿草 | identity、ingredients | 缺 process | [四川少数民族食俗](https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml) |
+## qingyang-sticky-millet-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 庆阳粘糜子焖饭 | 粘糜子焖饭 | CN-GS | qingyang-sticky-millet-braised-rice | 研究记录（非公开可执行） | 粘糜子；红枣 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [粘糜子焖饭](https://www.gsxf.gov.cn/mlxf/tsxc/content_112041) |
 ## shanxi-heguo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
