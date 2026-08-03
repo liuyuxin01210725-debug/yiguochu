@@ -221,7 +221,7 @@
       "allergen_labels":[],
       "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
       "cooker_adaptation":{"status":"not_adapted","notes":"湖南省文化和旅游厅来源支持涟源竹筒饭的原料身份和温火翻烤约二十分钟，未提供固定总克数、液体、安全终点或现代电饭煲等价参数。"},
-      "source_refs":[{"source_id":"S-HN-LIANYUAN-BAMBOO-RICE-1","title":"跟着旅发大会游涟源|来一场舌尖上的美食之旅！","publisher":"湖南省文化和旅游厅","url":"https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html","retrieved_at":"2026-08-03","source_kind":"provincial_tourism_food_article","access_status":"search_extract_opened","evidence_locator":"搜索结果正文：涟源竹筒饭身份、粳米或糯米、腊肉、红枣及温火翻烤约20分钟","claim_scopes":["identity","ingredients","process","time"],"attribution":"湖南省文化和旅游厅","license":"government_site_terms_unspecified"}],
+      "source_refs":[{"source_id":"S-HN-LIANYUAN-BAMBOO-RICE-1","title":"跟着旅发大会游涟源|来一场舌尖上的美食之旅！","publisher":"湖南省文化和旅游厅","url":"https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html","retrieved_at":"2026-08-03","source_kind":"provincial_tourism_food_article","access_status":"opened","evidence_locator":"正文第150至156行：龙山竹筒饭身份、粳米或糯米、腊肉、红枣及温火翻烤约20分钟","claim_scopes":["identity","ingredients","process","time"],"attribution":"湖南省文化和旅游厅","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"湖南省文化和旅游厅页面记录涟源竹筒饭以粳米或糯米为原料、配腊肉和红枣，在温火上慢慢翻烤，约20分钟后食用。本条保留这道具名地方饭的原料与器具工艺，不补写固定克数、液体、安全终点、份数或电饭煲适配。"
     },
@@ -1154,5 +1154,54 @@
     },
     {"recipe_id":"shenhu-salty-rice","canonical_name":"深沪咸饭","aliases":["壶仔咸饭"],"region_codes":["CN-FJ"],"cuisine_family":"minnan-salty-rice","identity_status":"verified","traditional_vessels":["煲"],"core_ingredients":["大米","三层肉","干香菇","干目鱼","胡萝卜"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"大米浸透，干目鱼和干香菇泡发切块，胡萝卜切丝。","source_ids":["S-FJ-JINJIANG-SHENHU-HUZAI-1"]},{"step":2,"instruction":"五花肉煸油，加入目鱼、香菇和胡萝卜同炒，调以料酒、生抽、蚝油、盐和鸡精。","source_ids":["S-FJ-JINJIANG-SHENHU-HUZAI-1"]},{"step":3,"instruction":"加入大米炒匀，入煲煮熟。","source_ids":["S-FJ-JINJIANG-SHENHU-HUZAI-1"]},{"step":4,"instruction":"葱白炸油，拌入饭中，加葱花搅匀即食。","source_ids":["S-FJ-JINJIANG-SHENHU-HUZAI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"晋江市人民政府来源支持深沪咸饭的大米浸透、配料煸炒、入煲煮熟和葱油拌饭流程，但没有提供现代电饭煲等价参数、固定批量、液体或总时间，因此不建立适配。"},"source_refs":[{"source_id":"S-FJ-JINJIANG-SHENHU-HUZAI-1","title":"关于开展“晋邑古筵”推荐餐厅认定工作的通知","publisher":"晋江市人民政府","url":"https://www.jinjiang.gov.cn/xxgk/zfxxgkzl/bmzfxxgk/whhlvj/whhlvjml/202512/t20251210_3239722.htm","retrieved_at":"2026-08-03","source_kind":"municipal_government_food_culture_article","access_status":"opened","evidence_locator":"正文第552至559行：深沪咸饭的典故、原料与制作方法","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"晋江市人民政府","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"晋江市人民政府页面将深沪咸饭另列为咸饭变体，给出大米、三层肉、干香菇、干目鱼和胡萝卜等原料，并记录浸米、配料煸炒、入煲煮熟及葱油拌饭的流程。本条与壶仔饭分开登记，不把两者的糯米、陶罐、大骨汤或近似时长互相拼接；来源没有固定批量、液体比例、总时间、安全终点或电饭煲适配，因此相关字段保持为空。"},
     {"recipe_id":"zijin-stuffed-duck-rice","canonical_name":"酿鸭饭","aliases":["紫金酿鸭饭"],"region_codes":["CN-GD"],"cuisine_family":"zijin-stuffed-duck-rice","identity_status":"verified","traditional_vessels":["锅","蒸笼"],"core_ingredients":["糯米","番鸭","五花肉","鱿鱼","花生米","鸭汤"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"番鸭约3公斤，去内脏洗净后入锅煮熟；取出鸭皮，去骨并把鸭肉撕成肉丝。","source_ids":["S-GD-ZIJIN-YANI-RICE-1"]},{"step":2,"instruction":"花生米炒酥去衣掰片；鱿鱼浸软切丝；五花肉切粒，与生抽、胡椒粉和食盐拌匀。","source_ids":["S-GD-ZIJIN-YANI-RICE-1"]},{"step":3,"instruction":"糯米2至3斤用清水浸润后入锅，加入鸭汤炆至熟烂。来源以2至3斤对应4至6碗，未提供单一固定批量。","source_ids":["S-GD-ZIJIN-YANI-RICE-1"]},{"step":4,"instruction":"鸭皮分成4至6块，每份铺在碗底，放入鸭肉丝、鱿鱼丝和花生米，再舀入糯米饭并插孔通气，放入蒸笼蒸约30分钟。","source_ids":["S-GD-ZIJIN-YANI-RICE-1"]},{"step":5,"instruction":"蒸好后转入大海碗，加入少量花生油和葱花即可上席。","source_ids":["S-GD-ZIJIN-YANI-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["软体动物","花生"],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"紫金县人民政府来源支持锅煮鸭、鸭汤炆糯米和蒸笼复蒸的地方流程，但没有提供现代电饭煲等价参数，因此不建立适配。"},"source_refs":[{"source_id":"S-GD-ZIJIN-YANI-RICE-1","title":"紫金客家菜肴","publisher":"紫金县人民政府门户网站","url":"https://www.zijin.gov.cn/xq/szzj/zjkjcz/","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"search_extract_opened","evidence_locator":"搜索摘录：‘酿鸭饭’段落，番鸭约3公斤、糯米2至3斤、4至6碗、蒸约30分钟","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"紫金县人民政府门户网站","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"紫金县人民政府门户网站的官方检索摘录明确列出紫金宴席菜‘酿鸭饭’，给出番鸭约3公斤、糯米2至3斤可制4至6碗、鸭汤炆糯米、鸭皮装碗并与鸭肉丝、鱿鱼丝和花生米复蒸约30分钟的流程。本条保留来源给出的批量范围和分段工艺，不把范围改写成固定份量，不补写鸭汤量、总时间、肉类安全终点或现代电饭煲适配；原始页面本轮未能直达打开，因此保留search_extract_opened。"}
+    ,
+    {
+      "recipe_id":"dongguan-daojiao-hehua-carp-rice",
+      "canonical_name":"禾花鲤炊饭",
+      "aliases":["禾花鲤腊味炊饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"dongguan-daojiao-hehua-carp-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["蒸锅"],
+      "core_ingredients":["禾花鲤","糯米","粘米","鲜肉丝","腊肉","腊肠","红枣","冬菇"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"准备禾花鲤、糯米、粘米以及鲜肉丝、腊肉段、腊肠、红枣和冬菇等配料；来源只说明配料摊在米上同炊，未给固定重量。","source_ids":["S-GD-DONGGUAN-DAOJIAO-HEHUA-CARP-RICE-1"]},
+        {"step":2,"instruction":"将配料摊在糯米和粘米上，一齐蒸熟，使糯米香、鱼鲜、腊味香和菇鲜交织；来源未给总蒸制时间或液体量。","source_ids":["S-GD-DONGGUAN-DAOJIAO-HEHUA-CARP-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"东莞市道滘镇官方美食地图记录的是糯米、粘米与禾花鲤及腊味等配料同蒸的地方流程，没有现代电饭煲等价参数、固定批量、液体、时间或鱼肉安全终点，因此不建立适配。"},
+      "source_refs":[{"source_id":"S-GD-DONGGUAN-DAOJIAO-HEHUA-CARP-RICE-1","title":"国庆来道滘：品味十大名菜背后的故事。就这样逛！吃！逛吃……！","publisher":"东莞市道滘镇人民政府","url":"https://webzdg.sun0769.com/web/news/content/340865?share=1","retrieved_at":"2026-08-03","source_kind":"town_government_food_map","access_status":"opened","evidence_locator":"正文第40至42行：禾花鲤炊饭的地域身份、鲜肉丝/腊肉段/腊肠/红枣/冬菇配料及糯米同炊流程","claim_scopes":["identity","ingredients","process"],"attribution":"东莞市道滘镇人民政府 / 魅力道滘","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"东莞市道滘镇官方美食地图将禾花鲤炊饭列入道滘十大名菜，明确写出禾花鲤与糯米、粘米同炊，并列鲜肉丝、腊肉段、腊肠、红枣、冬菇等配料。来源没有固定重量、液体、总时间、鱼类安全终点或电饭煲适配，因此不把这些空白补成合同。"
+    },
+    {
+      "recipe_id":"yuping-dong-she-rice",
+      "canonical_name":"玉屏侗家社饭",
+      "aliases":["玉屏社饭"],
+      "region_codes":["CN-GZ"],
+      "cuisine_family":"yuping-dong-she-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["铁锅"],
+      "core_ingredients":["白米","蒿菜","野葱","蒜苗","腊肉丁"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"准备白米、蒿菜、野葱、蒜苗和腊肉丁；来源未给固定重量。","source_ids":["S-GZ-YUPING-DONG-SHE-RICE-1"]},
+        {"step":2,"instruction":"将全部配料混合在一起，用铁锅焖制成社饭；来源未给液体量和总时间。","source_ids":["S-GZ-YUPING-DONG-SHE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"玉屏县融媒体中心页面记录的是铁锅焖制的侗家社饭地方流程，没有现代电饭煲等价参数、固定批量、液体、时间或腊肉安全终点，因此不建立适配。"},
+      "source_refs":[{"source_id":"S-GZ-YUPING-DONG-SHE-RICE-1","title":"箫笛名都 侗听玉屏","publisher":"玉屏县融媒体中心 / 微铜仁","url":"https://www.yp.gov.cn/contents/2022/03/22/receive-de0c1f7d-4e4b-4389-b557-653484c3248e.html","retrieved_at":"2026-08-03","source_kind":"county_media_food_culture_page","access_status":"opened","evidence_locator":"正文第274至281行：玉屏及周边侗家社饭身份、白米/蒿菜/野葱/蒜苗/腊肉丁配料及铁锅焖制流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"玉屏县融媒体中心 / 微铜仁","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"玉屏县融媒体中心页面将社饭记为玉屏及周边地区侗家人春季制作的地方美食，明确列出白米、蒿菜、野葱、蒜苗、腊肉丁，并说明全部配料混合后用铁锅焖制。来源没有固定重量、液体、总时间、腊肉安全终点或电饭煲适配，因此不把这些空白补成合同。"
+    }
   ]
 }

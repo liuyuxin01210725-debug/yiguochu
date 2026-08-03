@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 92,
+    recipe_fact_checked: 94,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3352,6 +3352,95 @@ test('records Taihang millet braised rice with its regional ingredient and no in
   assert.equal(source?.access_status, 'opened');
   assert.equal(source?.publisher, '中国旅游新闻网');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Daojiao rice steamed with hehua carp from the town food map without inventing a batch', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'dongguan-daojiao-hehua-carp-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GD-DONGGUAN-DAOJIAO-HEHUA-CARP-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '禾花鲤炊饭');
+  assert.deepEqual(recipe?.aliases, ['禾花鲤腊味炊饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.deepEqual(recipe?.traditional_vessels, ['蒸锅']);
+  assert.deepEqual(recipe?.core_ingredients, [
+    '禾花鲤', '糯米', '粘米', '鲜肉丝', '腊肉', '腊肠', '红枣', '冬菇',
+  ]);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鲜肉丝.*腊肉段.*腊肠.*红枣.*冬菇/);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糯米/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /一齐蒸熟|一齐炊熟|一起蒸/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没有固定重量'));
+  assert.ok(recipe?.evidence_notes.includes('电饭煲'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.publisher, '东莞市道滘镇人民政府');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Yuping Dong family she rice as a regional named variant without inventing contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'yuping-dong-she-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GZ-YUPING-DONG-SHE-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '玉屏侗家社饭');
+  assert.deepEqual(recipe?.aliases, ['玉屏社饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-GZ']);
+  assert.deepEqual(recipe?.traditional_vessels, ['铁锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['白米', '蒿菜', '野葱', '蒜苗', '腊肉丁']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白米.*蒿菜.*野葱.*蒜苗.*腊肉丁/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /混合.*铁锅焖制/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没有固定重量'));
+  assert.ok(recipe?.evidence_notes.includes('电饭煲'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.publisher, '玉屏县融媒体中心 / 微铜仁');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第274至281行/);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('uses the directly opened provincial source for Lianyuan cured-pork red-date bamboo rice', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'lianyuan-bamboo-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-HN-LIANYUAN-BAMBOO-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '涟源腊肉红枣竹筒饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.time_contract?.total_minutes, 20);
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.match(source?.evidence_locator ?? '', /第150至156行/);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

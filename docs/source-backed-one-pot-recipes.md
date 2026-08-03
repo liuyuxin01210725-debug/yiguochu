@@ -29,6 +29,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 水平鹅饭 | 大朗水平鹅饭 | CN-GD | dongguan-dalang-hengping-goose-rice | 研究记录（非公开可执行） | 丝苗米；鹅肉；酱油；葱花 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [寻味大朗 \| 从一颗荔枝说起](https://www.dg.gov.cn/zjdz/whdz/dztc/content/post_3957867.html) |
+## dongguan-daojiao-hehua-carp-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 禾花鲤炊饭 | 禾花鲤腊味炊饭 | CN-GD | dongguan-daojiao-hehua-carp-rice | 研究记录（非公开可执行） | 禾花鲤；糯米；粘米；鲜肉丝；腊肉；腊肠；红枣；冬菇 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [国庆来道滘：品味十大名菜背后的故事。就这样逛！吃！逛吃……！](https://webzdg.sun0769.com/web/news/content/340865?share=1) |
 ## dongguan-dragon-boat-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -397,6 +402,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 豌豆洋芋火腿焖饭 | — | CN-YN | yunnan-seasonal-pea-potato-ham-rice | 研究记录（非公开可执行） | 火腿；青豌豆仁；洋芋；米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [来老麦解锁青豌豆的N种“鲜”吃法](https://shidian.gov.cn/info/1111/3792183.htm) |
+## yuping-dong-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 玉屏侗家社饭 | 玉屏社饭 | CN-GZ | yuping-dong-she-rice | 研究记录（非公开可执行） | 白米；蒿菜；野葱；蒜苗；腊肉丁 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [箫笛名都 侗听玉屏](https://www.yp.gov.cn/contents/2022/03/22/receive-de0c1f7d-4e4b-4389-b557-653484c3248e.html) |
 ## zhejiang-bamboo-tube-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
