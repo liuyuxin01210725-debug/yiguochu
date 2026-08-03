@@ -1069,6 +1069,30 @@
       "source_refs":[{"source_id":"S-YN-LINXIANG-BOSHAN-BEAN-RICE-1","title":"〖视频〗云南临翔：记忆里的那碗“豆焖饭”，念念不忘！","publisher":"云南网","url":"https://m.yunnan.cn/system/2023/12/09/032866216.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_media_food_culture_article","access_status":"opened","evidence_locator":"正文博尚镇豆焖饭段落：青蚕豆、火腿或腊肉、熟米饭以及先炒后覆饭、小火焖熟、拌匀流程","claim_scopes":["identity","ingredients","process"],"attribution":"云南网（通讯员梅新强、康传燕、杨燕达）","license":"terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"云南网明确将博尚镇豆焖饭作为临沧市临翔区的地方做法，记录青蚕豆、火腿肉或腊肉、熟米饭，以及先炒肉、炒豆、覆饭、加开水、小火焖熟、开盖拌匀的顺序。来源没有给固定数量、米水比例、总时间、安全终点或现代电饭煲适配，因此只保留具名地域身份与原锅流程，不把它改写成电饭煲菜谱。"
+    },
+    {
+      "recipe_id":"pudong-angci-fish-vegetable-rice",
+      "canonical_name":"昂刺鱼菜饭",
+      "aliases":[],
+      "region_codes":["CN-SH"],
+      "cuisine_family":"pudong-angci-fish-vegetable-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["炉灶"],
+      "core_ingredients":["昂刺鱼","青菜","米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将昂刺鱼入味；来源只说明鱼经过充分调味，未给腌制时长、调味配方或鱼的重量。","source_ids":["S-SH-PUDONG-ANGCI-FISH-RICE-1"]},
+        {"step":2,"instruction":"在炉灶上烹制昂刺鱼菜饭，将入味的鱼悬在锅上方，使鱼味慢慢浸入米饭；青菜作为菜饭组成保留，但来源未给青菜的投料顺序。","source_ids":["S-SH-PUDONG-ANGCI-FISH-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"上海市文化和旅游局页面记录的是浦东炉灶上将入味的昂刺鱼悬在锅上方、让鱼味浸入米饭的地方菜饭做法，没有提供固定批量、液体、时间、鱼类熟制终点或现代电饭煲等价参数。"},
+      "source_refs":[{"source_id":"S-SH-PUDONG-ANGCI-FISH-RICE-1","title":"〖浦東citywalk〗無形文化遺産グルメを巡る","publisher":"上海市文化和旅游局","url":"https://japanese.shanghai.gov.cn/ja-CityWalk/20260509/3ac2923530704666a87e2bc92b8c9da9.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_food_culture_page","access_status":"opened","evidence_locator":"正文第6行：昂刺魚菜飯及其入味鱼悬锅、鱼味浸入米饭的描述","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"上海市文化和旅游局","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"上海市文化和旅游局页面点名浦东地方菜“昂刺魚菜飯”，说明其由入味的鱼、青菜和米饭组成，并在炉灶上把鱼悬在锅上方，使鱼味慢慢浸入米饭。来源没有固定数量、米水比例、总时间、鱼类熟制终点或现代电饭煲适配；青菜的具体投料顺序也未写明，因此只记录具名地域身份、核心组成和原炉灶边界，不补写电饭煲参数。"
     }
   ]
 }

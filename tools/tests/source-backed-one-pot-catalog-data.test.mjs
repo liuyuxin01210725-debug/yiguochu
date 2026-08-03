@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 87,
+    recipe_fact_checked: 88,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3115,6 +3115,40 @@ test('records Shidian broad-bean ham rice as an identity-only government source 
   assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('identity'));
   assert.ok(source?.claim_scopes.includes('ingredients'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Pudong yellow catfish vegetable rice as a named regional dish without inventing cooker parameters', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'pudong-angci-fish-vegetable-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SH-PUDONG-ANGCI-FISH-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '昂刺鱼菜饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-SH']);
+  assert.deepEqual(recipe?.core_ingredients, ['昂刺鱼', '青菜', '米']);
+  assert.deepEqual(recipe?.traditional_vessels, ['炉灶']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /昂刺鱼.*入味/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /炉灶.*(悬|吊).*鱼.*米/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没有固定数量'));
+  assert.ok(recipe?.evidence_notes.includes('电饭煲'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.publisher, '上海市文化和旅游局');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

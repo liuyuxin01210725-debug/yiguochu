@@ -47,6 +47,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
+- 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -113,6 +114,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
+- 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -221,6 +223,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
+- 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
