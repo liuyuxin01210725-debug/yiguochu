@@ -138,3 +138,24 @@ test('research blockers preserve dish-defining rice state, liquid ambiguity, and
   assert.equal(byId.get('guangzhou-mushroom-chicken-claypot-rice').name, '冬菇滑鸡饭');
   assert.equal(byId.get('guangzhou-black-bean-rib-claypot-rice').name, '豉汁排骨饭');
 });
+
+test('keeps the Tengchong copper-pot potato rice candidate aligned with its official ingredient wording', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'tengchong-copper-pot-potato-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: 'potato', label: '土豆' },
+    { canonical_id: null, label: '绿豆' },
+    { canonical_id: null, label: '腊肉' },
+  ]);
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '北海的年味');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, [
+    'identity', 'appliance',
+  ]);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});

@@ -1542,32 +1542,33 @@
           "label": "土豆"
         },
         {
-          "canonical_id": "green-beans",
-          "label": "四季豆"
+          "canonical_id": null,
+          "label": "绿豆"
         },
         {
           "canonical_id": null,
-          "label": "腌肉"
+          "label": "腊肉"
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "A",
+      "nutrition_grade": "C",
       "traditional_appliance_and_steps": "铜锅焖制",
       "identity_sources": [
         {
-          "title": "腾冲北海铜锅洋芋饭",
+          "title": "北海的年味",
           "publisher": "腾冲市人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.tengchong.gov.cn/info/9573/5813513.htm",
           "supports": [
-            "identity"
+            "identity",
+            "appliance"
           ]
         }
       ],
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "无数量液体且铜锅身份损失"
+        "来源未给数量、液体或安全终点，仅支持铜锅传统流程，尚未建立电饭煲适配"
       ],
       "status": "research_candidate"
     },

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 35,
+    recipe_fact_checked: 36,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1662,6 +1662,40 @@ test('structures the Dongzhi electric-pot guoba rice facts without inventing ser
   assert.ok(source?.claim_scopes.includes('liquid'));
   assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures Tengchong Beihai copper-pot potato rice without inventing quantities or electric-cooker equivalence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'tengchong-copper-pot-potato-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-YN-TENGCHONG-COPPER-POT-POTATO-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '腾冲北海铜锅洋芋饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '洋芋', '绿豆', '腊肉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /洋芋.*切成小块.*炒至入味/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /米.*铜锅.*慢煮/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /洋芋.*绿豆.*腊肉.*继续煮/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /饭熟.*锅巴.*焦黄/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'unassessed',
+    roles: [],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(source?.claim_scopes.includes('ingredients'));
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

@@ -21,6 +21,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
+- 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
@@ -40,6 +41,7 @@
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
+- 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
@@ -74,6 +76,7 @@
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
+- 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
@@ -85,6 +88,7 @@
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 

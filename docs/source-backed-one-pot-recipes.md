@@ -111,6 +111,11 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 南瓜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [南瓜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 高丽菜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 白米；高丽菜；香菇；五花肉；胡萝卜；虾米；葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [农粮署北区分署电子书：高丽菜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[全民健康保险双月刊80期：高丽菜饭](https://media.nhi.gov.tw/md/dl-52195-25353cf985624e8aaa641aea6f390005-3.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## tengchong-copper-pot-potato-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 腾冲北海铜锅洋芋饭 | 铜锅洋芋饭；洋芋饭 | CN-YN | tengchong-copper-pot-potato-rice | 研究记录（非公开可执行） | 米；洋芋；绿豆；腊肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [北海的年味](https://www.tengchong.gov.cn/info/9573/5813513.htm) |
 ## tongren-seasonal-shefan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -156,7 +156,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 施甸蚕豆火腿焖饭 | 米、火腿、蚕豆 | A | raw-rice | 焖饭身份记录 | identity | identity_only | 无工艺、数量和液体 | identity_only |
 | 施甸豌豆洋芋火腿焖饭 | 米、土豆、火腿、鲜豌豆 | A | raw-rice | 施甸县官方资料记录火腿切丁煎出油，与新鲜豌豆、洋芋丁和大米混合，放入罗锅以柴火慢焖 | identity | identity_only | 官方来源只给真实菜名、核心组合和高层流程，无大米、洋芋、火腿、豌豆克数，无份数与有效液体；火腿出油量、盐度、柴火强弱、时间、完成判据和电饭煲程序均未闭合；任何两人份参数都只能作为项目试验假设 | research_candidate |
-| 腾冲北海铜锅洋芋饭 | 米、土豆、四季豆、腌肉 | A | raw-rice | 铜锅焖制 | identity | identity_only | 无数量液体且铜锅身份损失 | research_candidate |
+| 腾冲北海铜锅洋芋饭 | 米、土豆、绿豆、腊肉 | C | raw-rice | 铜锅焖制 | identity、appliance | identity_only | 来源未给数量、液体或安全终点，仅支持铜锅传统流程，尚未建立电饭煲适配 | research_candidate |
 
 ## 贵州（CN-GZ）
 
