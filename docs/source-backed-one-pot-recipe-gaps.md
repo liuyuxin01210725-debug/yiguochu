@@ -75,6 +75,7 @@
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
+- 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
@@ -165,7 +166,6 @@
 - CN-QH — 政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。（检索于 2026-08-02）
 - CN-SD — 线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。（检索于 2026-08-02）
 - CN-SN — 发现线索为节庆软粮日期豆食物，未证明咸味米饭主餐范围、谷物身份或现代豆类处理。（检索于 2026-08-02）
-- CN-SX — 区域线索主要是小米或洋芋主食，并非本目录限定的咸味米饭主餐。（检索于 2026-08-02）
 - CN-TJ — 本轮未找到可用原始来源；区域结果为小吃、配菜米饭或通用电饭锅食谱。（检索于 2026-08-02）
 - CN-XZ — 线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。（检索于 2026-08-02）
 - CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）

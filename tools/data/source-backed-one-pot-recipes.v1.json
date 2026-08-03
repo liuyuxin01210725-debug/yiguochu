@@ -7,7 +7,6 @@
     {"region_code":"CN-BJ","candidate_name":"未保留候选","reason":"本轮北京地区焖饭/菜饭检索未找到可独立核验的原始来源；结果为通用家常做法或非米饭菜品。","searched_at":"2026-08-02"},
     {"region_code":"CN-TJ","candidate_name":"未保留候选","reason":"本轮未找到可用原始来源；区域结果为小吃、配菜米饭或通用电饭锅食谱。","searched_at":"2026-08-02"},
     {"region_code":"CN-HE","candidate_name":"未保留候选","reason":"未找到同时满足具名地域咸味米饭主餐与可独立核验做法门槛的来源。","searched_at":"2026-08-02"},
-    {"region_code":"CN-SX","candidate_name":"未保留候选","reason":"区域线索主要是小米或洋芋主食，并非本目录限定的咸味米饭主餐。","searched_at":"2026-08-02"},
     {"region_code":"CN-NM","candidate_name":"未保留候选","reason":"未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。","searched_at":"2026-08-02"},
     {"region_code":"CN-LN","candidate_name":"东北一锅出","reason":"可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。","searched_at":"2026-08-02"},
     {"region_code":"CN-JL","candidate_name":"未保留候选","reason":"未取得可用原始来源或具名咸味一锅米饭证据。","searched_at":"2026-08-02"},
@@ -226,6 +225,27 @@
       "source_refs":[{"source_id":"S-HN-LIANYUAN-BAMBOO-RICE-1","title":"跟着旅发大会游涟源|来一场舌尖上的美食之旅！","publisher":"湖南省文化和旅游厅","url":"https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html","retrieved_at":"2026-08-03","source_kind":"provincial_tourism_food_article","access_status":"search_extract_opened","evidence_locator":"搜索结果正文：涟源竹筒饭身份、粳米或糯米、腊肉、红枣及温火翻烤约20分钟","claim_scopes":["identity","ingredients","process","time"],"attribution":"湖南省文化和旅游厅","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"湖南省文化和旅游厅页面记录涟源竹筒饭以粳米或糯米为原料、配腊肉和红枣，在温火上慢慢翻烤，约20分钟后食用。本条保留这道具名地方饭的原料与器具工艺，不补写固定克数、液体、安全终点、份数或电饭煲适配。"
+    },
+    {
+      "recipe_id":"lingchuan-heguo-rice",
+      "canonical_name":"陵川和锅大米",
+      "aliases":["一锅出","柴火大米"],
+      "region_codes":["CN-SX"],
+      "cuisine_family":"shanxi-heguo-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["米饭","蔬菜或副食"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"陵川县人民政府页面只证明和锅大米的地方身份及可加入蔬菜副食，未提供器具、固定数量、液体、步骤、时间或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-SX-LINGCHUAN-HEGUO-RICE-1","title":"陵川和锅大米","publisher":"陵川县人民政府","url":"https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第16至22行：和锅大米、一锅出、柴火大米的地方称呼及可加入蔬菜副食的描述","claim_scopes":["identity","ingredients"],"attribution":"陵川县人民政府","license":"government_site_terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"陵川县人民政府页面明确将和锅大米称作附城一带的“一锅出”、潞城一带的“柴火大米”，并说明可加入蔬菜副食；来源没有给出具体食材、固定数量、米水比例、烹饪顺序、时间、安全终点或电饭煲适配，因此本条只保留地方身份与宽泛食材范围，不补写菜谱合同。"
     }
   ]
 }

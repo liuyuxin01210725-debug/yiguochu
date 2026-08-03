@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 10,
-      recipe_fact_checked: 48,
+    identity_verified: 11,
+    recipe_fact_checked: 48,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -885,6 +885,26 @@ test('records an evidence result or concrete blank for every required national r
       assert.equal(blank.searched_at, '2026-08-02', `${code} blank research date`);
     }
   }
+});
+
+test('records Lingchuan heguo rice as a Shanxi identity without inventing a recipe contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'lingchuan-heguo-rice');
+  assert.equal(recipe?.canonical_name, '陵川和锅大米');
+  assert.deepEqual(recipe?.aliases, ['一锅出', '柴火大米']);
+  assert.deepEqual(recipe?.region_codes, ['CN-SX']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.core_ingredients, ['米饭', '蔬菜或副食']);
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
+  assert.match(recipe?.evidence_notes ?? '', /没有给出.*数量.*米水比例.*烹饪顺序.*电饭煲/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {
