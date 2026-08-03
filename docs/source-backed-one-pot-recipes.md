@@ -44,6 +44,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## huangpu-cured-meat-claypot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 黄圃腊味煲仔饭 | 黄圃腊味蒸饭 | CN-GD | huangpu-cured-meat-claypot-rice | 研究记录（非公开可执行） | 腊味；糯米 | appliance、identity、ingredients | 缺 process | [传统美食](https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html)<br>[舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌](https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html) |
 ## huixian-ground-pot-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

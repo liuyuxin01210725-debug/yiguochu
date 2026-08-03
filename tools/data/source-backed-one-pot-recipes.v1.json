@@ -537,6 +537,30 @@
       "source_refs":[{"source_id":"S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-1","title":"绩溪笋焖饭：春天的鲜嫩与冬季的腊香","publisher":"绩溪县文化和旅游局 / 绩溪县人民政府","url":"https://www.cnjx.gov.cn/Jczwgk/show/3490028.html","retrieved_at":"2026-08-03","source_kind":"county_government_culture_tourism_page","access_status":"opened","evidence_locator":"正文第49至57行：绩溪笋焖饭的地方身份、家常普及、春笋鲜嫩与冬季腊香描述","claim_scopes":["identity","ingredients"],"attribution":"绩溪县文化和旅游局 / 绩溪县人民政府","license":"government_site_terms_unspecified"}],
       "status":"identity_verified",
       "evidence_notes":"绩溪县文化和旅游局页面将绩溪笋焖饭称为多数绩溪本地人的回忆、几乎家家都会做，并以春笋鲜嫩与冬季腊香描述其地方风味。来源没有给出完整米饭状态、核心配料清单、固定数量、液体、步骤、时间、安全终点或现代电饭煲适配，因此只记录身份和来源明确的春笋/腊香线索，不补写执行合同。"
+    },
+    {
+      "recipe_id":"huangpu-cured-meat-claypot-rice",
+      "canonical_name":"黄圃腊味煲仔饭",
+      "aliases":["黄圃腊味蒸饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"huangpu-cured-meat-claypot-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["煲仔"],
+      "core_ingredients":["腊味","糯米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"黄圃镇政府页面只记录腊味糯米饭（煲仔饭）的传统吃法，另一篇黄圃镇政府信息公开记录黄圃腊味煲仔饭的地方文化身份；来源没有现代电饭煲程序、机型或可复用执行参数。"},
+      "source_refs":[
+        {"source_id":"S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-1","title":"传统美食","publisher":"中山市黄圃镇人民政府信息网","url":"https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html","retrieved_at":"2026-08-03","source_kind":"town_government_traditional_food_page","access_status":"opened","evidence_locator":"正文第13至17行：黄圃腊味品类及传统食法中的腊味糯米饭（煲仔饭）","claim_scopes":["identity","ingredients","appliance"],"attribution":"中山市黄圃镇人民政府","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-2","title":"舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌","publisher":"中山市黄圃镇人民政府","url":"https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html","retrieved_at":"2026-08-03","source_kind":"town_government_food_culture_page","access_status":"opened","evidence_locator":"正文第43至65行：黄圃腊味煲仔饭名称、地方文化符号、现场制作与黄圃腊味蒸饭称呼","claim_scopes":["identity"],"attribution":"中山市黄圃镇人民政府","license":"government_site_terms_unspecified"}
+      ],
+      "status":"identity_verified",
+      "evidence_notes":"黄圃镇政府传统美食页面明确把腊味糯米饭（煲仔饭）列为黄圃腊味的传统食法，另一篇镇政府信息公开又把黄圃腊味煲仔饭称为本地文化符号，并记录黄圃腊味蒸饭这一称呼。来源没有给出固定数量、液体、步骤、时间、安全终点或现代电饭煲适配，因此只记录具名身份、腊味/糯米线索和煲仔器具事实，不补写执行合同。"
     }
   ]
 }

@@ -88,6 +88,7 @@
 ## 5. Missing process
 
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
+- 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
