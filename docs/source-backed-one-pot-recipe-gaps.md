@@ -297,6 +297,7 @@
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
+- 湘西苗族竹筒饭 (xiangxi-miao-bamboo-rice) — CN-HN
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN

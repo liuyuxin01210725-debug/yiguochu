@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 108,
+    recipe_fact_checked: 109,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -4051,5 +4051,43 @@ test('records Dai fragrant bamboo rice from the national ethnic-affairs source w
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'time', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /第28行.*香竹饭.*竹筒饭/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Xiangxi Miao bamboo-tube rice with its source ratio and traditional steamer boundary', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => (
+    item.recipe_id === 'xiangxi-miao-bamboo-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-HN-XIANGXI-MIAO-BAMBOO-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '湘西苗族竹筒饭');
+  assert.deepEqual(recipe?.aliases, ['湘西竹筒饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-HN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['桂竹筒', '甑笼', '柴火']);
+  assert.deepEqual(recipe?.core_ingredients, ['米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'rice_to_water_ratio',
+    amount: { value: 2.5, unit: '份水/份米' },
+    source_ids: ['S-HN-XIANGXI-MIAO-BAMBOO-RICE-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /桂竹筒.*两端留节.*锯.*口子/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /米.*盛满水.*1∶2.5/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /甑笼.*蒸煮1个多小时/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /柴火烤.*竹筒烤焦/u);
+  assert.equal(recipe?.time_contract, null, 'the source gives a steaming stage, not a complete preparation time');
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('1∶2.5'));
+  assert.ok(recipe?.evidence_notes.includes('不补固定批量'));
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第49至61行.*竹筒饭.*1∶2.5/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

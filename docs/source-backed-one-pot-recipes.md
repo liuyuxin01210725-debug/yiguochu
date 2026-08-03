@@ -437,6 +437,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 湘江源瑶家竹筒饭 | 湘江源竹筒饭；瑶家竹筒饭 | CN-HN | xiangjiangyuan-bamboo-rice | 研究记录（非公开可执行） | 糯米；茶豆；猪肉末 | identity、ingredients、process、quantity、time | 缺 liquid、appliance、safety | [湘聚缘柴火山庄](https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml) |
+## xiangxi-miao-bamboo-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 湘西苗族竹筒饭 | 湘西竹筒饭 | CN-HN | xiangxi-miao-bamboo-rice | 研究记录（非公开可执行） | 米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [湘西苗族饮食习俗](https://mzzjj.xxz.gov.cn/mzzs/202007/t20200724_1720032.html) |
 ## xiangxi-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
