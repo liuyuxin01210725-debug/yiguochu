@@ -29,6 +29,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
+- 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
@@ -64,6 +65,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
+- 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
@@ -136,6 +138,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
+- 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
@@ -182,7 +185,6 @@
 - CN-GX — 宁明县政府线索的原始 URL 在复核时返回 HTTP 404，未作为证据使用。（检索于 2026-08-02）
 - CN-GZ — 店铺和活动线索未形成可读原始来源或固定米饭主餐证据。（检索于 2026-08-02）
 - CN-HA — 线索为面食、粥或通用电饭锅食谱，均不在目录范围。（检索于 2026-08-02）
-- CN-HE — 未找到同时满足具名地域咸味米饭主餐与可独立核验做法门槛的来源。（检索于 2026-08-02）
 - CN-HI — 已知线索为鸡与饭分段制作，不能改写为生鸡肉与生米一锅；未保留其他合格独立来源。（检索于 2026-08-02）
 - CN-HL — 地方米饭引用为分开主食或通用做法，未保留合格的独立来源。（检索于 2026-08-02）
 - CN-HN — 武陵地区可能有社饭传统，但本轮未找到可独立核验的湖南原始来源证明固定米饭主餐。（检索于 2026-08-02）

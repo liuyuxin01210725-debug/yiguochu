@@ -6,7 +6,6 @@
   "regional_blanks": [
     {"region_code":"CN-BJ","candidate_name":"未保留候选","reason":"本轮北京地区焖饭/菜饭检索未找到可独立核验的原始来源；结果为通用家常做法或非米饭菜品。","searched_at":"2026-08-02"},
     {"region_code":"CN-TJ","candidate_name":"未保留候选","reason":"本轮未找到可用原始来源；区域结果为小吃、配菜米饭或通用电饭锅食谱。","searched_at":"2026-08-02"},
-    {"region_code":"CN-HE","candidate_name":"未保留候选","reason":"未找到同时满足具名地域咸味米饭主餐与可独立核验做法门槛的来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-NM","candidate_name":"未保留候选","reason":"未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。","searched_at":"2026-08-02"},
     {"region_code":"CN-LN","candidate_name":"东北一锅出","reason":"可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。","searched_at":"2026-08-02"},
     {"region_code":"CN-JL","candidate_name":"未保留候选","reason":"未取得可用原始来源或具名咸味一锅米饭证据。","searched_at":"2026-08-02"},
@@ -490,6 +489,33 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"文化和旅游部乡村旅游页面将涉县小米焖饭列为特色美食，明确记录白菜或茄子等时菜与小米、盐、水同锅焖熟的分支，并另记纯小米焖饭配炒胡萝卜条、土豆丝、野韭花或农家酸菜的分支。关于涉县小米焖饭的来源没有给出固定数量、液体比例、时间、安全终点或电饭煲适配，因此只保留两条事实分支，不合并成一个执行合同。"
+    },
+    {
+      "recipe_id":"shidian-iron-pot-ham-potato-rice",
+      "canonical_name":"铁锅土豆火腿肉焖饭",
+      "aliases":["罗锅火腿肉土豆焖饭","铜锅土豆焖饭"],
+      "region_codes":["CN-YN"],
+      "cuisine_family":"shidian-ham-potato-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["铁锅","铜锅"],
+      "core_ingredients":["大米","火腿肉","土豆"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"来源记载将淘洗好的大米入锅，加入适量清水。","source_ids":["S-YN-SHIDIAN-HAM-POTATO-RICE-1"]},
+        {"step":2,"instruction":"待水分收干后，加入火腿肉和土豆丁继续焖饭。","source_ids":["S-YN-SHIDIAN-HAM-POTATO-RICE-1"]},
+        {"step":3,"instruction":"同一篇来源前文称铁锅，后文又称铜锅；这是来源称呼冲突，本条不替它选择器具，也不把两种称呼解释为同一器具。","source_ids":["S-YN-SHIDIAN-HAM-POTATO-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"施甸县人民政府来源只记录铁锅/铜锅语境下的土豆火腿肉焖饭，未提供现代电饭煲程序、机型、可复用液体或安全终点。"},
+      "source_refs":[
+        {"source_id":"S-YN-SHIDIAN-HAM-POTATO-RICE-1","title":"〖美味施甸〗施甸舌尖图鉴：“黄金白玉”打底，千年丁香果煮鸡、黄金烤猪领衔的初秋盛宴","publisher":"施甸县人民政府","url":"https://shidian.gov.cn/info/1111/3740813.htm","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第25至33行：铁锅火腿肉焖土豆、铁锅土豆火腿肉焖饭及铜锅土豆焖饭称呼、米水和投料顺序","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"施甸县人民政府","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"施甸县人民政府来源明确写到罗锅/铁锅火腿肉土豆焖饭，并记录淘洗大米加适量清水，水分收干后加入火腿肉和土豆丁的顺序；同段又称其为铜锅土豆焖饭。来源同时写到铁锅和铜锅，且没有固定数量、液体比例、时间、安全终点或电饭煲适配，因此保留器具冲突，不建立通用执行合同。"
     }
   ]
 }

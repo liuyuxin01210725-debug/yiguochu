@@ -155,6 +155,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 涉县小米焖饭 | 小米焖饭 | CN-HE | shexian-millet-braised-rice | 研究记录（非公开可执行） | 小米；白菜或茄子 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [古城幽山小镇赏冬之旅](https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html) |
+## shidian-ham-potato-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 铁锅土豆火腿肉焖饭 | 罗锅火腿肉土豆焖饭；铜锅土豆焖饭 | CN-YN | shidian-ham-potato-braised-rice | 研究记录（非公开可执行） | 大米；火腿肉；土豆 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [〖美味施甸〗施甸舌尖图鉴：“黄金白玉”打底，千年丁香果煮鸡、黄金烤猪领衔的初秋盛宴](https://shidian.gov.cn/info/1111/3740813.htm) |
 ## sichuan-kong-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

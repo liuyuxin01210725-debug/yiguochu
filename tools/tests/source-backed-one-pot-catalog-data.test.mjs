@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 14,
-    recipe_fact_checked: 55,
+    recipe_fact_checked: 56,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1127,6 +1127,36 @@ test('records Shexian millet braised rice with its vegetable branch without inve
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(recipe?.evidence_notes ?? '', /涉县.*没有给出.*固定数量.*电饭煲/u);
+});
+
+test('removes the generic Hebei regional blank once Shexian has a source-backed candidate', () => {
+  const blank = sourceBackedCatalog().regional_blanks.find(item => (
+    item.region_code === 'CN-HE' && item.candidate_name === '未保留候选'
+  ));
+  assert.equal(blank, undefined);
+});
+
+test('records Shidian iron-pot ham potato rice while preserving the source vessel wording conflict', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'shidian-iron-pot-ham-potato-rice');
+  assert.equal(recipe?.canonical_name, '铁锅土豆火腿肉焖饭');
+  assert.deepEqual(recipe?.aliases, ['罗锅火腿肉土豆焖饭', '铜锅土豆焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['铁锅', '铜锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '火腿肉', '土豆']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /淘洗好的大米.*适量清水/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /水分收干.*火腿肉.*土豆丁/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /铁锅.*铜锅.*称呼冲突/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://shidian.gov.cn/info/1111/3740813.htm');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /来源同时写.*铁锅.*铜锅.*没有固定数量.*电饭煲/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {
