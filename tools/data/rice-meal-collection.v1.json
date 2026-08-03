@@ -1640,7 +1640,15 @@
         },
         {
           "canonical_id": null,
-          "label": "菜/豆"
+          "label": "蒿菜"
+        },
+        {
+          "canonical_id": null,
+          "label": "野葱"
+        },
+        {
+          "canonical_id": null,
+          "label": "豆子"
         },
         {
           "canonical_id": null,
@@ -1656,9 +1664,9 @@
       "traditional_appliance_and_steps": "预煮、热泡、低焖",
       "identity_sources": [
         {
-          "title": "铜仁万山社饭",
-          "publisher": "铜仁市人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "网络中国节·清明丨清明时节 社饭飘香",
+          "publisher": "铜仁市融媒体中心",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.tongren.gov.cn/2025/0405/333568.shtml",
           "supports": [
             "identity"
@@ -1668,7 +1676,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "无总数量液体，多阶段"
+        "无总数量、液体和总时长；米态混合且为多阶段工艺"
       ],
       "status": "research_candidate"
     },

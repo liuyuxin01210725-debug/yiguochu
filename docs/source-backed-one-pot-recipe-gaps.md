@@ -28,6 +28,7 @@
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
+- 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
@@ -54,6 +55,7 @@
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
+- 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
@@ -76,6 +78,7 @@
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
+- 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
@@ -101,6 +104,7 @@
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
+- 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
@@ -117,6 +121,7 @@
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ

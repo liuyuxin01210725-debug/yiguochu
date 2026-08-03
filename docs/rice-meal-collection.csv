@@ -27,7 +27,7 @@ shidian-broad-bean-ham-rice,施甸蚕豆火腿焖饭,云南 (CN-YN),yunnan-potat
 shidian-pea-potato-ham-rice,施甸豌豆洋芋火腿焖饭,云南 (CN-YN),yunnan-potato-rice,米 / 土豆 / 火腿 / 鲜豌豆,A,raw-rice,施甸县官方资料记录火腿切丁煎出油，与新鲜豌豆、洋芋丁和大米混合，放入罗锅以柴火慢焖,identity,identity_only,官方来源只给真实菜名、核心组合和高层流程，无大米、洋芋、火腿、豌豆克数，无份数与有效液体；火腿出油量、盐度、柴火强弱、时间、完成判据和电饭煲程序均未闭合；任何两人份参数都只能作为项目试验假设,research_candidate
 tengchong-copper-pot-potato-rice,腾冲北海铜锅洋芋饭,云南 (CN-YN),yunnan-potato-rice,米 / 土豆 / 绿豆 / 腊肉,C,raw-rice,铜锅焖制,identity / appliance,identity_only,来源未给数量、液体或安全终点，仅支持铜锅传统流程，尚未建立电饭煲适配,research_candidate
 dong-steamed-she-rice,贵州侗家甑蒸社饭,贵州 (CN-GZ),wuling-she-rice,糯米/粳米 / 艾草 / 腊肉 / 花生 / 豆干,A,mixed-rice,甑蒸两条工艺分支,identity,identity_only,双工艺且无总克数液体,research_candidate
-wanshan-she-rice,铜仁万山社饭,贵州 (CN-GZ),wuling-she-rice,鲜米 / 糯米 / 菜/豆 / 花生 / 腊肉,A,mixed-rice,预煮、热泡、低焖,identity,identity_only,无总数量液体，多阶段,research_candidate
+wanshan-she-rice,铜仁万山社饭,贵州 (CN-GZ),wuling-she-rice,鲜米 / 糯米 / 蒿菜 / 野葱 / 豆子 / 花生 / 腊肉,A,mixed-rice,预煮、热泡、低焖,identity,identity_only,无总数量、液体和总时长；米态混合且为多阶段工艺,research_candidate
 huixian-ground-pot-chicken-rice,辉县地锅鸡米饭,河南 (CN-HA),ground-pot-rice,生米 / 鸡肉 / 干豆角 / 香菇,A,raw-rice,地锅鸡与米饭,identity,identity_only,无克数、液体和份数,research_candidate
 lianyuan-bamboo-rice,涟源腊肉红枣竹筒饭,湖南 (CN-HN),bamboo-rice,米 / 腊肉 / 红枣,B,raw-rice,火烤竹筒,identity,identity_only,火烤器具身份且无数量液体,research_candidate
 xiangjiangyuan-bamboo-rice,湘江源瑶家竹筒饭,湖南 (CN-HN),bamboo-rice,糯米 / 茶豆 / 猪肉末,A,glutinous-rice,竹筒火烤,identity / quantity,partial,需食品安全竹筒与首煮液体,research_candidate

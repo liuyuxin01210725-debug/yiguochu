@@ -99,6 +99,25 @@ test('keeps Dong侗 steamed she rice separate from Tongren she rice and blocks i
   assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
 });
 
+test('keeps Wanshan she rice ingredients and split-rice process aligned with the official local report', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'wanshan-she-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '鲜米' },
+    { canonical_id: null, label: '糯米' },
+    { canonical_id: null, label: '蒿菜' },
+    { canonical_id: null, label: '野葱' },
+    { canonical_id: null, label: '豆子' },
+    { canonical_id: null, label: '花生' },
+    { canonical_id: null, label: '腊肉' },
+  ]);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.blockers.join('\n') || '', /无总数量.*液体.*多阶段/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '网络中国节·清明丨清明时节 社饭飘香');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

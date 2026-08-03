@@ -165,7 +165,7 @@
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 贵州侗家甑蒸社饭 | 糯米/粳米、艾草、腊肉、花生、豆干 | A | mixed-rice | 甑蒸两条工艺分支 | identity | identity_only | 双工艺且无总克数液体 | research_candidate |
-| 铜仁万山社饭 | 鲜米、糯米、菜/豆、花生、腊肉 | A | mixed-rice | 预煮、热泡、低焖 | identity | identity_only | 无总数量液体，多阶段 | research_candidate |
+| 铜仁万山社饭 | 鲜米、糯米、蒿菜、野葱、豆子、花生、腊肉 | A | mixed-rice | 预煮、热泡、低焖 | identity | identity_only | 无总数量、液体和总时长；米态混合且为多阶段工艺 | research_candidate |
 
 ## 河南（CN-HA）
 

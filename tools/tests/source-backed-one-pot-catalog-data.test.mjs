@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 10,
-    recipe_fact_checked: 42,
+    recipe_fact_checked: 43,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -251,6 +251,21 @@ test('records the Dong侗 steamed she rice identity without merging its two sour
   assert.equal(recipe?.cooking_sequence.length, 4);
   assert.match(recipe?.evidence_notes || '', /不把它们合并/);
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
+});
+
+test('records Wanshan she rice with its source-stated fresh-to-glutinous rice split', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'wanshan-she-rice');
+  assert.equal(recipe?.canonical_name, '铜仁万山社饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['鲜米', '糯米', '蒿菜', '野葱', '豆子', '花生', '腊肉']);
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.evidence_notes || '', /三分之一.*鲜米.*三分之二.*糯米/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.tongren.gov.cn/2025/0405/333568.shtml');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
 });
 
