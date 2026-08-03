@@ -118,6 +118,23 @@ test('keeps Wanshan she rice ingredients and split-rice process aligned with the
   assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
 });
 
+test('keeps Huixian ground-pot chicken rice aligned with the named local dish report', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'huixian-ground-pot-chicken-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '生米' },
+    { canonical_id: 'chicken-generic', label: '鸡肉' },
+    { canonical_id: null, label: '干豆角' },
+    { canonical_id: 'shiitake', label: '香菇' },
+    { canonical_id: null, label: '粉条' },
+  ]);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.blockers.join('\n') || '', /没有固定数量.*液体.*时间/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '河南美食No.61|最朴素的乡村地锅，老吃家咋会被一锅米饭惊艳到？');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

@@ -1703,6 +1703,10 @@
         {
           "canonical_id": "shiitake",
           "label": "香菇"
+        },
+        {
+          "canonical_id": null,
+          "label": "粉条"
         }
       ],
       "rice_state": "raw-rice",
@@ -1710,9 +1714,9 @@
       "traditional_appliance_and_steps": "地锅鸡与米饭",
       "identity_sources": [
         {
-          "title": "辉县地锅鸡米饭",
-          "publisher": "河南电视台",
-          "retrieved_at": "2026-08-01",
+          "title": "河南美食No.61|最朴素的乡村地锅，老吃家咋会被一锅米饭惊艳到？",
+          "publisher": "大象新闻 / 河南广播电视台",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist",
           "supports": [
             "identity"
@@ -1722,7 +1726,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "无克数、液体和份数"
+        "来源明确给出鸡肉、米饭、干豆角、香菇和末段粉条的工艺，但没有固定数量、液体、时间、份数或电饭煲适配"
       ],
       "status": "research_candidate"
     },

@@ -34,6 +34,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## huixian-ground-pot-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 辉县地锅鸡米饭 | 地锅鸡米饭 | CN-HA | huixian-ground-pot-chicken-rice | 研究记录（非公开可执行） | 生米；鸡肉；干豆角；香菇；粉条 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [河南美食No.61\|最朴素的乡村地锅，老吃家咋会被一锅米饭惊艳到？](https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist) |
 ## jiangnan-duck-greens-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

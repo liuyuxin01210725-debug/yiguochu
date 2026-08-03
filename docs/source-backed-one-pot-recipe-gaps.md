@@ -16,6 +16,7 @@
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
@@ -43,6 +44,7 @@
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
@@ -75,6 +77,7 @@
 ## 6. Missing appliance
 
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
+- 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
@@ -89,6 +92,7 @@
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
@@ -115,6 +119,7 @@
 ## 8. Missing safety
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX

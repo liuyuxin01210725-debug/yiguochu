@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 10,
-    recipe_fact_checked: 43,
+    recipe_fact_checked: 44,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -266,6 +266,22 @@ test('records Wanshan she rice with its source-stated fresh-to-glutinous rice sp
   assert.equal(recipe?.cooking_sequence.length, 4);
   assert.match(recipe?.evidence_notes || '', /三分之一.*鲜米.*三分之二.*糯米/);
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.tongren.gov.cn/2025/0405/333568.shtml');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
+});
+
+test('records Huixian ground-pot chicken rice without turning approximate broth or time into a fixed contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'huixian-ground-pot-chicken-rice');
+  assert.equal(recipe?.canonical_name, '辉县地锅鸡米饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['生米', '鸡肉', '干豆角', '香菇', '粉条']);
+  assert.deepEqual(recipe?.traditional_vessels, ['地锅']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.evidence_notes || '', /二十分钟左右/);
+  assert.match(recipe?.evidence_notes || '', /不把.*固定/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
 });
 
