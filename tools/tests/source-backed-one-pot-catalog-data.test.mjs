@@ -506,7 +506,7 @@ test('records Qijiang potato cured-pork kong rice as an identity-only government
   assert.equal(validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), false);
 });
 
-test('records Ninghe zengxiang pork rice with only the source-stated vessel and process', () => {
+test('records Ninghe zengxiang pork rice from two bounded sources without inventing missing contracts', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'ninghe-zeng-pork-rice'
   ));
@@ -518,7 +518,7 @@ test('records Ninghe zengxiang pork rice with only the source-stated vessel and 
   assert.deepEqual(recipe?.aliases, []);
   assert.deepEqual(recipe?.region_codes, ['CN-TJ']);
   assert.deepEqual(recipe?.traditional_vessels, ['陶甑']);
-  assert.deepEqual(recipe?.core_ingredients, ['大米', '猪肉']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '猪肉', '香菇']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
   assert.equal(recipe?.cooking_sequence.length, 1);
@@ -533,6 +533,15 @@ test('records Ninghe zengxiang pork rice with only the source-stated vessel and 
   assert.equal(source?.retrieved_at, '2026-08-03');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.equal(source?.access_status, 'opened');
+
+  const ingredientSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-TJ-NINGHE-ZENG-PORK-RICE-2'
+  ));
+  assert.equal(ingredientSource?.publisher, '中宏网');
+  assert.equal(ingredientSource?.access_status, 'opened');
+  assert.deepEqual(ingredientSource?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(ingredientSource?.evidence_locator ?? '', /第139至140行/);
+  assert.match(recipe?.evidence_notes ?? '', /三瘦七肥.*肉丁.*香菇.*宁河大米/u);
 });
 
 test('records Yichang cured-pork braised rice as an identity-only official listing when the source page is redirect-looped', () => {
@@ -1127,6 +1136,14 @@ test('records an evidence result or concrete blank for every required national r
       assert.equal(blank.searched_at, '2026-08-02', `${code} blank research date`);
     }
   }
+});
+
+test('does not retain a regional blank for Tianjin once Ninghe zengxiang pork rice is sourced', () => {
+  const catalog = sourceBackedCatalog();
+  assert.equal(
+    catalog.regional_blanks.some(blank => blank.region_code === 'CN-TJ'),
+    false,
+  );
 });
 
 test('records the sourced Lingchuan heguo rice process without inventing a recipe contract', () => {

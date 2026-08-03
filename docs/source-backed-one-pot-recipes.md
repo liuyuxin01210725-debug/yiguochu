@@ -200,7 +200,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 宁河甑乡肉焖儿 | — | CN-TJ | ninghe-zeng-rice | 研究记录（非公开可执行） | 大米；猪肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [望山见水忆乡愁（图）](https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm) |
+| 宁河甑乡肉焖儿 | — | CN-TJ | ninghe-zeng-rice | 研究记录（非公开可执行） | 大米；猪肉；香菇 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [望山见水忆乡愁（图）](https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm)<br>[〖新闻发布会〗最美“丰”景，津郊“乡”约，“四个十”活动打造天津丰收季](https://www.zhonghongwang.com/show-257-286448-1.html) |
 ## ningxia-steamed-meat-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
