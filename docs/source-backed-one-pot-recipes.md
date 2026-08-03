@@ -155,6 +155,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 台山鸡焗饭 | 台山特色鸡饭 | CN-GD | taishan-chicken-baked-rice | 研究记录（非公开可执行） | 米；鸡肉；腌料酱汁 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [广东侨乡台山的特色鸡饭按锅上 饭焦诱人](https://www.qb.gd.gov.cn/ztzl/2021ycsf/xwdt/content/post_988644.html) |
+## taishan-eel-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 台山黄鳝饭 | 台山黄鳝焗饭 | CN-GD | taishan-eel-rice | 研究记录（非公开可执行） | 台山本地小农粘米；鲜活黄鳝；姜葱；酱油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [由深入江 好吃到镇！“碳水脑袋”集合~江门这口黄鳝饭馋哭你](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/zwgk/gzdt/content/post_3145157.html)<br>[制作须遵循“煮、炒、焗”三道核心工艺 台山黄鳝饭有了“标准”](https://www.jiangmen.gov.cn/home/sqdt/tszx/content/post_3288348.html) |
+## taishan-shangchuan-shixialuo-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 石硖螺饭 | 石夹螺饭 | CN-GD | taishan-shangchuan-shixialuo-rice | 研究记录（非公开可执行） | 石硖螺；米饭 | identity、ingredients | 缺 process | [台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html) |
 ## taiwan-ceremonial-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

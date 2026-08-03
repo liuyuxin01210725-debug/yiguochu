@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 13,
-    recipe_fact_checked: 50,
+    identity_verified: 14,
+    recipe_fact_checked: 51,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -992,6 +992,50 @@ test('records Chikan claypot-rice craft as a named intangible regional identity 
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'appliance']);
   assert.match(recipe?.evidence_notes ?? '', /县级非遗.*多种配料变体.*不是一条统一配方/u);
+});
+
+test('records Taishan eel rice from the official standard and craft account without inventing a batch or cooker conversion', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taishan-eel-rice');
+  assert.equal(recipe?.canonical_name, '台山黄鳝饭');
+  assert.deepEqual(recipe?.aliases, ['台山黄鳝焗饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['砂煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['台山本地小农粘米', '鲜活黄鳝', '姜葱', '酱油']);
+  assert.equal(recipe?.fixed_batch, null, 'the source gives a rice-to-eel ratio, not an absolute batch');
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /黄鳝.*沸水中煮熟.*过冷河/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /起出黄鳝肉并拆骨.*姜葱.*酱油.*中火翻炒/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /米与黄鳝约1∶1\.5.*米饭.*刚刚煮熟/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /小火焗5分钟.*葱花.*拌匀/u);
+  assert.equal(recipe?.time_contract, null, 'the source only fixes the finishing bake, not the full meal duration');
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/zwgk/gzdt/content/post_3145157.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /1∶1\.5.*不建立.*电饭锅/u);
+});
+
+test('records Shixi luo rice as a Shangchuan Island regional identity without mistaking a food description for a recipe contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taishan-shixialuo-rice');
+  assert.equal(recipe?.canonical_name, '石硖螺饭');
+  assert.deepEqual(recipe?.aliases, ['石夹螺饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['石硖螺', '米饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
+  assert.match(recipe?.evidence_notes ?? '', /上川岛特产.*没有给出完整做法.*器具参数/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {

@@ -339,6 +339,56 @@
       "source_refs":[{"source_id":"S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-1","title":"赤坎煲仔饭烹饪技艺","publisher":"开平市文化馆","url":"https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html","retrieved_at":"2026-08-03","source_kind":"county_cultural_museum_intangible_heritage_page","access_status":"opened","evidence_locator":"正文第8至17行：赤坎煲仔饭烹饪技艺的地域身份、果木柴火、多种肉类腊味与时令食材变体，并列入开平市县级非遗项目名录","claim_scopes":["identity","ingredients","appliance"],"attribution":"开平市文化馆","license":"government_site_terms_unspecified"}],
       "status":"identity_verified",
       "evidence_notes":"开平市文化馆将赤坎煲仔饭烹饪技艺列为当地县级非遗项目，明确果木柴火和十月晚稻米，以及黄鳝、牛肉、排骨、腊味、菜果等多种配料变体；这些记录支持地域身份和技法边界，但不是一条统一配方，因此不补写克数、液体、时间、安全或电饭煲合同。"
+    },
+    {
+      "recipe_id":"taishan-eel-rice",
+      "canonical_name":"台山黄鳝饭",
+      "aliases":["台山黄鳝焗饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"taishan-eel-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["砂煲"],
+      "core_ingredients":["台山本地小农粘米","鲜活黄鳝","姜葱","酱油"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"选用台山本地小农粘米和当天新鲜黄鳝；将活黄鳝整条放入沸水中煮熟，捞出过冷河。","source_ids":["S-GD-TAISHAN-EEL-RICE-1","S-GD-TAISHAN-EEL-RICE-STANDARD-1"]},
+        {"step":2,"instruction":"手工起出黄鳝肉并拆骨，鳝肉入锅后加入姜葱和酱油等调味料，中火翻炒。","source_ids":["S-GD-TAISHAN-EEL-RICE-1"]},
+        {"step":3,"instruction":"按来源记录的米与黄鳝约1∶1.5比例准备主料；待砂煲中的米饭刚刚煮熟，将炒好的黄鳝肉均匀铺在饭面。","source_ids":["S-GD-TAISHAN-EEL-RICE-1"]},
+        {"step":4,"instruction":"盖上砂煲小火焗5分钟，使鳝香渗入米饭；出锅前撒葱花并将米饭、鳝肉和葱花拌匀。","source_ids":["S-GD-TAISHAN-EEL-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"江门市政府来源记录的是台山砂煲黄鳝饭；原器具的煮、炒、焗流程不能直接转换为电饭煲水量、程序或时间。"},
+      "source_refs":[
+        {"source_id":"S-GD-TAISHAN-EEL-RICE-1","title":"由深入江 好吃到镇！“碳水脑袋”集合~江门这口黄鳝饭馋哭你","publisher":"江门市文化广电旅游体育局","url":"https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/zwgk/gzdt/content/post_3145157.html","retrieved_at":"2026-08-03","source_kind":"municipal_culture_tourism_food_article","access_status":"opened","evidence_locator":"正文第48至76行：台山黄鳝饭地域身份、米鳝比例、煮鳝起肉、炒鳝、砂煲焗饭5分钟和拌匀流程","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"江门市文化广电旅游体育局","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GD-TAISHAN-EEL-RICE-STANDARD-1","title":"制作须遵循“煮、炒、焗”三道核心工艺 台山黄鳝饭有了“标准”","publisher":"江门市人民政府 / 江门新闻网","url":"https://www.jiangmen.gov.cn/home/sqdt/tszx/content/post_3288348.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_food_standard_article","access_status":"opened","evidence_locator":"正文第46至51行：台山黄鳝饭团体标准、鲜活黄鳝与台山丝苗米、煮炒焗三道核心工艺及品质要求","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"江门市人民政府 / 江门新闻网","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"江门市文化广电旅游体育局报道台山水步镇黄鳝饭的百年地域身份，并给出砂煲流程：活黄鳝沸水煮熟后过冷河、起肉拆骨、姜葱酱油中火翻炒，米饭刚熟时铺鳝肉并小火焗5分钟，最后撒葱花拌匀；来源还给出米与黄鳝约1∶1.5。江门市政府/江门新闻网另以团体标准报道确认“煮、炒、焗”三道核心工艺和鲜活黄鳝、台山丝苗米边界。两源均未给绝对批量、液体量、全程总时间、家庭安全终点或电饭锅等价参数，因此不建立 fixed_batch、liquid_contract、time_contract、安全或电饭锅合同。"
+    },
+    {
+      "recipe_id":"taishan-shixialuo-rice",
+      "canonical_name":"石硖螺饭",
+      "aliases":["石夹螺饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"taishan-shangchuan-shixialuo-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["石硖螺","米饭"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":["软体动物"],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"江门市政府文旅资料只介绍上川岛特产石硖螺饭及其食材与成品口感，没有给出具体器具、清洗或加热步骤、液体、时间、安全终点或电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-TAISHAN-SHIXIALUO-RICE-1","title":"台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！","publisher":"江门市文化广电旅游体育局","url":"https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html","retrieved_at":"2026-08-03","source_kind":"municipal_culture_tourism_food_article","access_status":"opened","evidence_locator":"正文第83至101行：上川岛特产石硖螺、石硖螺饭名称及焖好后的米饭和螺肉描述","claim_scopes":["identity","ingredients"],"attribution":"江门市文化广电旅游体育局","license":"government_site_terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"江门市文化广电旅游体育局将石硖螺饭列为台山上川岛特产，并说明石硖螺是当地特产贝类、成品为螺肉与米饭融合的焖饭；来源没有给出完整做法、固定数量、液体、时间、安全终点或器具参数，因此只保留地域身份、名称、核心食材和软体动物标签，不把“焖好”扩写成执行合同。"
     }
   ]
 }
