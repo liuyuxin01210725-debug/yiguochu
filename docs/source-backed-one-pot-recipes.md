@@ -111,6 +111,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 豌豆洋芋火腿焖饭 | — | CN-YN | yunnan-seasonal-pea-potato-ham-rice | 研究记录（非公开可执行） | 火腿；青豌豆仁；洋芋；米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [来老麦解锁青豌豆的N种“鲜”吃法](https://shidian.gov.cn/info/1111/3792183.htm) |
+## zhejiang-bamboo-tube-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 磐安竹筒饭 | — | CN-ZJ | zhejiang-bamboo-tube-rice | 研究记录（非公开可执行） | 糯米；腊肉；青豆 | appliance、identity、ingredients、process、safety、time | 缺 quantity、liquid | [把“名小吃”做出“大文章”](https://www.chinacoop.gov.cn/HTML/2019/09/18/156561.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## zhejiang-festival-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

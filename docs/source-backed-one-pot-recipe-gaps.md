@@ -23,6 +23,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
+- 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 
 ## 4. Missing liquid
 
@@ -36,6 +37,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
+- 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 
 ## 5. Missing process
 

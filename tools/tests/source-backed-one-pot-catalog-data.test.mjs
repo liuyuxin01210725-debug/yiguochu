@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 27,
+    recipe_fact_checked: 28,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -323,6 +323,39 @@ test('structures the Quanzhou Huzaifan steaming process without inventing quanti
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Panan bamboo-tube rice ingredients and roast time without inventing quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zhejiang-panan-bamboo-tube-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-ZJ-PANAN-BAMBOO-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '磐安竹筒饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.identity_status, 'verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['竹筒', '烤架']);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '腊肉', '青豆']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /竹筒.*糯米.*腊肉.*青豆/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /锡纸.*封口/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /烤架.*约半个小时.*劈开/);
+  assert.deepEqual(recipe?.time_contract, { total_minutes: 30, source_ids: ['S-ZJ-PANAN-BAMBOO-RICE-1'] });
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('time'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
