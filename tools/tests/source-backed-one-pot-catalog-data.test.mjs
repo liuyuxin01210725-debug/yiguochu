@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 14,
-    recipe_fact_checked: 69,
+    identity_verified: 13,
+    recipe_fact_checked: 70,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -997,28 +997,36 @@ test('records Lingchuan heguo rice as a Shanxi identity without inventing a reci
   assert.match(recipe?.evidence_notes ?? '', /没有给出.*数量.*米水比例.*烹饪顺序.*电饭煲/u);
 });
 
-test('records Jixi bamboo-shoot braised rice as an Anhui identity without inventing its recipe contract', () => {
+test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'jixi-bamboo-shoot-braised-rice');
-  const source = recipe?.source_refs?.[0];
+  const identitySource = recipe?.source_refs?.find(item => item.source_id === 'S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-1');
+  const processSource = recipe?.source_refs?.find(item => item.source_id === 'S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-2');
 
   assert.equal(recipe?.canonical_name, '绩溪笋焖饭');
   assert.deepEqual(recipe?.aliases, []);
   assert.deepEqual(recipe?.region_codes, ['CN-AH']);
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.traditional_vessels, []);
-  assert.deepEqual(recipe?.core_ingredients, ['春笋', '腊味']);
+  assert.deepEqual(recipe?.core_ingredients, ['春笋', '腊肉', '豌豆', '糯米']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /腊肉.*煸炒.*咸香/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /笋丁.*豌豆.*翻炒/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /糯米和水.*焖煮/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
-  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(source?.url, 'https://www.cnjx.gov.cn/Jczwgk/show/3490028.html');
-  assert.equal(source?.publisher, '绩溪县文化和旅游局 / 绩溪县人民政府');
-  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
-  assert.equal(source?.access_status, 'opened');
-  assert.match(recipe?.evidence_notes ?? '', /绩溪.*笋焖饭.*没有给出.*固定数量.*电饭煲/u);
+  assert.equal(identitySource?.url, 'https://www.cnjx.gov.cn/Jczwgk/show/3490028.html');
+  assert.equal(identitySource?.publisher, '绩溪县文化和旅游局 / 绩溪县人民政府');
+  assert.deepEqual(identitySource?.claim_scopes, ['identity', 'ingredients']);
+  assert.equal(identitySource?.access_status, 'opened');
+  assert.equal(processSource?.url, 'https://cn.chinadaily.com.cn/a/202303/30/WS64255a2ea3102ada8b236164.html');
+  assert.equal(processSource?.publisher, '中国日报网；引述安徽省文化和旅游厅资料');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(processSource?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /中国日报.*腊肉.*笋丁.*豌豆.*糯米和水.*焖煮/u);
 });
 
 test('records Huangpu cured-meat claypot rice as a Guangdong identity without inventing its recipe contract', () => {

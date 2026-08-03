@@ -26,6 +26,7 @@
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
@@ -75,6 +76,7 @@
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
@@ -116,7 +118,6 @@
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
-- 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
@@ -137,6 +138,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
+- 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
@@ -165,6 +167,7 @@
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
+- 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
@@ -209,6 +212,7 @@
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN

@@ -525,18 +525,25 @@
       "cuisine_family":"jixi-bamboo-shoot-braised-rice",
       "identity_status":"verified",
       "traditional_vessels":[],
-      "core_ingredients":["春笋","腊味"],
+      "core_ingredients":["春笋","腊肉","豌豆","糯米"],
       "fixed_batch":null,
       "liquid_contract":null,
-      "cooking_sequence":[],
+      "cooking_sequence":[
+        {"step":1,"instruction":"先将腊肉煸炒，使咸香充分散发。","source_ids":["S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-2"]},
+        {"step":2,"instruction":"倒入笋丁和豌豆翻炒。","source_ids":["S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-2"]},
+        {"step":3,"instruction":"加入糯米和水焖煮；来源没有给出固定水量、锅具或总时长，因此只保留这一步的事实范围。","source_ids":["S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-2"]}
+      ],
       "time_contract":null,
       "safety_endpoints":[],
       "allergen_labels":[],
-      "nutrition_structure":{"grade":"unassessed","roles":[]},
-      "cooker_adaptation":{"status":"not_adapted","notes":"绩溪县文化和旅游局页面只确认绩溪笋焖饭的地方身份，以及春笋鲜嫩与冬季腊香的风味线索，没有提供现代电饭煲程序、机型或可复用执行参数。"},
-      "source_refs":[{"source_id":"S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-1","title":"绩溪笋焖饭：春天的鲜嫩与冬季的腊香","publisher":"绩溪县文化和旅游局 / 绩溪县人民政府","url":"https://www.cnjx.gov.cn/Jczwgk/show/3490028.html","retrieved_at":"2026-08-03","source_kind":"county_government_culture_tourism_page","access_status":"opened","evidence_locator":"正文第49至57行：绩溪笋焖饭的地方身份、家常普及、春笋鲜嫩与冬季腊香描述","claim_scopes":["identity","ingredients"],"attribution":"绩溪县文化和旅游局 / 绩溪县人民政府","license":"government_site_terms_unspecified"}],
-      "status":"identity_verified",
-      "evidence_notes":"绩溪县文化和旅游局页面将绩溪笋焖饭称为多数绩溪本地人的回忆、几乎家家都会做，并以春笋鲜嫩与冬季腊香描述其地方风味。来源没有给出完整米饭状态、核心配料清单、固定数量、液体、步骤、时间、安全终点或现代电饭煲适配，因此只记录身份和来源明确的春笋/腊香线索，不补写执行合同。"
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"绩溪身份来源与中国日报转引的地方工序均未建立现代电饭煲程序、机型、水量、时间或安全终点；原文的焖煮描述不能直接转换为电饭煲执行合同。"},
+      "source_refs":[
+        {"source_id":"S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-1","title":"绩溪笋焖饭：春天的鲜嫩与冬季的腊香","publisher":"绩溪县文化和旅游局 / 绩溪县人民政府","url":"https://www.cnjx.gov.cn/Jczwgk/show/3490028.html","retrieved_at":"2026-08-03","source_kind":"county_government_culture_tourism_page","access_status":"opened","evidence_locator":"正文第49至57行：绩溪笋焖饭的地方身份、家常普及、春笋鲜嫩与冬季腊香描述","claim_scopes":["identity","ingredients"],"attribution":"绩溪县文化和旅游局 / 绩溪县人民政府","license":"government_site_terms_unspecified"},
+        {"source_id":"S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-2","title":"相约安徽·向春而行丨吃笋正当时，来安徽寻找春天最鲜的味道","publisher":"中国日报网；引述安徽省文化和旅游厅资料","url":"https://cn.chinadaily.com.cn/a/202303/30/WS64255a2ea3102ada8b236164.html","retrieved_at":"2026-08-03","source_kind":"national_media_local_food_report","access_status":"opened","evidence_locator":"正文第137至151行：绩溪笋焖饭身份、腊肉煸炒后加入笋丁和豌豆翻炒，再加糯米和水焖煮；页面图片注明图源安徽省文化和旅游厅","claim_scopes":["identity","ingredients","process"],"attribution":"中国日报网；引述安徽省文化和旅游厅资料","license":"publisher_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"绩溪县文化和旅游局/县政府页面确认绩溪笋焖饭的地方身份，并描述春笋与腊香的地域线索；中国日报网报道的安徽春季美食资料给出工序：腊肉先煸炒出香，再加入笋丁、豌豆翻炒，最后加入糯米和水焖煮。两源没有给出固定批量、米水比例、总时长、安全终点或电饭煲适配，因此只补齐身份、核心食材和来源明确的工序，不把焖煮改写成现代电饭煲合同。"
     },
     {
       "recipe_id":"huangpu-cured-meat-claypot-rice",

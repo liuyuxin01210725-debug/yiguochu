@@ -101,7 +101,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 绩溪笋焖饭 | — | CN-AH | jixi-bamboo-shoot-braised-rice | 研究记录（非公开可执行） | 春笋；腊味 | identity、ingredients | 缺 process | [绩溪笋焖饭：春天的鲜嫩与冬季的腊香](https://www.cnjx.gov.cn/Jczwgk/show/3490028.html) |
+| 绩溪笋焖饭 | — | CN-AH | jixi-bamboo-shoot-braised-rice | 研究记录（非公开可执行） | 春笋；腊肉；豌豆；糯米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [绩溪笋焖饭：春天的鲜嫩与冬季的腊香](https://www.cnjx.gov.cn/Jczwgk/show/3490028.html)<br>[相约安徽·向春而行丨吃笋正当时，来安徽寻找春天最鲜的味道](https://cn.chinadaily.com.cn/a/202303/30/WS64255a2ea3102ada8b236164.html) |
 ## kaiping-chikan-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
