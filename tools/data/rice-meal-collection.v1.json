@@ -1505,13 +1505,13 @@
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "A",
+      "nutrition_grade": "C",
       "traditional_appliance_and_steps": "焖饭身份记录",
       "identity_sources": [
         {
-          "title": "施甸蚕豆火腿焖饭",
+          "title": "【美味施甸】春味，藏在豆香里",
           "publisher": "施甸县人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://shidian.gov.cn/info/1111/3664633.htm",
           "supports": [
             "identity"

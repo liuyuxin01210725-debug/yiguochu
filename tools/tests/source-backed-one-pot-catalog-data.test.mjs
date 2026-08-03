@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 7,
+    identity_verified: 8,
     recipe_fact_checked: 39,
   });
   for (const recipe of catalog.recipes) {
@@ -1794,6 +1794,34 @@ test('structures Banshan Lixia wild rice from the national intangible-heritage p
   assert.ok(source?.claim_scopes.includes('identity'));
   assert.ok(source?.claim_scopes.includes('ingredients'));
   assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Shidian broad-bean ham rice as an identity-only government source without inventing its missing method', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shidian-broad-bean-ham-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-YN-SHIDIAN-BROAD-BEAN-HAM-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '施甸蚕豆火腿焖饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.deepEqual(recipe?.core_ingredients, ['米饭', '蚕豆', '火腿']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'unassessed',
+    roles: [],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(source?.claim_scopes.includes('ingredients'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

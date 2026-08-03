@@ -223,3 +223,24 @@ test('keeps the Banshan Lixia wild rice candidate aligned with the intangible-he
   assert.equal(candidate?.status, 'research_candidate');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Shidian broad-bean ham rice candidate aligned with its government source', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'shidian-broad-bean-ham-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: null, label: '火腿' },
+    { canonical_id: null, label: '蚕豆' },
+  ]);
+  assert.equal(candidate?.rice_state, 'raw-rice');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '【美味施甸】春味，藏在豆香里');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '施甸县人民政府');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.status, 'identity_only');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});
