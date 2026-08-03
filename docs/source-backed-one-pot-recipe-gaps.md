@@ -33,6 +33,7 @@
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
@@ -71,6 +72,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
+- 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
@@ -151,6 +153,7 @@
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW

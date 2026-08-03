@@ -195,6 +195,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html)<br>[古蜀先民“菜篮子”里都有啥？](https://www.hljzx.gov.cn/contents/68/7320.html) |
+## southeast-chongqing-tujia-he-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 合饭 | — | CN-CQ | southeast-chongqing-tujia-he-rice | 研究记录（非公开可执行） | 米；肉；花椒；盐 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [02重庆民俗风情——渝东南土家族和苗族的节令](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510457.html) |
 ## taishan-caiguo-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

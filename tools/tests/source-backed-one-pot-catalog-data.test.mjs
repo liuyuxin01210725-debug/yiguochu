@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 59,
+    recipe_fact_checked: 60,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1058,6 +1058,33 @@ test('records Tujia she rice in the Qianjiang area without merging another regio
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /黔江地区.*来源没有给出.*烹饪步骤.*电饭煲/u);
+});
+
+test('records southeast Chongqing Tujia he rice as a named layered rice meal without inventing quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'southeast-chongqing-tujia-he-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '合饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-CQ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['甑子', '鼎罐', '锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '肉', '花椒', '盐']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, [
+    { step: 1, instruction: '将肉宰成坨，加花椒、盐等作料调味。', source_ids: ['S-CQ-TUJIA-HE-RICE-1'] },
+    { step: 2, instruction: '将米和调味肉一层米一层肉码放数层，蒸熟即成合饭。', source_ids: ['S-CQ-TUJIA-HE-RICE-1'] },
+  ]);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510457.html');
+  assert.equal(source?.publisher, '重庆市地方志办公室');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /合饭.*没有给出.*固定数量.*液体.*安全终点.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {
