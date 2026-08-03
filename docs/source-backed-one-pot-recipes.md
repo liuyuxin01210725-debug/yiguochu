@@ -14,6 +14,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 社饭 | — | CN-HB | enshi-seasonal-glutinous-rice | 研究记录（非公开可执行） | 香蒿；糯米；腊肉；豆干；蒜苗 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [恩施社节](https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml)<br>[体验民风民俗 感受传统韵味](https://www.forestry.gov.cn/c/www/xxyd/26633.jhtml) |
+## ezhou-fan-zheng-yu
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 三山湖饭蒸鱼 | 饭蒸鱼 | CN-HB | ezhou-fan-zheng-yu | 研究记录（非公开可执行） | 刁子鱼；新米 | identity、ingredients、process、safety | 缺 quantity、liquid、time | [跟着赛事品美食！鄂州本地人都爱吃](https://swj.ezhou.gov.cn/xwzx/gzdt/202508/t20250828_722490.html)<br>[鄂州十大名菜十大名师名厨揭晓](https://www.ezhou.gov.cn/zjez/ezrw/eztc/eztc/202107/t20210709_409415.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## guangzhou-cured-meat-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -75,6 +80,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html)<br>[古蜀先民“菜篮子”里都有啥？](https://www.hljzx.gov.cn/contents/68/7320.html) |
+## taiwan-ceremonial-oil-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 一叶弥月油饭 | 一葉彌月油飯 | TW | taiwan-ceremonial-oil-rice | 研究记录（非公开可执行） | 糯米；香菇；肉丝；虾米；鱿鱼 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [一葉彌月油飯](https://ebook.afa.gov.tw/tefd/ebook7/ebook7-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 8,
-    recipe_fact_checked: 30,
+    recipe_fact_checked: 32,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1498,6 +1498,73 @@ test('keeps Yangzhou fried rice as a named source-backed identity rather than a 
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Ezhou Sanshanhu steamed fish rice as a named fish-and-rice identity without inventing cooker parameters', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'ezhou-sanshanhu-steamed-fish-rice'
+  ));
+  const processSource = recipe?.source_refs.find(item => item.source_id === 'S-HB-EZHOU-FANZHENGYU-1');
+  const identitySource = recipe?.source_refs.find(item => item.source_id === 'S-HB-EZHOU-TOP10-1');
+
+  assert.equal(recipe?.canonical_name, '三山湖饭蒸鱼');
+  assert.deepEqual(recipe?.aliases, ['饭蒸鱼']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['刁子鱼', '新米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /湖鱼.*腌制.*风干/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /浸透水的新米/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /鱼.*米.*同蒸|鱼脂.*米芯/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'seafood_fully_cooked',
+    minimum_core_temperature_c: 63,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(processSource?.access_status, 'opened');
+  assert.equal(identitySource?.access_status, 'search_extract_opened');
+  assert.ok(processSource?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taiwan Yiye Banyue oil rice as a named multi-stage rice dish without treating it as a one-pot cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taiwan-yiyebanyue-oil-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-AFA-YIYE-BANYUE-OIL-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '一叶弥月油饭');
+  assert.deepEqual(recipe?.aliases, ['一葉彌月油飯']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '香菇', '肉丝', '虾米', '鱿鱼']);
+  assert.equal(recipe?.fixed_batch, null, 'the source gives ingredient weights but no servings');
+  assert.equal(recipe?.liquid_contract, null, 'the source does not specify a measured cooking liquid');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糯米.*泡水4[至到]6小时.*蒸成糯米饭/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /香菇.*魷魚|香菇.*鱿鱼/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /虾米.*鱿鱼丝.*猪肉丝.*炒熟.*糯米饭/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /三角形.*包/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, [
+    { code: 'pork_fully_cooked', minimum_core_temperature_c: 74, source_ids: ['S-SAFETY-TEMPERATURES-1'] },
+    { code: 'shellfish_fully_cooked', visual_endpoint: '肉质呈珍珠白或白色且不透明', source_ids: ['S-SAFETY-TEMPERATURES-1'] },
+  ]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

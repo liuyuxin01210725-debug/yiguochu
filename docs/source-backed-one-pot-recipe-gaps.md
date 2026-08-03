@@ -13,6 +13,7 @@
 ## 3. Missing quantity
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
@@ -29,10 +30,12 @@
 ## 4. Missing liquid
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
@@ -54,6 +57,7 @@
 ## 7. Missing time
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
@@ -64,6 +68,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
