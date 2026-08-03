@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 14,
+    identity_verified: 15,
     recipe_fact_checked: 56,
   });
   for (const recipe of catalog.recipes) {
@@ -905,6 +905,30 @@ test('records Lingchuan heguo rice as a Shanxi identity without inventing a reci
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
   assert.match(recipe?.evidence_notes ?? '', /没有给出.*数量.*米水比例.*烹饪顺序.*电饭煲/u);
+});
+
+test('records Jixi bamboo-shoot braised rice as an Anhui identity without inventing its recipe contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'jixi-bamboo-shoot-braised-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '绩溪笋焖饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-AH']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['春笋', '腊味']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.cnjx.gov.cn/Jczwgk/show/3490028.html');
+  assert.equal(source?.publisher, '绩溪县文化和旅游局 / 绩溪县人民政府');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /绩溪.*笋焖饭.*没有给出.*固定数量.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {

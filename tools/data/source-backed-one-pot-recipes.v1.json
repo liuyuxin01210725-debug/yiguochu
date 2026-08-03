@@ -516,6 +516,27 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"施甸县人民政府来源明确写到罗锅/铁锅火腿肉土豆焖饭，并记录淘洗大米加适量清水，水分收干后加入火腿肉和土豆丁的顺序；同段又称其为铜锅土豆焖饭。来源同时写到铁锅和铜锅，且没有固定数量、液体比例、时间、安全终点或电饭煲适配，因此保留器具冲突，不建立通用执行合同。"
+    },
+    {
+      "recipe_id":"jixi-bamboo-shoot-braised-rice",
+      "canonical_name":"绩溪笋焖饭",
+      "aliases":[],
+      "region_codes":["CN-AH"],
+      "cuisine_family":"jixi-bamboo-shoot-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["春笋","腊味"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"绩溪县文化和旅游局页面只确认绩溪笋焖饭的地方身份，以及春笋鲜嫩与冬季腊香的风味线索，没有提供现代电饭煲程序、机型或可复用执行参数。"},
+      "source_refs":[{"source_id":"S-AH-JIXI-BAMBOO-SHOOT-BRAISED-RICE-1","title":"绩溪笋焖饭：春天的鲜嫩与冬季的腊香","publisher":"绩溪县文化和旅游局 / 绩溪县人民政府","url":"https://www.cnjx.gov.cn/Jczwgk/show/3490028.html","retrieved_at":"2026-08-03","source_kind":"county_government_culture_tourism_page","access_status":"opened","evidence_locator":"正文第49至57行：绩溪笋焖饭的地方身份、家常普及、春笋鲜嫩与冬季腊香描述","claim_scopes":["identity","ingredients"],"attribution":"绩溪县文化和旅游局 / 绩溪县人民政府","license":"government_site_terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"绩溪县文化和旅游局页面将绩溪笋焖饭称为多数绩溪本地人的回忆、几乎家家都会做，并以春笋鲜嫩与冬季腊香描述其地方风味。来源没有给出完整米饭状态、核心配料清单、固定数量、液体、步骤、时间、安全终点或现代电饭煲适配，因此只记录身份和来源明确的春笋/腊香线索，不补写执行合同。"
     }
   ]
 }
