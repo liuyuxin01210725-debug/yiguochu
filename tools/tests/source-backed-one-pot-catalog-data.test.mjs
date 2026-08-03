@@ -659,6 +659,39 @@ test('records the Jinjiang government corroboration for Shenhu Huzaifan without 
   assert.match(recipe?.evidence_notes ?? '', /汤量宜适中/);
 });
 
+test('records the Xinhua corroboration for Enshi shefan while keeping the seasonal steaming facts non-executable', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'hubei-enshi-shefan'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-HB-XINHUA-ENSHI-SHEFAN-1'
+  ));
+
+  assert.equal(source?.title, '湖北恩施：充满春天味道的土家“社饭”');
+  assert.equal(source?.publisher, '新华网');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, [
+    'identity',
+    'ingredients',
+    'process',
+    'appliance',
+  ]);
+  assert.match(source?.evidence_locator ?? '', /青蒿/);
+  assert.match(source?.evidence_locator ?? '', /木甑/);
+  assert.deepEqual(recipe?.cooking_sequence[0]?.source_ids, [
+    'S-HB-FORESTRY-SHEFAN-1',
+    'S-HB-XINHUA-ENSHI-SHEFAN-1',
+  ]);
+  assert.deepEqual(recipe?.cooking_sequence[1]?.source_ids, [
+    'S-HB-FORESTRY-SHEFAN-1',
+    'S-HB-XINHUA-ENSHI-SHEFAN-1',
+  ]);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+});
+
 test('structures the Panan bamboo-tube rice ingredients and roast time without inventing quantities', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'zhejiang-panan-bamboo-tube-rice'
@@ -2665,6 +2698,7 @@ test('locks each retained national candidate to its exact supported source, vess
       sources: [
         ['S-HB-1', '恩施社节', '恩施州人民政府门户网站', 'https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml', ['identity', 'ingredients']],
         ['S-HB-FORESTRY-SHEFAN-1', '体验民风民俗 感受传统韵味', '国家林业和草原局', 'https://www.forestry.gov.cn/c/www/xxyd/26633.jhtml', ['identity', 'ingredients', 'process', 'appliance']],
+        ['S-HB-XINHUA-ENSHI-SHEFAN-1', '湖北恩施：充满春天味道的土家“社饭”', '新华网', 'https://www.xinhuanet.com/politics/2018-03/14/c_1122537107_5.htm', ['identity', 'ingredients', 'process', 'appliance']],
       ],
     },
   };

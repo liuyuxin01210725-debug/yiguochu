@@ -43,7 +43,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 社饭 | — | CN-HB | enshi-seasonal-glutinous-rice | 研究记录（非公开可执行） | 香蒿；糯米；腊肉；豆干；蒜苗 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [恩施社节](https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml)<br>[体验民风民俗 感受传统韵味](https://www.forestry.gov.cn/c/www/xxyd/26633.jhtml) |
+| 社饭 | — | CN-HB | enshi-seasonal-glutinous-rice | 研究记录（非公开可执行） | 香蒿；糯米；腊肉；豆干；蒜苗 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [恩施社节](https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml)<br>[体验民风民俗 感受传统韵味](https://www.forestry.gov.cn/c/www/xxyd/26633.jhtml)<br>[湖北恩施：充满春天味道的土家“社饭”](https://www.xinhuanet.com/politics/2018-03/14/c_1122537107_5.htm) |
 ## ezhou-fan-zheng-yu
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
