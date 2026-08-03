@@ -171,3 +171,8 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 温州南麂芥菜饭 | — | CN-ZJ | zhejiang-festival-rice | 研究记录（非公开可执行） | 芥菜；肉末；米 | identity、ingredients、process | 缺 quantity、liquid、time | [南麂：春龙抬首暖海岛 芥饭飘香邻里情](https://www.wzdj.gov.cn/system/2026/03/19/015430433.shtml) |
+## zhejiang-lixia-wild-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 半山立夏野米饭 | 立夏野米饭；烧野米饭 | CN-ZJ | zhejiang-lixia-wild-rice | 研究记录（非公开可执行） | 米；鸡蛋；韭菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [拱墅区举办第六届半山立夏节](https://www.ihchina.cn/solarzx_details/18383.html) |

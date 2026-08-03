@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 38,
+    recipe_fact_checked: 39,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1759,6 +1759,37 @@ test('structures Nanjing aijiaohuang duck rice from the local gazette office wit
   });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.ok(recipe?.evidence_notes.includes('生熟状态'));
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(source?.claim_scopes.includes('ingredients'));
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures Banshan Lixia wild rice from the national intangible-heritage page without inventing a batch or cooker conversion', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'banshan-lixia-wild-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-ZJ-BANSHAN-LIXIA-WILD-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '半山立夏野米饭');
+  assert.deepEqual(recipe?.aliases, ['立夏野米饭', '烧野米饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-ZJ']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '鸡蛋', '韭菜']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鸡蛋.*米.*韭菜.*铁锅.*烧.*野米饭/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'unassessed',
+    roles: [],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('identity'));
   assert.ok(source?.claim_scopes.includes('ingredients'));

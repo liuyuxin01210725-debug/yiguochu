@@ -202,3 +202,24 @@ test('keeps the Nanjing aijiaohuang duck rice candidate aligned with its local g
   assert.equal(candidate?.status, 'identity_only');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Banshan Lixia wild rice candidate aligned with the intangible-heritage wording', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'banshan-lixia-wild-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: 'egg', label: '鸡蛋' },
+    { canonical_id: null, label: '韭菜' },
+  ]);
+  assert.equal(candidate?.rice_state, 'raw-rice');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '拱墅区举办第六届半山立夏节');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '中国非物质文化遗产网');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});

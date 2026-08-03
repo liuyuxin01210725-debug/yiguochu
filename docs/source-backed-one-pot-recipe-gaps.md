@@ -31,6 +31,7 @@
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
+- 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 4. Missing liquid
 
@@ -52,6 +53,7 @@
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
+- 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 5. Missing process
 
@@ -64,6 +66,7 @@
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
+- 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 7. Missing time
 
@@ -89,6 +92,7 @@
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
+- 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 8. Missing safety
 
@@ -99,6 +103,7 @@
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 9. Regional blanks
 

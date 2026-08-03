@@ -474,13 +474,13 @@
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "民俗铁锅炒煮",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "立夏民俗用铁锅和砖灶烧制野米饭",
       "identity_sources": [
         {
-          "title": "半山立夏野米饭",
+          "title": "拱墅区举办第六届半山立夏节",
           "publisher": "中国非物质文化遗产网",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.ihchina.cn/solarzx_details/18383.html",
           "supports": [
             "identity"

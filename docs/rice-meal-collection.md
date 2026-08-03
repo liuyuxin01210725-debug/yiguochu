@@ -35,7 +35,7 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 半山立夏野米饭 | 米、鸡蛋、韭菜 | B | raw-rice | 民俗铁锅炒煮 | identity | identity_only | 无数量和电饭煲适配 | research_candidate |
+| 半山立夏野米饭 | 米、鸡蛋、韭菜 | C | raw-rice | 立夏民俗用铁锅和砖灶烧制野米饭 | identity | identity_only | 无数量和电饭煲适配 | research_candidate |
 
 ## 安徽（CN-AH）
 
