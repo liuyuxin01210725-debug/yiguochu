@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 10,
-    recipe_fact_checked: 40,
+    recipe_fact_checked: 41,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -222,6 +222,21 @@ test('keeps every migrated recipe non-public until safety and complete execution
       assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
     }
   }
+});
+
+test('records the official Youzhou she rice identity without inventing a fixed batch', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'youzhou-she-rice');
+  assert.equal(recipe?.canonical_name, '酉州社饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['米', '腊肉', '豆腐干', '野菜']);
+  assert.deepEqual(recipe?.traditional_vessels, ['锅', '蒸制']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.evidence_notes || '', /不把两条分支合并/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
 });
 
 test('structures the Guangzhou government electric-cooker taro and cured-pork rice recipe without inventing a batch or time', () => {

@@ -65,6 +65,23 @@ test('national rice-meal collection records all research candidates, exclusions,
   }
 });
 
+test('keeps Youzhou she rice as a research candidate with its multi-stage source boundary', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'youzhou-she-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: null, label: '腊肉' },
+    { canonical_id: null, label: '豆干' },
+    { canonical_id: null, label: '野菜' },
+  ]);
+  assert.equal(candidate?.rice_state, 'parboiled-rice');
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.blockers.join('\n') || '', /野菜控制.*多阶段工艺/);
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.identity_sources?.[0]?.url, 'https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html');
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

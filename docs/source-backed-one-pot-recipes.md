@@ -161,6 +161,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 蛤蒌饭 | — | CN-GD | western-guangdong-herb-rice | 研究记录（非公开可执行） | 蛤蒌叶；香米 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [蛤蒌饭](https://www.zhanjiang.gov.cn/zjms/content/post_1743734.html)<br>[湛江地方标准（蛤蒌饭条目）](https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf) |
+## wuling-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 酉州社饭 | 社饭 | CN-CQ | wuling-she-rice | 研究记录（非公开可执行） | 米；腊肉；豆腐干；野菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [典籍里的酉阳美食](https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html) |
 ## xinjiang-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

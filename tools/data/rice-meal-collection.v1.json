@@ -1420,9 +1420,9 @@
       "traditional_appliance_and_steps": "米预煮、野菜和腊味多阶段合制",
       "identity_sources": [
         {
-          "title": "酉州社饭",
-          "publisher": "酉阳自治县人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "典籍里的酉阳美食",
+          "publisher": "酉阳土家族苗族自治县人民政府",
+          "retrieved_at": "2026-08-03",
           "url": "https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html",
           "supports": [
             "identity"
@@ -1432,7 +1432,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "野菜控制和多阶段工艺"
+        "来源明确描述野菜控制和米饭预煮，但存在炒熟或蒸熟两条多阶段工艺分支；缺固定数量、液体、时间、安全终点和电饭煲适配"
       ],
       "status": "research_candidate"
     },

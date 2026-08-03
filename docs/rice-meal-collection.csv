@@ -22,7 +22,7 @@ ningxia-meat-sticky-rice,宁夏肉粘饭,宁夏 (CN-NX),northwest-meat-rice,米 
 sichuan-green-bean-kong-rice,四川四季豆孔干饭,四川 (CN-SC),sichuan-kong-rice,米 / 四季豆,B,parboiled-drained-rice,米先煮至半熟后沥米汤，四季豆略炒，再铺上沥干的米加盖小火回焖,identity / safety,identity_only,半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数；半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；四季豆必须充分熟制；访谈的“略炒+回焖”没有提供可机器验证的时间/熟度终点,research_candidate
 sichuan-pea-kong-rice,四川豌豆孔干饭,四川 (CN-SC),sichuan-kong-rice,米 / 豌豆,B,parboiled-drained-rice,米先煮至半熟后沥米汤，豌豆略炒，再铺上沥干的米加盖小火回焖,identity,identity_only,半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数；半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；来源为转载，仍需独立一手复核,research_candidate
 qijiang-potato-cured-pork-kong-rice,綦江洋芋腊肉箜饭,重庆 (CN-CQ),sichuan-kong-rice,米 / 土豆 / 腊肉,C,rice-state-unverified,重庆市人民政府地方特色美食名单点名，未提供箜饭制作流程,identity,identity_only,来源只在地方特色美食名单中点名，缺米态、数量、液体、顺序、时间、器具和安全终点,identity_only
-youzhou-she-rice,酉州社饭,重庆 (CN-CQ),wuling-she-rice,米 / 腊肉 / 豆干 / 野菜,A,parboiled-rice,米预煮、野菜和腊味多阶段合制,identity,identity_only,野菜控制和多阶段工艺,research_candidate
+youzhou-she-rice,酉州社饭,重庆 (CN-CQ),wuling-she-rice,米 / 腊肉 / 豆干 / 野菜,A,parboiled-rice,米预煮、野菜和腊味多阶段合制,identity,identity_only,来源明确描述野菜控制和米饭预煮，但存在炒熟或蒸熟两条多阶段工艺分支；缺固定数量、液体、时间、安全终点和电饭煲适配,research_candidate
 shidian-broad-bean-ham-rice,施甸蚕豆火腿焖饭,云南 (CN-YN),yunnan-potato-rice,米 / 火腿 / 蚕豆,C,raw-rice,焖饭身份记录,identity,identity_only,无工艺、数量和液体,identity_only
 shidian-pea-potato-ham-rice,施甸豌豆洋芋火腿焖饭,云南 (CN-YN),yunnan-potato-rice,米 / 土豆 / 火腿 / 鲜豌豆,A,raw-rice,施甸县官方资料记录火腿切丁煎出油，与新鲜豌豆、洋芋丁和大米混合，放入罗锅以柴火慢焖,identity,identity_only,官方来源只给真实菜名、核心组合和高层流程，无大米、洋芋、火腿、豌豆克数，无份数与有效液体；火腿出油量、盐度、柴火强弱、时间、完成判据和电饭煲程序均未闭合；任何两人份参数都只能作为项目试验假设,research_candidate
 tengchong-copper-pot-potato-rice,腾冲北海铜锅洋芋饭,云南 (CN-YN),yunnan-potato-rice,米 / 土豆 / 绿豆 / 腊肉,C,raw-rice,铜锅焖制,identity / appliance,identity_only,来源未给数量、液体或安全终点，仅支持铜锅传统流程，尚未建立电饭煲适配,research_candidate
