@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 4,
+    identity_verified: 5,
     recipe_fact_checked: 94,
   });
   for (const recipe of catalog.recipes) {
@@ -1144,6 +1144,36 @@ test('does not retain a regional blank for Tianjin once Ninghe zengxiang pork ri
     catalog.regional_blanks.some(blank => blank.region_code === 'CN-TJ'),
     false,
   );
+});
+
+test('records Huairou Lianqiaofan as a named communal-pot rice meal without importing ritual objects into cooking steps', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'huairou-lianqiaofan'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-BJ-HUAIROU-LIANQIAOFAN-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '怀柔敛巧饭');
+  assert.deepEqual(recipe?.aliases, ['敛巧饭', '百家饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-BJ']);
+  assert.deepEqual(recipe?.traditional_vessels, ['大锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '玉米', '肉', '冻豆腐', '萝卜干']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大锅.*百家饭/u);
+  assert.doesNotMatch(recipe?.cooking_sequence[0]?.instruction ?? '', /顶针|针线/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(source?.publisher, '怀柔区政务服务管理局');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第35至42行/);
+  assert.match(recipe?.evidence_notes ?? '', /仪式.*不写入料理步骤/u);
 });
 
 test('records the sourced Lingchuan heguo rice process without inventing a recipe contract', () => {

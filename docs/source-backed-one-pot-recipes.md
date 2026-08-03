@@ -2,6 +2,11 @@
 
 > 本文由 `tools/data/source-backed-one-pot-recipes.v1.json` 确定性生成；研究记录不是公开可执行食谱。
 
+## beijing-huairou-lianqiaofan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 怀柔敛巧饭 | 敛巧饭；百家饭 | CN-BJ | beijing-huairou-lianqiaofan | 研究记录（非公开可执行） | 小米；玉米；肉；冻豆腐；萝卜干 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [斂巧飯習俗](https://www.beijing.gov.cn/gate/big5/www.beijing.gov.cn/renwen/bjgk/hrgk/fy/202212/t20221220_2881127.html) |
 ## cantonese-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
