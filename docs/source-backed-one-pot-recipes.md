@@ -321,6 +321,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [于田抓饭做法](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml)<br>[新疆抓饭](https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml) |
+## xiushan-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 秀山社饭 | — | CN-CQ | xiushan-she-rice | 研究记录（非公开可执行） | 大米；糯米；腊肉；蒿菜；野葱 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [秀山：推动传统村落集中连片保护利用——青山如笔作画卷](https://nyncw.cq.gov.cn/ztzl_161/rdzt/xczx/gzdt_249775/stzx/202405/t20240507_13180827_wap.html) |
 ## yangzhou-fried-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

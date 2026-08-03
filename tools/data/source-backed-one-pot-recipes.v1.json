@@ -692,6 +692,30 @@
       "evidence_notes":"阿坝州地方志办公室文章明确四川土家族主要分布于川东南黔江地区，并记载农历二月初二社日吃社饭，以糯米、猪肉、大蒜、蒿草做成。来源没有给出固定数量、液体、烹饪步骤、时间、安全终点或电饭煲适配，因此只保留土家社饭的地域身份和核心食材，不把铜仁、凤凰或恩施等地社饭流程合并进来。"
     },
     {
+      "recipe_id":"xiushan-she-rice",
+      "canonical_name":"秀山社饭",
+      "aliases":[],
+      "region_codes":["CN-CQ"],
+      "cuisine_family":"xiushan-she-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["大米","糯米","腊肉","蒿菜","野葱"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将大米、糯米煮熟。","source_ids":["S-CQ-XIUSHAN-SHE-RICE-1"]},
+        {"step":2,"instruction":"将煮熟的米饭拌入腊肉、蒿菜和野葱等辅料。","source_ids":["S-CQ-XIUSHAN-SHE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"重庆市农业农村委员会转载的秀山传统村落报道明确社饭的米类煮熟和拌料过程，但没有固定批量、液体、完整时间、器具或现代电饭煲适配；不把酉阳、黔江、铜仁等地社饭做法并入本条。"},
+      "source_refs":[{"source_id":"S-CQ-XIUSHAN-SHE-RICE-1","title":"秀山：推动传统村落集中连片保护利用——青山如笔作画卷","publisher":"重庆市农业农村委员会","url":"https://nyncw.cq.gov.cn/ztzl_161/rdzt/xczx/gzdt_249775/stzx/202405/t20240507_13180827_wap.html","retrieved_at":"2026-08-03","source_kind":"municipal_agriculture_food_culture_article","access_status":"opened","evidence_locator":"正文第44行：秀山前进村社饭将大米、糯米煮熟，并拌以腊肉、蒿菜、野葱等辅料","claim_scopes":["identity","ingredients","process"],"attribution":"重庆市农业农村委员会","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"重庆市农业农村委员会报道以秀山县传统村落为语境，村民明确介绍当地社饭把大米、糯米煮熟，并拌以腊肉、蒿菜、野葱等辅料。来源没有给固定数量、液体、完整时间、安全终点、器具或现代电饭煲适配，因此只记录秀山社饭的具名身份、核心组合和煮熟后拌料流程，不把其他地区社饭的蒸制或比例并入。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

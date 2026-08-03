@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 80,
+    recipe_fact_checked: 81,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1092,6 +1092,35 @@ test('records the sourced Lingchuan heguo rice process without inventing a recip
   assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.equal(processSource?.access_status, 'search_extract_opened');
   assert.match(recipe?.evidence_notes ?? '', /山西晚报.*大米.*干豆角.*焖制/u);
+});
+
+test('records Xiushan she rice as a sourced mixed-rice process without merging other regional she-rice variants', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'xiushan-she-rice');
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-CQ-XIUSHAN-SHE-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '秀山社饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-CQ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '糯米', '腊肉', '蒿菜', '野葱']);
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米.*糯米.*煮熟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /拌.*腊肉.*蒿菜.*野葱/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://nyncw.cq.gov.cn/ztzl_161/rdzt/xczx/gzdt_249775/stzx/202405/t20240507_13180827_wap.html');
+  assert.equal(source?.publisher, '重庆市农业农村委员会');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /秀山.*大米.*糯米.*煮熟.*腊肉.*蒿菜.*野葱/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {
