@@ -185,6 +185,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 肉粘饭 | — | CN-NX | ningxia-steamed-meat-vegetable-rice | 研究记录（非公开可执行） | 宁夏大米；牛肉或羊肉；洋葱；胡萝卜 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [不尝一次宁夏大米，难以给胃一个交代！](https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html)<br>[2024年第一顿必吃它，香甜软糯油润喷香！](https://nynct.nx.gov.cn/rdzt/ppny/202403/t20240307_4478445.html) |
+## pingtan-golden-crab-glutinous-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 金蟳糯米饭 | — | CN-FJ | pingtan-golden-crab-glutinous-rice | 研究记录（非公开可执行） | 金蟳（锯缘青蟹）；糯米；香菇；冬菜；老酒 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [美食推荐](https://www.yidaiyilu.gov.cn/p/51351.html) |
 ## qianjiang-tujia-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

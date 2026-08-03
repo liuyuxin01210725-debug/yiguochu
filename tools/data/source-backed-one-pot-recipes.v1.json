@@ -803,6 +803,30 @@
       "source_refs":[{"source_id":"S-GD-CANTONESE-RAW-STIRRED-GLUTINOUS-RICE-1","title":"12种好吃到令广州人丧失理智的米饭！","publisher":"广州市委网信办 / 羊城晚报微生活","url":"https://gzwxb.gov.cn/context/contextId/201941","retrieved_at":"2026-08-03","source_kind":"municipal_cyberspace_food_culture_article","access_status":"opened","evidence_locator":"正文第192至199行：生炒糯米饭的腊肠、虾米、香菇、生糯米、泡菇水和蚝油过程描述","claim_scopes":["identity","ingredients","process"],"attribution":"广州市委网信办 / 羊城晚报微生活","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"广州市委网信办转载的广东米饭专题明确记录‘生炒糯米饭’，写出先炒香腊肠、虾米和香菇，再加入生糯米，边炒边加入泡菇水至米粒透明并以蚝油调味的过程。来源没有给固定数量、液体总量、总时间、安全终点或电饭煲适配，因此只保留具名身份、原料和连续翻炒边界，不把它改写成电饭煲焖饭。"
+    },
+    {
+      "recipe_id":"pingtan-golden-crab-glutinous-rice",
+      "canonical_name":"金蟳糯米饭",
+      "aliases":[],
+      "region_codes":["CN-FJ"],
+      "cuisine_family":"pingtan-golden-crab-glutinous-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["蒸制","瓷盆"],
+      "core_ingredients":["金蟳（锯缘青蟹）","糯米","香菇","冬菜","老酒"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将活金蟳用老酒浸醉后切块，加入香菇、冬菜和调味佐料备用。","source_ids":["S-FJ-PINGTAN-GOLDEN-CRAB-GLUTINOUS-RICE-1"]},
+        {"step":2,"instruction":"把蟹块装入瓷盆，上面覆盖浸透的糯米，加盖后入锅蒸熟。","source_ids":["S-FJ-PINGTAN-GOLDEN-CRAB-GLUTINOUS-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"中国一带一路网资料明确的是瓷盆上锅蒸制，不提供现代电饭煲等价程序、固定批量、液体、时间或蟹类安全终点，因此不建立电饭煲适配。"},
+      "source_refs":[{"source_id":"S-FJ-PINGTAN-GOLDEN-CRAB-GLUTINOUS-RICE-1","title":"美食推荐","publisher":"中国一带一路网","url":"https://www.yidaiyilu.gov.cn/p/51351.html","retrieved_at":"2026-08-03","source_kind":"state_media_food_culture_article","access_status":"opened","evidence_locator":"正文第106至110行：金蟳身份、平潭宴席名菜、老酒浸蟹、香菇冬菜、糯米覆面和上锅蒸熟流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中国一带一路网","license":"terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"中国一带一路网页面明确将金蟳糯米饭列为平潭宴席名菜，金蟳指东庠岛锯缘青蟹，并记录老酒浸蟹切块、加入香菇和冬菜、以浸透糯米覆盖后加盖上锅蒸熟的连续流程。来源没有给固定数量、液体比例、蒸制时间、份数、蟹类安全终点或现代电饭煲适配，因此相关合同保持为空，不把蒸锅事实改写成电饭煲做法。"
     }
   ]
 }

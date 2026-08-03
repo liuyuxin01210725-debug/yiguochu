@@ -34,6 +34,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
@@ -79,6 +80,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
@@ -167,6 +169,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
@@ -203,6 +206,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD

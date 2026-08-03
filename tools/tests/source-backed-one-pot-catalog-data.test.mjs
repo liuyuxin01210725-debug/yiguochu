@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 65,
+    recipe_fact_checked: 66,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -222,6 +222,30 @@ test('keeps every migrated recipe non-public until safety and complete execution
       assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
     }
   }
+});
+
+test('records Pingtan golden-crab glutinous rice as a named banquet rice dish without inventing quantities or cooker equivalence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'pingtan-golden-crab-glutinous-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-FJ-PINGTAN-GOLDEN-CRAB-GLUTINOUS-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '金蟳糯米饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-FJ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['蒸制', '瓷盆']);
+  assert.deepEqual(recipe?.core_ingredients, ['金蟳（锯缘青蟹）', '糯米', '香菇', '冬菜', '老酒']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /金蟳.*老酒.*切块.*香菇.*冬菜/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /瓷盆.*糯米.*入锅蒸熟/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.yidaiyilu.gov.cn/p/51351.html');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /平潭.*宴席名菜.*没有给.*固定.*电饭煲/u);
 });
 
 test('records the official Youzhou she rice identity without inventing a fixed batch', () => {
