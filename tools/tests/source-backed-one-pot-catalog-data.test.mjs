@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 107,
+    recipe_fact_checked: 108,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -4018,5 +4018,38 @@ test('records Qinghai highland barley lamb millet soup from the county governmen
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(source?.evidence_locator ?? '', /搜索摘录.*青稞羊肉麦仁汤/u);
   assert.ok(!catalog.regional_blanks.some(item => item.region_code === 'CN-QH'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Dai fragrant bamboo rice from the national ethnic-affairs source without inventing a modern cooker contract', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => (
+    item.recipe_id === 'dai-fragrant-bamboo-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-YN-DAI-FRAGRANT-BAMBOO-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '傣族香竹饭');
+  assert.deepEqual(recipe?.aliases, ['傣族竹筒饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['香竹筒', '火']);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糯米.*香竹筒.*浸泡15分钟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /火.*烘烤/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /捶打竹筒.*竹膜.*剖开/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('浸泡15分钟'));
+  assert.ok(recipe?.evidence_notes.includes('没有固定批量'));
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'time', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第28行.*香竹饭.*竹筒饭/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

@@ -29,6 +29,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 煮腊肉饭 | — | CN-CQ | chengkou-cured-pork-rice | 研究记录（非公开可执行） | 腊肉；青豌豆；胡萝卜；糯米 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [文学｜城口老腊肉](https://m.12371.gov.cn/content/2023-07/22/content_446437.html) |
+## dai-bamboo-tube-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 傣族香竹饭 | 傣族竹筒饭 | CN-YN | dai-bamboo-tube-rice | 研究记录（非公开可执行） | 糯米 | appliance、identity、ingredients、process、time | 缺 quantity、liquid | [风俗习惯](https://www.neac.gov.cn/seac/ztzl/daiz/fsxg.shtml) |
 ## dong-steamed-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
