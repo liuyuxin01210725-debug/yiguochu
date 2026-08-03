@@ -741,6 +741,33 @@
       "evidence_notes":"湖北日报报道咸丰县春社活动，现场明确记录做社饭时摘洗白蒿、切剁腊肉、翻炒糯米；当地参与者进一步说明白蒿洗净切碎后用包袱揉出苦水，并将蒿子与糯米拌合。来源没有给固定数量、液体、完整时间、安全终点、器具或现代电饭煲适配，因此只记录咸丰社饭的地域身份、核心组合和处理流程，不把其他地区社饭的比例或蒸制时间并入。"
     },
     {
+      "recipe_id":"northeast-one-pot",
+      "canonical_name":"东北一锅出",
+      "aliases":["锅边饽饽一锅出"],
+      "region_codes":["CN-LN"],
+      "cuisine_family":"northeast-one-pot",
+      "identity_status":"verified",
+      "traditional_vessels":["铁锅"],
+      "core_ingredients":["豆角","土豆","茄子","玉米面"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将玉米面发好备用。","source_ids":["S-LN-NORTHEAST-ONE-POT-1"]},
+        {"step":2,"instruction":"铁锅烧热后倒油，以酱油和作料炝锅。","source_ids":["S-LN-NORTHEAST-ONE-POT-1"]},
+        {"step":3,"instruction":"加入洗好的豆角段、土豆片和茄子块炖煮。","source_ids":["S-LN-NORTHEAST-ONE-POT-1"]},
+        {"step":4,"instruction":"锅中菜烧至八分熟时，将发好的玉米面揪成面剂并贴在锅沿。","source_ids":["S-LN-NORTHEAST-ONE-POT-1"]},
+        {"step":5,"instruction":"盖上锅继续炖，来源记载约半个小时后端锅上桌。","source_ids":["S-LN-NORTHEAST-ONE-POT-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"辽宁日报来源明确为东北铁锅炖菜和锅边玉米面主食，未提供现代电饭煲适配、固定批量、液体比例或安全终点；本条保留其铁锅身份，不改写为电饭煲菜饭。"},
+      "source_refs":[{"source_id":"S-LN-NORTHEAST-ONE-POT-1","title":"到东北去吃‘一锅出’","publisher":"辽宁日报","url":"https://epaper.lnd.com.cn/lnbepaper/pc/att/202311/14/28895b71-2106-46ae-8dbc-98df05a4a5bd.pdf","retrieved_at":"2026-08-03","source_kind":"provincial_media_food_culture_article","access_status":"opened","evidence_locator":"PDF第1页第14至40行：东北一锅出身份、铁锅炖菜、豆角土豆茄子和锅沿玉米面饽饽的顺序及约半小时炖制","claim_scopes":["identity","ingredients","process","appliance","time"],"attribution":"辽宁日报","license":"media_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"辽宁日报原文明确将‘一锅出’称为东北有名美食和铁锅炖菜代表，写出锅底豆角、土豆、茄子与锅沿玉米面饽饽的制作顺序，并记载盖锅炖约半小时。该来源没有肉类或豆类蛋白，因此本条营养结构只标为碳水加膳食纤维的C级研究条目；没有固定数量、液体比例、安全终点或现代电饭煲适配，不把它包装成完整平衡菜单。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

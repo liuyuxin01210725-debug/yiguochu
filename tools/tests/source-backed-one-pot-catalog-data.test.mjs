@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 82,
+    recipe_fact_checked: 83,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1152,6 +1152,39 @@ test('records Xianfeng she rice from its local spring-society process without me
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /咸丰.*白蒿.*揉出苦水/u);
   assert.match(recipe?.evidence_notes ?? '', /腊肉.*翻炒糯米/u);
+});
+
+test('records Northeast one-pot as a named iron-pot staple meal without overstating its vegetable-only nutrition', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'northeast-one-pot');
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-LN-NORTHEAST-ONE-POT-1');
+
+  assert.equal(recipe?.canonical_name, '东北一锅出');
+  assert.deepEqual(recipe?.aliases, ['锅边饽饽一锅出']);
+  assert.deepEqual(recipe?.region_codes, ['CN-LN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['豆角', '土豆', '茄子', '玉米面']);
+  assert.deepEqual(recipe?.traditional_vessels, ['铁锅']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /玉米面.*发/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /铁锅.*油.*酱油.*炝锅/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /豆角.*土豆.*茄子/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /八分熟.*玉米面.*贴.*锅沿/u);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /盖上锅.*半个小时/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://epaper.lnd.com.cn/lnbepaper/pc/att/202311/14/28895b71-2106-46ae-8dbc-98df05a4a5bd.pdf');
+  assert.equal(source?.publisher, '辽宁日报');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance', 'time']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /一锅出.*东北.*豆角.*土豆.*茄子.*玉米面/u);
+  assert.match(recipe?.evidence_notes ?? '', /铁锅炖菜/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {
