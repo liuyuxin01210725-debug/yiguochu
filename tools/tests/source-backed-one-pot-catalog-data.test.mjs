@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 16,
-    recipe_fact_checked: 57,
+    recipe_fact_checked: 58,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -979,6 +979,34 @@ test('records Zhuji pea salted-pork rice with its source-stated stir-fry process
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /诸暨.*立夏.*豌豆咸肉饭.*没有给出.*固定数量.*电饭煲/u);
+});
+
+test('records Kaiping Danjia carp stewed glutinous rice from the local heritage source without overclaiming a cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'kaiping-danjia-carp-glutinous-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '鲤鱼炖糯米');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭锅', '隔水炖']);
+  assert.deepEqual(recipe?.core_ingredients, ['鲤鱼', '糯米', '枸杞', '红枣', '姜']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鲤鱼.*去内脏.*糯米洗好/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /枸杞.*红枣.*姜.*腌制1\.5小时/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /糯米.*电饭锅.*隔水炖.*4小时/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /鲤鱼.*糯米饭面.*继续炖2小时/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.url, 'https://www.kaiping.gov.cn/csjdbsc/kjww/wh/content/post_3220203.html');
+  assert.equal(source?.publisher, '开平市人民政府 / 江门市文化馆');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance', 'time']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /鲤鱼炖糯米.*来源没有给.*固定数量.*安全终点/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {

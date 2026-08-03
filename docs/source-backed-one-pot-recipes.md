@@ -87,6 +87,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 赤坎煲仔饭 | 赤坎煲仔饭烹饪技艺 | CN-GD | kaiping-chikan-claypot-rice | 研究记录（非公开可执行） | 十月晚稻米；肉类或腊味；本地时令食材 | appliance、identity、ingredients | 缺 process | [赤坎煲仔饭烹饪技艺](https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html) |
+## kaiping-danjia-carp-glutinous-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鲤鱼炖糯米 | — | CN-GD | kaiping-danjia-carp-glutinous-rice | 研究记录（非公开可执行） | 鲤鱼；糯米；枸杞；红枣；姜 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [开平疍家菜制作技艺](https://www.kaiping.gov.cn/csjdbsc/kjww/wh/content/post_3220203.html) |
 ## lianyuan-bamboo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

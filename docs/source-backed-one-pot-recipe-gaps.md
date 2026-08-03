@@ -21,6 +21,7 @@
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
@@ -58,6 +59,7 @@
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
@@ -165,6 +167,7 @@
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
