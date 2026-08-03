@@ -1093,6 +1093,38 @@
       "source_refs":[{"source_id":"S-SH-PUDONG-ANGCI-FISH-RICE-1","title":"〖浦東citywalk〗無形文化遺産グルメを巡る","publisher":"上海市文化和旅游局","url":"https://japanese.shanghai.gov.cn/ja-CityWalk/20260509/3ac2923530704666a87e2bc92b8c9da9.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_food_culture_page","access_status":"opened","evidence_locator":"正文第6行：昂刺魚菜飯及其入味鱼悬锅、鱼味浸入米饭的描述","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"上海市文化和旅游局","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"上海市文化和旅游局页面点名浦东地方菜“昂刺魚菜飯”，说明其由入味的鱼、青菜和米饭组成，并在炉灶上把鱼悬在锅上方，使鱼味慢慢浸入米饭。来源没有固定数量、米水比例、总时间、鱼类熟制终点或现代电饭煲适配；青菜的具体投料顺序也未写明，因此只记录具名地域身份、核心组成和原炉灶边界，不补写电饭煲参数。"
+    },
+    {
+      "recipe_id":"huangshi-radish-braised-rice",
+      "canonical_name":"萝卜焖饭",
+      "aliases":[],
+      "region_codes":["CN-HB"],
+      "cuisine_family":"huangshi-seasonal-radish-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["炒锅","电饭煲"],
+      "core_ingredients":["白萝卜","三层肉","大米","红葱头","干香菇","萝卜干","虾皮"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"干香菇泡发切块，白萝卜去皮切丁，红葱头切碎，萝卜干切碎末备用。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":2,"instruction":"三层肉切丝，大米提前浸泡2小时。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":3,"instruction":"三层肉下锅煎炒至金黄色并逼出多余油脂，盛出多余油脂。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":4,"instruction":"下干香菇、虾皮和三层肉炒香炒匀，再加入白萝卜丁翻炒。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":5,"instruction":"加入泡好的大米，调入蚝油、生抽和食盐并翻炒均匀。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":6,"instruction":"将炒匀的材料转移到电饭煲，加入来源所说的“适量清水”，按正常煮饭键。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":7,"instruction":"另起锅放油，将红葱头小火慢炸至焦黄色。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":8,"instruction":"将炸好的红葱头连同葱头油盛出备用。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":9,"instruction":"米饭焖好后，淋入两勺葱头油，撒上葱花和萝卜干碎末。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]},
+        {"step":10,"instruction":"翻拌均匀后盛出。","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"source_limited","source_ids":["S-HB-HUANGSHI-RADISH-RICE-1"],"notes":"黄石市住房和城市更新局页面刊载的萝卜焖饭流程明确先在炒锅处理食材，再转移到电饭煲按正常煮饭键；来源没有机型、固定水量、总时间或肉类安全终点，因此不建立通用执行合同。"},
+      "source_refs":[{"source_id":"S-HB-HUANGSHI-RADISH-RICE-1","title":"“小寒”迎升温 气温暖如春","publisher":"黄石市住房和城市更新局","url":"https://zjj.huangshi.gov.cn/index2019/ztzl/wmdjr/202301/t20230105_979547.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_hosted_newspaper_recipe","access_status":"opened","evidence_locator":"正文第28至35行：风味节气萝卜焖饭、食材清单及10步流程","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"黄石市住房和城市更新局（页面注明来源：东楚晚报）","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"黄石市住房和城市更新局页面在小寒节气栏目中明确点名“萝卜焖饭”，给出白萝卜350克、三层肉200克、大米400克、红葱头10克、干香菇10克、萝卜干35克、虾皮10克等用量，并记录先炒后转入电饭煲正常煮饭、最后淋葱头油的10步流程。来源把加水写为“适量清水”，未给出份数、总时间、机型或肉类安全终点，因此 fixed_batch、liquid_contract、time_contract 和 safety_endpoints 保持为空，不把它标为可执行公开配方。"
     }
   ]
 }

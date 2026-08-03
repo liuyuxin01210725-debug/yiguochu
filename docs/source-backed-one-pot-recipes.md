@@ -79,6 +79,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黄圃腊味煲仔饭 | 黄圃腊味蒸饭 | CN-GD | huangpu-cured-meat-claypot-rice | 研究记录（非公开可执行） | 腊味；糯米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [传统美食](https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html)<br>[舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌](https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html)<br>[大寒到，年味近！来一煲“暖粒粒”的腊味煲仔饭吧](https://zsrbapp.zsnews.cn/home/content/newsContent/cp411.html/561409) |
+## huangshi-seasonal-radish-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 萝卜焖饭 | — | CN-HB | huangshi-seasonal-radish-braised-rice | 研究记录（非公开可执行） | 白萝卜；三层肉；大米；红葱头；干香菇；萝卜干；虾皮 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [“小寒”迎升温 气温暖如春](https://zjj.huangshi.gov.cn/index2019/ztzl/wmdjr/202301/t20230105_979547.html) |
 ## huixian-ground-pot-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

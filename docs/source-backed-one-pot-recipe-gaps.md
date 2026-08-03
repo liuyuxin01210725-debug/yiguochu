@@ -91,6 +91,7 @@
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
+- 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -200,6 +201,7 @@
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黎家竹筒饭 (hainan-li-bamboo-tube-rice) — CN-HI
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
+- 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -260,6 +262,7 @@
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
+- 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD

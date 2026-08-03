@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 88,
+    recipe_fact_checked: 89,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3149,6 +3149,45 @@ test('records Pudong yellow catfish vegetable rice as a named regional dish with
   assert.equal(source?.access_status, 'opened');
   assert.equal(source?.publisher, '上海市文化和旅游局');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Huangshi seasonal radish braised rice with its exact ingredient facts and cooker boundary', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'huangshi-radish-braised-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-HB-HUANGSHI-RADISH-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '萝卜焖饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-HB']);
+  assert.deepEqual(recipe?.traditional_vessels, ['炒锅', '电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, [
+    '白萝卜', '三层肉', '大米', '红葱头', '干香菇', '萝卜干', '虾皮',
+  ]);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 10);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白萝卜/);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /干香菇/);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /红葱头/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /三层肉.*煎炒/);
+  assert.match(recipe?.cooking_sequence[5]?.instruction ?? '', /电饭煲.*正常煮饭/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.evidence_notes.includes('适量清水'));
+  assert.ok(recipe?.evidence_notes.includes('未给出份数'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.publisher, '黄石市住房和城市更新局');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
