@@ -2604,10 +2604,21 @@ test('keeps the Tongren seasonal shefan as a separate regional identity with its
   ));
   const source = recipe?.source_refs.find(item => item.source_id === 'S-GZ-TONGREN-SHEFAN-1');
   const variantSource = recipe?.source_refs.find(item => item.source_id === 'S-GZ-TONGREN-SHEFAN-2');
+  const batchSource = recipe?.source_refs.find(item => item.source_id === 'S-GZ-TONGREN-SHEFAN-3');
 
   assert.equal(recipe?.canonical_name, '铜仁社饭');
   assert.deepEqual(recipe?.region_codes, ['CN-GZ']);
-  assert.equal(recipe?.fixed_batch, null);
+  assert.deepEqual(recipe?.fixed_batch, {
+    servings: 40,
+    ingredients: [
+      { name: '腊肉', amount: { value: 30, unit: '斤' }, source_ids: ['S-GZ-TONGREN-SHEFAN-3'] },
+      { name: '籼米和糯米', amount: { value: 120, unit: '斤' }, source_ids: ['S-GZ-TONGREN-SHEFAN-3'] },
+      { name: '青蒿', amount: { value: 20, unit: '斤' }, source_ids: ['S-GZ-TONGREN-SHEFAN-3'] },
+      { name: '野葱', amount: { value: 30, unit: '斤' }, source_ids: ['S-GZ-TONGREN-SHEFAN-3'] },
+      { name: '蒜苗', amount: { value: 10, unit: '斤' }, source_ids: ['S-GZ-TONGREN-SHEFAN-3'] },
+    ],
+    source_ids: ['S-GZ-TONGREN-SHEFAN-3'],
+  });
   assert.equal(recipe?.liquid_contract, null);
   assert.equal(recipe?.cooking_sequence.length, 4);
   assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /青蒿.*野葱.*洗.*切/);
@@ -2624,6 +2635,12 @@ test('keeps the Tongren seasonal shefan as a separate regional identity with its
   assert.ok(source?.claim_scopes.includes('appliance'));
   assert.equal(variantSource?.access_status, 'opened');
   assert.ok(variantSource?.claim_scopes.includes('process'));
+  assert.equal(batchSource?.access_status, 'opened');
+  assert.equal(batchSource?.publisher, '贵州政协报');
+  assert.deepEqual(batchSource?.claim_scopes, ['identity', 'ingredients', 'quantity']);
+  assert.match(batchSource?.evidence_locator ?? '', /第44至50行/);
+  assert.match(recipe?.evidence_notes ?? '', /40人分量/);
+  assert.match(recipe?.evidence_notes ?? '', /没有给出籼米和糯米的比例/);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

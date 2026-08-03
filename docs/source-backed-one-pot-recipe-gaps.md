@@ -62,7 +62,6 @@
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
-- 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD

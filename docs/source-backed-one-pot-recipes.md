@@ -321,7 +321,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 铜仁社饭 | 社菜饭 | CN-GZ | tongren-seasonal-shefan | 研究记录（非公开可执行） | 糯米；黏米；腊肉；青蒿；野葱；黄豆；花生；豆腐干；青菜；蒜苗 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [玉屏玉露村：农家社饭香](https://www.tongren.gov.cn/2025/0317/332884.shtml)<br>[网络中国节·清明丨清明时节 社饭飘香](https://www.tongren.gov.cn/2025/0405/333568.shtml) |
+| 铜仁社饭 | 社菜饭 | CN-GZ | tongren-seasonal-shefan | 研究记录（非公开可执行） | 糯米；黏米；腊肉；青蒿；野葱；黄豆；花生；豆腐干；青菜；蒜苗 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [玉屏玉露村：农家社饭香](https://www.tongren.gov.cn/2025/0317/332884.shtml)<br>[网络中国节·清明丨清明时节 社饭飘香](https://www.tongren.gov.cn/2025/0405/333568.shtml)<br>[铜仁：黔东多美馔 武陵最醇香](https://www.gzszx.gov.cn/gzzxb/web/doc/detail/2233/B2) |
 ## wa-chicken-lanfan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
