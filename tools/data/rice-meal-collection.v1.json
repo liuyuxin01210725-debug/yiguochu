@@ -422,14 +422,14 @@
         }
       ],
       "rice_state": "glutinous-rice",
-      "nutrition_grade": "A",
+      "nutrition_grade": "C",
       "traditional_appliance_and_steps": "文化来源记录板鸭丁、矮脚黄与糯米一起煮，同文又有青菜米饭翻炒的概括，未形成唯一可执行流程",
       "identity_sources": [
         {
-          "title": "寻味二十四节气・小寒",
-          "publisher": "浙江省社会科学界联合会",
-          "retrieved_at": "2026-08-01",
-          "url": "https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html",
+          "title": "金陵节气诗词：小寒",
+          "publisher": "南京市地方志工作办公室",
+          "retrieved_at": "2026-08-03",
+          "url": "https://dfz.nanjing.gov.cn/gzdt/202401/t20240105_4139564.html",
           "supports": [
             "identity"
           ]
@@ -437,7 +437,7 @@
         {
           "title": "南京记忆｜咸板鸭与咸鸭肫",
           "publisher": "南京市地方志编纂委员会办公室",
-          "retrieved_at": "2026-08-02",
+          "retrieved_at": "2026-08-03",
           "url": "https://dfz.nanjing.gov.cn/gzdt/202408/t20240827_4750017.html",
           "supports": [
             "safety"

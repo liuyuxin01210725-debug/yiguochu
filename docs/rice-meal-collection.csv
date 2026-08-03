@@ -1,6 +1,6 @@
 candidate_id,name,regions,family,core_ingredients,nutrition_grade,rice_state,traditional_appliance_and_steps,evidence_status,quantity_liquid_completeness,blockers,runtime_status
 shanghai-salted-pork-vegetable-rice,上海奉贤咸肉菜饭,上海 (CN-SH),jiangnan-vegetable-rice,米 / 青菜 / 咸肉/香肠,A,raw-rice,土灶或锅中米、菜和咸肉同煮成饭,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
-nanjing-duck-greens-rice,南京矮脚黄板鸭菜饭,江苏 (CN-JS),jiangnan-vegetable-rice,糯米 / 矮脚黄 / 板鸭丁 / 姜,A,glutinous-rice,文化来源记录板鸭丁、矮脚黄与糯米一起煮，同文又有青菜米饭翻炒的概括，未形成唯一可执行流程,identity / safety,identity_only,板鸭丁的生熟状态未定：咸板鸭为生制品须合法熟制，盐水鸭才是熟制即食；不得自动归一为熟板鸭；缺数量、有效液体、份数、器具与唯一工艺,identity_only
+nanjing-duck-greens-rice,南京矮脚黄板鸭菜饭,江苏 (CN-JS),jiangnan-vegetable-rice,糯米 / 矮脚黄 / 板鸭丁 / 姜,C,glutinous-rice,文化来源记录板鸭丁、矮脚黄与糯米一起煮，同文又有青菜米饭翻炒的概括，未形成唯一可执行流程,identity / safety,identity_only,板鸭丁的生熟状态未定：咸板鸭为生制品须合法熟制，盐水鸭才是熟制即食；不得自动归一为熟板鸭；缺数量、有效液体、份数、器具与唯一工艺,identity_only
 wujiang-greens-salted-pork-rice,吴江香青菜咸肉饭,江苏 (CN-JS),jiangnan-vegetable-rice,米 / 吴江香青菜 / 咸肉,A,rice-state-unverified,来源只证明吴江香青菜与咸肉饭的地域身份，不证明配米蒸煮流程,identity,identity_only,来源未给投料数量、米的生熟/浸泡状态、有效液体和完整工艺；不得用邻近地区菜饭流程补写,identity_only
 wenzhou-mustard-rice,温州芥菜饭,浙江 (CN-ZJ),jiangnan-mustard-rice,糯米 / 芥菜 / 猪肉末,A,glutinous-rice,传统资料支持浸泡糯米先蒸熟，芥菜与肉等配料炒香后再合并炒拌，不是生米一键闭盖流程,identity,identity_only,一手来源未给精确数量、有效液体、份数与熟制终点；传统“蒸米+炒配料+合并炒拌”不能静默改成一只电饭煲一键版；须家庭实验并明标改编,research_candidate
 banshan-lixia-wild-rice,半山立夏野米饭,浙江 (CN-ZJ),seasonal-mixed-rice,米 / 鸡蛋 / 韭菜,B,raw-rice,民俗铁锅炒煮,identity,identity_only,无数量和电饭煲适配,research_candidate

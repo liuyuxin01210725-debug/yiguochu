@@ -29,6 +29,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## jiangnan-duck-greens-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 南京矮脚黄板鸭菜饭 | 南京菜饭；矮脚黄板鸭菜饭 | CN-JS | jiangnan-duck-greens-rice | 研究记录（非公开可执行） | 糯米；矮脚黄；板鸭丁；生姜 | identity、ingredients、process、safety | 缺 quantity、liquid、appliance、time | [金陵节气诗词：小寒](https://dfz.nanjing.gov.cn/gzdt/202401/t20240105_4139564.html)<br>[南京记忆｜咸板鸭与咸鸭肫](https://dfz.nanjing.gov.cn/gzdt/202408/t20240827_4750017.html) |
 ## jiangnan-spring-bamboo-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

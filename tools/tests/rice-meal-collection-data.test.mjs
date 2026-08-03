@@ -180,3 +180,25 @@ test('keeps the Mizhi lamb dingding rice candidate aligned with its official ing
   assert.equal(candidate?.status, 'research_candidate');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Nanjing aijiaohuang duck rice candidate aligned with its local gazette wording', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'nanjing-duck-greens-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: null, label: '糯米' },
+    { canonical_id: 'aijiaohuang-greens', label: '矮脚黄' },
+    { canonical_id: null, label: '板鸭丁' },
+    { canonical_id: null, label: '姜' },
+  ]);
+  assert.equal(candidate?.rice_state, 'glutinous-rice');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '金陵节气诗词：小寒');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '南京市地方志工作办公室');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.status, 'identity_only');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});

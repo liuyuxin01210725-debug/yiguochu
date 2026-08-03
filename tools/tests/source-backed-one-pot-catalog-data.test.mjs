@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 37,
+    recipe_fact_checked: 38,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1731,6 +1731,38 @@ test('structures Mizhi lamb dingding rice from the county government page withou
   assert.ok(source?.claim_scopes.includes('ingredients'));
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(source?.claim_scopes.includes('time'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures Nanjing aijiaohuang duck rice from the local gazette office without collapsing duck safety or cooker facts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'nanjing-aijiaohuang-duck-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-JS-NANJING-AIJIAOHUANG-DUCK-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '南京矮脚黄板鸭菜饭');
+  assert.deepEqual(recipe?.aliases, ['南京菜饭', '矮脚黄板鸭菜饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-JS']);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '矮脚黄', '板鸭丁', '生姜']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /矮脚黄.*板鸭丁.*生姜粒.*糯米.*一起煮/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'unassessed',
+    roles: [],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('生熟状态'));
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(source?.claim_scopes.includes('ingredients'));
+  assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
