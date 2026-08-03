@@ -12,6 +12,7 @@
 
 ## 3. Missing quantity
 
+- 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
@@ -55,6 +56,7 @@
 
 ## 4. Missing liquid
 
+- 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
@@ -117,6 +119,7 @@
 
 ## 6. Missing appliance
 
+- 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
@@ -137,6 +140,7 @@
 
 ## 7. Missing time
 
+- 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
@@ -181,6 +185,7 @@
 
 ## 8. Missing safety
 
+- 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD

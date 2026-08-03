@@ -755,6 +755,30 @@
       "source_refs":[{"source_id":"S-JS-KUNSHAN-ZHANGPU-JIANGNAN-RICE-1","title":"走进传统村落 | 腊肉制作跻身非遗名录 金华村北华翔","publisher":"昆山市住房和城乡建设局","url":"https://www.ks.gov.cn/kss/bmdt/202505/b349fef57c6746d9ba9538434d020019.shtml","retrieved_at":"2026-08-03","source_kind":"municipal_government_traditional_village_food_article","access_status":"opened","evidence_locator":"正文第74至76行：江南菜饭张浦灶品牌及大米、金华村腊肉、矮脚青菜、柴火土灶焖煮鲜炒描述","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"昆山市住房和城乡建设局","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"昆山市住房和城乡建设局页面将‘江南菜饭张浦灶’作为张浦金华村的地方品牌，明确写出张浦本土大米、金华村腊肉和矮脚青菜，以及柴火土灶焖煮鲜炒的做法边界。来源没有给固定数量、液体、总时间、安全终点或现代电饭煲适配，因此只保留地域具名、核心食材、器具和原文过程，不补写执行合同。"
+    },
+    {
+      "recipe_id":"chaoshan-ge-rice",
+      "canonical_name":"潮汕戈饭",
+      "aliases":["潮汕香饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"chaoshan-ge-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["新鲜米饭","潮汕肉卷","猪肉粒","玉米","香菇"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将潮汕肉卷用油炸或炒制，并加入猪肉粒、玉米、香菇等配菜炒香。","source_ids":["S-GD-CHAOSHAN-GE-RICE-1"]},
+        {"step":2,"instruction":"将炒香的配料拌入新鲜煮熟的米饭。","source_ids":["S-GD-CHAOSHAN-GE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"广州市委网信办转载的潮汕戈饭专题只记录配料炒香后拌入新鲜熟米饭的分阶段做法，没有提供电饭煲或单锅等价适配、固定批量、液体、时间或安全终点。"},
+      "source_refs":[{"source_id":"S-GD-CHAOSHAN-GE-RICE-1","title":"12种好吃到令广州人丧失理智的米饭！","publisher":"广州市委网信办 / 羊城晚报微生活","url":"https://gzwxb.gov.cn/context/contextId/201941","retrieved_at":"2026-08-03","source_kind":"municipal_cyberspace_food_culture_article","access_status":"opened","evidence_locator":"正文第122至129行：潮汕戈饭身份、先炒配菜再拌入新鲜熟米饭，以及潮汕肉卷、猪肉粒、玉米、香菇组合描述","claim_scopes":["identity","ingredients","process"],"attribution":"广州市委网信办 / 羊城晚报微生活","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"广州市委网信办转载羊城晚报微生活专题明确将戈饭称为潮汕家常美食，并区分其与炒饭的过程：先把潮汕肉卷和猪肉粒、玉米、香菇等配菜炒香，再拌入新鲜煮熟的米饭。来源中的配菜使用‘一般’和‘等’描述，不建立固定必选数量；同时没有给出液体、总时间、安全终点或现代电饭煲适配，因此只保留具名身份、地域、分阶段过程和来源举例。"
     }
   ]
 }

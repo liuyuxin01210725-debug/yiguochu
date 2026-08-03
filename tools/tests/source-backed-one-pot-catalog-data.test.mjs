@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 63,
+    recipe_fact_checked: 64,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1168,6 +1168,33 @@ test('records Zhangpu Jiangnan vegetable rice as a named Kunshan locality varian
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /江南菜饭张浦灶.*来源没有给.*固定数量.*电饭煲/u);
+});
+
+test('records Chaoshan ge rice as a named staged rice meal without turning preferred sides into fixed quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'chaoshan-ge-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '潮汕戈饭');
+  assert.deepEqual(recipe?.aliases, ['潮汕香饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['新鲜米饭', '潮汕肉卷', '猪肉粒', '玉米', '香菇']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, [
+    { step: 1, instruction: '将潮汕肉卷用油炸或炒制，并加入猪肉粒、玉米、香菇等配菜炒香。', source_ids: ['S-GD-CHAOSHAN-GE-RICE-1'] },
+    { step: 2, instruction: '将炒香的配料拌入新鲜煮熟的米饭。', source_ids: ['S-GD-CHAOSHAN-GE-RICE-1'] },
+  ]);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://gzwxb.gov.cn/context/contextId/201941');
+  assert.equal(source?.publisher, '广州市委网信办 / 羊城晚报微生活');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /戈饭.*先.*配菜.*炒香.*拌入.*新鲜煮熟.*来源中的配菜.*固定必选数量/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {
