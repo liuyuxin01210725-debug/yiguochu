@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 5,
-    recipe_fact_checked: 94,
+    recipe_fact_checked: 95,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -222,6 +222,35 @@ test('keeps every migrated recipe non-public until safety and complete execution
       assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
     }
   }
+});
+
+test('records Hezhe Mowenggu rice porridge as a named millet meal without inventing fish species or timing', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'heizhe-mowenggu-millet-porridge'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-HL-HEZHE-MOWENGGU-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '赫哲族莫温古饭');
+  assert.deepEqual(recipe?.aliases, ['莫温古饭', '鱼肉粥']);
+  assert.deepEqual(recipe?.region_codes, ['CN-HL']);
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '鱼或兽肉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鱼或兽肉.*小米.*一同烹制.*稀饭/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(source?.publisher, '黑龙江省文化和旅游厅（生活报）');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(source?.evidence_locator ?? '', /正文第35至42行/);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定鱼种或肉种、克数、液体、时间/u);
 });
 
 test('records the Fujian beef mustard-greens rice process without inventing beef-specific timing or quantities', () => {

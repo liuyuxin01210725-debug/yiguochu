@@ -7,7 +7,6 @@
     {"region_code":"CN-NM","candidate_name":"未保留候选","reason":"未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。","searched_at":"2026-08-02"},
     {"region_code":"CN-LN","candidate_name":"东北一锅出","reason":"可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。","searched_at":"2026-08-02"},
     {"region_code":"CN-JL","candidate_name":"未保留候选","reason":"未取得可用原始来源或具名咸味一锅米饭证据。","searched_at":"2026-08-02"},
-    {"region_code":"CN-HL","candidate_name":"未保留候选","reason":"地方米饭引用为分开主食或通用做法，未保留合格的独立来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-AH","candidate_name":"未保留候选","reason":"未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-JX","candidate_name":"未保留候选","reason":"未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-SD","candidate_name":"未保留候选","reason":"线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。","searched_at":"2026-08-02"},
@@ -1201,6 +1200,29 @@
       "source_refs":[{"source_id":"S-GZ-YUPING-DONG-SHE-RICE-1","title":"箫笛名都 侗听玉屏","publisher":"玉屏县融媒体中心 / 微铜仁","url":"https://www.yp.gov.cn/contents/2022/03/22/receive-de0c1f7d-4e4b-4389-b557-653484c3248e.html","retrieved_at":"2026-08-03","source_kind":"county_media_food_culture_page","access_status":"opened","evidence_locator":"正文第274至281行：玉屏及周边侗家社饭身份、白米/蒿菜/野葱/蒜苗/腊肉丁配料及铁锅焖制流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"玉屏县融媒体中心 / 微铜仁","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"玉屏县融媒体中心页面将社饭记为玉屏及周边地区侗家人春季制作的地方美食，明确列出白米、蒿菜、野葱、蒜苗、腊肉丁，并说明全部配料混合后用铁锅焖制。来源没有固定重量、液体、总时间、腊肉安全终点或电饭煲适配，因此不把这些空白补成合同。"
+    },
+    {
+      "recipe_id":"heizhe-mowenggu-millet-porridge",
+      "canonical_name":"赫哲族莫温古饭",
+      "aliases":["莫温古饭","鱼肉粥"],
+      "region_codes":["CN-HL"],
+      "cuisine_family":"heizhe-mowenggu-millet-porridge",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["小米","鱼或兽肉"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"赫哲族日常饮食中，莫温古饭将鱼或兽肉与小米一同烹制成稀饭。","source_ids":["S-HL-HEZHE-MOWENGGU-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"黑龙江省文化和旅游厅转载的赫哲族饮食文化资料没有指定器具、鱼种或兽肉种类，也没有固定批量、液体、时间、安全终点或现代电饭煲适配参数。"},
+      "source_refs":[{"source_id":"S-HL-HEZHE-MOWENGGU-1","title":"炒鱼毛 鱼刨花 鱼汤面 赫哲族美食亮相冰城","publisher":"黑龙江省文化和旅游厅（生活报）","url":"https://wlt.hlj.gov.cn/wlt/c115584/202509/c00_31876156.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_culture_tourism_hosted_food_article","access_status":"opened","evidence_locator":"正文第35至42行：赫哲族全鱼宴与日常饮食，以及莫温古饭由鱼或兽肉与小米一同烹制成稀饭的说明","claim_scopes":["identity","ingredients","process"],"attribution":"黑龙江省文化和旅游厅 / 生活报","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"黑龙江省文化和旅游厅转载资料将莫温古饭列为赫哲族日常饮食，并明确说明鱼或兽肉与小米一同烹制成稀饭。来源没有固定鱼种或肉种、克数、液体、时间、器具、安全终点或电饭煲适配，因此不把这些空白补成合同。"
     }
   ]
 }

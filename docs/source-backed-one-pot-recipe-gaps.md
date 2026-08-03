@@ -24,6 +24,7 @@
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
@@ -94,6 +95,7 @@
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
@@ -172,6 +174,7 @@
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
+- 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
@@ -211,6 +214,7 @@
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 黎家竹筒饭 (hainan-li-bamboo-tube-rice) — CN-HI
+- 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
@@ -319,7 +323,6 @@
 - CN-GZ — 店铺和活动线索未形成可读原始来源或固定米饭主餐证据。（检索于 2026-08-02）
 - CN-HA — 线索为面食、粥或通用电饭锅食谱，均不在目录范围。（检索于 2026-08-02）
 - CN-HI — 已知线索为鸡与饭分段制作，不能改写为生鸡肉与生米一锅；未保留其他合格独立来源。（检索于 2026-08-02）
-- CN-HL — 地方米饭引用为分开主食或通用做法，未保留合格的独立来源。（检索于 2026-08-02）
 - CN-HN — 武陵地区可能有社饭传统，但本轮未找到可独立核验的湖南原始来源证明固定米饭主餐。（检索于 2026-08-02）
 - CN-JL — 未取得可用原始来源或具名咸味一锅米饭证据。（检索于 2026-08-02）
 - CN-JX — 未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。（检索于 2026-08-02）

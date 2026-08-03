@@ -84,6 +84,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黎家竹筒饭 | 黎族竹筒饭 | CN-HI | hainan-li-bamboo-tube-rice | 研究记录（非公开可执行） | 山兰米；猪瘦肉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [黎家竹筒饭](https://m.idevsite.com/hainan/mstc/200606/4a427e8c0c504c81af537cd1755dfd3b.shtml) |
+## heizhe-mowenggu-millet-porridge
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 赫哲族莫温古饭 | 莫温古饭；鱼肉粥 | CN-HL | heizhe-mowenggu-millet-porridge | 研究记录（非公开可执行） | 小米；鱼或兽肉 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [炒鱼毛 鱼刨花 鱼汤面 赫哲族美食亮相冰城](https://wlt.hlj.gov.cn/wlt/c115584/202509/c00_31876156.shtml) |
 ## huangpu-cured-meat-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
