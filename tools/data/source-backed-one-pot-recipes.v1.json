@@ -439,6 +439,57 @@
       "source_refs":[{"source_id":"S-GD-HUMEN-DUCK-TRIAD-RICE-1","title":"虎门顶流特产！一煮整个家都是香喷喷的","publisher":"东莞市农业农村局 / 虎门太平","url":"https://nyncj.dg.gov.cn/zzzl/content/post_4479655.html","retrieved_at":"2026-08-03","source_kind":"municipal_agriculture_food_article","access_status":"opened","evidence_locator":"正文第73至79行：虎门白沙油鸭、鸭三宝腊味饭名称、三种腊鸭内脏及煲仔饭同煮拌饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"东莞市农业农村局 / 虎门太平","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"东莞市农业农村局转载的虎门地方特产报道明确给出鸭三宝腊味饭：鸭三宝是腊鸭心、腊鸭肝和腊鸭肠，米饭煮开后同饭煮熟，切粒后与葱花、米饭拌匀；该报道把它置于虎门白沙油鸭与煲仔饭语境。来源没有固定数量、液体、完整时间、安全终点或电饭煲适配，因此只建立身份、核心食材和闭合顺序事实，不宣称可直接执行。"
+    },
+    {
+      "recipe_id":"dongguan-hengping-goose-rice",
+      "canonical_name":"水平鹅饭",
+      "aliases":["大朗水平鹅饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"dongguan-dalang-hengping-goose-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["传统土灶", "荔枝树柴火"],
+      "core_ingredients":["丝苗米", "鹅肉", "酱油", "葱花"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"来源要求鹅只肥瘦适中、常选丝苗米，并用当地山泉水，以传统土灶和荔枝树柴火煮饭。","source_ids":["S-GD-DALANG-HENGPING-GOOSE-RICE-1"]},
+        {"step":2,"instruction":"来源同时描述将自家养的鹅与主食混和烹饪；本条不把这句话扩写成生鹅入米的安全或时间参数。","source_ids":["S-GD-DALANG-HENGPING-GOOSE-RICE-1"]},
+        {"step":3,"instruction":"来源另明确写到饭煮好后将鹅肉与饭拌匀，加入酱油并撒葱花；具体先后不再推断。","source_ids":["S-GD-DALANG-HENGPING-GOOSE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"东莞市政府页面记录水平村传统土灶、荔枝树柴火和当地食材讲究，但没有固定批量、液体、时间、鹅肉安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-DALANG-HENGPING-GOOSE-RICE-1","title":"寻味大朗 | 从一颗荔枝说起","publisher":"东莞市人民政府 / 文旅大朗","url":"https://www.dg.gov.cn/zjdz/whdz/dztc/content/post_3957867.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_food_culture_article","access_status":"opened","evidence_locator":"正文第124至138行：水平鹅饭村名身份、鹅与丝苗米、传统土灶/荔枝树柴火、拌饭、酱油和葱花描述","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"东莞市人民政府 / 文旅大朗","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"东莞市政府门户文章明确水平鹅饭是以村命名的地方美食，记录水平村果农为省事饱腹形成的鹅饭传统；来源写到肥瘦适中的鹅、丝苗米、山泉水、传统土灶和荔枝树柴火，并说明饭煮好后与鹅肉拌匀、加酱油和葱花。文章另有“将鹅与主食混和烹饪”的概括，和拌饭句子的先后关系未展开；本条不擅自选择生鹅入米或熟鹅拌饭的执行版本，也没有固定数量、液体、时间、安全终点或电饭煲适配。"
+    },
+    {
+      "recipe_id":"shexian-millet-braised-rice",
+      "canonical_name":"涉县小米焖饭",
+      "aliases":["小米焖饭"],
+      "region_codes":["CN-HE"],
+      "cuisine_family":"shexian-millet-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["小米","白菜或茄子"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将白菜或茄子等时菜炒在锅里，放入小米、盐和水一齐焖熟；来源没有给出比例。","source_ids":["S-HE-SHEXIAN-MILLET-BRAISED-RICE-1"]},
+        {"step":2,"instruction":"来源还记录纯小米焖饭可配炒胡萝卜条、土豆丝、野韭花或农家酸菜；本条保留为变体说明，不与第一种做法合并。","source_ids":["S-HE-SHEXIAN-MILLET-BRAISED-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"文化和旅游部页面记录的是涉县锅中焖熟的地方做法，没有电饭煲程序、型号或可复用参数。"},
+      "source_refs":[
+        {"source_id":"S-HE-SHEXIAN-MILLET-BRAISED-RICE-1","title":"古城幽山小镇赏冬之旅","publisher":"中华人民共和国文化和旅游部","url":"https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html","retrieved_at":"2026-08-03","source_kind":"ministry_of_culture_rural_tourism_page","access_status":"opened","evidence_locator":"正文第89至105行：特色美食中的涉县小米焖饭两种做法","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中华人民共和国文化和旅游部","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"文化和旅游部乡村旅游页面将涉县小米焖饭列为特色美食，明确记录白菜或茄子等时菜与小米、盐、水同锅焖熟的分支，并另记纯小米焖饭配炒胡萝卜条、土豆丝、野韭花或农家酸菜的分支。关于涉县小米焖饭的来源没有给出固定数量、液体比例、时间、安全终点或电饭煲适配，因此只保留两条事实分支，不合并成一个执行合同。"
     }
   ]
 }

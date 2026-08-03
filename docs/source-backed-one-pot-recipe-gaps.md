@@ -13,6 +13,7 @@
 ## 3. Missing quantity
 
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
+- 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -27,6 +28,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
@@ -46,6 +48,7 @@
 ## 4. Missing liquid
 
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
+- 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -60,6 +63,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
@@ -112,6 +116,7 @@
 ## 7. Missing time
 
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
+- 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
@@ -130,6 +135,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
@@ -147,6 +153,7 @@
 
 ## 8. Missing safety
 
+- 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN

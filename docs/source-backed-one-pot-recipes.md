@@ -14,6 +14,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 贵州侗家甑蒸社饭 | 侗家社饭 | CN-GZ | dong-steamed-she-rice | 研究记录（非公开可执行） | 糯米；粳米；蒿菜；腌肉；花生米；干豆腐丁 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [侗族社节](https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true) |
+## dongguan-dalang-hengping-goose-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 水平鹅饭 | 大朗水平鹅饭 | CN-GD | dongguan-dalang-hengping-goose-rice | 研究记录（非公开可执行） | 丝苗米；鹅肉；酱油；葱花 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [寻味大朗 \| 从一颗荔枝说起](https://www.dg.gov.cn/zjdz/whdz/dztc/content/post_3957867.html) |
 ## dongzhi-guoba-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -145,6 +150,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 陵川和锅大米 | 一锅出；柴火大米 | CN-SX | shanxi-heguo-rice | 研究记录（非公开可执行） | 米饭；蔬菜或副食 | identity、ingredients | 缺 process | [陵川和锅大米](https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml) |
+## shexian-millet-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 涉县小米焖饭 | 小米焖饭 | CN-HE | shexian-millet-braised-rice | 研究记录（非公开可执行） | 小米；白菜或茄子 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [古城幽山小镇赏冬之旅](https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html) |
 ## sichuan-kong-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

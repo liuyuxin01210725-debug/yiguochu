@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 14,
-    recipe_fact_checked: 53,
+    recipe_fact_checked: 55,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1082,6 +1082,51 @@ test('records Humen duck-triad cured-meat rice as a named one-pot rice process w
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://nyncj.dg.gov.cn/zzzl/content/post_4479655.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(recipe?.evidence_notes ?? '', /虎门.*腊鸭心.*腊鸭肝.*腊鸭肠.*没有固定数量.*安全终点/u);
+});
+
+test('records Dalang Hengping goose rice as a named village dish without inventing a batch or cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'dongguan-hengping-goose-rice');
+  assert.equal(recipe?.canonical_name, '水平鹅饭');
+  assert.deepEqual(recipe?.aliases, ['大朗水平鹅饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['传统土灶', '荔枝树柴火']);
+  assert.deepEqual(recipe?.core_ingredients, ['丝苗米', '鹅肉', '酱油', '葱花']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鹅只肥瘦适中.*丝苗米.*山泉水/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /自家养的鹅.*主食.*生鹅入米.*安全/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /拌匀.*酱油.*葱花/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.dg.gov.cn/zjdz/whdz/dztc/content/post_3957867.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /水平村.*没有固定数量.*电饭煲/u);
+});
+
+test('records Shexian millet braised rice with its vegetable branch without inventing a grain batch or liquid contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'shexian-millet-braised-rice');
+  assert.equal(recipe?.canonical_name, '涉县小米焖饭');
+  assert.deepEqual(recipe?.aliases, ['小米焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-HE']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '白菜或茄子']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白菜或茄子.*时菜.*炒.*小米.*盐.*水.*焖熟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /纯小米.*胡萝卜条.*土豆丝.*野韭花.*酸菜/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://zhuanti.mct.gov.cn/rxhmxjgn2022/hebei/detail/2790.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /涉县.*没有给出.*固定数量.*电饭煲/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {
