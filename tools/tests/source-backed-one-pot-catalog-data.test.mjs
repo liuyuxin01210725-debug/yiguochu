@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 6,
+    identity_verified: 7,
     recipe_fact_checked: 100,
   });
   for (const recipe of catalog.recipes) {
@@ -3747,4 +3747,38 @@ test('preserves HTTP, nutrition, process, and access blockers as dated regional 
     assert.equal(blank?.searched_at, '2026-08-02', `${regionCode}:${candidateName}`);
     assert.match(blank?.reason ?? '', reasonPattern, `${regionCode}:${candidateName}`);
   }
+});
+
+test('records Pianguan oil-braised millet rice from two independent Shanxi food listings without inventing a cooking contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'pianguan-oil-braised-millet-rice'
+  ));
+  const official = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SX-PIANGUAN-OIL-RICE-1'
+  ));
+  const media = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SX-PIANGUAN-OIL-RICE-2'
+  ));
+
+  assert.equal(recipe?.canonical_name, '偏关油焖饭');
+  assert.deepEqual(recipe?.aliases, ['油焖小米粥']);
+  assert.deepEqual(recipe?.region_codes, ['CN-SX']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '胡麻油']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没有固定份量'));
+  assert.ok(recipe?.evidence_notes.includes('电饭煲'));
+  assert.equal(official?.access_status, 'opened');
+  assert.deepEqual(official?.claim_scopes, ['identity']);
+  assert.equal(media?.access_status, 'opened');
+  assert.deepEqual(media?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(media?.evidence_locator ?? '', /第71至75行/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

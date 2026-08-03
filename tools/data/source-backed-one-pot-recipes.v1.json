@@ -1373,6 +1373,30 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"中国气象局资料确认潮汕炣饭是‘十月十吃炣饭’的季节性具名米饭主餐，传统描述为新米与肉、蔬菜、坚果或海味等主辅料同锅后文火煨焖；澎湃政务转载资料提供一条电饭煲家庭分支。两条来源的米饭状态和器具流程不完全相同，因此分别记录为传统身份/同锅工艺与来源限定的电饭煲适配，不把它们合并成一个固定配方，也不补写统一水量、总时间、安全终点或跨器具等价关系。"
+    },
+    {
+      "recipe_id":"pianguan-oil-braised-millet-rice",
+      "canonical_name":"偏关油焖饭",
+      "aliases":["油焖小米粥"],
+      "region_codes":["CN-SX"],
+      "cuisine_family":"pianguan-oil-braised-millet-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["小米","胡麻油"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"两条山西来源只支持偏关油焖饭的具名身份、小米与胡麻油构成以及油焖描述，未提供固定份量、液体、时间、安全终点、器具或现代电饭煲适配参数。"},
+      "source_refs":[
+        {"source_id":"S-SX-PIANGUAN-OIL-RICE-1","title":"山西首批‘三个一号’旅游公路沿线美食发布","publisher":"阳泉市交通运输局 / 山西交通","url":"https://jtysj.yq.gov.cn/ztzl/jtjs/202508/t20250829_2107379.html","retrieved_at":"2026-08-03","source_kind":"provincial_transport_food_listing","access_status":"opened","evidence_locator":"正文第24至27行：黄河一号旅游公路沿线地标美食列出‘偏关油焖饭’","claim_scopes":["identity"],"attribution":"阳泉市交通运输局 / 山西交通","license":"government_site_terms_unspecified"},
+        {"source_id":"S-SX-PIANGUAN-OIL-RICE-2","title":"来山西，将黄河一号旅游公路的秋色尽收眼底","publisher":"人民日报客户端山西频道","url":"https://sdxw.iqilu.com/share/YS0yMS0xNjc0MzQzNg%3D%3D.html","retrieved_at":"2026-08-03","source_kind":"national_media_regional_food_listing","access_status":"opened","evidence_locator":"正文第71至75行：偏关油焖饭以小米、胡麻油焖制而成，鲜咸可口","claim_scopes":["identity","ingredients","process"],"attribution":"人民日报客户端山西频道（来源注明山西文旅融媒体中心、山西省烹饪餐饮饭店行业协会）","license":"publisher_terms_unspecified"}
+      ],
+      "status":"identity_verified",
+      "evidence_notes":"阳泉市交通运输局转载的山西交通发布把偏关油焖饭列为黄河一号旅游公路沿线地标美食；人民日报客户端山西频道进一步写明其以小米、胡麻油焖制，鲜咸可口。本条只记录具名身份、核心食材和‘焖制’这一来源原话；来源没有固定份量、液体量、时间、安全终点或器具参数，不把‘油焖’扩写为未被来源证明的步骤，也不把它改写成电饭煲可执行配方。"
     }
   ]
 }

@@ -236,6 +236,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 东北一锅出 | 锅边饽饽一锅出 | CN-LN | northeast-one-pot | 研究记录（非公开可执行） | 豆角；土豆；茄子；玉米面 | appliance、identity、ingredients、process、time | 缺 quantity、liquid | [到东北去吃‘一锅出’](https://epaper.lnd.com.cn/lnbepaper/pc/att/202311/14/28895b71-2106-46ae-8dbc-98df05a4a5bd.pdf) |
+## pianguan-oil-braised-millet-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 偏关油焖饭 | 油焖小米粥 | CN-SX | pianguan-oil-braised-millet-rice | 研究记录（非公开可执行） | 小米；胡麻油 | identity、ingredients、process | 当前状态所需证据已齐 | [山西首批‘三个一号’旅游公路沿线美食发布](https://jtysj.yq.gov.cn/ztzl/jtjs/202508/t20250829_2107379.html)<br>[来山西，将黄河一号旅游公路的秋色尽收眼底](https://sdxw.iqilu.com/share/YS0yMS0xNjc0MzQzNg%3D%3D.html) |
 ## pingtan-golden-crab-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
