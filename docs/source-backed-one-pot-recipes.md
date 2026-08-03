@@ -296,6 +296,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 庆阳粘糜子焖饭 | 粘糜子焖饭 | CN-GS | qingyang-sticky-millet-braised-rice | 研究记录（非公开可执行） | 粘糜子；红枣 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [粘糜子焖饭](https://www.gsxf.gov.cn/mlxf/tsxc/content_112041) |
+## shanghai-jinshan-clay-oven-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 金山土灶菜饭 | 土灶菜饭 | CN-SH | shanghai-jinshan-clay-oven-rice | 研究记录（非公开可执行） | 米；菜籽油；猪油；青菜；盐；料酒；糖 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Discover Jinshan's intangible culinary heritage](https://english.shanghai.gov.cn/en-SpecialtyFood/20260605/d87d0b3266f84c64ba6a539226a97335.html) |
 ## shanxi-heguo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

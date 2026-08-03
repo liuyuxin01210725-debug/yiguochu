@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 110,
+    recipe_fact_checked: 111,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -4120,5 +4120,36 @@ test('records Jinning boletus braised rice from the Ministry of Culture route wi
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /第30至45行.*牛肝菌焖饭/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Jinshan clay-oven rice from the Shanghai government heritage page without inventing a home-cooker contract', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => (
+    item.recipe_id === 'jinshan-clay-oven-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SH-JINSHAN-CLAY-OVEN-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '金山土灶菜饭');
+  assert.deepEqual(recipe?.aliases, ['土灶菜饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-SH']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['土灶']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '菜籽油', '猪油', '青菜', '盐', '料酒', '糖']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /江南.*米.*菜籽油.*猪油.*青菜.*土灶.*慢慢焖煮/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('金山'));
+  assert.ok(recipe?.evidence_notes.includes('不补固定批量'));
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第62至72行.*土灶菜饭/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

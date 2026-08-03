@@ -60,6 +60,7 @@
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
 - 庆阳粘糜子焖饭 (qingyang-sticky-millet-braised-rice) — CN-GS
+- 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
@@ -145,6 +146,7 @@
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
+- 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
@@ -278,6 +280,7 @@
 - 柴火洋芋饭 (qianjiang-firewood-potato-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
 - 庆阳粘糜子焖饭 (qingyang-sticky-millet-braised-rice) — CN-GS
+- 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
