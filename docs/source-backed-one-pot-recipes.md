@@ -106,7 +106,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 赤坎煲仔饭 | 赤坎煲仔饭烹饪技艺 | CN-GD | kaiping-chikan-claypot-rice | 研究记录（非公开可执行） | 十月晚稻米；肉类或腊味；本地时令食材 | appliance、identity、ingredients | 缺 process | [赤坎煲仔饭烹饪技艺](https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html) |
+| 赤坎煲仔饭 | 赤坎煲仔饭烹饪技艺 | CN-GD | kaiping-chikan-claypot-rice | 研究记录（非公开可执行） | 十月晚稻米；肉类或腊味；本地时令食材 | appliance、identity、ingredients、process、time | 缺 quantity、liquid | [赤坎煲仔饭烹饪技艺](https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html)<br>[央视《味道》聚焦！赤坎煲仔饭：一口非遗烟火，百年侨乡记忆](https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/3/3394/post_3394460.html) |
 ## kaiping-danjia-carp-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

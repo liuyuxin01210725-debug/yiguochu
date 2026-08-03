@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 11,
-    recipe_fact_checked: 72,
+    identity_verified: 10,
+    recipe_fact_checked: 73,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1398,24 +1398,33 @@ test('records Fujian beef mustard-greens rice as a named regional identity witho
   assert.match(recipe?.evidence_notes ?? '', /直接列出.*牛肉盖菜饭.*来源没有给.*固定.*步骤/u);
 });
 
-test('records Chikan claypot-rice craft as a named intangible regional identity without collapsing its variants', () => {
+test('records Chikan claypot-rice craft with the government-sourced claypot process without inventing a cooker contract', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'chikan-claypot-rice-craft');
+  const processSource = recipe?.source_refs.find(item => item.source_id === 'S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-2');
   assert.equal(recipe?.canonical_name, '赤坎煲仔饭');
   assert.deepEqual(recipe?.aliases, ['赤坎煲仔饭烹饪技艺']);
   assert.deepEqual(recipe?.region_codes, ['CN-GD']);
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.traditional_vessels, ['煲仔', '果木柴火']);
   assert.deepEqual(recipe?.core_ingredients, ['十月晚稻米', '肉类或腊味', '本地时令食材']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /挑选.*煲仔.*受热处理.*十月晚稻米/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /浸米.*2小时/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大火.*煮沸.*中火.*七成熟.*配料/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /熄火.*余温.*焗5分钟.*酱油.*葱花/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'appliance']);
-  assert.match(recipe?.evidence_notes ?? '', /县级非遗.*多种配料变体.*不是一条统一配方/u);
+  assert.equal(processSource?.url, 'https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/3/3394/post_3394460.html');
+  assert.equal(processSource?.publisher, '江门开平市赤坎镇人民政府');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance', 'time']);
+  assert.equal(processSource?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /央视.*浸米2小时.*七成熟.*焗5分钟.*没有给出.*电饭煲/u);
 });
 
 test('records Taishan eel rice from the official standard and craft account without inventing a batch or cooker conversion', () => {

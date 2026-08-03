@@ -329,15 +329,23 @@
       "core_ingredients":["十月晚稻米", "肉类或腊味", "本地时令食材"],
       "fixed_batch":null,
       "liquid_contract":null,
-      "cooking_sequence":[],
+      "cooking_sequence":[
+        {"step":1,"instruction":"挑选厚度合适的煲仔，使用前先进行受热处理；选用十月晚稻米。","source_ids":["S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-2"]},
+        {"step":2,"instruction":"浸米足2小时。","source_ids":["S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-2"]},
+        {"step":3,"instruction":"下锅后先用大火煮沸，再转中火收水；饭煮到七成熟时放入所选配料。","source_ids":["S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-2"]},
+        {"step":4,"instruction":"熄火后用余温焗5分钟；开盖浇上酱油、撒上葱花后食用。","source_ids":["S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-2"]}
+      ],
       "time_contract":null,
       "safety_endpoints":[],
       "allergen_labels":[],
       "nutrition_structure":{"grade":"unassessed","roles":[]},
-      "cooker_adaptation":{"status":"not_adapted","notes":"开平市文化馆来源证明赤坎煲仔饭以果木柴火烹饪，并列出黄鳝、牛肉、排骨、腊味、时令菜果等多种变体；未给统一批量、液体、步骤、时间、安全终点或现代电饭煲适配。"},
-      "source_refs":[{"source_id":"S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-1","title":"赤坎煲仔饭烹饪技艺","publisher":"开平市文化馆","url":"https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html","retrieved_at":"2026-08-03","source_kind":"county_cultural_museum_intangible_heritage_page","access_status":"opened","evidence_locator":"正文第8至17行：赤坎煲仔饭烹饪技艺的地域身份、果木柴火、多种肉类腊味与时令食材变体，并列入开平市县级非遗项目名录","claim_scopes":["identity","ingredients","appliance"],"attribution":"开平市文化馆","license":"government_site_terms_unspecified"}],
-      "status":"identity_verified",
-      "evidence_notes":"开平市文化馆将赤坎煲仔饭烹饪技艺列为当地县级非遗项目，明确果木柴火和十月晚稻米，以及黄鳝、牛肉、排骨、腊味、菜果等多种配料变体；这些记录支持地域身份和技法边界，但不是一条统一配方，因此不补写克数、液体、时间、安全或电饭煲合同。"
+      "cooker_adaptation":{"status":"not_adapted","notes":"开平市文化馆来源证明赤坎煲仔饭以果木柴火烹饪，并列出黄鳝、牛肉、排骨、腊味、时令菜果等多种变体；赤坎镇政府来源补充煲仔受热处理、浸米2小时、七成熟下配料和余温焗5分钟，但未给统一批量、液体、安全终点或现代电饭煲适配。"},
+      "source_refs":[
+        {"source_id":"S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-1","title":"赤坎煲仔饭烹饪技艺","publisher":"开平市文化馆","url":"https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html","retrieved_at":"2026-08-03","source_kind":"county_cultural_museum_intangible_heritage_page","access_status":"opened","evidence_locator":"正文第8至17行：赤坎煲仔饭烹饪技艺的地域身份、果木柴火、多种肉类腊味与时令食材变体，并列入开平市县级非遗项目名录","claim_scopes":["identity","ingredients","appliance"],"attribution":"开平市文化馆","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-2","title":"央视《味道》聚焦！赤坎煲仔饭：一口非遗烟火，百年侨乡记忆","publisher":"江门开平市赤坎镇人民政府","url":"https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/3/3394/post_3394460.html","retrieved_at":"2026-08-03","source_kind":"town_government_cctv_food_process_article","access_status":"opened","evidence_locator":"正文第46至77行：央视实地制作记录、煲仔受热处理、十月晚稻米、浸米2小时、大火转中火、七成熟下配料、余温焗5分钟及酱油葱花收尾","claim_scopes":["identity","ingredients","process","appliance","time"],"attribution":"江门开平市赤坎镇人民政府","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"开平市文化馆确认赤坎煲仔饭烹饪技艺的地域身份、果木柴火、十月晚稻米和多种肉类/腊味/时令食材变体；赤坎镇政府发布的央视实地制作记录补充煲仔受热处理、浸米2小时、先大火后中火收水、七成熟下配料、熄火余温焗5分钟、开盖浇酱油撒葱花的工艺。由于来源明确存在多种搭配而不是一条统一配方，来源没有给出固定克数、液体或安全终点，也没有给出电饭煲参数，因此不把果木柴火流程改写为现代电饭煲合同。"
     },
     {
       "recipe_id":"taishan-eel-rice",
