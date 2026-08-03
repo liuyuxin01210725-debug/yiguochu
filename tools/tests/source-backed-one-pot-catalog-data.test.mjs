@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 114,
+    recipe_fact_checked: 115,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1043,6 +1043,35 @@ test('structures the Zhanjiang galangal-leaf rice cooker process without inventi
   assert.ok(source?.claim_scopes.includes('appliance'));
   assert.equal(standardSource?.access_status, 'search_extract_opened');
   assert.ok(standardSource?.claim_scopes.includes('liquid'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Zhanjiang taro galangal-leaf rice as a named cooker variant without borrowing the base rice water rule', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zhanjiang-taro-galou-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-ZHANJIANG-GALOU-1');
+
+  assert.equal(recipe?.canonical_name, '芋头蛤蒌饭');
+  assert.deepEqual(recipe?.aliases, ['蛤蒌芋头饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.deepEqual(recipe?.traditional_vessels, ['炒锅', '电饭锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['蛤蒌叶', '米', '芋头']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /蛤蒌叶.*炒至熟黑.*米.*芋头/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /蒜头.*芋头.*翻炒.*电饭煲.*煮饭/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /不把同页油炒蛤蒌饭的减水说明移植过来/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
