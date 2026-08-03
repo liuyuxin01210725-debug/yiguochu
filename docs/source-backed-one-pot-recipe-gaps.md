@@ -27,6 +27,7 @@
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
+- 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
@@ -35,6 +36,7 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
@@ -81,6 +83,7 @@
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
+- 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
@@ -90,6 +93,7 @@
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
@@ -123,7 +127,6 @@
 
 ## 5. Missing process
 
-- 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
@@ -174,6 +177,7 @@
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
+- 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
@@ -184,6 +188,7 @@
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
@@ -227,6 +232,7 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ

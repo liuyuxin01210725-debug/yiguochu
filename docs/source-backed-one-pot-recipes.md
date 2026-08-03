@@ -94,7 +94,7 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 南京菜饭 | 矮脚黄菜饭 | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 矮脚黄；糯米；咸肉片或香肠片或板鸭丁 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [寻味二十四节气・小寒](https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html)<br>[金陵节气诗词：小寒](https://dfz.nanjing.gov.cn/gzdt/202401/t20240105_4139564.html) |
-| 香青菜咸肉饭 | — | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 吴江香青菜；咸肉；饭 | identity、ingredients | 缺 process | [吴江香青菜入选国家地理标志产品](https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml) |
+| 香青菜咸肉饭 | — | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 吴江香青菜；咸肉；饭 | identity、ingredients、process | 缺 quantity、liquid、time | [吴江香青菜入选国家地理标志产品](https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml) |
 | 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 大米；青菜；咸肉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html)<br>[Shanghai Cai Fan (上海菜饭) – Rice with Salted Pork and Greens](https://thewoksoflife.com/shanghai-cai-fan-rice-salted-pork-greens/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 蚕豆菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 蚕豆；猪肉丁；牛心菜；饭 | appliance、identity、ingredients、process、safety、time | 缺 quantity、liquid | [外婆的蚕豆菜饭](https://mzj.sh.gov.cn/lnb-hf/20250519/8cfe8d45a5e846c0a441161c21226bef.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## jixi-bamboo-shoot-braised-rice
@@ -158,7 +158,7 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 芋头饭 | — | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 米；芋头 | identity | 缺 ingredients、process | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
-| 萝卜饭 | — | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 萝卜；带皮猪肉；香菇；海蛎；虾干；米 | identity、ingredients、process | 当前状态所需证据已齐 | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
+| 萝卜饭 | — | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 萝卜；带皮猪肉；香菇；海蛎；虾干；米 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm) |
 | 闽南芥菜饭 | 咸饭；芥菜饭 | CN-FJ | minnan-salty-rice | 研究记录（非公开可执行） | 大米；芥菜；海蛎干；蛏干 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[芥菜饭](https://www.quanzhougastronomy.com/ch/msjy/fypx/202501/t20250104_3126968.htm) |
 ## minnan-seafood-rice
 

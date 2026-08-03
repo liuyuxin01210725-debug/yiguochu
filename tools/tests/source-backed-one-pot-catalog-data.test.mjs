@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 9,
-    recipe_fact_checked: 74,
+    identity_verified: 7,
+    recipe_fact_checked: 76,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -246,6 +246,52 @@ test('records the Fujian beef mustard-greens rice process without inventing beef
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(recipe?.evidence_notes ?? '', /没有给出牛肉投料顺序、固定数量、液体、时间、安全终点或电饭煲适配/u);
+});
+
+test('records Quanzhou radish rice as a sourced same-pot process without inventing missing contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'quanzhou-radish-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-MN-1');
+
+  assert.equal(recipe?.canonical_name, '萝卜饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['萝卜', '带皮猪肉', '香菇', '海蛎', '虾干', '米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /萝卜.*带皮猪肉.*香菇.*海蛎.*虾干.*同煮/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'unassessed',
+    roles: [],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定米量、液体、时间、安全终点或电饭煲适配/u);
+});
+
+test('records Wujiang fragrant-greens salted-pork rice as a sourced stir-fried dish without inventing its rice workflow', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'wujiang-fragrant-greens-salted-pork-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JN-3');
+
+  assert.equal(recipe?.canonical_name, '香青菜咸肉饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['吴江香青菜', '咸肉', '饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /香青菜.*咸肉饭.*炒食/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'unassessed',
+    roles: [],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /没有米饭与咸肉的具体投料顺序、液体、时间、安全终点或电饭煲适配/u);
 });
 
 test('records Pingtan golden-crab glutinous rice as a named banquet rice dish without inventing quantities or cooker equivalence', () => {
@@ -626,10 +672,10 @@ test('records reviewed coverage and the evidence status of every eastern researc
   const expected = {
     'shanghai-salted-pork-vegetable-rice': 'recipe_fact_checked',
     'shanghai-broad-bean-vegetable-rice': 'recipe_fact_checked',
-    'wujiang-fragrant-greens-salted-pork-rice': 'identity_verified',
+    'wujiang-fragrant-greens-salted-pork-rice': 'recipe_fact_checked',
     'nanjing-aijiaohuang-rice': 'recipe_fact_checked',
     'wenzhou-mustard-greens-rice': 'recipe_fact_checked',
-    'quanzhou-radish-rice': 'identity_verified',
+    'quanzhou-radish-rice': 'recipe_fact_checked',
     'minnan-salty-rice': 'recipe_fact_checked',
     'quanzhou-taro-rice': 'identity_verified',
     'shenhu-huzaifan': 'recipe_fact_checked',
