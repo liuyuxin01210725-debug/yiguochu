@@ -37,6 +37,7 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 深沪咸饭 (shenhu-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
@@ -107,6 +108,7 @@
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 深沪咸饭 (shenhu-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
@@ -220,6 +222,7 @@
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
+- 深沪咸饭 (shenhu-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ

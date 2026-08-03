@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 90,
+    recipe_fact_checked: 91,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3017,6 +3017,38 @@ test('structures the Dongzhi electric-pot guoba rice facts without inventing ser
   assert.ok(source?.claim_scopes.includes('liquid'));
   assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Shenhu salty rice as a separately named source-backed variant', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shenhu-salty-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-FJ-JINJIANG-SHENHU-HUZAI-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '深沪咸饭');
+  assert.deepEqual(recipe?.aliases, ['壶仔咸饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-FJ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '三层肉', '干香菇', '干目鱼', '胡萝卜']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米浸透.*目鱼.*香菇.*胡萝卜/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /五花肉.*煸油.*目鱼.*香菇.*胡萝卜/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大米炒匀.*入煲煮熟/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /葱白炸油.*拌入饭中.*葱花/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
