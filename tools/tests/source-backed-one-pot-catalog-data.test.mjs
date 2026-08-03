@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 85,
+    recipe_fact_checked: 86,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1251,6 +1251,41 @@ test('records Hainan Li bamboo-tube rice with its source-stated meat, water, and
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /黎族传统美食.*竹筒.*木炭/u);
   assert.match(recipe?.evidence_notes ?? '', /500克.*猪瘦肉100克.*清水500克/u);
+});
+
+test('records Dai pineapple rice with its named sweet-rice identity and steaming boundary', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'dai-pineapple-sticky-rice');
+  const nationalSource = recipe?.source_refs?.find(item => item.source_id === 'S-YN-DAI-PINEAPPLE-RICE-1');
+  const processSource = recipe?.source_refs?.find(item => item.source_id === 'S-GX-DAI-PINEAPPLE-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '傣族菠萝饭');
+  assert.deepEqual(recipe?.aliases, ['菠萝紫米饭', '菠萝饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '菠萝', '火腿丁', '青豌豆或果脯']);
+  assert.deepEqual(recipe?.traditional_vessels, ['菠萝', '蒸屉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糯米.*浸泡2小时以上.*蒸熟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /菠萝.*掏空.*火腿丁.*青豌豆或果脯/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /菠萝.*上屉蒸20分钟/u);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(nationalSource?.url, 'https://www.neac.gov.cn/seac/ztzl/daiz/fsxg.shtml');
+  assert.equal(nationalSource?.publisher, '国家民族事务委员会');
+  assert.deepEqual(nationalSource?.claim_scopes, ['identity', 'ingredients']);
+  assert.equal(processSource?.url, 'https://v.gxnews.com.cn/a/5269029');
+  assert.equal(processSource?.publisher, '广西新闻网美食频道');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process', 'time']);
+  assert.match(recipe?.evidence_notes ?? '', /傣族.*菠萝饭.*糯米/u);
+  assert.match(recipe?.evidence_notes ?? '', /火腿丁.*青豌豆.*果脯.*20分钟/u);
+  assert.match(recipe?.evidence_notes ?? '', /甜味米食.*C级.*不包装成均衡主餐/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {

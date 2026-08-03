@@ -818,6 +818,34 @@
       "evidence_notes":"海南省人民政府门户原文明确将黎家竹筒饭列为海南黎族传统美食，说明用新鲜竹筒装米和味料、在野外或家中用木炭火烤熟，并列出山兰米500克、猪瘦肉100克、清水500克等用料。来源没有给统一份数、完整时间或现代电饭煲适配，因此保留来源可证的竹筒、木炭火和液体数量，不推导出电饭煲合同。"
     },
     {
+      "recipe_id":"dai-pineapple-sticky-rice",
+      "canonical_name":"傣族菠萝饭",
+      "aliases":["菠萝紫米饭","菠萝饭"],
+      "region_codes":["CN-YN"],
+      "cuisine_family":"yunnan-dai-pineapple-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["菠萝","蒸屉"],
+      "core_ingredients":["糯米","菠萝","火腿丁","青豌豆或果脯"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将糯米用凉水浸泡2小时以上，再上屉蒸熟。","source_ids":["S-GX-DAI-PINEAPPLE-RICE-1"]},
+        {"step":2,"instruction":"将菠萝上部切开并掏空，去掉木质心；菠萝肉切碎，加少许白糖，与火腿丁、青豌豆或果脯及糯米饭拌匀。","source_ids":["S-GX-DAI-PINEAPPLE-RICE-1"]},
+        {"step":3,"instruction":"把拌好的米饭装回掏空的菠萝中，上屉蒸20分钟。","source_ids":["S-GX-DAI-PINEAPPLE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"国家民族事务委员会和广西新闻网来源支持傣族菠萝饭的菠萝容器与上屉蒸制流程，未提供现代电饭煲等价程序、固定批量、液体、完整总时长或安全终点；本条不改写为电饭煲主餐。"},
+      "source_refs":[
+        {"source_id":"S-YN-DAI-PINEAPPLE-RICE-1","title":"风俗习惯","publisher":"国家民族事务委员会","url":"https://www.neac.gov.cn/seac/ztzl/daiz/fsxg.shtml","retrieved_at":"2026-08-03","source_kind":"national_ethnic_culture_page","access_status":"opened","evidence_locator":"正文第28行：傣族主食与‘菠萝紫米饭’风味身份记载","claim_scopes":["identity","ingredients"],"attribution":"国家民族事务委员会","license":"government_culture_site_terms_unspecified"},
+        {"source_id":"S-GX-DAI-PINEAPPLE-RICE-1","title":"美食节上的傣族美食：菠萝饭","publisher":"广西新闻网美食频道","url":"https://v.gxnews.com.cn/a/5269029","retrieved_at":"2026-08-03","source_kind":"regional_media_food_article","access_status":"opened","evidence_locator":"正文第38至48行：菠萝饭传统用料、糯米浸泡蒸熟、菠萝掏空拌料及上屉蒸20分钟；文中注明为云南傣族菠萝饭","claim_scopes":["identity","ingredients","process","time"],"attribution":"广西新闻网美食频道","license":"terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"国家民族事务委员会页面将菠萝紫米饭列为傣族特色米食；广西新闻网美食频道进一步记录云南傣族菠萝饭的传统流程：糯米浸泡2小时以上后蒸熟，菠萝掏空去心、切碎拌白糖、火腿丁、青豌豆或果脯，再装回菠萝上屉蒸20分钟。本条保留具名身份、菠萝容器和蒸制边界，不补写固定数量、液体、完整总时长、安全终点或电饭煲适配；火腿和青豌豆/果脯存在可选分支，营养标为甜味米食的C级研究条目，不包装成均衡主餐。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

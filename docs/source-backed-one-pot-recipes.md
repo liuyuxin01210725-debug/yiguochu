@@ -366,6 +366,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 施甸蚕豆火腿焖饭 | — | CN-YN | yunnan-broad-bean-ham-rice | 研究记录（非公开可执行） | 米饭；蚕豆；火腿 | identity、ingredients | 缺 process | [【美味施甸】春味，藏在豆香里](https://shidian.gov.cn/info/1111/3664633.htm) |
+## yunnan-dai-pineapple-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 傣族菠萝饭 | 菠萝紫米饭；菠萝饭 | CN-YN | yunnan-dai-pineapple-rice | 研究记录（非公开可执行） | 糯米；菠萝；火腿丁；青豌豆或果脯 | identity、ingredients、process、time | 缺 quantity、liquid、appliance | [风俗习惯](https://www.neac.gov.cn/seac/ztzl/daiz/fsxg.shtml)<br>[美食节上的傣族美食：菠萝饭](https://v.gxnews.com.cn/a/5269029) |
 ## yunnan-seasonal-pea-potato-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
