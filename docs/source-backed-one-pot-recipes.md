@@ -95,7 +95,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 蛤蒌饭 | — | CN-GD | western-guangdong-herb-rice | 研究记录（非公开可执行） | — | — | 缺 identity | [湛江地方标准附件（蛤蒌饭、鸭仔饭线索）](https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf) |
+| 蛤蒌饭 | — | CN-GD | western-guangdong-herb-rice | 研究记录（非公开可执行） | 蛤蒌叶；香米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [蛤蒌饭](https://www.zhanjiang.gov.cn/zjms/content/post_1743734.html) |
 ## xinjiang-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

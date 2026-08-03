@@ -5,7 +5,6 @@
 ## 1. Missing identity
 
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
-- 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 
 ## 2. Missing ingredients
 
@@ -18,6 +17,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 4. Missing liquid
@@ -26,6 +26,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 5. Missing process
@@ -48,6 +49,7 @@
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 
 ## 8. Missing safety

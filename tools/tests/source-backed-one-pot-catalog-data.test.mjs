@@ -199,9 +199,9 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    discovered: 2,
+    discovered: 1,
     identity_verified: 10,
-    recipe_fact_checked: 21,
+    recipe_fact_checked: 22,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -248,7 +248,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'cantonese-cured-meat-claypot-rice': 'recipe_fact_checked',
     'cantonese-mushroom-chicken-claypot-rice': 'recipe_fact_checked',
     'cantonese-black-bean-pork-rib-claypot-rice': 'recipe_fact_checked',
-    'zhanjiang-galangal-leaf-rice': 'discovered',
+    'zhanjiang-galangal-leaf-rice': 'recipe_fact_checked',
     'zhanjiang-duck-rice': 'discovered',
   };
 
@@ -290,7 +290,7 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
     assert.ok(!/电饭煲|电锅|rice cooker/i.test(recipe?.cooker_adaptation?.notes ?? ''), recipeId);
   }
 
-  for (const recipeId of ['zhanjiang-galangal-leaf-rice', 'zhanjiang-duck-rice']) {
+  for (const recipeId of ['zhanjiang-duck-rice']) {
     const recipe = byId.get(recipeId);
     assert.equal(recipe?.status, 'discovered', recipeId);
     assert.equal(recipe?.identity_status, 'discovered', recipeId);
@@ -316,10 +316,37 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
   }
 });
 
+test('structures the Zhanjiang galangal-leaf rice cooker process without inventing its reduced liquid', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zhanjiang-galangal-leaf-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-ZHANJIANG-GALOU-1');
+
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.identity_status, 'verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['炒锅', '电饭锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['蛤蒌叶', '香米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source requires reduced water but gives no measurable amount');
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /蛤蒌叶.*洗净.*切成细丝/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /油.*炒香.*泡好的香米/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /电饭锅.*煲饭/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('rejects unparsed PDF scopes and promotion beyond discovery', () => {
   // Letting unread PDFs carry a scope or raise a row above discovery would manufacture evidence.
   const catalog = sourceBackedCatalog();
-  const recipe = catalog.recipes.find(item => item.recipe_id === 'zhanjiang-galangal-leaf-rice');
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'zhanjiang-duck-rice');
   recipe.source_refs[0].claim_scopes = ['identity'];
   assert.match(
     validator.validateSourceBackedOnePotCatalog(catalog).join('\n'),
@@ -327,7 +354,7 @@ test('rejects unparsed PDF scopes and promotion beyond discovery', () => {
   );
 
   const promoted = sourceBackedCatalog();
-  promoted.recipes.find(item => item.recipe_id === 'zhanjiang-galangal-leaf-rice').status = 'identity_verified';
+  promoted.recipes.find(item => item.recipe_id === 'zhanjiang-duck-rice').status = 'identity_verified';
   assert.match(
     validator.validateSourceBackedOnePotCatalog(promoted).join('\n'),
     /pdf_not_parsed.*discovery-only/i,
