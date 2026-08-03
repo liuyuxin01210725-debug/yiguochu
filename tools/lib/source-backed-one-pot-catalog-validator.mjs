@@ -17,6 +17,10 @@ export const PUBLIC_SOURCE_BACKED_STATUSES = new Set([
   'preview_ready', 'kitchen_observed', 'production_approved',
 ]);
 
+export const PROCESS_EVIDENCE_WARNING = '技法来源待加强';
+const MIN_EVIDENCE_TIER = 1;
+const MAX_EVIDENCE_TIER = 6;
+
 const KEBAB_CASE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HTTPS_URL = /^https:\/\/[^/\s]+(?:\/[^\s]*)?$/i;
 export const REQUIRED_EXECUTABLE_SCOPES = [
@@ -173,6 +177,13 @@ function validateSource(source, path, errors) {
   addRequiredStringError(errors, source.attribution, `${path}.attribution`);
   addRequiredStringError(errors, source.source_kind, `${path}.source_kind`);
 
+  if (source.evidence_tier != null
+    && (!Number.isInteger(source.evidence_tier)
+      || source.evidence_tier < MIN_EVIDENCE_TIER
+      || source.evidence_tier > MAX_EVIDENCE_TIER)) {
+    errors.push(`${path}.evidence_tier must be an integer from ${MIN_EVIDENCE_TIER} to ${MAX_EVIDENCE_TIER}`);
+  }
+
   if (!nonEmptyString(source.url) || !HTTPS_URL.test(source.url)) {
     errors.push(`${path}.url must be an HTTPS URL`);
   }
@@ -197,6 +208,19 @@ function sourceClaimScopes(recipe) {
   return new Set(sourceRefs.flatMap(source => (
     Array.isArray(source?.claim_scopes) ? source.claim_scopes : []
   )));
+}
+
+export function processEvidenceStatus(recipe) {
+  const processSources = (Array.isArray(recipe?.source_refs) ? recipe.source_refs : [])
+    .filter(source => Array.isArray(source?.claim_scopes) && source.claim_scopes.includes('process'));
+  const tierSixSources = processSources.filter(source => source?.evidence_tier === MAX_EVIDENCE_TIER);
+  if (tierSixSources.length === 0) return null;
+  const tierOneToFiveProcessSource = processSources.some(source => (
+    Number.isInteger(source?.evidence_tier)
+      && source.evidence_tier >= MIN_EVIDENCE_TIER
+      && source.evidence_tier < MAX_EVIDENCE_TIER
+  ));
+  return tierOneToFiveProcessSource ? null : 'tier6_process_only';
 }
 
 function hasFactValue(value) {
@@ -395,6 +419,16 @@ function validatePromotionGates(recipe, path, errors) {
     && nonEmptyString(recipe.cooker_adaptation.adapted_name)
     && recipe.cooker_adaptation.adapted_name.trim() === recipe.canonical_name?.trim()) {
     errors.push(`${path}.cooker_adaptation.adapted_name must not equal canonical_name`);
+  }
+
+  const processEvidence = processEvidenceStatus(recipe);
+  if (processEvidence === 'tier6_process_only') {
+    if (!new RegExp(PROCESS_EVIDENCE_WARNING).test(recipe.evidence_notes ?? '')) {
+      errors.push(`${path}.evidence_notes must include ${PROCESS_EVIDENCE_WARNING} for tier-6-only process evidence`);
+    }
+    if (recipe.status === 'executable' || PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status)) {
+      errors.push(`${path} cannot reach executable/public status with tier-6-only process evidence; add tier-1-to-5 process evidence first`);
+    }
   }
 
   if (!PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status)) return;

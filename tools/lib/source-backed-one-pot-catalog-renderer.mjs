@@ -3,6 +3,8 @@ import {
   REQUIRED_EXECUTABLE_SCOPES,
   claimsNamedAppliance,
   containsRawHighRiskIngredient,
+  processEvidenceStatus,
+  PROCESS_EVIDENCE_WARNING,
 } from './source-backed-one-pot-catalog-validator.mjs';
 
 const CLAIM_SCOPES = [
@@ -78,10 +80,16 @@ function formatFamily(family) {
   return FAMILY_LABELS[family] ?? asText(family);
 }
 
-function formatStatus(status) {
-  if (PUBLIC_SOURCE_BACKED_STATUSES.has(status)) return `公开候选（${asText(status)}）`;
-  if (status === 'executable') return '可执行研究记录（非公开）';
-  return '研究记录（非公开可执行）';
+function formatStatus(recipe) {
+  const status = recipe?.status;
+  let label;
+  if (PUBLIC_SOURCE_BACKED_STATUSES.has(status)) label = `公开候选（${asText(status)}）`;
+  else if (status === 'executable') label = '可执行研究记录（非公开）';
+  else label = '研究记录（非公开可执行）';
+  if (processEvidenceStatus(recipe) === 'tier6_process_only') {
+    label += `；${PROCESS_EVIDENCE_WARNING}`;
+  }
+  return label;
 }
 
 function formatAliases(recipe) {
@@ -119,7 +127,7 @@ function renderMarkdown(catalog) {
       formatAliases(recipe),
       recipeRegionLabel(recipe),
       formatFamily(family),
-      formatStatus(recipe?.status),
+      formatStatus(recipe),
       asArray(recipe?.core_ingredients).map(asText).join('；') || '—',
       supported.join('、') || '—',
       blockers.length ? `缺 ${blockers.join('、')}` : '当前状态所需证据已齐',
@@ -142,7 +150,7 @@ function csvRows(catalog) {
     for (const source of sources.length ? sources : [null]) {
       rows.push([
         recipe?.recipe_id ?? '', recipe?.canonical_name ?? '', formatAliases(recipe).replaceAll('；', ';'),
-        recipeRegionLabel(recipe), recipe?.cuisine_family ?? '', recipe?.status ?? '', formatStatus(recipe?.status),
+        recipeRegionLabel(recipe), recipe?.cuisine_family ?? '', recipe?.status ?? '', formatStatus(recipe),
         asArray(recipe?.core_ingredients).join(';'), supportedClaimScopes(recipe).join(';'), promotionBlockerScopes(recipe).join(';'),
         source?.source_id ?? '', source?.title ?? '', source?.url ?? '', asArray(source?.claim_scopes).join(';'),
       ]);

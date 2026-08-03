@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import * as validator from '../lib/source-backed-one-pot-catalog-validator.mjs';
+import { buildSourceBackedOnePotArtifacts } from '../lib/source-backed-one-pot-catalog-renderer.mjs';
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const toolsDirectory = dirname(directory);
@@ -71,11 +72,24 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260804-national-r1');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
     [],
   );
+});
+
+test('marks aggregate-only process evidence as technique evidence pending strengthening', () => {
+  const catalog = sourceBackedCatalog();
+  for (const recipeId of ['qijiang-potato-cured-pork-kong-rice', 'shidian-broad-bean-ham-rice']) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    const processSources = recipe.source_refs.filter(source => source.claim_scopes.includes('process'));
+    assert.ok(processSources.some(source => source.evidence_tier === 6), recipeId);
+    assert.match(recipe.evidence_notes, /技法来源待加强/u, recipeId);
+  }
+  const artifacts = buildSourceBackedOnePotArtifacts(catalog, migrationLedger());
+  assert.match(artifacts.get('docs/source-backed-one-pot-recipes.md'), /技法来源待加强/u);
 });
 
 test('keeps project-original combinations out of the source-backed catalog', () => {

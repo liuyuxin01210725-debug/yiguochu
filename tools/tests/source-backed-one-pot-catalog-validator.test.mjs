@@ -81,6 +81,27 @@ test('accepts an identity-verified recipe without pretending it is executable', 
   assert.deepEqual(validateSourceBackedOnePotCatalog(validCatalog()), []);
 });
 
+test('allows an explicitly tier-six bounded technique record but blocks executable promotion without tier-one-to-five process evidence', () => {
+  const catalog = validCatalog();
+  const recipe = catalog.recipes[0];
+  const source = recipe.source_refs[0];
+  source.evidence_tier = 6;
+  recipe.evidence_notes = '技法来源待加强；仅保留有边界的通用技法记录。';
+  assert.deepEqual(validateSourceBackedOnePotCatalog(catalog), []);
+
+  const executable = factSourcedExecutableCatalog();
+  executable.recipes[0].source_refs[0].evidence_tier = 6;
+  executable.recipes[0].evidence_notes = '技法来源待加强；仅保留有边界的通用技法记录。';
+  const errors = errorsFor(executable).join('\n');
+  assert.match(errors, /tier.?6.*process|process.*tier.?1.?5/i);
+});
+
+test('rejects an invalid source evidence tier', () => {
+  const catalog = validCatalog();
+  catalog.recipes[0].source_refs[0].evidence_tier = 7;
+  assert.match(errorsFor(catalog).join('\n'), /evidence_tier.*1.*6/i);
+});
+
 test('rejects project self-citations', () => {
   // Removing the project-self-citation validator branch would make this fail.
   const catalog = validCatalog();
