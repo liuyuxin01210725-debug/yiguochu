@@ -246,6 +246,31 @@
       "source_refs":[{"source_id":"S-SX-LINGCHUAN-HEGUO-RICE-1","title":"陵川和锅大米","publisher":"陵川县人民政府","url":"https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第16至22行：和锅大米、一锅出、柴火大米的地方称呼及可加入蔬菜副食的描述","claim_scopes":["identity","ingredients"],"attribution":"陵川县人民政府","license":"government_site_terms_unspecified"}],
       "status":"identity_verified",
       "evidence_notes":"陵川县人民政府页面明确将和锅大米称作附城一带的“一锅出”、潞城一带的“柴火大米”，并说明可加入蔬菜副食；来源没有给出具体食材、固定数量、米水比例、烹饪顺序、时间、安全终点或电饭煲适配，因此本条只保留地方身份与宽泛食材范围，不补写菜谱合同。"
+    },
+    {
+      "recipe_id":"taishan-chicken-baked-rice",
+      "canonical_name":"台山鸡焗饭",
+      "aliases":["台山特色鸡饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"taishan-chicken-baked-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["柴火灶"],
+      "core_ingredients":["米","鸡肉","腌料酱汁"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"按报道现场流程洗锅、下米、加水并控制火候，准备下料。","source_ids":["S-GD-TAISHAN-CHICKEN-RICE-1"]},
+        {"step":2,"instruction":"将腌制鸡块和腌料酱汁与锅内米饭一起焗制；报道说明腌料在焗饭过程中渗入米饭。","source_ids":["S-GD-TAISHAN-CHICKEN-RICE-1"]},
+        {"step":3,"instruction":"按报道现场流程继续焗制，约20分钟后再焗数分钟出锅；报道未给家庭固定时间。","source_ids":["S-GD-TAISHAN-CHICKEN-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"广东省侨务办公室报道的是台山柴火灶现场鸡焗饭，未提供固定批量、液体比例、家庭安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-TAISHAN-CHICKEN-RICE-1","title":"广东侨乡台山的特色鸡饭按锅上 饭焦诱人","publisher":"广东省人民政府侨务办公室","url":"https://www.qb.gd.gov.cn/ztzl/2021ycsf/xwdt/content/post_988644.html","retrieved_at":"2026-08-03","source_kind":"provincial_government_overseas_affairs_food_report","access_status":"search_extract_opened","evidence_locator":"搜索摘录：洗锅、下米、加水、控火、下料、上锅；鸡焗饭腌料渗入米饭；每锅米量档位与约20分钟现场流程","claim_scopes":["identity","ingredients","process","time"],"attribution":"广东省人民政府侨务办公室","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"广东省人民政府侨务办公室搜索摘录记录台山当地鸡焗饭的具名身份、鸡肉与米同锅、腌料酱汁渗入米饭，以及柴火灶现场的洗锅、下米、加水、控火、下料流程和约20分钟的餐厅级时间描述；搜索摘录未给出固定批量、可复用液体比例、完整安全终点或电饭煲适配，因此本条不建立固定执行合同。"
     }
   ]
 }

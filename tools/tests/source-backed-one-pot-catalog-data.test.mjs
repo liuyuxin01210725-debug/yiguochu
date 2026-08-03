@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 11,
-    recipe_fact_checked: 48,
+    recipe_fact_checked: 49,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -905,6 +905,29 @@ test('records Lingchuan heguo rice as a Shanxi identity without inventing a reci
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
   assert.match(recipe?.evidence_notes ?? '', /没有给出.*数量.*米水比例.*烹饪顺序.*电饭煲/u);
+});
+
+test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taishan-chicken-baked-rice');
+  assert.equal(recipe?.canonical_name, '台山鸡焗饭');
+  assert.deepEqual(recipe?.aliases, ['台山特色鸡饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['米', '鸡肉', '腌料酱汁']);
+  assert.deepEqual(recipe?.traditional_vessels, ['柴火灶']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /洗锅.*下米.*加水/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腌制鸡块.*米饭/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /约20分钟/u);
+  assert.equal(recipe?.time_contract, null, 'the report gives a restaurant-level duration, not a complete batch contract');
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.access_status, 'search_extract_opened');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'time']);
+  assert.match(recipe?.evidence_notes ?? '', /搜索摘录.*未给.*固定.*电饭煲/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {

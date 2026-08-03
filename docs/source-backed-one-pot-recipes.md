@@ -140,6 +140,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 台山菜果饭 | 菜果饭 | CN-GD | taishan-caiguo-cured-rice | 研究记录（非公开可执行） | 丝苗米；菜果（苤蓝）；腊味；海虾米；香芹 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [鸡酒、菜果饭、黑豆鸡爪芋汤 三合镇汇聚台山非遗滋味](https://www.jiangmen.gov.cn/newzjqx/lyzy/qxms/content/post_3521275.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## taishan-chicken-baked-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 台山鸡焗饭 | 台山特色鸡饭 | CN-GD | taishan-chicken-baked-rice | 研究记录（非公开可执行） | 米；鸡肉；腌料酱汁 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [广东侨乡台山的特色鸡饭按锅上 饭焦诱人](https://www.qb.gd.gov.cn/ztzl/2021ycsf/xwdt/content/post_988644.html) |
 ## taiwan-ceremonial-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

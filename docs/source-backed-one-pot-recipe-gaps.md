@@ -27,6 +27,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
+- 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
@@ -55,6 +56,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
+- 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
@@ -88,6 +90,7 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
@@ -137,6 +140,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
