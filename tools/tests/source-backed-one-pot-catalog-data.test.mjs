@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 6,
-    recipe_fact_checked: 112,
+    identity_verified: 4,
+    recipe_fact_checked: 114,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -268,17 +268,18 @@ test('records Jilin red-bean sorghum rice as a named wedding-pot staple without 
   assert.deepEqual(recipe?.core_ingredients, ['小豆', '高粱米']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.equal(recipe?.cooking_sequence.length, 1);
-  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /办喜事时.*宴席前一顿.*大锅焖.*小豆高粱米饭/u);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /小米.*七八成熟.*笊篱.*捞出/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /小豆高粱米饭.*并列.*一般工艺/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(recipe?.status, 'identity_verified');
-  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
-  assert.match(source?.evidence_locator ?? '', /办喜事时.*宴席前一顿.*大锅焖/u);
-  assert.match(recipe?.evidence_notes ?? '', /没有固定小豆和高粱米用量、液体、时间/u);
+  assert.match(source?.evidence_locator ?? '', /正文第14至18行.*小豆高粱米饭/u);
+  assert.match(recipe?.evidence_notes ?? '', /并列事实.*没有固定小豆和高粱米用量、液体、时间/u);
 });
 
 test('records Qingyang sticky-millet braised rice without inventing its missing contracts', () => {
@@ -3427,31 +3428,43 @@ test('structures Banshan Lixia wild rice from the national intangible-heritage p
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('records Shidian broad-bean ham rice as an identity-only government source without inventing its missing method', () => {
+test('records Shidian broad-bean ham rice with a source-limited electric-cooker branch', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'shidian-broad-bean-ham-rice'
   ));
-  const source = recipe?.source_refs.find(item => (
+  const identitySource = recipe?.source_refs.find(item => (
     item.source_id === 'S-YN-SHIDIAN-BROAD-BEAN-HAM-RICE-1'
+  ));
+  const methodSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-YN-SHIDIAN-BROAD-BEAN-HAM-RICE-2'
   ));
 
   assert.equal(recipe?.canonical_name, '施甸蚕豆火腿焖饭');
   assert.deepEqual(recipe?.aliases, []);
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭锅']);
   assert.deepEqual(recipe?.core_ingredients, ['米饭', '蚕豆', '火腿']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米.*淘洗.*泡/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /蚕豆.*火腿.*切/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /猪油.*火腿丁.*蚕豆/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /炒好的火腿蚕豆.*电饭锅.*平时煮米饭的水量/u);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /保温后再焖十分钟/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.nutrition_structure, {
-    grade: 'unassessed',
-    roles: [],
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
   });
-  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(source?.access_status, 'opened');
-  assert.ok(source?.claim_scopes.includes('identity'));
-  assert.ok(source?.claim_scopes.includes('ingredients'));
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.deepEqual(recipe?.cooker_adaptation?.source_ids, ['S-YN-SHIDIAN-BROAD-BEAN-HAM-RICE-2']);
+  assert.equal(identitySource?.access_status, 'opened');
+  assert.deepEqual(identitySource?.claim_scopes, ['identity', 'ingredients']);
+  assert.equal(methodSource?.access_status, 'opened');
+  assert.deepEqual(methodSource?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
+  assert.ok(recipe?.evidence_notes.includes('两条来源'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

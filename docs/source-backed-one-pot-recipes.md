@@ -146,7 +146,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 吉林小豆高粱米饭 | 小豆高粱米饭 | CN-JL | jilin-red-bean-sorghum-rice | 研究记录（非公开可执行） | 小豆；高粱米 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [吉林民间饮食习俗：以大黄米、白小米为主食](https://www.chinanews.com.cn/gn/2010/12-21/2736898.shtml) |
+| 吉林小豆高粱米饭 | 小豆高粱米饭 | CN-JL | jilin-red-bean-sorghum-rice | 研究记录（非公开可执行） | 小豆；高粱米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [吉林民间饮食习俗：以大黄米、白小米为主食](https://www.chinanews.com.cn/gn/2010/12-21/2736898.shtml) |
 ## jingyuan-mixed-grain-sanfan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -486,7 +486,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 施甸蚕豆火腿焖饭 | — | CN-YN | yunnan-broad-bean-ham-rice | 研究记录（非公开可执行） | 米饭；蚕豆；火腿 | identity、ingredients | 缺 process | [【美味施甸】春味，藏在豆香里](https://shidian.gov.cn/info/1111/3664633.htm) |
+| 施甸蚕豆火腿焖饭 | — | CN-YN | yunnan-broad-bean-ham-rice | 研究记录（非公开可执行） | 米饭；蚕豆；火腿 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [【美味施甸】春味，藏在豆香里](https://shidian.gov.cn/info/1111/3664633.htm)<br>[云南火腿蚕豆焖饭](https://www.yznchinese.com/%E4%BA%91%E5%8D%97%E7%81%AB%E8%85%BF%E8%9A%BD%E8%B1%86%E7%84%96%E9%A5%AD/) |
 ## yunnan-dai-pineapple-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

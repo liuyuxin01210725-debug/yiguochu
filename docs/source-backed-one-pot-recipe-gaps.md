@@ -34,6 +34,7 @@
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 吉林小豆高粱米饭 (jilin-red-bean-sorghum-rice) — CN-JL
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
@@ -122,6 +123,7 @@
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 吉林小豆高粱米饭 (jilin-red-bean-sorghum-rice) — CN-JL
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
@@ -178,6 +180,7 @@
 - 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
+- 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
 - 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
@@ -193,7 +196,6 @@
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
-- 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
 
 ## 6. Missing appliance
 
@@ -258,6 +260,7 @@
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
+- 吉林小豆高粱米饭 (jilin-red-bean-sorghum-rice) — CN-JL
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
@@ -312,6 +315,7 @@
 - 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
+- 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
 - 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
