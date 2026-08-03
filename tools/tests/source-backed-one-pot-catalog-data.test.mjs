@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 16,
+    identity_verified: 17,
     recipe_fact_checked: 59,
   });
   for (const recipe of catalog.recipes) {
@@ -1034,6 +1034,30 @@ test('records Chengkou cured-pork rice from the local cured-meat source without 
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'time']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /城口.*腊肉饭.*来源没有给.*固定数量.*电饭煲/u);
+});
+
+test('records Tujia she rice in the Qianjiang area without merging another region\'s process', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'qianjiang-tujia-she-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '土家社饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-CQ']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '猪肉', '大蒜', '蒿草']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml');
+  assert.equal(source?.publisher, '阿坝藏族羌族自治州地方志办公室');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /黔江地区.*来源没有给出.*烹饪步骤.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {

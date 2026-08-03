@@ -165,6 +165,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 肉粘饭 | — | CN-NX | ningxia-steamed-meat-vegetable-rice | 研究记录（非公开可执行） | 宁夏大米；牛肉或羊肉；洋葱；胡萝卜 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [不尝一次宁夏大米，难以给胃一个交代！](https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html)<br>[2024年第一顿必吃它，香甜软糯油润喷香！](https://nynct.nx.gov.cn/rdzt/ppny/202403/t20240307_4478445.html) |
+## qianjiang-tujia-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 土家社饭 | — | CN-CQ | qianjiang-tujia-she-rice | 研究记录（非公开可执行） | 糯米；猪肉；大蒜；蒿草 | identity、ingredients | 缺 process | [四川少数民族食俗](https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml) |
 ## shanxi-heguo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

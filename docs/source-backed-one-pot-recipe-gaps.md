@@ -100,6 +100,7 @@
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
+- 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD

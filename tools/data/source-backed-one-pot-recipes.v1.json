@@ -636,6 +636,27 @@
       "source_refs":[{"source_id":"S-CQ-CHENGKOU-CURED-PORK-RICE-1","title":"文学｜城口老腊肉","publisher":"七一网 / 中共重庆市委组织部","url":"https://m.12371.gov.cn/content/2023-07/22/content_446437.html","retrieved_at":"2026-08-03","source_kind":"party_media_local_food_culture_article","access_status":"opened","evidence_locator":"正文第30至51行：城口老腊肉地域身份、浸泡和煮十五分钟前处理，以及腊肉丁、青豌豆、胡萝卜、糯米煮腊肉饭的记载","claim_scopes":["identity","ingredients","process","time"],"attribution":"七一网 / 中共重庆市委组织部","license":"party_media_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"七一网文章以城口老腊肉为主题，明确城口地域与老腊肉非遗背景，并记载腊肉清水浸泡约半小时、煮十五分钟后切丁，加入青豌豆、胡萝卜、糯米等煮腊肉饭。来源没有给固定数量、液体、完整总时间、安全终点、具体器具或现代电饭煲适配，因此只保留来源原称‘煮腊肉饭’及其前处理和核心组合，不把区域前缀扩写成新的菜名。"
+    },
+    {
+      "recipe_id":"qianjiang-tujia-she-rice",
+      "canonical_name":"土家社饭",
+      "aliases":[],
+      "region_codes":["CN-CQ"],
+      "cuisine_family":"qianjiang-tujia-she-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["糯米","猪肉","大蒜","蒿草"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"阿坝州地方志办公室来源只记录川东南黔江地区土家族社饭的节令身份和核心食材，没有提供器具、固定数量、液体、步骤、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-CQ-QIANGJIANG-TUJIA-SHE-RICE-1","title":"四川少数民族食俗","publisher":"阿坝藏族羌族自治州地方志办公室","url":"https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_gazette_office_food_culture_page","access_status":"opened","evidence_locator":"正文第61至64行：川东南黔江地区土家族节令社饭及糯米、猪肉、大蒜、蒿草构成","claim_scopes":["identity","ingredients"],"attribution":"阿坝藏族羌族自治州地方志办公室","license":"government_site_terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"阿坝州地方志办公室文章明确四川土家族主要分布于川东南黔江地区，并记载农历二月初二社日吃社饭，以糯米、猪肉、大蒜、蒿草做成。来源没有给出固定数量、液体、烹饪步骤、时间、安全终点或电饭煲适配，因此只保留土家社饭的地域身份和核心食材，不把铜仁、凤凰或恩施等地社饭流程合并进来。"
     }
   ]
 }
