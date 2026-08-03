@@ -33,7 +33,7 @@ lianyuan-bamboo-rice,涟源腊肉红枣竹筒饭,湖南 (CN-HN),bamboo-rice,米 
 xiangjiangyuan-bamboo-rice,湘江源瑶家竹筒饭,湖南 (CN-HN),bamboo-rice,糯米 / 茶豆 / 猪肉末,A,glutinous-rice,竹筒火烤,identity / quantity,partial,需食品安全竹筒与首煮液体,research_candidate
 mayang-she-rice,麻阳社饭,湖南 (CN-HN),wuling-she-rice,粳米/糯米 / 艾草 / 腊肉 / 野葱 / 蒜苗,A,mixed-rice,预煮沥米或甑蒸,identity,identity_only,无总克数液体,research_candidate
 xiangxi-she-rice,湘西社饭,湖南 (CN-HN),wuling-she-rice,糯米/粳米 / 野菜 / 腊肉 / 葱蒜,A,mixed-rice,社饭多阶段蒸焖,identity,identity_only,比例文字冲突且无可执行比,research_candidate
-yichang-cured-pork-braised-rice,宜昌腊肉焖饭,湖北 (CN-HB),middle-yangtze-cured-rice,米 / 腊肉,B,rice-state-unverified,焖饭名称身份记录,identity,identity_only,仅有名称，缺工艺、数量和液体,identity_only
+yichang-cured-pork-braised-rice,宜昌腊肉焖饭,湖北 (CN-HB),middle-yangtze-cured-rice,米 / 腊肉,C,rice-state-unverified,宜昌市发展改革委官方页面在三峡一桌菜中点名，未提供腊肉焖饭制作流程,identity,identity_only,官方页面当前跳转循环，只能核验搜索摘录中的菜名和组合；缺米态、工艺、数量、液体、时间、器具和安全终点,identity_only
 ninghe-zeng-pork-rice,宁河甑乡肉焖儿,天津 (CN-TJ),zeng-rice,米 / 猪肉,C,raw-rice,天津日报记录陶甑配大米和猪肉蒸制甑乡肉焖儿,identity / appliance,identity_only,无数量液体，甑器具身份,research_candidate
 household-broccoli-beef-rice,西兰花牛肉焖饭,家常标准（非地域） (HOUSEHOLD),household-reviewed-rice,米 / 西兰花 / 牛肉,A,raw-rice,一锅出项目 Preview 家庭测试标准，待真实厨房反馈,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready
 household-cabbage-tofu-rice,白菜豆腐焖饭,家常标准（非地域） (HOUSEHOLD),household-reviewed-rice,米 / 白菜 / 豆腐,A,raw-rice,一锅出项目 Preview 家庭测试标准，待真实厨房反馈,identity / quantity / liquid / appliance / safety / nutrition,complete,无,runtime_ready

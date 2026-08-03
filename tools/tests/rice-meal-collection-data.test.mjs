@@ -287,3 +287,23 @@ test('keeps the Ninghe zengxiang pork rice candidate aligned with its Tianjin Da
   assert.equal(candidate?.status, 'research_candidate');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Yichang cured-pork braised rice candidate aligned with the official listing', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'yichang-cured-pork-braised-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: null, label: '腊肉' },
+  ]);
+  assert.equal(candidate?.rice_state, 'rice-state-unverified');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '新华网：江汉大米“链动”三峡 产销合作启新篇');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '宜昌市发展和改革委员会');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.status, 'identity_only');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});

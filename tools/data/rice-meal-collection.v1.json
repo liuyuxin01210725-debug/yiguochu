@@ -1917,13 +1917,13 @@
         }
       ],
       "rice_state": "rice-state-unverified",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "焖饭名称身份记录",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "宜昌市发展改革委官方页面在三峡一桌菜中点名，未提供腊肉焖饭制作流程",
       "identity_sources": [
         {
-          "title": "宜昌腊肉焖饭",
-          "publisher": "宜昌市发改委",
-          "retrieved_at": "2026-08-01",
+          "title": "新华网：江汉大米“链动”三峡 产销合作启新篇",
+          "publisher": "宜昌市发展和改革委员会",
+          "retrieved_at": "2026-08-03",
           "url": "https://fgw.yichang.gov.cn/content-56405-984018-1.html",
           "supports": [
             "identity"
@@ -1933,7 +1933,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "仅有名称，缺工艺、数量和液体"
+        "官方页面当前跳转循环，只能核验搜索摘录中的菜名和组合；缺米态、工艺、数量、液体、时间、器具和安全终点"
       ],
       "status": "identity_only"
     },
