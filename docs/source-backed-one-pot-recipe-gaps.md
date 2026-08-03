@@ -12,6 +12,7 @@
 
 ## 3. Missing quantity
 
+- 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
@@ -50,6 +51,7 @@
 
 ## 4. Missing liquid
 
+- 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
@@ -106,6 +108,7 @@
 
 ## 6. Missing appliance
 
+- 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -164,6 +167,7 @@
 
 ## 8. Missing safety
 
+- 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA

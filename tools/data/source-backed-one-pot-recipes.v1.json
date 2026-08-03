@@ -611,6 +611,31 @@
       "source_refs":[{"source_id":"S-GD-KAIPING-DANJIA-CARP-GLUTINOUS-RICE-1","title":"开平疍家菜制作技艺","publisher":"开平市人民政府 / 江门市文化馆","url":"https://www.kaiping.gov.cn/csjdbsc/kjww/wh/content/post_3220203.html","retrieved_at":"2026-08-03","source_kind":"municipal_intangible_food_heritage_page","access_status":"opened","evidence_locator":"正文第51至66行的疍家菜地域背景与代表菜；第115至125行‘鲤鱼炖糯米’做法：腌鱼、糯米电饭锅隔水炖、鱼上饭面继续炖","claim_scopes":["identity","ingredients","process","appliance","time"],"attribution":"开平市人民政府 / 江门市文化馆","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"开平市人民政府转载的江门市文化馆非遗资料把鲤鱼炖糯米列为开平疍家菜代表菜，明确鲤鱼、糯米、枸杞、红枣、姜等原料和腌制、糯米电饭锅隔水炖、鱼上饭面继续炖的顺序，并给出约4小时和再炖2小时的局部时间。来源没有给固定数量、液体、完整总时间、鲤鱼安全终点或可跨机型复用的电饭煲参数，因此保留事实边界，不把本条标为可执行菜单。"
+    },
+    {
+      "recipe_id":"chengkou-cured-pork-rice",
+      "canonical_name":"煮腊肉饭",
+      "aliases":[],
+      "region_codes":["CN-CQ"],
+      "cuisine_family":"chengkou-cured-pork-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["腊肉","青豌豆","胡萝卜","糯米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"来源记载腊肉先用清水浸泡半小时左右使其软化，再煮十五分钟。","source_ids":["S-CQ-CHENGKOU-CURED-PORK-RICE-1"]},
+        {"step":2,"instruction":"将腊肉切成肉丁。","source_ids":["S-CQ-CHENGKOU-CURED-PORK-RICE-1"]},
+        {"step":3,"instruction":"把腊肉丁、青豌豆、胡萝卜和糯米等一起煮腊肉饭。","source_ids":["S-CQ-CHENGKOU-CURED-PORK-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"七一网地方文化文章在城口老腊肉食用语境中记载煮腊肉饭，但没有给出具体器具、固定批量、液体、完整总时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-CQ-CHENGKOU-CURED-PORK-RICE-1","title":"文学｜城口老腊肉","publisher":"七一网 / 中共重庆市委组织部","url":"https://m.12371.gov.cn/content/2023-07/22/content_446437.html","retrieved_at":"2026-08-03","source_kind":"party_media_local_food_culture_article","access_status":"opened","evidence_locator":"正文第30至51行：城口老腊肉地域身份、浸泡和煮十五分钟前处理，以及腊肉丁、青豌豆、胡萝卜、糯米煮腊肉饭的记载","claim_scopes":["identity","ingredients","process","time"],"attribution":"七一网 / 中共重庆市委组织部","license":"party_media_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"七一网文章以城口老腊肉为主题，明确城口地域与老腊肉非遗背景，并记载腊肉清水浸泡约半小时、煮十五分钟后切丁，加入青豌豆、胡萝卜、糯米等煮腊肉饭。来源没有给固定数量、液体、完整总时间、安全终点、具体器具或现代电饭煲适配，因此只保留来源原称‘煮腊肉饭’及其前处理和核心组合，不把区域前缀扩写成新的菜名。"
     }
   ]
 }
