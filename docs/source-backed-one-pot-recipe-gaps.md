@@ -69,6 +69,7 @@
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
+- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
@@ -160,6 +161,7 @@
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
+- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
@@ -200,7 +202,6 @@
 ## 5. Missing process
 
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
-- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 
 ## 6. Missing appliance
 
@@ -226,6 +227,7 @@
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
+- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
@@ -300,6 +302,7 @@
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
+- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
@@ -362,6 +365,7 @@
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
+- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD

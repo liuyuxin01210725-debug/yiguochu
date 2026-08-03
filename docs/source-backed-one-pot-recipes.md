@@ -325,7 +325,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 綦江洋芋腊肉箜饭 | — | CN-CQ | sichuan-kong-rice | 研究记录（非公开可执行） | 米；土豆；腊肉 | identity、ingredients | 缺 process | [2000名选手参赛 2025重庆老瀛山越野挑战赛开幕](https://www.cq.gov.cn/zjcq/ydjs/tyss/202505/t20250512_14602375.html) |
+| 綦江洋芋腊肉箜饭 | — | CN-CQ | sichuan-kong-rice | 研究记录（非公开可执行） | 米；土豆；腊肉 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [2000名选手参赛 2025重庆老瀛山越野挑战赛开幕](https://www.cq.gov.cn/zjcq/ydjs/tyss/202505/t20250512_14602375.html)<br>[‘箜（kong）’饭——藏在重庆人回忆里的家乡味！](https://www.sohu.com/a/222047503_355586) |
 ## sichuan-parboil-drain-return-to-pot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

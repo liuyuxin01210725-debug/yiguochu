@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 2,
-    recipe_fact_checked: 117,
+    identity_verified: 1,
+    recipe_fact_checked: 118,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -595,7 +595,7 @@ test('structures the Guangzhou government electric-cooker taro and cured-pork ri
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('records Qijiang potato cured-pork kong rice as an identity-only government source without inventing its process', () => {
+test('records Qijiang potato cured-pork kong rice with identity and bounded Chongqing technique evidence', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'qijiang-potato-cured-pork-kong-rice'
   ));
@@ -610,17 +610,42 @@ test('records Qijiang potato cured-pork kong rice as an identity-only government
   assert.deepEqual(recipe?.core_ingredients, ['米', '土豆', '腊肉']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 3);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.equal(source?.title, '2000名选手参赛 2025重庆老瀛山越野挑战赛开幕');
   assert.equal(source?.publisher, '重庆市人民政府网');
   assert.equal(source?.retrieved_at, '2026-08-03');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
   assert.equal(source?.access_status, 'opened');
+  assert.equal(validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), false);
+});
+
+test('binds a bounded Chongqing kong-fan technique to Qijiang without treating it as a Qijiang-specific formula', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'qijiang-potato-cured-pork-kong-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-CQ-KONG-FAN-TECHNIQUE-1'
+  ));
+
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(source?.publisher, '搜狐号·重庆美食圈');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米饭.*七成熟.*沥干/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /洋芋.*调料.*翻炒/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /米饭.*洋芋.*适量的水.*插.*孔.*焖/u);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.match(recipe?.evidence_notes ?? '', /重庆通用箜饭技法/u);
+  assert.match(recipe?.evidence_notes ?? '', /不建立綦江专属/u);
   assert.equal(validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), false);
 });
 
