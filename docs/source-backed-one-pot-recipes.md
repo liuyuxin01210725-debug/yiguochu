@@ -14,6 +14,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 社饭 | — | CN-HB | enshi-seasonal-glutinous-rice | 研究记录（非公开可执行） | 香蒿；糯米；腊肉；豆干；蒜苗 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [恩施社节](https://www.enshi.gov.cn/ly/mswh/202203/t20220322_1267844.shtml)<br>[体验民风民俗 感受传统韵味](https://www.forestry.gov.cn/c/www/xxyd/26633.jhtml) |
+## guangzhou-cured-meat-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## jiangnan-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -21,7 +26,7 @@
 | 南京菜饭 | 矮脚黄菜饭 | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 矮脚黄；糯米；咸肉片或香肠片或板鸭丁 | identity、ingredients、process | 当前状态所需证据已齐 | [寻味二十四节气・小寒](https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html) |
 | 香青菜咸肉饭 | — | CN-JS | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 吴江香青菜；咸肉；饭 | identity、ingredients | 缺 process | [吴江香青菜入选国家地理标志产品](https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml) |
 | 上海咸肉菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 大米；青菜；咸肉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香](https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html)<br>[Shanghai Cai Fan (上海菜饭) – Rice with Salted Pork and Greens](https://thewoksoflife.com/shanghai-cai-fan-rice-salted-pork-greens/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 蚕豆菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 蚕豆；猪肉丁；牛心菜；饭 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [外婆的蚕豆菜饭](https://mzj.sh.gov.cn/lnb-hf/20250519/8cfe8d45a5e846c0a441161c21226bef.html) |
+| 蚕豆菜饭 | — | CN-SH | jiangnan-vegetable-rice | 研究记录（非公开可执行） | 蚕豆；猪肉丁；牛心菜；饭 | appliance、identity、ingredients、process、safety、time | 缺 quantity、liquid | [外婆的蚕豆菜饭](https://mzj.sh.gov.cn/lnb-hf/20250519/8cfe8d45a5e846c0a441161c21226bef.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## 厂商电饭煲食谱
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

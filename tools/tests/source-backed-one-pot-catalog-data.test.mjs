@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 9,
-    recipe_fact_checked: 24,
+    identity_verified: 8,
+    recipe_fact_checked: 26,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -224,6 +224,74 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }
 });
 
+test('structures the Guangzhou government electric-cooker taro and cured-pork rice recipe without inventing a batch or time', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'guangzhou-taro-cured-pork-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-GUANGZHOU-TARO-CURED-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '腊肉芋头饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.identity_status, 'verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['芋头', '腊肉', '大米']);
+  assert.equal(recipe?.fixed_batch, null, 'the source gives no servings or fixed weights');
+  assert.equal(recipe?.liquid_contract, null, 'the source only says to use the cooker scale');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /芋头.*两厘米.*小块/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腊肉.*切成小片/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大米.*电饭煲.*刻度线.*芋头.*腊肉/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /出锅前.*加盐.*搅拌均匀/);
+  assert.equal(recipe?.time_contract, null, 'the source gives no total cooking time');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures the Shanghai civil-affairs broad-bean vegetable-rice process without inventing quantities or liquid', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shanghai-broad-bean-vegetable-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JN-2');
+
+  assert.equal(recipe?.canonical_name, '蚕豆菜饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.identity_status, 'verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['饭锅', '电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['蚕豆', '猪肉丁', '牛心菜', '饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /蚕豆.*猪大排.*里脊肉.*切成丁/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /猪油.*肉丁.*黄酒.*葱花.*姜末/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /蚕豆.*牛心菜.*翻炒.*半熟/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /饭锅.*饭粒.*蚕豆.*猪肉粒.*牛心菜.*焖半小时/);
+  assert.equal(recipe?.time_contract, null, 'the source gives a final braise duration but no total-time contract');
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('records reviewed coverage and the evidence status of every eastern research node', () => {
   // Dropping a research node, promoting it, or leaving a region unreviewed must fail here.
   const catalog = sourceBackedCatalog();
@@ -231,7 +299,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
   const reviewed = new Set(catalog.reviewed_regions);
   const expected = {
     'shanghai-salted-pork-vegetable-rice': 'recipe_fact_checked',
-    'shanghai-broad-bean-vegetable-rice': 'identity_verified',
+    'shanghai-broad-bean-vegetable-rice': 'recipe_fact_checked',
     'wujiang-fragrant-greens-salted-pork-rice': 'identity_verified',
     'nanjing-aijiaohuang-rice': 'identity_verified',
     'wenzhou-mustard-greens-rice': 'identity_verified',
