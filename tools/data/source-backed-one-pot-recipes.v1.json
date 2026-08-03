@@ -716,6 +716,31 @@
       "evidence_notes":"重庆市农业农村委员会报道以秀山县传统村落为语境，村民明确介绍当地社饭把大米、糯米煮熟，并拌以腊肉、蒿菜、野葱等辅料。来源没有给固定数量、液体、完整时间、安全终点、器具或现代电饭煲适配，因此只记录秀山社饭的具名身份、核心组合和煮熟后拌料流程，不把其他地区社饭的蒸制或比例并入。"
     },
     {
+      "recipe_id":"xianfeng-she-rice",
+      "canonical_name":"咸丰社饭",
+      "aliases":[],
+      "region_codes":["CN-HB"],
+      "cuisine_family":"xianfeng-she-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["糯米","腊肉","白蒿"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将新鲜白蒿洗净、切碎，用包袱揉出苦水。","source_ids":["S-HB-XIANFENG-SHE-RICE-1"]},
+        {"step":2,"instruction":"将腊肉切剁处理。","source_ids":["S-HB-XIANFENG-SHE-RICE-1"]},
+        {"step":3,"instruction":"将糯米翻炒，并与处理好的白蒿、腊肉拌合制作社饭。","source_ids":["S-HB-XIANFENG-SHE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"湖北日报报道咸丰春社活动中的社饭制作过程，但没有固定批量、液体、完整时间、器具或现代电饭煲适配；不把恩施、黔江或秀山的社饭流程并入本条。"},
+      "source_refs":[{"source_id":"S-HB-XIANFENG-SHE-RICE-1","title":"荆南春光美 “流量”变“留量”","publisher":"湖北日报 / 极目新闻","url":"https://www.ctdsb.net/c1741_202604/2704266.html","retrieved_at":"2026-08-03","source_kind":"provincial_media_local_food_culture_article","access_status":"opened","evidence_locator":"正文第77至84行：咸丰春社现场做社饭，白蒿洗切揉苦水、腊肉切剁、糯米翻炒和拌合体验","claim_scopes":["identity","ingredients","process"],"attribution":"湖北日报 / 极目新闻","license":"media_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"湖北日报报道咸丰县春社活动，现场明确记录做社饭时摘洗白蒿、切剁腊肉、翻炒糯米；当地参与者进一步说明白蒿洗净切碎后用包袱揉出苦水，并将蒿子与糯米拌合。来源没有给固定数量、液体、完整时间、安全终点、器具或现代电饭煲适配，因此只记录咸丰社饭的地域身份、核心组合和处理流程，不把其他地区社饭的比例或蒸制时间并入。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

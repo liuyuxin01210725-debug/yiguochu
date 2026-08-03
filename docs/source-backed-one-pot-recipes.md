@@ -306,6 +306,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 酉州社饭 | 社饭 | CN-CQ | wuling-she-rice | 研究记录（非公开可执行） | 米；腊肉；豆腐干；野菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [典籍里的酉阳美食](https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html) |
+## xianfeng-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 咸丰社饭 | — | CN-HB | xianfeng-she-rice | 研究记录（非公开可执行） | 糯米；腊肉；白蒿 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [荆南春光美 “流量”变“留量”](https://www.ctdsb.net/c1741_202604/2704266.html) |
 ## xiangjiangyuan-bamboo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

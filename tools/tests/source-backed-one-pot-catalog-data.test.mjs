@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 81,
+    recipe_fact_checked: 82,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1121,6 +1121,37 @@ test('records Xiushan she rice as a sourced mixed-rice process without merging o
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /秀山.*大米.*糯米.*煮熟.*腊肉.*蒿菜.*野葱/u);
+});
+
+test('records Xianfeng she rice from its local spring-society process without merging Enshi or Qianjiang variants', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'xianfeng-she-rice');
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-HB-XIANFENG-SHE-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '咸丰社饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-HB']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '腊肉', '白蒿']);
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白蒿.*洗.*切.*揉.*苦水/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腊肉.*切剁/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /糯米.*翻炒.*拌/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.ctdsb.net/c1741_202604/2704266.html');
+  assert.equal(source?.publisher, '湖北日报 / 极目新闻');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /咸丰.*白蒿.*揉出苦水/u);
+  assert.match(recipe?.evidence_notes ?? '', /腊肉.*翻炒糯米/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {
