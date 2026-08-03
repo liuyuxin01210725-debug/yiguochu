@@ -2727,14 +2727,15 @@ test('structures the official Kongganfan parboil-and-return process without inve
     item.recipe_id === 'sichuan-kongganfan'
   ));
   const source = recipe?.source_refs.find(item => item.source_id === 'S-SC-CPPCC-KONGGANFAN-1');
+  const techniqueSource = recipe?.source_refs.find(item => item.source_id === 'S-SC-KONGGAN-TECHNIQUE-1');
 
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
   assert.equal(recipe?.cooking_sequence.length, 4);
   assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大米.*半熟.*沥水/);
-  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /豌豆.*四季豆.*洋芋.*翻炒/);
-  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /倒入.*滤干.*米饭/);
-  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /盖上锅盖.*文火.*孔.*熟/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /蔬菜和肉类.*切(?:成)?丁.*八分熟/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大米.*堆状.*锅边.*适量(?:水|加水)/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /小火.*10.*15分钟.*水或米汤.*蒸发.*锅巴/);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.nutrition_structure, {
     grade: 'B',
@@ -2744,6 +2745,9 @@ test('structures the official Kongganfan parboil-and-return process without inve
   assert.match(recipe?.cooker_adaptation?.notes ?? '', /电饭/);
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(source?.claim_scopes.includes('identity'));
+  assert.equal(techniqueSource?.access_status, 'opened');
+  assert.deepEqual(techniqueSource?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /10至15分钟.*不是从淘米到出锅的完整总时长/);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
@@ -2899,6 +2903,7 @@ test('locks each retained national candidate to its exact supported source, vess
       sources: [
         ['S-SC-1', '曾颖：孔干饭', '四川省作家协会网站（页面标注来源四川日报）', 'https://www.sczjw.net.cn/read/detail/11028.html', ['identity', 'ingredients', 'liquid', 'process', 'appliance']],
         ['S-SC-CPPCC-KONGGANFAN-1', '古蜀先民“菜篮子”里都有啥？', '中国人民政治协商会议黑龙江省委员会办公厅（转载人民政协网）', 'https://www.hljzx.gov.cn/contents/68/7320.html', ['identity', 'ingredients', 'process']],
+        ['S-SC-KONGGAN-TECHNIQUE-1', '四川传统“箜饭”技艺与孔干饭餐厅', '中华网 / 财讯界', 'https://m.tech.china.com/digi/digi/20221125/202211251185477.html', ['identity', 'ingredients', 'process']],
       ],
     },
     'hubei-enshi-shefan': {
