@@ -59,6 +59,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
@@ -118,6 +119,7 @@
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
@@ -132,7 +134,6 @@
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
-- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
 
 ## 6. Missing appliance
@@ -156,6 +157,7 @@
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
@@ -210,6 +212,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
@@ -249,6 +252,7 @@
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 

@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 7,
-    recipe_fact_checked: 76,
+    identity_verified: 6,
+    recipe_fact_checked: 77,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -2505,25 +2505,37 @@ test('structures the sourced spring-bamboo cured-meat rice process without promo
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('keeps Yangzhou fried rice as a named source-backed identity rather than a generic fried-rice combination', () => {
+test('records Yangzhou fried rice as a named three-stage process without inventing a home-cooker contract', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'yangzhou-standard-fried-rice'
   ));
-  const source = recipe?.source_refs.find(item => item.source_id === 'S-JS-YANGZHOU-FRIED-RICE-STANDARD-1');
+  const standard = recipe?.source_refs.find(item => item.source_id === 'S-JS-YANGZHOU-FRIED-RICE-STANDARD-1');
+  const process = recipe?.source_refs.find(item => item.source_id === 'S-JS-YANGZHOU-FRIED-RICE-PROCESS-1');
 
   assert.equal(recipe?.canonical_name, '扬州炒饭');
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.core_ingredients, [
     '籼米饭', '鲜鸡蛋', '水发海参', '熟地方鸡腿肉', '中国火腿肉',
     '水发干贝', '上浆湖虾仁', '水发花菇', '净鲜笋', '青豌豆',
   ]);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /配料.*什锦/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /炒蛋饭/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /蛋饭.*什锦.*合炒/u);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
   assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(source?.access_status, 'opened');
-  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
+  assert.equal(standard?.access_status, 'opened');
+  assert.equal(process?.access_status, 'opened');
+  assert.deepEqual(process?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /三步工艺.*什锦.*蛋饭.*合炒/u);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定家庭批量、液体、时间、安全终点或电饭煲适配/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
