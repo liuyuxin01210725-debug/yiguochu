@@ -82,6 +82,23 @@ test('keeps Youzhou she rice as a research candidate with its multi-stage source
   assert.equal(candidate?.identity_sources?.[0]?.url, 'https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html');
 });
 
+test('keeps Dong侗 steamed she rice separate from Tongren she rice and blocks its unresolved branches', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'dong-steamed-she-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: null, label: '糯米/粳米' },
+    { canonical_id: null, label: '艾草' },
+    { canonical_id: null, label: '腊肉' },
+    { canonical_id: null, label: '花生' },
+    { canonical_id: null, label: '豆干' },
+  ]);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.blockers.join('\n') || '', /双工艺.*总克数液体/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '侗族社节');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 10,
-    recipe_fact_checked: 41,
+    recipe_fact_checked: 42,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -236,6 +236,21 @@ test('records the official Youzhou she rice identity without inventing a fixed b
   assert.equal(recipe?.cooking_sequence.length, 4);
   assert.match(recipe?.evidence_notes || '', /不把两条分支合并/);
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
+});
+
+test('records the Dong侗 steamed she rice identity without merging its two source branches', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'dong-steamed-she-rice');
+  assert.equal(recipe?.canonical_name, '贵州侗家甑蒸社饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '粳米', '蒿菜', '腌肉', '花生米', '干豆腐丁']);
+  assert.deepEqual(recipe?.traditional_vessels, ['甑', '蒸制']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.evidence_notes || '', /不把它们合并/);
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
 });
 

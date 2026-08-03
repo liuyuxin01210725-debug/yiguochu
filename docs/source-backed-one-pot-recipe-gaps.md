@@ -12,6 +12,7 @@
 
 ## 3. Missing quantity
 
+- 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -37,6 +38,7 @@
 
 ## 4. Missing liquid
 
+- 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -70,6 +72,7 @@
 
 ## 6. Missing appliance
 
+- 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
@@ -78,6 +81,7 @@
 
 ## 7. Missing time
 
+- 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
