@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 60,
+    recipe_fact_checked: 61,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1085,6 +1085,34 @@ test('records southeast Chongqing Tujia he rice as a named layered rice meal wit
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /合饭.*没有给出.*固定数量.*液体.*安全终点.*电饭煲/u);
+});
+
+test('records Shixing Yao glutinous vegetable rice from the source-stated staged process', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'shixing-yao-glutinous-vegetable-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '糯米菜饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['铁锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '腊肉', '冬笋', '香菇', '蒜苗', '芥菜']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, [
+    { step: 1, instruction: '将腊肉切好放入烧热的铁锅中煸炒出油。', source_ids: ['S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1'] },
+    { step: 2, instruction: '依次加入冬笋、香菇、蒜苗和芥菜翻炒。', source_ids: ['S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1'] },
+    { step: 3, instruction: '加入提前蒸好的糯米饭搅拌，做成瑶乡特色糯米菜饭。', source_ids: ['S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1'] },
+  ]);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.qb.gd.gov.cn/mlgd/content/post_1037668.html');
+  assert.equal(source?.publisher, '广东省人民政府侨务办公室 / 金羊网');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.match(recipe?.evidence_notes ?? '', /深渡水瑶族乡.*搜索摘录.*没有给出.*固定数量.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {

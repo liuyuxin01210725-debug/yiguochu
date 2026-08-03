@@ -681,6 +681,31 @@
       "source_refs":[{"source_id":"S-CQ-TUJIA-HE-RICE-1","title":"02重庆民俗风情——渝东南土家族和苗族的节令","publisher":"重庆市地方志办公室","url":"https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510457.html","retrieved_at":"2026-08-03","source_kind":"municipal_gazette_office_food_culture_page","access_status":"opened","evidence_locator":"正文第23至24行、第31行：土家族赶年年饭的甑子、鼎罐或锅语境，以及肉块调味后与米一层一层码放蒸制成合饭","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"重庆市地方志办公室","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"重庆市地方志办公室文章将合饭置于渝东南土家族赶年年饭语境，写明年饭可用甑子、平日用鼎罐或锅焖，并明确合饭把肉宰成坨加花椒、盐调味，与米一层一层码放数层后蒸熟。来源没有给出固定数量、液体、总时间、安全终点或现代电饭煲适配，因此只建立具名身份、核心食材、器具边界和分层过程事实，不补写执行合同。"
+    },
+    {
+      "recipe_id":"shixing-yao-glutinous-vegetable-rice",
+      "canonical_name":"糯米菜饭",
+      "aliases":[],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"shixing-yao-glutinous-vegetable-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["铁锅"],
+      "core_ingredients":["糯米","腊肉","冬笋","香菇","蒜苗","芥菜"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将腊肉切好放入烧热的铁锅中煸炒出油。","source_ids":["S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1"]},
+        {"step":2,"instruction":"依次加入冬笋、香菇、蒜苗和芥菜翻炒。","source_ids":["S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1"]},
+        {"step":3,"instruction":"加入提前蒸好的糯米饭搅拌，做成瑶乡特色糯米菜饭。","source_ids":["S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"广东省人民政府侨务办公室页面的搜索摘录记录深渡水瑶族乡糯米菜饭使用铁锅，腊肉、蔬菜翻炒后加入提前蒸好的糯米饭；来源没有提供固定数量、液体、总时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-SHIXING-YAO-GLUTINOUS-VEGETABLE-RICE-1","title":"瑶乡‘年味’别样浓：一道‘油浸肉’心境大不同","publisher":"广东省人民政府侨务办公室 / 金羊网","url":"https://www.qb.gd.gov.cn/mlgd/content/post_1037668.html","retrieved_at":"2026-08-03","source_kind":"provincial_overseas_affairs_office_food_culture_article","access_status":"search_extract_opened","evidence_locator":"搜索摘录：韶关市始兴县深渡水瑶族乡横岭村糯米菜饭的腊肉煸油、冬笋香菇蒜苗芥菜翻炒、加入提前蒸好糯米饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"广东省人民政府侨务办公室 / 金羊网","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"广东省人民政府侨务办公室页面的搜索摘录明确将糯米菜饭置于韶关市始兴县深渡水瑶族乡年味语境，写出腊肉煸炒出油、冬笋香菇蒜苗芥菜翻炒、加入提前蒸好的糯米饭搅拌的连续流程，并保留铁锅边界。由于当前只能核验搜索摘录，且来源没有给出固定数量、液体、总时间、安全终点或现代电饭煲适配，因此不补写执行合同。"
     }
   ]
 }

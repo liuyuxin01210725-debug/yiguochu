@@ -185,6 +185,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 铁锅土豆火腿肉焖饭 | 罗锅火腿肉土豆焖饭；铜锅土豆焖饭 | CN-YN | shidian-ham-potato-braised-rice | 研究记录（非公开可执行） | 大米；火腿肉；土豆 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [〖美味施甸〗施甸舌尖图鉴：“黄金白玉”打底，千年丁香果煮鸡、黄金烤猪领衔的初秋盛宴](https://shidian.gov.cn/info/1111/3740813.htm) |
+## shixing-yao-glutinous-vegetable-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 糯米菜饭 | — | CN-GD | shixing-yao-glutinous-vegetable-rice | 研究记录（非公开可执行） | 糯米；腊肉；冬笋；香菇；蒜苗；芥菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [瑶乡‘年味’别样浓：一道‘油浸肉’心境大不同](https://www.qb.gd.gov.cn/mlgd/content/post_1037668.html) |
 ## sichuan-kong-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
