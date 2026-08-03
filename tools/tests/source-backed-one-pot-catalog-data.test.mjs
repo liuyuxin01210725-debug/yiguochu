@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 13,
-    recipe_fact_checked: 70,
+    identity_verified: 12,
+    recipe_fact_checked: 71,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1029,28 +1029,37 @@ test('records Jixi bamboo-shoot braised rice with the sourced local process with
   assert.match(recipe?.evidence_notes ?? '', /中国日报.*腊肉.*笋丁.*豌豆.*糯米和水.*焖煮/u);
 });
 
-test('records Huangpu cured-meat claypot rice as a Guangdong identity without inventing its recipe contract', () => {
+test('records Huangpu cured-meat claypot rice with the sourced claypot process without inventing a cooker contract', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'huangpu-cured-meat-claypot-rice');
-  const source = recipe?.source_refs?.[0];
+  const identitySource = recipe?.source_refs?.find(item => item.source_id === 'S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-1');
+  const processSource = recipe?.source_refs?.find(item => item.source_id === 'S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-3');
 
   assert.equal(recipe?.canonical_name, '黄圃腊味煲仔饭');
   assert.deepEqual(recipe?.aliases, ['黄圃腊味蒸饭']);
   assert.deepEqual(recipe?.region_codes, ['CN-GD']);
-  assert.equal(recipe?.status, 'identity_verified');
-  assert.deepEqual(recipe?.traditional_vessels, ['煲仔']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['煲仔', '砂煲']);
   assert.deepEqual(recipe?.core_ingredients, ['腊味', '糯米']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米.*水.*砂煲.*约10分钟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /水分.*收干/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /腊肠.*腊肉.*姜丝.*葱花/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /酱油.*拌匀/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
-  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(source?.url, 'https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html');
-  assert.equal(source?.publisher, '中山市黄圃镇人民政府信息网');
-  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'appliance']);
-  assert.equal(source?.access_status, 'opened');
-  assert.match(recipe?.evidence_notes ?? '', /黄圃.*腊味糯米饭.*煲仔饭.*没有给出.*固定数量.*电饭煲/u);
+  assert.equal(identitySource?.url, 'https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html');
+  assert.equal(identitySource?.publisher, '中山市黄圃镇人民政府信息网');
+  assert.deepEqual(identitySource?.claim_scopes, ['identity', 'ingredients', 'appliance']);
+  assert.equal(identitySource?.access_status, 'opened');
+  assert.equal(processSource?.url, 'https://zsrbapp.zsnews.cn/home/content/newsContent/cp411.html/561409');
+  assert.equal(processSource?.publisher, '中山日报新媒体中心 / 中山网');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(processSource?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /中山日报.*砂煲.*米和水.*腊味.*没有固定批量.*电饭煲/u);
 });
 
 test('records Zhuji pea salted-pork rice with its source-stated stir-fry process without inventing a cooker contract', () => {

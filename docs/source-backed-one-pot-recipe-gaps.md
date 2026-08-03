@@ -21,6 +21,7 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -71,6 +72,7 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -116,7 +118,6 @@
 ## 5. Missing process
 
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
-- 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
@@ -163,6 +164,7 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
+- 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS

@@ -68,7 +68,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 黄圃腊味煲仔饭 | 黄圃腊味蒸饭 | CN-GD | huangpu-cured-meat-claypot-rice | 研究记录（非公开可执行） | 腊味；糯米 | appliance、identity、ingredients | 缺 process | [传统美食](https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html)<br>[舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌](https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html) |
+| 黄圃腊味煲仔饭 | 黄圃腊味蒸饭 | CN-GD | huangpu-cured-meat-claypot-rice | 研究记录（非公开可执行） | 腊味；糯米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [传统美食](https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html)<br>[舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌](https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html)<br>[大寒到，年味近！来一煲“暖粒粒”的腊味煲仔饭吧](https://zsrbapp.zsnews.cn/home/content/newsContent/cp411.html/561409) |
 ## huixian-ground-pot-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

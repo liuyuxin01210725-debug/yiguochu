@@ -552,22 +552,28 @@
       "region_codes":["CN-GD"],
       "cuisine_family":"huangpu-cured-meat-claypot-rice",
       "identity_status":"verified",
-      "traditional_vessels":["煲仔"],
+      "traditional_vessels":["煲仔","砂煲"],
       "core_ingredients":["腊味","糯米"],
       "fixed_batch":null,
       "liquid_contract":null,
-      "cooking_sequence":[],
+      "cooking_sequence":[
+        {"step":1,"instruction":"将米和水下入砂煲中，煮约10分钟，水开且饭面略起眼时放入腊味。","source_ids":["S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-3"]},
+        {"step":2,"instruction":"加盖煲至水分收干；来源建议沿煲边下油以形成饭焦，但未给出固定油量。","source_ids":["S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-3"]},
+        {"step":3,"instruction":"将腊肠切段、腊肉切小块，放回煲中并加入姜丝、葱花。","source_ids":["S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-3"]},
+        {"step":4,"instruction":"加入少量酱油后拌匀。","source_ids":["S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-3"]}
+      ],
       "time_contract":null,
       "safety_endpoints":[],
       "allergen_labels":[],
-      "nutrition_structure":{"grade":"unassessed","roles":[]},
-      "cooker_adaptation":{"status":"not_adapted","notes":"黄圃镇政府页面只记录腊味糯米饭（煲仔饭）的传统吃法，另一篇黄圃镇政府信息公开记录黄圃腊味煲仔饭的地方文化身份；来源没有现代电饭煲程序、机型或可复用执行参数。"},
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"黄圃镇政府和中山日报来源支持砂煲流程，但未提供现代电饭煲程序、机型、固定水量、总时长或安全终点；原器具流程不能直接转换为电饭煲执行合同。"},
       "source_refs":[
         {"source_id":"S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-1","title":"传统美食","publisher":"中山市黄圃镇人民政府信息网","url":"https://www.zs.gov.cn/hpz/zjhp/whmz/content/post_1292814.html","retrieved_at":"2026-08-03","source_kind":"town_government_traditional_food_page","access_status":"opened","evidence_locator":"正文第13至17行：黄圃腊味品类及传统食法中的腊味糯米饭（煲仔饭）","claim_scopes":["identity","ingredients","appliance"],"attribution":"中山市黄圃镇人民政府","license":"government_site_terms_unspecified"},
-        {"source_id":"S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-2","title":"舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌","publisher":"中山市黄圃镇人民政府","url":"https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html","retrieved_at":"2026-08-03","source_kind":"town_government_food_culture_page","access_status":"opened","evidence_locator":"正文第43至65行：黄圃腊味煲仔饭名称、地方文化符号、现场制作与黄圃腊味蒸饭称呼","claim_scopes":["identity"],"attribution":"中山市黄圃镇人民政府","license":"government_site_terms_unspecified"}
+        {"source_id":"S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-2","title":"舌尖上的非遗！黄圃腊味煲仔饭体验馆揭牌","publisher":"中山市黄圃镇人民政府","url":"https://www.zs.gov.cn/zshpz/gkmlpt/content/2/2552/post_2552596.html","retrieved_at":"2026-08-03","source_kind":"town_government_food_culture_page","access_status":"opened","evidence_locator":"正文第43至65行：黄圃腊味煲仔饭名称、地方文化符号、现场制作与黄圃腊味蒸饭称呼","claim_scopes":["identity"],"attribution":"中山市黄圃镇人民政府","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GD-HUANGPU-CURED-MEAT-CLAYPOT-RICE-3","title":"大寒到，年味近！来一煲“暖粒粒”的腊味煲仔饭吧","publisher":"中山日报新媒体中心 / 中山网","url":"https://zsrbapp.zsnews.cn/home/content/newsContent/cp411.html/561409","retrieved_at":"2026-08-03","source_kind":"municipal_media_food_article","access_status":"opened","evidence_locator":"正文第136至166行：黄圃腊味煲仔饭材料与砂煲工序，约10分钟后放腊味、煲至水收干、回锅加姜葱和酱油","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中山日报新媒体中心 / 中山网","license":"publisher_terms_unspecified"}
       ],
-      "status":"identity_verified",
-      "evidence_notes":"黄圃镇政府传统美食页面明确把腊味糯米饭（煲仔饭）列为黄圃腊味的传统食法，另一篇镇政府信息公开又把黄圃腊味煲仔饭称为本地文化符号，并记录黄圃腊味蒸饭这一称呼。来源没有给出固定数量、液体、步骤、时间、安全终点或现代电饭煲适配，因此只记录具名身份、腊味/糯米线索和煲仔器具事实，不补写执行合同。"
+      "status":"recipe_fact_checked",
+      "evidence_notes":"黄圃镇政府来源确认腊味糯米饭（煲仔饭）的地方身份和煲仔语境；中山日报/中山网来源给出砂煲工序：米和水煮约10分钟、饭面略起眼时放腊味，煲至水分收干，再回锅加入姜丝葱花和酱油。来源没有固定批量、可复用液体比例、总时长、安全终点或现代电饭煲适配，因此只补齐身份、核心食材和来源明确的砂煲工序，不把它改写成电饭煲合同。"
     },
     {
       "recipe_id":"zhuji-pea-salted-pork-rice",
