@@ -31,7 +31,7 @@ wanshan-she-rice,铜仁万山社饭,贵州 (CN-GZ),wuling-she-rice,鲜米 / 糯�
 huixian-ground-pot-chicken-rice,辉县地锅鸡米饭,河南 (CN-HA),ground-pot-rice,生米 / 鸡肉 / 干豆角 / 香菇 / 粉条,A,raw-rice,地锅鸡与米饭,identity,identity_only,来源明确给出鸡肉、米饭、干豆角、香菇和末段粉条的工艺，但没有固定数量、液体、时间、份数或电饭煲适配,research_candidate
 lianyuan-bamboo-rice,涟源腊肉红枣竹筒饭,湖南 (CN-HN),bamboo-rice,米 / 腊肉 / 红枣,B,raw-rice,火烤竹筒,identity,identity_only,火烤器具身份且无数量液体,research_candidate
 xiangjiangyuan-bamboo-rice,湘江源瑶家竹筒饭,湖南 (CN-HN),bamboo-rice,糯米 / 茶豆 / 猪肉末,A,glutinous-rice,竹筒火烤,identity / quantity,partial,需食品安全竹筒与首煮液体,research_candidate
-mayang-she-rice,麻阳社饭,湖南 (CN-HN),wuling-she-rice,粳米/糯米 / 艾草 / 腊肉 / 野葱 / 蒜苗,A,mixed-rice,预煮沥米或甑蒸,identity,identity_only,无总克数液体,research_candidate
+mayang-she-rice,麻阳社饭,湖南 (CN-HN),wuling-she-rice,粳米 / 糯米 / 社蒿菜 / 腊肉 / 野藠 / 大蒜苗,A,mixed-rice,粳米/糯米3:7预煮沥米或甑蒸,identity,identity_only,来源给出粳米/糯米3:7和煮、甑蒸两条分支，但无固定总量、液体、时间或电饭煲适配,research_candidate
 xiangxi-she-rice,湘西社饭,湖南 (CN-HN),wuling-she-rice,糯米/粳米 / 野菜 / 腊肉 / 葱蒜,A,mixed-rice,社饭多阶段蒸焖,identity,identity_only,比例文字冲突且无可执行比,research_candidate
 yichang-cured-pork-braised-rice,宜昌腊肉焖饭,湖北 (CN-HB),middle-yangtze-cured-rice,米 / 腊肉,C,rice-state-unverified,宜昌市发展改革委官方页面在三峡一桌菜中点名，未提供腊肉焖饭制作流程,identity,identity_only,官方页面当前跳转循环，只能核验搜索摘录中的菜名和组合；缺米态、工艺、数量、液体、时间、器具和安全终点,identity_only
 ninghe-zeng-pork-rice,宁河甑乡肉焖儿,天津 (CN-TJ),zeng-rice,米 / 猪肉,C,raw-rice,天津日报记录陶甑配大米和猪肉蒸制甑乡肉焖儿,identity / appliance,identity_only,无数量液体，甑器具身份,research_candidate

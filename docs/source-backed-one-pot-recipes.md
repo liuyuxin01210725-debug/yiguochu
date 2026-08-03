@@ -68,6 +68,11 @@
 | 肉糜青菜饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪肉糜；青菜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [肉糜青菜饭](https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鲜蔬竹笋饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；肉末；洋葱；胡萝卜；竹笋；木耳 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鲜蔬竹笋饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/xianshuzhusunfan/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鲜香菇饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；鲜香菇；芹菜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鲜香菇饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-AFG.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## mayang-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 麻阳社饭 | 麻阳苗家社饭 | CN-HN | mayang-she-rice | 研究记录（非公开可执行） | 粳米；糯米；社蒿菜；腊肉；野藠；大蒜苗 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [[苗族习俗] 饮食](https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml) |
 ## middle-yangtze-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -1740,11 +1740,15 @@
       "core_ingredients": [
         {
           "canonical_id": null,
-          "label": "粳米/糯米"
+          "label": "粳米"
         },
         {
           "canonical_id": null,
-          "label": "艾草"
+          "label": "糯米"
+        },
+        {
+          "canonical_id": null,
+          "label": "社蒿菜"
         },
         {
           "canonical_id": null,
@@ -1752,21 +1756,21 @@
         },
         {
           "canonical_id": null,
-          "label": "野葱"
+          "label": "野藠"
         },
         {
           "canonical_id": null,
-          "label": "蒜苗"
+          "label": "大蒜苗"
         }
       ],
       "rice_state": "mixed-rice",
       "nutrition_grade": "A",
-      "traditional_appliance_and_steps": "预煮沥米或甑蒸",
+      "traditional_appliance_and_steps": "粳米/糯米3:7预煮沥米或甑蒸",
       "identity_sources": [
         {
-          "title": "麻阳社饭",
-          "publisher": "麻阳县人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "[苗族习俗] 饮食",
+          "publisher": "麻阳苗族自治县人民政府",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml",
           "supports": [
             "identity"
@@ -1776,7 +1780,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "无总克数液体"
+        "来源给出粳米/糯米3:7和煮、甑蒸两条分支，但无固定总量、液体、时间或电饭煲适配"
       ],
       "status": "research_candidate"
     },

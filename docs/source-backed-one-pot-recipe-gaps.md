@@ -47,6 +47,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 麻阳社饭 (mayang-she-rice) — CN-HN
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
@@ -79,6 +80,7 @@
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
+- 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
@@ -99,6 +101,7 @@
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
+- 麻阳社饭 (mayang-she-rice) — CN-HN
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
@@ -120,6 +123,7 @@
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 麻阳社饭 (mayang-she-rice) — CN-HN
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX

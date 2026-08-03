@@ -135,6 +135,24 @@ test('keeps Huixian ground-pot chicken rice aligned with the named local dish re
   assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
 });
 
+test('keeps Mayang she rice source terms and rice split explicit', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => item.candidate_id === 'mayang-she-rice');
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: null, label: '粳米' },
+    { canonical_id: null, label: '糯米' },
+    { canonical_id: null, label: '社蒿菜' },
+    { canonical_id: null, label: '腊肉' },
+    { canonical_id: null, label: '野藠' },
+    { canonical_id: null, label: '大蒜苗' },
+  ]);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+  assert.match(candidate?.blockers.join('\n') || '', /3:7.*无固定总量|无固定总量.*3:7/);
+  assert.equal(candidate?.identity_sources?.[0]?.title, '[苗族习俗] 饮食');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+});
+
 test('only findings outside the eight approved calibration candidates remain blocked research candidates', async () => {
   const [collection, taxonomy, catalog] = await Promise.all([
     readJson('rice-meal-collection.v1.json'),

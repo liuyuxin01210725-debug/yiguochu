@@ -188,7 +188,7 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 麻阳社饭 | 粳米/糯米、艾草、腊肉、野葱、蒜苗 | A | mixed-rice | 预煮沥米或甑蒸 | identity | identity_only | 无总克数液体 | research_candidate |
+| 麻阳社饭 | 粳米、糯米、社蒿菜、腊肉、野藠、大蒜苗 | A | mixed-rice | 粳米/糯米3:7预煮沥米或甑蒸 | identity | identity_only | 来源给出粳米/糯米3:7和煮、甑蒸两条分支，但无固定总量、液体、时间或电饭煲适配 | research_candidate |
 | 湘西社饭 | 糯米/粳米、野菜、腊肉、葱蒜 | A | mixed-rice | 社饭多阶段蒸焖 | identity | identity_only | 比例文字冲突且无可执行比 | research_candidate |
 
 ## 湖北（CN-HB）
