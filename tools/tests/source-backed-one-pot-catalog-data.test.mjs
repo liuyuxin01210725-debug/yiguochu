@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 15,
-    recipe_fact_checked: 68,
+    identity_verified: 14,
+    recipe_fact_checked: 69,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -603,7 +603,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'shanghai-salted-pork-vegetable-rice': 'recipe_fact_checked',
     'shanghai-broad-bean-vegetable-rice': 'recipe_fact_checked',
     'wujiang-fragrant-greens-salted-pork-rice': 'identity_verified',
-    'nanjing-aijiaohuang-rice': 'identity_verified',
+    'nanjing-aijiaohuang-rice': 'recipe_fact_checked',
     'wenzhou-mustard-greens-rice': 'recipe_fact_checked',
     'quanzhou-radish-rice': 'identity_verified',
     'minnan-salty-rice': 'recipe_fact_checked',
@@ -659,6 +659,27 @@ test('keeps the official Quanzhou yifan process instead of leaving its identity-
   assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('process'));
   assert.match(recipe?.evidence_notes ?? '', /浥饭.*柴火大锅.*来源没有给.*有效液体.*总时间.*海味安全.*电饭煲/u);
+});
+
+test('keeps the Nanjing vegetable-rice alternatives explicit instead of inventing one fixed recipe', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'nanjing-aijiaohuang-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JN-NANJING-XIAOHAN-1');
+
+  assert.equal(recipe?.canonical_name, '南京菜饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['矮脚黄', '糯米', '咸肉片或香肠片或板鸭丁']);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /矮脚黄青菜.*咸肉片、香肠片或板鸭丁.*生姜粒.*糯米.*一起煮/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /青菜和米饭一起翻炒.*咸肉、香肠、火腿或板鸭丁.*并列表达/u);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /南京市地方志.*矮脚黄.*咸肉片.*香肠片.*板鸭丁.*来源没有给固定数量.*有效液体.*总时间.*电饭煲/u);
 });
 
 test('keeps the official Quanzhou red-xun process and its pressure-pot or steamer branches explicit', () => {
