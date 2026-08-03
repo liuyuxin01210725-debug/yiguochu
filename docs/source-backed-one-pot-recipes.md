@@ -260,6 +260,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 合饭 | — | CN-CQ | southeast-chongqing-tujia-he-rice | 研究记录（非公开可执行） | 米；肉；花椒；盐 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [02重庆民俗风情——渝东南土家族和苗族的节令](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510457.html) |
+## taihang-millet-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 太行小米焖饭 | 小米焖饭；捞饭；咸米稠饭 | CN-HA | taihang-millet-braised-rice | 研究记录（非公开可执行） | 太行山小米；时令蔬菜；肉类；碎粉条 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [河南省](https://www.ctnews.com.cn/m/2024-08/26/content_163936.html) |
 ## taishan-caiguo-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

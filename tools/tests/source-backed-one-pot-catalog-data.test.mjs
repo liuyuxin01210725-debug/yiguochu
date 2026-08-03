@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 89,
+    recipe_fact_checked: 90,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3188,6 +3188,43 @@ test('records Huangshi seasonal radish braised rice with its exact ingredient fa
   assert.equal(source?.access_status, 'opened');
   assert.equal(source?.publisher, '黄石市住房和城市更新局');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taihang millet braised rice with its regional ingredient and no invented contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taihang-millet-braised-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-HA-TAIHANG-MILLET-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '太行小米焖饭');
+  assert.deepEqual(recipe?.aliases, ['小米焖饭', '捞饭', '咸米稠饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-HA']);
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, [
+    '太行山小米', '时令蔬菜', '肉类', '碎粉条',
+  ]);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /时令蔬菜.*肉类/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /七八分熟/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /不搅锅/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没过米菜'));
+  assert.ok(recipe?.evidence_notes.includes('未给出固定重量'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.publisher, '中国旅游新闻网');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

@@ -1125,6 +1125,32 @@
       "source_refs":[{"source_id":"S-HB-HUANGSHI-RADISH-RICE-1","title":"“小寒”迎升温 气温暖如春","publisher":"黄石市住房和城市更新局","url":"https://zjj.huangshi.gov.cn/index2019/ztzl/wmdjr/202301/t20230105_979547.html","retrieved_at":"2026-08-03","source_kind":"municipal_government_hosted_newspaper_recipe","access_status":"opened","evidence_locator":"正文第28至35行：风味节气萝卜焖饭、食材清单及10步流程","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"黄石市住房和城市更新局（页面注明来源：东楚晚报）","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"黄石市住房和城市更新局页面在小寒节气栏目中明确点名“萝卜焖饭”，给出白萝卜350克、三层肉200克、大米400克、红葱头10克、干香菇10克、萝卜干35克、虾皮10克等用量，并记录先炒后转入电饭煲正常煮饭、最后淋葱头油的10步流程。来源把加水写为“适量清水”，未给出份数、总时间、机型或肉类安全终点，因此 fixed_batch、liquid_contract、time_contract 和 safety_endpoints 保持为空，不把它标为可执行公开配方。"
+    },
+    {
+      "recipe_id":"taihang-millet-braised-rice",
+      "canonical_name":"太行小米焖饭",
+      "aliases":["小米焖饭","捞饭","咸米稠饭"],
+      "region_codes":["CN-HA"],
+      "cuisine_family":"taihang-millet-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["太行山小米","时令蔬菜","肉类","碎粉条"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"准备太行山小米、时令蔬菜、肉类和碎粉条；来源说明肉可用鸡肉、羊肉或猪肉，蔬菜可选四季豆、白萝卜、土豆、蘑菇等耐煮食材。","source_ids":["S-HA-TAIHANG-MILLET-RICE-1"]},
+        {"step":2,"instruction":"先炒蔬菜和肉类，炒至七八分熟后添水加小米，水添到没过米菜。","source_ids":["S-HA-TAIHANG-MILLET-RICE-1"]},
+        {"step":3,"instruction":"盖上锅盖，按来源所说正常焖米饭，期间不搅锅。","source_ids":["S-HA-TAIHANG-MILLET-RICE-1"]},
+        {"step":4,"instruction":"出锅时用香油、酱油和葱花拌匀提味。","source_ids":["S-HA-TAIHANG-MILLET-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"中国旅游新闻网记录的是太行山区锅中先炒菜肉、添水加小米、盖锅焖饭的地方流程，没有明确现代电饭煲、固定水量、总时间或肉类安全终点，因此不建立电饭煲等价适配。"},
+      "source_refs":[{"source_id":"S-HA-TAIHANG-MILLET-RICE-1","title":"河南省","publisher":"中国旅游新闻网","url":"https://www.ctnews.com.cn/m/2024-08/26/content_163936.html","retrieved_at":"2026-08-03","source_kind":"national_tourism_media_seasonal_food_article","access_status":"opened","evidence_locator":"正文第237至257行：太行小米焖饭的地区、食材、制作技艺与地方名称说明","claim_scopes":["identity","ingredients","process"],"attribution":"中国旅游新闻网","license":"terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"中国旅游新闻网在河南省节气美食条目中将太行小米焖饭定位于新乡市卫辉市/辉县市，记录太行山小米、时令蔬菜、肉类、碎粉条和水，先炒菜肉至七八分熟，添水加米并以水没过米菜，盖锅正常焖饭且不搅锅，出锅用香油、酱油和葱花提味；同时注明当地也称“捞饭”“咸米稠饭”，并列举鸡肉蘑菇、猪肉干豆角、羊肉萝卜等地方变体。来源未给出固定重量、份数、总时间、明确机型或肉类安全终点，因此 fixed_batch、liquid_contract、time_contract 和 safety_endpoints 保持为空，不把它标为可执行公开配方。"
     }
   ]
 }
