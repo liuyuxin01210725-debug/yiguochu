@@ -244,3 +244,24 @@ test('keeps the Shidian broad-bean ham rice candidate aligned with its governmen
   assert.equal(candidate?.status, 'identity_only');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Qijiang potato cured-pork kong rice candidate aligned with its government source', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'qijiang-potato-cured-pork-kong-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: 'potato', label: '土豆' },
+    { canonical_id: null, label: '腊肉' },
+  ]);
+  assert.equal(candidate?.rice_state, 'rice-state-unverified');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '2000名选手参赛 2025重庆老瀛山越野挑战赛开幕');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '重庆市人民政府网');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.status, 'identity_only');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});

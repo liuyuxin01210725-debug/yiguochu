@@ -59,6 +59,7 @@
 
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
+- 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
 

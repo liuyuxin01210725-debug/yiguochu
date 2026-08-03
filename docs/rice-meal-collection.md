@@ -140,7 +140,7 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 綦江洋芋腊肉箜饭 | 米、土豆、腊肉 | B | rice-state-unverified | 箜饭身份记录 | identity | identity_only | 无数量、液体和米态 | identity_only |
+| 綦江洋芋腊肉箜饭 | 米、土豆、腊肉 | C | rice-state-unverified | 重庆市人民政府地方特色美食名单点名，未提供箜饭制作流程 | identity | identity_only | 来源只在地方特色美食名单中点名，缺米态、数量、液体、顺序、时间、器具和安全终点 | identity_only |
 
 ### wuling-she-rice
 

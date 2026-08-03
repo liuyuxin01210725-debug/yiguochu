@@ -1370,13 +1370,13 @@
         }
       ],
       "rice_state": "rice-state-unverified",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "箜饭身份记录",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "重庆市人民政府地方特色美食名单点名，未提供箜饭制作流程",
       "identity_sources": [
         {
-          "title": "綦江洋芋腊肉箜饭",
-          "publisher": "重庆市人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "2000名选手参赛 2025重庆老瀛山越野挑战赛开幕",
+          "publisher": "重庆市人民政府网",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.cq.gov.cn/zjcq/ydjs/tyss/202505/t20250512_14602375.html",
           "supports": [
             "identity"
@@ -1386,7 +1386,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "无数量、液体和米态"
+        "来源只在地方特色美食名单中点名，缺米态、数量、液体、顺序、时间、器具和安全终点"
       ],
       "status": "identity_only"
     },
