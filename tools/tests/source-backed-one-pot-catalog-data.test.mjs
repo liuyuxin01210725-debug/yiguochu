@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 106,
+    recipe_fact_checked: 107,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3986,5 +3986,37 @@ test('records Tibetan Mida naming porridge from the NPC food-culture source with
   assert.equal(source?.access_status, 'search_extract_opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(source?.evidence_locator ?? '', /搜索摘录.*咪达.*命名粥/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Qinghai highland barley lamb millet soup from the county government food listing without inventing a cooker contract', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => (
+    item.recipe_id === 'qinghai-highland-barley-lamb-millet-soup'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-QH-GONGHE-BARLEY-LAMB-MILLET-SOUP-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '高原青稞羊肉麦仁汤');
+  assert.deepEqual(recipe?.aliases, ['青稞羊肉麦仁汤']);
+  assert.deepEqual(recipe?.region_codes, ['CN-QH']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['青稞', '麦仁', '牛羊肉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /青稞.*麦仁.*牛羊肉.*一夜熬煮.*相融.*粥/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('一夜'));
+  assert.ok(recipe?.evidence_notes.includes('没有固定克数'));
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(source?.evidence_locator ?? '', /搜索摘录.*青稞羊肉麦仁汤/u);
+  assert.ok(!catalog.regional_blanks.some(item => item.region_code === 'CN-QH'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

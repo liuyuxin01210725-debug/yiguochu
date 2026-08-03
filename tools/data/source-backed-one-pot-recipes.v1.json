@@ -17,7 +17,6 @@
     {"region_code":"CN-YN","candidate_name":"禄劝洋芋焖饭","reason":"禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。","searched_at":"2026-08-02"},
     {"region_code":"CN-YN","candidate_name":"禄劝蚕豆焖饭","reason":"禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。","searched_at":"2026-08-02"},
     {"region_code":"CN-XZ","candidate_name":"人参果饭","reason":"线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。","searched_at":"2026-08-02"},
-    {"region_code":"CN-QH","candidate_name":"青海手抓饭","reason":"政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。","searched_at":"2026-08-02"},
     {"region_code":"TW","candidate_name":"台湾油饭","reason":"候选“台湾油饭”未找到可读的直达原始食谱来源。","searched_at":"2026-08-02"},
     {"region_code":"HK","candidate_name":"香港煲仔饭","reason":"香港旅游发展局食物地图 PDF 复核时遇 Cloudflare HTTP 403；且现有线索只表明消费，不证明香港独有起源，未保留可读原始来源。","searched_at":"2026-08-02"},
     {"region_code":"MO","candidate_name":"Portuguese Style Seafood Rice","reason":"澳门政府旅游页面只证明菜单和宽泛海鲜成分，未证明米饭状态、一锅过程或安全终点，可能为湿饭，故按流程范围阻塞。","searched_at":"2026-08-02"}
@@ -1559,6 +1558,31 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"中国人大网饮食文化页面明确记录咪达（意为命名粥）的身份、米饭煮稀粥后加入盐、酥油、肉丁、红枣、杏干和葡萄干，以及盖锅焖后搅拌的过程。原文时长出现‘对小时’这一含混表述，且没有固定数量、液体量、现代家庭安全终点或电饭煲适配，因此本条保留具名来源与材料流程，不建立时长合同，不擅自修正时长或补写执行参数。"
+    },
+    {
+      "recipe_id":"qinghai-highland-barley-lamb-millet-soup",
+      "canonical_name":"高原青稞羊肉麦仁汤",
+      "aliases":["青稞羊肉麦仁汤"],
+      "region_codes":["CN-QH"],
+      "cuisine_family":"qinghai-barley-lamb-millet-soup",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["青稞","麦仁","牛羊肉"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将青稞、麦仁与牛羊肉按来源所述经一夜熬煮，至肉和青稞、麦仁相融于粥内。","source_ids":["S-QH-GONGHE-BARLEY-LAMB-MILLET-SOUP-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"共和县人民政府来源明确记录青稞、麦仁和牛羊肉经一夜熬煮成粥，但没有固定批量、液体量、温度、安全终点或现代电饭煲参数；‘一夜’不是可直接执行的分钟合同。"},
+      "source_refs":[
+        {"source_id":"S-QH-GONGHE-BARLEY-LAMB-MILLET-SOUP-1","title":"“共和滋味”亮相，十五道精品菜肴，总有一道打动你的胃！","publisher":"共和县人民政府","url":"https://www.gonghe.gov.cn/xwdt/tpxw/content_48610099","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"search_extract_opened","evidence_locator":"搜索摘录：高原青稞羊肉麦仁汤的青海地方身份、青稞/麦仁/牛羊肉构成及经一夜熬煮、肉和谷物相融成粥的描述","claim_scopes":["identity","ingredients","process"],"attribution":"共和县人民政府","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"共和县人民政府页面将高原青稞羊肉麦仁汤列为青海特色菜，明确写出青稞、麦仁与牛羊肉为主料，经一夜熬煮后肉与谷物相融成粥。来源没有固定克数、液体量、家庭份数、现代家庭安全终点或电饭煲适配；‘一夜’也没有可核验的分钟数，因此只记录具名身份、材料和过程，不建立执行合同。"
     }
   ]
 }

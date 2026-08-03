@@ -281,6 +281,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 土家社饭 | — | CN-CQ | qianjiang-tujia-she-rice | 研究记录（非公开可执行） | 糯米；猪肉；大蒜；蒿草 | identity、ingredients | 缺 process | [四川少数民族食俗](https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml) |
+## qinghai-barley-lamb-millet-soup
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 高原青稞羊肉麦仁汤 | 青稞羊肉麦仁汤 | CN-QH | qinghai-barley-lamb-millet-soup | 研究记录（非公开可执行） | 青稞；麦仁；牛羊肉 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [“共和滋味”亮相，十五道精品菜肴，总有一道打动你的胃！](https://www.gonghe.gov.cn/xwdt/tpxw/content_48610099) |
 ## qingyang-sticky-millet-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
