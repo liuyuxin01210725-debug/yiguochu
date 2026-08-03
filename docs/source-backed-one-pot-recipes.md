@@ -29,6 +29,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 三山湖饭蒸鱼 | 饭蒸鱼 | CN-HB | ezhou-fan-zheng-yu | 研究记录（非公开可执行） | 刁子鱼；新米 | identity、ingredients、process、safety | 缺 quantity、liquid、time | [跟着赛事品美食！鄂州本地人都爱吃](https://swj.ezhou.gov.cn/xwzx/gzdt/202508/t20250828_722490.html)<br>[鄂州十大名菜十大名师名厨揭晓](https://www.ezhou.gov.cn/zjez/ezrw/eztc/eztc/202107/t20210709_409415.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## fujian-mustard-greens-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 牛肉盖菜饭 | 盖菜牛肉饭 | CN-FJ | fujian-mustard-greens-rice | 研究记录（非公开可执行） | 牛肉；盖菜；米饭 | identity、ingredients | 缺 process | [最近福建人的餐桌被盖菜“霸屏”！福建“省菜”真不是盖的](https://m.thepaper.cn/newsDetail_forward_32454690) |
 ## guangzhou-cured-meat-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -221,6 +226,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 扬州炒饭 | 扬州蛋炒饭 | CN-JS | yangzhou-fried-rice | 研究记录（非公开可执行） | 籼米饭；鲜鸡蛋；水发海参；熟地方鸡腿肉；中国火腿肉；水发干贝；上浆湖虾仁；水发花菇；净鲜笋；青豌豆 | identity、ingredients | 缺 process | [扬州官方发布扬州炒饭新标准：米饭晶莹透亮 至少加三个蛋](https://china.cnr.cn/xwwgf/20151023/t20151023_520256152.shtml) |
+## yunnan-bean-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 砚山豆焖饭 | 蚕豆焖饭 | CN-YN | yunnan-bean-braised-rice | 研究记录（非公开可执行） | 带豆壳青蚕豆；腊肉或火腿肉；半熟米饭 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [砚山人记忆里的这碗豆焖饭，你馋吗？](https://m.yunnan.cn/system/2023/04/06/032535920.shtml) |
 ## yunnan-broad-bean-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

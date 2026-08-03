@@ -35,6 +35,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
@@ -67,6 +68,7 @@
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
@@ -74,6 +76,7 @@
 
 ## 5. Missing process
 
+- 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
@@ -96,6 +99,7 @@
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 7. Missing time
@@ -126,6 +130,7 @@
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
@@ -148,6 +153,7 @@
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
+- 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 9. Regional blanks

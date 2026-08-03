@@ -271,6 +271,53 @@
       "source_refs":[{"source_id":"S-GD-TAISHAN-CHICKEN-RICE-1","title":"广东侨乡台山的特色鸡饭按锅上 饭焦诱人","publisher":"广东省人民政府侨务办公室","url":"https://www.qb.gd.gov.cn/ztzl/2021ycsf/xwdt/content/post_988644.html","retrieved_at":"2026-08-03","source_kind":"provincial_government_overseas_affairs_food_report","access_status":"search_extract_opened","evidence_locator":"搜索摘录：洗锅、下米、加水、控火、下料、上锅；鸡焗饭腌料渗入米饭；每锅米量档位与约20分钟现场流程","claim_scopes":["identity","ingredients","process","time"],"attribution":"广东省人民政府侨务办公室","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"广东省人民政府侨务办公室搜索摘录记录台山当地鸡焗饭的具名身份、鸡肉与米同锅、腌料酱汁渗入米饭，以及柴火灶现场的洗锅、下米、加水、控火、下料流程和约20分钟的餐厅级时间描述；搜索摘录未给出固定批量、可复用液体比例、完整安全终点或电饭煲适配，因此本条不建立固定执行合同。"
+    },
+    {
+      "recipe_id":"yanshan-broad-bean-braised-rice",
+      "canonical_name":"砚山豆焖饭",
+      "aliases":["蚕豆焖饭"],
+      "region_codes":["CN-YN"],
+      "cuisine_family":"yunnan-bean-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["带豆壳青蚕豆","腊肉或火腿肉","半熟米饭"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"采摘新鲜青蚕豆，掐掉豆壳边沿的丝并清洗；来源特别说明带豆壳是砚山豆焖饭的地方特色。","source_ids":["S-YN-YANSHAN-BROAD-BEAN-RICE-1"]},
+        {"step":2,"instruction":"腊肉或火腿肉切丁，下锅炒香，再加入青蚕豆翻炒，使豆子吸收肉香。","source_ids":["S-YN-YANSHAN-BROAD-BEAN-RICE-1"]},
+        {"step":3,"instruction":"加盐后，将半熟米饭均匀覆盖在蚕豆和肉丁上。","source_ids":["S-YN-YANSHAN-BROAD-BEAN-RICE-1"]},
+        {"step":4,"instruction":"盖锅小火焖熟，开盖后将火腿肉、蚕豆和米饭翻炒拌匀。","source_ids":["S-YN-YANSHAN-BROAD-BEAN-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"砚山融媒来源记录的是传统锅中先炒后覆饭焖熟流程，未提供固定批量、液体、总时间、安全终点或现代电饭煲等价参数。"},
+      "source_refs":[{"source_id":"S-YN-YANSHAN-BROAD-BEAN-RICE-1","title":"砚山人记忆里的这碗豆焖饭，你馋吗？","publisher":"砚山融媒 / 云南网","url":"https://m.yunnan.cn/system/2023/04/06/032535920.shtml","retrieved_at":"2026-08-03","source_kind":"county_media_food_culture_article","access_status":"opened","evidence_locator":"正文第65至100行：砚山豆焖饭身份、带豆壳青蚕豆、腊肉或火腿、半熟米饭覆盖与小火焖拌流程","claim_scopes":["identity","ingredients","process"],"attribution":"砚山融媒 / 云南网","license":"terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"砚山融媒页面明确称豆焖饭是砚山人春季家常地方饭，记录带豆壳青蚕豆、腊肉或火腿肉、半熟米饭，以及炒肉、炒豆、覆饭、小火焖熟、开盖拌匀的顺序；来源没有给固定数量、米水比例、总时间、安全终点或电饭煲适配，因此不建立固定执行合同。"
+    },
+    {
+      "recipe_id":"fujian-beef-mustard-greens-rice",
+      "canonical_name":"牛肉盖菜饭",
+      "aliases":["盖菜牛肉饭"],
+      "region_codes":["CN-FJ"],
+      "cuisine_family":"fujian-mustard-greens-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["牛肉","盖菜","米饭"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"福建地方媒体只列出牛肉盖菜饭这一具名吃法，并概述盖菜与米饭同煮的福建咸饭家常结构；未提供器具、固定批量、液体、步骤、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-FJ-MUSTARD-BEEF-RICE-1","title":"最近福建人的餐桌被盖菜“霸屏”！福建“省菜”真不是盖的","publisher":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","url":"https://m.thepaper.cn/newsDetail_forward_32454690","retrieved_at":"2026-08-03","source_kind":"district_government_media_food_article","access_status":"opened","evidence_locator":"正文第27至33行列出牛肉盖菜饭；第47至51行解释盖菜名称；第118至119行说明盖菜与米饭同煮是福建咸饭、焖煮家常结构","claim_scopes":["identity","ingredients"],"attribution":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","license":"terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"福建地方媒体在福建盖菜的地域饮食报道中直接列出“牛肉盖菜饭”，并说明盖菜在福建常与米饭同煮、形成咸饭或焖煮家常吃法；来源没有给这道具名组合的固定数量、液体、完整步骤、时间、安全终点或电饭煲适配，因此只保留身份与核心食材，不建立执行合同。"
     }
   ]
 }

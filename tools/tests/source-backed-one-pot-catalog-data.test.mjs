@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 11,
-    recipe_fact_checked: 49,
+    identity_verified: 12,
+    recipe_fact_checked: 50,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -928,6 +928,50 @@ test('records Taishan chicken baked rice as a named regional rice meal without i
   assert.equal(recipe?.source_refs?.[0]?.access_status, 'search_extract_opened');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'time']);
   assert.match(recipe?.evidence_notes ?? '', /搜索摘录.*未给.*固定.*电饭煲/u);
+});
+
+test('records Yanshan broad-bean braised rice from the local media process without inventing quantities or cooker equivalence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'yanshan-broad-bean-braised-rice');
+  assert.equal(recipe?.canonical_name, '砚山豆焖饭');
+  assert.deepEqual(recipe?.aliases, ['蚕豆焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['带豆壳青蚕豆', '腊肉或火腿肉', '半熟米饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /青蚕豆.*带豆壳/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腊肉或火腿肉.*切丁/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /半熟米饭.*覆盖/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /小火焖熟.*翻炒拌匀/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://m.yunnan.cn/system/2023/04/06/032535920.shtml');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /来源没有给.*固定.*米水比例.*电饭煲/u);
+});
+
+test('records Fujian beef mustard-greens rice as a named regional identity without inventing its recipe contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'fujian-beef-mustard-greens-rice');
+  assert.equal(recipe?.canonical_name, '牛肉盖菜饭');
+  assert.deepEqual(recipe?.aliases, ['盖菜牛肉饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-FJ']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['牛肉', '盖菜', '米饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://m.thepaper.cn/newsDetail_forward_32454690');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
+  assert.match(recipe?.evidence_notes ?? '', /直接列出.*牛肉盖菜饭.*来源没有给.*固定.*步骤/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {
