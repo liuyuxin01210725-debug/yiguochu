@@ -199,9 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    discovered: 1,
     identity_verified: 10,
-    recipe_fact_checked: 22,
+    recipe_fact_checked: 23,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -249,7 +248,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'cantonese-mushroom-chicken-claypot-rice': 'recipe_fact_checked',
     'cantonese-black-bean-pork-rib-claypot-rice': 'recipe_fact_checked',
     'zhanjiang-galangal-leaf-rice': 'recipe_fact_checked',
-    'zhanjiang-duck-rice': 'discovered',
+    'zhanjiang-duck-rice': 'recipe_fact_checked',
   };
 
   for (const code of ['CN-SH', 'CN-JS', 'CN-ZJ', 'CN-FJ', 'CN-GD', 'TW']) {
@@ -288,20 +287,6 @@ test('keeps eastern source identities distinct and source claims bounded', () =>
   ]) {
     const recipe = byId.get(recipeId);
     assert.ok(!/电饭煲|电锅|rice cooker/i.test(recipe?.cooker_adaptation?.notes ?? ''), recipeId);
-  }
-
-  for (const recipeId of ['zhanjiang-duck-rice']) {
-    const recipe = byId.get(recipeId);
-    assert.equal(recipe?.status, 'discovered', recipeId);
-    assert.equal(recipe?.identity_status, 'discovered', recipeId);
-    assert.deepEqual(recipe?.core_ingredients, [], recipeId);
-    assert.equal(recipe?.fixed_batch, null, recipeId);
-    assert.equal(recipe?.liquid_contract, null, recipeId);
-    assert.deepEqual(recipe?.cooking_sequence, [], recipeId);
-    assert.equal(recipe?.time_contract, null, recipeId);
-    assert.deepEqual(recipe?.safety_endpoints, [], recipeId);
-    assert.equal(recipe?.source_refs[0]?.access_status, 'pdf_not_parsed', recipeId);
-    assert.deepEqual(recipe?.source_refs[0]?.claim_scopes, [], recipeId);
   }
 
   for (const recipe of recipes.filter(recipe => recipe.region_codes.some(code => (
@@ -343,10 +328,43 @@ test('structures the Zhanjiang galangal-leaf rice cooker process without inventi
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('structures Zhanjiang duck rice from the standard extract without turning duck broth into an invented ratio', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zhanjiang-duck-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-ZHANJIANG-DUCK-RICE-1');
+
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.identity_status, 'verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['白切鸭', '大米', '鸭原汤']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source names duck broth but gives no measurable amount');
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白切鸭.*原汤/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸭原汤.*煲制大米/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /蒜蓉.*生抽/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('rejects unparsed PDF scopes and promotion beyond discovery', () => {
   // Letting unread PDFs carry a scope or raise a row above discovery would manufacture evidence.
   const catalog = sourceBackedCatalog();
   const recipe = catalog.recipes.find(item => item.recipe_id === 'zhanjiang-duck-rice');
+  recipe.source_refs[0].access_status = 'pdf_not_parsed';
   recipe.source_refs[0].claim_scopes = ['identity'];
   assert.match(
     validator.validateSourceBackedOnePotCatalog(catalog).join('\n'),
@@ -354,7 +372,10 @@ test('rejects unparsed PDF scopes and promotion beyond discovery', () => {
   );
 
   const promoted = sourceBackedCatalog();
-  promoted.recipes.find(item => item.recipe_id === 'zhanjiang-duck-rice').status = 'identity_verified';
+  const promotedRecipe = promoted.recipes.find(item => item.recipe_id === 'zhanjiang-duck-rice');
+  promotedRecipe.source_refs[0].access_status = 'pdf_not_parsed';
+  promotedRecipe.source_refs[0].claim_scopes = [];
+  promotedRecipe.status = 'identity_verified';
   assert.match(
     validator.validateSourceBackedOnePotCatalog(promoted).join('\n'),
     /pdf_not_parsed.*discovery-only/i,

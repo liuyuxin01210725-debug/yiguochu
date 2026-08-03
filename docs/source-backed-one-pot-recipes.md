@@ -90,7 +90,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 鸭仔饭 | — | CN-GD | western-guangdong-duck-rice | 研究记录（非公开可执行） | — | — | 缺 identity | [湛江地方标准附件（蛤蒌饭、鸭仔饭线索）](https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf) |
+| 鸭仔饭 | 鸭汤饭 | CN-GD | western-guangdong-duck-rice | 研究记录（非公开可执行） | 白切鸭；大米；鸭原汤 | identity、ingredients、process、safety | 缺 quantity、liquid、time | [湛江地方标准附件（湛江鸭仔饭条目）](https://www.zhanjiang.gov.cn/attachment/0/107/107927/1686737.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## western-guangdong-herb-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
