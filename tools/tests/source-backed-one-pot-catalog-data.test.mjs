@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 100,
+    recipe_fact_checked: 101,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3780,5 +3780,43 @@ test('records Pianguan oil-braised millet rice from two independent Shanxi food 
   assert.equal(media?.access_status, 'opened');
   assert.deepEqual(media?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(media?.evidence_locator ?? '', /第71至75行/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Jingyuan sanfan as a named mixed-grain staple with its source-stated boil-and-braise process', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'jingyuan-mixed-grain-sanfan'
+  ));
+  const recipeSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GS-JINGYUAN-SANFAN-1'
+  ));
+  const contextSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GS-JINGYUAN-SANFAN-2'
+  ));
+
+  assert.equal(recipe?.canonical_name, '靖远糁饭');
+  assert.deepEqual(recipe?.aliases, ['小米糁饭', '黄米糁饭', '白米糁饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GS']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['米（小米、黄米或白米）', '面粉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米.*淘净.*锅中.*水.*煮沸/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /七八成.*面粉.*搅拌融合/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /盖上锅盖.*焖/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('没有固定用量'));
+  assert.ok(recipe?.evidence_notes.includes('电饭煲'));
+  assert.equal(recipeSource?.access_status, 'opened');
+  assert.deepEqual(recipeSource?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipeSource?.evidence_locator ?? '', /正文第3至5行/u);
+  assert.equal(contextSource?.access_status, 'opened');
+  assert.deepEqual(contextSource?.claim_scopes, ['identity', 'ingredients']);
+  assert.match(contextSource?.evidence_locator ?? '', /正文第12至16行/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

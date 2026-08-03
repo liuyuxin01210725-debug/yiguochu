@@ -32,6 +32,7 @@
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
@@ -109,6 +110,7 @@
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
+- 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
@@ -231,6 +233,7 @@
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
+- 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ

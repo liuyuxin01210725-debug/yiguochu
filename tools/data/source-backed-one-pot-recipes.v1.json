@@ -1397,6 +1397,34 @@
       ],
       "status":"identity_verified",
       "evidence_notes":"阳泉市交通运输局转载的山西交通发布把偏关油焖饭列为黄河一号旅游公路沿线地标美食；人民日报客户端山西频道进一步写明其以小米、胡麻油焖制，鲜咸可口。本条只记录具名身份、核心食材和‘焖制’这一来源原话；来源没有固定份量、液体量、时间、安全终点或器具参数，不把‘油焖’扩写为未被来源证明的步骤，也不把它改写成电饭煲可执行配方。"
+    },
+    {
+      "recipe_id":"jingyuan-mixed-grain-sanfan",
+      "canonical_name":"靖远糁饭",
+      "aliases":["小米糁饭","黄米糁饭","白米糁饭"],
+      "region_codes":["CN-GS"],
+      "cuisine_family":"jingyuan-mixed-grain-sanfan",
+      "identity_status":"verified",
+      "traditional_vessels":["锅"],
+      "core_ingredients":["米（小米、黄米或白米）","面粉"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将米淘净倒入锅中，加入适量水煮沸。","source_ids":["S-GS-JINGYUAN-SANFAN-1"]},
+        {"step":2,"instruction":"待米煮至七八成时撒上面粉，搅拌融合。","source_ids":["S-GS-JINGYUAN-SANFAN-1"]},
+        {"step":3,"instruction":"盖上锅盖焖一会儿，制成靖远糁饭。","source_ids":["S-GS-JINGYUAN-SANFAN-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"靖远县人民政府来源支持传统锅中煮米、加面、焖制流程，未提供固定份量、液体比例、时间、安全终点或现代电饭煲适配参数。"},
+      "source_refs":[
+        {"source_id":"S-GS-JINGYUAN-SANFAN-1","title":"靖远风味美食","publisher":"靖远县人民政府","url":"https://www.jingyuan.gov.cn/zjjy/rwjy/msfq/art/2023/art_7e9da73c541d4e02a80733c068c9f132.html","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第3至5行：糁饭的地域身份、米与面构成，以及淘米煮沸、七八成熟加面搅拌、盖锅焖制流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"靖远县人民政府","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GS-JINGYUAN-SANFAN-2","title":"靖远民俗---饮食","publisher":"靖远县人民政府","url":"https://www.jingyuan.gov.cn/zjjy/rwjy/msfq/art/2023/art_0bbe71a010374937a8cf5bff183c76a0.html","retrieved_at":"2026-08-03","source_kind":"county_government_food_culture_page","access_status":"opened","evidence_locator":"正文第12至16行：黄米或白米糁饭作为靖远农村早餐主食，并记载糁饭与酸菜炒肉片的地方饮食场景","claim_scopes":["identity","ingredients"],"attribution":"靖远县人民政府","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"靖远县人民政府页面称糁饭是当地传统家常饭和主要食品，区分小米、黄米、白米等米料以及麦面、豆面、包谷面等变体，并给出淘米煮沸、七八成熟加面搅拌、盖锅焖制的传统流程；另一页面说明黄米或白米糁饭是当地农村常见主食，并与酸菜炒肉片等同桌。本条只保留米面混合结构与来源直接描述的三步过程，不把‘适量水’改写为固定液体；来源没有固定用量、时间、安全终点或电饭煲适配，不补写执行合同。"
     }
   ]
 }

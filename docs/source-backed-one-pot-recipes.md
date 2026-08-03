@@ -137,6 +137,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 吉林小豆高粱米饭 | 小豆高粱米饭 | CN-JL | jilin-red-bean-sorghum-rice | 研究记录（非公开可执行） | 小豆；高粱米 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [吉林民间饮食习俗：以大黄米、白小米为主食](https://www.chinanews.com.cn/gn/2010/12-21/2736898.shtml) |
+## jingyuan-mixed-grain-sanfan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 靖远糁饭 | 小米糁饭；黄米糁饭；白米糁饭 | CN-GS | jingyuan-mixed-grain-sanfan | 研究记录（非公开可执行） | 米（小米、黄米或白米）；面粉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [靖远风味美食](https://www.jingyuan.gov.cn/zjjy/rwjy/msfq/art/2023/art_7e9da73c541d4e02a80733c068c9f132.html)<br>[靖远民俗---饮食](https://www.jingyuan.gov.cn/zjjy/rwjy/msfq/art/2023/art_0bbe71a010374937a8cf5bff183c76a0.html) |
 ## jixi-bamboo-shoot-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
