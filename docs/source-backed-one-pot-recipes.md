@@ -487,6 +487,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 傣族菠萝饭 | 菠萝紫米饭；菠萝饭 | CN-YN | yunnan-dai-pineapple-rice | 研究记录（非公开可执行） | 糯米；菠萝；火腿丁；青豌豆或果脯 | identity、ingredients、process、time | 缺 quantity、liquid、appliance | [风俗习惯](https://www.neac.gov.cn/seac/ztzl/daiz/fsxg.shtml)<br>[美食节上的傣族美食：菠萝饭](https://v.gxnews.com.cn/a/5269029) |
+## yunnan-jinning-mushroom-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 晋宁牛肝菌焖饭 | 牛肝菌焖饭 | CN-YN | yunnan-jinning-mushroom-rice | 研究记录（非公开可执行） | 大米；牛肝菌 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [云南·寻味滇岸原乡 体验特色美食](https://zhuanti.mct.gov.cn/xcss2024_xcygj/yunnan/detail_g7yU_1058/7526.html) |
 ## yunnan-seasonal-pea-potato-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

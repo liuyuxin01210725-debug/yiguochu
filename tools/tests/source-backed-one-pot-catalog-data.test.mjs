@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 109,
+    recipe_fact_checked: 110,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -4089,5 +4089,36 @@ test('records Xiangxi Miao bamboo-tube rice with its source ratio and traditiona
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /第49至61行.*竹筒饭.*1∶2.5/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Jinning boletus braised rice from the Ministry of Culture route without inventing its missing contracts', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => (
+    item.recipe_id === 'jinning-boletus-braised-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-YN-JINNING-BOLETUS-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '晋宁牛肝菌焖饭');
+  assert.deepEqual(recipe?.aliases, ['牛肝菌焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '牛肝菌']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /牛肝菌.*晋宁本土大米.*锅中.*小火.*焖煮/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('晋宁本土大米'));
+  assert.ok(recipe?.evidence_notes.includes('不补固定批量'));
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第30至45行.*牛肝菌焖饭/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

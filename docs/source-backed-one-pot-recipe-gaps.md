@@ -86,6 +86,7 @@
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
+- 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
@@ -174,6 +175,7 @@
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
+- 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
@@ -303,6 +305,7 @@
 - 榆林腊八焖饭 (yulin-laba-braised-rice) — CN-SN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
+- 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
