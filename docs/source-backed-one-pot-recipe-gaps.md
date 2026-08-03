@@ -45,6 +45,7 @@
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
+- 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 
 ## 4. Missing liquid
 
@@ -84,6 +85,7 @@
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
+- 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 
 ## 5. Missing process
 
@@ -116,6 +118,7 @@
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
+- 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 
 ## 7. Missing time
 
@@ -155,6 +158,7 @@
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
+- 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 
 ## 8. Missing safety
 

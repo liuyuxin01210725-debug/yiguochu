@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 16,
-    recipe_fact_checked: 56,
+    recipe_fact_checked: 57,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -953,6 +953,32 @@ test('records Huangpu cured-meat claypot rice as a Guangdong identity without in
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'appliance']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /黄圃.*腊味糯米饭.*煲仔饭.*没有给出.*固定数量.*电饭煲/u);
+});
+
+test('records Zhuji pea salted-pork rice with its source-stated stir-fry process without inventing a cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'zhuji-pea-salted-pork-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '诸暨豌豆咸肉饭');
+  assert.deepEqual(recipe?.aliases, ['豌豆饭', '立夏饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-ZJ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['油锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['豌豆', '咸肉', '糯米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /豌豆.*现剥.*咸肉.*糯米/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /入油锅.*混合炒制/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.zjsjw.gov.cn/yixiankuaixun/201705/t20170505_2604502_ext.html');
+  assert.equal(source?.publisher, '浙江省纪律检查委员会 / 浙江省监察委员会');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /诸暨.*立夏.*豌豆咸肉饭.*没有给出.*固定数量.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {

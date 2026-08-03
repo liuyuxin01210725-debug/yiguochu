@@ -561,6 +561,30 @@
       ],
       "status":"identity_verified",
       "evidence_notes":"黄圃镇政府传统美食页面明确把腊味糯米饭（煲仔饭）列为黄圃腊味的传统食法，另一篇镇政府信息公开又把黄圃腊味煲仔饭称为本地文化符号，并记录黄圃腊味蒸饭这一称呼。来源没有给出固定数量、液体、步骤、时间、安全终点或现代电饭煲适配，因此只记录具名身份、腊味/糯米线索和煲仔器具事实，不补写执行合同。"
+    },
+    {
+      "recipe_id":"zhuji-pea-salted-pork-rice",
+      "canonical_name":"诸暨豌豆咸肉饭",
+      "aliases":["豌豆饭","立夏饭"],
+      "region_codes":["CN-ZJ"],
+      "cuisine_family":"zhuji-pea-salted-pork-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["油锅"],
+      "core_ingredients":["豌豆","咸肉","糯米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将新鲜豌豆现剥，并备好咸肉和糯米。","source_ids":["S-ZJ-ZHUJI-PEA-SALTED-PORK-RICE-1"]},
+        {"step":2,"instruction":"将豌豆、咸肉和糯米入油锅混合炒制。","source_ids":["S-ZJ-ZHUJI-PEA-SALTED-PORK-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"浙江省纪委省监委网站记录的是立夏豌豆咸肉饭的油锅混合炒制习俗，没有固定批量、液体、总时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-ZJ-ZHUJI-PEA-SALTED-PORK-RICE-1","title":"清香袭人的立夏饭","publisher":"浙江省纪律检查委员会 / 浙江省监察委员会","url":"https://www.zjsjw.gov.cn/yixiankuaixun/201705/t20170505_2604502_ext.html","retrieved_at":"2026-08-03","source_kind":"provincial_government_culture_food_article","access_status":"opened","evidence_locator":"正文第1至9行、第13至24行：浙江诸暨立夏豌豆咸肉饭习俗、豌豆/咸肉/糯米构成、现剥豌豆和入油锅混合炒制","claim_scopes":["identity","ingredients","process"],"attribution":"浙江省纪律检查委员会 / 浙江省监察委员会","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"浙江省纪委省监委网站明确记载浙江诸暨等地立夏食豌豆咸肉饭的习俗，写明豌豆、咸肉和糯米的构成，并记录现剥豌豆、备齐食材后入油锅混合炒制。来源没有给出固定数量、液体、总时间、安全终点或现代电饭煲适配，因此只建立具名身份、核心食材和炒制顺序事实，不补写电饭煲执行合同。"
     }
   ]
 }

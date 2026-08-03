@@ -306,3 +306,8 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 半山立夏野米饭 | 立夏野米饭；烧野米饭 | CN-ZJ | zhejiang-lixia-wild-rice | 研究记录（非公开可执行） | 米；鸡蛋；韭菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [拱墅区举办第六届半山立夏节](https://www.ihchina.cn/solarzx_details/18383.html) |
+## zhuji-pea-salted-pork-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 诸暨豌豆咸肉饭 | 豌豆饭；立夏饭 | CN-ZJ | zhuji-pea-salted-pork-rice | 研究记录（非公开可执行） | 豌豆；咸肉；糯米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [清香袭人的立夏饭](https://www.zjsjw.gov.cn/yixiankuaixun/201705/t20170505_2604502_ext.html) |
