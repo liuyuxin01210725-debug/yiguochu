@@ -17,7 +17,7 @@ panasonic-taro-chicken-rice,香芋鸡煲仔饭（松下机型配方）,广东 (C
 xinjiang-lamb-pilaf,新疆羊肉抓饭（波劳）,新疆 (CN-XJ),xinjiang-pilaf,米 / 羊肉 / 胡萝卜 / 洋葱,A,raw-rice,羊肉胡萝卜炒香后与米焖熟,identity / appliance,partial,电饭煲来源的1:2未说明分子、分母、质量/体积与米的生熟状态，禁止自动解读为米水比；来源未给大米实际克数、份数、羊肉块尺寸和可机器验证熟制终点；不得把压力锅或其他来源的液体数字合并成普通电饭煲通用公式,planned
 xinjiang-minced-lamb-pilaf,新疆碎肉抓饭,新疆 (CN-XJ),xinjiang-pilaf,米 / 羊肉 / 胡萝卜 / 鹰嘴豆,A,raw-rice,碎肉、菜、豆与米配餐,identity / quantity / nutrition,partial,无液体和工艺,research_candidate
 household-red-date-cowpea-rice,陕北红枣豇豆焖饭,陕西 (CN-SN),household-reviewed-rice,米 / 豇豆 / 红枣,A,raw-rice,项目家庭审核，未进入 Preview,identity,partial,仍待液体复核,planned
-mizhi-lamb-diced-rice,米脂羊肉丁丁饭,陕西 (CN-SN),northwest-meat-rice,羊肉 / 米 / 黄花菜/金针菇,B,raw-rice,羊肉丁与米煮制,identity,identity_only,无数量、液体和份数,research_candidate
+mizhi-lamb-diced-rice,米脂羊肉丁丁饭,陕西 (CN-SN),northwest-meat-rice,小米 / 羊肉 / 羊肉汤,C,rice-state-unverified,羊肉汤与小米同锅煮制,identity,identity_only,来源未给固定数量、液体或份数，约一个时辰未给起算点，且尚未建立现代电饭煲适配,research_candidate
 ningxia-meat-sticky-rice,宁夏肉粘饭,宁夏 (CN-NX),northwest-meat-rice,米 / 牛/羊肉 / 洋葱 / 胡萝卜,A,raw-rice,炒肉菜后与米蒸焖,identity,identity_only,无数量与液体,research_candidate
 sichuan-green-bean-kong-rice,四川四季豆孔干饭,四川 (CN-SC),sichuan-kong-rice,米 / 四季豆,B,parboiled-drained-rice,米先煮至半熟后沥米汤，四季豆略炒，再铺上沥干的米加盖小火回焖,identity / safety,identity_only,半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数；半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；四季豆必须充分熟制；访谈的“略炒+回焖”没有提供可机器验证的时间/熟度终点,research_candidate
 sichuan-pea-kong-rice,四川豌豆孔干饭,四川 (CN-SC),sichuan-kong-rice,米 / 豌豆,B,parboiled-drained-rice,米先煮至半熟后沥米汤，豌豆略炒，再铺上沥干的米加盖小火回焖,identity,identity_only,半熟预煮终点、沥米汤量、是否回加液体、回焖时间与程序都无精确参数；半熟沥汤是孔干饭身份技法，不得静默改成生米一键焖饭；来源为转载，仍需独立一手复核,research_candidate

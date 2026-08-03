@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 36,
+    recipe_fact_checked: 37,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1696,6 +1696,41 @@ test('structures Tengchong Beihai copper-pot potato rice without inventing quant
   assert.ok(source?.claim_scopes.includes('ingredients'));
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures Mizhi lamb dingding rice from the county government page without inventing quantities or cooker parameters', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'mizhi-lamb-diced-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-SN-MIZHI-LAMB-DINGDING-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '米脂羊肉丁丁饭');
+  assert.deepEqual(recipe?.aliases, ['肉丁丁饭', '羊肉丁丁饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.region_codes, ['CN-SN']);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '羊肉', '羊肉汤']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /炖羊肉.*捞出.*过滤羊肉汤/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /碎羊肉.*加入适量的水/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /经验.*一定比例.*小米/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /大约一个时辰.*做熟/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('identity'));
+  assert.ok(source?.claim_scopes.includes('ingredients'));
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(source?.claim_scopes.includes('time'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

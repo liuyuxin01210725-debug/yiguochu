@@ -75,6 +75,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 壶仔饭 | — | CN-FJ | minnan-steamed-glutinous-rice | 研究记录（非公开可执行） | 糯米；三层肉；香菇；虾米；大骨汤 | appliance、identity、ingredients、liquid、process、safety | 缺 quantity、time | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## mizhi-lamb-diced-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 米脂羊肉丁丁饭 | 肉丁丁饭；羊肉丁丁饭 | CN-SN | mizhi-lamb-diced-rice | 研究记录（非公开可执行） | 小米；羊肉；羊肉汤 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [米脂县地方小吃系列](https://www.zzszyq.com/html/htmlwhlyfwtc2018078711.html) |
 ## ningxia-steamed-meat-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

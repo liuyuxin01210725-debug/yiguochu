@@ -1181,27 +1181,27 @@
       "family": "northwest-meat-rice",
       "core_ingredients": [
         {
+          "canonical_id": "raw-millet",
+          "label": "小米"
+        },
+        {
           "canonical_id": null,
           "label": "羊肉"
         },
         {
-          "canonical_id": "raw-rice",
-          "label": "米"
-        },
-        {
           "canonical_id": null,
-          "label": "黄花菜/金针菇"
+          "label": "羊肉汤"
         }
       ],
-      "rice_state": "raw-rice",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "羊肉丁与米煮制",
+      "rice_state": "rice-state-unverified",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "羊肉汤与小米同锅煮制",
       "identity_sources": [
         {
-          "title": "米脂羊肉丁丁饭",
-          "publisher": "陕西省地方志",
-          "retrieved_at": "2026-08-01",
-          "url": "https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201209/t20120912_2620380.html",
+          "title": "米脂县地方小吃系列",
+          "publisher": "米脂县人民政府",
+          "retrieved_at": "2026-08-03",
+          "url": "https://www.zzszyq.com/html/htmlwhlyfwtc2018078711.html",
           "supports": [
             "identity"
           ]
@@ -1210,7 +1210,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "无数量、液体和份数"
+        "来源未给固定数量、液体或份数，约一个时辰未给起算点，且尚未建立现代电饭煲适配"
       ],
       "status": "research_candidate"
     },

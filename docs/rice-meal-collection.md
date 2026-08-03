@@ -115,7 +115,7 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 米脂羊肉丁丁饭 | 羊肉、米、黄花菜/金针菇 | B | raw-rice | 羊肉丁与米煮制 | identity | identity_only | 无数量、液体和份数 | research_candidate |
+| 米脂羊肉丁丁饭 | 小米、羊肉、羊肉汤 | C | rice-state-unverified | 羊肉汤与小米同锅煮制 | identity | identity_only | 来源未给固定数量、液体或份数，约一个时辰未给起算点，且尚未建立现代电饭煲适配 | research_candidate |
 
 ## 宁夏（CN-NX）
 

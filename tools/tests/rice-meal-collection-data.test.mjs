@@ -159,3 +159,24 @@ test('keeps the Tengchong copper-pot potato rice candidate aligned with its offi
   assert.equal(candidate?.status, 'research_candidate');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Mizhi lamb dingding rice candidate aligned with its official ingredient wording', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'mizhi-lamb-diced-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-millet', label: '小米' },
+    { canonical_id: null, label: '羊肉' },
+    { canonical_id: null, label: '羊肉汤' },
+  ]);
+  assert.equal(candidate?.rice_state, 'rice-state-unverified');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '米脂县地方小吃系列');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '米脂县人民政府');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, ['identity']);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});
