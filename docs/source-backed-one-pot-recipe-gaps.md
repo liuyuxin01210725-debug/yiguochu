@@ -8,12 +8,12 @@
 
 ## 2. Missing ingredients
 
-- 咸饭 (minnan-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 
 ## 3. Missing quantity
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
@@ -24,6 +24,7 @@
 ## 4. Missing liquid
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
@@ -34,7 +35,6 @@
 ## 5. Missing process
 
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
-- 咸饭 (minnan-salty-rice) — CN-FJ
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 
 ## 6. Missing appliance
@@ -49,6 +49,7 @@
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
+- 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD

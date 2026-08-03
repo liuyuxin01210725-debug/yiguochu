@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 10,
-    recipe_fact_checked: 23,
+    identity_verified: 9,
+    recipe_fact_checked: 24,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -236,7 +236,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'nanjing-aijiaohuang-rice': 'identity_verified',
     'wenzhou-mustard-greens-rice': 'identity_verified',
     'quanzhou-radish-rice': 'identity_verified',
-    'minnan-salty-rice': 'identity_verified',
+    'minnan-salty-rice': 'recipe_fact_checked',
     'quanzhou-taro-rice': 'identity_verified',
     'shenhu-huzaifan': 'identity_verified',
     'quanzhou-yifan-oil-rice': 'identity_verified',
@@ -356,6 +356,34 @@ test('structures Zhanjiang duck rice from the standard extract without turning d
   });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'search_extract_opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('structures Quanzhou mustard-green salted rice from the food-city process without inventing its water amount', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'minnan-salty-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-FJ-QUANZHOU-MUSTARD-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '闽南芥菜饭');
+  assert.deepEqual(recipe?.aliases, ['咸饭', '芥菜饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['高压锅', '铁锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '芥菜', '海蛎干', '蛏干']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source only says add an appropriate amount of water');
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /芥菜.*切成段.*大米.*炒热/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /海蛎干.*蛏干.*清水/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /高压锅或铁锅.*慢火蒸煮/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
