@@ -1955,16 +1955,17 @@
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "通风陶甑蒸制",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "天津日报记录陶甑配大米和猪肉蒸制甑乡肉焖儿",
       "identity_sources": [
         {
-          "title": "宁河甑乡肉焖儿",
+          "title": "望山见水忆乡愁（图）",
           "publisher": "天津日报",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm",
           "supports": [
-            "identity"
+            "identity",
+            "appliance"
           ]
         }
       ],

@@ -85,6 +85,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 米脂羊肉丁丁饭 | 肉丁丁饭；羊肉丁丁饭 | CN-SN | mizhi-lamb-diced-rice | 研究记录（非公开可执行） | 小米；羊肉；羊肉汤 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [米脂县地方小吃系列](https://www.zzszyq.com/html/htmlwhlyfwtc2018078711.html) |
+## ninghe-zeng-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 宁河甑乡肉焖儿 | — | CN-TJ | ninghe-zeng-rice | 研究记录（非公开可执行） | 大米；猪肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [望山见水忆乡愁（图）](https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm) |
 ## ningxia-steamed-meat-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

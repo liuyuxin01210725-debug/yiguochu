@@ -217,7 +217,7 @@
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 宁河甑乡肉焖儿 | 米、猪肉 | B | raw-rice | 通风陶甑蒸制 | identity | identity_only | 无数量液体，甑器具身份 | research_candidate |
+| 宁河甑乡肉焖儿 | 米、猪肉 | C | raw-rice | 天津日报记录陶甑配大米和猪肉蒸制甑乡肉焖儿 | identity、appliance | identity_only | 无数量液体，甑器具身份 | research_candidate |
 
 ## 广西（CN-GX）
 

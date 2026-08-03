@@ -265,3 +265,25 @@ test('keeps the Qijiang potato cured-pork kong rice candidate aligned with its g
   assert.equal(candidate?.status, 'identity_only');
   assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
 });
+
+test('keeps the Ninghe zengxiang pork rice candidate aligned with its Tianjin Daily source', async () => {
+  const collection = await readJson('rice-meal-collection.v1.json');
+  const candidate = collection.candidates.find(item => (
+    item.candidate_id === 'ninghe-zeng-pork-rice'
+  ));
+
+  assert.deepEqual(candidate?.core_ingredients, [
+    { canonical_id: 'raw-rice', label: '米' },
+    { canonical_id: 'pork-generic', label: '猪肉' },
+  ]);
+  assert.equal(candidate?.rice_state, 'raw-rice');
+  assert.equal(candidate?.nutrition_grade, 'C');
+  assert.equal(candidate?.identity_sources?.[0]?.title, '望山见水忆乡愁（图）');
+  assert.equal(candidate?.identity_sources?.[0]?.publisher, '天津日报');
+  assert.equal(candidate?.identity_sources?.[0]?.retrieved_at, '2026-08-03');
+  assert.deepEqual(candidate?.identity_sources?.[0]?.supports, [
+    'identity', 'appliance',
+  ]);
+  assert.equal(candidate?.status, 'research_candidate');
+  assert.equal(candidate?.quantity_liquid_completeness, 'identity_only');
+});

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 9,
-    recipe_fact_checked: 39,
+    recipe_fact_checked: 40,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -285,6 +285,35 @@ test('records Qijiang potato cured-pork kong rice as an identity-only government
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
   assert.equal(source?.access_status, 'opened');
   assert.equal(validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), false);
+});
+
+test('records Ninghe zengxiang pork rice with only the source-stated vessel and process', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'ninghe-zeng-pork-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-TJ-NINGHE-ZENG-PORK-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '宁河甑乡肉焖儿');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-TJ']);
+  assert.deepEqual(recipe?.traditional_vessels, ['陶甑']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '猪肉']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /陶甑.*大米.*猪肉.*蒸制/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(source?.title, '望山见水忆乡愁（图）');
+  assert.equal(source?.publisher, '天津日报');
+  assert.equal(source?.retrieved_at, '2026-08-03');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(source?.access_status, 'opened');
 });
 
 test('structures the Shanghai civil-affairs broad-bean vegetable-rice process without inventing quantities or liquid', () => {

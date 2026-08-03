@@ -20,6 +20,7 @@
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
@@ -42,6 +43,7 @@
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
@@ -84,6 +86,7 @@
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
+- 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
@@ -100,6 +103,7 @@
 
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
