@@ -195,6 +195,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金蟳糯米饭 | — | CN-FJ | pingtan-golden-crab-glutinous-rice | 研究记录（非公开可执行） | 金蟳（锯缘青蟹）；糯米；香菇；冬菜；老酒 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [美食推荐](https://www.yidaiyilu.gov.cn/p/51351.html) |
+## qianjiang-firewood-potato-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 柴火洋芋饭 | — | CN-CQ | qianjiang-firewood-potato-rice | 研究记录（非公开可执行） | 洋芋；大米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [柴火洋芋饭](https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html) |
 ## qianjiang-tujia-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

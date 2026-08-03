@@ -768,6 +768,31 @@
       "evidence_notes":"辽宁日报原文明确将‘一锅出’称为东北有名美食和铁锅炖菜代表，写出锅底豆角、土豆、茄子与锅沿玉米面饽饽的制作顺序，并记载盖锅炖约半小时。该来源没有肉类或豆类蛋白，因此本条营养结构只标为碳水加膳食纤维的C级研究条目；没有固定数量、液体比例、安全终点或现代电饭煲适配，不把它包装成完整平衡菜单。"
     },
     {
+      "recipe_id":"qianjiang-firewood-potato-rice",
+      "canonical_name":"柴火洋芋饭",
+      "aliases":[],
+      "region_codes":["CN-CQ"],
+      "cuisine_family":"qianjiang-firewood-potato-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["柴火灶台"],
+      "core_ingredients":["洋芋","大米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将新鲜的高山洋芋挑选处理后翻炒至金黄。","source_ids":["S-CQ-QIANGJIANG-FIREWOOD-POTATO-RICE-1"]},
+        {"step":2,"instruction":"将大米与翻炒好的洋芋一同放入锅中。","source_ids":["S-CQ-QIANGJIANG-FIREWOOD-POTATO-RICE-1"]},
+        {"step":3,"instruction":"使用柴火慢炖，使洋芋与大米的香味融合。","source_ids":["S-CQ-QIANGJIANG-FIREWOOD-POTATO-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"黔江区人民政府来源明确将柴火灶台与现代电饭煲、高压锅区分，记录的是柴火洋芋饭的地方做法；来源提到部分地方可加入腊肉、腊肠或蔬菜，但未把这些可选配菜改写成核心必需食材，也未提供固定批量、液体、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-CQ-QIANGJIANG-FIREWOOD-POTATO-RICE-1","title":"柴火洋芋饭","publisher":"重庆市黔江区人民政府","url":"https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html","retrieved_at":"2026-08-03","source_kind":"district_government_food_culture_page","access_status":"opened","evidence_locator":"正文第93至111行：柴火洋芋饭身份、柴火灶台与现代器具边界、洋芋翻炒后与大米慢炖及可选配菜","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"重庆市黔江区人民政府","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"黔江区人民政府原文明确记载柴火洋芋饭的地方身份，说明高山洋芋翻炒至金黄后与大米放入锅中，在柴火下慢炖；原文还说明部分地方会加入腊肉、腊肠或蔬菜，这些是可选配菜而非本条核心组合。由于核心只闭合米和洋芋，本条营养结构标为仅碳水的C级研究条目，不包装成均衡菜单；来源没有固定数量、液体比例、时间、安全终点或现代电饭煲适配。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

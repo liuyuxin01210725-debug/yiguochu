@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 83,
+    recipe_fact_checked: 84,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1185,6 +1185,37 @@ test('records Northeast one-pot as a named iron-pot staple meal without overstat
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /一锅出.*东北.*豆角.*土豆.*茄子.*玉米面/u);
   assert.match(recipe?.evidence_notes ?? '', /铁锅炖菜/u);
+});
+
+test('records Qianjiang firewood potato rice as a regional carb-only identity without implying a balanced meal', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'qianjiang-firewood-potato-rice');
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-CQ-QIANGJIANG-FIREWOOD-POTATO-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '柴火洋芋饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-CQ']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['洋芋', '大米']);
+  assert.deepEqual(recipe?.traditional_vessels, ['柴火灶台']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /高山洋芋.*翻炒至金黄/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /大米.*一同放入锅中/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /柴火.*慢炖/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html');
+  assert.equal(source?.publisher, '重庆市黔江区人民政府');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /洋芋.*大米.*柴火下慢炖/u);
+  assert.match(recipe?.evidence_notes ?? '', /腊肉.*腊肠.*蔬菜.*可选/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {
