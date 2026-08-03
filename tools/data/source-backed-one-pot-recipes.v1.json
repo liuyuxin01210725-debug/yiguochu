@@ -1477,6 +1477,33 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"宁夏回族自治区文化和旅游厅页面把羊肉调和饭列为宁夏特色美食，正文称调和饭用米、面、土豆、各种豆子和豆腐放在一起煮，并说明其腊八与老宁夏饮食背景。由于标题写‘羊肉’而正文材料段未列羊肉，本条保留这一冲突，不把羊肉补进核心配料；来源没有固定用量、液体、时间、安全终点或电饭煲适配，因此不建立执行合同。"
+    },
+    {
+      "recipe_id":"liannan-yao-bamboo-rice",
+      "canonical_name":"瑶家竹筒饭",
+      "aliases":["连南竹筒饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"liannan-yao-bamboo-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["竹筒","热火灰"],
+      "core_ingredients":["米","盐"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"用山泉水清洗竹筒并浸米。","source_ids":["S-GD-LIANNAN-YAO-BAMBOO-RICE-1"]},
+        {"step":2,"instruction":"将竹筒口堵上木塞，用热火灰埋盖煨炙。","source_ids":["S-GD-LIANNAN-YAO-BAMBOO-RICE-1"]},
+        {"step":3,"instruction":"约半小时后取出竹筒，用刀劈开食用。","source_ids":["S-GD-LIANNAN-YAO-BAMBOO-RICE-1"]}
+      ],
+      "time_contract":{"total_minutes":30,"source_ids":["S-GD-LIANNAN-YAO-BAMBOO-RICE-1"]},
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"连南瑶族自治县人民政府来源记录的是竹筒、山泉水、热火灰和约半小时煨炙的外出劳作食品；山野菜是另行煮熟的伴菜，不是竹筒内的固定核心，来源也没有肉类填充，因此不把它改写成电饭煲或肉类一锅方案。"},
+      "source_refs":[
+        {"source_id":"S-GD-LIANNAN-YAO-BAMBOO-RICE-1","title":"瑶家竹筒饭","publisher":"连南瑶族自治县人民政府门户网站","url":"https://www.liannan.gov.cn/stly/tsms/content/post_1433242.html","retrieved_at":"2026-08-03","source_kind":"county_government_tourism_food_page","access_status":"opened","evidence_locator":"正文第22至27行：瑶家竹筒饭身份、米盐、山泉水浸米、木塞封口、热火灰煨炙约半小时及山野菜伴食边界","claim_scopes":["identity","ingredients","process","appliance","time"],"attribution":"连南瑶族自治县人民政府办公室","license":"government_site_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"连南瑶族自治县人民政府页面记录瑶家竹筒饭是瑶胞外出劳作时就地取材制作的具名米饭，以米、盐和山泉水入竹筒，木塞封口后埋入热火灰煨炙约半小时。来源提到山野菜是另行煮熟的伴菜，没有肉类填充，也没有固定克数、液体比例、安全终点或电饭煲适配；本条仅记录原始竹筒饭过程。"
     }
   ]
 }

@@ -38,6 +38,7 @@
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
+- 瑶家竹筒饭 (liannan-yao-bamboo-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
@@ -118,6 +119,7 @@
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
+- 瑶家竹筒饭 (liannan-yao-bamboo-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 麻阳社饭 (mayang-she-rice) — CN-HN

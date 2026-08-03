@@ -167,6 +167,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 张浦江南菜饭 | 江南菜饭 | CN-JS | kunshan-zhangpu-jiangnan-vegetable-rice | 研究记录（非公开可执行） | 大米；金华村腊肉；矮脚青菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [走进传统村落 \| 腊肉制作跻身非遗名录 金华村北华翔](https://www.ks.gov.cn/kss/bmdt/202505/b349fef57c6746d9ba9538434d020019.shtml) |
+## liannan-yao-bamboo-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 瑶家竹筒饭 | 连南竹筒饭 | CN-GD | liannan-yao-bamboo-rice | 研究记录（非公开可执行） | 米；盐 | appliance、identity、ingredients、process、time | 缺 quantity、liquid | [瑶家竹筒饭](https://www.liannan.gov.cn/stly/tsms/content/post_1433242.html) |
 ## lianyuan-bamboo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 7,
-    recipe_fact_checked: 103,
+    recipe_fact_checked: 104,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3885,5 +3885,37 @@ test('records Ningxia lamb tiaohe rice as a named mixed-grain one-pot food witho
   assert.equal(official?.access_status, 'opened');
   assert.deepEqual(official?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(official?.evidence_locator ?? '', /第24至31行/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Liannan Yao bamboo-tube rice with the source-stated charcoal process and no invented meat filling', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'liannan-yao-bamboo-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GD-LIANNAN-YAO-BAMBOO-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '瑶家竹筒饭');
+  assert.deepEqual(recipe?.aliases, ['连南竹筒饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['竹筒', '热火灰']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '盐']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /山泉水.*竹筒.*浸米/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /竹筒口.*木塞.*热火灰/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /约半小时.*取出/u);
+  assert.equal(recipe?.time_contract?.total_minutes, 30);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.ok(recipe?.evidence_notes.includes('山野菜是另行煮熟的伴菜'));
+  assert.ok(recipe?.evidence_notes.includes('没有肉类填充'));
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance', 'time']);
+  assert.match(source?.evidence_locator ?? '', /正文第22至27行/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
