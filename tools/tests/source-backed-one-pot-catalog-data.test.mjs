@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 8,
-    recipe_fact_checked: 26,
+    identity_verified: 7,
+    recipe_fact_checked: 27,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -292,6 +292,40 @@ test('structures the Shanghai civil-affairs broad-bean vegetable-rice process wi
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('structures the Quanzhou Huzaifan steaming process without inventing quantities or cooker equivalence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shenhu-huzaifan'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-MN-1');
+
+  assert.equal(recipe?.canonical_name, '壶仔饭');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.identity_status, 'verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['壶仔陶罐', '蒸制']);
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '三层肉', '香菇', '虾米', '大骨汤']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source names bone broth but gives no amount');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /三层肉.*香菇.*虾米.*陶罐底部/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /炒好的糯米/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大骨汤.*蒸熟/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /香葱.*花生.*卤肉汁/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, [
+    { code: 'pork_fully_cooked', minimum_core_temperature_c: 74, source_ids: ['S-SAFETY-TEMPERATURES-1'] },
+    { code: 'shellfish_fully_cooked', visual_endpoint: '肉质呈珍珠白或白色且不透明', source_ids: ['S-SAFETY-TEMPERATURES-1'] },
+  ]);
+  assert.deepEqual(recipe?.allergen_labels, ['甲壳类', '花生']);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
 test('records reviewed coverage and the evidence status of every eastern research node', () => {
   // Dropping a research node, promoting it, or leaving a region unreviewed must fail here.
   const catalog = sourceBackedCatalog();
@@ -306,7 +340,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'quanzhou-radish-rice': 'identity_verified',
     'minnan-salty-rice': 'recipe_fact_checked',
     'quanzhou-taro-rice': 'identity_verified',
-    'shenhu-huzaifan': 'identity_verified',
+    'shenhu-huzaifan': 'recipe_fact_checked',
     'quanzhou-yifan-oil-rice': 'identity_verified',
     'quanzhou-red-xun-rice': 'identity_verified',
     'taiwan-cabbage-rice': 'recipe_fact_checked',

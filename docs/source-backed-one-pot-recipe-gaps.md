@@ -16,6 +16,7 @@
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
+- 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
@@ -55,6 +56,7 @@
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
+- 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
