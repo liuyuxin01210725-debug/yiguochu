@@ -779,6 +779,30 @@
       "source_refs":[{"source_id":"S-GD-CHAOSHAN-GE-RICE-1","title":"12种好吃到令广州人丧失理智的米饭！","publisher":"广州市委网信办 / 羊城晚报微生活","url":"https://gzwxb.gov.cn/context/contextId/201941","retrieved_at":"2026-08-03","source_kind":"municipal_cyberspace_food_culture_article","access_status":"opened","evidence_locator":"正文第122至129行：潮汕戈饭身份、先炒配菜再拌入新鲜熟米饭，以及潮汕肉卷、猪肉粒、玉米、香菇组合描述","claim_scopes":["identity","ingredients","process"],"attribution":"广州市委网信办 / 羊城晚报微生活","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"广州市委网信办转载羊城晚报微生活专题明确将戈饭称为潮汕家常美食，并区分其与炒饭的过程：先把潮汕肉卷和猪肉粒、玉米、香菇等配菜炒香，再拌入新鲜煮熟的米饭。来源中的配菜使用‘一般’和‘等’描述，不建立固定必选数量；同时没有给出液体、总时间、安全终点或现代电饭煲适配，因此只保留具名身份、地域、分阶段过程和来源举例。"
+    },
+    {
+      "recipe_id":"guangdong-raw-stir-fried-glutinous-rice",
+      "canonical_name":"广式生炒糯米饭",
+      "aliases":["生炒糯米饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"guangdong-raw-stir-fried-glutinous-rice",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["生糯米","腊肠","虾米","香菇","泡菇水"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"在炒香的腊肠、虾米和香菇中加入生糯米。","source_ids":["S-GD-CANTONESE-RAW-STIRRED-GLUTINOUS-RICE-1"]},
+        {"step":2,"instruction":"一边翻炒一边加入泡菇水，炒至米粒透明，再以蚝油调味。","source_ids":["S-GD-CANTONESE-RAW-STIRRED-GLUTINOUS-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"广州市委网信办转载专题记录的是生糯米在锅中持续翻炒并逐步加泡菇水的过程，没有提供电饭煲或闭盖焖饭等价适配、固定批量、总时间或安全终点。"},
+      "source_refs":[{"source_id":"S-GD-CANTONESE-RAW-STIRRED-GLUTINOUS-RICE-1","title":"12种好吃到令广州人丧失理智的米饭！","publisher":"广州市委网信办 / 羊城晚报微生活","url":"https://gzwxb.gov.cn/context/contextId/201941","retrieved_at":"2026-08-03","source_kind":"municipal_cyberspace_food_culture_article","access_status":"opened","evidence_locator":"正文第192至199行：生炒糯米饭的腊肠、虾米、香菇、生糯米、泡菇水和蚝油过程描述","claim_scopes":["identity","ingredients","process"],"attribution":"广州市委网信办 / 羊城晚报微生活","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"广州市委网信办转载的广东米饭专题明确记录‘生炒糯米饭’，写出先炒香腊肠、虾米和香菇，再加入生糯米，边炒边加入泡菇水至米粒透明并以蚝油调味的过程。来源没有给固定数量、液体总量、总时间、安全终点或电饭煲适配，因此只保留具名身份、原料和连续翻炒边界，不把它改写成电饭煲焖饭。"
     }
   ]
 }

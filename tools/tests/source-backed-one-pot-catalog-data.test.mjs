@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 17,
-    recipe_fact_checked: 64,
+    recipe_fact_checked: 65,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1195,6 +1195,33 @@ test('records Chaoshan ge rice as a named staged rice meal without turning prefe
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /戈饭.*先.*配菜.*炒香.*拌入.*新鲜煮熟.*来源中的配菜.*固定必选数量/u);
+});
+
+test('records Cantonese raw-stir-fried glutinous rice as a named regional rice dish without converting it to a rice-cooker recipe', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'guangdong-raw-stir-fried-glutinous-rice');
+  const source = recipe?.source_refs?.[0];
+
+  assert.equal(recipe?.canonical_name, '广式生炒糯米饭');
+  assert.deepEqual(recipe?.aliases, ['生炒糯米饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['生糯米', '腊肠', '虾米', '香菇', '泡菇水']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, [
+    { step: 1, instruction: '在炒香的腊肠、虾米和香菇中加入生糯米。', source_ids: ['S-GD-CANTONESE-RAW-STIRRED-GLUTINOUS-RICE-1'] },
+    { step: 2, instruction: '一边翻炒一边加入泡菇水，炒至米粒透明，再以蚝油调味。', source_ids: ['S-GD-CANTONESE-RAW-STIRRED-GLUTINOUS-RICE-1'] },
+  ]);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://gzwxb.gov.cn/context/contextId/201941');
+  assert.equal(source?.publisher, '广州市委网信办 / 羊城晚报微生活');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /生炒糯米饭.*腊肠.*虾米.*香菇.*生糯米.*来源没有给.*固定数量.*电饭煲/u);
 });
 
 test('records Taishan chicken baked rice as a named regional rice meal without inventing a fixed cooker contract', () => {
