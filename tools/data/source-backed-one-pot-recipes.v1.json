@@ -505,6 +505,32 @@
       "evidence_notes":"文化和旅游部乡村旅游页面将涉县小米焖饭列为特色美食，明确记录白菜或茄子等时菜与小米、盐、水同锅焖熟的分支，并另记纯小米焖饭配炒胡萝卜条、土豆丝、野韭花或农家酸菜的分支。关于涉县小米焖饭的来源没有给出固定数量、液体比例、时间、安全终点或电饭煲适配，因此只保留两条事实分支，不合并成一个执行合同。"
     },
     {
+      "recipe_id":"wuan-lamb-millet-braised-rice",
+      "canonical_name":"武安羊肉小米焖饭",
+      "aliases":["羊肉小米焖饭"],
+      "region_codes":["CN-HE"],
+      "cuisine_family":"wuan-lamb-millet-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["砂锅"],
+      "core_ingredients":["小米","山羊肉","胡萝卜","白菜","大葱"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"选用山羊肉，洗净切片；武安小米淘洗干净备用，胡萝卜、白菜和大葱切丝。","source_ids":["S-HE-WUAN-LAMB-MILLET-RICE-1"]},
+        {"step":2,"instruction":"砂锅中烧油，下入羊肉炒出锅气，再加入胡萝卜和白菜煸炒出香味。","source_ids":["S-HE-WUAN-LAMB-MILLET-RICE-1"]},
+        {"step":3,"instruction":"放入少许清水，下入小米，炖至快熟。","source_ids":["S-HE-WUAN-LAMB-MILLET-RICE-1"]},
+        {"step":4,"instruction":"关闭火，利用砂锅的余温将饭焖熟。","source_ids":["S-HE-WUAN-LAMB-MILLET-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"邯郸日报来源明确记录砂锅流程，但没有固定份量、精确液体量、总时间、羊肉安全终点或现代电饭煲适配参数。"},
+      "source_refs":[{"source_id":"S-HE-WUAN-LAMB-MILLET-RICE-1","title":"羊肉小米焖饭：寻味老武安","publisher":"邯郸日报（新浪财经转载）","url":"https://finance.sina.com.cn/jjxw/2024-08-07/doc-inchukkp6121382.shtml","retrieved_at":"2026-08-03","source_kind":"regional_newspaper_food_culture_article","access_status":"opened","evidence_locator":"正文第55至62行：武安羊肉小米焖饭身份、山羊肉/小米/胡萝卜/白菜/大葱、砂锅煸炒与少许清水焖熟流程；第47行注明转自邯郸日报","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"邯郸日报（新浪财经转载）","license":"publisher_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"邯郸日报报道明确将羊肉小米焖饭称为土生土长的武安特色美食，并记录山羊肉、小米、胡萝卜、白菜、大葱和砂锅流程：羊肉切片后煸炒，加入蔬菜和少许清水，下小米炖至快熟，关火用砂锅余温焖熟。来源没有固定数量、精确液体量、总时间、羊肉安全终点或现代电饭煲适配，因此只保留来源直接支持的地域身份和顺序事实，不补写执行合同。"
+    },
+    {
       "recipe_id":"shidian-iron-pot-ham-potato-rice",
       "canonical_name":"铁锅土豆火腿肉焖饭",
       "aliases":["罗锅火腿肉土豆焖饭","铜锅土豆焖饭"],

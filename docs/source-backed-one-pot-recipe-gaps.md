@@ -69,6 +69,7 @@
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
+- 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
@@ -146,6 +147,7 @@
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
+- 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
@@ -267,6 +269,7 @@
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
 - 蛤蒌饭 (zhanjiang-galangal-leaf-rice) — CN-GD
+- 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
@@ -314,6 +317,7 @@
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
+- 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN

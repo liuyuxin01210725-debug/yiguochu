@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 6,
-    recipe_fact_checked: 99,
+    recipe_fact_checked: 100,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -2157,6 +2157,35 @@ test('removes the generic Hebei regional blank once Shexian has a source-backed 
     item.region_code === 'CN-HE' && item.candidate_name === '未保留候选'
   ));
   assert.equal(blank, undefined);
+});
+
+test('records Wuan lamb millet braised rice with its source-limited cooking sequence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'wuan-lamb-millet-braised-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-HE-WUAN-LAMB-MILLET-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '武安羊肉小米焖饭');
+  assert.deepEqual(recipe?.aliases, ['羊肉小米焖饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-HE']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['砂锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '山羊肉', '胡萝卜', '白菜', '大葱']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /山羊肉.*切片.*小米.*淘洗/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /胡萝卜.*白菜.*煸炒/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /少许清水.*下入小米.*炖至快熟/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /关闭火.*砂锅.*余温.*焖熟/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /没有固定数量.*液体量.*总时间.*电饭煲适配/u);
 });
 
 test('records Shidian iron-pot ham potato rice while preserving the source vessel wording conflict', () => {
