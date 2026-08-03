@@ -199,7 +199,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 12,
+    identity_verified: 13,
     recipe_fact_checked: 50,
   });
   for (const recipe of catalog.recipes) {
@@ -972,6 +972,26 @@ test('records Fujian beef mustard-greens rice as a named regional identity witho
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://m.thepaper.cn/newsDetail_forward_32454690');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
   assert.match(recipe?.evidence_notes ?? '', /直接列出.*牛肉盖菜饭.*来源没有给.*固定.*步骤/u);
+});
+
+test('records Chikan claypot-rice craft as a named intangible regional identity without collapsing its variants', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'chikan-claypot-rice-craft');
+  assert.equal(recipe?.canonical_name, '赤坎煲仔饭');
+  assert.deepEqual(recipe?.aliases, ['赤坎煲仔饭烹饪技艺']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'identity_verified');
+  assert.deepEqual(recipe?.traditional_vessels, ['煲仔', '果木柴火']);
+  assert.deepEqual(recipe?.core_ingredients, ['十月晚稻米', '肉类或腊味', '本地时令食材']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /县级非遗.*多种配料变体.*不是一条统一配方/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {

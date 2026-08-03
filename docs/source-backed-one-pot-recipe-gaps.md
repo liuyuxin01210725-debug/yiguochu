@@ -78,6 +78,7 @@
 
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
+- 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX

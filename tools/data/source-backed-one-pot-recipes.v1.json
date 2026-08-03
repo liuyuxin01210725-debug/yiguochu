@@ -318,6 +318,27 @@
       "source_refs":[{"source_id":"S-FJ-MUSTARD-BEEF-RICE-1","title":"最近福建人的餐桌被盖菜“霸屏”！福建“省菜”真不是盖的","publisher":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","url":"https://m.thepaper.cn/newsDetail_forward_32454690","retrieved_at":"2026-08-03","source_kind":"district_government_media_food_article","access_status":"opened","evidence_locator":"正文第27至33行列出牛肉盖菜饭；第47至51行解释盖菜名称；第118至119行说明盖菜与米饭同煮是福建咸饭、焖煮家常结构","claim_scopes":["identity","ingredients"],"attribution":"湖里头条 / 厦门市湖里区委宣传部官方澎湃号","license":"terms_unspecified"}],
       "status":"identity_verified",
       "evidence_notes":"福建地方媒体在福建盖菜的地域饮食报道中直接列出“牛肉盖菜饭”，并说明盖菜在福建常与米饭同煮、形成咸饭或焖煮家常吃法；来源没有给这道具名组合的固定数量、液体、完整步骤、时间、安全终点或电饭煲适配，因此只保留身份与核心食材，不建立执行合同。"
+    },
+    {
+      "recipe_id":"chikan-claypot-rice-craft",
+      "canonical_name":"赤坎煲仔饭",
+      "aliases":["赤坎煲仔饭烹饪技艺"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"kaiping-chikan-claypot-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["煲仔", "果木柴火"],
+      "core_ingredients":["十月晚稻米", "肉类或腊味", "本地时令食材"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"unassessed","roles":[]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"开平市文化馆来源证明赤坎煲仔饭以果木柴火烹饪，并列出黄鳝、牛肉、排骨、腊味、时令菜果等多种变体；未给统一批量、液体、步骤、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-KAIPING-CHIKAN-CLAYPOT-RICE-1","title":"赤坎煲仔饭烹饪技艺","publisher":"开平市文化馆","url":"https://www.kaiping.gov.cn/kpswhgdlytyj/kpwhg/fwzwhyc/fyxm/content/post_2533528.html","retrieved_at":"2026-08-03","source_kind":"county_cultural_museum_intangible_heritage_page","access_status":"opened","evidence_locator":"正文第8至17行：赤坎煲仔饭烹饪技艺的地域身份、果木柴火、多种肉类腊味与时令食材变体，并列入开平市县级非遗项目名录","claim_scopes":["identity","ingredients","appliance"],"attribution":"开平市文化馆","license":"government_site_terms_unspecified"}],
+      "status":"identity_verified",
+      "evidence_notes":"开平市文化馆将赤坎煲仔饭烹饪技艺列为当地县级非遗项目，明确果木柴火和十月晚稻米，以及黄鳝、牛肉、排骨、腊味、菜果等多种配料变体；这些记录支持地域身份和技法边界，但不是一条统一配方，因此不补写克数、液体、时间、安全或电饭煲合同。"
     }
   ]
 }
