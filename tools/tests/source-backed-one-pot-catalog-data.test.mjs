@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 91,
+    recipe_fact_checked: 92,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3049,6 +3049,39 @@ test('records Shenhu salty rice as a separately named source-backed variant', ()
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Zijin stuffed-duck rice from the county food-culture source without inventing broth or safety contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'zijin-stuffed-duck-rice'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GD-ZIJIN-YANI-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '酿鸭饭');
+  assert.deepEqual(recipe?.aliases, ['紫金酿鸭饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['糯米', '番鸭', '五花肉', '鱿鱼', '花生米', '鸭汤']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /番鸭.*约3公斤.*煮熟.*鸭皮/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /花生米.*鱿鱼.*五花肉/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /糯米.*2至3斤.*鸭汤/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /鸭皮.*4至6块.*蒸笼.*约30分钟/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /花生油.*葱花/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

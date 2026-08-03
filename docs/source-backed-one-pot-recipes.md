@@ -417,3 +417,8 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 诸暨豌豆咸肉饭 | 豌豆饭；立夏饭 | CN-ZJ | zhuji-pea-salted-pork-rice | 研究记录（非公开可执行） | 豌豆；咸肉；糯米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [清香袭人的立夏饭](https://www.zjsjw.gov.cn/yixiankuaixun/201705/t20170505_2604502_ext.html) |
+## zijin-stuffed-duck-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 酿鸭饭 | 紫金酿鸭饭 | CN-GD | zijin-stuffed-duck-rice | 研究记录（非公开可执行） | 糯米；番鸭；五花肉；鱿鱼；花生米；鸭汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [紫金客家菜肴](https://www.zijin.gov.cn/xq/szzj/zjkjcz/) |

@@ -151,6 +151,7 @@
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
+- 酿鸭饭 (zijin-stuffed-duck-rice) — CN-GD
 
 ## 5. Missing process
 
@@ -258,6 +259,7 @@
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
+- 酿鸭饭 (zijin-stuffed-duck-rice) — CN-GD
 
 ## 8. Missing safety
 
