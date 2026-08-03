@@ -860,6 +860,33 @@
       "source_refs":[{"source_id":"S-FJ-PINGTAN-GOLDEN-CRAB-GLUTINOUS-RICE-1","title":"美食推荐","publisher":"中国一带一路网","url":"https://www.yidaiyilu.gov.cn/p/51351.html","retrieved_at":"2026-08-03","source_kind":"state_media_food_culture_article","access_status":"opened","evidence_locator":"正文第106至110行：金蟳身份、平潭宴席名菜、老酒浸蟹、香菇冬菜、糯米覆面和上锅蒸熟流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中国一带一路网","license":"terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"中国一带一路网页面明确将金蟳糯米饭列为平潭宴席名菜，金蟳指东庠岛锯缘青蟹，并记录老酒浸蟹切块、加入香菇和冬菜、以浸透糯米覆盖后加盖上锅蒸熟的连续流程。来源没有给固定数量、液体比例、蒸制时间、份数、蟹类安全终点或现代电饭煲适配，因此相关合同保持为空，不把蒸锅事实改写成电饭煲做法。"
+    },
+    {
+      "recipe_id":"linxiang-boshan-bean-braised-rice",
+      "canonical_name":"博尚豆焖饭",
+      "aliases":[],
+      "region_codes":["CN-YN"],
+      "cuisine_family":"yunnan-boshan-bean-braised-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["柴火灶","锅"],
+      "core_ingredients":["青蚕豆","火腿肉或腊肉","熟米饭"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"采摘新鲜青蚕豆，掐掉豆壳边沿的丝并清洗。","source_ids":["S-YN-LINXIANG-BOSHAN-BEAN-RICE-1"]},
+        {"step":2,"instruction":"将火腿肉切成丁备用；来源同时将腊肉列为可选肉类。","source_ids":["S-YN-LINXIANG-BOSHAN-BEAN-RICE-1"]},
+        {"step":3,"instruction":"将大米煮熟备用。","source_ids":["S-YN-LINXIANG-BOSHAN-BEAN-RICE-1"]},
+        {"step":4,"instruction":"柴火灶烧锅，将火腿肉炒香，放入青蚕豆翻炒，放盐后把熟米饭均匀覆盖在上面，加入适量开水。","source_ids":["S-YN-LINXIANG-BOSHAN-BEAN-RICE-1"]},
+        {"step":5,"instruction":"盖锅小火焖熟，听到锅中发出滋滋声后，将火腿肉、蚕豆和米饭翻炒拌匀。","source_ids":["S-YN-LINXIANG-BOSHAN-BEAN-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"云南网记录的是临翔区博尚镇柴火灶先炒后覆饭焖熟流程，没有提供固定批量、液体、总时间、安全终点或现代电饭煲等价参数。"},
+      "source_refs":[{"source_id":"S-YN-LINXIANG-BOSHAN-BEAN-RICE-1","title":"〖视频〗云南临翔：记忆里的那碗“豆焖饭”，念念不忘！","publisher":"云南网","url":"https://m.yunnan.cn/system/2023/12/09/032866216.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_media_food_culture_article","access_status":"opened","evidence_locator":"正文博尚镇豆焖饭段落：青蚕豆、火腿或腊肉、熟米饭以及先炒后覆饭、小火焖熟、拌匀流程","claim_scopes":["identity","ingredients","process"],"attribution":"云南网（通讯员梅新强、康传燕、杨燕达）","license":"terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"云南网明确将博尚镇豆焖饭作为临沧市临翔区的地方做法，记录青蚕豆、火腿肉或腊肉、熟米饭，以及先炒肉、炒豆、覆饭、加开水、小火焖熟、开盖拌匀的顺序。来源没有给固定数量、米水比例、总时间、安全终点或现代电饭煲适配，因此只保留具名地域身份与原锅流程，不把它改写成电饭煲菜谱。"
     }
   ]
 }

@@ -61,6 +61,7 @@
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
+- 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
@@ -121,6 +122,7 @@
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
+- 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
@@ -159,6 +161,7 @@
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
+- 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 
@@ -214,6 +217,7 @@
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
+- 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
@@ -254,6 +258,7 @@
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
+- 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 
 ## 9. Regional blanks

@@ -331,6 +331,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 砚山豆焖饭 | 蚕豆焖饭 | CN-YN | yunnan-bean-braised-rice | 研究记录（非公开可执行） | 带豆壳青蚕豆；腊肉或火腿肉；半熟米饭 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [砚山人记忆里的这碗豆焖饭，你馋吗？](https://m.yunnan.cn/system/2023/04/06/032535920.shtml) |
+## yunnan-boshan-bean-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 博尚豆焖饭 | — | CN-YN | yunnan-boshan-bean-braised-rice | 研究记录（非公开可执行） | 青蚕豆；火腿肉或腊肉；熟米饭 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [〖视频〗云南临翔：记忆里的那碗“豆焖饭”，念念不忘！](https://m.yunnan.cn/system/2023/12/09/032866216.shtml) |
 ## yunnan-broad-bean-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 6,
-    recipe_fact_checked: 77,
+    recipe_fact_checked: 78,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1446,6 +1446,33 @@ test('records Yanshan broad-bean braised rice from the local media process witho
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://m.yunnan.cn/system/2023/04/06/032535920.shtml');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.match(recipe?.evidence_notes ?? '', /来源没有给.*固定.*米水比例.*电饭煲/u);
+});
+
+test('records Linxiang Boshan bean-braised rice from the local media process without inventing quantities or cooker equivalence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'linxiang-boshan-bean-braised-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-YN-LINXIANG-BOSHAN-BEAN-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '博尚豆焖饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-YN']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['柴火灶', '锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['青蚕豆', '火腿肉或腊肉', '熟米饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /青蚕豆.*清洗/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /火腿肉.*切成丁/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大米.*煮熟/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /火腿肉.*炒香.*青蚕豆.*翻炒.*熟米饭.*覆盖.*开水/u);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /小火焖熟.*翻炒拌匀/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://m.yunnan.cn/system/2023/12/09/032866216.shtml');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(recipe?.evidence_notes ?? '', /博尚镇.*没有给.*固定.*米水比例.*电饭煲/u);
 });
 
 test('records Fujian beef mustard-greens rice process facts without inventing a beef recipe contract', () => {
