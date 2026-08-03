@@ -1318,6 +1318,35 @@
       ],
       "status":"recipe_fact_checked",
       "evidence_notes":"内蒙古区情网的民族饮食资料确认小肉粥俗称鞑子粥；新疆维吾尔自治区锡伯语言学会资料进一步记载鞑子饭（粥）以猪肉末、粳米（大米）或小米同煮成粥。两条来源分别承担地域身份和锡伯族工艺事实，本条不把跨地区资料拼成某一县的唯一配方，也不补写固定用量、液体、时间、安全终点或电饭煲适配。"
+    },
+    {
+      "recipe_id":"chaoshan-ke-rice",
+      "canonical_name":"潮汕炣饭",
+      "aliases":["炣饭","潮汕炣香饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"chaoshan-ke-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["大灶","电饭煲"],
+      "core_ingredients":["新大米","猪肉或五花肉","白萝卜或卷心菜","板栗或芋头","花生或虾米/虾仁"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"潮汕小雪食俗以新大米为主，辅以五花肉、花生、蘑菇、板栗、虾仁、白萝卜等，主辅料一起下锅，用文火煨熟或焖熟。","source_ids":["S-GD-CHAOSHAN-KE-RICE-CMA-1"]},
+        {"step":2,"instruction":"电饭煲家庭流程的一种做法是将五花肉切片、卷心菜切丝、芋头切块，并把卷心菜焯至六成熟后沥干。","source_ids":["S-GD-CHAOSHAN-KE-RICE-PENGPAI-1"]},
+        {"step":3,"instruction":"将五花肉片与猪皮煸熟出油，放入芋头和虾米炒至金黄。","source_ids":["S-GD-CHAOSHAN-KE-RICE-PENGPAI-1"]},
+        {"step":4,"instruction":"把材料倒入电饭煲，与将熟的米饭拌匀，加入适量食盐和生抽，再盖盖焖10分钟；这是一条来源明确的电饭煲适配分支，不等同于传统大灶的固定参数。","source_ids":["S-GD-CHAOSHAN-KE-RICE-PENGPAI-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":["甲壳类"],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"source_limited","source_ids":["S-GD-CHAOSHAN-KE-RICE-PENGPAI-1"],"notes":"中国气象局资料支持潮汕炣饭的传统身份、主辅料同锅和文火焖熟；澎湃政务转载的家庭流程明确给出电饭煲分支及最后焖10分钟。两条来源的米饭状态与器具流程不同，本条不把电饭煲分支改写成传统大灶等价参数，也不建立固定批量、液体、总时间或肉类安全终点。"},
+      "source_refs":[
+        {"source_id":"S-GD-CHAOSHAN-KE-RICE-CMA-1","title":"中国传统二十四节气：小雪","publisher":"中国气象局气象宣传与科普中心 / 中国气象报社","url":"https://www.cma.gov.cn/2011xzt/2022zt/24jq/xx/index.html","retrieved_at":"2026-08-03","source_kind":"national_meteorological_food_culture_article","access_status":"opened","evidence_locator":"正文第31至34行：潮汕‘十月十吃炣饭’身份、主辅料一起下锅、文火煨熟或焖熟及新大米/五花肉/板栗/虾仁/白萝卜等组合","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中国气象局气象宣传与科普中心 / 中国气象报社","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GD-CHAOSHAN-KE-RICE-PENGPAI-1","title":"潮汕‘炣’的是什么饭？","publisher":"澎湃新闻·澎湃号·政务","url":"https://www.thepaper.cn/newsDetail_forward_10044153","retrieved_at":"2026-08-03","source_kind":"government_account_food_recipe_republication","access_status":"opened","evidence_locator":"正文第22至55行：潮汕炣饭身份、五花肉/卷心菜/芋头/虾米/大米材料，以及电饭煲分支流程与焖10分钟","claim_scopes":["identity","ingredients","quantity","process","appliance","time"],"attribution":"澎湃新闻·澎湃号·政务（原题《潮汕‘炣’的是什么饭？》）","license":"publisher_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"中国气象局资料确认潮汕炣饭是‘十月十吃炣饭’的季节性具名米饭主餐，传统描述为新米与肉、蔬菜、坚果或海味等主辅料同锅后文火煨焖；澎湃政务转载资料提供一条电饭煲家庭分支。两条来源的米饭状态和器具流程不完全相同，因此分别记录为传统身份/同锅工艺与来源限定的电饭煲适配，不把它们合并成一个固定配方，也不补写统一水量、总时间、安全终点或跨器具等价关系。"
     }
   ]
 }

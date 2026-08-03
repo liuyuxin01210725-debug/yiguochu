@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 6,
-    recipe_fact_checked: 98,
+    recipe_fact_checked: 99,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3568,6 +3568,45 @@ test('records the cross-regional Manchu-Xibe dazi rice porridge without inventin
   assert.equal(processSource?.access_status, 'search_extract_opened');
   assert.ok(processSource?.claim_scopes.includes('ingredients'));
   assert.ok(processSource?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Chaoshan ke rice as a named same-pot seasonal rice dish without merging cooked-rice ge fan', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'chaoshan-ke-rice'
+  ));
+  const identitySource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GD-CHAOSHAN-KE-RICE-CMA-1'
+  ));
+  const cookerSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-GD-CHAOSHAN-KE-RICE-PENGPAI-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '潮汕炣饭');
+  assert.deepEqual(recipe?.aliases, ['炣饭', '潮汕炣香饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.deepEqual(recipe?.core_ingredients, ['新大米', '猪肉或五花肉', '白萝卜或卷心菜', '板栗或芋头', '花生或虾米/虾仁']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /新大米.*五花肉.*板栗.*白萝卜.*下锅/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /电饭煲.*五花肉.*卷心菜.*芋头.*六成熟/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /五花肉.*芋头.*虾米.*金黄/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /电饭煲.*将熟的米饭.*焖10分钟/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(identitySource?.access_status, 'opened');
+  assert.ok(identitySource?.claim_scopes.includes('identity'));
+  assert.ok(identitySource?.claim_scopes.includes('process'));
+  assert.equal(cookerSource?.access_status, 'opened');
+  assert.ok(cookerSource?.claim_scopes.includes('quantity'));
+  assert.ok(cookerSource?.claim_scopes.includes('appliance'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

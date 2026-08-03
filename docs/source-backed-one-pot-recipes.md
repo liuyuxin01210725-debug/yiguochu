@@ -19,6 +19,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 潮汕戈饭 | 潮汕香饭 | CN-GD | chaoshan-ge-rice | 研究记录（非公开可执行） | 新鲜米饭；潮汕肉卷；猪肉粒；玉米；香菇 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [12种好吃到令广州人丧失理智的米饭！](https://gzwxb.gov.cn/context/contextId/201941) |
+## chaoshan-ke-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 潮汕炣饭 | 炣饭；潮汕炣香饭 | CN-GD | chaoshan-ke-rice | 研究记录（非公开可执行） | 新大米；猪肉或五花肉；白萝卜或卷心菜；板栗或芋头；花生或虾米/虾仁 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [中国传统二十四节气：小雪](https://www.cma.gov.cn/2011xzt/2022zt/24jq/xx/index.html)<br>[潮汕‘炣’的是什么饭？](https://www.thepaper.cn/newsDetail_forward_10044153) |
 ## chengkou-cured-pork-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
