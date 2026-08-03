@@ -47,6 +47,7 @@
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
+- 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
@@ -98,6 +99,7 @@
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
+- 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
@@ -125,7 +127,6 @@
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
-- 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
 
@@ -192,6 +193,7 @@
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 台山黄鳝饭 (taishan-eel-rice) — CN-GD
+- 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
@@ -228,6 +230,7 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
+- 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ

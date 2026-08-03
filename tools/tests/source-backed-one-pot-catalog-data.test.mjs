@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 12,
-    recipe_fact_checked: 71,
+    identity_verified: 11,
+    recipe_fact_checked: 72,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1442,24 +1442,34 @@ test('records Taishan eel rice from the official standard and craft account with
   assert.match(recipe?.evidence_notes ?? '', /1∶1\.5.*不建立.*电饭锅/u);
 });
 
-test('records Shixi luo rice as a Shangchuan Island regional identity without mistaking a food description for a recipe contract', () => {
+test('records Shixi luo rice with the local tourism recipe process without inventing a cooker contract', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taishan-shixialuo-rice');
+  const processSource = recipe?.source_refs?.find(item => item.source_id === 'S-GD-TAISHAN-SHIXIALUO-RICE-2');
   assert.equal(recipe?.canonical_name, '石硖螺饭');
   assert.deepEqual(recipe?.aliases, ['石夹螺饭']);
   assert.deepEqual(recipe?.region_codes, ['CN-GD']);
-  assert.equal(recipe?.status, 'identity_verified');
-  assert.deepEqual(recipe?.traditional_vessels, []);
-  assert.deepEqual(recipe?.core_ingredients, ['石硖螺', '米饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['砂锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['石硖螺肉', '猪肉粒', '米饭']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /清洗石夹螺.*取出.*泡米半小时/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /爆香.*猪肉粒.*石夹螺肉/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /酱油.*蚝油.*盐.*油/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /砂锅.*饭熟.*再次.*石夹螺肉.*焖8分钟/u);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /香菜.*葱.*焖2分钟.*拌匀.*焖2分钟/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
-  assert.match(recipe?.evidence_notes ?? '', /上川岛特产.*没有给出完整做法.*器具参数/u);
+  assert.equal(processSource?.url, 'https://www.chuanshanqundao.com/News/Info-2986.html');
+  assert.equal(processSource?.publisher, '川山群岛旅游网');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.equal(processSource?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /川山群岛旅游网.*砂锅.*重复写入.*没有给出.*水量.*安全/u);
 });
 
 test('records Shisan fish braised rice as a Meixian Hakka intangible-food identity without inventing raw-fish safety or cooker quantities', () => {

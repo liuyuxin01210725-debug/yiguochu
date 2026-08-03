@@ -375,19 +375,28 @@
       "region_codes":["CN-GD"],
       "cuisine_family":"taishan-shangchuan-shixialuo-rice",
       "identity_status":"verified",
-      "traditional_vessels":[],
-      "core_ingredients":["石硖螺","米饭"],
+      "traditional_vessels":["砂锅"],
+      "core_ingredients":["石硖螺肉","猪肉粒","米饭"],
       "fixed_batch":null,
       "liquid_contract":null,
-      "cooking_sequence":[],
+      "cooking_sequence":[
+        {"step":1,"instruction":"清洗石夹螺并取出螺肉；泡米半小时。","source_ids":["S-GD-TAISHAN-SHIXIALUO-RICE-2"]},
+        {"step":2,"instruction":"爆香红葱头、沙姜和葱，加入猪肉粒与石夹螺肉翻炒。","source_ids":["S-GD-TAISHAN-SHIXIALUO-RICE-2"]},
+        {"step":3,"instruction":"按来源加入酱油、蚝油、盐和油调味。","source_ids":["S-GD-TAISHAN-SHIXIALUO-RICE-2"]},
+        {"step":4,"instruction":"把米和水放入砂锅煮饭；饭熟后再次加入石夹螺肉，焖8分钟。","source_ids":["S-GD-TAISHAN-SHIXIALUO-RICE-2"]},
+        {"step":5,"instruction":"加入香菜和葱，焖2分钟；拌匀后再焖2分钟。","source_ids":["S-GD-TAISHAN-SHIXIALUO-RICE-2"]}
+      ],
       "time_contract":null,
       "safety_endpoints":[],
       "allergen_labels":["软体动物"],
       "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
-      "cooker_adaptation":{"status":"not_adapted","notes":"江门市政府文旅资料只介绍上川岛特产石硖螺饭及其食材与成品口感，没有给出具体器具、清洗或加热步骤、液体、时间、安全终点或电饭煲适配。"},
-      "source_refs":[{"source_id":"S-GD-TAISHAN-SHIXIALUO-RICE-1","title":"台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！","publisher":"江门市文化广电旅游体育局","url":"https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html","retrieved_at":"2026-08-03","source_kind":"municipal_culture_tourism_food_article","access_status":"opened","evidence_locator":"正文第83至101行：上川岛特产石硖螺、石硖螺饭名称及焖好后的米饭和螺肉描述","claim_scopes":["identity","ingredients"],"attribution":"江门市文化广电旅游体育局","license":"government_site_terms_unspecified"}],
-      "status":"identity_verified",
-      "evidence_notes":"江门市文化广电旅游体育局将石硖螺饭列为台山上川岛特产，并说明石硖螺是当地特产贝类、成品为螺肉与米饭融合的焖饭；来源没有给出完整做法、固定数量、液体、时间、安全终点或器具参数，因此只保留地域身份、名称、核心食材和软体动物标签，不把“焖好”扩写成执行合同。"
+      "cooker_adaptation":{"status":"not_adapted","notes":"江门市文化广电旅游体育局来源确认上川岛石硖螺饭身份和核心食材；川山群岛旅游网来源给出砂锅流程，但没有固定批量、水量、总时间、安全终点或电饭煲转换参数。来源在煮熟米饭前后两次写入石夹螺肉，重复指令原样保留，不自行合并或解释。"},
+      "source_refs":[
+        {"source_id":"S-GD-TAISHAN-SHIXIALUO-RICE-1","title":"台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！","publisher":"江门市文化广电旅游体育局","url":"https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html","retrieved_at":"2026-08-03","source_kind":"municipal_culture_tourism_food_article","access_status":"opened","evidence_locator":"正文第83至101行：上川岛特产石硖螺、石硖螺饭名称及焖好后的米饭和螺肉描述","claim_scopes":["identity","ingredients"],"attribution":"江门市文化广电旅游体育局","license":"government_site_terms_unspecified"},
+        {"source_id":"S-GD-TAISHAN-SHIXIALUO-RICE-2","title":"〖视频〗天下第一饭--石夹螺饭","publisher":"川山群岛旅游网","url":"https://www.chuanshanqundao.com/News/Info-2986.html","retrieved_at":"2026-08-03","source_kind":"local_island_tourism_recipe_page","access_status":"opened","evidence_locator":"正文第44至111行：石夹螺饭身份、材料、砂锅流程；来源在煮熟米饭前后两次写入石夹螺肉，未解释该重复","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"川山群岛旅游网","license":"publisher_terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"江门市文化广电旅游体育局确认石硖螺饭是台山上川岛特产，并给出石硖螺与米饭的身份边界；川山群岛旅游网补充红葱头、沙姜、葱、香菜、猪肉粒及酱油、蚝油、盐、油，并记录砂锅制作顺序。该来源在煮熟米饭前后两次写入石夹螺肉，重复写入没有解释，因此原样保留，不据此推断额外工艺。两源没有给出固定批量、水量、总时间、安全终点或电饭煲参数，故仍不建立可执行液体/时间/安全/电饭煲合同。"
     },
     {
       "recipe_id":"meixian-shisan-fish-braised-rice",

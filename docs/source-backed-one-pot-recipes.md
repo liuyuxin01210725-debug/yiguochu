@@ -249,7 +249,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 石硖螺饭 | 石夹螺饭 | CN-GD | taishan-shangchuan-shixialuo-rice | 研究记录（非公开可执行） | 石硖螺；米饭 | identity、ingredients | 缺 process | [台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html) |
+| 石硖螺饭 | 石夹螺饭 | CN-GD | taishan-shangchuan-shixialuo-rice | 研究记录（非公开可执行） | 石硖螺肉；猪肉粒；米饭 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html)<br>[〖视频〗天下第一饭--石夹螺饭](https://www.chuanshanqundao.com/News/Info-2986.html) |
 ## taiwan-ceremonial-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
