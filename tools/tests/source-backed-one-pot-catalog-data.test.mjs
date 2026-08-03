@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 6,
-    recipe_fact_checked: 97,
+    recipe_fact_checked: 98,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3533,6 +3533,41 @@ test('records Taihang millet braised rice with its regional ingredient and no in
   assert.equal(source?.access_status, 'opened');
   assert.equal(source?.publisher, '中国旅游新闻网');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records the cross-regional Manchu-Xibe dazi rice porridge without inventing a cooker contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'manchu-xibe-dazi-rice-porridge'
+  ));
+  const identitySource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-NM-LOCAL-GAZETTEER-DAZI-PORRIDGE-1'
+  ));
+  const processSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-XJ-XIBE-DAZI-RICE-1'
+  ));
+
+  assert.equal(recipe?.canonical_name, '鞑子饭（小肉粥）');
+  assert.deepEqual(recipe?.aliases, ['鞑子粥', '小肉饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-NM', 'CN-XJ']);
+  assert.deepEqual(recipe?.core_ingredients, ['猪肉', '粳米（大米）或小米']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /猪肉.*粳米.*小米.*煮熟成粥/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(identitySource?.access_status, 'search_extract_opened');
+  assert.ok(identitySource?.claim_scopes.includes('identity'));
+  assert.equal(processSource?.access_status, 'search_extract_opened');
+  assert.ok(processSource?.claim_scopes.includes('ingredients'));
+  assert.ok(processSource?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 

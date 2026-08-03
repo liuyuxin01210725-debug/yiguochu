@@ -4,7 +4,6 @@
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
-    {"region_code":"CN-NM","candidate_name":"未保留候选","reason":"未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。","searched_at":"2026-08-02"},
     {"region_code":"CN-LN","candidate_name":"东北一锅出","reason":"可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。","searched_at":"2026-08-02"},
     {"region_code":"CN-AH","candidate_name":"未保留候选","reason":"未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。","searched_at":"2026-08-02"},
     {"region_code":"CN-JX","candidate_name":"未保留候选","reason":"未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。","searched_at":"2026-08-02"},
@@ -1293,6 +1292,32 @@
       "source_refs":[{"source_id":"S-SN-YULIN-LABA-BRAISED-RICE-1","title":"腊八饭里的陕西年味","publisher":"陕西省地方志办公室","url":"https://dfz.shaanxi.gov.cn/zslm/zjyd/fzsy/202001/t20200106_2623780.html","retrieved_at":"2026-08-03","source_kind":"provincial_local_history_food_article","access_status":"search_extract_opened","evidence_locator":"搜索摘录：榆林腊八焖饭用软谷米、软黄米、红枣、豇豆、红糖下锅；豇豆七分熟后下软谷米，小火慢煮焖熟","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"陕西省地方志办公室","license":"government_site_terms_unspecified"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"陕西省地方志办公室文章明确区分榆林腊八焖饭与腊八粥，记载软谷米、软黄米、红枣、豇豆、红糖等食材，以及先浸泡豆子、煮至七分熟后下软谷米、小火慢煮焖熟、出锅浇热油的顺序。本条只保留来源直接支持的地域身份和分阶段流程；来源没有固定用量、液体量、份数、总时间、安全终点或电饭煲适配，因此不补写可执行合同。"
+    },
+    {
+      "recipe_id":"manchu-xibe-dazi-rice-porridge",
+      "canonical_name":"鞑子饭（小肉粥）",
+      "aliases":["鞑子粥","小肉饭"],
+      "region_codes":["CN-NM","CN-XJ"],
+      "cuisine_family":"manchu-xibe-dazi-rice-porridge",
+      "identity_status":"verified",
+      "traditional_vessels":[],
+      "core_ingredients":["猪肉","粳米（大米）或小米"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"将猪肉剁成肉沫，加入粳米（大米）或小米，再放入盐和作料煮熟成粥。","source_ids":["S-XJ-XIBE-DAZI-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"内蒙古地方志资料支持小肉粥/鞑子粥的地域身份，锡伯族饮食资料支持肉与米同煮成粥的事实；来源没有固定份量、液体、时间、肉类安全终点或现代电饭煲适配，因此不建立执行合同。"},
+      "source_refs":[
+        {"source_id":"S-NM-LOCAL-GAZETTEER-DAZI-PORRIDGE-1","title":"内蒙古民族饮食：小肉粥（鞑子粥）","publisher":"内蒙古区情网","url":"https://nmgqq.com.cn/quqinggailan/neimengguyinxiang/minsufengqing/2014-12-14/7505.html","retrieved_at":"2026-08-03","source_kind":"regional_gazetteer_food_culture_page","access_status":"search_extract_opened","evidence_locator":"搜索摘录：内蒙古民族饮食段落称‘最具民族特点的是小肉粥，俗称鞑子粥’","claim_scopes":["identity"],"attribution":"内蒙古区情网","license":"terms_unspecified"},
+        {"source_id":"S-XJ-XIBE-DAZI-RICE-1","title":"鞑子饭（粥）","publisher":"新疆维吾尔自治区锡伯语言学会","url":"https://www.xjxbyyxh.com/articles/show/1239","retrieved_at":"2026-08-03","source_kind":"ethnic_language_association_food_culture_page","access_status":"search_extract_opened","evidence_locator":"搜索摘录：‘鞑子饭(粥)’将猪肉剁成肉沫，加粳米（大米）或小米、盐和作料煮熟成粥","claim_scopes":["identity","ingredients","process"],"attribution":"新疆维吾尔自治区锡伯语言学会","license":"terms_unspecified"}
+      ],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"内蒙古区情网的民族饮食资料确认小肉粥俗称鞑子粥；新疆维吾尔自治区锡伯语言学会资料进一步记载鞑子饭（粥）以猪肉末、粳米（大米）或小米同煮成粥。两条来源分别承担地域身份和锡伯族工艺事实，本条不把跨地区资料拼成某一县的唯一配方，也不补写固定用量、液体、时间、安全终点或电饭煲适配。"
     }
   ]
 }

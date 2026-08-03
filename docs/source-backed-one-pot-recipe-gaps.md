@@ -37,6 +37,7 @@
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 深沪咸饭 (shenhu-salty-rice) — CN-FJ
@@ -111,6 +112,7 @@
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
@@ -183,6 +185,7 @@
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
@@ -227,6 +230,7 @@
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
+- 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
@@ -292,6 +296,7 @@
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
@@ -330,7 +335,6 @@
 - CN-HN — 武陵地区可能有社饭传统，但本轮未找到可独立核验的湖南原始来源证明固定米饭主餐。（检索于 2026-08-02）
 - CN-JX — 未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。（检索于 2026-08-02）
 - CN-LN — 可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。（检索于 2026-08-02）
-- CN-NM — 未取得可读原始来源；羊肉抓饭结果多为通用菜品，未证实独立的内蒙古具名食谱。（检索于 2026-08-02）
 - CN-QH — 政府页面只在市场或美食街名单提及手抓饭，未证明青海具名区域食谱或做法，不能借用新疆证据。（检索于 2026-08-02）
 - CN-SD — 线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。（检索于 2026-08-02）
 - CN-XZ — 线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。（检索于 2026-08-02）

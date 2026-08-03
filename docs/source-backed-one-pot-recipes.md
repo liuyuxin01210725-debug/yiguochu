@@ -157,6 +157,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 涟源腊肉红枣竹筒饭 | 涟源竹筒饭；腊肉红枣竹筒饭 | CN-HN | lianyuan-bamboo-rice | 研究记录（非公开可执行） | 粳米或糯米；腊肉；红枣 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [跟着旅发大会游涟源\|来一场舌尖上的美食之旅！](https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html) |
+## manchu-xibe-dazi-rice-porridge
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鞑子饭（小肉粥） | 鞑子粥；小肉饭 | CN-NM, CN-XJ | manchu-xibe-dazi-rice-porridge | 研究记录（非公开可执行） | 猪肉；粳米（大米）或小米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [内蒙古民族饮食：小肉粥（鞑子粥）](https://nmgqq.com.cn/quqinggailan/neimengguyinxiang/minsufengqing/2014-12-14/7505.html)<br>[鞑子饭（粥）](https://www.xjxbyyxh.com/articles/show/1239) |
 ## 厂商电饭煲食谱
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
