@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 4,
-    recipe_fact_checked: 115,
+    identity_verified: 3,
+    recipe_fact_checked: 116,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1731,21 +1731,22 @@ test('records Tujia she rice in the Qianjiang area without merging another regio
   assert.equal(recipe?.canonical_name, '土家社饭');
   assert.deepEqual(recipe?.aliases, []);
   assert.deepEqual(recipe?.region_codes, ['CN-CQ']);
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.traditional_vessels, []);
   assert.deepEqual(recipe?.core_ingredients, ['糯米', '猪肉', '大蒜', '蒿草']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糯米.*猪肉.*大蒜.*蒿草.*做成社饭/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.url, 'https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml');
   assert.equal(source?.publisher, '阿坝藏族羌族自治州地方志办公室');
-  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients']);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
   assert.equal(source?.access_status, 'opened');
-  assert.match(recipe?.evidence_notes ?? '', /黔江地区.*来源没有给出.*烹饪步骤.*电饭煲/u);
+  assert.match(recipe?.evidence_notes ?? '', /黔江地区.*用糯米.*做成社饭.*没有给出.*固定数量.*电饭煲/u);
 });
 
 test('records southeast Chongqing Tujia he rice as a named layered rice meal without inventing quantities', () => {

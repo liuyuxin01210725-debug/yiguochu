@@ -700,15 +700,17 @@
       "core_ingredients":["糯米","猪肉","大蒜","蒿草"],
       "fixed_batch":null,
       "liquid_contract":null,
-      "cooking_sequence":[],
+      "cooking_sequence":[
+        {"step":1,"instruction":"黔江地区土家族在农历二月初二社日，以糯米、猪肉、大蒜和蒿草等做成社饭。","source_ids":["S-CQ-QIANGJIANG-TUJIA-SHE-RICE-1"]}
+      ],
       "time_contract":null,
       "safety_endpoints":[],
       "allergen_labels":[],
       "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
-      "cooker_adaptation":{"status":"not_adapted","notes":"阿坝州地方志办公室来源只记录川东南黔江地区土家族社饭的节令身份和核心食材，没有提供器具、固定数量、液体、步骤、时间、安全终点或现代电饭煲适配。"},
-      "source_refs":[{"source_id":"S-CQ-QIANGJIANG-TUJIA-SHE-RICE-1","title":"四川少数民族食俗","publisher":"阿坝藏族羌族自治州地方志办公室","url":"https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_gazette_office_food_culture_page","access_status":"opened","evidence_locator":"正文第61至64行：川东南黔江地区土家族节令社饭及糯米、猪肉、大蒜、蒿草构成","claim_scopes":["identity","ingredients"],"attribution":"阿坝藏族羌族自治州地方志办公室","license":"government_site_terms_unspecified"}],
-      "status":"identity_verified",
-      "evidence_notes":"阿坝州地方志办公室文章明确四川土家族主要分布于川东南黔江地区，并记载农历二月初二社日吃社饭，以糯米、猪肉、大蒜、蒿草做成。来源没有给出固定数量、液体、烹饪步骤、时间、安全终点或电饭煲适配，因此只保留土家社饭的地域身份和核心食材，不把铜仁、凤凰或恩施等地社饭流程合并进来。"
+      "cooker_adaptation":{"status":"not_adapted","notes":"阿坝州地方志办公室来源记录川东南黔江地区土家族社饭的节令身份、核心食材和‘做成社饭’这一概括过程，但没有提供具体器具、固定数量、液体、详细步骤、时间、安全终点或现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-CQ-QIANGJIANG-TUJIA-SHE-RICE-1","title":"四川少数民族食俗","publisher":"阿坝藏族羌族自治州地方志办公室","url":"https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_gazette_office_food_culture_page","access_status":"opened","evidence_locator":"正文第61至64行：川东南黔江地区土家族节令社饭及糯米、猪肉、大蒜、蒿草构成与做成社饭的原文表述","claim_scopes":["identity","ingredients","process"],"attribution":"阿坝藏族羌族自治州地方志办公室","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"阿坝州地方志办公室文章明确四川土家族主要分布于川东南黔江地区，并记载农历二月初二社日吃社饭，用糯米、猪肉、大蒜、蒿草等做成社饭。本条只把来源明确的地域、核心食材和这一句过程事实写入；来源没有给出固定数量、液体、详细烹饪步骤、时间、安全终点或电饭煲适配，因此不把铜仁、凤凰或恩施等地社饭流程合并进来。"
     },
     {
       "recipe_id":"xiushan-she-rice",

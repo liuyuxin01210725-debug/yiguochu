@@ -285,7 +285,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 土家社饭 | — | CN-CQ | qianjiang-tujia-she-rice | 研究记录（非公开可执行） | 糯米；猪肉；大蒜；蒿草 | identity、ingredients | 缺 process | [四川少数民族食俗](https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml) |
+| 土家社饭 | — | CN-CQ | qianjiang-tujia-she-rice | 研究记录（非公开可执行） | 糯米；猪肉；大蒜；蒿草 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [四川少数民族食俗](https://dfzb.abazhou.gov.cn/abzdfsbgs/c104049/201702/bc966f81a6884d95a6ae4ddbadcc549f.shtml) |
 ## qinghai-barley-lamb-millet-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
