@@ -3222,7 +3222,7 @@ test('structures the Dongzhi electric-pot guoba rice facts without inventing ser
     roles: ['carbohydrate', 'protein'],
   });
   assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
-  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('quantity'));
   assert.ok(source?.claim_scopes.includes('liquid'));
   assert.ok(source?.claim_scopes.includes('appliance'));
