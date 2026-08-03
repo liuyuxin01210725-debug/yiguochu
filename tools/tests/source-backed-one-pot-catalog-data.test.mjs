@@ -1261,6 +1261,7 @@ test('keeps the Tongren seasonal shefan as a separate regional identity with its
     item.recipe_id === 'guizhou-tongren-shefan'
   ));
   const source = recipe?.source_refs.find(item => item.source_id === 'S-GZ-TONGREN-SHEFAN-1');
+  const variantSource = recipe?.source_refs.find(item => item.source_id === 'S-GZ-TONGREN-SHEFAN-2');
 
   assert.equal(recipe?.canonical_name, '铜仁社饭');
   assert.deepEqual(recipe?.region_codes, ['CN-GZ']);
@@ -1279,6 +1280,8 @@ test('keeps the Tongren seasonal shefan as a separate regional identity with its
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(source?.claim_scopes.includes('appliance'));
+  assert.equal(variantSource?.access_status, 'opened');
+  assert.ok(variantSource?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
@@ -1626,7 +1629,7 @@ test('records Taishan caiguo rice as a named non-electric regional rice dish wit
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('keeps Dongzhi guoba rice as a partial official lead without inventing the missing variant and quantities', () => {
+test('structures the Dongzhi electric-pot guoba rice facts without inventing servings, bottle volume, or runtime', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'dongzhi-guoba-rice'
   ));
@@ -1635,19 +1638,29 @@ test('keeps Dongzhi guoba rice as a partial official lead without inventing the 
   assert.equal(recipe?.canonical_name, '东至农家锅巴饭');
   assert.deepEqual(recipe?.aliases, ['东至锅巴饭']);
   assert.equal(recipe?.status, 'recipe_fact_checked');
-  assert.deepEqual(recipe?.core_ingredients, ['米饭', '红心芋', '红芋粉蒸肉生坯']);
+  assert.deepEqual(recipe?.core_ingredients, ['香米', '红心芋', '红芋粉蒸肉生坯']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.equal(recipe?.cooking_sequence.length, 1);
-  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米饭进入干水.*红心芋.*红芋粉蒸肉生坯.*饭熟/);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /红心芋.*一厘米厚/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /黑猪前腿肉.*350克.*红芋粉/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /香米.*750克.*电锅.*煮饭键/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /米饭进入干水.*红心芋.*红芋粉蒸肉生坯.*饭熟/);
   assert.equal(recipe?.time_contract, null);
-  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
   assert.deepEqual(recipe?.nutrition_structure, {
     grade: 'C',
     roles: ['carbohydrate', 'protein'],
   });
-  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
   assert.equal(source?.access_status, 'search_extract_opened');
+  assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(source?.claim_scopes.includes('liquid'));
+  assert.ok(source?.claim_scopes.includes('appliance'));
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

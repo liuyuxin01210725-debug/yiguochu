@@ -13,7 +13,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 东至农家锅巴饭 | 东至锅巴饭 | CN-AH | dongzhi-guoba-rice | 研究记录（非公开可执行） | 米饭；红心芋；红芋粉蒸肉生坯 | identity、ingredients、process | 缺 quantity、liquid、time | [新徽菜·名徽厨——东至五大名菜之一“东至农家锅巴饭”](https://czsrsj.chizhou.gov.cn/News/show/608587.html) |
+| 东至农家锅巴饭 | 东至锅巴饭 | CN-AH | dongzhi-guoba-rice | 研究记录（非公开可执行） | 香米；红心芋；红芋粉蒸肉生坯 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [新徽菜·名徽厨——东至五大名菜之一“东至农家锅巴饭”](https://czsrsj.chizhou.gov.cn/News/show/608587.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## enshi-seasonal-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -115,7 +115,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 铜仁社饭 | 社菜饭 | CN-GZ | tongren-seasonal-shefan | 研究记录（非公开可执行） | 糯米；黏米；腊肉；青蒿；野葱；黄豆；花生；豆腐干；青菜；蒜苗 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [玉屏玉露村：农家社饭香](https://www.tongren.gov.cn/2025/0317/332884.shtml) |
+| 铜仁社饭 | 社菜饭 | CN-GZ | tongren-seasonal-shefan | 研究记录（非公开可执行） | 糯米；黏米；腊肉；青蒿；野葱；黄豆；花生；豆腐干；青菜；蒜苗 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [玉屏玉露村：农家社饭香](https://www.tongren.gov.cn/2025/0317/332884.shtml)<br>[网络中国节·清明丨清明时节 社饭飘香](https://www.tongren.gov.cn/2025/0405/333568.shtml) |
 ## wa-chicken-lanfan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
