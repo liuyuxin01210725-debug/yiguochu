@@ -389,6 +389,56 @@
       "source_refs":[{"source_id":"S-GD-TAISHAN-SHIXIALUO-RICE-1","title":"台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！","publisher":"江门市文化广电旅游体育局","url":"https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html","retrieved_at":"2026-08-03","source_kind":"municipal_culture_tourism_food_article","access_status":"opened","evidence_locator":"正文第83至101行：上川岛特产石硖螺、石硖螺饭名称及焖好后的米饭和螺肉描述","claim_scopes":["identity","ingredients"],"attribution":"江门市文化广电旅游体育局","license":"government_site_terms_unspecified"}],
       "status":"identity_verified",
       "evidence_notes":"江门市文化广电旅游体育局将石硖螺饭列为台山上川岛特产，并说明石硖螺是当地特产贝类、成品为螺肉与米饭融合的焖饭；来源没有给出完整做法、固定数量、液体、时间、安全终点或器具参数，因此只保留地域身份、名称、核心食材和软体动物标签，不把“焖好”扩写成执行合同。"
+    },
+    {
+      "recipe_id":"meixian-shisan-fish-braised-rice",
+      "canonical_name":"石扇鱼焖饭",
+      "aliases":["石扇鱼饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"meixian-shisan-hakka-fish-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["柴火灶", "高压锅"],
+      "core_ingredients":["米","鲩鱼","鱼血","葱花","姜丝","金不换"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"按梅县石扇来源记录，将鱼血加入米中，并放入香煎的鲩鱼。","source_ids":["S-GD-MEIXIAN-SHISAN-FISH-RICE-1"]},
+        {"step":2,"instruction":"传统上用柴火焖煮，现代来源另提到可用高压锅蒸熟；本条不把两种器具合并为同一参数。","source_ids":["S-GD-MEIXIAN-SHISAN-FISH-RICE-1"]},
+        {"step":3,"instruction":"出锅前按来源加入碎葱花、姜丝、自制酱料和金不换（罗勒叶）等翻炒。","source_ids":["S-GD-MEIXIAN-SHISAN-FISH-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"梅县区政府来源同时提到柴火焖煮与高压锅蒸熟，但没有固定批量、液体、压力锅参数、总时间或生鱼/鱼血安全终点，因此不建立现代电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-MEIXIAN-SHISAN-FISH-RICE-1","title":"美食手信--梅县区人民政府门户网站","publisher":"梅县区人民政府","url":"https://www.gdmx.gov.cn/zjmx/mssx/content/post_2903785.html","retrieved_at":"2026-08-03","source_kind":"county_government_intangible_food_page","access_status":"opened","evidence_locator":"正文第2至18行：石扇鱼焖饭名称、县级非遗身份、鱼血入米、香煎鲩鱼、柴火/高压锅和配料描述","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"梅县区人民政府","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"梅县区政府页面明确石扇鱼焖饭是当地美食，其传统技艺于2009年列入梅州市县级非遗名录，并记录鱼血入米、香煎鲩鱼、柴火焖煮或高压锅蒸熟、加葱花姜丝自制酱料和金不换等事实。来源没有给出鱼血安全终点、固定数量、液体、完整时间或压力锅参数，本条保留真实地域菜名和工艺边界，不建立可执行或电饭煲合同。"
+    },
+    {
+      "recipe_id":"humen-duck-triad-cured-rice",
+      "canonical_name":"鸭三宝腊味饭",
+      "aliases":["虎门鸭三宝饭"],
+      "region_codes":["CN-GD"],
+      "cuisine_family":"humen-duck-triad-cured-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["煲仔"],
+      "core_ingredients":["米饭","腊鸭心","腊鸭肝","腊鸭肠","葱花"],
+      "fixed_batch":null,
+      "liquid_contract":null,
+      "cooking_sequence":[
+        {"step":1,"instruction":"米饭煮开后，把鸭三宝（腊鸭心、腊鸭肝、腊鸭肠）放在饭上。","source_ids":["S-GD-HUMEN-DUCK-TRIAD-RICE-1"]},
+        {"step":2,"instruction":"让鸭三宝与米饭一起煮熟，使腊味香气渗透进米饭。","source_ids":["S-GD-HUMEN-DUCK-TRIAD-RICE-1"]},
+        {"step":3,"instruction":"将煮熟的鸭三宝切成小粒，与葱花和米饭拌匀后食用。","source_ids":["S-GD-HUMEN-DUCK-TRIAD-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"东莞市农业农村局转载的虎门地方饮食报道记录的是煲仔饭流程，没有固定批量、液体、完整时间、腊味安全终点或电饭煲适配。"},
+      "source_refs":[{"source_id":"S-GD-HUMEN-DUCK-TRIAD-RICE-1","title":"虎门顶流特产！一煮整个家都是香喷喷的","publisher":"东莞市农业农村局 / 虎门太平","url":"https://nyncj.dg.gov.cn/zzzl/content/post_4479655.html","retrieved_at":"2026-08-03","source_kind":"municipal_agriculture_food_article","access_status":"opened","evidence_locator":"正文第73至79行：虎门白沙油鸭、鸭三宝腊味饭名称、三种腊鸭内脏及煲仔饭同煮拌饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"东莞市农业农村局 / 虎门太平","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"东莞市农业农村局转载的虎门地方特产报道明确给出鸭三宝腊味饭：鸭三宝是腊鸭心、腊鸭肝和腊鸭肠，米饭煮开后同饭煮熟，切粒后与葱花、米饭拌匀；该报道把它置于虎门白沙油鸭与煲仔饭语境。来源没有固定数量、液体、完整时间、安全终点或电饭煲适配，因此只建立身份、核心食材和闭合顺序事实，不宣称可直接执行。"
     }
   ]
 }

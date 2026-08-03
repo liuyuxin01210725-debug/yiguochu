@@ -17,9 +17,11 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
@@ -48,10 +50,12 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 麻阳社饭 (mayang-she-rice) — CN-HN
+- 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
@@ -113,6 +117,7 @@
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 什锦鸡饭 (panasonic-mixed-chicken-rice-sr-df151) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
@@ -120,6 +125,7 @@
 - 肉糜青菜饭 (zojirushi-minced-pork-greens-rice-nl-erh) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
+- 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ

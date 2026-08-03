@@ -44,6 +44,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 辉县地锅鸡米饭 | 地锅鸡米饭 | CN-HA | huixian-ground-pot-chicken-rice | 研究记录（非公开可执行） | 生米；鸡肉；干豆角；香菇；粉条 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [河南美食No.61\|最朴素的乡村地锅，老吃家咋会被一锅米饭惊艳到？](https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist) |
+## humen-duck-triad-cured-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鸭三宝腊味饭 | 虎门鸭三宝饭 | CN-GD | humen-duck-triad-cured-rice | 研究记录（非公开可执行） | 米饭；腊鸭心；腊鸭肝；腊鸭肠；葱花 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [虎门顶流特产！一煮整个家都是香喷喷的](https://nyncj.dg.gov.cn/zzzl/content/post_4479655.html) |
 ## jiangnan-duck-greens-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -88,6 +93,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 麻阳社饭 | 麻阳苗家社饭 | CN-HN | mayang-she-rice | 研究记录（非公开可执行） | 粳米；糯米；社蒿菜；腊肉；野藠；大蒜苗 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [[苗族习俗] 饮食](https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml) |
+## meixian-shisan-hakka-fish-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 石扇鱼焖饭 | 石扇鱼饭 | CN-GD | meixian-shisan-hakka-fish-rice | 研究记录（非公开可执行） | 米；鲩鱼；鱼血；葱花；姜丝；金不换 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [美食手信--梅县区人民政府门户网站](https://www.gdmx.gov.cn/zjmx/mssx/content/post_2903785.html) |
 ## middle-yangtze-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

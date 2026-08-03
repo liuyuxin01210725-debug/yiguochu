@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 14,
-    recipe_fact_checked: 51,
+    recipe_fact_checked: 53,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1036,6 +1036,52 @@ test('records Shixi luo rice as a Shangchuan Island regional identity without mi
   assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html');
   assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients']);
   assert.match(recipe?.evidence_notes ?? '', /上川岛特产.*没有给出完整做法.*器具参数/u);
+});
+
+test('records Shisan fish braised rice as a Meixian Hakka intangible-food identity without inventing raw-fish safety or cooker quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'meixian-shisan-fish-braised-rice');
+  assert.equal(recipe?.canonical_name, '石扇鱼焖饭');
+  assert.deepEqual(recipe?.aliases, ['石扇鱼饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['柴火灶', '高压锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '鲩鱼', '鱼血', '葱花', '姜丝', '金不换']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鱼血.*加入米.*香煎.*鲩鱼/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /柴火.*焖煮.*高压锅/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /葱花.*姜丝.*自制酱料.*金不换/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://www.gdmx.gov.cn/zjmx/mssx/content/post_2903785.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /鱼血.*安全.*固定数量.*电饭煲/u);
+});
+
+test('records Humen duck-triad cured-meat rice as a named one-pot rice process without inventing quantities or safety endpoints', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'humen-duck-triad-cured-rice');
+  assert.equal(recipe?.canonical_name, '鸭三宝腊味饭');
+  assert.deepEqual(recipe?.aliases, ['虎门鸭三宝饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['煲仔']);
+  assert.deepEqual(recipe?.core_ingredients, ['米饭', '腊鸭心', '腊鸭肝', '腊鸭肠', '葱花']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米饭煮开/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸭三宝.*一起煮熟.*腊味香气渗透/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /切成小粒.*葱花.*米饭拌匀/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(recipe?.source_refs?.[0]?.url, 'https://nyncj.dg.gov.cn/zzzl/content/post_4479655.html');
+  assert.deepEqual(recipe?.source_refs?.[0]?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(recipe?.evidence_notes ?? '', /虎门.*腊鸭心.*腊鸭肝.*腊鸭肠.*没有固定数量.*安全终点/u);
 });
 
 test('retains the national source-backed candidates at their evidence-only statuses', () => {
