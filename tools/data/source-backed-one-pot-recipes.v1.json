@@ -793,6 +793,31 @@
       "evidence_notes":"黔江区人民政府原文明确记载柴火洋芋饭的地方身份，说明高山洋芋翻炒至金黄后与大米放入锅中，在柴火下慢炖；原文还说明部分地方会加入腊肉、腊肠或蔬菜，这些是可选配菜而非本条核心组合。由于核心只闭合米和洋芋，本条营养结构标为仅碳水的C级研究条目，不包装成均衡菜单；来源没有固定数量、液体比例、时间、安全终点或现代电饭煲适配。"
     },
     {
+      "recipe_id":"hainan-li-bamboo-tube-rice",
+      "canonical_name":"黎家竹筒饭",
+      "aliases":["黎族竹筒饭"],
+      "region_codes":["CN-HI"],
+      "cuisine_family":"hainan-li-bamboo-tube-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["竹筒","木炭火"],
+      "core_ingredients":["山兰米","猪瘦肉"],
+      "fixed_batch":null,
+      "liquid_contract":{"kind":"added_water","amount":{"value":500,"unit":"g"},"source_ids":["S-HI-LI-BAMBOO-TUBE-RICE-1"]},
+      "cooking_sequence":[
+        {"step":1,"instruction":"按来源用料准备山兰米、猪瘦肉和味料。","source_ids":["S-HI-LI-BAMBOO-TUBE-RICE-1"]},
+        {"step":2,"instruction":"将大米及味料装入新鲜竹筒，并加入来源记载的清水。","source_ids":["S-HI-LI-BAMBOO-TUBE-RICE-1"]},
+        {"step":3,"instruction":"在山区野外或家中用木炭火将竹筒饭烤熟。","source_ids":["S-HI-LI-BAMBOO-TUBE-RICE-1"]}
+      ],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"海南省人民政府门户来源明确记录黎族竹筒饭使用新鲜竹筒和木炭火烤制，并给出该来源的用料与清水量；未提供现代电饭煲等价程序、安全终点或统一份数，因此不改写为电饭煲菜饭。"},
+      "source_refs":[{"source_id":"S-HI-LI-BAMBOO-TUBE-RICE-1","title":"黎家竹筒饭","publisher":"海南省人民政府办公厅","url":"https://m.idevsite.com/hainan/mstc/200606/4a427e8c0c504c81af537cd1755dfd3b.shtml","retrieved_at":"2026-08-03","source_kind":"provincial_government_food_culture_page","access_status":"opened","evidence_locator":"正文第33至44行：黎族竹筒饭身份、新鲜竹筒木炭火烤制及山兰米500克/猪瘦肉100克/清水500克用料","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"海南省人民政府办公厅","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"海南省人民政府门户原文明确将黎家竹筒饭列为海南黎族传统美食，说明用新鲜竹筒装米和味料、在野外或家中用木炭火烤熟，并列出山兰米500克、猪瘦肉100克、清水500克等用料。来源没有给统一份数、完整时间或现代电饭煲适配，因此保留来源可证的竹筒、木炭火和液体数量，不推导出电饭煲合同。"
+    },
+    {
       "recipe_id":"southeast-chongqing-tujia-he-rice",
       "canonical_name":"合饭",
       "aliases":[],

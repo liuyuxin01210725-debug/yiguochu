@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 4,
-    recipe_fact_checked: 84,
+    recipe_fact_checked: 85,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1216,6 +1216,41 @@ test('records Qianjiang firewood potato rice as a regional carb-only identity wi
   assert.equal(source?.access_status, 'opened');
   assert.match(recipe?.evidence_notes ?? '', /洋芋.*大米.*柴火下慢炖/u);
   assert.match(recipe?.evidence_notes ?? '', /腊肉.*腊肠.*蔬菜.*可选/u);
+});
+
+test('records Hainan Li bamboo-tube rice with its source-stated meat, water, and charcoal boundaries', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'hainan-li-bamboo-tube-rice');
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-HI-LI-BAMBOO-TUBE-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '黎家竹筒饭');
+  assert.deepEqual(recipe?.aliases, ['黎族竹筒饭']);
+  assert.deepEqual(recipe?.region_codes, ['CN-HI']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['山兰米', '猪瘦肉']);
+  assert.deepEqual(recipe?.traditional_vessels, ['竹筒', '木炭火']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 500, unit: 'g' },
+    source_ids: ['S-HI-LI-BAMBOO-TUBE-RICE-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /山兰米.*猪瘦肉.*味料/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /新鲜竹筒.*清水/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /木炭.*烤熟/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.url, 'https://m.idevsite.com/hainan/mstc/200606/4a427e8c0c504c81af537cd1755dfd3b.shtml');
+  assert.equal(source?.publisher, '海南省人民政府办公厅');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.equal(source?.access_status, 'opened');
+  assert.match(recipe?.evidence_notes ?? '', /黎族传统美食.*竹筒.*木炭/u);
+  assert.match(recipe?.evidence_notes ?? '', /500克.*猪瘦肉100克.*清水500克/u);
 });
 
 test('records Jixi bamboo-shoot braised rice with the sourced local process without inventing a cooker contract', () => {

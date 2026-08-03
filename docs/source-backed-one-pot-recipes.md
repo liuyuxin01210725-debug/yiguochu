@@ -64,6 +64,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## hainan-li-bamboo-tube-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 黎家竹筒饭 | 黎族竹筒饭 | CN-HI | hainan-li-bamboo-tube-rice | 研究记录（非公开可执行） | 山兰米；猪瘦肉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [黎家竹筒饭](https://m.idevsite.com/hainan/mstc/200606/4a427e8c0c504c81af537cd1755dfd3b.shtml) |
 ## huangpu-cured-meat-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
