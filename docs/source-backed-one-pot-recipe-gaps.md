@@ -12,6 +12,7 @@
 
 ## 3. Missing quantity
 
+- 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 傣族香竹饭 (dai-fragrant-bamboo-rice) — CN-YN
@@ -101,6 +102,7 @@
 
 ## 4. Missing liquid
 
+- 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
@@ -243,6 +245,7 @@
 
 ## 7. Missing time
 
+- 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD

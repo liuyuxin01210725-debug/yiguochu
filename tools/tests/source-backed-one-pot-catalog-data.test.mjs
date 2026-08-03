@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 3,
-    recipe_fact_checked: 116,
+    identity_verified: 2,
+    recipe_fact_checked: 117,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1300,6 +1300,9 @@ test('records Huairou Lianqiaofan as a named communal-pot rice meal without impo
   const source = recipe?.source_refs.find(item => (
     item.source_id === 'S-BJ-HUAIROU-LIANQIAOFAN-1'
   ));
+  const processSource = recipe?.source_refs.find(item => (
+    item.source_id === 'S-BJ-HUAIROU-LIANQIAOFAN-2'
+  ));
 
   assert.equal(recipe?.canonical_name, '怀柔敛巧饭');
   assert.deepEqual(recipe?.aliases, ['敛巧饭', '百家饭']);
@@ -1308,18 +1311,22 @@ test('records Huairou Lianqiaofan as a named communal-pot rice meal without impo
   assert.deepEqual(recipe?.core_ingredients, ['小米', '玉米', '肉', '冻豆腐', '萝卜干']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.equal(recipe?.cooking_sequence.length, 1);
-  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /大锅.*百家饭/u);
-  assert.doesNotMatch(recipe?.cooking_sequence[0]?.instruction ?? '', /顶针|针线/u);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /收集.*小米.*玉米.*冻豆腐.*萝卜干.*百家饭/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /架锅.*烧火.*洗菜.*切菜.*炖肉.*蒸米饭/u);
+  assert.doesNotMatch(recipe?.cooking_sequence.map(step => step.instruction).join(' '), /顶针|针线/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
   assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.equal(source?.publisher, '怀柔区政务服务管理局');
   assert.equal(source?.access_status, 'opened');
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /第35至42行/);
+  assert.equal(processSource?.publisher, '怀柔区文明办');
+  assert.equal(processSource?.access_status, 'opened');
+  assert.deepEqual(processSource?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(recipe?.evidence_notes ?? '', /仪式.*不写入料理步骤/u);
 });
 
