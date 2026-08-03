@@ -9,6 +9,11 @@
 | 冬菇滑鸡饭 | 香菇滑鸡煲仔饭 | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；鸡肉；冬菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》全文](https://com.gd.gov.cn/attachment/0/513/513488/4095266.pdf)<br>[央视《味道》聚焦！赤坎煲仔饭：一口非遗烟火，百年侨乡记忆](https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/post_3394460.html?jump=true)<br>[香菇滑鸡饭](https://taft.moa.gov.tw/cp-1050-1589-8c557-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 腊味煲仔饭 | 腊味煲饭 | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 米；腊肉；腊肠 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》全文](https://com.gd.gov.cn/attachment/0/513/513488/4095266.pdf)<br>[央视《味道》聚焦！赤坎煲仔饭：一口非遗烟火，百年侨乡记忆](https://www.kaiping.gov.cn/jmkpsckz/gkmlpt/content/3/3394/post_3394460.html?jump=true)<br>[美食极简主义：椰青竹荪鸡汤煲 vs 煲仔饭](https://yptimes.shyp.gov.cn/resfile/2013-07-20/03/03.pdf)<br>[农粮署北区分署电子书：臘味煲飯](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[食品安全消费提示（腊味选购篇）](https://www.zc.gov.cn/gzzcscjg/gkmlpt/content/10/10653/post_10653964.html) |
 | 豉汁排骨饭 | 豉汁排骨煲仔饭 | CN-GD | cantonese-claypot-rice | 研究记录（非公开可执行） | 丝苗米；排骨；豆豉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [番禺记事-秋冬时节瓦罉飘香](https://www.panyu.gov.cn/ztzx/fzqx/133q/content/post_10674182.html)<br>[DB44/T 2423-2023《粤菜餐厅西关风情特色服务规范》](https://std.samr.gov.cn/db/search/stdDBDetailed?id=FCE664C973E2154EE05397BE0A0A886A)<br>[豉汁排骨煲仔飯](https://www.cookpot.com.tw/cookbook/1252.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## dongzhi-guoba-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 东至农家锅巴饭 | 东至锅巴饭 | CN-AH | dongzhi-guoba-rice | 研究记录（非公开可执行） | 米饭；红心芋；红芋粉蒸肉生坯 | identity、ingredients、process | 缺 quantity、liquid、time | [新徽菜·名徽厨——东至五大名菜之一“东至农家锅巴饭”](https://czsrsj.chizhou.gov.cn/News/show/608587.html) |
 ## enshi-seasonal-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -80,6 +85,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html)<br>[古蜀先民“菜篮子”里都有啥？](https://www.hljzx.gov.cn/contents/68/7320.html) |
+## taishan-caiguo-cured-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 台山菜果饭 | 菜果饭 | CN-GD | taishan-caiguo-cured-rice | 研究记录（非公开可执行） | 丝苗米；菜果（苤蓝）；腊味；海虾米；香芹 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [鸡酒、菜果饭、黑豆鸡爪芋汤 三合镇汇聚台山非遗滋味](https://www.jiangmen.gov.cn/newzjqx/lyzy/qxms/content/post_3521275.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-ceremonial-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

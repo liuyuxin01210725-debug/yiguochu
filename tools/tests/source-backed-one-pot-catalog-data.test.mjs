@@ -200,7 +200,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
   }, {});
   assert.deepEqual(statusTotals, {
     identity_verified: 8,
-    recipe_fact_checked: 32,
+    recipe_fact_checked: 34,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1564,6 +1564,65 @@ test('records Taiwan Yiye Banyue oil rice as a named multi-stage rice dish witho
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.equal(source?.access_status, 'opened');
   assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taishan caiguo rice as a named non-electric regional rice dish with its cured-meat and vegetable sequence', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taishan-caiguo-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-TAISHAN-CAIGUO-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '台山菜果饭');
+  assert.deepEqual(recipe?.aliases, ['菜果饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['丝苗米', '菜果（苤蓝）', '腊味', '海虾米', '香芹']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /菜果.*苤蓝/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腊味.*煸炒.*菜果丁.*翻炒/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /丝苗米.*煮好的米饭.*拌匀/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /瓦煲.*小火慢焖/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'shellfish_fully_cooked',
+    visual_endpoint: '肉质呈珍珠白或白色且不透明',
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'B',
+    roles: ['carbohydrate', 'protein', 'fiber'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.ok(source?.claim_scopes.includes('process'));
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('keeps Dongzhi guoba rice as a partial official lead without inventing the missing variant and quantities', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'dongzhi-guoba-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-AH-DONGZHI-GUOBA-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '东至农家锅巴饭');
+  assert.deepEqual(recipe?.aliases, ['东至锅巴饭']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.core_ingredients, ['米饭', '红心芋', '红芋粉蒸肉生坯']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米饭进入干水.*红心芋.*红芋粉蒸肉生坯.*饭熟/);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, {
+    grade: 'C',
+    roles: ['carbohydrate', 'protein'],
+  });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'search_extract_opened');
   assert.ok(source?.claim_scopes.includes('process'));
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });

@@ -12,6 +12,7 @@
 
 ## 3. Missing quantity
 
+- 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -20,6 +21,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
@@ -29,12 +31,14 @@
 
 ## 4. Missing liquid
 
+- 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 蚕豆菜饭 (shanghai-broad-bean-vegetable-rice) — CN-SH
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
@@ -56,6 +60,7 @@
 
 ## 7. Missing time
 
+- 东至农家锅巴饭 (dongzhi-guoba-rice) — CN-AH
 - 社饭 (hubei-enshi-shefan) — CN-HB
 - 三山湖饭蒸鱼 (ezhou-sanshanhu-steamed-fish-rice) — CN-HB
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
@@ -68,6 +73,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- 台山菜果饭 (taishan-caiguo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
