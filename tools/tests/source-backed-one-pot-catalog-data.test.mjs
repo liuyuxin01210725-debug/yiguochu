@@ -199,8 +199,8 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    identity_verified: 7,
-    recipe_fact_checked: 111,
+    identity_verified: 6,
+    recipe_fact_checked: 112,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -3763,15 +3763,16 @@ test('records Pianguan oil-braised millet rice from two independent Shanxi food 
   assert.equal(recipe?.canonical_name, '偏关油焖饭');
   assert.deepEqual(recipe?.aliases, ['油焖小米粥']);
   assert.deepEqual(recipe?.region_codes, ['CN-SX']);
-  assert.equal(recipe?.status, 'identity_verified');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
   assert.deepEqual(recipe?.traditional_vessels, []);
   assert.deepEqual(recipe?.core_ingredients, ['小米', '胡麻油']);
   assert.equal(recipe?.fixed_batch, null);
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.cooking_sequence, []);
+  assert.equal(recipe?.cooking_sequence.length, 1);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /小米.*胡麻油.*焖制/u);
   assert.equal(recipe?.time_contract, null);
   assert.deepEqual(recipe?.safety_endpoints, []);
-  assert.deepEqual(recipe?.nutrition_structure, { grade: 'unassessed', roles: [] });
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'C', roles: ['carbohydrate'] });
   assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
   assert.ok(recipe?.evidence_notes.includes('没有固定份量'));
   assert.ok(recipe?.evidence_notes.includes('电饭煲'));
