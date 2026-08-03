@@ -184,7 +184,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 壶仔饭 | — | CN-FJ | minnan-steamed-glutinous-rice | 研究记录（非公开可执行） | 糯米；三层肉；香菇；虾米；大骨汤 | appliance、identity、ingredients、liquid、process、safety | 缺 quantity、time | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 壶仔饭 | — | CN-FJ | minnan-steamed-glutinous-rice | 研究记录（非公开可执行） | 糯米；三层肉；香菇；虾米；大骨汤 | appliance、identity、ingredients、liquid、process、safety、time | 缺 quantity | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[关于开展“晋邑古筵”推荐餐厅认定工作的通知](https://www.jinjiang.gov.cn/xxgk/zfxxgkzl/bmzfxxgk/whhlvj/whhlvjml/202512/t20251210_3239722.htm)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## mizhi-lamb-diced-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

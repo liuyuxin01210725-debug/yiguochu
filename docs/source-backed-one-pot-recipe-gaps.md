@@ -224,7 +224,6 @@
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
-- 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ

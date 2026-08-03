@@ -631,6 +631,34 @@ test('structures the Quanzhou Huzaifan steaming process without inventing quanti
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
+test('records the Jinjiang government corroboration for Shenhu Huzaifan without promoting approximate facts to contracts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'shenhu-huzaifan'
+  ));
+  const source = recipe?.source_refs.find(item => (
+    item.source_id === 'S-FJ-JINJIANG-SHENHU-HUZAI-1'
+  ));
+
+  assert.equal(source?.title, '关于开展“晋邑古筵”推荐餐厅认定工作的通知');
+  assert.equal(source?.publisher, '晋江市人民政府');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, [
+    'identity',
+    'ingredients',
+    'process',
+    'appliance',
+    'time',
+  ]);
+  assert.match(source?.evidence_locator ?? '', /深沪壶仔饭/);
+  assert.match(source?.evidence_locator ?? '', /约一时辰/);
+  assert.match(source?.evidence_locator ?? '', /汤量宜适中/);
+  assert.equal(recipe?.time_contract, null, 'an approximate source duration is not a fixed time contract');
+  assert.equal(recipe?.liquid_contract, null, 'an unquantified broth amount is not a liquid contract');
+  assert.match(recipe?.evidence_notes ?? '', /5至6分钟/);
+  assert.match(recipe?.evidence_notes ?? '', /约1小时/);
+  assert.match(recipe?.evidence_notes ?? '', /汤量宜适中/);
+});
+
 test('structures the Panan bamboo-tube rice ingredients and roast time without inventing quantities', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'zhejiang-panan-bamboo-tube-rice'
