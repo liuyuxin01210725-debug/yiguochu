@@ -96,7 +96,21 @@
 5. 可信媒体或餐饮机构的原创内容，只作补充证据；
 6. 社交媒体、聚合站和 RecipeDB 只作发现入口，不直接作为可执行配方的唯一依据。
 
-每条 `source_refs[]` 可选记录 `evidence_tier`（1–6），用于把“来源质量”与“该来源实际证明的事实范围”分开记账：1–5 表示政府/地方志/标准、原始授权资料、厂商正式资料、正式机构食谱或可信原创报道等可直接核验来源；6 表示聚合页、发布者转载或仅适合发现入口的来源。第 6 级来源可以在来源明确、边界受限时支撑身份或通用技法研究记录，但不得单独闭合可执行配方。
+每条 `source_refs[]` 记录 `evidence_tier`（1–6），用于把“来源质量”与“该来源实际证明的事实范围”分开记账：1–5 表示政府/地方志/标准、原始授权资料、厂商正式资料、正式机构食谱或可信原创报道等可直接核验来源；6 表示聚合页、发布者转载或仅适合发现入口的来源。研究状态可以暂时省略分级，但任何进入 `executable`、`preview_ready`、`kitchen_observed` 或 `production_approved` 的条目，所有 `source_refs[]` 都必须显式填写 `evidence_tier`。第 6 级来源可以在来源明确、边界受限时支撑身份或通用技法研究记录，但不得单独闭合可执行配方；支撑 `quantity`、`liquid`、`process`、`time` 合同的来源必须是第 1–5 级。
+
+可执行或公开条目的合同来源还必须满足直接取证门：凡声明 `quantity`、`liquid`、`process`、`time` 或 `safety` 的 `source_refs[]`，`access_status` 必须为 `opened`，并带有可复核的 `evidence_locator`（页码、行号或网页正文定位）。搜索摘录、只看到标题或 `search_extract_opened` 不能闭合合同。PDF 来源要额外提供本地凭证页归档清单，结构固定为：
+
+```json
+{
+  "local_archive": {
+    "path": "docs/source-archives/example-pages-11-24.pdf",
+    "sha256": "64位十六进制摘要",
+    "pages": [11, 24]
+  }
+}
+```
+
+`local_archive.path` 必须指向仓库内归档文件，`sha256` 与 `pages` 用于把远程来源和本地凭证页绑定；构建门会在提供归档根目录时检查文件存在并核对 SHA-256。未完成 PDF 归档的来源可以继续留在研究状态，但不得锚定可执行合同。
 
 允许保留一个有边界的第 6 级 `process` 技法记录，状态仍可为 `recipe_fact_checked`，但必须在 `evidence_notes` 明示“技法来源待加强”，人类可读目录也必须显示该警告；只要某条记录的 `process` 证据全部来自第 6 级，就不得晋升 `executable`、`preview_ready`、`kitchen_observed` 或 `production_approved`。晋升前必须补入至少一条第 1–5 级、直接支持 `process` 的来源。不得因为第 6 级来源写了数量、时间或器具，就把这些事实自动升级为通用合同。
 
@@ -151,7 +165,7 @@
 }
 ```
 
-`source_refs[]` 的来源对象应尽量包含 `evidence_tier`；省略时表示尚未完成来源分级，不得据此推断为高等级来源。目录生成器会把第 6 级独证的技法警告透传到 Markdown/CSV，避免研究状态被误读成已经可执行。
+`source_refs[]` 的来源对象在研究状态可暂时缺少 `evidence_tier`，但省略时表示尚未完成来源分级，不得据此推断为高等级来源。进入可执行或公开状态时，validator 会强制所有来源显式分级，并对合同来源检查等级、直接打开状态、页码/行号定位和 PDF 本地归档。目录生成器会把第 6 级独证的技法警告透传到 Markdown/CSV，避免研究状态被误读成已经可执行。
 
 ### 5.1 固定名称
 
@@ -203,6 +217,8 @@ discovered
 - `production_approved`：用户明确批准后进入正式版本。
 
 状态不得由脚本自动越级。缺任何关键事实时保持原状态。
+
+进入 `executable` 前，除上述事实合同外，还必须通过来源硬门：所有来源均有显式 `evidence_tier`；`quantity`、`liquid`、`process`、`time` 合同来源为第 1–5 级；`quantity`、`liquid`、`process`、`time`、`safety` 来源均直接打开并带页码/行号定位；涉及 PDF 时，本地凭证页归档文件和 `local_archive` 清单均齐全。后续公开状态沿用同一门禁，不能在晋升时放宽。
 
 特别地，`recipe_fact_checked` 仅由第 6 级来源支撑的 `process` 记录属于“有边界的通用技法记录”，必须显示“技法来源待加强”，并停在该状态；没有第 1–5 级 `process` 证据时，任何脚本或人工都不得把它当作可执行菜谱发布。
 
@@ -278,6 +294,8 @@ discovered
 - 菜名有独立外部来源；
 - 来源 URL 为 HTTPS 且不是项目自身域名；
 - 来源声明字段齐全；
+- 所有来源显式填写 `evidence_tier`；合同来源的 `process`、`quantity`、`liquid`、`time` 为第 1–5 级，并且 `process`、`quantity`、`liquid`、`time`、`safety` 来源均为 `opened` 且有 `evidence_locator`；
+- PDF 合同来源具有仓库内 `local_archive` 凭证页清单，构建时归档文件真实存在；
 - 固定批量、液体、流程和安全端点完整；
 - 菜名、食材、步骤和来源 claim 一致；
 - Ratio DSL 可执行且不读取自然语言猜数；

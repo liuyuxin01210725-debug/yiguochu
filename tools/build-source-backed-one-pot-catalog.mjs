@@ -12,9 +12,9 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 
 const readJson = relativePath => JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), 'utf8'));
 
-export function validateSourceBackedOnePotCatalogInputs(catalog, migration, legacyVariants) {
+export function validateSourceBackedOnePotCatalogInputs(catalog, migration, legacyVariants, options = {}) {
   return [
-    ...validateSourceBackedOnePotCatalog(catalog),
+    ...validateSourceBackedOnePotCatalog(catalog, options),
     ...validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
   ];
 }
@@ -26,7 +26,12 @@ export function buildSourceBackedOnePotCatalogFromFixedInputs() {
   const legacyVariants = Array.isArray(legacyCatalog?.families)
     ? legacyCatalog.families.flatMap(family => Array.isArray(family?.variants) ? family.variants : [])
     : [];
-  const errors = validateSourceBackedOnePotCatalogInputs(catalog, migration, legacyVariants);
+  const errors = validateSourceBackedOnePotCatalogInputs(
+    catalog,
+    migration,
+    legacyVariants,
+    { archive_root: ROOT },
+  );
   if (errors.length) {
     throw new Error(`Source-backed one-pot catalog input validation failed:\n${errors.map(error => `- ${error}`).join('\n')}`);
   }

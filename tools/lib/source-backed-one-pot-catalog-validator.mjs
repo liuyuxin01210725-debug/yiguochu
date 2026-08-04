@@ -1,3 +1,7 @@
+import { createHash } from 'node:crypto';
+import fs from 'node:fs';
+import pathModule from 'node:path';
+
 const STATUSES = new Set([
   'discovered',
   'identity_verified',
@@ -17,9 +21,23 @@ export const PUBLIC_SOURCE_BACKED_STATUSES = new Set([
   'preview_ready', 'kitchen_observed', 'production_approved',
 ]);
 
+const EXECUTABLE_OR_PUBLIC_STATUSES = new Set([
+  'executable', ...PUBLIC_SOURCE_BACKED_STATUSES,
+]);
+const CONTRACT_EVIDENCE_SCOPES = new Set([
+  'quantity', 'liquid', 'process', 'time', 'safety',
+]);
+const TIERED_CONTRACT_EVIDENCE_SCOPES = new Set([
+  'quantity', 'liquid', 'process', 'time',
+]);
+
 export const PROCESS_EVIDENCE_WARNING = '技法来源待加强';
 const MIN_EVIDENCE_TIER = 1;
 const MAX_EVIDENCE_TIER = 6;
+const EVIDENCE_TIER_FOR_CONTRACT_MIN = 1;
+const EVIDENCE_TIER_FOR_CONTRACT_MAX = 5;
+const PDF_URL = /\.pdf(?:$|[?#])/i;
+const LOCAL_ARCHIVE_SHA256 = /^[a-f0-9]{64}$/i;
 
 const KEBAB_CASE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HTTPS_URL = /^https:\/\/[^/\s]+(?:\/[^\s]*)?$/i;
@@ -198,6 +216,81 @@ function validateSource(source, path, errors) {
     for (const scope of source.claim_scopes) {
       if (!CLAIM_SCOPES.has(scope)) {
         errors.push(`${path}.claim_scopes contains unsupported scope: ${String(scope)}`);
+      }
+    }
+  }
+}
+
+function isPdfSource(source) {
+  return PDF_URL.test(source?.url ?? '')
+    || /pdf/i.test(source?.source_kind ?? '')
+    || source?.access_status === 'pdf_not_parsed';
+}
+
+function isMeaningfulLocalArchive(value) {
+  return isRecord(value)
+    && nonEmptyString(value.path)
+    && LOCAL_ARCHIVE_SHA256.test(value.sha256 ?? '')
+    && Array.isArray(value.pages)
+    && value.pages.length > 0
+    && value.pages.every(page => Number.isInteger(page) && page > 0);
+}
+
+function validatePromotionEvidence(recipe, recipePath, errors, options = {}) {
+  if (!EXECUTABLE_OR_PUBLIC_STATUSES.has(recipe.status)) return;
+
+  const sourceRefs = Array.isArray(recipe.source_refs) ? recipe.source_refs : [];
+  for (const [sourceIndex, source] of sourceRefs.entries()) {
+    const sourcePath = `${recipePath}.source_refs[${sourceIndex}]`;
+    if (!Number.isInteger(source?.evidence_tier)) {
+      errors.push(`${sourcePath}.evidence_tier is required and must be explicit for executable/public recipes`);
+    }
+  }
+
+  const checkedSources = new Set();
+  for (const [sourceIndex, source] of sourceRefs.entries()) {
+    const scopes = Array.isArray(source?.claim_scopes) ? source.claim_scopes : [];
+    const contractScopes = scopes.filter(scope => CONTRACT_EVIDENCE_SCOPES.has(scope));
+    if (contractScopes.length === 0) continue;
+
+    const sourcePath = `${recipePath}.source_refs[${sourceIndex}]`;
+    const sourceKey = source?.source_id || sourceIndex;
+    if (checkedSources.has(sourceKey)) continue;
+    checkedSources.add(sourceKey);
+
+    const tieredScopes = contractScopes.filter(scope => TIERED_CONTRACT_EVIDENCE_SCOPES.has(scope));
+    if (tieredScopes.length > 0 && (!Number.isInteger(source?.evidence_tier)
+      || source.evidence_tier < EVIDENCE_TIER_FOR_CONTRACT_MIN
+      || source.evidence_tier > EVIDENCE_TIER_FOR_CONTRACT_MAX)) {
+      errors.push(`${sourcePath} supporting ${tieredScopes.join(', ')} must use evidence_tier ${EVIDENCE_TIER_FOR_CONTRACT_MIN}-${EVIDENCE_TIER_FOR_CONTRACT_MAX}`);
+    }
+
+    if (source?.access_status !== 'opened') {
+      errors.push(`${sourcePath} supporting ${contractScopes.join(', ')} must have access_status opened (directly opened source)`);
+    }
+    if (!nonEmptyString(source?.evidence_locator)) {
+      errors.push(`${sourcePath} supporting ${contractScopes.join(', ')} requires evidence_locator with a page/line locator`);
+    }
+
+    if (isPdfSource(source)) {
+      if (!isMeaningfulLocalArchive(source.local_archive)) {
+        errors.push(`${sourcePath} PDF contract evidence requires a local_archive manifest with path, sha256, and pages`);
+      } else if (nonEmptyString(options.archive_root)) {
+        const archiveRoot = pathModule.resolve(options.archive_root);
+        const archivePath = pathModule.resolve(archiveRoot, source.local_archive.path);
+        const relative = pathModule.relative(archiveRoot, archivePath);
+        if (relative.startsWith('..') || pathModule.isAbsolute(relative)) {
+          errors.push(`${sourcePath}.local_archive.path must stay within archive_root`);
+        } else if (!fs.existsSync(archivePath)) {
+          errors.push(`${sourcePath}.local_archive.path does not exist under archive_root`);
+        } else {
+          const actualSha256 = createHash('sha256')
+            .update(fs.readFileSync(archivePath))
+            .digest('hex');
+          if (actualSha256.toLowerCase() !== source.local_archive.sha256.toLowerCase()) {
+            errors.push(`${sourcePath}.local_archive.sha256 mismatch for archived evidence file`);
+          }
+        }
       }
     }
   }
@@ -413,7 +506,7 @@ function isProjectSelfCitation(url, projectHosts) {
   }
 }
 
-function validatePromotionGates(recipe, path, errors) {
+function validatePromotionGates(recipe, path, errors, options = {}) {
   if (isRecord(recipe.cooker_adaptation)
     && recipe.cooker_adaptation.status === 'adapted'
     && nonEmptyString(recipe.cooker_adaptation.adapted_name)
@@ -426,10 +519,12 @@ function validatePromotionGates(recipe, path, errors) {
     if (!new RegExp(PROCESS_EVIDENCE_WARNING).test(recipe.evidence_notes ?? '')) {
       errors.push(`${path}.evidence_notes must include ${PROCESS_EVIDENCE_WARNING} for tier-6-only process evidence`);
     }
-    if (recipe.status === 'executable' || PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status)) {
+    if (EXECUTABLE_OR_PUBLIC_STATUSES.has(recipe.status)) {
       errors.push(`${path} cannot reach executable/public status with tier-6-only process evidence; add tier-1-to-5 process evidence first`);
     }
   }
+
+  validatePromotionEvidence(recipe, path, errors, options);
 
   if (!PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status)) return;
 
@@ -558,7 +653,7 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
     }
     validateFactEvidence(recipe, path, errors);
     validateCookerAdaptation(recipe, path, errors);
-    validatePromotionGates(recipe, path, errors);
+    validatePromotionGates(recipe, path, errors, safeOptions);
   }
 
   return errors;

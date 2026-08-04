@@ -51,7 +51,7 @@ export function validateSourceBackedCatalogFiles(input = {}) {
   }
 
   try {
-    errors.push(...validateSourceBackedOnePotCatalog(catalog));
+    errors.push(...validateSourceBackedOnePotCatalog(catalog, { archive_root: ROOT }));
   } catch (error) {
     errors.push(`catalog validation failed: ${error instanceof Error ? error.message : String(error)}`);
   }

@@ -1,5 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import {
   validateSourceBackedOnePotCatalog,
 } from '../lib/source-backed-one-pot-catalog-validator.mjs';
@@ -34,6 +38,9 @@ const validCatalog = () => ({
       url: 'https://www.fengxian.gov.cn/example.html',
       retrieved_at: '2026-08-02',
       source_kind: 'government',
+      access_status: 'opened',
+      evidence_tier: 3,
+      evidence_locator: '正文第1至10行',
       claim_scopes: ['identity', 'ingredients', 'process'],
       attribution: '上海市奉贤区人民政府',
       license: 'facts-only-review',
@@ -100,6 +107,93 @@ test('rejects an invalid source evidence tier', () => {
   const catalog = validCatalog();
   catalog.recipes[0].source_refs[0].evidence_tier = 7;
   assert.match(errorsFor(catalog).join('\n'), /evidence_tier.*1.*6/i);
+});
+
+test('requires an explicit evidence tier on every source for executable/public recipes', () => {
+  // Removing the strict promotion gate would treat an ungraded source as trustworthy by omission.
+  const catalog = factSourcedExecutableCatalog();
+  delete catalog.recipes[0].source_refs[0].evidence_tier;
+  assert.match(
+    errorsFor(catalog).join('\n'),
+    /source_refs\[0\]\.evidence_tier.*required|explicit.*evidence_tier/i,
+  );
+});
+
+test('applies the same evidence gate to the executable status before public promotion', () => {
+  // The executable transition itself must not be a weaker back door than public status.
+  const catalog = factSourcedExecutableCatalog();
+  catalog.recipes[0].status = 'executable';
+  delete catalog.recipes[0].source_refs[0].evidence_tier;
+  assert.match(errorsFor(catalog).join('\n'), /evidence_tier.*required|explicit.*evidence_tier/i);
+});
+
+test('requires tier-one-to-five evidence for contract-supporting scopes', () => {
+  // A tier-six source may remain research evidence, but cannot close an executable contract.
+  const catalog = factSourcedExecutableCatalog();
+  const source = catalog.recipes[0].source_refs[0];
+  source.evidence_tier = 6;
+  catalog.recipes[0].evidence_notes = '技法来源待加强；仅保留有边界的通用技法记录。';
+  assert.match(
+    errorsFor(catalog).join('\n'),
+    /contract.*tier.?1.?5|quantity.*tier.?1.?5|process.*tier.?1.?5/i,
+  );
+});
+
+test('requires directly opened and located evidence for contract-supporting scopes', () => {
+  // Search snippets and unlocated pages must not close an executable contract.
+  const catalog = factSourcedExecutableCatalog();
+  const source = catalog.recipes[0].source_refs[0];
+  source.access_status = 'search_extract_opened';
+  assert.match(errorsFor(catalog).join('\n'), /access_status.*opened|directly opened/i);
+
+  source.access_status = 'opened';
+  delete source.evidence_locator;
+  assert.match(errorsFor(catalog).join('\n'), /evidence_locator.*required|page.*line/i);
+});
+
+test('requires a local archive manifest before a PDF source can support an executable contract', () => {
+  // A remote PDF URL alone is not a reproducible local evidence page.
+  const catalog = factSourcedExecutableCatalog();
+  const source = catalog.recipes[0].source_refs[0];
+  source.url = 'https://example.com/recipe-manual.pdf';
+  source.source_kind = 'manufacturer_manual_recipe';
+  assert.match(errorsFor(catalog).join('\n'), /pdf.*local.*archive|local_archive/i);
+
+  source.local_archive = {
+    path: 'docs/source-archives/recipe-manual-pages-11-24.pdf',
+    sha256: 'a'.repeat(64),
+    pages: [11, 24],
+  };
+  assert.deepEqual(errorsFor(catalog), []);
+});
+
+test('checks that a local PDF archive exists when an archive root is supplied', () => {
+  // A manifest pointing at a missing file must not make a reproducible archive claim pass.
+  const catalog = factSourcedExecutableCatalog();
+  const source = catalog.recipes[0].source_refs[0];
+  source.url = 'https://example.com/recipe-manual.pdf';
+  source.source_kind = 'manufacturer_manual_recipe';
+  source.local_archive = {
+    path: 'recipe-manual-pages-11-24.pdf',
+    sha256: 'a'.repeat(64),
+    pages: [11, 24],
+  };
+  const archiveRoot = mkdtempSync(join(tmpdir(), 'one-pot-source-'));
+  try {
+    assert.match(
+      validateSourceBackedOnePotCatalog(catalog, { archive_root: archiveRoot }).join('\n'),
+      /local_archive\.path does not exist/i,
+    );
+    writeFileSync(join(archiveRoot, source.local_archive.path), 'archived evidence');
+    assert.match(
+      validateSourceBackedOnePotCatalog(catalog, { archive_root: archiveRoot }).join('\n'),
+      /sha256.*mismatch/i,
+    );
+    source.local_archive.sha256 = createHash('sha256').update('archived evidence').digest('hex');
+    assert.deepEqual(validateSourceBackedOnePotCatalog(catalog, { archive_root: archiveRoot }), []);
+  } finally {
+    rmSync(archiveRoot, { recursive: true, force: true });
+  }
 });
 
 test('rejects project self-citations', () => {
