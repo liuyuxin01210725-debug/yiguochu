@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260807-national-r55",
+  "catalog_version": "source-backed-one-pot-v1-20260808-national-r56",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -8766,5 +8766,1537 @@
     {"recipe_id":"maff-nara-chameshi","canonical_name":"奈良茶飯（ならちゃめし）","aliases":["奈良茶饭"],"region_codes":["JP-NARA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","大豆","焙茶","盐"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"杯"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"大豆","amount":{"value":40,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"焙茶","amount":{"value":4,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"水","amount":{"value":600,"unit":"mL"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"盐","amount":{"value":4,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]}],"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},"liquid_contract":{"kind":"added_liquid","amount":{"value":600,"unit":"mL"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"焙茶煮出后冷却；大豆按来源先小火焙炒去皮。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"step":2,"instruction":"米洗净放入炊饭器，加入焙茶至平时水位并静置约30分钟。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"step":3,"instruction":"加入焙炒大豆和盐后炊熟，保留来源所述茶水与豆类同锅边界。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-NARA-CHAMESHI-1"],"notes":"农林水产省页面明确写炊饭器与茶水同炊，但没有成品安全终点或跨型号程序参数。"},"source_refs":[{"source_id":"S-MAFF-NARA-CHAMESHI-1","title":"奈良茶飯（ならちゃめし） 奈良県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/nara_chameshi_nara.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第290至342行：奈良县茶饭身份、4人份米2杯/大豆40g/焙茶4g/水约600mL/盐4g、焙豆与茶水炊饭器同炊流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"奈良茶饭是官方页面明确写明炊饭器同锅的大豆焙茶饭；蛋白来自大豆，仍缺安全终点和厨房验证，不晋升 executable。"},
     {"recipe_id":"maff-fukui-chameshi","canonical_name":"茶飯（ちゃめし）","aliases":["福井今庄茶饭"],"region_codes":["JP-FUKUI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["糯米","粳米","大豆","豆入り番茶","酒","酱油"],"fixed_batch":null,"liquid_contract":{"kind":"added_liquid","amount":{"value":1500,"unit":"mL"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"豆入り番茶按来源浸泡大豆约1小时。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"step":2,"instruction":"将浸豆汁、酱油和番茶合计约1500mL煮沸，加入糯米、粳米和大豆同炊。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"step":3,"instruction":"起锅前按来源加入酒；保留原方大批量与茶水对象，不推导家庭份量。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"],"notes":"官方页面写混合米豆同锅炊煮，但未指定现代电饭煲型号、总时长或安全终点；大批量液体不缩放。"},"source_refs":[{"source_id":"S-MAFF-FUKUI-CHAMESHI-1","title":"茶飯（ちゃめし） 福井県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/chameshi_fukui.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第313至377行：今庄茶饭、糯米6合/粳米4合/大豆90g，豆入り番茶与酱油合计约1500mL同炊、起锅前加酒","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"福井今庄具名茶饭；页面直接支持米、豆、茶水同锅，但液体对应大批量原方且无现代机型或安全合同，保持研究状态。"},
     {"recipe_id":"maff-aichi-kakimawashi","canonical_name":"かきまわし／とりめし","aliases":["爱知かきまわし","爱知鸡肉拌饭"],"region_codes":["JP-AICHI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器","锅"],"core_ingredients":["米","鸡肉","鸡脂","牛蒡","胡萝卜","竹轮"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米浸泡约30分钟；鸡肉、牛蒡、胡萝卜和竹轮按来源切配。","source_ids":["S-MAFF-AICHI-KAKIMAWASHI-1"]},{"step":2,"instruction":"米按来源在炊饭器中加调味和刻度水炊煮；另锅用鸡脂炒煮鸡肉、牛蒡、胡萝卜和竹轮并收汁。","source_ids":["S-MAFF-AICHI-KAKIMAWASHI-1"]},{"step":3,"instruction":"米饭熟后拌入另锅具材并焖制；不可省略另锅处理改成生鸡肉直接同炊。","source_ids":["S-MAFF-AICHI-KAKIMAWASHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆","鸡肉"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"农林水产省原方是炊饭器主饭加另锅具材、熟饭后拌合的分段流程；不把它包装为严格单锅电饭煲菜饭。"},"source_refs":[{"source_id":"S-MAFF-AICHI-KAKIMAWASHI-1","title":"かきまわし／とりめし 愛知県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kakimawashi_aichi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第290至364行：爱知鸡肉饭身份、4人份米2合/鸡腿50g/牛蒡/胡萝卜/竹轮、炊饭器煮饭与另锅炒煮后拌饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"爱知具名かきまわし／とりめし；核心价值在真实地域流程，明确是分段拌合而非严格同锅，禽肉安全与固定份量合同尚未闭合。"}
+    ,{
+  "recipe_id": "panasonic-taiwan-taiyu-scallop-quinoa-rice",
+  "canonical_name": "鯛魚干貝藜麥炊飯",
+  "aliases": [
+    "Panasonic鲷鱼干贝藜麦炊饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic SR-PAA100"
+  ],
+  "core_ingredients": [
+    "白米",
+    "红藜麦",
+    "鲷鱼",
+    "干贝",
+    "鸿喜菇"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "白米、红藜麦和干贝按来源分别浸泡；鲷鱼以盐和酒腌制。",
+      "source_ids": [
+        "S-PANASONIC-TAIYU-SCALLOP-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "内锅放入米、藜麦、干贝、昆布、鸿喜菇和鲷鱼，按来源水位与混合饭程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-TAIYU-SCALLOP-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后取出鲷鱼和昆布，将鱼肉拌回米饭；保留机型水位与程序边界。",
+      "source_ids": [
+        "S-PANASONIC-TAIYU-SCALLOP-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "鱼类",
+    "甲壳类"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-TAIYU-SCALLOP-1"
+    ],
+    "notes": "Panasonic SR-PAA100页面直接给出机型、水位和同锅流程；不把该水位或程序外推到其他电饭煲。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-TAIYU-SCALLOP-1",
+      "title": "鯛魚干貝藜麥炊飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3904",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：SR-PAA100；白米2杯、红藜麦0.2杯、鲷鱼150g、干贝25g、昆布5g、鸿喜菇100g；干贝/藜麦浸泡与Silver Rice 2刻度水位；同锅炊煮后取鱼拌匀",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic台湾官方具名炊飯；来源给出海鲜、藜麦和电饭煲流程，但通用机型安全终点与家庭厨房观察尚未闭合。"
+},
+    {
+  "recipe_id": "panasonic-taiwan-salmon-mushroom-rice",
+  "canonical_name": "鮭魚菇菇炊飯",
+  "aliases": [
+    "Panasonic鲑鱼蘑菇炊饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic SR-PAA100"
+  ],
+  "core_ingredients": [
+    "白米",
+    "鲑鱼",
+    "鸿喜菇",
+    "香菇",
+    "奶油"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "米洗净；鲑鱼以盐和米酒腌约15分钟，菇类切配。",
+      "source_ids": [
+        "S-PANASONIC-SALMON-MUSHROOM-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "内锅加入米、水、调味料和菇类，放上鲑鱼后按来源白米或混合饭程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-SALMON-MUSHROOM-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后取出鲑鱼去骨，将鱼肉与奶油和米饭拌匀。",
+      "source_ids": [
+        "S-PANASONIC-SALMON-MUSHROOM-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "鱼类",
+    "乳制品",
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-SALMON-MUSHROOM-1"
+    ],
+    "notes": "Panasonic SR-PAA100官方页面直接证明机型与水量；不把1.5杯水的合同外推到其他米种或机型。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-SALMON-MUSHROOM-1",
+      "title": "鮭魚菇菇炊飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4032",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：SR-PAA100；米1.5杯/水1.5杯、鲑鱼250g、鸿喜菇半包、香菇2朵、味醂/米酒/酱油与奶油；混合饭/白米程序后拌匀",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic台湾官方鲑鱼菇菇炊飯；食材与流程有直接来源，安全终点与跨机型参数仍待闭合。"
+},
+    {
+  "recipe_id": "panasonic-taiwan-sakura-shrimp-cabbage-rice",
+  "canonical_name": "櫻蝦玉菜煲仔飯",
+  "aliases": [
+    "樱虾玉菜煲仔饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic SR-PAA100"
+  ],
+  "core_ingredients": [
+    "白米",
+    "高丽菜",
+    "樱花虾",
+    "香菇",
+    "红葱酥"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "米、香菇和高丽菜按来源切配，樱花虾与红葱酥备好。",
+      "source_ids": [
+        "S-PANASONIC-SAKURA-CABBAGE-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "内锅放米、高丽菜、香菇、樱花虾、葱油和调味料，加水后按来源程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-SAKURA-CABBAGE-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后拌松，保留来源中的虾米与高丽菜同锅边界。",
+      "source_ids": [
+        "S-PANASONIC-SAKURA-CABBAGE-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "甲壳类",
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-SAKURA-CABBAGE-1"
+    ],
+    "notes": "Panasonic SR-PAA100官方页面直接证明机型和400g水量；不把“煲仔饭”名称改写成普通自由组合焖饭。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-SAKURA-CABBAGE-1",
+      "title": "櫻蝦玉菜煲仔飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4003",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：SR-PAA100；白米300g、高丽菜300g、樱花虾5g、红葱酥20g、葱油15g、香菇20g、水400g及内锅炊煮后拌匀",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic台湾官方具名樱虾玉菜煲仔饭；来源完整记录高丽菜、海味与米的组合，安全与通用机型转换尚未闭合。"
+},
+    {
+  "recipe_id": "panasonic-taiwan-truffle-seafood-risotto",
+  "canonical_name": "松露海鮮燉飯",
+  "aliases": [
+    "松露海鲜炖饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic SR-PAA100"
+  ],
+  "core_ingredients": [
+    "义大利米",
+    "蛤蜊",
+    "虾",
+    "鱿鱼",
+    "松露酱",
+    "奶油"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "义大利米、洋葱、蒜和海鲜按来源处理，准备高汤、鲜奶油和白酒。",
+      "source_ids": [
+        "S-PANASONIC-TRUFFLE-SEAFOOD-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "内锅按来源加入米、液体和海鲜，使用Panasonic程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-TRUFFLE-SEAFOOD-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后拌入松露酱、奶油和起司；海鲜熟度与机型程序仍以来源为限。",
+      "source_ids": [
+        "S-PANASONIC-TRUFFLE-SEAFOOD-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "甲壳类",
+    "软体动物",
+    "乳制品"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-TRUFFLE-SEAFOOD-1"
+    ],
+    "notes": "Panasonic SR-PAA100页面支持机型与同锅步骤，但没有给通用电饭煲安全终点，暂不晋升。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-TRUFFLE-SEAFOOD-1",
+      "title": "松露海鮮燉飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5098",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：SR-PAA100；义大利米200g、高汤150g、鲜奶油30g、白酒20g、蛤蜊5只、虾6只、鱿鱼30g、松露酱10g、起司20g；同锅炊煮后拌入松露与起司",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic台湾官方海鲜炖饭；来源具名且流程清楚，但海鲜安全端点、奶油/起司比例的家庭适配尚未完成。"
+},
+    {
+  "recipe_id": "panasonic-taiwan-golden-snapper-rice",
+  "canonical_name": "金絲鯛魚炊飯",
+  "aliases": [
+    "金丝鲷鱼炊饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic电饭锅"
+  ],
+  "core_ingredients": [
+    "米",
+    "金丝鲷鱼",
+    "昆布",
+    "柴鱼高汤",
+    "毛豆",
+    "蛋丝"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "米洗净，准备柴鱼高汤、昆布和调味料；鲷鱼处理干净。",
+      "source_ids": [
+        "S-PANASONIC-GOLDEN-SNAPPER-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "内锅放米、高汤、昆布和调味料，将鲷鱼置于米面后按来源白米程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-GOLDEN-SNAPPER-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后取出鱼骨，将鱼肉与蛋丝、毛豆拌回饭中。",
+      "source_ids": [
+        "S-PANASONIC-GOLDEN-SNAPPER-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "鱼类",
+    "鸡蛋",
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-GOLDEN-SNAPPER-1"
+    ],
+    "notes": "Panasonic官方页面直接给出电饭锅程序与3杯米/3杯高汤；保留来源的鱼骨处理和收尾配料，不外推其他机型。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-GOLDEN-SNAPPER-1",
+      "title": "金絲鯛魚炊飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/140",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：米3杯、金丝鲷鱼1尾、柴鱼高汤3杯、昆布10cm、酒/酱油/味醂；鱼置米上按白米程序，炊好取鱼拌入蛋丝与毛豆",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic官方金丝鲷鱼炊饭；具名、流程和器具来源明确，安全终点和厨房观察尚未闭合。"
+},
+    {
+  "recipe_id": "panasonic-taiwan-mushroom-chicken-bamboo-rice",
+  "canonical_name": "野菇雞肉竹筍什錦飯",
+  "aliases": [
+    "野菇鸡肉竹笋什锦饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic SR-PAA100"
+  ],
+  "core_ingredients": [
+    "白米",
+    "鸡腿肉",
+    "鸿喜菇",
+    "香菇",
+    "竹笋",
+    "胡萝卜"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "鸡腿肉、菇类、竹笋和胡萝卜按来源切配并腌味。",
+      "source_ids": [
+        "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "内锅加入白米、腌汁、清水和蔬菜，放上鸡肉后按混合饭程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后拌匀并保留来源的菇类、竹笋和鸡肉同锅结构。",
+      "source_ids": [
+        "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "鸡肉",
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+    ],
+    "notes": "Panasonic SR-PAA100官方页面证明机型、米水和混合饭流程；没有明确总时长或安全终点，不外推到其他机型。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1",
+      "title": "野菇雞肉竹筍什錦飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3797",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：SR-PAA100；白米2杯、鸡腿肉200g、菇类100g+120g、竹笋150g、胡萝卜，腌汁半杯加水2杯，混合饭程序",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic台湾官方野菇鸡肉竹笋什锦饭；地域和具名流程明确，固定时间与安全合同待闭合。"
+},
+    {
+  "recipe_id": "panasonic-taiwan-shiitake-bamboo-chicken-rice",
+  "canonical_name": "香菇竹筍雞肉炊飯",
+  "aliases": [
+    "香菇竹笋鸡肉炊饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "Panasonic SR-PAA100"
+  ],
+  "core_ingredients": [
+    "白米",
+    "鸡腿肉",
+    "香菇",
+    "竹笋",
+    "胡萝卜"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "香菇浸泡，鸡腿、胡萝卜和竹笋切配；按来源先炒香鸡肉与具材。",
+      "source_ids": [
+        "S-PANASONIC-SHIITAKE-BAMBOO-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "将炒好的具材、米和香菇水放入电饭锅，按来源程序炊煮。",
+      "source_ids": [
+        "S-PANASONIC-SHIITAKE-BAMBOO-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "炊好后焖匀；保留“先炒后入锅”的连续流程，不改写成生肉直煮。",
+      "source_ids": [
+        "S-PANASONIC-SHIITAKE-BAMBOO-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "鸡肉",
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-PANASONIC-SHIITAKE-BAMBOO-1"
+    ],
+    "notes": "Panasonic官方页面明确先炒与电饭锅承接，但没有通用机型时间或安全终点；不把预炒省略。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-PANASONIC-SHIITAKE-BAMBOO-1",
+      "title": "香菇竹筍雞肉炊飯",
+      "publisher": "Panasonic Cooking Taiwan",
+      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3842",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "manufacturer_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 3,
+      "evidence_locator": "详情页：SR-PAA100；鸡腿、香菇3朵、香菇水1.5杯、胡萝卜30g、竹笋300g；鸡肉与具材先炒，再与米入电饭锅",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "Panasonic Cooking Taiwan",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "Panasonic台湾官方香菇竹笋鸡肉炊饭；器具承接和预炒边界清楚，尚未完成通用厨房合同。"
+},
+    {
+  "recipe_id": "fehd-healthy-mixed-bean-porridge",
+  "canonical_name": "健康雜豆粥",
+  "aliases": [
+    "健康杂豆粥"
+  ],
+  "region_codes": [
+    "HK"
+  ],
+  "cuisine_family": "hong-kong-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "电饭煲"
+  ],
+  "core_ingredients": [
+    "米",
+    "小米",
+    "糙米",
+    "红腰豆",
+    "红豆",
+    "鹰嘴豆",
+    "黑豆"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "豆类按官方食谱隔夜浸泡，倒掉浸泡水后冲洗；米、小米和糙米洗净。",
+      "source_ids": [
+        "S-FEHD-MIXED-BEAN-PORRIDGE-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "将谷物和豆类放入电饭煲，按喜好加水，以粥档煮至豆类和谷物完全熟透。",
+      "source_ids": [
+        "S-FEHD-MIXED-BEAN-PORRIDGE-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "按官方边界调整稀稠；红腰豆必须充分加热，不把未熟豆类当作可食成品。",
+      "source_ids": [
+        "S-FEHD-MIXED-BEAN-PORRIDGE-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-FEHD-MIXED-BEAN-PORRIDGE-1"
+    ],
+    "notes": "香港食环署官方图片直接写电饭煲粥档和浸豆边界，但没有固定家庭份量、总时间或安全温度合同。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-FEHD-MIXED-BEAN-PORRIDGE-1",
+      "title": "健康雜豆粥",
+      "publisher": "香港食物環境衞生署",
+      "url": "https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w2a.jpg",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_image",
+      "access_status": "opened",
+      "evidence_tier": 1,
+      "evidence_locator": "官方食谱图片：米/小米/糙米总计1杯，红腰豆/红豆/鹰嘴豆/黑豆各1至2茶匙；豆类隔夜浸泡并弃水，电饭煲粥档煮至全熟，水量按稀稠调整",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "process",
+        "appliance"
+      ],
+      "attribution": "香港食物環境衞生署",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "香港食环署官方健康杂豆粥；豆类预处理和熟制边界明确，水量随稀稠变化，暂不晋升 executable。"
+},
+    {
+  "recipe_id": "fehd-cheese-asparagus-seafood-rice",
+  "canonical_name": "芝士蘆筍海鮮焗飯",
+  "aliases": [
+    "芝士芦笋海鲜焗饭"
+  ],
+  "region_codes": [
+    "HK"
+  ],
+  "cuisine_family": "hong-kong-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "电饭煲"
+  ],
+  "core_ingredients": [
+    "糙米",
+    "藜麦",
+    "芦笋",
+    "混合海鲜",
+    "芝士"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "糙米和藜麦按官方食谱浸泡至少4小时或隔夜，海鲜和芦笋备好。",
+      "source_ids": [
+        "S-FEHD-CHEESE-ASPARAGUS-SEAFOOD-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "谷物加水放入电饭煲煮至接近熟透；结束前约10分钟加入芦笋和海鲜。",
+      "source_ids": [
+        "S-FEHD-CHEESE-ASPARAGUS-SEAFOOD-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "按官方流程加芝士并焖约3分钟；海鲜安全终点仍是研究缺口。",
+      "source_ids": [
+        "S-FEHD-CHEESE-ASPARAGUS-SEAFOOD-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "甲壳类",
+    "鱼类",
+    "乳制品"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "source_limited",
+    "source_ids": [
+      "S-FEHD-CHEESE-ASPARAGUS-SEAFOOD-1"
+    ],
+    "notes": "香港食环署官方图片支持电饭煲和分段投料，但未给固定份量、海鲜安全终点或跨型号程序。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-FEHD-CHEESE-ASPARAGUS-SEAFOOD-1",
+      "title": "芝士蘆筍海鮮焗飯",
+      "publisher": "香港食物環境衞生署",
+      "url": "https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w4a.jpg",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_image",
+      "access_status": "opened",
+      "evidence_tier": 1,
+      "evidence_locator": "官方食谱图片：糙米/藜麦1杯、水0.8杯、芦笋1束、芝士1片、适量海鲜；谷物浸泡至少4小时，电饭煲煮熟，结束前约10分钟加芦笋与芝士，焖3分钟",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "appliance"
+      ],
+      "attribution": "香港食物環境衞生署",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "香港食环署官方芝士芦笋海鲜焗饭；具名和电饭煲流程有来源，海鲜熟制合同未闭合，保持研究状态。"
+},
+    {
+  "recipe_id": "startsmart-corn-lean-pork-porridge",
+  "canonical_name": "粟米瘦肉粥",
+  "aliases": [
+    "玉米瘦肉粥"
+  ],
+  "region_codes": [
+    "HK"
+  ],
+  "cuisine_family": "hong-kong-rice-cooker-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "锅"
+  ],
+  "core_ingredients": [
+    "米",
+    "瘦肉",
+    "玉米",
+    "水"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "水煮沸后按官方流程加入米煮至米粒开花。",
+      "source_ids": [
+        "S-STARTSMART-CORN-LEAN-PORK-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "加入瘦肉和玉米，继续煮至肉和米粥全熟并调味。",
+      "source_ids": [
+        "S-STARTSMART-CORN-LEAN-PORK-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "保留官方大批量机构厨房边界，不把83人份直接缩成家庭克数。",
+      "source_ids": [
+        "S-STARTSMART-CORN-LEAN-PORK-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "猪肉"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "StartSmart官方页面是大批量锅煮流程，未给家庭份量、电饭煲程序或猪肉温度合同。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-STARTSMART-CORN-LEAN-PORK-1",
+      "title": "粟米瘦肉粥",
+      "publisher": "香港衞生署 StartSmart",
+      "url": "https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=5",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 1,
+      "evidence_locator": "官方页面：83人份，水3.6L、米375g、瘦肉350g、玉米250g、盐1茶匙；水沸后下米，米花开后加入肉和玉米并煮熟，备料约10分钟、烹煮约30分钟",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "time"
+      ],
+      "attribution": "香港衞生署 StartSmart",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "香港卫生署官方粟米瘦肉粥；具名、配比和分段投料有来源，但机构批量与家庭电饭煲适配尚未闭合。"
+},
+    {
+  "recipe_id": "had-vegetable-pulao",
+  "canonical_name": "港巴蔬菜粥",
+  "aliases": [
+    "港巴蔬菜抓饭",
+    "Vegetable Pulao"
+  ],
+  "region_codes": [
+    "HK"
+  ],
+  "cuisine_family": "hong-kong-rice-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "锅"
+  ],
+  "core_ingredients": [
+    "珍珠米",
+    "豌豆",
+    "胡萝卜",
+    "彩椒",
+    "番茄",
+    "土豆"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "珍珠米与豌豆、胡萝卜、彩椒、番茄和土豆按官方PDF切配。",
+      "source_ids": [
+        "S-HAD-HOME-RECIPE-VEGETABLE-PULAO-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "锅中先炒香蔬菜与米，加入官方范围内的水量后煮至米粒软熟。",
+      "source_ids": [
+        "S-HAD-HOME-RECIPE-VEGETABLE-PULAO-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "保留来源的锅煮和约60分钟边界，不推导成其他器具程序。",
+      "source_ids": [
+        "S-HAD-HOME-RECIPE-VEGETABLE-PULAO-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [],
+  "nutrition_structure": {
+    "grade": "C",
+    "roles": [
+      "carbohydrate",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "香港民政事务总署官方PDF是锅煮多蔬菜抓饭，未给电饭煲适配或统一安全终点，暂不公开为通用电饭煲菜谱。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-HAD-HOME-RECIPE-VEGETABLE-PULAO-1",
+      "title": "Home Recipe: Vegetable Pulao",
+      "publisher": "香港民政事务总署",
+      "url": "https://www.had.gov.hk/rru/tc_chi/programmes/files/Home_Recipe.pdf",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_pdf",
+      "access_status": "opened",
+      "evidence_tier": 2,
+      "evidence_locator": "官方PDF第6页：4至6人份，珍珠米、豌豆、胡萝卜、彩椒、番茄、土豆；先炒香蔬菜与米，加入约4至6杯水煮约30至45分钟，总时长约60分钟",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process",
+        "time"
+      ],
+      "attribution": "香港民政事务总署",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "香港官方家庭食谱PDF中的具名蔬菜pulao；过程与水量有来源，但蛋白不足且器具为锅煮，作为研究候选保存。"
+},
+    {
+  "recipe_id": "startsmart-three-bean-egg-tofu-red-rice",
+  "canonical_name": "三色豆蛋絲豆腐菜粒焗紅米飯",
+  "aliases": [
+    "三色豆蛋丝豆腐菜粒焗红米饭"
+  ],
+  "region_codes": [
+    "HK"
+  ],
+  "cuisine_family": "hong-kong-rice-recipes",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "锅",
+    "焗炉"
+  ],
+  "core_ingredients": [
+    "红米",
+    "三色豆",
+    "豆腐",
+    "鸡蛋",
+    "蔬菜"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "米和三色豆按官方大批量流程处理，蔬菜、豆腐和蛋丝切配。",
+      "source_ids": [
+        "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "米先煮熟，再按来源加入豆腐、蔬菜和蛋丝完成慢火焗制。",
+      "source_ids": [
+        "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "保留机构厨房的先煮后焗边界，不把多阶段流程宣称为全程一锅。",
+      "source_ids": [
+        "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "大豆",
+    "鸡蛋"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "StartSmart官方是60人份机构食谱，包含先煮后焗与蛋丝收尾，未给家庭电饭煲适配或固定安全终点。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-STARTSMART-THREE-BEAN-TOFU-RICE-1",
+      "title": "三色豆蛋絲豆腐菜粒焗紅米飯",
+      "publisher": "香港衞生署 StartSmart",
+      "url": "https://www.startsmart.gov.hk/en/photogalleryDetail.aspx?RecipeID=102",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 1,
+      "evidence_locator": "官方页面：60人份；白米/糙米、三色豆、豆腐、蛋丝和蔬菜；米先煮熟，再慢火焗制并按来源完成分段流程",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "process"
+      ],
+      "attribution": "香港衞生署 StartSmart",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "香港卫生署官方三色豆豆腐红米饭；营养角色完整但流程为机构大批量分段，研究期不晋升 executable。"
+},
+    {
+  "recipe_id": "dongtai-salted-pork-daylily-rice",
+  "canonical_name": "東台咸肉黃花頭焖飯",
+  "aliases": [
+    "东台咸肉黄花头焖饭"
+  ],
+  "region_codes": [
+    "CN-JS-YANCHENG-DONGTAI"
+  ],
+  "cuisine_family": "regional-rice-meals",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "锅"
+  ],
+  "core_ingredients": [
+    "米",
+    "咸肉",
+    "黄花头"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "咸肉切片，黄花头按来源处理并铺在锅底。",
+      "source_ids": [
+        "S-DONGTAI-SALTED-PORK-DAYLILY-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "米饭覆盖在咸肉和黄花头上，按东台来源同锅焖制。",
+      "source_ids": [
+        "S-DONGTAI-SALTED-PORK-DAYLILY-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "保留来源没有给出的份量、液体、时间和电器参数，不自行补齐。",
+      "source_ids": [
+        "S-DONGTAI-SALTED-PORK-DAYLILY-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "猪肉"
+  ],
+  "nutrition_structure": {
+    "grade": "C",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "东台政府来源证明地方身份和同锅焖饭结构，但不是电饭煲合同，且数量与安全边界未闭合。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-DONGTAI-SALTED-PORK-DAYLILY-1",
+      "title": "东台咸肉黄花头焖饭",
+      "publisher": "东台市人民政府（东台日报）",
+      "url": "https://www.dongtai.gov.cn/art/2026/1/9/art_7763_4394356.html",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_food_culture_page",
+      "access_status": "opened",
+      "evidence_tier": 2,
+      "evidence_locator": "官方政府页面正文第24至29行：咸肉切片、黄花头垫底、米饭覆盖后同锅焖制的东台地方饭身份与流程",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "process"
+      ],
+      "attribution": "东台市人民政府（东台日报）",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "东台地方政府记载的具名咸肉黄花头焖饭；来源真实但合同缺口大，暂只作 recipe_fact_checked 研究记录。"
+},
+    {
+  "recipe_id": "she-black-rice",
+  "canonical_name": "畲族乌饭",
+  "aliases": [
+    "畲族乌米饭",
+    "乌稔饭"
+  ],
+  "region_codes": [
+    "CN-GD-GUANGZHOU"
+  ],
+  "cuisine_family": "ethnic-regional-rice",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "锅"
+  ],
+  "core_ingredients": [
+    "糯米",
+    "乌稔叶",
+    "猪油"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "乌稔叶按官方记载取汁，糯米淘洗备用。",
+      "source_ids": [
+        "S-GZ-ETHNIC-SHE-BLACK-RICE-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "糯米在乌稔叶汁中煮或蒸熟，形成畲族乌饭的黑色与香气。",
+      "source_ids": [
+        "S-GZ-ETHNIC-SHE-BLACK-RICE-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "来源提到的猪油仅作可选增香；不把这道传统饭改写成含肉的固定均衡套餐。",
+      "source_ids": [
+        "S-GZ-ETHNIC-SHE-BLACK-RICE-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [],
+  "nutrition_structure": {
+    "grade": "C",
+    "roles": [
+      "carbohydrate"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "广州市民族事务官方页面证明民族身份和叶汁处理；没有家庭份量、液体、时间或电饭煲适配合同。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-GZ-ETHNIC-SHE-BLACK-RICE-1",
+      "title": "畲族乌饭",
+      "publisher": "广州市民族宗教事务局",
+      "url": "https://mzzjj.gz.gov.cn/xwdt/gqdt/content/post_10848697.html",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_food_culture_page",
+      "access_status": "opened",
+      "evidence_tier": 2,
+      "evidence_locator": "官方民族事务页面第20至42行：乌稔叶取汁、糯米在叶汁中煮/蒸成乌饭，按传统可用猪油增香",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "process"
+      ],
+      "attribution": "广州市民族宗教事务局",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "畲族传统乌饭具名真实；主要是糯米与植物染汁，营养结构不完整但不属于无出处自由组合，保留作文化候选。"
+},
+    {
+  "recipe_id": "qianjiang-junmi-tea",
+  "canonical_name": "潜江焌米茶",
+  "aliases": [
+    "焌米茶",
+    "潜江米茶"
+  ],
+  "region_codes": [
+    "CN-HB-QIANJIANG"
+  ],
+  "cuisine_family": "regional-rice-meals",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "锅"
+  ],
+  "core_ingredients": [
+    "米",
+    "小麦",
+    "姜",
+    "盐"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "米和小麦按潜江市政府记载先焙炒，淘洗后备用。",
+      "source_ids": [
+        "S-QIANJIANG-JUNMI-TEA-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "锅中加水煮至米粒半开，按来源加入姜、盐或糖调味。",
+      "source_ids": [
+        "S-QIANJIANG-JUNMI-TEA-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "酸味版本需静置发酵12小时以上；发酵温度和安全终点未由来源闭合。",
+      "source_ids": [
+        "S-QIANJIANG-JUNMI-TEA-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "小麦"
+  ],
+  "nutrition_structure": {
+    "grade": "C",
+    "roles": [
+      "carbohydrate"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "潜江市政府来源证明地方身份和焙炒、煮制、发酵流程；未给家庭份量、器具或发酵安全合同。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-QIANJIANG-JUNMI-TEA-1",
+      "title": "潜江焌米茶",
+      "publisher": "潜江市人民政府",
+      "url": "https://www.hbqj.gov.cn/zjqj/lyqj/msfq/202109/t20210906_3742111.html",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_food_culture_page",
+      "access_status": "opened",
+      "evidence_tier": 2,
+      "evidence_locator": "潜江市政府文化旅游页面第22至41行：米和小麦焙炒、淘洗、煮至半开；酸味版本静置发酵12小时以上",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "process"
+      ],
+      "attribution": "潜江市人民政府",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "潜江地方政府具名焌米茶；兼具米茶与发酵变体，研究记录明确标出发酵安全边界，不晋升 executable。"
+},
+    {
+  "recipe_id": "taiwan-sweet-potato-salted-rice",
+  "canonical_name": "地瓜鹹飯",
+  "aliases": [
+    "地瓜咸饭",
+    "番薯咸饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-regional-rice",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "带盖锅"
+  ],
+  "core_ingredients": [
+    "白米",
+    "地瓜",
+    "干香菇",
+    "萝卜干"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "米按官方页面浸泡约30分钟并沥干；香菇和萝卜干泡发切碎，地瓜切块。",
+      "source_ids": [
+        "S-MOA-TW-SWEET-POTATO-SALTED-RICE-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "锅中先炒香香菇和萝卜干，加入地瓜、米和来源规定的浸泡水及米水比例。",
+      "source_ids": [
+        "S-MOA-TW-SWEET-POTATO-SALTED-RICE-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "加盖煮至冒蒸气后转小火约15分钟，保留带盖锅的原器具边界。",
+      "source_ids": [
+        "S-MOA-TW-SWEET-POTATO-SALTED-RICE-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "C",
+    "roles": [
+      "carbohydrate",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "台湾农业部页面是带盖锅/炉具流程，不证明普通电饭煲的水量、程序或防糊底参数。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-MOA-TW-SWEET-POTATO-SALTED-RICE-1",
+      "title": "地瓜鹹飯",
+      "publisher": "台湾农业部儿童食农教育资讯网",
+      "url": "https://kids.moa.gov.tw/theme_data.php?id=230&theme=kids_cooking",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 1,
+      "evidence_locator": "官方页面第613至635行：白米、干香菇、萝卜干、地瓜；米水1:1并额外半米杯，香菇/萝卜干先炒，加入浸泡水后加盖焖至蒸气再小火约15分钟",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process"
+      ],
+      "attribution": "台湾农业部儿童食农教育资讯网",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "台湾农业部儿童食农教育页面记载的地瓜咸饭；真实具名、有明确传统流程，但蛋白不足且非电饭煲合同。"
+},
+    {
+  "recipe_id": "taiwan-pork-rib-claypot-rice",
+  "canonical_name": "排骨煲仔飯",
+  "aliases": [
+    "排骨煲仔饭"
+  ],
+  "region_codes": [
+    "TW"
+  ],
+  "cuisine_family": "taiwan-regional-claypot-rice",
+  "identity_status": "verified",
+  "traditional_vessels": [
+    "砂锅"
+  ],
+  "core_ingredients": [
+    "白米",
+    "糙米",
+    "猪排",
+    "白菜",
+    "鸿喜菇"
+  ],
+  "fixed_batch": null,
+  "liquid_contract": null,
+  "cooking_sequence": [
+    {
+      "step": 1,
+      "instruction": "排骨按官方页面腌味；白米与糙米洗净，白菜、鸿喜菇切配。",
+      "source_ids": [
+        "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+      ]
+    },
+    {
+      "step": 2,
+      "instruction": "砂锅加入米、汤水和蔬菜，排骨按来源分段放入并焖煮。",
+      "source_ids": [
+        "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+      ]
+    },
+    {
+      "step": 3,
+      "instruction": "保留砂锅原方的分段流程；来源未给家庭器具程序或猪肉安全终点。",
+      "source_ids": [
+        "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+      ]
+    }
+  ],
+  "time_contract": null,
+  "safety_endpoints": [],
+  "allergen_labels": [
+    "猪肉",
+    "大豆"
+  ],
+  "nutrition_structure": {
+    "grade": "B",
+    "roles": [
+      "carbohydrate",
+      "protein",
+      "fiber"
+    ]
+  },
+  "cooker_adaptation": {
+    "status": "not_adapted",
+    "notes": "台湾农业部页面证明砂锅煲仔饭版本，不与已有其他器具版本拼接，也不推导电饭煲参数。"
+  },
+  "source_refs": [
+    {
+      "source_id": "S-MOA-TW-PORK-RIB-CLAYPOT-1",
+      "title": "排骨煲仔飯",
+      "publisher": "台湾农业部儿童食农教育资讯网",
+      "url": "https://kids.moa.gov.tw/theme_data.php?id=282&theme=kids_cooking",
+      "retrieved_at": "2026-08-05",
+      "source_kind": "government_recipe_page",
+      "access_status": "opened",
+      "evidence_tier": 1,
+      "evidence_locator": "官方页面第613至633行：猪排骨300g、白米/糙米各半杯、蘑菇鸡汤半包加水2杯、白菜与鸿喜菇；腌制后砂锅分段焖煮",
+      "claim_scopes": [
+        "identity",
+        "ingredients",
+        "quantity",
+        "liquid",
+        "process"
+      ],
+      "attribution": "台湾农业部儿童食农教育资讯网",
+      "license": "government_site_terms_unspecified"
+    }
+  ],
+  "status": "recipe_fact_checked",
+  "evidence_notes": "台湾农业部官方排骨煲仔饭；来源有用量和液体，但器具、时间和猪肉安全合同未闭合，保持研究状态。"
+}
   ]
 }
