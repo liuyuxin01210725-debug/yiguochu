@@ -1,5 +1,34 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r73 搜集期第四十六批（2026-08-06）
+
+本批按“搜集放量、证据不越级”继续并行核对厂商官方与地域官方来源。基于 r72 的 672 条目录，新增 **8 条研究记录**，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r73`，当前总量 680：`executable=12`、`recipe_fact_checked=597`、`identity_verified=65`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
+
+### 厂商官方来源（6 条，全部 `recipe_fact_checked`）
+
+- `panasonic-bamboo-brown-rice-nf-pc400` — たけのこ入り玄米ごはん：Panasonic NF-PC400 电气压力锅版本，糙米、笋、炸豆腐、约700mL/糙米水位3和自动菜单15均绑定型号；不外推普通电饭煲。
+- `panasonic-chinese-sticky-rice-nf-pc400` — 中華おこわ（Panasonic NF-PC400版）：独立于既有 Tiger 版本，保留糯米3杯、400mL水、香菇/虾仁/笋/叉烧和压力调理30分钟，不拼接另一厂商合同。
+- `zojirushi-rice-beans-bacon-collard-greens` — Rice and Beans with Bacon and Collard Greens：Zojirushi 电饭煲主体煮米和浸泡豆，培根与叶菜预熟、番茄和叶菜出锅拌入；标注连续流程和豆类边界。
+- `zojirushi-spicy-basmati-lentil-spinach-rice` — Spicy Basmati Rice with Lentils and Spinach：米和红扁豆主体炊煮，菠菜/番茄/杏仁出锅拌入；碳水、植物蛋白和纤维结构明确，未补缺失总时长。
+- `tefal-risotto-with-peas-r106322` — Risotto with peas：Tefal 多功能锅 Sauté/Rice-Risotto 分段、1L鸡汤和中途加豌豆；不改写成普通电饭煲一键配方。
+- `tefal-risotto-with-shrimps-r106225` — Risotto with shrimps：Tefal 多功能锅先煎虾、白酒收汁、分次加高汤并持续搅拌；保留海鲜熟制与乳制品过敏边界。
+
+### 地域官方来源（2 条；1 条 `identity_verified`、1 条 `recipe_fact_checked`）
+
+- `putian-yellow-croaker-rice` — 莆田黄瓜鱼饭：福建省商务厅确认莆仙具名身份，央视专题支持黄瓜鱼与米饭同锅结构；米鱼用量、液体、时间和鱼类安全仍缺，未改写成电饭煲方案。
+- `hekou-buyi-five-color-rice` — 河口布依族五色花米饭：河口县政府支持布依族身份、植物染液浸泡和分色蒸制；只保留碳水文化米食边界，不宣称均衡主餐或电饭煲合同。
+
+### 本批未入目录的强候选与线索
+
+- `黃金野菇紅藜雞肉炊飯` 是本批机构线最符合“米+蛋白+蔬菜”的候选，但官方 PDF 尚未完成原页归档、页码核验和哈希记录；暂留报告，不用搜索摘录替代证据。
+- 连山壮族五色糯米饭、番茄櫛瓜豬肉炊飯、和風昆布柴魚炊飯、雙藷雞腿十鼓飯、紫米蓮子南瓜飯均保留在研究报告，待正文/附件可直接打开后再决定是否入目录。
+
+### 本批纪律
+
+- 8 条均保持真实具名、直接来源、显式 tier、定位和实际 claim scope；没有把搜索摘要、其他地区配方或模型推断写成固定合同。
+- 6 条厂商记录均保留具体器具边界；Panasonic 压力锅、Zojirushi 预熟/出锅拌料和 Tefal 分次加汤不外推为普通电饭煲能力。
+- 目录仍是研究资产，不等于人工批准、`executable` 或厨房验证；`kitchen_observed` 继续为 0。下一步先做来源原件复核和厨房验证，不修改运行时组合逻辑。
+
 ## r72 搜集期第四十五批（2026-08-06）
 
 本批继续“搜集放量、证据不越级”：台湾官方、湖南文旅和厂商官方来源并行，去重后登记 **9 条新研究记录**。目录版本由 r71 的 `source-backed-one-pot-v1-20260808-national-r71` bump 为 `source-backed-one-pot-v1-20260808-national-r72`，条目从 663 增至 672：`executable=12`、`recipe_fact_checked=590`、`identity_verified=64`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。

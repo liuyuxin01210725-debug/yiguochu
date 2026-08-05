@@ -165,6 +165,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 牛肉盖菜饭 | 盖菜牛肉饭 | CN-FJ | fujian-mustard-greens-rice | 研究记录（非公开可执行） | 牛肉；盖菜；米饭 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [最近福建人的餐桌被盖菜“霸屏”！福建“省菜”真不是盖的](https://m.thepaper.cn/newsDetail_forward_32454690) |
+## fujian-putian-fish-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 莆田黄瓜鱼饭 | 黄瓜鱼饭；莆仙黄瓜鱼饭 | CN-FJ-PUTIAN | fujian-putian-fish-rice | 研究记录（非公开可执行） | 大米；黄瓜鱼 | identity、process | 缺 ingredients | [莆仙名菜：黄瓜鱼饭](https://swt.fujian.gov.cn/xxgk/jgzn/jgcs/fwyfzc/mcpx/202007/t20200707_5317859.htm)<br>[莆田年味](https://tv.cctv.com/2021/02/15/VIDE8AdN573h1eYjFQ3aTqKA210215.shtml) |
 ## fujian-regional-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -756,6 +761,8 @@
 | Paella（Tefal锅内温控版） | Paella；西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 大米；整鸡；鱿鱼；贻贝；大虾；香肠；彩椒；番茄；青豆 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Paella](https://www.tefal.com/recipe/Paella/r/106320) |
 | Pilaf with lamb | 羊肉抓饭；羊肉皮拉夫 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 印度香米；羊腿肉；胡萝卜；洋葱；鹰嘴豆；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Pilaf with lamb](https://www.tefal.com/recipe/Pilaf-with-lamb/r/200302) |
 | Risotto Milanese | 米兰烩饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；火腿；蘑菇；洋葱；高汤；番茄酱 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Risotto Milanese](https://www.tefal.com/recipe/Risotto-Milanese/r/106510) |
+| Risotto with peas | 豌豆烩饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 意大利烩饭米；豌豆；洋葱；鸡汤；帕玛森 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Risotto with peas](https://www.tefal.com/recipe/Risotto-with-peas/r/106322) |
+| Risotto with shrimps | 虾仁烩饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | Arborio/Carnaroli米；虾；虾/蔬菜高汤；红葱头；马斯卡彭；帕玛森 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Risotto with shrimps](https://www.tefal.com/recipe/Risotto-with-shrimps/r/106225) |
 | Saffron Rice with Seafood | 藏红花海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；解冻冷冻海鲜；洋葱；鱼高汤；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Saffron Rice with Seafood](https://www.tefal.com/recipe/Saffron-Rice-with-Seafood/r/106512) |
 | かすよせ | 熊本かすよせ | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；熟黄豆；芋头；鸡腿肉；南瓜；干香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [かすよせ](https://www.zojirushi.co.jp/recipe_old/ih-atsuryoku/detail.html?id=ih-atsuryoku_kasuyose&subcat=yasai) |
 | ののこ飯 | 鸟取ののこ饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；油炸豆腐皮；鸡腿肉；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [ののこ飯](https://www.zojirushi.co.jp/recipe/ih-atsuryoku/syousai/nonokomeshi.html) |
@@ -1081,6 +1088,12 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 焼きさばめし | — | JP | one-pot-rice-recipes | 研究记录（非公开可执行） | 米；盐鲭；梅干；大葉；白芝麻 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [焼きさばめし](https://www.zojirushi.co.jp/recipe/list/1013.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## panasonic-electric-pressure-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| たけのこ入り玄米ごはん | 筍入り玄米ごはん；笋入り糙米饭 | JP | panasonic-electric-pressure-rice | 研究记录（非公开可执行） | 糙米；煮笋；炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [たけのこ入り玄米ごはん](https://panasonic.jp/cooking/recipe/0659.html) |
+| 中華おこわ（Panasonic NF-PC400版） | 中華おこわ；Panasonic中華糯米饭 | JP | panasonic-electric-pressure-rice | 研究记录（非公开可执行） | 糯米；香菇；虾米；竹笋；叉烧 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [中華おこわ](https://panasonic.jp/cooking/recipe/cook/0661.html) |
 ## pianguan-oil-braised-millet-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1718,6 +1731,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 施甸蚕豆火腿焖饭 | — | CN-YN | yunnan-broad-bean-ham-rice | 研究记录（非公开可执行）；技法来源待加强 | 米饭；蚕豆；火腿 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [【美味施甸】春味，藏在豆香里](https://shidian.gov.cn/info/1111/3664633.htm)<br>[云南火腿蚕豆焖饭](https://www.yznchinese.com/%E4%BA%91%E5%8D%97%E7%81%AB%E8%85%BF%E8%9A%BD%E8%B1%86%E7%84%96%E9%A5%AD/) |
+## yunnan-buyi-five-color-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 河口布依族五色花米饭 | 河口五色花米饭；布依族五色花米饭 | CN-YN-HONGHE-HEKOU | yunnan-buyi-five-color-rice | 研究记录（非公开可执行） | 糯米；植物染液 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [布依族五色花米饭](https://www.hhhk.gov.cn/info/1091/268391.htm) |
 ## yunnan-dai-pineapple-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1814,3 +1832,9 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 番茄海鲜饭 | 象印番茄海鲜饭 | CN | zojirushi-electric-rice | 研究记录（非公开可执行） | 大米；鱿鱼圈；虾仁；洋葱；青豆；胡萝卜；玉米；番茄 | appliance、identity、ingredients | 缺 process | [番茄海鲜饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/fanqiehaixianfan/) |
+## zojirushi-rice-cooker-recipes
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Rice and Beans with Bacon and Collard Greens | 培根豆类羽衣甘蓝米饭；豆类培根叶菜饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 长粒白米；干豆；培根；羽衣甘蓝；番茄 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Rice and Beans with Bacon and Collard Greens](https://www.zojirushi.com/app/recipe/rice-and-beans-with-bacon-and-collard-greens) |
+| Spicy Basmati Rice with Lentils and Spinach | 香辣印度香米扁豆菠菜饭；扁豆菠菜米饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 印度香米；红扁豆；菠菜；樱桃番茄；杏仁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Spicy Basmati Rice with Lentils and Spinach](https://www.zojirushi.com/app/recipe/spicy-basmati-rice-with-lentils-and-spinach) |

@@ -15,6 +15,7 @@
 
 - 咸肉绣花锦菜饭 (zhejiang-changxing-salted-pork-xiuhuajin-rice) — CN-ZJ
 - 察隅僜人手抓饭 (chayu-dengren-hand-grab-rice) — CN-XZ-NYINGCHI-CHAYU
+- 莆田黄瓜鱼饭 (putian-yellow-croaker-rice) — CN-FJ-PUTIAN
 - 尤溪九糜咸饭 (youxi-jiumi-salty-rice) — CN-FJ
 - 新阳青米饭 (xinyang-green-rice) — CN-FJ
 - 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
@@ -211,6 +212,7 @@
 - 玉林撒肉糯米饭 (guangxi-yulin-sarou-glutinous-rice) — CN-GX
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
+- 河口布依族五色花米饭 (hekou-buyi-five-color-rice) — CN-YN-HONGHE-HEKOU
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
 - 江川八宝饭 (jiangchuan-eight-treasure-rice) — CN-YN
 - 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
@@ -483,6 +485,7 @@
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
+- 河口布依族五色花米饭 (hekou-buyi-five-color-rice) — CN-YN-HONGHE-HEKOU
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
 - 江川八宝饭 (jiangchuan-eight-treasure-rice) — CN-YN
 - 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
@@ -682,6 +685,7 @@
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
+- 河口布依族五色花米饭 (hekou-buyi-five-color-rice) — CN-YN-HONGHE-HEKOU
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
 - 汤溪乌饭 (jinhua-tangxi-wufan) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
@@ -1081,6 +1085,7 @@
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 施甸蚕豆火腿焖饭 (shidian-broad-bean-ham-rice) — CN-YN
+- 河口布依族五色花米饭 (hekou-buyi-five-color-rice) — CN-YN-HONGHE-HEKOU
 - 江川八宝饭 (jiangchuan-eight-treasure-rice) — CN-YN
 - 晋宁牛肝菌焖饭 (jinning-boletus-braised-rice) — CN-YN
 - 马帮锣锅饭 (yunnan-mabang-luoguo-rice) — CN-YN
@@ -1092,6 +1097,8 @@
 - 贞丰糯米饭 (guizhou-zhenfeng-glutinous-rice) — CN-GZ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 - 酿鸭饭 (zijin-stuffed-duck-rice) — CN-GD
+- Rice and Beans with Bacon and Collard Greens (zojirushi-rice-beans-bacon-collard-greens) — US
+- Spicy Basmati Rice with Lentils and Spinach (zojirushi-spicy-basmati-lentil-spinach-rice) — US
 
 ## 8. Missing safety
 
@@ -1194,6 +1201,7 @@
 - One-pot Italian sundried tomato chicken and rice (tefal-italian-sundried-tomato-chicken-rice-r942720) — 非地域·厂商一锅饭
 - Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
 - Paella（Tefal锅内温控版） (tefal-paella-r106320) — 非地域·厂商一锅饭
+- Risotto with shrimps (tefal-risotto-with-shrimps-r106225) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
 - ののこ飯 (zojirushi-nonokomeshi-el-mb30) — 非地域·厂商一锅饭
@@ -1264,6 +1272,7 @@
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
+- 中華おこわ（Panasonic NF-PC400版） (panasonic-chinese-sticky-rice-nf-pc400) — JP
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
@@ -1337,6 +1346,7 @@
 - 马帮锣锅饭 (yunnan-mabang-luoguo-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
+- Spicy Basmati Rice with Lentils and Spinach (zojirushi-spicy-basmati-lentil-spinach-rice) — US
 
 ## 9. Regional blanks
 
