@@ -73,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r43');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r44');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -723,7 +723,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r43');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r44');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1027,8 +1027,8 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   }, {});
   assert.deepEqual(statusTotals, {
     executable: 12,
-    identity_verified: 1,
-    recipe_fact_checked: 210,
+    identity_verified: 2,
+    recipe_fact_checked: 227,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1151,6 +1151,40 @@ test('r43 collection batch records directly sourced named rice meals without inv
     assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
     assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
     assert.equal(recipe.fixed_batch, null);
+    assert.notEqual(recipe.status, 'executable');
+  }
+});
+
+test('r44 collection batch records new named one-pot meals without promoting research into executable', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['taiwan-sesame-oil-chicken-glutinous-rice-cake', '麻油雞丁糯米糕', 'recipe_fact_checked'],
+    ['taiwan-tilapia-edamame-rice', '鯛魚毛豆炊飯', 'recipe_fact_checked'],
+    ['taiwan-multigrain-scallop-seafood-quinoa-rice', '雜糧干貝海鮮蒸臺灣藜飯', 'recipe_fact_checked'],
+    ['taiwan-five-elements-bamboo-shoot-rice', '鮮筍五行炊飯', 'recipe_fact_checked'],
+    ['taiwan-tea-oil-bamboo-shoot-chicken-rice', '茶油綠竹筍炊飯', 'recipe_fact_checked'],
+    ['taiwan-pine-nut-chicken-wild-mushroom-rice', '松子雞肉野菇炊飯', 'recipe_fact_checked'],
+    ['taiwan-tuna-mushroom-quinoa-rice', '鮪魚菇菇洋蔥紅藜麥炊飯', 'recipe_fact_checked'],
+    ['taiwan-golden-mushroom-chicken-rice', '炙燒黃金菇菇雞炊飯', 'recipe_fact_checked'],
+    ['midea-beef-pumpkin-rice', '牛肉南瓜焖饭', 'recipe_fact_checked'],
+    ['cuckoo-abalone-pot-rice', 'Abalone Pot Rice with the CR-0675F', 'recipe_fact_checked'],
+    ['instant-pot-coconut-chicken-pineapple-rice', 'Coconut Chicken and Rice with Pineapple Salsa', 'recipe_fact_checked'],
+    ['instant-pot-tuscan-chicken-rice', 'Tuscan Chicken and Rice', 'recipe_fact_checked'],
+    ['instant-pot-eggplant-rice', 'Eggplant Rice', 'recipe_fact_checked'],
+    ['instant-pot-spinach-chickpea-rice', 'Dump & Done Spinach Rice & Chickpeas', 'recipe_fact_checked'],
+    ['pengshui-dingpot-rice', '彭水鼎罐饭', 'recipe_fact_checked'],
+    ['yongchun-pork-rib-salted-rice', '永春排骨咸饭', 'identity_verified'],
+    ['hk-mushroom-mixed-vegetable-kamameshi', '菇菌雜蔬釜飯', 'recipe_fact_checked'],
+    ['hk-choy-sum-scallop-rice', '菜心瑤柱飯', 'recipe_fact_checked'],
+  ];
+  assert.equal(expected.length, 18);
+  for (const [recipeId, name, status] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.ok(recipe, `${recipeId} should be in the r44 research batch`);
+    assert.equal(recipe.canonical_name, name);
+    assert.equal(recipe.status, status);
+    assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
+    assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
     assert.notEqual(recipe.status, 'executable');
   }
 });
