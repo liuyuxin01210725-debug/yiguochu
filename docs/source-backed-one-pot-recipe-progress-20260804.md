@@ -1,5 +1,34 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r80 搜集期第五十三批（2026-08-06）
+
+本批按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、港台品牌/机构和中国地域来源。基于 r79 的 716 条目录，去重后新增 **6 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r80`，当前总量 **722**：`executable=12`、`recipe_fact_checked=634`、`identity_verified=70`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 厂商官方来源（1 条，`recipe_fact_checked`）
+
+- `iris-cooking-kettle-pilaf` — ピラフ（IRIS Cooking Kettle）：IRIS OHYAMA 官方页给出约45分钟、米1合、洋葱/胡萝卜/虾6尾，A组非水液体与水合计250g，Cooking Kettle 自动菜单5。保留型号、菜单和总液体边界，不把它扩成普通电饭煲通用比例；海鲜安全终点单独记录。
+
+本批厂商 Agent 还逐页复核了 Panasonic、Tiger、Toshiba、Tefal 和 IRIS 的多个命中项；它们均已在 r79，或属于熟饭二次烹饪、另锅炒后合并、低温分段等排除线，没有重复写入目录。
+
+### Philips 香港官方来源（4 条，全部 `recipe_fact_checked`）
+
+- `philips-sweet-corn-pumpkin-pork-rice` — 粟米南瓜肉碎飯：米120g、南瓜50g、玉米25g、瘦猪肉50g、水220g，全部放入电饭煲米饭功能；页面明确是1岁以上幼儿软饭，营养结构记录为碳水、蛋白质和膳食纤维，不外推成人份量。
+- `philips-grouper-dried-shrimp-conpoy-claypot-rice` — 蝦乾瑤柱班腩煲仔飯：米1杯、班腩200g、虾干30g、瑶柱20g，鸡汤/水至指定型号“米”1杯刻度，煲仔饭功能后焗10分钟；保留型号专属水位线，海鲜安全终点仍需实做/复核。
+- `philips-hainan-chicken-rice` — 海南雞飯（Philips）：约400g鸡、泰国香米2杯、鸡汤至指定型号2杯米刻度，米饭功能后焗10分钟；只有碳水+蛋白两类，按边界标为 C，不伪称含蔬菜纤维。
+- `philips-italian-seafood-rice` — 意大利海鮮飯（Philips）：意大利米、花蟹、虾、鱿鱼、火腿、洋葱等按来源顺序入锅，鸡汤/水至1杯米刻度，米饭功能后焗10分钟；不把适量液体换算成通用毫升数。
+
+四条均保留原页面的“指定型号”“水位线”“后焗”边界，并用 FoodSafety.gov 作为禽肉/海鲜安全端点证据；它们都只是研究记录，不是人工签署或公开执行配方。
+
+### 中国地域政府来源（1 条，`recipe_fact_checked`）
+
+- `zengcheng-zhucun-chicken-rice` — 朱村雞飯（别名“增城鸡饭”）：广州市人民政府页面明确走地鸡与丝苗米两大特产，鸡先过油，再与米一同放入电饭锅焗熟，最后淋酱油味料。来源没有固定克重、米水比例或总时间，全部保持缺省，不凭名称补齐合同。
+
+### 本批排除与纪律
+
+- 纯米/玉米/甜味主食、熟饭二次烹饪、以及必须另锅完成后才拼盘的线索继续排除；厂商版本只证明其自身器具和程序，不证明普通电饭煲迁移。
+- 六条均使用直接打开的来源，显式记录 `evidence_tier`、`evidence_locator`、署名、许可和实际 claim scope；没有自动晋升 `executable`，没有厨房验证，`kitchen_observed` 仍为 0。
+- 本批当天完成数据、生成产物、测试和进度记录的分批提交，避免研究证据长期停留在未提交工作区。
+
 ## r79 搜集期第五十二批（2026-08-06）
 
 本批按“尽可能扩大真实具名菜饭池、证据不越级”的策略，三路并行核对 Tiger/Iris/Panasonic 等厂商官方页、港台公共机构/品牌页和中国地方政府来源。基于 r78 的 699 条目录，本批去重后新增 **17 条**：15 条 `recipe_fact_checked`、2 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r79`，当前总量 **716**：`executable=12`、`recipe_fact_checked=628`、`identity_verified=70`、`discovered=6`、`kitchen_observed=0`。本批不改 Worker、前端、Planner、模板或 DeepSeek，不部署。
