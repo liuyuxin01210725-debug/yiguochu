@@ -368,6 +368,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 薅菜饭 | 蒿菜饭 | CN-HN-HUAIHUA-HONGJIANG | hunan-seasonal-glutinous-rice | 研究记录（非公开可执行） | 糯米；薅菜 | identity | 缺 ingredients、process | [黔阳古城“三月三”薅菜饭活动](https://www.huaihua.gov.cn/wlgdtj/c108768/201204/e563f3bec54b432d94b45460b1b0c1f0.shtml) |
+## hunan-wumi-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 靖州乌米饭 | 靖州黑米饭 | CN-HN-HUAIHUA-JINGZHOU | hunan-wumi-rice | 研究记录（非公开可执行） | 糯米；杨桐叶或南烛叶汁 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [靖州乌米饭：传承与新生](https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/201806/t20180601_5375999.html)<br>[靖州：黑米饭香飘侗寨](https://www.huaihua.gov.cn/wlgdtj/c108772/202506/7d888edf848346aba0f9fc09729c7576.shtml) |
 ## japanese-cooked-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -746,7 +751,10 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Chicken rice with olives | 橄榄鸡肉饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；红椒；洋葱；罐装番茄；青橄榄 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken rice with olives](https://www.tefal.com/recipe/Chicken-rice-with-olives/r/992924) |
 | Mushroom risotto | Tefal Home Chef蘑菇意大利饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | Arborio米；蘑菇；洋葱；鸡汤；白酒；黄油；帕玛森奶酪 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Mushroom risotto](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNjc1MTk5fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDJhL2hiYy8xMzg3NjY0MzcyNTM0Mi5wZGZ8NmE3NWNjYjA1MDdlMWEzNzk4NmYxZjBmNWE4MDExZTk1MTM1MjM0YzgwMjZlN2UyZWY1MDM2MTI4ZThlMTkzOQ) |
+| One-pot Italian sundried tomato chicken and rice | 意式番茄干鸡肉饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；鸡腿排；鸡腿棒；番茄；番茄干；红洋葱；彩椒；橄榄 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [One-pot Italian sundried tomato chicken and rice](https://www.tefal.com/recipe/One-pot-Italian-sundried-tomato-chicken-and-rice/r/942720) |
 | Paella | Tefal Home Chef西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长米；鸡块；虾；海螯虾；黑青口；青豆；红椒；番茄；鱼汤；香肠 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Paella](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNjc1MTk5fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDJhL2hiYy8xMzg3NjY0MzcyNTM0Mi5wZGZ8NmE3NWNjYjA1MDdlMWEzNzk4NmYxZjBmNWE4MDExZTk1MTM1MjM0YzgwMjZlN2UyZWY1MDM2MTI4ZThlMTkzOQ) |
+| Paella（Tefal锅内温控版） | Paella；西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 大米；整鸡；鱿鱼；贻贝；大虾；香肠；彩椒；番茄；青豆 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Paella](https://www.tefal.com/recipe/Paella/r/106320) |
+| Pilaf with lamb | 羊肉抓饭；羊肉皮拉夫 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 印度香米；羊腿肉；胡萝卜；洋葱；鹰嘴豆；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Pilaf with lamb](https://www.tefal.com/recipe/Pilaf-with-lamb/r/200302) |
 | Risotto Milanese | 米兰烩饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；火腿；蘑菇；洋葱；高汤；番茄酱 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Risotto Milanese](https://www.tefal.com/recipe/Risotto-Milanese/r/106510) |
 | Saffron Rice with Seafood | 藏红花海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；解冻冷冻海鲜；洋葱；鱼高汤；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Saffron Rice with Seafood](https://www.tefal.com/recipe/Saffron-Rice-with-Seafood/r/106512) |
 | かすよせ | 熊本かすよせ | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；熟黄豆；芋头；鸡腿肉；南瓜；干香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [かすよせ](https://www.zojirushi.co.jp/recipe_old/ih-atsuryoku/detail.html?id=ih-atsuryoku_kasuyose&subcat=yasai) |
@@ -962,6 +970,12 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 宜昌腊肉焖饭 | — | CN-HB | middle-yangtze-cured-rice | 研究记录（非公开可执行） | 米；腊肉 | identity、ingredients | 缺 process | [新华网：江汉大米“链动”三峡 产销合作启新篇](https://fgw.yichang.gov.cn/content-56405-984018-1.html) |
+## midea-electric-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 藜麦山药红枣饭 | 藜麦山药红枣飯 | CN | midea-electric-rice | 研究记录（非公开可执行） | 大米；藜麦；山药；红枣 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [藜麦山药红枣饭](https://www.midea.cn/act/help_center/transaction_terms?id=353&parentId=857) |
+| 豌豆紫薯饭 | 豌豆紫薯飯 | CN | midea-electric-rice | 研究记录（非公开可执行） | 大米；豌豆；紫薯 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [豌豆紫薯饭](https://www.midea.cn/act/help_center/transaction_terms?id=353&parentId=857) |
 ## mindong-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1342,6 +1356,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 菇味麻油雞佐鮮蔬燉飯 | 菇味麻油鸡佐鲜蔬炖饭 | TW | taiwan-electric-pot-rice | 研究记录（非公开可执行） | 米；土鸡腿；干香菇；鲜香菇；高丽菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [菇味麻油雞佐鮮蔬燉飯](https://fae.moa.gov.tw/files/topics/3161/A02_1.pdf) |
 | 溏心蛋燒肉飯 | 溏心蛋叉燒飯；溏心蛋烧肉饭 | TW-YL | taiwan-electric-pot-rice | 研究记录（非公开可执行） | 糙米；豆皮；洋葱；蛋；芝麻 | appliance、identity、ingredients | 缺 process | [中秋节电锅轻松上菜：溏心蛋叉烧饭](https://ylshb.yunlin.gov.tw/News_Video.aspx?n=4906&sms=13251) |
 ## taiwan-electric-pot-rice-works
 
@@ -1400,6 +1415,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 小米炊飯 | 小米炊饭 | TW | taiwan-millet-root-vegetable-rice | 研究记录（非公开可执行） | 小米；白米；莲藕；山药；红枣；枸杞；番薯 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [小米炊飯](https://kids.moa.gov.tw/theme_data.php?id=250&theme=kids_cooking) |
+## taiwan-mixed-grain-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 樹豆小米飯 | 樹豆小米饭；树豆小米饭 | TW-TT | taiwan-mixed-grain-rice | 研究记录（非公开可执行） | 白米；樹豆；小米；青黃豆仁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [樹豆小米飯](https://www.ttdares.gov.tw/ws.php?id=1534) |
 ## taiwan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1789,3 +1809,8 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 酿鸭饭 | 紫金酿鸭饭 | CN-GD | zijin-stuffed-duck-rice | 研究记录（非公开可执行） | 糯米；番鸭；五花肉；鱿鱼；花生米；鸭汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [紫金客家菜肴](https://www.zijin.gov.cn/xq/szzj/zjkjcz/) |
+## zojirushi-electric-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 番茄海鲜饭 | 象印番茄海鲜饭 | CN | zojirushi-electric-rice | 研究记录（非公开可执行） | 大米；鱿鱼圈；虾仁；洋葱；青豆；胡萝卜；玉米；番茄 | appliance、identity、ingredients | 缺 process | [番茄海鲜饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/fanqiehaixianfan/) |

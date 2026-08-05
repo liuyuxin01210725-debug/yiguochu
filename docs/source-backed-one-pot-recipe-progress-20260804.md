@@ -1,5 +1,33 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r72 搜集期第四十五批（2026-08-06）
+
+本批继续“搜集放量、证据不越级”：台湾官方、湖南文旅和厂商官方来源并行，去重后登记 **9 条新研究记录**。目录版本由 r71 的 `source-backed-one-pot-v1-20260808-national-r71` bump 为 `source-backed-one-pot-v1-20260808-national-r72`，条目从 663 增至 672：`executable=12`、`recipe_fact_checked=590`、`identity_verified=64`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
+
+### 台湾与湖南官方来源（3 条，全部 `recipe_fact_checked`）
+
+- `taitung-tree-bean-millet-rice` — 樹豆小米飯：台东县农业改良场给出樹豆预煮、小米/白米浸泡、米水约 1:1.5 和电子锅流程；杂粮只写“各少许”，数量和最终时间保持缺口。
+- `taiwan-sesame-chicken-mushroom-vegetable-rice` — 菇味麻油雞佐鮮蔬燉飯：台湾农业部 PDF 给出鸡腿、双菇、高丽菜、米和 0.8 杯水/偏软 1 杯的预炒后电锅流程；保留“预炒后电锅连续流程”边界，未补禽肉安全终点。
+- `jingzhou-wumi-rice` — 靖州乌米饭：湖南省文旅厅与怀化市文旅局支持杨桐/南烛叶汁浸糯米、蒸制和节俗身份；这是文化米食档案，不冒充均衡主餐或电饭煲合同。
+
+### 厂商一锅饭来源（3 条，全部 `recipe_fact_checked`）
+
+- `tefal-pilaf-with-lamb-r200302` — Pilaf with lamb：Tefal Cook4me 版本给 4 人、羊肉/鹰嘴豆/蔬菜、400g 米、800mL 水和煎炒—铺米—后投料流程；只对多功能锅成立。
+- `tefal-paella-r106320` — Paella（Tefal锅内温控版）：与已有 HomeChef Paella 保持独立来源和版本名，记录鸡肉/海鲜/蔬菜、0.75L 鸡汤、Rice/Risotto 与 Keep Warm 阶段；海鲜/禽肉安全仍缺。
+- `tefal-italian-sundried-tomato-chicken-rice-r942720` — One-pot Italian sundried tomato chicken and rice：真实单锅转烤箱主餐，保留 200°C 烤箱边界，不改写成电饭煲菜饭。
+
+### 厂商身份研究（3 条，`identity_verified`）
+
+- `midea-pea-purple-sweet-potato-rice` — 豌豆紫薯饭：美的官方页只证明大米、豌豆、紫薯同入电饭煲；缺水量、份数、时间和完整蛋白结构。
+- `midea-quinoa-yam-red-date-rice` — 藜麦山药红枣饭：保留具名和同锅方向，不把“养生”宣传语当成营养或执行证据。
+- `zojirushi-china-tomato-seafood-rice` — 番茄海鲜饭：象印中国页有标题和配料，但步骤区错配为糙米粥/红枣枸杞，明确标为 `identity_verified`，不凭标题补做法。
+
+### 本批纪律与排除
+
+- 9 条均有直接打开、显式 evidence tier、定位、署名和许可字段；研究状态不等于 executable、人工签署或厨房验证。
+- 靖州乌米饭、Tefal 羊肉抓饭/Paella、意式鸡肉饭的原器具边界分别保留；蒸制、Tefal 多功能锅和烤箱事实不外推普通电饭煲。
+- 甘南蕨麻米饭与现有高原蕨麻/人参果家族先做去重关系，不新增重复条目；彭水馇菜饭、平江竹筒饭仍停在待直接打开的身份线索；炒饭、另锅配料和甜饭边界不混入本批。
+
 ## r71 搜集期第四十四批（2026-08-06）
 
 本批继续“搜集放量、证据不越级”：日本/中国地方官方机构与厂商三条线并行，去重后登记 **8 条新研究记录**。目录版本由 r70 的 `source-backed-one-pot-v1-20260808-national-r70` bump 为 `source-backed-one-pot-v1-20260808-national-r71`，条目从 655 增至 663：`executable=12`、`recipe_fact_checked=584`、`identity_verified=61`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。

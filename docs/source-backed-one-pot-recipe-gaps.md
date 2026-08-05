@@ -94,6 +94,7 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
 - エアぶり大根めし (maff-air-buri-daikon-daikon-meshi) — JP
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
@@ -275,6 +276,7 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
 - エアぶり大根めし (maff-air-buri-daikon-daikon-meshi) — JP
 - 時短！！オクラ入り鮭の混ぜご飯 (maff-salmon-okra-mixed-rice) — JP
 - 混ぜるだけ！簡単で美味しい小松菜の混ぜご飯！！ (maff-komatsuna-sausage-mixed-rice) — JP
@@ -553,6 +555,7 @@
 - 玉屏糯米饭 (yuping-dong-sticky-rice) — CN-GZ-TONGREN-YUPING
 - 贡米锅巴饭 (yuping-gongmi-pot-crust-rice) — CN-GZ-YUPING
 - 仙居咸酸饭 (xianju-salted-sour-rice) — CN-ZJ-TAIZHOU-XIANJU
+- 番茄海鲜饭 (zojirushi-china-tomato-seafood-rice) — CN
 
 ## 6. Missing appliance
 
@@ -577,6 +580,7 @@
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK
 - 港巴蔬菜粥 (had-vegetable-pulao) — HK
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
 - 鮎ぞうすい (maff-gifu-ayu-zosui) — JP-GIFU-KISO-NAGARA
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
@@ -741,6 +745,7 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
 - 鮎ぞうすい (maff-gifu-ayu-zosui) — JP-GIFU-KISO-NAGARA
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
@@ -1016,6 +1021,7 @@
 - 野菇炊飯 (ntuh-wild-mushroom-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
+- 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 紅薏仁燉飯 (moa-red-coix-mushroom-risotto) — TW
 - 滑蛋地瓜菜粥 (taiwan-sliding-egg-sweet-potato-vegetable-porridge) — TW
 - 豬肝菠菜粥 (taiwan-pork-liver-spinach-porridge) — TW
@@ -1024,6 +1030,7 @@
 - 虱目魚粥（一） (taiwan-milkfish-congee) — TW
 - 虱目魚肚粥 (taiwan-milkfish-belly-porridge) — TW
 - 虱目魚鹹粥 (taiwan-milkfish-salted-porridge) — TW
+- 樹豆小米飯 (taitung-tree-bean-millet-rice) — TW-TT
 - 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 地瓜鹹飯 (taiwan-sweet-potato-salted-rice) — TW
 - 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
@@ -1184,7 +1191,9 @@
 - スタミナご飯 (zojirushi-stamina-rice) — JP-NATIONAL
 - 海のパエリア (zojirushi-seafood-paella) — JP-NATIONAL
 - Chicken rice with olives (tefal-chicken-rice-olives-one-pot-pan) — 非地域·厂商一锅饭
+- One-pot Italian sundried tomato chicken and rice (tefal-italian-sundried-tomato-chicken-rice-r942720) — 非地域·厂商一锅饭
 - Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
+- Paella（Tefal锅内温控版） (tefal-paella-r106320) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
 - ののこ飯 (zojirushi-nonokomeshi-el-mb30) — 非地域·厂商一锅饭
@@ -1285,6 +1294,7 @@
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
+- 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 海南雞藜麥飯（一鍋兩菜） (cookpot-hainan-chicken-quinoa-rice-1000) — TW
 - 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
