@@ -524,11 +524,13 @@
 - 三菇飯 (taiwan-three-mushroom-rice) — TW
 - 五穀雜糧飯 (taiwan-five-grain-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
+- 午仔魚一夜干絲瓜炊飯 (panasonic-taiwan-loofah-dried-fish-rice) — TW
 - 普羅旺斯野菇雞起司燉飯 (taiwan-provencal-mushroom-chicken-risotto) — TW
 - 牛蒡炊飯 (taiwan-burdock-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
 - 芋香珍穀飯 (taiwan-taro-multigrain-rice) — TW
+- 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
 - 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
 - 高纖南瓜飯 (taiwan-high-fiber-pumpkin-rice) — TW
 - 鮮魚野菇炊飯 (taiwan-fresh-fish-wild-mushroom-rice) — TW
@@ -538,6 +540,8 @@
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
 - 瓠瓜香菇飯 (taiwan-bottle-gourd-mushroom-rice) — TW
+- 茶油蔬食養生飯 (taiwan-tea-oil-vegetable-health-rice) — TW
+- 香菇茶油菜飯 (taiwan-shiitake-tea-oil-vegetable-rice) — TW
 - 黃魚飯 (taizhou-yellowfish-rice) — CN-ZJ
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 人参果饭 (tibet-renshenggu-rice) — CN-XZ
@@ -672,6 +676,7 @@
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
+- 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
 - 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS

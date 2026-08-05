@@ -1,5 +1,33 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r53 搜集期第十四批（2026-08-05）
+
+本批继续沿台湾官方农粮教育与 Panasonic Taiwan 机型食谱线搜集，逐页打开、去重并保留具名与器具边界。新增 **4 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r52` bump 为 `source-backed-one-pot-v1-20260807-national-r53`，条目从 346 增至 350：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：329 → 333；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（4 条，全部 `recipe_fact_checked`）
+
+1. `taiwan-shiitake-tea-oil-vegetable-rice` — 农粮署 `香菇茶油菜飯`；
+2. `taiwan-tea-oil-vegetable-health-rice` — 农粮署 `茶油蔬食養生飯`；
+3. `panasonic-taiwan-scallop-five-color-rice` — Panasonic Taiwan `蔬菜干貝五色炊飯`；
+4. `panasonic-taiwan-loofah-dried-fish-rice` — Panasonic Taiwan `午仔魚一夜干絲瓜炊飯`。
+
+### 本批来源与边界
+
+- 农粮署两条页面明确给出电锅、米与蔬食材料、米水/内外锅水和起锅后焖制流程；`香菇茶油菜飯` 缺固定份数、总时长和安全终点，`茶油蔬食養生飯` 的茶油量存在原页面排版疑点，均保持来源原貌，不自行校正或补写合同。
+- Panasonic `蔬菜干貝五色炊飯` 绑定 SR-HB184/SR-HB104 的“美味炊煮标准”模式；`午仔魚一夜干絲瓜炊飯` 绑定 SR-N310D 的白米/标准程序。两条均保留后加蔬菜或鱼肉拌饭的阶段边界，不把机型水量/程序外推为普通电饭煲通用规则。
+- 干贝、午仔鱼属于鱼贝类，来源没有闭合安全温度终点；后一条还标明 foodNEXT/厨师合作授权，授权范围与可公开转载边界仍需另核。四条只记录来源事实，不宣称均衡完成、已适配或可直接上线。
+
+### 本批验证纪律
+
+- 先新增 r53 失败测试，锁定目录版本、350 条总数、4 个 recipe ID、来源直接打开、全部非 executable 及台湾/机型边界；实现后目录专项测试 **210/210** 通过。
+- 已运行目录构建、目录检查、`node tools/check-recipes.mjs`、Python 语法检查与 `git diff --check`；后续继续跑全量 Node 测试和构建一致性。
+- 本批只涉及研究目录、测试、进度文档及派生目录；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。任何后续晋升仍须人工逐条签署，并以 `kitchen_observed` 作为真实家庭验证门。
+
 ## r52 搜集期第十三批（2026-08-05）
 
 本批沿官方厂商食谱线继续扩充，逐页打开大同（Tatung）电锅食谱并按真实具名条目去重。新增 **6 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r51` bump 为 `source-backed-one-pot-v1-20260807-national-r52`，条目从 340 增至 346：
