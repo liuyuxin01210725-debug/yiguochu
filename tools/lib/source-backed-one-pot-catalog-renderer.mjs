@@ -16,6 +16,7 @@ const FACT_CHECK_SCOPES = ['ingredients', 'process'];
 
 const FAMILY_LABELS = {
   'manufacturer-rice-cooker-recipes': '厂商电饭煲食谱',
+  'manufacturer-one-pot-recipes': '厂商一锅饭食谱',
 };
 
 const asArray = value => Array.isArray(value) ? value : [];
@@ -39,6 +40,7 @@ export function recipeRegionLabel(recipe) {
   const regions = asArray(recipe?.region_codes).filter(code => typeof code === 'string' && code.trim());
   if (regions.length) return regions.join(', ');
   if (recipe?.cuisine_family === 'manufacturer-rice-cooker-recipes') return '非地域·厂商食谱';
+  if (recipe?.cuisine_family === 'manufacturer-one-pot-recipes') return '非地域·厂商一锅饭';
   return '非地域（未记录）';
 }
 

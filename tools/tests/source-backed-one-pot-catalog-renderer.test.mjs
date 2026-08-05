@@ -48,6 +48,7 @@ test('labels empty manufacturer regions explicitly and keeps research rows non-p
   const markdown = artifacts.get('docs/source-backed-one-pot-recipes.md');
 
   assert.equal(recipeRegionLabel({ region_codes: [], cuisine_family: 'manufacturer-rice-cooker-recipes' }), '非地域·厂商食谱');
+  assert.equal(recipeRegionLabel({ region_codes: [], cuisine_family: 'manufacturer-one-pot-recipes' }), '非地域·厂商一锅饭');
   assert.match(markdown, /非地域·厂商食谱/u);
   assert.match(markdown, /研究记录（非公开可执行）/u);
   assert.doesNotMatch(markdown, /recipe_fact_checked[\s\S]*公开可执行/u);

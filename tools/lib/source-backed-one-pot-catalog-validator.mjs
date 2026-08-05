@@ -41,6 +41,10 @@ const LOCAL_ARCHIVE_SHA256 = /^[a-f0-9]{64}$/i;
 
 const KEBAB_CASE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HTTPS_URL = /^https:\/\/[^/\s]+(?:\/[^\s]*)?$/i;
+const MANUFACTURER_FAMILIES = new Set([
+  'manufacturer-rice-cooker-recipes',
+  'manufacturer-one-pot-recipes',
+]);
 export const REQUIRED_EXECUTABLE_SCOPES = [
   'identity', 'ingredients', 'quantity', 'liquid', 'process', 'time',
 ];
@@ -614,10 +618,10 @@ export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
 
     addRequiredStringError(errors, recipe.canonical_name, `${path}.canonical_name`);
     let hasValidRegionCodes = false;
-    if (recipe.cuisine_family === 'manufacturer-rice-cooker-recipes') {
+    if (MANUFACTURER_FAMILIES.has(recipe.cuisine_family)) {
       hasValidRegionCodes = Array.isArray(recipe.region_codes) && recipe.region_codes.length === 0;
       if (!hasValidRegionCodes) {
-        errors.push(`${path}.manufacturer-rice-cooker-recipes region_codes must be an empty array`);
+        errors.push(`${path}.${recipe.cuisine_family} region_codes must be an empty array`);
       }
     } else {
       hasValidRegionCodes = Array.isArray(recipe.region_codes)
