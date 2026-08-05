@@ -1,5 +1,22 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r56 已登记（2026-08-05）
+
+本批三路并行研究后，主线逐条打开来源、去重并登记 **17 条 `recipe_fact_checked`**；没有晋升 `executable`，没有新增 `kitchen_observed`，没有修改运行时或部署。目录由 r55 的 358 条更新为 r56 的 375 条：`executable=12`、`recipe_fact_checked=358`、`identity_verified=5`、`kitchen_observed=0`。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Panasonic Taiwan | `panasonic-taiwan-taiyu-scallop-quinoa-rice`、`panasonic-taiwan-salmon-mushroom-rice`、`panasonic-taiwan-sakura-shrimp-cabbage-rice`、`panasonic-taiwan-truffle-seafood-risotto`、`panasonic-taiwan-golden-snapper-rice`、`panasonic-taiwan-mushroom-chicken-bamboo-rice`、`panasonic-taiwan-shiitake-bamboo-chicken-rice` | [Panasonic 鲷鱼干贝藜麦炊饭](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3904)、[鲑鱼菇菇炊饭](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4032)、[樱虾玉菜煲仔饭](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4003)、[松露海鲜炖饭](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5098)。另三条使用同一官方食谱站的直接页面（3797、3842、140）；全部保留机型、程序、预炒或炊后拌合边界，不外推通用电饭煲参数。 |
+| 香港官方机构 | `fehd-healthy-mixed-bean-porridge`、`fehd-cheese-asparagus-seafood-rice`、`startsmart-corn-lean-pork-porridge`、`had-vegetable-pulao`、`startsmart-three-bean-egg-tofu-red-rice` | [食环署健康杂豆粥](https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w2a.jpg)、[食环署芝士芦笋海鲜焗饭](https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w4a.jpg)、[卫生署粟米瘦肉粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=5)、[民政事务总署 Home Recipe PDF](https://www.had.gov.hk/rru/tc_chi/programmes/files/Home_Recipe.pdf)。机构份量、粥档、焗饭、分段投料和海鲜/豆类安全边界保持原样。 |
+| 地方政府/民族事务 | `dongtai-salted-pork-daylily-rice`、`she-black-rice`、`qianjiang-junmi-tea` | [东台咸肉黄花头焖饭](https://www.dongtai.gov.cn/art/2026/1/9/art_7763_4394356.html)、[广州市民族事务局畲族乌饭](https://mzzjj.gz.gov.cn/xwdt/gqdt/content/post_10848697.html)、[潜江市政府焌米茶](https://www.hbqj.gov.cn/zjqj/lyqj/msfq/202109/t20210906_3742111.html)。地方名称和技法有直接页面，但没有补写数量、液体、器具或发酵安全合同。 |
+| 台湾农业部 | `taiwan-sweet-potato-salted-rice`、`taiwan-pork-rib-claypot-rice` | [地瓜咸饭](https://kids.moa.gov.tw/theme_data.php?id=230&theme=kids_cooking)、[排骨煲仔饭](https://kids.moa.gov.tw/theme_data.php?id=282&theme=kids_cooking)。两条均保留带盖锅/砂锅原器具，不借用其他来源推导电饭煲参数。 |
+
+### r56 研究边界
+
+- 本批只增加来源型研究资产，不新增运行时固定菜谱，也不让用户直接看到未签署条目。
+- Panasonic 的官方型号边界、香港机构大批量/分段流程、地方饭的原器具与缺口均写入目录；任何 `recipe_fact_checked` 仍须经过 validator、人工签署和厨房实做才能进入下一状态。
+- 发现的具名条目不等于“已经能做”：缺少固定液体、时间、安全或器具转换的事实继续保持 `null`，不拼接不同版本。
+
 ## r47 已登记与排除记录（2026-08-07）
 
 本轮三路 Agent 分别检索厂商官方食谱、农林水产省地方料理库和地域来源；主线复核页面、去重并登记 23 条 `recipe_fact_checked`。状态分布由 279 条变为 302 条：`executable=12`、`recipe_fact_checked=285`、`identity_verified=5`、`kitchen_observed=0`。本轮没有运行时改动、没有新菜谱生成、没有部署。

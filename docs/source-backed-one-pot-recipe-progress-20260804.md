@@ -1,5 +1,59 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r56 搜集期第十七批（2026-08-05）
+
+本批按“先扩大真实具名目录、暂不晋升”的搜集策略，复核并登记 Panasonic Taiwan、香港官方机构食谱、东台/潜江/畲族地方政府页面及台湾农业部页面的 **17 条 `recipe_fact_checked`**。目录版本由 `source-backed-one-pot-v1-20260807-national-r55` bump 为 `source-backed-one-pot-v1-20260808-national-r56`，条目从 358 增至 375：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：341 → 358；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（17 条，全部 `recipe_fact_checked`）
+
+**Panasonic Taiwan（7 条）**
+
+1. `panasonic-taiwan-taiyu-scallop-quinoa-rice` — `鯛魚干貝藜麥炊飯`；
+2. `panasonic-taiwan-salmon-mushroom-rice` — `鮭魚菇菇炊飯`；
+3. `panasonic-taiwan-sakura-shrimp-cabbage-rice` — `櫻蝦玉菜煲仔飯`；
+4. `panasonic-taiwan-truffle-seafood-risotto` — `松露海鮮燉飯`；
+5. `panasonic-taiwan-golden-snapper-rice` — `金絲鯛魚炊飯`；
+6. `panasonic-taiwan-mushroom-chicken-bamboo-rice` — `野菇雞肉竹筍什錦飯`；
+7. `panasonic-taiwan-shiitake-bamboo-chicken-rice` — `香菇竹筍雞肉炊飯`。
+
+**香港官方机构（5 条）**
+
+8. `fehd-healthy-mixed-bean-porridge` — `健康雜豆粥`；
+9. `fehd-cheese-asparagus-seafood-rice` — `芝士蘆筍海鮮焗飯`；
+10. `startsmart-corn-lean-pork-porridge` — `粟米瘦肉粥`；
+11. `had-vegetable-pulao` — `港巴蔬菜粥`；
+12. `startsmart-three-bean-egg-tofu-red-rice` — `三色豆蛋絲豆腐菜粒焗紅米飯`。
+
+**地方政府/地域记录（3 条）**
+
+13. `dongtai-salted-pork-daylily-rice` — `東台咸肉黃花頭焖飯`；
+14. `she-black-rice` — `畲族乌饭`；
+15. `qianjiang-junmi-tea` — `潜江焌米茶`。
+
+**台湾农业部官方页面（2 条）**
+
+16. `taiwan-sweet-potato-salted-rice` — `地瓜鹹飯`；
+17. `taiwan-pork-rib-claypot-rice` — `排骨煲仔飯`。
+
+### 本批来源与边界
+
+- Panasonic 条目绑定各页面明确的机型/程序；机型水位、液体和程序只证明该机型，不外推为普通电饭煲通用规则。香菇竹笋鸡肉炊饭保留“先炒后入锅”，海鲜与鱼类安全终点仍缺口。
+- 香港五条来自食环署图片、卫生署 StartSmart 页面或民政事务总署 PDF；机构大批量、粥/焗饭和分段投料边界原样保留，不把它们压成家庭单锅合同。豆类浸泡、海鲜熟制和焗饭器具仍需补证。
+- 东台咸肉黄花头焖饭、畲族乌饭、潜江焌米茶来自地方政府/民族事务页面，保留地方名称和原始技法；焌米茶的发酵变体单独标安全缺口，乌饭不宣称完整均衡主餐。
+- 地瓜咸饭与排骨煲仔饭来自台湾农业部官方页面，均保留炉具/砂锅边界，不借用其他来源推导电饭煲参数；排骨安全终点和家庭厨房结果未闭合。
+- 本批没有复制来源原文或图片，没有把不同版本拼成第三套配方；17 条全部保持 `recipe_fact_checked`，不是人工批准、不是 executable、不是 `kitchen_observed`。
+
+### 本批验证纪律
+
+- 先新增 r56 失败测试，锁定目录版本、375 条总数、17 个 recipe ID、直接打开来源、全部非 executable 和器具/分段边界；实现后目录专项测试 **213/213** 通过。
+- 已运行目录构建与检查；提交前继续运行菜谱聚合门禁、全量 Node 测试、Python 语法检查、构建一致性和 `git diff --check`。
+- 本批只涉及研究目录、测试和派生文档；不调用 DeepSeek、不改前端、Worker、Planner、模板，不部署 production，PR 继续保持 Draft。后续晋升仍须人工逐条签署，并以 `kitchen_observed` 作为真实家庭验证门。
+
 ## r55 搜集期第十六批（2026-08-05）
 
 本批从日本农林水产省《うちの郷土料理》官方页面中优先吸收最接近米、豆同锅或电饭煲主饭的具名条目，并保留分段流程的非等价边界。新增 **3 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r54` bump 为 `source-backed-one-pot-v1-20260807-national-r55`，条目从 355 增至 358：
