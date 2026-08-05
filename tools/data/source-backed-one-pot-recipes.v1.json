@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-national-r56",
+  "catalog_version": "source-backed-one-pot-v1-20260808-national-r57",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -10297,6 +10297,1731 @@
   ],
   "status": "recipe_fact_checked",
   "evidence_notes": "台湾农业部官方排骨煲仔饭；来源有用量和液体，但器具、时间和猪肉安全合同未闭合，保持研究状态。"
-}
+},
+    {
+      "recipe_id": "panasonic-taiwan-ginseng-chicken-rice",
+      "canonical_name": "人蔘雞肉飯",
+      "aliases": [
+        "人参鸡肉饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "月光米",
+        "去骨仿鸡腿肉",
+        "人蔘鬚",
+        "红枣"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "人参须以热水浸泡。",
+          "source_ids": [
+            "S-PANASONIC-GINSENG-CHICKEN-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "鸡肉、人参须、红枣和米同锅炊煮后拌匀。",
+          "source_ids": [
+            "S-PANASONIC-GINSENG-CHICKEN-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "Panasonic官方机型食谱，来源给出克数、热水和同锅流程但没有总时长；保持机型边界。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-GINSENG-CHICKEN-1",
+          "title": "人蔘雞肉飯",
+          "publisher": "Panasonic Taiwan",
+          "attribution": "Panasonic Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5099",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页正文：米200g、鸡肉200g、人蔘鬚20g、热水500g，同锅炊煮，缺总时长。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic官方机型食谱，来源给出克数、热水和同锅流程但没有总时长；保持机型边界。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-five-color-rice",
+      "canonical_name": "五色炊飯",
+      "aliases": [
+        "五色炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "米",
+        "虾仁",
+        "竹笋",
+        "胡萝卜",
+        "香菇",
+        "玉米笋",
+        "毛豆"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "虾仁去腥并切配蔬菜。",
+          "source_ids": [
+            "S-PANASONIC-FIVE-COLOR-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米与水、调味料入锅，铺上全部配料后炊煮。",
+          "source_ids": [
+            "S-PANASONIC-FIVE-COLOR-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "与既有蔬菜干貝五色炊飯分开；缺总时长及海鲜终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-FIVE-COLOR-RICE-1",
+          "title": "五色炊飯",
+          "publisher": "Panasonic Taiwan",
+          "attribution": "Panasonic Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5269",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第411至481行：虾仁200g、竹笋100g、胡萝卜50g、香菇、玉米笋、毛豆、米3杯、水3杯及同锅流程。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "与既有蔬菜干貝五色炊飯分开；缺总时长及海鲜终点。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-chicken-curry-rice",
+      "canonical_name": "雞腿咖哩飯",
+      "aliases": [
+        "鸡腿咖喱饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "白米",
+        "去骨鸡腿",
+        "洋葱",
+        "马铃薯",
+        "胡萝卜",
+        "咖喱块"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "洋葱、根茎和鸡腿按来源分段处理。",
+          "source_ids": [
+            "S-PANASONIC-CHICKEN-CURRY-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "加入米、咖喱调味和水，按同锅分段程序完成。",
+          "source_ids": [
+            "S-PANASONIC-CHICKEN-CURRY-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "同锅分段厂商食谱，不补缺失合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-CHICKEN-CURRY-RICE-1",
+          "title": "雞腿咖哩飯",
+          "publisher": "Panasonic Taiwan",
+          "attribution": "Panasonic Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3511",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第411至481行：白米2杯、鸡腿300g、根茎、咖喱块及内锅分段流程；液体和总时长缺失。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "同锅分段厂商食谱，不补缺失合同。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-beef-brisket-radish-rice",
+      "canonical_name": "蘿蔔牛腩飯",
+      "aliases": [
+        "萝卜牛腩饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "白米",
+        "牛腩",
+        "白萝卜",
+        "胡萝卜",
+        "姜",
+        "蒜",
+        "葱"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "牛腩汆烫，根茎按来源处理。",
+          "source_ids": [
+            "S-PANASONIC-BEEF-BRISKET-RADISH-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米与牛腩、根茎和调味料在内锅中分段烹调。",
+          "source_ids": [
+            "S-PANASONIC-BEEF-BRISKET-RADISH-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "保留牛腩专名，不把牛腩泛化为牛肉。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-BEEF-BRISKET-RADISH-RICE-1",
+          "title": "蘿蔔牛腩飯",
+          "publisher": "Panasonic Taiwan",
+          "attribution": "Panasonic Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3510",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第411至496行：牛腩500g、萝卜、胡萝卜、白米2杯及分段流程；水和总时长缺失。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "保留牛腩专名，不把牛腩泛化为牛肉。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-mushroom-risotto",
+      "canonical_name": "和風香菇燉飯",
+      "aliases": [
+        "和风香菇炖饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "白米",
+        "鲜香菇",
+        "鸿喜菇",
+        "柳松菇",
+        "酱油",
+        "清酒"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "香菇按来源腌制，米、酱汁和菇类入锅。",
+          "source_ids": [
+            "S-PANASONIC-MUSHROOM-RISOTTO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "按来源软Q程序同锅炊煮。",
+          "source_ids": [
+            "S-PANASONIC-MUSHROOM-RISOTTO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "厂商来源支持同锅菇饭；标为碳水加纤维，不宣称完整均衡餐。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-MUSHROOM-RISOTTO-1",
+          "title": "和風香菇燉飯",
+          "publisher": "Panasonic Taiwan",
+          "attribution": "Panasonic Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/53",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页正文：白米3杯、三种菇及水3杯，腌制后同锅约56分钟。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "厂商来源支持同锅菇饭；标为碳水加纤维，不宣称完整均衡餐。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice",
+      "canonical_name": "南瓜野菇雞肉糙米飯",
+      "aliases": [
+        "南瓜野菇鸡肉糙米饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "鸡腿",
+        "南瓜",
+        "鸿喜菇",
+        "红彩椒",
+        "蒜",
+        "姜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "鸡腿、南瓜、菇类和米按来源分段处理。",
+          "source_ids": [
+            "S-PANASONIC-PUMPKIN-MUSHROOM-CHICKEN-BROWN-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "加入水和调味后按来源糙米行程完成。",
+          "source_ids": [
+            "S-PANASONIC-PUMPKIN-MUSHROOM-CHICKEN-BROWN-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "水量有来源但总时长缺失，保持机型边界。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-PUMPKIN-MUSHROOM-CHICKEN-BROWN-RICE-1",
+          "title": "南瓜野菇雞肉糙米飯",
+          "publisher": "Panasonic Taiwan",
+          "attribution": "Panasonic Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3551",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第411至496行：糙米2杯、鸡腿200g、南瓜200g、菇50g、水2.5杯及糙米程序。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "水量有来源但总时长缺失，保持机型边界。"
+    },
+    {
+      "recipe_id": "tiger-takikomi-gohan",
+      "canonical_name": "Takikomi Gohan (Japanese Mixed Rice)",
+      "aliases": [
+        "日本什锦炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "米",
+        "鸡腿肉",
+        "油豆腐",
+        "胡萝卜",
+        "牛蒡",
+        "魔芋",
+        "香菇",
+        "荷兰豆"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "魔芋、香菇和荷兰豆按来源预处理。",
+          "source_ids": [
+            "S-TIGER-TAKIKOMI-GOHAN-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、调味和配料入锅至水位线，荷兰豆出锅后再加。",
+          "source_ids": [
+            "S-TIGER-TAKIKOMI-GOHAN-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "Tiger官方具名炊饭，保留预处理和出锅后加料。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-TAKIKOMI-GOHAN-1",
+          "title": "Takikomi Gohan (Japanese Mixed Rice)",
+          "publisher": "Tiger Corporation",
+          "attribution": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/takikomi-gohan-japanese-mixed-rice/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第63至145行：4人份、米3杯、鸡腿、油豆腐、根茎、魔芋、香菇、荷兰豆及水位线。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名炊饭，保留预处理和出锅后加料。"
+    },
+    {
+      "recipe_id": "tiger-cabbage-mushroom-rice",
+      "canonical_name": "Cabbage and Mushroom Rice",
+      "aliases": [
+        "高丽菜香菇炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "短粒米",
+        "卷心菜",
+        "干香菇",
+        "胡萝卜",
+        "葱",
+        "蚝油"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "干香菇浸泡并保留香菇水。",
+          "source_ids": [
+            "S-TIGER-CABBAGE-MUSHROOM-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、香菇水、卷心菜、胡萝卜和调味料入锅完成。",
+          "source_ids": [
+            "S-TIGER-CABBAGE-MUSHROOM-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "营养结构为碳水加纤维，未提供蛋白，不包装成完整均衡餐。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-CABBAGE-MUSHROOM-RICE-1",
+          "title": "Cabbage and Mushroom Rice",
+          "publisher": "Tiger Corporation",
+          "attribution": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/cabbage-and-mushroom-rice/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第62至105行：米、香菇水、卷心菜、胡萝卜和调味料同锅。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "营养结构为碳水加纤维，未提供蛋白，不包装成完整均衡餐。"
+    },
+    {
+      "recipe_id": "tiger-sweet-potato-bacon-kombu-rice",
+      "canonical_name": "さつまいもの炊き込みご飯",
+      "aliases": [
+        "红薯培根昆布炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "rice cooker"
+      ],
+      "core_ingredients": [
+        "米",
+        "红薯",
+        "培根",
+        "昆布",
+        "酱油",
+        "味醂"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米浸泡，红薯和培根切配。",
+          "source_ids": [
+            "S-TIGER-SWEET-POTATO-BACON-KOMBU-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、水、昆布、红薯和培根入锅炊煮，结束后焖10分钟。",
+          "source_ids": [
+            "S-TIGER-SWEET-POTATO-BACON-KOMBU-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "来源支持同锅和液体量，缺完整炊煮时长。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-SWEET-POTATO-BACON-KOMBU-RICE-1",
+          "title": "さつまいもの炊き込みご飯",
+          "publisher": "Tiger Corporation Japan",
+          "attribution": "Tiger Corporation Japan",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/rice-cooker/takitate50/89/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第70至125行：米2合、水400cc、昆布、培根、红薯及炊后焖10分钟。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "来源支持同锅和液体量，缺完整炊煮时长。"
+    },
+    {
+      "recipe_id": "startsmart-seasonal-pork-congee",
+      "canonical_name": "時菜肉碎粥",
+      "aliases": [
+        "时菜肉碎粥"
+      ],
+      "region_codes": [
+        "HK"
+      ],
+      "cuisine_family": "hong-kong-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "白米",
+        "瘦肉",
+        "菜心"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "菜心切碎，瘦肉腌制，米浸泡。",
+          "source_ids": [
+            "S-STARTSMART-SEASONAL-PORK-CONGEE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米加水煮沸后慢火熬煮，加入肉碎和菜心至熟。",
+          "source_ids": [
+            "S-STARTSMART-SEASONAL-PORK-CONGEE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "官方大批量食谱，缺家庭换算、精确液体和安全温度。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-STARTSMART-SEASONAL-PORK-CONGEE-1",
+          "title": "時菜肉碎粥",
+          "publisher": "香港卫生署 StartSmart",
+          "url": "https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=91",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第43至82行：菜心、瘦肉、白米的大批量配方与七步锅煮流程，水量适量。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "香港卫生署 StartSmart",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方大批量食谱，缺家庭换算、精确液体和安全温度。"
+    },
+    {
+      "recipe_id": "startsmart-tomato-chicken-congee",
+      "canonical_name": "番茄雞肉粥",
+      "aliases": [
+        "番茄鸡肉粥"
+      ],
+      "region_codes": [
+        "HK"
+      ],
+      "cuisine_family": "hong-kong-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "白米",
+        "鸡肉",
+        "番茄"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "番茄去皮，鸡肉搅碎。",
+          "source_ids": [
+            "S-STARTSMART-TOMATO-CHICKEN-CONGEE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米加水煮粥，再加入番茄和鸡肉煲至熟。",
+          "source_ids": [
+            "S-STARTSMART-TOMATO-CHICKEN-CONGEE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "官方锅煮粥，缺家庭份量、精确水量和鸡肉温度。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-STARTSMART-TOMATO-CHICKEN-CONGEE-1",
+          "title": "番茄雞肉粥",
+          "publisher": "香港卫生署 StartSmart",
+          "url": "https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=51",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第43至85行：番茄、鸡肉、米的批量和去皮、熬粥、加料流程。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "香港卫生署 StartSmart",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方锅煮粥，缺家庭份量、精确水量和鸡肉温度。"
+    },
+    {
+      "recipe_id": "startsmart-quinoa-millet-corn-pork-congee",
+      "canonical_name": "三色藜麥小米甜粟米粒肉碎粥",
+      "aliases": [
+        "三色藜麦小米甜玉米粒肉碎粥"
+      ],
+      "region_codes": [
+        "HK"
+      ],
+      "cuisine_family": "hong-kong-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "藜麦",
+        "小米",
+        "白米",
+        "瘦肉",
+        "甜粟米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "藜麦、小米和白米浸泡，瘦肉腌制。",
+          "source_ids": [
+            "S-STARTSMART-QUINOA-MILLET-CORN-PORK-CONGEE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "先熬米粥，再加入藜麦、肉碎和玉米至熟。",
+          "source_ids": [
+            "S-STARTSMART-QUINOA-MILLET-CORN-PORK-CONGEE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "营养角色完整，但水量、家庭器具与安全合同未闭合。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-STARTSMART-QUINOA-MILLET-CORN-PORK-CONGEE-1",
+          "title": "三色藜麥小米甜粟米粒肉碎粥",
+          "publisher": "香港卫生署 StartSmart",
+          "url": "https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=60",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第43至82行：藜麦、小米、白米、瘦肉、玉米和五步熬煮流程。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "香港卫生署 StartSmart",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "营养角色完整，但水量、家庭器具与安全合同未闭合。"
+    },
+    {
+      "recipe_id": "taiwan-bamboo-shoot-rice",
+      "canonical_name": "竹筍炊飯",
+      "aliases": [
+        "竹笋炊饭"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-bamboo-shoot-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "竹笋",
+        "香菇",
+        "虾米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "香菇和虾米先煸香，竹笋按来源处理。",
+          "source_ids": [
+            "S-MOA-TW-BAMBOO-SHOOT-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "生米与香菇水或竹笋水同锅，拌入笋丝后炊煮。",
+          "source_ids": [
+            "S-MOA-TW-BAMBOO-SHOOT-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "明确同锅但含先炒分段，未证明电饭煲程序或固定合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MOA-TW-BAMBOO-SHOOT-RICE-1",
+          "title": "竹筍炊飯",
+          "publisher": "台湾农业部食农知味",
+          "url": "https://fae.moa.gov.tw/theme_data.php?id=4767&sub_theme=knowledge&theme=topics",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第49至83行：竹笋炊饭一锅完成，香菇/虾米煸香、生米与笋水同锅炊煮；无克数和时间。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "台湾农业部食农知味",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "明确同锅但含先炒分段，未证明电饭煲程序或固定合同。"
+    },
+    {
+      "recipe_id": "taiwan-milkfish-congee",
+      "canonical_name": "虱目魚粥（一）",
+      "aliases": [
+        "虱目鱼粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-milkfish-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "虱目鱼",
+        "米",
+        "柴鱼片",
+        "姜",
+        "蒜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "虱目鱼汆烫，鱼头鱼骨熬高汤。",
+          "source_ids": [
+            "S-TFRIN-MILKFISH-CONGEE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "高汤与米熬粥，再加入鱼片、柴鱼至熟。",
+          "source_ids": [
+            "S-TFRIN-MILKFISH-CONGEE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "需要先熬高汤和汆烫，缺总时长、家庭份量和鱼肉温度。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TFRIN-MILKFISH-CONGEE-1",
+          "title": "虱目魚粥（一）",
+          "publisher": "台湾农业部水产试验所",
+          "url": "https://fae.moa.gov.tw/theme_data.php?id=2944&sub_theme=recipe&theme=topics",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第52至78行：虱目鱼、米、高汤及汆烫、熬汤、熬粥、加鱼片流程。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "台湾农业部水产试验所",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "需要先熬高汤和汆烫，缺总时长、家庭份量和鱼肉温度。"
+    },
+    {
+      "recipe_id": "hechuan-yinmi-black-chicken-congee",
+      "canonical_name": "合川阴米乌鸡粥",
+      "aliases": [
+        "阴米乌鸡粥"
+      ],
+      "region_codes": [
+        "CN-CQ-HECHUAN"
+      ],
+      "cuisine_family": "chongqing-regional-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "阴米",
+        "乌鸡"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "阴米按合川来源浸润、蒸至七分熟并阴干。",
+          "source_ids": [
+            "S-HC-YINMI-BLACK-CHICKEN-CONGEE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "阴米与乌鸡同锅慢炖成粥。",
+          "source_ids": [
+            "S-HC-YINMI-BLACK-CHICKEN-CONGEE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "支持阴米工艺和同锅慢炖，但无克数、液体、时间、安全或电饭煲适配。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HC-YINMI-BLACK-CHICKEN-CONGEE-1",
+          "title": "合川阴米乌鸡粥",
+          "publisher": "重庆市合川区人民政府/文旅委",
+          "url": "https://www.hc.gov.cn/bmjd/bm_100475/whlyw/zwxx_101408/dt_101410/202602/t20260204_15378363.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第76至91行及合川美食页第117至120行：阴米工艺、乌鸡与阴米慢炖及非遗身份。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "重庆市合川区人民政府/文旅委",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "支持阴米工艺和同锅慢炖，但无克数、液体、时间、安全或电饭煲适配。"
+    },
+    {
+      "recipe_id": "pingchuan-sanfan",
+      "canonical_name": "平川糁饭",
+      "aliases": [
+        "平川馓饭"
+      ],
+      "region_codes": [
+        "CN-GS-BAIYIN-PINGCHUAN"
+      ],
+      "cuisine_family": "gansu-mixed-grain-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "大米",
+        "黄米",
+        "面粉"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米煮至七八成，撇出米汤。",
+          "source_ids": [
+            "S-PC-SANFAN-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "撒面粉搅拌后盖锅焖熟。",
+          "source_ids": [
+            "S-PC-SANFAN-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "以碳水为主，缺蛋白和蔬菜，不补写现代器具。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PC-SANFAN-1",
+          "title": "平川糁饭",
+          "publisher": "白银市平川区人民政府",
+          "url": "https://www.bypc.gov.cn/mlpc/lypc/czpc/art/2023/art_f4a5ceda8fdb4f6aa438a032ef11e6d4.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页第5至13行：米和面混合、煮至七八成、撇米汤、撒面粉、盖锅焖。",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "白银市平川区人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "以碳水为主，缺蛋白和蔬菜，不补写现代器具。"
+    },
+    {
+      "recipe_id": "huaihua-haocai-rice",
+      "canonical_name": "薅菜饭",
+      "aliases": [
+        "蒿菜饭"
+      ],
+      "region_codes": [
+        "CN-HN-HUAIHUA-HONGJIANG"
+      ],
+      "cuisine_family": "hunan-seasonal-glutinous-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "糯米",
+        "薅菜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "仅登记具名和民俗身份，不补写流程。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HH-HAOCAI-RICE-1",
+          "title": "黔阳古城“三月三”薅菜饭活动",
+          "publisher": "怀化市文化旅游广电体育局",
+          "url": "https://www.huaihua.gov.cn/wlgdtj/c108768/201204/e563f3bec54b432d94b45460b1b0c1f0.shtml",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方民俗活动第14至18行：三月三制作并供应薅菜饭，未给配方步骤。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "怀化市文化旅游广电体育局",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "仅登记具名和民俗身份，不补写流程。"
+    },
+    {
+      "recipe_id": "jinning-huanglaitou-braised-rice",
+      "canonical_name": "黄赖头焖饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-YN-KUNMING-JINNING"
+      ],
+      "cuisine_family": "yunnan-regional-braised-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "黄赖头"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "只证晋宁具名，不与牛肝菌焖饭混同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JN-HUANGLAITOU-RICE-1",
+          "title": "晋宁特色美食名录",
+          "publisher": "文化和旅游部乡村旅游官方线路",
+          "url": "https://zhuanti.mct.gov.cn/xcss2024_xcygj/yunnan/detail_g7yU_1058/7526.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "文化和旅游部官方线路第75至77行列名黄赖头焖饭，未给配料和步骤。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "文化和旅游部乡村旅游官方线路",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "只证晋宁具名，不与牛肝菌焖饭混同。"
+    },
+    {
+      "recipe_id": "qingyang-yellow-millet-braised-rice",
+      "canonical_name": "黄米焖饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-GS-QINGYANG-XIFENG"
+      ],
+      "cuisine_family": "gansu-millet-braised-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "黄米",
+        "水"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "只登记地方菜单身份，不借入其他黄米饭做法。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-QY-YELLOW-MILLET-RICE-1",
+          "title": "西峰当地特色菜品和特色美食",
+          "publisher": "庆阳市西峰区人民政府",
+          "url": "https://www.gsxf.gov.cn/xxgk/fdzdgknr/ghxx/content_6634",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "西峰区政府规划第725至728行列入当地特色菜品，未给流程。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "庆阳市西峰区人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "只登记地方菜单身份，不借入其他黄米饭做法。"
+    },
+    {
+      "recipe_id": "weihui-dashan-millet-braised-rice",
+      "canonical_name": "大山小米焖饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-HA-XINXIANG-WEIHUI"
+      ],
+      "cuisine_family": "henan-millet-braised-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "小米",
+        "水"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "只登记具名身份和地域，不扩写参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-WH-DASHAN-MILLET-RICE-1",
+          "title": "河南乡村旅游线路特色美食",
+          "publisher": "文化和旅游部",
+          "url": "https://zhuanti.mct.gov.cn/henan_detail/216.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方河南线路第20至30行及第64至70行列名大山小米焖饭，未给流程。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "文化和旅游部",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "只登记具名身份和地域，不扩写参数。"
+    },
+    {
+      "recipe_id": "honghe-hani-five-color-rice",
+      "canonical_name": "哈尼五色彩饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-YN-HONGHE-HONGHE"
+      ],
+      "cuisine_family": "yunnan-ethnic-color-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "糯米",
+        "植物染色材料"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "保留红河哈尼身份，不与隆林五色糯米饭合并。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HH-HANI-FIVE-COLOR-RICE-1",
+          "title": "红河县哈尼梯田特色美食",
+          "publisher": "文化和旅游部",
+          "url": "https://zhuanti.mct.gov.cn/xcss2024_shjlzzxc/yunnan/detail/6860.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方线路第65至69行列名哈尼五色彩饭，未给配方和流程。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "文化和旅游部",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "保留红河哈尼身份，不与隆林五色糯米饭合并。"
+    },
+    {
+      "recipe_id": "lianping-neiguan-braised-chicken-rice",
+      "canonical_name": "内莞焖鸡饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-GD-HEYUAN-LIANPING-NEIGUAN"
+      ],
+      "cuisine_family": "guangdong-regional-braised-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "鸡肉"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "仅支持具名身份，待归档核页后补流程。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-LP-NEIGUAN-BRAISED-RICE-1",
+          "title": "连平县内莞焖鸡饭特色美食名录",
+          "publisher": "连平县人民政府",
+          "url": "https://www.lianping.gov.cn/attachment/0/106/106495/660240.pdf",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "fetch_timeout",
+          "evidence_tier": 3,
+          "evidence_locator": "政府PDF搜索定位序号114明确挖掘与推广内莞焖鸡饭，PDF未逐页读取。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "连平县人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "仅支持具名身份，待归档核页后补流程。"
+    },
+    {
+      "recipe_id": "lianping-neiguan-braised-duck-rice",
+      "canonical_name": "内莞焖鸭饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-GD-HEYUAN-LIANPING-NEIGUAN"
+      ],
+      "cuisine_family": "guangdong-regional-braised-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "鸭肉"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "不把焖鸡饭流程借给焖鸭饭，待原文归档。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-LP-NEIGUAN-BRAISED-DUCK-RICE-1",
+          "title": "连平县内莞焖鸭饭特色美食名录",
+          "publisher": "连平县人民政府",
+          "url": "https://www.lianping.gov.cn/attachment/0/106/106495/660240.pdf",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "fetch_timeout",
+          "evidence_tier": 3,
+          "evidence_locator": "政府PDF搜索定位序号114与内莞焖鸡饭并列，PDF未逐页读取。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "连平县人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "不把焖鸡饭流程借给焖鸭饭，待原文归档。"
+    },
+    {
+      "recipe_id": "xuyi-salted-pork-rice-cracker",
+      "canonical_name": "盱眙咸肉菜饭锅巴制作技艺",
+      "aliases": [
+        "咸肉菜饭锅巴"
+      ],
+      "region_codes": [
+        "CN-JS-HUAIAN-XUYI"
+      ],
+      "cuisine_family": "jiangsu-salted-rice-cracker",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "咸肉",
+        "青菜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "仅登记技艺名称，不与上海或张浦菜饭合并。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-XUYI-SALTED-PORK-RICE-CRACKER-1",
+          "title": "咸肉菜饭锅巴制作技艺",
+          "publisher": "盱眙县人民政府",
+          "url": "https://www.xuyi.gov.cn/upload/2026-04/499c4548-9ff5-447f-b233-0ebcea3c0354.pdf",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "fetch_timeout",
+          "evidence_tier": 3,
+          "evidence_locator": "政府非遗推荐PDF表格第3项列名该技艺，PDF未逐页读取。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "盱眙县人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "仅登记技艺名称，不与上海或张浦菜饭合并。"
+    },
+    {
+      "recipe_id": "shenmu-gua-braised-rice",
+      "canonical_name": "瓜焖饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-SN-YULIN-SHENMU"
+      ],
+      "cuisine_family": "shaanxi-regional-braised-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "瓜",
+        "米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "只记录地方名称，不补流程、份量或器具。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-SN-SHENMU-GUA-RICE-1",
+          "title": "陕西省地方志资料中的瓜焖饭",
+          "publisher": "陕西省地方志办公室",
+          "url": "https://dfz.shaanxi.gov.cn/zslm/fzzlk/xbsxsz/szdylpdf/201404/P0202409232288930223.pdf",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "search_extract_opened",
+          "evidence_tier": 3,
+          "evidence_locator": "地方志PDF检索表中神木行列列名瓜焖饭，食谱正文未定位。",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "陕西省地方志办公室",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "只记录地方名称，不补流程、份量或器具。"
+    }
   ]
 }
