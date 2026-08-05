@@ -327,6 +327,8 @@
 - 台山鲫鱼饭 (taishan-crucian-carp-rice) — CN-GD
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
+- 野菇炊飯 (ntuh-wild-mushroom-rice) — TW-TPE
+- 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 瓠瓜香菇飯 (taiwan-bottle-gourd-mushroom-rice) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 人参果饭 (tibet-renshenggu-rice) — CN-XZ
@@ -368,6 +370,9 @@
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 炊込み中華おこわ (tiger-chinese-sticky-rice) — JP
+- 鴨ロースと松茸の炊込みごはん (tiger-duck-matsutake-rice) — JP
+- 鶏肉たけのこごはん (tiger-chicken-bamboo-rice) — JP
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
@@ -389,6 +394,7 @@
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
+- 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ

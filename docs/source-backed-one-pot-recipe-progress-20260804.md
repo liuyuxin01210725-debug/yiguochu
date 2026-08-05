@@ -1,13 +1,55 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r40 搜集期首批（2026-08-05）
+
+本批按《搜集期执行规范》只扩大研究目录，不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r39` bump 为 `source-backed-one-pot-v1-20260805-national-r40`，条目从 176 增至 186：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：163 → 173；
+- `identity_verified`：1 → 1；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（10 条，全部 `recipe_fact_checked`）
+
+1. `tiger-chicken-bamboo-rice` — 鶏肉たけのこごはん（Tiger 日本官方，JP）；
+2. `tiger-whitefish-mixed-rice` — 白身魚の炊込みごはん（Tiger 日本官方，JP）；
+3. `tiger-chinese-sticky-rice` — 炊込み中華おこわ（Tiger 日本官方，JP）；
+4. `tiger-shirasu-tomato-multigrain-rice` — 釜揚げしらすとトマトの雑穀ごはん（Tiger 日本官方，JP）；
+5. `tiger-mackerel-aromatic-barley-rice` — さばの香味麦炊込みごはん（Tiger 日本官方，JP）；
+6. `tiger-hamo-rice` — はもごはん（Tiger 日本官方，JP）；
+7. `tiger-duck-matsutake-rice` — 鴨ロースと松茸の炊込みごはん（Tiger 日本官方，JP）；
+8. `ntuh-salmon-mixed-mushroom-rice` — 鮭魚什錦菇飯（台大医院营养室官方 PDF，TW）；
+9. `ntuh-wild-mushroom-rice` — 野菇炊飯（台大医院官方 PDF，TW）；
+10. `sichuan-rice-cooker-pork-ribs-rice` — 排骨焖饭（Woks of Love 原创页面，CN-SC）。
+
+### 本批证据与边界
+
+- 10 条均有直接打开的 HTTPS 来源、来源定位和明确 `evidence_tier`；7 条来自厂商官方食谱页（tier 3）、2 条来自医院官方食谱 PDF（tier 4）、1 条来自可信原创菜谱页（tier 5）。
+- 10 条均记录真实来源名称、核心食材和高层流程；没有把菜名按食材自由拼接，也没有把不同版本的米水、时间或器具参数合并。
+- `tiger-whitefish-mixed-rice`、`tiger-chinese-sticky-rice`、`tiger-duck-matsutake-rice` 与排骨焖饭均明确保留预煎、预炒、预煮或出锅加料等连续流程；这些条目不是“全程一只锅”的假承诺。
+- 两条台大医院来源没有给完整总分钟数或鱼类安全终点，因此对应字段保持缺省；没有用常识补齐。
+- 排骨焖饭来源明确是四川家庭背景和标准电饭煲，但仍需独立的安全/厨房复核；未把原创作者的“高成功率”当成项目验证。
+- 本批没有条目进入 `executable`，也没有新增 recipe 的公开状态。研究目录不等于可直接给用户照做的菜单。
+
+### 去重与未入库候选
+
+本批另外核验到但未入库的候选包括：`小米炊飯`（与既有小米根茎饭家族重复风险）、新疆抓饭/手抓饭（既有 `yutian-electric-cooker-lamb-pilaf` 的官方区域补证）、客家創意地瓜飯（已有同名条目）、三菇飯、十香飯、糙米鮭魚炊飯、蔬菜雞肉飯、番紅花海鮮飯，以及畲族乌饭、东安乌米饭等身份线索。它们分别进入下一批追溯或缺口清单，没有为了凑数量降级来源门槛。
+
+### 本批验证与提交纪律
+
+- 先新增失败测试，锁定 10 个 recipe ID、名称、状态和直接来源；实现后目录数据专项测试 `198/198` 通过；
+- `node tools/build-source-backed-one-pot-catalog.mjs --write` 后 `node tools/check-source-backed-one-pot-catalog.mjs` 通过，生成的 Markdown/CSV 与 r40 一致；
+- 本批仅涉及研究规范、目录数据、生成产物与数据测试；不改运行时、不部署 production，PR 继续保持 Draft；
+- 本批工作区应在当日以单独 `data:`/`docs:`/`test:` 提交落账，后续报告继续列出完整新增/晋升清单。
+
 ## 当前结论
 
 本轮继续做的是“真实菜名与真实来源的菜谱目录”，不是运行时自由组合，也不是用估算参数把研究条目伪装成可执行配方。
 
-当前结构化目录版本为 `source-backed-one-pot-v1-20260805-national-r39`，共 176 条：
+当前结构化目录版本为 `source-backed-one-pot-v1-20260805-national-r40`，共 186 条：
 
 - `executable`：12 条（均仅内部审查用，未公开、未部署、未完成厨房验证）；
-- `recipe_fact_checked`：163 条（身份和部分事实已核对，仍有一个或多个执行合同缺口）；
+- `recipe_fact_checked`：173 条（身份和部分事实已核对，仍有一个或多个执行合同缺口）；
 - `identity_verified`：1 条（只有身份来源，尚不能写成做法）。
 
 目录与生成产物见：[source-backed-one-pot-recipes.v1.json](/Users/liuyuxin/Documents/一锅出/.worktrees/source-backed-one-pot-catalog/tools/data/source-backed-one-pot-recipes.v1.json:1)。

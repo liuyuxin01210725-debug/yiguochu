@@ -139,6 +139,17 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 鸭三宝腊味饭 | 虎门鸭三宝饭 | CN-GD | humen-duck-triad-cured-rice | 研究记录（非公开可执行） | 米饭；腊鸭心；腊鸭肝；腊鸭肠；葱花 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [虎门顶流特产！一煮整个家都是香喷喷的](https://nyncj.dg.gov.cn/zzzl/content/post_4479655.html) |
+## japanese-rice-cooker-recipes
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| さばの香味麦炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；三成麦；盐烤鲭鱼；生姜；茗荷；紫苏 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [さばの香味麦炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_525/) |
+| はもごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鱧；生姜；紫苏；茗荷 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [はもごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post17/) |
+| 炊込み中華おこわ | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 糯米；五花肉；干香菇；干虾；竹笋；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [炊込み中華おこわ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post35/) |
+| 白身魚の炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；白身鱼；胡萝卜；牛蒡；金针菇；昆布 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [白身魚の炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post62/) |
+| 釜揚げしらすとトマトの雑穀ごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；杂粮；釜揚げしらす；小番茄 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [釜揚げしらすとトマトの雑穀ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post52/) |
+| 鴨ロースと松茸の炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鸭腿肉；松茸；胡萝卜；南瓜；银杏 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [鴨ロースと松茸の炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_11/) |
+| 鶏肉たけのこごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；新竹笋；鸡胸肉；油豆腐皮 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [鶏肉たけのこごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post26/) |
 ## jiangnan-duck-greens-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -376,6 +387,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 糯米菜饭 | — | CN-GD | shixing-yao-glutinous-vegetable-rice | 研究记录（非公开可执行） | 糯米；腊肉；冬笋；香菇；蒜苗；芥菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [瑶乡‘年味’别样浓：一道‘油浸肉’心境大不同](https://www.qb.gd.gov.cn/mlgd/content/post_1037668.html) |
+## sichuan-home-style-menfan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 排骨焖饭 | Páigǔ Mèn Fàn；One-Pot Rice Cooker Pork Ribs and Rice | CN-SC | sichuan-home-style-menfan | 研究记录（非公开可执行） | 米；排骨；玉米；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [One-Pot Rice Cooker Pork Ribs and Rice (排骨焖饭)](https://woksoflove.com/one-pot-rice-cooker-pork-ribs-and-rice/) |
 ## sichuan-kong-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -431,6 +447,12 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 一叶弥月油饭 | 一葉彌月油飯 | TW | taiwan-ceremonial-oil-rice | 研究记录（非公开可执行） | 糯米；香菇；肉丝；虾米；鱿鱼 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [一葉彌月油飯](https://ebook.afa.gov.tw/tefd/ebook7/ebook7-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## taiwan-electric-cooker-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 野菇炊飯 | — | TW-TPE | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 五谷米；毛豆；鸿喜菇；雪白菇；干香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [野菇炊飯](https://health.ntuh.gov.tw/health/NTUH_e_Net/NTUH_e_Net_no227/%E5%BE%97%E8%94%AC%E8%94%9A%E9%A3%9F%E7%82%8A%E9%A3%AF%E6%96%99%E7%90%86.pdf) |
+| 鮭魚什錦菇飯 | 鮭魚什錦菇飯（低升糖指數電子鍋料理） | TW-TPE | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 糙米；黑米；鲑鱼；毛豆；胡萝卜；木耳；柳松菇；美白菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [低升糖指數電子鍋料理--鮭魚什錦菇飯](https://epaper.ntuh.gov.tw/health/201908/PDF/%E5%81%A5%E5%BA%B7%E7%87%9F%E9%A4%8A%E8%A3%9C%E7%B5%A6%E7%AB%99.pdf) |
 ## taiwan-electric-pot-risotto
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
