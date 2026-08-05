@@ -631,6 +631,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 壶仔咸饭 | — | CN-FJ | jinjiang-shenhu-huzi-salted-rice | 研究记录（非公开可执行） | 大米；三层肉；干香菇；干目鱼；胡萝卜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [晋邑古筵：壶仔咸饭](https://www.jinjiang.gov.cn/xxgk/zfxxgkzl/bmzfxxgk/whhlvj/whhlvjgzml/202512/t20251210_3239722.htm) |
+## jinyuan-liumi
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 晋源馏米饭 | 晋祠馏米；晋源馏米 | CN-SX-TAIYUAN-JINYUAN | jinyuan-liumi | 研究记录（非公开可执行） | 糯米；红枣；糖水 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [晋源馏米传统制作](https://wlt.xizang.gov.cn/ztzl_69/zzqjfyccr/202602/t20260207_523362.html)<br>[晋祠馏米地方非遗报道](https://www.mct.gov.cn/whzx/qgwhxxlb/sx/202506/t20250627_960839.htm) |
 ## jixi-bamboo-shoot-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -744,6 +749,9 @@
 | Paella | Tefal Home Chef西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长米；鸡块；虾；海螯虾；黑青口；青豆；红椒；番茄；鱼汤；香肠 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Paella](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNjc1MTk5fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDJhL2hiYy8xMzg3NjY0MzcyNTM0Mi5wZGZ8NmE3NWNjYjA1MDdlMWEzNzk4NmYxZjBmNWE4MDExZTk1MTM1MjM0YzgwMjZlN2UyZWY1MDM2MTI4ZThlMTkzOQ) |
 | Risotto Milanese | 米兰烩饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；火腿；蘑菇；洋葱；高汤；番茄酱 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Risotto Milanese](https://www.tefal.com/recipe/Risotto-Milanese/r/106510) |
 | Saffron Rice with Seafood | 藏红花海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；解冻冷冻海鲜；洋葱；鱼高汤；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Saffron Rice with Seafood](https://www.tefal.com/recipe/Saffron-Rice-with-Seafood/r/106512) |
+| かすよせ | 熊本かすよせ | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；熟黄豆；芋头；鸡腿肉；南瓜；干香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [かすよせ](https://www.zojirushi.co.jp/recipe_old/ih-atsuryoku/detail.html?id=ih-atsuryoku_kasuyose&subcat=yasai) |
+| ののこ飯 | 鸟取ののこ饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；油炸豆腐皮；鸡腿肉；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [ののこ飯](https://www.zojirushi.co.jp/recipe/ih-atsuryoku/syousai/nonokomeshi.html) |
+| 奈良ご当地 茶がゆ | 奈良茶粥 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 白米；焙茶；水；盐 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [奈良ご当地 茶がゆ](https://panasonic.jp/cooking/recipe/autocooker/1504.html) |
 ## manufacturer-one-pot-risotto
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -954,6 +962,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 宜昌腊肉焖饭 | — | CN-HB | middle-yangtze-cured-rice | 研究记录（非公开可执行） | 米；腊肉 | identity、ingredients | 缺 process | [新华网：江汉大米“链动”三峡 产销合作启新篇](https://fgw.yichang.gov.cn/content-56405-984018-1.html) |
+## mindong-she-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 闽东畲族乌饭 | 闽东畲族乌米饭；宁德畲族乌饭；蕉城畲族乌饭 | CN-FJ-NINGDE-JIAOCHENG | mindong-she-rice | 研究记录（非公开可执行） | 乌饭 | identity | 缺 ingredients、process | [闽东畲族乌饭制作技艺](https://mzzjt.fujian.gov.cn/xxgk/gzdt/stdt/mzyw/202409/t20240913_6517519.htm)<br>[畲族非遗项目与乌饭节俗](https://www.fujian.gov.cn/zwgk/zdlyxxgk/jytabl_1/202511/t20251103_7029599.htm) |
 ## minnan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -987,6 +1000,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 壶仔饭 | — | CN-FJ | minnan-steamed-glutinous-rice | 研究记录（非公开可执行） | 糯米；三层肉；香菇；虾米；大骨汤 | appliance、identity、ingredients、liquid、process、safety、time | 缺 quantity | [从泉州三餐识味闽南烟火人间](https://www.quanzhou.gov.cn/gastronomy/ch/qzgk/yhzc/202411/t20241122_3108150.htm)<br>[关于开展“晋邑古筵”推荐餐厅认定工作的通知](https://www.jinjiang.gov.cn/xxgk/zfxxgkzl/bmzfxxgk/whhlvj/whhlvjml/202512/t20251210_3239722.htm)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## miyazaki-regional-torimeshi
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| わけしこ飯（とりめし） | わけしこ饭；西都鸡饭 | JP-MIYAZAKI-SAITO | miyazaki-regional-torimeshi | 研究记录（非公开可执行） | 精米；鸡腿肉；牛蒡；鸡汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [わけしこ飯（とりめし）](https://www.city.saito.lg.jp/d58e5c49f876439e24a031ff9758dc1b.pdf) |
 ## mizhi-lamb-diced-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1002,6 +1020,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 墨脱红米石锅鸡手抓饭 | 门珞红米石锅鸡手抓饭 | CN-XZ-LINZHI-MOTUO | motuo-menluo-red-rice-hand-grab | 研究记录（非公开可执行） | 红米；石锅鸡；野菜；辣椒酱 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [墨脱美食里藏着的门珞文化密码](https://linzhi.gov.cn/linzhi/xwzx/202511/61f639ed9d14426d96fbcfdaea95596b.shtml) |
+## nagasaki-regional-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ぼうぶらずうし | 波佐见南瓜鲸肉饭 | JP-NAGASAKI-HASAMI | nagasaki-regional-rice | 研究记录（非公开可执行） | 米；鲸肉；南瓜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [ぼうぶらずうし](https://www.town.hasami.lg.jp/kiji0032323/index.html) |
 ## ninghe-zeng-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1499,6 +1522,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Pork and Napa Cabbage Mille-Feuille With Mushroom Rice | 猪肉白菜千层配菌菇饭 | US | tiger-tacook-two-layer-rice-meal | 研究记录（非公开可执行） | 米；猪肉；白菜；菌菇；油豆腐；柴鱼高汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [Pork and Napa Cabbage Mille-Feuille With Mushroom Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/pork-and-napa-cabbage-mille-feuille-with-mushroom-rice/) |
+## tochigi-regional-takikomi-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| しもつかれ風炊き込み飯 | — | JP-TOCHIGI-UTSUNOMIYA | tochigi-regional-takikomi-rice | 研究记录（非公开可执行） | 米；鲑鱼片；炒大豆；油豆腐；切干大根；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [しもつかれ風炊き込み飯](https://www.city.utsunomiya.lg.jp/kenko/kenshin/shokuiku/healty/1004702.html) |
 ## tokushima-houhan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

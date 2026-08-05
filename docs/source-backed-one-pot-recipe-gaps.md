@@ -32,6 +32,7 @@
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
 - 陵川柴火饭 (shanxi-lingchuan-firewood-rice) — CN-SX
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
+- 闽东畲族乌饭 (mindong-she-black-rice) — CN-FJ-NINGDE-JIAOCHENG
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
 - 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
@@ -107,6 +108,7 @@
 - 靖西七色糯米饭 (guangxi-jingxi-seven-color-glutinous-rice) — CN-GX
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
+- 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
@@ -340,6 +342,7 @@
 - 靖西七色糯米饭 (guangxi-jingxi-seven-color-glutinous-rice) — CN-GX
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
+- 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
@@ -521,6 +524,7 @@
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
 - 门巴族玉米饭 (metok-menba-corn-rice) — CN-XZ-NYINGCHI-METOK
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
+- 闽东畲族乌饭 (mindong-she-black-rice) — CN-FJ-NINGDE-JIAOCHENG
 - 芦溪咸菜饭 (pinghe-luxi-salted-vegetable-rice) — CN-FJ-ZHANGZHOU-PINGHE-LUXI
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
@@ -618,6 +622,7 @@
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 靖西七色糯米饭 (guangxi-jingxi-seven-color-glutinous-rice) — CN-GX
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
+- 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
@@ -845,6 +850,7 @@
 - 靖西七色糯米饭 (guangxi-jingxi-seven-color-glutinous-rice) — CN-GX
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
+- 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - こうし飯 (maff-kochi-koshimeshi) — JP-KOCHI
@@ -942,8 +948,10 @@
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
+- わけしこ飯（とりめし） (saito-wakeshiko-torimeshi) — JP-MIYAZAKI-SAITO
 - 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
 - 墨脱红米石锅鸡手抓饭 (motuo-menluo-red-rice-stonepot-chicken-hand-grab) — CN-XZ-LINZHI-MOTUO
+- ぼうぶらずうし (hasami-boubura-zuushi) — JP-NAGASAKI-HASAMI
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -1040,6 +1048,7 @@
 - 咪达 (tibet-mida-rice-porridge) — CN-XZ
 - Jujube and Chicken Fillet Rice (tiger-jujube-chicken-fillet-rice) — US
 - Pork and Napa Cabbage Mille-Feuille With Mushroom Rice (tiger-pork-napa-mille-feuille-mushroom-rice) — US
+- しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 金包银 (tujia-jinbaoyin-corn-rice) — CN-CQ-SOUTHEAST-TUJIA
@@ -1177,6 +1186,8 @@
 - Chicken rice with olives (tefal-chicken-rice-olives-one-pot-pan) — 非地域·厂商一锅饭
 - Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
+- かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
+- ののこ飯 (zojirushi-nonokomeshi-el-mb30) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
@@ -1238,6 +1249,7 @@
 - 晋江鱼饭 (jinjiang-squid-rice) — CN-FJ-QUANZHOU-JINJIANG
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
+- わけしこ飯（とりめし） (saito-wakeshiko-torimeshi) — JP-MIYAZAKI-SAITO
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -1295,6 +1307,7 @@
 - 五目ごはん (tiger-post-196-gomoku-rice) — JP-TIGER
 - Jujube and Chicken Fillet Rice (tiger-jujube-chicken-fillet-rice) — US
 - Pork and Napa Cabbage Mille-Feuille With Mushroom Rice (tiger-pork-napa-mille-feuille-mushroom-rice) — US
+- しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ

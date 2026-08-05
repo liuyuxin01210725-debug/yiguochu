@@ -1,5 +1,32 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r71 搜集期第四十四批（2026-08-06）
+
+本批继续“搜集放量、证据不越级”：日本/中国地方官方机构与厂商三条线并行，去重后登记 **8 条新研究记录**。目录版本由 r70 的 `source-backed-one-pot-v1-20260808-national-r70` bump 为 `source-backed-one-pot-v1-20260808-national-r71`，条目从 655 增至 663：`executable=12`、`recipe_fact_checked=584`、`identity_verified=61`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
+
+### 日本地方与机构来源（3 条，全部 `recipe_fact_checked`）
+
+- `utsunomiya-shimotsukare-style-rice` — しもつかれ風炊き込み飯：宇都宫市官方食育页给出电饭煲1合水位、鲑鱼/炒大豆/油豆腐/根菜和两人份；保留酒粕、鱼、大豆过敏边界。
+- `hasami-boubura-zuushi` — ぼうぶらずうし：波佐见町官方页同时给南瓜鲸肉饭的电饭煲版与炉灶版；鲸肉供应和安全未闭合，不允许改用其他肉类冒用原名。
+- `saito-wakeshiko-torimeshi` — わけしこ飯（とりめし）：西都市官方 PDF 给出一人份米、鸡腿、牛蒡、鸡汤和电饭煲流程；禽肉安全及 PDF 表格复核仍待补。
+
+### 厂商来源（3 条，全部 `recipe_fact_checked`）
+
+- `zojirushi-nonokomeshi-el-mb30` — ののこ飯：象印自动压力 IH 锅的鸟取具名地方饭，豆腐皮饭袋、鸡肉和根菜同锅；27 分钟和 450ml 只对来源机型成立。
+- `zojirushi-kasuyose-el-mb30` — かすよせ：象印熊本乡土副菜，黄豆、鸡肉和根菜结构完整，但来源明确要求锅外预炒，暂不承诺为一键主餐。
+- `panasonic-nara-chagayu-nf-ac1000` — 奈良ご当地 茶がゆ：Panasonic Bistro 指定机型的茶粥，真实但基本是米、水、茶和盐，标为纯碳水文化档案，不宣传均衡主餐。
+
+### 中国地方与民族机构来源（2 条）
+
+- `jinyuan-liumi-rice` — 晋源馏米饭（晋祠馏米）：文化厅和文旅部来源支持糯米、红枣、七层结构及蒸焖工序；属于甜米食，传统蒸锅事实不外推电饭煲，状态 `recipe_fact_checked`。
+- `mindong-she-black-rice` — 闽东畲族乌饭：福建民族事务厅和省政府支持宁德/蕉城的畲族非遗身份，配料、液体、时间和器具仍缺，状态 `identity_verified`；不跨地区拼接广州或其他畲族乌饭做法。
+
+### 本批纪律与排除
+
+- 8 条均使用直接打开、带 evidence tier、定位、署名和许可字段的来源；没有把搜索摘录、文化身份或另一地区配方写成执行合同。
+- Panasonic 燕麦奶酪烩饭、熟饭浇头和另锅海鲜等真实页面保留在邻接/未来熟饭线索，不混入当前严格米饭主线；长乐龙舟饭、宁国云梯畲族乌米饭与现有家族重复风险高，暂不新建条目。
+- 研究状态不等于 executable、人工签署或厨房验证；下一步仍是来源原件、四合同和厨房验证，不新增运行时组合能力。
+
 ## r70 搜集期第四十三批（2026-08-06）
 
 本批继续“搜集放量、证据不越级”：地域、厂商与台湾官方机构三条线并行，按 canonical name、地域身份、器具边界和熟饭/生米结构去重后登记 **9 条新研究记录**。目录版本由 r69 的 `source-backed-one-pot-v1-20260808-national-r69` bump 为 `source-backed-one-pot-v1-20260808-national-r70`，条目从 646 增至 655：`executable=12`、`recipe_fact_checked=577`、`identity_verified=60`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
