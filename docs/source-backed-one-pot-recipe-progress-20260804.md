@@ -1,5 +1,41 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r66 搜集期第三十九批（2026-08-06）
+
+本批继续执行“搜集放量、晋升门槛不降”：由日本农林水产省、厂商官方和中国地域三条来源线并行核对，去重后登记 **16 条新候选**。目录版本由 r65 的 `source-backed-one-pot-v1-20260808-national-r65` bump 为 `source-backed-one-pot-v1-20260808-national-r66`，条目从 579 增至 595：`executable=12`、`recipe_fact_checked=537`、`identity_verified=46`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
+
+### 机构来源（9 条；8 条 `recipe_fact_checked`、1 条 `identity_verified`）
+
+- `maff-ehime-taimeshi` — 爱媛鯛めし；严格保留东予鲷鱼与米同锅炊饭的地域版本。
+- `maff-fukushima-hokki-meshi` — 福岛ほっきめし；北寄贝先煮取汁、米用贝汁炊、贝肉回锅的条件流程不合并为生贝全程同炊。
+- `maff-shizuoka-bokumeshi` — 静冈ぼくめし；熟饭与鳗鱼/牛蒡分段处理，保留研究边界。
+- `maff-okayama-funa-meshi` — 冈山鮒めし；鱼和根菜出汁浇热饭，不改写为生米锅。
+- `maff-oita-ouhan-kayaku` — 大分黄飯と黄飯かやく；黄色米饭与鱼豆腐根菜配料分段，未拼成一锅合同。
+- `maff-saitama-katemeshi` — 埼玉かてめし；米饭与根菜、豆腐另段处理，保留来源事实。
+- `maff-gifu-ayu-zosui` — 岐阜鮎ぞうすい；熟饭入鱼汤的邻近汤饭，明确标注不等同严格一锅生米饭。
+- `maff-gunma-torimeshi` — 群马鶏めし；官方具名与鸡肉覆饭身份已核实，数量和流程仍缺，停在 `identity_verified`。
+- `maff-toyama-kuro-mame-okowa` — 富山黒豆おこわ／みたま；黑豆糯米分段蒸制，未转换为电饭煲同锅方案。
+
+### 厂商官方来源（5 条，全部 `recipe_fact_checked`）
+
+- `zojirushi-takikomi-gohan-mixed-rice` — 象印 Takikomi-Gohan；保留厂商 MIXED RICE 水位线和同内锅流程，不外推通用机型参数。
+- `zojirushi-brown-rice-salmon-shiitake` — 象印三文鱼香菇糙米；保留 BROWN RICE 程序与机型范围，不补鱼类安全终点。
+- `zojirushi-shiitake-gohan` — 象印 Shiitake-Gohan；香菇预处理后按厂商 MIXED 程序炊煮，批量范围不压成单一份量。
+- `zojirushi-new-orleans-red-beans-rice` — 象印 New Orleans Style Red Beans and Rice；按具名路易斯安那菜保留，不把厂商英文名改造成中国地方菜。
+- `toshiba-steamed-sekihan-edion-rice-cooker` — 东芝蒸制赤饭；特殊蒸おこわ程序与约 55 分钟、打水步骤独立记录，不迁移到普通白米程序。
+
+### 中国地域来源（2 条，全部 `identity_verified`）
+
+- `tianjin-ninghe-braised-meat-rice` — 天津宁河肉焖米饭；官方地域身份与肉、米核心组合已核实，数量、液体、时间和器具合同待补。
+- `yecheng-jiucun-pilaf` — 新疆叶城九村抓饭；自治区人大相关页面支持村级抓饭品牌、山羊肉与胡萝卜核心身份，不把近期品牌页面冒充古老统一配方。
+
+### 去重与边界说明
+
+- 区域批次中梅县三鲜鱼焖饭、阳新春湖鱼饭、华容锅巴鱼饭和黄埔腊味煲仔饭均是既有条目的证据刷新或变体线索，本批不重复建条目；`maff-niigata-shoyu-okowa` 与 `maff-oita-torimeshi` 也已在目录中，保留原 ID。
+- 象印 Halal chicken rice、Portabella beef broccoli rice、Jasmine tofu broccoli edamame rice 均涉及另锅/分层/后拌，未冒充严格单内锅一锅饭；相关来源留在研究报告，不写入目录。
+- 新增来源均直接打开、显式标注 tier、locator 和实际 claim scope；缺失的固定量、米水换算、总时长、安全端点和电饭煲适配保持 `null` 或 `not_adapted`。所有新增仍是研究目录，不是人工批准、不是厨房验证、不是公开菜单。
+
+
 ## r65 搜集期第三十八批（2026-08-06）
 
 本批按“研究资产放量、晋升门槛不降”的策略，由厂商官方、政府/机构和地域三条来源线并行核对。去重并按当前“米饭优先”范围筛选后登记 **22 条新候选**：机构 7 条、厂商 10 条、地域 5 条。目录版本由 r64 的 `source-backed-one-pot-v1-20260808-national-r64` bump 为 `source-backed-one-pot-v1-20260808-national-r65`，条目从 557 增至 579：`executable=12`、`recipe_fact_checked=524`、`identity_verified=43`、`kitchen_observed=0`。本批未修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。

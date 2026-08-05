@@ -27,6 +27,7 @@
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
+- 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
@@ -107,11 +108,14 @@
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
+- Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Edamame and Fried Tofu Rice (tiger-edamame-fried-tofu-rice) — 非地域·厂商食谱
 - Hijiki Brown Rice (tiger-hijiki-brown-rice) — 非地域·厂商食谱
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
+- Shiitake-Gohan (zojirushi-shiitake-gohan) — 非地域·厂商食谱
+- Takikomi-Gohan (Mixed Rice) (zojirushi-takikomi-gohan-mixed-rice) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
 - 香菇腊肠饭 (midea-shiitake-lapcheong-rice) — 非地域·厂商食谱
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
@@ -254,6 +258,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - エアぶり大根めし (maff-air-buri-daikon-daikon-meshi) — JP
+- ぼくめし (maff-shizuoka-bokumeshi) — JP-SHIZUOKA-YOSHIDA
 - 栗おこわ (maff-saga-kuri-okowa) — JP-SAGA
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - たこ飯（たこめし） (maff-aichi-tako-meshi) — JP-AICHI
@@ -278,6 +283,7 @@
 - とりめし (maff-miyazaki-torimeshi) — JP-MIYAZAKI
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - 鶏めし (maff-oita-torimeshi) — JP-OITA
+- 黄飯と黄飯かやく (maff-oita-ouhan-kayaku) — JP-OITA-USUKI
 - とどめせ (maff-okayama-todomese) — JP-OKAYAMA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
 - くじらご飯 (maff-shimane-kujira-gohan) — JP-SHIMANE
@@ -289,6 +295,7 @@
 - 豆ごはん (wakayama-usuendo-mame-gohan) — JP-WAKAYAMA
 - 鮎の炊き込みご飯 (wakayama-ayu-takikomi) — JP-WAKAYAMA
 - うに飯 (maff-yamaguchi-uni-meshi) — JP-YAMAGUCHI
+- 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
 - さといもと高菜漬けの炊き込みごはん (maff-satoimo-takana-takikomi-gohan) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
@@ -478,11 +485,13 @@
 - 芦溪咸菜饭 (pinghe-luxi-salted-vegetable-rice) — CN-FJ-ZHANGZHOU-PINGHE-LUXI
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
+- 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
 - 邵阳黑饭 (shaoyang-black-rice) — CN-HN-SHAOYANG
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ
 - 海鲜锅巴饭 (taicang-seafood-pot-crust-rice) — CN-JS-TAICANG
 - 威海苞米碴子干饭 (weihai-baomi-chazi-dry-rice) — CN-SD-WEIHAI
+- 九村抓饭 (yecheng-jiucun-pilaf) — CN-XJ-KASHGAR-YECHENG-HEYUAN
 - 香米煲锅巴饭 (xinzhou-fragrant-rice-pot-crust-rice) — CN-HB-WUHAN-XINZHOU
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
@@ -513,13 +522,18 @@
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK
 - 港巴蔬菜粥 (had-vegetable-pulao) — HK
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 鮎ぞうすい (maff-gifu-ayu-zosui) — JP-GIFU-KISO-NAGARA
+- 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
+- かてめし (maff-saitama-katemeshi) — JP-SAITAMA-CHICHIBU
+- ぼくめし (maff-shizuoka-bokumeshi) — JP-SHIZUOKA-YOSHIDA
 - みたま (maff-ishikawa-mitama) — JP-ISHIKAWA
 - 栗おこわ (maff-saga-kuri-okowa) — JP-SAGA
 - ごまご飯 (maff-aomori-goma-gohan) — JP-AOMORI
 - 鶏雑炊（とりどせ） (maff-chiba-toridose) — JP-CHIBA
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
+- 鯛めし (maff-ehime-taimeshi) — JP-EHIME-TOYO
 - かて飯 (maff-gunma-katemeshi) — JP-GUNMA
 - いかめし (maff-hokkaido-ikameshi) — JP-HOKKAIDO
 - とふめし (maff-tofumeshi) — JP-HYOGO-SASAYAMA
@@ -531,13 +545,16 @@
 - とりめし (maff-miyazaki-torimeshi) — JP-MIYAZAKI
 - 鶏飯 (maff-nagasaki-torimeshi) — JP-NAGASAKI
 - 鶏めし (maff-oita-torimeshi) — JP-OITA
+- 黄飯と黄飯かやく (maff-oita-ouhan-kayaku) — JP-OITA-USUKI
 - さざえ飯 (maff-shimane-sazae-meshi) — JP-SHIMANE
 - おみいさん (maff-tokushima-omiisan) — JP-TOKUSHIMA
 - そば米雑炊／そば米汁 (maff-tokushima-sobagome-zosui) — JP-TOKUSHIMA
 - 鮎ろうすい (maff-tokushima-ayuro-sui) — JP-TOKUSHIMA
 - かきまでご飯 (maff-wakayama-kakimade-gohan) — JP-WAKAYAMA
 - うに飯 (maff-yamaguchi-uni-meshi) — JP-YAMAGUCHI
+- 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
+- ほっきめし (maff-fukushima-hokki-meshi) — JP-FUKUSHIMA-SOMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
@@ -658,8 +675,12 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- 鮎ぞうすい (maff-gifu-ayu-zosui) — JP-GIFU-KISO-NAGARA
+- 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
+- かてめし (maff-saitama-katemeshi) — JP-SAITAMA-CHICHIBU
+- ぼくめし (maff-shizuoka-bokumeshi) — JP-SHIZUOKA-YOSHIDA
 - 栗おこわ (maff-saga-kuri-okowa) — JP-SAGA
 - 里芋の炊き込みご飯 (maff-satoimo-rice) — JP
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
@@ -671,6 +692,7 @@
 - 鶏雑炊（とりどせ） (maff-chiba-toridose) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
+- 鯛めし (maff-ehime-taimeshi) — JP-EHIME-TOYO
 - 茶飯（ちゃめし） (maff-fukui-chameshi) — JP-FUKUI
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - きんぎょ飯 (maff-kingyo-meshi) — JP-GIFU-KAKAMIGAHARA
@@ -706,6 +728,7 @@
 - 色ご飯 (maff-irogohan-nara) — JP-NARA
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
+- 黄飯と黄飯かやく (maff-oita-ouhan-kayaku) — JP-OITA-USUKI
 - たこめし (maff-okayama-tako-meshi) — JP-OKAYAMA
 - とどめせ (maff-okayama-todomese) — JP-OKAYAMA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
@@ -727,12 +750,14 @@
 - 豆ごはん (wakayama-usuendo-mame-gohan) — JP-WAKAYAMA
 - 鮎の炊き込みご飯 (wakayama-ayu-takikomi) — JP-WAKAYAMA
 - さんまめし (maff-yamanashi-sanma-meshi) — JP-YAMANASHI
+- 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
 - さといもと高菜漬けの炊き込みごはん (maff-satoimo-takana-takikomi-gohan) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
 - はらこ飯 (maff-fukushima-harako-meshi) — JP-FUKUSHIMA
+- ほっきめし (maff-fukushima-hokki-meshi) — JP-FUKUSHIMA-SOMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
 - 親子丼 (tiger-oyakodon-tacook) — JP
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -748,6 +773,7 @@
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
+- New Orleans Style Red Beans and Rice (zojirushi-new-orleans-red-beans-rice) — US-LA-NEW-ORLEANS
 - 蕃茄粟米飯 (macau-tomato-corn-rice) — MO
 - 帶子磨菇菜飯 (macau-scallop-mushroom-vegetable-rice) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
@@ -757,6 +783,7 @@
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
 - Bacon and Tuna Rice Casserole (tiger-usa-bacon-tuna-rice-casserole) — 非地域·厂商食谱
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
+- Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
@@ -772,10 +799,12 @@
 - Salmon Rice (r60-tiger-salmon-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Shiitake Mushroom Garlic Rice (r60-tiger-shiitake-garlic-rice) — 非地域·厂商食谱
+- Shiitake-Gohan (zojirushi-shiitake-gohan) — 非地域·厂商食谱
 - Steamed Garlic Salmon with Dill and Garden Vegetables (r59-tiger-usa-garlic-salmon-garden-rice) — 非地域·厂商食谱
 - Szechuan Pork (r60-tiger-szechuan-pork-tacook-rice) — 非地域·厂商食谱
 - Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
+- Takikomi-Gohan (Mixed Rice) (zojirushi-takikomi-gohan-mixed-rice) — 非地域·厂商食谱
 - Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
 - Vietnamese Style Beef with Rice (tiger-usa-vietnamese-beef-rice) — 非地域·厂商食谱
@@ -995,6 +1024,7 @@
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
@@ -1027,6 +1057,7 @@
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
+- ほっきめし (maff-fukushima-hokki-meshi) — JP-FUKUSHIMA-SOMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
 - 親子丼 (tiger-oyakodon-tacook) — JP
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
@@ -1035,6 +1066,7 @@
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- New Orleans Style Red Beans and Rice (zojirushi-new-orleans-red-beans-rice) — US-LA-NEW-ORLEANS
 - 生菜魚球粥 (macau-lettuce-fishball-porridge) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
@@ -1042,6 +1074,7 @@
 - 海のパエリア (zojirushi-seafood-paella) — JP-NATIONAL
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
+- Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
@@ -1058,6 +1091,7 @@
 - Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
 - Take Out Style Vegetable Fried Rice (r60-tiger-takeout-vegetable-fried-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
+- Takikomi-Gohan (Mixed Rice) (zojirushi-takikomi-gohan-mixed-rice) — 非地域·厂商食谱
 - Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Tuscan Chicken and Rice (instant-pot-tuscan-chicken-rice) — 非地域·厂商食谱
 - Vietnamese Style Beef with Rice (tiger-usa-vietnamese-beef-rice) — 非地域·厂商食谱
