@@ -73,8 +73,8 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   for (const recipeId of [
     'panasonic-tako-meshi-sr-x910e',
     'zojirushi-brown-rice-ih-pot',
@@ -753,7 +753,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1058,7 +1058,7 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   assert.deepEqual(statusTotals, {
     executable: 12,
     identity_verified: 5,
-    recipe_fact_checked: 333,
+    recipe_fact_checked: 338,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -5796,8 +5796,8 @@ test('r45 collection batch records directly sourced named one-pot meals without 
 
 test('r48 collection batch records newly opened MAFF and manufacturer one-pot meals', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   const expected = [
     ['maff-ibaraki-hamaguri-gohan', 'はまぐりごはん', 'recipe_fact_checked'],
     ['maff-oita-amimeshi', 'あみめし', 'recipe_fact_checked'],
@@ -5827,8 +5827,8 @@ test('r48 collection batch records newly opened MAFF and manufacturer one-pot me
 
 test('r49 collection batch records newly opened MAFF regional rice meals without promoting research', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   const expected = [
     ['maff-okinawa-yafara-jushi', 'ヤファラジューシー', 'recipe_fact_checked'],
     ['maff-miyagi-harako-meshi', 'はらこ飯', 'recipe_fact_checked'],
@@ -5856,8 +5856,8 @@ test('r49 collection batch records newly opened MAFF regional rice meals without
 
 test('r50 collection batch records newly opened MAFF regional rice meals without promoting research', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   const expected = [
     ['maff-kanagawa-ume-gohan', '梅ごはん', 'recipe_fact_checked'],
     ['maff-kagoshima-karaimo-gohan', 'からいもごはん', 'recipe_fact_checked'],
@@ -5883,8 +5883,8 @@ test('r50 collection batch records newly opened MAFF regional rice meals without
 
 test('r51 collection batch records newly opened regional and manufacturer rice meals without promoting research', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   const expected = [
     ['maff-aichi-tako-meshi', 'たこ飯（たこめし）', 'recipe_fact_checked'],
     ['maff-hiroshima-mihara-tako-meshi', 'たこめし', 'recipe_fact_checked'],
@@ -5916,8 +5916,8 @@ test('r51 collection batch records newly opened regional and manufacturer rice m
 
 test('r52 collection batch records directly opened Tatung electric-pot rice meals without promoting research', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   const expected = [
     ['tatung-yugao-sakuraebi-rice', '夕顔と桜エビの炊き込みご飯', 'recipe_fact_checked'],
     ['tatung-pork-daikon-rice', '豚バラ大根ご飯', 'recipe_fact_checked'],
@@ -5944,8 +5944,8 @@ test('r52 collection batch records directly opened Tatung electric-pot rice meal
 
 test('r53 collection batch records directly opened Taiwan official one-pot rice meals without promoting research', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
-  assert.equal(catalog.recipes.length, 350);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
   const expected = [
     ['taiwan-shiitake-tea-oil-vegetable-rice', '香菇茶油菜飯', 'recipe_fact_checked'],
     ['taiwan-tea-oil-vegetable-health-rice', '茶油蔬食養生飯', 'recipe_fact_checked'],
@@ -5967,9 +5967,36 @@ test('r53 collection batch records directly opened Taiwan official one-pot rice 
   }
 });
 
+test('r54 collection batch records directly opened Tatung regional and household rice meals without promoting research', () => {
+  const catalog = sourceBackedCatalog();
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
+  assert.equal(catalog.recipes.length, 355);
+  const expected = [
+    ['tatung-fukagawa-rice', '深川飯（あさりの炊き込みご飯）', 'recipe_fact_checked'],
+    ['tatung-tomato-pumpkin-rice', 'トマトとかぼちゃの炊き込みご飯', 'recipe_fact_checked'],
+    ['tatung-salmon-pumpkin-milk-risotto', 'サーモンとかぼちゃのミルクリゾット', 'recipe_fact_checked'],
+    ['tatung-seafood-porridge', '海の幸たっぷり海鮮粥', 'recipe_fact_checked'],
+    ['tatung-tuna-garlic-butter-rice', '背徳のガリバタ飯', 'recipe_fact_checked'],
+  ];
+
+  for (const [recipeId, canonicalName, status] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.equal(recipe?.canonical_name, canonicalName, recipeId);
+    assert.equal(recipe?.status, status, recipeId);
+    assert.deepEqual(recipe?.region_codes, ['TW'], recipeId);
+    assert.equal(recipe?.cuisine_family, 'tatung-electric-rice-recipes', recipeId);
+    assert.ok(Array.isArray(recipe?.source_refs) && recipe.source_refs.length > 0, recipeId);
+    assert.ok(recipe.source_refs.every(source => source.access_status === 'opened'), recipeId);
+    assert.ok(recipe.source_refs.every(source => Number.isInteger(source.evidence_tier)), recipeId);
+    assert.ok(Array.isArray(recipe.core_ingredients) && recipe.core_ingredients.length >= 2, recipeId);
+    assert.ok(Array.isArray(recipe.cooking_sequence) && recipe.cooking_sequence.length >= 2, recipeId);
+    assert.notEqual(recipe.status, 'executable', recipeId);
+  }
+});
+
 test('r47 collection batch records direct first-party regional and institutional one-pot meals', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r53');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r54');
   const expected = [
     ['jp-hiroshima-kakimeshi', 'かき飯', 'recipe_fact_checked'],
     ['jp-shiga-amenoio-gohan', 'あめのいおご飯', 'recipe_fact_checked'],
