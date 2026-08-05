@@ -1,6 +1,6 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
-## r42 搜集期第三批（2026-08-06）
+## r42 搜集期第三批（2026-08-05）
 
 本批继续由厂商、机构和大陆地域三路 Agent 并行检索，主线只吸收具名、低重复、来源直达的研究条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r41` bump 为 `source-backed-one-pot-v1-20260805-national-r42`，条目从 205 增至 213：
 
