@@ -73,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r44');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r45');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -723,7 +723,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r44');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r45');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1027,8 +1027,8 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   }, {});
   assert.deepEqual(statusTotals, {
     executable: 12,
-    identity_verified: 2,
-    recipe_fact_checked: 227,
+    identity_verified: 5,
+    recipe_fact_checked: 240,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -5721,5 +5721,45 @@ test('records the next Tatung official rice meals without inventing servings, li
     if (item.status === 'recipe_fact_checked') {
       assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), item.id);
     }
+  }
+});
+
+test('r45 collection batch records directly sourced named one-pot meals without promoting research into executable', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['panasonic-oyster-negi-takikomi-rice', '牡蠣とねぎの炊き込みご飯', 'recipe_fact_checked'],
+    ['panasonic-tokyo-seafood-pilaf', '炊込みシーフードピラフ', 'recipe_fact_checked'],
+    ['panasonic-chicken-cream-pilaf', 'チキンのクリームピラフ', 'recipe_fact_checked'],
+    ['taiwan-taro-multigrain-rice', '芋香珍穀飯', 'recipe_fact_checked'],
+    ['taiwan-fresh-fish-wild-mushroom-rice', '鮮魚野菇炊飯', 'recipe_fact_checked'],
+    ['taiwan-red-amaranth-chicken-rice', '紅鳳菜雞肉炊飯', 'recipe_fact_checked'],
+    ['taiwan-high-fiber-pumpkin-rice', '高纖南瓜飯', 'recipe_fact_checked'],
+    ['taiwan-provencal-mushroom-chicken-risotto', '普羅旺斯野菇雞起司燉飯', 'recipe_fact_checked'],
+    ['joyoung-pumpkin-shiitake-chicken-rice', '南瓜香菇鸡腿焖饭', 'recipe_fact_checked'],
+    ['joyoung-millet-corn-multigrain-rice', '小米杂粮饭', 'recipe_fact_checked'],
+    ['joyoung-three-color-quinoa-rice', '三色藜麦饭', 'recipe_fact_checked'],
+    ['taiwan-burdock-rice', '牛蒡炊飯', 'recipe_fact_checked'],
+    ['taiwan-five-grain-rice', '五穀雜糧飯', 'recipe_fact_checked'],
+    ['tacheng-air-dried-meat-pilaf', '塔城風乾肉抓飯', 'identity_verified'],
+    ['luling-dingpot-rice', '廬陵鼎罐飯', 'identity_verified'],
+    ['shizhu-tujia-potato-rice', '石柱土家洋芋飯', 'identity_verified'],
+  ];
+
+  for (const [recipeId, canonicalName, status] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.equal(recipe?.canonical_name, canonicalName, recipeId);
+    assert.equal(recipe?.status, status, recipeId);
+    assert.ok(Array.isArray(recipe?.source_refs) && recipe.source_refs.length > 0, recipeId);
+    assert.ok(recipe.source_refs.every(source => source.access_status === 'opened'), recipeId);
+    assert.ok(recipe.source_refs.every(source => Number.isInteger(source.evidence_tier)), recipeId);
+    if (status === 'identity_verified') {
+      assert.equal(recipe.fixed_batch, null, recipeId);
+      assert.equal(recipe.liquid_contract, null, recipeId);
+      assert.deepEqual(recipe.cooking_sequence, [], recipeId);
+    } else {
+      assert.notEqual(recipe.cooking_sequence.length, 0, recipeId);
+      assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(status), recipeId);
+    }
+    assert.notEqual(status, 'executable', recipeId);
   }
 });
