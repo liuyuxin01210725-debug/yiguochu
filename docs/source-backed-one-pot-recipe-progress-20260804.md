@@ -1,5 +1,57 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r67 搜集期第四十批（2026-08-06）
+
+本批继续执行“并行搜集、证据分层、绝不越级”：机构、厂商和中国地域三条来源线并行核对，去重后登记 **23 条新研究记录**。目录版本由 r66 的 `source-backed-one-pot-v1-20260808-national-r66` bump 为 `source-backed-one-pot-v1-20260808-national-r67`，条目从 595 增至 618：`executable=12`、`recipe_fact_checked=548`、`identity_verified=52`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
+
+### 日本农林水产省（5 条，全部 `recipe_fact_checked`）
+
+- `maff-tochigi-gomokumeshi` — 栃木五目飯；米饭与根菜、干瓢、香菇等配料分段后拌合，保留熟饭边界。
+- `maff-okayama-tofumeshi` — 冈山高梁豆腐飯；豆腐、鸡蛋等配料与熟饭组合，食用前浇出汁，不改写为生米焖饭。
+- `maff-gifu-sengoku-bean-kakimawashi` — 岐阜千石豆のかきまわし；芋头、豆类等配料煮制后拌入熟饭。
+- `maff-hiroshima-uzume` — 福山うずめ；配料埋在熟饭下的地域饭，保留装碗结构。
+- `maff-hiroshima-moburi` — 广岛もぶり；根菜和豆类配料煮好后拌熟饭，不借用生米水量。
+
+这些来源事实完整度较高，但多数属于熟饭拌料、浇汁或覆料结构；它们是具名菜饭研究资产，不自动成为电饭煲一锅执行菜。
+
+### 台湾农粮署活动目录（6 条，全部 `discovered`）
+
+- `afa-douchi-pork-steamed-rice` — 豆豉肉丁蒸飯
+- `afa-japanese-chestnut-rice` — 和風栗子飯
+- `afa-sesame-oil-chicken-rice` — 麻油雞肉炊飯
+- `afa-garlic-fresh-fish-rice` — 蒜味鮮魚炊飯
+- `afa-tomato-pork-rice` — 蕃茄豬肉炊飯
+- `afa-beef-rice` — 牛肉炊飯
+
+官方 PDF 目前只确认菜单名和“電鍋飯料理”活动语境，原件尚未逐页解析，因此使用 `pdf_not_parsed`，不填食材用量、液体、步骤、时间或安全事实。它们不能进入 `recipe_fact_checked`，直到对应食谱卡完成归档核验。
+
+### 厂商官方来源（5 条；全部 `recipe_fact_checked`）
+
+- `zojirushi-chicken-dry-curry` — Zojirushi Chicken Dry Curry；同内锅米、鸡腿和蔬菜，保留 JASMINE 水位与机型边界。
+- `zojirushi-kurigohan-japanese-chestnut-rice` — Zojirushi Kurigohan；栗子预处理后使用 MIXED 程序，营养偏碳水。
+- `panasonic-brown-rice-soybean-rice-nf-pc400` — Panasonic 玄米大豆ごはん；NF-PC400 压力锅、玄米水位与压力开盖条件独立记录。
+- `panasonic-corn-rice-shimamoto` — Panasonic とうもろこしごはん；玉米芯与玉米粒同锅炊煮，冷冻保存流程不混入烹调步骤。
+- `tiger-chinese-sticky-rice-post-fry` — Tiger 炊込み中華おこわ；明确标注平底锅预炒与出锅后加栗子，作为条件候选，不称单内锅一键菜。
+
+### 中国地域与台湾地域来源（7 条；6 条 `identity_verified`、1 条 `recipe_fact_checked`）
+
+- `yanbian-stone-pot-bibimbap` — 延边朝鲜族石锅拌饭；吉林文化/非遗来源支持石锅、米饭和多配菜身份，不推导电饭煲。
+- `yining-caipulao-pilaf` — 伊宁菜朴劳；政府页面支持抓饭配白菜、番茄、辣椒等的地域吃法，不把配食改成锅内食材。
+- `yining-asimantu-pilaf` — 伊宁阿西曼吐（包子抓饭）；包子是配食，不作为米锅槽位。
+- `jinjiang-squid-rice` — 晋江/泉州鱼饭；官方页面支持熟饭、炒配料、再蒸的连续流程，保持生熟状态边界。
+- `taiwan-pumpkin-dried-fish-red-shallot-rice` — 南瓜小魚干紅蔥頭炊飯；农粮署活动页面支持作品身份和电锅一锅语境，完整食谱待补。
+- `taiwan-sausage-chestnut-rice` — 香腸栗子炊飯；同上，保持作品名与配方事实分离。
+- `taiwan-sesame-oil-matsusaka-pork-rice` — 麻油松阪豬炊飯；保留松阪猪部位，未泛化为普通猪肉。
+
+延边、伊宁、晋江候选的传统器具/熟饭流程不转换为普通电饭煲参数；台湾三条只使用直接打开的农粮署活动页面，不从标题补写配方。低置信列表项、未归档图片/PDF食谱（黄金野菇红藜鸡肉炊飯、蒲烧鲷腹高丽菜炊飯、幸福魩仔鱼香饭）本批继续留在研究报告，不写入目录。
+
+### 本批去重与纪律
+
+- 旧目录已有的德岛 `いり飯／いりこ飯`、农粮署其他炊饭和伊宁鸡蛋抓饭不重复建 ID；候选只在报告中作为证据刷新线索。
+- 研究记录的来源均带直接 URL、证据等级、定位和实际 claim scope；PDF 未解析项明确停在 `discovered`。
+- 厂商水位、程序和压力锅参数只对具体型号负责；MAFF 熟饭拌料、晋江鱼饭再蒸、伊宁配食、石锅拌饭均没有被改写成自由组合或通用电饭煲菜谱。
+- 本批仍是研究目录，不是人工批准、不是厨房验证、不是公开菜单；下一个门是原件归档、身份/流程复核和厨房验证，而不是继续提高自动晋升数量。
+
 ## r66 搜集期第三十九批（2026-08-06）
 
 本批继续执行“搜集放量、晋升门槛不降”：由日本农林水产省、厂商官方和中国地域三条来源线并行核对，去重后登记 **16 条新候选**。目录版本由 r65 的 `source-backed-one-pot-v1-20260808-national-r65` bump 为 `source-backed-one-pot-v1-20260808-national-r66`，条目从 579 增至 595：`executable=12`、`recipe_fact_checked=537`、`identity_verified=46`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
