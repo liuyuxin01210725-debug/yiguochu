@@ -1,5 +1,22 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r62 已登记（2026-08-05）
+
+本批三条并行来源线完成去重、直接页面核对和结构化入库，登记 **25 条新候选**。目录由 r61 的 484 条更新为 r62 的 509 条：`executable=12`、`recipe_fact_checked=462`、`identity_verified=35`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| 日本农林水产省/地方政府/公共卫生机构 | `maff-satoimo-takana-takikomi-gohan`、`maff-air-buri-daikon-daikon-meshi`、`maff-beef-mushroom-yolk-rice`、`maff-satoimo-rice`、`maff-irogohan-nara`、`kagoshima-ginger-takikomi-gohan`、`kochi-nakamura-mushroom-ginkgo-takikomi`、`tokyo-hachijo-tokobushi-takikomi`、`wakayama-ayu-takikomi`、`ntpc-red-quinoa-sesame-chicken-rice`、`maff-salmon-green-onion-takikomi`、`maff-kingyo-meshi`、`maff-tofumeshi`、`wakayama-usuendo-mame-gohan`、`ningshan-liangcanzi-dry-rice`、`zhengning-braised-rice`、`heizhe-lala-millet-corn-porridge` | MAFF、鹿儿岛/高知/东京/和歌山县、市政府、新北市卫生所及宁陕/正宁县政府直接页面；熟汁再利用、预煮、开盖后铺生牛肉、熟饭蒸合、普通锅和容量警示均按来源保留，不转换成通用电饭煲配方。奈良色饭的 900ml/500ml 液体冲突保持未闭合。 |
+| 中国地域来源 | `xinzhou-fragrant-rice-pot-crust-rice`、`taicang-seafood-pot-crust-rice`、`yuping-gongmi-pot-crust-rice`、`pinghe-luxi-salted-vegetable-rice` | 武汉市农业农村局、苏州市政府、玉屏侗族自治县政府、福建省文旅/住建部门直接页面只证明具名和地域身份；不把同页背景食材当作菜品配料，也不补写锅巴工艺、液体或海鲜安全。重复的黔江柴火洋芋饭和洪江菜饭变体未重复建档。 |
+| 锅宝 / Tiger 官方 | `cookpot-lap-mei-claypot-rice-1200`、`cookpot-hainan-chicken-quinoa-rice-1000`、`cookpot-century-egg-pork-congee-704`、`tiger-post-196-gomoku-rice` | 厂商页面只证明对应机型或结构；腊味饭的 IH 程序、海南鸡饭的一锅两菜、皮蛋瘦肉粥步骤缺口、Tiger 独立五目饭版本均单独记录，不跨厂商/器具拼接。 |
+
+### r62 研究边界
+
+- 本批没有新增 `executable` 或 `kitchen_observed`；即使某厂商页面包含米水比例，也不自动获得人工签署资格。
+- `heizhe-lala-millet-corn-porridge` 只作为具名谷物粥资产，来源没有证明蛋白质、蔬菜或均衡营养，不作产品承诺。
+- 熟饭再利用、预煮后再炊、蒸架一锅两菜、普通锅/木甑/砂锅版本继续独立标记；来源没有写明的普通电饭煲转换参数全部保持缺省。
+- 搜集期仍按“20–30 条封顶、当天落账、版本必 bump、连续两批新增合格候选低于 10 条即停搜”的规则推进；本批新增 25 条，下一批仍优先补高质量官方地域/厂商来源，之后再评估是否进入合同闭合和厨房验证。
+
 ## r61 已登记（2026-08-05）
 
 本批三条来源线完成查重与直接页面核对，登记 **15 条真实具名候选**。目录由 r60 的 469 条更新为 r61 的 484 条：`executable=12`、`recipe_fact_checked=443`、`identity_verified=29`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。

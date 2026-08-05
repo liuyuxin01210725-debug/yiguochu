@@ -1,5 +1,63 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r62 搜集期第三十五批（2026-08-05）
+
+本批继续按“先扩大真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **25 条新候选**。目录版本由 r61 的 `source-backed-one-pot-v1-20260808-national-r61` bump 为 `source-backed-one-pot-v1-20260808-national-r62`，条目从 484 增至 509：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：443 → 462（新增 19）；
+- `identity_verified`：29 → 35（新增 6）；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（25 条）
+
+**机构与地方政府来源（17 条：14 条 `recipe_fact_checked`，3 条 `identity_verified`）**
+
+1. `maff-satoimo-takana-takikomi-gohan` — `さといもと高菜漬けの炊き込みごはん`；
+2. `maff-air-buri-daikon-daikon-meshi` — `エアぶり大根めし`；
+3. `maff-beef-mushroom-yolk-rice` — `牛肉きのこごはん 卵黄仕上げ`；
+4. `maff-satoimo-rice` — `里芋の炊き込みご飯`；
+5. `maff-irogohan-nara` — `色ご飯`；
+6. `kagoshima-ginger-takikomi-gohan` — `ショウガの炊き込みご飯`；
+7. `kochi-nakamura-mushroom-ginkgo-takikomi` — `きのことぎんなんの炊き込みご飯＜中村市＞`；
+8. `tokyo-hachijo-tokobushi-takikomi` — `トコブシの炊き込みご飯`；
+9. `wakayama-ayu-takikomi` — `鮎の炊き込みご飯`；
+10. `ntpc-red-quinoa-sesame-chicken-rice` — `紅藜麻油雞飯`；
+11. `maff-salmon-green-onion-takikomi` — `鮭とねぎの炊き込みご飯`；
+12. `maff-kingyo-meshi` — `きんぎょ飯`；
+13. `maff-tofumeshi` — `とふめし`；
+14. `wakayama-usuendo-mame-gohan` — `豆ごはん`；
+15. `ningshan-liangcanzi-dry-rice` — `两参子干饭`（仅身份与先煮后入米流程）；
+16. `zhengning-braised-rice` — `正宁焖饭`（仅地方名吃身份）；
+17. `heizhe-lala-millet-corn-porridge` — `赫哲族拉拉饭`（具名与谷物粥形态）。
+
+其中奈良 `色ご飯` 的来源同时出现 900ml 与 500ml 液体表述，冲突不取平均；爱知/高知/八丈岛等条目保留预处理、普通锅或出锅后拌合边界，不推导普通电饭煲参数。`牛肉きのこごはん 卵黄仕上げ` 保留开盖后铺生牛肉的原顺序，安全终点未闭合。
+
+**中国地域来源（4 条 `identity_verified`）**
+
+18. `xinzhou-fragrant-rice-pot-crust-rice` — `香米煲锅巴饭`；
+19. `taicang-seafood-pot-crust-rice` — `海鲜锅巴饭`；
+20. `yuping-gongmi-pot-crust-rice` — `贡米锅巴饭`；
+21. `pinghe-luxi-salted-vegetable-rice` — `芦溪咸菜饭`。
+
+上述来源只证明具名和地域身份，没有补写配料、液体、锅巴工艺或海鲜安全合同。`qianjiang-firewood-potato-rice` 已在目录中，未因本轮重复线索再次建 ID；洪江 `地荠蛋蒿菜饭` 作为既有 `huaihua-haocai-rice` 的变体保留，不重复收录。
+
+**厂商官方来源（4 条 `recipe_fact_checked`）**
+
+22. `cookpot-lap-mei-claypot-rice-1200` — `臘味煲仔飯`；
+23. `cookpot-hainan-chicken-quinoa-rice-1000` — `海南雞藜麥飯（一鍋兩菜）`；
+24. `cookpot-century-egg-pork-congee-704` — `皮蛋瘦肉粥`；
+25. `tiger-post-196-gomoku-rice` — `五目ごはん`。
+
+锅宝腊味饭只绑定其 IH 机型的米水比例和程序；海南鸡藜麦饭明确是一锅两菜（蒸架鸡腿+内锅饭），不压成单锅埋肉；锅宝皮蛋瘦肉粥的步骤页读取不完整，仍停留研究状态；Tiger `post_196` 是独立厂商版本，和目录中其他 `五目ごはん` 不合并。
+
+### 本批边界与验证纪律
+
+- 本批 25 条均为研究资产，没有新条目晋升 `executable` 或 `kitchen_observed`；运行时、Worker、前端、Planner、模板和生产配置均未修改。
+- 每条来源保留直接 HTTPS URL、访问状态、证据等级、定位和实际 claim scope；缺少固定批量、液体、时间或安全终点时保持 `null`，不跨来源拼接。
+- 普通电饭煲适配只在来源明确写明时记录；砂锅、木甑、普通锅、蒸架、熟饭再利用等边界继续按原文保留。
+- 本批先写失败测试，再结构化入库；目录构建、来源 validator、重复检查和全量相关测试通过后才生成文档并分批提交。
+
 ## r61 搜集期第三十四批（2026-08-05）
 
 本批继续按“先扩大真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **15 条候选**。目录版本由 r60 的 `source-backed-one-pot-v1-20260808-national-r60` bump 为 `source-backed-one-pot-v1-20260808-national-r61`，条目从 469 增至 484：
