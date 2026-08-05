@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-national-r60",
+  "catalog_version": "source-backed-one-pot-v1-20260808-national-r61",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -13968,6 +13968,2116 @@
       ],
       "status": "identity_verified",
       "evidence_notes": "湖南省政府页面在邵阳传统食品语境中记录黑饭的名称、植物染汁与糯米一锅蒸煮以及血豆腐佐食。原文是地方食物故事，不足以建立家庭执行配方；本条保留为身份线索，待找到独立黑饭来源后再补流程。"
+    },
+    {
+      "recipe_id": "r61-tiger-dried-shrimp-salted-kelp-brown-rice",
+      "canonical_name": "干しえびと塩昆布の玄米ごはん",
+      "aliases": [
+        "干虾盐昆布糙米饭"
+      ],
+      "region_codes": [
+        "JP"
+      ],
+      "cuisine_family": "japanese-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger炊込み·玄米电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "干虾",
+        "盐昆布",
+        "莲藕",
+        "牛蒡",
+        "胡萝卜",
+        "毛豆"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "糙米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "干虾",
+            "amount": {
+              "value": 8,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "盐昆布",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "莲藕",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 15,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 15,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 2,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "毛豆仁",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "Tiger JRX-G060 / JRX-T060",
+          "scale": "brown_rice",
+          "mark": 1
+        },
+        "source_ids": [
+          "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "干虾用温水泡发并保留浸泡液；盐昆布切成约1厘米长。",
+          "source_ids": [
+            "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "莲藕切薄片并分切，牛蒡切短笹切，胡萝卜切细丝。",
+          "source_ids": [
+            "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "糙米洗净沥水，加入酒和干虾浸泡液，按 Tiger 玄米水位线1加水并拌匀。",
+          "source_ids": [
+            "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+          ]
+        },
+        {
+          "step": 4,
+          "instruction": "将干虾、盐昆布和切好的蔬菜铺在米上，选择炊込み·玄米程序；煮好后拌入毛豆仁。",
+          "source_ids": [
+            "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 90,
+        "source_ids": [
+          "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "甲壳类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1"
+        ],
+        "waterline": {
+          "appliance_model": "Tiger JRX-G060 / JRX-T060",
+          "scale": "brown_rice",
+          "mark": 1
+        },
+        "notes": "Tiger官方玄米炊込み配方；水量以Tiger玄米水位线表达，毛豆为炊后拌入，不能当作全程同锅。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-DRIED-SHRIMP-SALTED-KELP-BROWN-RICE-1",
+          "title": "干しえびと塩昆布の玄米ごはん",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_519/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面第73至143行：2人份、糙米1杯、干虾8g、盐昆布5g、莲藕20g、牛蒡15g、胡萝卜15g、酒2茶匙、毛豆20g、90分钟与玄米炊込み步骤",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名玄米炊饭；来源明确给出2人份和主要食材量，水以玄米刻度表达，毛豆在炊后加入，保留该边界。"
+    },
+    {
+      "recipe_id": "r61-tiger-chestnut-brown-rice",
+      "canonical_name": "栗玄米ごはん",
+      "aliases": [
+        "栗子糙米饭"
+      ],
+      "region_codes": [
+        "JP"
+      ],
+      "cuisine_family": "japanese-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger炊込み·玄米电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "栗子"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "糙米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-CHESTNUT-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "去皮栗子",
+            "amount": {
+              "value": 70,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-CHESTNUT-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 2,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-CHESTNUT-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 0.6666666667,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-CHESTNUT-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.25,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-CHESTNUT-BROWN-RICE-1"
+            ]
+          },
+          {
+            "name": "黑芝麻",
+            "amount": {
+              "value": 1,
+              "unit": "适量"
+            },
+            "source_ids": [
+              "S-TIGER-CHESTNUT-BROWN-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-CHESTNUT-BROWN-RICE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "Tiger JRX-G060 / JRX-T060 / JRX-S060",
+          "scale": "brown_rice",
+          "mark": 1
+        },
+        "source_ids": [
+          "S-TIGER-CHESTNUT-BROWN-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "糙米洗净沥水，加入调味料，按 Tiger 玄米水位线1加水并拌匀。",
+          "source_ids": [
+            "S-TIGER-CHESTNUT-BROWN-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将去皮栗子铺在米上，选择炊込み·玄米程序炊煮。",
+          "source_ids": [
+            "S-TIGER-CHESTNUT-BROWN-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "盛出后撒黑芝麻；栗子若需去壳，可按来源先用温水浸泡。",
+          "source_ids": [
+            "S-TIGER-CHESTNUT-BROWN-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 90,
+        "source_ids": [
+          "S-TIGER-CHESTNUT-BROWN-RICE-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-CHESTNUT-BROWN-RICE-1"
+        ],
+        "waterline": {
+          "appliance_model": "Tiger JRX-G060 / JRX-T060 / JRX-S060",
+          "scale": "brown_rice",
+          "mark": 1
+        },
+        "notes": "Tiger官方玄米炊込み配方；适用于页面列出的Tiger机型，水量以玄米水位线表达，不外推普通电饭煲。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-CHESTNUT-BROWN-RICE-1",
+          "title": "栗玄米ごはん",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_520/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面第69至133行：2人份、糙米1杯、去皮栗子70g、调味料、90分钟及Tiger玄米炊込み步骤",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名栗子玄米饭；营养结构仅含米与栗子，记录为碳水型研究候选，不宣称完整蛋白质主餐。"
+    },
+    {
+      "recipe_id": "r61-tiger-multigrain-medicinal-porridge",
+      "canonical_name": "雑穀薬膳粥",
+      "aliases": [
+        "杂粮药膳粥"
+      ],
+      "region_codes": [
+        "JP"
+      ],
+      "cuisine_family": "japanese-rice-cooker-porridge",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger电饭煲·煮粥程序"
+      ],
+      "core_ingredients": [
+        "米",
+        "杂粮",
+        "松子",
+        "枸杞",
+        "山药",
+        "生姜"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 0.5,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "杂粮",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "松子",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "枸杞",
+            "amount": {
+              "value": 2,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "山药",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "生姜",
+            "amount": {
+              "value": 10,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.6666666667,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "Tiger JBU-A / JPD-G / JPF-A / JPF-G / JPJ-G / JRI-C / JRX-G060 / JRX-T060 / JRX-S060",
+          "scale": "porridge",
+          "mark": 0.5
+        },
+        "source_ids": [
+          "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净，加入盐和酒，按 Tiger 全粥0.5水位线加水并拌匀。",
+          "source_ids": [
+            "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "把杂粮铺在米上，选择粥程序炊煮。",
+          "source_ids": [
+            "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "枸杞温水泡发；山药切丁，和松子一起加入煮好的粥中，蒸焖10分钟，最后以枸杞和生姜装饰。",
+          "source_ids": [
+            "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 65,
+        "source_ids": [
+          "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "坚果"
+      ],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1"
+        ],
+        "waterline": {
+          "appliance_model": "Tiger JBU-A / JPD-G / JPF-A / JPF-G / JPJ-G / JRI-C / JRX-G060 / JRX-T060 / JRX-S060",
+          "scale": "porridge",
+          "mark": 0.5
+        },
+        "notes": "Tiger官方全粥程序；山药和松子是炊后加入并再焖10分钟，不能宣称全程同锅。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-MULTIGRAIN-MEDICINAL-PORRIDGE-1",
+          "title": "雑穀薬膳粥",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_106/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面第76至151行：4人份、米0.5杯、杂粮2汤匙、松子2汤匙、枸杞2茶匙、山药100g、生姜10g、65分钟与全粥程序；山药松子炊后焖10分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名杂粮粥；来源明确记录全粥程序和炊后加山药/松子的边界，营养结构偏碳水与纤维，作为研究候选不宣称完整蛋白主餐。"
+    },
+    {
+      "recipe_id": "r61-tiger-red-can-curry-pilaf",
+      "canonical_name": "赤缶カレーの炊込みピラフ",
+      "aliases": [
+        "赤缶咖喱炊饭抓饭"
+      ],
+      "region_codes": [
+        "JP"
+      ],
+      "cuisine_family": "japanese-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger压力电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "香肠",
+        "洋葱",
+        "玉米",
+        "毛豆",
+        "咖喱粉酱块"
+      ],
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "香肠",
+            "amount": {
+              "value": 4,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "洋葱",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "番茄酱",
+            "amount": {
+              "value": 1,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "玉米粒",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 340,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "黄油",
+            "amount": {
+              "value": 1,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "毛豆仁",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "S&B赤缶咖喱粉酱块中辛",
+            "amount": {
+              "value": 1,
+              "unit": "袋（38g）"
+            },
+            "source_ids": [
+              "S-TIGER-RED-CAN-CURRY-PILAF-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-RED-CAN-CURRY-PILAF-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 340,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-TIGER-RED-CAN-CURRY-PILAF-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "香肠和洋葱粗切。",
+          "source_ids": [
+            "S-TIGER-RED-CAN-CURRY-PILAF-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米洗净，加入番茄酱、水和黄油后轻拌；在米面铺上香肠、洋葱和玉米，选择 Tiger 自动37程序。",
+          "source_ids": [
+            "S-TIGER-RED-CAN-CURRY-PILAF-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "程序结束并确认压力指示下降后开盖，拌入毛豆和咖喱粉酱块，再盖盖焖5分钟后盛出。",
+          "source_ids": [
+            "S-TIGER-RED-CAN-CURRY-PILAF-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 45,
+        "source_ids": [
+          "S-TIGER-RED-CAN-CURRY-PILAF-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "乳制品"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-RED-CAN-CURRY-PILAF-1"
+        ],
+        "notes": "Tiger COK-A220/COK-N220压力锅官方配方；咖喱酱块和毛豆在炊后加入，且需确认压力指示下降，不转换为普通电饭煲参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-RED-CAN-CURRY-PILAF-1",
+          "title": "赤缶カレーの炊込みピラフ（エスビー食品監修）",
+          "publisher": "Tiger Corporation / S&B Foods",
+          "url": "https://www.tiger-corporation.com/en/jpn/feature/recipe/post_527/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面第73至152行：3人份、米约300g、香肠4根、洋葱50g、玉米20g、水340mL、45分钟、Tiger自动37及炊后加入毛豆/咖喱酱块步骤",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation / S&B Foods",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger与S&B官方合作的具名咖喱炊饭抓饭；明确同一内锅完成米饭并在炊后加入毛豆和咖喱酱块，保留压力锅机型与收尾边界。"
+    },
+    {
+      "recipe_id": "r61-tiger-easy-khao-man-gai",
+      "canonical_name": "簡単カオマンガイ",
+      "aliases": [
+        "简易海南鸡饭"
+      ],
+      "region_codes": [
+        "JP"
+      ],
+      "cuisine_family": "southeast-asian-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger压力电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "鸡腿肉或鸡胸肉",
+        "鱼露",
+        "姜",
+        "蒜",
+        "葱"
+      ],
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "鸡腿肉或鸡胸肉",
+            "amount": {
+              "value": 1,
+              "unit": "枚"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "芝麻油",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "姜泥",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "蒜泥",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.3333333333,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "鱼露",
+            "amount": {
+              "value": 1,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          },
+          {
+            "name": "葱绿",
+            "amount": {
+              "value": 1,
+              "unit": "根份"
+            },
+            "source_ids": [
+              "S-TIGER-EASY-KHAO-MAN-GAI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-EASY-KHAO-MAN-GAI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "Tiger COK-A220 / COK-N220",
+          "scale": "white_rice",
+          "mark": "低于2"
+        },
+        "source_ids": [
+          "S-TIGER-EASY-KHAO-MAN-GAI-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "鸡肉去除多余脂肪，切成约四块；用芝麻油、姜泥、蒜泥和盐揉匀。",
+          "source_ids": [
+            "S-TIGER-EASY-KHAO-MAN-GAI-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米洗净沥水，加入鱼露，按低于白米2水位线加水并拌匀；铺入鸡肉和葱绿。",
+          "source_ids": [
+            "S-TIGER-EASY-KHAO-MAN-GAI-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择 Tiger 自动37压力程序；结束后确认压力指示下降再开盖，取出葱绿，切鸡肉并拌松米饭。",
+          "source_ids": [
+            "S-TIGER-EASY-KHAO-MAN-GAI-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 45,
+        "source_ids": [
+          "S-TIGER-EASY-KHAO-MAN-GAI-1"
+        ]
+      },
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "鱼类",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-EASY-KHAO-MAN-GAI-1"
+        ],
+        "waterline": {
+          "appliance_model": "Tiger COK-A220 / COK-N220",
+          "scale": "white_rice",
+          "mark": "低于2"
+        },
+        "notes": "Tiger COK-A220/COK-N220压力锅官方配方；生鸡肉与米同锅，明确要求压力指示下降后开盖，不外推普通电饭煲。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-EASY-KHAO-MAN-GAI-1",
+          "title": "簡単カオマンガイ（マザープラス ママさん考案）",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_551/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面第76至149行：3人份、米约300g、鸡肉1枚、鱼露1汤匙、白米2以下水位线、自动37压力程序及45分钟流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "Safe Minimum Internal Temperature Chart：禽肉165°F/74°C",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名简易海南鸡饭；生鸡肉与米同锅，鱼露和葱姜蒜提供风味，压力释放与禽肉熟制边界保留。"
+    },
+    {
+      "recipe_id": "r61-tiger-broad-bean-rice",
+      "canonical_name": "そら豆のごはん",
+      "aliases": [
+        "蚕豆饭"
+      ],
+      "region_codes": [
+        "JP"
+      ],
+      "cuisine_family": "japanese-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger炊込み电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "蚕豆",
+        "昆布",
+        "生姜"
+      ],
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "蚕豆仁",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 600,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙另加少许"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "昆布",
+            "amount": {
+              "value": 1,
+              "unit": "片（4cm角）"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "生姜",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          },
+          {
+            "name": "黑芝麻",
+            "amount": {
+              "value": 1,
+              "unit": "适量"
+            },
+            "source_ids": [
+              "S-TIGER-BROAD-BEAN-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-BROAD-BEAN-RICE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 600,
+          "unit": "mL蚕豆煮汁"
+        },
+        "source_ids": [
+          "S-TIGER-BROAD-BEAN-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "600mL水加盐煮开，蚕豆仁煮约2分钟后捞出，冷却去皮并撒少许盐，保留煮汁。",
+          "source_ids": [
+            "S-TIGER-BROAD-BEAN-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将昆布放入蚕豆煮汁中浸泡至冷却后取出。",
+          "source_ids": [
+            "S-TIGER-BROAD-BEAN-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "米洗净，加入调味料，用蚕豆煮汁至白米3水位线，铺上生姜并选择炊込み程序。",
+          "source_ids": [
+            "S-TIGER-BROAD-BEAN-RICE-1"
+          ]
+        },
+        {
+          "step": 4,
+          "instruction": "饭熟后拌入蚕豆焖约3分钟，盛出撒黑芝麻。",
+          "source_ids": [
+            "S-TIGER-BROAD-BEAN-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 60,
+        "source_ids": [
+          "S-TIGER-BROAD-BEAN-RICE-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-BROAD-BEAN-RICE-1"
+        ],
+        "waterline": {
+          "appliance_model": "Tiger炊込み对应机型",
+          "scale": "white_rice",
+          "mark": 3
+        },
+        "notes": "Tiger官方蚕豆饭；蚕豆先单独煮并炊后拌入，保留不是全程同锅的边界。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-BROAD-BEAN-RICE-1",
+          "title": "そら豆のごはん",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post47/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面第76至168行：6人份、米3杯、蚕豆1杯、水600mL、昆布、生姜、60分钟、炊込み及蚕豆炊后拌入步骤",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名蚕豆饭；蚕豆先用盐水煮、米使用蚕豆煮汁炊饭，煮后再拌豆，过程边界完整记录。"
+    },
+    {
+      "recipe_id": "maff-gunma-katemeshi",
+      "canonical_name": "かて飯",
+      "aliases": [
+        "群马かて饭",
+        "かてめし"
+      ],
+      "region_codes": [
+        "JP-GUNMA"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "油豆腐",
+        "牛蒡",
+        "胡萝卜",
+        "香菇",
+        "魔芋"
+      ],
+      "fixed_batch": {
+        "servings": 10,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 750,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "油豆腐",
+            "amount": {
+              "value": 2,
+              "unit": "张"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "香菇",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "魔芋",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "油",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "砂糖",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 4,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          },
+          {
+            "name": "高汤",
+            "amount": {
+              "value": 150,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "油豆腐、牛蒡、胡萝卜、香菇和魔芋切成来源所示大小。",
+          "source_ids": [
+            "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "锅中加油炒食材，加入砂糖、味醂、酱油、酒和高汤煮至入味。",
+          "source_ids": [
+            "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "把煮好的配料拌入已经煮好的米饭；本条采用来源列出的拌饭版本。",
+          "source_ids": [
+            "S-JP-MAFF-GUNMA-KATEMESHI-R61"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "来源说明可将配料加入炊饭中的做法，也说明炒煮后拌入米饭的做法；本记录选择后者，不把分阶段拌饭改写成电饭煲全程一锅。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-MAFF-GUNMA-KATEMESHI-R61",
+          "title": "かて飯 群馬県",
+          "publisher": "農林水産省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/32_7_gunma.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "正文第257至366行：群马身份、10人份米750g、油豆腐/根菜/菇/魔芋及调味用量，炒煮配料后拌入已煮米饭的流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process"
+          ],
+          "attribution": "農林水産省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "群马具名かて飯。官方页面同时记载把配料在炊饭中加入和先炒煮后拌入米饭的两种路线；本条只登记后一种，不拼接两种工艺，也不声称严格电饭煲一锅。"
+    },
+    {
+      "recipe_id": "maff-kyoto-matsutake-gohan",
+      "canonical_name": "松茸ごはん",
+      "aliases": [
+        "京都松茸饭",
+        "丹波松茸饭"
+      ],
+      "region_codes": [
+        "JP-KYOTO"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "炊饭器"
+      ],
+      "core_ingredients": [
+        "米",
+        "松茸"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+            ]
+          },
+          {
+            "name": "松茸",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净并按来源沥水；松茸去根部后按来源切片或分切。",
+          "source_ids": [
+            "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将米、松茸和调味料放入炊饭器，按来源加水或昆布出汁至相应水位后炊煮。",
+          "source_ids": [
+            "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "炊好后按来源焖蒸，再轻轻拌匀食用。",
+          "source_ids": [
+            "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61"
+        ],
+        "notes": "官方页面明确炊饭器流程，但可读正文未给固定加水量、型号或分钟数；不建立跨型号液体或时间合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-MAFF-KYOTO-MATSUTAKE-GOHAN-R61",
+          "title": "松茸ごはん 京都府",
+          "publisher": "農林水産省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/matsutakegohan_kyoto.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "正文第267至347行：京都地域身份、4人份米3杯/松茸100g/淡口酱油3大匙/酒1大匙，以及炊饭器炊煮与焖蒸步骤",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance"
+          ],
+          "attribution": "農林水産省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "京都具名松茸饭；来源给出米、松茸和调味料量及炊饭器流程，但没有可引用的固定液体量与总时间。本条营养结构仅为碳水和纤维，不宣称完整蛋白主餐。"
+    },
+    {
+      "recipe_id": "maff-corn-chicken-takikomi-gohan",
+      "canonical_name": "とうもろこしの炊き込みご飯",
+      "aliases": [
+        "玉米鸡肉炊饭",
+        "玉米炊饭"
+      ],
+      "region_codes": [
+        "JP-NATIONAL"
+      ],
+      "cuisine_family": "japanese-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "炊饭器"
+      ],
+      "core_ingredients": [
+        "米",
+        "鸡肉末",
+        "甜玉米"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 140,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-CORN-TAKIKOMI-R61"
+            ]
+          },
+          {
+            "name": "鸡肉末",
+            "amount": {
+              "value": 16,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-CORN-TAKIKOMI-R61"
+            ]
+          },
+          {
+            "name": "甜玉米",
+            "amount": {
+              "value": 10,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MAFF-CORN-TAKIKOMI-R61"
+            ]
+          },
+          {
+            "name": "玉米汁",
+            "amount": {
+              "value": 1.6666666667,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-CORN-TAKIKOMI-R61"
+            ]
+          },
+          {
+            "name": "鲣鱼高汤",
+            "amount": {
+              "value": 0.6666666667,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-JP-MAFF-CORN-TAKIKOMI-R61"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-JP-MAFF-CORN-TAKIKOMI-R61"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-MAFF-CORN-TAKIKOMI-R61"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 0.6666666667,
+          "unit": "杯鲣鱼高汤"
+        },
+        "source_ids": [
+          "S-JP-MAFF-CORN-TAKIKOMI-R61"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净后按来源浸泡30至60分钟；同时准备鲣鱼高汤。",
+          "source_ids": [
+            "S-JP-MAFF-CORN-TAKIKOMI-R61"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将米、鸡肉末、甜玉米、玉米汁、鲣鱼高汤和酱油放入炊饭器拌匀。",
+          "source_ids": [
+            "S-JP-MAFF-CORN-TAKIKOMI-R61"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "按炊饭器程序炊煮；来源未给完整分钟数，完成后按设备提示确认熟透。",
+          "source_ids": [
+            "S-JP-MAFF-CORN-TAKIKOMI-R61"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-MAFF-CORN-TAKIKOMI-R61"
+        ],
+        "notes": "日本农林水产省官方炊饭器食育页面；明确器具和原料量，但未给型号与完整烹调分钟，不外推通用程序。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-MAFF-CORN-TAKIKOMI-R61",
+          "title": "とうもろこしの炊き込みご飯",
+          "publisher": "農林水産省",
+          "url": "https://www.maff.go.jp/j/syokuiku/kodomo_navi/oneday/recipe3.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_food_education_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "正文第284至291行：2人份米140g、鸡肉末16g、甜玉米10g、玉米汁1又2/3大匙、鲣鱼高汤2/3杯、酱油1小匙与炊饭器步骤",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "農林水産省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省具名玉米炊饭；官方配方含少量鸡肉末，营养结构以碳水为主、蛋白有限，不宣称完整均衡主餐。"
+    },
+    {
+      "recipe_id": "shanbei-sauerkraut-potato-laofan",
+      "canonical_name": "陕北酸菜捞饭",
+      "aliases": [
+        "酸菜捞饭"
+      ],
+      "region_codes": [
+        "CN-SN-SHANBEI"
+      ],
+      "cuisine_family": "shanbei-sauerkraut-potato-laofan",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "小米",
+        "酸菜",
+        "熟土豆片"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "来源记载陕北人将小米与酸菜、熟土豆片一起做成酸菜捞饭；原文未给固定用量、加水量或火候参数。",
+          "source_ids": [
+            "S-SN-SHANBEI-SAUERKRAUT-LAOFAN-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "来源支持陕北酸菜捞饭的具名身份、核心食材和同锅语境，但没有固定份量、液体、时间、安全或电饭煲适配参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-SN-SHANBEI-SAUERKRAUT-LAOFAN-1",
+          "title": "陕北的米",
+          "publisher": "中国纪检监察报（中共灌南县纪律检查委员会转载）",
+          "url": "https://jw.guannan.gov.cn/news/col/r1499",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "mainstream_media_food_culture_article",
+          "access_status": "opened",
+          "evidence_tier": 5,
+          "evidence_locator": "正文第15行：陕北人把小米与酸菜、熟土豆片一起做成酸菜捞饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "中国纪检监察报 / 中共灌南县纪律检查委员会",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "原文只支持小米、酸菜、熟土豆片同做酸菜捞饭的事实，不把配饭的黄米汤误记为饭内液体，也不补写未给出的电饭煲参数。"
+    },
+    {
+      "recipe_id": "guizhou-sauerkraut-bean-broth-baogu-rice",
+      "canonical_name": "酸菜豆汤苞谷饭",
+      "aliases": [
+        "酸菜豆汤玉米饭",
+        "苞谷饭"
+      ],
+      "region_codes": [
+        "CN-GZ"
+      ],
+      "cuisine_family": "guizhou-sauerkraut-bean-broth-baogu-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "木甑",
+        "锅"
+      ],
+      "core_ingredients": [
+        "苞谷米",
+        "青菜酸菜",
+        "四季豆豆米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "将颗粒状苞谷米均匀洒温水浸湿拌匀，装入木甑上锅蒸；来源称中途可适当加水，约一小时后倒出捣散、再次洒水拌匀，再上甑蒸熟。",
+          "source_ids": [
+            "S-GZ-BAOGU-RICE-SAUERKRAUT-BEAN-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "酸菜以青菜或萝卜菜腌制，豆汤以老干四季豆豆米炖烂；来源将两者作为苞谷饭的配食组合，未给汤的固定液体量。",
+          "source_ids": [
+            "S-GZ-BAOGU-RICE-SAUERKRAUT-BEAN-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "C",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "来源描述传统木甑两次蒸制，不推导电饭煲替代参数；酸菜豆汤与苞谷饭的关系按原文保留为地方组合。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-GZ-BAOGU-RICE-SAUERKRAUT-BEAN-1",
+          "title": "酸菜豆汤苞谷饭",
+          "publisher": "贵州政协报",
+          "url": "https://www.gzszx.gov.cn/gzzxb/web/doc/detail/d_1481090747334688",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "provincial_political_consultative_food_culture_article",
+          "access_status": "opened",
+          "evidence_tier": 5,
+          "evidence_locator": "正文第22至37行：苞谷米形态、两次木甑蒸制、酸菜与四季豆豆汤的组成及组合",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process",
+            "appliance"
+          ],
+          "attribution": "贵州政协报",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "原文给出苞谷米处理、两次蒸制和酸菜豆汤组成，但无克数、总时间、安全终点或现代器具转换；本条不把酸菜豆汤强行倒入苞谷饭锅内。"
+    },
+    {
+      "recipe_id": "weihai-baomi-chazi-dry-rice",
+      "canonical_name": "威海苞米碴子干饭",
+      "aliases": [
+        "玉米碴子干饭",
+        "苞米碴子捞干饭"
+      ],
+      "region_codes": [
+        "CN-SD-WEIHAI"
+      ],
+      "cuisine_family": "weihai-baomi-chazi-dry-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "玉米碴子"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "威海市志民俗页面把玉米碴子捞的苞米碴子干饭列为当地干饭类别，但没有公开固定份量或器具参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-SD-WEIHAI-BAOMI-DRY-RICE-1",
+          "title": "饮食",
+          "publisher": "威海市人民政府（《威海市志》民俗资料）",
+          "url": "https://www.weihai.gov.cn/art/2020/10/27/art_58902_1733168.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "municipal_gazetteer_food_custom_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第17行：威海米饭统称干饭，列出玉米大碴子捞的苞米碴子干饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients"
+          ],
+          "attribution": "威海市人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "地方志资料明确记录苞米碴子干饭这一威海主食身份；未公开具体水量、时间、份量或安全参数，暂不建立执行做法。"
+    },
+    {
+      "recipe_id": "kuancheng-manchu-sorghum-rice",
+      "canonical_name": "宽城满族高粱米饭",
+      "aliases": [
+        "秫米饭",
+        "高粱捞干饭"
+      ],
+      "region_codes": [
+        "CN-HE-CHENGDE-KUANCHENG"
+      ],
+      "cuisine_family": "kuancheng-manchu-sorghum-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "铁锅"
+      ],
+      "core_ingredients": [
+        "高粱米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "宽城满族饮食习俗页面称高粱的主要吃法为捞干饭，称高粱米饭或秫米饭；未提供固定份量或现代器具参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HE-KUANCHENG-MANCHU-SORGHUM-RICE-1",
+          "title": "传承文化：宽城满族饮食习俗（一）",
+          "publisher": "宽城满族自治县人民政府",
+          "url": "https://www.hbkc.gov.cn/art/2018/6/13/art_3679_519913.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "county_government_food_custom_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文‘主食’段落：高粱的主要吃法是捞干饭，称高粱米饭，亦称秫米饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients"
+          ],
+          "attribution": "宽城满族自治县人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "县政府饮食习俗页面支持高粱米饭/秫米饭的满族地域身份；未给配比、时间、液体、安全或电饭煲适配，暂不写执行合同。"
+    },
+    {
+      "recipe_id": "dulong-corn-rice",
+      "canonical_name": "独龙族玉米饭",
+      "aliases": [
+        "独龙江玉米饭"
+      ],
+      "region_codes": [
+        "CN-YN-NUJIANG-GONGSHAN-DULONG"
+      ],
+      "cuisine_family": "dulong-corn-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": [
+        "玉米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "云南省社会科学院文化文章将玉米饭列为独龙族传统主食，但没有配方、工艺或现代器具参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-YN-DULONG-CORN-RICE-1",
+          "title": "薛金玲：一步千年的独龙族",
+          "publisher": "云南省社会科学院",
+          "url": "https://www.sky.yn.gov.cn/xsyj/zgsd/736690919901923799",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "provincial_academy_food_culture_article",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文独龙族饮食文化段落：传统主食列有玉米饭、荞麦面、鸡脚稗、小米和旱谷",
+          "claim_scopes": [
+            "identity",
+            "ingredients"
+          ],
+          "attribution": "云南省社会科学院",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "省级社科院文章支持独龙族玉米饭的传统主食身份；没有把其他民族玉米饭工艺移植进来，不填写缺失的流程、用量或器具。"
+    },
+    {
+      "recipe_id": "metok-menba-corn-rice",
+      "canonical_name": "门巴族玉米饭",
+      "aliases": [
+        "墨脱玉米饭"
+      ],
+      "region_codes": [
+        "CN-XZ-NYINGCHI-METOK"
+      ],
+      "cuisine_family": "metok-menba-corn-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "石锅"
+      ],
+      "core_ingredients": [
+        "玉米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "国家民族事务委员会风俗资料记录玉米饭是墨脱门巴族主食并记载石锅为传统炊具，但没有配方、流程、用量或电饭煲适配参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-XZ-MENBA-METOK-CORN-RICE-1",
+          "title": "门巴族风俗习惯",
+          "publisher": "国家民族事务委员会",
+          "url": "https://www.neac.gov.cn/seac/ztzl/mbz/fsxg.shtml",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "national_ethnic_affairs_food_custom_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "正文日常饮食段落：门隅及墨脱门巴族主食有玉米饭；石锅为门巴族特有炊具",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "appliance"
+          ],
+          "attribution": "国家民族事务委员会",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "国家民族事务委员会资料只支持门巴族玉米饭身份、玉米主食和石锅文化，不把石锅事实推导成电饭煲做法。"
     }
   ]
 }
