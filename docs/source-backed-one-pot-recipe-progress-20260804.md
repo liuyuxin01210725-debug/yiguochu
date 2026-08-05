@@ -1,5 +1,52 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r65 搜集期第三十八批（2026-08-06）
+
+本批按“研究资产放量、晋升门槛不降”的策略，由厂商官方、政府/机构和地域三条来源线并行核对。去重并按当前“米饭优先”范围筛选后登记 **22 条新候选**：机构 7 条、厂商 10 条、地域 5 条。目录版本由 r64 的 `source-backed-one-pot-v1-20260808-national-r64` bump 为 `source-backed-one-pot-v1-20260808-national-r65`，条目从 557 增至 579：`executable=12`、`recipe_fact_checked=524`、`identity_verified=43`、`kitchen_observed=0`。本批未修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
+
+### 机构来源（7 条，全部 `recipe_fact_checked`）
+
+- `maff-wakayama-shouga-meshi` — 和歌山 `しょうが飯`；MAFF 直页明确米、姜、昆布和普通炊饭器流程，保留姜饭不含默认蛋白的营养边界。
+- `maff-kanagawa-narachameshi` — 神奈川奈良茶飯；MAFF 直页明确茶液、炒大豆、栗与米同锅，液体合同不跨机型外推。
+- `maff-ishikawa-mitama` — 石川 `みたま`；黑豆和糯米分锅蒸制，保持分锅边界。
+- `maff-saga-kuri-okowa` — 佐贺栗おこわ；糯米、栗、小豆的蒸制版本，未改写为电饭煲。
+- `maff-hiroshima-uomeshi` — 广岛魚飯；熟饭、鱼虾和配菜分开处理后浇汁，保留熟饭后浇事实。
+- `maff-tokyo-fukagawa-meshi` — 东京深川めし／深川丼；蛤蜊味噌汤浇熟饭，不改成生米同锅。
+- `maff-fukushima-harako-meshi` — 福岛はらこ飯；腌鲑鱼子铺在炊好米饭上，未推导整锅鱼子安全流程。
+
+和歌山豆ごはん、冲绳クファジューシー、新潟しょうゆおこわ与现有同名/同地域身份重复，本批不另建条目；重复来源保留在研究报告中，避免用新 URL 制造重复菜谱。
+
+### 厂商官方来源（10 条，全部 `recipe_fact_checked`）
+
+- `midea-mixed-lapcheong-rice-26183` — 美的什锦腊肠饭；厂商试用报告写明菜饭功能、末段投料和拌匀，未提升为传统地域身份。
+- `tiger-spinach-chickpea-curry-rice` — Tiger 菠菜鹰嘴豆咖喱配饭；页面明确米饭另配，作为邻近候选保留。
+- `tiger-clam-tomato-rice` — Tiger 蛤蜊番茄饭；蛤蜊先开壳取肉、米与滤汤同炊，保留前置/收尾边界。
+- `tiger-salmon-mushroom-rice-pilaf` — Tiger 三文鱼菌菇米饭；鱼和配菜需先分锅处理，未改成单内锅方案。
+- `tiger-jambalaya-rice-cooker` — Tiger Jambalaya；克里奥尔什锦饭保留后处理另锅步骤。
+- `tiger-hainanese-chicken-rice` — Tiger 海南鸡饭；鸡肉先另锅煮、米用鸡汤炊煮，不伪装成全程单锅。
+- `tiger-jujube-chicken-fillet-rice` — Tiger 红枣枸杞木耳鸡肉饭；仅限 Tacook 双层设备，米水和禽肉安全仍待补。
+- `tiger-pork-napa-mille-feuille-mushroom-rice` — Tiger 猪肉白菜千层配菌菇饭；一机双层设备料理，不等同同一内锅菜饭。
+- `tiger-oyakodon-tacook` — Tiger 亲子丼；具名日本盖饭，保留 Tacook 盘与内锅分层事实。
+- `tiger-edamame-carrot-rice-soup` — Tiger 毛豆胡萝卜米汤；Slow Cook 米汤邻近候选，毛豆和菠菜后拌，不改名焖饭。
+
+Tiger 培根金枪鱼米饭焗盘的官方 URL 已在目录现有条目中，按 URL/身份去重，不重复建 ID。
+
+### 中国地域与地方机构来源（5 条；4 条 `recipe_fact_checked`、1 条 `identity_verified`）
+
+- `rongjiang-dong-three-treasure-sister-rice` — 榕江侗家三宝姊妹饭；国家铁路局页面支持植物染色与蒸制文化，不补电饭煲参数。
+- `tujia-jinbaoyin-corn-rice` — 土家金包银；重庆地方志支持半熟米与玉米面混合、蒸/焖流程；“四分之一至二分之一”对象不清，不换算成克数。
+- `zhangjiajie-cured-meat-claypot-rice` — 张家界腊味煲仔饭；地方政府转载只闭合具名身份与砂锅概述，停在 `identity_verified`。
+- `lengshuijiang-bozifan` — 冷水江钵子饭；来源明确“陶钵蒸饭+另制配菜覆饭”，不改成单内锅炊饭。
+- `taishan-eel-claypot-rice` — 台山鳗鱼煲仔饭；江门政府报道的店家版本，保留砂锅七成熟加料和转小火，不提升为地域统一标准。
+
+山丹牛娃子饭、绩溪一品锅、永和焖枣羊和繁峙肉焖粉属于广义一锅/焖制或面食，但不在当前米饭主线；西峰黄米焖饭是现有黄米焖饭的地域细化线索；本批均不另建条目。
+
+### 本批边界与纪律
+
+- 新增来源均直接打开、显式标注 tier、locator 和实际 claim scope；未写入的克数、米水换算、总时长、安全端点和电饭煲适配保持 `null` 或 `not_adapted`。
+- MAFF/地方政府来源只证明页面写明的地域、食材和流程；厂商来源只证明厂商页面的设备与配方，不证明传统身份；Tacook、Slow Cook、砂锅、熟饭后浇和另锅前置均不跨器具推导。
+- 本批先写失败测试，再结构化入库；目录 validator、重复检查、生成文档和专项测试通过后落账。所有新增仍是研究目录，不是人工批准、不是厨房验证、不是公开菜单。
+
 ## r64 搜集期第三十七批（2026-08-05）
 
 本批按“扩大真实具名研究资产、晋升门槛不降”的策略，完成厂商官方、机构官方和中国地域三条来源线的并行核对，去重后登记 **26 条新候选**。目录版本由 r63 的 source-backed-one-pot-v1-20260808-national-r63 bump 为 source-backed-one-pot-v1-20260808-national-r64，条目从 531 增至 557：executable=12、recipe_fact_checked=503、identity_verified=42、kitchen_observed=0。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
