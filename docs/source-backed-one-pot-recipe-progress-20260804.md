@@ -1,5 +1,44 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r43 搜集期第四批（2026-08-05）
+
+本批继续由香港机构、厂商和大陆地域三路 Agent 并行检索，新增 10 条具名、来源直达、低重复的研究条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r42` bump 为 `source-backed-one-pot-v1-20260805-national-r43`，条目从 213 增至 223：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：200 → 210；
+- `identity_verified`：1 → 1；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（10 条，全部 `recipe_fact_checked`）
+
+1. `hk-salmon-edamame-quinoa-rice` — 三文魚青毛豆藜麥飯（香港食物環境衛生署）；
+2. `hk-tomato-mushroom-chicken-rice` — 番茄雜菇雞腿肉飯（香港食物環境衛生署）；
+3. `hk-pumpkin-shiitake-pork-rice` — 南瓜冬菇豬肉燉飯（香港食物環境衛生署）；
+4. `hk-sakura-shrimp-chicken-quinoa-rice` — 櫻花蝦冬菇雞肉藜麥飯（香港食物環境衛生署）；
+5. `tiger-hijiki-brown-rice` — Hijiki Brown Rice（Tiger Corporation）；
+6. `tiger-bibimbap-style-rice` — Bibimbap Style Rice（Tiger Corporation）；
+7. `toshiba-vegetarian-mixed-brown-rice` — Vegetarian Mixed Brown Rice（Toshiba Lifestyle Hong Kong）；
+8. `yangxin-spring-lake-fish-rice` — 春湖魚飯（阳新县人民政府）；
+9. `huarong-guoba-fish-rice` — 鍋巴魚飯（华容县人民政府）；
+10. `taizhou-yellowfish-rice` — 黃魚飯（中国新闻网转载台州发布）。
+
+### 本批证据与边界
+
+- 香港四条保留图卡中的生米/藜麦、电饭煲投料顺序和水量；总时长、禽肉/鱼类安全终点缺失处保持空白。
+- Tiger 两条保留 Brown/Plain 程序边界；Toshiba 条目保留电压力锅和先炒后压的设备边界，不外推普通电饭煲。
+- 春湖鱼饭是鲜鱼去骨后以鱼汤焖米；锅巴鱼饭需要鱼的独立预处理并让鱼不进入最终饭体；黄鱼饭只由来源支持柴灶鱼米同锅历史。三条都没有被伪装成可执行电饭煲配方。
+- 本批未重复登记已存在的石扇鱼焖饭、台大鲑鱼什锦菇饭和野菇炊饭；也未把缺完整做法或自由替换的厂商线索纳入目录。
+
+### 本批验证纪律
+
+- 先新增失败测试，锁定 r43 版本、状态分布和 10 个 recipe ID；实现后目录专项测试 `210/210` 通过。
+- 目录构建、来源目录检查、聚合菜谱门禁和 Python 语法检查均通过；全量 Node 测试单线程退出码为 0。
+- 本批只涉及研究目录、测试和文档；不调用 DeepSeek、不部署 production，PR 继续保持 Draft。
+
+## 当前结论（r43）
+
+搜集层已从 213 条扩到 223 条，研究池继续增加真实地域和厂商饭类；`executable=12`、`kitchen_observed=0` 没有改变。数量仍不等于可公开，下一步依旧是来源闭合、独立签署和厨房实做。
+
 ## r42 搜集期第三批（2026-08-05）
 
 本批继续由厂商、机构和大陆地域三路 Agent 并行检索，主线只吸收具名、低重复、来源直达的研究条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r41` bump 为 `source-backed-one-pot-v1-20260805-national-r42`，条目从 205 增至 213：
