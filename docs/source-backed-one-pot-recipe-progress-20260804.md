@@ -1,5 +1,51 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r64 搜集期第三十七批（2026-08-05）
+
+本批按“扩大真实具名研究资产、晋升门槛不降”的策略，完成厂商官方、机构官方和中国地域三条来源线的并行核对，去重后登记 **26 条新候选**。目录版本由 r63 的 source-backed-one-pot-v1-20260808-national-r63 bump 为 source-backed-one-pot-v1-20260808-national-r64，条目从 531 增至 557：executable=12、recipe_fact_checked=503、identity_verified=42、kitchen_observed=0。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
+
+### 厂商官方（8 条，全部 recipe_fact_checked）
+
+- midea-shiitake-lapcheong-rice — 美的《香菇腊肠饭》；保留柴火饭功能、水位线和腊肠/香菇/板栗组合，不把页面缺失的克数、时间和安全终点补成通用合同。
+- philips-soy-milk-chicken-congee — Philips Taiwan《豆浆鸡肉粥》；仅限多功能烹煮锅密封煮粥 35 分钟，鸡里肌以条计，不外推为普通电饭煲程序。
+- panasonic-taiwan-cabbage-mackerel-rice — Panasonic《高丽菜鲭鱼炊饭》；保留 NU-SC300B 蒸烤炉、1.1 杯热水和末 5 分钟毛豆投料，鱼类安全端点与电饭煲转换留空。
+- panasonic-taiwan-quinoa-brown-rice-olive-rice — Panasonic《藜麦糙米橄榄饭》；保留 SR-PAA100 糙米程序和页面食材量，不跨机型补人数、时间或安全事实。
+- panasonic-taiwan-sweet-potato-congee — Panasonic《地瓜稀饭》；明确是米+地瓜的碳水偏重主食，不宣称均衡主餐。
+- panasonic-taiwan-chestnut-rice-steam-oven — Panasonic《栗子饭》；仅记录 NU-SC300B 蒸烤炉 120℃/20 分钟版本，不改写成普通电饭煲方。
+- panasonic-taiwan-spanish-seafood-risotto-breadmaker — Panasonic《西班牙海鲜炖饭》；保留预炒、分开汆烫和面包机程序，明确不是严格单内锅电饭煲方案。
+- tiger-tuscan-bean-brown-rice-soup — Tiger《Tuscan Bean Soup》；作为相邻的一锅米豆汤研究资产，保留 Slow Cook 75 分钟边界，不伪装成传统菜饭。
+
+### 日本农林水产省、广州官方机构（10 条，9 条 recipe_fact_checked、1 条 identity_verified）
+
+- maff-yamanashi-amanatto-sekihan — 山梨甘纳豆赤饭；糯米/非糯米与甘纳豆的电饭煲流程，豆子后加边界保留。
+- maff-shizuoka-someimeshi — 静冈染饭；米、糯米、栀子和茶的炊饭事实，碳水偏重不宣称均衡。
+- maff-shimane-uzume-meshi — 岛根埋饭；高汤与配料后浇，保持“熟饭/后浇”而不改为生米同锅。
+- maff-kochi-koshimeshi — 高知こうし飯；熟饭冷却后与鱼、腌物、海藻拌合，保留后拌边界。
+- maff-kumamoto-mazemeshi — 熊本まぜ飯；鸡肉蔬菜先分开处理再拌饭，不拼成生米电饭煲合同。
+- maff-tokushima-irimeshi — 德岛いり飯；熟饭与另煮配料合拌，流程事实保留、器具转换留空。
+- maff-tokushima-houhan — 德岛包饭；荞麦米预煮、熟饭和后续高汤分段，标为研究版本。
+- maff-akita-tenko-azuki-sekihan — 秋田てんこ小豆赤饭；小豆预煮与两阶段蒸制边界不合并。
+- maff-hiroshima-anagomeshi — 广岛穴子饭；官方具名与核心食材身份可核，流程合同未闭合，停在 identity_verified。
+- guangzhou-zengcheng-she-wufan — 广州增城畲族乌饭；官方民族事务页面支持乌稔叶汁与糯米蒸煮身份，未补克数、时间或安全合同。
+
+### 中国地域与民族来源（8 条；6 条 recipe_fact_checked、2 条 identity_verified）
+
+- kizilsu-polo-pilaf — 克州抓饭；保留羊肉、黄萝卜、洋葱、米和油的先煎后焖流程，不外推电饭煲比例。
+- changning-kas-dai-bamboo-rice — 昌宁卡斯傣族竹筒饭；政府页面只闭合具名身份，流程和批量留空。
+- motuo-menluo-red-rice-stonepot-chicken-hand-grab — 墨脱红米石锅鸡手抓饭；记录红米蒸制与石锅鸡分段，不冒充同锅生米方案。
+- wulong-dingpot-sticky-rice-kongfan — 武隆鼎罐糯米箜饭；官方身份来源未闭合完整做法，停在 identity_verified。
+- xinjiang-egg-pilaf — 新疆鸡蛋抓饭；保留抓饭后段开孔加蛋的区域变体，缺用量、时间和安全合同。
+- yuping-dong-sticky-rice — 玉屏侗族糯米饭；官方身份来源未补配料、批量和流程，停在 identity_verified。
+- baise-zhuang-five-color-sticky-rice — 百色壮族五色糯米饭；保留植物染色、浸泡、蒸制文化边界，不推导电饭煲程序。
+- wuming-zhuang-five-color-sticky-rice — 武鸣五色糯米饭；与百色条目分开登记，避免把不同地域版本合并。
+
+### 本批来源与边界
+
+- 厂商来源为美的、Philips Taiwan、Panasonic Cooking Taiwan、Tiger 官方页面；机构来源为日本农林水产省《うちの郷土料理》和广州市民族宗教事务局；地域来源为克孜勒苏州、保山市、林芝市、武隆区、伊宁市、玉屏县、百色市及中国日报地方文化页面。每条均保留直接 HTTPS URL、opened 状态、显式 evidence_tier、定位和实际 claim scope。
+- 本批没有把熟饭后拌、分器具、蒸烤炉、压力/多功能锅、竹筒/鼎罐、碳水偏重主食或相邻汤类偷换成通用电饭煲均衡菜饭；缺少批量、液体、时间、安全或适配事实一律保持 null。
+- 机构证据包实际列出 10 条候选（报告摘要曾写“11 条”，未据摘要虚构第 11 条）；克州抓饭等已有同类来源的条目按 canonical identity 去重，不复用旧条目 ID。
+- 本批先写失败测试，再结构化入库；目录 validator、重复检查、生成文档和相关测试通过后落账。所有新增仍是研究目录，不是人工批准、不是厨房验证、不是公开菜单。
+
 ## r63 搜集期第三十六批（2026-08-05）
 
 本批按“先扩大真实具名研究资产、晋升门槛不降”的策略，由厂商、机构和中国地域三路并行核对，去重后登记 **22 条新候选**。目录版本由 r62 的 `source-backed-one-pot-v1-20260808-national-r62` bump 为 `source-backed-one-pot-v1-20260808-national-r63`，条目从 509 增至 531：`executable=12`、`recipe_fact_checked=481`、`identity_verified=38`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。

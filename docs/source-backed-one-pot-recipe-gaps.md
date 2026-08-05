@@ -31,9 +31,11 @@
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
 - 黄赖头焖饭 (jinning-huanglaitou-braised-rice) — CN-YN-KUNMING-JINNING
+- 玉屏糯米饭 (yuping-dong-sticky-rice) — CN-GZ-TONGREN-YUPING
 
 ## 3. Missing quantity
 
+- 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
@@ -59,6 +61,7 @@
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 鮮蝦荷葉飯 (guangzhou-shrimp-lotus-leaf-rice) — CN-GD
+- 畲族乌饭 (guangzhou-zengcheng-she-wufan) — CN-GD-GUANGZHOU-ZENGCHENG
 - 酸菜豆汤苞谷饭 (guizhou-sauerkraut-bean-broth-baogu-rice) — CN-GZ
 - 玉屏农家社饭 (yuping-farmer-she-rice) — CN-GZ
 - 椰丝饭 (hainan-coconut-shred-rice) — CN-HI
@@ -94,6 +97,7 @@
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
+- 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 瑶家竹筒饭 (liannan-yao-bamboo-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
@@ -105,6 +109,7 @@
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
+- 香菇腊肠饭 (midea-shiitake-lapcheong-rice) — 非地域·厂商食谱
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 深沪咸饭 (shenhu-salty-rice) — CN-FJ
@@ -115,6 +120,7 @@
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
+- 墨脱红米石锅鸡手抓饭 (motuo-menluo-red-rice-stonepot-chicken-hand-grab) — CN-XZ-LINZHI-MOTUO
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -164,7 +170,9 @@
 - 芋头蛤蒌饭 (zhanjiang-taro-galou-rice) — CN-GD
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 武鸣五色糯米饭 (wuming-zhuang-five-color-sticky-rice) — CN-GX-NANNING-WUMING
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
+- 鸡蛋抓饭 (xinjiang-egg-pilaf) — CN-XJ
 - 伊犁手抓饭 (ili-pilaf) — CN-XJ
 - 新疆抓飯 (r58-xinjiang-pilaf) — CN-XJ
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
@@ -189,6 +197,8 @@
 
 ## 4. Missing liquid
 
+- てんこ小豆の赤飯 (maff-akita-tenko-azuki-sekihan) — JP-AKITA
+- 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
@@ -216,6 +226,7 @@
 - 隆林五色糯米饭 (longlin-five-color-sticky-rice) — CN-GX
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 鮮蝦荷葉飯 (guangzhou-shrimp-lotus-leaf-rice) — CN-GD
+- 畲族乌饭 (guangzhou-zengcheng-she-wufan) — CN-GD-GUANGZHOU-ZENGCHENG
 - 酸菜豆汤苞谷饭 (guizhou-sauerkraut-bean-broth-baogu-rice) — CN-GZ
 - 玉屏农家社饭 (yuping-farmer-she-rice) — CN-GZ
 - 椰丝饭 (hainan-coconut-shred-rice) — CN-HI
@@ -282,6 +293,9 @@
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
+- 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- こうし飯 (maff-kochi-koshimeshi) — JP-KOCHI
+- まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 瑶家竹筒饭 (liannan-yao-bamboo-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
@@ -307,6 +321,7 @@
 - 石焼ビビンバ風炊込みご飯 (toshiba-bibimbap-mixed-rice) — 非地域·厂商食谱
 - 蝦螯牛肝菌菇燉飯 (r59-panasonic-taiwan-porcini-lobster-risotto) — 非地域·厂商食谱
 - 豚キムチ玄米ごはん (tiger-pork-kimchi-brown-rice) — 非地域·厂商食谱
+- 香菇腊肠饭 (midea-shiitake-lapcheong-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
@@ -317,6 +332,7 @@
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
+- 墨脱红米石锅鸡手抓饭 (motuo-menluo-red-rice-stonepot-chicken-hand-grab) — CN-XZ-LINZHI-MOTUO
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -380,9 +396,11 @@
 - 芋头蛤蒌饭 (zhanjiang-taro-galou-rice) — CN-GD
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 武鸣五色糯米饭 (wuming-zhuang-five-color-sticky-rice) — CN-GX-NANNING-WUMING
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 鸡蛋抓饭 (xinjiang-egg-pilaf) — CN-XJ
 - 伊犁手抓饭 (ili-pilaf) — CN-XJ
 - 新疆抓飯 (r58-xinjiang-pilaf) — CN-XJ
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
@@ -411,6 +429,7 @@
 
 - 芜湖渣肉蒸饭 (wuhu-zharou-steamed-rice) — CN-AH
 - 布依花糯米饭 (guizhou-buyi-flower-glutinous-rice) — CN-GZ
+- 昌宁卡斯傣族竹筒饭 (changning-kas-dai-bamboo-rice) — CN-YN-BAOSHAN-CHANGNING-KASI
 - 咸肉绣花锦菜饭 (zhejiang-changxing-salted-pork-xiuhuajin-rice) — CN-ZJ
 - 察隅僜人手抓饭 (chayu-dengren-hand-grab-rice) — CN-XZ-NYINGCHI-CHAYU
 - 皮蛋瘦肉粥 (cookpot-century-egg-pork-congee-704) — TW-COOKPOT
@@ -422,6 +441,7 @@
 - 内莞焖鸡饭 (lianping-neiguan-braised-chicken-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
 - 内莞焖鸭饭 (lianping-neiguan-braised-duck-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
 - 大山小米焖饭 (weihui-dashan-millet-braised-rice) — CN-HA-XINXIANG-WEIHUI
+- あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 薅菜饭 (huaihua-haocai-rice) — CN-HN-HUAIHUA-HONGJIANG
 - 盱眙咸肉菜饭锅巴制作技艺 (xuyi-salted-pork-rice-cracker) — CN-JS-HUAIAN-XUYI
 - 廬陵鼎罐飯 (luling-dingpot-rice) — CN-JX
@@ -444,10 +464,13 @@
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
 - 黄赖头焖饭 (jinning-huanglaitou-braised-rice) — CN-YN-KUNMING-JINNING
+- 玉屏糯米饭 (yuping-dong-sticky-rice) — CN-GZ-TONGREN-YUPING
 - 贡米锅巴饭 (yuping-gongmi-pot-crust-rice) — CN-GZ-YUPING
 
 ## 6. Missing appliance
 
+- てんこ小豆の赤飯 (maff-akita-tenko-azuki-sekihan) — JP-AKITA
+- 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
 - 合川阴米乌鸡粥 (hechuan-yinmi-black-chicken-congee) — CN-CQ-HECHUAN
@@ -458,6 +481,7 @@
 - 畲族乌饭 (she-black-rice) — CN-GD-GUANGZHOU
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
+- 畲族乌饭 (guangzhou-zengcheng-she-wufan) — CN-GD-GUANGZHOU-ZENGCHENG
 - 椰丝饭 (hainan-coconut-shred-rice) — CN-HI
 - 赫哲族拉拉饭 (heizhe-lala-millet-corn-porridge) — CN-HL
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
@@ -492,6 +516,8 @@
 - 靖西七色糯米饭 (guangxi-jingxi-seven-color-glutinous-rice) — CN-GX
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
+- 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 生菜魚球粥 (macau-lettuce-fishball-porridge) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
@@ -499,6 +525,7 @@
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
+- 墨脱红米石锅鸡手抓饭 (motuo-menluo-red-rice-stonepot-chicken-hand-grab) — CN-XZ-LINZHI-MOTUO
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
@@ -509,6 +536,7 @@
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
+- うずめ飯 (maff-shimane-uzume-meshi) — JP-SHIMANE
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
@@ -523,11 +551,15 @@
 - 龍葵肉絲粥 (taiwan-longkui-pork-porridge) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW
 - 咪达 (tibet-mida-rice-porridge) — CN-XZ
+- 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
+- いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 武鸣五色糯米饭 (wuming-zhuang-five-color-sticky-rice) — CN-GX-NANNING-WUMING
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 鸡蛋抓饭 (xinjiang-egg-pilaf) — CN-XJ
 - 伊犁手抓饭 (ili-pilaf) — CN-XJ
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
 - 江米鸡饭 (longjing-jiangmi-chicken) — CN-JL
@@ -541,6 +573,8 @@
 
 ## 7. Missing time
 
+- てんこ小豆の赤飯 (maff-akita-tenko-azuki-sekihan) — JP-AKITA
+- 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
@@ -565,6 +599,7 @@
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 腊肉芋头饭 (guangzhou-taro-cured-pork-rice) — CN-GD
 - 鮮蝦荷葉飯 (guangzhou-shrimp-lotus-leaf-rice) — CN-GD
+- 畲族乌饭 (guangzhou-zengcheng-she-wufan) — CN-GD-GUANGZHOU-ZENGCHENG
 - 酸菜豆汤苞谷饭 (guizhou-sauerkraut-bean-broth-baogu-rice) — CN-GZ
 - 椰丝饭 (hainan-coconut-shred-rice) — CN-HI
 - 黎家竹筒饭 (hainan-li-bamboo-tube-rice) — CN-HI
@@ -669,6 +704,9 @@
 - 靖远糁饭 (jingyuan-mixed-grain-sanfan) — CN-GS
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
+- 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- こうし飯 (maff-kochi-koshimeshi) — JP-KOCHI
+- まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 蕃茄粟米飯 (macau-tomato-corn-rice) — MO
 - 帶子磨菇菜飯 (macau-scallop-mushroom-vegetable-rice) — MO
@@ -715,6 +753,7 @@
 - 南瓜香菇鸡腿焖饭 (joyoung-pumpkin-shiitake-chicken-rice) — 非地域·厂商食谱
 - 和風香菇燉飯 (panasonic-taiwan-mushroom-risotto) — 非地域·厂商食谱
 - 和風鮭魚毛豆炊飯 (r58-panasonic-salmon-edamame-rice) — 非地域·厂商食谱
+- 地瓜稀饭 (panasonic-taiwan-sweet-potato-congee) — 非地域·厂商食谱
 - 小米杂粮饭 (joyoung-millet-corn-multigrain-rice) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
 - 日式竹筍油豆包炊飯 (cookpot-japanese-bamboo-tofu-skin-rice) — 非地域·厂商食谱
@@ -728,10 +767,13 @@
 - 番茄雞肉起司燉飯 (r59-panasonic-taiwan-tomato-chicken-cheese-risotto) — 非地域·厂商食谱
 - 芋香栗子炊飯 (cookpot-taro-chestnut-pork-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
+- 藜麦糙米橄榄饭 (panasonic-taiwan-quinoa-brown-rice-olive-rice) — 非地域·厂商食谱
 - 蘿蔔牛腩飯 (panasonic-taiwan-beef-brisket-radish-rice) — 非地域·厂商食谱
 - 蝦螯牛肝菌菇燉飯 (r59-panasonic-taiwan-porcini-lobster-risotto) — 非地域·厂商食谱
+- 西班牙海鲜炖饭 (panasonic-taiwan-spanish-seafood-risotto-breadmaker) — 非地域·厂商食谱
 - 雞汁野菜炊飯 (philips-chicken-vegetable-takikomi-rice) — 非地域·厂商食谱
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
+- 香菇腊肠饭 (midea-shiitake-lapcheong-rice) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 鳳梨蝦仁飯 (r59-panasonic-taiwan-pineapple-shrimp-rice) — 非地域·厂商食谱
 - 鸡肉腊肠煲仔饭 (philips-chicken-lap-cheong-claypot-rice) — 非地域·厂商食谱
@@ -745,6 +787,7 @@
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
+- 墨脱红米石锅鸡手抓饭 (motuo-menluo-red-rice-stonepot-chicken-hand-grab) — CN-XZ-LINZHI-MOTUO
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -766,7 +809,9 @@
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
 - 铁锅土豆火腿肉焖饭 (shidian-iron-pot-ham-potato-rice) — CN-YN
+- うずめ飯 (maff-shimane-uzume-meshi) — JP-SHIMANE
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
+- 染飯 (maff-shizuoka-someimeshi) — JP-SHIZUOKA
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 阿婆菜饭 (shanghai-songjiang-apo-vegetable-rice) — CN-SH
@@ -833,6 +878,8 @@
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 人参果饭 (tibet-renshenggu-rice) — CN-XZ
 - 咪达 (tibet-mida-rice-porridge) — CN-XZ
+- 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
+- いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
@@ -840,10 +887,13 @@
 - 芋头蛤蒌饭 (zhanjiang-taro-galou-rice) — CN-GD
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ
+- 武鸣五色糯米饭 (wuming-zhuang-five-color-sticky-rice) — CN-GX-NANNING-WUMING
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 湘西苗族竹筒饭 (xiangxi-miao-bamboo-rice) — CN-HN
+- 鸡蛋抓饭 (xinjiang-egg-pilaf) — CN-XJ
 - 伊犁手抓饭 (ili-pilaf) — CN-XJ
 - 秀山社饭 (xiushan-she-rice) — CN-CQ
+- 甘納豆のお赤飯 (maff-yamanashi-amanatto-sekihan) — JP-YAMANASHI
 - 江米鸡饭 (longjing-jiangmi-chicken) — CN-JL
 - 春湖鱼饭 (hubei-yangxin-chunhu-fish-rice) — CN-HB
 - 扬州炒饭 (yangzhou-standard-fried-rice) — CN-JS
@@ -930,6 +980,8 @@
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
+- 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 生菜魚球粥 (macau-lettuce-fishball-porridge) — MO
@@ -983,7 +1035,9 @@
 - 石焼ビビンバ風炊込みご飯 (toshiba-bibimbap-mixed-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 蘿蔔牛腩飯 (panasonic-taiwan-beef-brisket-radish-rice) — 非地域·厂商食谱
+- 西班牙海鲜炖饭 (panasonic-taiwan-spanish-seafood-risotto-breadmaker) — 非地域·厂商食谱
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
+- 高丽菜鲭鱼炊饭 (panasonic-taiwan-cabbage-mackerel-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
@@ -995,6 +1049,7 @@
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
+- うずめ飯 (maff-shimane-uzume-meshi) — JP-SHIMANE
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
@@ -1039,6 +1094,7 @@
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 五目ごはん (tiger-post-196-gomoku-rice) — JP-TIGER
+- 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
@@ -1046,6 +1102,7 @@
 - 咸丰社饭 (xianfeng-she-rice) — CN-HB
 - 湘江源瑶家竹筒饭 (xiangjiangyuan-bamboo-rice) — CN-HN
 - 湘西社饭 (xiangxi-she-rice) — CN-HN
+- 鸡蛋抓饭 (xinjiang-egg-pilaf) — CN-XJ
 - 伊犁手抓饭 (ili-pilaf) — CN-XJ
 - 手抓饭 (yutian-electric-cooker-lamb-pilaf) — CN-XJ
 - 新疆抓飯 (r58-xinjiang-pilaf) — CN-XJ
