@@ -1,5 +1,32 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r55 搜集期第十六批（2026-08-05）
+
+本批从日本农林水产省《うちの郷土料理》官方页面中优先吸收最接近米、豆同锅或电饭煲主饭的具名条目，并保留分段流程的非等价边界。新增 **3 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r54` bump 为 `source-backed-one-pot-v1-20260807-national-r55`，条目从 355 增至 358：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：338 → 341；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（3 条，全部 `recipe_fact_checked`）
+
+1. `maff-nara-chameshi` — 奈良 `奈良茶飯（ならちゃめし）`；
+2. `maff-fukui-chameshi` — 福井今庄 `茶飯（ちゃめし）`；
+3. `maff-aichi-kakimawashi` — 爱知 `かきまわし／とりめし`。
+
+### 本批来源与边界
+
+- 奈良茶饭是本批最接近电饭煲同锅的一条：官方明确写焙茶、大豆和米在炊饭器中同炊，仍缺安全终点和厨房验证。福井茶饭明确是米、豆、番茶液同炊，但原方是大批量、未给现代机型和总时长，液体不缩放。
+- 爱知 `かきまわし／とりめし` 明确是炊饭器煮饭、另锅用鸡脂炒煮具材、熟饭后拌合的分段流程；它是真实地域饭，但不能被改写成生鸡肉直接同锅。
+- 三条均保留原名和地域，不把茶饭抽象成模板、不把分段拌合当作严格一锅电饭煲菜；禽肉/豆类安全终点、跨机型参数和厨房结果仍未闭合。
+
+### 本批验证纪律
+
+- 先新增 r55 失败测试，锁定目录版本、358 条总数、3 个 recipe ID、来源直接打开、全部非 executable 及奈良/福井/爱知的流程边界；实现后目录专项测试 **212/212** 通过。
+- 已运行目录构建；提交前继续运行目录/菜谱门禁、全量 Node 测试、Python 语法检查、构建一致性和 `git diff --check`。
+- 本批只涉及研究目录、测试、进度文档及派生目录；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。晋升仍需人工逐条签署，并以 `kitchen_observed` 作为真实家庭验证门。
+
 ## r54 搜集期第十五批（2026-08-05）
 
 本批继续沿大同官方电锅食谱页核验具名米饭、炊饭和粥类，保留同一器具的多阶段流程，不把它们改写成自由组合。新增 **5 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r53` bump 为 `source-backed-one-pot-v1-20260807-national-r54`，条目从 350 增至 355：

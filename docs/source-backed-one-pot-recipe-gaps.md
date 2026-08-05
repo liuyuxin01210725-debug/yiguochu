@@ -43,7 +43,9 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
+- 茶飯（ちゃめし） (maff-fukui-chameshi) — JP-FUKUI
 - くじらご飯 (maff-shimane-kujira-gohan) — JP-SHIMANE
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
@@ -162,6 +164,7 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - たこ飯（たこめし） (maff-aichi-tako-meshi) — JP-AICHI
 - へぼ飯 (maff-aichi-hebo-meshi) — JP-AICHI
 - ごんじゅう (maff-chiba-gonjuu) — JP-CHIBA
@@ -392,12 +395,14 @@
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
+- かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - たこ飯（たこめし） (maff-aichi-tako-meshi) — JP-AICHI
 - へぼ飯 (maff-aichi-hebo-meshi) — JP-AICHI
 - ごんじゅう (maff-chiba-gonjuu) — JP-CHIBA
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
+- 茶飯（ちゃめし） (maff-fukui-chameshi) — JP-FUKUI
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - かき飯 (jp-hiroshima-kakimeshi) — JP-HIROSHIMA
 - たこめし (maff-hiroshima-mihara-tako-meshi) — JP-HIROSHIMA
@@ -421,6 +426,7 @@
 - ほっきめし (jp-miyagi-hokki-meshi) — JP-MIYAGI
 - とりめし (maff-miyazaki-torimeshi) — JP-MIYAZAKI
 - 鶏飯 (maff-nagasaki-torimeshi) — JP-NAGASAKI
+- 奈良茶飯（ならちゃめし） (maff-nara-chameshi) — JP-NARA
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
 - たこめし (maff-okayama-tako-meshi) — JP-OKAYAMA
@@ -601,6 +607,7 @@
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - かき飯 (jp-hiroshima-kakimeshi) — JP-HIROSHIMA
