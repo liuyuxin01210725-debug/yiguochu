@@ -100,6 +100,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 东至农家锅巴饭 | 东至锅巴饭 | CN-AH | dongzhi-guoba-rice | 研究记录（非公开可执行） | 香米；红心芋；红芋粉蒸肉生坯 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [新徽菜·名徽厨——东至五大名菜之一“东至农家锅巴饭”](https://czsrsj.chizhou.gov.cn/News/show/608587.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## dulong-corn-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 独龙族玉米饭 | 独龙江玉米饭 | CN-YN-NUJIANG-GONGSHAN-DULONG | dulong-corn-rice | 研究记录（非公开可执行） | 玉米 | identity、ingredients | 缺 process | [薛金玲：一步千年的独龙族](https://www.sky.yn.gov.cn/xsyj/zgsd/736690919901923799) |
 ## electric-cooker-spanish-paella
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -176,6 +181,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 鮮蝦荷葉飯 | 鲜虾荷叶饭 | CN-GD | guangzhou-lotus-leaf-rice | 研究记录（非公开可执行） | 丝苗米；瘦肉；鲜虾；鲜菇；鲜笋；荷叶 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [鲜虾荷叶饭](https://www.gz.gov.cn/zlgz/gzly/msgz/dxxc/content/post_7801862.html) |
+## guizhou-sauerkraut-bean-broth-baogu-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 酸菜豆汤苞谷饭 | 酸菜豆汤玉米饭；苞谷饭 | CN-GZ | guizhou-sauerkraut-bean-broth-baogu-rice | 研究记录（非公开可执行） | 苞谷米；青菜酸菜；四季豆豆米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [酸菜豆汤苞谷饭](https://www.gzszx.gov.cn/gzzxb/web/doc/detail/d_1481090747334688) |
 ## guizhou-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -306,6 +316,7 @@
 | たこ飯 | 爱媛中予章鱼饭 | JP-EHIME | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；胡萝卜；牛蒡；油豆腐；昆布 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [たこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_ehime.html) |
 | 茶飯（ちゃめし） | 福井今庄茶饭 | JP-FUKUI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；粳米；大豆；豆入り番茶；酒；酱油 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [茶飯（ちゃめし） 福井県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/chameshi_fukui.html) |
 | かしわめし | 福冈鸡肉饭 | JP-FUKUOKA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；牛蒡；胡萝卜；干香菇 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [かしわめし 福岡県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kashiwa_meshi_fukuoka.html) |
+| かて飯 | 群马かて饭；かてめし | JP-GUNMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；油豆腐；牛蒡；胡萝卜；香菇；魔芋 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [かて飯 群馬県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/32_7_gunma.html) |
 | かき飯 | 广岛牡蛎饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；牡蛎；胡萝卜；牛蒡；干香菇；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [かき飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_28_hiroshima.html) |
 | たこめし | 广岛三原章鱼饭；三原たこめし | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；煮章鱼；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_18_hiroshima.html) |
 | 鯛めし | 广岛瀬户内鲷饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 精米；鲷；胡萝卜；牛蒡；昆布 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鯛めし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_9_hiroshima.html) |
@@ -321,6 +332,7 @@
 | 梅ごはん | 神奈川小田原梅饭 | JP-KANAGAWA | japanese-regional-rice | 研究记录（非公开可执行） | 米；梅干；吻仔鱼 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [梅ごはん 神奈川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_10_kanagawa.html) |
 | たこ飯 | 熊本天草章鱼饭 | JP-KUMAMOTO | japanese-regional-rice | 研究记录（非公开可执行） | 米；干章鱼；牛蒡；胡萝卜；羊栖菜 | identity、ingredients、liquid、process、quantity | 缺 time | [たこ飯 熊本県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_kumamoto.html) |
 | トマトと鮭の炊き込みごはん | 番茄鲑鱼罐炊饭 | JP-KUMAMOTO | japanese-regional-rice | 研究记录（非公开可执行） | 米；番茄；鲑鱼罐；洋葱；蒜；黄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [トマトと鮭の炊き込みごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/117.html) |
+| 松茸ごはん | 京都松茸饭；丹波松茸饭 | JP-KYOTO | japanese-regional-rice | 研究记录（非公开可执行） | 米；松茸 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [松茸ごはん 京都府](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/matsutakegohan_kyoto.html) |
 | 栗ごはん | 京都丹波栗饭 | JP-KYOTO | japanese-regional-rice | 研究记录（非公开可执行） | 米；栗；昆布；黑芝麻 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [栗ごはん 京都府](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kurigohan_kyoto.html) |
 | たこ飯 | 三重伊势志摩章鱼饭 | JP-MIE | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；姜；酱油；酒 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [たこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_mie.html) |
 | たけのこご飯 | 宫城竹笋饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；竹笋；油豆腐；胡萝卜；木之芽 | identity、ingredients、liquid、process、quantity | 缺 time | [たけのこご飯 宮城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takenoko_gohan_miyagi.html) |
@@ -349,17 +361,27 @@
 | かきまでご飯 | 和歌山日高拌饭 | JP-WAKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；烤鲭鱼；高野豆腐；干香菇；油豆腐；竹轮；魔芋；牛蒡；胡萝卜 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [かきまでご飯 和歌山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kakimade_gohan_wakayama.html) |
 | うに飯 | 山口萩海胆饭 | JP-YAMAGUCHI | japanese-regional-rice | 研究记录（非公开可执行） | 米；生海胆；昆布；海苔 | identity、ingredients、process、quantity、time | 缺 liquid、appliance | [うに飯 山口県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/43_24_yamaguchi.html) |
 | さんまめし | 山梨秋刀鱼饭 | JP-YAMANASHI | japanese-regional-rice | 研究记录（非公开可执行） | 米；秋刀鱼；生姜；紫苏 | identity、ingredients、liquid、process、quantity | 缺 time | [さんまめし 山梨県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/sanma_meshi_yama_nashi.html) |
+## japanese-rice-cooker-porridge
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 雑穀薬膳粥 | 杂粮药膳粥 | JP | japanese-rice-cooker-porridge | 研究记录（非公开可执行） | 米；杂粮；松子；枸杞；山药；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [雑穀薬膳粥](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_106/) |
 ## japanese-rice-cooker-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | さばの香味麦炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；三成麦；盐烤鲭鱼；生姜；茗荷；紫苏 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [さばの香味麦炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_525/) |
+| そら豆のごはん | 蚕豆饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；蚕豆；昆布；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [そら豆のごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post47/) |
 | はもごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鱧；生姜；紫苏；茗荷 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [はもごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post17/) |
+| 干しえびと塩昆布の玄米ごはん | 干虾盐昆布糙米饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 糙米；干虾；盐昆布；莲藕；牛蒡；胡萝卜；毛豆 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [干しえびと塩昆布の玄米ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_519/) |
+| 栗玄米ごはん | 栗子糙米饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 糙米；栗子 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [栗玄米ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_520/) |
 | 炊込み中華おこわ | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 糯米；五花肉；干香菇；干虾；竹笋；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [炊込み中華おこわ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post35/) |
 | 白身魚の炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；白身鱼；胡萝卜；牛蒡；金针菇；昆布 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [白身魚の炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post62/) |
+| 赤缶カレーの炊込みピラフ | 赤缶咖喱炊饭抓饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；香肠；洋葱；玉米；毛豆；咖喱粉酱块 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [赤缶カレーの炊込みピラフ（エスビー食品監修）](https://www.tiger-corporation.com/en/jpn/feature/recipe/post_527/) |
 | 釜揚げしらすとトマトの雑穀ごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；杂粮；釜揚げしらす；小番茄 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [釜揚げしらすとトマトの雑穀ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post52/) |
 | 鴨ロースと松茸の炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鸭腿肉；松茸；胡萝卜；南瓜；银杏 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [鴨ロースと松茸の炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_11/) |
 | 鶏肉たけのこごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；新竹笋；鸡胸肉；油豆腐皮 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [鶏肉たけのこごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post26/) |
+| とうもろこしの炊き込みご飯 | 玉米鸡肉炊饭；玉米炊饭 | JP-NATIONAL | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鸡肉末；甜玉米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [とうもろこしの炊き込みご飯](https://www.maff.go.jp/j/syokuiku/kodomo_navi/oneday/recipe3.html) |
 | ホタテと大根の炊き込みごはん | 扇贝萝卜炊饭 | JP-NATIONAL | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；萝卜；扇贝罐；油豆腐；昆布；萝卜叶 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [ホタテと大根の炊き込みごはん](https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe291.html) |
 ## jiangnan-duck-greens-rice
 
@@ -430,6 +452,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 鲤鱼炖糯米 | — | CN-GD | kaiping-danjia-carp-glutinous-rice | 研究记录（非公开可执行） | 鲤鱼；糯米；枸杞；红枣；姜 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [开平疍家菜制作技艺](https://www.kaiping.gov.cn/csjdbsc/kjww/wh/content/post_3220203.html) |
+## kuancheng-manchu-sorghum-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 宽城满族高粱米饭 | 秫米饭；高粱捞干饭 | CN-HE-CHENGDE-KUANCHENG | kuancheng-manchu-sorghum-rice | 研究记录（非公开可执行） | 高粱米 | identity、ingredients | 缺 process | [传承文化：宽城满族饮食习俗（一）](https://www.hbkc.gov.cn/art/2018/6/13/art_3679_519913.html) |
 ## kunshan-zhangpu-jiangnan-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -635,6 +662,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 石扇鱼焖饭 | 石扇鱼饭 | CN-GD | meixian-shisan-hakka-fish-rice | 研究记录（非公开可执行） | 米；鲩鱼；鱼血；葱花；姜丝；金不换 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [美食手信--梅县区人民政府门户网站](https://www.gdmx.gov.cn/zjmx/mssx/content/post_2903785.html) |
+## metok-menba-corn-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 门巴族玉米饭 | 墨脱玉米饭 | CN-XZ-NYINGCHI-METOK | metok-menba-corn-rice | 研究记录（非公开可执行） | 玉米 | appliance、identity、ingredients | 缺 process | [门巴族风俗习惯](https://www.neac.gov.cn/seac/ztzl/mbz/fsxg.shtml) |
 ## middle-yangtze-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -760,6 +792,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 瓜焖饭 | — | CN-SN-YULIN-SHENMU | shaanxi-regional-braised-rice | 研究记录（非公开可执行） | 瓜；米 | identity | 缺 ingredients、process | [陕西省地方志资料中的瓜焖饭](https://dfz.shaanxi.gov.cn/zslm/fzzlk/xbsxsz/szdylpdf/201404/P0202409232288930223.pdf) |
+## shanbei-sauerkraut-potato-laofan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 陕北酸菜捞饭 | 酸菜捞饭 | CN-SN-SHANBEI | shanbei-sauerkraut-potato-laofan | 研究记录（非公开可执行） | 小米；酸菜；熟土豆片 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [陕北的米](https://jw.guannan.gov.cn/news/col/r1499) |
 ## shanghai-jinshan-clay-oven-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -815,6 +852,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 阿婆菜饭 | — | CN-SH | songjiang-apo-vegetable-rice | 研究记录（非公开可执行） | 猪油；三当菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [松江乡村里的年味：有米餐厅和阿婆菜饭](https://www.songjiang.gov.cn/xwzx/001003/20260129/b7ead1aa-7dfe-4c90-b469-f1b43c61bf09.html) |
+## southeast-asian-rice-cooker-recipes
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 簡単カオマンガイ | 简易海南鸡饭 | JP | southeast-asian-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鸡腿肉或鸡胸肉；鱼露；姜；蒜；葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [簡単カオマンガイ（マザープラス ママさん考案）](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_551/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## southeast-chongqing-tujia-he-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1067,6 +1109,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 铜仁万山社饭 | 万山社饭 | CN-GZ | wanshan-she-rice | 研究记录（非公开可执行） | 鲜米；糯米；蒿菜；野葱；豆子；花生；腊肉 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [网络中国节·清明丨清明时节 社饭飘香](https://www.tongren.gov.cn/2025/0405/333568.shtml) |
+## weihai-baomi-chazi-dry-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 威海苞米碴子干饭 | 玉米碴子干饭；苞米碴子捞干饭 | CN-SD-WEIHAI | weihai-baomi-chazi-dry-rice | 研究记录（非公开可执行） | 玉米碴子 | identity、ingredients | 缺 process | [饮食](https://www.weihai.gov.cn/art/2020/10/27/art_58902_1733168.html) |
 ## western-guangdong-duck-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

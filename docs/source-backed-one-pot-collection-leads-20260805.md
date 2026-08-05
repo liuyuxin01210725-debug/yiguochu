@@ -1,5 +1,21 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r61 已登记（2026-08-05）
+
+本批三条来源线完成查重与直接页面核对，登记 **15 条真实具名候选**。目录由 r60 的 469 条更新为 r61 的 484 条：`executable=12`、`recipe_fact_checked=443`、`identity_verified=29`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Tiger 官方 | `r61-tiger-dried-shrimp-salted-kelp-brown-rice`、`r61-tiger-chestnut-brown-rice`、`r61-tiger-multigrain-medicinal-porridge`、`r61-tiger-red-can-curry-pilaf`、`r61-tiger-easy-khao-man-gai`、`r61-tiger-broad-bean-rice` | Tiger 日本官方页面；糙米/粥水位线、压力锅、预煮、炊后加料和安全边界按原页保留，不外推普通电饭煲。 |
+| 日本农林水产省 | `maff-gunma-katemeshi`、`maff-kyoto-matsutake-gohan`、`maff-corn-chicken-takikomi-gohan` | MAFF 地域料理/食育直接页面；群马かて饭的熟料拌饭、京都松茸饭的液体缺口、玉米鸡肉炊饭的低蛋白份量均如实记录。重复的番茄鲑鱼炊饭未再建 ID。 |
+| 中国地域 | `shanbei-sauerkraut-potato-laofan`、`guizhou-sauerkraut-bean-broth-baogu-rice`、`weihai-baomi-chazi-dry-rice`、`kuancheng-manchu-sorghum-rice`、`dulong-corn-rice`、`metok-menba-corn-rice` | 陕北、贵州、山东、河北、云南、西藏直接来源；分段熟饭/木甑流程和身份-only 条目不被改写为电饭煲执行配方。 |
+
+### r61 研究边界
+
+- 没有新增 `executable` 或 `kitchen_observed`；即使 Tiger 简易海南鸡饭的四合同已闭合，也必须经过人工签署后才能公开。
+- 搜集期只扩大真实名称、地域和来源资产；营养不完整的栗玄米饭、杂粮药膳粥和低鸡肉玉米炊饭不宣传为均衡主餐。
+- 连续两批新增合格候选仍未低于 10 条，搜集期继续；下一批继续优先中国地域官方来源和一锅米饭家族，同时维持“20–30 条封顶、当天落账、版本必 bump”的纪律。
+
 ## r60 已登记（2026-08-05）
 
 本批三条来源线完成查重与直接页面核对，登记 **20 条真实具名候选**。目录由 r59 的 449 条更新为 r60 的 469 条：`executable=12`、`recipe_fact_checked=432`、`identity_verified=25`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。

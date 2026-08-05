@@ -1,5 +1,52 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r61 搜集期第三十四批（2026-08-05）
+
+本批继续按“先扩大真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **15 条候选**。目录版本由 r60 的 `source-backed-one-pot-v1-20260808-national-r60` bump 为 `source-backed-one-pot-v1-20260808-national-r61`，条目从 469 增至 484：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：432 → 443（新增 11）；
+- `identity_verified`：25 → 29（新增 4）；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（15 条）
+
+**Tiger 官方（6 条，全部 `recipe_fact_checked`）**
+
+1. `r61-tiger-dried-shrimp-salted-kelp-brown-rice` — `干しえびと塩昆布の玄米ごはん`；
+2. `r61-tiger-chestnut-brown-rice` — `栗玄米ごはん`；
+3. `r61-tiger-multigrain-medicinal-porridge` — `雑穀薬膳粥`；
+4. `r61-tiger-red-can-curry-pilaf` — `赤缶カレーの炊込みピラフ`；
+5. `r61-tiger-easy-khao-man-gai` — `簡単カオマンガイ`；
+6. `r61-tiger-broad-bean-rice` — `そら豆のごはん`。
+
+以上均来自 Tiger 官方页面，保留玄米/粥水位线、压力锅型号、预煮、炊后加料和压力释放边界。栗玄米饭与杂粮药膳粥营养角色不完整，标为研究候选而不宣传成均衡主餐；简易海南鸡饭虽已具备完整来源合同，仍保持 `recipe_fact_checked`，等待人工签署，不因字段闭合自动公开。
+
+**日本农林水产省官方（3 条，全部 `recipe_fact_checked`）**
+
+7. `maff-gunma-katemeshi` — `かて飯`；
+8. `maff-kyoto-matsutake-gohan` — `松茸ごはん`；
+9. `maff-corn-chicken-takikomi-gohan` — `とうもろこしの炊き込みご飯`。
+
+群马かて饭保留来源写明的先制熟料与拌饭边界；京都松茸饭缺固定液体量继续留空；玉米鸡肉炊饭来自日本农林水产省食育页面，鸡肉用量很少，营养备注按碳水为主记录。与现有 `jp-tomato-salmon-takikomi-gohan` 使用相同 MAFF 页面、身份重复的番茄炊饭未重复收录。
+
+**中国地域来源（6 条：2 条 `recipe_fact_checked`，4 条 `identity_verified`）**
+
+10. `shanbei-sauerkraut-potato-laofan` — `陕北酸菜捞饭`；
+11. `guizhou-sauerkraut-bean-broth-baogu-rice` — `酸菜豆汤苞谷饭`；
+12. `weihai-baomi-chazi-dry-rice` — `威海苞米碴子干饭`（仅身份）；
+13. `kuancheng-manchu-sorghum-rice` — `宽城满族高粱米饭`（仅身份）；
+14. `dulong-corn-rice` — `独龙族玉米饭`（仅身份）；
+15. `metok-menba-corn-rice` — `门巴族玉米饭`（仅身份）。
+
+陕北酸菜捞饭与贵州酸菜豆汤苞谷饭保留来源的熟饭/木甑和分段边界，不改写成生米电饭煲方；威海、宽城、独龙族和门巴族条目只有民俗/身份证据，流程、批量、液体、时间和安全字段保持空值。
+
+### 本批边界与验证纪律
+
+- 本批 15 条是研究资产，不是用户可见菜单；没有条目晋升 `executable` 或 `kitchen_observed`，没有修改前端、Worker、Planner、模板或生产配置。
+- 所有来源均保留直接 HTTPS URL、访问状态、证据等级、定位和实际 claim scope；缺失事实保持 `null`，不跨来源拼接，不把普通电饭煲参数从压力锅、木甑或熟饭流程推导出来。
+- 先写 r61 失败测试，再合并结构化候选；目录构建、来源 validator、菜谱聚合门禁、全量测试、Python 语法和构建一致性检查均须通过后分批提交。
+
 ## r60 搜集期第三十三批（2026-08-05）
 
 本批继续按“先扩大真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **20 条候选**。目录版本由 r59 的 `source-backed-one-pot-v1-20260808-national-r59` bump 为 `source-backed-one-pot-v1-20260808-national-r60`，条目从 449 增至 469：
