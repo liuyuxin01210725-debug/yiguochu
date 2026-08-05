@@ -9,6 +9,7 @@
 ## 2. Missing ingredients
 
 - 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
+- 廬陵鼎罐飯 (luling-dingpot-rice) — CN-JX
 
 ## 3. Missing quantity
 
@@ -220,6 +221,7 @@
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
+- 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
@@ -260,6 +262,7 @@
 ## 5. Missing process
 
 - 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
+- 廬陵鼎罐飯 (luling-dingpot-rice) — CN-JX
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 
 ## 6. Missing appliance
@@ -362,9 +365,15 @@
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
 - 〖茅乃舎監修〗茅乃舎だし だし炊きごはん (panasonic-kanoya-dashi-rice-sr-v10ba) — 非地域·厂商食谱
 - 〖茅乃舎監修〗野菜だし だし炊きごはん (panasonic-vegetable-dashi-rice-sr-v10ba) — 非地域·厂商食谱
+- チキンのクリームピラフ (panasonic-chicken-cream-pilaf) — 非地域·厂商食谱
+- 三色藜麦饭 (joyoung-three-color-quinoa-rice) — 非地域·厂商食谱
+- 南瓜香菇鸡腿焖饭 (joyoung-pumpkin-shiitake-chicken-rice) — 非地域·厂商食谱
+- 小米杂粮饭 (joyoung-millet-corn-multigrain-rice) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
+- 炊込みシーフードピラフ (panasonic-tokyo-seafood-pilaf) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
+- 牡蠣とねぎの炊き込みご飯 (panasonic-oyster-negi-takikomi-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 雞汁野菜炊飯 (philips-chicken-vegetable-takikomi-rice) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
@@ -409,9 +418,16 @@
 - 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
 - 雜糧干貝海鮮蒸臺灣藜飯 (taiwan-multigrain-scallop-seafood-quinoa-rice) — TW
 - 三菇飯 (taiwan-three-mushroom-rice) — TW
+- 五穀雜糧飯 (taiwan-five-grain-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
+- 普羅旺斯野菇雞起司燉飯 (taiwan-provencal-mushroom-chicken-risotto) — TW
+- 牛蒡炊飯 (taiwan-burdock-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
+- 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
+- 芋香珍穀飯 (taiwan-taro-multigrain-rice) — TW
 - 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
+- 高纖南瓜飯 (taiwan-high-fiber-pumpkin-rice) — TW
+- 鮮魚野菇炊飯 (taiwan-fresh-fish-wild-mushroom-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 野菇炊飯 (ntuh-wild-mushroom-rice) — TW-TPE
@@ -490,7 +506,11 @@
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Tuscan Chicken and Rice (instant-pot-tuscan-chicken-rice) — 非地域·厂商食谱
 - アボカド鶏肉炊き込みご飯 (tatung-avocado-chicken-rice) — 非地域·厂商食谱
+- チキンのクリームピラフ (panasonic-chicken-cream-pilaf) — 非地域·厂商食谱
+- 南瓜香菇鸡腿焖饭 (joyoung-pumpkin-shiitake-chicken-rice) — 非地域·厂商食谱
+- 炊込みシーフードピラフ (panasonic-tokyo-seafood-pilaf) — 非地域·厂商食谱
 - 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
+- 牡蠣とねぎの炊き込みご飯 (panasonic-oyster-negi-takikomi-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
@@ -513,8 +533,10 @@
 - 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
 - 雜糧干貝海鮮蒸臺灣藜飯 (taiwan-multigrain-scallop-seafood-quinoa-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
+- 普羅旺斯野菇雞起司燉飯 (taiwan-provencal-mushroom-chicken-risotto) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
+- 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
 - 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
