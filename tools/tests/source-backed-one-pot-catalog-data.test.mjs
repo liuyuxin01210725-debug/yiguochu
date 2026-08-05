@@ -73,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r40');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r41');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -723,7 +723,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r40');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r41');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1028,7 +1028,7 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   assert.deepEqual(statusTotals, {
     executable: 12,
     identity_verified: 1,
-    recipe_fact_checked: 173,
+    recipe_fact_checked: 192,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1065,6 +1065,40 @@ test('r40 collection batch records only directly sourced research candidates', (
     assert.ok(recipe, `${recipeId} should be in the r40 research batch`);
     assert.equal(recipe.canonical_name, name);
     assert.equal(recipe.status, status);
+    assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
+    assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
+    assert.notEqual(recipe.status, 'executable');
+  }
+});
+
+test('r41 collection batch records only directly sourced named rice meals', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['taiwan-brown-rice-salmon-rice', '糙米鮭魚炊飯'],
+    ['taiwan-ten-fragrant-rice', '十香飯'],
+    ['taiwan-vegetable-chicken-rice', '蔬菜雞肉飯'],
+    ['taiwan-saffron-seafood-rice', '番紅花海鮮飯'],
+    ['taiwan-three-mushroom-rice', '三菇飯'],
+    ['hakka-electric-cooker-rice', '客家菜飯'],
+    ['hk-hiroshima-oyster-mushroom-claypot-rice', '廣島蠔雜菇煲仔飯'],
+    ['panasonic-one-pot-chicken-rice', 'One Pot Chicken Rice'],
+    ['panasonic-chicken-vegetable-rice', 'Chicken Vegetable Rice'],
+    ['panasonic-claypot-style-chicken-rice', 'Claypot Style Chicken Rice'],
+    ['yuping-farmer-she-rice', '玉屏农家社饭'],
+    ['taiwan-cured-pot-rice', '臘味煲飯'],
+    ['taiwan-fuzhou-drunk-duck-rice', '福州糟鴨飯'],
+    ['hk-pumpkin-taro-chicken-claypot-rice', '南瓜芋頭雞粒煲仔飯'],
+    ['hk-yam-longan-chicken-claypot-rice', '淮山圓肉雞柳煲仔飯'],
+    ['hk-taro-shrimp-multigrain-steamed-rice', '芋頭鮮蝦五穀蒸飯'],
+    ['macau-scallop-mushroom-vegetable-rice', '帶子磨菇菜飯'],
+    ['macau-tomato-corn-rice', '蕃茄粟米飯'],
+    ['tatung-avocado-chicken-rice', 'アボカド鶏肉炊き込みご飯'],
+  ];
+  for (const [recipeId, name] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.ok(recipe, `${recipeId} should be in the r41 research batch`);
+    assert.equal(recipe.canonical_name, name);
+    assert.equal(recipe.status, 'recipe_fact_checked');
     assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
     assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
     assert.notEqual(recipe.status, 'executable');
