@@ -9,6 +9,7 @@
 ## 2. Missing ingredients
 
 - 咸肉绣花锦菜饭 (zhejiang-changxing-salted-pork-xiuhuajin-rice) — CN-ZJ
+- 察隅僜人手抓饭 (chayu-dengren-hand-grab-rice) — CN-XZ-NYINGCHI-CHAYU
 - 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
 - 黄米焖饭 (qingyang-yellow-millet-braised-rice) — CN-GS-QINGYANG-XIFENG
 - 内莞焖鸡饭 (lianping-neiguan-braised-chicken-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
@@ -21,6 +22,7 @@
 - 靖西荷叶香糯饭 (guangxi-jingxi-lotus-leaf-fragrant-rice) — CN-GX
 - 陵川柴火饭 (shanxi-lingchuan-firewood-rice) — CN-SX
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
+- 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
@@ -103,6 +105,7 @@
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 壶仔饭 (shenhu-huzaifan) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -136,6 +139,7 @@
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 虱目魚粥（一） (taiwan-milkfish-congee) — TW
+- 虱目魚鹹粥 (taiwan-milkfish-salted-porridge) — TW
 - 鮮蚵芋頭糙米粥 (taiwan-fresh-oyster-taro-brown-rice-porridge) — TW
 - 黃魚飯 (taizhou-yellowfish-rice) — CN-ZJ
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
@@ -257,10 +261,13 @@
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
 - Coconut Chicken and Rice with Pineapple Salsa (instant-pot-coconut-chicken-pineapple-rice) — 非地域·厂商食谱
 - Edamame and Fried Tofu Rice (tiger-edamame-fried-tofu-rice) — 非地域·厂商食谱
+- Garlic Shrimp with Herbed Rice (r60-tiger-garlic-shrimp-herbed-rice) — 非地域·厂商食谱
 - Hijiki Brown Rice (tiger-hijiki-brown-rice) — 非地域·厂商食谱
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Steamed Garlic Salmon with Dill and Garden Vegetables (r59-tiger-usa-garlic-salmon-garden-rice) — 非地域·厂商食谱
+- Szechuan Pork (r60-tiger-szechuan-pork-tacook-rice) — 非地域·厂商食谱
+- Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
 - うにごはん (tiger-uni-rice) — 非地域·厂商食谱
 - たっぷりきのこの炊込みご飯 (toshiba-mixed-mushroom-ume-rice) — 非地域·厂商食谱
@@ -280,10 +287,12 @@
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - 东北一锅出 (northeast-one-pot) — CN-LN
+- 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
@@ -322,6 +331,8 @@
 - 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
 - 薑黃雞腿燉飯 (taiwan-turmeric-chicken-risotto) — TW
 - 虱目魚粥（一） (taiwan-milkfish-congee) — TW
+- 虱目魚鹹粥 (taiwan-milkfish-salted-porridge) — TW
+- 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
 - 鮮蚵芋頭糙米粥 (taiwan-fresh-oyster-taro-brown-rice-porridge) — TW
 - 鯛魚干貝藜麥炊飯 (panasonic-taiwan-taiyu-scallop-quinoa-rice) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW
@@ -368,6 +379,7 @@
 
 - 布依花糯米饭 (guizhou-buyi-flower-glutinous-rice) — CN-GZ
 - 咸肉绣花锦菜饭 (zhejiang-changxing-salted-pork-xiuhuajin-rice) — CN-ZJ
+- 察隅僜人手抓饭 (chayu-dengren-hand-grab-rice) — CN-XZ-NYINGCHI-CHAYU
 - 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
 - 黄米焖饭 (qingyang-yellow-millet-braised-rice) — CN-GS-QINGYANG-XIFENG
 - 内莞焖鸡饭 (lianping-neiguan-braised-chicken-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
@@ -381,7 +393,9 @@
 - 陵川柴火饭 (shanxi-lingchuan-firewood-rice) — CN-SX
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
+- 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
+- 邵阳黑饭 (shaoyang-black-rice) — CN-HN-SHAOYANG
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
@@ -426,7 +440,9 @@
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
+- 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
+- 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
@@ -439,10 +455,13 @@
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 竹筍炊飯 (taiwan-bamboo-shoot-rice) — TW
 - 皮蛋瘦肉粥 (r58-taiwan-preserved-egg-pork-congee) — TW
+- 虱目魚肚粥 (taiwan-milkfish-belly-porridge) — TW
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
 - 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 地瓜鹹飯 (taiwan-sweet-potato-salted-rice) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
+- 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
+- 龍葵肉絲粥 (taiwan-longkui-pork-porridge) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW
 - 咪达 (tibet-mida-rice-porridge) — CN-XZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
@@ -584,12 +603,17 @@
 - Chinese Marinated Tofu Rice (tiger-usa-chinese-marinated-tofu-rice) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
 - Edamame and Fried Tofu Rice (tiger-edamame-fried-tofu-rice) — 非地域·厂商食谱
+- Garlic Shrimp with Herbed Rice (r60-tiger-garlic-shrimp-herbed-rice) — 非地域·厂商食谱
 - Hijiki Brown Rice (tiger-hijiki-brown-rice) — 非地域·厂商食谱
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - One Pot Chicken Rice (panasonic-one-pot-chicken-rice) — 非地域·厂商食谱
+- Salmon Rice (r60-tiger-salmon-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
+- Shiitake Mushroom Garlic Rice (r60-tiger-shiitake-garlic-rice) — 非地域·厂商食谱
 - Steamed Garlic Salmon with Dill and Garden Vegetables (r59-tiger-usa-garlic-salmon-garden-rice) — 非地域·厂商食谱
+- Szechuan Pork (r60-tiger-szechuan-pork-tacook-rice) — 非地域·厂商食谱
+- Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
 - Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
@@ -638,9 +662,11 @@
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 闽南芥菜饭 (minnan-salty-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
+- 门巴手抓饭 (motuo-menba-hand-grab-rice) — CN-XZ-LINZHI-MOTUO
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 焼きさばめし (zojirushi-yakisaba-meshi-ep-fa10) — JP
@@ -694,10 +720,16 @@
 - 野菇炊飯 (ntuh-wild-mushroom-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
+- 滑蛋地瓜菜粥 (taiwan-sliding-egg-sweet-potato-vegetable-porridge) — TW
+- 豬肝菠菜粥 (taiwan-pork-liver-spinach-porridge) — TW
 - 虱目魚粥（一） (taiwan-milkfish-congee) — TW
+- 虱目魚肚粥 (taiwan-milkfish-belly-porridge) — TW
+- 虱目魚鹹粥 (taiwan-milkfish-salted-porridge) — TW
 - 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 地瓜鹹飯 (taiwan-sweet-potato-salted-rice) — TW
+- 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
 - 鮮蚵芋頭糙米粥 (taiwan-fresh-oyster-taro-brown-rice-porridge) — TW
+- 龍葵肉絲粥 (taiwan-longkui-pork-porridge) — TW
 - 松露海鮮燉飯 (panasonic-taiwan-truffle-seafood-risotto) — TW
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW
 - 野菇雞肉竹筍什錦飯 (panasonic-taiwan-mushroom-chicken-bamboo-rice) — TW
@@ -809,13 +841,18 @@
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
+- Chicken and Brown Rice Soup (r60-tiger-chicken-brown-rice-soup) — 非地域·厂商食谱
 - Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
 - Claypot Style Chicken Rice (panasonic-claypot-style-chicken-rice) — 非地域·厂商食谱
 - Coconut Chicken and Rice with Pineapple Salsa (instant-pot-coconut-chicken-pineapple-rice) — 非地域·厂商食谱
+- Garlic Shrimp with Herbed Rice (r60-tiger-garlic-shrimp-herbed-rice) — 非地域·厂商食谱
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
 - One Pot Chicken Rice (panasonic-one-pot-chicken-rice) — 非地域·厂商食谱
+- Salmon Rice (r60-tiger-salmon-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
+- Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
+- Take Out Style Vegetable Fried Rice (r60-tiger-takeout-vegetable-fried-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
 - Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Tuscan Chicken and Rice (instant-pot-tuscan-chicken-rice) — 非地域·厂商食谱

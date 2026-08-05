@@ -1,5 +1,22 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r60 已登记（2026-08-05）
+
+本批三条来源线完成查重与直接页面核对，登记 **20 条真实具名候选**。目录由 r59 的 449 条更新为 r60 的 469 条：`executable=12`、`recipe_fact_checked=432`、`identity_verified=25`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Tiger 官方 | `r60-tiger-salmon-rice`、`r60-tiger-shiitake-garlic-rice`、`r60-tiger-chicken-brown-rice-soup`、`r60-tiger-basic-chicken-congee`、`r60-tiger-takeout-vegetable-fried-rice`、`r60-tiger-garlic-shrimp-herbed-rice`、`r60-tiger-szechuan-pork-tacook-rice`、`r60-tiger-taiwan-minced-pork-rice` | Tiger USA 官方电饭煲食谱页。Tacook 明确为上下层同步，Take Out Style Vegetable Fried Rice 明确从生米开始；页面没有写的通用型号转换、鱼虾安全和固定份数不外推。 |
+| 台湾/机构 | `taiwan-longkui-pork-porridge`、`taiwan-milkfish-belly-porridge`、`taiwan-milkfish-salted-porridge`、`taiwan-huai-shi-lean-pork-porridge`、`taiwan-brown-rice-sishen-porridge`、`taiwan-sliding-egg-sweet-potato-vegetable-porridge`、`taiwan-pork-liver-spinach-porridge` | 台湾农业部、水产试验所、台南市立安南医院、台中荣总、台大医院直接页面。婴幼儿副食品和分段投料边界保留，不能直接当成人执行菜单。 |
+| 中国地域/民族 | `motuo-menba-hand-grab-rice`、`nu-zu-rou-ban-fan`、`nujiang-lisu-hand-grab-rice`、`chayu-dengren-hand-grab-rice`、`shaoyang-black-rice` | 西藏文旅厅、人民日报、国家标准平台、湖南省政府等直接来源。门巴/怒族条目保留熟饭拌合或柴火分段事实；后三条仅身份/历史线索，不补写电饭煲配方。 |
+
+### r60 研究边界
+
+- 本批没有新增 `executable` 或 `kitchen_observed`；研究状态不代表人工批准或可公开照做。
+- 具名菜、核心食材、流程和器具只按来源实际写明的范围记录；来源没有写明的水量、时间、安全温度、普通电饭煲等价参数全部保持缺省。
+- 江宁立夏饭因政府页无法稳定直接打开，保留为未登记线索，不以搜索结果或超时页面冒充 `opened` 证据。
+- 连续两批新增合格候选仍未低于 10 条，搜集期继续；下一批优先补中国地域官方来源和厂商库，同时维持“20–30 条封顶、当天落账、版本必 bump”的纪律。
+
 ## r59 已登记（2026-08-05）
 
 本批三条来源线完成查重与直接页面核对，登记 **19 条真实具名候选**。目录由 r58 的 430 条更新为 r59 的 449 条：`executable=12`、`recipe_fact_checked=415`、`identity_verified=22`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。

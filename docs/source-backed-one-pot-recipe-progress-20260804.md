@@ -1,5 +1,58 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r60 搜集期第三十三批（2026-08-05）
+
+本批继续按“先扩大真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **20 条候选**。目录版本由 r59 的 `source-backed-one-pot-v1-20260808-national-r59` bump 为 `source-backed-one-pot-v1-20260808-national-r60`，条目从 449 增至 469：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：415 → 432（新增 17）；
+- `identity_verified`：22 → 25（新增 3）；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（20 条）
+
+**Tiger 官方（8 条，全部 `recipe_fact_checked`）**
+
+1. `r60-tiger-salmon-rice` — `Salmon Rice`；
+2. `r60-tiger-shiitake-garlic-rice` — `Shiitake Mushroom Garlic Rice`；
+3. `r60-tiger-chicken-brown-rice-soup` — `Chicken and Brown Rice Soup`；
+4. `r60-tiger-basic-chicken-congee` — `Basic Congee (Porridge)`；
+5. `r60-tiger-takeout-vegetable-fried-rice` — `Take Out Style Vegetable Fried Rice`；
+6. `r60-tiger-garlic-shrimp-herbed-rice` — `Garlic Shrimp with Herbed Rice`；
+7. `r60-tiger-szechuan-pork-tacook-rice` — `Szechuan Pork`；
+8. `r60-tiger-taiwan-minced-pork-rice` — `Taiwan Minced Pork`。
+
+这些条目均绑定 Tiger 官方页面的具体程序。Tacook 三条明确记录为同一器具上下层同步烹调，不改写成单内锅全程同锅；蔬菜 Fried Rice 页面明确使用生米入锅，未伪装成剩饭二次烹饪；所有缺失的通用电饭煲换算、安全端点和固定批次保持缺省。
+
+**台湾官方/医疗机构（7 条，全部 `recipe_fact_checked`）**
+
+9. `taiwan-longkui-pork-porridge` — `龍葵肉絲粥`；
+10. `taiwan-milkfish-belly-porridge` — `虱目魚肚粥`；
+11. `taiwan-milkfish-salted-porridge` — `虱目魚鹹粥`；
+12. `taiwan-huai-shi-lean-pork-porridge` — `淮實瘦肉粥`；
+13. `taiwan-brown-rice-sishen-porridge` — `糙米四神粥`；
+14. `taiwan-sliding-egg-sweet-potato-vegetable-porridge` — `滑蛋地瓜菜粥`；
+15. `taiwan-pork-liver-spinach-porridge` — `豬肝菠菜粥`。
+
+来源为台湾农业部、水产试验所、台南市立安南医院、台中荣总和台大医院等直接页面；婴幼儿副食品来源保留年龄边界和 `source_limited` 说明，不把它们宣称为成人均衡主餐，也不借用其他来源补写电锅参数。
+
+**中国地域/民族来源（5 条：2 条 `recipe_fact_checked`，3 条 `identity_verified`）**
+
+16. `motuo-menba-hand-grab-rice` — `门巴手抓饭`；
+17. `nu-zu-rou-ban-fan` — `怒族肉拌饭`；
+18. `nujiang-lisu-hand-grab-rice` — `傈僳族手抓饭（拌饭）`（仅身份/标准）；
+19. `chayu-dengren-hand-grab-rice` — `察隅僜人手抓饭`（仅历史身份，相关标准已废止）；
+20. `shaoyang-black-rice` — `邵阳黑饭`（仅身份线索）。
+
+门巴和怒族来源明确保留熟饭拌合、柴火分段或簸箕拌饭边界，不推导成生米电饭煲方；傈僳、察隅和邵阳条目只有身份或标准证据，流程、批量、液体、时间和安全字段保持空值。江宁立夏饭本轮因政府页面无法稳定直接打开，未登记，避免把 403/超时当作已打开证据。
+
+### 本批边界与验证纪律
+
+- 本批 20 条是研究资产，不是用户可见菜单；没有条目晋升 `executable` 或 `kitchen_observed`，没有修改前端、Worker、Planner、模板或生产配置。
+- 所有来源均保留直接 HTTPS URL、访问状态、证据等级、定位和实际 claim scope；缺失的固定用量、液体、时间、器具转换和安全端点保持 `null`，不拼接不同版本。
+- 粥、预煮后拌合、Tacook 双层同步和婴幼儿副食品等边界均在条目备注中显式记录；研究目录扩大不等于它们已经适合首批厨房验证。
+- 先写 r60 失败测试，再合并结构化候选；目录构建、来源 validator、菜谱聚合门禁、全量测试、Python 语法和构建一致性检查均须通过后分批提交。研究期仍保持“每天落账、状态不越级”的纪律。
+
 ## r59 搜集期第三十二批（2026-08-05）
 
 本批继续按“先扩真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **19 条候选**。目录版本由 r58 的 `source-backed-one-pot-v1-20260808-national-r58` bump 为 `source-backed-one-pot-v1-20260808-national-r59`，条目从 430 增至 449：
