@@ -1,5 +1,57 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r59 搜集期第三十二批（2026-08-05）
+
+本批继续按“先扩真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **19 条候选**。目录版本由 r58 的 `source-backed-one-pot-v1-20260808-national-r58` bump 为 `source-backed-one-pot-v1-20260808-national-r59`，条目从 430 增至 449：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：398 → 415（新增 17）；
+- `identity_verified`：20 → 22（新增 2）；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（19 条）
+
+**Panasonic / Tiger 官方（8 条，全部 `recipe_fact_checked`）**
+
+1. `r59-panasonic-taiwan-pineapple-shrimp-rice` — `鳳梨蝦仁飯`；
+2. `r59-panasonic-taiwan-tomato-spiced-chicken-rice` — `番茄香料雞肉飯`；
+3. `r59-panasonic-taiwan-tomato-chicken-cheese-risotto` — `番茄雞肉起司燉飯`；
+4. `r59-panasonic-taiwan-spanish-seafood-risotto` — `西班牙海鮮燉飯`；
+5. `r59-panasonic-taiwan-pumpkin-chicken-risotto` — `灰姑娘南瓜馬車燉飯`；
+6. `r59-panasonic-taiwan-tuna-edamame-rice` — `炙燒鮪魚芝麻醬與毛豆白飯`；
+7. `r59-panasonic-taiwan-porcini-lobster-risotto` — `蝦螯牛肝菌菇燉飯`；
+8. `r59-tiger-usa-garlic-salmon-garden-rice` — `Steamed Garlic Salmon with Dill and Garden Vegetables`。
+
+这些条目绑定 Panasonic SR-PAA100 或 Tiger 官方页面的具体程序；缺固定份数、总时间、海鲜/鱼类安全终点的字段保持缺省，完成后拌入的葡萄干/腰果等不被伪装成全程同锅，也不外推为普通电饭煲参数。
+
+**台湾/澳门机构（3 条，全部 `recipe_fact_checked`）**
+
+9. `taiwan-four-season-pork-congee` — `四季米香粥`；
+10. `macau-lettuce-fishball-porridge` — `生菜魚球粥`；
+11. `taiwan-fresh-oyster-taro-brown-rice-porridge` — `鮮蚵芋頭糙米粥`。
+
+农粮署与澳门体育局页面直接记录具名、食材和锅煮流程；鲜蚵芋头糙米粥的详细电锅步骤来自官方图卡 PDF 的检索摘录，故保留 `source_limited`、不建立执行合同，也不把搜索摘录当作可执行准入证据。
+
+**中国地域来源（8 条：6 条 `recipe_fact_checked`，2 条 `identity_verified`）**
+
+12. `hainan-coconut-shred-rice` — `椰丝饭`；
+13. `guangxi-jingxi-seven-color-glutinous-rice` — `靖西七色糯米饭`；
+14. `guangxi-jingxi-pork-glutinous-rice` — `靖西扣肉糯米饭`（仅身份）；
+15. `guangxi-jingxi-lotus-leaf-fragrant-rice` — `靖西荷叶香糯饭`（仅身份）；
+16. `jiangxi-ganxian-huangyuan-rice` — `黄元米饭`；
+17. `guangxi-yulin-sarou-glutinous-rice` — `玉林撒肉糯米饭`；
+18. `guizhou-zhenfeng-glutinous-rice` — `贞丰糯米饭`；
+19. `hunan-dongan-black-rice` — `东安乌饭`。
+
+海南、广西、江西、贵州、湖南来源均保留原器具、蒸制或分段流程；玉林撒肉糯米饭与贞丰糯米饭的来源明确存在另制肉类/分段蒸制边界，不改写成生米生肉全程同锅。靖西两条只证明具名身份，核心食材和执行字段保持空值。
+
+### 本批边界与验证纪律
+
+- 本批 19 条是研究资产，不是用户可见菜单；没有条目晋升 `executable` 或 `kitchen_observed`，没有修改前端、Worker、Planner、模板或生产配置。
+- 所有来源均保留直接 URL、访问状态、证据等级、定位和实际 claim scope；PDF 检索摘录只作补充证据，不能绕过直接打开与归档门槛。
+- 甜味糯米、纯碳水或缺少蛋白/纤维的条目如实标注营养结构，不把文化身份等同于均衡主餐；后续挑选首批厨房验证菜时按营养角色和家庭可执行性筛选。
+- 先写 r59 失败测试，再合并结构化候选；目录构建、来源 validator、全量测试、Python 语法和构建一致性检查均须通过后分批提交。研究期仍保持“每天落账、状态不越级”的纪律。
+
 ## r58 搜集期第三十批（2026-08-05）
 
 本批按“先扩大真实具名目录、暂不晋升”的策略，完成三条来源线的并行核对：Tiger USA 厂商官方页面、台湾农粮署/厂商机构页面，以及中国地域官方页面。共登记 **30 条候选**，目录版本由 r57 的 `source-backed-one-pot-v1-20260808-national-r57` bump 为 `source-backed-one-pot-v1-20260808-national-r58`，条目从 400 增至 430：

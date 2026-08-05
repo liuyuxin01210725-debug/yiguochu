@@ -1,5 +1,21 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r59 已登记（2026-08-05）
+
+本批三条来源线完成查重与直接页面核对，登记 **19 条真实具名候选**。目录由 r58 的 430 条更新为 r59 的 449 条：`executable=12`、`recipe_fact_checked=415`、`identity_verified=22`、`kitchen_observed=0`。本批没有运行时改动、没有部署，新增条目全部留在研究状态。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Panasonic / Tiger 官方 | `r59-panasonic-taiwan-pineapple-shrimp-rice`、`r59-panasonic-taiwan-tomato-spiced-chicken-rice`、`r59-panasonic-taiwan-tomato-chicken-cheese-risotto`、`r59-panasonic-taiwan-spanish-seafood-risotto`、`r59-panasonic-taiwan-pumpkin-chicken-risotto`、`r59-panasonic-taiwan-tuna-edamame-rice`、`r59-panasonic-taiwan-porcini-lobster-risotto`、`r59-tiger-usa-garlic-salmon-garden-rice` | [Panasonic Cooking Taiwan](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5247)、[番茄香料雞肉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5215)、[Tiger USA rice-cooker recipes](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/)。页面只证明对应机型/程序和页面写明的食材流程；完成后拌料、海鲜安全、固定份数和通用电饭煲转换不跨来源推导。 |
+| 台湾/澳门机构 | `taiwan-four-season-pork-congee`、`macau-lettuce-fishball-porridge`、`taiwan-fresh-oyster-taro-brown-rice-porridge` | [台湾农粮署四季米香粥](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html)、[澳门体育局生菜魚球粥](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/84)、[台湾农业部食农教育平台](https://fae.moa.gov.tw/theme_data.php?id=4036&sub_theme=recipe&theme=topics)。鲜蚵图卡 PDF 目前是检索摘录，状态明确为 `source_limited`，不能用于 executable 合同。 |
+| 中国地域来源 | `hainan-coconut-shred-rice`、`guangxi-jingxi-seven-color-glutinous-rice`、`guangxi-jingxi-pork-glutinous-rice`、`guangxi-jingxi-lotus-leaf-fragrant-rice`、`jiangxi-ganxian-huangyuan-rice`、`guangxi-yulin-sarou-glutinous-rice`、`guizhou-zhenfeng-glutinous-rice`、`hunan-dongan-black-rice` | [海南日报椰丝饭](https://news.hainan.net/zixun/2024/03/25/4767283.shtml)、[百色税务靖西七色糯米饭](https://znhd.guangxi.chinatax.gov.cn/baise/gzdt_15440/gzdt_15441/202404/t20240418_400522.html)、[广西新闻网靖西香糯产品](https://culture.gxnews.com.cn/staticpages/20170704/newgx595af462-16334500.shtml)。玉林/贞丰条目保留另制肉类或分段蒸制边界；靖西扣肉糯米饭与荷叶香糯饭仅身份登记，不补自由组合配方。 |
+
+### r59 研究边界
+
+- 本批按真实具名与来源质量优先，只有 19 条而不是为了凑足 20 条强塞低质候选；连续两批新增合格候选仍未低于 10 条，搜集期继续。
+- Panasonic/Tiger 的厂商资料只证明其页面或机型事实；农粮署、澳门体育局等机构页只证明实际写明的锅煮/鱼球/电锅步骤。来源没有写的固定批量、液体、时间、安全或普通电饭煲适配全部保持缺省。
+- 发现的熟饭二次加工和目录重复项继续排除；“四季米香粥”等粥类保留为具名一锅主食研究资产，后续是否进入首批需按产品范围、营养角色和厨房验证另行筛选。
+
 ## r58 已登记（2026-08-05）
 
 本批三条并行来源线完成查重与直接页面核对，登记 **30 条真实具名候选**。目录由 r57 的 400 条更新为 r58 的 430 条：`executable=12`、`recipe_fact_checked=398`、`identity_verified=20`、`kitchen_observed=0`。本批没有运行时改动、没有部署，所有新增条目都留在研究状态。
