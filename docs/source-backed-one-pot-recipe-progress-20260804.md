@@ -1,5 +1,49 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r48 搜集期第九批（2026-08-07）
+
+本批按“尽可能搜集真实具名菜饭、证据门槛不降、器具边界不偷换”执行。三路并行检索后，主线只吸收直接打开的日本农林水产省地域料理页面、东芝与 Tiger 官方食谱；重复候选不再登记。新增 **12 条 `recipe_fact_checked`**，不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r47` bump 为 `source-backed-one-pot-v1-20260807-national-r48`，条目从 302 增至 314：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：285 → 297；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（12 条，全部 `recipe_fact_checked`）
+
+1. `maff-ibaraki-hamaguri-gohan` — 茨城 `はまぐりごはん`；
+2. `maff-oita-amimeshi` — 大分 `あみめし`；
+3. `maff-ishikawa-sazae-meshi` — 石川能登 `さざえめし`；
+4. `maff-fukuoka-kashiwa-meshi` — 福冈 `かしわめし`；
+5. `maff-kumamoto-tako-meshi` — 熊本天草 `たこ飯`；
+6. `maff-hyogo-tofumeshi` — 兵库丹波 `とふめし`；
+7. `maff-niigata-shoyu-okowa` — 新潟长冈 `しょうゆおこわ`；
+8. `maff-hyogo-tanba-black-bean-rice` — 兵库丹波 `丹波黒豆ごはん`；
+9. `maff-miyagi-bamboo-shoot-rice` — 宫城 `たけのこご飯`；
+10. `maff-hokkaido-bibai-torimeshi` — 北海道 `美唄のとりめし`；
+11. `toshiba-chinese-sticky-rice-rcp30r` — 东芝 RCP-30R `中華風おこわ`；
+12. `tiger-oyster-mushroom-rice` — Tiger `カキときのこのごはん`。
+
+### 本批来源与边界
+
+- 农林水产省页面直接证明地域身份、核心食材和原方流程；蛤蜊饭保留“先处理、分离汤汁、饭熟后再焖”，大分干虾饭保留“将熟时后加”，章鱼饭保留来源并列的同炊/后拌变体，不把不同版本合并成一个新配方。
+- 福冈鸡肉饭、兵库 `とふめし`、新潟酱油糯米饭明确存在“先炊饭/另锅处理/再拌或再蒸”的连续流程，目录如实记录，不为了“看起来一锅”抹掉器具转换。
+- 东芝 RCP-30R 与 Tiger 条目严格绑定厂商机型/程序。Tiger 的牡蛎先煮、以汤汁配白米水位线、饭后再加入牡蛎和银杏；这些都不是普通电饭煲的通用参数，保持 `source_limited`，不外推。
+- 现有四条鸟取/冈山记录同步纠正官方数量：`いただき` 改为米300g、油豆腐6个、牛蒡40g、胡萝卜40g、干香菇3枚；`いがい飯` 补入来源明确的3杯液体；`大山おこわ` 补齐竹笋150g、胡萝卜150g、香菇6枚、蒟蒻200g、牛蒡100g、四季豆100g、鱼竹轮100g；`蒜山おこわ` 补齐合数/根菜/蕗等来源金额。未据此晋升任何状态。
+- 搜集期仍不补鱼贝禽安全终点、跨器具水量或缺失总时长；营养结构只用于研究筛选，不代替厨房实做和人工签署。
+
+### 去重与暂不收录
+
+- 鸟取、冈山、香川、德岛等 Agent 返回的地域条目大多已在 r47；本批只吸收当前目录缺失且来源能直接打开的条目。
+- Toshiba `ひつまぶし風うな玉ごはん` 需要熟饭、另做鳗鱼和蛋后组合，登记为后续“熟饭二次烹饪”线索，不伪装成生米一锅饭。
+- 所有新增条目保持 `recipe_fact_checked`；`executable=12`、`kitchen_observed=0` 不因搜集放量改变。
+
+### 本批验证纪律
+
+- 先新增 r48 失败测试，锁定版本、314 条总数、12 个 recipe ID、状态和来源直接打开；实现后专项测试 **205/205** 通过。
+- `node tools/build-source-backed-one-pot-catalog.mjs --write`、`--check`、`node tools/check-source-backed-one-pot-catalog.mjs` 均通过；随后还要跑聚合菜谱门禁、全量 Node 测试、Python 语法检查和 `git diff --check`。
+- 本批只涉及研究目录、测试、进度文档和派生目录；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。
+
 ## r47 搜集期第八批（2026-08-07）
 
 本批按“放量搜集、证据门槛不降、真实具名优先”执行。三路 Agent 分别检索厂商官方食谱、农林水产省地方料理库和日本/中国地域来源；主线逐条打开、去重并结构化。新增 **23 条 `recipe_fact_checked`**，不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署 production。目录版本由 `source-backed-one-pot-v1-20260806-national-r46` bump 为 `source-backed-one-pot-v1-20260807-national-r47`，条目从 279 增至 302：
