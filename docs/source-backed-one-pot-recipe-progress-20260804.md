@@ -4,13 +4,24 @@
 
 本轮继续做的是“真实菜名与真实来源的菜谱目录”，不是运行时自由组合，也不是用估算参数把研究条目伪装成可执行配方。
 
-当前结构化目录版本为 `source-backed-one-pot-v1-20260805-national-r37`，共 176 条：
+当前结构化目录版本为 `source-backed-one-pot-v1-20260805-national-r38`，共 176 条：
 
 - `executable`：10 条（均仅内部审查用，未公开、未部署、未完成厨房验证）；
 - `recipe_fact_checked`：165 条（身份和部分事实已核对，仍有一个或多个执行合同缺口）；
 - `identity_verified`：1 条（只有身份来源，尚不能写成做法）。
 
 目录与生成产物见：[source-backed-one-pot-recipes.v1.json](/Users/liuyuxin/Documents/一锅出/.worktrees/source-backed-one-pot-catalog/tools/data/source-backed-one-pot-recipes.v1.json:1)。
+
+## r38 两道准入候选的来源卫生修复（2026-08-05）
+
+本轮没有新增条目、没有晋升、没有修改运行时，也没有部署。`executable=10`、`recipe_fact_checked=165`、`identity_verified=1` 保持不变；腊味煲仔饭和冬菇滑鸡饭仍等待独立审查者明确签署。
+
+- 两道菜中未实际支撑固定合同的广东身份来源，`claim_scopes` 已收窄到本条目实际使用的 `identity` / `ingredients`；所有来源均补齐显式 `evidence_tier`。WOL 仍是固定份量、液体、流程与总时间的唯一合同来源，没有跨版本拼接。
+- 香港赛马会《臘味煲仔飯（四位用）》原始 PDF 已归档为 `docs/source-archives/hkjc-home-cooking-claypot-rice.pdf`，凭证页为第 1 页，SHA-256 为 `8a6ee548f61c509dfcbd046a5d034a7aee62c45e8ff265c6ba767c4df552c504`。
+- Tefal 旧链接在本轮复核时返回 HTTP 404，因此没有把缓存文本冒充原文件。改用可直接下载的 Tefal 官方资产库 2020 版并归档为 `docs/source-archives/tefal-rice-cooker-recipe-book-2020.pdf`；该版本第 5 页（印刷第 4/5 页）明确是 4 人份、3 杯米、250 克鸡肉、6 至 8 只冬菇和 3 杯水位，SHA-256 为 `2d12043f40d8d423a04092b6b3b22ba34d690bad31503a23eacb433862cd4ca7`。它作为独立厂商版本保留，不替换或改写 WOL 合同。
+- 新增测试会把两道菜的克隆临时标为 `executable`，并用仓库根目录校验全部来源分级、合同来源定位、PDF 文件存在与 SHA-256；真实条目仍保持 `recipe_fact_checked`，只证明“送审材料已具备”，不代替人工签署。
+
+r37→r38 新增条目：0；晋升条目：0；状态分布变化：0。
 
 ## r37 第一组合同闭合记录（2026-08-05）
 

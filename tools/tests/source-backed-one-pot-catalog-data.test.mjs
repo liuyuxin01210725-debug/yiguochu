@@ -8,6 +8,7 @@ import { buildSourceBackedOnePotArtifacts } from '../lib/source-backed-one-pot-c
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const toolsDirectory = dirname(directory);
+const projectDirectory = dirname(toolsDirectory);
 const dataDirectory = join(toolsDirectory, 'data');
 
 const readJson = name => JSON.parse(readFileSync(join(dataDirectory, name), 'utf8'));
@@ -72,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r37');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r38');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -722,7 +723,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('next evidence pass closes two single-version WOL contracts without promoting them before review', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r37');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r38');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -751,6 +752,68 @@ test('next evidence pass closes two single-version WOL contracts without promoti
   assert.equal(chicken?.liquid_contract?.amount?.value, 1);
   assert.equal(chicken?.time_contract?.total_minutes, 190);
   assert.match(chicken?.evidence_notes ?? '', /完整单一版本.*待人工准入/u);
+});
+
+test('two WOL contract candidates have promotion-ready source hygiene without being promoted', () => {
+  const catalog = sourceBackedCatalog();
+
+  const expectations = [
+    {
+      recipeId: 'cantonese-cured-meat-claypot-rice',
+      scopedSources: {
+        'S-GD-1': { tier: 1, scopes: ['identity', 'ingredients'] },
+        'S-GD-2': { tier: 1, scopes: ['identity'] },
+        'S-GD-3': { tier: 1, scopes: ['identity', 'ingredients'] },
+        'S-GD-KAIPING-1': { tier: 1, scopes: ['identity', 'ingredients'] },
+        'S-GD-YANGPU-1': { tier: 5, scopes: ['identity', 'ingredients'] },
+        'S-TW-AFA-CURED-RICE-1': {
+          tier: 1,
+          scopes: ['ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time'],
+        },
+        'S-SAFETY-CURED-MEAT-1': { tier: 1, scopes: ['safety'] },
+      },
+      archiveSourceId: 'S-HK-HKJC-CURED-RICE-1',
+      archivePath: 'docs/source-archives/hkjc-home-cooking-claypot-rice.pdf',
+      archivePages: [1],
+    },
+    {
+      recipeId: 'cantonese-mushroom-chicken-claypot-rice',
+      scopedSources: {
+        'S-GD-1': { tier: 1, scopes: ['identity', 'ingredients'] },
+        'S-GD-2': { tier: 1, scopes: ['identity'] },
+        'S-GD-3': { tier: 1, scopes: ['identity', 'ingredients'] },
+        'S-GD-KAIPING-1': { tier: 1, scopes: ['identity', 'ingredients'] },
+        'S-GD-TAFT-CHICKEN-RICE-1': { tier: 5, scopes: ['identity', 'ingredients'] },
+        'S-SAFETY-TEMPERATURES-1': { tier: 1, scopes: ['safety'] },
+      },
+      archiveSourceId: 'S-TEFAL-MUSHROOM-CHICKEN-RICE-1',
+      archivePath: 'docs/source-archives/tefal-rice-cooker-recipe-book-2020.pdf',
+      archivePages: [5],
+    },
+  ];
+
+  for (const expectation of expectations) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === expectation.recipeId);
+    assert.equal(recipe?.status, 'recipe_fact_checked', `${expectation.recipeId} still awaits human sign-off`);
+    for (const [sourceId, expected] of Object.entries(expectation.scopedSources)) {
+      const source = recipe?.source_refs.find(item => item.source_id === sourceId);
+      assert.equal(source?.evidence_tier, expected.tier, sourceId);
+      assert.deepEqual(source?.claim_scopes, expected.scopes, sourceId);
+    }
+    const archiveSource = recipe?.source_refs.find(item => item.source_id === expectation.archiveSourceId);
+    assert.equal(archiveSource?.local_archive?.path, expectation.archivePath);
+    assert.deepEqual(archiveSource?.local_archive?.pages, expectation.archivePages);
+    assert.match(archiveSource?.local_archive?.sha256 ?? '', /^[a-f0-9]{64}$/u);
+  }
+
+  const promotionProbe = structuredClone(catalog);
+  for (const expectation of expectations) {
+    promotionProbe.recipes.find(item => item.recipe_id === expectation.recipeId).status = 'executable';
+  }
+  assert.deepEqual(
+    validator.validateSourceBackedOnePotCatalog(promotionProbe, { archive_root: projectDirectory }),
+    [],
+  );
 });
 
 test('Philips Cantonese cured-rice variant has a complete model-scoped execution contract', () => {
@@ -3128,9 +3191,7 @@ test('records the first-priority source matrix and promotes only the closed Shan
 
   const curedMeat = recipes.get('cantonese-cured-meat-claypot-rice');
   const yangpu = curedMeat?.source_refs.find(source => source.source_id === 'S-GD-YANGPU-1');
-  assert.deepEqual(yangpu?.claim_scopes, [
-    'identity', 'ingredients', 'liquid', 'process', 'appliance', 'time',
-  ]);
+  assert.deepEqual(yangpu?.claim_scopes, ['identity', 'ingredients']);
   assert.match(curedMeat?.evidence_notes ?? '', /WOL.*完整单一版本.*不与.*农粮署/u);
   assert.deepEqual(curedMeat?.liquid_contract, {
     kind: 'added_water',
