@@ -15,8 +15,8 @@ const expected = [
 
 test('r74 records direct vendor, institution, and regional candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-national-r76');
-  assert.equal(catalog.recipes.length, 693);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-national-r77');
+  assert.equal(catalog.recipes.length, 696);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName, status] of expected) {
     const recipe = byId.get(recipeId);
