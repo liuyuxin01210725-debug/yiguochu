@@ -125,6 +125,7 @@
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
 - 瑶家竹筒饭 (liannan-yao-bamboo-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 朱村雞飯 (zengcheng-zhucun-chicken-rice) — CN-GD
 - 蚬肉饭 (zhongtang-clam-meat-rice) — CN-GD-DONGGUAN-ZHONGTANG
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
@@ -369,6 +370,7 @@
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
 - 瑶家竹筒饭 (liannan-yao-bamboo-rice) — CN-GD
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
+- 朱村雞飯 (zengcheng-zhucun-chicken-rice) — CN-GD
 - 蚬肉饭 (zhongtang-clam-meat-rice) — CN-GD-DONGGUAN-ZHONGTANG
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
@@ -763,9 +765,13 @@
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK
 - 芝士蘆筍海鮮焗飯 (fehd-cheese-asparagus-seafood-rice) — HK
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK
+- 意大利海鮮飯（Philips） (philips-italian-seafood-rice) — HK
 - 栗子雞飯 (tvb-chestnut-chicken-rice) — HK
+- 海南雞飯（Philips） (philips-hainan-chicken-rice) — HK
+- 粟米南瓜肉碎飯 (philips-sweet-corn-pumpkin-pork-rice) — HK
 - 薑絲枸杞子蒸雞煲仔飯 (nestle-ginger-goji-steamed-chicken-claypot-rice) — HK
 - 藜麥栗子冬菇雞飯 (tvb-quinoa-chestnut-mushroom-chicken-rice) — HK
+- 蝦乾瑤柱班腩煲仔飯 (philips-grouper-dried-shrimp-conpoy-claypot-rice) — HK
 - 電飯煲窩蛋香菇牛肉飯 (knorr-electric-rice-cooker-egg-mushroom-beef-rice) — HK
 - 電飯煲臘味糯米飯 (panasonic-hk-lap-mei-glutinous-rice) — HK
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
@@ -893,6 +899,7 @@
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
+- 朱村雞飯 (zengcheng-zhucun-chicken-rice) — CN-GD
 - 蚬肉饭 (zhongtang-clam-meat-rice) — CN-GD-DONGGUAN-ZHONGTANG
 - New Orleans Style Red Beans and Rice (zojirushi-new-orleans-red-beans-rice) — US-LA-NEW-ORLEANS
 - 蕃茄粟米飯 (macau-tomato-corn-rice) — MO
