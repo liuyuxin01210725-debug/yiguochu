@@ -1,5 +1,33 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r70 搜集期第四十三批（2026-08-06）
+
+本批继续“搜集放量、证据不越级”：地域、厂商与台湾官方机构三条线并行，按 canonical name、地域身份、器具边界和熟饭/生米结构去重后登记 **9 条新研究记录**。目录版本由 r69 的 `source-backed-one-pot-v1-20260808-national-r69` bump 为 `source-backed-one-pot-v1-20260808-national-r70`，条目从 646 增至 655：`executable=12`、`recipe_fact_checked=577`、`identity_verified=60`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
+
+### 中国地域来源（3 条，全部 `identity_verified`）
+
+- `baguazhou-luhao-braised-rice` — 八卦洲芦蒿焖饭：文化和旅游部页面证明具名与南京八卦洲地域身份；不把豆腐干、腊肉等旁证拼入流程，液体、时间、器具和安全均待补。
+- `yangzhong-pufferfish-eight-pot-rice` — 河豚八煲饭：文化和旅游部页面证明扬中新坝具名身份；河豚去毒、熟制与家庭安全完全未闭合，只保留高风险研究记录，禁止执行。
+- `hongdong-steamed-rice` — 洪洞蒸饭：文化和旅游部页面记录黍米/江米、红枣与宴席语境；偏甜、低蛋白边界明确，不为“均衡主餐”补写肉或蔬菜。
+
+### 厂商官方来源（3 条，全部 `recipe_fact_checked`）
+
+- `tiger-hotaruika-rice` — ほたるいかのごはん：Tiger 官方同内锅生米炊饭，6 人份、熟制萤火鱿、姜和出汁，水量绑定 Tiger 刻度；海鲜蛋白明确但蔬菜纤维不足，不宣称完整均衡主餐。
+- `tefal-homechef-paella` — Paella：Tefal HOME CHEF Smart Multicooker 同内锅 Sauté/Sear + Rice 多阶段流程；不外推普通电饭煲，也不把海鲜/禽肉安全终点写成已闭合。
+- `tefal-homechef-mushroom-risotto` — Mushroom risotto：同一 Tefal 多功能锅完成炒香、Rice 和出锅收稠；奶酪/高汤提供部分蛋白，但仍保留多阶段器具和营养边界。
+
+### 台湾官方机构来源（3 条，全部 `identity_verified`）
+
+- `taiwan-red-rice-banana-rice` — 红米香蕉饭：台湾农业部食农教育平台记录太鲁阁族/花莲语境、红米、香蕉和莲藕；来源未闭合蛋白、米水量、时间或程序。
+- `taiwan-taro-rice-aroma` — 芋飯飄香：台湾农业部桃园区农业改良场具名图卡条目；图卡原件尚未归档和逐项核验，不补写比例或电锅做法。
+- `yunlin-soft-egg-roast-pork-rice` — 溏心蛋燒肉飯（页面另写溏心蛋叉烧饭）：云林县卫生局明确电锅料理和糙米、豆皮、洋葱、蛋、芝麻等食材；视频/食谱卡未解析，“溏心”不当作安全终点。
+
+### 本批纪律与下一步
+
+- 9 条均有直接打开的来源、显式 evidence tier、定位和实际 claim scope；未把搜索摘录、未解析图卡或旁证拼接成执行合同。
+- 河豚高风险、甜米饭低蛋白、Tiger 机型刻度、Tefal 多功能锅多阶段、台湾视频/图卡缺口均写入边界；研究状态不等于 executable、人工签署或厨房验证。
+- 下一步仍是按来源原件、四合同和厨房验证逐条推进；不自动晋升、不新增运行时组合能力。
+
 ## r69 搜集期第四十二批（2026-08-06）
 
 本批继续“先扩大真实菜谱池、暂不进入运行时”：机构、厂商和地域三条线并行，按 canonical name、地域身份和核心工艺去重后登记 **13 条新研究记录**。目录版本由 r68 的 `source-backed-one-pot-v1-20260808-national-r68` bump 为 `source-backed-one-pot-v1-20260808-national-r69`，条目从 633 增至 646：`executable=12`、`recipe_fact_checked=574`、`identity_verified=54`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，也没有部署。

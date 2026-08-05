@@ -23,6 +23,8 @@
 - 内莞焖鸭饭 (lianping-neiguan-braised-duck-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
 - 大山小米焖饭 (weihui-dashan-millet-braised-rice) — CN-HA-XINXIANG-WEIHUI
 - 薅菜饭 (huaihua-haocai-rice) — CN-HN-HUAIHUA-HONGJIANG
+- 河豚八煲饭 (yangzhong-pufferfish-eight-pot-rice) — CN-JS-ZHENJIANG-YANGZHONG-XINBA
+- 八卦洲芦蒿焖饭 (baguazhou-luhao-braised-rice) — CN-JS-NANJING-QIXIA-BAGUAZHOU
 - 盱眙咸肉菜饭锅巴制作技艺 (xuyi-salted-pork-rice-cracker) — CN-JS-HUAIAN-XUYI
 - 廬陵鼎罐飯 (luling-dingpot-rice) — CN-JX
 - 靖西扣肉糯米饭 (guangxi-jingxi-pork-glutinous-rice) — CN-GX
@@ -508,6 +510,8 @@
 - 大山小米焖饭 (weihui-dashan-millet-braised-rice) — CN-HA-XINXIANG-WEIHUI
 - あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 薅菜饭 (huaihua-haocai-rice) — CN-HN-HUAIHUA-HONGJIANG
+- 河豚八煲饭 (yangzhong-pufferfish-eight-pot-rice) — CN-JS-ZHENJIANG-YANGZHONG-XINBA
+- 八卦洲芦蒿焖饭 (baguazhou-luhao-braised-rice) — CN-JS-NANJING-QIXIA-BAGUAZHOU
 - 盱眙咸肉菜饭锅巴制作技艺 (xuyi-salted-pork-rice-cracker) — CN-JS-HUAIAN-XUYI
 - 廬陵鼎罐飯 (luling-dingpot-rice) — CN-JX
 - 靖西扣肉糯米饭 (guangxi-jingxi-pork-glutinous-rice) — CN-GX
@@ -522,13 +526,17 @@
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
 - 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
+- 洪洞蒸饭 (hongdong-steamed-rice) — CN-SX-LINFEN-HONGDONG
 - 邵阳黑饭 (shaoyang-black-rice) — CN-HN-SHAOYANG
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ
 - 硒米罐儿饭 (wanyuan-selenium-rice-guanfan) — CN-SC-DASHOU-WANYUAN
 - 海鲜锅巴饭 (taicang-seafood-pot-crust-rice) — CN-JS-TAICANG
+- 芋飯飄香 (taiwan-taro-rice-aroma) — TW-Taoyuan
+- 溏心蛋燒肉飯 (yunlin-soft-egg-roast-pork-rice) — TW-YL
 - 南瓜小魚干紅蔥頭炊飯 (taiwan-pumpkin-dried-fish-red-shallot-rice) — TW
 - 香腸栗子炊飯 (taiwan-sausage-chestnut-rice) — TW
 - 麻油松阪豬炊飯 (taiwan-sesame-oil-matsusaka-pork-rice) — TW
+- 红米香蕉饭 (taiwan-red-rice-banana-rice) — TW-HL
 - 威海苞米碴子干饭 (weihai-baomi-chazi-dry-rice) — CN-SD-WEIHAI
 - 九村抓饭 (yecheng-jiucun-pilaf) — CN-XJ-KASHGAR-YECHENG-HEYUAN
 - 伊宁菜朴劳 (yining-caipulao-pilaf) — CN-XJ-YINING
@@ -1167,6 +1175,7 @@
 - スタミナご飯 (zojirushi-stamina-rice) — JP-NATIONAL
 - 海のパエリア (zojirushi-seafood-paella) — JP-NATIONAL
 - Chicken rice with olives (tefal-chicken-rice-olives-one-pot-pan) — 非地域·厂商一锅饭
+- Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
