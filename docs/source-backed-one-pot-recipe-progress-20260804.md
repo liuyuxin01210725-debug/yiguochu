@@ -1,5 +1,38 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r49 搜集期第十批（2026-08-05）
+
+本批继续按“真实具名、直接打开来源、状态不越级、器具边界不偷换”执行。检索日本农林水产省《うちの郷土料理》饭料理条目，去重后新增 **8 条 `recipe_fact_checked`**；不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r48` bump 为 `source-backed-one-pot-v1-20260807-national-r49`，条目从 314 增至 322：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：297 → 305；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（8 条，全部 `recipe_fact_checked`）
+
+1. `maff-okinawa-yafara-jushi` — 冲绳 `ヤファラジューシー`；
+2. `maff-miyagi-harako-meshi` — 宫城亘理 `はらこ飯`；
+3. `maff-yamaguchi-uni-meshi` — 山口萩 `うに飯`；
+4. `maff-wakayama-kakimade-gohan` — 和歌山日高 `かきまでご飯`；
+5. `maff-chiba-takatsu-torimeshi` — 千叶八千代 `高津のとり飯`；
+6. `maff-kyoto-kuri-gohan` — 京都丹波 `栗ごはん`；
+7. `maff-shimane-sazae-meshi` — 岛根隐岐 `さざえ飯`；
+8. `maff-tokushima-chagome` — 德岛 `茶ごめ`。
+
+### 本批来源与边界
+
+- 八条均来自农林水产省直接打开的地域料理页面，保留页面原名、地域、核心食材和原始流程。没有把“鲑鱼亲子饭”“蝾螺饭”等同名不同地域版本合并。
+- `ヤファラジューシー` 明确是高汤杂炊型软饭，不改称普通焖饭；`はらこ飯` 明确是鲑鱼、鲑鱼籽分段处理、用煮汁炊饭后装配；`かきまでご飯` 明确是先炊饭、另锅煮具、最后拌合；这些连续流程均原样保留。
+- `うに飯` 的水量在来源中只写“少量/少于普通饭”，因此不建立液体合同；`さざえ飯` 的煮汁与水也没有固定数值，不补写推测量。
+- `栗ごはん` 与 `茶ごめ` 属于季节/节庆或甜味米饭，结构化记录营养角色但不宣称为完整均衡主餐；搜集目录不因营养结构偏窄而抹除真实身份。
+- 这 8 条都只作研究候选，未完成安全终点和厨房验证，不能对外宣称已批准、已适配或可直接上线。
+
+### 本批验证纪律
+
+- 先新增 r49 失败测试，锁定版本、322 条总数、8 个 recipe ID、来源直接打开和全部非 executable；实现后目录专项测试 **206/206** 通过。
+- `node tools/build-source-backed-one-pot-catalog.mjs --write`、`--check`、`node tools/check-source-backed-one-pot-catalog.mjs` 均需通过；本批只涉及研究目录、测试和文档，不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。
+
 ## r48 搜集期第九批（2026-08-07）
 
 本批按“尽可能搜集真实具名菜饭、证据门槛不降、器具边界不偷换”执行。三路并行检索后，主线只吸收直接打开的日本农林水产省地域料理页面、东芝与 Tiger 官方食谱；重复候选不再登记。新增 **12 条 `recipe_fact_checked`**，不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r47` bump 为 `source-backed-one-pot-v1-20260807-national-r48`，条目从 302 增至 314：

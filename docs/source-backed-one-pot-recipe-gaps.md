@@ -163,6 +163,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - へぼ飯 (maff-aichi-hebo-meshi) — JP-AICHI
+- 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
@@ -174,8 +175,11 @@
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
 - くじらご飯 (maff-shimane-kujira-gohan) — JP-SHIMANE
+- さざえ飯 (maff-shimane-sazae-meshi) — JP-SHIMANE
 - 鮎めし (maff-tochigi-ayu-meshi) — JP-TOCHIGI
 - 大山おこわ (maff-tottori-daisen-okowa) — JP-TOTTORI
+- かきまでご飯 (maff-wakayama-kakimade-gohan) — JP-WAKAYAMA
+- うに飯 (maff-yamaguchi-uni-meshi) — JP-YAMAGUCHI
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 香青菜咸肉饭 (wujiang-fragrant-greens-salted-pork-rice) — CN-JS
@@ -302,6 +306,9 @@
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
+- さざえ飯 (maff-shimane-sazae-meshi) — JP-SHIMANE
+- かきまでご飯 (maff-wakayama-kakimade-gohan) — JP-WAKAYAMA
+- うに飯 (maff-yamaguchi-uni-meshi) — JP-YAMAGUCHI
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
@@ -312,6 +319,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
+- ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
@@ -373,6 +381,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - へぼ飯 (maff-aichi-hebo-meshi) — JP-AICHI
+- 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
@@ -386,8 +395,10 @@
 - いりこ飯 (maff-kagawa-iriko-meshi) — JP-KAGAWA
 - たこ飯 (maff-kumamoto-tako-meshi) — JP-KUMAMOTO
 - トマトと鮭の炊き込みごはん (jp-tomato-salmon-takikomi-gohan) — JP-KUMAMOTO
+- 栗ごはん (maff-kyoto-kuri-gohan) — JP-KYOTO
 - たこ飯 (jp-mie-tako-meshi) — JP-MIE
 - たけのこご飯 (maff-miyagi-bamboo-shoot-rice) — JP-MIYAGI
+- はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI
 - ほっきめし (jp-miyagi-hokki-meshi) — JP-MIYAGI
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
@@ -395,12 +406,15 @@
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
 - あめのいおご飯 (jp-shiga-amenoio-gohan) — JP-SHIGA
 - くじらご飯 (maff-shimane-kujira-gohan) — JP-SHIMANE
+- さざえ飯 (maff-shimane-sazae-meshi) — JP-SHIMANE
 - 鮎めし (maff-tochigi-ayu-meshi) — JP-TOCHIGI
+- 茶ごめ (maff-tokushima-chagome) — JP-TOKUSHIMA
 - 鯛めし (maff-tokushima-tai-meshi) — JP-TOKUSHIMA
 - いがい飯 (maff-tottori-igai-meshi) — JP-TOTTORI
 - いただき (maff-tottori-itadaki) — JP-TOTTORI
 - どんどろけ飯 (maff-tottori-dondoroke-meshi) — JP-TOTTORI
 - 大山おこわ (maff-tottori-daisen-okowa) — JP-TOTTORI
+- かきまでご飯 (maff-wakayama-kakimade-gohan) — JP-WAKAYAMA
 - さんまめし (maff-yamanashi-sanma-meshi) — JP-YAMANASHI
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
@@ -455,6 +469,7 @@
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
+- ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 焼きさばめし (zojirushi-yakisaba-meshi-ep-fa10) — JP
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
@@ -558,10 +573,12 @@
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - かき飯 (jp-hiroshima-kakimeshi) — JP-HIROSHIMA
 - 美唄のとりめし (maff-hokkaido-bibai-torimeshi) — JP-HOKKAIDO
 - はまぐりごはん (maff-ibaraki-hamaguri-gohan) — JP-IBARAKI
+- はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI
 - ほっきめし (jp-miyagi-hokki-meshi) — JP-MIYAGI
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
@@ -607,6 +624,7 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
