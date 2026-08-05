@@ -1509,6 +1509,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黃魚飯 | 黄鱼饭 | CN-ZJ | taizhou-fish-rice | 研究记录（非公开可执行） | 米；黄鱼；葱姜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [台州黄鱼饭：渔船上的一锅鲜](https://www.zj.chinanews.com.cn/nqx/2024-01-01/detail-ihcwnhai3502016.shtml) |
+## tatung-electric-pot-chestnut-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 栗子麻油雞飯 | 栗子麻油鸡饭；麻油栗子鸡饭 | TW | tatung-electric-pot-chestnut-chicken-rice | 研究记录（非公开可执行） | 香米；鸡中翅；生栗子；干香菇；黑麻油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [栗子麻油雞飯](https://tatung.com.cn/ElectronicRecipes/info_itemid_161.html) |
+## tatung-electric-pot-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 麻油香菇鹽麴雞飯 | 麻油香菇盐麴鸡饭；盐麴麻油鸡饭 | TW | tatung-electric-pot-chicken-rice | 研究记录（非公开可执行） | 白米；鸡腿肉；香菇；冬笋；黑麻油 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [麻油香菇鹽麴雞飯](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_171.html) |
 ## tatung-electric-rice-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

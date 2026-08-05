@@ -1329,6 +1329,7 @@
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW
 - 紅蟳米糕 (r58-taiwan-red-crab-glutinous-rice) — TW
 - 南瓜飯 (r58-taiwan-afa-pumpkin-rice) — TW
+- 麻油香菇鹽麴雞飯 (tatung-sesame-shiitake-shio-koji-chicken-rice) — TW
 - しょうが飯 (tatung-wakayama-ginger-rice) — TW
 - サーモンとかぼちゃのミルクリゾット (tatung-salmon-pumpkin-milk-risotto) — TW
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
