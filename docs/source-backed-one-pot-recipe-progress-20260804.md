@@ -1,5 +1,53 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r45 搜集期第六批（2026-08-05）
+
+本批按“搜集放量、晋升门槛不降”执行，由 Panasonic Foodable、台湾机构/医院、九阳官方说明书和大陆地域来源并行检索，再由主线去重与结构化。新增 16 条具名来源型条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r44` bump 为 `source-backed-one-pot-v1-20260805-national-r45`，条目从 241 增至 257：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：227 → 240；
+- `identity_verified`：2 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（16 条；13 条 `recipe_fact_checked`，3 条 `identity_verified`）
+
+1. `panasonic-oyster-negi-takikomi-rice` — 牡蠣とねぎの炊き込みご飯（Panasonic Foodable）；
+2. `panasonic-tokyo-seafood-pilaf` — 炊込みシーフードピラフ（Panasonic Foodable）；
+3. `panasonic-chicken-cream-pilaf` — チキンのクリームピラフ（Panasonic Foodable）；
+4. `taiwan-taro-multigrain-rice` — 芋香珍穀飯（台湾国民健康署）；
+5. `taiwan-fresh-fish-wild-mushroom-rice` — 鮮魚野菇炊飯（台湾机构来源）；
+6. `taiwan-red-amaranth-chicken-rice` — 紅鳳菜雞肉炊飯（台湾农业部知识入口）；
+7. `taiwan-high-fiber-pumpkin-rice` — 高纖南瓜飯（台湾农业部农粮署）；
+8. `taiwan-provencal-mushroom-chicken-risotto` — 普羅旺斯野菇雞起司燉飯（世新大学教育手册）；
+9. `joyoung-pumpkin-shiitake-chicken-rice` — 南瓜香菇鸡腿焖饭（九阳 JRC-4TD01）；
+10. `joyoung-millet-corn-multigrain-rice` — 小米杂粮饭（九阳 JRC-4IHN42）；
+11. `joyoung-three-color-quinoa-rice` — 三色藜麦饭（九阳 JRC-4IHN42）；
+12. `taiwan-burdock-rice` — 牛蒡炊飯（南投县政府卫生局）；
+13. `taiwan-five-grain-rice` — 五穀雜糧飯（台湾农业部知识入口）；
+14. `tacheng-air-dried-meat-pilaf` — 塔城風乾肉抓飯（塔城地区行政公署，身份登记）；
+15. `luling-dingpot-rice` — 廬陵鼎罐飯（国家标准信息公共服务平台，身份登记）；
+16. `shizhu-tujia-potato-rice` — 石柱土家洋芋飯（重庆市规划和自然资源局，身份登记）。
+
+### 本批证据与边界
+
+- Panasonic 三条是 Foodable 的指定机型配方，保留机型、程序、水位/高汤和前处理边界；牡蛎条目另记录来源明确的水位标记，不把厂商参数外推为通用电饭煲合同，也没有补写来源未给出的时间或安全温度。
+- 台湾机构条目补充芋头珍谷饭、鱼菇炊饭、红凤菜鸡肉炊饭、高纤南瓜饭、普罗旺斯野菇鸡起司炖饭、牛蒡炊饭和五谷杂粮饭。纯谷物/蔬菜条目只标碳水与膳食纤维，不宣传为完整蛋白餐；缺水量、时长或安全终点的字段保持缺省。
+- 九阳三条严格绑定 JRC-4TD01/JRC-4IHN42 说明书。南瓜香菇鸡腿焖饭保留“先机内翻炒、再焖饭”，两条杂粮饭保留原机型杂粮程序和原始克数，不为其他型号推导参数。
+- 塔城风干肉抓饭、庐陵鼎罐饭、石柱土家洋芋饭只登记来源直接证明的地域身份与核心组合；固定份量、液体、总时长、安全终点和现代电饭煲适配均保持空白，不把身份条目伪装成可执行配方。
+- 本批的营养结构字段用于研究筛选，不替代厨房验证；洋芋饭明确记录为碳水/蔬菜结构，不宣称均衡蛋白主餐。
+
+### 去重、跳过与后续线索
+
+- 已与现有 `macau-tomato-corn-rice`、`macau-scallop-mushroom-vegetable-rice`、`taichung-encounter-happiness-taro-rice`、`chaoshan-ke-rice`、`yuping-dong-she-rice` 等具名条目去重，没有因为换语言或换器具重复登记。
+- 美的牛肉南瓜焖饭、厂商腊味饭等已存在或与现有身份重复的线索跳过；纯碳水候选和“剩饭一锅”继续只登记为后续研究线，不混入本批生米主线。
+- 台湾农业部芝麻鸡 PDF 因直接内容仍需复核，保留为中等优先研究线索，不以搜索摘录补入目录。
+
+### 本批验证纪律
+
+- 先新增失败测试，锁定 r45 版本、状态分布和 16 个 recipe ID；实现后目录专项测试 `203/203` 通过。
+- `node tools/build-source-backed-one-pot-catalog.mjs --write`、`node tools/check-source-backed-one-pot-catalog.mjs`、`node tools/build-source-backed-one-pot-catalog.mjs --check` 均通过，派生目录同步为 257 条。
+- 本批只涉及研究目录、测试和派生文档；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。`executable=12`、`kitchen_observed=0` 不因搜集放量改变。
+
 ## r44 搜集期第五批（2026-08-05）
 
 本批按“搜集放量、晋升门槛不降”执行，由港台机构、厂商和大陆地域三路 Agent 并行检索，再由主线去重与结构化。新增 18 条具名来源型条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r43` bump 为 `source-backed-one-pot-v1-20260805-national-r44`，条目从 223 增至 241：
