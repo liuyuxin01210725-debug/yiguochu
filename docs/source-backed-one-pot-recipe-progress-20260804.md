@@ -1,5 +1,29 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r76 搜集期第四十九批（2026-08-08）
+
+本批按“尽可能扩大真实菜谱池、证据不越级”并行复核厂商、机构和地域来源。基于 r75 的 688 条目录，**新增 5 条**直接厂商官方研究记录，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r76`，当前总量 693：`executable=12`、`recipe_fact_checked=608`、`identity_verified=67`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
+
+### 厂商官方来源（5 条，全部 `recipe_fact_checked`）
+
+- `panasonic-spring-chicken-vegetable-risotto` — Spring Chicken and Vegetable Risotto：Panasonic 澳大利亚官方电饭煲页给出鸡胸、Arborio 米、热鸡高汤、豌豆和西兰花苗的组合；高汤需预处理，锅内先炒香/煎鸡，末段加蔬菜。保留 staged process、普通电饭煲不外推和鸡肉安全未闭合边界。
+- `panasonic-chicken-biryani-sr-da182` — Chicken Biryani：Panasonic SR-DA182 官方页给出鸡腿腌制、米浸泡、先煎鸡腿，再以 Quick Cook/Steam 与 White Rice 分阶段完成；不把型号程序或分阶段流程改写成普通电饭煲一键方案。
+- `tefal-602-chicken-pea-risotto` — Chicken & Pea Risotto：TEFAL602 官方 8-in-1 PDF 记录平底锅预处理、热鸡高汤、熟鸡肉与豌豆后加；明确不把熟鸡肉替换成生鸡肉，PDF 尚待本地归档后才有资格进入 executable。
+- `tefal-602-smoked-haddock-kedgeree` — Smoked Haddock Kedgeree：同一 TEFAL602 PDF 支持烟熏黑线鳕、米、高汤和香料的 White Rice 流程；鸡蛋需另行煮熟，鱼类安全终点和 PDF 归档仍未闭合。
+- `tefal-602-seafood-paella` — Seafood Paella：TEFAL602 PDF 给出 Paella 米、鱼高汤、蔬菜和海鲜在约 28 分钟后分阶段加入、再加热约 5 分钟；不拼接其他 Tefal 版本的酒水/贻贝处理，海鲜安全与 PDF 归档仍待补。
+
+### 机构与地域线
+
+- 机构线本批没有新增可直接入目录的记录；台湾官方的南瓜饭、白菜饭、蚵乾饭等均为既有条目的补证或 PDF 待归档线索。
+- 地域线找到 `huoqiu-haozi-guoba-rice`（霍邱蒿子锅巴）身份/高层流程候选，但县政府来源没有固定食材量、液体、时间、器具或安全合同，继续停在外部报告，不写入 JSON。
+- Tiger 官方 `tiger-corn-rice`（Corn Rice）只有米和玉米，缺少明确蛋白结构；按营养边界保留为附条件研究线，不与均衡一锅主餐并列入库。
+
+### 本批纪律
+
+- 5 条均使用直接打开的厂商来源，显式 evidence tier、定位、署名、许可和实际 claim scope；`recipe_fact_checked` 只是研究层，不等于人工签署、`executable` 或厨房验证。
+- Panasonic 的高汤预处理、SR-DA182 分阶段程序、TEFAL602 的平底锅预处理/熟鸡肉/另行煮蛋/海鲜后加等边界逐条写入，没有从型号参数推导普通电饭煲规则，也没有把 PDF 的近似时长压成固定 `time_contract`。
+- TEFAL602 PDF 三条记录在本批只登记可追溯研究事实；完成本地归档、页码和哈希后，才可进入 executable 审查。`kitchen_observed` 继续为 0，下一阶段仍先做来源原件与厨房验证，不修改运行时组合逻辑。
+
 ## r75 搜集期第四十八批（2026-08-06）
 
 本批按“尽可能扩大真实菜谱池、证据不越级”并行复核厂商、机构和地域来源。基于 r74 的 686 条目录，**新增 2 条**大同官方电锅研究记录，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r75`，当前总量 688：`executable=12`、`recipe_fact_checked=603`、`identity_verified=67`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。

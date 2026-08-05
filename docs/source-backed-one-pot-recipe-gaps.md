@@ -888,6 +888,7 @@
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
+- Chicken Biryani (panasonic-chicken-biryani-sr-da182) — 非地域·厂商食谱
 - Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
@@ -905,6 +906,7 @@
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Shiitake Mushroom Garlic Rice (r60-tiger-shiitake-garlic-rice) — 非地域·厂商食谱
 - Shiitake-Gohan (zojirushi-shiitake-gohan) — 非地域·厂商食谱
+- Spring Chicken and Vegetable Risotto (panasonic-spring-chicken-vegetable-risotto) — 非地域·厂商食谱
 - Steamed Garlic Salmon with Dill and Garden Vegetables (r59-tiger-usa-garlic-salmon-garden-rice) — 非地域·厂商食谱
 - Szechuan Pork (r60-tiger-szechuan-pork-tacook-rice) — 非地域·厂商食谱
 - Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
@@ -1222,6 +1224,8 @@
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
+- Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
+- Chicken Biryani (panasonic-chicken-biryani-sr-da182) — 非地域·厂商食谱
 - Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
@@ -1234,7 +1238,10 @@
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
 - One Pot Chicken Rice (panasonic-one-pot-chicken-rice) — 非地域·厂商食谱
 - Salmon Rice (r60-tiger-salmon-rice) — 非地域·厂商食谱
+- Seafood Paella (tefal-602-seafood-paella) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
+- Smoked Haddock Kedgeree (tefal-602-smoked-haddock-kedgeree) — 非地域·厂商食谱
+- Spring Chicken and Vegetable Risotto (panasonic-spring-chicken-vegetable-risotto) — 非地域·厂商食谱
 - Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
 - Take Out Style Vegetable Fried Rice (r60-tiger-takeout-vegetable-fried-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
