@@ -1,5 +1,53 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r63 搜集期第三十六批（2026-08-05）
+
+本批按“先扩大真实具名研究资产、晋升门槛不降”的策略，由厂商、机构和中国地域三路并行核对，去重后登记 **22 条新候选**。目录版本由 r62 的 `source-backed-one-pot-v1-20260808-national-r62` bump 为 `source-backed-one-pot-v1-20260808-national-r63`，条目从 509 增至 531：`executable=12`、`recipe_fact_checked=481`、`identity_verified=38`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
+
+### 厂商官方（7 条，全部 `recipe_fact_checked`）
+
+- `tiger-brown-rice-curry-pilaf` — Tiger《玄米カレーピラフ》；JPL/JRX 指定机型、玄米程序、90 分钟、出锅后红椒/玉米/葡萄干/黄油投料保持原边界。
+- `iris-hijiki-tuna-mixed-rice` — IRIS RC-PGA50 干ひじき与金枪鱼炊饭；干ひじき泡发、自动调理9和机型专属加水设置不外推。
+- `iris-cooking-kettle-saba-canned-rice` — IRIS Cooking Kettle 鲭鱼罐头炊饭；罐汁与总液体按原页记录，自动菜单5不换算成普通电饭煲。
+- `iris-cotoco-corn-mixed-rice` — IRIS COTOCO 玉米炊饭；无加水锅原方，保留出蒸汽/小火/焖制流程，纯碳水不宣称均衡主餐。
+- `iris-chinese-chicken-congee` — IRIS RC-PGA50 中華粥；鸡肉出锅后拆分步骤不省略，粥类加水设置仅限该机型。
+- `iris-rc-pga-paella` — IRIS RC-PGA50 海鲜饭；冷冻海鲜、舞茸、红椒和自动调理9独立记录，海鲜安全终点仍缺。
+- `iris-rc-pga-chicken-rice` — IRIS RC-PGA50 鸡肉饭；鸡腿、洋葱、玉米、番茄调味和黄油后拌独立记录，禽肉安全终点仍缺。
+
+本方向另核对的 Panasonic SR-X910E 八条地域炊饭（山形芋煮、茨城红薯、湘南しらす梅、信州鲑鱼なめ茸、丹波黑枝豆、岛根猪肉柚子醋、长崎煮干萝卜、冲绳ジューシー）均已在 r62 目录存在，本批不重复建 ID。
+
+### 日本农林水产省地域料理（10 条，全部 `recipe_fact_checked`）
+
+- `maff-miyazaki-toukibimeshi`（宫崎椎叶とうきびめし）：粗磨玉米先煮软、细磨版可同米炊；“水略多”不换算固定比例。
+- `maff-aichi-kiinai-okowa`（爱知黄いないおこわ）：黑豆浸泡并预煮，炊饭器/蒸笼版本分开记录。
+- `maff-hokkaido-ikameshi`（北海道いかめし）：糯米塞鱿鱼、锅中出汁酒煮约30分钟；装填胀裂和海鲜安全保留缺口。
+- `maff-oita-torimeshi`（大分鶏めし）：打印方为鸡牛蒡先炒煮覆熟饭焖15分钟；同米同炊变体不与其拼接。
+- `maff-chiba-toridose`（千叶鶏雑炊）：明确以熟饭为输入，不能改写为生米焖饭。
+- `maff-tokushima-omiisan`（德岛おみいさん）：米、里芋、萝卜与煮干出汁同锅，小火约30分钟，来源是锅煮粥。
+- `maff-tokushima-sobagome-zosui`（德岛そば米雑炊）：荞麦米先煮冲洗，再煮鸡肉蔬菜，保留预煮边界。
+- `maff-tokushima-ayuro-sui`（德岛鮎ろうすい）：蔬菜先入、香鱼后置，鱼类熟制与去骨待独立审核。
+- `maff-kagawa-shima-chagayu`（香川岛茶粥）：茶汁、米和季节副材料的锅煮关系保留；清淡主食不宣称均衡。
+- `maff-mie-chagayu`（三重茶粥）：焙茶、米和水的4人份锅煮事实保留，未推导电饭煲水位。
+
+统一来源为日本农林水产省《うちの郷土料理》对应直达页；来源只证明页面写明的地域、食材、流程、份量或时间，不证明项目 Ratio DSL 或通用电饭煲转换。
+
+### 中国地域/非遗（5 条；3 条 `identity_verified`、2 条 `recipe_fact_checked`）
+
+- `wuhu-zharou-steamed-rice`（芜湖渣肉蒸饭）：芜湖市文化和旅游局只闭合代表菜身份与核心组合，未补份量/蒸制合同。
+- `youxi-jiumi-salty-rice`（尤溪九糜咸饭）：尤溪县政府非遗名录只证明技艺名称，保持 identity-only。
+- `xinyang-green-rice`（新阳青米饭）：同一县政府非遗名录只证明技艺身份，不从“青米”推断原料或流程。
+- `xuwen-eight-treasure-rice`（徐闻八宝饭）：湛江市文化馆/非遗中心页面证明泡米、蒸米、拌糖油、铺碗底、再次蒸制；甜味节庆饭，不作日常均衡主餐。
+- `jiangchuan-eight-treasure-rice`（江川八宝饭）：江川区政府页面证明糯米与薏米、冬瓜糖、蜜枣等两次蒸制流程；与徐闻版本分离，不补家庭合同。
+
+地域来源：[芜湖市文化和旅游局](https://ct.wuhu.gov.cn/xwzx/bmyw/8267834.html)、[尤溪县非遗名录 PDF](https://www.fjyx.gov.cn/zfxxgkzl/zfxxgkml/qtyzdgkxx/202502/P020250206583233668588.pdf)、[湛江市文化馆](https://www.zhanjiang.gov.cn/bmsd/content/post_2153203.html)、[江川区政府](https://www.ynjc.gov.cn/jc/zwdt85/20240726/1545187.html)。
+
+### 本批去重与边界
+
+- Panasonic 八条已存在条目不重复；正果畲族乌饭只作为现有畲族乌饭的补证线索，不另建同名变体。
+- 甏肉干饭、烟台海肠捞饭属于分器具或熟饭浇头，不纳入严格同锅主线；安远大甑饭、青川线索因原页未直读不入库。
+- 八宝饭、茶粥、玉米纯饭等保留真实文化/技法资产，但目录营养结构明确为未评估或碳水主食，不能向用户承诺均衡主餐。
+- 本批所有新增仍是研究目录，不是人工批准、不是厨房验证、不是公开菜单；后续仍需合同闭合、人工逐条签署和真实厨房观察。
+
 ## r62 搜集期第三十五批（2026-08-05）
 
 本批继续按“先扩大真实具名研究资产、暂不晋升”的策略完成三条来源线核对，登记 **25 条新候选**。目录版本由 r61 的 `source-backed-one-pot-v1-20260808-national-r61` bump 为 `source-backed-one-pot-v1-20260808-national-r62`，条目从 484 增至 509：
