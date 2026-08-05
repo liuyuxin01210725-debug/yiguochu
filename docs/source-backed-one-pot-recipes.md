@@ -210,6 +210,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| たこ飯（たこめし） | 爱知日间贺岛章鱼饭；爱知渔师章鱼饭 | JP-AICHI | japanese-regional-rice | 研究记录（非公开可执行） | 米；生章鱼；生姜 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [たこ飯（たこめし） 愛知県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takomeshi_aichi.html) |
 | へぼ飯 | 爱知蜂蛹饭 | JP-AICHI | japanese-regional-rice | 研究记录（非公开可执行） | 米；蜂蛹 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [へぼ飯 愛知県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hebomeshi_aichi.html) |
 | ごまご飯 | 青森津轻芝麻饭；ごままま | JP-AOMORI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；黑芝麻 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [ごまご飯 青森県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/goma_gohan_aomori.html) |
 | ごんじゅう | 千叶馆山豚肉油豆腐饭团 | JP-CHIBA | japanese-regional-rice | 研究记录（非公开可执行） | 米；猪五花肉；油豆腐皮；柴鱼片 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [ごんじゅう 千葉県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/gonjuu_chiba.html) |
@@ -218,8 +219,10 @@
 | たこ飯 | 爱媛中予章鱼饭 | JP-EHIME | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；胡萝卜；牛蒡；油豆腐；昆布 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [たこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_ehime.html) |
 | かしわめし | 福冈鸡肉饭 | JP-FUKUOKA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；牛蒡；胡萝卜；干香菇 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [かしわめし 福岡県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kashiwa_meshi_fukuoka.html) |
 | かき飯 | 广岛牡蛎饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；牡蛎；胡萝卜；牛蒡；干香菇；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [かき飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_28_hiroshima.html) |
+| たこめし | 广岛三原章鱼饭；三原たこめし | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；煮章鱼；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_18_hiroshima.html) |
 | 鯛めし | 广岛瀬户内鲷饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 精米；鲷；胡萝卜；牛蒡；昆布 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鯛めし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_9_hiroshima.html) |
 | 美唄のとりめし | 美呗鸡肉饭 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；鸡胸肉；洋葱 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [美唄のとりめし 北海道](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/bibainotorimeshi_hokkaido.html) |
+| たこめし | 兵库淡路岛章鱼饭；兵库东播磨章鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；干章鱼；出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_27_hyogo.html) |
 | とふめし | 兵库丹波豆腐鲭鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；硬豆腐；鲭鱼罐头；牛蒡；胡萝卜；油豆腐 | identity、ingredients、process、quantity | 缺 liquid、time | [とふめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_12_hyogo.html) |
 | 丹波黒豆ごはん | 丹波黑豆饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；丹波黑豆；梅干 | identity、ingredients、process、quantity | 缺 liquid、time | [丹波黒豆ごはん 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_7_hyogo.html) |
 | はまぐりごはん | 茨城蛤蜊饭 | JP-IBARAKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；蛤蜊；干香菇；胡萝卜；三つ葉 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [はまぐりごはん 茨城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hamagurigohan_ibaraki.html) |
@@ -235,12 +238,16 @@
 | たけのこご飯 | 宫城竹笋饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；竹笋；油豆腐；胡萝卜；木之芽 | identity、ingredients、liquid、process、quantity | 缺 time | [たけのこご飯 宮城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takenoko_gohan_miyagi.html) |
 | はらこ飯 | 宫城亘理鲑鱼亲子饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲑鱼；鲑鱼籽；三つ葉 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [はらこ飯 宮城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/harako_meshi_miyagi.html) |
 | ほっきめし | 宫城北寄贝饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；北寄贝；酒；酱油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [ほっきめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hokki_meshi_miyagi.html) |
+| とりめし | 宫崎鸡肉饭；新富町春日寿司 | JP-MIYAZAKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；地鸡；胡萝卜；牛蒡；干香菇 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [とりめし 宮崎県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tori_meshi_miyazaki.html) |
 | 鶏飯 | 长崎谏早鸡肉饭；といめし | JP-NAGASAKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡肉；昆布 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [鶏飯 長崎県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/46_13_nagasaki.html) |
 | しょうゆおこわ | 新潟酱油赤饭 | JP-NIIGATA | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；芸豆；酱油；味醂 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [しょうゆおこわ 新潟県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shoyu_okowa_niigata.html) |
 | あみめし | 大分干虾饭 | JP-OITA | japanese-regional-rice | 研究记录（非公开可执行） | 米；干虾米；酱油 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [あみめし 大分県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amimeshi_oita.html) |
 | たこめし | 冈山仓敷下津井章鱼饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；生姜；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_10_okayama.html) |
+| とどめせ | 冈山濑户内とどめせ；冈山醋拌炊饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡肉；芋头；干虾；竹轮；根菜 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [とどめせ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_6_okayama.html) |
 | 蒜山おこわ | 冈山蒜山节庆糯米饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；大麦；鸡肉；栗；胡萝卜；四季豆；牛蒡；蕗；香菇；油豆腐 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [蒜山おこわ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_4_okayama.html) |
+| つがにめし | 佐贺河蟹饭；佐贺蟹饭；がね飯 | JP-SAGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；河蟹；出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [つがにめし 佐賀県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_19_saga.html) |
 | あめのいおご飯 | 滋贺琵琶鳟饭 | JP-SHIGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；琵琶鳟；胡萝卜；香菇；葱；昆布水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [あめのいおご飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amenoio_gohan_shiga.html) |
+| しょいめし | 滋贺乡土酱油饭；滋贺炊き込み饭 | JP-SHIGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；胡萝卜；牛蒡；魔芋；干香菇；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [しょいめし 滋賀県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shoi_meshi_shiga.html) |
 | くじらご飯 | 岛根鲸皮饭 | JP-SHIMANE | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲸皮；牛蒡；胡萝卜；白萝卜；蒟蒻 | identity、ingredients、process | 缺 quantity、liquid、time | [くじらご飯 島根県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kujiragohan_shimane.html) |
 | さざえ飯 | 岛根隐岐蝾螺饭 | JP-SHIMANE | japanese-regional-rice | 研究记录（非公开可执行） | 米；蝾螺；胡萝卜；牛蒡 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [さざえ飯 島根県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/sazaemeshi_shimane.html) |
 | 鮎めし | 栃木香鱼饭 | JP-TOCHIGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；香鱼 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [鮎めし 栃木県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/31_22_tochigi.html) |
@@ -343,6 +350,15 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 鞑子饭（小肉粥） | 鞑子粥；小肉饭 | CN-NM, CN-XJ | manchu-xibe-dazi-rice-porridge | 研究记录（非公开可执行） | 猪肉；粳米（大米）或小米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [内蒙古民族饮食：小肉粥（鞑子粥）](https://nmgqq.com.cn/quqinggailan/neimengguyinxiang/minsufengqing/2014-12-14/7505.html)<br>[鞑子饭（粥）](https://www.xjxbyyxh.com/articles/show/1239) |
+## manufacturer-ih-pot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| えんどうご飯 | 象印豌豆饭；日式青豆饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；豌豆；水 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [えんどうご飯](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/080.html) |
+| コーンリゾット | 象印玉米烩饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；玉米；洋葱；水；高汤 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [コーンリゾット](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/010.html) |
+| スタミナご飯 | 象印泡菜牛肉饭；象印元气饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；白菜泡菜；牛肉；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [スタミナご飯](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/004.html) |
+| トルコ風リゾット | 象印土耳其风烩饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；番茄；彩椒；水；帕玛森 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [トルコ風リゾット](https://www.zojirushi.co.jp/recipe_old/ihnabe/syousai/011.html) |
+| 海のパエリア | 象印海鲜西班牙海鲜饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；虾；蛤蜊；鱿鱼；青椒；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [海のパエリア](https://www.zojirushi.co.jp/recipe_old/ihnabe/syousai/005.html) |
 ## 厂商电饭煲食谱
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -1,5 +1,43 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r51 搜集期第十二批（2026-08-05）
+
+本批把两条高产来源线并行推进：日本农林水产省《うちの郷土料理》地域饭页面，以及象印官方 IH 锅食谱页。经逐页打开、去重和边界复核，新增 **12 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r50` bump 为 `source-backed-one-pot-v1-20260807-national-r51`，条目从 328 增至 340：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：311 → 323；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（12 条，全部 `recipe_fact_checked`）
+
+1. `maff-aichi-tako-meshi` — 爱知 `たこ飯（たこめし）`；
+2. `maff-hiroshima-mihara-tako-meshi` — 广岛三原 `たこめし`；
+3. `maff-saga-tsugani-meshi` — 佐贺 `つがにめし`；
+4. `maff-hyogo-tako-meshi` — 兵库 `たこめし`；
+5. `maff-miyazaki-torimeshi` — 宫崎 `とりめし`；
+6. `maff-okayama-todomese` — 冈山 `とどめせ`；
+7. `maff-shiga-shoimeshi` — 滋贺 `しょいめし`；
+8. `zojirushi-endo-gohan` — 象印 `えんどうご飯`；
+9. `zojirushi-corn-risotto` — 象印 `コーンリゾット`；
+10. `zojirushi-turkish-risotto` — 象印 `トルコ風リゾット`；
+11. `zojirushi-seafood-paella` — 象印 `海のパエリア`；
+12. `zojirushi-stamina-rice` — 象印 `スタミナご飯`。
+
+### 本批来源与边界
+
+- 爱知、广岛三原、佐贺、兵库、宫崎、冈山、滋贺七条均来自农林水产省直接打开的地域料理页面，保留原名、地域、核心食材和原始流程；爱知/广岛/兵库的章鱼饭因原料形态和地域不同分列，不合并为“章鱼饭模板”。
+- 佐贺 `つがにめし` 保留传统釜和河蟹流程，但活淡水蟹的寄生虫与充分加热终点未闭合，明确不进入默认家庭展示或 `executable`。
+- 宫崎 `とりめし`、冈山 `とどめせ` 保留先炒/先煮具材后入釜、炊后醋拌或再加配料的连续流程；不为“看起来一锅”删除中间步骤。滋贺 `しょいめし` 虽来源直接写炊饭器，时间和安全终点仍缺省。
+- 象印五条严格绑定官方 IH 锅/保温锅来源：不把 IH 火力、水量或保温时间外推成普通电饭煲参数。`スタミナご飯` 的鸡蛋是锅外蛋皮，`コーンリゾット` 与 `トルコ風リゾット` 的蛋白角色偏弱，均只记录真实身份与边界，不宣称完整均衡主餐。
+- 十二条都保持 `recipe_fact_checked`，未完成安全终点、厨房验证或人工签署，不能对外宣称已批准、已适配或可直接上线。
+
+### 本批验证纪律
+
+- 先新增 r51 失败测试，锁定版本、340 条总数、12 个 recipe ID、来源直接打开和全部非 executable；实现后目录专项测试 **208/208** 通过。
+- 佐贺来源的传统釜 appliance scope、象印条目的 `JP-NATIONAL` 区域字段均由 validator 实测锁定；历史批次计数同步到 r51。
+- 后续必须通过 `node tools/build-source-backed-one-pot-catalog.mjs --write`、`--check`、`node tools/check-source-backed-one-pot-catalog.mjs`、`node tools/check-recipes.mjs`、全量 Node 测试、Python 语法检查和 `git diff --check`；本批只涉及研究目录、测试和文档，不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。
+
 ## r50 搜集期第十一批（2026-08-05）
 
 本批继续核验日本农林水产省《うちの郷土料理》饭料理页面，新增 **6 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r49` bump 为 `source-backed-one-pot-v1-20260807-national-r50`，条目从 322 增至 328：
