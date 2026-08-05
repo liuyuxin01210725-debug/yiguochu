@@ -72,7 +72,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260804-national-r36');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r37');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -720,9 +720,9 @@ test('archives the directly opened National Health Insurance cabbage-rice source
   assert.equal(recipe?.time_contract, null);
 });
 
-test('next evidence pass records directly opened manufacturer and institution sources without merging variants', () => {
+test('next evidence pass closes two single-version WOL contracts without promoting them before review', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260804-national-r36');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r37');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -731,23 +731,26 @@ test('next evidence pass records directly opened manufacturer and institution so
   assert.match(beefSource?.evidence_locator ?? '', /第12至50行/u);
 
   const cured = catalog.recipes.find(item => item.recipe_id === 'cantonese-cured-meat-claypot-rice');
-  const curedSource = cured?.source_refs.find(item => item.source_id === 'S-HK-HKJC-CURED-RICE-1');
+  const curedSource = cured?.source_refs.find(item => item.source_id === 'S-WOL-HK-CURED-CLAYPOT-RICE-1');
   assert.equal(curedSource?.access_status, 'opened');
-  assert.equal(curedSource?.evidence_tier, 3);
-  assert.match(curedSource?.evidence_locator ?? '', /PDF第1页第1至24行/u);
-  assert.match(cured?.evidence_notes ?? '', /独立瓦煲版本/u);
+  assert.equal(curedSource?.evidence_tier, 5);
+  assert.match(curedSource?.evidence_locator ?? '', /第105至136行.*2人份.*1杯米.*1杯水.*75分钟/u);
+  assert.equal(cured?.status, 'recipe_fact_checked');
+  assert.equal(cured?.fixed_batch?.servings, 2);
+  assert.equal(cured?.liquid_contract?.amount?.value, 1);
+  assert.equal(cured?.time_contract?.total_minutes, 75);
+  assert.match(cured?.evidence_notes ?? '', /完整单一版本.*待人工准入/u);
 
   const chicken = catalog.recipes.find(item => item.recipe_id === 'cantonese-mushroom-chicken-claypot-rice');
-  const townGas = chicken?.source_refs.find(item => item.source_id === 'S-HK-TOWNGAS-MUSHROOM-CHICKEN-RICE-1');
-  const tefal = chicken?.source_refs.find(item => item.source_id === 'S-TEFAL-MUSHROOM-CHICKEN-RICE-1');
-  for (const source of [townGas, tefal]) {
-    assert.equal(source?.access_status, 'opened');
-    assert.equal(source?.evidence_tier, 3);
-    assert.ok(source?.evidence_locator);
-  }
-  assert.equal(chicken?.fixed_batch, null);
-  assert.equal(chicken?.time_contract, null);
-  assert.match(chicken?.evidence_notes ?? '', /独立.*版本/u);
+  const chickenSource = chicken?.source_refs.find(item => item.source_id === 'S-WOL-CHICKEN-MUSHROOM-CLAYPOT-RICE-1');
+  assert.equal(chickenSource?.access_status, 'opened');
+  assert.equal(chickenSource?.evidence_tier, 5);
+  assert.match(chickenSource?.evidence_locator ?? '', /第139至186行.*2人份.*1杯米.*1杯高汤或水.*190分钟/u);
+  assert.equal(chicken?.status, 'recipe_fact_checked');
+  assert.equal(chicken?.fixed_batch?.servings, 2);
+  assert.equal(chicken?.liquid_contract?.amount?.value, 1);
+  assert.equal(chicken?.time_contract?.total_minutes, 190);
+  assert.match(chicken?.evidence_notes ?? '', /完整单一版本.*待人工准入/u);
 });
 
 test('Philips Cantonese cured-rice variant has a complete model-scoped execution contract', () => {
@@ -956,8 +959,8 @@ test('records the audited disposition of all nineteen legacy variants', () => {
   });
 });
 
-test('keeps every remaining migrated recipe non-public until safety and complete execution facts are independently supported', () => {
-  // One contract is now evidence-closed; all incomplete rows must still remain non-public.
+test('keeps complete but unsigned contracts non-public until explicit human admission', () => {
+  // Evidence closure is only the review ticket; human signoff still controls promotion.
   const catalog = sourceBackedCatalog();
   assert.ok(catalog.recipes.length > 0);
   const statusTotals = catalog.recipes.reduce((totals, recipe) => {
@@ -973,6 +976,10 @@ test('keeps every remaining migrated recipe non-public until safety and complete
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
   }
 
+  const completeButUnsigned = new Set([
+    'cantonese-cured-meat-claypot-rice',
+    'cantonese-mushroom-chicken-claypot-rice',
+  ]);
   for (const recipe of catalog.recipes.filter(recipe => recipe.status === 'recipe_fact_checked')) {
     const completeExecutionContract = Boolean(
       recipe.fixed_batch
@@ -982,7 +989,9 @@ test('keeps every remaining migrated recipe non-public until safety and complete
       && recipe.safety_endpoints.length > 0,
     );
     if (completeExecutionContract) {
-      assert.fail(`${recipe.recipe_id} has a complete execution contract but remains recipe_fact_checked`);
+      assert.ok(completeButUnsigned.has(recipe.recipe_id), `${recipe.recipe_id} needs an explicit unsigned exception`);
+      assert.match(recipe.evidence_notes ?? '', /待人工准入/u, recipe.recipe_id);
+      assert.match(recipe.evidence_notes ?? '', /尚无kitchen_observed/u, recipe.recipe_id);
     } else {
       assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
     }
@@ -1773,22 +1782,19 @@ test('keeps the official Quanzhou red-xun process and its pressure-pot or steame
   assert.match(recipe?.evidence_notes ?? '', /红蟳.*团体标准.*没有给.*固定.*蟹类安全.*电饭煲/u);
 });
 
-test('keeps eastern source identities distinct and source claims bounded', () => {
-  // Merging source formulations or turning vessel evidence into rice-cooker support is a data bug.
+test('keeps eastern source identities distinct and cooker claims bounded', () => {
+  // Merging source formulations or inventing cross-model cooker parameters is a data bug.
   const recipes = sourceBackedCatalog().recipes;
   const byId = new Map(recipes.map(recipe => [recipe.recipe_id, recipe]));
   assert.equal(recipes.filter(recipe => recipe.recipe_id === 'shanghai-salted-pork-vegetable-rice').length, 1);
   assert.equal(recipes.filter(recipe => recipe.recipe_id === 'taiwan-cabbage-rice').length, 1);
 
-  for (const recipeId of [
-    'shenhu-huzaifan',
-    'taiwan-tongzai-rice-cake',
-    'cantonese-cured-meat-claypot-rice',
-    'cantonese-mushroom-chicken-claypot-rice',
-  ]) {
-    const recipe = byId.get(recipeId);
-    assert.ok(!/电饭煲|电锅|rice cooker/i.test(recipe?.cooker_adaptation?.notes ?? ''), recipeId);
-  }
+  assert.equal(byId.get('shenhu-huzaifan')?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(byId.get('taiwan-tongzai-rice-cake')?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(byId.get('cantonese-mushroom-chicken-claypot-rice')?.cooker_adaptation?.status, 'not_adapted');
+  assert.match(byId.get('cantonese-mushroom-chicken-claypot-rice')?.cooker_adaptation?.notes ?? '', /没有电饭煲.*等价参数/u);
+  assert.equal(byId.get('cantonese-cured-meat-claypot-rice')?.cooker_adaptation?.status, 'source_limited');
+  assert.match(byId.get('cantonese-cured-meat-claypot-rice')?.cooker_adaptation?.notes ?? '', /仅提示.*电饭煲.*未给.*机型.*程序/u);
 
   const redXun = byId.get('quanzhou-red-xun-rice');
   assert.equal(redXun?.cooker_adaptation?.status, 'not_adapted');
@@ -3125,13 +3131,16 @@ test('records the first-priority source matrix and promotes only the closed Shan
   assert.deepEqual(yangpu?.claim_scopes, [
     'identity', 'ingredients', 'liquid', 'process', 'appliance', 'time',
   ]);
-  assert.match(curedMeat?.evidence_notes ?? '', /200克水.*中火8分钟.*小火.*15分钟/u);
+  assert.match(curedMeat?.evidence_notes ?? '', /WOL.*完整单一版本.*不与.*农粮署/u);
   assert.deepEqual(curedMeat?.liquid_contract, {
-    kind: 'rice_to_water_ratio',
-    amount: { value: 1.3, unit: '杯水/杯米' },
-    source_ids: ['S-TW-AFA-CURED-RICE-1'],
+    kind: 'added_water',
+    amount: { value: 1, unit: '杯' },
+    source_ids: ['S-WOL-HK-CURED-CLAYPOT-RICE-1'],
   });
-  assert.equal(curedMeat?.time_contract, null, 'the source does not close the full preparation timeline');
+  assert.deepEqual(curedMeat?.time_contract, {
+    total_minutes: 75,
+    source_ids: ['S-WOL-HK-CURED-CLAYPOT-RICE-1'],
+  });
 });
 
 test('records the Joyoung bilingual program conflict instead of choosing a convenient cooker mode', () => {
@@ -3500,32 +3509,38 @@ test('structures the official tongzai rice-cake quantities and staged steaming w
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('structures the direct official mushroom-chicken claypot-rice quantities while retaining its vessel and permission boundary', () => {
+test('uses one complete WOL mushroom-chicken claypot-rice version without blending the older evidence variants', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'cantonese-mushroom-chicken-claypot-rice'
   ));
-  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-TAFT-CHICKEN-RICE-1');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-WOL-CHICKEN-MUSHROOM-CLAYPOT-RICE-1');
 
-  assert.equal(recipe?.fixed_batch, null, 'the source gives ingredient quantities but no servings');
+  assert.equal(recipe?.fixed_batch?.servings, 2);
+  assert.deepEqual(recipe?.fixed_batch?.source_ids, ['S-WOL-CHICKEN-MUSHROOM-CLAYPOT-RICE-1']);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '茉莉香米')?.amount?.value, 1);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '去骨去皮鸡腿肉')?.amount?.value, 8);
   assert.deepEqual(recipe?.liquid_contract, {
     kind: 'added_water',
-    amount: { value: 2.5, unit: '杯' },
-    source_ids: ['S-GD-TAFT-CHICKEN-RICE-1'],
+    amount: { value: 1, unit: '杯低钠鸡高汤或水' },
+    source_ids: ['S-WOL-CHICKEN-MUSHROOM-CLAYPOT-RICE-1'],
   });
   assert.equal(recipe?.cooking_sequence.length, 5);
-  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /白米.*1\.5杯.*煲饭酱/);
-  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸡腿.*香菇.*鸡蛋.*20分钟/);
-  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /2\.5杯水.*煮滚/);
-  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /材料.*20几分钟.*翻面/);
-  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /鸡肉有熟.*煲饭酱汁/);
-  assert.equal(recipe?.time_contract, null, 'the source gives an approximate stage duration, not a complete total');
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /冬菇.*金针菜.*木耳.*2小时/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸡腿肉.*腌.*30分钟/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /米.*25分钟.*1杯.*高汤或水/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /中高火.*3分钟.*小火.*25分钟/);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /鸡肉和米饭熟透.*葱绿/);
+  assert.equal(recipe?.time_contract?.total_minutes, 190);
   assert.deepEqual(recipe?.safety_endpoints, [{
     code: 'poultry_fully_cooked',
     minimum_core_temperature_c: 74,
     source_ids: ['S-SAFETY-TEMPERATURES-1'],
   }]);
-  assert.equal(source?.license, 'permission_required');
-  assert.ok(source?.claim_scopes.includes('quantity'));
+  assert.equal(source?.license, 'publisher_copyright');
+  assert.equal(source?.evidence_tier, 5);
+  assert.deepEqual(source?.claim_scopes, [
+    'identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time',
+  ]);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
@@ -3684,24 +3699,32 @@ test('keeps the Tongren seasonal shefan as a separate regional identity with its
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('keeps the official cured-meat claypot-rice variant separate while structuring its exact ratio', () => {
+test('uses one complete WOL cured-meat claypot-rice version without blending the older evidence variants', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'cantonese-cured-meat-claypot-rice'
   ));
-  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-AFA-CURED-RICE-1');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-WOL-HK-CURED-CLAYPOT-RICE-1');
 
   assert.deepEqual(source?.claim_scopes, [
-    'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time',
+    'identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time',
   ]);
+  assert.equal(source?.evidence_tier, 5);
+  assert.equal(recipe?.fixed_batch?.servings, 2);
+  assert.deepEqual(recipe?.fixed_batch?.source_ids, ['S-WOL-HK-CURED-CLAYPOT-RICE-1']);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '长粒米')?.amount?.value, 1);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '广式腊肠')?.amount?.unit, '至2条');
   assert.deepEqual(recipe?.liquid_contract, {
-    kind: 'rice_to_water_ratio',
-    amount: { value: 1.3, unit: '杯水/杯米' },
-    source_ids: ['S-TW-AFA-CURED-RICE-1'],
+    kind: 'added_water',
+    amount: { value: 1, unit: '杯' },
+    source_ids: ['S-WOL-HK-CURED-CLAYPOT-RICE-1'],
   });
-  assert.ok(recipe?.cooking_sequence.length >= 4);
-  assert.equal(recipe?.fixed_batch, null, 'official variant does not state servings');
-  assert.equal(recipe?.time_contract, null, 'listed stages do not state complete preparation time');
-  assert.match(recipe?.evidence_notes ?? '', /农粮署.*独立版本.*不与.*杨浦/u);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /1杯米.*1杯水.*1小时/);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腊肉.*腊肠.*小火.*10分钟/);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /酱汁.*3分钟/);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /切片.*葱/);
+  assert.equal(recipe?.time_contract?.total_minutes, 75);
+  assert.match(recipe?.evidence_notes ?? '', /WOL.*完整单一版本.*不与.*农粮署/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
