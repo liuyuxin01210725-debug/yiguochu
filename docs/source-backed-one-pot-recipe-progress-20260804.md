@@ -4,13 +4,25 @@
 
 本轮继续做的是“真实菜名与真实来源的菜谱目录”，不是运行时自由组合，也不是用估算参数把研究条目伪装成可执行配方。
 
-当前结构化目录版本为 `source-backed-one-pot-v1-20260805-national-r38`，共 176 条：
+当前结构化目录版本为 `source-backed-one-pot-v1-20260805-national-r39`，共 176 条：
 
-- `executable`：10 条（均仅内部审查用，未公开、未部署、未完成厨房验证）；
-- `recipe_fact_checked`：165 条（身份和部分事实已核对，仍有一个或多个执行合同缺口）；
+- `executable`：12 条（均仅内部审查用，未公开、未部署、未完成厨房验证）；
+- `recipe_fact_checked`：163 条（身份和部分事实已核对，仍有一个或多个执行合同缺口）；
 - `identity_verified`：1 条（只有身份来源，尚不能写成做法）。
 
 目录与生成产物见：[source-backed-one-pot-recipes.v1.json](/Users/liuyuxin/Documents/一锅出/.worktrees/source-backed-one-pot-catalog/tools/data/source-backed-one-pot-recipes.v1.json:1)。
+
+## r39 两道签署菜谱晋升记录（2026-08-05）
+
+本轮没有新增条目、没有修改运行时，也没有部署。独立审查者已对 `de3615f` / r38 的来源范围、WOL 单一版本合同、两个 PDF 归档和真实 validator 晋升探针完成复核，并于 2026-08-05 明确签署两道菜准入。目录据此做唯一允许的状态变更：`executable=10`、`recipe_fact_checked=165`、`identity_verified=1` → `executable=12`、`recipe_fact_checked=163`、`identity_verified=1`。
+
+- 腊味煲仔饭（`cantonese-cured-meat-claypot-rice`）：`recipe_fact_checked` → `executable`；独立审查者于 2026-08-05 签署通过。固定份量、液体、流程和总时间继续只采用 WOL 单一完整版本，其他地域、政府与厂商来源只按各自事实范围保留。
+- 冬菇滑鸡饭（`cantonese-mushroom-chicken-claypot-rice`）：`recipe_fact_checked` → `executable`；独立审查者于 2026-08-05 签署通过。固定合同继续只采用 WOL 单一完整版本，Tefal、香港中华煤气和 TAFT 版本不与其拼接。
+- `kitchen_observed=0` 保持不变；`executable` 只表示纸面执行合同与准入审查闭合，不表示已经做过、可以公开或可以部署。
+- 手抓饭（`yutian-electric-cooker-lamb-pilaf`）因米量和“1:2”液体对象仍不明确，保持 `recipe_fact_checked`，不跨来源拼接。
+- 咖喱鸡肉饭（`joyoung-curry-chicken-rice-jrc-4hp82`）因中英文程序事实冲突，保持 `recipe_fact_checked`，不选择任一版本强行闭合。
+
+r38→r39 新增条目：0；晋升条目：2；完整晋升清单即上述腊味煲仔饭与冬菇滑鸡饭。
 
 ## r38 两道准入候选的来源卫生修复（2026-08-05）
 

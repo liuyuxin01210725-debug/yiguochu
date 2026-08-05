@@ -73,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r38');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r39');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -721,9 +721,9 @@ test('archives the directly opened National Health Insurance cabbage-rice source
   assert.equal(recipe?.time_contract, null);
 });
 
-test('next evidence pass closes two single-version WOL contracts without promoting them before review', () => {
+test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r38');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r39');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -736,25 +736,25 @@ test('next evidence pass closes two single-version WOL contracts without promoti
   assert.equal(curedSource?.access_status, 'opened');
   assert.equal(curedSource?.evidence_tier, 5);
   assert.match(curedSource?.evidence_locator ?? '', /第105至136行.*2人份.*1杯米.*1杯水.*75分钟/u);
-  assert.equal(cured?.status, 'recipe_fact_checked');
+  assert.equal(cured?.status, 'executable');
   assert.equal(cured?.fixed_batch?.servings, 2);
   assert.equal(cured?.liquid_contract?.amount?.value, 1);
   assert.equal(cured?.time_contract?.total_minutes, 75);
-  assert.match(cured?.evidence_notes ?? '', /完整单一版本.*待人工准入/u);
+  assert.match(cured?.evidence_notes ?? '', /完整单一版本.*2026-08-05.*准入签署通过/u);
 
   const chicken = catalog.recipes.find(item => item.recipe_id === 'cantonese-mushroom-chicken-claypot-rice');
   const chickenSource = chicken?.source_refs.find(item => item.source_id === 'S-WOL-CHICKEN-MUSHROOM-CLAYPOT-RICE-1');
   assert.equal(chickenSource?.access_status, 'opened');
   assert.equal(chickenSource?.evidence_tier, 5);
   assert.match(chickenSource?.evidence_locator ?? '', /第139至186行.*2人份.*1杯米.*1杯高汤或水.*190分钟/u);
-  assert.equal(chicken?.status, 'recipe_fact_checked');
+  assert.equal(chicken?.status, 'executable');
   assert.equal(chicken?.fixed_batch?.servings, 2);
   assert.equal(chicken?.liquid_contract?.amount?.value, 1);
   assert.equal(chicken?.time_contract?.total_minutes, 190);
-  assert.match(chicken?.evidence_notes ?? '', /完整单一版本.*待人工准入/u);
+  assert.match(chicken?.evidence_notes ?? '', /完整单一版本.*2026-08-05.*准入签署通过/u);
 });
 
-test('two WOL contract candidates have promotion-ready source hygiene without being promoted', () => {
+test('two signed WOL contracts retain promotion-ready source hygiene after admission', () => {
   const catalog = sourceBackedCatalog();
 
   const expectations = [
@@ -794,7 +794,7 @@ test('two WOL contract candidates have promotion-ready source hygiene without be
 
   for (const expectation of expectations) {
     const recipe = catalog.recipes.find(item => item.recipe_id === expectation.recipeId);
-    assert.equal(recipe?.status, 'recipe_fact_checked', `${expectation.recipeId} still awaits human sign-off`);
+    assert.equal(recipe?.status, 'executable', `${expectation.recipeId} has explicit human sign-off`);
     for (const [sourceId, expected] of Object.entries(expectation.scopedSources)) {
       const source = recipe?.source_refs.find(item => item.source_id === sourceId);
       assert.equal(source?.evidence_tier, expected.tier, sourceId);
@@ -806,12 +806,8 @@ test('two WOL contract candidates have promotion-ready source hygiene without be
     assert.match(archiveSource?.local_archive?.sha256 ?? '', /^[a-f0-9]{64}$/u);
   }
 
-  const promotionProbe = structuredClone(catalog);
-  for (const expectation of expectations) {
-    promotionProbe.recipes.find(item => item.recipe_id === expectation.recipeId).status = 'executable';
-  }
   assert.deepEqual(
-    validator.validateSourceBackedOnePotCatalog(promotionProbe, { archive_root: projectDirectory }),
+    validator.validateSourceBackedOnePotCatalog(catalog, { archive_root: projectDirectory }),
     [],
   );
 });
@@ -1022,8 +1018,7 @@ test('records the audited disposition of all nineteen legacy variants', () => {
   });
 });
 
-test('keeps complete but unsigned contracts non-public until explicit human admission', () => {
-  // Evidence closure is only the review ticket; human signoff still controls promotion.
+test('keeps incomplete research entries non-public after signed contracts are admitted', () => {
   const catalog = sourceBackedCatalog();
   assert.ok(catalog.recipes.length > 0);
   const statusTotals = catalog.recipes.reduce((totals, recipe) => {
@@ -1031,18 +1026,14 @@ test('keeps complete but unsigned contracts non-public until explicit human admi
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
-    executable: 10,
+    executable: 12,
     identity_verified: 1,
-    recipe_fact_checked: 165,
+    recipe_fact_checked: 163,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
   }
 
-  const completeButUnsigned = new Set([
-    'cantonese-cured-meat-claypot-rice',
-    'cantonese-mushroom-chicken-claypot-rice',
-  ]);
   for (const recipe of catalog.recipes.filter(recipe => recipe.status === 'recipe_fact_checked')) {
     const completeExecutionContract = Boolean(
       recipe.fixed_batch
@@ -1051,14 +1042,22 @@ test('keeps complete but unsigned contracts non-public until explicit human admi
       && recipe.time_contract
       && recipe.safety_endpoints.length > 0,
     );
-    if (completeExecutionContract) {
-      assert.ok(completeButUnsigned.has(recipe.recipe_id), `${recipe.recipe_id} needs an explicit unsigned exception`);
-      assert.match(recipe.evidence_notes ?? '', /待人工准入/u, recipe.recipe_id);
-      assert.match(recipe.evidence_notes ?? '', /尚无kitchen_observed/u, recipe.recipe_id);
-    } else {
-      assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
-    }
+    assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
   }
+});
+
+test('r39 ledger records both signed promotions and the unchanged kitchen boundary', () => {
+  const progress = readFileSync(
+    join(projectDirectory, 'docs', 'source-backed-one-pot-recipe-progress-20260804.md'),
+    'utf8',
+  );
+  assert.match(progress, /r39 两道签署菜谱晋升记录（2026-08-05）/u);
+  assert.match(progress, /腊味煲仔饭.*recipe_fact_checked.*executable.*签署通过/u);
+  assert.match(progress, /冬菇滑鸡饭.*recipe_fact_checked.*executable.*签署通过/u);
+  assert.match(progress, /executable=10.*executable=12/u);
+  assert.match(progress, /kitchen_observed=0/u);
+  assert.match(progress, /手抓饭.*保持.*recipe_fact_checked/u);
+  assert.match(progress, /咖喱鸡.*保持.*recipe_fact_checked/u);
 });
 
 test('records Hezhe Mowenggu rice porridge as a named millet meal without inventing fish species or timing', () => {
@@ -1734,8 +1733,8 @@ test('records reviewed coverage and the evidence status of every eastern researc
     'taiwan-cabbage-rice': 'recipe_fact_checked',
     'taiwan-mushroom-bamboo-shoot-rice': 'recipe_fact_checked',
     'taiwan-tongzai-rice-cake': 'recipe_fact_checked',
-    'cantonese-cured-meat-claypot-rice': 'recipe_fact_checked',
-    'cantonese-mushroom-chicken-claypot-rice': 'recipe_fact_checked',
+    'cantonese-cured-meat-claypot-rice': 'executable',
+    'cantonese-mushroom-chicken-claypot-rice': 'executable',
     'cantonese-black-bean-pork-rib-claypot-rice': 'recipe_fact_checked',
     'zhanjiang-galangal-leaf-rice': 'recipe_fact_checked',
     'zhanjiang-duck-rice': 'recipe_fact_checked',
