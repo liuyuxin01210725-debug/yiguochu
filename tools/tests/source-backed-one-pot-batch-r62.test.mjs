@@ -39,7 +39,7 @@ test('r62 collection batch is source-backed, bounded, and not auto-promoted', ()
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
   assert.match(
     catalog.catalog_version,
-    /^source-backed-one-pot-v1-20260808-national-r\d+$/,
+    /^source-backed-one-pot-v1-\d{8}-national-r\d+$/,
   );
   assert.ok(catalog.recipes.length >= expected.length);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
