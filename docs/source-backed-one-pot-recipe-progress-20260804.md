@@ -1,5 +1,48 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r79 搜集期第五十二批（2026-08-06）
+
+本批按“尽可能扩大真实具名菜饭池、证据不越级”的策略，三路并行核对 Tiger/Iris/Panasonic 等厂商官方页、港台公共机构/品牌页和中国地方政府来源。基于 r78 的 699 条目录，本批去重后新增 **17 条**：15 条 `recipe_fact_checked`、2 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r79`，当前总量 **716**：`executable=12`、`recipe_fact_checked=628`、`identity_verified=70`、`discovered=6`、`kitchen_observed=0`。本批不改 Worker、前端、Planner、模板或 DeepSeek，不部署。
+
+### 厂商官方来源（7 条，全部 `recipe_fact_checked`）
+
+- `tiger-gomoku-rice-post43` — 五目ごはん（Tiger post43官方版）：Tiger 官方页给出 6 人份、3 杯米、鸡腿/油豆腐/根菜/蒟蒻/香菇和荷兰豆，白米 3 线、根菜先煮 4–5 分钟、荷兰豆出锅拌入；保留指定型号和禽肉安全缺口，不与目录既有的其他“五目ごはん”版本合并。
+- `tiger-crab-miso-rice-post6` — かに味噌ごはん：6 人份、3 杯米、蟹肉 200g、蟹味噌 100g，百合根先焯，蟹肉出锅后加入并蒸约 2 分钟；海鲜安全端点待补。
+- `tiger-canned-curry-takikomi-pilaf` — 赤缶カレー炊込みピラフ：Tiger COK-A220/N220 压力锅版本，3 人份、米 300g、水 340mL，排气后加毛豆和咖喱再蒸 5 分钟；不外推普通电饭煲。
+- `tiger-seafood-paella-post118` — 海鮮炊込みパエリア：4/8 人份和约 55 分钟；海鲜另锅油酒蒸约 5 分钟取汁，米用海鲜汁炊，末段加海鲜/蔬菜；明确记录为多阶段边界，未伪装成单内锅一键菜。
+- `iris-pc-mb3-takikomi-rice` — 炊き込みご飯（Iris PC-MB3-H post35）：Iris PC-MB3-H 版给出鸡胸、胡萝卜、牛蒡、香菇、蒟蒻、2 合水位线、密封程序和约 70 分钟；标题保持厂商泛称，未包装成地域菜。
+- `iris-kpc-ma2-paella-recipe29` — パエリア（Iris KPC-MA2）：2–3 人、约 75 分钟、米 300g、鸡翅根、配料和温水 320mL；保留腌制、彩椒后处理和排气模式。
+- `iris-kpc-ma2-hainan-chicken-rice` — 海南鶏飯（Iris KPC-MA2）：2–3 人、米 300g、鸡腿 250g、水 320mL 加鸡汤粉；鸡腿铺米炊饭，酱汁另做，不把套餐拼成“全部同锅”。
+
+### 港台机构/品牌来源（8 条，全部 `recipe_fact_checked`）
+
+- `panasonic-hk-lap-mei-glutinous-rice` — 電飯煲臘味糯米飯：Panasonic SR-AC071 官方页给出糯米 300g、香菇水 200mL、腊肠/肝肠/腊肉/虾米/冬菇，过夜浸泡、腊味汆烫、先炒后以“精煮”煮两次；无通用份数，保留型号和过敏边界。
+- `nestle-ginger-goji-steamed-chicken-claypot-rice` — 薑絲枸杞子蒸雞煲仔飯：Nestlé 香港页给出 1–2 份、鸡肉、品牌蒸煮豆腐，鸡肉腌 30 分钟，米约半水量，结束前 10 分钟加枸杞；鸡肉熟制终点与通用液体合同待补。
+- `philips-korean-stone-pot-rice` — 韓國石鍋飯：Philips 香港页给出 2 杯米、2 杯刻度，约 1 小时后加入泡菜、菠菜、蒜苗、虾、胡萝卜和牛肉，焖约 10 分钟，最后加鸡蛋；指定型号和生蛋/海鲜边界保留。
+- `tvb-quinoa-chestnut-mushroom-chicken-rice` — 藜麥栗子冬菇雞飯：TVB 页记录藜麦浸泡约 20 分钟、鸡肉腌制，米/蔬菜/冬菇/栗子先入电饭煲，米香后加鸡肉；量按人数而定，不把口述量补成合同。
+- `tvb-chestnut-chicken-rice` — 栗子雞飯：TVB 页记录菇姜葱先炒、鸡腿腌制，栗子/菇/米/水和高汤先煮，成饭后加鸡肉焗熟；固定克重与总时间待补。
+- `knorr-electric-rice-cooker-egg-mushroom-beef-rice` — 電飯煲窩蛋香菇牛肉飯：Knorr 香港页给出 4 份、米 2 杯、碎牛肉 400g、冬菇约 15 朵；跳掣前约 5 分钟后投牛肉和冬菇，跳掣后加蛋再焗约 10 分钟。
+- `taiwan-moa-healthy-brown-rice` — 養生糙米飯：台湾农业部农业知识入口网记录糙米浸泡约 1 小时、虾米/干鱿鱼/香菇/竹笋/胡萝卜先炒后入电锅，熟后包白菜叶；不把出锅包裹改写成全程同锅。
+- `tvb-octopus-chicken-claypot-rice` — 章魚雞粒有味飯：TVB News 页给出米 2 杯、章鱼 30g、鸡肉 160g 及鲍鱼/瑶柱/虾米等，砂煲米水 1:1，大火转中火并焗 5 分钟；原器具是砂煲，不推导电饭煲程序。
+
+### 中国地域身份来源（2 条，`identity_verified`）
+
+- `shishi-jump-fish-braised-rice` — 石狮跳跳鱼焖饭：石狮市政府页面点名蚶江跳跳鱼焖饭及其海鲜地方语境；目前只记录身份和核心食材，未补固定配方。
+- `fujian-oil-braised-meat-rice` — 福建油焖肉饭：福建省政府转载报道点名地方油焖肉饭及柴火灶场景；来源未给固定份量、液体、流程和安全合同，保持身份档案。
+
+### 本批明确不入目录的线索
+
+- 弥勒婆婆铜锅洋芋焖饭、巫溪洋芋焖饭、旬阳洋芋锅巴饭：地方身份真实，但核心是米+土豆双碳水，且缺固定合同；按“至少不接受纯碳水主餐”的营养边界留在地域报告，不用数量稀释目录。
+- 南华松茸焖饭：政府页只写松茸可焖饭，未形成明确具名固定菜和流程，不创建条目。
+- 彭水馇菜饭：县级非遗名称已确认，但流程和固定用量仍不足，留作身份候选。
+- 梅县鱼血焖饭：与目录已有石扇鱼焖饭存在名称变体风险，暂不重复建条目。
+- TVB 金瓜芋头椰汁红米饭、台湾藜饭、薏仁饭、红糯米饭：均是真实具名谷物饭，但缺蛋白/蔬菜，不列入均衡主餐优先池。
+
+### 本批纪律
+
+- 17 条均使用直接打开的来源，显式记录 `evidence_tier`、定位、署名、许可和实际 claim scope；厂商/媒体的器具程序不外推普通电饭煲，另锅取汁、预炒、后投和出锅包裹均保留原边界。
+- 本批全部停在研究层：没有自动晋升 `executable`，没有厨房验证，`kitchen_observed` 仍为 0。下一步应从 r79 池中挑高频、营养结构完整且合同最接近闭合的条目进入人工签署与厨房验证，而不是继续把研究记录误当成用户可执行菜单。
+
 ## r78 搜集期第五十一批（2026-08-08）
 
 本批继续“先扩大真实菜谱池、证据不越级”，只登记直接打开的厂商官方来源，不改 Worker、前端、Planner、模板或 DeepSeek，不部署。基于 r77 的 696 条目录，本批新增 3 条，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r78`，当前总量 **699**：`executable=12`、`recipe_fact_checked=613`、`identity_verified=68`、`discovered=6`、`kitchen_observed=0`。
