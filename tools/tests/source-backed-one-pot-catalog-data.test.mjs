@@ -73,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r42');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r43');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -723,7 +723,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r42');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r43');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1028,7 +1028,7 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   assert.deepEqual(statusTotals, {
     executable: 12,
     identity_verified: 1,
-    recipe_fact_checked: 200,
+    recipe_fact_checked: 210,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1124,6 +1124,33 @@ test('r42 collection batch records only directly sourced low-overlap one-pot mea
     assert.equal(recipe.status, 'recipe_fact_checked');
     assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
     assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
+    assert.notEqual(recipe.status, 'executable');
+  }
+});
+
+test('r43 collection batch records directly sourced named rice meals without inventing contracts', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['hk-salmon-edamame-quinoa-rice', '三文魚青毛豆藜麥飯'],
+    ['hk-tomato-mushroom-chicken-rice', '番茄雜菇雞腿肉飯'],
+    ['hk-pumpkin-shiitake-pork-rice', '南瓜冬菇豬肉燉飯'],
+    ['hk-sakura-shrimp-chicken-quinoa-rice', '櫻花蝦冬菇雞肉藜麥飯'],
+    ['tiger-hijiki-brown-rice', 'Hijiki Brown Rice'],
+    ['tiger-bibimbap-style-rice', 'Bibimbap Style Rice'],
+    ['toshiba-vegetarian-mixed-brown-rice', 'Vegetarian Mixed Brown Rice'],
+    ['yangxin-spring-lake-fish-rice', '春湖魚飯'],
+    ['huarong-guoba-fish-rice', '鍋巴魚飯'],
+    ['taizhou-yellowfish-rice', '黃魚飯'],
+  ];
+  assert.equal(expected.length, 10);
+  for (const [recipeId, name] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.ok(recipe, `${recipeId} should be in the r43 research batch`);
+    assert.equal(recipe.canonical_name, name);
+    assert.equal(recipe.status, 'recipe_fact_checked');
+    assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
+    assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
+    assert.equal(recipe.fixed_batch, null);
     assert.notEqual(recipe.status, 'executable');
   }
 });
