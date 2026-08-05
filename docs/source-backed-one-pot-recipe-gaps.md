@@ -851,6 +851,7 @@
 - さんまめし (maff-yamanashi-sanma-meshi) — JP-YAMANASHI
 - うずみ (maff-hiroshima-uzume) — JP-HIROSHIMA-FUKUYAMA
 - 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
+- Corn Rice (tiger-corn-rice) — JP
 - さといもと高菜漬けの炊き込みごはん (maff-satoimo-takana-takikomi-gohan) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
@@ -885,6 +886,7 @@
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
 - Bacon and Tuna Rice Casserole (tiger-usa-bacon-tuna-rice-casserole) — 非地域·厂商食谱
+- Bang Bang Chicken (tiger-bang-bang-chicken-rice) — 非地域·厂商食谱
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
@@ -1222,6 +1224,7 @@
 - ののこ飯 (zojirushi-nonokomeshi-el-mb30) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
+- Bang Bang Chicken (tiger-bang-bang-chicken-rice) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱

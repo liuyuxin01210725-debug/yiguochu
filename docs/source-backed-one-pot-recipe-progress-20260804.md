@@ -1,5 +1,23 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r77 搜集期第五十批（2026-08-08）
+
+本批继续“尽可能扩大真实菜谱池、证据不越级”，只登记直接打开的厂商/政府来源，不改 Worker、前端、Planner、模板或 DeepSeek，不部署。基于 r76 的 693 条目录，本批新增 3 条，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r77`，当前总量 **696**：`executable=12`、`recipe_fact_checked=610`、`identity_verified=68`、`discovered=6`、`kitchen_observed=0`。
+
+### 厂商官方来源（2 条，`recipe_fact_checked`）
+
+- `tiger-corn-rice` — Corn Rice：Tiger USA 官方页面给出 3–4 份、短粒日本米 2 杯、罐装玉米、白米水位线 2 和 Plain 程序，出锅加黄油；它是碳水+膳食纤维的主食型候选，页面明确建议另配蛋白质或蔬菜，不与完整均衡主餐等价。
+- `tiger-bang-bang-chicken-rice` — Bang Bang Chicken：Tiger USA 官方 Tacook 版本把调味鸡腿放在上层、米饭放内锅同步烹调，黄瓜/生菜/番茄和酱汁出锅组合；保留机型水位线、上下层和出锅步骤，不改写成普通电饭煲内锅一锅焖饭。
+
+### 地域政府/非遗来源（1 条，`identity_verified`）
+
+- `huoqiu-haozi-guoba-rice` — 霍邱蒿子锅巴：霍邱县政府/文旅体育局页面确认蒿子与米同锅制作、锅底形成蒿香锅巴，并列入县级非遗；来源没有米量、液体、时间、器具或电饭煲参数，因此只登记身份和高层同锅事实，未补写配方。
+
+### 本批纪律
+
+- 三条均有直接打开来源、显式 evidence tier、定位、署名、许可和实际 claim scope；没有把厂商水位线外推成通用比例，没有把 Tacook 两层同步伪装成单内锅，也没有把霍邱非遗身份升级成可执行配方。
+- `recipe_fact_checked` 仍只是研究层，不等于人工签署、`executable` 或厨房验证；本批没有自动晋升。Corn Rice 的营养边界明确为碳水+膳食纤维，后续筛选完整主餐时单独标注；`kitchen_observed` 继续为 0。
+
 ## r76 搜集期第四十九批（2026-08-08）
 
 本批按“尽可能扩大真实菜谱池、证据不越级”并行复核厂商、机构和地域来源。基于 r75 的 688 条目录，**新增 5 条**直接厂商官方研究记录，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r76`，当前总量 693：`executable=12`、`recipe_fact_checked=608`、`identity_verified=67`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。

@@ -378,6 +378,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 靖州乌米饭 | 靖州黑米饭 | CN-HN-HUAIHUA-JINGZHOU | hunan-wumi-rice | 研究记录（非公开可执行） | 糯米；杨桐叶或南烛叶汁 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [靖州乌米饭：传承与新生](https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/201806/t20180601_5375999.html)<br>[靖州：黑米饭香飘侗寨](https://www.huaihua.gov.cn/wlgdtj/c108772/202506/7d888edf848346aba0f9fc09729c7576.shtml) |
+## huoqiu-regional-haozi-guoba-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 霍邱蒿子锅巴 | 蒿子菜干饭；霍邱蒿子菜干饭 | CN-AH-LUAN-HUOQIU | huoqiu-regional-haozi-guoba-rice | 研究记录（非公开可执行） | 米；蒿子 | identity、ingredients、process | 当前状态所需证据已齐 | [传统技艺《霍邱蒿子锅巴》](https://www.huoqiu.gov.cn/public/6600541/37942838.html) |
 ## japanese-cooked-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -535,6 +540,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Corn Rice | 虎牌玉米饭；玉米炊饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 短粒日本米；玉米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Corn Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/corn-rice/) |
 | さといもと高菜漬けの炊き込みごはん | 芋头高菜炊饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；芋头；高菜腌菜；芝麻油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [さといもと高菜漬けの炊き込みごはん](https://www.maff.go.jp/j/keikaku/syokubunka/culture/wagohan/articles/2111/spe3_02.html) |
 | さばの香味麦炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；三成麦；盐烤鲭鱼；生姜；茗荷；紫苏 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [さばの香味麦炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_525/) |
 | そら豆のごはん | 蚕豆饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；蚕豆；昆布；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [そら豆のごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post47/) |
@@ -795,6 +801,7 @@
 | Asparagus and Mushroom Risotto | 芦笋蘑菇烩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 芦笋；蘑菇；洋葱；糙米；蔬菜汤；帕玛森芝士；黄油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Asparagus and Mushroom Risotto](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/asparagus-and-mushroom-risotto/) |
 | Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole | 秋季鸡肉蘑菇四季豆饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；鸡汤；洋葱；南瓜；胡萝卜；菠菜；鸡柳；蘑菇浓汤；四季豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/autumn-rice-pilaf-with-chicken-mushroom-green-bean-casserole/) |
 | Bacon and Tuna Rice Casserole | 培根金枪鱼焗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；培根；西兰花；金枪鱼罐头；番茄酱；白酱；芝士 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Bacon and Tuna Rice Casserole](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bacon-and-tuna-rice-casserole/) |
+| Bang Bang Chicken | 棒棒鸡米饭；虎牌棒棒鸡饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡腿肉；黄瓜；生菜；小番茄；花生 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Bang Bang Chicken](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bang-bang-chicken/) |
 | Basic Congee (Porridge) | 基础鸡肉粥；姜香鸡粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 日本米；鸡汤；芹菜；姜；葱 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Basic Congee (Porridge)](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/basic-congee-porridge/) |
 | Bibimbap Style Rice | 石锅拌饭风米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；胡萝卜；香菇；毛豆；菠菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Bibimbap Style Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bibimbap-style-rice/) |
 | Brown Rice with Salmon and Shiitake | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；三文鱼；干香菇；米酒；味醂；酱油 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [Brown Rice with Salmon and Shiitake](https://www.zojirushi.com/app/recipe/brown-rice-with-salmon-and-shiitake) |
