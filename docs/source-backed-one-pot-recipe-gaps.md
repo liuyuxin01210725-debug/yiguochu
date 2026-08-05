@@ -260,6 +260,7 @@
 - 薑黃雞腿燉飯 (taiwan-turmeric-chicken-risotto) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 黃魚飯 (taizhou-yellowfish-rice) — CN-ZJ
+- 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 人参果饭 (tibet-renshenggu-rice) — CN-XZ
 - 咪达 (tibet-mida-rice-porridge) — CN-XZ
@@ -683,7 +684,10 @@
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - しょうが飯 (tatung-wakayama-ginger-rice) — TW
+- サーモンとかぼちゃのミルクリゾット (tatung-salmon-pumpkin-milk-risotto) — TW
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
+- 海の幸たっぷり海鮮粥 (tatung-seafood-porridge) — TW
+- 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ

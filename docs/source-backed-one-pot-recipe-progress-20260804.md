@@ -1,5 +1,35 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r54 搜集期第十五批（2026-08-05）
+
+本批继续沿大同官方电锅食谱页核验具名米饭、炊饭和粥类，保留同一器具的多阶段流程，不把它们改写成自由组合。新增 **5 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r53` bump 为 `source-backed-one-pot-v1-20260807-national-r54`，条目从 350 增至 355：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：333 → 338；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（5 条，全部 `recipe_fact_checked`）
+
+1. `tatung-fukagawa-rice` — 大同 `深川飯（あさりの炊き込みご飯）`；
+2. `tatung-tomato-pumpkin-rice` — 大同 `トマトとかぼちゃの炊き込みご飯`；
+3. `tatung-salmon-pumpkin-milk-risotto` — 大同 `サーモンとかぼちゃのミルクリゾット`；
+4. `tatung-seafood-porridge` — 大同 `海の幸たっぷり海鮮粥`；
+5. `tatung-tuna-garlic-butter-rice` — 大同 `背徳のガリバタ飯`。
+
+### 本批来源与边界
+
+- `深川飯` 保留蛤蜊先蒸取汁、清洗内锅后复炊的两阶段流程；来源没有固定水量和最终安全终点，不能压成普通电饭煲的一步焖饭。
+- 番茄南瓜饭与金枪鱼蒜香黄油饭是同一内锅投料的具名大同电锅菜，但水量、外锅水和时间只对页面所示机型成立；不外推为普通电饭煲参数。两条营养结构分别含有限肉类/鱼类蛋白与蔬菜或玉米纤维，仍不宣称已经过均衡验证。
+- 三文鱼南瓜奶油烩饭明确要求南瓜先蒸成泥，海鲜粥明确要求鸡翅先用平底锅预煎、再分两阶段投料；它们是“同一主器具的连续流程”或“带预处理的研究候选”，不伪装成全程零准备的一锅饭。海鲜与鱼类安全终点尚未闭合。
+- 五条均保持 `recipe_fact_checked`，不宣称已批准、已适配或可直接上线；来源版权与电锅型号边界继续按厂商页面记录。
+
+### 本批验证纪律
+
+- 先新增 r54 失败测试，锁定目录版本、355 条总数、5 个 recipe ID、来源直接打开、全部非 executable 及大同电锅边界；实现后目录专项测试 **211/211** 通过。
+- 已运行目录构建及检查、菜谱聚合门禁、Python 语法检查、构建一致性检查和 `git diff --check`；全量 Node 测试将在本批提交前再跑一次。
+- 本批只涉及研究目录、测试、进度文档及派生目录；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。晋升仍需人工逐条签署，并以 `kitchen_observed` 作为真实家庭验证门。
+
 ## r53 搜集期第十四批（2026-08-05）
 
 本批继续沿台湾官方农粮教育与 Panasonic Taiwan 机型食谱线搜集，逐页打开、去重并保留具名与器具边界。新增 **4 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r52` bump 为 `source-backed-one-pot-v1-20260807-national-r53`，条目从 346 增至 350：
