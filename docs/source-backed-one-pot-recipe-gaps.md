@@ -142,6 +142,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
@@ -153,6 +154,7 @@
 - 潜江焌米茶 (qianjiang-junmi-tea) — CN-HB-QIANJIANG
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
+- 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
 - 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -270,8 +272,13 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - エアぶり大根めし (maff-air-buri-daikon-daikon-meshi) — JP
+- 時短！！オクラ入り鮭の混ぜご飯 (maff-salmon-okra-mixed-rice) — JP
+- 混ぜるだけ！簡単で美味しい小松菜の混ぜご飯！！ (maff-komatsuna-sausage-mixed-rice) — JP
 - ごぼうと牛肉のごはん (maff-gobo-beef-rice) — JP
+- クコの実アボガドご飯 (maff-goji-avocado-rice) — JP
 - 大根ご飯 (maff-daikon-chicken-rice) — JP
+- 宇宙（そら）芋ごはん (maff-sora-imo-takikomi-rice) — JP
+- 鶏エリンギごはんの和風オムライス (maff-chicken-eryngii-omurice) — JP
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
 - おまかせ丸投げ賀茂なすご飯 (maff-kamo-nasu-jako-rice) — JP-KYOTO
@@ -385,6 +392,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
@@ -396,6 +404,7 @@
 - 潜江焌米茶 (qianjiang-junmi-tea) — CN-HB-QIANJIANG
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
+- 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
 - 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -474,6 +483,7 @@
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 磐安竹筒饭 (zhejiang-panan-bamboo-tube-rice) — CN-ZJ
+- 汤溪乌饭 (jinhua-tangxi-wufan) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 贞丰糯米饭 (guizhou-zhenfeng-glutinous-rice) — CN-GZ
@@ -559,6 +569,8 @@
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
+- エリンギとシーフードミックスのパエリア風ご飯 (maff-eryngii-seafood-pan-paella) — JP
+- 鮭ととうもろこしの和風パエリア (maff-salmon-corn-japanese-paella) — JP
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
@@ -654,6 +666,7 @@
 - 砚山豆焖饭 (yanshan-broad-bean-braised-rice) — CN-YN
 - 博尚豆焖饭 (linxiang-boshan-bean-braised-rice) — CN-YN
 - 傣族菠萝饭 (dai-pineapple-sticky-rice) — CN-YN
+- 汤溪乌饭 (jinhua-tangxi-wufan) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 
@@ -719,10 +732,15 @@
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
+- 時短！！オクラ入り鮭の混ぜご飯 (maff-salmon-okra-mixed-rice) — JP
+- 混ぜるだけ！簡単で美味しい小松菜の混ぜご飯！！ (maff-komatsuna-sausage-mixed-rice) — JP
 - ごぼうと牛肉のごはん (maff-gobo-beef-rice) — JP
+- クコの実アボガドご飯 (maff-goji-avocado-rice) — JP
+- トマチーご飯 (maff-tomato-cheese-rice) — JP
 - トマト炊き込みごはん (maff-tomato-salmon-takikomi) — JP
 - 刻みコンブときのこの香りごはん (maff-kombu-mushroom-kaori-gohan) — JP
 - 大根ご飯 (maff-daikon-chicken-rice) — JP
+- 鶏エリンギごはんの和風オムライス (maff-chicken-eryngii-omurice) — JP
 - 福岡たけのこごはん (maff-fukuoka-bamboo-rice) — JP-FUKUOKA
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
@@ -921,6 +939,7 @@
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 羊肉调和饭 (ningxia-lamb-tiaohe-rice) — CN-NX
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
@@ -935,6 +954,7 @@
 - 潜江焌米茶 (qianjiang-junmi-tea) — CN-HB-QIANJIANG
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
+- 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
 - 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -1042,6 +1062,7 @@
 - 马帮锣锅饭 (yunnan-mabang-luoguo-rice) — CN-YN
 - 豌豆洋芋火腿焖饭 (yunnan-shidian-pea-potato-ham-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
+- 汤溪乌饭 (jinhua-tangxi-wufan) — CN-ZJ
 - 温州南麂芥菜饭 (wenzhou-mustard-greens-rice) — CN-ZJ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 贞丰糯米饭 (guizhou-zhenfeng-glutinous-rice) — CN-GZ
@@ -1087,7 +1108,11 @@
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
+- 混ぜるだけ！簡単で美味しい小松菜の混ぜご飯！！ (maff-komatsuna-sausage-mixed-rice) — JP
+- エリンギとシーフードミックスのパエリア風ご飯 (maff-eryngii-seafood-pan-paella) — JP
 - 大根ご飯 (maff-daikon-chicken-rice) — JP
+- 鮭ととうもろこしの和風パエリア (maff-salmon-corn-japanese-paella) — JP
+- 鶏エリンギごはんの和風オムライス (maff-chicken-eryngii-omurice) — JP
 - 福岡たけのこごはん (maff-fukuoka-bamboo-rice) — JP-FUKUOKA
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
@@ -1116,6 +1141,8 @@
 - いがい飯 (maff-tottori-igai-meshi) — JP-TOTTORI
 - 大山おこわ (maff-tottori-daisen-okowa) — JP-TOTTORI
 - うずみ (maff-hiroshima-uzume) — JP-HIROSHIMA-FUKUYAMA
+- チキンのパエリア (tiger-chicken-paella) — JP
+- チーズカレーピラフ (tiger-cheese-curry-pilaf) — JP
 - 干しえびと塩昆布の玄米ごはん (r61-tiger-dried-shrimp-salted-kelp-brown-rice) — JP
 - 炊込み中華おこわ (tiger-chinese-sticky-rice) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
@@ -1205,10 +1232,12 @@
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
+- 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
+- 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
 - うずめ飯 (maff-shimane-uzume-meshi) — JP-SHIMANE
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
@@ -1288,7 +1317,6 @@
 - CN-HN — 武陵地区可能有社饭传统，但本轮未找到可独立核验的湖南原始来源证明固定米饭主餐。（检索于 2026-08-02）
 - CN-JX — 未找到达到狭义咸味米饭一锅主餐标准的可读原始来源。（检索于 2026-08-02）
 - CN-LN — 可见结果通常是多菜炖煮结构，不是米饭主餐，故按范围排除。（检索于 2026-08-02）
-- CN-SD — 线索为谷物主食或通用焖饭，未形成可溯源的具名区域米饭主餐。（检索于 2026-08-02）
 - CN-XZ — 线索为谷物或主食形式，未核验出咸味平衡一锅米饭主餐的固定做法。（检索于 2026-08-02）
 - CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）
 - CN-YN — 禄劝县政府原始来源仅提供 HTTP URL；目录要求直达 HTTPS，未伪造 HTTPS 或降低门禁。（检索于 2026-08-02）

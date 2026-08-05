@@ -1,5 +1,37 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r69 搜集期第四十二批（2026-08-06）
+
+本批继续“先扩大真实菜谱池、暂不进入运行时”：机构、厂商和地域三条线并行，按 canonical name、地域身份和核心工艺去重后登记 **13 条新研究记录**。目录版本由 r68 的 `source-backed-one-pot-v1-20260808-national-r68` bump 为 `source-backed-one-pot-v1-20260808-national-r69`，条目从 633 增至 646：`executable=12`、`recipe_fact_checked=574`、`identity_verified=54`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，也没有部署。
+
+### 日本农林水产省直页（8 条，全部 `recipe_fact_checked`）
+
+- `maff-tomato-cheese-rice` — トマチーご飯：番茄、米、水、白だし和奶酪全部入炊饭器；明确蛋白偏低，不宣称均衡主餐。
+- `maff-sora-imo-takikomi-rice` — 宇宙（そら）芋ごはん：宇宙芋与米同炊，保留 30–40 分钟范围和低蛋白边界。
+- `maff-chicken-eryngii-omurice` — 鶏エリンギごはんの和風オムライス：炊饭器只完成鸡肉杏鲍菇饭底，蛋皮必须另锅收尾。
+- `maff-salmon-corn-japanese-paella` — 鮭ととうもろこしの和風パエリア：炉灶平底锅先煎后焖的具名饭，不改成电饭煲配方。
+- `maff-eryngii-seafood-pan-paella` — エリンギとシーフードミックスのパエリア風ご飯：海鲜与杏鲍菇先炒取汁，再加米焖；标注与既有 paella 家族近重复。
+- `maff-goji-avocado-rice` — クコの実アボガドご飯：饭底炊饭、芹菜叶另行收尾；低蛋白，不宣称完整主餐。
+- `maff-salmon-okra-mixed-rice` — 時短！！オクラ入り鮭の混ぜご飯：熟饭、焯秋葵和煎鲑鱼最后拌合，登记熟饭二次烹饪线。
+- `maff-komatsuna-sausage-mixed-rice` — 混ぜるだけ！簡単で美味しい小松菜の混ぜご飯！！：熟饭与焯菜、煎香肠和鸡蛋拌合，不伪装成生米一锅。
+
+### 中国地域来源（3 条，全部 `recipe_fact_checked`，边界明确）
+
+- `jinhua-tangxi-wufan` — 汤溪乌饭：浙江地方标准量化的蒸制米点心，列入非主餐研究边界，不做电饭煲适配推导。
+- `jining-bengrou-ganfan` — 甏肉干饭：济宁甏肉与干饭分别完成，记录为米饭+独立配菜，不改名为甏肉焖饭。
+- `heilongjiang-demoli-stewed-fish` — 得莫利炖鱼：真实东北一锅炖菜但不含米饭，列入非米饭一锅出边界。
+
+### 虎牌官方来源（2 条，全部 `recipe_fact_checked`）
+
+- `tiger-chicken-paella` — チキンのパエリア：COK-B220 电压力锅主炊煮，甜椒和玉米出锅后焖 5 分钟，保留机型与后加边界。
+- `tiger-cheese-curry-pilaf` — チーズカレーピラフ：金枪鱼、玉米和咖喱饭同锅，芝士炊后焖入；水位线只对 COK-B220 负责。
+
+### 本批纪律与下一步
+
+- 13 条均有直接打开的官方/政府/地方标准来源，显式记录 evidence tier、定位和真实 claim scope；没有把搜索摘录、熟饭拌合或分锅配菜伪装成生米同锅。
+- 低蛋白米饭、熟饭二次烹饪、炉灶平底锅、非米饭一锅菜均保留真实名称和边界；`recipe_fact_checked` 只表示事实有档，不表示 executable、人工签署或厨房验证。
+- `executable`、`kitchen_observed` 均不变；下一步仍是来源原件复核、四合同闭合和厨房验证，不自动晋升、不新增运行时组合能力。
+
 ## r68 搜集期第四十一批（2026-08-06）
 
 本批沿用“搜集放量、证据不越级”：机构、地域和厂商三条线并行，严格按当前 r67 目录去重后登记 **15 条新研究记录**。目录版本由 r67 的 `source-backed-one-pot-v1-20260808-national-r67` bump 为 `source-backed-one-pot-v1-20260808-national-r68`，条目从 618 增至 633：`executable=12`、`recipe_fact_checked=561`、`identity_verified=54`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，也没有部署。
