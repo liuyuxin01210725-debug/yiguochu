@@ -1,5 +1,59 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r46 搜集期第七批（2026-08-06）
+
+本批按“尽可能搜集真实具名一锅饭、搜集期放量但晋升门槛不降”执行。三个独立 Agent 分别检索日本农林水产省、厂商官方食谱和新疆地域政府来源；主线逐条打开、去重并结构化。新增 22 条 `recipe_fact_checked`，不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署 production。目录版本由 `source-backed-one-pot-v1-20260805-national-r45` bump 为 `source-backed-one-pot-v1-20260806-national-r46`，条目从 257 增至 279：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：240 → 262；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（22 条，全部 `recipe_fact_checked`）
+
+1. `jp-hiroshima-kakimeshi` — かき飯（日本农林水产省，广岛）；
+2. `jp-shiga-amenoio-gohan` — あめのいおご飯（日本农林水产省，滋贺）；
+3. `jp-miyagi-hokki-meshi` — ほっきめし（日本农林水产省，宫城）；
+4. `jp-mie-tako-meshi` — たこ飯（三重伊势志摩）；
+5. `jp-ehime-tako-meshi` — たこ飯（爱媛中予/今治）；
+6. `jp-tomato-salmon-takikomi-gohan` — トマトと鮭の炊き込みごはん（熊本）；
+7. `jp-okinawa-kufa-jushi` — クファジューシー（冲绳）；
+8. `jp-hotate-daikon-takikomi-gohan` — ホタテと大根の炊き込みごはん（日本农林水产省）；
+9. `cookpot-japanese-bamboo-tofu-skin-rice` — 日式竹筍油豆包炊飯（鍋寶）；
+10. `cookpot-beef-wild-mushroom-rice` — 牛肉野菇炊飯（鍋寶）；
+11. `cookpot-taro-chestnut-pork-rice` — 芋香栗子炊飯（鍋寶）；
+12. `cookpot-gomoku-mixed-rice` — 五目炊飯（鍋寶）；
+13. `cookpot-salted-mackerel-chicken-claypot-rice` — 鹹魚雞粒煲仔飯（鍋寶）；
+14. `cookpot-three-cup-chicken-rice` — 三杯雞炊飯（鍋寶）；
+15. `tiger-pork-bamboo-rice` — 豚肉とたけのこごはん（Tiger）；
+16. `tiger-pork-kimchi-brown-rice` — 豚キムチ玄米ごはん（Tiger）；
+17. `tiger-scallop-pea-rice` — ほたて貝柱とえんどう豆の炊込みごはん（Tiger）；
+18. `tiger-steak-mushroom-barley-rice` — ステーキときのこの麦バターライス（Tiger）；
+19. `toshiba-mixed-mushroom-ume-rice` — たっぷりきのこの炊込みご飯（Toshiba RCP-30R）；
+20. `toshiba-seafood-paella-rice` — シーフードパエリア風炊込みご飯（Toshiba RCP-30R）；
+21. `toshiba-bibimbap-mixed-rice` — 石焼ビビンバ風炊込みご飯（Toshiba RCP-30R）；
+22. `ili-pilaf` — 伊犁手抓饭（伊犁哈萨克自治州人民政府）。
+
+### 本批来源与边界
+
+- 日本农林水产省条目均保留具名地域身份、来源原料和原器具流程；牡蛎、章鱼、扇贝、鱼类只记录来源写明的预处理，不自行添加温度或跨器具换算。三重与爱媛同名 `たこ飯` 因地域和配方不同分列，未合并。
+- 鍋寶、Tiger、Toshiba 条目全部锁定官方产品/机型边界。水位线和压力程序不转换成普通电饭煲的毫升或通用时间；需要先炒、分层蒸煮或熟后回拌的菜，明确写进步骤，不包装成“所有材料一开始同锅”。
+- `tiger-pork-kimchi-brown-rice` 的泡菜和豆芽配菜保留“熟后拌/另做配菜”边界；`tiger-steak-mushroom-barley-rice` 保留牛排另煎，不把配菜伪装成饭锅食材。
+- `ili-pilaf` 只记录伊犁州政府页面明确的羊肉、胡萝卜、洋葱、油脂、大米和分段焖煮流程；“传说”不当作历史证据，固定克重、液体对象和电饭煲参数保持缺口。
+- 研究目录不等于可展示菜谱：本批 22 条全部保持 `recipe_fact_checked`，均未厨房验证，不能宣称已批准、已适配或已保证安全。
+
+### 去重与暂不收录
+
+- 台湾 NTUH 低钠西班牙炖饭、香港 FEHD 番茄杂菇鸡腿饭/南瓜冬菇猪肉炖饭、海南黎家竹筒饭、城口腊肉饭和 Panasonic 深川饭均已在现有目录中，未因换来源或换译名重复登记。
+- 爱媛/三重以外的同名抓饭、熟米拼盘、拐子饭和傈僳族手抓饭要么不是生米同锅，要么只开放身份标准，没有被强行纳入本批。
+- 象印泡菜牛肉饭、澳门葡式海鲜饭和湘西苗族南瓜饭保留为下一轮线索：目前缺型号/液体/安全或完整流程事实，不用搜索摘要填空。
+
+### 本批验证纪律
+
+- 先新增 r46 失败测试，锁定版本、22 个 recipe ID、状态和来源直接打开；实现后目录数据专项测试 `204/204` 通过。
+- 派生文档由 `node tools/build-source-backed-one-pot-catalog.mjs --write` 生成；随后必须跑 `--check`、`node tools/check-source-backed-one-pot-catalog.mjs`、`node tools/check-recipes.mjs`、全量 Node 测试、Python 语法检查和 `git diff --check`。
+- 本批只涉及研究目录、研究文档、派生目录和测试；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。
+
 ## r45 搜集期第六批（2026-08-05）
 
 本批按“搜集放量、晋升门槛不降”执行，由 Panasonic Foodable、台湾机构/医院、九阳官方说明书和大陆地域来源并行检索，再由主线去重与结构化。新增 16 条具名来源型条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r44` bump 为 `source-backed-one-pot-v1-20260805-national-r45`，条目从 241 增至 257：
