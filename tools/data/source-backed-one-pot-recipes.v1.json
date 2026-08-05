@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260805-national-r45",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r46",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -2596,6 +2596,2941 @@
     {"recipe_id":"taiwan-five-grain-rice","canonical_name":"五穀雜糧飯","aliases":["五谷杂粮饭"],"region_codes":["TW"],"cuisine_family":"taiwan-electric-cooker-rice","identity_status":"verified","traditional_vessels":["电饭锅"],"core_ingredients":["红米","荞麦","高粱","糙米","黑米"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":240,"unit":"cc"},"source_ids":["S-TW-MOA-FIVE-GRAIN-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"红米、荞麦、高粱、糙米和黑米浸泡约1小时。","source_ids":["S-TW-MOA-FIVE-GRAIN-RICE-1"]},{"step":2,"instruction":"将杂粮和240cc水放入电饭锅，按来源完成炊煮。","source_ids":["S-TW-MOA-FIVE-GRAIN-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TW-MOA-FIVE-GRAIN-RICE-1"],"notes":"台湾农业部官方杂粮饭页面；纯谷物主食，不补蛋白或其他食材。"},"source_refs":[{"source_id":"S-TW-MOA-FIVE-GRAIN-RICE-1","title":"五穀雜糧飯","publisher":"台湾农业部知识入口网","url":"https://kmweb.moa.gov.tw/subject/subject.php?id=18623","retrieved_at":"2026-08-05","source_kind":"government_recipe_page","access_status":"opened","evidence_tier":2,"evidence_locator":"官方页面：红米30g、荞麦30g、高粱30g、糙米60g、黑米30g、水240cc；浸泡1小时后电饭锅完成","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"台湾农业部知识入口网","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"具名五谷杂粮饭；研究层纯谷物条目，营养结构标为碳水和膳食纤维。"},
     {"recipe_id":"tacheng-air-dried-meat-pilaf","canonical_name":"塔城風乾肉抓飯","aliases":["塔城风干肉抓饭"],"region_codes":["CN-XJ"],"cuisine_family":"xinjiang-pilaf","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["风干肉","羊肉","米","胡萝卜","洋葱"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"塔城地方政府页面证明风干肉抓饭的地域身份和核心组合；未提供固定份量、液体、时长或现代电饭煲参数。"},"source_refs":[{"source_id":"S-XJ-TACHENG-AIRDRIED-PILAF-IDENTITY-1","title":"塔城风干肉抓饭","publisher":"塔城地区行政公署","url":"https://www.xjtc.gov.cn/ywdt/jrtc/xsdt/content_56828","retrieved_at":"2026-08-05","source_kind":"local_government_food_page","access_status":"opened","evidence_tier":2,"evidence_locator":"官方地方页面：塔城风干肉抓饭的具名与风干肉、羊肉、米、胡萝卜、洋葱组合","claim_scopes":["identity","ingredients"],"attribution":"塔城地区行政公署","license":"government_site_terms_unspecified"},{"source_id":"S-XJ-TACHENG-AIRDRIED-PILAF-IDENTITY-2","title":"塔城风干肉抓饭地方介绍","publisher":"塔城地区行政公署","url":"https://www.xjtc.gov.cn/zzb/xsdt1__ywdt/jrtc/bmdt/content_56938","retrieved_at":"2026-08-05","source_kind":"local_government_food_page","access_status":"opened","evidence_tier":2,"evidence_locator":"官方地方页面：塔城风干肉抓饭的地方食俗与制作身份","claim_scopes":["identity","process"],"attribution":"塔城地区行政公署","license":"government_site_terms_unspecified"}],"status":"identity_verified","evidence_notes":"只登记具名地域身份与来源明确的核心组合；完整合同和电饭煲适配留作研究缺口。"},
     {"recipe_id":"luling-dingpot-rice","canonical_name":"廬陵鼎罐飯","aliases":["庐陵鼎罐饭"],"region_codes":["CN-JX"],"cuisine_family":"jiangxi-traditional-one-pot-rice","identity_status":"verified","traditional_vessels":["鼎罐"],"core_ingredients":[],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate"]},"cooker_adaptation":{"status":"not_adapted","notes":"国家标准信息公共服务平台只证明“庐陵鼎罐饭”及其地方烹饪技艺身份，未提供可结构化的食材、液体、时间或现代器具参数。"},"source_refs":[{"source_id":"S-JX-LULING-DINGPOT-IDENTITY-1","title":"庐陵鼎罐饭制作技艺","publisher":"国家标准信息公共服务平台","url":"https://std.samr.gov.cn/db/search/stdDBDetailed?id=AB27251319D21A24E05397BE0A0AD271","retrieved_at":"2026-08-05","source_kind":"national_standard_identity_page","access_status":"opened","evidence_tier":2,"evidence_locator":"地方标准DB36/T1277-2020页面：庐陵鼎罐饭名称及制作技艺标准身份","claim_scopes":["identity"],"attribution":"国家标准信息公共服务平台","license":"publisher_copyright"}],"status":"identity_verified","evidence_notes":"仅登记国家标准数据库可直接证明的具名身份；不把标准标题扩写为完整做法。"},
-    {"recipe_id":"shizhu-tujia-potato-rice","canonical_name":"石柱土家洋芋飯","aliases":["石柱土家洋芋饭"],"region_codes":["CN-CQ"],"cuisine_family":"chongqing-traditional-one-pot-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["新米","洋芋"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"重庆官方页面证明本地洋芋与新米一同焖煮的地域身份；缺固定用量、液体、时间、安全和现代电饭煲参数，不宣称完整蛋白餐。"},"source_refs":[{"source_id":"S-CQ-SHIZHU-TUJIA-POTATO-RICE-IDENTITY-1","title":"石柱土家洋芋饭","publisher":"重庆市规划和自然资源局","url":"https://ghzrzyj.cq.gov.cn/bsfw_186/dtfw/mzyt/202511/t20251114_15163558_wap.html","retrieved_at":"2026-08-05","source_kind":"municipal_government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"官方页面：本地高山洋芋与颗粒分明的新米一同焖煮，形成洋芋饭地域叙述","claim_scopes":["identity","ingredients","process"],"attribution":"重庆市规划和自然资源局","license":"government_site_terms_unspecified"}],"status":"identity_verified","evidence_notes":"作为石柱地域变体登记；仅两种碳水/蔬菜主料，不宣称均衡蛋白餐，完整合同待后续来源。"}
+    {"recipe_id":"shizhu-tujia-potato-rice","canonical_name":"石柱土家洋芋飯","aliases":["石柱土家洋芋饭"],"region_codes":["CN-CQ"],"cuisine_family":"chongqing-traditional-one-pot-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["新米","洋芋"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"重庆官方页面证明本地洋芋与新米一同焖煮的地域身份；缺固定用量、液体、时间、安全和现代电饭煲参数，不宣称完整蛋白餐。"},"source_refs":[{"source_id":"S-CQ-SHIZHU-TUJIA-POTATO-RICE-IDENTITY-1","title":"石柱土家洋芋饭","publisher":"重庆市规划和自然资源局","url":"https://ghzrzyj.cq.gov.cn/bsfw_186/dtfw/mzyt/202511/t20251114_15163558_wap.html","retrieved_at":"2026-08-05","source_kind":"municipal_government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"官方页面：本地高山洋芋与颗粒分明的新米一同焖煮，形成洋芋饭地域叙述","claim_scopes":["identity","ingredients","process"],"attribution":"重庆市规划和自然资源局","license":"government_site_terms_unspecified"}],"status":"identity_verified","evidence_notes":"作为石柱地域变体登记；仅两种碳水/蔬菜主料，不宣称均衡蛋白餐，完整合同待后续来源。"},
+    {
+      "recipe_id": "jp-hiroshima-kakimeshi",
+      "canonical_name": "かき飯",
+      "aliases": [
+        "广岛牡蛎饭"
+      ],
+      "region_codes": [
+        "JP-HIROSHIMA"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "牡蛎",
+        "胡萝卜",
+        "牛蒡",
+        "干香菇",
+        "油炸豆腐"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 480,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-HIROSHIMA-KAKIMESHI-1"
+            ]
+          },
+          {
+            "name": "牡蛎",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-HIROSHIMA-KAKIMESHI-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-HIROSHIMA-KAKIMESHI-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-HIROSHIMA-KAKIMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-HIROSHIMA-KAKIMESHI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_dashi",
+        "amount": {
+          "value": 3,
+          "unit": "杯（出汁与牡蛎汁合计）"
+        },
+        "source_ids": [
+          "S-JP-HIROSHIMA-KAKIMESHI-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净浸泡约30分钟；牡蛎盐水洗净后用酒快速煮至收圆，保留牡蛎汁。",
+          "source_ids": [
+            "S-JP-HIROSHIMA-KAKIMESHI-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将米、出汁、牡蛎汁、胡萝卜、牛蒡、干香菇和油炸豆腐放入电饭煲正常炊煮。",
+          "source_ids": [
+            "S-JP-HIROSHIMA-KAKIMESHI-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟后放回牡蛎焖约10分钟，再翻拌食用。",
+          "source_ids": [
+            "S-JP-HIROSHIMA-KAKIMESHI-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "贝类",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-HIROSHIMA-KAKIMESHI-1"
+        ],
+        "notes": "日本农林水产省地域料理页面明确电饭煲流程；牡蛎安全温度未给，不外推熟制终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-HIROSHIMA-KAKIMESHI-1",
+          "title": "かき飯",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_28_hiroshima.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：4人份米480g、牡蛎300g、蔬菜与豆腐；牡蛎先煮留汁，米与出汁入电饭煲，熟后牡蛎焖10分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "广岛江田岛具名牡蛎饭；保留牡蛎预处理、牡蛎汁和熟后回锅边界，未补贝类中心温度。"
+    },
+    {
+      "recipe_id": "jp-shiga-amenoio-gohan",
+      "canonical_name": "あめのいおご飯",
+      "aliases": [
+        "滋贺琵琶鳟饭"
+      ],
+      "region_codes": [
+        "JP-SHIGA"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "琵琶鳟",
+        "胡萝卜",
+        "香菇",
+        "葱",
+        "昆布水"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 290,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-SHIGA-AMENOIO-1"
+            ]
+          },
+          {
+            "name": "琵琶鳟切身",
+            "amount": {
+              "value": 160,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-SHIGA-AMENOIO-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 35,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-SHIGA-AMENOIO-1"
+            ]
+          },
+          {
+            "name": "香菇",
+            "amount": {
+              "value": 35,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-SHIGA-AMENOIO-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-SHIGA-AMENOIO-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_dashi",
+        "amount": {
+          "value": 2,
+          "unit": "杯（昆布水与鱼汁）"
+        },
+        "source_ids": [
+          "S-JP-SHIGA-AMENOIO-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "琵琶鳟切身先中火煮约3分钟、再小火约2分钟，保留鱼汁并检查鱼骨。",
+          "source_ids": [
+            "S-JP-SHIGA-AMENOIO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、昆布水、鱼汁、胡萝卜和香菇放入电饭煲，铺上鱼肉后炊煮。",
+          "source_ids": [
+            "S-JP-SHIGA-AMENOIO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟焖后拆除鱼骨，拌入葱食用。",
+          "source_ids": [
+            "S-JP-SHIGA-AMENOIO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "鱼类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-SHIGA-AMENOIO-1"
+        ],
+        "notes": "农林水产省页面给出电饭煲和鱼汁流程；鱼类温度终点未给。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-SHIGA-AMENOIO-1",
+          "title": "あめのいおご飯",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amenoio_gohan_shiga.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：4人份鱼160g、米290g、昆布水2杯；鱼先煮留汁，米和配料入电饭煲，熟后拆骨拌葱",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "滋贺琵琶鳟地域炊饭；保留鱼先煮与拆骨步骤，不自行补鱼类温度。"
+    },
+    {
+      "recipe_id": "jp-miyagi-hokki-meshi",
+      "canonical_name": "ほっきめし",
+      "aliases": [
+        "宫城北寄贝饭"
+      ],
+      "region_codes": [
+        "JP-MIYAGI"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "北寄贝",
+        "酒",
+        "酱油"
+      ],
+      "fixed_batch": {
+        "servings": 5,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-JP-MIYAGI-HOKKI-1"
+            ]
+          },
+          {
+            "name": "北寄贝",
+            "amount": {
+              "value": 5,
+              "unit": "只（4至6只）"
+            },
+            "source_ids": [
+              "S-JP-MIYAGI-HOKKI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-MIYAGI-HOKKI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 5,
+          "unit": "杯（煮汁与水）"
+        },
+        "source_ids": [
+          "S-JP-MIYAGI-HOKKI-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "北寄贝分离贝身、柱和带，分别焯至桃红并过滤煮汁。",
+          "source_ids": [
+            "S-JP-MIYAGI-HOKKI-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米加入冷却后的煮汁、酒、酱油和水，在电饭煲中炊煮。",
+          "source_ids": [
+            "S-JP-MIYAGI-HOKKI-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟后拌入贝柱和贝带，铺上贝身食用。",
+          "source_ids": [
+            "S-JP-MIYAGI-HOKKI-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "贝类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-MIYAGI-HOKKI-1"
+        ],
+        "notes": "农林水产省页面给出电饭煲和分段焯贝流程；贝类安全温度未给。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-MIYAGI-HOKKI-1",
+          "title": "ほっきめし",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hokki_meshi_miyagi.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：4至6人份米3合、北寄贝4至6只、煮汁加水5杯；焯贝滤汁，汁炊米，熟后分段拌贝",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "宫城山元/亘理北寄贝饭；保留贝类分段处理，不补安全温度。"
+    },
+    {
+      "recipe_id": "jp-mie-tako-meshi",
+      "canonical_name": "たこ飯",
+      "aliases": [
+        "三重伊势志摩章鱼饭"
+      ],
+      "region_codes": [
+        "JP-MIE"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "章鱼",
+        "姜",
+        "酱油",
+        "酒"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-JP-MIE-TAKO-1"
+            ]
+          },
+          {
+            "name": "生章鱼",
+            "amount": {
+              "value": 350,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-MIE-TAKO-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-MIE-TAKO-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "章鱼去内脏后用盐揉洗去黏液，切块并用调味汁腌约20分钟。",
+          "source_ids": [
+            "S-JP-MIE-TAKO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米与腌汁、盐和标准水量放入电饭煲，最后放入章鱼同炊。",
+          "source_ids": [
+            "S-JP-MIE-TAKO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "程序完成后确认章鱼全熟，再拌匀食用。",
+          "source_ids": [
+            "S-JP-MIE-TAKO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "软体动物"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-MIE-TAKO-1"
+        ],
+        "notes": "农林水产省页面为电饭煲章鱼饭；来源未给明确液体量和章鱼温度终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-MIE-TAKO-1",
+          "title": "たこ飯",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_mie.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：4人份生章鱼350g、米3杯；章鱼盐揉去黏液、腌20分钟后与米和腌汁同炊",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "三重伊势志摩地域章鱼饭；保留生章鱼同炊的来源边界，液体和温度待后续核实。"
+    },
+    {
+      "recipe_id": "jp-ehime-tako-meshi",
+      "canonical_name": "たこ飯",
+      "aliases": [
+        "爱媛中予章鱼饭"
+      ],
+      "region_codes": [
+        "JP-EHIME"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "章鱼",
+        "胡萝卜",
+        "牛蒡",
+        "油豆腐",
+        "昆布"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "章鱼",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-EHIME-TAKO-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米提前洗净沥水；章鱼盐揉洗后盐煮并切片。",
+          "source_ids": [
+            "S-JP-EHIME-TAKO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "锅中放昆布、同量水、调味料、蔬菜和油豆腐，沸腾时加入章鱼并炊煮。",
+          "source_ids": [
+            "S-JP-EHIME-TAKO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "熟后拌入柑橘皮和海苔；保持来源的锅炊流程，不做器具转换。",
+          "source_ids": [
+            "S-JP-EHIME-TAKO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "软体动物",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "农林水产省记录为爱媛地域锅炊章鱼饭；未提供电饭煲转换参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-EHIME-TAKO-1",
+          "title": "たこ飯",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_ehime.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：4人份米3杯、章鱼200g、胡萝卜/牛蒡各20g；章鱼先盐煮，沸腾时加入同锅炊煮",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "爱媛中予/今治岛屿地域章鱼饭；与三重同名但配方和地域来源分列，未外推电饭煲适配。"
+    },
+    {
+      "recipe_id": "jp-tomato-salmon-takikomi-gohan",
+      "canonical_name": "トマトと鮭の炊き込みごはん",
+      "aliases": [
+        "番茄鲑鱼罐炊饭"
+      ],
+      "region_codes": [
+        "JP-KUMAMOTO"
+      ],
+      "cuisine_family": "japanese-regional-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲",
+        "炒锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "番茄",
+        "鲑鱼罐",
+        "洋葱",
+        "蒜",
+        "黄油"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+            ]
+          },
+          {
+            "name": "番茄",
+            "amount": {
+              "value": 2,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+            ]
+          },
+          {
+            "name": "鲑鱼罐",
+            "amount": {
+              "value": 1,
+              "unit": "罐"
+            },
+            "source_ids": [
+              "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 300,
+          "unit": "cc鸡汤"
+        },
+        "source_ids": [
+          "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "洋葱和蒜先按来源炒香；米、鸡汤、鲑鱼罐、盐和炒料放入电饭煲。",
+          "source_ids": [
+            "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将整颗或切块番茄放在米面上，按电饭煲程序炊煮。",
+          "source_ids": [
+            "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "完成后压碎番茄并与米饭拌匀。",
+          "source_ids": [
+            "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "鱼类",
+        "乳"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-KUMAMOTO-TOMATO-SALMON-1"
+        ],
+        "notes": "日本农林水产省电饭煲番茄炊饭；洋葱和蒜需先炒，未把它误写成全程单器具。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-KUMAMOTO-TOMATO-SALMON-1",
+          "title": "トマトと鮭の炊き込みごはん",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/117.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：2人份米2合、番茄2个、鸡汤300cc、鲑鱼罐1罐；炒洋葱蒜后入电饭煲，熟后压碎番茄拌匀",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "熊本番茄鲑鱼罐炊饭；与其他番茄海鲜饭为同家族不同具名来源，保留罐装鱼和前炒步骤。"
+    },
+    {
+      "recipe_id": "jp-okinawa-kufa-jushi",
+      "canonical_name": "クファジューシー",
+      "aliases": [
+        "冲绳硬式猪肉炊饭"
+      ],
+      "region_codes": [
+        "JP-OKINAWA"
+      ],
+      "cuisine_family": "okinawan-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "猪五花",
+        "胡萝卜",
+        "干香菇",
+        "鱼糕",
+        "猪油"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-JP-OKINAWA-KUFA-JUSHI-1"
+            ]
+          },
+          {
+            "name": "猪五花",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-OKINAWA-KUFA-JUSHI-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-OKINAWA-KUFA-JUSHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-OKINAWA-KUFA-JUSHI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 2.25,
+          "unit": "杯猪肉汤"
+        },
+        "source_ids": [
+          "S-JP-OKINAWA-KUFA-JUSHI-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米提前洗净沥水；猪五花先煮熟后切丁，香菇、胡萝卜和鱼糕切丁。",
+          "source_ids": [
+            "S-JP-OKINAWA-KUFA-JUSHI-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "猪肉汤与盐、酱油混合，和米、蔬菜、香菇、鱼糕一起入锅炊煮。",
+          "source_ids": [
+            "S-JP-OKINAWA-KUFA-JUSHI-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟后加入猪油拌匀并焖片刻。",
+          "source_ids": [
+            "S-JP-OKINAWA-KUFA-JUSHI-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆",
+        "鱼类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "农林水产省冲绳特集给出锅炊猪肉汤流程；未提供电饭煲转换参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-OKINAWA-KUFA-JUSHI-1",
+          "title": "クファジューシー",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/pr/aff/2604/spe1_05.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_regional_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方特集：4人份猪五花150g、米2杯、猪肉汤2又1/4杯、胡萝卜30g、干香菇和鱼糕；猪肉先煮，随后同锅炊饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "冲绳クファジューシー；保留猪肉预煮和猪油收尾，未声明普通电饭煲安全终点。"
+    },
+    {
+      "recipe_id": "jp-hotate-daikon-takikomi-gohan",
+      "canonical_name": "ホタテと大根の炊き込みごはん",
+      "aliases": [
+        "扇贝萝卜炊饭"
+      ],
+      "region_codes": [
+        "JP-NATIONAL"
+      ],
+      "cuisine_family": "japanese-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "萝卜",
+        "扇贝罐",
+        "油豆腐",
+        "昆布",
+        "萝卜叶"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-JP-HOTATE-DAIKON-1"
+            ]
+          },
+          {
+            "name": "萝卜",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-JP-HOTATE-DAIKON-1"
+            ]
+          },
+          {
+            "name": "扇贝罐",
+            "amount": {
+              "value": 1,
+              "unit": "罐"
+            },
+            "source_ids": [
+              "S-JP-HOTATE-DAIKON-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-JP-HOTATE-DAIKON-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 2,
+          "unit": "合刻度（含扇贝汁）"
+        },
+        "source_ids": [
+          "S-JP-HOTATE-DAIKON-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "萝卜和油豆腐处理切片；米洗净，加入扇贝汁、调味和昆布。",
+          "source_ids": [
+            "S-JP-HOTATE-DAIKON-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将扇贝、油豆腐和萝卜铺在米面，按电饭煲水位线炊煮。",
+          "source_ids": [
+            "S-JP-HOTATE-DAIKON-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "焖约10分钟后拌入萝卜叶和芝麻油。",
+          "source_ids": [
+            "S-JP-HOTATE-DAIKON-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "贝类",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-JP-HOTATE-DAIKON-1"
+        ],
+        "notes": "农林水产省电饭煲食谱；页面给标准水量和焖10分钟，不给贝类安全温度。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-JP-HOTATE-DAIKON-1",
+          "title": "ホタテと大根の炊き込みごはん",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe291.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面：2人份萝卜200g、扇贝罐1罐、米2合；按水位线炊煮，完成焖10分钟并拌萝卜叶",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "扇贝萝卜炊饭；罐装贝类份量和水位线有来源，安全温度留作后续。"
+    },
+    {
+      "recipe_id": "cookpot-japanese-bamboo-tofu-skin-rice",
+      "canonical_name": "日式竹筍油豆包炊飯",
+      "aliases": [
+        "日式竹笋油豆包炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "鍋寶IH智能定溫電子鍋",
+        "炒鍋"
+      ],
+      "core_ingredients": [
+        "日本米",
+        "竹筍",
+        "乾香菇",
+        "鴻喜菇",
+        "美白菇",
+        "油豆包"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "日本米",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-JAPANESE-BAMBOO-1"
+            ]
+          },
+          {
+            "name": "竹筍",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-COOKPOT-JAPANESE-BAMBOO-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-COOKPOT-JAPANESE-BAMBOO-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 300,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-COOKPOT-JAPANESE-BAMBOO-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "竹筍先煮約30分鐘，再燜約15分鐘；乾菇泡發，其他菇和油豆包準備好。",
+          "source_ids": [
+            "S-COOKPOT-JAPANESE-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、300mL水和調味料放入鍋寶IH內鍋，配料炒香后铺在米上，选择标准米饭。",
+          "source_ids": [
+            "S-COOKPOT-JAPANESE-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "程序完成后撒葱食用；保留来源的炒料和指定器具边界。",
+          "source_ids": [
+            "S-COOKPOT-JAPANESE-BAMBOO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-COOKPOT-JAPANESE-BAMBOO-1"
+        ],
+        "notes": "鍋寶IH智能定溫電子鍋来源；竹笋和配料需前处理，不外推普通电饭煲。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-COOKPOT-JAPANESE-BAMBOO-1",
+          "title": "日式竹筍油豆包炊飯",
+          "publisher": "鍋寶好食光",
+          "url": "https://www.cookpot.com.tw/cookbook/1104.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：米2杯、水300mL、竹筍300g、三菇、油豆包；竹笋先煮，配料炒香后标准米饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "鍋寶好食光",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "鍋寶官方具名竹筍油豆包炊飯；保留竹笋先煮和配料炒香步骤。"
+    },
+    {
+      "recipe_id": "cookpot-beef-wild-mushroom-rice",
+      "canonical_name": "牛肉野菇炊飯",
+      "aliases": [
+        "牛肉野菇炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "鍋寶316不鏽鋼電鍋"
+      ],
+      "core_ingredients": [
+        "白米",
+        "牛肉片",
+        "洋蔥",
+        "杏鮑菇",
+        "美白菇",
+        "乾香菇"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 1,
+              "unit": "量杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-BEEF-MUSHROOM-1"
+            ]
+          },
+          {
+            "name": "牛肉片",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-COOKPOT-BEEF-MUSHROOM-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-COOKPOT-BEEF-MUSHROOM-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 1,
+          "unit": "杯香菇水"
+        },
+        "source_ids": [
+          "S-COOKPOT-BEEF-MUSHROOM-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "白米洗净；干香菇泡发，洋葱和菇类处理。",
+          "source_ids": [
+            "S-COOKPOT-BEEF-MUSHROOM-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "牛肉片、洋葱、菇类分层放入鍋寶电锅内锅，加入香菇水、昆布酱油和胡椒。",
+          "source_ids": [
+            "S-COOKPOT-BEEF-MUSHROOM-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "外锅加一杯水启动煮饭，开关跳起后确认牛肉熟透再食用。",
+          "source_ids": [
+            "S-COOKPOT-BEEF-MUSHROOM-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 35,
+        "source_ids": [
+          "S-COOKPOT-BEEF-MUSHROOM-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-COOKPOT-BEEF-MUSHROOM-1"
+        ],
+        "notes": "鍋寶营养师专栏与316不锈钢电锅页面；来源未给牛肉温度终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-COOKPOT-BEEF-MUSHROOM-1",
+          "title": "牛肉野菇炊飯",
+          "publisher": "鍋寶好食光",
+          "url": "https://www.cookpot.com.tw/cookbook/736.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：白米1量杯、牛肉片200g、香菇水1杯；内锅分层，外锅一杯水煮饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "鍋寶好食光",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "鍋寶官方牛肉野菇炊飯；蛋白、菇类和主食结构完整，安全温度待补。"
+    },
+    {
+      "recipe_id": "cookpot-taro-chestnut-pork-rice",
+      "canonical_name": "芋香栗子炊飯",
+      "aliases": [
+        "芋香栗子炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "鍋寶IH智能定溫電子鍋"
+      ],
+      "core_ingredients": [
+        "白米",
+        "栗子",
+        "梅花肉",
+        "芋頭",
+        "乾香菇",
+        "紅蔥頭",
+        "蒜"
+      ],
+      "fixed_batch": {
+        "servings": 5,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-TARO-CHESTNUT-1"
+            ]
+          },
+          {
+            "name": "栗子",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-TARO-CHESTNUT-1"
+            ]
+          },
+          {
+            "name": "梅花肉",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-COOKPOT-TARO-CHESTNUT-1"
+            ]
+          },
+          {
+            "name": "芋頭",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-COOKPOT-TARO-CHESTNUT-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-COOKPOT-TARO-CHESTNUT-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 630,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-COOKPOT-TARO-CHESTNUT-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "香菇泡發；梅花肉、芋头和栗子按来源处理。",
+          "source_ids": [
+            "S-COOKPOT-TARO-CHESTNUT-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "锅宝IH以99℃定温爆香并煎肉与香菇，再加入米、芋头、栗子、630mL水和调味。",
+          "source_ids": [
+            "S-COOKPOT-TARO-CHESTNUT-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "取消定温后选择标准米饭，完成后焖松食用。",
+          "source_ids": [
+            "S-COOKPOT-TARO-CHESTNUT-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-COOKPOT-TARO-CHESTNUT-1"
+        ],
+        "notes": "鍋寶IH智能定溫电子锅官方配方；标准饭程序分钟数和猪肉温度未给。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-COOKPOT-TARO-CHESTNUT-1",
+          "title": "芋香栗子炊飯",
+          "publisher": "鍋寶好食光",
+          "url": "https://www.cookpot.com.tw/cookbook/691.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：米3杯、栗子1杯、梅花肉150g、芋头300g、水3.5杯；99℃爆香煎肉后标准米饭，4至6人份",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "鍋寶好食光",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "鍋寶芋香栗子炊飯；保留定温煎肉与固定630mL水量，不外推程序时长。"
+    },
+    {
+      "recipe_id": "cookpot-gomoku-mixed-rice",
+      "canonical_name": "五目炊飯",
+      "aliases": [
+        "锅宝五目炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "鍋寶IH電子鍋"
+      ],
+      "core_ingredients": [
+        "白米",
+        "鴻喜菇",
+        "紅蘿蔔",
+        "牛蒡",
+        "生豆皮",
+        "洋蔥",
+        "薑"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-GOMOKU-1"
+            ]
+          },
+          {
+            "name": "鴻喜菇",
+            "amount": {
+              "value": 1,
+              "unit": "包"
+            },
+            "source_ids": [
+              "S-COOKPOT-GOMOKU-1"
+            ]
+          },
+          {
+            "name": "紅蘿蔔",
+            "amount": {
+              "value": 0.5,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-COOKPOT-GOMOKU-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-COOKPOT-GOMOKU-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 1.6,
+          "unit": "杯"
+        },
+        "source_ids": [
+          "S-COOKPOT-GOMOKU-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净沥水；牛蒡泡醋水，菇、胡萝卜、豆皮和洋葱处理。",
+          "source_ids": [
+            "S-COOKPOT-GOMOKU-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "IH内锅以油炒姜和洋葱，再加入蔬菜、豆皮、米、1.6杯水和调味。",
+          "source_ids": [
+            "S-COOKPOT-GOMOKU-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "切换标准米饭程序，完成后撒芝麻翻拌。",
+          "source_ids": [
+            "S-COOKPOT-GOMOKU-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-COOKPOT-GOMOKU-1"
+        ],
+        "notes": "鍋寶IH官方五目炊飯；来源给米水1:0.8和准备时间，不给程序实耗时。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-COOKPOT-GOMOKU-1",
+          "title": "五目炊飯",
+          "publisher": "鍋寶好食光",
+          "url": "https://www.cookpot.com.tw/cookbook/659.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：4人份米2杯、水1.6杯、菇、胡萝卜、牛蒡、豆皮、洋葱；先炒料再标准米饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "鍋寶好食光",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "锅宝具名五目炊飯；保留前炒与1.6杯水，不把家常近邻合并。"
+    },
+    {
+      "recipe_id": "cookpot-salted-mackerel-chicken-claypot-rice",
+      "canonical_name": "鹹魚雞粒煲仔飯",
+      "aliases": [
+        "咸鱼鸡粒煲仔饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "鍋寶IH智能定溫電子鍋"
+      ],
+      "core_ingredients": [
+        "長秈米",
+        "雞胸肉",
+        "鹹鯖魚",
+        "蔥"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "長秈米",
+            "amount": {
+              "value": 3,
+              "unit": "量杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-SALTED-MACKEREL-1"
+            ]
+          },
+          {
+            "name": "雞胸肉",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-COOKPOT-SALTED-MACKEREL-1"
+            ]
+          },
+          {
+            "name": "鹹鯖魚",
+            "amount": {
+              "value": 400,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-COOKPOT-SALTED-MACKEREL-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-COOKPOT-SALTED-MACKEREL-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 3.6,
+          "unit": "杯"
+        },
+        "source_ids": [
+          "S-COOKPOT-SALTED-MACKEREL-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "鸡胸肉腌约15分钟；咸鲭鱼先以鍋寶蒸煮模式煎香，鸡肉炒至表面变色。",
+          "source_ids": [
+            "S-COOKPOT-SALTED-MACKEREL-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "长秈米和3.6杯水入锅，咸鱼置米上，以蒸架和鸡肉盘分层同锅。",
+          "source_ids": [
+            "S-COOKPOT-SALTED-MACKEREL-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择煲仔饭程序，完成后取出蒸架，拌鸡肉、酱汁和葱花；确认鸡鱼熟透。",
+          "source_ids": [
+            "S-COOKPOT-SALTED-MACKEREL-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "鱼类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-COOKPOT-SALTED-MACKEREL-1"
+        ],
+        "notes": "鍋寶IH煲仔飯分层蒸煮配方；鸡鱼中心温度、煲仔饭程序总时长和盐度未闭合。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-COOKPOT-SALTED-MACKEREL-1",
+          "title": "鹹魚雞粒煲仔飯",
+          "publisher": "鍋寶好食光",
+          "url": "https://www.cookpot.com.tw/cookbook/559.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：长秈米3杯、水3.6杯、鸡胸约300g、咸鲭鱼约400g；先煎/炒后分层煲仔饭",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "鍋寶好食光",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "锅宝咸鱼鸡粒煲仔饭；是分层同锅连续流程，不宣称所有食材生料一开始同锅。"
+    },
+    {
+      "recipe_id": "cookpot-three-cup-chicken-rice",
+      "canonical_name": "三杯雞炊飯",
+      "aliases": [
+        "三杯鸡炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "微電腦多功能電子鍋"
+      ],
+      "core_ingredients": [
+        "白米",
+        "去骨雞腿",
+        "薑",
+        "蔥",
+        "蒜",
+        "九層塔"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-COOKPOT-THREE-CUP-1"
+            ]
+          },
+          {
+            "name": "去骨雞腿",
+            "amount": {
+              "value": 2,
+              "unit": "支"
+            },
+            "source_ids": [
+              "S-COOKPOT-THREE-CUP-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-COOKPOT-THREE-CUP-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 2,
+          "unit": "杯水或鸡高汤"
+        },
+        "source_ids": [
+          "S-COOKPOT-THREE-CUP-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "鸡腿、姜、葱白和蒜在电子锅加热模式下爆香。",
+          "source_ids": [
+            "S-COOKPOT-THREE-CUP-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "加入白米、鸡高汤和米酒，切换米饭模式完成炊饭。",
+          "source_ids": [
+            "S-COOKPOT-THREE-CUP-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "完成后拌入酱油膏、麻油、葱绿、辣椒和九层塔；来源未列香菇重量，不补入。",
+          "source_ids": [
+            "S-COOKPOT-THREE-CUP-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-COOKPOT-THREE-CUP-1"
+        ],
+        "notes": "锅宝多功能电子锅三杯鸡炊饭；页面存在香菇步骤与食材表不一致，保持缺口。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-COOKPOT-THREE-CUP-1",
+          "title": "三杯雞炊飯",
+          "publisher": "鍋寶好食光",
+          "url": "https://www.cookpot.com.tw/cookbook/1207.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：4至5人份、白米2杯、鸡腿、鸡高汤2杯；先爆香再米饭模式，香菇文字与清单不一致",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "鍋寶好食光",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "锅宝三杯鸡炊饭；保留页面内香菇不一致，不自行填补或修正。"
+    },
+    {
+      "recipe_id": "tiger-pork-bamboo-rice",
+      "canonical_name": "豚肉とたけのこごはん",
+      "aliases": [
+        "猪肉竹笋炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger炊込み対応电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "竹笋",
+        "猪五花",
+        "高汤"
+      ],
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-PORK-BAMBOO-1"
+            ]
+          },
+          {
+            "name": "竹笋",
+            "amount": {
+              "value": 90,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-PORK-BAMBOO-1"
+            ]
+          },
+          {
+            "name": "猪五花",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-PORK-BAMBOO-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-PORK-BAMBOO-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_dashi",
+        "amount": {
+          "value": 600,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-TIGER-PORK-BAMBOO-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "竹笋按来源切片，猪肉切条并以少量调味腌制。",
+          "source_ids": [
+            "S-TIGER-PORK-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、调味料和600mL高汤入内锅至白米3刻度，猪肉和竹笋铺在米面。",
+          "source_ids": [
+            "S-TIGER-PORK-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择炊込み·火力强程序，完成后拌松并撒木之芽。",
+          "source_ids": [
+            "S-TIGER-PORK-BAMBOO-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 60,
+        "source_ids": [
+          "S-TIGER-PORK-BAMBOO-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-PORK-BAMBOO-1"
+        ],
+        "notes": "Tiger官方多机型炊込み配方；猪肉安全终点和不同型号用量差异未闭合。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-PORK-BAMBOO-1",
+          "title": "豚肉とたけのこごはん",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post61/",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：6人份、米3杯、竹笋90g、猪五花120g、高汤600mL、60分钟及炊込み火力强程序",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方猪肉竹笋炊饭；同鸡肉竹笋饭分开保留。"
+    },
+    {
+      "recipe_id": "tiger-pork-kimchi-brown-rice",
+      "canonical_name": "豚キムチ玄米ごはん",
+      "aliases": [
+        "猪肉泡菜糙米饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger炊込み対応电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "猪腿肉",
+        "胡萝卜",
+        "香菇",
+        "白菜泡菜",
+        "豆芽"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "糙米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-PORK-KIMCHI-1"
+            ]
+          },
+          {
+            "name": "猪腿肉",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-PORK-KIMCHI-1"
+            ]
+          },
+          {
+            "name": "白菜泡菜",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-PORK-KIMCHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-PORK-KIMCHI-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "糙米洗净，加入鸡汤粉、酱油并按 Tiger 玄米水位线加水。",
+          "source_ids": [
+            "S-TIGER-PORK-KIMCHI-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "猪肉、胡萝卜和香菇铺在米面，选择炊込み·玄米程序。",
+          "source_ids": [
+            "S-TIGER-PORK-KIMCHI-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟后拌入泡菜、麻油和葱；豆芽另做纳木尔配菜，不伪装成锅内食材。",
+          "source_ids": [
+            "S-TIGER-PORK-KIMCHI-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 90,
+        "source_ids": [
+          "S-TIGER-PORK-KIMCHI-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-PORK-KIMCHI-1"
+        ],
+        "notes": "Tiger玄米炊饭配方；水量以玄米刻度表达，配菜与主锅分列。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-PORK-KIMCHI-1",
+          "title": "豚キムチ玄米ごはん",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_522/",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：2人份糙米1杯、猪肉50g、胡萝卜10g、香菇10g、泡菜50g、90分钟；熟后拌泡菜和麻油",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger猪肉泡菜玄米饭；保留泡菜后拌、豆芽配菜的边界。"
+    },
+    {
+      "recipe_id": "tiger-scallop-pea-rice",
+      "canonical_name": "ほたて貝柱とえんどう豆の炊込みごはん",
+      "aliases": [
+        "扇贝豌豆炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger炊込み対応电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "扇贝柱",
+        "豌豆",
+        "姜",
+        "昆布高汤"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-SCALLOP-PEA-1"
+            ]
+          },
+          {
+            "name": "扇贝柱",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-SCALLOP-PEA-1"
+            ]
+          },
+          {
+            "name": "豌豆",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-SCALLOP-PEA-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-SCALLOP-PEA-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "扇贝柱与酒、盐炒至鼓起后取出，保留炒汁；豌豆洗净。",
+          "source_ids": [
+            "S-TIGER-SCALLOP-PEA-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米加入炒汁、调味和昆布高汤至白米1刻度，撒姜丝后选择炊込み。",
+          "source_ids": [
+            "S-TIGER-SCALLOP-PEA-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟后拌回扇贝，焖约3分钟；豌豆可按来源焯熟后收尾。",
+          "source_ids": [
+            "S-TIGER-SCALLOP-PEA-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 60,
+        "source_ids": [
+          "S-TIGER-SCALLOP-PEA-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "贝类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-SCALLOP-PEA-1"
+        ],
+        "notes": "Tiger官方扇贝豌豆炊饭；扇贝先炒后回锅，来源未给贝类温度终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-SCALLOP-PEA-1",
+          "title": "ほたて貝柱とえんどう豆の炊込みごはん",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_10/",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：2人份米1杯、扇贝60g、豌豆40g、60分钟；扇贝酒炒取汁，米按白米1刻度炊，熟后回拌",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger扇贝豌豆炊饭；保留扇贝先炒和完成后回拌的连续流程。"
+    },
+    {
+      "recipe_id": "tiger-steak-mushroom-barley-rice",
+      "canonical_name": "ステーキときのこの麦バターライス",
+      "aliases": [
+        "牛排菌菇麦香黄油饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger麦饭炊込み电饭煲",
+        "平底锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "大麦",
+        "牛里脊牛排",
+        "蘑菇",
+        "培根",
+        "西兰花"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+            ]
+          },
+          {
+            "name": "牛里脊牛排",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+            ]
+          },
+          {
+            "name": "蘑菇",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 600,
+          "unit": "mL肉汤"
+        },
+        "source_ids": [
+          "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "蘑菇和培根切片；米加入调味料和600mL肉汤，按麦饭三成刻度铺上大麦和配料炊煮。",
+          "source_ids": [
+            "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "牛里脊在平底锅中煎至来源所写熟度，切成2厘米丁。",
+          "source_ids": [
+            "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "饭熟后拌入牛肉、橄榄、黄油，西兰花和薯条作为另行配菜；不把它写成全程单锅。",
+          "source_ids": [
+            "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 55,
+        "source_ids": [
+          "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆",
+        "乳"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
+        ],
+        "notes": "Tiger麦饭和牛排分段流程；牛排熟度与家庭安全终点需另行复核。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-STEAK-MUSHROOM-BARLEY-1",
+          "title": "ステーキときのこの麦バターライス",
+          "publisher": "Tiger Corporation",
+          "url": "https://www.tiger-corporation.com/en/jpn/feature/recipe/post46/",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：4人份米2杯、大麦、蘑菇100g、培根40g、肉汤600mL、牛里脊牛排200g、55分钟；牛排另煎后拌入",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Tiger Corporation",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方具名牛排菌菇麦香饭；作为多阶段一锅主食研究条目，单独标记牛排另煎。"
+    },
+    {
+      "recipe_id": "toshiba-mixed-mushroom-ume-rice",
+      "canonical_name": "たっぷりきのこの炊込みご飯",
+      "aliases": [
+        "梅香什菌炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Toshiba RCP-30R电压力锅"
+      ],
+      "core_ingredients": [
+        "白米",
+        "混合蘑菇",
+        "梅干",
+        "油豆腐",
+        "青海苔"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+            ]
+          },
+          {
+            "name": "混合蘑菇",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+            ]
+          },
+          {
+            "name": "梅干",
+            "amount": {
+              "value": 28,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "蘑菇切块，梅干去核打泥，油豆腐去油切碎。",
+          "source_ids": [
+            "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "白米和调味料放入 Toshiba RCP-30R，按白米水位2加水，梅干、油豆腐和蘑菇铺在米面。",
+          "source_ids": [
+            "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择1.4气压5至8分钟的压力程序，降针后拌匀；不建议保温。",
+          "source_ids": [
+            "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 40,
+        "source_ids": [
+          "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TOSHIBA-MIXED-MUSHROOM-UME-1"
+        ],
+        "notes": "Toshiba RCP-30R电压力锅官方页面；刻度不是通用毫升合同，不外推其他机型。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TOSHIBA-MIXED-MUSHROOM-UME-1",
+          "title": "たっぷりきのこの炊込みご飯",
+          "publisher": "Toshiba Lifestyle",
+          "url": "https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041570/",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：RCP-30R、4人份、米300g、混合蘑菇200g、梅干约28g；白米水位2，1.4气压5至8分钟，总计约35至40分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Toshiba Lifestyle",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "东芝电压力锅梅香什菌炊饭；保留水位线和压力参数，不转普通电饭煲。"
+    },
+    {
+      "recipe_id": "toshiba-seafood-paella-rice",
+      "canonical_name": "シーフードパエリア風炊込みご飯",
+      "aliases": [
+        "海鲜西班牙风炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Toshiba RCP-30R电压力锅"
+      ],
+      "core_ingredients": [
+        "白米",
+        "冷冻海鲜",
+        "洋葱",
+        "彩椒",
+        "培根",
+        "番茄酱"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-SEAFOOD-PAELLA-1"
+            ]
+          },
+          {
+            "name": "冷冻海鲜混合物",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-SEAFOOD-PAELLA-1"
+            ]
+          },
+          {
+            "name": "彩椒",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-SEAFOOD-PAELLA-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TOSHIBA-SEAFOOD-PAELLA-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净沥水；洋葱、蒜、培根和彩椒按来源准备。",
+          "source_ids": [
+            "S-TOSHIBA-SEAFOOD-PAELLA-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、油、番茄酱和调味料放入RCP-30R，按白米水位2加水，海鲜和彩椒铺面。",
+          "source_ids": [
+            "S-TOSHIBA-SEAFOOD-PAELLA-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择1.4气压5至8分钟，降针后拌匀并确认海鲜熟透。",
+          "source_ids": [
+            "S-TOSHIBA-SEAFOOD-PAELLA-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 40,
+        "source_ids": [
+          "S-TOSHIBA-SEAFOOD-PAELLA-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "贝类",
+        "鱼类"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TOSHIBA-SEAFOOD-PAELLA-1"
+        ],
+        "notes": "Toshiba RCP-30R压力锅海鲜炊饭；液体毫升数和海鲜温度终点未闭合。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TOSHIBA-SEAFOOD-PAELLA-1",
+          "title": "シーフードパエリア風炊込みご飯",
+          "publisher": "Toshiba Lifestyle",
+          "url": "https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041573",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：RCP-30R、4人份、米300g、海鲜120g、彩椒40g；海鲜铺面，1.4气压5至8分钟，总计35至40分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Toshiba Lifestyle",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "东芝海鲜西班牙风炊饭；保留压力锅与海鲜安全待复核边界。"
+    },
+    {
+      "recipe_id": "toshiba-bibimbap-mixed-rice",
+      "canonical_name": "石焼ビビンバ風炊込みご飯",
+      "aliases": [
+        "石锅拌饭风炊饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Toshiba RCP-30R电压力锅"
+      ],
+      "core_ingredients": [
+        "白米",
+        "牛肉薄片",
+        "白菜泡菜",
+        "韩式辣酱",
+        "葱",
+        "芝麻"
+      ],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-BIBIMBAP-RICE-1"
+            ]
+          },
+          {
+            "name": "牛肉薄片",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-BIBIMBAP-RICE-1"
+            ]
+          },
+          {
+            "name": "白菜泡菜",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TOSHIBA-BIBIMBAP-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TOSHIBA-BIBIMBAP-RICE-1"
+        ]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米与调味料放入RCP-30R，按白米水位2加水。",
+          "source_ids": [
+            "S-TOSHIBA-BIBIMBAP-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "牛肉薄片和泡菜铺在米面，选择1.4气压5至8分钟的炊饭程序。",
+          "source_ids": [
+            "S-TOSHIBA-BIBIMBAP-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "降针后拌匀，温泉蛋仅作来源提及的可选收尾，不宣称同锅完成。",
+          "source_ids": [
+            "S-TOSHIBA-BIBIMBAP-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 40,
+        "source_ids": [
+          "S-TOSHIBA-BIBIMBAP-RICE-1"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TOSHIBA-BIBIMBAP-RICE-1"
+        ],
+        "notes": "Toshiba RCP-30R石锅拌饭风炊饭；牛肉熟度与温泉蛋边界未闭合。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TOSHIBA-BIBIMBAP-RICE-1",
+          "title": "石焼ビビンバ風炊込みご飯",
+          "publisher": "Toshiba Lifestyle",
+          "url": "https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041572",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面：RCP-30R、4人份、米300g、牛肉150g、泡菜80g；水位2、1.4气压5至8分钟，总计35至40分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Toshiba Lifestyle",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "东芝石锅拌饭风炊饭；页面液体采用水位线，暂不补毫升。"
+    },
+    {
+      "recipe_id": "ili-pilaf",
+      "canonical_name": "伊犁手抓饭",
+      "aliases": [
+        "伊犁抓饭"
+      ],
+      "region_codes": [
+        "CN-XJ"
+      ],
+      "cuisine_family": "xinjiang-pilaf",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "羊肉",
+        "胡萝卜",
+        "洋葱",
+        "清油",
+        "羊油",
+        "大米"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "羊肉切块，用清油煎炸；加入洋葱和胡萝卜翻炒。",
+          "source_ids": [
+            "S-XJ-ILI-PILAF-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "加盐和水后煮约20分钟，再放入洗泡好的大米，保持米层不搅动。",
+          "source_ids": [
+            "S-XJ-ILI-PILAF-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "继续焖煮约40分钟至抓饭熟；来源没有固定克重、液体或器具转换参数。",
+          "source_ids": [
+            "S-XJ-ILI-PILAF-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "伊犁州人民政府地方饮食页面；只记录锅炊抓饭原始流程，不转换为电饭煲合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-XJ-ILI-PILAF-1",
+          "title": "手抓饭",
+          "publisher": "伊犁哈萨克自治州人民政府",
+          "url": "https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_cultural_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方页面：羊肉、胡萝卜、洋葱、清油、羊油、大米；先肉和菜煸炒，加水20分钟，放泡米后焖约40分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "伊犁哈萨克自治州人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "伊犁地方政府具名手抓饭；不把传说当史实，不补缺失份量、液体或电饭煲参数。"
+    }
   ]
 }
