@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-national-r59",
+  "catalog_version": "source-backed-one-pot-v1-20260808-national-r60",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -12071,6 +12071,1903 @@
     {"recipe_id":"jiangxi-ganxian-huangyuan-rice","canonical_name":"黄元米饭","aliases":["赣县黄元米饭"],"region_codes":["CN-JX"],"cuisine_family":"ganxian-huangyuan-rice","identity_status":"verified","traditional_vessels":["大铁锅","饭甑","蒸具"],"core_ingredients":["大禾米","柴灰水"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"燃烧黄元柴制灰，并用清水过滤得到柴灰水，静置后取上层清液。","source_ids":["S-JX-GANXIAN-HUANGYUAN-RICE-1"]},{"step":2,"instruction":"将提前浸泡一夜的大禾米蒸熟，拌入柴灰水并在锅中搅动，使米粒变黄。","source_ids":["S-JX-GANXIAN-HUANGYUAN-RICE-1"]},{"step":3,"instruction":"再次上锅蒸制，得到黄元米饭；来源还记录后续捶打、定型、晾干可制成黄元米果。","source_ids":["S-JX-GANXIAN-HUANGYUAN-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源描述传统柴灰水和两次蒸制，不提供电饭煲适配参数；柴灰水浓度和食品安全需另行核验。"},"source_refs":[{"source_id":"S-JX-GANXIAN-HUANGYUAN-RICE-1","title":"寻味赣鄱：米果飘香 探寻舌尖上的赣南年味","publisher":"中国新闻网江西新闻","url":"https://www.jx.chinanews.com.cn/news/2026/0207/124647.html","retrieved_at":"2026-08-05","source_kind":"mainstream_media_food_culture_page","access_status":"opened","evidence_tier":5,"evidence_locator":"正文第45至60行：赣县黄元米果技艺、柴灰水制备、大禾米浸泡蒸熟后拌柴灰水并再次蒸制得到‘黄元米饭’","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中国新闻网江西新闻","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"中新网直接记录‘黄元米饭’在黄元米果工艺中的位置和两次蒸制流程，但未给固定米量、柴灰水量、时间或安全终点；营养结构目前主要是碳水，不能按均衡菜饭对外承诺。"},
     {"recipe_id":"guangxi-yulin-sarou-glutinous-rice","canonical_name":"玉林撒肉糯米饭","aliases":["撒肉（粉蒸肉）糯米饭"],"region_codes":["CN-GX"],"cuisine_family":"yulin-sarou-glutinous-rice","identity_status":"verified","traditional_vessels":["木制饭凳","蒸具"],"core_ingredients":["糯米","五花肉"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"糯米淘洗后浸泡约8小时。","source_ids":["S-GX-YULIN-SAROU-RICE-1"]},{"step":2,"instruction":"用玉林本地木制炊具‘饭凳’炊制糯米饭。","source_ids":["S-GX-YULIN-SAROU-RICE-1"]},{"step":3,"instruction":"五花肉用白糖、姜汁酒、十三香、甘草粉、蚝油和烧酒腌制后炊蒸。","source_ids":["S-GX-YULIN-SAROU-RICE-1"]},{"step":4,"instruction":"糯米饭趁热配上炊熟的撒肉食用。","source_ids":["S-GX-YULIN-SAROU-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆（若腌制料含大豆制品时需核对）"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源明确是糯米饭与撒肉分段炊制再搭配，不能改写为生米生肉同锅，也没有电饭煲参数。"},"source_refs":[{"source_id":"S-GX-YULIN-SAROU-RICE-1","title":"已盛行100多年！它是玉林人心中的‘神仙美食’","publisher":"广西新闻网","url":"https://news.gxnews.com.cn/staticpages/20241104/newgx6728c205-21666284.shtml","retrieved_at":"2026-08-05","source_kind":"regional_media_food_culture_page","access_status":"opened","evidence_tier":5,"evidence_locator":"正文主体：撒肉糯米饭身份与百年历史；糯米浸泡约8小时、饭凳炊米、五花肉腌制炊蒸、趁热搭配食用的段落","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"广西新闻网","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"来源给出具名、地域、核心食材和分段炊制流程，但没有固定批量、米水量、总时间或肉类安全终点；它是‘糯米饭+撒肉’组合而非已证实的生米生肉一锅，暂不进入一锅出执行池。"},
     {"recipe_id":"guizhou-zhenfeng-glutinous-rice","canonical_name":"贞丰糯米饭","aliases":["贞丰油糯米饭"],"region_codes":["CN-GZ"],"cuisine_family":"zhenfeng-glutinous-rice","identity_status":"verified","traditional_vessels":["铁锅","蒸具"],"core_ingredients":["糯米","瘦肉","熟猪油"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"糯米用冷水泡透后，按来源所述经两次焖蒸制成熟糯米饭。","source_ids":["S-GZ-ZHENFENG-GLUTINOUS-RICE-1"]},{"step":2,"instruction":"用熟猪油炒好糯米饭，装入铁锅以文火保温。","source_ids":["S-GZ-ZHENFENG-GLUTINOUS-RICE-1"]},{"step":3,"instruction":"瘦肉用特制香料腌制数日后油炸至半干，切片盖在糯米饭上食用。","source_ids":["S-GZ-ZHENFENG-GLUTINOUS-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源描述两次焖蒸和铁锅保温及肉类另制，没有电饭煲等价参数，也不证明生米生肉同锅。"},"source_refs":[{"source_id":"S-GZ-ZHENFENG-GLUTINOUS-RICE-1","title":"舌尖上的非遗｜贞丰糯米饭 米香肉酥，油而不腻","publisher":"贵州广播电视台·动静新闻","url":"https://www.gzstv.com/a/4d32d69e89734ac4bbc5b84725991d80","retrieved_at":"2026-08-05","source_kind":"provincial_media_intangible_food_page","access_status":"opened","evidence_tier":5,"evidence_locator":"正文第24至37行：贞丰糯米饭地域/非遗身份、糯米泡透和两次焖蒸、猪油炒饭铁锅保温、腌肉油炸后盖饭食用","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"贵州广播电视台·动静新闻","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"来源明确给出贞丰糯米饭身份、糯米与肉的分段工序，但未给固定批量、液体、总时间或安全终点；这是成品糯米饭配肉片的地域小吃，不把它伪装成生米生肉一锅。"},
-    {"recipe_id":"hunan-dongan-black-rice","canonical_name":"东安乌饭","aliases":["东安立夏饭","乌饭"],"region_codes":["CN-HN"],"cuisine_family":"dongan-black-rice","identity_status":"verified","traditional_vessels":["石臼","蒸笼"],"core_ingredients":["糯米","乌饭叶等草本","五花肉","生姜","豆豉","黄精"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"采集乌饭叶、枫叶等草本，洗净后放入石臼捣烂取汁，用草木汁浸泡糯米。","source_ids":["S-HN-DONGAN-BLACK-RICE-1"]},{"step":2,"instruction":"生姜和五花肉煸炒出油，加入豆豉提香。","source_ids":["S-HN-DONGAN-BLACK-RICE-1"]},{"step":3,"instruction":"倒入泡制好的乌米大火翻炒，待米粒微微粘稠后盛出，铺上黄精入笼蒸制。","source_ids":["S-HN-DONGAN-BLACK-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"永州政府转载的非遗报道证明传统石臼、炒米和蒸笼流程，未给电饭煲参数或肉类安全终点。"},"source_refs":[{"source_id":"S-HN-DONGAN-BLACK-RICE-1","title":"乌饭飘香 千年民俗焕发新生","publisher":"永州市人民政府门户网站（转红网时刻）","url":"https://www.yzcity.gov.cn/cnyz/mstc/202605/577950eca76e4fd887e79c2bf8d4436c.shtml","retrieved_at":"2026-08-05","source_kind":"city_government_intangible_food_page","access_status":"opened","evidence_tier":4,"evidence_locator":"正文第46至61行：东安县乌饭身份、草本取汁浸泡糯米、姜肉豆豉煸炒、乌米翻炒后铺黄精入笼蒸制","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"永州市人民政府门户网站／红网时刻","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"政府门户转载的报道给出东安乌饭具名身份和真实工序，但未给固定批量、液体、时间或安全终点；草本种类和肉类熟制仍需后续来源与厨房验证。"}
+    {"recipe_id":"hunan-dongan-black-rice","canonical_name":"东安乌饭","aliases":["东安立夏饭","乌饭"],"region_codes":["CN-HN"],"cuisine_family":"dongan-black-rice","identity_status":"verified","traditional_vessels":["石臼","蒸笼"],"core_ingredients":["糯米","乌饭叶等草本","五花肉","生姜","豆豉","黄精"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"采集乌饭叶、枫叶等草本，洗净后放入石臼捣烂取汁，用草木汁浸泡糯米。","source_ids":["S-HN-DONGAN-BLACK-RICE-1"]},{"step":2,"instruction":"生姜和五花肉煸炒出油，加入豆豉提香。","source_ids":["S-HN-DONGAN-BLACK-RICE-1"]},{"step":3,"instruction":"倒入泡制好的乌米大火翻炒，待米粒微微粘稠后盛出，铺上黄精入笼蒸制。","source_ids":["S-HN-DONGAN-BLACK-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"永州政府转载的非遗报道证明传统石臼、炒米和蒸笼流程，未给电饭煲参数或肉类安全终点。"},"source_refs":[{"source_id":"S-HN-DONGAN-BLACK-RICE-1","title":"乌饭飘香 千年民俗焕发新生","publisher":"永州市人民政府门户网站（转红网时刻）","url":"https://www.yzcity.gov.cn/cnyz/mstc/202605/577950eca76e4fd887e79c2bf8d4436c.shtml","retrieved_at":"2026-08-05","source_kind":"city_government_intangible_food_page","access_status":"opened","evidence_tier":4,"evidence_locator":"正文第46至61行：东安县乌饭身份、草本取汁浸泡糯米、姜肉豆豉煸炒、乌米翻炒后铺黄精入笼蒸制","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"永州市人民政府门户网站／红网时刻","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"政府门户转载的报道给出东安乌饭具名身份和真实工序，但未给固定批量、液体、时间或安全终点；草本种类和肉类熟制仍需后续来源与厨房验证。"},
+    {
+      "recipe_id": "r60-tiger-salmon-rice",
+      "canonical_name": "Salmon Rice",
+      "aliases": [
+        "电饭煲三文鱼饭",
+        "鲑鱼饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger多功能电饭煲"
+      ],
+      "core_ingredients": [
+        "日本短粒米",
+        "三文鱼",
+        "姜",
+        "葱",
+        "日式高汤"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "日本短粒米洗净放入内锅；加入水至2杯刻度，再加入高汤粉、酱油和清酒并搅拌。",
+          "source_ids": [
+            "S-TIGER-SALMON-RICE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将去骨三文鱼片和切片姜铺在米上，盖盖并选择Plain模式启动。",
+          "source_ids": [
+            "S-TIGER-SALMON-RICE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "完成后去除鱼皮，将鱼肉拆散与米饭拌匀，撒葱食用。",
+          "source_ids": [
+            "S-TIGER-SALMON-RICE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-SALMON-RICE-R60"
+        ],
+        "notes": "Tiger官方页面明确给出具名Salmon Rice、3至4份、2杯米、三文鱼片、调味液和Plain程序。水量以米杯刻度表达，没有形成通用毫升液体合同；来源也未给鱼类安全终点，因此保留研究状态，不外推普通电饭煲参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-SALMON-RICE-R60",
+          "title": "Salmon Rice",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/salmon-rice/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第70至116行：3至4份、2杯米、三文鱼片、调味液、Plain程序与拌饭流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面明确给出具名Salmon Rice、3至4份、2杯米、三文鱼片、调味液和Plain程序。水量以米杯刻度表达，没有形成通用毫升液体合同；来源也未给鱼类安全终点，因此保留研究状态，不外推普通电饭煲参数。"
+    },
+    {
+      "recipe_id": "r60-tiger-shiitake-garlic-rice",
+      "canonical_name": "Shiitake Mushroom Garlic Rice",
+      "aliases": [
+        "香菇蒜香糙米饭",
+        "香菇蒜香饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger多功能电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "香菇",
+        "蒜",
+        "蘑菇高汤或日式高汤"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "糙米洗净放入电饭煲内锅，加入蘑菇高汤或日式高汤、清酒、酱油和味醂并拌匀。",
+          "source_ids": [
+            "S-TIGER-SHIITAKE-GARLIC-RICE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将切好的香菇铺在米上，选择Brown程序启动。",
+          "source_ids": [
+            "S-TIGER-SHIITAKE-GARLIC-RICE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "程序完成后将香菇与米饭轻轻拌匀，可撒香菜或欧芹。",
+          "source_ids": [
+            "S-TIGER-SHIITAKE-GARLIC-RICE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-SHIITAKE-GARLIC-RICE-R60"
+        ],
+        "notes": "Tiger官方页面支持香菇蒜香糙米饭的具名、食材、2杯高汤、Brown程序和完成后拌匀流程；页面没有通用机型转换参数，也没有固定总时间或安全终点，不补写合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-SHIITAKE-GARLIC-RICE-R60",
+          "title": "Shiitake Mushroom Garlic Rice",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/shiitake-mushroom-garlic-rice/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第70至123行：3至4份、2杯糙米、400克香菇、2杯高汤及Brown程序流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面支持香菇蒜香糙米饭的具名、食材、2杯高汤、Brown程序和完成后拌匀流程；页面没有通用机型转换参数，也没有固定总时间或安全终点，不补写合同。"
+    },
+    {
+      "recipe_id": "r60-tiger-chicken-brown-rice-soup",
+      "canonical_name": "Chicken and Brown Rice Soup",
+      "aliases": [
+        "电饭煲鸡肉糙米汤",
+        "鸡肉糙米汤饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger多功能电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "鸡胸或鸡腿肉",
+        "胡萝卜",
+        "芹菜",
+        "洋葱",
+        "鸡汤"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "胡萝卜、芹菜和洋葱切小块，蒜切末，鸡肉切约5厘米块。",
+          "source_ids": [
+            "S-TIGER-CHICKEN-BROWN-RICE-SOUP-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "蔬菜放入内锅，加入盐和胡椒；再加入洗净的糙米，将鸡肉铺在上面，倒入6杯鸡汤并加入月桂叶和百里香。",
+          "source_ids": [
+            "S-TIGER-CHICKEN-BROWN-RICE-SOUP-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择Slow Cook程序设定120分钟启动；完成后确认鸡肉和米饭熟透，必要时按来源延长加热。",
+          "source_ids": [
+            "S-TIGER-CHICKEN-BROWN-RICE-SOUP-R60"
+          ]
+        },
+        {
+          "step": 4,
+          "instruction": "盛入碗中，按来源挤入柠檬汁。",
+          "source_ids": [
+            "S-TIGER-CHICKEN-BROWN-RICE-SOUP-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-CHICKEN-BROWN-RICE-SOUP-R60"
+        ],
+        "notes": "Tiger官方页面明确给出鸡肉糙米汤的3至4份、食材、6杯鸡汤、Slow Cook 120分钟和鸡肉/米饭熟度复核。来源本身允许必要时延长加热，但未提供禽肉温度终点；保留原边界，不写成通用安全合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-CHICKEN-BROWN-RICE-SOUP-R60",
+          "title": "Chicken and Brown Rice Soup",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-and-brown-rice-soup/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第70至123行：3至4份、10分钟准备、120分钟Slow Cook、糙米/鸡肉/蔬菜/6至8杯鸡汤及熟度复核",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "time",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面明确给出鸡肉糙米汤的3至4份、食材、6杯鸡汤、Slow Cook 120分钟和鸡肉/米饭熟度复核。来源本身允许必要时延长加热，但未提供禽肉温度终点；保留原边界，不写成通用安全合同。"
+    },
+    {
+      "recipe_id": "r60-tiger-basic-chicken-congee",
+      "canonical_name": "Basic Congee (Porridge)",
+      "aliases": [
+        "基础鸡肉粥",
+        "姜香鸡粥"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger多功能电饭煲"
+      ],
+      "core_ingredients": [
+        "日本米",
+        "鸡汤",
+        "芹菜",
+        "姜",
+        "葱"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "日本米冲洗至水较清。",
+          "source_ids": [
+            "S-TIGER-BASIC-CONGEE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、切碎芹菜和姜放入内锅，加入鸡汤至0.5 Soft Porridge刻度。",
+          "source_ids": [
+            "S-TIGER-BASIC-CONGEE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "选择Porridge程序并设定70分钟启动，完成后可撒葱食用。",
+          "source_ids": [
+            "S-TIGER-BASIC-CONGEE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-BASIC-CONGEE-R60"
+        ],
+        "notes": "Tiger官方页面将其称为姜香鸡肉粥并明确给出2份、半杯米、鸡汤至0.5 Soft Porridge刻度和70分钟程序；页面未给鸡肉实际用量或禽肉安全终点，且正文步骤只含米/芹菜/姜，因此不补写鸡肉用量或安全合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-BASIC-CONGEE-R60",
+          "title": "Basic Congee (Porridge)",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/basic-congee-porridge/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第70至114行：2份、10分钟准备、70分钟Porridge、半杯米、鸡汤刻度和姜芹菜流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "time",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面将其称为姜香鸡肉粥并明确给出2份、半杯米、鸡汤至0.5 Soft Porridge刻度和70分钟程序；页面未给鸡肉实际用量或禽肉安全终点，且正文步骤只含米/芹菜/姜，因此不补写鸡肉用量或安全合同。"
+    },
+    {
+      "recipe_id": "r60-tiger-takeout-vegetable-fried-rice",
+      "canonical_name": "Take Out Style Vegetable Fried Rice",
+      "aliases": [
+        "电饭煲蔬菜炒饭风味",
+        "蔬菜混合饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger多功能电饭煲"
+      ],
+      "core_ingredients": [
+        "生白米",
+        "混合蔬菜",
+        "豌豆",
+        "鸡蛋",
+        "鸡汤"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "洗净生白米放入内锅；另碗混合蔬菜、酱油、姜、蒜、葱、鸡汤和芝麻油，倒在米上但不要搅拌。",
+          "source_ids": [
+            "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "选择Mixed程序设定50分钟启动。",
+          "source_ids": [
+            "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "程序完成后拌入炒熟鸡蛋和冷冻豌豆，盖盖静置约15分钟或至豌豆熟透。",
+          "source_ids": [
+            "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+        ],
+        "notes": "虽名为Fried Rice，Tiger官方页面明确写明使用2杯未煮白米、全程无实际炒锅，并说明是蔬菜饭与takikomi gohan的混合做法；因此作为生米入锅的混合饭记录，不归入熟饭二次加工。鸡蛋和豌豆在程序完成后加入，保留为连续流程，未推导普通电饭煲时机。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60",
+          "title": "Take Out Style Vegetable Fried Rice",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/take-out-style-vegetable-fried-rice/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第63至123行：4份、15分钟准备、65分钟页面总时长字段、2杯生米、蔬菜/鸡蛋/豌豆/鸡汤与Mixed流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "time",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "虽名为Fried Rice，Tiger官方页面明确写明使用2杯未煮白米、全程无实际炒锅，并说明是蔬菜饭与takikomi gohan的混合做法；因此作为生米入锅的混合饭记录，不归入熟饭二次加工。鸡蛋和豌豆在程序完成后加入，保留为连续流程，未推导普通电饭煲时机。"
+    },
+    {
+      "recipe_id": "r60-tiger-garlic-shrimp-herbed-rice",
+      "canonical_name": "Garlic Shrimp with Herbed Rice",
+      "aliases": [
+        "蒜香虾配香草饭",
+        "电饭煲蒜香虾饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger Tacook同步烹调电饭煲"
+      ],
+      "core_ingredients": [
+        "白米",
+        "虾",
+        "蒜",
+        "橄榄油",
+        "百里香",
+        "牛至",
+        "葱"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "虾去肠线，蒜切末；虾放入Tacook烹调盘，加入橄榄油和盐。",
+          "source_ids": [
+            "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "白米洗净加水放入内锅，将烹调盘放在内锅上方，选择Synchro-Cooking程序启动。",
+          "source_ids": [
+            "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "完成后将香草拌入米饭，虾与米饭同盘，按来源另配柠檬酱。",
+          "source_ids": [
+            "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+        ],
+        "notes": "Tiger官方页面明确将白米与蒜香虾放在同一台Tacook电饭煲同步完成，但虾在上层烹调盘、米在内锅，并非同一内锅混合；保留为“同一器具同步主餐”候选，未伪装成单内锅一锅饭，也未补水量或虾类安全终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60",
+          "title": "Garlic Shrimp with Herbed Rice",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/garlic-shrimp-with-herbed-rice/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第70至140行：2份、2杯白米、虾/蒜/油、Tacook烹调盘、Synchro-Cooking和成品流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面明确将白米与蒜香虾放在同一台Tacook电饭煲同步完成，但虾在上层烹调盘、米在内锅，并非同一内锅混合；保留为“同一器具同步主餐”候选，未伪装成单内锅一锅饭，也未补水量或虾类安全终点。"
+    },
+    {
+      "recipe_id": "r60-tiger-szechuan-pork-tacook-rice",
+      "canonical_name": "Szechuan Pork",
+      "aliases": [
+        "电饭煲川味猪肉饭",
+        "川味猪肉配饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger Tacook同步烹调电饭煲"
+      ],
+      "core_ingredients": [
+        "米",
+        "猪五花肉",
+        "卷心菜",
+        "青椒",
+        "红椒",
+        "大葱",
+        "豆瓣酱",
+        "甜面酱"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "按来源准备卷心菜、猪五花肉、青椒、红椒和大葱；将蒜、姜、豆瓣酱、甜面酱、糖、酱油和香油调成调味混合物。",
+          "source_ids": [
+            "S-TIGER-SZECHUAN-PORK-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "洗米和水放入内锅，肉和蔬菜及调味物放入Tacook烹调盘。",
+          "source_ids": [
+            "S-TIGER-SZECHUAN-PORK-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "将烹调盘置于内锅中，选择Synchro-Cooking程序，使米饭与猪肉蔬菜同步完成。",
+          "source_ids": [
+            "S-TIGER-SZECHUAN-PORK-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-SZECHUAN-PORK-R60"
+        ],
+        "notes": "Tiger官方页面明确称其为Szechuan Pork，说明3份、猪肉和蔬菜组合，并明确米饭与Tacook盘中猪肉蔬菜同步完成；页面未形成完整米量、液体或总时间合同，且是上下两层同步结构，不改写为单内锅焖饭。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-SZECHUAN-PORK-R60",
+          "title": "Szechuan Pork",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/szechuan-pork/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第62至129行：具名Szechuan Pork、3份、猪肉/卷心菜/椒类/葱/调味、Tacook同步流程；米量和程序时间字段未完整提供",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面明确称其为Szechuan Pork，说明3份、猪肉和蔬菜组合，并明确米饭与Tacook盘中猪肉蔬菜同步完成；页面未形成完整米量、液体或总时间合同，且是上下两层同步结构，不改写为单内锅焖饭。"
+    },
+    {
+      "recipe_id": "r60-tiger-taiwan-minced-pork-rice",
+      "canonical_name": "Taiwan Minced Pork",
+      "aliases": [
+        "台湾卤肉饭电饭煲版",
+        "台式肉燥配饭"
+      ],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Tiger Tacook同步烹调电饭煲"
+      ],
+      "core_ingredients": [
+        "白米",
+        "猪绞肉",
+        "香菇",
+        "炸葱",
+        "酱油",
+        "绍兴酒",
+        "五香粉"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "香菇切丁；猪绞肉与酱油、老抽、绍兴酒、玉米淀粉、糖、五香粉和白胡椒拌匀，再拌入香菇。",
+          "source_ids": [
+            "S-TIGER-TAIWAN-MINCED-PORK-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将调味猪肉和香菇放入Tacook烹调盘，撒炸葱；白米洗净加水放入内锅。",
+          "source_ids": [
+            "S-TIGER-TAIWAN-MINCED-PORK-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "将烹调盘放入内锅，选择Synchro-Cooking程序启动；完成后将肉燥铺在米饭上并撒炸葱。",
+          "source_ids": [
+            "S-TIGER-TAIWAN-MINCED-PORK-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TIGER-TAIWAN-MINCED-PORK-R60"
+        ],
+        "notes": "Tiger官方页面将该料理明确称为Taiwan Minced Pork，并解释其为卤肉饭风格：米在内锅、调味猪肉和香菇在Tacook盘同步完成，2份且给出主要食材量。它是同一器具的上下层同步版，不是肉与米在同一内锅混合；未推导普通电饭煲参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TIGER-TAIWAN-MINCED-PORK-R60",
+          "title": "Taiwan Minced Pork",
+          "publisher": "Tiger Corporation USA",
+          "url": "https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/taiwan-minced-pork/",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "正文第62至131行：2份、2杯米、半磅猪绞肉、2盎司香菇、调味量与Tacook同步流程；来源将其解释为台式卤肉饭风格",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Tiger Corporation USA",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tiger官方页面将该料理明确称为Taiwan Minced Pork，并解释其为卤肉饭风格：米在内锅、调味猪肉和香菇在Tacook盘同步完成，2份且给出主要食材量。它是同一器具的上下层同步版，不是肉与米在同一内锅混合；未推导普通电饭煲参数。"
+    },
+    {
+      "recipe_id": "taiwan-longkui-pork-porridge",
+      "canonical_name": "龍葵肉絲粥",
+      "aliases": [
+        "龙葵肉丝粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-rice-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "龍葵",
+        "梅花肉",
+        "米",
+        "雞高湯"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 12,
+          "unit": "电锅量杯鸡高汤"
+        },
+        "source_ids": [
+          "S-TW-MOA-LONGKUI-PORK-PORRIDGE-R60"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米洗净；取龙葵柔嫩茎叶洗净切碎；梅花肉切细丝。",
+          "source_ids": [
+            "S-TW-MOA-LONGKUI-PORK-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将米粒加入鸡高汤煮成浓稠粥状。",
+          "source_ids": [
+            "S-TW-MOA-LONGKUI-PORK-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "加入梅花肉丝和龙葵嫩茎叶煮熟，最后以少许盐调味。",
+          "source_ids": [
+            "S-TW-MOA-LONGKUI-PORK-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "农业部原文描述锅中煮粥，没有证明电饭煲程序或等价水位；保留原始锅煮流程。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-MOA-LONGKUI-PORK-PORRIDGE-R60",
+          "title": "龍葵肉絲粥",
+          "publisher": "台湾农业部农业知识入口网／花莲区农业改良场",
+          "url": "https://kmweb.moa.gov.tw/subject/subject.php?id=39588",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页第79至109行：具名、龙葵/梅花肉/米/12杯鸡高汤、三步煮粥流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process"
+          ],
+          "attribution": "台湾农业部农业知识入口网；维护单位为花莲区农业改良场",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方页面直接给出具名、核心食材、12杯鸡高汤和煮粥顺序；没有固定份数、总时间或肉类安全终点，不把锅煮流程改写成电饭煲配方。"
+    },
+    {
+      "recipe_id": "taiwan-milkfish-belly-porridge",
+      "canonical_name": "虱目魚肚粥",
+      "aliases": [
+        "虱目鱼肚粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-milkfish-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "虱目魚肚",
+        "白飯",
+        "芹菜",
+        "薑",
+        "紅蘿蔔",
+        "香菇"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 1000,
+          "unit": "cc"
+        },
+        "source_ids": [
+          "S-TW-TFRIN-MILKFISH-BELLY-PORRIDGE-R60"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "虱目魚肚切塊；薑、紅蘿蔔切絲；香菇切片；芹菜切珠。",
+          "source_ids": [
+            "S-TW-TFRIN-MILKFISH-BELLY-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "水中放入紅蘿蔔絲、薑絲和香菇片煮滾，再放入白飯熬煮成粥。",
+          "source_ids": [
+            "S-TW-TFRIN-MILKFISH-BELLY-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "加入虱目魚肚煮至魚肉變白，加入油蔥酥和鹽，撒芹菜珠及胡椒粉。",
+          "source_ids": [
+            "S-TW-TFRIN-MILKFISH-BELLY-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "魚類"
+      ],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "水產試驗所原文为汤锅熬粥，没有电饭煲参数或鱼肉温度合同；不外推器具转换。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-TFRIN-MILKFISH-BELLY-PORRIDGE-R60",
+          "title": "虱目魚肚粥",
+          "publisher": "台湾农业部水产试验所",
+          "url": "https://fae.moa.gov.tw/theme_data.php?id=2506&sub_theme=recipe&theme=topics",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页第52至72行：2片虱目鱼肚、2碗白饭、1000cc水、配料及三步熬粥流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process"
+          ],
+          "attribution": "台湾农业部水产试验所；食谱注明2021嚐鱻桌历",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方水产食谱给出具名、食材、1000cc水和鱼肚后下锅顺序；没有固定份数、总时间和鱼类安全终点，保持研究状态。"
+    },
+    {
+      "recipe_id": "taiwan-milkfish-salted-porridge",
+      "canonical_name": "虱目魚鹹粥",
+      "aliases": [
+        "虱目鱼咸粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-milkfish-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电锅",
+        "锅"
+      ],
+      "core_ingredients": [
+        "虱目魚",
+        "煮熟白飯",
+        "牡蠣",
+        "薑",
+        "芹菜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "虱目魚去骨；鱼骨架、鱼头与米酒、水、姜末用电锅熬煮20分钟。",
+          "source_ids": [
+            "S-TW-MOA-MILKFISH-SALTED-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "滤除鱼骨后，将煮好的米饭倒入汤中煮滚。",
+          "source_ids": [
+            "S-TW-MOA-MILKFISH-SALTED-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "加入去骨虱目鱼肉和牡蛎，沸腾后关火并加盖焖10分钟。",
+          "source_ids": [
+            "S-TW-MOA-MILKFISH-SALTED-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 4,
+          "instruction": "重新加热，加入油葱酥、芹菜、香菜、蒜末和盐调味。",
+          "source_ids": [
+            "S-TW-MOA-MILKFISH-SALTED-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "魚類",
+        "軟體動物"
+      ],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TW-MOA-MILKFISH-SALTED-PORRIDGE-R60"
+        ],
+        "notes": "官方流程是电锅熬鱼骨汤、滤汤、再以煮好米饭和鱼肉/牡蛎分段完成；不是单一原料全程同锅，且没有固定水量或通用电饭煲合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-MOA-MILKFISH-SALTED-PORRIDGE-R60",
+          "title": "虱目魚鹹粥自己做也能很好吃",
+          "publisher": "台湾农业部食农教育资讯整合平台",
+          "url": "https://fae.moa.gov.tw/theme_data.php?id=4367&sub_theme=knowledge&theme=topics",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_food_education_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页第52至67行：电锅熬鱼骨汤20分钟、过滤后加入煮好米饭、鱼肉/牡蛎焖10分钟及调味流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process",
+            "appliance"
+          ],
+          "attribution": "台湾农业部；作者标注为农业部",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "来源直接证明具名咸粥和分段流程；食材量、总时间、液体量及鱼贝安全终点未给出。保留其先熬汤、后入熟饭的边界，不伪装为一键电饭煲菜。"
+    },
+    {
+      "recipe_id": "taiwan-huai-shi-lean-pork-porridge",
+      "canonical_name": "淮實瘦肉粥",
+      "aliases": [
+        "淮山芡实瘦肉粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-rice-congee",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "米",
+        "瘦肉絲",
+        "淮山",
+        "芡實",
+        "紅蘿蔔"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "淮山和芡实洗净，以水蒸1小时。",
+          "source_ids": [
+            "S-TW-TMANH-HUAI-SHI-LEAN-PORK-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将米、瘦肉丝和红萝卜丝加入淮山芡实水中，小火煮熟。",
+          "source_ids": [
+            "S-TW-TMANH-HUAI-SHI-LEAN-PORK-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "医院原方为先蒸淮山芡实、再锅中小火煮粥，没有电饭煲等价程序或水量。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-TMANH-HUAI-SHI-LEAN-PORK-PORRIDGE-R60",
+          "title": "產婦餐參考菜單：淮實瘦肉粥",
+          "publisher": "台南市立安南醫院",
+          "url": "https://www.tmanh.org.tw/HealthEdus/Detail?no=5182",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "hospital_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方医院页第143至175行：米80g、瘦肉丝30g、淮山10g、芡实10g、红萝卜丝5g及蒸煮流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process"
+          ],
+          "attribution": "台南市立安南医院营养相关卫教页面",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "医院官方参考菜单给出具名、完整食材量和先蒸后煮流程；页面没有固定份数、液体量、总时间或安全终点，保留为研究候选。"
+    },
+    {
+      "recipe_id": "taiwan-brown-rice-sishen-porridge",
+      "canonical_name": "糙米四神粥",
+      "aliases": [
+        "糙米四神粥（1人份）"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-health-porridge",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电锅"
+      ],
+      "core_ingredients": [
+        "龍骨",
+        "糙米",
+        "芡實",
+        "薏仁",
+        "淮山",
+        "茯苓",
+        "蓮子"
+      ],
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {
+            "name": "龍骨",
+            "amount": {
+              "value": 75,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "糙米",
+            "amount": {
+              "value": 25,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "芡實",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "薏仁",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "淮山",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "茯苓",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "蓮子",
+            "amount": {
+              "value": 10,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 4,
+          "unit": "杯"
+        },
+        "source_ids": [
+          "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "龙骨汆烫后洗净；其余材料洗净备用。",
+          "source_ids": [
+            "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "所有材料放入电锅内锅，加入4杯水，外锅加1.5杯水。",
+          "source_ids": [
+            "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "煮至开关跳起，加盐调味并续焖20分钟。",
+          "source_ids": [
+            "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 20,
+        "source_ids": [
+          "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+        ]
+      },
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60"
+        ],
+        "notes": "中榮页面明确电锅内锅4杯水、外锅1.5杯水和焖20分钟；未给电锅型号与核心动物食材安全温度，不外推为通用执行合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-VGHTC-BROWN-RICE-SISHEN-PORRIDGE-R60",
+          "title": "糙米四神粥（1人份）",
+          "publisher": "臺中榮民總醫院",
+          "url": "https://www.vghtc.gov.tw/UnitPage/RowViewDetail?CompanyID=e8e0488e-54a0-44bf-b10c-d029c423f6e7&UnitDefaultTemplate=1&UnitID=def6b289-8a57-42b8-8601-0fb6e338e41c&WebRowsID=01dc6958-67ba-4522-ba5f-ec5d5e1905e",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "hospital_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方页第44至62行：1人份食材、内锅4杯水、外锅1.5杯水、电锅流程及焖20分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "臺中榮民總醫院衛教專區",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "医院官方页面给出1人份完整重量、电锅水量和焖20分钟；安全终点与机型边界未闭合，保留研究状态。"
+    },
+    {
+      "recipe_id": "taiwan-sliding-egg-sweet-potato-vegetable-porridge",
+      "canonical_name": "滑蛋地瓜菜粥",
+      "aliases": [
+        "滑蛋地瓜蔬菜粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-infant-porridge",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电锅",
+        "锅"
+      ],
+      "core_ingredients": [
+        "紅鳳菜",
+        "乾紫菜",
+        "蛋黃",
+        "胡蘿蔔",
+        "地瓜",
+        "白米"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "紅鳳菜",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "乾紫菜",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "蛋黃",
+            "amount": {
+              "value": 2,
+              "unit": "個"
+            },
+            "source_ids": [
+              "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "胡蘿蔔",
+            "amount": {
+              "value": 15,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "地瓜",
+            "amount": {
+              "value": 22,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "白米",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 280,
+          "unit": "g"
+        },
+        "source_ids": [
+          "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "胡萝卜丁、红凤菜碎和紫菜碎放入电锅；白米、地瓜丁和280g水放入碗中，外锅加1量米杯水，一起蒸熟。",
+          "source_ids": [
+            "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "蒸好的地瓜粥倒入锅中煮滚，淋入蛋液搅拌至熟。",
+          "source_ids": [
+            "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "盛碗后放上蒸熟的紫菜和红凤菜，最后放上胡萝卜。",
+          "source_ids": [
+            "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [
+        "蛋類"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60"
+        ],
+        "notes": "臺大醫院明确说明10–12个月宝宝副食品；流程包含电锅蒸煮后锅中煮滚和蛋液熟化，不改写成成人主餐或单一电锅流程。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-NTUH-SLIDING-EGG-SWEET-POTATO-PORRIDGE-R60",
+          "title": "「鐵」定沒問題：滑蛋地瓜菜粥",
+          "publisher": "臺大醫院營養室",
+          "url": "https://epaper.ntuh.gov.tw/health/202406/health_1.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "hospital_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方页第8至41行：10–12个月适用说明、2人份食材、280g水、电锅和蛋液流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "臺大醫院健康電子報／營養室",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方医院页面直接给出具名、2人份材料和完整步骤，但明确是10–12个月婴幼儿副食品；保留年龄边界，不宣称为通用成人菜。"
+    },
+    {
+      "recipe_id": "taiwan-pork-liver-spinach-porridge",
+      "canonical_name": "豬肝菠菜粥",
+      "aliases": [
+        "猪肝菠菜粥"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-infant-porridge",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电锅",
+        "锅"
+      ],
+      "core_ingredients": [
+        "豬肝",
+        "豬絞肉",
+        "菠菜",
+        "高麗菜",
+        "薑",
+        "白米"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "豬肝",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "豬絞肉",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "菠菜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "高麗菜",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "薑",
+            "amount": {
+              "value": 1,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+            ]
+          },
+          {
+            "name": "白米",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 280,
+          "unit": "g"
+        },
+        "source_ids": [
+          "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "白米加280g水放入大碗，外锅加1量米杯水，用电锅蒸熟。",
+          "source_ids": [
+            "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "姜片煮水至滚，将猪肝汆烫3分钟，取出切碎。",
+          "source_ids": [
+            "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "蒸好的稠粥倒入锅中煮滚，加入猪绞肉、猪肝、高丽菜和菠菜煮熟。",
+          "source_ids": [
+            "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60"
+        ],
+        "notes": "臺大醫院明确说明10–12个月宝宝副食品；猪肝先汆烫、米粥先蒸后入锅，保留分段流程，不宣称成人或一键电锅合同。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TW-NTUH-PORK-LIVER-SPINACH-PORRIDGE-R60",
+          "title": "「鐵」定沒問題：豬肝菠菜粥",
+          "publisher": "臺大醫院營養室",
+          "url": "https://epaper.ntuh.gov.tw/health/202406/health_1.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "hospital_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方页第43至69行：10–12个月适用说明、2人份食材、280g水、猪肝汆烫和粥流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "臺大醫院健康電子報／營養室",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方医院页面给出具名、2人份材料、猪肝汆烫和粥流程，但明确是10–12个月婴幼儿副食品；安全终点和成人份量未闭合，保持研究状态。"
+    },
+    {
+      "recipe_id": "motuo-menba-hand-grab-rice",
+      "canonical_name": "门巴手抓饭",
+      "aliases": [],
+      "region_codes": [
+        "CN-XZ-LINZHI-MOTUO"
+      ],
+      "cuisine_family": "motuo-menba-hand-grab-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": [
+        "米饭",
+        "本地野菜",
+        "香料"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "将米饭与本地野菜、香料拌匀，再用手捏成团；来源把这称为门巴手抓饭的朴素做法。",
+          "source_ids": [
+            "S-XZ-MOTUO-MENBA-HAND-GRAB-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "西藏自治区文化和旅游厅文章记录的是熟米饭与野菜、香料拌团的门巴族传统食物，没有固定份量、液体、时间、安全终点或现代电饭煲参数。不得把它改写为生米一锅焖饭。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-XZ-MOTUO-MENBA-HAND-GRAB-RICE-1",
+          "title": "中国民族报报道：从雪峰到蕉林，一路串联的墨脱非遗",
+          "publisher": "西藏自治区文化和旅游厅（来源：网信墨脱）",
+          "url": "https://wlt.xizang.gov.cn/ztzl_69/zzqjfyccr/202606/t20260602_543241.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "provincial_culture_and_tourism_food_culture_page",
+          "access_status": "opened",
+          "evidence_tier": 4,
+          "evidence_locator": "正文‘酒香为诗，话一方岁月’段落：门巴手抓饭将米饭与本地野菜、香料拌匀并用手捏成团；文末记为进入官方保护名录",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "process"
+          ],
+          "attribution": "西藏自治区文化和旅游厅 / 网信墨脱",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "官方文化和旅游厅来源直接记录门巴手抓饭的具名身份、米饭/本地野菜/香料组合和拌匀捏团流程。该来源描述的是熟饭拌食方式，不证明生米电饭煲方案；所有用量、液体、时间、安全和器具适配保持缺省。"
+    },
+    {
+      "recipe_id": "nu-zu-rou-ban-fan",
+      "canonical_name": "怒族肉拌饭",
+      "aliases": [
+        "老姆登怒族肉拌饭"
+      ],
+      "region_codes": [
+        "CN-YN-NUJIANG-GONGSHAN"
+      ],
+      "cuisine_family": "nu-zu-rou-ban-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "柴火锅",
+        "簸箕"
+      ],
+      "core_ingredients": [
+        "荞米",
+        "怒族土鸡",
+        "老火腿",
+        "本地盐",
+        "怒族香料"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "挑选荞米焖煮成荞米饭。",
+          "source_ids": [
+            "S-YN-NUZU-ROU-BAN-FAN-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "怒族土鸡处理后用柴火烧退毛、洗净；老火腿在柴火上烤至外皮微黄、出香后擦洗，与鸡一同上锅烹煮。",
+          "source_ids": [
+            "S-YN-NUZU-ROU-BAN-FAN-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "鸡与火腿煮熟后，火腿切成颗粒，鸡肉顺纹理撕成细丝；趁热与盐、怒族香料和荞米饭放入簸箕充分拌匀。",
+          "source_ids": [
+            "S-YN-NUZU-ROU-BAN-FAN-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "人民网海外版文章记录的是怒族柴火锅煮鸡、火腿后与荞米饭在簸箕中拌合的传统分段流程；没有电饭煲等价参数，不能改写成生鸡与生米同锅。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-YN-NUZU-ROU-BAN-FAN-1",
+          "title": "怒族美食：肉拌饭",
+          "publisher": "人民日报海外版",
+          "url": "https://paper.people.com.cn/rmrbhwb/html/2017-12/09/content_1822380.htm",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "mainstream_media_food_culture_article",
+          "access_status": "opened",
+          "evidence_tier": 5,
+          "evidence_locator": "正文‘怒族肉拌饭’段落：荞米焖煮、约2.8市斤怒族土鸡、老火腿柴火处理、鸡与火腿烹煮后切撕并在簸箕中与荞米饭拌匀；全文还说明节庆食用语境",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "process"
+          ],
+          "attribution": "人民日报海外版",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "人民日报海外版原文完整记述怒族肉拌饭的地域身份、荞米/土鸡/老火腿组合、约2.8市斤鸡的原文数量以及分段制作和簸箕拌合流程。数量只用于记录来源事实，不建立完整批量合同；来源没有米量、液体、总时间、安全终点或电饭煲适配。"
+    },
+    {
+      "recipe_id": "nujiang-lisu-hand-grab-rice",
+      "canonical_name": "傈僳族手抓饭（拌饭）",
+      "aliases": [
+        "傈僳族手抓饭"
+      ],
+      "region_codes": [
+        "CN-YN-NUJIANG"
+      ],
+      "cuisine_family": "nujiang-lisu-hand-grab-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": [],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "国家标准平台记录傈僳族手抓饭（拌饭）地方标准及其适用范围，但页面未公开配方、用量、流程或现代器具参数；不与新疆抓饭合并。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-YN-LISU-HAND-GRAB-STANDARD-1",
+          "title": "《傈僳族手抓饭 拌饭》地方标准",
+          "publisher": "全国标准信息公共服务平台 / 怒江傈僳族自治州市场监督管理局",
+          "url": "https://std.samr.gov.cn/db/search/stdDBDetailed?id=D7B683B23127A476E05397BE0A0A0A45",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "national_standard_information_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "页面标题与基础信息：DB5333/T 21.1—2021《傈僳族手抓饭 拌饭》，主管部门为怒江傈僳族自治州市场监督管理局，适用于傈僳族手抓饭系列标准中的拌饭制作过程",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "全国标准信息公共服务平台 / 怒江傈僳族自治州市场监督管理局",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-YN-LISU-HAND-GRAB-XINHUA-1",
+          "title": "怒江州举行民族团结进步示范区建设主题活动",
+          "publisher": "新华网云南频道",
+          "url": "https://www.yn.xinhuanet.com/nets/2022-07/24/c_1310645391.htm",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "provincial_mainstream_media_culture_article",
+          "access_status": "opened",
+          "evidence_tier": 5,
+          "evidence_locator": "正文民族饮食展示段落并列列出‘手抓饭、怒族肉拌饭’",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "新华网云南频道",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "国家标准平台和新华网云南频道共同支持傈僳族手抓饭（拌饭）的独立地域身份；标准页面没有公开配方或流程，故不填写食材、步骤、液体、时间、安全或器具参数，也不把它泛化为新疆抓饭。"
+    },
+    {
+      "recipe_id": "chayu-dengren-hand-grab-rice",
+      "canonical_name": "察隅僜人手抓饭",
+      "aliases": [
+        "僜人手抓饭"
+      ],
+      "region_codes": [
+        "CN-XZ-NYINGCHI-CHAYU"
+      ],
+      "cuisine_family": "chayu-dengren-hand-grab-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": [],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "全国标准信息公共服务平台记录《察隅僜人手抓饭》地方标准，但当前页面显示该标准已于2026-03-24废止，且未公开配方或流程；本条仅保存历史具名身份，不能当作现行执行配方。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-XZ-CHAYU-DENGREN-HAND-GRAB-STANDARD-1",
+          "title": "《察隅僜人手抓饭》地方标准",
+          "publisher": "全国标准信息公共服务平台 / 西藏自治区市场监督管理局",
+          "url": "https://std.samr.gov.cn/db/search/stdDBDetailed?id=11A468BC3DEDD965E06397BE0A0A5222",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "national_standard_information_page",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "页面标题、标准号DB5404/T 0020-2024及基础信息；页面显示标准发布日期2023-12-29、实施日期2024-01-30、废止日期2026-03-24",
+          "claim_scopes": [
+            "identity"
+          ],
+          "attribution": "全国标准信息公共服务平台 / 西藏自治区市场监督管理局",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "国家标准平台确认察隅僜人手抓饭曾有独立地方标准。由于页面标示该标准已废止，且没有公开做法、食材或器具参数，本条仅作历史身份研究记录，不晋升事实配方或公开执行。"
+    },
+    {
+      "recipe_id": "shaoyang-black-rice",
+      "canonical_name": "邵阳黑饭",
+      "aliases": [
+        "黑饭（邵阳）"
+      ],
+      "region_codes": [
+        "CN-HN-SHAOYANG"
+      ],
+      "cuisine_family": "shaoyang-black-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "锅"
+      ],
+      "core_ingredients": [
+        "糯米",
+        "植物染汁",
+        "血豆腐"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "湖南省人民政府页面以猪血丸子地方食物故事提及黑饭：植物汁与糯米蒸煮成一锅饭、血豆腐作下饭菜；来源没有给出黑饭独立固定配方、批量、液体、时间、安全或电饭煲参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HN-SHAOYANG-BLACK-RICE-1",
+          "title": "地方名小吃：猪血丸子",
+          "publisher": "湖南省人民政府",
+          "url": "https://www.hunan.gov.cn/jxxx/hxwh/cwd/201711/t20171111_4685399.html",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "provincial_government_food_culture_page",
+          "access_status": "opened",
+          "evidence_tier": 4,
+          "evidence_locator": "正文关于黑饭的传统食物段落：植物与糯米蒸煮成一锅黑饭，并以血豆腐代替下饭菜",
+          "claim_scopes": [
+            "identity",
+            "ingredients"
+          ],
+          "attribution": "湖南省人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "湖南省政府页面在邵阳传统食品语境中记录黑饭的名称、植物染汁与糯米一锅蒸煮以及血豆腐佐食。原文是地方食物故事，不足以建立家庭执行配方；本条保留为身份线索，待找到独立黑饭来源后再补流程。"
+    }
   ]
 }
