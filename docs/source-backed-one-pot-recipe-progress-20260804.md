@@ -1,5 +1,62 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r41 搜集期第二批（2026-08-05）
+
+本批由厂商、卫生/农业机构和地域文化三路 Agent 并行检索，再由主线逐条去重和结构化。只扩大来源型研究目录，不修改前端、Worker、Planner、模板或 DeepSeek；不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r40` bump 为 `source-backed-one-pot-v1-20260805-national-r41`，条目从 186 增至 205：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：173 → 192；
+- `identity_verified`：1 → 1；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（19 条，全部 `recipe_fact_checked`）
+
+1. `taiwan-brown-rice-salmon-rice` — 糙米鮭魚炊飯（台湾国民健康署/内湖健康服务中心）；
+2. `taiwan-ten-fragrant-rice` — 十香飯（台湾农粮署北区分署）；
+3. `taiwan-vegetable-chicken-rice` — 蔬菜雞肉飯（台湾农粮署北区分署）；
+4. `taiwan-saffron-seafood-rice` — 番紅花海鮮飯（台湾农粮署北区分署）；
+5. `taiwan-three-mushroom-rice` — 三菇飯（台湾农粮署北区分署）；
+6. `hakka-electric-cooker-rice` — 客家菜飯（桃园市政府客家事务局）；
+7. `hk-hiroshima-oyster-mushroom-claypot-rice` — 廣島蠔雜菇煲仔飯（香港食物环境卫生署）；
+8. `panasonic-one-pot-chicken-rice` — One Pot Chicken Rice（Panasonic Australia，SR-HL151）；
+9. `panasonic-chicken-vegetable-rice` — Chicken Vegetable Rice（Panasonic Australia，SR-DF181WST）；
+10. `panasonic-claypot-style-chicken-rice` — Claypot Style Chicken Rice（Panasonic Malaysia）；
+11. `yuping-farmer-she-rice` — 玉屏农家社饭（铜仁市人民政府门户网站）；
+12. `taiwan-cured-pot-rice` — 臘味煲飯（台湾农粮署北区分署）；
+13. `taiwan-fuzhou-drunk-duck-rice` — 福州糟鴨飯（台湾农粮署北区分署）；
+14. `hk-pumpkin-taro-chicken-claypot-rice` — 南瓜芋頭雞粒煲仔飯（香港卫生署有营食谱）；
+15. `hk-yam-longan-chicken-claypot-rice` — 淮山圓肉雞柳煲仔飯（香港卫生署有营食谱）；
+16. `hk-taro-shrimp-multigrain-steamed-rice` — 芋頭鮮蝦五穀蒸飯（香港卫生署有营食谱）；
+17. `macau-scallop-mushroom-vegetable-rice` — 帶子磨菇菜飯（澳门特别行政区政府体育局）；
+18. `macau-tomato-corn-rice` — 蕃茄粟米飯（澳门特别行政区政府体育局）；
+19. `tatung-avocado-chicken-rice` — アボカド鶏肉炊き込みご飯（大同电锅日本官方）。
+
+### 本批证据与边界
+
+- 19 条均保留来源中的真实菜名、器具和高层流程；没有把食材自由组合成新菜名，也没有把近似家族误报成相同传统菜。
+- 19 条均有直接打开的 HTTPS 来源与定位，状态全部停在 `recipe_fact_checked`。缺固定份数、总时间、液体对象或安全终点的字段保持 `null`，不以常识补齐。
+- 台湾“十香飯”原文同时出现“米飯”措辞与生米浸泡/煮制步骤，米的生熟状态未消歧；番紅花海鮮飯同时列出水量和“鸡高汤适量”，不取平均、不拼第三套液体合同。
+- 砂锅/瓦煲/蒸锅条目（香港三条、福州糟鸭、玉屏社饭等）只记录原器具事实；Panasonic 和大同条目保留机型、水位线与程序边界，不外推成普通电饭煲规则。
+- 三菇飯明确标为碳水+膳食纤维结构，不宣称含完整蛋白；澳门番茄粟米饭同样不宣称完整蛋白餐。这是营养边界，不是排除真实菜名的理由。
+
+### 去重与未入库候选
+
+- 既有 `taiwan-pumpkin-rice` 已覆盖《南瓜飯》，本批不重复新增；既有 `ntuh-low-sodium-spanish-paella-rice` 和 `tatung-cajun-chicken-rice` 也只作为候选来源复核，不重复建条目。
+- Zojirushi/Tiger/Toshiba/Panasonic 的“五目/炊込み”高度同家族，本批不继续堆叠同名 canonical；保留为后续交叉证据候选。
+- 石扇鱼焖饭、华容锅巴鱼饭、赤坎煲仔饭、台山油饭、磐安竹筒饭、印江社饭、黔江土家社饭等大陆地域候选已核到官方身份/工艺来源，但克数、液体、器具或安全边界仍缺，记录在研究报告，不为了数量越过本批结构化边界。
+- 泉州萝卜饭、深沪壶仔饭与现有研究目录重复；九阳“懒人焖饭”与现有腊肠什锦版重复，均不重复入库。
+
+### 本批验证与提交纪律
+
+- 先新增失败测试，锁定 r41 版本、状态分布和 19 个 recipe ID；目录数据专项测试 `199/199` 通过。
+- `node tools/check-source-backed-one-pot-catalog.mjs` 与 `node tools/build-source-backed-one-pot-catalog.mjs --check` 作为本批验收门；所有来源仍遵循 scope 只声明实际支撑事实的规则。
+- 本批只涉及研究目录、测试和文档；不改运行时、不调用 DeepSeek、不部署 production，PR 继续保持 Draft。
+- 本批应在当天拆分为 `data:`、`docs:`、`test:` 提交；下一轮报告必须继续列出版本、状态分布和完整新增/晋升清单。
+
+## 当前结论（r41）
+
+搜集层已从 186 条扩到 205 条，研究池更丰富，但 `executable=12`、`kitchen_observed=0` 的事实没有改变。研究池不是公开菜单，后续仍按“来源闭合 → 独立签署 → 厨房实做”逐级推进；任何条目都不能因为数量增加而绕过证据门槛。
+
 ## r40 搜集期首批（2026-08-05）
 
 本批按《搜集期执行规范》只扩大研究目录，不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r39` bump 为 `source-backed-one-pot-v1-20260805-national-r40`，条目从 176 增至 186：
