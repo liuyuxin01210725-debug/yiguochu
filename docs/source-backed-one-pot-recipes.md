@@ -397,12 +397,19 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ごぼうと牛肉のごはん | — | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；牛腿薄片；牛蒡；金针菇；葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [ごぼうと牛肉のごはん](https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe108.html) |
+| トマト炊き込みごはん | 番茄炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；番茄；鲑鱼罐头；洋葱；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [トマト炊き込みごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/117.html) |
+| 刻みコンブときのこの香りごはん | 刻昆布菌菇香味饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；干香菇；刻昆布；胡萝卜；牛蒡；舞茸；油豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [刻みコンブときのこの香りごはん](https://www.maff.go.jp/j/pr/aff/2011/spe1_01.html) |
+| 大根ご飯 | 萝卜饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；白萝卜；萝卜叶；鸡腿肉；油豆腐 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [大根ご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_153.html) |
+| 福岡たけのこごはん | 福冈竹笋饭 | JP-FUKUOKA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；竹笋；鸡肉；油豆腐；木芽 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [福岡たけのこごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/aftercovid19/267.html) |
 | 千石豆のかきまわし | — | JP-GIFU | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；千石豆；鸡肉；牛蒡；胡萝卜；芋头；油揚げ；竹轮 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [千石豆のかきまわし 岐阜県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/38_23_gifu.html) |
 | もぶり | — | JP-HIROSHIMA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；胡萝卜；牛蒡；莲藕；干香菇；油揚げ；四季豆；黑豆 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [もぶり 広島県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_6_hiroshima.html) |
+| おまかせ丸投げ賀茂なすご飯 | 贺茂茄子饭 | JP-KYOTO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；贺茂茄子；吻仔鱼；九条葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [おまかせ丸投げ賀茂なすご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/99.html) |
 | 豆腐飯 | とうふめし | JP-OKAYAMA-TAKAHASHI | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；豆腐；鸡蛋；豌豆；牛蒡；干香菇；干瓢；出汁 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [豆腐飯 岡山県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_26_okayama.html) |
 | かてめし | 加菜饭 | JP-SAITAMA-CHICHIBU | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；萝卜；牛蒡；胡萝卜；干香菇；油豆腐 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [かてめし 埼玉県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/33_6_saitama.html) |
 | ぼくめし | 木杭饭 | JP-SHIZUOKA-YOSHIDA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；白烧鳗；牛蒡；青豆 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [ぼくめし 静岡県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/36_10_shizuoka.html) |
 | 五目飯 | ごもくめし | JP-TOCHIGI | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；干瓢；干香菇；胡萝卜；牛蒡；油揚げ；豌豆；鸡蛋 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [五目飯 栃木県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/31_13_tochigi.html) |
+| 梅干し炊き込みごはん | 梅干吻仔鱼昆布炊饭 | JP-WAKAYAMA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；梅干；吻仔鱼；刻昆布 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [梅干し炊き込みごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/aftercovid19/191.html) |
 ## japanese-regional-okowa
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -664,6 +671,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 陵川柴火饭 | — | CN-SX | lingchuan-firewood-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [陵川柴火饭](https://www.jcgov.gov.cn/dtxx/ztzl/2023ncsmp/csmpzwjc/csmp_jcctmc/) |
+## lingnan-finished-rice-meals
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 蚬肉饭 | 东莞中堂蚬肉饭 | CN-GD-DONGGUAN-ZHONGTANG | lingnan-finished-rice-meals | 研究记录（非公开可执行） | 熟米饭；蚬肉；姜；葱 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [蚬肉饭](https://dgsx.dg.gov.cn/sxgk/sxfq/czsx/content/post_4032491.html) |
 ## louisiana-red-beans-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -703,6 +715,13 @@
 | スタミナご飯 | 象印泡菜牛肉饭；象印元气饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；白菜泡菜；牛肉；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [スタミナご飯](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/004.html) |
 | トルコ風リゾット | 象印土耳其风烩饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；番茄；彩椒；水；帕玛森 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [トルコ風リゾット](https://www.zojirushi.co.jp/recipe_old/ihnabe/syousai/011.html) |
 | 海のパエリア | 象印海鲜西班牙海鲜饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；虾；蛤蜊；鱿鱼；青椒；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [海のパエリア](https://www.zojirushi.co.jp/recipe_old/ihnabe/syousai/005.html) |
+## 厂商一锅饭食谱
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken rice with olives | 橄榄鸡肉饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；红椒；洋葱；罐装番茄；青橄榄 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken rice with olives](https://www.tefal.com/recipe/Chicken-rice-with-olives/r/992924) |
+| Risotto Milanese | 米兰烩饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；火腿；蘑菇；洋葱；高汤；番茄酱 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Risotto Milanese](https://www.tefal.com/recipe/Risotto-Milanese/r/106510) |
+| Saffron Rice with Seafood | 藏红花海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；解冻冷冻海鲜；洋葱；鱼高汤；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Saffron Rice with Seafood](https://www.tefal.com/recipe/Saffron-Rice-with-Seafood/r/106512) |
 ## manufacturer-one-pot-risotto
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1124,6 +1143,12 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 孔干饭 | 箜饭；箜干饭；孔饭 | CN-SC | sichuan-parboil-drain-return-to-pot-rice | 研究记录（非公开可执行） | 米；腊肉；豆角；洋芋 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [曾颖：孔干饭](https://www.sczjw.net.cn/read/detail/11028.html)<br>[古蜀先民“菜篮子”里都有啥？](https://www.hljzx.gov.cn/contents/68/7320.html)<br>[四川传统“箜饭”技艺与孔干饭餐厅](https://m.tech.china.com/digi/digi/20221125/202211251185477.html) |
+## sichuan-regional-rice-meals
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 硒米罐儿饭 | 万源硒米罐儿饭 | CN-SC-DASHOU-WANYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 硒米；腊肉；酸豆角；野菜 | identity、ingredients | 缺 process | [硒米罐儿饭](https://www.dazhou.gov.cn/news-show-266982.html) |
+| 酸菜干饭 | 广元酸菜干饭 | CN-SC-GUANGYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 米；酸菜；蔬菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [广元酸菜干饭](https://www.scsqw.cn/scyx/sctc/content_104352) |
 ## songjiang-apo-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1259,6 +1284,7 @@
 | 南瓜小魚干紅蔥頭炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；南瓜；小鱼干；红葱头 | appliance、identity | 缺 ingredients、process | [亲子玩米乐无穷：电锅饭料理金牌作品](https://fae.moa.gov.tw/theme_data.php?id=549&sub_theme=hot_news&theme=news) |
 | 和風栗子飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；栗子 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
 | 牛肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；牛肉 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 紅薏仁燉飯 | 红薏仁炖饭 | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 红薏仁；洋葱；洋菇；香菇；杏鲍菇；毛豆；牛奶 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [红薏仁燉飯](https://fae.moa.gov.tw/map/food_item.php?id=129&type=AS07) |
 | 蒜味鮮魚炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；鲜鱼；蒜 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
 | 蕃茄豬肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；番茄；猪肉 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
 | 豆豉肉丁蒸飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；豆豉；肉丁 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
@@ -1661,6 +1687,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 半山立夏野米饭 | 立夏野米饭；烧野米饭 | CN-ZJ | zhejiang-lixia-wild-rice | 研究记录（非公开可执行） | 米；鸡蛋；韭菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [拱墅区举办第六届半山立夏节](https://www.ihchina.cn/solarzx_details/18383.html) |
+## zhejiang-regional-salted-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 仙居咸酸饭 | 仙居咸酸米饭 | CN-ZJ-TAIZHOU-XIANJU | zhejiang-regional-salted-rice | 研究记录（非公开可执行） | 米；咸酸菜；蔬菜 | identity、ingredients | 缺 process | [仙居咸酸饭](https://tz.zjol.com.cn/xw18022/sh18033/202505/t20250508_30982150.shtml) |
 ## zhenfeng-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

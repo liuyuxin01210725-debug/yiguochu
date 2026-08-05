@@ -1,5 +1,41 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r68 搜集期第四十一批（2026-08-06）
+
+本批沿用“搜集放量、证据不越级”：机构、地域和厂商三条线并行，严格按当前 r67 目录去重后登记 **15 条新研究记录**。目录版本由 r67 的 `source-backed-one-pot-v1-20260808-national-r67` bump 为 `source-backed-one-pot-v1-20260808-national-r68`，条目从 618 增至 633：`executable=12`、`recipe_fact_checked=561`、`identity_verified=54`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，也没有部署。
+
+### 机构与官方农业来源（8 条，全部 `recipe_fact_checked`）
+
+- `maff-gobo-beef-rice` — ごぼうと牛肉のごはん：牛蒡、牛肉、金针菇与米同入内釜，保留 MAFF 页面边界。
+- `maff-fukuoka-bamboo-rice` — 福岡たけのこごはん：竹笋、鸡肉、油豆腐与米同炊，保留先浸泡约 10 分钟和原文杯量。
+- `maff-daikon-chicken-rice` — 大根ご飯：萝卜、萝卜叶、鸡腿和油豆腐同入电饭锅，萝卜含水量列为厨房观察项。
+- `maff-kamo-nasu-jako-rice` — おまかせ丸投げ賀茂なすご飯：贺茂茄子和吻仔鱼的具名地域饭，不把普通茄子或樱花虾自动替换。
+- `maff-tomato-salmon-takikomi` — トマト炊き込みごはん：洋葱蒜先炒香，再与番茄和鲑鱼罐头入电饭锅，明确是两阶段邻接流程。
+- `maff-ume-shirasu-kombu-takikomi` — 梅干し炊き込みごはん：梅干、吻仔鱼和刻昆布炊饭，蛋白量偏低，不宣称完整高蛋白主餐。
+- `maff-kombu-mushroom-kaori-gohan` — 刻みコンブときのこの香りごはん：菌菇、根菜、油豆腐与泡发汁同炊，缺失总时长和安全合同保持空缺。
+- `moa-red-coix-mushroom-risotto` — 紅薏仁燉飯：台湾农业部官方食农教育页，红薏仁电锅煮软后另锅炒料拌合，登记为一锅出邻接研究，不伪装成单锅。
+
+### 中国地域来源（4 条；2 条 `recipe_fact_checked`、2 条 `identity_verified`）
+
+- `guangyuan-sauerkraut-dry-rice` — 酸菜干饭（广元）：地方志证明酸菜铺在米饭表面随饭蒸制，但没有固定量、液体或电饭煲参数。
+- `wanyuan-selenium-rice-guanfan` — 硒米罐儿饭（万源）：政府/达州日报证明罐儿饭身份和腊肉、酸豆角、野菜的分开搭配，明确不计为同锅。
+- `zhongtang-clam-meat-rice` — 蚬肉饭（中堂）：东莞水乡来源记录蚬肉蒸制后与熟饭拌合，保持熟饭二次加工边界。
+- `xianju-salted-sour-rice` — 咸酸饭（仙居）：浙江在线证明具名米制品和地域身份，流程与用量待补，暂不进入执行池。
+
+祁阳竹筒菜来源直接但尚未拆出竹筒饭、竹筒鸡、竹筒排骨的独立配方，本批仅保留研究线索，不新增虚构条目；凤凰社饭等已有 r67 条目只做证据刷新。
+
+### 厂商官方来源（3 条，全部 `recipe_fact_checked`）
+
+- `tefal-risotto-milanese` — Risotto Milanese：Tefal bowl 同容器完成米、火腿和蘑菇，页面标为 Side Dish，不外推普通电饭煲或完整均衡主餐。
+- `tefal-saffron-rice-seafood` — Saffron Rice with Seafood：解冻海鲜与米、鱼高汤同 bowl 炊煮，缺少蔬菜/纤维与海鲜安全终点。
+- `tefal-chicken-rice-olives-one-pot-pan` — Chicken rice with olives：Tefal One Pot 平底锅连续完成，但汤液先加热备用、禽肉先煎，保持非电饭煲条件候选。
+
+### 本批纪律
+
+- 所有新增来源均为直接打开的官方/政府/主流机构页面，带 evidence tier、定位和实际 claim scope；没有把搜索摘录或未解析 PDF 写成事实。
+- 具名熟饭拌合、预炒后入锅、Tefal One Pot 平底锅和红薏仁两阶段流程均保留原名与器具边界，不改成模板自由组合。
+- 15 条全部停在研究层，`executable` 与 `kitchen_observed` 不变；下一步是原件复核、四合同闭合和厨房验证，不是自动晋升。
+
 ## r67 搜集期第四十批（2026-08-06）
 
 本批继续执行“并行搜集、证据分层、绝不越级”：机构、厂商和中国地域三条来源线并行核对，去重后登记 **23 条新研究记录**。目录版本由 r66 的 `source-backed-one-pot-v1-20260808-national-r66` bump 为 `source-backed-one-pot-v1-20260808-national-r67`，条目从 595 增至 618：`executable=12`、`recipe_fact_checked=548`、`identity_verified=52`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有晋升 executable，也没有部署。
