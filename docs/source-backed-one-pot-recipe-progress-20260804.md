@@ -1,5 +1,69 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r58 搜集期第三十批（2026-08-05）
+
+本批按“先扩大真实具名目录、暂不晋升”的策略，完成三条来源线的并行核对：Tiger USA 厂商官方页面、台湾农粮署/厂商机构页面，以及中国地域官方页面。共登记 **30 条候选**，目录版本由 r57 的 `source-backed-one-pot-v1-20260808-national-r57` bump 为 `source-backed-one-pot-v1-20260808-national-r58`，条目从 400 增至 430：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：374 → 398（新增 24）；
+- `identity_verified`：14 → 20（新增 6）；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（30 条）
+
+**Tiger USA 官方（12 条，全部 `recipe_fact_checked`）**
+
+1. `tiger-usa-chicken-mushroom-rice` — Chicken Mushroom Rice；
+2. `tiger-usa-chicken-rice-vegetables` — Chicken and Rice With Vegetables；
+3. `tiger-usa-autumn-chicken-mushroom-green-bean-pilaf` — Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole；
+4. `tiger-usa-asparagus-mushroom-risotto` — Asparagus and Mushroom Risotto；
+5. `tiger-usa-italian-beef-bowl` — Italian Beef Bowl；
+6. `tiger-usa-chinese-rice-bowl` — Chinese Rice Bowl；
+7. `tiger-usa-zha-cai-beef-rice` — Zha Cai and Beef Rice；
+8. `tiger-usa-vietnamese-beef-rice` — Vietnamese Style Beef with Rice；
+9. `tiger-usa-chinese-marinated-tofu-rice` — Chinese Marinated Tofu Rice；
+10. `tiger-usa-tomato-chicken-melt` — Tomato Chicken Melt；
+11. `tiger-usa-bacon-tuna-rice-casserole` — Bacon and Tuna Rice Casserole；
+12. `tiger-usa-multi-cooker-butternut-squash-risotto` — Multi-Cooker Butternut Squash Risotto。
+
+以上条目全部绑定 Tiger 页面实际声明的器具/程序。`3–4`、`5–6` 等来源范围没有被压成虚假的单一份数；Tacook 水位线保留为结构化机型事实，不外推普通电饭煲。
+
+**台湾机构与厂商（9 条，全部 `recipe_fact_checked`）**
+
+13. `r58-taiwan-afa-pumpkin-rice` — `南瓜飯`；
+14. `r58-xinjiang-pilaf` — `新疆抓飯`；
+15. `r58-taiwan-red-crab-glutinous-rice` — `紅蟳米糕`；
+16. `r58-taiwan-preserved-egg-pork-congee` — `皮蛋瘦肉粥`；
+17. `r58-taiwan-crab-congee` — `螃蟹粥`；
+18. `r58-panasonic-salmon-edamame-rice` — `和風鮭魚毛豆炊飯`；
+19. `r58-sharp-matsusaka-pork-mushroom-rice` — `麻油松阪豬綜合菇炊飯`；
+20. `r58-cookpot-salmon-milk-brown-rice-risotto` — `鮭魚奶香糙米燉飯`；
+21. `r58-cookpot-corn-rice-beef-meatballs` — `玉米飯+牛肉丸子 (一鍋二菜)`。
+
+其中农粮署、Panasonic、Sharp、鍋寶页面只证明页面写明的食材和流程；鱼贝、猪肉、粥和“二菜同锅”的分段/安全合同仍保持各自缺口。新疆抓饭保留其来源语境，不把地域原方改写成通用电饭煲参数。
+
+**中国地域官方来源（9 条：3 条 `recipe_fact_checked`，6 条 `identity_verified`）**
+
+22. `hubei-yangxin-chunhu-fish-rice` — `春湖鱼饭`；
+23. `fujian-jinjiang-shenhu-huzi-salted-rice` — `壶仔咸饭`；
+24. `shanghai-songjiang-apo-vegetable-rice` — `阿婆菜饭`；
+25. `hubei-xinzhou-yellow-catfish-glutinous-rice` — `黄颡鱼焖糯米饭`（仅身份）；
+26. `zhejiang-changxing-salted-pork-xiuhuajin-rice` — `咸肉绣花锦菜饭`（仅身份）；
+27. `fujian-shishi-sesame-oil-rice` — `石狮香油饭`（仅身份）；
+28. `guizhou-buyi-flower-glutinous-rice` — `布依花糯米饭`（仅身份）；
+29. `hunan-mayang-steamed-glutinous-rice` — `粉蒸糯米饭`（仅身份）；
+30. `shanxi-lingchuan-firewood-rice` — `陵川柴火饭`（仅身份）。
+
+前三条有来源直接写明的流程，后六条只登记具名和身份事实，流程、固定批次、液体、时间和安全字段保持空值，绝不因“看起来像会做”而补写。
+
+### 本批边界与验证纪律
+
+- 本批只扩大研究目录，不新增运行时固定菜谱，不调用 DeepSeek，不修改前端、Worker、Planner、模板或生产配置；没有任何条目晋升 `executable` 或 `kitchen_observed`。
+- 先写 r58 失败测试，再合并结构化候选；目录专项测试锁定 430 条、30 个 ID、状态分布和 identity-only 空合同边界。
+- 候选来源均保留直接 URL、证据等级和事实范围。厂商机型参数、粥/烩饭/预处理步骤、鱼贝和肉类安全缺口不跨来源推导；不同版本不拼接。
+- 目录构建后生成 Markdown/CSV/缺口清单并跑来源目录检查；提交前继续跑 `check-recipes.mjs`、全量 Node 测试、Python 语法、构建一致性和 `git diff --check`。
+- 搜集期登记不等于人工批准；后续晋升仍需人工逐条签署，且必须经过 `kitchen_observed` 才能讨论公开。
+
 ## r57 搜集期第二十六批（2026-08-05）
 
 本批按“扩大真实具名目录、状态透明、不晋升”的策略，复核并登记厂商、香港/台湾机构和中国地域来源的 **25 条候选**。目录版本由 r56 的 `source-backed-one-pot-v1-20260808-national-r56` bump 为 `source-backed-one-pot-v1-20260808-national-r57`，条目从 375 增至 400：

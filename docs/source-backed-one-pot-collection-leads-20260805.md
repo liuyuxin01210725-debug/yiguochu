@@ -1,5 +1,22 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r58 已登记（2026-08-05）
+
+本批三条并行来源线完成查重与直接页面核对，登记 **30 条真实具名候选**。目录由 r57 的 400 条更新为 r58 的 430 条：`executable=12`、`recipe_fact_checked=398`、`identity_verified=20`、`kitchen_observed=0`。本批没有运行时改动、没有部署，所有新增条目都留在研究状态。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Tiger USA 官方 | `tiger-usa-chicken-mushroom-rice`、`tiger-usa-chicken-rice-vegetables`、`tiger-usa-autumn-chicken-mushroom-green-bean-pilaf`、`tiger-usa-asparagus-mushroom-risotto`、`tiger-usa-italian-beef-bowl`、`tiger-usa-chinese-rice-bowl`、`tiger-usa-zha-cai-beef-rice`、`tiger-usa-vietnamese-beef-rice`、`tiger-usa-chinese-marinated-tofu-rice`、`tiger-usa-tomato-chicken-melt`、`tiger-usa-bacon-tuna-rice-casserole`、`tiger-usa-multi-cooker-butternut-squash-risotto` | [Tiger USA rice-cooker recipes](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/)、[Tiger USA multi-cooker risotto](https://www.tiger-corporation.com/en/usa/feature/recipe/multi-cooker/multi-cooker-butternut-squash-risotto/)。全部按原页面绑定 Plain/Tacook/Multi-Cooker 语境，份数范围不被压成单值，水位线不外推。 |
+| 台湾机构与厂商 | `r58-taiwan-afa-pumpkin-rice`、`r58-xinjiang-pilaf`、`r58-taiwan-red-crab-glutinous-rice`、`r58-taiwan-preserved-egg-pork-congee`、`r58-taiwan-crab-congee`、`r58-panasonic-salmon-edamame-rice`、`r58-sharp-matsusaka-pork-mushroom-rice`、`r58-cookpot-salmon-milk-brown-rice-risotto`、`r58-cookpot-corn-rice-beef-meatballs` | [台湾农粮署电子书](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)、[农粮署新疆抓饭资料](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html)、[螃蟹粥](https://www.tfrin.gov.tw/theme_data.php?id=499&theme=recipe)、[Panasonic 和風鮭魚毛豆炊飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3811)、[Sharp 麻油松阪豬綜合菇炊飯](https://tw.sharp/healsio/recipes/811)、[鍋寶鮭魚奶香糙米燉飯](https://www.cookpot.com.tw/cookbook/588.html)、[鍋寶玉米飯+牛肉丸子](https://www.cookpot.com.tw/cookbook/38.html)。粥、鱼贝、猪肉、二菜和地域原器具边界保持原样，缺口不补写。 |
+| 中国地域官方来源 | `hubei-yangxin-chunhu-fish-rice`、`fujian-jinjiang-shenhu-huzi-salted-rice`、`shanghai-songjiang-apo-vegetable-rice`、`hubei-xinzhou-yellow-catfish-glutinous-rice`、`zhejiang-changxing-salted-pork-xiuhuajin-rice`、`fujian-shishi-sesame-oil-rice`、`guizhou-buyi-flower-glutinous-rice`、`hunan-mayang-steamed-glutinous-rice`、`shanxi-lingchuan-firewood-rice` | [春湖鱼饭](https://yx.gov.cn/zjyx/whyc/201612/t20161220_95834.html)、[壶仔咸饭](https://www.jinjiang.gov.cn/xxgk/zfxxgkzl/bmzfxxgk/whhlvj/whhlvjgzml/202512/t20251210_3239722.htm)、[阿婆菜饭](https://www.songjiang.gov.cn/xwzx/001003/20260129/b7ead1aa-7dfe-4c90-b469-f1b43c61bf09.html)、[黄颡鱼焖糯米饭](https://www.whxinzhou.gov.cn/zjxz/lyxx/msjq/202310/t20231031_2290902.shtml)、[咸肉绣花锦菜饭](https://zhuanti.mct.gov.cn/xcss2024_shjlzzxc/zhejiang/detail/6814.html)、[石狮香油饭](https://www.quanzhou.gov.cn/gastronomy/ch/sqsm/yxyzc/202412/t20241211_3115801.htm)。地域身份候选保持 identity-only，不把地方名自动转换成电饭煲合同。 |
+
+### r58 研究边界
+
+- Tiger USA 的英文米饭、烩饭和 casserole 只作为厂商来源候选；它们不改名为自由组合菜，不跨机型外推水量或程序。
+- 台湾机构线保留新疆抓饭、红蟳米糕、粥、鱼贝和猪肉的原始工艺与安全缺口；“一锅二菜”不压成单锅单菜合同。
+- 地域线的春湖鱼饭、壶仔咸饭、阿婆菜饭有流程事实，其他六条仅有身份/文化来源，故保持空流程字段。
+- 本批未纳入但保留为线索：同名变体、仅有熟饭二次加工的炒饭、只有视频/搜索摘录而无法直接打开的页面；不以数量目标替代来源质量。
+
 ## r57 已登记（2026-08-05）
 
 本批三条并行来源线完成去重和直接页面核对，登记 **25 条真实具名候选**。目录由 r56 的 375 条更新为 r57 的 400 条：`executable=12`、`recipe_fact_checked=374`、`identity_verified=14`、`kitchen_observed=0`。没有修改运行时，也没有部署。
