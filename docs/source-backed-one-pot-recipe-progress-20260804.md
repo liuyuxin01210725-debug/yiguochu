@@ -1,5 +1,36 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r74 搜集期第四十七批（2026-08-06）
+
+本批按“搜集放量、证据不越级”并行核对厂商官方、地方政府/地方报刊与地域官方来源。基于 r73 的 680 条目录，新增 **6 条研究记录**，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r74`，当前总量 686：`executable=12`、`recipe_fact_checked=601`、`identity_verified=67`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。
+
+### 厂商官方来源（2 条，全部 `recipe_fact_checked`）
+
+- `zojirushi-chesapeake-crab-carrot-rice` — Chesapeake Crab Carrot Rice：Zojirushi Mixed 程序、胡萝卜汁液体和蟹肉出锅拌入均按官方页记录；4–6 人份与 2–3 人份保持为来源范围，不平均成固定批次，蟹肉按熟/可直接拌入边界记录。
+- `zojirushi-pad-thai-shrimp-mixed-rice` — Pad Thai Shrimp Mixed Rice：米饭在 Zojirushi 中完成，生虾、鸡蛋和蔬菜需另锅熟制后出锅拌入；作为连续流程研究记录保留，明确不是全程单锅生投，也不外推普通电饭煲。
+
+### 地方机构/地方记录来源（2 条，全部 `recipe_fact_checked`）
+
+- `shanghai-hongkou-chestnut-sausage-rice` — 板栗焖饭：上海虹口政府门户转载家庭食谱，支持板栗、大米、胡萝卜、香菇、腊肠、预炒后转电饭煲；没有精确米水、份数、时间或腊肠安全合同，不把它宣称为上海传统菜饭标准。
+- `kinmen-dried-oyster-pumpkin-rice` — 蚵乾金瓜飯：金门日报记录蚵干/干贝/虾米浸泡爆香后转电锅、南瓜铺面和外锅两杯水；原文注明为家庭尝试，外锅水不迁移到其他机型，海鲜安全和内锅液体保持缺口。
+
+### 中国地域身份来源（2 条，全部 `identity_verified`）
+
+- `qianjiang-xiadao-guoba-rice` — 虾稻米锅巴饭：潜江市白鹭湖管理区政府页面支持菜名与潜江农家地方风味语境；不把“虾稻米”擅自解释成虾仁，不补锅巴形成、用量、液体或器具。
+- `tongcheng-cured-meat-pot-crust-rice` — 腊味锅巴饭：舒城县政府文旅报道支持桐城相关地方展示中的具名菜；不展开“腊味”构成，不从菜名自由拼出米水、流程或电饭煲参数。
+
+### 本批不入目录的候选与边界
+
+- 台湾农业部的“栗子腐竹櫻花蝦炊飯”已读到具名和普通锅流程，但缺克重、液体、时间与器具合同，暂留研究报告；“古早味造型高麗菜飯”原始 PDF 尚未归档，不用搜索摘要入库。
+- 金门“五福蚵乾飯”本轮只能看到搜索摘要，未把摘要当直接来源；区域线的甜饭、米粉肉、荷包胙和非米饭类食品按范围排除。
+- 厂商线的纯杂粮饭、粥、甜饭、熟饭二次烹饪和“饭+另锅菜”路线保持排除；需要另锅但确有米饭主餐身份的 Pad Thai 仅作为边界研究记录，不进入普通电饭煲一键候选。
+
+### 本批纪律
+
+- 6 条均使用直接打开的来源，显式标注 evidence tier、locator、attribution、license 和实际 claim scope；身份条目不承担做法合同，事实条目不补来源没有写明的克数、时间或安全终点。
+- 每个厂商/器具版本保持独立；预炒、另锅熟制、出锅拌入、外锅水等边界逐条写入，不把连续流程伪装成“所有材料生投后一键完成”。
+- 目录仍是研究资产，不等于人工批准、`executable` 或厨房验证；`kitchen_observed` 继续为 0。下一步继续以高质量直接来源为主，达到事实闭合后再进入签署和厨房验证，不改运行时组合逻辑。
+
 ## r73 搜集期第四十六批（2026-08-06）
 
 本批按“搜集放量、证据不越级”继续并行核对厂商官方与地域官方来源。基于 r72 的 672 条目录，新增 **8 条研究记录**，版本 bump 为 `source-backed-one-pot-v1-20260808-national-r73`，当前总量 680：`executable=12`、`recipe_fact_checked=597`、`identity_verified=65`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有自动晋升，也没有部署。

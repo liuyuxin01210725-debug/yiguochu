@@ -661,6 +661,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 鲤鱼炖糯米 | — | CN-GD | kaiping-danjia-carp-glutinous-rice | 研究记录（非公开可执行） | 鲤鱼；糯米；枸杞；红枣；姜 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [开平疍家菜制作技艺](https://www.kaiping.gov.cn/csjdbsc/kjww/wh/content/post_3220203.html) |
+## kinmen-electric-pot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 蚵乾金瓜飯 | 金瓜蚵乾飯；蚵干南瓜饭 | TW-KM | kinmen-electric-pot-rice | 研究记录（非公开可执行） | 米；蚵干；干贝；虾米；南瓜 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [蚵乾金瓜飯](https://www.kmdn.gov.tw/1117/1271/1275/308397/) |
 ## kizilsu-regional-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1114,6 +1119,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 柴火洋芋饭 | — | CN-CQ | qianjiang-firewood-potato-rice | 研究记录（非公开可执行） | 洋芋；大米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [柴火洋芋饭](https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html) |
+## qianjiang-regional-guoba-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 虾稻米锅巴饭 | 潜江虾稻米锅巴饭 | CN-HB-QIANJIANG | qianjiang-regional-guoba-rice | 研究记录（非公开可执行） | 虾稻米（语义待核）；锅巴饭（菜名结构） | identity | 缺 ingredients、process | [出发！潜江精品一日游线路出炉](https://www.hbqj.gov.cn/blhq/xwzx/gsgg/202605/t20260528_5946075.html) |
 ## qianjiang-tujia-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1161,6 +1171,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 甏肉干饭 | 济宁甏肉干饭 | CN-SD | shandong-regional-rice | 研究记录（非公开可执行） | 米饭；猪肉 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [甏肉干饭](https://zgjnds.jining.gov.cn/art/2015/4/29/art_62659_2664309.html) |
+## shanghai-electric-rice-braised
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 板栗焖饭 | 上海虹口板栗焖饭 | CN-SH-HONGKOU | shanghai-electric-rice-braised | 研究记录（非公开可执行） | 大米；板栗；胡萝卜；香菇；腊肠 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [板栗焖饭](https://www.shhk.gov.cn/xwzx/002008/002008040/20221125/979011f2-db28-4ad5-9036-fb10dbd5b888.html) |
 ## shanghai-jinshan-clay-oven-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1570,6 +1585,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | いり飯 | いりこ飯 | JP-TOKUSHIMA | tokushima-irimeshi | 研究记录（非公开可执行） | 米；煮干；竹轮；牛蒡；魔芋；胡萝卜；香菇；油揚げ | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [いり飯／いりこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_10_tokushima.html) |
+## tongcheng-regional-guoba-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 腊味锅巴饭 | 桐城腊味锅巴饭 | CN-AH-TONGCHENG | tongcheng-regional-guoba-rice | 研究记录（非公开可执行） | 米饭（菜名结构）；腊味（构成待核）；锅巴（菜名结构） | identity | 缺 ingredients、process | [桐城文旅地方美食展示报道](https://www.shucheng.gov.cn/zwzx/jrsc/35382048.html) |
 ## tongren-seasonal-shefan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1836,5 +1856,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chesapeake Crab Carrot Rice | 切萨皮克蟹肉胡萝卜饭；蟹肉胡萝卜饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 茉莉香米；胡萝卜汁；蟹肉；欧芹 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [Chesapeake Crab Carrot Rice](https://www.zojirushi.com/app/recipe/chesapeake-crab-carrot-rice) |
+| Pad Thai Shrimp Mixed Rice | 泰式虾仁拌饭；泰式虾仁混合米饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 茉莉香米；虾；鸡蛋；胡萝卜；花生 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Pad Thai Shrimp Mixed Rice](https://www.zojirushi.com/app/recipe/pad-thai-shrimp-mixed-rice) |
 | Rice and Beans with Bacon and Collard Greens | 培根豆类羽衣甘蓝米饭；豆类培根叶菜饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 长粒白米；干豆；培根；羽衣甘蓝；番茄 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Rice and Beans with Bacon and Collard Greens](https://www.zojirushi.com/app/recipe/rice-and-beans-with-bacon-and-collard-greens) |
 | Spicy Basmati Rice with Lentils and Spinach | 香辣印度香米扁豆菠菜饭；扁豆菠菜米饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 印度香米；红扁豆；菠菜；樱桃番茄；杏仁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Spicy Basmati Rice with Lentils and Spinach](https://www.zojirushi.com/app/recipe/spicy-basmati-rice-with-lentils-and-spinach) |

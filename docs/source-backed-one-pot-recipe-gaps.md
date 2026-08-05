@@ -35,6 +35,7 @@
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
 - 闽东畲族乌饭 (mindong-she-black-rice) — CN-FJ-NINGDE-JIAOCHENG
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
+- 虾稻米锅巴饭 (qianjiang-xiadao-guoba-rice) — CN-HB-QIANJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
 - 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
@@ -42,6 +43,7 @@
 - 南瓜小魚干紅蔥頭炊飯 (taiwan-pumpkin-dried-fish-red-shallot-rice) — TW
 - 香腸栗子炊飯 (taiwan-sausage-chestnut-rice) — TW
 - 麻油松阪豬炊飯 (taiwan-sesame-oil-matsusaka-pork-rice) — TW
+- 腊味锅巴饭 (tongcheng-cured-meat-pot-crust-rice) — CN-AH-TONGCHENG
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
 - 黄赖头焖饭 (jinning-huanglaitou-braised-rice) — CN-YN-KUNMING-JINNING
@@ -114,6 +116,7 @@
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 赤坎煲仔饭 (chikan-claypot-rice-craft) — CN-GD
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
+- 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
@@ -161,6 +164,7 @@
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
 - 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
+- 板栗焖饭 (shanghai-hongkou-chestnut-sausage-rice) — CN-SH-HONGKOU
 - 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -224,6 +228,7 @@
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 贞丰糯米饭 (guizhou-zhenfeng-glutinous-rice) — CN-GZ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
+- Chesapeake Crab Carrot Rice (zojirushi-chesapeake-crab-carrot-rice) — US
 
 ## 4. Missing liquid
 
@@ -414,6 +419,7 @@
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
 - 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
+- 板栗焖饭 (shanghai-hongkou-chestnut-sausage-rice) — CN-SH-HONGKOU
 - 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -532,6 +538,7 @@
 - 闽东畲族乌饭 (mindong-she-black-rice) — CN-FJ-NINGDE-JIAOCHENG
 - 芦溪咸菜饭 (pinghe-luxi-salted-vegetable-rice) — CN-FJ-ZHANGZHOU-PINGHE-LUXI
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
+- 虾稻米锅巴饭 (qianjiang-xiadao-guoba-rice) — CN-HB-QIANJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
 - 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
@@ -546,6 +553,7 @@
 - 香腸栗子炊飯 (taiwan-sausage-chestnut-rice) — TW
 - 麻油松阪豬炊飯 (taiwan-sesame-oil-matsusaka-pork-rice) — TW
 - 红米香蕉饭 (taiwan-red-rice-banana-rice) — TW-HL
+- 腊味锅巴饭 (tongcheng-cured-meat-pot-crust-rice) — CN-AH-TONGCHENG
 - 威海苞米碴子干饭 (weihai-baomi-chazi-dry-rice) — CN-SD-WEIHAI
 - 九村抓饭 (yecheng-jiucun-pilaf) — CN-XJ-KASHGAR-YECHENG-HEYUAN
 - 伊宁菜朴劳 (yining-caipulao-pilaf) — CN-XJ-YINING
@@ -861,6 +869,7 @@
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
 - 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
+- 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - こうし飯 (maff-kochi-koshimeshi) — JP-KOCHI
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
@@ -980,6 +989,7 @@
 - 東台咸肉黃花頭焖飯 (dongtai-salted-pork-daylily-rice) — CN-JS-YANCHENG-DONGTAI
 - 陕北酸菜捞饭 (shanbei-sauerkraut-potato-laofan) — CN-SN-SHANBEI
 - 甏肉干饭 (jining-bengrou-ganfan) — CN-SD
+- 板栗焖饭 (shanghai-hongkou-chestnut-sausage-rice) — CN-SH-HONGKOU
 - 金山土灶菜饭 (jinshan-clay-oven-rice) — CN-SH
 - 陵川和锅大米 (lingchuan-heguo-rice) — CN-SX
 - 涉县小米焖饭 (shexian-millet-braised-rice) — CN-HE
@@ -1097,6 +1107,8 @@
 - 贞丰糯米饭 (guizhou-zhenfeng-glutinous-rice) — CN-GZ
 - 诸暨豌豆咸肉饭 (zhuji-pea-salted-pork-rice) — CN-ZJ
 - 酿鸭饭 (zijin-stuffed-duck-rice) — CN-GD
+- Chesapeake Crab Carrot Rice (zojirushi-chesapeake-crab-carrot-rice) — US
+- Pad Thai Shrimp Mixed Rice (zojirushi-pad-thai-shrimp-mixed-rice) — US
 - Rice and Beans with Bacon and Collard Greens (zojirushi-rice-beans-bacon-collard-greens) — US
 - Spicy Basmati Rice with Lentils and Spinach (zojirushi-spicy-basmati-lentil-spinach-rice) — US
 
@@ -1187,6 +1199,7 @@
 - 親子丼 (tiger-oyakodon-tacook) — JP
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
+- 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
@@ -1346,6 +1359,8 @@
 - 马帮锣锅饭 (yunnan-mabang-luoguo-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
+- Chesapeake Crab Carrot Rice (zojirushi-chesapeake-crab-carrot-rice) — US
+- Pad Thai Shrimp Mixed Rice (zojirushi-pad-thai-shrimp-mixed-rice) — US
 - Spicy Basmati Rice with Lentils and Spinach (zojirushi-spicy-basmati-lentil-spinach-rice) — US
 
 ## 9. Regional blanks
