@@ -1,5 +1,48 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r42 搜集期第三批（2026-08-06）
+
+本批继续由厂商、机构和大陆地域三路 Agent 并行检索，主线只吸收具名、低重复、来源直达的研究条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r41` bump 为 `source-backed-one-pot-v1-20260805-national-r42`，条目从 205 增至 213：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：192 → 200；
+- `identity_verified`：1 → 1；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（8 条，全部 `recipe_fact_checked`）
+
+1. `tiger-kimchi-rice` — Kimchi Rice（Tiger Corporation）；
+2. `tiger-edamame-fried-tofu-rice` — Edamame and Fried Tofu Rice（Tiger Corporation）；
+3. `tiger-seafood-pilaf` — Seafood Pilaf（Tiger Corporation）；
+4. `taiwan-angelica-sesame-chicken-rice` — 當歸麻油雞飯（台湾农业部农业知识入口网）；
+5. `raoping-gaotang-pork-rice` — 高堂焖（饶平县人民政府）；
+6. `guangzhou-shrimp-lotus-leaf-rice` — 鮮蝦荷葉飯（广州市人民政府文化广电旅游局）；
+7. `yunnan-mabang-luoguo-rice` — 马帮锣锅饭（中央广播电视总台、云南网）；
+8. `hubei-steamed-cured-meat-rice` — 饭蒸腊味（湖北省文化和旅游厅）。
+
+### 本批证据与边界
+
+- Tiger 三条保留厂商原名、机型/Plain 程序和“同锅”范围；毛豆油豆腐饭明确记录毛豆另煮后拌入，海鲜焖饭保留来源的开放海鲜集合，不把它扩写成自由替换规则。
+- 当归麻油鸡饭保留先炒鸡块/香菇、米酒浸泡和电锅煮熟流程；“白米或红糯米”是来源分支，不合并成一套固定配方。
+- 高堂焖是地方政府记录的猪肉煎炒后拌米饭，鲜虾荷叶饭是荷叶包裹煮/蒸，马帮锣锅饭是铜锣锅火塘慢烤，饭蒸腊味是熟米饭与腊味同蒸；四条均保留原器具和米态，不伪装成电饭煲生米焖饭。
+- 缺固定克重、液体、时间、安全终点或家庭适配的字段保持 `null`；没有将不同来源拼成第三套比例，也没有因为营养角色缺失而删除真实菜名。
+
+### 本批排除与后续线索
+
+- Zojirushi 官方 app 菜页自动抓取返回 403，New Orleans 红豆饭、鸡肉干咖喱、蟹肉胡萝卜饭等暂留“官方受限来源”线索，待人工打开/归档后再登记。
+- Tefal 双层蒸篮、Tiger Tacook 双腔、AFA 新疆抓饭/海南鸡饭等存在另锅或双腔流程，先放 evidence-only，不把器具边界偷换成严格一锅。
+- 客家創意地瓜飯、三菇飯、番紅花海鮮飯、蔬菜雞肉飯等已在 r41 或更早目录中，本批没有重复建 ID。
+
+### 本批验证纪律
+
+- 先新增失败测试，锁定 r42 版本、状态分布和 8 个 recipe ID；实现后专项测试 `200/200` 通过。
+- 目录构建脚本已生成 CSV/Markdown/gaps 派生产物；随后仍需跑聚合菜谱门禁和全量回归。
+- 本批只涉及研究目录、测试和文档；不改运行时、不调用 DeepSeek、不部署 production，PR 继续保持 Draft。
+
+## 当前结论（r42）
+
+搜集层已从 205 条扩到 213 条，新增资产仍处于研究状态；`executable=12`、`kitchen_observed=0` 没有改变。数量增加不等于可以公开，后续继续按“来源闭合 → 独立签署 → 厨房实做”推进。
+
 ## r41 搜集期第二批（2026-08-05）
 
 本批由厂商、卫生/农业机构和地域文化三路 Agent 并行检索，再由主线逐条去重和结构化。只扩大来源型研究目录，不修改前端、Worker、Planner、模板或 DeepSeek；不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r40` bump 为 `source-backed-one-pot-v1-20260805-national-r41`，条目从 186 增至 205：
