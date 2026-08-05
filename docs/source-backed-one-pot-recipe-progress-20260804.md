@@ -1,5 +1,56 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r44 搜集期第五批（2026-08-05）
+
+本批按“搜集放量、晋升门槛不降”执行，由港台机构、厂商和大陆地域三路 Agent 并行检索，再由主线去重与结构化。新增 18 条具名来源型条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r43` bump 为 `source-backed-one-pot-v1-20260805-national-r44`，条目从 223 增至 241：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：210 → 227；
+- `identity_verified`：1 → 2；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（18 条；17 条 recipe_fact_checked，1 条 identity_verified）
+
+1. `taiwan-sesame-oil-chicken-glutinous-rice-cake` — 麻油雞丁糯米糕（台湾国民健康署/农业部官方 PDF）；
+2. `taiwan-tilapia-edamame-rice` — 鯛魚毛豆炊飯（台湾农业部/国民健康署官方）；
+3. `taiwan-multigrain-scallop-seafood-quinoa-rice` — 雜糧干貝海鮮蒸臺灣藜飯（台湾国民健康署官方 PDF）；
+4. `taiwan-five-elements-bamboo-shoot-rice` — 鮮筍五行炊飯（台湾国民健康署/内湖健康服务中心官方 PDF）；
+5. `taiwan-tea-oil-bamboo-shoot-chicken-rice` — 茶油綠竹筍炊飯（台北市文山区公所官方 PDF）；
+6. `taiwan-pine-nut-chicken-wild-mushroom-rice` — 松子雞肉野菇炊飯（台湾农业部官方入口，页面标注外部作者）；
+7. `taiwan-tuna-mushroom-quinoa-rice` — 鮪魚菇菇洋蔥紅藜麥炊飯（台湾国民健康署官方 PDF）；
+8. `taiwan-golden-mushroom-chicken-rice` — 炙燒黃金菇菇雞炊飯（台湾国民健康署官方竞赛 PDF）；
+9. `midea-beef-pumpkin-rice` — 牛肉南瓜焖饭（美的官方试用报告）；
+10. `cuckoo-abalone-pot-rice` — Abalone Pot Rice with the CR-0675F（CUCKOO America 官方）；
+11. `instant-pot-coconut-chicken-pineapple-rice` — Coconut Chicken and Rice with Pineapple Salsa（Instant Pot 官方）；
+12. `instant-pot-tuscan-chicken-rice` — Tuscan Chicken and Rice（Instant Pot 官方，页面署名 Chop Secrets）；
+13. `instant-pot-eggplant-rice` — Eggplant Rice（Instant Pot 官方，页面署名 Subhadra Burugula）；
+14. `instant-pot-spinach-chickpea-rice` — Dump & Done Spinach Rice & Chickpeas（Instant Pot 官方，页面署名 Vegan Richa）；
+15. `pengshui-dingpot-rice` — 彭水鼎罐饭（彭水县政府非遗名录 + 地方工艺报道）；
+16. `yongchun-pork-rib-salted-rice` — 永春排骨咸饭（永春县政府非遗名录，身份登记）；
+17. `hk-mushroom-mixed-vegetable-kamameshi` — 菇菌雜蔬釜飯（香港卫生署 EatSmart）；
+18. `hk-choy-sum-scallop-rice` — 菜心瑤柱飯（香港卫生署官方 PDF）。
+
+### 本批证据与边界
+
+- 台湾 8 条补充了麻油糯米糕、鱼饭、藜饭、竹笋炊饭和菇鸡炊饭等低重复具名资产；缺水量、时间、温度或前炒/后烤边界的字段保持缺省，没有把“外锅水”偷换成内锅液体。
+- 美的、CUCKOO 和 Instant Pot 记录的是指定厂商/机型事实。CUCKOO 页面同时出现罐装与鲜鲍鱼描述，Instant Pot 条目保留压力锅与 Sauté 边界，不外推普通电饭煲。
+- 彭水鼎罐饭保留铁质鼎罐/火塘和地方工艺，水米约 3:1 只留为待核线索；永春排骨咸饭目前只有县政府非遗身份，未把民间配料线索写进结构化字段。
+- 香港菇菌杂蔬釜饭需要自制素上汤、汆烫和前炒，菜心瑶柱饭是电饭煲煮饭后拌入菜心；两条都没有被改写成模板组合或可直接执行的跨器具配方。
+- 本批不新增 `executable`，不新增 `kitchen_observed`；研究目录的数量增长不改变公开、签署和厨房实做门槛。
+
+### 本批排除与后续线索
+
+- 温岭炒炊饭属于熟糯米二次烹调，登记为“剩饭一锅”候选，不进入当前生米主线。
+- 鲜筍五行炊飯、松子鸡肉野菇炊饭等虽有官方页面，仍缺完整水量/安全或来源原创性，保持 `recipe_fact_checked`。
+- Instant Pot Chipotle Chicken and Rice、Russell Hobbs 鲑鱼饭与若干 Philips/Cuckoo 腊味饭因家族重复或安全/形态缺口留在研究线，不为数量重复入库。
+- 彭水馇菜饭、台山黄鳝饭、麻涌龙船饭等仍只具身份或搜索摘录证据，未越级。
+
+### 本批验证纪律
+
+- 先新增失败测试，锁定 r44 版本、状态分布和 18 个 recipe ID；实现后目录专项测试 `202/202` 通过。
+- `node tools/build-source-backed-one-pot-catalog.mjs --write`、`node tools/check-source-backed-one-pot-catalog.mjs`、`node tools/build-source-backed-one-pot-catalog.mjs --check` 和 `node tools/check-recipes.mjs` 全部通过；来源目录版本为 r44。
+- 本批只涉及研究目录、测试和派生文档；不改运行时、不调用 DeepSeek、不部署 production，PR 继续保持 Draft。
+
 ## r43 搜集期第四批（2026-08-05）
 
 本批继续由香港机构、厂商和大陆地域三路 Agent 并行检索，新增 10 条具名、来源直达、低重复的研究条目；不修改前端、Worker、Planner、模板或 DeepSeek，不晋升 `executable`，不部署。目录版本由 `source-backed-one-pot-v1-20260805-national-r42` bump 为 `source-backed-one-pot-v1-20260805-national-r43`，条目从 213 增至 223：
