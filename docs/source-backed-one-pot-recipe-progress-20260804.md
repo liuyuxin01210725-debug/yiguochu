@@ -1,5 +1,34 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r50 搜集期第十一批（2026-08-05）
+
+本批继续核验日本农林水产省《うちの郷土料理》饭料理页面，新增 **6 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r49` bump 为 `source-backed-one-pot-v1-20260807-national-r50`，条目从 322 增至 328：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：305 → 311；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（6 条，全部 `recipe_fact_checked`）
+
+1. `maff-kanagawa-ume-gohan` — 神奈川小田原 `梅ごはん`；
+2. `maff-kagoshima-karaimo-gohan` — 鹿儿岛 `からいもごはん`；
+3. `maff-aomori-goma-gohan` — 青森津轻 `ごまご飯`；
+4. `maff-chiba-gonjuu` — 千叶馆山 `ごんじゅう`；
+5. `maff-nagasaki-torimeshi` — 长崎谏早 `鶏飯（といめし）`；
+6. `maff-kagoshima-keihan` — 鹿儿岛奄美 `鶏飯（けいはん）`。
+
+### 本批来源与边界
+
+- 六条均来自农林水产省直接打开的地域料理页面，保留原名、传承地域、核心食材和来源流程；`梅ごはん` 的 5–6 人范围不压成单一份数，`からいもごはん` 保留米与红薯同炊，`ごまご飯` 保留津轻蒸笼分两段蒸制。
+- `ごんじゅう`、长崎 `鶏飯` 都是先炊饭、另锅处理具材再拌合的真实地方饭，不改写成生米一锅焖饭；鹿儿岛奄美 `鶏飯` 明确是白饭、鸡汤和配料组合的汤泡饭，收录用于地域目录但标记为严格一锅出之外的分段候选。
+- `からいもごはん` 和 `ごまご飯` 的营养结构偏碳水/膳食纤维或脂肪，目录记录真实身份但不宣称完整均衡主餐；六条都未完成安全终点、厨房验证或普通电饭煲转换。
+
+### 本批验证纪律
+
+- 先新增 r50 失败测试，锁定版本、328 条总数、6 个 recipe ID、来源直接打开和全部非 executable；实现后目录专项测试 **207/207** 通过。
+- 后续必须通过目录构建、聚合菜谱门禁、全量 Node 测试、Python 语法检查和 `git diff --check`；本批只涉及研究目录、测试和文档，不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。
+
 ## r49 搜集期第十批（2026-08-05）
 
 本批继续按“真实具名、直接打开来源、状态不越级、器具边界不偷换”执行。检索日本农林水产省《うちの郷土料理》饭料理条目，去重后新增 **8 条 `recipe_fact_checked`**；不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r48` bump 为 `source-backed-one-pot-v1-20260807-national-r49`，条目从 314 增至 322：

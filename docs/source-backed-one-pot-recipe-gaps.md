@@ -163,6 +163,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - へぼ飯 (maff-aichi-hebo-meshi) — JP-AICHI
+- ごんじゅう (maff-chiba-gonjuu) — JP-CHIBA
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
@@ -171,6 +172,7 @@
 - とふめし (maff-hyogo-tofumeshi) — JP-HYOGO
 - 丹波黒豆ごはん (maff-hyogo-tanba-black-bean-rice) — JP-HYOGO
 - いりこ飯 (maff-kagawa-iriko-meshi) — JP-KAGAWA
+- 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
 - たこ飯 (jp-mie-tako-meshi) — JP-MIE
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
@@ -305,7 +307,12 @@
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
+- ごまご飯 (maff-aomori-goma-gohan) — JP-AOMORI
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
+- からいもごはん (maff-kagoshima-karaimo-gohan) — JP-KAGOSHIMA
+- 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
+- 梅ごはん (maff-kanagawa-ume-gohan) — JP-KANAGAWA
+- 鶏飯 (maff-nagasaki-torimeshi) — JP-NAGASAKI
 - さざえ飯 (maff-shimane-sazae-meshi) — JP-SHIMANE
 - かきまでご飯 (maff-wakayama-kakimade-gohan) — JP-WAKAYAMA
 - うに飯 (maff-yamaguchi-uni-meshi) — JP-YAMAGUCHI
@@ -381,6 +388,7 @@
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 鸭三宝腊味饭 (humen-duck-triad-cured-rice) — CN-GD
 - へぼ飯 (maff-aichi-hebo-meshi) — JP-AICHI
+- ごんじゅう (maff-chiba-gonjuu) — JP-CHIBA
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
@@ -393,6 +401,9 @@
 - はまぐりごはん (maff-ibaraki-hamaguri-gohan) — JP-IBARAKI
 - さざえめし (maff-ishikawa-sazae-meshi) — JP-ISHIKAWA
 - いりこ飯 (maff-kagawa-iriko-meshi) — JP-KAGAWA
+- からいもごはん (maff-kagoshima-karaimo-gohan) — JP-KAGOSHIMA
+- 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
+- 梅ごはん (maff-kanagawa-ume-gohan) — JP-KANAGAWA
 - たこ飯 (maff-kumamoto-tako-meshi) — JP-KUMAMOTO
 - トマトと鮭の炊き込みごはん (jp-tomato-salmon-takikomi-gohan) — JP-KUMAMOTO
 - 栗ごはん (maff-kyoto-kuri-gohan) — JP-KYOTO
@@ -400,6 +411,7 @@
 - たけのこご飯 (maff-miyagi-bamboo-shoot-rice) — JP-MIYAGI
 - はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI
 - ほっきめし (jp-miyagi-hokki-meshi) — JP-MIYAGI
+- 鶏飯 (maff-nagasaki-torimeshi) — JP-NAGASAKI
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
 - たこめし (maff-okayama-tako-meshi) — JP-OKAYAMA
@@ -578,8 +590,10 @@
 - かき飯 (jp-hiroshima-kakimeshi) — JP-HIROSHIMA
 - 美唄のとりめし (maff-hokkaido-bibai-torimeshi) — JP-HOKKAIDO
 - はまぐりごはん (maff-ibaraki-hamaguri-gohan) — JP-IBARAKI
+- 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
 - はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI
 - ほっきめし (jp-miyagi-hokki-meshi) — JP-MIYAGI
+- 鶏飯 (maff-nagasaki-torimeshi) — JP-NAGASAKI
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
