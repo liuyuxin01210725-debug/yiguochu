@@ -677,6 +677,9 @@
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
+- しょうが飯 (tatung-wakayama-ginger-rice) — TW
+- 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
+- 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ

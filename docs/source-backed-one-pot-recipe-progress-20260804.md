@@ -1,5 +1,36 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r52 搜集期第十三批（2026-08-05）
+
+本批沿官方厂商食谱线继续扩充，逐页打开大同（Tatung）电锅食谱并按真实具名条目去重。新增 **6 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r51` bump 为 `source-backed-one-pot-v1-20260807-national-r52`，条目从 340 增至 346：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：323 → 329；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（6 条，全部 `recipe_fact_checked`）
+
+1. `tatung-yugao-sakuraebi-rice` — 大同 `夕顔と桜エビの炊き込みご飯`；
+2. `tatung-pork-daikon-rice` — 大同 `豚バラ大根ご飯`；
+3. `tatung-tarako-kamameshi` — 大同 `たらこの釜めし風`；
+4. `tatung-kumamoto-ebimeshi` — 大同 `熊本えびめし`；
+5. `tatung-wakayama-ginger-rice` — 大同 `しょうが飯`；
+6. `tatung-hijiki-umeboshi-rice` — 大同 `ひじき煮と梅干しの炊き込みご飯`。
+
+### 本批来源与边界
+
+- 六条均来自大同官方电饭锅/电锅食谱页，保留页面原名、份数、米水或水位线、外锅水、投料顺序和原始时间；条目统一归入 `tatung-electric-rice-recipes`，目录地域字段沿厂商来源 convention 使用 `TW`，不把厂商标题自动解释成独立地域身份。
+- `熊本えびめし` 与 `しょうが飯` 只记录大同页面明确给出的菜名和做法；页面没有独立地方传统证明，因此不把“熊本”或“和歌山”标题当作地域史实之外的额外证据，也不拼接第三方地域版本。
+- 所有条目均标记 `source_limited`：大同机型的水位线、外锅水和程序只证明该厂商/该系列电锅事实，不外推为普通电饭煲通用参数。`たらこの釜めし風`、`ひじき煮と梅干しの炊き込みご飯` 的营养结构偏窄，保留真实身份但不宣称完整均衡主餐。
+- 本批没有补写缺失的禽肉/鱼贝安全终点、普通电饭煲转换参数或厨房实做结果；六条均保持 `recipe_fact_checked`，不得对外宣称已批准、已适配或可直接上线。
+
+### 本批验证纪律
+
+- 先新增 r52 失败测试，锁定目录版本、346 条总数、6 个 recipe ID、来源直接打开、全部非 executable 及 Tatung 机型边界；实现后目录专项测试 **209/209** 通过。
+- 已运行 `node tools/build-source-backed-one-pot-catalog.mjs --write`、`--check`、`node tools/check-source-backed-one-pot-catalog.mjs` 和 `node tools/check-recipes.mjs`，均通过；后续继续跑全量 Node 测试、Python 语法检查、构建一致性和 `git diff --check`。
+- 本批只涉及研究目录、测试、进度文档及派生目录；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。任何后续晋升仍须人工逐条签署，并以 `kitchen_observed` 作为真实家庭验证门。
+
 ## r51 搜集期第十二批（2026-08-05）
 
 本批把两条高产来源线并行推进：日本农林水产省《うちの郷土料理》地域饭页面，以及象印官方 IH 锅食谱页。经逐页打开、去重和边界复核，新增 **12 条 `recipe_fact_checked`**；不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署。目录版本由 `source-backed-one-pot-v1-20260807-national-r50` bump 为 `source-backed-one-pot-v1-20260807-national-r51`，条目从 328 增至 340：
