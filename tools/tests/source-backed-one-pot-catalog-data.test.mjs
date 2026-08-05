@@ -73,7 +73,37 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r46');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r47');
+  assert.equal(catalog.recipes.length, 302);
+  for (const recipeId of [
+    'panasonic-tako-meshi-sr-x910e',
+    'zojirushi-brown-rice-ih-pot',
+    'toshiba-sakuraebi-rice',
+    'toshiba-sekihan-rcp30r',
+    'toshiba-kuri-okowa',
+    'panasonic-sekihan-nf-ac1000',
+    'tiger-beef-matsutake-rice',
+    'tiger-steamed-abalone-rice',
+    'tiger-uni-rice',
+    'maff-tottori-dondoroke-meshi',
+    'maff-tottori-itadaki',
+    'maff-tottori-igai-meshi',
+    'maff-ehime-shoyu-meshi',
+    'maff-hiroshima-tai-meshi',
+    'maff-kagawa-iriko-meshi',
+    'maff-okayama-tako-meshi',
+    'maff-tottori-daisen-okowa',
+    'maff-okayama-hiruzen-okowa',
+    'maff-aichi-hebo-meshi',
+    'maff-shimane-kujira-gohan',
+    'maff-yamanashi-sanma-meshi',
+    'maff-tochigi-ayu-meshi',
+    'maff-tokushima-tai-meshi',
+  ]) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.equal(recipe?.status, 'recipe_fact_checked', recipeId);
+    assert.ok(recipe?.source_refs?.length > 0, recipeId);
+  }
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -723,7 +753,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r46');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r47');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1028,7 +1058,7 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   assert.deepEqual(statusTotals, {
     executable: 12,
     identity_verified: 5,
-    recipe_fact_checked: 262,
+    recipe_fact_checked: 285,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -5764,9 +5794,9 @@ test('r45 collection batch records directly sourced named one-pot meals without 
   }
 });
 
-test('r46 collection batch records direct first-party regional and institutional one-pot meals', () => {
+test('r47 collection batch records direct first-party regional and institutional one-pot meals', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r46');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r47');
   const expected = [
     ['jp-hiroshima-kakimeshi', 'かき飯', 'recipe_fact_checked'],
     ['jp-shiga-amenoio-gohan', 'あめのいおご飯', 'recipe_fact_checked'],
