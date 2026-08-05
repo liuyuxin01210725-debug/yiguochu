@@ -72,12 +72,764 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260804-national-r1');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260804-national-r36');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
     [],
   );
+});
+
+test('Shanghai salted pork vegetable rice is the first evidence-closed executable recipe', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  assert.equal(recipe?.status, 'executable');
+  assert.deepEqual(recipe?.allergen_labels, ['无已知过敏原']);
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.liquid_contract?.amount?.value, 1.25);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  for (const source of recipe?.source_refs ?? []) {
+    assert.ok(Number.isInteger(source.evidence_tier), source.source_id);
+  }
+});
+
+test('Taiwan mushroom bamboo shoot rice records directly sourced quantities without inventing servings', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taiwan-mushroom-bamboo-shoot-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-3');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.match(source?.evidence_locator ?? '', /613.*637/);
+  assert.equal(recipe?.liquid_contract?.amount?.value, 1);
+  assert.equal(recipe?.time_contract?.total_minutes, 30);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'pork_fully_cooked'));
+});
+
+test('Taiwan cabbage rice keeps the NTUH electric-cooker variant separate from the 3-person contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taiwan-cabbage-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-NTUH-CABBAGE-1');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.fixed_batch?.servings, 3);
+  assert.deepEqual(recipe?.fixed_batch?.source_ids, ['S-TW-NHI-CABBAGE-1']);
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.match(source?.evidence_locator ?? '', /第19至28行/u);
+  assert.match(recipe?.evidence_notes ?? '', /独立的2人份电锅版本/u);
+  assert.equal(recipe?.time_contract, null);
+});
+
+test('records the Tatung official two-person cabbage-rice contract as a separate executable variant', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'taiwan-tatung-cabbage-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TATUNG-CABBAGE-RICE-1');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.canonical_name, '大同電鍋高麗菜飯');
+  assert.equal(recipe?.fixed_batch?.servings, 2);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '白米')?.amount?.value, 2);
+  assert.equal(recipe?.liquid_contract?.amount?.value, 2);
+  assert.match(recipe?.cooking_sequence?.[2]?.instruction ?? '', /外鍋.*1杯水/u);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第34至64行.*约1小时.*2人份.*白米2合.*内锅2杯水.*外锅1杯水/u);
+});
+
+test('records Tatung nasi-goreng-style mixed rice as a named model-scoped meal', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'tatung-nasi-goreng-style-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TATUNG-NASI-GORENG-STYLE-RICE-1');
+
+  assert.equal(recipe?.canonical_name, 'ナシゴレン風炊き込みご飯');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.fixed_batch?.servings, 3);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '米')?.amount?.value, 2);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '鸡胸肉')?.amount?.value, 100);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '冷冻海鲜综合')?.amount?.value, 150);
+  assert.equal(recipe?.liquid_contract?.kind, 'waterline');
+  assert.equal(recipe?.liquid_contract?.waterline?.mark, '2刻度略下');
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.ok(recipe?.cooking_sequence?.length >= 5);
+  assert.match(
+    recipe?.cooking_sequence.map(step => step.instruction).join(' ') ?? '',
+    /(?=.*米)(?=.*酱油)(?=.*鱼露)(?=.*鸡肉)(?=.*海鲜)(?=.*水位线)(?=.*外锅)(?=.*焖5分钟)/u,
+  );
+  assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === 'poultry_fully_cooked'));
+  assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === 'shellfish_fully_cooked'));
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(
+    source?.evidence_locator ?? '',
+    /(?=.*正文第23至111行)(?=.*ナシゴレン風炊き込みご飯)(?=.*3人前)(?=.*米2合)(?=.*鸡胸肉100g)(?=.*冷冻海鲜综合150g)(?=.*米水位线2刻度略下)(?=.*外锅1\.5杯)(?=.*60分钟)/u,
+  );
+});
+
+test('records three additional Tatung named rice meals without inventing fixed servings', () => {
+  const catalog = sourceBackedCatalog();
+  const cases = [
+    {
+      id: 'tatung-taro-shiitake-vegetarian-oil-rice',
+      name: '芋头香菇素油饭',
+      sourceId: 'S-TATUNG-TARO-SHIITAKE-VEGETARIAN-OIL-RICE-1',
+      url: 'https://www.tatung.com.cn/ElectronicRecipes/info_itemid_225.html',
+      liquid: 0.9,
+      time: 30,
+      pattern: /(?=.*长糯米)(?=.*芋头)(?=.*小香菇)(?=.*杏鲍菇)(?=.*豆皮)(?=.*泡香菇水)(?=.*外锅.*1杯水)/u,
+    },
+    {
+      id: 'tatung-daikon-tofu-skin-rice',
+      name: '萝卜豆皮炊饭',
+      sourceId: 'S-TATUNG-DAIKON-TOFU-SKIN-RICE-1',
+      url: 'https://www.tatung.com.cn/ElectronicRecipes/info_itemid_167.html',
+      liquid: 2,
+      time: 60,
+      pattern: /(?=.*白米)(?=.*白萝卜)(?=.*豆皮)(?=.*柴鱼高汤)(?=.*外锅.*1杯水)(?=.*焖10分钟)/u,
+    },
+    {
+      id: 'tatung-salted-squid-corn-rice',
+      name: '咸小卷玉米炊饭',
+      sourceId: 'S-TATUNG-SALTED-SQUID-CORN-RICE-1',
+      url: 'https://www.tatung.com.cn/ElectronicRecipes/info_itemid_29.html',
+      liquid: 1.2,
+      time: 40,
+      pattern: /(?=.*咸小卷)(?=.*白米)(?=.*内锅水)(?=.*玉米)(?=.*小黄瓜)(?=.*外锅.*1杯水)(?=.*焖5分钟)/u,
+    },
+  ];
+  for (const item of cases) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.id);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    assert.equal(recipe?.canonical_name, item.name, item.id);
+    assert.equal(recipe?.status, 'recipe_fact_checked', item.id);
+    assert.equal(recipe?.fixed_batch, null, item.id);
+    assert.equal(recipe?.liquid_contract?.amount?.value, item.liquid, item.id);
+    assert.equal(recipe?.time_contract?.total_minutes, item.time, item.id);
+    assert.match(recipe?.cooking_sequence.map(step => step.instruction).join(' ') ?? '', item.pattern, item.id);
+    assert.equal(source?.url, item.url, item.id);
+    assert.equal(source?.access_status, 'opened', item.id);
+    assert.equal(source?.evidence_tier, 3, item.id);
+    assert.ok(source?.evidence_locator, item.id);
+  }
+});
+
+test('records two additional Tatung named rice meals without inventing liquid contracts', () => {
+  const catalog = sourceBackedCatalog();
+  const cases = [
+    {
+      id: 'tatung-hainan-chicken-rice',
+      name: '海南鶏飯シンガポールチキンライス',
+      servings: 4,
+      minutes: 30,
+      sourceId: 'S-TATUNG-HAINAN-CHICKEN-RICE-1',
+      sourcePattern: /正文第41至80行.*海南鶏飯.*4人分.*鸡腿.*2合.*外锅1杯水.*水位线2/u,
+      processPattern: /(?=.*鸡肉)(?=.*米)(?=.*鸡汤)(?=.*外锅)(?=.*水位线2)(?=.*分阶段)/u,
+      safety: 'poultry_fully_cooked',
+    },
+    {
+      id: 'tatung-paella-style-seafood-rice',
+      name: 'パエリア風魚介の炊き込みご飯',
+      servings: 4,
+      minutes: 30,
+      sourceId: 'S-TATUNG-PAELLA-SEAFOOD-RICE-1',
+      sourcePattern: /正文第34至76行.*パエリア風魚介.*4人分.*米3合.*约30分钟.*水位线2至3/u,
+      processPattern: /(?=.*贝类)(?=.*虾)(?=.*鱿鱼)(?=.*汤汁)(?=.*米)(?=.*外锅)(?=.*1\.5杯)/u,
+      safety: 'shellfish_fully_cooked',
+    },
+  ];
+
+  for (const item of cases) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.id);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    assert.equal(recipe?.canonical_name, item.name, item.id);
+    assert.equal(recipe?.status, 'recipe_fact_checked', item.id);
+    assert.equal(recipe?.fixed_batch?.servings ?? null, item.servings, item.id);
+    assert.equal(recipe?.time_contract?.total_minutes ?? null, item.minutes, item.id);
+    assert.equal(recipe?.liquid_contract, null, item.id);
+    assert.ok(recipe?.cooking_sequence?.length >= 5, item.id);
+    assert.match(recipe?.cooking_sequence.map(step => step.instruction).join(' '), item.processPattern, item.id);
+    assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === item.safety), item.id);
+    assert.equal(recipe?.cooker_adaptation?.status, 'source_limited', item.id);
+    assert.equal(source?.access_status, 'opened', item.id);
+    assert.equal(source?.evidence_tier, 3, item.id);
+    assert.match(source?.evidence_locator ?? '', item.sourcePattern, item.id);
+    assert.equal(recipe?.liquid_contract, null, item.id);
+  }
+});
+
+test('records the next two Tatung named rice meals with staged and model-scoped boundaries', () => {
+  const catalog = sourceBackedCatalog();
+  const cases = [
+    {
+      id: 'tatung-tongzai-rice-cake',
+      name: '筒仔米糕（ドンズーミーガオ）',
+      servings: 4,
+      minutes: 30,
+      liquid: null,
+      sourceId: 'S-TATUNG-TONGZAI-RICE-CAKE-1',
+      sourcePattern: /正文第40至78行.*筒仔米糕.*4人分.*猪绞肉.*300至400ml.*糯米2合.*1\.5杯/u,
+      processPattern: /(?=.*猪绞肉)(?=.*糯米)(?=.*肉燥)(?=.*不锈钢杯)(?=.*蒸板)(?=.*外锅)/u,
+      safety: 'pork_fully_cooked',
+    },
+    {
+      id: 'tatung-cajun-chicken-rice',
+      name: 'ケイジャンチキンライス',
+      servings: null,
+      minutes: 30,
+      liquid: null,
+      sourceId: 'S-TATUNG-CAJUN-CHICKEN-RICE-1',
+      sourcePattern: /正文第34至73行.*ケイジャンチキンライス.*3至4人分.*鸡腿肉约300克.*米2合.*内锅水位线2刻度略下.*外锅1杯加3刻度/u,
+      processPattern: /(?=.*鸡肉)(?=.*米)(?=.*酸奶)(?=.*姜黄)(?=.*铝箔)(?=.*外锅)(?=.*3刻度)/u,
+      safety: 'poultry_fully_cooked',
+    },
+  ];
+
+  for (const item of cases) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.id);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    assert.equal(recipe?.canonical_name, item.name, item.id);
+    assert.equal(recipe?.status, 'recipe_fact_checked', item.id);
+    assert.equal(recipe?.fixed_batch?.servings ?? null, item.servings, item.id);
+    assert.equal(recipe?.time_contract?.total_minutes ?? null, item.minutes, item.id);
+    assert.deepEqual(recipe?.liquid_contract, item.liquid, item.id);
+    assert.ok(recipe?.cooking_sequence?.length >= 5, item.id);
+    assert.match(recipe?.cooking_sequence.map(step => step.instruction).join(' '), item.processPattern, item.id);
+    assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === item.safety), item.id);
+    assert.equal(recipe?.cooker_adaptation?.status, 'source_limited', item.id);
+    assert.equal(source?.access_status, 'opened', item.id);
+    assert.equal(source?.evidence_tier, 3, item.id);
+    assert.match(source?.evidence_locator ?? '', item.sourcePattern, item.id);
+  }
+});
+
+test('records Tatung pork-jowl sesame rice without inventing a single liquid contract', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'tatung-pork-jowl-sesame-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TATUNG-PORK-JOWL-SESAME-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '豚トロとごま油炊き込みご飯');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.fixed_batch?.servings, 2);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '猪颈肉')?.amount?.value, 200);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '泰国香米')?.amount?.value, 180);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.ok(recipe?.cooking_sequence?.length >= 6);
+  assert.match(
+    recipe?.cooking_sequence.map(step => step.instruction).join(' ') ?? '',
+    /(?=.*猪颈肉)(?=.*干香菇)(?=.*干虾)(?=.*生姜)(?=.*泰国香米)(?=.*内锅)(?=.*外锅)(?=.*炒)/u,
+  );
+  assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === 'pork_fully_cooked'));
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(
+    source?.evidence_locator ?? '',
+    /正文第34至70行.*豚トロとごま油炊き込みご飯.*2人分.*泰国香米.*猪颈肉.*干香菇.*干虾.*180ml.*约1小时/u,
+  );
+});
+
+test('records the Zojirushi EL-NS23 pork-and-vegetable rice contract without renaming the source recipe', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'zojirushi-pork-vegetable-rice-el-ns23');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-ZOJIRUSHI-EL-NS23-PORK-VEGETABLE-RICE-1');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.canonical_name, '豚肉と野菜のおかずごはん');
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '米')?.amount?.value, 2);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '猪肉')?.amount?.value, 300);
+  assert.equal(recipe?.liquid_contract?.amount?.value, 260);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.match(recipe?.cooking_sequence?.[2]?.instruction ?? '', /内锅.*本体/u);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第164至275行.*EL-NS23.*约1小时.*4人分.*米2カップ.*水260mL/u);
+});
+
+test('records Zojirushi Okayama ebimeshi as a named regional electric-cooker rice dish', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'zojirushi-okayama-ebimeshi-el-ns23');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-ZOJIRUSHI-EL-NS23-EBIMESHI-1');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.canonical_name, 'えびめし');
+  assert.deepEqual(recipe?.region_codes, []);
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '有头虾')?.amount?.value, 160);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '鸡蛋')?.amount?.value, 4);
+  assert.equal(recipe?.liquid_contract?.kind, 'waterline');
+  assert.equal(recipe?.liquid_contract?.waterline?.mark, 2);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.ok(recipe?.cooking_sequence?.some(item => /えびめし|菜单/u.test(item.instruction)));
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'shellfish_fully_cooked'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第167至277行.*EL-NS23.*约1小时.*4人分.*米2杯.*有头虾160g.*水位目盛2/u);
+});
+
+test('records Zojirushi gomoku rice without collapsing its four-to-five-serving range', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'zojirushi-gomoku-rice-el-ns23');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-ZOJIRUSHI-EL-NS23-GOMOKU-1');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.canonical_name, '五目ご飯');
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract?.waterline?.mark, 3);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第164至263行.*EL-NS23.*约1小时.*4至5人分.*米3カップ.*水位目盛3/u);
+});
+
+test('records Zojirushi grilled-mackerel rice as a named one-pot rice dish without inventing total time', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'zojirushi-yakisaba-meshi-ep-fa10');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-ZOJIRUSHI-EP-FA10-YAKISABA-MESHI-1');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.canonical_name, '焼きさばめし');
+  assert.deepEqual(recipe?.region_codes, ['JP']);
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.liquid_contract?.amount?.value, 320);
+  assert.equal(recipe?.time_contract, null);
+  assert.ok(recipe?.cooking_sequence?.some(item => /WARM.*15分/u.test(item.instruction)));
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'seafood_fully_cooked'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第164至246行.*EP-FA10.*4人分.*米2合.*盐鲭300g.*320mL高汤/u);
+});
+
+test('records Philips chicken and lap-cheong claypot rice with its staged loading contract', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'philips-chicken-lap-cheong-claypot-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-PHILIPS-HD4775-HD4777-CHICKEN-LAP-CHEONG-1');
+
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.canonical_name, '鸡肉腊肠煲仔饭');
+  assert.deepEqual(recipe?.traditional_vessels, ['Philips HD4775 / HD4777 多功能电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '鸡肉片', '腊肠', '生姜']);
+  assert.equal(recipe?.fixed_batch, null, 'the source fixes rice and ingredient quantities but does not state servings');
+  assert.equal(recipe?.liquid_contract?.kind, 'waterline');
+  assert.equal(recipe?.liquid_contract?.waterline?.mark, 3);
+  assert.deepEqual(recipe?.liquid_contract?.waterline?.appliance_model, 'Philips HD4775 / HD4777');
+  assert.equal(recipe?.time_contract, null, 'the recipe does not state a total duration');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鸡肉片.*盐和糖.*腌/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /3杯米.*煲仔饭.*启动/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /哔声.*鸡肉片.*腊肠.*铺在米饭/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /煲仔饭.*洋葱.*趁热/u);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第2394至2407行.*鸡肉腊肠煲仔饭.*3杯米.*300克鸡肉片.*200克腊肠.*HD4775.*HD4777.*煲仔饭/u);
+});
+
+test('records the Panasonic NF-PC400 takikomi rice contract without converting pressure-cooker facts to rice-cooker facts', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'panasonic-nf-pc400-takikomi-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-PANASONIC-NF-PC400-TAKIKOMI-1');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.canonical_name, '炊き込みごはん');
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '白米')?.amount?.value, 3);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '鸡腿肉')?.amount?.value, 50);
+  assert.equal(recipe?.liquid_contract?.kind, 'waterline');
+  assert.equal(recipe?.liquid_contract?.waterline?.mark, 3);
+  assert.equal(recipe?.time_contract?.total_minutes, 60);
+  assert.match(recipe?.cooking_sequence?.[2]?.instruction ?? '', /自动调理17/u);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第43至87行.*NF-PC400.*约1小时.*4人份.*白米3杯.*水位线3/u);
+});
+
+test('records Panasonic NF-AC1000 regional rice pages without converting cup batches to servings', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['panasonic-hyogo-tako-meshi', 'S-PANASONIC-NF-AC1000-HYOGO-TAKO-MESHI-1', 420, 50, /第43至103行/u],
+    ['panasonic-tokyo-fukagawa-meshi', 'S-PANASONIC-NF-AC1000-TOKYO-FUKAGAWA-MESHI-1', 380, 50, /第43至109行/u],
+    ['panasonic-gomoku-rice-nf-ac1000', 'S-PANASONIC-NF-AC1000-GOMOKU-GOHAN-1', 610, 55, /第43至113行/u],
+    ['panasonic-hiroshima-oyster-lemon-paella', 'S-PANASONIC-NF-AC1000-HIROSHIMA-OYSTER-PAELLA-1', 470, 55, /第43至123行/u],
+    ['panasonic-pilaf-nf-ac1000', 'S-PANASONIC-NF-AC1000-PILAF-1', 600, 55, /第43至104行/u],
+    ['panasonic-biryani-style-takikomi-rice', 'S-PANASONIC-NF-AC1000-BIRYANI-1', 280, 55, /第34至180行/u],
+  ];
+  for (const [recipeId, sourceId, liquid, minutes, locator] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    const source = recipe?.source_refs.find(item => item.source_id === sourceId);
+    assert.equal(recipe?.status, 'recipe_fact_checked');
+    assert.equal(recipe?.fixed_batch, null);
+    assert.equal(recipe?.liquid_contract?.amount?.value, liquid);
+    assert.equal(recipe?.time_contract?.total_minutes, minutes);
+    assert.equal(source?.access_status, 'opened');
+    assert.equal(source?.evidence_tier, 3);
+    assert.match(source?.evidence_locator ?? '', locator);
+  }
+});
+
+test('records the Panasonic NF-AC1000 khao man gai as an evidence-closed pressure-cooker meal', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'panasonic-khao-man-gai-nf-ac1000');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-PANASONIC-NF-AC1000-KHAO-MAN-GAI-1');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.canonical_name, 'カオマンガイ');
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '鸡腿肉')?.amount?.value, 400);
+  assert.equal(recipe?.liquid_contract?.amount?.value, 360);
+  assert.equal(recipe?.time_contract?.total_minutes, 40);
+  assert.match(recipe?.cooking_sequence?.[3]?.instruction ?? '', /中压.*8分钟/u);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第43至127行.*约40分钟.*4人份.*白米300g.*水360mL.*鸡腿肉400g/u);
+});
+
+test('records Panasonic regional rice-cooker menus without inventing a missing duration', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['panasonic-yamagata-imoni-takikomi-rice', '〖山形県ご当地メニュー〗いも煮炊込みごはん', 4, 'beef_fully_cooked', /第43至89行/u],
+    ['panasonic-shimane-pork-ponzu-takikomi-rice', '〖島根県ご当地メニュー〗島根県産豚肉とポン酢のさっぱり炊込み', 6, 'pork_fully_cooked', /第43至81行/u],
+    ['panasonic-ehime-tai-meshi', '〖愛媛県ご当地メニュー〗鯛めし', 4, 'seafood_fully_cooked', /第43至86行/u],
+    ['panasonic-nagasaki-yudeboshi-daikon-rice', '〖長崎県ご当地メニュー〗ゆで干し大根の炊込みごはん', 6, 'poultry_fully_cooked', /第43至90行/u],
+    ['panasonic-okinawa-jyushi', '〖沖縄県ご当地メニュー〗ジューシー', 4, 'pork_fully_cooked', /第43至91行/u],
+  ];
+  for (const [recipeId, canonicalName, servings, safetyCode, locator] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    const source = recipe?.source_refs.find(item => item.source_id.endsWith('-1'));
+    assert.equal(recipe?.status, 'recipe_fact_checked');
+    assert.equal(recipe?.canonical_name, canonicalName);
+    assert.equal(recipe?.fixed_batch?.servings, servings);
+    assert.equal(recipe?.liquid_contract?.kind, 'waterline');
+    assert.equal(recipe?.liquid_contract?.waterline?.appliance_model, 'Panasonic SR-V10BB');
+    assert.equal(recipe?.liquid_contract?.waterline?.mark, 2 + (servings === 6 ? 1 : 0));
+    assert.equal(recipe?.time_contract, null);
+    assert.ok(recipe?.safety_endpoints?.some(item => item.code === safetyCode));
+    assert.equal(source?.access_status, 'opened');
+    assert.equal(source?.evidence_tier, 3);
+    assert.match(source?.evidence_locator ?? '', locator);
+    const spec = recipe?.source_refs.find(item => item.source_id === 'S-PANASONIC-SR-V10BB-SPEC-1');
+    assert.equal(spec?.access_status, 'opened');
+    assert.equal(spec?.evidence_tier, 3);
+    assert.match(spec?.evidence_locator ?? '', /炊込み.*55～65分/u);
+  }
+});
+
+test('records five additional named regional rice-cooker menus without inventing a fixed duration', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    {
+      recipeId: 'panasonic-hokkaido-corn-butter-rice',
+      canonicalName: '〖北海道ご当地メニュー〗炊込みコーンバターごはん',
+      servings: 4,
+      model: 'Panasonic SR-X910E',
+      mark: 2,
+      roles: ['carbohydrate'],
+      sourceId: 'S-PANASONIC-HOKKAIDO-CORN-BUTTER-RICE-1',
+      locator: /第34至82行/u,
+      specId: 'S-PANASONIC-SR-X910E-SPEC-1',
+      specLocator: /炊込み.*52～65分/u,
+    },
+    {
+      recipeId: 'panasonic-ibaraki-sweet-potato-rice',
+      canonicalName: '〖茨城県ご当地メニュー〗さつまいもごはん',
+      servings: 6,
+      model: 'Panasonic SR-V10BB',
+      mark: 3,
+      roles: ['carbohydrate'],
+      sourceId: 'S-PANASONIC-IBARAKI-SWEET-POTATO-RICE-1',
+      locator: /第285至325行/u,
+      specId: 'S-PANASONIC-SR-V10BB-SPEC-1',
+      specLocator: /炊込み.*55～65分/u,
+    },
+    {
+      recipeId: 'panasonic-kanagawa-shirasu-ume-rice',
+      canonicalName: '〖神奈川県ご当地メニュー〗湘南産しらすと油揚げの梅茶漬け炊込みごはん',
+      servings: 6,
+      model: 'Panasonic SR-X910E',
+      mark: 3,
+      roles: ['carbohydrate', 'protein'],
+      sourceId: 'S-PANASONIC-KANAGAWA-SHIRASU-UME-RICE-1',
+      locator: /第34至82行/u,
+      specId: 'S-PANASONIC-SR-X910E-SPEC-1',
+      specLocator: /炊込み.*52～65分/u,
+    },
+    {
+      recipeId: 'panasonic-nagano-salmon-nameko-rice',
+      canonicalName: '〖長野県ご当地メニュー〗信州産サーモンとなめ茸の炊込みごはん',
+      servings: 6,
+      model: 'Panasonic SR-X910E',
+      mark: 3,
+      roles: ['carbohydrate', 'protein', 'fiber'],
+      sourceId: 'S-PANASONIC-NAGANO-SALMON-NAMEKO-RICE-1',
+      locator: /第34至84行/u,
+      specId: 'S-PANASONIC-SR-X910E-SPEC-1',
+      specLocator: /炊込み.*52～65分/u,
+      safetyCode: 'seafood_fully_cooked',
+    },
+    {
+      recipeId: 'panasonic-hyogo-black-edamame-rice',
+      canonicalName: '〖兵庫県ご当地メニュー〗丹波の黒枝豆ごはん',
+      servings: 6,
+      model: 'Panasonic SR-X910E',
+      mark: 3,
+      roles: ['carbohydrate', 'protein', 'fiber'],
+      sourceId: 'S-PANASONIC-HYOGO-BLACK-EDAMAME-RICE-1',
+      locator: /第34至80行/u,
+      specId: 'S-PANASONIC-SR-X910E-SPEC-1',
+      specLocator: /炊込み.*52～65分/u,
+    },
+  ];
+
+  for (const item of expected) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.recipeId);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    const spec = recipe?.source_refs.find(row => row.source_id === item.specId);
+    assert.equal(recipe?.status, 'recipe_fact_checked');
+    assert.equal(recipe?.canonical_name, item.canonicalName);
+    assert.equal(recipe?.fixed_batch?.servings, item.servings);
+    assert.equal(recipe?.liquid_contract?.waterline?.appliance_model, item.model);
+    assert.equal(recipe?.liquid_contract?.waterline?.mark, item.mark);
+    assert.deepEqual(recipe?.nutrition_structure?.roles, item.roles);
+    assert.equal(recipe?.time_contract, null);
+    assert.equal(recipe?.traditional_vessels?.[0], `${item.model} 可变压力IH电饭煲`);
+    assert.equal(source?.access_status, 'opened');
+    assert.equal(source?.evidence_tier, 3);
+    assert.match(source?.evidence_locator ?? '', item.locator);
+    assert.equal(spec?.access_status, 'opened');
+    assert.equal(spec?.evidence_tier, 3);
+    assert.match(spec?.evidence_locator ?? '', item.specLocator);
+    if (item.safetyCode) {
+      assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === item.safetyCode));
+    } else {
+      assert.deepEqual(recipe?.safety_endpoints, []);
+    }
+  }
+});
+
+test('records two additional Panasonic named rice-cooker dishes with their closed-lid and finish-step boundaries', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    {
+      recipeId: 'panasonic-asian-style-takikomi-rice',
+      canonicalName: 'アジア風炊込みごはん',
+      servings: 4,
+      mark: 3,
+      sourceId: 'S-PANASONIC-ASIAN-STYLE-TAKIKOMI-RICE-1',
+      locator: /第34至99行/u,
+      safetyCode: 'poultry_fully_cooked',
+      roles: ['carbohydrate', 'protein'],
+    },
+    {
+      recipeId: 'panasonic-pilaf-rice-sr-x910e',
+      canonicalName: 'ピラフ（SR-X910E炊飯器版）',
+      servings: 4,
+      mark: 3,
+      sourceId: 'S-PANASONIC-PILAF-RICE-SR-X910E-1',
+      locator: /第34至93行/u,
+      safetyCode: 'shellfish_fully_cooked',
+      roles: ['carbohydrate', 'protein', 'fiber'],
+    },
+  ];
+  for (const item of expected) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.recipeId);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    const spec = recipe?.source_refs.find(row => row.source_id === 'S-PANASONIC-SR-X910E-SPEC-1');
+    assert.equal(recipe?.status, 'recipe_fact_checked');
+    assert.equal(recipe?.canonical_name, item.canonicalName);
+    assert.equal(recipe?.fixed_batch?.servings, item.servings);
+    assert.equal(recipe?.liquid_contract?.waterline?.appliance_model, 'Panasonic SR-X910E');
+    assert.equal(recipe?.liquid_contract?.waterline?.mark, item.mark);
+    assert.equal(recipe?.time_contract, null);
+    assert.deepEqual(recipe?.nutrition_structure?.roles, item.roles);
+    assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === item.safetyCode));
+    assert.equal(source?.access_status, 'opened');
+    assert.equal(source?.evidence_tier, 3);
+    assert.match(source?.evidence_locator ?? '', item.locator);
+    assert.equal(spec?.access_status, 'opened');
+    assert.equal(spec?.evidence_tier, 3);
+    assert.match(spec?.evidence_locator ?? '', /炊込み.*52～65分/u);
+  }
+});
+
+test('records two Panasonic manufacturer dashi-rice dishes with their fixed four-person waterline contract', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    {
+      recipeId: 'panasonic-kanoya-dashi-rice-sr-v10ba',
+      canonicalName: '〖茅乃舎監修〗茅乃舎だし だし炊きごはん',
+      ingredient: '茅乃舎だし',
+      sourceId: 'S-PANASONIC-KANOYA-DASHI-RICE-1',
+      url: /\/0966\.html/u,
+      locator: /第285至319行/u,
+    },
+    {
+      recipeId: 'panasonic-vegetable-dashi-rice-sr-v10ba',
+      canonicalName: '〖茅乃舎監修〗野菜だし だし炊きごはん',
+      ingredient: '野菜だし',
+      sourceId: 'S-PANASONIC-VEGETABLE-DASHI-RICE-1',
+      url: /\/0968\.html/u,
+      locator: /第34至68行/u,
+    },
+  ];
+  for (const item of expected) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.recipeId);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    assert.equal(recipe?.status, 'recipe_fact_checked');
+    assert.equal(recipe?.canonical_name, item.canonicalName);
+    assert.deepEqual(recipe?.fixed_batch?.servings, 4);
+    assert.equal(recipe?.fixed_batch?.ingredients.find(row => row.name === item.ingredient)?.amount?.value, 1);
+    assert.equal(recipe?.liquid_contract?.waterline?.appliance_model, 'Panasonic SR-V10BA / SR-V18BA');
+    assert.equal(recipe?.liquid_contract?.waterline?.mark, 2);
+    assert.equal(recipe?.time_contract, null);
+    assert.deepEqual(recipe?.nutrition_structure?.roles, ['carbohydrate']);
+    assert.equal(source?.access_status, 'opened');
+    assert.equal(source?.evidence_tier, 3);
+    assert.match(source?.url ?? '', item.url);
+    assert.match(source?.evidence_locator ?? '', item.locator);
+  }
+});
+
+test('records the Panasonic frozen-seafood paella rice as a closed-lid one-pot recipe without inventing servings', () => {
+  const recipe = sourceBackedCatalog().recipes.find(row => row.recipe_id === 'panasonic-frozen-seafood-paella-rice');
+  const source = recipe?.source_refs.find(row => row.source_id === 'S-PANASONIC-FROZEN-SEAFOOD-PAELLA-1');
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.canonical_name, '〖料理家 ぐっち夫婦監修〗冷凍シーフードのパエリア風ごはん');
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract?.kind, 'added_water');
+  assert.equal(recipe?.liquid_contract?.amount?.value, 500);
+  assert.equal(recipe?.liquid_contract?.amount?.unit, 'mL');
+  assert.equal(recipe?.time_contract?.total_minutes, 55);
+  assert.deepEqual(recipe?.nutrition_structure?.roles, ['carbohydrate', 'protein', 'fiber']);
+  assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === 'shellfish_fully_cooked'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第285至374行/u);
+});
+
+test('archives the directly opened National Health Insurance cabbage-rice source without inventing a cooker duration', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-cabbage-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-NHI-CABBAGE-1');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.match(source?.evidence_locator ?? '', /PDF第39页.*印刷第37页.*高麗菜飯.*1\.5杯.*1杯水.*10分钟/u);
+  assert.deepEqual(source?.local_archive?.pages, [39]);
+  assert.equal(recipe?.time_contract, null);
+});
+
+test('next evidence pass records directly opened manufacturer and institution sources without merging variants', () => {
+  const catalog = sourceBackedCatalog();
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260804-national-r36');
+
+  const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
+  const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
+  assert.equal(beefSource?.access_status, 'opened');
+  assert.equal(beefSource?.evidence_tier, 3);
+  assert.match(beefSource?.evidence_locator ?? '', /第12至50行/u);
+
+  const cured = catalog.recipes.find(item => item.recipe_id === 'cantonese-cured-meat-claypot-rice');
+  const curedSource = cured?.source_refs.find(item => item.source_id === 'S-HK-HKJC-CURED-RICE-1');
+  assert.equal(curedSource?.access_status, 'opened');
+  assert.equal(curedSource?.evidence_tier, 3);
+  assert.match(curedSource?.evidence_locator ?? '', /PDF第1页第1至24行/u);
+  assert.match(cured?.evidence_notes ?? '', /独立瓦煲版本/u);
+
+  const chicken = catalog.recipes.find(item => item.recipe_id === 'cantonese-mushroom-chicken-claypot-rice');
+  const townGas = chicken?.source_refs.find(item => item.source_id === 'S-HK-TOWNGAS-MUSHROOM-CHICKEN-RICE-1');
+  const tefal = chicken?.source_refs.find(item => item.source_id === 'S-TEFAL-MUSHROOM-CHICKEN-RICE-1');
+  for (const source of [townGas, tefal]) {
+    assert.equal(source?.access_status, 'opened');
+    assert.equal(source?.evidence_tier, 3);
+    assert.ok(source?.evidence_locator);
+  }
+  assert.equal(chicken?.fixed_batch, null);
+  assert.equal(chicken?.time_contract, null);
+  assert.match(chicken?.evidence_notes ?? '', /独立.*版本/u);
+});
+
+test('Philips Cantonese cured-rice variant has a complete model-scoped execution contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'philips-cantonese-cured-rice');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.fixed_batch?.source_ids?.[0], 'S-PHILIPS-CANTONESE-CURED-RICE-1');
+  assert.equal(recipe?.liquid_contract?.amount?.value, 2);
+  assert.equal(recipe?.time_contract?.total_minutes, 45);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(recipe?.cooker_adaptation?.source_ids?.[0], 'S-PHILIPS-CANTONESE-CURED-RICE-1');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'cured_meat_fully_heated'));
+  assert.deepEqual(recipe?.allergen_labels, ['大豆']);
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-PHILIPS-CANTONESE-CURED-RICE-1');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /第349至378行/u);
+});
+
+test('Toshiba RC-DR18T mixed rice keeps its manufacturer recipe and model-scoped execution contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => item.recipe_id === 'toshiba-mixed-chicken-bamboo-rice-rc-dr18t');
+  assert.equal(recipe?.status, 'executable');
+  assert.equal(recipe?.canonical_name, '东芝什锦饭');
+  assert.equal(recipe?.fixed_batch?.servings, 4);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '大米')?.amount?.value, 3);
+  assert.equal(recipe?.liquid_contract?.kind, 'waterline');
+  assert.equal(recipe?.liquid_contract?.waterline?.mark, 3);
+  assert.equal(recipe?.time_contract?.total_minutes, 45);
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  const source = recipe?.source_refs?.find(item => item.source_id === 'S-TOSHIBA-RC-DR18T-MIXED-RICE-1');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /PDF第14页/u);
+  assert.match(source?.evidence_locator ?? '', /PDF第19页/u);
+  assert.deepEqual(source?.local_archive?.pages, [14, 19]);
+});
+
+test('archives the directly opened manufacturer evidence for the next rice-cooker batch', () => {
+  const catalog = sourceBackedCatalog();
+  const bamboo = catalog.recipes.find(item => item.recipe_id === 'zojirushi-fresh-vegetable-bamboo-rice');
+  const bambooSource = bamboo?.source_refs.find(item => item.source_id === 'zojirushi-fresh-vegetable-bamboo-rice');
+  assert.equal(bambooSource?.access_status, 'opened');
+  assert.equal(bambooSource?.evidence_tier, 3);
+  assert.match(bambooSource?.evidence_locator ?? '', /第266至299行.*4~5人份.*白米3.*什锦饭/u);
+
+  const pork = catalog.recipes.find(item => item.recipe_id === 'zojirushi-minced-pork-greens-rice-nl-erh');
+  const porkSource = pork?.source_refs.find(item => item.source_id === 'zojirushi-minced-pork-greens-rice-nl-erh');
+  assert.equal(porkSource?.access_status, 'opened');
+  assert.equal(porkSource?.evidence_tier, 3);
+  assert.match(porkSource?.evidence_locator ?? '', /PDF第5页.*65至71分钟.*PDF第8页.*4~5人份/u);
+  assert.deepEqual(porkSource?.local_archive?.pages, [5, 8]);
+
+  const curry = catalog.recipes.find(item => item.recipe_id === 'joyoung-curry-chicken-rice-jrc-4hp82');
+  const currySource = curry?.source_refs.find(item => item.source_id === 'joyoung-curry-chicken-rice-jrc-4hp82');
+  assert.equal(currySource?.access_status, 'opened_bilingual_conflict_recorded');
+  assert.equal(currySource?.evidence_tier, 3);
+  assert.deepEqual(currySource?.local_archive?.pages, [11, 24]);
+});
+
+test('archives the directly opened Panasonic mixed-chicken-rice manual without inventing a serving count', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'panasonic-mixed-chicken-rice-sr-df151');
+  const source = recipe?.source_refs.find(item => item.source_id === 'panasonic-mixed-chicken-rice-sr-df151');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /PDF第6页.*精煮.*38分钟.*PDF第9页.*什锦鸡饭.*3杯.*4杯/u);
+  assert.deepEqual(source?.local_archive?.pages, [6, 9]);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.time_contract, null);
+});
+
+test('archives the directly opened Panasonic fresh-shiitake-rice manual without inventing a serving count', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'panasonic-fresh-shiitake-rice-sr-afg');
+  const source = recipe?.source_refs.find(item => item.source_id === 'panasonic-fresh-shiitake-rice-sr-afg');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.match(source?.evidence_locator ?? '', /PDF第8页.*煲仔饭.*37分钟.*PDF第23页.*鲜香菇饭.*1杯米.*1杯水/u);
+  assert.deepEqual(source?.local_archive?.pages, [8, 23]);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.time_contract, null);
 });
 
 test('marks aggregate-only process evidence as technique evidence pending strengthening', () => {
@@ -204,8 +956,8 @@ test('records the audited disposition of all nineteen legacy variants', () => {
   });
 });
 
-test('keeps every migrated recipe non-public until safety and complete execution facts are independently supported', () => {
-  // Partial evidence may now be structured one contract at a time, but no incomplete row may be promoted.
+test('keeps every remaining migrated recipe non-public until safety and complete execution facts are independently supported', () => {
+  // One contract is now evidence-closed; all incomplete rows must still remain non-public.
   const catalog = sourceBackedCatalog();
   assert.ok(catalog.recipes.length > 0);
   const statusTotals = catalog.recipes.reduce((totals, recipe) => {
@@ -213,14 +965,14 @@ test('keeps every migrated recipe non-public until safety and complete execution
     return totals;
   }, {});
   assert.deepEqual(statusTotals, {
+    executable: 10,
     identity_verified: 1,
-    recipe_fact_checked: 118,
+    recipe_fact_checked: 165,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
   }
 
-  const factCompleteButNotPublic = new Set(['shanghai-salted-pork-vegetable-rice']);
   for (const recipe of catalog.recipes.filter(recipe => recipe.status === 'recipe_fact_checked')) {
     const completeExecutionContract = Boolean(
       recipe.fixed_batch
@@ -230,8 +982,7 @@ test('keeps every migrated recipe non-public until safety and complete execution
       && recipe.safety_endpoints.length > 0,
     );
     if (completeExecutionContract) {
-      assert.ok(factCompleteButNotPublic.has(recipe.recipe_id), `${recipe.recipe_id} is not an approved complete fact contract`);
-      assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
+      assert.fail(`${recipe.recipe_id} has a complete execution contract but remains recipe_fact_checked`);
     } else {
       assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
     }
@@ -897,7 +1648,7 @@ test('records reviewed coverage and the evidence status of every eastern researc
   const recipes = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   const reviewed = new Set(catalog.reviewed_regions);
   const expected = {
-    'shanghai-salted-pork-vegetable-rice': 'recipe_fact_checked',
+    'shanghai-salted-pork-vegetable-rice': 'executable',
     'shanghai-broad-bean-vegetable-rice': 'recipe_fact_checked',
     'wujiang-fragrant-greens-salted-pork-rice': 'recipe_fact_checked',
     'nanjing-aijiaohuang-rice': 'recipe_fact_checked',
@@ -2311,7 +3062,7 @@ test('retains the national source-backed candidates at their evidence-only statu
   }
 });
 
-test('records the first-priority source matrix without pretending the recipes are executable', () => {
+test('records the first-priority source matrix and promotes only the closed Shanghai contract', () => {
   const recipes = new Map(sourceBackedCatalog().recipes.map(recipe => [recipe.recipe_id, recipe]));
 
   const pilaf = recipes.get('yutian-electric-cooker-lamb-pilaf');
@@ -2347,7 +3098,7 @@ test('records the first-priority source matrix without pretending the recipes ar
   assert.ok(curry?.source_refs.find(source => source.source_id === 'S-SAFETY-TEMPERATURES-1'));
 
   const shanghai = recipes.get('shanghai-salted-pork-vegetable-rice');
-  assert.equal(shanghai?.status, 'recipe_fact_checked');
+  assert.equal(shanghai?.status, 'executable');
   assert.equal(shanghai?.fixed_batch?.servings, 4);
   assert.deepEqual(shanghai?.liquid_contract, {
     kind: 'added_water',
@@ -2495,13 +3246,28 @@ test('structures the official pumpkin-rice liquid and process without inventing 
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
 });
 
-test('structures a fixed Shanghai salted-pork vegetable-rice source contract without claiming an electric-cooker adaptation', () => {
+test('keeps the Ministry of Agriculture pumpkin-rice variant separate from the AFA ratio contract', () => {
+  const recipe = sourceBackedCatalog().recipes.find(item => (
+    item.recipe_id === 'taiwan-pumpkin-rice'
+  ));
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-MOA-KIDS-PUMPKIN-RICE-1');
+
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.match(source?.evidence_locator ?? '', /南瓜饭.*600克.*白米4杯.*约60分钟.*5杯水.*外锅1米杯水/u);
+  assert.equal(source?.claim_scopes.includes('liquid'), true);
+  assert.match(recipe?.evidence_notes ?? '', /南瓜600克、白米4杯.*独立版本.*不与.*0\.8倍/u);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.time_contract, null);
+});
+
+test('structures and promotes the fixed Shanghai salted-pork vegetable-rice source contract without claiming an electric-cooker adaptation', () => {
   const recipe = sourceBackedCatalog().recipes.find(item => (
     item.recipe_id === 'shanghai-salted-pork-vegetable-rice'
   ));
   const source = recipe?.source_refs.find(item => item.source_id === 'S-WOL-SHANGHAI-CAIFAN-1');
 
-  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.equal(recipe?.status, 'executable');
   assert.deepEqual(recipe?.fixed_batch, {
     servings: 4,
     ingredients: [
@@ -4247,4 +5013,487 @@ test('records Jinshan clay-oven rice from the Shanghai government heritage page 
   assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
   assert.match(source?.evidence_locator ?? '', /第62至72行.*土灶菜饭/u);
   assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taiwan agriculture department millet rice as an electric-cooker one-pot dish without inventing a fixed batch', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-millet-root-vegetable-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-MOA-KIDS-MILLET-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '小米炊飯');
+  assert.deepEqual(recipe?.aliases, ['小米炊饭']);
+  assert.deepEqual(recipe?.region_codes, ['TW']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['小米', '白米', '莲藕', '山药', '红枣', '枸杞', '番薯']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source gives a 2.5–3 cup range, not one fixed liquid amount');
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /莲藕.*洗净.*切片/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /食材.*放入锅中/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /总米量.*2杯.*2\.5.*3杯.*外锅.*1杯.*焖15分钟/u);
+  assert.equal(recipe?.time_contract?.total_minutes, 30);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.evidence_notes.includes('2.5～3杯'));
+  assert.ok(recipe?.evidence_notes.includes('没有固定份数'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'time', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第623至653行.*小米炊飯.*2\.5～3杯.*外锅1杯/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records NTUH low-sodium Spanish paella as a balanced electric-cooker rice meal', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'ntuh-low-sodium-spanish-paella-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-NTUH-LOW-SODIUM-SPANISH-PAELLA-1');
+
+  assert.equal(recipe?.canonical_name, '低鈉西班牙燉飯');
+  assert.deepEqual(recipe?.aliases, ['低钠西班牙炖饭']);
+  assert.deepEqual(recipe?.region_codes, ['TW']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['鸡里肌肉', '洋葱', '洋菇', '蒜头', '九层塔', '牛蕃茄', '白米', '鲜奶', '鸿喜菇', '起司丝']);
+  assert.equal(recipe?.fixed_batch?.servings, 2);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '白米')?.amount?.value, 120);
+  assert.equal(recipe?.fixed_batch?.ingredients.find(item => item.name === '鸡里肌肉')?.amount?.value, 90);
+  assert.equal(recipe?.liquid_contract, null, 'milk, tomato, and external steam water are not a single pot-water contract');
+  assert.equal(recipe?.cooking_sequence.length, 8);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /白米.*鲜奶.*搅拌均匀/u);
+  assert.match(recipe?.cooking_sequence[5]?.instruction ?? '', /电饭锅.*外锅.*1杯水/u);
+  assert.match(recipe?.cooking_sequence[6]?.instruction ?? '', /跳起.*10.*15分钟.*起司丝.*5.*10分钟/u);
+  assert.equal(recipe?.time_contract, null, 'the source gives staged ranges, not a complete total time');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'A', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.evidence_notes.includes('2人份'));
+  assert.ok(recipe?.evidence_notes.includes('没有完整总时长'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'time', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /PDF第1页.*2人份.*鸡里肌肉90.*白米120.*外锅1杯水/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taiwan agriculture department turmeric chicken risotto as a named electric-pot rice meal', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-turmeric-chicken-risotto');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-MOA-KIDS-TURMERIC-CHICKEN-RISOTTO-1');
+
+  assert.equal(recipe?.canonical_name, '薑黃雞腿燉飯');
+  assert.deepEqual(recipe?.aliases, ['姜黄鸡腿炖饭']);
+  assert.deepEqual(recipe?.region_codes, ['TW']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['大同電鍋']);
+  assert.deepEqual(recipe?.core_ingredients, ['雞腿', '洋蔥', '蒜末', '紅蘿蔔', '薑黃粉', '青椒', '米', '高湯', '椰漿']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source lists broth and coconut milk but does not establish a single cooker liquid contract');
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鸡腿.*米.*高汤.*椰浆/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /整锅.*大同电锅.*半小时/u);
+  assert.equal(recipe?.time_contract, null, '不到半小時 is not a fixed total duration');
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.evidence_notes.includes('不到半小时'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'time', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第636至640行.*薑黃雞腿燉飯.*米1\/2杯.*高湯1\/2杯/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taiwan agriculture department bottle-gourd mushroom rice with its fixed water amount', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-bottle-gourd-mushroom-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-MOA-KIDS-BOTTLE-GOURD-MUSHROOM-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '瓠瓜香菇飯');
+  assert.deepEqual(recipe?.aliases, ['瓠瓜香菇饭']);
+  assert.deepEqual(recipe?.region_codes, ['TW']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['瓠瓜', '乾香菇', '胡蘿蔔', '米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 3, unit: '杯' },
+    source_ids: ['S-TW-MOA-KIDS-BOTTLE-GOURD-MUSHROOM-RICE-1'],
+  });
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /瓠瓜.*香菇.*胡萝卜.*米/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /3杯水.*电饭锅/u);
+  assert.equal(recipe?.time_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.evidence_notes.includes('碳水与膳食纤维'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第660至663行.*瓠瓜香菇飯.*米3杯.*水3杯/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Philips salmon gomoku rice as a named one-pot rice meal without collapsing a 4-to-5-person range', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'philips-salmon-gomoku-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-PHILIPS-SALMON-GOMOKU-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '鮭魚五目炊飯');
+  assert.deepEqual(recipe?.aliases, ['鮭鱼五目炊饭']);
+  assert.deepEqual(recipe?.region_codes, []);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['Philips 多功能烹煮鍋']);
+  assert.deepEqual(recipe?.core_ingredients, ['無刺鮭魚', '乾香菇', '鴻禧菇', '紅蘿蔔', '牛蒡', '蒟蒻', '白米']);
+  assert.equal(recipe?.fixed_batch, null, 'the source states 4-5 people, not one fixed serving count');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 260, unit: 'mL' },
+    source_ids: ['S-PHILIPS-SALMON-GOMOKU-RICE-1'],
+  });
+  assert.equal(recipe?.time_contract?.total_minutes, 40);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鮭魚.*醃漬10分鐘.*乾香菇.*蒟蒻.*紅蘿蔔.*牛蒡/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /白米.*260毫升.*所有材料/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /密封烹調.*米飯.*拌均勻/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'seafood_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.ok(recipe?.evidence_notes.includes('4至5人份'));
+  assert.ok(recipe?.evidence_notes.includes('固定份数'));
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance', 'time']);
+  assert.match(source?.evidence_locator ?? '', /第349至380行.*4至5人.*料理时间40.*鮭魚150克.*白米2杯.*260毫升/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Philips chicken vegetable takikomi rice without inventing a total cooking time', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'philips-chicken-vegetable-takikomi-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-PHILIPS-CHICKEN-VEGETABLE-TAKIKOMI-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '雞汁野菜炊飯');
+  assert.deepEqual(recipe?.aliases, ['鸡汁野菜炊饭']);
+  assert.deepEqual(recipe?.region_codes, []);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['Philips 多功能烹煮鍋']);
+  assert.deepEqual(recipe?.core_ingredients, ['帶皮雞腿肉', '高麗菜', '胡蘿蔔', '舞菇', '薑末', '脫殼栗子', '臘肉', '越光米']);
+  assert.equal(recipe?.fixed_batch?.servings, 1);
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 320, unit: 'g' },
+    source_ids: ['S-PHILIPS-CHICKEN-VEGETABLE-TAKIKOMI-RICE-1'],
+  });
+  assert.equal(recipe?.time_contract, null, 'the source gives a staged process but no total cooking duration');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /雞腿肉.*醃.*10分鐘/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /雞皮面朝下.*約10分鐘.*切小塊/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /薑末.*舞菇.*栗子.*臘肉.*高麗菜.*越光米/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /雞湯.*密封烹調.*米飯.*香油/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第354至389行.*1人.*帶皮雞腿肉200克.*高麗菜200克.*越光米300克.*雞湯320克.*密封烹調/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Zojirushi mushroom brown-rice meal without collapsing its four-to-five-person range', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'zojirushi-mushroom-brown-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-ZOJIRUSHI-MUSHROOM-BROWN-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '菌菇糙米饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, []);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['象印电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['糙米', '杏鲍菇', '蟹味菇', '鸡蛋', '葱花']);
+  assert.equal(recipe?.fixed_batch, null, 'the source gives a four-to-five-person range');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'waterline',
+    waterline: { appliance_model: '搭载“糙米饭”菜单的象印电饭煲', scale: 'brown_rice', mark: 3 },
+    source_ids: ['S-ZOJIRUSHI-MUSHROOM-BROWN-RICE-1'],
+  });
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糙米.*杏鲍菇.*蟹味菇.*糙米饭/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸡蛋.*蛋饼.*蛋丝/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /结束.*菌菇糙米饭.*盐.*葱花.*拌匀/u);
+  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 3);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第12至55行.*4至5人份.*糙米3杯.*杏鲍菇75克.*蟹味菇75克.*糙米饭/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Taishan crucian-carp rice as a named electric-cooker fish-rice process without inventing quantities', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taishan-crucian-carp-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-TAISHAN-CRUCIAN-CARP-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '台山鲫鱼饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['大米', '鲫鱼']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /电饭煲.*米饭.*差不多熟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /腌制好的鲫鱼.*铺在米饭.*盖上盖子.*几分钟/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'seafood_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'search_extract_opened');
+  assert.equal(source?.evidence_tier, 2);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /官方政务页面搜索摘录.*电饭煲.*鲫鱼.*米饭/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Guangdong pumpkin chicken braised rice with its source-stated ingredient quantities and relative water boundary', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'guangdong-pumpkin-chicken-braised-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-GD-PUMPKIN-CHICKEN-BRAISED-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '南瓜鸡肉焖饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-GD']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电饭煲', '炒锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['鸡腿肉', '南瓜', '香菇', '洋葱', '大米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null, 'the source gives a relative depth, not a fixed liquid amount');
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /鸡腿.*腌制15分钟/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /洋葱.*鸡肉.*南瓜.*香菇/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /大米.*电饭煲.*比米高0\.5厘米/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /南瓜.*香菇.*鸡肉.*洋葱.*煮饭键/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 2);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第111至114行.*鸡腿3个.*南瓜250g.*香菇50g.*洋葱40g.*大米250g.*米面水高.*0\.5厘米.*煮饭键/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Shanghai broad-bean vegetable rice as a seasonal named rice meal without inventing quantities', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'shanghai-broad-bean-vegetable-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JN-2');
+
+  assert.equal(recipe?.canonical_name, '蚕豆菜饭');
+  assert.deepEqual(recipe?.aliases, []);
+  assert.deepEqual(recipe?.region_codes, ['CN-SH']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['饭锅', '电饭煲']);
+  assert.deepEqual(recipe?.core_ingredients, ['蚕豆', '猪肉丁', '牛心菜', '饭']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null, 'the source gives a half-hour braise after mixing, not a complete total duration');
+  assert.equal(recipe?.cooking_sequence.length, 4);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /蚕豆.*猪大排.*里脊肉.*切成丁/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /猪油.*肉丁.*黄酒.*葱花.*姜末/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /蚕豆.*牛心菜.*半熟/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /饭锅.*饭粒.*蚕豆.*猪肉粒.*焖半小时/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'pork_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process', 'appliance', 'time']);
+  assert.equal(source?.evidence_tier, undefined);
+  assert.equal(source?.evidence_locator, undefined);
+  assert.match(source?.url ?? '', /mzj\.sh\.gov\.cn.*20250519/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Hakka creative sweet-potato rice as a named electric-cooker meal without inventing servings or total time', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'hakka-creative-sweet-potato-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-MOA-HAKKA-SWEET-POTATO-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '客家創意地瓜飯');
+  assert.deepEqual(recipe?.aliases, ['客家创意地瓜饭']);
+  assert.deepEqual(recipe?.region_codes, ['TW-HS']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电锅', '电子锅', '炒锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['米', '地瓜', '義式雞腿肉', '杏鮑菇', '四季豆', '蔥', '蒜頭']);
+  assert.equal(recipe?.fixed_batch, null, 'the source gives ingredient amounts but no finished serving count');
+  assert.deepEqual(recipe?.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 2, unit: '杯' },
+    source_ids: ['S-TW-MOA-HAKKA-SWEET-POTATO-RICE-1'],
+  });
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 5);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /地瓜.*杏鮑菇.*蔥.*雞腿肉/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /米.*2杯熱水.*地瓜.*杏鮑菇.*雞腿肉.*電鍋/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /四季豆.*燙熟/u);
+  assert.match(recipe?.cooking_sequence[3]?.instruction ?? '', /蒜頭.*四季豆.*蔥丁.*拌炒/u);
+  assert.match(recipe?.cooking_sequence[4]?.instruction ?? '', /四季豆.*蔥.*拌入飯/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'liquid', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第127至139行.*米2杯.*四季豆150g.*地瓜.*雞腿肉.*杏鮑菇.*2杯熱水.*電鍋/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Encounter Happiness taro rice as a named electric-pot meal with its stated two-to-three-person boundary', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'taichung-encounter-happiness-taro-rice');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-TW-MOA-TAICHUNG-TARO-RICE-1');
+
+  assert.equal(recipe?.canonical_name, '遇見幸福芋頭飯');
+  assert.deepEqual(recipe?.aliases, ['遇见幸福芋头饭']);
+  assert.deepEqual(recipe?.region_codes, ['TW']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, ['电锅', '炒锅']);
+  assert.deepEqual(recipe?.core_ingredients, ['大甲芋頭', '台梗9號米', '絞肉或豬肉丁', '香菇', '蝦米']);
+  assert.equal(recipe?.fixed_batch, null, 'the source gives a two-to-three-person range, so no midpoint is invented');
+  assert.equal(recipe?.liquid_contract, null, 'the source delegates water to the ordinary rice-cooker method');
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 3);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /米.*浸泡30分鐘.*芋頭.*香菇.*蝦米/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /香菇.*蝦米.*絞肉.*豬肉丁.*炒.*半熟/u);
+  assert.match(recipe?.cooking_sequence[2]?.instruction ?? '', /浸泡過的米.*炒料.*芋頭.*電鍋.*燜15分鐘/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'pork_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein', 'fiber'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 1);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'quantity', 'process', 'appliance']);
+  assert.match(source?.evidence_locator ?? '', /第96至110行.*大甲芋頭.*台梗9號米.*1\.5杯.*电锅.*焖15分钟.*2至3人份/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records Longjing glutinous-rice chicken as a named Korean-Chinese rice meal without inventing a cooker contract', () => {
+  const catalog = sourceBackedCatalog();
+  const recipe = catalog.recipes.find(item => item.recipe_id === 'longjing-jiangmi-chicken');
+  const source = recipe?.source_refs.find(item => item.source_id === 'S-JL-LONGJING-JIANGMI-CHICKEN-1');
+
+  assert.equal(recipe?.canonical_name, '江米鸡饭');
+  assert.deepEqual(recipe?.aliases, ['江米鸡']);
+  assert.deepEqual(recipe?.region_codes, ['CN-JL']);
+  assert.equal(recipe?.status, 'recipe_fact_checked');
+  assert.deepEqual(recipe?.traditional_vessels, []);
+  assert.deepEqual(recipe?.core_ingredients, ['童子鸡', '糯米']);
+  assert.equal(recipe?.fixed_batch, null);
+  assert.equal(recipe?.liquid_contract, null);
+  assert.equal(recipe?.time_contract, null);
+  assert.equal(recipe?.cooking_sequence.length, 2);
+  assert.match(recipe?.cooking_sequence[0]?.instruction ?? '', /糯米.*童子鸡.*腹中.*炖/u);
+  assert.match(recipe?.cooking_sequence[1]?.instruction ?? '', /鸡肉.*炖得极烂.*糯米.*鸡汤/u);
+  assert.ok(recipe?.safety_endpoints?.some(item => item.code === 'poultry_fully_cooked'));
+  assert.deepEqual(recipe?.nutrition_structure, { grade: 'B', roles: ['carbohydrate', 'protein'] });
+  assert.equal(recipe?.cooker_adaptation?.status, 'not_adapted');
+  assert.equal(source?.access_status, 'opened');
+  assert.equal(source?.evidence_tier, 2);
+  assert.deepEqual(source?.claim_scopes, ['identity', 'ingredients', 'process']);
+  assert.match(source?.evidence_locator ?? '', /正文第710至712行.*江米鸡.*童子鸡.*糯米/u);
+  assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status));
+});
+
+test('records the next Tatung official rice meals without inventing servings, liquid, or cooker facts', () => {
+  const catalog = sourceBackedCatalog();
+  const cases = [
+    {
+      id: 'tatung-beef-burdock-takikomi-rice',
+      name: '牛肉とごぼうの炊き込みご飯',
+      status: 'executable',
+      servings: 2,
+      minutes: 30,
+      liquid: { kind: 'added_water', amount: { value: 2, unit: '杯' } },
+      sourceId: 'S-TATUNG-BEEF-BURDOCK-RICE-1',
+      sourcePattern: /正文第41至71行.*牛肉.*ごぼう.*2人分.*2カップ.*约30分钟/u,
+      processPattern: /(?=.*牛蒡)(?=.*牛肉)(?=.*米)(?=.*炒)(?=.*内锅)(?=.*外锅)(?=.*10分钟)/u,
+      safety: 'beef_fully_cooked',
+    },
+    {
+      id: 'tatung-golden-takikomi-rice',
+      name: '黄金炊き込みご飯',
+      status: 'recipe_fact_checked',
+      servings: null,
+      minutes: 60,
+      liquid: { kind: 'added_water', amount: { value: 1.8, unit: '計量カップ' } },
+      sourceId: 'S-TATUNG-GOLDEN-RICE-1',
+      sourcePattern: /正文第34至72行.*黄金炊き込みご飯.*2至3人分.*1\.8.*栗.*鸡腿/u,
+      processPattern: /鸡腿.*栗.*胡萝卜.*香菇.*内锅.*外锅.*15分/u,
+      safety: 'poultry_fully_cooked',
+    },
+    {
+      id: 'tatung-khao-mok-gai',
+      name: 'カオ・モック・ガイ',
+      status: 'recipe_fact_checked',
+      servings: null,
+      minutes: 60,
+      liquid: { kind: 'added_water', amount: { value: 300, unit: 'ml' } },
+      sourceId: 'S-TATUNG-KHAO-MOK-GAI-1',
+      sourcePattern: /正文第43至80行.*カオ・モック・ガイ.*2至3人分.*鸡翅根.*300ml.*电锅/u,
+      processPattern: /(?=.*米)(?=.*水)(?=.*蒸し皿)(?=.*鸡翅根)(?=.*外锅)(?=.*5分钟)/u,
+      safety: 'poultry_fully_cooked',
+    },
+    {
+      id: 'tatung-oyster-mountain-vegetable-rice',
+      name: '牡蠣と山菜の炊き込みご飯',
+      status: 'recipe_fact_checked',
+      servings: 4,
+      minutes: 30,
+      liquid: null,
+      sourceId: 'S-TATUNG-OYSTER-MOUNTAIN-RICE-1',
+      sourcePattern: /正文第34至68行.*牡蠣と山菜の炊き込みご飯.*4人分.*牡蛎.*山菜.*300ml.*约30分钟/u,
+      processPattern: /(?=.*牡蛎)(?=.*酒)(?=.*蒸)(?=.*牡蛎汤)(?=.*米)(?=.*山菜)(?=.*油豆腐)(?=.*10分钟)/u,
+      safety: 'shellfish_fully_cooked',
+    },
+    {
+      id: 'tatung-chicken-cabbage-sesame-rice',
+      name: '鶏とキャベツの麻油炊き込みご飯',
+      status: 'recipe_fact_checked',
+      servings: 3,
+      minutes: 60,
+      liquid: null,
+      sourceId: 'S-TATUNG-CHICKEN-CABBAGE-SESAME-RICE-1',
+      sourcePattern: /正文第34至72行.*鶏とキャベツの麻油炊き込みご飯.*3人分.*鶏もも肉.*キャベツ.*1\.5合.*约1小时/u,
+      processPattern: /(?=.*香菇)(?=.*鸡肉)(?=.*卷心菜)(?=.*电锅)(?=.*外锅)(?=.*1\.5)(?=.*炒)/u,
+      safety: 'poultry_fully_cooked',
+    },
+  ];
+
+  for (const item of cases) {
+    const recipe = catalog.recipes.find(row => row.recipe_id === item.id);
+    const source = recipe?.source_refs.find(row => row.source_id === item.sourceId);
+    assert.equal(recipe?.canonical_name, item.name, item.id);
+    assert.equal(recipe?.status, item.status, item.id);
+    assert.equal(recipe?.fixed_batch?.servings ?? null, item.servings, item.id);
+    assert.equal(recipe?.time_contract?.total_minutes ?? null, item.minutes, item.id);
+    if (item.liquid) assert.deepEqual(recipe?.liquid_contract, { ...item.liquid, source_ids: [item.sourceId] }, item.id);
+    else assert.equal(recipe?.liquid_contract, null, item.id);
+    assert.ok(recipe?.cooking_sequence?.length >= 3, item.id);
+    assert.match(recipe?.cooking_sequence.map(step => step.instruction).join(' '), item.processPattern, item.id);
+    assert.ok(recipe?.safety_endpoints?.some(endpoint => endpoint.code === item.safety), item.id);
+    assert.equal(recipe?.cooker_adaptation?.status, 'source_limited', item.id);
+    assert.equal(source?.access_status, 'opened', item.id);
+    assert.equal(source?.evidence_tier, 3, item.id);
+    assert.match(source?.evidence_locator ?? '', item.sourcePattern, item.id);
+    if (item.status === 'recipe_fact_checked') {
+      assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe?.status), item.id);
+    }
+  }
 });
