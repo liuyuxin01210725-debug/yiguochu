@@ -24,6 +24,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 潮汕炣饭 | 炣饭；潮汕炣香饭 | CN-GD | chaoshan-ke-rice | 研究记录（非公开可执行） | 新大米；猪肉或五花肉；白萝卜或卷心菜；板栗或芋头；花生或虾米/虾仁 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [中国传统二十四节气：小雪](https://www.cma.gov.cn/2011xzt/2022zt/24jq/xx/index.html)<br>[潮汕‘炣’的是什么饭？](https://www.thepaper.cn/newsDetail_forward_10044153) |
+## chaoshan-salty-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 高堂焖 | 高堂猪肉饭 | CN-GD | chaoshan-salty-rice | 研究记录（非公开可执行） | 米饭；猪肉；调味料 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [高堂焖](https://www.raoping.gov.cn/xqqk/gzjs/content/post_3843958.html) |
 ## chengkou-cured-pork-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -99,6 +104,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 腊肉芋头饭 | — | CN-GD | guangzhou-cured-meat-rice | 研究记录（非公开可执行） | 芋头；腊肉；大米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [秋风起食腊味 排排坐好好味](https://www.gz.gov.cn/zlgz/whgz/content/post_8660213.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+## guangzhou-lotus-leaf-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鮮蝦荷葉飯 | 鲜虾荷叶饭 | CN-GD | guangzhou-lotus-leaf-rice | 研究记录（非公开可执行） | 丝苗米；瘦肉；鲜虾；鲜菇；鲜笋；荷叶 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [鲜虾荷叶饭](https://www.gz.gov.cn/zlgz/gzly/msgz/dxxc/content/post_7801862.html) |
 ## guizhou-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -146,6 +156,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 萝卜焖饭 | — | CN-HB | huangshi-seasonal-radish-braised-rice | 研究记录（非公开可执行） | 白萝卜；三层肉；大米；红葱头；干香菇；萝卜干；虾皮 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [“小寒”迎升温 气温暖如春](https://zjj.huangshi.gov.cn/index2019/ztzl/wmdjr/202301/t20230105_979547.html) |
+## hubei-steamed-cured-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 饭蒸腊味 | — | CN-HB | hubei-steamed-cured-rice | 研究记录（非公开可执行） | 米饭；腊鱼；腊肠；腊肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [饭蒸腊味](https://wlt.hubei.gov.cn/bmdt/mtjj/202208/t20220825_4279643.shtml) |
 ## huixian-ground-pot-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -246,7 +261,10 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Chicken Vegetable Rice | Panasonic Chicken Vegetable Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；葱；鸡高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken Vegetable Rice](https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/chicken-vegetable-rice.html) |
 | Claypot Style Chicken Rice | Panasonic Claypot Style Chicken Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；整只鸡腿；香菇；姜；葱 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Claypot Style Chicken Rice](https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/claypot-style-chicken-rice.html) |
+| Edamame and Fried Tofu Rice | 毛豆油豆腐饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；毛豆；油豆腐 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Edamame and Fried Tofu Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/edamame-and-fried-tofu-rice/) |
+| Kimchi Rice | 泡菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；泡菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Kimchi Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/kimchi-rice/) |
 | One Pot Chicken Rice | Panasonic One Pot Chicken Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；鸡腿；葱；姜；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One Pot Chicken Rice](https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/one-pot-chicken-rice.html) |
+| Seafood Pilaf | 海鲜焖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；海鲜；洋葱；蔬菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [Seafood Pilaf](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/seafood-pilaf/) |
 | 〖兵庫県ご当地メニュー〗丹波の黒枝豆ごはん | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；丹波黑枝豆 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [〖兵庫県ご当地メニュー〗丹波の黒枝豆ごはん](https://panasonic.jp/cooking/recipe/suihan/1404.html)<br>[Panasonic SR-X910E 仕様・詳細情報](https://panasonic.jp/suihan/products/SR-X910E/spec.html) |
 | 〖北海道ご当地メニュー〗炊込みコーンバターごはん | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；玉米；有盐黄油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [〖北海道ご当地メニュー〗炊込みコーンバターごはん](https://panasonic.jp/cooking/recipe/suihan/1405.html)<br>[Panasonic SR-X910E 仕様・詳細情報](https://panasonic.jp/suihan/products/SR-X910E/spec.html) |
 | 〖山形県ご当地メニュー〗いも煮炊込みごはん | Panasonic 山形芋煮炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；冷冻里芋；牛肉；白葱；舞茸；牛蒡 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [〖山形県ご当地メニュー〗いも煮炊込みごはん](https://panasonic.jp/cooking/recipe/suihan/1399.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[SR-V10BB 仕様・詳細情報](https://panasonic.jp/suihan/products/SR-V10BB/spec.html) |
@@ -491,6 +509,7 @@
 | 三菇飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 蓬莱米；香菇；洋菇；金针菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [三菇飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
 | 十香飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 米飯；腊肉；腊肠；豆干；香菇；虾米；干果 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [十香飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
 | 番紅花海鮮飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 米；透抽；贻贝；虾；干贝；青豆；胡萝卜；洋葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [番紅花海鮮飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
+| 當歸麻油雞飯 | 当归麻油鸡饭 | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 米；鸡肉；香菇；当归；米酒 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [當歸麻油雞飯](https://kmweb.moa.gov.tw/subject/subject.php?id=34867) |
 | 蔬菜雞肉飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 米；鸡肉；洋葱；番茄；洋菇；鸡高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [蔬菜雞肉飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
 | 客家菜飯 | — | TW-HS | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 芋香米；四季豆；秋葵；五香豆干；毛豆；芹菜；竹笋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [客家菜飯](https://meethakka.tycg.gov.tw/upload/cont_att/70fdadfd-8578-4660-9500-2df3e77d5df0.pdf) |
 | 糙米鮭魚炊飯 | — | TW-TPE | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 糙米；鲑鱼；高丽菜；玉米笋 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [糙米鮭魚炊飯](https://health99.hpa.gov.tw/storage/pdf/materials/22309.pdf) |
@@ -664,6 +683,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 晋宁牛肝菌焖饭 | 牛肝菌焖饭 | CN-YN | yunnan-jinning-mushroom-rice | 研究记录（非公开可执行） | 大米；牛肝菌 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [云南·寻味滇岸原乡 体验特色美食](https://zhuanti.mct.gov.cn/xcss2024_xcygj/yunnan/detail_g7yU_1058/7526.html) |
+## yunnan-mabang-luoguo-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 马帮锣锅饭 | 锣锅饭 | CN-YN | yunnan-mabang-luoguo-rice | 研究记录（非公开可执行） | 米；土豆；腊肉；香肠 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [马帮锣锅饭](https://news.cctv.com/2024/05/09/ARTIUXgnSR4ZymW7KXEoNwU4240509.shtml)<br>[中国影像方志：宁洱篇](https://txpe.yunnan.cn/system/2020/03/15/030616972.shtml) |
 ## yunnan-seasonal-pea-potato-ham-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
