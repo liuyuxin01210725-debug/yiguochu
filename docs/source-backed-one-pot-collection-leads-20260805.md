@@ -1,5 +1,21 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r57 已登记（2026-08-05）
+
+本批三条并行来源线完成去重和直接页面核对，登记 **25 条真实具名候选**。目录由 r56 的 375 条更新为 r57 的 400 条：`executable=12`、`recipe_fact_checked=374`、`identity_verified=14`、`kitchen_observed=0`。没有修改运行时，也没有部署。
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Panasonic / Tiger | `panasonic-taiwan-ginseng-chicken-rice`、`panasonic-taiwan-five-color-rice`、`panasonic-taiwan-chicken-curry-rice`、`panasonic-taiwan-beef-brisket-radish-rice`、`panasonic-taiwan-mushroom-risotto`、`panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice`、`tiger-takikomi-gohan`、`tiger-cabbage-mushroom-rice`、`tiger-sweet-potato-bacon-kombu-rice` | [Panasonic 人蔘雞肉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5099)、[Panasonic 五色炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5269)、[Panasonic 雞腿咖哩飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3511)、[Panasonic 蘿蔔牛腩飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3510)、[Panasonic 南瓜野菇雞肉糙米飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3551)、[Tiger Takikomi Gohan](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/takikomi-gohan-japanese-mixed-rice/)。厂商型号、水位、预处理和出锅后加料均按原页保留，不推导通用电饭煲参数。 |
+| 香港/台湾官方机构 | `startsmart-seasonal-pork-congee`、`startsmart-tomato-chicken-congee`、`startsmart-quinoa-millet-corn-pork-congee`、`taiwan-bamboo-shoot-rice`、`taiwan-milkfish-congee` | [StartSmart 时菜肉碎粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=91)、[番茄雞肉粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=51)、[三色藜麥粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=60)、[台湾竹筍炊飯](https://fae.moa.gov.tw/theme_data.php?id=4767&sub_theme=knowledge&theme=topics)、[虱目魚粥](https://fae.moa.gov.tw/theme_data.php?id=2944&sub_theme=recipe&theme=topics)。机构大批量、先炒或先熬汤边界保留，缺家庭合同的字段保持 null。 |
+| 中国地域官方来源 | `hechuan-yinmi-black-chicken-congee`、`pingchuan-sanfan`、`huaihua-haocai-rice`、`jinning-huanglaitou-braised-rice`、`qingyang-yellow-millet-braised-rice`、`weihui-dashan-millet-braised-rice`、`honghe-hani-five-color-rice`、`lianping-neiguan-braised-chicken-rice`、`lianping-neiguan-braised-duck-rice`、`xuyi-salted-pork-rice-cracker`、`shenmu-gua-braised-rice` | [合川阴米乌鸡粥](https://www.hc.gov.cn/bmjd/bm_100475/whlyw/zwxx_101408/dt_101410/202602/t20260204_15378363.html)、[平川糁饭](https://www.bypc.gov.cn/mlpc/lypc/czpc/art/2023/art_f4a5ceda8fdb4f6aa438a032ef11e6d4.html)、[文化和旅游部地方线路](https://zhuanti.mct.gov.cn/xcss2024_xcygj/yunnan/detail_g7yU_1058/7526.html)。两条有流程的候选停在 `recipe_fact_checked`；9 条只有具名/技艺的候选停在 `identity_verified`，PDF未直读的不升级。 |
+
+### r57 研究边界
+
+- 这批搜集的是可追溯的真实名称和原文事实，不是用户可见菜单，也不是自由组合模板；没有任何新条目晋升 `executable` 或 `kitchen_observed`。
+- 营养角色单独记录：香菇饭、高丽菜香菇饭和平川糁饭的蛋白角色缺失，保留为碳水/纤维或碳水研究候选；不因数量扩张而声称均衡。
+- 熟饭二次烹饪、视频未直读、PDF未归档的候选不混入本批；下一轮优先补证或保持身份状态。
+
 ## r56 已登记（2026-08-05）
 
 本批三路并行研究后，主线逐条打开来源、去重并登记 **17 条 `recipe_fact_checked`**；没有晋升 `executable`，没有新增 `kitchen_observed`，没有修改运行时或部署。目录由 r55 的 358 条更新为 r56 的 375 条：`executable=12`、`recipe_fact_checked=358`、`identity_verified=5`、`kitchen_observed=0`。

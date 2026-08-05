@@ -1,5 +1,64 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r57 搜集期第二十六批（2026-08-05）
+
+本批按“扩大真实具名目录、状态透明、不晋升”的策略，复核并登记厂商、香港/台湾机构和中国地域来源的 **25 条候选**。目录版本由 r56 的 `source-backed-one-pot-v1-20260808-national-r56` bump 为 `source-backed-one-pot-v1-20260808-national-r57`，条目从 375 增至 400：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：358 → 374（新增 16）；
+- `identity_verified`：5 → 14（新增 9）；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（25 条）
+
+**厂商官方（9 条，全部 `recipe_fact_checked`）**
+
+1. `panasonic-taiwan-ginseng-chicken-rice` — `人蔘雞肉飯`；
+2. `panasonic-taiwan-five-color-rice` — `五色炊飯`；
+3. `panasonic-taiwan-chicken-curry-rice` — `雞腿咖哩飯`；
+4. `panasonic-taiwan-beef-brisket-radish-rice` — `蘿蔔牛腩飯`；
+5. `panasonic-taiwan-mushroom-risotto` — `和風香菇燉飯`；
+6. `panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice` — `南瓜野菇雞肉糙米飯`；
+7. `tiger-takikomi-gohan` — `Takikomi Gohan (Japanese Mixed Rice)`；
+8. `tiger-cabbage-mushroom-rice` — `Cabbage and Mushroom Rice`；
+9. `tiger-sweet-potato-bacon-kombu-rice` — `さつまいもの炊き込みご飯`。
+
+**香港/台湾官方机构（5 条，全部 `recipe_fact_checked`）**
+
+10. `startsmart-seasonal-pork-congee` — `時菜肉碎粥`；
+11. `startsmart-tomato-chicken-congee` — `番茄雞肉粥`；
+12. `startsmart-quinoa-millet-corn-pork-congee` — `三色藜麥小米甜粟米粒肉碎粥`；
+13. `taiwan-bamboo-shoot-rice` — `竹筍炊飯`；
+14. `taiwan-milkfish-congee` — `虱目魚粥（一）`。
+
+**中国地域来源（11 条：2 条 `recipe_fact_checked`，9 条 `identity_verified`）**
+
+15. `hechuan-yinmi-black-chicken-congee` — `合川阴米乌鸡粥`；
+16. `pingchuan-sanfan` — `平川糁饭`；
+17. `huaihua-haocai-rice` — `薅菜饭`（仅身份）；
+18. `jinning-huanglaitou-braised-rice` — `黄赖头焖饭`（仅身份）；
+19. `qingyang-yellow-millet-braised-rice` — `黄米焖饭`（仅身份）；
+20. `weihui-dashan-millet-braised-rice` — `大山小米焖饭`（仅身份）；
+21. `honghe-hani-five-color-rice` — `哈尼五色彩饭`（仅身份）；
+22. `lianping-neiguan-braised-chicken-rice` — `内莞焖鸡饭`（仅身份，PDF待归档）；
+23. `lianping-neiguan-braised-duck-rice` — `内莞焖鸭饭`（仅身份，PDF待归档）；
+24. `xuyi-salted-pork-rice-cracker` — `盱眙咸肉菜饭锅巴制作技艺`（仅身份，PDF待归档）；
+25. `shenmu-gua-braised-rice` — `瓜焖饭`（仅身份，正文待定位）。
+
+### 本批边界与排除
+
+- 厂商页面的型号、水位和程序只证明该型号；鸡腿咖喱饭、萝卜牛腩饭、南瓜糙米饭保留分段边界，不外推通用电饭煲合同。
+- 和风香菇饭、高丽菜香菇饭缺蛋白角色，目录标为碳水加纤维，不伪装成营养完整主餐；熟饭二次烹饪、压力锅先煮后拌的候选不入本批。
+- 香港 StartSmart 是机构大批量锅煮来源，台湾竹笋炊饭和虱目鱼粥保留先炒/熬汤分段，不补家庭换算、液体或安全温度。
+- 合川阴米乌鸡粥、平川糁饭只记录来源直接写明的工艺；9 条地域身份条目没有流程就保持空数组。PDF未直接打开的条目使用 `fetch_timeout`，地方志检索条目使用 `search_extract_opened`，不把摘录当完整做法。
+- 本批没有复制原文或图片，没有拼接不同版本，没有新增 executable 或 kitchen_observed；搜集记录不等于可公开执行菜谱。
+
+### 本批验证纪律
+
+- 先新增 r57 失败测试，锁定目录版本、400 条总数、25 个 ID、状态分布和“identity-only 不补写流程”边界；实现后目录专项测试 **213/213** 通过。
+- 已运行目录构建；提交前继续运行来源目录检查、菜谱聚合门禁、全量 Node 测试、Python 语法检查、构建一致性和 `git diff --check`。
+- 本批只涉及来源型研究目录、测试和派生文档；不调用 DeepSeek、不改前端、Worker、Planner、模板，不部署 production，PR 继续保持 Draft。晋升仍须人工逐条签署，并以 `kitchen_observed` 作为真实家庭验证门。
+
 ## r56 搜集期第十七批（2026-08-05）
 
 本批按“先扩大真实具名目录、暂不晋升”的搜集策略，复核并登记 Panasonic Taiwan、香港官方机构食谱、东台/潜江/畲族地方政府页面及台湾农业部页面的 **17 条 `recipe_fact_checked`**。目录版本由 `source-backed-one-pot-v1-20260807-national-r55` bump 为 `source-backed-one-pot-v1-20260808-national-r56`，条目从 358 增至 375：
