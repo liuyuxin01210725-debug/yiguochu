@@ -22,8 +22,8 @@ const expected = [
 
 test('r69 adds only directly sourced named research candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r79');
-  assert.equal(catalog.recipes.length, 716);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r80');
+  assert.equal(catalog.recipes.length, 722);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName] of expected) {
     const recipe = byId.get(recipeId);
