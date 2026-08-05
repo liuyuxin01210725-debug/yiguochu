@@ -73,7 +73,7 @@ test('migration and initial catalog pass the provenance validators', () => {
   const legacyVariants = flattenLegacyVariants();
   const catalog = sourceBackedCatalog();
   const migration = migrationLedger();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r39');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r40');
   assert.deepEqual(validator.validateSourceBackedOnePotCatalog(catalog), []);
   assert.deepEqual(
     validator.validateSourceBackedCatalogMigration(migration, legacyVariants, catalog),
@@ -723,7 +723,7 @@ test('archives the directly opened National Health Insurance cabbage-rice source
 
 test('independent sign-off admits the two complete single-version WOL contracts', () => {
   const catalog = sourceBackedCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r39');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260805-national-r40');
 
   const beef = catalog.recipes.find(item => item.recipe_id === 'zojirushi-beef-mixed-rice');
   const beefSource = beef?.source_refs.find(item => item.source_id === 'zojirushi-beef-mixed-rice');
@@ -1028,7 +1028,7 @@ test('keeps incomplete research entries non-public after signed contracts are ad
   assert.deepEqual(statusTotals, {
     executable: 12,
     identity_verified: 1,
-    recipe_fact_checked: 163,
+    recipe_fact_checked: 173,
   });
   for (const recipe of catalog.recipes) {
     assert.ok(!validator.PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status));
@@ -1043,6 +1043,31 @@ test('keeps incomplete research entries non-public after signed contracts are ad
       && recipe.safety_endpoints.length > 0,
     );
     assert.equal(completeExecutionContract, false, `${recipe.recipe_id} must remain incomplete and non-public`);
+  }
+});
+
+test('r40 collection batch records only directly sourced research candidates', () => {
+  const catalog = sourceBackedCatalog();
+  const expected = [
+    ['tiger-chicken-bamboo-rice', '鶏肉たけのこごはん', 'recipe_fact_checked'],
+    ['tiger-whitefish-mixed-rice', '白身魚の炊込みごはん', 'recipe_fact_checked'],
+    ['tiger-chinese-sticky-rice', '炊込み中華おこわ', 'recipe_fact_checked'],
+    ['tiger-shirasu-tomato-multigrain-rice', '釜揚げしらすとトマトの雑穀ごはん', 'recipe_fact_checked'],
+    ['tiger-mackerel-aromatic-barley-rice', 'さばの香味麦炊込みごはん', 'recipe_fact_checked'],
+    ['tiger-hamo-rice', 'はもごはん', 'recipe_fact_checked'],
+    ['tiger-duck-matsutake-rice', '鴨ロースと松茸の炊込みごはん', 'recipe_fact_checked'],
+    ['ntuh-salmon-mixed-mushroom-rice', '鮭魚什錦菇飯', 'recipe_fact_checked'],
+    ['ntuh-wild-mushroom-rice', '野菇炊飯', 'recipe_fact_checked'],
+    ['sichuan-rice-cooker-pork-ribs-rice', '排骨焖饭', 'recipe_fact_checked'],
+  ];
+  for (const [recipeId, name, status] of expected) {
+    const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
+    assert.ok(recipe, `${recipeId} should be in the r40 research batch`);
+    assert.equal(recipe.canonical_name, name);
+    assert.equal(recipe.status, status);
+    assert.ok(recipe.source_refs.some(source => source.access_status === 'opened'));
+    assert.ok(recipe.source_refs.every(source => source.url.startsWith('https://')));
+    assert.notEqual(recipe.status, 'executable');
   }
 });
 
