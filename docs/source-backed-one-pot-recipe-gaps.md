@@ -8,7 +8,7 @@
 
 ## 2. Missing ingredients
 
-无。
+- 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
 
 ## 3. Missing quantity
 
@@ -16,6 +16,7 @@
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
+- 彭水鼎罐饭 (pengshui-dingpot-rice) — CN-CQ
 - 傣族香竹饭 (dai-fragrant-bamboo-rice) — CN-YN
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
@@ -93,7 +94,9 @@
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鲫鱼饭 (taishan-crucian-carp-rice) — CN-GD
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
+- 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
+- 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 黃魚飯 (taizhou-yellowfish-rice) — CN-ZJ
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - 人参果饭 (tibet-renshenggu-rice) — CN-XZ
@@ -129,6 +132,7 @@
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
+- 彭水鼎罐饭 (pengshui-dingpot-rice) — CN-CQ
 - 傣族香竹饭 (dai-fragrant-bamboo-rice) — CN-YN
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
@@ -147,6 +151,7 @@
 - 玉屏农家社饭 (yuping-farmer-she-rice) — CN-GZ
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 河曲酸粥 (hequ-sour-porridge) — CN-SX
+- 菜心瑤柱飯 (hk-choy-sum-scallop-rice) — HK
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 春湖魚飯 (yangxin-spring-lake-fish-rice) — CN-HB
@@ -167,11 +172,13 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
+- Coconut Chicken and Rice with Pineapple Salsa (instant-pot-coconut-chicken-pineapple-rice) — 非地域·厂商食谱
 - Edamame and Fried Tofu Rice (tiger-edamame-fried-tofu-rice) — 非地域·厂商食谱
 - Hijiki Brown Rice (tiger-hijiki-brown-rice) — 非地域·厂商食谱
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
+- 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 石扇鱼焖饭 (meixian-shisan-fish-braised-rice) — CN-GD
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
@@ -207,10 +214,15 @@
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 福州糟鴨飯 (taiwan-fuzhou-drunk-duck-rice) — TW
+- 茶油綠竹筍炊飯 (taiwan-tea-oil-bamboo-shoot-chicken-rice) — TW
+- 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
+- 鮪魚菇菇洋蔥紅藜麥炊飯 (taiwan-tuna-mushroom-quinoa-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
+- 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
+- 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
 - 薑黃雞腿燉飯 (taiwan-turmeric-chicken-risotto) — TW
 - 筒仔米糕 (taiwan-tongzai-rice-cake) — TW
 - 黃魚飯 (taizhou-yellowfish-rice) — CN-ZJ
@@ -247,12 +259,14 @@
 
 ## 5. Missing process
 
+- 永春排骨咸饭 (yongchun-pork-rib-salted-rice) — CN-FJ
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
 
 ## 6. Missing appliance
 
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
+- 彭水鼎罐饭 (pengshui-dingpot-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 禾花鲤炊饭 (dongguan-daojiao-hehua-carp-rice) — CN-GD
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
@@ -297,6 +311,7 @@
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
+- 彭水鼎罐饭 (pengshui-dingpot-rice) — CN-CQ
 - 贵州侗家甑蒸社饭 (dong-steamed-she-rice) — CN-GZ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 禾花鲤炊饭 (dongguan-daojiao-hehua-carp-rice) — CN-GD
@@ -319,6 +334,8 @@
 - 南瓜冬菇豬肉燉飯 (hk-pumpkin-shiitake-pork-rice) — HK
 - 櫻花蝦冬菇雞肉藜麥飯 (hk-sakura-shrimp-chicken-quinoa-rice) — HK
 - 番茄雜菇雞腿肉飯 (hk-tomato-mushroom-chicken-rice) — HK
+- 菜心瑤柱飯 (hk-choy-sum-scallop-rice) — HK
+- 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 黄圃腊味煲仔饭 (huangpu-cured-meat-claypot-rice) — CN-GD
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 春湖魚飯 (yangxin-spring-lake-fish-rice) — CN-HB
@@ -347,6 +364,7 @@
 - 〖茅乃舎監修〗野菜だし だし炊きごはん (panasonic-vegetable-dashi-rice-sr-v10ba) — 非地域·厂商食谱
 - 懒人焖饭 (joyoung-mixed-sausage-vegetable-rice-jrc-4hp82) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
+- 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 雞汁野菜炊飯 (philips-chicken-vegetable-takikomi-rice) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
@@ -386,13 +404,19 @@
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 一叶弥月油饭 (taiwan-yiyebanyue-oil-rice) — TW
 - 福州糟鴨飯 (taiwan-fuzhou-drunk-duck-rice) — TW
+- 炙燒黃金菇菇雞炊飯 (taiwan-golden-mushroom-chicken-rice) — TW
+- 茶油綠竹筍炊飯 (taiwan-tea-oil-bamboo-shoot-chicken-rice) — TW
+- 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
+- 雜糧干貝海鮮蒸臺灣藜飯 (taiwan-multigrain-scallop-seafood-quinoa-rice) — TW
 - 三菇飯 (taiwan-three-mushroom-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
+- 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 野菇炊飯 (ntuh-wild-mushroom-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
+- 鮮筍五行炊飯 (taiwan-five-elements-bamboo-shoot-rice) — TW
 - 瓠瓜香菇飯 (taiwan-bottle-gourd-mushroom-rice) — TW
 - 黃魚飯 (taizhou-yellowfish-rice) — CN-ZJ
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
@@ -429,6 +453,7 @@
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
 - 煮腊肉饭 (chengkou-cured-pork-rice) — CN-CQ
+- 彭水鼎罐饭 (pengshui-dingpot-rice) — CN-CQ
 - 水平鹅饭 (dongguan-hengping-goose-rice) — CN-GD
 - 禾花鲤炊饭 (dongguan-daojiao-hehua-carp-rice) — CN-GD
 - 龙船饭 (dongguan-dragon-boat-rice) — CN-GD
@@ -445,6 +470,7 @@
 - 南瓜冬菇豬肉燉飯 (hk-pumpkin-shiitake-pork-rice) — HK
 - 櫻花蝦冬菇雞肉藜麥飯 (hk-sakura-shrimp-chicken-quinoa-rice) — HK
 - 番茄雜菇雞腿肉飯 (hk-tomato-mushroom-chicken-rice) — HK
+- 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 芋頭鮮蝦五穀蒸飯 (hk-taro-shrimp-multigrain-steamed-rice) — HK
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
@@ -459,9 +485,12 @@
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
 - Claypot Style Chicken Rice (panasonic-claypot-style-chicken-rice) — 非地域·厂商食谱
+- Coconut Chicken and Rice with Pineapple Salsa (instant-pot-coconut-chicken-pineapple-rice) — 非地域·厂商食谱
 - One Pot Chicken Rice (panasonic-one-pot-chicken-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
+- Tuscan Chicken and Rice (instant-pot-tuscan-chicken-rice) — 非地域·厂商食谱
 - アボカド鶏肉炊き込みご飯 (tatung-avocado-chicken-rice) — 非地域·厂商食谱
+- 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
@@ -479,10 +508,15 @@
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 臘味煲飯 (taiwan-cured-pot-rice) — TW
+- 松子雞肉野菇炊飯 (taiwan-pine-nut-chicken-wild-mushroom-rice) — TW
+- 茶油綠竹筍炊飯 (taiwan-tea-oil-bamboo-shoot-chicken-rice) — TW
+- 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
+- 雜糧干貝海鮮蒸臺灣藜飯 (taiwan-multigrain-scallop-seafood-quinoa-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
+- 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
