@@ -1,5 +1,28 @@
 # 一锅出搜集期：下一批直接来源线索
 
+## r47 已登记与排除记录（2026-08-07）
+
+本轮三路 Agent 分别检索厂商官方食谱、农林水产省地方料理库和地域来源；主线复核页面、去重并登记 23 条 `recipe_fact_checked`。状态分布由 279 条变为 302 条：`executable=12`、`recipe_fact_checked=285`、`identity_verified=5`、`kitchen_observed=0`。本轮没有运行时改动、没有新菜谱生成、没有部署。
+
+### 已登记（23 条）
+
+| 方向 | 已登记条目 | 直接来源与边界 |
+| --- | --- | --- |
+| Panasonic / Toshiba / Tiger / 象印 | `panasonic-tako-meshi-sr-x910e`、`panasonic-sekihan-nf-ac1000`、`toshiba-sakuraebi-rice`、`toshiba-sekihan-rcp30r`、`toshiba-kuri-okowa`、`tiger-beef-matsutake-rice`、`tiger-steamed-abalone-rice`、`tiger-uni-rice`、`zojirushi-brown-rice-ih-pot` | [Panasonic 炊饭器食谱列表](https://panasonic.jp/cooking/recipe/suihan.html)、[Toshiba 电气压力锅食谱](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/)、[Tiger 官方食谱](https://www.tiger-corporation.com/ja/jpn/feature/recipe/)、[象印玄米炊饭](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/007.html)。各条绑定机型/锅具；压力、水位、先蒸/先煮和熟后回拌均不跨器具推导。 |
+| 日本农林水产省：鸟取/爱媛/广岛/香川/冈山/爱知/岛根/山梨/栃木/德岛 | `maff-tottori-dondoroke-meshi`、`maff-tottori-itadaki`、`maff-tottori-igai-meshi`、`maff-ehime-shoyu-meshi`、`maff-hiroshima-tai-meshi`、`maff-kagawa-iriko-meshi`、`maff-okayama-tako-meshi`、`maff-tottori-daisen-okowa`、`maff-okayama-hiruzen-okowa`、`maff-aichi-hebo-meshi`、`maff-shimane-kujira-gohan`、`maff-yamanashi-sanma-meshi`、`maff-tochigi-ayu-meshi`、`maff-tokushima-tai-meshi` | [MAFF 地域料理检索](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/)。页面直接支持具名、地域、核心食材和流程；鱼、贝、蜂蛹、鲸皮等安全或可得性缺口保持显式，蒸锅おこわ不转换成电饭煲合同。 |
+
+### 本轮明确不收录
+
+- Panasonic 近期列表中的北海道玉米、山形芋煮、茨城番薯、神奈川しらす、长野鲑鱼、兵库黑枝豆、长崎ゆで干し大根等已存在于 r46 或更早目录，未重复建 ID。
+- Tiger ひつまぶし風うな玉ごはん、Panasonic 味噌豚丼/シシリアンライス/油麩丼/塔可饭/ガパオ等需要另煮米饭或另做浇头，暂不纳入严格生米一锅主线。
+- 和歌山かきまでご飯、香港菜心瑤柱飯等是熟饭与另锅配料的组合，登记为边界线索，不宣称一锅出。
+
+### 纪律
+
+- 本轮 23 条全部为搜集期 `recipe_fact_checked`，不是人工批准、不是 executable、不是厨房验证。
+- 来源页面只证明实际写明的身份、食材、用量、液体、流程、器具或时间；缺口保持 null，不把不同来源拼成第三套配方。
+- 下一轮继续遵守“20–30 条封顶、当天落账、版本必 bump、连续两批新增合格候选低于 10 条即停搜集”的退出条件。
+
 ## r46 已登记与排除记录（2026-08-06）
 
 本轮三路 Agent 先各自提交“候选名—直接来源—事实范围—缺口”，主线去重后将 22 条直接来源候选登记为 `recipe_fact_checked`。没有条目晋升 `executable`，没有新增 `kitchen_observed`，也没有修改运行时。

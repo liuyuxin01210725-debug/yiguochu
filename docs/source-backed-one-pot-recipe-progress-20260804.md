@@ -1,5 +1,60 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r47 搜集期第八批（2026-08-07）
+
+本批按“放量搜集、证据门槛不降、真实具名优先”执行。三路 Agent 分别检索厂商官方食谱、农林水产省地方料理库和日本/中国地域来源；主线逐条打开、去重并结构化。新增 **23 条 `recipe_fact_checked`**，不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署 production。目录版本由 `source-backed-one-pot-v1-20260806-national-r46` bump 为 `source-backed-one-pot-v1-20260807-national-r47`，条目从 279 增至 302：
+
+- `executable`：12 → 12；
+- `recipe_fact_checked`：262 → 285；
+- `identity_verified`：5 → 5；
+- `kitchen_observed`：0 保持不变。
+
+### 完整新增清单（23 条，全部 `recipe_fact_checked`）
+
+1. `panasonic-tako-meshi-sr-x910e` — Panasonic SR-X910E たこめし；
+2. `zojirushi-brown-rice-ih-pot` — 象印 IH 锅玄米炊饭；
+3. `toshiba-sakuraebi-rice` — 东芝 RCP-30R 桜えびご飯；
+4. `toshiba-sekihan-rcp30r` — 东芝 RCP-30R 赤飯；
+5. `toshiba-kuri-okowa` — 东芝 RCP-30R 栗おこわ；
+6. `panasonic-sekihan-nf-ac1000` — Panasonic NF-AC1000 赤飯机型变体；
+7. `tiger-beef-matsutake-rice` — Tiger 牛肉松茸ごはん；
+8. `tiger-steamed-abalone-rice` — Tiger 蒸しあわびの炊込みごはん；
+9. `tiger-uni-rice` — Tiger うにごはん；
+10. `maff-tottori-dondoroke-meshi` — 鸟取 どんどろけ飯；
+11. `maff-tottori-itadaki` — 鸟取 いただき（ののこ饭）；
+12. `maff-tottori-igai-meshi` — 鸟取 いがい飯；
+13. `maff-ehime-shoyu-meshi` — 爱媛 しょうゆめし；
+14. `maff-hiroshima-tai-meshi` — 广岛瀬户内 鯛めし；
+15. `maff-kagawa-iriko-meshi` — 香川 いりこ飯；
+16. `maff-okayama-tako-meshi` — 冈山仓敷 たこめし；
+17. `maff-tottori-daisen-okowa` — 鸟取 大山おこわ；
+18. `maff-okayama-hiruzen-okowa` — 冈山蒜山おこわ；
+19. `maff-aichi-hebo-meshi` — 爱知 へぼ飯；
+20. `maff-shimane-kujira-gohan` — 岛根 くじらご飯；
+21. `maff-yamanashi-sanma-meshi` — 山梨 さんまめし；
+22. `maff-tochigi-ayu-meshi` — 栃木 鮎めし；
+23. `maff-tokushima-tai-meshi` — 德岛鸣门 鯛めし。
+
+### 本批来源与边界
+
+- 农林水产省页面直接证明地域身份、核心食材和原方流程；鸟取豆腐饭、いただき、冈山章鱼饭、广岛/德岛鲷饭等保留页面写明的先处理、同锅炊煮和出锅回拌步骤，不把不同地域的同名菜合并。
+- Toshiba、Panasonic、Tiger、象印条目严格绑定官方机型或器具。压力锅水位、IH锅火力和 Tiger 水位线不转换为普通电饭煲的通用克数或程序；赤饭的豆类先煮、鲍鱼先蒸、牛肉先煮等连续步骤均保留。
+- 大山おこわ、蒜山おこわ是传统蒸锅多阶段流程，列入研究目录但明确 `not_adapted`，不冒充电饭煲菜饭。
+- へぼ飯、くじらご飯、海胆饭、鲍鱼饭等是真实具名但食材特殊或营养结构偏窄，目录只作研究候选并写明家庭可得性/营养提示；没有因此删掉真实身份，也没有把它们标成均衡主餐。
+- 缺失的总时长、液体对象、鱼/禽/贝安全终点保持缺省；搜集层不以常识补齐，也不晋升 executable。
+
+### 去重与暂不收录
+
+- Panasonic 北海道玉米、山形芋煮、茨城番薯、神奈川しらす、长野鲑鱼、兵库黑枝豆、长崎ゆで干し大根等页面已在 r46 或更早目录中，未因同一官方列表重复登记。
+- Tiger ひつまぶし風うな玉ごはん以及 Panasonic 丼类页面包含另煮米饭/另做浇头，不满足本批严格的生米同锅边界，留作线索而不入库。
+- 和歌山かきまでご飯、香港菜心瑤柱飯属于熟饭与另锅配料组合，作为边界线索记录，不伪装成一锅主餐。
+
+### 本批验证纪律
+
+- 先新增 r47 失败测试，锁定版本、23 个 recipe ID、状态和来源；实现后目录数据专项测试 `204/204` 通过。
+- 派生文档由 `node tools/build-source-backed-one-pot-catalog.mjs --write` 生成；随后跑 `--check`、`node tools/check-source-backed-one-pot-catalog.mjs`、`node tools/check-recipes.mjs`、全量 Node 测试、Python 语法检查和 `git diff --check`。
+- 本批只涉及研究目录、研究文档、派生目录和测试；不调用 DeepSeek、不改运行时、不部署 production，PR 继续保持 Draft。
+
 ## r46 搜集期第七批（2026-08-06）
 
 本批按“尽可能搜集真实具名一锅饭、搜集期放量但晋升门槛不降”执行。三个独立 Agent 分别检索日本农林水产省、厂商官方食谱和新疆地域政府来源；主线逐条打开、去重并结构化。新增 22 条 `recipe_fact_checked`，不新增 `identity_verified`，不晋升 `executable`，不修改前端、Worker、Planner、模板或 DeepSeek，不部署 production。目录版本由 `source-backed-one-pot-v1-20260805-national-r45` bump 为 `source-backed-one-pot-v1-20260806-national-r46`，条目从 257 增至 279：
