@@ -5,11 +5,14 @@ import test from 'node:test';
 const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url);
 
 const expected = [
-  ['tatung-sesame-shiitake-shio-koji-chicken-rice', '麻油香菇鹽麴雞飯'],
-  ['tatung-chestnut-sesame-oil-chicken-rice', '栗子麻油雞飯'],
+  ['panasonic-spring-chicken-vegetable-risotto', 'Spring Chicken and Vegetable Risotto'],
+  ['panasonic-chicken-biryani-sr-da182', 'Chicken Biryani'],
+  ['tefal-602-chicken-pea-risotto', 'Chicken & Pea Risotto'],
+  ['tefal-602-smoked-haddock-kedgeree', 'Smoked Haddock Kedgeree'],
+  ['tefal-602-seafood-paella', 'Seafood Paella'],
 ];
 
-test('r75 records two new direct manufacturer rice-meal candidates without promotion', () => {
+test('r76 records five direct manufacturer rice-meal candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-national-r76');
   assert.equal(catalog.recipes.length, 693);
@@ -31,12 +34,20 @@ test('r75 records two new direct manufacturer rice-meal candidates without promo
   }
 });
 
-test('r75 keeps model-specific cooker and ingredient-state boundaries explicit', () => {
+test('r76 preserves manufacturer, PDF, staged-process, and cooked-protein boundaries', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
-  assert.match(byId.get('tatung-sesame-shiitake-shio-koji-chicken-rice')?.evidence_notes ?? '', /大同|盐麴|外锅|普通电饭煲/);
-  assert.match(byId.get('tatung-chestnut-sesame-oil-chicken-rice')?.evidence_notes ?? '', /栗子|珐琅|外锅|普通电饭煲/);
-  assert.equal(byId.get('panasonic-frozen-seafood-paella-rice')?.cooker_adaptation?.status, 'source_limited');
-  assert.equal(byId.get('tatung-sesame-shiitake-shio-koji-chicken-rice')?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(byId.get('tatung-chestnut-sesame-oil-chicken-rice')?.cooker_adaptation?.status, 'not_adapted');
+  assert.match(byId.get('panasonic-spring-chicken-vegetable-risotto')?.evidence_notes ?? '', /Panasonic|高汤|预处理|普通电饭煲/);
+  assert.match(byId.get('panasonic-chicken-biryani-sr-da182')?.evidence_notes ?? '', /SR-DA182|腌制|分阶段|普通电饭煲/);
+  assert.match(byId.get('tefal-602-chicken-pea-risotto')?.evidence_notes ?? '', /TEFAL602|熟鸡肉|PDF|平底锅/);
+  assert.match(byId.get('tefal-602-smoked-haddock-kedgeree')?.evidence_notes ?? '', /烟熏黑线鳕|TEFAL602|煮熟鸡蛋/);
+  assert.match(byId.get('tefal-602-seafood-paella')?.evidence_notes ?? '', /TEFAL602|海鲜|PDF|安全/);
+  assert.equal(byId.get('panasonic-spring-chicken-vegetable-risotto')?.cooker_adaptation?.status, 'source_limited');
+  assert.equal(byId.get('panasonic-chicken-biryani-sr-da182')?.cooker_adaptation?.status, 'source_limited');
+  for (const recipeId of expected.slice(2).map(([id]) => id)) {
+    assert.equal(byId.get(recipeId)?.cooker_adaptation?.status, 'source_limited', recipeId);
+  }
+  assert.equal(byId.get('tefal-602-chicken-pea-risotto')?.fixed_batch, null);
+  assert.equal(byId.get('tefal-602-smoked-haddock-kedgeree')?.fixed_batch, null);
+  assert.equal(byId.get('tefal-602-seafood-paella')?.fixed_batch, null);
 });
