@@ -2038,6 +2038,23 @@ Panasonic 官方页面还记录了两道由茅乃舎监修的电饭煲米饭。�
 
 时间盒到期时只能缩小进入厨房验证的批次，不能降低来源门槛、把“适量”换算成估值，也不能把原器具参数推导成电饭煲参数。
 
+## r81 搜集批次（2026-08-06）
+
+本批在 r80 的 722 条基线上并行核验厂商、港台公共机构和新疆地域官方来源，新增 7 条，版本升至 source-backed-one-pot-v1-20260806-national-r81，总数 729：
+
+- recipe_fact_checked：634 → 638；
+- identity_verified：70 → 73；
+- executable：12 → 12；
+- discovered：6 → 6。
+
+新增清单和逐条来源范围见 [r81 搜集报告](./source-backed-one-pot-batch-r81.md)。本批新增的 4 条 recipe_fact_checked 为 Philips 红豆牛肉糙米菜饭、菠菜三文鱼粥、螺片金蚝滑鸡粥，以及 Panasonic Century Egg & Chicken Congee；另有 Panasonic 南瓜莲藕鸡腿杂粮饭、乌尔禾阿吾丹羊拐抓饭、莎车豌豆肉抓饭 3 条仅到 identity_verified。
+
+本批不修改 Worker、前端、Planner 或部署配置；不新增 executable，不新增 kitchen_observed。南瓜莲藕鸡腿杂粮饭因官方导语与编号步骤漏写鸡腿投料时点而停在 identity_verified；两道新疆抓饭只有真实菜名/地域身份来源，未把菜名扩写成食材和流程。
+
+并行研究报告统一整理在 [r81 搜集报告](./source-backed-one-pot-batch-r81.md)；各 Agent 的原始核验稿留在本轮审查临时目录，不作为目录依赖。
+
+排除项包括另配蛋白的 Panasonic Yellow Curry Rice、熟饭二次烹饪的 Pineapple Red Rice、需要另锅海鲜再混合的 Zojirushi Paella/Jambalaya，以及来源对节庆饭/稠粥表述不一致的新疆诺鲁孜饭。搜集期继续坚持“来源不足就保留缺口，不用泛称或自由组合凑数量”。
+
 ## r1→r36 完整变更台账
 
 ### 版本与状态
