@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r85",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r86",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16544,6 +16544,148 @@
       ],
       "status": "identity_verified",
       "evidence_notes": "永春县政府直接确认“吃一饭/香饭”的永春民俗身份及海蛎干、花生、肉、葱油、白米五项食材；没有份量、液体、顺序、器具、时间或安全事实，保持identity_verified，不与永春排骨咸饭合并。"
+    },
+    {
+      "recipe_id": "maff-kanagawa-kate-meshi",
+      "canonical_name": "かて飯",
+      "aliases": ["加料饭", "神奈川加料饭"],
+      "region_codes": ["JP-KANAGAWA-SAGAMIHARA"],
+      "cuisine_family": "japanese-regional-mixed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["锅", "电饭煲"],
+      "core_ingredients": ["米", "干香菇", "牛蒡", "胡萝卜", "竹轮", "油豆腐", "四季豆"],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {"name": "米", "amount": {"value": 3.5, "unit": "杯"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+          {"name": "魔芋", "amount": {"value": 0.5, "unit": "块"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+          {"name": "油豆腐", "amount": {"value": 1, "unit": "片"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+          {"name": "牛蒡", "amount": {"value": 100, "unit": "g"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+          {"name": "胡萝卜", "amount": {"value": 100, "unit": "g"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+          {"name": "干香菇", "amount": {"value": 4, "unit": "枚"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+          {"name": "竹轮", "amount": {"value": 0.5, "unit": "根"}, "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]}
+        ],
+        "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {"step": 1, "instruction": "魔芋切丁，油豆腐、牛蒡、胡萝卜、干香菇切丝，竹轮切片。", "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+        {"step": 2, "instruction": "将具料放入锅中，加入酱油、砂糖、香菇泡发汁和没过食材的水，煮至水分约剩一成。", "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+        {"step": 3, "instruction": "米洗净，用具料煮汁和水补至电饭煲规定分量后炊熟。", "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]},
+        {"step": 4, "instruction": "饭炊好后加入煮好的具料，盖上锅盖焖匀。", "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-MAFF-KANAGAWA-KATE-MESHI-1"],
+        "notes": "日本农林水产省原方使用锅先煮具料，再以煮汁和水按电饭煲规定分量炊米，饭熟后混合；这是连续流程，不是全部食材同投，来源也没有可迁移的毫升水量或普通电饭煲时间。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MAFF-KANAGAWA-KATE-MESHI-1",
+          "title": "かて飯 神奈川県",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_8_kanagawa.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_food_culture_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "正文：神奈川县相模原市；米、干香菇、牛蒡、胡萝卜、竹轮、油豆腐、四季豆；材料4人份；具料先以酱油、砂糖、泡发汁和水煮至约剩一成，煮汁加水按电饭煲分量炊米，饭熟后混入具料",
+          "claim_scopes": ["identity", "ingredients", "quantity", "process", "appliance"],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省官方页面直接确认神奈川县相模原市的かて飯（加料饭）身份、4人份食材及锅煮具料—电饭煲炊米—饭熟混合的连续流程；没有固定毫升液体、总时间、安全终点或普通电饭煲等价参数，保持研究状态，不改写成全部同锅配方。"
+    },
+    {
+      "recipe_id": "maff-ehime-pheasant-dried-daikon-mixed-rice",
+      "canonical_name": "きじ肉と切り干し大根の混ぜご飯",
+      "aliases": ["雉肉切干萝卜拌饭"],
+      "region_codes": ["JP-EHIME-KIHO"],
+      "cuisine_family": "japanese-regional-mixed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["锅", "炒锅", "电饭煲"],
+      "core_ingredients": ["米", "雉肉", "雉骨", "牛蒡", "胡萝卜", "切干大根", "香菇", "油豆腐", "鱼饼", "柚子皮"],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {"step": 1, "instruction": "锅中加水煮雉骨取汤；米提前洗好。", "source_ids": ["S-MAFF-EHIME-PHEASANT-MIXED-RICE-1"]},
+        {"step": 2, "instruction": "雉肉切块，牛蒡、胡萝卜、油豆腐切丝；切干大根浸泡后切段，香菇和鱼饼按原方处理。", "source_ids": ["S-MAFF-EHIME-PHEASANT-MIXED-RICE-1"]},
+        {"step": 3, "instruction": "米加入调味料和雉骨汤，按来源的普通水量炊饭。", "source_ids": ["S-MAFF-EHIME-PHEASANT-MIXED-RICE-1"]},
+        {"step": 4, "instruction": "另锅加油炒雉肉，再加入蔬菜和鱼饼，按来源让食材炒熟。", "source_ids": ["S-MAFF-EHIME-PHEASANT-MIXED-RICE-1"]},
+        {"step": 5, "instruction": "加入调味料和约60至70ml雉骨汤，将具料煮至汁水收少。", "source_ids": ["S-MAFF-EHIME-PHEASANT-MIXED-RICE-1"]},
+        {"step": 6, "instruction": "把炒煮好的具料拌入炊好的米饭，最后撒柚子皮。", "source_ids": ["S-MAFF-EHIME-PHEASANT-MIXED-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "日本农林水产省原方包含雉骨汤锅、具料炒煮锅和电饭煲三段连续流程，且为20至25人批量；不把6L汤汁或普通水量换算为家庭水米比，不把雉肉替换成鸡肉，也不宣称普通电饭煲单锅完成。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MAFF-EHIME-PHEASANT-MIXED-RICE-1",
+          "title": "きじ肉と切り干し大根の混ぜご飯 愛媛県",
+          "publisher": "日本农林水产省",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kijiniku_to_kiri_boshi_daikon_no_maze_gohan_ehime.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_food_culture_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "正文：爱媛县鬼北町；材料20至25人份，米1.5kg、雉肉/雉骨各约1羽、牛蒡200g、胡萝卜160g、切干大根120g、香菇4束、油豆腐2片、鱼饼1片；雉骨取汤炊饭，具料另炒煮后拌饭",
+          "claim_scopes": ["identity", "ingredients", "quantity", "process", "appliance"],
+          "attribution": "日本农林水产省",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省官方页面直接确认爱媛县鬼北町的雉肉切干萝卜拌饭身份、20至25人份原料和雉骨取汤炊饭、具料另炒煮、最后拌饭的三段流程；来源没有安全终点或可迁移家庭水米比，雉肉也不作鸡肉替换，保持非电饭煲单锅的研究边界。"
+    },
+    {
+      "recipe_id": "pengshui-zhacai-rice",
+      "canonical_name": "馇菜饭",
+      "aliases": ["馇菜饭制作技艺"],
+      "region_codes": ["CN-CQ-PENGSHUI"],
+      "cuisine_family": "pengshui-zhacai-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": [],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "unassessed", "roles": []},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "彭水县政府非遗名录只确认“馇菜饭制作技艺”为彭水县级传统技艺项目及文化馆保护单位；原页没有核心食材、同锅工序、器具、份量、液体、时间或安全事实，不补写成菜饭配方。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PENGSHUI-ZHACAI-RICE-1",
+          "title": "彭水苗族土家族自治县国家级（市级、县级）非物质文化遗产代表性项目名录",
+          "publisher": "彭水苗族土家族自治县人民政府",
+          "url": "https://www.psx.gov.cn/ztzl_174/ydn/psfy/202410/t20241015_13708907.html",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "county_government_intangible_heritage_catalog",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "名录表第60项：馇菜饭制作技艺，传统技艺，县级第二批，保护单位为彭水苗族土家族自治县文化馆，地域为彭水",
+          "claim_scopes": ["identity"],
+          "attribution": "彭水苗族土家族自治县人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "彭水县政府非遗名录直接确认“馇菜饭制作技艺”的项目身份、彭水地域和保护单位；原页没有食材或做法正文，保持identity_verified，不从“菜饭”名称推断米、蔬菜、液体或流程。"
     }
   ]
 }
