@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r83",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r84",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16455,6 +16455,56 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "Towngas官方明火煮饭页面给出具名窝蛋牛肉饭、米/牛肉末/鸡蛋结构、饭锅刻度和35分钟分段流程。它只有碳水与蛋白两类，没有蔬菜；鸡蛋在熄火后加入，牛肉与鸡蛋熟制终点缺失，保持研究状态，不包装成营养三要素齐全或电饭煲配方。"
+    },
+    {
+      "recipe_id": "maff-chicken-shiitake-chinese-steamed-rice",
+      "canonical_name": "鶏肉と椎茸の中華風蒸しご飯",
+      "aliases": ["鸡肉香菇中式蒸饭"],
+      "region_codes": ["JP"],
+      "cuisine_family": "japanese-steamed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["蒸锅"],
+      "core_ingredients": ["生米", "鸡腿肉", "香菇"],
+      "fixed_batch": {"servings": 2, "ingredients": [{"name": "米", "amount": {"value": 2, "unit": "合"}, "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]}, {"name": "鸡腿肉", "amount": {"value": 350, "unit": "g"}, "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]}, {"name": "香菇", "amount": {"value": 4, "unit": "枚"}, "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]}, {"name": "水", "amount": {"value": 240, "unit": "cc"}, "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]}, {"name": "油", "amount": {"value": 1, "unit": "小匙"}, "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]}], "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]},
+      "liquid_contract": {"kind": "added_water", "amount": {"value": 240, "unit": "cc"}, "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]},
+      "cooking_sequence": [
+        {"step": 1, "instruction": "米淘洗；鸡腿切成一口大小，香菇切四份，与米粉、姜末、酒、酱油、梅干、豆瓣酱、糖、蚝油和芝麻油等按原方拌匀腌制。", "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]},
+        {"step": 2, "instruction": "同一器皿放入米、水240cc和油，再将腌好的鸡腿肉与香菇铺在米面。", "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]},
+        {"step": 3, "instruction": "蒸锅起蒸汽后用强火蒸约25至30分钟；原页没有禽肉中心温度或其他安全终点。", "source_ids": ["S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "日本农林水产省原方明确使用起蒸汽的蒸锅，不是电饭煲；240cc、25至30分钟和投料顺序不得外推为电饭煲参数，禽肉安全终点未闭合。"},
+      "source_refs": [
+        {"source_id": "S-MAFF-CHICKEN-SHIITAKE-CHINESE-STEAMED-RICE", "title": "鶏肉と椎茸の中華風蒸しご飯", "publisher": "日本农林水产省", "url": "https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe258.html", "retrieved_at": "2026-08-06", "source_kind": "government_recipe_page", "access_status": "opened", "evidence_tier": 1, "evidence_locator": "官方页：2人份、米2合、水240cc、鸡腿350g、香菇4枚、油1小匙；蒸锅起汽后强火25至30分钟的中式蒸饭流程", "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"], "attribution": "日本农林水产省", "license": "government_site_terms_unspecified"}
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省官方页直接给出鶏肉と椎茸の中華風蒸しご飯、2人份、米/鸡腿/香菇/240cc水、同器皿铺料和蒸锅25至30分钟流程。它不是电饭煲配方，未给禽肉安全终点或叶菜，不补写电饭煲适配和营养三要素完整性。"
+    },
+    {
+      "recipe_id": "wansheng-potato-green-bean-kongfan",
+      "canonical_name": "万盛箜饭",
+      "aliases": ["洋芋四季豆箜饭"],
+      "region_codes": ["CN-CQ-WANSHENG"],
+      "cuisine_family": "chongqing-kongfan",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": ["洋芋", "四季豆"],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "unassessed", "roles": []},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "重庆市地方志办公室页面只在万盛美食小吃中列出“箜饭（洋芋、四季豆）”，不证明米、流程、液体、器具、用量、时间或安全；不得从箜饭名称补写成米饭配方。"},
+      "source_refs": [
+        {"source_id": "S-WANSHENG-POTATO-GREEN-BEAN-KONGFAN-1", "title": "小议名村志中“风土民情”的记述内容及注意事项——以万盛经开区为例", "publisher": "重庆市地方志办公室", "url": "https://dfz.cq.gov.cn/fzyd/llyj/202401/t20240105_12790863.html", "retrieved_at": "2026-08-06", "source_kind": "local_chronicle_government_page", "access_status": "opened", "evidence_tier": 1, "evidence_locator": "正文第37行：万盛美食小吃列出“箜饭（洋芋、四季豆）”", "claim_scopes": ["identity", "ingredients"], "attribution": "重庆市地方志办公室", "license": "government_site_terms_unspecified"}
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "重庆市地方志办公室直接确认万盛箜饭的地域美食身份，并在括号中明确洋芋、四季豆；来源没有米、流程、液体、器具、用量、时间或安全事实，保持身份层，不与四川箜饭或綦江腊肉箜饭拼接。"
     }
   ]
 }
