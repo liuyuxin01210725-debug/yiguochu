@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r93",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r94",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -17482,6 +17482,66 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "日本农林水产省北海道农政事务所官方PDF直接确认黑千石大豆炊饭的具名、电饭煲流程及米豆调味组合；来源缺固定水量、份数、时间和安全终点，保持研究层，不推导为可直接执行的普通机型配方。"
+    },
+    {
+      "recipe_id": "tefal-spanish-style-chicken-legs-r106521",
+      "canonical_name": "Spanish Style Chicken Legs",
+      "aliases": ["西班牙风味鸡腿饭（Tefal蒸锅版）"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-one-pot-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Tefal MINICOMPACT / STEAM N' LIGHT / VITACUISINE COMPACT 蒸锅"],
+      "core_ingredients": ["长粒米", "鸡腿", "鸡汤", "番茄", "西葫芦", "青椒", "藏红花"],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {"name": "鸡腿", "amount": {"value": 3, "unit": "只"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+          {"name": "长粒米", "amount": {"value": 100, "unit": "g"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+          {"name": "鸡汤", "amount": {"value": 300, "unit": "mL"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+          {"name": "番茄", "amount": {"value": 2, "unit": "个"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+          {"name": "西葫芦", "amount": {"value": 2, "unit": "个"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+          {"name": "青椒", "amount": {"value": 1, "unit": "个"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+          {"name": "藏红花", "amount": {"value": 1, "unit": "撮"}, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]}
+        ],
+        "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {"value": 300, "unit": "mL鸡汤"},
+        "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "鸡腿加入盐、胡椒和藏红花后放入蒸锅的米饭碗；长粒米洗净，与300mL鸡汤同入该碗，按来源放在底层蒸篮。", "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+        {"step": 2, "instruction": "番茄、西葫芦和青椒按来源放入上层蒸篮；它们与米饭碗在同一台Tefal蒸锅中连续蒸制。", "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+        {"step": 3, "instruction": "按来源蒸制约50分钟后，将鸡腿、米饭和上层蔬菜一同上桌；来源没有独立的鸡肉中心温度安全终点。", "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]}
+      ],
+      "time_contract": {"total_minutes": 50, "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"]},
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"],
+        "notes": "Tefal官方页面只证明指定蒸锅系列的双层连续蒸制：鸡腿和米在底层米饭碗，番茄、西葫芦、青椒在上层蒸篮；不是电饭煲单内锅流程，不建立普通电饭煲水量或程序，也不把Spanish Style标题当作地域传统证明。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521",
+          "title": "Spanish Style Chicken Legs",
+          "publisher": "Tefal",
+          "url": "https://www.tefal.com/recipe/Spanish-Style-Chicken-Legs/r/106521",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：2人份；鸡腿3只、长粒米100g、鸡汤300mL、番茄2个、西葫芦2个、青椒1个、藏红花；鸡米放米饭碗底层，蔬菜放上层蒸篮，蒸约50分钟",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"],
+          "attribution": "Tefal",
+          "license": "publisher_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tefal官方具名页面直接证明2人份鸡腿米饭与番茄、西葫芦、青椒在同一台指定蒸锅中连续完成，结构包含碳水、蛋白和蔬菜；蔬菜位于上层蒸篮，不是电饭煲单内锅菜饭；来源没有鸡肉安全终点，不宣称Spanish Style为地域传统，不外推普通电饭煲参数。"
     }
   ]
 }
