@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateRiceCookerSourceEvidence } from './lib/rice-cooker-source-evidence-validator.mjs';
+import { buildShelfCatalog } from './lib/source-backed-shelf.mjs';
 import { canonicalJson } from '../worker/src/rice-meal-selector.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -12,6 +13,7 @@ const DIST_ROOT = path.join(ROOT, 'dist');
 const STATIC_ASSETS = [
   'index.html',
   'recipes.html',
+  'source-recipes.html',
   'manifest.json',
   'sw.js',
   'icon.svg',
@@ -168,6 +170,14 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
   for (const asset of STATIC_ASSETS) copy(asset, path.join(outputDir, asset));
   for (const [source, target] of GENERATED_ASSETS) copy(source, path.join(outputDir, target));
 
+  const sourceBackedCatalog = readCanonicalJson('tools/data/source-backed-one-pot-recipes.v1.json');
+  const shelfCatalog = buildShelfCatalog(sourceBackedCatalog);
+  fs.writeFileSync(
+    path.join(outputDir, 'source-backed-one-pot-shelf.v1.json'),
+    `${JSON.stringify(shelfCatalog)}\n`,
+    'utf8',
+  );
+
   const riceCookerSourceEvidence = readCanonicalJson('tools/data/rice-cooker-source-evidence.v1.json');
   const sourceEvidenceErrors = validateRiceCookerSourceEvidence(riceCookerSourceEvidence);
   if (sourceEvidenceErrors.length) {
@@ -253,7 +263,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     generationMode,
     productFocus,
     riceCatalogScope,
-    files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 1,
+    files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 2,
   }));
 }
 

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一锅出｜真实菜饭资料库</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #27352c; background: #f5f3eb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.55; }
+    main { width: min(980px, 100%); margin: 0 auto; padding: 24px 16px 56px; }
+    header { margin-bottom: 18px; }
+    h1 { margin: 0; font-size: clamp(1.45rem, 4vw, 2rem); }
+    h2 { margin: 0; font-size: 1.1rem; }
+    h3 { margin: 16px 0 5px; font-size: .98rem; }
+    p { margin: 6px 0; }
+    a { color: #246b4f; }
+    .muted { color: #657269; }
+    .notice, .filters, .card, .empty { background: #fff; border: 1px solid #e2ded3; border-radius: 14px; box-shadow: 0 3px 12px rgb(46 61 48 / 5%); }
+    .notice { padding: 16px; margin: 14px 0; background: #fffaf0; border-color: #eed9a4; }
+    .notice strong { color: #8a5f16; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 14px 0; }
+    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+    .stat { padding: 9px 12px; border-radius: 10px; background: #edf1ea; font-size: .9rem; }
+    .stat strong { font-size: 1.1rem; margin-right: 3px; }
+    .filters { display: grid; grid-template-columns: minmax(220px, 1fr) 180px auto; gap: 9px; padding: 12px; }
+    input, select, button { min-height: 40px; border: 1px solid #d8d4ca; border-radius: 9px; padding: 8px 10px; font: inherit; background: #fff; color: inherit; }
+    button { cursor: pointer; border-color: #bd7b3a; color: #80501e; font-weight: 700; }
+    button:hover { background: #fff7e9; }
+    .results-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin: 18px 0 8px; }
+    .grid { display: grid; gap: 12px; }
+    .card { padding: 16px; }
+    .card-head { display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; }
+    .card h2 { line-height: 1.35; }
+    .badge { display: inline-block; flex: none; padding: 3px 8px; border-radius: 999px; font-size: .76rem; font-weight: 700; white-space: nowrap; }
+    .badge-a { background: #dff1e4; color: #20683c; }
+    .badge-b { background: #fff0c8; color: #8a5f16; }
+    .badge-c { background: #e9ece7; color: #59645d; }
+    .meta { margin-top: 3px; color: #657269; font-size: .88rem; overflow-wrap: anywhere; }
+    .pill { display: inline-block; padding: 2px 7px; margin: 3px 5px 0 0; border-radius: 999px; background: #f1efe8; font-size: .82rem; }
+    .warning { margin-top: 9px; padding: 9px 10px; border-left: 3px solid #c7862f; background: #fff9ed; color: #75521e; font-size: .9rem; }
+    .missing { color: #8a5f16; font-size: .9rem; }
+    details { margin-top: 12px; border-top: 1px solid #eeeae1; padding-top: 10px; }
+    summary { cursor: pointer; color: #246b4f; font-weight: 700; }
+    ul, ol { margin: 6px 0; padding-left: 1.35rem; }
+    li { margin: 4px 0; }
+    .source-list a { overflow-wrap: anywhere; }
+    .record-form { display: grid; gap: 8px; margin-top: 10px; }
+    .record-form label { display: grid; gap: 3px; color: #556158; font-size: .88rem; }
+    .record-form textarea { min-height: 62px; resize: vertical; border: 1px solid #d8d4ca; border-radius: 8px; padding: 8px; font: inherit; }
+    .record-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .saved { color: #20683c; font-size: .86rem; }
+    .empty { padding: 24px; color: #657269; text-align: center; }
+    @media (max-width: 680px) { .filters { grid-template-columns: 1fr; } .card-head { display: block; } .badge { margin-bottom: 6px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>一锅出 · 真实菜饭资料库</h1>
+      <p class="muted">真实名称、地域身份和来源档案。这里不自由拼菜名，也不把研究记录伪装成已经验证的正式食谱。</p>
+      <p><a href="/recipes.html">查看已签署基础菜谱</a> · <a href="/">返回一锅出</a></p>
+    </header>
+
+    <section class="notice" aria-label="目录说明">
+      <strong>三层货架</strong>：A 层是已签署的可照做记录；B 层是来源有定量和步骤、但尚未完成厨房验证的试做架；C 层只展示菜名、地域和来源。试做记录只保存在当前浏览器，可导出保存。
+    </section>
+
+    <section id="stats" class="stats" aria-live="polite"></section>
+    <section class="filters" aria-label="筛选目录">
+      <input id="query" type="search" placeholder="搜索菜名、地域、家族或食材" autocomplete="off">
+      <select id="shelf"><option value="all">全部货架</option><option value="A">A · 可照做</option><option value="B">B · 试做架</option><option value="C">C · 档案室</option></select>
+      <button id="clear" type="button">清除筛选</button>
+    </section>
+    <div class="results-head"><h2>目录条目</h2><span id="count" class="muted"></span></div>
+    <section id="results" class="grid" aria-live="polite"></section>
+    <p id="error" class="empty" hidden>目录暂时无法打开，请稍后再试。</p>
+    <div class="toolbar"><button id="export" type="button">导出本机试做记录（JSON）</button></div>
+  </main>
+
+  <script>
+    (() => {
+      const state = { catalog: null, records: [], notes: loadNotes() };
+      const shelfLabels = { A: 'A · 可照做（已签署）', B: 'B · 试做架（来源有据，未经厨房验证）', C: 'C · 档案室（只读资料）' };
+      const statusLabels = { executable: 'executable · 已签署', recipe_fact_checked: 'recipe_fact_checked · 来源事实已记录', identity_verified: 'identity_verified · 身份已核对', discovered: 'discovered · 待补证' };
+      const $ = id => document.getElementById(id);
+
+      function loadNotes() {
+        try { return JSON.parse(localStorage.getItem('yiguochu-source-recipe-trials') || '{}'); } catch (_) { return {}; }
+      }
+      function saveNotes() { localStorage.setItem('yiguochu-source-recipe-trials', JSON.stringify(state.notes)); }
+      function text(value, fallback = '未提供') { return value === null || value === undefined || value === '' ? fallback : String(value); }
+      function list(value) { return Array.isArray(value) ? value : []; }
+      function formatAmount(amount) { return amount && amount.value !== undefined ? `${amount.value}${amount.unit || ''}` : '来源未给出'; }
+      function displayRegion(record) { return list(record.region_codes).join('、') || '地域未注明'; }
+      function displayFamily(record) { return record.cuisine_family || '家族未注明'; }
+      function searchText(record) { return [record.canonical_name, ...list(record.aliases), ...list(record.region_codes), record.cuisine_family, ...list(record.core_ingredients)].join(' ').toLowerCase(); }
+      function setText(element, value) { element.textContent = text(value, ''); return element; }
+      function appendList(parent, values, ordered = false) {
+        const listElement = document.createElement(ordered ? 'ol' : 'ul');
+        for (const value of list(values)) { const item = document.createElement('li'); item.textContent = text(value); listElement.append(item); }
+        parent.append(listElement);
+      }
+      function makeSources(record) {
+        const wrap = document.createElement('div');
+        wrap.className = 'source-list';
+        const sources = list(record.source_refs).slice(0, 8);
+        if (!sources.length) { wrap.textContent = '未提供直接来源'; return wrap; }
+        const listElement = document.createElement('ul');
+        for (const source of sources) {
+          const item = document.createElement('li');
+          const url = typeof source.url === 'string' && /^https:\/\//.test(source.url) ? source.url : '';
+          if (url) { const link = document.createElement('a'); link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = text(source.title, url); item.append(link); }
+          else item.textContent = text(source.title, '来源链接不可用');
+          const meta = document.createElement('span'); meta.className = 'muted'; meta.textContent = ` · ${text(source.publisher, '来源方未注明')}`; item.append(meta);
+          listElement.append(item);
+        }
+        wrap.append(listElement);
+        return wrap;
+      }
+      function makeDetails(record) {
+        const details = document.createElement('details');
+        const summary = document.createElement('summary'); summary.textContent = record.shelf === 'C' ? '查看来源与档案边界' : '查看来源记录的用量、步骤与边界'; details.append(summary);
+        if (record.shelf !== 'C') {
+          const batch = document.createElement('section'); const batchTitle = document.createElement('h3'); batchTitle.textContent = '来源记录的定量'; batch.append(batchTitle);
+          if (record.fixed_batch) { const p = document.createElement('p'); p.textContent = `份数：${text(record.fixed_batch.servings, '来源未给出')}`; batch.append(p); const rows = list(record.fixed_batch.ingredients).map(item => `${text(item.name)}：${formatAmount(item.amount)}`); appendList(batch, rows); }
+          else batch.append(document.createTextNode('来源未给出固定批量。'));
+          details.append(batch);
+          const contracts = document.createElement('section'); const title = document.createElement('h3'); title.textContent = '液体与时间'; contracts.append(title);
+          const p = document.createElement('p'); p.textContent = `液体：${record.liquid_contract ? formatAmount(record.liquid_contract.amount) : '来源未给出'}；总时长：${record.time_contract?.total_minutes ? `${record.time_contract.total_minutes} 分钟` : '来源未给出'}`; contracts.append(p); details.append(contracts);
+          const steps = document.createElement('section'); const stepTitle = document.createElement('h3'); stepTitle.textContent = '来源记录的步骤'; steps.append(stepTitle); appendList(steps, list(record.cooking_sequence).map(step => `${step.step}. ${step.instruction}`), true); details.append(steps);
+          if (record.cooker_adaptation?.notes) { const adaptation = document.createElement('p'); adaptation.className = 'muted'; adaptation.textContent = `器具边界：${record.cooker_adaptation.notes}`; details.append(adaptation); }
+        }
+        const sources = document.createElement('section'); const sourceTitle = document.createElement('h3'); sourceTitle.textContent = '来源'; sources.append(sourceTitle, makeSources(record)); details.append(sources);
+        return details;
+      }
+      function makeTrialForm(record) {
+        const details = document.createElement('details'); const summary = document.createElement('summary'); summary.textContent = '填写试做记录'; details.append(summary);
+        const form = document.createElement('form'); form.className = 'record-form'; form.dataset.recipeId = record.recipe_id;
+        const old = state.notes[record.recipe_id] || {};
+        const fields = [
+          ['date', '日期', 'date', old.date || new Date().toISOString().slice(0, 10)],
+          ['water', '实际水量', 'text', old.water || ''],
+          ['minutes', '实际耗时（分钟）', 'number', old.minutes || ''],
+          ['servings', '成品几碗/几份', 'text', old.servings || ''],
+        ];
+        for (const [name, label, type, value] of fields) { const field = document.createElement('label'); field.textContent = label; const input = document.createElement('input'); input.name = name; input.type = type; input.value = value; field.append(input); form.append(field); }
+        const notes = document.createElement('label'); notes.textContent = '糊底、出水、味道和是否愿意再做'; const area = document.createElement('textarea'); area.name = 'notes'; area.value = old.notes || ''; notes.append(area); form.append(notes);
+        const actions = document.createElement('div'); actions.className = 'record-actions'; const save = document.createElement('button'); save.type = 'submit'; save.textContent = '保存到本机'; const saved = document.createElement('span'); saved.className = 'saved'; saved.hidden = true; saved.textContent = '已保存'; actions.append(save, saved); form.append(actions);
+        form.addEventListener('submit', event => { event.preventDefault(); const data = Object.fromEntries(new FormData(form).entries()); data.updated_at = new Date().toISOString(); state.notes[record.recipe_id] = data; saveNotes(); saved.hidden = false; });
+        details.append(form); return details;
+      }
+      function makeCard(record) {
+        const article = document.createElement('article'); article.className = `card shelf-${record.shelf.toLowerCase()}`; article.dataset.recipeId = record.recipe_id;
+        const head = document.createElement('div'); head.className = 'card-head'; const titleWrap = document.createElement('div'); const title = document.createElement('h2'); title.textContent = record.canonical_name; titleWrap.append(title); const alias = list(record.aliases); if (alias.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = `又名：${alias.join('、')}`; titleWrap.append(p); } head.append(titleWrap); const badge = document.createElement('span'); badge.className = `badge badge-${record.shelf.toLowerCase()}`; badge.textContent = shelfLabels[record.shelf]; head.append(badge); article.append(head);
+        const meta = document.createElement('p'); meta.className = 'meta'; meta.textContent = `${displayRegion(record)} · ${displayFamily(record)} · ${statusLabels[record.status] || text(record.status)}`; article.append(meta);
+        if (record.shelf !== 'C') { const ingredients = document.createElement('p'); for (const ingredient of list(record.core_ingredients)) { const pill = document.createElement('span'); pill.className = 'pill'; pill.textContent = ingredient; ingredients.append(pill); } article.append(ingredients); }
+        if (record.shelf === 'B' && list(record.missing_contract_labels).length) { const missing = document.createElement('p'); missing.className = 'missing'; missing.textContent = `尚缺：${record.missing_contract_labels.join('、')}。缺项不补猜。`; article.append(missing); }
+        if (list(record.safety_notes).length) { const warning = document.createElement('div'); warning.className = 'warning'; appendList(warning, record.safety_notes); article.append(warning); }
+        article.append(makeDetails(record)); if (record.shelf === 'B') article.append(makeTrialForm(record)); return article;
+      }
+      function render() {
+        const query = $('query').value.trim().toLowerCase(); const shelf = $('shelf').value; const filtered = state.records.filter(record => (!query || searchText(record).includes(query)) && (shelf === 'all' || record.shelf === shelf));
+        filtered.sort((a, b) => `${a.shelf}${a.canonical_name}`.localeCompare(`${b.shelf}${b.canonical_name}`, 'zh-CN'));
+        $('count').textContent = `显示 ${filtered.length} / ${state.records.length} 条`; const results = $('results'); results.replaceChildren(); if (!filtered.length) { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '没有符合筛选条件的条目。'; results.append(empty); return; } const fragment = document.createDocumentFragment(); for (const record of filtered) fragment.append(makeCard(record)); results.append(fragment);
+      }
+      function renderStats(summary) { $('stats').replaceChildren(...['A', 'B', 'C'].map(key => { const span = document.createElement('span'); span.className = 'stat'; const strong = document.createElement('strong'); strong.textContent = summary[key]; span.append(strong, ` ${key === 'A' ? '已签署' : key === 'B' ? '试做架' : '档案室'}`); return span; }), (() => { const span = document.createElement('span'); span.className = 'stat'; span.textContent = `A+B 试做池 ${summary.trial_ready_total}`; return span; })()); }
+      $('query').addEventListener('input', render); $('shelf').addEventListener('change', render); $('clear').addEventListener('click', () => { $('query').value = ''; $('shelf').value = 'all'; render(); });
+      $('export').addEventListener('click', () => { const blob = new Blob([JSON.stringify(state.notes, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'yiguochu-source-recipe-trials.json'; link.click(); URL.revokeObjectURL(link.href); });
+      fetch('/source-backed-one-pot-shelf.v1.json').then(response => response.ok ? response.json() : Promise.reject(new Error('catalog unavailable'))).then(catalog => { state.catalog = catalog; state.records = Array.isArray(catalog.records) ? catalog.records : []; renderStats(catalog.summary || { A: 0, B: 0, C: 0, trial_ready_total: 0 }); render(); }).catch(() => { $('error').hidden = false; });
+    })();
+  </script>
+</body>
+</html>

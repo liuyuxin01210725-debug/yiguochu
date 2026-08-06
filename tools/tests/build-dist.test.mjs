@@ -22,6 +22,7 @@ const CHROME = process.env.YIGUOCHU_CHROME_PATH
 const REQUIRED_ASSETS = [
   'index.html',
   'recipes.html',
+  'source-recipes.html',
   'manifest.json',
   'sw.js',
   'icon.svg',
@@ -58,6 +59,7 @@ const REQUIRED_ASSETS = [
   'rice-meal-compiler.js',
   'rice-meal-catalog-validator.js',
   'rice-cooker-source-evidence-validator.js',
+  'source-backed-one-pot-shelf.v1.json',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -253,7 +255,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 39);
+    assert.equal(buildRecord.files, 41);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
