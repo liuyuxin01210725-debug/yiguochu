@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r94",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r96",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -17542,6 +17542,55 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "Tefal官方具名页面直接证明2人份鸡腿米饭与番茄、西葫芦、青椒在同一台指定蒸锅中连续完成，结构包含碳水、蛋白和蔬菜；蔬菜位于上层蒸篮，不是电饭煲单内锅菜饭；来源没有鸡肉安全终点，不宣称Spanish Style为地域传统，不外推普通电饭煲参数。"
+    },
+    {
+      "recipe_id": "rda-korean-ginseng-chicken-nutrition-rice",
+      "canonical_name": "인삼 영양밥",
+      "aliases": ["韩国人参营养饭", "人参营养饭"],
+      "region_codes": ["KR"],
+      "cuisine_family": "korean-rice-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": ["大米", "鸡肉", "人参", "栗子", "红枣", "鸡高汤"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_stock",
+        "amount": {"value": 7, "unit": "杯鸡高汤"},
+        "source_ids": ["S-RDA-KR-GINSENG-NUTRITION-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "大米洗净后浸泡约30分钟。", "source_ids": ["S-RDA-KR-GINSENG-NUTRITION-RICE-1"]},
+        {"step": 2, "instruction": "鸡肉切成约1厘米小丁并按来源腌制。", "source_ids": ["S-RDA-KR-GINSENG-NUTRITION-RICE-1"]},
+        {"step": 3, "instruction": "处理栗子和红枣；人参保留为来源列出的独立食材，不补写未明确的投料时机。", "source_ids": ["S-RDA-KR-GINSENG-NUTRITION-RICE-1"]},
+        {"step": 4, "instruction": "将除人参外的已处理食材与鸡高汤、盐一同煮饭。", "source_ids": ["S-RDA-KR-GINSENG-NUTRITION-RICE-1"]},
+        {"step": 5, "instruction": "按来源另配鸡肉腌料和蘸汁；人参具体投料时机仍待原页图文位置进一步核对。", "source_ids": ["S-RDA-KR-GINSENG-NUTRITION-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "unassessed", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "韩国农村振兴厅来源只证明人参营养饭的原料与煮饭流程，没有指定电饭煲型号、程序、水位线或现代器具转换参数；不外推为电饭煲执行配方。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-RDA-KR-GINSENG-NUTRITION-RICE-1",
+          "title": "환절기 딱 좋은 인삼 잘 고르는 방법 소개（人参营养饭）",
+          "publisher": "韩国农村振兴厅国立园艺特作科学院特用作物育种科",
+          "url": "https://www.rda.go.kr/middlePopOpenPopNongsaroDBView.do?no=2109",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "正文第71至76行：大米3杯、鸡肉100g、人参2根、栗子4个、红枣6个、鸡高汤7杯、浸米约30分钟及煮饭流程；第76行标注韩国农村振兴厅发布部门",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process"],
+          "attribution": "韩国农村振兴厅国立园艺特作科学院特用作物育种科",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "韩国农村振兴厅官方直达页支持인삼 영양밥（人参营养饭）的具名、米/鸡肉/人参/栗子/红枣组合、定量鸡高汤和煮饭流程；来源没有固定成品份数、完整总时间、电饭煲适配或独立鸡肉熟制终点。原文把人参列为食材但与‘除人参外’的煮饭步骤关系需保留边界，不自行补写投料时机；因此停在recipe_fact_checked，不晋升executable。"
     }
   ]
 }
