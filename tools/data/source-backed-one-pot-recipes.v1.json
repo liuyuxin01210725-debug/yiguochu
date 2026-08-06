@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r86",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r87",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16686,6 +16686,109 @@
       ],
       "status": "identity_verified",
       "evidence_notes": "彭水县政府非遗名录直接确认“馇菜饭制作技艺”的项目身份、彭水地域和保护单位；原页没有食材或做法正文，保持identity_verified，不从“菜饭”名称推断米、蔬菜、液体或流程。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-gyudon-onion-takikomi-rice",
+      "canonical_name": "牛丼洋蔥炊飯",
+      "aliases": ["牛丼洋葱炊饭"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic SR-PAA100 可变压力IH电子锅"],
+      "core_ingredients": ["白米", "牛五花肉片", "鸿喜菇", "洋葱", "葱"],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {"name": "白米", "amount": {"value": 1, "unit": "量杯"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "牛五花肉片", "amount": {"value": 180, "unit": "g"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "鸿喜菇", "amount": {"value": 80, "unit": "g"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "洋葱", "amount": {"value": 0.5, "unit": "颗"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "酱油", "amount": {"value": 3, "unit": "大匙"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "味醂", "amount": {"value": 1, "unit": "大匙"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "米酒", "amount": {"value": 1, "unit": "大匙"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "砂糖", "amount": {"value": 5, "unit": "g"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+          {"name": "鲜味调料", "amount": {"value": 5, "unit": "g"}, "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]}
+        ],
+        "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {"appliance_model": "Panasonic SR-PAA100", "scale": "银シャリ", "mark": 1},
+        "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "将酱油、味醂、米酒、砂糖和鲜味调料调匀成为牛丼酱汁。", "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+        {"step": 2, "instruction": "洋葱切丝，鸿喜菇去根，葱切末。", "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+        {"step": 3, "instruction": "白米洗净，内锅加水至SR-PAA100银シャリ水位线1，再倒入牛丼酱汁，放入洋葱和鸿喜菇。", "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]},
+        {"step": 4, "instruction": "最后铺上生牛五花肉片，选择白米、米稍软程序炊煮；完成后拌松米饭与食材，撒葱。", "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1"],
+        "waterline": {"appliance_model": "Panasonic SR-PAA100", "scale": "银シャリ", "mark": 1},
+        "notes": "Panasonic台湾官方授权配方明确在SR-PAA100内锅中以银シャリ水位线1同锅炊煮生牛五花、鸿喜菇和洋葱；水位线不能外推为普通电饭煲毫升比例，页面没有总时间或牛肉熟制终点。配方授权来自柯式野生活，不单独证明传统日本牛丼身份。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-TAIWAN-GYUDON-ONION-TAKIKOMI-1",
+          "title": "牛丼洋蔥炊飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5157",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：约2人份；白米1量杯、牛五花180g、鸿喜菇约80g、洋葱半颗；SR-PAA100银シャリ水位线1；酱汁调制、洋葱和菇入锅、最后铺生牛肉、白米米稍软程序、完成后拌松撒葱；页面注明食谱授权来自柯式野生活",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方详情页直接给出约2人份牛丼洋葱炊饭、米/牛五花/鸿喜菇/洋葱用量、SR-PAA100银シャリ水位线1和生牛肉同锅炊煮流程；未给总时间或牛肉安全终点，保持研究状态。该授权配方不证明传统日本牛丼身份，也不把型号水位线外推为通用电饭煲比例。"
+    },
+    {
+      "recipe_id": "kashgar-nowruz-rice",
+      "canonical_name": "诺鲁孜饭",
+      "aliases": ["诺鲁孜节饭"],
+      "region_codes": ["CN-XJ-KASHGAR"],
+      "cuisine_family": "uyghur-nowruz-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": [],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "unassessed", "roles": []},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "喀什经济开发区政府文化文章只确认维吾尔族诺鲁孜节制作和食用“诺鲁孜饭”，并列举七种作物、七种蔬菜、七种畜禽肉和干果的组合范围；没有可复现工序、具体必用食材、份量、液体、器具、时间或安全事实，不把分类清单补写成家庭配方。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-KASHGAR-NOWRUZ-RICE-1",
+          "title": "诺鲁孜节由来与诺鲁孜文化",
+          "publisher": "喀什经济开发区管理委员会",
+          "url": "https://www.kstq.gov.cn/kashi/msfq/201303/b31c833e4b2a494c99514518e965a831.shtml",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "development_zone_government_food_culture_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "正文：维吾尔人做“诺鲁孜饭”，多用小麦、大麦、玉米、黄米、高粱、豌豆等七种作物，七种蔬菜、七种畜禽肉和多种干果；成饭后共同食用",
+          "claim_scopes": ["identity", "ingredients"],
+          "attribution": "喀什经济开发区管理委员会",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "喀什经济开发区政府正文直接确认诺鲁孜饭的维吾尔族节日身份、地域文化语境和食材类别范围；没有具体菜谱事实，保持identity_verified，不把七种分类清单当成七项固定食材或可执行一锅做法。"
     }
   ]
 }
