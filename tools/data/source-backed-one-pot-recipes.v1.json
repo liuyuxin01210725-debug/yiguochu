@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r89",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r90",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -17088,6 +17088,105 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "台湾农业部农业知识入口网直接给出山药饭具名、米山药香菇绞肉结构、米浸/配料预处理/电锅加1杯水流程，并注明桃园区农业改良场特刊出处；未给固定份数、虾米量、完整时间或肉虾安全温度，保持研究状态。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-mullet-roe-scallop-seafood-rice",
+      "canonical_name": "迎春烏魚子干貝海味飯",
+      "aliases": ["迎春乌鱼子干贝海味饭"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic SR-PAA100 可變壓力IH電子鍋"],
+      "core_ingredients": ["白米", "紅藜麥", "干貝", "干香菇", "昆布"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {"appliance_model": "Panasonic SR-PAA100", "scale": "銀シャリ", "mark": "2杯"},
+        "source_ids": ["S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "干贝以约100mL温水浸泡约30分钟后撕丝；干香菇以约100mL水泡软后切丁，泡发水保留。", "source_ids": ["S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1"]},
+        {"step": 2, "instruction": "白米和红藜麦洗净放入内锅，加入香菇水、干贝水和调味料，再以普通水补至SR-PAA100银シャリ2杯水位线。", "source_ids": ["S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1"]},
+        {"step": 3, "instruction": "将干贝丝、香菇丁和昆布铺在米面不搅拌，选择白米—什锦饭—炊饭程序。", "source_ids": ["S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1"]},
+        {"step": 4, "instruction": "饭煮好后翻松，乌鱼子片和香菜只按原方作为成品表面装饰。", "source_ids": ["S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["鱼类"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1"],
+        "waterline": {"appliance_model": "Panasonic SR-PAA100", "scale": "銀シャリ", "mark": "2杯"},
+        "notes": "Panasonic台湾官方节庆授权配方直接给出SR-PAA100银シャ利2杯水位线和生米、红藜麦、干贝、香菇、昆布同锅流程；乌鱼子仅在煮好后装饰，不算同锅熟制核心。未给总时间或海鲜安全终点，不外推为普通电饭煲比例，也不宣称传统地域代表菜。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-TAIWAN-MULLET-ROE-SCALLOP-SEAFOOD-RICE-1",
+          "title": "迎春烏魚子干貝海味飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3909",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：白米2杯约320g、红藜麦0.2杯约30g、干贝4颗、昆布5g、干香菇5朵；泡发水保留并补至SR-PAA100银シャ利2杯水位线；干贝丝/香菇/昆布同锅，乌鱼子6片煮好后装饰；页面为节庆授权配方",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方详情页直接证明迎春乌鱼子干贝海味饭的具名、米/红藜麦/干贝/香菇/昆布结构、SR-PAA100银シャ利2杯水位线和同锅程序；乌鱼子仅煮好后装饰，不把它算作同锅烹熟食材。未给总时间或海鲜安全终点，保持研究状态。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-butter-corn-mushroom-rice",
+      "canonical_name": "奶油玉米香菇炊飯",
+      "aliases": ["奶油玉米香菇炊饭"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic SR-PAA100 可變壓力IH電子鍋"],
+      "core_ingredients": ["白米", "胡蘿蔔", "鮮香菇", "甜玉米", "無鹽奶油"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {"appliance_model": "Panasonic SR-PAA100", "scale": "銀シャリ/白飯", "mark": "2杯"},
+        "source_ids": ["S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "白米洗净后加入内锅，加水至SR-PAA100银シャ利/白饭2杯水位线。", "source_ids": ["S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1"]},
+        {"step": 2, "instruction": "放入玉米棒和玉米粒、胡萝卜、鲜香菇和无盐奶油，选择白米—什锦饭程序。", "source_ids": ["S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1"]},
+        {"step": 3, "instruction": "约55分钟完成后取出玉米棒，按原方翻拌后食用。", "source_ids": ["S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1"]}
+      ],
+      "time_contract": {"total_minutes": 55, "source_ids": ["S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1"]},
+      "safety_endpoints": [],
+      "allergen_labels": ["乳制品"],
+      "nutrition_structure": {"grade": "C", "roles": ["carbohydrate", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1"],
+        "waterline": {"appliance_model": "Panasonic SR-PAA100", "scale": "銀シャリ/白飯", "mark": "2杯"},
+        "notes": "Panasonic台湾官方配方直接证明生米、玉米、胡萝卜、鲜香菇和奶油同锅及约55分钟程序；没有明确蛋白质主料，不作为营养完整主餐首批优先展示，不外推为普通电饭煲水量。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-TAIWAN-BUTTER-CORN-MUSHROOM-RICE-1",
+          "title": "奶油玉米香菇炊飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3903",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：白米2杯、胡萝卜20g、鲜香菇25g、甜玉米2根、无盐奶油25g；银シャ利/白饭2杯水位线，白米—什锦饭约55分钟，完成后取出玉米棒翻拌",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方详情页直接证明奶油玉米香菇炊饭的具名、米玉米蔬菜奶油结构、SR-PAA100水位线和约55分钟同锅流程；该方没有明确蛋白质主料，是碳水加蔬菜/纤维的低优先研究资产，不包装成营养完整主餐。"
     }
   ]
 }
