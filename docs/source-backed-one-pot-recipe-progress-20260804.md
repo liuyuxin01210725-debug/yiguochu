@@ -1,5 +1,24 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r90 搜集期第六十三批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、机构和地域来源。基于 r89 的 756 条目录，去重后新增 **2 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r90`，当前总量 **758**：`executable=12`、`recipe_fact_checked=661`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 厂商官方来源（2 条，`recipe_fact_checked`）
+
+- `panasonic-taiwan-mullet-roe-scallop-seafood-rice` — `迎春烏魚子干貝海味飯`：米、红藜麦、干贝、香菇、昆布按 SR-PAA100 银シャ利 2 杯水位线同锅；乌鱼子只在煮好后装饰，不算同锅熟制核心。未给总时间或海鲜安全终点，不外推为普通电饭煲比例。
+- `panasonic-taiwan-butter-corn-mushroom-rice` — `奶油玉米香菇炊飯`：米、玉米、胡萝卜、鲜香菇和无盐奶油同锅，约 55 分钟；只有碳水和蔬菜/纤维，缺明确蛋白，作为低优先研究资产保留，不包装成营养完整主餐。
+
+### 机构与地域线结果
+
+- 红糯米饭、台湾藜饭虽为官方电锅纯谷物饭，但缺蛋白和蔬菜/豆类，按营养主餐线排除。
+- 武隆鼎罐糯米箜饭、佤族鸡肉烂饭、傣族香竹饭、克州抓饭、湘西社饭均已在目录；哈密泛称抓饭不拆地域变体，济南把子肉干饭为肉饭分做，孔干饭本轮未形成新的独立具名来源，均不新增。
+
+### 本批纪律
+
+- 新增来源均直接打开并记录 `evidence_tier`、定位、署名、许可和实际 claim scope；没有晋升 `executable` 或 `kitchen_observed`。
+- 当天完成数据、目录产物、r90 专项测试和来源型菜谱门禁；不可复核或不符合生米/连续同锅/营养主餐边界的候选只写研究报告或排除记录，不进入已核验 JSON。
+
 ## r89 搜集期第六十二批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、机构和地域来源。基于 r88 的 754 条目录，去重后新增 **2 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r89`，当前总量 **756**：`executable=12`、`recipe_fact_checked=659`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

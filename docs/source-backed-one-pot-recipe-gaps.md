@@ -1009,6 +1009,7 @@
 - 蘿蔔牛腩飯 (panasonic-taiwan-beef-brisket-radish-rice) — 非地域·厂商食谱
 - 蝦螯牛肝菌菇燉飯 (r59-panasonic-taiwan-porcini-lobster-risotto) — 非地域·厂商食谱
 - 西班牙海鲜炖饭 (panasonic-taiwan-spanish-seafood-risotto-breadmaker) — 非地域·厂商食谱
+- 迎春烏魚子干貝海味飯 (panasonic-taiwan-mullet-roe-scallop-seafood-rice) — 非地域·厂商食谱
 - 雞汁野菜炊飯 (philips-chicken-vegetable-takikomi-rice) — 非地域·厂商食谱
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
 - 香菇腊肠饭 (midea-shiitake-lapcheong-rice) — 非地域·厂商食谱
