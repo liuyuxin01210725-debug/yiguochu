@@ -1,5 +1,20 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r92 搜集期第六十五批（2026-08-06）
+
+本批按厂商官方、机构官方和地域线并行核验。基于 r90 的 758 条目录（r91 无新增），去重后新增 **3 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r92`，当前总量 **761**：`executable=12`、`recipe_fact_checked=664`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 本批新增
+
+- `tefal-portuguese-rice-r106506` — `Portuguese Rice`：Tefal 官方 4 人份、300g 米、番茄/红甜椒/洋葱、400mL 高汤和约16分钟同内锅流程；没有蛋白质主料和传统地域身份，标低优先研究资产。
+- `japan-yakitori-canned-rice` — `やきとり炊き込みご飯`：日本农林水产省北陆农政局 PDF 第4页，烧鸟罐头、米、干羊栖菜在耐热袋沸水锅中连续加热30分钟并焖10分钟；不转换为电饭煲。
+- `japan-canned-mackerel-wafu-rice` — `さば缶を使った和風炊き込みご飯`：同 PDF 第5页，鲭鱼罐头、米、梅干和真姬菇在耐热袋沸水锅中20分钟并焖10分钟；不转换为电饭煲。
+
+### 本批纪律
+
+- 三条均停在 `recipe_fact_checked`，PDF 若申请 executable 仍需本地归档和人工签署；没有把缺失安全终点、人数或器具转换参数补成“常识”。
+- 本批其余机构/地域候选因纯谷物、泛名、已有条目、熟饭二次加工或来源无法直接读取而排除或留作线索，不进入 JSON。
+
 ## r91 搜集期第六十四批（2026-08-06）
 
 本批按厂商官方、机构官方、地域/民族三条线并行核验。基于 r90 的 758 条目录，去重和证据审查后新增 **0 条**；版本保持 `source-backed-one-pot-v1-20260806-national-r90`，状态保持 `executable=12`、`recipe_fact_checked=661`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。没有修改 Worker、前端、Planner、模板或 DeepSeek，也没有部署。
