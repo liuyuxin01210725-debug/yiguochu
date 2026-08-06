@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r90",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r92",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -17187,6 +17187,159 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "Panasonic台湾官方详情页直接证明奶油玉米香菇炊饭的具名、米玉米蔬菜奶油结构、SR-PAA100水位线和约55分钟同锅流程；该方没有明确蛋白质主料，是碳水加蔬菜/纤维的低优先研究资产，不包装成营养完整主餐。"
+    },
+    {
+      "recipe_id": "tefal-portuguese-rice-r106506",
+      "canonical_name": "Portuguese Rice",
+      "aliases": ["葡式米饭"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-one-pot-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Tefal自动烹煮器具"],
+      "core_ingredients": ["长粒米", "橄榄油", "洋葱", "番茄", "红甜椒", "鸡汤或蔬菜高汤"],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {"name": "长粒米", "amount": {"value": 300, "unit": "g"}, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+          {"name": "橄榄油", "amount": {"value": 50, "unit": "mL"}, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+          {"name": "洋葱", "amount": {"value": 1, "unit": "个"}, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+          {"name": "番茄", "amount": {"value": 2, "unit": "个"}, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+          {"name": "红甜椒", "amount": {"value": 2, "unit": "个"}, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+          {"name": "鸡汤或蔬菜高汤", "amount": {"value": 400, "unit": "mL"}, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]}
+        ],
+        "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]
+      },
+      "liquid_contract": {
+        "kind": "added_stock",
+        "amount": {"value": 400, "unit": "mL鸡汤或蔬菜高汤"},
+        "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "洗净长粒米；番茄和红甜椒按来源处理，洋葱切碎。", "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+        {"step": 2, "instruction": "将橄榄油、洋葱和300g长粒米放入Tefal内锅搅拌，加入番茄、红甜椒、400mL鸡汤或蔬菜高汤及盐胡椒。", "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+        {"step": 3, "instruction": "盖好内锅并启动来源所示自动烹煮程序，约16分钟后自动转入保温。", "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]}
+      ],
+      "time_contract": {"total_minutes": 16, "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"]},
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "C", "roles": ["carbohydrate", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-TEFAL-PORTUGUESE-RICE-R106506"],
+        "notes": "Tefal官方页面支持4人份、300g长粒米、番茄/红甜椒/洋葱、高汤400mL及约16分钟同内锅自动烹煮；页面没有具体型号、普通电饭煲参数或安全终点，不外推为电饭煲通用配方，也不宣称葡萄牙传统标准菜。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TEFAL-PORTUGUESE-RICE-R106506",
+          "title": "Portuguese Rice",
+          "publisher": "Tefal",
+          "url": "https://www.tefal.com/recipe/Portuguese-Rice/r/106506",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：4人份；准备约10分钟、烹调约16分钟；长粒米300g、橄榄油50mL、洋葱1个、番茄2个、红甜椒2个、鸡汤或蔬菜高汤400mL；全部放入内锅并自动转保温",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"],
+          "attribution": "Tefal",
+          "license": "publisher_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Tefal官方具名厂商配方，来源直接证明300g米、番茄/红甜椒/洋葱、400mL高汤和约16分钟单内锅流程；没有明确蛋白质主料，属于碳水加蔬菜/纤维的低优先研究资产，不宣称葡萄牙传统身份，不外推普通电饭煲参数。"
+    },
+    {
+      "recipe_id": "japan-yakitori-canned-rice",
+      "canonical_name": "やきとり炊き込みご飯",
+      "aliases": ["烧鸟炊饭"],
+      "region_codes": ["JP"],
+      "cuisine_family": "japanese-regional-mixed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["耐热袋/沸水锅"],
+      "core_ingredients": ["米", "酱汁味烧鸟罐头", "盐味烧鸟罐头", "干羊栖菜", "鲣鱼片"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "bag_added_water",
+        "amount": {"value": 1, "unit": "纸杯水（与米等量）"},
+        "source_ids": ["S-MAFF-HOKURIKU-YAKITORI-CANNED-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "米洗净沥水，和等量1纸杯水一起放入耐热袋。", "source_ids": ["S-MAFF-HOKURIKU-YAKITORI-CANNED-RICE-1"]},
+        {"step": 2, "instruction": "加入酱汁味烧鸟罐头、盐味烧鸟罐头、干羊栖菜和可省略的鲣鱼片，扎紧耐热袋。", "source_ids": ["S-MAFF-HOKURIKU-YAKITORI-CANNED-RICE-1"]},
+        {"step": 3, "instruction": "将耐热袋放入沸水锅加热30分钟，取出后焖10分钟。", "source_ids": ["S-MAFF-HOKURIKU-YAKITORI-CANNED-RICE-1"]}
+      ],
+      "time_contract": {"total_minutes": 40, "source_ids": ["S-MAFF-HOKURIKU-YAKITORI-CANNED-RICE-1"]},
+      "safety_endpoints": [],
+      "allergen_labels": ["鱼类"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "日本农林水产省北陆农政局官方PDF只证明耐热袋入沸水锅30分钟再焖10分钟；不改写成电饭煲程序，不建立罐头或禽肉安全终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MAFF-HOKURIKU-YAKITORI-CANNED-RICE-1",
+          "title": "災害時にも役立つ 和ごはんレシピ：ポリ袋で作る炊き込みご飯 やきとり炊き込みご飯",
+          "publisher": "日本农林水产省北陆农政局",
+          "url": "https://www.maff.go.jp/hokuriku/food/attach/pdf/wasyoku-95.pdf",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "institution_recipe_pdf",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "PDF第4页：米1纸杯、水1纸杯、酱汁味及盐味烧鸟罐头各1罐、干羊栖菜4g、鲣鱼片2g可省；耐热袋沸水锅30分钟、取出焖10分钟；页末署名高冈龙谷高等学校",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"],
+          "attribution": "日本农林水产省北陆农政局",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省北陆农政局官方PDF的具名炊饭，米、烧鸟罐头和干羊栖菜在耐热袋中随沸水锅连续加热；营养结构含碳水、蛋白和纤维，但无安全终点且不是电饭煲流程，不宣称 executable。"
+    },
+    {
+      "recipe_id": "japan-canned-mackerel-wafu-rice",
+      "canonical_name": "さば缶を使った和風炊き込みご飯",
+      "aliases": ["鲭鱼罐头和风炊饭"],
+      "region_codes": ["JP"],
+      "cuisine_family": "japanese-regional-mixed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["耐热袋/沸水锅"],
+      "core_ingredients": ["米", "鲭鱼罐头", "梅干", "真姬菇", "酱油", "清酒", "味醂", "芝麻"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "bag_added_water",
+        "amount": {"value": 200, "unit": "mL袋内用水"},
+        "source_ids": ["S-MAFF-HOKURIKU-CANNED-MACKEREL-WAFU-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "米在耐热袋中轻洗，加入鲭鱼罐头、梅干、真姬菇、酱油、清酒、味醂和200mL水后扎袋。", "source_ids": ["S-MAFF-HOKURIKU-CANNED-MACKEREL-WAFU-RICE-1"]},
+        {"step": 2, "instruction": "将耐热袋放入沸水锅加热20分钟，关火加盖焖10分钟。", "source_ids": ["S-MAFF-HOKURIKU-CANNED-MACKEREL-WAFU-RICE-1"]},
+        {"step": 3, "instruction": "取出梅核，按来源拌入芝麻后食用。", "source_ids": ["S-MAFF-HOKURIKU-CANNED-MACKEREL-WAFU-RICE-1"]}
+      ],
+      "time_contract": {"total_minutes": 30, "source_ids": ["S-MAFF-HOKURIKU-CANNED-MACKEREL-WAFU-RICE-1"]},
+      "safety_endpoints": [],
+      "allergen_labels": ["鱼类", "大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "日本农林水产省北陆农政局官方PDF只证明耐热袋入沸水锅20分钟、关火焖10分钟；不改写成电饭煲程序，不建立鱼类安全终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MAFF-HOKURIKU-CANNED-MACKEREL-WAFU-RICE-1",
+          "title": "災害時にも役立つ 和ごはんレシピ：ポリ袋に入れて、鍋で加熱するだけ さば缶を使った和風炊き込みご飯",
+          "publisher": "日本农林水产省北陆农政局",
+          "url": "https://www.maff.go.jp/hokuriku/food/attach/pdf/wasyoku-95.pdf",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "institution_recipe_pdf",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "PDF第5页：米2合、鲭鱼罐头1罐、梅干2个、真姬菇适量、水200mL、酱油/清酒/味醂各1大匙；耐热袋沸水锅20分钟、关火焖10分钟；页末署名福井县立美方高等学校",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"],
+          "attribution": "日本农林水产省北陆农政局",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省北陆农政局官方PDF的具名和风炊饭，鲭鱼罐头、米、梅干和真姬菇在耐热袋中随沸水锅连续加热；营养结构含碳水、蛋白和纤维，但无鱼类安全终点且不是电饭煲流程，不宣称 executable。"
     }
   ]
 }
