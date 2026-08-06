@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r84",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r85",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16505,6 +16505,45 @@
       ],
       "status": "identity_verified",
       "evidence_notes": "重庆市地方志办公室直接确认万盛箜饭的地域美食身份，并在括号中明确洋芋、四季豆；来源没有米、流程、液体、器具、用量、时间或安全事实，保持身份层，不与四川箜饭或綦江腊肉箜饭拼接。"
+    },
+    {
+      "recipe_id": "yongchun-yifan-salty-rice",
+      "canonical_name": "永春一饭（香饭）",
+      "aliases": ["永春香饭", "吃一饭"],
+      "region_codes": ["CN-FJ-QUANZHOU-YONGCHUN"],
+      "cuisine_family": "yongchun-salted-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [],
+      "core_ingredients": ["海蛎干", "花生", "肉", "葱油", "白米"],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["甲壳类", "花生"],
+      "nutrition_structure": {"grade": "unassessed", "roles": []},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "永春县政府页面只证明“吃一饭/香饭”的具名、民俗语境和括号列出的海蛎干、花生、肉、葱油、白米；没有米水量、投料顺序、器具、时间或安全事实，不补写一锅做法。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-YONGCHUN-YIFAN-SALTY-RICE-1",
+          "title": "非遗永春：吃一饭",
+          "publisher": "永春县人民政府",
+          "url": "https://www.fjyc.gov.cn/zjyc/mfms/201312/t20131210_1597105.htm",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "county_government_food_culture_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "正文第859至865行：吃一饭又叫香饭，由海蛎干、花生、肉、葱油、白米煮成的咸饭",
+          "claim_scopes": ["identity", "ingredients"],
+          "attribution": "永春县人民政府",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "identity_verified",
+      "evidence_notes": "永春县政府直接确认“吃一饭/香饭”的永春民俗身份及海蛎干、花生、肉、葱油、白米五项食材；没有份量、液体、顺序、器具、时间或安全事实，保持identity_verified，不与永春排骨咸饭合并。"
     }
   ]
 }
