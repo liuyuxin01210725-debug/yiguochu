@@ -44,6 +44,8 @@
 - 香腸栗子炊飯 (taiwan-sausage-chestnut-rice) — TW
 - 麻油松阪豬炊飯 (taiwan-sesame-oil-matsusaka-pork-rice) — TW
 - 腊味锅巴饭 (tongcheng-cured-meat-pot-crust-rice) — CN-AH-TONGCHENG
+- 阿吾丹羊拐抓飯 (wuerhe-awudan-lamb-shank-pilaf) — CN-XJ-KARAMAY-WUERHE
+- 豌豆肉抓飯 (shache-pea-meat-pilaf) — CN-XJ-KASHGAR-SHACHE
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
 - 黄赖头焖饭 (jinning-huanglaitou-braised-rice) — CN-YN-KUNMING-JINNING
@@ -378,6 +380,7 @@
 - Spinach and Chickpea Curry Rice (tiger-spinach-chickpea-curry-rice) — US
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
+- Century Egg & Chicken Congee (panasonic-my-century-egg-chicken-congee) — 非地域·厂商食谱
 - Coconut Chicken and Rice with Pineapple Salsa (instant-pot-coconut-chicken-pineapple-rice) — 非地域·厂商食谱
 - Edamame and Fried Tofu Rice (tiger-edamame-fried-tofu-rice) — 非地域·厂商食谱
 - Garlic Shrimp with Herbed Rice (r60-tiger-garlic-shrimp-herbed-rice) — 非地域·厂商食谱
@@ -543,6 +546,7 @@
 - 靖西荷叶香糯饭 (guangxi-jingxi-lotus-leaf-fragrant-rice) — CN-GX
 - 宽城满族高粱米饭 (kuancheng-manchu-sorghum-rice) — CN-HE-CHENGDE-KUANCHENG
 - 陵川柴火饭 (shanxi-lingchuan-firewood-rice) — CN-SX
+- Mixed Rice with pumpkin and lotus roots (panasonic-my-chicken-pumpkin-lotus-mixed-rice) — 非地域·厂商食谱
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
 - 门巴族玉米饭 (metok-menba-corn-rice) — CN-XZ-NYINGCHI-METOK
 - 宜昌腊肉焖饭 (yichang-cured-pork-braised-rice) — CN-HB
@@ -571,6 +575,8 @@
 - 九村抓饭 (yecheng-jiucun-pilaf) — CN-XJ-KASHGAR-YECHENG-HEYUAN
 - 伊宁菜朴劳 (yining-caipulao-pilaf) — CN-XJ-YINING
 - 伊宁阿西曼吐（包子抓饭） (yining-asimantu-pilaf) — CN-XJ-YINING
+- 阿吾丹羊拐抓飯 (wuerhe-awudan-lamb-shank-pilaf) — CN-XJ-KARAMAY-WUERHE
+- 豌豆肉抓飯 (shache-pea-meat-pilaf) — CN-XJ-KASHGAR-SHACHE
 - 香米煲锅巴饭 (xinzhou-fragrant-rice-pot-crust-rice) — CN-HB-WUHAN-XINZHOU
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 延边朝鲜族石锅拌饭 (yanbian-stone-pot-bibimbap) — CN-JL-YANBIAN
@@ -971,6 +977,7 @@
 - 牡蠣とねぎの炊き込みご飯 (panasonic-oyster-negi-takikomi-rice) — 非地域·厂商食谱
 - 玄米の炊き込みご飯 (zojirushi-brown-rice-ih-pot) — 非地域·厂商食谱
 - 番茄雞肉起司燉飯 (r59-panasonic-taiwan-tomato-chicken-cheese-risotto) — 非地域·厂商食谱
+- 紅豆牛肉糙米菜飯 (philips-red-bean-beef-brown-rice-vegetable-rice) — 非地域·厂商食谱
 - 芋香栗子炊飯 (cookpot-taro-chestnut-pork-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 藜麦糙米橄榄饭 (panasonic-taiwan-quinoa-brown-rice-olive-rice) — 非地域·厂商食谱
@@ -1259,6 +1266,7 @@
 - Bang Bang Chicken (tiger-bang-bang-chicken-rice) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
+- Century Egg & Chicken Congee (panasonic-my-century-egg-chicken-congee) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
 - Chicken Biryani (panasonic-chicken-biryani-sr-da182) — 非地域·厂商食谱
 - Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
@@ -1316,8 +1324,11 @@
 - 牡蠣とねぎの炊き込みご飯 (panasonic-oyster-negi-takikomi-rice) — 非地域·厂商食谱
 - 玄米の炊き込みご飯 (zojirushi-brown-rice-ih-pot) — 非地域·厂商食谱
 - 石焼ビビンバ風炊込みご飯 (toshiba-bibimbap-mixed-rice) — 非地域·厂商食谱
+- 紅豆牛肉糙米菜飯 (philips-red-bean-beef-brown-rice-vegetable-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
+- 菠菜三文魚粥 (philips-spinach-salmon-congee) — 非地域·厂商食谱
 - 蘿蔔牛腩飯 (panasonic-taiwan-beef-brisket-radish-rice) — 非地域·厂商食谱
+- 螺片金蠔滑雞粥 (philips-sea-conch-oyster-chicken-congee) — 非地域·厂商食谱
 - 西班牙海鲜炖饭 (panasonic-taiwan-spanish-seafood-risotto-breadmaker) — 非地域·厂商食谱
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
 - 高丽菜鲭鱼炊饭 (panasonic-taiwan-cabbage-mackerel-rice) — 非地域·厂商食谱
