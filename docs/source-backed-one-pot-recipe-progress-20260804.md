@@ -1,5 +1,24 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r85 搜集期第五十八批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验地域、机构和厂商来源。基于 r84 的 744 条目录，去重后新增 **1 条**：`identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r85`，当前总量 **745**：`executable=12`、`recipe_fact_checked=650`、`identity_verified=77`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 中国地域来源（1 条，`identity_verified`）
+
+- `yongchun-yifan-salty-rice` — `永春一饭（香饭）`：永春县人民政府直接确认“吃一饭/香饭”及海蛎干、花生、肉、葱油、白米五项食材。来源没有份量、液体、顺序、器具、时间或安全事实，保持身份层，不与永春排骨咸饭合并。
+
+### 机构与厂商线本批结果
+
+- 日本农林水产省剩余页面以熟饭再加工、多器具或目录已有条目为主，没有达到新增入库门槛的候选。
+- Cuckoo 鸡肉饭依赖外置铸铁锅先炒，南瓜粥不含米且不是主餐；Panasonic 台湾页面命中项已在目录中，均不重复入库。
+
+### 本批纪律
+
+- 新增来源直接打开，显式记录 `evidence_tier`、定位、署名、许可和实际 claim scope；只登记来源实际证明的身份与食材。
+- 不从“咸饭”名称补写米水比例、投料顺序、电饭煲参数、时间或安全终点，没有自动晋升 `executable`，没有厨房验证。
+- 本批当天完成数据、目录产物、测试和进度记录的分批提交，避免研究证据长期停留在未提交工作区。
+
 ## r84 搜集期第五十七批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验象印官方、日本农林水产省和重庆地方志来源。基于 r83 的 742 条目录，去重后新增 **2 条**：1 条 `recipe_fact_checked`、1 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r84`，当前总量 **744**：`executable=12`、`recipe_fact_checked=650`、`identity_verified=76`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

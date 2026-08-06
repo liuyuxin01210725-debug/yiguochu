@@ -1840,6 +1840,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 扬州炒饭 | 扬州蛋炒饭 | CN-JS | yangzhou-fried-rice | 研究记录（非公开可执行） | 籼米饭；鲜鸡蛋；水发海参；熟地方鸡腿肉；中国火腿肉；水发干贝；上浆湖虾仁；水发花菇；净鲜笋；青豌豆 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [扬州官方发布扬州炒饭新标准：米饭晶莹透亮 至少加三个蛋](https://china.cnr.cn/xwwgf/20151023/t20151023_520256152.shtml)<br>[扬州炒饭](https://www.chinanews.com.cn/hb/2013/11-14/5504350.shtml) |
+## yongchun-salted-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 永春一饭（香饭） | 永春香饭；吃一饭 | CN-FJ-QUANZHOU-YONGCHUN | yongchun-salted-rice | 研究记录（非公开可执行） | 海蛎干；花生；肉；葱油；白米 | identity、ingredients | 缺 process | [非遗永春：吃一饭](https://www.fjyc.gov.cn/zjyc/mfms/201312/t20131210_1597105.htm) |
 ## yulin-laba-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

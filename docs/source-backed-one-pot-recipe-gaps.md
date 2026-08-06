@@ -587,6 +587,7 @@
 - 香米煲锅巴饭 (xinzhou-fragrant-rice-pot-crust-rice) — CN-HB-WUHAN-XINZHOU
 - 黄颡鱼焖糯米饭 (hubei-xinzhou-yellow-catfish-glutinous-rice) — CN-HB
 - 延边朝鲜族石锅拌饭 (yanbian-stone-pot-bibimbap) — CN-JL-YANBIAN
+- 永春一饭（香饭） (yongchun-yifan-salty-rice) — CN-FJ-QUANZHOU-YONGCHUN
 - 哈尼五色彩饭 (honghe-hani-five-color-rice) — CN-YN-HONGHE-HONGHE
 - 黄赖头焖饭 (jinning-huanglaitou-braised-rice) — CN-YN-KUNMING-JINNING
 - 玉屏糯米饭 (yuping-dong-sticky-rice) — CN-GZ-TONGREN-YUPING
