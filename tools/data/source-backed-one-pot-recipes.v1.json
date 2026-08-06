@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r87",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r88",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16789,6 +16789,208 @@
       ],
       "status": "identity_verified",
       "evidence_notes": "喀什经济开发区政府正文直接确认诺鲁孜饭的维吾尔族节日身份、地域文化语境和食材类别范围；没有具体菜谱事实，保持identity_verified，不把七种分类清单当成七项固定食材或可执行一锅做法。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-mushroom-vegetable-oil-shallot-rice",
+      "canonical_name": "菌菇玉菜油蔥飯",
+      "aliases": ["菌菇玉菜油葱饭"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic SR-PAA100 可變壓力IH電子鍋"],
+      "core_ingredients": ["月光米", "紅蘿蔔", "綠竹筍", "美白菇", "鴻喜菇", "香菇", "去骨仿雞腿肉", "豆皮絲", "高麗菜"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {"value": 350, "unit": "g鸡高汤"},
+        "source_ids": ["S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "月光米洗净沥干；胡萝卜和绿竹笋切约0.5cm丁，泡软香菇、美白菇、鸿喜菇、豆皮切丝。", "source_ids": ["S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1"]},
+        {"step": 2, "instruction": "去骨仿鸡腿肉洗净沥干后切约0.2cm条，高丽菜洗净沥干后切约0.5cm条。", "source_ids": ["S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1"]},
+        {"step": 3, "instruction": "米入锅，加入胡萝卜、竹笋、香菇、美白菇、鸿喜菇、豆皮丝和去骨仿鸡腿肉，高丽菜铺在最上层。", "source_ids": ["S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1"]},
+        {"step": 4, "instruction": "调味料与350g鸡高汤拌匀后加入，选择SR-PAA100的白米、美味炊煮、香Q感程序完成。", "source_ids": ["S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1"],
+        "notes": "Panasonic台湾官方授权配方直接给出SR-PAA100内锅同锅流程和350g鸡高汤；页面未给总时间或禽肉熟制终点，不外推为普通电饭煲参数。去骨仿鸡腿肉保留原名，不替换为真鸡肉、豆腐或其他蛋白。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-TAIWAN-MUSHROOM-VEGETABLE-OIL-SHALLOT-1",
+          "title": "菌菇玉菜油蔥飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5101",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：月光米200g、胡萝卜30g、绿竹笋30g、美白菇30g、鸿喜菇30g、香菇20g、去骨仿鸡腿肉50g、豆皮丝20g、高丽菜100g、鸡高汤350g；四步处理与白米/美味炊煮/香Q感程序；食谱授权自米其林主厨陈永华",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方详情页直接证明菌菇玉菜油葱饭的具名、食材、350g鸡高汤、SR-PAA100同锅流程和程序；未给总时间、禽肉安全终点或成品人数。该授权配方不证明传统地域菜身份，去骨仿鸡腿肉不作其他蛋白替换。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-salmon-daikon-golden-rice",
+      "canonical_name": "鮭魚白蘿蔔金黃炊飯",
+      "aliases": ["鲑鱼白萝卜金黄炊饭"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic SR-PAA100 可變壓力IH電子鍋"],
+      "core_ingredients": ["米", "白蘿蔔", "鮭魚", "雞蛋", "蔥花", "芝麻香油"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {"value": 3, "unit": "杯温水"},
+        "source_ids": ["S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "鲑鱼切丁，白萝卜切细条；米洗好放入SR-PAA100内锅。", "source_ids": ["S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1"]},
+        {"step": 2, "instruction": "放入鲑鱼和白萝卜；柴鱼粉、鲣鱼酱油加3杯温水调成酱汁后加入。", "source_ids": ["S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1"]},
+        {"step": 3, "instruction": "选择白米—美味炊煮（香Q感）程序；煮好后倒入3颗打散的蛋液拌匀。", "source_ids": ["S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1"]},
+        {"step": 4, "instruction": "按一下保温再加热焖5分钟，最后撒葱花、芝麻香油和海苔饭友。", "source_ids": ["S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["鱼类", "蛋类"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1"],
+        "notes": "Panasonic台湾官方授权配方直接给出SR-PAA100中米、鲑鱼、萝卜同锅及煮好后加入蛋液保温再加热5分钟的流程；没有总时间、鱼类或蛋类安全终点，不把3杯温水外推为其他米种或普通电饭煲比例。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-TAIWAN-SALMON-DAIKON-GOLDEN-RICE-1",
+          "title": "鮭魚白蘿蔔金黃炊飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5122",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：米3杯、白萝卜150g、鲑鱼200g、鸡蛋3个；柴鱼粉15g、鲣鱼酱油2大匙、3杯温水；白米/美味炊煮/香Q感，完成后蛋液拌入并保温再加热5分钟；食谱授权自嗨＊我波卡",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方详情页直接证明鲑鱼白萝卜金黄炊饭的具名、食材、3杯温水、SR-PAA100程序和蛋液后加热流程；未给总时间或鱼蛋安全终点。该授权配方不证明传统地域菜身份，也不把原方水量外推为通用比例。"
+    },
+    {
+      "recipe_id": "hk-mushroom-grass-carp-congee",
+      "canonical_name": "香菇魚腩粥",
+      "aliases": ["香菇鱼腩粥"],
+      "region_codes": ["HK"],
+      "cuisine_family": "hong-kong-congee",
+      "identity_status": "verified",
+      "traditional_vessels": ["锅"],
+      "core_ingredients": ["白米", "冬菇", "鲩鱼腩", "葱", "姜"],
+      "fixed_batch": {
+        "servings": 18,
+        "ingredients": [
+          {"name": "白米", "amount": {"value": 600, "unit": "g"}, "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]},
+          {"name": "鲩鱼腩", "amount": {"value": 94, "unit": "g/份"}, "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]}
+        ],
+        "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {"value": 6500, "unit": "mL"},
+        "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "白米加入约6.5L清水，水沸后以大火煮约3小时成为粥底。", "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]},
+        {"step": 2, "instruction": "粥底煮滚后加入冬菇、鲩鱼腩94g/份、葱和姜，煮至鱼熟透后调味。", "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]}
+      ],
+      "time_contract": {"total_minutes": 180, "source_ids": ["S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1"]},
+      "safety_endpoints": [],
+      "allergen_labels": ["鱼类"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "香港卫生署餐饮食谱，约18份粥底；原方为炉上锅，未提供家庭缩放或电饭煲适配，不推导普通家庭程序。"},
+      "source_refs": [
+        {
+          "source_id": "S-HK-EATSMART-MUSHROOM-GRASS-CARP-CONGEE-1",
+          "title": "香菇魚腩粥",
+          "publisher": "香港卫生署有营食谱",
+          "url": "https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=864",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "health_authority_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 4,
+          "evidence_locator": "官方食谱正文：约18份粥底，白米600g、清水6.5L，大火煮约3小时；每份加入冬菇、鲩鱼腩94g、葱姜，煮至熟透",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "time"],
+          "attribution": "香港卫生署有营食谱",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署官方具名食谱直接给出约18份粥底、米水量、3小时粥底和鱼腩/冬菇后投煮熟流程；来源没有鱼类中心温度、家庭缩放或电饭煲适配，保持批量研究边界。"
+    },
+    {
+      "recipe_id": "hk-golden-seafood-congee",
+      "canonical_name": "黃金海鮮粥",
+      "aliases": ["黄金海鲜粥"],
+      "region_codes": ["HK"],
+      "cuisine_family": "hong-kong-congee",
+      "identity_status": "verified",
+      "traditional_vessels": ["锅"],
+      "core_ingredients": ["丝苗白米", "花蛤", "虾", "鱿鱼", "带子", "原粒粟米"],
+      "fixed_batch": {
+        "servings": 5,
+        "ingredients": [
+          {"name": "花蛤", "amount": {"value": 11, "unit": "只"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
+          {"name": "虾", "amount": {"value": 3, "unit": "只"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
+          {"name": "鱿鱼", "amount": {"value": 15, "unit": "g"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
+          {"name": "带子", "amount": {"value": 3, "unit": "只"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
+          {"name": "原粒粟米", "amount": {"value": 1, "unit": "汤匙"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
+          {"name": "丝苗白米", "amount": {"value": 0.75, "unit": "碗"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]}
+        ],
+        "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {"value": 4, "unit": "碗"},
+        "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "海鲜洗切，白米淘洗；水滚后下白米煮至粥起。", "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
+        {"step": 2, "instruction": "加入花蛤、虾、鱿鱼、带子和原粒粟米，煮至海鲜熟透。", "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["甲壳类", "鱼类"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "香港卫生署炉上锅食谱；来源只证明原锅生米煮粥、海鲜后投煮熟，不提供电饭煲参数或海鲜中心温度。"},
+      "source_refs": [
+        {
+          "source_id": "S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1",
+          "title": "黃金海鮮粥",
+          "publisher": "香港卫生署有营食谱",
+          "url": "https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=589",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "health_authority_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 4,
+          "evidence_locator": "官方食谱正文：5人份，花蛤11只、虾3只、鱿鱼15g、带子3只、原粒粟米1汤匙、丝苗白米3/4碗、清水4碗；水滚下米煮至粥起，再放全部材料煮至熟透",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process"],
+          "attribution": "香港卫生署有营食谱",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署官方具名食谱直接给出5人份米水、花蛤虾鱿鱼带子和粟米用量，以及生米煮粥后海鲜同锅煮熟流程；没有海鲜中心温度或电饭煲适配，保持原锅研究边界。"
     }
   ]
 }
