@@ -309,6 +309,8 @@
 - きじ肉と切り干し大根の混ぜご飯 (maff-ehime-pheasant-dried-daikon-mixed-rice) — JP-EHIME-KIHO
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
+- 黒千石炊き込みご飯 (japan-hokkaido-black-chiset-soy-rice) — JP-HOKKAIDO
+- 栄養満点！もち麦炊き込みご飯 (japan-hyogo-barley-chicken-vegetable-rice) — JP-HYOGO
 - かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - おまかせ丸投げ賀茂なすご飯 (maff-kamo-nasu-jako-rice) — JP-KYOTO
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
@@ -820,6 +822,8 @@
 - 福岡たけのこごはん (maff-fukuoka-bamboo-rice) — JP-FUKUOKA
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
+- 黒千石炊き込みご飯 (japan-hokkaido-black-chiset-soy-rice) — JP-HOKKAIDO
+- 栄養満点！もち麦炊き込みご飯 (japan-hyogo-barley-chicken-vegetable-rice) — JP-HYOGO
 - かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - おまかせ丸投げ賀茂なすご飯 (maff-kamo-nasu-jako-rice) — JP-KYOTO
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
@@ -1234,6 +1238,7 @@
 - 福岡たけのこごはん (maff-fukuoka-bamboo-rice) — JP-FUKUOKA
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
+- 栄養満点！もち麦炊き込みご飯 (japan-hyogo-barley-chicken-vegetable-rice) — JP-HYOGO
 - かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
 - 五目飯 (maff-tochigi-gomokumeshi) — JP-TOCHIGI
@@ -1369,6 +1374,7 @@
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
 - 高丽菜鲭鱼炊饭 (panasonic-taiwan-cabbage-mackerel-rice) — 非地域·厂商食谱
 - Clam and Tomato Rice (tiger-clam-tomato-rice) — US
+- Chicken Porridge with dried scallops (toshiba-hk-chicken-scallop-porridge-pc48drshk) — HK
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 晋江鱼饭 (jinjiang-squid-rice) — CN-FJ-QUANZHOU-JINJIANG

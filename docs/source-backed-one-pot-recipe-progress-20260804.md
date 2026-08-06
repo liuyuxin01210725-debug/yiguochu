@@ -1,5 +1,20 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r93 搜集期第六十六批（2026-08-06）
+
+本批按厂商官方、机构官方和地域线并行核验。基于 r92 的 761 条目录，去重后新增 **3 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r93`，当前总量 **764**：`executable=12`、`recipe_fact_checked=667`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 本批新增
+
+- `toshiba-hk-chicken-scallop-porridge-pc48drshk` — `Chicken Porridge with dried scallops`：Toshiba 香港官方电压力锅 Quick Porridge 20 分钟；水 6 杯与水位4写法冲突、鸡肉 1/2 无单位，保留研究边界。
+- `japan-hyogo-barley-chicken-vegetable-rice` — `栄養満点！もち麦炊き込みご飯`：日本农林水产省近畿农政局 PDF 第1页，2人份大麦鸡肉蔬菜炊饭；燃气灶/锅流程，不改写成普通电饭煲。
+- `japan-hokkaido-black-chiset-soy-rice` — `黒千石炊き込みご飯`：日本农林水产省北海道农政事务所 PDF 第11页，黑千石大豆浸泡过夜后与米、昆布和调味料入电饭煲；缺固定水量、份数、时间和安全终点。
+
+### 本批纪律
+
+- 三条均停在 `recipe_fact_checked`，没有晋升 `executable` 或 `kitchen_observed`；缺失和冲突事实保持空缺，不用常识补写。
+- 其余地域候选因来源不可直读、纯谷物、熟饭二次加工、泛名或已有条目排除或留作线索，不进入已核验 JSON。
+
 ## r92 搜集期第六十五批（2026-08-06）
 
 本批按厂商官方、机构官方和地域线并行核验。基于 r90 的 758 条目录（r91 无新增），去重后新增 **3 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r92`，当前总量 **761**：`executable=12`、`recipe_fact_checked=664`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

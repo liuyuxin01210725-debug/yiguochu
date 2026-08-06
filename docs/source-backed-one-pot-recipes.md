@@ -469,6 +469,8 @@
 | 福岡たけのこごはん | 福冈竹笋饭 | JP-FUKUOKA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；竹笋；鸡肉；油豆腐；木芽 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [福岡たけのこごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/aftercovid19/267.html) |
 | 千石豆のかきまわし | — | JP-GIFU | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；千石豆；鸡肉；牛蒡；胡萝卜；芋头；油揚げ；竹轮 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [千石豆のかきまわし 岐阜県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/38_23_gifu.html) |
 | もぶり | — | JP-HIROSHIMA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；胡萝卜；牛蒡；莲藕；干香菇；油揚げ；四季豆；黑豆 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [もぶり 広島県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_6_hiroshima.html) |
+| 黒千石炊き込みご飯 | 北海道黑千石大豆炊饭 | JP-HOKKAIDO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；黑千石大豆；昆布；盐；清酒；醋 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [黒千石炊き込みご飯](https://www.maff.go.jp/hokkaido/press/syokuryo/keikaku/attach/pdf/240219-2.pdf) |
+| 栄養満点！もち麦炊き込みご飯 | 兵库营养满点大麦鸡肉蔬菜炊饭 | JP-HYOGO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 白米；もち麦；鸡胸肉；胡萝卜；香菇；油豆腐 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [栄養満点！もち麦炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/241015-46.pdf) |
 | かて飯 | 加料饭；神奈川加料饭 | JP-KANAGAWA-SAGAMIHARA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；干香菇；牛蒡；胡萝卜；竹轮；油豆腐；四季豆 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [かて飯 神奈川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_8_kanagawa.html) |
 | おまかせ丸投げ賀茂なすご飯 | 贺茂茄子饭 | JP-KYOTO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；贺茂茄子；吻仔鱼；九条葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [おまかせ丸投げ賀茂なすご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/99.html) |
 | 豆腐飯 | とうふめし | JP-OKAYAMA-TAKAHASHI | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；豆腐；鸡蛋；豌豆；牛蒡；干香菇；干瓢；出汁 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [豆腐飯 岡山県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_26_okayama.html) |
@@ -1046,6 +1048,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken Porridge with dried scallops | 干贝鸡肉粥 | HK | manufacturer-rice-soup | 研究记录（非公开可执行） | 珍珠米；鸡肉；干贝；姜；鸡汤或水 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken Porridge with dried scallops](https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/ChickenPorridgewithdriedscallops) |
 | Edamame Carrot Rice Soup | 毛豆胡萝卜米汤 | US | manufacturer-rice-soup | 研究记录（非公开可执行） | 白米；毛豆；胡萝卜；菠菜；高汤；葱；蒜 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [Edamame Carrot Rice Soup](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/edamame-carrot-rice-soup/) |
 ## manufacturer-steamer-rice-meal
 
