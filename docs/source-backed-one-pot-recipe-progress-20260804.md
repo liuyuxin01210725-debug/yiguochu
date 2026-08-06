@@ -1,5 +1,26 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r84 搜集期第五十七批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验象印官方、日本农林水产省和重庆地方志来源。基于 r83 的 742 条目录，去重后新增 **2 条**：1 条 `recipe_fact_checked`、1 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r84`，当前总量 **744**：`executable=12`、`recipe_fact_checked=650`、`identity_verified=76`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 日本农林水产省来源（1 条，`recipe_fact_checked`）
+
+- `maff-chicken-shiitake-chinese-steamed-rice` — `鶏肉と椎茸の中華風蒸しご飯`：2 人份、米 2 合、水 240cc、鸡腿 350g、香菇 4 枚，同一器皿铺料后用蒸锅强火蒸约 25–30 分钟。保留蒸锅而非电饭煲的边界，不补禽肉安全终点或电饭煲参数。
+
+### 重庆地方志来源（1 条，`identity_verified`）
+
+- `wansheng-potato-green-bean-kongfan` — 万盛箜饭：重庆市地方志办公室正文将“箜饭（洋芋、四季豆）”列入万盛美食小吃；只登记地域身份和括号食材，不从“箜饭”补写米、流程、液体、器具或时间。
+
+### 象印去重确认
+
+- `zojirushi-brown-rice-salmon-shiitake` 与 `zojirushi-new-orleans-red-beans-rice` 均由象印美国官方页面重新打开核对，但两条已在 r66 目录中，保留原 source_id、机型和安全缺口，不重复建版本。
+
+### 本批纪律
+
+- MAFF 的熟饭再加工、先炒后电饭煲和多器具页面继续排除；象印外置锅、熟饭后拌和另配核心蛋白的页面也不收录。
+- 新增条目均有直接来源、显式 `evidence_tier`、定位、署名、许可和实际 claim scope；没有自动晋升 `executable`，没有厨房验证。
+
 ## r83 搜集期第五十六批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、港台机构和地域来源。基于 r82 的 738 条目录，去重后新增 **4 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r83`，当前总量 **742**：`executable=12`、`recipe_fact_checked=649`、`identity_verified=75`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

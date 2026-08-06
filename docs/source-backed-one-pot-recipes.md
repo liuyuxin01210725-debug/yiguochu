@@ -69,6 +69,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 煮腊肉饭 | — | CN-CQ | chengkou-cured-pork-rice | 研究记录（非公开可执行） | 腊肉；青豌豆；胡萝卜；糯米 | identity、ingredients、process、time | 缺 quantity、liquid、appliance、safety | [文学｜城口老腊肉](https://m.12371.gov.cn/content/2023-07/22/content_446437.html) |
+## chongqing-kongfan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 万盛箜饭 | 洋芋四季豆箜饭 | CN-CQ-WANSHENG | chongqing-kongfan | 研究记录（非公开可执行） | 洋芋；四季豆 | identity、ingredients | 缺 process | [小议名村志中“风土民情”的记述内容及注意事项——以万盛经开区为例](https://dfz.cq.gov.cn/fzyd/llyj/202401/t20240105_12790863.html) |
 ## chongqing-regional-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -610,6 +615,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 深川めし／深川丼 | 东京深川饭；深川盖饭 | JP-TOKYO | japanese-shellfish-rice-bowl | 研究记录（非公开可执行） | 蛤蜊；葱；味噌；熟饭；海苔 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [深川めし／深川丼 東京都 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_1_tokyo.html) |
+## japanese-steamed-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鶏肉と椎茸の中華風蒸しご飯 | 鸡肉香菇中式蒸饭 | JP | japanese-steamed-rice | 研究记录（非公开可执行） | 生米；鸡腿肉；香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [鶏肉と椎茸の中華風蒸しご飯](https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe258.html) |
 ## japanese-tacook-rice-bowl
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

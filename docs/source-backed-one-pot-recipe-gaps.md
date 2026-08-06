@@ -531,6 +531,7 @@
 - 昌宁卡斯傣族竹筒饭 (changning-kas-dai-bamboo-rice) — CN-YN-BAOSHAN-CHANGNING-KASI
 - 咸肉绣花锦菜饭 (zhejiang-changxing-salted-pork-xiuhuajin-rice) — CN-ZJ
 - 察隅僜人手抓饭 (chayu-dengren-hand-grab-rice) — CN-XZ-NYINGCHI-CHAYU
+- 万盛箜饭 (wansheng-potato-green-bean-kongfan) — CN-CQ-WANSHENG
 - 皮蛋瘦肉粥 (cookpot-century-egg-pork-congee-704) — TW-COOKPOT
 - 独龙族玉米饭 (dulong-corn-rice) — CN-YN-NUJIANG-GONGSHAN-DULONG
 - 尤溪九糜咸饭 (youxi-jiumi-salty-rice) — CN-FJ
@@ -895,6 +896,7 @@
 - はらこ飯 (maff-fukushima-harako-meshi) — JP-FUKUSHIMA
 - ほっきめし (maff-fukushima-hokki-meshi) — JP-FUKUSHIMA-SOMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
+- 鶏肉と椎茸の中華風蒸しご飯 (maff-chicken-shiitake-chinese-steamed-rice) — JP
 - 親子丼 (tiger-oyakodon-tacook) — JP
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
@@ -1251,6 +1253,7 @@
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
 - ほっきめし (maff-fukushima-hokki-meshi) — JP-FUKUSHIMA-SOMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
+- 鶏肉と椎茸の中華風蒸しご飯 (maff-chicken-shiitake-chinese-steamed-rice) — JP
 - 親子丼 (tiger-oyakodon-tacook) — JP
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
