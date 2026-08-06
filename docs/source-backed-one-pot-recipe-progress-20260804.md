@@ -2055,6 +2055,19 @@ Panasonic 官方页面还记录了两道由茅乃舎监修的电饭煲米饭。�
 
 排除项包括另配蛋白的 Panasonic Yellow Curry Rice、熟饭二次烹饪的 Pineapple Red Rice、需要另锅海鲜再混合的 Zojirushi Paella/Jambalaya，以及来源对节庆饭/稠粥表述不一致的新疆诺鲁孜饭。搜集期继续坚持“来源不足就保留缺口，不用泛称或自由组合凑数量”。
 
+## r82 搜集批次（2026-08-06）
+
+本批在 r81 的 729 条基线上并行核验厂商官方、地方政府/非遗和港台公共机构来源，新增 9 条，版本升至 source-backed-one-pot-v1-20260806-national-r82，总数 738：
+
+- recipe_fact_checked：638 → 645；
+- identity_verified：73 → 75；
+- executable：12 → 12；
+- discovered：6 → 6。
+
+新增清单与逐条边界见 [r82 搜集报告](./source-backed-one-pot-batch-r82.md)。本批新增 6 条 Philips 官方研究候选和 1 条泉州政府指导页面候选进入 recipe_fact_checked；顺昌畲家竹筒饭、平江红军游击队竹筒饭仅到 identity_verified。
+
+本批不修改 Worker、前端、Planner 或部署配置；没有新增 executable，也没有新增 kitchen_observed。膏蟹粥保留 4–6 人的来源范围但不伪造单一 servings；压力锅、指定型号水位线、中途投料和完成后伴食边界均保持原样。
+
 ## r1→r36 完整变更台账
 
 ### 版本与状态
