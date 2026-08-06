@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r88",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r89",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16991,6 +16991,103 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "香港卫生署官方具名食谱直接给出5人份米水、花蛤虾鱿鱼带子和粟米用量，以及生米煮粥后海鲜同锅煮熟流程；没有海鲜中心温度或电饭煲适配，保持原锅研究边界。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-red-crab-pork-congee",
+      "canonical_name": "紅蟳稀飯",
+      "aliases": ["红蟳稀饭", "红蟳稀飯"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic SR-PAA100 可變壓力IH電子鍋"],
+      "core_ingredients": ["紅蟳", "香菇", "白米", "五花肉末", "芹菜"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {"value": 900, "unit": "g"},
+        "source_ids": ["S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "红蟳洗净切四块，蟹钳轻拍碎；香菇泡软切丝，白米洗净沥干。", "source_ids": ["S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1"]},
+        {"step": 2, "instruction": "将香菇丝、五花肉末、柴鱼粉、鸡粉、白胡椒和900g水拌匀，加入SR-PAA100内锅。", "source_ids": ["S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1"]},
+        {"step": 3, "instruction": "放入处理好的红蟳，选择白米稀饭程序炊煮。", "source_ids": ["S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1"]},
+        {"step": 4, "instruction": "起锅后撒芹菜末。", "source_ids": ["S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["甲壳类", "大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1"],
+        "notes": "Panasonic台湾官方授权配方直接给出SR-PAA100同锅稀饭流程和900g水；页面未给总时间、程序温度或红蟳/猪肉安全终点，不把稀饭程序当作安全合同，也不外推为普通电饭煲比例。该授权配方不证明地域代表菜身份。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-TAIWAN-RED-CRAB-PORK-CONGEE-1",
+          "title": "紅蟳稀飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4023",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方详情页：红蟳300g、香菇丝30g、白米150g、水900g、五花肉末100g、芹菜末30g；红蟳与米肉末同入SR-PAA100白米稀饭程序；食谱授权自米其林主厨陈永华",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方详情页直接证明紅蟳稀飯的具名、红蟳/白米/五花肉末/香菇用量、900g水和SR-PAA100同锅稀饭流程；未给总时间、蟹或猪肉安全终点。该授权配方不证明闽南或台湾传统代表身份，不将稀饭程序当作安全证明。"
+    },
+    {
+      "recipe_id": "taiwan-yam-rice",
+      "canonical_name": "山藥飯",
+      "aliases": ["山药饭"],
+      "region_codes": ["TW"],
+      "cuisine_family": "taiwan-electric-cooker-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["电锅"],
+      "core_ingredients": ["白米", "山藥", "干香菇", "绞肉", "虾米", "蒜"],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {"value": 1, "unit": "杯水"},
+        "source_ids": ["S-TAIWAN-MOA-YAM-RICE-1"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "白米浸水约20分钟后沥干；干香菇泡软，山药按原方处理。", "source_ids": ["S-TAIWAN-MOA-YAM-RICE-1"]},
+        {"step": 2, "instruction": "山药过油；蒜、香菇和绞肉小火炒至熟，虾米按原方加入。", "source_ids": ["S-TAIWAN-MOA-YAM-RICE-1"]},
+        {"step": 3, "instruction": "将处理好的山药、香菇绞肉和白米略拌后放入电锅，加入1杯水煮熟。", "source_ids": ["S-TAIWAN-MOA-YAM-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-TAIWAN-MOA-YAM-RICE-1"],
+        "notes": "台湾农业部农业知识入口网及桃园区农业改良场原文直接给出浸米、山药过油、香菇绞肉炒熟后入电锅并加1杯水的流程；未给固定份数、虾米量、完整时间或肉虾具体温度，不推导通用毫升比例。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TAIWAN-MOA-YAM-RICE-1",
+          "title": "山藥飯",
+          "publisher": "台湾农业部农业知识入口网／桃园区农业改良场",
+          "url": "https://kmweb.moa.gov.tw/subject/subject.php?id=33811",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "agriculture_authority_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方正文：白米1杯、山药200g、干香菇50g、绞肉50g、虾米、蒜和盐；米浸20分钟，山药过油、香菇绞肉炒熟，与生米入电锅加1杯水煮熟；出处为桃园区农业改良场特刊第038号",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"],
+          "attribution": "台湾农业部农业知识入口网／桃园区农业改良场",
+          "license": "government_site_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "台湾农业部农业知识入口网直接给出山药饭具名、米山药香菇绞肉结构、米浸/配料预处理/电锅加1杯水流程，并注明桃园区农业改良场特刊出处；未给固定份数、虾米量、完整时间或肉虾安全温度，保持研究状态。"
     }
   ]
 }
