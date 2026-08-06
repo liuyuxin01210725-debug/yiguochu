@@ -1,5 +1,18 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r94 搜集期第六十七批（2026-08-06）
+
+本批按厂商官方、机构官方和中国地域线并行核验。基于 r93 的 764 条目录，去重后新增 **1 条**：`recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r94`，当前总量 **765**：`executable=12`、`recipe_fact_checked=668`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 本批新增
+
+- `tefal-spanish-style-chicken-legs-r106521` — `Spanish Style Chicken Legs`：Tefal 指定双层蒸锅的2人份鸡腿米饭，鸡腿和米在底层米饭碗，番茄、西葫芦、青椒在上层蒸篮，约50分钟；不改写成电饭煲单内锅，不补鸡肉安全终点，不宣称地域传统身份。
+
+### 本批纪律
+
+- 机构线复核到的香港电饭煲图卡均已在目录，地域线南京菜饭/湘西社饭/张浦江南菜饭均已在目录；纯碳水锅巴饭、泛称和不可直读来源不入库。
+- 新条目停在 `recipe_fact_checked`，缺失和器具边界保持原样；没有晋升 `executable` 或 `kitchen_observed`。
+
 ## r93 搜集期第六十六批（2026-08-06）
 
 本批按厂商官方、机构官方和地域线并行核验。基于 r92 的 761 条目录，去重后新增 **3 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r93`，当前总量 **764**：`executable=12`、`recipe_fact_checked=667`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

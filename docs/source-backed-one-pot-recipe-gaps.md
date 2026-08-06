@@ -1298,6 +1298,7 @@
 - Paella（Tefal锅内温控版） (tefal-paella-r106320) — 非地域·厂商一锅饭
 - Risotto with shrimps (tefal-risotto-with-shrimps-r106225) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
+- Spanish Style Chicken Legs (tefal-spanish-style-chicken-legs-r106521) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
 - ののこ飯 (zojirushi-nonokomeshi-el-mb30) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
