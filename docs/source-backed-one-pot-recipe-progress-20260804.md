@@ -1,5 +1,11 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r91 搜集期第六十四批（2026-08-06）
+
+本批按厂商官方、机构官方、地域/民族三条线并行核验。基于 r90 的 758 条目录，去重和证据审查后新增 **0 条**；版本保持 `source-backed-one-pot-v1-20260806-national-r90`，状态保持 `executable=12`、`recipe_fact_checked=661`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。没有修改 Worker、前端、Planner、模板或 DeepSeek，也没有部署。
+
+厂商线直接打开的象印页面多为“电饭煲煮米、肉菜另锅或熟饭后拌入”，大同部分详情页无法直接读取；机构线主要是纯谷物、只有活动/视频标题或无法打开的政府页面；地域线命中已有深沪壶仔咸饭、张浦江南菜饭、上海咸肉菜饭、克州抓饭和佤族鸡肉烂饭，另有如东扁豆饭待补原始出处。所有弱来源、泛称、熟饭再炒、肉饭分做和多器具流程均只写排除报告，不进入 JSON。
+
 ## r90 搜集期第六十三批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、机构和地域来源。基于 r89 的 756 条目录，去重后新增 **2 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r90`，当前总量 **758**：`executable=12`、`recipe_fact_checked=661`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
