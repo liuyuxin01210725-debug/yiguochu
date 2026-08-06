@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r92",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r93",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -17340,6 +17340,148 @@
       ],
       "status": "recipe_fact_checked",
       "evidence_notes": "日本农林水产省北陆农政局官方PDF的具名和风炊饭，鲭鱼罐头、米、梅干和真姬菇在耐热袋中随沸水锅连续加热；营养结构含碳水、蛋白和纤维，但无鱼类安全终点且不是电饭煲流程，不宣称 executable。"
+    },
+    {
+      "recipe_id": "toshiba-hk-chicken-scallop-porridge-pc48drshk",
+      "canonical_name": "Chicken Porridge with dried scallops",
+      "aliases": ["干贝鸡肉粥"],
+      "region_codes": ["HK"],
+      "cuisine_family": "manufacturer-rice-soup",
+      "identity_status": "verified",
+      "traditional_vessels": ["Toshiba PC-48DRSHK(K) 电压力锅"],
+      "core_ingredients": ["珍珠米", "鸡肉", "干贝", "姜", "鸡汤或水"],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {"step": 1, "instruction": "珍珠米洗净沥干后按来源以盐和油腌约30分钟；鸡肉以白胡椒、淡酱油、绍兴酒和芝麻油腌约30分钟；干贝泡发后撕丝。", "source_ids": ["S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1"]},
+        {"step": 2, "instruction": "将腌米、生鸡肉、干贝丝、姜丝和水放入Toshiba PC-48DRSHK(K)内锅；原页同时写水6杯及先加4杯再补到Rice水位4，液体事实保持矛盾，不自行选值。", "source_ids": ["S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1"]},
+        {"step": 3, "instruction": "合盖选择Quick Porridge并定时20分钟，按来源选择Over Cook质地；完成后按机型提示自然泄压并搅匀。", "source_ids": ["S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1"]}
+      ],
+      "time_contract": {"total_minutes": 20, "source_ids": ["S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1"]},
+      "safety_endpoints": [],
+      "allergen_labels": ["鱼类", "大豆"],
+      "nutrition_structure": {"grade": "C", "roles": ["carbohydrate", "protein"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1"],
+        "notes": "Toshiba香港官方页限定PC-48DRSHK(K)、Quick Porridge 20分钟和Over Cook；原方液体6杯与水位4的写法冲突，鸡肉份量仅写1/2无单位，且没有禽肉安全终点，不外推普通电饭煲粥程序。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1",
+          "title": "Chicken Porridge with dried scallops",
+          "publisher": "Toshiba Lifestyle Hong Kong",
+          "url": "https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/ChickenPorridgewithdriedscallops",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页：珍珠米1杯、鸡肉原文仅写1/2无单位、干贝3个；食材表写水6杯，步骤写先加4杯再补至Rice水位4；Quick Porridge 20分钟、Over Cook、自然泄压提示",
+          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"],
+          "attribution": "Toshiba Lifestyle Hong Kong",
+          "license": "publisher_terms_unspecified"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Toshiba香港官方具名电压力锅粥方，生米、生鸡肉和干贝在同一内锅连续烹煮；原方的6杯水与补至水位4存在矛盾，鸡肉1/2没有单位，且缺少禽肉安全终点，保留研究层，不外推普通电饭煲。"
+    },
+    {
+      "recipe_id": "japan-hyogo-barley-chicken-vegetable-rice",
+      "canonical_name": "栄養満点！もち麦炊き込みご飯",
+      "aliases": ["兵库营养满点大麦鸡肉蔬菜炊饭"],
+      "region_codes": ["JP-HYOGO"],
+      "cuisine_family": "japanese-regional-mixed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["燃气灶/锅"],
+      "core_ingredients": ["白米", "もち麦", "鸡胸肉", "胡萝卜", "香菇", "油豆腐"],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {"name": "白米", "amount": {"value": 130, "unit": "g"}, "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+          {"name": "もち麦", "amount": {"value": 20, "unit": "g"}, "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+          {"name": "鸡胸肉", "amount": {"value": 40, "unit": "g"}, "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+          {"name": "胡萝卜", "amount": {"value": 15, "unit": "g"}, "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+          {"name": "香菇", "amount": {"value": 1, "unit": "朵"}, "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+          {"name": "油豆腐", "amount": {"value": 10, "unit": "g"}, "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]}
+        ],
+        "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]
+      },
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {"step": 1, "instruction": "白米和もち麦洗净，按来源加入水、清酒和盐浸泡约30分钟；鸡肉和蔬菜按来源处理并腌约10分钟。", "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+        {"step": 2, "instruction": "油豆腐按来源焯处理，将鸡肉、胡萝卜、香菇和油豆腐铺在米和もち麦上。", "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]},
+        {"step": 3, "instruction": "按日本农林水产省来源用燃气灶/锅炊煮至熟；来源未给出可迁移的固定水量、总时间或安全终点。", "source_ids": ["S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "日本农林水产省近畿农政局官方PDF只证明燃气灶/锅版本的食材和浸泡、铺料、炊煮流程；没有把水量、时间或禽肉安全终点外推为普通电饭煲参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MAFF-KINKI-HYOGO-BARLEY-CHICKEN-RICE-1",
+          "title": "栄養満点！もち麦炊き込みご飯",
+          "publisher": "日本农林水产省近畿农政局",
+          "url": "https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/241015-46.pdf",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_recipe_pdf",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "PDF第1页：2人份；白米130g、もち麦20g、鸡胸肉40g、胡萝卜15g、香菇1朵、油豆腐10g；米麦浸泡约30分钟，鸡肉蔬菜腌约10分钟，油豆腐焯后铺料，用燃气灶/锅炊煮",
+          "claim_scopes": ["identity", "ingredients", "quantity", "process", "appliance"],
+          "attribution": "日本农林水产省近畿农政局",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省近畿农政局官方PDF直接确认具名もち麦炊饭的2人份食材、浸泡和铺料流程；来源未给固定液体、总时间或禽肉安全终点，且器具为燃气灶/锅，不改写为电饭煲 executable。"
+    },
+    {
+      "recipe_id": "japan-hokkaido-black-chiset-soy-rice",
+      "canonical_name": "黒千石炊き込みご飯",
+      "aliases": ["北海道黑千石大豆炊饭"],
+      "region_codes": ["JP-HOKKAIDO"],
+      "cuisine_family": "japanese-regional-mixed-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["电饭煲"],
+      "core_ingredients": ["米", "黑千石大豆", "昆布", "盐", "清酒", "醋"],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {"step": 1, "instruction": "黑千石大豆按来源浸泡过夜。", "source_ids": ["S-MAFF-HOKKAIDO-BLACK-CHISET-SOY-RICE-1"]},
+        {"step": 2, "instruction": "米、黑千石大豆、昆布、盐、清酒和醋一起放入电饭煲，按来源炊饭。", "source_ids": ["S-MAFF-HOKKAIDO-BLACK-CHISET-SOY-RICE-1"]},
+        {"step": 3, "instruction": "完成后按来源拌匀食用；来源未给出固定水量、份数、时间或安全终点。", "source_ids": ["S-MAFF-HOKKAIDO-BLACK-CHISET-SOY-RICE-1"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["大豆"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": ["S-MAFF-HOKKAIDO-BLACK-CHISET-SOY-RICE-1"],
+        "notes": "日本农林水产省北海道农政事务所官方PDF明确使用电饭煲和黑千石大豆浸泡过夜；没有为普通机型补写水量、时间、份数或安全终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MAFF-HOKKAIDO-BLACK-CHISET-SOY-RICE-1",
+          "title": "黒千石炊き込みご飯",
+          "publisher": "日本农林水产省北海道农政事务所",
+          "url": "https://www.maff.go.jp/hokkaido/press/syokuryo/keikaku/attach/pdf/240219-2.pdf",
+          "retrieved_at": "2026-08-06",
+          "source_kind": "government_recipe_pdf",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "PDF第11页：米2合、黑千石大豆3大匙、昆布、盐、清酒、醋；黑千石大豆浸泡过夜，米豆昆布调味料一起放入电饭煲炊饭",
+          "claim_scopes": ["identity", "ingredients", "quantity", "process", "appliance"],
+          "attribution": "日本农林水产省北海道农政事务所",
+          "license": "publisher_copyright"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "日本农林水产省北海道农政事务所官方PDF直接确认黑千石大豆炊饭的具名、电饭煲流程及米豆调味组合；来源缺固定水量、份数、时间和安全终点，保持研究层，不推导为可直接执行的普通机型配方。"
     }
   ]
 }
