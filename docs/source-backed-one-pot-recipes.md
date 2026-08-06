@@ -325,6 +325,13 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 菇菌雜蔬釜飯 | 菇菌杂蔬釜饭 | HK | hong-kong-kamameshi-rice | 研究记录（非公开可执行） | 米；鸡蛋；甜豆；珍珠笋；鸿喜菇；紫薯；西芹；豌豆；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [菇菌雜蔬釜飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=1096) |
+## hong-kong-one-pot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 窝蛋牛肉饭 | 窩蛋牛肉飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 米；牛肉末；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [窝蛋牛肉饭](https://www.towngasappliance.com/newsletter/ricecooking/c04.php) |
+| 芦笋虾仁藜麦饭 | 蘆筍蝦仁藜麥飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 珍珠米；多色藜麦；虾仁；芦笋；玉米 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [芦笋虾仁藜麦饭](https://www.towngasappliance.com/newsletter/ricecooking/c02.php) |
+| 鲜菠萝鸡肉高纤多谷饭 | 鮮菠蘿雞肉高纖多穀飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 多谷米；鸡扒；洋葱；红椒；青豆；鲜菠萝 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鲜菠萝鸡肉高纤多谷饭](https://www.towngasappliance.com/newsletter/ricecooking/c01.php) |
 ## hong-kong-rice-cooker-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -898,6 +905,7 @@
 | たこめし | 松下SR-X910E 章鱼饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；熟章鱼；昆布；生姜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし](https://panasonic.jp/cooking/recipe/suihan/1358.html) |
 | たっぷりきのこの炊込みご飯 | 梅香什菌炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；混合蘑菇；梅干；油豆腐；青海苔 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [たっぷりきのこの炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041570/) |
 | とうもろこしごはん | 玉米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；玉米；黄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [とうもろこしごはん](https://panasonic.jp/cooking/recipe/reizo/0802.html) |
+| にんじんピラフ | 胡萝卜抓饭；胡萝卜皮拉夫 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；胡萝卜榨渣；培根；黄油；固形高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [にんじんピラフ](https://panasonic.jp/cooking/recipe/juice/0451.html) |
 | ほたて貝柱とえんどう豆の炊込みごはん | 扇贝豌豆炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；扇贝柱；豌豆；姜；昆布高汤 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [ほたて貝柱とえんどう豆の炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_10/) |
 | アジア風炊込みごはん | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡肉；番茄；黄瓜；生菜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [アジア風炊込みごはん](https://panasonic.jp/cooking/recipe/suihan/1357.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[SR-X910E 仕様・詳細情報](https://panasonic.jp/suihan/products/SR-X910E/spec.html) |
 | アボカド鶏肉炊き込みご飯 | 牛油果鸡肉炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿；牛油果；柠檬；白葡萄酒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [アボカド鶏肉炊き込みご飯](https://dennabe-official.tatung.co.jp/recipe/view/2030) |

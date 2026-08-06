@@ -959,6 +959,7 @@
 - さつまいもの炊き込みご飯 (tiger-sweet-potato-bacon-kombu-rice) — 非地域·厂商食谱
 - たこめし (panasonic-tako-meshi-sr-x910e) — 非地域·厂商食谱
 - とうもろこしごはん (panasonic-corn-rice-shimamoto) — 非地域·厂商食谱
+- にんじんピラフ (panasonic-carrot-pilaf-mj-l600) — 非地域·厂商食谱
 - チキンのクリームピラフ (panasonic-chicken-cream-pilaf) — 非地域·厂商食谱
 - トウモロコシの炊き込みご飯 (iris-cotoco-corn-mixed-rice) — 非地域·厂商食谱
 - 三杯雞炊飯 (cookpot-three-cup-chicken-rice) — 非地域·厂商食谱
@@ -1186,6 +1187,8 @@
 - 櫻花蝦冬菇雞肉藜麥飯 (hk-sakura-shrimp-chicken-quinoa-rice) — HK
 - 番茄雜菇雞腿肉飯 (hk-tomato-mushroom-chicken-rice) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
+- 窝蛋牛肉饭 (towngas-nest-egg-minced-beef-rice) — HK
+- 芦笋虾仁藜麦饭 (towngas-asparagus-shrimp-quinoa-rice) — HK
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK
 - 芝士蘆筍海鮮焗飯 (fehd-cheese-asparagus-seafood-rice) — HK
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK

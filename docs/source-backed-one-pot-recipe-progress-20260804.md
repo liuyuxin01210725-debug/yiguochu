@@ -1,5 +1,29 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r83 搜集期第五十六批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、港台机构和地域来源。基于 r82 的 738 条目录，去重后新增 **4 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r83`，当前总量 **742**：`executable=12`、`recipe_fact_checked=649`、`identity_verified=75`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 厂商官方来源（1 条，`recipe_fact_checked`）
+
+- `panasonic-carrot-pilaf-mj-l600` — `にんじんピラフ`（胡萝卜抓饭/皮拉夫）：Panasonic 日本官方页给出 4 人份、白米 3 合、胡萝卜汁榨渣 60g、培根 50g、黄油 20g，内锅加水至 3 合水位线；榨渣依赖 MJ-L600 慢速榨汁机，不能替换成普通胡萝卜丁，时间与培根熟制终点保持缺口。
+
+### 香港机构/品牌来源（3 条，全部 `recipe_fact_checked`）
+
+- `towngas-fresh-pineapple-chicken-multigrain-rice` — 鲜菠萝鸡肉高纤多谷饭：Towngas 明火饭盘原方，45 分钟、米/水/鸡汤/鸡肉/洋葱/红椒/青豆/菠萝结构；菠萝在熄火焗后加入，不改写成电饭煲全程同煮。
+- `towngas-asparagus-shrimp-quinoa-rice` — 芦笋虾仁藜麦饭：Towngas 明火饭盘原方，30 分钟、珍珠米/藜麦/300mL 水，中途加入虾仁、芦笋和玉米；海鲜熟制终点保持缺口。
+- `towngas-nest-egg-minced-beef-rice` — 窝蛋牛肉饭：Towngas 明火饭锅原方，35 分钟、米/牛肉末/鸡蛋，熄火后加蛋焗 15 分钟；只有碳水和蛋白两类，不包装成三类营养完整菜饭。
+
+### 地域线本批结果
+
+本批没有达到新增入库门槛的地域条目。台州黄鱼焖土灶饭仅补充既有 `taizhou-yellowfish-rice` 的名称/地域线索；台山菜果饭的新政府页面明确是熟饭二次拌焖，不能伪装成生米一锅饭。温州糯米饭、乌米饭、竹筒饭等本轮命中仅为名录或身份页，继续留在研究报告，不从名称推断完整配方。
+
+### 本批纪律
+
+- 四条均来自直接打开的原始厂商页面，显式记录 `evidence_tier`、`evidence_locator`、署名、许可和实际 claim scope；没有自动晋升 `executable`，没有厨房验证。
+- 明火饭盘、电饭煲指定机型、榨汁机前处理、中途投料和熄火后投蛋等边界逐条保留；不把器具参数迁移成普通电饭煲规则，不把缺失安全终点补成事实。
+- 本批当天完成数据、目录产物、回归测试和进度记录，随后分批提交，避免证据停留在未提交工作区。
+
 ## r80 搜集期第五十三批（2026-08-06）
 
 本批按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、港台品牌/机构和中国地域来源。基于 r79 的 716 条目录，去重后新增 **6 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r80`，当前总量 **722**：`executable=12`、`recipe_fact_checked=634`、`identity_verified=70`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
