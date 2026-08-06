@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260806-national-r82",
+  "catalog_version": "source-backed-one-pot-v1-20260806-national-r83",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -16335,5 +16335,126 @@
 {"recipe_id":"quanzhou-shishi-green-island-daikon-rice","canonical_name":"绿岛白萝卜饭","aliases":["泉州萝卜饭","泉州焖饭"],"region_codes":["CN-FJ-QUANZHOU-SHISHI"],"cuisine_family":"quanzhou-regional-mixed-rice","identity_status":"verified","traditional_vessels":["未说明"],"core_ingredients":["米","沙土萝卜","永春土猪肥肉","香菇","海蛎","虾干"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"泉州市商务局指导页面记载，沙土萝卜、永春土猪肥肉、香菇、海蛎和虾干与米同煮；来源未给固定用量、液体、时间或器具。","source_ids":["S-QUANZHOU-SHISHI-GREEN-ISLAND-DAIKON-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["甲壳类","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"泉州市商务局指导页面确认绿岛白萝卜饭是真实具名泉州焖饭，并明确萝卜、肥肉、香菇、海蛎、虾干与米同煮；没有固定份量、米水、时间、器具或安全来源，保持缺口，不补写。"},"source_refs":[{"source_id":"S-QUANZHOU-SHISHI-GREEN-ISLAND-DAIKON-RICE-1","title":"绿岛白萝卜饭","publisher":"Philips Hong Kong","url":"https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202501/t20250131_3136450.htm","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页菜品段：绿岛白萝卜饭/泉州焖饭名称，石狮沙土萝卜、永春土猪肥肉、香菇、海蛎、虾干与米同煮","claim_scopes":["identity","ingredients","process"]}],"status":"recipe_fact_checked","evidence_notes":"泉州市商务局指导页面确认绿岛白萝卜饭是真实具名泉州焖饭，并明确萝卜、肥肉、香菇、海蛎、虾干与米同煮；没有固定份量、米水、时间、器具或安全来源，保持缺口，不补写。"},
     {"recipe_id":"shunchang-she-bamboo-tube-rice","canonical_name":"顺昌畲家竹筒饭","aliases":["顺昌畲族竹筒饭"],"region_codes":["CN-FJ-NANPING-SHUNCHANG"],"cuisine_family":"fujian-she-bamboo-tube-rice","identity_status":"verified","traditional_vessels":[],"core_ingredients":[],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"政府来源确认顺昌畲家竹筒饭的具名和地域非遗身份，但食材、流程和器具合同均缺失；保持identity_verified，不把竹筒饭泛称当作具体配方。"},"source_refs":[{"source_id":"S-SHUNCHANG-SHE-BAMBOO-TUBE-RICE-1","title":"顺昌畲族非遗文化","publisher":"government","url":"https://mzzjt.fujian.gov.cn/xxgk/gzdt/dsdt/fjmz/mzshsy/202204/t20220403_5874537.htm","retrieved_at":"2026-08-06","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":1,"attribution":"government","license":"government_site_terms_unspecified","evidence_locator":"正文非遗/美食段：顺昌畲家竹筒饭制作技艺列入顺昌县畲族非遗项目","claim_scopes":["identity"]}],"status":"identity_verified","evidence_notes":"政府来源确认顺昌畲家竹筒饭的具名和地域非遗身份，但食材、流程和器具合同均缺失；保持identity_verified，不把竹筒饭泛称当作具体配方。"},
     {"recipe_id":"pingjiang-red-army-guerrilla-bamboo-rice","canonical_name":"湘鄂赣革命根据地红军游击队竹筒饭","aliases":["平江红军游击队竹筒饭"],"region_codes":["CN-HN-YUEYANG-PINGJIANG"],"cuisine_family":"hunan-bamboo-tube-rice","identity_status":"verified","traditional_vessels":[],"core_ingredients":[],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"平江县政府非遗目录确认该竹筒饭技艺的真实名称和加义镇地域归属；来源没有食材、流程或器具细节，保持identity_verified，不补写。"},"source_refs":[{"source_id":"S-PINGJIANG-RED-ARMY-GUERRILLA-BAMBOO-RICE-1","title":"第五批县级非物质文化遗产代表性项目名录","publisher":"government","url":"https://www.pingjiang.gov.cn/uploadfiles/202512/2025121610443066431.pdf","retrieved_at":"2026-08-06","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":1,"attribution":"government","license":"government_site_terms_unspecified","evidence_locator":"PDF第2页第7项：湘鄂赣革命根据地红军游击队竹筒饭制作技艺，申报地区加义镇","claim_scopes":["identity"]}],"status":"identity_verified","evidence_notes":"平江县政府非遗目录确认该竹筒饭技艺的真实名称和加义镇地域归属；来源没有食材、流程或器具细节，保持identity_verified，不补写。"}
+    ,{
+      "recipe_id": "panasonic-carrot-pilaf-mj-l600",
+      "canonical_name": "にんじんピラフ",
+      "aliases": ["胡萝卜抓饭", "胡萝卜皮拉夫"],
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": ["Panasonic电饭煲"],
+      "core_ingredients": ["白米", "胡萝卜榨渣", "培根", "黄油", "固形高汤"],
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {"name": "白米", "amount": {"value": 3, "unit": "合"}, "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]},
+          {"name": "胡萝卜汁榨渣", "amount": {"value": 60, "unit": "g"}, "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]},
+          {"name": "培根", "amount": {"value": 50, "unit": "g"}, "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]},
+          {"name": "黄油", "amount": {"value": 20, "unit": "g"}, "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]}
+        ],
+        "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {"appliance_model": "Panasonic电饭煲（来源未给型号）", "scale": "米", "mark": 3},
+        "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]
+      },
+      "cooking_sequence": [
+        {"step": 1, "instruction": "白米洗净并沥约15分钟；胡萝卜汁榨渣和培根按Panasonic原方准备。", "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]},
+        {"step": 2, "instruction": "将白米、固形高汤、胡萝卜汁榨渣和培根放入电饭煲内锅，加水至3合水位线后炊煮。", "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]},
+        {"step": 3, "instruction": "煮好后拌入黄油，再按来源用盐和胡椒调味；欧芹与帕玛森奶酪为盛盘后的可选撒料。", "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"]}
+      ],
+      "time_contract": null,
+      "safety_endpoints": [],
+      "allergen_labels": ["乳制品"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {"status": "source_limited", "source_ids": ["S-PANASONIC-CARROT-PILAF-MJ-L600"], "waterline": {"appliance_model": "Panasonic电饭煲（来源未给型号）", "scale": "米", "mark": 3}, "notes": "Panasonic官方原方依赖MJ-L600慢速榨汁机产生胡萝卜榨渣；不能擅自替换为胡萝卜丁，也不从3合水位线推导跨机型毫升数。时间与培根熟制终点未给出。"},
+      "source_refs": [
+        {"source_id": "S-PANASONIC-CARROT-PILAF-MJ-L600", "title": "にんじんピラフ", "publisher": "Panasonic Japan Cooking", "url": "https://panasonic.jp/cooking/recipe/juice/0451.html", "retrieved_at": "2026-08-06", "source_kind": "manufacturer_recipe_page", "access_status": "opened", "evidence_tier": 3, "evidence_locator": "官方页：4人份、白米3合、胡萝卜汁榨渣60g、培根50g、黄油20g；内锅加水至3合水位线，炊煮后拌黄油；MJ-L600榨汁机前处理", "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance"], "attribution": "Panasonic Japan", "license": "publisher_copyright"}
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic日本官方页面直接给出具名にんじんピラフ、4人份、米/胡萝卜汁榨渣/培根/黄油结构、3合水位线和电饭煲流程。胡萝卜榨渣依赖MJ-L600慢速榨汁机，不能改写成普通胡萝卜；页面未给总时间或培根熟制终点，保持研究状态。"
+    },
+    {
+      "recipe_id": "towngas-fresh-pineapple-chicken-multigrain-rice",
+      "canonical_name": "鲜菠萝鸡肉高纤多谷饭",
+      "aliases": ["鮮菠蘿雞肉高纖多穀飯"],
+      "region_codes": ["HK"],
+      "cuisine_family": "hong-kong-one-pot-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["TGC煮饭宝饭盘", "明火"],
+      "core_ingredients": ["多谷米", "鸡扒", "洋葱", "红椒", "青豆", "鲜菠萝"],
+      "fixed_batch": null,
+      "liquid_contract": {"kind": "added_water", "amount": {"value": 500, "unit": "mL（水250mL+鸡汤250mL）"}, "source_ids": ["S-TOWNGAS-FRESH-PINEAPPLE-CHICKEN-RICE"]},
+      "cooking_sequence": [
+        {"step": 1, "instruction": "多谷米（白米、法国小麦、洋薏米和红米）与250mL水、250mL鸡汤放入TGC煮饭宝饭盘，中火煮约10分钟。", "source_ids": ["S-TOWNGAS-FRESH-PINEAPPLE-CHICKEN-RICE"]},
+        {"step": 2, "instruction": "将已腌鸡扒、洋葱、红椒和青豆铺在饭面，继续明火煮至自动熄火。", "source_ids": ["S-TOWNGAS-FRESH-PINEAPPLE-CHICKEN-RICE"]},
+        {"step": 3, "instruction": "熄火后按来源焗约5分钟，最后加入鲜菠萝拌匀；鸡肉熟制终点来源未给出。", "source_ids": ["S-TOWNGAS-FRESH-PINEAPPLE-CHICKEN-RICE"]}
+      ],
+      "time_contract": {"total_minutes": 45, "source_ids": ["S-TOWNGAS-FRESH-PINEAPPLE-CHICKEN-RICE"]},
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "煤气企业原方是TGC煮饭宝明火饭盘流程，不是电饭煲；鲜菠萝在结束后加入，不能改写成全程同煮，也不外推电饭煲程序或禽肉安全终点。"},
+      "source_refs": [
+        {"source_id": "S-TOWNGAS-FRESH-PINEAPPLE-CHICKEN-RICE", "title": "鲜菠萝鸡肉高纤多谷饭", "publisher": "香港中华煤气有限公司", "url": "https://www.towngasappliance.com/newsletter/ricecooking/c01.php", "retrieved_at": "2026-08-06", "source_kind": "manufacturer_recipe_page", "access_status": "opened", "evidence_tier": 3, "evidence_locator": "官方详情页：45分钟；多谷米300g、水250mL+鸡汤250mL、鸡肉250g、洋葱/红椒/青豆/鲜菠萝；先煮10分钟、铺鸡肉和蔬菜、熄火焗5分钟后加菠萝", "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"], "attribution": "香港中华煤气有限公司", "license": "publisher_copyright"}
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Towngas官方明火煮饭页面给出具名鲜菠萝鸡肉高纤多谷饭、多谷米/鸡肉/蔬菜/菠萝结构、500mL液体和45分钟分段流程。原方未给份数或鸡肉安全终点，且菠萝是熄火焗后加入；保持明火饭盘边界，不改写为电饭煲菜饭。"
+    },
+    {
+      "recipe_id": "towngas-asparagus-shrimp-quinoa-rice",
+      "canonical_name": "芦笋虾仁藜麦饭",
+      "aliases": ["蘆筍蝦仁藜麥飯"],
+      "region_codes": ["HK"],
+      "cuisine_family": "hong-kong-one-pot-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["TGC煮饭宝饭盘", "明火"],
+      "core_ingredients": ["珍珠米", "多色藜麦", "虾仁", "芦笋", "玉米"],
+      "fixed_batch": null,
+      "liquid_contract": {"kind": "added_water", "amount": {"value": 300, "unit": "mL"}, "source_ids": ["S-TOWNGAS-ASPARAGUS-SHRIMP-QUINOA-RICE"]},
+      "cooking_sequence": [
+        {"step": 1, "instruction": "珍珠米150g、多色藜麦150g与300mL水、橄榄油和盐放入TGC饭盘，中火煮约10分钟。", "source_ids": ["S-TOWNGAS-ASPARAGUS-SHRIMP-QUINOA-RICE"]},
+        {"step": 2, "instruction": "将已调味虾仁、芦笋片和粟米粒铺在藜麦饭面，继续明火煮至自动熄火。", "source_ids": ["S-TOWNGAS-ASPARAGUS-SHRIMP-QUINOA-RICE"]},
+        {"step": 3, "instruction": "熄火后按来源焗约5分钟并拌入芝麻油；虾仁熟制终点来源未给出。", "source_ids": ["S-TOWNGAS-ASPARAGUS-SHRIMP-QUINOA-RICE"]}
+      ],
+      "time_contract": {"total_minutes": 30, "source_ids": ["S-TOWNGAS-ASPARAGUS-SHRIMP-QUINOA-RICE"]},
+      "safety_endpoints": [],
+      "allergen_labels": ["甲壳类"],
+      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "Towngas原方限定明火饭盘；虾仁和芦笋为中途投料，不外推普通电饭煲水位、程序或海鲜安全终点。"},
+      "source_refs": [
+        {"source_id": "S-TOWNGAS-ASPARAGUS-SHRIMP-QUINOA-RICE", "title": "芦笋虾仁藜麦饭", "publisher": "香港中华煤气有限公司", "url": "https://www.towngasappliance.com/newsletter/ricecooking/c02.php", "retrieved_at": "2026-08-06", "source_kind": "manufacturer_recipe_page", "access_status": "opened", "evidence_tier": 3, "evidence_locator": "官方详情页：30分钟；珍珠米150g、多色藜麦150g、水300mL、虾6只、芦笋和粟米；先煮10分钟后中途投虾和蔬菜，熄火焗5分钟", "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"], "attribution": "香港中华煤气有限公司", "license": "publisher_copyright"}
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Towngas官方明火煮饭页面直接给出具名芦笋虾仁藜麦饭、米/藜麦/虾仁/芦笋/玉米结构、300mL水和30分钟中途投料流程。原方未给份数与虾仁安全终点，保持海鲜安全缺口，不改写为电饭煲参数。"
+    },
+    {
+      "recipe_id": "towngas-nest-egg-minced-beef-rice",
+      "canonical_name": "窝蛋牛肉饭",
+      "aliases": ["窩蛋牛肉飯"],
+      "region_codes": ["HK"],
+      "cuisine_family": "hong-kong-one-pot-rice",
+      "identity_status": "verified",
+      "traditional_vessels": ["TGC明火饭锅", "明火"],
+      "core_ingredients": ["米", "牛肉末", "鸡蛋"],
+      "fixed_batch": null,
+      "liquid_contract": {"kind": "waterline", "waterline": {"appliance_model": "TGC明火饭锅", "scale": "米", "mark": "按饭锅刻度"}, "source_ids": ["S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE"]},
+      "cooking_sequence": [
+        {"step": 1, "instruction": "米放入明火饭锅，按饭锅刻度加水；牛肉末按来源加入梳打粉、糖、生粉、生抽、水、油和胡椒调味。", "source_ids": ["S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE"]},
+        {"step": 2, "instruction": "水渐收干约4分钟时，将调味牛肉末铺在米面，继续煮约4分钟。", "source_ids": ["S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE"]},
+        {"step": 3, "instruction": "熄火后倒入鸡蛋，加盖焗约15分钟，再按来源淋豉油汁；牛肉与鸡蛋熟制终点来源未给出。", "source_ids": ["S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE"]}
+      ],
+      "time_contract": {"total_minutes": 35, "source_ids": ["S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE"]},
+      "safety_endpoints": [],
+      "allergen_labels": [],
+      "nutrition_structure": {"grade": "C", "roles": ["carbohydrate", "protein"]},
+      "cooker_adaptation": {"status": "not_adapted", "notes": "Towngas原方是明火饭锅的窝蛋牛肉饭；来源虽写按饭锅刻度加水，但不建立电饭煲适配；鸡蛋熄火后加入，来源没有蔬菜，也没有牛肉或鸡蛋熟制终点，不外推普通电饭煲或宣称三类营养完整。"},
+      "source_refs": [
+        {"source_id": "S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE", "title": "窝蛋牛肉饭", "publisher": "香港中华煤气有限公司", "url": "https://www.towngasappliance.com/newsletter/ricecooking/c04.php", "retrieved_at": "2026-08-06", "source_kind": "manufacturer_recipe_page", "access_status": "opened", "evidence_tier": 3, "evidence_locator": "官方详情页：35分钟；米2杯、水按饭锅刻度、牛肉150至200g、蛋1只；水渐收干约4分钟铺牛肉，再约4分钟熄火加蛋焗15分钟", "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process", "appliance", "time"], "attribution": "香港中华煤气有限公司", "license": "publisher_copyright"}
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Towngas官方明火煮饭页面给出具名窝蛋牛肉饭、米/牛肉末/鸡蛋结构、饭锅刻度和35分钟分段流程。它只有碳水与蛋白两类，没有蔬菜；鸡蛋在熄火后加入，牛肉与鸡蛋熟制终点缺失，保持研究状态，不包装成营养三要素齐全或电饭煲配方。"
+    }
   ]
 }
