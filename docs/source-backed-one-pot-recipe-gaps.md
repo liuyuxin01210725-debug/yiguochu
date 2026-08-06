@@ -1000,6 +1000,7 @@
 - 玄米の炊き込みご飯 (zojirushi-brown-rice-ih-pot) — 非地域·厂商食谱
 - 甜薯番茄多穀菜飯 (philips-sweet-potato-tomato-mixed-grain-vegetable-rice) — 非地域·厂商食谱
 - 番茄雞肉起司燉飯 (r59-panasonic-taiwan-tomato-chicken-cheese-risotto) — 非地域·厂商食谱
+- 紅蟳稀飯 (panasonic-taiwan-red-crab-pork-congee) — 非地域·厂商食谱
 - 紅豆牛肉糙米菜飯 (philips-red-bean-beef-brown-rice-vegetable-rice) — 非地域·厂商食谱
 - 芋香栗子炊飯 (cookpot-taro-chestnut-pork-rice) — 非地域·厂商食谱
 - 菌菇玉菜油蔥飯 (panasonic-taiwan-mushroom-vegetable-oil-shallot-rice) — 非地域·厂商食谱
@@ -1082,6 +1083,7 @@
 - 五穀雜糧飯 (taiwan-five-grain-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 午仔魚一夜干絲瓜炊飯 (panasonic-taiwan-loofah-dried-fish-rice) — TW
+- 山藥飯 (taiwan-yam-rice) — TW
 - 普羅旺斯野菇雞起司燉飯 (taiwan-provencal-mushroom-chicken-risotto) — TW
 - 牛蒡炊飯 (taiwan-burdock-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
@@ -1399,6 +1401,7 @@
 - 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
 - 雜糧干貝海鮮蒸臺灣藜飯 (taiwan-multigrain-scallop-seafood-quinoa-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
+- 山藥飯 (taiwan-yam-rice) — TW
 - 普羅旺斯野菇雞起司燉飯 (taiwan-provencal-mushroom-chicken-risotto) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW

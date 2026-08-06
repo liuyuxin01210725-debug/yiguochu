@@ -1,5 +1,27 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r89 搜集期第六十二批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、机构和地域来源。基于 r88 的 754 条目录，去重后新增 **2 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r89`，当前总量 **756**：`executable=12`、`recipe_fact_checked=659`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 厂商官方来源（1 条，`recipe_fact_checked`）
+
+- `panasonic-taiwan-red-crab-pork-congee` — `紅蟳稀飯`：Panasonic 台湾官方页，红蟳、白米、五花肉末、香菇和 900g 水在 SR-PAA100 同锅，选择白米稀饭程序；未给总时间、蟹/猪肉安全终点，不把稀饭程序当安全证明，也不宣称传统台湾或闽南代表身份。
+
+### 台湾机构来源（1 条，`recipe_fact_checked`）
+
+- `taiwan-yam-rice` — `山藥飯`：台湾农业部农业知识入口网／桃园区农业改良场正文，白米、山药、干香菇、绞肉等经原方预处理后入电锅，加 1 杯水煮熟；未给固定份数、虾米量、完整时间或肉虾具体温度，不推导通用比例。
+
+### 地域线与排除
+
+- 阿吾丹羊拐抓饭、春湖鱼饭、涉县小米焖饭、豌豆肉抓饭均已在目录，本轮不重复。
+- 察隅僜人手抓饭描述为熟红米铺叶、另配鸡肉，不是一锅连续饭；泛称抓饭技艺没有固定做法正文，不新增。
+
+### 本批纪律
+
+- 新增来源均直接打开并记录 `evidence_tier`、定位、署名、许可和实际 claim scope；没有晋升 `executable` 或 `kitchen_observed`。
+- 当天完成数据、目录产物、r89 专项测试和来源型菜谱门禁；不可复核或不符合生米/连续同锅边界的候选只写研究报告，不进入已核验 JSON。
+
 ## r88 搜集期第六十一批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、机构和地域来源。基于 r87 的 750 条目录，去重后新增 **4 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r88`，当前总量 **754**：`executable=12`、`recipe_fact_checked=657`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
