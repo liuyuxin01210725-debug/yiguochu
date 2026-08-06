@@ -316,6 +316,8 @@
 | 三色藜麥小米甜粟米粒肉碎粥 | 三色藜麦小米甜玉米粒肉碎粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 藜麦；小米；白米；瘦肉；甜粟米 | identity、ingredients、process | 缺 quantity、liquid、time | [三色藜麥小米甜粟米粒肉碎粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=60) |
 | 時菜肉碎粥 | 时菜肉碎粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 白米；瘦肉；菜心 | identity、ingredients、process | 缺 quantity、liquid、time | [時菜肉碎粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=91) |
 | 番茄雞肉粥 | 番茄鸡肉粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 白米；鸡肉；番茄 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [番茄雞肉粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=51) |
+| 香菇魚腩粥 | 香菇鱼腩粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 白米；冬菇；鲩鱼腩；葱；姜 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [香菇魚腩粥](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=864) |
+| 黃金海鮮粥 | 黄金海鲜粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 丝苗白米；花蛤；虾；鱿鱼；带子；原粒粟米 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [黃金海鮮粥](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=589) |
 ## hong-kong-electric-cooker-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -996,6 +998,7 @@
 | 膏蟹粥 | 膏蟹海鲜粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 膏蟹；米；瑶柱；姜；水 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [膏蟹粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/crab-congee.html) |
 | 芋头香菇素油饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 长糯米；芋头；小香菇；杏鲍菇；豆皮 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】芋头香菇素油饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_225.html) |
 | 芋香栗子炊飯 | 芋香栗子炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；栗子；梅花肉；芋頭；乾香菇；紅蔥頭；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [芋香栗子炊飯](https://www.cookpot.com.tw/cookbook/691.html) |
+| 菌菇玉菜油蔥飯 | 菌菇玉菜油葱饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 月光米；紅蘿蔔；綠竹筍；美白菇；鴻喜菇；香菇；去骨仿雞腿肉；豆皮絲；高麗菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [菌菇玉菜油蔥飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5101) |
 | 菌菇糙米饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；杏鲍菇；蟹味菇；鸡蛋；葱花 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [菌菇糙米饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/jungucaomifan/) |
 | 菠菜三文魚粥 | 菠菜三文鱼粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；菠菜；三文鱼 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [菠菜三文魚粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/spinach-salmon-congee.html) |
 | 萝卜豆皮炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；白萝卜；豆皮 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】萝卜豆皮炊饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_167.html) |
@@ -1019,6 +1022,7 @@
 | 高丽菜鲭鱼炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；高丽菜；鲭鱼；黑木耳；鸿喜菇；玉米笋；红萝卜；毛豆仁；昆布 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [高麗菜鯖魚炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3638) |
 | 鮭魚五目炊飯 | 鮭鱼五目炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 無刺鮭魚；乾香菇；鴻禧菇；紅蘿蔔；牛蒡；蒟蒻；白米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鮭魚五目炊飯](https://www.philips.com.tw/c-e/ho/recipe-overview-page/main-courses/steamed-salmon-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鮭魚奶香糙米燉飯 | 鲑鱼奶香糙米炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 鮭魚；糙米；青江菜；全脂牛奶 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鮭魚奶香糙米燉飯](https://www.cookpot.com.tw/cookbook/588.html) |
+| 鮭魚白蘿蔔金黃炊飯 | 鲑鱼白萝卜金黄炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；白蘿蔔；鮭魚；雞蛋；蔥花；芝麻香油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鮭魚白蘿蔔金黃炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5122) |
 | 鯖缶の炊き込みごはん | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；水煮鲭鱼罐头；胡萝卜；姜；酱油；酒；味醂 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鯖缶の炊き込みごはん](https://www.irisohyama.co.jp/cooking-kettle/recipe/recipe14/) |
 | 鯛飯 | 艾丽丝欧雅玛鲷饭；鲷鱼饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鲷鱼切片；昆布茶；三叶；姜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鯛飯｜オリジナルレシピ 電気圧力鍋 KPC-MA2](https://www.irisohyama.co.jp/kitchen/cooker/recipe/recipe31.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鲜蔬竹笋饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；肉末；洋葱；胡萝卜；竹笋；木耳 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鲜蔬竹笋饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/xianshuzhusunfan/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |

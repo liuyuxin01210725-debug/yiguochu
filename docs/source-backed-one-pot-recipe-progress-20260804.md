@@ -1,5 +1,29 @@
 # 一锅出来源型菜谱推进记录（2026-08-04）
 
+## r88 搜集期第六十一批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验厂商、机构和地域来源。基于 r87 的 750 条目录，去重后新增 **4 条**：全部为 `recipe_fact_checked`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r88`，当前总量 **754**：`executable=12`、`recipe_fact_checked=657`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 厂商官方来源（2 条，`recipe_fact_checked`）
+
+- `panasonic-taiwan-mushroom-vegetable-oil-shallot-rice` — `菌菇玉菜油蔥飯`：Panasonic 台湾官方页，月光米、三类菇、胡萝卜、竹笋、高丽菜、豆皮丝和原名“去骨仿鸡腿肉”在 SR-PAA100 同锅；鸡高汤 350g 与白米/美味炊煮/香Q感程序有来源。未给总时间、禽肉熟制终点或成品人数，不把仿鸡腿肉改成真鸡肉。
+- `panasonic-taiwan-salmon-daikon-golden-rice` — `鮭魚白蘿蔔金黃炊飯`：米、鲑鱼、白萝卜同锅，煮好后加入蛋液并保温再加热5分钟；3杯温水与 SR-PAA100 程序有来源。未给总时间、鱼/蛋安全终点，不把原方水量外推为普通电饭煲比例。
+
+### 香港机构来源（2 条，`recipe_fact_checked`）
+
+- `hk-mushroom-grass-carp-congee` — `香菇魚腩粥`：香港卫生署 EatSmart 约18份粥底，白米600g、清水6.5L，大火约3小时；粥底后加入冬菇、鲩鱼腩、葱姜煮熟。保持餐饮批量、炉上锅和无家庭缩放/安全温度的边界。
+- `hk-golden-seafood-congee` — `黃金海鮮粥`：香港卫生署 EatSmart 5人份，生米煮粥后加入花蛤、虾、鱿鱼、带子和粟米煮至熟透。保留原锅及“熟透”文字，不补海鲜中心温度或电饭煲参数。
+
+### 地域线与排除
+
+- 赤坎煲仔饭、台山黄鳝饭、永春排骨咸饭、八卦洲芦蒿焖饭/河豚八煲饭均已在目录，本轮不重复。
+- 瑶乡糯米菜饭是熟糯米再炒，济宁甏肉干饭是肉与干饭分器具，连南香粳烤肉饭只有名录列名且同锅机制不明，均不新增。
+
+### 本批纪律
+
+- 新增来源均直接打开并记录 `evidence_tier`、定位、署名、许可和实际 claim scope；没有晋升 `executable` 或 `kitchen_observed`。
+- 当天完成数据、目录产物、r88 专项测试和来源型菜谱门禁；不可复核或不符合生米/连续同锅边界的候选只写研究报告，不进入已核验 JSON。
+
 ## r85 搜集期第五十八批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验地域、机构和厂商来源。基于 r84 的 744 条目录，去重后新增 **1 条**：`identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r85`，当前总量 **745**：`executable=12`、`recipe_fact_checked=650`、`identity_verified=77`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

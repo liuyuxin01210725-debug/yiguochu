@@ -619,6 +619,8 @@
 - 椰丝饭 (hainan-coconut-shred-rice) — CN-HI
 - 赫哲族拉拉饭 (heizhe-lala-millet-corn-porridge) — CN-HL
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
+- 香菇魚腩粥 (hk-mushroom-grass-carp-congee) — HK
+- 黃金海鮮粥 (hk-golden-seafood-congee) — HK
 - 粟米瘦肉粥 (startsmart-corn-lean-pork-porridge) — HK
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK
 - 港巴蔬菜粥 (had-vegetable-pulao) — HK
@@ -775,6 +777,7 @@
 - 三色藜麥小米甜粟米粒肉碎粥 (startsmart-quinoa-millet-corn-pork-congee) — HK
 - 時菜肉碎粥 (startsmart-seasonal-pork-congee) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
+- 黃金海鮮粥 (hk-golden-seafood-congee) — HK
 - 三文魚青毛豆藜麥飯 (hk-salmon-edamame-quinoa-rice) — HK
 - 南瓜冬菇豬肉燉飯 (hk-pumpkin-shiitake-pork-rice) — HK
 - 櫻花蝦冬菇雞肉藜麥飯 (hk-sakura-shrimp-chicken-quinoa-rice) — HK
@@ -999,6 +1002,7 @@
 - 番茄雞肉起司燉飯 (r59-panasonic-taiwan-tomato-chicken-cheese-risotto) — 非地域·厂商食谱
 - 紅豆牛肉糙米菜飯 (philips-red-bean-beef-brown-rice-vegetable-rice) — 非地域·厂商食谱
 - 芋香栗子炊飯 (cookpot-taro-chestnut-pork-rice) — 非地域·厂商食谱
+- 菌菇玉菜油蔥飯 (panasonic-taiwan-mushroom-vegetable-oil-shallot-rice) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱
 - 藜麦糙米橄榄饭 (panasonic-taiwan-quinoa-brown-rice-olive-rice) — 非地域·厂商食谱
 - 蘿蔔牛腩飯 (panasonic-taiwan-beef-brisket-radish-rice) — 非地域·厂商食谱
@@ -1007,6 +1011,7 @@
 - 雞汁野菜炊飯 (philips-chicken-vegetable-takikomi-rice) — 非地域·厂商食谱
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
 - 香菇腊肠饭 (midea-shiitake-lapcheong-rice) — 非地域·厂商食谱
+- 鮭魚白蘿蔔金黃炊飯 (panasonic-taiwan-salmon-daikon-golden-rice) — 非地域·厂商食谱
 - 鲜蔬竹笋饭 (zojirushi-fresh-vegetable-bamboo-rice) — 非地域·厂商食谱
 - 鳳梨蝦仁飯 (r59-panasonic-taiwan-pineapple-shrimp-rice) — 非地域·厂商食谱
 - 鸡肉腊肠煲仔饭 (philips-chicken-lap-cheong-claypot-rice) — 非地域·厂商食谱
@@ -1193,6 +1198,7 @@
 - 廣島蠔雜菇煲仔飯 (hk-hiroshima-oyster-mushroom-claypot-rice) — HK
 - 淮山圓肉雞柳煲仔飯 (hk-yam-longan-chicken-claypot-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
+- 黃金海鮮粥 (hk-golden-seafood-congee) — HK
 - 三文魚青毛豆藜麥飯 (hk-salmon-edamame-quinoa-rice) — HK
 - 南瓜冬菇豬肉燉飯 (hk-pumpkin-shiitake-pork-rice) — HK
 - 櫻花蝦冬菇雞肉藜麥飯 (hk-sakura-shrimp-chicken-quinoa-rice) — HK
