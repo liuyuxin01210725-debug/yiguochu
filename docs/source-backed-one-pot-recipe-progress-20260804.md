@@ -38,6 +38,28 @@
 - 新增来源直接打开，显式记录 `evidence_tier`、定位、署名、许可和实际 claim scope；没有自动晋升 `executable`，没有厨房验证。
 - 本批当天完成数据、目录产物、测试和进度记录的分批提交，避免研究证据长期停留在未提交工作区。
 
+## r87 搜集期第六十批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验 Panasonic 台湾官方、喀什政府、塔城政府归档资料和机构目录。基于 r86 的 748 条目录，去重后新增 **2 条**：1 条 `recipe_fact_checked`、1 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r87`，当前总量 **750**：`executable=12`、`recipe_fact_checked=653`、`identity_verified=79`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 厂商官方来源（1 条，`recipe_fact_checked`）
+
+- `panasonic-taiwan-gyudon-onion-takikomi-rice` — `牛丼洋蔥炊飯`：Panasonic Taiwan 官方页，约2人份；白米、牛五花、鸿喜菇、洋葱以SR-PAA100银シャリ水位线1同锅炊煮，最后拌松撒葱。来源注明配方授权来自柯式野生活，不证明传统日本牛丼身份；没有总时间和牛肉安全终点。
+
+### 新疆地域来源（1 条，`identity_verified`）
+
+- `kashgar-nowruz-rice` — `诺鲁孜饭`：喀什经济开发区政府正文确认维吾尔族节日身份与七类作物、蔬菜、畜禽和干果范围；没有可复现步骤或固定必用食材，不从“七种”清单补写家庭配方。
+
+### 暂缓与机构线结果
+
+- 塔城“萨格沙（蒙古抓饭）”政府归档 PDF 本轮独立访问返回404，暂不入目录；待文件恢复或找到同等级直接来源再收录。
+- 台湾FAE与MAFF余下目录本批无新增合格候选；熟饭拌配、另锅咖喱和纯谷物主食继续排除。
+
+### 本批纪律
+
+- 新增来源直接打开，显式记录 `evidence_tier`、定位、署名、许可和实际 claim scope；没有自动晋升 `executable`，没有厨房验证。
+- 本批当天完成数据、目录产物、测试和进度记录的分批提交；不可复核的候选只保留研究报告，不进入已核验 JSON。
+
 ## r84 搜集期第五十七批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验象印官方、日本农林水产省和重庆地方志来源。基于 r83 的 742 条目录，去重后新增 **2 条**：1 条 `recipe_fact_checked`、1 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r84`，当前总量 **744**：`executable=12`、`recipe_fact_checked=650`、`identity_verified=76`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。

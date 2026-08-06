@@ -582,6 +582,7 @@
 - 麻油松阪豬炊飯 (taiwan-sesame-oil-matsusaka-pork-rice) — TW
 - 红米香蕉饭 (taiwan-red-rice-banana-rice) — TW-HL
 - 腊味锅巴饭 (tongcheng-cured-meat-pot-crust-rice) — CN-AH-TONGCHENG
+- 诺鲁孜饭 (kashgar-nowruz-rice) — CN-XJ-KASHGAR
 - 威海苞米碴子干饭 (weihai-baomi-chazi-dry-rice) — CN-SD-WEIHAI
 - 九村抓饭 (yecheng-jiucun-pilaf) — CN-XJ-KASHGAR-YECHENG-HEYUAN
 - 伊宁菜朴劳 (yining-caipulao-pilaf) — CN-XJ-YINING
@@ -989,6 +990,7 @@
 - 炊込みシーフードピラフ (panasonic-tokyo-seafood-pilaf) — 非地域·厂商食谱
 - 炊込み中華おこわ (tiger-chinese-sticky-rice-post-fry) — 非地域·厂商食谱
 - 炙燒鮪魚芝麻醬與毛豆白飯 (r59-panasonic-taiwan-tuna-edamame-rice) — 非地域·厂商食谱
+- 牛丼洋蔥炊飯 (panasonic-taiwan-gyudon-onion-takikomi-rice) — 非地域·厂商食谱
 - 牛肉什锦饭 (zojirushi-beef-mixed-rice) — 非地域·厂商食谱
 - 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
 - 牡蠣とねぎの炊き込みご飯 (panasonic-oyster-negi-takikomi-rice) — 非地域·厂商食谱

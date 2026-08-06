@@ -976,6 +976,7 @@
 | 炊込みシーフードピラフ | 电饭煲海鲜焗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；海鲜综合；洋葱；胡萝卜；蒜；鸡汤；白葡萄酒 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [炊込みシーフードピラフ](https://foodable.jpn.panasonic.com/recipes/group-detail/619) |
 | 炊込み中華おこわ | 炊込み中式糯米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糯米；猪五花；干香菇；干虾；竹笋；胡萝卜；栗子 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [炊込み中華おこわ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_243/) |
 | 炙燒鮪魚芝麻醬與毛豆白飯 | 炙烧金枪鱼芝麻酱毛豆白饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 台南16號米；鮪魚；毛豆；韭菜；日式風味胡麻醬 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [炙燒鮪魚芝麻醬與毛豆白飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5286) |
+| 牛丼洋蔥炊飯 | 牛丼洋葱炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛五花肉片；鸿喜菇；洋葱；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [牛丼洋蔥炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5157) |
 | 牛肉什锦饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛肉末；胡萝卜泥；洋葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [牛肉什锦饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 牛肉南瓜焖饭 | 牛肉南瓜焖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 大米；牛肉；南瓜 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [牛肉南瓜焖饭](https://m.midea.cn/trial/index/report_detail?f_id_report=25695) |
 | 牛肉松茸ごはん | 虎牌牛肉松茸饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉薄片；松茸；三叶 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [牛肉松茸ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post25/) |
@@ -1715,6 +1716,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金包银 | 土家金包银玉米米饭 | CN-CQ-SOUTHEAST-TUJIA | tujia-corn-rice | 研究记录（非公开可执行） | 玉米面；大米 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [重庆地方志·土家饮食记述](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510502.html) |
+## uyghur-nowruz-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 诺鲁孜饭 | 诺鲁孜节饭 | CN-XJ-KASHGAR | uyghur-nowruz-rice | 研究记录（非公开可执行） | — | identity、ingredients | 缺 process | [诺鲁孜节由来与诺鲁孜文化](https://www.kstq.gov.cn/kashi/msfq/201303/b31c833e4b2a494c99514518e965a831.shtml) |
 ## wa-chicken-lanfan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
