@@ -677,6 +677,7 @@
 - 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- 인삼 영양밥 (rda-korean-ginseng-chicken-nutrition-rice) — KR
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 蚬肉饭 (zhongtang-clam-meat-rice) — CN-GD-DONGGUAN-ZHONGTANG
@@ -925,6 +926,7 @@
 - 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - こうし飯 (maff-kochi-koshimeshi) — JP-KOCHI
+- 인삼 영양밥 (rda-korean-ginseng-chicken-nutrition-rice) — KR
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 钵子饭 (lengshuijiang-bozifan) — CN-HN-LOUDI-LENGSHUIJIANG
@@ -1283,6 +1285,7 @@
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- 인삼 영양밥 (rda-korean-ginseng-chicken-nutrition-rice) — KR
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN

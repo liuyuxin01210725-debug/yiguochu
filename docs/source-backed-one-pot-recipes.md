@@ -732,6 +732,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | こうし飯 | こうし饭 | JP-KOCHI | kochi-koshimeshi | 研究记录（非公开可执行） | 米；岩海苔；腌萝卜；吻仔鱼；酱油；糖 | identity、ingredients、process、quantity | 缺 liquid、time | [こうし飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/koshimeshi_kochi.html) |
+## korean-rice-recipes
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 인삼 영양밥 | 韩国人参营养饭；人参营养饭 | KR | korean-rice-recipes | 研究记录（非公开可执行） | 大米；鸡肉；人参；栗子；红枣；鸡高汤 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [환절기 딱 좋은 인삼 잘 고르는 방법 소개（人参营养饭）](https://www.rda.go.kr/middlePopOpenPopNongsaroDBView.do?no=2109) |
 ## kuancheng-manchu-sorghum-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
