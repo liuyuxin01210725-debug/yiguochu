@@ -461,9 +461,11 @@
 | 宇宙（そら）芋ごはん | 宇宙芋炊饭；むかご炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；宇宙芋（むかご）；盐；酒 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [宇宙（そら）芋ごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/46.html) |
 | 鮭ととうもろこしの和風パエリア | 三文鱼玉米和风海鲜饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；鲑鱼；玉米；樱桃番茄；四季豆；鸿喜菇 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [鮭ととうもろこしの和風パエリア](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_114.html) |
 | 鶏エリンギごはんの和風オムライス | 鸡肉杏鲍菇和风蛋包饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；鸡肉；杏鲍菇；牛蒡；鸡蛋 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [鶏エリンギごはんの和風オムライス](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_68.html) |
+| きじ肉と切り干し大根の混ぜご飯 | 雉肉切干萝卜拌饭 | JP-EHIME-KIHO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；雉肉；雉骨；牛蒡；胡萝卜；切干大根；香菇；油豆腐；鱼饼；柚子皮 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [きじ肉と切り干し大根の混ぜご飯 愛媛県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kijiniku_to_kiri_boshi_daikon_no_maze_gohan_ehime.html) |
 | 福岡たけのこごはん | 福冈竹笋饭 | JP-FUKUOKA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；竹笋；鸡肉；油豆腐；木芽 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [福岡たけのこごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/aftercovid19/267.html) |
 | 千石豆のかきまわし | — | JP-GIFU | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；千石豆；鸡肉；牛蒡；胡萝卜；芋头；油揚げ；竹轮 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [千石豆のかきまわし 岐阜県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/38_23_gifu.html) |
 | もぶり | — | JP-HIROSHIMA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；胡萝卜；牛蒡；莲藕；干香菇；油揚げ；四季豆；黑豆 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [もぶり 広島県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_6_hiroshima.html) |
+| かて飯 | 加料饭；神奈川加料饭 | JP-KANAGAWA-SAGAMIHARA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；干香菇；牛蒡；胡萝卜；竹轮；油豆腐；四季豆 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [かて飯 神奈川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_8_kanagawa.html) |
 | おまかせ丸投げ賀茂なすご飯 | 贺茂茄子饭 | JP-KYOTO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；贺茂茄子；吻仔鱼；九条葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [おまかせ丸投げ賀茂なすご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/99.html) |
 | 豆腐飯 | とうふめし | JP-OKAYAMA-TAKAHASHI | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；豆腐；鸡蛋；豌豆；牛蒡；干香菇；干瓢；出汁 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [豆腐飯 岡山県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_26_okayama.html) |
 | かてめし | 加菜饭 | JP-SAITAMA-CHICHIBU | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；萝卜；牛蒡；胡萝卜；干香菇；油豆腐 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [かてめし 埼玉県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/33_6_saitama.html) |
@@ -1187,6 +1189,11 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | たけのこ入り玄米ごはん | 筍入り玄米ごはん；笋入り糙米饭 | JP | panasonic-electric-pressure-rice | 研究记录（非公开可执行） | 糙米；煮笋；炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [たけのこ入り玄米ごはん](https://panasonic.jp/cooking/recipe/0659.html) |
 | 中華おこわ（Panasonic NF-PC400版） | 中華おこわ；Panasonic中華糯米饭 | JP | panasonic-electric-pressure-rice | 研究记录（非公开可执行） | 糯米；香菇；虾米；竹笋；叉烧 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [中華おこわ](https://panasonic.jp/cooking/recipe/cook/0661.html) |
+## pengshui-zhacai-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 馇菜饭 | 馇菜饭制作技艺 | CN-CQ-PENGSHUI | pengshui-zhacai-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [彭水苗族土家族自治县国家级（市级、县级）非物质文化遗产代表性项目名录](https://www.psx.gov.cn/ztzl_174/ydn/psfy/202410/t20241015_13708907.html) |
 ## pianguan-oil-braised-millet-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

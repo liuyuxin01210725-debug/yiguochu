@@ -37,6 +37,7 @@
 - 粉蒸糯米饭 (hunan-mayang-steamed-glutinous-rice) — CN-HN
 - 闽东畲族乌饭 (mindong-she-black-rice) — CN-FJ-NINGDE-JIAOCHENG
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
+- 馇菜饭 (pengshui-zhacai-rice) — CN-CQ-PENGSHUI
 - 虾稻米锅巴饭 (qianjiang-xiadao-guoba-rice) — CN-HB-QIANJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
 - 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
@@ -305,8 +306,10 @@
 - 大根ご飯 (maff-daikon-chicken-rice) — JP
 - 宇宙（そら）芋ごはん (maff-sora-imo-takikomi-rice) — JP
 - 鶏エリンギごはんの和風オムライス (maff-chicken-eryngii-omurice) — JP
+- きじ肉と切り干し大根の混ぜご飯 (maff-ehime-pheasant-dried-daikon-mixed-rice) — JP-EHIME-KIHO
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
+- かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - おまかせ丸投げ賀茂なすご飯 (maff-kamo-nasu-jako-rice) — JP-KYOTO
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
 - ぼくめし (maff-shizuoka-bokumeshi) — JP-SHIZUOKA-YOSHIDA
@@ -562,6 +565,7 @@
 - 芦溪咸菜饭 (pinghe-luxi-salted-vegetable-rice) — CN-FJ-ZHANGZHOU-PINGHE-LUXI
 - 石狮跳跳鱼焖饭 (shishi-jump-fish-braised-rice) — CN-FJ
 - 傈僳族手抓饭（拌饭） (nujiang-lisu-hand-grab-rice) — CN-YN-NUJIANG
+- 馇菜饭 (pengshui-zhacai-rice) — CN-CQ-PENGSHUI
 - 虾稻米锅巴饭 (qianjiang-xiadao-guoba-rice) — CN-HB-QIANJIANG
 - 正宁焖饭 (zhengning-braised-rice) — CN-GS-QINGYANG-ZHENGNING
 - 宁河肉焖米饭 (tianjin-ninghe-braised-meat-rice) — CN-TJ-NINGHE
@@ -808,9 +812,11 @@
 - 刻みコンブときのこの香りごはん (maff-kombu-mushroom-kaori-gohan) — JP
 - 大根ご飯 (maff-daikon-chicken-rice) — JP
 - 鶏エリンギごはんの和風オムライス (maff-chicken-eryngii-omurice) — JP
+- きじ肉と切り干し大根の混ぜご飯 (maff-ehime-pheasant-dried-daikon-mixed-rice) — JP-EHIME-KIHO
 - 福岡たけのこごはん (maff-fukuoka-bamboo-rice) — JP-FUKUOKA
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
+- かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - おまかせ丸投げ賀茂なすご飯 (maff-kamo-nasu-jako-rice) — JP-KYOTO
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
 - かてめし (maff-saitama-katemeshi) — JP-SAITAMA-CHICHIBU
@@ -1217,6 +1223,7 @@
 - 福岡たけのこごはん (maff-fukuoka-bamboo-rice) — JP-FUKUOKA
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
+- かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
 - 五目飯 (maff-tochigi-gomokumeshi) — JP-TOCHIGI
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI

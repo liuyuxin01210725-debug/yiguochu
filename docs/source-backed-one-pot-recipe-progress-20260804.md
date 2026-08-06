@@ -19,6 +19,25 @@
 - 不从“咸饭”名称补写米水比例、投料顺序、电饭煲参数、时间或安全终点，没有自动晋升 `executable`，没有厨房验证。
 - 本批当天完成数据、目录产物、测试和进度记录的分批提交，避免研究证据长期停留在未提交工作区。
 
+## r86 搜集期第五十九批（2026-08-06）
+
+本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验日本农林水产省、彭水县政府和厂商来源。基于 r85 的 745 条目录，去重后新增 **3 条**：2 条 `recipe_fact_checked`、1 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r86`，当前总量 **748**：`executable=12`、`recipe_fact_checked=652`、`identity_verified=78`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
+
+### 日本农林水产省来源（2 条，`recipe_fact_checked`）
+
+- `maff-kanagawa-kate-meshi` — `かて飯`（加料饭）：神奈川县相模原市，4人份；具料先用锅煮，再以煮汁和水按电饭煲分量炊米，饭熟混入具料。保留连续流程，不补通用毫升水量。
+- `maff-ehime-pheasant-dried-daikon-mixed-rice` — `きじ肉と切り干し大根の混ぜご飯`（雉肉切干萝卜拌饭）：爱媛县鬼北町，20–25人份；雉骨取汤炊米、具料另炒煮，最后混饭。不把雉肉替换为鸡肉，不把三段流程改写成普通电饭煲单锅。
+
+### 重庆地域来源（1 条，`identity_verified`）
+
+- `pengshui-zhacai-rice` — `馇菜饭`：彭水县政府非遗名录确认县级传统技艺项目及保护单位；原页没有食材和做法，保持身份层。
+
+### 本批纪律
+
+- 象印、Panasonic、Cuckoo 等厂商线命中项已在目录或不符合米饭主餐/一锅流程边界，均未重复入库；“肥肠另炖配白饭”等项目明确排除。
+- 新增来源直接打开，显式记录 `evidence_tier`、定位、署名、许可和实际 claim scope；没有自动晋升 `executable`，没有厨房验证。
+- 本批当天完成数据、目录产物、测试和进度记录的分批提交，避免研究证据长期停留在未提交工作区。
+
 ## r84 搜集期第五十七批（2026-08-06）
 
 本批继续按“尽可能扩大真实具名菜饭池、证据不越级”并行核验象印官方、日本农林水产省和重庆地方志来源。基于 r83 的 742 条目录，去重后新增 **2 条**：1 条 `recipe_fact_checked`、1 条 `identity_verified`；版本 bump 为 `source-backed-one-pot-v1-20260806-national-r84`，当前总量 **744**：`executable=12`、`recipe_fact_checked=650`、`identity_verified=76`、`discovered=6`、`kitchen_observed=0`。本批没有修改 Worker、前端、Planner、模板或 DeepSeek，没有部署。
