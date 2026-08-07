@@ -1081,8 +1081,17 @@ function sourceRotationRecords(shelf) {
     && record.fixed_batch && Array.isArray(record.fixed_batch.ingredients) && record.fixed_batch.ingredients.length
     && Array.isArray(record.cooking_sequence) && record.cooking_sequence.length)
     .slice()
-    .sort((a, b) => String(a.canonical_name || '').localeCompare(String(b.canonical_name || ''), 'zh-CN')
+    .sort((a, b) => sourceRotationRegionPriority(a) - sourceRotationRegionPriority(b)
+      || String(a.canonical_name || '').localeCompare(String(b.canonical_name || ''), 'zh-CN')
       || String(a.recipe_id || '').localeCompare(String(b.recipe_id || '')));
+}
+function sourceRotationRegionPriority(record) {
+  const codes = Array.isArray(record && record.region_codes) ? record.region_codes : [];
+  if (codes.some(code => /^CN(?:-|$)/.test(String(code || '').trim()))) return 0;
+  if (codes.some(code => /^(?:TW|HK|MO)(?:-|$)/.test(String(code || '').trim()))) return 1;
+  if (codes.some(code => /^KR(?:-|$)/.test(String(code || '').trim()))) return 2;
+  if (codes.some(code => /^JP(?:-|$)/.test(String(code || '').trim()))) return 3;
+  return 4;
 }
 function sourceRotationAmount(amount) {
   if (!amount || amount.value === undefined || amount.value === null) return '来源未给出';
@@ -1158,7 +1167,7 @@ function sourceRotationScreen() {
   const notice = state.sourceRotationNotice ? '<p class="source-rotation-note" aria-live="polite">' + esc(state.sourceRotationNotice) + '</p>' : '';
   return '<div class="screen source-rotation-screen"><header class="source-rotation-head">'
     + '<p class="source-rotation-kicker">一锅出菜饭 · 自由轮替</p><h1 class="source-rotation-title">今天做哪一道？</h1>'
-    + '<p class="source-rotation-subtitle">打开就给你一道有出处的真实菜饭。想换就点“换一道”，不按食材临时拼菜名。</p>'
+    + '<p class="source-rotation-subtitle">打开就给你一道有出处的真实菜饭。默认先轮中国大陆、港台澳门，再轮其他来源；想换就点“换一道”，不按食材临时拼菜名。</p>'
     + '</header>' + sourceRotationRecipeCard(state.sourceRotationCurrent)
     + '<p class="source-rotation-counter" aria-live="polite">第 ' + position + ' / ' + total + ' 道可轮替菜饭 · <a href="/source-recipes.html">查看完整来源资料库</a></p>'
     + notice + '<p class="source-rotation-note">本页只读取来源目录，不调用模型服务；未闭合的档案不会伪装成完整做法。</p></div>';

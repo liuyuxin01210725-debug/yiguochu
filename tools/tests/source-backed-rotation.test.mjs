@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import {
   nextSourceRecipe,
   rotatableSourceRecipes,
+  sourceRotationRegionPriority,
   sourceRotationLabel,
 } from '../lib/source-backed-rotation.mjs';
 
@@ -24,9 +25,16 @@ test('rotation preserves original source-backed name and does not create a synth
   const records = rotatableSourceRecipes(shelf);
   const first = records[0];
 
-  assert.equal(first.canonical_name, '〖愛媛県ご当地メニュー〗鯛めし');
-  assert.equal(sourceRotationLabel(first), '来源菜饭 · 试做架');
+  assert.equal(first.canonical_name, '冬菇滑鸡饭');
+  assert.equal(sourceRotationLabel(first), '来源菜饭 · 已签署记录');
   assert.equal(nextSourceRecipe(records, first.recipe_id).recipe_id, records[1].recipe_id);
+});
+
+test('rotation prioritizes Chinese regional rice meals before Japanese records', () => {
+  const records = rotatableSourceRecipes(shelf);
+  assert.ok(records.slice(0, 5).every(record => record.region_codes?.some(code => /^CN(?:-|$)/.test(code))));
+  assert.ok(sourceRotationRegionPriority(records[0]) < sourceRotationRegionPriority({ region_codes:['JP'] }));
+  assert.ok(sourceRotationRegionPriority({ region_codes:['TW'] }) < sourceRotationRegionPriority({ region_codes:['JP'] }));
 });
 
 test('rotation wraps to the first source recipe after the last one', () => {

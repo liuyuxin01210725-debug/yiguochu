@@ -21,8 +21,18 @@ function hasSteps(recipe) {
   return Array.isArray(recipe?.cooking_sequence) && recipe.cooking_sequence.length > 0;
 }
 
+export function sourceRotationRegionPriority(record) {
+  const codes = Array.isArray(record?.region_codes) ? record.region_codes : [];
+  if (codes.some(code => /^CN(?:-|$)/.test(text(code)))) return 0;
+  if (codes.some(code => /^(?:TW|HK|MO)(?:-|$)/.test(text(code)))) return 1;
+  if (codes.some(code => /^KR(?:-|$)/.test(text(code)))) return 2;
+  if (codes.some(code => /^JP(?:-|$)/.test(text(code)))) return 3;
+  return 4;
+}
+
 function stableCompare(left, right) {
-  return text(left?.canonical_name).localeCompare(text(right?.canonical_name), 'zh-CN')
+  return sourceRotationRegionPriority(left) - sourceRotationRegionPriority(right)
+    || text(left?.canonical_name).localeCompare(text(right?.canonical_name), 'zh-CN')
     || text(left?.recipe_id).localeCompare(text(right?.recipe_id));
 }
 
@@ -46,4 +56,3 @@ export function sourceRotationLabel(record) {
   if (record?.shelf === 'B') return '来源菜饭 · 试做架';
   return '来源菜饭';
 }
-
