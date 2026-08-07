@@ -1918,6 +1918,12 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 香菇油飯 | 香菇油饭 | TW | taiwan-shiitake-oil-rice | 研究记录（非公开可执行） | 长糯米；干香菇；肉丝；虾米；红葱头 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [香菇油飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/191) |
+## taiwan-soup-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 羅宋湯飯 | 罗宋汤饭 | TW | taiwan-soup-rice | 研究记录（非公开可执行） | 米飯；牛肉；蕃茄；高麗菜；嫩薑 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [羅宋湯飯（農糧署電子書9）](https://ebook.afa.gov.tw/tefd/ebook9/ebook9-1.html) |
+| 蛤蜊青菜湯飯 | 蛤蜊青菜汤饭 | TW | taiwan-soup-rice | 研究记录（非公开可执行） | 白飯；蛤蜊；青江菜；薑 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [蛤蜊青菜湯飯（農糧署電子書9）](https://ebook.afa.gov.tw/tefd/ebook9/ebook9-1.html) |
 ## taiwan-steamed-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

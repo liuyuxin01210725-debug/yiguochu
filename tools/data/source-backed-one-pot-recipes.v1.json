@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260807-national-r113",
+  "catalog_version": "source-backed-one-pot-v1-20260807-national-r114",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -17739,6 +17739,48 @@
       "source_refs":[{"source_id":"S-R113-TIGER-KEEMA-CHICKPEAS-1","title":"Keema Curry with Chickpeas – キーマ カレー","publisher":"Tiger Corporation USA","url":"https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/keema-curry-with-chickpeas/","retrieved_at":"2026-08-07","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页正文：具名主餐、白米2杯、牛肉末/猪肉末各1/8磅、玉米淀粉1/2汤匙、煮熟鹰嘴豆1/3杯、洋葱/胡萝卜及咖喱酱料量；Tacook/Plain-Synchro-Cooking流程与适用机型","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"Tiger Corporation USA","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"Safe Minimum Internal Temperature Chart：碎牛肉/碎猪肉的安全终点；正文第25至30行","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],
       "status":"recipe_fact_checked",
       "evidence_notes":"Tiger官方具名Keema Curry with Chickpeas是日式口味改编的鹰嘴豆咖喱饭：来源给出白米2杯、牛猪肉末各1/8磅、鹰嘴豆1/3杯及Tacook同步流程，但未给份数、米饭水量和总时间，故fixed_batch、liquid_contract与time_contract保持为空；不把厂商改编宣称为印度传统菜，也不外推普通电饭煲。牛/猪肉安全终点由FoodSafety.gov独立支持。"
+    },
+    {
+      "recipe_id":"afa-ebook9-clam-greens-soup-rice",
+      "canonical_name":"蛤蜊青菜湯飯",
+      "aliases":["蛤蜊青菜汤饭"],
+      "region_codes":["TW"],
+      "cuisine_family":"taiwan-soup-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["湯鍋"],
+      "core_ingredients":["白飯","蛤蜊","青江菜","薑"],
+      "fixed_batch":{"servings":1,"ingredients":[{"name":"白飯","amount":{"value":0.75,"unit":"碗"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"蛤蜊","amount":{"value":180,"unit":"g"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"青江菜","amount":{"value":50,"unit":"g"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"薑絲","amount":{"value":5,"unit":"g"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"水","amount":{"value":1.5,"unit":"碗"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"鹽","amount":{"value":0.25,"unit":"茶匙"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"味精","amount":{"value":0.125,"unit":"茶匙"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"name":"麻油","amount":{"value":1,"unit":"茶匙"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]}],"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},
+      "liquid_contract":{"kind":"added_water","amount":{"value":1.5,"unit":"碗"},"source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},
+      "cooking_sequence":[{"step":1,"instruction":"水1.5碗燒開，加入蛤蜊與薑絲。","source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]},{"step":2,"instruction":"加入白飯與青江菜煮熟，按來源以鹽、味精與麻油調味。","source_ids":["S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1"]}],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":["甲殼類"],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"台灣農糧署北區分署原文是普通湯鍋煮湯飯；未提供電飯煲參數，不外推電飯煲。"},
+      "source_refs":[{"source_id":"S-R114-AFA-EBOOK9-CLAM-GREENS-SOUP-RICE-1","title":"蛤蜊青菜湯飯（農糧署電子書9）","publisher":"台湾農糧署北區分署","url":"https://ebook.afa.gov.tw/tefd/ebook9/ebook9-1.html","retrieved_at":"2026-08-07","source_kind":"government_recipe_page","access_status":"opened","evidence_tier":1,"evidence_locator":"ebook9-1.html 行328至340","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"台湾農糧署北區分署","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"台湾農糧署北區分署原文支持蛤蜊青菜湯飯的具名、白飯/蛤蜊/青江菜/薑組合、1人份用量、1.5碗水和普通湯鍋流程；原文未給總時長與蛤蜊安全終點，保持相應欄位為空。未提供電飯煲參數，不外推。"
+    },
+    {
+      "recipe_id":"afa-ebook9-roselle-soup-rice",
+      "canonical_name":"羅宋湯飯",
+      "aliases":["罗宋汤饭"],
+      "region_codes":["TW"],
+      "cuisine_family":"taiwan-soup-rice",
+      "identity_status":"verified",
+      "traditional_vessels":["湯鍋"],
+      "core_ingredients":["米飯","牛肉","蕃茄","高麗菜","嫩薑"],
+      "fixed_batch":{"servings":1,"ingredients":[{"name":"米飯","amount":{"value":0.75,"unit":"碗"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"牛肉","amount":{"value":35,"unit":"g"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"蕃茄","amount":{"value":0.5,"unit":"個"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"高麗菜","amount":{"value":50,"unit":"g"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"蔥","amount":{"value":2,"unit":"支"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"嫩薑片","amount":{"value":10,"unit":"g"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"沙拉油","amount":{"value":1,"unit":"茶匙"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"高湯","amount":{"value":2,"unit":"碗"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"鹽","amount":{"value":0.5,"unit":"茶匙"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"name":"味精","amount":{"value":0.2,"unit":"茶匙"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]}],"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},
+      "liquid_contract":{"kind":"added_broth","amount":{"value":2,"unit":"碗"},"source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},
+      "cooking_sequence":[{"step":1,"instruction":"起油鍋爆香薑片，加入牛肉塊炒至外表變色。","source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"step":2,"instruction":"加入2碗高湯煮至牛肉軟爛，再加入蕃茄與高麗菜同煮。","source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]},{"step":3,"instruction":"按來源調味，加入米飯略煮，撒蔥花。","source_ids":["S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1"]}],
+      "time_contract":null,
+      "safety_endpoints":[],
+      "allergen_labels":[],
+      "nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},
+      "cooker_adaptation":{"status":"not_adapted","notes":"台灣農糧署北區分署原文是普通湯鍋煮羅宋湯飯；未提供電飯煲參數，不外推電飯煲。"},
+      "source_refs":[{"source_id":"S-R114-AFA-EBOOK9-ROSELLE-SOUP-RICE-1","title":"羅宋湯飯（農糧署電子書9）","publisher":"台湾農糧署北區分署","url":"https://ebook.afa.gov.tw/tefd/ebook9/ebook9-1.html","retrieved_at":"2026-08-07","source_kind":"government_recipe_page","access_status":"opened","evidence_tier":1,"evidence_locator":"ebook9-1.html 行732至746","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"台湾農糧署北區分署","license":"government_site_terms_unspecified"}],
+      "status":"recipe_fact_checked",
+      "evidence_notes":"台湾農糧署北區分署原文支持羅宋湯飯的具名、米飯/牛肉/蕃茄/高麗菜/嫩薑組合、1人份用量、2碗高湯和普通湯鍋流程；原文未給總時長與牛肉安全終點，保持相應欄位為空。未提供電飯煲參數，不外推。"
     }
   ]
 }
