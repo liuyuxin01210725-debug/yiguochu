@@ -439,6 +439,7 @@
 - Edamame and Fried Tofu Rice (tiger-edamame-fried-tofu-rice) — 非地域·厂商食谱
 - Garlic Shrimp with Herbed Rice (r60-tiger-garlic-shrimp-herbed-rice) — 非地域·厂商食谱
 - Hijiki Brown Rice (tiger-hijiki-brown-rice) — 非地域·厂商食谱
+- Keema Curry with Chickpeas (tiger-usa-keema-curry-chickpeas) — 非地域·厂商食谱
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Steamed Garlic Salmon with Dill and Garden Vegetables (r59-tiger-usa-garlic-salmon-garden-rice) — 非地域·厂商食谱
@@ -1066,6 +1067,7 @@
 - Hijiki Brown Rice (tiger-hijiki-brown-rice) — 非地域·厂商食谱
 - Honey Garlic Chicken (tiger-honey-garlic-chicken) — 非地域·厂商食谱
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
+- Keema Curry with Chickpeas (tiger-usa-keema-curry-chickpeas) — 非地域·厂商食谱
 - Kimchi Rice (tiger-kimchi-rice) — 非地域·厂商食谱
 - Kurigohan (Japanese Chestnut Rice) (zojirushi-kurigohan-japanese-chestnut-rice) — 非地域·厂商食谱
 - One Pot Chicken Rice (panasonic-one-pot-chicken-rice) — 非地域·厂商食谱
@@ -1080,6 +1082,7 @@
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
 - Takikomi-Gohan (Mixed Rice) (zojirushi-takikomi-gohan-mixed-rice) — 非地域·厂商食谱
 - Teriyaki Chicken (tiger-teriyaki-chicken) — 非地域·厂商食谱
+- Tomato Cheese Risotto (tiger-usa-tomato-cheese-risotto) — 非地域·厂商食谱
 - Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
 - Vietnamese Style Beef with Rice (tiger-usa-vietnamese-beef-rice) — 非地域·厂商食谱
