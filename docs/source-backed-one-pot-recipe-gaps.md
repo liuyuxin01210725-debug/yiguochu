@@ -927,6 +927,9 @@
 - 高椅黑饭 (r103-cn-hunan-huaihua-gaoyi-heifan) — CN-HN-HUAIHUA-HUITONG
 - 华容锅巴鱼饭 (r103-cn-huarong-guobayu-fan) — CN-HN-YUEYANG-HUARONG
 - 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
+- 新茶の炊き込み御飯 (maff-shincha-takikomi-gohan) — JP
+- 生姜と油揚げの炊き込みご飯 (maff-ginger-aburaage-takikomi) — JP
+- ひょうご香る炊き込みご飯 (maff-hyogo-aromatic-takikomi) — JP-HYOGO
 - 鮎ぞうすい (maff-gifu-ayu-zosui) — JP-GIFU-KISO-NAGARA
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
@@ -1303,6 +1306,7 @@
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 金包银 (tujia-jinbaoyin-corn-rice) — CN-CQ-SOUTHEAST-TUJIA
+- One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
@@ -1409,6 +1413,7 @@
 - 华容锅巴鱼饭 (r103-cn-huarong-guobayu-fan) — CN-HN-YUEYANG-HUARONG
 - Bubur Ayam – Indonesian Chicken Porridge (tiger-bubur-ayam-indonesian-chicken-porridge) — ID
 - 韓國石鍋飯 (philips-korean-stone-pot-rice) — KR
+- ひょうご香る炊き込みご飯 (maff-hyogo-aromatic-takikomi) — JP-HYOGO
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
@@ -1467,6 +1472,7 @@
 - 鲤鱼炖糯米 (kaiping-danjia-carp-glutinous-rice) — CN-GD
 - 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
+- 냉이팬밥 (rda-korea-naengi-panbap) — KR
 - 인삼 영양밥 (rda-korean-ginseng-chicken-nutrition-rice) — KR
 - まぜ飯 (maff-kumamoto-mazemeshi) — JP-KUMAMOTO
 - 张浦江南菜饭 (kunshan-zhangpu-jiangnan-vegetable-rice) — CN-JS
@@ -1661,6 +1667,7 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ

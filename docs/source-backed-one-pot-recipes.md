@@ -22,6 +22,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Guiso de arroz con pollo (NEA) | 东北地区鸡肉炖饭 | AR-NEA | argentina-nea-rice-stew | 研究记录（非公开可执行） | 鸡肉；米；洋葱；甜椒；胡萝卜；番茄泥；土豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Recetario NEA: Guiso de arroz con pollo](https://www.argentina.gob.ar/sites/default/files/2020/09/pnpa_-_2021_-_recetario_nea.pdf) |
+## australia-one-pot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| One Pot Beans and Rice | 昆士兰一锅豆饭 | AU-QLD | australia-one-pot-rice | 研究记录（非公开可执行） | 糙米；三豆罐头；番茄罐头；洋葱；蒜；烟熏红椒 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [One Pot Beans and Rice](https://hw.qld.gov.au/healthy-recipes/one-pot-beans-and-rice-recipe/) |
 ## baise-zhuang-five-color-sticky-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -612,6 +617,13 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 韓國石鍋飯 | 韩国石锅饭 | KR | international-rice-recipes | 研究记录（非公开可执行） | 米；虾；牛肉；泡菜；菠菜；蒜苗；胡萝卜；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [韓國石鍋飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/korean-stone-pot-rice.html) |
+## japan-takikomi-gohan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 新茶の炊き込み御飯 | 新茶炊饭 | JP | japan-takikomi-gohan | 研究记录（非公开可执行） | 米；水；清酒；盐；昆布出汁；茶叶 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [チャチャっとお茶生活：新茶の炊き込み御飯](https://www.maff.go.jp/j/seisan/tokusan/cha/chachatto.html) |
+| 生姜と油揚げの炊き込みご飯 | 生姜油揚げ炊饭；姜丝油豆腐炊饭 | JP | japan-takikomi-gohan | 研究记录（非公开可执行） | 白米；生姜；油揚げ；酱油；清酒；和风出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [生姜と油揚げの炊き込みご飯](https://www.maff.go.jp/j/syokuiku/torikumi/pdf/fam003-.pdf) |
+| ひょうご香る炊き込みご飯 | 兵库香气炊饭 | JP-HYOGO | japan-takikomi-gohan | 研究记录（非公开可执行） | 米；鸡胸肉；玉米；香菇；水；めんつゆ；酱油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [ひょうご香る炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/251114-32.pdf) |
 ## japanese-cooked-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -955,6 +967,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | こうし飯 | こうし饭 | JP-KOCHI | kochi-koshimeshi | 研究记录（非公开可执行） | 米；岩海苔；腌萝卜；吻仔鱼；酱油；糖 | identity、ingredients、process、quantity | 缺 liquid、time | [こうし飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/koshimeshi_kochi.html) |
+## korea-panbap
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 냉이팬밥 | 荠菜平底锅饭；荠菜锅饭 | KR | korea-panbap | 研究记录（非公开可执行） | 米；荠菜；洋葱；鳀鱼干虾高汤；韩式大酱 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [냉이팬밥](https://rda.go.kr/webzine/2026/04/4_3.html) |
 ## korean-rice-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2145,6 +2162,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金包银 | 土家金包银玉米米饭 | CN-CQ-SOUTHEAST-TUJIA | tujia-corn-rice | 研究记录（非公开可执行） | 玉米面；大米 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [重庆地方志·土家饮食记述](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510502.html) |
+## usa-one-pot-rice-soup
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| One-Pot Chicken and Rice Soup | 华盛顿大学一锅鸡肉米汤 | US-WA | usa-one-pot-rice-soup | 研究记录（非公开可执行） | 罐装鸡肉或豆类；罐装四季豆；罐装胡萝卜；洋葱；蒜；米；鸡汤或蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Rice Soup](https://www.washington.edu/anyhungryhusky/2020/05/01/one-pot-chicken-and-rice-soup-gf/) |
 ## uyghur-nowruz-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

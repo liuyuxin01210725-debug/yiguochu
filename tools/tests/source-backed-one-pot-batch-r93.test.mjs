@@ -6,9 +6,9 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r93 records Toshiba Hong Kong chicken and dried-scallop porridge with contradictory liquid facts preserved', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r125');
-  assert.equal(catalog.recipes.length, 884);
-  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 755);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r126');
+  assert.equal(catalog.recipes.length, 890);
+  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 761);
 
   const recipe = catalog.recipes.find(item => item.recipe_id === 'toshiba-hk-chicken-scallop-porridge-pc48drshk');
   assert.equal(recipe?.canonical_name, 'Chicken Porridge with dried scallops');
