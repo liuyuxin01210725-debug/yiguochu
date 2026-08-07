@@ -12,8 +12,8 @@ const expected = [
 
 test('r78 records three direct Iris Ohyama rice-meal candidates without promoting research', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r112');
-  assert.equal(catalog.recipes.length, 849);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r114');
+  assert.equal(catalog.recipes.length, 854);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
   for (const [recipeId, canonicalName, status] of expected) {
