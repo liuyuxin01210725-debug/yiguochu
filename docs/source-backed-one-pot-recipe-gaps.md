@@ -1307,6 +1307,7 @@
 - いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 金包银 (tujia-jinbaoyin-corn-rice) — CN-CQ-SOUTHEAST-TUJIA
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
+- Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 鸭仔饭 (zhanjiang-duck-rice) — CN-GD
@@ -1667,7 +1668,11 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
+- Turkey Burrito Bowl (tamu-turkey-burrito-bowl) — US-TX
+- Spanish Rice (unh-spanish-rice) — US-NH
+- Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ

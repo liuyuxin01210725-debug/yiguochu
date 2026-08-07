@@ -26,8 +26,8 @@ const expected = [
 
 test('r79 registers 17 newly sourced named one-pot rice candidates', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r126');
-  assert.equal(catalog.recipes.length, 890);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r128');
+  assert.equal(catalog.recipes.length, 895);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
   for (const [recipeId, canonicalName, status] of expected) {

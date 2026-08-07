@@ -6,9 +6,9 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r94 records the Tefal Spanish Style Chicken Legs steam-pot meal without converting it to rice-cooker semantics', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r126');
-  assert.equal(catalog.recipes.length, 890);
-  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 761);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r128');
+  assert.equal(catalog.recipes.length, 895);
+  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 766);
 
   const recipe = catalog.recipes.find(item => item.recipe_id === 'tefal-spanish-style-chicken-legs-r106521');
   assert.equal(recipe?.canonical_name, 'Spanish Style Chicken Legs');

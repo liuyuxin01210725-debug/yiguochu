@@ -12,8 +12,8 @@ const tigerUrls = {
 };
 
 test('r102 adds four opened Tiger source records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r126');
-  assert.equal(catalog.recipes.length, 890);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r128');
+  assert.equal(catalog.recipes.length, 895);
   for (const [recipeId, url] of Object.entries(tigerUrls)) {
     const recipe = byId.get(recipeId);
     assert.ok(recipe, recipeId);

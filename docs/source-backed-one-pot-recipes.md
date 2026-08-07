@@ -2162,11 +2162,36 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金包银 | 土家金包银玉米米饭 | CN-CQ-SOUTHEAST-TUJIA | tujia-corn-rice | 研究记录（非公开可执行） | 玉米面；大米 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [重庆地方志·土家饮食记述](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510502.html) |
+## usa-lentil-brown-rice-pot
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| One-pot Lentil Dish | 普渡一锅扁豆饭 | US-IN | usa-lentil-brown-rice-pot | 研究记录（非公开可执行） | 糙米；未煮扁豆；胡萝卜；羽衣甘蓝；水；低钠洋葱汤料；罗勒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [One-pot Lentil Dish](https://www.purdue.edu/indianasefrnetwork/Home/MDDetail/131) |
 ## usa-one-pot-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | One-Pot Chicken and Rice Soup | 华盛顿大学一锅鸡肉米汤 | US-WA | usa-one-pot-rice-soup | 研究记录（非公开可执行） | 罐装鸡肉或豆类；罐装四季豆；罐装胡萝卜；洋葱；蒜；米；鸡汤或蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Rice Soup](https://www.washington.edu/anyhungryhusky/2020/05/01/one-pot-chicken-and-rice-soup-gf/) |
+## usa-pressure-cooker-rice-bowl
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Turkey Burrito Bowl | 火鸡肉墨西哥饭碗 | US-TX | usa-pressure-cooker-rice-bowl | 研究记录（非公开可执行） | 火鸡肉末；长粒白米；黑豆罐头；番茄丁罐头；青辣椒罐头；冷冻玉米；洋葱；低钠牛肉汤 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Turkey Burrito Bowl](https://dinnertonight.tamu.edu/recipe/turkey-burrito-bowl/) |
+## usa-slow-cooker-enchilada-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Crock Pot Enchilada Rice | 康涅狄格慢炖辣酱米饭 | US-CT | usa-slow-cooker-enchilada-rice | 研究记录（非公开可执行） | 糙米；番茄丁罐头；辣酱；青辣椒罐头；玉米；黑豆罐头；奶油奶酪；蔬菜汤 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Crock Pot Enchilada Rice](https://huskynutritionsport.education.uconn.edu/recipes/crock-pot-enchilada-rice/) |
+## usa-spanish-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Spanish Rice | 新罕布什尔西班牙米饭 | US-NH | usa-spanish-rice | 研究记录（非公开可执行） | 米；罐装猪肉；番茄罐头；洋葱；西芹；青椒；水 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Spanish Rice](https://extension.unh.edu/recipe/spanish-rice) |
+## usa-wild-rice-chicken-pot
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken & Rice（Wild Rice/Manoomin） | 伊利诺伊野米鸡肉一锅饭 | US-IL | usa-wild-rice-chicken-pot | 研究记录（非公开可执行） | 鸡腿肉；胡萝卜；西芹；洋葱；蒜；鸡汤；野米；欧芹或羽衣甘蓝 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken & Rice](https://governorsmansion.illinois.gov/all-recipes/recipe.chicken-and-rice.html) |
 ## uyghur-nowruz-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
