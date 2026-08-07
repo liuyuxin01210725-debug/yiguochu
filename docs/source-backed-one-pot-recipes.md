@@ -1013,6 +1013,8 @@
 | スタミナご飯 | 象印泡菜牛肉饭；象印元气饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；白菜泡菜；牛肉；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [スタミナご飯](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/004.html) |
 | トルコ風リゾット | 象印土耳其风烩饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；番茄；彩椒；水；帕玛森 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [トルコ風リゾット](https://www.zojirushi.co.jp/recipe_old/ihnabe/syousai/011.html) |
 | 海のパエリア | 象印海鲜西班牙海鲜饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 米；虾；蛤蜊；鱿鱼；青椒；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [海のパエリア](https://www.zojirushi.co.jp/recipe_old/ihnabe/syousai/005.html) |
+| 玄米（ご飯） | 象印玄米饭；日式糙米饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 玄米；水 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [玄米（ご飯）](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/002.html) |
+| 黒米（ご飯） | 象印黑米饭；日式黑米饭 | JP-NATIONAL | manufacturer-ih-pot-rice | 研究记录（非公开可执行） | 黑米；白米；水 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [黒米（ご飯）](https://www.zojirushi.co.jp/recipe/ihnabe/syousai/012.html) |
 ## 厂商一锅饭食谱
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

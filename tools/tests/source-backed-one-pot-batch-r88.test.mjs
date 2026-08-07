@@ -6,9 +6,9 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r88 records two Panasonic Taiwan same-pot rice recipes and two Hong Kong official porridge recipes', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r109');
-  assert.equal(catalog.recipes.length, 842);
-  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 717);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r110');
+  assert.equal(catalog.recipes.length, 844);
+  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 719);
 
   const mushroom = catalog.recipes.find(item => item.recipe_id === 'panasonic-taiwan-mushroom-vegetable-oil-shallot-rice');
   assert.equal(mushroom?.canonical_name, '菌菇玉菜油蔥飯');
