@@ -17,6 +17,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 芜湖渣肉蒸饭 | — | CN-AH | anhui-regional-rice | 研究记录（非公开可执行） | 米；渣肉 | identity、ingredients | 缺 process | [芜湖市五道菜品入选省级招牌菜](https://ct.wuhu.gov.cn/xwzx/bmyw/8267834.html) |
+## argentina-nea-rice-stew
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Guiso de arroz con pollo (NEA) | 东北地区鸡肉炖饭 | AR-NEA | argentina-nea-rice-stew | 研究记录（非公开可执行） | 鸡肉；米；洋葱；甜椒；胡萝卜；番茄泥；土豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Recetario NEA: Guiso de arroz con pollo](https://www.argentina.gob.ar/sites/default/files/2020/09/pnpa_-_2021_-_recetario_nea.pdf) |
 ## baise-zhuang-five-color-sticky-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -27,6 +32,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 怀柔敛巧饭 | 敛巧饭；百家饭 | CN-BJ | beijing-huairou-lianqiaofan | 研究记录（非公开可执行） | 小米；玉米；肉；冻豆腐；萝卜干 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [斂巧飯習俗](https://www.beijing.gov.cn/gate/big5/www.beijing.gov.cn/renwen/bjgk/hrgk/fy/202212/t20221220_2881127.html)<br>[正月十六‘敛巧饭’ 怀柔区汤河口乡间‘烟火气’渐浓](https://www.bjwmb.gov.cn/wmdt/hrq/10020626.html) |
+## brazil-risotto
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Risoto de Frango com Legumes | 鸡肉蔬菜烩饭 | BR-RS | brazil-risotto | 研究记录（非公开可执行） | 米；鸡肉；西兰花；红椒；洋葱；奶酪；蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Risoto de Frango com Legumes](https://irga.rs.gov.br/risoto-de-frango-com-legumes) |
+## brazil-school-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Arroz Colorido com Carne de Soja | 大豆蛋白彩色饭 | BR-TO | brazil-school-rice | 研究记录（非公开可执行） | 米；大豆蛋白；胡萝卜；玉米；葡萄干；番茄 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [Arroz Colorido com Carne de Soja](https://www.gov.br/fnde/pt-br/acesso-a-informacao/acoes-e-programas/programas/pnae/campanhas/concurso-melhores-receitas/receitas/to-1/receita_escola_blandina.pdf/) |
 ## buyi-flower-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -246,6 +261,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黄元米饭 | 赣县黄元米饭 | CN-JX | ganxian-huangyuan-rice | 研究记录（非公开可执行） | 大禾米；柴灰水 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [寻味赣鄱：米果飘香 探寻舌尖上的赣南年味](https://www.jx.chinanews.com.cn/news/2026/0207/124647.html) |
+## greek-mageiritsa
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mushroom Mageiritsa | 蘑菇马吉里察；希腊蘑菇米汤 | GR | greek-mageiritsa | 研究记录（非公开可执行） | 蘑菇；春葱；菠菜；莳萝；茴香；白葡萄酒；糙米；橄榄油；水；蛋黄；柠檬汁；玉米淀粉 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Mushroom Mageiritsa](https://www.visitgreece.gr/experiences/gastronomy/recipes/mushroom-mageiritsa/) |
 ## guangdong-festival-steamed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -914,6 +934,12 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 鲤鱼炖糯米 | — | CN-GD | kaiping-danjia-carp-glutinous-rice | 研究记录（非公开可执行） | 鲤鱼；糯米；枸杞；红枣；姜 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [开平疍家菜制作技艺](https://www.kaiping.gov.cn/csjdbsc/kjww/wh/content/post_3220203.html) |
+## khichdi
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Moong Dal Khichidi | 绿豆米Khichidi；绿豆米粥饭 | IN | khichdi | 研究记录（非公开可执行） | 米；绿豆；食用油；岩盐；姜；阿魏；姜黄 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Moong Dal Khichidi](https://ayush.gov.in/resources/pdf/health/ARPHHC19.pdf) |
+| Poushtik Khichdi | 营养 Khichdi | IN-OD | khichdi | 研究记录（非公开可执行） | 米；分裂绿豆；食用油；洋葱；青椒；番茄；混合蔬菜；绿叶菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Poushtik Khichdi](https://pmposhan.education.gov.in/Files/Review/Fifth_Review/Odisha/JRM_Report_Odisha_MDM.pdf) |
 ## kinmen-electric-pot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1460,6 +1486,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 馇菜饭 | 馇菜饭制作技艺 | CN-CQ-PENGSHUI | pengshui-zhacai-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [彭水苗族土家族自治县国家级（市级、县级）非物质文化遗产代表性项目名录](https://www.psx.gov.cn/ztzl_174/ydn/psfy/202410/t20241015_13708907.html) |
+## peru-arroz-con-pollo
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Arroz con Pollo (CENAN 版本) | 秘鲁鸡肉饭 | PE | peru-arroz-con-pollo | 研究记录（非公开可执行） | 米；鸡肉；豌豆；胡萝卜；菠菜；香菜；洋葱；红椒；蒜；食用油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [CENAN Arroz con Pollo](https://www.gob.pe/institucion/minsa/noticias/42250-el-pollo-es-una-importante-fuente-de-fosforo-y-potasio) |
 ## pianguan-oil-braised-millet-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1648,6 +1679,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 阿婆菜饭 | — | CN-SH | songjiang-apo-vegetable-rice | 研究记录（非公开可执行） | 猪油；三当菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [松江乡村里的年味：有米餐厅和阿婆菜饭](https://www.songjiang.gov.cn/xwzx/001003/20260129/b7ead1aa-7dfe-4c90-b469-f1b43c61bf09.html) |
+## south-africa-one-pot-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| One-Pot Chicken and Rice | 南非一锅鸡肉饭 | ZA-NW | south-africa-one-pot-rice | 研究记录（非公开可执行） | 鸡腿肉；白米；冷冻蔬菜；洋葱；水；鸡汤块 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Rice](https://health-sciences.nwu.ac.za/sites/health-sciences.nwu.ac.za/files/files/Consumer_Sciences/Documents/Resepteboek_2024_B5.pdf) |
 ## southeast-asian-rice-cooker-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1658,6 +1694,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 合饭 | — | CN-CQ | southeast-chongqing-tujia-he-rice | 研究记录（非公开可执行） | 米；肉；花椒；盐 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [02重庆民俗风情——渝东南土家族和苗族的节令](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510457.html) |
+## spanish-arroz
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Arroz negro | 西班牙黑米饭；墨鱼黑米饭 | ES-IB | spanish-arroz | 研究记录（非公开可执行） | 米；墨鱼；鱼贝高汤；洋葱；蒜；番茄；欧芹；红椒粉；食用油 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Arroz negro](https://www.spain.info/en/recipe/arroz-negro/) |
 ## taicang-seafood-guoba-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

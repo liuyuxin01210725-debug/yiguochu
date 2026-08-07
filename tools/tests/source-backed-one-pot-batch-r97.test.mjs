@@ -6,8 +6,8 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r97 adds newly verified one-pot rice candidates without promoting incomplete evidence', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r124');
-  assert.equal(catalog.recipes.length, 875);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r125');
+  assert.equal(catalog.recipes.length, 884);
   const expected = [
     ['r97-panasonic-taiwan-shiitake-oil-rice', '香菇油飯', 'recipe_fact_checked'],
     ['r97-panasonic-taiwan-cinderella-pumpkin-risotto', '灰姑娘南瓜馬車燉飯', 'recipe_fact_checked'],

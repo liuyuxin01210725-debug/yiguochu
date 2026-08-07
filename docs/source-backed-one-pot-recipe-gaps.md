@@ -275,6 +275,7 @@
 - てんこ小豆の赤飯 (maff-akita-tenko-azuki-sekihan) — JP-AKITA
 - 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
+- Arroz Colorido com Carne de Soja (global-fnde-arroz-colorido-soy) — BR-TO
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
@@ -485,6 +486,7 @@
 - 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - 东北一锅出 (northeast-one-pot) — CN-LN
 - 怒族肉拌饭 (nu-zu-rou-ban-fan) — CN-YN-NUJIANG-GONGSHAN
+- Arroz con Pollo (CENAN 版本) (global-peru-minsa-arroz-pollo) — PE
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
@@ -841,8 +843,10 @@
 
 - むかごご飯 (r106-jp-aichi-mukago-gohan) — JP-AICHI
 - てんこ小豆の赤飯 (maff-akita-tenko-azuki-sekihan) — JP-AKITA
+- Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
 - 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
+- Risoto de Frango com Legumes (global-irga-risoto-frango-legumes) — BR-RS
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
 - 合川阴米乌鸡粥 (hechuan-yinmi-black-chicken-congee) — CN-CQ-HECHUAN
@@ -1047,6 +1051,8 @@
 - 壶仔咸饭 (fujian-jinjiang-shenhu-huzi-salted-rice) — CN-FJ
 - 晋源馏米饭 (jinyuan-liumi-rice) — CN-SX-TAIYUAN-JINYUAN
 - 绩溪笋焖饭 (jixi-bamboo-shoot-braised-rice) — CN-AH
+- Moong Dal Khichidi (global-ayush-moong-dal-khichidi) — IN
+- Poushtik Khichdi (global-pmposhan-poushtik-khichdi) — IN-OD
 - 蚵乾金瓜飯 (kinmen-dried-oyster-pumpkin-rice) — TW-KM
 - 克州抓饭 (kizilsu-polo-pilaf) — CN-XJ-KIZILSU
 - こうし飯 (maff-kochi-koshimeshi) — JP-KOCHI
@@ -1183,6 +1189,7 @@
 - クファジューシー (jp-okinawa-kufa-jushi) — JP-OKINAWA
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 焼きさばめし (zojirushi-yakisaba-meshi-ep-fa10) — JP
+- Arroz con Pollo (CENAN 版本) (global-peru-minsa-arroz-pollo) — PE
 - 偏关油焖饭 (pianguan-oil-braised-millet-rice) — CN-SX
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 昂刺鱼菜饭 (pudong-angci-fish-vegetable-rice) — CN-SH
@@ -1207,6 +1214,7 @@
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 酸菜干饭 (guangyuan-sauerkraut-dry-rice) — CN-SC-GUANGYUAN
 - 阿婆菜饭 (shanghai-songjiang-apo-vegetable-rice) — CN-SH
+- One-Pot Chicken and Rice (global-nwu-one-pot-chicken-rice) — ZA-NW
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 遇見幸福芋頭飯 (taichung-encounter-happiness-taro-rice) — TW
 - 太行小米焖饭 (taihang-millet-braised-rice) — CN-HA
@@ -1341,6 +1349,8 @@
 
 ## 8. Missing safety
 
+- Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
+- Risoto de Frango com Legumes (global-irga-risoto-frango-legumes) — BR-RS
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
@@ -1578,6 +1588,7 @@
 - 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 中華おこわ（Panasonic NF-PC400版） (panasonic-chinese-sticky-rice-nf-pc400) — JP
+- Arroz con Pollo (CENAN 版本) (global-peru-minsa-arroz-pollo) — PE
 - 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
@@ -1587,6 +1598,8 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- One-Pot Chicken and Rice (global-nwu-one-pot-chicken-rice) — ZA-NW
+- Arroz negro (global-spain-arroz-negro) — ES-IB
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
