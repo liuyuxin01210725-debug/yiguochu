@@ -24,12 +24,14 @@
 - 开平鲫鱼焗饭 (r97-kaiping-crucian-carp-baked-rice) — CN-GD-JIANGMEN-KAIPING
 - 内莞焖鸡饭 (lianping-neiguan-braised-chicken-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
 - 内莞焖鸭饭 (lianping-neiguan-braised-duck-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
+- 苗族三色饭制作技艺 (cn-hainan-sanya-miao-three-color-rice) — CN-HI-SANYA
 - 大山小米焖饭 (weihui-dashan-millet-braised-rice) — CN-HA-XINXIANG-WEIHUI
 - 湘鄂赣革命根据地红军游击队竹筒饭 (pingjiang-red-army-guerrilla-bamboo-rice) — CN-HN-YUEYANG-PINGJIANG
 - 薅菜饭 (huaihua-haocai-rice) — CN-HN-HUAIHUA-HONGJIANG
 - 河豚八煲饭 (yangzhong-pufferfish-eight-pot-rice) — CN-JS-ZHENJIANG-YANGZHONG-XINBA
 - 八卦洲芦蒿焖饭 (baguazhou-luhao-braised-rice) — CN-JS-NANJING-QIXIA-BAGUAZHOU
 - 盱眙咸肉菜饭锅巴制作技艺 (xuyi-salted-pork-rice-cracker) — CN-JS-HUAIAN-XUYI
+- 安远焖饭 (cn-jiangxi-ganzhou-anyuan-menfan) — CN-JX-GANZHOU-ANYUAN
 - 廬陵鼎罐飯 (luling-dingpot-rice) — CN-JX
 - 靖西扣肉糯米饭 (guangxi-jingxi-pork-glutinous-rice) — CN-GX
 - 靖西荷叶香糯饭 (guangxi-jingxi-lotus-leaf-fragrant-rice) — CN-GX
@@ -47,6 +49,7 @@
 - 傣族蒸米饭制作技艺（瑞丽） (cn-yunnan-ruili-dai-steamed-rice-technique) — CN-YN-DEHONG-RUILI
 - 景颇族蒸米饭制作技艺（瑞丽） (cn-yunnan-ruili-jingpo-steamed-rice-technique) — CN-YN-DEHONG-RUILI
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
+- 沁水传统手工软米饭 (cn-shanxi-qinshui-handmade-soft-rice) — CN-SX-JINCHENG-QINSHUI
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ
 - 南瓜小魚干紅蔥頭炊飯 (taiwan-pumpkin-dried-fish-red-shallot-rice) — TW
 - 香腸栗子炊飯 (taiwan-sausage-chestnut-rice) — TW
@@ -601,6 +604,7 @@
 - 内莞焖鸭饭 (lianping-neiguan-braised-duck-rice) — CN-GD-HEYUAN-LIANPING-NEIGUAN
 - 上思香糯五色饭 (r103-cn-guangxi-shangsi-xiangnu-wuse-fan) — CN-GX-FANGCHENGGANG-SHANGSI
 - 广州冬至腊味糯米饭 (r99-guangzhou-winter-solstice-cured-glutinous-rice) — CN-GD-GUANGZHOU
+- 苗族三色饭制作技艺 (cn-hainan-sanya-miao-three-color-rice) — CN-HI-SANYA
 - 大山小米焖饭 (weihui-dashan-millet-braised-rice) — CN-HA-XINXIANG-WEIHUI
 - あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 湘鄂赣革命根据地红军游击队竹筒饭 (pingjiang-red-army-guerrilla-bamboo-rice) — CN-HN-YUEYANG-PINGJIANG
@@ -632,7 +636,9 @@
 - 傣族蒸米饭制作技艺（瑞丽） (cn-yunnan-ruili-dai-steamed-rice-technique) — CN-YN-DEHONG-RUILI
 - 景颇族蒸米饭制作技艺（瑞丽） (cn-yunnan-ruili-jingpo-steamed-rice-technique) — CN-YN-DEHONG-RUILI
 - 瓜焖饭 (shenmu-gua-braised-rice) — CN-SN-YULIN-SHENMU
+- 沁水传统手工软米饭 (cn-shanxi-qinshui-handmade-soft-rice) — CN-SX-JINCHENG-QINSHUI
 - 洪洞蒸饭 (hongdong-steamed-rice) — CN-SX-LINFEN-HONGDONG
+- 武乡小米焖饭 (cn-shanxi-wuxiang-millet-braised-rice) — CN-SX-CHANGZHI-WUXIANG
 - 泥屯小米饭 (r103-cn-shanxi-yangqu-nidun-xiaomi-fan) — CN-SX-TAIYUAN-YANGQU
 - 邵阳黑饭 (shaoyang-black-rice) — CN-HN-SHAOYANG
 - 石狮香油饭 (fujian-shishi-sesame-oil-rice) — CN-FJ

@@ -13,8 +13,8 @@ const expected = [
 ];
 
 test('r106 adds four official Taiwan/Japan rice records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r107');
-  assert.equal(catalog.recipes.length, 835);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r108');
+  assert.equal(catalog.recipes.length, 840);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, url] of expected) {
     const recipe = byId.get(recipeId);

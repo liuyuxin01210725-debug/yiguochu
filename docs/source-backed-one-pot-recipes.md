@@ -327,6 +327,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黎家竹筒饭 | 黎族竹筒饭 | CN-HI | hainan-li-bamboo-tube-rice | 研究记录（非公开可执行） | 山兰米；猪瘦肉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [黎家竹筒饭](https://m.idevsite.com/hainan/mstc/200606/4a427e8c0c504c81af537cd1755dfd3b.shtml) |
+## hainan-miao-three-color-rice-technique
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 苗族三色饭制作技艺 | 苗族三色饭 | CN-HI-SANYA | hainan-miao-three-color-rice-technique | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [三亚市级非物质文化遗产代表性项目名录政策解读](https://lwj.sanya.gov.cn/wljsite/zcjd/202507/a3513a34ca2543a0b86ff0dd12e9a4af.shtml) |
 ## hainanese-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -816,6 +821,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 盱眙咸肉菜饭锅巴制作技艺 | 咸肉菜饭锅巴 | CN-JS-HUAIAN-XUYI | jiangsu-salted-rice-cracker | 研究记录（非公开可执行） | 米；咸肉；青菜 | identity | 缺 ingredients、process | [咸肉菜饭锅巴制作技艺](https://www.xuyi.gov.cn/upload/2026-04/499c4548-9ff5-447f-b233-0ebcea3c0354.pdf) |
+## jiangxi-anyuan-menfan
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 安远焖饭 | 安远焖饭（赣南） | CN-JX-GANZHOU-ANYUAN | jiangxi-anyuan-menfan | 研究记录（非公开可执行） | 大米 | appliance、identity、process | 缺 ingredients | [安远焖饭及其地方饭食传统](https://www.ay.gov.cn/ayzf/c103773/tt.shtml) |
 ## jiangxi-bamboo-tube-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1505,11 +1515,21 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 陵川和锅大米 | 一锅出；柴火大米 | CN-SX | shanxi-heguo-rice | 研究记录（非公开可执行） | 大米；干豆角 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [陵川和锅大米](https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml)<br>[太行、长城、黄河旅游公路沿线美食之晋城篇 \| 太行古道上的泽州食韵](https://app-new.sxwbs.com/pages/2026/04/24/bc279d8c60bf4588824d5f8f84222c47.html) |
+## shanxi-qinshui-soft-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 沁水传统手工软米饭 | 沁水软米饭；软米饭（沁水） | CN-SX-JINCHENG-QINSHUI | shanxi-qinshui-soft-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [沁水县地方特色小吃与传统手工软米饭](https://xxgk.qinshui.gov.cn/xzf/qsgxj/fdzdgknr/gzdt/202501/t20250106_2083576.shtml)<br>[晋城市第七批市级非物质文化遗产代表性项目名录](https://xxgk.jcgov.gov.cn/jcsrmzf/zc/jszb/202210/P020221012650167958431.pdf) |
 ## shanxi-regional-steamed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 洪洞蒸饭 | 洪洞黍米蒸饭 | CN-SX-LINFEN-HONGDONG | shanxi-regional-steamed-rice | 研究记录（非公开可执行） | 黍米或江米；红枣 | identity、ingredients | 缺 process | [洪洞蒸饭](https://zhuanti.mct.gov.cn/csxz2022/shanxi/detail_g7yU_708/4402.html) |
+## shanxi-wuxiang-millet-braised-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 武乡小米焖饭 | 小米焖饭（武乡） | CN-SX-CHANGZHI-WUXIANG | shanxi-wuxiang-millet-braised-rice | 研究记录（非公开可执行） | 小米 | identity、ingredients | 缺 process | [黄土地长出“金谷子”——武乡县深耕小米产业带富一方乡亲](https://credit.changzhi.gov.cn/82/17645.html) |
 ## shanxi-yangqu-nidun-xiaomi-fan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2101,6 +2121,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 湘西社饭 | 凤凰蒿香苗家社饭；凤凰苗家社饭 | CN-HN | xiangxi-she-rice | 研究记录（非公开可执行） | 粘米；糯米；蒿菜；腊肉；葫葱 | identity、ingredients、process、quantity、time | 缺 liquid、appliance、safety | [地方名小吃：社饭](https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html) |
+## xinjiang-cele-pilaf
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 策勒抓饭 | 策勒坡罗；新疆抓饭（策勒） | CN-XJ-HOTAN-CELE | xinjiang-cele-pilaf | 研究记录（非公开可执行） | 羊肉；胡萝卜；洋葱；大米；葡萄干 | identity、ingredients、process | 当前状态所需证据已齐 | [新疆美食：抓饭（坡罗）](https://www.xjcl.gov.cn/clxrmzf/c118969/201609/6abb0617b5e3449caa8d2b5141fc3834.shtml) |
 ## xinjiang-egg-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
