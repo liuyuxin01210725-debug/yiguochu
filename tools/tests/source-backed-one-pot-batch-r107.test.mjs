@@ -16,8 +16,8 @@ const expected = [
 ];
 
 test('r107 adds seven deduplicated mainland records without executable promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r114');
-  assert.equal(catalog.recipes.length, 854);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r118');
+  assert.equal(catalog.recipes.length, 867);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, status, url] of expected) {
     const recipe = byId.get(recipeId);
