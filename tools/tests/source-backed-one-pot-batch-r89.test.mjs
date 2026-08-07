@@ -6,9 +6,9 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r89 records the Panasonic red-crab congee and Taiwan agriculture yam rice', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r110');
-  assert.equal(catalog.recipes.length, 844);
-  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 719);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r112');
+  assert.equal(catalog.recipes.length, 849);
+  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 724);
 
   const crab = catalog.recipes.find(item => item.recipe_id === 'panasonic-taiwan-red-crab-pork-congee');
   assert.equal(crab?.canonical_name, '紅蟳稀飯');
