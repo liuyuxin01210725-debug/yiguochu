@@ -664,6 +664,7 @@
 | たこめし | 广岛三原章鱼饭；三原たこめし | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；煮章鱼；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_18_hiroshima.html) |
 | 鯛めし | 广岛瀬户内鲷饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 精米；鲷；胡萝卜；牛蒡；昆布 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鯛めし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_9_hiroshima.html) |
 | いかめし | 北海道墨鱼塞饭 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 鱿鱼；糯米；出汁；酒；酱油；砂糖 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [いかめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/ikameshi_hokkaido.html) |
+| 北海道赤飯 | 北海道甘纳豆赤饭；北海道甘納豆赤飯 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 粳米；糯米；甘纳豆；水；盐；红姜；食红 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [北海道赤飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/sekihan_hokkaido.html) |
 | 美唄のとりめし | 美呗鸡肉饭 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；鸡胸肉；洋葱 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [美唄のとりめし 北海道](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/bibainotorimeshi_hokkaido.html) |
 | たこめし | 兵库淡路岛章鱼饭；兵库东播磨章鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；干章鱼；出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_27_hyogo.html) |
 | とふめし | 兵库丹波豆腐鲭鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；硬豆腐；鲭鱼罐头；牛蒡；胡萝卜；油豆腐 | identity、ingredients、process、quantity | 缺 liquid、time | [とふめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_12_hyogo.html) |
@@ -731,6 +732,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黒豆おこわ／みたま | 黑豆御饭 | JP-TOYAMA-EAST | japanese-regional-steamed-rice | 研究记录（非公开可执行） | 黑豆；糯米；水；盐 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [黒豆おこわ／みたま 富山県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/37_11_toyama.html) |
+## japanese-rice-cooker-pilaf
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 人参とアスパラガスのピラフ | 胡萝卜芦笋鸡汤抓饭；胡萝卜芦笋焗饭式抓饭 | JP | japanese-rice-cooker-pilaf | 研究记录（非公开可执行） | 米；胡萝卜；洋葱；芦笋；鸡汤；食用油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [人参とアスパラガスのピラフ](https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe021.html) |
 ## japanese-rice-cooker-porridge
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

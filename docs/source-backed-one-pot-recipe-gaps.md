@@ -940,6 +940,7 @@
 - かき飯 (jp-hiroshima-kakimeshi) — JP-HIROSHIMA
 - たこめし (maff-hiroshima-mihara-tako-meshi) — JP-HIROSHIMA
 - 鯛めし (maff-hiroshima-tai-meshi) — JP-HIROSHIMA
+- 北海道赤飯 (maff-hokkaido-amanatto-sekihan) — JP-HOKKAIDO
 - 美唄のとりめし (maff-hokkaido-bibai-torimeshi) — JP-HOKKAIDO
 - たこめし (maff-hyogo-tako-meshi) — JP-HYOGO
 - とふめし (maff-hyogo-tofumeshi) — JP-HYOGO
@@ -992,6 +993,7 @@
 - さんまめし (maff-yamanashi-sanma-meshi) — JP-YAMANASHI
 - うずみ (maff-hiroshima-uzume) — JP-HIROSHIMA-FUKUYAMA
 - 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
+- 人参とアスパラガスのピラフ (maff-carrot-asparagus-pilaf) — JP
 - Corn Rice (tiger-corn-rice) — JP
 - さといもと高菜漬けの炊き込みごはん (maff-satoimo-takana-takikomi-gohan) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
