@@ -22,8 +22,8 @@ const shelf = JSON.parse(fs.readFileSync(path.join(OUTPUT, 'source-backed-one-po
 const sourceRecords = Array.isArray(shelf.records) ? shelf.records : [];
 test.after(() => fs.rmSync(OUTPUT, { recursive:true, force:true }));
 
-function loadRiceFrontend(responses = [{ body:shelf }], locationOverrides = {}) {
-  const html = fs.readFileSync(path.join(OUTPUT, 'index.html'), 'utf8');
+function loadRiceFrontend(responses = [{ body:shelf }], locationOverrides = {}, htmlPath = path.join(OUTPUT, 'index.html')) {
+  const html = fs.readFileSync(htmlPath, 'utf8');
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
     .map(match => match[1])
     .filter(script => !script.includes('serviceWorker'));
@@ -79,7 +79,8 @@ test('rice product opens directly on a real source-backed recipe', async () => {
   assert.match(root.innerHTML, /一锅出菜饭 · 自由轮替/u);
   assert.match(root.innerHTML, /今天做哪一道/u);
   assert.match(root.innerHTML, /<h2>[^<]+<\/h2>/u);
-  assert.match(root.innerHTML, /来源目录原名保留/u);
+  assert.doesNotMatch(root.innerHTML, /来源目录原名保留/u);
+  assert.match(root.innerHTML, /去资料库记录这道菜/u);
   assert.match(root.innerHTML, /来源记录的步骤/u);
   assert.equal((root.innerHTML.match(/data-act="rotate-source-recipe"/g) || []).length, 1);
   assert.doesNotMatch(root.innerHTML, /data-act="choose-rice-meal"|data-act="choose-plan"|data-pantry-chip=/u);
@@ -91,7 +92,7 @@ test('the first screen has one rotation action and never calls the planner or De
   await tick();
   const actionValues = [...root.innerHTML.matchAll(/data-act="([^"]+)"/g)].map(match => match[1]);
   assert.deepEqual(actionValues, ['rotate-source-recipe']);
-  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 234);
+  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 232);
   assert.doesNotMatch(root.innerHTML, /data-act="choose-rice-meal"|data-act="choose-plan"|候选方案|生成菜谱|plan-meal|generate-plan|DeepSeek/u);
   assert.equal(calls.some(call => /plan-meal|generate-plan/.test(call.url)), false);
 });
@@ -104,7 +105,7 @@ test('clicking 换一道 rotates to another real recipe without another network 
   const second = evaluate(context, 'state.sourceRotationCurrent.canonical_name');
   assert.notEqual(second, first);
   assert.match(root.innerHTML, new RegExp(second.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
-  assert.match(root.innerHTML, /第 2 \/ 234 道可轮替菜饭/u);
+  assert.match(root.innerHTML, /第 2 \/ 232 道可轮替菜饭/u);
   assert.equal(calls.length, 1);
 });
 
@@ -123,6 +124,16 @@ test('file mode never calls a remote API and gives the local start command instr
   await tick();
   assert.equal(calls.length, 0);
   assert.equal(evaluate(context, 'state.view'), 'source-rotation');
+  assert.match(root.innerHTML, /请双击 start\.command 启动本地版本。/u);
+});
+
+test('opening the unbuilt source index never falls back to the legacy ingredient form', async () => {
+  const { context, root, calls } = loadRiceFrontend([], { protocol:'file:', hostname:'', origin:'null' }, path.join(ROOT, 'index.html'));
+  await tick();
+  assert.equal(evaluate(context, 'RICE_MEAL_PRODUCT'), true);
+  assert.equal(evaluate(context, 'state.view'), 'source-rotation');
+  assert.equal(calls.length, 0);
+  assert.doesNotMatch(root.innerHTML, /家里的食材|给我一锅|这次怎么做/u);
   assert.match(root.innerHTML, /请双击 start\.command 启动本地版本。/u);
 });
 
