@@ -6,9 +6,9 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r96 records the Korean RDA ginseng nutrition rice as a source-backed research recipe', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r108');
-  assert.equal(catalog.recipes.length, 840);
-  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 715);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r109');
+  assert.equal(catalog.recipes.length, 842);
+  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 717);
 
   const recipe = catalog.recipes.find(item => item.recipe_id === 'rda-korean-ginseng-chicken-nutrition-rice');
   assert.equal(recipe?.canonical_name, '인삼 영양밥');

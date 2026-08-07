@@ -5,8 +5,8 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 
 test('r98 adds six directly verified rice/congee candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r108');
-  assert.equal(catalog.recipes.length, 840);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r109');
+  assert.equal(catalog.recipes.length, 842);
   const expected = new Map([
     ['r98-zojirushi-taiwan-corn-chicken-brown-congee', ['玉米雞蓉糙米粥', 'recipe_fact_checked']],
     ['r98-zojirushi-china-chestnut-chicken-congee', ['板栗鸡丝粥', 'recipe_fact_checked']],
