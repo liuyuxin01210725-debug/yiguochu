@@ -24,3 +24,13 @@ test('source-backed rotation does not call planner or generation endpoints', () 
   assert.ok(start >= 0 && end > start);
   assert.doesNotMatch(sourceFlow, /plan-meal|generate-plan|fetchRealDish|DeepSeek/i);
 });
+
+test('source-backed rotation renders human labels instead of internal catalog slugs', () => {
+  assert.match(page, /sourceRotationRegionLabel\(record\)/);
+  assert.match(page, /sourceRotationFamilyLabel\(record\)/);
+  assert.doesNotMatch(page, /sourceRotationRegion\(record\) \\+ ' · ' \\+ esc\(record\.cuisine_family/);
+  assert.doesNotMatch(page, /来源目录原名保留/);
+  assert.match(page, /去资料库记录这道菜/);
+  assert.match(page, /sourceRotationDisplayName\(record\)/);
+  assert.doesNotMatch(page, /<strong>' \+ \(index \+ 1\) \+ '\.<\/strong>/);
+});

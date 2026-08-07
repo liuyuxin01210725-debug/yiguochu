@@ -6,8 +6,8 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r85 registers the Yongchun named salted-rice identity without inventing a recipe contract', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r96');
-  assert.equal(catalog.recipes.length, 766);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r107');
+  assert.equal(catalog.recipes.length, 835);
   const recipe = catalog.recipes.find(item => item.recipe_id === 'yongchun-yifan-salty-rice');
   assert.equal(recipe?.canonical_name, '永春一饭（香饭）');
   assert.equal(recipe?.status, 'identity_verified');
@@ -17,10 +17,10 @@ test('r85 registers the Yongchun named salted-rice identity without inventing a 
   assert.ok(recipe?.source_refs?.every(source => source.access_status === 'opened'));
 
   const counts = Object.groupBy(catalog.recipes, item => item.status);
-  assert.equal(counts.recipe_fact_checked.length, 669);
-  assert.equal(counts.identity_verified.length, 79);
+  assert.equal(counts.recipe_fact_checked.length, 715);
+  assert.equal(counts.identity_verified.length, 91);
   assert.equal(counts.executable.length, 12);
-  assert.equal(counts.discovered.length, 6);
+  assert.equal(counts.discovered.length, 17);
 });
 
 test('r85 keeps Yongchun salted-rice process and appliance facts unresolved', () => {

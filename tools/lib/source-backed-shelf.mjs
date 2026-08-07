@@ -20,7 +20,7 @@ const RISK_RULES = Object.freeze([
   { pattern: /牛肉|牛腩|牛里脊|牛柳|牛排|牛薄|beef/iu, expected: ['beef_fully_cooked'], label: '牛肉' },
   { pattern: /虾|蝦|蟹|贝|貝|蛤|蚝|蠔|蚌/u, expected: ['shellfish_fully_cooked', 'seafood_fully_cooked'], label: '贝类、甲壳类或虾蟹' },
   { pattern: /鱼|魚|鳗|鰻|鲤|鯉|鲫|鯽|带鱼|鳕|海鲜|海鮮/u, expected: ['seafood_fully_cooked'], label: '鱼类或海鲜' },
-  { pattern: /鸡蛋|鸭蛋|蛋|卵/u, expected: [], label: '蛋类' },
+  { pattern: /鸡蛋|鸭蛋|鹅蛋|蛋|卵/u, expected: null, label: '蛋类', advisory: '蛋类：加热至蛋液完全凝固。' },
 ]);
 
 function hasFixedBatch(recipe) {
@@ -58,8 +58,15 @@ function safetyNotes(recipe) {
   }
 
   const ingredientNames = ingredientText(recipe);
+  // 鱼露/鱼酱是调味料，不应被“鱼类/海鲜”规则当成整条鱼。
+  const riskIngredientNames = ingredientNames.replace(/鱼露|魚露|鱼酱|魚醬/gu, '');
   for (const rule of RISK_RULES) {
-    if (!rule.pattern.test(ingredientNames)) continue;
+    const matchedNames = rule.advisory ? ingredientNames : riskIngredientNames;
+    if (!rule.pattern.test(matchedNames)) continue;
+    if (rule.advisory) {
+      notes.push(rule.advisory);
+      continue;
+    }
     const covered = rule.expected.some(code => endpointCodes.has(code));
     if (!covered) {
       notes.push(`注意：本条含${rule.label}，目录尚未记录对应的独立安全终点；仅供试做记录，不代表安全确认。`);

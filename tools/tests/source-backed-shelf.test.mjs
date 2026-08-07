@@ -51,11 +51,23 @@ test('does not mislabel burdock as beef or egg as poultry', () => {
   assert.equal(egg.safety_notes.some(note => note.includes('蛋类')), true);
 });
 
+test('treats fish sauce as a seasoning instead of a fish ingredient warning', () => {
+  const classified = classifySourceBackedRecipe({
+    recipe_id: 'fixture-fish-sauce', status: 'recipe_fact_checked', canonical_name: '鱼露鸡饭',
+    core_ingredients: ['米', '鸡肉', '鱼露'],
+    fixed_batch: { ingredients: [{ name: '米' }] },
+    cooking_sequence: [{ step: 1, instruction: '同锅煮熟' }],
+    safety_endpoints: [{ code: 'poultry_fully_cooked', source_ids: [] }], source_refs: [],
+  });
+
+  assert.equal(classified.safety_notes.some(note => /鱼类或海鲜|海鲜/.test(note)), false);
+});
+
 test('catalog preserves all records and exposes the expected non-overlapping counts', () => {
   const shelf = buildShelfCatalog(catalog);
 
   assert.equal(shelf.catalog_version, catalog.catalog_version);
-  assert.equal(shelf.records.length, 766);
-  assert.deepEqual(shelf.summary, { A: 12, B: 222, C: 532, trial_ready_total: 234 });
+  assert.equal(shelf.records.length, 835);
+  assert.deepEqual(shelf.summary, { A: 12, B: 231, C: 592, trial_ready_total: 243 });
   assert.equal(new Set(shelf.records.map(record => record.recipe_id)).size, shelf.records.length);
 });

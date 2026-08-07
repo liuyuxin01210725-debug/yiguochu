@@ -11,8 +11,8 @@ const expected = [
 
 test('r84 registers two new directly sourced named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260806-national-r96');
-  assert.equal(catalog.recipes.length, 766);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260807-national-r107');
+  assert.equal(catalog.recipes.length, 835);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
   for (const [recipeId, canonicalName, status] of expected) {
@@ -27,10 +27,10 @@ test('r84 registers two new directly sourced named candidates without promotion'
   }
 
   const counts = Object.groupBy(catalog.recipes, recipe => recipe.status);
-  assert.equal(counts.recipe_fact_checked.length, 669);
-  assert.equal(counts.identity_verified.length, 79);
+  assert.equal(counts.recipe_fact_checked.length, 715);
+  assert.equal(counts.identity_verified.length, 91);
   assert.equal(counts.executable.length, 12);
-  assert.equal(counts.discovered.length, 6);
+  assert.equal(counts.discovered.length, 17);
 });
 
 test('r84 preserves vessel, safety, and identity-only boundaries', () => {
