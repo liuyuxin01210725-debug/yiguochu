@@ -5,35 +5,38 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
-test('r166 closes the same-source MAFF taro-and-pickled-mustard fixed batch', () => {
+test('r167 closes the same-source MAFF beef mushroom yolk fixed batch', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r167');
   assert.equal(catalog.recipes.length, 923);
-  const recipe = byId['maff-satoimo-takana-takikomi-gohan'];
+  const recipe = byId['maff-beef-mushroom-yolk-rice'];
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
   assert.equal(recipe.fixed_batch?.servings, 2);
-  assert.deepEqual(recipe.fixed_batch?.source_ids, ['S-MAFF-SATOIMO-TAKANA-R62']);
+  assert.deepEqual(recipe.fixed_batch?.source_ids, ['S-MAFF-BEEF-MUSHROOM-YOLK-R62']);
   for (const [name, value, unit] of [
     ['米', 2, '合'],
-    ['芋头', 150, 'g'],
-    ['高菜腌菜', 50, 'g'],
-    ['芝麻油', 1, '大匙'],
-    ['盐', 1, '小匙'],
+    ['蟹味菇', 50, 'g'],
+    ['胡萝卜', 30, 'g'],
+    ['薄切牛肉', 150, 'g'],
+    ['日式颗粒高汤', 1, '小匙'],
+    ['酱油', 2, '大匙'],
+    ['蛋黄', 2, '个'],
   ]) {
     const ingredient = recipe.fixed_batch.ingredients.find(item => item.name === name);
     assert.ok(ingredient, `missing ${name}`);
     assert.deepEqual(ingredient.amount, { value, unit });
-    assert.deepEqual(ingredient.source_ids, ['S-MAFF-SATOIMO-TAKANA-R62']);
+    assert.deepEqual(ingredient.source_ids, ['S-MAFF-BEEF-MUSHROOM-YOLK-R62']);
   }
   assert.deepEqual(recipe.time_contract, {
     total_minutes: 45,
-    source_ids: ['S-MAFF-SATOIMO-TAKANA-R62'],
+    source_ids: ['S-MAFF-BEEF-MUSHROOM-YOLK-R62'],
   });
   assert.equal(recipe.liquid_contract, null);
 });
 
-test('r166 leaves variable-water and staged MAFF boundaries unresolved', () => {
-  assert.equal(byId['maff-satoimo-takana-takikomi-gohan']?.liquid_contract, null);
+test('r167 preserves the source-specific water and safety boundaries', () => {
+  const recipe = byId['maff-beef-mushroom-yolk-rice'];
+  assert.equal(recipe?.liquid_contract, null);
+  assert.deepEqual(recipe?.safety_endpoints, []);
   assert.equal(byId['maff-air-buri-daikon-daikon-meshi']?.fixed_batch, null);
-  assert.equal(byId['maff-kagoshima-keihan']?.fixed_batch, null);
 });

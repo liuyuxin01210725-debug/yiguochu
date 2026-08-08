@@ -1031,7 +1031,6 @@
 - 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
 - 人参とアスパラガスのピラフ (maff-carrot-asparagus-pilaf) — JP
 - Corn Rice (tiger-corn-rice) — JP
-- 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
