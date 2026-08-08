@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r158",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r159",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -10814,8 +10814,34 @@
         "香菇",
         "荷兰豆"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {"name":"米","amount":{"value":3,"unit":"杯（Tiger量杯）"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"昆布","amount":{"value":1.25,"unit":"英寸"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"鸡腿肉","amount":{"value":2,"unit":"oz"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"油豆腐","amount":{"value":0.5,"unit":"片"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"胡萝卜","amount":{"value":1.5,"unit":"oz"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"牛蒡","amount":{"value":1.2,"unit":"oz"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"魔芋","amount":{"value":0.125,"unit":"块"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"干香菇","amount":{"value":2,"unit":"朵"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"荷兰豆","amount":{"value":8,"unit":"个"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"酱油","amount":{"value":2,"unit":"汤匙"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"清酒","amount":{"value":1,"unit":"汤匙"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"味醂","amount":{"value":0.5,"unit":"汤匙"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]},
+          {"name":"盐","amount":{"value":0.5,"unit":"茶匙"},"source_ids":["S-TIGER-TAKIKOMI-GOHAN-1"]}
+        ],
+        "source_ids": ["S-TIGER-TAKIKOMI-GOHAN-1"]
+      },
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "Tiger 5.5-cup cooker / 10-cup cooker",
+          "scale": "Ultra",
+          "mark": "3 (5.5-cup) / 6 (10-cup)"
+        },
+        "source_ids": ["S-TIGER-TAKIKOMI-GOHAN-1"]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -10871,7 +10897,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方具名炊饭，保留预处理和出锅后加料。"
+      "evidence_notes": "Tiger官方具名炊饭；本批按同一原页补4人份、量化食材与Tiger 5.5/10-cup Ultra水位线，保留魔芋/香菇预处理和荷兰豆出锅后加料，不补总时长或普通电饭煲参数。"
     },
     {
       "recipe_id": "tiger-cabbage-mushroom-rice",
@@ -12377,7 +12403,15 @@
         "葱"
       ],
       "fixed_batch": null,
-      "liquid_contract": null,
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "Tiger 5.5-cup cooker",
+          "scale": "Soft Porridge",
+          "mark": 0.5
+        },
+        "source_ids": ["S-TIGER-BASIC-CONGEE-R60"]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -12401,7 +12435,10 @@
           ]
         }
       ],
-      "time_contract": null,
+      "time_contract": {
+        "total_minutes": 70,
+        "source_ids": ["S-TIGER-BASIC-CONGEE-R60"]
+      },
       "safety_endpoints": [],
       "allergen_labels": [],
       "nutrition_structure": {
@@ -12440,7 +12477,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面将其称为姜香鸡肉粥并明确给出2份、半杯米、鸡汤至0.5 Soft Porridge刻度和70分钟程序；页面未给鸡肉实际用量或禽肉安全终点，且正文步骤只含米/芹菜/姜，因此不补写鸡肉用量或安全合同。"
+      "evidence_notes": "Tiger官方页面将其称为姜香鸡肉粥；本批只补同一原页明确的0.5 Soft Porridge水位线和70分钟程序。页面未给鸡肉实际用量，且正文步骤只含米/芹菜/姜，因此固定批量、鸡肉安全合同和10分钟准备时间均不补写。"
     },
     {
       "recipe_id": "r60-tiger-takeout-vegetable-fried-rice",
@@ -12550,7 +12587,18 @@
         "牛至",
         "葱"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {"name":"白米","amount":{"value":2,"unit":"杯（Tiger量杯）"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
+          {"name":"虾","amount":{"value":0.625,"unit":"lb"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
+          {"name":"蒜","amount":{"value":0.1666666667,"unit":"oz"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
+          {"name":"橄榄油","amount":{"value":1,"unit":"汤匙"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
+          {"name":"柠檬汁","amount":{"value":1.5,"unit":"汤匙"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
+          {"name":"特级初榨橄榄油","amount":{"value":1.5,"unit":"汤匙"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]}
+        ],
+        "source_ids": ["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -12612,7 +12660,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面明确将白米与蒜香虾放在同一台Tacook电饭煲同步完成，但虾在上层烹调盘、米在内锅，并非同一内锅混合；保留为“同一器具同步主餐”候选，未伪装成单内锅一锅饭，也未补水量或虾类安全终点。"
+      "evidence_notes": "Tiger官方页面明确将白米与蒜香虾放在同一台Tacook电饭煲同步完成；本批只补2人份和原页有数值的食材/柠檬酱量。虾在上层烹调盘、米在内锅，并非同一内锅混合；未补水量、程序时长或虾类安全终点。"
     },
     {
       "recipe_id": "r60-tiger-szechuan-pork-tacook-rice",
@@ -12723,7 +12771,22 @@
         "绍兴酒",
         "五香粉"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {"name":"白米","amount":{"value":2,"unit":"杯（Tiger量杯）"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"猪绞肉","amount":{"value":0.5,"unit":"lb"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"香菇","amount":{"value":2,"unit":"oz"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"炸葱","amount":{"value":0.5,"unit":"oz"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"酱油","amount":{"value":1.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"老抽","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"绍兴酒","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"玉米淀粉","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"糖","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
+          {"name":"五香粉","amount":{"value":0.375,"unit":"茶匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]}
+        ],
+        "source_ids": ["S-TIGER-TAIWAN-MINCED-PORK-R60"]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -12785,7 +12848,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面将该料理明确称为Taiwan Minced Pork，并解释其为卤肉饭风格：米在内锅、调味猪肉和香菇在Tacook盘同步完成，2份且给出主要食材量。它是同一器具的上下层同步版，不是肉与米在同一内锅混合；未推导普通电饭煲参数。"
+      "evidence_notes": "Tiger官方页面将该料理明确称为Taiwan Minced Pork，并解释其为卤肉饭风格；本批补2人份及原页有数值的米、猪肉、香菇、炸葱和调味量。白胡椒、装饰炸葱等原页按口味/装饰的项目不改成数字；米在内锅、调味猪肉和香菇在Tacook盘同步完成，不推导普通电饭煲水量或总时长。"
     },
     {
       "recipe_id": "taiwan-longkui-pork-porridge",
