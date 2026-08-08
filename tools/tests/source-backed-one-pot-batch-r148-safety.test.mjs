@@ -35,7 +35,7 @@ const expected = {
 };
 
 test('r148 adds only source-backed safety endpoints to the five audited recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r173');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r174');
   assert.equal(catalog.recipes.length, 923);
   for (const id of ids) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
