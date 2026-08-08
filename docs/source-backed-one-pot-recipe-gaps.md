@@ -1511,7 +1511,6 @@
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Rice Soup (instant-pot-chicken-rice-soup) — 非地域·厂商食谱
 - Chicken Satay Rice (instant-pot-chicken-satay-rice) — 非地域·厂商食谱
-- Chicken Vegetable Rice (panasonic-chicken-vegetable-rice) — 非地域·厂商食谱
 - Chicken and Brown Rice Soup (r60-tiger-chicken-brown-rice-soup) — 非地域·厂商食谱
 - Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
@@ -1540,7 +1539,6 @@
 - Zha Cai and Beef Rice (tiger-usa-zha-cai-beef-rice) — 非地域·厂商食谱
 - ข้าวไก่อบธัญพืช (philips-multigrain-baked-chicken-rice) — 非地域·厂商食谱
 - かに味噌ごはん (tiger-crab-miso-rice-post6) — 非地域·厂商食谱
-- ほたて貝柱とえんどう豆の炊込みごはん (tiger-scallop-pea-rice) — 非地域·厂商食谱
 - シーフードパエリア風炊込みご飯 (toshiba-seafood-paella-rice) — 非地域·厂商食谱
 - チキンライス (iris-rc-pga-chicken-rice) — 非地域·厂商食谱
 - パエリア (iris-rc-pga-paella) — 非地域·厂商食谱
@@ -1561,12 +1559,9 @@
 - 炊込みシーフードピラフ (panasonic-tokyo-seafood-pilaf) — 非地域·厂商食谱
 - 炊込み中華おこわ (tiger-chinese-sticky-rice-post-fry) — 非地域·厂商食谱
 - 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
-- 牛肉松茸ごはん (tiger-beef-matsutake-rice) — 非地域·厂商食谱
 - 牛肉野菇炊飯 (cookpot-beef-wild-mushroom-rice) — 非地域·厂商食谱
-- 玄米の炊き込みご飯 (zojirushi-brown-rice-ih-pot) — 非地域·厂商食谱
 - 皮蛋瘦肉粥（Panasonic） (r105-panasonic-taiwan-preserved-egg-pork-congee) — 非地域·厂商食谱
 - 皮蛋瘦肉粥（象印） (r105-zojirushi-taiwan-preserved-egg-pork-congee) — 非地域·厂商食谱
-- 石焼ビビンバ風炊込みご飯 (toshiba-bibimbap-mixed-rice) — 非地域·厂商食谱
 - 紅豆牛肉糙米菜飯 (philips-red-bean-beef-brown-rice-vegetable-rice) — 非地域·厂商食谱
 - 膏蟹粥 (philips-crab-congee-all-in-one-cooker) — 非地域·厂商食谱
 - 菌菇糙米饭 (zojirushi-mushroom-brown-rice) — 非地域·厂商食谱

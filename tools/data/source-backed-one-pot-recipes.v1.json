@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r156",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r157",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -2533,7 +2533,7 @@
     {"recipe_id":"hakka-electric-cooker-rice","canonical_name":"客家菜飯","aliases":[],"region_codes":["TW-HS"],"cuisine_family":"taiwan-electric-cooker-rice","identity_status":"verified","traditional_vessels":["电锅","炒锅"],"core_ingredients":["芋香米","四季豆","秋葵","五香豆干","毛豆","芹菜","竹笋"],"fixed_batch":null,"liquid_contract":{"kind":"added_broth","amount":{"value":3,"unit":"杯煮竹笋水"},"source_ids":["S-TY-Hakka-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"竹笋煮熟切丁；四季豆、毛豆和豆干按来源预处理。","source_ids":["S-TY-Hakka-RICE-1"]},{"step":2,"instruction":"米加3杯煮竹笋水浸泡约30分钟并调味，放入电锅，外锅加1杯水煮饭。","source_ids":["S-TY-Hakka-RICE-1"]},{"step":3,"instruction":"饭熟后拌入来源列明的豆干、蔬菜和芹菜。","source_ids":["S-TY-Hakka-RICE-1"]}],"time_contract":{"total_minutes":30,"source_ids":["S-TY-Hakka-RICE-1"]},"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TY-Hakka-RICE-1"],"notes":"桃园市政府客家文化食谱明确使用电锅、竹笋水和约30分钟；部分蔬菜需预煮或出锅拌入，不改写为全程同锅。"},"source_refs":[{"source_id":"S-TY-Hakka-RICE-1","title":"客家菜飯","publisher":"桃园市政府客家事务局","url":"https://meethakka.tycg.gov.tw/upload/cont_att/70fdadfd-8578-4660-9500-2df3e77d5df0.pdf","retrieved_at":"2026-08-05","source_kind":"municipal_government_recipe_pdf","access_status":"opened","evidence_tier":4,"evidence_locator":"PDF料理食譜页：芋香米3杯、四季豆10支、秋葵2支、五香豆干5片、毛豆30g、芹菜2支、竹笋1支、煮竹笋水3杯、电锅外锅1杯水、约30分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"桃园市政府客家事务局","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"官方客家菜饭具名来源；保留饭熟后混拌豆干和蔬菜的连续流程，未补固定份数或安全温度。"},
     {"recipe_id":"hk-hiroshima-oyster-mushroom-claypot-rice","canonical_name":"廣島蠔雜菇煲仔飯","aliases":[],"region_codes":["HK"],"cuisine_family":"hong-kong-claypot-rice","identity_status":"verified","traditional_vessels":["瓦煲"],"core_ingredients":["米","广岛蚝","杂菇","葱"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":200,"unit":"mL"},"source_ids":["S-HK-FEHD-HIROSHIMA-OYSTER-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"蚝按来源用生粉清洗；米、菇和葱处理备用。","source_ids":["S-HK-FEHD-HIROSHIMA-OYSTER-RICE-1"]},{"step":2,"instruction":"瓦煲加入调味和200mL水煮沸，蚝和杂菇煮2至3分钟后取出。","source_ids":["S-HK-FEHD-HIROSHIMA-OYSTER-RICE-1"]},{"step":3,"instruction":"加入米煮沸，转小火加盖13至15分钟，铺回蚝菇和葱，再煮2分钟并焗5分钟。","source_ids":["S-HK-FEHD-HIROSHIMA-OYSTER-RICE-1"]}],"time_contract":null,"safety_endpoints":[{"code":"shellfish_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"香港食物环境卫生署来源是瓦煲流程；不推导为电饭煲参数。"},"source_refs":[{"source_id":"S-HK-FEHD-HIROSHIMA-OYSTER-RICE-1","title":"懶人料理：廣島蠔雜菇煲仔飯","publisher":"香港食物環境衞生署","url":"https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202010_w4a.jpg","retrieved_at":"2026-08-05","source_kind":"government_recipe_image","access_status":"opened","evidence_tier":1,"evidence_locator":"官方食谱图：米1杯、杂菇1包、广岛蚝6至8只、清水200mL；蚝菇煮2至3分钟、米13至15分钟、回锅2分钟、焗5分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"香港食物環境衞生署","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"Safe Minimum Internal Temperature Chart：贝类/牡蛎及其他贝类海鲜按74°C终点；鱼类按63°C；禽肉按74°C。","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],"status":"recipe_fact_checked","evidence_notes":"官方完整图文配方；保留瓦煲器具、先取出海鲜再回锅的流程，未补份数或海鲜温度终点。 r155 安全审计补充：香港食环署食谱图要求广岛蚝先煮2–3分钟、米饭完成前后回锅并焗5分钟；按贝类74°C安全终点处理，保留瓦煲和分段流程。"},
     {"recipe_id":"panasonic-one-pot-chicken-rice","canonical_name":"One Pot Chicken Rice","aliases":["Panasonic One Pot Chicken Rice"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Panasonic SR-HL151电饭煲"],"core_ingredients":["茉莉香米","鸡腿","葱","姜","蒜"],"fixed_batch":{"servings":4,"ingredients":[{"name":"茉莉香米","amount":{"value":2,"unit":"量杯"},"source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]},{"name":"鸡腿","amount":{"value":4,"unit":"只"},"source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]}],"source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]},"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Panasonic SR-HL151","scale":"long-grain rice","mark":"2"},"source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"葱、姜、蒜以油炒香；米洗净放入内锅并加水至长粒米2刻度。","source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]},{"step":2,"instruction":"鸡腿皮朝上铺在米面，选择long grain程序启动。","source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]},{"step":3,"instruction":"程序结束后取出鸡腿切块，翻松米饭并按来源调酱食用。","source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"]}],"time_contract":null,"safety_endpoints":[{"code":"poultry_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","waterline":{"appliance_model":"Panasonic SR-HL151","scale":"long-grain rice","mark":"2"},"source_ids":["S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1"],"notes":"Panasonic澳洲官网的SR-HL151机型配方；水位线和程序仅限该型号，来源未给总分钟数和禽肉内温。"},"source_refs":[{"source_id":"S-PANASONIC-AU-ONE-POT-CHICKEN-RICE-1","title":"One Pot Chicken Rice","publisher":"Panasonic Australia","url":"https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/one-pot-chicken-rice.html","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面第31至39行：4份、2量杯茉莉香米、4只鸡腿；第66至74行：葱姜蒜、长粒米2刻度、鸡腿铺放、long grain程序和完成后处理","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"Panasonic Australia","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms","evidence_tier":1,"evidence_locator":"FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature"}],"status":"recipe_fact_checked","evidence_notes":"保留厂商英文具名和SR-HL151机型边界；不把水位线或提示音改写成通用时间和安全终点。 r147 安全审计补充：官方流程含生鸡肉，成品需达到禽肉中心温度74°C；机型、先煎/机内翻炒/高压或后加料边界保持原记录，不将此端点外推为通用程序。"},
-    {"recipe_id":"panasonic-chicken-vegetable-rice","canonical_name":"Chicken Vegetable Rice","aliases":["Panasonic Chicken Vegetable Rice"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Panasonic SR-DF181WST电饭煲"],"core_ingredients":["米","鸡胸肉","胡萝卜","葱","鸡高汤"],"fixed_batch":null,"liquid_contract":{"kind":"added_stock","amount":{"value":2.75,"unit":"杯鸡高汤或水"},"source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"蒜炒香，鸡胸肉煎2至3分钟，再加入胡萝卜等蔬菜短时翻炒。","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]},{"step":2,"instruction":"加入米和2.75杯鸡高汤或水，按white rice程序煮饭。","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]},{"step":3,"instruction":"程序结束后撒葱并按来源食用。","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"],"notes":"Panasonic SR-DF181WST官方配方；来源未给份数、总分钟数或禽肉温度终点，不外推为普通机型合同。"},"source_refs":[{"source_id":"S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1","title":"Chicken Vegetable Rice","publisher":"Panasonic Australia","url":"https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/chicken-vegetable-rice.html","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面第41至70行：SR-DF181WST、米与鸡高汤/水、鸡胸肉、胡萝卜和葱；先炒再加入米液体、white rice程序和出锅加葱","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"Panasonic Australia","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"具名厂商鸡肉蔬菜饭；保留预炒和机型程序，未补固定份数、总时长或安全终点。"},
+    {"recipe_id":"panasonic-chicken-vegetable-rice","canonical_name":"Chicken Vegetable Rice","aliases":["Panasonic Chicken Vegetable Rice"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Panasonic SR-DF181WST电饭煲"],"core_ingredients":["米","鸡胸肉","胡萝卜","葱","鸡高汤"],"fixed_batch":null,"liquid_contract":{"kind":"added_stock","amount":{"value":2.75,"unit":"杯鸡高汤或水"},"source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"蒜炒香，鸡胸肉煎2至3分钟，再加入胡萝卜等蔬菜短时翻炒。","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]},{"step":2,"instruction":"加入米和2.75杯鸡高汤或水，按white rice程序煮饭。","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]},{"step":3,"instruction":"程序结束后撒葱并按来源食用。","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"]}],"time_contract":null,"safety_endpoints":[{"code":"poultry_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1"],"notes":"Panasonic SR-DF181WST官方配方；来源未给份数、总分钟数或禽肉温度终点，不外推为普通机型合同。"},"source_refs":[{"source_id":"S-PANASONIC-AU-CHICKEN-VEGETABLE-RICE-1","title":"Chicken Vegetable Rice","publisher":"Panasonic Australia","url":"https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/chicken-vegetable-rice.html","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面第41至70行：SR-DF181WST、米与鸡高汤/水、鸡胸肉、胡萝卜和葱；先炒再加入米液体、white rice程序和出锅加葱","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"Panasonic Australia","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"FoodSafety.gov chart: chicken and other poultry 165°F / 74°C","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],"status":"recipe_fact_checked","evidence_notes":"具名厂商鸡肉蔬菜饭；保留预炒和机型程序，未补固定份数、总时长或安全终点。"},
     {"recipe_id":"panasonic-claypot-style-chicken-rice","canonical_name":"Claypot Style Chicken Rice","aliases":["Panasonic Claypot Style Chicken Rice"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Panasonic电饭煲（CASSEROLE程序）"],"core_ingredients":["茉莉香米","整只鸡腿","香菇","姜","葱"],"fixed_batch":{"servings":6,"ingredients":[{"name":"茉莉香米","amount":{"value":3,"unit":"杯"},"source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},{"name":"整只鸡腿","amount":{"value":250,"unit":"g"},"source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},{"name":"香菇","amount":{"value":4,"unit":"朵"},"source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]}],"source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":1.5,"unit":"杯"},"source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"鸡腿按来源腌制30分钟，香菇泡发。","source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},{"step":2,"instruction":"米和1.5杯水入锅，鸡腿和香菇铺在米上，不搅拌。","source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},{"step":3,"instruction":"选择WHITE RICE后再选择CASSEROLE程序；蜂鸣后加入调味并焖10分钟。","source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]}],"time_contract":{"total_minutes":220,"source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"]},"safety_endpoints":[{"code":"poultry_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1"],"notes":"Panasonic马来西亚官方机型程序配方；总时长为页面prep与cook合计，程序和水量不外推到其他电饭煲。"},"source_refs":[{"source_id":"S-PANASONIC-MY-CLAYPOT-CHICKEN-RICE-1","title":"Claypot Style Chicken Rice","publisher":"Panasonic Malaysia","url":"https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/claypot-style-chicken-rice.html","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面第10至24行：6份、总3小时40分、鸡腿250g、香菇、米3杯、水1.5杯；第67至81行：腌制、铺料、WHITE RICE/CASSEROLE程序和焖10分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"Panasonic Malaysia","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms","evidence_tier":1,"evidence_locator":"FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature"}],"status":"recipe_fact_checked","evidence_notes":"具名厂商Claypot Style Chicken Rice；保留其机型和双程序边界，不将其宣传为普通电饭煲通用程序。 r147 安全审计补充：官方流程含生鸡肉，成品需达到禽肉中心温度74°C；机型、先煎/机内翻炒/高压或后加料边界保持原记录，不将此端点外推为通用程序。"},
     {"recipe_id":"yuping-farmer-she-rice","canonical_name":"玉屏农家社饭","aliases":["社菜饭"],"region_codes":["CN-GZ"],"cuisine_family":"guizhou-she-rice","identity_status":"verified","traditional_vessels":["蒸锅"],"core_ingredients":["糯米","粘米","腊肉","青蒿","野葱","豆干","黄豆","花生"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"腊肉、豆干和配料炒香，与糯米、粘米和青蒿等混合。","source_ids":["S-GZ-YUPING-FARMER-SHE-RICE-1"]},{"step":2,"instruction":"混合后的米料按当地农家做法插孔上锅蒸约半小时。","source_ids":["S-GZ-YUPING-FARMER-SHE-RICE-1"]}],"time_contract":{"total_minutes":30,"source_ids":["S-GZ-YUPING-FARMER-SHE-RICE-1"]},"safety_endpoints":[],"allergen_labels":["大豆","花生"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"铜仁市政府新闻网记录的是当地蒸锅社饭；不把蒸锅流程改写为电饭煲参数。"},"source_refs":[{"source_id":"S-GZ-YUPING-FARMER-SHE-RICE-1","title":"玉屏玉露村：农家社饭香","publisher":"铜仁市人民政府门户网站","url":"https://www.tongren.gov.cn/2025/0317/332884.shtml","retrieved_at":"2026-08-05","source_kind":"municipal_government_food_culture","access_status":"opened","evidence_tier":2,"evidence_locator":"正文‘玉屏农家社饭’制作段：糯米/粘米、腊肉、青蒿、野葱、豆干/黄豆/花生，腊肉豆干炒香后混合并上锅蒸约半小时","claim_scopes":["identity","ingredients","process","time","appliance"],"attribution":"铜仁市人民政府门户网站","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"新增地域具名社饭身份和蒸制流程；没有克数、液体或安全终点，不将其升级为可执行电饭煲配方。"}
     ,{"recipe_id":"taiwan-cured-pot-rice","canonical_name":"臘味煲飯","aliases":[],"region_codes":["TW"],"cuisine_family":"taiwan-claypot-rice","identity_status":"verified","traditional_vessels":["砂锅","电锅"],"core_ingredients":["蓬莱米","腊肉","腊肠","酱油"],"fixed_batch":null,"liquid_contract":{"kind":"rice_ratio","amount":{"value":1.3,"unit":"米量倍数水"},"source_ids":["S-AFA-CURED-POT-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"米浸泡30分钟；腊肉和腊肠用热水清洗并按来源处理。","source_ids":["S-AFA-CURED-POT-RICE-1"]},{"step":2,"instruction":"米加来源列明的水煮约10分钟至水分稍收，铺上腊肉和腊肠，小火焖煮。","source_ids":["S-AFA-CURED-POT-RICE-1"]},{"step":3,"instruction":"取出腊味切片，淋酱油铺回，再按来源继续焖煮。","source_ids":["S-AFA-CURED-POT-RICE-1"]}],"time_contract":{"total_minutes":45,"source_ids":["S-AFA-CURED-POT-RICE-1"]},"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-AFA-CURED-POT-RICE-1"],"notes":"来源以砂锅为主并提到电锅适配，但未给通用电锅参数；米水1:1.3和分段焖煮只保留为原方事实。"},"source_refs":[{"source_id":"S-AFA-CURED-POT-RICE-1","title":"臘味煲飯","publisher":"台湾农业部农粮署北区分署","url":"https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html","retrieved_at":"2026-08-05","source_kind":"government_recipe_ebook","access_status":"opened","evidence_tier":4,"evidence_locator":"电子书《臘味煲飯》食谱段（HTML第412至423行）：蓬莱米3杯、米水1:1.3、腊肉/腊肠、10分钟收水、15分钟与20分钟分段焖煮","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"台湾农业部农粮署北区分署","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"具名腊味煲饭，保留砂锅分段流程和原文米水比例；不把‘可电锅’扩写为未经实做的通用参数。"},
@@ -4639,7 +4639,15 @@
           "S-TIGER-PORK-BAMBOO-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -4680,6 +4688,22 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: casseroles containing meat 165°F / 74°C; pork is placed on top of the rice and cooked in the Tiger炊込み program.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
@@ -4929,7 +4953,15 @@
           "S-TIGER-SCALLOP-PEA-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "shellfish_fully_cooked",
+          "visual_endpoint": "扇贝肉质呈珍珠白或白色且不透明",
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "贝类"
       ],
@@ -4969,6 +5001,22 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: shrimp, lobster, crab, scallops flesh should be pearly or white and opaque; this endpoint is used for the scallop ingredient.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
@@ -5497,7 +5545,15 @@
           "S-TOSHIBA-BIBIMBAP-RICE-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -5537,6 +5593,22 @@
           ],
           "attribution": "Toshiba Lifestyle",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: ground meat and sausage 160°F / 71°C; this conservative project endpoint is applied to the thin beef ingredient in Toshiba RCP-30R mixed rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
@@ -5892,7 +5964,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -5927,6 +6007,22 @@
           ],
           "attribution": "ZOJIRUSHI",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; this endpoint is applied to the chicken placed in the Zojirushi IH-pot brown-rice recipe.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
@@ -6566,7 +6662,15 @@
           "S-TIGER-BEEF-MATSUTAKE-RICE-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -6604,6 +6708,22 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: ground meat and sausage 160°F / 71°C; this conservative project endpoint is applied to the thin beef ingredient before it is folded back into the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",

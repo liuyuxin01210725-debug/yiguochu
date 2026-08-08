@@ -29,7 +29,7 @@ const expected = [
 ];
 
 test('r114 adds two Taiwan official soup-rice candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r156');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r157');
   assert.equal(catalog.recipes.length, 923);
   for (const item of expected) {
     const recipe = byId.get(item.recipeId);
