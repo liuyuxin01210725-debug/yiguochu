@@ -7,7 +7,7 @@ const carrotSeafood = catalog.recipes.find(item => item.recipe_id === 'r104-hk-c
 const mushroomRice = catalog.recipes.find(item => item.recipe_id === 'r104-hk-mushroom-italian-rice-ricotta');
 
 test('r177 records the HK carrot seafood rice chicken-stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r177');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r178');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(carrotSeafood);
   assert.equal(carrotSeafood.status, 'recipe_fact_checked');

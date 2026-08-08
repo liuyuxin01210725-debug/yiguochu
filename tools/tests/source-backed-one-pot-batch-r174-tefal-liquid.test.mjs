@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tefal-602-seafood-paella');
 
 test('r174 records the TEFAL602 seafood paella fish-stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r177');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r178');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
