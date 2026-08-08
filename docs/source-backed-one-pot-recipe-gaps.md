@@ -1584,7 +1584,6 @@
 - 臘味煲飯 (taiwan-cured-pot-rice) — TW
 - 皮蛋瘦肉粥 (r58-taiwan-preserved-egg-pork-congee) — TW
 - 玉米雞蓉糙米粥 (r98-zojirushi-taiwan-corn-chicken-brown-congee) — TW
-- 松子雞肉野菇炊飯 (taiwan-pine-nut-chicken-wild-mushroom-rice) — TW
 - 茶油綠竹筍炊飯 (taiwan-tea-oil-bamboo-shoot-chicken-rice) — TW
 - 紅藜麻油雞飯 (ntpc-red-quinoa-sesame-chicken-rice) — TW-NTPC-BALI
 - 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
@@ -1597,7 +1596,6 @@
 - 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
 - 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
-- 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 黃金野菇紅藜雞肉炊飯 (r99-taiwan-golden-wild-mushroom-quinoa-chicken-rice) — TW
 - 青醬嫩雞燉飯 (r97-panasonic-taiwan-green-sauce-chicken-risotto) — TW
