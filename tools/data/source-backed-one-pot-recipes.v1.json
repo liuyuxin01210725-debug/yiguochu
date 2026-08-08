@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r159",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r160",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -2553,9 +2553,377 @@
     {"recipe_id":"yunnan-mabang-luoguo-rice","canonical_name":"马帮锣锅饭","aliases":["锣锅饭"],"region_codes":["CN-YN"],"cuisine_family":"yunnan-mabang-luoguo-rice","identity_status":"verified","traditional_vessels":["铜锣锅","火塘"],"core_ingredients":["米","土豆","腊肉","香肠"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"按云南普洱来源，生米加水煮至约七成，铺上土豆和腊肉或香肠。","source_ids":["S-YN-MABANG-LUOGUO-RICE-1","S-YN-MABANG-LUOGUO-RICE-2"]},{"step":2,"instruction":"将铜锣锅移到火塘慢烤，使肉类油脂和土豆香味进入米饭后食用。","source_ids":["S-YN-MABANG-LUOGUO-RICE-1","S-YN-MABANG-LUOGUO-RICE-2"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"铜锣锅和火塘是身份关键；来源未给克重、完整液量、时间、份数或电饭煲适配，不把火塘慢烤换算成家用程序。"},"source_refs":[{"source_id":"S-YN-MABANG-LUOGUO-RICE-1","title":"马帮锣锅饭","publisher":"中央广播电视总台","url":"https://news.cctv.com/2024/05/09/ARTIUXgnSR4ZymW7KXEoNwU4240509.shtml","retrieved_at":"2026-08-05","source_kind":"national_broadcaster_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"中央广播电视总台地方饮食节目页面：铜锣锅/火塘、生米七成熟、土豆及腊肉或香肠覆盖并慢烤的流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"中央广播电视总台","license":"publisher_copyright"},{"source_id":"S-YN-MABANG-LUOGUO-RICE-2","title":"中国影像方志：宁洱篇","publisher":"云南网","url":"https://txpe.yunnan.cn/system/2020/03/15/030616972.shtml","retrieved_at":"2026-08-05","source_kind":"provincial_media_food_culture_page","access_status":"opened","evidence_tier":5,"evidence_locator":"云南网转载节目内容：铜锣锅、火塘、米与土豆/腊肉/香肠的马帮饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"云南网","license":"media_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"两条来源共同支持马帮锣锅饭身份和火塘慢烤过程；不同来源未提供固定批量、液体或安全终点，不拼接参数。"},
     {"recipe_id":"hubei-steamed-cured-meat-rice","canonical_name":"饭蒸腊味","aliases":[],"region_codes":["CN-HB"],"cuisine_family":"hubei-steamed-cured-rice","identity_status":"verified","traditional_vessels":["蒸甑","蒸笼"],"core_ingredients":["米饭","腊鱼","腊肠","腊肉"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"按湖北省文化和旅游厅转载的沔阳三蒸传承资料，将米饭与腊鱼、腊肠、腊肉同蒸，使饭有菜味、菜有饭香。","source_ids":["S-HB-STEAMED-CURED-MEAT-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["鱼类"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源描述的是熟米饭与腊味同蒸的现代创制，米态不是生米焖饭，保留蒸甑/蒸笼边界，不改写为电饭煲菜饭。"},"source_refs":[{"source_id":"S-HB-STEAMED-CURED-MEAT-RICE-1","title":"饭蒸腊味","publisher":"湖北省文化和旅游厅","url":"https://wlt.hubei.gov.cn/bmdt/mtjj/202208/t20220825_4279643.shtml","retrieved_at":"2026-08-05","source_kind":"provincial_culture_food_page","access_status":"opened","evidence_tier":2,"evidence_locator":"湖北省文化和旅游厅转载沔阳三蒸传承资料：饭蒸腊味把米饭与腊鱼、腊肠、腊肉蒸在一起，使饭有菜味、菜有饭香","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"湖北省文化和旅游厅","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"具名饭蒸腊味来源清楚，但属于熟饭蒸制、非生米同锅；登记用于完整菜饭来源搜集，暂不进入电饭煲执行池。"},
     {"recipe_id":"hk-salmon-edamame-quinoa-rice","canonical_name":"三文魚青毛豆藜麥飯","aliases":["三文鱼青毛豆藜麦饭"],"region_codes":["HK"],"cuisine_family":"hong-kong-electric-cooker-rice","identity_status":"verified","traditional_vessels":["电饭煲"],"core_ingredients":["藜麦","三文鱼","毛豆"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":2,"unit":"杯水"},"source_ids":["S-HK-FEHD-SALMON-QUINOA-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"藜麦冲洗并浸泡约10分钟，去骨三文鱼切块，毛豆去壳。","source_ids":["S-HK-FEHD-SALMON-QUINOA-RICE-1"]},{"step":2,"instruction":"将藜麦、水、三文鱼、毛豆和调味料按来源顺序放入电饭煲煮熟，出锅撒芝麻并静置约3分钟。","source_ids":["S-HK-FEHD-SALMON-QUINOA-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["鱼类","大豆"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-HK-FEHD-SALMON-QUINOA-RICE-1"],"notes":"香港食环署官方电饭煲图卡；来源给水2杯和投料顺序，但未给煮饭程序总时长或三文鱼温度终点。"},"source_refs":[{"source_id":"S-HK-FEHD-SALMON-QUINOA-RICE-1","title":"三文魚青毛豆藜麥飯","publisher":"香港食物環境衛生署","url":"https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w1b.jpg","retrieved_at":"2026-08-05","source_kind":"government_recipe_image","access_status":"opened","evidence_tier":2,"evidence_locator":"官方食环署图卡：三文鱼、毛豆、藜麦、水2杯，藜麦浸泡后按电饭煲顺序煮熟，出锅撒芝麻并静置3分钟","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"香港食物環境衛生署","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"香港食环署官方电饭煲图卡；来源给水2杯和投料顺序，但未给煮饭程序总时长或三文鱼温度终点。"},
-    {"recipe_id":"hk-tomato-mushroom-chicken-rice","canonical_name":"番茄雜菇雞腿肉飯","aliases":["番茄杂菇鸡腿肉饭"],"region_codes":["HK"],"cuisine_family":"hong-kong-electric-cooker-rice","identity_status":"verified","traditional_vessels":["电饭煲"],"core_ingredients":["糙米","白米","番茄","鸡腿肉","杂菇"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":0.8,"unit":"杯水"},"source_ids":["S-HK-FEHD-TOMATO-CHICKEN-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"糙米浸泡至少4小时或过夜，鸡腿腌约10分钟。","source_ids":["S-HK-FEHD-TOMATO-CHICKEN-RICE-1"]},{"step":2,"instruction":"米和水入电饭煲，整只番茄、鸡腿和杂菇依序铺上，加入低盐酱油后启动煮饭。","source_ids":["S-HK-FEHD-TOMATO-CHICKEN-RICE-1"]},{"step":3,"instruction":"煮好后压碎番茄拌匀，撒胡椒并静置约3分钟。","source_ids":["S-HK-FEHD-TOMATO-CHICKEN-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-HK-FEHD-TOMATO-CHICKEN-RICE-1"],"notes":"香港食环署官方电饭煲图卡；保留糙米浸泡、整番茄和鸡腿同锅顺序，未补普通电饭煲时长或禽肉温度。"},"source_refs":[{"source_id":"S-HK-FEHD-TOMATO-CHICKEN-RICE-1","title":"番茄雜菇雞腿肉飯","publisher":"香港食物環境衛生署","url":"https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w1a.jpg","retrieved_at":"2026-08-05","source_kind":"government_recipe_image","access_status":"opened","evidence_tier":2,"evidence_locator":"官方食环署图卡：糙米/白米1杯、水0.8杯、番茄、鸡腿和杂菇依序入电饭煲，煮后压碎番茄并静置3分钟","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"香港食物環境衛生署","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"香港食环署官方电饭煲图卡；保留糙米浸泡、整番茄和鸡腿同锅顺序，未补普通电饭煲时长或禽肉温度。"},
-    {"recipe_id":"hk-pumpkin-shiitake-pork-rice","canonical_name":"南瓜冬菇豬肉燉飯","aliases":["南瓜冬菇猪肉炖饭"],"region_codes":["HK"],"cuisine_family":"hong-kong-electric-cooker-rice","identity_status":"verified","traditional_vessels":["电饭煲"],"core_ingredients":["糙米","白米","南瓜","猪肉末","冬菇"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":0.8,"unit":"杯水"},"source_ids":["S-HK-FEHD-PUMPKIN-PORK-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"糙米浸泡至少4小时或过夜，猪肉腌约15分钟，冬菇浸泡后切片。","source_ids":["S-HK-FEHD-PUMPKIN-PORK-RICE-1"]},{"step":2,"instruction":"米和水入电饭煲，猪肉末、南瓜和冬菇依序铺上后启动煮饭。","source_ids":["S-HK-FEHD-PUMPKIN-PORK-RICE-1"]},{"step":3,"instruction":"煮好后加入低盐酱油和胡椒拌匀，静置约3分钟。","source_ids":["S-HK-FEHD-PUMPKIN-PORK-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-HK-FEHD-PUMPKIN-PORK-RICE-1"],"notes":"香港食环署官方电饭煲图卡；保留糙米浸泡和猪肉/南瓜/冬菇入锅顺序，未补猪肉安全终点。"},"source_refs":[{"source_id":"S-HK-FEHD-PUMPKIN-PORK-RICE-1","title":"南瓜冬菇豬肉燉飯","publisher":"香港食物環境衛生署","url":"https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w2b.jpg","retrieved_at":"2026-08-05","source_kind":"government_recipe_image","access_status":"opened","evidence_tier":2,"evidence_locator":"官方食环署图卡：糙米/白米1杯、水0.8杯、猪肉末120g、南瓜、冬菇入电饭煲，煮后调味并静置3分钟","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"香港食物環境衛生署","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"香港食环署官方电饭煲图卡；保留糙米浸泡和猪肉/南瓜/冬菇入锅顺序，未补猪肉安全终点。"},
-    {"recipe_id":"hk-sakura-shrimp-chicken-quinoa-rice","canonical_name":"櫻花蝦冬菇雞肉藜麥飯","aliases":["樱花虾冬菇鸡肉藜麦饭"],"region_codes":["HK"],"cuisine_family":"hong-kong-electric-cooker-rice","identity_status":"verified","traditional_vessels":["电饭煲"],"core_ingredients":["藜麦","鸡肉","樱花虾","冬菇"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":2,"unit":"杯水"},"source_ids":["S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"藜麦冲洗并浸泡约10分钟，鸡肉切块腌约20分钟，冬菇浸泡切片。","source_ids":["S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"]},{"step":2,"instruction":"藜麦和水入电饭煲，鸡肉和冬菇铺上，撒樱花虾后启动煮饭。","source_ids":["S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"]},{"step":3,"instruction":"煮好后按来源拌入麻油、葱和胡椒，静置约3分钟。","source_ids":["S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["甲壳类"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"],"notes":"香港食环署官方电饭煲图卡；保留藜麦、鸡肉、冬菇和樱花虾的分步投料，未补鸡肉安全终点和普通电饭煲时长。"},"source_refs":[{"source_id":"S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1","title":"櫻花蝦冬菇雞肉藜麥飯","publisher":"香港食物環境衛生署","url":"https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w3a.jpg","retrieved_at":"2026-08-05","source_kind":"government_recipe_image","access_status":"opened","evidence_tier":2,"evidence_locator":"官方食环署图卡：藜麦1碗、水2杯、鸡肉120g、冬菇和樱花虾，藜麦浸泡后按电饭煲顺序煮熟，出锅拌麻油葱并静置3分钟","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"香港食物環境衛生署","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"香港食环署官方电饭煲图卡；保留藜麦、鸡肉、冬菇和樱花虾的分步投料，未补鸡肉安全终点和普通电饭煲时长。"},
+    {
+      "recipe_id": "hk-tomato-mushroom-chicken-rice",
+      "canonical_name": "番茄雜菇雞腿肉飯",
+      "aliases": [
+        "番茄杂菇鸡腿肉饭"
+      ],
+      "region_codes": [
+        "HK"
+      ],
+      "cuisine_family": "hong-kong-electric-cooker-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "白米",
+        "番茄",
+        "鸡腿肉",
+        "杂菇"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 0.8,
+          "unit": "杯水"
+        },
+        "source_ids": [
+          "S-HK-FEHD-TOMATO-CHICKEN-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "糙米浸泡至少4小时或过夜，鸡腿腌约10分钟。",
+          "source_ids": [
+            "S-HK-FEHD-TOMATO-CHICKEN-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米和水入电饭煲，整只番茄、鸡腿和杂菇依序铺上，加入低盐酱油后启动煮饭。",
+          "source_ids": [
+            "S-HK-FEHD-TOMATO-CHICKEN-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "煮好后压碎番茄拌匀，撒胡椒并静置约3分钟。",
+          "source_ids": [
+            "S-HK-FEHD-TOMATO-CHICKEN-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "A",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-HK-FEHD-TOMATO-CHICKEN-RICE-1"
+        ],
+        "notes": "香港食环署官方电饭煲图卡；保留糙米浸泡、整番茄和鸡腿同锅顺序，未补普通电饭煲时长或禽肉温度。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HK-FEHD-TOMATO-CHICKEN-RICE-1",
+          "title": "番茄雜菇雞腿肉飯",
+          "publisher": "香港食物環境衛生署",
+          "url": "https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w1a.jpg",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_image",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方食环署图卡：糙米/白米1杯、水0.8杯、番茄、鸡腿和杂菇依序入电饭煲，煮后压碎番茄并静置3分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "香港食物環境衛生署",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies to the chicken-leg rice-card preparation.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港食环署官方电饭煲图卡；保留糙米浸泡、整番茄和鸡腿同锅顺序，未补普通电饭煲时长或禽肉温度。 r160 安全补证：鸡腿肉挂禽肉 74°C 终点；图卡米水与静置 3 分钟边界保留。"
+    },
+    {
+      "recipe_id": "hk-pumpkin-shiitake-pork-rice",
+      "canonical_name": "南瓜冬菇豬肉燉飯",
+      "aliases": [
+        "南瓜冬菇猪肉炖饭"
+      ],
+      "region_codes": [
+        "HK"
+      ],
+      "cuisine_family": "hong-kong-electric-cooker-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "糙米",
+        "白米",
+        "南瓜",
+        "猪肉末",
+        "冬菇"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 0.8,
+          "unit": "杯水"
+        },
+        "source_ids": [
+          "S-HK-FEHD-PUMPKIN-PORK-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "糙米浸泡至少4小时或过夜，猪肉腌约15分钟，冬菇浸泡后切片。",
+          "source_ids": [
+            "S-HK-FEHD-PUMPKIN-PORK-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米和水入电饭煲，猪肉末、南瓜和冬菇依序铺上后启动煮饭。",
+          "source_ids": [
+            "S-HK-FEHD-PUMPKIN-PORK-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "煮好后加入低盐酱油和胡椒拌匀，静置约3分钟。",
+          "source_ids": [
+            "S-HK-FEHD-PUMPKIN-PORK-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "A",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-HK-FEHD-PUMPKIN-PORK-RICE-1"
+        ],
+        "notes": "香港食环署官方电饭煲图卡；保留糙米浸泡和猪肉/南瓜/冬菇入锅顺序，未补猪肉安全终点。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HK-FEHD-PUMPKIN-PORK-RICE-1",
+          "title": "南瓜冬菇豬肉燉飯",
+          "publisher": "香港食物環境衛生署",
+          "url": "https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w2b.jpg",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_image",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方食环署图卡：糙米/白米1杯、水0.8杯、猪肉末120g、南瓜、冬菇入电饭煲，煮后调味并静置3分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "香港食物環境衛生署",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: this mixed rice/meat preparation uses the project 74°C endpoint for minced pork.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港食环署官方电饭煲图卡；保留糙米浸泡和猪肉/南瓜/冬菇入锅顺序，未补猪肉安全终点。 r160 安全补证：猪肉碎按混合米饭猪肉 74°C 终点；图卡米水与静置 3 分钟边界保留。"
+    },
+    {
+      "recipe_id": "hk-sakura-shrimp-chicken-quinoa-rice",
+      "canonical_name": "櫻花蝦冬菇雞肉藜麥飯",
+      "aliases": [
+        "樱花虾冬菇鸡肉藜麦饭"
+      ],
+      "region_codes": [
+        "HK"
+      ],
+      "cuisine_family": "hong-kong-electric-cooker-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "电饭煲"
+      ],
+      "core_ingredients": [
+        "藜麦",
+        "鸡肉",
+        "樱花虾",
+        "冬菇"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 2,
+          "unit": "杯水"
+        },
+        "source_ids": [
+          "S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "藜麦冲洗并浸泡约10分钟，鸡肉切块腌约20分钟，冬菇浸泡切片。",
+          "source_ids": [
+            "S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "藜麦和水入电饭煲，鸡肉和冬菇铺上，撒樱花虾后启动煮饭。",
+          "source_ids": [
+            "S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "煮好后按来源拌入麻油、葱和胡椒，静置约3分钟。",
+          "source_ids": [
+            "S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "甲壳类"
+      ],
+      "nutrition_structure": {
+        "grade": "A",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1"
+        ],
+        "notes": "香港食环署官方电饭煲图卡；保留藜麦、鸡肉、冬菇和樱花虾的分步投料，未补鸡肉安全终点和普通电饭煲时长。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-HK-FEHD-SAKURA-SHRIMP-CHICKEN-QUINOA-RICE-1",
+          "title": "櫻花蝦冬菇雞肉藜麥飯",
+          "publisher": "香港食物環境衛生署",
+          "url": "https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/images/ahtak_recipe/202012_w3a.jpg",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_image",
+          "access_status": "opened",
+          "evidence_tier": 2,
+          "evidence_locator": "官方食环署图卡：藜麦1碗、水2杯、鸡肉120g、冬菇和樱花虾，藜麦浸泡后按电饭煲顺序煮熟，出锅拌麻油葱并静置3分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "香港食物環境衛生署",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies to the chicken component. The card does not establish the sakura-shrimp state.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港食环署官方电饭煲图卡；保留藜麦、鸡肉、冬菇和樱花虾的分步投料，未补鸡肉安全终点和普通电饭煲时长。 r160 安全补证：鸡肉挂禽肉 74°C 终点；樱花虾状态不明，未添加 shellfish endpoint。"
+    },
     {"recipe_id":"tiger-hijiki-brown-rice","canonical_name":"Hijiki Brown Rice","aliases":["羊栖菜糙米饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Tiger电饭煲"],"core_ingredients":["糙米","羊栖菜","胡萝卜","葱"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"按 Tiger 来源冲洗糙米，内锅加水至 Brown 米2线，加入羊栖菜、胡萝卜、清酒、味醂和酱油。","source_ids":["S-TIGER-HIJI-KI-BROWN-RICE-1"]},{"step":2,"instruction":"启动 Brown 程序，煮好后按来源拌入葱。","source_ids":["S-TIGER-HIJI-KI-BROWN-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TIGER-HIJI-KI-BROWN-RICE-1"],"notes":"Tiger 官方单内锅糙米饭；来源以 Brown 程序给水给水，不给毫升、份数、总时长，也未提供固定羊栖菜处理终点。"},"source_refs":[{"source_id":"S-TIGER-HIJI-KI-BROWN-RICE-1","title":"Hijiki Brown Rice","publisher":"Tiger Corporation","url":"https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/hijiki-brown-rice/","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面标题、糙米2杯、羊栖菜/胡萝卜/调味料和 Brown 米2水位线、Brown 程序步骤","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"Tiger Corporation","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"Tiger 官方单内锅糙米饭；来源以 Brown 水位线给水，不给毫升、份数、总时长，也未提供固定羊栖菜处理终点。"},
     {"recipe_id":"tiger-bibimbap-style-rice","canonical_name":"Bibimbap Style Rice","aliases":["石锅拌饭风米饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Tiger电饭煲"],"core_ingredients":["白米","胡萝卜","香菇","毛豆","菠菜"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"白米洗净，加韩式辣酱、汤块和蒜拌入内锅，再放胡萝卜、香菇和毛豆。","source_ids":["S-TIGER-BIBIMBAP-RICE-1"]},{"step":2,"instruction":"启动 Plain 程序，煮好后加入菠菜焖约5分钟，再按来源拌匀。","source_ids":["S-TIGER-BIBIMBAP-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TIGER-BIBIMBAP-RICE-1"],"notes":"Tiger 官方单内锅拌饭风米饭；水按 White 程序给水，菠菜为出锅前焖入，不新增煎蛋或其他自由蛋白。"},"source_refs":[{"source_id":"S-TIGER-BIBIMBAP-RICE-1","title":"Bibimbap Style Rice","publisher":"Tiger Corporation","url":"https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bibimbap-style-rice/","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面标题、3至4份、白米/胡萝卜/香菇/毛豆/菠菜和 Plain 程序；菠菜煮好后焖5分钟再拌的步骤","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"Tiger Corporation","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"Tiger 官方单内锅拌饭风米饭；水按 White 水位线，菠菜为出锅前焖入，不新增煎蛋或其他自由蛋白。"},
     {"recipe_id":"toshiba-vegetarian-mixed-brown-rice","canonical_name":"Vegetarian Mixed Brown Rice","aliases":["素食综合糙米饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Toshiba电压力锅"],"core_ingredients":["糙米","番薯","玉米","毛豆","金针菇","紫甘蓝"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"按 Toshiba 来源先用少油炒香番薯、玉米、毛豆、金针菇和紫甘蓝，再洗米。","source_ids":["S-TOSHIBA-VEGETARIAN-MIXED-BROWN-RICE-1"]},{"step":2,"instruction":"糙米、炒好的蔬菜和昆布汤底放入压力锅，加水至 RICE 2 水位，启动 Quick Rice。","source_ids":["S-TOSHIBA-VEGETARIAN-MIXED-BROWN-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"A","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TOSHIBA-VEGETARIAN-MIXED-BROWN-RICE-1"],"notes":"Toshiba 香港官方电压力锅配方；来源有 RICE 2 水位和 Quick Rice，但先炒步骤的设备与总时长未闭合，不外推普通电饭煲。"},"source_refs":[{"source_id":"S-TOSHIBA-VEGETARIAN-MIXED-BROWN-RICE-1","title":"Vegetarian Mixed Brown Rice","publisher":"Toshiba Lifestyle Hong Kong","url":"https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/VegetarianMixedBrownRice","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面：糙米2杯、番薯/玉米/毛豆/金针菇/紫甘蓝，RICE 2水位、Quick Rice与PC-48DRSHK(K)型号；步骤含先炒蔬菜","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"Toshiba Lifestyle Hong Kong","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"Toshiba 香港官方电压力锅配方；来源有 RICE 2 水位和 Quick Rice，但先炒步骤的设备与总时长未闭合，不外推普通电饭煲。"},
@@ -9250,192 +9618,240 @@
   "evidence_notes": "Panasonic官方金丝鲷鱼炊饭；具名、流程和器具来源明确，安全终点和厨房观察尚未闭合。"
 },
     {
-  "recipe_id": "panasonic-taiwan-mushroom-chicken-bamboo-rice",
-  "canonical_name": "野菇雞肉竹筍什錦飯",
-  "aliases": [
-    "野菇鸡肉竹笋什锦饭"
-  ],
-  "region_codes": [
-    "TW"
-  ],
-  "cuisine_family": "taiwan-rice-cooker-recipes",
-  "identity_status": "verified",
-  "traditional_vessels": [
-    "Panasonic SR-PAA100"
-  ],
-  "core_ingredients": [
-    "白米",
-    "鸡腿肉",
-    "鸿喜菇",
-    "香菇",
-    "竹笋",
-    "胡萝卜"
-  ],
-  "fixed_batch": null,
-  "liquid_contract": null,
-  "cooking_sequence": [
-    {
-      "step": 1,
-      "instruction": "鸡腿肉、菇类、竹笋和胡萝卜按来源切配并腌味。",
-      "source_ids": [
-        "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
-      ]
-    },
-    {
-      "step": 2,
-      "instruction": "内锅加入白米、腌汁、清水和蔬菜，放上鸡肉后按混合饭程序炊煮。",
-      "source_ids": [
-        "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
-      ]
-    },
-    {
-      "step": 3,
-      "instruction": "炊好后拌匀并保留来源的菇类、竹笋和鸡肉同锅结构。",
-      "source_ids": [
-        "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
-      ]
-    }
-  ],
-  "time_contract": null,
-  "safety_endpoints": [],
-  "allergen_labels": [
-    "鸡肉",
-    "大豆"
-  ],
-  "nutrition_structure": {
-    "grade": "B",
-    "roles": [
-      "carbohydrate",
-      "protein",
-      "fiber"
-    ]
-  },
-  "cooker_adaptation": {
-    "status": "source_limited",
-    "source_ids": [
-      "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
-    ],
-    "notes": "Panasonic SR-PAA100官方页面证明机型、米水和混合饭流程；没有明确总时长或安全终点，不外推到其他机型。"
-  },
-  "source_refs": [
-    {
-      "source_id": "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1",
-      "title": "野菇雞肉竹筍什錦飯",
-      "publisher": "Panasonic Cooking Taiwan",
-      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3797",
-      "retrieved_at": "2026-08-05",
-      "source_kind": "manufacturer_recipe_page",
-      "access_status": "opened",
-      "evidence_tier": 3,
-      "evidence_locator": "详情页：SR-PAA100；白米2杯、鸡腿肉200g、菇类100g+120g、竹笋150g、胡萝卜，腌汁半杯加水2杯，混合饭程序",
-      "claim_scopes": [
-        "identity",
-        "ingredients",
-        "quantity",
-        "liquid",
-        "process",
-        "appliance"
+      "recipe_id": "panasonic-taiwan-mushroom-chicken-bamboo-rice",
+      "canonical_name": "野菇雞肉竹筍什錦飯",
+      "aliases": [
+        "野菇鸡肉竹笋什锦饭"
       ],
-      "attribution": "Panasonic Cooking Taiwan",
-      "license": "government_site_terms_unspecified"
-    }
-  ],
-  "status": "recipe_fact_checked",
-  "evidence_notes": "Panasonic台湾官方野菇鸡肉竹笋什锦饭；地域和具名流程明确，固定时间与安全合同待闭合。"
-},
-    {
-  "recipe_id": "panasonic-taiwan-shiitake-bamboo-chicken-rice",
-  "canonical_name": "香菇竹筍雞肉炊飯",
-  "aliases": [
-    "香菇竹笋鸡肉炊饭"
-  ],
-  "region_codes": [
-    "TW"
-  ],
-  "cuisine_family": "taiwan-rice-cooker-recipes",
-  "identity_status": "verified",
-  "traditional_vessels": [
-    "Panasonic SR-PAA100"
-  ],
-  "core_ingredients": [
-    "白米",
-    "鸡腿肉",
-    "香菇",
-    "竹笋",
-    "胡萝卜"
-  ],
-  "fixed_batch": null,
-  "liquid_contract": null,
-  "cooking_sequence": [
-    {
-      "step": 1,
-      "instruction": "香菇浸泡，鸡腿、胡萝卜和竹笋切配；按来源先炒香鸡肉与具材。",
-      "source_ids": [
-        "S-PANASONIC-SHIITAKE-BAMBOO-1"
-      ]
-    },
-    {
-      "step": 2,
-      "instruction": "将炒好的具材、米和香菇水放入电饭锅，按来源程序炊煮。",
-      "source_ids": [
-        "S-PANASONIC-SHIITAKE-BAMBOO-1"
-      ]
-    },
-    {
-      "step": 3,
-      "instruction": "炊好后焖匀；保留“先炒后入锅”的连续流程，不改写成生肉直煮。",
-      "source_ids": [
-        "S-PANASONIC-SHIITAKE-BAMBOO-1"
-      ]
-    }
-  ],
-  "time_contract": null,
-  "safety_endpoints": [],
-  "allergen_labels": [
-    "鸡肉",
-    "大豆"
-  ],
-  "nutrition_structure": {
-    "grade": "B",
-    "roles": [
-      "carbohydrate",
-      "protein",
-      "fiber"
-    ]
-  },
-  "cooker_adaptation": {
-    "status": "source_limited",
-    "source_ids": [
-      "S-PANASONIC-SHIITAKE-BAMBOO-1"
-    ],
-    "notes": "Panasonic官方页面明确先炒与电饭锅承接，但没有通用机型时间或安全终点；不把预炒省略。"
-  },
-  "source_refs": [
-    {
-      "source_id": "S-PANASONIC-SHIITAKE-BAMBOO-1",
-      "title": "香菇竹筍雞肉炊飯",
-      "publisher": "Panasonic Cooking Taiwan",
-      "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3842",
-      "retrieved_at": "2026-08-05",
-      "source_kind": "manufacturer_recipe_page",
-      "access_status": "opened",
-      "evidence_tier": 3,
-      "evidence_locator": "详情页：SR-PAA100；鸡腿、香菇3朵、香菇水1.5杯、胡萝卜30g、竹笋300g；鸡肉与具材先炒，再与米入电饭锅",
-      "claim_scopes": [
-        "identity",
-        "ingredients",
-        "quantity",
-        "liquid",
-        "process",
-        "appliance"
+      "region_codes": [
+        "TW"
       ],
-      "attribution": "Panasonic Cooking Taiwan",
-      "license": "government_site_terms_unspecified"
-    }
-  ],
-  "status": "recipe_fact_checked",
-  "evidence_notes": "Panasonic台湾官方香菇竹笋鸡肉炊饭；器具承接和预炒边界清楚，尚未完成通用厨房合同。"
-},
+      "cuisine_family": "taiwan-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Panasonic SR-PAA100"
+      ],
+      "core_ingredients": [
+        "白米",
+        "鸡腿肉",
+        "鸿喜菇",
+        "香菇",
+        "竹笋",
+        "胡萝卜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "鸡腿肉、菇类、竹笋和胡萝卜按来源切配并腌味。",
+          "source_ids": [
+            "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "内锅加入白米、腌汁、清水和蔬菜，放上鸡肉后按混合饭程序炊煮。",
+          "source_ids": [
+            "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "炊好后拌匀并保留来源的菇类、竹笋和鸡肉同锅结构。",
+          "source_ids": [
+            "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "鸡肉",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1"
+        ],
+        "notes": "Panasonic SR-PAA100官方页面证明机型、米水和混合饭流程；没有明确总时长或安全终点，不外推到其他机型。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-MUSHROOM-CHICKEN-BAMBOO-1",
+          "title": "野菇雞肉竹筍什錦飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3797",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "详情页：SR-PAA100；白米2杯、鸡腿肉200g、菇类100g+120g、竹笋150g、胡萝卜，腌汁半杯加水2杯，混合饭程序",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies to the chicken component in the Panasonic mixed-rice program.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方野菇鸡肉竹笋什锦饭；地域和具名流程明确，固定时间与安全合同待闭合。 r160 安全补证：鸡腿肉挂禽肉 74°C 终点；SR-PAA100 机型边界保留。"
+    },
+    {
+      "recipe_id": "panasonic-taiwan-shiitake-bamboo-chicken-rice",
+      "canonical_name": "香菇竹筍雞肉炊飯",
+      "aliases": [
+        "香菇竹笋鸡肉炊饭"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Panasonic SR-PAA100"
+      ],
+      "core_ingredients": [
+        "白米",
+        "鸡腿肉",
+        "香菇",
+        "竹笋",
+        "胡萝卜"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "香菇浸泡，鸡腿、胡萝卜和竹笋切配；按来源先炒香鸡肉与具材。",
+          "source_ids": [
+            "S-PANASONIC-SHIITAKE-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "将炒好的具材、米和香菇水放入电饭锅，按来源程序炊煮。",
+          "source_ids": [
+            "S-PANASONIC-SHIITAKE-BAMBOO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "炊好后焖匀；保留“先炒后入锅”的连续流程，不改写成生肉直煮。",
+          "source_ids": [
+            "S-PANASONIC-SHIITAKE-BAMBOO-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "鸡肉",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-PANASONIC-SHIITAKE-BAMBOO-1"
+        ],
+        "notes": "Panasonic官方页面明确先炒与电饭锅承接，但没有通用机型时间或安全终点；不把预炒省略。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-PANASONIC-SHIITAKE-BAMBOO-1",
+          "title": "香菇竹筍雞肉炊飯",
+          "publisher": "Panasonic Cooking Taiwan",
+          "url": "https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3842",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "详情页：SR-PAA100；鸡腿、香菇3朵、香菇水1.5杯、胡萝卜30g、竹笋300g；鸡肉与具材先炒，再与米入电饭锅",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance"
+          ],
+          "attribution": "Panasonic Cooking Taiwan",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies after the recipe's documented pre-fry and rice-cooker continuation.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Panasonic台湾官方香菇竹笋鸡肉炊饭；器具承接和预炒边界清楚，尚未完成通用厨房合同。 r160 安全补证：先炒后入锅的鸡腿肉挂禽肉 74°C 终点；连续流程边界保留。"
+    },
     {
   "recipe_id": "fehd-healthy-mixed-bean-porridge",
   "canonical_name": "健康雜豆粥",
@@ -10225,100 +10641,124 @@
   "evidence_notes": "台湾农业部儿童食农教育页面记载的地瓜咸饭；真实具名、有明确传统流程，但蛋白不足且非电饭煲合同。"
 },
     {
-  "recipe_id": "taiwan-pork-rib-claypot-rice",
-  "canonical_name": "排骨煲仔飯",
-  "aliases": [
-    "排骨煲仔饭"
-  ],
-  "region_codes": [
-    "TW"
-  ],
-  "cuisine_family": "taiwan-regional-claypot-rice",
-  "identity_status": "verified",
-  "traditional_vessels": [
-    "砂锅"
-  ],
-  "core_ingredients": [
-    "白米",
-    "糙米",
-    "猪排",
-    "白菜",
-    "鸿喜菇"
-  ],
-  "fixed_batch": null,
-  "liquid_contract": null,
-  "cooking_sequence": [
-    {
-      "step": 1,
-      "instruction": "排骨按官方页面腌味；白米与糙米洗净，白菜、鸿喜菇切配。",
-      "source_ids": [
-        "S-MOA-TW-PORK-RIB-CLAYPOT-1"
-      ]
-    },
-    {
-      "step": 2,
-      "instruction": "砂锅加入米、汤水和蔬菜，排骨按来源分段放入并焖煮。",
-      "source_ids": [
-        "S-MOA-TW-PORK-RIB-CLAYPOT-1"
-      ]
-    },
-    {
-      "step": 3,
-      "instruction": "保留砂锅原方的分段流程；来源未给家庭器具程序或猪肉安全终点。",
-      "source_ids": [
-        "S-MOA-TW-PORK-RIB-CLAYPOT-1"
-      ]
-    }
-  ],
-  "time_contract": {
-    "total_minutes": 30,
-    "source_ids": [
-      "S-MOA-TW-PORK-RIB-CLAYPOT-1"
-    ]
-  },
-  "safety_endpoints": [],
-  "allergen_labels": [
-    "猪肉",
-    "大豆"
-  ],
-  "nutrition_structure": {
-    "grade": "B",
-    "roles": [
-      "carbohydrate",
-      "protein",
-      "fiber"
-    ]
-  },
-  "cooker_adaptation": {
-    "status": "not_adapted",
-    "notes": "台湾农业部页面证明砂锅煲仔饭版本，不与已有其他器具版本拼接，也不推导电饭煲参数。"
-  },
-  "source_refs": [
-    {
-      "source_id": "S-MOA-TW-PORK-RIB-CLAYPOT-1",
-      "title": "排骨煲仔飯",
-      "publisher": "台湾农业部儿童食农教育资讯网",
-      "url": "https://kids.moa.gov.tw/theme_data.php?id=282&theme=kids_cooking",
-      "retrieved_at": "2026-08-05",
-      "source_kind": "government_recipe_page",
-      "access_status": "opened",
-      "evidence_tier": 1,
-      "evidence_locator": "官方页面第613至633行：猪排骨300g、白米/糙米各半杯、蘑菇鸡汤半包加水2杯、白菜与鸿喜菇；腌制后砂锅分段焖煮",
-      "claim_scopes": [
-        "identity",
-        "ingredients",
-        "quantity",
-        "liquid",
-        "process",
-        "time"
+      "recipe_id": "taiwan-pork-rib-claypot-rice",
+      "canonical_name": "排骨煲仔飯",
+      "aliases": [
+        "排骨煲仔饭"
       ],
-      "attribution": "台湾农业部儿童食农教育资讯网",
-      "license": "government_site_terms_unspecified"
-    }
-  ],
-  "status": "recipe_fact_checked",
-  "evidence_notes": "台湾农业部官方排骨煲仔饭；来源有用量和液体，但器具、时间和猪肉安全合同未闭合，保持研究状态。"
-},
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "taiwan-regional-claypot-rice",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "砂锅"
+      ],
+      "core_ingredients": [
+        "白米",
+        "糙米",
+        "猪排",
+        "白菜",
+        "鸿喜菇"
+      ],
+      "fixed_batch": null,
+      "liquid_contract": null,
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "排骨按官方页面腌味；白米与糙米洗净，白菜、鸿喜菇切配。",
+          "source_ids": [
+            "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "砂锅加入米、汤水和蔬菜，排骨按来源分段放入并焖煮。",
+          "source_ids": [
+            "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "保留砂锅原方的分段流程；来源未给家庭器具程序或猪肉安全终点。",
+          "source_ids": [
+            "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 30,
+        "source_ids": [
+          "S-MOA-TW-PORK-RIB-CLAYPOT-1"
+        ]
+      },
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "猪肉",
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "not_adapted",
+        "notes": "台湾农业部页面证明砂锅煲仔饭版本，不与已有其他器具版本拼接，也不推导电饭煲参数。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-MOA-TW-PORK-RIB-CLAYPOT-1",
+          "title": "排骨煲仔飯",
+          "publisher": "台湾农业部儿童食农教育资讯网",
+          "url": "https://kids.moa.gov.tw/theme_data.php?id=282&theme=kids_cooking",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "government_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方页面第613至633行：猪排骨300g、白米/糙米各半杯、蘑菇鸡汤半包加水2杯、白菜与鸿喜菇；腌制后砂锅分段焖煮",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "time"
+          ],
+          "attribution": "台湾农业部儿童食农教育资讯网",
+          "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: this mixed rice/meat preparation uses the project 74°C pork endpoint; the source recipe is a staged claypot preparation.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "台湾农业部官方排骨煲仔饭；来源有用量和液体，但器具、时间和猪肉安全合同未闭合，保持研究状态。 r160 安全补证：砂锅排骨饭按项目混合米饭猪肉 74°C 终点；原砂锅分段边界保留。"
+    },
     {
       "recipe_id": "panasonic-taiwan-ginseng-chicken-rice",
       "canonical_name": "人蔘雞肉飯",
@@ -12165,7 +12605,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -12199,10 +12647,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面明确给出具名Salmon Rice、3至4份、2杯米、三文鱼片、调味液和Plain程序。水量以米杯刻度表达，没有形成通用毫升液体合同；来源也未给鱼类安全终点，因此保留研究状态，不外推普通电饭煲参数。"
+      "evidence_notes": "Tiger官方页面明确给出具名Salmon Rice、3至4份、2杯米、三文鱼片、调味液和Plain程序。水量以米杯刻度表达，没有形成通用毫升液体合同；来源也未给鱼类安全终点，因此保留研究状态，不外推普通电饭煲参数。 r160 安全补证：三文鱼挂鱼类 63°C 终点。"
     },
     {
       "recipe_id": "r60-tiger-shiitake-garlic-rice",
@@ -12342,7 +12806,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -12377,10 +12849,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry and dishes containing poultry use 165°F / 74°C.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面明确给出鸡肉糙米汤的3至4份、食材、6杯鸡汤、Slow Cook 120分钟和鸡肉/米饭熟度复核。来源本身允许必要时延长加热，但未提供禽肉温度终点；保留原边界，不写成通用安全合同。"
+      "evidence_notes": "Tiger官方页面明确给出鸡肉糙米汤的3至4份、食材、6杯鸡汤、Slow Cook 120分钟和鸡肉/米饭熟度复核。来源本身允许必要时延长加热，但未提供禽肉温度终点；保留原边界，不写成通用安全合同。 r160 安全补证：鸡肉挂禽肉 74°C 终点；原页 120 分钟 Slow Cook 与熟度复核边界保留。"
     },
     {
       "recipe_id": "r60-tiger-basic-chicken-congee",
@@ -12590,14 +13078,70 @@
       "fixed_batch": {
         "servings": 2,
         "ingredients": [
-          {"name":"白米","amount":{"value":2,"unit":"杯（Tiger量杯）"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
-          {"name":"虾","amount":{"value":0.625,"unit":"lb"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
-          {"name":"蒜","amount":{"value":0.1666666667,"unit":"oz"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
-          {"name":"橄榄油","amount":{"value":1,"unit":"汤匙"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
-          {"name":"柠檬汁","amount":{"value":1.5,"unit":"汤匙"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]},
-          {"name":"特级初榨橄榄油","amount":{"value":1.5,"unit":"汤匙"},"source_ids":["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]}
+          {
+            "name": "白米",
+            "amount": {
+              "value": 2,
+              "unit": "杯（Tiger量杯）"
+            },
+            "source_ids": [
+              "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+            ]
+          },
+          {
+            "name": "虾",
+            "amount": {
+              "value": 0.625,
+              "unit": "lb"
+            },
+            "source_ids": [
+              "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+            ]
+          },
+          {
+            "name": "蒜",
+            "amount": {
+              "value": 0.1666666667,
+              "unit": "oz"
+            },
+            "source_ids": [
+              "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+            ]
+          },
+          {
+            "name": "橄榄油",
+            "amount": {
+              "value": 1,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+            ]
+          },
+          {
+            "name": "柠檬汁",
+            "amount": {
+              "value": 1.5,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+            ]
+          },
+          {
+            "name": "特级初榨橄榄油",
+            "amount": {
+              "value": 1.5,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+            ]
+          }
         ],
-        "source_ids": ["S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"]
+        "source_ids": [
+          "S-TIGER-GARLIC-SHRIMP-HERBED-RICE-R60"
+        ]
       },
       "liquid_contract": null,
       "cooking_sequence": [
@@ -12624,7 +13168,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "shellfish_fully_cooked",
+          "visual_endpoint": "肉质呈珍珠白或白色且不透明",
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -12657,10 +13209,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: shrimp, lobster, crab, and scallops cook until flesh is pearly or white and opaque",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面明确将白米与蒜香虾放在同一台Tacook电饭煲同步完成；本批只补2人份和原页有数值的食材/柠檬酱量。虾在上层烹调盘、米在内锅，并非同一内锅混合；未补水量、程序时长或虾类安全终点。"
+      "evidence_notes": "Tiger官方页面明确将白米与蒜香虾放在同一台Tacook电饭煲同步完成；本批只补2人份和原页有数值的食材/柠檬酱量。虾在上层烹调盘、米在内锅，并非同一内锅混合；未补水量、程序时长或虾类安全终点。 r160 安全补证：虾肉以珍珠白或白色不透明为终点。"
     },
     {
       "recipe_id": "r60-tiger-szechuan-pork-tacook-rice",
@@ -12774,18 +13342,110 @@
       "fixed_batch": {
         "servings": 2,
         "ingredients": [
-          {"name":"白米","amount":{"value":2,"unit":"杯（Tiger量杯）"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"猪绞肉","amount":{"value":0.5,"unit":"lb"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"香菇","amount":{"value":2,"unit":"oz"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"炸葱","amount":{"value":0.5,"unit":"oz"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"酱油","amount":{"value":1.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"老抽","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"绍兴酒","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"玉米淀粉","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"糖","amount":{"value":0.25,"unit":"汤匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]},
-          {"name":"五香粉","amount":{"value":0.375,"unit":"茶匙"},"source_ids":["S-TIGER-TAIWAN-MINCED-PORK-R60"]}
+          {
+            "name": "白米",
+            "amount": {
+              "value": 2,
+              "unit": "杯（Tiger量杯）"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "猪绞肉",
+            "amount": {
+              "value": 0.5,
+              "unit": "lb"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "香菇",
+            "amount": {
+              "value": 2,
+              "unit": "oz"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "炸葱",
+            "amount": {
+              "value": 0.5,
+              "unit": "oz"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 1.25,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "老抽",
+            "amount": {
+              "value": 0.25,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "绍兴酒",
+            "amount": {
+              "value": 0.25,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "玉米淀粉",
+            "amount": {
+              "value": 0.25,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "糖",
+            "amount": {
+              "value": 0.25,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          },
+          {
+            "name": "五香粉",
+            "amount": {
+              "value": 0.375,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-TIGER-TAIWAN-MINCED-PORK-R60"
+            ]
+          }
         ],
-        "source_ids": ["S-TIGER-TAIWAN-MINCED-PORK-R60"]
+        "source_ids": [
+          "S-TIGER-TAIWAN-MINCED-PORK-R60"
+        ]
       },
       "liquid_contract": null,
       "cooking_sequence": [
@@ -12812,7 +13472,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -12845,10 +13513,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: the Tacook pork component is treated as a mixed rice/meat preparation and uses the project 74°C endpoint for pork.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面将该料理明确称为Taiwan Minced Pork，并解释其为卤肉饭风格；本批补2人份及原页有数值的米、猪肉、香菇、炸葱和调味量。白胡椒、装饰炸葱等原页按口味/装饰的项目不改成数字；米在内锅、调味猪肉和香菇在Tacook盘同步完成，不推导普通电饭煲水量或总时长。"
+      "evidence_notes": "Tiger官方页面将该料理明确称为Taiwan Minced Pork，并解释其为卤肉饭风格；本批补2人份及原页有数值的米、猪肉、香菇、炸葱和调味量。白胡椒、装饰炸葱等原页按口味/装饰的项目不改成数字；米在内锅、调味猪肉和香菇在Tacook盘同步完成，不推导普通电饭煲水量或总时长。 r160 安全补证：猪绞肉挂现有 74°C 终点。"
     },
     {
       "recipe_id": "taiwan-longkui-pork-porridge",

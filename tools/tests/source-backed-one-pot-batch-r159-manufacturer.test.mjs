@@ -15,7 +15,7 @@ function ingredient(recipe, name) {
 }
 
 test('r159 closes Tiger Takikomi fixed batch and model-scoped waterline only', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r159');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r160');
   const recipe = byId['tiger-takikomi-gohan'];
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -68,7 +68,7 @@ test('r159 closes quantified Taiwan Minced Pork fixed batch and keeps water/time
   assert.match(recipe.evidence_notes, /Tacook|上层|水量.*未|普通电饭煲/u);
 });
 
-test('r159 closes quantified Garlic Shrimp fixed batch and leaves water/time and safety for later TDD', () => {
+test('r159 closes quantified Garlic Shrimp fixed batch while preserving later safety closure', () => {
   const recipe = byId['r60-tiger-garlic-shrimp-herbed-rice'];
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -83,6 +83,6 @@ test('r159 closes quantified Garlic Shrimp fixed batch and leaves water/time and
   assert.deepEqual(recipe.fixed_batch.source_ids, [garlicShrimpSource]);
   assert.equal(recipe.liquid_contract, null);
   assert.equal(recipe.time_contract, null);
-  assert.deepEqual(recipe.safety_endpoints, []);
+  assert.equal(recipe.safety_endpoints[0]?.code, 'shellfish_fully_cooked');
   assert.match(recipe.evidence_notes, /Tacook|上层|水量.*未|安全/u);
 });
