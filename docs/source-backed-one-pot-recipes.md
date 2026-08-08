@@ -12,6 +12,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | てんこ小豆の赤飯 | 天生小豆赤饭 | JP-AKITA | akita-tenko-azuki-sekihan | 研究记录（非公开可执行） | 糯米；天生小豆；砂糖；酒；盐 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [てんこ小豆の赤飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/29_10_akita.html) |
+## alaska-salmon-rice-cooker
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Pink Salmon Rice Bowls (One-Pot Rice Cooker Meal) | 阿拉斯加粉红鲑鱼电饭煲饭；粉红鲑鱼一锅饭 | US-AK | alaska-salmon-rice-cooker | 研究记录（非公开可执行） | 米；粉红鲑鱼；南瓜；羽衣甘蓝；蟹味菇；蚝油；泰式甜辣酱；芝麻油；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Pink Salmon Rice Bowls (One-Pot Rice Cooker Meal)](https://www.alaskaseafood.org/recipe/pink-salmon-rice-bowls-one-pot-rice-cooker-meal/) |
 ## anhui-regional-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2162,6 +2167,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金包银 | 土家金包银玉米米饭 | CN-CQ-SOUTHEAST-TUJIA | tujia-corn-rice | 研究记录（非公开可执行） | 玉米面；大米 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [重庆地方志·土家饮食记述](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510502.html) |
+## usa-chicken-rice-stew
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken and Rice | MedlinePlus鸡肉米饭；鸡肉蔬菜炖饭 | US | usa-chicken-rice-stew | 研究记录（非公开可执行） | 鸡块；米；番茄；青椒；芹菜；胡萝卜；玉米；洋葱；豌豆；橄榄；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken and Rice](https://medlineplus.gov/recipes/chicken-and-rice/) |
+## usa-hoppin-john
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Smoky Hoppin’ John | 烟熏黑眼豆米饭；罗切斯特黑眼豆一锅饭 | US-NY | usa-hoppin-john | 研究记录（非公开可执行） | 即食糙米；熟黑眼豆；番茄罐头；蔬菜高汤；洋葱；青椒；西芹；蒜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Smoky Hoppin’ John](https://www.urmc.rochester.edu/news/publications/cooking-for-wellness/smoky-hoppin-john) |
 ## usa-lentil-brown-rice-pot
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2187,6 +2202,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy One-Pot Red Beans & Rice | SDSU一锅红豆米饭 | US-SD | usa-red-beans-rice | 研究记录（非公开可执行） | 糙米；安杜伊香肠；芸豆罐头；番茄罐头；洋葱；西芹；青椒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Easy One-Pot Red Beans & Rice](https://extension.sdstate.edu/one-pot-meals) |
+## usa-salsa-verde-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Salsa Verde Chicken | 莎莎酱绿鸡肉饭；USU莎莎绿酱鸡肉米饭 | US-UT | usa-salsa-verde-chicken-rice | 研究记录（非公开可执行） | 去骨鸡腿；长粒白米；花椰菜；洋葱；蒜；鸡汤；salsa verde；孜然 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Salsa Verde Chicken](https://www.usu.edu/campusrec/files/Cooking-on-a-Budget-Cookbook.pdf) |
 ## usa-slow-cooker-enchilada-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -1354,6 +1354,7 @@
 
 ## 8. Missing safety
 
+- Pink Salmon Rice Bowls (One-Pot Rice Cooker Meal) (asmi-pink-salmon-rice-bowls) — US-AK
 - Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
 - Risoto de Frango com Legumes (global-irga-risoto-frango-legumes) — BR-RS
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
@@ -1668,11 +1669,13 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- Chicken and Rice (nih-medlineplus-chicken-rice) — US
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - Pork and Rice Skillet (va-pork-rice-skillet) — US
 - Turkey Burrito Bowl (tamu-turkey-burrito-bowl) — US-TX
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
+- Salsa Verde Chicken (usu-salsa-verde-chicken-rice) — US-UT
 - Spanish Rice (unh-spanish-rice) — US-NH
 - Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
