@@ -1449,7 +1449,6 @@
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - 鶏雑炊（とりどせ） (maff-chiba-toridose) — JP-CHIBA
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
-- かき飯 (jp-hiroshima-kakimeshi) — JP-HIROSHIMA
 - 美唄のとりめし (maff-hokkaido-bibai-torimeshi) — JP-HOKKAIDO
 - はまぐりごはん (maff-ibaraki-hamaguri-gohan) — JP-IBARAKI
 - 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
@@ -1473,10 +1472,8 @@
 - チキンのパエリア (tiger-chicken-paella) — JP
 - チーズカレーピラフ (tiger-cheese-curry-pilaf) — JP
 - 干しえびと塩昆布の玄米ごはん (r61-tiger-dried-shrimp-salted-kelp-brown-rice) — JP
-- 炊込み中華おこわ (tiger-chinese-sticky-rice) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
 - 鴨ロースと松茸の炊込みごはん (tiger-duck-matsutake-rice) — JP
-- 鶏肉たけのこごはん (tiger-chicken-bamboo-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
