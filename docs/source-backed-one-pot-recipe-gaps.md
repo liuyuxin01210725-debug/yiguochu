@@ -1436,7 +1436,6 @@
 - はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI
 - ほっきめし (jp-miyagi-hokki-meshi) — JP-MIYAGI
 - 稗ずーしー／稗がゆ (maff-miyazaki-hiezushi) — JP-MIYAZAKI
-- 鶏飯 (maff-nagasaki-torimeshi) — JP-NAGASAKI
 - 色ご飯 (maff-irogohan-nara) — JP-NARA
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA

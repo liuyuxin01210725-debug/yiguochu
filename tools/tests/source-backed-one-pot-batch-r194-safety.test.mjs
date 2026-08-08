@@ -7,11 +7,11 @@ const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id,
 const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 
 const expected = {
-  'ntuh-salmon-mixed-mushroom-rice': ['seafood_fully_cooked', 63, /fish|salmon|鲑/u],
-  'taiwan-pine-nut-chicken-wild-mushroom-rice': ['poultry_fully_cooked', 74, /poultry|chicken|禽|鸡/u],
+  'maff-shimane-sazae-meshi': ['shellfish_fully_cooked', null, /shellfish|sazae|蝾螺/u],
+  'maff-nagasaki-torimeshi': ['poultry_fully_cooked', 74, /poultry|chicken|鸡肉/u],
 };
 
-test('r190 closes two directly evidenced raw-protein safety gaps', () => {
+test('r194 closes two directly evidenced MAFF shellfish and poultry gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r194');
   for (const [recipeId, [code, temperature, locatorPattern]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
@@ -19,7 +19,11 @@ test('r190 closes two directly evidenced raw-protein safety gaps', () => {
     assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
     const endpoint = recipe.safety_endpoints.find(row => row.code === code);
     assert.ok(endpoint, `${recipeId} missing ${code}`);
-    assert.equal(endpoint.minimum_core_temperature_c, temperature, recipeId);
+    if (temperature === null) {
+      assert.equal(endpoint.visual_endpoint, '肉质呈珍珠白或白色且不透明', recipeId);
+    } else {
+      assert.equal(endpoint.minimum_core_temperature_c, temperature, recipeId);
+    }
     assert.deepEqual(endpoint.source_ids, [safetySourceId], recipeId);
     const source = recipe.source_refs.find(row => row.source_id === safetySourceId);
     assert.ok(source, `${recipeId} missing safety source`);
@@ -30,10 +34,11 @@ test('r190 closes two directly evidenced raw-protein safety gaps', () => {
   }
 });
 
-test('r190 keeps the two recipes source-limited and does not infer shellfish safety', () => {
-  assert.equal(byId['ntuh-salmon-mixed-mushroom-rice']?.cooker_adaptation?.status, 'source_limited');
-  assert.equal(byId['taiwan-pine-nut-chicken-wild-mushroom-rice']?.cooker_adaptation?.status, 'source_limited');
+test('r194 preserves the MAFF staged preprocessing boundaries', () => {
+  assert.match(byId['maff-shimane-sazae-meshi']?.cooking_sequence?.[0]?.instruction ?? '', /煮|蝾螺/u);
+  assert.match(byId['maff-nagasaki-torimeshi']?.cooking_sequence?.[1]?.instruction ?? '', /鸡肉|熟透/u);
   for (const recipeId of Object.keys(expected)) {
-    assert.deepEqual(byId[recipeId]?.safety_endpoints.filter(row => row.code === 'shellfish_fully_cooked'), [], recipeId);
+    assert.equal(byId[recipeId]?.status, 'recipe_fact_checked', recipeId);
+    assert.notEqual(byId[recipeId]?.cooker_adaptation?.status, 'adapted', recipeId);
   }
 });
