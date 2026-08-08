@@ -1370,7 +1370,6 @@
 - 石排田寮龙船饭 (r99-shipai-tianliao-dragon-boat-rice) — CN-GD-DONGGUAN-SHIPAI
 - 鍋巴魚飯 (huarong-guoba-fish-rice) — CN-HN
 - 社饭 (hubei-enshi-shefan) — CN-HB
-- Turkey and vegetable pilaf (firststeps-turkey-vegetable-pilaf) — GB
 - 安海八宝饭 (r99-an-hai-eight-treasure-rice) — CN-FJ-QUANZHOU-JINJIANG-ANHAI
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
@@ -1563,7 +1562,6 @@
 - Brown Rice Chicken Congee (sg-healthhub-brown-rice-chicken-congee) — SG
 - Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
 - Chicken Briyani (sg-healthhub-chicken-briyani) — SG
-- Chicken tikka pulao (kidney-care-chicken-tikka-pulao) — GB
 - Arroz negro (global-spain-arroz-negro) — ES-IB
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
@@ -1613,13 +1611,10 @@
 - Chicken and Rice (cdph-calfresh-chicken-rice) — US-CA
 - One Pot Caribbean Jerk Chicken & Rice (cu-caribbean-jerk-chicken-rice) — US-CO
 - Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
-- One-Pot Chicken and Brown Rice Casserole (cleveland-clinic-chicken-brown-rice-casserole) — US-OH
-- One-Pot Chicken, Carrots, and Rice (bmc-chicken-carrots-brown-rice) — US-MA
 - Chicken and Rice (nih-medlineplus-chicken-rice) — US
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
-- One Pot Chicken and Rice (healthvermont-one-pot-chicken-brown-rice) — US-VT
 - Pork and Rice Skillet (va-pork-rice-skillet) — US
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
 - Spanish Rice (unh-spanish-rice) — US-NH

@@ -234,7 +234,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Turkey and vegetable pilaf | First Steps火鸡蔬菜抓饭；火鸡甜玉米米饭 | GB | family-turkey-vegetable-pilaf | 研究记录（非公开可执行） | 白米；火鸡胸；青椒；番茄；冷冻甜玉米；蒜；洋葱 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Turkey and vegetable pilaf](https://www.firststepsnutrition.org/s/Eating-Well-Recipe-Book-for-web-10-Apr-2022-for-web.pdf) |
+| Turkey and vegetable pilaf | First Steps火鸡蔬菜抓饭；火鸡甜玉米米饭 | GB | family-turkey-vegetable-pilaf | 研究记录（非公开可执行） | 白米；火鸡胸；青椒；番茄；冷冻甜玉米；蒜；洋葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Turkey and vegetable pilaf](https://www.firststepsnutrition.org/s/Eating-Well-Recipe-Book-for-web-10-Apr-2022-for-web.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## family-vegetable-biryani
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1755,7 +1755,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken tikka pulao | 肾脏厨房鸡肉tikka抓饭；鸡肉咖喱香料饭 | GB | south-asian-chicken-pulao | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；低盐鸡汤；冷冻豌豆；四季豆；洋葱；tikka咖喱酱 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken tikka pulao](https://kidneycareuk.org/get-support/healthy-diet-support/kidney-kitchen/recipe-index/chicken-tikka-pulao/) |
+| Chicken tikka pulao | 肾脏厨房鸡肉tikka抓饭；鸡肉咖喱香料饭 | GB | south-asian-chicken-pulao | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；低盐鸡汤；冷冻豌豆；四季豆；洋葱；tikka咖喱酱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken tikka pulao](https://kidneycareuk.org/get-support/healthy-diet-support/kidney-kitchen/recipe-index/chicken-tikka-pulao/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## southeast-asian-rice-cooker-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2236,12 +2236,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| One-Pot Chicken and Brown Rice Casserole | 克利夫兰诊所鸡肉糙米锅；鸡肉蔬菜糙米汤锅 | US-OH | usa-chicken-brown-rice-casserole | 研究记录（非公开可执行） | 未煮糙米；鸡腿肉；洋葱；西芹；红椒；菌菇；番茄；冷冻四季豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Brown Rice Casserole](https://health.clevelandclinic.org/one-pot-chicken-brown-rice-casserole-recipe?slug=one-pot-chicken-brown-rice-casserole-recipe%2F) |
+| One-Pot Chicken and Brown Rice Casserole | 克利夫兰诊所鸡肉糙米锅；鸡肉蔬菜糙米汤锅 | US-OH | usa-chicken-brown-rice-casserole | 研究记录（非公开可执行） | 未煮糙米；鸡腿肉；洋葱；西芹；红椒；菌菇；番茄；冷冻四季豆 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [One-Pot Chicken and Brown Rice Casserole](https://health.clevelandclinic.org/one-pot-chicken-brown-rice-casserole-recipe?slug=one-pot-chicken-brown-rice-casserole-recipe%2F)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-chicken-carrots-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| One-Pot Chicken, Carrots, and Rice | 波士顿医学中心鸡肉胡萝卜米饭；鸡肉胡萝卜糙米煎锅 | US-MA | usa-chicken-carrots-rice | 研究记录（非公开可执行） | 鸡腿肉；干糙米；洋葱；胡萝卜；蒜；叶菜；肉汤 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [One-Pot Chicken, Carrots, and Rice](https://www.bmc.org/recipes/one-pot-chicken-carrots-and-rice) |
+| One-Pot Chicken, Carrots, and Rice | 波士顿医学中心鸡肉胡萝卜米饭；鸡肉胡萝卜糙米煎锅 | US-MA | usa-chicken-carrots-rice | 研究记录（非公开可执行） | 鸡腿肉；干糙米；洋葱；胡萝卜；蒜；叶菜；肉汤 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [One-Pot Chicken, Carrots, and Rice](https://www.bmc.org/recipes/one-pot-chicken-carrots-and-rice)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-chicken-rice-stew
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2281,7 +2281,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| One Pot Chicken and Rice | 佛蒙特烤箱鸡肉糙米锅 | US-VT | usa-oven-chicken-brown-rice | 研究记录（非公开可执行） | 糙米；鸡腿；洋葱；胡萝卜；西芹；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One Pot Chicken and Rice](https://www.healthvermont.gov/sites/default/files/documents/2016/12/cyf_WIC_EatWell_more_brown-rice_recipes.pdf) |
+| One Pot Chicken and Rice | 佛蒙特烤箱鸡肉糙米锅 | US-VT | usa-oven-chicken-brown-rice | 研究记录（非公开可执行） | 糙米；鸡腿；洋葱；胡萝卜；西芹；水 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [One Pot Chicken and Rice](https://www.healthvermont.gov/sites/default/files/documents/2016/12/cyf_WIC_EatWell_more_brown-rice_recipes.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-polk-arroz-con-pollo
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

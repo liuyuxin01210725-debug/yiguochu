@@ -11,7 +11,7 @@ const expected = [
 
 test('r75 records two new direct manufacturer rice-meal candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r199');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r200');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName] of expected) {
