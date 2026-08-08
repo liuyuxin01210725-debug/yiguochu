@@ -7,7 +7,7 @@ const spring = catalog.recipes.find(item => item.recipe_id === 'panasonic-spring
 const biryani = catalog.recipes.find(item => item.recipe_id === 'panasonic-chicken-biryani-sr-da182');
 
 test('r178 records the Panasonic spring chicken risotto stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r194');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r196');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(spring);
   assert.equal(spring.status, 'recipe_fact_checked');
