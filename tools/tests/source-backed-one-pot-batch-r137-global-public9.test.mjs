@@ -49,8 +49,8 @@ const expected = [
 ];
 
 test('r137 integrates five direct public candidates without promoting them', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r140');
-  assert.equal(catalog.recipes.length, 920);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r142');
+  assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
   for (const item of expected) {
