@@ -1306,11 +1306,15 @@
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 金包银 (tujia-jinbaoyin-corn-rice) — CN-CQ-SOUTHEAST-TUJIA
+- Chicken and Rice (cdph-calfresh-chicken-rice) — US-CA
 - Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
 - One-Pot Chicken and Brown Rice Casserole (cleveland-clinic-chicken-brown-rice-casserole) — US-OH
+- Easy Veggie Risotto (healthvermont-easy-veggie-risotto) — US-VT
 - Arroz con Pollo (Chicken with Rice) (illinois-extension-arroz-con-pollo) — US-IL
 - Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
+- One Pot Chicken and Rice (healthvermont-one-pot-chicken-brown-rice) — US-VT
+- Arroz con Pollo Chicken and Rice (wisconsin-polk-arroz-con-pollo) — US-WI
 - Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
@@ -1675,6 +1679,7 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- Chicken and Rice (cdph-calfresh-chicken-rice) — US-CA
 - One Pot Caribbean Jerk Chicken & Rice (cu-caribbean-jerk-chicken-rice) — US-CO
 - Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
 - One-Pot Chicken and Brown Rice Casserole (cleveland-clinic-chicken-brown-rice-casserole) — US-OH
@@ -1684,6 +1689,7 @@
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
+- One Pot Chicken and Rice (healthvermont-one-pot-chicken-brown-rice) — US-VT
 - Pork and Rice Skillet (va-pork-rice-skillet) — US
 - Turkey Burrito Bowl (tamu-turkey-burrito-bowl) — US-TX
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD

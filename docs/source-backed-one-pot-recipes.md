@@ -2182,6 +2182,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金包银 | 土家金包银玉米米饭 | CN-CQ-SOUTHEAST-TUJIA | tujia-corn-rice | 研究记录（非公开可执行） | 玉米面；大米 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [重庆地方志·土家饮食记述](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510502.html) |
+## usa-calfresh-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken and Rice | 加州CalFresh鸡肉饭 | US-CA | usa-calfresh-chicken-rice | 研究记录（非公开可执行） | 糙米；鸡胸肉；洋葱；青椒；墨西哥辣椒；蒜；鸡汤；番茄；豌豆胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken and Rice](https://calfreshhealthyliving.cdph.ca.gov/en/recipes/Pages/Chicken-and-Rice.aspx) |
 ## usa-caribbean-jerk-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2207,6 +2212,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Chicken and Rice | MedlinePlus鸡肉米饭；鸡肉蔬菜炖饭 | US | usa-chicken-rice-stew | 研究记录（非公开可执行） | 鸡块；米；番茄；青椒；芹菜；胡萝卜；玉米；洋葱；豌豆；橄榄；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken and Rice](https://medlineplus.gov/recipes/chicken-and-rice/) |
+## usa-easy-veggie-risotto
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Easy Veggie Risotto | 佛蒙特蔬菜糙米烩饭 | US-VT | usa-easy-veggie-risotto | 研究记录（非公开可执行） | 糙米；洋葱；西兰花；红椒；豌豆；奶油奶酪；帕玛森奶酪 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Easy Veggie Risotto](https://www.healthvermont.gov/sites/default/files/documents/2016/12/cyf_WIC_EatWell_more_brown-rice_recipes.pdf) |
 ## usa-hoppin-john
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2232,6 +2242,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | One-Pot Chicken and Rice Soup | 华盛顿大学一锅鸡肉米汤 | US-WA | usa-one-pot-rice-soup | 研究记录（非公开可执行） | 罐装鸡肉或豆类；罐装四季豆；罐装胡萝卜；洋葱；蒜；米；鸡汤或蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Rice Soup](https://www.washington.edu/anyhungryhusky/2020/05/01/one-pot-chicken-and-rice-soup-gf/) |
+## usa-oven-chicken-brown-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| One Pot Chicken and Rice | 佛蒙特烤箱鸡肉糙米锅 | US-VT | usa-oven-chicken-brown-rice | 研究记录（非公开可执行） | 糙米；鸡腿；洋葱；胡萝卜；西芹；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One Pot Chicken and Rice](https://www.healthvermont.gov/sites/default/files/documents/2016/12/cyf_WIC_EatWell_more_brown-rice_recipes.pdf) |
+## usa-polk-arroz-con-pollo
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Arroz con Pollo Chicken and Rice | 威斯康星Polk鸡肉米饭；Arroz con Pollo | US-WI | usa-polk-arroz-con-pollo | 研究记录（非公开可执行） | 未煮米；整鸡；青椒；洋葱；蒜；番茄；低钠鸡汤；豌豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Arroz con Pollo Chicken and Rice](https://polk.extension.wisc.edu/files/2012/10/Compiled-Book-Draft-2.pdf) |
 ## usa-pork-rice-skillet
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2262,6 +2282,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Spanish Rice | 新罕布什尔西班牙米饭 | US-NH | usa-spanish-rice | 研究记录（非公开可执行） | 米；罐装猪肉；番茄罐头；洋葱；西芹；青椒；水 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Spanish Rice](https://extension.unh.edu/recipe/spanish-rice) |
+## usa-spinach-carrot-rice-pilaf
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Spinach and Carrot Rice Pilaf | 佛蒙特胡萝卜菠菜糙米饭 | US-VT | usa-spinach-carrot-rice-pilaf | 研究记录（非公开可执行） | 糙米；胡萝卜；洋葱；菠菜；蔬菜或鸡汤 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Spinach and Carrot Rice Pilaf](https://www.healthvermont.gov/sites/default/files/documents/2016/12/cyf_WIC_EatWell_more_brown-rice_recipes.pdf) |
 ## usa-texas-hash
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
