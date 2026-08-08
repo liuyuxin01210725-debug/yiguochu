@@ -6,7 +6,7 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r86 registers two MAFF regional mixed-rice recipes without collapsing continuous processes into one-pot contracts', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r171');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r172');
   assert.equal(catalog.recipes.length, 923);
 
   const kate = catalog.recipes.find(item => item.recipe_id === 'maff-kanagawa-kate-meshi');
