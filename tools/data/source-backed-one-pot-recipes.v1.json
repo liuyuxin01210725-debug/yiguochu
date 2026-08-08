@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r149",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r150",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -4773,7 +4773,15 @@
           "S-TIGER-PORK-KIMCHI-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -4813,10 +4821,26 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: casseroles (meat and meatless) 165°F / 74°C"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger猪肉泡菜玄米饭；保留泡菜后拌、豆芽配菜的边界。"
+      "evidence_notes": "Tiger猪肉泡菜玄米饭；保留泡菜后拌、豆芽配菜的边界。 r150安全审计补充：官方原页使用猪腿肉薄片与糙米同炊；泡菜和麻油为出锅后拌入，生猪肉仍需达到中心温度74°C。水量继续以玄米刻度表达，不外推普通电饭煲毫升数。"
     },
     {
       "recipe_id": "tiger-scallop-pea-rice",
@@ -5048,7 +5072,15 @@
           "S-TIGER-STEAK-MUSHROOM-BARLEY-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆",
         "乳"
@@ -5090,10 +5122,26 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-02",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: beef mixed-rice endpoint used by this project: 71°C; whole-cut beef source minimum 63°C with rest"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方具名牛排菌菇麦香饭；作为多阶段一锅主食研究条目，单独标记牛排另煎。"
+      "evidence_notes": "Tiger官方具名牛排菌菇麦香饭；作为多阶段一锅主食研究条目，单独标记牛排另煎。 r150安全审计补充：牛里脊牛排仍按官方流程在平底锅另煎后切块拌入麦饭；本项目米饭主餐安全端点采用71°C，不能把另锅煎写成全程同锅。"
     },
     {
       "recipe_id": "toshiba-mixed-mushroom-ume-rice",
@@ -8952,7 +9000,15 @@
     }
   ],
   "time_contract": null,
-  "safety_endpoints": [],
+  "safety_endpoints": [
+    {
+      "code": "seafood_fully_cooked",
+      "minimum_core_temperature_c": 63,
+      "source_ids": [
+        "S-SAFETY-TEMPERATURES-1"
+      ]
+    }
+  ],
   "allergen_labels": [
     "鱼类",
     "乳制品",
@@ -8994,10 +9050,26 @@
       ],
       "attribution": "Panasonic Cooking Taiwan",
       "license": "government_site_terms_unspecified"
+    },
+    {
+      "source_id": "S-SAFETY-TEMPERATURES-1",
+      "title": "Cook to a Safe Minimum Internal Temperature",
+      "publisher": "FoodSafety.gov",
+      "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+      "retrieved_at": "2026-08-02",
+      "source_kind": "government_food_safety_guidance",
+      "access_status": "opened",
+      "claim_scopes": [
+        "safety"
+      ],
+      "attribution": "FoodSafety.gov",
+      "license": "U.S. government site terms",
+      "evidence_tier": 1,
+      "evidence_locator": "FoodSafety.gov chart: fish 145°F / 63°C minimum internal temperature"
     }
   ],
   "status": "recipe_fact_checked",
-  "evidence_notes": "Panasonic台湾官方鲑鱼菇菇炊飯；食材与流程有直接来源，安全终点与跨机型参数仍待闭合。"
+  "evidence_notes": "Panasonic台湾官方鲑鱼菇菇炊飯；食材与流程有直接来源，安全终点与跨机型参数仍待闭合。 r150安全审计补充：官方原页明确使用鮭魚250g与米、菇同锅炊煮；鱼类安全端点采用63°C，SR-PAA100机型、水量和白米程序边界保持不变。"
 },
     {
   "recipe_id": "panasonic-taiwan-sakura-shrimp-cabbage-rice",
@@ -16374,11 +16446,11 @@
     {"recipe_id":"panasonic-my-chicken-pumpkin-lotus-mixed-rice","canonical_name":"Mixed Rice with pumpkin and lotus roots","aliases":["南瓜莲藕鸡腿杂粮饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Panasonic电饭煲"],"core_ingredients":["糙米","大麦","鸡腿肉","南瓜","莲藕","姜"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"],"notes":"Panasonic官方页面给出Brown Rice程序、糙米/大麦/鸡腿/南瓜/莲藕的配料和液体线索；导语称鸡肉从头入锅，但编号步骤漏写鸡腿投料时点，因此不建立流程、液体或安全合同，也不补写缺步。"},"source_refs":[{"source_id":"S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1","title":"Mixed Rice with pumpkin and lotus roots","publisher":"Panasonic Malaysia","url":"https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/mixed-rice-with-pumpkin-and-lotus-roots.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页：4份、糙米3杯、大麦90g、水100ml、鲣鱼高汤3杯、鸡腿丁200g、南瓜50g、莲藕100g、Brown Rice程序；导语与编号步骤对鸡腿投料时点不一致","claim_scopes":["identity","ingredients","quantity","liquid","appliance"],"attribution":"Panasonic Malaysia","license":"publisher_copyright"}],"status":"identity_verified","evidence_notes":"该条只登记Panasonic官方具名和配料线索。导语称鸡肉从头入锅，但编号步骤没有说明200克鸡腿何时加入；不把缺步补成流程，也不因此晋升recipe_fact_checked。"},
     {"recipe_id":"wuerhe-awudan-lamb-shank-pilaf","canonical_name":"阿吾丹羊拐抓飯","aliases":["阿吾丹羊拐抓饭"],"region_codes":["CN-XJ-KARAMAY-WUERHE"],"cuisine_family":"xinjiang-regional-pilaf","identity_status":"verified","traditional_vessels":[],"core_ingredients":[],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"乌尔禾区政府和塔城地区行政公署来源只证明阿吾丹羊拐抓饭的具名地域身份与非遗/文旅语境；没有原料、份量、液体、流程、时间、安全或现代器具事实，不补写通用抓饭做法。"},"source_refs":[{"source_id":"S-WUERHE-AWUDAN-LAMB-SHANK-PILAF-1","title":"第二批区级非物质文化遗产名录","publisher":"乌尔禾区人民政府","url":"https://www.weh.gov.cn/weh/ggwhfw/202601/e98f3ec08a7e4286a13af4bee5ec790a.shtml","retrieved_at":"2026-08-06","source_kind":"district_government_intangible_cultural_heritage_page","access_status":"opened","evidence_tier":1,"evidence_locator":"乌尔禾区政府非遗名录：羊拐抓饭制作技艺、阿吾丹烤羊店近二十年经营语境","claim_scopes":["identity"],"attribution":"乌尔禾区人民政府","license":"government_site_terms_unspecified"},{"source_id":"S-WUERHE-AWUDAN-LAMB-SHANK-PILAF-2","title":"文旅部推荐美食名单","publisher":"塔城地区行政公署","url":"https://www.xjtc.gov.cn/bmfw/lyzx/content_49591","retrieved_at":"2026-08-06","source_kind":"prefecture_tourism_food_page","access_status":"opened","evidence_tier":1,"evidence_locator":"塔城地区行政公署文旅推荐：阿吾丹羊拐抓饭具名与地域美食语境","claim_scopes":["identity"],"attribution":"塔城地区行政公署","license":"government_site_terms_unspecified"}],"status":"identity_verified","evidence_notes":"两条政府来源共同确认阿吾丹羊拐抓饭的真实地域身份；来源没有食材、流程或器具合同，不把“羊拐”扩写为羊肉部位，也不拼接其他抓饭版本。"},
     {"recipe_id":"shache-pea-meat-pilaf","canonical_name":"豌豆肉抓飯","aliases":["豌豆肉抓饭"],"region_codes":["CN-XJ-KASHGAR-SHACHE"],"cuisine_family":"xinjiang-regional-pilaf","identity_status":"verified","traditional_vessels":[],"core_ingredients":[],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"莎车县文化旅游主管部门来源只证明豌豆肉抓饭的具名地域身份；页面没有食材明细、用量、流程、时间、安全或器具事实，不以菜名补写配方。"},"source_refs":[{"source_id":"S-SHACHE-PEA-MEAT-PILAF-1","title":"莎车老城景区（4A）简介","publisher":"莎车县文化体育广播电视和旅游局","url":"https://www.shache.gov.cn/scx/c125664/202505/b12dd32cca16434d88009746fa4dff96.shtml","retrieved_at":"2026-08-06","source_kind":"county_tourism_food_page","access_status":"opened","evidence_tier":1,"evidence_locator":"莎车县文旅主管部门老城景区简介：将豌豆肉抓饭列为当地特色美食","claim_scopes":["identity"],"attribution":"莎车县文化体育广播电视和旅游局","license":"government_site_terms_unspecified"}],"status":"identity_verified","evidence_notes":"莎车县政府文旅页面确认豌豆肉抓饭的真实菜名和地域身份；当前没有固定做法来源，保持identity_verified，不把菜名中的豌豆和肉扩写成完整食材合同。"},
-    {"recipe_id":"philips-japanese-wagyu-beef-rice-bowl","canonical_name":"日式牛肉丼飯","aliases":["日式牛肉丼饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips指定型号电饭煲"],"core_ingredients":["日本米","和牛片","日本直菇","洋葱","烧肉酱"],"fixed_batch":null,"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips指定型号电饭煲","scale":"米","mark":2},"source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},"cooking_sequence":[{"step":1,"instruction":"日本米洗净；日本直菇和洋葱切片，和牛片按来源腌制。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},{"step":2,"instruction":"米、直菇和洋葱放入Philips指定型号电饭煲，加水至内锅米2杯刻度，选择米饭功能。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},{"step":3,"instruction":"倒数5分钟打开锅盖，加入腌好的和牛片，继续煮至程序完成。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},{"step":4,"instruction":"完成后按来源加入葱丝和紫菜丝；牛肉安全终点尚待补充。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"],"notes":"Philips官方具名日式牛肉丼饭；页面明确米、菇、洋葱先煮及倒数5分钟投和牛片，未证明传统日本牛丼身份或牛肉安全温度，不补写。"},"source_refs":[{"source_id":"S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1","title":"日式牛肉丼飯","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/japanese-wagyu-beef-rice-bowl.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页正文：日本米2杯、和牛片120g、日本直菇40g、洋葱60g、烧肉酱100g、水至米2杯刻度；米饭功能倒数5分钟加和牛，完成后加葱丝和紫菜丝","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"]}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名日式牛肉丼饭；页面明确米、菇、洋葱先煮及倒数5分钟投和牛片，未证明传统日本牛丼身份或牛肉安全温度，不补写。"},
+    {"recipe_id":"philips-japanese-wagyu-beef-rice-bowl","canonical_name":"日式牛肉丼飯","aliases":["日式牛肉丼饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips指定型号电饭煲"],"core_ingredients":["日本米","和牛片","日本直菇","洋葱","烧肉酱"],"fixed_batch":null,"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips指定型号电饭煲","scale":"米","mark":2},"source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},"cooking_sequence":[{"step":1,"instruction":"日本米洗净；日本直菇和洋葱切片，和牛片按来源腌制。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},{"step":2,"instruction":"米、直菇和洋葱放入Philips指定型号电饭煲，加水至内锅米2杯刻度，选择米饭功能。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},{"step":3,"instruction":"倒数5分钟打开锅盖，加入腌好的和牛片，继续煮至程序完成。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]},{"step":4,"instruction":"完成后按来源加入葱丝和紫菜丝；牛肉安全终点尚待补充。","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"]}],"time_contract":null,"safety_endpoints":[{"code":"beef_fully_cooked","minimum_core_temperature_c":71,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1"],"notes":"Philips官方具名日式牛肉丼饭；页面明确米、菇、洋葱先煮及倒数5分钟投和牛片，未证明传统日本牛丼身份或牛肉安全温度，不补写。"},"source_refs":[{"source_id":"S-PHILIPS-JAPANESE-WAGYU-BEEF-RICE-BOWL-1","title":"日式牛肉丼飯","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/japanese-wagyu-beef-rice-bowl.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页正文：日本米2杯、和牛片120g、日本直菇40g、洋葱60g、烧肉酱100g、水至米2杯刻度；米饭功能倒数5分钟加和牛，完成后加葱丝和紫菜丝","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"]},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms","evidence_tier":1,"evidence_locator":"FoodSafety.gov chart: beef mixed-rice endpoint used by this project: 71°C; whole-cut beef source minimum 63°C with rest"}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名日式牛肉丼饭；页面明确米、菇、洋葱先煮及倒数5分钟投和牛片，未证明传统日本牛丼身份或牛肉安全温度，不补写。 r150安全审计补充：和牛片为米饭程序倒数5分钟才投料的生牛肉；成品需达到中心温度71°C，Philips迷你电饭煲与米2杯刻度边界保持不变。"},
     {"recipe_id":"philips-sweet-potato-tomato-mixed-grain-vegetable-rice","canonical_name":"甜薯番茄多穀菜飯","aliases":["甜薯番茄多谷菜饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips指定型号电饭煲"],"core_ingredients":["泰国茉莉香米","十八谷米","番薯","大白菜","番茄","橄榄油"],"fixed_batch":null,"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips指定型号电饭煲","scale":"米","mark":2},"source_ids":["S-PHILIPS-SWEET-POTATO-TOMATO-MIXED-GRAIN-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"泰国茉莉香米和十八谷米洗净；番薯、大白菜和番茄按来源处理。","source_ids":["S-PHILIPS-SWEET-POTATO-TOMATO-MIXED-GRAIN-RICE-1"]},{"step":2,"instruction":"米、番薯、大白菜、整颗番茄和橄榄油放入Philips指定型号电饭煲，加水至内锅米2杯刻度。","source_ids":["S-PHILIPS-SWEET-POTATO-TOMATO-MIXED-GRAIN-RICE-1"]},{"step":3,"instruction":"选择米饭功能；完成后按来源焗10分钟，再压碎番薯和番茄拌入米饭。","source_ids":["S-PHILIPS-SWEET-POTATO-TOMATO-MIXED-GRAIN-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-SWEET-POTATO-TOMATO-MIXED-GRAIN-RICE-1"],"notes":"Philips官方具名甜薯番茄多谷菜饭；真实同锅主料为米、番薯、白菜和番茄，营养角色为碳水与蔬菜纤维，来源没有蛋白质，不为营养三要素齐全；不补写缺失参数。"},"source_refs":[{"source_id":"S-PHILIPS-SWEET-POTATO-TOMATO-MIXED-GRAIN-RICE-1","title":"甜薯番茄多穀菜飯","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/tomato-sweet-yam-with-mixed-grain-rice.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页材料与步骤：泰国茉莉香米1杯、十八谷米1杯、番薯80g、大白菜80g、番茄1个、橄榄油3汤匙；米2杯刻度、米饭功能、完成焗10分钟后拌碎","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"]}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名甜薯番茄多谷菜饭；真实同锅主料为米、番薯、白菜和番茄，营养角色为碳水与蔬菜纤维，来源没有蛋白质，不为营养三要素齐全；不补写缺失参数。"},
     {"recipe_id":"philips-corn-quinoa-vegetable-rice","canonical_name":"粟米藜麥菜飯","aliases":["玉米藜麦菜饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips All-in-One 智能万用锅"],"core_ingredients":["白米","三色藜麦","玉米粒","北京椰菜"],"fixed_batch":{"servings":4,"ingredients":[{"name":"白米","amount":{"value":1.5,"unit":"杯"},"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},{"name":"三色藜麦","amount":{"value":0.5,"unit":"杯"},"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},{"name":"玉米粒","amount":{"value":150,"unit":"g"},"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},{"name":"北京椰菜","amount":{"value":150,"unit":"g"},"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]}],"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips All-in-One 智能万用锅","scale":"米","mark":2},"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"白米和三色藜麦洗净，放入Philips All-in-One内锅，加水至米2刻度。","source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},{"step":2,"instruction":"加入玉米粒和北京椰菜，选择来源所示Risotto/Rice压力烹调程序14分钟。","source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},{"step":3,"instruction":"程序结束后按来源焗15分钟并翻松；烟三文鱼、葡萄干、核桃、车厘茄和沙拉菜属于完成后伴食，不计入锅内成品。","source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]}],"time_contract":{"total_minutes":29,"source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"]},"safety_endpoints":[],"allergen_labels":["坚果"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1"],"notes":"Philips官方具名粟米藜麦菜饭；锅内只登记米、藜麦、玉米和椰菜，烟三文鱼/核桃等为完成后伴食，不把伴食当作锅内食材或安全证据。"},"source_refs":[{"source_id":"S-PHILIPS-CORN-QUINOA-VEGETABLE-RICE-1","title":"粟米藜麥菜飯","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/quinoa-rice-with-corn-and-vegetables.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页：4人份、白米1.5杯、三色藜麦0.5杯、玉米150g、北京椰菜150g、米2刻度、Risotto/Rice压力14分钟和焗15分钟；烟三文鱼等另作伴食","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"]}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名粟米藜麦菜饭；锅内只登记米、藜麦、玉米和椰菜，烟三文鱼/核桃等为完成后伴食，不把伴食当作锅内食材或安全证据。"},
     {"recipe_id":"philips-corn-purple-sweet-potato-meatball-congee","canonical_name":"粟米紫薯肉丸粥","aliases":["玉米紫薯肉丸粥"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips指定型号电饭煲"],"core_ingredients":["米","玉米","紫薯","肉丸","旺菜"],"fixed_batch":null,"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips指定型号电饭煲","scale":"米","mark":0.5},"source_ids":["S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1"]},"cooking_sequence":[{"step":1,"instruction":"米洗净；玉米、紫薯和旺菜按来源处理。","source_ids":["S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1"]},{"step":2,"instruction":"米、玉米、紫薯、肉丸和旺菜全部放入Philips指定型号内锅，加鸡汤或水至0.5杯粥刻度。","source_ids":["S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1"]},{"step":3,"instruction":"选择煲粥程序2小时；肉丸熟制终点来源未给出，保持待补。","source_ids":["S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1"]}],"time_contract":{"total_minutes":120,"source_ids":["S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1"]},"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1"],"notes":"Philips官方具名粟米紫薯肉丸粥；来源给出谷物、玉米、紫薯、肉丸、旺菜和2小时煲粥，但肉丸组成与熟制终点未说明，不补写。"},"source_refs":[{"source_id":"S-PHILIPS-CORN-PURPLE-SWEET-POTATO-MEATBALL-CONGEE-1","title":"粟米紫薯肉丸粥","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/meat-ball-congee-with-corn-and-sweet-yam.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页材料与步骤：米0.5杯、玉米100g、紫薯100g、肉丸6粒、旺菜60g、水至0.5杯粥刻度、煲粥2小时","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"]}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名粟米紫薯肉丸粥；来源给出谷物、玉米、紫薯、肉丸、旺菜和2小时煲粥，但肉丸组成与熟制终点未说明，不补写。"},
-    {"recipe_id":"philips-pumpkin-minced-pork-congee","canonical_name":"南瓜肉碎粥","aliases":["南瓜猪肉碎粥"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips指定型号电饭煲"],"core_ingredients":["米","免治猪肉","南瓜"],"fixed_batch":null,"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips指定型号电饭煲","scale":"米","mark":0.5},"source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},"cooking_sequence":[{"step":1,"instruction":"米洗净；南瓜切粒，免治猪肉按来源准备。","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},{"step":2,"instruction":"米、免治猪肉和南瓜放入Philips指定型号内锅，加水至0.5杯粥刻度。","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},{"step":3,"instruction":"选择煲粥程序4小时；猪肉熟制终点来源未给出，保持待补。","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]}],"time_contract":{"total_minutes":240,"source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"],"notes":"Philips官方具名南瓜肉碎粥；来源给出米、猪肉、南瓜同锅和4小时程序，但未给型号、份数或猪肉熟制终点，不补写。"},"source_refs":[{"source_id":"S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1","title":"南瓜肉碎粥","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/minced-pork-congee-with-pumpkin.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页材料与步骤：米0.5杯、免治猪肉80g、南瓜100g、水至0.5杯粥刻度、米肉南瓜同锅煲粥4小时","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"]}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名南瓜肉碎粥；来源给出米、猪肉、南瓜同锅和4小时程序，但未给型号、份数或猪肉熟制终点，不补写。"},
+    {"recipe_id":"philips-pumpkin-minced-pork-congee","canonical_name":"南瓜肉碎粥","aliases":["南瓜猪肉碎粥"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips指定型号电饭煲"],"core_ingredients":["米","免治猪肉","南瓜"],"fixed_batch":null,"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Philips指定型号电饭煲","scale":"米","mark":0.5},"source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},"cooking_sequence":[{"step":1,"instruction":"米洗净；南瓜切粒，免治猪肉按来源准备。","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},{"step":2,"instruction":"米、免治猪肉和南瓜放入Philips指定型号内锅，加水至0.5杯粥刻度。","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},{"step":3,"instruction":"选择煲粥程序4小时；猪肉熟制终点来源未给出，保持待补。","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]}],"time_contract":{"total_minutes":240,"source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"]},"safety_endpoints":[{"code":"pork_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1"],"notes":"Philips官方具名南瓜肉碎粥；来源给出米、猪肉、南瓜同锅和4小时程序，但未给型号、份数或猪肉熟制终点，不补写。"},"source_refs":[{"source_id":"S-PHILIPS-PUMPKIN-MINCED-PORK-CONGEE-1","title":"南瓜肉碎粥","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/minced-pork-congee-with-pumpkin.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页材料与步骤：米0.5杯、免治猪肉80g、南瓜100g、水至0.5杯粥刻度、米肉南瓜同锅煲粥4小时","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"]},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms","evidence_tier":1,"evidence_locator":"FoodSafety.gov chart: casseroles (meat and meatless) 165°F / 74°C"}],"status":"recipe_fact_checked","evidence_notes":"Philips官方具名南瓜肉碎粥；来源给出米、猪肉、南瓜同锅和4小时程序，但未给型号、份数或猪肉熟制终点，不补写。 r150安全审计补充：官方原页将免治猪肉80g与米、南瓜同锅煲粥；4小时粥程序不替代猪肉中心温度74°C。Philips迷你电饭煲及0.5杯粥刻度边界保持不变。"},
 {"recipe_id":"philips-crab-congee-all-in-one-cooker","canonical_name":"膏蟹粥","aliases":["膏蟹海鲜粥"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Philips All-in-One 智能万用锅"],"core_ingredients":["膏蟹","米","瑶柱","姜","水"],"fixed_batch":null,"liquid_contract":{"kind":"added_water","amount":{"value":1000,"unit":"g"},"source_ids":["S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1"]},"cooking_sequence":[{"step":1,"instruction":"米、瑶柱和姜按来源放入Philips All-in-One内锅，加入1000g水；膏蟹暂不入锅。","source_ids":["S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1"]},{"step":2,"instruction":"选择压力煮汤/小扁豆程序，烹调20分钟。","source_ids":["S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1"]},{"step":3,"instruction":"剩5分钟泄压后加入膏蟹，继续完成程序；膏蟹熟制终点来源未给出。","source_ids":["S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1"]},{"step":4,"instruction":"完成后按来源撒葱食用。","source_ids":["S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1"]}],"time_contract":{"total_minutes":25,"source_ids":["S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1"]},"safety_endpoints":[],"allergen_labels":["甲壳类"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"Philips官方膏蟹粥为智能万用锅一锅流程；材料、液体和中途投蟹顺序可核验，但蟹的安全终点未闭合，不晋升executable，也不冒充电饭煲配方。"},"source_refs":[{"source_id":"S-PHILIPS-CRAB-CONGEE-ALL-IN-ONE-1","title":"膏蟹粥","publisher":"Philips Hong Kong","url":"https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/crab-congee.html","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页：4至6人、膏蟹500g、米1杯、瑶柱20g、姜5g、水1000g；压力煮汤/小扁豆20分钟，剩5分钟泄压加蟹","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"]}],"status":"recipe_fact_checked","evidence_notes":"Philips官方膏蟹粥来源标示4至6人，为智能万用锅一锅流程；材料、液体和中途投蟹顺序可核验，但蟹的安全终点未闭合，不晋升executable，也不冒充电饭煲配方。"},
 {"recipe_id":"quanzhou-shishi-green-island-daikon-rice","canonical_name":"绿岛白萝卜饭","aliases":["泉州萝卜饭","泉州焖饭"],"region_codes":["CN-FJ-QUANZHOU-SHISHI"],"cuisine_family":"quanzhou-regional-mixed-rice","identity_status":"verified","traditional_vessels":["未说明"],"core_ingredients":["米","沙土萝卜","永春土猪肥肉","香菇","海蛎","虾干"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"泉州市商务局指导页面记载，沙土萝卜、永春土猪肥肉、香菇、海蛎和虾干与米同煮；来源未给固定用量、液体、时间或器具。","source_ids":["S-QUANZHOU-SHISHI-GREEN-ISLAND-DAIKON-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["甲壳类","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"泉州市商务局指导页面确认绿岛白萝卜饭是真实具名泉州焖饭，并明确萝卜、肥肉、香菇、海蛎、虾干与米同煮；没有固定份量、米水、时间、器具或安全来源，保持缺口，不补写。"},"source_refs":[{"source_id":"S-QUANZHOU-SHISHI-GREEN-ISLAND-DAIKON-RICE-1","title":"绿岛白萝卜饭","publisher":"Philips Hong Kong","url":"https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202501/t20250131_3136450.htm","retrieved_at":"2026-08-06","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"attribution":"Philips Hong Kong","license":"publisher_copyright","evidence_locator":"官方页菜品段：绿岛白萝卜饭/泉州焖饭名称，石狮沙土萝卜、永春土猪肥肉、香菇、海蛎、虾干与米同煮","claim_scopes":["identity","ingredients","process"]}],"status":"recipe_fact_checked","evidence_notes":"泉州市商务局指导页面确认绿岛白萝卜饭是真实具名泉州焖饭，并明确萝卜、肥肉、香菇、海蛎、虾干与米同煮；没有固定份量、米水、时间、器具或安全来源，保持缺口，不补写。"},
     {"recipe_id":"shunchang-she-bamboo-tube-rice","canonical_name":"顺昌畲家竹筒饭","aliases":["顺昌畲族竹筒饭"],"region_codes":["CN-FJ-NANPING-SHUNCHANG"],"cuisine_family":"fujian-she-bamboo-tube-rice","identity_status":"verified","traditional_vessels":[],"core_ingredients":[],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"政府来源确认顺昌畲家竹筒饭的具名和地域非遗身份，但食材、流程和器具合同均缺失；保持identity_verified，不把竹筒饭泛称当作具体配方。"},"source_refs":[{"source_id":"S-SHUNCHANG-SHE-BAMBOO-TUBE-RICE-1","title":"顺昌畲族非遗文化","publisher":"government","url":"https://mzzjt.fujian.gov.cn/xxgk/gzdt/dsdt/fjmz/mzshsy/202204/t20220403_5874537.htm","retrieved_at":"2026-08-06","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":1,"attribution":"government","license":"government_site_terms_unspecified","evidence_locator":"正文非遗/美食段：顺昌畲家竹筒饭制作技艺列入顺昌县畲族非遗项目","claim_scopes":["identity"]}],"status":"identity_verified","evidence_notes":"政府来源确认顺昌畲家竹筒饭的具名和地域非遗身份，但食材、流程和器具合同均缺失；保持identity_verified，不把竹筒饭泛称当作具体配方。"},

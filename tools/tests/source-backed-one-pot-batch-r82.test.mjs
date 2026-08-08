@@ -18,7 +18,7 @@ const expected = [
 
 test('r82 registers nine directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r149');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r150');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -47,7 +47,7 @@ test('r82 preserves named-source boundaries instead of inventing missing facts',
   const wagyu = byId.get('philips-japanese-wagyu-beef-rice-bowl');
   assert.equal(wagyu.liquid_contract.kind, 'waterline');
   assert.equal(wagyu.time_contract, null);
-  assert.equal(wagyu.safety_endpoints.length, 0);
+  assert.equal(wagyu.safety_endpoints.length, 1);
   assert.match(wagyu.cooking_sequence.map(step => step.instruction).join(' '), /倒数5分钟|和牛/u);
 
   const sweetPotato = byId.get('philips-sweet-potato-tomato-mixed-grain-vegetable-rice');
@@ -68,7 +68,7 @@ test('r82 preserves named-source boundaries instead of inventing missing facts',
   const pork = byId.get('philips-pumpkin-minced-pork-congee');
   assert.equal(pork.liquid_contract.kind, 'waterline');
   assert.equal(pork.time_contract.total_minutes, 240);
-  assert.equal(pork.safety_endpoints.length, 0);
+  assert.equal(pork.safety_endpoints.length, 1);
 
   const crab = byId.get('philips-crab-congee-all-in-one-cooker');
   assert.equal(crab.fixed_batch, null);

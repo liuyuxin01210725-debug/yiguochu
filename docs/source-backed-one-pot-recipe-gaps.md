@@ -1558,7 +1558,6 @@
 - 五目炊飯 (cookpot-gomoku-mixed-rice) — 非地域·厂商食谱
 - 五色炊飯 (panasonic-taiwan-five-color-rice) — 非地域·厂商食谱
 - 人蔘雞肉飯 (panasonic-taiwan-ginseng-chicken-rice) — 非地域·厂商食谱
-- 南瓜肉碎粥 (philips-pumpkin-minced-pork-congee) — 非地域·厂商食谱
 - 南瓜野菇雞肉糙米飯 (panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice) — 非地域·厂商食谱
 - 和風鮭魚毛豆炊飯 (r58-panasonic-salmon-edamame-rice) — 非地域·厂商食谱
 - 桜えびご飯 (toshiba-sakuraebi-rice) — 非地域·厂商食谱
@@ -1650,7 +1649,6 @@
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW
 - 野菇雞肉竹筍什錦飯 (panasonic-taiwan-mushroom-chicken-bamboo-rice) — TW
 - 香菇竹筍雞肉炊飯 (panasonic-taiwan-shiitake-bamboo-chicken-rice) — TW
-- 鮭魚菇菇炊飯 (panasonic-taiwan-salmon-mushroom-rice) — TW
 - 鯛魚干貝藜麥炊飯 (panasonic-taiwan-taiyu-scallop-quinoa-rice) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW
 - 香菇油飯 (r97-panasonic-taiwan-shiitake-oil-rice) — TW
