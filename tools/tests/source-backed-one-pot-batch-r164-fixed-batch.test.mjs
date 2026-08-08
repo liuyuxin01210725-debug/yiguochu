@@ -59,7 +59,7 @@ const expected = {
 };
 
 test('r164 closes three exact serving contracts without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r167');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r168');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedBatch] of Object.entries(expected)) {
     const recipe = byId[recipeId];
@@ -84,7 +84,7 @@ test('r164 closes three exact serving contracts without changing recipe scope', 
   });
 });
 
-test('r164 keeps ambiguous or mixed-liquid batches unresolved', () => {
-  assert.equal(byId['cuckoo-abalone-pot-rice']?.fixed_batch, null);
+test('r164 keeps mixed-liquid batches unresolved while later same-source closures remain visible', () => {
+  assert.equal(byId['cuckoo-abalone-pot-rice']?.fixed_batch?.servings, 4);
   assert.equal(byId['instant-pot-coconut-chicken-pineapple-rice']?.liquid_contract, null);
 });
