@@ -17,7 +17,7 @@ const expected = {
 };
 
 test('r157 closes only high-confidence raw protein safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r172');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r173');
   for (const [recipeId, [code, temperature]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);
