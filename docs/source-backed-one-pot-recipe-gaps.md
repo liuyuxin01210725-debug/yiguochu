@@ -131,9 +131,6 @@
 - 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
 - エアぶり大根めし (maff-air-buri-daikon-daikon-meshi) — JP
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
-- しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
-- 茶飯（ちゃめし） (maff-fukui-chameshi) — JP-FUKUI
-- くじらご飯 (maff-shimane-kujira-gohan) — JP-SHIMANE
 - 鮎の炊き込みご飯 (wakayama-ayu-takikomi) — JP-WAKAYAMA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
@@ -396,7 +393,6 @@
 - 黄飯と黄飯かやく (maff-oita-ouhan-kayaku) — JP-OITA-USUKI
 - とどめせ (maff-okayama-todomese) — JP-OKAYAMA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
-- くじらご飯 (maff-shimane-kujira-gohan) — JP-SHIMANE
 - さざえ飯 (maff-shimane-sazae-meshi) — JP-SHIMANE
 - 鮎めし (maff-tochigi-ayu-meshi) — JP-TOCHIGI
 - 大山おこわ (maff-tottori-daisen-okowa) — JP-TOTTORI
@@ -1442,6 +1438,7 @@
 - かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - 鶏雑炊（とりどせ） (maff-chiba-toridose) — JP-CHIBA
+- しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - 美唄のとりめし (maff-hokkaido-bibai-torimeshi) — JP-HOKKAIDO
 - はまぐりごはん (maff-ibaraki-hamaguri-gohan) — JP-IBARAKI

@@ -63,7 +63,7 @@ const expected = [
 ];
 
 test('r125 adds nine official global rice-main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r157');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r158');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

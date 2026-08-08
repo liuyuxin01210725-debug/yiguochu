@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r157",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r158",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -7431,85 +7431,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "鸟取青谷海女传统饭；原方为海产单主料，蔬菜属于来源所述可选变体，不硬加。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
     },
-    {
-      "recipe_id": "maff-ehime-shoyu-meshi",
-      "canonical_name": "しょうゆめし",
-      "aliases": [
-        "爱媛松山酱油饭"
-      ],
-      "region_codes": [
-        "JP-EHIME"
-      ],
-      "cuisine_family": "japanese-regional-rice",
-      "identity_status": "verified",
-      "traditional_vessels": [
-        "锅",
-        "电饭煲"
-      ],
-      "core_ingredients": [
-        "米",
-        "酱油",
-        "牛蒡",
-        "胡萝卜",
-        "油豆腐"
-      ],
-      "fixed_batch": null,
-      "liquid_contract": null,
-      "cooking_sequence": [
-        {
-          "step": 1,
-          "instruction": "将牛蒡、胡萝卜等时令蔬菜处理好，与米和以酱油为中心的调味料同锅炊煮。",
-          "source_ids": [
-            "S-MAFF-EHIME-SHOYU-MESHI-1"
-          ]
-        },
-        {
-          "step": 2,
-          "instruction": "按来源可在成品上加蛋丝、海苔或季节性配料。",
-          "source_ids": [
-            "S-MAFF-EHIME-SHOYU-MESHI-1"
-          ]
-        }
-      ],
-      "time_contract": null,
-      "safety_endpoints": [],
-      "allergen_labels": [],
-      "nutrition_structure": {
-        "grade": "C",
-        "roles": [
-          "carbohydrate",
-          "protein",
-          "fiber"
-        ]
-      },
-      "cooker_adaptation": {
-        "status": "not_adapted",
-        "notes": "搜集期保留来源器具事实，不把原方转换成其他器具参数。"
-      },
-      "source_refs": [
-        {
-          "source_id": "S-MAFF-EHIME-SHOYU-MESHI-1",
-          "title": "しょうゆめし 愛媛県",
-          "publisher": "農林水産省",
-          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shouyu_meshi_ehime.html",
-          "retrieved_at": "2026-08-07",
-          "source_kind": "government_food_culture_page",
-          "access_status": "opened",
-          "evidence_tier": 2,
-          "evidence_locator": "正文第257至302行：松山地域、米与时令蔬菜以酱油同炊、油豆腐提供植物蛋白",
-          "claim_scopes": [
-            "identity",
-            "ingredients",
-            "process",
-            "appliance"
-          ],
-          "attribution": "農林水産省",
-          "license": "government_site_terms_unspecified"
-        }
-      ],
-      "status": "recipe_fact_checked",
-      "evidence_notes": "爱媛松山地域的具名乡土料理；来源强调家庭/季节变体，本条不拼入其他地方版本。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
-    },
+    {"recipe_id":"maff-ehime-shoyu-meshi","canonical_name":"しょうゆめし","aliases":["爱媛松山酱油饭"],"region_codes":["JP-EHIME"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅","电饭煲"],"core_ingredients":["米","酱油","牛蒡","胡萝卜","油豆腐"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"杯"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"鸡肉","amount":{"value":150,"unit":"g"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"胡萝卜","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"干香菇","amount":{"value":3,"unit":"枚"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"牛蒡","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"魔芋","amount":{"value":0.5,"unit":"丁"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"鸡蛋","amount":{"value":1,"unit":"个"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"干油豆腐","amount":{"value":1,"unit":"枚"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"酱油","amount":{"value":1.5,"unit":"大匙"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"盐","amount":{"value":0.5,"unit":"小匙"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"酒（调味料A）","amount":{"value":2,"unit":"大匙"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"淡口酱油","amount":{"value":1.5,"unit":"大匙"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"name":"酒（调味料B）","amount":{"value":2,"unit":"大匙"},"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]}],"source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"将牛蒡、胡萝卜等时令蔬菜处理好，与米和以酱油为中心的调味料同锅炊煮。","source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]},{"step":2,"instruction":"按来源可在成品上加蛋丝、海苔或季节性配料。","source_ids":["S-MAFF-EHIME-SHOYU-MESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-EHIME-SHOYU-MESHI-1","title":"しょうゆめし 愛媛県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shouyu_meshi_ehime.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文材料与作法：材料（4人分）米3カップ、鸡肉150g、胡萝卜50g、干香菇3枚、牛蒡50g、魔芋1/2丁及调味料；釜中加水同炊","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"爱媛松山具名しょうゆめし；农林水产省原页明确4人份与固定食材/调味料量，作法为材料与调味料同釜炊煮。页面只写加水而未给水量，不建立liquid_contract；淘米后静置30分钟不是总制作时长。"},
     {
       "recipe_id": "maff-hiroshima-tai-meshi",
       "canonical_name": "鯛めし",
@@ -8455,84 +8377,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "具名真实但食材特殊、无蔬菜且安全/时间合同缺口较大，暂列研究候选并标家庭可得性警示。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
     },
-    {
-      "recipe_id": "maff-shimane-kujira-gohan",
-      "canonical_name": "くじらご飯",
-      "aliases": [
-        "岛根鲸皮饭"
-      ],
-      "region_codes": [
-        "JP-SHIMANE"
-      ],
-      "cuisine_family": "japanese-regional-rice",
-      "identity_status": "verified",
-      "traditional_vessels": [
-        "锅"
-      ],
-      "core_ingredients": [
-        "米",
-        "鲸皮",
-        "牛蒡",
-        "胡萝卜",
-        "白萝卜",
-        "蒟蒻"
-      ],
-      "fixed_batch": null,
-      "liquid_contract": null,
-      "cooking_sequence": [
-        {
-          "step": 1,
-          "instruction": "鲸皮先焯水去脂，根菜切好。",
-          "source_ids": [
-            "S-MAFF-SHIMANE-KUJIRA-GOHAN-1"
-          ]
-        },
-        {
-          "step": 2,
-          "instruction": "米、鲸皮、根菜和调味料同锅炊煮。",
-          "source_ids": [
-            "S-MAFF-SHIMANE-KUJIRA-GOHAN-1"
-          ]
-        }
-      ],
-      "time_contract": null,
-      "safety_endpoints": [],
-      "allergen_labels": [],
-      "nutrition_structure": {
-        "grade": "C",
-        "roles": [
-          "carbohydrate",
-          "protein",
-          "fiber"
-        ]
-      },
-      "cooker_adaptation": {
-        "status": "not_adapted",
-        "notes": "搜集期保留来源器具事实，不把原方转换成其他器具参数。"
-      },
-      "source_refs": [
-        {
-          "source_id": "S-MAFF-SHIMANE-KUJIRA-GOHAN-1",
-          "title": "くじらご飯 島根県",
-          "publisher": "農林水産省",
-          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kujiragohan_shimane.html",
-          "retrieved_at": "2026-08-07",
-          "source_kind": "government_food_culture_page",
-          "access_status": "opened",
-          "evidence_tier": 2,
-          "evidence_locator": "官方页面：岛根石见地区冬季传统、鲸皮焯脂后与米/根菜同锅炊煮",
-          "claim_scopes": [
-            "identity",
-            "ingredients",
-            "process"
-          ],
-          "attribution": "農林水産省",
-          "license": "government_site_terms_unspecified"
-        }
-      ],
-      "status": "recipe_fact_checked",
-      "evidence_notes": "真实具名但食材特殊、采购与安全边界未闭合，暂列研究候选，不作为家庭默认推荐。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
-    },
+    {"recipe_id":"maff-shimane-kujira-gohan","canonical_name":"くじらご飯","aliases":["岛根鲸皮饭"],"region_codes":["JP-SHIMANE"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","鲸皮","牛蒡","胡萝卜","白萝卜","蒟蒻"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"白鲸","amount":{"value":100,"unit":"g"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"牛蒡","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"胡萝卜","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"萝卜","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"魔芋","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"酱油","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"酒","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"name":"盐","amount":{"value":0.5,"unit":"小匙"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]}],"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},"liquid_contract":{"kind":"rice_to_water_ratio","amount":{"value":1,"unit":"份水/份米"},"source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},"cooking_sequence":[{"step":1,"instruction":"鲸皮先焯水去脂，根菜切好。","source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]},{"step":2,"instruction":"米、鲸皮、根菜和调味料同锅炊煮。","source_ids":["S-MAFF-SHIMANE-KUJIRA-GOHAN-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-SHIMANE-KUJIRA-GOHAN-1","title":"くじらご飯 島根県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kujiragohan_shimane.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文材料与作法：材料（4人前）米2合、白鲸100g、根菜/魔芋各50g；米加入与米同量的水及配料同炊","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"岛根石见地区具名鲸饭；农林水产省原页明确4人前及固定食材量，并写“米に同量の水”与配料同炊。液体以Ratio DSL无损表达为1份水/1份米；鲸皮先以热水去油属于来源步骤边界，不把该阶段或炊煮过程推成总时长。"},
     {
       "recipe_id": "maff-yamanashi-sanma-meshi",
       "canonical_name": "さんまめし",
@@ -8979,7 +8824,7 @@
     {"recipe_id":"tatung-seafood-porridge","canonical_name":"海の幸たっぷり海鮮粥","aliases":["大同电锅海鲜粥"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋","平底锅"],"core_ingredients":["白米","石蟹","鲷鱼","鱿鱼","鸡翅中","生姜"],"fixed_batch":{"servings":3,"ingredients":[{"name":"白米","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"石蟹","amount":{"value":500,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"鲷鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"鱿鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"鸡翅中","amount":{"value":200,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"水","amount":{"value":6,"unit":"合"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]}],"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":6,"unit":"合"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},"cooking_sequence":[{"step":1,"instruction":"米浸水；鸡翅按来源先用平底锅少量油煎香。","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"step":2,"instruction":"米和鸡翅放入大同电锅内锅，外锅加水启动；跳起后按来源加入石蟹、鲷鱼、鱿鱼、生姜和料理酒，再次启动。","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"step":3,"instruction":"第二阶段结束后调味，按来源余热焖约10分钟。","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]}],"time_contract":{"total_minutes":55,"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},"safety_endpoints":[{"code":"shellfish_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]},{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-TEMPERATURES-1"]},{"code":"poultry_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["甲壳类","鱼类","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"],"notes":"这是大同电锅多阶段海鲜粥，鸡翅需先在平底锅预煎；不把它包装成全程单锅或普通电饭煲通用流程。"},"source_refs":[{"source_id":"S-TATUNG-SEAFOOD-PORRIDGE-1","title":"海の幸たっぷり海鮮粥","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/1974","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、3人份/55分钟、石蟹约500g、鲷鱼200g、鱿鱼约200g、鸡翅约200g、白米1合、水6合、预煎与二阶段电锅流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"Safe Minimum Internal Temperature Chart：贝类/牡蛎及其他贝类海鲜按74°C终点；鱼类按63°C；禽肉按74°C。","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],"status":"recipe_fact_checked","evidence_notes":"大同官方具名海鲜粥；营养角色较完整但属于粥类且有平底锅预煎与两阶段投料，保留为研究候选，不改成严格单锅饭。 r155 安全审计补充：大同原页列石蟹、鲷鱼、鱿鱼和鸡翅，鸡翅先煎、海鲜第二阶段入锅；分别保留贝类74°C、鱼类63°C和禽肉74°C终点，保留两阶段电锅边界。"},
     {"recipe_id":"tatung-tuna-garlic-butter-rice","canonical_name":"背徳のガリバタ飯","aliases":["大同电锅金枪鱼蒜香黄油饭"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋"],"core_ingredients":["免洗米","金枪鱼罐头","玉米","黄油","蒜"],"fixed_batch":{"servings":2,"ingredients":[{"name":"免洗米","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"金枪鱼罐头","amount":{"value":1,"unit":"罐"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"玉米","amount":{"value":2,"unit":"大匙"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"黄油","amount":{"value":5,"unit":"g"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"水","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]}],"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"免洗米、金枪鱼罐头、玉米、黄油、盐、黑胡椒和蒜泥按来源放入大同电锅内锅，加1合水。","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"step":2,"instruction":"外锅加水启动大同电锅，跳起后拌匀。","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"step":3,"instruction":"按来源焖制后食用。","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]}],"time_contract":{"total_minutes":60,"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},"safety_endpoints":[],"allergen_labels":["鱼类","乳制品"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"],"notes":"全部投料在大同电锅内锅，但米水量、外锅水和60分钟仅为大同页面事实，不外推其他机型；玉米提供有限纤维，营养不宣称完整均衡。"},"source_refs":[{"source_id":"S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1","title":"背徳のガリバタ飯","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/1994","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、2人份/60分钟、免洗米1合、金枪鱼罐头1罐、玉米2大匙、黄油5g、水1合、全内锅投料与跳起拌匀流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"大同官方具名金枪鱼蒜香黄油饭；来源证明全部投料进同一内锅，但鱼类安全与通用机型适配尚未闭合，暂不晋升 executable。"},
     {"recipe_id":"maff-nara-chameshi","canonical_name":"奈良茶飯（ならちゃめし）","aliases":["奈良茶饭"],"region_codes":["JP-NARA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","大豆","焙茶","盐"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"杯"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"大豆","amount":{"value":40,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"焙茶","amount":{"value":4,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"水","amount":{"value":600,"unit":"mL"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"盐","amount":{"value":4,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]}],"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},"liquid_contract":{"kind":"added_liquid","amount":{"value":600,"unit":"mL"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"焙茶煮出后冷却；大豆按来源先小火焙炒去皮。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"step":2,"instruction":"米洗净放入炊饭器，加入焙茶至平时水位并静置约30分钟。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"step":3,"instruction":"加入焙炒大豆和盐后炊熟，保留来源所述茶水与豆类同锅边界。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-NARA-CHAMESHI-1"],"notes":"农林水产省页面明确写炊饭器与茶水同炊，但没有成品安全终点或跨型号程序参数。"},"source_refs":[{"source_id":"S-MAFF-NARA-CHAMESHI-1","title":"奈良茶飯（ならちゃめし） 奈良県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/nara_chameshi_nara.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第290至342行：奈良县茶饭身份、4人份米2杯/大豆40g/焙茶4g/水约600mL/盐4g、焙豆与茶水炊饭器同炊流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"奈良茶饭是官方页面明确写明炊饭器同锅的大豆焙茶饭；蛋白来自大豆，仍缺安全终点和厨房验证，不晋升 executable。"},
-    {"recipe_id":"maff-fukui-chameshi","canonical_name":"茶飯（ちゃめし）","aliases":["福井今庄茶饭"],"region_codes":["JP-FUKUI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["糯米","粳米","大豆","豆入り番茶","酒","酱油"],"fixed_batch":null,"liquid_contract":{"kind":"added_liquid","amount":{"value":1500,"unit":"mL"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"豆入り番茶按来源浸泡大豆约1小时。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"step":2,"instruction":"将浸豆汁、酱油和番茶合计约1500mL煮沸，加入糯米、粳米和大豆同炊。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"step":3,"instruction":"起锅前按来源加入酒；保留原方大批量与茶水对象，不推导家庭份量。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"],"notes":"官方页面写混合米豆同锅炊煮，但未指定现代电饭煲型号、总时长或安全终点；大批量液体不缩放。"},"source_refs":[{"source_id":"S-MAFF-FUKUI-CHAMESHI-1","title":"茶飯（ちゃめし） 福井県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/chameshi_fukui.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第313至377行：今庄茶饭、糯米6合/粳米4合/大豆90g，豆入り番茶与酱油合计约1500mL同炊、起锅前加酒","claim_scopes":["identity","ingredients","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"福井今庄具名茶饭；页面直接支持米、豆、茶水同锅，但液体对应大批量原方且无现代机型或安全合同，保持研究状态。"},
+    {"recipe_id":"maff-fukui-chameshi","canonical_name":"茶飯（ちゃめし）","aliases":["福井今庄茶饭"],"region_codes":["JP-FUKUI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["糯米","粳米","大豆","豆入り番茶","酒","酱油"],"fixed_batch":{"servings":20,"ingredients":[{"name":"糯米","amount":{"value":6,"unit":"合"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"name":"粳米","amount":{"value":4,"unit":"合"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"name":"大豆","amount":{"value":90,"unit":"g"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"name":"酒","amount":{"value":0.75,"unit":"杯"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"name":"酱油","amount":{"value":0.5,"unit":"杯"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"name":"豆入り番茶","amount":{"value":1,"unit":"把"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]}],"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},"liquid_contract":{"kind":"added_liquid","amount":{"value":1500,"unit":"mL"},"source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"豆入り番茶按来源浸泡大豆约1小时。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"step":2,"instruction":"将浸豆汁、酱油和番茶合计约1500mL煮沸，加入糯米、粳米和大豆同炊。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]},{"step":3,"instruction":"起锅前按来源加入酒；保留原方大批量与茶水对象，不推导家庭份量。","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-FUKUI-CHAMESHI-1"],"notes":"官方页面写混合米豆同锅炊煮，但未指定现代电饭煲型号、总时长或安全终点；大批量液体不缩放。"},"source_refs":[{"source_id":"S-MAFF-FUKUI-CHAMESHI-1","title":"茶飯（ちゃめし） 福井県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/chameshi_fukui.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第313至377行：今庄茶饭、糯米6合/粳米4合/大豆90g，豆入り番茶与酱油合计约1500mL同炊、起锅前加酒","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"福井今庄具名茶饭；农林水产省原页明确20人份、糯米6合、粳米4合、大豆90g、酒3/4杯、酱油0.5杯，并将浸豆汁、酱油和番茶合计1500mL后同炊。大豆浸茶约1小时是前置阶段，不建立总时长；大批量原方不缩放为家庭份量。"},
     {"recipe_id":"maff-aichi-kakimawashi","canonical_name":"かきまわし／とりめし","aliases":["爱知かきまわし","爱知鸡肉拌饭"],"region_codes":["JP-AICHI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器","锅"],"core_ingredients":["米","鸡肉","鸡脂","牛蒡","胡萝卜","竹轮"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米浸泡约30分钟；鸡肉、牛蒡、胡萝卜和竹轮按来源切配。","source_ids":["S-MAFF-AICHI-KAKIMAWASHI-1"]},{"step":2,"instruction":"米按来源在炊饭器中加调味和刻度水炊煮；另锅用鸡脂炒煮鸡肉、牛蒡、胡萝卜和竹轮并收汁。","source_ids":["S-MAFF-AICHI-KAKIMAWASHI-1"]},{"step":3,"instruction":"米饭熟后拌入另锅具材并焖制；不可省略另锅处理改成生鸡肉直接同炊。","source_ids":["S-MAFF-AICHI-KAKIMAWASHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆","鸡肉"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"农林水产省原方是炊饭器主饭加另锅具材、熟饭后拌合的分段流程；不把它包装为严格单锅电饭煲菜饭。"},"source_refs":[{"source_id":"S-MAFF-AICHI-KAKIMAWASHI-1","title":"かきまわし／とりめし 愛知県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kakimawashi_aichi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第290至364行：爱知鸡肉饭身份、4人份米2合/鸡腿50g/牛蒡/胡萝卜/竹轮、炊饭器煮饭与另锅炒煮后拌饭流程","claim_scopes":["identity","ingredients","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"爱知具名かきまわし／とりめし；核心价值在真实地域流程，明确是分段拌合而非严格同锅，禽肉安全与固定份量合同尚未闭合。"}
     ,{
   "recipe_id": "panasonic-taiwan-taiyu-scallop-quinoa-rice",
@@ -16329,7 +16174,7 @@
     {"recipe_id":"baise-zhuang-five-color-sticky-rice","canonical_name":"百色壮族五色糯米饭","aliases":[],"region_codes":["CN-GX-BAISE"],"cuisine_family":"baise-zhuang-five-color-sticky-rice","identity_status":"verified","traditional_vessels":["蒸制"],"core_ingredients":["糯米","红蓝植物叶","姜黄","枫叶"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"用红蓝植物叶、姜黄和枫叶等制取天然染液。","source_ids":["S-GX-BAISE-ZHUANG-FIVE-COLOR-RICE-1"]},{"step":2,"instruction":"糯米分别浸泡染色后蒸熟。","source_ids":["S-GX-BAISE-ZHUANG-FIVE-COLOR-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"百色政协转载地方报纸只证明植物染色、浸泡和蒸制，不提供电饭煲等价参数。"},"source_refs":[{"source_id":"S-GX-BAISE-ZHUANG-FIVE-COLOR-RICE-1","title":"五色糯米饭","publisher":"右江日报 / 百色市政协网","url":"https://www.gxbszx.gov.cn/html/news-view-167967.html","retrieved_at":"2026-08-05","source_kind":"local_newspaper_government_hosted_food_page","access_status":"opened","evidence_tier":5,"evidence_locator":"官方转载页面第5至7、20至25行：百色五色糯米饭身份、植物染液、浸泡和蒸制","claim_scopes":["identity","ingredients","process"],"attribution":"右江日报 / 百色市政协网","license":"publisher_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"百色五色糯米饭保持城市层面的真实名称和植物染色流程；没有固定批量、液体、时间、安全或电饭煲参数，不与隆林、靖西、武鸣版本合并。"},
     {"recipe_id":"wuming-zhuang-five-color-sticky-rice","canonical_name":"武鸣五色糯米饭","aliases":[],"region_codes":["CN-GX-NANNING-WUMING"],"cuisine_family":"wuming-zhuang-five-color-sticky-rice","identity_status":"verified","traditional_vessels":["蒸制"],"core_ingredients":["糯米","枫叶染液","植物染料"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"按来源用枫叶等植物制作染液，把糯米染成不同颜色。","source_ids":["S-GX-WUMING-ZHUANG-FIVE-COLOR-RICE-1"]},{"step":2,"instruction":"将各色糯米蒸熟作为节俗食品。","source_ids":["S-GX-WUMING-ZHUANG-FIVE-COLOR-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":[]},"cooker_adaptation":{"status":"not_adapted","notes":"武鸣官方文化页面证明壮族节俗、颜色和枫叶染色，不推导现代电饭煲参数或固定量。"},"source_refs":[{"source_id":"S-GX-WUMING-ZHUANG-FIVE-COLOR-RICE-1","title":"Wuming five-color glutinous rice","publisher":"China Daily Government","url":"https://govt.chinadaily.com.cn/s/201902/25/WS5bbfeef1498ebfcd07beeceb/wuming-five-color-glutinous-rice-wu-ming-wu-se-nuo-mi-fan-wuming-wuse-nuomi-fan.html","retrieved_at":"2026-08-05","source_kind":"government_culture_food_page","access_status":"opened","evidence_tier":5,"evidence_locator":"官方页面第16至25行：武鸣五色糯米饭名称、颜色、壮族节俗和枫叶染色","claim_scopes":["identity","ingredients","process"],"attribution":"China Daily Government","license":"publisher_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"武鸣五色糯米饭与百色、隆林、靖西保持独立地域记录；来源只支持植物染色和蒸制文化，不补数量、时间或电饭煲合同。"},
     {"recipe_id":"maff-wakayama-shouga-meshi","canonical_name":"しょうが飯","aliases":["和歌山姜饭"],"region_codes":["JP-WAKAYAMA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["电饭锅"],"core_ingredients":["米","新姜","昆布","酒","酱油","盐"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米、调味料、切丝新姜和昆布按来源放入炊饭器普通水位炊煮；油揚げ仅作为来源写明的可选项保留。","source_ids":["S-MAFF-WAKAYAMA-SHOUGA-MESHI-R65"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-WAKAYAMA-SHOUGA-MESHI-R65"],"notes":"和歌山县具名姜饭；来源只支持地域身份和炊饭器步骤，不补总时间、安全终点或未写出的蛋白搭配。"},"source_refs":[{"source_id":"S-MAFF-WAKAYAMA-SHOUGA-MESHI-R65","title":"しょうが飯 和歌山県 | うちの郷土料理","publisher":"日本農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shouga_meshi_wakayama.html","retrieved_at":"2026-08-06","source_kind":"national_government_food_culture_page","access_status":"opened","evidence_tier":1,"evidence_locator":"正文308至338行：5至6人份、米3杯、新姜80g、普通水位炊饭器流程","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"日本農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"和歌山县具名姜饭；来源只支持地域身份和炊饭器步骤，不补总时间、安全终点或未写出的蛋白搭配。"},
-    {"recipe_id":"maff-kanagawa-narachameshi","canonical_name":"奈良茶飯","aliases":["神奈川奈良茶饭"],"region_codes":["JP-KANAGAWA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","茶","炒大豆","栗","盐"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米浸泡后与炒大豆、栗、盐和茶液按来源一起放入炊饭器炊煮。","source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"],"notes":"神奈川县具名奈良茶饭；茶液和大豆提供风味及部分蛋白/纤维，但来源未给安全终点、锅型限制和项目统一液体合同。"},"source_refs":[{"source_id":"S-MAFF-KANAGAWA-NARACHAMESHI-R65","title":"奈良茶飯 神奈川県 | うちの郷土料理","publisher":"日本農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_20_kanagawa.html","retrieved_at":"2026-08-06","source_kind":"national_government_food_culture_page","access_status":"opened","evidence_tier":1,"evidence_locator":"正文313至337行：4人份、米3合、茶500ml、炒大豆30g、栗100g同锅炊煮","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"日本農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"神奈川县具名奈良茶饭；茶液和大豆提供风味及部分蛋白/纤维，但来源未给安全终点、锅型限制和项目统一液体合同。"},
+    {"recipe_id":"maff-kanagawa-narachameshi","canonical_name":"奈良茶飯","aliases":["神奈川奈良茶饭"],"region_codes":["JP-KANAGAWA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","茶","炒大豆","栗","盐"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"合"},"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]},{"name":"煎茶或焙茶","amount":{"value":500,"unit":"mL"},"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]},{"name":"炒大豆","amount":{"value":30,"unit":"g"},"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]},{"name":"栗","amount":{"value":100,"unit":"g"},"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]},{"name":"盐","amount":{"value":1,"unit":"小匙"},"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]}],"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]},"liquid_contract":{"kind":"added_liquid","amount":{"value":500,"unit":"mL"},"source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]},"cooking_sequence":[{"step":1,"instruction":"米浸泡后与炒大豆、栗、盐和茶液按来源一起放入炊饭器炊煮。","source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-KANAGAWA-NARACHAMESHI-R65"],"notes":"神奈川县具名奈良茶饭；茶液和大豆提供风味及部分蛋白/纤维，但来源未给安全终点、锅型限制和项目统一液体合同。"},"source_refs":[{"source_id":"S-MAFF-KANAGAWA-NARACHAMESHI-R65","title":"奈良茶飯 神奈川県 | うちの郷土料理","publisher":"日本農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_20_kanagawa.html","retrieved_at":"2026-08-06","source_kind":"national_government_food_culture_page","access_status":"opened","evidence_tier":1,"evidence_locator":"正文313至337行：4人份、米3合、茶500ml、炒大豆30g、栗100g同锅炊煮","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"日本農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"神奈川县具名奈良茶饭；农林水产省原页明确4人份、米3合、煎茶或焙茶500mL、炒大豆30g、栗100g、盐1小匙，并写明浸米后放入炊饭器同炊。500mL是茶液合同；浸泡约30分钟不是总制作时长，未建立time_contract。"},
     {"recipe_id":"maff-ishikawa-mitama","canonical_name":"みたま","aliases":["黑豆糯米饭","金泽黑豆御饭"],"region_codes":["JP-ISHIKAWA"],"cuisine_family":"japanese-regional-okowa","identity_status":"verified","traditional_vessels":["蒸制"],"core_ingredients":["糯米","黑豆","盐","水"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"黑豆先浸泡并单独蒸熟，糯米另行浸泡蒸制；最终混合方式按来源保留待补。","source_ids":["S-MAFF-ISHIKAWA-MITAMA-R65"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源为分锅蒸制，缺最终混合方式、电饭煲适配和安全终点。"},"source_refs":[{"source_id":"S-MAFF-ISHIKAWA-MITAMA-R65","title":"みたま 石川県 | うちの郷土料理","publisher":"日本農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/mitama_ishikawa.html","retrieved_at":"2026-08-06","source_kind":"national_government_food_culture_page","access_status":"opened","evidence_tier":1,"evidence_locator":"正文317至341行：黑豆单独蒸约1小时、糯米另蒸45至50分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","time"],"attribution":"日本農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"石川县金泽具名黑豆糯米饭；来源是分锅蒸制版本，不能把黑豆和生米按电饭煲水位自行拼接。"},
     {"recipe_id":"maff-saga-kuri-okowa","canonical_name":"栗おこわ","aliases":["佐贺栗御饭"],"region_codes":["JP-SAGA"],"cuisine_family":"japanese-regional-okowa","identity_status":"verified","traditional_vessels":["蒸制"],"core_ingredients":["糯米","栗","小豆","盐"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"糯米浸泡，栗处理，小豆煮至八成熟；三者按来源拌盐后蒸制。","source_ids":["S-MAFF-SAGA-KURI-OKOWA-R65"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源为蒸制版本，缺电饭煲适配。"},"source_refs":[{"source_id":"S-MAFF-SAGA-KURI-OKOWA-R65","title":"栗おこわ 佐賀県 | うちの郷土料理","publisher":"日本農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_17_saga.html","retrieved_at":"2026-08-06","source_kind":"national_government_food_culture_page","access_status":"opened","evidence_tier":1,"evidence_locator":"正文307至331行：糯米浸泡、小豆煮至八成熟、栗与米拌合后蒸制","claim_scopes":["identity","ingredients","quantity","process"],"attribution":"日本農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"佐贺具名栗御饭；来源未给蒸制总时间、液体、电饭煲适配或安全终点，不转换为电饭煲配方。"},
     {"recipe_id":"maff-hiroshima-uomeshi","canonical_name":"魚飯","aliases":["广岛鱼饭","鱼汤浇饭"],"region_codes":["JP-HIROSHIMA"],"cuisine_family":"japanese-fish-rice-bowl","identity_status":"verified","traditional_vessels":["锅/熟饭"],"core_ingredients":["白身鱼","虾","胡萝卜","豌豆","熟饭","蛋丝","高汤"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"鱼、虾、香菇、蔬菜和蛋丝按来源分别处理，最后铺在熟饭上并浇高汤。","source_ids":["S-MAFF-HIROSHIMA-UOMESHI-R65"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"unassessed","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"熟饭后浇版本，缺生米流程和电饭煲适配。"},"source_refs":[{"source_id":"S-MAFF-HIROSHIMA-UOMESHI-R65","title":"魚飯 広島県 | うちの郷土料理","publisher":"日本農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_24_hiroshima.html","retrieved_at":"2026-08-06","source_kind":"national_government_food_culture_page","access_status":"opened","evidence_tier":1,"evidence_locator":"正文324至395行：鱼虾蔬菜蛋丝分开处理，最后铺熟饭并浇高汤","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"日本農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"广岛具名鱼饭；来源明确是熟饭加另制配菜和浇汁，不改写成生米同锅海鲜饭。"},
