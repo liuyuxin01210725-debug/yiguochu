@@ -1394,7 +1394,6 @@
 - 玉屏农家社饭 (yuping-farmer-she-rice) — CN-GZ
 - Hainanese Chicken Rice (tiger-hainanese-chicken-rice) — CN-HN, SG
 - 胡蘿蔔海鮮飯 (r104-hk-carrot-seafood-rice) — HK
-- 南瓜芋頭雞粒煲仔飯 (hk-pumpkin-taro-chicken-claypot-rice) — HK
 - 廣島蠔雜菇煲仔飯 (hk-hiroshima-oyster-mushroom-claypot-rice) — HK
 - 淮山圓肉雞柳煲仔飯 (hk-yam-longan-chicken-claypot-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
@@ -1418,7 +1417,6 @@
 - 電飯煲窩蛋香菇牛肉飯 (knorr-electric-rice-cooker-egg-mushroom-beef-rice) — HK
 - 電飯煲臘味糯米飯 (panasonic-hk-lap-mei-glutinous-rice) — HK
 - 紫菜雞粒湯飯 (r98-philips-hk-seaweed-chicken-rice-soup) — HK
-- 芋頭鮮蝦五穀蒸飯 (hk-taro-shrimp-multigrain-steamed-rice) — HK
 - 番茄蛋鮮牛肉湯泡飯 (r104-hk-tomato-egg-beef-soup-rice) — HK
 - 番茄湯田園雜菜泡飯 (r104-hk-tomato-garden-vegetable-pao-rice) — HK
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
@@ -1551,7 +1549,6 @@
 - ほたて貝柱とえんどう豆の炊込みごはん (tiger-scallop-pea-rice) — 非地域·厂商食谱
 - カキときのこのごはん (tiger-oyster-mushroom-rice) — 非地域·厂商食谱
 - シーフードパエリア風炊込みご飯 (toshiba-seafood-paella-rice) — 非地域·厂商食谱
-- チキンのクリームピラフ (panasonic-chicken-cream-pilaf) — 非地域·厂商食谱
 - チキンライス (iris-rc-pga-chicken-rice) — 非地域·厂商食谱
 - パエリア (iris-rc-pga-paella) — 非地域·厂商食谱
 - パエリア（Iris KPC-MA2） (iris-kpc-ma2-paella-recipe29) — 非地域·厂商食谱
@@ -1638,7 +1635,6 @@
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
 - 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
-- 蔬菜雞肉飯 (taiwan-vegetable-chicken-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
