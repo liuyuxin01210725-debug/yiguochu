@@ -27,11 +27,21 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Guiso de arroz con pollo (NEA) | 东北地区鸡肉炖饭 | AR-NEA | argentina-nea-rice-stew | 研究记录（非公开可执行） | 鸡肉；米；洋葱；甜椒；胡萝卜；番茄泥；土豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Recetario NEA: Guiso de arroz con pollo](https://www.argentina.gob.ar/sites/default/files/2020/09/pnpa_-_2021_-_recetario_nea.pdf) |
+## australia-cclhd-microwave-risotto
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Microwave Risotto | 微波烩饭；蔬菜微波烩饭 | AU-NSW | australia-cclhd-microwave-risotto | 研究记录（非公开可执行） | Arborio米；低盐鸡汤；混合蔬菜；帕玛森芝士；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Microwave Risotto](https://www.cclhd.health.nsw.gov.au/wp-content/uploads/Back-to-Basics.pdf) |
 ## australia-one-pot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | One Pot Beans and Rice | 昆士兰一锅豆饭 | AU-QLD | australia-one-pot-rice | 研究记录（非公开可执行） | 糙米；三豆罐头；番茄罐头；洋葱；蒜；烟熏红椒 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [One Pot Beans and Rice](https://hw.qld.gov.au/healthy-recipes/one-pot-beans-and-rice-recipe/) |
+## australia-slhd-oven-baked-biryani
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Oven baked biryani | 焗烤印度香饭；新州烤箱Biryani | AU-NSW | australia-slhd-oven-baked-biryani | 研究记录（非公开可执行） | 油；黄油；洋葱；咖喱酱；印度香米；低盐鸡汤；鸡腿肉；混合蔬菜；黑胡椒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Oven baked biryani](https://slhd.health.nsw.gov.au/yhunger/recipes-tips/soups-stews/oven-baked-biranyi) |
 ## baise-zhuang-five-color-sticky-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -57,6 +67,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 布依花糯米饭 | — | CN-GZ | buyi-flower-glutinous-rice | 研究记录（非公开可执行） | 糯米 | identity、ingredients | 缺 process | [食品安全地方标准/企业标准登记信息](https://wjw.guizhou.gov.cn/zwgk/zdlyxx/spypbz/202104/t20210414_78927706.html)<br>[布依族传统节日与花糯米饭](https://www.neac.gov.cn/seac/c102690/201901/1132144.shtml) |
+## canada-health-multigrain-congee
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Multigrain congee with shiitake, ginger and scallion | 加拿大卫生部杂粮香菇粥；香菇杂粮粥 | CA | canada-health-multigrain-congee | 研究记录（非公开可执行） | 干香菇；小麦粒；白米；黑米或全谷米；小米或高粱；水；葱；姜；芝麻油；低钠酱油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Multigrain congee with shiitake, ginger and scallion](https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/multigrain-congee-shiitake-ginger-scallion.html) |
 ## cantonese-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

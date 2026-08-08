@@ -845,6 +845,7 @@
 - むかごご飯 (r106-jp-aichi-mukago-gohan) — JP-AICHI
 - てんこ小豆の赤飯 (maff-akita-tenko-azuki-sekihan) — JP-AKITA
 - Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
+- Microwave Risotto (au-cclhd-microwave-risotto) — AU-NSW
 - 百色壮族五色糯米饭 (baise-zhuang-five-color-sticky-rice) — CN-GX-BAISE
 - 怀柔敛巧饭 (huairou-lianqiaofan) — CN-BJ
 - Risoto de Frango com Legumes (global-irga-risoto-frango-legumes) — BR-RS
@@ -1367,6 +1368,7 @@
 
 - Pink Salmon Rice Bowls (One-Pot Rice Cooker Meal) (asmi-pink-salmon-rice-bowls) — US-AK
 - Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
+- Oven baked biryani (au-slhd-oven-baked-biryani) — AU-NSW
 - Risoto de Frango com Legumes (global-irga-risoto-frango-legumes) — BR-RS
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
