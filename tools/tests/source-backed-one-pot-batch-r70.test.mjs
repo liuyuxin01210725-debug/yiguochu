@@ -18,8 +18,8 @@ const expected = [
 
 test('r70 records directly sourced named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r137');
-  assert.equal(catalog.recipes.length, 916);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r140');
+  assert.equal(catalog.recipes.length, 920);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName, status] of expected) {
     const recipe = byId.get(recipeId);
