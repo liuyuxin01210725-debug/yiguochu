@@ -1307,6 +1307,7 @@
 - いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 金包银 (tujia-jinbaoyin-corn-rice) — CN-CQ-SOUTHEAST-TUJIA
 - Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
+- One-Pot Chicken and Brown Rice Casserole (cleveland-clinic-chicken-brown-rice-casserole) — US-OH
 - Arroz con Pollo (Chicken with Rice) (illinois-extension-arroz-con-pollo) — US-IL
 - Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
@@ -1374,6 +1375,7 @@
 - 石排田寮龙船饭 (r99-shipai-tianliao-dragon-boat-rice) — CN-GD-DONGGUAN-SHIPAI
 - 鍋巴魚飯 (huarong-guoba-fish-rice) — CN-HN
 - 社饭 (hubei-enshi-shefan) — CN-HB
+- Turkey and vegetable pilaf (firststeps-turkey-vegetable-pilaf) — GB
 - 安海八宝饭 (r99-an-hai-eight-treasure-rice) — CN-FJ-QUANZHOU-JINJIANG-ANHAI
 - 牛肉盖菜饭 (fujian-beef-mustard-greens-rice) — CN-FJ
 - 广式生炒糯米饭 (guangdong-raw-stir-fried-glutinous-rice) — CN-GD
@@ -1610,6 +1612,7 @@
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - One-Pot Chicken and Rice (global-nwu-one-pot-chicken-rice) — ZA-NW
+- Chicken tikka pulao (kidney-care-chicken-tikka-pulao) — GB
 - Arroz negro (global-spain-arroz-negro) — ES-IB
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
@@ -1674,6 +1677,8 @@
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - One Pot Caribbean Jerk Chicken & Rice (cu-caribbean-jerk-chicken-rice) — US-CO
 - Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
+- One-Pot Chicken and Brown Rice Casserole (cleveland-clinic-chicken-brown-rice-casserole) — US-OH
+- One-Pot Chicken, Carrots, and Rice (bmc-chicken-carrots-brown-rice) — US-MA
 - Chicken and Rice (nih-medlineplus-chicken-rice) — US
 - Arroz con Pollo (Chicken with Rice) (illinois-extension-arroz-con-pollo) — US-IL
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
