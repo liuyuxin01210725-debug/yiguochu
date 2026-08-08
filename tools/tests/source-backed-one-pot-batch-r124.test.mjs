@@ -57,7 +57,7 @@ const expected = [
 ];
 
 test('r124 adds eight official manufacturer rice main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r185');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r186');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -95,7 +95,11 @@ test('r124 keeps fixed quantities and model boundaries without widening safety e
   assert.equal(onePot.liquid_contract.amount.value, 2.5);
   assert.equal(onePot.liquid_contract.amount.unit, 'cups');
   assert.equal(onePot.time_contract, null);
-  assert.deepEqual(onePot.safety_endpoints, []);
+  assert.deepEqual(onePot.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
   assert.match(onePot.cooker_adaptation.notes, /Instant Pot|不外推普通电饭煲/u);
 
   const quick = byId.get('instant-pot-quick-chicken-steamed-rice');

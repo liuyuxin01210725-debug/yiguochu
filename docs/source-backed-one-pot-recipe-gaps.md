@@ -1410,7 +1410,6 @@
 - 华容锅巴鱼饭 (r103-cn-huarong-guobayu-fan) — CN-HN-YUEYANG-HUARONG
 - Bubur Ayam – Indonesian Chicken Porridge (tiger-bubur-ayam-indonesian-chicken-porridge) — ID
 - 韓國石鍋飯 (philips-korean-stone-pot-rice) — KR
-- ひょうご香る炊き込みご飯 (maff-hyogo-aromatic-takikomi) — JP-HYOGO
 - 鮒めし (maff-okayama-funa-meshi) — JP-OKAYAMA-KOJIMA
 - 魚飯 (maff-hiroshima-uomeshi) — JP-HIROSHIMA
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
@@ -1455,7 +1454,6 @@
 - チーズカレーピラフ (tiger-cheese-curry-pilaf) — JP
 - 干しえびと塩昆布の玄米ごはん (r61-tiger-dried-shrimp-salted-kelp-brown-rice) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
-- 鴨ロースと松茸の炊込みごはん (tiger-duck-matsutake-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
 - 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
@@ -1506,7 +1504,6 @@
 - Healthy Vegetable Fried Rice (Brown Rice) (r105-tiger-healthy-vegetable-brown-fried-rice) — 非地域·厂商食谱
 - Honey Garlic Chicken (tiger-honey-garlic-chicken) — 非地域·厂商食谱
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
-- One Pot Chicken and Brown Rice Dinner (instant-pot-one-pot-chicken-brown-rice) — 非地域·厂商食谱
 - Seafood Paella (tefal-602-seafood-paella) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Smoked Haddock Kedgeree (tefal-602-smoked-haddock-kedgeree) — 非地域·厂商食谱
@@ -1638,7 +1635,6 @@
 - One-Pot Chicken and Brown Rice Casserole (cleveland-clinic-chicken-brown-rice-casserole) — US-OH
 - One-Pot Chicken, Carrots, and Rice (bmc-chicken-carrots-brown-rice) — US-MA
 - Chicken and Rice (nih-medlineplus-chicken-rice) — US
-- Arroz con Pollo (Chicken with Rice) (illinois-extension-arroz-con-pollo) — US-IL
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA

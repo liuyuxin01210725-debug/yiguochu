@@ -45,7 +45,7 @@ const expected = [
 ];
 
 test('r126 adds six directly evidenced one-pot rice candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r185');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r186');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -75,7 +75,15 @@ test('r126 preserves source-limited appliance and safety boundaries', () => {
     const recipe = byId.get(item.recipeId);
     assert.ok(['source_limited', 'not_adapted'].includes(recipe.cooker_adaptation.status), item.recipeId);
     assert.match(recipe.cooker_adaptation.notes, /不外推.*电饭煲|普通锅|燃气灶锅|原器具|普通炊具|平底锅|炊饭器/u, item.recipeId);
-    assert.deepEqual(recipe.safety_endpoints, [], item.recipeId);
+    if (item.recipeId === 'maff-hyogo-aromatic-takikomi') {
+      assert.deepEqual(recipe.safety_endpoints, [{
+        code: 'poultry_fully_cooked',
+        minimum_core_temperature_c: 74,
+        source_ids: ['S-SAFETY-TEMPERATURES-1'],
+      }], item.recipeId);
+    } else {
+      assert.deepEqual(recipe.safety_endpoints, [], item.recipeId);
+    }
   }
 
   const ginger = byId.get('maff-ginger-aburaage-takikomi');
