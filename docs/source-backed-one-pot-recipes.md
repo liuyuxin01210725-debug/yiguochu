@@ -1076,7 +1076,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 帶子磨菇菜飯 | — | MO | macau-one-pot-rice | 研究记录（非公开可执行） | 白米；鲜带子；磨菇；白菜；清鸡汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [帶子磨菇菜飯](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/30) |
+| 帶子磨菇菜飯 | — | MO | macau-one-pot-rice | 研究记录（非公开可执行） | 白米；鲜带子；磨菇；白菜；清鸡汤 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [帶子磨菇菜飯](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/30)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## macau-portuguese-seafood-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
