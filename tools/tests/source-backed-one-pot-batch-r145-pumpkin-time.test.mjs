@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const pumpkin = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === 'taiwan-pumpkin-rice');
 
 test('r145 records the same-source approximate time for Taiwan pumpkin rice', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r169');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r170');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(pumpkin);
   assert.equal(pumpkin.status, 'recipe_fact_checked');
