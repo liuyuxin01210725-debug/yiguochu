@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures';
 
 test('r152 closes the Macau fresh-scallop safety gap with the existing visual shellfish endpoint', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r154');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r155');
   assert.equal(catalog.recipes.length, 923);
   const recipe = catalog.recipes.find(({ recipe_id: id }) => id === 'macau-scallop-mushroom-vegetable-rice');
   assert.ok(recipe);
@@ -36,11 +36,10 @@ test('r152 preserves the ordinary-pot staged process and does not alter other sa
   for (const id of [
     'taiwan-saffron-seafood-rice',
     'yutian-electric-cooker-lamb-pilaf',
-    'panasonic-oyster-negi-takikomi-rice',
     'panasonic-tokyo-seafood-pilaf',
   ]) {
     const other = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
     assert.ok(other, `missing ${id}`);
-    assert.deepEqual(other.safety_endpoints, [], `${id} must remain blocked in r152`);
+    assert.deepEqual(other.safety_endpoints, [], `${id} must remain blocked in r155`);
   }
 });

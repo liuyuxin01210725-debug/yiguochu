@@ -27,7 +27,7 @@ const expected = {
 };
 
 test('r149 closes four existing safety gaps with the shared official endpoint', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r154');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r155');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
@@ -48,12 +48,16 @@ test('r149 closes four existing safety gaps with the shared official endpoint', 
   }
 });
 
-test('r149 keeps the oyster recipe blocked while its ingredient state is unknown', () => {
+test('r149 preserves the oyster recipe until the later r155 safety audit', () => {
   const recipe = catalog.recipes.find(({ recipe_id: id }) => id === 'panasonic-oyster-negi-takikomi-rice');
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
-  assert.deepEqual(recipe.safety_endpoints, []);
-  assert.equal(recipe.source_refs.some(({ source_id: id }) => id === 'S-SAFETY-TEMPERATURES-1'), false);
+  assert.deepEqual(recipe.safety_endpoints, [{
+    code: 'shellfish_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
+  assert.equal(recipe.source_refs.some(({ source_id: id }) => id === 'S-SAFETY-TEMPERATURES-1'), true);
 });
 
 test('r149 does not alter the original appliance and staged-process boundaries', () => {

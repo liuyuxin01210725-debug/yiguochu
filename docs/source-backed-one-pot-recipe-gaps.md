@@ -1394,7 +1394,6 @@
 - 玉屏农家社饭 (yuping-farmer-she-rice) — CN-GZ
 - Hainanese Chicken Rice (tiger-hainanese-chicken-rice) — CN-HN, SG
 - 胡蘿蔔海鮮飯 (r104-hk-carrot-seafood-rice) — HK
-- 廣島蠔雜菇煲仔飯 (hk-hiroshima-oyster-mushroom-claypot-rice) — HK
 - 淮山圓肉雞柳煲仔飯 (hk-yam-longan-chicken-claypot-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
 - 黃金海鮮粥 (hk-golden-seafood-congee) — HK
@@ -1493,7 +1492,6 @@
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
 - スタミナご飯 (zojirushi-stamina-rice) — JP-NATIONAL
-- 海のパエリア (zojirushi-seafood-paella) — JP-NATIONAL
 - Chicken rice with olives (tefal-chicken-rice-olives-one-pot-pan) — 非地域·厂商一锅饭
 - One-pot Italian sundried tomato chicken and rice (tefal-italian-sundried-tomato-chicken-rice-r942720) — 非地域·厂商一锅饭
 - Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
@@ -1546,7 +1544,6 @@
 - ข้าวไก่อบธัญพืช (philips-multigrain-baked-chicken-rice) — 非地域·厂商食谱
 - かに味噌ごはん (tiger-crab-miso-rice-post6) — 非地域·厂商食谱
 - ほたて貝柱とえんどう豆の炊込みごはん (tiger-scallop-pea-rice) — 非地域·厂商食谱
-- カキときのこのごはん (tiger-oyster-mushroom-rice) — 非地域·厂商食谱
 - シーフードパエリア風炊込みご飯 (toshiba-seafood-paella-rice) — 非地域·厂商食谱
 - チキンライス (iris-rc-pga-chicken-rice) — 非地域·厂商食谱
 - パエリア (iris-rc-pga-paella) — 非地域·厂商食谱
@@ -1569,7 +1566,6 @@
 - 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
 - 牛肉松茸ごはん (tiger-beef-matsutake-rice) — 非地域·厂商食谱
 - 牛肉野菇炊飯 (cookpot-beef-wild-mushroom-rice) — 非地域·厂商食谱
-- 牡蠣とねぎの炊き込みご飯 (panasonic-oyster-negi-takikomi-rice) — 非地域·厂商食谱
 - 玄米の炊き込みご飯 (zojirushi-brown-rice-ih-pot) — 非地域·厂商食谱
 - 皮蛋瘦肉粥（Panasonic） (r105-panasonic-taiwan-preserved-egg-pork-congee) — 非地域·厂商食谱
 - 皮蛋瘦肉粥（象印） (r105-zojirushi-taiwan-preserved-egg-pork-congee) — 非地域·厂商食谱
@@ -1643,7 +1639,6 @@
 - 灰姑娘南瓜馬車燉飯 (r97-panasonic-taiwan-cinderella-pumpkin-risotto) — TW
 - 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
-- 松露海鮮燉飯 (panasonic-taiwan-truffle-seafood-risotto) — TW
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW
 - 野菇雞肉竹筍什錦飯 (panasonic-taiwan-mushroom-chicken-bamboo-rice) — TW
 - 香菇竹筍雞肉炊飯 (panasonic-taiwan-shiitake-bamboo-chicken-rice) — TW
@@ -1659,7 +1654,6 @@
 - しょうが飯 (tatung-wakayama-ginger-rice) — TW
 - サーモンとかぼちゃのミルクリゾット (tatung-salmon-pumpkin-milk-risotto) — TW
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
-- 海の幸たっぷり海鮮粥 (tatung-seafood-porridge) — TW
 - 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
