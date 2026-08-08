@@ -29,7 +29,7 @@ const expected = {
 };
 
 test('r155 closes six existing seafood and poultry safety gaps without adding recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r192');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r193');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, endpoints] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);

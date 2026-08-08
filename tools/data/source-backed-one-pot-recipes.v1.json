@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r192",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r193",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -9006,7 +9006,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -9039,10 +9047,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C; applies to the processed ayu cooked with the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "栃木具名鱼饭，保留先烤再入锅的连续流程；总时间和鱼类安全终点待补。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
+      "evidence_notes": "栃木具名鱼饭，保留先烤再入锅的连续流程；总时间仍缺。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r193 安全补证：先处理并烤香鱼后与米炊煮，挂鱼类 63°C 终点。"
     },
     {
       "recipe_id": "maff-tokushima-tai-meshi",
@@ -9147,7 +9171,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -9181,10 +9213,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C; applies to the salted, grilled sea-bream cooked on the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "德岛鸣门地域具名鲷饭；保留先烤后炊的原流程，鱼类安全终点尚未闭合。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
+      "evidence_notes": "德岛鸣门地域具名鲷饭；保留先烤后炊的原流程，总时间仍缺。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r193 安全补证：鲷清理、撒盐并烤至上色后与米炊煮，挂鱼类 63°C 终点。"
     },
     {"recipe_id":"maff-ibaraki-hamaguri-gohan","canonical_name":"はまぐりごはん","aliases":["茨城蛤蜊饭"],"region_codes":["JP-IBARAKI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅","炒锅"],"core_ingredients":["米","蛤蜊","干香菇","胡萝卜","三つ葉"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"合"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"蛤蜊肉","amount":{"value":300,"unit":"g"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"干香菇","amount":{"value":7,"unit":"枚"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"胡萝卜","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]}],"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},"liquid_contract":{"kind":"added_dashi","amount":{"value":0.75,"unit":"杯"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},"cooking_sequence":[{"step":1,"instruction":"蛤蜊肉、胡萝卜和干香菇按来源处理并炒香，调味后分离固形物与汤汁。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"step":2,"instruction":"米加入出汁和汤汁炊煮。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"step":3,"instruction":"饭熟后加入蛤蜊和配料，按来源再焖约10分钟，最后放三つ葉。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-IBARAKI-HAMAGURI-1","title":"はまぐりごはん 茨城県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hamagurigohan_ibaraki.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第267至356行：茨城地域、4人份、蛤蜊300g、米3合、香菇/胡萝卜用量、分离蛤蜊汤汁后炊饭并焖10分钟","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"茨城霞浦地域具名蛤蜊饭；来源明确记录先处理蛤蜊并保留汤汁，饭熟后再焖入蛤蜊。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
     {"recipe_id":"maff-oita-amimeshi","canonical_name":"あみめし","aliases":["大分干虾饭"],"region_codes":["JP-OITA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","干虾米","酱油"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"name":"干虾米","amount":{"value":40,"unit":"g"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"name":"酱油","amount":{"value":2,"unit":"大匙"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]}],"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":500,"unit":"mL"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"按来源将米炊饭；干虾米可先以酱油调味。","source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"step":2,"instruction":"饭将熟时加入干虾米和调味料，继续焖熟。","source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"step":3,"instruction":"开盖后拌匀，使干虾米分布在饭中。","source_ids":["S-MAFF-OITA-AMIMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-OITA-AMIMESHI-1","title":"あみめし 大分県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amimeshi_oita.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至343行：大分宇佐/中津/丰后高田、4人份、米2合、水500mL、干虾米30至40g与将虾米后加焖饭流程","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"大分县濑户内沿岸具名饭；来源同时记录虾米佃煮与干虾米版本，本条只登记干虾米路线。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},

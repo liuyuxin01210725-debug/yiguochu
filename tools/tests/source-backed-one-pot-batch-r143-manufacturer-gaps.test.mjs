@@ -29,7 +29,7 @@ const expected = [
 ];
 
 test('r143 keeps the four existing manufacturer records and closes only source-proven contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r192');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r193');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

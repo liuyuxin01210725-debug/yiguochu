@@ -7,11 +7,11 @@ const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id,
 const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 
 const expected = {
-  'maff-salmon-green-onion-takikomi': ['seafood_fully_cooked', 63, /fish|salmon|鲑/u],
-  'zojirushi-nonokomeshi-el-mb30': ['poultry_fully_cooked', 74, /poultry|chicken|禽|鸡/u],
+  'maff-tokushima-tai-meshi': ['seafood_fully_cooked', 63, /sea-bream|鲷|fish/u],
+  'maff-tochigi-ayu-meshi': ['seafood_fully_cooked', 63, /ayu|香鱼|fish/u],
 };
 
-test('r192 closes two directly evidenced raw-protein safety gaps', () => {
+test('r193 closes two directly evidenced MAFF raw-protein safety gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r193');
   for (const [recipeId, [code, temperature, locatorPattern]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
@@ -19,7 +19,11 @@ test('r192 closes two directly evidenced raw-protein safety gaps', () => {
     assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
     const endpoint = recipe.safety_endpoints.find(row => row.code === code);
     assert.ok(endpoint, `${recipeId} missing ${code}`);
-    assert.equal(endpoint.minimum_core_temperature_c, temperature, recipeId);
+    if (temperature === null) {
+      assert.equal(endpoint.visual_endpoint, '肉质呈珍珠白或白色且不透明', recipeId);
+    } else {
+      assert.equal(endpoint.minimum_core_temperature_c, temperature, recipeId);
+    }
     assert.deepEqual(endpoint.source_ids, [safetySourceId], recipeId);
     const source = recipe.source_refs.find(row => row.source_id === safetySourceId);
     assert.ok(source, `${recipeId} missing safety source`);
@@ -30,9 +34,12 @@ test('r192 closes two directly evidenced raw-protein safety gaps', () => {
   }
 });
 
-test('r192 preserves the source-specific ordinary-pot and pressure-IH boundaries', () => {
-  assert.equal(byId['maff-salmon-green-onion-takikomi']?.cooker_adaptation?.status, 'not_adapted');
-  assert.equal(byId['zojirushi-nonokomeshi-el-mb30']?.cooker_adaptation?.status, 'source_limited');
-  assert.match(byId['maff-salmon-green-onion-takikomi']?.cooking_sequence?.[0]?.instruction ?? '', /普通锅|米/u);
-  assert.match(byId['zojirushi-nonokomeshi-el-mb30']?.cooking_sequence?.[1]?.instruction ?? '', /压力|27分/u);
+test('r193 preserves MAFF preprocessing and non-executable boundaries', () => {
+  for (const recipeId of Object.keys(expected)) {
+    const recipe = byId[recipeId];
+    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
+    assert.notEqual(recipe.cooker_adaptation?.status, 'adapted', recipeId);
+  }
+  assert.match(byId['maff-tokushima-tai-meshi']?.cooking_sequence?.[0]?.instruction ?? '', /烤|盐/u);
+  assert.match(byId['maff-tochigi-ayu-meshi']?.cooking_sequence?.[0]?.instruction ?? '', /烤|香鱼/u);
 });
