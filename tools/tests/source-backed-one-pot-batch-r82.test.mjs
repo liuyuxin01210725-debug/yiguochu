@@ -18,7 +18,7 @@ const expected = [
 
 test('r82 registers nine directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r190');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r191');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -74,7 +74,7 @@ test('r82 preserves named-source boundaries instead of inventing missing facts',
   assert.equal(crab.fixed_batch, null);
   assert.match(crab.evidence_notes, /4至6人/u);
   assert.equal(crab.traditional_vessels[0], 'Philips All-in-One 智能万用锅');
-  assert.equal(crab.safety_endpoints.length, 0);
+  assert.equal(crab.safety_endpoints.length, 1);
   assert.match(crab.cooking_sequence.map(step => step.instruction).join(' '), /剩5分钟|蟹/u);
 
   const daikon = byId.get('quanzhou-shishi-green-island-daikon-rice');
