@@ -2171,7 +2171,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 五目ごはん | Tiger 五目炊饭 | JP-TIGER | tiger-manufacturer-recipes | 研究记录（非公开可执行） | 米；鸡肉；油豆腐；胡萝卜；牛蒡；魔芋；干香菇；荷兰豆 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [五目ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_196/) |
+| 五目ごはん | Tiger 五目炊饭 | JP-TIGER | tiger-manufacturer-recipes | 研究记录（非公开可执行） | 米；鸡肉；油豆腐；胡萝卜；牛蒡；魔芋；干香菇；荷兰豆 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [五目ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_196/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## tiger-manufacturer-rice-cooker-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

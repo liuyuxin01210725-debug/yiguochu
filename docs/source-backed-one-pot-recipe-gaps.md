@@ -1681,7 +1681,6 @@
 - 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
-- 五目ごはん (tiger-post-196-gomoku-rice) — JP-TIGER
 - Jujube and Chicken Fillet Rice (tiger-jujube-chicken-fillet-rice) — US
 - Pork and Napa Cabbage Mille-Feuille With Mushroom Rice (tiger-pork-napa-mille-feuille-mushroom-rice) — US
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
