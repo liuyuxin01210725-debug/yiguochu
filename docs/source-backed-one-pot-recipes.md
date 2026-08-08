@@ -1706,6 +1706,26 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 硒米罐儿饭 | 万源硒米罐儿饭 | CN-SC-DASHOU-WANYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 硒米；腊肉；酸豆角；野菜 | identity、ingredients | 缺 process | [硒米罐儿饭](https://www.dazhou.gov.cn/news-show-266982.html) |
 | 酸菜干饭 | 广元酸菜干饭 | CN-SC-GUANGYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 米；酸菜；蔬菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [广元酸菜干饭](https://www.scsqw.cn/scyx/sctc/content_104352) |
+## singapore-healthhub-brown-rice-chicken-congee
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Brown Rice Chicken Congee | 糙米鸡粥；HealthHub糙米鸡粥 | SG | singapore-healthhub-brown-rice-chicken-congee | 研究记录（非公开可执行） | 糙米；鸡腿或鸡棒腿；胡萝卜；白菜；蟹味菇；姜；蒜；葱；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Brown Rice Chicken Congee](https://ch-api.healthhub.sg/api/public/content/6f3ac74473de451faa5ed46fdb084ce5?v=57588ce9) |
+## singapore-healthhub-bubur-lambuk
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Bubur Lambuk | 椰香牛肉杂粮粥；新加坡HealthHub Bubur Lambuk | SG | singapore-healthhub-bubur-lambuk | 研究记录（非公开可执行） | 三色杂粮米；瘦牛肉末；玉米；青豆；椰奶；洋葱；蒜；姜；香料；鸡蛋；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Bubur Lambuk](https://www.healthhub.sg/programmes/korangok/resources/bubur-lambuk) |
+## singapore-healthhub-chicken-briyani
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken Briyani | 鸡肉印度香饭；新加坡HealthHub鸡肉Briyani | SG | singapore-healthhub-chicken-briyani | 研究记录（非公开可执行） | 鸡肉；全谷物印度香米；番茄；芫荽；蒜；红葱头；姜；薄荷；八角；肉桂；丁香；小豆蔻；酸奶；淡奶；水或鸡汤 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [Chicken Briyani](https://ch-api.healthhub.sg/api/public/content/dcd55c4444624855949b0b1cfaa4e86c?v=5eb0cb6f) |
+## singapore-healthhub-nasi-kuning
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Nasi Kuning | 印尼黄姜饭；黄姜饭 | SG | singapore-healthhub-nasi-kuning | 研究记录（非公开可执行） | 白米；糙米；姜黄；低脂淡奶；吞拿鱼；番茄；青豆；杏仁片；葡萄干；水 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Nasi Kuning](https://www.healthhub.sg/well-being-and-lifestyle/food-diet-and-nutrition/nasi-kuning) |
 ## songjiang-apo-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

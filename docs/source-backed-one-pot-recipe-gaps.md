@@ -506,6 +506,7 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 酸菜干饭 (guangyuan-sauerkraut-dry-rice) — CN-SC-GUANGYUAN
+- Chicken Briyani (sg-healthhub-chicken-briyani) — SG
 - 阿婆菜饭 (shanghai-songjiang-apo-vegetable-rice) — CN-SH
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
 - 遇見幸福芋頭飯 (taichung-encounter-happiness-taro-rice) — TW
@@ -1216,6 +1217,8 @@
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
 - 酸菜干饭 (guangyuan-sauerkraut-dry-rice) — CN-SC-GUANGYUAN
+- Brown Rice Chicken Congee (sg-healthhub-brown-rice-chicken-congee) — SG
+- Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
 - 阿婆菜饭 (shanghai-songjiang-apo-vegetable-rice) — CN-SH
 - One-Pot Chicken and Rice (global-nwu-one-pot-chicken-rice) — ZA-NW
 - 合饭 (southeast-chongqing-tujia-he-rice) — CN-CQ
@@ -1615,6 +1618,9 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
+- Brown Rice Chicken Congee (sg-healthhub-brown-rice-chicken-congee) — SG
+- Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
+- Chicken Briyani (sg-healthhub-chicken-briyani) — SG
 - One-Pot Chicken and Rice (global-nwu-one-pot-chicken-rice) — ZA-NW
 - Chicken tikka pulao (kidney-care-chicken-tikka-pulao) — GB
 - Arroz negro (global-spain-arroz-negro) — ES-IB
