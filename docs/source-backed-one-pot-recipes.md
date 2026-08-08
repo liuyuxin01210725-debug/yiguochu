@@ -436,7 +436,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 胡蘿蔔海鮮飯 | — | HK | hong-kong-carrot-seafood-rice | 研究记录（非公开可执行） | 白米；胡萝卜；洋葱；青椒；红椒；蛤肉；虾；鱼肉；鱿鱼；青口；鸡汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [胡蘿蔔海鮮飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=176) |
+| 胡蘿蔔海鮮飯 | — | HK | hong-kong-carrot-seafood-rice | 研究记录（非公开可执行） | 白米；胡萝卜；洋葱；青椒；红椒；蛤肉；虾；鱼肉；鱿鱼；青口；鸡汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [胡蘿蔔海鮮飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=176) |
 ## hong-kong-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -481,7 +481,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 蘑菇意大利飯配軟芝士 | — | HK | hong-kong-mushroom-italian-rice-ricotta | 研究记录（非公开可执行） | 意大利米；蔬菜高汤；西葫芦；番茄；蘑菇；冬菇；软芝士 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [蘑菇意大利飯配軟芝士](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=982) |
+| 蘑菇意大利飯配軟芝士 | — | HK | hong-kong-mushroom-italian-rice-ricotta | 研究记录（非公开可执行） | 意大利米；蔬菜高汤；西葫芦；番茄；蘑菇；冬菇；软芝士 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [蘑菇意大利飯配軟芝士](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=982) |
 ## hong-kong-one-pot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

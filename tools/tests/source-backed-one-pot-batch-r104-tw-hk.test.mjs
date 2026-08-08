@@ -15,7 +15,7 @@ const expected = [
 ];
 
 test('r104 adds six opened official Hong Kong rice records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r176');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r177');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, boundary, servings] of expected) {
@@ -39,11 +39,16 @@ test('r104 adds six opened official Hong Kong rice records without promotion', (
 test('r104 preserves source boundaries and does not invent universal electric-cooker contracts', () => {
   const staged = expected.filter(([, , boundary]) => boundary === 'extra_pan_or_steam').map(([recipeId]) => byId.get(recipeId));
   const cookedRice = expected.filter(([, , boundary]) => boundary === 'cooked_rice_second_cook').map(([recipeId]) => byId.get(recipeId));
-  for (const recipe of staged) {
-    assert.equal(recipe.liquid_contract, null, recipe.recipe_id);
-    assert.equal(recipe.time_contract, null, recipe.recipe_id);
-    assert.match(recipe.evidence_notes, /不能|不.*电饭煲|分阶段|熟饭/u, recipe.recipe_id);
-  }
+ for (const recipe of staged) {
+    const expectedLiquid = recipe.recipe_id === 'r104-hk-mushroom-italian-rice-ricotta'
+      ? { kind: 'added_broth', amount: { value: 200, unit: 'mL蔬菜高汤' }, source_ids: ['S-R104-HK-MUSHROOM-ITALIAN-RICE-RICOTTA-1'] }
+      : recipe.recipe_id === 'r104-hk-carrot-seafood-rice'
+        ? { kind: 'added_chicken_stock', amount: { value: 100, unit: 'mL鸡汤' }, source_ids: ['S-R104-HK-CARROT-SEAFOOD-RICE-1'] }
+        : null;
+    assert.deepEqual(recipe.liquid_contract, expectedLiquid, recipe.recipe_id);
+   assert.equal(recipe.time_contract, null, recipe.recipe_id);
+   assert.match(recipe.evidence_notes, /不能|不.*电饭煲|分阶段|熟饭/u, recipe.recipe_id);
+ }
   for (const recipe of cookedRice) {
     assert.match(recipe.cooker_adaptation.notes, /熟饭二次烹/u, recipe.recipe_id);
     assert.equal(recipe.cooker_adaptation.status, 'not_adapted', recipe.recipe_id);
