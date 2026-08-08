@@ -63,7 +63,7 @@ const expected = [
 ];
 
 test('r125 adds nine official global rice-main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r198');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r199');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -94,7 +94,15 @@ test('r125 keeps source-limited appliance and safety boundaries', () => {
     const recipe = byId.get(item.recipeId);
     assert.ok(['source_limited', 'not_adapted'].includes(recipe.cooker_adaptation.status), item.recipeId);
     assert.match(recipe.cooker_adaptation.notes, /不外推.*电饭煲|普通锅|非电饭煲|原器具|器皿/u, item.recipeId);
-    assert.deepEqual(recipe.safety_endpoints, [], item.recipeId);
+    if (['global-nwu-one-pot-chicken-rice', 'global-irga-risoto-frango-legumes', 'global-peru-minsa-arroz-pollo'].includes(item.recipeId)) {
+      assert.deepEqual(recipe.safety_endpoints, [{
+        code: 'poultry_fully_cooked',
+        minimum_core_temperature_c: 74,
+        source_ids: ['S-SAFETY-TEMPERATURES-1'],
+      }], item.recipeId);
+    } else {
+      assert.deepEqual(recipe.safety_endpoints, [], item.recipeId);
+    }
   }
 
   const poushtik = byId.get('global-pmposhan-poushtik-khichdi');

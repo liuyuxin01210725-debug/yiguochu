@@ -1356,7 +1356,6 @@
 - Pink Salmon Rice Bowls (One-Pot Rice Cooker Meal) (asmi-pink-salmon-rice-bowls) — US-AK
 - Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
 - Oven baked biryani (au-slhd-oven-baked-biryani) — AU-NSW
-- Risoto de Frango com Legumes (global-irga-risoto-frango-legumes) — BR-RS
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
@@ -1553,7 +1552,6 @@
 - 得莫利炖鱼 (heilongjiang-demoli-stewed-fish) — CN-HL
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 中華おこわ（Panasonic NF-PC400版） (panasonic-chinese-sticky-rice-nf-pc400) — JP
-- Arroz con Pollo (CENAN 版本) (global-peru-minsa-arroz-pollo) — PE
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
 - 绿岛白萝卜饭 (quanzhou-shishi-green-island-daikon-rice) — CN-FJ-QUANZHOU-SHISHI
@@ -1565,7 +1563,6 @@
 - Brown Rice Chicken Congee (sg-healthhub-brown-rice-chicken-congee) — SG
 - Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
 - Chicken Briyani (sg-healthhub-chicken-briyani) — SG
-- One-Pot Chicken and Rice (global-nwu-one-pot-chicken-rice) — ZA-NW
 - Chicken tikka pulao (kidney-care-chicken-tikka-pulao) — GB
 - Arroz negro (global-spain-arroz-negro) — ES-IB
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
@@ -1624,9 +1621,7 @@
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - One Pot Chicken and Rice (healthvermont-one-pot-chicken-brown-rice) — US-VT
 - Pork and Rice Skillet (va-pork-rice-skillet) — US
-- Turkey Burrito Bowl (tamu-turkey-burrito-bowl) — US-TX
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
-- Salsa Verde Chicken (usu-salsa-verde-chicken-rice) — US-UT
 - Spanish Rice (unh-spanish-rice) — US-NH
 - Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ

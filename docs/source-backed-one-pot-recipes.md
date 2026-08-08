@@ -56,7 +56,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Risoto de Frango com Legumes | 鸡肉蔬菜烩饭 | BR-RS | brazil-risotto | 研究记录（非公开可执行） | 米；鸡肉；西兰花；红椒；洋葱；奶酪；蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Risoto de Frango com Legumes](https://irga.rs.gov.br/risoto-de-frango-com-legumes) |
+| Risoto de Frango com Legumes | 鸡肉蔬菜烩饭 | BR-RS | brazil-risotto | 研究记录（非公开可执行） | 米；鸡肉；西兰花；红椒；洋葱；奶酪；蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Risoto de Frango com Legumes](https://irga.rs.gov.br/risoto-de-frango-com-legumes)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## brazil-school-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1537,7 +1537,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Arroz con Pollo (CENAN 版本) | 秘鲁鸡肉饭 | PE | peru-arroz-con-pollo | 研究记录（非公开可执行） | 米；鸡肉；豌豆；胡萝卜；菠菜；香菜；洋葱；红椒；蒜；食用油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [CENAN Arroz con Pollo](https://www.gob.pe/institucion/minsa/noticias/42250-el-pollo-es-una-importante-fuente-de-fosforo-y-potasio) |
+| Arroz con Pollo (CENAN 版本) | 秘鲁鸡肉饭 | PE | peru-arroz-con-pollo | 研究记录（非公开可执行） | 米；鸡肉；豌豆；胡萝卜；菠菜；香菜；洋葱；红椒；蒜；食用油 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [CENAN Arroz con Pollo](https://www.gob.pe/institucion/minsa/noticias/42250-el-pollo-es-una-importante-fuente-de-fosforo-y-potasio)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## pianguan-oil-braised-millet-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1750,7 +1750,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| One-Pot Chicken and Rice | 南非一锅鸡肉饭 | ZA-NW | south-africa-one-pot-rice | 研究记录（非公开可执行） | 鸡腿肉；白米；冷冻蔬菜；洋葱；水；鸡汤块 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Rice](https://health-sciences.nwu.ac.za/sites/health-sciences.nwu.ac.za/files/files/Consumer_Sciences/Documents/Resepteboek_2024_B5.pdf) |
+| One-Pot Chicken and Rice | 南非一锅鸡肉饭 | ZA-NW | south-africa-one-pot-rice | 研究记录（非公开可执行） | 鸡腿肉；白米；冷冻蔬菜；洋葱；水；鸡汤块 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [One-Pot Chicken and Rice](https://health-sciences.nwu.ac.za/sites/health-sciences.nwu.ac.za/files/files/Consumer_Sciences/Documents/Resepteboek_2024_B5.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## south-asian-chicken-pulao
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2296,7 +2296,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Turkey Burrito Bowl | 火鸡肉墨西哥饭碗 | US-TX | usa-pressure-cooker-rice-bowl | 研究记录（非公开可执行） | 火鸡肉末；长粒白米；黑豆罐头；番茄丁罐头；青辣椒罐头；冷冻玉米；洋葱；低钠牛肉汤 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Turkey Burrito Bowl](https://dinnertonight.tamu.edu/recipe/turkey-burrito-bowl/) |
+| Turkey Burrito Bowl | 火鸡肉墨西哥饭碗 | US-TX | usa-pressure-cooker-rice-bowl | 研究记录（非公开可执行） | 火鸡肉末；长粒白米；黑豆罐头；番茄丁罐头；青辣椒罐头；冷冻玉米；洋葱；低钠牛肉汤 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Turkey Burrito Bowl](https://dinnertonight.tamu.edu/recipe/turkey-burrito-bowl/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-red-beans-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2306,7 +2306,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Salsa Verde Chicken | 莎莎酱绿鸡肉饭；USU莎莎绿酱鸡肉米饭 | US-UT | usa-salsa-verde-chicken-rice | 研究记录（非公开可执行） | 去骨鸡腿；长粒白米；花椰菜；洋葱；蒜；鸡汤；salsa verde；孜然 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Salsa Verde Chicken](https://www.usu.edu/campusrec/files/Cooking-on-a-Budget-Cookbook.pdf) |
+| Salsa Verde Chicken | 莎莎酱绿鸡肉饭；USU莎莎绿酱鸡肉米饭 | US-UT | usa-salsa-verde-chicken-rice | 研究记录（非公开可执行） | 去骨鸡腿；长粒白米；花椰菜；洋葱；蒜；鸡汤；salsa verde；孜然 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Salsa Verde Chicken](https://www.usu.edu/campusrec/files/Cooking-on-a-Budget-Cookbook.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-slow-cooker-enchilada-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

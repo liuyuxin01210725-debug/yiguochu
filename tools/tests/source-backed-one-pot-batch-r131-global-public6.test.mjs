@@ -37,7 +37,7 @@ const expected = [
 ];
 
 test('r131 integrates only directly evidenced global public candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r198');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r199');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -87,7 +87,11 @@ test('r131 preserves source-specific batches and staged boundaries', () => {
   assert.equal(salsa.liquid_contract.amount.value, 1.5);
   assert.equal(salsa.liquid_contract.amount.unit, 'cup');
   assert.equal(salsa.time_contract.total_minutes, 30);
-  assert.deepEqual(salsa.safety_endpoints, []);
+  assert.deepEqual(salsa.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 
   const chickenRice = byId.get('nih-medlineplus-chicken-rice');
   assert.equal(chickenRice.fixed_batch.servings, 6);

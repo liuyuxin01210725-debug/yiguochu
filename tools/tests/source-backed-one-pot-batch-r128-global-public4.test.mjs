@@ -44,7 +44,7 @@ const expected = [
 ];
 
 test('r128 adds five directly evidenced global rice-main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r198');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r199');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -78,7 +78,11 @@ test('r128 preserves original appliance, quantity, liquid and safety boundaries'
   assert.equal(tamu.liquid_contract.amount.value, 2);
   assert.equal(tamu.liquid_contract.amount.unit, 'cup');
   assert.equal(tamu.time_contract.total_minutes, 20);
-  assert.deepEqual(tamu.safety_endpoints, []);
+  assert.deepEqual(tamu.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 
   const lentil = byId.get('purdue-one-pot-lentil-dish');
   assert.equal(lentil.fixed_batch, null);
