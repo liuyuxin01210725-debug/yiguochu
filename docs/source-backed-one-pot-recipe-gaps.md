@@ -1306,6 +1306,9 @@
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - いり飯 (maff-tokushima-irimeshi) — JP-TOKUSHIMA
 - 金包银 (tujia-jinbaoyin-corn-rice) — CN-CQ-SOUTHEAST-TUJIA
+- Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
+- Arroz con Pollo (Chicken with Rice) (illinois-extension-arroz-con-pollo) — US-IL
+- Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 佤族鸡肉烂饭 (yunnan-wa-chicken-lanfan) — CN-YN
@@ -1669,8 +1672,12 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
+- One Pot Caribbean Jerk Chicken & Rice (cu-caribbean-jerk-chicken-rice) — US-CO
+- Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
 - Chicken and Rice (nih-medlineplus-chicken-rice) — US
+- Arroz con Pollo (Chicken with Rice) (illinois-extension-arroz-con-pollo) — US-IL
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
+- Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - Pork and Rice Skillet (va-pork-rice-skillet) — US
 - Turkey Burrito Bowl (tamu-turkey-burrito-bowl) — US-TX

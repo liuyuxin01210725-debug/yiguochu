@@ -2167,6 +2167,16 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 金包银 | 土家金包银玉米米饭 | CN-CQ-SOUTHEAST-TUJIA | tujia-corn-rice | 研究记录（非公开可执行） | 玉米面；大米 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [重庆地方志·土家饮食记述](https://dfz.cq.gov.cn/zqlswh/msmf_417820/202311/t20231102_12510502.html) |
+## usa-caribbean-jerk-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| One Pot Caribbean Jerk Chicken & Rice | 加勒比Jerk鸡肉饭 | US-CO | usa-caribbean-jerk-chicken-rice | 研究记录（非公开可执行） | 鸡腿肉；未煮长粒米；红腰豆；椰奶；鸡汤或水；洋葱；蒜；香叶；Jerk调味料 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [One Pot Caribbean Jerk Chicken & Rice](https://www.cu.edu/doc/ssc-cookbookpdf) |
+## usa-cheesy-chicken-rice-skillet
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Cheesy Chicken, Rice, & Vegetable Skillet | 俄亥俄州鸡肉芝士蔬菜米饭煎锅 | US-OH | usa-cheesy-chicken-rice-skillet | 研究记录（非公开可执行） | 鸡肉；未煮糙米；西兰花；胡萝卜；洋葱；低脂切达奶酪；水；鸡汤块 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Cheesy Chicken, Rice, & Vegetable Skillet](https://u.osu.edu/simplesuppers/recipes/cheesy-chicken-rice-vegetable-skillet/) |
 ## usa-chicken-rice-stew
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2177,11 +2187,21 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Smoky Hoppin’ John | 烟熏黑眼豆米饭；罗切斯特黑眼豆一锅饭 | US-NY | usa-hoppin-john | 研究记录（非公开可执行） | 即食糙米；熟黑眼豆；番茄罐头；蔬菜高汤；洋葱；青椒；西芹；蒜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Smoky Hoppin’ John](https://www.urmc.rochester.edu/news/publications/cooking-for-wellness/smoky-hoppin-john) |
+## usa-illinois-arroz-con-pollo
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Arroz con Pollo (Chicken with Rice) | 伊利诺伊鸡肉米饭 | US-IL | usa-illinois-arroz-con-pollo | 研究记录（非公开可执行） | 鸡胸肉；长粒白米；鸡汤；白葡萄酒；炖番茄；青椒；洋葱；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Arroz con Pollo (Chicken with Rice)](https://extension.illinois.edu/diabetes/recipes/arroz-con-pollo-chicken-rice) |
 ## usa-lentil-brown-rice-pot
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | One-pot Lentil Dish | 普渡一锅扁豆饭 | US-IN | usa-lentil-brown-rice-pot | 研究记录（非公开可执行） | 糙米；未煮扁豆；胡萝卜；羽衣甘蓝；水；低钠洋葱汤料；罗勒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [One-pot Lentil Dish](https://www.purdue.edu/indianasefrnetwork/Home/MDDetail/131) |
+## usa-midwest-chicken-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chicken & Rice | 内布拉斯加鸡肉米饭 | US-NE | usa-midwest-chicken-rice | 研究记录（非公开可执行） | 鸡胸肉；Basmati米；熟斑豆；Roma番茄；洋葱；Russet土豆；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken & Rice](https://food.unl.edu/recipe/chicken-rice/) |
 ## usa-one-pot-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
