@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r160",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r161",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -7914,7 +7914,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -7949,10 +7957,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C; applies to the whole sea-bream cooked on the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "广岛瀬户内沿岸具名鲷饭；整鱼处理和鱼类安全终点尚未单独闭合。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
+      "evidence_notes": "广岛瀬户内沿岸具名鲷饭；整鱼处理和鱼类安全终点尚未单独闭合。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r161 安全补证：整鲷与米同锅炊煮，挂鱼类 63°C 终点。"
     },
     {
       "recipe_id": "maff-kagawa-iriko-meshi",
@@ -8848,7 +8872,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -8881,10 +8913,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C; applies to the processed sanma cooked with the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "山梨乡土鱼饭，鱼类安全终点与总时间尚未单独补证。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
+      "evidence_notes": "山梨乡土鱼饭，鱼类安全终点与总时间尚未单独补证。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r161 安全补证：秋刀鱼与米同锅炊煮，挂鱼类 63°C 终点。"
     },
     {
       "recipe_id": "maff-tochigi-ayu-meshi",
@@ -9188,7 +9236,187 @@
     {"recipe_id":"panasonic-taiwan-loofah-dried-fish-rice","canonical_name":"午仔魚一夜干絲瓜炊飯","aliases":["Panasonic午仔鱼丝瓜炊饭"],"region_codes":["TW"],"cuisine_family":"taiwan-electric-cooker-rice","identity_status":"verified","traditional_vessels":["Panasonic SR-N310D"],"core_ingredients":["桃園3號米","午仔魚一夜干","丝瓜","生姜"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"桃園3號米洗净，丝瓜去皮切块，姜切丝，午仔鱼一夜干去头去刺。","source_ids":["S-PANASONIC-TW-LOOFAH-DRIED-FISH-RICE-1"]},{"step":2,"instruction":"按来源顺序把米、丝瓜、姜、盐和午仔鱼放入 Panasonic SR-N310D 内锅，加入300g水，选择白米/标准程序。","source_ids":["S-PANASONIC-TW-LOOFAH-DRIED-FISH-RICE-1"]},{"step":3,"instruction":"程序完成后把鱼肉拌入饭中再食用。","source_ids":["S-PANASONIC-TW-LOOFAH-DRIED-FISH-RICE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["鱼类"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PANASONIC-TW-LOOFAH-DRIED-FISH-RICE-1"],"notes":"页面明确绑定 Panasonic SR-N310D 白米/标准程序；来源授权来自 foodNEXT/厨师合作，未提供通用机型时长或鱼类安全终点。"},"source_refs":[{"source_id":"S-PANASONIC-TW-LOOFAH-DRIED-FISH-RICE-1","title":"午仔魚一夜干絲瓜炊飯","publisher":"Panasonic Taiwan（食譜授權：foodNEXT／廚師漢克）","url":"https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5287","retrieved_at":"2026-08-05","source_kind":"manufacturer_partner_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"正文第411至490行：桃園3號米300g、水300g、午仔魚一夜干约240至300g、丝瓜200g、姜盐、SR-N310D白米标准程序与鱼肉拌饭流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"Panasonic Taiwan；合作食譜作者 foodNEXT／廚師漢克","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"Panasonic Taiwan官方页面具名午仔鱼一夜干丝瓜炊饭；保留鱼先去头去刺、丝瓜和300g水的机型事实，第三方授权与鱼类安全终点仍需另核，暂不晋升 executable。"},
     {"recipe_id":"tatung-fukagawa-rice","canonical_name":"深川飯（あさりの炊き込みご飯）","aliases":["大同电锅深川蛤蜊炊饭"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋"],"core_ingredients":["米","蛤蜊","油炸豆腐","胡萝卜","葱"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"蛤蜊吐沙后放入大同电锅内锅，外锅按来源加水蒸开；取出蛤蜊肉并保留蛤蜊汁。","source_ids":["S-TATUNG-FUKAGAWA-RICE-1"]},{"step":2,"instruction":"洗净内锅，加入米、酒、酱油、盐和蛤蜊汁，再按来源补水至米水位线；铺上胡萝卜、蛤蜊肉和油炸豆腐，外锅加水复炊。","source_ids":["S-TATUNG-FUKAGAWA-RICE-1"]},{"step":3,"instruction":"开关跳起后按来源焖制并拌松；来源没有另列成品收尾句，保留为 process_end_unspecified。","source_ids":["S-TATUNG-FUKAGAWA-RICE-1"]}],"time_contract":{"total_minutes":45,"source_ids":["S-TATUNG-FUKAGAWA-RICE-1"]},"safety_endpoints":[],"allergen_labels":["软体动物","大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-FUKAGAWA-RICE-1"],"notes":"深川飯是大同电锅两阶段加热流程；保留蛤蜊先蒸取汁、再用内锅炊饭的器具边界，不外推普通电饭煲外锅刻度。"},"source_refs":[{"source_id":"S-TATUNG-FUKAGAWA-RICE-1","title":"深川飯（あさりの炊き込みご飯）","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/2022","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、2人份/45分钟、材料与作り方区块：蛤蜊350至400g、米2合、油炸豆腐、胡萝卜、葱、蛤蜊先蒸取汁后复炊流程","claim_scopes":["identity","ingredients","quantity","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"大同电锅官方具名东京深川蛤蜊炊饭；保留两阶段同一器具流程和蛤蜊汁事实，但来源缺固定水量与最终安全终点，不晋升 executable。"},
     {"recipe_id":"tatung-tomato-pumpkin-rice","canonical_name":"トマトとかぼちゃの炊き込みご飯","aliases":["大同电锅番茄南瓜炊饭"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋M号"],"core_ingredients":["米","番茄","南瓜","培根"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},{"name":"番茄","amount":{"value":60,"unit":"g"},"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},{"name":"南瓜","amount":{"value":50,"unit":"g"},"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},{"name":"培根","amount":{"value":2,"unit":"片"},"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},{"name":"水","amount":{"value":320,"unit":"mL"},"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]}],"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":320,"unit":"mL"},"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"米洗净，番茄和南瓜切块，培根切段。","source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},{"step":2,"instruction":"米与320mL水、盐放入大同电锅M号内锅，铺上番茄、南瓜和培根；外锅加水并按来源启动。","source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},{"step":3,"instruction":"开关跳起后轻拌，按来源焖制后食用。","source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]}],"time_contract":{"total_minutes":30,"source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"]},"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-TOMATO-PUMPKIN-RICE-1"],"notes":"水量320mL和外锅刻度仅属于大同M号内锅页面，不外推为普通电饭煲通用参数。"},"source_refs":[{"source_id":"S-TATUNG-TOMATO-PUMPKIN-RICE-1","title":"トマトとかぼちゃの炊き込みご飯","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/2029","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、4人份/30分钟、米2合、番茄约60g、南瓜50g、培根2片、水320mL、M号内锅与外锅流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"大同电锅官方具名番茄南瓜培根炊饭；来源显示米、蔬菜与培根同锅，但仍只限M号器具参数，安全终点尚未闭合。"},
-    {"recipe_id":"tatung-salmon-pumpkin-milk-risotto","canonical_name":"サーモンとかぼちゃのミルクリゾット","aliases":["大同电锅三文鱼南瓜奶油烩饭"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋"],"core_ingredients":["米","三文鱼","圣女果","南瓜泥","蘑菇","洋葱","牛奶"],"fixed_batch":{"servings":2,"ingredients":[{"name":"米","amount":{"value":1,"unit":"杯"},"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},{"name":"三文鱼","amount":{"value":160,"unit":"g"},"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},{"name":"南瓜泥","amount":{"value":100,"unit":"g"},"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},{"name":"牛奶","amount":{"value":1,"unit":"杯"},"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]}],"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},"liquid_contract":{"kind":"added_liquid","amount":{"value":1,"unit":"杯"},"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},"cooking_sequence":[{"step":1,"instruction":"南瓜按来源先蒸成泥；三文鱼、圣女果、蘑菇和洋葱按来源处理。","source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},{"step":2,"instruction":"米、牛奶、蒜和南瓜泥放入大同电锅内锅，依次铺上番茄、蘑菇、洋葱、三文鱼和香草；外锅按来源加水启动。","source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},{"step":3,"instruction":"开关跳起后拌匀，再焖约5分钟。","source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]}],"time_contract":{"total_minutes":30,"source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"]},"safety_endpoints":[],"allergen_labels":["鱼类","乳制品"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"],"notes":"同一大同电锅完成主炊煮，但南瓜泥需要提前制备；外锅水量和鱼类安全终点不外推。"},"source_refs":[{"source_id":"S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1","title":"サーモンとかぼちゃのミルクリゾット","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/2025","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、2人份/30分钟、刺身三文鱼约160g、南瓜泥100g、米1杯、牛奶1杯、番茄/蘑菇/洋葱同锅与跳起后焖5分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"大同电锅官方具名三文鱼南瓜奶油烩饭；明确保留南瓜泥预处理和鱼类同锅阶段，不把它误写成所有食材从生到熟完全零准备的一锅饭。"},
+    {
+      "recipe_id": "tatung-salmon-pumpkin-milk-risotto",
+      "canonical_name": "サーモンとかぼちゃのミルクリゾット",
+      "aliases": [
+        "大同电锅三文鱼南瓜奶油烩饭"
+      ],
+      "region_codes": [
+        "TW"
+      ],
+      "cuisine_family": "tatung-electric-rice-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "大同電鍋"
+      ],
+      "core_ingredients": [
+        "米",
+        "三文鱼",
+        "圣女果",
+        "南瓜泥",
+        "蘑菇",
+        "洋葱",
+        "牛奶"
+      ],
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+            ]
+          },
+          {
+            "name": "三文鱼",
+            "amount": {
+              "value": 160,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+            ]
+          },
+          {
+            "name": "南瓜泥",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+            ]
+          },
+          {
+            "name": "牛奶",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_liquid",
+        "amount": {
+          "value": 1,
+          "unit": "杯"
+        },
+        "source_ids": [
+          "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "南瓜按来源先蒸成泥；三文鱼、圣女果、蘑菇和洋葱按来源处理。",
+          "source_ids": [
+            "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "米、牛奶、蒜和南瓜泥放入大同电锅内锅，依次铺上番茄、蘑菇、洋葱、三文鱼和香草；外锅按来源加水启动。",
+          "source_ids": [
+            "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "开关跳起后拌匀，再焖约5分钟。",
+          "source_ids": [
+            "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 30,
+        "source_ids": [
+          "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+        ]
+      },
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "鱼类",
+        "乳制品"
+      ],
+      "nutrition_structure": {
+        "grade": "B",
+        "roles": [
+          "carbohydrate",
+          "protein",
+          "fiber"
+        ]
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1"
+        ],
+        "notes": "同一大同电锅完成主炊煮，但南瓜泥需要提前制备；外锅水量和鱼类安全终点不外推。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-TATUNG-SALMON-PUMPKIN-MILK-RISOTTO-1",
+          "title": "サーモンとかぼちゃのミルクリゾット",
+          "publisher": "大同電鍋官方食譜網站",
+          "url": "https://dennabe-official.tatung.co.jp/recipe/view/2025",
+          "retrieved_at": "2026-08-05",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "详情页标题、2人份/30分钟、刺身三文鱼约160g、南瓜泥100g、米1杯、牛奶1杯、番茄/蘑菇/洋葱同锅与跳起后焖5分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "大同電鍋官方食譜網站",
+          "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C; applies to the raw sashimi salmon placed in the Tatung cooker.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "大同电锅官方具名三文鱼南瓜奶油烩饭；明确保留南瓜泥预处理和鱼类同锅阶段，不把它误写成所有食材从生到熟完全零准备的一锅饭。 r161 安全补证：原页刺身三文鱼同锅，挂鱼类 63°C 终点；南瓜泥预处理边界保留。"
+    },
     {"recipe_id":"tatung-seafood-porridge","canonical_name":"海の幸たっぷり海鮮粥","aliases":["大同电锅海鲜粥"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋","平底锅"],"core_ingredients":["白米","石蟹","鲷鱼","鱿鱼","鸡翅中","生姜"],"fixed_batch":{"servings":3,"ingredients":[{"name":"白米","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"石蟹","amount":{"value":500,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"鲷鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"鱿鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"鸡翅中","amount":{"value":200,"unit":"g"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"name":"水","amount":{"value":6,"unit":"合"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]}],"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":6,"unit":"合"},"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},"cooking_sequence":[{"step":1,"instruction":"米浸水；鸡翅按来源先用平底锅少量油煎香。","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"step":2,"instruction":"米和鸡翅放入大同电锅内锅，外锅加水启动；跳起后按来源加入石蟹、鲷鱼、鱿鱼、生姜和料理酒，再次启动。","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},{"step":3,"instruction":"第二阶段结束后调味，按来源余热焖约10分钟。","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]}],"time_contract":{"total_minutes":55,"source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"]},"safety_endpoints":[{"code":"shellfish_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]},{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-TEMPERATURES-1"]},{"code":"poultry_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["甲壳类","鱼类","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-SEAFOOD-PORRIDGE-1"],"notes":"这是大同电锅多阶段海鲜粥，鸡翅需先在平底锅预煎；不把它包装成全程单锅或普通电饭煲通用流程。"},"source_refs":[{"source_id":"S-TATUNG-SEAFOOD-PORRIDGE-1","title":"海の幸たっぷり海鮮粥","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/1974","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、3人份/55分钟、石蟹约500g、鲷鱼200g、鱿鱼约200g、鸡翅约200g、白米1合、水6合、预煎与二阶段电锅流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"Safe Minimum Internal Temperature Chart：贝类/牡蛎及其他贝类海鲜按74°C终点；鱼类按63°C；禽肉按74°C。","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],"status":"recipe_fact_checked","evidence_notes":"大同官方具名海鲜粥；营养角色较完整但属于粥类且有平底锅预煎与两阶段投料，保留为研究候选，不改成严格单锅饭。 r155 安全审计补充：大同原页列石蟹、鲷鱼、鱿鱼和鸡翅，鸡翅先煎、海鲜第二阶段入锅；分别保留贝类74°C、鱼类63°C和禽肉74°C终点，保留两阶段电锅边界。"},
     {"recipe_id":"tatung-tuna-garlic-butter-rice","canonical_name":"背徳のガリバタ飯","aliases":["大同电锅金枪鱼蒜香黄油饭"],"region_codes":["TW"],"cuisine_family":"tatung-electric-rice-recipes","identity_status":"verified","traditional_vessels":["大同電鍋"],"core_ingredients":["免洗米","金枪鱼罐头","玉米","黄油","蒜"],"fixed_batch":{"servings":2,"ingredients":[{"name":"免洗米","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"金枪鱼罐头","amount":{"value":1,"unit":"罐"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"玉米","amount":{"value":2,"unit":"大匙"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"黄油","amount":{"value":5,"unit":"g"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"name":"水","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]}],"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":1,"unit":"合"},"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"免洗米、金枪鱼罐头、玉米、黄油、盐、黑胡椒和蒜泥按来源放入大同电锅内锅，加1合水。","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"step":2,"instruction":"外锅加水启动大同电锅，跳起后拌匀。","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},{"step":3,"instruction":"按来源焖制后食用。","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]}],"time_contract":{"total_minutes":60,"source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"]},"safety_endpoints":[],"allergen_labels":["鱼类","乳制品"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1"],"notes":"全部投料在大同电锅内锅，但米水量、外锅水和60分钟仅为大同页面事实，不外推其他机型；玉米提供有限纤维，营养不宣称完整均衡。"},"source_refs":[{"source_id":"S-TATUNG-TUNA-GARLIC-BUTTER-RICE-1","title":"背徳のガリバタ飯","publisher":"大同電鍋官方食譜網站","url":"https://dennabe-official.tatung.co.jp/recipe/view/1994","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页标题、2人份/60分钟、免洗米1合、金枪鱼罐头1罐、玉米2大匙、黄油5g、水1合、全内锅投料与跳起拌匀流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"大同電鍋官方食譜網站","license":"publisher_copyright"}],"status":"recipe_fact_checked","evidence_notes":"大同官方具名金枪鱼蒜香黄油饭；来源证明全部投料进同一内锅，但鱼类安全与通用机型适配尚未闭合，暂不晋升 executable。"},
     {"recipe_id":"maff-nara-chameshi","canonical_name":"奈良茶飯（ならちゃめし）","aliases":["奈良茶饭"],"region_codes":["JP-NARA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","大豆","焙茶","盐"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"杯"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"大豆","amount":{"value":40,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"焙茶","amount":{"value":4,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"水","amount":{"value":600,"unit":"mL"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"name":"盐","amount":{"value":4,"unit":"g"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]}],"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},"liquid_contract":{"kind":"added_liquid","amount":{"value":600,"unit":"mL"},"source_ids":["S-MAFF-NARA-CHAMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"焙茶煮出后冷却；大豆按来源先小火焙炒去皮。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"step":2,"instruction":"米洗净放入炊饭器，加入焙茶至平时水位并静置约30分钟。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]},{"step":3,"instruction":"加入焙炒大豆和盐后炊熟，保留来源所述茶水与豆类同锅边界。","source_ids":["S-MAFF-NARA-CHAMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-MAFF-NARA-CHAMESHI-1"],"notes":"农林水产省页面明确写炊饭器与茶水同炊，但没有成品安全终点或跨型号程序参数。"},"source_refs":[{"source_id":"S-MAFF-NARA-CHAMESHI-1","title":"奈良茶飯（ならちゃめし） 奈良県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/nara_chameshi_nara.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第290至342行：奈良县茶饭身份、4人份米2杯/大豆40g/焙茶4g/水约600mL/盐4g、焙豆与茶水炊饭器同炊流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"奈良茶饭是官方页面明确写明炊饭器同锅的大豆焙茶饭；蛋白来自大豆，仍缺安全终点和厨房验证，不晋升 executable。"},
@@ -18878,29 +19106,202 @@
       "evidence_notes":"Instant Pot官方页面支持具名One Pot Chicken and Brown Rice Dinner、6至8人份范围、2.5杯鸡汤、2杯糙米、蔬菜/蘑菇/鸡肉、Sauté+Manual 30分钟及自然泄压10分钟。由于来源给出的是6至8人份和30至60分钟总时长范围，当前固定批次和总时长合同不擅自取中值；鸡肉页面虽要求全熟，但本项目尚未为本条挂独立安全终点，故safety_endpoints保持空数组。"
     },
     {
-      "recipe_id":"instant-pot-quick-chicken-steamed-rice",
-      "canonical_name":"Quick Chicken Steamed Rice",
-      "aliases":["Instant Pot快手鸡肉蒸饭"],
-      "region_codes":[],
-      "cuisine_family":"manufacturer-rice-cooker-recipes",
-      "identity_status":"verified",
-      "traditional_vessels":["Instant Pot电压力锅"],
-      "core_ingredients":["长粒白米","鸡胸肉","鸡汤","西兰花","胡萝卜","低钠酱油"],
-      "fixed_batch":{"servings":6,"ingredients":[{"name":"鸡胸肉","amount":{"value":1,"unit":"lb"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},{"name":"鸡汤","amount":{"value":2,"unit":"cups"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},{"name":"长粒白米","amount":{"value":1,"unit":"cup"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},{"name":"低钠酱油","amount":{"value":0.25,"unit":"cup"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},{"name":"冷冻胡萝卜","amount":{"value":0.5,"unit":"cup"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},{"name":"冷冻西兰花","amount":{"value":1,"unit":"cup"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},{"name":"椰子油","amount":{"value":2,"unit":"汤匙"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]}],"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},
-      "liquid_contract":{"kind":"added_stock","amount":{"value":2,"unit":"cups"},"source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},
-      "cooking_sequence":[
-        {"step":1,"instruction":"鸡胸切成约1/2英寸小块，用盐和黑胡椒调味；Instant Pot选择Sauté，椰子油加热后鸡肉炒约7分钟，来源要求内部温度至少165°F。","source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},
-        {"step":2,"instruction":"取消Sauté，加入鸡汤并刮净锅底；加入淘洗沥干的长粒米、低钠酱油、胡萝卜和西兰花，锁盖后Pressure Cook 3分钟，自然泄压10分钟再快速排压。","source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]},
-        {"step":3,"instruction":"开盖用叉子拌松米饭，撒葱花，趁热食用。","source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"]}
+      "recipe_id": "instant-pot-quick-chicken-steamed-rice",
+      "canonical_name": "Quick Chicken Steamed Rice",
+      "aliases": [
+        "Instant Pot快手鸡肉蒸饭"
       ],
-      "time_contract":null,
-      "safety_endpoints":[],
-      "allergen_labels":["大豆"],
-      "nutrition_structure":{"grade":"unassessed","roles":[]},
-      "cooker_adaptation":{"status":"source_limited","source_ids":["S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"],"notes":"Instant Pot官方压力锅配方；来源总时长为15至30分钟，保留Sauté鸡肉、Pressure Cook 3分钟和自然泄压10分钟，不外推普通电饭煲。页面提出鸡肉至少165°F，但本项目未为本条挂独立安全来源，safety_endpoints保持空数组。"},
-      "source_refs":[{"source_id":"S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1","title":"Quick Chicken Steamed Rice","publisher":"Instant Pot / Robin Fields","url":"https://instantpot.com/blogs/recipes/quick-chicken-steamed-rice","retrieved_at":"2026-08-08","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面L87-L118：6人份、总时长15至30分钟；鸡胸1lb、鸡汤2杯、长粒米1杯、酱油/胡萝卜/西兰花用量；鸡肉Sauté约7分钟、至少165°F、Pressure Cook 3分钟、自然泄压10分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"Instant Pot / Robin Fields","license":"publisher_copyright"}],
-      "status":"recipe_fact_checked",
-      "evidence_notes":"Instant Pot官方页面支持具名Quick Chicken Steamed Rice、6人份、米/鸡汤/鸡肉/西兰花/胡萝卜用量和压力流程；页面总时长给15至30分钟区间，time_contract保持null。页面要求鸡肉至少165°F，但尚未挂本项目独立安全来源，故不把模型页面文字升级为安全合同。"
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Instant Pot电压力锅"
+      ],
+      "core_ingredients": [
+        "长粒白米",
+        "鸡胸肉",
+        "鸡汤",
+        "西兰花",
+        "胡萝卜",
+        "低钠酱油"
+      ],
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "鸡胸肉",
+            "amount": {
+              "value": 1,
+              "unit": "lb"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          },
+          {
+            "name": "鸡汤",
+            "amount": {
+              "value": 2,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          },
+          {
+            "name": "长粒白米",
+            "amount": {
+              "value": 1,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          },
+          {
+            "name": "低钠酱油",
+            "amount": {
+              "value": 0.25,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          },
+          {
+            "name": "冷冻胡萝卜",
+            "amount": {
+              "value": 0.5,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          },
+          {
+            "name": "冷冻西兰花",
+            "amount": {
+              "value": 1,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          },
+          {
+            "name": "椰子油",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_stock",
+        "amount": {
+          "value": 2,
+          "unit": "cups"
+        },
+        "source_ids": [
+          "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "鸡胸切成约1/2英寸小块，用盐和黑胡椒调味；Instant Pot选择Sauté，椰子油加热后鸡肉炒约7分钟，来源要求内部温度至少165°F。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "取消Sauté，加入鸡汤并刮净锅底；加入淘洗沥干的长粒米、低钠酱油、胡萝卜和西兰花，锁盖后Pressure Cook 3分钟，自然泄压10分钟再快速排压。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "开盖用叉子拌松米饭，撒葱花，趁热食用。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": null,
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [
+        "大豆"
+      ],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1"
+        ],
+        "notes": "Instant Pot官方压力锅配方；来源总时长为15至30分钟，保留Sauté鸡肉、Pressure Cook 3分钟和自然泄压10分钟，不外推普通电饭煲。页面提出鸡肉至少165°F，但本项目未为本条挂独立安全来源，safety_endpoints保持空数组。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-R124-INSTANTPOT-QUICK-CHICKEN-STEAMED-RICE-1",
+          "title": "Quick Chicken Steamed Rice",
+          "publisher": "Instant Pot / Robin Fields",
+          "url": "https://instantpot.com/blogs/recipes/quick-chicken-steamed-rice",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面L87-L118：6人份、总时长15至30分钟；鸡胸1lb、鸡汤2杯、长粒米1杯、酱油/胡萝卜/西兰花用量；鸡肉Sauté约7分钟、至少165°F、Pressure Cook 3分钟、自然泄压10分钟",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Instant Pot / Robin Fields",
+          "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; matches the Instant Pot page's explicit 165°F chicken instruction.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Instant Pot官方页面支持具名Quick Chicken Steamed Rice、6人份、米/鸡汤/鸡肉/西兰花/胡萝卜用量和压力流程；页面总时长给15至30分钟区间，time_contract保持null。页面要求鸡肉至少165°F，但尚未挂本项目独立安全来源，故不把模型页面文字升级为安全合同。 r161 安全补证：原页明确鸡肉至少 165°F，挂禽肉 74°C 终点。"
     },
     {
       "recipe_id":"instant-pot-easy-chicken-rice",
@@ -19005,30 +19406,244 @@
       "evidence_notes":"Instant Pot官方页面支持Chicken Enchilada Rice具名、4人份、60分钟、米/鸡汤/鸡肉/豆/玉米/彩椒/辣酱/奶酪定量和Sauté后同锅流程。页面只证明Instant Pot程序，不把“Chicken Enchilada”宣称为中国或其他地域传统菜；鸡肉安全终点未由本项目独立来源支持。"
     },
     {
-      "recipe_id":"instant-pot-spanish-chicken-rice",
-      "canonical_name":"Spanish Chicken and Rice",
-      "aliases":["Instant Pot西班牙风鸡肉饭"],
-      "region_codes":[],
-      "cuisine_family":"manufacturer-rice-cooker-recipes",
-      "identity_status":"verified",
-      "traditional_vessels":["Instant Pot电压力锅"],
-      "core_ingredients":["转化长粒米","鸡腿肉","kielbasa香肠","鸡汤","洋葱","红椒","胡萝卜","豌豆"],
-      "fixed_batch":{"servings":6,"ingredients":[{"name":"鸡腿肉","amount":{"value":2,"unit":"lb"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"kielbasa香肠","amount":{"value":12,"unit":"oz"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"转化长粒米","amount":{"value":2,"unit":"cups"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"鸡汤","amount":{"value":3,"unit":"cups"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"洋葱","amount":{"value":1,"unit":"个"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"蒜","amount":{"value":4,"unit":"瓣"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"红椒","amount":{"value":1,"unit":"个"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"胡萝卜","amount":{"value":0.5,"unit":"cup"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"冷冻豌豆","amount":{"value":0.5,"unit":"cup"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},{"name":"橄榄油","amount":{"value":2,"unit":"汤匙"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]}],"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},
-      "liquid_contract":{"kind":"added_stock","amount":{"value":3,"unit":"cups"},"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},
-      "cooking_sequence":[
-        {"step":1,"instruction":"Instant Pot选择Sauté；橄榄油加热后香肠煎约6分钟取出，鸡腿分批煎约8分钟至两面上色后取出。","source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},
-        {"step":2,"instruction":"原锅炒洋葱和蒜，加入米、红椒、胡萝卜、调味料和3杯鸡汤，把香肠与鸡腿放回米上。","source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},
-        {"step":3,"instruction":"按来源High Pressure 7分钟，完成后快速排压；鸡肉按来源盖在米饭上食用。","source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},
-        {"step":4,"instruction":"加入解冻豌豆并按来源静置约2分钟后食用。","source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]}
+      "recipe_id": "instant-pot-spanish-chicken-rice",
+      "canonical_name": "Spanish Chicken and Rice",
+      "aliases": [
+        "Instant Pot西班牙风鸡肉饭"
       ],
-      "time_contract":{"total_minutes":37,"source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"]},
-      "safety_endpoints":[],
-      "allergen_labels":[],
-      "nutrition_structure":{"grade":"unassessed","roles":[]},
-      "cooker_adaptation":{"status":"source_limited","source_ids":["S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"],"notes":"Instant Pot官方37分钟压力锅配方，保留香肠/鸡肉先Sauté取出、米汤同锅、虾不存在且豌豆后加的边界；不外推普通电饭煲，不宣称西班牙传统原方。鸡肉安全终点未挂本项目独立来源。"},
-      "source_refs":[{"source_id":"S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1","title":"Spanish Chicken and Rice","publisher":"Instant Pot","url":"https://instantpot.com/blogs/recipes/spanish-chicken-and-rice","retrieved_at":"2026-08-08","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面L87-L112：6人份、准备7分钟/烹调30分钟/总计37分钟；鸡腿2lb、kielbasa12oz、米2杯、鸡汤3杯、蔬菜用量及先煎后High Pressure 7分钟流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"Instant Pot","license":"publisher_copyright"}],
-      "status":"recipe_fact_checked",
-      "evidence_notes":"Instant Pot官方页面支持Spanish Chicken and Rice具名、6人份、37分钟、鸡腿/香肠/米/鸡汤/蔬菜用量和Sauté后压力流程。它是厂商西班牙风配方，不把厂商标题升级为西班牙地域传统证明；鸡肉和香肠的安全/钠合同尚未独立闭合。"
+      "region_codes": [],
+      "cuisine_family": "manufacturer-rice-cooker-recipes",
+      "identity_status": "verified",
+      "traditional_vessels": [
+        "Instant Pot电压力锅"
+      ],
+      "core_ingredients": [
+        "转化长粒米",
+        "鸡腿肉",
+        "kielbasa香肠",
+        "鸡汤",
+        "洋葱",
+        "红椒",
+        "胡萝卜",
+        "豌豆"
+      ],
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "鸡腿肉",
+            "amount": {
+              "value": 2,
+              "unit": "lb"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "kielbasa香肠",
+            "amount": {
+              "value": 12,
+              "unit": "oz"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "转化长粒米",
+            "amount": {
+              "value": 2,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "鸡汤",
+            "amount": {
+              "value": 3,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "洋葱",
+            "amount": {
+              "value": 1,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "蒜",
+            "amount": {
+              "value": 4,
+              "unit": "瓣"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "红椒",
+            "amount": {
+              "value": 1,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 0.5,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "冷冻豌豆",
+            "amount": {
+              "value": 0.5,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "橄榄油",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_stock",
+        "amount": {
+          "value": 3,
+          "unit": "cups"
+        },
+        "source_ids": [
+          "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+        ]
+      },
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "Instant Pot选择Sauté；橄榄油加热后香肠煎约6分钟取出，鸡腿分批煎约8分钟至两面上色后取出。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "原锅炒洋葱和蒜，加入米、红椒、胡萝卜、调味料和3杯鸡汤，把香肠与鸡腿放回米上。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "按来源High Pressure 7分钟，完成后快速排压；鸡肉按来源盖在米饭上食用。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+          ]
+        },
+        {
+          "step": 4,
+          "instruction": "加入解冻豌豆并按来源静置约2分钟后食用。",
+          "source_ids": [
+            "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+          ]
+        }
+      ],
+      "time_contract": {
+        "total_minutes": 37,
+        "source_ids": [
+          "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+        ]
+      },
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
+      "allergen_labels": [],
+      "nutrition_structure": {
+        "grade": "unassessed",
+        "roles": []
+      },
+      "cooker_adaptation": {
+        "status": "source_limited",
+        "source_ids": [
+          "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1"
+        ],
+        "notes": "Instant Pot官方37分钟压力锅配方，保留香肠/鸡肉先Sauté取出、米汤同锅、虾不存在且豌豆后加的边界；不外推普通电饭煲，不宣称西班牙传统原方。鸡肉安全终点未挂本项目独立来源。"
+      },
+      "source_refs": [
+        {
+          "source_id": "S-R124-INSTANTPOT-SPANISH-CHICKEN-RICE-1",
+          "title": "Spanish Chicken and Rice",
+          "publisher": "Instant Pot",
+          "url": "https://instantpot.com/blogs/recipes/spanish-chicken-and-rice",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "manufacturer_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 3,
+          "evidence_locator": "官方页面L87-L112：6人份、准备7分钟/烹调30分钟/总计37分钟；鸡腿2lb、kielbasa12oz、米2杯、鸡汤3杯、蔬菜用量及先煎后High Pressure 7分钟流程",
+          "claim_scopes": [
+            "identity",
+            "ingredients",
+            "quantity",
+            "liquid",
+            "process",
+            "appliance",
+            "time"
+          ],
+          "attribution": "Instant Pot",
+          "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies to the raw chicken-leg component browned before pressure cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
+        }
+      ],
+      "status": "recipe_fact_checked",
+      "evidence_notes": "Instant Pot官方页面支持Spanish Chicken and Rice具名、6人份、37分钟、鸡腿/香肠/米/鸡汤/蔬菜用量和Sauté后压力流程。它是厂商西班牙风配方，不把厂商标题升级为西班牙地域传统证明；鸡肉和香肠的安全/钠合同尚未独立闭合。 r161 安全补证：鸡腿先煎后压煮，挂禽肉 74°C 终点；香肠安全边界不扩写。"
     },
     {
       "recipe_id":"philips-multigrain-baked-chicken-rice",

@@ -1513,11 +1513,9 @@
 - Honey Garlic Chicken (tiger-honey-garlic-chicken) — 非地域·厂商食谱
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
 - One Pot Chicken and Brown Rice Dinner (instant-pot-one-pot-chicken-brown-rice) — 非地域·厂商食谱
-- Quick Chicken Steamed Rice (instant-pot-quick-chicken-steamed-rice) — 非地域·厂商食谱
 - Seafood Paella (tefal-602-seafood-paella) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
 - Smoked Haddock Kedgeree (tefal-602-smoked-haddock-kedgeree) — 非地域·厂商食谱
-- Spanish Chicken and Rice (instant-pot-spanish-chicken-rice) — 非地域·厂商食谱
 - Spring Chicken and Vegetable Risotto (panasonic-spring-chicken-vegetable-risotto) — 非地域·厂商食谱
 - Take Out Style Vegetable Fried Rice (r60-tiger-takeout-vegetable-fried-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
@@ -1631,7 +1629,6 @@
 - 養生糙米飯 (taiwan-moa-healthy-brown-rice) — TW
 - 麻油香菇鹽麴雞飯 (tatung-sesame-shiitake-shio-koji-chicken-rice) — TW
 - しょうが飯 (tatung-wakayama-ginger-rice) — TW
-- サーモンとかぼちゃのミルクリゾット (tatung-salmon-pumpkin-milk-risotto) — TW
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
 - 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW

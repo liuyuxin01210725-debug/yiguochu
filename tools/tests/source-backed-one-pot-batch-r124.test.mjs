@@ -57,7 +57,7 @@ const expected = [
 ];
 
 test('r124 adds eight official manufacturer rice main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r160');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r161');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -86,7 +86,7 @@ test('r124 adds eight official manufacturer rice main candidates', () => {
   }
 });
 
-test('r124 keeps fixed quantities and model boundaries without inventing chicken safety endpoints', () => {
+test('r124 keeps fixed quantities and model boundaries without widening safety evidence', () => {
   const onePot = byId.get('instant-pot-one-pot-chicken-brown-rice');
   // The source gives a 6–8 serving range; the current schema only accepts a
   // single positive serving count, so keep the structured batch null and
@@ -102,7 +102,7 @@ test('r124 keeps fixed quantities and model boundaries without inventing chicken
   assert.equal(quick.fixed_batch.servings, 6);
   assert.equal(quick.liquid_contract.amount.value, 2);
   assert.equal(quick.time_contract, null);
-  assert.deepEqual(quick.safety_endpoints, []);
+  assert.equal(quick.safety_endpoints[0]?.code, 'poultry_fully_cooked');
   assert.match(quick.evidence_notes, /165°F|独立来源|安全/u);
 
   const soup = byId.get('instant-pot-chicken-rice-soup');
