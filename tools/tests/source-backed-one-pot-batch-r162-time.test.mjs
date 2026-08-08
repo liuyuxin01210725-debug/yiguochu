@@ -16,7 +16,7 @@ const expected = {
 };
 
 test('r162 closes seven exact source-backed time contracts without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r168');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r169');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedTime] of Object.entries(expected)) {
     const recipe = byId[recipeId];
