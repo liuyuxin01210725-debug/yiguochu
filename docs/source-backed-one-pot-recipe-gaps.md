@@ -433,7 +433,6 @@
 - 林州小米稠饭 (cn-henan-linzhou-millet-thick-rice) — CN-HA-ANYANG-LINZHOU
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
-- 西班牙海鮮燉飯 (r59-panasonic-taiwan-spanish-seafood-risotto) — ES
 - Spinach and Chickpea Curry Rice (tiger-spinach-chickpea-curry-rice) — US
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Bibimbap Style Rice (tiger-bibimbap-style-rice) — 非地域·厂商食谱
@@ -448,7 +447,6 @@
 - Steamed Garlic Salmon with Dill and Garden Vegetables (r59-tiger-usa-garlic-salmon-garden-rice) — 非地域·厂商食谱
 - Szechuan Pork (r60-tiger-szechuan-pork-tacook-rice) — 非地域·厂商食谱
 - Taiwan Minced Pork (r60-tiger-taiwan-minced-pork-rice) — 非地域·厂商食谱
-- Vegetarian Mixed Brown Rice (toshiba-vegetarian-mixed-brown-rice) — 非地域·厂商食谱
 - うにごはん (tiger-uni-rice) — 非地域·厂商食谱
 - たっぷりきのこの炊込みご飯 (toshiba-mixed-mushroom-ume-rice) — 非地域·厂商食谱
 - ほたて貝柱とえんどう豆の炊込みごはん (tiger-scallop-pea-rice) — 非地域·厂商食谱

@@ -1136,7 +1136,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 西班牙海鮮燉飯 | 西班牙海鲜炖饭 | ES | manufacturer-one-pot-risotto | 研究记录（非公开可执行） | 義大利米；洋蔥；紅甜椒；蝦仁；鯛魚菲力；高湯；白酒 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [西班牙海鮮燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5226) |
+| 西班牙海鮮燉飯 | 西班牙海鲜炖饭 | ES | manufacturer-one-pot-risotto | 研究记录（非公开可执行） | 義大利米；洋蔥；紅甜椒；蝦仁；鯛魚菲力；高湯；白酒 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [西班牙海鮮燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5226) |
 ## manufacturer-rice-cooker-adjacent
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1216,7 +1216,7 @@
 | Tomato Cheese Risotto | 番茄芝士烩饭；番茄奶酪烩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 日本短粒米；洋葱；大蒜；橄榄油；帕玛森芝士；樱桃番茄 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Tomato Cheese Risotto](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/tomato-cheese-risotto/) |
 | Tomato Chicken Melt | 番茄鸡肉焗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡腿肉；西葫芦；红甜椒；番茄酱；芝士 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Tomato Chicken Melt](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/tomato-chicken-melt/) |
 | Tuscan Chicken and Rice | 托斯卡纳鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 长粒米；鸡腿肉；鸡汤；青酱；洋蓟心；油渍番茄；马苏里拉 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Tuscan Chicken and Rice](https://instantpot.com/blogs/recipes/tuscan-chicken-and-rice) |
-| Vegetarian Mixed Brown Rice | 素食综合糙米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；番薯；玉米；毛豆；金针菇；紫甘蓝 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Vegetarian Mixed Brown Rice](https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/VegetarianMixedBrownRice) |
+| Vegetarian Mixed Brown Rice | 素食综合糙米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；番薯；玉米；毛豆；金针菇；紫甘蓝 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [Vegetarian Mixed Brown Rice](https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/VegetarianMixedBrownRice) |
 | Vietnamese Style Beef with Rice | 越南风味牛肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉；红葱头；蒜；洋葱；花生；柠檬汁；鱼露；酱油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Vietnamese Style Beef with Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/vietnamese-style-beef-with-rice/) |
 | Zha Cai and Beef Rice | 榨菜牛肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉；榨菜；酱油；淀粉；糖；香油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Zha Cai and Beef Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/zha-cai-and-beef-rice/) |
 | ข้าวไก่อบธัญพืช | Philips多谷鸡肉饭；Multigrain Baked Chicken Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉糙米；鸡里脊；波特贝罗蘑菇；胡萝卜；白豆；红豆；豌豆；银杏 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [ข้าวไก่อบธัญพืช（Multigrain baked chicken rice）](https://www.documents.philips.com/assets/20210504/2b225944d7cb481abeffad1e01377c70.pdf) |
