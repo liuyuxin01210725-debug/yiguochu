@@ -19,8 +19,8 @@ const expected = new Map([
 ]);
 
 test('r100 persists eleven opened official-source assets without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r135');
-  assert.equal(catalog.recipes.length, 911);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r137');
+  assert.equal(catalog.recipes.length, 916);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, name] of expected) {
     const recipe = byId.get(recipeId);

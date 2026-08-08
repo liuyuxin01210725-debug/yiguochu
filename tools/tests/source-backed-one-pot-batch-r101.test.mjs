@@ -6,8 +6,8 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = new Map(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r101 adds the opened Tatung clam-rice source without promoting it', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r135');
-  assert.equal(catalog.recipes.length, 911);
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r137');
+  assert.equal(catalog.recipes.length, 916);
 
   const recipe = byId.get('tatung-fresh-vegetable-clam-rice');
   assert.equal(recipe?.canonical_name, '鲜蔬蚬精炊饭');
