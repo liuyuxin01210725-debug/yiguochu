@@ -781,7 +781,7 @@
 | とどめせ | 冈山濑户内とどめせ；冈山醋拌炊饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡肉；芋头；干虾；竹轮；根菜 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [とどめせ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_6_okayama.html) |
 | 蒜山おこわ | 冈山蒜山节庆糯米饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；大麦；鸡肉；栗；胡萝卜；四季豆；牛蒡；蕗；香菇；油豆腐 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [蒜山おこわ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_4_okayama.html) |
 | お茶がい／茶がゆ | 佐贺茶粥；佐賀茶粥 | JP-SAGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；番茶；水 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [お茶がい／茶がゆ](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_5_saga.html) |
-| つがにめし | 佐贺河蟹饭；佐贺蟹饭；がね飯 | JP-SAGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；河蟹；出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [つがにめし 佐賀県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_19_saga.html) |
+| つがにめし | 佐贺河蟹饭；佐贺蟹饭；がね飯 | JP-SAGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；河蟹；出汁 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [つがにめし 佐賀県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_19_saga.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | あめのいおご飯 | 滋贺琵琶鳟饭 | JP-SHIGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；琵琶鳟；胡萝卜；香菇；葱；昆布水 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [あめのいおご飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amenoio_gohan_shiga.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | しょいめし | 滋贺乡土酱油饭；滋贺炊き込み饭 | JP-SHIGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；胡萝卜；牛蒡；魔芋；干香菇；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [しょいめし 滋賀県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shoi_meshi_shiga.html) |
 | くじらご飯 | 岛根鲸皮饭 | JP-SHIMANE | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲸皮；牛蒡；胡萝卜；白萝卜；蒟蒻 | identity、ingredients、liquid、process、quantity | 缺 time | [くじらご飯 島根県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kujiragohan_shimane.html) |
@@ -1547,7 +1547,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 金蟳糯米饭 | — | CN-FJ | pingtan-golden-crab-glutinous-rice | 研究记录（非公开可执行） | 金蟳（锯缘青蟹）；糯米；香菇；冬菜；老酒 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [美食推荐](https://www.yidaiyilu.gov.cn/p/51351.html) |
+| 金蟳糯米饭 | — | CN-FJ | pingtan-golden-crab-glutinous-rice | 研究记录（非公开可执行） | 金蟳（锯缘青蟹）；糯米；香菇；冬菜；老酒 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [美食推荐](https://www.yidaiyilu.gov.cn/p/51351.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## pudong-angci-fish-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

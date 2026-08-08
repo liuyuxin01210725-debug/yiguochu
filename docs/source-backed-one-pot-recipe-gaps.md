@@ -1442,7 +1442,6 @@
 - あみめし (maff-oita-amimeshi) — JP-OITA
 - とどめせ (maff-okayama-todomese) — JP-OKAYAMA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
-- つがにめし (maff-saga-tsugani-meshi) — JP-SAGA
 - そば米雑炊／そば米汁 (maff-tokushima-sobagome-zosui) — JP-TOKUSHIMA
 - 鮎ろうすい (maff-tokushima-ayuro-sui) — JP-TOKUSHIMA
 - いがい飯 (maff-tottori-igai-meshi) — JP-TOTTORI
@@ -1564,7 +1563,6 @@
 - ヤファラジューシー (maff-okinawa-yafara-jushi) — JP-OKINAWA
 - 中華おこわ（Panasonic NF-PC400版） (panasonic-chinese-sticky-rice-nf-pc400) — JP
 - Arroz con Pollo (CENAN 版本) (global-peru-minsa-arroz-pollo) — PE
-- 金蟳糯米饭 (pingtan-golden-crab-glutinous-rice) — CN-FJ
 - 土家社饭 (qianjiang-tujia-she-rice) — CN-CQ
 - 高原青稞羊肉麦仁汤 (qinghai-highland-barley-lamb-millet-soup) — CN-QH
 - 绿岛白萝卜饭 (quanzhou-shishi-green-island-daikon-rice) — CN-FJ-QUANZHOU-SHISHI
