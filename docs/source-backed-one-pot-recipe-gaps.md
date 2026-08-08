@@ -1383,7 +1383,6 @@
 - 胡蘿蔔海鮮飯 (r104-hk-carrot-seafood-rice) — HK
 - 淮山圓肉雞柳煲仔飯 (hk-yam-longan-chicken-claypot-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
-- 黃金海鮮粥 (hk-golden-seafood-congee) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 窝蛋牛肉饭 (towngas-nest-egg-minced-beef-rice) — HK
 - 芦笋虾仁藜麦饭 (towngas-asparagus-shrimp-quinoa-rice) — HK
@@ -1430,7 +1429,6 @@
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - 美唄のとりめし (maff-hokkaido-bibai-torimeshi) — JP-HOKKAIDO
-- はまぐりごはん (maff-ibaraki-hamaguri-gohan) — JP-IBARAKI
 - 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
 - きのことぎんなんの炊き込みご飯＜中村市＞ (kochi-nakamura-mushroom-ginkgo-takikomi) — JP-KOCHI
 - はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI

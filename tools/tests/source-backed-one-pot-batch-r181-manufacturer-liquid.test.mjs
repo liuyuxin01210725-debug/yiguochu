@@ -10,7 +10,7 @@ const expected = [
 ];
 
 test('r181 records three exact manufacturer liquid contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r196');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r197');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(item => [item.recipe_id, item]));
   for (const [id, kind, value, unit, sourceId, locator] of expected) {

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r196",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r197",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -3437,123 +3437,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "宫城山元/亘理北寄贝饭；保留贝类分段处理，不补安全温度。"
     },
-    {
-      "recipe_id": "jp-mie-tako-meshi",
-      "canonical_name": "たこ飯",
-      "aliases": [
-        "三重伊势志摩章鱼饭"
-      ],
-      "region_codes": [
-        "JP-MIE"
-      ],
-      "cuisine_family": "japanese-regional-rice",
-      "identity_status": "verified",
-      "traditional_vessels": [
-        "电饭煲"
-      ],
-      "core_ingredients": [
-        "米",
-        "章鱼",
-        "姜",
-        "酱油",
-        "酒"
-      ],
-      "fixed_batch": {
-        "servings": 4,
-        "ingredients": [
-          {
-            "name": "米",
-            "amount": {
-              "value": 3,
-              "unit": "杯"
-            },
-            "source_ids": [
-              "S-JP-MIE-TAKO-1"
-            ]
-          },
-          {
-            "name": "生章鱼",
-            "amount": {
-              "value": 350,
-              "unit": "g"
-            },
-            "source_ids": [
-              "S-JP-MIE-TAKO-1"
-            ]
-          }
-        ],
-        "source_ids": [
-          "S-JP-MIE-TAKO-1"
-        ]
-      },
-      "liquid_contract": null,
-      "cooking_sequence": [
-        {
-          "step": 1,
-          "instruction": "章鱼去内脏后用盐揉洗去黏液，切块并用调味汁腌约20分钟。",
-          "source_ids": [
-            "S-JP-MIE-TAKO-1"
-          ]
-        },
-        {
-          "step": 2,
-          "instruction": "米与腌汁、盐和标准水量放入电饭煲，最后放入章鱼同炊。",
-          "source_ids": [
-            "S-JP-MIE-TAKO-1"
-          ]
-        },
-        {
-          "step": 3,
-          "instruction": "程序完成后确认章鱼全熟，再拌匀食用。",
-          "source_ids": [
-            "S-JP-MIE-TAKO-1"
-          ]
-        }
-      ],
-      "time_contract": null,
-      "safety_endpoints": [],
-      "allergen_labels": [
-        "软体动物"
-      ],
-      "nutrition_structure": {
-        "grade": "B",
-        "roles": [
-          "carbohydrate",
-          "protein"
-        ]
-      },
-      "cooker_adaptation": {
-        "status": "source_limited",
-        "source_ids": [
-          "S-JP-MIE-TAKO-1"
-        ],
-        "notes": "农林水产省页面为电饭煲章鱼饭；来源未给明确液体量和章鱼温度终点。"
-      },
-      "source_refs": [
-        {
-          "source_id": "S-JP-MIE-TAKO-1",
-          "title": "たこ飯",
-          "publisher": "日本农林水产省",
-          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_mie.html",
-          "retrieved_at": "2026-08-06",
-          "source_kind": "government_regional_recipe_page",
-          "access_status": "opened",
-          "evidence_tier": 1,
-          "evidence_locator": "官方页面：4人份生章鱼350g、米3杯；章鱼盐揉去黏液、腌20分钟后与米和腌汁同炊",
-          "claim_scopes": [
-            "identity",
-            "ingredients",
-            "quantity",
-            "process",
-            "appliance"
-          ],
-          "attribution": "日本农林水产省",
-          "license": "government_site_terms_unspecified"
-        }
-      ],
-      "status": "recipe_fact_checked",
-      "evidence_notes": "三重伊势志摩地域章鱼饭；保留生章鱼同炊的来源边界，液体和温度待后续核实。"
-    },
+    {"recipe_id":"jp-mie-tako-meshi","canonical_name":"たこ飯","aliases":["三重伊势志摩章鱼饭"],"region_codes":["JP-MIE"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["电饭煲"],"core_ingredients":["米","章鱼","姜","酱油","酒"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"杯"},"source_ids":["S-JP-MIE-TAKO-1"]},{"name":"生章鱼","amount":{"value":350,"unit":"g"},"source_ids":["S-JP-MIE-TAKO-1"]}],"source_ids":["S-JP-MIE-TAKO-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"章鱼去内脏后用盐揉洗去黏液，切块并用调味汁腌约20分钟。","source_ids":["S-JP-MIE-TAKO-1"]},{"step":2,"instruction":"米与腌汁、盐和标准水量放入电饭煲，最后放入章鱼同炊。","source_ids":["S-JP-MIE-TAKO-1"]},{"step":3,"instruction":"程序完成后确认章鱼全熟，再拌匀食用。","source_ids":["S-JP-MIE-TAKO-1"]}],"time_contract":null,"safety_endpoints":[{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-SEAFOOD-GENERAL-CDC-1"]}],"allergen_labels":["软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-JP-MIE-TAKO-1"],"notes":"农林水产省页面为电饭煲章鱼饭；来源未给明确液体量和章鱼温度终点。"},"source_refs":[{"source_id":"S-JP-MIE-TAKO-1","title":"たこ飯","publisher":"日本农林水产省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_mie.html","retrieved_at":"2026-08-06","source_kind":"government_regional_recipe_page","access_status":"opened","evidence_tier":1,"evidence_locator":"官方页面：4人份生章鱼350g、米3杯；章鱼盐揉去黏液、腌20分钟后与米和腌汁同炊","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"日本农林水产省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-SEAFOOD-GENERAL-CDC-1","title":"About Anisakiasis","publisher":"Centers for Disease Control and Prevention","url":"https://www.cdc.gov/anisakiasis/about/index.html","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第66至70行：FDA建议一般海鲜达到至少145°F（约63°C）内部温度；正文同时提示生/半生鱼或鱿鱼风险","claim_scopes":["safety"],"attribution":"Centers for Disease Control and Prevention","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"三重伊势志摩地域章鱼饭；保留生章鱼同炊的来源边界，液体和温度待后续核实。 r197 安全补证：新增 CDC 一般海鲜至少 63°C 终点；保留原来源的物种、器具与分阶段流程，不把原程序时长当成温度证明。"},
     {
       "recipe_id": "jp-ehime-tako-meshi",
       "canonical_name": "たこ飯",
@@ -7245,115 +7129,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "具名海鲜炊饭，食材昂贵且无蔬菜，暂标家庭可得性与营养提示。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
     },
-    {
-      "recipe_id": "tiger-uni-rice",
-      "canonical_name": "うにごはん",
-      "aliases": [
-        "虎牌海胆饭"
-      ],
-      "region_codes": [],
-      "cuisine_family": "manufacturer-rice-cooker-recipes",
-      "identity_status": "verified",
-      "traditional_vessels": [
-        "Tiger 电饭煲对应机型"
-      ],
-      "core_ingredients": [
-        "白米",
-        "生海胆"
-      ],
-      "fixed_batch": {
-        "servings": 6,
-        "ingredients": [
-          {
-            "name": "白米",
-            "amount": {
-              "value": 3,
-              "unit": "杯"
-            },
-            "source_ids": [
-              "S-TIGER-UNI-RICE-1"
-            ]
-          },
-          {
-            "name": "生海胆",
-            "amount": {
-              "value": 120,
-              "unit": "g"
-            },
-            "source_ids": [
-              "S-TIGER-UNI-RICE-1"
-            ]
-          }
-        ],
-        "source_ids": [
-          "S-TIGER-UNI-RICE-1"
-        ]
-      },
-      "liquid_contract": null,
-      "cooking_sequence": [
-        {
-          "step": 1,
-          "instruction": "按 Tiger 页面处理米和调味液，将部分海胆与米同锅炊煮。",
-          "source_ids": [
-            "S-TIGER-UNI-RICE-1"
-          ]
-        },
-        {
-          "step": 2,
-          "instruction": "炊好后加入剩余海胆，短暂焖熟并拌匀。",
-          "source_ids": [
-            "S-TIGER-UNI-RICE-1"
-          ]
-        }
-      ],
-      "time_contract": {
-        "total_minutes": 55,
-        "source_ids": [
-          "S-TIGER-UNI-RICE-1"
-        ]
-      },
-      "safety_endpoints": [],
-      "allergen_labels": [],
-      "nutrition_structure": {
-        "grade": "C",
-        "roles": [
-          "carbohydrate",
-          "protein"
-        ]
-      },
-      "cooker_adaptation": {
-        "status": "source_limited",
-        "source_ids": [
-          "S-TIGER-UNI-RICE-1"
-        ],
-        "notes": "仅记录 Tiger 对应机型的页面流程，液体参数留待直接复核。"
-      },
-      "source_refs": [
-        {
-          "source_id": "S-TIGER-UNI-RICE-1",
-          "title": "うにごはん",
-          "publisher": "Tiger Corporation",
-          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post2/",
-          "retrieved_at": "2026-08-07",
-          "source_kind": "manufacturer_recipe_page",
-          "access_status": "opened",
-          "evidence_tier": 3,
-          "evidence_locator": "官方页面：6人份、米3杯、生海胆120g，部分海胆入锅炊煮、余量熟后加入",
-          "claim_scopes": [
-            "identity",
-            "ingredients",
-            "quantity",
-            "process",
-            "appliance",
-            "time"
-          ],
-          "attribution": "Tiger Corporation",
-          "license": "publisher_copyright"
-        }
-      ],
-      "status": "recipe_fact_checked",
-      "evidence_notes": "真实具名海胆饭，但没有蔬菜纤维且食材昂贵；液体合同尚未闭合，暂不推荐为家庭默认。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
-    },
+    {"recipe_id":"tiger-uni-rice","canonical_name":"うにごはん","aliases":["虎牌海胆饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Tiger 电饭煲对应机型"],"core_ingredients":["白米","生海胆"],"fixed_batch":{"servings":6,"ingredients":[{"name":"白米","amount":{"value":3,"unit":"杯"},"source_ids":["S-TIGER-UNI-RICE-1"]},{"name":"生海胆","amount":{"value":120,"unit":"g"},"source_ids":["S-TIGER-UNI-RICE-1"]}],"source_ids":["S-TIGER-UNI-RICE-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"按 Tiger 页面处理米和调味液，将部分海胆与米同锅炊煮。","source_ids":["S-TIGER-UNI-RICE-1"]},{"step":2,"instruction":"炊好后加入剩余海胆，短暂焖熟并拌匀。","source_ids":["S-TIGER-UNI-RICE-1"]}],"time_contract":{"total_minutes":55,"source_ids":["S-TIGER-UNI-RICE-1"]},"safety_endpoints":[{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-SEAFOOD-GENERAL-CDC-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TIGER-UNI-RICE-1"],"notes":"仅记录 Tiger 对应机型的页面流程，液体参数留待直接复核。"},"source_refs":[{"source_id":"S-TIGER-UNI-RICE-1","title":"うにごはん","publisher":"Tiger Corporation","url":"https://www.tiger-corporation.com/ja/jpn/feature/recipe/post2/","retrieved_at":"2026-08-07","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面：6人份、米3杯、生海胆120g，部分海胆入锅炊煮、余量熟后加入","claim_scopes":["identity","ingredients","quantity","process","appliance","time"],"attribution":"Tiger Corporation","license":"publisher_copyright"},{"source_id":"S-SAFETY-SEAFOOD-GENERAL-CDC-1","title":"About Anisakiasis","publisher":"Centers for Disease Control and Prevention","url":"https://www.cdc.gov/anisakiasis/about/index.html","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第66至70行：FDA建议一般海鲜达到至少145°F（约63°C）内部温度；正文同时提示生/半生鱼或鱿鱼风险","claim_scopes":["safety"],"attribution":"Centers for Disease Control and Prevention","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"真实具名海胆饭，但没有蔬菜纤维且食材昂贵；液体合同尚未闭合，暂不推荐为家庭默认。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r197 安全补证：新增 CDC 一般海鲜至少 63°C 终点；保留原来源的物种、器具与分阶段流程，不把原程序时长当成温度证明。"},
     {
       "recipe_id": "maff-tottori-dondoroke-meshi",
       "canonical_name": "どんどろけ飯",
@@ -8142,147 +7918,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "来源说明传统以一升米为单位、家庭可按人数调整；液体总量未给固定数字，不推导。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
     },
-    {
-      "recipe_id": "maff-okayama-tako-meshi",
-      "canonical_name": "たこめし",
-      "aliases": [
-        "冈山仓敷下津井章鱼饭"
-      ],
-      "region_codes": [
-        "JP-OKAYAMA"
-      ],
-      "cuisine_family": "japanese-regional-rice",
-      "identity_status": "verified",
-      "traditional_vessels": [
-        "电饭煲"
-      ],
-      "core_ingredients": [
-        "米",
-        "章鱼",
-        "生姜",
-        "葱"
-      ],
-      "fixed_batch": {
-        "servings": 4,
-        "ingredients": [
-          {
-            "name": "米",
-            "amount": {
-              "value": 1.5,
-              "unit": "杯"
-            },
-            "source_ids": [
-              "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-            ]
-          },
-          {
-            "name": "章鱼",
-            "amount": {
-              "value": 100,
-              "unit": "g"
-            },
-            "source_ids": [
-              "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-            ]
-          },
-          {
-            "name": "生姜",
-            "amount": {
-              "value": 14,
-              "unit": "g"
-            },
-            "source_ids": [
-              "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-            ]
-          },
-          {
-            "name": "葱",
-            "amount": {
-              "value": 1,
-              "unit": "把"
-            },
-            "source_ids": [
-              "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-            ]
-          }
-        ],
-        "source_ids": [
-          "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-        ]
-      },
-      "liquid_contract": {
-        "kind": "added_water",
-        "amount": {
-          "value": 320,
-          "unit": "mL"
-        },
-        "source_ids": [
-          "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-        ]
-      },
-      "cooking_sequence": [
-        {
-          "step": 1,
-          "instruction": "章鱼去黏膜、拍松后切小块，米洗净沥干。",
-          "source_ids": [
-            "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-          ]
-        },
-        {
-          "step": 2,
-          "instruction": "炊饭器中加入米、章鱼、生姜、调味和出汁同炊。",
-          "source_ids": [
-            "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-          ]
-        },
-        {
-          "step": 3,
-          "instruction": "炊好后拌入葱花。",
-          "source_ids": [
-            "S-MAFF-OKAYAMA-TAKO-MESHI-1"
-          ]
-        }
-      ],
-      "time_contract": null,
-      "safety_endpoints": [],
-      "allergen_labels": [],
-      "nutrition_structure": {
-        "grade": "C",
-        "roles": [
-          "carbohydrate",
-          "protein"
-        ]
-      },
-      "cooker_adaptation": {
-        "status": "not_adapted",
-        "notes": "搜集期保留来源器具事实，不把原方转换成其他器具参数。"
-      },
-      "source_refs": [
-        {
-          "source_id": "S-MAFF-OKAYAMA-TAKO-MESHI-1",
-          "title": "たこめし 岡山県",
-          "publisher": "農林水産省",
-          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_10_okayama.html",
-          "retrieved_at": "2026-08-07",
-          "source_kind": "government_food_culture_page",
-          "access_status": "opened",
-          "evidence_tier": 2,
-          "evidence_locator": "正文第257至316行：仓敷市下津井、4人份米1.5杯/章鱼100g/出汁320mL，章鱼与米入炊饭器同炊",
-          "claim_scopes": [
-            "identity",
-            "ingredients",
-            "quantity",
-            "liquid",
-            "process",
-            "appliance"
-          ],
-          "attribution": "農林水産省",
-          "license": "government_site_terms_unspecified"
-        }
-      ],
-      "status": "recipe_fact_checked",
-      "evidence_notes": "与现有兵库章鱼饭分开记录：仓敷下津井地域、来源和用量不同。 本条为搜集期候选，未晋升 executable，未完成厨房验证。"
-    },
+    {"recipe_id":"maff-okayama-tako-meshi","canonical_name":"たこめし","aliases":["冈山仓敷下津井章鱼饭"],"region_codes":["JP-OKAYAMA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["电饭煲"],"core_ingredients":["米","章鱼","生姜","葱"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":1.5,"unit":"杯"},"source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},{"name":"章鱼","amount":{"value":100,"unit":"g"},"source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},{"name":"生姜","amount":{"value":14,"unit":"g"},"source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},{"name":"葱","amount":{"value":1,"unit":"把"},"source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]}],"source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":320,"unit":"mL"},"source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"章鱼去黏膜、拍松后切小块，米洗净沥干。","source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},{"step":2,"instruction":"炊饭器中加入米、章鱼、生姜、调味和出汁同炊。","source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]},{"step":3,"instruction":"炊好后拌入葱花。","source_ids":["S-MAFF-OKAYAMA-TAKO-MESHI-1"]}],"time_contract":null,"safety_endpoints":[{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-SEAFOOD-GENERAL-CDC-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-OKAYAMA-TAKO-MESHI-1","title":"たこめし 岡山県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_10_okayama.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至316行：仓敷市下津井、4人份米1.5杯/章鱼100g/出汁320mL，章鱼与米入炊饭器同炊","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-SEAFOOD-GENERAL-CDC-1","title":"About Anisakiasis","publisher":"Centers for Disease Control and Prevention","url":"https://www.cdc.gov/anisakiasis/about/index.html","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第66至70行：FDA建议一般海鲜达到至少145°F（约63°C）内部温度；正文同时提示生/半生鱼或鱿鱼风险","claim_scopes":["safety"],"attribution":"Centers for Disease Control and Prevention","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"与现有兵库章鱼饭分开记录：仓敷下津井地域、来源和用量不同。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r197 安全补证：新增 CDC 一般海鲜至少 63°C 终点；保留原来源的物种、器具与分阶段流程，不把原程序时长当成温度证明。"},
     {
       "recipe_id": "maff-tottori-daisen-okowa",
       "canonical_name": "大山おこわ",
@@ -9234,7 +8870,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "德岛鸣门地域具名鲷饭；保留先烤后炊的原流程，总时间仍缺。 本条为搜集期候选，未晋升 executable，未完成厨房验证。 r193 安全补证：鲷清理、撒盐并烤至上色后与米炊煮，挂鱼类 63°C 终点。"
     },
-    {"recipe_id":"maff-ibaraki-hamaguri-gohan","canonical_name":"はまぐりごはん","aliases":["茨城蛤蜊饭"],"region_codes":["JP-IBARAKI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅","炒锅"],"core_ingredients":["米","蛤蜊","干香菇","胡萝卜","三つ葉"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"合"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"蛤蜊肉","amount":{"value":300,"unit":"g"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"干香菇","amount":{"value":7,"unit":"枚"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"胡萝卜","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]}],"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},"liquid_contract":{"kind":"added_dashi","amount":{"value":0.75,"unit":"杯"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},"cooking_sequence":[{"step":1,"instruction":"蛤蜊肉、胡萝卜和干香菇按来源处理并炒香，调味后分离固形物与汤汁。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"step":2,"instruction":"米加入出汁和汤汁炊煮。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"step":3,"instruction":"饭熟后加入蛤蜊和配料，按来源再焖约10分钟，最后放三つ葉。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-IBARAKI-HAMAGURI-1","title":"はまぐりごはん 茨城県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hamagurigohan_ibaraki.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第267至356行：茨城地域、4人份、蛤蜊300g、米3合、香菇/胡萝卜用量、分离蛤蜊汤汁后炊饭并焖10分钟","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"茨城霞浦地域具名蛤蜊饭；来源明确记录先处理蛤蜊并保留汤汁，饭熟后再焖入蛤蜊。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
+    {"recipe_id":"maff-ibaraki-hamaguri-gohan","canonical_name":"はまぐりごはん","aliases":["茨城蛤蜊饭"],"region_codes":["JP-IBARAKI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅","炒锅"],"core_ingredients":["米","蛤蜊","干香菇","胡萝卜","三つ葉"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"合"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"蛤蜊肉","amount":{"value":300,"unit":"g"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"干香菇","amount":{"value":7,"unit":"枚"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"name":"胡萝卜","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]}],"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},"liquid_contract":{"kind":"added_dashi","amount":{"value":0.75,"unit":"杯"},"source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},"cooking_sequence":[{"step":1,"instruction":"蛤蜊肉、胡萝卜和干香菇按来源处理并炒香，调味后分离固形物与汤汁。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"step":2,"instruction":"米加入出汁和汤汁炊煮。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]},{"step":3,"instruction":"饭熟后加入蛤蜊和配料，按来源再焖约10分钟，最后放三つ葉。","source_ids":["S-MAFF-IBARAKI-HAMAGURI-1"]}],"time_contract":null,"safety_endpoints":[{"code":"shellfish_fully_cooked","visual_endpoint":"蛤蜊肉边缘卷曲、肉质饱满且不透明","source_ids":["S-SAFETY-SHUCKED-CLAM-VDH-1","S-SAFETY-CLAM-FDACS-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-IBARAKI-HAMAGURI-1","title":"はまぐりごはん 茨城県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hamagurigohan_ibaraki.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第267至356行：茨城地域、4人份、蛤蜊300g、米3合、香菇/胡萝卜用量、分离蛤蜊汤汁后炊饭并焖10分钟","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-SHUCKED-CLAM-VDH-1","title":"Risks of Eating Raw Oysters and Clams","publisher":"Virginia Department of Health","url":"https://www.vdh.virginia.gov/epidemiology/epidemiology/epidemiology-fact-sheets/risks-of-eating-raw-oysters-and-clams/","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第51至63行：去壳蛤蜊至少煮/焖3分钟，或煮至边缘卷曲","claim_scopes":["safety"],"attribution":"Virginia Department of Health","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-CLAM-FDACS-1","title":"Clams","publisher":"Florida Department of Agriculture and Consumer Services","url":"https://www.fdacs.gov/Consumer-Resources/Buy-Fresh-From-Florida/Seafood-Products/Clams","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第70至100行：去壳蛤蜊的保存与处理；蛤蜊肉充分熟制时应饱满且不透明","claim_scopes":["safety"],"attribution":"Florida Department of Agriculture and Consumer Services","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"茨城霞浦地域具名蛤蜊饭；来源明确记录先处理蛤蜊并保留汤汁，饭熟后再焖入蛤蜊。本条为搜集期候选，未晋升 executable，未完成厨房验证。 r197 安全补证：去壳蛤蜊挂边缘卷曲、肉质饱满且不透明视觉终点；不把原方饭熟后焖10分钟当作自动安全保证。"},
     {"recipe_id":"maff-oita-amimeshi","canonical_name":"あみめし","aliases":["大分干虾饭"],"region_codes":["JP-OITA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","干虾米","酱油"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"name":"干虾米","amount":{"value":40,"unit":"g"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"name":"酱油","amount":{"value":2,"unit":"大匙"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]}],"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":500,"unit":"mL"},"source_ids":["S-MAFF-OITA-AMIMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"按来源将米炊饭；干虾米可先以酱油调味。","source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"step":2,"instruction":"饭将熟时加入干虾米和调味料，继续焖熟。","source_ids":["S-MAFF-OITA-AMIMESHI-1"]},{"step":3,"instruction":"开盖后拌匀，使干虾米分布在饭中。","source_ids":["S-MAFF-OITA-AMIMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-OITA-AMIMESHI-1","title":"あみめし 大分県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amimeshi_oita.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至343行：大分宇佐/中津/丰后高田、4人份、米2合、水500mL、干虾米30至40g与将虾米后加焖饭流程","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"大分县濑户内沿岸具名饭；来源同时记录虾米佃煮与干虾米版本，本条只登记干虾米路线。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
     {"recipe_id":"maff-ishikawa-sazae-meshi","canonical_name":"さざえめし","aliases":["石川能登蝾螺饭"],"region_codes":["JP-ISHIKAWA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","蝾螺","生姜","昆布"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"name":"蝾螺","amount":{"value":4,"unit":"只"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"name":"生姜","amount":{"value":1,"unit":"小块"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"name":"味醂","amount":{"value":3,"unit":"大匙"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"name":"酒","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"name":"酱油","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"name":"盐","amount":{"value":0.333,"unit":"小匙"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]}],"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":1,"unit":"杯"},"source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},"cooking_sequence":[{"step":1,"instruction":"蝾螺去壳、去内脏并清洗，按来源切片备用。","source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"step":2,"instruction":"米加入水、昆布和调味料，把蝾螺放在米上同锅炊煮。","source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]},{"step":3,"instruction":"焖好后拌匀，按来源以三つ葉或紫苏收尾。","source_ids":["S-MAFF-ISHIKAWA-SAZAE-1"]}],"time_contract":null,"safety_endpoints":[{"code":"shellfish_fully_cooked","visual_endpoint":"肉质呈珍珠白或白色且不透明","source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-ISHIKAWA-SAZAE-1","title":"さざえめし 石川県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/sazaemeshi_ishikawa.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至345行：石川县能登、4人份、蝾螺4只、米2合、水1杯及蝾螺处理与炊饭步骤","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government terms","evidence_locator":"FoodSafety.gov chart: shrimp, lobster, crab, and scallops flesh should be pearly or white and opaque; applies to the same sazae shellfish after the source's brief simmer."}],"status":"recipe_fact_checked","evidence_notes":"石川县能登地域具名海产饭；保留去内脏、清洗、先按来源煮后炊饭的阶段边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。 r196 安全补证：与 r194 已核验的同种蝾螺流程一致，挂贝类肉质珍珠白/白色不透明视觉终点。"},
     {"recipe_id":"maff-fukuoka-kashiwa-meshi","canonical_name":"かしわめし","aliases":["福冈鸡肉饭"],"region_codes":["JP-FUKUOKA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅","炒锅"],"core_ingredients":["米","鸡腿肉","牛蒡","胡萝卜","干香菇"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":1.7,"unit":"合"},"source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},{"name":"鸡腿肉","amount":{"value":120,"unit":"g"},"source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},{"name":"牛蒡","amount":{"value":60,"unit":"g"},"source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},{"name":"胡萝卜","amount":{"value":60,"unit":"g"},"source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},{"name":"干香菇","amount":{"value":4,"unit":"枚"},"source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]}],"source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米先按来源炊熟。","source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},{"step":2,"instruction":"鸡肉、牛蒡、胡萝卜和干香菇分别炒煮入味，保留其汤汁。","source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]},{"step":3,"instruction":"将鸡肉和蔬菜连同汤汁拌入熟饭，按来源再焖片刻。","source_ids":["S-MAFF-FUKUOKA-KASHIWA-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"搜集期保留来源器具事实，不把原方转换成其他器具参数。"},"source_refs":[{"source_id":"S-MAFF-FUKUOKA-KASHIWA-1","title":"かしわめし 福岡県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kashiwa_meshi_fukuoka.html","retrieved_at":"2026-08-07","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至377行：福冈地域、4人份、米1.7合、鸡腿120g、牛蒡/胡萝卜/香菇用量及先煮配料后拌饭流程","claim_scopes":["identity","ingredients","quantity","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"福冈具名鸡肉饭；来源明确是先炊饭、另处理鸡肉和蔬菜、最后拌入，保留分段流程。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
@@ -9248,7 +8884,7 @@
     {"recipe_id":"tiger-oyster-mushroom-rice","canonical_name":"カキときのこのごはん","aliases":["Tiger牡蛎菌菇饭"],"region_codes":[],"cuisine_family":"manufacturer-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Tiger炊饭器","小锅"],"core_ingredients":["米","牡蛎","胡萝卜","银杏","舞茸","本しめじ"],"fixed_batch":{"servings":6,"ingredients":[{"name":"米","amount":{"value":3,"unit":"杯"},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"name":"牡蛎","amount":{"value":300,"unit":"g"},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"name":"胡萝卜","amount":{"value":40,"unit":"g"},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"name":"银杏","amount":{"value":12,"unit":"粒"},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"name":"本しめじ","amount":{"value":0.5,"unit":"包"},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"name":"舞茸","amount":{"value":0.5,"unit":"包"},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]}],"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},"liquid_contract":{"kind":"waterline","waterline":{"appliance_model":"Tiger官方适用机型","scale":"white_rice","mark":3},"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},"cooking_sequence":[{"step":1,"instruction":"牡蛎用盐和淀粉清洗，在小锅中按来源加酒、淡口酱油、味醂和姜煮约2分钟并保留汤汁。","source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"step":2,"instruction":"米加入调味料和牡蛎汤汁，加水至白米3水位线。","source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"step":3,"instruction":"选择来源所称混合饭程序炊煮。","source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},{"step":4,"instruction":"饭好后加入牡蛎和银杏，再焖片刻拌匀。","source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]}],"time_contract":{"total_minutes":60,"source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"]},"safety_endpoints":[{"code":"shellfish_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-TIGER-OYSTER-MUSHROOM-RICE-1"],"waterline":{"appliance_model":"Tiger官方适用机型","scale":"white_rice","mark":3},"notes":"仅限Tiger来源适用机型及白米3水位线；牡蛎先煮、饭后再加入，不能换算成跨机型水量。"},"source_refs":[{"source_id":"S-TIGER-OYSTER-MUSHROOM-RICE-1","title":"カキときのこのごはん","publisher":"Tiger Corporation","url":"https://www.tiger-corporation.com/ja/jpn/feature/recipe/post42/","retrieved_at":"2026-08-07","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"官方页面第73至179行：6人份、米3杯、牡蛎300g、菌菇/胡萝卜/银杏用量、牡蛎先煮、白米3水位线、饭后加牡蛎及60分钟","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance","time"],"attribution":"Tiger Corporation","license":"publisher_copyright"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"Safe Minimum Internal Temperature Chart：贝类/牡蛎及其他贝类海鲜按74°C终点；鱼类按63°C；禽肉按74°C。","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],"status":"recipe_fact_checked","evidence_notes":"Tiger官方具名牡蛎菌菇饭；页面明确先煮牡蛎、以汤汁配水位线、饭后再加入牡蛎和银杏，保留中途/出锅投料边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。 r155 安全审计补充：Tiger 原页先将牡蛎按来源煮约2分钟，再于饭熟后回锅焖；按贝类74°C安全终点处理，保留先煮、汤汁入米和回锅边界。"},
     {"recipe_id":"maff-okinawa-yafara-jushi","canonical_name":"ヤファラジューシー","aliases":["冲绳软式猪肉杂炊"],"region_codes":["JP-OKINAWA"],"cuisine_family":"okinawan-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","猪三层肉","艾草"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":1,"unit":"杯"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"name":"猪三层肉","amount":{"value":100,"unit":"g"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"name":"艾草","amount":{"value":40,"unit":"g"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"name":"猪肉高汤","amount":{"value":7,"unit":"杯"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"name":"盐","amount":{"value":0.5,"unit":"大匙"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"name":"酱油","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]}],"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},"liquid_contract":{"kind":"added_broth","amount":{"value":7,"unit":"杯猪肉高汤"},"source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},"cooking_sequence":[{"step":1,"instruction":"米提前清洗沥水；艾草揉洗去苦味，猪三层肉整块煮熟后切条。","source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"step":2,"instruction":"釜中加入米、猪肉高汤、猪三层肉、艾草、盐和酱油，沸腾后转小火。","source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]},{"step":3,"instruction":"错开锅盖，像杂炊一样安静煮熟。","source_ids":["S-MAFF-OKINAWA-YAFARA-JUSHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源是锅中高汤杂炊流程；未提供普通电饭煲转换参数。"},"source_refs":[{"source_id":"S-MAFF-OKINAWA-YAFARA-JUSHI-1","title":"ヤファラジューシー 沖縄県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_25_okinawa.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至335行：冲绳全域、4人份、米1杯、猪肉高汤7杯、猪三层肉100g、艾草40g及杂炊流程","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"冲绳日常家庭软式ジューシー；来源明确是高汤杂炊而非干爽炊饭，保留猪肉先煮、错盖小火和软饭边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
     {"recipe_id":"maff-miyagi-harako-meshi","canonical_name":"はらこ飯","aliases":["宫城亘理鲑鱼亲子饭"],"region_codes":["JP-MIYAGI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","鲑鱼","鲑鱼籽","三つ葉"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":3,"unit":"杯"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"name":"鲑鱼","amount":{"value":240,"unit":"g"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"name":"鲑鱼籽","amount":{"value":80,"unit":"g"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"name":"酱油","amount":{"value":3,"unit":"大匙"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"name":"酒","amount":{"value":2,"unit":"大匙"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"name":"砂糖","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]}],"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},"liquid_contract":{"kind":"added_broth","amount":{"value":3.667,"unit":"杯鲑鱼煮汁和水"},"source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"鲑鱼去皮去骨切片，用调味料A煮熟后取出，保留煮汁。","source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"step":2,"instruction":"鲑鱼籽按来源用50–60°C热水处理，再短暂放入煮汁并取出，以调味料B浸渍。","source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"step":3,"instruction":"米加入鲑鱼煮汁和水炊饭。","source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]},{"step":4,"instruction":"饭盛出后放上鲑鱼和鲑鱼籽，按来源以三つ葉收尾。","source_ids":["S-MAFF-MIYAGI-HARAKO-MESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["鱼类"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源为先煮鲑鱼/鲑鱼籽、再用煮汁炊饭、出锅装配的连续流程；未把它改写成全程同锅。"},"source_refs":[{"source_id":"S-MAFF-MIYAGI-HARAKO-MESHI-1","title":"はらこ飯 宮城県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/harako_meshi_miyagi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至354行：宫城亘理、4人份、米3杯、鲑鱼240g、鲑鱼籽80g、煮汁和水3又2/3杯及分段煮制/炊饭/装配流程","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"宫城亘理具名鲑鱼亲子饭；保留鲑鱼和鲑鱼籽分别处理、米用煮汁炊饭、出锅装配的传统边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
-    {"recipe_id":"maff-yamaguchi-uni-meshi","canonical_name":"うに飯","aliases":["山口萩海胆饭"],"region_codes":["JP-YAMAGUCHI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","生海胆","昆布","海苔"],"fixed_batch":{"servings":1,"ingredients":[{"name":"生海胆","amount":{"value":10,"unit":"g"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"白米","amount":{"value":1,"unit":"合"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"日本酒","amount":{"value":1,"unit":"小匙"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"酱油","amount":{"value":1,"unit":"大匙弱"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"昆布","amount":{"value":0.5,"unit":"g"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]}],"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"昆布垫底，米加入少量水、日本酒和酱油，按来源浸水后入釜。","source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"step":2,"instruction":"临近沸腾时加入约为米量一成的生海胆，按来源继续炊煮。","source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"step":3,"instruction":"饭熟后拌入三つ葉，盛出并以刻海苔收尾。","source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]}],"time_contract":{"total_minutes":22,"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},"safety_endpoints":[],"allergen_labels":["鱼类"],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源为锅中沸腾前投放海胆的传统流程；水量对象不明确，不推导普通电饭煲液体合同。"},"source_refs":[{"source_id":"S-MAFF-YAMAGUCHI-UNI-MESHI-1","title":"うに飯 山口県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/43_24_yamaguchi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至334行：山口萩、1人份、生海胆10g、米1合、酒/酱油/昆布、沸腾前投放海胆及约20分钟流程","claim_scopes":["identity","ingredients","quantity","process","time"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"山口萩具名海胆饭；来源明确是海胆与米同炊而非海胆盖饭，保留沸腾前投放与水量未定边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
+    {"recipe_id":"maff-yamaguchi-uni-meshi","canonical_name":"うに飯","aliases":["山口萩海胆饭"],"region_codes":["JP-YAMAGUCHI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","生海胆","昆布","海苔"],"fixed_batch":{"servings":1,"ingredients":[{"name":"生海胆","amount":{"value":10,"unit":"g"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"白米","amount":{"value":1,"unit":"合"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"日本酒","amount":{"value":1,"unit":"小匙"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"酱油","amount":{"value":1,"unit":"大匙弱"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"name":"昆布","amount":{"value":0.5,"unit":"g"},"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]}],"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"昆布垫底，米加入少量水、日本酒和酱油，按来源浸水后入釜。","source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"step":2,"instruction":"临近沸腾时加入约为米量一成的生海胆，按来源继续炊煮。","source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},{"step":3,"instruction":"饭熟后拌入三つ葉，盛出并以刻海苔收尾。","source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]}],"time_contract":{"total_minutes":22,"source_ids":["S-MAFF-YAMAGUCHI-UNI-MESHI-1"]},"safety_endpoints":[{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-SEAFOOD-GENERAL-CDC-1"]}],"allergen_labels":["鱼类"],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源为锅中沸腾前投放海胆的传统流程；水量对象不明确，不推导普通电饭煲液体合同。"},"source_refs":[{"source_id":"S-MAFF-YAMAGUCHI-UNI-MESHI-1","title":"うに飯 山口県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/43_24_yamaguchi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至334行：山口萩、1人份、生海胆10g、米1合、酒/酱油/昆布、沸腾前投放海胆及约20分钟流程","claim_scopes":["identity","ingredients","quantity","process","time"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-SEAFOOD-GENERAL-CDC-1","title":"About Anisakiasis","publisher":"Centers for Disease Control and Prevention","url":"https://www.cdc.gov/anisakiasis/about/index.html","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第66至70行：FDA建议一般海鲜达到至少145°F（约63°C）内部温度；正文同时提示生/半生鱼或鱿鱼风险","claim_scopes":["safety"],"attribution":"Centers for Disease Control and Prevention","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"山口萩具名海胆饭；来源明确是海胆与米同炊而非海胆盖饭，保留沸腾前投放与水量未定边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。 r197 安全补证：新增 CDC 一般海鲜至少 63°C 终点；保留原来源的物种、器具与分阶段流程，不把原程序时长当成温度证明。"},
     {"recipe_id":"maff-wakayama-kakimade-gohan","canonical_name":"かきまでご飯","aliases":["和歌山日高拌饭"],"region_codes":["JP-WAKAYAMA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器","锅"],"core_ingredients":["米","烤鲭鱼","高野豆腐","干香菇","油豆腐","竹轮","魔芋","牛蒡","胡萝卜"],"fixed_batch":{"servings":7,"ingredients":[{"name":"米","amount":{"value":5,"unit":"合"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"酒","amount":{"value":50,"unit":"mL"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"烤鲭鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"胡萝卜","amount":{"value":60,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"高野豆腐","amount":{"value":30,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"干香菇","amount":{"value":15,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"油豆腐","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"竹轮","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"魔芋","amount":{"value":120,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"name":"牛蒡","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]}],"source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米加入酒和水，按来源先炊成偏硬的饭。","source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"step":2,"instruction":"鲭鱼去骨；鱼骨加水取出汁，配料切丝并按来源煮熟。","source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]},{"step":3,"instruction":"将鲭鱼和配料连汁拌入炊好的饭，按来源以豌豆和红姜收尾。","source_ids":["S-MAFF-WAKAYAMA-KAKIMADE-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["鱼类","大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源是先炊饭、另锅煮具、再拌合的连续流程；不宣称全程同锅或普通电饭煲适配。"},"source_refs":[{"source_id":"S-MAFF-WAKAYAMA-KAKIMADE-1","title":"かきまでご飯 和歌山県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kakimade_gohan_wakayama.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至373行：和歌山日高、7人份、米5合、烤鲭鱼与多种配料用量、先炊饭后煮具再拌合流程","claim_scopes":["identity","ingredients","quantity","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"和歌山日高具名拌饭；来源明确是烧鲭鱼骨取汁、另锅煮具、最后拌入饭，不把它改写成虚构的同锅焖饭。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
     {"recipe_id":"maff-chiba-takatsu-torimeshi","canonical_name":"高津のとり飯","aliases":["千叶八千代高津鸡肉饭"],"region_codes":["JP-CHIBA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","鸡腿肉","酱油"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]},{"name":"鸡腿肉","amount":{"value":120,"unit":"g"},"source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]},{"name":"酱油","amount":{"value":40,"unit":"cc"},"source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]}],"source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米按来源先正常炊饭。","source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]},{"step":2,"instruction":"鸡腿肉切成小块，只用酱油煮到熟透且留下少量煮汁。","source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]},{"step":3,"instruction":"将煮好的鸡肉和煮汁拌入刚炊好的米饭。","source_ids":["S-MAFF-CHIBA-TAKATSU-TORIMESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"C","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源为米饭与鸡肉分段制作后拌合；未把它改写为鸡肉生米同锅炊煮。"},"source_refs":[{"source_id":"S-MAFF-CHIBA-TAKATSU-TORIMESHI-1","title":"高津のとり飯 千葉県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takatsu_no_torimeshi_chiba.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至339行：千叶八千代高津、4人份、米2合、鸡腿肉120g、酱油40cc及分段煮鸡拌饭流程","claim_scopes":["identity","ingredients","quantity","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"千叶八千代高津地区具名鸡肉饭；来源强调少食材、先煮鸡肉后拌入饭，保留分段流程。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
     {"recipe_id":"maff-kyoto-kuri-gohan","canonical_name":"栗ごはん","aliases":["京都丹波栗饭"],"region_codes":["JP-KYOTO"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","栗","昆布","黑芝麻"],"fixed_batch":{"servings":6,"ingredients":[{"name":"米","amount":{"value":3,"unit":"杯"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"name":"去皮栗","amount":{"value":15,"unit":"个"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"name":"昆布","amount":{"value":5,"unit":"cm角"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"name":"酒","amount":{"value":3,"unit":"大匙"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"name":"盐","amount":{"value":1.5,"unit":"小匙"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"name":"水","amount":{"value":3.333,"unit":"杯"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]}],"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":3.333,"unit":"杯"},"source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},"cooking_sequence":[{"step":1,"instruction":"栗去鬼皮和渋皮后立即浸水，按来源反复换水。","source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"step":2,"instruction":"米提前30分钟洗净沥水。","source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"step":3,"instruction":"米、水、昆布、盐和酒加入栗后炊煮。","source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]},{"step":4,"instruction":"成品盛出后按来源撒黑芝麻。","source_ids":["S-MAFF-KYOTO-KURI-GOHAN-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":[],"nutrition_structure":{"grade":"C","roles":["carbohydrate","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源直接给出炊饭器做法，但未建立跨型号电饭煲合同；保留为研究候选。"},"source_refs":[{"source_id":"S-MAFF-KYOTO-KURI-GOHAN-1","title":"栗ごはん 京都府","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kurigohan_kyoto.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至357行：京都中丹/南丹、6人份、米3杯、去皮栗15个、水3又1/3杯、栗下处理及炊饭流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"京都丹波栗具名栗饭；营养结构以碳水和膳食纤维为主，目录明确不宣称完整蛋白餐。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
@@ -9260,7 +8896,7 @@
     {"recipe_id":"maff-chiba-gonjuu","canonical_name":"ごんじゅう","aliases":["千叶馆山豚肉油豆腐饭团"],"region_codes":["JP-CHIBA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","猪五花肉","油豆腐皮","柴鱼片"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米按来源先炊好；柴鱼片干炒后揉碎，油豆腐皮焯水切碎，猪五花肉切丁。","source_ids":["S-MAFF-CHIBA-GONJUU-1"]},{"step":2,"instruction":"猪肉、油豆腐皮和调味料入锅煮熟收味，保留煮汁。","source_ids":["S-MAFF-CHIBA-GONJUU-1"]},{"step":3,"instruction":"将煮好的具材和煮汁拌入米饭，再加入柴鱼片。","source_ids":["S-MAFF-CHIBA-GONJUU-1"]},{"step":4,"instruction":"按来源握成饭团食用。","source_ids":["S-MAFF-CHIBA-GONJUU-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"馆山来源是米饭与具材分段制作后拌合成饭团；原方为20个饭团批次，不把饭团数量当作主餐 servings，也不改写成同锅炊饭。"},"source_refs":[{"source_id":"S-MAFF-CHIBA-GONJUU-1","title":"ごんじゅう 千葉県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/gonjuu_chiba.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至368行：千叶馆山、米/豚五花/油豆腐皮/柴鱼片身份、20个批次用量及煮熟后拌饭团流程","claim_scopes":["identity","ingredients","quantity","process","safety"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"千叶馆山具名祭礼饭团ごんじゅう；来源明确使用充分加热后的猪肉与油豆腐皮拌入米饭，目录保留20个饭团批次和分段流程边界，不伪造电饭煲参数。本条为搜集期候选，未晋升 executable，未完成厨房验证。"},
     {"recipe_id":"maff-nagasaki-torimeshi","canonical_name":"鶏飯","aliases":["长崎谏早鸡肉饭","といめし"],"region_codes":["JP-NAGASAKI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["米","鸡肉","昆布"],"fixed_batch":{"servings":2,"ingredients":[{"name":"米","amount":{"value":1,"unit":"杯"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"name":"水","amount":{"value":220,"unit":"mL"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"name":"昆布","amount":{"value":3,"unit":"cm"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"name":"食用油","amount":{"value":0.5,"unit":"大匙"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"name":"鸡肉","amount":{"value":50,"unit":"g"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"name":"酒","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]}],"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":220,"unit":"mL"},"source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"米洗净，加入水和昆布浸泡30分钟以上后炊饭。","source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"step":2,"instruction":"鸡肉切小块，锅中加油炒熟，再加入酒和酱油焖煮至完全熟透。","source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]},{"step":3,"instruction":"米饭焖好后，把鸡肉连汁拌入饭中。","source_ids":["S-MAFF-NAGASAKI-TORIMESHI-1"]}],"time_contract":null,"safety_endpoints":[{"code":"poultry_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["大豆"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"谏早来源是米饭与鸡肉分段制作后拌合；未把厚锅炒煮流程转换成普通电饭煲参数。"},"source_refs":[{"source_id":"S-MAFF-NAGASAKI-TORIMESHI-1","title":"鶏飯 長崎県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/46_13_nagasaki.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第266至358行：长崎谏早、2人份、米1杯/水220mL/鸡肉50g/油与酒用量、鸡肉先炒焖熟再拌饭流程","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government terms","evidence_locator":"FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies to the chicken cooked separately before mixing into the rice."}],"status":"recipe_fact_checked","evidence_notes":"长崎谏早地区具名鸡肉饭（といめし）；来源给出2人份和分段流程，保留鸡肉完全熟透后连汁拌饭的安全边界。本条为搜集期候选，未晋升 executable，未完成厨房验证。 r194 安全补证：鸡肉先炒并焖至完全熟透后拌入米饭，挂禽肉 74°C 终点。"},
     {"recipe_id":"maff-kagoshima-keihan","canonical_name":"鶏飯","aliases":["鹿儿岛奄美鸡饭","奄美鸡饭"],"region_codes":["JP-KAGOSHIMA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["锅","饭碗"],"core_ingredients":["米","鸡胸肉","鸡骨","干香菇","鸡蛋","四季豆"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米按来源先炊好；鸡骨、姜和水熬汤，鸡肉煮熟后撕丝并将汤过滤调味。","source_ids":["S-MAFF-KAGOSHIMA-KEIHAN-1"]},{"step":2,"instruction":"干香菇泡发后切丝煮含味，四季豆焯熟切丝，鸡蛋摊成蛋皮切丝。","source_ids":["S-MAFF-KAGOSHIMA-KEIHAN-1"]},{"step":3,"instruction":"米饭盛碗，按来源摆上鸡肉、香菇、蛋丝、四季豆和其他配料。","source_ids":["S-MAFF-KAGOSHIMA-KEIHAN-1"]},{"step":4,"instruction":"淋入热鸡汤食用；这是奄美的汤泡饭式鸡饭，不改称同锅焖饭。","source_ids":["S-MAFF-KAGOSHIMA-KEIHAN-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆","鸡蛋"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"奄美来源明确是白饭、鸡汤和多种配料分段准备后组合的汤泡饭；目录仅记录其真实身份，不把它包装成一锅出或普通电饭煲方案。"},"source_refs":[{"source_id":"S-MAFF-KAGOSHIMA-KEIHAN-1","title":"鶏飯 鹿児島県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/keihan_kagoshima.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至411行：鹿儿岛奄美、米/鸡肉/鸡骨/香菇/鸡蛋/四季豆身份、分段汤饭流程与4人份材料表","claim_scopes":["identity","ingredients","quantity","process"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"鹿儿岛奄美具名鶏飯；它是真实地域米饭主餐，但来源明确是白饭、鸡汤和配料分段组合，不符合严格同锅执行。本条收录用于完整地域目录，暂不进入一锅出可执行候选，未晋升 executable。"},
-    {"recipe_id":"maff-aichi-tako-meshi","canonical_name":"たこ飯（たこめし）","aliases":["爱知日间贺岛章鱼饭","爱知渔师章鱼饭"],"region_codes":["JP-AICHI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","生章鱼","生姜"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"生章鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"酒","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"味醂","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"酱油","amount":{"value":3,"unit":"大匙"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"生姜","amount":{"value":1,"unit":"瓣"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]}],"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米洗净浸泡约30分钟后沥水；章鱼用盐揉洗去黏，切约2cm，生姜切丝。","source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"step":2,"instruction":"炊饭器加入米、酒、味醂、酱油并按内釜刻度加水混匀，放上生章鱼和生姜后炊煮。","source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"step":3,"instruction":"炊好后拌松，按来源撒葱。","source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"官方来源明确为炊饭器同锅，但没有成品温度或跨型号安全终点；生章鱼的充分加热需另接安全证据后再谈 executable。"},"source_refs":[{"source_id":"S-MAFF-AICHI-TAKO-MESHI-1","title":"たこ飯（たこめし） 愛知県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takomeshi_aichi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第269至357行：爱知尾张/日间贺岛、4人份米2合与生章鱼200g、调味料、炊饭器同锅流程","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"爱知日间贺岛具名章鱼饭；保留生章鱼与米同炊的地域差异，不用熟章鱼版本替换。没有来源明确的安全终点，不晋升 executable。"},
+    {"recipe_id":"maff-aichi-tako-meshi","canonical_name":"たこ飯（たこめし）","aliases":["爱知日间贺岛章鱼饭","爱知渔师章鱼饭"],"region_codes":["JP-AICHI"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","生章鱼","生姜"],"fixed_batch":{"servings":4,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"生章鱼","amount":{"value":200,"unit":"g"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"酒","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"味醂","amount":{"value":1,"unit":"大匙"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"酱油","amount":{"value":3,"unit":"大匙"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"name":"生姜","amount":{"value":1,"unit":"瓣"},"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]}],"source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"米洗净浸泡约30分钟后沥水；章鱼用盐揉洗去黏，切约2cm，生姜切丝。","source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"step":2,"instruction":"炊饭器加入米、酒、味醂、酱油并按内釜刻度加水混匀，放上生章鱼和生姜后炊煮。","source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]},{"step":3,"instruction":"炊好后拌松，按来源撒葱。","source_ids":["S-MAFF-AICHI-TAKO-MESHI-1"]}],"time_contract":null,"safety_endpoints":[{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-SEAFOOD-GENERAL-CDC-1"]}],"allergen_labels":["大豆","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"官方来源明确为炊饭器同锅，但没有成品温度或跨型号安全终点；生章鱼的充分加热需另接安全证据后再谈 executable。"},"source_refs":[{"source_id":"S-MAFF-AICHI-TAKO-MESHI-1","title":"たこ飯（たこめし） 愛知県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takomeshi_aichi.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第269至357行：爱知尾张/日间贺岛、4人份米2合与生章鱼200g、调味料、炊饭器同锅流程","claim_scopes":["identity","ingredients","quantity","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-SEAFOOD-GENERAL-CDC-1","title":"About Anisakiasis","publisher":"Centers for Disease Control and Prevention","url":"https://www.cdc.gov/anisakiasis/about/index.html","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第66至70行：FDA建议一般海鲜达到至少145°F（约63°C）内部温度；正文同时提示生/半生鱼或鱿鱼风险","claim_scopes":["safety"],"attribution":"Centers for Disease Control and Prevention","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"爱知日间贺岛具名章鱼饭；保留生章鱼与米同炊的地域差异，不用熟章鱼版本替换。没有来源明确的安全终点，不晋升 executable。 r197 安全补证：新增 CDC 一般海鲜至少 63°C 终点；保留原来源的物种、器具与分阶段流程，不把原程序时长当成温度证明。"},
     {"recipe_id":"maff-hiroshima-mihara-tako-meshi","canonical_name":"たこめし","aliases":["广岛三原章鱼饭","三原たこめし"],"region_codes":["JP-HIROSHIMA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","煮章鱼","胡萝卜"],"fixed_batch":{"servings":4,"ingredients":[{"name":"精白米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},{"name":"水","amount":{"value":450,"unit":"mL"},"source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},{"name":"煮章鱼","amount":{"value":150,"unit":"g"},"source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},{"name":"胡萝卜","amount":{"value":30,"unit":"g"},"source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]}],"source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":450,"unit":"mL"},"source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"煮章鱼切块，胡萝卜切丝。","source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},{"step":2,"instruction":"洗米，加入水、章鱼、胡萝卜和酒、淡口酱油，一起炊煮。","source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]},{"step":3,"instruction":"盛出后按来源撒刻海苔。","source_ids":["S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"来源明确为煮章鱼入炊饭器同锅；没有普通电饭煲成品安全终点，保留煮章鱼身份，不替换为生章鱼。"},"source_refs":[{"source_id":"S-MAFF-HIROSHIMA-MIHARA-TAKO-MESHI-1","title":"たこめし 広島県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_18_hiroshima.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第267至340行：广岛三原/尾道/福山、4人份米2合、水450mL、煮章鱼150g、胡萝卜30g及同锅流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"广岛三原具名章鱼饭；固定合同使用来源明确的煮章鱼，不能把另一地区生章鱼流程拼入。"},
     {"recipe_id":"maff-saga-tsugani-meshi","canonical_name":"つがにめし","aliases":["佐贺河蟹饭","佐贺蟹饭","がね飯"],"region_codes":["JP-SAGA"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["釜"],"core_ingredients":["米","河蟹","出汁"],"fixed_batch":{"servings":10,"ingredients":[{"name":"河蟹","amount":{"value":5,"unit":"只"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"name":"米","amount":{"value":5,"unit":"合"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"name":"浓口酱油","amount":{"value":50,"unit":"cc"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"name":"淡口酱油","amount":{"value":50,"unit":"cc"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"name":"出汁","amount":{"value":900,"unit":"cc"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"name":"酒","amount":{"value":30,"unit":"cc"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]}],"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},"liquid_contract":{"kind":"added_broth","amount":{"value":900,"unit":"cc"},"source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"河蟹按来源浸泡去污、刷洗、去壳去鳃并切半。","source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"step":2,"instruction":"釜中加入米、出汁和调味料，摆入处理好的河蟹，静置约30分钟后炊煮。","source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]},{"step":3,"instruction":"保留来源的传统釜同锅身份；不把活淡水蟹流程改写成普通电饭煲方案。","source_ids":["S-MAFF-SAGA-TSUGANI-MESHI-1"]}],"time_contract":null,"safety_endpoints":[{"code":"shellfish_fully_cooked","visual_endpoint":"肉质呈珍珠白或白色且不透明","source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["甲壳类"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"佐贺来源为传统釜同锅；活淡水蟹的寄生虫与充分加热终点尚未闭合，暂不进入默认家庭展示或 executable。"},"source_refs":[{"source_id":"S-MAFF-SAGA-TSUGANI-MESHI-1","title":"つがにめし 佐賀県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_19_saga.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至335行：佐贺全域、10人份、河蟹5只、米5合、出汁900cc及传统釜同锅流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"FoodSafety.gov chart: shrimp, lobster, crab, and scallops flesh should be pearly or white and opaque; this endpoint is used for the cleaned river crab ingredient.","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"佐贺秋冬河蟹饭；文化身份与传统釜流程有直接官方来源，按 FoodSafety.gov 甲壳类视觉终点补充蟹肉珍珠白/白色且不透明，但仍保留传统釜边界，不晋升 executable。"},
     {"recipe_id":"maff-hyogo-tako-meshi","canonical_name":"たこめし","aliases":["兵库淡路岛章鱼饭","兵库东播磨章鱼饭"],"region_codes":["JP-HYOGO"],"cuisine_family":"japanese-regional-rice","identity_status":"verified","traditional_vessels":["炊饭器"],"core_ingredients":["米","干章鱼","出汁"],"fixed_batch":{"servings":3,"ingredients":[{"name":"米","amount":{"value":2,"unit":"合"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"name":"混合出汁","amount":{"value":400,"unit":"mL"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"name":"酒","amount":{"value":30,"unit":"mL"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"name":"味醂","amount":{"value":30,"unit":"mL"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"name":"淡口酱油","amount":{"value":30,"unit":"mL"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"name":"干章鱼","amount":{"value":2,"unit":"脚"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]}],"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},"liquid_contract":{"kind":"added_broth","amount":{"value":400,"unit":"mL"},"source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},"cooking_sequence":[{"step":1,"instruction":"米洗净；干章鱼轻烤后剪成约5mm宽，若偏硬可在出汁中浸泡约30分钟或过夜。","source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"step":2,"instruction":"炊饭器加入米、出汁、酒、味醂、淡口酱油和章鱼后炊煮。","source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]},{"step":3,"instruction":"盛出后按来源选择姜、三叶、葱、芝麻或海苔点缀。","source_ids":["S-MAFF-HYOGO-TAKO-MESHI-1"]}],"time_contract":null,"safety_endpoints":[],"allergen_labels":["大豆","软体动物"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"not_adapted","notes":"兵库官方来源直接给出炊饭器流程和3人份合同；保留干章鱼/熟章鱼等地区差异，不把不同状态混成单一替代。"},"source_refs":[{"source_id":"S-MAFF-HYOGO-TAKO-MESHI-1","title":"たこめし 兵庫県","publisher":"農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_27_hyogo.html","retrieved_at":"2026-08-05","source_kind":"government_food_culture_page","access_status":"opened","evidence_tier":2,"evidence_locator":"正文第257至340行：兵库淡路岛/东播磨、3人份米2合/混合出汁400mL/干章鱼2脚及炊饭器流程","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"農林水産省","license":"government_site_terms_unspecified"}],"status":"recipe_fact_checked","evidence_notes":"兵库淡路岛与东播磨具名章鱼饭；官方明确干章鱼、煮章鱼、生章鱼存在地域差异，本条只登记干章鱼合同，不跨版本替换。"},
@@ -18038,60 +17674,7 @@
       "status": "recipe_fact_checked",
       "evidence_notes": "香港卫生署官方具名食谱直接给出约18份粥底、米水量、3小时粥底和鱼腩/冬菇后投煮熟流程；来源没有鱼类中心温度、家庭缩放或电饭煲适配，保持批量研究边界。"
     },
-    {
-      "recipe_id": "hk-golden-seafood-congee",
-      "canonical_name": "黃金海鮮粥",
-      "aliases": ["黄金海鲜粥"],
-      "region_codes": ["HK"],
-      "cuisine_family": "hong-kong-congee",
-      "identity_status": "verified",
-      "traditional_vessels": ["锅"],
-      "core_ingredients": ["丝苗白米", "花蛤", "虾", "鱿鱼", "带子", "原粒粟米"],
-      "fixed_batch": {
-        "servings": 5,
-        "ingredients": [
-          {"name": "花蛤", "amount": {"value": 11, "unit": "只"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
-          {"name": "虾", "amount": {"value": 3, "unit": "只"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
-          {"name": "鱿鱼", "amount": {"value": 15, "unit": "g"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
-          {"name": "带子", "amount": {"value": 3, "unit": "只"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
-          {"name": "原粒粟米", "amount": {"value": 1, "unit": "汤匙"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
-          {"name": "丝苗白米", "amount": {"value": 0.75, "unit": "碗"}, "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]}
-        ],
-        "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]
-      },
-      "liquid_contract": {
-        "kind": "added_water",
-        "amount": {"value": 4, "unit": "碗"},
-        "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]
-      },
-      "cooking_sequence": [
-        {"step": 1, "instruction": "海鲜洗切，白米淘洗；水滚后下白米煮至粥起。", "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},
-        {"step": 2, "instruction": "加入花蛤、虾、鱿鱼、带子和原粒粟米，煮至海鲜熟透。", "source_ids": ["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]}
-      ],
-      "time_contract": null,
-      "safety_endpoints": [],
-      "allergen_labels": ["甲壳类", "鱼类"],
-      "nutrition_structure": {"grade": "B", "roles": ["carbohydrate", "protein", "fiber"]},
-      "cooker_adaptation": {"status": "not_adapted", "notes": "香港卫生署炉上锅食谱；来源只证明原锅生米煮粥、海鲜后投煮熟，不提供电饭煲参数或海鲜中心温度。"},
-      "source_refs": [
-        {
-          "source_id": "S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1",
-          "title": "黃金海鮮粥",
-          "publisher": "香港卫生署有营食谱",
-          "url": "https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=589",
-          "retrieved_at": "2026-08-06",
-          "source_kind": "health_authority_recipe_page",
-          "access_status": "opened",
-          "evidence_tier": 4,
-          "evidence_locator": "官方食谱正文：5人份，花蛤11只、虾3只、鱿鱼15g、带子3只、原粒粟米1汤匙、丝苗白米3/4碗、清水4碗；水滚下米煮至粥起，再放全部材料煮至熟透",
-          "claim_scopes": ["identity", "ingredients", "quantity", "liquid", "process"],
-          "attribution": "香港卫生署有营食谱",
-          "license": "government_site_terms_unspecified"
-        }
-      ],
-      "status": "recipe_fact_checked",
-      "evidence_notes": "香港卫生署官方具名食谱直接给出5人份米水、花蛤虾鱿鱼带子和粟米用量，以及生米煮粥后海鲜同锅煮熟流程；没有海鲜中心温度或电饭煲适配，保持原锅研究边界。"
-    },
+    {"recipe_id":"hk-golden-seafood-congee","canonical_name":"黃金海鮮粥","aliases":["黄金海鲜粥"],"region_codes":["HK"],"cuisine_family":"hong-kong-congee","identity_status":"verified","traditional_vessels":["锅"],"core_ingredients":["丝苗白米","花蛤","虾","鱿鱼","带子","原粒粟米"],"fixed_batch":{"servings":5,"ingredients":[{"name":"花蛤","amount":{"value":11,"unit":"只"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},{"name":"虾","amount":{"value":3,"unit":"只"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},{"name":"鱿鱼","amount":{"value":15,"unit":"g"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},{"name":"带子","amount":{"value":3,"unit":"只"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},{"name":"原粒粟米","amount":{"value":1,"unit":"汤匙"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},{"name":"丝苗白米","amount":{"value":0.75,"unit":"碗"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]}],"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},"liquid_contract":{"kind":"added_water","amount":{"value":4,"unit":"碗"},"source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},"cooking_sequence":[{"step":1,"instruction":"海鲜洗切，白米淘洗；水滚后下白米煮至粥起。","source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]},{"step":2,"instruction":"加入花蛤、虾、鱿鱼、带子和原粒粟米，煮至海鲜熟透。","source_ids":["S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1"]}],"time_contract":null,"safety_endpoints":[{"code":"seafood_fully_cooked","minimum_core_temperature_c":63,"source_ids":["S-SAFETY-SEAFOOD-GENERAL-CDC-1"]}],"allergen_labels":["甲壳类","鱼类"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein","fiber"]},"cooker_adaptation":{"status":"not_adapted","notes":"香港卫生署炉上锅食谱；来源只证明原锅生米煮粥、海鲜后投煮熟，不提供电饭煲参数或海鲜中心温度。"},"source_refs":[{"source_id":"S-HK-EATSMART-GOLDEN-SEAFOOD-CONGEE-1","title":"黃金海鮮粥","publisher":"香港卫生署有营食谱","url":"https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=589","retrieved_at":"2026-08-06","source_kind":"health_authority_recipe_page","access_status":"opened","evidence_tier":4,"evidence_locator":"官方食谱正文：5人份，花蛤11只、虾3只、鱿鱼15g、带子3只、原粒粟米1汤匙、丝苗白米3/4碗、清水4碗；水滚下米煮至粥起，再放全部材料煮至熟透","claim_scopes":["identity","ingredients","quantity","liquid","process"],"attribution":"香港卫生署有营食谱","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-SEAFOOD-GENERAL-CDC-1","title":"About Anisakiasis","publisher":"Centers for Disease Control and Prevention","url":"https://www.cdc.gov/anisakiasis/about/index.html","retrieved_at":"2026-08-08","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"正文第66至70行：FDA建议一般海鲜达到至少145°F（约63°C）内部温度；正文同时提示生/半生鱼或鱿鱼风险","claim_scopes":["safety"],"attribution":"Centers for Disease Control and Prevention","license":"U.S. government terms"}],"status":"recipe_fact_checked","evidence_notes":"香港卫生署官方具名食谱直接给出5人份米水、花蛤虾鱿鱼带子和粟米用量，以及生米煮粥后海鲜同锅煮熟流程；没有海鲜中心温度或电饭煲适配，保持原锅研究边界。 r197 安全补证：新增 CDC 一般海鲜至少 63°C 终点；保留原来源的物种、器具与分阶段流程，不把原程序时长当成温度证明。"},
     {
       "recipe_id": "panasonic-taiwan-red-crab-pork-congee",
       "canonical_name": "紅蟳稀飯",
