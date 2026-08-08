@@ -12,7 +12,7 @@ const tigerUrls = {
 };
 
 test('r102 adds four opened Tiger source records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r184');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r185');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, url] of Object.entries(tigerUrls)) {
     const recipe = byId.get(recipeId);
@@ -20,7 +20,18 @@ test('r102 adds four opened Tiger source records without promotion', () => {
     assert.equal(recipe.status, 'recipe_fact_checked');
     assert.equal(recipe.identity_status, 'verified');
     assert.equal(recipe.fixed_batch, null);
-    assert.equal(recipe.liquid_contract, null);
+    const expectedLiquid = recipeId === 'tiger-bubur-ayam-indonesian-chicken-porridge'
+      ? {
+        kind: 'waterline',
+        waterline: {
+          appliance_model: 'Tiger 5.5杯电饭煲（10杯机型按来源加倍）',
+          scale: 'porridge',
+          mark: 'Porridge 0.5水位线',
+        },
+        source_ids: ['S-R102-TIGER-BUBUR-AYAM-1'],
+      }
+      : null;
+    assert.deepEqual(recipe.liquid_contract, expectedLiquid);
     assert.ok(recipe.cooking_sequence.length >= 2);
     assert.equal(recipe.source_refs.length, 1);
     const source = recipe.source_refs[0];
