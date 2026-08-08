@@ -1171,7 +1171,7 @@
 | Chicken Meatballs with Grated Daikon | 白萝卜鸡肉丸饭；虎牌萝卜鸡肉丸饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡肉末；老豆腐；洋葱；鸡蛋；面包糠；白萝卜；紫苏叶 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken Meatballs with Grated Daikon](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-meatballs-with-grated-daikon/) |
 | Chicken Mushroom Rice | 鸡肉香菇饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 日本米；干香菇；鸡胸肉；鸡汤；姜；蒜；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken Mushroom Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-mushroom-rice/) |
 | Chicken Rice Soup | Instant Pot鸡肉米汤 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 长粒白米；鸡胸肉；鸡汤；胡萝卜；西芹 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken Rice Soup](https://instantpot.com/blogs/recipes/chicken-rice-soup) |
-| Chicken Satay Rice | Instant Pot花生酱鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；鸡汤；番茄；花生酱；四季豆；洋葱 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken Satay Rice](https://instantpot.com/blogs/recipes/chicken-satay-rice) |
+| Chicken Satay Rice | Instant Pot花生酱鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；鸡汤；番茄；花生酱；四季豆；洋葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken Satay Rice](https://instantpot.com/blogs/recipes/chicken-satay-rice)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Chicken Vegetable Rice | Panasonic Chicken Vegetable Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；葱；鸡高汤 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Chicken Vegetable Rice](https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/chicken-vegetable-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Chicken and Brown Rice Soup | 电饭煲鸡肉糙米汤；鸡肉糙米汤饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；鸡胸或鸡腿肉；胡萝卜；芹菜；洋葱；鸡汤 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken and Brown Rice Soup](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-and-brown-rice-soup/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Chicken and Rice With Vegetables | 鸡肉蔬菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 短粒糙米；蒜；鸡汤；西兰花；南瓜；鸡肉 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [Chicken and Rice With Vegetables](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-and-rice-with-vegetables/) |
@@ -2221,17 +2221,17 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken and Rice | 加州CalFresh鸡肉饭 | US-CA | usa-calfresh-chicken-rice | 研究记录（非公开可执行） | 糙米；鸡胸肉；洋葱；青椒；墨西哥辣椒；蒜；鸡汤；番茄；豌豆胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken and Rice](https://calfreshhealthyliving.cdph.ca.gov/en/recipes/Pages/Chicken-and-Rice.aspx) |
+| Chicken and Rice | 加州CalFresh鸡肉饭 | US-CA | usa-calfresh-chicken-rice | 研究记录（非公开可执行） | 糙米；鸡胸肉；洋葱；青椒；墨西哥辣椒；蒜；鸡汤；番茄；豌豆胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Chicken and Rice](https://calfreshhealthyliving.cdph.ca.gov/en/recipes/Pages/Chicken-and-Rice.aspx)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-caribbean-jerk-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| One Pot Caribbean Jerk Chicken & Rice | 加勒比Jerk鸡肉饭 | US-CO | usa-caribbean-jerk-chicken-rice | 研究记录（非公开可执行） | 鸡腿肉；未煮长粒米；红腰豆；椰奶；鸡汤或水；洋葱；蒜；香叶；Jerk调味料 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [One Pot Caribbean Jerk Chicken & Rice](https://www.cu.edu/doc/ssc-cookbookpdf) |
+| One Pot Caribbean Jerk Chicken & Rice | 加勒比Jerk鸡肉饭 | US-CO | usa-caribbean-jerk-chicken-rice | 研究记录（非公开可执行） | 鸡腿肉；未煮长粒米；红腰豆；椰奶；鸡汤或水；洋葱；蒜；香叶；Jerk调味料 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [One Pot Caribbean Jerk Chicken & Rice](https://www.cu.edu/doc/ssc-cookbookpdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-cheesy-chicken-rice-skillet
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Cheesy Chicken, Rice, & Vegetable Skillet | 俄亥俄州鸡肉芝士蔬菜米饭煎锅 | US-OH | usa-cheesy-chicken-rice-skillet | 研究记录（非公开可执行） | 鸡肉；未煮糙米；西兰花；胡萝卜；洋葱；低脂切达奶酪；水；鸡汤块 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Cheesy Chicken, Rice, & Vegetable Skillet](https://u.osu.edu/simplesuppers/recipes/cheesy-chicken-rice-vegetable-skillet/) |
+| Cheesy Chicken, Rice, & Vegetable Skillet | 俄亥俄州鸡肉芝士蔬菜米饭煎锅 | US-OH | usa-cheesy-chicken-rice-skillet | 研究记录（非公开可执行） | 鸡肉；未煮糙米；西兰花；胡萝卜；洋葱；低脂切达奶酪；水；鸡汤块 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Cheesy Chicken, Rice, & Vegetable Skillet](https://u.osu.edu/simplesuppers/recipes/cheesy-chicken-rice-vegetable-skillet/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-chicken-brown-rice-casserole
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2286,7 +2286,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Arroz con Pollo Chicken and Rice | 威斯康星Polk鸡肉米饭；Arroz con Pollo | US-WI | usa-polk-arroz-con-pollo | 研究记录（非公开可执行） | 未煮米；整鸡；青椒；洋葱；蒜；番茄；低钠鸡汤；豌豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Arroz con Pollo Chicken and Rice](https://polk.extension.wisc.edu/files/2012/10/Compiled-Book-Draft-2.pdf) |
+| Arroz con Pollo Chicken and Rice | 威斯康星Polk鸡肉米饭；Arroz con Pollo | US-WI | usa-polk-arroz-con-pollo | 研究记录（非公开可执行） | 未煮米；整鸡；青椒；洋葱；蒜；番茄；低钠鸡汤；豌豆 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Arroz con Pollo Chicken and Rice](https://polk.extension.wisc.edu/files/2012/10/Compiled-Book-Draft-2.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-pork-rice-skillet
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

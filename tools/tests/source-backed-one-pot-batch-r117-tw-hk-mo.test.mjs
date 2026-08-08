@@ -45,7 +45,7 @@ const expected = [
 ];
 
 test('r117 adds three deduplicated official rice candidates without overclaiming appliance support', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r200');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r201');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

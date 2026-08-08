@@ -1484,7 +1484,6 @@
 - Chicken Meatballs with Grated Daikon (tiger-chicken-meatballs-grated-daikon) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Rice Soup (instant-pot-chicken-rice-soup) — 非地域·厂商食谱
-- Chicken Satay Rice (instant-pot-chicken-satay-rice) — 非地域·厂商食谱
 - Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
 - Corn Shumai and Chinese Style Mixed Rice (r105-tiger-corn-shumai-chinese-mixed-rice) — 非地域·厂商食谱
@@ -1608,9 +1607,6 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
-- Chicken and Rice (cdph-calfresh-chicken-rice) — US-CA
-- One Pot Caribbean Jerk Chicken & Rice (cu-caribbean-jerk-chicken-rice) — US-CO
-- Cheesy Chicken, Rice, & Vegetable Skillet (osu-cheesy-chicken-rice-vegetable-skillet) — US-OH
 - Chicken and Rice (nih-medlineplus-chicken-rice) — US
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - Chicken & Rice (unl-chicken-rice) — US-NE
