@@ -373,9 +373,13 @@ const PLANNER_ROLLOUT = '__YIGUOCHU_PLANNER_ROLLOUT__';
 const GENERATION_MODE = '__YIGUOCHU_GENERATION_MODE__';
 const PRODUCT_FOCUS = '__YIGUOCHU_PRODUCT_FOCUS__';
 const RICE_CATALOG_SCOPE = '__YIGUOCHU_RICE_CATALOG_SCOPE__';
-// Raw source remains legacy-safe: only a compiled, explicit value enables the
-// public rice-meal product. A missing placeholder must never switch products.
-const RICE_MEAL_PRODUCT = PRODUCT_FOCUS === 'rice-meal-v1';
+// A raw source file must not silently reopen the retired ingredient form. It
+// cannot load the generated shelf itself, so file:// still gives the explicit
+// start.command instruction; the built product uses the injected value.
+const UNBUILT_SOURCE_INDEX = PRODUCT_FOCUS === '__YIGUOCHU_PRODUCT_FOCUS__'
+  && typeof location !== 'undefined'
+  && location.protocol === 'file:';
+const RICE_MEAL_PRODUCT = PRODUCT_FOCUS === 'rice-meal-v1' || UNBUILT_SOURCE_INDEX;
 const EFFECTIVE_GENERATION_MODE = ['deterministic','llm'].includes(GENERATION_MODE)
   ? GENERATION_MODE
   : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'deterministic' : 'llm');
@@ -1075,23 +1079,55 @@ function riceMealProfileScreen() {
 // ============ 来源菜饭自由轮替 ==========
 // 这个产品分支不再接收用户食材，也不调用 planner / DeepSeek。
 // 只轮替来源目录中有固定用量和步骤的 A/B 条目；C 层仍留在资料库，不伪装成可执行菜谱。
+const SOURCE_ROTATION_EXCLUDED_FAMILIES = /(?:porridge|congee|rice-soup|leftover-rice)/iu;
+const SOURCE_ROTATION_EXCLUDED_RECIPE_IDS = new Set([
+  'tatung-seafood-porridge',
+  'panasonic-my-century-egg-chicken-congee',
+]);
+const SOURCE_ROTATION_EXCLUDED_TITLE = /(?:粥|稀饭|汤饭|湯飯|congee|porridge|ぞうすい|雑炊|leftover\s+rice|剩饭)/iu;
+const SOURCE_ROTATION_REGION_LABELS = {
+  'CN-AH':'安徽','CN-BJ':'北京','CN-CQ':'重庆','CN-FJ':'福建','CN-GD':'广东','CN-GS':'甘肃','CN-GX':'广西','CN-GZ':'贵州',
+  'CN-HA':'河南','CN-HB':'湖北','CN-HE':'河北','CN-HI':'海南','CN-HK':'香港','CN-HL':'黑龙江','CN-HN':'湖南','CN-JL':'吉林',
+  'CN-JS':'江苏','CN-JX':'江西','CN-LN':'辽宁','CN-MO':'澳门','CN-NM':'内蒙古','CN-NX':'宁夏','CN-QH':'青海','CN-SC':'四川',
+  'CN-SD':'山东','CN-SH':'上海','CN-SN':'陕西','CN-SX':'山西','CN-TJ':'天津','CN-XJ':'新疆','CN-XZ':'西藏','CN-YN':'云南',
+  'CN-ZJ':'浙江','TW':'台湾','HK':'香港','MO':'澳门','JP':'日本','KR':'韩国'
+};
+const SOURCE_ROTATION_FAMILY_LABELS = {
+  'cantonese-claypot-rice':'广东煲仔饭','hong-kong-claypot-rice':'香港煲仔饭','jiangnan-vegetable-rice':'江南菜饭',
+  'sichuan-home-style-menfan':'四川焖饭','tongren-seasonal-shefan':'贵州社饭','manufacturer-rice-cooker-recipes':'厂商电饭煲食谱',
+  'manufacturer-one-pot-recipes':'厂商一锅饭食谱','tatung-electric-rice-recipes':'大同电锅食谱','taiwan-electric-cooker-rice':'台湾电锅饭',
+  'taiwan-vegetable-rice':'台湾菜饭'
+};
 function sourceRotationRecords(shelf) {
   const records = shelf && Array.isArray(shelf.records) ? shelf.records : [];
   return records.filter(record => (record.shelf === 'A' || record.shelf === 'B')
+    && !SOURCE_ROTATION_EXCLUDED_FAMILIES.test(String(record.cuisine_family || '').trim())
+    && !SOURCE_ROTATION_EXCLUDED_RECIPE_IDS.has(String(record.recipe_id || '').trim())
+    && !SOURCE_ROTATION_EXCLUDED_TITLE.test([record.canonical_name, ...(Array.isArray(record.aliases) ? record.aliases : [])].filter(Boolean).join(' '))
     && record.fixed_batch && Array.isArray(record.fixed_batch.ingredients) && record.fixed_batch.ingredients.length
     && Array.isArray(record.cooking_sequence) && record.cooking_sequence.length)
     .slice()
     .sort((a, b) => sourceRotationRegionPriority(a) - sourceRotationRegionPriority(b)
+      || (a.shelf === 'A' ? 0 : 1) - (b.shelf === 'A' ? 0 : 1)
+      || sourceRotationTitleLanguagePriority(a) - sourceRotationTitleLanguagePriority(b)
       || String(a.canonical_name || '').localeCompare(String(b.canonical_name || ''), 'zh-CN')
       || String(a.recipe_id || '').localeCompare(String(b.recipe_id || '')));
 }
 function sourceRotationRegionPriority(record) {
   const codes = Array.isArray(record && record.region_codes) ? record.region_codes : [];
   if (codes.some(code => /^CN(?:-|$)/.test(String(code || '').trim()))) return 0;
-  if (codes.some(code => /^(?:TW|HK|MO)(?:-|$)/.test(String(code || '').trim()))) return 1;
-  if (codes.some(code => /^KR(?:-|$)/.test(String(code || '').trim()))) return 2;
-  if (codes.some(code => /^JP(?:-|$)/.test(String(code || '').trim()))) return 3;
-  return 4;
+  const name = sourceRotationDisplayName(record);
+  const chineseTitle = /[\u4e00-\u9fff]/u.test(name)
+    && !/[\u3040-\u30ff\uac00-\ud7af]|\b(?:rice|congee|porridge|recipe)\b/iu.test(name);
+  if (codes.some(code => /^(?:TW|HK|MO)(?:-|$)/.test(String(code || '').trim()))) return chineseTitle ? 1 : 3;
+  if (chineseTitle) return 2;
+  if (codes.some(code => /^KR(?:-|$)/.test(String(code || '').trim()))) return 4;
+  if (codes.some(code => /^JP(?:-|$)/.test(String(code || '').trim()))) return 5;
+  return 6;
+}
+function sourceRotationTitleLanguagePriority(record) {
+  const name = String(record && record.canonical_name || '').trim();
+  return /[\u3040-\u30ff\uac00-\ud7af]|\b(?:rice|congee|porridge|recipe)\b/iu.test(name) ? 1 : 0;
 }
 function sourceRotationAmount(amount) {
   if (!amount || amount.value === undefined || amount.value === null) return '来源未给出';
@@ -1099,13 +1135,22 @@ function sourceRotationAmount(amount) {
 }
 function sourceRotationRegion(record) {
   const regions = Array.isArray(record && record.region_codes) ? record.region_codes.filter(Boolean) : [];
-  if (regions.length) return regions.join('、');
+  const labels = regions.map(code => SOURCE_ROTATION_REGION_LABELS[String(code || '').trim()]).filter(Boolean);
+  if (labels.length) return [...new Set(labels)].join('、');
   if (record && record.cuisine_family === 'manufacturer-rice-cooker-recipes') return '厂商电饭煲食谱';
   if (record && record.cuisine_family === 'manufacturer-one-pot-recipes') return '厂商一锅饭食谱';
   return '地域未注明';
 }
+function sourceRotationRegionLabel(record) { return sourceRotationRegion(record); }
+function sourceRotationFamilyLabel(record) {
+  return SOURCE_ROTATION_FAMILY_LABELS[String(record && record.cuisine_family || '').trim()] || '来源记录的菜饭';
+}
+function sourceRotationDisplayName(record) {
+  const raw = String(record && record.canonical_name || '').trim() || '未命名菜饭';
+  return raw.replace(/^〖[^〗]+〗/u, '').trim() || '未命名菜饭';
+}
 function sourceRotationShelfLabel(record) {
-  return record && record.shelf === 'A' ? '来源菜饭 · 已签署记录' : '来源菜饭 · 试做架';
+  return record && record.shelf === 'A' ? '可直接试做（来源已核对）' : '来源有据（待厨房验证）';
 }
 function sourceRotationSources(record) {
   const refs = Array.isArray(record && record.source_refs) ? record.source_refs : [];
@@ -1133,7 +1178,7 @@ function sourceRotationRecipeCard(record) {
   const minutes = record.time_contract && Number.isFinite(Number(record.time_contract.total_minutes))
     ? String(record.time_contract.total_minutes) + ' 分钟' : '来源未给出';
   const steps = (Array.isArray(record.cooking_sequence) ? record.cooking_sequence : [])
-    .map((step, index) => '<li><strong>' + (index + 1) + '.</strong> ' + esc(step && step.instruction || '来源未给出') + '</li>').join('');
+    .map(step => '<li>' + esc(step && step.instruction || '来源未给出') + '</li>').join('');
   const missing = Array.isArray(record.missing_contract_labels) ? record.missing_contract_labels.filter(Boolean) : [];
   const safety = Array.isArray(record.safety_notes) ? record.safety_notes.filter(Boolean) : [];
   const warnings = [];
@@ -1142,17 +1187,18 @@ function sourceRotationRecipeCard(record) {
   const warningHtml = warnings.length
     ? '<div class="source-rotation-warning">' + warnings.map(note => '<div>' + esc(note) + '</div>').join('') + '</div>' : '';
   const adaptation = boundedText(record.cooker_adaptation && record.cooker_adaptation.notes, 800);
+  const trialHref = 'source-recipes.html?recipe_id=' + encodeURIComponent(String(record.recipe_id || ''));
   return '<article class="source-rotation-card">'
     + '<span class="source-rotation-badge">' + esc(sourceRotationShelfLabel(record)) + '</span>'
-    + '<h2>' + esc(record.canonical_name || '未命名菜饭') + '</h2>'
-    + '<p class="source-rotation-meta">' + esc(sourceRotationRegion(record)) + ' · ' + esc(record.cuisine_family || '一锅主餐') + ' · 来源目录原名保留</p>'
+    + '<h2>' + esc(sourceRotationDisplayName(record)) + '</h2>'
+    + '<p class="source-rotation-meta">' + esc(sourceRotationRegionLabel(record)) + ' · ' + esc(sourceRotationFamilyLabel(record)) + '</p>'
     + '<section class="source-rotation-section"><h3>来源记录的定量（' + esc(servings) + ' 份）</h3><ul class="source-rotation-list">' + ingredientRows + '</ul>'
     + '<p class="source-rotation-note">液体：' + esc(liquid) + ' · 总时长：' + esc(minutes) + '</p></section>'
     + '<section class="source-rotation-section"><h3>来源记录的步骤</h3><ol class="source-rotation-list">' + steps + '</ol></section>'
     + (adaptation ? '<p class="source-rotation-note">器具边界：' + esc(adaptation) + '</p>' : '')
     + warningHtml
     + '<section class="source-rotation-section"><h3>出处</h3>' + sourceRotationSources(record) + '</section>'
-    + '<div class="source-rotation-actions"><button class="btn btn-primary" data-act="rotate-source-recipe">换一道</button></div>'
+    + '<div class="source-rotation-actions"><a class="btn btn-ghost" href="' + esc(trialHref) + '">去资料库记录这道菜</a><button class="btn btn-primary" data-act="rotate-source-recipe">换一道</button></div>'
     + '</article>';
 }
 function sourceRotationScreen() {

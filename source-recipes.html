@@ -28,6 +28,8 @@
     button { cursor: pointer; border-color: #bd7b3a; color: #80501e; font-weight: 700; }
     button:hover { background: #fff7e9; }
     .results-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin: 18px 0 8px; }
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0; }
+    .pagination button:disabled { cursor: not-allowed; opacity: .45; }
     .grid { display: grid; gap: 12px; }
     .card { padding: 16px; }
     .card-head { display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; }
@@ -63,7 +65,7 @@
     </header>
 
     <section class="notice" aria-label="目录说明">
-      <strong>三层货架</strong>：A 层是已签署的可照做记录；B 层是来源有定量和步骤、但尚未完成厨房验证的试做架；C 层只展示菜名、地域和来源。试做记录只保存在当前浏览器，可导出保存。
+      <strong>三层货架</strong>：A 层是已签署的可照做记录；B 层是来源有定量和步骤、但尚未完成厨房验证的试做架；C 层展示来源已记录的片段，同时把缺失的份量、液体、时间或安全信息明确标出，不补猜。试做记录只保存在当前浏览器，可导出保存。
     </section>
 
     <section id="stats" class="stats" aria-live="polite"></section>
@@ -74,15 +76,23 @@
     </section>
     <div class="results-head"><h2>目录条目</h2><span id="count" class="muted"></span></div>
     <section id="results" class="grid" aria-live="polite"></section>
+    <nav id="pagination" class="pagination" aria-label="目录分页" hidden>
+      <button id="prev-page" type="button">上一页</button>
+      <span id="page-info" class="muted"></span>
+      <button id="next-page" type="button">下一页</button>
+    </nav>
     <p id="error" class="empty" hidden>目录暂时无法打开，请稍后再试。</p>
     <div class="toolbar"><button id="export" type="button">导出本机试做记录（JSON）</button></div>
   </main>
 
   <script>
     (() => {
-      const state = { catalog: null, records: [], notes: loadNotes() };
-      const shelfLabels = { A: 'A · 可照做（已签署）', B: 'B · 试做架（来源有据，未经厨房验证）', C: 'C · 档案室（只读资料）' };
-      const statusLabels = { executable: 'executable · 已签署', recipe_fact_checked: 'recipe_fact_checked · 来源事实已记录', identity_verified: 'identity_verified · 身份已核对', discovered: 'discovered · 待补证' };
+      const PAGE_SIZE = 40;
+      const state = { catalog: null, records: [], notes: loadNotes(), page: 1, focusId: new URLSearchParams(location.search).get('recipe_id') || '' };
+      const shelfLabels = { A: '可直接试做（来源已核对）', B: '来源有据（待厨房验证）', C: '资料记录（缺项不补猜）' };
+      const statusLabels = { executable: '已签署', recipe_fact_checked: '来源事实已记录', identity_verified: '身份已核对', discovered: '待补证' };
+      const REGION_LABELS = { 'CN-AH':'安徽','CN-BJ':'北京','CN-CQ':'重庆','CN-FJ':'福建','CN-GD':'广东','CN-GS':'甘肃','CN-GX':'广西','CN-GZ':'贵州','CN-HA':'河南','CN-HB':'湖北','CN-HE':'河北','CN-HI':'海南','CN-HK':'香港','CN-HL':'黑龙江','CN-HN':'湖南','CN-JL':'吉林','CN-JS':'江苏','CN-JX':'江西','CN-LN':'辽宁','CN-MO':'澳门','CN-NM':'内蒙古','CN-NX':'宁夏','CN-QH':'青海','CN-SC':'四川','CN-SD':'山东','CN-SH':'上海','CN-SN':'陕西','CN-SX':'山西','CN-TJ':'天津','CN-XJ':'新疆','CN-XZ':'西藏','CN-YN':'云南','CN-ZJ':'浙江','TW':'台湾','HK':'香港','MO':'澳门','JP':'日本','KR':'韩国' };
+      const FAMILY_LABELS = { 'cantonese-claypot-rice':'广东煲仔饭','hong-kong-claypot-rice':'香港煲仔饭','jiangnan-vegetable-rice':'江南菜饭','sichuan-home-style-menfan':'四川焖饭','tongren-seasonal-shefan':'贵州社饭','manufacturer-rice-cooker-recipes':'厂商电饭煲食谱','manufacturer-one-pot-recipes':'厂商一锅饭食谱','tatung-electric-rice-recipes':'大同电锅食谱','taiwan-electric-cooker-rice':'台湾电锅饭','taiwan-vegetable-rice':'台湾菜饭' };
       const $ = id => document.getElementById(id);
 
       function loadNotes() {
@@ -92,9 +102,13 @@
       function text(value, fallback = '未提供') { return value === null || value === undefined || value === '' ? fallback : String(value); }
       function list(value) { return Array.isArray(value) ? value : []; }
       function formatAmount(amount) { return amount && amount.value !== undefined ? `${amount.value}${amount.unit || ''}` : '来源未给出'; }
-      function displayRegion(record) { return list(record.region_codes).join('、') || '地域未注明'; }
-      function displayFamily(record) { return record.cuisine_family || '家族未注明'; }
+      function displayName(record) { const raw = text(record?.canonical_name, '未命名菜饭'); return raw.replace(/^〖[^〗]+〗/u, '').trim() || '未命名菜饭'; }
+      function displayRegion(record) { const labels = list(record.region_codes).map(code => REGION_LABELS[code]).filter(Boolean); if (labels.length) return [...new Set(labels)].join('、'); if (record.cuisine_family === 'manufacturer-rice-cooker-recipes') return '厂商电饭煲食谱'; if (record.cuisine_family === 'manufacturer-one-pot-recipes') return '厂商一锅饭食谱'; return '地域未注明'; }
+      function displayFamily(record) { return FAMILY_LABELS[record.cuisine_family] || '来源记录的菜饭'; }
       function searchText(record) { return [record.canonical_name, ...list(record.aliases), ...list(record.region_codes), record.cuisine_family, ...list(record.core_ingredients)].join(' ').toLowerCase(); }
+      function regionPriority(record) { const codes = list(record.region_codes); if (codes.some(code => /^CN(?:-|$)/u.test(String(code)))) return 0; const chineseTitle = /[\u4e00-\u9fff]/u.test(displayName(record)) && !/[\u3040-\u30ff\uac00-\ud7af]|\b(?:rice|congee|porridge|recipe)\b/iu.test(displayName(record)); if (codes.some(code => /^(?:TW|HK|MO)(?:-|$)/u.test(String(code)))) return chineseTitle ? 1 : 3; if (chineseTitle) return 2; if (codes.some(code => /^KR(?:-|$)/u.test(String(code)))) return 4; if (codes.some(code => /^JP(?:-|$)/u.test(String(code)))) return 5; return 6; }
+      function titleLanguagePriority(record) { return /[\u3040-\u30ff\uac00-\ud7af]|\b(?:rice|congee|porridge|recipe)\b/iu.test(displayName(record)) ? 1 : 0; }
+      function shelfPriority(record) { return record.shelf === 'A' ? 0 : record.shelf === 'B' ? 1 : 2; }
       function setText(element, value) { element.textContent = text(value, ''); return element; }
       function appendList(parent, values, ordered = false) {
         const listElement = document.createElement(ordered ? 'ol' : 'ul');
@@ -118,9 +132,33 @@
         wrap.append(listElement);
         return wrap;
       }
+      function appendPartialFacts(parent, record) {
+        const heading = document.createElement('h3'); heading.textContent = '来源已记录的做法片段（不等于完整配方）'; parent.append(heading);
+        let shown = false;
+        if (record.fixed_batch) {
+          const batch = document.createElement('p'); batch.textContent = `来源记录的份数：${text(record.fixed_batch.servings, '未提供')}`; parent.append(batch);
+          const rows = list(record.fixed_batch.ingredients).map(item => `${text(item.name)}：${formatAmount(item.amount)}`); appendList(parent, rows); shown = rows.length > 0;
+        }
+        if (record.liquid_contract || record.time_contract) {
+          const contracts = document.createElement('p'); contracts.textContent = `来源记录的液体：${record.liquid_contract ? formatAmount(record.liquid_contract.amount) : '未提供'}；总时长：${record.time_contract?.total_minutes ? `${record.time_contract.total_minutes} 分钟` : '未提供'}`; parent.append(contracts); shown = true;
+        }
+        if (list(record.cooking_sequence).length) { appendList(parent, list(record.cooking_sequence).map(step => step.instruction), true); shown = true; }
+        if (!shown) { const empty = document.createElement('p'); empty.className = 'muted'; empty.textContent = '当前来源只确认名称、地域或食材身份，尚未形成可照做的步骤。'; parent.append(empty); }
+      }
+      function sourceFragmentSummary(record) {
+        const parts = [];
+        if (record.fixed_batch) parts.push(`份数与${list(record.fixed_batch.ingredients).length}项食材用量`);
+        if (list(record.cooking_sequence).length) parts.push(`${record.cooking_sequence.length}个来源步骤`);
+        if (record.liquid_contract) parts.push('液体边界');
+        if (record.time_contract) parts.push('时间边界');
+        const known = parts.length ? `已记录：${parts.join('、')}` : '目前只核实了名称、地域或食材身份';
+        const missing = list(record.missing_contract_labels);
+        return `${known}。${missing.length ? `仍缺：${missing.join('、')}。` : ''}点开查看来源片段。`;
+      }
       function makeDetails(record) {
         const details = document.createElement('details');
-        const summary = document.createElement('summary'); summary.textContent = record.shelf === 'C' ? '查看来源与档案边界' : '查看来源记录的用量、步骤与边界'; details.append(summary);
+        const summary = document.createElement('summary'); summary.textContent = record.shelf === 'C' ? '查看来源、已记录片段与缺口' : '查看来源记录的用量、步骤与边界'; details.append(summary);
+        if (record.shelf === 'C') { const partial = document.createElement('section'); appendPartialFacts(partial, record); details.append(partial); }
         if (record.shelf !== 'C') {
           const batch = document.createElement('section'); const batchTitle = document.createElement('h3'); batchTitle.textContent = '来源记录的定量'; batch.append(batchTitle);
           if (record.fixed_batch) { const p = document.createElement('p'); p.textContent = `份数：${text(record.fixed_batch.servings, '来源未给出')}`; batch.append(p); const rows = list(record.fixed_batch.ingredients).map(item => `${text(item.name)}：${formatAmount(item.amount)}`); appendList(batch, rows); }
@@ -128,7 +166,7 @@
           details.append(batch);
           const contracts = document.createElement('section'); const title = document.createElement('h3'); title.textContent = '液体与时间'; contracts.append(title);
           const p = document.createElement('p'); p.textContent = `液体：${record.liquid_contract ? formatAmount(record.liquid_contract.amount) : '来源未给出'}；总时长：${record.time_contract?.total_minutes ? `${record.time_contract.total_minutes} 分钟` : '来源未给出'}`; contracts.append(p); details.append(contracts);
-          const steps = document.createElement('section'); const stepTitle = document.createElement('h3'); stepTitle.textContent = '来源记录的步骤'; steps.append(stepTitle); appendList(steps, list(record.cooking_sequence).map(step => `${step.step}. ${step.instruction}`), true); details.append(steps);
+          const steps = document.createElement('section'); const stepTitle = document.createElement('h3'); stepTitle.textContent = '来源记录的步骤'; steps.append(stepTitle); appendList(steps, list(record.cooking_sequence).map(step => step.instruction), true); details.append(steps);
           if (record.cooker_adaptation?.notes) { const adaptation = document.createElement('p'); adaptation.className = 'muted'; adaptation.textContent = `器具边界：${record.cooker_adaptation.notes}`; details.append(adaptation); }
         }
         const sources = document.createElement('section'); const sourceTitle = document.createElement('h3'); sourceTitle.textContent = '来源'; sources.append(sourceTitle, makeSources(record)); details.append(sources);
@@ -152,22 +190,26 @@
       }
       function makeCard(record) {
         const article = document.createElement('article'); article.className = `card shelf-${record.shelf.toLowerCase()}`; article.dataset.recipeId = record.recipe_id;
-        const head = document.createElement('div'); head.className = 'card-head'; const titleWrap = document.createElement('div'); const title = document.createElement('h2'); title.textContent = record.canonical_name; titleWrap.append(title); const alias = list(record.aliases); if (alias.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = `又名：${alias.join('、')}`; titleWrap.append(p); } head.append(titleWrap); const badge = document.createElement('span'); badge.className = `badge badge-${record.shelf.toLowerCase()}`; badge.textContent = shelfLabels[record.shelf]; head.append(badge); article.append(head);
-        const meta = document.createElement('p'); meta.className = 'meta'; meta.textContent = `${displayRegion(record)} · ${displayFamily(record)} · ${statusLabels[record.status] || text(record.status)}`; article.append(meta);
+        const head = document.createElement('div'); head.className = 'card-head'; const titleWrap = document.createElement('div'); const title = document.createElement('h2'); title.textContent = displayName(record); titleWrap.append(title); const alias = list(record.aliases); if (alias.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = `又名：${alias.join('、')}`; titleWrap.append(p); } head.append(titleWrap); const badge = document.createElement('span'); badge.className = `badge badge-${record.shelf.toLowerCase()}`; badge.textContent = shelfLabels[record.shelf]; head.append(badge); article.append(head);
+        const meta = document.createElement('p'); meta.className = 'meta'; meta.textContent = `${displayRegion(record)} · ${displayFamily(record)} · ${statusLabels[record.status] || '状态待核对'}`; article.append(meta);
+        if (record.shelf === 'C') { const fragment = document.createElement('p'); fragment.className = 'muted'; fragment.textContent = sourceFragmentSummary(record); article.append(fragment); }
         if (record.shelf !== 'C') { const ingredients = document.createElement('p'); for (const ingredient of list(record.core_ingredients)) { const pill = document.createElement('span'); pill.className = 'pill'; pill.textContent = ingredient; ingredients.append(pill); } article.append(ingredients); }
         if (record.shelf === 'B' && list(record.missing_contract_labels).length) { const missing = document.createElement('p'); missing.className = 'missing'; missing.textContent = `尚缺：${record.missing_contract_labels.join('、')}。缺项不补猜。`; article.append(missing); }
         if (list(record.safety_notes).length) { const warning = document.createElement('div'); warning.className = 'warning'; appendList(warning, record.safety_notes); article.append(warning); }
-        article.append(makeDetails(record)); if (record.shelf === 'B') article.append(makeTrialForm(record)); return article;
+        article.append(makeDetails(record)); if (record.shelf !== 'C') article.append(makeTrialForm(record)); return article;
+      }
+      function renderPagination(total) {
+        const pages = Math.max(1, Math.ceil(total / PAGE_SIZE)); state.page = Math.min(Math.max(state.page, 1), pages); const nav = $('pagination'); nav.hidden = total <= PAGE_SIZE; $('page-info').textContent = `第 ${state.page} / ${pages} 页`; $('prev-page').disabled = state.page <= 1; $('next-page').disabled = state.page >= pages;
       }
       function render() {
         const query = $('query').value.trim().toLowerCase(); const shelf = $('shelf').value; const filtered = state.records.filter(record => (!query || searchText(record).includes(query)) && (shelf === 'all' || record.shelf === shelf));
-        filtered.sort((a, b) => `${a.shelf}${a.canonical_name}`.localeCompare(`${b.shelf}${b.canonical_name}`, 'zh-CN'));
-        $('count').textContent = `显示 ${filtered.length} / ${state.records.length} 条`; const results = $('results'); results.replaceChildren(); if (!filtered.length) { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '没有符合筛选条件的条目。'; results.append(empty); return; } const fragment = document.createDocumentFragment(); for (const record of filtered) fragment.append(makeCard(record)); results.append(fragment);
+        filtered.sort((a, b) => regionPriority(a) - regionPriority(b) || shelfPriority(a) - shelfPriority(b) || titleLanguagePriority(a) - titleLanguagePriority(b) || displayName(a).localeCompare(displayName(b), 'zh-CN') || String(a.recipe_id || '').localeCompare(String(b.recipe_id || '')));
+        renderPagination(filtered.length); const start = (state.page - 1) * PAGE_SIZE; const visible = filtered.slice(start, start + PAGE_SIZE); $('count').textContent = `显示 ${filtered.length} 条 · 当前 ${visible.length} 条`; const results = $('results'); results.replaceChildren(); if (!visible.length) { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '没有符合筛选条件的条目。'; results.append(empty); return; } const fragment = document.createDocumentFragment(); for (const record of visible) { try { fragment.append(makeCard(record)); } catch (error) { console.error('source recipe render failed', record?.recipe_id, error); const fallback = document.createElement('article'); fallback.className = 'card'; fallback.dataset.recipeId = record?.recipe_id || ''; const title = document.createElement('h2'); title.textContent = text(record?.canonical_name, '未命名菜饭'); const note = document.createElement('p'); note.className = 'missing'; note.textContent = '暂时无法展示这条记录，请稍后再试。'; fallback.append(title, note); fragment.append(fallback); } } results.append(fragment); if (state.focusId) { const target = [...results.children].find(card => card.dataset.recipeId === state.focusId); if (target) { try { target.querySelectorAll('details').forEach(details => { details.open = true; }); if (typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'start' }); } catch (error) { console.warn('source recipe focus failed', error); } } }
       }
       function renderStats(summary) { $('stats').replaceChildren(...['A', 'B', 'C'].map(key => { const span = document.createElement('span'); span.className = 'stat'; const strong = document.createElement('strong'); strong.textContent = summary[key]; span.append(strong, ` ${key === 'A' ? '已签署' : key === 'B' ? '试做架' : '档案室'}`); return span; }), (() => { const span = document.createElement('span'); span.className = 'stat'; span.textContent = `A+B 试做池 ${summary.trial_ready_total}`; return span; })()); }
-      $('query').addEventListener('input', render); $('shelf').addEventListener('change', render); $('clear').addEventListener('click', () => { $('query').value = ''; $('shelf').value = 'all'; render(); });
+      $('query').addEventListener('input', () => { state.page = 1; render(); }); $('shelf').addEventListener('change', () => { state.page = 1; render(); }); $('clear').addEventListener('click', () => { $('query').value = ''; $('shelf').value = 'all'; state.page = 1; state.focusId = ''; render(); }); $('prev-page').addEventListener('click', () => { state.page -= 1; render(); window.scrollTo(0, 0); }); $('next-page').addEventListener('click', () => { state.page += 1; render(); window.scrollTo(0, 0); });
       $('export').addEventListener('click', () => { const blob = new Blob([JSON.stringify(state.notes, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'yiguochu-source-recipe-trials.json'; link.click(); URL.revokeObjectURL(link.href); });
-      fetch('/source-backed-one-pot-shelf.v1.json').then(response => response.ok ? response.json() : Promise.reject(new Error('catalog unavailable'))).then(catalog => { state.catalog = catalog; state.records = Array.isArray(catalog.records) ? catalog.records : []; renderStats(catalog.summary || { A: 0, B: 0, C: 0, trial_ready_total: 0 }); render(); }).catch(() => { $('error').hidden = false; });
+      fetch('/source-backed-one-pot-shelf.v1.json').then(response => response.ok ? response.json() : Promise.reject(new Error('catalog unavailable'))).then(catalog => { state.catalog = catalog; state.records = Array.isArray(catalog.records) ? catalog.records : []; if (state.focusId) { const focused = state.records.find(record => record.recipe_id === state.focusId); if (focused) { $('query').value = focused.canonical_name || ''; } } renderStats(catalog.summary || { A: 0, B: 0, C: 0, trial_ready_total: 0 }); render(); }).catch(() => { $('error').hidden = false; });
     })();
   </script>
 </body>

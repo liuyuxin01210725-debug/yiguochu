@@ -66,9 +66,11 @@ function parseArgs(argumentsList) {
   const options = {
     outputDir: path.join(ROOT, 'dist'),
     buildId: new Date().toISOString().replace(/[^0-9A-Za-z]+/g, '-'),
-    plannerRollout: 'off',
-    generationMode: 'llm',
-    productFocus: 'legacy',
+    // The current product is the source-backed rice-meal rotation. Legacy
+    // Planner builds remain available only when explicitly requested.
+    plannerRollout: 'direct-recommend',
+    generationMode: 'deterministic',
+    productFocus: 'rice-meal-v1',
     riceCatalogScope: 'ready',
   };
 
@@ -227,9 +229,9 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
 
   const serviceWorkerPath = path.join(outputDir, 'sw.js');
   const sourceServiceWorker = fs.readFileSync(serviceWorkerPath, 'utf8');
-  const cacheKey = `yiguochu-shell-v4-${buildId}`;
+  const cacheKey = `yiguochu-shell-v5-${buildId}`;
   const generatedServiceWorker = sourceServiceWorker.replace(
-    "const C = 'yiguochu-shell-v4';",
+    "const C = 'yiguochu-shell-v5';",
     `const C = '${cacheKey}';`,
   );
   if (generatedServiceWorker === sourceServiceWorker) {

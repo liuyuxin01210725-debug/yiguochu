@@ -4,22 +4,18 @@
 
 cd "$(dirname "$0")"
 
-# V2 本地规划依赖 Node.js 和共享 Worker bridge。必须在清理旧服务前完成真实预检。
+# 当前本地入口只服务来源菜谱轮替。Node.js 仅用于构建 dist，启动时不再依赖
+# 旧版 Planner bridge，也不调用 DeepSeek 预检。
 NODE_BIN="${PLANNER_NODE_EXECUTABLE:-}"
 if [ -z "$NODE_BIN" ]; then
   NODE_BIN="$(command -v node 2>/dev/null)"
 fi
-BRIDGE_FILE="$(pwd)/tools/planner-v2-local-bridge.mjs"
 if [ -z "$NODE_BIN" ] || [ ! -x "$NODE_BIN" ]; then
-  echo "错误：本地规划组件未就绪，需要 Node.js。" >&2
-  exit 1
-fi
-if [ ! -f "$BRIDGE_FILE" ]; then
-  echo "错误：本地规划组件未就绪，规划 bridge 文件缺失。" >&2
+  echo "错误：本地菜饭页面构建需要 Node.js。" >&2
   exit 1
 fi
 
-# 本地版与 Preview 使用同一套菜饭构建元数据和代理契约，禁止一边跑新版前端、一边让代理按 legacy 校验。
+# 本地版与 Preview 使用同一套来源菜谱构建元数据。
 export YIGUOCHU_PRODUCT_FOCUS="rice-meal-v1"
 export YIGUOCHU_GENERATION_MODE="deterministic"
 export YIGUOCHU_RICE_CATALOG_SCOPE="calibration"
@@ -27,12 +23,6 @@ export YIGUOCHU_RICE_CATALOG_SCOPE="calibration"
 LOCAL_BUILD_ID="rice-meal-local-$(date +%Y%m%d%H%M%S)"
 if ! "$NODE_BIN" tools/build-dist.mjs --out-dir dist --build-id "$LOCAL_BUILD_ID" --planner-rollout direct-recommend --generation-mode deterministic --product-focus rice-meal-v1 --rice-catalog-scope calibration >/dev/null; then
   echo "错误：本地菜饭页面构建失败。" >&2
-  exit 1
-fi
-
-PREFLIGHT_REQUEST='{"schema_version":3,"product_focus":"rice_meal","servings":2,"pantry":["鸡腿","土豆"],"dislikes":[]}'
-if ! DEEPSEEK_API_KEY='' PLANNER_NODE_EXECUTABLE="$NODE_BIN" python3 ai_proxy.py --plan-meal "$PREFLIGHT_REQUEST" >/dev/null 2>&1; then
-  echo "错误：本地规划组件未就绪，请确认 Node.js 和规划文件完整。" >&2
   exit 1
 fi
 

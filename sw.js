@@ -1,8 +1,9 @@
-const C = 'yiguochu-shell-v4';
+const C = 'yiguochu-shell-v5';
 const SHELL = [
   './',
   './index.html',
   './recipes',
+  './source-recipes.html',
   './manifest.json',
   './icon.svg',
   './icon-180.png',

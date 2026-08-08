@@ -78,11 +78,12 @@ test('service worker installation precaches the PWA start page', async () => {
   assert.ok(cachedUrls.includes(`${ORIGIN}/`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/index.html`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/recipes`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes.html`));
 });
 
 test('an offline canonical recipe navigation serves the recipe shell', async () => {
   const harness = serviceWorkerHarness(() => new Promise(() => {}));
-  const cache = await harness.caches.open('yiguochu-shell-v4');
+  const cache = await harness.caches.open('yiguochu-shell-v5');
   await cache.put(`${ORIGIN}/index.html`, new Response('cached home'));
   await cache.put(`${ORIGIN}/recipes`, new Response('cached recipes'));
   let responsePromise;
@@ -104,7 +105,7 @@ test('an offline canonical recipe navigation serves the recipe shell', async () 
 
 test('a cached PWA navigation opens without waiting for a stalled network', async () => {
   const harness = serviceWorkerHarness(() => new Promise(() => {}));
-  const cache = await harness.caches.open('yiguochu-shell-v4');
+  const cache = await harness.caches.open('yiguochu-shell-v5');
   await cache.put(`${ORIGIN}/index.html`, new Response('cached home'));
   let responsePromise;
   let backgroundWork;

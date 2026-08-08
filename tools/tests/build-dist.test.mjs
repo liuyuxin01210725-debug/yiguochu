@@ -259,7 +259,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
-      /const C = 'yiguochu-shell-v4-canonical-test';/,
+      /const C = 'yiguochu-shell-v5-canonical-test';/,
     );
     const builtIndex = fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8');
     assert.doesNotMatch(builtIndex, /__YIGUOCHU_(?:BUILD_ID|PLANNER_ROLLOUT|GENERATION_MODE)__/);
@@ -294,18 +294,18 @@ test('distribution build includes canonical recipe assets and refreshes its serv
   }
 });
 
-test('distribution build defaults rollout off and rejects unsupported rollout values', () => {
+test('distribution build defaults to the source-backed rice rotation and rejects unsupported values', () => {
   const outputDir = makeOutputDir();
   try {
-    const defaultBuild = runBuild(outputDir, { plannerRollout:null, generationMode:null });
+    const defaultBuild = spawnSync(process.execPath, [BUILD_SCRIPT, '--out-dir', outputDir, '--build-id', 'canonical-test'], { cwd: ROOT, encoding: 'utf8' });
     assert.equal(defaultBuild.status, 0, `${defaultBuild.stdout}\n${defaultBuild.stderr}`);
     assert.deepEqual(
       JSON.parse(fs.readFileSync(path.join(outputDir, 'build-meta.json'), 'utf8')),
       {
         buildId:'canonical-test',
-        plannerRollout:'off',
-        generationMode:'llm',
-        productFocus:'legacy',
+        plannerRollout:'direct-recommend',
+        generationMode:'deterministic',
+        productFocus:'rice-meal-v1',
         riceCatalogScope:'ready',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
@@ -313,8 +313,9 @@ test('distribution build defaults rollout off and rejects unsupported rollout va
     );
     assert.match(
       fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8'),
-      /const PLANNER_ROLLOUT = 'off';/,
+      /const PLANNER_ROLLOUT = 'direct-recommend';/,
     );
+    assert.match(fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8'), /const PRODUCT_FOCUS = 'rice-meal-v1';/);
 
     const rejected = runBuild(outputDir, { plannerRollout:'everyone' });
     assert.notEqual(rejected.status, 0);
