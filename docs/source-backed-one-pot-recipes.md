@@ -829,7 +829,7 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Corn Rice | 虎牌玉米饭；玉米炊饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 短粒日本米；玉米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Corn Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/corn-rice/) |
-| さといもと高菜漬けの炊き込みごはん | 芋头高菜炊饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；芋头；高菜腌菜；芝麻油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [さといもと高菜漬けの炊き込みごはん](https://www.maff.go.jp/j/keikaku/syokubunka/culture/wagohan/articles/2111/spe3_02.html) |
+| さといもと高菜漬けの炊き込みごはん | 芋头高菜炊饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；芋头；高菜腌菜；芝麻油 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [さといもと高菜漬けの炊き込みごはん](https://www.maff.go.jp/j/keikaku/syokubunka/culture/wagohan/articles/2111/spe3_02.html) |
 | さばの香味麦炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；三成麦；盐烤鲭鱼；生姜；茗荷；紫苏 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [さばの香味麦炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_525/) |
 | そら豆のごはん | 蚕豆饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；蚕豆；昆布；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [そら豆のごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post47/) |
 | はもごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鱧；生姜；紫苏；茗荷 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [はもごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post17/) |
