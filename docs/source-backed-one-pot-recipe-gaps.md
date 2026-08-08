@@ -525,7 +525,6 @@
 - 茶油綠竹筍炊飯 (taiwan-tea-oil-bamboo-shoot-chicken-rice) — TW
 - 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
 - 鮪魚菇菇洋蔥紅藜麥炊飯 (taiwan-tuna-mushroom-quinoa-rice) — TW
-- 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
@@ -1275,7 +1274,6 @@
 - 樹豆小米飯 (taitung-tree-bean-millet-rice) — TW-TT
 - 金沙皮蛋香菇粥 (r98-panasonic-taiwan-preserved-egg-mushroom-congee) — TW
 - 紅棗飯 (r106-tw-red-date-rice) — TW
-- 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 地瓜鹹飯 (taiwan-sweet-potato-salted-rice) — TW
 - 米豆鮮蔬拌飯 (r106-tw-rice-bean-vegetable-mixed-rice) — TW
 - 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
@@ -1295,7 +1293,6 @@
 - 紅蟳米糕 (r58-taiwan-red-crab-glutinous-rice) — TW
 - 芋頭鹹粥 (r106-tw-taro-salted-congee) — TW
 - 南瓜飯 (r58-taiwan-afa-pumpkin-rice) — TW
-- 瓠瓜香菇飯 (taiwan-bottle-gourd-mushroom-rice) — TW
 - 茶油蔬食養生飯 (taiwan-tea-oil-vegetable-health-rice) — TW
 - 香菇茶油菜飯 (taiwan-shiitake-tea-oil-vegetable-rice) — TW
 - 日式野菇雞肉炊飯 (r98-zojirushi-taiwan-wild-mushroom-chicken-mixed-rice) — TW

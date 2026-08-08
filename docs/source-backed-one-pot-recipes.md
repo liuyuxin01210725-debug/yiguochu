@@ -1877,7 +1877,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 三菇飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 蓬莱米；香菇；洋菇；金针菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [三菇飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
 | 五穀雜糧飯 | 五谷杂粮饭 | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 红米；荞麦；高粱；糙米；黑米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [五穀雜糧飯](https://kmweb.moa.gov.tw/subject/subject.php?id=18623) |
-| 十香飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 米飯；腊肉；腊肠；豆干；香菇；虾米；干果 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [十香飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
+| 十香飯 | — | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 米飯；腊肉；腊肠；豆干；香菇；虾米；干果 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [十香飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
 | 午仔魚一夜干絲瓜炊飯 | Panasonic午仔鱼丝瓜炊饭 | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 桃園3號米；午仔魚一夜干；丝瓜；生姜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [午仔魚一夜干絲瓜炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5287) |
 | 山藥飯 | 山药饭 | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 白米；山藥；干香菇；绞肉；虾米；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [山藥飯](https://kmweb.moa.gov.tw/subject/subject.php?id=33811) |
 | 普羅旺斯野菇雞起司燉飯 | 普罗旺斯野菇鸡起司炖饭 | TW | taiwan-electric-cooker-rice | 研究记录（非公开可执行） | 糙米；薏仁；鸡胸肉；洋葱；混合菇；四季豆；胡萝卜；马苏里拉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [普羅旺斯野菇雞起司燉飯](https://osa.web.shu.edu.tw/wp-content/uploads/sites/32/2020/05/oil.pdf) |
@@ -2032,7 +2032,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 排骨煲仔飯 | 排骨煲仔饭 | TW | taiwan-regional-claypot-rice | 研究记录（非公开可执行） | 白米；糙米；猪排；白菜；鸿喜菇 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [排骨煲仔飯](https://kids.moa.gov.tw/theme_data.php?id=282&theme=kids_cooking) |
+| 排骨煲仔飯 | 排骨煲仔饭 | TW | taiwan-regional-claypot-rice | 研究记录（非公开可执行） | 白米；糙米；猪排；白菜；鸿喜菇 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [排骨煲仔飯](https://kids.moa.gov.tw/theme_data.php?id=282&theme=kids_cooking) |
 ## taiwan-regional-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2096,7 +2096,7 @@
 | 南瓜飯 | 南瓜饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 蓬莱米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [南瓜飯](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html) |
 | 南瓜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [南瓜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[南瓜饭](https://kids.moa.gov.tw/theme_data.php?theme=kids_cooking&id=66)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 大同電鍋高麗菜飯 | 大同电锅高丽菜饭 | TW | taiwan-vegetable-rice | 可执行研究记录（非公开） | 白米；高麗菜；豬肉絲；乾香菇；紅蔥頭；蝦米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [＼大同電鍋レシピ／キャベツ炊き込みご飯（高麗菜飯）](https://recipe.rakuten.co.jp/recipe/1290044668/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 瓠瓜香菇飯 | 瓠瓜香菇饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 瓠瓜；乾香菇；胡蘿蔔；米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [瓠瓜香菇飯](https://kids.moa.gov.tw/theme_data.php?id=50&theme=kids_cooking) |
+| 瓠瓜香菇飯 | 瓠瓜香菇饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 瓠瓜；乾香菇；胡蘿蔔；米 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [瓠瓜香菇飯](https://kids.moa.gov.tw/theme_data.php?id=50&theme=kids_cooking) |
 | 茶油蔬食養生飯 | 茶油蔬食养生饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 米；南瓜；地瓜；鸿喜菇；青豆；木耳；白花椰；红藜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [茶油蔬食養生飯](https://www.riceeducation.com.tw/fr/teachcreative/c/128) |
 | 香菇茶油菜飯 | 香菇苦茶油菜饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 白米；油菜；干香菇；生姜；苦茶油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [香菇茶油菜飯](https://www.riceeducation.com.tw/fr/teachcreative/c/128) |
 | 高丽菜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 白米；高丽菜；香菇；五花肉；胡萝卜；虾米；葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [农粮署北区分署电子书：高丽菜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[全民健康保险双月刊80期：高丽菜饭](https://media.nhi.gov.tw/md/dl-52195-25353cf985624e8aaa641aea6f390005-3.pdf)<br>[国立台湾大学医院健康电子报：电锅做高丽菜饭](https://epaper.ntuh.gov.tw/health/201804/health_1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
