@@ -1384,7 +1384,6 @@
 - 淮山圓肉雞柳煲仔飯 (hk-yam-longan-chicken-claypot-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
 - 黃金海鮮粥 (hk-golden-seafood-congee) — HK
-- 三文魚青毛豆藜麥飯 (hk-salmon-edamame-quinoa-rice) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 窝蛋牛肉饭 (towngas-nest-egg-minced-beef-rice) — HK
 - 芦笋虾仁藜麦饭 (towngas-asparagus-shrimp-quinoa-rice) — HK
@@ -1601,7 +1600,6 @@
 - 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
 - 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
-- 糙米鮭魚炊飯 (taiwan-brown-rice-salmon-rice) — TW-TPE
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 黃金野菇紅藜雞肉炊飯 (r99-taiwan-golden-wild-mushroom-quinoa-chicken-rice) — TW
