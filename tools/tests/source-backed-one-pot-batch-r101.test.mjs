@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = new Map(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r101 adds the opened Tatung clam-rice source without promoting it', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r145');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r147');
   assert.equal(catalog.recipes.length, 923);
 
   const recipe = byId.get('tatung-fresh-vegetable-clam-rice');
@@ -34,7 +34,7 @@ test('r101 adds the opened Tatung clam-rice source without promoting it', () => 
 test('r101 keeps the existing avocado chicken version separate and source-bounded', () => {
   const recipe = byId.get('tatung-avocado-chicken-rice');
   assert.equal(recipe?.status, 'recipe_fact_checked');
-  assert.equal(recipe?.source_refs?.length, 1);
+  assert.equal(recipe?.source_refs?.length, 2);
   assert.equal(recipe?.source_refs?.[0]?.access_status, 'opened');
   assert.match(recipe?.cooking_sequence?.[0]?.instruction ?? '', /先在平底锅煎/);
   assert.match(recipe?.cooking_sequence?.at(-1)?.instruction ?? '', /拌入牛油果/);

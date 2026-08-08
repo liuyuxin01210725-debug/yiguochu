@@ -5,7 +5,7 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 
 test('r99 adds eight source-backed Chinese/Taiwan rice entries without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r145');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r147');
   assert.equal(catalog.recipes.length, 923);
   const expected = new Map([
     ['r99-taiwan-golden-wild-mushroom-quinoa-chicken-rice', ['黃金野菇紅藜雞肉炊飯', 'recipe_fact_checked']],
