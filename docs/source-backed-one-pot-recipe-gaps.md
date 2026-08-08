@@ -1670,7 +1670,9 @@
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
+- Pork and Rice Skillet (va-pork-rice-skillet) — US
 - Turkey Burrito Bowl (tamu-turkey-burrito-bowl) — US-TX
+- Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
 - Spanish Rice (unh-spanish-rice) — US-NH
 - Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ

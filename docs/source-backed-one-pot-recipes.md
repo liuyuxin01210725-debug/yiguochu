@@ -2172,11 +2172,21 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | One-Pot Chicken and Rice Soup | 华盛顿大学一锅鸡肉米汤 | US-WA | usa-one-pot-rice-soup | 研究记录（非公开可执行） | 罐装鸡肉或豆类；罐装四季豆；罐装胡萝卜；洋葱；蒜；米；鸡汤或蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [One-Pot Chicken and Rice Soup](https://www.washington.edu/anyhungryhusky/2020/05/01/one-pot-chicken-and-rice-soup-gf/) |
+## usa-pork-rice-skillet
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Pork and Rice Skillet | VA猪肉米饭煎锅 | US | usa-pork-rice-skillet | 研究记录（非公开可执行） | 猪排肉；糙米；洋葱；蒜；豌豆胡萝卜；鸡汤；无脂酸奶；切达奶酪 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Pork and Rice Skillet](https://www.nutrition.va.gov/docs/Recipes/MainDishes/Pork-And-Rice-Skillet.pdf) |
 ## usa-pressure-cooker-rice-bowl
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Turkey Burrito Bowl | 火鸡肉墨西哥饭碗 | US-TX | usa-pressure-cooker-rice-bowl | 研究记录（非公开可执行） | 火鸡肉末；长粒白米；黑豆罐头；番茄丁罐头；青辣椒罐头；冷冻玉米；洋葱；低钠牛肉汤 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Turkey Burrito Bowl](https://dinnertonight.tamu.edu/recipe/turkey-burrito-bowl/) |
+## usa-red-beans-rice
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Easy One-Pot Red Beans & Rice | SDSU一锅红豆米饭 | US-SD | usa-red-beans-rice | 研究记录（非公开可执行） | 糙米；安杜伊香肠；芸豆罐头；番茄罐头；洋葱；西芹；青椒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Easy One-Pot Red Beans & Rice](https://extension.sdstate.edu/one-pot-meals) |
 ## usa-slow-cooker-enchilada-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2187,6 +2197,11 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Spanish Rice | 新罕布什尔西班牙米饭 | US-NH | usa-spanish-rice | 研究记录（非公开可执行） | 米；罐装猪肉；番茄罐头；洋葱；西芹；青椒；水 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Spanish Rice](https://extension.unh.edu/recipe/spanish-rice) |
+## usa-texas-hash
+
+| 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Texas Hash | 伊利诺伊德州肉末米饭 | US-IL | usa-texas-hash | 研究记录（非公开可执行） | 瘦牛肉末或火鸡肉末；米；番茄洋葱青椒罐头；水；辣椒粉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Texas Hash](https://eat-move-save.extension.illinois.edu/eat/recipes/texas-hash) |
 ## usa-wild-rice-chicken-pot
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
