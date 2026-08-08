@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r179",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r180",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM", "CN-LN", "CN-JL", "CN-HL", "CN-SH", "CN-JS", "CN-ZJ", "CN-AH", "CN-FJ", "CN-JX", "CN-SD", "CN-HA", "CN-HB", "CN-HN", "CN-GD", "CN-GX", "CN-HI", "CN-CQ", "CN-SC", "CN-GZ", "CN-YN", "CN-XZ", "CN-SN", "CN-GS", "CN-QH", "CN-NX", "CN-XJ", "TW", "HK", "MO"],
   "regional_blanks": [
@@ -9759,7 +9759,7 @@
 },
     {"recipe_id":"panasonic-taiwan-truffle-seafood-risotto","canonical_name":"松露海鮮燉飯","aliases":["松露海鲜炖饭"],"region_codes":["TW"],"cuisine_family":"taiwan-rice-cooker-recipes","identity_status":"verified","traditional_vessels":["Panasonic SR-PAA100"],"core_ingredients":["义大利米","蛤蜊","虾","鱿鱼","松露酱","奶油"],"fixed_batch":null,"liquid_contract":null,"cooking_sequence":[{"step":1,"instruction":"义大利米、洋葱、蒜和海鲜按来源处理，准备高汤、鲜奶油和白酒。","source_ids":["S-PANASONIC-TRUFFLE-SEAFOOD-1"]},{"step":2,"instruction":"内锅按来源加入米、液体和海鲜，使用Panasonic程序炊煮。","source_ids":["S-PANASONIC-TRUFFLE-SEAFOOD-1"]},{"step":3,"instruction":"炊好后拌入松露酱、奶油和起司；海鲜熟度与机型程序仍以来源为限。","source_ids":["S-PANASONIC-TRUFFLE-SEAFOOD-1"]}],"time_contract":null,"safety_endpoints":[{"code":"shellfish_fully_cooked","minimum_core_temperature_c":74,"source_ids":["S-SAFETY-TEMPERATURES-1"]}],"allergen_labels":["甲壳类","软体动物","乳制品"],"nutrition_structure":{"grade":"B","roles":["carbohydrate","protein"]},"cooker_adaptation":{"status":"source_limited","source_ids":["S-PANASONIC-TRUFFLE-SEAFOOD-1"],"notes":"Panasonic SR-PAA100页面支持机型与同锅步骤，但没有给通用电饭煲安全终点，暂不晋升。"},"source_refs":[{"source_id":"S-PANASONIC-TRUFFLE-SEAFOOD-1","title":"松露海鮮燉飯","publisher":"Panasonic Cooking Taiwan","url":"https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5098","retrieved_at":"2026-08-05","source_kind":"manufacturer_recipe_page","access_status":"opened","evidence_tier":3,"evidence_locator":"详情页：SR-PAA100；义大利米200g、高汤150g、鲜奶油30g、白酒20g、蛤蜊5只、虾6只、鱿鱼30g、松露酱10g、起司20g；同锅炊煮后拌入松露与起司","claim_scopes":["identity","ingredients","quantity","liquid","process","appliance"],"attribution":"Panasonic Cooking Taiwan","license":"government_site_terms_unspecified"},{"source_id":"S-SAFETY-TEMPERATURES-1","title":"Cook to a Safe Minimum Internal Temperature","publisher":"FoodSafety.gov","url":"https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures","retrieved_at":"2026-08-02","source_kind":"government_food_safety_guidance","access_status":"opened","evidence_tier":1,"evidence_locator":"Safe Minimum Internal Temperature Chart：贝类/牡蛎及其他贝类海鲜按74°C终点；鱼类按63°C；禽肉按74°C。","claim_scopes":["safety"],"attribution":"FoodSafety.gov","license":"U.S. government site terms"}],"status":"recipe_fact_checked","evidence_notes":"Panasonic台湾官方海鲜炖饭；来源具名且流程清楚，但海鲜安全端点、奶油/起司比例的家庭适配尚未完成。 r155 安全审计补充：Panasonic 台湾原页列蛤蜊、虾和鱿鱼并直接放入 SR-PAA100 内锅炊煮；按贝类74°C安全终点处理，不外推为普通电饭煲参数。"},
     {
-  "recipe_id": "panasonic-taiwan-golden-snapper-rice",
+ "recipe_id": "panasonic-taiwan-golden-snapper-rice",
   "canonical_name": "金絲鯛魚炊飯",
   "aliases": [
     "金丝鲷鱼炊饭"
@@ -9780,8 +9780,12 @@
     "毛豆",
     "蛋丝"
   ],
-  "fixed_batch": null,
-  "liquid_contract": null,
+ "fixed_batch": null,
+  "liquid_contract": {
+    "kind": "added_dashi",
+    "amount": { "value": 3, "unit": "杯" },
+    "source_ids": ["S-PANASONIC-GOLDEN-SNAPPER-1"]
+  },
   "cooking_sequence": [
     {
       "step": 1,
@@ -10996,7 +11000,7 @@
       "evidence_notes": "台湾农业部官方排骨煲仔饭；来源有用量和液体，但器具、时间和猪肉安全合同未闭合，保持研究状态。 r160 安全补证：砂锅排骨饭按项目混合米饭猪肉 74°C 终点；原砂锅分段边界保留。"
     },
     {
-      "recipe_id": "panasonic-taiwan-ginseng-chicken-rice",
+     "recipe_id": "panasonic-taiwan-ginseng-chicken-rice",
       "canonical_name": "人蔘雞肉飯",
       "aliases": [
         "人参鸡肉饭"
@@ -11013,8 +11017,12 @@
         "人蔘鬚",
         "红枣"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+     "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": { "value": 500, "unit": "g" },
+        "source_ids": ["S-PANASONIC-GINSENG-CHICKEN-1"]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -11072,7 +11080,7 @@
       "evidence_notes": "Panasonic官方机型食谱，来源给出克数、热水和同锅流程但没有总时长；保持机型边界。"
     },
     {
-      "recipe_id": "panasonic-taiwan-five-color-rice",
+ "recipe_id": "panasonic-taiwan-five-color-rice",
       "canonical_name": "五色炊飯",
       "aliases": [
         "五色炊饭"
@@ -11092,8 +11100,12 @@
         "玉米笋",
         "毛豆"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+ "fixed_batch": null,
+  "liquid_contract": {
+    "kind": "added_water",
+    "amount": { "value": 3, "unit": "杯" },
+    "source_ids": ["S-PANASONIC-FIVE-COLOR-RICE-1"]
+  },
       "cooking_sequence": [
         {
           "step": 1,
@@ -11311,7 +11323,7 @@
       "evidence_notes": "保留牛腩专名，不把牛腩泛化为牛肉。"
     },
     {
-      "recipe_id": "panasonic-taiwan-mushroom-risotto",
+     "recipe_id": "panasonic-taiwan-mushroom-risotto",
       "canonical_name": "和風香菇燉飯",
       "aliases": [
         "和风香菇炖饭"
@@ -11330,8 +11342,12 @@
         "酱油",
         "清酒"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+     "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": { "value": 3, "unit": "杯" },
+        "source_ids": ["S-PANASONIC-MUSHROOM-RISOTTO-1"]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -11389,7 +11405,7 @@
       "evidence_notes": "厂商来源支持同锅菇饭；标为碳水加纤维，不宣称完整均衡餐。"
     },
     {
-      "recipe_id": "panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice",
+     "recipe_id": "panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice",
       "canonical_name": "南瓜野菇雞肉糙米飯",
       "aliases": [
         "南瓜野菇鸡肉糙米饭"
@@ -11409,8 +11425,12 @@
         "蒜",
         "姜"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+     "fixed_batch": null,
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": { "value": 2.5, "unit": "杯" },
+        "source_ids": ["S-PANASONIC-PUMPKIN-MUSHROOM-CHICKEN-BROWN-RICE-1"]
+      },
       "cooking_sequence": [
         {
           "step": 1,

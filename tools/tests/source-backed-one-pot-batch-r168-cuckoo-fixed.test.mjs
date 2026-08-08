@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
 test('r168 closes the same-source CUCKOO abalone fixed batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r179');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r180');
   assert.equal(catalog.recipes.length, 923);
   const recipe = byId['cuckoo-abalone-pot-rice'];
   assert.ok(recipe);
