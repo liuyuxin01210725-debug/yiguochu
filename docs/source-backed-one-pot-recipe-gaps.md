@@ -1454,7 +1454,6 @@
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL
 - ホタテと大根の炊き込みごはん (jp-hotate-daikon-takikomi-gohan) — JP-NATIONAL
-- 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
 - ほっきめし (maff-fukushima-hokki-meshi) — JP-FUKUSHIMA-SOMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
 - 鶏肉と椎茸の中華風蒸しご飯 (maff-chicken-shiitake-chinese-steamed-rice) — JP
@@ -1481,7 +1480,6 @@
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
 - Spanish Style Chicken Legs (tefal-spanish-style-chicken-legs-r106521) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
-- ののこ飯 (zojirushi-nonokomeshi-el-mb30) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
 - Bang Bang Chicken (tiger-bang-bang-chicken-rice) — 非地域·厂商食谱

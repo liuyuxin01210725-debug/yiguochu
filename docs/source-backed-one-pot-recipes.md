@@ -850,7 +850,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 鮭とねぎの炊き込みご飯 | 鲑鱼葱炊饭 | JP-KINKI | japanese-rice-pot | 研究记录（非公开可执行） | 米；鲑鱼；葱 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [鮭とねぎの炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/251114-25.pdf) |
+| 鮭とねぎの炊き込みご飯 | 鲑鱼葱炊饭 | JP-KINKI | japanese-rice-pot | 研究记录（非公开可执行） | 米；鲑鱼；葱 | identity、ingredients、process、quantity、safety | 缺 liquid、appliance、time | [鮭とねぎの炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/251114-25.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## japanese-salmon-rice-bowl
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1130,7 +1130,7 @@
 | Saffron Rice with Seafood | 藏红花海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；解冻冷冻海鲜；洋葱；鱼高汤；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Saffron Rice with Seafood](https://www.tefal.com/recipe/Saffron-Rice-with-Seafood/r/106512) |
 | Spanish Style Chicken Legs | 西班牙风味鸡腿饭（Tefal蒸锅版） | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；鸡腿；鸡汤；番茄；西葫芦；青椒；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Spanish Style Chicken Legs](https://www.tefal.com/recipe/Spanish-Style-Chicken-Legs/r/106521) |
 | かすよせ | 熊本かすよせ | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；熟黄豆；芋头；鸡腿肉；南瓜；干香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [かすよせ](https://www.zojirushi.co.jp/recipe_old/ih-atsuryoku/detail.html?id=ih-atsuryoku_kasuyose&subcat=yasai) |
-| ののこ飯 | 鸟取ののこ饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；油炸豆腐皮；鸡腿肉；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [ののこ飯](https://www.zojirushi.co.jp/recipe/ih-atsuryoku/syousai/nonokomeshi.html) |
+| ののこ飯 | 鸟取ののこ饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 米；油炸豆腐皮；鸡腿肉；牛蒡；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [ののこ飯](https://www.zojirushi.co.jp/recipe/ih-atsuryoku/syousai/nonokomeshi.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 奈良ご当地 茶がゆ | 奈良茶粥 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 白米；焙茶；水；盐 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [奈良ご当地 茶がゆ](https://panasonic.jp/cooking/recipe/autocooker/1504.html) |
 ## manufacturer-one-pot-risotto
 
