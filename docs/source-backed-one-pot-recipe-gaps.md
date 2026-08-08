@@ -1596,7 +1596,6 @@
 - 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 紅鳳菜雞肉炊飯 (taiwan-red-amaranth-chicken-rice) — TW
 - 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
-- 鯛魚毛豆炊飯 (taiwan-tilapia-edamame-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 鮭魚什錦菇飯 (ntuh-salmon-mixed-mushroom-rice) — TW-TPE
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW

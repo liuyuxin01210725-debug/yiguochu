@@ -27,7 +27,7 @@ const expected = [
 ];
 
 test('r129 integrates only directly evidenced main-dish candidates from r129-public5', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r188');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r189');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
