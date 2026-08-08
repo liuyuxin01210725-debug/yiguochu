@@ -1508,7 +1508,6 @@
 - Bang Bang Chicken (tiger-bang-bang-chicken-rice) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
-- Century Egg & Chicken Congee (panasonic-my-century-egg-chicken-congee) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
 - Chicken Biryani (panasonic-chicken-biryani-sr-da182) — 非地域·厂商食谱
 - Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
@@ -1618,7 +1617,6 @@
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
 - 竹筍炊飯 (taiwan-bamboo-shoot-rice) — TW
-- 糙米高麗菜什錦飯 (r97-zojirushi-taiwan-brown-cabbage-mixed-rice) — TW
 - 臘味煲飯 (taiwan-cured-pot-rice) — TW
 - 皮蛋瘦肉粥 (r58-taiwan-preserved-egg-pork-congee) — TW
 - 玉米雞蓉糙米粥 (r98-zojirushi-taiwan-corn-chicken-brown-congee) — TW
@@ -1649,7 +1647,6 @@
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW
 - 野菇雞肉竹筍什錦飯 (panasonic-taiwan-mushroom-chicken-bamboo-rice) — TW
 - 香菇竹筍雞肉炊飯 (panasonic-taiwan-shiitake-bamboo-chicken-rice) — TW
-- 鯛魚干貝藜麥炊飯 (panasonic-taiwan-taiyu-scallop-quinoa-rice) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW
 - 香菇油飯 (r97-panasonic-taiwan-shiitake-oil-rice) — TW
 - 羅宋湯飯 (afa-ebook9-roselle-soup-rice) — TW
@@ -1657,7 +1654,6 @@
 - 紅蟳米糕 (r58-taiwan-red-crab-glutinous-rice) — TW
 - 芋頭鹹粥 (r106-tw-taro-salted-congee) — TW
 - 南瓜飯 (r58-taiwan-afa-pumpkin-rice) — TW
-- 日式野菇雞肉炊飯 (r98-zojirushi-taiwan-wild-mushroom-chicken-mixed-rice) — TW
 - 養生糙米飯 (taiwan-moa-healthy-brown-rice) — TW
 - 麻油香菇鹽麴雞飯 (tatung-sesame-shiitake-shio-koji-chicken-rice) — TW
 - しょうが飯 (tatung-wakayama-ginger-rice) — TW

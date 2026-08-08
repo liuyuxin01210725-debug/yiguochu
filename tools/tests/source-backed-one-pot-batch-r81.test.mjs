@@ -16,7 +16,7 @@ const expected = [
 
 test('r81 registers seven directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r152');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r154');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -61,7 +61,7 @@ test('r81 preserves source limits and unresolved boundaries for new candidates',
   assert.equal(panasonicCongee.fixed_batch.servings, 3);
   assert.equal(panasonicCongee.time_contract.total_minutes, 23);
   assert.match(panasonicCongee.evidence_notes, /搅拌机|传统皮蛋瘦肉粥|安全/u);
-  assert.equal(panasonicCongee.safety_endpoints.length, 0);
+  assert.equal(panasonicCongee.safety_endpoints.length, 1);
 
   const pumpkinLotus = byId.get('panasonic-my-chicken-pumpkin-lotus-mixed-rice');
   assert.equal(pumpkinLotus.cooking_sequence.length, 0);

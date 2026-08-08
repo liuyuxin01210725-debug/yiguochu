@@ -1162,7 +1162,7 @@
 | Brown Rice with Salmon and Shiitake | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；三文鱼；干香菇；米酒；味醂；酱油 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [Brown Rice with Salmon and Shiitake](https://www.zojirushi.com/app/recipe/brown-rice-with-salmon-and-shiitake) |
 | Cabbage and Mushroom Rice | 高丽菜香菇炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 短粒米；卷心菜；干香菇；胡萝卜；葱；蚝油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Cabbage and Mushroom Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/cabbage-and-mushroom-rice/) |
 | Carrot Rice | 虎牌胡萝卜饭；胡萝卜炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；胡萝卜；洋葱；鸡汤或蔬菜高汤；橄榄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Carrot Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/carrot-rice/) |
-| Century Egg & Chicken Congee | 皮蛋鸡肉粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡胸肉；皮蛋 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [Century Egg & Chicken Congee](https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/century-egg-chicken-congee.html) |
+| Century Egg & Chicken Congee | 皮蛋鸡肉粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡胸肉；皮蛋 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [Century Egg & Chicken Congee](https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/century-egg-chicken-congee.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Century Eggs and Fish Fillet Porridge | 皮蛋鱼片粥；皮蛋鱼粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；白鱼；皮蛋；生姜；香菜；盐；麻油；白胡椒 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Century Eggs and Fish Fillet Porridge](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/century-eggs-and-fish-fillet-porridge/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Chicken & Pea Risotto | 鸡肉豌豆烩饭；TEFAL602 鸡肉豌豆烩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | Arborio米；熟鸡肉；鸡高汤；豌豆；蘑菇；洋葱；大蒜；帕玛森奶酪 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken & Pea Risotto](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNDcxMTM4fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDZkL2g5NC85ODI1ODkyMzAyODc4LnBkZnxjY2M0NzU4NDA0ZTY2Zjk4MDVlNGY4OWQyNzg3NTg2Y2QyN2M1OGU3YzFkZjkxYjA0MTlhYWY2ODQ4YjM3) |
 | Chicken Biryani | 鸡肉比里亚尼饭；Panasonic 鸡肉香料饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 鸡腿；印度香米；酸奶；鸡高汤；酥油；香料；藏红花；炸洋葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken Biryani](https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/chicken-biryani.html) |
@@ -1830,7 +1830,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 糙米高麗菜什錦飯 | 糙米高丽菜什锦饭 | TW | taiwan-brown-rice-cabbage-mixed-rice | 研究记录（非公开可执行） | 糙米；梅花猪肉丝；胡萝卜；干香菇；高丽菜 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [糙米高麗菜什錦飯](https://www.zojirushi.com.tw/recipe/rice-cookers/444/csr) |
+| 糙米高麗菜什錦飯 | 糙米高丽菜什锦饭 | TW | taiwan-brown-rice-cabbage-mixed-rice | 研究记录（非公开可执行） | 糙米；梅花猪肉丝；胡萝卜；干香菇；高丽菜 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [糙米高麗菜什錦飯](https://www.zojirushi.com.tw/recipe/rice-cookers/444/csr)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-ceremonial-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2061,7 +2061,7 @@
 | 金絲鯛魚炊飯 | 金丝鲷鱼炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 米；金丝鲷鱼；昆布；柴鱼高汤；毛豆；蛋丝 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [金絲鯛魚炊飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/140) |
 | 香菇竹筍雞肉炊飯 | 香菇竹笋鸡肉炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；鸡腿肉；香菇；竹笋；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [香菇竹筍雞肉炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3842) |
 | 鮭魚菇菇炊飯 | Panasonic鲑鱼蘑菇炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；鲑鱼；鸿喜菇；香菇；奶油 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鮭魚菇菇炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4032)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 鯛魚干貝藜麥炊飯 | Panasonic鲷鱼干贝藜麦炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；红藜麦；鲷鱼；干贝；鸿喜菇 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [鯛魚干貝藜麥炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3904) |
+| 鯛魚干貝藜麥炊飯 | Panasonic鲷鱼干贝藜麦炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；红藜麦；鲷鱼；干贝；鸿喜菇 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [鯛魚干貝藜麥炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3904)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-seafood-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2104,7 +2104,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 日式野菇雞肉炊飯 | 日式野菇鸡肉炊饭 | TW | taiwan-wild-mushroom-chicken-mixed-rice | 研究记录（非公开可执行） | 白米；鸡腿肉；综合菇；牛蒡 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [日式野菇雞肉炊飯](https://www.zojirushi.com.tw/recipe/rice-cookers/549/%E6%97%A5%E5%BC%8F%E9%87%8E%E8%8F%87%E9%9B%9E%E8%82%89%E7%82%8A%E9%A3%AF) |
+| 日式野菇雞肉炊飯 | 日式野菇鸡肉炊饭 | TW | taiwan-wild-mushroom-chicken-mixed-rice | 研究记录（非公开可执行） | 白米；鸡腿肉；综合菇；牛蒡 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [日式野菇雞肉炊飯](https://www.zojirushi.com.tw/recipe/rice-cookers/549/%E6%97%A5%E5%BC%8F%E9%87%8E%E8%8F%87%E9%9B%9E%E8%82%89%E7%82%8A%E9%A3%AF)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwanese-rice-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
