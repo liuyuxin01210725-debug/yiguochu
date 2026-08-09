@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r253",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r254",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -96825,7 +96825,11 @@
         ]
       },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "鸡腿肉调味后炒熟；白饭与鸡蛋分开炒。", "source_ids": ["S-R100-MO-TOMATO-CHICKEN-RICE-1"]},
+        {"step": 2, "instruction": "炒香鸡肉、洋葱和番茄，并按官方页另煮水、糖、盐、茄汁、茄膏等组成的汁。", "source_ids": ["S-R100-MO-TOMATO-CHICKEN-RICE-1"]},
+        {"step": 3, "instruction": "将鸡丝、炒饭和茄汁分开组合，最后把汁淋在饭面；保留熟饭二次烹边界。", "source_ids": ["S-R100-MO-TOMATO-CHICKEN-RICE-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [
@@ -96853,14 +96857,15 @@
           "claim_scopes": [
             "identity",
             "ingredients",
-            "quantity"
+            "quantity",
+            "process"
           ],
           "attribution": "澳门特别行政区体育局",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "具名和定量已定位，但米饭、蛋、鸡肉和汁分开处理；留作未来熟饭二次烹品类，不改写为电锅方案。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "澳门体育局官方页已闭合4人份、量化食材与鸡肉/炒饭/茄汁分开处理后组合的流程；保留熟饭二次烹与另煮汁边界，不改写为电锅方案。"
     },
     {
       "recipe_id": "r100-macau-high-fiber-brown-fried-rice",
@@ -96883,9 +96888,25 @@
         "玉米",
         "蛋白"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {"name": "糙米饭", "amount": {"value": 185, "unit": "g"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+          {"name": "菜心", "amount": {"value": 100, "unit": "g"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+          {"name": "松子仁", "amount": {"value": 15, "unit": "g"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+          {"name": "粟米粒", "amount": {"value": 30, "unit": "g"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+          {"name": "蛋白", "amount": {"value": 60, "unit": "g"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+          {"name": "姜茸", "amount": {"value": 1, "unit": "茶匙"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+          {"name": "油", "amount": {"value": 2, "unit": "茶匙"}, "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]}
+        ],
+        "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]
+      },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "糙米浸泡后煮熟，按官方页冷却并冷藏至少30分钟。", "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+        {"step": 2, "instruction": "炒姜茸、菜心、蛋白、松子仁和粟米粒。", "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]},
+        {"step": 3, "instruction": "加入冷藏后的熟糙米饭翻炒；盐和水按来源的适量边界保留。", "source_ids": ["S-R100-MO-HIGH-FIBER-BROWN-FRIED-RICE-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [
@@ -96913,14 +96934,16 @@
           "evidence_locator": "官方页3人份食材与流程：糙米浸泡煮熟、冷藏30分钟，再与菜心/松子/玉米/蛋白炒制",
           "claim_scopes": [
             "identity",
-            "ingredients"
+            "ingredients",
+            "quantity",
+            "process"
           ],
           "attribution": "澳门特别行政区体育局",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "记录为具名剩饭/炒饭候选；盐和水为适量，且不是同锅生米流程。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "澳门体育局官方页已闭合3人份、主要量化配料和浸泡煮熟→冷藏至少30分钟→炒饭流程；盐和水仍为适量，且明确是熟饭二次烹，不进入生米电锅轮替。"
     },
     {
       "recipe_id": "r100-hk-corn-pumpkin-chicken-ball-rice",
@@ -97053,7 +97076,11 @@
         ]
       },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "南瓜与洋葱加水煮软并搅成汁。", "source_ids": ["S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"]},
+        {"step": 2, "instruction": "鸡球、粟米粒和青椒汆烫后，与南瓜汁和调味料合煮。", "source_ids": ["S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"]},
+        {"step": 3, "instruction": "将成品配上285g熟白饭；保留熟饭与多阶段酱汁边界。", "source_ids": ["S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [],
@@ -97079,14 +97106,15 @@
           "claim_scopes": [
             "identity",
             "ingredients",
-            "quantity"
+            "quantity",
+            "process"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "具名与1人份食材已核对；属于熟饭、多阶段酱汁方案，缺独立禽肉终点和完整时间。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署页面已闭合1人份、量化食材及南瓜汁/鸡球蔬菜汆烫合煮后配熟饭的流程；保留熟饭、多阶段酱汁与禽肉安全缺口，不推导电饭煲。"
     },
     {
       "recipe_id": "r100-hk-scallop-egg-braised-rice",
@@ -97188,7 +97216,11 @@
         ]
       },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "米按官方页另煮；蛋白、瑶柱和菜片分别准备。", "source_ids": ["S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"]},
+        {"step": 2, "instruction": "将蛋白、瑶柱和菜片放入300g上汤中烩煮。", "source_ids": ["S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"]},
+        {"step": 3, "instruction": "把烩汁淋在另煮好的米饭上；芡汁和菜片身份缺口保持不变。", "source_ids": ["S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [
@@ -97217,14 +97249,15 @@
           "claim_scopes": [
             "identity",
             "ingredients",
-            "quantity"
+            "quantity",
+            "process"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "具名、2人份和主要定量已定位；“菜片”具体身份及芡汁边界待核，暂列熟饭/烩饭档案。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署页面已闭合2人份、主要定量与米饭另煮→高汤烩蛋白/瑶柱/菜片→淋饭流程；‘菜片’具体身份、芡汁和海鲜安全边界仍保留。"
     },
     {
       "recipe_id": "r100-hk-garlic-wild-mushroom-stonepot-rice",
@@ -97358,7 +97391,11 @@
         ]
       },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "彩椒、杂菜、白菌与灵芝菇按官方页先汆烫。", "source_ids": ["S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"]},
+        {"step": 2, "instruction": "炒香洋葱与蒜蓉，加入汆烫蔬菜和菌菇，按来源加入清汤及调味。", "source_ids": ["S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"]},
+        {"step": 3, "instruction": "将炒好的蔬菜菌菇置于石锅熟白饭面；保留熟饭和石锅盛器边界。", "source_ids": ["S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [],
@@ -97384,14 +97421,15 @@
           "claim_scopes": [
             "identity",
             "ingredients",
-            "quantity"
+            "quantity",
+            "process"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "保留石锅熟饭档案，未把盛器“石头窝”改写成电饭煲单锅。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署页面已闭合1人份、量化食材及蔬菜汆烫→炒香→铺于石锅熟饭面的流程；保留熟饭与石锅盛器边界，不改写为电饭煲单锅。"
     },
     {
       "recipe_id": "r100-hk-pumpkin-multigrain-rice",
@@ -97416,9 +97454,25 @@
         "蒜",
         "淡忌廉"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {"name": "五谷米", "amount": {"value": 150, "unit": "g"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+          {"name": "南瓜肉", "amount": {"value": 50, "unit": "g"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+          {"name": "淡忌廉", "amount": {"value": 50, "unit": "g"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+          {"name": "清水", "amount": {"value": 50, "unit": "ml"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+          {"name": "橄榄油", "amount": {"value": 0.5, "unit": "茶匙"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+          {"name": "盐", "amount": {"value": 0.3333333333, "unit": "茶匙"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+          {"name": "糖", "amount": {"value": 0.2, "unit": "茶匙"}, "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]}
+        ],
+        "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]
+      },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "南瓜烤熟；五谷米按官方PDF加水蒸熟。", "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+        {"step": 2, "instruction": "洋葱和蒜蓉炒香，加入蒸好的五谷米、淡忌廉、橄榄油、盐和糖拌匀。", "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]},
+        {"step": 3, "instruction": "拌入烤熟南瓜；保留烤箱、蒸锅和炒锅多阶段边界。", "source_ids": ["S-R100-HK-PUMPKIN-MULTIGRAIN-RICE-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [
@@ -97445,14 +97499,17 @@
           "evidence_locator": "CookSmart 25官方PDF第28至29页：2人份五谷米/南瓜/淡忌廉及烤、蒸、炒、拌流程",
           "claim_scopes": [
             "identity",
-            "ingredients"
+            "ingredients",
+            "quantity",
+            "process",
+            "appliance"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "官方PDF可定位，仍需本地凭证页归档；洋葱/蒜用量为适量，保持缺口。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署CookSmart PDF已闭合2人份、五谷米/南瓜/淡忌廉/清水等量化字段与烤→蒸→炒→拌流程；洋葱/蒜为适量，保留多器具边界，不推导电饭煲。"
     },
     {
       "recipe_id": "r100-hk-pumpkin-seafood-brown-rice",

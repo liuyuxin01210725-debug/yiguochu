@@ -457,7 +457,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 粟米南瓜雞球飯 | 粟米南瓜鸡球饭 | HK | hong-kong-corn-pumpkin-chicken-ball-rice | 研究记录（非公开可执行） | 熟白饭；南瓜；鸡球；粟米；青椒；洋葱 | identity、ingredients、quantity | 当前状态所需证据已齐 | [粟米南瓜雞球飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=753) |
+| 粟米南瓜雞球飯 | 粟米南瓜鸡球饭 | HK | hong-kong-corn-pumpkin-chicken-ball-rice | 研究记录（非公开可执行） | 熟白饭；南瓜；鸡球；粟米；青椒；洋葱 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [粟米南瓜雞球飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=753) |
 ## hong-kong-electric-cooker-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -471,7 +471,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 蒜蓉野菌雜菜石頭窩飯 | 蒜蓉野菌杂菜石头窝饭 | HK | hong-kong-garlic-mushroom-stonepot-rice | 研究记录（非公开可执行） | 熟白饭；彩椒；洋葱；杂菜；白菌；杏鲍菇 | identity、ingredients、quantity | 当前状态所需证据已齐 | [蒜蓉野菌雜菜石頭窩飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=754) |
+| 蒜蓉野菌雜菜石頭窩飯 | 蒜蓉野菌杂菜石头窝饭 | HK | hong-kong-garlic-mushroom-stonepot-rice | 研究记录（非公开可执行） | 熟白饭；彩椒；洋葱；杂菜；白菌；杏鲍菇 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [蒜蓉野菌雜菜石頭窩飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=754) |
 ## hong-kong-kamameshi-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -493,7 +493,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 南瓜五穀飯 | 南瓜五谷饭 | HK | hong-kong-pumpkin-multigrain-rice | 研究记录（非公开可执行） | 五谷米；南瓜；洋葱；蒜；淡忌廉 | identity、ingredients | 当前状态所需证据已齐 | [南瓜五穀飯](https://restaurant.eatsmart.gov.hk/files/pdf/cooksmart25.pdf) |
+| 南瓜五穀飯 | 南瓜五谷饭 | HK | hong-kong-pumpkin-multigrain-rice | 研究记录（非公开可执行） | 五谷米；南瓜；洋葱；蒜；淡忌廉 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [南瓜五穀飯](https://restaurant.eatsmart.gov.hk/files/pdf/cooksmart25.pdf) |
 ## hong-kong-pumpkin-seafood-brown-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -536,7 +536,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 菜片瑤柱鴛鴦蛋燴飯 | 菜片瑶柱鸳鸯蛋烩饭 | HK | hong-kong-scallop-egg-braised-rice | 研究记录（非公开可执行） | 米；鸡蛋；瑶柱；菜片；高汤 | identity、ingredients、quantity | 当前状态所需证据已齐 | [菜片瑤柱鴛鴦蛋燴飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=750) |
+| 菜片瑤柱鴛鴦蛋燴飯 | 菜片瑶柱鸳鸯蛋烩饭 | HK | hong-kong-scallop-egg-braised-rice | 研究记录（非公开可执行） | 米；鸡蛋；瑶柱；菜片；高汤 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [菜片瑤柱鴛鴦蛋燴飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=750) |
 ## hong-kong-seaweed-chicken-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1071,7 +1071,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 高纖糙米炒飯 | 高纤糙米炒饭 | MO | macau-high-fiber-brown-fried-rice | 研究记录（非公开可执行） | 熟糙米饭；菜心；松子；玉米；蛋白 | identity、ingredients | 当前状态所需证据已齐 | [高纖糙米炒飯](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/29) |
+| 高纖糙米炒飯 | 高纤糙米炒饭 | MO | macau-high-fiber-brown-fried-rice | 研究记录（非公开可执行） | 熟糙米饭；菜心；松子；玉米；蛋白 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [高纖糙米炒飯](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/29) |
 ## macau-one-pot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1091,7 +1091,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 茄汁雞絲飯 | 茄汁鸡丝饭 | MO | macau-tomato-chicken-rice | 研究记录（非公开可执行） | 白饭；鸡腿肉；洋葱；番茄；鸡蛋 | identity、ingredients、quantity | 当前状态所需证据已齐 | [茄汁雞絲飯](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/77) |
+| 茄汁雞絲飯 | 茄汁鸡丝饭 | MO | macau-tomato-chicken-rice | 研究记录（非公开可执行） | 白饭；鸡腿肉；洋葱；番茄；鸡蛋 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [茄汁雞絲飯](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/77) |
 ## manchu-xibe-dazi-rice-porridge
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

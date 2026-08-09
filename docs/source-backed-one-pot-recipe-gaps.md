@@ -319,7 +319,10 @@
 - 三色藜麥小米甜粟米粒肉碎粥 (startsmart-quinoa-millet-corn-pork-congee) — HK
 - 時菜肉碎粥 (startsmart-seasonal-pork-congee) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
+- 粟米南瓜雞球飯 (r100-hk-corn-pumpkin-chicken-ball-rice) — HK
 - 菜心瑤柱飯 (hk-choy-sum-scallop-rice) — HK
+- 蒜蓉野菌雜菜石頭窩飯 (r100-hk-garlic-wild-mushroom-stonepot-rice) — HK
+- 南瓜五穀飯 (r100-hk-pumpkin-multigrain-rice) — HK
 - 南瓜蝦仁黃金飯 (r104-hk-pumpkin-shrimp-golden-rice) — HK
 - 紅豆薏米燕麥粥 (r98-philips-hk-red-bean-coix-oat-congee) — HK
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK
@@ -328,6 +331,7 @@
 - 薑絲枸杞子蒸雞煲仔飯 (nestle-ginger-goji-steamed-chicken-claypot-rice) — HK
 - 藜麥栗子冬菇雞飯 (tvb-quinoa-chestnut-mushroom-chicken-rice) — HK
 - 電飯煲窩蛋香菇牛肉飯 (knorr-electric-rice-cooker-egg-mushroom-beef-rice) — HK
+- 菜片瑤柱鴛鴦蛋燴飯 (r100-hk-scallop-egg-braised-rice) — HK
 - 番茄蛋鮮牛肉湯泡飯 (r104-hk-tomato-egg-beef-soup-rice) — HK
 - 番茄湯田園雜菜泡飯 (r104-hk-tomato-garden-vegetable-pao-rice) — HK
 - 西紅柿瓜湯西施飯 (r104-hk-tomato-wintermelon-soup-rice) — HK
@@ -428,6 +432,8 @@
 - 朱村雞飯 (zengcheng-zhucun-chicken-rice) — CN-GD
 - 蚬肉饭 (zhongtang-clam-meat-rice) — CN-GD-DONGGUAN-ZHONGTANG
 - 林州小米稠饭 (cn-henan-linzhou-millet-thick-rice) — CN-HA-ANYANG-LINZHOU
+- 高纖糙米炒飯 (r100-macau-high-fiber-brown-fried-rice) — MO
+- 茄汁雞絲飯 (r100-macau-tomato-chicken-rice) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
 - Spinach and Chickpea Curry Rice (tiger-spinach-chickpea-curry-rice) — US
@@ -705,10 +711,13 @@
 - あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 香菇魚腩粥 (hk-mushroom-grass-carp-congee) — HK
 - 黃金海鮮粥 (hk-golden-seafood-congee) — HK
+- 粟米南瓜雞球飯 (r100-hk-corn-pumpkin-chicken-ball-rice) — HK
+- 蒜蓉野菌雜菜石頭窩飯 (r100-hk-garlic-wild-mushroom-stonepot-rice) — HK
 - 粟米瘦肉粥 (startsmart-corn-lean-pork-porridge) — HK
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK
 - 港巴蔬菜粥 (had-vegetable-pulao) — HK
 - 章魚雞粒有味飯 (tvb-octopus-chicken-claypot-rice) — HK
+- 菜片瑤柱鴛鴦蛋燴飯 (r100-hk-scallop-egg-braised-rice) — HK
 - 勝瓜海皇泡飯 (hk-startsmart-silk-gourd-seafood-soup-rice) — HK
 - 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
@@ -770,7 +779,9 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - 蚬肉饭 (zhongtang-clam-meat-rice) — CN-GD-DONGGUAN-ZHONGTANG
 - 林州小米稠饭 (cn-henan-linzhou-millet-thick-rice) — CN-HA-ANYANG-LINZHOU
+- 高纖糙米炒飯 (r100-macau-high-fiber-brown-fried-rice) — MO
 - 生菜魚球粥 (macau-lettuce-fishball-porridge) — MO
+- 茄汁雞絲飯 (r100-macau-tomato-chicken-rice) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 芋头饭 (quanzhou-taro-rice) — CN-FJ
@@ -890,13 +901,16 @@
 - 時菜肉碎粥 (startsmart-seasonal-pork-congee) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
 - 黃金海鮮粥 (hk-golden-seafood-congee) — HK
+- 粟米南瓜雞球飯 (r100-hk-corn-pumpkin-chicken-ball-rice) — HK
 - 三文魚青毛豆藜麥飯 (hk-salmon-edamame-quinoa-rice) — HK
 - 南瓜冬菇豬肉燉飯 (hk-pumpkin-shiitake-pork-rice) — HK
 - 櫻花蝦冬菇雞肉藜麥飯 (hk-sakura-shrimp-chicken-quinoa-rice) — HK
 - 番茄雜菇雞腿肉飯 (hk-tomato-mushroom-chicken-rice) — HK
 - 菜心瑤柱飯 (hk-choy-sum-scallop-rice) — HK
+- 蒜蓉野菌雜菜石頭窩飯 (r100-hk-garlic-wild-mushroom-stonepot-rice) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 蘑菇意大利飯配軟芝士 (r104-hk-mushroom-italian-rice-ricotta) — HK
+- 南瓜五穀飯 (r100-hk-pumpkin-multigrain-rice) — HK
 - 南瓜蝦仁黃金飯 (r104-hk-pumpkin-shrimp-golden-rice) — HK
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK
 - 芝士蘆筍海鮮焗飯 (fehd-cheese-asparagus-seafood-rice) — HK
@@ -910,6 +924,7 @@
 - 蝦乾瑤柱班腩煲仔飯 (philips-grouper-dried-shrimp-conpoy-claypot-rice) — HK
 - 電飯煲窩蛋香菇牛肉飯 (knorr-electric-rice-cooker-egg-mushroom-beef-rice) — HK
 - 電飯煲臘味糯米飯 (panasonic-hk-lap-mei-glutinous-rice) — HK
+- 菜片瑤柱鴛鴦蛋燴飯 (r100-hk-scallop-egg-braised-rice) — HK
 - 勝瓜海皇泡飯 (hk-startsmart-silk-gourd-seafood-soup-rice) — HK
 - 番茄蛋鮮牛肉湯泡飯 (r104-hk-tomato-egg-beef-soup-rice) — HK
 - 番茄湯田園雜菜泡飯 (r104-hk-tomato-garden-vegetable-pao-rice) — HK
@@ -1063,7 +1078,9 @@
 - 林州小米稠饭 (cn-henan-linzhou-millet-thick-rice) — CN-HA-ANYANG-LINZHOU
 - New Orleans Style Red Beans and Rice (zojirushi-new-orleans-red-beans-rice) — US-LA-NEW-ORLEANS
 - 蕃茄粟米飯 (macau-tomato-corn-rice) — MO
+- 高纖糙米炒飯 (r100-macau-high-fiber-brown-fried-rice) — MO
 - 帶子磨菇菜飯 (macau-scallop-mushroom-vegetable-rice) — MO
+- 茄汁雞絲飯 (r100-macau-tomato-chicken-rice) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
 - 西班牙海鮮燉飯 (r59-panasonic-taiwan-spanish-seafood-risotto) — ES
@@ -1397,6 +1414,7 @@
 - 薑絲枸杞子蒸雞煲仔飯 (nestle-ginger-goji-steamed-chicken-claypot-rice) — HK
 - 藜麥栗子冬菇雞飯 (tvb-quinoa-chestnut-mushroom-chicken-rice) — HK
 - 電飯煲臘味糯米飯 (panasonic-hk-lap-mei-glutinous-rice) — HK
+- 菜片瑤柱鴛鴦蛋燴飯 (r100-hk-scallop-egg-braised-rice) — HK
 - 紫菜雞粒湯飯 (r98-philips-hk-seaweed-chicken-rice-soup) — HK
 - 番茄蛋鮮牛肉湯泡飯 (r104-hk-tomato-egg-beef-soup-rice) — HK
 - 番茄湯田園雜菜泡飯 (r104-hk-tomato-garden-vegetable-pao-rice) — HK
@@ -1451,6 +1469,7 @@
 - 涟源腊肉红枣竹筒饭 (lianyuan-bamboo-rice) — CN-HN
 - New Orleans Style Red Beans and Rice (zojirushi-new-orleans-red-beans-rice) — US-LA-NEW-ORLEANS
 - 生菜魚球粥 (macau-lettuce-fishball-porridge) — MO
+- 茄汁雞絲飯 (r100-macau-tomato-chicken-rice) — MO
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
 - スタミナご飯 (zojirushi-stamina-rice) — JP-NATIONAL

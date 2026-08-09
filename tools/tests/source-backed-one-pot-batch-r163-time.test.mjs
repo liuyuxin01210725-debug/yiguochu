@@ -13,7 +13,7 @@ const expected = {
 };
 
 test('r163 closes four exact official time contracts without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedTime] of Object.entries(expected)) {
     const recipe = byId[recipeId];

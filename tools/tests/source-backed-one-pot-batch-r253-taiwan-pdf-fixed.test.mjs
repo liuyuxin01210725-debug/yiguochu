@@ -10,7 +10,7 @@ function ingredient(recipeId, name) {
 }
 
 test('r253 closes four exact Taiwan PDF batch contracts without adding canonical recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
   assert.equal(catalog.recipes.length, 923);
 
   assert.equal(byId.get('r100-taiwan-red-quinoa-lotus-leaf-rice')?.fixed_batch?.servings, 5);

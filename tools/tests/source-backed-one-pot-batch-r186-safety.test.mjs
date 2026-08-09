@@ -15,7 +15,7 @@ const expected = {
 };
 
 test('r186 closes four directly evidenced raw poultry safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
   for (const [recipeId, locator] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);

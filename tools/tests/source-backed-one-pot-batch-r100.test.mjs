@@ -23,10 +23,16 @@ const expectedStatus = new Map([
   ['r100-taiwan-quinoa-oil-rice', 'recipe_fact_checked'],
   ['r100-taiwan-momordica-vegetable-risotto', 'recipe_fact_checked'],
   ['r100-taiwan-grain-health-congee', 'recipe_fact_checked'],
+  ['r100-macau-tomato-chicken-rice', 'recipe_fact_checked'],
+  ['r100-macau-high-fiber-brown-fried-rice', 'recipe_fact_checked'],
+  ['r100-hk-corn-pumpkin-chicken-ball-rice', 'recipe_fact_checked'],
+  ['r100-hk-scallop-egg-braised-rice', 'recipe_fact_checked'],
+  ['r100-hk-garlic-wild-mushroom-stonepot-rice', 'recipe_fact_checked'],
+  ['r100-hk-pumpkin-multigrain-rice', 'recipe_fact_checked'],
 ]);
 
 test('r100 persists eleven opened official-source assets without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, name] of expected) {

@@ -28,7 +28,7 @@ const expected = {
 const executableIds = new Set(['hk-pumpkin-taro-chicken-claypot-rice', 'hk-taro-shrimp-multigrain-steamed-rice']);
 
 test('r149 closes four existing safety gaps with the shared official endpoint', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);

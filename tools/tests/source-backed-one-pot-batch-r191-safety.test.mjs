@@ -7,7 +7,7 @@ const recipe = catalog.recipes.find(item => item.recipe_id === 'philips-crab-con
 const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 
 test('r191 closes the directly evidenced raw-crab congee safety gap', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
   const endpoint = recipe.safety_endpoints.find(row => row.code === 'shellfish_fully_cooked');
