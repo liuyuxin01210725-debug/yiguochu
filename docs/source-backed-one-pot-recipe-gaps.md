@@ -1403,7 +1403,6 @@
 - トコブシの炊き込みご飯 (tokyo-hachijo-tokobushi-takikomi) — JP-TOKYO-HACHIJO
 - 混ぜるだけ！簡単で美味しい小松菜の混ぜご飯！！ (maff-komatsuna-sausage-mixed-rice) — JP
 - エリンギとシーフードミックスのパエリア風ご飯 (maff-eryngii-seafood-pan-paella) — JP
-- 鮭ととうもろこしの和風パエリア (maff-salmon-corn-japanese-paella) — JP
 - 鶏エリンギごはんの和風オムライス (maff-chicken-eryngii-omurice) — JP
 - 千石豆のかきまわし (maff-gifu-sengoku-bean-kakimawashi) — JP-GIFU
 - もぶり (maff-hiroshima-moburi) — JP-HIROSHIMA
@@ -1510,7 +1509,6 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
-- Chicken Briyani (sg-healthhub-chicken-briyani) — SG
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
@@ -1519,7 +1517,6 @@
 - 皮蛋瘦肉粥 (r58-taiwan-preserved-egg-pork-congee) — TW
 - 玉米雞蓉糙米粥 (r98-zojirushi-taiwan-corn-chicken-brown-congee) — TW
 - 紅藜麻油雞飯 (ntpc-red-quinoa-sesame-chicken-rice) — TW-NTPC-BALI
-- 麻油雞丁糯米糕 (taiwan-sesame-oil-chicken-glutinous-rice-cake) — TW
 - 雜糧干貝海鮮蒸臺灣藜飯 (taiwan-multigrain-scallop-seafood-quinoa-rice) — TW
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 山藥飯 (taiwan-yam-rice) — TW

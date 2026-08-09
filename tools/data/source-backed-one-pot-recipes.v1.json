@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r249",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r250",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -29236,7 +29236,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆",
         "甲壳类"
@@ -29247,7 +29255,7 @@
       },
       "cooker_adaptation": {
         "status": "source_limited",
-        "notes": "台湾国民健康署/农业部官方电锅糯米糕；保留先炒、第一次蒸后拌匀再复蒸的连续流程，不补来源未给出的成品份量、总时长或安全温度。",
+        "notes": "台湾国民健康署/农业部官方电锅糯米糕；保留先炒、第一次蒸后拌匀再复蒸的连续流程，不补来源未给出的成品份量、总时长或安全温度；本批仅挂 FoodSafety.gov 禽肉74°C终点。",
         "source_ids": [
           "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
         ]
@@ -29272,10 +29280,26 @@
           ],
           "attribution": "台湾卫生福利部国民健康署/农业部",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken thigh sautéed with the other ingredients before the rice-cooker steaming and re-steaming stages.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "官方 PDF 直接给出6人份麻油鸡丁糯米糕定量：红葱10g、糯米200g、干香菇60g、老姜10g、麻油30mL、肉丝30g、去骨鸡腿肉150g、虾米30g、盐6g、米酒30mL。炒料时液体为约半杯沸水或香菇水，属于动态对象，且电锅外锅1.5杯水与复蒸外锅1/4杯水是 cooker water，不写入内锅 liquid_contract；30分钟是浸泡准备时间，不写总时长。保留先炒、第一次蒸后拌匀再复蒸的阶段边界，来源未给肉类安全终点，safety_endpoints保持空。"
+      "evidence_notes": "官方 PDF 直接给出6人份麻油鸡丁糯米糕定量：红葱10g、糯米200g、干香菇60g、老姜10g、麻油30mL、肉丝30g、去骨鸡腿肉150g、虾米30g、盐6g、米酒30mL。炒料时液体为约半杯沸水或香菇水，属于动态对象，且电锅外锅1.5杯水与复蒸外锅1/4杯水是 cooker water，不写入内锅 liquid_contract；30分钟是浸泡准备时间，不写总时长。保留先炒、第一次蒸后拌匀再复蒸的阶段边界；本批仅挂 FoodSafety.gov 禽肉74°C终点。"
     },
     {
       "recipe_id": "taiwan-tilapia-edamame-rice",
@@ -78860,7 +78884,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -78872,7 +78904,7 @@
       },
       "cooker_adaptation": {
         "status": "not_adapted",
-        "notes": "来源是炉灶平底锅和先煎后焖的一锅饭，不证明电饭煲转换参数。"
+        "notes": "来源是炉灶平底锅和先煎后焖的一锅饭，不证明电饭煲转换参数；本批仅挂 FoodSafety.gov 鱼类63°C终点。"
       },
       "source_refs": [
         {
@@ -78895,10 +78927,26 @@
           ],
           "attribution": "日本农林水产省（MAFF）",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fin fish 145°F / 63°C minimum internal temperature; applies to the salmon seared and then simmered with rice in the MAFF stovetop pan recipe.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "具名和风鲑鱼玉米饭；是真实炉灶平底锅一锅饭，但不是电饭煲菜饭，保留先煎、鱼全熟和不转换边界。"
+      "evidence_notes": "具名和风鲑鱼玉米饭；是真实炉灶平底锅一锅饭，但不是电饭煲菜饭，保留先煎、鱼全熟和不转换边界；本批仅挂 FoodSafety.gov 鱼类63°C终点。"
     },
     {
       "recipe_id": "maff-eryngii-seafood-pan-paella",
@@ -114146,7 +114194,15 @@
           "S-R140-SG-CHICKEN-BRIYANI-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳制品"
       ],
@@ -114162,7 +114218,7 @@
         "source_ids": [
           "S-R140-SG-CHICKEN-BRIYANI-1"
         ],
-        "notes": "HealthHub PDF明确鸡肉先炒并煮至约八成熟、米另锅煮至半熟、再在新锅或rice cooker pot分层；保留普通锅/电饭煲内锅的分阶段边界，不把半熟米与另锅步骤外推为直接一锅电饭煲程序。"
+        "notes": "HealthHub PDF明确鸡肉先炒并煮至约八成熟、米另锅煮至半熟、再在新锅或rice cooker pot分层；保留普通锅/电饭煲内锅的分阶段边界，不把半熟米与另锅步骤外推为直接一锅电饭煲程序；本批仅挂 FoodSafety.gov 禽肉74°C终点。"
       },
       "source_refs": [
         {
@@ -114185,10 +114241,26 @@
           ],
           "attribution": "Singapore Health Promotion Board",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken cooked to about 80% before the final layered rice stage in the HealthHub briyani recipe.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Singapore Health Promotion Board PDF直接支持4份Chicken Briyani的完整原料量、40分钟准备/60分钟烹调和鸡肉先处理、米另锅半熟、分层收尾流程；水或鸡汤量未给，liquid_contract保持缺失；不补禽肉安全温度，不外推为直接电饭煲一锅。"
+      "evidence_notes": "Singapore Health Promotion Board PDF直接支持4份Chicken Briyani的完整原料量、40分钟准备/60分钟烹调和鸡肉先处理、米另锅半熟、分层收尾流程；水或鸡汤量未给，liquid_contract保持缺失；本批仅挂 FoodSafety.gov 禽肉74°C终点，不外推为直接电饭煲一锅。"
     },
     {
       "recipe_id": "sg-healthhub-brown-rice-chicken-congee",

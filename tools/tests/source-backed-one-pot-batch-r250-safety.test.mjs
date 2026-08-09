@@ -5,29 +5,24 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures';
 const expected = {
-  'panasonic-taiwan-taiyu-scallop-quinoa-rice': {
+  'sg-healthhub-chicken-briyani': {
+    code: 'poultry_fully_cooked',
+    temperature: 74,
+    locator: /poultry 165°F \/ 74°C/u,
+  },
+  'taiwan-sesame-oil-chicken-glutinous-rice-cake': {
+    code: 'poultry_fully_cooked',
+    temperature: 74,
+    locator: /poultry 165°F \/ 74°C/u,
+  },
+  'maff-salmon-corn-japanese-paella': {
     code: 'seafood_fully_cooked',
     temperature: 63,
-    locator: /fish 145°F \/ 63°C|鱼类中心温度63°C/u,
-  },
-  'panasonic-my-century-egg-chicken-congee': {
-    code: 'poultry_fully_cooked',
-    temperature: 74,
-    locator: /poultry|禽肉|鸡肉|165°F \/ 74°C/u,
-  },
-  'r97-zojirushi-taiwan-brown-cabbage-mixed-rice': {
-    code: 'pork_fully_cooked',
-    temperature: 74,
-    locator: /pork|猪肉|165°F \/ 74°C/u,
-  },
-  'r98-zojirushi-taiwan-wild-mushroom-chicken-mixed-rice': {
-    code: 'poultry_fully_cooked',
-    temperature: 74,
-    locator: /poultry|禽肉|鸡肉|165°F \/ 74°C/u,
+    locator: /fish 145°F \/ 63°C/u,
   },
 };
 
-test('r154 closes four existing raw fish, poultry, and pork safety gaps without adding recipes', () => {
+test('r250 closes three directly evidenced poultry and fish safety gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r250');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
@@ -49,13 +44,10 @@ test('r154 closes four existing raw fish, poultry, and pork safety gaps without 
   }
 });
 
-test('r154 preserves raw-ingredient and appliance boundaries, and leaves the conflicted pumpkin entry untouched', () => {
+test('r250 preserves the original staged and vessel boundaries', () => {
   const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
-  assert.match(byId['panasonic-taiwan-taiyu-scallop-quinoa-rice'].evidence_notes, /干贝|干燥|鲷鱼/u);
-  assert.match(byId['panasonic-my-century-egg-chicken-congee'].cooker_adaptation.notes, /搅拌机|Panasonic/u);
-  assert.match(byId['r97-zojirushi-taiwan-brown-cabbage-mixed-rice'].cooker_adaptation.notes, /压力IH|水位|机型/u);
-  assert.match(byId['r98-zojirushi-taiwan-wild-mushroom-chicken-mixed-rice'].cooker_adaptation.notes, /压力IH|水位|机型/u);
-  assert.deepEqual(byId['panasonic-my-chicken-pumpkin-lotus-mixed-rice'].safety_endpoints, []);
-  assert.match(byId['panasonic-my-chicken-pumpkin-lotus-mixed-rice'].evidence_notes, /投料|冲突|缺步/u);
+  assert.match(byId['sg-healthhub-chicken-briyani'].cooker_adaptation.notes, /另锅|分层|rice cooking mode/u);
+  assert.match(byId['taiwan-sesame-oil-chicken-glutinous-rice-cake'].evidence_notes, /复蒸|糯米糕/u);
+  assert.match(byId['maff-salmon-corn-japanese-paella'].evidence_notes, /炉灶|平底锅/u);
   for (const id of Object.keys(expected)) assert.notEqual(byId[id].status, 'executable');
 });

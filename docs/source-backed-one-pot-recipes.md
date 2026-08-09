@@ -695,7 +695,7 @@
 | 刻みコンブときのこの香りごはん | 刻昆布菌菇香味饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；干香菇；刻昆布；胡萝卜；牛蒡；舞茸；油豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [刻みコンブときのこの香りごはん](https://www.maff.go.jp/j/pr/aff/2011/spe1_01.html) |
 | 大根ご飯 | 萝卜饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；白萝卜；萝卜叶；鸡腿肉；油豆腐 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [大根ご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_153.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 宇宙（そら）芋ごはん | 宇宙芋炊饭；むかご炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；宇宙芋（むかご）；盐；酒 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [宇宙（そら）芋ごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/46.html) |
-| 鮭ととうもろこしの和風パエリア | 三文鱼玉米和风海鲜饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；鲑鱼；玉米；樱桃番茄；四季豆；鸿喜菇 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [鮭ととうもろこしの和風パエリア](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_114.html) |
+| 鮭ととうもろこしの和風パエリア | 三文鱼玉米和风海鲜饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；鲑鱼；玉米；樱桃番茄；四季豆；鸿喜菇 | identity、ingredients、liquid、process、quantity、safety、time | 缺 appliance | [鮭ととうもろこしの和風パエリア](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_114.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鶏エリンギごはんの和風オムライス | 鸡肉杏鲍菇和风蛋包饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；鸡肉；杏鲍菇；牛蒡；鸡蛋 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [鶏エリンギごはんの和風オムライス](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_68.html) |
 | きじ肉と切り干し大根の混ぜご飯 | 雉肉切干萝卜拌饭 | JP-EHIME-KIHO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；雉肉；雉骨；牛蒡；胡萝卜；切干大根；香菇；油豆腐；鱼饼；柚子皮 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [きじ肉と切り干し大根の混ぜご飯 愛媛県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kijiniku_to_kiri_boshi_daikon_no_maze_gohan_ehime.html) |
 | 福岡たけのこごはん | 福冈竹笋饭 | JP-FUKUOKA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；竹笋；鸡肉；油豆腐；木芽 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [福岡たけのこごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/aftercovid19/267.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1735,7 +1735,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken Briyani | 鸡肉印度香饭；新加坡HealthHub鸡肉Briyani | SG | singapore-healthhub-chicken-briyani | 研究记录（非公开可执行） | 鸡肉；全谷物印度香米；番茄；芫荽；蒜；红葱头；姜；薄荷；八角；肉桂；丁香；小豆蔻；酸奶；淡奶；水或鸡汤 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [Chicken Briyani](https://ch-api.healthhub.sg/api/public/content/dcd55c4444624855949b0b1cfaa4e86c?v=5eb0cb6f) |
+| Chicken Briyani | 鸡肉印度香饭；新加坡HealthHub鸡肉Briyani | SG | singapore-healthhub-chicken-briyani | 研究记录（非公开可执行） | 鸡肉；全谷物印度香米；番茄；芫荽；蒜；红葱头；姜；薄荷；八角；肉桂；丁香；小豆蔻；酸奶；淡奶；水或鸡汤 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [Chicken Briyani](https://ch-api.healthhub.sg/api/public/content/dcd55c4444624855949b0b1cfaa4e86c?v=5eb0cb6f)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## singapore-healthhub-nasi-kuning
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1864,7 +1864,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 麻油雞丁糯米糕 | 麻油鸡丁糯米糕 | TW | taiwan-electric-cooker-glutinous-rice | 研究记录（非公开可执行） | 糯米；鸡腿肉；猪肉；干香菇；虾米；姜；麻油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [麻油雞丁糯米糕](https://www.mohw.gov.tw/dl-81903-6daaf810-e847-4a92-92b3-01c9d18f1fe1.html) |
+| 麻油雞丁糯米糕 | 麻油鸡丁糯米糕 | TW | taiwan-electric-cooker-glutinous-rice | 研究记录（非公开可执行） | 糯米；鸡腿肉；猪肉；干香菇；虾米；姜；麻油 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [麻油雞丁糯米糕](https://www.mohw.gov.tw/dl-81903-6daaf810-e847-4a92-92b3-01c9d18f1fe1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-electric-cooker-quinoa-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

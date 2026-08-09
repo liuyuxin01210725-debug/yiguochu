@@ -12,7 +12,7 @@ function ingredient(name) {
 }
 
 test('r239 closes the exact six-person Taiwan HPA glutinous rice cake batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r249');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r250');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -36,6 +36,12 @@ test('r239 preserves dynamic liquid and two-stage cooker boundary', () => {
   assert.ok(recipe);
   assert.match(recipe.cooker_adaptation.notes, /先炒|外鍋|復蒸|复蒸/u);
   assert.match(recipe.cooking_sequence.map((step) => step.instruction).join(' '), /30分鐘|30分钟|外鍋|外锅|復蒸|复蒸/u);
-  assert.equal(recipe.safety_endpoints.length, 0);
+  assert.deepEqual(recipe.safety_endpoints, [
+    {
+      code: 'poultry_fully_cooked',
+      minimum_core_temperature_c: 74,
+      source_ids: ['S-SAFETY-TEMPERATURES-1']
+    }
+  ]);
   assert.equal('executable' in recipe, false);
 });

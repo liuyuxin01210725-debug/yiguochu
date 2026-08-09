@@ -10,7 +10,7 @@ for (const [id, label] of [
   ['tiger-usa-autumn-chicken-mushroom-green-bean-pilaf', 'Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole'],
 ]) {
   test(`r244 adds the poultry endpoint to Tiger ${label}`, () => {
-    assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r249');
+    assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r250');
     assert.equal(catalog.recipes.length, 923);
     const recipe = byId[id];
     assert.ok(recipe);
