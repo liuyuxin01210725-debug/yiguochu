@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'iris-hijiki-tuna-mixed-rice');
 
 test('r172 records the IRIS RC-PGA50 model-scoped waterline', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r215');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');

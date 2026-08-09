@@ -41,7 +41,7 @@ const expected = [
 ];
 
 test('r140 integrates four Singapore HealthHub candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r215');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

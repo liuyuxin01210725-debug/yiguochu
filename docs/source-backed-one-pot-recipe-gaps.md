@@ -1352,7 +1352,6 @@
 
 ## 8. Missing safety
 
-- Pink Salmon Rice Bowls (One-Pot Rice Cooker Meal) (asmi-pink-salmon-rice-bowls) — US-AK
 - Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
 - Oven baked biryani (au-slhd-oven-baked-biryani) — AU-NSW
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
@@ -1472,7 +1471,6 @@
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
 - Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
-- Chicken Meatballs with Grated Daikon (tiger-chicken-meatballs-grated-daikon) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
@@ -1576,7 +1574,6 @@
 - 養生糙米飯 (taiwan-moa-healthy-brown-rice) — TW
 - 麻油香菇鹽麴雞飯 (tatung-sesame-shiitake-shio-koji-chicken-rice) — TW
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
-- 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
 - Jujube and Chicken Fillet Rice (tiger-jujube-chicken-fillet-rice) — US

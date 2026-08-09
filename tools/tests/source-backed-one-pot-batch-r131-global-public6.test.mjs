@@ -37,7 +37,7 @@ const expected = [
 ];
 
 test('r131 integrates only directly evidenced global public candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r215');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -71,7 +71,11 @@ test('r131 preserves source-specific batches and staged boundaries', () => {
   assert.equal(salmon.liquid_contract.amount.value, 1.25);
   assert.equal(salmon.liquid_contract.amount.unit, 'cup');
   assert.equal(salmon.time_contract.total_minutes, 40);
-  assert.deepEqual(salmon.safety_endpoints, []);
+  assert.deepEqual(salmon.safety_endpoints, [{
+    code: 'seafood_fully_cooked',
+    minimum_core_temperature_c: 63,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 
   const hoppin = byId.get('urochester-smoky-hoppin-john');
   assert.equal(hoppin.fixed_batch.servings, 4);

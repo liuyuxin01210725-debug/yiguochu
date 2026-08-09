@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r215",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r217",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -47247,7 +47247,15 @@
           "S-TATUNG-FUKAGAWA-RICE-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "shellfish_fully_cooked",
+          "visual_endpoint": "蛤蜊烹调时贝壳打开",
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "软体动物",
         "大豆"
@@ -47288,10 +47296,26 @@
           ],
           "attribution": "大同電鍋官方食譜網站",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: clams, oysters, and mussels cook until shells open.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "大同电锅官方具名东京深川蛤蜊炊饭；2人份的米、油炸豆腐、胡萝卜、调味料和青葱数量已按原页写入固定批次，蛤蜊原页为350至400g范围故不压成单值；保留两阶段同一器具流程和蛤蜊汁事实，固定水量与最终安全终点仍缺，不晋升 executable。"
+      "evidence_notes": "大同电锅官方具名东京深川蛤蜊炊饭；2人份的米、油炸豆腐、胡萝卜、调味料和青葱数量已按原页写入固定批次，蛤蜊原页为350至400g范围故不压成单值；保留两阶段同一器具流程和蛤蜊汁事实，固定水量仍缺，不晋升 executable。r216 安全补证：原页明确蛤蜊先蒸开，复用 FoodSafety.gov 贝类开壳终点；不把蒸制分钟数或后续复炊当作温度证明。"
     },
     {
       "recipe_id": "tatung-tomato-pumpkin-rice",
@@ -94097,7 +94121,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "蛋",
         "大豆",
@@ -94144,10 +94176,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry and dishes containing poultry use 165°F / 74°C.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面给出鸡肉丸萝卜饭的具名、3杯机型食材量和Tacook同步流程；未给独立份数、通用水量、总时长或禽肉安全终点，保留器具边界，不晋升executable。"
+      "evidence_notes": "Tiger官方页面给出鸡肉丸萝卜饭的具名、3杯机型食材量和Tacook同步流程；鸡肉末先与豆腐等拌匀成丸后进入Tacook盘，r217仅外接FoodSafety.gov禽肉74°C终点，不改变Tiger水位线、器具或缺失的份数/总时长，不晋升executable。"
     },
     {
       "recipe_id": "r103-cn-huarong-guobayu-fan",
@@ -106371,7 +106419,15 @@
           "S-R130-ASMI-PINK-SALMON-RICE-BOWLS-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鱼",
         "甲壳类",
@@ -106414,10 +106470,26 @@
           ],
           "attribution": "Alaska Seafood Marketing Institute",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: fish minimum internal temperature 145°F / 63°C.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "ASMI官方页面支持具名粉红鲑鱼电饭煲饭、2份、米/水/鱼/南瓜/叶菜/菌菇定量和steam或white rice程序；鱼类安全终点未由来源给出，不外推其他电饭煲程序。"
+      "evidence_notes": "ASMI官方页面支持具名粉红鲑鱼电饭煲饭、2份、米/水/鱼/南瓜/叶菜/菌菇定量和steam或white rice程序；r217仅外接FoodSafety.gov鱼类63°C终点，不改变ASMI的蒸煮程序、液体或其他电饭煲边界。"
     },
     {
       "recipe_id": "urochester-smoky-hoppin-john",
