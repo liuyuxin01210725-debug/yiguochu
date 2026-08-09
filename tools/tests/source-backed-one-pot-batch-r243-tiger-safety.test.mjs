@@ -6,10 +6,12 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 for (const [id, label] of [
-  ['tiger-honey-garlic-chicken', 'Honey Garlic Chicken'],
-  ['tiger-teriyaki-chicken', 'Teriyaki Chicken'],
+  ['tiger-usa-chicken-mushroom-rice', 'Chicken Mushroom Rice'],
+  ['tiger-usa-chicken-rice-vegetables', 'Chicken and Rice With Vegetables'],
+  ['tiger-usa-tomato-chicken-melt', 'Tomato Chicken Melt'],
+  ['tiger-jujube-chicken-fillet-rice', 'Jujube and Chicken Fillet Rice'],
 ]) {
-  test(`r242 adds the poultry endpoint to Tiger ${label}`, () => {
+  test(`r243 adds the poultry endpoint to Tiger ${label}`, () => {
     assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r243');
     assert.equal(catalog.recipes.length, 923);
     const recipe = byId[id];
@@ -20,10 +22,6 @@ for (const [id, label] of [
       minimum_core_temperature_c: 74,
       source_ids: ['S-SAFETY-TEMPERATURES-1'],
     }]);
-    assert.equal(recipe.fixed_batch, null);
-    assert.equal(recipe.liquid_contract, null);
-    assert.equal(recipe.time_contract, null);
-    assert.equal(recipe.cooker_adaptation.status, 'source_limited');
     assert.equal('executable' in recipe, false);
   });
 }

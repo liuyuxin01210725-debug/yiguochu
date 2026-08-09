@@ -1458,8 +1458,6 @@
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
-- Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
-- Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
 - Corn Shumai and Chinese Style Mixed Rice (r105-tiger-corn-shumai-chinese-mixed-rice) — 非地域·厂商食谱
 - Healthy Vegetable Fried Rice (Brown Rice) (r105-tiger-healthy-vegetable-brown-fried-rice) — 非地域·厂商食谱
@@ -1470,7 +1468,6 @@
 - Take Out Style Vegetable Fried Rice (r60-tiger-takeout-vegetable-fried-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
 - Takikomi-Gohan (Mixed Rice) (zojirushi-takikomi-gohan-mixed-rice) — 非地域·厂商食谱
-- Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Vietnamese Style Beef with Rice (tiger-usa-vietnamese-beef-rice) — 非地域·厂商食谱
 - Zha Cai and Beef Rice (tiger-usa-zha-cai-beef-rice) — 非地域·厂商食谱
 - ข้าวไก่อบธัญพืช (philips-multigrain-baked-chicken-rice) — 非地域·厂商食谱
@@ -1558,7 +1555,6 @@
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
 - 腾冲北海铜锅洋芋饭 (tengchong-copper-pot-potato-rice) — CN-YN
-- Jujube and Chicken Fillet Rice (tiger-jujube-chicken-fillet-rice) — US
 - Pork and Napa Cabbage Mille-Feuille With Mushroom Rice (tiger-pork-napa-mille-feuille-mushroom-rice) — US
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
