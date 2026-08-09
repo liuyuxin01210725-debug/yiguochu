@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r236",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r237",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -88976,7 +88976,84 @@
         "莲藕",
         "姜"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "糙米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          },
+          {
+            "name": "大麦",
+            "amount": {
+              "value": 90,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 100,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          },
+          {
+            "name": "鲣鱼高汤",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          },
+          {
+            "name": "鸡腿丁",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          },
+          {
+            "name": "南瓜",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          },
+          {
+            "name": "莲藕",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-PANASONIC-MY-CHICKEN-PUMPKIN-LOTUS-MIXED-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [],
       "time_contract": null,
@@ -95690,7 +95767,144 @@
         "番茄",
         "鸡蛋"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "鸡腿肉",
+            "amount": {
+              "value": 400,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "洋葱",
+            "amount": {
+              "value": 1,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "番茄",
+            "amount": {
+              "value": 2,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "鸡蛋",
+            "amount": {
+              "value": 2,
+              "unit": "只"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "白饭",
+            "amount": {
+              "value": 4,
+              "unit": "碗"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "油",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "糖",
+            "amount": {
+              "value": 3,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.75,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "生粉",
+            "amount": {
+              "value": 2,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "老抽",
+            "amount": {
+              "value": 2,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "茄汁",
+            "amount": {
+              "value": 0.5,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          },
+          {
+            "name": "茄膏",
+            "amount": {
+              "value": 2,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R100-MO-TOMATO-CHICKEN-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [],
       "time_contract": null,
@@ -95719,7 +95933,8 @@
           "evidence_locator": "官方页4人份食材与步骤：鸡腿肉、洋葱、番茄、蛋、白饭，鸡肉/饭/汁分开处理后组合",
           "claim_scopes": [
             "identity",
-            "ingredients"
+            "ingredients",
+            "quantity"
           ],
           "attribution": "澳门特别行政区体育局",
           "license": "government_site_terms_unspecified"
@@ -95810,7 +96025,114 @@
         "青椒",
         "洋葱"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {
+            "name": "南瓜",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "洋葱",
+            "amount": {
+              "value": 1,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 50,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "鸡球",
+            "amount": {
+              "value": 142,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "粟米粒",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "青椒",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "白饭",
+            "amount": {
+              "value": 285,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.5,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "糖",
+            "amount": {
+              "value": 0.5,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          },
+          {
+            "name": "生粉",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R100-HK-CORN-PUMPKIN-CHICKEN-BALL-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [],
       "time_contract": null,
@@ -95837,7 +96159,8 @@
           "evidence_locator": "官方页1人份材料及南瓜洋葱煮汁、鸡球/粟米/青椒汆烫后合煮、配熟饭流程",
           "claim_scopes": [
             "identity",
-            "ingredients"
+            "ingredients",
+            "quantity"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
@@ -95867,7 +96190,84 @@
         "菜片",
         "高汤"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "芥兰",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          },
+          {
+            "name": "米",
+            "amount": {
+              "value": 70,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          },
+          {
+            "name": "鸡蛋",
+            "amount": {
+              "value": 2,
+              "unit": "只"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          },
+          {
+            "name": "瑶柱",
+            "amount": {
+              "value": 15,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          },
+          {
+            "name": "菜籽油",
+            "amount": {
+              "value": 2,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          },
+          {
+            "name": "上汤",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.5,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R100-HK-SCALLOP-EGG-BRAISED-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [],
       "time_contract": null,
@@ -95897,7 +96297,8 @@
           "evidence_locator": "官方页2人份：米70g、蛋2个、瑶柱15g、菜片20g、高汤300g；米另煮、蛋白瑶柱菜片烩汁淋饭",
           "claim_scopes": [
             "identity",
-            "ingredients"
+            "ingredients",
+            "quantity"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
@@ -95929,7 +96330,114 @@
         "白菌",
         "杏鲍菇"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {
+            "name": "红黄绿彩椒",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "白饭",
+            "amount": {
+              "value": 1,
+              "unit": "碗"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "橄榄油",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "洋葱",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "蒜蓉",
+            "amount": {
+              "value": 1,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "杂菜",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "白菌与灵芝菇",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "清汤",
+            "amount": {
+              "value": 3,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.5,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          },
+          {
+            "name": "糖",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R100-HK-GARLIC-WILD-MUSHROOM-STONEPOT-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [],
       "time_contract": null,
@@ -95956,7 +96464,8 @@
           "evidence_locator": "官方页1人份材料及蔬菜汆烫、炒香后置于石锅熟饭面的流程",
           "claim_scopes": [
             "identity",
-            "ingredients"
+            "ingredients",
+            "quantity"
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"

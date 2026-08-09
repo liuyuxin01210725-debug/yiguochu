@@ -10,7 +10,7 @@ function ingredient(recipe, name) {
 }
 
 test('r210 closes Tiger takeout vegetable fried rice fixed batch and source cooking time', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r236');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r237');
   const recipe = byId['r60-tiger-takeout-vegetable-fried-rice'];
   assert.ok(recipe);
   assert.equal(recipe.fixed_batch.servings, 4);
