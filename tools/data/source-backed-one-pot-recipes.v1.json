@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r224",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r225",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -65935,7 +65935,34 @@
         "酱油",
         "砂糖"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "鱿鱼",
+            "amount": {
+              "value": 4,
+              "unit": "至8杯"
+            },
+            "source_ids": [
+              "S-MAFF-HOKKAIDO-IKAMESHI-1"
+            ]
+          },
+          {
+            "name": "糯米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-MAFF-HOKKAIDO-IKAMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-HOKKAIDO-IKAMESHI-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -65992,7 +66019,8 @@
           "license": "publisher_terms_unspecified"
         }
       ],
-      "status": "recipe_fact_checked"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "同一MAFF原页闭合4人份、鱿鱼4至8杯范围与糯米1杯；来源要求糯米浸泡后装入鱿鱼并在出汁锅中煮约30分钟，出汁与调味液未给数值，不建立液体或总时间合同，保留范围和防过量装填边界。"
     },
     {
       "recipe_id": "maff-oita-torimeshi",

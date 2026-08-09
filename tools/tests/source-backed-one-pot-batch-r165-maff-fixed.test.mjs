@@ -29,7 +29,7 @@ const expected = {
 };
 
 test('r165 closes two exact MAFF fixed batches without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r224');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r225');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedBatch] of Object.entries(expected)) {
     const recipe = byId[recipeId];
@@ -57,6 +57,6 @@ test('r165 closes two exact MAFF fixed batches without changing recipe scope', (
 test('r165 preserves ranges and variable-fill boundaries', () => {
   assert.equal(byId['maff-mie-chagayu']?.time_contract, null);
   assert.equal(byId['maff-aichi-kiinai-okowa']?.liquid_contract, null);
-  assert.equal(byId['maff-hokkaido-ikameshi']?.fixed_batch, null);
+  assert.equal(byId['maff-hokkaido-ikameshi']?.fixed_batch?.servings, 4);
   assert.equal(byId['maff-shizuoka-someimeshi']?.fixed_batch?.servings, 5);
 });
