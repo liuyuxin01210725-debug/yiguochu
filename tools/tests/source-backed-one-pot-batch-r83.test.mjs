@@ -13,7 +13,7 @@ const expected = [
 
 test('r83 registers four directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r244');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -61,7 +61,9 @@ test('r83 preserves appliance and safety boundaries from each source', () => {
   const eggBeef = byId.get('towngas-nest-egg-minced-beef-rice');
   assert.equal(eggBeef.fixed_batch, null);
   assert.equal(eggBeef.time_contract.total_minutes, 35);
-  assert.equal(eggBeef.safety_endpoints.length, 0);
+  assert.equal(eggBeef.safety_endpoints.length, 1);
+  assert.equal(eggBeef.safety_endpoints[0].code, 'beef_fully_cooked');
+  assert.equal(eggBeef.safety_endpoints[0].minimum_core_temperature_c, 71);
   assert.match(eggBeef.cooking_sequence.map(step => step.instruction).join(' '), /熄火|鸡蛋|焗/u);
   assert.match(eggBeef.evidence_notes, /无蔬菜|两类/u);
 });

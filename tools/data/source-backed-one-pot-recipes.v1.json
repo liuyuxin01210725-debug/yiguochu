@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r244",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r245",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -7101,7 +7101,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -7132,10 +7140,26 @@
           ],
           "attribution": "大象新闻 / 河南广播电视台",
           "license": "terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to the chicken pieces sautéed, simmered, and cooked with the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "大象新闻报道辉县地锅鸡米饭的地方身份、太行草鸡、地锅鸡原汤、生米焖制约二十分钟左右、干豆角和香菇，以及出锅前加入粉条的工艺。来源使用‘约二十分钟左右’和‘一些开水’等非固定表述，本条不把它们改写为固定时间或液体合同，也不补写现代电饭煲适配。"
+      "evidence_notes": "大象新闻报道辉县地锅鸡米饭的地方身份、太行草鸡、地锅鸡原汤、生米焖制约二十分钟左右、干豆角和香菇，以及出锅前加入粉条的工艺。鸡肉切块后未焯水直接炒煮，禽肉安全终点挂FoodSafety.gov 74°C；来源使用‘约二十分钟左右’和‘一些开水’等非固定表述，本条不把它们改写为固定时间或液体合同，也不补写现代电饭煲适配。"
     },
     {
       "recipe_id": "mayang-she-rice",
@@ -57459,7 +57483,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "fish"
       ],
@@ -57498,10 +57530,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov fish minimum internal temperature 145°F / 63°C; applies to salmon placed in the Tacook cooking plate before Synchro-Cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger 官方页面明确2份、米2杯、具名和 Tacook 同步一锅主餐流程；页面未公开米水量、时间及鱼类安全终点，维持研究状态。"
+      "evidence_notes": "Tiger 官方页面明确2份、米2杯、具名和 Tacook 同步一锅主餐流程；三文鱼放入Tacook盘后与米同步蒸煮，鱼类安全终点挂FoodSafety.gov 63°C；页面未公开米水量和时间，维持研究状态。"
     },
     {
       "recipe_id": "taiwan-four-season-pork-congee",
@@ -85711,7 +85759,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "花生",
         "大豆"
@@ -85757,10 +85813,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to the chicken thigh cooked in the Tacook plate during Synchro-Cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方具名 Bang Bang Chicken 米饭同步版本，来源同时解释其中国棒棒鸡身份。米饭提供碳水、鸡腿提供蛋白、黄瓜/生菜/番茄提供蔬菜；Tacook上下层和出锅酱汁是关键边界，不能改写成普通电饭煲内锅一锅焖饭。"
+      "evidence_notes": "Tiger官方具名 Bang Bang Chicken 米饭同步版本，来源同时解释其中国棒棒鸡身份。鸡腿放入Tacook盘与米饭同步烹调，补挂FoodSafety.gov禽肉74°C终点；米饭提供碳水、鸡腿提供蛋白、黄瓜/生菜/番茄提供蔬菜；Tacook上下层和出锅酱汁是关键边界，不能改写成普通电饭煲内锅一锅焖饭。"
     },
     {
       "recipe_id": "huoqiu-haozi-guoba-rice",
@@ -90891,7 +90963,15 @@
           "S-TOWNGAS-NEST-EGG-MINCE-BEEF-RICE"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -90926,10 +91006,26 @@
           ],
           "attribution": "香港中华煤气有限公司",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov ground beef minimum internal temperature 160°F / 71°C; applies to the minced beef placed on the rice before the egg is added after heat.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Towngas官方明火煮饭页面给出具名窝蛋牛肉饭、米/牛肉末/鸡蛋结构、饭锅刻度和35分钟分段流程。它只有碳水与蛋白两类，没有蔬菜；鸡蛋在熄火后加入，牛肉与鸡蛋熟制终点缺失，保持研究状态，不包装成营养三要素齐全或电饭煲配方。"
+      "evidence_notes": "Towngas官方明火煮饭页面给出具名窝蛋牛肉饭、米/牛肉末/鸡蛋结构、饭锅刻度和35分钟分段流程。牛肉末挂FoodSafety.gov绞牛肉71°C终点；鸡蛋仍在熄火后加入且没有独立安全终点，保持研究状态。原方无蔬菜，仍只有碳水与蛋白两类，不包装成营养三要素齐全或电饭煲配方。"
     },
     {
       "recipe_id": "maff-chicken-shiitake-chinese-steamed-rice",
@@ -94677,7 +94773,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鸡肉"
       ],
@@ -94716,10 +94820,26 @@
           ],
           "attribution": "象印中国",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to the marinated chicken breast placed on the rice before the congee program.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "象印中国官方页支持板栗鸡丝粥具名、2至3人份和固定食材/水位/程序；没有总时长或独立鸡肉熟制终点，保留机型边界，不晋升executable。"
+      "evidence_notes": "象印中国官方页支持板栗鸡丝粥具名、2至3人份和固定食材/水位/程序；鸡胸肉腌后铺在米上使用稠粥程序，补挂FoodSafety.gov禽肉74°C终点；没有总时长，保留机型边界，不晋升executable。"
     },
     {
       "recipe_id": "r98-panasonic-taiwan-preserved-egg-mushroom-congee",

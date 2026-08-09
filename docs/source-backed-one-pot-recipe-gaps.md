@@ -1376,7 +1376,6 @@
 - 胡蘿蔔海鮮飯 (r104-hk-carrot-seafood-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
-- 窝蛋牛肉饭 (towngas-nest-egg-minced-beef-rice) — HK
 - 芦笋虾仁藜麦饭 (towngas-asparagus-shrimp-quinoa-rice) — HK
 - 南瓜蝦仁黃金飯 (r104-hk-pumpkin-shrimp-golden-rice) — HK
 - 紅豆薏米燕麥粥 (r98-philips-hk-red-bean-coix-oat-congee) — HK
@@ -1395,7 +1394,6 @@
 - 萝卜焖饭 (huangshi-radish-braised-rice) — CN-HB
 - 恩施龙凤社饭 (r103-cn-hubei-enshi-longfeng-she-fan) — CN-HB-ENSHI
 - 饭蒸腊味 (hubei-steamed-cured-meat-rice) — CN-HB
-- 辉县地锅鸡米饭 (huixian-ground-pot-chicken-rice) — CN-HA
 - 高椅黑饭 (r103-cn-hunan-huaihua-gaoyi-heifan) — CN-HN-HUAIHUA-HUITONG
 - 华容锅巴鱼饭 (r103-cn-huarong-guobayu-fan) — CN-HN-YUEYANG-HUARONG
 - Bubur Ayam – Indonesian Chicken Porridge (tiger-bubur-ayam-indonesian-chicken-porridge) — ID
@@ -1452,7 +1450,6 @@
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
-- Bang Bang Chicken (tiger-bang-bang-chicken-rice) — 非地域·厂商食谱
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
@@ -1579,7 +1576,6 @@
 - 马帮锣锅饭 (yunnan-mabang-luoguo-rice) — CN-YN
 - 玉屏侗家社饭 (yuping-dong-she-rice) — CN-GZ
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
-- 板栗鸡丝粥 (r98-zojirushi-china-chestnut-chicken-congee) — CN
 - Chesapeake Crab Carrot Rice (zojirushi-chesapeake-crab-carrot-rice) — US
 - Spicy Basmati Rice with Lentils and Spinach (zojirushi-spicy-basmati-lentil-spinach-rice) — US
 

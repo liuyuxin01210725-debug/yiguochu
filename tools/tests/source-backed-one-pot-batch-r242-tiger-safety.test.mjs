@@ -10,7 +10,7 @@ for (const [id, label] of [
   ['tiger-teriyaki-chicken', 'Teriyaki Chicken'],
 ]) {
   test(`r242 adds the poultry endpoint to Tiger ${label}`, () => {
-    assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r244');
+    assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
     assert.equal(catalog.recipes.length, 923);
     const recipe = byId[id];
     assert.ok(recipe);

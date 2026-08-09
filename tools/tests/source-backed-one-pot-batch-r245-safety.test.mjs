@@ -8,21 +8,20 @@ const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures';
 
 const expected = {
-  'instant-pot-quick-chicken-steamed-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /165|74|poultry|chicken/u },
-  'instant-pot-spanish-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /74|poultry|chicken/u },
-  'maff-hiroshima-tai-meshi': { code: 'seafood_fully_cooked', temperature: 63, locator: /63|fish|鲷/u },
-  'maff-yamanashi-sanma-meshi': { code: 'seafood_fully_cooked', temperature: 63, locator: /63|fish|秋刀鱼/u },
-  'tatung-salmon-pumpkin-milk-risotto': { code: 'seafood_fully_cooked', temperature: 63, locator: /63|fish|salmon|三文鱼/u },
+  'huixian-ground-pot-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
+  'r59-tiger-usa-garlic-salmon-garden-rice': { code: 'seafood_fully_cooked', temperature: 63, locator: /fish|salmon|63/u },
+  'tiger-bang-bang-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
+  'r98-zojirushi-china-chestnut-chicken-congee': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
+  'towngas-nest-egg-minced-beef-rice': { code: 'beef_fully_cooked', temperature: 71, locator: /beef|ground|71/u },
 };
-const executableIds = new Set(['tatung-salmon-pumpkin-milk-risotto']);
 
-test('r161 closes five directly evidenced raw poultry and fish safety gaps', () => {
+test('r245 closes five directly evidenced raw-protein safety gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
+  assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedEndpoint] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);
-    assert.equal(recipe.status, executableIds.has(recipeId) ? 'executable' : 'recipe_fact_checked', recipeId);
-    if (!executableIds.has(recipeId)) assert.notEqual(recipe.status, 'executable', recipeId);
+    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
     const endpoint = recipe.safety_endpoints.find(row => row.code === expectedEndpoint.code);
     assert.ok(endpoint, `${recipeId} missing ${expectedEndpoint.code}`);
     assert.equal(endpoint.minimum_core_temperature_c, expectedEndpoint.temperature, recipeId);
@@ -34,10 +33,6 @@ test('r161 closes five directly evidenced raw poultry and fish safety gaps', () 
     assert.equal(source.evidence_tier, 1, recipeId);
     assert.match(source.evidence_locator, expectedEndpoint.locator, recipeId);
     assert.deepEqual(source.claim_scopes, ['safety'], recipeId);
+    assert.equal('executable' in recipe, false, recipeId);
   }
-});
-
-test('r161 keeps unresolved state and process conflicts blocked', () => {
-  assert.deepEqual(byId['r60-tiger-szechuan-pork-tacook-rice']?.safety_endpoints, []);
-  assert.deepEqual(byId['panasonic-tokyo-seafood-pilaf']?.safety_endpoints, []);
 });
