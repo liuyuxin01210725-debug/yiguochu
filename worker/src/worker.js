@@ -3143,7 +3143,9 @@ async function handleGenerate(request, env) {
     return errorResponse('recipe_library_unavailable', '没有符合本次限制的可信基础菜谱', 503, env, {}, request);
   }
 
-  if (constraints.pantry.length > 0 && selection.usedPantry.length === 0) {
+  if (constraints.pantry.length > 0
+    && selection.usedPantry.length === 0
+    && !riceAllergyCompleteMainActive(selection)) {
     if (riceAllergyActive) {
       return errorResponse(
         'no_safe_recipe',
@@ -3165,8 +3167,14 @@ async function handleGenerate(request, env) {
   }
 
   // 选中的可信菜谱不能覆盖全部库存，或用户一次给了超过 6 种食材时，先返回可解释的
-  // 分组计划，不调用 DeepSeek、不扣预算。用户明确选择一组后，再把该组作为本锅必用食材生成。
+  // 分组计划，不调用 DeepSeek、不扣预算。少量库存里明确有可用食材时允许直接生成，
+  // 并把未使用项写入 unused_pantry；用户明确选择一组后，仍把该组作为本锅必用食材生成。
+  const canGenerateWithUnusedSmallPantry = !constraints.selected_base_recipe_id
+    && constraints.pantry.length <= 6
+    && (selection.usedPantry.length > 0 || riceAllergyCompleteMainActive(selection))
+    && selection.usedPantry.length < constraints.pantry.length;
   if (constraints.pantry.length > 0
+    && !canGenerateWithUnusedSmallPantry
     && (constraints.pantry.length > 6 || selection.usedPantry.length !== constraints.pantry.length)) {
     return jsonResponse({
       error: '这些食材不能稳妥放进同一锅，请先查看本锅方案',

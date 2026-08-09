@@ -1063,8 +1063,8 @@ test('Worker and Python independently score every small-pantry alternative', () 
   assert.equal(js.groups.length, 3);
   assert.ok(js.groups.every(group => group.used_items.length === 2));
   assert.deepEqual(pythonCall('prepare_error', { library, constraints }), {
-    type:'PantryNeedsGrouping',
-    message:'这些食材不能稳妥放进同一锅，请先查看本锅方案',
+    type:'',
+    message:'',
   });
 });
 

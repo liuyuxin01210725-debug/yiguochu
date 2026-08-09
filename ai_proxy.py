@@ -2304,11 +2304,18 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
         if pantry:
             raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
         raise RecipeLibraryUnavailable('没有符合本次限制的可信基础菜谱')
-    if pantry and not selection.get('used_pantry'):
+    if pantry and not selection.get('used_pantry') and not rice_allergy_complete_main_active(selection):
         if rice_allergy_active:
             raise NoSafeRecipe('暂时没有符合这些过敏或忌口条件的可信无米主餐')
         raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
-    if pantry and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
+    can_generate_with_unused_small_pantry = (
+        not constraints.get('selected_base_recipe_id')
+        and len(pantry) <= 6
+        and (len(selection.get('used_pantry') or []) > 0 or rice_allergy_complete_main_active(selection))
+        and len(selection.get('used_pantry') or []) < len(pantry)
+    )
+    if pantry and not can_generate_with_unused_small_pantry \
+            and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
         raise PantryNeedsGrouping(
             '这些食材不能稳妥放进同一锅，请先查看本锅方案',
             build_pantry_plan(library, constraints),

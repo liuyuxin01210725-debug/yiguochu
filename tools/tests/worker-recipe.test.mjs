@@ -597,15 +597,46 @@ test('partial pantry coverage returns a plan before spending a DeepSeek call', a
   assert.equal(upstreamBodies.length, 0);
 });
 
-test('rice-allergy pantry with zero compatible coverage returns a safety stop instead of an empty grouping plan', async () => {
+test('small partial pantry coverage generates with an explicit unused pantry item', async () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['大米', '鸡肉', '洋葱'],
+    name: '鸡肉洋葱焖饭',
+  });
+  const pantry = ['鸡肉', '神秘叶菜'];
   const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe]),
+    constraints: { pantry, purpose: 'pantry' },
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(body.used_pantry, ['鸡肉']);
+  assert.deepEqual(body.unused_pantry, ['神秘叶菜']);
+  assert.equal(body.code, undefined);
+  assert.equal(upstreamBodies.length, 1);
+});
+
+test('rice-allergy pantry with zero compatible coverage uses the safe base and marks pantry unused', async () => {
+  const meal = generatedMeal({
+    dish_name: '红扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 120 },
+      { name: '土豆', grams: 300 },
+      { name: '番茄', grams: 220 },
+      { name: '水', grams: 600 },
+    ],
+    steps: ['红扁豆、土豆、番茄和水放入同一口锅中炖熟。'],
+    note: '红扁豆、土豆和番茄组成完整主餐。',
+  });
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    meal,
     recipeLib: lib,
     constraints: { pantry: ['鸡肉'], dislikes: ['大米过敏'], purpose: 'pantry' },
   });
-  assert.equal(response.status, 422);
-  assert.equal(body.code, 'no_safe_recipe');
-  assert.equal(body.pantry_plan, undefined);
-  assert.equal(upstreamBodies.length, 0);
+  assert.equal(response.status, 200);
+  assert.equal(body.base_recipe_id, 'lentil-potato-tomato-curry');
+  assert.deepEqual(body.used_pantry, []);
+  assert.deepEqual(body.unused_pantry, ['鸡肉']);
+  assert.equal(body.code, undefined);
+  assert.equal(upstreamBodies.length, 1);
 });
 
 test('choosing a pantry-plan recipe pins that trusted base recipe instead of reranking the group', async () => {
