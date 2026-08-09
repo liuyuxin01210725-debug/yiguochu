@@ -67,7 +67,7 @@ test('manual review sheet remains unfilled and distinguishes static coverage fro
   assert.doesNotMatch(reviewSheet, /☑通过/);
   assert.doesNotMatch(reviewSheet, /获用户批准|已完成 30 例逐项人工复核/);
   assert.match(reviewSheet, /## 当前人工评审状态：未完成/);
-  assert.match(reviewSheet, /6 个 known gaps/);
+  assert.match(reviewSheet, /原 Phase A 记录中的 6 个 known gaps.*确定性校验覆盖/);
   assert.match(reviewSheet, /不替代这些人工闸门/);
   assert.equal((reviewSheet.match(/未评审／未试做/g) || []).length, 12);
 });

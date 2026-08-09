@@ -1152,6 +1152,13 @@ const VALIDATION_COOKING_OIL_NAMES = new Set([
 const VALIDATION_SALT_NAMES = new Set(['盐', '食盐', '海盐', '低钠盐']);
 const VALIDATION_PEPPER_NAMES = new Set(['胡椒', '胡椒粉', '黑胡椒', '黑胡椒粉', '白胡椒', '白胡椒粉']);
 const VALIDATION_WATER_NAMES = new Set(['水', '清水', '饮用水', '凉开水', '温水', '热水']);
+const VALIDATION_DIET_VIOLATION_PATTERNS = Object.freeze({
+  vegan: /(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|蛋|鸡蛋|奶|牛奶|乳|奶油|黄油|芝士|奶酪|酸奶|蜂蜜|明胶)/u,
+  ovoLacto: /(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|明胶)/u,
+  glutenFree: /(?:小麦|面粉|面条|挂面|拉面|乌冬|意面|通心粉|面包|馒头|包子|饺子|面筋|麸质|麸皮)/u,
+});
+const VALIDATION_RAW_RICE_NAME_RE = /^(?:大米|白米|糙米|糯米|粳米|籼米|黑米|紫米|红米)$/u;
+const VALIDATION_LIQUID_NAME_RE = /(?:高汤|汤汁|椰奶|牛奶)$/u;
 const VALIDATION_SALT_TOKEN_SOURCE = '(?:食盐|海盐|低钠盐|盐)(?!水)';
 const VALIDATION_PEPPER_TOKEN_SOURCE = '(?:黑胡椒粉|白胡椒粉|胡椒粉|黑胡椒|白胡椒|胡椒)';
 const VALIDATION_SEASONING_TOKEN_SOURCE = `(?:${VALIDATION_SALT_TOKEN_SOURCE}|${VALIDATION_PEPPER_TOKEN_SOURCE})`;
@@ -1260,6 +1267,61 @@ function validationStepUsesCookingOil(step) {
 function validationIngredientMatchesNames(name, names) {
   const bare = validationFormName(name).replace(/\(.*?\)/g, '');
   return names.has(bare);
+}
+
+function validationDietViolation(name, diet) {
+  const pattern = VALIDATION_DIET_VIOLATION_PATTERNS[diet];
+  if (!pattern) return false;
+  return pattern.test(validationFormName(name));
+}
+
+function validationIngredientGramMap(meal) {
+  const amounts = new Map();
+  if (!Array.isArray(meal?.ingredients)) return amounts;
+  for (const item of meal.ingredients) {
+    const name = typeof item === 'string' ? item.trim() : item?.name;
+    const grams = typeof item === 'object' && item !== null ? Number(item.grams) : NaN;
+    if (typeof name !== 'string' || !name.trim() || !Number.isFinite(grams) || grams <= 0) continue;
+    amounts.set(validationFormName(name), grams);
+  }
+  return amounts;
+}
+
+function validationRiceWaterRatioBounds(recipe) {
+  const rules = Array.isArray(recipe?.ratio_rules) ? recipe.ratio_rules : [];
+  for (const rawRule of rules) {
+    const rule = String(rawRule || '');
+    const direct = rule.match(/大米与液体约为\s*1\s*:\s*(\d+(?:\.\d+)?)/u);
+    if (direct) {
+      const expected = Number(direct[1]);
+      if (Number.isFinite(expected) && expected > 0) return { expected, tolerance: 0.1 };
+    }
+    const perServing = rule.match(/每\s*1\s*份使用\s*大米\s*(\d+(?:\.\d+)?)\s*克、(?:鸡高汤|高汤|水)\s*(\d+(?:\.\d+)?)\s*克/u);
+    if (perServing) {
+      const rice = Number(perServing[1]);
+      const liquid = Number(perServing[2]);
+      if (Number.isFinite(rice) && rice > 0 && Number.isFinite(liquid) && liquid > 0) {
+        return { expected: liquid / rice, tolerance: 0.2 };
+      }
+    }
+  }
+  return null;
+}
+
+function validationRiceWaterRatioFlag(meal, recipe) {
+  const bounds = validationRiceWaterRatioBounds(recipe);
+  if (!bounds) return null;
+  const amounts = validationIngredientGramMap(meal);
+  const rice = [...amounts.entries()].find(([name]) => VALIDATION_RAW_RICE_NAME_RE.test(name));
+  if (!rice) return null;
+  const liquids = [...amounts.entries()]
+    .filter(([name]) => VALIDATION_WATER_NAMES.has(name) || VALIDATION_LIQUID_NAME_RE.test(name))
+    .reduce((sum, [, grams]) => sum + grams, 0);
+  if (!Number.isFinite(liquids) || liquids <= 0) return null;
+  const ratio = liquids / rice[1];
+  const minimum = bounds.expected * (1 - bounds.tolerance);
+  const maximum = bounds.expected * (1 + bounds.tolerance);
+  return ratio >= minimum && ratio <= maximum ? null : 'ratio_out_of_bounds:rice_water';
 }
 
 function validationStepUsesSeasoningGroup(step, tokenRe) {
@@ -1579,6 +1641,9 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     const canonical = validationCanonicalIngredient(name, aliases);
     const directRiceIngredient = riceAllergenActive
       && validationRiceAllergenMatches(validationFormName(name), strictRiceVisible).length > 0;
+    if (validationDietViolation(name, constraints?.diet)) {
+      flags.add(`diet_violation:${constraints.diet}:${name}`);
+    }
     if (!directRiceIngredient && dislikeTerms.some(term => matchAllergy(term, name, aliases))) {
       flags.add(`allergen_present:${name}`);
     }
@@ -1628,6 +1693,8 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   }
 
   const recipe = selection?.recipe || {};
+  const ratioFlag = validationRiceWaterRatioFlag(meal, recipe);
+  if (ratioFlag) flags.add(ratioFlag);
   const usedPantry = Array.isArray(selection?.usedPantry) ? selection.usedPantry : [];
   const anchors = recipeConstraintList(recipe.core_ingredients).map(requirement => (
     usedPantry.find(item => pantryItemSatisfiesCoreRequirement(item, requirement, recipe, aliases)) || requirement

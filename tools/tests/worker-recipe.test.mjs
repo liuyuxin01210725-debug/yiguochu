@@ -86,6 +86,66 @@ test('portion repair scales all gram amounts proportionally for a four-serving m
   assert.ok(Math.abs(meal.ingredients[0].grams / meal.ingredients[1].grams - beforeRatio) < 0.02);
 });
 
+test('grounding validation rejects gluten and animal ingredients under diet contracts', () => {
+  const cases = [
+    {
+      diet: 'glutenFree',
+      recipeId: 'rice-cabbage-minestrone',
+      pantry: ['大米', '卷心菜', '高汤', '面条'],
+      ingredient: '面条',
+    },
+    {
+      diet: 'vegan',
+      recipeId: 'lentil-potato-tomato-curry',
+      pantry: ['红扁豆', '土豆', '番茄', '鸡肉'],
+      ingredient: '鸡肉',
+    },
+  ];
+  for (const item of cases) {
+    const constraints = { purpose: 'fresh', servings: 2, pantry: item.pantry, dislikes: [], diet: item.diet };
+    const selection = selectRecipeCandidates(lib, constraints)
+      .find(candidate => candidate.recipe.id === item.recipeId);
+    assert.ok(selection, `${item.recipeId} selection exists`);
+    const meal = {
+      ingredients: item.pantry.map(name => ({ name, grams: 100 })),
+      steps: item.pantry.map(name => `${name}煮熟。`),
+    };
+    const flags = validateGroundedMeal(meal, selection, constraints);
+    assert.ok(flags.includes(`diet_violation:${item.diet}:${item.ingredient}`), `${item.diet} ${item.ingredient}`);
+  }
+});
+
+test('grounding validation rejects explicit rice-water ratios outside trusted bounds', () => {
+  const cases = [
+    {
+      recipeId: 'chinese-congee',
+      pantry: ['大米', '水'],
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 100 }],
+      steps: ['大米和水煮熟。'],
+    },
+    {
+      recipeId: 'jollof-rice',
+      pantry: ['大米', '番茄', '甜椒', '洋葱'],
+      ingredients: [
+        { name: '大米', grams: 100 },
+        { name: '番茄', grams: 100 },
+        { name: '甜椒', grams: 100 },
+        { name: '洋葱', grams: 100 },
+        { name: '鸡高汤', grams: 400 },
+      ],
+      steps: ['大米、番茄、甜椒和洋葱加入鸡高汤煮熟。'],
+    },
+  ];
+  for (const item of cases) {
+    const constraints = { purpose: 'pantry', servings: 1, pantry: item.pantry, dislikes: [] };
+    const selection = selectRecipeCandidates(lib, constraints)
+      .find(candidate => candidate.recipe.id === item.recipeId);
+    assert.ok(selection, `${item.recipeId} selection exists`);
+    const flags = validateGroundedMeal({ ingredients: item.ingredients, steps: item.steps }, selection, constraints);
+    assert.ok(flags.includes('ratio_out_of_bounds:rice_water'), item.recipeId);
+  }
+});
+
 function healthAssetResponse(request) {
   const value = HEALTH_ASSETS[new URL(request.url).pathname];
   return value == null

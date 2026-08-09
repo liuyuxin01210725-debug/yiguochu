@@ -2429,6 +2429,42 @@ test('Python retained-water and contradictory-vessel repair exactly match Worker
   }
 });
 
+test('Python mirrors Worker diet and numeric ratio validation flags', () => {
+  const cases = [
+    {
+      constraints: {
+        purpose: 'fresh', servings: 2, pantry: ['大米', '卷心菜', '高汤', '面条'], dislikes: [], diet: 'glutenFree',
+      },
+      meal: {
+        ingredients: ['大米', '卷心菜', '高汤', '面条'].map(name => ({ name, grams: 100 })),
+        steps: ['大米煮熟。', '卷心菜煮熟。', '高汤煮熟。', '面条煮熟。'],
+      },
+    },
+    {
+      constraints: {
+        purpose: 'pantry', servings: 1, pantry: ['大米', '番茄', '甜椒', '洋葱'], dislikes: [],
+      },
+      meal: {
+        ingredients: [
+          { name: '大米', grams: 100 }, { name: '番茄', grams: 100 }, { name: '甜椒', grams: 100 },
+          { name: '洋葱', grams: 100 }, { name: '鸡高汤', grams: 400 },
+        ],
+        steps: ['大米、番茄、甜椒和洋葱加入鸡高汤煮熟。'],
+      },
+    },
+  ];
+  for (const item of cases) {
+    const jsSelection = selectRecipeCandidates(lib, item.constraints)[0];
+    const jsFlags = validateGroundedMeal(item.meal, jsSelection, item.constraints);
+    const pyFlags = pythonCall('validate', {
+      library: lib,
+      constraints: item.constraints,
+      meal: item.meal,
+    });
+    assert.deepEqual(pyFlags, jsFlags);
+  }
+});
+
 test('Python retained soaking-liquid detection exactly matches Worker', () => {
   const cases = [
     { ingredients: ['红扁豆'], steps: ['保留泡发水并同锅炖熟。'] },
