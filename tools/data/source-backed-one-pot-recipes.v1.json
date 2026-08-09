@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r235",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r236",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -70776,7 +70776,205 @@
         "蛋丝",
         "高汤"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "白身鱼",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 2,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "盐（鱼饭）",
+            "amount": {
+              "value": 1.2,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "虾",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "豌豆",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "熟饭",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "蛋丝",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "海苔",
+            "amount": {
+              "value": 1.2,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "酒（虾/香菇）",
+            "amount": {
+              "value": 8,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "干香菇",
+            "amount": {
+              "value": 6,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "砂糖",
+            "amount": {
+              "value": 8,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 12,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 340,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "浇汁",
+            "amount": {
+              "value": 400,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "昆布",
+            "amount": {
+              "value": 4,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "柴鱼片",
+            "amount": {
+              "value": 4,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          },
+          {
+            "name": "酱油（浇汁）",
+            "amount": {
+              "value": 8,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-UOMESHI-R65"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-HIROSHIMA-UOMESHI-R65"
+        ]
+      },
+
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -70825,7 +71023,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "广岛具名鱼饭；来源明确是熟饭加另制配菜和浇汁，不改写成生米同锅海鲜饭。"
+      "evidence_notes": "广岛具名鱼饭；MAFF原页给出4人份及鱼、虾、蔬菜、熟饭和浇汁的可核对定量。来源明确是熟饭加另制配菜和浇汁，不改写成生米同锅海鲜饭。"
     },
     {
       "recipe_id": "maff-tokyo-fukagawa-meshi",
@@ -70849,7 +71047,44 @@
         "熟饭",
         "海苔"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {
+            "name": "蛤蜊",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKYO-FUKAGAWA-MESHI-R65"
+            ]
+          },
+          {
+            "name": "味噌",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKYO-FUKAGAWA-MESHI-R65"
+            ]
+          },
+          {
+            "name": "熟饭",
+            "amount": {
+              "value": 1,
+              "unit": "膳分"
+            },
+            "source_ids": [
+              "S-MAFF-TOKYO-FUKAGAWA-MESHI-R65"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-TOKYO-FUKAGAWA-MESHI-R65"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -70896,7 +71131,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "东京深川饭/深川丼具名来源；这是熟饭浇汁版本，不补生米米水比例，不改写成电饭煲蛤蜊饭。"
+      "evidence_notes": "东京深川饭/深川丼具名来源；MAFF原页给出1人份、蛤蜊100g、味噌50g和熟饭1膳分的浇汁版本定量。这里仍是熟饭浇汁版本，不补生米米水比例，不改写成电饭煲蛤蜊饭。"
     },
     {
       "recipe_id": "maff-fukushima-harako-meshi",
@@ -70919,7 +71154,54 @@
         "酱油",
         "盐"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-MAFF-FUKUSHIMA-HARAKO-MESHI-R65"
+            ]
+          },
+          {
+            "name": "鲑鱼子",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-MAFF-FUKUSHIMA-HARAKO-MESHI-R65"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "三分之一杯"
+            },
+            "source_ids": [
+              "S-MAFF-FUKUSHIMA-HARAKO-MESHI-R65"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 1,
+              "unit": "二分之一杯"
+            },
+            "source_ids": [
+              "S-MAFF-FUKUSHIMA-HARAKO-MESHI-R65"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-FUKUSHIMA-HARAKO-MESHI-R65"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -70966,7 +71248,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "福岛具名鲑鱼子饭；来源明确为炊好米饭后加腌鱼子，未证明整锅炊煮或鱼子安全终点，不改写为电饭煲同锅方案。"
+      "evidence_notes": "福岛具名鲑鱼子饭；MAFF原页给出4人份、米3杯、鲑鱼子1杯、酒三分之一杯和酱油二分之一杯。来源明确为炊好米饭后加腌鱼子，未证明整锅炊煮或鱼子安全终点，不改写为电饭煲同锅方案。"
     },
     {
       "recipe_id": "midea-mixed-lapcheong-rice-26183",
