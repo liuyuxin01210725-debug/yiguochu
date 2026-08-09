@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r211",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r212",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -64608,7 +64608,17 @@
         "盐"
       ],
       "fixed_batch": null,
-      "liquid_contract": null,
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "IRIS OHYAMA RC-PGA50",
+          "scale": "porridge",
+          "mark": 1
+        },
+        "source_ids": [
+          "S-IRIS-CHINESE-CHICKEN-CONGEE-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -64645,7 +64655,12 @@
         "source_ids": [
           "S-IRIS-CHINESE-CHICKEN-CONGEE-1"
         ],
-        "notes": "仅限 RC-PGA50 自动调理3和该机型粥类加水设置；鸡肉出锅后拆分是原方步骤，不作省略。"
+        "waterline": {
+          "appliance_model": "IRIS OHYAMA RC-PGA50",
+          "scale": "porridge",
+          "mark": 1
+        },
+        "notes": "仅限 RC-PGA50 自动调理3和该机型粥1合水位线；官方步骤要求米加水至粥1合线，鸡肉出锅后拆分是原方步骤，不作省略；不得换算为普通电饭煲毫升数。"
       },
       "source_refs": [
         {
@@ -64657,7 +64672,7 @@
           "source_kind": "manufacturer_recipe_page",
           "access_status": "opened",
           "evidence_tier": 3,
-          "evidence_locator": "RC-PGA50 官方页：自动调理3、65分钟、3至4人份、米1合、鸡胸肉200g和粥水位线",
+          "evidence_locator": "RC-PGA50 官方页 DOM/步骤1：自动调理3、65分钟、3至4人份、米1合、鸡胸肉200g；米加水至粥1合水位线",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -64695,7 +64710,17 @@
         "藏红花"
       ],
       "fixed_batch": null,
-      "liquid_contract": null,
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "IRIS OHYAMA RC-PGA50",
+          "scale": "white_rice",
+          "mark": 1.5
+        },
+        "source_ids": [
+          "S-IRIS-RC-PGA-PAELLA-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -64735,7 +64760,12 @@
         "source_ids": [
           "S-IRIS-RC-PGA-PAELLA-1"
         ],
-        "notes": "仅限 RC-PGA50 自动调理9与该机型专属加水设置；海鲜安全终点仍需独立审核。"
+        "waterline": {
+          "appliance_model": "IRIS OHYAMA RC-PGA50",
+          "scale": "white_rice",
+          "mark": 1.5
+        },
+        "notes": "仅限 RC-PGA50 自动调理9与该机型白米1.5合水位线；官方配方米量与水位线是不同字段，不换算为普通电饭煲毫升数；海鲜安全终点仍需独立审核。"
       },
       "source_refs": [
         {
@@ -64747,7 +64777,7 @@
           "source_kind": "manufacturer_recipe_page",
           "access_status": "opened",
           "evidence_tier": 3,
-          "evidence_locator": "RC-PGA50 官方页：自动调理9、75分钟、3至4人份、冷冻海鲜200g及白米1.5合水位线",
+          "evidence_locator": "RC-PGA50 官方页 DOM/步骤3：自动调理9、75分钟、3至4人份、米2合、冷冻海鲜200g；加水至白米1.5合水位线",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -64783,7 +64813,17 @@
         "高汤"
       ],
       "fixed_batch": null,
-      "liquid_contract": null,
+      "liquid_contract": {
+        "kind": "waterline",
+        "waterline": {
+          "appliance_model": "IRIS OHYAMA RC-PGA50",
+          "scale": "white_rice",
+          "mark": 2
+        },
+        "source_ids": [
+          "S-IRIS-RC-PGA-CHICKEN-RICE-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -64821,7 +64861,12 @@
         "source_ids": [
           "S-IRIS-RC-PGA-CHICKEN-RICE-1"
         ],
-        "notes": "仅限 RC-PGA50 自动调理9和该机型专属加水设置；鸡肉安全终点未由厂商页单独给出。"
+        "waterline": {
+          "appliance_model": "IRIS OHYAMA RC-PGA50",
+          "scale": "white_rice",
+          "mark": 2
+        },
+        "notes": "仅限 RC-PGA50 自动调理9和该机型白米2合水位线；不得换算为普通电饭煲毫升数；鸡肉安全终点未由厂商页单独给出。"
       },
       "source_refs": [
         {
@@ -64833,7 +64878,7 @@
           "source_kind": "manufacturer_recipe_page",
           "access_status": "opened",
           "evidence_tier": 3,
-          "evidence_locator": "RC-PGA50 官方页：自动调理9、75分钟、3至4人份、鸡腿肉100g/玉米60g及白米2合水位线",
+          "evidence_locator": "RC-PGA50 官方页 DOM/步骤3：自动调理9、75分钟、3至4人份、米2合、鸡腿肉100g/玉米60g；加水至白米2合水位线",
           "claim_scopes": [
             "identity",
             "ingredients",
