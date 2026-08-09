@@ -431,7 +431,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| あなご飯 | 穴子饭 | JP-HIROSHIMA | hiroshima-anagomeshi | 研究记录（非公开可执行） | 米；穴子；昆布；甘醋姜；海苔 | identity、ingredients、quantity | 缺 process | [あなご飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_30_hiroshima.html) |
+| あなご飯 | 穴子饭 | JP-HIROSHIMA | hiroshima-anagomeshi | 研究记录（非公开可执行） | 米；穴子；昆布；甘醋姜；海苔 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [あなご飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_30_hiroshima.html) |
 ## hong-kong-carrot-seafood-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

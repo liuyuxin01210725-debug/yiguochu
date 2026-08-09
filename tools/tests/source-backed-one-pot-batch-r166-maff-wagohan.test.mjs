@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
 test('r166 closes the same-source MAFF taro-and-pickled-mustard fixed batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r218');
   assert.equal(catalog.recipes.length, 923);
   const recipe = byId['maff-satoimo-takana-takikomi-gohan'];
   assert.ok(recipe);
@@ -35,5 +35,6 @@ test('r166 closes the same-source MAFF taro-and-pickled-mustard fixed batch', ()
 test('r166 leaves variable-water and staged MAFF boundaries unresolved', () => {
   assert.equal(byId['maff-satoimo-takana-takikomi-gohan']?.liquid_contract, null);
   assert.equal(byId['maff-air-buri-daikon-daikon-meshi']?.fixed_batch, null);
-  assert.equal(byId['maff-kagoshima-keihan']?.fixed_batch, null);
+  assert.equal(byId['maff-kagoshima-keihan']?.fixed_batch?.servings, 4);
+  assert.equal(byId['maff-kagoshima-keihan']?.liquid_contract, null);
 });

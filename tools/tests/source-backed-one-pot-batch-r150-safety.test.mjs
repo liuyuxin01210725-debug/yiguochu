@@ -34,7 +34,7 @@ const expected = {
 const executableIds = new Set(['tiger-steak-mushroom-barley-rice']);
 
 test('r150 closes five existing raw pork, beef, and fish safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r218');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);

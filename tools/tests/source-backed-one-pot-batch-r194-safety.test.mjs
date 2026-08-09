@@ -12,7 +12,7 @@ const expected = {
 };
 
 test('r194 closes two directly evidenced MAFF shellfish and poultry gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r218');
   for (const [recipeId, [code, temperature, locatorPattern]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);

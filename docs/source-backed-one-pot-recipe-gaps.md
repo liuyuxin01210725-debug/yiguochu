@@ -316,6 +316,7 @@
 - 赫哲族拉拉饭 (heizhe-lala-millet-corn-porridge) — CN-HL
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 河曲酸粥 (hequ-sour-porridge) — CN-SX
+- あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 三色藜麥小米甜粟米粒肉碎粥 (startsmart-quinoa-millet-corn-pork-congee) — HK
 - 時菜肉碎粥 (startsmart-seasonal-pork-congee) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
@@ -613,7 +614,6 @@
 - 广州冬至腊味糯米饭 (r99-guangzhou-winter-solstice-cured-glutinous-rice) — CN-GD-GUANGZHOU
 - 苗族三色饭制作技艺 (cn-hainan-sanya-miao-three-color-rice) — CN-HI-SANYA
 - 大山小米焖饭 (weihui-dashan-millet-braised-rice) — CN-HA-XINXIANG-WEIHUI
-- あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 湘鄂赣革命根据地红军游击队竹筒饭 (pingjiang-red-army-guerrilla-bamboo-rice) — CN-HN-YUEYANG-PINGJIANG
 - 薅菜饭 (huaihua-haocai-rice) — CN-HN-HUAIHUA-HONGJIANG
 - 河豚八煲饭 (yangzhong-pufferfish-eight-pot-rice) — CN-JS-ZHENJIANG-YANGZHONG-XINBA
@@ -703,6 +703,7 @@
 - 椰丝饭 (hainan-coconut-shred-rice) — CN-HI
 - 赫哲族拉拉饭 (heizhe-lala-millet-corn-porridge) — CN-HL
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
+- あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 香菇魚腩粥 (hk-mushroom-grass-carp-congee) — HK
 - 黃金海鮮粥 (hk-golden-seafood-congee) — HK
 - 粟米瘦肉粥 (startsmart-corn-lean-pork-porridge) — HK
@@ -879,6 +880,7 @@
 - 赫哲族拉拉饭 (heizhe-lala-millet-corn-porridge) — CN-HL
 - 赫哲族莫温古饭 (heizhe-mowenggu-millet-porridge) — CN-HL
 - 河曲酸粥 (hequ-sour-porridge) — CN-SX
+- あなご飯 (maff-hiroshima-anagomeshi) — JP-HIROSHIMA
 - 胡蘿蔔海鮮飯 (r104-hk-carrot-seafood-rice) — HK
 - 廣島蠔雜菇煲仔飯 (hk-hiroshima-oyster-mushroom-claypot-rice) — HK
 - 三色藜麥小米甜粟米粒肉碎粥 (startsmart-quinoa-millet-corn-pork-congee) — HK

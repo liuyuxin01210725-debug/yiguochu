@@ -7,7 +7,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r156 closes only the three same-source contract fields without adding recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r218');
   assert.equal(catalog.recipes.length, 923);
 
   const bottleGourd = byId['taiwan-bottle-gourd-mushroom-rice'];

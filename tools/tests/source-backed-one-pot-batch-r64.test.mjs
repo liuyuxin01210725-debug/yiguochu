@@ -24,7 +24,7 @@ const expected = [
   ['maff-tokushima-irimeshi', 'recipe_fact_checked'],
   ['maff-tokushima-houhan', 'recipe_fact_checked'],
   ['maff-akita-tenko-azuki-sekihan', 'recipe_fact_checked'],
-  ['maff-hiroshima-anagomeshi', 'identity_verified'],
+  ['maff-hiroshima-anagomeshi', 'recipe_fact_checked'],
   ['guangzhou-zengcheng-she-wufan', 'recipe_fact_checked'],
   ['kizilsu-polo-pilaf', 'recipe_fact_checked'],
   ['changning-kas-dai-bamboo-rice', 'identity_verified'],
@@ -38,7 +38,7 @@ const expected = [
 
 test('r64 collection batch is source-backed, bounded, and not auto-promoted', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r217');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r218');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, status] of expected) {

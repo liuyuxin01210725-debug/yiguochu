@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r217",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r218",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -43825,7 +43825,174 @@
         "鸡蛋",
         "四季豆"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 320,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "水（米饭）",
+            "amount": {
+              "value": 480,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "鸡骨",
+            "amount": {
+              "value": 240,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "水（鸡汤）",
+            "amount": {
+              "value": 800,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "鸡胸肉",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "清酒（A）",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "淡口酱油（A）",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "本味醂（A）",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "干香菇",
+            "amount": {
+              "value": 8,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "香菇回水",
+            "amount": {
+              "value": 80,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "淡口酱油（B）",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "本味醂（B）",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "鸡蛋",
+            "amount": {
+              "value": 2,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "四季豆",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "葱",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          },
+          {
+            "name": "木瓜味噌渍",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KAGOSHIMA-KEIHAN-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-KAGOSHIMA-KEIHAN-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -43897,7 +44064,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "鹿儿岛奄美具名鶏飯；它是真实地域米饭主餐，但来源明确是白饭、鸡汤和配料分段组合，不符合严格同锅执行。本条收录用于完整地域目录，暂不进入一锅出可执行候选，未晋升 executable。"
+      "evidence_notes": "鹿儿岛奄美具名鶏飯；MAFF原页给出4人份米、鸡骨、鸡肉、香菇、鸡蛋、四季豆及分段汤饭流程，已闭合同源固定批次。它是真实地域米饭主餐，但来源明确是白饭、鸡汤和配料分段组合，不符合严格同锅执行。本条收录用于完整地域目录，暂不进入一锅出可执行候选，未晋升 executable。"
     },
     {
       "recipe_id": "maff-aichi-tako-meshi",
@@ -66638,7 +66805,54 @@
         "盐",
         "胡椒"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {
+            "name": "鸡里肌肉",
+            "amount": {
+              "value": 2,
+              "unit": "条"
+            },
+            "source_ids": [
+              "S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1"
+            ]
+          },
+          {
+            "name": "豆浆",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1"
+            ]
+          },
+          {
+            "name": "米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 5,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -66676,7 +66890,7 @@
         "source_ids": [
           "S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1"
         ],
-        "notes": "仅限 Philips 多功能烹煮锅密封煮粥键 35 分钟；鸡肉条数未换算克数，不外推为普通电饭煲粥程序。"
+        "notes": "仅限 Philips 多功能烹煮锅密封煮粥键 35 分钟；鸡肉按来源保留2条的计量，豆浆1杯与水5杯是两个液体对象，因此不建立单一 liquid_contract，也不外推为普通电饭煲粥程序。"
       },
       "source_refs": [
         {
@@ -66703,7 +66917,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Philips 台湾官方页面给出豆浆鸡肉粥的具名组合、1人份材料和密封煮粥流程；鸡里肌以条计且没有独立温度终点，保留机型边界，不转为通用电饭煲合同。"
+      "evidence_notes": "Philips 台湾官方页面给出豆浆鸡肉粥的具名组合、1人份、鸡里肌2条、豆浆1杯、米1杯、水5杯和密封煮粥流程，已闭合同源固定批次。鸡里肌仍以条计且没有独立温度终点，保留机型边界，不转为通用电饭煲合同。"
     },
     {
       "recipe_id": "panasonic-taiwan-cabbage-mackerel-rice",
@@ -67953,9 +68167,145 @@
         "甘醋姜",
         "海苔"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 480,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "昆布",
+            "amount": {
+              "value": 10,
+              "unit": "cm角"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "穴子",
+            "amount": {
+              "value": 4,
+              "unit": "尾"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "甘醋姜",
+            "amount": {
+              "value": 40,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "酱油（调味料A）",
+            "amount": {
+              "value": 1,
+              "unit": "大匙1弱"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "酒（调味料A）",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "盐（调味料A）",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "酱油（调味料B）",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "酒（调味料B）",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          },
+          {
+            "name": "味醂（调味料B）",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+        ]
+      },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {
+          "step": 1,
+          "instruction": "米淘洗后加入昆布、调味料A，按来源正常炊饭。",
+          "source_ids": [
+            "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+          ]
+        },
+        {
+          "step": 2,
+          "instruction": "穴子去内脏和中骨，边刷调味料B边烧烤。",
+          "source_ids": [
+            "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+          ]
+        },
+        {
+          "step": 3,
+          "instruction": "米饭盛入器皿，将穴子切成约3cm斜片铺在饭上并淋上剩余酱汁。",
+          "source_ids": [
+            "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+          ]
+        },
+        {
+          "step": 4,
+          "instruction": "按来源搭配甘醋姜和海苔；这是烧穴子铺饭的分段做法，不改写为生鱼同锅炊饭。",
+          "source_ids": [
+            "S-MAFF-HIROSHIMA-ANAGOMESHI-1"
+          ]
+        }
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [],
@@ -67965,7 +68315,7 @@
       },
       "cooker_adaptation": {
         "status": "not_adapted",
-        "notes": "本页当前只把具名身份和材料记录为研究条目；穴子单独处理及器具流程需补读后再结构化。"
+        "notes": "MAFF原页明确米饭炊煮与穴子烧制后铺饭的分段流程；仅保留该原器具/分段边界，不外推为生鱼同锅电饭煲方案。"
       },
       "source_refs": [
         {
@@ -67977,18 +68327,19 @@
           "source_kind": "national_government_food_culture_page",
           "access_status": "opened",
           "evidence_tier": 1,
-          "evidence_locator": "MAFF直页正文303至327行：广岛具名菜及4人份米、穴子和配料",
+          "evidence_locator": "MAFF直页正文303至343行：广岛具名菜、4人份材料、普通炊饭、穴子烧制切片铺饭及配菜步骤",
           "claim_scopes": [
             "identity",
             "ingredients",
-            "quantity"
+            "quantity",
+            "process"
           ],
           "attribution": "日本農林水産省",
           "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "identity_verified",
-      "evidence_notes": "广岛穴子饭的身份和材料已由 MAFF 直页核实；由于穴子独立处理/铺饭的工艺尚未在本批闭合，保持 identity-only。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "广岛穴子饭的身份、4人份定量材料和米饭炊煮/穴子烧制后铺饭流程均由 MAFF 直页核实，已闭合同源固定批次。来源明确是分段铺饭，liquid/time/safety 仍未给出，保留原器具边界，不晋升 executable。"
     },
     {
       "recipe_id": "guangzhou-zengcheng-she-wufan",
