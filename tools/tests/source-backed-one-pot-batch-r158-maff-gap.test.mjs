@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r158 closes only same-source MAFF batch and liquid fields', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
   assert.equal(catalog.recipes.length, 923);
 
   const nara = byId['maff-kanagawa-narachameshi'];

@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
 test('r254 closes six exact Macau/Hong Kong source contracts without adding canonical recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
   assert.equal(catalog.recipes.length, 923);
 
   const expected = [
@@ -35,5 +35,5 @@ test('r254 preserves cooked-rice, stone-pot, and multi-vessel boundaries', () =>
   assert.match(byId.get('r100-macau-high-fiber-brown-fried-rice').cooker_adaptation.notes, /冷藏|熟饭/u);
   assert.match(byId.get('r100-hk-garlic-wild-mushroom-stonepot-rice').cooker_adaptation.notes, /石锅|熟饭/u);
   assert.match(byId.get('r100-hk-pumpkin-multigrain-rice').cooker_adaptation.notes, /烤箱|蒸|炒锅/u);
-  assert.equal(byId.get('r100-hk-pumpkin-seafood-brown-rice').status, 'discovered');
+  assert.equal(byId.get('r100-hk-pumpkin-seafood-brown-rice').status, 'recipe_fact_checked');
 });

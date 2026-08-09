@@ -17,7 +17,7 @@ const promoted = {
 };
 
 test('r203 promotes only the eight complete source-backed contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, [safetyCode, temperature]] of Object.entries(promoted)) {
     const recipe = byId[recipeId];

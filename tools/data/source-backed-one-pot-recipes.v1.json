@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r254",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r255",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -75328,18 +75328,18 @@
           "title": "玩米煮藝一鍋搞定-電鍋飯料理",
           "publisher": "台湾农业部农粮署",
           "url": "https://erb.afa.gov.tw/index.php?act=download&ids=19409",
-          "retrieved_at": "2026-08-06",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_rice_cooker_activity_pdf",
-          "access_status": "pdf_not_parsed",
+          "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页菜单清单：豆豉肉丁蒸飯",
-          "claim_scopes": [],
+          "evidence_locator": "官方PDF第3页课程表仅列示范菜单：豆豉肉丁蒸飯；未提供逐道配方",
+          "claim_scopes": ["identity"],
           "attribution": "台湾农业部农粮署",
           "license": "publisher_copyright"
         }
       ],
       "status": "discovered",
-      "evidence_notes": "仅登记菜单身份，不从名称补食材比例、液体、时间或安全步骤。"
+      "evidence_notes": "已打开官方5页活动简章；第3页仅证明课程菜单身份，没有配料比例、液体、时间或安全步骤，不从菜名补猜。"
     },
     {
       "recipe_id": "afa-japanese-chestnut-rice",
@@ -75379,18 +75379,18 @@
           "title": "玩米煮藝一鍋搞定-電鍋飯料理",
           "publisher": "台湾农业部农粮署",
           "url": "https://erb.afa.gov.tw/index.php?act=download&ids=19409",
-          "retrieved_at": "2026-08-06",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_rice_cooker_activity_pdf",
-          "access_status": "pdf_not_parsed",
+          "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页菜单清单：和風栗子飯",
-          "claim_scopes": [],
+          "evidence_locator": "官方PDF第3页课程表仅列示范菜单：和風栗子飯；未提供逐道配方",
+          "claim_scopes": ["identity"],
           "attribution": "台湾农业部农粮署",
           "license": "publisher_copyright"
         }
       ],
       "status": "discovered",
-      "evidence_notes": "仅登记菜单身份，不把栗饭名称扩写为完整配方。"
+      "evidence_notes": "已打开官方5页活动简章；第3页仅证明课程菜单身份，没有栗饭配料、液体、时间或安全步骤，不把菜名扩写为完整配方。"
     },
     {
       "recipe_id": "afa-sesame-oil-chicken-rice",
@@ -75431,18 +75431,18 @@
           "title": "玩米煮藝一鍋搞定-電鍋飯料理",
           "publisher": "台湾农业部农粮署",
           "url": "https://erb.afa.gov.tw/index.php?act=download&ids=19409",
-          "retrieved_at": "2026-08-06",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_rice_cooker_activity_pdf",
-          "access_status": "pdf_not_parsed",
+          "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页菜单清单：麻油雞肉炊飯",
-          "claim_scopes": [],
+          "evidence_locator": "官方PDF第3页课程表仅列示范菜单：麻油雞肉炊飯；未提供逐道配方",
+          "claim_scopes": ["identity"],
           "attribution": "台湾农业部农粮署",
           "license": "publisher_copyright"
         }
       ],
       "status": "discovered",
-      "evidence_notes": "鸡肉部位、用量、安全与米水均待逐道原件核验。"
+      "evidence_notes": "已打开官方5页活动简章；第3页仅证明课程菜单身份，鸡肉部位、用量、安全与米水均未提供。"
     },
     {
       "recipe_id": "afa-garlic-fresh-fish-rice",
@@ -75483,18 +75483,18 @@
           "title": "玩米煮藝一鍋搞定-電鍋飯料理",
           "publisher": "台湾农业部农粮署",
           "url": "https://erb.afa.gov.tw/index.php?act=download&ids=19409",
-          "retrieved_at": "2026-08-06",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_rice_cooker_activity_pdf",
-          "access_status": "pdf_not_parsed",
+          "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页菜单清单：蒜味鮮魚炊飯",
-          "claim_scopes": [],
+          "evidence_locator": "官方PDF第3页课程表仅列示范菜单：蒜味鮮魚炊飯；未提供逐道配方",
+          "claim_scopes": ["identity"],
           "attribution": "台湾农业部农粮署",
           "license": "publisher_copyright"
         }
       ],
       "status": "discovered",
-      "evidence_notes": "鱼种、用量、液体、时间与安全端点均待原始食谱卡。"
+      "evidence_notes": "已打开官方5页活动简章；第3页仅证明课程菜单身份，鱼种、用量、液体、时间与安全端点均未提供。"
     },
     {
       "recipe_id": "afa-tomato-pork-rice",
@@ -75535,18 +75535,18 @@
           "title": "玩米煮藝一鍋搞定-電鍋飯料理",
           "publisher": "台湾农业部农粮署",
           "url": "https://erb.afa.gov.tw/index.php?act=download&ids=19409",
-          "retrieved_at": "2026-08-06",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_rice_cooker_activity_pdf",
-          "access_status": "pdf_not_parsed",
+          "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页菜单清单：蕃茄豬肉炊飯",
-          "claim_scopes": [],
+          "evidence_locator": "官方PDF第3页课程表仅列示范菜单：蕃茄豬肉炊飯；未提供逐道配方",
+          "claim_scopes": ["identity"],
           "attribution": "台湾农业部农粮署",
           "license": "publisher_copyright"
         }
       ],
       "status": "discovered",
-      "evidence_notes": "猪肉部位、用量、液体和安全流程均待原始食谱卡。"
+      "evidence_notes": "已打开官方5页活动简章；第3页仅证明课程菜单身份，猪肉部位、用量、液体和安全流程均未提供。"
     },
     {
       "recipe_id": "afa-beef-rice",
@@ -75586,18 +75586,18 @@
           "title": "玩米煮藝一鍋搞定-電鍋飯料理",
           "publisher": "台湾农业部农粮署",
           "url": "https://erb.afa.gov.tw/index.php?act=download&ids=19409",
-          "retrieved_at": "2026-08-06",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_rice_cooker_activity_pdf",
-          "access_status": "pdf_not_parsed",
+          "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页菜单清单：牛肉炊飯",
-          "claim_scopes": [],
+          "evidence_locator": "官方PDF第3页课程表仅列示范菜单：牛肉炊飯；未提供逐道配方",
+          "claim_scopes": ["identity"],
           "attribution": "台湾农业部农粮署",
           "license": "publisher_copyright"
         }
       ],
       "status": "discovered",
-      "evidence_notes": "牛肉部位、用量、形态、液体和熟制安全均待原始食谱卡。"
+      "evidence_notes": "已打开官方5页活动简章；第3页仅证明课程菜单身份，牛肉部位、用量、形态、液体和熟制安全均未提供。"
     },
     {
       "recipe_id": "zojirushi-chicken-dry-curry",
@@ -97530,9 +97530,35 @@
         "糙米",
         "海鲜"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {"name": "南瓜", "amount": {"value": 800, "unit": "g"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "糙米", "amount": {"value": 0.5, "unit": "碗"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "橄榄油", "amount": {"value": 2, "unit": "茶匙"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "蒜蓉", "amount": {"value": 1, "unit": "适量"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "清鱼汤", "amount": {"value": 5, "unit": "汤匙"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "秀珍菇", "amount": {"value": 2, "unit": "隻"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "海虾", "amount": {"value": 2, "unit": "隻"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "鲜鱿鱼", "amount": {"value": 2, "unit": "片"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "蓝贻贝", "amount": {"value": 2, "unit": "隻"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "鱼柳", "amount": {"value": 2, "unit": "小块"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "菜粒", "amount": {"value": 2, "unit": "汤匙"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "鲜紫苏叶", "amount": {"value": 6, "unit": "片"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "盐", "amount": {"value": 0.25, "unit": "茶匙"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+          {"name": "白酒", "amount": {"value": 1, "unit": "适量"}, "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]}
+        ],
+        "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]
+      },
       "liquid_contract": null,
-      "cooking_sequence": [],
+      "cooking_sequence": [
+        {"step": 1, "instruction": "南瓜洗净起盖、挖芯，放入焗炉焗约15分钟备用。", "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+        {"step": 2, "instruction": "糙米洗净沥干，加入1茶匙油、蒜蓉及适量清鱼汤，煮至七成熟备用。", "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+        {"step": 3, "instruction": "秀珍菇用火焗至干身有香味后备用。", "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+        {"step": 4, "instruction": "海鲜洗净并沥干。", "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+        {"step": 5, "instruction": "烧暖余下的油，放入蒜蓉、海鲜、白酒及清鱼汤，煮至七成熟。", "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]},
+        {"step": 6, "instruction": "加入盐、菜粒、鲜紫苏叶、秀珍菇及糙米饭，1分钟后将海鲜和糙米饭放入南瓜，再入焗炉焗5分钟。", "source_ids": ["S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1"]}
+      ],
       "time_contract": null,
       "safety_endpoints": [],
       "allergen_labels": [
@@ -97544,7 +97570,7 @@
       },
       "cooker_adaptation": {
         "status": "not_adapted",
-        "notes": "香港卫生署官方PDF只给海鲜略炒后与完整南瓜、糙米同焗的技法摘要，不提供电饭煲参数。"
+        "notes": "香港卫生署官方HTML给出焗炉15分钟、分阶段煮糙米与海鲜、回填南瓜再焗5分钟；这是焗炉与锅具多阶段流程，不推导电饭煲参数。"
       },
       "source_refs": [
         {
@@ -97563,10 +97589,24 @@
           ],
           "attribution": "香港卫生署 EatSmart",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-R100-HK-PUMPKIN-SEAFOOD-BROWN-RICE-HTML-1",
+          "title": "焗南瓜海鮮糙米飯",
+          "publisher": "香港卫生署 EatSmart",
+          "url": "https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=388",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_nutrition_recipe_page",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "官方HTML #content_area：1人份材料表及烹调步骤1–6",
+          "claim_scopes": ["identity", "ingredients", "quantity", "process"],
+          "attribution": "香港卫生署 EatSmart",
+          "license": "government_site_terms_unspecified"
         }
       ],
-      "status": "discovered",
-      "evidence_notes": "只登记具名与焗烤技法线索；固定批量、液体、时间、安全和电饭煲边界均未闭合。"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "香港卫生署官方HTML已闭合1人份、量化材料和6步焗烤/分阶段流程；清鱼汤在材料表为5汤匙、步骤另写适量，故liquid_contract保持null；总时长和安全温度终点未给出，焗炉/多锅边界保留，不推导电饭煲。"
     },
     {
       "recipe_id": "tatung-fresh-vegetable-clam-rice",

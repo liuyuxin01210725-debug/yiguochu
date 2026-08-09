@@ -498,7 +498,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 焗南瓜海鮮糙米飯 | 焗南瓜海鲜糙米饭 | HK | hong-kong-pumpkin-seafood-brown-rice | 研究记录（非公开可执行） | 完整南瓜；糙米；海鲜 | identity、ingredients | 当前状态所需证据已齐 | [焗南瓜海鮮糙米飯](https://restaurant.eatsmart.gov.hk/files/pdf/Doh_040809_25Nov.pdf) |
+| 焗南瓜海鮮糙米飯 | 焗南瓜海鲜糙米饭 | HK | hong-kong-pumpkin-seafood-brown-rice | 研究记录（非公开可执行） | 完整南瓜；糙米；海鲜 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [焗南瓜海鮮糙米飯](https://restaurant.eatsmart.gov.hk/files/pdf/Doh_040809_25Nov.pdf)<br>[焗南瓜海鮮糙米飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=388) |
 ## hong-kong-pumpkin-shrimp-golden-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1911,15 +1911,15 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 南瓜小魚干紅蔥頭炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；南瓜；小鱼干；红葱头 | appliance、identity | 缺 ingredients、process | [亲子玩米乐无穷：电锅饭料理金牌作品](https://fae.moa.gov.tw/theme_data.php?id=549&sub_theme=hot_news&theme=news) |
-| 和風栗子飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；栗子 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
-| 牛肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；牛肉 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 和風栗子飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；栗子 | identity | 当前状态所需证据已齐 | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 牛肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；牛肉 | identity | 当前状态所需证据已齐 | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
 | 紅薏仁燉飯 | 红薏仁炖饭 | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 红薏仁；洋葱；洋菇；香菇；杏鲍菇；毛豆；牛奶 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [红薏仁燉飯](https://fae.moa.gov.tw/map/food_item.php?id=129&type=AS07) |
-| 蒜味鮮魚炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；鲜鱼；蒜 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
-| 蕃茄豬肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；番茄；猪肉 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
-| 豆豉肉丁蒸飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；豆豉；肉丁 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 蒜味鮮魚炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；鲜鱼；蒜 | identity | 当前状态所需证据已齐 | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 蕃茄豬肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；番茄；猪肉 | identity | 当前状态所需证据已齐 | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 豆豉肉丁蒸飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；豆豉；肉丁 | identity | 当前状态所需证据已齐 | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
 | 香腸栗子炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；香肠；栗子 | appliance、identity | 缺 ingredients、process | [亲子玩米乐无穷：电锅饭料理金牌作品](https://fae.moa.gov.tw/theme_data.php?id=549&sub_theme=hot_news&theme=news) |
 | 麻油松阪豬炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；松阪猪；麻油 | appliance、identity | 缺 ingredients、process | [亲子玩米乐无穷：电锅饭料理金牌作品](https://fae.moa.gov.tw/theme_data.php?id=549&sub_theme=hot_news&theme=news) |
-| 麻油雞肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；鸡肉；麻油 | — | 缺 identity | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
+| 麻油雞肉炊飯 | — | TW | taiwan-electric-pot-rice-works | 研究记录（非公开可执行） | 米；鸡肉；麻油 | identity | 当前状态所需证据已齐 | [玩米煮藝一鍋搞定-電鍋飯料理](https://erb.afa.gov.tw/index.php?act=download&ids=19409) |
 ## taiwan-electric-pot-risotto
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

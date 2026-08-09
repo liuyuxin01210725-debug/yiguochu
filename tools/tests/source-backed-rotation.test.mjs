@@ -18,7 +18,7 @@ const shelf = JSON.parse(fs.readFileSync(new URL('../../dist/source-backed-one-p
 test('rotation uses recipe records with fixed quantities and steps, not archive-only records', () => {
   const records = rotatableSourceRecipes(shelf);
 
-  assert.equal(records.length, 342);
+  assert.equal(records.length, 343);
   assert.ok(records.every(record => ['A', 'B'].includes(record.shelf)));
   assert.ok(records.every(record => record.fixed_batch?.ingredients?.length));
   assert.ok(records.every(record => record.cooking_sequence?.length));

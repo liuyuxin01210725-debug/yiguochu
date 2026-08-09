@@ -29,10 +29,11 @@ const expectedStatus = new Map([
   ['r100-hk-scallop-egg-braised-rice', 'recipe_fact_checked'],
   ['r100-hk-garlic-wild-mushroom-stonepot-rice', 'recipe_fact_checked'],
   ['r100-hk-pumpkin-multigrain-rice', 'recipe_fact_checked'],
+  ['r100-hk-pumpkin-seafood-brown-rice', 'recipe_fact_checked'],
 ]);
 
 test('r100 persists eleven opened official-source assets without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, name] of expected) {

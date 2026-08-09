@@ -4,12 +4,7 @@
 
 ## 1. Missing identity
 
-- 和風栗子飯 (afa-japanese-chestnut-rice) — TW
-- 牛肉炊飯 (afa-beef-rice) — TW
-- 蒜味鮮魚炊飯 (afa-garlic-fresh-fish-rice) — TW
-- 蕃茄豬肉炊飯 (afa-tomato-pork-rice) — TW
-- 豆豉肉丁蒸飯 (afa-douchi-pork-steamed-rice) — TW
-- 麻油雞肉炊飯 (afa-sesame-oil-chicken-rice) — TW
+无。
 
 ## 2. Missing ingredients
 
@@ -323,6 +318,7 @@
 - 菜心瑤柱飯 (hk-choy-sum-scallop-rice) — HK
 - 蒜蓉野菌雜菜石頭窩飯 (r100-hk-garlic-wild-mushroom-stonepot-rice) — HK
 - 南瓜五穀飯 (r100-hk-pumpkin-multigrain-rice) — HK
+- 焗南瓜海鮮糙米飯 (r100-hk-pumpkin-seafood-brown-rice) — HK
 - 南瓜蝦仁黃金飯 (r104-hk-pumpkin-shrimp-golden-rice) — HK
 - 紅豆薏米燕麥粥 (r98-philips-hk-red-bean-coix-oat-congee) — HK
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK
@@ -713,6 +709,7 @@
 - 黃金海鮮粥 (hk-golden-seafood-congee) — HK
 - 粟米南瓜雞球飯 (r100-hk-corn-pumpkin-chicken-ball-rice) — HK
 - 蒜蓉野菌雜菜石頭窩飯 (r100-hk-garlic-wild-mushroom-stonepot-rice) — HK
+- 焗南瓜海鮮糙米飯 (r100-hk-pumpkin-seafood-brown-rice) — HK
 - 粟米瘦肉粥 (startsmart-corn-lean-pork-porridge) — HK
 - 三色豆蛋絲豆腐菜粒焗紅米飯 (startsmart-three-bean-egg-tofu-red-rice) — HK
 - 港巴蔬菜粥 (had-vegetable-pulao) — HK
@@ -911,6 +908,7 @@
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 蘑菇意大利飯配軟芝士 (r104-hk-mushroom-italian-rice-ricotta) — HK
 - 南瓜五穀飯 (r100-hk-pumpkin-multigrain-rice) — HK
+- 焗南瓜海鮮糙米飯 (r100-hk-pumpkin-seafood-brown-rice) — HK
 - 南瓜蝦仁黃金飯 (r104-hk-pumpkin-shrimp-golden-rice) — HK
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK
 - 芝士蘆筍海鮮焗飯 (fehd-cheese-asparagus-seafood-rice) — HK
@@ -1404,6 +1402,7 @@
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 芦笋虾仁藜麦饭 (towngas-asparagus-shrimp-quinoa-rice) — HK
+- 焗南瓜海鮮糙米飯 (r100-hk-pumpkin-seafood-brown-rice) — HK
 - 南瓜蝦仁黃金飯 (r104-hk-pumpkin-shrimp-golden-rice) — HK
 - 紅豆薏米燕麥粥 (r98-philips-hk-red-bean-coix-oat-congee) — HK
 - 健康雜豆粥 (fehd-healthy-mixed-bean-porridge) — HK

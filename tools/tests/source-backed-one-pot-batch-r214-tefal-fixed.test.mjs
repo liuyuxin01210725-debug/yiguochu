@@ -10,7 +10,7 @@ function ingredient(recipe, name) {
 }
 
 test('r214 closes TEFAL602 chicken-pea risotto four-person batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
   const recipe = byId['tefal-602-chicken-pea-risotto'];
   assert.equal(recipe.fixed_batch.servings, 4);
   assert.equal(ingredient(recipe, 'Arborio米').amount.value, 300);

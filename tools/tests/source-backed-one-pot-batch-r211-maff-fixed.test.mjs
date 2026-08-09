@@ -10,7 +10,7 @@ function ingredient(recipe, name) {
 }
 
 test('r211 closes Kagoshima ginger takikomi exact four-person batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r254');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
   const recipe = byId['kagoshima-ginger-takikomi-gohan'];
   assert.ok(recipe);
   assert.equal(recipe.fixed_batch.servings, 4);
