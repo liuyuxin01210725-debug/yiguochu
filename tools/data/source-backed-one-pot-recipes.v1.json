@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r237",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r238",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -50233,7 +50233,94 @@
         "鸡蛋",
         "蔬菜"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 60,
+        "ingredients": [
+          {
+            "name": "鸡蛋",
+            "amount": {
+              "value": 17,
+              "unit": "只"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "杂菜粒",
+            "amount": {
+              "value": 1,
+              "unit": "磅"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "芥兰",
+            "amount": {
+              "value": 3,
+              "unit": "斤"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "豆腐",
+            "amount": {
+              "value": 5,
+              "unit": "砖"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "白米",
+            "amount": {
+              "value": 12,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "红米",
+            "amount": {
+              "value": 2,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "粟米油",
+            "amount": {
+              "value": 3,
+              "unit": "汤匙"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 3,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-STARTSMART-THREE-BEAN-TOFU-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -50286,7 +50373,7 @@
           "source_kind": "government_recipe_page",
           "access_status": "opened",
           "evidence_tier": 1,
-          "evidence_locator": "官方页面：60人份；白米/糙米、三色豆、豆腐、蛋丝和蔬菜；米先煮熟，再慢火焗制并按来源完成分段流程",
+          "evidence_locator": "官方页面第41至86行：60人分量；鸡蛋17只、杂菜粒1磅、芥兰（切粒）3斤、豆腐5砖、白米12杯、红米2杯、粟米油3汤匙、盐3茶匙；清水适量；白米/红米先入电饭煲煮熟，再把配料慢火焗熟",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -50298,7 +50385,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "香港卫生署官方三色豆豆腐红米饭；营养角色完整但流程为机构大批量分段，研究期不晋升 executable。"
+      "evidence_notes": "香港卫生署官方三色豆豆腐红米饭；原页明确60人份及鸡蛋17只、杂菜粒1磅、芥兰3斤、豆腐5砖、白米12杯、红米2杯、粟米油3汤匙、盐3茶匙。清水仅写适量，不建立liquid_contract；米先在电饭煲煮熟，再把配料慢火焗熟，保留机构大批量与先煮后焗边界，研究期不晋升 executable。"
     },
     {
       "recipe_id": "dongtai-salted-pork-daylily-rice",
