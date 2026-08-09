@@ -13,7 +13,7 @@ const expected = [
 ];
 
 test('r188 closes two directly evidenced raw-crab safety gaps with visual endpoints', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r207');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r208');
   for (const recipeId of expected) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);

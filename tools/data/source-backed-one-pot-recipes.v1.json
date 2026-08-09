@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r207",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r208",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -62057,7 +62057,15 @@
           "S-MAFF-BEEF-MUSHROOM-YOLK-R62"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -62095,10 +62103,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: the project conservative mixed-rice beef endpoint is 71°C; the MAFF source places raw thin-sliced beef over the cooked rice and steams it covered for 10 minutes."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "r167补回MAFF和ごはん原页2人份、七项定量材料和约45分钟；水按电饭锅刻度加入，生薄牛肉在炊饭后焖10分钟，安全终点仍为空。"
+      "evidence_notes": "r167补回MAFF和ごはん原页2人份、七项定量材料和约45分钟；水按电饭锅刻度加入，生薄牛肉在炊饭后焖10分钟。r208安全闭合：按项目保守牛肉混合米饭71°C终点挂FoodSafety.gov；保留牛肉后投与余温焖制边界，不把水位刻度改写成毫升合同。"
     },
     {
       "recipe_id": "maff-satoimo-rice",
@@ -87553,7 +87577,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -87598,10 +87630,26 @@
           ],
           "attribution": "Panasonic Cooking Taiwan",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: the project conservative mixed-rice beef endpoint is 71°C; the Panasonic source explicitly places raw beef belly slices over the rice for the SR-PAA100 cooking cycle."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic台湾官方详情页直接给出约2人份牛丼洋葱炊饭、米/牛五花/鸿喜菇/洋葱用量、SR-PAA100银シャリ水位线1和生牛肉同锅炊煮流程；未给总时间或牛肉安全终点，保持研究状态。该授权配方不证明传统日本牛丼身份，也不把型号水位线外推为通用电饭煲比例。"
+      "evidence_notes": "Panasonic台湾官方详情页直接给出约2人份牛丼洋葱炊饭、米/牛五花/鸿喜菇/洋葱用量、SR-PAA100银シャリ水位线1和生牛肉同锅炊煮流程；未给总时间，time_contract保持null。r208安全闭合：按项目保守牛肉混合米饭71°C终点挂FoodSafety.gov；保留型号水位线和生牛肉铺面同锅边界，不外推普通电饭煲比例。该授权配方不证明传统日本牛丼身份。"
     },
     {
       "recipe_id": "kashgar-nowruz-rice",

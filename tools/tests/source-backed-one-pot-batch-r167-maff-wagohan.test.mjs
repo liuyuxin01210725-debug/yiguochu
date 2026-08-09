@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
 test('r167 closes the same-source MAFF beef mushroom yolk fixed batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r207');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r208');
   assert.equal(catalog.recipes.length, 923);
   const recipe = byId['maff-beef-mushroom-yolk-rice'];
   assert.ok(recipe);
@@ -37,6 +37,10 @@ test('r167 closes the same-source MAFF beef mushroom yolk fixed batch', () => {
 test('r167 preserves the source-specific water and safety boundaries', () => {
   const recipe = byId['maff-beef-mushroom-yolk-rice'];
   assert.equal(recipe?.liquid_contract, null);
-  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'beef_fully_cooked',
+    minimum_core_temperature_c: 71,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
   assert.equal(byId['maff-air-buri-daikon-daikon-meshi']?.fixed_batch, null);
 });
