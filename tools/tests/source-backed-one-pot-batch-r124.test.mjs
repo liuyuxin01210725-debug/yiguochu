@@ -55,9 +55,10 @@ const expected = [
     vessel: /Philips HD4777\/HD4775/u,
   },
 ];
+const executableIds = new Set(['instant-pot-chicken-satay-rice']);
 
 test('r124 adds eight official manufacturer rice main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -65,13 +66,13 @@ test('r124 adds eight official manufacturer rice main candidates', () => {
     const recipe = byId.get(item.recipeId);
     assert.ok(recipe, item.recipeId);
     assert.equal(recipe.canonical_name, item.name, item.recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', item.recipeId);
+    assert.equal(recipe.status, executableIds.has(item.recipeId) ? 'executable' : 'recipe_fact_checked', item.recipeId);
     assert.equal(recipe.identity_status, 'verified', item.recipeId);
     assert.equal(recipe.region_codes.length, 0, item.recipeId);
     assert.match(recipe.traditional_vessels.join(' '), item.vessel, item.recipeId);
     assert.ok(recipe.core_ingredients.length >= 3, item.recipeId);
     assert.ok(recipe.cooking_sequence.length >= 2, item.recipeId);
-    assert.notEqual(recipe.status, 'executable', item.recipeId);
+    if (!executableIds.has(item.recipeId)) assert.notEqual(recipe.status, 'executable', item.recipeId);
     assert.notEqual(recipe.status, 'preview_ready', item.recipeId);
 
     const source = recipe.source_refs.find((candidate) => candidate.url === item.url);

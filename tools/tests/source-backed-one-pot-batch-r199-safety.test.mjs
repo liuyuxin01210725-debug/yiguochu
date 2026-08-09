@@ -12,15 +12,16 @@ const expectedIds = [
   'tamu-turkey-burrito-bowl',
   'usu-salsa-verde-chicken-rice',
 ];
+const executableIds = new Set(['tamu-turkey-burrito-bowl']);
 
 test('r199 closes five directly evidenced global poultry safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
 
   for (const recipeId of expectedIds) {
     const recipe = byId.get(recipeId);
     assert.ok(recipe, recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
+    assert.equal(recipe.status, executableIds.has(recipeId) ? 'executable' : 'recipe_fact_checked', recipeId);
     assert.deepEqual(recipe.safety_endpoints, [{
       code: 'poultry_fully_cooked',
       minimum_core_temperature_c: 74,
@@ -31,7 +32,7 @@ test('r199 closes five directly evidenced global poultry safety gaps', () => {
     assert.equal(safetySource.access_status, 'opened', recipeId);
     assert.equal(safetySource.evidence_tier, 1, recipeId);
     assert.deepEqual(safetySource.claim_scopes, ['safety'], recipeId);
-    assert.ok(!['approved', 'auto_approved', 'executable', 'preview_ready'].includes(recipe.status), recipeId);
+    if (!executableIds.has(recipeId)) assert.ok(!['approved', 'auto_approved', 'executable', 'preview_ready'].includes(recipe.status), recipeId);
   }
 });
 

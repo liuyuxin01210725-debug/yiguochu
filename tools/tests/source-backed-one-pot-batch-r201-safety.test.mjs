@@ -11,15 +11,16 @@ const expectedIds = [
   'cdph-calfresh-chicken-rice',
   'wisconsin-polk-arroz-con-pollo',
 ];
+const executableIds = new Set(['instant-pot-chicken-satay-rice']);
 
 test('r201 closes five directly evidenced public-institution poultry gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
 
   for (const recipeId of expectedIds) {
     const recipe = byId.get(recipeId);
     assert.ok(recipe, recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
+    assert.equal(recipe.status, executableIds.has(recipeId) ? 'executable' : 'recipe_fact_checked', recipeId);
     assert.deepEqual(recipe.safety_endpoints, [{
       code: 'poultry_fully_cooked',
       minimum_core_temperature_c: 74,

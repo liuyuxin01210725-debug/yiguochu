@@ -15,9 +15,10 @@ const expected = {
   'zojirushi-brown-rice-ih-pot': ['poultry_fully_cooked', 74],
   'panasonic-chicken-vegetable-rice': ['poultry_fully_cooked', 74],
 };
+const executableIds = new Set(['tiger-pork-bamboo-rice']);
 
 test('r157 closes only high-confidence raw protein safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   for (const [recipeId, [code, temperature]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);
@@ -32,7 +33,7 @@ test('r157 closes only high-confidence raw protein safety gaps', () => {
     assert.equal(source.evidence_tier, 1, recipeId);
     assert.match(source.evidence_locator, /lamb|pork|poultry|beef|牛|猪|鸡|贝类|扇贝|scallop|鱼/i, recipeId);
     assert.deepEqual(source.claim_scopes, ['safety'], recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
+    assert.equal(recipe.status, executableIds.has(recipeId) ? 'executable' : 'recipe_fact_checked', recipeId);
   }
 });
 

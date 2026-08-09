@@ -11,7 +11,7 @@ const expected = [
 
 test('r84 registers two new directly sourced named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -27,9 +27,9 @@ test('r84 registers two new directly sourced named candidates without promotion'
   }
 
   const counts = Object.groupBy(catalog.recipes, recipe => recipe.status);
-  assert.equal(counts.recipe_fact_checked.length, 794);
+  assert.equal(counts.recipe_fact_checked.length, 779);
   assert.equal(counts.identity_verified.length, 100);
-  assert.equal(counts.executable.length, 12);
+  assert.equal(counts.executable.length, 27);
   assert.equal(counts.discovered.length, 17);
 });
 

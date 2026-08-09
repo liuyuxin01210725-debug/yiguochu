@@ -14,14 +14,15 @@ const expected = {
   'maff-yamanashi-sanma-meshi': { code: 'seafood_fully_cooked', temperature: 63, locator: /63|fish|秋刀鱼/u },
   'tatung-salmon-pumpkin-milk-risotto': { code: 'seafood_fully_cooked', temperature: 63, locator: /63|fish|salmon|三文鱼/u },
 };
+const executableIds = new Set(['tatung-salmon-pumpkin-milk-risotto']);
 
 test('r161 closes five directly evidenced raw poultry and fish safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   for (const [recipeId, expectedEndpoint] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);
-    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
-    assert.notEqual(recipe.status, 'executable', recipeId);
+    assert.equal(recipe.status, executableIds.has(recipeId) ? 'executable' : 'recipe_fact_checked', recipeId);
+    if (!executableIds.has(recipeId)) assert.notEqual(recipe.status, 'executable', recipeId);
     const endpoint = recipe.safety_endpoints.find(row => row.code === expectedEndpoint.code);
     assert.ok(endpoint, `${recipeId} missing ${expectedEndpoint.code}`);
     assert.equal(endpoint.minimum_core_temperature_c, expectedEndpoint.temperature, recipeId);

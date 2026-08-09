@@ -22,23 +22,24 @@ const expected = [
     'https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/keema-curry-with-chickpeas/',
   ],
 ];
+const executableIds = new Set(['tiger-usa-century-egg-fish-porridge']);
 
 test('r113 adds three directly sourced Tiger one-pot candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, url] of expected) {
     const recipe = byId.get(recipeId);
     assert.ok(recipe, recipeId);
     assert.equal(recipe.canonical_name, name, recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', recipeId);
+    assert.equal(recipe.status, executableIds.has(recipeId) ? 'executable' : 'recipe_fact_checked', recipeId);
     assert.equal(recipe.identity_status, 'verified', recipeId);
     assert.ok(Array.isArray(recipe.core_ingredients) && recipe.core_ingredients.length >= 3, recipeId);
     assert.ok(Array.isArray(recipe.cooking_sequence) && recipe.cooking_sequence.length >= 3, recipeId);
     assert.ok(recipe.source_refs.some((source) => source.url === url), recipeId);
     assert.ok(recipe.source_refs.every((source) => source.access_status === 'opened'), recipeId);
     assert.ok(recipe.source_refs.every((source) => Number.isInteger(source.evidence_tier)), recipeId);
-    assert.notEqual(recipe.status, 'executable', recipeId);
+    if (!executableIds.has(recipeId)) assert.notEqual(recipe.status, 'executable', recipeId);
   }
 });
 

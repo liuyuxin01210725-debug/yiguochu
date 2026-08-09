@@ -31,14 +31,15 @@ const expected = {
     locator: /fish 145°F \/ 63°C minimum internal temperature/u,
   },
 };
+const executableIds = new Set(['tiger-steak-mushroom-barley-rice']);
 
 test('r150 closes five existing raw pork, beef, and fish safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
     assert.ok(recipe, `missing ${id}`);
-    assert.equal(recipe.status, 'recipe_fact_checked');
+    assert.equal(recipe.status, executableIds.has(id) ? 'executable' : 'recipe_fact_checked');
     assert.deepEqual(recipe.safety_endpoints, [{
       code: expectedEndpoint.code,
       minimum_core_temperature_c: expectedEndpoint.temperature,
@@ -61,6 +62,6 @@ test('r150 keeps staged and model-scoped process boundaries visible', () => {
   assert.match(catalogById['philips-japanese-wagyu-beef-rice-bowl'].cooker_adaptation.notes, /倒数5分钟/u);
   assert.match(catalogById['panasonic-taiwan-salmon-mushroom-rice'].cooker_adaptation.notes, /SR-PAA100/u);
   for (const id of Object.keys(expected)) {
-    assert.notEqual(catalogById[id].status, 'executable');
+    if (!executableIds.has(id)) assert.notEqual(catalogById[id].status, 'executable');
   }
 });

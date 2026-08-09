@@ -42,9 +42,10 @@ const expected = [
     adaptation: 'source_limited',
   },
 ];
+const executableIds = new Set(['tamu-turkey-burrito-bowl']);
 
 test('r128 adds five directly evidenced global rice-main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -52,9 +53,9 @@ test('r128 adds five directly evidenced global rice-main candidates', () => {
     const recipe = byId.get(item.recipeId);
     assert.ok(recipe, item.recipeId);
     assert.equal(recipe.canonical_name, item.name, item.recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', item.recipeId);
+    assert.equal(recipe.status, executableIds.has(item.recipeId) ? 'executable' : 'recipe_fact_checked', item.recipeId);
     assert.equal(recipe.identity_status, 'verified', item.recipeId);
-    assert.notEqual(recipe.status, 'executable', item.recipeId);
+    if (!executableIds.has(item.recipeId)) assert.notEqual(recipe.status, 'executable', item.recipeId);
     assert.notEqual(recipe.status, 'preview_ready', item.recipeId);
     assert.ok(recipe.core_ingredients.length >= 3, item.recipeId);
     assert.ok(recipe.cooking_sequence.length >= 2, item.recipeId);
@@ -113,6 +114,6 @@ test('r128 candidates remain source assets, never automatic promotions', () => {
   for (const item of expected) {
     const recipe = byId.get(item.recipeId);
     assert.match(recipe.evidence_notes, /来源|官方|普通锅|电压力锅|慢炖锅|重锅/u, item.recipeId);
-    assert.ok(!['approved', 'auto_approved', 'executable', 'preview_ready'].includes(recipe.status), item.recipeId);
+    if (!executableIds.has(item.recipeId)) assert.ok(!['approved', 'auto_approved', 'executable', 'preview_ready'].includes(recipe.status), item.recipeId);
   }
 });

@@ -25,14 +25,15 @@ const expected = {
     locator: /shellfish\/seafood fully cooked.*165°F \/ 74°C/u,
   },
 };
+const executableIds = new Set(['hk-pumpkin-taro-chicken-claypot-rice', 'hk-taro-shrimp-multigrain-steamed-rice']);
 
 test('r149 closes four existing safety gaps with the shared official endpoint', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
     assert.ok(recipe, `missing ${id}`);
-    assert.equal(recipe.status, 'recipe_fact_checked');
+    assert.equal(recipe.status, executableIds.has(id) ? 'executable' : 'recipe_fact_checked');
     assert.deepEqual(recipe.safety_endpoints, [{
       code: expectedEndpoint.code,
       minimum_core_temperature_c: expectedEndpoint.minimum_core_temperature_c,

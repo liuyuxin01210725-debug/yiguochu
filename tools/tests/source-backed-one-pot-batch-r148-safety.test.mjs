@@ -10,6 +10,7 @@ const ids = [
   'jp-hiroshima-kakimeshi',
   'jp-shiga-amenoio-gohan',
 ];
+const executableIds = new Set(['tiger-chicken-bamboo-rice', 'tiger-whitefish-mixed-rice', 'tiger-chinese-sticky-rice']);
 
 const expected = {
   'tiger-chicken-bamboo-rice': {
@@ -35,12 +36,12 @@ const expected = {
 };
 
 test('r148 adds only source-backed safety endpoints to the five audited recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   for (const id of ids) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
     assert.ok(recipe, `missing ${id}`);
-    assert.equal(recipe.status, 'recipe_fact_checked');
+    assert.equal(recipe.status, executableIds.has(id) ? 'executable' : 'recipe_fact_checked');
     assert.deepEqual(recipe.safety_endpoints, [{
       ...expected[id],
       source_ids: ['S-SAFETY-TEMPERATURES-1'],

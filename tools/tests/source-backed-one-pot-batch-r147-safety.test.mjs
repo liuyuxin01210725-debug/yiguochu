@@ -10,14 +10,15 @@ const ids = [
   'joyoung-pumpkin-shiitake-chicken-rice',
   'instant-pot-coconut-chicken-pineapple-rice',
 ];
+const executableIds = new Set(['panasonic-claypot-style-chicken-rice']);
 
 test('r147 keeps the catalog size and records the five-source safety batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   for (const id of ids) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
     assert.ok(recipe, `missing ${id}`);
-    assert.equal(recipe.status, 'recipe_fact_checked');
+    assert.equal(recipe.status, executableIds.has(id) ? 'executable' : 'recipe_fact_checked');
     assert.deepEqual(recipe.safety_endpoints, [{
       code: 'poultry_fully_cooked',
       minimum_core_temperature_c: 74,

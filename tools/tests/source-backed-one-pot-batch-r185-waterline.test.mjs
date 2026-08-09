@@ -5,9 +5,10 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 
 test('r185 records four existing model-scoped waterline contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(item => [item.recipe_id, item]));
+  const executableIds = new Set(['tatung-paella-style-seafood-rice']);
   const expected = [
     ['tatung-hainan-chicken-rice', { kind: 'waterline', waterline: { appliance_model: '大同電鍋', scale: '内锅水位线', mark: 2 }, source_ids: ['S-TATUNG-HAINAN-CHICKEN-RICE-1'] }, /水位线2|保存鸡汤/u],
     ['tatung-paella-style-seafood-rice', { kind: 'waterline', waterline: { appliance_model: '大同電鍋', scale: '内锅水位线', mark: '2至3' }, source_ids: ['S-TATUNG-PAELLA-SEAFOOD-RICE-1'] }, /水位线2至3|贝类先蒸/u],
@@ -17,13 +18,13 @@ test('r185 records four existing model-scoped waterline contracts', () => {
   for (const [id, contract, locator] of expected) {
     const recipe = byId.get(id);
     assert.ok(recipe, id);
-    assert.equal(recipe.status, 'recipe_fact_checked', id);
+    assert.equal(recipe.status, executableIds.has(id) ? 'executable' : 'recipe_fact_checked', id);
     assert.deepEqual(recipe.liquid_contract, contract, id);
     const source = recipe.source_refs?.find(item => item.source_id === contract.source_ids[0]);
     assert.ok(source, id);
     assert.ok(source.claim_scopes.includes('liquid'), id);
     assert.match(source.evidence_locator ?? '', locator, id);
-    assert.notEqual(recipe.status, 'executable', id);
+    if (!executableIds.has(id)) assert.notEqual(recipe.status, 'executable', id);
   }
 });
 

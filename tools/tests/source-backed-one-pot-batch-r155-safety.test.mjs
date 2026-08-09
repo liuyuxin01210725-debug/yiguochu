@@ -27,14 +27,15 @@ const expected = {
     ['shellfish_fully_cooked', 74, /shellfish|贝类|蚝|oyster/i],
   ],
 };
+const executableIds = new Set(['tatung-salmon-pumpkin-milk-risotto', 'tatung-seafood-porridge']);
 
 test('r155 closes six existing seafood and poultry safety gaps without adding recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r202');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, endpoints] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
     assert.ok(recipe, `missing ${id}`);
-    assert.equal(recipe.status, 'recipe_fact_checked');
+    assert.equal(recipe.status, executableIds.has(id) ? 'executable' : 'recipe_fact_checked');
     assert.deepEqual(recipe.safety_endpoints.map(({ code, minimum_core_temperature_c }) => [code, minimum_core_temperature_c]), endpoints.map(([code, temperature]) => [code, temperature]));
     const source = recipe.source_refs.find(({ source_id: sourceId }) => sourceId === 'S-SAFETY-TEMPERATURES-1');
     assert.ok(source, `${id} lacks FoodSafety.gov source`);
@@ -55,5 +56,7 @@ test('r155 preserves source-specific pre-processing and leaves ambiguous raw sta
   assert.deepEqual(byId['panasonic-tokyo-seafood-pilaf'].safety_endpoints, []);
   assert.deepEqual(byId['panasonic-my-chicken-pumpkin-lotus-mixed-rice'].safety_endpoints, []);
   assert.deepEqual(byId['yutian-electric-cooker-lamb-pilaf'].safety_endpoints, []);
-  for (const id of Object.keys(expected)) assert.notEqual(byId[id].status, 'executable');
+  for (const id of Object.keys(expected)) {
+    if (!executableIds.has(id)) assert.notEqual(byId[id].status, 'executable');
+  }
 });
