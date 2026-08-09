@@ -13,7 +13,7 @@ const expected = [
 ];
 
 test('r249 closes two directly evidenced fixed-batch poultry safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r251');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
   assert.equal(catalog.recipes.length, 923);
   for (const recipeId of expected) {
     const recipe = byId[recipeId];

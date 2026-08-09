@@ -37,7 +37,7 @@ const expected = [
 ];
 
 test('r131 integrates only directly evidenced global public candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r251');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

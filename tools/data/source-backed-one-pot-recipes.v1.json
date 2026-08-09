@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r251",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r252",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -55205,7 +55205,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "shellfish_fully_cooked",
+          "visual_endpoint": "肉质呈珍珠白或白色且不透明",
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -55236,10 +55244,26 @@
           ],
           "attribution": "台湾农业部农粮署食农教育电子书",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: shrimp, lobster, crab, and scallops cook until flesh is pearly or white and opaque; apply a final visual check after the source's pre-steaming and continued steaming steps.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "农粮署页面支持具名、米与配料用量、120克水及炒料后分段蒸制；未提供成品份数、完整总时间和蟹类安全终点，保持研究状态。"
+      "evidence_notes": "农粮署页面支持具名、米与配料用量、120克水及炒料后分段蒸制；螃蟹先蒸7至8分钟并在米糕上继续蒸，现挂FoodSafety.gov蟹肉珍珠白/不透明的视觉终点。成品份数和完整总时间仍缺，保持蒸锅/电锅分段边界，不晋升executable。"
     },
     {
       "recipe_id": "r58-taiwan-preserved-egg-pork-congee",

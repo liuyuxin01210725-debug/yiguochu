@@ -1530,7 +1530,6 @@
 - 香菇油飯 (r97-panasonic-taiwan-shiitake-oil-rice) — TW
 - 羅宋湯飯 (afa-ebook9-roselle-soup-rice) — TW
 - 蛤蜊青菜湯飯 (afa-ebook9-clam-greens-soup-rice) — TW
-- 紅蟳米糕 (r58-taiwan-red-crab-glutinous-rice) — TW
 - 芋頭鹹粥 (r106-tw-taro-salted-congee) — TW
 - 南瓜飯 (r58-taiwan-afa-pumpkin-rice) — TW
 - 養生糙米飯 (taiwan-moa-healthy-brown-rice) — TW

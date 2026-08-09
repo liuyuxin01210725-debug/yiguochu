@@ -12,7 +12,7 @@ function ingredient(name) {
 }
 
 test('r238 closes the exact 60-person StartSmart institutional batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r251');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');

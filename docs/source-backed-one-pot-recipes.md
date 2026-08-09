@@ -2083,7 +2083,7 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 筒仔米糕 | — | TW | taiwan-steamed-glutinous-rice | 研究记录（非公开可执行） | 长糯米；猪绞肉；金钩虾；香菇；红葱头 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [筒仔米糕](https://kids.moa.gov.tw/theme_data.php?theme=kids_cooking&id=288)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 紅蟳米糕 | 红蟳米糕 | TW | taiwan-steamed-glutinous-rice | 研究记录（非公开可执行） | 长糯米；圆糯米；紅蟳；猪肉；虾米；香菇；红葱头 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [紅蟳米糕](https://ebook.afa.gov.tw/tefd/ebook7/ebook7-1.html) |
+| 紅蟳米糕 | 红蟳米糕 | TW | taiwan-steamed-glutinous-rice | 研究记录（非公开可执行） | 长糯米；圆糯米；紅蟳；猪肉；虾米；香菇；红葱头 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [紅蟳米糕](https://ebook.afa.gov.tw/tefd/ebook7/ebook7-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-taro-salted-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

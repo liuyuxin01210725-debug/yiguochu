@@ -3,17 +3,17 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
-const recipe = catalog.recipes.find((item) => item.recipe_id === 'knorr-electric-rice-cooker-egg-mushroom-beef-rice');
+const recipe = catalog.recipes.find((item) => item.recipe_id === 'r58-taiwan-red-crab-glutinous-rice');
 
-test('r251 closes the directly evidenced ground-beef safety gap', () => {
+test('r252 closes the directly evidenced red-crab safety gap', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
   assert.deepEqual(recipe.safety_endpoints, [
     {
-      code: 'beef_fully_cooked',
-      minimum_core_temperature_c: 71,
+      code: 'shellfish_fully_cooked',
+      visual_endpoint: '肉质呈珍珠白或白色且不透明',
       source_ids: ['S-SAFETY-TEMPERATURES-1']
     }
   ]);
@@ -24,12 +24,13 @@ test('r251 closes the directly evidenced ground-beef safety gap', () => {
   assert.equal(safety.evidence_tier, 1);
 });
 
-test('r251 keeps the post-cook egg and electric-cooker boundaries explicit', () => {
+test('r252 preserves the staged steaming and non-executable boundaries', () => {
   assert.ok(recipe);
-  assert.match(recipe.cooker_adaptation.notes, /后投牛肉|窝蛋/u);
-  assert.match(recipe.cooking_sequence.map((step) => step.instruction).join(' '), /跳掣前约5分钟|再焗约10分钟/u);
-  assert.equal(recipe.liquid_contract, null);
+  const steps = recipe.cooking_sequence.map((step) => step.instruction).join(' ');
+  assert.match(steps, /先蒸7至8分钟/u);
+  assert.match(steps, /继续蒸/u);
   assert.equal(recipe.time_contract, null);
-  assert.equal(recipe.cooker_adaptation.status, 'source_limited');
+  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.cooker_adaptation.status, 'not_adapted');
   assert.equal('executable' in recipe, false);
 });
