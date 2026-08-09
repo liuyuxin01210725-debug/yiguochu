@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r240",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r241",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -50279,7 +50279,12 @@
           ]
         }
       ],
-      "time_contract": null,
+      "time_contract": {
+        "total_minutes": 60,
+        "source_ids": [
+          "S-HAD-HOME-RECIPE-VEGETABLE-PULAO-1"
+        ]
+      },
       "safety_endpoints": [],
       "allergen_labels": [],
       "nutrition_structure": {
@@ -50317,7 +50322,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "香港官方家庭食谱PDF中的具名蔬菜pulao；过程与水量有来源，但蛋白不足且器具为锅煮，作为研究候选保存。"
+      "evidence_notes": "香港官方家庭食谱PDF中的具名蔬菜pulao；同一页给出4至6人份、约4至6杯水、约30至45分钟煮制及总时长约60分钟，因此只回填明确的总时长60分钟，不把范围压成单值。蛋白不足且器具为锅煮，继续作为研究候选保存。"
     },
     {
       "recipe_id": "startsmart-three-bean-egg-tofu-red-rice",

@@ -13,7 +13,7 @@ const ingredient = (recipe, name) => {
 
 test('r240 closes Bubur Lambuk exact yield and ground-beef safety', () => {
   const recipe = byId['sg-healthhub-bubur-lambuk'];
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r240');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r241');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
