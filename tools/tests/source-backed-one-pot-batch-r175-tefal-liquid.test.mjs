@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tefal-602-chicken-pea-risotto');
 
 test('r175 records the TEFAL602 chicken pea risotto stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r213');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -15,7 +15,7 @@ test('r175 records the TEFAL602 chicken pea risotto stock contract', () => {
     amount: { value: 650, unit: 'mL鸡高汤' },
     source_ids: ['S-R76-TEFAL602-CHICKEN-PEA-RISOTTO'],
   });
-  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.fixed_batch?.servings, 4);
   assert.equal(recipe.time_contract, null);
   assert.equal(recipe.cooker_adaptation?.status, 'source_limited');
   assert.match(recipe.cooker_adaptation?.notes ?? '', /TEFAL602|熟鸡肉|平底锅/u);

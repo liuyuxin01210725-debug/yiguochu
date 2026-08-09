@@ -14,7 +14,7 @@ const expected = [
 
 test('r76 records five direct manufacturer rice-meal candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r213');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName] of expected) {
@@ -47,7 +47,7 @@ test('r76 preserves manufacturer, PDF, staged-process, and cooked-protein bounda
   for (const recipeId of expected.slice(2).map(([id]) => id)) {
     assert.equal(byId.get(recipeId)?.cooker_adaptation?.status, 'source_limited', recipeId);
   }
-  assert.equal(byId.get('tefal-602-chicken-pea-risotto')?.fixed_batch, null);
-  assert.equal(byId.get('tefal-602-smoked-haddock-kedgeree')?.fixed_batch, null);
-  assert.equal(byId.get('tefal-602-seafood-paella')?.fixed_batch, null);
+  assert.equal(byId.get('tefal-602-chicken-pea-risotto')?.fixed_batch?.servings, 4);
+  assert.equal(byId.get('tefal-602-smoked-haddock-kedgeree')?.fixed_batch?.servings, 4);
+  assert.equal(byId.get('tefal-602-seafood-paella')?.fixed_batch?.servings, 4);
 });

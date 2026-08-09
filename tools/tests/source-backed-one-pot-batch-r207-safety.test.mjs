@@ -13,7 +13,7 @@ const expected = {
 };
 
 test('r207 closes two directly evidenced raw-chicken safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r213');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
   assert.equal(catalog.recipes.length, 923);
 
   for (const [recipeId, note] of Object.entries(expected)) {

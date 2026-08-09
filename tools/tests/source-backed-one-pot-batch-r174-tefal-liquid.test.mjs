@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tefal-602-seafood-paella');
 
 test('r174 records the TEFAL602 seafood paella fish-stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r213');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -15,7 +15,7 @@ test('r174 records the TEFAL602 seafood paella fish-stock contract', () => {
     amount: { value: 500, unit: 'mL鱼高汤' },
     source_ids: ['S-R76-TEFAL602-SEAFOOD-PAELLA'],
   });
-  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.fixed_batch?.servings, 4);
   assert.equal(recipe.time_contract, null);
   assert.equal(recipe.cooker_adaptation?.status, 'source_limited');
   assert.match(recipe.cooker_adaptation?.notes ?? '', /TEFAL602|分阶段|PDF/u);

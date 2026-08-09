@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r213",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r214",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -81956,7 +81956,54 @@
         "大蒜",
         "帕玛森奶酪"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "Arborio米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-CHICKEN-PEA-RISOTTO"
+            ]
+          },
+          {
+            "name": "鸡高汤",
+            "amount": {
+              "value": 650,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-CHICKEN-PEA-RISOTTO"
+            ]
+          },
+          {
+            "name": "熟鸡肉",
+            "amount": {
+              "value": 250,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-CHICKEN-PEA-RISOTTO"
+            ]
+          },
+          {
+            "name": "豌豆",
+            "amount": {
+              "value": 75,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-CHICKEN-PEA-RISOTTO"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R76-TEFAL602-CHICKEN-PEA-RISOTTO"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_chicken_stock",
         "amount": {
@@ -82035,7 +82082,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "TEFAL602官方PDF具名 Chicken & Pea Risotto。来源支持平底锅预处理、Arborio米与鸡高汤、熟鸡肉和豌豆后加；PDF需完成本地归档，且熟鸡肉安全边界和其他型号适配尚未闭合，保留 source_limited，不进入 executable。"
+      "evidence_notes": "TEFAL602官方PDF具名 Chicken & Pea Risotto；同源页面明确4人份、Arborio米300g、鸡高汤650mL、熟鸡肉250g和豌豆75g，已回填固定批次。平底锅预处理、熟鸡肉后加、PDF归档、其他型号适配和 executable 边界均保持不变。"
     },
     {
       "recipe_id": "tefal-602-smoked-haddock-kedgeree",
@@ -82059,7 +82106,44 @@
         "煮熟鸡蛋",
         "欧芹"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "印度香米",
+            "amount": {
+              "value": 250,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SMOKED-HADDOCK-KEDGEREE"
+            ]
+          },
+          {
+            "name": "烟熏黑线鳕",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SMOKED-HADDOCK-KEDGEREE"
+            ]
+          },
+          {
+            "name": "高汤",
+            "amount": {
+              "value": 400,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SMOKED-HADDOCK-KEDGEREE"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R76-TEFAL602-SMOKED-HADDOCK-KEDGEREE"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_stock",
         "amount": {
@@ -82139,7 +82223,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "TEFAL602官方PDF具名 Smoked Haddock Kedgeree。来源支持烟熏黑线鳕、米、高汤和香料的锅内流程，煮熟鸡蛋需另行准备；PDF归档和鱼类安全终点尚未闭合，保留 source_limited，不进入 executable。"
+      "evidence_notes": "TEFAL602官方PDF具名 Smoked Haddock Kedgeree；同源页面明确4人份、印度香米250g、烟熏黑线鳕300g和高汤400mL，已回填固定批次。煮熟鸡蛋仍需另行准备，PDF归档、鱼类安全终点和其他型号适配尚未闭合，不进入 executable。"
     },
     {
       "recipe_id": "tefal-602-seafood-paella",
@@ -82165,7 +82249,54 @@
         "番茄",
         "欧芹"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "Paella米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SEAFOOD-PAELLA"
+            ]
+          },
+          {
+            "name": "鱼高汤",
+            "amount": {
+              "value": 500,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SEAFOOD-PAELLA"
+            ]
+          },
+          {
+            "name": "海鲜混合",
+            "amount": {
+              "value": 250,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SEAFOOD-PAELLA"
+            ]
+          },
+          {
+            "name": "豌豆",
+            "amount": {
+              "value": 75,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R76-TEFAL602-SEAFOOD-PAELLA"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R76-TEFAL602-SEAFOOD-PAELLA"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_broth",
         "amount": {
@@ -82246,7 +82377,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "TEFAL602官方PDF具名 Seafood Paella。来源支持海鲜、Paella米、鱼高汤和蔬菜的分阶段流程；PDF归档与海鲜安全终点尚未闭合，其他版本不拼接液体或贻贝处理，不进入 executable。"
+      "evidence_notes": "TEFAL602官方PDF具名 Seafood Paella；同源页面明确4人份、Paella米300g、鱼高汤500mL、海鲜混合250g和豌豆75g，已回填固定批次。海鲜分阶段投料、PDF归档、安全终点、其他型号适配和 executable 边界保持原状。"
     },
     {
       "recipe_id": "tiger-corn-rice",
