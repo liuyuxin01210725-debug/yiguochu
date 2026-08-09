@@ -15,7 +15,7 @@ function ingredient(recipe, name) {
 }
 
 test('r159 closes Tiger Takikomi fixed batch and model-scoped waterline only', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r225');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r226');
   const recipe = byId['tiger-takikomi-gohan'];
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r225",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r226",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -68431,7 +68431,74 @@
         "酱油",
         "糖"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 10,
+        "ingredients": [
+          {
+            "name": "岩海苔",
+            "amount": {
+              "value": 1,
+              "unit": "至2枚"
+            },
+            "source_ids": [
+              "S-MAFF-KOCHI-KOSHIMESHI-1"
+            ]
+          },
+          {
+            "name": "米",
+            "amount": {
+              "value": 750,
+              "unit": "g（5合）"
+            },
+            "source_ids": [
+              "S-MAFF-KOCHI-KOSHIMESHI-1"
+            ]
+          },
+          {
+            "name": "腌萝卜",
+            "amount": {
+              "value": 0.3333333333,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-MAFF-KOCHI-KOSHIMESHI-1"
+            ]
+          },
+          {
+            "name": "吻仔鱼",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-KOCHI-KOSHIMESHI-1"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-KOCHI-KOSHIMESHI-1"
+            ]
+          },
+          {
+            "name": "砂糖",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-KOCHI-KOSHIMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-KOCHI-KOSHIMESHI-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -68482,7 +68549,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "高知こうし饭是熟饭拌料的真实地方菜，保留为菜饭文化资产，明确不属于当前严格生米一锅候选。"
+      "evidence_notes": "高知こうし饭是熟饭拌料的真实地方菜；同一MAFF原页闭合10人份与岩海苔、米、腌萝卜、吻仔鱼、淡口酱油、砂糖的批次量。米先煮熟并冷却后拌料，不建立液体合同，也不属于当前严格生米一锅候选。"
     },
     {
       "recipe_id": "maff-kumamoto-mazemeshi",
@@ -68588,8 +68655,114 @@
         "香菇",
         "油揚げ"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 300,
+              "unit": "g（2合）"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "煮干",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "竹轮",
+            "amount": {
+              "value": 30,
+              "unit": "g（1/3根）"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 60,
+              "unit": "g（1/3根）"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "魔芋",
+            "amount": {
+              "value": 60,
+              "unit": "g（1/3枚）"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "香菇",
+            "amount": {
+              "value": 20,
+              "unit": "g（2枚）"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "油揚げ",
+            "amount": {
+              "value": 15,
+              "unit": "g（1枚）"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          },
+          {
+            "name": "青葱",
+            "amount": {
+              "value": 2,
+              "unit": "至3根"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 450,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-MAFF-TOKUSHIMA-IRIMESHI-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -68644,7 +68817,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "德岛いり饭与现有香川いりこ饭地域不同，独立登记；但来源流程明确为熟饭拌料，不进入严格生米一锅线。"
+      "evidence_notes": "德岛いり饭与现有香川いりこ饭地域不同，独立登记；同一MAFF原页闭合约4人份、米300g与炊饭用水450mL及具材量。来源流程明确为熟饭拌料，液体合同只指米的前段炊饭用水，不进入严格生米一锅线。"
     },
     {
       "recipe_id": "maff-tokushima-houhan",
@@ -69948,7 +70121,54 @@
         "盐",
         "水"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "糯米",
+            "amount": {
+              "value": 5,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-MAFF-ISHIKAWA-MITAMA-R65"
+            ]
+          },
+          {
+            "name": "黑豆",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-MAFF-ISHIKAWA-MITAMA-R65"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-ISHIKAWA-MITAMA-R65"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 3,
+              "unit": "至3.5杯"
+            },
+            "source_ids": [
+              "S-MAFF-ISHIKAWA-MITAMA-R65"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-ISHIKAWA-MITAMA-R65"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -69997,7 +70217,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "石川县金泽具名黑豆糯米饭；来源是分锅蒸制版本，不能把黑豆和生米按电饭煲水位自行拼接。"
+      "evidence_notes": "石川县金泽具名黑豆糯米饭；同一MAFF原页闭合4人份、糯米5杯、黑豆1杯、盐1小匙和浸豆用水3至3.5杯。来源是黑豆与糯米分锅蒸制版本，水仅登记在固定批次中作为浸泡用水，不建立电饭煲液体合同，也不能把黑豆和生米按电饭煲水位自行拼接。"
     },
     {
       "recipe_id": "maff-saga-kuri-okowa",
@@ -70019,7 +70239,44 @@
         "小豆",
         "盐"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "糯米",
+            "amount": {
+              "value": 400,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SAGA-KURI-OKOWA-R65"
+            ]
+          },
+          {
+            "name": "栗",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SAGA-KURI-OKOWA-R65"
+            ]
+          },
+          {
+            "name": "小豆",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SAGA-KURI-OKOWA-R65"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-SAGA-KURI-OKOWA-R65"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -70067,7 +70324,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "佐贺具名栗御饭；来源未给蒸制总时间、液体、电饭煲适配或安全终点，不转换为电饭煲配方。"
+      "evidence_notes": "佐贺具名栗御饭；同一MAFF原页闭合4人份、糯米400g、栗300g和小豆80g，盐仍为‘少々’不数值化。来源为糯米浸泡、小豆预煮后与栗混合蒸制，未给蒸制总时间、液体、电饭煲适配或安全终点，不转换为电饭煲配方。"
     },
     {
       "recipe_id": "maff-hiroshima-uomeshi",

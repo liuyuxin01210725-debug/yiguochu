@@ -29,7 +29,7 @@ const expected = {
 };
 
 test('r165 closes two exact MAFF fixed batches without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r225');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r226');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedBatch] of Object.entries(expected)) {
     const recipe = byId[recipeId];
