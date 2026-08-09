@@ -50,6 +50,24 @@ test('a chosen pantry card locks optional main ingredients to the items declared
   assert.equal(options.includes('香葱'), false, 'undeclared optional garnish cannot appear after card selection');
 });
 
+test('finish-only legacy generation contracts keep project variants in one vessel', () => {
+  for (const id of ['cabbage-tofu-braised-rice', 'broccoli-beef-braised-rice']) {
+    const recipe = lib.recipes.find(item => item.id === id);
+    assert.ok(recipe, `${id} fixture recipe exists`);
+    const selection = {
+      recipe,
+      family: lib.families.find(item => item.id === recipe.family_id),
+      ingredientAliases: lib.ingredient_aliases || {},
+      usedPantry: [...recipe.core_ingredients],
+      unusedPantry: [],
+      dislikes: [],
+    };
+    const grounding = buildRecipeGrounding(selection);
+    assert.match(grounding, /legacy 生成.*(?:白菜|西兰花).*同一口锅.*后段/u);
+    assert.match(grounding, /不得写.*锅外.*另起锅.*第二口锅/u);
+  }
+});
+
 test('portion repair scales all gram amounts proportionally for a four-serving main meal', () => {
   const meal = {
     ingredients: [
@@ -2547,6 +2565,7 @@ test('safety tail still repairs raw poultry pork shrimp and ordinary egg', () =>
   const rawCases = [
     { name: '鸡胸肉', aliases: { '鸡胸肉': '鸡肉' } },
     { name: '猪肉' },
+    { name: '猪肋排' },
     { name: '虾仁' },
     { name: '鸡蛋' },
   ];
@@ -4187,6 +4206,35 @@ test('generation uses the current supported DeepSeek model by default', async ()
   assert.equal(upstreamBodies.length, 1);
   assert.equal(upstreamBodies[0].model, 'deepseek-v4-flash');
   assert.deepEqual(upstreamBodies[0].thinking, { type:'disabled' });
+});
+
+test('generation accepts a trusted two-ingredient congee contract', async () => {
+  const recipe = groundedFixtureRecipe({
+    id: 'two-ingredient-congee',
+    family_id: 'family-rice-porridge',
+    name: '中式基础粥',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: [],
+    generation_optional_ingredients: [],
+    generation_liquid_ingredients: ['水'],
+    technique: ['大米和水同锅煮至绵软'],
+  });
+  const meal = generatedMeal({
+    dish_name: '中式基础粥',
+    ingredients: [
+      { name: '大米', grams: 100 },
+      { name: '水', grams: 1100 },
+    ],
+    steps: ['大米和水同锅煮至绵软即可。'],
+  });
+  const { response, body } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe]),
+    meal,
+    constraints: { pantry: ['大米', '水'] },
+  });
+  assert.equal(response.status, 200);
+  assert.equal(body.ingredients.length, 2);
+  assert.equal(body.base_recipe_id, 'two-ingredient-congee');
 });
 
 test('generation gives DeepSeek V4 enough time for a full grounded recipe response', async () => {

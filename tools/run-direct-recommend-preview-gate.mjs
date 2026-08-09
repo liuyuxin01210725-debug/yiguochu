@@ -13,7 +13,16 @@ export function percentile(values, percent) {
   return sorted[Math.min(sorted.length, rank) - 1];
 }
 
-function requestBody(journey) {
+function requestBody(journey, productFocus = 'legacy') {
+  if (productFocus === 'rice-meal-v1') {
+    return {
+      schema_version: 3,
+      product_focus: 'rice_meal',
+      servings: journey.servings,
+      pantry: journey.prefer_use,
+      dislikes: journey.dislikes,
+    };
+  }
   return {
     schema_version: 2,
     planner_version: 'pantry-planner-v2',
@@ -47,7 +56,11 @@ async function readJsonResponse(response, counters) {
   }
 }
 
-function selectedPlan(result) {
+function selectedPlan(result, productFocus = 'legacy') {
+  if (productFocus === 'rice-meal-v1') {
+    const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
+    return candidates.find(candidate => typeof candidate?.plan_token === 'string') || null;
+  }
   const candidates = Array.isArray(result?.candidate_plans) ? result.candidate_plans : [];
   return [result, ...candidates].find(candidate => (
     candidate?.generation_allowed === true
@@ -57,7 +70,8 @@ function selectedPlan(result) {
   )) || null;
 }
 
-function generationEnvelope(plan, journey) {
+function generationEnvelope(plan, journey, productFocus = 'legacy') {
+  if (productFocus === 'rice-meal-v1') return { plan_token: plan.plan_token };
   return {
     schema_version: 2,
     planner_version: plan.planner_version,
@@ -85,6 +99,10 @@ export async function runPreviewGate({
   if (!health || health.buildId !== buildId) throw new Error('build_id_mismatch');
   if (health.plannerRollout !== 'direct-recommend') throw new Error('planner_rollout_mismatch');
   if (health.generationMode !== 'deterministic') throw new Error('generation_mode_mismatch');
+  const productFocus = health.productFocus || 'legacy';
+  if (!['legacy', 'rice-meal-v1'].includes(productFocus)) {
+    throw new Error('product_focus_mismatch');
+  }
   if (healthCounters.bad_json || healthCounters.non_json
       || healthCounters.server_errors || healthCounters.http_errors) {
     throw new Error('preview_health_failed');
@@ -99,14 +117,14 @@ export async function runPreviewGate({
       fixtureResponse = await fetchImpl(`${base}/plan-meal`, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody(journey)),
+        body: JSON.stringify(requestBody(journey, productFocus)),
       });
     } catch (_error) {
       counters.server_errors += 1;
       continue;
     }
     const fixtureBody = await readJsonResponse(fixtureResponse, counters);
-    const selected = selectedPlan(fixtureBody);
+    const selected = selectedPlan(fixtureBody, productFocus);
     if (!selected) continue;
     fixtureJourney = journey;
     fixturePlan = selected;
@@ -128,7 +146,7 @@ export async function runPreviewGate({
       response = await fetchImpl(`${base}/plan-meal`, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody(journey)),
+        body: JSON.stringify(requestBody(journey, productFocus)),
       });
     } catch (_error) {
       counters.server_errors += 1;
@@ -141,7 +159,7 @@ export async function runPreviewGate({
   }
 
   const generationLatencies = [];
-  const lockedEnvelope = generationEnvelope(fixturePlan, fixtureJourney);
+  const lockedEnvelope = generationEnvelope(fixturePlan, fixtureJourney, productFocus);
   for (let index = 0; index < total; index += 1) {
     const started = performance.now();
     let response;
@@ -165,6 +183,7 @@ export async function runPreviewGate({
     build_id: health.buildId,
     planner_rollout: health.plannerRollout,
     generation_mode: health.generationMode,
+    product_focus: productFocus,
     planner_version: health.plannerVersion || null,
     template_catalog_version: health.templateCatalogVersion || null,
     taxonomy_version: health.ingredientTaxonomyVersion || null,

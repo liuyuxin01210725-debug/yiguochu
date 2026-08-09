@@ -944,6 +944,11 @@ function buildRecipeGrounding(selection) {
     ? [`总时长基准: ${recipe.total_time_minutes}分钟`] : [];
   const adaptationLines = typeof recipe.adaptation_note === 'string' && recipe.adaptation_note.trim()
     ? [`改编说明: ${sanitizePromptText(recipe.adaptation_note, 400)}`] : [];
+  const legacyGenerationLines = ['cabbage-tofu-braised-rice', 'broccoli-beef-braised-rice'].includes(recipe.id)
+    ? [
+      'legacy 生成单锅契约: 白菜、西兰花或替代叶菜必须在同一口锅后段加入并焖至熟软；不得写锅外、另起锅、第二口锅或外部预煮，保留一锅完成的可执行步骤。',
+    ]
+    : [];
   const profileLines = profile ? [
     `受控完整主餐资格: ${sanitizePromptText(profile.id, 100)}`,
     '完整性依据: 红扁豆、土豆和番茄已经组成完整主餐。',
@@ -972,6 +977,7 @@ function buildRecipeGrounding(selection) {
     `比例规则: ${compactRecipeList(recipe.ratio_rules)}`,
     `安全规则: ${compactRecipeList(recipe.safety_rules)}`,
     ...adaptationLines,
+    ...legacyGenerationLines,
     `已选库存: ${compactRecipeList(selection?.usedPantry)}`,
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
     ...profileLines,
@@ -2581,7 +2587,7 @@ function parseModelJson(text) {
   }
 }
 
-function normalizeMeal(meal, usage) {
+function normalizeMeal(meal, usage, selection = null) {
   if (!meal || typeof meal !== 'object') throw new Error('模型返回空结果');
   const ingredients = Array.isArray(meal.ingredients) ? meal.ingredients : [];
   meal.ingredients = ingredients.slice(0, 14).map(item => {
@@ -2592,7 +2598,11 @@ function normalizeMeal(meal, usage) {
     }
     return out;
   }).filter(item => item.name && item.grams > 0);
-  if (meal.ingredients.length < 3) throw new Error('模型返回食材过少');
+  const trustedCoreCount = Array.isArray(selection?.recipe?.core_ingredients)
+    ? selection.recipe.core_ingredients.length
+    : 0;
+  const minimumIngredients = Math.max(2, Math.min(3, trustedCoreCount || 3));
+  if (meal.ingredients.length < minimumIngredients) throw new Error('模型返回食材过少');
 
   meal.dish_name = String(meal.dish_name || '今日一锅出').trim();
   meal.steps = Array.isArray(meal.steps) ? meal.steps.map(x => String(x).trim()).filter(Boolean).slice(0, 6) : [];
@@ -2658,7 +2668,7 @@ const VALIDATION_RAW_EGG_FORMS = new Set([
 const VALIDATION_RAW_POULTRY_PORK_FORMS = new Set([
   '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉去皮', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
   '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
-  '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
+  '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '猪肋排', '排骨',
 ]);
 const VALIDATION_RAW_SEAFOOD_FORMS = new Set([
   '鱼', '鱼肉', '鱼片', '鲜鱼', '三文鱼', '鲑鱼', '鳕鱼', '鲈鱼', '鲫鱼', '鲤鱼', '草鱼', '黑鱼',
@@ -3213,7 +3223,7 @@ async function handleGenerate(request, env) {
 
   const data = JSON.parse(raw);
   const content = data?.choices?.[0]?.message?.content;
-  const meal = normalizeMeal(parseModelJson(content), data.usage);
+  const meal = normalizeMeal(parseModelJson(content), data.usage, selection);
   attachGroundedMetadata(meal, selection, constraints);
   // 硬校验失败不上桌: attachGroundedMetadata 内确定性 repair 后仍有 validation_flags 的,
   // 服务端直接 422 unsafe_recipe(前端已有对应停止页), 不再发出去让前端 scoreDish 拦;
