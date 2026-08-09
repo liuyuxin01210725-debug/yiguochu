@@ -1312,7 +1312,7 @@
 | 玄米カレーピラフ | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 玄米；香肠；胡萝卜；蘑菇；鸡汤；红椒；玉米；葡萄干；黄油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [玄米カレーピラフ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post57/) |
 | 玄米大豆ごはん | 玄米大豆饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 玄米；大豆；干芽ひじき；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [玄米大豆ごはん](https://panasonic.jp/cooking/recipe/cook/0694.html) |
 | 甜薯番茄多穀菜飯 | 甜薯番茄多谷菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 泰国茉莉香米；十八谷米；番薯；大白菜；番茄；橄榄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [甜薯番茄多穀菜飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/tomato-sweet-yam-with-mixed-grain-rice.html) |
-| 番茄雞肉起司燉飯 | 番茄鸡肉起司炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛番茄；雞胸肉；雞湯粉；馬茲摩拉乳酪絲 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [番茄雞肉起司燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5217) |
+| 番茄雞肉起司燉飯 | 番茄鸡肉起司炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛番茄；雞胸肉；雞湯粉；馬茲摩拉乳酪絲 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [番茄雞肉起司燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5217)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 番茄香料雞肉飯 | 番茄香料鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；去骨雞腿肉；洋蔥；大蒜；番茄；整粒去皮番茄；雞高湯 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [番茄香料雞肉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5215)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 皮蛋瘦肉粥（Panasonic） | 皮蛋瘦肉粥 Panasonic版 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；猪肉丝；皮蛋；鸡蛋；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [皮蛋瘦肉粥](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/216) |
 | 皮蛋瘦肉粥（象印） | 皮蛋瘦肉粥 象印版 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；皮蛋；猪肉丝；姜；葱；鸡粉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [皮蛋瘦肉粥](https://www.zojirushi.com.tw/recipe/rice-cookers/446/csr) |
@@ -2012,7 +2012,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 灰姑娘南瓜馬車燉飯 | 灰姑娘南瓜马车烩饭 | TW | taiwan-pumpkin-chicken-rice | 研究记录（非公开可执行） | 白米；南瓜；洋葱；胡萝卜；鸡腿；雪白菇 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [灰姑娘南瓜馬車燉飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5239) |
+| 灰姑娘南瓜馬車燉飯 | 灰姑娘南瓜马车烩饭 | TW | taiwan-pumpkin-chicken-rice | 研究记录（非公开可执行） | 白米；南瓜；洋葱；胡萝卜；鸡腿；雪白菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [灰姑娘南瓜馬車燉飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5239)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-quinoa-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

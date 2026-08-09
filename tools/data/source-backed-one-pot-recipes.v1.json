@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r247",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r248",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -57078,7 +57078,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳",
         "大豆"
@@ -57119,10 +57127,26 @@
           ],
           "attribution": "Panasonic Cooking Taiwan；食谱授权来自 Kiki（页面提供 Instagram 链接）",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken breast steamed in the upper tray and mixed into the rice after cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "页面支持具名、食材、水量和分层蒸盘流程；没有固定份数、总时间或禽肉安全终点，保持研究状态。"
+      "evidence_notes": "页面支持具名、食材、水量和分层蒸盘流程；鸡胸在上层蒸盘完成后再拌回米饭。本批仅挂FoodSafety.gov禽肉74°C终点，不把蒸盘流程改写成生鸡肉内锅同煮；固定份数和总时间仍缺。"
     },
     {
       "recipe_id": "r59-panasonic-taiwan-spanish-seafood-risotto",
@@ -94293,7 +94317,15 @@
           "S-R97-PANASONIC-TW-CINDERELLA-PUMPKIN-RISOTTO-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳制品"
       ],
@@ -94334,10 +94366,26 @@
           ],
           "attribution": "Panasonic Taiwan；页面注明配方获授权自亮比",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the salted chicken thigh pieces placed on the rice for the 48-minute rice-cooker program.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic Taiwan官方页支持具名、米/南瓜/鸡腿/菇类组合、300mL水和约48分钟电子锅程序；页面注明部分配方来自获授权创作者，且含蒸烤/汆烫前处理，未给成品份数和完整安全终点，保持recipe_fact_checked。"
+      "evidence_notes": "Panasonic Taiwan官方页支持具名、米/南瓜/鸡腿/菇类组合、300mL水和约48分钟电子锅程序；鸡腿切块腌制后铺在米面进入炊煮。本批仅挂FoodSafety.gov禽肉74°C终点，且含蒸烤/汆烫前处理，未把其改写成无预处理的一锅合同。"
     },
     {
       "recipe_id": "r97-panasonic-taiwan-green-sauce-chicken-risotto",

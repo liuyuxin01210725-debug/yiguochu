@@ -1530,7 +1530,6 @@
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 黃金野菇紅藜雞肉炊飯 (r99-taiwan-golden-wild-mushroom-quinoa-chicken-rice) — TW
 - 海南雞藜麥飯（一鍋兩菜） (cookpot-hainan-chicken-quinoa-rice-1000) — TW
-- 灰姑娘南瓜馬車燉飯 (r97-panasonic-taiwan-cinderella-pumpkin-risotto) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW

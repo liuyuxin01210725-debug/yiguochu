@@ -12,7 +12,7 @@ const ingredient = (recipe, name) => {
 };
 
 test('r237 records exact fixed batches from the opened official public pages', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r247');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r248');
   assert.equal(catalog.recipes.length, 923);
 
   const expected = [

@@ -14,7 +14,7 @@ const expected = [
 ];
 
 test('r247 closes three directly evidenced Panasonic poultry safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r247');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r248');
   assert.equal(catalog.recipes.length, 923);
   for (const recipeId of expected) {
     const recipe = byId[recipeId];
