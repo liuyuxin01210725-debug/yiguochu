@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r218",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r219",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -67695,8 +67695,114 @@
         "厚揚げ",
         "出汁"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 1.5,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "里芋",
+            "amount": {
+              "value": 8,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "香菇",
+            "amount": {
+              "value": 4,
+              "unit": "枚"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "鸡肉",
+            "amount": {
+              "value": 32,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "厚揚げ",
+            "amount": {
+              "value": 1,
+              "unit": "枚"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SHIMANE-UZUME-MESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-SHIMANE-UZUME-MESHI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 600,
+          "unit": "cc"
+        },
+        "source_ids": [
+          "S-MAFF-SHIMANE-UZUME-MESHI-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -67751,7 +67857,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "岛根埋饭是真实具名地域菜，但核心工艺是熟饭加另锅汤汁/具材，不进入严格生米一锅执行目录。"
+      "evidence_notes": "岛根埋饭是真实具名地域菜；MAFF原页给出4人份根菜、鸡肉、厚揚げ和600cc出汁的同源批量，已闭合固定批次。核心工艺仍是熟饭加另锅汤汁/具材，不进入严格生米一锅执行目录。"
     },
     {
       "recipe_id": "maff-kochi-koshimeshi",
@@ -68014,8 +68120,124 @@
         "竹轮",
         "煮干出汁"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "そば米",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "飯",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "鶏肉（もも肉）",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "魔芋",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "竹轮",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "葱",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 5,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          },
+          {
+            "name": "酱油（浓口）",
+            "amount": {
+              "value": 54,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-HOUHAN-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-TOKUSHIMA-HOUHAN-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_broth",
+        "amount": {
+          "value": 800,
+          "unit": "g"
+        },
+        "source_ids": [
+          "S-MAFF-TOKUSHIMA-HOUHAN-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -68070,7 +68292,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "德岛包饭是真实混合谷物地域菜，但荞麦米预煮和熟饭输入不可被省略，保留其原始工艺边界。"
+      "evidence_notes": "德岛包饭是真实混合谷物地域菜；MAFF原页给出4人份荞麦米、熟饭、鸡肉、蔬菜和800g煮干出汁，已闭合固定批次。荞麦米预煮和熟饭输入不可被省略，保留其原始工艺边界。"
     },
     {
       "recipe_id": "maff-akita-tenko-azuki-sekihan",
@@ -72648,7 +72870,154 @@
         "鸡肉",
         "鲷鱼"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "鯛",
+            "amount": {
+              "value": 4,
+              "unit": "切れ(1切れ30g)"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "えび",
+            "amount": {
+              "value": 8,
+              "unit": "尾"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "里芋",
+            "amount": {
+              "value": 2,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 0.5,
+              "unit": "本"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "鲣鱼高汤（A）",
+            "amount": {
+              "value": 100,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "干香菇",
+            "amount": {
+              "value": 1,
+              "unit": "枚"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "香菇回水（B）",
+            "amount": {
+              "value": 15,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "砂糖（B）",
+            "amount": {
+              "value": 0.667,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "厚揚げ",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "熟饭",
+            "amount": {
+              "value": 4,
+              "unit": "膳分"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "鲣鱼高汤（C）",
+            "amount": {
+              "value": 500,
+              "unit": "cc"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "酒（C）",
+            "amount": {
+              "value": 4,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "味醂（C）",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          },
+          {
+            "name": "薄口酱油（C）",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R67-MAFF-HIROSHIMA-UZUME"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R67-MAFF-HIROSHIMA-UZUME"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -72703,7 +73072,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "具名地方饭，属于熟饭覆料/装碗结构；不把出汁量当米水，也不改写为焖饭。"
+      "evidence_notes": "具名地方饭；MAFF原页给出4人份鱼、虾、根菜、厚揚げ、熟饭及分段出汁用量，已闭合固定批次。属于熟饭覆料/装碗结构；不把出汁量当米水，也不改写为焖饭。"
     },
     {
       "recipe_id": "maff-hiroshima-moburi",
