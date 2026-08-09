@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r221",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r223",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -65692,7 +65692,34 @@
         "粗磨玉米或细磨玉米",
         "盐"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 1,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 160,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-MIYAZAKI-TOUKIBIMESHI-1"
+            ]
+          },
+          {
+            "name": "粗磨玉米或细磨玉米",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-MIYAZAKI-TOUKIBIMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-MIYAZAKI-TOUKIBIMESHI-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -65733,7 +65760,7 @@
           "source_kind": "government_recipe_page",
           "access_status": "opened",
           "evidence_tier": 1,
-          "evidence_locator": "MAFF 直页：椎叶地域、材料和作り方段落；粗磨玉米先煮软，细磨版可同米炊",
+          "evidence_locator": "MAFF 直页：椎叶地域、1人份とうきび20g与米160g；粗磨玉米先煮软，细磨版可同米炊",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -66106,8 +66133,64 @@
         "味噌",
         "水或出汁"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 10,
+        "ingredients": [
+          {
+            "name": "熟饭",
+            "amount": {
+              "value": 10,
+              "unit": "碗"
+            },
+            "source_ids": [
+              "S-MAFF-CHIBA-TORIDOSE-1"
+            ]
+          },
+          {
+            "name": "鸡肉",
+            "amount": {
+              "value": 500,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-CHIBA-TORIDOSE-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-CHIBA-TORIDOSE-1"
+            ]
+          },
+          {
+            "name": "水或出汁",
+            "amount": {
+              "value": 2,
+              "unit": "L"
+            },
+            "source_ids": [
+              "S-MAFF-CHIBA-TORIDOSE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-CHIBA-TORIDOSE-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 2,
+          "unit": "L"
+        },
+        "source_ids": [
+          "S-MAFF-CHIBA-TORIDOSE-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
