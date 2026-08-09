@@ -1482,7 +1482,6 @@
 - チキンライス (iris-rc-pga-chicken-rice) — 非地域·厂商食谱
 - パエリア (iris-rc-pga-paella) — 非地域·厂商食谱
 - 中華粥 (iris-chinese-chicken-congee) — 非地域·厂商食谱
-- 中華風おこわ (toshiba-chinese-sticky-rice-rcp30r) — 非地域·厂商食谱
 - 五目炊飯 (cookpot-gomoku-mixed-rice) — 非地域·厂商食谱
 - 五色炊飯 (panasonic-taiwan-five-color-rice) — 非地域·厂商食谱
 - 人蔘雞肉飯 (panasonic-taiwan-ginseng-chicken-rice) — 非地域·厂商食谱

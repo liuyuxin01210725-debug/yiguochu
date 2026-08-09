@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r233",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r234",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -41725,7 +41725,15 @@
           "S-TOSHIBA-CHINESE-STICKY-RICE-RCP30R-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -41740,9 +41748,25 @@
         "source_ids": [
           "S-TOSHIBA-CHINESE-STICKY-RICE-RCP30R-1"
         ],
-        "notes": "仅限东芝RCP-30R来源程序；页面给出1.4气压与程序时间，不外推到普通电饭煲。"
+        "notes": "仅限东芝RCP-30R来源程序；页面给出1.4气压与程序时间，不外推到普通电饭煲。猪肉熟制终点按 FoodSafety.gov 74°C 记录，不将压力程序时长当作温度证明。"
       },
       "source_refs": [
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: pork minimum internal temperature 145°F / 63°C with a 3-minute rest for whole cuts; this catalog uses the stricter 165°F / 74°C endpoint for the source's thin-sliced pork component.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
+        },
         {
           "source_id": "S-TOSHIBA-CHINESE-STICKY-RICE-RCP30R-1",
           "title": "中華風おこわ",
@@ -41767,7 +41791,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "东芝官方压力锅具名中式糯米饭；页面中的猪肉“1大匙”和姜汁“80g”按原文保留，未自行换算或纠正。1.4气压程序与普通电饭煲不等价。本条为搜集期候选，未晋升 executable，未完成厨房验证。"
+      "evidence_notes": "东芝官方压力锅具名中式糯米饭；页面中的猪肉“1大匙”和姜汁“80g”按原文保留，未自行换算或纠正。1.4气压程序与普通电饭煲不等价。r234 安全补证：猪肉按 FoodSafety.gov 74°C 端点记录；这不是对压力锅程序时长的反推。本条为搜集期候选，未晋升 executable，未完成厨房验证。"
     },
     {
       "recipe_id": "tiger-oyster-mushroom-rice",
