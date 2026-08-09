@@ -1454,7 +1454,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| わけしこ飯（とりめし） | わけしこ饭；西都鸡饭 | JP-MIYAZAKI-SAITO | miyazaki-regional-torimeshi | 研究记录（非公开可执行） | 精米；鸡腿肉；牛蒡；鸡汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [わけしこ飯（とりめし）](https://www.city.saito.lg.jp/d58e5c49f876439e24a031ff9758dc1b.pdf) |
+| わけしこ飯（とりめし） | わけしこ饭；西都鸡饭 | JP-MIYAZAKI-SAITO | miyazaki-regional-torimeshi | 研究记录（非公开可执行） | 精米；鸡腿肉；牛蒡；鸡汤 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [わけしこ飯（とりめし）](https://www.city.saito.lg.jp/d58e5c49f876439e24a031ff9758dc1b.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## mizhi-lamb-diced-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1929,7 +1929,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 黃金野菇紅藜雞肉炊飯 | 黄金野菇红藜鸡肉炊饭 | TW | taiwan-golden-wild-mushroom-quinoa-chicken-rice | 研究记录（非公开可执行） | 米；台湾藜；南瓜；鸡胸肉；鲜香菇；鸿喜菇；雪白菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [黃金野菇紅藜雞肉炊飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
+| 黃金野菇紅藜雞肉炊飯 | 黄金野菇红藜鸡肉炊饭 | TW | taiwan-golden-wild-mushroom-quinoa-chicken-rice | 研究记录（非公开可执行） | 米；台湾藜；南瓜；鸡胸肉；鲜香菇；鸿喜菇；雪白菇 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [黃金野菇紅藜雞肉炊飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-grain-health-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

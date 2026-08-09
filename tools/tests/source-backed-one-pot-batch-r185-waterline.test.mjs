@@ -5,7 +5,7 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 
 test('r185 records four existing model-scoped waterline contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r248');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r249');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(item => [item.recipe_id, item]));
   const executableIds = new Set(['tatung-paella-style-seafood-rice']);

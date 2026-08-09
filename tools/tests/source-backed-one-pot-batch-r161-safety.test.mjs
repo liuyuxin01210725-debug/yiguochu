@@ -17,7 +17,7 @@ const expected = {
 const executableIds = new Set(['tatung-salmon-pumpkin-milk-risotto']);
 
 test('r161 closes five directly evidenced raw poultry and fish safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r248');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r249');
   for (const [recipeId, expectedEndpoint] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);

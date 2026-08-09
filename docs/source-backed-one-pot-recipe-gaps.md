@@ -1496,7 +1496,6 @@
 - 晋江鱼饭 (jinjiang-squid-rice) — CN-FJ-QUANZHOU-JINJIANG
 - 萝卜饭 (quanzhou-radish-rice) — CN-FJ
 - 红蟳饭 (quanzhou-red-xun-rice) — CN-FJ
-- わけしこ飯（とりめし） (saito-wakeshiko-torimeshi) — JP-MIYAZAKI-SAITO
 - 米脂羊肉丁丁饭 (mizhi-lamb-diced-rice) — CN-SN
 - 宁河甑乡肉焖儿 (ninghe-zeng-pork-rice) — CN-TJ
 - 肉粘饭 (ningxia-wuzhong-rouzhanfan) — CN-NX
@@ -1528,7 +1527,6 @@
 - 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
-- 黃金野菇紅藜雞肉炊飯 (r99-taiwan-golden-wild-mushroom-quinoa-chicken-rice) — TW
 - 海南雞藜麥飯（一鍋兩菜） (cookpot-hainan-chicken-quinoa-rice-1000) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW

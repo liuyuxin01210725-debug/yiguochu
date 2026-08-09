@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
 test('r167 closes the same-source MAFF beef mushroom yolk fixed batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r248');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r249');
   assert.equal(catalog.recipes.length, 923);
   const recipe = byId['maff-beef-mushroom-yolk-rice'];
   assert.ok(recipe);

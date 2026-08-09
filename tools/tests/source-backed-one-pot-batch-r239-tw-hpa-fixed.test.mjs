@@ -12,7 +12,7 @@ function ingredient(name) {
 }
 
 test('r239 closes the exact six-person Taiwan HPA glutinous rice cake batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r248');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r249');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');

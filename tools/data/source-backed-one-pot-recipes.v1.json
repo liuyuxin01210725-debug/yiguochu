@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r248",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r249",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -81384,7 +81384,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "禽肉",
         "大豆"
@@ -81425,10 +81433,26 @@
           ],
           "attribution": "宫崎县西都市",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken thigh cut and cooked together with rice in the municipal electric-cooker recipe.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "宫崎西都具名鸡饭，米、鸡腿和牛蒡形成碳水/蛋白/纤维结构；PDF营养表和禽肉安全终点仍需独立复核。来源未闭合本项目安全终点；保持研究状态，不进入可执行池。"
+      "evidence_notes": "宫崎西都具名鸡饭，米、鸡腿和牛蒡形成碳水/蛋白/纤维结构；官方PDF给出1人份、电饭煲、1合米、鸡腿100g和鸡汤200ml。本批仅挂FoodSafety.gov禽肉74°C终点，仍保持研究状态，不进入可执行池。"
     },
     {
       "recipe_id": "zojirushi-nonokomeshi-el-mb30",
@@ -95599,7 +95623,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鸡肉"
       ],
@@ -95639,10 +95671,26 @@
           ],
           "attribution": "台湾农业部食農教育資源整合平台",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken breast cooked with rice, pumpkin, and mushrooms in the electric cooker.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "台湾农业部官方食农教育PDF第180至181页直接支持黄金野菇红藜鸡肉炊饭的具名、2人份固定组合、2米杯水、电锅和步骤；来源没有总时间或独立禽肉安全终点，保留recipe_fact_checked，不晋升executable。"
+      "evidence_notes": "台湾农业部官方食农教育PDF第180至181页直接支持黄金野菇红藜鸡肉炊饭的具名、2人份固定组合、2米杯水、电锅和步骤；鸡胸肉与米、南瓜和菇类同锅煮熟，本批仅挂FoodSafety.gov禽肉74°C终点。来源没有总时间，保持recipe_fact_checked，不晋升executable。"
     },
     {
       "recipe_id": "r99-guangzhou-winter-solstice-cured-glutinous-rice",
