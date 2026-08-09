@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r226",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r227",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -31044,7 +31044,24 @@
         "豌豆",
         "胡萝卜"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 283,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-HK-EATSMART-MUSHROOM-MIXED-VEGETABLE-KAMAMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-HK-EATSMART-MUSHROOM-MIXED-VEGETABLE-KAMAMESHI-1"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_broth",
         "amount": {
@@ -31115,7 +31132,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "香港卫生署具名釜饭，原方需要自制高汤、汆烫和前炒，故不宣称电饭煲一锅；保留300mL素上汤和原锅时间边界未闭合。"
+      "evidence_notes": "香港卫生署具名釜饭，原方明确6人份与米283g、素上汤300mL；需要自制高汤、汆烫和前炒，故不宣称电饭煲一锅；保留原锅时间边界未闭合。"
     },
     {
       "recipe_id": "hk-choy-sum-scallop-rice",
@@ -56961,7 +56978,24 @@
         "dill",
         "lemon"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "rice",
+            "amount": {
+              "value": 2,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-TIGER-USA-GARLIC-SALMON-GARDEN-RICE-R59"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-USA-GARLIC-SALMON-GARDEN-RICE-R59"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -57029,7 +57063,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger 官方页面明确具名、份量级别和 Tacook 同步一锅主餐流程；页面未公开米水量、时间及安全终点，维持研究状态。"
+      "evidence_notes": "Tiger 官方页面明确2份、米2杯、具名和 Tacook 同步一锅主餐流程；页面未公开米水量、时间及鱼类安全终点，维持研究状态。"
     },
     {
       "recipe_id": "taiwan-four-season-pork-congee",
@@ -58376,7 +58410,24 @@
         "姜",
         "葱"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "日本米",
+            "amount": {
+              "value": 0.5,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-TIGER-BASIC-CONGEE-R60"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-BASIC-CONGEE-R60"
+        ]
+      },
       "liquid_contract": {
         "kind": "waterline",
         "waterline": {
@@ -58455,7 +58506,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面将其称为姜香鸡肉粥；本批只补同一原页明确的0.5 Soft Porridge水位线和70分钟程序。页面未给鸡肉实际用量，且正文步骤只含米/芹菜/姜，因此固定批量、鸡肉安全合同和10分钟准备时间均不补写。"
+      "evidence_notes": "Tiger官方页面将其称为姜香鸡肉粥；同一原页明确2份、半杯米、0.5 Soft Porridge水位线和70分钟程序。页面未给鸡肉实际用量，且正文步骤只含米/芹菜/姜，因此不补写鸡肉用量或安全合同。"
     },
     {
       "recipe_id": "r60-tiger-takeout-vegetable-fried-rice",

@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r218 closes exact same-source fixed batches without changing catalog size', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r226');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r227');
   assert.equal(catalog.recipes.length, 923);
 
   const anago = byId['maff-hiroshima-anagomeshi'];

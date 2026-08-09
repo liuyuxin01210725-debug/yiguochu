@@ -15,7 +15,7 @@ function ingredient(recipe, name) {
 }
 
 test('r159 closes Tiger Takikomi fixed batch and model-scoped waterline only', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r226');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r227');
   const recipe = byId['tiger-takikomi-gohan'];
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -39,7 +39,9 @@ test('r159 closes Basic Congee waterline and 70-minute program without inventing
   const recipe = byId['r60-tiger-basic-chicken-congee'];
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
-  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.fixed_batch.servings, 2);
+  assert.equal(ingredient(recipe, '日本米').amount.value, 0.5);
+  assert.equal(ingredient(recipe, '日本米').amount.unit, 'cup');
   assert.equal(recipe.liquid_contract.kind, 'waterline');
   assert.equal(recipe.liquid_contract.waterline.scale, 'Soft Porridge');
   assert.equal(recipe.liquid_contract.waterline.mark, 0.5);
