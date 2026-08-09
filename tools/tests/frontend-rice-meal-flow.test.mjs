@@ -92,7 +92,7 @@ test('the first screen has one rotation action and never calls the planner or De
   await tick();
   const actionValues = [...root.innerHTML.matchAll(/data-act="([^"]+)"/g)].map(match => match[1]);
   assert.deepEqual(actionValues, ['rotate-source-recipe']);
-  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 296);
+  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 299);
   assert.doesNotMatch(root.innerHTML, /data-act="choose-rice-meal"|data-act="choose-plan"|候选方案|生成菜谱|plan-meal|generate-plan|DeepSeek/u);
   assert.equal(calls.some(call => /plan-meal|generate-plan/.test(call.url)), false);
 });
@@ -105,7 +105,7 @@ test('clicking 换一道 rotates to another real recipe without another network 
   const second = evaluate(context, 'state.sourceRotationCurrent.canonical_name');
   assert.notEqual(second, first);
   assert.match(root.innerHTML, new RegExp(second.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
-  assert.match(root.innerHTML, /第 2 \/ 296 道可轮替菜饭/u);
+  assert.match(root.innerHTML, /第 2 \/ 299 道可轮替菜饭/u);
   assert.equal(calls.length, 1);
 });
 

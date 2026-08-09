@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'panasonic-taiwan-cabbage-mackerel-rice');
 
 test('r170 records Panasonic cabbage mackerel rice liquid without inventing a cooker contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r209');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r210');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -15,7 +15,9 @@ test('r170 records Panasonic cabbage mackerel rice liquid without inventing a co
     amount: { value: 1.1, unit: '杯（热水，含酱油1/2小匙）' },
     source_ids: ['S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1'],
   });
-  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.fixed_batch.servings, 3);
+  assert.equal(recipe.fixed_batch.ingredients.find(item => item.name === '白米')?.amount.value, 1);
+  assert.equal(recipe.fixed_batch.ingredients.find(item => item.name === '薄盐鲭鱼')?.amount.value, 1);
   assert.equal(recipe.time_contract, null);
   assert.equal(recipe.cooker_adaptation?.status, 'source_limited');
   assert.match(recipe.cooker_adaptation?.notes ?? '', /NU-SC300B|普通电饭煲/u);

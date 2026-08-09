@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r209",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r210",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -57891,7 +57891,114 @@
         "鸡蛋",
         "鸡汤"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "生白米",
+            "amount": {
+              "value": 2,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "混合蔬菜",
+            "amount": {
+              "value": 3,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 0.25,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "姜",
+            "amount": {
+              "value": 1,
+              "unit": "tbsp"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "蒜",
+            "amount": {
+              "value": 1,
+              "unit": "tbsp"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "葱",
+            "amount": {
+              "value": 4,
+              "unit": "scallions"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "鸡汤",
+            "amount": {
+              "value": 1.75,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "芝麻油",
+            "amount": {
+              "value": 2,
+              "unit": "tsp"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "豌豆",
+            "amount": {
+              "value": 0.5,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          },
+          {
+            "name": "鸡蛋",
+            "amount": {
+              "value": 2,
+              "unit": "large eggs"
+            },
+            "source_ids": [
+              "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -57916,7 +58023,12 @@
           ]
         }
       ],
-      "time_contract": null,
+      "time_contract": {
+        "total_minutes": 65,
+        "source_ids": [
+          "S-TIGER-TAKEOUT-VEGETABLE-FRIED-RICE-R60"
+        ]
+      },
       "safety_endpoints": [],
       "allergen_labels": [],
       "nutrition_structure": {
@@ -57955,7 +58067,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "虽名为Fried Rice，Tiger官方页面明确写明使用2杯未煮白米、全程无实际炒锅，并说明是蔬菜饭与takikomi gohan的混合做法；因此作为生米入锅的混合饭记录，不归入熟饭二次加工。鸡蛋和豌豆在程序完成后加入，保留为连续流程，未推导普通电饭煲时机。"
+      "evidence_notes": "Tiger官方原页给出4份、5.5杯机型配方全量与Cooking 65 min（含Mixed 50分钟及出锅后约15分钟焖熟豌豆）；鸡蛋和豌豆在程序完成后加入，保留为连续流程，液体总量因步骤另写米加水而未把鸡汤单独当作完整水量。"
     },
     {
       "recipe_id": "r60-tiger-garlic-shrimp-herbed-rice",
@@ -63875,7 +63987,54 @@
         "葡萄干",
         "黄油"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "玄米",
+            "amount": {
+              "value": 2,
+              "unit": "cups"
+            },
+            "source_ids": [
+              "S-TIGER-BROWN-RICE-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "香肠",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-BROWN-RICE-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TIGER-BROWN-RICE-CURRY-PILAF-1"
+            ]
+          },
+          {
+            "name": "蘑菇",
+            "amount": {
+              "value": 30,
+              "unit": "g（3个）"
+            },
+            "source_ids": [
+              "S-TIGER-BROWN-RICE-CURRY-PILAF-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TIGER-BROWN-RICE-CURRY-PILAF-1"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_chicken_stock",
         "amount": {
@@ -65950,7 +66109,124 @@
         "毛豆仁",
         "昆布"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "白米",
+            "amount": {
+              "value": 1,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "高丽菜",
+            "amount": {
+              "value": 4,
+              "unit": "至5叶"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "薄盐鲭鱼",
+            "amount": {
+              "value": 1,
+              "unit": "片"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "黑木耳",
+            "amount": {
+              "value": 2,
+              "unit": "小朵"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "鸿喜菇",
+            "amount": {
+              "value": 0.25,
+              "unit": "盒"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "玉米笋",
+            "amount": {
+              "value": 2,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "红萝卜",
+            "amount": {
+              "value": 0.25,
+              "unit": "小根"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "毛豆仁",
+            "amount": {
+              "value": 0.25,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "昆布",
+            "amount": {
+              "value": 5,
+              "unit": "cm"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-PANASONIC-TAIWAN-CABBAGE-MACKEREL-RICE-1"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_water",
         "amount": {

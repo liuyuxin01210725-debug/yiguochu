@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tiger-brown-rice-curry-pilaf');
 
 test('r171 records the Tiger brown-rice curry pilaf chicken-stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r209');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r210');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -15,7 +15,9 @@ test('r171 records the Tiger brown-rice curry pilaf chicken-stock contract', () 
     amount: { value: 600, unit: 'mL' },
     source_ids: ['S-TIGER-BROWN-RICE-CURRY-PILAF-1'],
   });
-  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.fixed_batch.servings, 3);
+  assert.equal(recipe.fixed_batch.ingredients.find(item => item.name === '玄米')?.amount.value, 2);
+  assert.equal(recipe.fixed_batch.ingredients.find(item => item.name === '香肠')?.amount.value, 80);
   assert.equal(recipe.time_contract?.total_minutes, 90);
   assert.equal(recipe.cooker_adaptation?.status, 'source_limited');
   assert.match(recipe.cooker_adaptation?.notes ?? '', /玄米|普通白米程序/u);
