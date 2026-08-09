@@ -1313,7 +1313,7 @@
 | 玄米大豆ごはん | 玄米大豆饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 玄米；大豆；干芽ひじき；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [玄米大豆ごはん](https://panasonic.jp/cooking/recipe/cook/0694.html) |
 | 甜薯番茄多穀菜飯 | 甜薯番茄多谷菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 泰国茉莉香米；十八谷米；番薯；大白菜；番茄；橄榄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [甜薯番茄多穀菜飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/tomato-sweet-yam-with-mixed-grain-rice.html) |
 | 番茄雞肉起司燉飯 | 番茄鸡肉起司炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛番茄；雞胸肉；雞湯粉；馬茲摩拉乳酪絲 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [番茄雞肉起司燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5217) |
-| 番茄香料雞肉飯 | 番茄香料鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；去骨雞腿肉；洋蔥；大蒜；番茄；整粒去皮番茄；雞高湯 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [番茄香料雞肉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5215) |
+| 番茄香料雞肉飯 | 番茄香料鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；去骨雞腿肉；洋蔥；大蒜；番茄；整粒去皮番茄；雞高湯 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [番茄香料雞肉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5215)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 皮蛋瘦肉粥（Panasonic） | 皮蛋瘦肉粥 Panasonic版 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；猪肉丝；皮蛋；鸡蛋；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [皮蛋瘦肉粥](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/216) |
 | 皮蛋瘦肉粥（象印） | 皮蛋瘦肉粥 象印版 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；皮蛋；猪肉丝；姜；葱；鸡粉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [皮蛋瘦肉粥](https://www.zojirushi.com.tw/recipe/rice-cookers/446/csr) |
 | 石焼ビビンバ風炊込みご飯 | 石锅拌饭风炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉薄片；白菜泡菜；韩式辣酱；葱；芝麻 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [石焼ビビンバ風炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041572)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1325,7 +1325,7 @@
 | 膏蟹粥 | 膏蟹海鲜粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 膏蟹；米；瑶柱；姜；水 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [膏蟹粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/crab-congee.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 芋头香菇素油饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 长糯米；芋头；小香菇；杏鲍菇；豆皮 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】芋头香菇素油饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_225.html) |
 | 芋香栗子炊飯 | 芋香栗子炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；栗子；梅花肉；芋頭；乾香菇；紅蔥頭；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [芋香栗子炊飯](https://www.cookpot.com.tw/cookbook/691.html) |
-| 菌菇玉菜油蔥飯 | 菌菇玉菜油葱饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 月光米；紅蘿蔔；綠竹筍；美白菇；鴻喜菇；香菇；去骨仿雞腿肉；豆皮絲；高麗菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [菌菇玉菜油蔥飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5101) |
+| 菌菇玉菜油蔥飯 | 菌菇玉菜油葱饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 月光米；紅蘿蔔；綠竹筍；美白菇；鴻喜菇；香菇；去骨仿雞腿肉；豆皮絲；高麗菜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [菌菇玉菜油蔥飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5101)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 菌菇糙米饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；杏鲍菇；蟹味菇；鸡蛋；葱花 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [菌菇糙米饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/jungucaomifan/) |
 | 菠菜三文魚粥 | 菠菜三文鱼粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；菠菜；三文鱼 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [菠菜三文魚粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/spinach-salmon-congee.html) |
 | 萝卜豆皮炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；白萝卜；豆皮 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】萝卜豆皮炊饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_167.html) |
@@ -1944,7 +1944,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 青醬嫩雞燉飯 | 青酱嫩鸡炖饭 | TW | taiwan-green-sauce-chicken-rice | 研究记录（非公开可执行） | 白米；鸡胸肉；洋葱；鸡高汤；鸿喜菇；青酱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [青醬嫩雞燉飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5155) |
+| 青醬嫩雞燉飯 | 青酱嫩鸡炖饭 | TW | taiwan-green-sauce-chicken-rice | 研究记录（非公开可执行） | 白米；鸡胸肉；洋葱；鸡高汤；鸿喜菇；青酱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [青醬嫩雞燉飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5155)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-health-porridge
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

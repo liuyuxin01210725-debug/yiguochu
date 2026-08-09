@@ -6,7 +6,7 @@ const catalog = JSON.parse(fs.readFileSync(new URL('../data/source-backed-one-po
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r217 closes the fish endpoint for the ASMI rice-cooker salmon meal', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r247');
   const recipe = byId['asmi-pink-salmon-rice-bowls'];
   assert.equal(recipe.safety_endpoints[0].code, 'seafood_fully_cooked');
   assert.equal(recipe.safety_endpoints[0].minimum_core_temperature_c, 63);

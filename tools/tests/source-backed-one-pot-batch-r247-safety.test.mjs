@@ -5,16 +5,15 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
+const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures';
 
 const expected = [
-  'maff-corn-chicken-takikomi-gohan',
-  'maff-daikon-chicken-rice',
-  'maff-chicken-shiitake-chinese-steamed-rice',
-  'maff-irogohan-nara',
-  'maff-fukuoka-bamboo-rice',
+  'r59-panasonic-taiwan-tomato-spiced-chicken-rice',
+  'r97-panasonic-taiwan-green-sauce-chicken-risotto',
+  'panasonic-taiwan-mushroom-vegetable-oil-shallot-rice',
 ];
 
-test('r230 closes five directly evidenced MAFF raw-chicken safety gaps', () => {
+test('r247 closes three directly evidenced Panasonic poultry safety gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r247');
   assert.equal(catalog.recipes.length, 923);
   for (const recipeId of expected) {
@@ -27,18 +26,11 @@ test('r230 closes five directly evidenced MAFF raw-chicken safety gaps', () => {
     assert.deepEqual(endpoint.source_ids, [safetySourceId], recipeId);
     const source = recipe.source_refs.find(row => row.source_id === safetySourceId);
     assert.ok(source, `${recipeId} missing shared safety source`);
-    assert.equal(source.url, 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures', recipeId);
+    assert.equal(source.url, safetyUrl, recipeId);
     assert.equal(source.access_status, 'opened', recipeId);
     assert.equal(source.evidence_tier, 1, recipeId);
+    assert.match(source.evidence_locator, /poultry|chicken|74/u, recipeId);
     assert.deepEqual(source.claim_scopes, ['safety'], recipeId);
-    assert.match(source.evidence_locator, /poultry|chicken|74/i, recipeId);
-  }
-});
-
-test('r230 leaves the five records source-limited and non-executable', () => {
-  for (const recipeId of expected) {
-    const recipe = byId[recipeId];
     assert.equal('executable' in recipe, false, recipeId);
-    assert.ok(['not_adapted', 'source_limited'].includes(recipe.cooker_adaptation.status), recipeId);
   }
 });

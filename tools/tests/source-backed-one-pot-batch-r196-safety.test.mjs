@@ -6,7 +6,7 @@ const catalog = JSON.parse(fs.readFileSync(new URL('../data/source-backed-one-po
 const recipe = catalog.recipes.find(row => row.recipe_id === 'maff-ishikawa-sazae-meshi');
 
 test('r196 closes the same-species MAFF Ishikawa sazae safety gap', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r247');
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
   assert.deepEqual(recipe.safety_endpoints, [{

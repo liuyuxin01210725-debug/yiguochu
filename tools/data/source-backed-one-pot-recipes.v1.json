@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r246",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r247",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -56947,7 +56947,15 @@
           "S-PANASONIC-TAIWAN-TOMATO-SPICED-CHICKEN-RICE-R59"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -56988,10 +56996,26 @@
           ],
           "attribution": "Panasonic Cooking Taiwan；食谱授权来自哆夶食间",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the marinated chicken thigh cooked with the rice in the Panasonic inner pot.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "官方页面完整记录具名、食材、鸡高汤和37分钟程序；授权方与页面发布方分开记录，未补写固定份数或禽肉安全终点。"
+      "evidence_notes": "官方页面完整记录具名、食材、鸡高汤和37分钟程序；授权方与页面发布方分开记录。鸡腿肉先切块腌制后与米和液体同锅炊煮，本批仅挂FoodSafety.gov禽肉74°C终点，不改变37分钟与机型边界。"
     },
     {
       "recipe_id": "r59-panasonic-taiwan-tomato-chicken-cheese-risotto",
@@ -92101,7 +92125,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -92141,10 +92173,26 @@
           ],
           "attribution": "Panasonic Cooking Taiwan",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken strips washed, cut, and cooked with the rice in the Panasonic inner pot.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic台湾官方详情页直接证明菌菇玉菜油葱饭的具名、食材、350g鸡高汤、SR-PAA100同锅流程和程序；未给总时间、禽肉安全终点或成品人数。该授权配方不证明传统地域菜身份，去骨仿鸡腿肉不作其他蛋白替换。"
+      "evidence_notes": "Panasonic台湾官方详情页直接证明菌菇玉菜油葱饭的具名、食材、350g鸡高汤、SR-PAA100同锅流程和程序；未给总时间或成品人数。去骨仿鸡腿肉洗净切条后与米和蔬菜同锅炊煮，本批仅挂FoodSafety.gov禽肉74°C终点，该授权配方不证明传统地域菜身份。"
     },
     {
       "recipe_id": "panasonic-taiwan-salmon-daikon-golden-rice",
@@ -94348,7 +94396,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳制品"
       ],
@@ -94388,10 +94444,26 @@
           ],
           "attribution": "Panasonic Taiwan；页面注明配方获授权自第三方创作者",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken breast washed, cut, and cooked with the rice in the Panasonic inner pot.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic Taiwan官方页直接支持青酱嫩鸡炖饭的具名、鸡胸/菇类/米组合、300mL鸡高汤及电子锅什锦饭流程；页面未给成品份数、总时间和安全终点，保持来源边界。"
+      "evidence_notes": "Panasonic Taiwan官方页直接支持青酱嫩鸡炖饭的具名、鸡胸/菇类/米组合、300mL鸡高汤及电子锅什锦饭流程；鸡胸洗净切成一口大小后直接与米同锅炊煮，本批仅挂FoodSafety.gov禽肉74°C终点，页面未给成品份数或总时长，保持来源边界。"
     },
     {
       "recipe_id": "r97-anyang-an-yuan-bamboo-tube-rice",
