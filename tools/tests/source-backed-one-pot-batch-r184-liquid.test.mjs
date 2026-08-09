@@ -5,7 +5,7 @@ import test from 'node:test';
 const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-recipes.v1.json', import.meta.url), 'utf8'));
 
 test('r184 records four exact source-backed water and component-liquid contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r206');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r207');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(item => [item.recipe_id, item]));
   const expected = [

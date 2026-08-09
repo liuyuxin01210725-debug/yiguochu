@@ -58,7 +58,7 @@ const expected = [
 const executableIds = new Set(['instant-pot-chicken-satay-rice', 'instant-pot-chicken-enchilada-rice']);
 
 test('r124 adds eight official manufacturer rice main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r206');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r207');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -114,7 +114,11 @@ test('r124 keeps fixed quantities and model boundaries without widening safety e
   assert.equal(soup.fixed_batch.servings, 4);
   assert.equal(soup.liquid_contract.amount.value, 4);
   assert.equal(soup.time_contract, null);
-  assert.deepEqual(soup.safety_endpoints, []);
+  assert.deepEqual(soup.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 
   const philips = byId.get('philips-multigrain-baked-chicken-rice');
   assert.equal(philips.fixed_batch, null);

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r206",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r207",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -100105,7 +100105,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳"
       ],
@@ -100142,10 +100150,26 @@
           ],
           "attribution": "Instant Pot",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: poultry in a pressure-cooker chicken-and-rice preparation uses the 74°C endpoint; the Instant Pot source places 1.25 lb chicken in the High Pressure cycle."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Instant Pot官方页面支持具名Easy Chicken and Rice、4人份、液体和主料用量、按序分层、High Pressure 6分钟及西兰花后加。页面总时长为30至60分钟区间，因此time_contract保持null；西兰花并非从生米阶段同锅，保留后加边界。"
+      "evidence_notes": "Instant Pot官方页面支持具名Easy Chicken and Rice、4人份、液体和主料用量、按序分层、High Pressure 6分钟及西兰花后加。页面总时长为30至60分钟区间，因此time_contract保持null；西兰花并非从生米阶段同锅，保留后加边界。r207安全闭合：原页明确1.25lb鸡肉进入High Pressure流程，挂FoodSafety.gov禽肉74°C终点；不补总时长或普通电饭煲适配。"
     },
     {
       "recipe_id": "instant-pot-chicken-rice-soup",
@@ -100258,7 +100282,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -100293,10 +100325,26 @@
           ],
           "attribution": "Instant Pot",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: poultry in a pressure-cooker chicken-rice soup uses the 74°C endpoint; the Instant Pot source specifies 1/2 lb chicken breast cooked in the pressure cycle before shredding and returning it to the soup."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Instant Pot官方页面直接支持Chicken Rice Soup具名、4人份、5项主料、4杯鸡汤以及鸡肉/蔬菜/米同锅压力烹调。页面总时长为30至60分钟区间，time_contract保持null；页面未提供本项目独立鸡肉安全终点，safety_endpoints保持空数组。"
+      "evidence_notes": "Instant Pot官方页面直接支持Chicken Rice Soup具名、4人份、5项主料、4杯鸡汤以及鸡肉/蔬菜/米同锅压力烹调。页面总时长为30至60分钟区间，time_contract保持null；r207安全闭合：原页明确1/2lb鸡胸经过压力烹调后撕碎回锅，挂FoodSafety.gov禽肉74°C终点；不补总时长或普通电饭煲适配。"
     },
     {
       "recipe_id": "instant-pot-chicken-satay-rice",
