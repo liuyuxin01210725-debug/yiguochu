@@ -1353,7 +1353,6 @@
 ## 8. Missing safety
 
 - Guiso de arroz con pollo (NEA) (global-argentina-nea-arroz-pollo) — AR-NEA
-- Oven baked biryani (au-slhd-oven-baked-biryani) — AU-NSW
 - 潮汕戈饭 (chaoshan-ge-rice) — CN-GD
 - 潮汕炣饭 (chaoshan-ke-rice) — CN-GD
 - 高堂焖 (raoping-gaotang-pork-rice) — CN-GD
@@ -1531,7 +1530,6 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
-- Brown Rice Chicken Congee (sg-healthhub-brown-rice-chicken-congee) — SG
 - Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
 - Chicken Briyani (sg-healthhub-chicken-briyani) — SG
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
@@ -1574,9 +1572,7 @@
 - しもつかれ風炊き込み飯 (utsunomiya-shimotsukare-style-rice) — JP-TOCHIGI-UTSUNOMIYA
 - 包飯 (maff-tokushima-houhan) — JP-TOKUSHIMA
 - 铜仁社饭 (guizhou-tongren-shefan) — CN-GZ
-- Chicken and Rice (nih-medlineplus-chicken-rice) — US
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
-- Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
 - Spanish Rice (unh-spanish-rice) — US-NH

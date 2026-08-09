@@ -41,7 +41,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Oven baked biryani | 焗烤印度香饭；新州烤箱Biryani | AU-NSW | australia-slhd-oven-baked-biryani | 研究记录（非公开可执行） | 油；黄油；洋葱；咖喱酱；印度香米；低盐鸡汤；鸡腿肉；混合蔬菜；黑胡椒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Oven baked biryani](https://slhd.health.nsw.gov.au/yhunger/recipes-tips/soups-stews/oven-baked-biranyi) |
+| Oven baked biryani | 焗烤印度香饭；新州烤箱Biryani | AU-NSW | australia-slhd-oven-baked-biryani | 研究记录（非公开可执行） | 油；黄油；洋葱；咖喱酱；印度香米；低盐鸡汤；鸡腿肉；混合蔬菜；黑胡椒 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Oven baked biryani](https://slhd.health.nsw.gov.au/yhunger/recipes-tips/soups-stews/oven-baked-biranyi)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## baise-zhuang-five-color-sticky-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1725,7 +1725,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Brown Rice Chicken Congee | 糙米鸡粥；HealthHub糙米鸡粥 | SG | singapore-healthhub-brown-rice-chicken-congee | 研究记录（非公开可执行） | 糙米；鸡腿或鸡棒腿；胡萝卜；白菜；蟹味菇；姜；蒜；葱；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Brown Rice Chicken Congee](https://ch-api.healthhub.sg/api/public/content/6f3ac74473de451faa5ed46fdb084ce5?v=57588ce9) |
+| Brown Rice Chicken Congee | 糙米鸡粥；HealthHub糙米鸡粥 | SG | singapore-healthhub-brown-rice-chicken-congee | 研究记录（非公开可执行） | 糙米；鸡腿或鸡棒腿；胡萝卜；白菜；蟹味菇；姜；蒜；葱；水 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Brown Rice Chicken Congee](https://ch-api.healthhub.sg/api/public/content/6f3ac74473de451faa5ed46fdb084ce5?v=57588ce9)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## singapore-healthhub-bubur-lambuk
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2246,7 +2246,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken and Rice | MedlinePlus鸡肉米饭；鸡肉蔬菜炖饭 | US | usa-chicken-rice-stew | 研究记录（非公开可执行） | 鸡块；米；番茄；青椒；芹菜；胡萝卜；玉米；洋葱；豌豆；橄榄；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken and Rice](https://medlineplus.gov/recipes/chicken-and-rice/) |
+| Chicken and Rice | MedlinePlus鸡肉米饭；鸡肉蔬菜炖饭 | US | usa-chicken-rice-stew | 研究记录（非公开可执行） | 鸡块；米；番茄；青椒；芹菜；胡萝卜；玉米；洋葱；豌豆；橄榄；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken and Rice](https://medlineplus.gov/recipes/chicken-and-rice/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-easy-veggie-risotto
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2271,7 +2271,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken & Rice | 内布拉斯加鸡肉米饭 | US-NE | usa-midwest-chicken-rice | 研究记录（非公开可执行） | 鸡胸肉；Basmati米；熟斑豆；Roma番茄；洋葱；Russet土豆；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken & Rice](https://food.unl.edu/recipe/chicken-rice/) |
+| Chicken & Rice | 内布拉斯加鸡肉米饭 | US-NE | usa-midwest-chicken-rice | 研究记录（非公开可执行） | 鸡胸肉；Basmati米；熟斑豆；Roma番茄；洋葱；Russet土豆；水 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Chicken & Rice](https://food.unl.edu/recipe/chicken-rice/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## usa-one-pot-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

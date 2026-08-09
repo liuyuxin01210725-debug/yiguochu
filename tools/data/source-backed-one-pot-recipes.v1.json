@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r230",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r231",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -108948,7 +108948,15 @@
           "S-R130-NIH-MEDLINEPLUS-CHICKEN-RICE-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -108987,10 +108995,26 @@
           ],
           "attribution": "MedlinePlus / National Heart, Lung, and Blood Institute",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "MedlinePlus/NHLBI官方页面支持6份Chicken and Rice、鸡肉/米/水/蔬菜定量和约90分钟普通大锅分阶段流程；鸡肉取出后回锅是关键边界，来源未给数值禽肉安全终点，不外推电饭煲。"
+      "evidence_notes": "MedlinePlus/NHLBI官方页面支持6份Chicken and Rice、鸡肉/米/水/蔬菜定量和约90分钟普通大锅分阶段流程；鸡肉取出后回锅是关键边界。r231补入FoodSafety.gov禽肉74°C终点，但不外推电饭煲。"
     },
     {
       "recipe_id": "unl-chicken-rice",
@@ -109149,7 +109173,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -109187,6 +109219,22 @@
           ],
           "attribution": "University of Nebraska–Lincoln Food",
           "license": "university_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
@@ -112513,7 +112561,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -112551,10 +112607,26 @@
           ],
           "attribution": "Singapore Health Promotion Board",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Singapore Health Promotion Board Asian Recipe PDF第17页支持4份Brown Rice Chicken Congee、糙米/鸡肉/蔬菜/10杯水定量和电饭煲分阶段流程；来源未给总时长与禽肉数值安全终点，time_contract和safety_endpoints保持缺失，不外推其他机型。"
+      "evidence_notes": "Singapore Health Promotion Board Asian Recipe PDF第17页支持4份Brown Rice Chicken Congee、糙米/鸡肉/蔬菜/10杯水定量和电饭煲分阶段流程；r231补入FoodSafety.gov禽肉74°C终点，仍不把分阶段流程压缩成单一程序，也不外推其他机型。"
     },
     {
       "recipe_id": "sg-healthhub-bubur-lambuk",
@@ -113239,7 +113311,15 @@
           "S-R142-AU-SLHD-OVEN-BAKED-BIRYANI-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -113278,10 +113358,26 @@
           ],
           "attribution": "Sydney Local Health District, NSW Government",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "NSW政府地方卫生区官方页支持Oven baked biryani的2/4/6份量表、米/鸡肉/鸡汤/蔬菜定量和炉灶预炒+180°C烤箱流程；页面说明改编自Taste.com.au，未把其转为传统身份唯一证明。鸡肉只有“熟透”文字终点，无数值温度，不晋升executable或电饭煲适配。"
+      "evidence_notes": "NSW政府地方卫生区官方页支持Oven baked biryani的2/4/6份量表、米/鸡肉/鸡汤/蔬菜定量和炉灶预炒+180°C烤箱流程；页面说明改编自Taste.com.au，未把其转为传统身份唯一证明。r231补入FoodSafety.gov禽肉74°C终点，仍不晋升executable或电饭煲适配。"
     }
   ]
 }

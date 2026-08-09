@@ -7,14 +7,13 @@ const byId = Object.fromEntries(catalog.recipes.map(recipe => [recipe.recipe_id,
 const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 
 const expected = [
-  'maff-corn-chicken-takikomi-gohan',
-  'maff-daikon-chicken-rice',
-  'maff-chicken-shiitake-chinese-steamed-rice',
-  'maff-irogohan-nara',
-  'maff-fukuoka-bamboo-rice',
+  'nih-medlineplus-chicken-rice',
+  'unl-chicken-rice',
+  'au-slhd-oven-baked-biryani',
+  'sg-healthhub-brown-rice-chicken-congee',
 ];
 
-test('r230 closes five directly evidenced MAFF raw-chicken safety gaps', () => {
+test('r231 closes four directly evidenced chicken safety gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r231');
   assert.equal(catalog.recipes.length, 923);
   for (const recipeId of expected) {
@@ -35,7 +34,7 @@ test('r230 closes five directly evidenced MAFF raw-chicken safety gaps', () => {
   }
 });
 
-test('r230 leaves the five records source-limited and non-executable', () => {
+test('r231 leaves the four records source-limited and non-executable', () => {
   for (const recipeId of expected) {
     const recipe = byId[recipeId];
     assert.equal('executable' in recipe, false, recipeId);
