@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tiger-cheese-curry-pilaf');
 
 test('r173 records the Tiger COK-B220 model-scoped waterline', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r215');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -15,7 +15,8 @@ test('r173 records the Tiger COK-B220 model-scoped waterline', () => {
     waterline: { appliance_model: 'Tiger COK-B220', scale: 'white_rice', mark: '2刻度略低' },
     source_ids: ['S-R69-TIGER-CHEESE-CURRY-PILAF'],
   });
-  assert.equal(recipe.fixed_batch, null);
+  assert.equal(recipe.fixed_batch.servings, 3);
+  assert.equal(recipe.fixed_batch.ingredients.find((item) => item.name === '米').amount.value, 300);
   assert.equal(recipe.time_contract?.total_minutes, 45);
   assert.equal(recipe.cooker_adaptation?.status, 'source_limited');
   assert.deepEqual(recipe.cooker_adaptation?.waterline, {

@@ -130,7 +130,6 @@
 - 沩山糯米饭 (r103-cn-hunan-liling-weishan-nuomi-fan) — CN-HN-ZHUZHOU-LILING
 - 靖州乌米饭 (jingzhou-wumi-rice) — CN-HN-HUAIHUA-JINGZHOU
 - エアぶり大根めし (maff-air-buri-daikon-daikon-meshi) — JP
-- かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - 鮎の炊き込みご飯 (wakayama-ayu-takikomi) — JP-WAKAYAMA
 - 南京矮脚黄板鸭菜饭 (nanjing-aijiaohuang-duck-rice) — CN-JS
 - 南京菜饭 (nanjing-aijiaohuang-rice) — CN-JS
@@ -1420,7 +1419,6 @@
 - かて飯 (maff-kanagawa-kate-meshi) — JP-KANAGAWA-SAGAMIHARA
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
 - 五目飯 (maff-tochigi-gomokumeshi) — JP-TOCHIGI
-- かきまわし／とりめし (maff-aichi-kakimawashi) — JP-AICHI
 - 鶏雑炊（とりどせ） (maff-chiba-toridose) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
@@ -1439,7 +1437,6 @@
 - 大山おこわ (maff-tottori-daisen-okowa) — JP-TOTTORI
 - おばく (maff-yamanashi-obaku) — JP-YAMANASHI
 - うずみ (maff-hiroshima-uzume) — JP-HIROSHIMA-FUKUYAMA
-- チキンのパエリア (tiger-chicken-paella) — JP
 - チーズカレーピラフ (tiger-cheese-curry-pilaf) — JP
 - 干しえびと塩昆布の玄米ごはん (r61-tiger-dried-shrimp-salted-kelp-brown-rice) — JP
 - とうもろこしの炊き込みご飯 (maff-corn-chicken-takikomi-gohan) — JP-NATIONAL

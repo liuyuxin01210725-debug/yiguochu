@@ -6,7 +6,7 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r92 records Tefal Portuguese Rice as a named low-priority research recipe', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r215');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 770);
 

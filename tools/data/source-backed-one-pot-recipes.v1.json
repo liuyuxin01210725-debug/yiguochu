@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r214",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r215",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -47139,7 +47139,84 @@
         "胡萝卜",
         "葱"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          },
+          {
+            "name": "油炸豆腐",
+            "amount": {
+              "value": 1,
+              "unit": "枚"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          },
+          {
+            "name": "青葱",
+            "amount": {
+              "value": 2,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-TATUNG-FUKAGAWA-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TATUNG-FUKAGAWA-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -47214,7 +47291,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "大同电锅官方具名东京深川蛤蜊炊饭；保留两阶段同一器具流程和蛤蜊汁事实，但来源缺固定水量与最终安全终点，不晋升 executable。"
+      "evidence_notes": "大同电锅官方具名东京深川蛤蜊炊饭；2人份的米、油炸豆腐、胡萝卜、调味料和青葱数量已按原页写入固定批次，蛤蜊原页为350至400g范围故不压成单值；保留两阶段同一器具流程和蛤蜊汁事实，固定水量与最终安全终点仍缺，不晋升 executable。"
     },
     {
       "recipe_id": "tatung-tomato-pumpkin-rice",
@@ -48286,7 +48363,84 @@
         "胡萝卜",
         "竹轮"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          },
+          {
+            "name": "鸡腿肉",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 0.25,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 0.25,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          },
+          {
+            "name": "竹轮",
+            "amount": {
+              "value": 2,
+              "unit": "本"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-KAKIMAWASHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-AICHI-KAKIMAWASHI-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -48312,7 +48466,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆",
         "鸡肉"
@@ -48343,15 +48505,32 @@
           "claim_scopes": [
             "identity",
             "ingredients",
+            "quantity",
             "process",
             "appliance"
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "Safe Minimum Internal Temperature Chart：禽肉 165°F/74°C，适用于本条来源中的鸡肉组件。",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "爱知具名かきまわし／とりめし；核心价值在真实地域流程，明确是分段拌合而非严格同锅，禽肉安全与固定份量合同尚未闭合。"
+      "evidence_notes": "爱知具名かきまわし／とりめし；农林水产省原页4人份主料与调味数量已写入固定批次，核心价值仍是分段拌合而非严格同锅；禽肉挂FoodSafety.gov 74°C终点，不晋升 executable。"
     },
     {
       "recipe_id": "panasonic-taiwan-taiyu-scallop-quinoa-rice",
@@ -76642,7 +76821,134 @@
         "甜椒",
         "玉米"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "橄榄油",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 330,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "鸡腿肉",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "蒜泥",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "培根",
+            "amount": {
+              "value": 1,
+              "unit": "片"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "蘑菇",
+            "amount": {
+              "value": 2,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "白葡萄酒",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "洋风汤底",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "红甜椒",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          },
+          {
+            "name": "玉米",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHICKEN-PAELLA"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R69-TIGER-CHICKEN-PAELLA"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_water",
         "amount": {
@@ -76675,7 +76981,15 @@
           "S-R69-TIGER-CHICKEN-PAELLA"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -76714,10 +77028,26 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "Safe Minimum Internal Temperature Chart：禽肉 165°F/74°C，适用于本条来源中的生鸡腿肉组件。",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "具名虎牌鸡肉西班牙饭；同锅主流程但明确有出锅后投料，不删去机型和后加边界。"
+      "evidence_notes": "具名虎牌鸡肉西班牙饭；COK-B220原页3人份全部数值材料已写入固定批次，同锅主流程但明确有出锅后投料，不删去机型和后加边界；生鸡腿挂FoodSafety.gov 74°C终点。"
     },
     {
       "recipe_id": "tiger-cheese-curry-pilaf",
@@ -76742,7 +77072,104 @@
         "咖喱粉",
         "芝士"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 300,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "金枪鱼",
+            "amount": {
+              "value": 70,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "玉米",
+            "amount": {
+              "value": 70,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "番茄酱",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "洋风汤底",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "咖喱粉",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "黄油",
+            "amount": {
+              "value": 10,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          },
+          {
+            "name": "芝士",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R69-TIGER-CHEESE-CURRY-PILAF"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R69-TIGER-CHEESE-CURRY-PILAF"
+        ]
+      },
       "liquid_contract": {
         "kind": "waterline",
         "waterline": {
@@ -76823,7 +77250,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "具名虎牌芝士咖喱饭；原页调理时间45分钟，液体是机型水位线而非通用克数，保留炊后加芝士边界。"
+      "evidence_notes": "具名虎牌芝士咖喱饭；COK-B220原页3人份数值材料已写入固定批次，原页调理时间45分钟，液体是机型水位线而非通用克数，保留炊后加芝士边界。"
     },
     {
       "recipe_id": "baguazhou-luhao-braised-rice",

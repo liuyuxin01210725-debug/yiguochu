@@ -13,7 +13,7 @@ const recipeIds = [
 ];
 
 test('r198 closes four directly evidenced MAFF raw-chicken safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r214');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r215');
   for (const recipeId of recipeIds) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);
