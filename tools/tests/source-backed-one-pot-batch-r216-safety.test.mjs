@@ -6,7 +6,7 @@ const catalog = JSON.parse(fs.readFileSync(new URL('../data/source-backed-one-po
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r216 closes the documented clam shell-opening endpoint for Tatung Fukagawa rice', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r220');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r221');
   const recipe = byId['tatung-fukagawa-rice'];
   assert.equal(recipe.safety_endpoints.length, 1);
   assert.equal(recipe.safety_endpoints[0].code, 'shellfish_fully_cooked');

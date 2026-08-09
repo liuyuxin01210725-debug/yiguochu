@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r220",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r221",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -62866,8 +62866,84 @@
         "油炸豆腐",
         "柚子皮"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 180,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SATOIMO-RICE-R62"
+            ]
+          },
+          {
+            "name": "芋头",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SATOIMO-RICE-R62"
+            ]
+          },
+          {
+            "name": "油炸豆腐",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-SATOIMO-RICE-R62"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SATOIMO-RICE-R62"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "小匙1强"
+            },
+            "source_ids": [
+              "S-MAFF-SATOIMO-RICE-R62"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SATOIMO-RICE-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-SATOIMO-RICE-R62"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_dashi",
+        "amount": {
+          "value": 1.2,
+          "unit": "cup"
+        },
+        "source_ids": [
+          "S-MAFF-SATOIMO-RICE-R62"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -62905,7 +62981,7 @@
           "source_kind": "government_recipe_page",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "日本乡土料理页面芋头炊饭段：米、芋头、油炸豆腐、出汁和电饭锅流程",
+          "evidence_locator": "正文第286至374行：2人份米180g、芋头100g、油炸豆腐约20g、淡口酱油1小匙、酒1小匙强、盐1/5小匙；出汁1又1/5杯与电饭锅同炊流程",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -62919,7 +62995,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "来源支持芋头炊饭身份、预处理和电饭锅同炊，未给项目所需总时间和安全合同。"
+      "evidence_notes": "同一农林水产省原页闭合2人批次与1又1/5杯出汁；油炸豆腐原文为1枚程度（20g），酒为小匙1强，按原文保留单位限定。来源未给总时间和安全合同，未晋升 executable。"
     },
     {
       "recipe_id": "maff-irogohan-nara",
@@ -62945,7 +63021,124 @@
         "蒟蒻",
         "鸡肉"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "杯"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "香菇",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "油炸豆腐",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "蒟蒻",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "鸡肉",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 60,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 40,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "出汁昆布",
+            "amount": {
+              "value": 15,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          },
+          {
+            "name": "花柴鱼片",
+            "amount": {
+              "value": 25,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-IROGOHAN-NARA-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-IROGOHAN-NARA-R62"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -62981,7 +63174,7 @@
           "source_kind": "government_regional_recipe_page",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "正文第267至357行：奈良地域身份、常见配料、6人份示例和同炊步骤；液体两处表述并列保留",
+          "evidence_locator": "正文第267至357行：奈良地域身份、6人份示例；米3杯、根菜/油炸豆腐/蒟蒻/鸡肉及酱油60mL、酒40mL、出汁昆布15g、花柴鱼25g；同炊步骤，液体两处表述并列保留",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -62994,7 +63187,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "奈良地方家庭炊饭；来源同时出现900ml出汁和步骤500ml混合液，冲突不取平均，液体合同保持缺省。"
+      "evidence_notes": "同一农林水产省原页的6人份示例已闭合定量配料；来源同时出现900mL出汁和步骤500mL混合液，冲突不取平均，液体合同保持缺省。鸡肉安全终点和总时长仍未由本批补写。"
     },
     {
       "recipe_id": "kagoshima-ginger-takikomi-gohan",
