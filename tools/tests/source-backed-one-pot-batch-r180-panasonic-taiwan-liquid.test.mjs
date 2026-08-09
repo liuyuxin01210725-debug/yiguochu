@@ -16,7 +16,7 @@ const poultrySafetyClosed = new Set([
 ]);
 
 test('r180 records five exact Panasonic Taiwan liquid contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(item => [item.recipe_id, item]));
   for (const [id, kind, value, unit, sourceId, locator] of expected) {

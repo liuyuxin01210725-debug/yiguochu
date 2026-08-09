@@ -526,8 +526,10 @@
 - 海南雞藜麥飯（一鍋兩菜） (cookpot-hainan-chicken-quinoa-rice-1000) — TW
 - 虱目魚粥（一） (taiwan-milkfish-congee) — TW
 - 虱目魚鹹粥 (taiwan-milkfish-salted-porridge) — TW
+- 木鱉果時蔬燉飯 (r100-taiwan-momordica-vegetable-risotto) — TW
 - 金沙皮蛋香菇粥 (r98-panasonic-taiwan-preserved-egg-mushroom-congee) — TW
 - 紅棗飯 (r106-tw-red-date-rice) — TW
+- 紅藜臘味荷葉飯 (r100-taiwan-red-quinoa-lotus-leaf-rice) — TW
 - 米豆鮮蔬拌飯 (r106-tw-rice-bean-vegetable-mixed-rice) — TW
 - 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
 - 鮮蚵芋頭糙米粥 (taiwan-fresh-oyster-taro-brown-rice-porridge) — TW
@@ -792,9 +794,13 @@
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 竹筍炊飯 (taiwan-bamboo-shoot-rice) — TW
 - 皮蛋瘦肉粥 (r58-taiwan-preserved-egg-pork-congee) — TW
+- 桂圓穀物養生粥 (r100-taiwan-grain-health-congee) — TW
 - 健康十榖米 (afa-ebook8-healthy-ten-grain-rice) — TW
 - 虱目魚肚粥 (taiwan-milkfish-belly-porridge) — TW
 - 香菇筍仔飯 (taiwan-mushroom-bamboo-shoot-rice) — TW
+- 木鱉果時蔬燉飯 (r100-taiwan-momordica-vegetable-risotto) — TW
+- 臺灣藜油飯 (r100-taiwan-quinoa-oil-rice) — TW
+- 紅藜臘味荷葉飯 (r100-taiwan-red-quinoa-lotus-leaf-rice) — TW
 - 排骨煲仔飯 (taiwan-pork-rib-claypot-rice) — TW
 - 地瓜鹹飯 (taiwan-sweet-potato-salted-rice) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
@@ -1249,6 +1255,7 @@
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 紅薏仁燉飯 (moa-red-coix-mushroom-risotto) — TW
 - 黃金野菇紅藜雞肉炊飯 (r99-taiwan-golden-wild-mushroom-quinoa-chicken-rice) — TW
+- 桂圓穀物養生粥 (r100-taiwan-grain-health-congee) — TW
 - 健康十榖米 (afa-ebook8-healthy-ten-grain-rice) — TW
 - 青醬嫩雞燉飯 (r97-panasonic-taiwan-green-sauce-chicken-risotto) — TW
 - 滑蛋地瓜菜粥 (taiwan-sliding-egg-sweet-potato-vegetable-porridge) — TW
@@ -1260,8 +1267,11 @@
 - 虱目魚肚粥 (taiwan-milkfish-belly-porridge) — TW
 - 虱目魚鹹粥 (taiwan-milkfish-salted-porridge) — TW
 - 樹豆小米飯 (taitung-tree-bean-millet-rice) — TW-TT
+- 木鱉果時蔬燉飯 (r100-taiwan-momordica-vegetable-risotto) — TW
 - 金沙皮蛋香菇粥 (r98-panasonic-taiwan-preserved-egg-mushroom-congee) — TW
+- 臺灣藜油飯 (r100-taiwan-quinoa-oil-rice) — TW
 - 紅棗飯 (r106-tw-red-date-rice) — TW
+- 紅藜臘味荷葉飯 (r100-taiwan-red-quinoa-lotus-leaf-rice) — TW
 - 地瓜鹹飯 (taiwan-sweet-potato-salted-rice) — TW
 - 米豆鮮蔬拌飯 (r106-tw-rice-bean-vegetable-mixed-rice) — TW
 - 淮實瘦肉粥 (taiwan-huai-shi-lean-pork-porridge) — TW
@@ -1524,6 +1534,8 @@
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
 - 海南雞藜麥飯（一鍋兩菜） (cookpot-hainan-chicken-quinoa-rice-1000) — TW
+- 臺灣藜油飯 (r100-taiwan-quinoa-oil-rice) — TW
+- 紅藜臘味荷葉飯 (r100-taiwan-red-quinoa-lotus-leaf-rice) — TW
 - 四季米香粥 (taiwan-four-season-pork-congee) — TW
 - 櫻蝦玉菜煲仔飯 (panasonic-taiwan-sakura-shrimp-cabbage-rice) — TW
 - 螃蟹粥 (r58-taiwan-crab-congee) — TW

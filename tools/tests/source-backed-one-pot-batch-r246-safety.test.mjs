@@ -15,7 +15,7 @@ const expected = {
 };
 
 test('r246 closes four directly evidenced poultry safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedEndpoint] of Object.entries(expected)) {
     const recipe = byId[recipeId];

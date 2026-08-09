@@ -18,14 +18,21 @@ const expected = new Map([
   ['r100-hk-pumpkin-seafood-brown-rice', '焗南瓜海鮮糙米飯'],
 ]);
 
+const expectedStatus = new Map([
+  ['r100-taiwan-red-quinoa-lotus-leaf-rice', 'recipe_fact_checked'],
+  ['r100-taiwan-quinoa-oil-rice', 'recipe_fact_checked'],
+  ['r100-taiwan-momordica-vegetable-risotto', 'recipe_fact_checked'],
+  ['r100-taiwan-grain-health-congee', 'recipe_fact_checked'],
+]);
+
 test('r100 persists eleven opened official-source assets without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, name] of expected) {
     const recipe = byId.get(recipeId);
     assert.equal(recipe?.canonical_name, name, recipeId);
-    assert.equal(recipe?.status, 'discovered', recipeId);
+    assert.equal(recipe?.status, expectedStatus.get(recipeId) ?? 'discovered', recipeId);
     assert.equal(recipe?.identity_status, 'verified', recipeId);
     assert.ok(recipe?.source_refs?.length > 0, recipeId);
     assert.ok(recipe.source_refs.every(source => source.access_status === 'opened'), recipeId);

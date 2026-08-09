@@ -25,7 +25,7 @@ const expected = [
 const executableIds = new Set(['tiger-usa-century-egg-fish-porridge']);
 
 test('r113 adds three directly sourced Tiger one-pot candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r252');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r253');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, url] of expected) {

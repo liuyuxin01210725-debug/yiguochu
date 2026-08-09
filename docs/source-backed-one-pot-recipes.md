@@ -1934,7 +1934,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 桂圓穀物養生粥 | 桂圆谷物养生粥 | TW | taiwan-grain-health-congee | 研究记录（非公开可执行） | 糙米；薏苡仁；台湾藜；红豆；紫米；莲子；红枣；桂圆干 | identity、ingredients | 当前状态所需证据已齐 | [桂圓穀物養生粥](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
+| 桂圓穀物養生粥 | 桂圆谷物养生粥 | TW | taiwan-grain-health-congee | 研究记录（非公开可执行） | 糙米；薏苡仁；台湾藜；红豆；紫米；莲子；红枣；桂圆干 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [桂圓穀物養生粥](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
 ## taiwan-grain-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2002,7 +2002,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 木鱉果時蔬燉飯 | 木鳖果时蔬炖饭 | TW | taiwan-momordica-vegetable-risotto | 研究记录（非公开可执行） | 台梗九号米；木鳖果；洋菇；柳松菇；玉米笋；青椒；洋葱；素鸡 | identity、ingredients | 当前状态所需证据已齐 | [木鱉果時蔬燉飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
+| 木鱉果時蔬燉飯 | 木鳖果时蔬炖饭 | TW | taiwan-momordica-vegetable-risotto | 研究记录（非公开可执行） | 台梗九号米；木鳖果；洋菇；柳松菇；玉米笋；青椒；洋葱；素鸡 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [木鱉果時蔬燉飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
 ## taiwan-preserved-egg-mushroom-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2017,7 +2017,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 臺灣藜油飯 | 台湾藜油饭 | TW | taiwan-quinoa-oil-rice | 研究记录（非公开可执行） | 长糯米；台湾藜；梅花肉；虾米；干香菇；鱿鱼；红葱头 | identity、ingredients | 当前状态所需证据已齐 | [臺灣藜油飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
+| 臺灣藜油飯 | 台湾藜油饭 | TW | taiwan-quinoa-oil-rice | 研究记录（非公开可执行） | 长糯米；台湾藜；梅花肉；虾米；干香菇；鱿鱼；红葱头 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [臺灣藜油飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
 ## taiwan-red-date-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2027,7 +2027,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 紅藜臘味荷葉飯 | 红藜腊味荷叶饭 | TW | taiwan-red-quinoa-lotus-leaf-rice | 研究记录（非公开可执行） | 台湾藜；糯米；广式腊肠；虾米；干香菇；红葱头；荷叶 | identity、ingredients | 当前状态所需证据已齐 | [紅藜臘味荷葉飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
+| 紅藜臘味荷葉飯 | 红藜腊味荷叶饭 | TW | taiwan-red-quinoa-lotus-leaf-rice | 研究记录（非公开可执行） | 台湾藜；糯米；广式腊肠；虾米；干香菇；红葱头；荷叶 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [紅藜臘味荷葉飯](https://fae.moa.gov.tw/files/topics/1881/A02_1.pdf) |
 ## taiwan-regional-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
