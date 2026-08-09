@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r232",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r233",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -55238,7 +55238,15 @@
           "S-SHARP-MATSUSAKA-PORK-MUSHROOM-RICE-R58"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -55249,9 +55257,24 @@
         "source_ids": [
           "S-SHARP-MATSUSAKA-PORK-MUSHROOM-RICE-R58"
         ],
-        "notes": "仅限SHARP Healsio水波炉AX-XP5T/AX-XP4T及其上、下层容器流程；并非普通电饭煲单锅闭盖流程，猪肉安全终点未闭合。"
+        "notes": "仅限SHARP Healsio水波炉AX-XP5T/AX-XP4T及其上、下层容器流程；并非普通电饭煲单锅闭盖流程。猪肉按FoodSafety.gov 74°C终点记录。"
       },
       "source_refs": [
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
+        },
         {
           "source_id": "S-SHARP-MATSUSAKA-PORK-MUSHROOM-RICE-R58",
           "title": "麻油松阪豬綜合菇炊飯",
@@ -55276,7 +55299,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "SHARP官方具名水波炉配方，份数、用量、液体、20分钟程序和分层容器流程可核对；不能把水波炉上下层流程改写成普通电饭煲一锅，猪肉安全终点仍缺失。"
+      "evidence_notes": "SHARP官方具名水波炉配方，份数、用量、液体、20分钟程序和分层容器流程可核对；不能把水波炉上下层流程改写成普通电饭煲一锅。松阪豬按FoodSafety.gov猪肉74°C终点记录，仍不外推为普通电饭煲流程。"
     },
     {
       "recipe_id": "r58-cookpot-salmon-milk-brown-rice-risotto",
@@ -55427,7 +55450,15 @@
           "S-COOKPOT-SALMON-MILK-BROWN-RICE-R58"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "seafood_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -55438,10 +55469,26 @@
         "source_ids": [
           "S-COOKPOT-SALMON-MILK-BROWN-RICE-R58"
         ],
-        "notes": "鍋寶IH智能定溫電子鍋的炖饭程序；来源允许行程结束后再加入鲑鱼和青江菜并焖5分钟，鱼类安全终点和页面液体说明歧义仍待厨房验证。"
+        "notes": "鍋寶IH智能定溫電子鍋的炖饭程序；来源允许行程结束后再加入鲑鱼和青江菜并焖5分钟，保留页面液体说明歧义和程序后加鱼边界；鲑鱼按FoodSafety.gov 63°C终点记录。"
       },
       "source_refs": [
         {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
+        },
+        {
+          "source_id": "S-COOKPOT-SALMON-MILK-BROWN-RICE-R58",
           "source_id": "S-COOKPOT-SALMON-MILK-BROWN-RICE-R58",
           "title": "鮭魚奶香糙米燉飯",
           "publisher": "鍋寶好食光",
@@ -55465,7 +55512,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "锅宝官方页面明确给2人份、食材、水奶用量、IH炖饭程序和出锅后加鱼菜焖5分钟；页面评论对1.5杯水的加入时点有疑问，鱼类安全终点未闭合，暂不晋升。"
+      "evidence_notes": "锅宝官方页面明确给2人份、食材、水奶用量、IH炖饭程序和出锅后加鱼菜焖5分钟；页面评论对1.5杯水的加入时点有疑问。鲑鱼按FoodSafety.gov鱼类63°C终点记录，保留程序结束后加鱼再焖5分钟的机型边界，暂不晋升。"
     },
     {
       "recipe_id": "r58-cookpot-corn-rice-beef-meatballs",
@@ -55676,7 +55723,15 @@
           "S-COOKPOT-CORN-RICE-BEEF-MEATBALLS-R58"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "unassessed",
@@ -55687,9 +55742,24 @@
         "source_ids": [
           "S-COOKPOT-CORN-RICE-BEEF-MEATBALLS-R58"
         ],
-        "notes": "来源是分離式電鍋的‘一鍋二菜’上下层蒸制，不等同于把牛肉丸混入米饭；牛肉安全终点未闭合。"
+        "notes": "来源是分離式電鍋的‘一鍋二菜’上下层蒸制，不等同于把牛肉丸混入米饭；牛肉丸按FoodSafety.gov绞牛肉71°C终点记录。"
       },
       "source_refs": [
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
+        },
         {
           "source_id": "S-COOKPOT-CORN-RICE-BEEF-MEATBALLS-R58",
           "title": "玉米飯+牛肉丸子 (一鍋二菜)",
@@ -55714,7 +55784,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "锅宝官方页面支持具名、4人份、米和牛肉丸用量、上下层一锅二菜流程及45分钟准备时间；本条明确两道菜分层，不伪装成混合米饭，牛肉安全终点仍待补证。"
+      "evidence_notes": "锅宝官方页面支持具名、4人份、米和牛肉丸用量、上下层一锅二菜流程及45分钟准备时间；本条明确两道菜分层，不伪装成混合米饭。牛肉丸按FoodSafety.gov绞牛肉71°C终点记录，仍保留上下层蒸制边界。"
     },
     {
       "recipe_id": "hubei-yangxin-chunhu-fish-rice",

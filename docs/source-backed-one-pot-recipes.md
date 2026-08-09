@@ -1349,7 +1349,7 @@
 | 香菇腊肠饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 大米；腊肠；香菇；板栗；酱油 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [香菇腊肠饭](https://www.midea.cn/act/help_center_new/transaction_terms?id=380&parentId=857) |
 | 高丽菜鲭鱼炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；高丽菜；鲭鱼；黑木耳；鸿喜菇；玉米笋；红萝卜；毛豆仁；昆布 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [高麗菜鯖魚炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3638) |
 | 鮭魚五目炊飯 | 鮭鱼五目炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 無刺鮭魚；乾香菇；鴻禧菇；紅蘿蔔；牛蒡；蒟蒻；白米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鮭魚五目炊飯](https://www.philips.com.tw/c-e/ho/recipe-overview-page/main-courses/steamed-salmon-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 鮭魚奶香糙米燉飯 | 鲑鱼奶香糙米炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 鮭魚；糙米；青江菜；全脂牛奶 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鮭魚奶香糙米燉飯](https://www.cookpot.com.tw/cookbook/588.html) |
+| 鮭魚奶香糙米燉飯 | 鲑鱼奶香糙米炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 鮭魚；糙米；青江菜；全脂牛奶 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[鮭魚奶香糙米燉飯](https://www.cookpot.com.tw/cookbook/588.html) |
 | 鮭魚白蘿蔔金黃炊飯 | 鲑鱼白萝卜金黄炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；白蘿蔔；鮭魚；雞蛋；蔥花；芝麻香油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鮭魚白蘿蔔金黃炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5122) |
 | 鯖缶の炊き込みごはん | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；水煮鲭鱼罐头；胡萝卜；姜；酱油；酒；味醂 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鯖缶の炊き込みごはん](https://www.irisohyama.co.jp/cooking-kettle/recipe/recipe14/) |
 | 鯛飯 | 艾丽丝欧雅玛鲷饭；鲷鱼饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鲷鱼切片；昆布茶；三叶；姜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鯛飯｜オリジナルレシピ 電気圧力鍋 KPC-MA2](https://www.irisohyama.co.jp/kitchen/cooker/recipe/recipe31.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1358,7 +1358,7 @@
 | 鳳梨蝦仁飯 | 凤梨虾仁饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 泰國香米；蝦仁；鳳梨；青豆仁；洋蔥；番茄；葡萄乾；腰果 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鳳梨蝦仁飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5247) |
 | 鸡肉腊肠煲仔饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉片；腊肠；生姜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [HD4775 / HD4777 多功能电饭煲说明书：鸡肉腊肠煲仔饭](https://www.documents.philips.com/assets/20210504/2b225944d7cb481abeffad1e01377c70.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鹹魚雞粒煲仔飯 | 咸鱼鸡粒煲仔饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 長秈米；雞胸肉；鹹鯖魚；蔥 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鹹魚雞粒煲仔飯](https://www.cookpot.com.tw/cookbook/559.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 麻油松阪豬綜合菇炊飯 | 麻油松阪猪综合菇炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 松阪豬；泰國米；舞菇；金針菇；鴻禧菇；老薑 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [麻油松阪豬綜合菇炊飯](https://tw.sharp/healsio/recipes/811) |
+| 麻油松阪豬綜合菇炊飯 | 麻油松阪猪综合菇炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 松阪豬；泰國米；舞菇；金針菇；鴻禧菇；老薑 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[麻油松阪豬綜合菇炊飯](https://tw.sharp/healsio/recipes/811) |
 ## manufacturer-rice-cooker-seafood-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1374,7 +1374,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 玉米飯+牛肉丸子 (一鍋二菜) | 玉米饭+牛肉丸子（一锅二菜） | TW | manufacturer-steamer-rice-meal | 研究记录（非公开可执行） | 玉米粒；白米；牛絞肉；蔥；洋蔥末 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [玉米飯+牛肉丸子 (一鍋二菜)](https://www.cookpot.com.tw/cookbook/38.html) |
+| 玉米飯+牛肉丸子 (一鍋二菜) | 玉米饭+牛肉丸子（一锅二菜） | TW | manufacturer-steamer-rice-meal | 研究记录（非公开可执行） | 玉米粒；白米；牛絞肉；蔥；洋蔥末 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[玉米飯+牛肉丸子 (一鍋二菜)](https://www.cookpot.com.tw/cookbook/38.html) |
 ## mayang-she-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

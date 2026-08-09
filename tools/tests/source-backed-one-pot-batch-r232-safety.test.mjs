@@ -14,7 +14,7 @@ const expected = [
 ];
 
 test('r232 closes four directly evidenced manufacturer chicken safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r232');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r233');
   assert.equal(catalog.recipes.length, 923);
   for (const recipeId of expected) {
     const recipe = byId[recipeId];
