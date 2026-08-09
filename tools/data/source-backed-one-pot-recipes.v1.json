@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r210",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r211",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -62430,7 +62430,74 @@
         "鲜姜",
         "昆布"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-KAGOSHIMA-GINGER-R62"
+            ]
+          },
+          {
+            "name": "油豆腐",
+            "amount": {
+              "value": 60,
+              "unit": "g（2片）"
+            },
+            "source_ids": [
+              "S-KAGOSHIMA-GINGER-R62"
+            ]
+          },
+          {
+            "name": "新姜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KAGOSHIMA-GINGER-R62"
+            ]
+          },
+          {
+            "name": "出汁昆布",
+            "amount": {
+              "value": 10,
+              "unit": "cm"
+            },
+            "source_ids": [
+              "S-KAGOSHIMA-GINGER-R62"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-KAGOSHIMA-GINGER-R62"
+            ]
+          },
+          {
+            "name": "地酒",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-KAGOSHIMA-GINGER-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-KAGOSHIMA-GINGER-R62"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -62469,7 +62536,7 @@
           "source_kind": "municipal_recipe_page",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "鹿儿岛市政府食谱正文：4人份、米/油炸豆腐/姜/昆布与出锅拌姜顺序",
+          "evidence_locator": "鹿儿岛市政府食谱HTML第196至207行：4人份、米2合、油豆腐60g、新姜30g、昆布10cm、酱油/地酒各2大匙及2合水位炊饭；新姜出锅后拌入",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -62482,7 +62549,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "鹿儿岛市政府具名姜炊饭；保留“姜在出锅后加入”的顺序，不补总时间或安全终点。"
+      "evidence_notes": "鹿儿岛市政府具名姜炊饭；原页4人份及原料定量已写入fixed_batch，保留“姜在出锅后加入”的顺序；水按2合刻度、总时间和安全终点仍未给出。"
     },
     {
       "recipe_id": "kochi-nakamura-mushroom-ginkgo-takikomi",
@@ -62508,7 +62575,114 @@
         "牛蒡",
         "鸡腿肉"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 450,
+              "unit": "g（3合）"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "淡口酱油",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "真姬菇",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "金针菇",
+            "amount": {
+              "value": 100,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "干香菇",
+            "amount": {
+              "value": 4,
+              "unit": "朵"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "银杏",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 70,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 50,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          },
+          {
+            "name": "鸡腿肉",
+            "amount": {
+              "value": 160,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-KOCHI-NAKAMURA-MUSHROOM-GINKGO-R62"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -62544,7 +62718,7 @@
           "source_kind": "prefectural_recipe_page",
           "access_status": "opened",
           "evidence_tier": 3,
-          "evidence_locator": "正文：幡多新定番料理竞赛获奖菜、4人份食材、浸泡和配料铺顶炊熟流程",
+          "evidence_locator": "高知县原页HTML第73至141行：4人份米450g、真姬菇/金针菇各100g、干香菇4朵、银杏50g、胡萝卜70g、牛蒡50g、鸡腿肉160g及炊饭流程",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -62556,7 +62730,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "高知中村具名炊饭；原页未给固定总液体与时长，鸡肉安全终点未闭合。"
+      "evidence_notes": "高知中村具名炊饭；原页4人份及原料定量已写入fixed_batch，普通水量、总时长和鸡肉安全终点仍未给出，不跨器具推导。"
     },
     {
       "recipe_id": "tokyo-hachijo-tokobushi-takikomi",
@@ -63039,7 +63213,54 @@
         "酒",
         "盐"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 3,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-WAKAYAMA-USUENDO-R62"
+            ]
+          },
+          {
+            "name": "豌豆",
+            "amount": {
+              "value": 200,
+              "unit": "g（去壳净重）"
+            },
+            "source_ids": [
+              "S-MAFF-WAKAYAMA-USUENDO-R62"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-WAKAYAMA-USUENDO-R62"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-WAKAYAMA-USUENDO-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-WAKAYAMA-USUENDO-R62"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -63078,7 +63299,7 @@
           "source_kind": "government_recipe_pdf",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页：和歌山县乡土料理、4人份米/豌豆/酒/盐与电饭煲步骤",
+          "evidence_locator": "MAFF近畿农政局PDF第2页（抽取文本第93至106行）：4人份米3合、去壳豌豆净重200g、酒大匙2、盐小匙1及普通炊饭步骤",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -63091,7 +63312,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "和歌山县季节性豌豆饭；普通水位未转成固定 Ratio DSL，未补总时间。"
+      "evidence_notes": "和歌山县季节性豌豆饭；原页4人份及原料定量已写入fixed_batch，普通水位未转成固定Ratio DSL，普通炊饭总时长仍未给出。"
     },
     {
       "recipe_id": "ningshan-liangcanzi-dry-rice",

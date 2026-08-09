@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures';
 
 test('r152 closes the Macau fresh-scallop safety gap with the existing visual shellfish endpoint', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r210');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r211');
   assert.equal(catalog.recipes.length, 923);
   const recipe = catalog.recipes.find(({ recipe_id: id }) => id === 'macau-scallop-mushroom-vegetable-rice');
   assert.ok(recipe);
