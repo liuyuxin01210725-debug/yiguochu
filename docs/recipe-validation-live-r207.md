@@ -10,6 +10,10 @@
 - 回归工具结果：`live cases: 30/30 passed`（安全拒绝按明确声明的预期拒绝计通过）
 - 移动端截图：`.superpowers/sdd/r207-mobile-evidence/mobile-390x844.png`
 
+## 预览端当前状态（2026-08-09）
+
+预览 `/health` 仍返回 `recipeLibrary: ok`、`plannerAssets: ok` 和 `baseRecipes: 72`；但对预览 `/generate-meal` 的重复动态请求返回 HTTP 429 `budget_exceeded`。只读核对共享 `RATE_KV` 后，当日预算键为 `300/300`。未清零、未提高共享预算，也未把该 429 误记为菜谱校验通过或失败；本摘要中的 30/30 结果仍指本地代理运行记录。
+
 | # | case_id | HTTP | 返回基础菜谱 | validation_flags |
 |---:|---|---:|---|---|
 | 1 | `adversarial-001-shrimp-not-cooked-a` | 200 | `kari-ayam-coconut-chicken` | — |
