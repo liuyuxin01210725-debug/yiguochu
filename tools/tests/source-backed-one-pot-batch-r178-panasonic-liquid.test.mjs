@@ -7,7 +7,7 @@ const spring = catalog.recipes.find(item => item.recipe_id === 'panasonic-spring
 const biryani = catalog.recipes.find(item => item.recipe_id === 'panasonic-chicken-biryani-sr-da182');
 
 test('r178 records the Panasonic spring chicken risotto stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r206');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(spring);
   assert.equal(spring.status, 'recipe_fact_checked');
@@ -21,7 +21,11 @@ test('r178 records the Panasonic spring chicken risotto stock contract', () => {
   assert.ok(source.claim_scopes.includes('liquid'));
   assert.match(source.evidence_locator ?? '', /鸡胸500g|Arborio米1.5杯|热鸡高汤750mL/u);
   assert.match(spring.cooking_sequence?.[2]?.instruction ?? '', /Arborio|热鸡高汤|15–20分钟/u);
-  assert.deepEqual(spring.safety_endpoints, []);
+  assert.deepEqual(spring.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 });
 
 test('r178 records the Panasonic chicken biryani stock contract', () => {
@@ -37,5 +41,9 @@ test('r178 records the Panasonic chicken biryani stock contract', () => {
   assert.ok(source.claim_scopes.includes('liquid'));
   assert.match(source.evidence_locator ?? '', /4只鸡腿|印度香米400g|鸡高汤550mL/u);
   assert.match(biryani.cooking_sequence?.[2]?.instruction ?? '', /鸡高汤550mL|Quick Cook\/Steam|20分钟/u);
-  assert.deepEqual(biryani.safety_endpoints, []);
+  assert.deepEqual(biryani.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 });

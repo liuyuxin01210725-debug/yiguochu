@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r205",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r206",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -24953,7 +24953,15 @@
           "S-WOKSOFLOVE-PORK-RIBS-RICE-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "pork_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆",
         "小麦",
@@ -24997,10 +25005,26 @@
           ],
           "attribution": "Woks of Love",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: pork in a mixed rice/casserole preparation uses the 74°C endpoint; the source recipe starts from pork ribs and continues in the rice cooker."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "可信原创家庭菜谱直接命名为排骨焖饭，并明确四川家庭背景；保留其先焯/煎再入电饭煲的连续流程和来源安全说明，尚未做项目厨房验证。"
+      "evidence_notes": "可信原创家庭菜谱直接命名为排骨焖饭，并明确四川家庭背景；保留其先焯/煎再入电饭煲的连续流程和来源安全说明，尚未做项目厨房验证。 r206 安全闭合：原始排骨焯水、煎色后随热汤进入电饭煲，挂现有 FoodSafety.gov 猪肉混合米饭 74°C 终点；不改变先焯/煎与电饭煲边界。"
     },
     {
       "recipe_id": "taiwan-brown-rice-salmon-rice",
@@ -80944,7 +80968,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳制品"
       ],
@@ -80984,10 +81016,26 @@
           ],
           "attribution": "Panasonic Cooking Australia",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: chicken breast in a cooked rice/risotto preparation reaches 74°C; the Panasonic source browns the chicken before the rice and stock phase."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic官方具名 Spring Chicken and Vegetable Risotto。来源支持鸡胸、米、豌豆和西兰花苗的组合，以及高汤预处理、锅内分阶段炒制和末段加蔬菜；普通电饭煲适配、总时长和鸡肉安全终点尚未闭合，保留 source_limited，不进入 executable。"
+      "evidence_notes": "Panasonic官方具名 Spring Chicken and Vegetable Risotto。来源支持鸡胸、米、豌豆和西兰花苗的组合，以及高汤预处理、锅内分阶段炒制和末段加蔬菜；普通电饭煲适配、总时长和鸡肉安全终点尚未闭合，保留 source_limited，不进入 executable。 r206 安全闭合：Panasonic 原页鸡胸先在锅内煎至表面变色后继续完成 risotto，挂禽肉 74°C 终点；不补普通电饭煲适配或总时长。"
     },
     {
       "recipe_id": "panasonic-chicken-biryani-sr-da182",
@@ -81054,7 +81102,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳制品"
       ],
@@ -81094,10 +81150,26 @@
           ],
           "attribution": "Panasonic Cooking Australia",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: chicken thighs in a cooked rice preparation use the 74°C endpoint; the Panasonic source marinates and sears the thighs before the staged rice programs."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic SR-DA182官方具名 Chicken Biryani。来源支持鸡腿腌制、米浸泡、先煎后煮的分阶段流程；普通电饭煲适配、总时长和鸡肉安全终点尚未闭合，保留 source_limited，不进入 executable。"
+      "evidence_notes": "Panasonic SR-DA182官方具名 Chicken Biryani。来源支持鸡腿腌制、米浸泡、先煎后煮的分阶段流程；普通电饭煲适配、总时长和鸡肉安全终点尚未闭合，保留 source_limited，不进入 executable。 r206 安全闭合：Panasonic SR-DA182 原页鸡腿腌制后分面煎，再进入分阶段炊饭程序，挂禽肉 74°C 终点；保留机型与分阶段边界。"
     },
     {
       "recipe_id": "tefal-602-chicken-pea-risotto",
@@ -82211,7 +82283,15 @@
           "S-TIGER-POST43-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -82257,10 +82337,26 @@
           ],
           "attribution": "Tiger Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: poultry in a mixed rice preparation uses the 74°C endpoint; the Tiger source pre-cooks the chicken component before the rice-cooker phase."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方具名五目炊饭；保留指定型号、鸡肉/根菜先处理、白米3线和荷兰豆出锅加入的边界。禽肉安全端点尚未补齐，暂不晋升 executable。"
+      "evidence_notes": "Tiger官方具名五目炊饭；保留指定型号、鸡肉/根菜先处理、白米3线和荷兰豆出锅加入的边界。禽肉安全端点尚未补齐，暂不晋升 executable。 r206 安全闭合：Tiger 原页鸡肉先煮后进入指定炊饭流程，挂禽肉 74°C 终点；保留指定型号、白米3线和出锅拌入边界。"
     },
     {
       "recipe_id": "tiger-crab-miso-rice-post6",
@@ -82805,7 +82901,15 @@
           "S-IRIS-KPCMA2-PAELLA-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -82846,10 +82950,26 @@
           ],
           "attribution": "Iris Ohyama",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: chicken wing roots in a pressure-cooker rice preparation use the 74°C endpoint; the Iris source marinates the chicken and completes it in KPC-MA2."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Iris KPC-MA2官方具名西班牙饭；鸡肉熟制端点与机型适配仍待独立闭合。"
+      "evidence_notes": "Iris KPC-MA2官方具名西班牙饭；鸡肉熟制端点与机型适配仍待独立闭合。 r206 安全闭合：Iris KPC-MA2 原页鸡翅根腌制后随压力炊饭完成，挂禽肉 74°C 终点；不外推 KPC-MA2 到普通电饭煲。"
     },
     {
       "recipe_id": "iris-kpc-ma2-hainan-chicken-rice",
@@ -82910,7 +83030,15 @@
           "S-IRIS-KPCMA2-HCR-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -82950,10 +83078,26 @@
           ],
           "attribution": "Iris Ohyama",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-09",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms",
+          "evidence_locator": "FoodSafety.gov chart: chicken thighs cooked over rice use the 74°C endpoint; the Iris source places the chicken on the rice in KPC-MA2 and makes sauce separately."
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Iris KPC-MA2官方海南鸡饭；酱汁另做的边界保留，不把它改写成“所有东西同锅”。"
+      "evidence_notes": "Iris KPC-MA2官方海南鸡饭；酱汁另做的边界保留，不把它改写成“所有东西同锅”。 r206 安全闭合：Iris KPC-MA2 原页鸡腿铺在米面完成压力炊饭，挂禽肉 74°C 终点；保留酱汁另做与机型边界。"
     },
     {
       "recipe_id": "panasonic-hk-lap-mei-glutinous-rice",

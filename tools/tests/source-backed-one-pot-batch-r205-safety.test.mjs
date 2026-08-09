@@ -22,7 +22,7 @@ const expected = {
 };
 
 test('r205 closes ten directly sourced safety contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r206');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(catalog.recipes.filter(recipe => recipe.status === 'executable').length, 36);
   for (const [recipeId, endpoints] of Object.entries(expected)) {
