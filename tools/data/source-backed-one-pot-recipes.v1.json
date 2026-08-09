@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r229",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r230",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -62134,7 +62134,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -62173,10 +62181,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "日本农林水产省具名玉米炊饭；官方配方含少量鸡肉末，营养结构以碳水为主、蛋白有限，不宣称完整均衡主餐。"
+      "evidence_notes": "日本农林水产省具名玉米炊饭；官方配方含少量鸡肉末，营养结构以碳水为主、蛋白有限，不宣称完整均衡主餐。r230安全补证：原页把鸡肉末与米、玉米和高汤同入炊饭器；挂现有FoodSafety.gov禽肉74°C终点，不扩写设备时间。"
     },
     {
       "recipe_id": "shanbei-sauerkraut-potato-laofan",
@@ -63249,7 +63273,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -63283,10 +63315,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "同一农林水产省原页的6人份示例已闭合定量配料；来源同时出现900mL出汁和步骤500mL混合液，冲突不取平均，液体合同保持缺省。鸡肉安全终点和总时长仍未由本批补写。"
+      "evidence_notes": "同一农林水产省原页的6人份示例已闭合定量配料；来源同时出现900mL出汁和步骤500mL混合液，冲突不取平均，液体合同保持缺省。鸡肉安全终点和总时长仍未由本批补写。r230安全补证：MAFF原页明确鸡肉与根菜、米和出汁同炊；挂禽肉74°C终点，保留家庭变体和液体并列表述。"
     },
     {
       "recipe_id": "kagoshima-ginger-takikomi-gohan",
@@ -75852,7 +75900,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -75887,10 +75943,26 @@
           ],
           "attribution": "日本农林水产省（MAFF）",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "真实福冈竹笋饭；保留先浸泡约10分钟和原文“3杯”单位，不把米杯换算成克或推导通用电饭煲程序。"
+      "evidence_notes": "真实福冈竹笋饭；保留先浸泡约10分钟和原文“3杯”单位，不把米杯换算成克或推导通用电饭煲程序。r230安全补证：MAFF原页明确鸡肉与米、出汁同入电饭锅炊煮；挂禽肉74°C终点，保留1.2倍出汁和焖10分钟边界。"
     },
     {
       "recipe_id": "maff-daikon-chicken-rice",
@@ -75989,7 +76061,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -76023,10 +76103,26 @@
           ],
           "attribution": "日本农林水产省（MAFF）",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "全部材料同锅的具名萝卜饭；萝卜含水量较高，来源没有给出毫升水量与鸡肉终点，保留为厨房验证重点。"
+      "evidence_notes": "全部材料同锅的具名萝卜饭；萝卜含水量较高，来源没有给出毫升水量与鸡肉终点，保留为厨房验证重点。r230安全补证：MAFF原页将鸡腿肉与萝卜、米同入电饭锅炊煮；挂禽肉74°C终点，保留快煮和水位边界。"
     },
     {
       "recipe_id": "maff-kamo-nasu-jako-rice",
@@ -90053,7 +90149,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -90090,10 +90194,26 @@
           ],
           "attribution": "日本农林水产省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "日本农林水产省官方页直接给出鶏肉と椎茸の中華風蒸しご飯、2人份、米/鸡腿/香菇/240cc水、同器皿铺料和蒸锅25至30分钟流程。它不是电饭煲配方，未给禽肉安全终点或叶菜，不补写电饭煲适配和营养三要素完整性。"
+      "evidence_notes": "日本农林水产省官方页直接给出鶏肉と椎茸の中華風蒸しご飯、2人份、米/鸡腿/香菇/240cc水、同器皿铺料和蒸锅25至30分钟流程。它不是电饭煲配方，未给禽肉安全终点或叶菜，不补写电饭煲适配和营养三要素完整性。r230安全补证：原页明确鸡腿切块腌制后铺在米和水上蒸制；挂禽肉74°C终点，保留蒸锅25–30分钟和非电饭煲边界。"
     },
     {
       "recipe_id": "wansheng-potato-green-bean-kongfan",

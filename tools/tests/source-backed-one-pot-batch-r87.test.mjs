@@ -6,7 +6,7 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r87 records Panasonic Taiwan gyudon onion takikomi rice as a model-scoped named recipe', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r230');
   assert.equal(catalog.recipes.length, 923);
   const recipe = catalog.recipes.find(item => item.recipe_id === 'panasonic-taiwan-gyudon-onion-takikomi-rice');
   assert.equal(recipe?.canonical_name, '牛丼洋蔥炊飯');

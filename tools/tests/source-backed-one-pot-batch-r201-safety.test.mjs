@@ -14,7 +14,7 @@ const expectedIds = [
 const executableIds = new Set(['instant-pot-chicken-satay-rice']);
 
 test('r201 closes five directly evidenced public-institution poultry gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r230');
   assert.equal(catalog.recipes.length, 923);
 
   for (const recipeId of expectedIds) {

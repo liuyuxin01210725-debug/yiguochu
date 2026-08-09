@@ -11,7 +11,7 @@ const expected = [
 
 test('r84 registers two new directly sourced named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r230');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -41,7 +41,9 @@ test('r84 preserves vessel, safety, and identity-only boundaries', () => {
   assert.equal(steamed.fixed_batch.servings, 2);
   assert.equal(steamed.liquid_contract.amount.value, 240);
   assert.equal(steamed.time_contract, null);
-  assert.equal(steamed.safety_endpoints.length, 0);
+  assert.equal(steamed.safety_endpoints.length, 1);
+  assert.equal(steamed.safety_endpoints[0].code, 'poultry_fully_cooked');
+  assert.equal(steamed.safety_endpoints[0].minimum_core_temperature_c, 74);
   assert.equal(steamed.cooker_adaptation.status, 'not_adapted');
 
   const wansheng = byId.get('wansheng-potato-green-bean-kongfan');

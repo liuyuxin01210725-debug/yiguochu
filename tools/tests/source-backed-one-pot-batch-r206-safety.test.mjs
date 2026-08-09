@@ -17,7 +17,7 @@ const expected = {
 };
 
 test('r206 closes six directly evidenced raw poultry and pork safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r230');
   assert.equal(catalog.recipes.length, 923);
 
   for (const [recipeId, [code, temperature]] of Object.entries(expected)) {
