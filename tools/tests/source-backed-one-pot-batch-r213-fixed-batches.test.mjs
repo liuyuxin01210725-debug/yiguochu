@@ -10,7 +10,7 @@ function ingredient(recipe, name) {
 }
 
 test('r213 closes StartSmart institutional corn-lean-pork congee batch and liquid', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r250');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r251');
   const recipe = byId['startsmart-corn-lean-pork-porridge'];
   assert.equal(recipe.fixed_batch.servings, 83);
   assert.equal(ingredient(recipe, '米').amount.value, 375);

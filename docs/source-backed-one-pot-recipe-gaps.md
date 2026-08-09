@@ -1386,7 +1386,6 @@
 - 章魚雞粒有味飯 (tvb-octopus-chicken-claypot-rice) — HK
 - 薑絲枸杞子蒸雞煲仔飯 (nestle-ginger-goji-steamed-chicken-claypot-rice) — HK
 - 藜麥栗子冬菇雞飯 (tvb-quinoa-chestnut-mushroom-chicken-rice) — HK
-- 電飯煲窩蛋香菇牛肉飯 (knorr-electric-rice-cooker-egg-mushroom-beef-rice) — HK
 - 電飯煲臘味糯米飯 (panasonic-hk-lap-mei-glutinous-rice) — HK
 - 紫菜雞粒湯飯 (r98-philips-hk-seaweed-chicken-rice-soup) — HK
 - 番茄蛋鮮牛肉湯泡飯 (r104-hk-tomato-egg-beef-soup-rice) — HK

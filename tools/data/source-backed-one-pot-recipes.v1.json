@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r250",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r251",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -88041,7 +88041,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鸡蛋",
         "大豆"
@@ -88059,7 +88067,7 @@
         "source_ids": [
           "S-KNORR-EGG-MUSHROOM-BEEF-1"
         ],
-        "notes": "Knorr香港官方食谱给出后投牛肉/冬菇和窝蛋流程；原页没有完整米水合同。"
+        "notes": "Knorr香港官方食谱给出后投牛肉/冬菇和窝蛋流程；原页没有完整米水合同；本批仅挂 FoodSafety.gov 绞牛肉71°C终点，鸡蛋仍无独立 endpoint。"
       },
       "source_refs": [
         {
@@ -88081,10 +88089,26 @@
           ],
           "attribution": "Knorr Hong Kong",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: ground meat 160°F / 71°C minimum internal temperature; applies to the minced beef added about five minutes before the rice cooker switches and then held with the post-cook egg stage.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Knorr香港具名电饭煲牛肉饭；牛肉后投与窝蛋后焗清楚，但米水和鸡蛋安全端点仍待补。"
+      "evidence_notes": "Knorr香港具名电饭煲牛肉饭；官方流程明确碎牛肉后投并继续焗制，本批仅挂 FoodSafety.gov 绞牛肉71°C终点；米水合同和鸡蛋独立安全终点仍待补。"
     },
     {
       "recipe_id": "taiwan-moa-healthy-brown-rice",
