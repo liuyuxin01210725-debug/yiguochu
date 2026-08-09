@@ -401,7 +401,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Hainanese Chicken Rice | 海南鸡饭 | CN-HN, SG | hainanese-chicken-rice | 研究记录（非公开可执行） | 米；鸡腿；鸡汤；葱；姜；蒜；洋葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [Hainanese Chicken Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/hainanese-chicken-rice/) |
+| Hainanese Chicken Rice | 海南鸡饭 | CN-HN, SG | hainanese-chicken-rice | 研究记录（非公开可执行） | 米；鸡腿；鸡汤；葱；姜；蒜；洋葱 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [Hainanese Chicken Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/hainanese-chicken-rice/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## hakka-sweet-potato-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1153,7 +1153,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Abalone Pot Rice with the CR-0675F | 鲍鱼锅饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 短粒米；鲍鱼；葱；蒜；酱油；麻油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Abalone Pot Rice with the CR-0675F](https://cuckooamerica.com/blogs/recipes/abalone-pot-rice-with-the-cr-0675f) |
 | Asparagus and Mushroom Risotto | 芦笋蘑菇烩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 芦笋；蘑菇；洋葱；糙米；蔬菜汤；帕玛森芝士；黄油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Asparagus and Mushroom Risotto](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/asparagus-and-mushroom-risotto/) |
-| Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole | 秋季鸡肉蘑菇四季豆饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；鸡汤；洋葱；南瓜；胡萝卜；菠菜；鸡柳；蘑菇浓汤；四季豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/autumn-rice-pilaf-with-chicken-mushroom-green-bean-casserole/) |
+| Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole | 秋季鸡肉蘑菇四季豆饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；鸡汤；洋葱；南瓜；胡萝卜；菠菜；鸡柳；蘑菇浓汤；四季豆 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/autumn-rice-pilaf-with-chicken-mushroom-green-bean-casserole/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Bacon and Parmesan Risotto | 培根帕玛森起司燉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；培根；洋葱；姜；白葡萄酒；高汤粉；帕玛森芝士 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Bacon and Parmesan Risotto](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bacon-and-parmesan-risotto/) |
 | Bacon and Tuna Rice Casserole | 培根金枪鱼焗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；培根；西兰花；金枪鱼罐头；番茄酱；白酱；芝士 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Bacon and Tuna Rice Casserole](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bacon-and-tuna-rice-casserole/) |
 | Bang Bang Chicken | 棒棒鸡米饭；虎牌棒棒鸡饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鸡腿肉；黄瓜；生菜；小番茄；花生 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Bang Bang Chicken](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/bang-bang-chicken/) |

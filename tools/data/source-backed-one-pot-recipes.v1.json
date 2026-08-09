@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r243",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r244",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -53180,7 +53180,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "乳"
       ],
@@ -53225,10 +53233,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to chicken fillet pieces placed in the Tiger Tacook plate before Synchro-Cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "来源给出3杯米、鸡肉200g等部分数量；本批登记 Tiger Tacook 机型水位 3/4，份数和总时长缺失，不换算为普通电饭煲毫升数。"
+      "evidence_notes": "来源给出3杯米、鸡肉200g等部分数量；鸡柳切块后置于Tacook盘同步烹调，禽肉安全终点挂FoodSafety.gov 74°C；本批登记 Tiger Tacook 机型水位 3/4，份数和总时长缺失，不换算为普通电饭煲毫升数。"
     },
     {
       "recipe_id": "tiger-usa-asparagus-mushroom-risotto",
@@ -71936,7 +71960,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -71969,10 +72001,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to chicken thighs simmered in the separate pot before rice assembly.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "海南鸡饭具名厂商适配版本；鸡肉先另锅煮、米需另行处理，来源没有禽肉核心温度，不能改称全程单锅电饭煲菜饭。"
+      "evidence_notes": "海南鸡饭具名厂商适配版本；鸡肉先另锅煮至熟、米需另行处理，禽肉安全终点挂FoodSafety.gov 74°C；仍不能改称全程单锅电饭煲菜饭。"
     },
     {
       "recipe_id": "tiger-jujube-chicken-fillet-rice",
