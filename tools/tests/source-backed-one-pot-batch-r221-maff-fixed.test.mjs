@@ -19,7 +19,7 @@ const ingredient = (recipe, name) => {
 };
 
 test('r221 keeps the 923-entry catalog and closes two same-source MAFF batches', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r238');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
   assert.equal(catalog.recipes.length, 923);
 });
 test('r221 closes the direct satoimo rice batch and dashi amount', () => {

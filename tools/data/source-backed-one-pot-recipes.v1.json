@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r238",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r239",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -29055,7 +29055,114 @@
         "姜",
         "麻油"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 6,
+        "ingredients": [
+          {
+            "name": "红葱",
+            "amount": {
+              "value": 10,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "糯米",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "干香菇",
+            "amount": {
+              "value": 60,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "老姜",
+            "amount": {
+              "value": 10,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "麻油",
+            "amount": {
+              "value": 30,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "肉丝",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "去骨鸡腿肉",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "虾米",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 6,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          },
+          {
+            "name": "米酒",
+            "amount": {
+              "value": 30,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-TW-HPA-SESAME-OIL-CHICKEN-GLUTINOUS-RICE-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -29107,10 +29214,11 @@
           "source_kind": "government_recipe_pdf",
           "access_status": "opened",
           "evidence_tier": 1,
-          "evidence_locator": "官方 PDF：6人份；糯米、鸡腿肉、猪肉、香菇、虾米、麻油；浸泡、炒料、外锅1.5杯水蒸熟、拌匀后外锅1/4杯水复蒸",
+          "evidence_locator": "官方 PDF 6人份定量：红葱10g、糯米200g、干香菇60g、老姜10g、麻油30mL、肉丝30g、去骨鸡腿肉150g、虾米30g、盐6g、米酒30mL；糯米浸泡约30分钟，炒料时加约半杯沸水或香菇水，电锅外锅1.5杯水蒸熟，拌匀后外锅1/4杯水复蒸",
           "claim_scopes": [
             "identity",
             "ingredients",
+            "quantity",
             "process",
             "appliance"
           ],
@@ -29119,7 +29227,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "官方 PDF 直接给出具名麻油鸡丁糯米糕和电锅两段蒸煮流程；来源没有建立可公开的固定批量、内锅液体、总时长或肉类安全终点，均保持缺省。"
+      "evidence_notes": "官方 PDF 直接给出6人份麻油鸡丁糯米糕定量：红葱10g、糯米200g、干香菇60g、老姜10g、麻油30mL、肉丝30g、去骨鸡腿肉150g、虾米30g、盐6g、米酒30mL。炒料时液体为约半杯沸水或香菇水，属于动态对象，且电锅外锅1.5杯水与复蒸外锅1/4杯水是 cooker water，不写入内锅 liquid_contract；30分钟是浸泡准备时间，不写总时长。保留先炒、第一次蒸后拌匀再复蒸的阶段边界，来源未给肉类安全终点，safety_endpoints保持空。"
     },
     {
       "recipe_id": "taiwan-tilapia-edamame-rice",

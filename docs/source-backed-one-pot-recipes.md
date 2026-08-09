@@ -1864,7 +1864,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 麻油雞丁糯米糕 | 麻油鸡丁糯米糕 | TW | taiwan-electric-cooker-glutinous-rice | 研究记录（非公开可执行） | 糯米；鸡腿肉；猪肉；干香菇；虾米；姜；麻油 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [麻油雞丁糯米糕](https://www.mohw.gov.tw/dl-81903-6daaf810-e847-4a92-92b3-01c9d18f1fe1.html) |
+| 麻油雞丁糯米糕 | 麻油鸡丁糯米糕 | TW | taiwan-electric-cooker-glutinous-rice | 研究记录（非公开可执行） | 糯米；鸡腿肉；猪肉；干香菇；虾米；姜；麻油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [麻油雞丁糯米糕](https://www.mohw.gov.tw/dl-81903-6daaf810-e847-4a92-92b3-01c9d18f1fe1.html) |
 ## taiwan-electric-cooker-quinoa-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

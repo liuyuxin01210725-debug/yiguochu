@@ -28,7 +28,7 @@ const expected = {
 };
 
 test('r154 closes four existing raw fish, poultry, and pork safety gaps without adding recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r238');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
