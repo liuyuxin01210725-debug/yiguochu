@@ -68,6 +68,6 @@ test('catalog preserves all records and exposes the expected non-overlapping cou
 
   assert.equal(shelf.catalog_version, catalog.catalog_version);
   assert.equal(shelf.records.length, 923);
-  assert.deepEqual(shelf.summary, { A: 36, B: 288, C: 599, trial_ready_total: 324 });
+  assert.deepEqual(shelf.summary, { A: 36, B: 292, C: 595, trial_ready_total: 328 });
   assert.equal(new Set(shelf.records.map(record => record.recipe_id)).size, shelf.records.length);
 });

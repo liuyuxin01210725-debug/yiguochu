@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r212",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r213",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -49380,8 +49380,74 @@
         "玉米",
         "水"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 83,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 375,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-STARTSMART-CORN-LEAN-PORK-1"
+            ]
+          },
+          {
+            "name": "瘦肉",
+            "amount": {
+              "value": 350,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-STARTSMART-CORN-LEAN-PORK-1"
+            ]
+          },
+          {
+            "name": "玉米",
+            "amount": {
+              "value": 250,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-STARTSMART-CORN-LEAN-PORK-1"
+            ]
+          },
+          {
+            "name": "水",
+            "amount": {
+              "value": 3600,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-STARTSMART-CORN-LEAN-PORK-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "茶匙"
+            },
+            "source_ids": [
+              "S-STARTSMART-CORN-LEAN-PORK-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-STARTSMART-CORN-LEAN-PORK-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 3600,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-STARTSMART-CORN-LEAN-PORK-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -49399,7 +49465,7 @@
         },
         {
           "step": 3,
-          "instruction": "保留官方大批量机构厨房边界，不把83人份直接缩成家庭克数。",
+          "instruction": "保留官方83人份机构厨房边界；结构化原方批次，不把它缩成家庭克数。",
           "source_ids": [
             "S-STARTSMART-CORN-LEAN-PORK-1"
           ]
@@ -49420,7 +49486,7 @@
       },
       "cooker_adaptation": {
         "status": "not_adapted",
-        "notes": "StartSmart官方页面是大批量锅煮流程，未给家庭份量、电饭煲程序或猪肉温度合同。"
+        "notes": "StartSmart官方页面给出83人份机构锅煮批次；本条仅记录原方375g米/350g瘦肉/250g玉米/3.6L水/1茶匙盐，不缩放为家庭份量，不外推电饭煲，猪肉安全终点仍未闭合。"
       },
       "source_refs": [
         {
@@ -49446,7 +49512,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "香港卫生署官方粟米瘦肉粥；具名、配比和分段投料有来源，但机构批量与家庭电饭煲适配尚未闭合。"
+      "evidence_notes": "香港卫生署官方粟米瘦肉粥；83人份、375g米、350g瘦肉、250g玉米、3.6L水和1茶匙盐均由同一页面支持。已闭合原方固定批次和水量；机构锅煮、家庭缩放、电饭煲适配及猪肉安全终点仍不推导。"
     },
     {
       "recipe_id": "had-vegetable-pulao",
@@ -65210,7 +65276,44 @@
         "酒",
         "砂糖"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-OITA-TORIMESHI-1"
+            ]
+          },
+          {
+            "name": "地鸡",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-OITA-TORIMESHI-1"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-OITA-TORIMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-OITA-TORIMESHI-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -65265,7 +65368,8 @@
           "license": "publisher_terms_unspecified"
         }
       ],
-      "status": "recipe_fact_checked"
+      "status": "recipe_fact_checked",
+      "evidence_notes": "农林水产省原页明确4人份、米2合、地鸡150g、牛蒡120g；固定批次仅记录这些同源定量。页面当前打印流程是鸡牛蒡先炒煮后覆熟饭焖15分钟，另提同米同炊变体但未给同一套水量，因此不补液体、不改写为一锅电饭煲合同。"
     },
     {
       "recipe_id": "maff-chiba-toridose",
@@ -65541,7 +65645,24 @@
         "青葱",
         "出汁"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "荞麦米",
+            "amount": {
+              "value": 120,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-SOBAGOME-ZOSUI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-TOKUSHIMA-SOBAGOME-ZOSUI-1"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_dashi",
         "amount": {
@@ -65634,7 +65755,34 @@
         "酢橘",
         "水"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "香鱼",
+            "amount": {
+              "value": 4,
+              "unit": "尾"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-AYURO-SUI-1"
+            ]
+          },
+          {
+            "name": "米",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOKUSHIMA-AYURO-SUI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-TOKUSHIMA-AYURO-SUI-1"
+        ]
+      },
       "liquid_contract": null,
       "cooking_sequence": [
         {
