@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r228",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r229",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -38275,7 +38275,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -38309,10 +38317,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "爱媛松山具名しょうゆめし；农林水产省原页明确4人份与固定食材/调味料量，作法为材料与调味料同釜炊煮。页面只写加水而未给水量，不建立liquid_contract；淘米后静置30分钟不是总制作时长。"
+      "evidence_notes": "爱媛松山具名しょうゆめし；农林水产省原页明确4人份与固定食材/调味料量，作法为材料与调味料同釜炊煮。页面只写加水而未给水量，不建立liquid_contract；淘米后静置30分钟不是总制作时长。r229安全补证：原页将鸡肉切小、腌后与米和水同釜炊煮；挂现有FoodSafety.gov禽肉74°C终点，保留来源器具和未给水量边界。"
     },
     {
       "recipe_id": "maff-hiroshima-tai-meshi",
@@ -45193,7 +45217,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆",
         "甲壳类",
@@ -45231,10 +45263,26 @@
           ],
           "attribution": "農林水産省",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "冈山具名とどめせ；它属于有出处的区域饭，但包含先炒煮和成品醋拌/后加配料，不把流程简化成未被来源证明的普通一锅饭。"
+      "evidence_notes": "冈山具名とどめせ；它属于有出处的区域饭，但包含先炒煮和成品醋拌/后加配料，不把流程简化成未被来源证明的普通一锅饭。r229安全补证：原页明确鸡肉切小后与根菜先炒煮，再与米同入电饭锅；挂现有FoodSafety.gov禽肉74°C终点，保留先处理/后炊煮/醋拌边界。"
     },
     {
       "recipe_id": "maff-shiga-shoimeshi",

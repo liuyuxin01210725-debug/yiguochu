@@ -6,7 +6,7 @@ const catalog = JSON.parse(fs.readFileSync(new URL('../data/source-backed-one-po
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r212 closes IRIS RC-PGA50 porridge waterline', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r228');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
   const recipe = byId['iris-chinese-chicken-congee'];
   assert.deepEqual(recipe.liquid_contract, {
     kind: 'waterline',

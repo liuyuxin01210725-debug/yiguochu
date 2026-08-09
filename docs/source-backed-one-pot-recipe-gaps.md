@@ -1419,7 +1419,6 @@
 - 豆腐飯 (maff-okayama-tofumeshi) — JP-OKAYAMA-TAKAHASHI
 - 五目飯 (maff-tochigi-gomokumeshi) — JP-TOCHIGI
 - 鶏雑炊（とりどせ） (maff-chiba-toridose) — JP-CHIBA
-- しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
 - 鶏飯 (maff-kagoshima-keihan) — JP-KAGOSHIMA
 - きのことぎんなんの炊き込みご飯＜中村市＞ (kochi-nakamura-mushroom-ginkgo-takikomi) — JP-KOCHI
 - はらこ飯 (maff-miyagi-harako-meshi) — JP-MIYAGI
@@ -1428,7 +1427,6 @@
 - 色ご飯 (maff-irogohan-nara) — JP-NARA
 - しょうゆおこわ (maff-niigata-shoyu-okowa) — JP-NIIGATA
 - あみめし (maff-oita-amimeshi) — JP-OITA
-- とどめせ (maff-okayama-todomese) — JP-OKAYAMA
 - 蒜山おこわ (maff-okayama-hiruzen-okowa) — JP-OKAYAMA
 - そば米雑炊／そば米汁 (maff-tokushima-sobagome-zosui) — JP-TOKUSHIMA
 - 鮎ろうすい (maff-tokushima-ayuro-sui) — JP-TOKUSHIMA

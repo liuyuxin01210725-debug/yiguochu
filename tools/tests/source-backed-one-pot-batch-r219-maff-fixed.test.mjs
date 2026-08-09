@@ -14,7 +14,7 @@ function ingredient(recipe, name) {
 }
 
 test('r219 closes the same-source fixed batches for three MAFF regional rice dishes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r228');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
   assert.equal(catalog.recipes.length, 923);
 
   const shimane = byId.get('maff-shimane-uzume-meshi');

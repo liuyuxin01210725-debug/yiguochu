@@ -7,7 +7,7 @@ const recipe = catalog.recipes.find(item => item.recipe_id === 'taiwan-tilapia-e
 const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 
 test('r189 closes the directly evidenced raw-tilapia safety gap', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r228');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r229');
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
   const endpoint = recipe.safety_endpoints.find(row => row.code === 'seafood_fully_cooked');
