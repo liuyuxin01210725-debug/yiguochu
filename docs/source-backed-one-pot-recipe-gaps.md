@@ -1450,11 +1450,8 @@
 - 鞑子饭（小肉粥） (manchu-xibe-dazi-rice-porridge) — CN-NM, CN-XJ
 - 什锦腊肠饭 (midea-mixed-lapcheong-rice-26183) — CN
 - スタミナご飯 (zojirushi-stamina-rice) — JP-NATIONAL
-- Chicken rice with olives (tefal-chicken-rice-olives-one-pot-pan) — 非地域·厂商一锅饭
-- One-pot Italian sundried tomato chicken and rice (tefal-italian-sundried-tomato-chicken-rice-r942720) — 非地域·厂商一锅饭
 - Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
-- Spanish Style Chicken Legs (tefal-spanish-style-chicken-legs-r106521) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
 - Salmon and Mushroom Rice Pilaf (tiger-salmon-mushroom-rice-pilaf) — US
 - Autumn Rice Pilaf with Chicken Mushroom Green Bean Casserole (tiger-usa-autumn-chicken-mushroom-green-bean-pilaf) — 非地域·厂商食谱
@@ -1462,7 +1459,6 @@
 - Brown Rice with Salmon and Shiitake (zojirushi-brown-rice-salmon-shiitake) — 非地域·厂商食谱
 - Cabbage and Mushroom Rice (tiger-cabbage-mushroom-rice) — 非地域·厂商食谱
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
-- Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken and Rice With Vegetables (tiger-usa-chicken-rice-vegetables) — 非地域·厂商食谱
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱

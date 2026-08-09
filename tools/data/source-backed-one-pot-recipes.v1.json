@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r231",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r232",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -74724,7 +74724,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -74759,10 +74767,26 @@
           ],
           "attribution": "Zojirushi America Corporation",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "厂商具名同内锅鸡肉干咖喱饭；未给精确禽肉中心温度，不把约一小时改作通用总时长。"
+      "evidence_notes": "厂商具名同内锅鸡肉干咖喱饭；r232补入FoodSafety.gov禽肉74°C终点，仍不把约一小时改作通用总时长或跨型号程序。"
     },
     {
       "recipe_id": "zojirushi-kurigohan-japanese-chestnut-rice",
@@ -77415,7 +77439,15 @@
           "S-R68-TEFAL-CHICKEN-OLIVES"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -77454,10 +77486,26 @@
           ],
           "attribution": "Tefal",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "具名橄榄鸡肉饭；同一Tefal One Pot平底锅完成主烹调但不是电饭煲内锅，保留先加热汤液和禽肉熟制边界。"
+      "evidence_notes": "具名橄榄鸡肉饭；r232补入FoodSafety.gov禽肉74°C终点；同一Tefal One Pot平底锅完成主烹调但不是电饭煲内锅，保留先加热汤液和禽肉煎制边界。"
     },
     {
       "recipe_id": "maff-tomato-cheese-rice",
@@ -81929,7 +81977,15 @@
           "S-R72-TEFAL-ITALIAN-CHICKEN-RICE"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -81965,10 +82021,26 @@
           ],
           "attribution": "Tefal",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tefal官方页面提供具名意式一锅鸡肉饭、4人份、米/鸡肉/番茄/彩椒等结构以及同锅煎炒后转200°C烤箱流程。它符合“真实一锅主餐”但不符合电饭煲主线；鸡肉安全终点、烤箱锅型号和厨房验证未闭合，不宣称普通电饭煲可做。"
+      "evidence_notes": "Tefal官方页面提供具名意式一锅鸡肉饭、4人份、米/鸡肉/番茄/彩椒等结构以及同锅煎炒后转200°C烤箱流程。r232补入FoodSafety.gov禽肉74°C终点；它符合“真实一锅主餐”但不符合电饭煲主线，仍不宣称普通电饭煲可做。"
     },
     {
       "recipe_id": "midea-pea-purple-sweet-potato-rice",
@@ -92821,7 +92893,15 @@
           "S-TEFAL-SPANISH-STYLE-CHICKEN-LEGS-R106521"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -92860,10 +92940,26 @@
           ],
           "attribution": "Tefal",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tefal官方具名页面直接证明2人份鸡腿米饭与番茄、西葫芦、青椒在同一台指定蒸锅中连续完成，结构包含碳水、蛋白和蔬菜；蔬菜位于上层蒸篮，不是电饭煲单内锅菜饭；来源没有鸡肉安全终点，不宣称Spanish Style为地域传统，不外推普通电饭煲参数。"
+      "evidence_notes": "Tefal官方具名页面直接证明2人份鸡腿米饭与番茄、西葫芦、青椒在同一台指定蒸锅中连续完成，结构包含碳水、蛋白和蔬菜；r232补入FoodSafety.gov禽肉74°C终点。蔬菜位于上层蒸篮，不是电饭煲单内锅菜饭；不宣称Spanish Style为地域传统，不外推普通电饭煲参数。"
     },
     {
       "recipe_id": "rda-korean-ginseng-chicken-nutrition-rice",
