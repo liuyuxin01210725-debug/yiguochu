@@ -10,7 +10,7 @@ function ingredient(recipe, name) {
 }
 
 test('r215 closes Tiger COK-B220 chicken paella fixed batch and poultry endpoint', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r227');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r228');
   const recipe = byId['tiger-chicken-paella'];
   assert.equal(recipe.fixed_batch.servings, 3);
   assert.equal(ingredient(recipe, '米').amount.value, 300);

@@ -403,7 +403,6 @@
 - 黒豆おこわ／みたま (maff-toyama-kuro-mame-okowa) — JP-TOYAMA-EAST
 - さといもと高菜漬けの炊き込みごはん (maff-satoimo-takana-takikomi-gohan) — JP
 - 牛肉きのこごはん 卵黄仕上げ (maff-beef-mushroom-yolk-rice) — JP
-- 鮭とねぎの炊き込みご飯 (maff-salmon-green-onion-takikomi) — JP-KINKI
 - はらこ飯 (maff-fukushima-harako-meshi) — JP-FUKUSHIMA
 - 深川めし／深川丼 (maff-tokyo-fukagawa-meshi) — JP-TOKYO
 - 親子丼 (tiger-oyakodon-tacook) — JP

@@ -746,7 +746,7 @@
 | たこめし | 兵库淡路岛章鱼饭；兵库东播磨章鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；干章鱼；出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_27_hyogo.html) |
 | とふめし | 兵库丹波豆腐鲭鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；硬豆腐；鲭鱼罐头；牛蒡；胡萝卜；油豆腐 | identity、ingredients、process、quantity | 缺 liquid、time | [とふめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_12_hyogo.html) |
 | 丹波黒豆ごはん | 丹波黑豆饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；丹波黑豆；梅干 | identity、ingredients、process、quantity | 缺 liquid、time | [丹波黒豆ごはん 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_7_hyogo.html) |
-| とふめし | 丹波篠山豆腐饭 | JP-HYOGO-SASAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；木棉豆腐；牛蒡；胡萝卜；油炸豆腐；鲭鱼罐头 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [とふめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tofumeshi_hyogo.html) |
+| とふめし | 丹波篠山豆腐饭 | JP-HYOGO-SASAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；木棉豆腐；牛蒡；胡萝卜；油炸豆腐；鲭鱼罐头 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [とふめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_12_hyogo.html) |
 | はまぐりごはん | 茨城蛤蜊饭 | JP-IBARAKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；蛤蜊；干香菇；胡萝卜；三つ葉 | identity、ingredients、liquid、process、quantity、safety | 缺 time | [はまぐりごはん 茨城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hamagurigohan_ibaraki.html)<br>[Risks of Eating Raw Oysters and Clams](https://www.vdh.virginia.gov/epidemiology/epidemiology/epidemiology-fact-sheets/risks-of-eating-raw-oysters-and-clams/)<br>[Clams](https://www.fdacs.gov/Consumer-Resources/Buy-Fresh-From-Florida/Seafood-Products/Clams) |
 | さざえめし | 石川能登蝾螺饭 | JP-ISHIKAWA | japanese-regional-rice | 研究记录（非公开可执行） | 米；蝾螺；生姜；昆布 | identity、ingredients、liquid、process、quantity、safety | 缺 time | [さざえめし 石川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/sazaemeshi_ishikawa.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | いりこ飯 | 香川伊吹岛煮干饭 | JP-KAGAWA | japanese-regional-rice | 研究记录（非公开可执行） | 米；煮干鱼；油豆腐；胡萝卜；白萝卜；芋头；蒟蒻 | identity、ingredients、process、quantity | 缺 liquid、time | [いりこ飯 香川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/iriko_meshi_kagawa.html) |
@@ -850,7 +850,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 鮭とねぎの炊き込みご飯 | 鲑鱼葱炊饭 | JP-KINKI | japanese-rice-pot | 研究记录（非公开可执行） | 米；鲑鱼；葱 | identity、ingredients、process、quantity、safety | 缺 liquid、appliance、time | [鮭とねぎの炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/251114-25.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 鮭とねぎの炊き込みご飯 | 鲑鱼葱炊饭 | JP-KINKI | japanese-rice-pot | 研究记录（非公开可执行） | 米；鲑鱼；葱 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [鮭とねぎの炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/251114-25.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## japanese-salmon-rice-bowl
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r227",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r228",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -63802,8 +63802,94 @@
         "鲑鱼",
         "葱"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 1,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          },
+          {
+            "name": "鲑鱼",
+            "amount": {
+              "value": 1,
+              "unit": "切"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          },
+          {
+            "name": "葱",
+            "amount": {
+              "value": 0.5,
+              "unit": "本"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 2,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          },
+          {
+            "name": "出汁素",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SALMON-GREEN-ONION-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-SALMON-GREEN-ONION-R62"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 180,
+          "unit": "mL"
+        },
+        "source_ids": [
+          "S-MAFF-SALMON-GREEN-ONION-R62"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -63846,11 +63932,12 @@
           "source_kind": "government_recipe_pdf",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "PDF第2页：2人份、米/鲑鱼/葱、鲑鱼先烤与普通锅流程",
+          "evidence_locator": "PDF第2页：2人份；米1合、鲑鱼1切、葱1/2本、酒/酱油/味醂各2小匙、出汁素1/2小匙、水180mL；鲑鱼先撒盐静置后轻烤，再与米和调味料用普通锅煮熟",
           "claim_scopes": [
             "identity",
             "ingredients",
             "quantity",
+            "liquid",
             "process"
           ],
           "attribution": "農林水産省近畿農政局",
@@ -63874,7 +63961,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "来源是普通锅/燃气锅版本，不推导电饭煲适配；鲑鱼先烤的顺序保留。"
+      "evidence_notes": "来源是普通锅/燃气锅版本；2人份、米1合、鲑鱼1切、葱1/2本及调味量/水180mL均按同一MAFF PDF记录。鲑鱼先烤的顺序保留，不补总时长，不推导电饭煲适配。"
     },
     {
       "recipe_id": "maff-kingyo-meshi",
@@ -63973,7 +64060,105 @@
         "油炸豆腐",
         "鲭鱼罐头"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 2,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "木棉豆腐",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "牛蒡",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "胡萝卜",
+            "amount": {
+              "value": 30,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "油炸豆腐",
+            "amount": {
+              "value": 20,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "鲭鱼罐头",
+            "amount": {
+              "value": 80,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "油",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-TOFUMESHI-R62"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-TOFUMESHI-R62"
+        ]
+      },
+      "liquid_contract": null,
       "liquid_contract": null,
       "cooking_sequence": [
         {
@@ -64004,12 +64189,12 @@
           "source_id": "S-MAFF-TOFUMESHI-R62",
           "title": "とふめし 兵庫県",
           "publisher": "農林水産省",
-          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tofumeshi_hyogo.html",
-          "retrieved_at": "2026-08-05",
+          "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_12_hyogo.html",
+          "retrieved_at": "2026-08-10",
           "source_kind": "government_regional_recipe_page",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "正文丹波篠山豆腐饭段：约120年身份、4份食材、豆腐先煮和熟饭蒸合流程",
+          "evidence_locator": "官方正文材料4人分：米2合、木棉豆腐200g、牛蒡80g、胡萝卜30g、油炸豆腐20g、鲭鱼水煮罐80g、油1小匙、酱油2大匙、酒1小匙；米先炊，具料另锅处理，铺到熟饭上蒸15–20分钟后拌匀",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -64021,7 +64206,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "丹波篠山具名豆腐饭；明确是前处理+熟饭蒸合的多阶段做法，不改写为生米一键电饭煲。"
+      "evidence_notes": "丹波篠山具名豆腐饭；官方现行原页给出4人份及全部配料量。明确是前处理+熟饭蒸合的多阶段做法，蒸合15–20分钟，不改写为生米一键电饭煲；液体和总时长仍不单独推导。"
     },
     {
       "recipe_id": "wakayama-usuendo-mame-gohan",
