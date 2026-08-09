@@ -13,7 +13,7 @@ const ids = [
 const executableIds = new Set(['panasonic-claypot-style-chicken-rice']);
 
 test('r147 keeps the catalog size and records the five-source safety batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
   assert.equal(catalog.recipes.length, 923);
   for (const id of ids) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);

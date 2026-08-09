@@ -8,14 +8,13 @@ const safetySourceId = 'S-SAFETY-TEMPERATURES-1';
 const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures';
 
 const expected = {
-  'huixian-ground-pot-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
-  'r59-tiger-usa-garlic-salmon-garden-rice': { code: 'seafood_fully_cooked', temperature: 63, locator: /fish|salmon|63/u },
-  'tiger-bang-bang-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
-  'r98-zojirushi-china-chestnut-chicken-congee': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
-  'towngas-nest-egg-minced-beef-rice': { code: 'beef_fully_cooked', temperature: 71, locator: /beef|ground|71/u },
+  'taiwan-angelica-sesame-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
+  'panasonic-taiwan-chicken-curry-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
+  'panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
+  'panasonic-taiwan-ginseng-chicken-rice': { code: 'poultry_fully_cooked', temperature: 74, locator: /poultry|chicken|74/u },
 };
 
-test('r245 closes five directly evidenced raw-protein safety gaps', () => {
+test('r246 closes four directly evidenced poultry safety gaps', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedEndpoint] of Object.entries(expected)) {

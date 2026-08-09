@@ -11,7 +11,7 @@ const targetIds = [
 
 test('r233 closes three directly evidenced raw-protein safety gaps', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
   assert.equal(catalog.recipes.length, 923);
   const expected = {
     'r58-sharp-matsusaka-pork-mushroom-rice': ['pork_fully_cooked', 74],

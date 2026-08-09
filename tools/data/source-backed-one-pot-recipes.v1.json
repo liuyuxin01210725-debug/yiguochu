@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r245",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r246",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -27737,7 +27737,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -27773,10 +27781,26 @@
           ],
           "attribution": "台湾农业部农业知识入口网",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken pieces sautéed, simmered, and then cooked with the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "保留当归麻油鸡饭的真实米态分支和先炒后入锅流程；来源未闭合水量、总时长和鸡肉温度终点。"
+      "evidence_notes": "保留当归麻油鸡饭的真实米态分支和先炒后入锅流程；来源未闭合水量和总时长。官方先将鸡肉块爆香并继续煮滚后与米入电锅，未写预熟状态，本批仅挂FoodSafety.gov禽肉74°C终点，不外推通用时间或器具。"
     },
     {
       "recipe_id": "raoping-gaotang-pork-rice",
@@ -51025,7 +51049,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "C",
@@ -51059,10 +51091,26 @@
             "appliance"
           ],
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken pieces placed with the rice and cooked in the rice cooker.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Panasonic官方机型食谱，来源给出克数、热水和同锅流程但没有总时长；保持机型边界。"
+      "evidence_notes": "Panasonic官方机型食谱，来源给出克数、热水和同锅流程但没有总时长；来源写去骨仿鸡腿肉切块后直接入锅，未标预熟，本批仅挂FoodSafety.gov禽肉74°C终点，保持机型边界。"
     },
     {
       "recipe_id": "panasonic-taiwan-five-color-rice",
@@ -51192,7 +51240,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -51227,10 +51283,26 @@
             "appliance"
           ],
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the marinated chicken thigh stir-fried in the inner pot and finished with the rice.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "同锅分段厂商食谱，不补缺失合同。"
+      "evidence_notes": "同锅分段厂商食谱，不补缺失合同。官方步骤写鸡腿肉先腌制、再与根茎在内锅热锅拌炒，随后加咖喱块和水完成；本批仅挂FoodSafety.gov禽肉74°C终点，不把分段程序改写成通用时间。"
     },
     {
       "recipe_id": "panasonic-taiwan-beef-brisket-radish-rice",
@@ -51448,7 +51520,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -51483,10 +51563,26 @@
             "appliance"
           ],
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry 165°F / 74°C minimum internal temperature; applies to the chicken pieces browned in the inner pot before the brown-rice program.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "水量有来源但总时长缺失，保持机型边界。"
+      "evidence_notes": "水量有来源但总时长缺失，保持机型边界。官方步骤明确鸡肉洗净切块并腌制，内锅煎至上色后与米、南瓜和菇类进入糙米行程；本批仅挂FoodSafety.gov禽肉74°C终点，不外推普通电饭煲时间。"
     },
     {
       "recipe_id": "tiger-takikomi-gohan",

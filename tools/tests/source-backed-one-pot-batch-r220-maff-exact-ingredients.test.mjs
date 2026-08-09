@@ -19,7 +19,7 @@ const ingredient = (recipe, name) => {
 };
 
 test('r220 bumps the catalog without adding canonical recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
   assert.equal(catalog.recipes.length, 923);
 });
 

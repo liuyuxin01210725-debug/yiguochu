@@ -8,7 +8,7 @@ const safetyUrl = 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-in
 
 test('r235 closes the directly sourced lamb-leg safety gap without changing the Tefal contract', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r245');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r246');
   assert.equal(catalog.recipes.length, 923);
 
   const recipe = catalog.recipes.find(item => item.recipe_id === targetId);

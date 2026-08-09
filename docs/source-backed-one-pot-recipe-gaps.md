@@ -1473,8 +1473,6 @@
 - 中華粥 (iris-chinese-chicken-congee) — 非地域·厂商食谱
 - 五目炊飯 (cookpot-gomoku-mixed-rice) — 非地域·厂商食谱
 - 五色炊飯 (panasonic-taiwan-five-color-rice) — 非地域·厂商食谱
-- 人蔘雞肉飯 (panasonic-taiwan-ginseng-chicken-rice) — 非地域·厂商食谱
-- 南瓜野菇雞肉糙米飯 (panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice) — 非地域·厂商食谱
 - 和風鮭魚毛豆炊飯 (r58-panasonic-salmon-edamame-rice) — 非地域·厂商食谱
 - 桜えびご飯 (toshiba-sakuraebi-rice) — 非地域·厂商食谱
 - 海鮮炊込みパエリア (tiger-seafood-paella-post118) — 非地域·厂商食谱
@@ -1491,7 +1489,6 @@
 - 蘿蔔牛腩飯 (panasonic-taiwan-beef-brisket-radish-rice) — 非地域·厂商食谱
 - 螺片金蠔滑雞粥 (philips-sea-conch-oyster-chicken-congee) — 非地域·厂商食谱
 - 西班牙海鲜炖饭 (panasonic-taiwan-spanish-seafood-risotto-breadmaker) — 非地域·厂商食谱
-- 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
 - 高丽菜鲭鱼炊饭 (panasonic-taiwan-cabbage-mackerel-rice) — 非地域·厂商食谱
 - Clam and Tomato Rice (tiger-clam-tomato-rice) — US
 - 麻阳社饭 (mayang-she-rice) — CN-HN
@@ -1528,7 +1525,6 @@
 - 十香飯 (taiwan-ten-fragrant-rice) — TW
 - 山藥飯 (taiwan-yam-rice) — TW
 - 番紅花海鮮飯 (taiwan-saffron-seafood-rice) — TW
-- 當歸麻油雞飯 (taiwan-angelica-sesame-chicken-rice) — TW
 - 蔬菜干貝五色炊飯 (panasonic-taiwan-scallop-five-color-rice) — TW
 - 客家菜飯 (hakka-electric-cooker-rice) — TW-HS
 - 菇味麻油雞佐鮮蔬燉飯 (taiwan-sesame-chicken-mushroom-vegetable-rice) — TW
