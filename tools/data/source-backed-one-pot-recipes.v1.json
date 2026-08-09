@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r234",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r235",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -81691,7 +81691,15 @@
           "S-R72-TEFAL-LAMB-PILAF"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "lamb_fully_cooked",
+          "minimum_core_temperature_c": 63,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -81706,9 +81714,25 @@
         "source_ids": [
           "S-R72-TEFAL-LAMB-PILAF"
         ],
-        "notes": "仅限Tefal Cook4me多功能/压力锅的CRUST/FRY与PILAF/RISOTTO程序；不推导普通电饭煲水位或时间。"
+        "notes": "仅限Tefal Cook4me多功能/压力锅的CRUST/FRY与PILAF/RISOTTO程序；不推导普通电饭煲水位或时间。羊腿牛排熟制终点按 FoodSafety.gov 63°C 并静置3分钟记录，不将‘封边’或程序时长当作温度证明。"
       },
       "source_refs": [
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: lamb steaks/roasts/chops minimum internal temperature 145°F / 63°C with a 3-minute rest; matched to the source's trimmed boneless lamb leg steaks.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government site terms"
+        },
         {
           "source_id": "S-R72-TEFAL-LAMB-PILAF",
           "title": "Pilaf with lamb",
@@ -81733,7 +81757,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tefal官方页面给出具名羊肉抓饭、4人份、羊肉/米/胡萝卜/洋葱/鹰嘴豆结构、800mL水和同锅煎炒—铺米—后投料流程。营养结构完整，但程序依赖Cook4me多功能锅，来源没有羊肉安全终点、普通电饭煲适配或厨房验证，不改写器具。"
+      "evidence_notes": "Tefal官方页面给出具名羊肉抓饭、4人份、去骨羊腿牛排450g（切小块）、羊肉/米/胡萝卜/洋葱/鹰嘴豆结构、800mL水和同锅煎炒—铺米—后投料流程。r235 安全补证：FoodSafety.gov 对羊腿牛排匹配63°C并静置3分钟；不把封边或Cook4me程序时长当作温度证明。营养结构完整，但程序依赖Cook4me多功能锅，不改写器具；仍未晋升 executable。"
     },
     {
       "recipe_id": "tefal-paella-r106320",
