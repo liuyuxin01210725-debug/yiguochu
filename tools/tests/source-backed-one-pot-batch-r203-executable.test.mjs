@@ -17,7 +17,7 @@ const promoted = {
 };
 
 test('r203 promotes only the eight complete source-backed contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, [safetyCode, temperature]] of Object.entries(promoted)) {
     const recipe = byId[recipeId];
@@ -41,5 +41,5 @@ test('r203 preserves unresolved contracts outside the executable promotion', () 
     'r60-tiger-garlic-shrimp-herbed-rice',
   ];
   for (const recipeId of stillFactChecked) assert.equal(byId[recipeId]?.status, 'recipe_fact_checked', recipeId);
-  assert.equal(Object.values(byId).filter(recipe => recipe.status === 'executable').length, 27);
+  assert.equal(Object.values(byId).filter(recipe => recipe.status === 'executable').length, 36);
 });

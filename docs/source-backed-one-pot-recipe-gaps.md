@@ -1379,7 +1379,6 @@
 - 玉屏农家社饭 (yuping-farmer-she-rice) — CN-GZ
 - Hainanese Chicken Rice (tiger-hainanese-chicken-rice) — CN-HN, SG
 - 胡蘿蔔海鮮飯 (r104-hk-carrot-seafood-rice) — HK
-- 淮山圓肉雞柳煲仔飯 (hk-yam-longan-chicken-claypot-rice) — HK
 - 番茄雞肉粥 (startsmart-tomato-chicken-congee) — HK
 - 菇菌雜蔬釜飯 (hk-mushroom-mixed-vegetable-kamameshi) — HK
 - 窝蛋牛肉饭 (towngas-nest-egg-minced-beef-rice) — HK
@@ -1467,8 +1466,6 @@
 - Chicken rice with olives (tefal-chicken-rice-olives-one-pot-pan) — 非地域·厂商一锅饭
 - One-pot Italian sundried tomato chicken and rice (tefal-italian-sundried-tomato-chicken-rice-r942720) — 非地域·厂商一锅饭
 - Paella (tefal-homechef-paella) — 非地域·厂商一锅饭
-- Paella（Tefal锅内温控版） (tefal-paella-r106320) — 非地域·厂商一锅饭
-- Risotto with shrimps (tefal-risotto-with-shrimps-r106225) — 非地域·厂商一锅饭
 - Saffron Rice with Seafood (tefal-saffron-rice-seafood) — 非地域·厂商一锅饭
 - Spanish Style Chicken Legs (tefal-spanish-style-chicken-legs-r106521) — 非地域·厂商一锅饭
 - かすよせ (zojirushi-kasuyose-el-mb30) — 非地域·厂商一锅饭
@@ -1480,7 +1477,6 @@
 - Chicken & Pea Risotto (tefal-602-chicken-pea-risotto) — 非地域·厂商食谱
 - Chicken Biryani (panasonic-chicken-biryani-sr-da182) — 非地域·厂商食谱
 - Chicken Dry Curry (zojirushi-chicken-dry-curry) — 非地域·厂商食谱
-- Chicken Enchilada Rice (instant-pot-chicken-enchilada-rice) — 非地域·厂商食谱
 - Chicken Meatballs with Grated Daikon (tiger-chicken-meatballs-grated-daikon) — 非地域·厂商食谱
 - Chicken Mushroom Rice (tiger-usa-chicken-mushroom-rice) — 非地域·厂商食谱
 - Chicken Rice Soup (instant-pot-chicken-rice-soup) — 非地域·厂商食谱
@@ -1524,7 +1520,6 @@
 - 炊込みシーフードピラフ (panasonic-tokyo-seafood-pilaf) — 非地域·厂商食谱
 - 炊込み中華おこわ (tiger-chinese-sticky-rice-post-fry) — 非地域·厂商食谱
 - 牛肉南瓜焖饭 (midea-beef-pumpkin-rice) — 非地域·厂商食谱
-- 牛肉野菇炊飯 (cookpot-beef-wild-mushroom-rice) — 非地域·厂商食谱
 - 皮蛋瘦肉粥（Panasonic） (r105-panasonic-taiwan-preserved-egg-pork-congee) — 非地域·厂商食谱
 - 皮蛋瘦肉粥（象印） (r105-zojirushi-taiwan-preserved-egg-pork-congee) — 非地域·厂商食谱
 - 紅豆牛肉糙米菜飯 (philips-red-bean-beef-brown-rice-vegetable-rice) — 非地域·厂商食谱
@@ -1560,7 +1555,6 @@
 - Brown Rice Chicken Congee (sg-healthhub-brown-rice-chicken-congee) — SG
 - Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
 - Chicken Briyani (sg-healthhub-chicken-briyani) — SG
-- Arroz negro (global-spain-arroz-negro) — ES-IB
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
 - 石硖螺饭 (taishan-shixialuo-rice) — CN-GD
@@ -1593,7 +1587,6 @@
 - 南瓜飯 (r58-taiwan-afa-pumpkin-rice) — TW
 - 養生糙米飯 (taiwan-moa-healthy-brown-rice) — TW
 - 麻油香菇鹽麴雞飯 (tatung-sesame-shiitake-shio-koji-chicken-rice) — TW
-- しょうが飯 (tatung-wakayama-ginger-rice) — TW
 - 夕顔と桜エビの炊き込みご飯 (tatung-yugao-sakuraebi-rice) — TW
 - 深川飯（あさりの炊き込みご飯） (tatung-fukagawa-rice) — TW
 - 熊本えびめし (tatung-kumamoto-ebimeshi) — TW
@@ -1607,7 +1600,6 @@
 - One-pot Lentil Dish (purdue-one-pot-lentil-dish) — US-IN
 - Chicken & Rice (unl-chicken-rice) — US-NE
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
-- Pork and Rice Skillet (va-pork-rice-skillet) — US
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
 - Spanish Rice (unh-spanish-rice) — US-NH
 - Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL

@@ -14,9 +14,9 @@ const expected = {
 };
 
 test('r204 promotes seven fully contracted source-backed recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
-  assert.equal(catalog.recipes.filter(recipe => recipe.status === 'executable').length, 27);
+  assert.equal(catalog.recipes.filter(recipe => recipe.status === 'executable').length, 36);
   for (const [recipeId, [code, temperature]] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(item => item.recipe_id === recipeId);
     assert.ok(recipe, `missing ${recipeId}`);

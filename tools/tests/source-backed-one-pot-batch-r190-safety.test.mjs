@@ -12,7 +12,7 @@ const expected = {
 };
 
 test('r190 closes two directly evidenced raw-protein safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   for (const [recipeId, [code, temperature, locatorPattern]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);

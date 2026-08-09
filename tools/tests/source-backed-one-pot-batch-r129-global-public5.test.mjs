@@ -27,7 +27,7 @@ const expected = [
 ];
 
 test('r129 integrates only directly evidenced main-dish candidates from r129-public5', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -76,7 +76,11 @@ test('r129 preserves source appliance, quantities, timings, and safety gaps', ()
   assert.equal(pork.liquid_contract.amount.value, 2);
   assert.equal(pork.liquid_contract.amount.unit, 'cup');
   assert.equal(pork.time_contract.total_minutes, 75);
-  assert.deepEqual(pork.safety_endpoints, []);
+  assert.deepEqual(pork.safety_endpoints, [{
+    code: 'pork_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 });
 
 test('r129 keeps candidate assets below executable and excludes side-dish-only r129 entries', () => {

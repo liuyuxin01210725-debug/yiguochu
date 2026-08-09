@@ -9,7 +9,7 @@ const expected = [
   ['taiwan-sesame-chicken-mushroom-vegetable-rice', '菇味麻油雞佐鮮蔬燉飯', 'recipe_fact_checked'],
   ['jingzhou-wumi-rice', '靖州乌米饭', 'recipe_fact_checked'],
   ['tefal-pilaf-with-lamb-r200302', 'Pilaf with lamb', 'recipe_fact_checked'],
-  ['tefal-paella-r106320', 'Paella（Tefal锅内温控版）', 'recipe_fact_checked'],
+  ['tefal-paella-r106320', 'Paella（Tefal锅内温控版）', 'executable'],
   ['tefal-italian-sundried-tomato-chicken-rice-r942720', 'One-pot Italian sundried tomato chicken and rice', 'recipe_fact_checked'],
   ['midea-pea-purple-sweet-potato-rice', '豌豆紫薯饭', 'identity_verified'],
   ['midea-quinoa-yam-red-date-rice', '藜麦山药红枣饭', 'identity_verified'],
@@ -18,7 +18,7 @@ const expected = [
 
 test('r72 records directly sourced named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName, status] of expected) {
@@ -33,7 +33,7 @@ test('r72 records directly sourced named candidates without promotion', () => {
     assert.ok(recipe.source_refs.every(source => typeof source.attribution === 'string' && source.attribution.length > 0), recipeId);
     assert.ok(recipe.source_refs.every(source => typeof source.license === 'string' && source.license.length > 0), recipeId);
     assert.ok(Array.isArray(recipe.core_ingredients) && recipe.core_ingredients.length >= 2, recipeId);
-    assert.notEqual(recipe.status, 'executable', recipeId);
+    if (status !== 'executable') assert.notEqual(recipe.status, 'executable', recipeId);
   }
 });
 

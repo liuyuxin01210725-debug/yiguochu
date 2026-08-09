@@ -55,10 +55,10 @@ const expected = [
     vessel: /Philips HD4777\/HD4775/u,
   },
 ];
-const executableIds = new Set(['instant-pot-chicken-satay-rice']);
+const executableIds = new Set(['instant-pot-chicken-satay-rice', 'instant-pot-chicken-enchilada-rice']);
 
 test('r124 adds eight official manufacturer rice main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

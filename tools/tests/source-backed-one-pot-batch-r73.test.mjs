@@ -10,14 +10,14 @@ const expected = [
   ['zojirushi-rice-beans-bacon-collard-greens', 'Rice and Beans with Bacon and Collard Greens', 'recipe_fact_checked'],
   ['zojirushi-spicy-basmati-lentil-spinach-rice', 'Spicy Basmati Rice with Lentils and Spinach', 'recipe_fact_checked'],
   ['tefal-risotto-with-peas-r106322', 'Risotto with peas', 'recipe_fact_checked'],
-  ['tefal-risotto-with-shrimps-r106225', 'Risotto with shrimps', 'recipe_fact_checked'],
+  ['tefal-risotto-with-shrimps-r106225', 'Risotto with shrimps', 'executable'],
   ['putian-yellow-croaker-rice', '莆田黄瓜鱼饭', 'identity_verified'],
   ['hekou-buyi-five-color-rice', '河口布依族五色花米饭', 'recipe_fact_checked'],
 ];
 
 test('r73 records direct named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName, status] of expected) {
@@ -32,7 +32,7 @@ test('r73 records direct named candidates without promotion', () => {
     assert.ok(recipe.source_refs.every(source => typeof source.attribution === 'string' && source.attribution.length > 0), recipeId);
     assert.ok(recipe.source_refs.every(source => typeof source.license === 'string' && source.license.length > 0), recipeId);
     assert.ok(Array.isArray(recipe.core_ingredients) && recipe.core_ingredients.length >= 2, recipeId);
-    assert.notEqual(recipe.status, 'executable', recipeId);
+    if (status !== 'executable') assert.notEqual(recipe.status, 'executable', recipeId);
   }
 });
 

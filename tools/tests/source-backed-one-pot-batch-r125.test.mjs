@@ -63,7 +63,7 @@ const expected = [
 ];
 
 test('r125 adds nine official global rice-main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -71,9 +71,9 @@ test('r125 adds nine official global rice-main candidates', () => {
     const recipe = byId.get(item.recipeId);
     assert.ok(recipe, item.recipeId);
     assert.equal(recipe.canonical_name, item.name, item.recipeId);
-    assert.equal(recipe.status, 'recipe_fact_checked', item.recipeId);
+    assert.equal(recipe.status, item.recipeId === 'global-spain-arroz-negro' ? 'executable' : 'recipe_fact_checked', item.recipeId);
     assert.equal(recipe.identity_status, 'verified', item.recipeId);
-    assert.notEqual(recipe.status, 'executable', item.recipeId);
+    if (item.recipeId !== 'global-spain-arroz-negro') assert.notEqual(recipe.status, 'executable', item.recipeId);
     assert.notEqual(recipe.status, 'preview_ready', item.recipeId);
     assert.ok(recipe.core_ingredients.length >= 3, item.recipeId);
     assert.ok(recipe.cooking_sequence.length >= 2, item.recipeId);
@@ -98,6 +98,12 @@ test('r125 keeps source-limited appliance and safety boundaries', () => {
       assert.deepEqual(recipe.safety_endpoints, [{
         code: 'poultry_fully_cooked',
         minimum_core_temperature_c: 74,
+        source_ids: ['S-SAFETY-TEMPERATURES-1'],
+      }], item.recipeId);
+    } else if (item.recipeId === 'global-spain-arroz-negro') {
+      assert.deepEqual(recipe.safety_endpoints, [{
+        code: 'seafood_fully_cooked',
+        minimum_core_temperature_c: 63,
         source_ids: ['S-SAFETY-TEMPERATURES-1'],
       }], item.recipeId);
     } else {

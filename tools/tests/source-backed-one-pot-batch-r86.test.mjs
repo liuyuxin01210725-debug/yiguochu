@@ -6,7 +6,7 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r86 registers two MAFF regional mixed-rice recipes without collapsing continuous processes into one-pot contracts', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
 
   const kate = catalog.recipes.find(item => item.recipe_id === 'maff-kanagawa-kate-meshi');
@@ -26,9 +26,9 @@ test('r86 registers two MAFF regional mixed-rice recipes without collapsing cont
   assert.ok(pheasant?.source_refs?.[0]?.claim_scopes?.includes('process'));
 
   const counts = Object.groupBy(catalog.recipes, item => item.status);
-  assert.equal(counts.recipe_fact_checked.length, 779);
+  assert.equal(counts.recipe_fact_checked.length, 770);
   assert.equal(counts.identity_verified.length, 100);
-  assert.equal(counts.executable.length, 27);
+  assert.equal(counts.executable.length, 36);
   assert.equal(counts.discovered.length, 17);
 });
 

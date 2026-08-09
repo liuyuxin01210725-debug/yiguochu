@@ -6,9 +6,9 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r88 records two Panasonic Taiwan same-pot rice recipes and two Hong Kong official porridge recipes', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r204');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r205');
   assert.equal(catalog.recipes.length, 923);
-  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 779);
+  assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 770);
 
   const mushroom = catalog.recipes.find(item => item.recipe_id === 'panasonic-taiwan-mushroom-vegetable-oil-shallot-rice');
   assert.equal(mushroom?.canonical_name, '菌菇玉菜油蔥飯');
@@ -31,11 +31,15 @@ test('r88 records two Panasonic Taiwan same-pot rice recipes and two Hong Kong o
 
   const porridge = catalog.recipes.find(item => item.recipe_id === 'hk-mushroom-grass-carp-congee');
   assert.equal(porridge?.canonical_name, '香菇魚腩粥');
-  assert.equal(porridge?.status, 'recipe_fact_checked');
+  assert.equal(porridge?.status, 'executable');
   assert.equal(porridge?.fixed_batch?.servings, 18);
   assert.equal(porridge?.liquid_contract?.amount?.value, 6500);
   assert.equal(porridge?.liquid_contract?.amount?.unit, 'mL');
-  assert.deepEqual(porridge?.safety_endpoints, []);
+  assert.deepEqual(porridge?.safety_endpoints, [{
+    code: 'seafood_fully_cooked',
+    minimum_core_temperature_c: 63,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
   assert.match(porridge?.evidence_notes ?? '', /批量|鱼类熟制|电饭煲/u);
 
   const seafoodPorridge = catalog.recipes.find(item => item.recipe_id === 'hk-golden-seafood-congee');
