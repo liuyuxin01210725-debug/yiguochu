@@ -6,7 +6,7 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r93 records Toshiba Hong Kong chicken and dried-scallop porridge with contradictory liquid facts preserved', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r208');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r209');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(catalog.recipes.filter(item => item.status === 'recipe_fact_checked').length, 770);
 
@@ -41,7 +41,11 @@ test('r93 keeps Toshiba porridge model-scoped and research-only', () => {
   const recipe = catalog.recipes.find(item => item.recipe_id === 'toshiba-hk-chicken-scallop-porridge-pc48drshk');
   assert.equal(recipe?.traditional_vessels?.[0], 'Toshiba PC-48DRSHK(K) 电压力锅');
   assert.notEqual(recipe?.status, 'executable');
-  assert.deepEqual(recipe?.safety_endpoints, []);
+  assert.deepEqual(recipe?.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
   assert.match(recipe?.evidence_notes ?? '', /Quick Porridge|不外推/u);
   assert.equal(catalog.recipes.find(item => item.recipe_id === 'japan-hyogo-barley-chicken-vegetable-rice')?.traditional_vessels?.[0], '燃气灶/锅');
   assert.equal(catalog.recipes.find(item => item.recipe_id === 'japan-hokkaido-black-chiset-soy-rice')?.traditional_vessels?.[0], '电饭煲');

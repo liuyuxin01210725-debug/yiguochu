@@ -1357,7 +1357,7 @@
 | 鲜香菇饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉；鲜香菇；芹菜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鲜香菇饭](https://home.panasonic.cn/support/attachments/auld/manual/SR-AFG.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鳳梨蝦仁飯 | 凤梨虾仁饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 泰國香米；蝦仁；鳳梨；青豆仁；洋蔥；番茄；葡萄乾；腰果 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鳳梨蝦仁飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5247) |
 | 鸡肉腊肠煲仔饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡肉片；腊肠；生姜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [HD4775 / HD4777 多功能电饭煲说明书：鸡肉腊肠煲仔饭](https://www.documents.philips.com/assets/20210504/2b225944d7cb481abeffad1e01377c70.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 鹹魚雞粒煲仔飯 | 咸鱼鸡粒煲仔饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 長秈米；雞胸肉；鹹鯖魚；蔥 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鹹魚雞粒煲仔飯](https://www.cookpot.com.tw/cookbook/559.html) |
+| 鹹魚雞粒煲仔飯 | 咸鱼鸡粒煲仔饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 長秈米；雞胸肉；鹹鯖魚；蔥 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鹹魚雞粒煲仔飯](https://www.cookpot.com.tw/cookbook/559.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 麻油松阪豬綜合菇炊飯 | 麻油松阪猪综合菇炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 松阪豬；泰國米；舞菇；金針菇；鴻禧菇；老薑 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [麻油松阪豬綜合菇炊飯](https://tw.sharp/healsio/recipes/811) |
 ## manufacturer-rice-cooker-seafood-rice
 
@@ -1368,7 +1368,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken Porridge with dried scallops | 干贝鸡肉粥 | HK | manufacturer-rice-soup | 研究记录（非公开可执行） | 珍珠米；鸡肉；干贝；姜；鸡汤或水 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Chicken Porridge with dried scallops](https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/ChickenPorridgewithdriedscallops) |
+| Chicken Porridge with dried scallops | 干贝鸡肉粥 | HK | manufacturer-rice-soup | 研究记录（非公开可执行） | 珍珠米；鸡肉；干贝；姜；鸡汤或水 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken Porridge with dried scallops](https://www.toshiba-lifestyle.com/hk-en/recipe/PressureCookerRecipe/ChickenPorridgewithdriedscallops)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Edamame Carrot Rice Soup | 毛豆胡萝卜米汤 | US | manufacturer-rice-soup | 研究记录（非公开可执行） | 白米；毛豆；胡萝卜；菠菜；高汤；葱；蒜 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [Edamame Carrot Rice Soup](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/edamame-carrot-rice-soup/) |
 ## manufacturer-steamer-rice-meal
 
@@ -2650,6 +2650,6 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Chesapeake Crab Carrot Rice | 切萨皮克蟹肉胡萝卜饭；蟹肉胡萝卜饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 茉莉香米；胡萝卜汁；蟹肉；欧芹 | appliance、identity、ingredients、liquid、process | 缺 quantity、time、safety | [Chesapeake Crab Carrot Rice](https://www.zojirushi.com/app/recipe/chesapeake-crab-carrot-rice) |
-| Pad Thai Shrimp Mixed Rice | 泰式虾仁拌饭；泰式虾仁混合米饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 茉莉香米；虾；鸡蛋；胡萝卜；花生 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Pad Thai Shrimp Mixed Rice](https://www.zojirushi.com/app/recipe/pad-thai-shrimp-mixed-rice) |
+| Pad Thai Shrimp Mixed Rice | 泰式虾仁拌饭；泰式虾仁混合米饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 茉莉香米；虾；鸡蛋；胡萝卜；花生 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Pad Thai Shrimp Mixed Rice](https://www.zojirushi.com/app/recipe/pad-thai-shrimp-mixed-rice)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Rice and Beans with Bacon and Collard Greens | 培根豆类羽衣甘蓝米饭；豆类培根叶菜饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 长粒白米；干豆；培根；羽衣甘蓝；番茄 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Rice and Beans with Bacon and Collard Greens](https://www.zojirushi.com/app/recipe/rice-and-beans-with-bacon-and-collard-greens) |
 | Spicy Basmati Rice with Lentils and Spinach | 香辣印度香米扁豆菠菜饭；扁豆菠菜米饭 | US | zojirushi-rice-cooker-recipes | 研究记录（非公开可执行） | 印度香米；红扁豆；菠菜；樱桃番茄；杏仁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Spicy Basmati Rice with Lentils and Spinach](https://www.zojirushi.com/app/recipe/spicy-basmati-rice-with-lentils-and-spinach) |

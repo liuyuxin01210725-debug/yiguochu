@@ -1523,7 +1523,6 @@
 - 雞腿咖哩飯 (panasonic-taiwan-chicken-curry-rice) — 非地域·厂商食谱
 - 高丽菜鲭鱼炊饭 (panasonic-taiwan-cabbage-mackerel-rice) — 非地域·厂商食谱
 - Clam and Tomato Rice (tiger-clam-tomato-rice) — US
-- Chicken Porridge with dried scallops (toshiba-hk-chicken-scallop-porridge-pc48drshk) — HK
 - 麻阳社饭 (mayang-she-rice) — CN-HN
 - 浥饭 (quanzhou-yifan-oil-rice) — CN-FJ
 - 晋江鱼饭 (jinjiang-squid-rice) — CN-FJ-QUANZHOU-JINJIANG
@@ -1615,7 +1614,6 @@
 - 半山立夏野米饭 (banshan-lixia-wild-rice) — CN-ZJ
 - 板栗鸡丝粥 (r98-zojirushi-china-chestnut-chicken-congee) — CN
 - Chesapeake Crab Carrot Rice (zojirushi-chesapeake-crab-carrot-rice) — US
-- Pad Thai Shrimp Mixed Rice (zojirushi-pad-thai-shrimp-mixed-rice) — US
 - Spicy Basmati Rice with Lentils and Spinach (zojirushi-spicy-basmati-lentil-spinach-rice) — US
 
 ## 9. Regional blanks

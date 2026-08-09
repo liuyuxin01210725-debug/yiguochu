@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r208",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r209",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -34873,7 +34873,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鱼类"
       ],
@@ -34913,10 +34921,26 @@
           ],
           "attribution": "鍋寶好食光",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry and dishes containing poultry use 165°F / 74°C.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "锅宝咸鱼鸡粒煲仔饭；是分层同锅连续流程，不宣称所有食材生料一开始同锅。"
+      "evidence_notes": "锅宝咸鱼鸡粒煲仔饭；是分层同锅连续流程，不宣称所有食材生料一开始同锅。r209 安全补证：鸡胸肉先炒至表面变色并在完成时确认熟透，挂禽肉 74°C 终点；蒸架/鸡肉盘分层边界保留。"
     },
     {
       "recipe_id": "cookpot-three-cup-chicken-rice",
@@ -80391,7 +80415,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "shellfish_fully_cooked",
+          "visual_endpoint": "虾肉呈珍珠白或白色且不透明",
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "甲壳类",
         "蛋",
@@ -80434,10 +80466,26 @@
           ],
           "attribution": "Zojirushi America",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: shrimp and other shellfish flesh should be pearly or white and opaque.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "具名米饭主餐，米饭、虾、鸡蛋和胡萝卜形成碳水/蛋白/蔬菜结构；但原方明确使用独立煎锅处理生虾、鸡蛋和蔬菜，再出锅混合，不能伪装成普通电饭煲一键菜。总耗时和海鲜中心温度未闭合，保持研究状态。"
+      "evidence_notes": "具名米饭主餐，米饭、虾、鸡蛋和胡萝卜形成碳水/蛋白/蔬菜结构；但原方明确使用独立煎锅处理生虾、鸡蛋和蔬菜，再出锅混合，不能伪装成普通电饭煲一键菜。r209 安全补证：生虾在另锅炒至完全熟透，挂虾肉珍珠白/白色不透明终点；总耗时和电饭煲内锅直投边界继续保留。"
     },
     {
       "recipe_id": "shanghai-hongkou-chestnut-sausage-rice",
@@ -89114,7 +89162,15 @@
           "S-TOSHIBA-HK-CHICKEN-SCALLOP-PORRIDGE-PC48DRSHK-1"
         ]
       },
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鱼类",
         "大豆"
@@ -89155,10 +89211,26 @@
           ],
           "attribution": "Toshiba Lifestyle Hong Kong",
           "license": "publisher_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry and dishes containing poultry use 165°F / 74°C.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Toshiba香港官方具名电压力锅粥方，生米、生鸡肉和干贝在同一内锅连续烹煮；原方的6杯水与补至水位4存在矛盾，鸡肉1/2没有单位，且缺少禽肉安全终点，保留研究层，不外推普通电饭煲。"
+      "evidence_notes": "Toshiba香港官方具名电压力锅粥方，生米、生鸡肉和干贝在同一内锅连续烹煮；原方的6杯水与补至水位4存在矛盾，鸡肉1/2没有单位。r209 安全补证：生鸡肉挂禽肉 74°C 终点；液体矛盾、缺单位和 PC-48DRSHK(K) 型号边界保留，不外推普通电饭煲。"
     },
     {
       "recipe_id": "japan-hyogo-barley-chicken-vegetable-rice",
