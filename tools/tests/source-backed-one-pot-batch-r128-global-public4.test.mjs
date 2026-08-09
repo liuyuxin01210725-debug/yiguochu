@@ -45,7 +45,7 @@ const expected = [
 const executableIds = new Set(['tamu-turkey-burrito-bowl']);
 
 test('r128 adds five directly evidenced global rice-main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r240');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -107,7 +107,11 @@ test('r128 preserves original appliance, quantity, liquid and safety boundaries'
   assert.equal(illinois.liquid_contract.amount.value, 2);
   assert.equal(illinois.liquid_contract.amount.unit, 'qt');
   assert.equal(illinois.time_contract, null);
-  assert.deepEqual(illinois.safety_endpoints, []);
+  assert.deepEqual(illinois.safety_endpoints, [{
+    code: 'poultry_fully_cooked',
+    minimum_core_temperature_c: 74,
+    source_ids: ['S-SAFETY-TEMPERATURES-1'],
+  }]);
 });
 
 test('r128 candidates remain source assets, never automatic promotions', () => {

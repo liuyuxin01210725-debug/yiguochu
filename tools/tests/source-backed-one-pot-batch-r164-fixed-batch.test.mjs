@@ -59,7 +59,7 @@ const expected = {
 };
 
 test('r164 closes three exact serving contracts without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r240');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedBatch] of Object.entries(expected)) {
     const recipe = byId[recipeId];

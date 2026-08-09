@@ -1524,7 +1524,6 @@
 - 糯米菜饭 (shixing-yao-glutinous-vegetable-rice) — CN-GD
 - 綦江洋芋腊肉箜饭 (qijiang-potato-cured-pork-kong-rice) — CN-CQ
 - 孔干饭 (sichuan-kongganfan) — CN-SC
-- Bubur Lambuk (sg-healthhub-bubur-lambuk) — SG
 - Chicken Briyani (sg-healthhub-chicken-briyani) — SG
 - 台山鸡焗饭 (taishan-chicken-baked-rice) — CN-GD
 - 台山鳗鱼煲仔饭 (taishan-eel-claypot-rice) — CN-GD-JIANGMEN-TAISHAN
@@ -1570,7 +1569,6 @@
 - One-Pot Chicken and Rice Soup (uw-one-pot-chicken-rice-soup) — US-WA
 - Easy One-Pot Red Beans & Rice (sdsu-easy-red-beans-rice) — US-SD
 - Spanish Rice (unh-spanish-rice) — US-NH
-- Chicken & Rice（Wild Rice/Manoomin） (illinois-governors-mansion-chicken-manoomin) — US-IL
 - 铜仁万山社饭 (wanshan-she-rice) — CN-GZ
 - 武安羊肉小米焖饭 (wuan-lamb-millet-braised-rice) — CN-HE
 - 酉州社饭 (youzhou-she-rice) — CN-CQ

@@ -1730,7 +1730,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bubur Lambuk | 椰香牛肉杂粮粥；新加坡HealthHub Bubur Lambuk | SG | singapore-healthhub-bubur-lambuk | 研究记录（非公开可执行） | 三色杂粮米；瘦牛肉末；玉米；青豆；椰奶；洋葱；蒜；姜；香料；鸡蛋；水 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Bubur Lambuk](https://www.healthhub.sg/programmes/korangok/resources/bubur-lambuk) |
+| Bubur Lambuk | 椰香牛肉杂粮粥；新加坡HealthHub Bubur Lambuk | SG | singapore-healthhub-bubur-lambuk | 研究记录（非公开可执行） | 三色杂粮米；瘦牛肉末；玉米；青豆；椰奶；洋葱；蒜；姜；香料；鸡蛋；水 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Bubur Lambuk](https://www.healthhub.sg/programmes/korangok/resources/bubur-lambuk)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## singapore-healthhub-chicken-briyani
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2331,7 +2331,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Chicken & Rice（Wild Rice/Manoomin） | 伊利诺伊野米鸡肉一锅饭 | US-IL | usa-wild-rice-chicken-pot | 研究记录（非公开可执行） | 鸡腿肉；胡萝卜；西芹；洋葱；蒜；鸡汤；野米；欧芹或羽衣甘蓝 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chicken & Rice](https://governorsmansion.illinois.gov/all-recipes/recipe.chicken-and-rice.html) |
+| Chicken & Rice（Wild Rice/Manoomin） | 伊利诺伊野米鸡肉一锅饭 | US-IL | usa-wild-rice-chicken-pot | 研究记录（非公开可执行） | 鸡腿肉；胡萝卜；西芹；洋葱；蒜；鸡汤；野米；欧芹或羽衣甘蓝 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Chicken & Rice](https://governorsmansion.illinois.gov/all-recipes/recipe.chicken-and-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## uyghur-nowruz-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

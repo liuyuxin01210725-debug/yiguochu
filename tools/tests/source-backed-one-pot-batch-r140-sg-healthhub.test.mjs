@@ -36,12 +36,12 @@ const expected = [
     url: 'https://www.healthhub.sg/programmes/korangok/resources/bubur-lambuk',
     vessel: /普通锅|汤锅|pot/iu,
     boundary: /煎蛋|另锅|普通锅|不外推/iu,
-    servings: null,
+    servings: 4,
   },
 ];
 
 test('r140 integrates four Singapore HealthHub candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r240');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -91,7 +91,7 @@ test('r140 preserves HealthHub quantities and staged boundaries', () => {
   assert.match(congee.cooking_sequence.map((step) => step.instruction).join(' '), /糙米|鸡肉|胡萝卜|蘑菇|白菜|拆丝/u);
 
   const bubur = byId.get('sg-healthhub-bubur-lambuk');
-  assert.equal(bubur.fixed_batch, null);
+  assert.equal(bubur.fixed_batch.servings, 4);
   assert.equal(bubur.liquid_contract.amount.value, 1500);
   assert.equal(bubur.liquid_contract.amount.unit, 'ml');
   assert.equal(bubur.time_contract, null);

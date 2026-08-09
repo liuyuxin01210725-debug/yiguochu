@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r239",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r240",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -108748,7 +108748,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [],
       "nutrition_structure": {
         "grade": "B",
@@ -108786,10 +108794,26 @@
           ],
           "attribution": "Illinois Governor’s Mansion",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: poultry minimum internal temperature 165°F / 74°C; applies to the boneless chicken thighs seared and returned to the heavy pot.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Illinois Governor’s Mansion官方食谱明确具名野米鸡肉一锅主餐及2夸脱鸡汤、鸡腿和蔬菜组合；鸡肉先煎取出再回锅的重锅流程保留为分阶段事实，来源没有份数、总时长或禽肉安全终点，不外推电饭煲。"
+      "evidence_notes": "Illinois Governor’s Mansion官方食谱明确具名野米鸡肉一锅主餐及2夸脱鸡汤、鸡腿和蔬菜组合；鸡肉先煎取出再回锅的重锅流程保留为分阶段事实。r240仅挂FoodSafety.gov禽肉74°C终点；来源仍没有份数或总时长，不外推电饭煲。"
     },
     {
       "recipe_id": "sdsu-easy-red-beans-rice",
@@ -113858,7 +113882,264 @@
         "鸡蛋",
         "水"
       ],
-      "fixed_batch": null,
+      "fixed_batch": {
+        "servings": 4,
+        "ingredients": [
+          {
+            "name": "大红洋葱",
+            "amount": {
+              "value": 1,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "蒜",
+            "amount": {
+              "value": 8,
+              "unit": "瓣"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "姜",
+            "amount": {
+              "value": 5,
+              "unit": "cm"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "孜然粉",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "芫荽粉",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "黑胡椒粒",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "姜黄粉",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "香料糊用水",
+            "amount": {
+              "value": 100,
+              "unit": "ml"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "食用油",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "香茅",
+            "amount": {
+              "value": 1,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "肉桂",
+            "amount": {
+              "value": 1,
+              "unit": "根"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "豆蔻",
+            "amount": {
+              "value": 3,
+              "unit": "粒"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "八角",
+            "amount": {
+              "value": 1,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "丁香",
+            "amount": {
+              "value": 5,
+              "unit": "粒"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "瘦牛肉末",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "三色杂粮米",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "主锅水",
+            "amount": {
+              "value": 1500,
+              "unit": "ml"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "冷冻玉米",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "冷冻青豆",
+            "amount": {
+              "value": 150,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "低脂椰奶",
+            "amount": {
+              "value": 200,
+              "unit": "g"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "低钠盐",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "鸡蛋（另锅配食）",
+            "amount": {
+              "value": 2,
+              "unit": "个"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "配食煎蛋用油",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "配食葱花",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          },
+          {
+            "name": "配食香菜",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-R140-SG-BUBUR-LAMBUK-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-R140-SG-BUBUR-LAMBUK-1"
+        ]
+      },
       "liquid_contract": {
         "kind": "added_water",
         "amount": {
@@ -113907,7 +114188,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "beef_fully_cooked",
+          "minimum_core_temperature_c": 71,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "鸡蛋"
       ],
@@ -113947,10 +114236,26 @@
           ],
           "attribution": "Singapore Health Promotion Board",
           "license": "government_site_terms_unspecified"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-10",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov chart: ground meat and sausage 160°F / 71°C; applies to the lean beef mince browned before the rice is added.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Singapore Health Promotion Board原页支持具名Bubur Lambuk、三色米/牛肉末/玉米/青豆/椰奶及1500ml主锅水的普通锅分阶段流程；鸡蛋明确另锅煎后配食，未给固定份数、总时长和数值安全终点，保持缺失，不外推电饭煲。"
+      "evidence_notes": "Singapore Health Promotion Board原页直接给出4份、完整定量材料及普通锅分阶段流程；页面标注准备15分钟、烹调1小时，但方法为40分钟后再30分钟，口径不一致，故time_contract仍为空。牛肉末在加米前下锅煎至变色，r240挂FoodSafety.gov地面肉71°C终点；鸡蛋另锅配食，不外推电饭煲。"
     },
     {
       "recipe_id": "au-cclhd-microwave-risotto",

@@ -65,7 +65,7 @@ const expected = [
 ];
 
 test('r116 adds seven deduplicated mainland named rice candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r240');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 

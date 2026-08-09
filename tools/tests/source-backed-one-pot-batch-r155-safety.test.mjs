@@ -30,7 +30,7 @@ const expected = {
 const executableIds = new Set(['tatung-salmon-pumpkin-milk-risotto', 'tatung-seafood-porridge']);
 
 test('r155 closes six existing seafood and poultry safety gaps without adding recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r239');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r240');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, endpoints] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
