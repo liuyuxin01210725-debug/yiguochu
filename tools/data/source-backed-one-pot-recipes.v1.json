@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r219",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r220",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -33565,6 +33565,46 @@
             "source_ids": [
               "S-JP-MIE-TAKO-1"
             ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 2,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MIE-TAKO-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MIE-TAKO-1"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-MIE-TAKO-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-JP-MIE-TAKO-1"
+            ]
           }
         ],
         "source_ids": [
@@ -33632,7 +33672,7 @@
           "source_kind": "government_regional_recipe_page",
           "access_status": "opened",
           "evidence_tier": 1,
-          "evidence_locator": "官方页面：4人份生章鱼350g、米3杯；章鱼盐揉去黏液、腌20分钟后与米和腌汁同炊",
+          "evidence_locator": "官方页面：4人份生章鱼350g、米3杯；酱油2大匙、酒3大匙、味醂1大匙、盐1小匙；章鱼盐揉去黏液、腌20分钟后与米和腌汁同炊",
           "claim_scopes": [
             "identity",
             "ingredients",
@@ -33727,13 +33767,72 @@
             "source_ids": [
               "S-JP-EHIME-TAKO-1"
             ]
+          },
+          {
+            "name": "昆布",
+            "amount": {
+              "value": 5,
+              "unit": "cm角"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 3,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 0.5,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 0.5,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
+          },
+          {
+            "name": "干油豆腐",
+            "amount": {
+              "value": 0.5,
+              "unit": "枚"
+            },
+            "source_ids": [
+              "S-JP-EHIME-TAKO-1"
+            ]
           }
         ],
         "source_ids": [
           "S-JP-EHIME-TAKO-1"
         ]
       },
-      "liquid_contract": null,
+      "liquid_contract": {
+        "kind": "rice_to_water_ratio",
+        "amount": {
+          "value": 1,
+          "unit": "米:水"
+        },
+        "source_ids": [
+          "S-JP-EHIME-TAKO-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -33785,12 +33884,13 @@
           "source_kind": "government_regional_recipe_page",
           "access_status": "opened",
           "evidence_tier": 1,
-          "evidence_locator": "官方页面：4人份米3杯、章鱼200g、胡萝卜/牛蒡各20g；章鱼先盐煮，沸腾时加入同锅炊煮",
+          "evidence_locator": "官方页面：4人份米3杯、章鱼200g、胡萝卜/牛蒡各20g；昆布5cm角、酱油3大匙、味醂/酒各0.5大匙、干油豆腐0.5枚；章鱼先盐煮，米水同量，沸腾时加入同锅炊煮",
           "claim_scopes": [
             "identity",
             "ingredients",
             "quantity",
-            "process"
+            "process",
+            "liquid"
           ],
           "attribution": "日本农林水产省",
           "license": "government_site_terms_unspecified"
@@ -39128,6 +39228,56 @@
             "source_ids": [
               "S-MAFF-AICHI-HEBO-MESHI-1"
             ]
+          },
+          {
+            "name": "酱油",
+            "amount": {
+              "value": 50,
+              "unit": "mL"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-HEBO-MESHI-1"
+            ]
+          },
+          {
+            "name": "糖",
+            "amount": {
+              "value": 0.5,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-HEBO-MESHI-1"
+            ]
+          },
+          {
+            "name": "味醂",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-HEBO-MESHI-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-HEBO-MESHI-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.5,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-AICHI-HEBO-MESHI-1"
+            ]
           }
         ],
         "source_ids": [
@@ -39175,7 +39325,7 @@
           "source_kind": "government_food_culture_page",
           "access_status": "opened",
           "evidence_tier": 2,
-          "evidence_locator": "官方页面：爱知奥三河传统、米2杯/蜂蛹100g，蜂蛹先炒煮成佃煮后拌入米饭",
+          "evidence_locator": "官方页面：爱知奥三河传统、4人份米2杯/蜂蛹100g；酱油50mL、糖0.5大匙、味醂1大匙、酒1大匙、盐0.5小匙；蜂蛹先炒煮成佃煮后拌入米饭，水加至内锅刻度",
           "claim_scopes": [
             "identity",
             "ingredients",

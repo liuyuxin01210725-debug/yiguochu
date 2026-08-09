@@ -18,7 +18,7 @@ const expected = {
 const executableIds = new Set(['tiger-pork-bamboo-rice']);
 
 test('r157 closes only high-confidence raw protein safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r219');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r220');
   for (const [recipeId, [code, temperature]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);

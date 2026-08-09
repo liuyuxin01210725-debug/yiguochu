@@ -369,7 +369,6 @@
 - ごんじゅう (maff-chiba-gonjuu) — JP-CHIBA
 - 高津のとり飯 (maff-chiba-takatsu-torimeshi) — JP-CHIBA
 - しょうゆめし (maff-ehime-shoyu-meshi) — JP-EHIME
-- たこ飯 (jp-ehime-tako-meshi) — JP-EHIME
 - かしわめし (maff-fukuoka-kashiwa-meshi) — JP-FUKUOKA
 - きんぎょ飯 (maff-kingyo-meshi) — JP-GIFU-KAKAMIGAHARA
 - かて飯 (maff-gunma-katemeshi) — JP-GUNMA
