@@ -1463,7 +1463,6 @@
 - Chinese Rice Bowl (tiger-usa-chinese-rice-bowl) — 非地域·厂商食谱
 - Corn Shumai and Chinese Style Mixed Rice (r105-tiger-corn-shumai-chinese-mixed-rice) — 非地域·厂商食谱
 - Healthy Vegetable Fried Rice (Brown Rice) (r105-tiger-healthy-vegetable-brown-fried-rice) — 非地域·厂商食谱
-- Honey Garlic Chicken (tiger-honey-garlic-chicken) — 非地域·厂商食谱
 - Italian Beef Bowl (tiger-usa-italian-beef-bowl) — 非地域·厂商食谱
 - Seafood Paella (tefal-602-seafood-paella) — 非地域·厂商食谱
 - Seafood Pilaf (tiger-seafood-pilaf) — 非地域·厂商食谱
@@ -1471,7 +1470,6 @@
 - Take Out Style Vegetable Fried Rice (r60-tiger-takeout-vegetable-fried-rice) — 非地域·厂商食谱
 - Takikomi Gohan (Japanese Mixed Rice) (tiger-takikomi-gohan) — 非地域·厂商食谱
 - Takikomi-Gohan (Mixed Rice) (zojirushi-takikomi-gohan-mixed-rice) — 非地域·厂商食谱
-- Teriyaki Chicken (tiger-teriyaki-chicken) — 非地域·厂商食谱
 - Tomato Chicken Melt (tiger-usa-tomato-chicken-melt) — 非地域·厂商食谱
 - Vietnamese Style Beef with Rice (tiger-usa-vietnamese-beef-rice) — 非地域·厂商食谱
 - Zha Cai and Beef Rice (tiger-usa-zha-cai-beef-rice) — 非地域·厂商食谱

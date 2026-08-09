@@ -12,7 +12,7 @@ const tigerUrls = {
 };
 
 test('r102 adds four opened Tiger source records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r241');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r242');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, url] of Object.entries(tigerUrls)) {
     const recipe = byId.get(recipeId);
@@ -33,7 +33,12 @@ test('r102 adds four opened Tiger source records without promotion', () => {
       : null;
     assert.deepEqual(recipe.liquid_contract, expectedLiquid);
     assert.ok(recipe.cooking_sequence.length >= 2);
-    assert.equal(recipe.source_refs.length, recipeId === 'tiger-chicken-meatballs-grated-daikon' ? 2 : 1);
+    const expectedSourceRefCount = [
+      'tiger-honey-garlic-chicken',
+      'tiger-teriyaki-chicken',
+      'tiger-chicken-meatballs-grated-daikon',
+    ].includes(recipeId) ? 2 : 1;
+    assert.equal(recipe.source_refs.length, expectedSourceRefCount);
     const source = recipe.source_refs.find((candidate) => candidate.url === url);
     assert.equal(source.url, url);
     assert.equal(source.access_status, 'opened');

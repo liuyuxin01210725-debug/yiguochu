@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r241",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r242",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -96945,7 +96945,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -96989,10 +96997,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to the raw chicken placed in the Tiger Tacook cooking plate before Synchro-Cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面给出具名主餐、5.5杯机型的固定食材量和Tacook同步流程；未给独立份数、通用水量、总时长或鸡肉安全终点，保留为厂商来源档案，不晋升executable。"
+      "evidence_notes": "Tiger官方页面明确生鸡胸肉腌制后直接放入Tacook盘、与白米同步烹调；已根据FoodSafety.gov为禽肉补充74°C核心温度终点。独立份数、通用水量和总时长仍未给出，保留Tacook机型边界，不晋升executable。"
     },
     {
       "recipe_id": "tiger-teriyaki-chicken",
@@ -97043,7 +97067,15 @@
         }
       ],
       "time_contract": null,
-      "safety_endpoints": [],
+      "safety_endpoints": [
+        {
+          "code": "poultry_fully_cooked",
+          "minimum_core_temperature_c": 74,
+          "source_ids": [
+            "S-SAFETY-TEMPERATURES-1"
+          ]
+        }
+      ],
       "allergen_labels": [
         "大豆"
       ],
@@ -97087,10 +97119,26 @@
           ],
           "attribution": "Tiger Corporation USA",
           "license": "publisher_copyright"
+        },
+        {
+          "source_id": "S-SAFETY-TEMPERATURES-1",
+          "title": "Cook to a Safe Minimum Internal Temperature",
+          "publisher": "FoodSafety.gov",
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+          "retrieved_at": "2026-08-08",
+          "source_kind": "government_food_safety_guidance",
+          "access_status": "opened",
+          "evidence_tier": 1,
+          "evidence_locator": "FoodSafety.gov poultry minimum internal temperature 165°F / 74°C; applies to the raw sliced chicken thigh placed in the Tiger Tacook cooking plate before Plain/Synchro-Cooking.",
+          "claim_scopes": [
+            "safety"
+          ],
+          "attribution": "FoodSafety.gov",
+          "license": "U.S. government terms"
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "Tiger官方页面给出照烧鸡饭的具名、5.5杯机型食材量和Tacook同步流程；未给独立份数、通用水量、总时长或禽肉安全终点，保留器具边界，不晋升executable。"
+      "evidence_notes": "Tiger官方页面明确生鸡腿切片、裹粉后直接放入Tacook盘，与白米同步烹调；已根据FoodSafety.gov为禽肉补充74°C核心温度终点。独立份数、通用水量和总时长仍未给出，保留Tacook机型边界，不晋升executable。"
     },
     {
       "recipe_id": "tiger-bubur-ayam-indonesian-chicken-porridge",

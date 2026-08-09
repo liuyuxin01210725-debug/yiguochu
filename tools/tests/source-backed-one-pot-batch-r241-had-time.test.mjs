@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find((item) => item.recipe_id === 'had-vegetable-pulao');
 
 test('r241 closes the official HAD vegetable pulao total time only', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r241');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r242');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
