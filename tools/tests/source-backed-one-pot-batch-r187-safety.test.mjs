@@ -14,7 +14,7 @@ const expected = {
 };
 
 test('r187 closes three directly evidenced raw fish safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r223');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r224');
   for (const [recipeId, locator] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);

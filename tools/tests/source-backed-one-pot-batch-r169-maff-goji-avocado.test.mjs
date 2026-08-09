@@ -10,7 +10,7 @@ function ingredient(name) {
 }
 
 test('r169 closes the same-source MAFF goji avocado rice fixed batch', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r223');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r224');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');

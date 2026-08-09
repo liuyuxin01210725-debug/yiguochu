@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "source-backed-one-pot-v1-20260808-global-r223",
+  "catalog_version": "source-backed-one-pot-v1-20260808-global-r224",
   "scope": "savory-rice-main-meal",
   "reviewed_regions": [
     "CN-BJ",
@@ -68039,8 +68039,104 @@
         "煎茶",
         "芝麻"
       ],
-      "fixed_batch": null,
-      "liquid_contract": null,
+      "fixed_batch": {
+        "servings": 5,
+        "ingredients": [
+          {
+            "name": "米",
+            "amount": {
+              "value": 1,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "糯米",
+            "amount": {
+              "value": 1,
+              "unit": "合"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "栀子",
+            "amount": {
+              "value": 1,
+              "unit": "至2个"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "水（栀子浸出液）",
+            "amount": {
+              "value": 1,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "盐",
+            "amount": {
+              "value": 0.6666666667,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "酒",
+            "amount": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "水（A调味液）",
+            "amount": {
+              "value": 1,
+              "unit": "cup"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          },
+          {
+            "name": "煎茶",
+            "amount": {
+              "value": 1,
+              "unit": "小匙"
+            },
+            "source_ids": [
+              "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+        ]
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "amount": {
+          "value": 2,
+          "unit": "cup"
+        },
+        "source_ids": [
+          "S-MAFF-SHIZUOKA-SOMEIMESHI-1"
+        ]
+      },
       "cooking_sequence": [
         {
           "step": 1,
@@ -68095,7 +68191,7 @@
         }
       ],
       "status": "recipe_fact_checked",
-      "evidence_notes": "静冈染饭具名且有炊饭器来源，但核心是栀子与煎茶染色风味，营养角色单一，暂不作为均衡主餐。"
+      "evidence_notes": "同一MAFF原页闭合5人份米1合、糯米1合、栀子1至2个、两次各1杯水、盐2/3小匙、酒1大匙与煎茶1小匙；芝麻为适量未数值化。两杯水分别用于栀子浸出液与A调味液，未给整道总时长，仍不作为均衡主餐或executable。"
     },
     {
       "recipe_id": "maff-shimane-uzume-meshi",

@@ -18,29 +18,33 @@ const ingredient = (recipe, name) => {
   return found;
 };
 
-test('r223 keeps the 923-entry catalog and advances the catalog version', () => {
+test('r224 keeps the 923-entry catalog and advances the catalog version', () => {
   assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r224');
   assert.equal(catalog.recipes.length, 923);
 });
 
-test('r223 closes the exact Chiba toridose batch while preserving its cooked-rice boundary', () => {
-  const recipe = byId('maff-chiba-toridose');
-  assert.equal(recipe.fixed_batch.servings, 10);
+test('r224 closes the five-person Shizuoka someimeshi batch without inventing optional sesame', () => {
+  const recipe = byId('maff-shizuoka-someimeshi');
+  assert.equal(recipe.fixed_batch.servings, 5);
   for (const [name, amount] of [
-    ['熟饭', { value: 10, unit: '碗' }],
-    ['鸡肉', { value: 500, unit: 'g' }],
-    ['牛蒡', { value: 300, unit: 'g' }],
-    ['水或出汁', { value: 2, unit: 'L' }],
+    ['米', { value: 1, unit: '合' }],
+    ['糯米', { value: 1, unit: '合' }],
+    ['栀子', { value: 1, unit: '至2个' }],
+    ['水（栀子浸出液）', { value: 1, unit: 'cup' }],
+    ['盐', { value: 0.6666666667, unit: '小匙' }],
+    ['酒', { value: 1, unit: '大匙' }],
+    ['水（A调味液）', { value: 1, unit: 'cup' }],
+    ['煎茶', { value: 1, unit: '小匙' }],
   ]) {
     assert.deepEqual(ingredient(recipe, name).amount, amount);
   }
   assert.deepEqual(recipe.liquid_contract, {
     kind: 'added_water',
-    amount: { value: 2, unit: 'L' },
-    source_ids: ['S-MAFF-CHIBA-TORIDOSE-1'],
+    amount: { value: 2, unit: 'cup' },
+    source_ids: ['S-MAFF-SHIZUOKA-SOMEIMESHI-1'],
   });
   assert.equal(recipe.time_contract, null);
   assert.equal(recipe.status, 'recipe_fact_checked');
-  assert.equal(recipe.cooker_adaptation.status, 'not_adapted');
+  assert.equal(recipe.cooker_adaptation.status, 'source_limited');
   assert.equal('executable' in recipe, false);
 });
