@@ -38,9 +38,17 @@
     .badge-a { background: #dff1e4; color: #20683c; }
     .badge-b { background: #fff0c8; color: #8a5f16; }
     .badge-c { background: #e9ece7; color: #59645d; }
+    .preview-badge { display: inline-block; margin: 6px 6px 0 0; padding: 3px 8px; border-radius: 999px; background: #e4edf8; color: #2c5c87; font-size: .76rem; font-weight: 700; }
+    .formalization-badge { display: inline-block; margin: 6px 6px 0 0; padding: 3px 8px; border-radius: 999px; background: #f5e5e5; color: #8a3f3f; font-size: .76rem; font-weight: 700; }
     .meta { margin-top: 3px; color: #657269; font-size: .88rem; overflow-wrap: anywhere; }
     .pill { display: inline-block; padding: 2px 7px; margin: 3px 5px 0 0; border-radius: 999px; background: #f1efe8; font-size: .82rem; }
     .warning { margin-top: 9px; padding: 9px 10px; border-left: 3px solid #c7862f; background: #fff9ed; color: #75521e; font-size: .9rem; }
+    .research-method { margin-top: 12px; padding: 11px 12px; border: 1px solid #e9dfc8; border-radius: 10px; background: #fffdf7; }
+    .research-method h3 { margin-top: 0; }
+    .research-method .method-badge { display: inline-block; margin-left: 5px; padding: 2px 6px; border-radius: 999px; background: #f1e3be; color: #75521e; font-size: .72rem; font-weight: 700; }
+    .research-method .estimated { color: #8a5f16; }
+    .research-method .source-fact { color: #3f6652; }
+    .research-method .method-note { font-size: .86rem; color: #657269; }
     .missing { color: #8a5f16; font-size: .9rem; }
     details { margin-top: 12px; border-top: 1px solid #eeeae1; padding-top: 10px; }
     summary { cursor: pointer; color: #246b4f; font-weight: 700; }
@@ -60,18 +68,18 @@
   <main>
     <header>
       <h1>一锅出 · 真实菜饭资料库</h1>
-      <p class="muted">真实名称、地域身份和来源档案。这里不自由拼菜名，也不把研究记录伪装成已经验证的正式食谱。</p>
-      <p><a href="/recipes.html">查看已签署基础菜谱</a> · <a href="/">返回一锅出</a></p>
+      <p class="muted">923 条真实名称、地域身份和来源档案。每条都先给出可试做的研究做法卡；来源事实与估算补全分开标注，不把估算伪装成已验证的正式食谱。</p>
+      <p><a href="/recipes/">查看已签署基础菜谱</a> · <a href="/">返回一锅出</a></p>
     </header>
 
     <section class="notice" aria-label="目录说明">
-      <strong>三层货架</strong>：A 层是已签署的可照做记录；B 层是来源有定量和步骤、但尚未完成厨房验证的试做架；C 层展示来源已记录的片段，同时把缺失的份量、液体、时间或安全信息明确标出，不补猜。试做记录只保存在当前浏览器，可导出保存。
+      <strong>全量执行层已上线：923/923 张执行卡</strong>：每条都能打开食材起步用量、液体、至少三步做法和总时长；A 层是来源合同完整、待厨房验证的记录，B 层是来源有定量和步骤、但尚未完成厨房验证的试做架，C 层也会给出一张研究起步卡。首页现在会轮换全部 923 张卡；正式 Planner 仍只运行通过生产闸门的 72 道。做法卡中的“来源”是原文事实，“研究起步”是为了让你能开始试做的估算，必须按来源器具、食材状态和首次试做记录校正，不能当作官方原方或生产菜谱。熟饭、预炒、蒸制、烤箱和安全阻断条目会保留原边界，不会伪装成普通电饭煲做法。每条卡还显示 P0–P3 正式化队列和待记录的试做证据；试做记录只保存在当前浏览器，可导出保存。
     </section>
 
     <section id="stats" class="stats" aria-live="polite"></section>
     <section class="filters" aria-label="筛选目录">
       <input id="query" type="search" placeholder="搜索菜名、地域、家族或食材" autocomplete="off">
-      <select id="shelf"><option value="all">全部货架</option><option value="A">A · 可照做</option><option value="B">B · 试做架</option><option value="C">C · 档案室</option></select>
+      <select id="shelf"><option value="all">全部货架</option><option value="A">A · 可照做</option><option value="B">B · 试做架</option><option value="C">C · 研究起步架</option></select>
       <button id="clear" type="button">清除筛选</button>
     </section>
     <div class="results-head"><h2>目录条目</h2><span id="count" class="muted"></span></div>
@@ -88,8 +96,8 @@
   <script>
     (() => {
       const PAGE_SIZE = 40;
-      const state = { catalog: null, records: [], notes: loadNotes(), page: 1, focusId: new URLSearchParams(location.search).get('recipe_id') || '' };
-      const shelfLabels = { A: '可直接试做（来源已核对）', B: '来源有据（待厨房验证）', C: '资料记录（缺项不补猜）' };
+      const state = { catalog: null, previewManifest: null, formalizationLedger: null, formalizationById: new Map(), formalCandidateReview: null, formalCandidateReviewById: new Map(), formalStaging: null, previewIds: new Set(), records: [], notes: loadNotes(), page: 1, focusId: new URLSearchParams(location.search).get('recipe_id') || '' };
+      const shelfLabels = { A: '可直接试做（来源已核对）', B: '来源有据（待厨房验证）', C: '研究起步架（来源字段待补）' };
       const statusLabels = { executable: '已签署', recipe_fact_checked: '来源事实已记录', identity_verified: '身份已核对', discovered: '待补证' };
       const REGION_LABELS = { 'CN-AH':'安徽','CN-BJ':'北京','CN-CQ':'重庆','CN-FJ':'福建','CN-GD':'广东','CN-GS':'甘肃','CN-GX':'广西','CN-GZ':'贵州','CN-HA':'河南','CN-HB':'湖北','CN-HE':'河北','CN-HI':'海南','CN-HK':'香港','CN-HL':'黑龙江','CN-HN':'湖南','CN-JL':'吉林','CN-JS':'江苏','CN-JX':'江西','CN-LN':'辽宁','CN-MO':'澳门','CN-NM':'内蒙古','CN-NX':'宁夏','CN-QH':'青海','CN-SC':'四川','CN-SD':'山东','CN-SH':'上海','CN-SN':'陕西','CN-SX':'山西','CN-TJ':'天津','CN-XJ':'新疆','CN-XZ':'西藏','CN-YN':'云南','CN-ZJ':'浙江','TW':'台湾','HK':'香港','MO':'澳门','JP':'日本','KR':'韩国' };
       const FAMILY_LABELS = { 'cantonese-claypot-rice':'广东煲仔饭','hong-kong-claypot-rice':'香港煲仔饭','jiangnan-vegetable-rice':'江南菜饭','sichuan-home-style-menfan':'四川焖饭','tongren-seasonal-shefan':'贵州社饭','manufacturer-rice-cooker-recipes':'厂商电饭煲食谱','manufacturer-one-pot-recipes':'厂商一锅饭食谱','tatung-electric-rice-recipes':'大同电锅食谱','taiwan-electric-cooker-rice':'台湾电锅饭','taiwan-vegetable-rice':'台湾菜饭' };
@@ -114,6 +122,75 @@
         const listElement = document.createElement(ordered ? 'ol' : 'ul');
         for (const value of list(values)) { const item = document.createElement('li'); item.textContent = text(value); listElement.append(item); }
         parent.append(listElement);
+      }
+      function methodStatusLabel(status) {
+        return ({
+          source_complete: '来源字段已齐',
+          source_partial_with_draft: '来源片段 + 研究补全',
+          draft_estimated: '研究草案（估算起步量）',
+          identity_only_draft: '研究起步草案（来源只确认身份）',
+        })[status] || '研究草案';
+      }
+      function methodProvenanceLabel(provenance) {
+        return provenance === 'source' ? '来源' : provenance === 'source_hint' ? '来源线索' : provenance === 'estimated' ? '估算' : '待核';
+      }
+      function methodAmount(item) {
+        const amount = item && item.amount && typeof item.amount === 'object' ? item.amount : item;
+        if (!amount || amount.value === undefined || amount.value === null) return '用量待核';
+        return `${amount.value}${amount.unit || ''}`;
+      }
+      function methodTime(time) {
+        if (!time) return '待核';
+        if (time.range && time.total_minutes) return `${time.range.min}–${time.range.max}${time.range.unit || '分钟'}（研究起步取${time.total_minutes}分钟）`;
+        return time.total_minutes ? `${time.total_minutes} 分钟` : '待核';
+      }
+      function appendMethodHints(parent, label, hints) {
+        const rows = list(hints);
+        if (!rows.length) return;
+        const details = document.createElement('details');
+        details.open = true;
+        const summary = document.createElement('summary'); summary.textContent = label; details.append(summary);
+        appendList(details, rows.map(hint => `${hint.text || '来源定位不可用'}［来源；${hint.note || '未结构化'}］`));
+        parent.append(details);
+      }
+      function appendResearchMethod(parent, record) {
+        const method = record && record.research_method;
+        if (!method) return;
+        const section = document.createElement('section'); section.className = 'research-method';
+        const heading = document.createElement('h3'); heading.textContent = '研究做法卡';
+        const badge = document.createElement('span'); badge.className = 'method-badge'; badge.textContent = methodStatusLabel(method.status); heading.append(badge); section.append(heading);
+        const intro = document.createElement('p'); intro.className = method.status === 'source_complete' ? 'source-fact' : 'method-note';
+        intro.textContent = method.status === 'source_complete'
+          ? '以下字段来自已打开的来源记录。'
+          : '以下是为了让你能先做起来的研究版补全；“估算/待核”不是原文定量，首次试做要记录并校正。'; section.append(intro);
+        if (method.research_profile?.label) {
+          const profile = document.createElement('p'); profile.className = 'method-note';
+          profile.textContent = `研究执行边界：${method.research_profile.label}。${method.research_profile.note || ''}`;
+          section.append(profile);
+        }
+        const serving = document.createElement('p'); serving.textContent = `研究份数：${text(method.servings?.value, '待核')} ${text(method.servings?.unit, '')}（${methodProvenanceLabel(method.servings?.provenance)}）`; section.append(serving);
+        const ingredientTitle = document.createElement('h3'); ingredientTitle.textContent = '食材与用量'; section.append(ingredientTitle);
+        const ingredientList = document.createElement('ul');
+        for (const item of list(method.ingredients)) { const li = document.createElement('li'); li.className = item.provenance === 'source' ? 'source-fact' : 'estimated'; li.textContent = `${item.name}：${methodAmount(item)}［${methodProvenanceLabel(item.provenance)}］${item.note ? `（${item.note}）` : ''}`; ingredientList.append(li); }
+        section.append(ingredientList);
+        appendMethodHints(section, '展开原文量线索（未结构化）', method.source_quantity_hints);
+        const liquidText = method.liquid?.amount ? methodAmount(method.liquid) : method.liquid?.waterline ? `按${text(method.liquid.waterline.appliance_model, '来源机型')}的${text(method.liquid.waterline.scale, '水位')} ${text(method.liquid.waterline.mark, '')}刻度` : method.liquid?.research_starting_point ? `研究起步 ${methodAmount(method.liquid.research_starting_point)}` : '待核';
+        const componentText = list(method.liquid?.components).length
+          ? `；分项：${list(method.liquid.components).map(component => `${text(component.name, '液体')} ${methodAmount(component)}`).join('、')}`
+          : '';
+        const contracts = document.createElement('p'); contracts.textContent = `液体：${liquidText}${componentText}（${methodProvenanceLabel(method.liquid?.provenance)}）；总时长：${methodTime(method.time)}（${methodProvenanceLabel(method.time?.provenance)}）`; section.append(contracts);
+        if (method.liquid?.note) { const liquidNote = document.createElement('p'); liquidNote.className = 'method-note'; liquidNote.textContent = `液体边界：${method.liquid.note}`; section.append(liquidNote); }
+        if (method.servings_source_hint?.text) { const batchHint = document.createElement('p'); batchHint.className = 'source-fact'; batchHint.textContent = `原文份数提示：${method.servings_source_hint.text}［来源］`; section.append(batchHint); }
+        const stepTitle = document.createElement('h3'); stepTitle.textContent = method.method_type === 'staged_or_other' ? '步骤（保留原器具/分段边界）' : '步骤'; section.append(stepTitle);
+        const stepList = document.createElement('ol');
+        for (const step of list(method.steps)) { const li = document.createElement('li'); li.className = step.provenance === 'source' ? 'source-fact' : 'estimated'; li.textContent = `${step.instruction}［${methodProvenanceLabel(step.provenance)}］`; stepList.append(li); }
+        section.append(stepList);
+        appendMethodHints(section, '展开原文流程线索（未结构化）', method.source_process_hints);
+        appendMethodHints(section, '展开原文时间线索（未结构化）', method.source_time_hints);
+        if (list(method.assumptions).length) { const note = document.createElement('p'); note.className = 'method-note'; note.textContent = `补全边界：${method.assumptions.join('；')}`; section.append(note); }
+        if (method.safety_note) { const safety = document.createElement('p'); safety.className = 'method-note'; safety.textContent = `安全提示：${method.safety_note}`; section.append(safety); }
+        if (list(method.source_facts).length) { const facts = document.createElement('details'); const summary = document.createElement('summary'); summary.textContent = '展开原文事实定位'; facts.append(summary); appendList(facts, list(method.source_facts).map(fact => fact.text)); section.append(facts); }
+        parent.append(section);
       }
       function makeSources(record) {
         const wrap = document.createElement('div');
@@ -143,7 +220,29 @@
           const contracts = document.createElement('p'); contracts.textContent = `来源记录的液体：${record.liquid_contract ? formatAmount(record.liquid_contract.amount) : '未提供'}；总时长：${record.time_contract?.total_minutes ? `${record.time_contract.total_minutes} 分钟` : '未提供'}`; parent.append(contracts); shown = true;
         }
         if (list(record.cooking_sequence).length) { appendList(parent, list(record.cooking_sequence).map(step => step.instruction), true); shown = true; }
-        if (!shown) { const empty = document.createElement('p'); empty.className = 'muted'; empty.textContent = '当前来源只确认名称、地域或食材身份，尚未形成可照做的步骤。'; parent.append(empty); }
+        if (!shown) { const empty = document.createElement('p'); empty.className = 'muted'; empty.textContent = '当前来源没有可直接复制的完整字段；研究做法卡已直接显示在条目卡上方。'; parent.append(empty); }
+      }
+      function appendFormalCandidateReview(parent, record) {
+        const review = state.formalCandidateReviewById.get(record.recipe_id);
+        const queue = state.formalizationById.get(record.recipe_id)?.formalization_queue;
+        if (!review) return;
+        const details = document.createElement('details'); details.className = 'research-method';
+        const summary = document.createElement('summary'); summary.textContent = '展开逐条正式化审查'; details.append(summary);
+        appendList(details, [
+          queue ? `正式化队列：${text(queue.priority)} · ${text(queue.status)}` : '正式化队列：待载入',
+          queue ? `执行字段：${text(state.formalizationById.get(record.recipe_id)?.execution_readiness?.status)}；来源/线索/估算会在卡片字段中逐项标注` : '执行字段：待载入',
+          `正式化阶段：${text(review.formal_candidate_status)}`,
+          `来源合同：${list(review.source_contract?.missing_fields).length ? `缺 ${review.source_contract.missing_fields.join('、')}` : '已闭合'}`,
+          `taxonomy：已匹配 ${list(review.taxonomy_mapping?.matched).length} 项；待核 ${list(review.taxonomy_mapping?.missing).join('、') || '无'}`,
+          `比例 DSL：${text(review.ratio_dsl?.status)}`,
+          `营养：${text(review.nutrition?.status)}；安全：${text(review.safety?.status)}`,
+          `厨房试做：${text(review.kitchen_observed?.status)}；真实旅程：${text(review.journey_coverage?.status)}`,
+          `下一步：${text(queue?.next_action || review.next_action)}`,
+        ]);
+        if (queue?.trial_packet?.required_observations?.length) {
+          const trial = document.createElement('p'); trial.className = 'method-note'; trial.textContent = `试做包待记录：${queue.trial_packet.required_observations.join('、')}。未有真实记录前不会晋升 Planner。`; details.append(trial);
+        }
+        parent.append(details);
       }
       function sourceFragmentSummary(record) {
         const parts = [];
@@ -151,9 +250,12 @@
         if (list(record.cooking_sequence).length) parts.push(`${record.cooking_sequence.length}个来源步骤`);
         if (record.liquid_contract) parts.push('液体边界');
         if (record.time_contract) parts.push('时间边界');
-        const known = parts.length ? `已记录：${parts.join('、')}` : '目前只核实了名称、地域或食材身份';
+        const method = record.research_method;
+        if (method && list(method.ingredients).length) parts.push(`${method.ingredients.length}项研究用量`);
+        if (method && list(method.steps).length) parts.push(`${method.steps.length}步研究做法`);
+        const known = parts.length ? `已记录：${parts.join('、')}` : '来源目前只核实了名称、地域或食材身份；下方已有研究起步用量与步骤';
         const missing = list(record.missing_contract_labels);
-        return `${known}。${missing.length ? `仍缺：${missing.join('、')}。` : ''}点开查看来源片段。`;
+        return `${known}。${missing.length ? `来源仍缺：${missing.join('、')}。` : ''}点开查看来源片段和研究草案。`;
       }
       function makeDetails(record) {
         const details = document.createElement('details');
@@ -173,14 +275,19 @@
         return details;
       }
       function makeTrialForm(record) {
-        const details = document.createElement('details'); const summary = document.createElement('summary'); summary.textContent = '填写试做记录'; details.append(summary);
+        const details = document.createElement('details'); const summary = document.createElement('summary'); summary.textContent = record.shelf === 'C' ? '记录研究起步试做' : '填写试做记录'; details.append(summary);
+        if (record.shelf === 'C') { const note = document.createElement('p'); note.className = 'method-note'; note.textContent = '这是一条研究起步记录；请把实际用量、锅具、时间和成品状态记下来，不能把估算值当成来源原方。'; details.append(note); }
         const form = document.createElement('form'); form.className = 'record-form'; form.dataset.recipeId = record.recipe_id;
         const old = state.notes[record.recipe_id] || {};
         const fields = [
+          ['measured_ingredients', '实际称量食材', 'text', old.measured_ingredients || ''],
           ['date', '日期', 'date', old.date || new Date().toISOString().slice(0, 10)],
           ['water', '实际水量', 'text', old.water || ''],
           ['minutes', '实际耗时（分钟）', 'number', old.minutes || ''],
           ['servings', '成品几碗/几份', 'text', old.servings || ''],
+          ['cooker_program', '锅具/机型/程序', 'text', old.cooker_program || ''],
+          ['texture_safety', '成品质地与安全终点', 'text', old.texture_safety || ''],
+          ['journey_regression', 'Planner旅程/过敏/禁忌/替换回归', 'text', old.journey_regression || ''],
         ];
         for (const [name, label, type, value] of fields) { const field = document.createElement('label'); field.textContent = label; const input = document.createElement('input'); input.name = name; input.type = type; input.value = value; field.append(input); form.append(field); }
         const notes = document.createElement('label'); notes.textContent = '糊底、出水、味道和是否愿意再做'; const area = document.createElement('textarea'); area.name = 'notes'; area.value = old.notes || ''; notes.append(area); form.append(notes);
@@ -190,13 +297,27 @@
       }
       function makeCard(record) {
         const article = document.createElement('article'); article.className = `card shelf-${record.shelf.toLowerCase()}`; article.dataset.recipeId = record.recipe_id;
-        const head = document.createElement('div'); head.className = 'card-head'; const titleWrap = document.createElement('div'); const title = document.createElement('h2'); title.textContent = displayName(record); titleWrap.append(title); const alias = list(record.aliases); if (alias.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = `又名：${alias.join('、')}`; titleWrap.append(p); } head.append(titleWrap); const badge = document.createElement('span'); badge.className = `badge badge-${record.shelf.toLowerCase()}`; badge.textContent = shelfLabels[record.shelf]; head.append(badge); article.append(head);
+        const head = document.createElement('div'); head.className = 'card-head'; const titleWrap = document.createElement('div'); const title = document.createElement('h2'); title.textContent = displayName(record); titleWrap.append(title); const alias = list(record.aliases); if (alias.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = `又名：${alias.join('、')}`; titleWrap.append(p); } head.append(titleWrap); const badgeWrap = document.createElement('div'); const badge = document.createElement('span'); badge.className = `badge badge-${record.shelf.toLowerCase()}`; badge.textContent = shelfLabels[record.shelf]; badgeWrap.append(badge); if (state.previewIds.has(record.recipe_id)) { const preview = document.createElement('span'); preview.className = 'preview-badge'; preview.textContent = '预览可照做（来源合同闭合，非 Planner 正式菜谱）'; badgeWrap.append(preview); } const ledgerRow = state.formalizationById.get(record.recipe_id); if (ledgerRow?.formalization_status === 'blocked') { const formal = document.createElement('span'); formal.className = 'formalization-badge'; formal.textContent = '正式化待补'; badgeWrap.append(formal); } head.append(badgeWrap); article.append(head);
         const meta = document.createElement('p'); meta.className = 'meta'; meta.textContent = `${displayRegion(record)} · ${displayFamily(record)} · ${statusLabels[record.status] || '状态待核对'}`; article.append(meta);
         if (record.shelf === 'C') { const fragment = document.createElement('p'); fragment.className = 'muted'; fragment.textContent = sourceFragmentSummary(record); article.append(fragment); }
         if (record.shelf !== 'C') { const ingredients = document.createElement('p'); for (const ingredient of list(record.core_ingredients)) { const pill = document.createElement('span'); pill.className = 'pill'; pill.textContent = ingredient; ingredients.append(pill); } article.append(ingredients); }
         if (record.shelf === 'B' && list(record.missing_contract_labels).length) { const missing = document.createElement('p'); missing.className = 'missing'; missing.textContent = `尚缺：${record.missing_contract_labels.join('、')}。缺项不补猜。`; article.append(missing); }
+        if (ledgerRow?.formalization_status === 'blocked' && list(ledgerRow.blocker_labels).length) { const formalNote = document.createElement('p'); formalNote.className = 'missing'; formalNote.textContent = `正式化阻塞：${ledgerRow.blocker_labels.join('、')}。下一步：${ledgerRow.next_action}`; article.append(formalNote); }
         if (list(record.safety_notes).length) { const warning = document.createElement('div'); warning.className = 'warning'; appendList(warning, record.safety_notes); article.append(warning); }
-        article.append(makeDetails(record)); if (record.shelf !== 'C') article.append(makeTrialForm(record)); return article;
+        appendResearchMethod(article, record);
+        appendFormalCandidateReview(article, record);
+        const executionLink = document.createElement('p');
+        const executionAnchor = document.createElement('a');
+        executionAnchor.href = `/recipes?id=${encodeURIComponent(record.recipe_id)}`;
+        executionAnchor.textContent = '打开执行卡';
+        executionLink.append(executionAnchor);
+        const cookAnchor = document.createElement('a');
+        cookAnchor.href = `/cook/?id=${encodeURIComponent(record.recipe_id)}`;
+        cookAnchor.textContent = '开始逐步试做';
+        cookAnchor.style.marginLeft = '12px';
+        executionLink.append(cookAnchor);
+        article.append(executionLink);
+        article.append(makeDetails(record)); article.append(makeTrialForm(record)); return article;
       }
       function renderPagination(total) {
         const pages = Math.max(1, Math.ceil(total / PAGE_SIZE)); state.page = Math.min(Math.max(state.page, 1), pages); const nav = $('pagination'); nav.hidden = total <= PAGE_SIZE; $('page-info').textContent = `第 ${state.page} / ${pages} 页`; $('prev-page').disabled = state.page <= 1; $('next-page').disabled = state.page >= pages;
@@ -206,10 +327,71 @@
         filtered.sort((a, b) => regionPriority(a) - regionPriority(b) || shelfPriority(a) - shelfPriority(b) || titleLanguagePriority(a) - titleLanguagePriority(b) || displayName(a).localeCompare(displayName(b), 'zh-CN') || String(a.recipe_id || '').localeCompare(String(b.recipe_id || '')));
         renderPagination(filtered.length); const start = (state.page - 1) * PAGE_SIZE; const visible = filtered.slice(start, start + PAGE_SIZE); $('count').textContent = `显示 ${filtered.length} 条 · 当前 ${visible.length} 条`; const results = $('results'); results.replaceChildren(); if (!visible.length) { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '没有符合筛选条件的条目。'; results.append(empty); return; } const fragment = document.createDocumentFragment(); for (const record of visible) { try { fragment.append(makeCard(record)); } catch (error) { console.error('source recipe render failed', record?.recipe_id, error); const fallback = document.createElement('article'); fallback.className = 'card'; fallback.dataset.recipeId = record?.recipe_id || ''; const title = document.createElement('h2'); title.textContent = text(record?.canonical_name, '未命名菜饭'); const note = document.createElement('p'); note.className = 'missing'; note.textContent = '暂时无法展示这条记录，请稍后再试。'; fallback.append(title, note); fragment.append(fallback); } } results.append(fragment); if (state.focusId) { const target = [...results.children].find(card => card.dataset.recipeId === state.focusId); if (target) { try { target.querySelectorAll('details').forEach(details => { details.open = true; }); if (typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'start' }); } catch (error) { console.warn('source recipe focus failed', error); } } }
       }
-      function renderStats(summary) { $('stats').replaceChildren(...['A', 'B', 'C'].map(key => { const span = document.createElement('span'); span.className = 'stat'; const strong = document.createElement('strong'); strong.textContent = summary[key]; span.append(strong, ` ${key === 'A' ? '已签署' : key === 'B' ? '试做架' : '档案室'}`); return span; }), (() => { const span = document.createElement('span'); span.className = 'stat'; span.textContent = `A+B 试做池 ${summary.trial_ready_total}`; return span; })()); }
+      function renderStats(summary, methodCoverage) {
+        const coverage = methodCoverage || {};
+        const cards = Number(coverage.total) || 0;
+        const sourceComplete = Number(coverage.source_complete) || 0;
+        const sourcePartial = Number(coverage.source_partial_with_draft) || 0;
+        const draftOnly = (Number(coverage.draft_estimated) || 0) + (Number(coverage.identity_only_draft) || 0);
+        const stat = (label, value) => { const span = document.createElement('span'); span.className = 'stat'; span.textContent = `${label} ${value}`; return span; };
+        $('stats').replaceChildren(
+          ...['A', 'B', 'C'].map(key => { const span = document.createElement('span'); span.className = 'stat'; const strong = document.createElement('strong'); strong.textContent = summary[key]; span.append(strong, ` ${key === 'A' ? '已签署' : key === 'B' ? '试做架' : '研究起步架'}`); return span; }),
+          stat('A+B 试做池', summary.trial_ready_total),
+          stat('研究做法卡', `${cards}/${cards}`),
+          stat('执行字段完整（用量/液体/步骤/时长）', `${coverage.complete_research_cards || 0}/${cards}`),
+          stat('无安全阻断且字段完整', `${coverage.complete_unblocked_research_cards || 0}/${cards}`),
+          stat('安全阻断', coverage.blocked_cards || 0),
+          stat('原文量/流程/时间线索', `${coverage.cards_with_source_quantity_hints || 0}/${coverage.cards_with_source_process_hints || 0}/${coverage.cards_with_source_time_hints || 0}`),
+          stat('原文完整', sourceComplete),
+          stat('来源+研究补全', sourcePartial),
+          stat('估算/身份稿', draftOnly),
+          stat('预览候选（非 Planner）', state.previewManifest?.counts?.selected || 0),
+          stat('正式化待补', state.formalizationLedger?.counts?.blocked || 0),
+          stat('逐条正式化审查', `${state.formalCandidateReview?.counts?.total || 0}/${cards}`),
+          stat('正式化队列', state.formalStaging?.counts?.total || 0),
+          stat('来源合同完整待试做', state.formalStaging?.counts?.source_complete || 0),
+          stat('可直接升 Planner', state.formalCandidateReview?.counts?.formal_ready || 0),
+        );
+      }
       $('query').addEventListener('input', () => { state.page = 1; render(); }); $('shelf').addEventListener('change', () => { state.page = 1; render(); }); $('clear').addEventListener('click', () => { $('query').value = ''; $('shelf').value = 'all'; state.page = 1; state.focusId = ''; render(); }); $('prev-page').addEventListener('click', () => { state.page -= 1; render(); window.scrollTo(0, 0); }); $('next-page').addEventListener('click', () => { state.page += 1; render(); window.scrollTo(0, 0); });
       $('export').addEventListener('click', () => { const blob = new Blob([JSON.stringify(state.notes, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'yiguochu-source-recipe-trials.json'; link.click(); URL.revokeObjectURL(link.href); });
-      fetch('/source-backed-one-pot-shelf.v1.json').then(response => response.ok ? response.json() : Promise.reject(new Error('catalog unavailable'))).then(catalog => { state.catalog = catalog; state.records = Array.isArray(catalog.records) ? catalog.records : []; if (state.focusId) { const focused = state.records.find(record => record.recipe_id === state.focusId); if (focused) { $('query').value = focused.canonical_name || ''; } } renderStats(catalog.summary || { A: 0, B: 0, C: 0, trial_ready_total: 0 }); render(); }).catch(() => { $('error').hidden = false; });
+      (async () => {
+        try {
+          const shelfResponse = await fetch('/source-backed-one-pot-shelf.v1.json');
+          if (!shelfResponse.ok) throw new Error('catalog unavailable');
+          const catalog = await shelfResponse.json();
+          state.catalog = catalog;
+          state.records = Array.isArray(catalog.records) ? catalog.records : [];
+          try {
+            const previewResponse = await fetch('/source-backed-one-pot-preview.v1.json');
+            if (previewResponse.ok) {
+              state.previewManifest = await previewResponse.json();
+              state.previewIds = new Set((state.previewManifest.records || []).map(record => record.recipe_id).filter(Boolean));
+            }
+          } catch (_) { /* preview manifest is additive; the full source catalog remains usable */ }
+          try {
+            const formalizationResponse = await fetch('/source-backed-formalization-ledger.v1.json');
+            if (formalizationResponse.ok) {
+              state.formalizationLedger = await formalizationResponse.json();
+              state.formalizationById = new Map((state.formalizationLedger.records || []).map(record => [record.recipe_id, record]));
+            }
+          } catch (_) { /* formalization ledger is additive; the full source catalog remains usable */ }
+          try {
+            const formalReviewResponse = await fetch('/source-backed-formal-candidate-review.v1.json');
+            if (formalReviewResponse.ok) {
+              state.formalCandidateReview = await formalReviewResponse.json();
+              state.formalCandidateReviewById = new Map((state.formalCandidateReview.records || []).map(record => [record.recipe_id, record]));
+            }
+          } catch (_) { /* detailed review is additive; the full source catalog remains usable */ }
+          try {
+            const formalStagingResponse = await fetch('/source-backed-formal-staging.v1.json');
+            if (formalStagingResponse.ok) state.formalStaging = await formalStagingResponse.json();
+          } catch (_) { /* formal staging is additive; the full source catalog remains usable */ }
+          if (state.focusId) { const focused = state.records.find(record => record.recipe_id === state.focusId); if (focused) { $('query').value = focused.canonical_name || ''; } }
+          renderStats(catalog.summary || { A: 0, B: 0, C: 0, trial_ready_total: 0 }, catalog.method_coverage);
+          render();
+        } catch (_) { $('error').hidden = false; }
+      })();
     })();
   </script>
 </body>

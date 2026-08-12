@@ -49,10 +49,10 @@ const expected = [
   {
     recipeId: 'cn-shaanxi-northern-jujube-braised-rice',
     canonicalName: '陕北枣焖饭',
-    status: 'identity_verified',
+    status: 'recipe_fact_checked',
     region: 'CN-SN',
     url: 'https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201112/t20111216_2620139.html',
-    ingredients: [],
+    ingredients: ['软谷米', '软黄米', '红枣', '豇豆', '红糖'],
   },
   {
     recipeId: 'cn-yunnan-nujiang-lisu-hand-grab-mixed-rice',
@@ -65,7 +65,7 @@ const expected = [
 ];
 
 test('r116 adds seven deduplicated mainland named rice candidates without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -97,6 +97,7 @@ test('r116 keeps process evidence and adjacent-staple boundaries explicit', () =
     'cn-chongqing-tujia-gan-nian-he-rice',
     'cn-xinjiang-karamay-pilaf',
     'cn-gansu-baiyin-laba-rice',
+    'cn-shaanxi-northern-jujube-braised-rice',
   ]) {
     const recipe = byId.get(recipeId);
     assert.ok(recipe.cooking_sequence.length > 0, recipeId);
@@ -111,12 +112,16 @@ test('r116 keeps process evidence and adjacent-staple boundaries explicit', () =
 
   for (const recipeId of [
     'cn-xinjiang-mulei-chickpea-pilaf',
-    'cn-shaanxi-northern-jujube-braised-rice',
     'cn-yunnan-nujiang-lisu-hand-grab-mixed-rice',
   ]) {
     const recipe = byId.get(recipeId);
-    assert.deepEqual(recipe.cooking_sequence, [], recipeId);
-    assert.match(recipe.evidence_notes, /仅.*(身份|标准)|只.*(身份|标准)|未.*(流程|食材)|缺.*(流程|食材)/u, recipeId);
+    if (recipeId === 'cn-yunnan-nujiang-lisu-hand-grab-mixed-rice') {
+      assert.ok(recipe.cooking_sequence.length > 0, recipeId);
+      assert.match(recipe.evidence_notes, /熟饭|簸箕|拌匀/u, recipeId);
+    } else {
+      assert.deepEqual(recipe.cooking_sequence, [], recipeId);
+      assert.match(recipe.evidence_notes, /仅.*(身份|标准)|只.*(身份|标准)|未.*(流程|食材)|缺.*(流程|食材)/u, recipeId);
+    }
   }
 });
 

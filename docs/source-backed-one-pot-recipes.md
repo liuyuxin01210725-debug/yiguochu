@@ -21,12 +21,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 芜湖渣肉蒸饭 | — | CN-AH | anhui-regional-rice | 研究记录（非公开可执行） | 米；渣肉 | identity、ingredients | 缺 process | [芜湖市五道菜品入选省级招牌菜](https://ct.wuhu.gov.cn/xwzx/bmyw/8267834.html) |
+| 芜湖渣肉蒸饭 | — | CN-AH | anhui-regional-rice | 研究记录（非公开可执行） | 米；渣肉 | identity、ingredients、process | 当前状态所需证据已齐 | [芜湖市五道菜品入选省级招牌菜](https://ct.wuhu.gov.cn/xwzx/bmyw/8267834.html)<br>[渣肉蒸饭](https://www.wuhu.gov.cn/mlwh/lywh/mwjy/22822631.html) |
 ## argentina-nea-rice-stew
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Guiso de arroz con pollo (NEA) | 东北地区鸡肉炖饭 | AR-NEA | argentina-nea-rice-stew | 研究记录（非公开可执行） | 鸡肉；米；洋葱；甜椒；胡萝卜；番茄泥；土豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Recetario NEA: Guiso de arroz con pollo](https://www.argentina.gob.ar/sites/default/files/2020/09/pnpa_-_2021_-_recetario_nea.pdf) |
+| Guiso de arroz con pollo (NEA) | 东北地区鸡肉炖饭 | AR-NEA | argentina-nea-rice-stew | 研究记录（非公开可执行） | 鸡肉；米；洋葱；甜椒；胡萝卜；番茄泥；土豆 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Recetario NEA: Guiso de arroz con pollo](https://www.argentina.gob.ar/sites/default/files/2020/09/pnpa_-_2021_-_recetario_nea.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## australia-cclhd-microwave-risotto
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -66,7 +66,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 布依花糯米饭 | — | CN-GZ | buyi-flower-glutinous-rice | 研究记录（非公开可执行） | 糯米 | identity、ingredients | 缺 process | [食品安全地方标准/企业标准登记信息](https://wjw.guizhou.gov.cn/zwgk/zdlyxx/spypbz/202104/t20210414_78927706.html)<br>[布依族传统节日与花糯米饭](https://www.neac.gov.cn/seac/c102690/201901/1132144.shtml) |
+| 布依花糯米饭 | — | CN-GZ | buyi-flower-glutinous-rice | 研究记录（非公开可执行） | 糯米 | identity、ingredients、process | 当前状态所需证据已齐 | [食品安全地方标准/企业标准登记信息](https://wjw.guizhou.gov.cn/zwgk/zdlyxx/spypbz/202104/t20210414_78927706.html)<br>[布依族传统节日与花糯米饭](https://www.neac.gov.cn/seac/c102690/201901/1132144.shtml) |
 ## canada-health-multigrain-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -83,7 +83,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 昌宁卡斯傣族竹筒饭 | — | CN-YN-BAOSHAN-CHANGNING-KASI | changning-kas-dai-bamboo-rice | 研究记录（非公开可执行） | 米（具体构成待补） | identity、ingredients | 缺 process | [好品保山｜卡斯泼水粑粑、竹筒饭](https://www.baoshan.gov.cn/info/5730/10356244.htm) |
+| 昌宁卡斯傣族竹筒饭 | — | CN-YN-BAOSHAN-CHANGNING-KASI | changning-kas-dai-bamboo-rice | 研究记录（非公开可执行） | 米（具体构成待补） | identity、ingredients、process | 当前状态所需证据已齐 | [好品保山｜卡斯泼水粑粑、竹筒饭](https://www.baoshan.gov.cn/info/5730/10356244.htm) |
 ## changxing-salted-pork-xiuhuajin-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -108,7 +108,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 察隅僜人手抓饭 | 僜人手抓饭 | CN-XZ-NYINGCHI-CHAYU | chayu-dengren-hand-grab-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [《察隅僜人手抓饭》地方标准](https://std.samr.gov.cn/db/search/stdDBDetailed?id=11A468BC3DEDD965E06397BE0A0A5222) |
+| 察隅僜人手抓饭 | 僜人手抓饭 | CN-XZ-NYINGCHI-CHAYU | chayu-dengren-hand-grab-rice | 研究记录（非公开可执行） | 大米；鸡肉；香料和佐料 | identity、ingredients、process、time | 当前状态所需证据已齐 | [《察隅僜人手抓饭》地方标准](https://std.samr.gov.cn/db/search/stdDBDetailed?id=11A468BC3DEDD965E06397BE0A0A5222)<br>[遇见僜人｜走近神秘部落](https://www.linzhi.gov.cn/linzhi/xwzx/202108/5ffbaf5299a443f3a3df1f4f6a9304a4.shtml) |
 ## chengkou-cured-pork-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -118,7 +118,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 万盛箜饭 | 洋芋四季豆箜饭 | CN-CQ-WANSHENG | chongqing-kongfan | 研究记录（非公开可执行） | 洋芋；四季豆 | identity、ingredients | 缺 process | [小议名村志中“风土民情”的记述内容及注意事项——以万盛经开区为例](https://dfz.cq.gov.cn/fzyd/llyj/202401/t20240105_12790863.html) |
+| 万盛箜饭 | 洋芋四季豆箜饭 | CN-CQ-WANSHENG | chongqing-kongfan | 研究记录（非公开可执行） | 洋芋；四季豆 | identity、ingredients、process | 当前状态所需证据已齐 | [小议名村志中“风土民情”的记述内容及注意事项——以万盛经开区为例](https://dfz.cq.gov.cn/fzyd/llyj/202401/t20240105_12790863.html) |
 ## chongqing-regional-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -139,7 +139,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 皮蛋瘦肉粥 | 锅宝广式皮蛋瘦肉粥 | TW-COOKPOT | cookpot-manufacturer-recipes | 研究记录（非公开可执行） | 白米；猪绞肉；皮蛋；葱花；高汤；姜片 | appliance、identity、ingredients、liquid | 缺 quantity、process、time、safety | [皮蛋瘦肉粥](https://www.cookpot.com.tw/cookbook/704.html) |
+| 皮蛋瘦肉粥 | 锅宝广式皮蛋瘦肉粥 | TW-COOKPOT | cookpot-manufacturer-recipes | 研究记录（非公开可执行） | 白米；猪绞肉；皮蛋；葱花；高汤；姜片；盐；白胡椒；酱油；米酒 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [皮蛋瘦肉粥](https://www.cookpot.com.tw/cookbook/704.html) |
 ## creole-rice-cooker
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -164,7 +164,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 东安乌饭 | 东安立夏饭；乌饭 | CN-HN | dongan-black-rice | 研究记录（非公开可执行） | 糯米；乌饭叶等草本；五花肉；生姜；豆豉；黄精 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [乌饭飘香 千年民俗焕发新生](https://www.yzcity.gov.cn/cnyz/mstc/202605/577950eca76e4fd887e79c2bf8d4436c.shtml) |
+| 东安乌饭 | 东安立夏饭；乌饭 | CN-HN | dongan-black-rice | 研究记录（非公开可执行） | 糯米；乌饭叶等草本；五花肉；生姜；豆豉；黄精 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [乌饭飘香 千年民俗焕发新生](https://www.yzcity.gov.cn/cnyz/mstc/202605/577950eca76e4fd887e79c2bf8d4436c.shtml) |
 ## dongguan-dalang-hengping-goose-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -179,7 +179,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 道滘糯米饭 | 道滘早餐糯米饭 | CN-GD-DONGGUAN-DAOJIAO | dongguan-daojiao-glutinous-rice | 研究记录（非公开可执行） | 糯米；腊肠；腊肉；冬菇；鸡蛋；酱油 | identity、ingredients | 缺 process | [多少道滘人起个大早，就为了这碗糯米饭!](https://www.dg.gov.cn/daojiao/jjd40/tpxw/content/post_4356226.html) |
+| 道滘糯米饭 | 道滘早餐糯米饭 | CN-GD-DONGGUAN-DAOJIAO | dongguan-daojiao-glutinous-rice | 研究记录（非公开可执行） | 糯米；腊肠；腊肉；冬菇；鸡蛋；酱油 | identity、ingredients、process | 当前状态所需证据已齐 | [多少道滘人起个大早，就为了这碗糯米饭!](https://www.dg.gov.cn/daojiao/jjd40/tpxw/content/post_4356226.html) |
 ## dongguan-daojiao-hehua-carp-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -209,7 +209,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 独龙族玉米饭 | 独龙江玉米饭 | CN-YN-NUJIANG-GONGSHAN-DULONG | dulong-corn-rice | 研究记录（非公开可执行） | 玉米 | identity、ingredients | 缺 process | [薛金玲：一步千年的独龙族](https://www.sky.yn.gov.cn/xsyj/zgsd/736690919901923799) |
+| 独龙族玉米饭 | 独龙江玉米饭 | CN-YN-NUJIANG-GONGSHAN-DULONG | dulong-corn-rice | 研究记录（非公开可执行） | 玉米 | identity、ingredients、process | 当前状态所需证据已齐 | [薛金玲：一步千年的独龙族](https://www.sky.yn.gov.cn/xsyj/zgsd/736690919901923799) |
 ## electric-cooker-spanish-paella
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -270,12 +270,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 永春排骨咸饭 | 永春排骨咸饭 | CN-FJ | fujian-salted-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [永春县第五批县级非物质文化遗产代表性项目名录](https://fjyc.gov.cn/zwgk/zfxxgkzl/ml/qtzfxx/202606/t20260603_3297338.htm) |
+| 永春排骨咸饭 | 永春排骨咸饭 | CN-FJ | fujian-salted-rice | 研究记录（非公开可执行） | — | identity、ingredients、process | 当前状态所需证据已齐 | [永春县第五批县级非物质文化遗产代表性项目名录](https://fjyc.gov.cn/zwgk/zfxxgkzl/ml/qtzfxx/202606/t20260603_3297338.htm)<br>[非遗永春](https://fjyc.gov.cn/zjyc/mfms/201312/t20131210_1597105.htm) |
 ## fujian-she-bamboo-tube-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 顺昌畲家竹筒饭 | 顺昌畲族竹筒饭 | CN-FJ-NANPING-SHUNCHANG | fujian-she-bamboo-tube-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [顺昌畲族非遗文化](https://mzzjt.fujian.gov.cn/xxgk/gzdt/dsdt/fjmz/mzshsy/202204/t20220403_5874537.htm) |
+| 顺昌畲家竹筒饭 | 顺昌畲族竹筒饭 | CN-FJ-NANPING-SHUNCHANG | fujian-she-bamboo-tube-rice | 研究记录（非公开可执行） | 糯米；粳米；畲家腊肉；芳香草根 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [顺昌畲族非遗文化](https://mzzjt.fujian.gov.cn/xxgk/gzdt/dsdt/fjmz/mzshsy/202204/t20220403_5874537.htm)<br>[一根竹融万象 贯古今](https://mbrb.greatwuyi.com/content/202511/03/c19168.html) |
 ## gansu-baiyin-laba-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -295,7 +295,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 黄元米饭 | 赣县黄元米饭 | CN-JX | ganxian-huangyuan-rice | 研究记录（非公开可执行） | 大禾米；柴灰水 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [寻味赣鄱：米果飘香 探寻舌尖上的赣南年味](https://www.jx.chinanews.com.cn/news/2026/0207/124647.html) |
+| 黄元米饭 | 赣县黄元米饭 | CN-JX | ganxian-huangyuan-rice | 研究记录（非公开可执行） | 大禾米；柴灰水 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [寻味赣鄱：米果飘香 探寻舌尖上的赣南年味](https://www.jx.chinanews.com.cn/news/2026/0207/124647.html) |
 ## greek-mageiritsa
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -310,7 +310,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 开平鲫鱼焗饭 | 开平塘口鲫鱼焗饭 | CN-GD-JIANGMEN-KAIPING | guangdong-kaiping-baked-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [开平塘口鲫鱼焗饭](https://www.kaiping.gov.cn/kpszfw/xwdt/tpxw/content/post_2802731.html) |
+| 开平鲫鱼焗饭 | 开平塘口鲫鱼焗饭 | CN-GD-JIANGMEN-KAIPING | guangdong-kaiping-baked-rice | 研究记录（非公开可执行） | 米饭；鲫鱼 | identity、ingredients、process | 当前状态所需证据已齐 | [开平塘口鲫鱼焗饭](https://www.kaiping.gov.cn/kpszfw/xwdt/tpxw/content/post_2802731.html) |
 ## guangdong-pumpkin-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -366,7 +366,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 广州冬至腊味糯米饭 | 广府冬至腊味糯米饭 | CN-GD-GUANGZHOU | guangzhou-winter-solstice-glutinous-rice | 研究记录（非公开可执行） | 糯米；冬菇；虾米；瑶柱；腊肠 | identity、ingredients | 缺 process | [广州冬至大过年 啖啖美食庆团圆](https://www.gz.gov.cn/zt/ddgzjpwhlyxlx/ddgzyy/content/post_8723338.html) |
+| 广州冬至腊味糯米饭 | 广府冬至腊味糯米饭 | CN-GD-GUANGZHOU | guangzhou-winter-solstice-glutinous-rice | 研究记录（非公开可执行） | 糯米；冬菇；虾米；瑶柱；腊肠 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [广州冬至大过年 啖啖美食庆团圆](https://www.gz.gov.cn/zt/ddgzjpwhlyxlx/ddgzyy/content/post_8723338.html) |
 ## guangzhou-zengcheng-she-wufan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -396,7 +396,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 苗族三色饭制作技艺 | 苗族三色饭 | CN-HI-SANYA | hainan-miao-three-color-rice-technique | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [三亚市级非物质文化遗产代表性项目名录政策解读](https://lwj.sanya.gov.cn/wljsite/zcjd/202507/a3513a34ca2543a0b86ff0dd12e9a4af.shtml) |
+| 苗族三色饭制作技艺 | 苗族三色饭 | CN-HI-SANYA | hainan-miao-three-color-rice-technique | 研究记录（非公开可执行） | 山兰糯米；红蓝藤叶；黄姜；三角枫汁液；小山棕叶 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [三亚市级非物质文化遗产代表性项目名录政策解读](https://lwj.sanya.gov.cn/wljsite/zcjd/202507/a3513a34ca2543a0b86ff0dd12e9a4af.shtml)<br>[海南苗家特色美食‘三色饭’](https://www.gzszx.gov.cn/gzzxb/web/doc/detail/d_1548312052236320) |
 ## hainanese-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -436,7 +436,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 胡蘿蔔海鮮飯 | — | HK | hong-kong-carrot-seafood-rice | 研究记录（非公开可执行） | 白米；胡萝卜；洋葱；青椒；红椒；蛤肉；虾；鱼肉；鱿鱼；青口；鸡汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [胡蘿蔔海鮮飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=176) |
+| 胡蘿蔔海鮮飯 | — | HK | hong-kong-carrot-seafood-rice | 研究记录（非公开可执行） | 白米；胡萝卜；洋葱；青椒；红椒；蛤肉；虾；鱼肉；鱿鱼；青口；鸡汤 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [胡蘿蔔海鮮飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=176)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## hong-kong-claypot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -450,7 +450,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 三色藜麥小米甜粟米粒肉碎粥 | 三色藜麦小米甜玉米粒肉碎粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 藜麦；小米；白米；瘦肉；甜粟米 | identity、ingredients、process | 缺 quantity、liquid、time | [三色藜麥小米甜粟米粒肉碎粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=60) |
 | 時菜肉碎粥 | 时菜肉碎粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 白米；瘦肉；菜心 | identity、ingredients、process | 缺 quantity、liquid、time | [時菜肉碎粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=91) |
-| 番茄雞肉粥 | 番茄鸡肉粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 白米；鸡肉；番茄 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [番茄雞肉粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=51) |
+| 番茄雞肉粥 | 番茄鸡肉粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 白米；鸡肉；番茄 | identity、ingredients、process、safety | 缺 quantity、liquid、time | [番茄雞肉粥](https://www.startsmart.gov.hk/tc/photogalleryDetail.aspx?RecipeID=51)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 香菇魚腩粥 | 香菇鱼腩粥 | HK | hong-kong-congee | 可执行研究记录（非公开） | 白米；冬菇；鲩鱼腩；葱；姜 | identity、ingredients、liquid、process、quantity、safety、time | 缺 appliance | [香菇魚腩粥](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=864)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 黃金海鮮粥 | 黄金海鲜粥 | HK | hong-kong-congee | 研究记录（非公开可执行） | 丝苗白米；花蛤；虾；鱿鱼；带子；原粒粟米 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [黃金海鮮粥](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=589)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
 ## hong-kong-corn-pumpkin-chicken-ball-rice
@@ -487,7 +487,7 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 窝蛋牛肉饭 | 窩蛋牛肉飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 米；牛肉末；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [窝蛋牛肉饭](https://www.towngasappliance.com/newsletter/ricecooking/c04.php)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 芦笋虾仁藜麦饭 | 蘆筍蝦仁藜麥飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 珍珠米；多色藜麦；虾仁；芦笋；玉米 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [芦笋虾仁藜麦饭](https://www.towngasappliance.com/newsletter/ricecooking/c02.php) |
+| 芦笋虾仁藜麦饭 | 蘆筍蝦仁藜麥飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 珍珠米；多色藜麦；虾仁；芦笋；玉米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [芦笋虾仁藜麦饭](https://www.towngasappliance.com/newsletter/ricecooking/c02.php)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鲜菠萝鸡肉高纤多谷饭 | 鮮菠蘿雞肉高纖多穀飯 | HK | hong-kong-one-pot-rice | 研究记录（非公开可执行） | 多谷米；鸡扒；洋葱；红椒；青豆；鲜菠萝 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鲜菠萝鸡肉高纤多谷饭](https://www.towngasappliance.com/newsletter/ricecooking/c01.php) |
 ## hong-kong-pumpkin-multigrain-rice
 
@@ -503,7 +503,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 南瓜蝦仁黃金飯 | — | HK | hong-kong-pumpkin-shrimp-golden-rice | 研究记录（非公开可执行） | 白米；燕麦米；南瓜；虾仁；洋葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [南瓜蝦仁黃金飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=1262) |
+| 南瓜蝦仁黃金飯 | — | HK | hong-kong-pumpkin-shrimp-golden-rice | 研究记录（非公开可执行） | 白米；燕麦米；南瓜；虾仁；洋葱 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [南瓜蝦仁黃金飯](https://restaurant.eatsmart.gov.hk/b5/content.aspx?content_id=1262)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## hong-kong-red-bean-coix-oat-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -522,13 +522,13 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 三色豆蛋絲豆腐菜粒焗紅米飯 | 三色豆蛋丝豆腐菜粒焗红米饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 红米；三色豆；豆腐；鸡蛋；蔬菜 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [三色豆蛋絲豆腐菜粒焗紅米飯](https://www.startsmart.gov.hk/en/photogalleryDetail.aspx?RecipeID=102) |
 | 意大利海鮮飯（Philips） | 意大利海鲜饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 意大利米；花蟹；虾；鱿鱼；巴马火腿；洋葱；提子干 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [意大利海鮮飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/italian-seafood-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 栗子雞飯 | 栗子鸡饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 珍珠米；鸡腿肉；白蘑菇；鸿喜菇；栗子；姜；葱 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [栗子雞飯](https://www.tvb.com/lifestyle-c/%E9%9B%BB%E9%A3%AF%E7%85%B2%E9%A3%9F%E8%AD%9C-%E8%82%A5%E5%AA%BD%E6%95%99%E7%94%A8%E9%9B%BB%E9%A3%AF%E7%85%B2%E7%85%AE%E6%A0%97%E5%AD%90%E9%9B%9E%E9%A3%AF-%E4%B8%80%E6%8B%9B%E4%BB%A4%E9%9B%9E%E8%82%89%E8%B6%85%E5%AB%A9%E6%BB%91-1010882) |
+| 栗子雞飯 | 栗子鸡饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 珍珠米；鸡腿肉；白蘑菇；鸿喜菇；栗子；姜；葱 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [栗子雞飯](https://www.tvb.com/lifestyle-c/%E9%9B%BB%E9%A3%AF%E7%85%B2%E9%A3%9F%E8%AD%9C-%E8%82%A5%E5%AA%BD%E6%95%99%E7%94%A8%E9%9B%BB%E9%A3%AF%E7%85%B2%E7%85%AE%E6%A0%97%E5%AD%90%E9%9B%9E%E9%A3%AF-%E4%B8%80%E6%8B%9B%E4%BB%A4%E9%9B%9E%E8%82%89%E8%B6%85%E5%AB%A9%E6%BB%91-1010882)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 海南雞飯（Philips） | 海南鸡饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 泰国茉莉香米；鸡；鸡油；斑兰叶；炸蒜；炸干葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [海南雞飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/chicken-rice-in-hai-nan-style.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 港巴蔬菜粥 | 港巴蔬菜抓饭；Vegetable Pulao | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 珍珠米；豌豆；胡萝卜；彩椒；番茄；土豆 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [Home Recipe: Vegetable Pulao](https://www.had.gov.hk/rru/tc_chi/programmes/files/Home_Recipe.pdf) |
 | 章魚雞粒有味飯 | 章鱼鸡粒有味饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 米；章鱼；鸡肉；汤鲍；干瑶柱；虾米；银鱼仔；冬菇 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [章魚雞粒有味飯](https://news.tvb.com/sc/1174826-%E7%85%B2%E4%BB%94%E9%A3%AF%E9%A3%9F%E8%AD%9C%E7%AB%A0%E9%AD%9A%E9%9B%9E%E7%B2%92%E6%9C%89%E5%91%B3%E9%A3%AF%E5%8A%A0%E5%85%A5%E5%8E%9F%E7%B2%92%E7%91%A4%E6%9F%B1%E6%B9%AF%E9%AE%91%E5%BF%85%E5%AD%B8%E9%BC%8E%E7%88%BA%E7%89%8C%E9%9D%88%E9%AD%82%E9%86%AC%E6%B1%81) |
 | 粟米南瓜肉碎飯 | 玉米南瓜猪肉碎饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 米；南瓜；玉米；瘦猪肉 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [粟米南瓜肉碎飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/pork-mince-rice-with-sweet-corn-and-pumpkin.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 薑絲枸杞子蒸雞煲仔飯 | 姜丝枸杞子蒸鸡煲仔饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 米；鸡肉；蒸煮豆腐；枸杞；姜；葱 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [薑絲枸杞子蒸雞煲仔飯](https://www.nestle.com.hk/zh/recipe/pakfookrecipe/allrecipes/%E8%96%91%E7%B5%B2%E6%9E%B8%E6%9E%B8%E5%AD%90%E8%92%B8%E9%9B%9E%E7%85%B2%E4%BB%94%E9%A3%AF) |
-| 藜麥栗子冬菇雞飯 | 藜麦栗子冬菇鸡饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 鸡腿肉；急冻蔬菜；冬菇；栗子；藜麦；白米 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [藜麥栗子冬菇雞飯](https://www.tvb.com/lifestyle-c/%E9%9B%BB%E9%A3%AF%E7%85%B2%E9%A3%9F%E8%AD%9C-%E9%9B%BB%E9%A3%AF%E7%85%B2%E6%90%9E%E6%8E%82%E6%87%B6%E4%BA%BA%E6%96%99%E7%90%86-%E8%82%A5%E5%AA%BD%E6%95%99%E7%85%AE-%E8%97%9C%E9%BA%A5%E6%A0%97%E5%AD%90%E5%86%AC%E8%8F%87%E9%9B%9E%E9%A3%AF--%E7%B0%A1%E5%96%AE5%E6%AD%A5%E5%B0%B1%E7%85%AE%E5%A5%BD-%E6%9D%90%E6%96%99%E5%81%A5%E5%BA%B7%E6%9C%89%E7%87%9F-1011604) |
+| 藜麥栗子冬菇雞飯 | 藜麦栗子冬菇鸡饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 鸡腿肉；急冻蔬菜；冬菇；栗子；藜麦；白米 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [藜麥栗子冬菇雞飯](https://www.tvb.com/lifestyle-c/%E9%9B%BB%E9%A3%AF%E7%85%B2%E9%A3%9F%E8%AD%9C-%E9%9B%BB%E9%A3%AF%E7%85%B2%E6%90%9E%E6%8E%82%E6%87%B6%E4%BA%BA%E6%96%99%E7%90%86-%E8%82%A5%E5%AA%BD%E6%95%99%E7%85%AE-%E8%97%9C%E9%BA%A5%E6%A0%97%E5%AD%90%E5%86%AC%E8%8F%87%E9%9B%9E%E9%A3%AF--%E7%B0%A1%E5%96%AE5%E6%AD%A5%E5%B0%B1%E7%85%AE%E5%A5%BD-%E6%9D%90%E6%96%99%E5%81%A5%E5%BA%B7%E6%9C%89%E7%87%9F-1011604)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 蝦乾瑤柱班腩煲仔飯 | 虾干瑶柱斑腩煲仔饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 米；班腩；虾干；瑶柱；姜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [蝦乾瑤柱班腩煲仔飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/clay-pot-rice-with-grouper-dried-shrimp-and-conpoy.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 電飯煲窩蛋香菇牛肉飯 | 电饭煲窝蛋香菇牛肉饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 米；碎牛肉；鲜冬菇；鸡蛋 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [電飯煲窩蛋香菇牛肉飯](https://www.knorr.com/hk/r/%E9%9B%BB%E9%A3%AF%E7%85%B2%E7%AA%A9%E8%9B%8B%E9%A6%99%E8%8F%87%E7%89%9B%E8%82%89%E9%A3%AF.html/176942)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 電飯煲臘味糯米飯 | 电饭煲腊味糯米饭 | HK | hong-kong-rice-recipes | 研究记录（非公开可执行） | 糯米；腊肠；肝肠；腊肉；虾米；冬菇；花生 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [電飯煲臘味糯米飯](https://www.panasonic.hk/chinese/products/kitchen/recipe/%E9%9B%BB%E9%A3%AF%E7%85%B2%E8%87%98%E5%91%B3%E7%B3%AF%E7%B1%B3%E9%A3%AF.aspx) |
@@ -576,7 +576,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 萝卜焖饭 | — | CN-HB | huangshi-seasonal-radish-braised-rice | 研究记录（非公开可执行） | 白萝卜；三层肉；大米；红葱头；干香菇；萝卜干；虾皮 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [“小寒”迎升温 气温暖如春](https://zjj.huangshi.gov.cn/index2019/ztzl/wmdjr/202301/t20230105_979547.html) |
+| 萝卜焖饭 | — | CN-HB | huangshi-seasonal-radish-braised-rice | 研究记录（非公开可执行） | 白萝卜；三层肉；大米；红葱头；干香菇；萝卜干；虾皮 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [“小寒”迎升温 气温暖如春](https://zjj.huangshi.gov.cn/index2019/ztzl/wmdjr/202301/t20230105_979547.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## hubei-enshi-longfeng-she-fan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -626,7 +626,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 薅菜饭 | 蒿菜饭 | CN-HN-HUAIHUA-HONGJIANG | hunan-seasonal-glutinous-rice | 研究记录（非公开可执行） | 糯米；薅菜 | identity | 缺 ingredients、process | [黔阳古城“三月三”薅菜饭活动](https://www.huaihua.gov.cn/wlgdtj/c108768/201204/e563f3bec54b432d94b45460b1b0c1f0.shtml) |
+| 薅菜饭 | 蒿菜饭 | CN-HN-HUAIHUA-HONGJIANG | hunan-seasonal-glutinous-rice | 研究记录（非公开可执行） | 糯米；薅菜 | identity、ingredients、process、quantity | 当前状态所需证据已齐 | [黔阳古城“三月三”薅菜饭活动](https://www.huaihua.gov.cn/wlgdtj/c108768/201204/e563f3bec54b432d94b45460b1b0c1f0.shtml) |
 ## hunan-wumi-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -685,10 +685,10 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ごぼうと牛肉のごはん | — | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；牛腿薄片；牛蒡；金针菇；葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [ごぼうと牛肉のごはん](https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe108.html) |
+| ごぼうと牛肉のごはん | — | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；牛腿薄片；牛蒡；金针菇；葱 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [ごぼうと牛肉のごはん](https://www.maff.go.jp/j/seisan/kakou/mezamasi/recipe/recipe108.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | さば缶を使った和風炊き込みご飯 | 鲭鱼罐头和风炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；鲭鱼罐头；梅干；真姬菇；酱油；清酒；味醂；芝麻 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [災害時にも役立つ 和ごはんレシピ：ポリ袋に入れて、鍋で加熱するだけ さば缶を使った和風炊き込みご飯](https://www.maff.go.jp/hokuriku/food/attach/pdf/wasyoku-95.pdf) |
 | やきとり炊き込みご飯 | 烧鸟炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；酱汁味烧鸟罐头；盐味烧鸟罐头；干羊栖菜；鲣鱼片 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [災害時にも役立つ 和ごはんレシピ：ポリ袋で作る炊き込みご飯 やきとり炊き込みご飯](https://www.maff.go.jp/hokuriku/food/attach/pdf/wasyoku-95.pdf) |
-| エリンギとシーフードミックスのパエリア風ご飯 | 杏鲍菇海鲜混合物西班牙饭风 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；杏鲍菇；冷冻海鲜混合物；小番茄 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [エリンギとシーフードミックスのパエリア風ご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_62.html) |
+| エリンギとシーフードミックスのパエリア風ご飯 | 杏鲍菇海鲜混合物西班牙饭风 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；杏鲍菇；冷冻海鲜混合物；小番茄 | identity、ingredients、liquid、process、quantity、safety、time | 缺 appliance | [エリンギとシーフードミックスのパエリア風ご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_62.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | クコの実アボガドご飯 | 枸杞牛油果饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；牛油果；枸杞；芹菜叶 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [クコの実アボガドご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_58.html) |
 | トマチーご飯 | 番茄芝士炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；番茄；碎奶酪；白だし | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [トマチーご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/2_102.html) |
 | トマト炊き込みごはん | 番茄炊饭 | JP | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；番茄；鲑鱼罐头；洋葱；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [トマト炊き込みごはん](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/117.html) |
@@ -702,7 +702,7 @@
 | 千石豆のかきまわし | — | JP-GIFU | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；千石豆；鸡肉；牛蒡；胡萝卜；芋头；油揚げ；竹轮 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [千石豆のかきまわし 岐阜県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/38_23_gifu.html) |
 | もぶり | — | JP-HIROSHIMA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；胡萝卜；牛蒡；莲藕；干香菇；油揚げ；四季豆；黑豆 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [もぶり 広島県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_6_hiroshima.html) |
 | 黒千石炊き込みご飯 | 北海道黑千石大豆炊饭 | JP-HOKKAIDO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；黑千石大豆；昆布；盐；清酒；醋 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [黒千石炊き込みご飯](https://www.maff.go.jp/hokkaido/press/syokuryo/keikaku/attach/pdf/240219-2.pdf) |
-| 栄養満点！もち麦炊き込みご飯 | 兵库营养满点大麦鸡肉蔬菜炊饭 | JP-HYOGO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 白米；もち麦；鸡胸肉；胡萝卜；香菇；油豆腐 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [栄養満点！もち麦炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/241015-46.pdf) |
+| 栄養満点！もち麦炊き込みご飯 | 兵库营养满点大麦鸡肉蔬菜炊饭 | JP-HYOGO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 白米；もち麦；鸡胸肉；胡萝卜；香菇；油豆腐 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [栄養満点！もち麦炊き込みご飯](https://www.maff.go.jp/kinki/syouhi/seikatu/syokuiku/attach/pdf/241015-46.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | かて飯 | 加料饭；神奈川加料饭 | JP-KANAGAWA-SAGAMIHARA | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；干香菇；牛蒡；胡萝卜；竹轮；油豆腐；四季豆 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [かて飯 神奈川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_8_kanagawa.html) |
 | おまかせ丸投げ賀茂なすご飯 | 贺茂茄子饭 | JP-KYOTO | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；贺茂茄子；吻仔鱼；九条葱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [おまかせ丸投げ賀茂なすご飯](https://www.maff.go.jp/j/seisan/ryutu/engei/IYFV2021/IYFV2021_menu/99.html) |
 | 豆腐飯 | とうふめし | JP-OKAYAMA-TAKAHASHI | japanese-regional-mixed-rice | 研究记录（非公开可执行） | 米；豆腐；鸡蛋；豌豆；牛蒡；干香菇；干瓢；出汁 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [豆腐飯 岡山県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_26_okayama.html) |
@@ -726,12 +726,12 @@
 | へぼ飯 | 爱知蜂蛹饭 | JP-AICHI | japanese-regional-rice | 研究记录（非公开可执行） | 米；蜂蛹 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [へぼ飯 愛知県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hebomeshi_aichi.html) |
 | 黄いないおこわ | 爱知黄饭黑豆糯米饭 | JP-AICHI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；黑豆；栀子；盐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [黄いないおこわ](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kiinaiokowa_aichi.html) |
 | ごまご飯 | 青森津轻芝麻饭；ごままま | JP-AOMORI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；黑芝麻 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [ごまご飯 青森県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/goma_gohan_aomori.html) |
-| ごんじゅう | 千叶馆山豚肉油豆腐饭团 | JP-CHIBA | japanese-regional-rice | 研究记录（非公开可执行） | 米；猪五花肉；油豆腐皮；柴鱼片 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [ごんじゅう 千葉県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/gonjuu_chiba.html) |
+| ごんじゅう | 千叶馆山豚肉油豆腐饭团 | JP-CHIBA | japanese-regional-rice | 研究记录（非公开可执行） | 米；猪五花肉；油豆腐皮；柴鱼片 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [ごんじゅう 千葉県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/gonjuu_chiba.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 高津のとり飯 | 千叶八千代高津鸡肉饭 | JP-CHIBA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；酱油 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [高津のとり飯 千葉県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takatsu_no_torimeshi_chiba.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鶏雑炊（とりどせ） | 千叶鸡肉杂炊 | JP-CHIBA | japanese-regional-rice | 研究记录（非公开可执行） | 熟饭；鸡肉；牛蒡；香菇；味噌；水或出汁 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [鶏雑炊（とりどせ）](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/toridose_chiba.html) |
 | しょうゆめし | 爱媛松山酱油饭 | JP-EHIME | japanese-regional-rice | 研究记录（非公开可执行） | 米；酱油；牛蒡；胡萝卜；油豆腐 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [しょうゆめし 愛媛県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shouyu_meshi_ehime.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| たこ飯 | 爱媛中予章鱼饭 | JP-EHIME | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；胡萝卜；牛蒡；油豆腐；昆布 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [たこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_ehime.html) |
-| 鯛めし | — | JP-EHIME-TOYO | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲷鱼；昆布；淡口酱油；酒 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [鯛めし 愛媛県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/taimeshi_ehime.html) |
+| たこ飯 | 爱媛中予章鱼饭 | JP-EHIME | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；胡萝卜；牛蒡；油豆腐；昆布 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [たこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_ehime.html)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
+| 鯛めし | — | JP-EHIME-TOYO | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲷鱼；昆布；淡口酱油；酒 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [鯛めし 愛媛県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/taimeshi_ehime.html)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
 | 茶飯（ちゃめし） | 福井今庄茶饭 | JP-FUKUI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；粳米；大豆；豆入り番茶；酒；酱油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [茶飯（ちゃめし） 福井県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/chameshi_fukui.html) |
 | かしわめし | 福冈鸡肉饭 | JP-FUKUOKA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；牛蒡；胡萝卜；干香菇 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [かしわめし 福岡県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kashiwa_meshi_fukuoka.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | きんぎょ飯 | 岐阜各务原金鱼饭 | JP-GIFU-KAKAMIGAHARA | japanese-regional-rice | 研究记录（非公开可执行） | 米；胡萝卜；干小鱼；油炸豆腐；干香菇 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [きんぎょ飯](https://www.maff.go.jp/tokai/keiei/shokuhin/bunka/attach/pdf/chiikinodentou-6.pdf) |
@@ -740,7 +740,7 @@
 | かき飯 | 广岛牡蛎饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；牡蛎；胡萝卜；牛蒡；干香菇；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [かき飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_28_hiroshima.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | たこめし | 广岛三原章鱼饭；三原たこめし | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；煮章鱼；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_18_hiroshima.html) |
 | 鯛めし | 广岛瀬户内鲷饭 | JP-HIROSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 精米；鲷；胡萝卜；牛蒡；昆布 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鯛めし 広島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/42_9_hiroshima.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| いかめし | 北海道墨鱼塞饭 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 鱿鱼；糯米；出汁；酒；酱油；砂糖 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [いかめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/ikameshi_hokkaido.html) |
+| いかめし | 北海道墨鱼塞饭 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 鱿鱼；糯米；出汁；酒；酱油；砂糖 | identity、ingredients、liquid、process、quantity、safety、time | 缺 appliance | [いかめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/ikameshi_hokkaido.html)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
 | 北海道赤飯 | 北海道甘纳豆赤饭；北海道甘納豆赤飯 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 粳米；糯米；甘纳豆；水；盐；红姜；食红 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [北海道赤飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/sekihan_hokkaido.html) |
 | 美唄のとりめし | 美呗鸡肉饭 | JP-HOKKAIDO | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡腿肉；鸡胸肉；洋葱 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [美唄のとりめし 北海道](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/bibainotorimeshi_hokkaido.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | たこめし | 兵库淡路岛章鱼饭；兵库东播磨章鱼饭 | JP-HYOGO | japanese-regional-rice | 研究记录（非公开可执行） | 米；干章鱼；出汁 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし 兵庫県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/40_27_hyogo.html) |
@@ -754,7 +754,7 @@
 | 島の茶粥 | 香川岛茶粥 | JP-KAGAWA | japanese-regional-rice | 研究记录（非公开可执行） | 米；碁石茶或焙茶；水；红薯/蚕豆/年糕（季节可选） | identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [島の茶粥](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shima_no_chagayu_kagawa.html) |
 | からいもごはん | 鹿儿岛红薯饭 | JP-KAGOSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；红薯 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [からいもごはん 鹿児島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/karaimogohan_kagoshima.html) |
 | ショウガの炊き込みご飯 | 鹿儿岛姜炊饭 | JP-KAGOSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；油炸豆腐；鲜姜；昆布 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [ショウガの炊き込みご飯](https://www.city.kagoshima.lg.jp/seisanryutu/sangyo/norin/recipe/sonota/sono-54.html) |
-| 鶏飯 | 鹿儿岛奄美鸡饭；奄美鸡饭 | JP-KAGOSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡胸肉；鸡骨；干香菇；鸡蛋；四季豆 | identity、ingredients、process、quantity | 缺 liquid、appliance、time、safety | [鶏飯 鹿児島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/keihan_kagoshima.html) |
+| 鶏飯 | 鹿儿岛奄美鸡饭；奄美鸡饭 | JP-KAGOSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡胸肉；鸡骨；干香菇；鸡蛋；四季豆 | identity、ingredients、process、quantity、safety | 缺 liquid、appliance、time | [鶏飯 鹿児島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/keihan_kagoshima.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 奈良茶飯 | 神奈川奈良茶饭 | JP-KANAGAWA | japanese-regional-rice | 研究记录（非公开可执行） | 米；茶；炒大豆；栗；盐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [奈良茶飯 神奈川県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_20_kanagawa.html) |
 | 梅ごはん | 神奈川小田原梅饭 | JP-KANAGAWA | japanese-regional-rice | 研究记录（非公开可执行） | 米；梅干；吻仔鱼 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [梅ごはん 神奈川県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/35_10_kanagawa.html) |
 | きのことぎんなんの炊き込みご飯＜中村市＞ | 高知中村菌菇银杏炊饭 | JP-KOCHI | japanese-regional-rice | 研究记录（非公开可执行） | 米；舞茸；金针菇；干香菇；银杏；胡萝卜；牛蒡；鸡腿肉 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [きのことぎんなんの炊き込みご飯＜中村市＞](https://www.chisanchisho.pref.kochi.lg.jp/life/dtl.php?hdnKey=670) |
@@ -765,8 +765,8 @@
 | たこ飯 | 三重伊势志摩章鱼饭 | JP-MIE | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；姜；酱油；酒 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [たこ飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tako_meshi_mie.html)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
 | 茶粥（おかいさん） | 三重茶粥 | JP-MIE | japanese-regional-rice | 研究记录（非公开可执行） | 米；焙茶；水；盐；季节副材料（可选） | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [茶粥（おかいさん）](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/chagayu_mie.html) |
 | たけのこご飯 | 宫城竹笋饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；竹笋；油豆腐；胡萝卜；木之芽 | identity、ingredients、liquid、process、quantity | 缺 time | [たけのこご飯 宮城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/takenoko_gohan_miyagi.html) |
-| はらこ飯 | 宫城亘理鲑鱼亲子饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲑鱼；鲑鱼籽；三つ葉 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [はらこ飯 宮城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/harako_meshi_miyagi.html) |
-| ほっきめし | 宫城北寄贝饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；北寄贝；酒；酱油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [ほっきめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hokki_meshi_miyagi.html) |
+| はらこ飯 | 宫城亘理鲑鱼亲子饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；鲑鱼；鲑鱼籽；三つ葉 | identity、ingredients、liquid、process、quantity、safety | 缺 time | [はらこ飯 宮城県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/harako_meshi_miyagi.html)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
+| ほっきめし | 宫城北寄贝饭 | JP-MIYAGI | japanese-regional-rice | 研究记录（非公开可执行） | 米；北寄贝；酒；酱油 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [ほっきめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hokki_meshi_miyagi.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | とうきびめし | 宫崎粗玉米饭 | JP-MIYAZAKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；粗磨玉米或细磨玉米；盐 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [とうきびめし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/toukibi_meshi_miyazaki.html) |
 | とりめし | 宫崎鸡肉饭；新富町春日寿司 | JP-MIYAZAKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；地鸡；胡萝卜；牛蒡；干香菇 | identity、ingredients、process、quantity、safety | 缺 liquid、appliance、time | [とりめし 宮崎県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/tori_meshi_miyazaki.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 稗ずーしー／稗がゆ | 宫崎稗饭；宫崎稗粥 | JP-MIYAZAKI | japanese-regional-rice | 研究记录（非公开可执行） | 稗；野猪肉；葱叶；米；盐；野猪出汁 | identity、ingredients、process、quantity、time | 缺 liquid、appliance、safety | [稗ずーしー／稗がゆ](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/hie_zushii_miyazaki.html) |
@@ -775,11 +775,11 @@
 | 色ご飯 | 奈良色饭；酱油味炊饭 | JP-NARA | japanese-regional-rice | 研究记录（非公开可执行） | 米；胡萝卜；香菇；牛蒡；油炸豆腐；蒟蒻；鸡肉 | identity、ingredients、liquid、process、quantity、safety | 缺 time | [色ご飯 奈良県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/irogohan_nara.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | しょうゆおこわ | 新潟酱油赤饭 | JP-NIIGATA | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；芸豆；酱油；味醂 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [しょうゆおこわ 新潟県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shoyu_okowa_niigata.html) |
 | あみめし | 大分干虾饭 | JP-OITA | japanese-regional-rice | 研究记录（非公开可执行） | 米；干虾米；酱油 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [あみめし 大分県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amimeshi_oita.html) |
-| 鶏めし | 大分鸡肉牛蒡饭 | JP-OITA | japanese-regional-rice | 研究记录（非公开可执行） | 米；地鸡；牛蒡；酱油；酒；砂糖 | identity、ingredients、process、quantity、time | 缺 liquid、appliance | [鶏めし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/torimeshi_oita.html) |
+| 鶏めし | 大分鸡肉牛蒡饭 | JP-OITA | japanese-regional-rice | 研究记录（非公开可执行） | 米；地鸡；牛蒡；酱油；酒；砂糖 | identity、ingredients、process、quantity、safety、time | 缺 liquid、appliance | [鶏めし](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/torimeshi_oita.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 黄飯と黄飯かやく | 黄饭与黄饭加药 | JP-OITA-USUKI | japanese-regional-rice | 研究记录（非公开可执行） | 米；栀子；白鱼；豆腐；萝卜；牛蒡；胡萝卜 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [黄飯と黄飯かやく 大分県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/ohantoohankayaku_oita.html) |
 | たこめし | 冈山仓敷下津井章鱼饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；章鱼；生姜；葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [たこめし 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_10_okayama.html)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
 | とどめせ | 冈山濑户内とどめせ；冈山醋拌炊饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鸡肉；芋头；干虾；竹轮；根菜 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [とどめせ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_6_okayama.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 蒜山おこわ | 冈山蒜山节庆糯米饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；大麦；鸡肉；栗；胡萝卜；四季豆；牛蒡；蕗；香菇；油豆腐 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [蒜山おこわ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_4_okayama.html) |
+| 蒜山おこわ | 冈山蒜山节庆糯米饭 | JP-OKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；大麦；鸡肉；栗；胡萝卜；四季豆；牛蒡；蕗；香菇；油豆腐 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [蒜山おこわ 岡山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/41_4_okayama.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | お茶がい／茶がゆ | 佐贺茶粥；佐賀茶粥 | JP-SAGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；番茶；水 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [お茶がい／茶がゆ](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_5_saga.html) |
 | つがにめし | 佐贺河蟹饭；佐贺蟹饭；がね飯 | JP-SAGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；河蟹；出汁 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [つがにめし 佐賀県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/45_19_saga.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | あめのいおご飯 | 滋贺琵琶鳟饭 | JP-SHIGA | japanese-regional-rice | 研究记录（非公开可执行） | 米；琵琶鳟；胡萝卜；香菇；葱；昆布水 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [あめのいおご飯](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/amenoio_gohan_shiga.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -790,12 +790,12 @@
 | おみいさん | 德岛芋头萝卜米粥 | JP-TOKUSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；里芋；萝卜；萝卜叶；煮干出汁；味噌 | identity、ingredients、liquid、process、quantity、time | 缺 appliance | [おみいさん](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_15_tokushima.html) |
 | そば米雑炊／そば米汁 | 德岛荞麦米杂炊 | JP-TOKUSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 荞麦米；鸡腿肉；竹轮；胡萝卜；干香菇；魔芋；青葱；出汁 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [そば米雑炊／そば米汁](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_1_tokushima.html) |
 | 茶ごめ | 德岛茶米甜豆饭 | JP-TOKUSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；干蚕豆；蚕豆煮汁；砂糖 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [茶ごめ 徳島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_16_tokushima.html) |
-| 鮎ろうすい | 德岛香鱼蔬菜米粥 | JP-TOKUSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；香鱼；土豆；茄子；洋葱；蟹味菇；韭菜；味噌；酢橘；水 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [鮎ろうすい](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_27_tokushima.html) |
+| 鮎ろうすい | 德岛香鱼蔬菜米粥 | JP-TOKUSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；香鱼；土豆；茄子；洋葱；蟹味菇；韭菜；味噌；酢橘；水 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [鮎ろうすい](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_27_tokushima.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鯛めし | 德岛鸣门鲷饭 | JP-TOKUSHIMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；鳞鲷；昆布；三叶 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鯛めし 徳島県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/44_23_tokushima.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| いがい飯 | 鸟取青谷贻贝饭 | JP-TOTTORI | japanese-regional-rice | 研究记录（非公开可执行） | 米；贻贝肉 | identity、ingredients、liquid、process、quantity | 缺 time、safety | [いがい飯 鳥取県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/igai_meshi_tottori.html) |
+| いがい飯 | 鸟取青谷贻贝饭 | JP-TOTTORI | japanese-regional-rice | 研究记录（非公开可执行） | 米；贻贝肉 | identity、ingredients、liquid、process、quantity、safety | 缺 time | [いがい飯 鳥取県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/igai_meshi_tottori.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | いただき | ののこ饭；鸟取油豆腐袋炊饭 | JP-TOTTORI | japanese-regional-rice | 研究记录（非公开可执行） | 米；三角油豆腐；牛蒡；胡萝卜；干香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [いただき 鳥取県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/itadaki_tottori.html) |
 | どんどろけ飯 | 鸟取雷鸣豆腐炊饭 | JP-TOTTORI | japanese-regional-rice | 研究记录（非公开可执行） | 米；豆腐；干香菇；糸こんにゃく；牛蒡；胡萝卜；三角油豆腐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [どんどろけ飯 鳥取県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/dondoro_ke_meshi_tottori.html) |
-| 大山おこわ | 鸟取大山节庆糯米饭 | JP-TOTTORI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；鸡肉；竹笋；胡萝卜；香菇；蒟蒻；牛蒡；四季豆；鱼竹轮 | identity、ingredients、process、quantity | 缺 liquid、time、safety | [大山おこわ 鳥取県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/daisen_okowa_tottori.html) |
+| 大山おこわ | 鸟取大山节庆糯米饭 | JP-TOTTORI | japanese-regional-rice | 研究记录（非公开可执行） | 糯米；鸡肉；竹笋；胡萝卜；香菇；蒟蒻；牛蒡；四季豆；鱼竹轮 | identity、ingredients、process、quantity、safety | 缺 liquid、time | [大山おこわ 鳥取県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/daisen_okowa_tottori.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | かきまでご飯 | 和歌山日高拌饭 | JP-WAKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；烤鲭鱼；高野豆腐；干香菇；油豆腐；竹轮；魔芋；牛蒡；胡萝卜 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [かきまでご飯 和歌山県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/kakimade_gohan_wakayama.html) |
 | しょうが飯 | 和歌山姜饭 | JP-WAKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；新姜；昆布；酒；酱油；盐 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [しょうが飯 和歌山県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/shouga_meshi_wakayama.html) |
 | 豆ごはん | 和歌山豌豆饭 | JP-WAKAYAMA | japanese-regional-rice | 研究记录（非公开可执行） | 米；うすい豌豆；酒；盐 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [豆ごはん](https://www.maff.go.jp/kinki/tiiki/wakayama/attach/wakayamagazine-2026-3.pdf) |
@@ -832,7 +832,7 @@
 | さといもと高菜漬けの炊き込みごはん | 芋头高菜炊饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；芋头；高菜腌菜；芝麻油 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [さといもと高菜漬けの炊き込みごはん](https://www.maff.go.jp/j/keikaku/syokubunka/culture/wagohan/articles/2111/spe3_02.html) |
 | さばの香味麦炊込みごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；三成麦；盐烤鲭鱼；生姜；茗荷；紫苏 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [さばの香味麦炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_525/) |
 | そら豆のごはん | 蚕豆饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；蚕豆；昆布；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [そら豆のごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post47/) |
-| はもごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鱧；生姜；紫苏；茗荷 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [はもごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post17/) |
+| はもごはん | — | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鱧；生姜；紫苏；茗荷 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [はもごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post17/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | チキンのパエリア | 虎牌鸡肉西班牙饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；鸡腿肉；培根；蘑菇；甜椒；玉米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [チキンのパエリア](https://www.tiger-corporation.com/ja/jpn/feature/recipe/chicken-paella/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | チーズカレーピラフ | 芝士咖喱抓饭；虎牌芝士咖喱饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 米；金枪鱼；玉米；番茄酱；咖喱粉；芝士 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [チーズカレーピラフ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/cheese-curry-pilaf/) |
 | 干しえびと塩昆布の玄米ごはん | 干虾盐昆布糙米饭 | JP | japanese-rice-cooker-recipes | 研究记录（非公开可执行） | 糙米；干虾；盐昆布；莲藕；牛蒡；胡萝卜；毛豆 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [干しえびと塩昆布の玄米ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_519/) |
@@ -860,7 +860,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ほっきめし | 北寄贝饭 | JP-FUKUSHIMA-SOMA | japanese-shellfish-rice | 研究记录（非公开可执行） | 白米；北寄贝；酱油；酒 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [ほっきめし 福島県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/30_5_fukushima.html) |
+| ほっきめし | 北寄贝饭 | JP-FUKUSHIMA-SOMA | japanese-shellfish-rice | 研究记录（非公开可执行） | 白米；北寄贝；酱油；酒 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [ほっきめし 福島県 \| うちの郷土料理](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/30_5_fukushima.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## japanese-shellfish-rice-bowl
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -908,7 +908,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 盱眙咸肉菜饭锅巴制作技艺 | 咸肉菜饭锅巴 | CN-JS-HUAIAN-XUYI | jiangsu-salted-rice-cracker | 研究记录（非公开可执行） | 米；咸肉；青菜 | identity | 缺 ingredients、process | [咸肉菜饭锅巴制作技艺](https://www.xuyi.gov.cn/upload/2026-04/499c4548-9ff5-447f-b233-0ebcea3c0354.pdf) |
+| 盱眙咸肉菜饭锅巴制作技艺 | 咸肉菜饭锅巴 | CN-JS-HUAIAN-XUYI | jiangsu-salted-rice-cracker | 研究记录（非公开可执行） | 米；咸肉；青菜 | appliance、identity、process | 缺 ingredients | [咸肉菜饭锅巴制作技艺](https://www.xuyi.gov.cn/upload/2026-04/499c4548-9ff5-447f-b233-0ebcea3c0354.pdf)<br>[方寸庭院“金锅巴” 激活乡村经济新活力](https://www.xuyi.gov.cn/col/895_757528/art/17722944/1772525937039rREWhjKd.html) |
 ## jiangxi-anyuan-menfan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -923,7 +923,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 廬陵鼎罐飯 | 庐陵鼎罐饭 | CN-JX | jiangxi-traditional-one-pot-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [庐陵鼎罐饭制作技艺](https://std.samr.gov.cn/db/search/stdDBDetailed?id=AB27251319D21A24E05397BE0A0AD271) |
+| 廬陵鼎罐飯 | 庐陵鼎罐饭 | CN-JX | jiangxi-traditional-one-pot-rice | 研究记录（非公开可执行） | 井岗软粘5S大米；腊肉；香肠；本地萝卜干 | appliance、identity、ingredients、liquid、process、quantity | 当前状态所需证据已齐 | [庐陵鼎罐饭制作技艺](https://std.samr.gov.cn/db/search/stdDBDetailed?id=AB27251319D21A24E05397BE0A0AD271)<br>[鼎罐饭原料配方.docx（DB36/T1277-2020全文公开镜像）](https://max.book118.com/html/2020/0323/6240024213002151.shtm) |
 ## jilin-red-bean-sorghum-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -954,7 +954,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 茅山青精饭制作技艺 | 青精饭制作技艺；茅山青精饭 | CN-JS-CHANGZHOU-JINTAN | jintan-maoshan-qingjing-rice-technique | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [市政府关于公布常州市第六批非物质文化遗产代表性项目名录的通知](https://www.changzhou.gov.cn/gi_news/61167487373135) |
+| 茅山青精饭制作技艺 | 青精饭制作技艺；茅山青精饭 | CN-JS-CHANGZHOU-JINTAN | jintan-maoshan-qingjing-rice-technique | 研究记录（非公开可执行） | 白粳米；南烛叶/枝汁 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [市政府关于公布常州市第六批非物质文化遗产代表性项目名录的通知](https://www.changzhou.gov.cn/gi_news/61167487373135)<br>[太极真人青精乾石䭀饭](https://www.daoisms.com.cn/2017/03/10/8028/) |
 ## jinyuan-liumi
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1011,7 +1011,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 宽城满族高粱米饭 | 秫米饭；高粱捞干饭 | CN-HE-CHENGDE-KUANCHENG | kuancheng-manchu-sorghum-rice | 研究记录（非公开可执行） | 高粱米 | identity、ingredients | 缺 process | [传承文化：宽城满族饮食习俗（一）](https://www.hbkc.gov.cn/art/2018/6/13/art_3679_519913.html) |
+| 宽城满族高粱米饭 | 秫米饭；高粱捞干饭 | CN-HE-CHENGDE-KUANCHENG | kuancheng-manchu-sorghum-rice | 研究记录（非公开可执行） | 高粱米 | identity、ingredients、process | 当前状态所需证据已齐 | [传承文化：宽城满族饮食习俗（一）](https://www.hbkc.gov.cn/art/2018/6/13/art_3679_519913.html) |
 ## kumamoto-mazemeshi
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1041,7 +1041,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 陵川柴火饭 | — | CN-SX | lingchuan-firewood-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [陵川柴火饭](https://www.jcgov.gov.cn/dtxx/ztzl/2023ncsmp/csmpzwjc/csmp_jcctmc/) |
+| 陵川柴火饭 | — | CN-SX | lingchuan-firewood-rice | 研究记录（非公开可执行） | 大米；蔬菜副食（种类多样） | identity、ingredients、process | 当前状态所需证据已齐 | [陵川柴火饭](https://www.jcgov.gov.cn/dtxx/ztzl/2023ncsmp/csmpzwjc/csmp_jcctmc/)<br>[陵川和锅大米](https://www.lczf.gov.cn/txlc_5/lcms/202512/t20251229_2302909.shtml) |
 ## lingnan-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1056,7 +1056,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 林州小米稠饭 | 小米稠饭；林州小米饭 | CN-HA-ANYANG-LINZHOU | linzhou-millet-thick-rice | 研究记录（非公开可执行） | 小米；红萝卜；白萝卜；红薯粉条；白菜叶 | identity、ingredients | 缺 quantity、liquid、process、appliance、time | [河南·中国画谷赏花踏青之旅](https://zhuanti.mct.gov.cn/rxhmxjgn2022/beijing/detail_g7yU_504/3407.html) |
+| 林州小米稠饭 | 小米稠饭；林州小米饭 | CN-HA-ANYANG-LINZHOU | linzhou-millet-thick-rice | 研究记录（非公开可执行） | 小米；红萝卜；白萝卜；红薯粉条；白菜叶 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [河南·中国画谷赏花踏青之旅](https://zhuanti.mct.gov.cn/rxhmxjgn2022/beijing/detail_g7yU_504/3407.html) |
 ## louisiana-red-beans-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1086,7 +1086,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 生菜魚球粥 | 生菜鱼球粥 | MO | macau-rice-congee | 研究记录（非公开可执行） | 米；鲮鱼肉；发菜；虾米；生菜 | identity、ingredients、liquid、process、quantity、time | 缺 appliance、safety | [生菜魚球粥](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/84) |
+| 生菜魚球粥 | 生菜鱼球粥 | MO | macau-rice-congee | 研究记录（非公开可执行） | 米；鲮鱼肉；发菜；虾米；生菜 | identity、ingredients、liquid、process、quantity、safety、time | 缺 appliance | [生菜魚球粥](https://sportnutrition.sport.gov.mo/zh/show/pastanrice/id/84)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## macau-tomato-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1120,7 +1120,7 @@
 | Chicken rice with olives | 橄榄鸡肉饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 巴斯马蒂米；鸡胸肉；红椒；洋葱；罐装番茄；青橄榄 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken rice with olives](https://www.tefal.com/recipe/Chicken-rice-with-olives/r/992924)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Mushroom risotto | Tefal Home Chef蘑菇意大利饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | Arborio米；蘑菇；洋葱；鸡汤；白酒；黄油；帕玛森奶酪 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Mushroom risotto](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNjc1MTk5fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDJhL2hiYy8xMzg3NjY0MzcyNTM0Mi5wZGZ8NmE3NWNjYjA1MDdlMWEzNzk4NmYxZjBmNWE4MDExZTk1MTM1MjM0YzgwMjZlN2UyZWY1MDM2MTI4ZThlMTkzOQ) |
 | One-pot Italian sundried tomato chicken and rice | 意式番茄干鸡肉饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；鸡腿排；鸡腿棒；番茄；番茄干；红洋葱；彩椒；橄榄 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [One-pot Italian sundried tomato chicken and rice](https://www.tefal.com/recipe/One-pot-Italian-sundried-tomato-chicken-and-rice/r/942720)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| Paella | Tefal Home Chef西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长米；鸡块；虾；海螯虾；黑青口；青豆；红椒；番茄；鱼汤；香肠 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Paella](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNjc1MTk5fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDJhL2hiYy8xMzg3NjY0MzcyNTM0Mi5wZGZ8NmE3NWNjYjA1MDdlMWEzNzk4NmYxZjBmNWE4MDExZTk1MTM1MjM0YzgwMjZlN2UyZWY1MDM2MTI4ZThlMTkzOQ) |
+| Paella | Tefal Home Chef西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长米；鸡块；虾；海螯虾；黑青口；青豆；红椒；番茄；鱼汤；香肠 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Paella](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNjc1MTk5fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDJhL2hiYy8xMzg3NjY0MzcyNTM0Mi5wZGZ8NmE3NWNjYjA1MDdlMWEzNzk4NmYxZjBmNWE4MDExZTk1MTM1MjM0YzgwMjZlN2UyZWY1MDM2MTI4ZThlMTkzOQ)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Paella（Tefal锅内温控版） | Paella；西班牙海鲜饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 可执行研究记录（非公开） | 大米；整鸡；鱿鱼；贻贝；大虾；香肠；彩椒；番茄；青豆 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Paella](https://www.tefal.com/recipe/Paella/r/106320)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Pilaf with lamb | 羊肉抓饭；羊肉皮拉夫 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 印度香米；羊腿肉；胡萝卜；洋葱；鹰嘴豆；葡萄干 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[Pilaf with lamb](https://www.tefal.com/recipe/Pilaf-with-lamb/r/200302) |
 | Portuguese Rice | 葡式米饭 | 非地域·厂商一锅饭 | 厂商一锅饭食谱 | 研究记录（非公开可执行） | 长粒米；橄榄油；洋葱；番茄；红甜椒；鸡汤或蔬菜高汤 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Portuguese Rice](https://www.tefal.com/recipe/Portuguese-Rice/r/106506) |
@@ -1136,7 +1136,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 西班牙海鮮燉飯 | 西班牙海鲜炖饭 | ES | manufacturer-one-pot-risotto | 研究记录（非公开可执行） | 義大利米；洋蔥；紅甜椒；蝦仁；鯛魚菲力；高湯；白酒 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [西班牙海鮮燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5226) |
+| 西班牙海鮮燉飯 | 西班牙海鲜炖饭 | ES | manufacturer-one-pot-risotto | 研究记录（非公开可执行） | 義大利米；洋蔥；紅甜椒；蝦仁；鯛魚菲力；高湯；白酒 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [西班牙海鮮燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5226)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## manufacturer-rice-cooker-adjacent
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1176,7 +1176,7 @@
 | Chicken and Brown Rice Soup | 电饭煲鸡肉糙米汤；鸡肉糙米汤饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；鸡胸或鸡腿肉；胡萝卜；芹菜；洋葱；鸡汤 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Chicken and Brown Rice Soup](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-and-brown-rice-soup/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Chicken and Rice With Vegetables | 鸡肉蔬菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 短粒糙米；蒜；鸡汤；西兰花；南瓜；鸡肉 | appliance、identity、ingredients、liquid、process、safety | 缺 quantity、time | [Chicken and Rice With Vegetables](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chicken-and-rice-with-vegetables/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Chinese Marinated Tofu Rice | 中式腌豆腐饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；炸豆腐；蒜；葱；姜；中式腌料 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Chinese Marinated Tofu Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chinese-marinated-tofu-rice/) |
-| Chinese Rice Bowl | 中式海鲜肉类盖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；虾；鱿鱼；猪肉；白菜；竹笋；胡萝卜；木耳；葱；姜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Chinese Rice Bowl](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chinese-rice-bowl/) |
+| Chinese Rice Bowl | 中式海鲜肉类盖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；虾；鱿鱼；猪肉；白菜；竹笋；胡萝卜；木耳；葱；姜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Chinese Rice Bowl](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/chinese-rice-bowl/)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Claypot Style Chicken Rice | Panasonic Claypot Style Chicken Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 可执行研究记录（非公开） | 茉莉香米；整只鸡腿；香菇；姜；葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Claypot Style Chicken Rice](https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/claypot-style-chicken-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Coconut Chicken and Rice with Pineapple Salsa | 椰香鸡肉饭配菠萝莎莎 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；鸡腿肉；椰奶；甜椒；胡萝卜；菠萝 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [Coconut Chicken and Rice with Pineapple Salsa](https://instantpot.com/blogs/recipes/coconut-chicken-and-rice-with-pineapple-salsa-0)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Corn Shumai and Chinese Style Mixed Rice | 玉米烧卖与中式什锦饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；猪肉；玉米；牛蒡；胡萝卜；姜；香菇；娃娃玉米；白菜；鸡汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Corn Shumai (Steamed Dumplings) and Chinese Style Mixed Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/corn-shumai-steamed-dumplings-chinese-style-mixed-rice/) |
@@ -1186,13 +1186,13 @@
 | Eggplant Rice | 茄子饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 印度香米；茄子；洋葱；番茄；腰果；咖喱叶 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Eggplant Rice](https://instantpot.com/blogs/recipes/eggplant-rice) |
 | Garlic Shrimp with Herbed Rice | 蒜香虾配香草饭；电饭煲蒜香虾饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；虾；蒜；橄榄油；百里香；牛至；葱 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [Garlic Shrimp with Herbed Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/garlic-shrimp-with-herbed-rice/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Healthy Vegetable Fried Rice (Brown Rice) | 健康蔬菜糙米炒饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；胡萝卜；芹菜；洋葱；蒜；酱油；麻油；豌豆；菠菜；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Healthy Vegetable Fried Rice (Brown Rice)](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/healthy-vegetable-fried-rice-brown-rice/) |
-| Hijiki Brown Rice | 羊栖菜糙米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；羊栖菜；胡萝卜；葱 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Hijiki Brown Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/hijiki-brown-rice/) |
+| Hijiki Brown Rice | 羊栖菜糙米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；羊栖菜；胡萝卜；葱 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [Hijiki Brown Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/hijiki-brown-rice/) |
 | Honey Garlic Chicken | 蜂蜜蒜香鸡饭；虎牌蜂蜜蒜香鸡 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；蒜；酱油；蜂蜜；米醋；鸡胸肉 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Honey Garlic Chicken](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/honey-garlic-chicken/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Italian Beef Bowl | 意式牛肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛肉；洋葱；杏鲍菇；番茄；酱油；清酒；味醂 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Italian Beef Bowl](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/italian-beef-bowl/) |
 | Keema Curry with Chickpeas | 鹰嘴豆咖喱肉酱饭；鹰嘴豆咖喱饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉末；猪肉末；鹰嘴豆；洋葱；胡萝卜；咖喱粉；番茄酱 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [Keema Curry with Chickpeas – キーマ カレー](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/keema-curry-with-chickpeas/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Kimchi Rice | 泡菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；泡菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [Kimchi Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/kimchi-rice/) |
 | Kurigohan (Japanese Chestnut Rice) | 日式栗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；生栗；味醂；盐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Kurigohan (Japanese Chestnut Rice)](https://www.zojirushi.com/app/recipe/-i-kurigohan-i-japanese-chestnut-rice-) |
-| Mixed Rice with pumpkin and lotus roots | 南瓜莲藕鸡腿杂粮饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；大麦；鸡腿肉；南瓜；莲藕；姜 | appliance、identity、ingredients、liquid、quantity | 缺 process | [Mixed Rice with pumpkin and lotus roots](https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/mixed-rice-with-pumpkin-and-lotus-roots.html) |
+| Mixed Rice with pumpkin and lotus roots | 南瓜莲藕鸡腿杂粮饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；大麦；鸡腿肉；南瓜；莲藕；姜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Mixed Rice with pumpkin and lotus roots](https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/mixed-rice-with-pumpkin-and-lotus-roots.html) |
 | Multi-Cooker Butternut Squash Risotto | 多功能锅南瓜烩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；南瓜；洋葱；蔬菜汤；帕玛森芝士；黄油 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [Multi-Cooker Butternut Squash Risotto](https://www.tiger-corporation.com/en/usa/feature/recipe/multi-cooker/multi-cooker-butternut-squash-risotto/) |
 | One Pot Chicken Rice | Panasonic One Pot Chicken Rice | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉香米；鸡腿；葱；姜；蒜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [One Pot Chicken Rice](https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/one-pot-chicken-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | One Pot Chicken and Brown Rice Dinner | Instant Pot一锅鸡肉糙米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 未煮糙米；去骨鸡肉；鸡汤；洋葱；胡萝卜；西芹；蘑菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [One Pot Chicken and Brown Rice Dinner](https://instantpot.com/blogs/recipes/one-pot-chicken-and-brown-rice-dinner)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1200,14 +1200,14 @@
 | Saffron Rice | 虎牌藏红花饭；藏红花调味饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 茉莉米；鸡汤；洋葱；大蒜；橄榄油；藏红花；奶酪 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Saffron Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/saffron-rice/) |
 | Salmon Rice | 电饭煲三文鱼饭；鲑鱼饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 日本短粒米；三文鱼；姜；葱；日式高汤 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Salmon Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/salmon-rice/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Seafood Paella | 海鲜西班牙烩饭；TEFAL602 海鲜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | Paella米；海鲜混合；鱼高汤；洋葱；大蒜；豌豆；烟熏红椒粉；番茄；欧芹 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Seafood Paella](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNDcxMTM4fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDZkL2g5NC85ODI1ODkyMzAyODc4LnBkZnxjY2M0NzU4NDA0ZTY2Zjk4MDVlNGY4OWQyNzg3NTg2Y2QyN2M1OGU3YzFkZjkxYjA0MTlhYWY2ODQ4YjM3) |
-| Seafood Pilaf | 海鲜焖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；海鲜；洋葱；蔬菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [Seafood Pilaf](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/seafood-pilaf/) |
+| Seafood Pilaf | 海鲜焖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；海鲜；洋葱；蔬菜 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [Seafood Pilaf](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/seafood-pilaf/)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html) |
 | Shiitake Mushroom Garlic Rice | 香菇蒜香糙米饭；香菇蒜香饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；香菇；蒜；蘑菇高汤或日式高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [Shiitake Mushroom Garlic Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/shiitake-mushroom-garlic-rice/) |
 | Shiitake-Gohan | 香菇饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；干香菇；清酒；酱油；味醂 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [Shiitake-Gohan (Shiitake Mushroom Rice)](https://www.zojirushi.com/app/recipe/-i-shiitake-gohan-i-i-shiitake-i-mushroom-rice-) |
 | Smoked Haddock Kedgeree | 烟熏黑线鳕饭；TEFAL602 烟熏黑线鳕咖喱饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 印度香米；烟熏黑线鳕；高汤；洋葱；咖喱香料；煮熟鸡蛋；欧芹 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Smoked Haddock Kedgeree](https://www.tefal.com/medias/?context=bWFzdGVyfENTUyBSRUNJUEUgQk9PS3wxNDcxMTM4fGFwcGxpY2F0aW9uL3BkZnxDU1MgUkVDSVBFIEJPT0svaDZkL2g5NC85ODI1ODkyMzAyODc4LnBkZnxjY2M0NzU4NDA0ZTY2Zjk4MDVlNGY4OWQyNzg3NTg2Y2QyN2M1OGU3YzFkZjkxYjA0MTlhYWY2ODQ4YjM3) |
 | Spanish Chicken and Rice | Instant Pot西班牙风鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 转化长粒米；鸡腿肉；kielbasa香肠；鸡汤；洋葱；红椒；胡萝卜；豌豆 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Spanish Chicken and Rice](https://instantpot.com/blogs/recipes/spanish-chicken-and-rice)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Spring Chicken and Vegetable Risotto | 春季鸡肉蔬菜烩饭；Panasonic 鸡肉蔬菜烩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 鸡胸肉；Arborio米；鸡高汤；豌豆；西兰花苗；洋葱；红椒；帕玛森奶酪 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [Spring Chicken and Vegetable Risotto](https://www.panasonic.com/au/consumer/household/kitchen-appliances/article/recipe-top-page/spring-chicken-and-vegetable-risotto.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Steamed Garlic Salmon with Dill and Garden Vegetables | 蒜香莳萝三文鱼时蔬饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | rice；salmon；asparagus；cherry tomatoes；garlic；dill；lemon | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [Steamed Garlic Salmon with Dill and Garden Vegetables](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/steamed-garlic-salmon-with-dill-and-garden-vegetables/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| Szechuan Pork | 电饭煲川味猪肉饭；川味猪肉配饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪五花肉；卷心菜；青椒；红椒；大葱；豆瓣酱；甜面酱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [Szechuan Pork](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/szechuan-pork/) |
+| Szechuan Pork | 电饭煲川味猪肉饭；川味猪肉配饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪五花肉；卷心菜；青椒；红椒；大葱；豆瓣酱；甜面酱 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [Szechuan Pork](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/szechuan-pork/) |
 | Taiwan Minced Pork | 台湾卤肉饭电饭煲版；台式肉燥配饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；猪绞肉；香菇；炸葱；酱油；绍兴酒；五香粉 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [Taiwan Minced Pork](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/taiwan-minced-pork/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | Take Out Style Vegetable Fried Rice | 电饭煲蔬菜炒饭风味；蔬菜混合饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 生白米；混合蔬菜；豌豆；鸡蛋；鸡汤 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [Take Out Style Vegetable Fried Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/take-out-style-vegetable-fried-rice/) |
 | Takikomi Gohan (Japanese Mixed Rice) | 日本什锦炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿肉；油豆腐；胡萝卜；牛蒡；魔芋；香菇；荷兰豆 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [Takikomi Gohan (Japanese Mixed Rice)](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/takikomi-gohan-japanese-mixed-rice/) |
@@ -1239,7 +1239,7 @@
 | かに味噌ごはん | Tiger 蟹味噌饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；蟹肉；蟹味噌；百合根；三つ叶；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [かに味噌ごはん](https://www.tiger-corporation.com/en/jpn/feature/recipe/post6/) |
 | さつまいもの炊き込みご飯 | 红薯培根昆布炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；红薯；培根；昆布；酱油；味醂 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [さつまいもの炊き込みご飯](https://www.tiger-corporation.com/ja/jpn/feature/rice-cooker/takitate50/89/) |
 | たこめし | 松下SR-X910E 章鱼饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；熟章鱼；昆布；生姜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [たこめし](https://panasonic.jp/cooking/recipe/suihan/1358.html) |
-| たっぷりきのこの炊込みご飯 | 梅香什菌炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；混合蘑菇；梅干；油豆腐；青海苔 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [たっぷりきのこの炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041570/) |
+| たっぷりきのこの炊込みご飯 | 梅香什菌炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；混合蘑菇；梅干；油豆腐；青海苔 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [たっぷりきのこの炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041570/) |
 | とうもろこしごはん | 玉米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；玉米；黄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [とうもろこしごはん](https://panasonic.jp/cooking/recipe/reizo/0802.html) |
 | にんじんピラフ | 胡萝卜抓饭；胡萝卜皮拉夫 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；胡萝卜榨渣；培根；黄油；固形高汤 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [にんじんピラフ](https://panasonic.jp/cooking/recipe/juice/0451.html) |
 | ほたて貝柱とえんどう豆の炊込みごはん | 扇贝豌豆炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；扇贝柱；豌豆；姜；昆布高汤 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [ほたて貝柱とえんどう豆の炊込みごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_10/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1247,10 +1247,10 @@
 | アボカド鶏肉炊き込みご飯 | 牛油果鸡肉炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿；牛油果；柠檬；白葡萄酒 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [アボカド鶏肉炊き込みご飯](https://dennabe-official.tatung.co.jp/recipe/view/2030)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | カオマンガイ | Panasonic NF-AC1000 海南鸡饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 可执行研究记录（非公开） | 白米；鸡腿肉；白葱；生姜；蒜；鱼露；小番茄；黄瓜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [カオマンガイ](https://panasonic.jp/cooking/recipe/autocooker/1118.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | カキときのこのごはん | Tiger牡蛎菌菇饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牡蛎；胡萝卜；银杏；舞茸；本しめじ | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [カキときのこのごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post42/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| シーフードパエリア風炊込みご飯 | 海鲜西班牙风炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；冷冻海鲜；洋葱；彩椒；培根；番茄酱 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [シーフードパエリア風炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041573) |
+| シーフードパエリア風炊込みご飯 | 海鲜西班牙风炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；冷冻海鲜；洋葱；彩椒；培根；番茄酱 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [シーフードパエリア風炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041573) |
 | ステーキときのこの麦バターライス | 牛排菌菇麦香黄油饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 可执行研究记录（非公开） | 米；大麦；牛里脊牛排；蘑菇；培根；西兰花 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [ステーキときのこの麦バターライス](https://www.tiger-corporation.com/en/jpn/feature/recipe/post46/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | チキンのクリームピラフ | 鸡肉奶油焗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿肉；胡萝卜；玉米；鸡汤；鲜奶油；黄油 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [チキンのクリームピラフ](https://foodable.jpn.panasonic.com/recipes/group-detail/607)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| チキンライス | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿肉；洋葱；玉米；黄油；番茄酱；高汤 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [チキンライス](https://www.irisohyama.co.jp/ricecooker/rc-pga/detail/?c=2&r=18&s=1) |
+| チキンライス | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿肉；洋葱；玉米；黄油；番茄酱；高汤 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [チキンライス](https://www.irisohyama.co.jp/ricecooker/rc-pga/detail/?c=2&r=18&s=1)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | トウモロコシの炊き込みご飯 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；玉米；水；酒；盐 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [トウモロコシの炊き込みご飯](https://www.irisohyama.co.jp/products/cooking/mukasui/recipes/) |
 | パエリア | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；冷冻海鲜；洋葱；舞茸；红椒；蒜；白葡萄酒；高汤；藏红花 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [パエリア](https://www.irisohyama.co.jp/ricecooker/rc-pga/detail/?c=2&r=17&s=1) |
 | パエリア（Iris KPC-MA2） | Iris KPC-MA2 西班牙海鲜饭风味鸡翅饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡翅根；洋葱；蒜；橄榄；藏红花；彩椒 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [パエリア（recipe29）](https://www.irisohyama.co.jp/kitchen/cooker/recipe/recipe29.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1258,7 +1258,7 @@
 | ピラフ | Panasonic NF-AC1000 海鲜蔬菜抓饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；海鲜混合；什锦蔬菜；洋葱；黄油 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [ピラフ](https://panasonic.jp/cooking/recipe/autocooker/1454.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | ピラフ（IRIS Cooking Kettle） | IRIS Cooking Kettle 虾仁抓饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；洋葱；胡萝卜；虾 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [ピラフ](https://www.irisohyama.co.jp/cooking-kettle/recipe/recipe15/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | ピラフ（SR-X910E炊飯器版） | ピラフ | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；虾；洋葱；胡萝卜；青椒；蘑菇；玉米；黄油 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [ピラフ](https://panasonic.jp/cooking/recipe/suihan/1359.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[SR-X910E 仕様・詳細情報](https://panasonic.jp/suihan/products/SR-X910E/spec.html) |
-| 三杯雞炊飯 | 三杯鸡炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；去骨雞腿；薑；蔥；蒜；九層塔 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [三杯雞炊飯](https://www.cookpot.com.tw/cookbook/1207.html) |
+| 三杯雞炊飯 | 三杯鸡炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；去骨雞腿；薑；蔥；蒜；九層塔 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [三杯雞炊飯](https://www.cookpot.com.tw/cookbook/1207.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 三色藜麦饭 | 三色藜麦杂粮饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 藜麦；米；小米 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [三色藜麦饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4IHN2.pdf) |
 | 东芝什锦饭 | 什锦饭（东芝RC-DR18T） | 非地域·厂商食谱 | 厂商电饭煲食谱 | 可执行研究记录（非公开） | 大米；鸡脯肉；胡萝卜；水煮竹笋；干香菇；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [RC-DR18T 中文说明书：什锦饭／煲仔饭](https://www.toshiba-lifestyle.com/content/dam/toshiba-aem/hk/category-page/rice-cooker/ih-rice-cooker/rc-dr18t/download-cn/RC-DR18T%E8%AA%AA%E6%98%8E%E6%96%B8%20%E4%B8%AD%E6%96%87%E7%89%88.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 中華粥 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；葱；姜；鸡架高汤；盐 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [中華粥](https://www.irisohyama.co.jp/ricecooker/rc-pga/detail/?c=2&r=16&s=1) |
@@ -1274,7 +1274,7 @@
 | 南瓜肉碎粥 | 南瓜猪肉碎粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；免治猪肉；南瓜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [南瓜肉碎粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/minced-pork-congee-with-pumpkin.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 南瓜野菇雞肉糙米飯 | 南瓜野菇鸡肉糙米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；鸡腿；南瓜；鸿喜菇；红彩椒；蒜；姜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [南瓜野菇雞肉糙米飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3551)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 南瓜香菇鸡腿焖饭 | 南瓜香菇雞腿燜飯 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿；南瓜；干香菇；姜；葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [南瓜香菇鸡腿焖饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4TD01.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 和風香菇燉飯 | 和风香菇炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鲜香菇；鸿喜菇；柳松菇；酱油；清酒 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [和風香菇燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/53) |
+| 和風香菇燉飯 | 和风香菇炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鲜香菇；鸿喜菇；柳松菇；酱油；清酒 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [和風香菇燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/53) |
 | 和風鮭魚毛豆炊飯 | 和风鲑鱼毛豆炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鲑鱼；毛豆；牛蒡；胡萝卜；综合菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [和風鮭魚毛豆炊飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3811) |
 | 咖喱鸡肉饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；土豆；洋葱；咖喱块 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [电饭煲JRC-4HP82（F40FZ820）说明书：咖喱鸡肉饭](https://myjoyoung.com/wp-content/uploads/2025/09/Rice-Cooker-JRC-4HP82.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 咸小卷玉米炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；咸小卷；玉米；小黄瓜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】咸小卷玉米炊饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_29.html) |
@@ -1292,19 +1292,19 @@
 | 栗子饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；栗子 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [栗子飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3624) |
 | 桜えびご飯 | 樱花虾饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；干樱花虾；鸡汤粉；生姜 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [桜えびご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041569/) |
 | 海南鶏飯（Iris KPC-MA2） | Iris KPC-MA2 海南鸡饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡腿肉；葱；生姜；鸡汤粉 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [海南鶏飯（recipe30）](https://www.irisohyama.co.jp/kitchen/cooker/recipe/recipe30.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 海鮮炊込みパエリア | Tiger 海鲜炊込み西班牙饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；虾；鱿鱼；贻贝；蛤蜊；鸡腿肉；蔬菜 | appliance、identity、ingredients、process、quantity、time | 缺 liquid、safety | [海鮮炊込みパエリア](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post118/) |
+| 海鮮炊込みパエリア | Tiger 海鲜炊込み西班牙饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；虾；鱿鱼；贻贝；蛤蜊；鸡腿肉；蔬菜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [海鮮炊込みパエリア](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post118/)<br>[About Anisakiasis](https://www.cdc.gov/anisakiasis/about/index.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 灰姑娘南瓜馬車燉飯 | 灰姑娘南瓜马车炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；栗子南瓜；洋蔥；紅蘿蔔；去骨雞腿排；雪白菇；四季豆；櫛瓜；牛奶 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [灰姑娘南瓜馬車燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5239) |
 | 炊き込みごはん | Panasonic NF-PC400 炊き込みご饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 可执行研究记录（非公开） | 白米；鸡腿肉；牛蒡；蒟蒻；干香菇；油豆腐；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [炊き込みごはん](https://panasonic.jp/cooking/recipe/cook/0657.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 炊き込みごはん（市販の素使用） | 市售料包炊饭；Panasonic NF-AC1000料包炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；市售炊饭料包；调味液；水 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [炊き込みごはん（市販の素使用）](https://panasonic.jp/cooking/recipe/autocooker/1276.html) |
 | 炊き込みごはん（干ひじき・ツナ） | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；干ひじき；油豆腐；胡萝卜；金枪鱼罐头；酒；酱油；味醂；日式高汤 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [炊き込みごはん（乾燥ひじき・ツナ）](https://www.irisohyama.co.jp/ricecooker/rc-pga/detail/?c=2&r=15&s=1) |
 | 炊き込みご飯 | 艾丽丝欧雅玛鸡肉牛蒡香菇炊饭；鸡肉根菜炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；牛蒡；香菇；蒟蒻 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [炊き込みご飯｜オリジナルレシピ 電気圧力鍋 KPC-REMA3](https://www.irisohyama.co.jp/e-pressure-cooker/recipe/kpc-rema3/detail/data/recipe35/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 炊き込みご飯（Iris PC-MB3-H post35） | Iris PC-MB3 炊き込みご飯 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；牛蒡；香菇；蒟蒻 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [炊き込みご飯](https://www.irisohyama.co.jp/e-pressure-cooker/recipe/pc-mb3-h/detail/?c=9&r=35&s=1) |
+| 炊き込みご飯（Iris PC-MB3-H post35） | Iris PC-MB3 炊き込みご飯 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鸡胸肉；胡萝卜；牛蒡；香菇；蒟蒻 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [炊き込みご飯](https://www.irisohyama.co.jp/e-pressure-cooker/recipe/pc-mb3-h/detail/?c=9&r=35&s=1)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 炊込みシーフードピラフ | 电饭煲海鲜焗饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；海鲜综合；洋葱；胡萝卜；蒜；鸡汤；白葡萄酒 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [炊込みシーフードピラフ](https://foodable.jpn.panasonic.com/recipes/group-detail/619) |
-| 炊込み中華おこわ | 炊込み中式糯米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糯米；猪五花；干香菇；干虾；竹笋；胡萝卜；栗子 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [炊込み中華おこわ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_243/) |
+| 炊込み中華おこわ | 炊込み中式糯米饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糯米；猪五花；干香菇；干虾；竹笋；胡萝卜；栗子 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [炊込み中華おこわ](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post_243/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 炙燒鮪魚芝麻醬與毛豆白飯 | 炙烧金枪鱼芝麻酱毛豆白饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 台南16號米；鮪魚；毛豆；韭菜；日式風味胡麻醬 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [炙燒鮪魚芝麻醬與毛豆白飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5286) |
 | 牛丼洋蔥炊飯 | 牛丼洋葱炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛五花肉片；鸿喜菇；洋葱；葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [牛丼洋蔥炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5157)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 牛肉什锦饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；牛肉末；胡萝卜泥；洋葱 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [牛肉什锦饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/niuroushenjinfan/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 牛肉南瓜焖饭 | 牛肉南瓜焖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 大米；牛肉；南瓜 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [牛肉南瓜焖饭](https://m.midea.cn/trial/index/report_detail?f_id_report=25695) |
+| 牛肉南瓜焖饭 | 牛肉南瓜焖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 大米；牛肉；南瓜 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [牛肉南瓜焖饭](https://m.midea.cn/trial/index/report_detail?f_id_report=25695)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 牛肉松茸ごはん | 虎牌牛肉松茸饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉薄片；松茸；三叶 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [牛肉松茸ごはん](https://www.tiger-corporation.com/ja/jpn/feature/recipe/post25/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 牛肉野菇炊飯 | 牛肉野菇炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 可执行研究记录（非公开） | 白米；牛肉片；洋蔥；杏鮑菇；美白菇；乾香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [牛肉野菇炊飯](https://www.cookpot.com.tw/cookbook/736.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 牡蠣とねぎの炊き込みご飯 | 牡蛎葱炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牡蛎；葱；姜；海苔；三叶 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [牡蠣とねぎの炊き込みご飯](https://foodable.jpn.panasonic.com/recipes/group-detail/905959)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1316,20 +1316,20 @@
 | 番茄香料雞肉飯 | 番茄香料鸡肉饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；去骨雞腿肉；洋蔥；大蒜；番茄；整粒去皮番茄；雞高湯 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [番茄香料雞肉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5215)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 皮蛋瘦肉粥（Panasonic） | 皮蛋瘦肉粥 Panasonic版 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；猪肉丝；皮蛋；鸡蛋；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [皮蛋瘦肉粥](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/216) |
 | 皮蛋瘦肉粥（象印） | 皮蛋瘦肉粥 象印版 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；皮蛋；猪肉丝；姜；葱；鸡粉 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [皮蛋瘦肉粥](https://www.zojirushi.com.tw/recipe/rice-cookers/446/csr) |
-| 石焼ビビンバ風炊込みご飯 | 石锅拌饭风炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉薄片；白菜泡菜；韩式辣酱；葱；芝麻 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [石焼ビビンバ風炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041572)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 石焼ビビンバ風炊込みご飯 | 石锅拌饭风炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛肉薄片；白菜泡菜；韩式辣酱；葱；芝麻 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [石焼ビビンバ風炊込みご飯](https://www.toshiba-lifestyle.com/jp/pressure-cookers/recipes/24041572)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 粟米紫薯肉丸粥 | 玉米紫薯肉丸粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；玉米；紫薯；肉丸；旺菜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [粟米紫薯肉丸粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/meat-ball-congee-with-corn-and-sweet-yam.html) |
 | 粟米藜麥菜飯 | 玉米藜麦菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；三色藜麦；玉米粒；北京椰菜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [粟米藜麥菜飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/quinoa-rice-with-corn-and-vegetables.html) |
-| 紅蟳稀飯 | 红蟳稀饭；红蟳稀飯 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 紅蟳；香菇；白米；五花肉末；芹菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [紅蟳稀飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4023) |
+| 紅蟳稀飯 | 红蟳稀饭；红蟳稀飯 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 紅蟳；香菇；白米；五花肉末；芹菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [紅蟳稀飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4023) |
 | 紅豆牛肉糙米菜飯 | 红豆牛肉糙米菜饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；红豆；免治牛肉；虾米；冬菇；杞子；椰菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [紅豆牛肉糙米菜飯](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/vegetable-brown-rice-with-minced-beef-and-red-bean.html) |
 | 肉糜青菜饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；猪肉糜；青菜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [肉糜青菜饭](https://www.zojirushi-china.com/media/6749/nl-erh-ccn20250317_a.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 膏蟹粥 | 膏蟹海鲜粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 膏蟹；米；瑶柱；姜；水 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [膏蟹粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/crab-congee.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 芋头香菇素油饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 长糯米；芋头；小香菇；杏鲍菇；豆皮 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】芋头香菇素油饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_225.html) |
-| 芋香栗子炊飯 | 芋香栗子炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；栗子；梅花肉；芋頭；乾香菇；紅蔥頭；蒜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [芋香栗子炊飯](https://www.cookpot.com.tw/cookbook/691.html) |
+| 芋香栗子炊飯 | 芋香栗子炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；栗子；梅花肉；芋頭；乾香菇；紅蔥頭；蒜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [芋香栗子炊飯](https://www.cookpot.com.tw/cookbook/691.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 菌菇玉菜油蔥飯 | 菌菇玉菜油葱饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 月光米；紅蘿蔔；綠竹筍；美白菇；鴻喜菇；香菇；去骨仿雞腿肉；豆皮絲；高麗菜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [菌菇玉菜油蔥飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5101)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 菌菇糙米饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 糙米；杏鲍菇；蟹味菇；鸡蛋；葱花 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [菌菇糙米饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/jungucaomifan/) |
 | 菠菜三文魚粥 | 菠菜三文鱼粥 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；菠菜；三文鱼 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [菠菜三文魚粥](https://www.philips.com.hk/c-e/ho/philips-chef/recipe-overview-page/main-courses/spinach-salmon-congee.html) |
 | 萝卜豆皮炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；白萝卜；豆皮 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】萝卜豆皮炊饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_167.html) |
-| 蒸しあわびの炊込みごはん | 虎牌蒸鲍鱼炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鲍鱼；生姜；昆布高汤 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [蒸しあわびの炊込みごはん](https://www.tiger-corporation.com/en/jpn/feature/recipe/post_12/) |
+| 蒸しあわびの炊込みごはん | 虎牌蒸鲍鱼炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；鲍鱼；生姜；昆布高汤 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [蒸しあわびの炊込みごはん](https://www.tiger-corporation.com/en/jpn/feature/recipe/post_12/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 藜麦糙米橄榄饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 红藜麦；糙米；腌黑橄榄；腌酸黄瓜；金华火腿；鸡高汤；水；橄榄油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [藜麥糙米橄欖飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5100) |
 | 蘿蔔牛腩飯 | 萝卜牛腩饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；牛腩；白萝卜；胡萝卜；姜；蒜；葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [蘿蔔牛腩飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3510) |
 | 蝦螯牛肝菌菇燉飯 | 虾螯牛肝菌菇炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 義大利米；蝦螯；牛肝菌；鴻喜菇；蘑菇；舞菇；牛奶；白酒；起司 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [蝦螯牛肝菌菇燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5276) |
@@ -1350,7 +1350,7 @@
 | 高丽菜鲭鱼炊饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 白米；高丽菜；鲭鱼；黑木耳；鸿喜菇；玉米笋；红萝卜；毛豆仁；昆布 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [高麗菜鯖魚炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3638) |
 | 鮭魚五目炊飯 | 鮭鱼五目炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 無刺鮭魚；乾香菇；鴻禧菇；紅蘿蔔；牛蒡；蒟蒻；白米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鮭魚五目炊飯](https://www.philips.com.tw/c-e/ho/recipe-overview-page/main-courses/steamed-salmon-rice.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鮭魚奶香糙米燉飯 | 鲑鱼奶香糙米炖饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 鮭魚；糙米；青江菜；全脂牛奶 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)<br>[鮭魚奶香糙米燉飯](https://www.cookpot.com.tw/cookbook/588.html) |
-| 鮭魚白蘿蔔金黃炊飯 | 鲑鱼白萝卜金黄炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；白蘿蔔；鮭魚；雞蛋；蔥花；芝麻香油 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [鮭魚白蘿蔔金黃炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5122) |
+| 鮭魚白蘿蔔金黃炊飯 | 鲑鱼白萝卜金黄炊饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；白蘿蔔；鮭魚；雞蛋；蔥花；芝麻香油 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鮭魚白蘿蔔金黃炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5122)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鯖缶の炊き込みごはん | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；水煮鲭鱼罐头；胡萝卜；姜；酱油；酒；味醂 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [鯖缶の炊き込みごはん](https://www.irisohyama.co.jp/cooking-kettle/recipe/recipe14/) |
 | 鯛飯 | 艾丽丝欧雅玛鲷饭；鲷鱼饭 | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；鲷鱼切片；昆布茶；三叶；姜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [鯛飯｜オリジナルレシピ 電気圧力鍋 KPC-MA2](https://www.irisohyama.co.jp/kitchen/cooker/recipe/recipe31.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鲜蔬竹笋饭 | — | 非地域·厂商食谱 | 厂商电饭煲食谱 | 研究记录（非公开可执行） | 米；肉末；洋葱；胡萝卜；竹笋；木耳 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鲜蔬竹笋饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/xianshuzhusunfan/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -1363,7 +1363,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Clam and Tomato Rice | 蛤蜊番茄饭 | US | manufacturer-rice-cooker-seafood-rice | 研究记录（非公开可执行） | 米；蛤蜊；番茄；白酒；罗勒；鸡汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [Clam and Tomato Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/clam-and-tomato-rice/) |
+| Clam and Tomato Rice | 蛤蜊番茄饭 | US | manufacturer-rice-cooker-seafood-rice | 研究记录（非公开可执行） | 米；蛤蜊；番茄；白酒；罗勒；鸡汤 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [Clam and Tomato Rice](https://www.tiger-corporation.com/en/usa/feature/recipe/rice-cooker/clam-and-tomato-rice/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## manufacturer-rice-soup
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1389,12 +1389,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 石扇鱼焖饭 | 石扇鱼饭 | CN-GD | meixian-shisan-hakka-fish-rice | 研究记录（非公开可执行） | 米；鲩鱼；鱼血；葱花；姜丝；金不换 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [美食手信--梅县区人民政府门户网站](https://www.gdmx.gov.cn/zjmx/mssx/content/post_2903785.html) |
+| 石扇鱼焖饭 | 石扇鱼饭 | CN-GD | meixian-shisan-hakka-fish-rice | 研究记录（非公开可执行） | 米；鲩鱼；鱼血；葱花；姜丝；金不换 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [美食手信--梅县区人民政府门户网站](https://www.gdmx.gov.cn/zjmx/mssx/content/post_2903785.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## metok-menba-corn-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 门巴族玉米饭 | 墨脱玉米饭 | CN-XZ-NYINGCHI-METOK | metok-menba-corn-rice | 研究记录（非公开可执行） | 玉米 | appliance、identity、ingredients | 缺 process | [门巴族风俗习惯](https://www.neac.gov.cn/seac/ztzl/mbz/fsxg.shtml) |
+| 门巴族玉米饭 | 墨脱玉米饭 | CN-XZ-NYINGCHI-METOK | metok-menba-corn-rice | 研究记录（非公开可执行） | 玉米 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [门巴族风俗习惯](https://www.neac.gov.cn/seac/ztzl/mbz/fsxg.shtml) |
 ## middle-yangtze-cured-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1415,7 +1415,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 福建油焖肉饭 | 仙游油焖肉饭 | CN-FJ | minnan-braised-rice | 研究记录（非公开可执行） | 米；猪肉 | identity、ingredients | 缺 process | [福建地方饮食与油焖肉饭](https://www.fujian.gov.cn/zwgk/ztzl/sxzygwzxsgzx/sdjj/wvjj/202405/t20240519_6450585.htm) |
+| 福建油焖肉饭 | 仙游油焖肉饭 | CN-FJ | minnan-braised-rice | 研究记录（非公开可执行） | 米；猪肉 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [福建地方饮食与油焖肉饭](https://www.fujian.gov.cn/zwgk/ztzl/sxzygwzxsgzx/sdjj/wvjj/202405/t20240519_6450585.htm) |
 ## minnan-mixed-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1443,8 +1443,8 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 石狮跳跳鱼焖饭 | 石狮蚶江跳跳鱼焖饭 | CN-FJ | minnan-seafood-rice | 研究记录（非公开可执行） | 米；跳跳鱼 | identity、ingredients | 缺 process | [蚶江海鲜美食与跳跳鱼焖饭](https://www.shishi.gov.cn/zwgk/xwzx/jrss/202512/t20251215_3240848.htm) |
-| 红蟳饭 | — | CN-FJ | minnan-seafood-rice | 研究记录（非公开可执行） | 红蟳；米；香菇；小干贝；三层肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [红蟳饭：软糯鲜香回味长](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202506/t20250624_3182398.htm) |
+| 石狮跳跳鱼焖饭 | 石狮蚶江跳跳鱼焖饭 | CN-FJ | minnan-seafood-rice | 研究记录（非公开可执行） | 米；跳跳鱼 | identity、ingredients、process | 当前状态所需证据已齐 | [蚶江海鲜美食与跳跳鱼焖饭](https://www.shishi.gov.cn/zwgk/xwzx/jrss/202512/t20251215_3240848.htm) |
+| 红蟳饭 | — | CN-FJ | minnan-seafood-rice | 研究记录（非公开可执行） | 红蟳；米；香菇；小干贝；三层肉 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [红蟳饭：软糯鲜香回味长](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202506/t20250624_3182398.htm)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## minnan-steamed-glutinous-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1479,7 +1479,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 南安蓬华芥菜饭 | 蓬华芥菜饭 | CN-FJ-QUANZHOU-NANAN-PENGHUA | nanan-penghua-mustard-rice | 研究记录（非公开可执行） | 米；芥菜 | identity、ingredients | 缺 process | [到泉州乡野开启“土味之旅”](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202509/t20250909_3208177.htm) |
+| 南安蓬华芥菜饭 | 蓬华芥菜饭 | CN-FJ-QUANZHOU-NANAN-PENGHUA | nanan-penghua-mustard-rice | 研究记录（非公开可执行） | 米；芥菜 | identity、ingredients、process | 当前状态所需证据已齐 | [到泉州乡野开启“土味之旅”](https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202509/t20250909_3208177.htm) |
 ## ninghe-zeng-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1505,18 +1505,18 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 怒族肉拌饭 | 老姆登怒族肉拌饭 | CN-YN-NUJIANG-GONGSHAN | nu-zu-rou-ban-rice | 研究记录（非公开可执行） | 荞米；怒族土鸡；老火腿；本地盐；怒族香料 | identity、ingredients、process、quantity | 缺 liquid、appliance、time | [怒族美食：肉拌饭](https://paper.people.com.cn/rmrbhwb/html/2017-12/09/content_1822380.htm) |
+| 怒族肉拌饭 | 老姆登怒族肉拌饭 | CN-YN-NUJIANG-GONGSHAN | nu-zu-rou-ban-rice | 研究记录（非公开可执行） | 荞米；怒族土鸡；老火腿；本地盐；怒族香料 | identity、ingredients、process、quantity、safety | 缺 liquid、appliance、time | [怒族美食：肉拌饭](https://paper.people.com.cn/rmrbhwb/html/2017-12/09/content_1822380.htm)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## nujiang-lisu-hand-grab-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 傈僳族手抓饭（拌饭） | 傈僳族手抓饭 | CN-YN-NUJIANG | nujiang-lisu-hand-grab-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [《傈僳族手抓饭 拌饭》地方标准](https://std.samr.gov.cn/db/search/stdDBDetailed?id=D7B683B23127A476E05397BE0A0A0A45)<br>[怒江州举行民族团结进步示范区建设主题活动](https://www.yn.xinhuanet.com/nets/2022-07/24/c_1310645391.htm) |
+| 傈僳族手抓饭（拌饭） | 傈僳族手抓饭 | CN-YN-NUJIANG | nujiang-lisu-hand-grab-rice | 研究记录（非公开可执行） | 苞谷面；大米；肉类（家禽或野兽肉）；核桃粉；辣椒；蒜粉；食盐 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [《傈僳族手抓饭 拌饭》地方标准](https://std.samr.gov.cn/db/search/stdDBDetailed?id=D7B683B23127A476E05397BE0A0A0A45)<br>[怒江州举行民族团结进步示范区建设主题活动](https://www.yn.xinhuanet.com/nets/2022-07/24/c_1310645391.htm)<br>[傈僳族火的民族崇拜火](https://www.dili360.com/cng/article/p5350c3d7b45d925.htm) |
 ## okinawan-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| クファジューシー | 冲绳硬式猪肉炊饭 | JP-OKINAWA | okinawan-rice | 研究记录（非公开可执行） | 米；猪五花；胡萝卜；干香菇；鱼糕；猪油 | identity、ingredients、liquid、process、quantity | 缺 appliance、time | [クファジューシー](https://www.maff.go.jp/j/pr/aff/2604/spe1_05.html) |
-| ヤファラジューシー | 冲绳软式猪肉杂炊 | JP-OKINAWA | okinawan-rice | 研究记录（非公开可执行） | 米；猪三层肉；艾草 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [ヤファラジューシー 沖縄県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_25_okinawa.html) |
+| クファジューシー | 冲绳硬式猪肉炊饭 | JP-OKINAWA | okinawan-rice | 研究记录（非公开可执行） | 米；猪五花；胡萝卜；干香菇；鱼糕；猪油 | identity、ingredients、liquid、process、quantity | 缺 appliance、time、safety | [クファジューシー](https://www.maff.go.jp/j/pr/aff/2604/spe1_05.html) |
+| ヤファラジューシー | 冲绳软式猪肉杂炊 | JP-OKINAWA | okinawan-rice | 研究记录（非公开可执行） | 米；猪三层肉；艾草 | identity、ingredients、liquid、process、quantity、safety | 缺 appliance、time | [ヤファラジューシー 沖縄県](https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/47_25_okinawa.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## one-pot-rice-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1609,12 +1609,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 景颇族蒸米饭制作技艺（瑞丽） | 景颇族蒸米饭制作技艺 | CN-YN-DEHONG-RUILI | ruili-jingpo-steamed-rice-technique | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [瑞丽市非物质文化遗产名录](https://www.rl.gov.cn/slyj/Web/_F0_0_6I73ZWNB4E833B0A675745BEBE.htm) |
+| 景颇族蒸米饭制作技艺（瑞丽） | 景颇族蒸米饭制作技艺 | CN-YN-DEHONG-RUILI | ruili-jingpo-steamed-rice-technique | 研究记录（非公开可执行） | — | identity、ingredients、process | 当前状态所需证据已齐 | [瑞丽市非物质文化遗产名录](https://www.rl.gov.cn/slyj/Web/_F0_0_6I73ZWNB4E833B0A675745BEBE.htm)<br>[景颇族风俗习惯](https://www.neac.gov.cn/seac/ztzl/jpz/fsxg.shtml) |
 ## shaanxi-northern-jujube-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 陕北枣焖饭 | 枣焖饭 | CN-SN | shaanxi-northern-jujube-braised-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [陕北枣食](https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201112/t20111216_2620139.html) |
+| 陕北枣焖饭 | 枣焖饭 | CN-SN | shaanxi-northern-jujube-braised-rice | 研究记录（非公开可执行） | 软谷米；软黄米；红枣；豇豆；红糖 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [陕北枣食](https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201112/t20111216_2620139.html) |
 ## shaanxi-regional-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1654,12 +1654,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 洪洞蒸饭 | 洪洞黍米蒸饭 | CN-SX-LINFEN-HONGDONG | shanxi-regional-steamed-rice | 研究记录（非公开可执行） | 黍米或江米；红枣 | identity、ingredients | 缺 process | [洪洞蒸饭](https://zhuanti.mct.gov.cn/csxz2022/shanxi/detail_g7yU_708/4402.html) |
+| 洪洞蒸饭 | 洪洞黍米蒸饭 | CN-SX-LINFEN-HONGDONG | shanxi-regional-steamed-rice | 研究记录（非公开可执行） | 黍米或江米；红枣 | identity、ingredients、process | 当前状态所需证据已齐 | [洪洞蒸饭](https://zhuanti.mct.gov.cn/csxz2022/shanxi/detail_g7yU_708/4402.html) |
 ## shanxi-wuxiang-millet-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 武乡小米焖饭 | 小米焖饭（武乡） | CN-SX-CHANGZHI-WUXIANG | shanxi-wuxiang-millet-braised-rice | 研究记录（非公开可执行） | 小米 | identity、ingredients | 缺 process | [黄土地长出“金谷子”——武乡县深耕小米产业带富一方乡亲](https://credit.changzhi.gov.cn/82/17645.html) |
+| 武乡小米焖饭 | 小米焖饭（武乡） | CN-SX-CHANGZHI-WUXIANG | shanxi-wuxiang-millet-braised-rice | 研究记录（非公开可执行） | 小米 | identity、ingredients、process | 当前状态所需证据已齐 | [黄土地长出“金谷子”——武乡县深耕小米产业带富一方乡亲](https://credit.changzhi.gov.cn/82/17645.html) |
 ## shanxi-yangqu-nidun-xiaomi-fan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1669,7 +1669,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 邵阳黑饭 | 黑饭（邵阳） | CN-HN-SHAOYANG | shaoyang-black-rice | 研究记录（非公开可执行） | 糯米；植物染汁；血豆腐 | identity、ingredients | 缺 process | [地方名小吃：猪血丸子](https://www.hunan.gov.cn/jxxx/hxwh/cwd/201711/t20171111_4685399.html) |
+| 邵阳黑饭 | 黑饭（邵阳） | CN-HN-SHAOYANG | shaoyang-black-rice | 研究记录（非公开可执行） | 糯米；植物染汁；血豆腐 | identity、ingredients、process | 当前状态所需证据已齐 | [地方名小吃：猪血丸子](https://www.hunan.gov.cn/jxxx/hxwh/cwd/201711/t20171111_4685399.html) |
 ## shexian-millet-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1689,7 +1689,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 石狮香油饭 | — | CN-FJ | shishi-sesame-oil-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [宋元海丝宴菜单](https://www.quanzhou.gov.cn/gastronomy/ch/sqsm/yxyzc/202412/t20241211_3115801.htm) |
+| 石狮香油饭 | — | CN-FJ | shishi-sesame-oil-rice | 研究记录（非公开可执行） | 大米；干贝；葱油丝；鱼肉；香菇；三层肉；香油 | identity、ingredients、process | 当前状态所需证据已齐 | [宋元海丝宴菜单](https://www.quanzhou.gov.cn/gastronomy/ch/sqsm/yxyzc/202412/t20241211_3115801.htm) |
 ## shixing-yao-glutinous-vegetable-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1719,7 +1719,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 硒米罐儿饭 | 万源硒米罐儿饭 | CN-SC-DASHOU-WANYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 硒米；腊肉；酸豆角；野菜 | identity、ingredients | 缺 process | [硒米罐儿饭](https://www.dazhou.gov.cn/news-show-266982.html) |
+| 硒米罐儿饭 | 万源硒米罐儿饭 | CN-SC-DASHOU-WANYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 硒米；腊肉；酸豆角；野菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [硒米罐儿饭](https://www.dazhou.gov.cn/news-show-266982.html) |
 | 酸菜干饭 | 广元酸菜干饭 | CN-SC-GUANGYUAN | sichuan-regional-rice-meals | 研究记录（非公开可执行） | 米；酸菜；蔬菜 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [广元酸菜干饭](https://www.scsqw.cn/scyx/sctc/content_104352) |
 ## singapore-healthhub-brown-rice-chicken-congee
 
@@ -1745,7 +1745,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 阿婆菜饭 | — | CN-SH | songjiang-apo-vegetable-rice | 研究记录（非公开可执行） | 猪油；三当菜 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [松江乡村里的年味：有米餐厅和阿婆菜饭](https://www.songjiang.gov.cn/xwzx/001003/20260129/b7ead1aa-7dfe-4c90-b469-f1b43c61bf09.html) |
+| 阿婆菜饭 | — | CN-SH | songjiang-apo-vegetable-rice | 研究记录（非公开可执行） | 猪油；三当菜 | appliance、identity、ingredients、liquid、process | 缺 quantity、time | [松江乡村里的年味：有米餐厅和阿婆菜饭](https://www.songjiang.gov.cn/xwzx/001003/20260129/b7ead1aa-7dfe-4c90-b469-f1b43c61bf09.html) |
 ## south-africa-one-pot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1805,7 +1805,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 台山黄鳝饭 | 台山黄鳝焗饭 | CN-GD | taishan-eel-rice | 研究记录（非公开可执行） | 台山本地小农粘米；鲜活黄鳝；姜葱；酱油 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [由深入江 好吃到镇！“碳水脑袋”集合~江门这口黄鳝饭馋哭你](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/zwgk/gzdt/content/post_3145157.html)<br>[制作须遵循“煮、炒、焗”三道核心工艺 台山黄鳝饭有了“标准”](https://www.jiangmen.gov.cn/home/sqdt/tszx/content/post_3288348.html) |
+| 台山黄鳝饭 | 台山黄鳝焗饭 | CN-GD | taishan-eel-rice | 研究记录（非公开可执行） | 台山本地小农粘米；鲜活黄鳝；姜葱；酱油 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [由深入江 好吃到镇！“碳水脑袋”集合~江门这口黄鳝饭馋哭你](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/zwgk/gzdt/content/post_3145157.html)<br>[制作须遵循“煮、炒、焗”三道核心工艺 台山黄鳝饭有了“标准”](https://www.jiangmen.gov.cn/home/sqdt/tszx/content/post_3288348.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taishan-fish-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1815,12 +1815,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 石硖螺饭 | 石夹螺饭 | CN-GD | taishan-shangchuan-shixialuo-rice | 研究记录（非公开可执行） | 石硖螺肉；猪肉粒；米饭 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html)<br>[〖视频〗天下第一饭--石夹螺饭](https://www.chuanshanqundao.com/News/Info-2986.html) |
+| 石硖螺饭 | 石夹螺饭 | CN-GD | taishan-shangchuan-shixialuo-rice | 研究记录（非公开可执行） | 石硖螺肉；猪肉粒；米饭 | appliance、identity、ingredients、process、safety | 缺 quantity、liquid、time | [台山黄鳝饭拿下“湾区标准”！这样寻味台山，更地道！](https://www.jiangmen.gov.cn/bmpd/jmswhgdlytyj/ztzl/xwjm/content/post_3385222.html)<br>[〖视频〗天下第一饭--石夹螺饭](https://www.chuanshanqundao.com/News/Info-2986.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-agricultural-rice-dish
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 芋飯飄香 | 芋饭飘香 | TW-Taoyuan | taiwan-agricultural-rice-dish | 研究记录（非公开可执行） | 米；芋头 | identity、ingredients | 缺 process | [芋飯飄香](https://fae.moa.gov.tw/theme_data.php?id=3318&sub_theme=recipe&theme=topics) |
+| 芋飯飄香 | 芋饭飘香 | TW-Taoyuan | taiwan-agricultural-rice-dish | 研究记录（非公开可执行） | 米；芋头；干香菇；虾米；绞肉 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [芋飯飄香](https://fae.moa.gov.tw/theme_data.php?id=3318&sub_theme=recipe&theme=topics) |
 ## taiwan-bamboo-shoot-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1830,7 +1830,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 糙米高麗菜什錦飯 | 糙米高丽菜什锦饭 | TW | taiwan-brown-rice-cabbage-mixed-rice | 研究记录（非公开可执行） | 糙米；梅花猪肉丝；胡萝卜；干香菇；高丽菜 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [糙米高麗菜什錦飯](https://www.zojirushi.com.tw/recipe/rice-cookers/444/csr)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 糙米高麗菜什錦飯 | 糙米高丽菜什锦饭 | TW | taiwan-brown-rice-cabbage-mixed-rice | 研究记录（非公开可执行） | 糙米；梅花猪肉丝；胡萝卜；干香菇；高丽菜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [糙米高麗菜什錦飯](https://www.zojirushi.com.tw/recipe/rice-cookers/444/csr)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-ceremonial-oil-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1851,7 +1851,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 玉米雞蓉糙米粥 | 玉米鸡蓉糙米粥 | TW | taiwan-corn-chicken-brown-congee | 研究记录（非公开可执行） | 糙米；鸡胸肉；玉米；鸡蛋 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [玉米雞蓉糙米粥](https://www.zojirushi.com.tw/recipe/rice-cookers/443/csr) |
+| 玉米雞蓉糙米粥 | 玉米鸡蓉糙米粥 | TW | taiwan-corn-chicken-brown-congee | 研究记录（非公开可执行） | 糙米；鸡胸肉；玉米；鸡蛋 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [玉米雞蓉糙米粥](https://www.zojirushi.com.tw/recipe/rice-cookers/443/csr) |
 ## taiwan-electric-cooker-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1870,7 +1870,7 @@
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 雜糧干貝海鮮蒸臺灣藜飯 | 杂粮干贝海鲜蒸台湾藜饭 | TW | taiwan-electric-cooker-quinoa-rice | 研究记录（非公开可执行） | 台湾藜；糙米；虾；干贝；鱿鱼；西兰花；洋葱 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [雜糧干貝海鮮蒸臺灣藜飯](https://health99.hpa.gov.tw/storage/pdf/materials/22359.pdf) |
-| 鮪魚菇菇洋蔥紅藜麥炊飯 | 鲔鱼菇菇洋葱红藜麦炊饭 | TW | taiwan-electric-cooker-quinoa-rice | 研究记录（非公开可执行） | 白米；三色藜麦；红藜麦；黑鲔鱼；鸿喜菇；雪白菇；洋葱；胡萝卜；高丽菜 | appliance、identity、ingredients、process、quantity、time | 缺 liquid | [鮪魚菇菇洋蔥紅藜麥炊飯](https://health99.hpa.gov.tw/storage/pdf/materials/22632.pdf) |
+| 鮪魚菇菇洋蔥紅藜麥炊飯 | 鲔鱼菇菇洋葱红藜麦炊饭 | TW | taiwan-electric-cooker-quinoa-rice | 研究记录（非公开可执行） | 白米；三色藜麦；红藜麦；黑鲔鱼；鸿喜菇；雪白菇；洋葱；胡萝卜；高丽菜 | appliance、identity、ingredients、process、quantity、safety、time | 缺 liquid | [鮪魚菇菇洋蔥紅藜麥炊飯](https://health99.hpa.gov.tw/storage/pdf/materials/22632.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwan-electric-cooker-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1904,8 +1904,8 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 菇味麻油雞佐鮮蔬燉飯 | 菇味麻油鸡佐鲜蔬炖饭 | TW | taiwan-electric-pot-rice | 研究记录（非公开可执行） | 米；土鸡腿；干香菇；鲜香菇；高丽菜 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [菇味麻油雞佐鮮蔬燉飯](https://fae.moa.gov.tw/files/topics/3161/A02_1.pdf) |
-| 溏心蛋燒肉飯 | 溏心蛋叉燒飯；溏心蛋烧肉饭 | TW-YL | taiwan-electric-pot-rice | 研究记录（非公开可执行） | 糙米；豆皮；洋葱；蛋；芝麻 | appliance、identity、ingredients | 缺 process | [中秋节电锅轻松上菜：溏心蛋叉烧饭](https://ylshb.yunlin.gov.tw/News_Video.aspx?n=4906&sms=13251) |
+| 菇味麻油雞佐鮮蔬燉飯 | 菇味麻油鸡佐鲜蔬炖饭 | TW | taiwan-electric-pot-rice | 研究记录（非公开可执行） | 米；土鸡腿；干香菇；鲜香菇；高丽菜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [菇味麻油雞佐鮮蔬燉飯](https://fae.moa.gov.tw/files/topics/3161/A02_1.pdf)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 溏心蛋燒肉飯 | 溏心蛋叉燒飯；溏心蛋烧肉饭 | TW-YL | taiwan-electric-pot-rice | 研究记录（非公开可执行） | 糙米；豆皮；洋葱；蛋；芝麻 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [中秋节电锅轻松上菜：溏心蛋叉烧饭](https://ylshb.yunlin.gov.tw/News_Video.aspx?n=4906&sms=13251) |
 ## taiwan-electric-pot-rice-works
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -1954,7 +1954,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 红米香蕉饭 | 紅米香蕉飯 | TW-HL | taiwan-indigenous-rice | 研究记录（非公开可执行） | 红米；香蕉；莲藕 | appliance、identity、ingredients | 缺 process | [农业橱窗影片－红米香蕉饭](https://fae.moa.gov.tw/theme_data.php?id=1929&sub_theme=recipe&theme=topics) |
+| 红米香蕉饭 | 紅米香蕉飯 | TW-HL | taiwan-indigenous-rice | 研究记录（非公开可执行） | 红米；香蕉；莲藕 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [农业橱窗影片－红米香蕉饭](https://fae.moa.gov.tw/theme_data.php?id=1929&sub_theme=recipe&theme=topics) |
 ## taiwan-infant-porridge
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2007,7 +2007,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 金沙皮蛋香菇粥 | — | TW | taiwan-preserved-egg-mushroom-congee | 研究记录（非公开可执行） | 白米；咸蛋；皮蛋；干香菇；白菜；西芹 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [金沙皮蛋香菇粥](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5156) |
+| 金沙皮蛋香菇粥 | — | TW | taiwan-preserved-egg-mushroom-congee | 研究记录（非公开可执行） | 白米；咸蛋；皮蛋；干香菇；白菜；西芹 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [金沙皮蛋香菇粥](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5156) |
 ## taiwan-pumpkin-chicken-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2058,7 +2058,7 @@
 | 松露海鮮燉飯 | 松露海鲜炖饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 义大利米；蛤蜊；虾；鱿鱼；松露酱；奶油 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [松露海鮮燉飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/5098)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 櫻蝦玉菜煲仔飯 | 樱虾玉菜煲仔饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；高丽菜；樱花虾；香菇；红葱酥 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [櫻蝦玉菜煲仔飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4003) |
 | 野菇雞肉竹筍什錦飯 | 野菇鸡肉竹笋什锦饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；鸡腿肉；鸿喜菇；香菇；竹笋；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [野菇雞肉竹筍什錦飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3797)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 金絲鯛魚炊飯 | 金丝鲷鱼炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 米；金丝鲷鱼；昆布；柴鱼高汤；毛豆；蛋丝 | appliance、identity、ingredients、liquid、process、quantity | 缺 time | [金絲鯛魚炊飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/140) |
+| 金絲鯛魚炊飯 | 金丝鲷鱼炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 米；金丝鲷鱼；昆布；柴鱼高汤；毛豆；蛋丝 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [金絲鯛魚炊飯](https://pmst.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/140)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 香菇竹筍雞肉炊飯 | 香菇竹笋鸡肉炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；鸡腿肉；香菇；竹笋；胡萝卜 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [香菇竹筍雞肉炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3842)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鮭魚菇菇炊飯 | Panasonic鲑鱼蘑菇炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；鲑鱼；鸿喜菇；香菇；奶油 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [鮭魚菇菇炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/4032)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鯛魚干貝藜麥炊飯 | Panasonic鲷鱼干贝藜麦炊饭 | TW | taiwan-rice-cooker-recipes | 研究记录（非公开可执行） | 白米；红藜麦；鲷鱼；干贝；鸿喜菇 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [鯛魚干貝藜麥炊飯](https://pstw.panasonic.com.tw/PanasonicCookingTW/Recipe/Detail/3904)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
@@ -2093,7 +2093,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 南瓜飯 | 南瓜饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 蓬莱米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity | 缺 time、safety | [南瓜飯](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html) |
+| 南瓜飯 | 南瓜饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 蓬莱米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [南瓜飯](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 南瓜饭 | — | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 米；南瓜；猪绞肉；虾米；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [南瓜饭](https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html)<br>[南瓜饭](https://kids.moa.gov.tw/theme_data.php?theme=kids_cooking&id=66)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 大同電鍋高麗菜飯 | 大同电锅高丽菜饭 | TW | taiwan-vegetable-rice | 可执行研究记录（非公开） | 白米；高麗菜；豬肉絲；乾香菇；紅蔥頭；蝦米 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [＼大同電鍋レシピ／キャベツ炊き込みご飯（高麗菜飯）](https://recipe.rakuten.co.jp/recipe/1290044668/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 瓠瓜香菇飯 | 瓠瓜香菇饭 | TW | taiwan-vegetable-rice | 研究记录（非公开可执行） | 瓠瓜；乾香菇；胡蘿蔔；米 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [瓠瓜香菇飯](https://kids.moa.gov.tw/theme_data.php?id=50&theme=kids_cooking) |
@@ -2104,7 +2104,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 日式野菇雞肉炊飯 | 日式野菇鸡肉炊饭 | TW | taiwan-wild-mushroom-chicken-mixed-rice | 研究记录（非公开可执行） | 白米；鸡腿肉；综合菇；牛蒡 | appliance、identity、ingredients、process、quantity、safety | 缺 liquid、time | [日式野菇雞肉炊飯](https://www.zojirushi.com.tw/recipe/rice-cookers/549/%E6%97%A5%E5%BC%8F%E9%87%8E%E8%8F%87%E9%9B%9E%E8%82%89%E7%82%8A%E9%A3%AF)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
+| 日式野菇雞肉炊飯 | 日式野菇鸡肉炊饭 | TW | taiwan-wild-mushroom-chicken-mixed-rice | 研究记录（非公开可执行） | 白米；鸡腿肉；综合菇；牛蒡 | appliance、identity、ingredients、liquid、process、quantity、safety | 缺 time | [日式野菇雞肉炊飯](https://www.zojirushi.com.tw/recipe/rice-cookers/549/%E6%97%A5%E5%BC%8F%E9%87%8E%E8%8F%87%E9%9B%9E%E8%82%89%E7%82%8A%E9%A3%AF)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## taiwanese-rice-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2149,7 +2149,7 @@
 | 背徳のガリバタ飯 | 大同电锅金枪鱼蒜香黄油饭 | TW | tatung-electric-rice-recipes | 研究记录（非公开可执行） | 免洗米；金枪鱼罐头；玉米；黄油；蒜 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [背徳のガリバタ飯](https://dennabe-official.tatung.co.jp/recipe/view/1994) |
 | 豚トロとごま油炊き込みご飯 | 猪颈肉芝麻油炊饭 | TW | tatung-electric-rice-recipes | 研究记录（非公开可执行） | 泰国香米；猪颈肉；干香菇；干虾；生姜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [＼大同電鍋／豚トロとごま油炊き込みご飯](https://recipe.rakuten.co.jp/recipe/1290045148/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 豚バラ大根ご飯 | 大同电锅猪肉萝卜炊饭 | TW | tatung-electric-rice-recipes | 可执行研究记录（非公开） | 米；猪五花；白萝卜；胡萝卜；油炸豆腐 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [豚バラ大根ご飯](https://dennabe-official.tatung.co.jp/recipe/view/1990)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
-| 鲜蔬蚬精炊饭 | 鮮蔬蜆精炊飯 | TW | tatung-electric-rice-recipes | 研究记录（非公开可执行） | 白米；蚬；南瓜；紫山药；姜；青葱 | appliance、identity、ingredients、liquid、process、quantity、time | 当前状态所需证据已齐 | [【电锅食谱】鲜蔬蚬精炊饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_214.html) |
+| 鲜蔬蚬精炊饭 | 鮮蔬蜆精炊飯 | TW | tatung-electric-rice-recipes | 研究记录（非公开可执行） | 白米；蚬；南瓜；紫山药；姜；青葱 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [【电锅食谱】鲜蔬蚬精炊饭](https://www.tatung.com.cn/ElectronicRecipes/info_itemid_214.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 鶏とキャベツの麻油炊き込みご飯 | 鸡肉卷心菜麻油炊饭 | TW | tatung-electric-rice-recipes | 研究记录（非公开可执行） | 米；鸡腿肉；卷心菜；干香菇；真姬菇；生姜 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [＼大同電鍋／鶏とキャベツの麻油炊き込みご飯](https://recipe.rakuten.co.jp/recipe/1290045243/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 | 黄金炊き込みご飯 | 黄金炊饭 | TW | tatung-electric-rice-recipes | 研究记录（非公开可执行） | 白米；玄米；鸡腿肉；栗子；胡萝卜；香菇 | appliance、identity、ingredients、liquid、process、quantity、safety、time | 当前状态所需证据已齐 | [＼大同電鍋レシピ／黄金炊き込みご飯](https://recipe.rakuten.co.jp/recipe/1290044957/)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## tengchong-copper-pot-potato-rice
@@ -2336,7 +2336,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 诺鲁孜饭 | 诺鲁孜节饭 | CN-XJ-KASHGAR | uyghur-nowruz-rice | 研究记录（非公开可执行） | — | identity、ingredients | 缺 process | [诺鲁孜节由来与诺鲁孜文化](https://www.kstq.gov.cn/kashi/msfq/201303/b31c833e4b2a494c99514518e965a831.shtml) |
+| 诺鲁孜饭 | 诺鲁孜节饭 | CN-XJ-KASHGAR | uyghur-nowruz-rice | 研究记录（非公开可执行） | 七种谷物（小麦/大麦/玉米/黄米/高粱/豌豆等）；七种蔬菜（萝卜/胡萝卜/番茄/洋葱等）；七种畜禽肉；干果 | identity、ingredients、process | 当前状态所需证据已齐 | [诺鲁孜节由来与诺鲁孜文化](https://www.kstq.gov.cn/kashi/msfq/201303/b31c833e4b2a494c99514518e965a831.shtml) |
 ## wa-chicken-lanfan
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2351,7 +2351,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 威海苞米碴子干饭 | 玉米碴子干饭；苞米碴子捞干饭 | CN-SD-WEIHAI | weihai-baomi-chazi-dry-rice | 研究记录（非公开可执行） | 玉米碴子 | identity、ingredients | 缺 process | [饮食](https://www.weihai.gov.cn/art/2020/10/27/art_58902_1733168.html) |
+| 威海苞米碴子干饭 | 玉米碴子干饭；苞米碴子捞干饭 | CN-SD-WEIHAI | weihai-baomi-chazi-dry-rice | 研究记录（非公开可执行） | 玉米碴子 | identity、ingredients、process | 当前状态所需证据已齐 | [饮食](https://www.weihai.gov.cn/art/2020/10/27/art_58902_1733168.html) |
 ## western-guangdong-duck-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2416,7 +2416,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 策勒抓饭 | 策勒坡罗；新疆抓饭（策勒） | CN-XJ-HOTAN-CELE | xinjiang-cele-pilaf | 研究记录（非公开可执行） | 羊肉；胡萝卜；洋葱；大米；葡萄干 | identity、ingredients、process | 当前状态所需证据已齐 | [新疆美食：抓饭（坡罗）](https://www.xjcl.gov.cn/clxrmzf/c118969/201609/6abb0617b5e3449caa8d2b5141fc3834.shtml) |
+| 策勒抓饭 | 策勒坡罗；新疆抓饭（策勒） | CN-XJ-HOTAN-CELE | xinjiang-cele-pilaf | 研究记录（非公开可执行） | 羊肉；胡萝卜；洋葱；大米；葡萄干 | identity、ingredients、process | 缺 quantity、liquid、time、safety | [新疆美食：抓饭（坡罗）](https://www.xjcl.gov.cn/clxrmzf/c118969/201609/6abb0617b5e3449caa8d2b5141fc3834.shtml) |
 ## xinjiang-egg-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2439,10 +2439,10 @@
 | 伊犁手抓饭 | 伊犁抓饭 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 羊肉；胡萝卜；洋葱；清油；羊油；大米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time、safety | [手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml) |
 | 塔城風乾肉抓飯 | 塔城风干肉抓饭 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 风干肉；羊肉；米；胡萝卜；洋葱 | identity、ingredients、process | 当前状态所需证据已齐 | [塔城风干肉抓饭](https://www.xjtc.gov.cn/ywdt/jrtc/xsdt/content_56828)<br>[塔城风干肉抓饭地方介绍](https://www.xjtc.gov.cn/zzb/xsdt1__ywdt/jrtc/bmdt/content_56938) |
 | 手抓饭 | 抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 鲜羊肉；胡萝卜；洋葱；油脂；米 | appliance、identity、ingredients、liquid、process、quantity、time | 缺 safety | [于田抓饭做法](https://www.xjyt.gov.cn/changyou/chi/2021-06-07/251.html)<br>[手抓饭](https://www.xjyl.gov.cn/xjylz/c112874/201811/7095a8856ee44c7eb86791f76602e0ed.shtml)<br>[新疆抓饭](https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml) |
-| 新疆抓飯 | 新疆抓饭；抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 羊肉；胡萝卜；洋葱；油脂；大米；葡萄干 | appliance、identity、ingredients、process、time | 缺 quantity、liquid、safety | [新疆抓飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
-| 九村抓饭 | — | CN-XJ-KASHGAR-YECHENG-HEYUAN | xinjiang-pilaf | 研究记录（非公开可执行） | 米；山羊肉；胡萝卜 | identity、ingredients | 缺 process | [新“食”代 真美味！——人大力量助新疆美食致富](https://www.xjpcsc.gov.cn/article/cf624d0b3bd549d8871af48cd528ca19) |
-| 伊宁菜朴劳 | 菜朴劳抓饭 | CN-XJ-YINING | xinjiang-pilaf | 研究记录（非公开可执行） | 抓饭；白菜；番茄；辣椒；粉条 | identity、ingredients | 缺 process | [伊宁市特色美食](https://www.yining.gov.cn/yining/tsms/201603/cefe55071af74c2397bd3e86775d76d4.shtml) |
-| 伊宁阿西曼吐（包子抓饭） | 阿西曼吐 | CN-XJ-YINING | xinjiang-pilaf | 研究记录（非公开可执行） | 抓饭；薄皮肉包子 | identity、ingredients | 缺 process | [伊宁市特色美食](https://www.yining.gov.cn/yining/tsms/201603/cefe55071af74c2397bd3e86775d76d4.shtml) |
+| 新疆抓飯 | 新疆抓饭；抓饭；波罗 | CN-XJ | xinjiang-pilaf | 研究记录（非公开可执行） | 羊肉；胡萝卜；洋葱；油脂；大米；葡萄干 | appliance、identity、ingredients、liquid、process、time | 缺 quantity、safety | [新疆抓飯](https://ebook.afa.gov.tw/tefd/ebook8/ebook8-1.html) |
+| 九村抓饭 | — | CN-XJ-KASHGAR-YECHENG-HEYUAN | xinjiang-pilaf | 研究记录（非公开可执行） | 米；山羊肉；胡萝卜 | identity、ingredients、process | 当前状态所需证据已齐 | [新“食”代 真美味！——人大力量助新疆美食致富](https://www.xjpcsc.gov.cn/article/cf624d0b3bd549d8871af48cd528ca19) |
+| 伊宁菜朴劳 | 菜朴劳抓饭 | CN-XJ-YINING | xinjiang-pilaf | 研究记录（非公开可执行） | 抓饭；白菜；番茄；辣椒；粉条 | identity、ingredients、process | 当前状态所需证据已齐 | [伊宁市特色美食](https://www.yining.gov.cn/yining/tsms/201603/cefe55071af74c2397bd3e86775d76d4.shtml) |
+| 伊宁阿西曼吐（包子抓饭） | 阿西曼吐 | CN-XJ-YINING | xinjiang-pilaf | 研究记录（非公开可执行） | 抓饭；薄皮肉包子 | identity、ingredients、process、quantity | 当前状态所需证据已齐 | [伊宁市特色美食](https://www.yining.gov.cn/yining/tsms/201603/cefe55071af74c2397bd3e86775d76d4.shtml) |
 ## xinjiang-regional-pilaf
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2478,12 +2478,12 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 延边朝鲜族石锅拌饭 | — | CN-JL-YANBIAN | yanbian-stone-pot-rice | 研究记录（非公开可执行） | 米；肉；鸡蛋；豆芽；蘑菇；时蔬 | identity、ingredients | 缺 process | [龙井市民俗美食与朝鲜族石锅拌饭制作技艺](https://whhlyt.jl.gov.cn/ztzl/jlslyxlhxj/gdxl/ybz/ljs/202506/t20250625_9264390.html) |
+| 延边朝鲜族石锅拌饭 | — | CN-JL-YANBIAN | yanbian-stone-pot-rice | 研究记录（非公开可执行） | 米；肉；鸡蛋；豆芽；蘑菇；时蔬 | identity、ingredients、process | 当前状态所需证据已齐 | [龙井市民俗美食与朝鲜族石锅拌饭制作技艺](https://whhlyt.jl.gov.cn/ztzl/jlslyxlhxj/gdxl/ybz/ljs/202506/t20250625_9264390.html) |
 ## yangxin-chunhu-fish-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 春湖鱼饭 | — | CN-HB | yangxin-chunhu-fish-rice | 研究记录（非公开可执行） | 鲜鱼；大米 | identity、ingredients、process | 缺 quantity、liquid、appliance、time | [春湖鱼饭（县级非物质文化遗产）](https://yx.gov.cn/zjyx/whyc/201612/t20161220_95834.html) |
+| 春湖鱼饭 | — | CN-HB | yangxin-chunhu-fish-rice | 研究记录（非公开可执行） | 鲜鱼；大米 | identity、ingredients、process、safety | 缺 quantity、liquid、appliance、time | [春湖鱼饭（县级非物质文化遗产）](https://yx.gov.cn/zjyx/whyc/201612/t20161220_95834.html)<br>[Cook to a Safe Minimum Internal Temperature](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures) |
 ## yangzhou-fried-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2493,7 +2493,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 永春一饭（香饭） | 永春香饭；吃一饭 | CN-FJ-QUANZHOU-YONGCHUN | yongchun-salted-rice | 研究记录（非公开可执行） | 海蛎干；花生；肉；葱油；白米 | identity、ingredients | 缺 process | [非遗永春：吃一饭](https://www.fjyc.gov.cn/zjyc/mfms/201312/t20131210_1597105.htm) |
+| 永春一饭（香饭） | 永春香饭；吃一饭 | CN-FJ-QUANZHOU-YONGCHUN | yongchun-salted-rice | 研究记录（非公开可执行） | 海蛎干；花生；肉；葱油；白米 | identity、ingredients、process | 当前状态所需证据已齐 | [非遗永春：吃一饭](https://www.fjyc.gov.cn/zjyc/mfms/201312/t20131210_1597105.htm) |
 ## yongchun-xianjia-dried-mustard-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2508,7 +2508,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 玉林撒肉糯米饭 | 撒肉（粉蒸肉）糯米饭 | CN-GX | yulin-sarou-glutinous-rice | 研究记录（非公开可执行） | 糯米；五花肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time | [已盛行100多年！它是玉林人心中的‘神仙美食’](https://news.gxnews.com.cn/staticpages/20241104/newgx6728c205-21666284.shtml) |
+| 玉林撒肉糯米饭 | 撒肉（粉蒸肉）糯米饭 | CN-GX | yulin-sarou-glutinous-rice | 研究记录（非公开可执行） | 糯米；五花肉 | appliance、identity、ingredients、process | 缺 quantity、liquid、time、safety | [已盛行100多年！它是玉林人心中的‘神仙美食’](https://news.gxnews.com.cn/staticpages/20241104/newgx6728c205-21666284.shtml) |
 ## yunnan-bean-braised-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2553,7 +2553,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 傈僳族手抓饭·拌饭 | 傈僳族拌饭 | CN-YN | yunnan-lisu-hand-grab-mixed-rice | 研究记录（非公开可执行） | — | identity | 缺 ingredients、process | [DB5333/T 21.1—2021 傈僳族手抓饭 拌饭](https://std.samr.gov.cn/db/search/stdDBDetailed?id=D7B683B23127A476E05397BE0A0A0A45) |
+| 傈僳族手抓饭·拌饭 | 傈僳族拌饭 | CN-YN | yunnan-lisu-hand-grab-mixed-rice | 研究记录（非公开可执行） | — | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [DB5333/T 21.1—2021 傈僳族手抓饭 拌饭](https://std.samr.gov.cn/db/search/stdDBDetailed?id=D7B683B23127A476E05397BE0A0A0A45)<br>[傈僳族简介](https://news.cctv.com/china/20090904/110182_1.shtml) |
 ## yunnan-mabang-luoguo-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2578,7 +2578,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 玉屏糯米饭 | — | CN-GZ-TONGREN-YUPING | yuping-dong-sticky-rice | 研究记录（非公开可执行） | 糯米（具体构成待补） | identity | 缺 ingredients、process | [玉屏糯米饭](https://www.yp.gov.cn/contents/2025/10/31/receive-1a693541-967c-42b5-8a30-4da4551d1824.html) |
+| 玉屏糯米饭 | — | CN-GZ-TONGREN-YUPING | yuping-dong-sticky-rice | 研究记录（非公开可执行） | 糯米（具体构成待补） | identity、process | 缺 ingredients | [玉屏糯米饭](https://www.yp.gov.cn/contents/2025/10/31/receive-1a693541-967c-42b5-8a30-4da4551d1824.html) |
 ## yuping-gongmi-guoba-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2614,7 +2614,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 仙居咸酸饭 | 仙居咸酸米饭 | CN-ZJ-TAIZHOU-XIANJU | zhejiang-regional-salted-rice | 研究记录（非公开可执行） | 米；咸酸菜；蔬菜 | identity、ingredients | 缺 process | [仙居咸酸饭](https://tz.zjol.com.cn/xw18022/sh18033/202505/t20250508_30982150.shtml) |
+| 仙居咸酸饭 | 仙居咸酸米饭 | CN-ZJ-TAIZHOU-XIANJU | zhejiang-regional-salted-rice | 研究记录（非公开可执行） | 米；咸酸菜；蔬菜 | appliance、identity、ingredients、process | 当前状态所需证据已齐 | [仙居咸酸饭](https://tz.zjol.com.cn/xw18022/sh18033/202505/t20250508_30982150.shtml)<br>[江南深处，竟藏了这样一个神仙小县城，咫尺便是人间！](https://www.eco.gov.cn/news_info/56012.html) |
 ## zhejiang-wild-rice
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2634,7 +2634,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 酿鸭饭 | 紫金酿鸭饭 | CN-GD | zijin-stuffed-duck-rice | 研究记录（非公开可执行） | 糯米；番鸭；五花肉；鱿鱼；花生米；鸭汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time | [紫金客家菜肴](https://www.zijin.gov.cn/xq/szzj/zjkjcz/) |
+| 酿鸭饭 | 紫金酿鸭饭 | CN-GD | zijin-stuffed-duck-rice | 研究记录（非公开可执行） | 糯米；番鸭；五花肉；鱿鱼；花生米；鸭汤 | appliance、identity、ingredients、process、quantity | 缺 liquid、time、safety | [紫金客家菜肴](https://www.zijin.gov.cn/xq/szzj/zjkjcz/) |
 ## zojirushi-china-chestnut-chicken-congee
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
@@ -2644,7 +2644,7 @@
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 番茄海鲜饭 | 象印番茄海鲜饭 | CN | zojirushi-electric-rice | 研究记录（非公开可执行） | 大米；鱿鱼圈；虾仁；洋葱；青豆；胡萝卜；玉米；番茄 | appliance、identity、ingredients | 缺 process | [番茄海鲜饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/fanqiehaixianfan/) |
+| 番茄海鲜饭 | 象印番茄海鲜饭 | CN | zojirushi-electric-rice | 研究记录（非公开可执行） | 大米；鱿鱼圈；虾仁；洋葱；青豆；胡萝卜；玉米；番茄 | appliance、identity、ingredients、process、quantity | 当前状态所需证据已齐 | [番茄海鲜饭](https://www.zojirushi-china.com/activity/recipe/rice-cooker/fanqiehaixianfan/) |
 ## zojirushi-rice-cooker-recipes
 
 | 规范名 | 别名 | 地区 | 菜系 | 状态 | 核心食材 | 已支持证据范围 | 当前晋升阻塞 | 直接来源 |

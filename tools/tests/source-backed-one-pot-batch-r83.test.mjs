@@ -13,7 +13,7 @@ const expected = [
 
 test('r83 registers four directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -29,8 +29,8 @@ test('r83 registers four directly sourced named one-pot candidates without promo
   }
 
   const counts = Object.groupBy(catalog.recipes, recipe => recipe.status);
-  assert.equal(counts.recipe_fact_checked.length, 782);
-  assert.equal(counts.identity_verified.length, 99);
+  assert.equal(counts.recipe_fact_checked.length, 788);
+  assert.equal(counts.identity_verified.length, 93);
   assert.equal(counts.executable.length, 36);
   assert.equal(counts.discovered.length, 6);
 });
@@ -55,7 +55,9 @@ test('r83 preserves appliance and safety boundaries from each source', () => {
   const shrimp = byId.get('towngas-asparagus-shrimp-quinoa-rice');
   assert.equal(shrimp.fixed_batch, null);
   assert.equal(shrimp.time_contract.total_minutes, 30);
-  assert.equal(shrimp.safety_endpoints.length, 0);
+  assert.equal(shrimp.safety_endpoints.length, 1);
+  assert.equal(shrimp.safety_endpoints[0].code, 'shellfish_fully_cooked');
+  assert.equal(shrimp.safety_endpoints[0].visual_endpoint, '肉质呈珍珠白或白色且不透明');
   assert.match(shrimp.cooking_sequence.map(step => step.instruction).join(' '), /虾|芦笋|中途/u);
 
   const eggBeef = byId.get('towngas-nest-egg-minced-beef-rice');

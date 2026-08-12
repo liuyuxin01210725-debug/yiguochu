@@ -11,7 +11,7 @@ const expected = [
 
 test('r84 registers two new directly sourced named candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -27,8 +27,8 @@ test('r84 registers two new directly sourced named candidates without promotion'
   }
 
   const counts = Object.groupBy(catalog.recipes, recipe => recipe.status);
-  assert.equal(counts.recipe_fact_checked.length, 782);
-  assert.equal(counts.identity_verified.length, 99);
+  assert.equal(counts.recipe_fact_checked.length, 788);
+  assert.equal(counts.identity_verified.length, 93);
   assert.equal(counts.executable.length, 36);
   assert.equal(counts.discovered.length, 6);
 });
@@ -48,7 +48,8 @@ test('r84 preserves vessel, safety, and identity-only boundaries', () => {
 
   const wansheng = byId.get('wansheng-potato-green-bean-kongfan');
   assert.deepEqual(wansheng.core_ingredients, ['洋芋', '四季豆']);
-  assert.deepEqual(wansheng.cooking_sequence, []);
+  assert.ok(wansheng.cooking_sequence.length >= 2);
+  assert.ok(wansheng.cooking_sequence.every(step => step.source_ids?.length));
   assert.equal(wansheng.fixed_batch, null);
   assert.equal(wansheng.liquid_contract, null);
   assert.match(wansheng.evidence_notes, /身份|不补写|米/u);

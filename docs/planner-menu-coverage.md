@@ -239,10 +239,10 @@
 
 ## 输入指纹
 
-- `tools/data/ingredient-taxonomy.v1.json`：`2c40eeaa21acb5fb7b21813f704e9503ad9da901deb7cff70e62d90fbb5775d2`
+- `tools/data/ingredient-taxonomy.v1.json`：`e5657ba80f6d1c3b41c70295ea2ab16c3bb8ff28f9a31f7b0a545cb92a5cfa56`
 - `tools/data/meal-templates.v2.json`：`35b9bc77bd889beb4b3f24cb9d7b05eda9e0009d37b2aa89b001d24600ab8dee`
 - `tools/data/menu-master-baseline.v1.json`：`68e339839c474ea4dde588913f7a2277c9578043e3fc800306e83b75ec914eab`
-- `tools/data/ratio-rules.v1.json`：`5167aeed954fd7bec1fc09afdf6836d861f3868ab6869165885280b2dab61e94`
+- `tools/data/ratio-rules.v1.json`：`f4d974d12cf9b81390b8b02bf755e7d58a35138d83c8a4deba020d2b94145fe0`
 - `tools/data/recipe-library.json`：`5b5842fd062f9aefbc0fdcf522684b95482364959a1e3382eeb18449888935bd`
 - `tools/data/regional-menu-mappings.v1.json`：`edb7c9a3ecdfe069f0da459e1d457738388962da21240e0d6500ea796c1d3078`
-- `tools/data/rice-meal-catalog.v1.json`：`44e8aa0288a3da284e9be5c22266a0023bc69a2a47a8146377b71b490d5ce4df`
+- `tools/data/rice-meal-catalog.v1.json`：`96efb779e07f79b2b3b090a5e27d7ffa09e30cb25de5de24a4c4bdf54cdb4348`

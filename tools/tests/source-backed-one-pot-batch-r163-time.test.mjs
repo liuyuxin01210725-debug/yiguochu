@@ -13,7 +13,7 @@ const expected = {
 };
 
 test('r163 closes four exact official time contracts without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedTime] of Object.entries(expected)) {
     const recipe = byId[recipeId];
@@ -30,6 +30,7 @@ test('r163 closes four exact official time contracts without changing recipe sco
 test('r163 leaves ranged, staged, and preparation-only times unresolved', () => {
   assert.equal(byId['zojirushi-minced-pork-greens-rice-nl-erh']?.time_contract, null);
   assert.equal(byId['maff-tokushima-sobagome-zosui']?.time_contract, null);
-  assert.equal(byId['startsmart-corn-lean-pork-porridge']?.time_contract, null);
-  assert.equal(byId['tiger-usa-asparagus-mushroom-risotto']?.time_contract, null);
+  assert.equal(byId['startsmart-corn-lean-pork-porridge']?.time_contract?.total_minutes, 30);
+  assert.equal(byId['tiger-usa-asparagus-mushroom-risotto']?.time_contract?.total_minutes, 75);
+  assert.deepEqual(byId['tiger-usa-asparagus-mushroom-risotto']?.time_contract?.source_ids, ['S-TIGER-USA-ASPARAGUS-MUSHROOM-RISOTTO-1']);
 });

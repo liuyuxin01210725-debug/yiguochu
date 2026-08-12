@@ -43,6 +43,20 @@ test('renders sorted recipes with visible evidence fields and direct source link
   assert.ok(markdown.indexOf('咖喱鸡肉饭') < markdown.indexOf('牛肉什锦饭'));
 });
 
+test('renders a research method card for every source-backed record', () => {
+  const artifacts = buildSourceBackedOnePotArtifacts(catalog(), migration());
+  const methods = artifacts.get('docs/source-backed-one-pot-research-methods.md');
+
+  assert.match(methods, /^# 923条研究做法卡/m);
+  assert.match(methods, /r60-tiger-basic-chicken-congee/u);
+  assert.match(methods, /食材与用量/u);
+  assert.match(methods, /步骤/u);
+  assert.match(methods, /研究草案（估算起步量）|source_partial_with_draft/u);
+  assert.match(methods, /原文事实定位/u);
+  assert.match(methods, /原文份数提示：鲜蔬竹笋饭.*4~5人份/u);
+  assert.ok((methods.match(/^## \d+\./gmu) || []).length === catalog().recipes.length);
+});
+
 test('labels empty manufacturer regions explicitly and keeps research rows non-public', () => {
   const artifacts = buildSourceBackedOnePotArtifacts(catalog(), migration());
   const markdown = artifacts.get('docs/source-backed-one-pot-recipes.md');

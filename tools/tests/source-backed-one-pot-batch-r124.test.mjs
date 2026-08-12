@@ -58,7 +58,7 @@ const expected = [
 const executableIds = new Set(['instant-pot-chicken-satay-rice', 'instant-pot-chicken-enchilada-rice']);
 
 test('r124 adds eight official manufacturer rice main candidates', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
 
@@ -95,7 +95,10 @@ test('r124 keeps fixed quantities and model boundaries without widening safety e
   assert.equal(onePot.fixed_batch, null);
   assert.equal(onePot.liquid_contract.amount.value, 2.5);
   assert.equal(onePot.liquid_contract.amount.unit, 'cups');
-  assert.equal(onePot.time_contract, null);
+  assert.deepEqual(onePot.time_contract, {
+    total_minutes: 45,
+    source_ids: ['S-R124-INSTANTPOT-ONE-POT-CHICKEN-BROWN-RICE-1'],
+  });
   assert.deepEqual(onePot.safety_endpoints, [{
     code: 'poultry_fully_cooked',
     minimum_core_temperature_c: 74,
@@ -113,7 +116,10 @@ test('r124 keeps fixed quantities and model boundaries without widening safety e
   const soup = byId.get('instant-pot-chicken-rice-soup');
   assert.equal(soup.fixed_batch.servings, 4);
   assert.equal(soup.liquid_contract.amount.value, 4);
-  assert.equal(soup.time_contract, null);
+  assert.deepEqual(soup.time_contract, {
+    total_minutes: 20,
+    source_ids: ['S-R124-INSTANTPOT-CHICKEN-RICE-SOUP-1'],
+  });
   assert.deepEqual(soup.safety_endpoints, [{
     code: 'poultry_fully_cooked',
     minimum_core_temperature_c: 74,

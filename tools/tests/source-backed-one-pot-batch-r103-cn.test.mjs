@@ -19,7 +19,7 @@ const expected = [
 ];
 
 test('r103 CN batch adds ten source-backed regional rice records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, status] of expected) {
@@ -49,7 +49,15 @@ test('r103 CN keeps process and evidence boundaries explicit', () => {
   }
   for (const recipeId of identityIds) {
     const recipe = byId.get(recipeId);
-    assert.deepEqual(recipe.cooking_sequence, [], recipeId);
+    if (recipeId === 'r103-cn-guangxi-sanjiang-dong-nuomi-fan') {
+      assert.deepEqual(recipe.cooking_sequence, [{
+        step: 1,
+        instruction: '侗族糯饭按来源使用木甑蒸熟，并作为日常主食储存食用。',
+        source_ids: ['S-R103-CN-SANJIANG-DONG-NUOMI-FAN-1'],
+      }], recipeId);
+    } else {
+      assert.deepEqual(recipe.cooking_sequence, [], recipeId);
+    }
     assert.equal(recipe.fixed_batch, null, recipeId);
     assert.equal(recipe.cooker_adaptation.status, 'not_adapted', recipeId);
   }

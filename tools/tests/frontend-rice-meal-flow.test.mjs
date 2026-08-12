@@ -81,10 +81,17 @@ test('rice product opens directly on a real source-backed recipe', async () => {
   assert.match(root.innerHTML, /<h2>[^<]+<\/h2>/u);
   assert.doesNotMatch(root.innerHTML, /来源目录原名保留/u);
   assert.match(root.innerHTML, /去资料库记录这道菜/u);
-  assert.match(root.innerHTML, /来源记录的步骤/u);
+  assert.match(root.innerHTML, /执行卡步骤/u);
   assert.equal((root.innerHTML.match(/data-act="rotate-source-recipe"/g) || []).length, 1);
   assert.doesNotMatch(root.innerHTML, /data-act="choose-rice-meal"|data-act="choose-plan"|data-pantry-chip=/u);
   assert.doesNotMatch(root.innerHTML, /番茄大米酸香主食锅|鸡腿土豆焖饭/u);
+});
+
+test('source rotation uses the extensionless source catalog route', async () => {
+  const { root } = loadRiceFrontend();
+  await tick();
+  assert.match(root.innerHTML, /href="source-recipes\/?\?recipe_id=/u);
+  assert.doesNotMatch(root.innerHTML, /href="source-recipes\.html\?recipe_id=/u);
 });
 
 test('the first screen has one rotation action and never calls the planner or DeepSeek', async () => {
@@ -92,7 +99,8 @@ test('the first screen has one rotation action and never calls the planner or De
   await tick();
   const actionValues = [...root.innerHTML.matchAll(/data-act="([^"]+)"/g)].map(match => match[1]);
   assert.deepEqual(actionValues, ['rotate-source-recipe']);
-  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 343);
+  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 923);
+  assert.match(root.innerHTML, /923 道来源执行卡/u);
   assert.doesNotMatch(root.innerHTML, /data-act="choose-rice-meal"|data-act="choose-plan"|候选方案|生成菜谱|plan-meal|generate-plan|DeepSeek/u);
   assert.equal(calls.some(call => /plan-meal|generate-plan/.test(call.url)), false);
 });
@@ -105,7 +113,7 @@ test('clicking 换一道 rotates to another real recipe without another network 
   const second = evaluate(context, 'state.sourceRotationCurrent.canonical_name');
   assert.notEqual(second, first);
   assert.match(root.innerHTML, new RegExp(second.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
-  assert.match(root.innerHTML, /第 2 \/ 343 道可轮替菜饭/u);
+  assert.match(root.innerHTML, /第 2 \/ 923 道来源执行卡/u);
   assert.equal(calls.length, 1);
 });
 
@@ -162,4 +170,29 @@ test('source-only links are filtered to HTTPS while the original title remains v
   assert.match(root.innerHTML, /上海咸肉菜饭/u);
   assert.match(root.innerHTML, /https:\/\/example\.com\/real/u);
   assert.doesNotMatch(root.innerHTML, /href="javascript:|查看事实来源：不安全来源/u);
+});
+
+test('full rotation renders C-layer research quantities and blocked safety boundaries explicitly', async () => {
+  const research = sourceRecords.find(record => record.shelf === 'C' && record.research_method?.status !== 'blocked_safety');
+  const blocked = sourceRecords.find(record => record.research_method?.blocked_reason);
+  assert.ok(research && blocked);
+  const custom = { ...shelf, records: [research, blocked] };
+  const { context, root } = loadRiceFrontend([{ body:custom }]);
+  await tick();
+  assert.equal(evaluate(context, 'state.sourceRotationRecords.length'), 2);
+  assert.match(root.innerHTML, /研究起步卡（含估算\/待核）|禁止家庭执行（安全阻断）/u);
+  assert.match(root.innerHTML, /执行卡定量/u);
+  assert.match(root.innerHTML, /研究起步/u);
+  assert.match(root.innerHTML, /安全阻断|禁止家庭执行/u);
+});
+
+test('rotation shows the complete research method when the source sequence is only a fragment', async () => {
+  const fragment = sourceRecords.find(record => record.recipe_id === 'tiger-sweet-potato-bacon-kombu-rice');
+  assert.ok(fragment?.research_method?.steps?.length >= 3);
+  const custom = { ...shelf, records:[fragment] };
+  const { root } = loadRiceFrontend([{ body:custom }]);
+  await tick();
+  const section = root.innerHTML.match(/<h3>执行卡步骤<\/h3><ol[\s\S]*?<\/ol>/u)?.[0] || '';
+  assert.equal((section.match(/<li>/g) || []).length, fragment.research_method.steps.length);
+  assert.match(section, /研究起步/u);
 });

@@ -14,7 +14,7 @@ const expected = {
 };
 
 test('r187 closes three directly evidenced raw fish safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   for (const [recipeId, locator] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, `missing ${recipeId}`);
@@ -38,5 +38,9 @@ test('r187 preserves direct and staged appliance boundaries', () => {
   assert.equal(byId['taiwan-brown-rice-salmon-rice']?.cooker_adaptation?.status, 'source_limited');
   assert.equal(byId['taiwan-fresh-fish-wild-mushroom-rice']?.cooker_adaptation?.status, 'source_limited');
   assert.match(byId['taiwan-fresh-fish-wild-mushroom-rice']?.cooking_sequence?.[2]?.instruction ?? '', /鱼肉确认熟透/u);
-  assert.deepEqual(byId['tiger-steamed-abalone-rice']?.safety_endpoints, []);
+  assert.deepEqual(byId['tiger-steamed-abalone-rice']?.safety_endpoints, [{
+    code: 'shellfish_fully_cooked',
+    visual_endpoint: '肉质呈珍珠白或白色且不透明',
+    source_ids: [safetySourceId],
+  }]);
 });

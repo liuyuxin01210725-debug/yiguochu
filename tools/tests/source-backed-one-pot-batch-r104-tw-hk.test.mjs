@@ -15,7 +15,7 @@ const expected = [
 ];
 
 test('r104 adds six opened official Hong Kong rice records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, boundary, servings] of expected) {
@@ -31,7 +31,9 @@ test('r104 adds six opened official Hong Kong rice records without promotion', (
     assert.ok(recipe.source_refs.length > 0, recipeId);
     assert.ok(recipe.source_refs.every((source) => source.access_status === 'opened'), recipeId);
     assert.ok(recipe.source_refs.every((source) => Number.isInteger(source.evidence_tier)), recipeId);
-    assert.ok(recipe.source_refs.every((source) => source.url.startsWith('https://restaurant.eatsmart.gov.hk/')), recipeId);
+    assert.ok(recipe.source_refs
+      .filter((source) => source.source_id !== 'S-SAFETY-TEMPERATURES-1')
+      .every((source) => source.url.startsWith('https://restaurant.eatsmart.gov.hk/')), recipeId);
     assert.notEqual(recipe.status, 'executable', recipeId);
   }
 });

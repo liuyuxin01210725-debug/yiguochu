@@ -16,7 +16,7 @@ const expected = [
 ];
 
 test('r107 adds seven deduplicated mainland records without executable promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, status, url] of expected) {
@@ -47,17 +47,29 @@ test('r107 keeps incomplete evidence explicit and does not invent cooker contrac
   assert.equal(linzhou.cooker_adaptation.status, 'not_adapted');
 
   for (const recipeId of [
-    'cn-quanzhou-nanan-penghua-mustard-rice',
     'cn-yunnan-ruili-dai-steamed-rice-technique',
     'cn-yunnan-ruili-jingpo-steamed-rice-technique',
-    'cn-jiangsu-jintan-maoshan-qingjing-rice-technique',
   ]) {
     const recipe = byId.get(recipeId);
     assert.equal(recipe.fixed_batch, null, recipeId);
     assert.equal(recipe.liquid_contract, null, recipeId);
-    assert.equal(recipe.cooking_sequence.length, 0, recipeId);
+    if (recipeId === 'cn-yunnan-ruili-jingpo-steamed-rice-technique') {
+      assert.ok(recipe.cooking_sequence.length > 0, recipeId);
+    } else {
+      assert.equal(recipe.cooking_sequence.length, 0, recipeId);
+    }
     assert.equal(recipe.cooker_adaptation.status, 'not_adapted', recipeId);
   }
+  const penghua = byId.get('cn-quanzhou-nanan-penghua-mustard-rice');
+  assert.equal(penghua.fixed_batch, null);
+  assert.equal(penghua.liquid_contract, null);
+  assert.ok(penghua.cooking_sequence.length >= 2);
+  assert.equal(penghua.cooker_adaptation.status, 'not_adapted');
+  const qingjing = byId.get('cn-jiangsu-jintan-maoshan-qingjing-rice-technique');
+  assert.equal(qingjing.fixed_batch, null);
+  assert.equal(qingjing.liquid_contract, null);
+  assert.ok(qingjing.cooking_sequence.length >= 3);
+  assert.equal(qingjing.cooker_adaptation.status, 'source_limited');
 });
 
 test('r107 records distinct regional names exactly once', () => {

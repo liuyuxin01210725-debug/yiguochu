@@ -26,9 +26,9 @@
   <main>
     <header>
       <h1>一锅出项目</h1>
-      <p class="project">公开基础菜谱 · 只读页面 · <a href="/source-recipes.html">真实菜饭资料库</a></p>
+      <p class="project">正式 Planner 72 道 · 来源执行卡 923 道（全量可试做，923/923 有用量、液体、步骤、时长） · <a href="/source-recipes/">打开完整来源执行资料库</a></p>
     </header>
-    <section id="unavailable" class="unavailable" aria-live="polite">未找到可公开的菜谱</section>
+    <section id="unavailable" class="unavailable" aria-live="polite">未找到可公开的菜谱编号。正式 Planner 运行库是 72 道已通过生产闸门的基础菜谱；另外 923 道已经在线作为独立来源执行卡，923/923 都有食材起步用量、液体、步骤和总时长，并逐项标注来源事实、研究估算、器具边界和安全阻断。来源执行卡可以逐条打开、试做和记录，但不等于生产 Planner 菜谱；要查看完整卡片，请打开 <a href="/source-recipes/">923 条来源执行资料库</a>。</section>
     <article id="recipe" hidden>
       <p id="meta" class="eyebrow"></p>
       <h2 id="name"></h2>
@@ -39,6 +39,16 @@
       <h3>安全规则</h3><ul id="safety"></ul>
       <h3>文化来源候选编号</h3><p id="origin"></p>
       <h3>来源署名</h3><ul id="sources"></ul>
+    </article>
+    <article id="sourceExecution" hidden>
+      <p id="sourceMethodStatus" class="eyebrow"></p>
+      <h2 id="sourceName"></h2>
+      <p id="sourceMethodBoundary" class="unavailable"></p>
+      <h3>食材与用量（逐项标注来源/估算）</h3><ul id="sourceMethodIngredients"></ul>
+      <h3>液体与时长</h3><p id="sourceMethodContracts"></p>
+      <h3>步骤</h3><ul id="sourceMethodSteps"></ul>
+      <h3>逐条正式化审查</h3><ul id="sourceFormalReview"></ul>
+      <h3>来源与缺口</h3><ul id="sourceMethodSources"></ul>
     </article>
   </main>
   <script>
@@ -58,7 +68,65 @@
 
       function showUnavailable() {
         recipeElement.hidden = true;
+        document.getElementById('sourceExecution').hidden = true;
         unavailable.hidden = false;
+      }
+
+      function text(value, fallback = '待核') {
+        return value === undefined || value === null || value === '' ? fallback : String(value);
+      }
+
+      function formatAmount(amount) {
+        if (!amount) return '待核';
+        return `${text(amount.value)}${text(amount.unit, '')}`;
+      }
+
+      function appendItems(element, values) {
+        element.replaceChildren();
+        for (const value of Array.isArray(values) ? values : []) {
+          const item = document.createElement('li');
+          item.textContent = String(value);
+          element.append(item);
+        }
+      }
+
+      function renderSourceExecution(entry, review = null) {
+        recipeElement.hidden = true;
+        unavailable.hidden = true;
+        const card = document.getElementById('sourceExecution');
+        const method = entry.execution_card || {};
+        document.getElementById('sourceMethodStatus').textContent = `研究来源执行卡 · ${text(entry.method_card_status)} · ${text(entry.shelf_label)}`;
+        document.getElementById('sourceName').textContent = entry.canonical_name || '未命名来源菜谱';
+        document.getElementById('sourceMethodBoundary').textContent = `正式化阻塞：${(entry.formal_blocker_labels || []).join('、') || '待补'}。下一步：${text(entry.next_action)}`;
+        appendItems(document.getElementById('sourceMethodIngredients'), (method.ingredients || []).map(item => `${text(item.name)}：${formatAmount(item.amount)}［${text(item.provenance, '未标注')}］${item.note ? `（${item.note}）` : ''}`));
+        const liquid = method.liquid?.amount ? formatAmount(method.liquid.amount) : method.liquid?.waterline ? `按${text(method.liquid.waterline.appliance_model)}的${text(method.liquid.waterline.scale)}${text(method.liquid.waterline.mark, '')}` : '待核';
+        const time = method.time?.total_minutes ? `${method.time.total_minutes} 分钟` : '待核';
+        document.getElementById('sourceMethodContracts').textContent = `液体：${liquid}［${text(method.liquid?.provenance, '未标注')}］；总时长：${time}［${text(method.time?.provenance, '未标注')}］`;
+        appendItems(document.getElementById('sourceMethodSteps'), (method.steps || []).map((step, index) => `${text(step.step, index + 1)}. ${text(step.instruction)}［${text(step.provenance, '未标注')}］`));
+        const sourceLines = [
+          ...(method.assumptions || []).map(value => `补全边界：${value}`),
+          ...(method.missing_source_fields || []).map(value => `来源缺字段：${value}`),
+          ...(entry.source_ids || []).map(value => `source_id：${value}`),
+        ];
+        appendItems(document.getElementById('sourceMethodSources'), sourceLines);
+        const reviewLines = review ? [
+          `正式化阶段：${text(review.formal_candidate_status)}`,
+          `来源合同：${review.source_contract?.missing_fields?.length ? `缺 ${review.source_contract.missing_fields.join('、')}` : '已闭合'}`,
+          `taxonomy：已匹配 ${review.taxonomy_mapping?.matched?.length || 0} 项；待核 ${review.taxonomy_mapping?.missing?.join('、') || '无'}`,
+          `比例 DSL：${text(review.ratio_dsl?.status)}${review.ratio_dsl?.candidate_rule_ids?.length ? `（候选 ${review.ratio_dsl.candidate_rule_ids.join('、')}）` : ''}`,
+          `营养：${text(review.nutrition?.status)}${review.nutrition?.missing_roles?.length ? `；缺 ${review.nutrition.missing_roles.join('、')}` : ''}`,
+          `安全：${text(review.safety?.status)}${review.safety?.endpoint_codes?.length ? `（${review.safety.endpoint_codes.join('、')}）` : ''}`,
+          `厨房试做：${text(review.kitchen_observed?.status)}；真实旅程：${text(review.journey_coverage?.status)}`,
+          `下一步：${text(review.next_action)}`,
+        ] : ['逐条正式化审查资产暂不可用。'];
+        appendItems(document.getElementById('sourceFormalReview'), reviewLines);
+        const cookLink = document.createElement('p');
+        const cookAnchor = document.createElement('a');
+        cookAnchor.href = `/cook/?id=${encodeURIComponent(entry.recipe_id)}`;
+        cookAnchor.textContent = '开始逐步试做这张执行卡';
+        cookLink.append(cookAnchor);
+        card.append(cookLink);
+        card.hidden = false;
       }
 
       function renderRecipe(recipe) {
@@ -90,6 +158,7 @@
         }
 
         unavailable.hidden = true;
+        document.getElementById('sourceExecution').hidden = true;
         recipeElement.hidden = false;
       }
 
@@ -104,11 +173,30 @@
           const recipe = Array.isArray(library.recipes)
             ? library.recipes.find(recipe => recipe.id === recipeId && (recipe.status === 'approved' || recipe.status === 'auto_approved'))
             : undefined;
-          if (!recipe) {
-            showUnavailable();
+          if (recipe) {
+            renderRecipe(recipe);
             return;
           }
-          renderRecipe(recipe);
+          return fetch('/source-backed-execution-library.v1.json')
+            .then(response => response.ok ? response.json() : Promise.reject(new Error('source execution library unavailable')))
+            .then(sourceLibrary => {
+              const sourceEntry = Array.isArray(sourceLibrary.entries)
+                ? sourceLibrary.entries.find(entry => entry.recipe_id === recipeId)
+                : undefined;
+              if (!sourceEntry) {
+                showUnavailable();
+                return;
+              }
+              return fetch('/source-backed-formal-candidate-review.v1.json')
+                .then(response => response.ok ? response.json() : Promise.reject(new Error('formal candidate review unavailable')))
+                .then(reviewLibrary => {
+                  const review = Array.isArray(reviewLibrary.records)
+                    ? reviewLibrary.records.find(record => record.recipe_id === recipeId)
+                    : undefined;
+                  renderSourceExecution(sourceEntry, review);
+                })
+                .catch(() => renderSourceExecution(sourceEntry));
+            });
         })
         .catch(showUnavailable);
     })();

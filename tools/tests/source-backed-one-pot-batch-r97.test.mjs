@@ -6,7 +6,7 @@ const catalogPath = new URL('../data/source-backed-one-pot-recipes.v1.json', imp
 
 test('r97 adds newly verified one-pot rice candidates without promoting incomplete evidence', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const expected = [
     ['r97-panasonic-taiwan-shiitake-oil-rice', '香菇油飯', 'recipe_fact_checked'],
@@ -25,9 +25,12 @@ test('r97 adds newly verified one-pot rice candidates without promoting incomple
     assert.ok(recipe.source_refs.every(source => Number.isInteger(source.evidence_tier)), recipeId);
     assert.ok(recipe.source_refs.every(source => source.access_status === 'opened'), recipeId);
     assert.notEqual(recipe.status, 'executable', recipeId);
-    if (status === 'identity_verified') {
+    if (status === 'identity_verified' && recipeId !== 'r97-kaiping-crucian-carp-baked-rice') {
       assert.deepEqual(recipe.cooking_sequence, [], recipeId);
       assert.equal(recipe.fixed_batch, null, recipeId);
+    } else if (status === 'identity_verified') {
+      assert.equal(recipe.fixed_batch, null, recipeId);
+      assert.ok(recipe.cooking_sequence.length > 0, recipeId);
     } else {
       assert.ok(recipe.core_ingredients.length >= 2, recipeId);
       assert.ok(recipe.cooking_sequence.length > 0, recipeId);

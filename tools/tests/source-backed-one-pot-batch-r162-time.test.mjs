@@ -16,7 +16,7 @@ const expected = {
 };
 
 test('r162 closes seven exact source-backed time contracts without changing recipe scope', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, expectedTime] of Object.entries(expected)) {
     const recipe = byId[recipeId];
@@ -31,7 +31,8 @@ test('r162 closes seven exact source-backed time contracts without changing reci
 });
 
 test('r162 does not infer total time from preparation ranges or staged boundaries', () => {
-  assert.equal(byId['tiger-usa-asparagus-mushroom-risotto']?.time_contract, null);
+  assert.equal(byId['tiger-usa-asparagus-mushroom-risotto']?.time_contract?.total_minutes, 75);
+  assert.deepEqual(byId['tiger-usa-asparagus-mushroom-risotto']?.time_contract?.source_ids, ['S-TIGER-USA-ASPARAGUS-MUSHROOM-RISOTTO-1']);
   assert.equal(byId['maff-oita-torimeshi']?.time_contract, null);
   assert.equal(byId['maff-mie-chagayu']?.time_contract, null);
 });

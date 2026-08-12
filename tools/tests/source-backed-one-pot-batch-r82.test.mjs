@@ -18,7 +18,7 @@ const expected = [
 
 test('r82 registers nine directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -34,8 +34,8 @@ test('r82 registers nine directly sourced named one-pot candidates without promo
   }
 
   const counts = Object.groupBy(catalog.recipes, recipe => recipe.status);
-  assert.equal(counts.recipe_fact_checked.length, 782);
-  assert.equal(counts.identity_verified.length, 99);
+  assert.equal(counts.recipe_fact_checked.length, 788);
+  assert.equal(counts.identity_verified.length, 93);
   assert.equal(counts.executable.length, 36);
   assert.equal(counts.discovered.length, 6);
 });
@@ -83,12 +83,18 @@ test('r82 preserves named-source boundaries instead of inventing missing facts',
   assert.equal(daikon.time_contract, null);
   assert.match(daikon.evidence_notes, /同煮|不补写/u);
 
-  for (const recipeId of ['shunchang-she-bamboo-tube-rice', 'pingjiang-red-army-guerrilla-bamboo-rice']) {
-    const recipe = byId.get(recipeId);
-    assert.deepEqual(recipe.cooking_sequence, []);
-    assert.equal(recipe.fixed_batch, null);
-    assert.equal(recipe.liquid_contract, null);
-    assert.equal(recipe.time_contract, null);
-    assert.match(recipe.evidence_notes, /身份|缺口|不/u);
-  }
+  const shunchang = byId.get('shunchang-she-bamboo-tube-rice');
+  assert.equal(shunchang.fixed_batch, null);
+  assert.equal(shunchang.liquid_contract, null);
+  assert.equal(shunchang.time_contract, null);
+  assert.equal(shunchang.cooking_sequence.length, 3);
+  assert.match(shunchang.cooking_sequence.map(step => step.instruction).join(' '), /毛竹|竹筒|蒸锅/iu);
+  assert.match(shunchang.evidence_notes, /适量|竹筒|缺口/u);
+
+  const pingjiang = byId.get('pingjiang-red-army-guerrilla-bamboo-rice');
+  assert.deepEqual(pingjiang.cooking_sequence, []);
+  assert.equal(pingjiang.fixed_batch, null);
+  assert.equal(pingjiang.liquid_contract, null);
+  assert.equal(pingjiang.time_contract, null);
+  assert.match(pingjiang.evidence_notes, /身份|缺口|不/u);
 });

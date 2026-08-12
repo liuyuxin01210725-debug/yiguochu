@@ -15,27 +15,80 @@
         "license_url": "https://github.com/Anduin2017/HowToCook/blob/master/LICENSE",
         "contribution_permission_url": "https://github.com/Anduin2017/HowToCook/pull/1717",
         "usage_boundary": "PR 贡献者明确同意该菜谱贡献进入 public domain 并按项目 Unlicense 处理；固定 commit 可用于核对该版事实。本项目仍只提取结构化事实，不复制图片，也不把后续浮动分支当作同一证据。",
-        "allowed_use": ["source_identity", "ingredient_quantities", "liquid_contract_research", "high_level_process_research"],
-        "forbidden_use": ["copy_source_images", "treat_future_master_as_same_evidence", "claim_cross_appliance_equivalence"]
+        "allowed_use": [
+          "source_identity",
+          "ingredient_quantities",
+          "liquid_contract_research",
+          "high_level_process_research"
+        ],
+        "forbidden_use": [
+          "copy_source_images",
+          "treat_future_master_as_same_evidence",
+          "claim_cross_appliance_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 300, "unit": "g", "servings": 3},
+        "rice": {
+          "value": 300,
+          "unit": "g",
+          "servings": 3
+        },
         "liquid_contract": {
           "semantic": "added_water_texture_range",
-          "amounts_ml": {"firm": 300, "default": 310, "soft": 325},
-          "conditional_adjustments": [{"when": "add_winter_bamboo_100g", "add_ml": 20}],
+          "amounts_ml": {
+            "firm": 300,
+            "default": 310,
+            "soft": 325
+          },
+          "conditional_adjustments": [
+            {
+              "when": "add_winter_bamboo_100g",
+              "add_ml": 20
+            }
+          ],
           "interpretation": "数字表示向内胆加入的水，不是把蔬菜析水折算后的总液体，也不是水位线。"
         },
         "protein_items": [
-          {"name": "淡咸肉", "quantity": {"value": 150, "unit": "g"}}
+          {
+            "name": "淡咸肉",
+            "quantity": {
+              "value": 150,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "上海青", "quantity": {"value": 400, "unit": "g"}},
-          {"name": "冬笋", "quantity": {"value": 100, "unit": "g"}, "optional": true}
+          {
+            "name": "上海青",
+            "quantity": {
+              "value": 400,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "冬笋",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            },
+            "optional": true
+          }
         ],
         "other_items": [
-          {"name": "猪油", "quantity": {"value": 15, "unit": "g"}},
-          {"name": "料酒", "quantity": {"value": 15, "unit": "ml"}}
+          {
+            "name": "猪油",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "料酒",
+            "quantity": {
+              "value": 15,
+              "unit": "ml"
+            }
+          }
         ]
       },
       "appliance_profile": {
@@ -72,35 +125,101 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方说明书仅作为型号内的配方事实与器具能力证据；不复制说明书原文、版式或图片，不把版权材料打包进运行时。",
-        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
-        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_manual_text",
+          "copy_manual_images",
+          "claim_generic_cooker_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 450, "unit": "g", "source_measure": "3 manufacturer cups"},
+        "rice": {
+          "value": 450,
+          "unit": "g",
+          "source_measure": "3 manufacturer cups"
+        },
         "liquid_contract": {
           "semantic": "added_water_exact",
-          "amount": {"value": 720, "unit": "ml"},
+          "amount": {
+            "value": 720,
+            "unit": "ml"
+          },
           "interpretation": "说明书直接要求向内锅加入4杯水；本账本按该说明书计量杯换算记录为新增水720ml，不是总液体。"
         },
         "protein_items": [
-          {"name": "鸡肉", "quantity": {"value": 80, "unit": "g"}},
-          {"name": "油炸豆腐", "quantity": {"value": 2, "unit": "块"}}
+          {
+            "name": "鸡肉",
+            "quantity": {
+              "value": 80,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "油炸豆腐",
+            "quantity": {
+              "value": 2,
+              "unit": "块"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "牛蒡", "quantity": {"value": 35, "unit": "g"}},
-          {"name": "胡萝卜", "quantity": {"value": 40, "unit": "g"}},
-          {"name": "香菇", "quantity": {"value": 2, "unit": "个"}}
+          {
+            "name": "牛蒡",
+            "quantity": {
+              "value": 35,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 40,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "香菇",
+            "quantity": {
+              "value": 2,
+              "unit": "个"
+            }
+          }
         ],
         "other_items": [
-          {"name": "料酒", "quantity": {"value": 20, "unit": "ml"}},
-          {"name": "酱油", "quantity": {"value": 20, "unit": "ml"}},
-          {"name": "盐", "quantity": {"value": 3, "unit": "g"}}
+          {
+            "name": "料酒",
+            "quantity": {
+              "value": 20,
+              "unit": "ml"
+            }
+          },
+          {
+            "name": "酱油",
+            "quantity": {
+              "value": 20,
+              "unit": "ml"
+            }
+          },
+          {
+            "name": "盐",
+            "quantity": {
+              "value": 3,
+              "unit": "g"
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "panasonic_sr_df151_closed_lid_once",
         "manufacturer": "Panasonic",
-        "models": ["SR-DF151"],
+        "models": [
+          "SR-DF151"
+        ],
         "program": "精煮",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -131,31 +250,73 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方说明书只用于核对指定机型菜谱事实、数量和程序；不复制说明书文字、页面或图片。",
-        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
-        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_manual_text",
+          "copy_manual_images",
+          "claim_generic_cooker_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 150, "unit": "g", "source_measure": "1 manufacturer cup"},
+        "rice": {
+          "value": 150,
+          "unit": "g",
+          "source_measure": "1 manufacturer cup"
+        },
         "liquid_contract": {
           "semantic": "added_water_exact",
-          "amount": {"value": 180, "unit": "ml"},
+          "amount": {
+            "value": 180,
+            "unit": "ml"
+          },
           "interpretation": "180ml是向内锅加入的水，不是水位线，也没有把鲜香菇析水折成总液体。"
         },
         "protein_items": [
-          {"name": "鸡肉", "quantity": {"value": 20, "unit": "g"}}
+          {
+            "name": "鸡肉",
+            "quantity": {
+              "value": 20,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "鲜香菇", "quantity": {"value": 4, "unit": "朵"}},
-          {"name": "芹菜", "quantity": {"value": 15, "unit": "g"}}
+          {
+            "name": "鲜香菇",
+            "quantity": {
+              "value": 4,
+              "unit": "朵"
+            }
+          },
+          {
+            "name": "芹菜",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": [
-          {"name": "酱油", "quantity": {"value": 10, "unit": "ml"}}
+          {
+            "name": "酱油",
+            "quantity": {
+              "value": 10,
+              "unit": "ml"
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "panasonic_sr_afg_casserole_program_finish_fold",
         "manufacturer": "Panasonic",
-        "models": ["SR-AFG series"],
+        "models": [
+          "SR-AFG series"
+        ],
         "program": "煲仔饭",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -186,31 +347,79 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方食谱只用于核对型号水位线语义、配料数量和高层流程；不复制页面文字或图片。",
-        "allowed_use": ["manufacturer_recipe_fact", "waterline_semantics", "ingredient_quantities", "appliance_capability_fact"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "convert_waterline_to_unverified_grams", "claim_generic_cooker_equivalence"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "waterline_semantics",
+          "ingredient_quantities",
+          "appliance_capability_fact"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "convert_waterline_to_unverified_grams",
+          "claim_generic_cooker_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 3, "unit": "manufacturer_cup"},
+        "rice": {
+          "value": 3,
+          "unit": "manufacturer_cup"
+        },
         "liquid_contract": {
           "semantic": "waterline_after_liquid_seasonings",
-          "waterline": {"scale": "white_rice", "mark": 3},
+          "waterline": {
+            "scale": "white_rice",
+            "mark": 3
+          },
           "interpretation": "液体调味料先加入内锅，再补水到白米3刻度；来源不提供可脱离内锅刻度的新增水克数。"
         },
         "protein_items": [
-          {"name": "肉末", "quantity": {"value": 30, "unit": "g"}}
+          {
+            "name": "肉末",
+            "quantity": {
+              "value": 30,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "洋葱", "quantity": {"value": 20, "unit": "g"}},
-          {"name": "胡萝卜", "quantity": {"value": 15, "unit": "g"}},
-          {"name": "竹笋", "quantity": {"value": 100, "unit": "g"}},
-          {"name": "木耳", "quantity": {"value": 2, "unit": "g"}}
+          {
+            "name": "洋葱",
+            "quantity": {
+              "value": 20,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "竹笋",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "木耳",
+            "quantity": {
+              "value": 2,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": []
       },
       "appliance_profile": {
         "profile": "zojirushi_inner_pot_white_rice_waterline",
         "manufacturer": "ZOJIRUSHI",
-        "models": ["具备白米3刻度的来源适用机型"],
+        "models": [
+          "具备白米3刻度的来源适用机型"
+        ],
         "program": "来源页面指定饭类程序",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -241,31 +450,77 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方电锅食谱只作为大同双锅结构、内锅液体和分段加热的研究事实；不复制页面原文或图片。",
-        "allowed_use": ["manufacturer_recipe_fact", "inner_vessel_liquid_fact", "double_pot_process_research", "ingredient_quantities"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "treat_outer_water_as_food_ingredient", "claim_single_pot_equivalence"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "inner_vessel_liquid_fact",
+          "double_pot_process_research",
+          "ingredient_quantities"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "treat_outer_water_as_food_ingredient",
+          "claim_single_pot_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 3, "unit": "manufacturer_cup"},
+        "rice": {
+          "value": 3,
+          "unit": "manufacturer_cup"
+        },
         "liquid_contract": {
           "semantic": "inner_vessel_total_liquid_with_separate_outer_water",
-          "amount": {"value": 3.5, "unit": "manufacturer_cup", "includes": ["高汤"]},
+          "amount": {
+            "value": 3.5,
+            "unit": "manufacturer_cup",
+            "includes": [
+              "高汤"
+            ]
+          },
           "outer_vessel_boundary": "外锅水是大同电锅的热源控制量，必须与内锅食用液体分开记录；本账本不把它并入食材或米水比。",
           "interpretation": "3.5杯是内锅高汤/可用液体，不是普通单内胆电饭煲的新增水默认值。"
         },
         "protein_items": [
-          {"name": "腊肠", "quantity": {"value": 3, "unit": "根"}}
+          {
+            "name": "腊肠",
+            "quantity": {
+              "value": 3,
+              "unit": "根"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "青江菜", "quantity": {"value": 3, "unit": "把"}},
-          {"name": "香菇", "quantity": {"min": 8, "max": 10, "unit": "朵"}},
-          {"name": "玉米", "quantity": {"value": 1, "unit": "罐"}}
+          {
+            "name": "青江菜",
+            "quantity": {
+              "value": 3,
+              "unit": "把"
+            }
+          },
+          {
+            "name": "香菇",
+            "quantity": {
+              "min": 8,
+              "max": 10,
+              "unit": "朵"
+            }
+          },
+          {
+            "name": "玉米",
+            "quantity": {
+              "value": 1,
+              "unit": "罐"
+            }
+          }
         ],
         "other_items": []
       },
       "appliance_profile": {
         "profile": "tatung_double_pot_outer_water_two_stage",
         "manufacturer": "TATUNG",
-        "models": ["大同电锅"],
+        "models": [
+          "大同电锅"
+        ],
         "program": "外锅加水触发机械跳起的两段加热",
         "single_cook_cycle": false,
         "mid_cycle_opening": "第一次跳起后开盖拌入青江菜，再补外锅水进行第二段加热",
@@ -296,32 +551,76 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方电锅食谱只用于核对大同双锅结构、内锅加水量和主要食材数量；不复制页面文字或图片。",
-        "allowed_use": ["manufacturer_recipe_fact", "inner_vessel_added_water_fact", "double_pot_process_research", "ingredient_quantities"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "treat_outer_water_as_food_ingredient", "claim_single_pot_equivalence"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "inner_vessel_added_water_fact",
+          "double_pot_process_research",
+          "ingredient_quantities"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "treat_outer_water_as_food_ingredient",
+          "claim_single_pot_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 4, "unit": "manufacturer_cup"},
+        "rice": {
+          "value": 4,
+          "unit": "manufacturer_cup"
+        },
         "liquid_contract": {
           "semantic": "inner_vessel_added_water_with_separate_outer_water",
-          "amount": {"value": 4, "unit": "manufacturer_cup", "includes": ["温水"]},
+          "amount": {
+            "value": 4,
+            "unit": "manufacturer_cup",
+            "includes": [
+              "温水"
+            ]
+          },
           "outer_vessel_boundary": "外锅另加水供大同电锅加热；其数值与内锅食用温水属于不同控制变量，不得合并。",
           "interpretation": "4杯温水是内锅新增液体；外锅水只控制专用电锅加热。"
         },
         "protein_items": [
-          {"name": "鸡腿", "quantity": {"value": 520, "unit": "g"}}
+          {
+            "name": "鸡腿",
+            "quantity": {
+              "value": 520,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "香菇", "quantity": {"value": 6, "unit": "朵"}},
-          {"name": "冬笋", "quantity": {"value": 120, "unit": "g"}}
+          {
+            "name": "香菇",
+            "quantity": {
+              "value": 6,
+              "unit": "朵"
+            }
+          },
+          {
+            "name": "冬笋",
+            "quantity": {
+              "value": 120,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": [
-          {"name": "麻油与盐麴调味", "quantity": {"source_specific": true}}
+          {
+            "name": "麻油与盐麴调味",
+            "quantity": {
+              "source_specific": true
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "tatung_double_pot_outer_water",
         "manufacturer": "TATUNG",
-        "models": ["大同电锅"],
+        "models": [
+          "大同电锅"
+        ],
         "program": "外锅加水触发机械跳起",
         "single_cook_cycle": false,
         "mid_cycle_opening": null,
@@ -352,23 +651,63 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "政府食农教育页面只用于核对菜名、配料、电锅流程和0.8倍加水事实；不复制页面原文、图片或版式。",
-        "allowed_use": ["recipe_identity", "ingredient_quantities", "rice_measure_ratio_fact", "electric_cooker_process_fact"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "claim_weight_ratio_without_conversion", "claim_linear_serving_scaling"]
+        "allowed_use": [
+          "recipe_identity",
+          "ingredient_quantities",
+          "rice_measure_ratio_fact",
+          "electric_cooker_process_fact"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "claim_weight_ratio_without_conversion",
+          "claim_linear_serving_scaling"
+        ]
       },
       "quantities": {
-        "rice": {"value": 2, "unit": "manufacturer_cup"},
+        "rice": {
+          "value": 2,
+          "unit": "manufacturer_cup"
+        },
         "liquid_contract": {
           "semantic": "added_water_ratio_to_rice_measure",
-          "ratio": {"water_measure": 0.8, "rice_measure": 1},
+          "ratio": {
+            "water_measure": 0.8,
+            "rice_measure": 1
+          },
           "interpretation": "来源按同一量杯表达加水量为米量的0.8倍，不等于已证明的克重比。"
         },
         "protein_items": [
-          {"name": "猪绞肉", "quantity": {"value": 75, "unit": "g"}},
-          {"name": "虾米", "quantity": {"value": 10, "unit": "g"}}
+          {
+            "name": "猪绞肉",
+            "quantity": {
+              "value": 75,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "虾米",
+            "quantity": {
+              "value": 10,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "南瓜", "quantity": {"value": 300, "unit": "g"}},
-          {"name": "香菇", "quantity": {"value": 2, "unit": "朵"}}
+          {
+            "name": "南瓜",
+            "quantity": {
+              "value": 300,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "香菇",
+            "quantity": {
+              "value": 2,
+              "unit": "朵"
+            }
+          }
         ],
         "other_items": []
       },
@@ -406,23 +745,63 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "政府食农教育页面只用于核对菜名、配料、电锅流程和0.8倍加水事实；不复制原文、图片或版式。",
-        "allowed_use": ["recipe_identity", "ingredient_quantities", "rice_measure_ratio_fact", "electric_cooker_process_fact"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "claim_weight_ratio_without_conversion", "inflate_shrimp_garnish_to_full_protein"]
+        "allowed_use": [
+          "recipe_identity",
+          "ingredient_quantities",
+          "rice_measure_ratio_fact",
+          "electric_cooker_process_fact"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "claim_weight_ratio_without_conversion",
+          "inflate_shrimp_garnish_to_full_protein"
+        ]
       },
       "quantities": {
-        "rice": {"value": 2, "unit": "manufacturer_cup"},
+        "rice": {
+          "value": 2,
+          "unit": "manufacturer_cup"
+        },
         "liquid_contract": {
           "semantic": "added_water_ratio_to_rice_measure",
-          "ratio": {"water_measure": 0.8, "rice_measure": 1},
+          "ratio": {
+            "water_measure": 0.8,
+            "rice_measure": 1
+          },
           "interpretation": "来源按同一量杯表达加水量为米量的0.8倍，高丽菜析水已包含在该固定配方的来源语义中。"
         },
         "protein_items": [
-          {"name": "虾米", "quantity": {"value": 10, "unit": "g"}}
+          {
+            "name": "虾米",
+            "quantity": {
+              "value": 10,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "高丽菜", "quantity": {"value": 300, "unit": "g"}},
-          {"name": "香菇", "quantity": {"value": 1, "unit": "朵"}},
-          {"name": "大蒜", "quantity": {"value": 3, "unit": "瓣"}}
+          {
+            "name": "高丽菜",
+            "quantity": {
+              "value": 300,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "香菇",
+            "quantity": {
+              "value": 1,
+              "unit": "朵"
+            }
+          },
+          {
+            "name": "大蒜",
+            "quantity": {
+              "value": 3,
+              "unit": "瓣"
+            }
+          }
         ],
         "other_items": []
       },
@@ -460,34 +839,95 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方说明书仅用于核对JRC-4HP82的固定配方、加水量和程序事实；不复制说明书原文、图片或版式。",
-        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
-        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence", "claim_linear_serving_scaling"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_manual_text",
+          "copy_manual_images",
+          "claim_generic_cooker_equivalence",
+          "claim_linear_serving_scaling"
+        ]
       },
       "quantities": {
-        "rice": {"value": 420, "unit": "g", "source_measure": "3 manufacturer cups"},
+        "rice": {
+          "value": 420,
+          "unit": "g",
+          "source_measure": "3 manufacturer cups"
+        },
         "liquid_contract": {
           "semantic": "added_water_exact",
-          "amount": {"value": 528, "unit": "g"},
+          "amount": {
+            "value": 528,
+            "unit": "g"
+          },
           "interpretation": "528g是说明书明示加入内胆的水，不是包含蔬菜析水的总液体。"
         },
         "protein_items": [
-          {"name": "鸡胸肉", "quantity": {"value": 150, "unit": "g"}}
+          {
+            "name": "鸡胸肉",
+            "quantity": {
+              "value": 150,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "胡萝卜", "quantity": {"value": 100, "unit": "g"}},
-          {"name": "土豆", "quantity": {"value": 100, "unit": "g"}},
-          {"name": "洋葱", "quantity": {"value": 100, "unit": "g"}}
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "土豆",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "洋葱",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": [
-          {"name": "咖喱块", "quantity": {"value": 100, "unit": "g"}},
-          {"name": "植物油", "quantity": {"value": 15, "unit": "g"}},
-          {"name": "酱油", "quantity": {"value": 15, "unit": "g"}}
+          {
+            "name": "咖喱块",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "植物油",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "酱油",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "joyoung_jrc_4hp82_white_rice_cycle",
         "manufacturer": "Joyoung",
-        "models": ["JRC-4HP82"],
+        "models": [
+          "JRC-4HP82"
+        ],
         "program": "柴火饭/白米饭来源程序",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -518,35 +958,102 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方说明书仅用于核对JRC-4HP82的固定什锦腊肠焖饭配方、加水量和程序事实；项目对外名称不使用“懒人”作为虚假营销承诺。",
-        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "added_water_fact", "appliance_program_fact"],
-        "forbidden_use": ["copy_manual_text", "copy_manual_images", "claim_generic_cooker_equivalence", "claim_linear_serving_scaling"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_manual_text",
+          "copy_manual_images",
+          "claim_generic_cooker_equivalence",
+          "claim_linear_serving_scaling"
+        ]
       },
       "quantities": {
-        "rice": {"value": 420, "unit": "g", "source_measure": "3 manufacturer cups"},
+        "rice": {
+          "value": 420,
+          "unit": "g",
+          "source_measure": "3 manufacturer cups"
+        },
         "liquid_contract": {
           "semantic": "added_water_exact",
-          "amount": {"value": 528, "unit": "g"},
+          "amount": {
+            "value": 528,
+            "unit": "g"
+          },
           "interpretation": "528g是说明书明示加入内胆的水，不是把配菜含水折算后的总液体。"
         },
         "protein_items": [
-          {"name": "腊肠", "quantity": {"value": 50, "unit": "g"}}
+          {
+            "name": "腊肠",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "青豆", "quantity": {"value": 50, "unit": "g"}},
-          {"name": "香菇", "quantity": {"value": 50, "unit": "g"}},
-          {"name": "玉米", "quantity": {"value": 50, "unit": "g"}},
-          {"name": "胡萝卜", "quantity": {"value": 50, "unit": "g"}}
+          {
+            "name": "青豆",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "香菇",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "玉米",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": [
-          {"name": "蚝油", "quantity": {"value": 20, "unit": "g"}},
-          {"name": "酱油", "quantity": {"value": 15, "unit": "g"}},
-          {"name": "植物油", "quantity": {"value": 10, "unit": "g"}}
+          {
+            "name": "蚝油",
+            "quantity": {
+              "value": 20,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "酱油",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "植物油",
+            "quantity": {
+              "value": 10,
+              "unit": "g"
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "joyoung_jrc_4hp82_white_rice_cycle",
         "manufacturer": "Joyoung",
-        "models": ["JRC-4HP82"],
+        "models": [
+          "JRC-4HP82"
+        ],
         "program": "柴火饭/白米饭来源程序",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -577,32 +1084,81 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "官方说明书只用于核对NL-ERH系列中的肉糜青菜饭配料、水位线顺序和什锦饭程序；不复制原文、版式或图片。",
-        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "waterline_semantics", "appliance_program_fact"],
-        "forbidden_use": ["copy_manual_text", "copy_manual_images", "convert_waterline_to_unverified_grams", "claim_generic_cooker_equivalence"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_manual_text",
+          "copy_manual_images",
+          "convert_waterline_to_unverified_grams",
+          "claim_generic_cooker_equivalence"
+        ]
       },
       "quantities": {
-        "rice": {"value": 3, "unit": "manufacturer_cup"},
+        "rice": {
+          "value": 3,
+          "unit": "manufacturer_cup"
+        },
         "liquid_contract": {
           "semantic": "waterline_after_liquid_seasonings",
-          "waterline": {"scale": "white_rice", "mark": 3},
+          "waterline": {
+            "scale": "white_rice",
+            "mark": 3
+          },
           "interpretation": "肉糜与青菜预炒汁和液体调味先进内胆，再补水至白米3水位线；不得换算成未证明的毫升数。"
         },
         "protein_items": [
-          {"name": "猪肉糜", "quantity": {"value": 90, "unit": "g"}}
+          {
+            "name": "猪肉糜",
+            "quantity": {
+              "value": 90,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "青菜", "quantity": {"value": 90, "unit": "g"}}
+          {
+            "name": "青菜",
+            "quantity": {
+              "value": 90,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": [
-          {"name": "油", "quantity": {"value": 1, "unit": "tsp"}},
-          {"name": "料酒", "quantity": {"value": 1, "unit": "tsp"}},
-          {"name": "酱油", "quantity": {"value": 1, "unit": "tsp"}}
+          {
+            "name": "油",
+            "quantity": {
+              "value": 1,
+              "unit": "tsp"
+            }
+          },
+          {
+            "name": "料酒",
+            "quantity": {
+              "value": 1,
+              "unit": "tsp"
+            }
+          },
+          {
+            "name": "酱油",
+            "quantity": {
+              "value": 1,
+              "unit": "tsp"
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "zojirushi_nl_erh_mixed_rice_waterline",
         "manufacturer": "ZOJIRUSHI",
-        "models": ["NL-ERH10C", "NL-ERH18C"],
+        "models": [
+          "NL-ERH10C",
+          "NL-ERH18C"
+        ],
         "program": "什锦饭",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -633,32 +1189,86 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "厂商食谱页只用于核对固定批量、白米水位线、什锦饭程序与高层动作事实；不复制页面原文、图片或版式，不将品牌水位线换算为未证明的通用毫升数。",
-        "allowed_use": ["manufacturer_recipe_fact", "ingredient_quantities", "waterline_semantics", "appliance_program_fact"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "convert_waterline_to_unverified_grams", "claim_generic_cooker_equivalence", "claim_linear_serving_scaling"]
+        "allowed_use": [
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "convert_waterline_to_unverified_grams",
+          "claim_generic_cooker_equivalence",
+          "claim_linear_serving_scaling"
+        ]
       },
       "quantities": {
-        "rice": {"value": 3, "unit": "manufacturer_cup", "servings": {"min": 4, "max": 5}},
+        "rice": {
+          "value": 3,
+          "unit": "manufacturer_cup",
+          "servings": {
+            "min": 4,
+            "max": 5
+          }
+        },
         "liquid_contract": {
           "semantic": "waterline_after_liquid_seasonings",
-          "waterline": {"scale": "white_rice", "mark": 3},
+          "waterline": {
+            "scale": "white_rice",
+            "mark": 3
+          },
           "interpretation": "来源要求洗米后先拌入盐，再补水至白米3水位线；未提供可脱离该内胆刻度的新增水毫升数。"
         },
         "protein_items": [
-          {"name": "牛肉末", "quantity": {"value": 100, "unit": "g"}}
+          {
+            "name": "牛肉末",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "胡萝卜泥", "quantity": {"value": 50, "unit": "g"}},
-          {"name": "洋葱", "quantity": {"value": 40, "unit": "g"}}
+          {
+            "name": "胡萝卜泥",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "洋葱",
+            "quantity": {
+              "value": 40,
+              "unit": "g"
+            }
+          }
         ],
         "other_items": [
-          {"name": "无盐黄油", "quantity": {"value": 5, "unit": "g"}},
-          {"name": "盐", "quantity": {"value": 2, "unit": "tsp", "source_measure_ml_per_tsp": 5}}
+          {
+            "name": "无盐黄油",
+            "quantity": {
+              "value": 5,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "盐",
+            "quantity": {
+              "value": 2,
+              "unit": "tsp",
+              "source_measure_ml_per_tsp": 5
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "zojirushi_mixed_rice_white_rice_waterline",
         "manufacturer": "ZOJIRUSHI",
-        "models": ["具备来源页所指什锦饭菜单和白米3水位线的象印机型"],
+        "models": [
+          "具备来源页所指什锦饭菜单和白米3水位线的象印机型"
+        ],
         "program": "什锦饭",
         "single_cook_cycle": true,
         "mid_cycle_opening": null,
@@ -690,35 +1300,106 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "页面仅用于记录菜名、适用人数与配料表等可直接核对的结构化事实；由于步骤段落与菜名、配料不一致，不得将其当作可执行食谱，不复制原文或图片。",
-        "allowed_use": ["source_identity", "ingredient_list_fact", "fixed_batch_fact", "corrupted_source_boundary"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "treat_corrupted_process_as_recipe", "claim_executable_process", "convert_corrupted_steps_to_liquid_contract"]
+        "allowed_use": [
+          "source_identity",
+          "ingredient_list_fact",
+          "fixed_batch_fact",
+          "corrupted_source_boundary"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "treat_corrupted_process_as_recipe",
+          "claim_executable_process",
+          "convert_corrupted_steps_to_liquid_contract"
+        ]
       },
       "quantities": {
-        "rice": {"value": 3, "unit": "manufacturer_cup", "servings": {"min": 4, "max": 5}},
+        "rice": {
+          "value": 3,
+          "unit": "manufacturer_cup",
+          "servings": {
+            "min": 4,
+            "max": 5
+          }
+        },
         "liquid_contract": {
           "semantic": "ambiguous_source_ratio",
           "source_expression": "页面流程串页：番茄海鲜饭的菜名与配料表之后，步骤却转为糙米粥1水位线、红枣与枸杞的糙米粥流程",
           "interpretation": "页面步骤显然与菜名及配料表矛盾，不得推定加液量、水位线、程序或操作顺序。"
         },
         "protein_items": [
-          {"name": "鱿鱼圈", "quantity": {"value": 40, "unit": "g"}},
-          {"name": "虾仁", "quantity": {"value": 40, "unit": "g"}}
+          {
+            "name": "鱿鱼圈",
+            "quantity": {
+              "value": 40,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "虾仁",
+            "quantity": {
+              "value": 40,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "洋葱", "quantity": {"value": 30, "unit": "g"}},
-          {"name": "混合蔬菜", "quantity": {"value": 40, "unit": "g"}},
-          {"name": "番茄", "quantity": {"value": 80, "unit": "g", "source_measure": "1/2个"}}
+          {
+            "name": "洋葱",
+            "quantity": {
+              "value": 30,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "混合蔬菜",
+            "quantity": {
+              "value": 40,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "番茄",
+            "quantity": {
+              "value": 80,
+              "unit": "g",
+              "source_measure": "1/2个"
+            }
+          }
         ],
         "other_items": [
-          {"name": "白砂糖", "quantity": {"value": 65, "unit": "g"}},
-          {"name": "盐", "quantity": {"value": 1.5, "unit": "tsp", "source_measure_ml_per_tsp": 5}},
-          {"name": "白胡椒", "quantity": {"value": 1, "unit": "tsp", "source_measure_ml_per_tsp": 5}}
+          {
+            "name": "白砂糖",
+            "quantity": {
+              "value": 65,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "盐",
+            "quantity": {
+              "value": 1.5,
+              "unit": "tsp",
+              "source_measure_ml_per_tsp": 5
+            }
+          },
+          {
+            "name": "白胡椒",
+            "quantity": {
+              "value": 1,
+              "unit": "tsp",
+              "source_measure_ml_per_tsp": 5
+            }
+          }
         ]
       },
       "appliance_profile": {
         "profile": "zojirushi_page_process_unusable",
         "manufacturer": "ZOJIRUSHI",
-        "models": ["页面声称适用具备什锦饭菜单的机型，但步骤损坏无法核验"],
+        "models": [
+          "页面声称适用具备什锦饭菜单的机型，但步骤损坏无法核验"
+        ],
         "program": "页面标题区声称什锦饭，步骤段却误写糙米粥",
         "single_cook_cycle": null,
         "mid_cycle_opening": null,
@@ -750,25 +1431,61 @@
         "license_url": null,
         "contribution_permission_url": null,
         "usage_boundary": "地方政府页面只用于证明抓饭身份、核心食材与电饭锅家庭流程；不复制原文、图片，不将含糊比例转换为生产参数。",
-        "allowed_use": ["regional_identity", "core_combination", "electric_cooker_process_research"],
-        "forbidden_use": ["copy_page_text", "copy_page_images", "convert_ambiguous_ratio_to_machine_value", "claim_executable_liquid_contract"]
+        "allowed_use": [
+          "regional_identity",
+          "core_combination",
+          "electric_cooker_process_research"
+        ],
+        "forbidden_use": [
+          "copy_page_text",
+          "copy_page_images",
+          "convert_ambiguous_ratio_to_machine_value",
+          "claim_executable_liquid_contract"
+        ]
       },
       "quantities": {
-        "rice": {"value": null, "unit": "source_says_appropriate_amount"},
+        "rice": {
+          "value": null,
+          "unit": "source_says_appropriate_amount"
+        },
         "liquid_contract": {
           "semantic": "ambiguous_source_ratio",
           "source_expression": "1:2",
           "interpretation": "来源没有明确1:2的分子、分母和计量状态，不得换成米水比。"
         },
         "protein_items": [
-          {"name": "羊肉", "quantity": {"value": 200, "unit": "g"}}
+          {
+            "name": "羊肉",
+            "quantity": {
+              "value": 200,
+              "unit": "g"
+            }
+          }
         ],
         "vegetable_items": [
-          {"name": "胡萝卜", "quantity": {"value": 2, "unit": "根"}},
-          {"name": "洋葱", "quantity": {"value": 1, "unit": "个"}}
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 2,
+              "unit": "根"
+            }
+          },
+          {
+            "name": "洋葱",
+            "quantity": {
+              "value": 1,
+              "unit": "个"
+            }
+          }
         ],
         "other_items": [
-          {"name": "油", "quantity": {"value": 50, "unit": "g"}}
+          {
+            "name": "油",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          }
         ]
       },
       "appliance_profile": {
@@ -791,6 +1508,1629 @@
         "不能证明来源中的大米实际克数",
         "不能证明羊肉块大小和终点可被电饭锅程序单独保证",
         "不得与压力锅配方的170g水合并成通用公式"
+      ]
+    },
+    {
+      "source_id": "woks-of-love-pork-ribs-rice",
+      "source_title": "One-Pot Rice Cooker Pork Ribs and Rice",
+      "source_url": "https://woksoflove.com/one-pot-rice-cooker-pork-ribs-and-rice/",
+      "publisher": "Woks of Love",
+      "source_kind": "independent_recipe_page",
+      "retrieved_at": "2026-08-11",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "公开页面只用于核对菜名、固定批量、液体、步骤与电饭煲边界；运行时仅保存结构化事实和项目校准合同，不复制原文、图片或版式。",
+        "allowed_use": [
+          "source_identity",
+          "ingredient_quantities",
+          "liquid_contract_research",
+          "high_level_process_research",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 1,
+          "unit": "US cup",
+          "servings": 3
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 300,
+            "unit": "ml"
+          },
+          "interpretation": "来源把300ml水与排骨酱汁同锅煮沸后倒入米中；这是来源三人批量，不外推为任意机型比例。"
+        },
+        "protein_items": [
+          {
+            "name": "排骨",
+            "quantity": {
+              "value": 300,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "玉米粒",
+            "quantity": {
+              "value": 30,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 30,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "ordinary_electric_rice_cooker_after_external_rib_preparation",
+        "manufacturer": null,
+        "models": [],
+        "program": "standard_rice_cycle",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后保温静置10分钟并翻拌",
+        "source_executability": "executable_as_written_with_external_pan_prep"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明三人份、1杯米、300g排骨、300ml水、玉米胡萝卜和电饭煲步骤；项目只把它接入两人份 calibration_preview，等待实厨校准。",
+        "reason": "来源合同完整，但项目不得把来源三人量或外锅预处理直接当作所有电饭煲的生产默认。"
+      },
+      "cannot_prove": [
+        "不能证明1 US cup米对应项目内部固定克数",
+        "不能证明三人批量可线性缩放到任意份数",
+        "不能证明所有电饭煲与来源器具的焖饭程序等价",
+        "不能替代排骨混合米饭74°C安全终点"
+      ]
+    },
+    {
+      "source_id": "tatung-beef-burdock-takikomi-rice",
+      "source_title": "牛肉とごぼうの炊き込みご飯",
+      "source_url": "https://recipe.rakuten.co.jp/recipe/1290042027/",
+      "publisher": "大同電鍋公式レシピ / 大同电锅日本官方账号",
+      "source_kind": "manufacturer_recipe_account",
+      "retrieved_at": "2026-08-05",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "官方账号只用于核对菜名、固定批量、食材、液体和大同电锅流程；运行时只保存结构化事实与项目校准起点，不复制原文、图片或版式。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "inner_vessel_liquid_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "合",
+          "servings": 2
+        },
+        "liquid_contract": {
+          "semantic": "inner_vessel_total_liquid_with_separate_outer_water",
+          "amount": {
+            "value": 2,
+            "unit": "cup",
+            "includes": [
+              "だし"
+            ]
+          },
+          "outer_vessel_boundary": "大同电锅外锅另加1杯水",
+          "interpretation": "来源内锅为2杯だし，外锅另加1杯水；项目校准不把外锅水当作米饭液体。"
+        },
+        "protein_items": [
+          {
+            "name": "牛肉薄切り",
+            "quantity": {
+              "value": 200,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "牛蒡",
+            "quantity": {
+              "value": 0.5,
+              "unit": "根"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "味醂",
+            "quantity": {
+              "value": 1,
+              "unit": "大匙"
+            }
+          },
+          {
+            "name": "酱油",
+            "quantity": {
+              "value": 3,
+              "unit": "大匙"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_outer_water_beef_burdock",
+        "manufacturer": "大同電鍋",
+        "models": [],
+        "program": "大同电锅炊饭流程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "开关跳起后焖约10分钟并拌匀",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明2人份、米2合、牛肉200g、牛蒡半根、内锅2杯だし、外锅1杯水与约30分钟的大同电锅流程。",
+        "reason": "菜名、固定批量、液体对象和器具流程同页给出。"
+      },
+      "cannot_prove": [
+        "项目内部克数与水比是校准起点，不是来源换算事实。",
+        "不证明跨机型等价。"
+      ]
+    },
+    {
+      "source_id": "tiger-pork-bamboo-rice",
+      "source_title": "豚肉とたけのこごはん",
+      "source_url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post61/",
+      "publisher": "Tiger Corporation",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-06",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "Tiger官方页面只用于核对固定批量、食材、600mL高汤、炊込み程序和机型边界；项目校准值另行标注，不复制页面文字或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 3,
+          "unit": "manufacturer_cup",
+          "servings": 6
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 600,
+            "unit": "mL"
+          },
+          "interpretation": "来源固定批量的新增高汤，不外推到其他品牌或容量。"
+        },
+        "protein_items": [
+          {
+            "name": "猪五花",
+            "quantity": {
+              "value": 120,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "竹笋",
+            "quantity": {
+              "value": 90,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "tiger_mixed_rice_named_program",
+        "manufacturer": "Tiger Corporation",
+        "models": [],
+        "program": "炊込み·火力强",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后拌松并撒木之芽",
+        "source_executability": "executable_on_named_tiger_program"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明6人份、米3杯、竹笋90g、猪五花120g、高汤600mL和约60分钟的Tiger炊込み流程。",
+        "reason": "官方页面同时给出固定批量、液体和程序。"
+      },
+      "cannot_prove": [
+        "项目两人校准值不是来源批量的无条件线性换算。",
+        "不证明跨品牌或跨容量程序等价。"
+      ]
+    },
+    {
+      "source_id": "tatung-pork-daikon-rice",
+      "source_title": "豚バラ大根ご飯",
+      "source_url": "https://dennabe-official.tatung.co.jp/recipe/view/1990",
+      "publisher": "大同電鍋官方食譜網站",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-05",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "大同官方页面只用于核对2人份、食材、水位线和外锅流程；不把水位线换算成普通电饭煲毫升值。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "convert_waterline_to_unverified_grams",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "合",
+          "servings": 2
+        },
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {
+            "scale": "大同内锅米水位线",
+            "mark": "2刻度略下"
+          },
+          "interpretation": "来源给出米水位线，不给可跨机型比较的毫升数。"
+        },
+        "protein_items": [
+          {
+            "name": "猪五花",
+            "quantity": {
+              "value": 40,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "白萝卜",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 15,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "油炸豆腐",
+            "quantity": {
+              "value": 20,
+              "unit": "g"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_waterline_pork_daikon",
+        "manufacturer": "大同電鍋",
+        "models": [],
+        "program": "大同电锅炊饭流程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "开关跳起后焖约10分钟并拌松",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明2人份、米2合、猪五花40g、白萝卜100g、胡萝卜15g、油炸豆腐20g与米水位线2刻度略下。",
+        "reason": "固定批量和型号水位线同页给出。"
+      },
+      "cannot_prove": [
+        "不证明水位线可转换为统一毫升值。",
+        "不证明跨机型等价。"
+      ]
+    },
+    {
+      "source_id": "tatung-wakayama-ginger-rice",
+      "source_title": "しょうが飯",
+      "source_url": "https://dennabe-official.tatung.co.jp/recipe/view/1972",
+      "publisher": "大同電鍋官方食譜網站",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-05",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "大同官方页面只用于核对米、鸡胸肉、生姜、胡萝卜、油炸豆腐、水位线和外锅流程；不把水位线换算成跨机型毫升值。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "convert_waterline_to_unverified_grams",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "合",
+          "servings": 3
+        },
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {
+            "scale": "大同内锅米水位线",
+            "mark": "2刻度略下"
+          },
+          "interpretation": "来源给出米水位线，不给可跨机型比较的毫升数。"
+        },
+        "protein_items": [
+          {
+            "name": "鸡胸肉",
+            "quantity": {
+              "value": 60,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "生姜",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 30,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "油炸豆腐",
+            "quantity": {
+              "value": 1,
+              "unit": "片"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_waterline_ginger_rice",
+        "manufacturer": "大同電鍋",
+        "models": [],
+        "program": "大同电锅炊饭流程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "开关跳起后焖约5分钟并确认鸡肉熟透",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明米2合、鸡胸肉60g、生姜50g、胡萝卜30g、油炸豆腐1片和大同水位线流程。",
+        "reason": "固定批量、器具和步骤同页给出。"
+      },
+      "cannot_prove": [
+        "不证明水位线可转换为统一毫升值。",
+        "来源标题不单独证明和歌山县地域身份。"
+      ]
+    },
+    {
+      "source_id": "taiwan-tatung-cabbage-rice",
+      "source_title": "高丽菜饭",
+      "source_url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+      "publisher": "台湾农业部农粮署",
+      "source_kind": "government_food_education_recipe",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存结构化来源事实和项目校准合同，不复制原文、图片或版式。",
+        "allowed_use": [
+          "source_identity",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "inner_vessel_added_water_fact",
+          "electric_cooker_process_fact",
+          "manufacturer_recipe_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "人份",
+          "servings": 2
+        },
+        "liquid_contract": {
+          "semantic": "inner_vessel_added_water_with_separate_outer_water",
+          "amount": {
+            "value": 2,
+            "unit": "杯内锅水"
+          },
+          "outer_vessel_boundary": "外锅1杯水"
+        },
+        "protein_items": [
+          {
+            "name": "猪肉丝",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "高丽菜",
+            "quantity": {
+              "value": 1,
+              "unit": "四分之一颗"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "干香菇、虾米、红葱头",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_cabbage_rice",
+        "manufacturer": "大同電鍋",
+        "models": [],
+        "program": "电锅煮饭行程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "跳起后焖并翻松",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出高丽菜饭固定批量、配料、内外锅水和大同电锅流程；项目克数与比例仍标为校准起点。",
+        "reason": "来源同页提供固定批量、液体和器具流程。"
+      },
+      "cannot_prove": [
+        "不能证明量杯与统一克重换算。",
+        "不能证明跨机型等价。"
+      ]
+    },
+    {
+      "source_id": "zojirushi-pork-vegetable-rice-el-ns23",
+      "source_title": "豚肉と野菜のおかずごはん",
+      "source_url": "https://www.zojirushi.co.jp/recipe/list/1776.html",
+      "publisher": "象印マホービン",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存EL-NS23结构化来源事实和指定机型边界，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "inner_vessel_added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "杯",
+          "servings": 4
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 260,
+            "unit": "mL"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "猪肉",
+            "quantity": {
+              "value": 300,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "卷心菜、青椒、红甜椒",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "zojirushi_el_ns23_mixed_rice",
+        "manufacturer": "ZOJIRUSHI",
+        "models": [
+          "EL-NS23"
+        ],
+        "program": "来源自动菜单",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后翻松",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出EL-NS23固定批量、猪肉蔬菜用量、260mL水和自动菜单流程；项目只做两人校准预览。",
+        "reason": "厂商页同时给出固定批量、液体、器具和步骤。"
+      },
+      "cannot_prove": [
+        "不能证明EL-NS23液体适用于其他机型。",
+        "项目不把来源批量外推到未验证份数。"
+      ]
+    },
+    {
+      "source_id": "panasonic-nf-pc400-takikomi-rice",
+      "source_title": "炊き込みごはん",
+      "source_url": "https://panasonic.jp/cooking/recipe/cook/0657.html",
+      "publisher": "Panasonic Cooking",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存NF-PC400结构化事实和压力锅边界，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 3,
+          "unit": "杯",
+          "servings": 4
+        },
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {
+            "scale": "NF-PC400米水位线",
+            "mark": "3"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "鸡腿肉",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "牛蒡、蒟蒻、干香菇、胡萝卜",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "panasonic_nf_pc400_pressure_cooker",
+        "manufacturer": "Panasonic",
+        "models": [
+          "NF-PC400"
+        ],
+        "program": "自动调理17/20",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完全泄压后拌匀",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出NF-PC400固定批量、水位线、自动调理和泄压流程；项目克数与液体比为校准起点。",
+        "reason": "厂商页给出固定批量、器具程序和完整操作边界。"
+      },
+      "cannot_prove": [
+        "不能把压力锅水位线转成普通电饭煲毫升。",
+        "项目不把压力锅程序外推到其他器具。"
+      ]
+    },
+    {
+      "source_id": "panasonic-khao-man-gai-nf-ac1000",
+      "source_title": "カオマンガイ",
+      "source_url": "https://panasonic.jp/cooking/recipe/autocooker/1118.html",
+      "publisher": "Panasonic Cooking",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存NF-AC1000结构化事实和压力边界，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "inner_vessel_added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 300,
+          "unit": "g",
+          "servings": 4
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 360,
+            "unit": "mL"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "鸡腿肉",
+            "quantity": {
+              "value": 400,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "生姜、蒜、白葱",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "panasonic_nf_ac1000_pressure_cooker",
+        "manufacturer": "Panasonic",
+        "models": [
+          "NF-AC1000"
+        ],
+        "program": "压力8分钟",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "减压后确认鸡肉熟透并翻松",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出NF-AC1000固定批量、360mL水、鸡腿肉和压力8分钟流程；项目仅做两人校准预览。",
+        "reason": "厂商页同时给出米、水、蛋白质和压力程序。"
+      },
+      "cannot_prove": [
+        "不能证明压力锅参数适用于普通电饭煲。",
+        "项目不把来源批量外推到未验证份数。"
+      ]
+    },
+    {
+      "source_id": "zojirushi-okayama-ebimeshi-el-ns23",
+      "source_title": "えびめし",
+      "source_url": "https://www.zojirushi.co.jp/recipe/list/1779.html",
+      "publisher": "象印マホービン",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存EL-NS23结构化事实和指定机型边界，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "杯",
+          "servings": 4
+        },
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {
+            "scale": "象印EL-NS23白米水位线",
+            "mark": 2
+          }
+        },
+        "protein_items": [
+          {
+            "name": "有头虾",
+            "quantity": {
+              "value": 160,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "洋葱",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "鸡蛋",
+            "quantity": {
+              "value": 4,
+              "unit": "个"
+            }
+          },
+          {
+            "name": "青葱",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "zojirushi_el_ns23_ebimeshi",
+        "manufacturer": "ZOJIRUSHI",
+        "models": [
+          "EL-NS23"
+        ],
+        "program": "えびめし自动菜单",
+        "single_cook_cycle": false,
+        "mid_cycle_opening": null,
+        "finish_action": "另锅炒蛋，炊饭后拌入青葱",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出4人份、米2杯、虾160g、洋葱100g、蛋4个、水位线2和约1小时流程；炒蛋为出锅后另锅步骤。",
+        "reason": "官方页面同时给出固定批量、液体语义、机型和完整操作边界。"
+      },
+      "cannot_prove": [
+        "不能把EL-NS23水位线换算为普通电饭煲毫升。",
+        "项目两人称重合同不是来源固定批量事实。"
+      ]
+    },
+    {
+      "source_id": "cookpot-beef-wild-mushroom-rice",
+      "source_title": "牛肉野菇炊飯",
+      "source_url": "https://www.cookpot.com.tw/cookbook/736.html",
+      "publisher": "鍋寶好食光",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存鍋寶316電鍋结构化事实和项目校准合同，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "inner_vessel_added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 1,
+          "unit": "量杯",
+          "servings": 2
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 1,
+            "unit": "杯香菇水"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "牛肉片",
+            "quantity": {
+              "value": 200,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "洋蔥、杏鮑菇、美白菇、乾香菇",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "cookpot_316_electric_cooker",
+        "manufacturer": "鍋寶",
+        "models": [
+          "316不鏽鋼電鍋"
+        ],
+        "program": "煮飯",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "開關跳起後確認牛肉熟透",
+        "source_executability": "executable_on_named_model"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出米1量杯、牛肉200g、香菇水1杯和内外锅流程；菇类项目克数为校准起点。",
+        "reason": "官方页面同时给出固定批量、液体、器具和安全检查。"
+      },
+      "cannot_prove": [
+        "来源未给出全部菇类克重。",
+        "不能把鍋寶外锅水流程外推到其他机型。"
+      ]
+    },
+    {
+      "source_id": "tatung-hainan-chicken-rice",
+      "source_title": "海南鶏飯シンガポールチキンライス",
+      "source_url": "https://recipe.rakuten.co.jp/recipe/1290042347/",
+      "publisher": "大同電鍋官方レシピ",
+      "source_kind": "manufacturer_recipe_account",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存大同电锅结构化事实和分阶段边界，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "合",
+          "servings": 4
+        },
+        "liquid_contract": {
+          "semantic": "waterline_after_liquid_seasonings",
+          "waterline": {
+            "scale": "大同内锅水位线",
+            "mark": 2
+          }
+        },
+        "protein_items": [
+          {
+            "name": "鸡腿肉",
+            "quantity": {
+              "value": 2,
+              "unit": "块"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "蒜、生姜、白葱",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "清酒",
+            "quantity": {
+              "value": 1,
+              "unit": "大匙"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_hainan_chicken",
+        "manufacturer": "大同電鍋",
+        "models": [],
+        "program": "外锅1杯水分阶段蒸鸡和煮饭",
+        "single_cook_cycle": false,
+        "mid_cycle_opening": "第一轮完成后取出鸡肉并保留鸡汤",
+        "finish_action": "第二轮跳起后切片装盘并确认禽肉熟透",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出4人份、米2合、鸡腿2块、水位线2、外锅各1杯水和分阶段流程。",
+        "reason": "来源同页给出固定批量、器具、水位线和保留鸡汤顺序。"
+      },
+      "cannot_prove": [
+        "不能把保留鸡汤量换算为固定毫升。",
+        "不能把两轮大同流程外推到普通电饭煲。"
+      ]
+    },
+    {
+      "source_id": "tatung-pork-jowl-sesame-rice",
+      "source_title": "豚トロとごま油炊き込みご飯",
+      "source_url": "https://recipe.rakuten.co.jp/recipe/1290045148/",
+      "publisher": "大同電鍋官方レシピ",
+      "source_kind": "manufacturer_recipe_account",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存大同电锅结构化事实和指定机型边界，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "waterline_semantics",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 180,
+          "unit": "ml",
+          "servings": 2
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 180,
+            "unit": "ml"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "猪颈肉",
+            "quantity": {
+              "value": 200,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "干香菇",
+            "quantity": {
+              "value": 3,
+              "unit": "片"
+            },
+            "optional": false
+          },
+          {
+            "name": "生姜",
+            "quantity": {
+              "value": 1,
+              "unit": "来源固定批量"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "干虾",
+            "quantity": {
+              "value": 1,
+              "unit": "大匙"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tatung_double_pot_pork_jowl_sesame",
+        "manufacturer": "大同電鍋",
+        "models": [],
+        "program": "外锅1杯水炊饭",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "开关跳起后焖并确认猪肉熟透",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源给出2人份、米180ml、猪颈肉200g、干香菇3片、干虾1大匙和180ml泡菇水。",
+        "reason": "来源同页给出固定批量、液体和外锅流程。"
+      },
+      "cannot_prove": [
+        "不能把大同外锅1杯水换算为内锅液体。",
+        "项目两人克数合同仍需指定机型实厨。"
+      ]
+    },
+    {
+      "source_id": "tiger-chinese-sticky-rice",
+      "source_title": "炊込み中華おこわ",
+      "source_url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post35/",
+      "publisher": "Tiger Corporation",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存结构化来源事实和项目校准合同，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "added_water_fact",
+          "appliance_program_fact",
+          "electric_cooker_process_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 3,
+          "unit": "杯",
+          "servings": 6
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 300,
+            "unit": "mL"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "五花肉",
+            "quantity": {
+              "value": 110,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "干香菇",
+            "quantity": {
+              "value": 2,
+              "unit": "朵"
+            }
+          },
+          {
+            "name": "竹笋",
+            "quantity": {
+              "value": 20,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 10,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "干虾",
+            "quantity": {
+              "value": 10,
+              "unit": "g"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tiger_mixed_rice_named_program",
+        "manufacturer": "Tiger Corporation",
+        "models": [],
+        "program": "おこわ",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后焖并拌松",
+        "source_executability": "executable_on_named_tiger_program"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明6人份、米3杯、五花肉110g、干香菇2朵、干虾10g、竹笋20g、胡萝卜10g、鸡汤300mL、浸泡/先炒/おこわ程序和35分钟（不含浸泡）流程。",
+        "reason": "来源同时提供固定批量、液体、器具和操作边界。"
+      },
+      "cannot_prove": [
+        "项目两人克数和1.2倍称重液体是校准起点，不是来源换算事实。",
+        "不证明跨品牌或跨容量程序等价。"
+      ]
+    },
+    {
+      "source_id": "panasonic-claypot-style-chicken-rice",
+      "source_title": "Claypot Style Chicken Rice",
+      "source_url": "https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/claypot-style-chicken-rice.html",
+      "publisher": "Panasonic Malaysia",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存结构化来源事实和项目校准合同，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "added_water_fact",
+          "appliance_program_fact",
+          "electric_cooker_process_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 3,
+          "unit": "杯",
+          "servings": 6
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 1.5,
+            "unit": "杯"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "整只鸡腿",
+            "quantity": {
+              "value": 250,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "香菇",
+            "quantity": {
+              "value": 4,
+              "unit": "朵"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "panasonic_my_claypot_style_chicken",
+        "manufacturer": "Panasonic",
+        "models": [],
+        "program": "WHITE RICE/CASSEROLE",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "程序结束后调味并焖10分钟",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明6人份、米3杯、鸡腿250g、香菇4朵、1.5杯水、腌制30分钟及WHITE RICE/CASSEROLE程序流程。",
+        "reason": "来源同时提供固定批量、液体、器具和操作边界。"
+      },
+      "cannot_prove": [
+        "页面总时长含准备与烹调，项目校准时间不等同于来源总时长。",
+        "程序和水量只限指定Panasonic机型，不证明普通电饭煲等价。"
+      ]
+    },
+    {
+      "source_id": "tatung-tomato-pumpkin-rice",
+      "source_title": "トマトとかぼちゃの炊き込みご飯",
+      "source_url": "https://dennabe-official.tatung.co.jp/recipe/view/2029",
+      "publisher": "大同電鍋官方食譜網站",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存结构化来源事实和项目校准合同，不复制原文或图片。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "added_water_fact",
+          "appliance_program_fact",
+          "electric_cooker_process_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "合",
+          "servings": 4
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 320,
+            "unit": "mL"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "培根",
+            "quantity": {
+              "value": 2,
+              "unit": "片"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "番茄",
+            "quantity": {
+              "value": 60,
+              "unit": "g"
+            }
+          },
+          {
+            "name": "南瓜",
+            "quantity": {
+              "value": 50,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "tatung_m_size_tomato_pumpkin_rice",
+        "manufacturer": "大同電鍋",
+        "models": [
+          "M"
+        ],
+        "program": "电锅煮饭行程",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "跳起后焖并翻松",
+        "source_executability": "executable_on_named_appliance_family"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "来源直接证明4人份、米2合、番茄60g、南瓜50g、培根2片、320mL水和大同M号内锅流程。",
+        "reason": "来源同时提供固定批量、液体、器具和操作边界。"
+      },
+      "cannot_prove": [
+        "项目两人克数是校准起点，不把合/片无损换算成通用克数。",
+        "M号内锅水量与外锅边界不外推到其他机型。"
+      ]
+    },
+    {
+      "source_id": "nih-medlineplus-chicken-rice",
+      "source_title": "Chicken and Rice",
+      "source_url": "https://medlineplus.gov/recipes/chicken-and-rice/",
+      "publisher": "MedlinePlus / National Heart, Lung, and Blood Institute",
+      "source_kind": "federal_recipe_html",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "government_site_terms_unspecified",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存官方页面的结构化份数、食材、液体、步骤和普通大锅分段边界；不复制原文或图片，不把普通锅过程宣称为电饭煲等价。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "added_water_fact",
+          "appliance_program_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 2,
+          "unit": "cup",
+          "servings": 6
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 4,
+            "unit": "cup"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "鸡块",
+            "quantity": {
+              "value": 6,
+              "unit": "块"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "番茄",
+            "quantity": {
+              "value": 1,
+              "unit": "个"
+            }
+          },
+          {
+            "name": "青椒",
+            "quantity": {
+              "value": 1,
+              "unit": "个"
+            }
+          },
+          {
+            "name": "芹菜",
+            "quantity": {
+              "value": 1,
+              "unit": "根"
+            }
+          },
+          {
+            "name": "胡萝卜",
+            "quantity": {
+              "value": 1,
+              "unit": "根"
+            }
+          },
+          {
+            "name": "玉米",
+            "quantity": {
+              "value": 1,
+              "unit": "杯"
+            }
+          }
+        ],
+        "other_items": []
+      },
+      "appliance_profile": {
+        "profile": "ordinary_large_pot_staged_chicken_rice",
+        "manufacturer": null,
+        "models": [],
+        "program": "普通大锅分阶段炖煮",
+        "single_cook_cycle": false,
+        "mid_cycle_opening": "取出鸡肉后在原汤中煮米，末段回锅",
+        "finish_action": "回锅后确认禽肉中心达到74°C",
+        "source_executability": "executable_as_written"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "官方页面给出6份、2杯米、4杯水、鸡块和蔬菜，以及取出/回锅的普通大锅分段流程。",
+        "reason": "同一来源同时提供固定批量、液体、步骤和器具边界。"
+      },
+      "cannot_prove": [
+        "不能把普通大锅分段流程压缩成一次投料。",
+        "项目两人称重合同不是来源原始批量事实。"
+      ]
+    },
+    {
+      "source_id": "tiger-chicken-bamboo-rice",
+      "source_title": "鶏肉たけのこごはん",
+      "source_url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post26/",
+      "publisher": "Tiger Corporation",
+      "source_kind": "manufacturer_recipe_page",
+      "retrieved_at": "2026-08-12",
+      "rights": {
+        "license_name": "publisher_copyright",
+        "license_url": null,
+        "contribution_permission_url": null,
+        "usage_boundary": "只保存 Tiger 指定炊込み程序的结构化来源事实和项目校准起点；不复制页面文字或图片，不跨机型外推。",
+        "allowed_use": [
+          "source_identity",
+          "manufacturer_recipe_fact",
+          "ingredient_quantities",
+          "fixed_batch_fact",
+          "added_water_fact",
+          "appliance_program_fact",
+          "electric_cooker_process_fact"
+        ],
+        "forbidden_use": [
+          "copy_source_text",
+          "copy_source_images",
+          "claim_cross_appliance_equivalence",
+          "claim_project_calibration_is_source_fact"
+        ]
+      },
+      "quantities": {
+        "rice": {
+          "value": 3,
+          "unit": "杯",
+          "servings": 6
+        },
+        "liquid_contract": {
+          "semantic": "added_water_exact",
+          "amount": {
+            "value": 600,
+            "unit": "mL"
+          }
+        },
+        "protein_items": [
+          {
+            "name": "鸡胸肉",
+            "quantity": {
+              "value": 100,
+              "unit": "g"
+            }
+          }
+        ],
+        "vegetable_items": [
+          {
+            "name": "新竹笋（煮熟去皮）",
+            "quantity": {
+              "value": 80,
+              "unit": "g"
+            }
+          }
+        ],
+        "other_items": [
+          {
+            "name": "油豆腐皮",
+            "quantity": {
+              "value": 0.5,
+              "unit": "枚"
+            }
+          }
+        ]
+      },
+      "appliance_profile": {
+        "profile": "tiger_mixed_rice_named_program",
+        "manufacturer": "Tiger Corporation",
+        "models": [],
+        "program": "炊込み",
+        "single_cook_cycle": true,
+        "mid_cycle_opening": null,
+        "finish_action": "完成后翻拌并确认鸡肉熟透",
+        "source_executability": "executable_on_named_tiger_program"
+      },
+      "verdict": {
+        "status": "executable_reference",
+        "scope": "Tiger 官方页面给出6人份、3杯米、熟竹笋80g、鸡胸肉100g、油豆腐皮、高汤600mL、炊込み程序和约60分钟流程。",
+        "reason": "同一厂商来源提供固定批量、液体、程序和投料顺序。"
+      },
+      "cannot_prove": [
+        "项目两人克数是校准起点，不是6人批量的无条件线性换算。",
+        "不证明跨品牌或跨容量程序等价。"
       ]
     }
   ]

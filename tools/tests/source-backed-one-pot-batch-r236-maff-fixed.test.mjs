@@ -10,7 +10,7 @@ function loadCatalog() {
 
 test('r236 closes three exact MAFF fixed-batch gaps without changing staged boundaries', () => {
   const catalog = loadCatalog();
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
 
   const expected = [

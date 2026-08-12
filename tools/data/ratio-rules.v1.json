@@ -4314,6 +4314,1825 @@
       "example_context": {
         "ingredient_name": "鲜香菇饭"
       }
+    },
+    {
+      "rule_id": "source-sichuan-pork-ribs-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "woks-of-love-pork-ribs-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-sichuan-pork-ribs-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "exact",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-ribs",
+            "state": "raw",
+            "shape_or_cut": "rib"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "sweet-corn",
+            "state": "raw",
+            "shape_or_cut": "whole_seed"
+          },
+          "grams": {
+            "min": 20,
+            "default": 20,
+            "max": 20
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 20,
+            "default": 20,
+            "max": 20
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.5,
+          "default": 1.5,
+          "max": 1.5
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "排骨焖饭"
+      }
+    },
+    {
+      "rule_id": "source-tatung-beef-burdock-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tatung-beef-burdock-takikomi-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tatung-beef-burdock-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "beef-generic",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "burdock",
+            "state": "raw",
+            "shape_or_cut": "shred"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "牛肉牛蒡炊饭"
+      }
+    },
+    {
+      "rule_id": "source-tiger-pork-bamboo-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tiger-pork-bamboo-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tiger-pork-bamboo-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-belly",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bamboo-shoot",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.33,
+          "default": 1.33,
+          "max": 1.33
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "猪肉竹笋炊饭"
+      }
+    },
+    {
+      "rule_id": "source-tatung-pork-daikon-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tatung-pork-daikon-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tatung-pork-daikon-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-belly",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "daikon",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 60,
+            "default": 60,
+            "max": 60
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 15,
+            "default": 15,
+            "max": 15
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "fried-tofu",
+            "state": "cooked"
+          },
+          "grams": {
+            "min": 10,
+            "default": 10,
+            "max": 10
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "猪肉萝卜饭"
+      }
+    },
+    {
+      "rule_id": "source-tatung-wakayama-ginger-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tatung-wakayama-ginger-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tatung-wakayama-ginger-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-breast",
+            "state": "raw",
+            "shape_or_cut": "breast"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ginger-root",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 60,
+            "default": 60,
+            "max": 60
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 15,
+            "default": 15,
+            "max": 15
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "fried-tofu",
+            "state": "cooked"
+          },
+          "grams": {
+            "min": 10,
+            "default": 10,
+            "max": 10
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "生姜鸡肉饭"
+      }
+    },
+    {
+      "rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "taiwan-tatung-cabbage-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-taiwan-tatung-cabbage-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-generic",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "green-cabbage",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shiitake",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shrimp",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shallot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 3,
+            "default": 3,
+            "max": 3
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "高丽菜饭"
+      }
+    },
+    {
+      "rule_id": "source-zojirushi-pork-vegetable-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "zojirushi-pork-vegetable-rice-el-ns23"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-zojirushi-pork-vegetable-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-generic",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "green-cabbage",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bell-pepper",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 28,
+            "default": 28,
+            "max": 28
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ginger-root",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "猪肉和蔬菜电锅饭"
+      }
+    },
+    {
+      "rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "panasonic-nf-pc400-takikomi-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-panasonic-nf-pc400-takikomi-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 150,
+            "default": 150,
+            "max": 150
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-leg",
+            "state": "raw",
+            "shape_or_cut": "leg"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "burdock",
+            "state": "raw",
+            "shape_or_cut": "shred"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "konjac",
+            "state": "prepared"
+          },
+          "grams": {
+            "min": 20,
+            "default": 20,
+            "max": 20
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shiitake",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "Panasonic炊き込みごはん"
+      }
+    },
+    {
+      "rule_id": "source-panasonic-khao-man-gai-calibration-v1",
+      "evidence_recipe_ids": [
+        "panasonic-khao-man-gai-nf-ac1000"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-panasonic-khao-man-gai"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-leg",
+            "state": "raw",
+            "shape_or_cut": "leg"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ginger-root",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "garlic",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 2,
+            "default": 2,
+            "max": 2
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "scallion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "Panasonic海南鸡饭"
+      }
+    },
+    {
+      "rule_id": "source-zojirushi-okayama-ebimeshi-calibration-v1",
+      "evidence_recipe_ids": [
+        "zojirushi-okayama-ebimeshi-el-ns23"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-zojirushi-okayama-ebimeshi"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shrimp",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 80,
+            "default": 80,
+            "max": 80
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "onion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "egg",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 2,
+            "default": 2,
+            "max": 2
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "scallion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "冈山虾饭"
+      }
+    },
+    {
+      "rule_id": "source-cookpot-beef-wild-mushroom-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "cookpot-beef-wild-mushroom-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-cookpot-beef-wild-mushroom-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "beef-generic",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "oyster-mushroom",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shiitake",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 10,
+            "default": 10,
+            "max": 10
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "onion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "牛肉野菇炊饭"
+      }
+    },
+    {
+      "rule_id": "source-tatung-hainan-chicken-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tatung-hainan-chicken-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tatung-hainan-chicken-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-leg",
+            "state": "raw",
+            "shape_or_cut": "leg"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ginger-root",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "garlic",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 2,
+            "default": 2,
+            "max": 2
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "scallion",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 10,
+            "default": 10,
+            "max": 10
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "海南鸡饭"
+      }
+    },
+    {
+      "rule_id": "source-tatung-pork-jowl-sesame-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tatung-pork-jowl-sesame-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tatung-pork-jowl-sesame-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-belly",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shiitake",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 10,
+            "default": 10,
+            "max": 10
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shrimp",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "ginger-root",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "猪颈肉芝麻油炊饭"
+      }
+    },
+    {
+      "rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tiger-chinese-sticky-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tiger-chinese-sticky-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "soaked-glutinous-rice",
+            "state": "prepared"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pork-belly",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shiitake",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "dried-shrimp",
+            "state": "dry"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bamboo-shoot",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 25,
+            "default": 25,
+            "max": 25
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 15,
+            "default": 15,
+            "max": 15
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "soaked-glutinous-rice",
+            "state": "prepared",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "炊込み中華おこわ"
+      }
+    },
+    {
+      "rule_id": "source-panasonic-claypot-style-chicken-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "panasonic-claypot-style-chicken-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-panasonic-claypot-style-chicken-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-leg",
+            "state": "raw",
+            "shape_or_cut": "leg"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "shiitake",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 5,
+            "default": 5,
+            "max": 5
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "Panasonic Claypot Style Chicken Rice"
+      }
+    },
+    {
+      "rule_id": "source-tatung-tomato-pumpkin-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tatung-tomato-pumpkin-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tatung-tomato-pumpkin-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "tomato",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 30,
+            "default": 30,
+            "max": 30
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "pumpkin",
+            "state": "raw",
+            "shape_or_cut": "dice"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bacon",
+            "state": "cured",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.2,
+          "default": 1.2,
+          "max": 1.2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "番茄南瓜培根炊饭"
+      }
+    },
+    {
+      "rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "nih-medlineplus-chicken-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-nih-medlineplus-chicken-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-generic",
+            "state": "raw",
+            "shape_or_cut": "breast"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "tomato",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 30,
+            "default": 30,
+            "max": 30
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bell-pepper",
+            "state": "raw",
+            "shape_or_cut": "dice"
+          },
+          "grams": {
+            "min": 30,
+            "default": 30,
+            "max": 30
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "celery",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 20,
+            "default": 20,
+            "max": 20
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "carrot",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 30,
+            "default": 30,
+            "max": 30
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "sweet-corn",
+            "state": "raw",
+            "shape_or_cut": "whole_seed"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 2,
+          "default": 2,
+          "max": 2
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "MedlinePlus鸡肉蔬菜米饭"
+      }
+    },
+    {
+      "rule_id": "source-tiger-chicken-bamboo-rice-calibration-v1",
+      "evidence_recipe_ids": [
+        "tiger-chicken-bamboo-rice"
+      ],
+      "execution_mode": "executable",
+      "when": {
+        "variant_id": "source-tiger-chicken-bamboo-rice"
+      },
+      "liquid_contract": {
+        "kind": "added_water",
+        "measurement": "weigh_before_loading",
+        "display_precision": "approximate",
+        "display_rounding_grams": 10
+      },
+      "operations": [
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "raw-rice",
+            "state": "raw"
+          },
+          "grams": {
+            "min": 100,
+            "default": 100,
+            "max": 100
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "chicken-breast",
+            "state": "raw",
+            "shape_or_cut": "breast"
+          },
+          "grams": {
+            "min": 50,
+            "default": 50,
+            "max": 50
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "bamboo-shoot",
+            "state": "raw",
+            "shape_or_cut": "slice"
+          },
+          "grams": {
+            "min": 75,
+            "default": 75,
+            "max": 75
+          }
+        },
+        {
+          "operator": "per_serving",
+          "target": {
+            "canonical_id": "fried-tofu",
+            "state": "cooked",
+            "shape_or_cut": "dice"
+          },
+          "grams": {
+            "min": 15,
+            "default": 15,
+            "max": 15
+          }
+        },
+        {
+          "operator": "ratio",
+          "target": {
+            "name": "水",
+            "category": "liquid"
+          },
+          "numerator": {
+            "resource": "added_water_grams"
+          },
+          "denominator": {
+            "canonical_id": "raw-rice",
+            "state": "raw",
+            "measure": "grams"
+          },
+          "min": 1.33,
+          "default": 1.33,
+          "max": 1.33
+        }
+      ],
+      "rounding": {
+        "grams_to_nearest": 1
+      },
+      "example_context": {
+        "ingredient_name": "Tiger鸡肉竹笋炊饭"
+      }
     }
   ]
 }

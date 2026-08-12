@@ -28,7 +28,7 @@ const expected = {
 };
 
 test('r154 closes four existing raw fish, poultry, and pork safety gaps without adding recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   for (const [id, expectedEndpoint] of Object.entries(expected)) {
     const recipe = catalog.recipes.find(({ recipe_id: recipeId }) => recipeId === id);
@@ -56,6 +56,6 @@ test('r154 preserves raw-ingredient and appliance boundaries, and leaves the con
   assert.match(byId['r97-zojirushi-taiwan-brown-cabbage-mixed-rice'].cooker_adaptation.notes, /压力IH|水位|机型/u);
   assert.match(byId['r98-zojirushi-taiwan-wild-mushroom-chicken-mixed-rice'].cooker_adaptation.notes, /压力IH|水位|机型/u);
   assert.deepEqual(byId['panasonic-my-chicken-pumpkin-lotus-mixed-rice'].safety_endpoints, []);
-  assert.match(byId['panasonic-my-chicken-pumpkin-lotus-mixed-rice'].evidence_notes, /投料|冲突|缺步/u);
+  assert.match(byId['panasonic-my-chicken-pumpkin-lotus-mixed-rice'].evidence_notes, /Brown Rice|投料|冲突|缺步/u);
   for (const id of Object.keys(expected)) assert.notEqual(byId[id].status, 'executable');
 });

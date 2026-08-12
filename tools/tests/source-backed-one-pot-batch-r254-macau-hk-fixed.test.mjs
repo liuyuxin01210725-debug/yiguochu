@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
 test('r254 closes six exact Macau/Hong Kong source contracts without adding canonical recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
 
   const expected = [

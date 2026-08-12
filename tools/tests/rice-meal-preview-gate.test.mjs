@@ -40,12 +40,12 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
   assert.equal(report.summary.catalog_version, 'rice-meal-catalog-v1-20260802-r7');
   assert.equal(report.summary.recipe_count, 72);
   assert.equal(report.summary.family_count, 3);
-  assert.equal(report.summary.variant_count, 19);
+  assert.equal(report.summary.variant_count, 37);
   assert.equal(report.summary.preview_ready_count, 8);
-  assert.equal(report.summary.calibration_preview_count, 8);
+  assert.equal(report.summary.calibration_preview_count, 26);
   assert.equal(report.summary.planned_count, 3);
   assert.deepEqual(report.summary.nutrition_grade_counts, { A: 7, B: 1, C: 0 });
-  assert.equal(report.summary.journey_count, 36);
+  assert.equal(report.summary.journey_count, 54);
   assert.deepEqual(report.summary.journey_variant_ids, [
     'home-bamboo-vegetable-rice',
     'home-beef-mixed-rice',
@@ -63,9 +63,27 @@ test('release gate reports the reviewed rice-meal Preview facts and compiles eve
     'home-taiwan-cabbage-rice',
     'home-taiwan-pumpkin-rice',
     'shanghai-salted-pork-rice',
+    'source-cookpot-beef-wild-mushroom-rice',
+    'source-nih-medlineplus-chicken-rice',
+    'source-panasonic-claypot-style-chicken-rice',
+    'source-panasonic-khao-man-gai',
+    'source-panasonic-nf-pc400-takikomi-rice',
+    'source-sichuan-pork-ribs-rice',
+    'source-taiwan-tatung-cabbage-rice',
+    'source-tatung-beef-burdock-rice',
+    'source-tatung-hainan-chicken-rice',
+    'source-tatung-pork-daikon-rice',
+    'source-tatung-pork-jowl-sesame-rice',
+    'source-tatung-tomato-pumpkin-rice',
+    'source-tatung-wakayama-ginger-rice',
+    'source-tiger-chicken-bamboo-rice',
+    'source-tiger-chinese-sticky-rice',
+    'source-tiger-pork-bamboo-rice',
+    'source-zojirushi-okayama-ebimeshi',
+    'source-zojirushi-pork-vegetable-rice',
   ]);
   assert.deepEqual(report.summary.compiled_variant_ids, report.summary.journey_variant_ids);
-  assert.equal(report.summary.compiled_serving_contracts, 37);
+  assert.equal(report.summary.compiled_serving_contracts, 55);
   assert.deepEqual(report.summary.excluded_legacy_categories, [
     'legacy-selector',
     'leftover-rice',

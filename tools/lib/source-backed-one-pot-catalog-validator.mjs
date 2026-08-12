@@ -83,7 +83,7 @@ const ADAPTATION_ONLY_FIELDS = [
 ];
 const HIGH_RISK_CATEGORIES = [
   ['poultry', /\b(chicken|turkey|duck|poultry)\b|鸡肉|鸡胸|鸡腿|鸡翅|鸡丁|鸡柳|鸡块|禽肉|鸭肉|鸭腿|鹅肉|火鸡/i, 'poultry_fully_cooked'],
-  ['pork', /\bpork\b|猪肉|猪排|猪绞肉|猪肉糜|排骨|腊肉/i, 'pork_fully_cooked'],
+  ['pork', /\bpork\b|猪肉|猪排|猪绞肉|猪肉糜|猪五花|五花肉|排骨|腊肉/i, 'pork_fully_cooked'],
   ['beef', /\bbeef\b|牛肉|牛腩|牛肉末/i, 'beef_fully_cooked'],
   ['lamb', /\b(lamb|mutton)\b|羊肉|羊排/i, 'lamb_fully_cooked'],
   ['shellfish', /\b(shrimp|prawn|crab|oyster|clam|mussel|scallop|shellfish)\b|虾|蟹|蚝|牡蛎|贝|蛤蜊|扇贝/i, 'shellfish_fully_cooked'],
@@ -441,13 +441,18 @@ function validateCookerAdaptation(recipe, path, errors) {
 }
 
 function invalidExecutableFields(recipe) {
+  const safetyCovered = isMeaningfulSafetyEndpoints(recipe.safety_endpoints)
+    || !containsRawHighRiskIngredient(recipe);
   const valid = {
     fixed_batch: isMeaningfulFixedBatch(recipe.fixed_batch),
     liquid_contract: isMeaningfulLiquidContract(recipe.liquid_contract),
     cooking_sequence: isMeaningfulCookingSequence(recipe.cooking_sequence),
     time_contract: isNonEmptyRecord(recipe.time_contract)
       && isPositiveFiniteNumber(recipe.time_contract.total_minutes),
-    safety_endpoints: isMeaningfulSafetyEndpoints(recipe.safety_endpoints),
+    // A source card with no raw high-risk ingredient must not invent a food
+    // temperature endpoint just to satisfy the contract. High-risk cards
+    // still require an explicit, source-backed endpoint below.
+    safety_endpoints: safetyCovered,
     allergen_labels: hasNonEmptyStrings(recipe.allergen_labels),
   };
   return REQUIRED_EXECUTABLE_FIELDS.filter(field => !valid[field]);

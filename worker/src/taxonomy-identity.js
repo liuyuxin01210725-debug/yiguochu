@@ -10,7 +10,9 @@ export function taxonomyIdentityIndex(taxonomy = {}) {
     return TAXONOMY_IDENTITY_INDEX_CACHE.get(taxonomy);
   }
   const byName = new Map();
+  const formalReviewOnly = new Set(taxonomy?.formal_review_only_ids || []);
   for (const item of Array.isArray(taxonomy?.items) ? taxonomy.items : []) {
+    if (item?.input_scope === 'derived_only' || formalReviewOnly.has(item?.canonical_id)) continue;
     for (const name of [item?.display_name, ...(Array.isArray(item?.aliases) ? item.aliases : [])]) {
       const key = normalizeTaxonomyIdentity(name);
       if (key && typeof item?.category === 'string') byName.set(key, {

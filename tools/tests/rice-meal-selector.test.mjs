@@ -215,7 +215,7 @@ test('calibration variants are invisible by default and available only in the si
   assert.equal(internal.candidates[0].plan_snapshot.rice_catalog_scope, 'calibration');
 });
 
-test('the eight authentic calibration meals cover their reviewed pantry sets without leaking into ready scope', () => {
+test('the reviewed calibration meals cover their reviewed pantry sets without leaking into ready scope', () => {
   const fixtures = [
     ['home-taiwan-cabbage-rice', ['卷心菜', '香菇', '虾米']],
     ['home-taiwan-pumpkin-rice', ['南瓜', '猪肉末', '香菇', '虾米']],
@@ -375,7 +375,7 @@ test('Shanghai salted pork vegetable rice is a real three-serving plan and never
 });
 
 test('every hand-authored rice-meal journey has its literal status, variant, coverage, grade, and reason contract', () => {
-  assert.equal(journeyCorpus.journeys.length, 36, 'the fixed journey gate covers every active variant plus both screenshot regressions');
+  assert.equal(journeyCorpus.journeys.length, 54, 'the fixed journey gate covers every active variant plus both screenshot regressions');
   for (const journey of journeyCorpus.journeys) {
     const riceCatalogScope = journey.rice_catalog_scope || 'ready';
     let result;
@@ -1282,11 +1282,11 @@ test('the journey CLI enforces ready-candidate ordering and executes the compile
     encoding: 'utf8',
   });
   assert.equal(run.status, 0, run.stderr || run.stdout);
-  assert.match(run.stdout, /Rice meal journey gate: total=36 selector_passed=36 selector_failed=0 compiler_passed=2 compiler_failed=0/u);
+  assert.match(run.stdout, /Rice meal journey gate: total=54 selector_passed=54 selector_failed=0 compiler_passed=2 compiler_failed=0/u);
   assert.match(run.stdout, /needs_balance_input: 1/u);
   assert.match(run.stdout, /no_reliable_rice_meal: 5/u);
   assert.match(run.stdout, /no_alternative_rice_meal: 1/u);
-  assert.match(run.stdout, /ready: 26/u);
+  assert.match(run.stdout, /ready: 44/u);
   assert.match(run.stdout, /unsafe_recipe: 3/u);
   assert.match(run.stdout, /RM-04-chicken-potato-b .*coverage=2\/2 grade=B/u);
   assert.match(run.stdout, /RM-15-selector-facts-for-compiler .*contract=passed/u);

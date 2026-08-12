@@ -17,6 +17,7 @@ const SOURCE_ASSETS = Object.freeze({
   '/recipe-library.json': readAsset('recipe-library.json'),
   '/recipe-runtime.v1.json': readAsset('recipe-runtime.v1.json'),
   '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
+  '/source-backed-execution-library.v1.json': readAsset('source-backed-execution-library.v1.json'),
   '/build-meta.json': JSON.stringify({
     buildId: 'preview-test-build',
     plannerRollout: 'direct-recommend',
@@ -305,6 +306,14 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.actionProfileCatalogVersion, 'recipe-action-profiles-v1-20260731-r1');
   assert.equal(result.body.actionProfileCount, 0);
   assert.equal(result.body.baseRecipes, 72);
+  assert.equal(result.body.sourceExecutionLibrary, 'ok');
+  assert.equal(result.body.sourceExecutionLibraryVersion, 'source-backed-execution-v1-20260811-r1');
+  assert.equal(result.body.sourceExecutionCards, 923);
+  assert.equal(result.body.sourceExecutionSourceComplete, 138);
+  assert.equal(result.body.sourceExecutionResearchOnly, 785);
+  assert.equal(result.body.sourceExecutionComplete, 923);
+  assert.equal(result.body.sourceExecutionUnblockedComplete, 922);
+  assert.equal(result.body.sourceExecutionSafetyBlocked, 1);
   assert.equal(result.body.buildId, 'preview-test-build');
   assert.equal(result.body.plannerRollout, 'direct-recommend');
   assert.equal(result.body.generationMode, 'deterministic');

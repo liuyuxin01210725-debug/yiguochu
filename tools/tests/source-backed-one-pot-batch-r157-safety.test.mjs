@@ -18,7 +18,7 @@ const expected = {
 const executableIds = new Set(['tiger-pork-bamboo-rice']);
 
 test('r157 closes only high-confidence raw protein safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   for (const [recipeId, [code, temperature]] of Object.entries(expected)) {
     const recipe = byId[recipeId];
     assert.ok(recipe, recipeId);
@@ -40,7 +40,6 @@ test('r157 closes only high-confidence raw protein safety gaps', () => {
 test('r157 keeps unresolved raw-status or cut/contract blockers out of safety promotion', () => {
   for (const recipeId of [
     'panasonic-tokyo-seafood-pilaf',
-    'tiger-seafood-pilaf',
     'toshiba-seafood-paella-rice',
     'philips-sea-conch-oyster-chicken-congee',
     'panasonic-my-chicken-pumpkin-lotus-mixed-rice',

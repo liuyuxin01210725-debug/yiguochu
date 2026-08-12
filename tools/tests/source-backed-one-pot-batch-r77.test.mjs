@@ -12,7 +12,7 @@ const expected = [
 
 test('r77 records two direct Tiger rice-meal candidates and one regional identity candidate', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName, status] of expected) {
@@ -47,7 +47,11 @@ test('r77 preserves the difference between direct inner-pot rice, Tacook two-lev
 
   const regional = byId.get('huoqiu-haozi-guoba-rice');
   assert.deepEqual(regional.core_ingredients, ['米', '蒿子']);
-  assert.deepEqual(regional.cooking_sequence, []);
+  assert.deepEqual(regional.cooking_sequence, [{
+    step: 1,
+    instruction: '蒿子与米同锅制作菜干饭，并形成蒿香锅巴。',
+    source_ids: ['S-R77-HUOQIU-HAOZI-GUOBA'],
+  }]);
   assert.equal(regional.fixed_batch, null);
   assert.equal(regional.liquid_contract, null);
   assert.equal(regional.cooker_adaptation.status, 'not_adapted');

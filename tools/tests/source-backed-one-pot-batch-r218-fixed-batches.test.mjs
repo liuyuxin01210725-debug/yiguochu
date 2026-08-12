@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = Object.fromEntries(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r218 closes exact same-source fixed batches without changing catalog size', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
 
   const anago = byId['maff-hiroshima-anagomeshi'];
@@ -80,7 +80,15 @@ test('r218 closes exact same-source fixed batches without changing catalog size'
     assert.ok(ingredient, `missing ${name}`);
     assert.deepEqual(ingredient.amount, { value, unit });
   }
-  assert.equal(soy.liquid_contract, null);
+  assert.deepEqual(soy.liquid_contract, {
+    kind: 'composite_liquid',
+    amount: { value: 6, unit: '杯（豆浆1+水5）' },
+    components: [
+      { name: '豆浆', amount: { value: 1, unit: '杯' }, source_ids: ['S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1'] },
+      { name: '水', amount: { value: 5, unit: '杯' }, source_ids: ['S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1'] },
+    ],
+    source_ids: ['S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1'],
+  });
   assert.deepEqual(soy.time_contract, {
     total_minutes: 35,
     source_ids: ['S-PHILIPS-SOY-MILK-CHICKEN-CONGEE-1'],

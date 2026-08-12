@@ -78,14 +78,40 @@ test('service worker installation precaches the PWA start page', async () => {
   assert.ok(cachedUrls.includes(`${ORIGIN}/`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/index.html`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/recipes`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/recipes/`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/recipes/index.html`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes.html`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes/`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes/index.html`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/cook/`));
+  assert.ok(cachedUrls.includes(`${ORIGIN}/cook/index.html`));
+});
+
+test('an offline source catalog navigation serves the source catalog shell', async () => {
+  const harness = serviceWorkerHarness(() => new Promise(() => {}));
+  const cache = await harness.caches.open('yiguochu-shell-v5');
+  await cache.put(`${ORIGIN}/source-recipes/index.html`, new Response('cached source catalog'));
+  let responsePromise;
+  harness.listeners.get('fetch')({
+    request: new Request(`${ORIGIN}/source-recipes/`, {
+      method: 'GET',
+      headers: { accept: 'text/html' },
+    }),
+    respondWith(promise) { responsePromise = promise; },
+    waitUntil() {},
+  });
+  const response = await Promise.race([
+    responsePromise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('source catalog navigation waited for network')), 100)),
+  ]);
+  assert.equal(await response.text(), 'cached source catalog');
 });
 
 test('an offline canonical recipe navigation serves the recipe shell', async () => {
   const harness = serviceWorkerHarness(() => new Promise(() => {}));
   const cache = await harness.caches.open('yiguochu-shell-v5');
   await cache.put(`${ORIGIN}/index.html`, new Response('cached home'));
-  await cache.put(`${ORIGIN}/recipes`, new Response('cached recipes'));
+  await cache.put(`${ORIGIN}/recipes/index.html`, new Response('cached recipes'));
   let responsePromise;
   harness.listeners.get('fetch')({
     request: new Request(`${ORIGIN}/recipes?id=xinjiang-lamb-pilaf`, {
@@ -101,6 +127,26 @@ test('an offline canonical recipe navigation serves the recipe shell', async () 
     new Promise((_, reject) => setTimeout(() => reject(new Error('recipe navigation waited for network')), 100)),
   ]);
   assert.equal(await response.text(), 'cached recipes');
+});
+
+test('an offline step-by-step navigation serves the cook shell', async () => {
+  const harness = serviceWorkerHarness(() => new Promise(() => {}));
+  const cache = await harness.caches.open('yiguochu-shell-v5');
+  await cache.put(`${ORIGIN}/cook/index.html`, new Response('cached cook'));
+  let responsePromise;
+  harness.listeners.get('fetch')({
+    request: new Request(`${ORIGIN}/cook/?id=xinjiang-lamb-pilaf`, {
+      method: 'GET',
+      headers: { accept: 'text/html' },
+    }),
+    respondWith(promise) { responsePromise = promise; },
+    waitUntil() {},
+  });
+  const response = await Promise.race([
+    responsePromise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('cook navigation waited for network')), 100)),
+  ]);
+  assert.equal(await response.text(), 'cached cook');
 });
 
 test('a cached PWA navigation opens without waiting for a stalled network', async () => {

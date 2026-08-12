@@ -22,7 +22,11 @@ const CHROME = process.env.YIGUOCHU_CHROME_PATH
 const REQUIRED_ASSETS = [
   'index.html',
   'recipes.html',
+  'recipes/index.html',
   'source-recipes.html',
+  'source-recipes/index.html',
+  'cook.html',
+  'cook/index.html',
   'manifest.json',
   'sw.js',
   'icon.svg',
@@ -60,6 +64,12 @@ const REQUIRED_ASSETS = [
   'rice-meal-catalog-validator.js',
   'rice-cooker-source-evidence-validator.js',
   'source-backed-one-pot-shelf.v1.json',
+  'source-backed-one-pot-preview.v1.json',
+  'source-backed-formalization-ledger.v1.json',
+  'source-backed-execution-library.v1.json',
+  'source-backed-formal-candidate-review.v1.json',
+  'source-backed-formal-ratio-evidence.v1.json',
+  'source-backed-formal-staging.v1.json',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -255,7 +265,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 41);
+    assert.equal(buildRecord.files, 51);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
@@ -513,9 +523,9 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
     assert.equal(health.riceMealCatalog, 'ok');
     assert.equal(health.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260802-r7');
     assert.equal(health.riceMealFamilies, 3);
-    assert.equal(health.riceMealVariants, 19);
+    assert.equal(health.riceMealVariants, 37);
     assert.equal(health.riceMealPreviewReady, 8);
-    assert.equal(health.riceMealCalibrationReady, 8);
+    assert.equal(health.riceMealCalibrationReady, 26);
     assert.equal(health.riceMealPlanned, 3);
     assert.equal(health.riceCookerSourceEvidence, 'ok');
     assert.equal(health.riceCookerSourceEvidenceVersion, 'rice-cooker-source-evidence-v1-20260802');

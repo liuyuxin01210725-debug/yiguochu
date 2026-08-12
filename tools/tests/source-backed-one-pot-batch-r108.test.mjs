@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = new Map(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 const expected = [
-  ['cn-xj-qiele-pilaf', '策勒抓饭', 'identity_verified', 'https://www.xjcl.gov.cn/clxrmzf/c118969/201609/6abb0617b5e3449caa8d2b5141fc3834.shtml'],
+  ['cn-xj-qiele-pilaf', '策勒抓饭', 'recipe_fact_checked', 'https://www.xjcl.gov.cn/clxrmzf/c118969/201609/6abb0617b5e3449caa8d2b5141fc3834.shtml'],
   ['cn-jiangxi-ganzhou-anyuan-menfan', '安远焖饭', 'identity_verified', 'https://www.ay.gov.cn/ayzf/c103773/tt.shtml'],
   ['cn-shanxi-wuxiang-millet-braised-rice', '武乡小米焖饭', 'identity_verified', 'https://credit.changzhi.gov.cn/82/17645.html'],
   ['cn-hainan-sanya-miao-three-color-rice', '苗族三色饭制作技艺', 'identity_verified', 'https://lwj.sanya.gov.cn/wljsite/zcjd/202507/a3513a34ca2543a0b86ff0dd12e9a4af.shtml'],
@@ -14,7 +14,7 @@ const expected = [
 ];
 
 test('r108 adds five deduplicated mainland records without executable promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, catalog.recipes.length);
   for (const [recipeId, name, status, url] of expected) {

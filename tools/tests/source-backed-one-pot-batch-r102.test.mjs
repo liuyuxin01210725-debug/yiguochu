@@ -12,7 +12,7 @@ const tigerUrls = {
 };
 
 test('r102 adds four opened Tiger source records without promotion', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   for (const [recipeId, url] of Object.entries(tigerUrls)) {
     const recipe = byId.get(recipeId);
@@ -30,6 +30,16 @@ test('r102 adds four opened Tiger source records without promotion', () => {
         },
         source_ids: ['S-R102-TIGER-BUBUR-AYAM-1'],
       }
+      : recipeId === 'tiger-chicken-meatballs-grated-daikon'
+        ? {
+          kind: 'waterline',
+          waterline: {
+            appliance_model: 'Tiger Tacook电饭煲（页面列示的3杯机型）',
+            scale: 'white_rice',
+            mark: '页面机型内锅水位线',
+          },
+          source_ids: ['S-R102-TIGER-CHICKEN-MEATBALLS-DAIKON-1'],
+        }
       : null;
     assert.deepEqual(recipe.liquid_contract, expectedLiquid);
     assert.ok(recipe.cooking_sequence.length >= 2);

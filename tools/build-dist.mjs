@@ -14,6 +14,7 @@ const STATIC_ASSETS = [
   'index.html',
   'recipes.html',
   'source-recipes.html',
+  'cook.html',
   'manifest.json',
   'sw.js',
   'icon.svg',
@@ -32,6 +33,12 @@ const GENERATED_ASSETS = [
   ['tools/data/rice-meal-catalog.v1.json', 'rice-meal-catalog.v1.json'],
   ['tools/data/rice-meal-collection.v1.json', 'rice-meal-collection.v1.json'],
   ['tools/data/rice-cooker-source-evidence.v1.json', 'rice-cooker-source-evidence.v1.json'],
+  ['tools/data/source-backed-one-pot-preview.v1.json', 'source-backed-one-pot-preview.v1.json'],
+  ['tools/data/source-backed-formalization-ledger.v1.json', 'source-backed-formalization-ledger.v1.json'],
+  ['tools/data/source-backed-execution-library.v1.json', 'source-backed-execution-library.v1.json'],
+  ['tools/data/source-backed-formal-candidate-review.v1.json', 'source-backed-formal-candidate-review.v1.json'],
+  ['tools/data/source-backed-formal-ratio-evidence.v1.json', 'source-backed-formal-ratio-evidence.v1.json'],
+  ['tools/data/source-backed-formal-staging.v1.json', 'source-backed-formal-staging.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -149,6 +156,7 @@ function assertNoSymlinkInOutputPath(outputDir) {
 function copy(sourceRelativePath, outputPath) {
   const sourcePath = path.join(ROOT, sourceRelativePath);
   if (!fs.existsSync(sourcePath)) throw new Error(`Required build input is missing: ${sourceRelativePath}`);
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.copyFileSync(sourcePath, outputPath);
 }
 
@@ -170,6 +178,15 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
   fs.mkdirSync(outputDir, { recursive: true });
 
   for (const asset of STATIC_ASSETS) copy(asset, path.join(outputDir, asset));
+  // Cloudflare Pages can resolve `source-recipes.html` as `/source-recipes`,
+  // but some browsers fail that extensionless preview route. Keep a real
+  // directory index so the share URL has a stable trailing slash.
+  copy('source-recipes.html', path.join(outputDir, 'source-recipes', 'index.html'));
+  // Keep the two execution/detail journeys on the same stable directory-route
+  // contract. Cloudflare may redirect the `.html` aliases, which is fragile in
+  // embedded browsers and breaks a few-step user journey.
+  copy('recipes.html', path.join(outputDir, 'recipes', 'index.html'));
+  copy('cook.html', path.join(outputDir, 'cook', 'index.html'));
   for (const [source, target] of GENERATED_ASSETS) copy(source, path.join(outputDir, target));
 
   const sourceBackedCatalog = readCanonicalJson('tools/data/source-backed-one-pot-recipes.v1.json');
@@ -265,7 +282,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     generationMode,
     productFocus,
     riceCatalogScope,
-    files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 2,
+    files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 5,
   }));
 }
 

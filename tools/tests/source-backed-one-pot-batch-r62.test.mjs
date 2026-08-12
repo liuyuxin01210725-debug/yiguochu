@@ -54,7 +54,15 @@ test('r62 collection batch is source-backed, bounded, and not auto-promoted', ()
     assert.ok(recipe.source_refs.every(source => Array.isArray(source.claim_scopes)), recipeId);
     assert.ok(Array.isArray(recipe.core_ingredients), recipeId);
     if (status === 'identity_verified') {
-      assert.deepEqual(recipe.cooking_sequence, [], recipeId);
+      if (recipeId === 'ningshan-liangcanzi-dry-rice') {
+        assert.deepEqual(recipe.cooking_sequence, [{
+          step: 1,
+          instruction: '苞谷磨成米后先煮，接近熟时加入大米继续蒸熟，称为两参子干饭。',
+          source_ids: ['S-SN-NINGSHAN-LIANGCANZI-R62'],
+        }], recipeId);
+      } else {
+        assert.deepEqual(recipe.cooking_sequence, [], recipeId);
+      }
       assert.equal(recipe.fixed_batch, null, recipeId);
       assert.equal(recipe.liquid_contract, null, recipeId);
       assert.equal(recipe.time_contract, null, recipeId);

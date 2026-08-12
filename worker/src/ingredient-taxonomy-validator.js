@@ -144,12 +144,18 @@ function validateAmbiguousInputs(data, displayEntries, aliasEntries, errors) {
 export function validateIngredientTaxonomy(data) {
   const errors = [];
   if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
-  const allowedRootFields = new Set(['taxonomy_version', 'items', 'ambiguous_inputs']);
+  const allowedRootFields = new Set(['taxonomy_version', 'items', 'ambiguous_inputs', 'formal_review_only_ids']);
   for (const key of Object.keys(data)) {
     if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
   }
   if (data.taxonomy_version !== 'taxonomy-v1-20260802-r12') errors.push('taxonomy_version must be taxonomy-v1-20260802-r12');
   if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
+  if (data.formal_review_only_ids != null
+    && (!Array.isArray(data.formal_review_only_ids)
+      || data.formal_review_only_ids.some(id => typeof id !== 'string' || !id.trim())
+      || new Set(data.formal_review_only_ids).size !== data.formal_review_only_ids.length)) {
+    errors.push('formal_review_only_ids must be a unique string array');
+  }
 
   const ids = [];
   const displayEntries = new Map();
@@ -281,6 +287,9 @@ export function validateIngredientTaxonomy(data) {
   for (const id of ids) {
     if (idsSeen.has(id)) errors.push(`duplicate canonical_id: ${id}`);
     idsSeen.add(id);
+  }
+  for (const id of data.formal_review_only_ids || []) {
+    if (!idsSeen.has(id)) errors.push(`formal_review_only_ids references unknown canonical_id: ${id}`);
   }
   for (const [key, entries] of aliasEntries) {
     if (entries.length > 1) errors.push(`duplicate normalized alias: ${key}`);

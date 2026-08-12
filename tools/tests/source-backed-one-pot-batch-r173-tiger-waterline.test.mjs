@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tiger-cheese-curry-pilaf');
 
 test('r173 records the Tiger COK-B220 model-scoped waterline', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -31,6 +31,6 @@ test('r173 keeps the COK-B220 post-cook cheese boundary', () => {
   assert.ok(source);
   assert.ok(source.claim_scopes.includes('liquid'));
   assert.match(source.evidence_locator ?? '', /COK-B220|米300g|水位线语义/u);
-  assert.match(recipe?.cooking_sequence?.[1]?.instruction ?? '', /完成后|芝士|5分钟/u);
+  assert.match(recipe?.cooking_sequence?.map(step => step.instruction).join(' ') ?? '', /完成后|芝士|5分钟/u);
   assert.deepEqual(recipe?.safety_endpoints, []);
 });

@@ -9,14 +9,14 @@ const expected = [
   ['philips-spinach-salmon-congee', '菠菜三文魚粥', 'recipe_fact_checked'],
   ['philips-sea-conch-oyster-chicken-congee', '螺片金蠔滑雞粥', 'recipe_fact_checked'],
   ['panasonic-my-century-egg-chicken-congee', 'Century Egg & Chicken Congee', 'recipe_fact_checked'],
-  ['panasonic-my-chicken-pumpkin-lotus-mixed-rice', 'Mixed Rice with pumpkin and lotus roots', 'identity_verified'],
+  ['panasonic-my-chicken-pumpkin-lotus-mixed-rice', 'Mixed Rice with pumpkin and lotus roots', 'recipe_fact_checked'],
   ['wuerhe-awudan-lamb-shank-pilaf', '阿吾丹羊拐抓飯', 'identity_verified'],
   ['shache-pea-meat-pilaf', '豌豆肉抓飯', 'identity_verified'],
 ];
 
 test('r81 registers seven directly sourced named one-pot candidates without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
 
@@ -32,8 +32,8 @@ test('r81 registers seven directly sourced named one-pot candidates without prom
   }
 
   const counts = Object.groupBy(catalog.recipes, recipe => recipe.status);
-  assert.equal(counts.recipe_fact_checked.length, 782);
-  assert.equal(counts.identity_verified.length, 99);
+  assert.equal(counts.recipe_fact_checked.length, 788);
+  assert.equal(counts.identity_verified.length, 93);
   assert.equal(counts.executable.length, 36);
   assert.equal(counts.discovered.length, 6);
 });
@@ -64,9 +64,9 @@ test('r81 preserves source limits and unresolved boundaries for new candidates',
   assert.equal(panasonicCongee.safety_endpoints.length, 1);
 
   const pumpkinLotus = byId.get('panasonic-my-chicken-pumpkin-lotus-mixed-rice');
-  assert.equal(pumpkinLotus.cooking_sequence.length, 0);
+  assert.equal(pumpkinLotus.cooking_sequence.length, 4);
   assert.match(pumpkinLotus.evidence_notes, /鸡腿|步骤|投料/u);
-  assert.equal(pumpkinLotus.status, 'identity_verified');
+  assert.equal(pumpkinLotus.status, 'recipe_fact_checked');
 
   const awudan = byId.get('wuerhe-awudan-lamb-shank-pilaf');
   assert.deepEqual(awudan.cooking_sequence, []);

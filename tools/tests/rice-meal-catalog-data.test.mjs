@@ -490,18 +490,18 @@ test('all eight Preview meals earn their A-or-B grade from executable per-person
   }
 });
 
-test('catalog keeps eight ready meals and adds eight two-person calibration meals without changing 72 recipes', () => {
+test('catalog keeps eight ready meals and adds twenty-six two-person calibration meals without changing 72 recipes', () => {
   const active = variants.filter(variant => variant.status === 'preview_ready');
   const calibration = variants.filter(variant => variant.status === 'calibration_preview');
   assert.equal(catalog.families.length, 3);
-  assert.equal(variants.length, 19);
+  assert.equal(variants.length, 37);
   assert.equal(active.length, 8);
-  assert.equal(calibration.length, 8);
+  assert.equal(calibration.length, 26);
   assert.equal(variants.filter(variant => variant.status === 'planned').length, 3);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 7);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
-  assert.equal(calibration.filter(variant => variant.nutrition_structure.grade === 'A').length, 4);
-  assert.equal(calibration.filter(variant => variant.nutrition_structure.grade === 'B').length, 4);
+  assert.equal(calibration.filter(variant => variant.nutrition_structure.grade === 'A').length, 5);
+  assert.equal(calibration.filter(variant => variant.nutrition_structure.grade === 'B').length, 21);
   assert.ok(calibration.every(variant => JSON.stringify(variant.supported_servings) === JSON.stringify([2])));
   assert.equal(recipes.recipes.length, 72);
 });

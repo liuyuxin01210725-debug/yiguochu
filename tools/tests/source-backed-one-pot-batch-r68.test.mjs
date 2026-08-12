@@ -14,7 +14,7 @@ const expected = [
   ['maff-kombu-mushroom-kaori-gohan', '刻みコンブときのこの香りごはん', 'recipe_fact_checked'],
   ['moa-red-coix-mushroom-risotto', '紅薏仁燉飯', 'recipe_fact_checked'],
   ['guangyuan-sauerkraut-dry-rice', '酸菜干饭', 'recipe_fact_checked'],
-  ['wanyuan-selenium-rice-guanfan', '硒米罐儿饭', 'identity_verified'],
+  ['wanyuan-selenium-rice-guanfan', '硒米罐儿饭', 'recipe_fact_checked'],
   ['zhongtang-clam-meat-rice', '蚬肉饭', 'recipe_fact_checked'],
   ['xianju-salted-sour-rice', '仙居咸酸饭', 'identity_verified'],
   ['tefal-risotto-milanese', 'Risotto Milanese', 'recipe_fact_checked'],
@@ -24,7 +24,7 @@ const expected = [
 
 test('r68 batch records institution, regional, and vendor research without promotion', () => {
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(recipe => [recipe.recipe_id, recipe]));
   for (const [recipeId, canonicalName, status] of expected) {
@@ -38,6 +38,8 @@ test('r68 batch records institution, regional, and vendor research without promo
     assert.ok(Array.isArray(recipe.core_ingredients) && recipe.core_ingredients.length >= 2, recipeId);
     assert.notEqual(recipe.status, 'executable', recipeId);
     if (status === 'recipe_fact_checked') {
+      assert.ok(Array.isArray(recipe.cooking_sequence) && recipe.cooking_sequence.length > 0, recipeId);
+    } else if (recipeId === 'xianju-salted-sour-rice') {
       assert.ok(Array.isArray(recipe.cooking_sequence) && recipe.cooking_sequence.length > 0, recipeId);
     } else {
       assert.deepEqual(recipe.cooking_sequence, [], recipeId);

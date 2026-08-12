@@ -300,6 +300,10 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes, r
         if (hasVariantScope && !riceMealCatalog) continue;
         const runtimeVariant = hasVariantScope ? riceMealVariantById.get(rule.when.variant_id) : null;
         if (hasVariantScope && !runtimeVariant) errors.push(`${label}.when has unknown rice-meal variant`);
+        const variantEvidenceIds = new Set((runtimeVariant?.evidence_refs || [])
+          .filter(ref => ref?.kind === 'source' || ref?.kind === 'recipe')
+          .map(ref => ref?.id)
+          .filter(text));
         const runtimeCanonicalIds = runtimeVariant
           ? [runtimeVariant.rice?.canonical_ingredient_id, ...(runtimeVariant.ingredients || [])
             .map(ingredient => ingredient?.canonical_ingredient_id)].filter(text)
@@ -315,8 +319,8 @@ export function validateRatioDslCatalog(catalog, templates, taxonomy, recipes, r
           errors.push(`${label}.evidence_recipe_ids must be evidence for recipe ${rule.when.recipe_id}`);
         }
         if (hasVariantScope && (!Array.isArray(rule.evidence_recipe_ids)
-            || rule.evidence_recipe_ids.some(id => !text(id) || !recipeIds.has(id)))) {
-          errors.push(`${label}.evidence_recipe_ids for variant scope must contain only known recipe evidence IDs`);
+            || rule.evidence_recipe_ids.some(id => !text(id) || (!recipeIds.has(id) && !variantEvidenceIds.has(id))))) {
+          errors.push(`${label}.evidence_recipe_ids for variant scope must contain only known recipe IDs or the variant's declared source evidence IDs`);
         }
         if (rule.liquid_distribution != null) {
           if (rule.execution_mode !== 'executable') {

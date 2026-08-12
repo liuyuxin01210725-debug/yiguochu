@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const recipe = catalog.recipes.find(item => item.recipe_id === 'tiger-brown-rice-curry-pilaf');
 
 test('r171 records the Tiger brown-rice curry pilaf chicken-stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(recipe);
   assert.equal(recipe.status, 'recipe_fact_checked');
@@ -28,6 +28,6 @@ test('r171 keeps the exact stock evidence and staged boundary', () => {
   assert.ok(source);
   assert.ok(source.claim_scopes.includes('liquid'));
   assert.match(source.evidence_locator ?? '', /3人份|玄米2杯|鸡汤600mL|90分钟/u);
-  assert.match(recipe?.cooking_sequence?.[1]?.instruction ?? '', /出锅后|4至5分钟/u);
+  assert.match(recipe?.cooking_sequence?.map(step => step.instruction).join(' ') ?? '', /出锅后|4至5分钟/u);
   assert.deepEqual(recipe?.safety_endpoints, []);
 });

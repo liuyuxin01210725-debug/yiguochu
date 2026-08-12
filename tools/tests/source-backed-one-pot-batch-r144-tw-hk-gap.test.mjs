@@ -6,7 +6,7 @@ const catalog = JSON.parse(readFileSync(new URL('../data/source-backed-one-pot-r
 const byId = new Map(catalog.recipes.map((recipe) => [recipe.recipe_id, recipe]));
 
 test('r144 bumps the catalog without adding canonical recipes', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.equal(new Set(catalog.recipes.map((recipe) => recipe.recipe_id)).size, 923);
 });
@@ -31,7 +31,7 @@ test('r144 closes only the same-source time contracts that are explicit', () => 
   assert.match(turmeric.evidence_notes, /高汤.*1\/2杯|椰浆.*2大匙|外锅.*1杯/iu);
 });
 
-test('r144 does not collapse ranged or layered liquids into a false scalar', () => {
+test('r144 preserves ranged liquids while later batches keep exact layered boundaries', () => {
   const millet = byId.get('taiwan-millet-root-vegetable-rice');
   assert.ok(millet);
   assert.equal(millet.time_contract.total_minutes, 30);
@@ -39,16 +39,20 @@ test('r144 does not collapse ranged or layered liquids into a false scalar', () 
   assert.equal(millet.liquid_contract, null);
   assert.match(millet.evidence_notes, /2\.5[–-]3.*水|范围|不能.*中值/iu);
 
-  for (const recipeId of [
-    'taiwan-shiitake-tea-oil-vegetable-rice',
-    'taiwan-tea-oil-vegetable-health-rice',
-  ]) {
+  for (const recipeId of ['taiwan-shiitake-tea-oil-vegetable-rice']) {
     const recipe = byId.get(recipeId);
     assert.ok(recipe, recipeId);
     assert.equal(recipe.fixed_batch, null, recipeId);
     assert.equal(recipe.liquid_contract, null, recipeId);
     assert.equal(recipe.time_contract, null, recipeId);
   }
+  const healthRice = byId.get('taiwan-tea-oil-vegetable-health-rice');
+  assert.ok(healthRice);
+  assert.deepEqual(healthRice.liquid_contract, {
+    kind: 'added_water',
+    amount: { value: 2, unit: '米杯（内锅；外锅另加1米杯）' },
+    source_ids: ['S-TW-RICE-EDUCATION-TEA-OIL-VEGETABLE-1'],
+  });
 });
 
 test('r144 keeps appliance boundaries and source evidence unchanged', () => {

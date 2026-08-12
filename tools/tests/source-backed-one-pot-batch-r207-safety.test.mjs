@@ -13,7 +13,7 @@ const expected = {
 };
 
 test('r207 closes two directly evidenced raw-chicken safety gaps', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
 
   for (const [recipeId, note] of Object.entries(expected)) {
@@ -39,6 +39,6 @@ test('r207 closes two directly evidenced raw-chicken safety gaps', () => {
 test('r207 preserves pressure-cooker and staged-chicken boundaries', () => {
   assert.match(byId['instant-pot-easy-chicken-rice'].cooker_adaptation.notes, /Instant Pot|高压|不外推/u);
   assert.match(byId['instant-pot-chicken-rice-soup'].evidence_notes, /Pressure Cook|撕鸡|回锅/u);
-  assert.equal(byId['instant-pot-easy-chicken-rice'].time_contract, null);
-  assert.equal(byId['instant-pot-chicken-rice-soup'].time_contract, null);
+  assert.equal(byId['instant-pot-easy-chicken-rice'].time_contract?.total_minutes, 25);
+  assert.equal(byId['instant-pot-chicken-rice-soup'].time_contract?.total_minutes, 20);
 });

@@ -6,6 +6,7 @@ import {
   processEvidenceStatus,
   PROCESS_EVIDENCE_WARNING,
 } from './source-backed-one-pot-catalog-validator.mjs';
+import { buildResearchMethod } from './source-backed-shelf.mjs';
 
 const CLAIM_SCOPES = [
   'identity', 'ingredients', 'quantity', 'liquid',
@@ -198,10 +199,89 @@ function renderGaps(catalog, migration) {
   return `${lines.join('\n')}\n`;
 }
 
+function researchAmount(item) {
+  const amount = item?.amount && typeof item.amount === 'object' ? item.amount : item;
+  if (!amount || amount.value === undefined || amount.value === null) return '待核';
+  return `${amount.value}${amount.unit ?? ''}`;
+}
+
+function researchTime(time) {
+  if (!time) return '待核';
+  if (time.range && time.total_minutes) {
+    return `${time.range.min}–${time.range.max}${time.range.unit ?? '分钟'}（研究起步取${time.total_minutes}分钟）`;
+  }
+  return time.total_minutes ? `${time.total_minutes} 分钟` : '待核';
+}
+
+function renderResearchMethods(catalog) {
+  const rows = sortedRecipes(catalog);
+  const lines = [
+    '# 923条研究做法卡',
+    '',
+    '> 本文是研究版补全，不是生产菜谱。带“来源”的字段来自已打开的来源记录；带“估算/待核”的字段是为了让第一次试做有起点而生成的研究草案，必须按原器具、食材状态和实际试做记录校正。',
+    '',
+  ];
+  rows.forEach((recipe, index) => {
+    const method = buildResearchMethod(recipe);
+    lines.push(`## ${index + 1}. ${asText(recipe?.canonical_name)}（${asText(recipe?.recipe_id)}）`, '');
+    lines.push(`- 研究状态：${method.status}`, `- 研究类型：${method.method_type}`, `- 研究份数：${method.servings?.value ?? '待核'}${method.servings?.unit ?? ''}（${method.servings?.provenance ?? '待核'}）`);
+    if (method.servings_source_hint?.text) {
+      lines.push(`- 原文份数提示：${String(method.servings_source_hint.text).replaceAll('\n', ' ')}（来源）`);
+    }
+    if (asArray(method.source_quantity_hints).length) {
+      lines.push('', '### 原文量线索（未结构化）', '');
+      for (const hint of asArray(method.source_quantity_hints)) {
+        lines.push(`- ${String(hint?.text ?? '').replaceAll('\n', ' ')}（来源；${String(hint?.note ?? '未结构化')}）`);
+      }
+    }
+    lines.push('', '### 食材与用量', '');
+    for (const item of asArray(method.ingredients)) lines.push(`- ${asText(item?.name)}：${researchAmount(item)}（${asText(item?.provenance)}）${item?.note ? `；${String(item.note).replaceAll('\n', ' ')}` : ''}`);
+    lines.push('', '### 液体与时间', '');
+    const liquid = method.liquid?.amount
+      ? researchAmount(method.liquid)
+      : method.liquid?.waterline
+        ? `水位：${asText(method.liquid.waterline.appliance_model)} / ${asText(method.liquid.waterline.scale)} ${asText(method.liquid.waterline.mark)}`
+        : method.liquid?.research_starting_point
+          ? `研究起步液体：${researchAmount(method.liquid.research_starting_point)}`
+        : '待核';
+    lines.push(`- 液体：${liquid}（${asText(method.liquid?.provenance)}）`);
+    if (method.liquid?.note) lines.push(`- 液体边界：${String(method.liquid.note).replaceAll('\n', ' ')}`);
+    if (asArray(method.liquid?.components).length) {
+      lines.push(`- 液体分项：${asArray(method.liquid.components).map(component => `${asText(component?.name)} ${researchAmount(component)}`).join('；')}`);
+    }
+    lines.push(`- 总时长：${researchTime(method.time)}（${asText(method.time?.provenance)}）`);
+    lines.push('', '### 步骤', '');
+    for (const step of asArray(method.steps)) lines.push(`${step.step}. ${asText(step.instruction)}（${asText(step.provenance)}）`);
+    if (asArray(method.source_process_hints).length) {
+      lines.push('', '### 原文流程线索（未结构化）', '');
+      for (const hint of asArray(method.source_process_hints)) {
+        lines.push(`- ${String(hint?.text ?? '').replaceAll('\n', ' ')}（来源；${String(hint?.note ?? '未结构化')}）`);
+      }
+    }
+    if (asArray(method.source_time_hints).length) {
+      lines.push('', '### 原文时间线索（未结构化）', '');
+      for (const hint of asArray(method.source_time_hints)) {
+        lines.push(`- ${String(hint?.text ?? '').replaceAll('\n', ' ')}（来源；${String(hint?.note ?? '未结构化')}）`);
+      }
+    }
+    if (asArray(method.assumptions).length) {
+      lines.push('', '### 补全边界', '');
+      for (const note of method.assumptions) lines.push(`- ${String(note).replaceAll('\n', ' ')}`);
+    }
+    if (asArray(method.source_facts).length) {
+      lines.push('', '### 原文事实定位', '');
+      for (const fact of method.source_facts) lines.push(`- ${String(fact.text).replaceAll('\n', ' ')}`);
+    }
+    lines.push('', `- 安全提示：${asText(method.safety_note)}`, '');
+  });
+  return `${lines.join('\n')}\n`;
+}
+
 export function buildSourceBackedOnePotArtifacts(catalog, migration) {
   return new Map([
     ['docs/source-backed-one-pot-recipes.md', renderMarkdown(catalog)],
     ['docs/source-backed-one-pot-recipes.csv', csvRows(catalog)],
     ['docs/source-backed-one-pot-recipe-gaps.md', renderGaps(catalog, migration)],
+    ['docs/source-backed-one-pot-research-methods.md', renderResearchMethods(catalog)],
   ]);
 }

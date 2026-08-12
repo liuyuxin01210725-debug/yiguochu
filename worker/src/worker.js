@@ -2100,6 +2100,43 @@ async function readOptionalPlannerJsonAsset(assets, request, pathname) {
   }
 }
 
+// The formal Planner library intentionally remains a small, gated set.  The
+// source-backed execution library is a separate, read-only contract surface:
+// it exposes every source card's measured/estimated method without claiming
+// production Planner approval.  Health reports its coverage so deployments do
+// not make the 72-vs-923 distinction ambiguous.
+async function readSourceExecutionHealth(env, request) {
+  if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
+  const library = await readOptionalPlannerJsonAsset(
+    env.ASSETS,
+    request,
+    '/source-backed-execution-library.v1.json',
+  );
+  if (!library || !Array.isArray(library.entries)) return null;
+  const entries = library.entries;
+  const sourceComplete = entries.filter(entry => entry?.method_card_status === 'source_complete').length;
+  const researchOnly = entries.filter(entry => entry?.method_card_status !== 'source_complete').length;
+  const blocked = entries.filter(entry => Boolean(entry?.execution_card?.blocked_reason)).length;
+  const complete = entries.filter(entry => (
+    Array.isArray(entry?.execution_card?.ingredients)
+      && entry.execution_card.ingredients.length > 0
+      && Array.isArray(entry?.execution_card?.steps)
+      && entry.execution_card.steps.length > 0
+  )).length;
+  return {
+    status: 'ok',
+    version: typeof library.execution_library_version === 'string'
+      ? library.execution_library_version
+      : null,
+    cards: entries.length,
+    sourceComplete,
+    researchOnly,
+    complete,
+    unblockedComplete: complete - blocked,
+    safetyBlocked: blocked,
+  };
+}
+
 function canonicalJsonSha256(value) {
   return sha256Hex(canonicalJson(value));
 }
@@ -3871,6 +3908,14 @@ export default {
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
+      let sourceExecutionLibrary = 'unavailable';
+      let sourceExecutionLibraryVersion = null;
+      let sourceExecutionCards = 0;
+      let sourceExecutionSourceComplete = 0;
+      let sourceExecutionResearchOnly = 0;
+      let sourceExecutionComplete = 0;
+      let sourceExecutionUnblockedComplete = 0;
+      let sourceExecutionSafetyBlocked = 0;
       let plannerAssets = 'unavailable';
       let plannerVersion = null;
       let templateCatalogVersion = null;
@@ -3934,6 +3979,21 @@ export default {
           baseRecipes = 0;
         }
       }
+      try {
+        const sourceExecution = await readSourceExecutionHealth(env, request);
+        if (sourceExecution) {
+          sourceExecutionLibrary = sourceExecution.status;
+          sourceExecutionLibraryVersion = sourceExecution.version;
+          sourceExecutionCards = sourceExecution.cards;
+          sourceExecutionSourceComplete = sourceExecution.sourceComplete;
+          sourceExecutionResearchOnly = sourceExecution.researchOnly;
+          sourceExecutionComplete = sourceExecution.complete;
+          sourceExecutionUnblockedComplete = sourceExecution.unblockedComplete;
+          sourceExecutionSafetyBlocked = sourceExecution.safetyBlocked;
+        }
+      } catch (_error) {
+        sourceExecutionLibrary = 'unavailable';
+      }
       if (buildMetadata?.productFocus === 'rice-meal-v1') {
         try {
           riceMealPlanSecret(env);
@@ -3988,6 +4048,14 @@ export default {
         recipeLibrary,
         recipeFamilies,
         baseRecipes,
+        sourceExecutionLibrary,
+        sourceExecutionLibraryVersion,
+        sourceExecutionCards,
+        sourceExecutionSourceComplete,
+        sourceExecutionResearchOnly,
+        sourceExecutionComplete,
+        sourceExecutionUnblockedComplete,
+        sourceExecutionSafetyBlocked,
         plannerAssets,
         plannerVersion,
         templateCatalogVersion,

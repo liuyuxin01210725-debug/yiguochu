@@ -7,7 +7,7 @@ const carrotSeafood = catalog.recipes.find(item => item.recipe_id === 'r104-hk-c
 const mushroomRice = catalog.recipes.find(item => item.recipe_id === 'r104-hk-mushroom-italian-rice-ricotta');
 
 test('r177 records the HK carrot seafood rice chicken-stock contract', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   assert.ok(carrotSeafood);
   assert.equal(carrotSeafood.status, 'recipe_fact_checked');
@@ -21,7 +21,18 @@ test('r177 records the HK carrot seafood rice chicken-stock contract', () => {
   assert.ok(source.claim_scopes.includes('liquid'));
   assert.match(source.evidence_locator ?? '', /4人份|鸡汤100毫升|青口8只/u);
   assert.match(carrotSeafood.cooking_sequence?.[2]?.instruction ?? '', /加鸡汤|小火煮约15分钟/u);
-  assert.deepEqual(carrotSeafood.safety_endpoints, []);
+  assert.deepEqual(carrotSeafood.safety_endpoints, [
+    {
+      code: 'shellfish_fully_cooked',
+      visual_endpoint: '肉质呈珍珠白或白色且不透明',
+      source_ids: ['S-SAFETY-TEMPERATURES-1'],
+    },
+    {
+      code: 'seafood_fully_cooked',
+      minimum_core_temperature_c: 63,
+      source_ids: ['S-SAFETY-TEMPERATURES-1'],
+    },
+  ]);
 });
 
 test('r177 records the HK mushroom Italian rice vegetable-stock contract', () => {

@@ -19,17 +19,20 @@ const ingredient = (recipe, name) => {
 };
 
 test('r225 keeps the 923-entry catalog and advances the catalog version', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
 });
 
-test('r225 closes the four-person Hokkaido ikameshi batch while preserving squid range and liquid gaps', () => {
+test('r225 keeps the four-person Hokkaido ikameshi batch while preserving squid range and liquid gaps', () => {
   const recipe = byId('maff-hokkaido-ikameshi');
   assert.equal(recipe.fixed_batch.servings, 4);
   assert.deepEqual(ingredient(recipe, '鱿鱼').amount, { value: 4, unit: '至8杯' });
   assert.deepEqual(ingredient(recipe, '糯米').amount, { value: 1, unit: '杯' });
   assert.equal(recipe.liquid_contract, null);
-  assert.equal(recipe.time_contract, null);
+  assert.deepEqual(recipe.time_contract, {
+    total_minutes: 30,
+    source_ids: ['S-MAFF-HOKKAIDO-IKAMESHI-1'],
+  });
   assert.equal(recipe.status, 'recipe_fact_checked');
   assert.equal(recipe.cooker_adaptation.status, 'not_adapted');
   assert.equal('executable' in recipe, false);

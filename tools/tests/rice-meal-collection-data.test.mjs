@@ -12,17 +12,17 @@ test('national rice-meal collection records all research candidates, exclusions,
     readJson('rice-meal-catalog.v1.json'),
   ]);
   assert.deepEqual(validateRiceMealCollection(collection, { taxonomy, catalog }), []);
-  assert.equal(collection.candidates.length, 50);
+  assert.equal(collection.candidates.length, 68);
   assert.ok(collection.exclusions.length >= 8);
-  assert.equal(collection.catalog_tracking.length, 19);
+  assert.equal(collection.catalog_tracking.length, 37);
   assert.deepEqual(
     collection.region_nodes.filter(node => node.gap).map(node => node.region_id).sort(),
     ['CN-BJ', 'CN-GS', 'CN-GX', 'CN-HE', 'CN-HI', 'CN-HK', 'CN-HL', 'CN-JL', 'CN-JX', 'CN-LN', 'CN-MO', 'CN-NM', 'CN-QH', 'CN-SD', 'CN-SX', 'CN-XZ'],
   );
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'runtime_ready').length, 8);
-  assert.equal(collection.catalog_tracking.filter(row => row.status === 'calibration_ready').length, 8);
+  assert.equal(collection.catalog_tracking.filter(row => row.status === 'calibration_ready').length, 26);
   assert.equal(collection.catalog_tracking.filter(row => row.status === 'planned').length, 3);
-  assert.equal(collection.runtime_mappings.length, 19);
+  assert.equal(collection.runtime_mappings.length, 37);
   for (const candidateId of [
     'household-green-bean-pork-rib-rice',
     'household-mushroom-green-bean-pork-rib-rice',

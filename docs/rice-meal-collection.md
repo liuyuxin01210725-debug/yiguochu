@@ -269,6 +269,18 @@
 
 ## 家常标准（非地域）（HOUSEHOLD）
 
+### cookpot-mixed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 牛肉野菇炊饭（来源校准预览） | 米、牛肉片、洋葱、平菇、干香菇 | B | raw-rice | 鍋寶316电锅；牛肉、洋葱和菇类分层入内锅，加称好的泡菇水，外锅按来源煮饭。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
+### home-braised-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 排骨焖饭（来源校准预览） | 大米、排骨、玉米、胡萝卜 | B | raw-rice | 来源页给出排骨、玉米、胡萝卜与生米同锅的电饭煲流程；本项目两人份克数与1.5倍加水为待实厨校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
 ### household-reviewed-rice
 
 | 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
@@ -292,3 +304,51 @@
 | 鲜蔬竹笋饭 | 大米、猪肉末、竹笋、洋葱、胡萝卜、干木耳 | B | raw-rice | 上海象印家用电器有限公司的鲜蔬竹笋饭提供真实菜名、组合和电饭煲流程；项目另建两人校准合同。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
 | 牛肉什锦饭 | 米、牛肉末、胡萝卜泥、洋葱 | A | raw-rice | 象印官方固定4至5人批量：3厂家杯米，先拌盐并补水至白米3水位线，牛肉末、胡萝卜泥、洋葱与黄油分层铺放不搅拌，使用什锦饭程序 | identity、quantity、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
 | 番茄海鲜饭 | 米、鱿鱼圈、虾仁、番茄、洋葱、混合蔬菜 | C | raw-rice | 页面只能证明菜名、4至5人批量和配料表；所示步骤转为糙米粥水位线、红枣与枸杞流程，与番茄海鲜饭矛盾，不可执行 | identity、quantity | partial | 页面步骤明显串页/损坏，与菜名和配料表矛盾；加液、水位线、程序和操作顺序全部 fail-closed；固定批量中的海鲜与蔬菜份量按本项目每份门槛不足，且白砂糖65g需额外营养/口味审查，只记C级证据原型；鱿鱼和虾仁的入锅时机、熟制终点、甲壳/软体过敏防线均未闭合 | research_candidate |
+
+### medlineplus-one-pot
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鸡肉蔬菜炊饭（来源校准预览） | 米、鸡肉、番茄、青椒、芹菜、胡萝卜、玉米 | B | raw-rice | MedlinePlus/NHLBI普通大锅分阶段：鸡肉与蔬菜先煮，取出鸡肉后在原汤煮米，末段回锅并检查禽肉74°C。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 鸡肉蔬菜炊饭（来源校准预览） | 米、鸡肉、番茄、青椒、芹菜、胡萝卜、玉米 | B | raw-rice | MedlinePlus/NHLBI普通大锅分阶段：鸡肉与蔬菜先煮，取出鸡肉后在原汤煮米，末段回锅并检查禽肉74°C。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
+### panasonic-mixed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 砂锅风鸡饭（来源校准预览） | 米、鸡腿肉、香菇 | B | raw-rice | Panasonic指定机型；鸡腿腌制后与米水、香菇入锅，按WHITE RICE/CASSEROLE程序完成。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
+### panasonic-pressure-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 海南鸡饭（来源校准预览） | 白米、鸡腿肉、生姜、蒜、白葱 | B | raw-rice | Panasonic NF-AC1000中压8分钟；鸡腿皮朝下铺在调味米面，减压后确认熟透。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| Panasonic炊き込みご饭（来源校准预览） | 白米、鸡腿肉、牛蒡、蒟蒻、干香菇、胡萝卜 | B | raw-rice | Panasonic NF-PC400电气压力锅；鸡腿和配料铺在米面，自动调理17后完全泄压再拌匀。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
+### tatung-mixed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 高丽菜饭（来源校准预览） | 米、猪肉、高丽菜、干香菇、虾米、红葱头 | B | raw-rice | 大同电锅2人份；配料先炒香，内锅2杯水、外锅1杯水，跳起后焖10分钟。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 牛肉牛蒡炊饭（来源校准预览） | 米、牛肉、牛蒡 | B | raw-rice | 大同电锅内锅加2杯だし、外锅另加1杯水；牛肉先炒，跳起后焖10分钟。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 海南鸡饭（大同来源校准预览） | 米、鸡腿肉、生姜、蒜、葱 | B | raw-rice | 大同电锅分两轮：先蒸鸡并留鸡汤，再按水位线煮米饭，切片装盘；不承诺普通电饭煲一键完成。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 猪肉萝卜饭（来源校准预览） | 米、五花肉、白萝卜、胡萝卜、油炸豆腐 | B | raw-rice | 大同电锅内锅按2刻度略下水位线，外锅加水；猪肉、根菜和油炸豆腐同锅，跳起后焖10分钟。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 五花肉炊饭（来源校准预览） | 米、五花肉、干香菇、虾米、生姜 | B | raw-rice | 大同电锅；来源原料为猪颈肉，项目 taxonomy 显示为五花肉校准近似；干香菇、虾米和生姜先炒，再与米和泡菇水一起炊饭。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 番茄南瓜培根炊饭（来源校准预览） | 米、番茄、南瓜、培根 | B | raw-rice | 大同M号内锅；米水入锅，番茄、南瓜、培根铺面，外锅按来源煮饭，跳起后焖并翻松。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 生姜鸡肉饭（来源校准预览） | 米、鸡胸肉、生姜、胡萝卜、油炸豆腐 | B | raw-rice | 大同电锅内锅按2刻度略下水位线，外锅加水；鸡胸肉、生姜、胡萝卜和油炸豆腐同锅，跳起后焖5分钟并确认鸡肉熟透。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
+### tiger-mixed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 鸡肉竹笋炊饭（来源校准预览） | 米、鸡胸肉、竹笋、油豆腐皮 | A | raw-rice | Tiger炊込み程序：米与高汤入锅，熟竹笋、鸡胸肉和油豆腐皮铺面，闭盖完成后翻拌并检查禽肉74°C。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 鸡肉竹笋炊饭（来源校准预览） | 米、鸡胸肉、竹笋、油豆腐皮 | A | raw-rice | Tiger炊込み程序：米与高汤入锅，熟竹笋、鸡胸肉和油豆腐皮铺面，闭盖完成后翻拌并检查禽肉74°C。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 中式糯米炊饭（来源校准预览） | 泡发糯米、五花肉、干香菇、虾米、竹笋、胡萝卜 | B | raw-rice | Tigerおこわ程序；糯米和干货浸泡，五花肉与配料先炒，再入锅焖饭并拌松。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 猪肉竹笋炊饭（来源校准预览） | 米、五花肉、竹笋 | B | raw-rice | Tiger炊込み·火力强程序；米、600mL高汤、猪肉和竹笋同锅，完成后拌松。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+
+### zojirushi-mixed-rice
+
+| 菜名 | 核心食材 | A/B/C | 米态 | 器具/步骤 | 证据状态 | 液体/用量完备度 | 阻断项 | 运行状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 冈山虾饭（来源校准预览） | 米、虾仁、洋葱、鸡蛋、青葱 | B | raw-rice | 象印EL-NS23；虾和洋葱先炒后铺米面，炊饭后另锅炒蛋并拌入，保留来源分阶段边界。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |
+| 猪肉蔬菜饭（来源校准预览） | 米、猪肉、卷心菜、青椒、生姜 | B | raw-rice | 象印EL-NS23固定批量；猪肉先汆烫调味，使用来源自动菜单完成，约1小时。 | identity、quantity、liquid、appliance | complete | 内部校准合同尚未完成实厨试做，不得标为正式可见目录 | calibration_ready |

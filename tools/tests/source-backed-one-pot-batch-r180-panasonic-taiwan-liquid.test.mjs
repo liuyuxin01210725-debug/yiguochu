@@ -10,13 +10,14 @@ const expected = [
   ['panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice', 'added_water', 2.5, '杯', 'S-PANASONIC-PUMPKIN-MUSHROOM-CHICKEN-BROWN-RICE-1', /糙米2杯|鸡腿200g|水2.5杯/u],
   ['panasonic-taiwan-ginseng-chicken-rice', 'added_water', 500, 'g', 'S-PANASONIC-GINSENG-CHICKEN-1', /米200g|鸡肉200g|热水500g/u],
 ];
-const poultrySafetyClosed = new Set([
+const safetyClosed = new Set([
+  'panasonic-taiwan-golden-snapper-rice',
   'panasonic-taiwan-pumpkin-mushroom-chicken-brown-rice',
   'panasonic-taiwan-ginseng-chicken-rice',
 ]);
 
 test('r180 records five exact Panasonic Taiwan liquid contracts', () => {
-  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260808-global-r255');
+  assert.equal(catalog.catalog_version, 'source-backed-one-pot-v1-20260812-global-r297');
   assert.equal(catalog.recipes.length, 923);
   const byId = new Map(catalog.recipes.map(item => [item.recipe_id, item]));
   for (const [id, kind, value, unit, sourceId, locator] of expected) {
@@ -25,8 +26,15 @@ test('r180 records five exact Panasonic Taiwan liquid contracts', () => {
     assert.equal(recipe.status, 'recipe_fact_checked', id);
     assert.deepEqual(recipe.liquid_contract, { kind, amount: { value, unit }, source_ids: [sourceId] }, id);
     assert.equal(recipe.fixed_batch, null, id);
-    assert.equal(recipe.time_contract, null, id);
-    assert.equal(recipe.safety_endpoints?.length, poultrySafetyClosed.has(id) ? 1 : 0, id);
+    if (id === 'panasonic-taiwan-mushroom-risotto') {
+      assert.deepEqual(recipe.time_contract, {
+        total_minutes: 56,
+        source_ids: ['S-PANASONIC-MUSHROOM-RISOTTO-1'],
+      }, id);
+    } else {
+      assert.equal(recipe.time_contract, null, id);
+    }
+    assert.equal(recipe.safety_endpoints?.length, safetyClosed.has(id) ? 1 : 0, id);
     const source = recipe.source_refs?.find(item => item.source_id === sourceId);
     assert.ok(source, id);
     assert.ok(source.claim_scopes.includes('liquid'), id);

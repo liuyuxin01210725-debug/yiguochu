@@ -257,6 +257,10 @@ test('rejects empty execution structures in public recipes', () => {
   // Removing the public execution-structure validator branch would make this fail.
   const catalog = executableCatalog();
   const recipe = catalog.recipes[0];
+  // Safety endpoints are only required for recipes containing raw high-risk
+  // ingredients; use a raw oyster here so the structural safety assertion
+  // remains meaningful after low-risk recipes became safety-not-applicable.
+  recipe.core_ingredients = ['米', '生蚝'];
   recipe.fixed_batch = {};
   recipe.liquid_contract = {};
   recipe.cooking_sequence = [];

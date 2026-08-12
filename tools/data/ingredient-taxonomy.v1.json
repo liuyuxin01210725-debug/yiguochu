@@ -1,5 +1,54 @@
 {
   "taxonomy_version": "taxonomy-v1-20260802-r12",
+  "formal_review_only_ids": [
+    "brown-rice",
+    "raw-glutinous-rice",
+    "dried-shiitake",
+    "ginger-root",
+    "garlic",
+    "scallion",
+    "spinach",
+    "edamame",
+    "broad-bean",
+    "lotus-root",
+    "pork-belly",
+    "butter",
+    "bell-pepper",
+    "kombu",
+    "salted-kombu",
+    "black-sesame",
+    "konjac",
+    "taro",
+    "dried-scallop",
+    "daikon",
+    "chicken-broth",
+    "broth",
+    "clam",
+    "oyster",
+    "octopus",
+    "squid",
+    "salmon",
+    "shimeji-mushroom",
+    "black-rice",
+    "red-rice",
+    "mushroom-generic",
+    "lean-pork",
+    "chestnut",
+    "garlic-sprout",
+    "lard",
+    "saffron",
+    "king-oyster-mushroom",
+    "tomato-sauce",
+    "quinoa",
+    "shallot",
+    "jasmine-rice",
+    "raisin",
+    "white-wine",
+    "basmati-rice",
+    "bacon",
+    "preserved-egg",
+    "fish-sauce"
+  ],
   "items": [
     {
       "canonical_id": "raw-rice",
@@ -2627,7 +2676,8 @@
       "default_shape_or_cut": "slice",
       "category": "shoot_vegetable",
       "states": [
-        "raw"
+        "raw",
+        "cooked"
       ],
       "shapes_or_cuts": [
         "whole",
@@ -2703,7 +2753,8 @@
       "canonical_id": "fried-tofu",
       "display_name": "油炸豆腐",
       "aliases": [
-        "炸豆腐"
+        "炸豆腐",
+        "油豆腐皮"
       ],
       "input_scope": "pantry_input",
       "default_shape_or_cut": "dice",
@@ -2774,6 +2825,1819 @@
       },
       "compatible_slot_codes": [
         "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "brown-rice",
+      "display_name": "糙米",
+      "aliases": [
+        "糙稻米",
+        "玄米"
+      ],
+      "input_scope": "pantry_input",
+      "category": "raw_rice",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "slow",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "undercooked_when_liquid_is_short"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "rice_tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "staple",
+        "raw_rice"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "raw-glutinous-rice",
+      "display_name": "生糯米（状态明确）",
+      "aliases": [
+        "糯米（生）"
+      ],
+      "input_scope": "pantry_input",
+      "category": "raw_rice",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole_grain"
+      ],
+      "cook_speed": "slow",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid",
+        "best_method_codes": [
+          "soak",
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "undercooked_when_liquid_is_short"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "rice_tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "staple",
+        "raw_rice"
+      ],
+      "incompatible_slot_codes": [
+        "cooked_rice"
+      ]
+    },
+    {
+      "canonical_id": "dried-shiitake",
+      "display_name": "干香菇",
+      "aliases": [
+        "乾香菇",
+        "香菇（干）",
+        "香菇(干)"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "mushroom",
+      "states": [
+        "dry"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "soak",
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "mushroom"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "ginger-root",
+      "display_name": "生姜",
+      "aliases": [
+        "姜",
+        "老姜",
+        "鲜姜"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "aromatic_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "wilts_quickly",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "soft_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "aromatic",
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "garlic",
+      "display_name": "蒜",
+      "aliases": [
+        "蒜头",
+        "大蒜"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "dice",
+      "category": "aromatic_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "wilts_quickly",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "soft_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "aromatic",
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "scallion",
+      "display_name": "葱",
+      "aliases": [
+        "青葱",
+        "白葱",
+        "葱花"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "aromatic_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "wilts_quickly",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "soft_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "aromatic",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "spinach",
+      "display_name": "菠菜",
+      "aliases": [
+        "菠菜叶"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "leafy_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "high",
+      "texture_behavior": {
+        "behavior_code": "wilts_quickly",
+        "best_method_codes": [
+          "simmer",
+          "quick_saute"
+        ],
+        "failure_mode_codes": [
+          "watery_when_overloaded"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "vegetable",
+        "fast_cooking_vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "edamame",
+      "display_name": "毛豆仁",
+      "aliases": [
+        "毛豆"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole_seed",
+      "category": "legume",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole_seed"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "tender_when_cooked_through",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "firm_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable",
+        "protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "broad-bean",
+      "display_name": "蚕豆仁",
+      "aliases": [
+        "蚕豆"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole_seed",
+      "category": "legume",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole_seed"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "tender_when_cooked_through",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "firm_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable",
+        "protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "lotus-root",
+      "display_name": "莲藕",
+      "aliases": [
+        "藕"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "root_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "firm_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "pork-belly",
+      "display_name": "五花肉",
+      "aliases": [
+        "五花肉片",
+        "猪五花",
+        "三层肉"
+      ],
+      "input_scope": "pantry_input",
+      "category": "pork",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "renders_fat_when_heated",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "tough_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_pork",
+        "required_endpoint_codes": [
+          "pork_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "generic_pork",
+        "cured_pork"
+      ],
+      "incompatible_slot_codes": [
+        "rib_required"
+      ]
+    },
+    {
+      "canonical_id": "butter",
+      "display_name": "黄油",
+      "aliases": [
+        "牛油"
+      ],
+      "input_scope": "pantry_input",
+      "category": "oil",
+      "allergen_tags": [
+        "奶"
+      ],
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "quick_saute"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "oil",
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "bell-pepper",
+      "display_name": "甜椒",
+      "aliases": [
+        "青椒",
+        "红椒",
+        "红甜椒",
+        "黄甜椒"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "dice",
+      "category": "watery_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "watery_when_overloaded"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "vegetable",
+        "fast_cooking_vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "kombu",
+      "display_name": "昆布",
+      "aliases": [
+        "昆布干"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "seasoning",
+      "allergen_tags": [],
+      "states": [
+        "dry"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "salted-kombu",
+      "display_name": "盐昆布",
+      "aliases": [
+        "塩昆布",
+        "盐渍昆布"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "seasoning",
+      "allergen_tags": [],
+      "states": [
+        "cured"
+      ],
+      "shapes_or_cuts": [
+        "slice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "simmer",
+          "quick_saute"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "heated_through"
+        ]
+      },
+      "compatible_slot_codes": [
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "black-sesame",
+      "display_name": "黑芝麻",
+      "aliases": [
+        "黑芝麻粒"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "seasoning",
+      "allergen_tags": [
+        "芝麻"
+      ],
+      "states": [
+        "dry"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "firm_holds_shape",
+        "best_method_codes": [
+          "quick_saute"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "konjac",
+      "display_name": "魔芋",
+      "aliases": [
+        "蒟蒻"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "dice",
+      "category": "watery_vegetable",
+      "states": [
+        "prepared"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "rubbery_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "heated_through"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "taro",
+      "display_name": "芋头",
+      "aliases": [
+        "芋艿",
+        "里芋"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "dice",
+      "category": "starchy_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "firm_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "dried-scallop",
+      "display_name": "干贝",
+      "aliases": [
+        "瑶柱",
+        "乾貝"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "seafood",
+      "states": [
+        "dry"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "shred"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "protein",
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "daikon",
+      "display_name": "白萝卜",
+      "aliases": [
+        "萝卜",
+        "大根"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "root_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "firm_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "chicken-broth",
+      "display_name": "鸡汤",
+      "aliases": [
+        "鸡高汤",
+        "雞湯",
+        "雞高湯"
+      ],
+      "input_scope": "pantry_input",
+      "category": "liquid",
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "high",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "liquid"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "broth",
+      "display_name": "高汤",
+      "aliases": [
+        "高湯",
+        "蔬菜高汤",
+        "蔬菜高湯"
+      ],
+      "input_scope": "pantry_input",
+      "category": "liquid",
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "high",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "liquid"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "clam",
+      "display_name": "蛤蜊",
+      "aliases": [
+        "花蛤"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "seafood",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "high",
+      "texture_behavior": {
+        "behavior_code": "tender_when_quick_cooked",
+        "best_method_codes": [
+          "short_simmer"
+        ],
+        "failure_mode_codes": [
+          "rubbery_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_seafood",
+        "required_endpoint_codes": [
+          "seafood_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "protein",
+        "quick_cook_protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "oyster",
+      "display_name": "牡蛎",
+      "aliases": [
+        "牡蠣",
+        "生蠔"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "seafood",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "high",
+      "texture_behavior": {
+        "behavior_code": "tender_when_quick_cooked",
+        "best_method_codes": [
+          "short_simmer"
+        ],
+        "failure_mode_codes": [
+          "rubbery_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_seafood",
+        "required_endpoint_codes": [
+          "seafood_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "protein",
+        "quick_cook_protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "octopus",
+      "display_name": "章鱼",
+      "aliases": [
+        "章魚"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "dice",
+      "category": "seafood",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "tender_after_long_simmer",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "tough_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_seafood",
+        "required_endpoint_codes": [
+          "seafood_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "squid",
+      "display_name": "鱿鱼",
+      "aliases": [
+        "魷魚"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "seafood",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "tender_when_quick_cooked",
+        "best_method_codes": [
+          "quick_saute",
+          "short_simmer"
+        ],
+        "failure_mode_codes": [
+          "rubbery_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_seafood",
+        "required_endpoint_codes": [
+          "seafood_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "protein",
+        "quick_cook_protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "salmon",
+      "display_name": "鲑鱼",
+      "aliases": [
+        "三文鱼",
+        "鮭魚"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "seafood",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "tender_when_quick_cooked",
+        "best_method_codes": [
+          "quick_saute",
+          "short_simmer"
+        ],
+        "failure_mode_codes": [
+          "dry_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_seafood",
+        "required_endpoint_codes": [
+          "seafood_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "shimeji-mushroom",
+      "display_name": "鸿喜菇",
+      "aliases": [
+        "鴻喜菇",
+        "真姬菇",
+        "蟹味菇"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "mushroom",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "mushroom",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "black-rice",
+      "display_name": "黑米",
+      "aliases": [],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole_grain",
+      "category": "raw_rice",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole_grain"
+      ],
+      "cook_speed": "slow",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "hard_center_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "rice_tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "staple",
+        "raw_rice"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "red-rice",
+      "display_name": "红米",
+      "aliases": [
+        "紅米"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole_grain",
+      "category": "raw_rice",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole_grain"
+      ],
+      "cook_speed": "slow",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "hard_center_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "rice_tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "staple",
+        "raw_rice"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "mushroom-generic",
+      "display_name": "蘑菇",
+      "aliases": [],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "mushroom",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "mushroom",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "lean-pork",
+      "display_name": "瘦肉",
+      "aliases": [],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "pork",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "slice",
+        "dice",
+        "ground"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "tender_when_quick_cooked",
+        "best_method_codes": [
+          "quick_saute",
+          "short_simmer"
+        ],
+        "failure_mode_codes": [
+          "tough_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "raw_pork",
+        "required_endpoint_codes": [
+          "pork_fully_cooked"
+        ]
+      },
+      "compatible_slot_codes": [
+        "generic_pork",
+        "protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "chestnut",
+      "display_name": "栗子",
+      "aliases": [
+        "栗",
+        "板栗"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "starchy_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "firm_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "garlic-sprout",
+      "display_name": "蒜苗",
+      "aliases": [
+        "蒜薹"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "aromatic_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "wilts_quickly",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "soft_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "aromatic",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "lard",
+      "display_name": "猪油",
+      "aliases": [],
+      "input_scope": "pantry_input",
+      "category": "oil",
+      "allergen_tags": [],
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "quick_saute"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "oil"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "saffron",
+      "display_name": "藏红花",
+      "aliases": [],
+      "input_scope": "pantry_input",
+      "category": "seasoning",
+      "allergen_tags": [],
+      "states": [
+        "dry"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "dissolves",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "seasoning"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "king-oyster-mushroom",
+      "display_name": "杏鲍菇",
+      "aliases": [
+        "杏鮑菇"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "mushroom",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "softens_with_simmering",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "chewy_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "mushroom",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "tomato-sauce",
+      "display_name": "番茄酱",
+      "aliases": [
+        "番茄醬"
+      ],
+      "input_scope": "pantry_input",
+      "category": "seasoning",
+      "allergen_tags": [],
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "seasoning",
+        "liquid"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "quinoa",
+      "display_name": "藜麦",
+      "aliases": [
+        "三色藜麦"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole_grain",
+      "category": "raw_millet",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole_grain"
+      ],
+      "cook_speed": "medium",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid_and_thickens",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "hard_center_when_undercooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "soft_grain_staple",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "shallot",
+      "display_name": "红葱头",
+      "aliases": [
+        "紅蔥頭"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "aromatic_vegetable",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "wilts_quickly",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "soft_when_overcooked"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "aromatic",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "jasmine-rice",
+      "display_name": "茉莉香米",
+      "aliases": [
+        "茉莉米"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "raw_rice",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "slow",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid",
+        "best_method_codes": [
+          "simmer",
+          "braise"
+        ],
+        "failure_mode_codes": [
+          "undercooked_when_liquid_is_short"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "rice_tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "staple",
+        "raw_rice"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "raisin",
+      "display_name": "葡萄干",
+      "aliases": [
+        "葡萄乾"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "dried_fruit",
+      "states": [
+        "dry"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "firm_holds_shape",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "seasoning",
+        "vegetable"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "white-wine",
+      "display_name": "白葡萄酒",
+      "aliases": [],
+      "input_scope": "pantry_input",
+      "category": "seasoning",
+      "allergen_tags": [],
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "medium",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "seasoning",
+        "liquid"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "basmati-rice",
+      "display_name": "印度香米",
+      "aliases": [
+        "巴斯马蒂米"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "whole",
+      "category": "raw_rice",
+      "states": [
+        "raw"
+      ],
+      "shapes_or_cuts": [
+        "whole"
+      ],
+      "cook_speed": "slow",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "absorbs_liquid",
+        "best_method_codes": [
+          "soak",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "undercooked_when_liquid_is_short"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "rice_tender"
+        ]
+      },
+      "compatible_slot_codes": [
+        "staple",
+        "raw_rice"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "bacon",
+      "display_name": "培根",
+      "aliases": [
+        "培根片"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "slice",
+      "category": "pork",
+      "states": [
+        "cured"
+      ],
+      "shapes_or_cuts": [
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "renders_fat_when_heated",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": [
+          "burns_when_unattended"
+        ]
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": [
+          "heated_through"
+        ]
+      },
+      "compatible_slot_codes": [
+        "cured_pork",
+        "generic_pork"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "preserved-egg",
+      "display_name": "皮蛋",
+      "aliases": [
+        "松花蛋"
+      ],
+      "input_scope": "pantry_input",
+      "default_shape_or_cut": "dice",
+      "category": "egg",
+      "states": [
+        "cured"
+      ],
+      "shapes_or_cuts": [
+        "whole",
+        "slice",
+        "dice"
+      ],
+      "cook_speed": "fast",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "firm_holds_shape",
+        "best_method_codes": [
+          "quick_saute",
+          "simmer"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "egg",
+        "protein"
+      ],
+      "incompatible_slot_codes": []
+    },
+    {
+      "canonical_id": "fish-sauce",
+      "display_name": "鱼露",
+      "aliases": [
+        "魚露"
+      ],
+      "input_scope": "pantry_input",
+      "category": "seasoning",
+      "allergen_tags": [],
+      "states": [
+        "basic"
+      ],
+      "shapes_or_cuts": [
+        "liquid"
+      ],
+      "cook_speed": "no_cook",
+      "moisture_release": "low",
+      "texture_behavior": {
+        "behavior_code": "liquid",
+        "best_method_codes": [
+          "simmer",
+          "quick_saute"
+        ],
+        "failure_mode_codes": []
+      },
+      "cooking_risk": {
+        "risk_code": "none",
+        "required_endpoint_codes": []
+      },
+      "compatible_slot_codes": [
+        "seasoning"
       ],
       "incompatible_slot_codes": []
     },
