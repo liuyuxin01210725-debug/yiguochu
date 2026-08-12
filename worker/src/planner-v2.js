@@ -155,20 +155,23 @@ export function normalizeIngredientTaxonomyKey(value) {
 
 export const normalizePlannerTaxonomyKey = normalizeIngredientTaxonomyKey;
 
-function taxonomyItemIndex(taxonomy) {
+function taxonomyItemIndex(taxonomy, { includeFormalReviewOnly = false } = {}) {
   const canCache = taxonomy && typeof taxonomy === 'object' && Object.isFrozen(taxonomy);
-  if (canCache && TAXONOMY_ITEM_INDEX_CACHE.has(taxonomy)) {
+  if (!includeFormalReviewOnly && canCache && TAXONOMY_ITEM_INDEX_CACHE.has(taxonomy)) {
     return TAXONOMY_ITEM_INDEX_CACHE.get(taxonomy);
   }
   const index = new Map();
+  const formalReviewOnly = includeFormalReviewOnly
+    ? new Set()
+    : new Set(taxonomy?.formal_review_only_ids || []);
   for (const item of taxonomy?.items || []) {
-    if (item.input_scope === 'derived_only') continue;
+    if (item.input_scope === 'derived_only' || formalReviewOnly.has(item.canonical_id)) continue;
     for (const name of [item.display_name, ...(item.aliases || [])]) {
       const key = normalizeIngredientTaxonomyKey(name);
       if (key && !index.has(key)) index.set(key, item);
     }
   }
-  if (canCache) TAXONOMY_ITEM_INDEX_CACHE.set(taxonomy, index);
+  if (!includeFormalReviewOnly && canCache) TAXONOMY_ITEM_INDEX_CACHE.set(taxonomy, index);
   return index;
 }
 
@@ -217,9 +220,9 @@ function plannerItemSemanticKey(item = {}) {
 
 // 只依据受控 taxonomy 做精确身份识别。此处故意不看 recipe evidence，
 // 也不做模糊分类；未知食材保留为 recognized:false，交给后续 planner 解释。
-export function normalizePlannerItems(rawItems = [], taxonomy = {}) {
+export function normalizePlannerItems(rawItems = [], taxonomy = {}, options = {}) {
   if (!Array.isArray(rawItems)) throw invalidPlannerRequest('planner items must be an array');
-  const index = taxonomyItemIndex(taxonomy);
+  const index = taxonomyItemIndex(taxonomy, options);
   const ambiguityIndex = taxonomyAmbiguityIndex(taxonomy);
   const parsed = rawItems.map(plannerItemInput).map(input => {
     const key = normalizeIngredientTaxonomyKey(input.raw);
@@ -767,6 +770,7 @@ export function buildPlannerAllergenAliases(taxonomy = {}, recipeLibrary = {}) {
     aliases[alias] = target;
   };
   const taxonomyItems = [...(Array.isArray(taxonomy?.items) ? taxonomy.items : [])]
+    .filter(item => !(new Set(taxonomy?.formal_review_only_ids || [])).has(item?.canonical_id))
     .sort((left, right) => String(left?.display_name || '').localeCompare(String(right?.display_name || ''), 'zh-Hans-CN'));
   for (const item of taxonomyItems) {
     for (const alias of [...(Array.isArray(item?.aliases) ? item.aliases : [])].sort((a, b) => String(a).localeCompare(String(b), 'zh-Hans-CN'))) {
@@ -835,8 +839,12 @@ function itemMatchesDislikes(item, dislikes = [], allergyAliases = {}) {
 function basicSlotChoices(slot, taxonomy, dislikes = [], allergyAliases = {}) {
   if (!(slot.source_policy || []).includes('basic_extra')) return [];
   const accepted = new Set(slot.accepts_categories || []);
+  const formalReviewOnly = new Set(taxonomy?.formal_review_only_ids || []);
   return (taxonomy?.items || [])
-    .filter(item => BASIC_EXTRA_CATEGORIES.has(item.category) && accepted.has(item.category))
+    .filter(item => item.input_scope !== 'derived_only'
+      && !formalReviewOnly.has(item.canonical_id)
+      && BASIC_EXTRA_CATEGORIES.has(item.category)
+      && accepted.has(item.category))
     .filter(item => !dislikes.some(dislike => matchAllergy(dislike, item.display_name, allergyAliases)))
     .sort((a, b) => a.display_name.localeCompare(b.display_name, 'zh-Hans-CN'))
     .map(item => ({

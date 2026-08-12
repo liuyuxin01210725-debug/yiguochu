@@ -100,6 +100,7 @@ const FIRST_STAGE_SAFETY_ENDPOINT_CODES = new Set([
   'seafood_fully_cooked',
   'beef_fully_cooked',
   'heated_through',
+  'egg_fully_set',
 ]);
 const PREVIEW_BLOCKED_VARIANT_IDS = Object.freeze({
   wild_mushroom: new Set(['home-wild-mushroom-rice']),
@@ -720,7 +721,8 @@ export function validateSubstantialNutrition(variant, taxonomy, ratioCatalog) {
         continue;
       }
       if (contributor.role === 'carb') {
-        if (canonical.category === 'raw_rice' && grams >= SUBSTANTIAL_CARB_GRAMS) substantialRoles.add('carb');
+        if ((canonical.category === 'raw_rice' || canonical.category === 'prepared_glutinous_rice')
+            && grams >= SUBSTANTIAL_CARB_GRAMS) substantialRoles.add('carb');
         else errors.push(`${canonicalId} resolves to ${grams}g/person below carb threshold ${SUBSTANTIAL_CARB_GRAMS}g/person at ${servingLabel}`);
         continue;
       }

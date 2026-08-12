@@ -25,12 +25,12 @@ const SOURCE_EVIDENCE_SHA256 = crypto.createHash('sha256')
 const EXPECTED = Object.freeze({
   recipeCount: 72,
   familyCount: 3,
-  variantCount: 19,
+  variantCount: 37,
   previewReadyCount: 8,
-  calibrationPreviewCount: 8,
+  calibrationPreviewCount: 26,
   plannedCount: 3,
   minimumGradeA: 7,
-  journeyCount: 36,
+  journeyCount: 54,
 });
 const EXCLUDED_LEGACY_CATEGORIES = Object.freeze([
   'legacy-selector',

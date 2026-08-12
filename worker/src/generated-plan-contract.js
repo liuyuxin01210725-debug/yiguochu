@@ -451,6 +451,8 @@ export function buildIngredientTermUniverse(taxonomy, recipeLibrary) {
   const entries = [];
   const seen = new Set();
   for (const item of taxonomy?.items || []) {
+    if (item?.input_scope === 'derived_only'
+      || new Set(taxonomy?.formal_review_only_ids || []).has(item?.canonical_id)) continue;
     const identity = `taxonomy:${item.canonical_id || item.display_name}`;
     for (const term of taxonomyIdentityTerms(item)) addTerm(entries, seen, term, identity, 'taxonomy');
   }

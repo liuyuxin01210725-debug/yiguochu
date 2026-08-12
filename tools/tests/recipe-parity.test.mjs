@@ -1063,8 +1063,8 @@ test('Worker and Python independently score every small-pantry alternative', () 
   assert.equal(js.groups.length, 3);
   assert.ok(js.groups.every(group => group.used_items.length === 2));
   assert.deepEqual(pythonCall('prepare_error', { library, constraints }), {
-    type:'PantryNeedsGrouping',
-    message:'这些食材不能稳妥放进同一锅，请先查看本锅方案',
+    type:'',
+    message:'',
   });
 });
 
@@ -2426,6 +2426,42 @@ test('Python retained-water and contradictory-vessel repair exactly match Worker
     assert.deepEqual(py.meal, jsMeal);
     assert.deepEqual(py.flags, validateGroundedMeal(jsMeal, selection, constraints));
     assert.deepEqual(py.flags, []);
+  }
+});
+
+test('Python mirrors Worker diet and numeric ratio validation flags', () => {
+  const cases = [
+    {
+      constraints: {
+        purpose: 'fresh', servings: 2, pantry: ['大米', '卷心菜', '高汤', '面条'], dislikes: [], diet: 'glutenFree',
+      },
+      meal: {
+        ingredients: ['大米', '卷心菜', '高汤', '面条'].map(name => ({ name, grams: 100 })),
+        steps: ['大米煮熟。', '卷心菜煮熟。', '高汤煮熟。', '面条煮熟。'],
+      },
+    },
+    {
+      constraints: {
+        purpose: 'pantry', servings: 1, pantry: ['大米', '番茄', '甜椒', '洋葱'], dislikes: [],
+      },
+      meal: {
+        ingredients: [
+          { name: '大米', grams: 100 }, { name: '番茄', grams: 100 }, { name: '甜椒', grams: 100 },
+          { name: '洋葱', grams: 100 }, { name: '鸡高汤', grams: 400 },
+        ],
+        steps: ['大米、番茄、甜椒和洋葱加入鸡高汤煮熟。'],
+      },
+    },
+  ];
+  for (const item of cases) {
+    const jsSelection = selectRecipeCandidates(lib, item.constraints)[0];
+    const jsFlags = validateGroundedMeal(item.meal, jsSelection, item.constraints);
+    const pyFlags = pythonCall('validate', {
+      library: lib,
+      constraints: item.constraints,
+      meal: item.meal,
+    });
+    assert.deepEqual(pyFlags, jsFlags);
   }
 });
 

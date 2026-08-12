@@ -135,6 +135,66 @@ test('preview gate skips non-generatable corpus rows when selecting its generati
   assert.equal(summary.generation_samples, 1);
 });
 
+test('preview gate uses the rice-meal HTTP contract when health selects rice-meal-v1', async () => {
+  const { runPreviewGate } = await import('../run-direct-recommend-preview-gate.mjs');
+  const json = body => new Response(JSON.stringify(body), {
+    status: 200,
+    headers: { 'Content-Type':'application/json' },
+  });
+  const health = {
+    status:'ok',
+    buildId:'rice-build',
+    plannerRollout:'direct-recommend',
+    generationMode:'deterministic',
+    productFocus:'rice-meal-v1',
+  };
+  const plan = {
+    schema_version:3,
+    catalog_version:'rice-meal-catalog-test',
+    rice_catalog_scope:'ready',
+    status:'ready',
+    candidates:[{ plan_id:'rice-plan', plan_token:'rice-token' }],
+  };
+  const generated = {
+    schema_version:3,
+    status:'ready',
+    generation_allowed:true,
+    meals:[{ meal_sequence:1, recipe_id:'rice-recipe' }],
+  };
+  const planBodies = [];
+  const generationBodies = [];
+  const journey = { mode:'recommend', intent:'normal', servings:2, prefer_use:['鸡腿'], dislikes:[] };
+  const summary = await runPreviewGate({
+    url:'https://rice-preview.example',
+    buildId:'rice-build',
+    samples:1,
+    warmups:0,
+    journeys:[journey],
+    fetchImpl:async (input, init) => {
+      const path = new URL(String(input)).pathname;
+      if (path === '/health') return json(health);
+      if (path === '/plan-meal') {
+        planBodies.push(JSON.parse(init.body));
+        return json(plan);
+      }
+      if (path === '/generate-plan') {
+        generationBodies.push(JSON.parse(init.body));
+        return json(generated);
+      }
+      throw new Error(`unexpected_path:${path}`);
+    },
+  });
+  assert.equal(summary.product_focus, 'rice-meal-v1');
+  assert.deepEqual(planBodies[0], {
+    schema_version:3,
+    product_focus:'rice_meal',
+    servings:2,
+    pantry:['鸡腿'],
+    dislikes:[],
+  });
+  assert.deepEqual(generationBodies[0], { plan_token:'rice-token' });
+});
+
 test('preview gate rejects build mismatch, non-json, malformed json and server errors', async () => {
   const { runPreviewGate } = await import('../run-direct-recommend-preview-gate.mjs');
   const json = (body, status = 200, contentType = 'application/json') => new Response(

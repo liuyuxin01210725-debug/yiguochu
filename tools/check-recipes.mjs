@@ -101,11 +101,82 @@ import {
   validateYunnanGuizhouRiceResearchReport,
 } from './lib/yunnan-guizhou-rice-research-builder.mjs';
 import { buildYunnanGuizhouRiceResearchArtifacts } from './lib/yunnan-guizhou-rice-research-renderer.mjs';
+import {
+  readJson as readSourceBackedJson,
+  validateSourceBackedCatalogFiles,
+} from './check-source-backed-one-pot-catalog.mjs';
+import { validateSourceBackedPreviewManifest } from './lib/source-backed-preview-manifest.mjs';
+import { validateSourceBackedFormalizationLedger } from './lib/source-backed-formalization-ledger.mjs';
+import { validateSourceBackedExecutionLibrary } from './lib/source-backed-execution-library.mjs';
+import { validateSourceBackedFormalCandidateReview } from './lib/source-backed-formal-candidate-review.mjs';
+import { validateSourceBackedFormalStaging } from './lib/source-backed-formal-staging.mjs';
+import { validateSourceBackedFormalRatioEvidence } from './lib/source-backed-formal-ratio-evidence.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
 const recipeLibraryErrors = validateRecipeLibrary(lib);
 const errors = [...recipeLibraryErrors];
+const sourceBackedCatalogInputErrors = [];
+let sourceBackedCatalog = { recipes: [] };
+let sourceBackedMigration = { items: [] };
+let sourceBackedPreviewManifest = { counts: {}, records: [], blocked: [] };
+let sourceBackedFormalizationLedger = { counts: {}, records: [] };
+let sourceBackedExecutionLibrary = { counts: {}, entries: [] };
+let sourceBackedFormalCandidateReview = { counts: {}, records: [] };
+let sourceBackedFormalStaging = { counts: {}, records: [] };
+let sourceBackedFormalRatioEvidence = { counts: {}, entries: [] };
+for (const [relativePath, assign] of [
+  ['tools/data/source-backed-one-pot-recipes.v1.json', value => { sourceBackedCatalog = value; }],
+  ['tools/data/source-backed-catalog-migration.v1.json', value => { sourceBackedMigration = value; }],
+  ['tools/data/source-backed-one-pot-preview.v1.json', value => { sourceBackedPreviewManifest = value; }],
+  ['tools/data/source-backed-formalization-ledger.v1.json', value => { sourceBackedFormalizationLedger = value; }],
+  ['tools/data/source-backed-execution-library.v1.json', value => { sourceBackedExecutionLibrary = value; }],
+  ['tools/data/source-backed-formal-candidate-review.v1.json', value => { sourceBackedFormalCandidateReview = value; }],
+  ['tools/data/source-backed-formal-staging.v1.json', value => { sourceBackedFormalStaging = value; }],
+  ['tools/data/source-backed-formal-ratio-evidence.v1.json', value => { sourceBackedFormalRatioEvidence = value; }],
+]) {
+  try {
+    assign(readSourceBackedJson(relativePath));
+  } catch (error) {
+    sourceBackedCatalogInputErrors.push(
+      `${relativePath} could not be read: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+const sourceBackedArtifactContents = new Map();
+for (const relativePath of [
+  'docs/source-backed-one-pot-recipes.md',
+  'docs/source-backed-one-pot-recipes.csv',
+  'docs/source-backed-one-pot-recipe-gaps.md',
+  'docs/source-backed-one-pot-research-methods.md',
+]) {
+  const artifactUrl = new URL(`../${relativePath}`, import.meta.url);
+  if (fs.existsSync(artifactUrl)) sourceBackedArtifactContents.set(relativePath, fs.readFileSync(artifactUrl, 'utf8'));
+}
+const sourceBackedCatalogErrors = [
+  ...sourceBackedCatalogInputErrors,
+  ...validateSourceBackedCatalogFiles({
+    catalog: sourceBackedCatalog,
+    migration: sourceBackedMigration,
+    artifactContents: sourceBackedArtifactContents,
+  }),
+];
+errors.push(...sourceBackedCatalogErrors);
+const sourceBackedPreviewErrors = validateSourceBackedPreviewManifest(
+  sourceBackedPreviewManifest,
+  sourceBackedCatalog,
+);
+errors.push(...sourceBackedPreviewErrors.map(error => `source-backed preview manifest: ${error}`));
+const sourceBackedFormalizationErrors = validateSourceBackedFormalizationLedger(
+  sourceBackedFormalizationLedger,
+  sourceBackedCatalog,
+);
+errors.push(...sourceBackedFormalizationErrors.map(error => `source-backed formalization ledger: ${error}`));
+const sourceBackedExecutionErrors = validateSourceBackedExecutionLibrary(
+  sourceBackedExecutionLibrary,
+  sourceBackedCatalog,
+);
+errors.push(...sourceBackedExecutionErrors.map(error => `source-backed execution library: ${error}`));
 const menuMasterInputErrors = [];
 const regionalAtlasInputErrors = [];
 const northeastResearchInputErrors = [];
@@ -135,6 +206,25 @@ const coveragePromotions = JSON.parse(fs.readFileSync(new URL('./data/coverage-r
 const taxonomy = JSON.parse(fs.readFileSync(new URL('./data/ingredient-taxonomy.v1.json', import.meta.url), 'utf8'));
 const templates = JSON.parse(fs.readFileSync(new URL('./data/meal-templates.v2.json', import.meta.url), 'utf8'));
 const ratios = JSON.parse(fs.readFileSync(new URL('./data/ratio-rules.v1.json', import.meta.url), 'utf8'));
+const sourceBackedFormalCandidateReviewErrors = validateSourceBackedFormalCandidateReview(
+  sourceBackedFormalCandidateReview,
+  sourceBackedCatalog,
+  taxonomy,
+  ratios,
+  sourceBackedFormalRatioEvidence,
+);
+errors.push(...sourceBackedFormalCandidateReviewErrors.map(error => `source-backed formal candidate review: ${error}`));
+const sourceBackedFormalRatioEvidenceErrors = validateSourceBackedFormalRatioEvidence(
+  sourceBackedFormalRatioEvidence,
+  sourceBackedCatalog,
+);
+errors.push(...sourceBackedFormalRatioEvidenceErrors.map(error => `source-backed formal ratio evidence: ${error}`));
+const sourceBackedFormalStagingErrors = validateSourceBackedFormalStaging(
+  sourceBackedFormalStaging,
+  sourceBackedCatalog,
+  sourceBackedFormalCandidateReview,
+);
+errors.push(...sourceBackedFormalStagingErrors.map(error => `source-backed formal staging: ${error}`));
 const riceMealCatalog = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-catalog.v1.json', import.meta.url), 'utf8'));
 const riceMealCollection = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-collection.v1.json', import.meta.url), 'utf8'));
 const riceCookerSourceEvidence = readReviewLedger(
@@ -773,7 +863,51 @@ const riceMealCollectionGapCount = Array.isArray(riceMealCollection?.region_node
 const riceCookerSourceEvidenceSha256 = riceCookerSourceEvidenceErrors.length === 0
   ? crypto.createHash('sha256').update(canonicalJson(riceCookerSourceEvidence)).digest('hex')
   : null;
+const sourceBackedRecipes = Array.isArray(sourceBackedCatalog?.recipes) ? sourceBackedCatalog.recipes : [];
+const sourceBackedStatusCounts = sourceBackedRecipes.reduce((counts, recipe) => {
+  const status = typeof recipe?.status === 'string' && recipe.status ? recipe.status : 'invalid';
+  counts[status] = (counts[status] ?? 0) + 1;
+  return counts;
+}, {});
+const sourceBackedExecutionEntries = Array.isArray(sourceBackedExecutionLibrary?.entries)
+  ? sourceBackedExecutionLibrary.entries
+  : [];
+const sourceBackedExecutionCompleteness = sourceBackedExecutionEntries.reduce((counts, entry) => {
+  const card = entry?.execution_card || {};
+  const hasQuantities = Array.isArray(card.ingredients)
+    && card.ingredients.length > 0
+    && card.ingredients.every(item => item?.amount && Number.isFinite(item.amount.value) && item.amount.unit);
+  const hasLiquid = Boolean(card.liquid?.amount || card.liquid?.research_starting_point || card.liquid?.waterline);
+  const hasSteps = Array.isArray(card.steps)
+    && card.steps.length >= 3
+    && card.steps.every(step => typeof step?.instruction === 'string' && step.instruction.trim());
+  const hasTime = Boolean(card.time?.total_minutes || card.time?.range);
+  if (hasQuantities) counts.quantities += 1;
+  if (hasLiquid) counts.liquid += 1;
+  if (hasSteps) counts.steps += 1;
+  if (hasTime) counts.time += 1;
+  if (hasQuantities && hasLiquid && hasSteps && hasTime) counts.fully_usable += 1;
+  if (entry?.execution_card?.blocked_reason) counts.blocked += 1;
+  if (!entry?.execution_card?.blocked_reason && hasQuantities && hasLiquid && hasSteps && hasTime) counts.unblocked += 1;
+  return counts;
+}, { quantities: 0, liquid: 0, steps: 0, time: 0, fully_usable: 0, unblocked: 0, blocked: 0 });
 console.log(`菜谱家族 ${familyCount} 个 · 基础菜谱 ${recipeCount} 道（approved 人工批准 ${approvedCount} 道 · auto_approved 自动闸门通过待评审 ${autoApprovedCount} 道）`);
+console.log([
+  `${sourceBackedRecipes.length} source-backed one-pot recipes`,
+  `version ${sourceBackedCatalog?.catalog_version || 'unavailable'}`,
+  ...Object.entries(sourceBackedStatusCounts)
+    .sort(([left], [right]) => left.localeCompare(right, 'en'))
+    .map(([status, count]) => `${status} ${count}`),
+  sourceBackedCatalogErrors.length
+    ? `source-backed catalog invalid (${sourceBackedCatalogErrors.length})`
+    : 'source-backed catalog and artifacts ok',
+].join(' · '));
+console.log(`source-backed preview ${sourceBackedPreviewManifest?.counts?.selected ?? 0} selected / ${sourceBackedPreviewManifest?.counts?.total ?? 0} total · ${sourceBackedPreviewManifest?.counts?.blocked ?? 0} blocked${sourceBackedPreviewErrors.length ? ` · invalid (${sourceBackedPreviewErrors.length})` : ' · manifest ok'}`);
+console.log(`source-backed formalization ${sourceBackedFormalizationLedger?.counts?.preview_candidate ?? 0} preview candidates / ${sourceBackedFormalizationLedger?.counts?.blocked ?? 0} blocked / ${sourceBackedFormalizationLedger?.counts?.total ?? 0} total${sourceBackedFormalizationErrors.length ? ` · invalid (${sourceBackedFormalizationErrors.length})` : ' · ledger ok'}`);
+console.log(`source-backed execution ${sourceBackedExecutionLibrary?.counts?.total ?? 0} cards · ${sourceBackedExecutionLibrary?.counts?.source_complete ?? 0} source-complete · ${sourceBackedExecutionLibrary?.counts?.run_scope?.research_only ?? 0} research-only${sourceBackedExecutionErrors.length ? ` · invalid (${sourceBackedExecutionErrors.length})` : ' · library ok'}`);
+console.log(`source-backed execution completeness ${sourceBackedExecutionCompleteness.fully_usable}/${sourceBackedExecutionEntries.length} complete research fields · ${sourceBackedExecutionCompleteness.unblocked}/${sourceBackedExecutionEntries.length} unblocked complete · ${sourceBackedExecutionCompleteness.blocked} safety-blocked · ${sourceBackedExecutionCompleteness.quantities}/${sourceBackedExecutionEntries.length} quantities · ${sourceBackedExecutionCompleteness.liquid}/${sourceBackedExecutionEntries.length} liquid · ${sourceBackedExecutionCompleteness.steps}/${sourceBackedExecutionEntries.length} steps · ${sourceBackedExecutionCompleteness.time}/${sourceBackedExecutionEntries.length} time`);
+console.log(`source-backed formal candidate review ${sourceBackedFormalCandidateReview?.counts?.total ?? 0} rows · ${sourceBackedFormalCandidateReview?.counts?.source_complete ?? 0} source-complete · ratio evidence ${sourceBackedFormalCandidateReview?.counts?.ratio_dsl?.candidate_evidence_only ?? 0} · ${sourceBackedFormalCandidateReview?.counts?.formal_ready ?? 0} formal-ready${sourceBackedFormalCandidateReviewErrors.length ? ` · invalid (${sourceBackedFormalCandidateReviewErrors.length})` : ' · review ok'}`);
+console.log(`source-backed formal staging ${sourceBackedFormalStaging?.counts?.total ?? 0} queued · ${sourceBackedFormalStaging?.counts?.source_complete ?? 0} source-complete · ${sourceBackedFormalStaging?.counts?.formal_ready ?? 0} formal-ready · ${sourceBackedFormalStaging?.counts?.kitchen_pending ?? 0} kitchen pending${sourceBackedFormalStagingErrors.length ? ` · invalid (${sourceBackedFormalStagingErrors.length})` : ' · staging ok'}`);
 console.log([
   `${recipeCount} recipes`,
   `${activeTemplateCount} active templates`,

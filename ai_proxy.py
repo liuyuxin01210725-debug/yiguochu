@@ -1542,6 +1542,13 @@ _VALIDATION_COOKING_OIL_NAMES = {
 _VALIDATION_SALT_NAMES = {'盐', '食盐', '海盐', '低钠盐'}
 _VALIDATION_PEPPER_NAMES = {'胡椒', '胡椒粉', '黑胡椒', '黑胡椒粉', '白胡椒', '白胡椒粉'}
 _VALIDATION_WATER_NAMES = {'水', '清水', '饮用水', '凉开水', '温水', '热水'}
+_VALIDATION_DIET_VIOLATION_PATTERNS = {
+    'vegan': re.compile(r'(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|蛋|鸡蛋|奶|牛奶|乳|奶油|黄油|芝士|奶酪|酸奶|蜂蜜|明胶)'),
+    'ovoLacto': re.compile(r'(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|明胶)'),
+    'glutenFree': re.compile(r'(?:小麦|面粉|面条|挂面|拉面|乌冬|意面|通心粉|面包|馒头|包子|饺子|面筋|麸质|麸皮)'),
+}
+_VALIDATION_RAW_RICE_NAME_RE = re.compile(r'^(?:大米|白米|糙米|糯米|粳米|籼米|黑米|紫米|红米)$')
+_VALIDATION_LIQUID_NAME_RE = re.compile(r'(?:高汤|汤汁|椰奶|牛奶)$')
 _VALIDATION_SALT_TOKEN_SOURCE = r'(?:食盐|海盐|低钠盐|盐)(?!水)'
 _VALIDATION_PEPPER_TOKEN_SOURCE = r'(?:黑胡椒粉|白胡椒粉|胡椒粉|黑胡椒|白胡椒|胡椒)'
 _VALIDATION_SEASONING_TOKEN_SOURCE = (
@@ -1657,6 +1664,72 @@ def _validation_cooking_oil_ingredient(name):
 def _validation_ingredient_matches_names(name, names):
     bare = re.sub(r'\(.*?\)', '', _validation_form_name(name))
     return bare in names
+
+
+def _validation_diet_violation(name, diet):
+    pattern = _VALIDATION_DIET_VIOLATION_PATTERNS.get(diet)
+    return bool(pattern and pattern.search(_validation_form_name(name)))
+
+
+def _validation_ingredient_gram_map(meal):
+    amounts = {}
+    if not isinstance(meal, dict) or not isinstance(meal.get('ingredients'), list):
+        return amounts
+    for item in meal['ingredients']:
+        if isinstance(item, str):
+            name = item.strip()
+            grams = math.nan
+        elif isinstance(item, dict):
+            name = item.get('name') if isinstance(item.get('name'), str) else ''
+            grams = _js_number(item.get('grams'))
+        else:
+            name = ''
+            grams = math.nan
+        if name and math.isfinite(grams) and grams > 0:
+            amounts[_validation_form_name(name)] = grams
+    return amounts
+
+
+def _validation_rice_water_ratio_bounds(recipe):
+    rules = recipe.get('ratio_rules') if isinstance(recipe, dict) else []
+    for raw_rule in rules if isinstance(rules, list) else []:
+        rule = _js_string(raw_rule)
+        direct = re.search(r'大米与液体约为\s*1\s*:\s*(\d+(?:\.\d+)?)', rule)
+        if direct:
+            expected = float(direct.group(1))
+            if math.isfinite(expected) and expected > 0:
+                return expected, 0.1
+        per_serving = re.search(
+            r'每\s*1\s*份使用\s*大米\s*(\d+(?:\.\d+)?)\s*克、(?:鸡高汤|高汤|水)\s*(\d+(?:\.\d+)?)\s*克',
+            rule,
+        )
+        if per_serving:
+            rice = float(per_serving.group(1))
+            liquid = float(per_serving.group(2))
+            if math.isfinite(rice) and rice > 0 and math.isfinite(liquid) and liquid > 0:
+                return liquid / rice, 0.2
+    return None
+
+
+def _validation_rice_water_ratio_flag(meal, recipe):
+    bounds = _validation_rice_water_ratio_bounds(recipe)
+    if bounds is None:
+        return None
+    amounts = _validation_ingredient_gram_map(meal)
+    rice = next((grams for name, grams in amounts.items() if _VALIDATION_RAW_RICE_NAME_RE.fullmatch(name)), None)
+    if rice is None:
+        return None
+    liquid = sum(
+        grams for name, grams in amounts.items()
+        if name in _VALIDATION_WATER_NAMES or _VALIDATION_LIQUID_NAME_RE.search(name)
+    )
+    if not math.isfinite(liquid) or liquid <= 0:
+        return None
+    expected, tolerance = bounds
+    ratio = liquid / rice
+    if expected * (1 - tolerance) <= ratio <= expected * (1 + tolerance):
+        return None
+    return 'ratio_out_of_bounds:rice_water'
 
 
 def _validation_approved_ingredient_set(selection, aliases):
@@ -2085,6 +2158,8 @@ def validate_grounded_meal(meal, selection, constraints=None):
                 strict_rice_visible,
             ))
         )
+        if _validation_diet_violation(name, constraints.get('diet')):
+            add_flag(f"diet_violation:{constraints.get('diet')}:{name}")
         if not direct_rice_ingredient and any(match_allergy(term, name, aliases) for term in dislike_terms):
             add_flag(f'allergen_present:{name}')
         if not _validation_seasoning(name) and not any(_validation_step_mentions(step, name, aliases) for step in steps):
@@ -2128,6 +2203,9 @@ def validate_grounded_meal(meal, selection, constraints=None):
             add_flag(f'unused_pantry_used:{item}')
 
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    ratio_flag = _validation_rice_water_ratio_flag(meal, recipe)
+    if ratio_flag:
+        add_flag(ratio_flag)
     used_pantry = selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []
     anchors = []
     for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
@@ -2304,11 +2382,18 @@ def build_recipe_request(meal_name, targets, constraints, library=None):
         if pantry:
             raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
         raise RecipeLibraryUnavailable('没有符合本次限制的可信基础菜谱')
-    if pantry and not selection.get('used_pantry'):
+    if pantry and not selection.get('used_pantry') and not rice_allergy_complete_main_active(selection):
         if rice_allergy_active:
             raise NoSafeRecipe('暂时没有符合这些过敏或忌口条件的可信无米主餐')
         raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
-    if pantry and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
+    can_generate_with_unused_small_pantry = (
+        not constraints.get('selected_base_recipe_id')
+        and len(pantry) <= 6
+        and (len(selection.get('used_pantry') or []) > 0 or rice_allergy_complete_main_active(selection))
+        and len(selection.get('used_pantry') or []) < len(pantry)
+    )
+    if pantry and not can_generate_with_unused_small_pantry \
+            and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
         raise PantryNeedsGrouping(
             '这些食材不能稳妥放进同一锅，请先查看本锅方案',
             build_pantry_plan(library, constraints),

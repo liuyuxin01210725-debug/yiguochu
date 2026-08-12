@@ -616,5 +616,185 @@
         "safety_endpoints": ["rice_tender", "pork_fully_cooked", "bean_fully_cooked"]
       }
     }
+    ,{
+      "id": "RM-37-source-sichuan-pork-ribs-calibration",
+      "spec_case": 37,
+      "rice_catalog_scope": "calibration",
+      "request": { "servings": 2, "pantry": ["排骨", "玉米", "胡萝卜"], "dislikes": [] },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "source-sichuan-pork-ribs-rice",
+        "allowed_variant_ids": ["source-sichuan-pork-ribs-rice"],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "nutrition_grades": ["B"],
+        "required_unused_reason_codes": []
+      },
+      "preview_basis": "来源排骨焖饭两人校准合同；来源事实、项目换算和外锅排骨预处理边界分开记录。"
+    },
+    {
+      "id": "RM-343-source-tatung-beef-burdock-rice",
+      "spec_case": 343,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["牛肉", "牛蒡"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-tatung-beef-burdock-rice", "allowed_variant_ids": ["source-tatung-beef-burdock-rice"], "forbidden_variant_ids": [], "min_coverage_count": 2, "expected_coverage_count": 2, "expected_coverage_total": 2, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "大同牛肉牛蒡官方合同；项目克数与液体比明确标为校准起点，实厨与真实旅程仍待反馈。"
+    },
+    {
+      "id": "RM-344-source-tiger-pork-bamboo-rice",
+      "spec_case": 344,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["五花肉", "竹笋"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-tiger-pork-bamboo-rice", "allowed_variant_ids": ["source-tiger-pork-bamboo-rice"], "forbidden_variant_ids": [], "min_coverage_count": 2, "expected_coverage_count": 2, "expected_coverage_total": 2, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "Tiger猪肉竹笋炊饭官方合同；只限Tiger炊込み边界，项目两人比值仍待实厨。"
+    },
+    {
+      "id": "RM-345-source-tatung-pork-daikon-rice",
+      "spec_case": 345,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["五花肉", "白萝卜", "胡萝卜", "油炸豆腐"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-tatung-pork-daikon-rice", "allowed_variant_ids": ["source-tatung-pork-daikon-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "大同猪肉萝卜饭官方合同；米水位线与项目称重起点分开记录。"
+    },
+    {
+      "id": "RM-346-source-tatung-wakayama-ginger-rice",
+      "spec_case": 346,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["鸡胸肉", "生姜", "胡萝卜", "油炸豆腐"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-tatung-wakayama-ginger-rice", "allowed_variant_ids": ["source-tatung-wakayama-ginger-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "大同しょうが飯官方合同；来源3人批量与项目两人校准起点分开记录。"
+    },
+    {
+      "id": "RM-347-source-taiwan-tatung-cabbage-rice",
+      "spec_case": 347,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["猪肉", "高丽菜", "干香菇", "虾米", "红葱头"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-taiwan-tatung-cabbage-rice", "allowed_variant_ids": ["source-taiwan-tatung-cabbage-rice"], "forbidden_variant_ids": [], "min_coverage_count": 5, "expected_coverage_count": 5, "expected_coverage_total": 5, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "台湾农粮署/大同高丽菜饭来源合同；先炒配料、内外锅液体和项目克数明确分层，仍待指定大同电锅实厨反馈。"
+    },
+    {
+      "id": "RM-348-source-zojirushi-pork-vegetable-rice",
+      "spec_case": 348,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["猪肉", "卷心菜", "青椒", "生姜"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-zojirushi-pork-vegetable-rice", "allowed_variant_ids": ["source-zojirushi-pork-vegetable-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "象印EL-NS23来源合同；猪肉先汆烫、固定自动菜单和水量只限指定机型，项目两人量仍待实厨。"
+    },
+    {
+      "id": "RM-349-source-panasonic-nf-pc400-takikomi-rice",
+      "spec_case": 349,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["鸡腿肉", "牛蒡", "蒟蒻", "干香菇", "胡萝卜"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-panasonic-nf-pc400-takikomi-rice", "allowed_variant_ids": ["source-panasonic-nf-pc400-takikomi-rice"], "forbidden_variant_ids": [], "min_coverage_count": 5, "expected_coverage_count": 5, "expected_coverage_total": 5, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "Panasonic NF-PC400来源合同；水位线、自动调理与完全泄压边界不外推普通电饭煲。"
+    },
+    {
+      "id": "RM-350-source-panasonic-khao-man-gai",
+      "spec_case": 350,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["鸡腿肉", "生姜", "蒜", "白葱"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-panasonic-khao-man-gai", "allowed_variant_ids": ["source-panasonic-khao-man-gai", "source-tatung-hainan-chicken-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "Panasonic NF-AC1000海南鸡饭来源合同；压力8分钟和减压确认边界只限指定压力锅。"
+    },
+    {
+      "id": "RM-351-source-zojirushi-okayama-ebimeshi",
+      "spec_case": 351,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["虾仁", "洋葱", "鸡蛋", "青葱"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-zojirushi-okayama-ebimeshi", "allowed_variant_ids": ["source-zojirushi-okayama-ebimeshi"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "象印EL-NS23冈山虾饭来源合同；先炒虾和洋葱、出锅另锅炒蛋的边界只限指定机型。"
+    },
+    {
+      "id": "RM-352-source-cookpot-beef-wild-mushroom-rice",
+      "spec_case": 352,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["牛肉", "洋葱", "平菇", "干香菇"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-cookpot-beef-wild-mushroom-rice", "allowed_variant_ids": ["source-cookpot-beef-wild-mushroom-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "鍋寶316牛肉野菇炊饭来源合同；菇类克数和泡菇水项目合同仍待实厨。"
+    },
+    {
+      "id": "RM-353-source-tatung-hainan-chicken-rice",
+      "spec_case": 353,
+      "swap_from_variant_id": "source-panasonic-khao-man-gai",
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["鸡腿肉", "生姜", "蒜", "葱"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-tatung-hainan-chicken-rice", "allowed_variant_ids": ["source-panasonic-khao-man-gai", "source-tatung-hainan-chicken-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "大同海南鸡饭来源合同；先蒸鸡留汤、再煮米的两轮流程不外推普通电饭煲。"
+    },
+    {
+      "id": "RM-354-source-tatung-pork-jowl-sesame-rice",
+      "spec_case": 354,
+      "rice_catalog_scope": "calibration",
+      "request": {"servings": 2, "pantry": ["五花肉", "干香菇", "虾米", "生姜"], "dislikes": []},
+      "expect": {"status": "ready", "expected_first_variant": "source-tatung-pork-jowl-sesame-rice", "allowed_variant_ids": ["source-tatung-pork-jowl-sesame-rice"], "forbidden_variant_ids": [], "min_coverage_count": 4, "expected_coverage_count": 4, "expected_coverage_total": 4, "nutrition_grades": ["B"], "required_unused_reason_codes": []},
+      "preview_basis": "大同猪颈肉芝麻油炊饭来源合同；先炒再炊和180ml泡菇水边界只限大同电锅。"
+    }
+,
+    {"id":"RM-355-source-tiger-chinese-sticky-rice","spec_case":355,"rice_catalog_scope":"calibration","request":{"servings":2,"pantry":["五花肉","干香菇","虾米","竹笋","胡萝卜"],"dislikes":[]},"expect":{"status":"ready","expected_first_variant":"source-tiger-chinese-sticky-rice","allowed_variant_ids":["source-tiger-chinese-sticky-rice"],"forbidden_variant_ids":[],"min_coverage_count":5,"expected_coverage_count":5,"expected_coverage_total":5,"nutrition_grades":["B"],"required_unused_reason_codes":[]},"preview_basis":"Tiger炊込み中華おこわ来源合同；浸泡、先炒、指定おこわ程序和项目两人克数边界均显式保留。"},
+    {"id":"RM-356-source-panasonic-claypot-style-chicken-rice","spec_case":356,"rice_catalog_scope":"calibration","request":{"servings":2,"pantry":["鸡腿肉","香菇"],"dislikes":[]},"expect":{"status":"ready","expected_first_variant":"source-panasonic-claypot-style-chicken-rice","allowed_variant_ids":["source-panasonic-claypot-style-chicken-rice"],"forbidden_variant_ids":[],"min_coverage_count":2,"expected_coverage_count":2,"expected_coverage_total":2,"nutrition_grades":["B"],"required_unused_reason_codes":[]},"preview_basis":"Panasonic Claypot Style Chicken Rice来源合同；腌制、WHITE RICE/CASSEROLE双程序和指定机型边界不外推。"},
+    {"id":"RM-357-source-tatung-tomato-pumpkin-rice","spec_case":357,"rice_catalog_scope":"calibration","request":{"servings":2,"pantry":["番茄","南瓜","培根"],"dislikes":[]},"expect":{"status":"ready","expected_first_variant":"source-tatung-tomato-pumpkin-rice","allowed_variant_ids":["source-tatung-tomato-pumpkin-rice"],"forbidden_variant_ids":[],"min_coverage_count":3,"expected_coverage_count":3,"expected_coverage_total":3,"nutrition_grades":["B"],"required_unused_reason_codes":[]},"preview_basis":"大同M号番茄南瓜培根炊饭来源合同；320mL水、外锅和培根加热终点边界保留。"},
+    {
+      "id": "RM-358-source-nih-medlineplus-chicken-rice",
+      "spec_case": 358,
+      "rice_catalog_scope": "calibration",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡肉",
+          "番茄",
+          "青椒",
+          "芹菜",
+          "胡萝卜",
+          "玉米"
+        ],
+        "dislikes": []
+      },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "source-nih-medlineplus-chicken-rice",
+        "allowed_variant_ids": [
+          "source-nih-medlineplus-chicken-rice"
+        ],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 6,
+        "expected_coverage_count": 6,
+        "expected_coverage_total": 6,
+        "nutrition_grades": [
+          "B"
+        ],
+        "required_unused_reason_codes": []
+      },
+      "preview_basis": "MedlinePlus/NHLBI官方普通大锅分阶段来源合同；项目两人克数和2倍加水比仅作校准起点，保留鸡肉取出/回锅边界。"
+    },
+    {
+      "id": "RM-359-source-tiger-chicken-bamboo-rice",
+      "spec_case": 359,
+      "rice_catalog_scope": "calibration",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡胸",
+          "竹笋",
+          "油豆腐皮"
+        ],
+        "dislikes": []
+      },
+      "expect": {
+        "status": "ready",
+        "expected_first_variant": "source-tiger-chicken-bamboo-rice",
+        "allowed_variant_ids": [
+          "source-tiger-chicken-bamboo-rice"
+        ],
+        "forbidden_variant_ids": [],
+        "min_coverage_count": 3,
+        "expected_coverage_count": 3,
+        "expected_coverage_total": 3,
+        "nutrition_grades": [
+          "A"
+        ],
+        "required_unused_reason_codes": []
+      },
+      "preview_basis": "Tiger官方鸡肉竹笋炊饭来源合同；熟竹笋和油豆腐皮状态、炊込み程序及项目两人校准比例显式保留。"
+    }
   ]
 }

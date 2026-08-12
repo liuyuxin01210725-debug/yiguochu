@@ -45,6 +45,8 @@ const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作�
 
 const CHECKER_DATA_FILES = [
   'recipe-library.json',
+  'source-backed-one-pot-recipes.v1.json',
+  'source-backed-catalog-migration.v1.json',
   'recipe-candidates.json',
   'coverage-recipe-candidates.json',
   'coverage-recipe-drafts.json',
@@ -74,11 +76,19 @@ const CHECKER_DATA_FILES = [
   'yunnan-guizhou-rice-research.v1.json',
 ];
 
+const CHECKER_TOOL_FILES = [
+  'check-recipes.mjs',
+  'check-source-backed-one-pot-catalog.mjs',
+  'build-source-backed-one-pot-catalog.mjs',
+];
+
 function runCheckerWithAssetMutation(mutate) {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-gate-'));
   const tempTools = path.join(tempRoot, 'tools');
   fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
-  fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
+  for (const name of CHECKER_TOOL_FILES) {
+    fs.copyFileSync(new URL(`../${name}`, import.meta.url), path.join(tempTools, name));
+  }
   fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempTools, 'lib'), { recursive: true });
   fs.cpSync(new URL('../../worker/src/', import.meta.url), path.join(tempRoot, 'worker', 'src'), { recursive: true });
   fs.cpSync(new URL('../generated/', import.meta.url), path.join(tempTools, 'generated'), { recursive: true });
@@ -847,7 +857,9 @@ test('offline checker reports zero counts for malformed root containers without 
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'recipe-checker-'));
   const tempTools = path.join(tempRoot, 'tools');
   fs.mkdirSync(path.join(tempTools, 'data'), { recursive: true });
-  fs.copyFileSync(new URL('../check-recipes.mjs', import.meta.url), path.join(tempTools, 'check-recipes.mjs'));
+  for (const name of CHECKER_TOOL_FILES) {
+    fs.copyFileSync(new URL(`../${name}`, import.meta.url), path.join(tempTools, name));
+  }
   fs.cpSync(new URL('../lib/', import.meta.url), path.join(tempTools, 'lib'), { recursive: true });
   fs.cpSync(new URL('../../worker/src/', import.meta.url), path.join(tempRoot, 'worker', 'src'), { recursive: true });
   fs.cpSync(new URL('../generated/', import.meta.url), path.join(tempTools, 'generated'), { recursive: true });

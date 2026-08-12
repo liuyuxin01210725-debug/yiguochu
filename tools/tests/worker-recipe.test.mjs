@@ -33,6 +33,7 @@ const HEALTH_ASSETS = Object.freeze({
   '/ratio-rules.v1.json': fs.readFileSync(new URL('../data/ratio-rules.v1.json', import.meta.url), 'utf8'),
   '/recipe-runtime.v1.json': fs.readFileSync(new URL('../data/recipe-runtime.v1.json', import.meta.url), 'utf8'),
   '/recipe-action-profiles.v1.json': fs.readFileSync(new URL('../data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'),
+  '/source-backed-execution-library.v1.json': fs.readFileSync(new URL('../data/source-backed-execution-library.v1.json', import.meta.url), 'utf8'),
 });
 
 test('a chosen pantry card locks optional main ingredients to the items declared on that card', () => {
@@ -48,6 +49,24 @@ test('a chosen pantry card locks optional main ingredients to the items declared
   assert.ok(options.includes('西红柿'), 'selected pantry substitution remains allowed');
   assert.equal(options.includes('青菜'), false, 'undeclared optional vegetable cannot appear after card selection');
   assert.equal(options.includes('香葱'), false, 'undeclared optional garnish cannot appear after card selection');
+});
+
+test('finish-only legacy generation contracts keep project variants in one vessel', () => {
+  for (const id of ['cabbage-tofu-braised-rice', 'broccoli-beef-braised-rice']) {
+    const recipe = lib.recipes.find(item => item.id === id);
+    assert.ok(recipe, `${id} fixture recipe exists`);
+    const selection = {
+      recipe,
+      family: lib.families.find(item => item.id === recipe.family_id),
+      ingredientAliases: lib.ingredient_aliases || {},
+      usedPantry: [...recipe.core_ingredients],
+      unusedPantry: [],
+      dislikes: [],
+    };
+    const grounding = buildRecipeGrounding(selection);
+    assert.match(grounding, /legacy 生成.*(?:白菜|西兰花).*同一口锅.*后段/u);
+    assert.match(grounding, /不得写.*锅外.*另起锅.*第二口锅/u);
+  }
 });
 
 test('portion repair scales all gram amounts proportionally for a four-serving main meal', () => {
@@ -66,6 +85,66 @@ test('portion repair scales all gram amounts proportionally for a four-serving m
   assert.ok(result.factor > 1 && result.factor <= 3);
   assert.ok(totalKcal >= 2600 * 0.5 - 1, 'whole-gram rounding may undershoot by less than one kcal');
   assert.ok(Math.abs(meal.ingredients[0].grams / meal.ingredients[1].grams - beforeRatio) < 0.02);
+});
+
+test('grounding validation rejects gluten and animal ingredients under diet contracts', () => {
+  const cases = [
+    {
+      diet: 'glutenFree',
+      recipeId: 'rice-cabbage-minestrone',
+      pantry: ['大米', '卷心菜', '高汤', '面条'],
+      ingredient: '面条',
+    },
+    {
+      diet: 'vegan',
+      recipeId: 'lentil-potato-tomato-curry',
+      pantry: ['红扁豆', '土豆', '番茄', '鸡肉'],
+      ingredient: '鸡肉',
+    },
+  ];
+  for (const item of cases) {
+    const constraints = { purpose: 'fresh', servings: 2, pantry: item.pantry, dislikes: [], diet: item.diet };
+    const selection = selectRecipeCandidates(lib, constraints)
+      .find(candidate => candidate.recipe.id === item.recipeId);
+    assert.ok(selection, `${item.recipeId} selection exists`);
+    const meal = {
+      ingredients: item.pantry.map(name => ({ name, grams: 100 })),
+      steps: item.pantry.map(name => `${name}煮熟。`),
+    };
+    const flags = validateGroundedMeal(meal, selection, constraints);
+    assert.ok(flags.includes(`diet_violation:${item.diet}:${item.ingredient}`), `${item.diet} ${item.ingredient}`);
+  }
+});
+
+test('grounding validation rejects explicit rice-water ratios outside trusted bounds', () => {
+  const cases = [
+    {
+      recipeId: 'chinese-congee',
+      pantry: ['大米', '水'],
+      ingredients: [{ name: '大米', grams: 100 }, { name: '水', grams: 100 }],
+      steps: ['大米和水煮熟。'],
+    },
+    {
+      recipeId: 'jollof-rice',
+      pantry: ['大米', '番茄', '甜椒', '洋葱'],
+      ingredients: [
+        { name: '大米', grams: 100 },
+        { name: '番茄', grams: 100 },
+        { name: '甜椒', grams: 100 },
+        { name: '洋葱', grams: 100 },
+        { name: '鸡高汤', grams: 400 },
+      ],
+      steps: ['大米、番茄、甜椒和洋葱加入鸡高汤煮熟。'],
+    },
+  ];
+  for (const item of cases) {
+    const constraints = { purpose: 'pantry', servings: 1, pantry: item.pantry, dislikes: [] };
+    const selection = selectRecipeCandidates(lib, constraints)
+      .find(candidate => candidate.recipe.id === item.recipeId);
+    assert.ok(selection, `${item.recipeId} selection exists`);
+    const flags = validateGroundedMeal({ ingredients: item.ingredients, steps: item.steps }, selection, constraints);
+    assert.ok(flags.includes('ratio_out_of_bounds:rice_water'), item.recipeId);
+  }
 });
 
 function healthAssetResponse(request) {
@@ -579,15 +658,46 @@ test('partial pantry coverage returns a plan before spending a DeepSeek call', a
   assert.equal(upstreamBodies.length, 0);
 });
 
-test('rice-allergy pantry with zero compatible coverage returns a safety stop instead of an empty grouping plan', async () => {
+test('small partial pantry coverage generates with an explicit unused pantry item', async () => {
+  const recipe = groundedFixtureRecipe({
+    core_ingredients: ['大米', '鸡肉', '洋葱'],
+    name: '鸡肉洋葱焖饭',
+  });
+  const pantry = ['鸡肉', '神秘叶菜'];
   const { response, body, upstreamBodies } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe]),
+    constraints: { pantry, purpose: 'pantry' },
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(body.used_pantry, ['鸡肉']);
+  assert.deepEqual(body.unused_pantry, ['神秘叶菜']);
+  assert.equal(body.code, undefined);
+  assert.equal(upstreamBodies.length, 1);
+});
+
+test('rice-allergy pantry with zero compatible coverage uses the safe base and marks pantry unused', async () => {
+  const meal = generatedMeal({
+    dish_name: '红扁豆土豆番茄咖喱',
+    ingredients: [
+      { name: '红扁豆', grams: 120 },
+      { name: '土豆', grams: 300 },
+      { name: '番茄', grams: 220 },
+      { name: '水', grams: 600 },
+    ],
+    steps: ['红扁豆、土豆、番茄和水放入同一口锅中炖熟。'],
+    note: '红扁豆、土豆和番茄组成完整主餐。',
+  });
+  const { response, body, upstreamBodies } = await runGenerateRequest({
+    meal,
     recipeLib: lib,
     constraints: { pantry: ['鸡肉'], dislikes: ['大米过敏'], purpose: 'pantry' },
   });
-  assert.equal(response.status, 422);
-  assert.equal(body.code, 'no_safe_recipe');
-  assert.equal(body.pantry_plan, undefined);
-  assert.equal(upstreamBodies.length, 0);
+  assert.equal(response.status, 200);
+  assert.equal(body.base_recipe_id, 'lentil-potato-tomato-curry');
+  assert.deepEqual(body.used_pantry, []);
+  assert.deepEqual(body.unused_pantry, ['鸡肉']);
+  assert.equal(body.code, undefined);
+  assert.equal(upstreamBodies.length, 1);
 });
 
 test('choosing a pantry-plan recipe pins that trusted base recipe instead of reranking the group', async () => {
@@ -2547,6 +2657,7 @@ test('safety tail still repairs raw poultry pork shrimp and ordinary egg', () =>
   const rawCases = [
     { name: '鸡胸肉', aliases: { '鸡胸肉': '鸡肉' } },
     { name: '猪肉' },
+    { name: '猪肋排' },
     { name: '虾仁' },
     { name: '鸡蛋' },
   ];
@@ -3994,8 +4105,8 @@ test('health cache is isolated per assets binding in one module instance', async
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);
-  assert.equal(okFetches, 8);
-  assert.equal(missingFetches, 9);
+  assert.equal(okFetches, 9);
+  assert.equal(missingFetches, 10);
 });
 
 test('health reuses planner assets while refreshing build metadata for the same binding', async () => {
@@ -4021,9 +4132,11 @@ test('health reuses planner assets while refreshing build metadata for the same 
     'https://one.example/recipe-runtime.v1.json',
     'https://one.example/recipe-action-profiles.v1.json',
     'https://one.example/rice-meal-catalog.v1.json',
+    'https://one.example/source-backed-execution-library.v1.json',
     'https://two.example/build-meta.json',
+    'https://two.example/source-backed-execution-library.v1.json',
   ]));
-  assert.equal(requests.length, 9);
+  assert.equal(requests.length, 11);
 });
 
 test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {
@@ -4187,6 +4300,35 @@ test('generation uses the current supported DeepSeek model by default', async ()
   assert.equal(upstreamBodies.length, 1);
   assert.equal(upstreamBodies[0].model, 'deepseek-v4-flash');
   assert.deepEqual(upstreamBodies[0].thinking, { type:'disabled' });
+});
+
+test('generation accepts a trusted two-ingredient congee contract', async () => {
+  const recipe = groundedFixtureRecipe({
+    id: 'two-ingredient-congee',
+    family_id: 'family-rice-porridge',
+    name: '中式基础粥',
+    core_ingredients: ['大米', '水'],
+    optional_ingredients: [],
+    generation_optional_ingredients: [],
+    generation_liquid_ingredients: ['水'],
+    technique: ['大米和水同锅煮至绵软'],
+  });
+  const meal = generatedMeal({
+    dish_name: '中式基础粥',
+    ingredients: [
+      { name: '大米', grams: 100 },
+      { name: '水', grams: 1100 },
+    ],
+    steps: ['大米和水同锅煮至绵软即可。'],
+  });
+  const { response, body } = await runGenerateRequest({
+    recipeLib: fixtureLib([recipe]),
+    meal,
+    constraints: { pantry: ['大米', '水'] },
+  });
+  assert.equal(response.status, 200);
+  assert.equal(body.ingredients.length, 2);
+  assert.equal(body.base_recipe_id, 'two-ingredient-congee');
 });
 
 test('generation gives DeepSeek V4 enough time for a full grounded recipe response', async () => {

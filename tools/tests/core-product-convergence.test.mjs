@@ -71,20 +71,17 @@ test('start.command starts both local services and opens the localhost page', ()
   assert.doesNotMatch(script, /open\s+["']index\.html["']/);
 });
 
-test('start.command validates Node, bridge and a real keyless planner CLI before touching old services', () => {
+test('start.command launches the source-backed rotation without requiring the legacy planner bridge', () => {
   const script = read('start.command');
   assert.match(script, /PLANNER_NODE_EXECUTABLE/);
-  assert.match(script, /planner-v2-local-bridge\.mjs/);
-  assert.match(script, /--plan-meal/);
-  assert.ok(script.indexOf('--plan-meal') < script.indexOf('lsof -ti :8765'));
+  assert.doesNotMatch(script, /planner-v2-local-bridge\.mjs/);
+  assert.doesNotMatch(script, /--plan-meal/);
 });
 
-test('start.command fails closed before kill/open when Node, bridge or planner CLI is unavailable', async t => {
+test('start.command fails closed before kill/open when Node or the rice rotation build is unavailable', async t => {
   const cases = [
-    ['missing Node', { bridge: true, planExit: 0 }, { PLANNER_NODE_EXECUTABLE: '/missing/node' }],
-    ['missing bridge', { bridge: false, planExit: 0 }, {}],
-    ['rice-meal build failure', { bridge: true, buildExit: 4, planExit: 0 }, {}],
-    ['planner CLI failure', { bridge: true, planExit: 3 }, {}],
+    ['missing Node', { buildExit: 0 }, { PLANNER_NODE_EXECUTABLE: '/missing/node' }],
+    ['rice-meal build failure', { buildExit: 4 }, {}],
   ];
   for (const [name, options, env] of cases) {
     await t.test(name, () => {
@@ -102,19 +99,18 @@ test('start.command fails closed before kill/open when Node, bridge or planner C
   }
 });
 
-test('start.command keeps the normal launch path after successful planner preflight', () => {
+test('start.command keeps the normal launch path without a planner preflight', () => {
   const fixture = startFixture();
   try {
     const result = runStart(fixture);
     assert.equal(result.status, 0, result.stderr || result.stdout);
     const commands = fs.readFileSync(fixture.log, 'utf8');
     assert.match(commands, /node .*build-dist\.mjs .*--product-focus rice-meal-v1/);
-    assert.match(commands, /python3 ai_proxy\.py --plan-meal/);
+    assert.doesNotMatch(commands, /--plan-meal/);
     assert.match(commands, /lsof -ti :8765/);
     assert.match(commands, /nohup python3 ai_proxy\.py/);
     assert.match(commands, /nohup python3 -m http\.server 8081 .*--directory dist/);
     assert.match(commands, /open http:\/\/localhost:8081/);
-    assert.ok(commands.indexOf('--plan-meal') < commands.indexOf('lsof -ti :8765'));
   } finally {
     fs.rmSync(fixture.dir, { recursive: true, force: true });
   }

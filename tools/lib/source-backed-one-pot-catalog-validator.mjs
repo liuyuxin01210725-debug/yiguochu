@@ -1,0 +1,791 @@
+import { createHash } from 'node:crypto';
+import fs from 'node:fs';
+import pathModule from 'node:path';
+
+const STATUSES = new Set([
+  'discovered',
+  'identity_verified',
+  'recipe_fact_checked',
+  'executable',
+  'preview_ready',
+  'kitchen_observed',
+  'production_approved',
+]);
+
+const CLAIM_SCOPES = new Set([
+  'identity', 'ingredients', 'quantity', 'liquid',
+  'process', 'appliance', 'time', 'safety',
+]);
+
+export const PUBLIC_SOURCE_BACKED_STATUSES = new Set([
+  'preview_ready', 'kitchen_observed', 'production_approved',
+]);
+
+const EXECUTABLE_OR_PUBLIC_STATUSES = new Set([
+  'executable', ...PUBLIC_SOURCE_BACKED_STATUSES,
+]);
+const CONTRACT_EVIDENCE_SCOPES = new Set([
+  'quantity', 'liquid', 'process', 'time', 'safety',
+]);
+const TIERED_CONTRACT_EVIDENCE_SCOPES = new Set([
+  'quantity', 'liquid', 'process', 'time',
+]);
+
+export const PROCESS_EVIDENCE_WARNING = '技法来源待加强';
+const MIN_EVIDENCE_TIER = 1;
+const MAX_EVIDENCE_TIER = 6;
+const EVIDENCE_TIER_FOR_CONTRACT_MIN = 1;
+const EVIDENCE_TIER_FOR_CONTRACT_MAX = 5;
+const PDF_URL = /\.pdf(?:$|[?#])/i;
+const LOCAL_ARCHIVE_SHA256 = /^[a-f0-9]{64}$/i;
+
+const KEBAB_CASE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const HTTPS_URL = /^https:\/\/[^/\s]+(?:\/[^\s]*)?$/i;
+const MANUFACTURER_FAMILIES = new Set([
+  'manufacturer-rice-cooker-recipes',
+  'manufacturer-one-pot-recipes',
+]);
+export const REQUIRED_EXECUTABLE_SCOPES = [
+  'identity', 'ingredients', 'quantity', 'liquid', 'process', 'time',
+];
+const REQUIRED_EXECUTABLE_FIELDS = [
+  'fixed_batch', 'liquid_contract', 'cooking_sequence',
+  'time_contract', 'safety_endpoints', 'allergen_labels',
+];
+const DEFAULT_PROJECT_HOSTS = ['yiguochu.pages.dev'];
+const MIGRATION_DISPOSITIONS = new Set([
+  'source_backed_migrated',
+  'source_backed_research_only',
+  'manufacturer_recipe_migrated',
+  'project_original_excluded',
+  'scope_excluded',
+  'duplicate_alias',
+]);
+const MIGRATION_TARGET_DISPOSITIONS = new Set([
+  'source_backed_migrated',
+  'source_backed_research_only',
+  'manufacturer_recipe_migrated',
+  'duplicate_alias',
+]);
+const MANDATORY_PROJECT_ORIGINAL_COMBINATION_VARIANT_IDS = new Set([
+  'home-broccoli-beef-rice',
+  'home-cabbage-tofu-rice',
+  'home-chicken-leg-potato-rice',
+  'home-corn-carrot-chicken-leg-rice',
+  'home-green-bean-pork-rib-rice',
+  'home-mushroom-green-bean-pork-rib-rice',
+]);
+const APPLIANCE_CLAIM = /电饭煲|电锅|饭煲|电压力锅|压力锅|空气炸锅|微波炉|烤箱|蒸箱|rice cooker|slow cooker|instant pot/i;
+const COOKER_ADAPTATION_STATUSES = new Set(['not_adapted', 'source_limited', 'adapted']);
+const ADAPTATION_ONLY_FIELDS = [
+  'appliance', 'appliance_name', 'appliance_model', 'named_appliance',
+  'program', 'waterline', 'adapted_name', 'source_ids',
+];
+const HIGH_RISK_CATEGORIES = [
+  ['poultry', /\b(chicken|turkey|duck|poultry)\b|鸡肉|鸡胸|鸡腿|鸡翅|鸡丁|鸡柳|鸡块|禽肉|鸭肉|鸭腿|鹅肉|火鸡/i, 'poultry_fully_cooked'],
+  ['pork', /\bpork\b|猪肉|猪排|猪绞肉|猪肉糜|猪五花|五花肉|排骨|腊肉/i, 'pork_fully_cooked'],
+  ['beef', /\bbeef\b|牛肉|牛腩|牛肉末/i, 'beef_fully_cooked'],
+  ['lamb', /\b(lamb|mutton)\b|羊肉|羊排/i, 'lamb_fully_cooked'],
+  ['shellfish', /\b(shrimp|prawn|crab|oyster|clam|mussel|scallop|shellfish)\b|虾|蟹|蚝|牡蛎|贝|蛤蜊|扇贝/i, 'shellfish_fully_cooked'],
+  ['seafood', isControlledFishIngredient, 'seafood_fully_cooked'],
+  ['egg', /\beggs?\b|鸡蛋|鸭蛋|鹅蛋|生蛋|^蛋$/i, 'egg_fully_cooked'],
+  ['beans', /\b(raw beans?|kidney beans?)\b|生豆|四季豆|芸豆|扁豆|菜豆|红腰豆|白芸豆/i, 'beans_fully_cooked'],
+  ['wild_mushrooms', /\bwild mushrooms?\b|野生菌|野生蘑菇/i, 'wild_mushrooms_fully_cooked'],
+];
+
+function isRecord(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isControlledFishIngredient(value) {
+  if (!nonEmptyString(value)) return false;
+  const name = value.trim();
+  if (/鱼香/u.test(name) || /\bfish\s+sauce\b/i.test(name)) return false;
+  if (/\b(?:raw\s+)?fish(?:\s+(?:fillet|meat|steak))?\b/i.test(name) || /海鲜/u.test(name)) {
+    return true;
+  }
+  if (/^(?:生)?鱼(?:片|肉|柳|段|块)?$/u.test(name)) return true;
+  return /^(?:生)?(?:鲈|草|鲫|鲤|鲢|鳙|青|黑|鲶|鳗|鲭|鳕|鲑|三文|带|黄花|大黄|小黄|鲳|罗非|石斑|多宝|桂|武昌|金枪|虹鳟)鱼(?:片|肉|柳|段|块)?$/u.test(name);
+}
+
+function nonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function addRequiredStringError(errors, value, path) {
+  if (!nonEmptyString(value)) errors.push(`${path} must be a nonempty string`);
+}
+
+function isNonEmptyRecord(value) {
+  return isRecord(value) && Object.keys(value).length > 0;
+}
+
+function isPositiveFiniteNumber(value) {
+  return Number.isFinite(value) && value > 0;
+}
+
+function hasNonEmptyStrings(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(nonEmptyString);
+}
+
+function isMeaningfulAmount(value) {
+  return isNonEmptyRecord(value)
+    && isPositiveFiniteNumber(value.value)
+    && nonEmptyString(value.unit);
+}
+
+function isMeaningfulFixedBatchIngredient(value) {
+  return isNonEmptyRecord(value)
+    && nonEmptyString(value.name)
+    && isMeaningfulAmount(value.amount);
+}
+
+function isMeaningfulCookingSequence(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(entry => (
+    isNonEmptyRecord(entry)
+    && Number.isInteger(entry.step)
+    && entry.step > 0
+    && nonEmptyString(entry.instruction)
+  ));
+}
+
+function isMeaningfulSafetyEndpoints(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(endpoint => (
+    isNonEmptyRecord(endpoint) && nonEmptyString(endpoint.code)
+  ));
+}
+
+function isMeaningfulFixedBatch(value) {
+  return isNonEmptyRecord(value)
+    && isPositiveFiniteNumber(value.servings)
+    && Array.isArray(value.ingredients)
+    && value.ingredients.length > 0
+    && value.ingredients.every(isMeaningfulFixedBatchIngredient);
+}
+
+function isMeaningfulLiquidContract(value) {
+  if (!isNonEmptyRecord(value) || !nonEmptyString(value.kind)) return false;
+  if (value.kind !== 'waterline') return isMeaningfulAmount(value.amount);
+  return isModelScopedWaterline(value.waterline);
+}
+
+function isModelScopedWaterline(value) {
+  return isNonEmptyRecord(value)
+    && nonEmptyString(value.appliance_model)
+    && nonEmptyString(value.scale)
+    && (isPositiveFiniteNumber(value.mark) || nonEmptyString(value.mark));
+}
+
+function isMeaningfulNutritionRoles(value) {
+  return isRecord(value) && hasNonEmptyStrings(value.roles);
+}
+
+function canonicalRegionKey(recipe) {
+  if (!Array.isArray(recipe.region_codes)) return null;
+  return `${recipe.canonical_name}\u0000${[...recipe.region_codes].sort().join(',')}`;
+}
+
+function validateSource(source, path, errors) {
+  if (!isRecord(source)) {
+    errors.push(`${path} must be an object`);
+    return;
+  }
+
+  addRequiredStringError(errors, source.source_id, `${path}.source_id`);
+  addRequiredStringError(errors, source.title, `${path}.title`);
+  addRequiredStringError(errors, source.publisher, `${path}.publisher`);
+  addRequiredStringError(errors, source.retrieved_at, `${path}.retrieved_at`);
+  addRequiredStringError(errors, source.license, `${path}.license`);
+  addRequiredStringError(errors, source.attribution, `${path}.attribution`);
+  addRequiredStringError(errors, source.source_kind, `${path}.source_kind`);
+
+  if (source.evidence_tier != null
+    && (!Number.isInteger(source.evidence_tier)
+      || source.evidence_tier < MIN_EVIDENCE_TIER
+      || source.evidence_tier > MAX_EVIDENCE_TIER)) {
+    errors.push(`${path}.evidence_tier must be an integer from ${MIN_EVIDENCE_TIER} to ${MAX_EVIDENCE_TIER}`);
+  }
+
+  if (!nonEmptyString(source.url) || !HTTPS_URL.test(source.url)) {
+    errors.push(`${path}.url must be an HTTPS URL`);
+  }
+
+  const isUnparsedPdfLead = source.access_status === 'pdf_not_parsed';
+  if (isUnparsedPdfLead && (!Array.isArray(source.claim_scopes) || source.claim_scopes.length !== 0)) {
+    errors.push(`${path}.pdf_not_parsed claim_scopes must be exactly []`);
+  } else if (!isUnparsedPdfLead
+    && (!Array.isArray(source.claim_scopes) || source.claim_scopes.length === 0)) {
+    errors.push(`${path}.claim_scopes must be a nonempty array unless access_status is pdf_not_parsed`);
+  } else {
+    for (const scope of source.claim_scopes) {
+      if (!CLAIM_SCOPES.has(scope)) {
+        errors.push(`${path}.claim_scopes contains unsupported scope: ${String(scope)}`);
+      }
+    }
+  }
+}
+
+function isPdfSource(source) {
+  return PDF_URL.test(source?.url ?? '')
+    || /pdf/i.test(source?.source_kind ?? '')
+    || source?.access_status === 'pdf_not_parsed';
+}
+
+function isMeaningfulLocalArchive(value) {
+  return isRecord(value)
+    && nonEmptyString(value.path)
+    && LOCAL_ARCHIVE_SHA256.test(value.sha256 ?? '')
+    && Array.isArray(value.pages)
+    && value.pages.length > 0
+    && value.pages.every(page => Number.isInteger(page) && page > 0);
+}
+
+function validatePromotionEvidence(recipe, recipePath, errors, options = {}) {
+  if (!EXECUTABLE_OR_PUBLIC_STATUSES.has(recipe.status)) return;
+
+  const sourceRefs = Array.isArray(recipe.source_refs) ? recipe.source_refs : [];
+  for (const [sourceIndex, source] of sourceRefs.entries()) {
+    const sourcePath = `${recipePath}.source_refs[${sourceIndex}]`;
+    if (!Number.isInteger(source?.evidence_tier)) {
+      errors.push(`${sourcePath}.evidence_tier is required and must be explicit for executable/public recipes`);
+    }
+  }
+
+  const checkedSources = new Set();
+  for (const [sourceIndex, source] of sourceRefs.entries()) {
+    const scopes = Array.isArray(source?.claim_scopes) ? source.claim_scopes : [];
+    const contractScopes = scopes.filter(scope => CONTRACT_EVIDENCE_SCOPES.has(scope));
+    if (contractScopes.length === 0) continue;
+
+    const sourcePath = `${recipePath}.source_refs[${sourceIndex}]`;
+    const sourceKey = source?.source_id || sourceIndex;
+    if (checkedSources.has(sourceKey)) continue;
+    checkedSources.add(sourceKey);
+
+    const tieredScopes = contractScopes.filter(scope => TIERED_CONTRACT_EVIDENCE_SCOPES.has(scope));
+    if (tieredScopes.length > 0 && (!Number.isInteger(source?.evidence_tier)
+      || source.evidence_tier < EVIDENCE_TIER_FOR_CONTRACT_MIN
+      || source.evidence_tier > EVIDENCE_TIER_FOR_CONTRACT_MAX)) {
+      errors.push(`${sourcePath} supporting ${tieredScopes.join(', ')} must use evidence_tier ${EVIDENCE_TIER_FOR_CONTRACT_MIN}-${EVIDENCE_TIER_FOR_CONTRACT_MAX}`);
+    }
+
+    if (source?.access_status !== 'opened') {
+      errors.push(`${sourcePath} supporting ${contractScopes.join(', ')} must have access_status opened (directly opened source)`);
+    }
+    if (!nonEmptyString(source?.evidence_locator)) {
+      errors.push(`${sourcePath} supporting ${contractScopes.join(', ')} requires evidence_locator with a page/line locator`);
+    }
+
+    if (isPdfSource(source)) {
+      if (!isMeaningfulLocalArchive(source.local_archive)) {
+        errors.push(`${sourcePath} PDF contract evidence requires a local_archive manifest with path, sha256, and pages`);
+      } else if (nonEmptyString(options.archive_root)) {
+        const archiveRoot = pathModule.resolve(options.archive_root);
+        const archivePath = pathModule.resolve(archiveRoot, source.local_archive.path);
+        const relative = pathModule.relative(archiveRoot, archivePath);
+        if (relative.startsWith('..') || pathModule.isAbsolute(relative)) {
+          errors.push(`${sourcePath}.local_archive.path must stay within archive_root`);
+        } else if (!fs.existsSync(archivePath)) {
+          errors.push(`${sourcePath}.local_archive.path does not exist under archive_root`);
+        } else {
+          const actualSha256 = createHash('sha256')
+            .update(fs.readFileSync(archivePath))
+            .digest('hex');
+          if (actualSha256.toLowerCase() !== source.local_archive.sha256.toLowerCase()) {
+            errors.push(`${sourcePath}.local_archive.sha256 mismatch for archived evidence file`);
+          }
+        }
+      }
+    }
+  }
+}
+
+function sourceClaimScopes(recipe) {
+  const sourceRefs = Array.isArray(recipe.source_refs) ? recipe.source_refs : [];
+  return new Set(sourceRefs.flatMap(source => (
+    Array.isArray(source?.claim_scopes) ? source.claim_scopes : []
+  )));
+}
+
+export function processEvidenceStatus(recipe) {
+  const processSources = (Array.isArray(recipe?.source_refs) ? recipe.source_refs : [])
+    .filter(source => Array.isArray(source?.claim_scopes) && source.claim_scopes.includes('process'));
+  const tierSixSources = processSources.filter(source => source?.evidence_tier === MAX_EVIDENCE_TIER);
+  if (tierSixSources.length === 0) return null;
+  const tierOneToFiveProcessSource = processSources.some(source => (
+    Number.isInteger(source?.evidence_tier)
+      && source.evidence_tier >= MIN_EVIDENCE_TIER
+      && source.evidence_tier < MAX_EVIDENCE_TIER
+  ));
+  return tierOneToFiveProcessSource ? null : 'tier6_process_only';
+}
+
+function hasFactValue(value) {
+  if (value == null) return false;
+  return !Array.isArray(value) || value.length > 0;
+}
+
+function validateFactSourceIds(recipe, value, path, requiredScopes, errors) {
+  if (!hasFactValue(value)) return;
+  if (!hasNonEmptyStrings(value.source_ids)) {
+    errors.push(`${path}.source_ids must be a nonempty string array`);
+    return;
+  }
+
+  const sourceRefs = (Array.isArray(recipe.source_refs) ? recipe.source_refs : []).filter(isRecord);
+  for (const sourceId of value.source_ids) {
+    const matchingSources = sourceRefs.filter(source => source.source_id === sourceId);
+    if (matchingSources.length === 0) {
+      errors.push(`${path}.source_ids references unknown source_id: ${sourceId}`);
+      continue;
+    }
+    if (matchingSources.length > 1) {
+      errors.push(`${path}.source_ids source_id ${sourceId} is ambiguous because source_id is duplicated`);
+      continue;
+    }
+    const [source] = matchingSources;
+    const scopes = new Set(Array.isArray(source.claim_scopes) ? source.claim_scopes : []);
+    for (const scope of requiredScopes) {
+      if (!scopes.has(scope)) errors.push(`${path}.source_ids source_id ${sourceId} does not support ${scope}`);
+    }
+  }
+}
+
+function validateFactStructure(recipe, path, errors) {
+  if (recipe.fixed_batch != null && !isMeaningfulFixedBatch(recipe.fixed_batch)) {
+    errors.push(`${path}.fixed_batch must have the expected fixed-batch structure`);
+  }
+  if (recipe.liquid_contract != null && !isMeaningfulLiquidContract(recipe.liquid_contract)) {
+    errors.push(`${path}.liquid_contract must be a positive numeric amount and unit or a model-scoped waterline`);
+  }
+  if (hasFactValue(recipe.cooking_sequence) && !isMeaningfulCookingSequence(recipe.cooking_sequence)) {
+    errors.push(`${path}.cooking_sequence must have the expected cooking-sequence structure`);
+  }
+  if (recipe.time_contract != null && (!isNonEmptyRecord(recipe.time_contract)
+    || !isPositiveFiniteNumber(recipe.time_contract.total_minutes))) {
+    errors.push(`${path}.time_contract must have a positive total_minutes`);
+  }
+  if (hasFactValue(recipe.safety_endpoints) && !isMeaningfulSafetyEndpoints(recipe.safety_endpoints)) {
+    errors.push(`${path}.safety_endpoints must have the expected safety-endpoint structure`);
+  }
+}
+
+function validateFactEvidence(recipe, path, errors) {
+  validateFactStructure(recipe, path, errors);
+
+  validateFactSourceIds(recipe, recipe.fixed_batch, `${path}.fixed_batch`, ['quantity'], errors);
+  for (const [ingredientIndex, ingredient] of (Array.isArray(recipe.fixed_batch?.ingredients)
+    ? recipe.fixed_batch.ingredients : []).entries()) {
+    validateFactSourceIds(
+      recipe,
+      ingredient,
+      `${path}.fixed_batch.ingredients[${ingredientIndex}]`,
+      ['quantity'],
+      errors,
+    );
+  }
+
+  const liquidScopes = recipe.liquid_contract?.kind === 'waterline'
+    ? ['liquid', 'appliance']
+    : ['liquid'];
+  validateFactSourceIds(recipe, recipe.liquid_contract, `${path}.liquid_contract`, liquidScopes, errors);
+
+  for (const [stepIndex, step] of (Array.isArray(recipe.cooking_sequence) ? recipe.cooking_sequence : []).entries()) {
+    const scopes = ['process'];
+    if (APPLIANCE_CLAIM.test(step?.instruction ?? '')) scopes.push('appliance');
+    validateFactSourceIds(recipe, step, `${path}.cooking_sequence[${stepIndex}]`, scopes, errors);
+  }
+
+  validateFactSourceIds(recipe, recipe.time_contract, `${path}.time_contract`, ['time'], errors);
+  for (const [endpointIndex, endpoint] of (Array.isArray(recipe.safety_endpoints) ? recipe.safety_endpoints : []).entries()) {
+    validateFactSourceIds(recipe, endpoint, `${path}.safety_endpoints[${endpointIndex}]`, ['safety'], errors);
+  }
+
+}
+
+function validateCookerAdaptation(recipe, path, errors) {
+  const adaptation = recipe.cooker_adaptation;
+  const adaptationPath = `${path}.cooker_adaptation`;
+  if (!isNonEmptyRecord(adaptation)) {
+    errors.push(`${adaptationPath} must be an object`);
+    return;
+  }
+  if (!COOKER_ADAPTATION_STATUSES.has(adaptation.status)) {
+    errors.push(`${adaptationPath}.status is invalid`);
+    return;
+  }
+  addRequiredStringError(errors, adaptation.notes, `${adaptationPath}.notes`);
+
+  if (adaptation.status === 'not_adapted') {
+    for (const field of ADAPTATION_ONLY_FIELDS) {
+      if (adaptation[field] != null) errors.push(`${adaptationPath}.${field} is not allowed for not_adapted`);
+    }
+    return;
+  }
+
+  const hasStructuredWaterline = adaptation.waterline != null;
+  if (hasStructuredWaterline && !isModelScopedWaterline(adaptation.waterline)) {
+    errors.push(`${adaptationPath}.waterline must be a model-scoped waterline`);
+  }
+  if (/水位线|waterline/i.test(adaptation.notes) && !hasStructuredWaterline) {
+    errors.push(`${adaptationPath}.waterline must be explicit when notes claim a waterline`);
+  }
+
+  validateFactSourceIds(
+    recipe,
+    adaptation,
+    adaptationPath,
+    hasStructuredWaterline ? ['appliance', 'liquid'] : ['appliance'],
+    errors,
+  );
+}
+
+function invalidExecutableFields(recipe) {
+  const safetyCovered = isMeaningfulSafetyEndpoints(recipe.safety_endpoints)
+    || !containsRawHighRiskIngredient(recipe);
+  const valid = {
+    fixed_batch: isMeaningfulFixedBatch(recipe.fixed_batch),
+    liquid_contract: isMeaningfulLiquidContract(recipe.liquid_contract),
+    cooking_sequence: isMeaningfulCookingSequence(recipe.cooking_sequence),
+    time_contract: isNonEmptyRecord(recipe.time_contract)
+      && isPositiveFiniteNumber(recipe.time_contract.total_minutes),
+    // A source card with no raw high-risk ingredient must not invent a food
+    // temperature endpoint just to satisfy the contract. High-risk cards
+    // still require an explicit, source-backed endpoint below.
+    safety_endpoints: safetyCovered,
+    allergen_labels: hasNonEmptyStrings(recipe.allergen_labels),
+  };
+  return REQUIRED_EXECUTABLE_FIELDS.filter(field => !valid[field]);
+}
+
+export function claimsNamedAppliance(recipe) {
+  const adaptation = isRecord(recipe.cooker_adaptation) ? recipe.cooker_adaptation : {};
+  const namedApplianceFields = [
+    recipe.appliance,
+    recipe.appliance_name,
+    recipe.named_appliance,
+    recipe.user_facing_appliance,
+    adaptation.appliance,
+    adaptation.appliance_name,
+    adaptation.named_appliance,
+  ];
+  if (namedApplianceFields.some(nonEmptyString)) return true;
+
+  const applianceClaimText = [
+    adaptation.notes,
+    ...collectText(recipe.cooking_sequence),
+  ];
+  return applianceClaimText.some(text => APPLIANCE_CLAIM.test(text));
+}
+
+function collectText(value) {
+  if (nonEmptyString(value)) return [value];
+  if (Array.isArray(value)) return value.flatMap(collectText);
+  if (isRecord(value)) return Object.values(value).flatMap(collectText);
+  return [];
+}
+
+export function containsRawHighRiskIngredient(recipe) {
+  return detectedHighRiskCategories(recipe).length > 0;
+}
+
+function detectedHighRiskCategories(recipe) {
+  const ingredients = [
+    ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+    ...(Array.isArray(recipe.fixed_batch?.ingredients) ? recipe.fixed_batch.ingredients : []),
+  ];
+  const ingredientNames = ingredients.flatMap(ingredient => {
+    if (nonEmptyString(ingredient)) return [ingredient];
+    if (!isRecord(ingredient)) return [];
+    return [ingredient.name, ingredient.ingredient, ingredient.canonical_name, ingredient.canonical_id]
+      .filter(nonEmptyString);
+  });
+  return HIGH_RISK_CATEGORIES.filter(([, detector]) => ingredientNames.some(name => (
+    typeof detector === 'function' ? detector(name) : detector.test(name)
+  )));
+}
+
+function isProjectSelfCitation(url, projectHosts) {
+  if (!nonEmptyString(url)) return false;
+  try {
+    const hostname = new URL(url).hostname.toLowerCase();
+    return [...projectHosts].some(host => hostname === host || hostname.endsWith(`.${host}`));
+  } catch {
+    return false;
+  }
+}
+
+function validatePromotionGates(recipe, path, errors, options = {}) {
+  if (isRecord(recipe.cooker_adaptation)
+    && recipe.cooker_adaptation.status === 'adapted'
+    && nonEmptyString(recipe.cooker_adaptation.adapted_name)
+    && recipe.cooker_adaptation.adapted_name.trim() === recipe.canonical_name?.trim()) {
+    errors.push(`${path}.cooker_adaptation.adapted_name must not equal canonical_name`);
+  }
+
+  const processEvidence = processEvidenceStatus(recipe);
+  if (processEvidence === 'tier6_process_only') {
+    if (!new RegExp(PROCESS_EVIDENCE_WARNING).test(recipe.evidence_notes ?? '')) {
+      errors.push(`${path}.evidence_notes must include ${PROCESS_EVIDENCE_WARNING} for tier-6-only process evidence`);
+    }
+    if (EXECUTABLE_OR_PUBLIC_STATUSES.has(recipe.status)) {
+      errors.push(`${path} cannot reach executable/public status with tier-6-only process evidence; add tier-1-to-5 process evidence first`);
+    }
+  }
+
+  validatePromotionEvidence(recipe, path, errors, options);
+
+  if (!PUBLIC_SOURCE_BACKED_STATUSES.has(recipe.status)) return;
+
+  const scopes = sourceClaimScopes(recipe);
+  const missingScopes = REQUIRED_EXECUTABLE_SCOPES.filter(scope => !scopes.has(scope));
+  if (missingScopes.includes('identity')) {
+    errors.push(`${path} public recipe requires identity support`);
+  }
+  if (missingScopes.length > 0) {
+    errors.push(`${path} public recipe is missing required claim scopes: ${missingScopes.join(', ')}`);
+  }
+
+  const missingFields = invalidExecutableFields(recipe);
+  if (missingFields.includes('fixed_batch') || missingFields.includes('liquid_contract')) {
+    errors.push(`${path} public recipe requires fixed_batch and liquid_contract`);
+  }
+  for (const field of missingFields) {
+    if (field !== 'fixed_batch' && field !== 'liquid_contract') {
+      errors.push(`${path}.${field} is required for public recipes`);
+    }
+  }
+
+  if (claimsNamedAppliance(recipe) && !scopes.has('appliance')) {
+    errors.push(`${path} named appliance claims require appliance support`);
+  }
+  if (containsRawHighRiskIngredient(recipe) && !scopes.has('safety')) {
+    errors.push(`${path} raw high-risk ingredients require safety support`);
+  }
+  const safetyCodes = new Set((Array.isArray(recipe.safety_endpoints) ? recipe.safety_endpoints : [])
+    .map(endpoint => endpoint?.code)
+    .filter(nonEmptyString));
+  for (const [category, , requiredEndpoint] of detectedHighRiskCategories(recipe)) {
+    if (!safetyCodes.has(requiredEndpoint)) {
+      errors.push(`${path} high-risk ${category} requires safety endpoint ${requiredEndpoint}`);
+    }
+  }
+
+  if (!isRecord(recipe.nutrition_structure)
+    || !['A', 'B'].includes(recipe.nutrition_structure.grade)) {
+    errors.push(`${path} public recipe requires nutrition structure grade A or B`);
+  }
+  if (!isMeaningfulNutritionRoles(recipe.nutrition_structure)) {
+    errors.push(`${path}.nutrition_structure.roles must be a nonempty array`);
+  }
+}
+
+export function validateSourceBackedOnePotCatalog(catalog, options = {}) {
+  const errors = [];
+  const safeOptions = isRecord(options) ? options : {};
+  const additionalProjectHosts = Array.isArray(safeOptions.project_hosts)
+    ? safeOptions.project_hosts.filter(nonEmptyString)
+    : [];
+  const projectHosts = new Set([
+    ...DEFAULT_PROJECT_HOSTS,
+    ...additionalProjectHosts.map(host => host.toLowerCase()),
+  ]);
+
+  if (!isRecord(catalog)) return ['catalog must be an object'];
+  if (catalog.schema_version !== 1) errors.push('catalog.schema_version must be 1');
+  addRequiredStringError(errors, catalog.catalog_version, 'catalog.catalog_version');
+  if (catalog.scope !== 'savory-rice-main-meal') {
+    errors.push('catalog.scope must be savory-rice-main-meal');
+  }
+  if (!Array.isArray(catalog.reviewed_regions)) errors.push('catalog.reviewed_regions must be an array');
+  if (!Array.isArray(catalog.regional_blanks)) errors.push('catalog.regional_blanks must be an array');
+  if (!Array.isArray(catalog.recipes)) {
+    errors.push('catalog.recipes must be an array');
+    return errors;
+  }
+
+  const recipeIds = new Set();
+  const canonicalRegionKeys = new Set();
+  for (const [index, recipe] of catalog.recipes.entries()) {
+    const path = `catalog.recipes[${index}]`;
+    if (!isRecord(recipe)) {
+      errors.push(`${path} must be an object`);
+      continue;
+    }
+
+    if (!nonEmptyString(recipe.recipe_id) || !KEBAB_CASE.test(recipe.recipe_id)) {
+      errors.push(`${path}.recipe_id must be unique kebab-case`);
+    } else if (recipeIds.has(recipe.recipe_id)) {
+      errors.push(`${path}.recipe_id duplicates ${recipe.recipe_id}`);
+    } else {
+      recipeIds.add(recipe.recipe_id);
+    }
+
+    addRequiredStringError(errors, recipe.canonical_name, `${path}.canonical_name`);
+    let hasValidRegionCodes = false;
+    if (MANUFACTURER_FAMILIES.has(recipe.cuisine_family)) {
+      hasValidRegionCodes = Array.isArray(recipe.region_codes) && recipe.region_codes.length === 0;
+      if (!hasValidRegionCodes) {
+        errors.push(`${path}.${recipe.cuisine_family} region_codes must be an empty array`);
+      }
+    } else {
+      hasValidRegionCodes = Array.isArray(recipe.region_codes)
+        && recipe.region_codes.length > 0
+        && recipe.region_codes.every(nonEmptyString);
+      if (!hasValidRegionCodes) errors.push(`${path}.region_codes must be a nonempty string array`);
+    }
+    if (hasValidRegionCodes && nonEmptyString(recipe.canonical_name)) {
+      const key = canonicalRegionKey(recipe);
+      if (canonicalRegionKeys.has(key)) errors.push(`${path}.canonical_name + region_codes must be unique`);
+      canonicalRegionKeys.add(key);
+    }
+
+    if (!STATUSES.has(recipe.status)) errors.push(`${path}.status is invalid`);
+    if (!Array.isArray(recipe.source_refs) || recipe.source_refs.length === 0) {
+      errors.push(`${path}.source_refs must be a nonempty array`);
+    } else {
+      const sourceIds = new Set();
+      recipe.source_refs.forEach((source, sourceIndex) => {
+        const sourcePath = `${path}.source_refs[${sourceIndex}]`;
+        validateSource(source, sourcePath, errors);
+        if (nonEmptyString(source?.source_id)) {
+          if (sourceIds.has(source.source_id)) errors.push(`${sourcePath}.source_id duplicates ${source.source_id}`);
+          sourceIds.add(source.source_id);
+        }
+        if (source?.access_status === 'pdf_not_parsed' && recipe.status !== 'discovered') {
+          errors.push(`${sourcePath}.pdf_not_parsed sources are discovery-only`);
+        }
+        if (isProjectSelfCitation(source?.url, projectHosts)) {
+          errors.push(`${sourcePath}.url must not be a project self-citation`);
+        }
+      });
+    }
+    validateFactEvidence(recipe, path, errors);
+    validateCookerAdaptation(recipe, path, errors);
+    validatePromotionGates(recipe, path, errors, safeOptions);
+  }
+
+  return errors;
+}
+
+export function validateSourceBackedCatalogMigration(migration, legacyVariants, sourceBackedCatalog) {
+  const errors = [];
+  if (!isRecord(migration)) return ['migration must be an object'];
+  if (migration.schema_version !== 1) errors.push('migration.schema_version must be 1');
+  addRequiredStringError(errors, migration.migration_version, 'migration.migration_version');
+  if (!Array.isArray(migration.items)) {
+    errors.push('migration.items must be an array');
+    return errors;
+  }
+
+  const legacyIds = new Set();
+  const legacyVariantsById = new Map();
+  if (!Array.isArray(legacyVariants)) {
+    errors.push('legacyVariants must be an array');
+  } else {
+    for (const [index, legacy] of legacyVariants.entries()) {
+      if (!nonEmptyString(legacy?.variant_id)) {
+        errors.push(`legacyVariants[${index}].variant_id must be a nonempty string`);
+      } else {
+        legacyIds.add(legacy.variant_id);
+        legacyVariantsById.set(legacy.variant_id, legacy);
+      }
+    }
+  }
+
+  const targetRecipeIds = new Set();
+  const needsSourceBackedCatalog = migration.items.some(item => (
+    isRecord(item)
+    && (MIGRATION_TARGET_DISPOSITIONS.has(item.disposition)
+      || item.disposition === 'project_original_excluded')
+  ));
+  const hasUsableSourceBackedCatalog = isRecord(sourceBackedCatalog)
+    && Array.isArray(sourceBackedCatalog.recipes);
+  const sourceBackedRecipes = hasUsableSourceBackedCatalog ? sourceBackedCatalog.recipes : [];
+  if (!hasUsableSourceBackedCatalog) {
+    if (needsSourceBackedCatalog) {
+      errors.push('sourceBackedCatalog is required for target and project-original validation');
+    } else if (sourceBackedCatalog !== undefined) {
+      errors.push('sourceBackedCatalog.recipes must be an array');
+    }
+  }
+  for (const recipe of sourceBackedRecipes) {
+    if (nonEmptyString(recipe?.recipe_id)) targetRecipeIds.add(recipe.recipe_id);
+  }
+
+  const accountedLegacyIds = new Set();
+  for (const [index, item] of migration.items.entries()) {
+    const path = `migration.items[${index}]`;
+    if (!isRecord(item)) {
+      errors.push(`${path} must be an object`);
+      continue;
+    }
+
+    addRequiredStringError(errors, item.legacy_variant_id, `${path}.legacy_variant_id`);
+    addRequiredStringError(errors, item.legacy_display_name, `${path}.legacy_display_name`);
+    addRequiredStringError(errors, item.reason, `${path}.reason`);
+    if (!MIGRATION_DISPOSITIONS.has(item.disposition)) {
+      errors.push(`${path}.disposition is invalid`);
+    }
+
+    if (nonEmptyString(item.legacy_variant_id)) {
+      if (accountedLegacyIds.has(item.legacy_variant_id)) {
+        errors.push(`duplicate legacy variant ${item.legacy_variant_id}`);
+      }
+      accountedLegacyIds.add(item.legacy_variant_id);
+      if (Array.isArray(legacyVariants) && !legacyIds.has(item.legacy_variant_id)) {
+        errors.push(`unknown legacy variant ${item.legacy_variant_id}`);
+      }
+    }
+
+    if (MIGRATION_TARGET_DISPOSITIONS.has(item.disposition)) {
+      if (!nonEmptyString(item.target_recipe_id)) {
+        errors.push(`${path}.target_recipe_id must be a nonempty string for ${item.disposition}`);
+      } else if (hasUsableSourceBackedCatalog && !targetRecipeIds.has(item.target_recipe_id)) {
+        errors.push(`target_recipe_id ${item.target_recipe_id} does not exist in source-backed catalog`);
+      }
+    } else if (
+      item.disposition === 'project_original_excluded'
+      || item.disposition === 'scope_excluded'
+    ) {
+      if (item.target_recipe_id !== null) {
+        errors.push(`${path}.target_recipe_id must be null for ${item.disposition}`);
+      }
+    }
+
+    if (
+      item.disposition === 'project_original_excluded'
+      && MANDATORY_PROJECT_ORIGINAL_COMBINATION_VARIANT_IDS.has(item.legacy_variant_id)
+      && hasUsableSourceBackedCatalog
+    ) {
+      const legacy = legacyVariantsById.get(item.legacy_variant_id);
+      if (!legacy) continue;
+
+      if (nonEmptyString(legacy.recipe_id) && targetRecipeIds.has(legacy.recipe_id)) {
+        errors.push(`project-original legacy variant ${item.legacy_variant_id} reappears as recipe_id ${legacy.recipe_id}`);
+      }
+      const prohibitedNames = [
+        legacy.display_name,
+        legacy.name_label,
+        ...(Array.isArray(legacy.aliases) ? legacy.aliases : []),
+      ].filter(nonEmptyString);
+      for (const recipe of sourceBackedRecipes) {
+        const catalogNames = [
+          recipe?.canonical_name,
+          ...(Array.isArray(recipe?.aliases) ? recipe.aliases : []),
+        ].filter(nonEmptyString);
+        for (const prohibitedName of prohibitedNames) {
+          if (catalogNames.includes(prohibitedName)) {
+            errors.push(`project-original legacy variant ${item.legacy_variant_id} reappears as a catalog name: ${prohibitedName}`);
+          }
+        }
+      }
+    }
+  }
+
+  for (const legacyId of legacyIds) {
+    if (!accountedLegacyIds.has(legacyId)) errors.push(`missing legacy variant ${legacyId}`);
+  }
+
+  return errors;
+}

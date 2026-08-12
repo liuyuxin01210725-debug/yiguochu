@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一锅出｜逐步试做</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #26342b; background: #f7f5ef; }
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.55; }
+    main { width: min(760px, 100%); margin: 0 auto; padding: 24px 16px 56px; }
+    header { margin-bottom: 16px; }
+    h1 { margin: 0; font-size: clamp(1.45rem, 5vw, 2rem); line-height: 1.25; }
+    h2 { margin: 4px 0 12px; line-height: 1.3; }
+    h3 { margin: 20px 0 7px; font-size: 1rem; }
+    p { margin: 6px 0; }
+    a { color: #246b4f; }
+    .muted { color: #66736b; }
+    .panel, .notice, .step, .empty { background: #fff; border: 1px solid #e2ded3; border-radius: 14px; box-shadow: 0 3px 12px rgb(46 61 48 / 5%); }
+    .panel { padding: 18px; }
+    .notice { padding: 13px 15px; margin: 12px 0; background: #fff9e9; border-color: #eed9a4; color: #6f541c; }
+    .notice.danger { background: #fff1ef; border-color: #edc9c4; color: #843f36; }
+    .eyebrow { color: #66736b; font-size: .88rem; }
+    .badge { display: inline-block; margin: 0 6px 5px 0; padding: 3px 8px; border-radius: 999px; background: #edf1ea; color: #42624d; font-size: .78rem; font-weight: 700; }
+    .badge.estimated { background: #fff0c8; color: #8a5f16; }
+    .badge.source { background: #dff1e4; color: #20683c; }
+    .grid { display: grid; gap: 8px; }
+    .ingredient { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid #eeeae1; }
+    .ingredient:last-child { border-bottom: 0; }
+    .ingredient .amount { text-align: right; white-space: nowrap; }
+    .provenance { display: block; color: #66736b; font-size: .78rem; }
+    .provenance.estimated { color: #8a5f16; }
+    .step { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 12px; }
+    .step.done { background: #f0f7f1; border-color: #b9d9bd; }
+    .step input { width: 20px; height: 20px; margin-top: 2px; accent-color: #246b4f; }
+    .step-number { color: #246b4f; font-weight: 800; }
+    .step.done .instruction { text-decoration: line-through; color: #66736b; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    button, input[type="search"] { min-height: 40px; border: 1px solid #d8d4ca; border-radius: 9px; padding: 8px 10px; font: inherit; background: #fff; color: inherit; }
+    button { cursor: pointer; border-color: #bd7b3a; color: #80501e; font-weight: 700; }
+    button.primary { background: #bd7b3a; color: #fff; }
+    .search { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .search-results { margin-top: 8px; display: grid; gap: 6px; }
+    .search-results button { text-align: left; border-color: #e2ded3; color: #26342b; font-weight: 600; }
+    .search-results small { display: block; color: #66736b; font-weight: 400; }
+    .hidden { display: none !important; }
+    .completion { margin-top: 14px; padding: 12px; border-radius: 10px; background: #edf5ee; color: #245c35; font-weight: 700; }
+    @media (max-width: 560px) { .ingredient { display: block; } .ingredient .amount { text-align: left; margin-top: 2px; } .search { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p><a href="/source-recipes/">← 返回 923 条来源资料库</a></p>
+      <p class="eyebrow">一锅出 · 来源执行卡逐步试做</p>
+      <h1 id="title">正在打开执行卡</h1>
+      <p id="subtitle" class="muted">每一步都保留来源事实、研究起步和器具边界。</p>
+    </header>
+
+    <section id="picker" class="panel hidden" aria-label="选择来源执行卡">
+      <h2>选择一道菜</h2>
+      <p class="muted">输入菜名或 recipe_id；这里覆盖全部 923 条来源执行卡。</p>
+      <div class="search"><input id="search" type="search" placeholder="搜索菜名或编号"><button id="searchButton" type="button">搜索</button></div>
+      <div id="searchResults" class="search-results"></div>
+    </section>
+
+    <section id="loading" class="panel">正在载入 923 条来源执行卡……</section>
+    <section id="empty" class="empty hidden">这道菜暂时没有可打开的执行卡。请回到资料库重新选择。</section>
+
+    <section id="card" class="hidden">
+      <div id="badges" class="panel"></div>
+      <div id="boundary" class="notice"></div>
+      <div class="panel">
+        <h2>食材与用量</h2>
+        <div id="ingredients" class="grid"></div>
+        <h3>液体与总时长</h3>
+        <p id="contracts" class="muted"></p>
+      </div>
+      <div class="panel">
+        <h2>逐步做法</h2>
+        <p class="muted">完成一步就勾选一步；勾选状态只保存在当前浏览器。</p>
+        <div id="steps" class="grid"></div>
+        <div id="completion" class="completion hidden">这张执行卡的步骤已全部勾选。请按安全提示检查成品后再食用。</div>
+        <div class="toolbar"><button id="reset" type="button">清除本次勾选</button><a class="button" href="/source-recipes/">查看来源和正式化缺口</a></div>
+      </div>
+      <div id="notes" class="panel"></div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const state = { entries: [], current: null, checked: {} };
+      const $ = id => document.getElementById(id);
+      const list = value => Array.isArray(value) ? value : [];
+      const text = (value, fallback = '待核') => value === undefined || value === null || value === '' ? fallback : String(value);
+      const amount = value => value && value.value !== undefined ? `${value.value}${value.unit || ''}` : '待核';
+      const provenance = value => value === 'source' ? '来源事实' : value === 'estimated' ? '研究起步（估算）' : value === 'derived' ? '推导值' : '待核';
+      const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+      function storageKey(id) { return `yiguochu-cook-mode:${id}`; }
+      function readChecked(id) { try { return JSON.parse(localStorage.getItem(storageKey(id)) || '{}'); } catch (_) { return {}; } }
+      function writeChecked(id, value) { localStorage.setItem(storageKey(id), JSON.stringify(value)); }
+      function displayName(entry) { return text(entry?.canonical_name, '未命名菜饭').replace(/^〖[^〗]+〗/u, '').trim() || '未命名菜饭'; }
+      function show(id, visible) { $(id).classList.toggle('hidden', !visible); }
+      function renderPicker() {
+        show('picker', true);
+        const query = $('search').value.trim().toLowerCase();
+        const matches = query ? state.entries.filter(entry => `${entry.recipe_id} ${displayName(entry)} ${(entry.aliases || []).join(' ')}`.toLowerCase().includes(query)).slice(0, 12) : [];
+        const results = $('searchResults'); results.replaceChildren();
+        for (const entry of matches) { const button = document.createElement('button'); button.type = 'button'; button.textContent = displayName(entry); const small = document.createElement('small'); small.textContent = entry.recipe_id; button.append(small); button.addEventListener('click', () => { history.replaceState(null, '', `cook/?id=${encodeURIComponent(entry.recipe_id)}`); renderEntry(entry); }); results.append(button); }
+        if (query && !matches.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = '没有找到匹配的来源执行卡。'; results.append(p); }
+      }
+      function renderEntry(entry) {
+        state.current = entry; state.checked = readChecked(entry.recipe_id); show('loading', false); show('empty', false); show('picker', false); show('card', true);
+        const method = entry.execution_card || {};
+        $('title').textContent = displayName(entry);
+        $('subtitle').textContent = `${text(entry.recipe_id)} · ${text(entry.shelf_label, '来源执行卡')} · ${text(method.status, entry.method_card_status)}`;
+        const badges = $('badges'); badges.replaceChildren();
+        for (const label of [entry.shelf_label, method.status === 'source_complete' ? '来源字段已齐' : '含研究起步字段', entry.run_scope === 'source_bounded_preview' ? '来源边界预览' : '研究起步']) { const span = document.createElement('span'); span.className = `badge ${label.includes('研究') || label.includes('起步') ? 'estimated' : 'source'}`; span.textContent = label; badges.append(span); }
+        const warnings = [...list(entry.formal_blocker_labels), ...list(method.assumptions), method.safety_note].filter(Boolean);
+        $('boundary').className = `notice${entry.source_blocker_labels?.length || method.blocked_reason ? ' danger' : ''}`;
+        $('boundary').replaceChildren();
+        const lead = document.createElement('strong'); lead.textContent = entry.source_blocker_labels?.length ? '这张卡有来源阻断，不能按普通电饭煲自行改写。' : '先按原来源器具执行，不把这张卡当作 72 道正式 Planner 菜谱。'; $('boundary').append(lead);
+        for (const warning of warnings.slice(0, 6)) { const p = document.createElement('p'); p.textContent = warning; $('boundary').append(p); }
+        const ingredients = $('ingredients'); ingredients.replaceChildren();
+        for (const item of list(method.ingredients)) { const row = document.createElement('div'); row.className = 'ingredient'; const name = document.createElement('span'); name.textContent = text(item.name); const right = document.createElement('span'); right.className = 'amount'; right.textContent = amount(item.amount); const tag = document.createElement('small'); tag.className = `provenance ${item.provenance === 'estimated' ? 'estimated' : ''}`; tag.textContent = provenance(item.provenance); right.append(tag); row.append(name, right); ingredients.append(row); }
+        const liquid = method.liquid?.amount ? amount(method.liquid.amount) : method.liquid?.waterline ? `按${text(method.liquid.waterline.appliance_model)}的${text(method.liquid.waterline.scale)}${text(method.liquid.waterline.mark, '')}` : '待核';
+        const time = method.time?.total_minutes ? `${method.time.total_minutes} 分钟` : '待核';
+        $('contracts').textContent = `液体：${liquid}［${provenance(method.liquid?.provenance)}］；总时长：${time}［${provenance(method.time?.provenance)}］`;
+        const steps = $('steps'); steps.replaceChildren();
+        for (const [index, step] of list(method.steps).entries()) { const row = document.createElement('label'); row.className = 'step'; const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.setAttribute('data-action', 'toggle-step'); checkbox.checked = Boolean(state.checked[index]); const body = document.createElement('span'); const number = document.createElement('span'); number.className = 'step-number'; number.textContent = `${step.step || index + 1}. `; const instruction = document.createElement('span'); instruction.className = 'instruction'; instruction.textContent = text(step.instruction); const tag = document.createElement('small'); tag.className = `provenance ${step.provenance === 'estimated' ? 'estimated' : ''}`; tag.textContent = provenance(step.provenance); body.append(number, instruction, tag); row.append(checkbox, body); const update = () => { state.checked[index] = checkbox.checked; row.classList.toggle('done', checkbox.checked); writeChecked(entry.recipe_id, state.checked); updateCompletion(); }; checkbox.addEventListener('change', update); row.classList.toggle('done', checkbox.checked); steps.append(row); }
+        $('reset').onclick = () => { state.checked = {}; writeChecked(entry.recipe_id, state.checked); renderEntry(entry); };
+        renderNotes(method, entry);
+        updateCompletion();
+      }
+      function updateCompletion() { const steps = list(state.current?.execution_card?.steps); show('completion', steps.length > 0 && steps.every((_, index) => state.checked[index])); }
+      function renderNotes(method, entry) { const notes = $('notes'); notes.replaceChildren(); const title = document.createElement('h2'); title.textContent = '来源与缺口'; notes.append(title); for (const line of [...list(method.missing_source_fields).map(value => `来源缺字段：${value}`), ...list(method.source_facts).map(value => value.text), ...list(entry.source_ids).map(value => `source_id：${value}`)]) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = line; notes.append(p); } }
+      async function init() {
+        try { const response = await fetch('/source-backed-execution-library.v1.json', { cache: 'no-store' }); if (!response.ok) throw new Error('catalog unavailable'); const library = await response.json(); state.entries = list(library.entries); const id = new URLSearchParams(location.search).get('id'); const entry = state.entries.find(value => value.recipe_id === id); if (entry) renderEntry(entry); else { show('loading', false); show('card', false); renderPicker(); } } catch (_) { show('loading', false); show('empty', true); }
+      }
+      $('searchButton').addEventListener('click', renderPicker); $('search').addEventListener('input', renderPicker); init();
+    })();
+  </script>
+</body>
+</html>

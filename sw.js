@@ -1,8 +1,16 @@
-const C = 'yiguochu-shell-v4';
+const C = 'yiguochu-shell-v5';
 const SHELL = [
   './',
   './index.html',
   './recipes',
+  './recipes/',
+  './recipes/index.html',
+  './source-recipes.html',
+  './source-recipes/',
+  './source-recipes/index.html',
+  './cook.html',
+  './cook/',
+  './cook/index.html',
   './manifest.json',
   './icon.svg',
   './icon-180.png',
@@ -22,7 +30,10 @@ self.addEventListener('fetch', e => {
   if (u.origin !== location.origin) return;
   const accept = e.request.headers.get('accept') || '';
   if (e.request.mode === 'navigate' || accept.indexOf('text/html') >= 0) {
-    const fallback = /\/recipes(?:\.html)?$/.test(u.pathname) ? './recipes' : './index.html';
+    const fallback = /\/source-recipes\/?$/.test(u.pathname)
+      ? './source-recipes/index.html'
+      : /\/recipes(?:\.html)?\/?$/.test(u.pathname) ? './recipes/index.html'
+        : /\/cook(?:\.html)?\/?$/.test(u.pathname) ? './cook/index.html' : './index.html';
     e.respondWith(caches.open(C).then(async cache => {
       const cached = await cache.match(e.request, { ignoreSearch: true }) || await cache.match(fallback);
       const network = fetch(e.request).then(resp => {

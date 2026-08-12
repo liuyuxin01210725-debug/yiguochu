@@ -573,9 +573,9 @@ test('health exposes rice catalog facts only for valid rice metadata and include
   assert.equal(healthyBody.riceMealCatalogVersion, 'rice-meal-catalog-v1-20260802-r7');
   assert.equal(healthyBody.riceMealFamilies, 3);
   assert.equal(healthyBody.riceCatalogScope, 'ready');
-  assert.equal(healthyBody.riceMealVariants, 19);
+  assert.equal(healthyBody.riceMealVariants, 37);
   assert.equal(healthyBody.riceMealPreviewReady, 8);
-  assert.equal(healthyBody.riceMealCalibrationReady, 8);
+  assert.equal(healthyBody.riceMealCalibrationReady, 26);
   assert.equal(healthyBody.riceMealPlanned, 3);
   assert.equal(healthyBody.riceCookerSourceEvidence, 'ok');
   assert.equal(healthyBody.riceCookerSourceEvidenceVersion, 'rice-cooker-source-evidence-v1-20260802');

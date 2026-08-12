@@ -186,18 +186,20 @@ function validateCaseSchema(cases, library) {
       }
       if (testCase.adversarial_kind === 'gluten_free_noodles') {
         if (testCase.diet !== 'glutenFree') errors.push(`${label} must use diet glutenFree`);
-        if (testCase.known_gap?.code !== 'diet_constraint_not_validated'
+        const covered = testCase.expected_validation_flags?.some(flag => flag.startsWith('diet_violation:glutenFree:'));
+        if (!covered && (testCase.known_gap?.code !== 'diet_constraint_not_validated'
           || testCase.known_gap?.scope !== 'glutenFree'
-          || !testCase.manual_review_required?.includes('diet_compliance')) {
-          errors.push(`${label} must declare the glutenFree validation gap`);
+          || !testCase.manual_review_required?.includes('diet_compliance'))) {
+          errors.push(`${label} must either cover the glutenFree validation flag or declare the validation gap`);
         }
       }
       if (testCase.adversarial_kind === 'vegan_restrictions') {
         if (testCase.diet !== 'vegan') errors.push(`${label} must use diet vegan`);
-        if (testCase.known_gap?.code !== 'diet_constraint_not_validated'
+        const covered = testCase.expected_validation_flags?.some(flag => flag.startsWith('diet_violation:vegan:'));
+        if (!covered && (testCase.known_gap?.code !== 'diet_constraint_not_validated'
           || testCase.known_gap?.scope !== 'vegan'
-          || !testCase.manual_review_required?.includes('diet_compliance')) {
-          errors.push(`${label} must declare the vegan validation gap`);
+          || !testCase.manual_review_required?.includes('diet_compliance'))) {
+          errors.push(`${label} must either cover the vegan validation flag or declare the validation gap`);
         }
       }
       if (['gluten_free_noodles', 'vegan_restrictions'].includes(testCase.adversarial_kind)
@@ -205,10 +207,11 @@ function validateCaseSchema(cases, library) {
         errors.push(`${label} must not represent an allergen flag as diet coverage`);
       }
       if (testCase.adversarial_kind === 'rice_water_mismatch'
-        && (testCase.known_gap?.code !== 'numeric_ratio_not_validated'
+        && (!testCase.expected_validation_flags?.includes('ratio_out_of_bounds:rice_water')
+          && (testCase.known_gap?.code !== 'numeric_ratio_not_validated'
           || testCase.known_gap?.scope !== 'rice_water_ratio'
-          || !testCase.manual_review_required?.includes('numeric_ratio'))) {
-        errors.push(`${label} must declare the numeric ratio validation gap`);
+          || !testCase.manual_review_required?.includes('numeric_ratio')))) {
+        errors.push(`${label} must either cover the numeric ratio flag or declare the validation gap`);
       }
       if (testCase.adversarial_kind === 'leaf_vegetable_water_release') {
         const expected = testCase.expected_discouraged;
@@ -408,6 +411,15 @@ function ingredientName(item) {
   return String(item.name || '').trim();
 }
 
+function expectedLiveRejectionMatches(status, body, expected) {
+  if (!isPlainObject(expected) || status !== expected.status || !isPlainObject(body)) return false;
+  if (body.code !== expected.code) return false;
+  const actualTypes = Array.isArray(body.validation_flag_types) ? [...new Set(body.validation_flag_types)] : [];
+  const expectedTypes = Array.isArray(expected.validation_flag_types) ? [...new Set(expected.validation_flag_types)] : [];
+  return actualTypes.length === expectedTypes.length
+    && expectedTypes.every(type => actualTypes.includes(type));
+}
+
 async function runLive(cases, library, base, limit) {
   const endpoint = new URL('/generate-meal', `${base}/`).toString();
   let passed = 0;
@@ -427,8 +439,18 @@ async function runLive(cases, library, base, limit) {
         }),
       });
       if (!response.ok) {
+        const text = await response.text();
+        try {
+          body = JSON.parse(text);
+        } catch {
+          body = null;
+        }
+        if (expectedLiveRejectionMatches(response.status, body, testCase.expected_live_rejection)) {
+          passed += 1;
+          console.log(`LIVE PASS ${testCase.id} (expected safety rejection)`);
+          continue;
+        }
         problems.push(`http_status:${response.status}`);
-        body = await response.text();
       } else {
         body = await response.json();
       }

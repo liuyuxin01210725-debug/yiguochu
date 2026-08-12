@@ -92,13 +92,14 @@ function validateServings(value) {
 
 // This stays intentionally thin: the controlled taxonomy owns all alias,
 // state, cut, ambiguity, and semantic-deduplication rules.
-export function normalizeRiceMealRequest(request = {}, taxonomy = {}) {
+export function normalizeRiceMealRequest(request = {}, taxonomy = {}, { includeFormalReviewOnly = false } = {}) {
   if (!request || typeof request !== 'object' || Array.isArray(request)) {
     throw new TypeError('rice meal request must be an object');
   }
   const normalizedItems = deduplicateNormalizedItems(normalizePlannerItems(
     asStringList(request.pantry, 'pantry').map(raw => ({ raw, role: 'prefer_use' })),
     taxonomy,
+    { includeFormalReviewOnly },
   ));
   const uniqueItems = normalizedItems.filter(item => item.duplicate_of === null);
   const isBasic = item => BASIC_COVERAGE_IDS.has(item.canonical_id)
@@ -127,8 +128,11 @@ export function normalizeRiceMealRequest(request = {}, taxonomy = {}) {
   };
 }
 
-function taxonomyIndex(taxonomy) {
-  return new Map((taxonomy?.items || []).map(item => [item.canonical_id, item]));
+function taxonomyIndex(taxonomy, { includeFormalReviewOnly = false } = {}) {
+  const excluded = includeFormalReviewOnly ? new Set() : new Set(taxonomy?.formal_review_only_ids || []);
+  return new Map((taxonomy?.items || [])
+    .filter(item => !excluded.has(item.canonical_id))
+    .map(item => [item.canonical_id, item]));
 }
 
 function nullableSnapshotString(value) {
@@ -241,7 +245,7 @@ function normalizeRiceMealRequestSnapshot(snapshot = {}, taxonomy = {}, expected
     throw new TypeError('normalizedRequest snapshot is invalid');
   }
   const servings = validateServings(snapshot.servings);
-  const itemsById = taxonomyIndex(taxonomy);
+  const itemsById = taxonomyIndex(taxonomy, { includeFormalReviewOnly: expectedScope === 'calibration' });
   const normalizeFact = fact => {
     if (fact?.kind === 'recognized') return recognizedSnapshotItem(fact, itemsById);
     if (fact?.kind === 'unrecognized') return unrecognizedSnapshotItem(fact, taxonomy);
@@ -1049,9 +1053,9 @@ export function selectRiceMealCandidates({
   const evidenceFacts = sourceEvidenceFacts(sourceEvidence);
   const taxonomyIdentity = taxonomyFacts(taxonomy);
   const normalized = normalizedRequest == null
-    ? normalizeRiceMealRequest(request, taxonomy)
+    ? normalizeRiceMealRequest(request, taxonomy, { includeFormalReviewOnly: scope === 'calibration' })
     : normalizeRiceMealRequestSnapshot(normalizedRequest, taxonomy, scope);
-  const itemsById = taxonomyIndex(taxonomy);
+  const itemsById = taxonomyIndex(taxonomy, { includeFormalReviewOnly: scope === 'calibration' });
   const aliases = allergyAliases(taxonomy);
   const unsafeItems = unsafeItemsForRequest(normalized, itemsById, aliases);
   if (unsafeItems.length) {

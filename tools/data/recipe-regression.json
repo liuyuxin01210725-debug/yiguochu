@@ -473,7 +473,8 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:面条"
+      "unused_pantry_used:面条",
+      "diet_violation:glutenFree:面条"
     ],
     "forbidden_validation_flags": [
       "allergen_present:面条",
@@ -483,14 +484,6 @@
     "expected_grounding_tokens": [
       "舍弃库存",
       "面条"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "glutenFree",
-      "note": "Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "glutenFree"
   },
@@ -542,7 +535,8 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:面条"
+      "unused_pantry_used:面条",
+      "diet_violation:glutenFree:面条"
     ],
     "forbidden_validation_flags": [
       "allergen_present:面条",
@@ -552,14 +546,6 @@
     "expected_grounding_tokens": [
       "舍弃库存",
       "面条"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "glutenFree",
-      "note": "Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "glutenFree"
   },
@@ -611,7 +597,8 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:鸡肉"
+      "unused_pantry_used:鸡肉",
+      "diet_violation:vegan:鸡肉"
     ],
     "forbidden_validation_flags": [
       "allergen_present:鸡肉",
@@ -621,14 +608,6 @@
     "expected_grounding_tokens": [
       "舍弃库存",
       "鸡肉"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "vegan",
-      "note": "Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "vegan"
   },
@@ -686,24 +665,22 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:牛肉"
+      "unused_pantry_used:牛肉",
+      "diet_violation:vegan:牛肉"
     ],
     "forbidden_validation_flags": [
       "allergen_present:牛肉",
       "high_risk_not_cooked:牛肉",
       "ingredient_missing_in_steps:牛肉"
     ],
+    "expected_live_rejection": {
+      "status": 422,
+      "code": "unsafe_recipe",
+      "validation_flag_types": ["diet_violation"]
+    },
     "expected_grounding_tokens": [
       "舍弃库存",
       "牛肉"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "vegan",
-      "note": "Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "vegan"
   },
@@ -859,15 +836,18 @@
         {
           "name": "大米",
           "grams": 100
+        },
+        {
+          "name": "水",
+          "grams": 100
         }
       ],
       "steps": [
-        "大米煮熟。"
+        "大米和水煮熟。"
       ]
     },
     "expected_validation_flags": [
-      "used_pantry_missing:水",
-      "base_recipe_anchor_missing"
+      "ratio_out_of_bounds:rice_water"
     ],
     "forbidden_validation_flags": [
       "multi_pot_step"
@@ -875,14 +855,6 @@
     "expected_grounding_tokens": [
       "比例规则",
       "1:11"
-    ],
-    "known_gap": {
-      "code": "numeric_ratio_not_validated",
-      "scope": "rice_water_ratio",
-      "note": "Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review."
-    },
-    "manual_review_required": [
-      "numeric_ratio"
     ]
   },
   {
@@ -919,16 +891,25 @@
         {
           "name": "洋葱",
           "grams": 100
+        },
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡高汤",
+          "grams": 400
         }
       ],
       "steps": [
         "番茄煮熟。",
         "甜椒煮熟。",
-        "洋葱煮熟。"
+        "洋葱煮熟。",
+        "大米加入鸡高汤煮熟。"
       ]
     },
     "expected_validation_flags": [
-      "used_pantry_missing:大米"
+      "ratio_out_of_bounds:rice_water"
     ],
     "forbidden_validation_flags": [
       "multi_pot_step"
@@ -936,14 +917,6 @@
     "expected_grounding_tokens": [
       "比例规则",
       "1:1"
-    ],
-    "known_gap": {
-      "code": "numeric_ratio_not_validated",
-      "scope": "rice_water_ratio",
-      "note": "Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review."
-    },
-    "manual_review_required": [
-      "numeric_ratio"
     ]
   },
   {

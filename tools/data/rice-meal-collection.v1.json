@@ -276,9 +276,29 @@
         "joyoung-sausage-mixed-rice",
         "panasonic-fresh-shiitake-rice",
         "panasonic-mixed-chicken-rice",
+        "source-sichuan-pork-ribs-rice",
+        "source-tatung-beef-burdock-rice",
+        "source-tiger-pork-bamboo-rice",
+        "source-tatung-pork-daikon-rice",
+        "source-tatung-wakayama-ginger-rice",
+        "source-taiwan-tatung-cabbage-rice",
+        "source-zojirushi-pork-vegetable-rice",
+        "source-panasonic-nf-pc400-takikomi-rice",
+        "source-panasonic-khao-man-gai",
+        "source-zojirushi-okayama-ebimeshi",
+        "source-cookpot-beef-wild-mushroom-rice",
+        "source-tatung-hainan-chicken-rice",
+        "source-tatung-pork-jowl-sesame-rice",
+        "source-tiger-chinese-sticky-rice",
+        "source-panasonic-claypot-style-chicken-rice",
+        "source-tatung-tomato-pumpkin-rice",
         "zojirushi-bamboo-vegetable-rice",
         "zojirushi-beef-mixed-rice",
-        "zojirushi-tomato-seafood-rice"
+        "zojirushi-tomato-seafood-rice",
+        "source-nih-medlineplus-chicken-rice",
+        "source-tiger-chicken-bamboo-rice",
+        "source-nih-medlineplus-chicken-rice",
+        "source-tiger-chicken-bamboo-rice"
       ],
       "gap": null
     }
@@ -422,14 +442,14 @@
         }
       ],
       "rice_state": "glutinous-rice",
-      "nutrition_grade": "A",
+      "nutrition_grade": "C",
       "traditional_appliance_and_steps": "文化来源记录板鸭丁、矮脚黄与糯米一起煮，同文又有青菜米饭翻炒的概括，未形成唯一可执行流程",
       "identity_sources": [
         {
-          "title": "寻味二十四节气・小寒",
-          "publisher": "浙江省社会科学界联合会",
-          "retrieved_at": "2026-08-01",
-          "url": "https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html",
+          "title": "金陵节气诗词：小寒",
+          "publisher": "南京市地方志工作办公室",
+          "retrieved_at": "2026-08-03",
+          "url": "https://dfz.nanjing.gov.cn/gzdt/202401/t20240105_4139564.html",
           "supports": [
             "identity"
           ]
@@ -437,7 +457,7 @@
         {
           "title": "南京记忆｜咸板鸭与咸鸭肫",
           "publisher": "南京市地方志编纂委员会办公室",
-          "retrieved_at": "2026-08-02",
+          "retrieved_at": "2026-08-03",
           "url": "https://dfz.nanjing.gov.cn/gzdt/202408/t20240827_4750017.html",
           "supports": [
             "safety"
@@ -474,13 +494,13 @@
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "民俗铁锅炒煮",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "立夏民俗用铁锅和砖灶烧制野米饭",
       "identity_sources": [
         {
-          "title": "半山立夏野米饭",
+          "title": "拱墅区举办第六届半山立夏节",
           "publisher": "中国非物质文化遗产网",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.ihchina.cn/solarzx_details/18383.html",
           "supports": [
             "identity"
@@ -1181,27 +1201,27 @@
       "family": "northwest-meat-rice",
       "core_ingredients": [
         {
+          "canonical_id": "raw-millet",
+          "label": "小米"
+        },
+        {
           "canonical_id": null,
           "label": "羊肉"
         },
         {
-          "canonical_id": "raw-rice",
-          "label": "米"
-        },
-        {
           "canonical_id": null,
-          "label": "黄花菜/金针菇"
+          "label": "羊肉汤"
         }
       ],
-      "rice_state": "raw-rice",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "羊肉丁与米煮制",
+      "rice_state": "rice-state-unverified",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "羊肉汤与小米同锅煮制",
       "identity_sources": [
         {
-          "title": "米脂羊肉丁丁饭",
-          "publisher": "陕西省地方志",
-          "retrieved_at": "2026-08-01",
-          "url": "https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201209/t20120912_2620380.html",
+          "title": "米脂县地方小吃系列",
+          "publisher": "米脂县人民政府",
+          "retrieved_at": "2026-08-03",
+          "url": "https://www.zzszyq.com/html/htmlwhlyfwtc2018078711.html",
           "supports": [
             "identity"
           ]
@@ -1210,7 +1230,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "无数量、液体和份数"
+        "来源未给固定数量、液体或份数，约一个时辰未给起算点，且尚未建立现代电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1370,13 +1390,13 @@
         }
       ],
       "rice_state": "rice-state-unverified",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "箜饭身份记录",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "重庆市人民政府地方特色美食名单点名，未提供箜饭制作流程",
       "identity_sources": [
         {
-          "title": "綦江洋芋腊肉箜饭",
-          "publisher": "重庆市人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "2000名选手参赛 2025重庆老瀛山越野挑战赛开幕",
+          "publisher": "重庆市人民政府网",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.cq.gov.cn/zjcq/ydjs/tyss/202505/t20250512_14602375.html",
           "supports": [
             "identity"
@@ -1386,7 +1406,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "无数量、液体和米态"
+        "来源只在地方特色美食名单中点名，缺米态、数量、液体、顺序、时间、器具和安全终点"
       ],
       "status": "identity_only"
     },
@@ -1420,9 +1440,9 @@
       "traditional_appliance_and_steps": "米预煮、野菜和腊味多阶段合制",
       "identity_sources": [
         {
-          "title": "酉州社饭",
-          "publisher": "酉阳自治县人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "典籍里的酉阳美食",
+          "publisher": "酉阳土家族苗族自治县人民政府",
+          "retrieved_at": "2026-08-03",
           "url": "https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html",
           "supports": [
             "identity"
@@ -1432,7 +1452,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "野菜控制和多阶段工艺"
+        "来源明确描述野菜控制和米饭预煮，但存在炒熟或蒸熟两条多阶段工艺分支；缺固定数量、液体、时间、安全终点和电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1505,13 +1525,13 @@
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "A",
+      "nutrition_grade": "C",
       "traditional_appliance_and_steps": "焖饭身份记录",
       "identity_sources": [
         {
-          "title": "施甸蚕豆火腿焖饭",
+          "title": "【美味施甸】春味，藏在豆香里",
           "publisher": "施甸县人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://shidian.gov.cn/info/1111/3664633.htm",
           "supports": [
             "identity"
@@ -1542,32 +1562,33 @@
           "label": "土豆"
         },
         {
-          "canonical_id": "green-beans",
-          "label": "四季豆"
+          "canonical_id": null,
+          "label": "绿豆"
         },
         {
           "canonical_id": null,
-          "label": "腌肉"
+          "label": "腊肉"
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "A",
+      "nutrition_grade": "C",
       "traditional_appliance_and_steps": "铜锅焖制",
       "identity_sources": [
         {
-          "title": "腾冲北海铜锅洋芋饭",
+          "title": "北海的年味",
           "publisher": "腾冲市人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.tengchong.gov.cn/info/9573/5813513.htm",
           "supports": [
-            "identity"
+            "identity",
+            "appliance"
           ]
         }
       ],
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "无数量液体且铜锅身份损失"
+        "来源未给数量、液体或安全终点，仅支持铜锅传统流程，尚未建立电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1605,9 +1626,9 @@
       "traditional_appliance_and_steps": "甑蒸两条工艺分支",
       "identity_sources": [
         {
-          "title": "贵州侗家甑蒸社饭",
-          "publisher": "贵州人大网",
-          "retrieved_at": "2026-08-01",
+          "title": "侗族社节",
+          "publisher": "贵州省人大常委会办公厅",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true",
           "supports": [
             "identity"
@@ -1639,7 +1660,15 @@
         },
         {
           "canonical_id": null,
-          "label": "菜/豆"
+          "label": "蒿菜"
+        },
+        {
+          "canonical_id": null,
+          "label": "野葱"
+        },
+        {
+          "canonical_id": null,
+          "label": "豆子"
         },
         {
           "canonical_id": null,
@@ -1655,9 +1684,9 @@
       "traditional_appliance_and_steps": "预煮、热泡、低焖",
       "identity_sources": [
         {
-          "title": "铜仁万山社饭",
-          "publisher": "铜仁市人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "网络中国节·清明丨清明时节 社饭飘香",
+          "publisher": "铜仁市融媒体中心",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.tongren.gov.cn/2025/0405/333568.shtml",
           "supports": [
             "identity"
@@ -1667,7 +1696,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "无总数量液体，多阶段"
+        "无总数量、液体和总时长；米态混合且为多阶段工艺"
       ],
       "status": "research_candidate"
     },
@@ -1694,6 +1723,10 @@
         {
           "canonical_id": "shiitake",
           "label": "香菇"
+        },
+        {
+          "canonical_id": null,
+          "label": "粉条"
         }
       ],
       "rice_state": "raw-rice",
@@ -1701,9 +1734,9 @@
       "traditional_appliance_and_steps": "地锅鸡与米饭",
       "identity_sources": [
         {
-          "title": "辉县地锅鸡米饭",
-          "publisher": "河南电视台",
-          "retrieved_at": "2026-08-01",
+          "title": "河南美食No.61|最朴素的乡村地锅，老吃家咋会被一锅米饭惊艳到？",
+          "publisher": "大象新闻 / 河南广播电视台",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.hntv.tv/ms/article/1/1186924396997120000?from=dxlist",
           "supports": [
             "identity"
@@ -1713,7 +1746,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "无克数、液体和份数"
+        "来源明确给出鸡肉、米饭、干豆角、香菇和末段粉条的工艺，但没有固定数量、液体、时间、份数或电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1727,11 +1760,15 @@
       "core_ingredients": [
         {
           "canonical_id": null,
-          "label": "粳米/糯米"
+          "label": "粳米"
         },
         {
           "canonical_id": null,
-          "label": "艾草"
+          "label": "糯米"
+        },
+        {
+          "canonical_id": null,
+          "label": "社蒿菜"
         },
         {
           "canonical_id": null,
@@ -1739,21 +1776,21 @@
         },
         {
           "canonical_id": null,
-          "label": "野葱"
+          "label": "野藠"
         },
         {
           "canonical_id": null,
-          "label": "蒜苗"
+          "label": "大蒜苗"
         }
       ],
       "rice_state": "mixed-rice",
       "nutrition_grade": "A",
-      "traditional_appliance_and_steps": "预煮沥米或甑蒸",
+      "traditional_appliance_and_steps": "粳米/糯米3:7预煮沥米或甑蒸",
       "identity_sources": [
         {
-          "title": "麻阳社饭",
-          "publisher": "麻阳县人民政府",
-          "retrieved_at": "2026-08-01",
+          "title": "[苗族习俗] 饮食",
+          "publisher": "麻阳苗族自治县人民政府",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.mayang.gov.cn/mayang/c105440/202502/9d1d39afd086496da8cf07a96e138e76.shtml",
           "supports": [
             "identity"
@@ -1763,7 +1800,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "无总克数液体"
+        "来源给出粳米/糯米3:7和煮、甑蒸两条分支，但无固定总量、液体、时间或电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1777,11 +1814,15 @@
       "core_ingredients": [
         {
           "canonical_id": null,
-          "label": "糯米/粳米"
+          "label": "粘米"
         },
         {
           "canonical_id": null,
-          "label": "野菜"
+          "label": "糯米"
+        },
+        {
+          "canonical_id": null,
+          "label": "蒿菜"
         },
         {
           "canonical_id": null,
@@ -1789,17 +1830,17 @@
         },
         {
           "canonical_id": null,
-          "label": "葱蒜"
+          "label": "葫葱"
         }
       ],
       "rice_state": "mixed-rice",
       "nutrition_grade": "A",
-      "traditional_appliance_and_steps": "社饭多阶段蒸焖",
+      "traditional_appliance_and_steps": "三分之一粘米半熟、三分之二糯米煮熟后焖半小时",
       "identity_sources": [
         {
-          "title": "湘西社饭",
+          "title": "地方名小吃：社饭",
           "publisher": "湖南省人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.hunan.gov.cn/hnszf/jxxx/hxwh/cwd/201711/t20171111_4685412.html",
           "supports": [
             "identity"
@@ -1809,7 +1850,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "比例文字冲突且无可执行比"
+        "来源同时写“按三比一”与“三分之一粘米、三分之二糯米”，比例对象/表述需人工裁决；无固定总克数、液体或电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1836,12 +1877,12 @@
       ],
       "rice_state": "glutinous-rice",
       "nutrition_grade": "A",
-      "traditional_appliance_and_steps": "竹筒火烤",
+      "traditional_appliance_and_steps": "三分之一糯米、三分之一茶豆、三分之一瘦肉末装竹筒、粽叶封口后蒸半小时",
       "identity_sources": [
         {
-          "title": "湘江源瑶家竹筒饭",
+          "title": "湘聚缘柴火山庄",
           "publisher": "蓝山县人民政府",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://www.lanshan.gov.cn/lanshan/msmw/201805/a96955c68487440983d0b541f179de37.shtml",
           "supports": [
             "identity",
@@ -1852,7 +1893,7 @@
       "quantity_liquid_completeness": "partial",
       "adaptation_level": "E4",
       "blockers": [
-        "需食品安全竹筒与首煮液体"
+        "来源给出三等分原料和半小时蒸制，但无固定总克数、液体、安全终点或现代电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1865,8 +1906,8 @@
       "family": "bamboo-rice",
       "core_ingredients": [
         {
-          "canonical_id": "raw-rice",
-          "label": "米"
+          "canonical_id": null,
+          "label": "粳米或糯米"
         },
         {
           "canonical_id": null,
@@ -1879,12 +1920,12 @@
       ],
       "rice_state": "raw-rice",
       "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "火烤竹筒",
+      "traditional_appliance_and_steps": "粳米或糯米配腊肉红枣，温火翻烤约20分钟",
       "identity_sources": [
         {
-          "title": "涟源腊肉红枣竹筒饭",
+          "title": "跟着旅发大会游涟源|来一场舌尖上的美食之旅！",
           "publisher": "湖南省文旅厅",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://whhlyt.hunan.gov.cn/whhlyt/news/sxxw/202309/t20230927_29503286.html",
           "supports": [
             "identity"
@@ -1894,7 +1935,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E4",
       "blockers": [
-        "火烤器具身份且无数量液体"
+        "来源给出粳米或糯米、腊肉、红枣和约20分钟温火翻烤，但无固定总克数、液体、安全终点或现代电饭煲适配"
       ],
       "status": "research_candidate"
     },
@@ -1916,13 +1957,13 @@
         }
       ],
       "rice_state": "rice-state-unverified",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "焖饭名称身份记录",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "宜昌市发展改革委官方页面在三峡一桌菜中点名，未提供腊肉焖饭制作流程",
       "identity_sources": [
         {
-          "title": "宜昌腊肉焖饭",
-          "publisher": "宜昌市发改委",
-          "retrieved_at": "2026-08-01",
+          "title": "新华网：江汉大米“链动”三峡 产销合作启新篇",
+          "publisher": "宜昌市发展和改革委员会",
+          "retrieved_at": "2026-08-03",
           "url": "https://fgw.yichang.gov.cn/content-56405-984018-1.html",
           "supports": [
             "identity"
@@ -1932,7 +1973,7 @@
       "quantity_liquid_completeness": "identity_only",
       "adaptation_level": "E3",
       "blockers": [
-        "仅有名称，缺工艺、数量和液体"
+        "官方页面当前跳转循环，只能核验搜索摘录中的菜名和组合；缺米态、工艺、数量、液体、时间、器具和安全终点"
       ],
       "status": "identity_only"
     },
@@ -1954,16 +1995,17 @@
         }
       ],
       "rice_state": "raw-rice",
-      "nutrition_grade": "B",
-      "traditional_appliance_and_steps": "通风陶甑蒸制",
+      "nutrition_grade": "C",
+      "traditional_appliance_and_steps": "天津日报记录陶甑配大米和猪肉蒸制甑乡肉焖儿",
       "identity_sources": [
         {
-          "title": "宁河甑乡肉焖儿",
+          "title": "望山见水忆乡愁（图）",
           "publisher": "天津日报",
-          "retrieved_at": "2026-08-01",
+          "retrieved_at": "2026-08-03",
           "url": "https://epaper.tianjinwe.com/tjrb/h5/html5/2025-05/21/content_143096_2197500.htm",
           "supports": [
-            "identity"
+            "identity",
+            "appliance"
           ]
         }
       ],
@@ -2900,6 +2942,1210 @@
         "appliance": "complete",
         "safety": "complete"
       }
+    },
+    {
+      "candidate_id": "source-sichuan-pork-ribs-rice",
+      "name": "排骨焖饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "home-braised-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "大米"
+        },
+        {
+          "canonical_id": "pork-ribs",
+          "label": "排骨"
+        },
+        {
+          "canonical_id": "sweet-corn",
+          "label": "玉米"
+        },
+        {
+          "canonical_id": "carrot",
+          "label": "胡萝卜"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "来源页给出排骨、玉米、胡萝卜与生米同锅的电饭煲流程；本项目两人份克数与1.5倍加水为待实厨校准合同。",
+      "identity_sources": [
+        {
+          "title": "One-Pot Rice Cooker Pork Ribs and Rice",
+          "publisher": "Woks of Love",
+          "retrieved_at": "2026-08-11",
+          "url": "https://woksoflove.com/one-pot-rice-cooker-pork-ribs-and-rice/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "pork-ribs",
+        "sweet-corn",
+        "carrot"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源为三人份、1杯米、300g排骨和300mL水；项目两人份合同与标准煮饭程序是显式校准适配，不冒充来源原方。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tatung-beef-burdock-rice",
+      "name": "牛肉牛蒡炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "beef-generic",
+          "label": "牛肉"
+        },
+        {
+          "canonical_id": "burdock",
+          "label": "牛蒡"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同电锅内锅加2杯だし、外锅另加1杯水；牛肉先炒，跳起后焖10分钟。",
+      "identity_sources": [
+        {
+          "title": "牛肉とごぼうの炊き込みご飯",
+          "publisher": "大同電鍋公式レシピ",
+          "retrieved_at": "2026-08-05",
+          "url": "https://recipe.rakuten.co.jp/recipe/1290042027/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "beef-generic",
+        "burdock"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源固定批量与大同器具事实和项目两人校准起点分开记录；不外推普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tiger-pork-bamboo-rice",
+      "name": "猪肉竹笋炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tiger-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "pork-belly",
+          "label": "五花肉"
+        },
+        {
+          "canonical_id": "bamboo-shoot",
+          "label": "竹笋"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "Tiger炊込み·火力强程序；米、600mL高汤、猪肉和竹笋同锅，完成后拌松。",
+      "identity_sources": [
+        {
+          "title": "豚肉とたけのこごはん",
+          "publisher": "Tiger Corporation",
+          "retrieved_at": "2026-08-06",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post61/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "pork-belly",
+        "bamboo-shoot"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源6人份和Tiger程序事实与项目两人校准起点分开记录；不外推其他品牌。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tatung-pork-daikon-rice",
+      "name": "猪肉萝卜饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "pork-belly",
+          "label": "五花肉"
+        },
+        {
+          "canonical_id": "daikon",
+          "label": "白萝卜"
+        },
+        {
+          "canonical_id": "carrot",
+          "label": "胡萝卜"
+        },
+        {
+          "canonical_id": "fried-tofu",
+          "label": "油炸豆腐"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同电锅内锅按2刻度略下水位线，外锅加水；猪肉、根菜和油炸豆腐同锅，跳起后焖10分钟。",
+      "identity_sources": [
+        {
+          "title": "豚バラ大根ご飯",
+          "publisher": "大同電鍋官方食譜網站",
+          "retrieved_at": "2026-08-05",
+          "url": "https://dennabe-official.tatung.co.jp/recipe/view/1990",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "pork-belly",
+        "daikon",
+        "carrot",
+        "fried-tofu"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源给水位线而非统一毫升；项目称重液体仅作校准起点，不外推其他电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tatung-wakayama-ginger-rice",
+      "name": "生姜鸡肉饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "chicken-breast",
+          "label": "鸡胸肉"
+        },
+        {
+          "canonical_id": "ginger-root",
+          "label": "生姜"
+        },
+        {
+          "canonical_id": "carrot",
+          "label": "胡萝卜"
+        },
+        {
+          "canonical_id": "fried-tofu",
+          "label": "油炸豆腐"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同电锅内锅按2刻度略下水位线，外锅加水；鸡胸肉、生姜、胡萝卜和油炸豆腐同锅，跳起后焖5分钟并确认鸡肉熟透。",
+      "identity_sources": [
+        {
+          "title": "しょうが飯",
+          "publisher": "大同電鍋官方食譜網站",
+          "retrieved_at": "2026-08-05",
+          "url": "https://dennabe-official.tatung.co.jp/recipe/view/1972",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-breast",
+        "ginger-root",
+        "carrot",
+        "fried-tofu"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源3人份和大同水位线事实与项目两人校准起点分开记录；不把水位线换算成跨机型毫升。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-taiwan-tatung-cabbage-rice",
+      "name": "高丽菜饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "pork-generic",
+          "label": "猪肉"
+        },
+        {
+          "canonical_id": "green-cabbage",
+          "label": "高丽菜"
+        },
+        {
+          "canonical_id": "dried-shiitake",
+          "label": "干香菇"
+        },
+        {
+          "canonical_id": "dried-shrimp",
+          "label": "虾米"
+        },
+        {
+          "canonical_id": "shallot",
+          "label": "红葱头"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同电锅2人份；配料先炒香，内锅2杯水、外锅1杯水，跳起后焖10分钟。",
+      "identity_sources": [
+        {
+          "title": "台湾农业部农粮署：高丽菜饭",
+          "publisher": "台湾农业部农粮署",
+          "retrieved_at": "2026-08-12",
+          "url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "pork-generic",
+        "green-cabbage",
+        "dried-shiitake",
+        "dried-shrimp",
+        "shallot"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源固定2人批量与大同器具事实保留；项目克数和称重液体是校准起点，不外推普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-zojirushi-pork-vegetable-rice",
+      "name": "猪肉蔬菜饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "zojirushi-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "pork-generic",
+          "label": "猪肉"
+        },
+        {
+          "canonical_id": "green-cabbage",
+          "label": "卷心菜"
+        },
+        {
+          "canonical_id": "bell-pepper",
+          "label": "青椒"
+        },
+        {
+          "canonical_id": "ginger-root",
+          "label": "生姜"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "象印EL-NS23固定批量；猪肉先汆烫调味，使用来源自动菜单完成，约1小时。",
+      "identity_sources": [
+        {
+          "title": "象印 EL-NS23：豚肉と野菜のおかずごはん",
+          "publisher": "ZOJIRUSHI",
+          "retrieved_at": "2026-08-12",
+          "url": "https://www.zojirushi.co.jp/recipe/ihnabe/syousai/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "pork-generic",
+        "green-cabbage",
+        "bell-pepper",
+        "ginger-root"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源EL-NS23水量和自动菜单仅限指定机型；项目两人克数为校准起点，不跨机型。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-panasonic-nf-pc400-takikomi-rice",
+      "name": "Panasonic炊き込みご饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "panasonic-pressure-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "白米"
+        },
+        {
+          "canonical_id": "chicken-leg",
+          "label": "鸡腿肉"
+        },
+        {
+          "canonical_id": "burdock",
+          "label": "牛蒡"
+        },
+        {
+          "canonical_id": "konjac",
+          "label": "蒟蒻"
+        },
+        {
+          "canonical_id": "dried-shiitake",
+          "label": "干香菇"
+        },
+        {
+          "canonical_id": "carrot",
+          "label": "胡萝卜"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "Panasonic NF-PC400电气压力锅；鸡腿和配料铺在米面，自动调理17后完全泄压再拌匀。",
+      "identity_sources": [
+        {
+          "title": "Panasonic Cooking：炊き込みごはん",
+          "publisher": "Panasonic Cooking",
+          "retrieved_at": "2026-08-12",
+          "url": "https://panasonic.jp/cooking/recipe/cook/0657.html",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-leg",
+        "burdock",
+        "konjac",
+        "dried-shiitake",
+        "carrot"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源水位线、压力程序和泄压顺序仅限NF-PC400；项目克数和称重液体是校准起点，不改写成普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-panasonic-khao-man-gai",
+      "name": "海南鸡饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "panasonic-pressure-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "白米"
+        },
+        {
+          "canonical_id": "chicken-leg",
+          "label": "鸡腿肉"
+        },
+        {
+          "canonical_id": "ginger-root",
+          "label": "生姜"
+        },
+        {
+          "canonical_id": "garlic",
+          "label": "蒜"
+        },
+        {
+          "canonical_id": "scallion",
+          "label": "白葱"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "Panasonic NF-AC1000中压8分钟；鸡腿皮朝下铺在调味米面，减压后确认熟透。",
+      "identity_sources": [
+        {
+          "title": "Panasonic Cooking：カオマンガイ",
+          "publisher": "Panasonic Cooking",
+          "retrieved_at": "2026-08-12",
+          "url": "https://panasonic.jp/cooking/recipe/autocooker/1118.html",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-leg",
+        "ginger-root",
+        "garlic",
+        "scallion"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源NF-AC1000的固定批量、水量和中压程序仅限指定压力锅；项目两人起步比例仍待实厨。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-zojirushi-okayama-ebimeshi",
+      "name": "冈山虾饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "zojirushi-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "shrimp",
+          "label": "虾仁"
+        },
+        {
+          "canonical_id": "onion",
+          "label": "洋葱"
+        },
+        {
+          "canonical_id": "egg",
+          "label": "鸡蛋"
+        },
+        {
+          "canonical_id": "scallion",
+          "label": "青葱"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "象印EL-NS23；虾和洋葱先炒后铺米面，炊饭后另锅炒蛋并拌入，保留来源分阶段边界。",
+      "identity_sources": [
+        {
+          "title": "象印：えびめし",
+          "publisher": "象印マホービン",
+          "retrieved_at": "2026-08-12",
+          "url": "https://www.zojirushi.co.jp/recipe/list/1779.html",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "shrimp",
+        "onion",
+        "egg",
+        "scallion"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "EL-NS23水位线、自动菜单和出锅炒蛋仅限指定机型；项目两人克数是校准起点，不外推普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-cookpot-beef-wild-mushroom-rice",
+      "name": "牛肉野菇炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "cookpot-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "beef-generic",
+          "label": "牛肉片"
+        },
+        {
+          "canonical_id": "onion",
+          "label": "洋葱"
+        },
+        {
+          "canonical_id": "oyster-mushroom",
+          "label": "平菇"
+        },
+        {
+          "canonical_id": "dried-shiitake",
+          "label": "干香菇"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "鍋寶316电锅；牛肉、洋葱和菇类分层入内锅，加称好的泡菇水，外锅按来源煮饭。",
+      "identity_sources": [
+        {
+          "title": "鍋寶：牛肉野菇炊飯",
+          "publisher": "鍋寶好食光",
+          "retrieved_at": "2026-08-12",
+          "url": "https://www.cookpot.com.tw/cookbook/736.html",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "beef-generic",
+        "onion",
+        "oyster-mushroom",
+        "dried-shiitake"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源只给米、牛肉和香菇水固定量，菇类克数为项目校准起点；仅限鍋寶316电锅。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tatung-hainan-chicken-rice",
+      "name": "海南鸡饭（大同来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "chicken-leg",
+          "label": "鸡腿肉"
+        },
+        {
+          "canonical_id": "ginger-root",
+          "label": "生姜"
+        },
+        {
+          "canonical_id": "garlic",
+          "label": "蒜"
+        },
+        {
+          "canonical_id": "scallion",
+          "label": "葱"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同电锅分两轮：先蒸鸡并留鸡汤，再按水位线煮米饭，切片装盘；不承诺普通电饭煲一键完成。",
+      "identity_sources": [
+        {
+          "title": "大同电锅：海南鶏飯シンガポールチキンライス",
+          "publisher": "大同電鍋官方レシピ",
+          "retrieved_at": "2026-08-12",
+          "url": "https://recipe.rakuten.co.jp/recipe/1290042347/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-leg",
+        "ginger-root",
+        "garlic",
+        "scallion"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源是大同电锅分阶段流程；保留鸡汤和两轮外锅边界，项目两人克数仅作校准起点。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tatung-pork-jowl-sesame-rice",
+      "name": "五花肉炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "pork-belly",
+          "label": "五花肉"
+        },
+        {
+          "canonical_id": "dried-shiitake",
+          "label": "干香菇"
+        },
+        {
+          "canonical_id": "dried-shrimp",
+          "label": "虾米"
+        },
+        {
+          "canonical_id": "ginger-root",
+          "label": "生姜"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同电锅；来源原料为猪颈肉，项目 taxonomy 显示为五花肉校准近似；干香菇、虾米和生姜先炒，再与米和泡菇水一起炊饭。",
+      "identity_sources": [
+        {
+          "title": "大同电锅：豚トロとごま油炊き込みご飯",
+          "publisher": "大同電鍋官方レシピ",
+          "retrieved_at": "2026-08-12",
+          "url": "https://recipe.rakuten.co.jp/recipe/1290045148/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "pork-belly",
+        "dried-shiitake",
+        "dried-shrimp",
+        "ginger-root"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源给出180ml泡菇水和大同外锅流程；项目两人克数是校准起点，不外推其他器具。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tiger-chinese-sticky-rice",
+      "name": "中式糯米炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tiger-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "soaked-glutinous-rice",
+          "label": "泡发糯米"
+        },
+        {
+          "canonical_id": "pork-belly",
+          "label": "五花肉"
+        },
+        {
+          "canonical_id": "dried-shiitake",
+          "label": "干香菇"
+        },
+        {
+          "canonical_id": "dried-shrimp",
+          "label": "虾米"
+        },
+        {
+          "canonical_id": "bamboo-shoot",
+          "label": "竹笋"
+        },
+        {
+          "canonical_id": "carrot",
+          "label": "胡萝卜"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "Tigerおこわ程序；糯米和干货浸泡，五花肉与配料先炒，再入锅焖饭并拌松。",
+      "identity_sources": [
+        {
+          "title": "中式糯米炊饭（来源校准预览）",
+          "publisher": "官方来源",
+          "retrieved_at": "2026-08-12",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post35/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "soaked-glutinous-rice",
+        "pork-belly",
+        "dried-shiitake",
+        "dried-shrimp",
+        "bamboo-shoot",
+        "carrot"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源固定6人批量与项目两人校准起点分开记录；不外推普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-panasonic-claypot-style-chicken-rice",
+      "name": "砂锅风鸡饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "panasonic-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "chicken-leg",
+          "label": "鸡腿肉"
+        },
+        {
+          "canonical_id": "shiitake",
+          "label": "香菇"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "Panasonic指定机型；鸡腿腌制后与米水、香菇入锅，按WHITE RICE/CASSEROLE程序完成。",
+      "identity_sources": [
+        {
+          "title": "砂锅风鸡饭（来源校准预览）",
+          "publisher": "官方来源",
+          "retrieved_at": "2026-08-12",
+          "url": "https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/claypot-style-chicken-rice.html",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-leg",
+        "shiitake"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源总时长和双程序只限Panasonic机型；项目两人克数为校准起点。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tatung-tomato-pumpkin-rice",
+      "name": "番茄南瓜培根炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tatung-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "tomato",
+          "label": "番茄"
+        },
+        {
+          "canonical_id": "pumpkin",
+          "label": "南瓜"
+        },
+        {
+          "canonical_id": "bacon",
+          "label": "培根"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "大同M号内锅；米水入锅，番茄、南瓜、培根铺面，外锅按来源煮饭，跳起后焖并翻松。",
+      "identity_sources": [
+        {
+          "title": "番茄南瓜培根炊饭（来源校准预览）",
+          "publisher": "官方来源",
+          "retrieved_at": "2026-08-12",
+          "url": "https://dennabe-official.tatung.co.jp/recipe/view/2029",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "tomato",
+        "pumpkin",
+        "bacon"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "320mL和外锅流程仅限大同M号；项目两人克数是校准起点，不跨机型。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-nih-medlineplus-chicken-rice",
+      "name": "鸡肉蔬菜炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "medlineplus-one-pot",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "chicken-generic",
+          "label": "鸡肉"
+        },
+        {
+          "canonical_id": "tomato",
+          "label": "番茄"
+        },
+        {
+          "canonical_id": "bell-pepper",
+          "label": "青椒"
+        },
+        {
+          "canonical_id": "celery",
+          "label": "芹菜"
+        },
+        {
+          "canonical_id": "carrot",
+          "label": "胡萝卜"
+        },
+        {
+          "canonical_id": "sweet-corn",
+          "label": "玉米"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "B",
+      "traditional_appliance_and_steps": "MedlinePlus/NHLBI普通大锅分阶段：鸡肉与蔬菜先煮，取出鸡肉后在原汤煮米，末段回锅并检查禽肉74°C。",
+      "identity_sources": [
+        {
+          "title": "Chicken and Rice",
+          "publisher": "官方来源",
+          "retrieved_at": "2026-08-12",
+          "url": "https://medlineplus.gov/recipes/chicken-and-rice/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-generic",
+        "tomato",
+        "bell-pepper",
+        "celery",
+        "carrot",
+        "sweet-corn"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源固定批量与项目两人校准起点分开记录；保留来源器具和分段边界，不外推普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
+    },
+    {
+      "candidate_id": "source-tiger-chicken-bamboo-rice",
+      "name": "鸡肉竹笋炊饭（来源校准预览）",
+      "region_codes": [
+        "HOUSEHOLD"
+      ],
+      "family": "tiger-mixed-rice",
+      "core_ingredients": [
+        {
+          "canonical_id": "raw-rice",
+          "label": "米"
+        },
+        {
+          "canonical_id": "chicken-breast",
+          "label": "鸡胸肉"
+        },
+        {
+          "canonical_id": "bamboo-shoot",
+          "label": "竹笋"
+        },
+        {
+          "canonical_id": "fried-tofu",
+          "label": "油豆腐皮"
+        }
+      ],
+      "rice_state": "raw-rice",
+      "nutrition_grade": "A",
+      "traditional_appliance_and_steps": "Tiger炊込み程序：米与高汤入锅，熟竹笋、鸡胸肉和油豆腐皮铺面，闭盖完成后翻拌并检查禽肉74°C。",
+      "identity_sources": [
+        {
+          "title": "鶏肉たけのこごはん",
+          "publisher": "官方来源",
+          "retrieved_at": "2026-08-12",
+          "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post26/",
+          "supports": [
+            "identity",
+            "quantity",
+            "liquid",
+            "appliance"
+          ]
+        }
+      ],
+      "quantity_liquid_completeness": "complete",
+      "adaptation_level": "E2",
+      "blockers": [
+        "内部校准合同尚未完成实厨试做，不得标为正式可见目录"
+      ],
+      "status": "calibration_ready",
+      "mapped_core": [
+        "raw-rice",
+        "chicken-breast",
+        "bamboo-shoot",
+        "fried-tofu"
+      ],
+      "mapping_scope": "partial_adaptation",
+      "mapping_note": "来源固定批量与项目两人校准起点分开记录；保留来源器具和分段边界，不外推普通电饭煲。",
+      "runtime_contract": {
+        "quantity": "complete",
+        "liquid": "complete",
+        "appliance": "complete",
+        "safety": "complete"
+      }
     }
   ],
   "exclusions": [
@@ -3266,6 +4512,272 @@
       ],
       "status": "planned",
       "reverse_mapping_id": "map-xinjiang"
+    },
+    {
+      "tracking_id": "track-source-sichuan-pork-ribs-rice",
+      "runtime_variant_id": "source-sichuan-pork-ribs-rice",
+      "candidate_id": "source-sichuan-pork-ribs-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "pork-ribs",
+        "sweet-corn",
+        "carrot"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-sichuan-pork-ribs-rice"
+    },
+    {
+      "tracking_id": "track-source-tatung-beef-burdock-rice",
+      "runtime_variant_id": "source-tatung-beef-burdock-rice",
+      "candidate_id": "source-tatung-beef-burdock-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "beef-generic",
+        "burdock"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tatung-beef-burdock-rice"
+    },
+    {
+      "tracking_id": "track-source-tiger-pork-bamboo-rice",
+      "runtime_variant_id": "source-tiger-pork-bamboo-rice",
+      "candidate_id": "source-tiger-pork-bamboo-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "pork-belly",
+        "bamboo-shoot"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tiger-pork-bamboo-rice"
+    },
+    {
+      "tracking_id": "track-source-tatung-pork-daikon-rice",
+      "runtime_variant_id": "source-tatung-pork-daikon-rice",
+      "candidate_id": "source-tatung-pork-daikon-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "pork-belly",
+        "daikon",
+        "carrot",
+        "fried-tofu"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tatung-pork-daikon-rice"
+    },
+    {
+      "tracking_id": "track-source-tatung-wakayama-ginger-rice",
+      "runtime_variant_id": "source-tatung-wakayama-ginger-rice",
+      "candidate_id": "source-tatung-wakayama-ginger-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-breast",
+        "ginger-root",
+        "carrot",
+        "fried-tofu"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tatung-wakayama-ginger-rice"
+    },
+    {
+      "tracking_id": "track-source-taiwan-tatung-cabbage-rice",
+      "runtime_variant_id": "source-taiwan-tatung-cabbage-rice",
+      "candidate_id": "source-taiwan-tatung-cabbage-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "pork-generic",
+        "green-cabbage",
+        "dried-shiitake",
+        "dried-shrimp",
+        "shallot"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-taiwan-tatung-cabbage-rice"
+    },
+    {
+      "tracking_id": "track-source-zojirushi-pork-vegetable-rice",
+      "runtime_variant_id": "source-zojirushi-pork-vegetable-rice",
+      "candidate_id": "source-zojirushi-pork-vegetable-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "pork-generic",
+        "green-cabbage",
+        "bell-pepper",
+        "ginger-root"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-zojirushi-pork-vegetable-rice"
+    },
+    {
+      "tracking_id": "track-source-panasonic-nf-pc400-takikomi-rice",
+      "runtime_variant_id": "source-panasonic-nf-pc400-takikomi-rice",
+      "candidate_id": "source-panasonic-nf-pc400-takikomi-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-leg",
+        "burdock",
+        "konjac",
+        "dried-shiitake",
+        "carrot"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-panasonic-nf-pc400-takikomi-rice"
+    },
+    {
+      "tracking_id": "track-source-panasonic-khao-man-gai",
+      "runtime_variant_id": "source-panasonic-khao-man-gai",
+      "candidate_id": "source-panasonic-khao-man-gai",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-leg",
+        "ginger-root",
+        "garlic",
+        "scallion"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-panasonic-khao-man-gai"
+    },
+    {
+      "tracking_id": "track-source-zojirushi-okayama-ebimeshi",
+      "runtime_variant_id": "source-zojirushi-okayama-ebimeshi",
+      "candidate_id": "source-zojirushi-okayama-ebimeshi",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "shrimp",
+        "onion",
+        "egg",
+        "scallion"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-zojirushi-okayama-ebimeshi"
+    },
+    {
+      "tracking_id": "track-source-cookpot-beef-wild-mushroom-rice",
+      "runtime_variant_id": "source-cookpot-beef-wild-mushroom-rice",
+      "candidate_id": "source-cookpot-beef-wild-mushroom-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "beef-generic",
+        "onion",
+        "oyster-mushroom",
+        "dried-shiitake"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-cookpot-beef-wild-mushroom-rice"
+    },
+    {
+      "tracking_id": "track-source-tatung-hainan-chicken-rice",
+      "runtime_variant_id": "source-tatung-hainan-chicken-rice",
+      "candidate_id": "source-tatung-hainan-chicken-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-leg",
+        "ginger-root",
+        "garlic",
+        "scallion"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tatung-hainan-chicken-rice"
+    },
+    {
+      "tracking_id": "track-source-tatung-pork-jowl-sesame-rice",
+      "runtime_variant_id": "source-tatung-pork-jowl-sesame-rice",
+      "candidate_id": "source-tatung-pork-jowl-sesame-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "pork-belly",
+        "dried-shiitake",
+        "dried-shrimp",
+        "ginger-root"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tatung-pork-jowl-sesame-rice"
+    },
+    {
+      "tracking_id": "track-source-tiger-chinese-sticky-rice",
+      "runtime_variant_id": "source-tiger-chinese-sticky-rice",
+      "candidate_id": "source-tiger-chinese-sticky-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "soaked-glutinous-rice",
+        "pork-belly",
+        "dried-shiitake",
+        "dried-shrimp",
+        "bamboo-shoot",
+        "carrot"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tiger-chinese-sticky-rice"
+    },
+    {
+      "tracking_id": "track-source-panasonic-claypot-style-chicken-rice",
+      "runtime_variant_id": "source-panasonic-claypot-style-chicken-rice",
+      "candidate_id": "source-panasonic-claypot-style-chicken-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-leg",
+        "shiitake"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-panasonic-claypot-style-chicken-rice"
+    },
+    {
+      "tracking_id": "track-source-tatung-tomato-pumpkin-rice",
+      "runtime_variant_id": "source-tatung-tomato-pumpkin-rice",
+      "candidate_id": "source-tatung-tomato-pumpkin-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "tomato",
+        "pumpkin",
+        "bacon"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tatung-tomato-pumpkin-rice"
+    },
+    {
+      "tracking_id": "track-source-nih-medlineplus-chicken-rice",
+      "runtime_variant_id": "source-nih-medlineplus-chicken-rice",
+      "candidate_id": "source-nih-medlineplus-chicken-rice",
+      "nutrition_grade": "B",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-generic",
+        "tomato",
+        "bell-pepper",
+        "celery",
+        "carrot",
+        "sweet-corn"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-nih-medlineplus-chicken-rice"
+    },
+    {
+      "tracking_id": "track-source-tiger-chicken-bamboo-rice",
+      "runtime_variant_id": "source-tiger-chicken-bamboo-rice",
+      "candidate_id": "source-tiger-chicken-bamboo-rice",
+      "nutrition_grade": "A",
+      "core_ingredient_ids": [
+        "raw-rice",
+        "chicken-breast",
+        "bamboo-shoot",
+        "fried-tofu"
+      ],
+      "status": "calibration_ready",
+      "reverse_mapping_id": "map-source-tiger-chicken-bamboo-rice"
     }
   ],
   "runtime_mappings": [
@@ -3363,6 +4875,96 @@
       "mapping_id": "map-xinjiang",
       "candidate_id": "xinjiang-lamb-pilaf",
       "tracking_id": "track-xinjiang"
+    },
+    {
+      "mapping_id": "map-source-sichuan-pork-ribs-rice",
+      "candidate_id": "source-sichuan-pork-ribs-rice",
+      "tracking_id": "track-source-sichuan-pork-ribs-rice"
+    },
+    {
+      "mapping_id": "map-source-tatung-beef-burdock-rice",
+      "candidate_id": "source-tatung-beef-burdock-rice",
+      "tracking_id": "track-source-tatung-beef-burdock-rice"
+    },
+    {
+      "mapping_id": "map-source-tiger-pork-bamboo-rice",
+      "candidate_id": "source-tiger-pork-bamboo-rice",
+      "tracking_id": "track-source-tiger-pork-bamboo-rice"
+    },
+    {
+      "mapping_id": "map-source-tatung-pork-daikon-rice",
+      "candidate_id": "source-tatung-pork-daikon-rice",
+      "tracking_id": "track-source-tatung-pork-daikon-rice"
+    },
+    {
+      "mapping_id": "map-source-tatung-wakayama-ginger-rice",
+      "candidate_id": "source-tatung-wakayama-ginger-rice",
+      "tracking_id": "track-source-tatung-wakayama-ginger-rice"
+    },
+    {
+      "mapping_id": "map-source-taiwan-tatung-cabbage-rice",
+      "candidate_id": "source-taiwan-tatung-cabbage-rice",
+      "tracking_id": "track-source-taiwan-tatung-cabbage-rice"
+    },
+    {
+      "mapping_id": "map-source-zojirushi-pork-vegetable-rice",
+      "candidate_id": "source-zojirushi-pork-vegetable-rice",
+      "tracking_id": "track-source-zojirushi-pork-vegetable-rice"
+    },
+    {
+      "mapping_id": "map-source-panasonic-nf-pc400-takikomi-rice",
+      "candidate_id": "source-panasonic-nf-pc400-takikomi-rice",
+      "tracking_id": "track-source-panasonic-nf-pc400-takikomi-rice"
+    },
+    {
+      "mapping_id": "map-source-panasonic-khao-man-gai",
+      "candidate_id": "source-panasonic-khao-man-gai",
+      "tracking_id": "track-source-panasonic-khao-man-gai"
+    },
+    {
+      "mapping_id": "map-source-zojirushi-okayama-ebimeshi",
+      "candidate_id": "source-zojirushi-okayama-ebimeshi",
+      "tracking_id": "track-source-zojirushi-okayama-ebimeshi"
+    },
+    {
+      "mapping_id": "map-source-cookpot-beef-wild-mushroom-rice",
+      "candidate_id": "source-cookpot-beef-wild-mushroom-rice",
+      "tracking_id": "track-source-cookpot-beef-wild-mushroom-rice"
+    },
+    {
+      "mapping_id": "map-source-tatung-hainan-chicken-rice",
+      "candidate_id": "source-tatung-hainan-chicken-rice",
+      "tracking_id": "track-source-tatung-hainan-chicken-rice"
+    },
+    {
+      "mapping_id": "map-source-tatung-pork-jowl-sesame-rice",
+      "candidate_id": "source-tatung-pork-jowl-sesame-rice",
+      "tracking_id": "track-source-tatung-pork-jowl-sesame-rice"
+    },
+    {
+      "mapping_id": "map-source-tiger-chinese-sticky-rice",
+      "candidate_id": "source-tiger-chinese-sticky-rice",
+      "tracking_id": "track-source-tiger-chinese-sticky-rice"
+    },
+    {
+      "mapping_id": "map-source-panasonic-claypot-style-chicken-rice",
+      "candidate_id": "source-panasonic-claypot-style-chicken-rice",
+      "tracking_id": "track-source-panasonic-claypot-style-chicken-rice"
+    },
+    {
+      "mapping_id": "map-source-tatung-tomato-pumpkin-rice",
+      "candidate_id": "source-tatung-tomato-pumpkin-rice",
+      "tracking_id": "track-source-tatung-tomato-pumpkin-rice"
+    },
+    {
+      "mapping_id": "map-source-nih-medlineplus-chicken-rice",
+      "candidate_id": "source-nih-medlineplus-chicken-rice",
+      "tracking_id": "track-source-nih-medlineplus-chicken-rice"
+    },
+    {
+      "mapping_id": "map-source-tiger-chicken-bamboo-rice",
+      "candidate_id": "source-tiger-chicken-bamboo-rice",
+      "tracking_id": "track-source-tiger-chicken-bamboo-rice"
     }
   ]
 }

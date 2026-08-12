@@ -944,6 +944,11 @@ function buildRecipeGrounding(selection) {
     ? [`总时长基准: ${recipe.total_time_minutes}分钟`] : [];
   const adaptationLines = typeof recipe.adaptation_note === 'string' && recipe.adaptation_note.trim()
     ? [`改编说明: ${sanitizePromptText(recipe.adaptation_note, 400)}`] : [];
+  const legacyGenerationLines = ['cabbage-tofu-braised-rice', 'broccoli-beef-braised-rice'].includes(recipe.id)
+    ? [
+      'legacy 生成单锅契约: 白菜、西兰花或替代叶菜必须在同一口锅后段加入并焖至熟软；不得写锅外、另起锅、第二口锅或外部预煮，保留一锅完成的可执行步骤。',
+    ]
+    : [];
   const profileLines = profile ? [
     `受控完整主餐资格: ${sanitizePromptText(profile.id, 100)}`,
     '完整性依据: 红扁豆、土豆和番茄已经组成完整主餐。',
@@ -972,6 +977,7 @@ function buildRecipeGrounding(selection) {
     `比例规则: ${compactRecipeList(recipe.ratio_rules)}`,
     `安全规则: ${compactRecipeList(recipe.safety_rules)}`,
     ...adaptationLines,
+    ...legacyGenerationLines,
     `已选库存: ${compactRecipeList(selection?.usedPantry)}`,
     `舍弃库存: ${compactRecipeList(selection?.unusedPantry)}`,
     ...profileLines,
@@ -1146,6 +1152,13 @@ const VALIDATION_COOKING_OIL_NAMES = new Set([
 const VALIDATION_SALT_NAMES = new Set(['盐', '食盐', '海盐', '低钠盐']);
 const VALIDATION_PEPPER_NAMES = new Set(['胡椒', '胡椒粉', '黑胡椒', '黑胡椒粉', '白胡椒', '白胡椒粉']);
 const VALIDATION_WATER_NAMES = new Set(['水', '清水', '饮用水', '凉开水', '温水', '热水']);
+const VALIDATION_DIET_VIOLATION_PATTERNS = Object.freeze({
+  vegan: /(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|蛋|鸡蛋|奶|牛奶|乳|奶油|黄油|芝士|奶酪|酸奶|蜂蜜|明胶)/u,
+  ovoLacto: /(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|明胶)/u,
+  glutenFree: /(?:小麦|面粉|面条|挂面|拉面|乌冬|意面|通心粉|面包|馒头|包子|饺子|面筋|麸质|麸皮)/u,
+});
+const VALIDATION_RAW_RICE_NAME_RE = /^(?:大米|白米|糙米|糯米|粳米|籼米|黑米|紫米|红米)$/u;
+const VALIDATION_LIQUID_NAME_RE = /(?:高汤|汤汁|椰奶|牛奶)$/u;
 const VALIDATION_SALT_TOKEN_SOURCE = '(?:食盐|海盐|低钠盐|盐)(?!水)';
 const VALIDATION_PEPPER_TOKEN_SOURCE = '(?:黑胡椒粉|白胡椒粉|胡椒粉|黑胡椒|白胡椒|胡椒)';
 const VALIDATION_SEASONING_TOKEN_SOURCE = `(?:${VALIDATION_SALT_TOKEN_SOURCE}|${VALIDATION_PEPPER_TOKEN_SOURCE})`;
@@ -1254,6 +1267,61 @@ function validationStepUsesCookingOil(step) {
 function validationIngredientMatchesNames(name, names) {
   const bare = validationFormName(name).replace(/\(.*?\)/g, '');
   return names.has(bare);
+}
+
+function validationDietViolation(name, diet) {
+  const pattern = VALIDATION_DIET_VIOLATION_PATTERNS[diet];
+  if (!pattern) return false;
+  return pattern.test(validationFormName(name));
+}
+
+function validationIngredientGramMap(meal) {
+  const amounts = new Map();
+  if (!Array.isArray(meal?.ingredients)) return amounts;
+  for (const item of meal.ingredients) {
+    const name = typeof item === 'string' ? item.trim() : item?.name;
+    const grams = typeof item === 'object' && item !== null ? Number(item.grams) : NaN;
+    if (typeof name !== 'string' || !name.trim() || !Number.isFinite(grams) || grams <= 0) continue;
+    amounts.set(validationFormName(name), grams);
+  }
+  return amounts;
+}
+
+function validationRiceWaterRatioBounds(recipe) {
+  const rules = Array.isArray(recipe?.ratio_rules) ? recipe.ratio_rules : [];
+  for (const rawRule of rules) {
+    const rule = String(rawRule || '');
+    const direct = rule.match(/大米与液体约为\s*1\s*:\s*(\d+(?:\.\d+)?)/u);
+    if (direct) {
+      const expected = Number(direct[1]);
+      if (Number.isFinite(expected) && expected > 0) return { expected, tolerance: 0.1 };
+    }
+    const perServing = rule.match(/每\s*1\s*份使用\s*大米\s*(\d+(?:\.\d+)?)\s*克、(?:鸡高汤|高汤|水)\s*(\d+(?:\.\d+)?)\s*克/u);
+    if (perServing) {
+      const rice = Number(perServing[1]);
+      const liquid = Number(perServing[2]);
+      if (Number.isFinite(rice) && rice > 0 && Number.isFinite(liquid) && liquid > 0) {
+        return { expected: liquid / rice, tolerance: 0.2 };
+      }
+    }
+  }
+  return null;
+}
+
+function validationRiceWaterRatioFlag(meal, recipe) {
+  const bounds = validationRiceWaterRatioBounds(recipe);
+  if (!bounds) return null;
+  const amounts = validationIngredientGramMap(meal);
+  const rice = [...amounts.entries()].find(([name]) => VALIDATION_RAW_RICE_NAME_RE.test(name));
+  if (!rice) return null;
+  const liquids = [...amounts.entries()]
+    .filter(([name]) => VALIDATION_WATER_NAMES.has(name) || VALIDATION_LIQUID_NAME_RE.test(name))
+    .reduce((sum, [, grams]) => sum + grams, 0);
+  if (!Number.isFinite(liquids) || liquids <= 0) return null;
+  const ratio = liquids / rice[1];
+  const minimum = bounds.expected * (1 - bounds.tolerance);
+  const maximum = bounds.expected * (1 + bounds.tolerance);
+  return ratio >= minimum && ratio <= maximum ? null : 'ratio_out_of_bounds:rice_water';
 }
 
 function validationStepUsesSeasoningGroup(step, tokenRe) {
@@ -1573,6 +1641,9 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
     const canonical = validationCanonicalIngredient(name, aliases);
     const directRiceIngredient = riceAllergenActive
       && validationRiceAllergenMatches(validationFormName(name), strictRiceVisible).length > 0;
+    if (validationDietViolation(name, constraints?.diet)) {
+      flags.add(`diet_violation:${constraints.diet}:${name}`);
+    }
     if (!directRiceIngredient && dislikeTerms.some(term => matchAllergy(term, name, aliases))) {
       flags.add(`allergen_present:${name}`);
     }
@@ -1622,6 +1693,8 @@ function validateGroundedMeal(meal, selection, constraints = {}) {
   }
 
   const recipe = selection?.recipe || {};
+  const ratioFlag = validationRiceWaterRatioFlag(meal, recipe);
+  if (ratioFlag) flags.add(ratioFlag);
   const usedPantry = Array.isArray(selection?.usedPantry) ? selection.usedPantry : [];
   const anchors = recipeConstraintList(recipe.core_ingredients).map(requirement => (
     usedPantry.find(item => pantryItemSatisfiesCoreRequirement(item, requirement, recipe, aliases)) || requirement
@@ -2025,6 +2098,43 @@ async function readOptionalPlannerJsonAsset(assets, request, pathname) {
   } catch (_error) {
     throw plannerAssetError();
   }
+}
+
+// The formal Planner library intentionally remains a small, gated set.  The
+// source-backed execution library is a separate, read-only contract surface:
+// it exposes every source card's measured/estimated method without claiming
+// production Planner approval.  Health reports its coverage so deployments do
+// not make the 72-vs-923 distinction ambiguous.
+async function readSourceExecutionHealth(env, request) {
+  if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
+  const library = await readOptionalPlannerJsonAsset(
+    env.ASSETS,
+    request,
+    '/source-backed-execution-library.v1.json',
+  );
+  if (!library || !Array.isArray(library.entries)) return null;
+  const entries = library.entries;
+  const sourceComplete = entries.filter(entry => entry?.method_card_status === 'source_complete').length;
+  const researchOnly = entries.filter(entry => entry?.method_card_status !== 'source_complete').length;
+  const blocked = entries.filter(entry => Boolean(entry?.execution_card?.blocked_reason)).length;
+  const complete = entries.filter(entry => (
+    Array.isArray(entry?.execution_card?.ingredients)
+      && entry.execution_card.ingredients.length > 0
+      && Array.isArray(entry?.execution_card?.steps)
+      && entry.execution_card.steps.length > 0
+  )).length;
+  return {
+    status: 'ok',
+    version: typeof library.execution_library_version === 'string'
+      ? library.execution_library_version
+      : null,
+    cards: entries.length,
+    sourceComplete,
+    researchOnly,
+    complete,
+    unblockedComplete: complete - blocked,
+    safetyBlocked: blocked,
+  };
 }
 
 function canonicalJsonSha256(value) {
@@ -2581,7 +2691,7 @@ function parseModelJson(text) {
   }
 }
 
-function normalizeMeal(meal, usage) {
+function normalizeMeal(meal, usage, selection = null) {
   if (!meal || typeof meal !== 'object') throw new Error('模型返回空结果');
   const ingredients = Array.isArray(meal.ingredients) ? meal.ingredients : [];
   meal.ingredients = ingredients.slice(0, 14).map(item => {
@@ -2592,7 +2702,11 @@ function normalizeMeal(meal, usage) {
     }
     return out;
   }).filter(item => item.name && item.grams > 0);
-  if (meal.ingredients.length < 3) throw new Error('模型返回食材过少');
+  const trustedCoreCount = Array.isArray(selection?.recipe?.core_ingredients)
+    ? selection.recipe.core_ingredients.length
+    : 0;
+  const minimumIngredients = Math.max(2, Math.min(3, trustedCoreCount || 3));
+  if (meal.ingredients.length < minimumIngredients) throw new Error('模型返回食材过少');
 
   meal.dish_name = String(meal.dish_name || '今日一锅出').trim();
   meal.steps = Array.isArray(meal.steps) ? meal.steps.map(x => String(x).trim()).filter(Boolean).slice(0, 6) : [];
@@ -2658,7 +2772,7 @@ const VALIDATION_RAW_EGG_FORMS = new Set([
 const VALIDATION_RAW_POULTRY_PORK_FORMS = new Set([
   '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉去皮', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
   '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
-  '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
+  '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '猪肋排', '排骨',
 ]);
 const VALIDATION_RAW_SEAFOOD_FORMS = new Set([
   '鱼', '鱼肉', '鱼片', '鲜鱼', '三文鱼', '鲑鱼', '鳕鱼', '鲈鱼', '鲫鱼', '鲤鱼', '草鱼', '黑鱼',
@@ -3133,7 +3247,9 @@ async function handleGenerate(request, env) {
     return errorResponse('recipe_library_unavailable', '没有符合本次限制的可信基础菜谱', 503, env, {}, request);
   }
 
-  if (constraints.pantry.length > 0 && selection.usedPantry.length === 0) {
+  if (constraints.pantry.length > 0
+    && selection.usedPantry.length === 0
+    && !riceAllergyCompleteMainActive(selection)) {
     if (riceAllergyActive) {
       return errorResponse(
         'no_safe_recipe',
@@ -3155,8 +3271,14 @@ async function handleGenerate(request, env) {
   }
 
   // 选中的可信菜谱不能覆盖全部库存，或用户一次给了超过 6 种食材时，先返回可解释的
-  // 分组计划，不调用 DeepSeek、不扣预算。用户明确选择一组后，再把该组作为本锅必用食材生成。
+  // 分组计划，不调用 DeepSeek、不扣预算。少量库存里明确有可用食材时允许直接生成，
+  // 并把未使用项写入 unused_pantry；用户明确选择一组后，仍把该组作为本锅必用食材生成。
+  const canGenerateWithUnusedSmallPantry = !constraints.selected_base_recipe_id
+    && constraints.pantry.length <= 6
+    && (selection.usedPantry.length > 0 || riceAllergyCompleteMainActive(selection))
+    && selection.usedPantry.length < constraints.pantry.length;
   if (constraints.pantry.length > 0
+    && !canGenerateWithUnusedSmallPantry
     && (constraints.pantry.length > 6 || selection.usedPantry.length !== constraints.pantry.length)) {
     return jsonResponse({
       error: '这些食材不能稳妥放进同一锅，请先查看本锅方案',
@@ -3213,7 +3335,7 @@ async function handleGenerate(request, env) {
 
   const data = JSON.parse(raw);
   const content = data?.choices?.[0]?.message?.content;
-  const meal = normalizeMeal(parseModelJson(content), data.usage);
+  const meal = normalizeMeal(parseModelJson(content), data.usage, selection);
   attachGroundedMetadata(meal, selection, constraints);
   // 硬校验失败不上桌: attachGroundedMetadata 内确定性 repair 后仍有 validation_flags 的,
   // 服务端直接 422 unsafe_recipe(前端已有对应停止页), 不再发出去让前端 scoreDish 拦;
@@ -3786,6 +3908,14 @@ export default {
       let recipeLibrary = 'ok';
       let recipeFamilies = 0;
       let baseRecipes = 0;
+      let sourceExecutionLibrary = 'unavailable';
+      let sourceExecutionLibraryVersion = null;
+      let sourceExecutionCards = 0;
+      let sourceExecutionSourceComplete = 0;
+      let sourceExecutionResearchOnly = 0;
+      let sourceExecutionComplete = 0;
+      let sourceExecutionUnblockedComplete = 0;
+      let sourceExecutionSafetyBlocked = 0;
       let plannerAssets = 'unavailable';
       let plannerVersion = null;
       let templateCatalogVersion = null;
@@ -3849,6 +3979,21 @@ export default {
           baseRecipes = 0;
         }
       }
+      try {
+        const sourceExecution = await readSourceExecutionHealth(env, request);
+        if (sourceExecution) {
+          sourceExecutionLibrary = sourceExecution.status;
+          sourceExecutionLibraryVersion = sourceExecution.version;
+          sourceExecutionCards = sourceExecution.cards;
+          sourceExecutionSourceComplete = sourceExecution.sourceComplete;
+          sourceExecutionResearchOnly = sourceExecution.researchOnly;
+          sourceExecutionComplete = sourceExecution.complete;
+          sourceExecutionUnblockedComplete = sourceExecution.unblockedComplete;
+          sourceExecutionSafetyBlocked = sourceExecution.safetyBlocked;
+        }
+      } catch (_error) {
+        sourceExecutionLibrary = 'unavailable';
+      }
       if (buildMetadata?.productFocus === 'rice-meal-v1') {
         try {
           riceMealPlanSecret(env);
@@ -3903,6 +4048,14 @@ export default {
         recipeLibrary,
         recipeFamilies,
         baseRecipes,
+        sourceExecutionLibrary,
+        sourceExecutionLibraryVersion,
+        sourceExecutionCards,
+        sourceExecutionSourceComplete,
+        sourceExecutionResearchOnly,
+        sourceExecutionComplete,
+        sourceExecutionUnblockedComplete,
+        sourceExecutionSafetyBlocked,
         plannerAssets,
         plannerVersion,
         templateCatalogVersion,

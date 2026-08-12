@@ -60,6 +60,19 @@ const HOUSEHOLD_COPY = Object.freeze({
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻松，盛出即可。',
     }),
   }),
+  'source-sichuan-pork-ribs-rice': Object.freeze({
+    recommendation_reason: '排骨先在锅外熟化，再与大米、玉米和胡萝卜闭盖焖熟；来源合同和项目校准克数分开标注。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      pre_cook_pork_ribs_outside_cooker: '将{{i2}}在锅外焯洗并煎至表面上色，再连同热汤一起准备入内胆。',
+      prepare_vegetables: '将{{i3}}切粒、{{i4}}切丁，洗净并沥干。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}放入内胆，加入量好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}已经放好，盖好锅盖，启动标准煮饭程序。',
+      rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i4}}熟软。',
+      fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}、{{i4}}从底部轻轻翻匀，盛出即可。',
+    }),
+  }),
   'home-mushroom-green-bean-pork-rib-rice': Object.freeze({
     recommendation_reason: '排骨、香菇和豆角按熟化顺序处理，再与大米一起焖熟，能在一锅里兼顾肉、菌菇和蔬菜。',
     steps: Object.freeze({
@@ -231,6 +244,215 @@ const HOUSEHOLD_COPY = Object.freeze({
       rest_lid_closed: '程序结束后，让{{i1}}继续盖好锅盖焖5分钟。',
       verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i3}}已经熟软。',
       fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'source-tatung-beef-burdock-rice': Object.freeze({
+    recommendation_reason: '牛肉和牛蒡与大米同锅炊熟，保留大同电锅水位与外锅水边界，适合作为两人校准预览。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入大同内锅。',
+      prepare_raw_ingredients: '将{{i2}}切薄片；{{i3}}切丝并浸泡后沥干。',
+      pre_saute_materials_outside_cooker: '在锅外先把{{i2}}炒至表面变色并出香味，再准备入内锅。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}放入大同内锅，加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}已经放好，盖好大同锅盖，外锅加入说明量的水，启动炊饭程序并保持锅盖关闭。',
+      rest_lid_closed: '程序跳起后保持盖好锅盖，静置片刻让{{i1}}吸收余水。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透、内部无粉红；{{i3}}熟软。',
+      fluff_and_serve: '从底部把{{i1}}、{{i2}}、{{i3}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'source-tiger-pork-bamboo-rice': Object.freeze({
+    recommendation_reason: '五花肉和竹笋随大米在 Tiger 炊込み程序中闭盖完成，先按指定机型做校准预览。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入 Tiger 内锅。',
+      prepare_raw_ingredients: '将{{i2}}切条；{{i3}}切片并沥干。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}放入内锅，加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}已经放好，盖好锅盖，选择 Tiger 炊込み/混合饭程序，启动后保持闭盖。',
+      rest_lid_closed: '程序结束后继续焖片刻，让{{i1}}吸收余水。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i3}}熟软。',
+      fluff_and_serve: '从底部轻轻翻松{{i1}}、{{i2}}、{{i3}}，盛出即可。',
+    }),
+  }),
+  'source-tatung-pork-daikon-rice': Object.freeze({
+    recommendation_reason: '五花肉、白萝卜、胡萝卜和油炸豆腐与大米同锅焖熟，保留大同水位线边界作为校准预览。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入大同内锅。',
+      prepare_raw_ingredients: '将{{i2}}切片；{{i3}}、{{i4}}切丁；{{i5}}切丁后沥干。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}放入内锅，按来源水位线加入{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已经放好，盖好大同锅盖，外锅加入说明量的水，启动炊饭程序并保持闭盖。',
+      rest_lid_closed: '程序跳起后保持盖好锅盖焖片刻，让{{i1}}吸收余水。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i3}}、{{i4}}熟软；{{i5}}热透。',
+      fluff_and_serve: '从底部把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'source-tatung-wakayama-ginger-rice': Object.freeze({
+    recommendation_reason: '鸡胸肉、生姜、胡萝卜和油炸豆腐与大米同锅炊熟，限定大同器具并保留校准提示。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入大同内锅。',
+      prepare_raw_ingredients: '将{{i2}}切薄片；{{i3}}切片；{{i4}}切丝；{{i5}}切片后沥干。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}放入内锅，按校准合同加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已经放好，盖好大同锅盖，外锅加入说明量的水，启动炊饭程序并保持闭盖。',
+      rest_lid_closed: '程序跳起后继续焖片刻，让{{i1}}吸收余水。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透、内部无粉红；{{i3}}、{{i4}}熟软；{{i5}}热透。',
+      fluff_and_serve: '从底部把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'source-taiwan-tatung-cabbage-rice': Object.freeze({
+    recommendation_reason: '高丽菜、猪肉、香菇和虾米先炒香，再按大同电锅来源流程与大米同锅完成；项目克数仍是两人校准起点。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}，按来源浸泡后沥干备用。',
+      prepare_raw_ingredients: '将{{i2}}切丝并腌制；{{i3}}切丝；{{i4}}泡软切丝；{{i5}}冲洗沥干；{{i6}}切片。',
+      pre_saute_materials_outside_cooker: '锅外依序炒香{{i6}}、{{i4}}和{{i5}}，再炒{{i2}}，最后加入{{i3}}拌匀。',
+      load_inner_pot: '把炒好的{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}与{{i1}}放入大同内锅，加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}已放好，盖好大同锅盖并启动炊饭程序。',
+      rest_lid_closed: '大同开关跳起后让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透；{{i4}}软化；{{i5}}热透。',
+      fluff_and_serve: '从底部把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}轻轻翻匀，盛出即可。',
+    }),
+  }),
+  'source-zojirushi-pork-vegetable-rice': Object.freeze({
+    recommendation_reason: '猪肉先按象印来源汆烫调味，再与米、卷心菜、甜椒和生姜在EL-NS23自动菜单中完成；不外推到其他机型。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入象印EL-NS23内锅。',
+      prepare_raw_ingredients: '将{{i2}}切成一口大小并先汆烫、调味；{{i3}}切丝；{{i4}}切丝；{{i5}}切丝。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}放入EL-NS23内锅，加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已放好，装回象印本体并启动来源自动菜单。',
+      rest_lid_closed: '程序结束后保持盖好锅盖静置片刻，让{{i1}}吸收余水。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透且内部无粉红。',
+      fluff_and_serve: '先取出{{i2}}，把{{i1}}与{{i3}}、{{i4}}、{{i5}}轻轻拌松后分别盛出。',
+    }),
+  }),
+  'source-panasonic-nf-pc400-takikomi-rice': Object.freeze({
+    recommendation_reason: 'Panasonic NF-PC400将鸡腿肉、牛蒡、魔芋和干香菇按来源顺序铺在大米上，使用指定自动调理程序；设备边界不跨机型。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入Panasonic NF-PC400内锅。',
+      prepare_raw_ingredients: '将{{i2}}切小块；{{i3}}切丝浸泡；{{i4}}切丝；{{i5}}泡发切丝；{{i6}}切丝，全部沥干备用。',
+      load_inner_pot: '把{{i1}}和{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}按来源铺在内锅米面，加入称好的{{e1}}并保持不混米。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}已按来源铺平，盖好NF-PC400锅盖并启动自动调理程序；压力完全释放前不要开盖。',
+      rest_lid_closed: '程序结束并确认压力完全释放后，让{{i1}}在开盖前静置片刻。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透，内部无粉红；{{i3}}、{{i5}}、{{i6}}熟软；{{i4}}热透。',
+      fluff_and_serve: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}轻轻拌匀，按来源不保温并立即盛出。',
+    }),
+  }),
+  'source-panasonic-khao-man-gai': Object.freeze({
+    recommendation_reason: '鸡腿与大米同锅完成，使用Panasonic NF-AC1000中压程序；设备边界和禽肉安全终点保持不变。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}，按来源浸泡后充分沥干。',
+      prepare_raw_ingredients: '将{{i2}}扎孔并调味；{{i3}}切片；{{i4}}捣泥；{{i5}}切段。',
+      load_inner_pot: '把{{i1}}、{{i3}}、{{i4}}、{{i5}}放入NF-AC1000内锅并加入称好的{{e1}}；最后把{{i2}}鸡皮朝下铺在米面。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已放入，盖好NF-AC1000锅盖，选择来源中压程序并启动；减压完成前不要开盖。',
+      rest_lid_closed: '压力完全释放后，让{{i1}}保持锅盖关闭静置片刻，再开盖检查。',
+      verify_safety_endpoints: '开盖检查：{{i1}}熟软且无硬芯；{{i2}}完全熟透，内部无粉红。',
+      fluff_and_serve: '将{{i1}}轻轻翻松，与{{i2}}和{{i3}}、{{i4}}、{{i5}}按来源装盘。',
+    }),
+  }),
+  'source-zojirushi-okayama-ebimeshi': Object.freeze({
+    recommendation_reason: '虾和洋葱按象印EL-NS23冈山虾饭来源先炒后炊，鸡蛋出锅后另锅炒熟再拌入；仅限指定机型的来源校准预览。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入象印EL-NS23内锅。',
+      prepare_raw_ingredients: '将{{i2}}去除明显杂质；{{i3}}切丝；{{i4}}打散；{{i5}}切葱花。',
+      pre_saute_materials_outside_cooker: '锅外先炒香{{i3}}，再加入{{i2}}炒至表面变色；关火备用。',
+      load_inner_pot: '将{{i1}}放入内锅，按校准合同加入称好的{{e1}}，把炒好的{{i2}}和{{i3}}、{{i4}}、{{i5}}铺在米面上。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已放入，装回象印EL-NS23并启动来源“えびめし”自动菜单；炊饭期间保持闭盖。',
+      rest_lid_closed: '程序结束后让{{i1}}保持盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查{{i1}}熟软且无硬芯、{{i2}}完全熟透；另锅炒{{i4}}至完全凝固。',
+      fluff_and_serve: '把{{i1}}、{{i2}}与{{i3}}轻轻翻松，拌入已熟的{{i4}}和{{i5}}后盛出。',
+    }),
+  }),
+  'source-cookpot-beef-wild-mushroom-rice': Object.freeze({
+    recommendation_reason: '牛肉、洋葱和野菇按鍋寶316电锅来源分层入锅；项目称重合同是两人校准起点，不外推其他机型。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入鍋寶内锅。',
+      prepare_raw_ingredients: '将{{i2}}切薄片；{{i3}}切丝；{{i4}}和{{i5}}泡发或切片后沥干。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}按来源分层放入内锅，加入称好的{{e1}}。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已放入，鍋寶外锅加来源指定的水并启动煮饭；中途保持闭盖。',
+      rest_lid_closed: '开关跳起后让{{i1}}保持盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查{{i1}}熟软且无硬芯，{{i2}}中心完全熟透，{{i4}}和{{i5}}已软化。',
+      fluff_and_serve: '从底部把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}轻轻翻匀后盛出。',
+    }),
+  }),
+  'source-tatung-hainan-chicken-rice': Object.freeze({
+    recommendation_reason: '海南鸡饭保留大同电锅来源的先蒸鸡、保留第一轮液体、再煮大米分阶段流程；不是普通电饭煲一键同锅承诺。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放在一旁备用。',
+      prepare_raw_ingredients: '将{{i2}}用{{i3}}、{{i4}}、{{i5}}和来源调味料腌好；保留第一轮产生的液体。',
+      load_inner_pot: '第一轮完成后，把{{i1}}放入大同内锅，加入保留液体并补入称好的{{e1}}至水位线，再把{{i2}}和{{i3}}、{{i4}}、{{i5}}按来源处理。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已按来源放入，大同外锅按来源加水：先完成鸡肉蒸制，再完成第二轮大米炊煮；不在压力或普通电饭煲上套用。',
+      rest_lid_closed: '第二轮开关跳起后让{{i1}}保持盖好锅盖静置片刻。',
+      verify_safety_endpoints: '切片前检查{{i2}}中心完全熟透、内部无粉红并达到禽肉安全终点，{{i1}}熟软且无硬芯。',
+      fluff_and_serve: '把{{i1}}翻松，与切片{{i2}}及{{i3}}、{{i4}}、{{i5}}按来源装盘。',
+    }),
+  }),
+  'source-tatung-pork-jowl-sesame-rice': Object.freeze({
+    recommendation_reason: '五花肉、干香菇和虾米先按大同来源炒香，再与大米和保留液体炊饭；仅作大同电锅校准预览。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干备用。',
+      prepare_raw_ingredients: '将{{i2}}切片；{{i3}}泡软切片并保留泡发液；{{i4}}冲洗；{{i5}}切片。',
+      pre_saute_materials_outside_cooker: '锅外炒香{{i4}}、{{i5}}和{{i3}}，加入{{i2}}炒至表面变色，关火备用。',
+      load_inner_pot: '把炒好的{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}放入大同内锅，加入称好的{{e1}}。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}已放入，大同外锅按来源加水并启动炊饭程序；全程保持闭盖。',
+      rest_lid_closed: '开关跳起后让{{i1}}保持盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查{{i1}}熟软且无硬芯，{{i2}}中心完全熟透，{{i3}}已软化，{{i4}}热透。',
+      fluff_and_serve: '从底部把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}轻轻翻匀后盛出。',
+    }),
+  }),
+  'source-tiger-chinese-sticky-rice': Object.freeze({
+    recommendation_reason: '糯米、五花肉和配料按 Tiger 中华おこわ来源先浸泡、锅外炒香，再限指定炊込み机型闭盖完成；项目两人量仅作校准起点。',
+    steps: Object.freeze({
+      rinse_raw_rice: '将{{i1}}按来源浸泡后沥干备用，不把泡发液直接计入另加水。',
+      prepare_raw_ingredients: '将{{i2}}切片，{{i3}}泡发切片，{{i4}}冲洗，{{i5}}和{{i6}}切好并沥干。',
+      pre_saute_materials_outside_cooker: '锅外先炒{{i2}}至熟透，再加入{{i3}}、{{i4}}、{{i5}}、{{i6}}炒香，关火备用。',
+      load_inner_pot: '把沥干的{{i1}}和炒好的{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}放入指定 Tiger 内锅，加入称好的{{e1}}。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}已按来源装好，选择 Tiger おこわ/炊込み程序并全程闭盖。',
+      rest_lid_closed: '程序结束后让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查{{i1}}熟软且无硬芯，{{i2}}完全熟透且内部无粉红，{{i3}}、{{i4}}、{{i5}}、{{i6}}已热透或熟软。',
+      fluff_and_serve: '从底部将{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}轻轻翻匀后盛出。',
+    }),
+  }),
+  'source-panasonic-claypot-style-chicken-rice': Object.freeze({
+    recommendation_reason: '鸡腿和香菇按 Panasonic Claypot Style Chicken Rice 来源腌制后与米同锅完成；仅限指定 Panasonic 程序，项目两人量是校准起点。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入指定 Panasonic 内锅。',
+      prepare_raw_ingredients: '将{{i2}}按来源腌制后，{{i3}}泡发切片并沥干。',
+      load_inner_pot: '把{{i1}}、腌好的{{i2}}和{{i3}}放入内锅，加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}已放入，按来源选择 WHITE RICE/CASSEROLE 程序并保持闭盖。',
+      rest_lid_closed: '程序结束后让{{i1}}保持盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查{{i1}}熟软且无硬芯，{{i2}}最厚处完全熟透且内部无粉红，{{i3}}已软化。',
+      fluff_and_serve: '从底部将{{i1}}、{{i2}}、{{i3}}轻轻翻匀后盛出。',
+    }),
+  }),
+  'source-tatung-tomato-pumpkin-rice': Object.freeze({
+    recommendation_reason: '番茄、南瓜和培根按大同官方炊饭来源与大米同锅完成；项目两人量是大同 M 号指定机型的校准起点。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入大同 M 号内锅。',
+      prepare_raw_ingredients: '将{{i2}}切丁、{{i3}}切块、{{i4}}切段并确认培根来源状态适合加热。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}放入内锅，加入称好的{{e1}}并铺平。',
+      start_closed_lid_program: '确认{{i1}}、{{i2}}、{{i3}}、{{i4}}已放好，按大同 M 号来源程序启动并保持闭盖。',
+      rest_lid_closed: '程序结束后让{{i1}}继续盖好锅盖静置片刻。',
+      verify_safety_endpoints: '开盖检查{{i1}}熟软且无硬芯，{{i2}}、{{i3}}熟软，{{i4}}已热透。',
+      fluff_and_serve: '从底部将{{i1}}、{{i2}}、{{i3}}、{{i4}}轻轻翻匀后盛出。',
+    }),
+  }),
+  'source-nih-medlineplus-chicken-rice': Object.freeze({
+    recommendation_reason: 'MedlinePlus/NHLBI来源保留普通大锅分阶段边界；项目两人量只是校准起点，先按页面顺序试做。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，按来源准备备用。',
+      prepare_raw_ingredients: '将{{i2}}切块；{{i3}}切块；{{i4}}切丁；{{i5}}切段；{{i6}}切片；{{i7}}沥干备用。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}、{{i7}}装入锅中，加入称好的{{e1}}。',
+      start_closed_lid_program: '先加热{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}、{{i7}}；取出{{i2}}后继续加热{{i1}}，末段回锅并保持锅盖关闭。',
+      rest_lid_closed: '完成后让{{i1}}静置片刻再翻松。',
+      verify_safety_endpoints: '检查{{i1}}熟软且无硬芯；{{i2}}完全熟透，内部无粉红；{{i3}}、{{i4}}、{{i5}}、{{i6}}、{{i7}}熟软。',
+      fluff_and_serve: '将{{i1}}、{{i2}}、{{i3}}、{{i4}}、{{i5}}、{{i6}}、{{i7}}翻松并盛出。',
+    }),
+  }),
+  'source-tiger-chicken-bamboo-rice': Object.freeze({
+    recommendation_reason: '指定程序和投料边界已锁定；项目两人量是校准起点，先按页面顺序试做。',
+    steps: Object.freeze({
+      rinse_raw_rice: '淘洗{{i1}}后沥干，放入指定Tiger内锅。',
+      prepare_raw_ingredients: '将{{i2}}切成小丁；确认{{i3}}已按来源煮熟去皮后切薄片；{{i4}}切丝备用。',
+      load_inner_pot: '把{{i1}}、{{i2}}、{{i3}}、{{i4}}铺入Tiger内锅，加入称好的{{e1}}并保持米面平整。',
+      start_closed_lid_program: '盖好锅盖，将{{i1}}、{{i2}}、{{i3}}、{{i4}}按指定程序完成并保持闭盖。',
+      rest_lid_closed: '程序结束后继续盖好锅盖静置片刻，让{{i1}}吸收余液。',
+      verify_safety_endpoints: '检查{{i1}}熟软且无硬芯；{{i2}}完全熟透，内部无粉红；{{i3}}熟软；{{i4}}热透。',
+      fluff_and_serve: '从底部轻轻翻松{{i1}}、{{i2}}、{{i3}}、{{i4}}后盛出。',
     }),
   }),
 });
@@ -1083,7 +1305,11 @@ function lockedPlanForCandidate(candidate, assets) {
         dish_name_options: [variant.display_name],
         dish_name_ingredient_exemptions: variant.variant_id === 'shanghai-salted-pork-rice'
           ? ['上海咸肉']
-          : [],
+          : variant.variant_id === 'source-tiger-pork-bamboo-rice'
+            ? ['猪肉']
+            : variant.variant_id === 'source-tatung-pork-daikon-rice'
+              ? ['猪肉', '萝卜']
+              : [],
         steps: cookingOrder.map((phase, index) => ({
           order: index + 1,
           allowed_texts: [phase.allowed_text],

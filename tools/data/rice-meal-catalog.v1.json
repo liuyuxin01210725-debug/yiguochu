@@ -598,6 +598,777 @@
           ],
           "exclusion_flags": [],
           "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-zojirushi-okayama-ebimeshi",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "zojirushi-okayama-ebimeshi-el-ns23",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "冈山虾饭（来源校准预览）",
+          "name_label": "象印EL-NS23冈山虾饭·两人校准预览",
+          "review_note": "象印EL-NS23来源给出4人份、米2杯、虾160g、洋葱100g、鸡蛋4个、水位线2和约1小时流程。项目两人克数是校准起点；先炒虾和洋葱，出锅另锅炒蛋，不把指定机型外推普通电饭煲。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-zojirushi-okayama-ebimeshi",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-zojirushi-okayama-ebimeshi-calibration-v1",
+            "action": "洗净后作为主粮入象印EL-NS23内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "shrimp",
+              "role": "蛋白质",
+              "amount_rule_id": "source-zojirushi-okayama-ebimeshi-calibration-v1",
+              "action": "与洋葱先炒至变色"
+            },
+            {
+              "canonical_ingredient_id": "onion",
+              "role": "蔬菜",
+              "amount_rule_id": "source-zojirushi-okayama-ebimeshi-calibration-v1",
+              "action": "切丝后与虾同炒"
+            },
+            {
+              "canonical_ingredient_id": "egg",
+              "role": "蛋白质",
+              "amount_rule_id": "source-zojirushi-okayama-ebimeshi-calibration-v1",
+              "action": "炊饭后另锅炒熟"
+            },
+            {
+              "canonical_ingredient_id": "scallion",
+              "role": "蔬菜",
+              "amount_rule_id": "source-zojirushi-okayama-ebimeshi-calibration-v1",
+              "action": "切葱花出锅拌入"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "shrimp"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "shrimp",
+                  "onion",
+                  "egg",
+                  "scallion"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "pre_saute_materials_outside_cooker",
+                "ingredient_ids": [
+                  "shrimp",
+                  "onion"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "shrimp",
+                  "onion",
+                  "egg",
+                  "scallion"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "shrimp",
+                  "onion",
+                  "egg",
+                  "scallion"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "shrimp",
+                  "egg"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "shrimp",
+                  "onion",
+                  "egg",
+                  "scallion"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 30,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-zojirushi-okayama-ebimeshi-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "shrimp",
+              "endpoint_code": "seafood_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "egg",
+              "endpoint_code": "egg_fully_set"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "象印：えびめし",
+              "url": "https://www.zojirushi.co.jp/recipe/list/1779.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-cookpot-beef-wild-mushroom-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "cookpot-beef-wild-mushroom-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "牛肉野菇炊饭（来源校准预览）",
+          "name_label": "鍋寶316牛肉野菇炊饭·两人校准预览",
+          "review_note": "鍋寶来源给出米1量杯、牛肉200g、香菇水1杯和外锅流程；项目菇类克数是校准起点，只限鍋寶316电锅，不跨机型。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-cookpot-beef-wild-mushroom-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-cookpot-beef-wild-mushroom-rice-calibration-v1",
+            "action": "洗净后作为主粮入鍋寶内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "beef-generic",
+              "role": "蛋白质",
+              "amount_rule_id": "source-cookpot-beef-wild-mushroom-rice-calibration-v1",
+              "action": "切薄片分层入锅"
+            },
+            {
+              "canonical_ingredient_id": "onion",
+              "role": "蔬菜",
+              "amount_rule_id": "source-cookpot-beef-wild-mushroom-rice-calibration-v1",
+              "action": "切丝"
+            },
+            {
+              "canonical_ingredient_id": "oyster-mushroom",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-cookpot-beef-wild-mushroom-rice-calibration-v1",
+              "action": "切片"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-cookpot-beef-wild-mushroom-rice-calibration-v1",
+              "action": "泡发切片并保留泡菇水"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "beef-generic"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "direct_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "beef-generic",
+                  "onion",
+                  "oyster-mushroom",
+                  "dried-shiitake"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "onion",
+                  "oyster-mushroom",
+                  "dried-shiitake"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "onion",
+                  "oyster-mushroom",
+                  "dried-shiitake"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "oyster-mushroom",
+                  "dried-shiitake"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "onion",
+                  "oyster-mushroom",
+                  "dried-shiitake"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 20,
+            "total_time_minutes": 35
+          },
+          "ratio_rule_ids": [
+            "source-cookpot-beef-wild-mushroom-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "beef-generic",
+              "endpoint_code": "beef_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "oyster-mushroom",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "鍋寶：牛肉野菇炊飯",
+              "url": "https://www.cookpot.com.tw/cookbook/736.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tatung-hainan-chicken-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tatung-hainan-chicken-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "海南鸡饭（大同来源校准预览）",
+          "name_label": "大同海南鸡饭·两人校准预览",
+          "review_note": "大同来源是先蒸鸡、留鸡汤、再煮米的两轮流程；项目按两人起步比例编译为校准预览，不能当普通电饭煲一键方案。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tatung-hainan-chicken-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tatung-hainan-chicken-rice-calibration-v1",
+            "action": "洗净后按分阶段流程入大同内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-hainan-chicken-rice-calibration-v1",
+              "action": "先蒸熟并保留鸡汤"
+            },
+            {
+              "canonical_ingredient_id": "ginger-root",
+              "role": "蔬菜",
+              "amount_rule_id": "source-tatung-hainan-chicken-rice-calibration-v1",
+              "action": "切片调味"
+            },
+            {
+              "canonical_ingredient_id": "garlic",
+              "role": "蔬菜",
+              "amount_rule_id": "source-tatung-hainan-chicken-rice-calibration-v1",
+              "action": "捣碎调味"
+            },
+            {
+              "canonical_ingredient_id": "scallion",
+              "role": "蔬菜",
+              "amount_rule_id": "source-tatung-hainan-chicken-rice-calibration-v1",
+              "action": "切段装盘"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-leg"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-tatung-hainan-chicken-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "endpoint_code": "poultry_fully_cooked"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "大同电锅：海南鶏飯シンガポールチキンライス",
+              "url": "https://recipe.rakuten.co.jp/recipe/1290042347/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tatung-pork-jowl-sesame-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tatung-pork-jowl-sesame-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "五花肉炊饭（来源校准预览）",
+          "name_label": "大同五花肉炊饭·两人校准预览",
+          "review_note": "大同原页使用猪颈肉（豚トロ）；项目 taxonomy 只能无损映射到五花肉，因此用户界面明确标为五花肉校准近似，不把两者宣称完全等价。来源给出米180ml、猪颈肉200g、干香菇3片、干虾1大匙和180ml泡菇水；项目两人克数为校准起点，先炒再炊，不跨机型。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tatung-pork-jowl-sesame-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tatung-pork-jowl-sesame-rice-calibration-v1",
+            "action": "洗净后作为主粮入大同内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-pork-jowl-sesame-rice-calibration-v1",
+              "action": "切片先炒至变色"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-pork-jowl-sesame-rice-calibration-v1",
+              "action": "泡发切片并保留泡菇水"
+            },
+            {
+              "canonical_ingredient_id": "dried-shrimp",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-pork-jowl-sesame-rice-calibration-v1",
+              "action": "冲洗后炒香"
+            },
+            {
+              "canonical_ingredient_id": "ginger-root",
+              "role": "蔬菜",
+              "amount_rule_id": "source-tatung-pork-jowl-sesame-rice-calibration-v1",
+              "action": "切片同炒"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-belly"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "ginger-root"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "pre_saute_materials_outside_cooker",
+                "ingredient_ids": [
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "ginger-root"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "ginger-root"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "ginger-root"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "ginger-root"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-tatung-pork-jowl-sesame-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "endpoint_code": "pork_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "dried-shrimp",
+              "endpoint_code": "heated_through"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "大同电锅：豚トロとごま油炊き込みご飯",
+              "url": "https://recipe.rakuten.co.jp/recipe/1290045148/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
         }
       ]
     },
@@ -951,6 +1722,189 @@
             }
           ],
           "exclusion_flags": []
+        },
+        {
+          "variant_id": "source-sichuan-pork-ribs-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "woks-of-love-pork-ribs-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "排骨焖饭（来源校准预览）",
+          "name_label": "来源排骨焖饭·两人校准预览",
+          "review_note": "来源合同直接给出3人份、1杯米、300g排骨、300mL水、玉米胡萝卜和电饭煲步骤；本条只建立两人份 calibration_preview，100g米/人、100g排骨/人、20g玉米/人、20g胡萝卜/人和1.5倍加水是项目校准起点，不是来源换算事实。保留先焯/煎排骨再入电饭煲的外锅边界；厨房试做、真实旅程和跨机型适配仍未完成。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-sichuan-pork-ribs-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-sichuan-pork-ribs-rice-calibration-v1",
+            "action": "洗净后作为主粮入内胆"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-ribs",
+              "role": "蛋白质",
+              "amount_rule_id": "source-sichuan-pork-ribs-rice-calibration-v1",
+              "action": "焯水冲洗后在外锅煎上色，再连热汤入内胆"
+            },
+            {
+              "canonical_ingredient_id": "sweet-corn",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-sichuan-pork-ribs-rice-calibration-v1",
+              "action": "切粒后与胡萝卜一起铺在米面"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-sichuan-pork-ribs-rice-calibration-v1",
+              "action": "切丁后与玉米一起铺在米面"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-ribs"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "pre_cook_pork_ribs_outside_cooker",
+                "ingredient_ids": [
+                  "pork-ribs"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "prepare_vegetables",
+                "ingredient_ids": [
+                  "sweet-corn",
+                  "carrot"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-ribs",
+                  "sweet-corn",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-ribs",
+                  "sweet-corn",
+                  "carrot"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-ribs",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-ribs",
+                  "sweet-corn",
+                  "carrot"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 70
+          },
+          "ratio_rule_ids": [
+            "source-sichuan-pork-ribs-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-ribs",
+              "endpoint_code": "pork_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "Woks of Love：One-Pot Rice Cooker Pork Ribs and Rice",
+              "url": "https://woksoflove.com/one-pot-rice-cooker-pork-ribs-and-rice/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
         }
       ]
     },
@@ -3804,6 +4758,2541 @@
             }
           ],
           "exclusion_flags": []
+        },
+        {
+          "variant_id": "source-tatung-beef-burdock-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tatung-beef-burdock-takikomi-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "牛肉牛蒡炊饭（来源校准预览）",
+          "name_label": "大同牛肉牛蒡炊饭·两人校准预览",
+          "review_note": "来源同页给出2人份、米2合、牛肉200g、牛蒡半根、内锅2杯だし和外锅1杯水。项目以100g生米/人、100g牛肉/人、75g牛蒡/人、1.2倍称重液体建立两人校准起点；这些克数与液体比是项目校准值，不是来源换算事实。仅限大同电锅边界，实厨观察和真实旅程仍待完成。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tatung-beef-burdock-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tatung-beef-burdock-rice-calibration-v1",
+            "action": "洗净后作为主粮入大同内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "beef-generic",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-beef-burdock-rice-calibration-v1",
+              "action": "切薄片并先炒熟"
+            },
+            {
+              "canonical_ingredient_id": "burdock",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-beef-burdock-rice-calibration-v1",
+              "action": "切丝浸泡后与米同炊"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "beef-generic"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "burdock"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "beef-generic",
+                  "burdock"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "pre_saute_materials_outside_cooker",
+                "ingredient_ids": [
+                  "beef-generic"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "burdock"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "burdock"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "burdock"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "beef-generic",
+                  "burdock"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 25,
+            "total_time_minutes": 30
+          },
+          "ratio_rule_ids": [
+            "source-tatung-beef-burdock-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "beef-generic",
+              "endpoint_code": "beef_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "burdock",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "大同電鍋公式レシピ：牛肉とごぼうの炊き込みご飯",
+              "url": "https://recipe.rakuten.co.jp/recipe/1290042027/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tiger-pork-bamboo-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tiger-pork-bamboo-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "猪肉竹笋炊饭（来源校准预览）",
+          "name_label": "Tiger猪肉竹笋炊饭·两人校准预览",
+          "review_note": "Tiger来源为6人份、3杯米、竹笋90g、猪五花120g、高汤600mL和炊込み火力强程序。项目固定两人校准为100g生米/人、50g猪五花/人、75g竹笋/人、1.33倍称重液体；这是项目营养与执行校准起点，不把6人批量线性缩放冒充来源事实，且只限Tiger炊込み边界。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tiger-pork-bamboo-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tiger-pork-bamboo-rice-calibration-v1",
+            "action": "洗净后作为主粮入Tiger内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tiger-pork-bamboo-rice-calibration-v1",
+              "action": "切条后铺在米面"
+            },
+            {
+              "canonical_ingredient_id": "bamboo-shoot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tiger-pork-bamboo-rice-calibration-v1",
+              "action": "切片后铺在米面"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-belly"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "bamboo-shoot"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "direct_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "pork-belly",
+                  "bamboo-shoot"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "bamboo-shoot"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "bamboo-shoot"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "bamboo-shoot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "bamboo-shoot"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 20,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-tiger-pork-bamboo-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "endpoint_code": "pork_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "bamboo-shoot",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "Tiger Corporation：豚肉とたけのこごはん",
+              "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post61/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tatung-pork-daikon-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tatung-pork-daikon-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "猪肉萝卜饭（来源校准预览）",
+          "name_label": "大同猪肉萝卜饭·两人校准预览",
+          "review_note": "来源为2人份、米2合、猪五花40g、白萝卜100g、胡萝卜15g、油炸豆腐20g，液体只给大同内锅米水位线2刻度略下。项目两人合同使用100g生米/人、50g猪五花/人、60g白萝卜/人、15g胡萝卜/人、10g油炸豆腐/人和1.2倍称重液体作为校准起点；这些项目数值是营养与执行校准，不是来源水位线换算。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tatung-pork-daikon-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tatung-pork-daikon-rice-calibration-v1",
+            "action": "洗净后作为主粮入大同内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-pork-daikon-rice-calibration-v1",
+              "action": "切片后铺在米面"
+            },
+            {
+              "canonical_ingredient_id": "daikon",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-pork-daikon-rice-calibration-v1",
+              "action": "切丁"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-pork-daikon-rice-calibration-v1",
+              "action": "切丁"
+            },
+            {
+              "canonical_ingredient_id": "fried-tofu",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-pork-daikon-rice-calibration-v1",
+              "action": "切丁"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-belly"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "daikon"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "carrot"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "pork-belly",
+                  "daikon",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "daikon",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "daikon",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "daikon",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-belly",
+                  "daikon",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 45,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-tatung-pork-daikon-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "endpoint_code": "pork_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "daikon",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "fried-tofu",
+              "endpoint_code": "heated_through"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "大同電鍋官方食譜：豚バラ大根ご飯",
+              "url": "https://dennabe-official.tatung.co.jp/recipe/view/1990"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tatung-wakayama-ginger-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tatung-wakayama-ginger-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "生姜鸡肉饭（来源校准预览）",
+          "name_label": "大同しょうが飯·两人校准预览",
+          "review_note": "来源为米2合、鸡胸肉60g、生姜50g、胡萝卜30g、油炸豆腐1片和大同水位线2刻度略下，原批量标3人份。项目两人合同使用100g生米/人、50g鸡胸肉/人、60g生姜/人、15g胡萝卜/人、10g油炸豆腐/人和1.2倍称重液体作为校准起点；这些项目数值是营养与执行校准，液体比不是来源水位线换算，且只保留大同器具边界。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tatung-wakayama-ginger-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tatung-wakayama-ginger-rice-calibration-v1",
+            "action": "洗净后作为主粮入大同内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-breast",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-wakayama-ginger-rice-calibration-v1",
+              "action": "切片腌制后铺在米面"
+            },
+            {
+              "canonical_ingredient_id": "ginger-root",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-wakayama-ginger-rice-calibration-v1",
+              "action": "切片"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-wakayama-ginger-rice-calibration-v1",
+              "action": "切丝"
+            },
+            {
+              "canonical_ingredient_id": "fried-tofu",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-wakayama-ginger-rice-calibration-v1",
+              "action": "切片"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-breast"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "ginger-root"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "carrot"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-breast",
+                  "ginger-root",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "ginger-root",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "ginger-root",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "ginger-root",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "ginger-root",
+                  "carrot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 40
+          },
+          "ratio_rule_ids": [
+            "source-tatung-wakayama-ginger-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-breast",
+              "endpoint_code": "poultry_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "fried-tofu",
+              "endpoint_code": "heated_through"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "大同電鍋官方食譜：しょうが飯",
+              "url": "https://dennabe-official.tatung.co.jp/recipe/view/1972"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-taiwan-tatung-cabbage-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "taiwan-tatung-cabbage-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "高丽菜饭（来源校准预览）",
+          "name_label": "大同高丽菜饭·两人校准预览",
+          "review_note": "来源给出2人份、大同电锅内锅2杯水、外锅1杯水和先炒后炊流程。项目两人校准将米、猪肉丝、高丽菜、干香菇、虾米和红葱头转成克数起步值；这些项目数值与1.2倍称重液体是校准合同，不是来源换算事实。仅限大同电锅边界，仍待实厨称量与旅程反馈。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-taiwan-tatung-cabbage-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+            "action": "洗净浸泡后沥干，作为主粮入大同内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-generic",
+              "role": "蛋白质",
+              "amount_rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+              "action": "切丝并按来源腌制"
+            },
+            {
+              "canonical_ingredient_id": "green-cabbage",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+              "action": "洗净切丝"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+              "action": "泡软切丝"
+            },
+            {
+              "canonical_ingredient_id": "dried-shrimp",
+              "role": "蛋白质",
+              "amount_rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+              "action": "快速冲洗沥干"
+            },
+            {
+              "canonical_ingredient_id": "shallot",
+              "role": "蔬菜",
+              "amount_rule_id": "source-taiwan-tatung-cabbage-rice-calibration-v1",
+              "action": "切片"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-generic"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "green-cabbage"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "pork-generic",
+                  "green-cabbage",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "shallot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "pre_saute_materials_outside_cooker",
+                "ingredient_ids": [
+                  "pork-generic",
+                  "green-cabbage",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "shallot"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "green-cabbage",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "shallot"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "green-cabbage",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "shallot"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "dried-shiitake",
+                  "dried-shrimp"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "green-cabbage",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "shallot"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 35,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-taiwan-tatung-cabbage-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-generic",
+              "endpoint_code": "pork_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "dried-shrimp",
+              "endpoint_code": "heated_through"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "台湾农业部农粮署：高丽菜饭",
+              "url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-zojirushi-pork-vegetable-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "zojirushi-pork-vegetable-rice-el-ns23",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "猪肉蔬菜饭（来源校准预览）",
+          "name_label": "象印EL-NS23猪肉蔬菜饭·两人校准预览",
+          "review_note": "象印EL-NS23来源给出固定批量、260mL水和自动菜单。项目两人校准将猪肉、卷心菜、青椒/红甜椒合并为可称量起步值；比例与克数是项目校准合同，不是跨机型换算。保留先汆烫猪肉、指定自动菜单和约1小时边界，仍待实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-zojirushi-pork-vegetable-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-zojirushi-pork-vegetable-rice-calibration-v1",
+            "action": "洗净后作为主粮入象印内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-generic",
+              "role": "蛋白质",
+              "amount_rule_id": "source-zojirushi-pork-vegetable-rice-calibration-v1",
+              "action": "切块、汆烫并按来源调味"
+            },
+            {
+              "canonical_ingredient_id": "green-cabbage",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-zojirushi-pork-vegetable-rice-calibration-v1",
+              "action": "切丝"
+            },
+            {
+              "canonical_ingredient_id": "bell-pepper",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-zojirushi-pork-vegetable-rice-calibration-v1",
+              "action": "青红椒切丝"
+            },
+            {
+              "canonical_ingredient_id": "ginger-root",
+              "role": "蔬菜",
+              "amount_rule_id": "source-zojirushi-pork-vegetable-rice-calibration-v1",
+              "action": "切丝"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-generic"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "green-cabbage"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "pork-generic",
+                  "green-cabbage",
+                  "bell-pepper",
+                  "ginger-root"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "green-cabbage",
+                  "bell-pepper",
+                  "ginger-root"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "green-cabbage",
+                  "bell-pepper",
+                  "ginger-root"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "pork-generic",
+                  "green-cabbage",
+                  "bell-pepper",
+                  "ginger-root"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 30,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-zojirushi-pork-vegetable-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-generic",
+              "endpoint_code": "pork_fully_cooked"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "象印 EL-NS23：豚肉と野菜のおかずごはん",
+              "url": "https://www.zojirushi.co.jp/recipe/list/1776.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-panasonic-nf-pc400-takikomi-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "panasonic-nf-pc400-takikomi-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "Panasonic炊き込みご饭（来源校准预览）",
+          "name_label": "Panasonic NF-PC400炊き込みご饭·两人校准预览",
+          "review_note": "Panasonic NF-PC400来源给出4人份、水位线3、自动调理17和约1小时流程。项目两人校准采用按份起步克数和1.2倍称重液体，属于项目校准合同，不把压力锅参数外推普通电饭煲。鸡腿安全终点沿用已有权威安全源，仍待实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-panasonic-nf-pc400-takikomi-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+            "action": "洗净后作为主粮入NF-PC400内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "role": "蛋白质",
+              "amount_rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+              "action": "切成小块后铺在米面"
+            },
+            {
+              "canonical_ingredient_id": "burdock",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+              "action": "切丝浸泡后沥干"
+            },
+            {
+              "canonical_ingredient_id": "konjac",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+              "action": "切丝并按来源处理"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+              "action": "泡发切丝"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-panasonic-nf-pc400-takikomi-rice-calibration-v1",
+              "action": "切丝"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-leg"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "carrot"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "direct_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-leg",
+                  "burdock",
+                  "konjac",
+                  "dried-shiitake",
+                  "carrot"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "burdock",
+                  "konjac",
+                  "dried-shiitake",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "burdock",
+                  "konjac",
+                  "dried-shiitake",
+                  "carrot"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "burdock",
+                  "konjac",
+                  "dried-shiitake",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "burdock",
+                  "konjac",
+                  "dried-shiitake",
+                  "carrot"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 30,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-panasonic-nf-pc400-takikomi-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "endpoint_code": "poultry_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "burdock",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "konjac",
+              "endpoint_code": "heated_through"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "Panasonic Cooking：炊き込みごはん",
+              "url": "https://panasonic.jp/cooking/recipe/cook/0657.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-panasonic-khao-man-gai",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "panasonic-khao-man-gai-nf-ac1000",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "海南鸡饭（来源校准预览）",
+          "name_label": "Panasonic NF-AC1000海南鸡饭·两人校准预览",
+          "review_note": "Panasonic NF-AC1000来源给出4人份、白米300g、水360mL、鸡腿肉400g和中压8分钟。项目两人校准采用来源固定批量的按份起步比例；不把压力锅参数外推到普通电饭煲，鸡肉必须验证74°C，仍待实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-panasonic-khao-man-gai",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-panasonic-khao-man-gai-calibration-v1",
+            "action": "浸泡后沥干，作为主粮入NF-AC1000内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "role": "蛋白质",
+              "amount_rule_id": "source-panasonic-khao-man-gai-calibration-v1",
+              "action": "扎孔并按来源调味，鸡皮朝下铺放"
+            },
+            {
+              "canonical_ingredient_id": "ginger-root",
+              "role": "蔬菜",
+              "amount_rule_id": "source-panasonic-khao-man-gai-calibration-v1",
+              "action": "切片或切丝"
+            },
+            {
+              "canonical_ingredient_id": "garlic",
+              "role": "蔬菜",
+              "amount_rule_id": "source-panasonic-khao-man-gai-calibration-v1",
+              "action": "捣泥"
+            },
+            {
+              "canonical_ingredient_id": "scallion",
+              "role": "蔬菜",
+              "amount_rule_id": "source-panasonic-khao-man-gai-calibration-v1",
+              "action": "切段"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-leg"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "direct_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "ginger-root",
+                  "garlic",
+                  "scallion"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 20,
+            "total_time_minutes": 40
+          },
+          "ratio_rule_ids": [
+            "source-panasonic-khao-man-gai-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "endpoint_code": "poultry_fully_cooked"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "Panasonic Cooking：カオマンガイ",
+              "url": "https://panasonic.jp/cooking/recipe/autocooker/1118.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tiger-chinese-sticky-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tiger-chinese-sticky-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "中式糯米炊饭（来源校准预览）",
+          "name_label": "Tiger炊込み中華おこわ·两人校准预览",
+          "review_note": "Tiger官方来源给出6人固定批量、浸泡/先炒/おこわ程序和300mL鸡汤。项目两人克数是校准起点，保留糯米浸泡、炒锅预处理和指定程序边界；仍待实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tiger-chinese-sticky-rice",
+          "rice": {
+            "canonical_ingredient_id": "soaked-glutinous-rice",
+            "amount_rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+            "action": "按来源浸泡沥干，作为泡发糯米入内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+              "action": "切片并在外锅炒熟"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "role": "菌菇",
+              "amount_rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+              "action": "泡发切片"
+            },
+            {
+              "canonical_ingredient_id": "dried-shrimp",
+              "role": "风味配料",
+              "amount_rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+              "action": "冲洗沥干"
+            },
+            {
+              "canonical_ingredient_id": "bamboo-shoot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+              "action": "切片"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tiger-chinese-sticky-rice-calibration-v1",
+              "action": "切丝"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "soaked-glutinous-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "pork-belly"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "bamboo-shoot",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "pre_saute_materials_outside_cooker",
+                "ingredient_ids": [
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "bamboo-shoot",
+                  "carrot"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "bamboo-shoot",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "bamboo-shoot",
+                  "carrot"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "bamboo-shoot",
+                  "carrot"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "soaked-glutinous-rice",
+                  "pork-belly",
+                  "dried-shiitake",
+                  "dried-shrimp",
+                  "bamboo-shoot",
+                  "carrot"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 50,
+            "total_time_minutes": 70
+          },
+          "ratio_rule_ids": [
+            "source-tiger-chinese-sticky-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "soaked-glutinous-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "pork-belly",
+              "endpoint_code": "pork_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "dried-shiitake",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "dried-shrimp",
+              "endpoint_code": "heated_through"
+            },
+            {
+              "canonical_ingredient_id": "bamboo-shoot",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "炊込み中華おこわ",
+              "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post35/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-panasonic-claypot-style-chicken-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "panasonic-claypot-style-chicken-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "砂锅风鸡饭（来源校准预览）",
+          "name_label": "Panasonic Claypot Style Chicken Rice·两人校准预览",
+          "review_note": "Panasonic Malaysia官方来源给出6人固定批量、鸡腿腌制、米水和WHITE RICE/CASSEROLE双程序。项目两人克数和称重液体是校准起点，不外推普通电饭煲；仍待指定机型实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-panasonic-claypot-style-chicken-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-panasonic-claypot-style-chicken-rice-calibration-v1",
+            "action": "洗净后作为主粮入Panasonic内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "role": "蛋白质",
+              "amount_rule_id": "source-panasonic-claypot-style-chicken-rice-calibration-v1",
+              "action": "按来源腌制30分钟"
+            },
+            {
+              "canonical_ingredient_id": "shiitake",
+              "role": "菌菇",
+              "amount_rule_id": "source-panasonic-claypot-style-chicken-rice-calibration-v1",
+              "action": "泡发后切片"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-leg"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-leg",
+                  "shiitake"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "shiitake"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "shiitake"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "shiitake"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-leg",
+                  "shiitake"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 40,
+            "total_time_minutes": 70
+          },
+          "ratio_rule_ids": [
+            "source-panasonic-claypot-style-chicken-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-leg",
+              "endpoint_code": "poultry_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "shiitake",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "Claypot Style Chicken Rice",
+              "url": "https://www.panasonic.com/my/consumer/kitchen-appliances-learn/healthy-everyday-recipes/recipe-top-page/claypot-style-chicken-rice.html"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tatung-tomato-pumpkin-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tatung-tomato-pumpkin-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "番茄南瓜培根炊饭（来源校准预览）",
+          "name_label": "大同M号番茄南瓜炊饭·两人校准预览",
+          "review_note": "大同官方来源给出4人固定批量、米2合、番茄/南瓜/培根和320mL水。项目两人克数是校准起点，仅限大同M号内锅和外锅流程；培根仍按加热至熟透处理，待实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tatung-tomato-pumpkin-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tatung-tomato-pumpkin-rice-calibration-v1",
+            "action": "洗净后作为主粮入大同M号内锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "tomato",
+              "role": "蔬菜",
+              "amount_rule_id": "source-tatung-tomato-pumpkin-rice-calibration-v1",
+              "action": "切丁"
+            },
+            {
+              "canonical_ingredient_id": "pumpkin",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tatung-tomato-pumpkin-rice-calibration-v1",
+              "action": "切块"
+            },
+            {
+              "canonical_ingredient_id": "bacon",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tatung-tomato-pumpkin-rice-calibration-v1",
+              "action": "切段并铺在米面"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "bacon"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "pumpkin"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "tomato",
+                  "pumpkin",
+                  "bacon"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "tomato",
+                  "pumpkin",
+                  "bacon"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "tomato",
+                  "pumpkin",
+                  "bacon"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "tomato",
+                  "pumpkin",
+                  "bacon"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "tomato",
+                  "pumpkin",
+                  "bacon"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 20,
+            "total_time_minutes": 35
+          },
+          "ratio_rule_ids": [
+            "source-tatung-tomato-pumpkin-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "tomato",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "pumpkin",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "bacon",
+              "endpoint_code": "heated_through"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "トマトとかぼちゃの炊き込みご飯",
+              "url": "https://dennabe-official.tatung.co.jp/recipe/view/2029"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-nih-medlineplus-chicken-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "nih-medlineplus-chicken-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "鸡肉蔬菜炊饭（来源校准预览）",
+          "name_label": "MedlinePlus鸡肉炊饭·两人校准预览",
+          "review_note": "MedlinePlus/NHLBI来源给出6份固定批量、普通大锅取出/回锅分段和90分钟总时长。项目两人克数与2.0倍加水比是校准起点，不是来源原量；来源卡仍保留鸡肉取出、原汤煮米、末段回锅的边界，不宣称电饭煲等价。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-nih-medlineplus-chicken-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+            "action": "淘洗或按来源准备后作为主粮入锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-generic",
+              "role": "蛋白质",
+              "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+              "action": "切块并按来源先煎/炖"
+            },
+            {
+              "canonical_ingredient_id": "tomato",
+              "role": "蔬菜",
+              "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+              "action": "切块"
+            },
+            {
+              "canonical_ingredient_id": "bell-pepper",
+              "role": "蔬菜",
+              "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+              "action": "切丁"
+            },
+            {
+              "canonical_ingredient_id": "celery",
+              "role": "蔬菜",
+              "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+              "action": "切段"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+              "action": "切片"
+            },
+            {
+              "canonical_ingredient_id": "sweet-corn",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-nih-medlineplus-chicken-rice-calibration-v1",
+              "action": "沥干备用"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "B",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-generic"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-generic",
+                  "tomato",
+                  "bell-pepper",
+                  "celery",
+                  "carrot",
+                  "sweet-corn"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-generic",
+                  "tomato",
+                  "bell-pepper",
+                  "celery",
+                  "carrot",
+                  "sweet-corn"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-generic",
+                  "tomato",
+                  "bell-pepper",
+                  "celery",
+                  "carrot",
+                  "sweet-corn"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-generic",
+                  "tomato",
+                  "bell-pepper",
+                  "celery",
+                  "carrot",
+                  "sweet-corn"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-generic",
+                  "tomato",
+                  "bell-pepper",
+                  "celery",
+                  "carrot",
+                  "sweet-corn"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 60,
+            "total_time_minutes": 90
+          },
+          "ratio_rule_ids": [
+            "source-nih-medlineplus-chicken-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-generic",
+              "endpoint_code": "poultry_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "tomato",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "bell-pepper",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "celery",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "carrot",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "sweet-corn",
+              "endpoint_code": "tender"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "Chicken and Rice",
+              "url": "https://medlineplus.gov/recipes/chicken-and-rice/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
+        },
+        {
+          "variant_id": "source-tiger-chicken-bamboo-rice",
+          "recipe_id": null,
+          "evidence_refs": [
+            {
+              "kind": "source",
+              "id": "tiger-chicken-bamboo-rice",
+              "supports": [
+                "identity",
+                "quantity",
+                "liquid",
+                "appliance",
+                "process"
+              ]
+            }
+          ],
+          "display_name": "鸡肉竹笋炊饭（来源校准预览）",
+          "name_label": "Tiger鸡肉竹笋炊饭·两人校准预览",
+          "review_note": "Tiger官方来源给出6人份、3杯米、熟竹笋80g、鸡胸肉100g、油豆腐皮、高汤600mL和炊込み程序。项目两人克数与1.33倍称重液体是校准起点；竹笋先煮熟去皮、油豆腐皮按来源投料，仍限Tiger炊込み边界并待实厨观察。",
+          "status": "calibration_preview",
+          "status_history": [
+            "research_only",
+            "fact_checked",
+            "planned",
+            "calibration_preview"
+          ],
+          "identity_level": "household_reviewed",
+          "region_codes": [],
+          "identity_refs": [],
+          "supported_servings": [
+            2
+          ],
+          "collection_candidate_id": "source-tiger-chicken-bamboo-rice",
+          "rice": {
+            "canonical_ingredient_id": "raw-rice",
+            "amount_rule_id": "source-tiger-chicken-bamboo-rice-calibration-v1",
+            "action": "淘洗或按来源准备后作为主粮入锅"
+          },
+          "ingredients": [
+            {
+              "canonical_ingredient_id": "chicken-breast",
+              "role": "蛋白质",
+              "amount_rule_id": "source-tiger-chicken-bamboo-rice-calibration-v1",
+              "action": "切1厘米丁"
+            },
+            {
+              "canonical_ingredient_id": "bamboo-shoot",
+              "role": "膳食纤维",
+              "amount_rule_id": "source-tiger-chicken-bamboo-rice-calibration-v1",
+              "action": "按来源先煮熟去皮后切薄片"
+            },
+            {
+              "canonical_ingredient_id": "fried-tofu",
+              "role": "配料",
+              "amount_rule_id": "source-tiger-chicken-bamboo-rice-calibration-v1",
+              "action": "切丝"
+            }
+          ],
+          "controlled_seasonings": [],
+          "approved_substitutions": [],
+          "forbidden_combinations": [],
+          "nutrition_structure": {
+            "grade": "A",
+            "material_contributors": [
+              {
+                "role": "carb",
+                "canonical_ingredient_id": "raw-rice"
+              },
+              {
+                "role": "protein",
+                "canonical_ingredient_id": "chicken-breast"
+              },
+              {
+                "role": "fiber",
+                "canonical_ingredient_id": "bamboo-shoot"
+              }
+            ]
+          },
+          "cooker_adaptation": {
+            "adaptation": "process_adaptation",
+            "closed_lid_continuation": true,
+            "requires_mid_cook_opening": false,
+            "completion_status": "complete",
+            "pre_actions": [
+              {
+                "order": 1,
+                "action_code": "rinse_raw_rice",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "prepare_raw_ingredients",
+                "ingredient_ids": [
+                  "chicken-breast",
+                  "bamboo-shoot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "start_actions": [
+              {
+                "order": 1,
+                "action_code": "load_inner_pot",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "bamboo-shoot",
+                  "fried-tofu"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "start_closed_lid_program",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "bamboo-shoot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "finish_actions": [
+              {
+                "order": 1,
+                "action_code": "rest_lid_closed",
+                "ingredient_ids": [
+                  "raw-rice"
+                ]
+              },
+              {
+                "order": 2,
+                "action_code": "verify_safety_endpoints",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "bamboo-shoot",
+                  "fried-tofu"
+                ]
+              },
+              {
+                "order": 3,
+                "action_code": "fluff_and_serve",
+                "ingredient_ids": [
+                  "raw-rice",
+                  "chicken-breast",
+                  "bamboo-shoot",
+                  "fried-tofu"
+                ]
+              }
+            ],
+            "program": "standard_rice",
+            "active_time_minutes": 45,
+            "total_time_minutes": 60
+          },
+          "ratio_rule_ids": [
+            "source-tiger-chicken-bamboo-rice-calibration-v1"
+          ],
+          "safety_endpoints": [
+            {
+              "canonical_ingredient_id": "raw-rice",
+              "endpoint_code": "rice_tender"
+            },
+            {
+              "canonical_ingredient_id": "chicken-breast",
+              "endpoint_code": "poultry_fully_cooked"
+            },
+            {
+              "canonical_ingredient_id": "bamboo-shoot",
+              "endpoint_code": "tender"
+            },
+            {
+              "canonical_ingredient_id": "fried-tofu",
+              "endpoint_code": "heated_through"
+            }
+          ],
+          "source_refs": [
+            {
+              "title": "鶏肉たけのこごはん",
+              "url": "https://www.tiger-corporation.com/ja/jpn/feature/recipe/post26/"
+            }
+          ],
+          "exclusion_flags": [],
+          "preview_notice_code": "household_test_pending_feedback"
         }
       ]
     }

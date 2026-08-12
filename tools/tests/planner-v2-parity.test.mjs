@@ -1252,9 +1252,18 @@ test('missing Node and invalid bridge JSON fail closed with bounded planner erro
 });
 
 test('generate bridge timeout is bounded and maps to upstream_timeout without retry', async () => {
+  const planRequest = request({ must: ['番茄', '鸡蛋'] });
+  const planned = (await workerPlan(planRequest)).body;
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-bridge-timeout-'));
   const wrapper = path.join(tempDir, 'node-wrapper');
-  fs.writeFileSync(wrapper, `#!/bin/sh\nif [ "$2" = "/generate-plan" ]; then sleep 5; exit 0; fi\nexec "${process.execPath}" "$1" "$2"\n`);
+  const plannedEnvelope = path.join(tempDir, 'planned-envelope.json');
+  fs.writeFileSync(plannedEnvelope, JSON.stringify({
+    bridge_version: 1,
+    status: 200,
+    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
+    body: planned,
+  }));
+  fs.writeFileSync(wrapper, `#!/bin/sh\nif [ "$2" = "/plan-meal" ]; then exec /bin/cat '${plannedEnvelope}'; fi\nif [ "$2" = "/generate-plan" ]; then sleep 5; exit 0; fi\nexec "${process.execPath}" "$1" "$2"\n`);
   fs.chmodSync(wrapper, 0o700);
   const proxy = await startProxy({
     RATE_LIMIT: '10',
@@ -1265,8 +1274,6 @@ test('generate bridge timeout is bounded and maps to upstream_timeout without re
     PLANNER_BRIDGE_TIMEOUT_S: '1.5',
   });
   try {
-    const planRequest = request({ must: ['番茄', '鸡蛋'] });
-    const planned = (await workerPlan(planRequest)).body;
     const started = performance.now();
     const result = await postJson(proxy.base, '/generate-plan', generationEnvelope(planRequest, planned));
     const elapsed = performance.now() - started;

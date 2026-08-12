@@ -48,9 +48,9 @@ function amounts(output) {
 test('the focused catalog keeps public, calibration, and planned variants while exposing eight public Preview plans', () => {
   const active = variants().filter(variant => variant.status === 'preview_ready');
   assert.equal(assets.catalog.families.length, 3);
-  assert.equal(variants().length, 19);
+  assert.equal(variants().length, 37);
   assert.equal(active.length, 8);
-  assert.equal(variants().filter(variant => variant.status === 'calibration_preview').length, 8);
+  assert.equal(variants().filter(variant => variant.status === 'calibration_preview').length, 26);
   assert.equal(variants().filter(variant => variant.status === 'planned').length, 3);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'A').length, 7);
   assert.equal(active.filter(variant => variant.nutrition_structure.grade === 'B').length, 1);
